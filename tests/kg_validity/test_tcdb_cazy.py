@@ -314,3 +314,70 @@ def test_evidence_score_spans_its_full_range(run_query):
     seen = {r["score"] for r in rows}
     assert seen == {0, 1, 2, 3, 4, 5}, f"score levels present: {sorted(seen)}"
     assert all(r["n"] > 100 for r in rows), "a score level is near-empty"
+
+
+@pytest.mark.kg
+def test_is_promiscuous_is_level_gated(run_query):
+    """Only tc_family and deeper can be promiscuous.
+
+    Substrate/member counts scale mechanically with level (the step-6 rollup puts
+    every descendant's substrates on each ancestor), so a class-level flag was
+    vacuous: "Channels and Pores transports many things" is what a class IS. The
+    previous absolute-only rule fired on 5 of 7 tc_class and 7 of 34 tc_subclass.
+    """
+    n = run_query("""
+        MATCH (t:TcdbFamily) WHERE t.is_promiscuous AND coalesce(t.level, 0) < 2
+        RETURN count(t) AS n
+    """)[0]["n"]
+    assert n == 0, f"{n} class/subclass nodes flagged promiscuous"
+
+
+@pytest.mark.kg
+def test_is_promiscuous_matches_its_thresholds(run_query):
+    n = run_query("""
+        MATCH (t:TcdbFamily)
+        WITH t, (coalesce(t.level,0) >= 2 AND (coalesce(t.metabolite_count,0) >= 50
+                                            OR coalesce(t.gene_count,0) >= 500)) AS expected
+        WHERE coalesce(t.is_promiscuous, false) <> expected
+        RETURN count(t) AS n
+    """)[0]["n"]
+    assert n == 0, f"{n} nodes whose is_promiscuous disagrees with the thresholds"
+
+
+@pytest.mark.kg
+def test_is_promiscuous_flags_the_canonical_broad_families(run_query):
+    """ABC (3.A.1) and MFS (2.A.1) are the textbook promiscuous transporter
+    superfamilies — if the rule stops flagging them it has drifted."""
+    rows = run_query("""
+        MATCH (t:TcdbFamily) WHERE t.tcdb_id IN ['3.A.1', '2.A.1']
+        RETURN t.tcdb_id AS tc, t.is_promiscuous AS p
+    """)
+    assert {r["tc"] for r in rows} == {"3.A.1", "2.A.1"}
+    assert all(r["p"] for r in rows), "a canonical broad family is not flagged"
+
+
+@pytest.mark.kg
+def test_gene_best_evidence_score_is_sparse_and_correct(run_query):
+    """Set iff the gene has a TCDB edge, and equal to the max edge score.
+
+    Sparse by design: a gene with NO TCDB evidence must stay distinguishable from
+    one whose evidence is weak. Writing 0 for both would collapse "no transporter
+    signal" into "a poor one".
+    """
+    row = run_query("""
+        MATCH (g:Gene)
+        RETURN count(CASE WHEN g.tcdb_best_evidence_score IS NULL
+                           AND EXISTS { (g)-[:Gene_has_tcdb_family]->() } THEN 1 END) AS missing,
+               count(CASE WHEN g.tcdb_best_evidence_score IS NOT NULL
+                           AND NOT EXISTS { (g)-[:Gene_has_tcdb_family]->() } THEN 1 END) AS spurious
+    """)[0]
+    assert row["missing"] == 0, f"{row['missing']} annotated genes without a rollup"
+    assert row["spurious"] == 0, f"{row['spurious']} unannotated genes with a rollup"
+
+    mismatch = run_query("""
+        MATCH (g:Gene)-[r:Gene_has_tcdb_family]->()
+        WITH g, max(r.tcdb_evidence_score) AS best
+        WHERE g.tcdb_best_evidence_score <> best
+        RETURN count(g) AS n
+    """)[0]["n"]
+    assert mismatch == 0, f"{mismatch} genes whose rollup <> max(edge score)"

@@ -538,6 +538,10 @@ gene:
     significant_up_count: int         # expression edges where expression_status = 'significant_up'
     significant_down_count: int       # expression edges where expression_status = 'significant_down'
     reaction_count: int               # post-import: count of Gene_catalyzes_reaction edges (KG-A1)
+    tcdb_best_evidence_score: int     # post-import: max tcdb_evidence_score across this gene's
+                                      # Gene_has_tcdb_family edges (0-5). ADVISORY. SPARSE — set
+                                      # only when the gene has >=1 TCDB edge, so "no transporter
+                                      # evidence" stays distinct from "weak evidence".
     closest_ortholog_group_size: int  # member_count from most specific OG (lowest specificity_rank)
     closest_ortholog_genera: str[]    # genera from most specific OG
     numeric_metric_count: int                # post-import (Plan 3): distinct DMs reaching via quantifies_gene
@@ -1202,6 +1206,9 @@ tcdb family:
     organism_count: int     # post-import
     member_count: int       # post-import: direct child count
     metabolite_count: int   # post-import: distinct substrate metabolites in subtree
+    is_promiscuous: bool    # post-import: LEVEL-GATED (level>=2 only) — too broad for
+                            # membership to support a functional inference.
+                            # metabolite_count>=50 OR gene_count>=500.
 
 cazy family:
   is_a: named thing

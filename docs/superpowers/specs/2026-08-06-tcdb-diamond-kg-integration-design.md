@@ -209,6 +209,43 @@ Measured after the merge (42 strains):
 The cascade landing at 1,515 rather than ~21K is a direct consequence of running
 the §7 pruning cleanup before the merge.
 
+
+## 5c — Post-merge refinements (2026-08-07)
+
+Two follow-ups the merge made possible, neither in the original D1-D7 set.
+
+### `tcdb_evidence_score` — advisory ranking on the edge (0-5)
+
+`+1` each for: eggNOG called it · `agrees_across_sources` · `tier <= 2` ·
+`pfam_corroborated` · `go_corroborated`.
+Distribution 0→17,422 · 1→9,039 · 2→9,265 · 3→7,812 · 4→9,144 · 5→1,081.
+
+Two measurements shaped it:
+
+- **Agreement had to be hierarchical.** Exact same-node agreement covers only 3,641
+  edges; including ancestor/descendant agreement reaches 21,684 (40.3%), because
+  eggNOG names subfamilies while diamond's tier-3 truncation names the parent family.
+  Scoring on `size(sources) = 2` would have discarded 83% of the real corroboration —
+  the same depth-mismatch effect recorded in §3.3.
+- **Pfam and GO are not redundant** — 11,565 edges carry exactly one of the two
+  (P(GO|Pfam) = 77% vs P(GO|¬Pfam) = 20%), so both earn a component.
+
+Built explicitly to not repeat §3.1: additive rather than first-match-wins,
+sibling-independent, no uncalibrated thresholds, components stored **alongside** the
+total, and it never drops an edge. A kg-validity test asserts the score always equals
+the sum of its stored parts, so it cannot drift into an opaque verdict.
+
+### `Gene.tcdb_best_evidence_score` + level-gated `is_promiscuous`
+
+`max()` of the edge score per gene — not redundant, since 32.6% of annotated genes
+carry calls at differing scores. Sparse: set only where a TCDB edge exists, keeping
+"no evidence" distinct from "weak evidence".
+
+`is_promiscuous` became level-gated (`level >= 2`) with a `gene_count >= 500` arm
+replacing the dead `member_count >= 100`. The old rule fired on 5 of 7 `tc_class`
+nodes, which is vacuous — substrate counts scale with level because of the step-6
+rollup. Details in `docs/kg-changes/tcdb-cazy-ontologies.md`.
+
 ## 6 — Scope
 
 **In scope:** runner purification (D2, D3); Pfam→TC map moved to step 6 (D5); merge of diamond TCs into `transporter_classification` + provenance sidecar; adapter provenance properties (D4); `Pfam_in_tcdb_family` bridge (D5); post-import tier gate (D6); kg-validity assertions; release-notes doc.
@@ -243,7 +280,7 @@ Diamond now has a lean hierarchy to land on, resolving the ordering concern belo
 
 > **Ordering note (resolved):** the cleanup ran *first*, so the merge will not inflate a bloated hierarchy and then deflate it.
 
-**Semantic shift to carry into the merge:** `level_kind = 'tc_specificity'` now selects gene-annotated specificity nodes only. `Metabolite.transporter_count` drops correspondingly, and `is_promiscuous` thresholds (calibrated against the old node set) need revisiting on the next live rebuild.
+**Semantic shift to carry into the merge:** `level_kind = 'tc_specificity'` now selects gene-annotated specificity nodes only. `Metabolite.transporter_count` drops correspondingly, and `is_promiscuous` thresholds (calibrated against the old node set) need revisiting on the next live rebuild. — ✅ **Done 2026-08-07**: the flag is now level-gated (`level >= 2`) with a `gene_count >= 500` arm replacing the dead `member_count >= 100`. See §5c.
 
 ---
 

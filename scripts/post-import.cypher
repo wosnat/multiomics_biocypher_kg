@@ -919,15 +919,40 @@ CALL {
       t.metabolite_count = metc
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// is_promiscuous: families with broad substrate or member coverage. Threshold
-// (metabolite_count >= 50 OR member_count >= 100) flags ~30 of 12,883 families
-// — clearly in the long tail (p95(metabolite_count) on tc_family ≈ 14).
-// Consumed by explorer family_inferred-dominance warnings to distinguish
+// is_promiscuous: this family is too BROAD for membership to support a functional
+// inference. Consumed by explorer family_inferred-dominance warnings to separate
 // curation-effort gaps from biologically-promiscuous transporters (KG-MET-006).
+//
+// LEVEL-GATED (level >= 2, i.e. tc_family and deeper). Substrate and member counts
+// scale mechanically with hierarchy level because the step-6 rollup materializes
+// every descendant's substrates onto each ancestor: median metabolite_count is 153
+// at tc_class vs 1 at tc_family. The previous absolute-only rule therefore fired on
+// 5 of 7 tc_class and 7 of 34 tc_subclass nodes — vacuously, since "Channels and
+// Pores transports many things" is what a class IS, not a warning. Those levels are
+// now always false; the flag only means something where a consumer would actually
+// infer function from membership.
+//
+// Two arms, both ≈p99 within the levels they apply to:
+//   metabolite_count >= 50  — substrate-promiscuous: transports so many distinct
+//                             things that membership says little about WHAT.
+//                             (p99 ≈ 52 at tc_family, 46 at tc_subfamily; never
+//                             fires at tc_specificity, max 17 — correct, that is
+//                             the most specific level.)
+//   gene_count >= 500       — membership-promiscuous: a large bucket, so membership
+//                             says little at all. (p99 ≈ 699 at tc_family.) Replaces
+//                             the old `member_count >= 100` arm, which was dead
+//                             below tc_subclass — max member_count at tc_family is
+//                             55, so it could never fire where it mattered. Mirrors
+//                             InterproEntry.is_promiscuous, which is gene-count based.
+//
+// Flags 24 nodes (18 tc_family + 6 tc_subfamily): ABC Superfamily 3.A.1 (554
+// metabolites / 4,817 genes), MFS 2.A.1, RND 2.A.6 — the canonical broad families.
 MATCH (t:TcdbFamily)
 SET t.is_promiscuous =
-  (coalesce(t.metabolite_count, 0) >= 50) OR
-  (coalesce(t.member_count, 0) >= 100);
+  coalesce(t.level, 0) >= 2 AND (
+    (coalesce(t.metabolite_count, 0) >= 50) OR
+    (coalesce(t.gene_count, 0) >= 500)
+  );
 
 // ── CazyFamily computed properties ───────────────────────────────────────────
 
@@ -1118,6 +1143,26 @@ CALL {
         + CASE WHEN strong_seq THEN 1 ELSE 0 END
         + CASE WHEN pfam_ok THEN 1 ELSE 0 END
         + CASE WHEN go_ok THEN 1 ELSE 0 END
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Gene.tcdb_best_evidence_score: the strongest TCDB claim this gene has (0-5).
+// Answers "how confident am I that this gene is a transporter at all", where the
+// edge-level score answers "how confident am I in THIS particular assignment".
+// Worth materializing: 9,792 of 30,076 TCDB-annotated genes (32.6%) carry several
+// calls at DIFFERENT scores, so max() is not just a copy of the single edge.
+//
+// SPARSE BY DESIGN — set only on genes that actually have a Gene_has_tcdb_family
+// edge. A gene with no TCDB evidence must stay distinguishable from one whose
+// evidence is weak: writing 0 for both would collapse "we never found a
+// transporter signal" into "we found a poor one", which is the exact conflation
+// the tier gate and the advisory score exist to avoid. Absent means N/A; use
+// coalesce(g.tcdb_best_evidence_score, -1) if a total order is needed.
+//
+// Advisory, like the edge score it aggregates: nothing filters on it.
+CALL {
+  MATCH (g:Gene)-[r:Gene_has_tcdb_family]->()
+  WITH g, max(r.tcdb_evidence_score) AS best
+  SET g.tcdb_best_evidence_score = best
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Gene.interpro_entry_count: distinct InterPro entries per gene (routing signal;

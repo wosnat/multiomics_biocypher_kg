@@ -215,6 +215,42 @@ measured over all 40,520 candidates, 1,159 were kept purely for *lacking* a sibl
 and 1,452 were dropped by a "supported alternative" that was itself dropped. The
 tier policy is the quality gate and is sibling-independent by construction.
 
+
+### 2026-08-07: `is_promiscuous` made level-aware, plus a gene-level score rollup
+
+**`is_promiscuous` is now gated to `level >= 2`.** Substrate and member counts scale
+mechanically with hierarchy level (the step-6 rollup puts every descendant's substrates
+on each ancestor): median `metabolite_count` is 153 at `tc_class` but 1 at `tc_family`.
+The old absolute-only rule therefore fired on **5 of 7 `tc_class`** and **7 of 34
+`tc_subclass`** nodes — vacuous, since "Channels and Pores transports many things" is
+what a class *is*.
+
+The `member_count >= 100` arm was also dead where it mattered: max `member_count` at
+`tc_family` is 55, so it could only ever fire at `tc_subclass`. Replaced with
+`gene_count >= 500`, mirroring `InterproEntry.is_promiscuous`.
+
+| | Old rule | New rule |
+|---|---|---|
+| `tc_class` | 5 of 7 | **0** |
+| `tc_subclass` | 7 of 34 | **0** |
+| `tc_family` | 7 | **18** |
+| `tc_subfamily` | 6 | **6** |
+| `tc_specificity` | 0 | 0 |
+
+Similar total (25 → 24) but now every flag is informative: ABC Superfamily `3.A.1`
+(554 metabolites, 4,817 genes), MFS `2.A.1`, RND `2.A.6`. Both thresholds sit at ≈p99
+within the levels they apply to.
+
+**`Gene.tcdb_best_evidence_score`** (int 0-5) = `max(tcdb_evidence_score)` over the
+gene's edges. The edge score rates one assignment; this rates the gene. Not redundant:
+9,792 of 30,076 annotated genes (32.6%) carry several calls at *different* scores.
+
+**Sparse by design** — set only on genes with at least one TCDB edge. A gene with no
+transporter evidence must stay distinguishable from one whose evidence is weak;
+writing 0 for both would collapse exactly the distinction the tier gate and the
+advisory score exist to preserve. Distribution over genes:
+0 → 9,809 · 1 → 4,931 · 2 → 4,762 · 3 → 3,606 · 4 → 5,887 · 5 → 1,081.
+
 ## 2026-08-06: cross-ontology bridges to Pfam and GO
 
 TCDB publishes curated maps of which Pfam domains and GO terms are associated with
