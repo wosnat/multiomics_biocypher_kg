@@ -39,9 +39,35 @@ Both are extracted verbatim (markdown). The rest of the version section
   RuBisCO large-subunit family?", or filter genes by protein domain — a
   method-independent cross-check on the existing eggNOG/Pfam annotations, with
   domain coordinates and member-DB evidence on each edge.
+- **InterPro now enriches gene function, with provenance.** InterPro domain/
+  family calls feed each gene's GO, EC, CAZy and Pfam annotations (thousands of
+  genes gain a first functional term), and every GO/EC/Pfam/CAZy edge now says
+  *who* asserted it (`sources`) and *how strong* the claim is (`evidence`:
+  curated vs domain-inferred). Ask "which genes have this EC — from curated
+  sources only?" or tell a domain-inferred guess from a reviewed annotation.
 
 ### Added
 
+- **InterPro two-layer integration** (design
+  `docs/superpowers/specs/2026-08-10-interpro-two-layer-integration-design.md`).
+  - **Layer B** — InterPro entry xrefs propagate into `go_terms` (+45K),
+    `ec_numbers` (+9.5K), `cazy_ids` (+642), `pfam_ids` (+14K net-new), noise-gated
+    (GO/CAZy: FAMILY+DOMAIN, fold excluded; EC: FAMILY+single-EC only; Pfam:
+    direct HMM hits). `alternate_functional_descriptions` gains `[interpro]` names.
+  - **Edge provenance** — `sources` (str[] `ncbi|cyanorak|uniprot|eggnog|interpro`),
+    `evidence` (`curated`>`signature`>`family_inferred`>`domain_inferred`),
+    `evidence_score` (int 0–3, advisory) on all six gene→ontology edge types
+    (`Gene_involved_in_biological_process`/`_located_in_cellular_component`/
+    `_enables_molecular_function`, `Gene_catalyzes_ec_number`, `Gene_has_pfam`,
+    `Gene_has_cazy_family`). Backed by per-token `<field>_source`/`<field>_evidence`
+    maps in `gene_annotations_merged.json`.
+  - **Layer A** — `Interpro_entry_related_to_ec_number` (~6,961) +
+    `Interpro_entry_related_to_cazy_family` (~122): a recall-biased **router**
+    (weak `related_to` verb, `ambiguous` bool, `source_db`) homing the multi-EC/
+    DOMAIN ECs and fold CAZy Layer B refuses to stamp on genes. **Not an
+    annotation** — never assign gene function from it.
+  - Reference cache (step 9) gains sparse `ec_numbers`/`cazy_ids` per entry.
+  - See `docs/kg-changes/interpro-two-layer.md`.
 - **InterProScan InterPro-entry ontology** (`/integrate-a-tool` Phase 2).
   `InterproEntry` nodes (~12,999; `interpro:IPR*`) with `interpro_type` +
   is-a `level`; scored `Gene_has_interpro_entry` edges (~397K; 102,895 genes,
