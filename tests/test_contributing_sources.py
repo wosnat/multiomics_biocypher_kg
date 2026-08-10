@@ -64,3 +64,37 @@ def test_returns_sorted_list():
     gene = {"locus_tag": "X", "uniprot_accession": "Z", "seed_ortholog": "1.A"}
     sources = _compute_contributing_sources(gene)
     assert sources == sorted(sources)
+
+
+# ─── per-token *_source maps (Phase 1b union attribution) ─────────────────────
+
+from multiomics_kg.download.build_gene_annotations import _has_source_label
+
+
+def test_has_source_label_reads_per_token_map():
+    """A union field's per-token map {token: [sources]} is recognised."""
+    gene = {
+        "locus_tag": "X",
+        "go_terms": ["GO:0003677"],
+        "go_terms_source": {"GO:0003677": ["uniprot", "interpro"]},
+    }
+    assert _has_source_label(gene, "uniprot")
+    assert _has_source_label(gene, "interpro")
+    assert not _has_source_label(gene, "eggnog")
+
+
+def test_has_source_label_still_reads_scalar_fields():
+    """Scalar *_source fields (single-resolver) keep working alongside maps."""
+    gene = {"locus_tag": "X", "product_source": "cyanorak"}
+    assert _has_source_label(gene, "cyanorak")
+    assert not _has_source_label(gene, "ncbi")
+
+
+def test_contributing_sources_sees_union_cyanorak_go():
+    """A Cyanorak-only GO token surfaces cyanorak via the per-token map."""
+    gene = {
+        "locus_tag": "X",
+        "go_terms": ["GO:0009523"],
+        "go_terms_source": {"GO:0009523": ["cyanorak"]},
+    }
+    assert "cyanorak" in _compute_contributing_sources(gene)

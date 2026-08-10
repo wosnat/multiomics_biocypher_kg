@@ -230,24 +230,36 @@ def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
 
     clean_ids: dict[str, None] = {}  # ordered set for dedup
     unresolved: list[str] = []
+    # Per-token provenance map keyed by the RAW token (from _resolve_union); it
+    # must be re-keyed to the resolved PF* accession so it stays aligned with the
+    # rewritten pfam_ids list (and usable for edge `sources` downstream).
+    raw_source_map: dict[str, list[str]] = gene.get("pfam_ids_source") or {}
+    new_source_map: dict[str, set[str]] = {}
 
     for token in raw_tokens:
         token = str(token).strip()
         if not token:
             continue
         if token.startswith("PF"):
-            clean_ids[token] = None
+            resolved = token
         elif token in pfam_data.by_shortname:
-            clean_ids[pfam_data.by_shortname[token]] = None
+            resolved = pfam_data.by_shortname[token]
         else:
             # TIGR*, IPR*, or unresolved shortname -- drop
             unresolved.append(token)
+            continue
+        clean_ids[resolved] = None
+        if raw_source_map.get(token):
+            new_source_map.setdefault(resolved, set()).update(raw_source_map[token])
 
     result = list(clean_ids.keys())
     if result:
         gene["pfam_ids"] = result
+        if new_source_map:
+            gene["pfam_ids_source"] = {k: sorted(v) for k, v in new_source_map.items()}
     elif "pfam_ids" in gene:
         del gene["pfam_ids"]
+        gene.pop("pfam_ids_source", None)
 
     # Recompute contributing_sources after enrichment (in case sources changed)
     gene["contributing_sources"] = _compute_contributing_sources(gene)
@@ -274,13 +286,22 @@ def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
 def _has_source_label(gene: dict, label: str) -> bool:
     """Check whether a gene has any field provenance-tagged with `label`.
 
-    Walks `gene["*_source"]` track fields (e.g. product_source, gene_name_source)
-    plus `[label]` prefixes inside `alternate_functional_descriptions`.
+    Walks `gene["*_source"]` track fields plus `[label]` prefixes inside
+    `alternate_functional_descriptions`. Two `*_source` shapes coexist:
+    - **scalar** (single-resolver fields): `product_source == "cyanorak"`.
+    - **per-token map** (union fields, e.g. `go_terms_source`):
+      `{"GO:0003677": ["uniprot", "interpro"]}` — the label matches if it appears
+      in any token's source list.
     """
-    # *_source track fields
     for k, v in gene.items():
-        if k.endswith("_source") and v == label:
-            return True
+        if not k.endswith("_source"):
+            continue
+        if isinstance(v, str):
+            if v == label:
+                return True
+        elif isinstance(v, dict):
+            if any(label in srcs for srcs in v.values()):
+                return True
     # [label] prefix in alternate functional descriptions
     afd = gene.get("alternate_functional_descriptions") or []
     for entry in afd:
@@ -671,18 +692,30 @@ class AnnotationBuilder:
 
     def _resolve_union(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None,
+        source_tracking: dict | None = None,
     ) -> list[str] | None:
-        """Merge tokens from all sources, deduplicate, apply global filter."""
+        """Merge tokens from all sources, deduplicate, apply global filter.
+
+        When *fconf* declares ``track_source`` and a *source_tracking* dict is
+        passed, records a **per-token provenance map** ``{token: [source_label,
+        …]}`` under that key — the honest shape for multi-source union fields
+        (a GO term contributed by both UniProt and InterPro carries both). The
+        label is each source's ``source_label`` (default: its ``source``); the
+        map keys are exactly the surviving (post-filter) tokens.
+        """
         global_filter = fconf.get("filter")
         global_filter_not = fconf.get("filter_not")
+        track_key = fconf.get("track_source")
         seen: dict[str, None] = {}  # ordered set
+        token_sources: dict[str, set[str]] = {}
 
         for src_cfg in fconf.get("sources", []):
             raw = self._get_raw(src_cfg, gm, eg, up, ps, sp, ipr, tcd)
             if not _nonempty(raw):
                 continue
 
+            src_label = src_cfg.get("source_label", src_cfg.get("source", ""))
             delimiter = src_cfg.get("delimiter", ",")
             transform = src_cfg.get("transform")
 
@@ -719,8 +752,14 @@ class AnnotationBuilder:
                 if global_filter_not and re.match(global_filter_not, tok):
                     continue
                 seen[tok] = None
+                if track_key and src_label:
+                    token_sources.setdefault(tok, set()).add(src_label)
 
         result = list(seen.keys())
+        if track_key and source_tracking is not None and token_sources:
+            source_tracking[track_key] = {
+                tok: sorted(token_sources[tok]) for tok in result if tok in token_sources
+            }
         return result if result else None
 
     # ── resolver: integer / float ──────────────────────────────────────────────
@@ -816,7 +855,7 @@ class AnnotationBuilder:
             if ftype == "single":
                 val = self._resolve_single(fconf, gm, eg, up, ps, source_tracking, locus_tag, sp=sp, ipr=ipr, tcd=tcd)
             elif ftype == "union":
-                val = self._resolve_union(fconf, gm, eg, up, ps, sp, ipr, tcd)
+                val = self._resolve_union(fconf, gm, eg, up, ps, sp, ipr, tcd, source_tracking=source_tracking)
             elif ftype == "passthrough":
                 val = self._resolve_passthrough(fconf, gm, eg, up, ps, sp, ipr, tcd)
             elif ftype == "passthrough_list":

@@ -2125,3 +2125,61 @@ class TestNormalizeEcChainedInBuilder:
         gm = {"ec_numbers": "1.6.2.1"}
         merged = self.builder.build_merged(gm, {}, {})
         assert merged.get("ec_numbers") is None
+
+
+# ─── union source attribution (Phase 1b) ─────────────────────────────────────
+
+
+class TestUnionSourceTracking:
+    """`_resolve_union` records a per-token provenance map when track_source is set."""
+
+    CONFIG = {
+        "fields": {
+            "locus_tag": {"type": "passthrough", "source": "gene_mapping", "field": "locus_tag"},
+            "go_terms": {
+                "type": "union",
+                "filter": "^GO:",
+                "track_source": "go_terms_source",
+                "sources": [
+                    {"source": "uniprot", "source_label": "uniprot", "field": "go_bp"},
+                    {"source": "gene_mapping", "source_label": "ncbi", "field": "go_process",
+                     "delimiter": ",", "transform": "extract_go_from_pipe"},
+                    {"source": "eggnog", "source_label": "eggnog", "field": "GOs", "delimiter": ","},
+                ],
+            },
+            # A union without track_source must NOT emit a *_source map.
+            "kegg_ko": {
+                "type": "union",
+                "sources": [
+                    {"source": "eggnog", "source_label": "eggnog", "field": "KEGG_ko",
+                     "delimiter": ",", "transform": "strip_prefix_ko"},
+                ],
+            },
+        }
+    }
+
+    def setup_method(self):
+        self.b = AnnotationBuilder(self.CONFIG)
+
+    def test_per_token_source_map_multi_source(self):
+        gm = {"locus_tag": "X", "go_process": "DNA replication|0006260||IEA"}
+        eg = {"GOs": "GO:0006260,GO:0006261"}
+        up = {"go_bp": "GO:0003677"}
+        m = self.b.build_merged(gm, eg, up)
+        src = m["go_terms_source"]
+        assert isinstance(src, dict)
+        # keys are exactly the surviving tokens
+        assert set(src.keys()) == set(m["go_terms"])
+        # GO:0006260 came from ncbi (go_process) AND eggnog (GOs) — both recorded, sorted
+        assert src["GO:0006260"] == ["eggnog", "ncbi"]
+        assert src["GO:0006261"] == ["eggnog"]
+        assert src["GO:0003677"] == ["uniprot"]
+
+    def test_no_track_source_emits_no_map(self):
+        m = self.b.build_merged({"locus_tag": "X"}, {"KEGG_ko": "ko:K02313"}, {})
+        assert m.get("kegg_ko") == ["K02313"]
+        assert "kegg_ko_source" not in m
+
+    def test_map_absent_when_field_empty(self):
+        m = self.b.build_merged({"locus_tag": "X"}, {}, {})
+        assert "go_terms_source" not in m
