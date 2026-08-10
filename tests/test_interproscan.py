@@ -1,6 +1,8 @@
 """Unit tests for multiomics_kg.utils.interproscan (pure JSON parsing/summary)."""
 
 from multiomics_kg.utils.interproscan import (
+    normalize_pathway_xref,
+    parse_entry_xrefs,
     parse_interproscan_json,
     summarize,
 )
@@ -101,7 +103,9 @@ def test_unintegrated_match_has_null_interpro_fields():
     assert g3d["interpro_accession"] is None
     assert g3d["interpro_description"] is None
     assert g3d["interpro_type"] is None
-    assert g3d["go_terms"] == []
+    # xrefs are not stored per match — they hang off the entry (see entry_xrefs)
+    assert "go_terms" not in g3d
+    assert "pathways" not in g3d
 
 
 def test_pattern_hit_has_null_evalue_and_score():
@@ -139,6 +143,56 @@ def test_empty_document():
     assert parse_interproscan_json({"results": []}) == {}
 
 
+def test_entry_xrefs_side_table_is_lossless_join():
+    """Per-entry GO/pathway detail is recoverable from `interpro_accession`."""
+    xrefs = parse_entry_xrefs(SAMPLE)
+    # Only entries carrying at least one xref appear (IPR000454 has none).
+    assert set(xrefs) == {"IPR000685"}
+    assert xrefs["IPR000685"] == {"go_terms": ["GO:0016984"], "pathways": ["KEGG:00710"]}
+    # Join back: rbcL's PFAM match points at the entry that holds the xrefs.
+    calls = parse_interproscan_json(SAMPLE)
+    pfam = next(m for m in calls["WP_002805854.1"]["matches"] if m["library"] == "PFAM")
+    assert xrefs[pfam["interpro_accession"]]["go_terms"] == calls["WP_002805854.1"]["go_terms"]
+
+
+def test_reactome_species_projections_collapse_to_stable_id():
+    """InterPro lists every species projection of one curated Reactome event;
+    for marine bacteria the species is noise, so only the stable id is kept."""
+    assert normalize_pathway_xref("Reactome", "R-HSA-73817") == "Reactome:73817"
+    assert normalize_pathway_xref("Reactome", "R-DME-73817") == "Reactome:73817"
+    assert normalize_pathway_xref("Reactome", "R-MTU-2408557") == "Reactome:2408557"
+    # Non-Reactome databases pass through untouched.
+    assert normalize_pathway_xref("MetaCyc", "PWY-6349") == "MetaCyc:PWY-6349"
+    assert normalize_pathway_xref("KEGG", "00710") == "KEGG:00710"
+    # Anything not matching the species pattern is left alone rather than mangled.
+    assert normalize_pathway_xref("Reactome", "73817") == "Reactome:73817"
+
+
+def test_reactome_collapse_dedups_protein_level_pathways():
+    doc = {
+        "results": [{
+            "md5": "a", "xref": [{"id": "WP_1.1", "name": "n"}],
+            "matches": [{
+                "signature": {
+                    "accession": "PF1", "name": "n", "description": "d",
+                    "signatureLibraryRelease": {"library": "PFAM", "version": "1"},
+                    "entry": {
+                        "accession": "IPR1", "description": "d", "type": "FAMILY",
+                        "goXRefs": [],
+                        "pathwayXRefs": [
+                            {"id": f"R-{sp}-73817", "databaseName": "Reactome"}
+                            for sp in ("HSA", "MMU", "DME", "CEL", "BTA")
+                        ],
+                    },
+                },
+                "locations": [{"start": 1, "end": 9, "evalue": 1e-9, "score": 1.0}],
+            }],
+        }]
+    }
+    calls = parse_interproscan_json(doc)
+    assert calls["WP_1.1"]["pathways"] == ["Reactome:73817"]  # 5 species → 1 id
+
+
 def test_summarize_qc_fields():
     calls = parse_interproscan_json(SAMPLE)
     s = summarize(
@@ -162,4 +216,50 @@ def test_summarize_omits_optional_fields_when_absent():
                   applications="ALL_DEFAULT")
     assert "image_digest" not in s
     assert "wallclock_s" not in s
+    assert "xrefs_requested" not in s
     assert s["sentinel_rate"] == 0.0
+
+
+def test_summarize_xref_coverage():
+    """GO/pathway coverage counters — these are what prove --goterms/--pathways
+    took effect; a run without them yields entries with empty xref arrays and
+    therefore zeros across all four counters."""
+    calls = parse_interproscan_json(SAMPLE)
+    s = summarize(calls, strain="MED4", input_proteins=3, tool_version="v",
+                  applications="ALL_DEFAULT", xrefs_requested=True)
+    # Only rbcL's IPR000685 carries xrefs in SAMPLE; atpH's entry has empty ones.
+    assert s["proteins_with_go_terms"] == 1
+    assert s["distinct_go_terms"] == 1
+    assert s["proteins_with_pathways"] == 1
+    assert s["distinct_pathways"] == 1
+    assert s["pathway_databases"] == {"KEGG": 1}
+    assert s["xrefs_requested"] is True
+
+
+def test_summarize_xref_counters_zero_without_goterms():
+    """A --no-xrefs run: every entry has empty goXRefs/pathwayXRefs."""
+    stripped = {
+        "results": [
+            {
+                "md5": "aaa",
+                "xref": [{"id": "WP_1.1", "name": "WP_1.1"}],
+                "matches": [{
+                    "signature": {
+                        "accession": "PF00016", "name": "n", "description": "d",
+                        "signatureLibraryRelease": {"library": "PFAM", "version": "37.0"},
+                        "entry": {"accession": "IPR000685", "description": "d",
+                                  "type": "DOMAIN", "goXRefs": [], "pathwayXRefs": []},
+                    },
+                    "locations": [{"start": 1, "end": 9, "evalue": 1e-9, "score": 1.0}],
+                }],
+            }
+        ]
+    }
+    s = summarize(parse_interproscan_json(stripped), strain="X", input_proteins=1,
+                  tool_version="v", applications="ALL_DEFAULT", xrefs_requested=False)
+    assert s["proteins_with_go_terms"] == 0
+    assert s["distinct_go_terms"] == 0
+    assert s["proteins_with_pathways"] == 0
+    assert s["distinct_pathways"] == 0
+    assert s["pathway_databases"] == {}
+    assert s["xrefs_requested"] is False

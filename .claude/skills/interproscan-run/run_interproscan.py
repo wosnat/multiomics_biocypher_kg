@@ -182,6 +182,14 @@ def run_strain(strain: str, genome_dir: Path, data_dir: Path, args) -> tuple[str
     out_base = f"{strain}.{TOOL}{infix}.raw"
     raw_json = out_dir / f"{out_base}.json"
 
+    # InterProScan REFUSES to overwrite an existing output file — it silently
+    # writes `<base>_1.json`, `<base>_2.json`, … instead. Without this cleanup a
+    # `--force` re-run would re-parse the *stale* raw JSON from the previous run
+    # and report success, so e.g. newly-enabled --goterms output would never
+    # appear. Clear the canonical file and any suffixed leftovers first.
+    for stale in [raw_json, *out_dir.glob(f"{out_base}_[0-9]*.json")]:
+        stale.unlink(missing_ok=True)
+
     cmd = [
         "docker", "run", "--rm",
         "--user", f"{os.getuid()}:{os.getgid()}",
@@ -197,6 +205,12 @@ def run_strain(strain: str, genome_dir: Path, data_dir: Path, args) -> tuple[str
     ]
     if args.applications:
         cmd += ["--applications", args.applications]
+    # GO + pathway xrefs on integrated InterPro entries. Both are local lookups
+    # against the bundled entry data (no network, compatible with
+    # --disable-precalc) and each IMPLIES -iprlookup. Without them IPS emits
+    # `goXRefs: []` / `pathwayXRefs: []` on every entry.
+    if not args.no_xrefs:
+        cmd += ["--goterms", "--pathways"]
 
     log_dir = REPO_ROOT / "logs" / TOOL
     log_dir.mkdir(parents=True, exist_ok=True)
@@ -217,12 +231,19 @@ def run_strain(strain: str, genome_dir: Path, data_dir: Path, args) -> tuple[str
     import json
     with raw_json.open() as f:
         data = json.load(f)
-    calls = parse_interproscan_json(data)
+    entry_xrefs: dict[str, dict[str, list[str]]] = {}
+    calls = parse_interproscan_json(data, entry_xrefs)
+    # Per-entry GO/pathway detail, normalized out of the match records.
+    xrefs_p = calls_p.with_name(calls_p.name.replace(".calls.json", ".entry_xrefs.json"))
+    with xrefs_p.open("w") as f:
+        json.dump(dict(sorted(entry_xrefs.items())), f, indent=1, sort_keys=True)
+        f.write("\n")
 
     summary = summarize(
         calls, strain=strain, input_proteins=input_proteins,
         tool_version=IPS_VERSION, applications=(args.applications or "ALL_DEFAULT"),
         image_digest=image_digest(), wallclock_s=wallclock,
+        xrefs_requested=not args.no_xrefs,
     )
     tcio.save_calls(genome_dir, TOOL, strain, calls, limited=args.limit)
     tcio.save_skill_summary(genome_dir, TOOL, strain, summary, limited=args.limit)
@@ -243,6 +264,8 @@ def main() -> None:
     p.add_argument("--threads", type=int, default=10, help="CPUs for IPS (--cpu); default 10")
     p.add_argument("--applications", metavar="APP,APP",
                    help="Restrict to these member DBs (default: all activated apps)")
+    p.add_argument("--no-xrefs", action="store_true",
+                   help="Omit --goterms/--pathways (GO + pathway xrefs are on by default)")
     p.add_argument("--data-dir", metavar="PATH",
                    help="InterProScan install root (default $INTERPROSCAN_DATA_DIR or ~/tools/InterProScan)")
     p.add_argument("--prepare-image", action="store_true", help="docker pull the image, then exit")

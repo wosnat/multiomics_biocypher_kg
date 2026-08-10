@@ -28,6 +28,15 @@
     "SUPERFAMILY": 2041
   },
   "sentinel_rate": 0.1323,
+  "proteins_with_go_terms": 1312,
+  "distinct_go_terms": 988,
+  "proteins_with_pathways": 1427,
+  "distinct_pathways": 3387,
+  "pathway_databases": {
+    "MetaCyc": 4903,
+    "Reactome": 211231
+  },
+  "xrefs_requested": true,
   "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
-  "wallclock_s": 1578.3
+  "wallclock_s": 1600.8
 }

@@ -105,9 +105,18 @@ the calls.json directly (like `tcdb_adapter` reads `tcdb_pruned.json`).
 - **Member-DB signature nodes** (the ~31% unintegrated hits) — dropped by design (redundant
   structural / non-family predictors; ~10-12 genes/strain lose only a functional signal, all retaining
   eggNOG/UniProt/Pfam).
-- **InterPro → GO / pathway cross-links** — empty in current artifacts; needs a Phase-1 re-run with
-  `--goterms --pathways`. This is the *enrichment-enabling* follow-up for pathway/GO ORA (most
-  valuable for heterotrophs). This pass is deliberately enrichment-neutral.
+- **InterPro → GO / pathway cross-links** — **artifacts populated 2026-08-07**; still not in the
+  graph. `/interproscan-run` now passes `--goterms --pathways` by default and the 42-strain batch
+  was re-run, so every strain has a `<strain>.interproscan.entry_xrefs.json` side table
+  (`{IPR: {go_terms, pathways}}`, joined to matches on `interpro_accession`). Remaining work is the
+  KG wiring, which needs one design decision: these GO terms should almost certainly become an
+  **additional evidence source on the existing** `Gene_involved_in_biological_process` /
+  `_enables_molecular_function` / `_located_in_cellular_component` edges (the eggNOG/UniProt-derived
+  layer), *not* a parallel edge type — same shape as the eggNOG+diamond two-source merge on
+  `Gene_has_tcdb_family`. Caveat for the pathway side: InterPro no longer publishes **KEGG** pathway
+  xrefs, only Reactome + MetaCyc; Reactome is human-curated and reaches bacteria by orthology
+  projection only (low specificity for our organisms), so pathway ORA should still run off the KO
+  layer. This pass remains enrichment-neutral.
 - **Domain-composition** (`contains`/`found-in`) cross-type relationship — not in ParentChildTreeFile;
   clean future `Interpro_entry_contains_interpro_entry` edge.
 - `informative_annotation_types` + `annotation_quality` bucket — spec §5.

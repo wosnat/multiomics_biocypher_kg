@@ -195,8 +195,10 @@ cache/data/*/genomes/*/tcdb/*.limited_*
 cache/data/*/genomes/*/signalp/*.limited_*
 
 # InterProScan skill: smoke-test artifacts (limited_N runs) are transient.
-# Full-run <strain>.interproscan.{calls.json,skill_summary.json} are intentionally
-# committed. Raw IPS JSON + temp/ + truncated smoke FASTAs are not committed.
+# Full-run <strain>.interproscan.{calls.json,entry_xrefs.json,skill_summary.json}
+# are intentionally committed. Raw IPS JSON + temp/ + truncated smoke FASTAs are
+# not committed — note the raw JSON is ~263 MB/strain (~11 GB across 42 strains)
+# now that --goterms/--pathways are on, so it is disk-only by design.
 cache/data/*/genomes/*/interproscan/*.limited_*
 cache/data/*/genomes/*/interproscan/*.raw.json
 cache/data/*/genomes/*/interproscan/temp/

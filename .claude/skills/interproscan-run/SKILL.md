@@ -1,7 +1,7 @@
 ---
 name: interproscan-run
 description: Run InterProScan 5 (via the interpro/interproscan Docker image) on each strain's protein.faa to predict protein domains/families across all member databases (Pfam, NCBIfam/TIGRFAM, Hamap, PROSITE, SFLD, PANTHER, Gene3D, SUPERFAMILY, CDD, PRINTS, SMART, …), integrated into InterPro entries with GO + pathway xrefs. Emits per-protein domain calls. Phase 1 — produces inspectable `<strain>.interproscan.calls.json` artifacts; **Phase 2 KG integration is DONE** (`InterproEntry` ontology via `interpro_adapter` — see `docs/kg-changes/interproscan-extension.md`). Triggers on "run interproscan", "predict protein domains", "InterPro / domain annotation for all strains", "functional domains for the new strain".
-argument-hint: "[--strains <name> ... | --force | --limit N | --threads N | --applications APP,APP | --prepare-image | --refresh-data]"
+argument-hint: "[--strains <name> ... | --force | --limit N | --threads N | --applications APP,APP | --no-xrefs | --prepare-image | --refresh-data]"
 user-invocable: true
 allowed-tools: Read, Bash(uv *), Bash(docker *), Bash(jq *)
 ---
@@ -43,6 +43,9 @@ uv run python .claude/skills/interproscan-run/run_interproscan.py --strains MED4
 
 # Smoke test: first 100 proteins of one strain (output is gitignored)
 uv run python .claude/skills/interproscan-run/run_interproscan.py --strains MED4 --limit 100
+
+# GO + pathway xrefs are ON by default; opt out for a smaller/faster artifact
+uv run python .claude/skills/interproscan-run/run_interproscan.py --strains MED4 --no-xrefs
 
 # Full batch (multi-day wallclock with all apps) — run detached:
 nohup uv run python .claude/skills/interproscan-run/run_interproscan.py \
@@ -108,14 +111,30 @@ ls $INTERPROSCAN_DATA_DIR/interproscan-5.78-109.0/data   # verify member-DB subd
      --input /input/protein.faa \
      --output-file-base /input/interproscan/<strain>.interproscan.raw \
      --formats JSON --disable-precalc --tempdir /input/interproscan/temp \
-     --cpu <threads> [--applications <apps>]
+     --cpu <threads> [--applications <apps>] --goterms --pathways
    ```
+
+   `--goterms` / `--pathways` switch on the GO and pathway xrefs carried by
+   integrated InterPro entries (each IMPLIES `-iprlookup`). Both are **local**
+   lookups against the bundled entry data, so they stay compatible with
+   `--disable-precalc` and add no network dependency and no measurable
+   wallclock. Without them IPS emits `goXRefs: []` / `pathwayXRefs: []` on
+   every entry — which is exactly what the original 2026-07-23 batch produced.
+   `--no-xrefs` restores that older, smaller output.
 
    Full stdout+stderr goes to `logs/interproscan/<strain>.log`.
 4. Parses the raw JSON (`multiomics_kg.utils.interproscan.parse_interproscan_json`)
    into a WP_-keyed calls dict and writes `<strain>.interproscan.calls.json` +
+   `<strain>.interproscan.entry_xrefs.json` +
    `<strain>.interproscan.skill_summary.json` via `tool_calls_io`.
 5. Prints a status table: `strain | n_proteins | n_calls | matches | wallclock_s | status`.
+
+**Stale-output guard.** InterProScan refuses to overwrite an existing output
+file — it silently writes `<base>_1.json`, `<base>_2.json`, … instead. The
+runner therefore deletes the canonical raw JSON *and* any `_N` leftovers before
+each run. Without that, a `--force` re-run re-parses the **previous** run's raw
+JSON and reports success with unchanged data (this is how the first
+`--goterms` re-run appeared to produce zero GO terms).
 
 `--limit N` runs only the first N sequences of `protein.faa` (written to a
 truncated FASTA); outputs get a `.limited_<N>.` infix and are auto-gitignored.
@@ -140,14 +159,45 @@ found":
 Each `matches[]` record: `library`, `signature_accession`,
 `signature_description`, `interpro_accession` (null if unintegrated),
 `interpro_description` (null), `interpro_type` (null), `start`, `end`,
-`evalue` (null for pattern/profile hits), `score` (null when N/A),
-`go_terms` (str[]), `pathways` (str[]).
+`evalue` (null for pattern/profile hits), `score` (null when N/A).
+
+Match records deliberately do **not** repeat `go_terms` / `pathways`: those are
+a property of the *InterPro entry*, not of the match, and copying them onto
+every match of that entry tripled the artifact once xrefs were switched on.
+They live once per entry in the sibling table below — join on
+`interpro_accession`. Nothing is lost.
+
+**`<strain>.interproscan.entry_xrefs.json`** — `{IPR*: {go_terms, pathways}}`,
+one record per InterPro entry that carries at least one xref. This is the
+normalized form of the per-match xrefs.
+
+- `go_terms` — `GO:*` ids from the entry's `goXRefs`.
+- `pathways` — `DB:id`. **Reactome ids are collapsed to their species-neutral
+  stable id**: InterPro lists every species projection of one curated event
+  (`R-HSA-73817` human, `R-MMU-73817` mouse, `R-DME-73817` fly — 16 species
+  prefixes observed), which is pure duplication on a bacterial proteome and
+  inflated the artifact ~10x. Only the trailing number is kept
+  (`Reactome:73817`); expand to any species form as `R-<SPECIES>-<id>`.
+  MetaCyc (and KEGG, on releases that ship it) pass through unchanged.
 
 **`<strain>.interproscan.skill_summary.json`** — per-strain QC:
 `strain`, `tool_version`, `image_digest`, `applications`, `input_proteins`,
 `calls_made`, `proteins_no_match`, `parse_failures`, `total_matches`,
 `interpro_integrated_matches`, `distribution` (matches per member DB),
-`sentinel_rate`, `wallclock_s`.
+`sentinel_rate`, `wallclock_s`, plus the xref block: `xrefs_requested` (bool),
+`proteins_with_go_terms`, `distinct_go_terms`, `proteins_with_pathways`,
+`distinct_pathways`, `pathway_databases` (counts per source DB).
+
+### Which pathway databases actually show up
+
+**InterPro no longer ships KEGG pathway xrefs** (licensing) — `--pathways`
+yields **Reactome + MetaCyc** only. On the MED4 100-protein smoke: Reactome
+10,472 vs MetaCyc 157. Reactome is human-curated and reaches bacteria only by
+orthology projection, so for *Prochlorococcus*/*Alteromonas* it is
+**low-specificity evidence**; MetaCyc is far smaller but genuinely
+microbial-relevant. For KEGG pathways, keep using the existing KO layer
+(`Gene_has_kegg_ko` → `KeggTerm`), which is unaffected by this change.
+**GO is the real win here** — see the coverage numbers under QC.
 
 ## QC
 
@@ -168,6 +218,12 @@ Each `matches[]` record: `library`, `signature_accession`,
   version mismatch.
 - `distribution` — member-DB hit counts. Pfam + NCBIfam should dominate; if a
   big DB (PANTHER/Gene3D) shows `0`, its data subdir wasn't downloaded.
+- **xref coverage** — `xrefs_requested: true` with `distinct_go_terms: 0` means
+  the flags were passed but the output is stale (see the stale-output guard) or
+  the entry data is missing. On the MED4 smoke, 71/100 proteins carried GO and
+  68/100 carried a pathway; expect `proteins_with_go_terms / calls_made` in the
+  **0.5–0.8** band. All four counters read `0` on a `--no-xrefs` run — that is
+  correct, not a failure.
 
 ### Cross-strain QC narrative
 
@@ -214,11 +270,32 @@ jq -r '."WP_002805854.1".interpro_entries[]' \
 # Expected to include: IPR000685
 ```
 
-## Observed batch results (42-strain run, 2026-07-23)
+## Observed batch results (42-strain run, 2026-07-23; re-run with xrefs 2026-08-09)
 
 **120,343 proteins** processed (all appeared in output; `parse_failures = 0`).
 **986,526 matches**, of which **67.0% integrate to an InterPro entry**. All 42
 strains `OK`, no failures. Total compute ~26.6 CPU-wallclock hours.
+
+**The 2026-08-09 `--goterms --pathways` re-run reproduced all three of those
+totals exactly** — 120,343 proteins / 986,526 matches / 67.0% integrated, with
+`parse_failures = 0`, `calls_made == input_proteins` on all 42, and sentinel
+rates spanning 0.064–0.211 (inside the documented band). The xref flags add
+annotation without perturbing matching at all; that identity is the regression
+check to repeat after any future IPS version bump. Compute 28.0 h (+5%).
+
+New xref coverage from that re-run:
+
+| Metric | Value |
+|---|---|
+| proteins carrying ≥1 GO term | 69,759 / 120,343 (**58.0%**) |
+| proteins carrying ≥1 pathway | 76,377 / 120,343 (63.5%) |
+| pathway xrefs by source DB | Reactome 10,985,362 · MetaCyc 275,755 |
+
+Per-strain GO coverage is tight (0.52–0.61) and tracks lifestyle the same way
+domain density does — heterotrophs (EZ55, HOT1A3, MIT1002) ~0.61, streamlined
+*Prochlorococcus* ~0.53–0.58. The Reactome:MetaCyc ratio (~40:1) is the
+species-projection effect described under Output Schema, already collapsed to
+stable ids; it is not a QC problem.
 
 Cross-strain member-DB distribution (matches, % of all matches):
 
@@ -262,8 +339,13 @@ Node names/types/hierarchy come from `prepare_data` **step 9**
 
 Re-running `/interproscan-run` on a new strain + `prepare_data.sh --steps 2` (and
 a KG rebuild) is all that's needed for that strain's domains to appear in the graph.
-GO/pathway xrefs are deferred (empty in current artifacts; a Phase-1 re-run with
-`--goterms --pathways` would enable InterPro→GO/pathway enrichment).
+
+**GO/pathway xrefs (2026-08-07):** no longer deferred — `--goterms --pathways`
+are on by default and the 42-strain batch was re-run to populate them. The
+adapter does not consume them yet; wiring InterPro→GO into the graph is a
+follow-up (it would need a decision on how these GO terms relate to the existing
+eggNOG/UniProt-derived `Gene_involved_in_biological_process` &co. edges — most
+likely a new evidence source on those edges rather than a parallel edge type).
 
 ## Workflow When Invoked
 
