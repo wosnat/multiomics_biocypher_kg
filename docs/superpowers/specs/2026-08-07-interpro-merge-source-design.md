@@ -31,26 +31,36 @@ optional.
 | "nutrient exchange between organisms" | transport, secretion, carbohydrate activity, heterotroph roles | CAZy (§2); NCBIfam GO/EC (§9.1d); existing TCDB/PSORTb/SignalP; **heterotroph roles partially — §9.1c ceiling** |
 | "what does this mutation mean" | residue-level functional annotation | **not served by this spec — deferred, §8.1** |
 
-### Why reference-lookup, not a `--goterms --pathways` re-scan
+### Two sources of entry xrefs — they complement, not duplicate
 
-InterProScan sources GO and pathway xrefs from `signature.entry`, so they are
-**entry-level**: every match of the same `IPR` accession carries an identical
-set. They are therefore recoverable from the InterPro reference release using
-the accessions already in each `calls.json`.
+> **Superseded framing (2026-08-07).** An earlier draft argued reference-lookup
+> *instead of* a `--goterms --pathways` re-scan. The re-scan has since happened
+> (`b8172a29`), so both sources now exist and the question is what each is for.
 
-Verified empirically (2026-08-06): 100 MED4 proteins scanned *with*
-`--goterms --pathways` produced GO sets identical to the reference lookup for
-**100/100** proteins and MetaCyc sets identical for **100/100**. Cost ~1 min vs
-~27 wallclock hours for a 42-strain re-scan that would also rewrite 42 committed
-artifacts.
+**Per-strain scan artifacts** (`<strain>.interproscan.entry_xrefs.json`, from
+`b8172a29`) carry GO + pathways for entries some protein actually matched:
+69,759 proteins with GO, 76,377 with pathways across 42 strains.
 
-`interpro_reference.json` (prepare_data step 9) already carries this as of
-2026-08-06: sparse `go_terms` / `pathways` keys on 14,803 / 5,091 of 54,190
-entries.
+**The reference cache** (`interpro_reference.json`, prepare_data step 9) carries
+them for **every** InterPro entry — 14,803 with GO, 5,091 with pathways of
+54,190. It remains necessary for two things the artifacts cannot supply:
 
-**Exception:** PANTHER *match-level* GO (subfamily `treeGrafter` annotations) is
-**not** entry-level and **not** recoverable — it requires `--goterms` at scan
-time and is absent (0 occurrences) from the production batch. Deferred, §8.3.
+1. **EC and CAZy.** InterProScan emits GO and pathway xrefs but **neither of
+   these**. The reference is the only source — EC on 5,100 of 12,994 observed
+   entries (39.2%), CAZy on 113. These are §2's largest and most
+   carbon-relevant contributions respectively.
+2. **is-a ancestor entries** that no gene matches directly, needed for
+   ontology-level rollups.
+
+Consequence for §2: the **GO** row is now largely redundant with the artifacts
+for *gene→GO* purposes — prefer the artifacts there, since they are per-protein
+and require no inference step. The reference's GO earns its place only at the
+ontology level. **EC and CAZy are unaffected and remain reference-only.**
+
+The xrefs are genuinely entry-level, which is what makes the two sources
+equivalent where they overlap: over 100 MED4 proteins scanned with
+`--goterms --pathways`, the reference lookup reproduced **100/100** identical GO
+sets and **100/100** identical MetaCyc sets.
 
 ## 1. Agreed scope decisions
 
@@ -297,11 +307,16 @@ Two reasons this needs its own spec rather than folding in here:
   `Gene_has_interpro_entry` edge exists (Phase-2 §1 dropped them by design). That
   design decision would have to be revisited.
 
-> **⚠️ Perishability.** The 1.1 GB of `*.interproscan.raw.json` files exist only
-> in the working checkout — they are gitignored, which is why a fresh worktree
-> has zero. Extraction is a cheap **re-parse** while they survive; once deleted,
+> **⚠️ Perishability.** The `*.interproscan.raw.json` files — now **17 GB** across
+> 42 strains after the `--goterms --pathways` re-run — exist only in the working
+> checkout. They are gitignored by design (see `.gitignore`), so a fresh clone has
+> zero. Extraction is a cheap **re-parse** while they survive; once deleted,
 > recovery costs the full ~27h re-scan. Extract before pruning the cache, even if
-> modelling waits.
+> modelling waits. This applies equally to §8.3.
+>
+> Measured on the current (post-re-run) artifacts: MED4 alone carries 3,788 site
+> records. The 250,609 / 45,200-protein figures above are from the pre-re-run
+> batch and are the right order of magnitude, but re-measure before building.
 
 ### 8.2 MetaCyc pathways
 
@@ -320,15 +335,23 @@ MNX could supply reaction/compound identity if the pathway level is ever wired.
 `interpro.dtd`'s allowed-`db` list. KEGG pathways remain eggNOG-KO-derived
 permanently.
 
-### 8.3 PANTHER subfamily (match-level) GO
+### 8.3 PANTHER subfamily (match-level) GO — **now a re-parse, not a re-scan**
 
-The only item in this whole area that genuinely justifies a re-scan. PANTHER
-`treeGrafter` attaches GO to the *subfamily* match (e.g. `PTHR30478:SF0`
-BETA SLIDING CLAMP), which is more specific than the family-level entry.
+PANTHER `treeGrafter` attaches GO to the *subfamily* match (e.g. `PTHR30478:SF0`
+BETA SLIDING CLAMP), which is more specific than the family-level entry. In the
+100-protein smoke, **46 of 81** match-level GO terms were unreachable at entry
+level.
 
-In the 100-protein smoke run with `--goterms`, **46 of 81** match-level GO terms
-were not reachable at entry level. In the production batch the count is **0** —
-the flags were not passed. Not recoverable by re-parsing.
+**Status changed by `b8172a29`.** The re-run passed `--goterms`, so match-level
+`goXRefs` are now present in the raw output (634 matches in MED4 alone). But
+`parse_interproscan_json` still reads only `signature.entry.goXRefs` — match-level
+`m["goXRefs"]` is dropped. So this is now **a parser change plus a re-parse of
+existing raw JSON**, not a re-scan.
+
+Directly serves *"this hypothetical is upregulated — what is it"*: a subfamily
+call is a more specific functional statement than the family entry it rolls up to.
+
+Same perishability caveat as §8.1 — it depends on the raw JSONs surviving.
 
 ## 9. Open questions
 
