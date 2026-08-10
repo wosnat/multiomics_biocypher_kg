@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Iterator
 
 from multiomics_kg.utils.curie_utils import normalize_curie
+from multiomics_kg.utils.annotation_provenance import annotation_edge_props
 
 from multiomics_kg.utils.cazy_utils import CAZY_CLASSES, parse_cazy_id
 
@@ -107,7 +108,7 @@ class CazyAnnotationAdapter:
                     _gene_node_id(locus_tag),
                     _cazy_node_id(target),
                     "gene_has_cazy_family",
-                    {},
+                    annotation_edge_props(gene, "cazy_ids", token),
                 )
                 count += 1
                 if self.test_mode and count >= 100:

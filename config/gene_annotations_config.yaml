@@ -373,32 +373,44 @@ fields:
   # NOTE: UniProt go_*_id values are bare 7-digit strings (add_go_prefix needed).
 
   go_terms:
+    # track_source records a per-token provenance map {GO:xxxx: [source_label, …]}
+    # (Option B). source_label is the KG-edge source vocabulary
+    # (ncbi|cyanorak|uniprot|eggnog|interpro); go_component/function/process come
+    # from the NCBI GFF, Ontology_term_cyanorak from Cyanorak.
     type: union
     filter: "^GO:"
     track_source: go_terms_source
     sources:
       - source: uniprot
+        source_label: uniprot
         field: go_cellular_components
       - source: uniprot
+        source_label: uniprot
         field: go_biological_processes
       - source: uniprot
+        source_label: uniprot
         field: go_molecular_functions
       - source: gene_mapping
+        source_label: ncbi
         field: go_component
         delimiter: ","
         transform: extract_go_from_pipe
       - source: gene_mapping
+        source_label: ncbi
         field: go_function
         delimiter: ","
         transform: extract_go_from_pipe
       - source: gene_mapping
+        source_label: ncbi
         field: go_process
         delimiter: ","
         transform: extract_go_from_pipe
       - source: gene_mapping
+        source_label: cyanorak
         field: Ontology_term_cyanorak
         delimiter: ","
       - source: eggnog
+        source_label: eggnog
         field: GOs
         delimiter: ","
 
@@ -432,19 +444,24 @@ fields:
   ec_numbers:
     type: union
     filter: '^\d+\.[\d\-]+\.[\d\-]+[\.\-]'   # reject non-EC strings (KEGG KO IDs etc.)
+    track_source: ec_numbers_source
     sources:
       - source: gene_mapping
+        source_label: uniprot   # gene_mapping.ec_numbers derives from UniProt protein_annotations
         field: ec_numbers
         delimiter: ","
         transform: normalize_ec
       - source: gene_mapping
+        source_label: cyanorak
         field: kegg           # Cyanorak "kegg" field actually stores EC numbers
         delimiter: ","
         transform: normalize_ec
       - source: uniprot
+        source_label: uniprot
         field: ec_numbers
         transform: normalize_ec
       - source: eggnog
+        source_label: eggnog
         field: EC
         delimiter: ","
         transform: normalize_ec
@@ -610,23 +627,30 @@ fields:
     # Post-merge enriched: raw tokens resolved to clean PF* IDs via Pfam reference.
     # The union collects ALL tokens from all sources (PF* IDs, shortnames, TIGR*, IPR*).
     # enrich_pfam_fields() resolves shortnames and filters to PF* only.
+    # gene_mapping.protein_domains is a Cyanorak-only column.
     type: union
+    track_source: pfam_ids_source
     sources:
       - source: gene_mapping
+        source_label: cyanorak
         field: protein_domains
         delimiter: ","
       - source: eggnog
+        source_label: eggnog
         field: PFAMs
         delimiter: ","
       - source: uniprot
+        source_label: uniprot
         field: pfam_ids
 
   # ── CAZy ────────────────────────────────────────────────────────────────────
 
   cazy_ids:
     type: union
+    track_source: cazy_ids_source
     sources:
       - source: eggnog
+        source_label: eggnog
         field: CAZy
         delimiter: ","
 

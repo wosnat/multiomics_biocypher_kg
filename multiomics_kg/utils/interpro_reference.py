@@ -26,8 +26,11 @@ Two source files (InterPro FTP ``current_release/``):
   with ``!``. ~30K mappings over ~14.8K entries.
 
 - ``interpro.xml.gz`` — the full entry XML; the only source of entry→pathway
-  cross-references (``<db_xref db="METACYC"|"REACTOME" dbkey="…"/>``). Streamed
-  line-by-line by the caller, so this module takes an *iterable of lines*.
+  (``<db_xref db="METACYC"|"REACTOME" …/>``), entry→**EC** (``db="EC"``) and
+  entry→**CAZy** (``db="CAZY"``) cross-references. InterProScan emits GO and
+  pathways but never EC or CAZy, so the reference is the *only* source of those.
+  Streamed line-by-line by the caller, so this module takes an *iterable of lines*
+  (:func:`parse_entry_db_xrefs`, one pass for all three).
 
   **There are no KEGG pathway xrefs in InterPro** — ``KEGG`` is a legacy token in
   ``interpro.dtd``'s allowed-``db`` list but carries zero entries (verified
@@ -43,11 +46,14 @@ reference release is equivalent to, and ~27 wallclock-hours cheaper than, a
 42-strain re-scan.
 
 Combined result: ``{IPRxxxxxx: {"name", "type", "parent", "level"[, "go_terms"]
-[, "pathways"]}}`` — ``name``/``type`` from entry.list (authoritative,
-untruncated), ``parent``/``level`` from the tree (``None``/``0`` when the entry is
-not in the tree). ``go_terms`` and ``pathways`` are **sparse**: the key is absent
-rather than an empty list when the entry has none, which keeps the committed JSON
-small (only ~27% of entries carry GO).
+[, "pathways"][, "ec_numbers"][, "cazy_ids"]}}`` — ``name``/``type`` from
+entry.list (authoritative, untruncated), ``parent``/``level`` from the tree
+(``None``/``0`` when the entry is not in the tree). ``go_terms``, ``pathways``,
+``ec_numbers`` and ``cazy_ids`` are all **sparse**: the key is absent rather than
+an empty list when the entry has none, which keeps the committed JSON small (only
+~27% of entries carry GO, ~39% of *observed* entries carry EC, far fewer CAZy).
+``ec_numbers``/``cazy_ids`` are raw InterPro tokens; normalization is the
+consumer's job.
 
 See ``docs/superpowers/specs/2026-07-26-interproscan-kg-integration-design.md``.
 """
@@ -161,24 +167,27 @@ def parse_interpro2go(text: str) -> dict[str, list[str]]:
     return {acc: sorted(gos) for acc, gos in acc_to_go.items()}
 
 
-def parse_pathway_xrefs(
+def parse_entry_db_xrefs(
     lines: Iterable[str],
-    include_dbs: Iterable[str] = DEFAULT_PATHWAY_DBS,
-) -> dict[str, list[str]]:
-    """Stream ``interpro.xml`` lines → ``{IPRxxxxxx: ["MetaCyc:PWY-1042", …]}``.
+    include_dbs: Iterable[str],
+) -> dict[str, dict[str, list[str]]]:
+    """Stream ``interpro.xml`` lines → ``{IPRxxxxxx: {DB: [raw dbkey, …]}}``.
 
-    Takes an *iterable of lines* (not a string) so the caller can stream the
-    42 MB gzipped XML without decompressing it into memory. Only ``db`` tokens in
-    *include_dbs* are kept; each is rendered as ``{DatabaseName}:{key}`` using
-    :data:`PATHWAY_DB_NAMES`, matching the ``DB:id`` form InterProScan writes into
-    calls.json.
+    Generic entry-level ``<db_xref>`` extractor. Takes an *iterable of lines* (not
+    a string) so the caller can stream the 42 MB gzipped XML without decompressing
+    it into memory. Only ``db`` tokens in *include_dbs* (upper-cased) are kept;
+    raw ``dbkey`` values are returned **verbatim** (no label prefix), grouped by
+    the upper-case ``db`` token. This is the single XML pass that feeds pathways
+    (via :func:`parse_pathway_xrefs`), EC numbers (``db="EC"``), and CAZy families
+    (``db="CAZY"``) — the two latter as raw ids (``1.1.1.1`` / ``GH13``).
 
     Cross-references are attributed to the most recently opened ``<interpro
     id="…">`` element and dropped outside any entry, so header/footer blocks
-    cannot leak in.
+    cannot leak in. EC/CAZy are entry-level metadata; member-signature db_xrefs
+    (PFAM, PROSITE, …) inside ``<member_list>`` are simply not in *include_dbs*.
     """
     wanted = {db.upper() for db in include_dbs}
-    acc_to_pw: dict[str, set[str]] = {}
+    acc_to_dbs: dict[str, dict[str, set[str]]] = {}
     current: str | None = None
     for line in lines:
         m = _XML_ENTRY_OPEN_RE.search(line)
@@ -187,11 +196,35 @@ def parse_pathway_xrefs(
         if current is not None:
             for db, key in _XML_DB_XREF_RE.findall(line):
                 if db in wanted:
-                    label = PATHWAY_DB_NAMES.get(db, db)
-                    acc_to_pw.setdefault(current, set()).add(f"{label}:{key}")
+                    acc_to_dbs.setdefault(current, {}).setdefault(db, set()).add(key)
         if _XML_ENTRY_CLOSE in line:
             current = None
-    return {acc: sorted(pws) for acc, pws in acc_to_pw.items()}
+    return {
+        acc: {db: sorted(keys) for db, keys in dbs.items()}
+        for acc, dbs in acc_to_dbs.items()
+    }
+
+
+def parse_pathway_xrefs(
+    lines: Iterable[str],
+    include_dbs: Iterable[str] = DEFAULT_PATHWAY_DBS,
+) -> dict[str, list[str]]:
+    """Stream ``interpro.xml`` lines → ``{IPRxxxxxx: ["MetaCyc:PWY-1042", …]}``.
+
+    Thin wrapper over :func:`parse_entry_db_xrefs` that renders each kept xref as
+    ``{DatabaseName}:{key}`` via :data:`PATHWAY_DB_NAMES`, matching the ``DB:id``
+    form InterProScan writes into calls.json.
+    """
+    raw = parse_entry_db_xrefs(lines, include_dbs)
+    out: dict[str, list[str]] = {}
+    for acc, dbs in raw.items():
+        pws: set[str] = set()
+        for db, keys in dbs.items():
+            label = PATHWAY_DB_NAMES.get(db, db)
+            pws.update(f"{label}:{key}" for key in keys)
+        if pws:
+            out[acc] = sorted(pws)
+    return out
 
 
 def build_reference(
@@ -199,18 +232,25 @@ def build_reference(
     tree_text: str,
     go_map: dict[str, list[str]] | None = None,
     pathway_map: dict[str, list[str]] | None = None,
+    ec_map: dict[str, list[str]] | None = None,
+    cazy_map: dict[str, list[str]] | None = None,
 ) -> dict[str, dict]:
     """Combine the release files into the committed reference dict.
 
-    ``{IPRxxxxxx: {"name", "type", "parent", "level"[, "go_terms"][, "pathways"]}}``
-    — name/type from entry.list; parent/level from the tree (``None``/``0`` when
-    not in the tree); ``go_terms`` from *go_map* (``interpro2go``) and
-    ``pathways`` from *pathway_map* (``interpro.xml``).
+    ``{IPRxxxxxx: {"name", "type", "parent", "level"[, "go_terms"][, "pathways"]
+    [, "ec_numbers"][, "cazy_ids"]}}`` — name/type from entry.list; parent/level
+    from the tree (``None``/``0`` when not in the tree); ``go_terms`` from *go_map*
+    (``interpro2go``); ``pathways`` / ``ec_numbers`` / ``cazy_ids`` from the
+    ``interpro.xml`` db_xrefs (*pathway_map* / *ec_map* / *cazy_map*).
 
-    ``go_terms``/``pathways`` are **sparse** — the key is omitted entirely for
-    entries with none, rather than carrying an empty list. Most entries have
-    neither, so this keeps the committed JSON from bloating, and consumers should
-    use ``meta.get("go_terms", [])``.
+    ``ec_numbers`` / ``cazy_ids`` are stored **raw** (``1.1.1.1`` / ``GH13``) —
+    ``normalize_ec`` and bare-3-level EC normalization are applied by the
+    consumer (Phase-2 gene-annotation enrichment), not here, so the reference
+    stays a faithful copy of InterPro.
+
+    All four xref fields are **sparse** — the key is omitted entirely for entries
+    with none, rather than carrying an empty list. Consumers must use
+    ``meta.get("ec_numbers", [])``.
 
     Entries present only in the tree (should not happen, but guarded) get an
     empty name/type.
@@ -219,6 +259,8 @@ def build_reference(
     tree = parse_parent_child_tree(tree_text)
     go_map = go_map or {}
     pathway_map = pathway_map or {}
+    ec_map = ec_map or {}
+    cazy_map = cazy_map or {}
 
     ref: dict[str, dict] = {}
     for acc, meta in entries.items():
@@ -244,4 +286,10 @@ def build_reference(
     for acc, pws in pathway_map.items():
         if acc in ref and pws:
             ref[acc]["pathways"] = sorted(set(pws))
+    for acc, ecs in ec_map.items():
+        if acc in ref and ecs:
+            ref[acc]["ec_numbers"] = sorted(set(ecs))
+    for acc, czs in cazy_map.items():
+        if acc in ref and czs:
+            ref[acc]["cazy_ids"] = sorted(set(czs))
     return ref

@@ -5,6 +5,7 @@ from __future__ import annotations
 from multiomics_kg.utils.interpro_reference import (
     build_reference,
     normalize_type,
+    parse_entry_db_xrefs,
     parse_entry_list,
     parse_interpro2go,
     parse_parent_child_tree,
@@ -51,19 +52,26 @@ INTERPRO2GO = "\n".join(
 )
 
 # Real interpro.xml shape. IPR000001 carries a Reactome xref (species-expanded)
-# plus MetaCyc; IPR000685 MetaCyc only. The PUBMED xref and the stray xref
-# outside any <interpro> element must never be picked up.
+# plus MetaCyc and a CAZy family; IPR000685 MetaCyc + an EC number. The PUBMED
+# xref, the stray MetaCyc/EC xrefs outside any <interpro> element, and the
+# member-list PFAM signature must never be picked up as entry xrefs.
 INTERPRO_XML = """<?xml version="1.0"?>
 <interprodb>
 <db_xref db="METACYC" dbkey="PWY-HEADER-LEAK"/>
+<db_xref db="EC" dbkey="9.9.9.9"/>
 <interpro id="IPR000001" short_name="Kringle" type="Domain">
   <db_xref db="PUBMED" dbkey="12345678"/>
   <db_xref db="REACTOME" dbkey="R-BTA-6798695"/>
   <db_xref db="METACYC" dbkey="PWY-1042"/>
+  <db_xref db="CAZY" dbkey="CBM5"/>
+  <member_list>
+    <db_xref db="PFAM" dbkey="PF00051"/>
+  </member_list>
 </interpro>
 <interpro id="IPR000685" short_name="RuBisCO" type="Family">
   <db_xref db="METACYC" dbkey="PWY-5723"/>
   <db_xref db="METACYC" dbkey="PWY-5532"/>
+  <db_xref db="EC" dbkey="4.1.1.39"/>
 </interpro>
 </interprodb>
 """
@@ -195,3 +203,53 @@ def test_build_reference_without_xref_maps_is_unchanged():
         "parent": None,
         "level": 0,
     }
+
+
+# --------------------------------------------------------------------------
+# interpro.xml → EC / CAZy (generic db_xref extractor)
+# --------------------------------------------------------------------------
+
+def _ec_cazy_maps():
+    raw = parse_entry_db_xrefs(INTERPRO_XML.splitlines(), include_dbs=("EC", "CAZY"))
+    ec_map = {acc: dbs["EC"] for acc, dbs in raw.items() if "EC" in dbs}
+    cazy_map = {acc: dbs["CAZY"] for acc, dbs in raw.items() if "CAZY" in dbs}
+    return ec_map, cazy_map
+
+
+def test_parse_entry_db_xrefs_returns_raw_keys_grouped_by_db():
+    raw = parse_entry_db_xrefs(INTERPRO_XML.splitlines(), include_dbs=("EC", "CAZY"))
+    assert raw["IPR000685"]["EC"] == ["4.1.1.39"]  # raw, no label prefix
+    assert raw["IPR000001"]["CAZY"] == ["CBM5"]
+    # IPR000001 has no EC; IPR000685 has no CAZy
+    assert "EC" not in raw.get("IPR000001", {})
+    assert "CAZY" not in raw.get("IPR000685", {})
+
+
+def test_parse_entry_db_xrefs_ignores_out_of_entry_and_member_list():
+    raw = parse_entry_db_xrefs(
+        INTERPRO_XML.splitlines(), include_dbs=("EC", "CAZY", "METACYC", "PFAM")
+    )
+    flat = {key for dbs in raw.values() for keys in dbs.values() for key in keys}
+    assert "9.9.9.9" not in flat          # EC before the first <interpro> element
+    assert "PWY-HEADER-LEAK" not in flat  # MetaCyc header leak
+    # PFAM inside <member_list> IS attributed to the open entry (it is inside it);
+    # it is simply never in EC/CAZy's include set at build time. Confirm the guard
+    # is about entry boundaries, not element nesting:
+    assert raw["IPR000001"].get("PFAM") == ["PF00051"]
+
+
+def test_build_reference_attaches_ec_and_cazy_sparse():
+    ec_map, cazy_map = _ec_cazy_maps()
+    ref = build_reference(ENTRY_LIST, PARENT_CHILD, ec_map=ec_map, cazy_map=cazy_map)
+    assert ref["IPR000685"]["ec_numbers"] == ["4.1.1.39"]
+    assert ref["IPR000001"]["cazy_ids"] == ["CBM5"]
+    # sparse: absent where the entry has none
+    assert "ec_numbers" not in ref["IPR000001"]
+    assert "cazy_ids" not in ref["IPR000685"]
+    assert "ec_numbers" not in ref["IPR000002"]
+
+
+def test_build_reference_ec_numbers_stored_raw_unnormalized():
+    """EC is stored verbatim; normalize_ec / bare-3-level is the consumer's job."""
+    ref = build_reference(ENTRY_LIST, PARENT_CHILD, ec_map={"IPR000685": ["3.4.21"]})
+    assert ref["IPR000685"]["ec_numbers"] == ["3.4.21"]

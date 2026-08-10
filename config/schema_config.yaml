@@ -949,6 +949,12 @@ protein_contributes_to_molecular_function:
     reference: str
     evidence_code: str
 
+# Provenance + confidence on gene→ontology edges (design 2026-08-10 §5.3):
+#   sources: str[]   — who asserted it (ncbi|cyanorak|uniprot|eggnog|interpro)
+#   evidence: str    — strength: curated > signature > family_inferred > domain_inferred
+#   evidence_score: int (0-3, advisory) — a ready sort key, never a filter
+# Set by annotation_provenance.annotation_edge_props from the per-token *_source /
+# *_evidence maps in gene_annotations_merged.json. `sources` omitted when absent.
 gene to biological process association:
   is_a: GeneToGoTermAssociation
   represented_as: edge
@@ -956,6 +962,10 @@ gene to biological process association:
   source: gene
   target: biological process
   label_in_input: gene_involved_in_biological_process
+  properties:
+    sources: str[]
+    evidence: str
+    evidence_score: int
 
 gene to cellular component association:
   is_a: GeneToGoTermAssociation
@@ -964,6 +974,10 @@ gene to cellular component association:
   source: gene
   target: cellular component
   label_in_input: gene_located_in_cellular_component
+  properties:
+    sources: str[]
+    evidence: str
+    evidence_score: int
 
 gene to molecular function association:
   is_a: GeneToGoTermAssociation
@@ -972,6 +986,10 @@ gene to molecular function association:
   source: gene
   target: molecular function
   label_in_input: gene_enables_molecular_function
+  properties:
+    sources: str[]
+    evidence: str
+    evidence_score: int
 
 biological_process_is_a_biological_process:
   is_a: association
@@ -1340,6 +1358,10 @@ gene to cazy family association:
   source: gene
   target: cazy family
   label_in_input: gene_has_cazy_family
+  properties:                # see gene→ontology provenance note above (§5.3)
+    sources: str[]
+    evidence: str
+    evidence_score: int
 
 cazy family hierarchical association:
   is_a: association
@@ -1460,6 +1482,36 @@ pfam in interpro entry:
   target: interpro entry
   label_in_input: pfam_in_interpro_entry
 
+# Layer A (design 2026-08-10 §4): ontology→ontology cross-references from
+# InterPro's curated entry xrefs. Deliberately WEAK verb (`related_to`) — a
+# recall-biased ROUTER, not an annotation. Homes the multi-EC / DOMAIN ECs and
+# fold-level CAZy that Layer B refuses to stamp on genes. `ambiguous=true` = one
+# candidate among several (multi-term entry or non-FAMILY type). Read outward
+# (gene's known family → does this EC agree) it corroborates; read backward
+# (carries EC → is that enzyme) it is low-precision. Never assign gene function
+# from these — that is Gene_catalyzes_ec_number.
+interpro entry related to ec number:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Interpro_entry_related_to_ec_number
+  source: interpro entry
+  target: ec number
+  label_in_input: interpro_entry_related_to_ec_number
+  properties:
+    ambiguous: bool
+    source_db: str
+
+interpro entry related to cazy family:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Interpro_entry_related_to_cazy_family
+  source: interpro entry
+  target: cazy family
+  label_in_input: interpro_entry_related_to_cazy_family
+  properties:
+    ambiguous: bool
+    source_db: str
+
 
 protein to ec number association:
   is_a: ReactionToParticipantAssociation
@@ -1476,6 +1528,10 @@ gene to ec number association:
   source: gene
   target: ec number
   label_in_input: gene_catalyzes_ec_number
+  properties:                # see gene→ontology provenance note above (§5.3)
+    sources: str[]
+    evidence: str
+    evidence_score: int
 
 ec number hierarchical association:
   is_a: molecular activity to molecular activity association
@@ -1540,6 +1596,10 @@ gene to pfam association:
   source: gene
   target: pfam
   label_in_input: gene_has_pfam
+  properties:                # see gene→ontology provenance note above (§5.3)
+    sources: str[]
+    evidence: str
+    evidence_score: int
 
 pfam in pfam clan:
   is_a: association

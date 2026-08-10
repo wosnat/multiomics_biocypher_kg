@@ -51,9 +51,10 @@ import requests
 from multiomics_kg.utils.interpro_reference import (
     DEFAULT_PATHWAY_DBS,
     KNOWN_INTERPRO_TYPES,
+    PATHWAY_DB_NAMES,
     build_reference,
+    parse_entry_db_xrefs,
     parse_interpro2go,
-    parse_pathway_xrefs,
 )
 
 logger = logging.getLogger(__name__)
@@ -119,18 +120,41 @@ def build(
     )
 
     # Stream the 42 MB gzip rather than decompressing it (uncompressed ~1 GB).
+    # One pass extracts pathways + EC + CAZy; EC/CAZy are InterPro-XML-only.
     with gzip.open(INTERPRO_XML_RAW, "rt", encoding="utf-8", errors="replace") as fh:
-        pathway_map = parse_pathway_xrefs(fh, include_dbs=pathway_dbs)
+        raw_xrefs = parse_entry_db_xrefs(fh, include_dbs=(*pathway_dbs, "EC", "CAZY"))
+    pathway_wanted = {db.upper() for db in pathway_dbs}
+    pathway_map: dict[str, list[str]] = {}
+    ec_map: dict[str, list[str]] = {}
+    cazy_map: dict[str, list[str]] = {}
+    for acc, dbs in raw_xrefs.items():
+        pws: set[str] = set()
+        for db, keys in dbs.items():
+            if db in pathway_wanted:
+                label = PATHWAY_DB_NAMES.get(db, db)
+                pws.update(f"{label}:{k}" for k in keys)
+            elif db == "EC":
+                ec_map[acc] = keys
+            elif db == "CAZY":
+                cazy_map[acc] = keys
+        if pws:
+            pathway_map[acc] = sorted(pws)
     logger.info(
-        "interpro.xml (%s): %d entries → %d pathway xrefs",
-        ",".join(pathway_dbs), len(pathway_map), sum(len(v) for v in pathway_map.values()),
+        "interpro.xml: pathways(%s) %d entries/%d xrefs; EC %d entries/%d; CAZy %d entries/%d",
+        ",".join(pathway_dbs),
+        len(pathway_map), sum(len(v) for v in pathway_map.values()),
+        len(ec_map), sum(len(v) for v in ec_map.values()),
+        len(cazy_map), sum(len(v) for v in cazy_map.values()),
     )
 
-    ref = build_reference(entry_text, tree_text, go_map=go_map, pathway_map=pathway_map)
+    ref = build_reference(
+        entry_text, tree_text,
+        go_map=go_map, pathway_map=pathway_map, ec_map=ec_map, cazy_map=cazy_map,
+    )
 
     # QC: report type distribution + hierarchy/xref coverage; warn on unexpected types.
     type_counts: dict[str, int] = {}
-    in_tree = with_go = with_pw = 0
+    in_tree = with_go = with_pw = with_ec = with_cazy = 0
     for meta in ref.values():
         type_counts[meta["type"]] = type_counts.get(meta["type"], 0) + 1
         if meta["parent"] is not None:
@@ -139,6 +163,10 @@ def build(
             with_go += 1
         if meta.get("pathways"):
             with_pw += 1
+        if meta.get("ec_numbers"):
+            with_ec += 1
+        if meta.get("cazy_ids"):
+            with_cazy += 1
     unexpected = {t for t in type_counts if t and t not in KNOWN_INTERPRO_TYPES}
     if unexpected:
         logger.warning("Unexpected InterPro entry types (new release?): %s", sorted(unexpected))
@@ -149,14 +177,21 @@ def build(
         logger.warning("No entry carries go_terms — did interpro2go change format?")
     if pathway_dbs and not with_pw:
         logger.warning("No entry carries pathways — did interpro.xml change format?")
+    # EC/CAZy are new (2026-08-10). A zero count almost certainly means the db
+    # token differs from the assumed "EC"/"CAZY" — surface it, don't guess.
+    if not with_ec:
+        logger.warning("No entry carries ec_numbers — is the interpro.xml db token still 'EC'?")
+    if not with_cazy:
+        logger.warning("No entry carries cazy_ids — is the interpro.xml db token still 'CAZY'?")
 
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     with open(REFERENCE_JSON, "w", encoding="utf-8") as fh:
         json.dump(ref, fh, indent=1, sort_keys=True)
 
     logger.info(
-        "Wrote %s: %d entries (%d with a parent, %d with GO, %d with pathways); types=%s",
-        REFERENCE_JSON, len(ref), in_tree, with_go, with_pw, dict(sorted(type_counts.items())),
+        "Wrote %s: %d entries (%d parent, %d GO, %d pathways, %d EC, %d CAZy); types=%s",
+        REFERENCE_JSON, len(ref), in_tree, with_go, with_pw, with_ec, with_cazy,
+        dict(sorted(type_counts.items())),
     )
     return ref
 

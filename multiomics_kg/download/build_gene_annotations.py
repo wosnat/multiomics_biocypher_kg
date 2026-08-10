@@ -55,6 +55,7 @@ from multiomics_kg.download.utils.ortholog_group_utils import (
     organism_group_from_path,
 )
 from multiomics_kg.utils.pfam_utils import PfamData, load_pfam_data
+from multiomics_kg.download import build_interpro_reference
 from multiomics_kg.download.utils.paths import PROJECT_ROOT, infer_organism_group
 
 # ─── gene_category mapping tables ─────────────────────────────────────────────
@@ -230,24 +231,37 @@ def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
 
     clean_ids: dict[str, None] = {}  # ordered set for dedup
     unresolved: list[str] = []
+    # Per-token provenance map keyed by the RAW token (from _resolve_union); it
+    # must be re-keyed to the resolved PF* accession so it stays aligned with the
+    # rewritten pfam_ids list (and usable for edge `sources` downstream).
+    raw_source_map: dict[str, list[str]] = gene.get("pfam_ids_source") or {}
+    new_source_map: dict[str, set[str]] = {}
 
     for token in raw_tokens:
         token = str(token).strip()
         if not token:
             continue
         if token.startswith("PF"):
-            clean_ids[token] = None
+            resolved = token
         elif token in pfam_data.by_shortname:
-            clean_ids[pfam_data.by_shortname[token]] = None
+            resolved = pfam_data.by_shortname[token]
         else:
             # TIGR*, IPR*, or unresolved shortname -- drop
             unresolved.append(token)
+            continue
+        clean_ids[resolved] = None
+        if raw_source_map.get(token):
+            new_source_map.setdefault(resolved, set()).update(raw_source_map[token])
 
     result = list(clean_ids.keys())
     if result:
         gene["pfam_ids"] = result
+        if new_source_map:
+            gene["pfam_ids_source"] = {k: sorted(v) for k, v in new_source_map.items()}
     elif "pfam_ids" in gene:
         del gene["pfam_ids"]
+        gene.pop("pfam_ids_source", None)
+        gene.pop("pfam_ids_evidence", None)
 
     # Recompute contributing_sources after enrichment (in case sources changed)
     gene["contributing_sources"] = _compute_contributing_sources(gene)
@@ -269,18 +283,153 @@ def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
     return unresolved
 
 
+# ─── InterPro entry-xref propagation (Layer B) ────────────────────────────────
+
+# Curated / direct sources; when any of these also asserts a token, the token is
+# curated regardless of the InterPro inference that corroborates it.
+_CURATED_SOURCES = {"ncbi", "cyanorak", "uniprot", "eggnog"}
+# GO / CAZy propagate from FAMILY + DOMAIN entries; fold-level (HOMOLOGOUS_SUPERFAMILY)
+# is shape-only and excluded. EC propagates from FAMILY only, single-EC (see below).
+_INTERPRO_PROPAGATE_TYPES = {"FAMILY", "DOMAIN"}
+_BARE_EC_RE = re.compile(r"^\d+\.\d+\.\d+$")            # 3.4.21  (no 4th field)
+_VALID_EC_RE = re.compile(r"^\d+\.[\d\-]+\.[\d\-]+[\.\-]")  # mirrors the ec_numbers filter
+
+
+def _normalize_interpro_ec(raw: str) -> list[str]:
+    """Normalise one raw InterPro EC token → validated EC list (may be empty).
+
+    Bare 3-level ECs (``3.4.21``) get ``.-`` appended so they satisfy the 4-field
+    ``ec_numbers`` filter, then the shared ``normalize_ec`` transform remaps
+    obsolete/transferred numbers. Anything still failing the EC shape is dropped.
+    """
+    raw = (raw or "").strip()
+    if _BARE_EC_RE.match(raw):
+        raw = raw + ".-"
+    fn = _TRANSFORMS.get("normalize_ec")
+    out = fn(raw) if fn else raw
+    toks = out if isinstance(out, list) else [out]
+    return [t for t in (str(x).strip() for x in toks) if t and _VALID_EC_RE.match(t)]
+
+
+def _fold_interpro_field(gene: dict, field: str, new_tokens: dict[str, str]) -> None:
+    """Merge InterPro-contributed *new_tokens* ({token: strength}) into *field*.
+
+    strength ∈ {family, domain, signature}. For each token: append to the field
+    list if new; add ``interpro`` to the per-token ``<field>_source`` map; and set
+    ``<field>_evidence[token]`` to the strongest applicable evidence — ``curated``
+    when any curated source also asserts it, else ``signature`` (direct Pfam HMM),
+    ``family_inferred`` or ``domain_inferred``. The evidence map is sparse: only
+    InterPro-touched tokens get an entry; consumers default the rest to ``curated``.
+    """
+    if not new_tokens:
+        return
+    lst = gene.get(field) or []
+    seen = set(lst)
+    src_map = dict(gene.get(f"{field}_source") or {})
+    ev_map = dict(gene.get(f"{field}_evidence") or {})
+    for tok, strength in new_tokens.items():
+        if tok not in seen:
+            lst.append(tok)
+            seen.add(tok)
+        srcs = set(src_map.get(tok, []))
+        srcs.add("interpro")
+        src_map[tok] = sorted(srcs)
+        if srcs & _CURATED_SOURCES:
+            ev = "curated"
+        elif strength == "signature":
+            ev = "signature"
+        elif strength == "family":
+            ev = "family_inferred"
+        else:
+            ev = "domain_inferred"
+        ev_map[tok] = ev
+    gene[field] = lst
+    gene[f"{field}_source"] = src_map
+    gene[f"{field}_evidence"] = ev_map
+
+
+def enrich_interpro_fields(gene: dict, ipr_row: dict, interpro_ref: dict) -> None:
+    """Promote InterPro entry-level xrefs into gene ontology fields (Layer B).
+
+    Noise-gated, type-aware propagation (design 2026-08-10 §2/§5.1):
+    - ``go_terms`` / ``cazy_ids``: FAMILY + DOMAIN entries (fold excluded).
+    - ``ec_numbers``: FAMILY entries carrying **exactly one** EC (a multi-EC family
+      is a candidate set, not a claim — those live in Layer A, Phase 3).
+    - ``pfam_ids``: direct PFAM signature hits from calls.json (no inference).
+
+    Each contributed token is tagged with ``interpro`` in ``<field>_source`` and an
+    ``<field>_evidence`` strength. GO/EC/CAZy come from the global reference
+    (entry-level, equivalent to the per-protein scan xrefs); Pfam from *ipr_row*'s
+    matches. Idempotent-ish: safe to run once per gene after ``build_merged``.
+    """
+    entries = gene.get("interpro_entries") or []
+
+    go_new: dict[str, str] = {}
+    ec_new: dict[str, str] = {}
+    cazy_new: dict[str, str] = {}
+    desc_entries: list[str] = []
+    for ipr_id in entries:
+        meta = interpro_ref.get(ipr_id)
+        if not meta:
+            continue
+        etype = (meta.get("type") or "").upper()
+        strength = "family" if etype == "FAMILY" else "domain"
+        if etype in _INTERPRO_PROPAGATE_TYPES:
+            for go in meta.get("go_terms", []):
+                go_new.setdefault(go, strength)
+            for cz in meta.get("cazy_ids", []):
+                cazy_new.setdefault(cz, strength)
+            name = meta.get("name")
+            if name:
+                desc_entries.append(f"[interpro] {name}")
+        if etype == "FAMILY":
+            ecs = meta.get("ec_numbers", [])
+            if len(ecs) == 1:  # single-EC gate — noise > data otherwise
+                for norm in _normalize_interpro_ec(ecs[0]):
+                    ec_new.setdefault(norm, "family")
+
+    # Direct PFAM signature hits (no inference), surfaced by load_interproscan().
+    pfam_new: dict[str, str] = {}
+    for sig in (ipr_row.get("pfam_signatures") or []):
+        if sig.startswith("PF"):
+            pfam_new.setdefault(sig, "signature")
+
+    _fold_interpro_field(gene, "go_terms", go_new)
+    _fold_interpro_field(gene, "ec_numbers", ec_new)
+    _fold_interpro_field(gene, "cazy_ids", cazy_new)
+    _fold_interpro_field(gene, "pfam_ids", pfam_new)
+
+    if desc_entries:
+        afd = gene.get("alternate_functional_descriptions") or []
+        afd_set = set(afd)
+        for d in desc_entries:
+            if d not in afd_set:
+                afd.append(d)
+                afd_set.add(d)
+        gene["alternate_functional_descriptions"] = afd
+
+
 # ─── contributing_sources ────────────────────────────────────────────────────
 
 def _has_source_label(gene: dict, label: str) -> bool:
     """Check whether a gene has any field provenance-tagged with `label`.
 
-    Walks `gene["*_source"]` track fields (e.g. product_source, gene_name_source)
-    plus `[label]` prefixes inside `alternate_functional_descriptions`.
+    Walks `gene["*_source"]` track fields plus `[label]` prefixes inside
+    `alternate_functional_descriptions`. Two `*_source` shapes coexist:
+    - **scalar** (single-resolver fields): `product_source == "cyanorak"`.
+    - **per-token map** (union fields, e.g. `go_terms_source`):
+      `{"GO:0003677": ["uniprot", "interpro"]}` — the label matches if it appears
+      in any token's source list.
     """
-    # *_source track fields
     for k, v in gene.items():
-        if k.endswith("_source") and v == label:
-            return True
+        if not k.endswith("_source"):
+            continue
+        if isinstance(v, str):
+            if v == label:
+                return True
+        elif isinstance(v, dict):
+            if any(label in srcs for srcs in v.values()):
+                return True
     # [label] prefix in alternate functional descriptions
     afd = gene.get("alternate_functional_descriptions") or []
     for entry in afd:
@@ -429,8 +578,23 @@ def load_interproscan(data_dir: str, strain_name: str) -> dict[str, dict]:
         if not isinstance(call, dict):
             continue
         entries = call.get("interpro_entries") or []
+        # Also surface the direct PFAM signature accessions (Layer B folds these
+        # into pfam_ids — a direct HMM hit, no inference). Light: just the PF* ids.
+        pfam_sigs = sorted({
+            sig.split(".")[0]
+            for m in (call.get("matches") or [])
+            if (m.get("library") or "").upper() == "PFAM"
+            for sig in [(m.get("signature_accession") or "")]
+            if sig.startswith("PF")
+        })
+        if not entries and not pfam_sigs:
+            continue
+        row: dict = {}
         if entries:
-            result[str(wp).strip()] = {"interpro_entries": list(entries)}
+            row["interpro_entries"] = list(entries)
+        if pfam_sigs:
+            row["pfam_signatures"] = pfam_sigs
+        result[str(wp).strip()] = row
     return result
 
 
@@ -671,18 +835,30 @@ class AnnotationBuilder:
 
     def _resolve_union(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None,
+        source_tracking: dict | None = None,
     ) -> list[str] | None:
-        """Merge tokens from all sources, deduplicate, apply global filter."""
+        """Merge tokens from all sources, deduplicate, apply global filter.
+
+        When *fconf* declares ``track_source`` and a *source_tracking* dict is
+        passed, records a **per-token provenance map** ``{token: [source_label,
+        …]}`` under that key — the honest shape for multi-source union fields
+        (a GO term contributed by both UniProt and InterPro carries both). The
+        label is each source's ``source_label`` (default: its ``source``); the
+        map keys are exactly the surviving (post-filter) tokens.
+        """
         global_filter = fconf.get("filter")
         global_filter_not = fconf.get("filter_not")
+        track_key = fconf.get("track_source")
         seen: dict[str, None] = {}  # ordered set
+        token_sources: dict[str, set[str]] = {}
 
         for src_cfg in fconf.get("sources", []):
             raw = self._get_raw(src_cfg, gm, eg, up, ps, sp, ipr, tcd)
             if not _nonempty(raw):
                 continue
 
+            src_label = src_cfg.get("source_label", src_cfg.get("source", ""))
             delimiter = src_cfg.get("delimiter", ",")
             transform = src_cfg.get("transform")
 
@@ -719,8 +895,14 @@ class AnnotationBuilder:
                 if global_filter_not and re.match(global_filter_not, tok):
                     continue
                 seen[tok] = None
+                if track_key and src_label:
+                    token_sources.setdefault(tok, set()).add(src_label)
 
         result = list(seen.keys())
+        if track_key and source_tracking is not None and token_sources:
+            source_tracking[track_key] = {
+                tok: sorted(token_sources[tok]) for tok in result if tok in token_sources
+            }
         return result if result else None
 
     # ── resolver: integer / float ──────────────────────────────────────────────
@@ -816,7 +998,7 @@ class AnnotationBuilder:
             if ftype == "single":
                 val = self._resolve_single(fconf, gm, eg, up, ps, source_tracking, locus_tag, sp=sp, ipr=ipr, tcd=tcd)
             elif ftype == "union":
-                val = self._resolve_union(fconf, gm, eg, up, ps, sp, ipr, tcd)
+                val = self._resolve_union(fconf, gm, eg, up, ps, sp, ipr, tcd, source_tracking=source_tracking)
             elif ftype == "passthrough":
                 val = self._resolve_passthrough(fconf, gm, eg, up, ps, sp, ipr, tcd)
             elif ftype == "passthrough_list":
@@ -1035,6 +1217,7 @@ def process_strain(
     config: dict,
     force: bool = False,
     pfam_data: PfamData | None = None,
+    interpro_ref: dict | None = None,
 ) -> None:
     strain_name = row["strain_name"]
     preferred_name = (row.get("preferred_name") or "").strip() or strain_name
@@ -1108,6 +1291,10 @@ def process_strain(
         merged = builder.build_merged(gm_row, eg_row, up_row, ps_row,
                                       organism_name=preferred_name, sp=sp_row, ipr=ipr_row,
                                       tcd=tcd_row)
+        # Layer B: promote InterPro entry xrefs into go/ec/cazy/pfam (before the
+        # pfam enrichment loop, so InterPro's direct PF* hits get re-keyed too).
+        if interpro_ref is not None:
+            enrich_interpro_fields(merged, ipr_row, interpro_ref)
         merged_out[locus_tag] = merged
 
         if merged.get("product"):
@@ -1230,9 +1417,18 @@ def main() -> None:
     print(f"Pfam reference: {len(pfam_data.by_accession)} entries, "
           f"{len(pfam_data.by_shortname)} shortnames, {len(pfam_data.clans)} clans")
 
+    # Load the InterPro reference once (lazy — returns the committed cache unless
+    # --force/--refetch-raw; mirrors the Pfam precedent, no prepare_data renumber).
+    interpro_ref = build_interpro_reference.build()
+    n_ec = sum("ec_numbers" in m for m in interpro_ref.values())
+    n_cazy = sum("cazy_ids" in m for m in interpro_ref.values())
+    print(f"InterPro reference: {len(interpro_ref)} entries "
+          f"({n_ec} with EC, {n_cazy} with CAZy)")
+
     print(f"Processing {len(rows)} strain(s) with config: {args.config}")
     for row in rows:
-        process_strain(row, config, force=args.force, pfam_data=pfam_data)
+        process_strain(row, config, force=args.force, pfam_data=pfam_data,
+                       interpro_ref=interpro_ref)
 
     if args.llm_summary:
         print("\nLLM summary generation (Step 1C) not yet implemented.")

@@ -47,6 +47,7 @@ import logging
 from pathlib import Path
 
 from multiomics_kg.utils.curie_utils import normalize_curie
+from multiomics_kg.utils.annotation_provenance import annotation_edge_props
 
 from multiomics_kg.adapters.ec_adapter import EC
 from multiomics_kg.utils.kegg_utils import load_kegg_data
@@ -147,7 +148,7 @@ class GoAnnotationAdapter:
                     _gene_node_id(locus_tag),
                     _go_node_id(go_id),
                     edge_label,
-                    {},
+                    annotation_edge_props(gene, "go_terms", go_id),
                 )
                 count += 1
 
@@ -367,7 +368,7 @@ class EcAnnotationAdapter:
                     _gene_node_id(locus_tag),
                     _ec_node_id(ec_num),
                     "gene_catalyzes_ec_number",
-                    {},
+                    annotation_edge_props(gene, "ec_numbers", ec_num),
                 )
                 count += 1
                 if self.test_mode and count >= 100:
@@ -1141,7 +1142,7 @@ class PfamAnnotationAdapter:
                     _gene_node_id(locus_tag),
                     _pfam_node_id(pf_id),
                     "gene_has_pfam",
-                    {},
+                    annotation_edge_props(gene, "pfam_ids", pf_id),
                 )
                 count += 1
                 if self.test_mode and count >= 100:

@@ -95,3 +95,50 @@ def test_med4_edges_wellformed():
             assert props["start"] <= props["end"]        # valid envelope
         if "evalue" in props:
             assert props["evalue"] >= 0
+
+
+# ── Layer A: InterproEntry → EC/CAZy router edges (design 2026-08-10) ──────────
+
+def test_observed_ec_node_ids_wellformed():
+    a = InterproAnnotationAdapter(MED4_DIR)
+    obs = a.observed_ec_node_ids()
+    assert obs, "MED4 has EC-annotated genes"
+    assert all(nid.startswith("ec:") for nid in obs)
+
+
+def test_layer_a_related_ec_pruned_and_marked(tmp_path):
+    from multiomics_kg.adapters.interpro_adapter import (
+        MultiInterproAnnotationAdapter, _ec_node_id,
+    )
+    cfg = tmp_path / "genomes.csv"
+    cfg.write_text("data_dir\n" + str(MED4_DIR) + "\n")
+    m = MultiInterproAnnotationAdapter(str(cfg), pfam_node_ids=set())
+
+    strain = m._strain_adapters[0]
+    observed = strain.observed_ec_node_ids()
+    # pick a real MED4 EC token
+    some_ec = next(
+        ec for g in strain._genes.values() for ec in (g.get("ec_numbers") or [])
+        if _ec_node_id(ec) in observed
+    )
+    # FAMILY single-EC → not ambiguous; DOMAIN multi-EC (2nd EC unobserved) → ambiguous + pruned
+    m._reference = {
+        "IPR900001": {"type": "FAMILY", "name": "fam", "ec_numbers": [some_ec]},
+        "IPR900002": {"type": "DOMAIN", "name": "dom", "ec_numbers": [some_ec, "9.9.9.9"]},
+    }
+    m._observed_ids = lambda: {"IPR900001", "IPR900002"}
+
+    ec_edges = [e for e in m.get_edges() if e[3] == "interpro_entry_related_to_ec_number"]
+    by_src = {e[1]: e[4] for e in ec_edges}
+    fam_id = _interpro_id("IPR900001")
+    dom_id = _interpro_id("IPR900002")
+    assert by_src[fam_id]["ambiguous"] is False          # FAMILY + single EC
+    assert by_src[fam_id]["source_db"] == "interpro.xml"
+    assert by_src[dom_id]["ambiguous"] is True           # DOMAIN / multi-EC
+    # the unobserved 9.9.9.9 was pruned (dangling-proof): only one edge per entry
+    assert sum(1 for e in ec_edges if e[1] == dom_id) == 1
+
+
+def _interpro_id(acc):
+    from multiomics_kg.adapters.interpro_adapter import _interpro_node_id
+    return _interpro_node_id(acc)
