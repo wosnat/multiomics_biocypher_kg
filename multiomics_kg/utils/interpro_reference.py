@@ -21,9 +21,33 @@ Two source files (InterPro FTP ``current_release/``):
   preceding line at depth-1. Most entries never appear here (they are parentless
   roots → level 0, parent None).
 
-Combined result: ``{IPRxxxxxx: {"name", "type", "parent", "level"}}`` — ``name``
-and ``type`` from entry.list (authoritative, untruncated), ``parent``/``level``
-from the tree (``None``/``0`` when the entry is not in the tree).
+- ``interpro2go`` — entry→GO mappings, one per line:
+  ``InterPro:IPRxxxxxx <name> > GO:<go name> ; GO:xxxxxxx``. Comment lines start
+  with ``!``. ~30K mappings over ~14.8K entries.
+
+- ``interpro.xml.gz`` — the full entry XML; the only source of entry→pathway
+  cross-references (``<db_xref db="METACYC"|"REACTOME" dbkey="…"/>``). Streamed
+  line-by-line by the caller, so this module takes an *iterable of lines*.
+
+  **There are no KEGG pathway xrefs in InterPro** — ``KEGG`` is a legacy token in
+  ``interpro.dtd``'s allowed-``db`` list but carries zero entries (verified
+  against the full release, 2026-08-06). Reactome xrefs are species-expanded
+  (~507K, one per Reactome pathway *per organism*) and are excluded by default as
+  noise for bacterial genomes; MetaCyc (~80K) is the useful bacterial set.
+
+Why these files rather than re-running InterProScan with ``--goterms
+--pathways``: the xrefs InterProScan writes into ``calls.json`` come from
+``signature.entry`` and are therefore *entry-level* — every match of the same
+``IPR`` accession carries an identical GO/pathway set. Looking them up from the
+reference release is equivalent to, and ~27 wallclock-hours cheaper than, a
+42-strain re-scan.
+
+Combined result: ``{IPRxxxxxx: {"name", "type", "parent", "level"[, "go_terms"]
+[, "pathways"]}}`` — ``name``/``type`` from entry.list (authoritative,
+untruncated), ``parent``/``level`` from the tree (``None``/``0`` when the entry is
+not in the tree). ``go_terms`` and ``pathways`` are **sparse**: the key is absent
+rather than an empty list when the entry has none, which keeps the committed JSON
+small (only ~27% of entries carry GO).
 
 See ``docs/superpowers/specs/2026-07-26-interproscan-kg-integration-design.md``.
 """
@@ -31,6 +55,7 @@ See ``docs/superpowers/specs/2026-07-26-interproscan-kg-integration-design.md``.
 from __future__ import annotations
 
 import re
+from collections.abc import Iterable
 
 # ENTRY_TYPE strings as they appear in entry.list → the UPPER form InterProScan
 # emits in calls.json. We normalize via ``.upper()`` which already maps every
@@ -48,6 +73,21 @@ KNOWN_INTERPRO_TYPES = {
 }
 
 _TREE_LINE_RE = re.compile(r"^(?P<dashes>(?:--)*)(?P<acc>IPR\d{6})::")
+
+# `InterPro:IPR000003 Retinoid X receptor > GO:DNA binding ; GO:0003677`
+_IPR2GO_RE = re.compile(r"^InterPro:(?P<acc>IPR\d{6})\s.*?;\s*(?P<go>GO:\d{7})\s*$")
+
+_XML_ENTRY_OPEN_RE = re.compile(r'<interpro\s+id="(IPR\d{6})"')
+_XML_ENTRY_CLOSE = "</interpro>"
+_XML_DB_XREF_RE = re.compile(r'<db_xref[^>]*\bdb="([A-Z]+)"[^>]*\bdbkey="([^"]+)"')
+
+# InterPro's uppercase `db` token → the `databaseName` casing InterProScan writes
+# into calls.json, so both artifacts speak one vocabulary (`MetaCyc:PWY-1042`).
+PATHWAY_DB_NAMES = {"METACYC": "MetaCyc", "REACTOME": "Reactome"}
+
+# Reactome xrefs are species-expanded (one per Reactome pathway per organism,
+# ~507K rows) and are near-pure noise for marine bacteria — MetaCyc only.
+DEFAULT_PATHWAY_DBS = ("METACYC",)
 
 
 def normalize_type(raw_type: str | None) -> str | None:
@@ -105,16 +145,80 @@ def parse_parent_child_tree(text: str) -> dict[str, dict]:
     return out
 
 
-def build_reference(entry_list_text: str, tree_text: str) -> dict[str, dict]:
-    """Combine the two files into the committed reference dict.
+def parse_interpro2go(text: str) -> dict[str, list[str]]:
+    """Parse ``interpro2go`` → ``{IPRxxxxxx: [GO:0003677, …]}`` (sorted, deduped).
 
-    ``{IPRxxxxxx: {"name", "type", "parent", "level"}}`` — name/type from
-    entry.list; parent/level from the tree (``None``/``0`` when not in the tree).
+    Comment lines (``!``) and anything not matching the
+    ``InterPro:<acc> … ; GO:<id>`` shape are skipped. One entry maps to many GO
+    terms, each on its own line.
+    """
+    acc_to_go: dict[str, set[str]] = {}
+    for line in text.splitlines():
+        m = _IPR2GO_RE.match(line.rstrip("\n"))
+        if not m:
+            continue
+        acc_to_go.setdefault(m.group("acc"), set()).add(m.group("go"))
+    return {acc: sorted(gos) for acc, gos in acc_to_go.items()}
+
+
+def parse_pathway_xrefs(
+    lines: Iterable[str],
+    include_dbs: Iterable[str] = DEFAULT_PATHWAY_DBS,
+) -> dict[str, list[str]]:
+    """Stream ``interpro.xml`` lines → ``{IPRxxxxxx: ["MetaCyc:PWY-1042", …]}``.
+
+    Takes an *iterable of lines* (not a string) so the caller can stream the
+    42 MB gzipped XML without decompressing it into memory. Only ``db`` tokens in
+    *include_dbs* are kept; each is rendered as ``{DatabaseName}:{key}`` using
+    :data:`PATHWAY_DB_NAMES`, matching the ``DB:id`` form InterProScan writes into
+    calls.json.
+
+    Cross-references are attributed to the most recently opened ``<interpro
+    id="…">`` element and dropped outside any entry, so header/footer blocks
+    cannot leak in.
+    """
+    wanted = {db.upper() for db in include_dbs}
+    acc_to_pw: dict[str, set[str]] = {}
+    current: str | None = None
+    for line in lines:
+        m = _XML_ENTRY_OPEN_RE.search(line)
+        if m:
+            current = m.group(1)
+        if current is not None:
+            for db, key in _XML_DB_XREF_RE.findall(line):
+                if db in wanted:
+                    label = PATHWAY_DB_NAMES.get(db, db)
+                    acc_to_pw.setdefault(current, set()).add(f"{label}:{key}")
+        if _XML_ENTRY_CLOSE in line:
+            current = None
+    return {acc: sorted(pws) for acc, pws in acc_to_pw.items()}
+
+
+def build_reference(
+    entry_list_text: str,
+    tree_text: str,
+    go_map: dict[str, list[str]] | None = None,
+    pathway_map: dict[str, list[str]] | None = None,
+) -> dict[str, dict]:
+    """Combine the release files into the committed reference dict.
+
+    ``{IPRxxxxxx: {"name", "type", "parent", "level"[, "go_terms"][, "pathways"]}}``
+    — name/type from entry.list; parent/level from the tree (``None``/``0`` when
+    not in the tree); ``go_terms`` from *go_map* (``interpro2go``) and
+    ``pathways`` from *pathway_map* (``interpro.xml``).
+
+    ``go_terms``/``pathways`` are **sparse** — the key is omitted entirely for
+    entries with none, rather than carrying an empty list. Most entries have
+    neither, so this keeps the committed JSON from bloating, and consumers should
+    use ``meta.get("go_terms", [])``.
+
     Entries present only in the tree (should not happen, but guarded) get an
     empty name/type.
     """
     entries = parse_entry_list(entry_list_text)
     tree = parse_parent_child_tree(tree_text)
+    go_map = go_map or {}
+    pathway_map = pathway_map or {}
 
     ref: dict[str, dict] = {}
     for acc, meta in entries.items():
@@ -130,4 +234,14 @@ def build_reference(entry_list_text: str, tree_text: str) -> dict[str, dict]:
     for acc, t in tree.items():
         if acc not in ref:
             ref[acc] = {"name": "", "type": "", "parent": t["parent"], "level": t["level"]}
+
+    # Sparse xref fields, applied only to entries that exist in the reference —
+    # a GO/pathway mapping for a retired accession is dropped, never resurrected
+    # as a nameless node.
+    for acc, gos in go_map.items():
+        if acc in ref and gos:
+            ref[acc]["go_terms"] = sorted(set(gos))
+    for acc, pws in pathway_map.items():
+        if acc in ref and pws:
+            ref[acc]["pathways"] = sorted(set(pws))
     return ref

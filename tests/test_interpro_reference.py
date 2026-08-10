@@ -6,7 +6,9 @@ from multiomics_kg.utils.interpro_reference import (
     build_reference,
     normalize_type,
     parse_entry_list,
+    parse_interpro2go,
     parse_parent_child_tree,
+    parse_pathway_xrefs,
 )
 
 ENTRY_LIST = "\n".join(
@@ -31,6 +33,40 @@ PARENT_CHILD = "\n".join(
         "IPR000685::RuBisCO large subunit::",
     ]
 )
+
+
+# Real interpro2go shape: a `!` comment header, then one line per (entry, GO).
+# IPR000685 carries two terms; the malformed tail line must be ignored.
+INTERPRO2GO = "\n".join(
+    [
+        "!date: 2026/05/24 10:10:21",
+        "!Mapping of InterPro entries to GO",
+        "InterPro:IPR000001 Kringle > GO:protein binding ; GO:0005515",
+        "InterPro:IPR000685 RuBisCO large subunit > GO:magnesium ion binding ; GO:0000287",
+        "InterPro:IPR000685 RuBisCO large subunit > GO:RuBisCO activity ; GO:0016984",
+        "InterPro:IPR000685 RuBisCO large subunit > GO:duplicate ; GO:0016984",
+        "InterPro:IPR999999 Retired entry > GO:nothing ; GO:0000001",
+        "InterPro:IPR000002 no semicolon or GO id here",
+    ]
+)
+
+# Real interpro.xml shape. IPR000001 carries a Reactome xref (species-expanded)
+# plus MetaCyc; IPR000685 MetaCyc only. The PUBMED xref and the stray xref
+# outside any <interpro> element must never be picked up.
+INTERPRO_XML = """<?xml version="1.0"?>
+<interprodb>
+<db_xref db="METACYC" dbkey="PWY-HEADER-LEAK"/>
+<interpro id="IPR000001" short_name="Kringle" type="Domain">
+  <db_xref db="PUBMED" dbkey="12345678"/>
+  <db_xref db="REACTOME" dbkey="R-BTA-6798695"/>
+  <db_xref db="METACYC" dbkey="PWY-1042"/>
+</interpro>
+<interpro id="IPR000685" short_name="RuBisCO" type="Family">
+  <db_xref db="METACYC" dbkey="PWY-5723"/>
+  <db_xref db="METACYC" dbkey="PWY-5532"/>
+</interpro>
+</interprodb>
+"""
 
 
 def test_normalize_type_matches_callsjson_upper():
@@ -76,3 +112,86 @@ def test_build_reference_hierarchy_never_dangles():
     for acc, meta in ref.items():
         if meta["parent"] is not None:
             assert meta["parent"] in ref, f"{acc} parent {meta['parent']} missing"
+
+
+# --------------------------------------------------------------------------
+# interpro2go → go_terms
+# --------------------------------------------------------------------------
+
+def test_parse_interpro2go_dedupes_and_skips_comments():
+    go = parse_interpro2go(INTERPRO2GO)
+    assert go["IPR000001"] == ["GO:0005515"]
+    # two distinct terms; the duplicated GO:0016984 line collapses
+    assert go["IPR000685"] == ["GO:0000287", "GO:0016984"]
+    # `!` comment lines and the malformed line contribute nothing
+    assert "IPR000002" not in go
+
+
+# --------------------------------------------------------------------------
+# interpro.xml → pathways
+# --------------------------------------------------------------------------
+
+def test_parse_pathway_xrefs_metacyc_only_by_default():
+    pw = parse_pathway_xrefs(INTERPRO_XML.splitlines())
+    assert pw["IPR000001"] == ["MetaCyc:PWY-1042"]  # Reactome excluded by default
+    assert pw["IPR000685"] == ["MetaCyc:PWY-5532", "MetaCyc:PWY-5723"]
+
+
+def test_parse_pathway_xrefs_uses_interproscan_db_casing():
+    """`MetaCyc:PWY-1042`, matching the DB:id form in calls.json — not `METACYC:`."""
+    pw = parse_pathway_xrefs(INTERPRO_XML.splitlines(), include_dbs=("METACYC", "REACTOME"))
+    assert pw["IPR000001"] == ["MetaCyc:PWY-1042", "Reactome:R-BTA-6798695"]
+
+
+def test_parse_pathway_xrefs_ignores_non_pathway_and_out_of_entry_xrefs():
+    pw = parse_pathway_xrefs(INTERPRO_XML.splitlines())
+    # the PUBMED xref inside IPR000001 is not a pathway
+    assert not any("12345678" in p for pws in pw.values() for p in pws)
+    # the xref before the first <interpro> element is attributed to nothing
+    assert not any("HEADER-LEAK" in p for pws in pw.values() for p in pws)
+
+
+# --------------------------------------------------------------------------
+# build_reference with xrefs
+# --------------------------------------------------------------------------
+
+def test_build_reference_attaches_go_and_pathways():
+    ref = build_reference(
+        ENTRY_LIST, PARENT_CHILD,
+        go_map=parse_interpro2go(INTERPRO2GO),
+        pathway_map=parse_pathway_xrefs(INTERPRO_XML.splitlines()),
+    )
+    assert ref["IPR000685"]["go_terms"] == ["GO:0000287", "GO:0016984"]
+    assert ref["IPR000685"]["pathways"] == ["MetaCyc:PWY-5532", "MetaCyc:PWY-5723"]
+    assert ref["IPR000001"]["go_terms"] == ["GO:0005515"]
+
+
+def test_build_reference_xref_fields_are_sparse():
+    """Entries without GO/pathways omit the keys entirely (keeps the JSON small)."""
+    ref = build_reference(
+        ENTRY_LIST, PARENT_CHILD,
+        go_map=parse_interpro2go(INTERPRO2GO),
+        pathway_map=parse_pathway_xrefs(INTERPRO_XML.splitlines()),
+    )
+    assert "go_terms" not in ref["IPR000003"]
+    assert "pathways" not in ref["IPR000003"]
+    # IPR000001 has GO but no... it does have MetaCyc; IPR000002 has neither
+    assert "go_terms" not in ref["IPR000002"]
+    assert "pathways" not in ref["IPR000002"]
+
+
+def test_build_reference_drops_xrefs_for_unknown_accessions():
+    """A GO mapping for an accession absent from entry.list must not create a node."""
+    ref = build_reference(ENTRY_LIST, PARENT_CHILD, go_map=parse_interpro2go(INTERPRO2GO))
+    assert "IPR999999" not in ref
+
+
+def test_build_reference_without_xref_maps_is_unchanged():
+    """Backward compatibility: the two-arg call still produces the original shape."""
+    ref = build_reference(ENTRY_LIST, PARENT_CHILD)
+    assert ref["IPR000685"] == {
+        "name": "RuBisCO large subunit",
+        "type": "FAMILY",
+        "parent": None,
+        "level": 0,
+    }
