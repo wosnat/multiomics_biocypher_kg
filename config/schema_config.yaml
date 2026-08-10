@@ -1482,6 +1482,36 @@ pfam in interpro entry:
   target: interpro entry
   label_in_input: pfam_in_interpro_entry
 
+# Layer A (design 2026-08-10 §4): ontology→ontology cross-references from
+# InterPro's curated entry xrefs. Deliberately WEAK verb (`related_to`) — a
+# recall-biased ROUTER, not an annotation. Homes the multi-EC / DOMAIN ECs and
+# fold-level CAZy that Layer B refuses to stamp on genes. `ambiguous=true` = one
+# candidate among several (multi-term entry or non-FAMILY type). Read outward
+# (gene's known family → does this EC agree) it corroborates; read backward
+# (carries EC → is that enzyme) it is low-precision. Never assign gene function
+# from these — that is Gene_catalyzes_ec_number.
+interpro entry related to ec number:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Interpro_entry_related_to_ec_number
+  source: interpro entry
+  target: ec number
+  label_in_input: interpro_entry_related_to_ec_number
+  properties:
+    ambiguous: bool
+    source_db: str
+
+interpro entry related to cazy family:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Interpro_entry_related_to_cazy_family
+  source: interpro entry
+  target: cazy family
+  label_in_input: interpro_entry_related_to_cazy_family
+  properties:
+    ambiguous: bool
+    source_db: str
+
 
 protein to ec number association:
   is_a: ReactionToParticipantAssociation

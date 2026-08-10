@@ -16,6 +16,13 @@ Yields:
   PFAM signature→entry mapping. Dangling-proof: emitted only when the source Pfam
   node exists (injected ``pfam_node_ids``, BRITE-``known_ko_ids`` style) and the
   target entry is kept.
+- **Layer A** (design 2026-08-10): Interpro_entry_related_to_ec_number /
+  _related_to_cazy_family cross-references from the reference's entry-level EC/CAZy
+  xrefs. A deliberately WEAK, recall-biased ROUTER (weak ``related_to`` verb,
+  ``ambiguous`` flag) that homes the multi-EC / DOMAIN ECs and fold CAZy that
+  Layer B refuses to stamp on genes — read backward it is low-precision; never use
+  it to assign gene function. Dangling-proof by pruning to the EC/CAZy nodes the
+  gene edges already created (self-computed from the merged JSONs — no injection).
 
 Two-class shape mirrors cazy_adapter (per-strain edges + multi orchestrator that
 owns nodes/hierarchy). See
@@ -26,12 +33,17 @@ from __future__ import annotations
 import csv
 import json
 import logging
+import re
 from pathlib import Path
 from typing import Iterator
 
 from multiomics_kg.utils.curie_utils import normalize_curie
+from multiomics_kg.adapters.cazy_adapter import _cazy_node_id, _most_specific_id
+from multiomics_kg.download.utils.annotation_transforms import _TRANSFORMS
 
 logger = logging.getLogger(__name__)
+
+_BARE_EC_RE = re.compile(r"^\d+\.\d+\.\d+$")  # 3.4.21 (no 4th field) — needs `.-`
 
 
 def _clean_str(value: str | None) -> str:
@@ -50,6 +62,24 @@ def _interpro_node_id(interpro_id: str) -> str:
 
 def _pfam_node_id(pfam_accession: str) -> str:
     return normalize_curie(f"pfam:{pfam_accession}") or f"pfam_{pfam_accession}"
+
+
+def _ec_node_id(ec_number: str) -> str:
+    """EC node id — must match functional_annotation_adapter / ec_adapter."""
+    return normalize_curie(f"eccode:{ec_number}") or f"eccode_{ec_number}"
+
+
+def _normalize_ec_token(raw: str) -> list[str]:
+    """Normalise a raw InterPro EC token the SAME way Layer B does, so a Layer-A
+    edge can be pruned against the EC nodes the gene edges created (bare 3-level →
+    ``.-``; ``normalize_ec`` remaps obsolete numbers). May return 0..n tokens."""
+    raw = (raw or "").strip()
+    if _BARE_EC_RE.match(raw):
+        raw = raw + ".-"
+    fn = _TRANSFORMS.get("normalize_ec")
+    out = fn(raw) if fn else raw
+    toks = out if isinstance(out, list) else [out]
+    return [t for t in (str(x).strip() for x in toks) if t]
 
 
 def aggregate_match_evidence(matches: list[dict]) -> dict:
@@ -126,6 +156,26 @@ class InterproAnnotationAdapter:
                 if acc:
                     ids.add(acc)
         return ids
+
+    def observed_ec_node_ids(self) -> set[str]:
+        """EC node ids that this strain's gene→EC edges reference (dangling-proof
+        target set for the Layer-A InterproEntry→EcNumber router)."""
+        out: set[str] = set()
+        for gene in self._genes.values():
+            for ec in gene.get("ec_numbers") or []:
+                if ec:
+                    out.add(_ec_node_id(ec))
+        return out
+
+    def observed_cazy_node_ids(self) -> set[str]:
+        """CAZy node ids that this strain's gene→CAZy edges reference."""
+        out: set[str] = set()
+        for gene in self._genes.values():
+            for tok in gene.get("cazy_ids") or []:
+                spec = _most_specific_id(tok)
+                if spec:
+                    out.add(_cazy_node_id(spec))
+        return out
 
     def get_pfam_to_interpro(self) -> dict[str, str]:
         """PF* → IPR* mapping from this strain's integrated PFAM matches (for the bridge)."""
@@ -304,12 +354,66 @@ class MultiInterproAnnotationAdapter:
             )
             bridge += 1
 
-        # 3. Gene → InterproEntry edges via per-strain delegation
+        # 3. Layer A — InterproEntry → EC / CAZy cross-references (design 2026-08-10).
+        #    A deliberately WEAK, recall-biased ROUTER: read outward from a gene's
+        #    known family it corroborates; read backward (carries EC → is that enzyme)
+        #    it is low-precision. NEVER use it to assign a gene its function — that is
+        #    what Gene_catalyzes_ec_number (Layer B) is for. `ambiguous=true` marks a
+        #    one-of-several candidate (multi-EC entry or non-FAMILY type). Pruned to
+        #    EC/CAZy nodes the gene edges already created (dangling-proof, no injection).
+        observed_ec: set[str] = set()
+        observed_cazy: set[str] = set()
+        for adapter in self._strain_adapters:
+            observed_ec |= adapter.observed_ec_node_ids()
+            observed_cazy |= adapter.observed_cazy_node_ids()
+        la_ec = la_cazy = 0
+        for acc in sorted(kept):
+            ref = self._reference.get(acc)
+            if not ref:
+                continue
+            etype = (ref.get("type") or "").upper()
+            ecs = ref.get("ec_numbers") or []
+            if ecs:
+                amb = len(ecs) > 1 or etype != "FAMILY"
+                for raw in ecs:
+                    for norm in _normalize_ec_token(raw):
+                        nid = _ec_node_id(norm)
+                        if nid not in observed_ec:
+                            continue
+                        yield (
+                            f"{acc}-related_ec-{norm}",
+                            _interpro_node_id(acc),
+                            nid,
+                            "interpro_entry_related_to_ec_number",
+                            {"ambiguous": amb, "source_db": "interpro.xml"},
+                        )
+                        la_ec += 1
+            czs = ref.get("cazy_ids") or []
+            if czs:
+                amb = len(czs) > 1 or etype != "FAMILY"
+                for cz in czs:
+                    spec = _most_specific_id(cz)
+                    if not spec:
+                        continue
+                    nid = _cazy_node_id(spec)
+                    if nid not in observed_cazy:
+                        continue
+                    yield (
+                        f"{acc}-related_cazy-{cz}",
+                        _interpro_node_id(acc),
+                        nid,
+                        "interpro_entry_related_to_cazy_family",
+                        {"ambiguous": amb, "source_db": "interpro.xml"},
+                    )
+                    la_cazy += 1
+
+        # 4. Gene → InterproEntry edges via per-strain delegation
         gene = 0
         for adapter in self._strain_adapters:
             for edge in adapter.get_edges():
                 yield edge
                 gene += 1
         logger.info(
-            f"MultiInterproAnnotationAdapter.get_edges: {hier} hierarchy, {bridge} pfam-bridge, {gene} gene edges"
+            f"MultiInterproAnnotationAdapter.get_edges: {hier} hierarchy, {bridge} pfam-bridge, "
+            f"{la_ec} related-EC, {la_cazy} related-CAZy, {gene} gene edges"
         )
