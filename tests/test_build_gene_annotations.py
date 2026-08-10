@@ -2183,3 +2183,75 @@ class TestUnionSourceTracking:
     def test_map_absent_when_field_empty(self):
         m = self.b.build_merged({"locus_tag": "X"}, {}, {})
         assert "go_terms_source" not in m
+
+
+# ─── enrich_interpro_fields (Phase 2 Layer B) ────────────────────────────────
+
+
+class TestEnrichInterproFields:
+    from multiomics_kg.download.build_gene_annotations import enrich_interpro_fields as _fn
+
+    REF = {
+        "IPR001": {"type": "FAMILY", "name": "Fam A",
+                   "go_terms": ["GO:0000001"], "ec_numbers": ["1.1.1.1"], "cazy_ids": ["GH13"]},
+        "IPR002": {"type": "DOMAIN", "name": "Dom B",
+                   "go_terms": ["GO:0000002"], "cazy_ids": ["CBM5"]},
+        "IPR003": {"type": "HOMOLOGOUS_SUPERFAMILY", "name": "Fold C",
+                   "go_terms": ["GO:0000003"], "cazy_ids": ["GH1"]},
+        "IPR004": {"type": "FAMILY", "name": "Multi-EC fam",
+                   "ec_numbers": ["2.7.7.7", "2.7.7.49"]},
+        "IPR005": {"type": "FAMILY", "name": "Bare-EC fam", "ec_numbers": ["3.4.21"]},
+    }
+    IPR_ROW = {"pfam_signatures": ["PF00712"]}
+
+    def _gene(self, **kw):
+        g = {"interpro_entries": ["IPR001", "IPR002", "IPR003", "IPR004", "IPR005"]}
+        g.update(kw)
+        return g
+
+    def test_go_excludes_fold_keeps_family_and_domain(self):
+        g = self._gene()
+        type(self)._fn(g, self.IPR_ROW, self.REF)
+        assert set(g["go_terms"]) == {"GO:0000001", "GO:0000002"}      # fold GO:0000003 excluded
+        assert g["go_terms_evidence"]["GO:0000001"] == "family_inferred"
+        assert g["go_terms_evidence"]["GO:0000002"] == "domain_inferred"
+        assert g["go_terms_source"]["GO:0000001"] == ["interpro"]
+
+    def test_ec_family_single_only_with_bare_normalized(self):
+        g = self._gene()
+        type(self)._fn(g, self.IPR_ROW, self.REF)
+        # IPR001 single-EC kept; IPR004 multi-EC dropped; IPR005 bare → 3.4.21.-
+        assert set(g["ec_numbers"]) == {"1.1.1.1", "3.4.21.-"}
+        assert "2.7.7.7" not in g["ec_numbers"]
+        assert g["ec_numbers_evidence"]["1.1.1.1"] == "family_inferred"
+
+    def test_cazy_excludes_fold(self):
+        g = self._gene()
+        type(self)._fn(g, self.IPR_ROW, self.REF)
+        assert set(g["cazy_ids"]) == {"GH13", "CBM5"}                  # fold GH1 excluded
+
+    def test_pfam_direct_signature_hits(self):
+        g = self._gene()
+        type(self)._fn(g, self.IPR_ROW, self.REF)
+        assert g["pfam_ids"] == ["PF00712"]                           # version stripped, GENE3D ignored
+        assert g["pfam_ids_evidence"]["PF00712"] == "signature"
+
+    def test_corroboration_marks_curated(self):
+        g = self._gene(go_terms=["GO:0000001"],
+                       go_terms_source={"GO:0000001": ["uniprot"]})
+        type(self)._fn(g, self.IPR_ROW, self.REF)
+        assert g["go_terms_source"]["GO:0000001"] == ["interpro", "uniprot"]
+        assert g["go_terms_evidence"]["GO:0000001"] == "curated"      # curated source wins
+
+    def test_alt_descriptions_family_domain_only(self):
+        g = self._gene()
+        type(self)._fn(g, self.IPR_ROW, self.REF)
+        afd = g.get("alternate_functional_descriptions", [])
+        assert "[interpro] Fam A" in afd
+        assert "[interpro] Dom B" in afd
+        assert "[interpro] Fold C" not in afd                          # fold excluded
+
+    def test_no_entries_is_noop(self):
+        g = {"interpro_entries": []}
+        type(self)._fn(g, {}, self.REF)
+        assert "go_terms" not in g and "ec_numbers" not in g
