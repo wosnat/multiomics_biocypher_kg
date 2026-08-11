@@ -1236,6 +1236,18 @@ def _parse_raw_into_dict(cache_root: Path) -> dict:
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+def _previous_pruned(cache_root: Path) -> dict:
+    """Load the previous tcdb_pruned.json, or {} when absent/unreadable.
+
+    Used only as a fallback when a TCDB download fails mid-rebuild.
+    """
+    path = cache_root / "tcdb" / "tcdb_pruned.json"
+    try:
+        return json.loads(path.read_text())
+    except (OSError, ValueError):
+        return {}
+
+
 def main(force: bool = False, refetch_raw: bool = False) -> None:
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     cache_root = PROJECT_ROOT / "cache" / "data"
@@ -1256,11 +1268,24 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
     log.info("Ensuring KEGG raw cache (downloads from KEGG REST if missing) ...")
     kegg_utils.download_kegg_raw(cache_root, force=refetch_raw)
 
-    log.info("Ensuring TCDB reference TSVs are downloaded ...")
-    download_all(cache_root=cache_root, force=refetch_raw, sources=["tcdb"])
-
-    log.info("Building tcdb_hierarchy.json ...")
-    _build_tcdb_hierarchy(cache_root)
+    # TCDB's CGI endpoints go down for maintenance from time to time (they 404
+    # while www.tcdb.org itself still answers). The raw TSVs are gitignored but
+    # tcdb_hierarchy.json is committed, so a download failure is recoverable:
+    # reuse the committed hierarchy and carry on. Only a missing hierarchy is
+    # fatal.
+    tcdb_hierarchy_path = cache_root / "tcdb" / "tcdb_hierarchy.json"
+    try:
+        log.info("Ensuring TCDB reference TSVs are downloaded ...")
+        download_all(cache_root=cache_root, force=refetch_raw, sources=["tcdb"])
+        log.info("Building tcdb_hierarchy.json ...")
+        _build_tcdb_hierarchy(cache_root)
+    except Exception as exc:
+        if not tcdb_hierarchy_path.exists():
+            raise
+        log.warning(
+            f"  TCDB reference download/rebuild failed ({exc}); reusing the "
+            f"committed {tcdb_hierarchy_path.name} unchanged."
+        )
 
     log.info("Parsing raw KEGG into in-memory dict ...")
     raw = _parse_raw_into_dict(cache_root)
@@ -1433,7 +1458,19 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
             except Exception as exc:
                 log.warning(f"  TCDB {kind}→TC map download failed: {exc}")
             xref = load_tcdb_xref_map(kind, path=dest)
-            tcdb_bridges[kind] = build_tcdb_bridges(xref, hierarchy, kept)
+            if xref:
+                tcdb_bridges[kind] = build_tcdb_bridges(xref, hierarchy, kept)
+            else:
+                # Map unavailable (TCDB down and nothing cached) — reuse the
+                # bridges from the previous tcdb_pruned.json rather than
+                # silently dropping every bridge edge. Restricted to the kept
+                # node set of THIS run, so stale nodes cannot leak back in.
+                prev = _previous_pruned(cache_root).get(f"{kind}_bridge", {})
+                tcdb_bridges[kind] = {k: v for k, v in prev.items() if k in kept}
+                log.warning(
+                    f"  TCDB {kind}->TC map unavailable; reused {len(tcdb_bridges[kind])} "
+                    f"bridge node(s) from the previous tcdb_pruned.json."
+                )
             log.info(
                 f"  TCDB {kind}→TC bridge: {len(xref)} published {kind} ids -> "
                 f"{sum(len(v) for v in tcdb_bridges[kind].values())} pairs on "

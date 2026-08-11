@@ -72,6 +72,45 @@ def test_parse_reaction_to_pathways_strips_rn_prefix():
     assert out["R00010"] == ["ko00010"]
 
 
+def test_parse_reaction_to_pathways_strips_map_prefix():
+    """KEGG currently serves map-prefixed pathway IDs on this endpoint.
+
+    Regression guard: the parser used to accept only the `rn` form, so a live
+    `/link/pathway/reaction` response yielded zero links while the rn-based
+    fixture above kept passing.
+    """
+    out = kegg_utils._parse_reaction_to_pathways(
+        "rn:R00200\tpath:map00010\n"
+        "rn:R00200\tpath:map00710\n"
+        "rn:R00010\tpath:map00010\n"
+    )
+    assert sorted(out["R00200"]) == ["ko00010", "ko00710"]
+    assert out["R00010"] == ["ko00010"]
+
+
+def test_parsers_raise_when_response_parses_to_nothing():
+    """A response full of lines that yields zero entries = upstream format drift.
+
+    This is the guard that would have caught the `rn:` → `map:` switch on
+    /link/pathway/reaction, instead of silently writing an empty cache.
+    """
+    unrecognized = "xx:Q00200\tyy:zzz00010\nxx:Q00010\tyy:zzz00010\n"
+    for parser in (
+        kegg_utils._parse_reaction_to_pathways,
+        kegg_utils._parse_compound_to_pathways,
+        kegg_utils._parse_reaction_to_compounds,
+        kegg_utils._parse_ko_to_pathways,
+    ):
+        with pytest.raises(ValueError, match="parsed to 0 entries"):
+            parser(unrecognized)
+
+
+def test_parsers_allow_a_genuinely_empty_response():
+    """Empty/whitespace input is not drift — it stays an empty dict."""
+    assert kegg_utils._parse_reaction_to_pathways("") == {}
+    assert kegg_utils._parse_compound_to_pathways("\n  \n") == {}
+
+
 def test_parse_compound_to_pathways_strips_map_prefix():
     out = kegg_utils._parse_compound_to_pathways(LINK_PC_FIXTURE)
     # map-prefixed pathways → ko-prefixed for consistency with KeggTerm node IDs
