@@ -1,0 +1,113 @@
+publication:
+  papername: "Lu 2026"
+  doi: "10.1128/aem.00798-26"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Lu 2026/lu-et-al-2026-vesicle-associated-exudates-from-alteromonas-enhance-growth-and-survival-of-prochlorococcus-in-batch.pdf"
+
+  experiments:
+    ez55_exudate_proteome:
+      name: "EZ55 exudate (>50 kDa cell-free supernatant) proteome"
+      organism: "Alteromonas macleodii EZ55"
+      omics_type: EXOPROTEOMICS
+      compartment: exoproteome
+      test_type: "LC-MS/MS"
+      treatment_type: [compartment]
+      background_factors: [axenic]
+      treatment_condition: ">50 kDa cell-free supernatant fraction (EV-enriched exudate)"
+      control_condition: "Crude cell lysate (whole-cell proteome) of the same cultures"
+      experimental_context: "Axenic EZ55 grown in Pro99 + 0.1% glucose at 30C with 120 rpm shaking; cultures scaled progressively from 12 mL to 2 L; cell-free supernatant size-fractionated by tangential flow filtration (0.22 um -> 50 kDa) to retain the >50 kDa fraction; concentrated and analyzed by LC-MS/MS on a Sciex 5600 Triple-TOF, identified against an Alteromonas EZ55 NCBI protein database via Protein Pilot 4.5. Detection is reported separately for each of three LTPE strains -- LTPE26 (ancestor), LTPE397 (evolved 500 generations at 400 ppm pCO2) and LTPE403 (evolved 500 generations at 800 ppm pCO2) -- which are distinct evolved strains, not replicates."
+      medium: "Pro99 with 0.1% glucose"
+      temperature: "30C"
+      table_scope: all_detected_genes
+
+    ez55_whole_cell_proteome:
+      name: "EZ55 whole-cell proteome (crude cell lysate)"
+      organism: "Alteromonas macleodii EZ55"
+      omics_type: PROTEOMICS
+      compartment: whole_cell
+      test_type: "LC-MS/MS"
+      treatment_type: [compartment]
+      background_factors: [axenic]
+      treatment_condition: "Crude cell lysate (whole-cell proteome)"
+      control_condition: ">50 kDa cell-free supernatant fraction of the same cultures"
+      experimental_context: "Axenic EZ55 grown in Pro99 + 0.1% glucose at 30C with 120 rpm shaking; whole cells from the same cultures used to produce the >50 kDa exudate fraction were lysed using a Bacterial Cell Lysis kit (GoldBio) and analyzed by LC-MS/MS on a Sciex 5600 Triple-TOF, identified against an Alteromonas EZ55 NCBI protein database via Protein Pilot 4.5. Detection is reported separately for each of three LTPE strains -- LTPE26 (ancestor), LTPE397 (evolved 500 generations at 400 ppm pCO2) and LTPE403 (evolved 500 generations at 800 ppm pCO2) -- which are distinct evolved strains, not replicates."
+      medium: "Pro99 with 0.1% glucose"
+      temperature: "30C"
+      table_scope: all_detected_genes
+
+  supplementary_materials:
+    # Table S1 (published as aem.00798-26-s0002.csv). One row per protein; the six
+    # LTPE*_{Supernatant,Lysate} columns are independent yes/no detection calls.
+    # Split across two entries because the parent Experiments differ by compartment.
+    table_s1_exudate_detection:
+      type: derived_metrics_table
+      filename: "data/Prochlorococcus/papers_and_supp/Lu 2026/aem.00798-26-s0002.csv"
+      organism: "Alteromonas macleodii EZ55"
+      experiment: ez55_exudate_proteome
+      name_col: Accession
+      id_columns:
+        - column: Accession
+          id_type: protein_id_refseq
+      product_columns:
+        - column: Name
+      metrics:
+        - metric_type: exoproteome_detected_ancestor
+          name: "Detected in EZ55 ancestor (LTPE26) exudate proteome"
+          value_kind: boolean
+          value_col: LTPE26_Supernatant
+          true_tokens: ["yes"]
+          false_tokens: ["no"]
+          blank_policy: skip
+          field_description: "Protein detected by LC-MS/MS in the >50 kDa cell-free supernatant fraction of Alteromonas macleodii EZ55 strain LTPE26, the ancestral lineage of the long-term pCO2 evolution (LTPE) experiment (Lu 2026 Table S1)."
+        - metric_type: exoproteome_detected_evolved_400ppm
+          name: "Detected in EZ55 400 ppm-evolved (LTPE397) exudate proteome"
+          value_kind: boolean
+          value_col: LTPE397_Supernatant
+          true_tokens: ["yes"]
+          false_tokens: ["no"]
+          blank_policy: skip
+          field_description: "Protein detected by LC-MS/MS in the >50 kDa cell-free supernatant fraction of Alteromonas macleodii EZ55 strain LTPE397, evolved 500 generations at present-day (400 ppm) pCO2 (Lu 2026 Table S1)."
+        - metric_type: exoproteome_detected_evolved_800ppm
+          name: "Detected in EZ55 800 ppm-evolved (LTPE403) exudate proteome"
+          value_kind: boolean
+          value_col: LTPE403_Supernatant
+          true_tokens: ["yes"]
+          false_tokens: ["no"]
+          blank_policy: skip
+          field_description: "Protein detected by LC-MS/MS in the >50 kDa cell-free supernatant fraction of Alteromonas macleodii EZ55 strain LTPE403, evolved 500 generations at elevated (800 ppm) pCO2 (Lu 2026 Table S1). This strain's exudate proteome shared only 1.7-4.2% of proteins with the ancestor and the 400 ppm strain."
+
+    table_s1_whole_cell_detection:
+      type: derived_metrics_table
+      filename: "data/Prochlorococcus/papers_and_supp/Lu 2026/aem.00798-26-s0002.csv"
+      organism: "Alteromonas macleodii EZ55"
+      experiment: ez55_whole_cell_proteome
+      name_col: Accession
+      id_columns:
+        - column: Accession
+          id_type: protein_id_refseq
+      product_columns:
+        - column: Name
+      metrics:
+        - metric_type: whole_cell_detected_ancestor
+          name: "Detected in EZ55 ancestor (LTPE26) whole-cell proteome"
+          value_kind: boolean
+          value_col: LTPE26_Lysate
+          true_tokens: ["yes"]
+          false_tokens: ["no"]
+          blank_policy: skip
+          field_description: "Protein detected by LC-MS/MS in the crude cell lysate of Alteromonas macleodii EZ55 strain LTPE26, the ancestral lineage of the long-term pCO2 evolution (LTPE) experiment (Lu 2026 Table S1)."
+        - metric_type: whole_cell_detected_evolved_400ppm
+          name: "Detected in EZ55 400 ppm-evolved (LTPE397) whole-cell proteome"
+          value_kind: boolean
+          value_col: LTPE397_Lysate
+          true_tokens: ["yes"]
+          false_tokens: ["no"]
+          blank_policy: skip
+          field_description: "Protein detected by LC-MS/MS in the crude cell lysate of Alteromonas macleodii EZ55 strain LTPE397, evolved 500 generations at present-day (400 ppm) pCO2 (Lu 2026 Table S1)."
+        - metric_type: whole_cell_detected_evolved_800ppm
+          name: "Detected in EZ55 800 ppm-evolved (LTPE403) whole-cell proteome"
+          value_kind: boolean
+          value_col: LTPE403_Lysate
+          true_tokens: ["yes"]
+          false_tokens: ["no"]
+          blank_policy: skip
+          field_description: "Protein detected by LC-MS/MS in the crude cell lysate of Alteromonas macleodii EZ55 strain LTPE403, evolved 500 generations at elevated (800 ppm) pCO2 (Lu 2026 Table S1)."

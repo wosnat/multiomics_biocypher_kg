@@ -1,0 +1,30 @@
+Topics resolution report: Lu 2026
+Strains: ['Alteromonas macleodii EZ55']
+
+Genes:    2/12 resolved (16.7%)
+  methods: multi:v=1, tier1:v=1, unresolved=10
+Pathways: 2/5 resolved (40.0%)
+  methods: id=2, unresolved=3
+
+Captured identifiers: 0  (truncated/bare-number: 0)
+Unresolved gene reasons: {'descriptive_only': 9, 'lookup_miss': 1}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (10):
+  - catalase  [descriptive_only]  strain=all
+  - Rubisco  [descriptive_only]  strain=all
+  - bacterioferritin  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - fiu  [lookup_miss]  strain=Alteromonas macleodii EZ55
+  - α-glucosidase  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - β-glucosidase  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - N-acetyl-glucosaminidase  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - phosphatase  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - hydroperoxidase  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - protease  [descriptive_only]  strain=Alteromonas macleodii EZ55
+
+Unresolved pathway mentions (3):
+  - carbon concentrating mechanism  (raw id=—)
+  - siderophore biosynthesis  (raw id=—)
+  - reactive oxygen species detoxification  (raw id=—)

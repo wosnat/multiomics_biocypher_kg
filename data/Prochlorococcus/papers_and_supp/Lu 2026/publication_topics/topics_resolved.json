@@ -1,0 +1,236 @@
+{
+  "metadata": {
+    "paper": "Lu 2026",
+    "doi": "10.1128/aem.00798-26",
+    "strains": [
+      "Alteromonas macleodii EZ55"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 2,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Table S1 is referenced and likely contains additional printed protein identifiers such as Fiu-associated entries, but supplementary/table text was not provided here.",
+    "extracted_at": "2026-08-12T11:38:50.971403",
+    "input_tokens": 27954,
+    "output_tokens": 1388,
+    "resolution": {
+      "gene_records": 12,
+      "genes_resolved": 2,
+      "gene_methods": {
+        "unresolved": 10,
+        "tier1:v": 1,
+        "multi:v": 1
+      },
+      "pathway_records": 5,
+      "pathways_resolved": 2,
+      "pathway_methods": {
+        "id": 2,
+        "unresolved": 3
+      },
+      "paper_strains": [
+        "Alteromonas macleodii EZ55"
+      ],
+      "captured_identifiers": 0,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "descriptive_only": 9,
+        "lookup_miss": 1
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "catalase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Examples of genes encoding leaky functions are those that remove toxins from the extracellular environment (e.g., catalase) (Introduction, p2)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Rubisco",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Prochlorococcus maintains a carbon concentrating mechanism that converts bicarbonate to CO2 in the vicinity of Rubisco (Results, p7)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "bacterioferritin",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "The 12 nm particles fit a model of bacterioferritin (PDB:3E1J) with a correlation of 0.96 (Results, p10)",
+      "mention_strain": "Alteromonas macleodii EZ55",
+      "strain": "Alteromonas macleodii EZ55",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "lumazine synthase",
+      "gene_name": "ribH",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "The last two steps of riboflavin biosynthesis are catalyzed by lumazine synthase (RibH and RibE) (Results, p10)",
+      "mention_strain": "Alteromonas macleodii EZ55",
+      "strain": "Alteromonas macleodii EZ55",
+      "locus_tag": "EZ55_02671",
+      "resolved_from": "ribH",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "RibE",
+      "gene_name": "ribE",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "The last two steps of riboflavin biosynthesis are catalyzed by lumazine synthase (RibH and RibE) (Results, p10)",
+      "mention_strain": "Alteromonas macleodii EZ55",
+      "strain": "Alteromonas macleodii EZ55",
+      "locus_tag": "EZ55_02673",
+      "resolved_from": "ribE",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "Fiu",
+      "gene_name": "fiu",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "outer membrane siderophore receptors found only in the >50 kDa fraction (e.g., Fiu in Table S1) (Results, p11)",
+      "mention_strain": "Alteromonas macleodii EZ55",
+      "strain": "Alteromonas macleodii EZ55",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "\u03b1-glucosidase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "we detected \u03b1-glucosidase and NAGase activity in supernatants collected from the ancestral strain of Alteromonas (Results, p11)",
+      "mention_strain": "Alteromonas macleodii EZ55",
+      "strain": "Alteromonas macleodii EZ55",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "\u03b2-glucosidase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "\u03b2-glucosidase activity, on the other hand, was not detected in any sample (Results, p11)",
+      "mention_strain": "Alteromonas macleodii EZ55",
+      "strain": "Alteromonas macleodii EZ55",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "N-acetyl-glucosaminidase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "we detected \u03b1-glucosidase and NAGase activity in supernatants collected from the ancestral strain of Alteromonas (Results, p11)",
+      "mention_strain": "Alteromonas macleodii EZ55",
+      "strain": "Alteromonas macleodii EZ55",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "phosphatase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Phosphatase, hydroperoxidase (e.g., catalase), and protease activity were detected in all supernatants (Results, p10-11)",
+      "mention_strain": "Alteromonas macleodii EZ55",
+      "strain": "Alteromonas macleodii EZ55",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "hydroperoxidase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Phosphatase, hydroperoxidase (e.g., catalase), and protease activity were detected in all supernatants (Results, p10-11)",
+      "mention_strain": "Alteromonas macleodii EZ55",
+      "strain": "Alteromonas macleodii EZ55",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "protease",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Phosphatase, hydroperoxidase (e.g., catalase), and protease activity were detected in all supernatants (Results, p10-11)",
+      "mention_strain": "Alteromonas macleodii EZ55",
+      "strain": "Alteromonas macleodii EZ55",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "riboflavin biosynthesis",
+      "kegg_pathway_id_raw": "map00740",
+      "prominence": "central",
+      "evidence": "The last two steps of riboflavin biosynthesis are catalyzed by lumazine synthase (RibH and RibE) (Results, p10)",
+      "pathway_id": "ko00740",
+      "pathway_name": "riboflavin metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "carbon concentrating mechanism",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "Prochlorococcus maintains a carbon concentrating mechanism that converts bicarbonate to CO2 in the vicinity of Rubisco (Results, p7)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "siderophore biosynthesis",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "Many of the functionalities observed in Alteromonas exudates ... included siderophore capabilities (Abstract, p1)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "reactive oxygen species detoxification",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "Several previously described BQ functions were observed and/or indicated in cell-free filtrates here, including H2O2 removal (Discussion, p15)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "starch and sucrose metabolism",
+      "kegg_pathway_id_raw": "map00500",
+      "prominence": "peripheral",
+      "evidence": "The apparent loss of \u03b1-glucosidase and NAGase activity from evolved Alteromonas exudates ... is consistent with adaptive evolution, since neither starch nor ... (Discussion, p15)",
+      "pathway_id": "ko00500",
+      "pathway_name": "starch and sucrose metabolism",
+      "resolution_method": "id"
+    }
+  ]
+}
