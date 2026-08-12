@@ -554,7 +554,20 @@ gene:
     # TCDB / CAZy / chemistry rollups (post-import)
     tcdb_family_count: int                   # per TCDB-S1
     cazy_family_count: int                   # per TCDB-S2
-    metabolite_count: int                    # UNION catalysis + transport (per TCDB-S3 / KG-A2)
+    # BREAKING (was: UNION of catalysis + transport). The two arms have very
+    # different epistemics — catalysis p90 = 11, transport p90 = 554 — and
+    # unioning them under one name hid which one a gene's number came from, for
+    # the 23,137 genes that had transport evidence only.
+    metabolite_count: int                    # catalysis ONLY (Gene→Reaction→Metabolite)
+    transported_metabolite_count: int        # transport arm, DEEPEST attachments only
+    # "resolved"       = the gene's deepest TC attachment resolves a substrate
+    # "family_inferred" = it bottoms out on a substrate-lumping node (e.g. ABC
+    #                     superfamily 3.A.1, 554 substrates) — use product / COG /
+    #                     function_description for the substrate instead.
+    # Absent on genes with no TCDB edge. Independent of tier/evidence: 11,871
+    # "resolved" genes are tier-3-only 2.A.x carriers, which a tier gate would
+    # wrongly discard. Categorical str, not bool.
+    transport_substrate_resolution: str
     # eggNOG seed ortholog match
     seed_ortholog: str                       # eggNOG seed-ortholog identifier (taxid.id format)
     seed_ortholog_evalue: float              # eggNOG seed-ortholog E-value
@@ -633,7 +646,12 @@ organism taxon:
     compartments: str[]              # post-import (Plan 3)
     derived_metric_types: str[]      # post-import (Plan 3)
     derived_metric_value_kinds: str[]  # post-import (Plan 3)
-    metabolite_count: int          # post-import: distinct metabolites linked via Organism_has_metabolite
+    # post-import. BREAKING — was every arm of Organism_has_metabolite unioned,
+    # which had every organism "holding" ~63% of all metabolite nodes. Now split
+    # three ways by the edge's evidence_sources, completing the split that
+    # measured_metabolite_count already started.
+    metabolite_count: int              # 'metabolism' (catalysis) arm
+    transported_metabolite_count: int  # 'transport' arm, genes' DEEPEST TC attachments only
     reaction_count: int            # post-import: distinct reactions catalyzed by genes belonging to this organism
     measured_metabolite_count: int # post-import (Phase 2 metabolomics)
     organism_type: str   # genome_strain | treatment | reference_proteome_match
@@ -831,9 +849,14 @@ metabolite:
     chebi_id: str                # nullable
     hmdb_id: str                 # nullable
     evidence_sources: str[]      # ['metabolism', 'transport']; metabolomics reserved
-    transporter_count: int                   # post-import: distinct TcdbFamily nodes with substrate edge to this metabolite
+    # post-import: distinct transporter systems at MAXIMAL DEPTH — TcdbFamily
+    # nodes whose substrate edge carries substrate_depth='deepest', so an ancestor
+    # is never counted alongside its own descendant. (Was tc_specificity-only,
+    # which read 0 for 83% of transported metabolites after the ancestor prune.)
+    transporter_count: int
     organism_count: int          # post-import
-    gene_count: int              # post-import
+    gene_count: int              # post-import: CATALYSIS arm only (BREAKING — was catalysis ∪ transport)
+    transporter_gene_count: int  # post-import: transport arm, genes' DEEPEST TC attachments only
     pathway_ids: list[str]       # post-import (KG-A5): distinct sorted KeggTerm.id reachable via Metabolite_in_pathway
     pathway_names: list[str]     # post-import (KG-A6): KeggTerm.name aligned index-for-index with pathway_ids
     pathway_count: int           # post-import (KG-A7): size(pathway_ids)
@@ -1296,6 +1319,14 @@ tcdb family transports metabolite:
   source: tcdb family
   target: metabolite
   label_in_input: tcdb_family_transports_metabolite
+  properties:
+    # "deepest" = no kept child of this node also carries the substrate, i.e.
+    # this is the most specific surviving transporter system for it.
+    # "ancestor" = an ancestor of such a node, carrying the substrate only via
+    # the step-6 subtree rollup. Count DISTINCT sources on "deepest" edges to get
+    # transporter systems without double-counting an ancestor with its descendant.
+    # Categorical str, not bool — BioCypher mishandles boolean properties.
+    substrate_depth: str
 
 # ── TCDB cross-ontology bridges ──────────────────────────────────────────────
 # From TCDB's published Pfam→TC and GO→TC maps, rolled onto the pruned node set
