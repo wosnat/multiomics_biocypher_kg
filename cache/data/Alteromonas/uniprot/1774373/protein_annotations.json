@@ -432,7 +432,7 @@
   "F2G1R7": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
+      "Reaction=DNA(n) + a 2^-deoxyribonucleoside 5^-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
     ],
     "ec_numbers": [
       "2.7.7.7"
@@ -1278,7 +1278,7 @@
   "F2G1T9": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
+      "Reaction=DNA(n) + a 2^-deoxyribonucleoside 5^-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
     ],
     "ec_numbers": [
       "2.7.7.7"
@@ -1556,8 +1556,8 @@
   "F2G1U8": {
     "annotation_score": 4.0,
     "catalytic_activities": [
-      "Reaction=(R)-4'-phosphopantothenate + L-cysteine + CTP = N-[(R)-4-phosphopantothenoyl]-L-cysteine + CMP + diphosphate + H(+); Xref=Rhea:RHEA:19397, ChEBI:CHEBI:10986, ChEBI:CHEBI:15378, ChEBI:CHEBI:33019, ChEBI:CHEBI:35235, ChEBI:CHEBI:37563, ChEBI:CHEBI:59458, ChEBI:CHEBI:60377; EC=6.3.2.5; Evidence=",
-      "Reaction=N-[(R)-4-phosphopantothenoyl]-L-cysteine + H(+) = (R)-4'-phosphopantetheine + CO2; Xref=Rhea:RHEA:16793, ChEBI:CHEBI:15378, ChEBI:CHEBI:16526, ChEBI:CHEBI:59458, ChEBI:CHEBI:61723; EC=4.1.1.36; Evidence="
+      "Reaction=(R)-4^-phosphopantothenate + L-cysteine + CTP = N-[(R)-4-phosphopantothenoyl]-L-cysteine + CMP + diphosphate + H(+); Xref=Rhea:RHEA:19397, ChEBI:CHEBI:10986, ChEBI:CHEBI:15378, ChEBI:CHEBI:33019, ChEBI:CHEBI:35235, ChEBI:CHEBI:37563, ChEBI:CHEBI:59458, ChEBI:CHEBI:60377; EC=6.3.2.5; Evidence=",
+      "Reaction=N-[(R)-4-phosphopantothenoyl]-L-cysteine + H(+) = (R)-4^-phosphopantetheine + CO2; Xref=Rhea:RHEA:16793, ChEBI:CHEBI:15378, ChEBI:CHEBI:16526, ChEBI:CHEBI:59458, ChEBI:CHEBI:61723; EC=4.1.1.36; Evidence="
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_02225}.",
     "cofactor_names": [
@@ -1957,7 +1957,7 @@
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_00985}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.3.1.29"
@@ -2435,7 +2435,7 @@
     "annotation_score": 3.0,
     "catalytic_activities": [
       "Reaction=ATP + H2O = ADP + phosphate + H(+); Xref=Rhea:RHEA:13065, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:43474, ChEBI:CHEBI:456216; EC=5.6.2.4; Evidence=",
-      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3'-5' direction.; EC=5.6.2.4; Evidence="
+      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3^-5^ direction.; EC=5.6.2.4; Evidence="
     ],
     "ec_numbers": [
       "5.6.2.4"
@@ -4809,7 +4809,7 @@
   "F2G262": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Exonucleolytic cleavage in either 5'- to 3'- or 3'- to 5'-direction to yield nucleoside 5'-phosphates.; EC=3.1.11.6; Evidence="
+      "Reaction=Exonucleolytic cleavage in either 5^- to 3^- or 3^- to 5^-direction to yield nucleoside 5^-phosphates.; EC=3.1.11.6; Evidence="
     ],
     "ec_numbers": [
       "3.1.11.6"
@@ -5701,7 +5701,7 @@
   "F2G290": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
+      "Reaction=DNA(n) + a 2^-deoxyribonucleoside 5^-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
     ],
     "ec_numbers": [
       "2.7.7.7"
@@ -8367,8 +8367,8 @@
   "F2G2F9": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=N(6)-acetyl-L-lysyl-[protein] + NAD(+) + H2O = 2''-O-acetyl-ADP-D-ribose + nicotinamide + L-lysyl-[protein]; Xref=Rhea:RHEA:43636, Rhea:RHEA-COMP:9752, Rhea:RHEA-COMP:10731, ChEBI:CHEBI:15377, ChEBI:CHEBI:17154, ChEBI:CHEBI:29969, ChEBI:CHEBI:57540, ChEBI:CHEBI:61930, ChEBI:CHEBI:83767; EC=2.3.1.286; Evidence=",
-      "Reaction=N(6)-succinyl-L-lysyl-[protein] + NAD(+) + H2O = 2''-O-succinyl-ADP-D-ribose + nicotinamide + L-lysyl-[protein]; Xref=Rhea:RHEA:47668, Rhea:RHEA-COMP:9752, Rhea:RHEA-COMP:11877, ChEBI:CHEBI:15377, ChEBI:CHEBI:17154, ChEBI:CHEBI:29969, ChEBI:CHEBI:57540, ChEBI:CHEBI:87830, ChEBI:CHEBI:87832; Evidence="
+      "Reaction=N(6)-acetyl-L-lysyl-[protein] + NAD(+) + H2O = 2^^-O-acetyl-ADP-D-ribose + nicotinamide + L-lysyl-[protein]; Xref=Rhea:RHEA:43636, Rhea:RHEA-COMP:9752, Rhea:RHEA-COMP:10731, ChEBI:CHEBI:15377, ChEBI:CHEBI:17154, ChEBI:CHEBI:29969, ChEBI:CHEBI:57540, ChEBI:CHEBI:61930, ChEBI:CHEBI:83767; EC=2.3.1.286; Evidence=",
+      "Reaction=N(6)-succinyl-L-lysyl-[protein] + NAD(+) + H2O = 2^^-O-succinyl-ADP-D-ribose + nicotinamide + L-lysyl-[protein]; Xref=Rhea:RHEA:47668, Rhea:RHEA-COMP:9752, Rhea:RHEA-COMP:11877, ChEBI:CHEBI:15377, ChEBI:CHEBI:17154, ChEBI:CHEBI:29969, ChEBI:CHEBI:57540, ChEBI:CHEBI:87830, ChEBI:CHEBI:87832; Evidence="
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_01121, ECO:0000256,PROSITE-ProRule:PRU00236}.",
     "cofactor_names": [
@@ -8970,7 +8970,7 @@
   "F2G2H5": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "ec_numbers": [
       "2.7.7.65"
@@ -9565,9 +9565,9 @@
   "F2G2J0": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=5'-deoxyadenosine + H2O = 5-deoxy-D-ribose + adenine; Xref=Rhea:RHEA:29859, ChEBI:CHEBI:15377, ChEBI:CHEBI:16708, ChEBI:CHEBI:17319, ChEBI:CHEBI:149540; EC=3.2.2.9; Evidence= ; PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:29860; Evidence=",
+      "Reaction=5^-deoxyadenosine + H2O = 5-deoxy-D-ribose + adenine; Xref=Rhea:RHEA:29859, ChEBI:CHEBI:15377, ChEBI:CHEBI:16708, ChEBI:CHEBI:17319, ChEBI:CHEBI:149540; EC=3.2.2.9; Evidence= ; PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:29860; Evidence=",
       "Reaction=S-adenosyl-L-homocysteine + H2O = S-(5-deoxy-D-ribos-5-yl)-L-homocysteine + adenine; Xref=Rhea:RHEA:17805, ChEBI:CHEBI:15377, ChEBI:CHEBI:16708, ChEBI:CHEBI:57856, ChEBI:CHEBI:58195; EC=3.2.2.9; Evidence=",
-      "Reaction=S-methyl-5'-thioadenosine + H2O = 5-(methylsulfanyl)-D-ribose + adenine; Xref=Rhea:RHEA:13617, ChEBI:CHEBI:15377, ChEBI:CHEBI:16708, ChEBI:CHEBI:17509, ChEBI:CHEBI:78440; EC=3.2.2.9; Evidence="
+      "Reaction=S-methyl-5^-thioadenosine + H2O = 5-(methylsulfanyl)-D-ribose + adenine; Xref=Rhea:RHEA:13617, ChEBI:CHEBI:15377, ChEBI:CHEBI:16708, ChEBI:CHEBI:17509, ChEBI:CHEBI:78440; EC=3.2.2.9; Evidence="
     ],
     "ec_numbers": [
       "3.2.2.9"
@@ -9610,7 +9610,7 @@
     "organism_id": 1774373,
     "organism_name": "Alteromonas mediterranea (strain DSM 17117 / CIP 110805 / LMG 28347 / Deep ecotype)",
     "pathways": [
-      "Amino-acid biosynthesis; L-methionine biosynthesis via salvage pathway; S-methyl-5-thio-alpha-D-ribose 1-phosphate from S-methyl-5'-thioadenosine (hydrolase route): step 1/2"
+      "Amino-acid biosynthesis; L-methionine biosynthesis via salvage pathway; S-methyl-5-thio-alpha-D-ribose 1-phosphate from S-methyl-5^-thioadenosine (hydrolase route): step 1/2"
     ],
     "pfam_ids": [
       "PF01048"
@@ -10228,7 +10228,7 @@
   "F2G2K5": {
     "annotation_score": 1.0,
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "gene_names": [
       "MADE_1015880"
@@ -10896,7 +10896,7 @@
   "F2G2M2": {
     "annotation_score": 1.0,
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.4.1.13"
@@ -11755,7 +11755,7 @@
   "F2G2P1": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=Release of an N-terminal amino acid, Xaa-|-Yaa-, in which Xaa is preferably Leu, but may be other amino acids including Pro although not Arg or Lys, and Yaa may be Pro. Amino acid amides and methyl esters are also readily hydrolyzed, but rates on arylamides are exceedingly low.; EC=3.4.11.1; Evidence=",
+      "Reaction=Release of an N-terminal amino acid, Xaa-,-Yaa-, in which Xaa is preferably Leu, but may be other amino acids including Pro although not Arg or Lys, and Yaa may be Pro. Amino acid amides and methyl esters are also readily hydrolyzed, but rates on arylamides are exceedingly low.; EC=3.4.11.1; Evidence=",
       "Reaction=Release of an N-terminal amino acid, preferentially leucine, but not glutamic or aspartic acids.; EC=3.4.11.10; Evidence="
     ],
     "cofactor_names": [
@@ -12403,7 +12403,7 @@
       "Reaction=(sulfur carrier)-H + L-cysteine = (sulfur carrier)-SH + L-alanine; Xref=Rhea:RHEA:43892, Rhea:RHEA-COMP:14737, Rhea:RHEA-COMP:14739, ChEBI:CHEBI:29917, ChEBI:CHEBI:35235, ChEBI:CHEBI:57972, ChEBI:CHEBI:64428; EC=2.8.1.7; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.8.1.7"
@@ -13538,7 +13538,7 @@
   "F2G2T8": {
     "annotation_score": 1.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -13702,7 +13702,7 @@
   "F2G2U3": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=guanosine 3',5'-bis(diphosphate) + H2O = GDP + diphosphate + H(+); Xref=Rhea:RHEA:14253, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:33019, ChEBI:CHEBI:58189, ChEBI:CHEBI:77828; EC=3.1.7.2; Evidence="
+      "Reaction=guanosine 3^,5^-bis(diphosphate) + H2O = GDP + diphosphate + H(+); Xref=Rhea:RHEA:14253, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:33019, ChEBI:CHEBI:58189, ChEBI:CHEBI:77828; EC=3.1.7.2; Evidence="
     ],
     "ec_numbers": [
       "3.1.7.2"
@@ -13794,7 +13794,7 @@
   "F2G2U5": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=guanosine(18) in tRNA + S-adenosyl-L-methionine = 2'-O-methylguanosine(18) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:20077, Rhea:RHEA-COMP:10190, Rhea:RHEA-COMP:10192, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74269, ChEBI:CHEBI:74445; EC=2.1.1.34; Evidence="
+      "Reaction=guanosine(18) in tRNA + S-adenosyl-L-methionine = 2^-O-methylguanosine(18) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:20077, Rhea:RHEA-COMP:10190, Rhea:RHEA-COMP:10192, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74269, ChEBI:CHEBI:74445; EC=2.1.1.34; Evidence="
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_02060}.",
     "ec_numbers": [
@@ -13854,7 +13854,7 @@
     "annotation_score": 2.0,
     "catalytic_activities": [
       "Reaction=ATP + H2O = ADP + phosphate + H(+); Xref=Rhea:RHEA:13065, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:43474, ChEBI:CHEBI:456216; EC=5.6.2.4; Evidence=",
-      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3'-5' direction.; EC=5.6.2.4; Evidence="
+      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3^-5^ direction.; EC=5.6.2.4; Evidence="
     ],
     "ec_numbers": [
       "5.6.2.4"
@@ -15323,7 +15323,7 @@
   "F2G2Y2": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3'-5' direction.; EC=5.6.2.4; Evidence="
+      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3^-5^ direction.; EC=5.6.2.4; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)",
@@ -15512,7 +15512,7 @@
   "F2G2Y5": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -15559,7 +15559,7 @@
     "annotation_score": 3.0,
     "catalytic_activities": [
       "Reaction=ATP + H2O = ADP + phosphate + H(+); Xref=Rhea:RHEA:13065, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:43474, ChEBI:CHEBI:456216; EC=5.6.2.4; Evidence=",
-      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3'-5' direction.; EC=5.6.2.4; Evidence="
+      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3^-5^ direction.; EC=5.6.2.4; Evidence="
     ],
     "ec_numbers": [
       "5.6.2.4"
@@ -15875,7 +15875,7 @@
       "Reaction=meso-2,6-diaminopimelate + H(+) = L-lysine + CO2; Xref=Rhea:RHEA:15101, ChEBI:CHEBI:15378, ChEBI:CHEBI:16526, ChEBI:CHEBI:32551, ChEBI:CHEBI:57791; EC=4.1.1.20; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.1.1.20"
@@ -16307,7 +16307,7 @@
   "F2G303": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -17382,8 +17382,8 @@
   "F2G329": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=1-(5-phospho-beta-D-ribosyl)-5'-AMP + H2O = 1-(5-phospho-beta-D-ribosyl)-5-[(5-phospho-beta-D-ribosylamino)methylideneamino]imidazole-4-carboxamide; Xref=Rhea:RHEA:20049, ChEBI:CHEBI:15377, ChEBI:CHEBI:58435, ChEBI:CHEBI:59457; EC=3.5.4.19; Evidence=",
-      "Reaction=1-(5-phospho-beta-D-ribosyl)-ATP + H2O = 1-(5-phospho-beta-D-ribosyl)-5'-AMP + diphosphate + H(+); Xref=Rhea:RHEA:22828, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:33019, ChEBI:CHEBI:59457, ChEBI:CHEBI:73183; EC=3.6.1.31; Evidence="
+      "Reaction=1-(5-phospho-beta-D-ribosyl)-5^-AMP + H2O = 1-(5-phospho-beta-D-ribosyl)-5-[(5-phospho-beta-D-ribosylamino)methylideneamino]imidazole-4-carboxamide; Xref=Rhea:RHEA:20049, ChEBI:CHEBI:15377, ChEBI:CHEBI:58435, ChEBI:CHEBI:59457; EC=3.5.4.19; Evidence=",
+      "Reaction=1-(5-phospho-beta-D-ribosyl)-ATP + H2O = 1-(5-phospho-beta-D-ribosyl)-5^-AMP + diphosphate + H(+); Xref=Rhea:RHEA:22828, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:33019, ChEBI:CHEBI:59457, ChEBI:CHEBI:73183; EC=3.6.1.31; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)",
@@ -19520,7 +19520,7 @@
   "F2G390": {
     "annotation_score": 1.0,
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.4.1.13"
@@ -20117,7 +20117,7 @@
   "F2G3B1": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=orotidine 5'-phosphate + H(+) = UMP + CO2; Xref=Rhea:RHEA:11596, ChEBI:CHEBI:15378, ChEBI:CHEBI:16526, ChEBI:CHEBI:57538, ChEBI:CHEBI:57865; EC=4.1.1.23; Evidence="
+      "Reaction=orotidine 5^-phosphate + H(+) = UMP + CO2; Xref=Rhea:RHEA:11596, ChEBI:CHEBI:15378, ChEBI:CHEBI:16526, ChEBI:CHEBI:57538, ChEBI:CHEBI:57865; EC=4.1.1.23; Evidence="
     ],
     "ec_numbers": [
       "4.1.1.23"
@@ -20343,7 +20343,7 @@
   "F2G3C0": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a 2'-deoxyribonucleoside 5'-diphosphate + [thioredoxin]-disulfide + H2O = a ribonucleoside 5'-diphosphate + [thioredoxin]-dithiol; Xref=Rhea:RHEA:23252, Rhea:RHEA-COMP:10698, Rhea:RHEA-COMP:10700, ChEBI:CHEBI:15377, ChEBI:CHEBI:29950, ChEBI:CHEBI:50058, ChEBI:CHEBI:57930, ChEBI:CHEBI:73316; EC=1.17.4.1; Evidence="
+      "Reaction=a 2^-deoxyribonucleoside 5^-diphosphate + [thioredoxin]-disulfide + H2O = a ribonucleoside 5^-diphosphate + [thioredoxin]-dithiol; Xref=Rhea:RHEA:23252, Rhea:RHEA-COMP:10698, Rhea:RHEA-COMP:10700, ChEBI:CHEBI:15377, ChEBI:CHEBI:29950, ChEBI:CHEBI:50058, ChEBI:CHEBI:57930, ChEBI:CHEBI:73316; EC=1.17.4.1; Evidence="
     ],
     "ec_numbers": [
       "1.17.4.1"
@@ -22775,12 +22775,12 @@
   "F2G3J5": {
     "annotation_score": 4.0,
     "catalytic_activities": [
-      "Reaction=L-histidyl-[protein] + UTP = N(tele)-(5'-uridylyl)-L-histidyl-[protein] + diphosphate; Xref=Rhea:RHEA:83891, Rhea:RHEA-COMP:9745, Rhea:RHEA-COMP:20239, ChEBI:CHEBI:29979, ChEBI:CHEBI:33019, ChEBI:CHEBI:46398, ChEBI:CHEBI:233474; Evidence=",
-      "Reaction=L-seryl-[protein] + ATP = 3-O-(5'-adenylyl)-L-seryl-[protein] + diphosphate; Xref=Rhea:RHEA:58120, Rhea:RHEA-COMP:9863, Rhea:RHEA-COMP:15073, ChEBI:CHEBI:29999, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:142516; EC=2.7.7.108; Evidence=",
-      "Reaction=L-seryl-[protein] + UTP = O-(5'-uridylyl)-L-seryl-[protein] + diphosphate; Xref=Rhea:RHEA:64604, Rhea:RHEA-COMP:9863, Rhea:RHEA-COMP:16635, ChEBI:CHEBI:29999, ChEBI:CHEBI:33019, ChEBI:CHEBI:46398, ChEBI:CHEBI:156051; Evidence=",
-      "Reaction=L-threonyl-[protein] + ATP = 3-O-(5'-adenylyl)-L-threonyl-[protein] + diphosphate; Xref=Rhea:RHEA:54292, Rhea:RHEA-COMP:11060, Rhea:RHEA-COMP:13847, ChEBI:CHEBI:30013, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:138113; EC=2.7.7.108; Evidence=",
-      "Reaction=L-tyrosyl-[protein] + ATP = O-(5'-adenylyl)-L-tyrosyl-[protein] + diphosphate; Xref=Rhea:RHEA:54288, Rhea:RHEA-COMP:10136, Rhea:RHEA-COMP:13846, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:46858, ChEBI:CHEBI:83624; EC=2.7.7.108; Evidence=",
-      "Reaction=L-tyrosyl-[protein] + UTP = O-(5'-uridylyl)-L-tyrosyl-[protein] + diphosphate; Xref=Rhea:RHEA:83887, Rhea:RHEA-COMP:10136, Rhea:RHEA-COMP:20238, ChEBI:CHEBI:33019, ChEBI:CHEBI:46398, ChEBI:CHEBI:46858, ChEBI:CHEBI:90602; Evidence="
+      "Reaction=L-histidyl-[protein] + UTP = N(tele)-(5^-uridylyl)-L-histidyl-[protein] + diphosphate; Xref=Rhea:RHEA:83891, Rhea:RHEA-COMP:9745, Rhea:RHEA-COMP:20239, ChEBI:CHEBI:29979, ChEBI:CHEBI:33019, ChEBI:CHEBI:46398, ChEBI:CHEBI:233474; Evidence=",
+      "Reaction=L-seryl-[protein] + ATP = 3-O-(5^-adenylyl)-L-seryl-[protein] + diphosphate; Xref=Rhea:RHEA:58120, Rhea:RHEA-COMP:9863, Rhea:RHEA-COMP:15073, ChEBI:CHEBI:29999, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:142516; EC=2.7.7.108; Evidence=",
+      "Reaction=L-seryl-[protein] + UTP = O-(5^-uridylyl)-L-seryl-[protein] + diphosphate; Xref=Rhea:RHEA:64604, Rhea:RHEA-COMP:9863, Rhea:RHEA-COMP:16635, ChEBI:CHEBI:29999, ChEBI:CHEBI:33019, ChEBI:CHEBI:46398, ChEBI:CHEBI:156051; Evidence=",
+      "Reaction=L-threonyl-[protein] + ATP = 3-O-(5^-adenylyl)-L-threonyl-[protein] + diphosphate; Xref=Rhea:RHEA:54292, Rhea:RHEA-COMP:11060, Rhea:RHEA-COMP:13847, ChEBI:CHEBI:30013, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:138113; EC=2.7.7.108; Evidence=",
+      "Reaction=L-tyrosyl-[protein] + ATP = O-(5^-adenylyl)-L-tyrosyl-[protein] + diphosphate; Xref=Rhea:RHEA:54288, Rhea:RHEA-COMP:10136, Rhea:RHEA-COMP:13846, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:46858, ChEBI:CHEBI:83624; EC=2.7.7.108; Evidence=",
+      "Reaction=L-tyrosyl-[protein] + UTP = O-(5^-uridylyl)-L-tyrosyl-[protein] + diphosphate; Xref=Rhea:RHEA:83887, Rhea:RHEA-COMP:10136, Rhea:RHEA-COMP:20238, ChEBI:CHEBI:33019, ChEBI:CHEBI:46398, ChEBI:CHEBI:46858, ChEBI:CHEBI:90602; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -26911,7 +26911,7 @@
   "F2G3V1": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a 2'-deoxycytidine in DNA + S-adenosyl-L-methionine = a 5-methyl-2'-deoxycytidine in DNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:13681, Rhea:RHEA-COMP:11369, Rhea:RHEA-COMP:11370, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:85452, ChEBI:CHEBI:85454; EC=2.1.1.37; Evidence="
+      "Reaction=a 2^-deoxycytidine in DNA + S-adenosyl-L-methionine = a 5-methyl-2^-deoxycytidine in DNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:13681, Rhea:RHEA-COMP:11369, Rhea:RHEA-COMP:11370, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:85452, ChEBI:CHEBI:85454; EC=2.1.1.37; Evidence="
     ],
     "ec_numbers": [
       "2.1.1.37"
@@ -31078,7 +31078,7 @@
       "Reaction=O-acetyl-L-serine + hydrogen sulfide = L-cysteine + acetate; Xref=Rhea:RHEA:14829, ChEBI:CHEBI:29919, ChEBI:CHEBI:30089, ChEBI:CHEBI:35235, ChEBI:CHEBI:58340; EC=2.5.1.47; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.5.1.47"
@@ -31980,7 +31980,7 @@
   "F2G477": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a 2'-deoxyadenosine in DNA + S-adenosyl-L-methionine = an N(6)-methyl-2'-deoxyadenosine in DNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:15197, Rhea:RHEA-COMP:12418, Rhea:RHEA-COMP:12419, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:90615, ChEBI:CHEBI:90616; EC=2.1.1.72; Evidence="
+      "Reaction=a 2^-deoxyadenosine in DNA + S-adenosyl-L-methionine = an N(6)-methyl-2^-deoxyadenosine in DNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:15197, Rhea:RHEA-COMP:12418, Rhea:RHEA-COMP:12419, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:90615, ChEBI:CHEBI:90616; EC=2.1.1.72; Evidence="
     ],
     "ec_numbers": [
       "2.1.1.72"
@@ -33861,7 +33861,7 @@
   "F2G4E7": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
+      "Reaction=DNA(n) + a 2^-deoxyribonucleoside 5^-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
     ],
     "ec_numbers": [
       "2.7.7.7"
@@ -35119,7 +35119,7 @@
   "F2G4I4": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a 2'-deoxyadenosine in DNA + S-adenosyl-L-methionine = an N(6)-methyl-2'-deoxyadenosine in DNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:15197, Rhea:RHEA-COMP:12418, Rhea:RHEA-COMP:12419, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:90615, ChEBI:CHEBI:90616; EC=2.1.1.72; Evidence="
+      "Reaction=a 2^-deoxyadenosine in DNA + S-adenosyl-L-methionine = an N(6)-methyl-2^-deoxyadenosine in DNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:15197, Rhea:RHEA-COMP:12418, Rhea:RHEA-COMP:12419, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:90615, ChEBI:CHEBI:90616; EC=2.1.1.72; Evidence="
     ],
     "ec_numbers": [
       "2.1.1.72"
@@ -39853,7 +39853,7 @@
       "Reaction=O-acetyl-L-serine + hydrogen sulfide = L-cysteine + acetate; Xref=Rhea:RHEA:14829, ChEBI:CHEBI:29919, ChEBI:CHEBI:30089, ChEBI:CHEBI:35235, ChEBI:CHEBI:58340; EC=2.5.1.47; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.4.1.1"
@@ -46531,7 +46531,7 @@
       "Reaction=L-valine + 2-oxoglutarate = 3-methyl-2-oxobutanoate + L-glutamate; Xref=Rhea:RHEA:24813, ChEBI:CHEBI:11851, ChEBI:CHEBI:16810, ChEBI:CHEBI:29985, ChEBI:CHEBI:57762; EC=2.6.1.42; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.42"
@@ -47151,7 +47151,7 @@
   "F2G5P7": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=2'-deoxyribonucleotide-(2'-deoxyribose 5'-phosphate)-2'-deoxyribonucleotide-DNA = a 3'-end 2'-deoxyribonucleotide-(2,3-dehydro-2,3-deoxyribose 5'-phosphate)-DNA + a 5'-end 5'-phospho-2'-deoxyribonucleoside-DNA + H(+); Xref=Rhea:RHEA:66592, Rhea:RHEA-COMP:13180, Rhea:RHEA-COMP:16897, Rhea:RHEA-COMP:17067, ChEBI:CHEBI:15378, ChEBI:CHEBI:136412, ChEBI:CHEBI:157695, ChEBI:CHEBI:167181; EC=4.2.99.18; Evidence="
+      "Reaction=2^-deoxyribonucleotide-(2^-deoxyribose 5^-phosphate)-2^-deoxyribonucleotide-DNA = a 3^-end 2^-deoxyribonucleotide-(2,3-dehydro-2,3-deoxyribose 5^-phosphate)-DNA + a 5^-end 5^-phospho-2^-deoxyribonucleoside-DNA + H(+); Xref=Rhea:RHEA:66592, Rhea:RHEA-COMP:13180, Rhea:RHEA-COMP:16897, Rhea:RHEA-COMP:17067, ChEBI:CHEBI:15378, ChEBI:CHEBI:136412, ChEBI:CHEBI:157695, ChEBI:CHEBI:167181; EC=4.2.99.18; Evidence="
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_00942}.",
     "cofactor_names": [
@@ -48206,7 +48206,7 @@
   "F2G5R7": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=adenosine 3',5'-bisphosphate + H2O = AMP + phosphate; Xref=Rhea:RHEA:10040, ChEBI:CHEBI:15377, ChEBI:CHEBI:43474, ChEBI:CHEBI:58343, ChEBI:CHEBI:456215; EC=3.1.3.7; Evidence="
+      "Reaction=adenosine 3^,5^-bisphosphate + H2O = AMP + phosphate; Xref=Rhea:RHEA:10040, ChEBI:CHEBI:15377, ChEBI:CHEBI:43474, ChEBI:CHEBI:58343, ChEBI:CHEBI:456215; EC=3.1.3.7; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -48270,7 +48270,7 @@
   "F2G5R8": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=adenosine 5'-phosphosulfate + ATP = 3'-phosphoadenylyl sulfate + ADP + H(+); Xref=Rhea:RHEA:24152, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:58243, ChEBI:CHEBI:58339, ChEBI:CHEBI:456216; EC=2.7.1.25; Evidence="
+      "Reaction=adenosine 5^-phosphosulfate + ATP = 3^-phosphoadenylyl sulfate + ADP + H(+); Xref=Rhea:RHEA:24152, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:58243, ChEBI:CHEBI:58339, ChEBI:CHEBI:456216; EC=2.7.1.25; Evidence="
     ],
     "ec_numbers": [
       "2.7.1.25"
@@ -48329,7 +48329,7 @@
   "F2G5R9": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=sulfate + ATP + H(+) = adenosine 5'-phosphosulfate + diphosphate; Xref=Rhea:RHEA:18133, ChEBI:CHEBI:15378, ChEBI:CHEBI:16189, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:58243; EC=2.7.7.4; Evidence="
+      "Reaction=sulfate + ATP + H(+) = adenosine 5^-phosphosulfate + diphosphate; Xref=Rhea:RHEA:18133, ChEBI:CHEBI:15378, ChEBI:CHEBI:16189, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:58243; EC=2.7.7.4; Evidence="
     ],
     "ec_numbers": [
       "2.7.7.4"
@@ -48466,7 +48466,7 @@
   "F2G5S1": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "ec_numbers": [
       "2.7.7.65"
@@ -49045,7 +49045,7 @@
   "F2G5T9": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=7,8-dihydroneopterin 3'-triphosphate = 7,8-dihydromonapterin 3'-triphosphate; Xref=Rhea:RHEA:28346, ChEBI:CHEBI:58462, ChEBI:CHEBI:61186; EC=5.1.99.7; Evidence=",
+      "Reaction=7,8-dihydroneopterin 3^-triphosphate = 7,8-dihydromonapterin 3^-triphosphate; Xref=Rhea:RHEA:28346, ChEBI:CHEBI:58462, ChEBI:CHEBI:61186; EC=5.1.99.7; Evidence=",
       "Reaction=7,8-dihydroneopterin = 6-hydroxymethyl-7,8-dihydropterin + glycolaldehyde; Xref=Rhea:RHEA:10540, ChEBI:CHEBI:17001, ChEBI:CHEBI:17071, ChEBI:CHEBI:44841; EC=4.1.2.25; Evidence="
     ],
     "ec_numbers": [
@@ -51563,7 +51563,7 @@
     "organism_id": 1774373,
     "organism_name": "Alteromonas mediterranea (strain DSM 17117 / CIP 110805 / LMG 28347 / Deep ecotype)",
     "pathways": [
-      "Cofactor biosynthesis; pyridoxine 5'-phosphate biosynthesis; pyridoxine 5'-phosphate from D-erythrose 4-phosphate: step 2/5"
+      "Cofactor biosynthesis; pyridoxine 5^-phosphate biosynthesis; pyridoxine 5^-phosphate from D-erythrose 4-phosphate: step 2/5"
     ],
     "pfam_ids": [
       "PF00389",
@@ -53392,7 +53392,7 @@
   "F2G663": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=(R)-pantothenate + ATP = (R)-4'-phosphopantothenate + ADP + H(+); Xref=Rhea:RHEA:16373, ChEBI:CHEBI:10986, ChEBI:CHEBI:15378, ChEBI:CHEBI:29032, ChEBI:CHEBI:30616, ChEBI:CHEBI:456216; EC=2.7.1.33; Evidence="
+      "Reaction=(R)-pantothenate + ATP = (R)-4^-phosphopantothenate + ADP + H(+); Xref=Rhea:RHEA:16373, ChEBI:CHEBI:10986, ChEBI:CHEBI:15378, ChEBI:CHEBI:29032, ChEBI:CHEBI:30616, ChEBI:CHEBI:456216; EC=2.7.1.33; Evidence="
     ],
     "cofactor_names": [
       "K(+)",
@@ -54145,7 +54145,7 @@
   "F2G682": {
     "annotation_score": 1.0,
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "gene_names": [
       "MADE_1018450"
@@ -54248,7 +54248,7 @@
   "F2G686": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=RNA(n) + ATP = RNA(n)-3'-adenine ribonucleotide + diphosphate; Xref=Rhea:RHEA:11332, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17347, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:140395, ChEBI:CHEBI:173115; EC=2.7.7.19; Evidence="
+      "Reaction=RNA(n) + ATP = RNA(n)-3^-adenine ribonucleotide + diphosphate; Xref=Rhea:RHEA:11332, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17347, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:140395, ChEBI:CHEBI:173115; EC=2.7.7.19; Evidence="
     ],
     "ec_numbers": [
       "2.7.7.19"
@@ -55230,7 +55230,7 @@
     "annotation_score": 3.0,
     "catalytic_activities": [
       "Reaction=ATP + H2O = ADP + phosphate + H(+); Xref=Rhea:RHEA:13065, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:43474, ChEBI:CHEBI:456216; EC=5.6.2.4; Evidence=",
-      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3'-5' direction.; EC=5.6.2.4; Evidence="
+      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3^-5^ direction.; EC=5.6.2.4; Evidence="
     ],
     "cofactor_names": [
       "Zn(2+)"
@@ -56227,7 +56227,7 @@
   "F2G6F1": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Hydrolysis of oligopeptides, with broad specificity. Gly or Ala commonly occur as P1 or P1' residues, but more distant residues are also important, as is shown by the fact that Z-Gly-Pro-Gly-|-Gly-Pro-Ala is cleaved, but not Z-(Gly)(5).; EC=3.4.24.70; Evidence="
+      "Reaction=Hydrolysis of oligopeptides, with broad specificity. Gly or Ala commonly occur as P1 or P1^ residues, but more distant residues are also important, as is shown by the fact that Z-Gly-Pro-Gly-,-Gly-Pro-Ala is cleaved, but not Z-(Gly)(5).; EC=3.4.24.70; Evidence="
     ],
     "cofactor_names": [
       "Zn(2+)"
@@ -56381,7 +56381,7 @@
   "F2G6F4": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a 3'-end 2',3'-cyclophospho-ribonucleotide-RNA + H2O = a 3'-end 2'-phospho-ribonucleotide-RNA + H(+); Xref=Rhea:RHEA:11828, Rhea:RHEA-COMP:10464, Rhea:RHEA-COMP:17353, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:83064, ChEBI:CHEBI:173113; EC=3.1.4.58; Evidence="
+      "Reaction=a 3^-end 2^,3^-cyclophospho-ribonucleotide-RNA + H2O = a 3^-end 2^-phospho-ribonucleotide-RNA + H(+); Xref=Rhea:RHEA:11828, Rhea:RHEA-COMP:10464, Rhea:RHEA-COMP:17353, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:83064, ChEBI:CHEBI:173113; EC=3.1.4.58; Evidence="
     ],
     "ec_numbers": [
       "3.1.4.58"
@@ -56506,7 +56506,7 @@
   "F2G6F7": {
     "annotation_score": 4.0,
     "catalytic_activities": [
-      "Reaction=Preferential cleavage: (Ac)2-L-Lys-D-Ala-|-D-Ala. Also transpeptidation of peptidyl-alanyl moieties that are N-acyl substituents of D-alanine.; EC=3.4.16.4; Evidence=",
+      "Reaction=Preferential cleavage: (Ac)2-L-Lys-D-Ala-,-D-Ala. Also transpeptidation of peptidyl-alanyl moieties that are N-acyl substituents of D-alanine.; EC=3.4.16.4; Evidence=",
       "Reaction=[GlcNAc-(1->4)-Mur2Ac(oyl-L-Ala-gamma-D-Glu-L-Lys-D-Ala-D-Ala)](n)-di-trans,octa-cis-undecaprenyl diphosphate + beta-D-GlcNAc-(1->4)-Mur2Ac(oyl-L-Ala-gamma-D-Glu-L-Lys-D-Ala-D-Ala)-di-trans,octa-cis-undecaprenyl diphosphate = [GlcNAc-(1->4)-Mur2Ac(oyl-L-Ala-gamma-D-Glu-L-Lys-D-Ala-D-Ala)](n+1)-di-trans,octa-cis-undecaprenyl diphosphate + di-trans,octa-cis-undecaprenyl diphosphate + H(+); Xref=Rhea:RHEA:23708, Rhea:RHEA-COMP:9602, Rhea:RHEA-COMP:9603, ChEBI:CHEBI:15378, ChEBI:CHEBI:58405, ChEBI:CHEBI:60033, ChEBI:CHEBI:78435; EC=2.4.99.28; Evidence="
     ],
     "function_description": "Cell wall formation. Synthesis of cross-linked peptidoglycan from the lipid intermediates. The enzyme has a penicillin-insensitive transglycosylase N-terminal domain (formation of linear glycan strands) and a penicillin-sensitive transpeptidase C-terminal domain (cross-linking of the peptide subunits)",
@@ -57584,7 +57584,7 @@
       "Reaction=N(2)-acetyl-L-ornithine + 2-oxoglutarate = N-acetyl-L-glutamate 5-semialdehyde + L-glutamate; Xref=Rhea:RHEA:18049, ChEBI:CHEBI:16810, ChEBI:CHEBI:29123, ChEBI:CHEBI:29985, ChEBI:CHEBI:57805; EC=2.6.1.11; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.11"
@@ -57949,7 +57949,7 @@
   "F2G6I9": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a 2'-deoxyadenosine in DNA + S-adenosyl-L-methionine = an N(6)-methyl-2'-deoxyadenosine in DNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:15197, Rhea:RHEA-COMP:12418, Rhea:RHEA-COMP:12419, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:90615, ChEBI:CHEBI:90616; EC=2.1.1.72; Evidence="
+      "Reaction=a 2^-deoxyadenosine in DNA + S-adenosyl-L-methionine = an N(6)-methyl-2^-deoxyadenosine in DNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:15197, Rhea:RHEA-COMP:12418, Rhea:RHEA-COMP:12419, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:90615, ChEBI:CHEBI:90616; EC=2.1.1.72; Evidence="
     ],
     "ec_numbers": [
       "2.1.1.72"
@@ -58313,7 +58313,7 @@
   "F2G6J8": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=Preferential cleavage: (Ac)2-L-Lys-D-Ala-|-D-Ala. Also transpeptidation of peptidyl-alanyl moieties that are N-acyl substituents of D-alanine.; EC=3.4.16.4; Evidence=",
+      "Reaction=Preferential cleavage: (Ac)2-L-Lys-D-Ala-,-D-Ala. Also transpeptidation of peptidyl-alanyl moieties that are N-acyl substituents of D-alanine.; EC=3.4.16.4; Evidence=",
       "Reaction=[GlcNAc-(1->4)-Mur2Ac(oyl-L-Ala-gamma-D-Glu-L-Lys-D-Ala-D-Ala)](n)-di-trans,octa-cis-undecaprenyl diphosphate + beta-D-GlcNAc-(1->4)-Mur2Ac(oyl-L-Ala-gamma-D-Glu-L-Lys-D-Ala-D-Ala)-di-trans,octa-cis-undecaprenyl diphosphate = [GlcNAc-(1->4)-Mur2Ac(oyl-L-Ala-gamma-D-Glu-L-Lys-D-Ala-D-Ala)](n+1)-di-trans,octa-cis-undecaprenyl diphosphate + di-trans,octa-cis-undecaprenyl diphosphate + H(+); Xref=Rhea:RHEA:23708, Rhea:RHEA-COMP:9602, Rhea:RHEA-COMP:9603, ChEBI:CHEBI:15378, ChEBI:CHEBI:58405, ChEBI:CHEBI:60033, ChEBI:CHEBI:78435; EC=2.4.99.28; Evidence="
     ],
     "ec_numbers": [
@@ -60669,7 +60669,7 @@
       "Reaction=(8S)-8-amino-7-oxononanoate + S-adenosyl-L-methionine = S-adenosyl-4-methylsulfanyl-2-oxobutanoate + (7R,8S)-7,8-diammoniononanoate; Xref=Rhea:RHEA:16861, ChEBI:CHEBI:16490, ChEBI:CHEBI:59789, ChEBI:CHEBI:149468, ChEBI:CHEBI:149469; EC=2.6.1.62; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.62"
@@ -60732,7 +60732,7 @@
       "Reaction=6-carboxyhexanoyl-[ACP] + L-alanine + H(+) = (8S)-8-amino-7-oxononanoate + holo-[ACP] + CO2; Xref=Rhea:RHEA:42288, Rhea:RHEA-COMP:9685, Rhea:RHEA-COMP:9955, ChEBI:CHEBI:15378, ChEBI:CHEBI:16526, ChEBI:CHEBI:57972, ChEBI:CHEBI:64479, ChEBI:CHEBI:78846, ChEBI:CHEBI:149468; EC=2.3.1.47; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.3.1.47"
@@ -61157,7 +61157,7 @@
   "F2G6R8": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=GTP + AH2 + S-adenosyl-L-methionine = (8S)-3',8-cyclo-7,8-dihydroguanosine 5'-triphosphate + 5'-deoxyadenosine + L-methionine + A + H(+); Xref=Rhea:RHEA:49576, ChEBI:CHEBI:13193, ChEBI:CHEBI:15378, ChEBI:CHEBI:17319, ChEBI:CHEBI:17499, ChEBI:CHEBI:37565, ChEBI:CHEBI:57844, ChEBI:CHEBI:59789, ChEBI:CHEBI:131766; EC=4.1.99.22; Evidence="
+      "Reaction=GTP + AH2 + S-adenosyl-L-methionine = (8S)-3^,8-cyclo-7,8-dihydroguanosine 5^-triphosphate + 5^-deoxyadenosine + L-methionine + A + H(+); Xref=Rhea:RHEA:49576, ChEBI:CHEBI:13193, ChEBI:CHEBI:15378, ChEBI:CHEBI:17319, ChEBI:CHEBI:17499, ChEBI:CHEBI:37565, ChEBI:CHEBI:57844, ChEBI:CHEBI:59789, ChEBI:CHEBI:131766; EC=4.1.99.22; Evidence="
     ],
     "cofactor_names": [
       "[4Fe-4S] cluster"
@@ -61946,7 +61946,7 @@
   "F2G6U3": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Exonucleolytic cleavage that removes extra residues from the 3'-terminus of tRNA to produce 5'-mononucleotides.; EC=3.1.13.5; Evidence="
+      "Reaction=Exonucleolytic cleavage that removes extra residues from the 3^-terminus of tRNA to produce 5^-mononucleotides.; EC=3.1.13.5; Evidence="
     ],
     "cofactor_names": [
       "a divalent metal cation"
@@ -62797,7 +62797,7 @@
       "Reaction=L-histidinol phosphate + 2-oxoglutarate = 3-(imidazol-4-yl)-2-oxopropyl phosphate + L-glutamate; Xref=Rhea:RHEA:23744, ChEBI:CHEBI:16810, ChEBI:CHEBI:29985, ChEBI:CHEBI:57766, ChEBI:CHEBI:57980; EC=2.6.1.9; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.9"
@@ -62996,7 +62996,7 @@
   "F2G6X0": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=S-methyl-5'-thioadenosine + phosphate = 5-(methylsulfanyl)-alpha-D-ribose 1-phosphate + adenine; Xref=Rhea:RHEA:11852, ChEBI:CHEBI:16708, ChEBI:CHEBI:17509, ChEBI:CHEBI:43474, ChEBI:CHEBI:58533; EC=2.4.2.28; Evidence= ; PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:11853; Evidence=",
+      "Reaction=S-methyl-5^-thioadenosine + phosphate = 5-(methylsulfanyl)-alpha-D-ribose 1-phosphate + adenine; Xref=Rhea:RHEA:11852, ChEBI:CHEBI:16708, ChEBI:CHEBI:17509, ChEBI:CHEBI:43474, ChEBI:CHEBI:58533; EC=2.4.2.28; Evidence= ; PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:11853; Evidence=",
       "Reaction=adenosine + H2O + H(+) = inosine + NH4(+); Xref=Rhea:RHEA:24408, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:16335, ChEBI:CHEBI:17596, ChEBI:CHEBI:28938; EC=3.5.4.4; Evidence= ; PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:24409; Evidence=",
       "Reaction=adenosine + phosphate = alpha-D-ribose 1-phosphate + adenine; Xref=Rhea:RHEA:27642, ChEBI:CHEBI:16335, ChEBI:CHEBI:16708, ChEBI:CHEBI:43474, ChEBI:CHEBI:57720; EC=2.4.2.1; Evidence= ; PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:27643; Evidence=",
       "Reaction=inosine + phosphate = alpha-D-ribose 1-phosphate + hypoxanthine; Xref=Rhea:RHEA:27646, ChEBI:CHEBI:17368, ChEBI:CHEBI:17596, ChEBI:CHEBI:43474, ChEBI:CHEBI:57720; EC=2.4.2.1; Evidence= ; PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:27647; Evidence="
@@ -63524,7 +63524,7 @@
   "F2G6Y3": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Exonucleolytic cleavage in either 5'- to 3'- or 3'- to 5'-direction to yield nucleoside 5'-phosphates.; EC=3.1.11.6; Evidence="
+      "Reaction=Exonucleolytic cleavage in either 5^- to 3^- or 3^- to 5^-direction to yield nucleoside 5^-phosphates.; EC=3.1.11.6; Evidence="
     ],
     "ec_numbers": [
       "3.1.11.6"
@@ -63628,7 +63628,7 @@
   "F2G6Y6": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a 1,2-diacyl-sn-glycero-3-phospho-(1'-sn-glycero-3'-phosphate) + H2O = a 1,2-diacyl-sn-glycero-3-phospho-(1'-sn-glycerol) + phosphate; Xref=Rhea:RHEA:33751, ChEBI:CHEBI:15377, ChEBI:CHEBI:43474, ChEBI:CHEBI:60110, ChEBI:CHEBI:64716; EC=3.1.3.27; Evidence="
+      "Reaction=a 1,2-diacyl-sn-glycero-3-phospho-(1^-sn-glycero-3^-phosphate) + H2O = a 1,2-diacyl-sn-glycero-3-phospho-(1^-sn-glycerol) + phosphate; Xref=Rhea:RHEA:33751, ChEBI:CHEBI:15377, ChEBI:CHEBI:43474, ChEBI:CHEBI:60110, ChEBI:CHEBI:64716; EC=3.1.3.27; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -64415,7 +64415,7 @@
   "F2G705": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=Endonucleolytic cleavage to 5'-phosphomonoester.; EC=3.1.26.3; Evidence="
+      "Reaction=Endonucleolytic cleavage to 5^-phosphomonoester.; EC=3.1.26.3; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -65301,7 +65301,7 @@
   "F2G728": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Hydrolysis of oligopeptides, with broad specificity. Gly or Ala commonly occur as P1 or P1' residues, but more distant residues are also important, as is shown by the fact that Z-Gly-Pro-Gly-|-Gly-Pro-Ala is cleaved, but not Z-(Gly)(5).; EC=3.4.24.70; Evidence="
+      "Reaction=Hydrolysis of oligopeptides, with broad specificity. Gly or Ala commonly occur as P1 or P1^ residues, but more distant residues are also important, as is shown by the fact that Z-Gly-Pro-Gly-,-Gly-Pro-Ala is cleaved, but not Z-(Gly)(5).; EC=3.4.24.70; Evidence="
     ],
     "cofactor_names": [
       "Zn(2+)"
@@ -66489,7 +66489,7 @@
   "F2G757": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Exonucleolytic cleavage in the 3'- to 5'-direction to yield nucleoside 5'-phosphates.; EC=3.1.13.1; Evidence="
+      "Reaction=Exonucleolytic cleavage in the 3^- to 5^-direction to yield nucleoside 5^-phosphates.; EC=3.1.13.1; Evidence="
     ],
     "ec_numbers": [
       "3.1.13.1"
@@ -66657,7 +66657,7 @@
   "F2G777": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=guanosine(2251) in 23S rRNA + S-adenosyl-L-methionine = 2'-O-methylguanosine(2251) in 23S rRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:24140, Rhea:RHEA-COMP:10239, Rhea:RHEA-COMP:10241, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74269, ChEBI:CHEBI:74445; EC=2.1.1.185; Evidence="
+      "Reaction=guanosine(2251) in 23S rRNA + S-adenosyl-L-methionine = 2^-O-methylguanosine(2251) in 23S rRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:24140, Rhea:RHEA-COMP:10239, Rhea:RHEA-COMP:10241, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74269, ChEBI:CHEBI:74445; EC=2.1.1.185; Evidence="
     ],
     "ec_numbers": [
       "2.1.1.185"
@@ -67252,8 +67252,8 @@
   "F2G7A8": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=5-carboxymethylaminomethyluridine(34) in tRNA(Leu) + S-adenosyl-L-methionine = 5-carboxymethylaminomethyl-2'-O-methyluridine(34) in tRNA(Leu) + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:43088, Rhea:RHEA-COMP:10333, Rhea:RHEA-COMP:10334, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74508, ChEBI:CHEBI:74511; EC=2.1.1.207; Evidence=",
-      "Reaction=cytidine(34) in tRNA + S-adenosyl-L-methionine = 2'-O-methylcytidine(34) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:43084, Rhea:RHEA-COMP:10331, Rhea:RHEA-COMP:10332, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74495, ChEBI:CHEBI:82748; EC=2.1.1.207; Evidence="
+      "Reaction=5-carboxymethylaminomethyluridine(34) in tRNA(Leu) + S-adenosyl-L-methionine = 5-carboxymethylaminomethyl-2^-O-methyluridine(34) in tRNA(Leu) + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:43088, Rhea:RHEA-COMP:10333, Rhea:RHEA-COMP:10334, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74508, ChEBI:CHEBI:74511; EC=2.1.1.207; Evidence=",
+      "Reaction=cytidine(34) in tRNA + S-adenosyl-L-methionine = 2^-O-methylcytidine(34) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:43084, Rhea:RHEA-COMP:10331, Rhea:RHEA-COMP:10332, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74495, ChEBI:CHEBI:82748; EC=2.1.1.207; Evidence="
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_01885}.",
     "ec_numbers": [
@@ -68297,7 +68297,7 @@
   "F2G7D5": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -68420,7 +68420,7 @@
   "F2G7D7": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=guanosine 3'-diphosphate 5'-triphosphate + H2O = guanosine 3',5'-bis(diphosphate) + phosphate + H(+); Xref=Rhea:RHEA:13073, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:43474, ChEBI:CHEBI:77828, ChEBI:CHEBI:142410; EC=3.6.1.40; Evidence="
+      "Reaction=guanosine 3^-diphosphate 5^-triphosphate + H2O = guanosine 3^,5^-bis(diphosphate) + phosphate + H(+); Xref=Rhea:RHEA:13073, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:43474, ChEBI:CHEBI:77828, ChEBI:CHEBI:142410; EC=3.6.1.40; Evidence="
     ],
     "ec_numbers": [
       "3.6.1.40"
@@ -71966,7 +71966,7 @@
       "Reaction=[(1->4)-alpha-D-glucosyl](n) + phosphate = [(1->4)-alpha-D-glucosyl](n-1) + alpha-D-glucose 1-phosphate; Xref=Rhea:RHEA:41732, Rhea:RHEA-COMP:9584, Rhea:RHEA-COMP:9586, ChEBI:CHEBI:15444, ChEBI:CHEBI:43474, ChEBI:CHEBI:58601; EC=2.4.1.1; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.4.1.1"
@@ -73298,7 +73298,7 @@
   "F2G7T6": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=Hydrolysis of proteins to small peptides in the presence of ATP and magnesium. alpha-casein is the usual test substrate. In the absence of ATP, only oligopeptides shorter than five residues are hydrolyzed (such as succinyl-Leu-Tyr-|-NHMec, and Leu-Tyr-Leu-|-Tyr-Trp, in which cleavage of the -Tyr-|-Leu- and -Tyr-|-Trp bonds also occurs).; EC=3.4.21.92; Evidence="
+      "Reaction=Hydrolysis of proteins to small peptides in the presence of ATP and magnesium. alpha-casein is the usual test substrate. In the absence of ATP, only oligopeptides shorter than five residues are hydrolyzed (such as succinyl-Leu-Tyr-,-NHMec, and Leu-Tyr-Leu-,-Tyr-Trp, in which cleavage of the -Tyr-,-Leu- and -Tyr-,-Trp bonds also occurs).; EC=3.4.21.92; Evidence="
     ],
     "ec_numbers": [
       "3.4.21.92"
@@ -73423,8 +73423,8 @@
   "F2G7V8": {
     "annotation_score": 4.0,
     "catalytic_activities": [
-      "Reaction=adenosine(2503) in 23S rRNA + 2 reduced [2Fe-2S]-[ferredoxin] + 2 S-adenosyl-L-methionine = 2-methyladenosine(2503) in 23S rRNA + 5'-deoxyadenosine + L-methionine + 2 oxidized [2Fe-2S]-[ferredoxin] + S-adenosyl-L-homocysteine; Xref=Rhea:RHEA:42916, Rhea:RHEA-COMP:10000, Rhea:RHEA-COMP:10001, Rhea:RHEA-COMP:10152, Rhea:RHEA-COMP:10282, ChEBI:CHEBI:17319, ChEBI:CHEBI:33737, ChEBI:CHEBI:33738, ChEBI:CHEBI:57844, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74411, ChEBI:CHEBI:74497; EC=2.1.1.192; Evidence=",
-      "Reaction=adenosine(37) in tRNA + 2 reduced [2Fe-2S]-[ferredoxin] + 2 S-adenosyl-L-methionine = 2-methyladenosine(37) in tRNA + 5'-deoxyadenosine + L-methionine + 2 oxidized [2Fe-2S]-[ferredoxin] + S-adenosyl-L-homocysteine; Xref=Rhea:RHEA:43332, Rhea:RHEA-COMP:10000, Rhea:RHEA-COMP:10001, Rhea:RHEA-COMP:10162, Rhea:RHEA-COMP:10485, ChEBI:CHEBI:17319, ChEBI:CHEBI:33737, ChEBI:CHEBI:33738, ChEBI:CHEBI:57844, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74411, ChEBI:CHEBI:74497; EC=2.1.1.192; Evidence="
+      "Reaction=adenosine(2503) in 23S rRNA + 2 reduced [2Fe-2S]-[ferredoxin] + 2 S-adenosyl-L-methionine = 2-methyladenosine(2503) in 23S rRNA + 5^-deoxyadenosine + L-methionine + 2 oxidized [2Fe-2S]-[ferredoxin] + S-adenosyl-L-homocysteine; Xref=Rhea:RHEA:42916, Rhea:RHEA-COMP:10000, Rhea:RHEA-COMP:10001, Rhea:RHEA-COMP:10152, Rhea:RHEA-COMP:10282, ChEBI:CHEBI:17319, ChEBI:CHEBI:33737, ChEBI:CHEBI:33738, ChEBI:CHEBI:57844, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74411, ChEBI:CHEBI:74497; EC=2.1.1.192; Evidence=",
+      "Reaction=adenosine(37) in tRNA + 2 reduced [2Fe-2S]-[ferredoxin] + 2 S-adenosyl-L-methionine = 2-methyladenosine(37) in tRNA + 5^-deoxyadenosine + L-methionine + 2 oxidized [2Fe-2S]-[ferredoxin] + S-adenosyl-L-homocysteine; Xref=Rhea:RHEA:43332, Rhea:RHEA-COMP:10000, Rhea:RHEA-COMP:10001, Rhea:RHEA-COMP:10162, Rhea:RHEA-COMP:10485, ChEBI:CHEBI:17319, ChEBI:CHEBI:33737, ChEBI:CHEBI:33738, ChEBI:CHEBI:57844, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74411, ChEBI:CHEBI:74497; EC=2.1.1.192; Evidence="
     ],
     "cofactor_names": [
       "[4Fe-4S] cluster"
@@ -73598,7 +73598,7 @@
       "Reaction=(sulfur carrier)-H + L-cysteine = (sulfur carrier)-SH + L-alanine; Xref=Rhea:RHEA:43892, Rhea:RHEA-COMP:14737, Rhea:RHEA-COMP:14739, ChEBI:CHEBI:29917, ChEBI:CHEBI:35235, ChEBI:CHEBI:57972, ChEBI:CHEBI:64428; EC=2.8.1.7; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.8.1.7"
@@ -73751,7 +73751,7 @@
       "Reaction=(sulfur carrier)-H + L-cysteine = (sulfur carrier)-SH + L-alanine; Xref=Rhea:RHEA:43892, Rhea:RHEA-COMP:14737, Rhea:RHEA-COMP:14739, ChEBI:CHEBI:29917, ChEBI:CHEBI:35235, ChEBI:CHEBI:57972, ChEBI:CHEBI:64428; EC=2.8.1.7; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.8.1.7"
@@ -77893,7 +77893,7 @@
   "F2G8G8": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -78210,7 +78210,7 @@
   "F2G8H5": {
     "annotation_score": 1.0,
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "gene_names": [
       "MADE_1008020"
@@ -79503,8 +79503,8 @@
   "F2G8L0": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=cytidine(32) in tRNA + S-adenosyl-L-methionine = 2'-O-methylcytidine(32) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:42932, Rhea:RHEA-COMP:10288, Rhea:RHEA-COMP:10289, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74495, ChEBI:CHEBI:82748; EC=2.1.1.200; Evidence=",
-      "Reaction=uridine(32) in tRNA + S-adenosyl-L-methionine = 2'-O-methyluridine(32) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:42936, Rhea:RHEA-COMP:10107, Rhea:RHEA-COMP:10290, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:65315, ChEBI:CHEBI:74478; EC=2.1.1.200; Evidence="
+      "Reaction=cytidine(32) in tRNA + S-adenosyl-L-methionine = 2^-O-methylcytidine(32) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:42932, Rhea:RHEA-COMP:10288, Rhea:RHEA-COMP:10289, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74495, ChEBI:CHEBI:82748; EC=2.1.1.200; Evidence=",
+      "Reaction=uridine(32) in tRNA + S-adenosyl-L-methionine = 2^-O-methyluridine(32) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:42936, Rhea:RHEA-COMP:10107, Rhea:RHEA-COMP:10290, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:65315, ChEBI:CHEBI:74478; EC=2.1.1.200; Evidence="
     ],
     "ec_numbers": [
       "2.1.1.200"
@@ -82177,7 +82177,7 @@
   "F2G8T1": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
+      "Reaction=DNA(n) + a 2^-deoxyribonucleoside 5^-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
     ],
     "ec_numbers": [
       "2.7.7.7"
@@ -82553,7 +82553,7 @@
   "F2G8V5": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -82697,7 +82697,7 @@
   "F2G8V8": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=L-cysteinyl-[prolipoprotein] + a 1,2-diacyl-sn-glycero-3-phospho-(1'-sn-glycerol) = an S-1,2-diacyl-sn-glyceryl-L-cysteinyl-[prolipoprotein] + sn-glycerol 1-phosphate + H(+); Xref=Rhea:RHEA:56712, Rhea:RHEA-COMP:14679, Rhea:RHEA-COMP:14680, ChEBI:CHEBI:15378, ChEBI:CHEBI:29950, ChEBI:CHEBI:57685, ChEBI:CHEBI:64716, ChEBI:CHEBI:140658; EC=2.5.1.145; Evidence="
+      "Reaction=L-cysteinyl-[prolipoprotein] + a 1,2-diacyl-sn-glycero-3-phospho-(1^-sn-glycerol) = an S-1,2-diacyl-sn-glyceryl-L-cysteinyl-[prolipoprotein] + sn-glycerol 1-phosphate + H(+); Xref=Rhea:RHEA:56712, Rhea:RHEA-COMP:14679, Rhea:RHEA-COMP:14680, ChEBI:CHEBI:15378, ChEBI:CHEBI:29950, ChEBI:CHEBI:57685, ChEBI:CHEBI:64716, ChEBI:CHEBI:140658; EC=2.5.1.145; Evidence="
     ],
     "ec_numbers": [
       "2.5.1.145"
@@ -84108,7 +84108,7 @@
     ],
     "cofactor_names": [
       "[4Fe-4S] cluster",
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "gene_names": [
       "MADE_1003605"
@@ -87832,7 +87832,7 @@
       "Reaction=L-kynurenine + H2O = anthranilate + L-alanine + H(+); Xref=Rhea:RHEA:16813, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:16567, ChEBI:CHEBI:57959, ChEBI:CHEBI:57972; EC=3.7.1.3; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "3.7.1.3"
@@ -87961,7 +87961,7 @@
   "F2G9F7": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Exonucleolytic cleavage in the 3'- to 5'-direction to yield nucleoside 5'-phosphates.; EC=3.1.11.1; Evidence="
+      "Reaction=Exonucleolytic cleavage in the 3^- to 5^-direction to yield nucleoside 5^-phosphates.; EC=3.1.11.1; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -88326,7 +88326,7 @@
   "F2G9G5": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "ec_numbers": [
       "2.7.7.65"
@@ -88627,7 +88627,7 @@
   "F2G9H3": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Endonucleolytic cleavage to 5'-phosphomonoester.; EC=3.1.26.4; Evidence="
+      "Reaction=Endonucleolytic cleavage to 5^-phosphomonoester.; EC=3.1.26.4; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -88691,7 +88691,7 @@
   "F2G9H4": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
+      "Reaction=DNA(n) + a 2^-deoxyribonucleoside 5^-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)",
@@ -88801,7 +88801,7 @@
   "F2G9H8": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -89075,7 +89075,7 @@
       "Reaction=4-amino-4-deoxychorismate = 4-aminobenzoate + pyruvate + H(+); Xref=Rhea:RHEA:16201, ChEBI:CHEBI:15361, ChEBI:CHEBI:15378, ChEBI:CHEBI:17836, ChEBI:CHEBI:58406; EC=4.1.3.38; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.1.3.38"
@@ -89512,7 +89512,7 @@
       "Reaction=L-alanine + 2-oxoglutarate = pyruvate + L-glutamate; Xref=Rhea:RHEA:19453, ChEBI:CHEBI:15361, ChEBI:CHEBI:16810, ChEBI:CHEBI:29985, ChEBI:CHEBI:57972; EC=2.6.1.2; Evidence= ; PhysiologicalDirection=right-to-left; Xref=Rhea:RHEA:19455; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.2"
@@ -89561,7 +89561,7 @@
   "F2G9J7": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a 2'-deoxyribonucleoside 5'-phosphate + H2O = a 2'-deoxyribonucleoside + phosphate; Xref=Rhea:RHEA:36167, ChEBI:CHEBI:15377, ChEBI:CHEBI:18274, ChEBI:CHEBI:43474, ChEBI:CHEBI:65317; EC=3.1.3.89; Evidence="
+      "Reaction=a 2^-deoxyribonucleoside 5^-phosphate + H2O = a 2^-deoxyribonucleoside + phosphate; Xref=Rhea:RHEA:36167, ChEBI:CHEBI:15377, ChEBI:CHEBI:18274, ChEBI:CHEBI:43474, ChEBI:CHEBI:65317; EC=3.1.3.89; Evidence="
     ],
     "cofactor_names": [
       "Co(2+)",
@@ -90153,7 +90153,7 @@
   "F2G9L4": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=coproporphyrinogen III + 2 S-adenosyl-L-methionine = protoporphyrinogen IX + 2 5'-deoxyadenosine + 2 L-methionine + 2 CO2; Xref=Rhea:RHEA:15425, ChEBI:CHEBI:16526, ChEBI:CHEBI:17319, ChEBI:CHEBI:57307, ChEBI:CHEBI:57309, ChEBI:CHEBI:57844, ChEBI:CHEBI:59789; EC=1.3.98.3; Evidence="
+      "Reaction=coproporphyrinogen III + 2 S-adenosyl-L-methionine = protoporphyrinogen IX + 2 5^-deoxyadenosine + 2 L-methionine + 2 CO2; Xref=Rhea:RHEA:15425, ChEBI:CHEBI:16526, ChEBI:CHEBI:17319, ChEBI:CHEBI:57307, ChEBI:CHEBI:57309, ChEBI:CHEBI:57844, ChEBI:CHEBI:59789; EC=1.3.98.3; Evidence="
     ],
     "cofactor_names": [
       "[4Fe-4S] cluster"
@@ -90447,7 +90447,7 @@
   "F2G9M0": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=(8S)-3',8-cyclo-7,8-dihydroguanosine 5'-triphosphate = cyclic pyranopterin phosphate + diphosphate; Xref=Rhea:RHEA:49580, ChEBI:CHEBI:33019, ChEBI:CHEBI:59648, ChEBI:CHEBI:131766; EC=4.6.1.17; Evidence="
+      "Reaction=(8S)-3^,8-cyclo-7,8-dihydroguanosine 5^-triphosphate = cyclic pyranopterin phosphate + diphosphate; Xref=Rhea:RHEA:49580, ChEBI:CHEBI:33019, ChEBI:CHEBI:59648, ChEBI:CHEBI:131766; EC=4.6.1.17; Evidence="
     ],
     "ec_numbers": [
       "4.6.1.17"
@@ -90768,7 +90768,7 @@
   "F2G9M8": {
     "annotation_score": 1.0,
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.-"
@@ -91258,8 +91258,8 @@
     "annotation_score": 4.0,
     "catalytic_activities": [
       "Reaction=ATP + H2O = ADP + phosphate + H(+); Xref=Rhea:RHEA:13065, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:43474, ChEBI:CHEBI:456216; EC=5.6.2.4; Evidence=",
-      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3'-5' direction.; EC=5.6.2.4; Evidence=",
-      "Reaction=Exonucleolytic cleavage (in the presence of ATP) in either 5'- to 3'- or 3'- to 5'-direction to yield 5'-phosphooligonucleotides.; EC=3.1.11.5; Evidence="
+      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3^-5^ direction.; EC=5.6.2.4; Evidence=",
+      "Reaction=Exonucleolytic cleavage (in the presence of ATP) in either 5^- to 3^- or 3^- to 5^-direction to yield 5^-phosphooligonucleotides.; EC=3.1.11.5; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -91707,7 +91707,7 @@
   "F2G9Q2": {
     "annotation_score": 2.0,
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "gene_names": [
       "MADE_1013690"
@@ -93242,7 +93242,7 @@
   "F2G9U6": {
     "annotation_score": 1.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -93851,7 +93851,7 @@
   "F2G9W7": {
     "annotation_score": 1.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -95727,7 +95727,7 @@
   "F2GA10": {
     "annotation_score": 1.0,
     "catalytic_activities": [
-      "Reaction=ATP + (deoxyribonucleotide)n-3'-hydroxyl + 5'-phospho-(deoxyribonucleotide)m = (deoxyribonucleotide)n+m + AMP + diphosphate.; EC=6.5.1.1; Evidence="
+      "Reaction=ATP + (deoxyribonucleotide)n-3^-hydroxyl + 5^-phospho-(deoxyribonucleotide)m = (deoxyribonucleotide)n+m + AMP + diphosphate.; EC=6.5.1.1; Evidence="
     ],
     "cofactor_names": [
       "a divalent metal cation"
@@ -96000,7 +96000,7 @@
   "F2GA15": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=P(1),P(4)-bis(5'-adenosyl) tetraphosphate + H2O = 2 ADP + 2 H(+); Xref=Rhea:RHEA:24252, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:58141, ChEBI:CHEBI:456216; EC=3.6.1.41; Evidence="
+      "Reaction=P(1),P(4)-bis(5^-adenosyl) tetraphosphate + H2O = 2 ADP + 2 H(+); Xref=Rhea:RHEA:24252, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:58141, ChEBI:CHEBI:456216; EC=3.6.1.41; Evidence="
     ],
     "ec_numbers": [
       "3.6.1.41"
@@ -96187,7 +96187,7 @@
     "organism_id": 1774373,
     "organism_name": "Alteromonas mediterranea (strain DSM 17117 / CIP 110805 / LMG 28347 / Deep ecotype)",
     "pathways": [
-      "Cofactor biosynthesis; pyridoxine 5'-phosphate biosynthesis; pyridoxine 5'-phosphate from D-erythrose 4-phosphate: step 4/5"
+      "Cofactor biosynthesis; pyridoxine 5^-phosphate biosynthesis; pyridoxine 5^-phosphate from D-erythrose 4-phosphate: step 4/5"
     ],
     "pfam_ids": [
       "PF04166"
@@ -96547,7 +96547,7 @@
   "F2GA27": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=3-amino-2-oxopropyl phosphate + 1-deoxy-D-xylulose 5-phosphate = pyridoxine 5'-phosphate + phosphate + 2 H2O + H(+); Xref=Rhea:RHEA:15265, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:43474, ChEBI:CHEBI:57279, ChEBI:CHEBI:57792, ChEBI:CHEBI:58589; EC=2.6.99.2; Evidence="
+      "Reaction=3-amino-2-oxopropyl phosphate + 1-deoxy-D-xylulose 5-phosphate = pyridoxine 5^-phosphate + phosphate + 2 H2O + H(+); Xref=Rhea:RHEA:15265, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:43474, ChEBI:CHEBI:57279, ChEBI:CHEBI:57792, ChEBI:CHEBI:58589; EC=2.6.99.2; Evidence="
     ],
     "ec_numbers": [
       "2.6.99.2"
@@ -96585,7 +96585,7 @@
     "organism_id": 1774373,
     "organism_name": "Alteromonas mediterranea (strain DSM 17117 / CIP 110805 / LMG 28347 / Deep ecotype)",
     "pathways": [
-      "Cofactor biosynthesis; pyridoxine 5'-phosphate biosynthesis; pyridoxine 5'-phosphate from D-erythrose 4-phosphate: step 5/5"
+      "Cofactor biosynthesis; pyridoxine 5^-phosphate biosynthesis; pyridoxine 5^-phosphate from D-erythrose 4-phosphate: step 5/5"
     ],
     "pfam_ids": [
       "PF03740"
@@ -98871,7 +98871,7 @@
       "Reaction=4-amino-4-deoxychorismate = 4-aminobenzoate + pyruvate + H(+); Xref=Rhea:RHEA:16201, ChEBI:CHEBI:15361, ChEBI:CHEBI:15378, ChEBI:CHEBI:17836, ChEBI:CHEBI:58406; EC=4.1.3.38; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.1.3.38"
@@ -98988,7 +98988,7 @@
   "F2GA90": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
+      "Reaction=DNA(n) + a 2^-deoxyribonucleoside 5^-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
     ],
     "ec_numbers": [
       "2.7.7.7"
@@ -99138,7 +99138,7 @@
   "F2GA94": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -100855,7 +100855,7 @@
   "F2GAE1": {
     "annotation_score": 2.0,
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.-"
@@ -101215,7 +101215,7 @@
   "F2GAF0": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Hydrolysis of Pro-|-Xaa >> Ala-|-Xaa in oligopeptides.; EC=3.4.21.26; Evidence="
+      "Reaction=Hydrolysis of Pro-,-Xaa >> Ala-,-Xaa in oligopeptides.; EC=3.4.21.26; Evidence="
     ],
     "ec_numbers": [
       "3.4.21.26"
@@ -102581,7 +102581,7 @@
   "F2GAI7": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=RNA(n) + a ribonucleoside 5'-triphosphate = RNA(n+1) + diphosphate; Xref=Rhea:RHEA:21248, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:33019, ChEBI:CHEBI:61557, ChEBI:CHEBI:140395; EC=2.7.7.6; Evidence="
+      "Reaction=RNA(n) + a ribonucleoside 5^-triphosphate = RNA(n+1) + diphosphate; Xref=Rhea:RHEA:21248, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:33019, ChEBI:CHEBI:61557, ChEBI:CHEBI:140395; EC=2.7.7.6; Evidence="
     ],
     "domain_description": "DOMAIN: The N-terminal domain is essential for RNAP assembly and basal transcription, whereas the C-terminal domain is involved in interaction with transcriptional regulators and with upstream promoter elements. {ECO:0000256,HAMAP-Rule:MF_00059}.",
     "ec_numbers": [
@@ -103532,7 +103532,7 @@
   "F2GAM8": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=GTP + AH2 + S-adenosyl-L-methionine = (8S)-3',8-cyclo-7,8-dihydroguanosine 5'-triphosphate + 5'-deoxyadenosine + L-methionine + A + H(+); Xref=Rhea:RHEA:49576, ChEBI:CHEBI:13193, ChEBI:CHEBI:15378, ChEBI:CHEBI:17319, ChEBI:CHEBI:17499, ChEBI:CHEBI:37565, ChEBI:CHEBI:57844, ChEBI:CHEBI:59789, ChEBI:CHEBI:131766; EC=4.1.99.22; Evidence="
+      "Reaction=GTP + AH2 + S-adenosyl-L-methionine = (8S)-3^,8-cyclo-7,8-dihydroguanosine 5^-triphosphate + 5^-deoxyadenosine + L-methionine + A + H(+); Xref=Rhea:RHEA:49576, ChEBI:CHEBI:13193, ChEBI:CHEBI:15378, ChEBI:CHEBI:17319, ChEBI:CHEBI:17499, ChEBI:CHEBI:37565, ChEBI:CHEBI:57844, ChEBI:CHEBI:59789, ChEBI:CHEBI:131766; EC=4.1.99.22; Evidence="
     ],
     "cofactor_names": [
       "[4Fe-4S] cluster"
@@ -104588,7 +104588,7 @@
     "annotation_score": 2.0,
     "catalytic_activities": [
       "Reaction=a 4-O-methyl-thymidine in DNA + L-cysteinyl-[protein] = a thymidine in DNA + S-methyl-L-cysteinyl-[protein]; Xref=Rhea:RHEA:53428, Rhea:RHEA-COMP:10131, Rhea:RHEA-COMP:10132, Rhea:RHEA-COMP:13555, Rhea:RHEA-COMP:13556, ChEBI:CHEBI:29950, ChEBI:CHEBI:82612, ChEBI:CHEBI:137386, ChEBI:CHEBI:137387; EC=2.1.1.63; Evidence=",
-      "Reaction=a 6-O-methyl-2'-deoxyguanosine in DNA + L-cysteinyl-[protein] = S-methyl-L-cysteinyl-[protein] + a 2'-deoxyguanosine in DNA; Xref=Rhea:RHEA:24000, Rhea:RHEA-COMP:10131, Rhea:RHEA-COMP:10132, Rhea:RHEA-COMP:11367, Rhea:RHEA-COMP:11368, ChEBI:CHEBI:29950, ChEBI:CHEBI:82612, ChEBI:CHEBI:85445, ChEBI:CHEBI:85448; EC=2.1.1.63; Evidence="
+      "Reaction=a 6-O-methyl-2^-deoxyguanosine in DNA + L-cysteinyl-[protein] = S-methyl-L-cysteinyl-[protein] + a 2^-deoxyguanosine in DNA; Xref=Rhea:RHEA:24000, Rhea:RHEA-COMP:10131, Rhea:RHEA-COMP:10132, Rhea:RHEA-COMP:11367, Rhea:RHEA-COMP:11368, ChEBI:CHEBI:29950, ChEBI:CHEBI:82612, ChEBI:CHEBI:85445, ChEBI:CHEBI:85448; EC=2.1.1.63; Evidence="
     ],
     "ec_numbers": [
       "2.1.1.63"
@@ -104677,7 +104677,7 @@
     "annotation_score": 2.0,
     "cofactor_names": [
       "Mg(2+)",
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.1.1.19"
@@ -106348,7 +106348,7 @@
   "F2GAU6": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
+      "Reaction=DNA(n) + a 2^-deoxyribonucleoside 5^-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -108378,7 +108378,7 @@
   "F2GAZ6": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Release of an N-terminal amino acid, Xaa-|-Yaa- from a peptide, amide or arylamide. Xaa is preferably Ala, but may be most amino acids including Pro (slow action). When a terminal hydrophobic residue is followed by a prolyl residue, the two may be released as an intact Xaa-Pro dipeptide.; EC=3.4.11.2; Evidence="
+      "Reaction=Release of an N-terminal amino acid, Xaa-,-Yaa- from a peptide, amide or arylamide. Xaa is preferably Ala, but may be most amino acids including Pro (slow action). When a terminal hydrophobic residue is followed by a prolyl residue, the two may be released as an intact Xaa-Pro dipeptide.; EC=3.4.11.2; Evidence="
     ],
     "cofactor_names": [
       "Zn(2+)"
@@ -111792,7 +111792,7 @@
   "F2GBA1": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=2'-deoxycytidine + H2O + H(+) = 2'-deoxyuridine + NH4(+); Xref=Rhea:RHEA:13433, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:15698, ChEBI:CHEBI:16450, ChEBI:CHEBI:28938; EC=3.5.4.5; Evidence=",
+      "Reaction=2^-deoxycytidine + H2O + H(+) = 2^-deoxyuridine + NH4(+); Xref=Rhea:RHEA:13433, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:15698, ChEBI:CHEBI:16450, ChEBI:CHEBI:28938; EC=3.5.4.5; Evidence=",
       "Reaction=cytidine + H2O + H(+) = uridine + NH4(+); Xref=Rhea:RHEA:16069, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:16704, ChEBI:CHEBI:17562, ChEBI:CHEBI:28938; EC=3.5.4.5; Evidence="
     ],
     "cofactor_names": [
@@ -112903,7 +112903,7 @@
   "F2GBD1": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3'-5' direction.; EC=5.6.2.4; Evidence="
+      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3^-5^ direction.; EC=5.6.2.4; Evidence="
     ],
     "ec_numbers": [
       "5.6.2.4"
@@ -114112,7 +114112,7 @@
       "Reaction=N(6)-[(R)-lipoyl]-L-lysyl-[glycine-cleavage complex H protein] + glycine + H(+) = N(6)-[(R)-S(8)-aminomethyldihydrolipoyl]-L-lysyl-[glycine-cleavage complex H protein] + CO2; Xref=Rhea:RHEA:24304, Rhea:RHEA-COMP:10494, Rhea:RHEA-COMP:10495, ChEBI:CHEBI:15378, ChEBI:CHEBI:16526, ChEBI:CHEBI:57305, ChEBI:CHEBI:83099, ChEBI:CHEBI:83143; EC=1.4.4.2; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "1.4.4.2"
@@ -116189,7 +116189,7 @@
   "F2GBM7": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=adenosine 3',5'-bisphosphate + H2O = AMP + phosphate; Xref=Rhea:RHEA:10040, ChEBI:CHEBI:15377, ChEBI:CHEBI:43474, ChEBI:CHEBI:58343, ChEBI:CHEBI:456215; EC=3.1.3.7; Evidence="
+      "Reaction=adenosine 3^,5^-bisphosphate + H2O = AMP + phosphate; Xref=Rhea:RHEA:10040, ChEBI:CHEBI:15377, ChEBI:CHEBI:43474, ChEBI:CHEBI:58343, ChEBI:CHEBI:456215; EC=3.1.3.7; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -119516,7 +119516,7 @@
   "F2GBX4": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -122158,7 +122158,7 @@
   "F2GC59": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=7,8-dihydroneopterin 3'-triphosphate + H2O = 6-carboxy-5,6,7,8-tetrahydropterin + triphosphate + acetaldehyde + 2 H(+); Xref=Rhea:RHEA:27966, ChEBI:CHEBI:15343, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:18036, ChEBI:CHEBI:58462, ChEBI:CHEBI:61032; EC=4.1.2.50; Evidence="
+      "Reaction=7,8-dihydroneopterin 3^-triphosphate + H2O = 6-carboxy-5,6,7,8-tetrahydropterin + triphosphate + acetaldehyde + 2 H(+); Xref=Rhea:RHEA:27966, ChEBI:CHEBI:15343, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:18036, ChEBI:CHEBI:58462, ChEBI:CHEBI:61032; EC=4.1.2.50; Evidence="
     ],
     "ec_numbers": [
       "4.1.2.50"
@@ -125754,8 +125754,8 @@
   "F2GCL5": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=L-threonyl-[protein] + ATP = 3-O-(5'-adenylyl)-L-threonyl-[protein] + diphosphate; Xref=Rhea:RHEA:54292, Rhea:RHEA-COMP:11060, Rhea:RHEA-COMP:13847, ChEBI:CHEBI:30013, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:138113; EC=2.7.7.108; Evidence=",
-      "Reaction=L-tyrosyl-[protein] + ATP = O-(5'-adenylyl)-L-tyrosyl-[protein] + diphosphate; Xref=Rhea:RHEA:54288, Rhea:RHEA-COMP:10136, Rhea:RHEA-COMP:13846, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:46858, ChEBI:CHEBI:83624; EC=2.7.7.108; Evidence="
+      "Reaction=L-threonyl-[protein] + ATP = 3-O-(5^-adenylyl)-L-threonyl-[protein] + diphosphate; Xref=Rhea:RHEA:54292, Rhea:RHEA-COMP:11060, Rhea:RHEA-COMP:13847, ChEBI:CHEBI:30013, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:138113; EC=2.7.7.108; Evidence=",
+      "Reaction=L-tyrosyl-[protein] + ATP = O-(5^-adenylyl)-L-tyrosyl-[protein] + diphosphate; Xref=Rhea:RHEA:54288, Rhea:RHEA-COMP:10136, Rhea:RHEA-COMP:13846, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:46858, ChEBI:CHEBI:83624; EC=2.7.7.108; Evidence="
     ],
     "ec_numbers": [
       "2.7.7.108"
@@ -128962,7 +128962,7 @@
   "F2GCV4": {
     "annotation_score": 1.0,
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "gene_names": [
       "MADE_1010110"
@@ -129265,7 +129265,7 @@
   "F2GCW2": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Release of an N-terminal amino acid, Xaa-|-Yaa- from a peptide, amide or arylamide. Xaa is preferably Ala, but may be most amino acids including Pro (slow action). When a terminal hydrophobic residue is followed by a prolyl residue, the two may be released as an intact Xaa-Pro dipeptide.; EC=3.4.11.2; Evidence="
+      "Reaction=Release of an N-terminal amino acid, Xaa-,-Yaa- from a peptide, amide or arylamide. Xaa is preferably Ala, but may be most amino acids including Pro (slow action). When a terminal hydrophobic residue is followed by a prolyl residue, the two may be released as an intact Xaa-Pro dipeptide.; EC=3.4.11.2; Evidence="
     ],
     "cofactor_names": [
       "Zn(2+)"
@@ -130537,7 +130537,7 @@
   "F2GCZ1": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Typically cleaves a -Gly-|-Phe- bond to release an N-terminal, basic peptide of 5-8 residues from type IV prepilin, and then N-methylates the new N-terminal amino group, the methyl donor being S-adenosyl-L-methionine.; EC=3.4.23.43; Evidence="
+      "Reaction=Typically cleaves a -Gly-,-Phe- bond to release an N-terminal, basic peptide of 5-8 residues from type IV prepilin, and then N-methylates the new N-terminal amino group, the methyl donor being S-adenosyl-L-methionine.; EC=3.4.23.43; Evidence="
     ],
     "ec_numbers": [
       "2.1.1.-",
@@ -131888,7 +131888,7 @@
   "F2GD23": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=Preferential cleavage: (Ac)2-L-Lys-D-Ala-|-D-Ala. Also transpeptidation of peptidyl-alanyl moieties that are N-acyl substituents of D-alanine.; EC=3.4.16.4; Evidence="
+      "Reaction=Preferential cleavage: (Ac)2-L-Lys-D-Ala-,-D-Ala. Also transpeptidation of peptidyl-alanyl moieties that are N-acyl substituents of D-alanine.; EC=3.4.16.4; Evidence="
     ],
     "ec_numbers": [
       "3.4.16.4"
@@ -132363,7 +132363,7 @@
   "F2GD38": {
     "annotation_score": 1.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -133325,7 +133325,7 @@
   "F2GD66": {
     "annotation_score": 1.0,
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "function_description": "Pyridoxal 5^-phosphate (PLP)-binding protein, which is involved in PLP homeostasis",
     "gene_names": [
@@ -134142,7 +134142,7 @@
       "Reaction=O-phospho-L-homoserine + H2O = L-threonine + phosphate; Xref=Rhea:RHEA:10840, ChEBI:CHEBI:15377, ChEBI:CHEBI:43474, ChEBI:CHEBI:57590, ChEBI:CHEBI:57926; EC=4.2.3.1; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.2.3.1"
@@ -135010,7 +135010,7 @@
   "F2GDA8": {
     "annotation_score": 1.0,
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "gene_names": [
       "MADE_1015560"
@@ -135301,7 +135301,7 @@
       "Reaction=carboxyspermidine + H(+) = spermidine + CO2; Xref=Rhea:RHEA:34095, ChEBI:CHEBI:15378, ChEBI:CHEBI:16526, ChEBI:CHEBI:57834, ChEBI:CHEBI:65072; EC=4.1.1.96; Evidence="
     ],
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.1.1.96"
@@ -135385,7 +135385,7 @@
   "F2GDB9": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=cytidine(1402) in 16S rRNA + S-adenosyl-L-methionine = 2'-O-methylcytidine(1402) in 16S rRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:42924, Rhea:RHEA-COMP:10285, Rhea:RHEA-COMP:10286, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74495, ChEBI:CHEBI:82748; EC=2.1.1.198; Evidence="
+      "Reaction=cytidine(1402) in 16S rRNA + S-adenosyl-L-methionine = 2^-O-methylcytidine(1402) in 16S rRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:42924, Rhea:RHEA-COMP:10285, Rhea:RHEA-COMP:10286, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74495, ChEBI:CHEBI:82748; EC=2.1.1.198; Evidence="
     ],
     "ec_numbers": [
       "2.1.1.198"
@@ -139691,7 +139691,7 @@
   "T2DKZ3": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -142230,7 +142230,7 @@
   "T2DLA9": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=Preferential cleavage: (Ac)2-L-Lys-D-Ala-|-D-Ala. Also transpeptidation of peptidyl-alanyl moieties that are N-acyl substituents of D-alanine.; EC=3.4.16.4; Evidence="
+      "Reaction=Preferential cleavage: (Ac)2-L-Lys-D-Ala-,-D-Ala. Also transpeptidation of peptidyl-alanyl moieties that are N-acyl substituents of D-alanine.; EC=3.4.16.4; Evidence="
     ],
     "ec_numbers": [
       "3.4.16.4"
@@ -142513,7 +142513,7 @@
   "T2DLC1": {
     "annotation_score": 1.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -143607,7 +143607,7 @@
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_00160}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.52"
@@ -143655,7 +143655,7 @@
     "organism_name": "Alteromonas mediterranea (strain DSM 17117 / CIP 110805 / LMG 28347 / Deep ecotype)",
     "pathways": [
       "Amino-acid biosynthesis; L-serine biosynthesis; L-serine from 3-phospho-D-glycerate: step 2/3. ;",
-      "Cofactor biosynthesis; pyridoxine 5'-phosphate biosynthesis; pyridoxine 5'-phosphate from D-erythrose 4-phosphate: step 3/5"
+      "Cofactor biosynthesis; pyridoxine 5^-phosphate biosynthesis; pyridoxine 5^-phosphate from D-erythrose 4-phosphate: step 3/5"
     ],
     "pfam_ids": [
       "PF00266"
@@ -143781,8 +143781,8 @@
   "T2DLG1": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=1-(5-phospho-beta-D-ribosyl)-5'-AMP + H2O = 1-(5-phospho-beta-D-ribosyl)-5-[(5-phospho-beta-D-ribosylamino)methylideneamino]imidazole-4-carboxamide; Xref=Rhea:RHEA:20049, ChEBI:CHEBI:15377, ChEBI:CHEBI:58435, ChEBI:CHEBI:59457; EC=3.5.4.19; Evidence=",
-      "Reaction=1-(5-phospho-beta-D-ribosyl)-ATP + H2O = 1-(5-phospho-beta-D-ribosyl)-5'-AMP + diphosphate + H(+); Xref=Rhea:RHEA:22828, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:33019, ChEBI:CHEBI:59457, ChEBI:CHEBI:73183; EC=3.6.1.31; Evidence="
+      "Reaction=1-(5-phospho-beta-D-ribosyl)-5^-AMP + H2O = 1-(5-phospho-beta-D-ribosyl)-5-[(5-phospho-beta-D-ribosylamino)methylideneamino]imidazole-4-carboxamide; Xref=Rhea:RHEA:20049, ChEBI:CHEBI:15377, ChEBI:CHEBI:58435, ChEBI:CHEBI:59457; EC=3.5.4.19; Evidence=",
+      "Reaction=1-(5-phospho-beta-D-ribosyl)-ATP + H2O = 1-(5-phospho-beta-D-ribosyl)-5^-AMP + diphosphate + H(+); Xref=Rhea:RHEA:22828, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:33019, ChEBI:CHEBI:59457, ChEBI:CHEBI:73183; EC=3.6.1.31; Evidence="
     ],
     "ec_numbers": [
       "3.5.4.19",
@@ -144725,7 +144725,7 @@
   "T2DLJ6": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=3'-dephospho-CoA + ATP = ADP + CoA + H(+); Xref=Rhea:RHEA:18245, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:57287, ChEBI:CHEBI:57328, ChEBI:CHEBI:456216; EC=2.7.1.24; Evidence="
+      "Reaction=3^-dephospho-CoA + ATP = ADP + CoA + H(+); Xref=Rhea:RHEA:18245, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:57287, ChEBI:CHEBI:57328, ChEBI:CHEBI:456216; EC=2.7.1.24; Evidence="
     ],
     "ec_numbers": [
       "2.7.1.24"
@@ -145620,7 +145620,7 @@
   "T2DLN3": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=[[Fe-S] cluster scaffold protein carrying a second [4Fe-4S](2+) cluster] + N(6)-octanoyl-L-lysyl-[protein] + 2 oxidized [2Fe-2S]-[ferredoxin] + 2 S-adenosyl-L-methionine + 4 H(+) = [[Fe-S] cluster scaffold protein] + N(6)-[(R)-dihydrolipoyl]-L-lysyl-[protein] + 4 Fe(3+) + 2 hydrogen sulfide + 2 5'-deoxyadenosine + 2 L-methionine + 2 reduced [2Fe-2S]-[ferredoxin]; Xref=Rhea:RHEA:16585, Rhea:RHEA-COMP:9928, Rhea:RHEA-COMP:10000, Rhea:RHEA-COMP:10001, Rhea:RHEA-COMP:10475, Rhea:RHEA-COMP:14568, Rhea:RHEA-COMP:14569, ChEBI:CHEBI:15378, ChEBI:CHEBI:17319, ChEBI:CHEBI:29034, ChEBI:CHEBI:29919, ChEBI:CHEBI:33722, ChEBI:CHEBI:33737, ChEBI:CHEBI:33738, ChEBI:CHEBI:57844, ChEBI:CHEBI:59789, ChEBI:CHEBI:78809, ChEBI:CHEBI:83100; EC=2.8.1.8; Evidence="
+      "Reaction=[[Fe-S] cluster scaffold protein carrying a second [4Fe-4S](2+) cluster] + N(6)-octanoyl-L-lysyl-[protein] + 2 oxidized [2Fe-2S]-[ferredoxin] + 2 S-adenosyl-L-methionine + 4 H(+) = [[Fe-S] cluster scaffold protein] + N(6)-[(R)-dihydrolipoyl]-L-lysyl-[protein] + 4 Fe(3+) + 2 hydrogen sulfide + 2 5^-deoxyadenosine + 2 L-methionine + 2 reduced [2Fe-2S]-[ferredoxin]; Xref=Rhea:RHEA:16585, Rhea:RHEA-COMP:9928, Rhea:RHEA-COMP:10000, Rhea:RHEA-COMP:10001, Rhea:RHEA-COMP:10475, Rhea:RHEA-COMP:14568, Rhea:RHEA-COMP:14569, ChEBI:CHEBI:15378, ChEBI:CHEBI:17319, ChEBI:CHEBI:29034, ChEBI:CHEBI:29919, ChEBI:CHEBI:33722, ChEBI:CHEBI:33737, ChEBI:CHEBI:33738, ChEBI:CHEBI:57844, ChEBI:CHEBI:59789, ChEBI:CHEBI:78809, ChEBI:CHEBI:83100; EC=2.8.1.8; Evidence="
     ],
     "cofactor_names": [
       "[4Fe-4S] cluster"
@@ -146044,7 +146044,7 @@
   "T2DLP3": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
+      "Reaction=DNA(n) + a 2^-deoxyribonucleoside 5^-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
     ],
     "ec_numbers": [
       "2.7.7.7"
@@ -147266,7 +147266,7 @@
   "T2DLS7": {
     "annotation_score": 1.0,
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "gene_names": [
       "MADE_000001022815"
@@ -148650,7 +148650,7 @@
   "T2DLW4": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=3',3'-c-di-GMP + H2O = 5'-phosphoguanylyl(3'->5')guanosine + H(+); Xref=Rhea:RHEA:24902, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:58754, ChEBI:CHEBI:58805; EC=3.1.4.52; Evidence="
+      "Reaction=3^,3^-c-di-GMP + H2O = 5^-phosphoguanylyl(3^->5^)guanosine + H(+); Xref=Rhea:RHEA:24902, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:58754, ChEBI:CHEBI:58805; EC=3.1.4.52; Evidence="
     ],
     "ec_numbers": [
       "3.1.4.52"
@@ -150057,7 +150057,7 @@
   "T2DM02": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=Preferential cleavage: (Ac)2-L-Lys-D-Ala-|-D-Ala. Also transpeptidation of peptidyl-alanyl moieties that are N-acyl substituents of D-alanine.; EC=3.4.16.4; Evidence="
+      "Reaction=Preferential cleavage: (Ac)2-L-Lys-D-Ala-,-D-Ala. Also transpeptidation of peptidyl-alanyl moieties that are N-acyl substituents of D-alanine.; EC=3.4.16.4; Evidence="
     ],
     "cofactor_names": [
       "Zn(2+)"
@@ -150407,7 +150407,7 @@
   "T2DM11": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
+      "Reaction=DNA(n) + a 2^-deoxyribonucleoside 5^-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -150925,7 +150925,7 @@
   "T2DM24": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=ATP + (deoxyribonucleotide)n-3'-hydroxyl + 5'-phospho-(deoxyribonucleotide)m = (deoxyribonucleotide)n+m + AMP + diphosphate.; EC=6.5.1.1; Evidence="
+      "Reaction=ATP + (deoxyribonucleotide)n-3^-hydroxyl + 5^-phospho-(deoxyribonucleotide)m = (deoxyribonucleotide)n+m + AMP + diphosphate.; EC=6.5.1.1; Evidence="
     ],
     "ec_numbers": [
       "6.5.1.1"
@@ -151268,7 +151268,7 @@
   "T2DM34": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a CDP-1,2-diacyl-sn-glycerol + sn-glycerol 3-phosphate = a 1,2-diacyl-sn-glycero-3-phospho-(1'-sn-glycero-3'-phosphate) + CMP + H(+); Xref=Rhea:RHEA:12593, ChEBI:CHEBI:15378, ChEBI:CHEBI:57597, ChEBI:CHEBI:58332, ChEBI:CHEBI:60110, ChEBI:CHEBI:60377; EC=2.7.8.5; Evidence="
+      "Reaction=a CDP-1,2-diacyl-sn-glycerol + sn-glycerol 3-phosphate = a 1,2-diacyl-sn-glycero-3-phospho-(1^-sn-glycero-3^-phosphate) + CMP + H(+); Xref=Rhea:RHEA:12593, ChEBI:CHEBI:15378, ChEBI:CHEBI:57597, ChEBI:CHEBI:58332, ChEBI:CHEBI:60110, ChEBI:CHEBI:60377; EC=2.7.8.5; Evidence="
     ],
     "ec_numbers": [
       "2.7.8.5"
@@ -151844,7 +151844,7 @@
   "T2DM52": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a 5'-end NAD(+)-phospho-ribonucleoside in mRNA + H2O = a 5'-end phospho-adenosine-phospho-ribonucleoside in mRNA + beta-nicotinamide D-ribonucleotide + 2 H(+); Xref=Rhea:RHEA:60876, Rhea:RHEA-COMP:15698, Rhea:RHEA-COMP:15719, ChEBI:CHEBI:14649, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:144029, ChEBI:CHEBI:144051; Evidence= ; PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:60877; Evidence="
+      "Reaction=a 5^-end NAD(+)-phospho-ribonucleoside in mRNA + H2O = a 5^-end phospho-adenosine-phospho-ribonucleoside in mRNA + beta-nicotinamide D-ribonucleotide + 2 H(+); Xref=Rhea:RHEA:60876, Rhea:RHEA-COMP:15698, Rhea:RHEA-COMP:15719, ChEBI:CHEBI:14649, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:144029, ChEBI:CHEBI:144051; Evidence= ; PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:60877; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)",
@@ -151988,7 +151988,7 @@
   "T2DM55": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=RNA(n) + a ribonucleoside 5'-triphosphate = RNA(n+1) + diphosphate; Xref=Rhea:RHEA:21248, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:33019, ChEBI:CHEBI:61557, ChEBI:CHEBI:140395; EC=2.7.7.6; Evidence="
+      "Reaction=RNA(n) + a ribonucleoside 5^-triphosphate = RNA(n+1) + diphosphate; Xref=Rhea:RHEA:21248, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:33019, ChEBI:CHEBI:61557, ChEBI:CHEBI:140395; EC=2.7.7.6; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)",
@@ -153916,7 +153916,7 @@
   "T2DMC3": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=2 GTP = 3',3'-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
+      "Reaction=2 GTP = 3^,3^-c-di-GMP + 2 diphosphate; Xref=Rhea:RHEA:24898, ChEBI:CHEBI:33019, ChEBI:CHEBI:37565, ChEBI:CHEBI:58805; EC=2.7.7.65; Evidence="
     ],
     "cofactor_names": [
       "Mg(2+)"
@@ -154389,7 +154389,7 @@
   "T2DME7": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=RNA(n) + a ribonucleoside 5'-triphosphate = RNA(n+1) + diphosphate; Xref=Rhea:RHEA:21248, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:33019, ChEBI:CHEBI:61557, ChEBI:CHEBI:140395; EC=2.7.7.6; Evidence="
+      "Reaction=RNA(n) + a ribonucleoside 5^-triphosphate = RNA(n+1) + diphosphate; Xref=Rhea:RHEA:21248, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:33019, ChEBI:CHEBI:61557, ChEBI:CHEBI:140395; EC=2.7.7.6; Evidence="
     ],
     "ec_numbers": [
       "2.7.7.6"
@@ -154994,7 +154994,7 @@
   "T2DMH1": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=GTP + H2O = 7,8-dihydroneopterin 3'-triphosphate + formate + H(+); Xref=Rhea:RHEA:17473, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:15740, ChEBI:CHEBI:37565, ChEBI:CHEBI:58462; EC=3.5.4.16; Evidence="
+      "Reaction=GTP + H2O = 7,8-dihydroneopterin 3^-triphosphate + formate + H(+); Xref=Rhea:RHEA:17473, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:15740, ChEBI:CHEBI:37565, ChEBI:CHEBI:58462; EC=3.5.4.16; Evidence="
     ],
     "ec_numbers": [
       "3.5.4.16"
@@ -155058,7 +155058,7 @@
   "T2DMH2": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=ATP = 3',5'-cyclic AMP + diphosphate; Xref=Rhea:RHEA:15389, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:58165; EC=4.6.1.1; Evidence="
+      "Reaction=ATP = 3^,5^-cyclic AMP + diphosphate; Xref=Rhea:RHEA:15389, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:58165; EC=4.6.1.1; Evidence="
     ],
     "ec_numbers": [
       "4.6.1.1"
@@ -156373,7 +156373,7 @@
   "T2DMP7": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
+      "Reaction=DNA(n) + a 2^-deoxyribonucleoside 5^-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
     ],
     "ec_numbers": [
       "2.7.7.7"
