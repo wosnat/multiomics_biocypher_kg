@@ -1,6 +1,8 @@
 # TCDB two-source upgrade — MCP / explorer contract
 
-**Status:** LANDED 2026-08-07 · branch `tcdb-diamond-cleanup`
+**Status:** LANDED 2026-08-07 · extended 2026-08-12 with the substrate-rollup
+depth fix (§7) — same unreleased change set, not yet consumed by the explorer,
+so both land as ONE upgrade.
 **Audience:** the MCP / explorer team. This is an **upgrade delta**, not a full
 description — it assumes the existing TCDB surface documented in
 [`tcdb-cazy-ontologies.md`](tcdb-cazy-ontologies.md) is already implemented in the API.
@@ -18,6 +20,10 @@ description — it assumes the existing TCDB surface documented in
 | ✅ **New** | Edge provenance (`sources`) + diamond evidence + an advisory `tcdb_evidence_score`. |
 | ✅ **New** | 4 ontology→ontology bridge edges (TcdbFamily → Pfam / GO). |
 | ✅ **New** | `Gene.tcdb_best_evidence_score`. |
+| ⚠️ **BREAKING** | `metabolite_count` no longer unions catalysis with transport. Gene / Metabolite / OrganismTaxon each gain a separate transport-arm property. Gene p90 was 554 (transport-dominated), catalysis-only p90 is 11. See §7.3. |
+| ⚠️ **Semantics change** | `Metabolite.transporter_count` was 0 for 83% of transported metabolites; now non-zero for all 1,462. See §7.2. |
+| ✅ **New** | `Tcdb_family_transports_metabolite.substrate_depth` (`'deepest'`/`'ancestor'`) — tells a real transporter system from a rollup ancestor. See §7.1. |
+| ✅ **New** | `Gene.transport_substrate_resolution` (`'resolved'`/`'family_inferred'`) — is this gene's substrate tag usable? See §7.4. |
 
 ---
 
@@ -82,11 +88,13 @@ precomputed `r.agrees_across_sources` (below) rather than recomputing.
 | a gene Pfam is curated into this family | `pfam_corroborated` (bool) |
 | a gene GO term is curated onto this family | `go_corroborated` (bool) |
 
-Distribution: 0 → 17,422 · 1 → 9,039 · 2 → 9,265 · 3 → 7,812 · 4 → 9,144 · 5 → 1,081.
+Distribution: 0 → 17,045 · 1 → 8,599 · 2 → 9,461 · 3 → 7,541 · 4 → 9,957 · 5 → 1,160.
+(Shifted from the 2026-08-07 figures by the InterPro two-layer merge, which added
+`Gene_has_pfam` edges and so more `pfam_corroborated` hits. Total edges unchanged.)
 
 **Gene property `tcdb_best_evidence_score` (int 0–5)** = `max()` over the gene's edges.
 Answers *"is this gene a transporter at all"*, where the edge score answers *"is THIS
-assignment right"*. Not a copy: 32.6% of annotated genes carry calls at differing scores.
+assignment right"*. Not a copy: 33.0% of annotated genes (9,917 of 30,076) carry calls at differing scores.
 
 > **SPARSE.** Set only on genes with ≥1 TCDB edge. A gene with **no** transporter
 > evidence is deliberately distinct from one with **weak** evidence — do not
@@ -232,11 +240,105 @@ walk left 94.5% of nodes with `gene_count = 0`. Zero metabolite reachability was
 nodes genes actually annotate (286), not every specificity node under a reachable
 family. Queries using that filter to recover "leaf-only" substrate semantics still
 work, but now count real transporter systems present in our organisms.
-`Metabolite.transporter_count` drops correspondingly.
+
+⚠️ **Do NOT use `level_kind = 'tc_specificity'` as a substrate filter any more.**
+Only **466 of 11,263** substrate edges now sit on specificity nodes, because genes
+mostly annotate at family/subfamily depth and the ancestor-only prune keeps no
+specificity node beneath them. Use `substrate_depth` (§7) instead.
 
 ---
 
-## 7. Checklist
+## 7. Substrate rollup depth — new edge property + rebuilt counts
+
+The step-6 rollup materialises **every descendant's substrates onto every
+ancestor**, computed over the FULL TCDB hierarchy before pruning. That is
+deliberate (it is why an ancestor stays substrate-reachable after its leaves are
+pruned away), but it left no way to tell *"this node is the transporter system"*
+from *"this node is an ancestor of one"*. Three scalars silently inherited the
+ambiguity. All are fixed together here.
+
+### 7.1 New: `Tcdb_family_transports_metabolite.substrate_depth`
+
+```cypher
+(TcdbFamily)-[:Tcdb_family_transports_metabolite {
+    substrate_depth: 'deepest'   // no kept CHILD of this node carries this substrate
+                                 // → the most specific surviving system for it
+  //substrate_depth: 'ancestor'  // carries it only via the subtree rollup
+}]->(Metabolite)
+```
+
+Counts: **4,381 `deepest`**, 6,882 `ancestor`. Categorical **string**, not boolean
+(BioCypher mishandles bool properties — the KG uses string vocabularies throughout).
+
+It is a **(node, substrate) fact, not a node fact**: `2.A.1` can be `deepest` for one
+substrate and `ancestor` for another, depending on which of its children survived.
+
+This is *not* "curated vs inherited" — only `tc_specificity` nodes own
+`substrate_classes` and they are leaves, so curated-vs-inherited is already exactly
+`level_kind = 'tc_specificity'`. Depth is the part that needed materialising.
+
+### 7.2 ⚠️ `Metabolite.transporter_count` — redefined
+
+Was `tc_specificity`-only, which read **0 for 1,218 of the 1,462 transported
+metabolites (83%)** — a filter written before the ancestor-only prune. Now counts
+DISTINCT sources over `substrate_depth = 'deepest'` edges: every transported
+metabolite gets a non-zero count (median 1, max 123), with no ancestor counted
+alongside its own descendant.
+
+### 7.3 ⚠️ BREAKING — metabolite counts split by evidence arm
+
+`metabolite_count` used to union catalysis with transport. The arms are not
+comparable — catalysis **p90 = 11**, transport **p90 = 554** — and **23,137 genes**
+had transport evidence only, so for most genes the stored number was entirely the
+inflated arm with nothing marking it.
+
+| Node | `metabolite_count` (was union) | new transport property |
+|---|---|---|
+| `Gene` | catalysis only | `transported_metabolite_count` |
+| `Metabolite` | `gene_count` = catalysis only | `transporter_gene_count` |
+| `OrganismTaxon` | `'metabolism'` arm only | `transported_metabolite_count` |
+
+The transport arm counts each gene's **DEEPEST TC attachments only**. 6,950 genes
+are annotated at both an ancestor and its own descendant (e.g. `3.A.1` *and*
+`3.A.1.14`); unioning across all attachments pulled in the superfamily's whole
+rollup despite a more specific call existing. Restricting to the deepest keeps
+26,813 of 26,894 genes (99.7%) and takes p90 from **554 → 97**.
+
+Both ends use the same predicate, so `Gene.transported_metabolite_count` and
+`Metabolite.transporter_gene_count` are two projections of one (gene, metabolite)
+set and agree by construction. `Organism_has_metabolite`'s transport arm uses it
+too — previously one gene annotated at `3.A.1` gave its whole organism all 554 ABC
+substrates, which is how every organism came to "have" 63% of all metabolite nodes.
+
+### 7.4 New: `Gene.transport_substrate_resolution`
+
+`'resolved'` | `'family_inferred'` — categorical string, **sparse** (absent when the
+gene has no TCDB edge, so "no transporter evidence" stays distinguishable from a
+weak substrate claim).
+
+| value | genes | `transported_metabolite_count` p90 |
+|---|---|---|
+| `resolved` | 28,405 | 33 |
+| `family_inferred` | 1,671 | 554 |
+
+`family_inferred` means the gene's deepest TC attachment is a substrate-lumping
+node (`is_promiscuous`, e.g. ABC superfamily `3.A.1` with 554 substrates) — the
+count is reachability, not capability; take the substrate from `product` / COG /
+`function_description` instead. **This answers the friction reported by the
+Alteromonas coculture analysis** ("carry a confident-vs-inferred flag on every
+substrate tag"), which previously had to be derived by the caller.
+
+**Deliberately NOT tier-gated.** Tier and substrate resolution are orthogonal:
+**11,871 `resolved` genes are tier-3-only** — narrow `2.A.x` secondary carriers
+where remote homology could not justify a subfamily call, and precisely the ones
+TCDB resolves well. A tier gate would discard them while keeping eggNOG's equally
+lumping `tc_family` edges, since eggNOG carries no `tier` at all — an artifact of
+which tool made the call. Tier keeps its existing homes: the edge property, the
+`annotation_types` / `annotation_quality` gate, and `Gene.tcdb_best_evidence_score`.
+
+---
+
+## 8. Checklist
 
 - [ ] `tier` treated as optional (absent on 13,165 eggNOG-only edges)
 - [ ] Corroboration uses `agrees_across_sources`, **not** `size(sources) = 2`
@@ -246,6 +348,11 @@ work, but now count real transporter systems present in our organisms.
 - [ ] Bridge edges never traversed Pfam→TcdbFamily to assign gene function
 - [ ] Hard-coded `TcdbFamily` counts / result-size limits reviewed (12,902 → 1,515 nodes; 16.8K → 53.8K edges)
 - [ ] `is_promiscuous` consumers unaffected (meaning preserved), but any class/subclass-level use now returns false
+- [ ] **`metabolite_count` readers audited** — it is catalysis-only now; add `transported_metabolite_count` where the transport arm was wanted (Gene / Metabolite `transporter_gene_count` / OrganismTaxon)
+- [ ] **`Metabolite.transporter_count` thresholds re-checked** — it was 0 for 83% of transported metabolites, so any `> 0` filter silently excluded them
+- [ ] **Substrate queries use `substrate_depth = 'deepest'`**, not `level_kind = 'tc_specificity'` (466 of 11,263 edges)
+- [ ] **`transport_substrate_resolution` surfaced** wherever a substrate is shown — `family_inferred` (1,671 genes) means "do not read the substrate off TCDB"
+- [ ] Neither new property treated as a confidence/tier signal — resolution is substrate BREADTH, orthogonal to `tier` (11,871 `resolved` genes are tier-3-only)
 
 ## See also
 

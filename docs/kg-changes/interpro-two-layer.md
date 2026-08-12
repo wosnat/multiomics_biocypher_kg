@@ -61,12 +61,37 @@ read outward from a gene's known family it corroborates; read backward (carries 
 these** — that is `Gene_catalyzes_ec_number`. Same contract as
 `Publication_discusses_*` and the TCDB bridges.
 
-Dangling-proof by **pruning to the EC/CAZy nodes the gene edges already created**
-(self-computed from the merged JSONs; no cross-adapter injection). Consequence:
-a DOMAIN/multi-EC entry's EC only gets a router edge if that EC exists somewhere
-in the graph. DOMAIN-ECs no gene carries (~9K of the reference's 16K) are **not**
-materialised — the simplicity/completeness tradeoff vs. injecting orphan EC nodes.
-Revisit with node injection if ontology-level ORA needs the full set.
+Dangling-proof by **pruning to the EC/CAZy nodes the gene edges already created**.
+Consequence: a DOMAIN/multi-EC entry's EC only gets a router edge if that EC exists
+somewhere in the graph. DOMAIN-ECs no gene carries (~9K of the reference's 16K) are
+**not** materialised — the simplicity/completeness tradeoff vs. injecting orphan EC
+nodes. Revisit with node injection if ontology-level ORA needs the full set.
+
+### EC pruning correction (2026-08-12)
+
+The original pruning target — the EC set self-computed from the merged JSONs, with
+no cross-adapter injection — assumed every EC a gene carries has an `EcNumber`
+node. It does not. `EcNumber` nodes are the **Expasy** hierarchy (7,337 ids), while
+InterPro's entry-level EC xrefs include obsolete numbers (`1.2.8.1` — deleted
+before Expasy's transfer map covers it) and invalid ones (`2.8.3.183` on IPR017821;
+Expasy's `2.8.3.*` stops at `.28`). `normalize_ec` remaps neither, so Layer B
+propagated both onto genes, and `neo4j-admin import` skipped 9 edges: 5
+`Gene_catalyzes_ec_number` + 4 `Interpro_entry_related_to_ec_number`.
+
+Fix (both halves needed — Layer A prunes to what the gene edges create, so the gene
+edges have to be clean first):
+
+- `MultiEcAnnotationAdapter.all_ec_node_ids()` exposes the Expasy node universe;
+  `get_edges` prunes gene→EC edges to it and logs each dropped EC number.
+- `create_knowledge_graph` injects that set as
+  `MultiInterproAnnotationAdapter(ec_node_ids=…)`, and Layer A intersects
+  `observed_ec` with it. `None` → emit no Layer-A EC edges, the same contract as
+  `pfam_node_ids`.
+
+No count changes (`Gene_catalyzes_ec_number` 69,026; Layer A 6,854 distinct) —
+import was already dropping these. Separately, Layer A emits ~103 duplicate edge
+ids (two raw tokens on one entry normalising to the same EC) that dedup at import;
+harmless and pre-existing.
 
 ## Reference cache (step 9)
 

@@ -473,3 +473,51 @@ def test_verdict_is_independent_of_unrelated_siblings(tmp_path):
     solo_cand = solo["WP_X.1"]["calls"][0]
     multi_cand = next(c for c in multi["WP_X.1"]["calls"] if c["tcid"].startswith("2.A.6"))
     assert solo_cand == multi_cand
+
+
+from multiomics_kg.utils.tcdb_diamond import confidence_score
+
+
+# ── consensus depth can never exceed the shallowest hit ──────────────────────
+#
+# `parse_tcdb_subject_id` accepts 3-5 part TCIDs, and list slicing does not pad,
+# so a group of 4-part hits used to match at depth 5 and report "5_part" —
+# inflating the agreement weight to 1.0 and labelling a subfamily-depth call as
+# tc_specificity. TCDB ships only 5-part headers today (40,520/40,520 candidates
+# across 42 strains), so this guards an invariant rather than a live bug.
+
+
+def test_consensus_never_claims_more_depth_than_the_hits_have():
+    hits = [{"tcid": "1.A.11.1"}, {"tcid": "1.A.11.1"}]
+    out = consensus_collapse(hits)
+    assert out["agreement"] == "4_part"
+    assert out["tcid"] == "1.A.11.1"
+
+
+def test_consensus_depth_capped_by_the_shallowest_hit():
+    """A 3-part hit alongside 5-part ones caps the consensus at 3 parts."""
+    hits = [{"tcid": "2.A.1.2.9"}, {"tcid": "2.A.1"}]
+    out = consensus_collapse(hits)
+    assert out["agreement"] == "3_part"
+    assert out["tcid"] == "2.A.1"
+
+
+def test_five_part_hits_still_reach_full_depth():
+    """The guard must not cost depth in the normal all-5-part case."""
+    hits = [{"tcid": "1.A.11.1.5"}, {"tcid": "1.A.11.1.5"}]
+    out = consensus_collapse(hits)
+    assert out["agreement"] == "5_part"
+    assert out["tcid"] == "1.A.11.1.5"
+
+
+def test_agreement_weight_is_defined_for_every_returned_depth():
+    """confidence_score() indexes _AGREEMENT_WEIGHT by the agreement string — a
+    depth the table lacks would raise KeyError at build time."""
+    for tcids, expected in (
+        (["1.A.11.1.5", "1.A.11.1.5"], "5_part"),
+        (["1.A.11.1", "1.A.11.1"], "4_part"),
+        (["1.A.11.1.5", "1.A.11.2.7"], "3_part"),
+    ):
+        out = consensus_collapse([{"tcid": t} for t in tcids])
+        assert out["agreement"] == expected
+        assert confidence_score(80.0, 80.0, out["agreement"]) > 0

@@ -33,6 +33,27 @@ SCRIPT_DIR = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
 
 
+def _clean_str(value: str) -> str:
+    """Repo-wide string-property sanitiser (see CLAUDE.md)."""
+    return value.replace("'", "^").replace("|", "")
+
+
+def _clean_value(value):
+    """Apply `_clean_str` to a property value, recursing into list elements.
+
+    Defense in depth: `build_protein_annotations._sanitize` already scrubs both
+    characters at the source, but every other adapter sanitises at the yield
+    point too, and the one time this adapter did not, 239 pipe-bearing UniProt
+    `catalytic_activities` values were split apart by BioCypher's `|` array
+    delimiter on the way into the CSV.
+    """
+    if isinstance(value, str):
+        return _clean_str(value)
+    if isinstance(value, list):
+        return [_clean_str(v) if isinstance(v, str) else v for v in value]
+    return value
+
+
 class UniprotAdapter:
     """Single-taxid adapter: reads protein_annotations.json, yields protein nodes + edges."""
 
@@ -65,10 +86,15 @@ class UniprotAdapter:
             / "uniprot" / str(ncbi_taxon_id) / "protein_annotations.json"
         )
 
-        # provenance
+        # Provenance. No `version`: nothing in the download path
+        # (download_uniprot.py) captures a UniProt release, so any release string
+        # here is a guess. The previous hardcoded "2024_03" was stamped on ~89K
+        # edges while the underlying uniprot_raw_data.json had in fact been
+        # fetched in 2026 — a false claim is worse than an absent field. To
+        # restore it, capture X-UniProt-Release at download time and plumb it
+        # through protein_annotations.json rather than reintroducing a constant.
         self.data_source = "uniprot"
         self.data_licence = "CC BY 4.0"
-        self.data_version = "2024_03"
 
         self._data: dict[str, dict] = {}
         # {refseq_WP_id: [(locus_tag, ncbi_accession), ...]}
@@ -137,7 +163,6 @@ class UniprotAdapter:
         return {
             "source": self.data_source,
             "licence": self.data_licence,
-            "version": self.data_version,
         }
 
     def get_nodes(self) -> Generator[tuple[str, str, dict]]:
@@ -182,8 +207,10 @@ class UniprotAdapter:
                 "interaction_notes":        entry.get("interaction_notes"),
                 **self._provenance(),
             }
-            # Sparse output: drop None values
-            props = {k: v for k, v in props.items() if v is not None}
+            # Sparse output: drop None values, then sanitise every string field.
+            props = {
+                k: _clean_value(v) for k, v in props.items() if v is not None
+            }
             yield protein_id, "protein", props
             count += 1
 
@@ -204,18 +231,29 @@ class UniprotAdapter:
 
             # Gene_encodes_protein + Protein_belongs_to_organism
             # (join via refseq_to_strains: one edge per matched locus_tag/assembly)
-            seen_edges: set[tuple[str, str]] = set()
+            #
+            # The two edges have DIFFERENT cardinalities and so need different
+            # dedup keys. A WP_ accession may map to several locus tags within one
+            # assembly (80 proteins do, e.g. uniprot:A8WIB5 → PMM1896 + PMM2004):
+            # that is genuinely two Gene_encodes_protein edges but only ONE
+            # Protein_belongs_to_organism edge. Keying both on (locus_tag,
+            # ncbi_acc) emitted ~131 duplicate organism edges per build, which
+            # only BioCypher's Deduplicator swallowed — with a
+            # "Duplicate edge type Protein_belongs_to_organism found" warning.
+            seen_genes: set[tuple[str, str]] = set()
+            seen_orgs: set[str] = set()
             for refseq in refseq_ids:
                 for locus_tag, ncbi_acc in self._refseq_to_strains.get(refseq, []):
-                    key = (locus_tag, ncbi_acc)
-                    if key in seen_edges:
-                        continue
-                    seen_edges.add(key)
-                    gene_id = self._add_prefix("ncbigene", locus_tag)
-                    org_id = self._add_prefix("insdc.gcf", ncbi_acc)
-                    # Direction convention: Gene → Protein (source=gene, target=protein)
-                    yield None, gene_id, protein_id, "Gene_encodes_protein", props
-                    yield None, protein_id, org_id, "Protein_belongs_to_organism", props
+                    gene_key = (locus_tag, ncbi_acc)
+                    if gene_key not in seen_genes:
+                        seen_genes.add(gene_key)
+                        gene_id = self._add_prefix("ncbigene", locus_tag)
+                        # Direction convention: Gene → Protein (source=gene, target=protein)
+                        yield None, gene_id, protein_id, "Gene_encodes_protein", props
+                    if ncbi_acc not in seen_orgs:
+                        seen_orgs.add(ncbi_acc)
+                        org_id = self._add_prefix("insdc.gcf", ncbi_acc)
+                        yield None, protein_id, org_id, "Protein_belongs_to_organism", props
 
             # remove - moved to the gene edges
             # Protein → EC

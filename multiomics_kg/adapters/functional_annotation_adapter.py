@@ -387,7 +387,8 @@ class MultiEcAnnotationAdapter:
     - EC number nodes (full Expasy hierarchy with rich metadata), cached at
       ``cache_dir/ec_data.json``.
     - ``ec_number_is_a_ec_number`` hierarchy edges.
-    - ``gene_catalyzes_ec_number`` edges from per-strain gene annotations.
+    - ``gene_catalyzes_ec_number`` edges from per-strain gene annotations, pruned
+      to the Expasy node universe (dangling-proof — see ``get_edges``).
 
     Args:
         genome_config_file: path to ``cyanobacteria_genomes.csv``
@@ -406,6 +407,7 @@ class MultiEcAnnotationAdapter:
         self.test_mode = test_mode
         self._ec = EC(test_mode=test_mode, cache_dir=cache_dir)
         self._ec.download_ec_data(cache=cache)
+        self._ec_node_ids: set[str] | None = None
         self._strain_adapters: list[EcAnnotationAdapter] = []
         self._build_strain_adapters(genome_config_file)
 
@@ -426,15 +428,42 @@ class MultiEcAnnotationAdapter:
         """Yield EC number nodes (full Expasy hierarchy)."""
         yield from self._ec.get_nodes()
 
+    def all_ec_node_ids(self) -> set[str]:
+        """Every EC node id this adapter emits — the authoritative target set for
+        anything pointing at an ``EcNumber`` node (see ``get_edges`` and the
+        Layer-A router in ``interpro_adapter``). Cached after the first call."""
+        if self._ec_node_ids is None:
+            self._ec_node_ids = {node_id for node_id, _, _ in self._ec.get_nodes()}
+        return self._ec_node_ids
+
     def get_edges(self):
-        """Yield EC hierarchy edges then gene→EC edges for all strains."""
+        """Yield EC hierarchy edges then gene→EC edges for all strains.
+
+        Gene→EC edges are pruned to the Expasy node universe. Genes can carry EC
+        numbers that have no node: InterPro's entry-level EC xrefs include
+        obsolete numbers (1.2.8.1, deleted before Expasy's transfer map covers it)
+        and invalid ones (2.8.3.183), and ``normalize_ec`` remaps neither. Without
+        this filter those become dangling edges that ``neo4j-admin import`` skips.
+        """
         yield from self._ec.get_edges()
+        known = self.all_ec_node_ids()
         count = 0
+        dropped: dict[str, int] = {}
         for adapter in self._strain_adapters:
             for edge in adapter.get_edges():
+                if edge[2] not in known:
+                    dropped[edge[2]] = dropped.get(edge[2], 0) + 1
+                    continue
                 yield edge
                 count += 1
         logger.info(f"MultiEcAnnotationAdapter.get_edges: yielded {count} gene→EC edges")
+        if dropped:
+            logger.warning(
+                "MultiEcAnnotationAdapter: dropped %d gene→EC edges targeting %d EC "
+                "number(s) with no Expasy node: %s",
+                sum(dropped.values()), len(dropped),
+                ", ".join(sorted(dropped)),
+            )
 
 
 # ---------------------------------------------------------------------------

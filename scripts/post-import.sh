@@ -1067,28 +1067,78 @@ CALL {
 //   - tcdb_family_count  (TCDB-S1)
 //   - cazy_family_count  (TCDB-S2)
 //   - reaction_count     (KG-A1)
-//   - metabolite_count   (TCDB-S3 / KG-A2: UNION of catalysis + transport paths)
+//   - metabolite_count   (KG-A2 — CATALYSIS ONLY as of the TCDB rollup fix)
 //
 // Each OPTIONAL MATCH is followed by a WITH aggregation so rows don't multiply.
 // count(DISTINCT ...) is required for the count rollups because the chained
 // metabolite OPTIONAL MATCHes would otherwise duplicate the parent edge per metabolite.
+//
+// BREAKING: metabolite_count was the UNION of the catalysis and transport arms.
+// The arms have very different epistemics — catalysis p90 = 11 metabolites,
+// transport p90 = 554 — because the step-6 rollup materialises every descendant's
+// substrates onto each ancestor, so a gene annotated only at ABC superfamily
+// 3.A.1 inherited all 554 substrates ABC transporters have ever been curated for.
+// 23,137 genes had transport evidence ONLY, so for the majority of genes the
+// stored number was entirely the inflated arm with nothing signalling it. The
+// transport arm now lives in transported_metabolite_count (next statement).
 MATCH (g:Gene)
 CALL {
   WITH g
-  OPTIONAL MATCH (g)-[r1:Gene_has_tcdb_family]->(tcd:TcdbFamily)
-  OPTIONAL MATCH (tcd)-[:Tcdb_family_transports_metabolite]->(m_tr:Metabolite)
-  WITH g, count(DISTINCT r1) AS tc_count, collect(DISTINCT m_tr) AS m_transport
+  OPTIONAL MATCH (g)-[r1:Gene_has_tcdb_family]->()
+  WITH g, count(DISTINCT r1) AS tc_count
   OPTIONAL MATCH (g)-[r2:Gene_has_cazy_family]->()
-  WITH g, tc_count, m_transport, count(r2) AS cz_count
+  WITH g, tc_count, count(r2) AS cz_count
   OPTIONAL MATCH (g)-[r3:Gene_catalyzes_reaction]->(rx:Reaction)
   OPTIONAL MATCH (rx)-[:Reaction_has_metabolite]->(m_cat:Metabolite)
-  WITH g, tc_count, m_transport, cz_count,
+  WITH g, tc_count, cz_count,
        count(DISTINCT r3) AS rxn_count,
-       collect(DISTINCT m_cat) AS m_catalysis
+       count(DISTINCT m_cat) AS cat_met_count
   SET g.tcdb_family_count = tc_count,
       g.cazy_family_count = cz_count,
       g.reaction_count = rxn_count,
-      g.metabolite_count = size(apoc.coll.toSet(m_catalysis + m_transport))
+      g.metabolite_count = cat_met_count
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Gene transport arm: transported_metabolite_count + transport_substrate_resolution.
+//
+// DEEPEST ATTACHMENTS ONLY. 6,950 genes are annotated at both an ancestor and
+// its own descendant (e.g. both 3.A.1 and 3.A.1.14); unioning across all of a
+// gene's attachments pulled in the ancestor's full rolled-up substrate set even
+// though a more specific call existed. Restricting to the deepest attachments
+// keeps 26,813 of 26,894 genes (99.7%) and cuts p90 from 554 to 97.
+//
+// Checking DIRECT ancestry is not enough — a gene may be annotated at 3.A.1 and
+// 3.A.1.14.2 with no edge to the intervening 3.A.1.14 — hence *1..4 (TCDB is 5
+// levels, so 4 hops is the maximum ancestor distance).
+//
+// NOT tier-gated, deliberately. Tier and substrate resolution are orthogonal:
+// 11,871 genes are 'resolved' yet tier-3-only (narrow 2.A.x secondary carriers
+// where remote homology could not justify a subfamily call). A tier gate would
+// discard exactly those while keeping eggNOG's equally-lumping tc_family edges,
+// since eggNOG carries no tier — an artifact of which tool called it. Tier
+// already gates annotation_types/annotation_quality and rolls up as
+// Gene.tcdb_best_evidence_score; that is its home.
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (g)-[:Gene_has_tcdb_family]->(t:TcdbFamily)
+  WHERE NOT EXISTS {
+    MATCH (g)-[:Gene_has_tcdb_family]->(d:TcdbFamily)
+    WHERE (d)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t)
+  }
+  OPTIONAL MATCH (t)-[:Tcdb_family_transports_metabolite]->(m_tr:Metabolite)
+  WITH g,
+       count(DISTINCT m_tr) AS tr_met_count,
+       count(DISTINCT t) AS n_deepest,
+       collect(DISTINCT coalesce(t.is_promiscuous, false)) AS breadth
+  SET g.transported_metabolite_count = tr_met_count,
+      // null REMOVES the property, keeping it sparse: absent means "no TCDB
+      // edge at all", which must stay distinguishable from a weak-but-present
+      // substrate claim.
+      g.transport_substrate_resolution =
+        CASE WHEN n_deepest = 0 THEN null
+             WHEN any(x IN breadth WHERE x = false) THEN 'resolved'
+             ELSE 'family_inferred' END
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // ── TCDB evidence score (per Gene_has_tcdb_family edge) ──────────────────────
@@ -1192,22 +1242,43 @@ CALL {
 // annotated at. organism_count is computed below from the materialized
 // Organism_has_metabolite edge so size(organism_names) == organism_count
 // is invariant by construction (KG-A8).
+// BREAKING, mirroring Gene.metabolite_count: gene_count is the CATALYSIS arm
+// only; the transport arm moves to transporter_gene_count. Both ends of the
+// transport relation now use the SAME predicate — the gene's DEEPEST TC
+// attachments — so Gene.transported_metabolite_count and
+// Metabolite.transporter_gene_count are two projections of one (gene, metabolite)
+// set and agree by construction.
 CALL {
   MATCH (m:Metabolite)
   OPTIONAL MATCH (m)<-[:Reaction_has_metabolite]-(:Reaction)<-[:Gene_catalyzes_reaction]-(g_cat:Gene)
-  WITH m, collect(DISTINCT g_cat) AS gs_cat
-  OPTIONAL MATCH (m)<-[:Tcdb_family_transports_metabolite]-(:TcdbFamily)<-[:Gene_has_tcdb_family]-(g_tr:Gene)
-  WITH m, gs_cat, collect(DISTINCT g_tr) AS gs_tr
-  WITH m, apoc.coll.toSet(gs_cat + gs_tr) AS all_g
-  SET m.gene_count = size(all_g)
+  WITH m, count(DISTINCT g_cat) AS cat_gene_count
+  OPTIONAL MATCH (m)<-[:Tcdb_family_transports_metabolite]-(t:TcdbFamily)<-[:Gene_has_tcdb_family]-(g_tr:Gene)
+    WHERE NOT EXISTS {
+      MATCH (g_tr)-[:Gene_has_tcdb_family]->(d:TcdbFamily)
+      WHERE (d)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t)
+    }
+  WITH m, cat_gene_count, count(DISTINCT g_tr) AS tr_gene_count
+  SET m.gene_count = cat_gene_count,
+      m.transporter_gene_count = tr_gene_count
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Metabolite.transporter_count: distinct tc_specificity LEAVES with substrate edge.
-// Filter to leaves so the count reflects "actual transporter systems" rather
-// than ancestors-via-rollup. Source-level filter recovers pre-rollup semantics.
+// Metabolite.transporter_count: distinct transporter systems at MAXIMAL DEPTH.
+//
+// Was `level_kind = 'tc_specificity'`, which made the count 0 for 1,218 of the
+// 1,462 transported metabolites (83%). That filter dated from before the
+// ancestor-only prune: only 466 of 11,263 substrate edges now sit on
+// tc_specificity nodes, because genes mostly annotate at family/subfamily depth
+// and the prune keeps no specificity node below them.
+//
+// substrate_depth = 'deepest' (set by tcdb_adapter) means no kept child of this
+// node also carries the substrate — so counting DISTINCT sources over those
+// edges counts each transporter system once, at the finest resolution the pruned
+// graph retains, without double-counting an ancestor together with its own
+// descendant. All 1,462 transported metabolites now get a non-zero count.
 CALL {
   MATCH (m:Metabolite)
-  OPTIONAL MATCH (t:TcdbFamily {level_kind: 'tc_specificity'})-[:Tcdb_family_transports_metabolite]->(m)
+  OPTIONAL MATCH (t:TcdbFamily)-[r:Tcdb_family_transports_metabolite]->(m)
+    WHERE r.substrate_depth = 'deepest'
   WITH m, count(DISTINCT t) AS tc
   SET m.transporter_count = tc
 } IN TRANSACTIONS OF 1000 ROWS;
@@ -1232,11 +1303,19 @@ CALL {
          ELSE coalesce(r.evidence_sources, []) + 'metabolism' END
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Materialize Organism_has_metabolite (transport arm) — single-hop after rollup.
+// Materialize Organism_has_metabolite (transport arm).
+// Uses the SAME deepest-attachment predicate as Gene.transported_metabolite_count
+// so the organism edge and the gene scalar cannot disagree. Without it, one gene
+// annotated at ABC superfamily 3.A.1 gave its whole organism all 554 ABC
+// substrates, which is how every organism came to "have" 63% of all metabolites.
 CALL {
   MATCH (o:OrganismTaxon)<-[:Gene_belongs_to_organism]-(g:Gene)
-        -[:Gene_has_tcdb_family]->(:TcdbFamily)
+        -[:Gene_has_tcdb_family]->(t:TcdbFamily)
         -[:Tcdb_family_transports_metabolite]->(m:Metabolite)
+  WHERE NOT EXISTS {
+    MATCH (g)-[:Gene_has_tcdb_family]->(d:TcdbFamily)
+    WHERE (d)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t)
+  }
   WITH DISTINCT o, m
   MERGE (o)-[r:Organism_has_metabolite]->(m)
   ON CREATE SET r.evidence_sources = ['transport'],
@@ -1250,10 +1329,18 @@ CALL {
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Organism rollup props (~30 organisms — single batch fits comfortably)
+// BREAKING, mirroring Gene / Metabolite: metabolite_count is the CATALYSIS arm
+// only; the transport arm becomes transported_metabolite_count. (The measurement
+// arm already had its own scalar, measured_metabolite_count, so this completes
+// the three-way split.) evidence_sources on the edge is the discriminator, so
+// neither arm needs re-traversal here.
 CALL {
-  MATCH (o:OrganismTaxon)-[:Organism_has_metabolite]->(m:Metabolite)
-  WITH o, count(DISTINCT m) AS metabolite_count
-  SET o.metabolite_count = metabolite_count
+  MATCH (o:OrganismTaxon)-[r:Organism_has_metabolite]->(m:Metabolite)
+  WITH o,
+       count(DISTINCT CASE WHEN 'metabolism' IN r.evidence_sources THEN m END) AS cat_count,
+       count(DISTINCT CASE WHEN 'transport'  IN r.evidence_sources THEN m END) AS tr_count
+  SET o.metabolite_count = cat_count,
+      o.transported_metabolite_count = tr_count
 } IN TRANSACTIONS OF 1000 ROWS;
 
 CALL {

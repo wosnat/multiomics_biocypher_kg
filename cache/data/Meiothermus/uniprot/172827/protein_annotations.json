@@ -1739,7 +1739,7 @@
   "A0A399DQC7": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a 2'-deoxyribonucleoside 5'-diphosphate + [thioredoxin]-disulfide + H2O = a ribonucleoside 5'-diphosphate + [thioredoxin]-dithiol; Xref=Rhea:RHEA:23252, Rhea:RHEA-COMP:10698, Rhea:RHEA-COMP:10700, ChEBI:CHEBI:15377, ChEBI:CHEBI:29950, ChEBI:CHEBI:50058, ChEBI:CHEBI:57930, ChEBI:CHEBI:73316; EC=1.17.4.1; Evidence="
+      "Reaction=a 2^-deoxyribonucleoside 5^-diphosphate + [thioredoxin]-disulfide + H2O = a ribonucleoside 5^-diphosphate + [thioredoxin]-dithiol; Xref=Rhea:RHEA:23252, Rhea:RHEA-COMP:10698, Rhea:RHEA-COMP:10700, ChEBI:CHEBI:15377, ChEBI:CHEBI:29950, ChEBI:CHEBI:50058, ChEBI:CHEBI:57930, ChEBI:CHEBI:73316; EC=1.17.4.1; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH74266.1}.",
     "cofactor_names": [
@@ -1883,7 +1883,7 @@
   "A0A399DQE1": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a 2'-deoxyadenosine in DNA + S-adenosyl-L-methionine = an N(6)-methyl-2'-deoxyadenosine in DNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:15197, Rhea:RHEA-COMP:12418, Rhea:RHEA-COMP:12419, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:90615, ChEBI:CHEBI:90616; EC=2.1.1.72; Evidence="
+      "Reaction=a 2^-deoxyadenosine in DNA + S-adenosyl-L-methionine = an N(6)-methyl-2^-deoxyadenosine in DNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:15197, Rhea:RHEA-COMP:12418, Rhea:RHEA-COMP:12419, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:90615, ChEBI:CHEBI:90616; EC=2.1.1.72; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH74187.1}.",
     "ec_numbers": [
@@ -3342,7 +3342,7 @@
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH74665.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.-"
@@ -3875,7 +3875,7 @@
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH74735.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.42"
@@ -4140,7 +4140,7 @@
     "annotation_score": 2.0,
     "catalytic_activities": [
       "Reaction=ATP + H2O = ADP + phosphate + H(+); Xref=Rhea:RHEA:13065, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:43474, ChEBI:CHEBI:456216; EC=5.6.2.4; Evidence=",
-      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3'-5' direction.; EC=5.6.2.4; Evidence="
+      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3^-5^ direction.; EC=5.6.2.4; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH74775.1}.",
     "ec_numbers": [
@@ -5116,7 +5116,7 @@
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH74855.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.2.3.1"
@@ -5729,7 +5729,7 @@
     "annotation_score": 1.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH74647.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.77"
@@ -5961,7 +5961,7 @@
   "A0A399DRQ7": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=2'-deoxycytidine + H2O + H(+) = 2'-deoxyuridine + NH4(+); Xref=Rhea:RHEA:13433, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:15698, ChEBI:CHEBI:16450, ChEBI:CHEBI:28938; EC=3.5.4.5; Evidence=",
+      "Reaction=2^-deoxycytidine + H2O + H(+) = 2^-deoxyuridine + NH4(+); Xref=Rhea:RHEA:13433, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:15698, ChEBI:CHEBI:16450, ChEBI:CHEBI:28938; EC=3.5.4.5; Evidence=",
       "Reaction=cytidine + H2O + H(+) = uridine + NH4(+); Xref=Rhea:RHEA:16069, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:16704, ChEBI:CHEBI:17562, ChEBI:CHEBI:28938; EC=3.5.4.5; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH74925.1}.",
@@ -6570,7 +6570,7 @@
   "A0A399DRW8": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
+      "Reaction=DNA(n) + a 2^-deoxyribonucleoside 5^-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH74846.1}.",
     "ec_numbers": [
@@ -13634,7 +13634,7 @@
   "A0A399DTQ8": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a 2'-deoxyadenosine in DNA + S-adenosyl-L-methionine = an N(6)-methyl-2'-deoxyadenosine in DNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:15197, Rhea:RHEA-COMP:12418, Rhea:RHEA-COMP:12419, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:90615, ChEBI:CHEBI:90616; EC=2.1.1.72; Evidence="
+      "Reaction=a 2^-deoxyadenosine in DNA + S-adenosyl-L-methionine = an N(6)-methyl-2^-deoxyadenosine in DNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:15197, Rhea:RHEA-COMP:12418, Rhea:RHEA-COMP:12419, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:90615, ChEBI:CHEBI:90616; EC=2.1.1.72; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH75575.1}.",
     "ec_numbers": [
@@ -13724,7 +13724,7 @@
     "annotation_score": 2.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH75059.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.1.2.49"
@@ -16107,7 +16107,7 @@
     "annotation_score": 1.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH74678.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "5.4.3.8"
@@ -19375,7 +19375,7 @@
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH75183.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.5.1.47"
@@ -22349,7 +22349,7 @@
   "A0A399DVE2": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=Release of signal peptides from bacterial membrane prolipoproteins. Hydrolyzes -Xaa-Yaa-Zaa-|-(S,diacylglyceryl)Cys-, in which Xaa is hydrophobic (preferably Leu), and Yaa (Ala or Ser) and Zaa (Gly or Ala) have small, neutral side chains.; EC=3.4.23.36; Evidence="
+      "Reaction=Release of signal peptides from bacterial membrane prolipoproteins. Hydrolyzes -Xaa-Yaa-Zaa-,-(S,diacylglyceryl)Cys-, in which Xaa is hydrophobic (preferably Leu), and Yaa (Ala or Ser) and Zaa (Gly or Ala) have small, neutral side chains.; EC=3.4.23.36; Evidence="
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_00161}.; CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH75138.1}.",
     "ec_numbers": [
@@ -23911,7 +23911,7 @@
     "annotation_score": 1.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76147.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.21"
@@ -23959,7 +23959,7 @@
     "annotation_score": 2.0,
     "catalytic_activities": [
       "Reaction=ATP + H2O = ADP + phosphate + H(+); Xref=Rhea:RHEA:13065, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:43474, ChEBI:CHEBI:456216; EC=5.6.2.4; Evidence=",
-      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3'-5' direction.; EC=5.6.2.4; Evidence="
+      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3^-5^ direction.; EC=5.6.2.4; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76146.1}.",
     "ec_numbers": [
@@ -24694,7 +24694,7 @@
     "annotation_score": 1.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76196.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.83"
@@ -24913,7 +24913,7 @@
     "annotation_score": 2.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76335.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.-.-.-"
@@ -27462,7 +27462,7 @@
   "A0A399DWD2": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=NAD(+) + (deoxyribonucleotide)n-3'-hydroxyl + 5'-phospho-(deoxyribonucleotide)m = (deoxyribonucleotide)n+m + AMP + beta-nicotinamide D-nucleotide.; EC=6.5.1.2; Evidence="
+      "Reaction=NAD(+) + (deoxyribonucleotide)n-3^-hydroxyl + 5^-phospho-(deoxyribonucleotide)m = (deoxyribonucleotide)n+m + AMP + beta-nicotinamide D-nucleotide.; EC=6.5.1.2; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76376.1}.",
     "cofactor_names": [
@@ -28849,7 +28849,7 @@
     "annotation_score": 1.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76584.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "5.4.3.8"
@@ -29316,7 +29316,7 @@
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH75638.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.8.1.7"
@@ -29868,7 +29868,7 @@
   "A0A399DWR5": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
+      "Reaction=DNA(n) + a 2^-deoxyribonucleoside 5^-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76029.1}.",
     "ec_numbers": [
@@ -31822,7 +31822,7 @@
   "A0A399DX21": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
+      "Reaction=DNA(n) + a 2^-deoxyribonucleoside 5^-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH75933.1}.",
     "ec_numbers": [
@@ -36399,7 +36399,7 @@
   "A0A399DXS7": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a 2'-deoxyadenosine in DNA + S-adenosyl-L-methionine = an N(6)-methyl-2'-deoxyadenosine in DNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:15197, Rhea:RHEA-COMP:12418, Rhea:RHEA-COMP:12419, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:90615, ChEBI:CHEBI:90616; EC=2.1.1.72; Evidence="
+      "Reaction=a 2^-deoxyadenosine in DNA + S-adenosyl-L-methionine = an N(6)-methyl-2^-deoxyadenosine in DNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:15197, Rhea:RHEA-COMP:12418, Rhea:RHEA-COMP:12419, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:90615, ChEBI:CHEBI:90616; EC=2.1.1.72; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77005.1}.",
     "ec_numbers": [
@@ -38776,7 +38776,7 @@
   "A0A399DY60": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=Release of an N-terminal amino acid, Xaa-|-Yaa-, in which Xaa is preferably Leu, but may be other amino acids including Pro although not Arg or Lys, and Yaa may be Pro. Amino acid amides and methyl esters are also readily hydrolyzed, but rates on arylamides are exceedingly low.; EC=3.4.11.1; Evidence=",
+      "Reaction=Release of an N-terminal amino acid, Xaa-,-Yaa-, in which Xaa is preferably Leu, but may be other amino acids including Pro although not Arg or Lys, and Yaa may be Pro. Amino acid amides and methyl esters are also readily hydrolyzed, but rates on arylamides are exceedingly low.; EC=3.4.11.1; Evidence=",
       "Reaction=Release of an N-terminal amino acid, preferentially leucine, but not glutamic or aspartic acids.; EC=3.4.11.10; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76439.1}.",
@@ -40264,7 +40264,7 @@
   "A0A399DYF2": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=a ribonucleoside 5'-phosphate + H2O = a ribonucleoside + phosphate; Xref=Rhea:RHEA:12484, ChEBI:CHEBI:15377, ChEBI:CHEBI:18254, ChEBI:CHEBI:43474, ChEBI:CHEBI:58043; EC=3.1.3.5; Evidence="
+      "Reaction=a ribonucleoside 5^-phosphate + H2O = a ribonucleoside + phosphate; Xref=Rhea:RHEA:12484, ChEBI:CHEBI:15377, ChEBI:CHEBI:18254, ChEBI:CHEBI:43474, ChEBI:CHEBI:58043; EC=3.1.3.5; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76423.1}.",
     "cofactor_names": [
@@ -40541,7 +40541,7 @@
   "A0A399DYG2": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=RNA(n+1) + phosphate = RNA(n) + a ribonucleoside 5'-diphosphate; Xref=Rhea:RHEA:22096, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:43474, ChEBI:CHEBI:57930, ChEBI:CHEBI:140395; EC=2.7.7.8; Evidence="
+      "Reaction=RNA(n+1) + phosphate = RNA(n) + a ribonucleoside 5^-diphosphate; Xref=Rhea:RHEA:22096, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:43474, ChEBI:CHEBI:57930, ChEBI:CHEBI:140395; EC=2.7.7.8; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76529.1}.",
     "cofactor_names": [
@@ -41159,7 +41159,7 @@
   "A0A399DYJ4": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=dehypoxanthine futalosine + S-adenosyl-L-methionine = cyclic dehypoxanthinylfutalosinate + 5'-deoxyadenosine + L-methionine + H(+); Xref=Rhea:RHEA:33083, ChEBI:CHEBI:15378, ChEBI:CHEBI:17319, ChEBI:CHEBI:57844, ChEBI:CHEBI:58864, ChEBI:CHEBI:59789, ChEBI:CHEBI:64270; EC=1.21.98.1; Evidence="
+      "Reaction=dehypoxanthine futalosine + S-adenosyl-L-methionine = cyclic dehypoxanthinylfutalosinate + 5^-deoxyadenosine + L-methionine + H(+); Xref=Rhea:RHEA:33083, ChEBI:CHEBI:15378, ChEBI:CHEBI:17319, ChEBI:CHEBI:57844, ChEBI:CHEBI:58864, ChEBI:CHEBI:59789, ChEBI:CHEBI:64270; EC=1.21.98.1; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH75261.1}.",
     "cofactor_names": [
@@ -42954,7 +42954,7 @@
     "annotation_score": 1.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH75082.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.39"
@@ -43474,7 +43474,7 @@
   "A0A399DYW2": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=kanamycin B + acetyl-CoA = N(6')-acetylkanamycin B + CoA + H(+); Xref=Rhea:RHEA:16449, ChEBI:CHEBI:15378, ChEBI:CHEBI:57287, ChEBI:CHEBI:57288, ChEBI:CHEBI:58390, ChEBI:CHEBI:58549; EC=2.3.1.82; Evidence="
+      "Reaction=kanamycin B + acetyl-CoA = N(6^)-acetylkanamycin B + CoA + H(+); Xref=Rhea:RHEA:16449, ChEBI:CHEBI:15378, ChEBI:CHEBI:57287, ChEBI:CHEBI:57288, ChEBI:CHEBI:58390, ChEBI:CHEBI:58549; EC=2.3.1.82; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76583.1}.",
     "ec_numbers": [
@@ -43668,7 +43668,7 @@
     "annotation_score": 2.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77524.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.5.1.48"
@@ -43916,7 +43916,7 @@
   "A0A399DYY5": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=a ribonucleoside 5'-phosphate + H2O = a ribonucleoside + phosphate; Xref=Rhea:RHEA:12484, ChEBI:CHEBI:15377, ChEBI:CHEBI:18254, ChEBI:CHEBI:43474, ChEBI:CHEBI:58043; EC=3.1.3.5; Evidence="
+      "Reaction=a ribonucleoside 5^-phosphate + H2O = a ribonucleoside + phosphate; Xref=Rhea:RHEA:12484, ChEBI:CHEBI:15377, ChEBI:CHEBI:18254, ChEBI:CHEBI:43474, ChEBI:CHEBI:58043; EC=3.1.3.5; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77445.1}.",
     "cofactor_names": [
@@ -44231,8 +44231,8 @@
   "A0A399DZ03": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=N(6)-acetyl-L-lysyl-[protein] + NAD(+) + H2O = 2''-O-acetyl-ADP-D-ribose + nicotinamide + L-lysyl-[protein]; Xref=Rhea:RHEA:43636, Rhea:RHEA-COMP:9752, Rhea:RHEA-COMP:10731, ChEBI:CHEBI:15377, ChEBI:CHEBI:17154, ChEBI:CHEBI:29969, ChEBI:CHEBI:57540, ChEBI:CHEBI:61930, ChEBI:CHEBI:83767; EC=2.3.1.286; Evidence=",
-      "Reaction=N(6)-succinyl-L-lysyl-[protein] + NAD(+) + H2O = 2''-O-succinyl-ADP-D-ribose + nicotinamide + L-lysyl-[protein]; Xref=Rhea:RHEA:47668, Rhea:RHEA-COMP:9752, Rhea:RHEA-COMP:11877, ChEBI:CHEBI:15377, ChEBI:CHEBI:17154, ChEBI:CHEBI:29969, ChEBI:CHEBI:57540, ChEBI:CHEBI:87830, ChEBI:CHEBI:87832; Evidence="
+      "Reaction=N(6)-acetyl-L-lysyl-[protein] + NAD(+) + H2O = 2^^-O-acetyl-ADP-D-ribose + nicotinamide + L-lysyl-[protein]; Xref=Rhea:RHEA:43636, Rhea:RHEA-COMP:9752, Rhea:RHEA-COMP:10731, ChEBI:CHEBI:15377, ChEBI:CHEBI:17154, ChEBI:CHEBI:29969, ChEBI:CHEBI:57540, ChEBI:CHEBI:61930, ChEBI:CHEBI:83767; EC=2.3.1.286; Evidence=",
+      "Reaction=N(6)-succinyl-L-lysyl-[protein] + NAD(+) + H2O = 2^^-O-succinyl-ADP-D-ribose + nicotinamide + L-lysyl-[protein]; Xref=Rhea:RHEA:47668, Rhea:RHEA-COMP:9752, Rhea:RHEA-COMP:11877, ChEBI:CHEBI:15377, ChEBI:CHEBI:17154, ChEBI:CHEBI:29969, ChEBI:CHEBI:57540, ChEBI:CHEBI:87830, ChEBI:CHEBI:87832; Evidence="
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_01121}.; CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH75300.1}.",
     "cofactor_names": [
@@ -44600,7 +44600,7 @@
     "annotation_score": 1.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH75320.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.39"
@@ -46128,8 +46128,8 @@
   "A0A399DZB3": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=1-(5-phospho-beta-D-ribosyl)-5'-AMP + H2O = 1-(5-phospho-beta-D-ribosyl)-5-[(5-phospho-beta-D-ribosylamino)methylideneamino]imidazole-4-carboxamide; Xref=Rhea:RHEA:20049, ChEBI:CHEBI:15377, ChEBI:CHEBI:58435, ChEBI:CHEBI:59457; EC=3.5.4.19; Evidence=",
-      "Reaction=1-(5-phospho-beta-D-ribosyl)-ATP + H2O = 1-(5-phospho-beta-D-ribosyl)-5'-AMP + diphosphate + H(+); Xref=Rhea:RHEA:22828, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:33019, ChEBI:CHEBI:59457, ChEBI:CHEBI:73183; EC=3.6.1.31; Evidence="
+      "Reaction=1-(5-phospho-beta-D-ribosyl)-5^-AMP + H2O = 1-(5-phospho-beta-D-ribosyl)-5-[(5-phospho-beta-D-ribosylamino)methylideneamino]imidazole-4-carboxamide; Xref=Rhea:RHEA:20049, ChEBI:CHEBI:15377, ChEBI:CHEBI:58435, ChEBI:CHEBI:59457; EC=3.5.4.19; Evidence=",
+      "Reaction=1-(5-phospho-beta-D-ribosyl)-ATP + H2O = 1-(5-phospho-beta-D-ribosyl)-5^-AMP + diphosphate + H(+); Xref=Rhea:RHEA:22828, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:33019, ChEBI:CHEBI:59457, ChEBI:CHEBI:73183; EC=3.6.1.31; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH75440.1}.",
     "ec_numbers": [
@@ -46763,7 +46763,7 @@
   "A0A399DZC9": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=RNA(n) + a ribonucleoside 5'-triphosphate = RNA(n+1) + diphosphate; Xref=Rhea:RHEA:21248, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:33019, ChEBI:CHEBI:61557, ChEBI:CHEBI:140395; EC=2.7.7.6; Evidence="
+      "Reaction=RNA(n) + a ribonucleoside 5^-triphosphate = RNA(n+1) + diphosphate; Xref=Rhea:RHEA:21248, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:33019, ChEBI:CHEBI:61557, ChEBI:CHEBI:140395; EC=2.7.7.6; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76743.1}.",
     "ec_numbers": [
@@ -46965,7 +46965,7 @@
   "A0A399DZD7": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=orotidine 5'-phosphate + H(+) = UMP + CO2; Xref=Rhea:RHEA:11596, ChEBI:CHEBI:15378, ChEBI:CHEBI:16526, ChEBI:CHEBI:57538, ChEBI:CHEBI:57865; EC=4.1.1.23; Evidence="
+      "Reaction=orotidine 5^-phosphate + H(+) = UMP + CO2; Xref=Rhea:RHEA:11596, ChEBI:CHEBI:15378, ChEBI:CHEBI:16526, ChEBI:CHEBI:57538, ChEBI:CHEBI:57865; EC=4.1.1.23; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77704.1}.",
     "ec_numbers": [
@@ -49226,7 +49226,7 @@
   "A0A399DZR1": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=GTP + H2O = 7,8-dihydroneopterin 3'-triphosphate + formate + H(+); Xref=Rhea:RHEA:17473, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:15740, ChEBI:CHEBI:37565, ChEBI:CHEBI:58462; EC=3.5.4.16; Evidence="
+      "Reaction=GTP + H2O = 7,8-dihydroneopterin 3^-triphosphate + formate + H(+); Xref=Rhea:RHEA:17473, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:15740, ChEBI:CHEBI:37565, ChEBI:CHEBI:58462; EC=3.5.4.16; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH75640.1}.",
     "ec_numbers": [
@@ -49703,7 +49703,7 @@
     "annotation_score": 2.0,
     "catalytic_activities": [
       "Reaction=ATP + H2O = ADP + phosphate + H(+); Xref=Rhea:RHEA:13065, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:43474, ChEBI:CHEBI:456216; EC=5.6.2.4; Evidence=",
-      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3'-5' direction.; EC=5.6.2.4; Evidence="
+      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3^-5^ direction.; EC=5.6.2.4; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH75541.1}.",
     "ec_numbers": [
@@ -50485,7 +50485,7 @@
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77386.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "1.4.4.2"
@@ -51555,7 +51555,7 @@
   "A0A399E035": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=cytidine(1402) in 16S rRNA + S-adenosyl-L-methionine = 2'-O-methylcytidine(1402) in 16S rRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:42924, Rhea:RHEA-COMP:10285, Rhea:RHEA-COMP:10286, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74495, ChEBI:CHEBI:82748; EC=2.1.1.198; Evidence="
+      "Reaction=cytidine(1402) in 16S rRNA + S-adenosyl-L-methionine = 2^-O-methylcytidine(1402) in 16S rRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:42924, Rhea:RHEA-COMP:10285, Rhea:RHEA-COMP:10286, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74495, ChEBI:CHEBI:82748; EC=2.1.1.198; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76883.1}.",
     "ec_numbers": [
@@ -51607,7 +51607,7 @@
   "A0A399E036": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=N(6)-dimethylallyladenosine(37) in tRNA + (sulfur carrier)-SH + AH2 + 2 S-adenosyl-L-methionine = 2-methylsulfanyl-N(6)-dimethylallyladenosine(37) in tRNA + (sulfur carrier)-H + 5'-deoxyadenosine + L-methionine + A + S-adenosyl-L-homocysteine + 2 H(+); Xref=Rhea:RHEA:37067, Rhea:RHEA-COMP:10375, Rhea:RHEA-COMP:10376, Rhea:RHEA-COMP:14737, Rhea:RHEA-COMP:14739, ChEBI:CHEBI:13193, ChEBI:CHEBI:15378, ChEBI:CHEBI:17319, ChEBI:CHEBI:17499, ChEBI:CHEBI:29917, ChEBI:CHEBI:57844, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:64428, ChEBI:CHEBI:74415, ChEBI:CHEBI:74417; EC=2.8.4.3; Evidence="
+      "Reaction=N(6)-dimethylallyladenosine(37) in tRNA + (sulfur carrier)-SH + AH2 + 2 S-adenosyl-L-methionine = 2-methylsulfanyl-N(6)-dimethylallyladenosine(37) in tRNA + (sulfur carrier)-H + 5^-deoxyadenosine + L-methionine + A + S-adenosyl-L-homocysteine + 2 H(+); Xref=Rhea:RHEA:37067, Rhea:RHEA-COMP:10375, Rhea:RHEA-COMP:10376, Rhea:RHEA-COMP:14737, Rhea:RHEA-COMP:14739, ChEBI:CHEBI:13193, ChEBI:CHEBI:15378, ChEBI:CHEBI:17319, ChEBI:CHEBI:17499, ChEBI:CHEBI:29917, ChEBI:CHEBI:57844, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:64428, ChEBI:CHEBI:74415, ChEBI:CHEBI:74417; EC=2.8.4.3; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77947.1}.",
     "cofactor_names": [
@@ -52228,7 +52228,7 @@
     "annotation_score": 1.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH75860.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.9"
@@ -52820,7 +52820,7 @@
   "A0A399E0A2": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=RNA(n) + a ribonucleoside 5'-triphosphate = RNA(n+1) + diphosphate; Xref=Rhea:RHEA:21248, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:33019, ChEBI:CHEBI:61557, ChEBI:CHEBI:140395; EC=2.7.7.6; Evidence="
+      "Reaction=RNA(n) + a ribonucleoside 5^-triphosphate = RNA(n+1) + diphosphate; Xref=Rhea:RHEA:21248, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:33019, ChEBI:CHEBI:61557, ChEBI:CHEBI:140395; EC=2.7.7.6; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77118.1}.",
     "domain_description": "DOMAIN: The N-terminal domain is essential for RNAP assembly and basal transcription, whereas the C-terminal domain is involved in interaction with transcriptional regulators and with upstream promoter elements. {ECO:0000256,HAMAP-Rule:MF_00059}.",
@@ -54731,7 +54731,7 @@
   "A0A399E0I8": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
+      "Reaction=DNA(n) + a 2^-deoxyribonucleoside 5^-triphosphate = DNA(n+1) + diphosphate; Xref=Rhea:RHEA:22508, Rhea:RHEA-COMP:17339, Rhea:RHEA-COMP:17340, ChEBI:CHEBI:33019, ChEBI:CHEBI:61560, ChEBI:CHEBI:173112; EC=2.7.7.7; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78015.1}.",
     "ec_numbers": [
@@ -54808,7 +54808,7 @@
     "annotation_score": 2.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78127.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.51"
@@ -57891,7 +57891,7 @@
     "annotation_score": 2.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77388.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.4.1.11"
@@ -58070,7 +58070,7 @@
     "annotation_score": 2.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78334.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.1.1.86"
@@ -58235,7 +58235,7 @@
     "annotation_score": 1.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78307.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.3.1.47"
@@ -59042,7 +59042,7 @@
     "annotation_score": 1.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77253.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.8.1.7"
@@ -59895,8 +59895,8 @@
   "A0A399E1A5": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=5-carboxymethylaminomethyluridine(34) in tRNA(Leu) + S-adenosyl-L-methionine = 5-carboxymethylaminomethyl-2'-O-methyluridine(34) in tRNA(Leu) + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:43088, Rhea:RHEA-COMP:10333, Rhea:RHEA-COMP:10334, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74508, ChEBI:CHEBI:74511; EC=2.1.1.207; Evidence=",
-      "Reaction=cytidine(34) in tRNA + S-adenosyl-L-methionine = 2'-O-methylcytidine(34) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:43084, Rhea:RHEA-COMP:10331, Rhea:RHEA-COMP:10332, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74495, ChEBI:CHEBI:82748; EC=2.1.1.207; Evidence="
+      "Reaction=5-carboxymethylaminomethyluridine(34) in tRNA(Leu) + S-adenosyl-L-methionine = 5-carboxymethylaminomethyl-2^-O-methyluridine(34) in tRNA(Leu) + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:43088, Rhea:RHEA-COMP:10333, Rhea:RHEA-COMP:10334, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74508, ChEBI:CHEBI:74511; EC=2.1.1.207; Evidence=",
+      "Reaction=cytidine(34) in tRNA + S-adenosyl-L-methionine = 2^-O-methylcytidine(34) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:43084, Rhea:RHEA-COMP:10331, Rhea:RHEA-COMP:10332, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74495, ChEBI:CHEBI:82748; EC=2.1.1.207; Evidence="
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_01885}.; CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76280.1}.",
     "ec_numbers": [
@@ -60447,7 +60447,7 @@
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76031.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "3.7.1.3"
@@ -60831,7 +60831,7 @@
   "A0A399E1E5": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a 3'-end 2',3'-cyclophospho-ribonucleotide-RNA + H2O = a 3'-end 2'-phospho-ribonucleotide-RNA + H(+); Xref=Rhea:RHEA:11828, Rhea:RHEA-COMP:10464, Rhea:RHEA-COMP:17353, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:83064, ChEBI:CHEBI:173113; EC=3.1.4.58; Evidence="
+      "Reaction=a 3^-end 2^,3^-cyclophospho-ribonucleotide-RNA + H2O = a 3^-end 2^-phospho-ribonucleotide-RNA + H(+); Xref=Rhea:RHEA:11828, Rhea:RHEA-COMP:10464, Rhea:RHEA-COMP:17353, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:83064, ChEBI:CHEBI:173113; EC=3.1.4.58; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76330.1}.",
     "ec_numbers": [
@@ -62538,7 +62538,7 @@
   "A0A399E1P1": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=Hydrolysis of proteins to small peptides in the presence of ATP and magnesium. alpha-casein is the usual test substrate. In the absence of ATP, only oligopeptides shorter than five residues are hydrolyzed (such as succinyl-Leu-Tyr-|-NHMec, and Leu-Tyr-Leu-|-Tyr-Trp, in which cleavage of the -Tyr-|-Leu- and -Tyr-|-Trp bonds also occurs).; EC=3.4.21.92; Evidence="
+      "Reaction=Hydrolysis of proteins to small peptides in the presence of ATP and magnesium. alpha-casein is the usual test substrate. In the absence of ATP, only oligopeptides shorter than five residues are hydrolyzed (such as succinyl-Leu-Tyr-,-NHMec, and Leu-Tyr-Leu-,-Tyr-Trp, in which cleavage of the -Tyr-,-Leu- and -Tyr-,-Trp bonds also occurs).; EC=3.4.21.92; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78594.1}.",
     "ec_numbers": [
@@ -63388,8 +63388,8 @@
   "A0A399E1R7": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=cytidine(32) in tRNA + S-adenosyl-L-methionine = 2'-O-methylcytidine(32) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:42932, Rhea:RHEA-COMP:10288, Rhea:RHEA-COMP:10289, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74495, ChEBI:CHEBI:82748; EC=2.1.1.200; Evidence=",
-      "Reaction=uridine(32) in tRNA + S-adenosyl-L-methionine = 2'-O-methyluridine(32) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:42936, Rhea:RHEA-COMP:10107, Rhea:RHEA-COMP:10290, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:65315, ChEBI:CHEBI:74478; EC=2.1.1.200; Evidence="
+      "Reaction=cytidine(32) in tRNA + S-adenosyl-L-methionine = 2^-O-methylcytidine(32) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:42932, Rhea:RHEA-COMP:10288, Rhea:RHEA-COMP:10289, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74495, ChEBI:CHEBI:82748; EC=2.1.1.200; Evidence=",
+      "Reaction=uridine(32) in tRNA + S-adenosyl-L-methionine = 2^-O-methyluridine(32) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:42936, Rhea:RHEA-COMP:10107, Rhea:RHEA-COMP:10290, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:65315, ChEBI:CHEBI:74478; EC=2.1.1.200; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77956.1}.",
     "ec_numbers": [
@@ -63446,8 +63446,8 @@
   "A0A399E1R9": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=S-adenosyl 3-(methylsulfanyl)propylamine + putrescine = S-methyl-5'-thioadenosine + spermidine + H(+); Xref=Rhea:RHEA:12721, ChEBI:CHEBI:15378, ChEBI:CHEBI:17509, ChEBI:CHEBI:57443, ChEBI:CHEBI:57834, ChEBI:CHEBI:326268; EC=2.5.1.16; Evidence=",
-      "Reaction=S-adenosyl 3-(methylsulfanyl)propylamine + spermidine = thermospermine + S-methyl-5'-thioadenosine + H(+); Xref=Rhea:RHEA:30515, ChEBI:CHEBI:15378, ChEBI:CHEBI:17509, ChEBI:CHEBI:57443, ChEBI:CHEBI:57834, ChEBI:CHEBI:59903; EC=2.5.1.79; Evidence="
+      "Reaction=S-adenosyl 3-(methylsulfanyl)propylamine + putrescine = S-methyl-5^-thioadenosine + spermidine + H(+); Xref=Rhea:RHEA:12721, ChEBI:CHEBI:15378, ChEBI:CHEBI:17509, ChEBI:CHEBI:57443, ChEBI:CHEBI:57834, ChEBI:CHEBI:326268; EC=2.5.1.16; Evidence=",
+      "Reaction=S-adenosyl 3-(methylsulfanyl)propylamine + spermidine = thermospermine + S-methyl-5^-thioadenosine + H(+); Xref=Rhea:RHEA:30515, ChEBI:CHEBI:15378, ChEBI:CHEBI:17509, ChEBI:CHEBI:57443, ChEBI:CHEBI:57834, ChEBI:CHEBI:59903; EC=2.5.1.79; Evidence="
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_00198}.; CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78597.1}.",
     "ec_numbers": [
@@ -63984,7 +63984,7 @@
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78495.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.1.1.20"
@@ -65785,7 +65785,7 @@
   "A0A399E247": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Endonucleolytic cleavage of RNA, removing 5'-extranucleotides from tRNA precursor.; EC=3.1.26.5; Evidence="
+      "Reaction=Endonucleolytic cleavage of RNA, removing 5^-extranucleotides from tRNA precursor.; EC=3.1.26.5; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76640.1}.",
     "ec_numbers": [
@@ -66692,7 +66692,7 @@
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78106.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "5.1.1.1"
@@ -67755,7 +67755,7 @@
     "annotation_score": 2.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78705.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.3.1.19"
@@ -68189,7 +68189,7 @@
   "A0A399E2J1": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=apo-[ACP] + CoA = holo-[ACP] + adenosine 3',5'-bisphosphate + H(+); Xref=Rhea:RHEA:12068, Rhea:RHEA-COMP:9685, Rhea:RHEA-COMP:9690, ChEBI:CHEBI:15378, ChEBI:CHEBI:29999, ChEBI:CHEBI:57287, ChEBI:CHEBI:58343, ChEBI:CHEBI:64479; EC=2.7.8.7; Evidence="
+      "Reaction=apo-[ACP] + CoA = holo-[ACP] + adenosine 3^,5^-bisphosphate + H(+); Xref=Rhea:RHEA:12068, Rhea:RHEA-COMP:9685, Rhea:RHEA-COMP:9690, ChEBI:CHEBI:15378, ChEBI:CHEBI:29999, ChEBI:CHEBI:57287, ChEBI:CHEBI:58343, ChEBI:CHEBI:64479; EC=2.7.8.7; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78877.1}.",
     "cofactor_names": [
@@ -69073,7 +69073,7 @@
   "A0A399E2P3": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Endonucleolytic cleavage to 5'-phosphomonoester.; EC=3.1.26.4; Evidence="
+      "Reaction=Endonucleolytic cleavage to 5^-phosphomonoester.; EC=3.1.26.4; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH76880.1}.",
     "cofactor_names": [
@@ -69436,7 +69436,7 @@
   "A0A399E2R3": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=2'-deoxyribonucleotide-(2'-deoxyribose 5'-phosphate)-2'-deoxyribonucleotide-DNA = a 3'-end 2'-deoxyribonucleotide-(2,3-dehydro-2,3-deoxyribose 5'-phosphate)-DNA + a 5'-end 5'-phospho-2'-deoxyribonucleoside-DNA + H(+); Xref=Rhea:RHEA:66592, Rhea:RHEA-COMP:13180, Rhea:RHEA-COMP:16897, Rhea:RHEA-COMP:17067, ChEBI:CHEBI:15378, ChEBI:CHEBI:136412, ChEBI:CHEBI:157695, ChEBI:CHEBI:167181; EC=4.2.99.18; Evidence=",
+      "Reaction=2^-deoxyribonucleotide-(2^-deoxyribose 5^-phosphate)-2^-deoxyribonucleotide-DNA = a 3^-end 2^-deoxyribonucleotide-(2,3-dehydro-2,3-deoxyribose 5^-phosphate)-DNA + a 5^-end 5^-phospho-2^-deoxyribonucleoside-DNA + H(+); Xref=Rhea:RHEA:66592, Rhea:RHEA-COMP:13180, Rhea:RHEA-COMP:16897, Rhea:RHEA-COMP:17067, ChEBI:CHEBI:15378, ChEBI:CHEBI:136412, ChEBI:CHEBI:157695, ChEBI:CHEBI:167181; EC=4.2.99.18; Evidence=",
       "Reaction=Hydrolysis of DNA containing ring-opened 7-methylguanine residues, releasing 2,6-diamino-4-hydroxy-5-(N-methyl)formamidopyrimidine.; EC=3.2.2.23; Evidence="
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_00103}.; CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77843.1}.",
@@ -70018,7 +70018,7 @@
   "A0A399E2U1": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=5-amino-1-(5-phospho-beta-D-ribosyl)imidazole + S-adenosyl-L-methionine = 4-amino-2-methyl-5-(phosphooxymethyl)pyrimidine + CO + 5'-deoxyadenosine + formate + L-methionine + 3 H(+); Xref=Rhea:RHEA:24840, ChEBI:CHEBI:15378, ChEBI:CHEBI:15740, ChEBI:CHEBI:17245, ChEBI:CHEBI:17319, ChEBI:CHEBI:57844, ChEBI:CHEBI:58354, ChEBI:CHEBI:59789, ChEBI:CHEBI:137981; EC=4.1.99.17; Evidence="
+      "Reaction=5-amino-1-(5-phospho-beta-D-ribosyl)imidazole + S-adenosyl-L-methionine = 4-amino-2-methyl-5-(phosphooxymethyl)pyrimidine + CO + 5^-deoxyadenosine + formate + L-methionine + 3 H(+); Xref=Rhea:RHEA:24840, ChEBI:CHEBI:15378, ChEBI:CHEBI:15740, ChEBI:CHEBI:17245, ChEBI:CHEBI:17319, ChEBI:CHEBI:57844, ChEBI:CHEBI:58354, ChEBI:CHEBI:59789, ChEBI:CHEBI:137981; EC=4.1.99.17; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77679.1}.",
     "cofactor_names": [
@@ -71618,7 +71618,7 @@
     "annotation_score": 2.0,
     "catalytic_activities": [
       "Reaction=ATP + H2O = ADP + phosphate + H(+); Xref=Rhea:RHEA:13065, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:43474, ChEBI:CHEBI:456216; EC=5.6.2.4; Evidence=",
-      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3'-5' direction.; EC=5.6.2.4; Evidence="
+      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3^-5^ direction.; EC=5.6.2.4; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78905.1}.",
     "ec_numbers": [
@@ -73396,7 +73396,7 @@
   "A0A399E3B5": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=2'-deoxyribonucleotide-(2'-deoxyribose 5'-phosphate)-2'-deoxyribonucleotide-DNA = a 3'-end 2'-deoxyribonucleotide-(2,3-dehydro-2,3-deoxyribose 5'-phosphate)-DNA + a 5'-end 5'-phospho-2'-deoxyribonucleoside-DNA + H(+); Xref=Rhea:RHEA:66592, Rhea:RHEA-COMP:13180, Rhea:RHEA-COMP:16897, Rhea:RHEA-COMP:17067, ChEBI:CHEBI:15378, ChEBI:CHEBI:136412, ChEBI:CHEBI:157695, ChEBI:CHEBI:167181; EC=4.2.99.18; Evidence="
+      "Reaction=2^-deoxyribonucleotide-(2^-deoxyribose 5^-phosphate)-2^-deoxyribonucleotide-DNA = a 3^-end 2^-deoxyribonucleotide-(2,3-dehydro-2,3-deoxyribose 5^-phosphate)-DNA + a 5^-end 5^-phospho-2^-deoxyribonucleoside-DNA + H(+); Xref=Rhea:RHEA:66592, Rhea:RHEA-COMP:13180, Rhea:RHEA-COMP:16897, Rhea:RHEA-COMP:17067, ChEBI:CHEBI:15378, ChEBI:CHEBI:136412, ChEBI:CHEBI:157695, ChEBI:CHEBI:167181; EC=4.2.99.18; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78043.1}.",
     "cofactor_names": [
@@ -73486,7 +73486,7 @@
   "A0A399E3B7": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=aldehydo-D-ribose 5-phosphate + D-glyceraldehyde 3-phosphate + L-glutamine = pyridoxal 5'-phosphate + L-glutamate + phosphate + 3 H2O + H(+); Xref=Rhea:RHEA:31507, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:29985, ChEBI:CHEBI:43474, ChEBI:CHEBI:58273, ChEBI:CHEBI:58359, ChEBI:CHEBI:59776, ChEBI:CHEBI:597326; EC=4.3.3.6; Evidence="
+      "Reaction=aldehydo-D-ribose 5-phosphate + D-glyceraldehyde 3-phosphate + L-glutamine = pyridoxal 5^-phosphate + L-glutamate + phosphate + 3 H2O + H(+); Xref=Rhea:RHEA:31507, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:29985, ChEBI:CHEBI:43474, ChEBI:CHEBI:58273, ChEBI:CHEBI:58359, ChEBI:CHEBI:59776, ChEBI:CHEBI:597326; EC=4.3.3.6; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78416.1}.",
     "ec_numbers": [
@@ -73521,7 +73521,7 @@
     "organism_id": 172827,
     "organism_name": "Meiothermus taiwanensis",
     "pathways": [
-      "Cofactor biosynthesis; pyridoxal 5'-phosphate biosynthesis"
+      "Cofactor biosynthesis; pyridoxal 5^-phosphate biosynthesis"
     ],
     "pfam_ids": [
       "PF01680"
@@ -73556,7 +73556,7 @@
     "annotation_score": 1.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78388.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.17"
@@ -74028,7 +74028,7 @@
     "annotation_score": 3.0,
     "catalytic_activities": [
       "Reaction=L-glutamine + H2O = L-glutamate + NH4(+); Xref=Rhea:RHEA:15889, ChEBI:CHEBI:15377, ChEBI:CHEBI:28938, ChEBI:CHEBI:29985, ChEBI:CHEBI:58359; EC=3.5.1.2; Evidence=",
-      "Reaction=aldehydo-D-ribose 5-phosphate + D-glyceraldehyde 3-phosphate + L-glutamine = pyridoxal 5'-phosphate + L-glutamate + phosphate + 3 H2O + H(+); Xref=Rhea:RHEA:31507, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:29985, ChEBI:CHEBI:43474, ChEBI:CHEBI:58273, ChEBI:CHEBI:58359, ChEBI:CHEBI:59776, ChEBI:CHEBI:597326; EC=4.3.3.6; Evidence="
+      "Reaction=aldehydo-D-ribose 5-phosphate + D-glyceraldehyde 3-phosphate + L-glutamine = pyridoxal 5^-phosphate + L-glutamate + phosphate + 3 H2O + H(+); Xref=Rhea:RHEA:31507, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:29985, ChEBI:CHEBI:43474, ChEBI:CHEBI:58273, ChEBI:CHEBI:58359, ChEBI:CHEBI:59776, ChEBI:CHEBI:597326; EC=4.3.3.6; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78418.1}.",
     "ec_numbers": [
@@ -74071,7 +74071,7 @@
     "organism_id": 172827,
     "organism_name": "Meiothermus taiwanensis",
     "pathways": [
-      "Cofactor biosynthesis; pyridoxal 5'-phosphate biosynthesis"
+      "Cofactor biosynthesis; pyridoxal 5^-phosphate biosynthesis"
     ],
     "pfam_ids": [
       "PF01174"
@@ -75305,7 +75305,7 @@
       "Ca(2+)",
       "Mg(2+)",
       "Mn(2+)",
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.2.1.-"
@@ -77978,7 +77978,7 @@
   "A0A399E409": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=tRNA(n+1) + phosphate = tRNA(n) + a ribonucleoside 5'-diphosphate; Xref=Rhea:RHEA:10628, Rhea:RHEA-COMP:17343, Rhea:RHEA-COMP:17344, ChEBI:CHEBI:43474, ChEBI:CHEBI:57930, ChEBI:CHEBI:173114; EC=2.7.7.56; Evidence="
+      "Reaction=tRNA(n+1) + phosphate = tRNA(n) + a ribonucleoside 5^-diphosphate; Xref=Rhea:RHEA:10628, Rhea:RHEA-COMP:17343, Rhea:RHEA-COMP:17344, ChEBI:CHEBI:43474, ChEBI:CHEBI:57930, ChEBI:CHEBI:173114; EC=2.7.7.56; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77440.1}.",
     "ec_numbers": [
@@ -78332,7 +78332,7 @@
     "annotation_score": 2.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78029.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.4.1.11"
@@ -78583,7 +78583,7 @@
   "A0A399E436": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=[[Fe-S] cluster scaffold protein carrying a second [4Fe-4S](2+) cluster] + N(6)-octanoyl-L-lysyl-[protein] + 2 oxidized [2Fe-2S]-[ferredoxin] + 2 S-adenosyl-L-methionine + 4 H(+) = [[Fe-S] cluster scaffold protein] + N(6)-[(R)-dihydrolipoyl]-L-lysyl-[protein] + 4 Fe(3+) + 2 hydrogen sulfide + 2 5'-deoxyadenosine + 2 L-methionine + 2 reduced [2Fe-2S]-[ferredoxin]; Xref=Rhea:RHEA:16585, Rhea:RHEA-COMP:9928, Rhea:RHEA-COMP:10000, Rhea:RHEA-COMP:10001, Rhea:RHEA-COMP:10475, Rhea:RHEA-COMP:14568, Rhea:RHEA-COMP:14569, ChEBI:CHEBI:15378, ChEBI:CHEBI:17319, ChEBI:CHEBI:29034, ChEBI:CHEBI:29919, ChEBI:CHEBI:33722, ChEBI:CHEBI:33737, ChEBI:CHEBI:33738, ChEBI:CHEBI:57844, ChEBI:CHEBI:59789, ChEBI:CHEBI:78809, ChEBI:CHEBI:83100; EC=2.8.1.8; Evidence="
+      "Reaction=[[Fe-S] cluster scaffold protein carrying a second [4Fe-4S](2+) cluster] + N(6)-octanoyl-L-lysyl-[protein] + 2 oxidized [2Fe-2S]-[ferredoxin] + 2 S-adenosyl-L-methionine + 4 H(+) = [[Fe-S] cluster scaffold protein] + N(6)-[(R)-dihydrolipoyl]-L-lysyl-[protein] + 4 Fe(3+) + 2 hydrogen sulfide + 2 5^-deoxyadenosine + 2 L-methionine + 2 reduced [2Fe-2S]-[ferredoxin]; Xref=Rhea:RHEA:16585, Rhea:RHEA-COMP:9928, Rhea:RHEA-COMP:10000, Rhea:RHEA-COMP:10001, Rhea:RHEA-COMP:10475, Rhea:RHEA-COMP:14568, Rhea:RHEA-COMP:14569, ChEBI:CHEBI:15378, ChEBI:CHEBI:17319, ChEBI:CHEBI:29034, ChEBI:CHEBI:29919, ChEBI:CHEBI:33722, ChEBI:CHEBI:33737, ChEBI:CHEBI:33738, ChEBI:CHEBI:57844, ChEBI:CHEBI:59789, ChEBI:CHEBI:78809, ChEBI:CHEBI:83100; EC=2.8.1.8; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78303.1}.",
     "cofactor_names": [
@@ -81456,7 +81456,7 @@
   "A0A399E4H5": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=[thioredoxin]-disulfide + sulfite + AMP + 2 H(+) = adenosine 5'-phosphosulfate + [thioredoxin]-dithiol; Xref=Rhea:RHEA:21976, Rhea:RHEA-COMP:10698, Rhea:RHEA-COMP:10700, ChEBI:CHEBI:15378, ChEBI:CHEBI:17359, ChEBI:CHEBI:29950, ChEBI:CHEBI:50058, ChEBI:CHEBI:58243, ChEBI:CHEBI:456215; EC=1.8.4.10; Evidence="
+      "Reaction=[thioredoxin]-disulfide + sulfite + AMP + 2 H(+) = adenosine 5^-phosphosulfate + [thioredoxin]-dithiol; Xref=Rhea:RHEA:21976, Rhea:RHEA-COMP:10698, Rhea:RHEA-COMP:10700, ChEBI:CHEBI:15378, ChEBI:CHEBI:17359, ChEBI:CHEBI:29950, ChEBI:CHEBI:50058, ChEBI:CHEBI:58243, ChEBI:CHEBI:456215; EC=1.8.4.10; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH79634.1}.",
     "cofactor_names": [
@@ -83150,7 +83150,7 @@
   "A0A399E4Q1": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=(8S)-3',8-cyclo-7,8-dihydroguanosine 5'-triphosphate = cyclic pyranopterin phosphate + diphosphate; Xref=Rhea:RHEA:49580, ChEBI:CHEBI:33019, ChEBI:CHEBI:59648, ChEBI:CHEBI:131766; EC=4.6.1.17; Evidence="
+      "Reaction=(8S)-3^,8-cyclo-7,8-dihydroguanosine 5^-triphosphate = cyclic pyranopterin phosphate + diphosphate; Xref=Rhea:RHEA:49580, ChEBI:CHEBI:33019, ChEBI:CHEBI:59648, ChEBI:CHEBI:131766; EC=4.6.1.17; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78219.1}.",
     "ec_numbers": [
@@ -84785,7 +84785,7 @@
   "A0A399E4Y1": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=L-cysteinyl-[prolipoprotein] + a 1,2-diacyl-sn-glycero-3-phospho-(1'-sn-glycerol) = an S-1,2-diacyl-sn-glyceryl-L-cysteinyl-[prolipoprotein] + sn-glycerol 1-phosphate + H(+); Xref=Rhea:RHEA:56712, Rhea:RHEA-COMP:14679, Rhea:RHEA-COMP:14680, ChEBI:CHEBI:15378, ChEBI:CHEBI:29950, ChEBI:CHEBI:57685, ChEBI:CHEBI:64716, ChEBI:CHEBI:140658; EC=2.5.1.145; Evidence="
+      "Reaction=L-cysteinyl-[prolipoprotein] + a 1,2-diacyl-sn-glycero-3-phospho-(1^-sn-glycerol) = an S-1,2-diacyl-sn-glyceryl-L-cysteinyl-[prolipoprotein] + sn-glycerol 1-phosphate + H(+); Xref=Rhea:RHEA:56712, Rhea:RHEA-COMP:14679, Rhea:RHEA-COMP:14680, ChEBI:CHEBI:15378, ChEBI:CHEBI:29950, ChEBI:CHEBI:57685, ChEBI:CHEBI:64716, ChEBI:CHEBI:140658; EC=2.5.1.145; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78309.1}.",
     "ec_numbers": [
@@ -85322,7 +85322,7 @@
     "annotation_score": 1.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78583.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.82"
@@ -86408,7 +86408,7 @@
   "A0A399E567": {
     "annotation_score": 1.0,
     "catalytic_activities": [
-      "Reaction=P(1),P(4)-bis(5'-adenosyl) tetraphosphate + H2O = 2 ADP + 2 H(+); Xref=Rhea:RHEA:24252, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:58141, ChEBI:CHEBI:456216; EC=3.6.1.41; Evidence="
+      "Reaction=P(1),P(4)-bis(5^-adenosyl) tetraphosphate + H2O = 2 ADP + 2 H(+); Xref=Rhea:RHEA:24252, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:58141, ChEBI:CHEBI:456216; EC=3.6.1.41; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH79615.1}.",
     "ec_numbers": [
@@ -86453,7 +86453,7 @@
   "A0A399E568": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=RNA(n) + a ribonucleoside 5'-triphosphate = RNA(n+1) + diphosphate; Xref=Rhea:RHEA:21248, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:33019, ChEBI:CHEBI:61557, ChEBI:CHEBI:140395; EC=2.7.7.6; Evidence="
+      "Reaction=RNA(n) + a ribonucleoside 5^-triphosphate = RNA(n+1) + diphosphate; Xref=Rhea:RHEA:21248, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:33019, ChEBI:CHEBI:61557, ChEBI:CHEBI:140395; EC=2.7.7.6; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77391.1}.",
     "ec_numbers": [
@@ -86822,7 +86822,7 @@
   "A0A399E586": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=sulfate + ATP + H(+) = adenosine 5'-phosphosulfate + diphosphate; Xref=Rhea:RHEA:18133, ChEBI:CHEBI:15378, ChEBI:CHEBI:16189, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:58243; EC=2.7.7.4; Evidence="
+      "Reaction=sulfate + ATP + H(+) = adenosine 5^-phosphosulfate + diphosphate; Xref=Rhea:RHEA:18133, ChEBI:CHEBI:15378, ChEBI:CHEBI:16189, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:58243; EC=2.7.7.4; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH79635.1}.",
     "ec_numbers": [
@@ -87925,8 +87925,8 @@
   "A0A399E5C6": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=a 2'-deoxyribonucleoside 5'-diphosphate + ATP = a 2'-deoxyribonucleoside 5'-triphosphate + ADP; Xref=Rhea:RHEA:44640, ChEBI:CHEBI:30616, ChEBI:CHEBI:61560, ChEBI:CHEBI:73316, ChEBI:CHEBI:456216; EC=2.7.4.6; Evidence=",
-      "Reaction=a ribonucleoside 5'-diphosphate + ATP = a ribonucleoside 5'-triphosphate + ADP; Xref=Rhea:RHEA:18113, ChEBI:CHEBI:30616, ChEBI:CHEBI:57930, ChEBI:CHEBI:61557, ChEBI:CHEBI:456216; EC=2.7.4.6; Evidence="
+      "Reaction=a 2^-deoxyribonucleoside 5^-diphosphate + ATP = a 2^-deoxyribonucleoside 5^-triphosphate + ADP; Xref=Rhea:RHEA:44640, ChEBI:CHEBI:30616, ChEBI:CHEBI:61560, ChEBI:CHEBI:73316, ChEBI:CHEBI:456216; EC=2.7.4.6; Evidence=",
+      "Reaction=a ribonucleoside 5^-diphosphate + ATP = a ribonucleoside 5^-triphosphate + ADP; Xref=Rhea:RHEA:18113, ChEBI:CHEBI:30616, ChEBI:CHEBI:57930, ChEBI:CHEBI:61557, ChEBI:CHEBI:456216; EC=2.7.4.6; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH79934.1}.",
     "cofactor_names": [
@@ -88504,7 +88504,7 @@
   "A0A399E5G4": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3'-5' direction.; EC=5.6.2.4; Evidence="
+      "Reaction=Couples ATP hydrolysis with the unwinding of duplex DNA by translocating in the 3^-5^ direction.; EC=5.6.2.4; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77182.1}.",
     "ec_numbers": [
@@ -89402,7 +89402,7 @@
     "annotation_score": 1.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78793.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.4.1.13"
@@ -89551,7 +89551,7 @@
     "annotation_score": 1.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH80037.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.19"
@@ -89963,8 +89963,8 @@
   "A0A399E5P7": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=pyridoxamine 5'-phosphate + O2 + H2O = pyridoxal 5'-phosphate + H2O2 + NH4(+); Xref=Rhea:RHEA:15817, ChEBI:CHEBI:15377, ChEBI:CHEBI:15379, ChEBI:CHEBI:16240, ChEBI:CHEBI:28938, ChEBI:CHEBI:58451, ChEBI:CHEBI:597326; EC=1.4.3.5; Evidence=",
-      "Reaction=pyridoxine 5'-phosphate + O2 = pyridoxal 5'-phosphate + H2O2; Xref=Rhea:RHEA:15149, ChEBI:CHEBI:15379, ChEBI:CHEBI:16240, ChEBI:CHEBI:58589, ChEBI:CHEBI:597326; EC=1.4.3.5; Evidence="
+      "Reaction=pyridoxamine 5^-phosphate + O2 + H2O = pyridoxal 5^-phosphate + H2O2 + NH4(+); Xref=Rhea:RHEA:15817, ChEBI:CHEBI:15377, ChEBI:CHEBI:15379, ChEBI:CHEBI:16240, ChEBI:CHEBI:28938, ChEBI:CHEBI:58451, ChEBI:CHEBI:597326; EC=1.4.3.5; Evidence=",
+      "Reaction=pyridoxine 5^-phosphate + O2 = pyridoxal 5^-phosphate + H2O2; Xref=Rhea:RHEA:15149, ChEBI:CHEBI:15379, ChEBI:CHEBI:16240, ChEBI:CHEBI:58589, ChEBI:CHEBI:597326; EC=1.4.3.5; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH80057.1}.",
     "cofactor_names": [
@@ -90003,8 +90003,8 @@
     "organism_id": 172827,
     "organism_name": "Meiothermus taiwanensis",
     "pathways": [
-      "Cofactor metabolism; pyridoxal 5'-phosphate salvage; pyridoxal 5'-phosphate from pyridoxamine 5'-phosphate: step 1/1. ;",
-      "Cofactor metabolism; pyridoxal 5'-phosphate salvage; pyridoxal 5'-phosphate from pyridoxine 5'-phosphate: step 1/1"
+      "Cofactor metabolism; pyridoxal 5^-phosphate salvage; pyridoxal 5^-phosphate from pyridoxamine 5^-phosphate: step 1/1. ;",
+      "Cofactor metabolism; pyridoxal 5^-phosphate salvage; pyridoxal 5^-phosphate from pyridoxine 5^-phosphate: step 1/1"
     ],
     "pfam_ids": [
       "PF10590",
@@ -90089,7 +90089,7 @@
   "A0A399E5Q1": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=L-cysteinyl-[prolipoprotein] + a 1,2-diacyl-sn-glycero-3-phospho-(1'-sn-glycerol) = an S-1,2-diacyl-sn-glyceryl-L-cysteinyl-[prolipoprotein] + sn-glycerol 1-phosphate + H(+); Xref=Rhea:RHEA:56712, Rhea:RHEA-COMP:14679, Rhea:RHEA-COMP:14680, ChEBI:CHEBI:15378, ChEBI:CHEBI:29950, ChEBI:CHEBI:57685, ChEBI:CHEBI:64716, ChEBI:CHEBI:140658; EC=2.5.1.145; Evidence="
+      "Reaction=L-cysteinyl-[prolipoprotein] + a 1,2-diacyl-sn-glycero-3-phospho-(1^-sn-glycerol) = an S-1,2-diacyl-sn-glyceryl-L-cysteinyl-[prolipoprotein] + sn-glycerol 1-phosphate + H(+); Xref=Rhea:RHEA:56712, Rhea:RHEA-COMP:14679, Rhea:RHEA-COMP:14680, ChEBI:CHEBI:15378, ChEBI:CHEBI:29950, ChEBI:CHEBI:57685, ChEBI:CHEBI:64716, ChEBI:CHEBI:140658; EC=2.5.1.145; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77272.1}.",
     "ec_numbers": [
@@ -91854,8 +91854,8 @@
   "A0A399E5X5": {
     "annotation_score": 4.0,
     "catalytic_activities": [
-      "Reaction=(R)-4'-phosphopantothenate + L-cysteine + CTP = N-[(R)-4-phosphopantothenoyl]-L-cysteine + CMP + diphosphate + H(+); Xref=Rhea:RHEA:19397, ChEBI:CHEBI:10986, ChEBI:CHEBI:15378, ChEBI:CHEBI:33019, ChEBI:CHEBI:35235, ChEBI:CHEBI:37563, ChEBI:CHEBI:59458, ChEBI:CHEBI:60377; EC=6.3.2.5; Evidence=",
-      "Reaction=N-[(R)-4-phosphopantothenoyl]-L-cysteine + H(+) = (R)-4'-phosphopantetheine + CO2; Xref=Rhea:RHEA:16793, ChEBI:CHEBI:15378, ChEBI:CHEBI:16526, ChEBI:CHEBI:59458, ChEBI:CHEBI:61723; EC=4.1.1.36; Evidence="
+      "Reaction=(R)-4^-phosphopantothenate + L-cysteine + CTP = N-[(R)-4-phosphopantothenoyl]-L-cysteine + CMP + diphosphate + H(+); Xref=Rhea:RHEA:19397, ChEBI:CHEBI:10986, ChEBI:CHEBI:15378, ChEBI:CHEBI:33019, ChEBI:CHEBI:35235, ChEBI:CHEBI:37563, ChEBI:CHEBI:59458, ChEBI:CHEBI:60377; EC=6.3.2.5; Evidence=",
+      "Reaction=N-[(R)-4-phosphopantothenoyl]-L-cysteine + H(+) = (R)-4^-phosphopantetheine + CO2; Xref=Rhea:RHEA:16793, ChEBI:CHEBI:15378, ChEBI:CHEBI:16526, ChEBI:CHEBI:59458, ChEBI:CHEBI:61723; EC=4.1.1.36; Evidence="
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_02225}.; CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77681.1}.",
     "cofactor_names": [
@@ -92663,7 +92663,7 @@
   "A0A399E618": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=RNA(n) + a ribonucleoside 5'-triphosphate = RNA(n+1) + diphosphate; Xref=Rhea:RHEA:21248, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:33019, ChEBI:CHEBI:61557, ChEBI:CHEBI:140395; EC=2.7.7.6; Evidence="
+      "Reaction=RNA(n) + a ribonucleoside 5^-triphosphate = RNA(n+1) + diphosphate; Xref=Rhea:RHEA:21248, Rhea:RHEA-COMP:14527, Rhea:RHEA-COMP:17342, ChEBI:CHEBI:33019, ChEBI:CHEBI:61557, ChEBI:CHEBI:140395; EC=2.7.7.6; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77392.1}.",
     "cofactor_names": [
@@ -93324,7 +93324,7 @@
   "A0A399E659": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=(R)-4'-phosphopantetheine + ATP + H(+) = 3'-dephospho-CoA + diphosphate; Xref=Rhea:RHEA:19801, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:57328, ChEBI:CHEBI:61723; EC=2.7.7.3; Evidence="
+      "Reaction=(R)-4^-phosphopantetheine + ATP + H(+) = 3^-dephospho-CoA + diphosphate; Xref=Rhea:RHEA:19801, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:57328, ChEBI:CHEBI:61723; EC=2.7.7.3; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH79376.1}.",
     "cofactor_names": [
@@ -94560,7 +94560,7 @@
   "A0A399E6E6": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=a 2'-deoxyribonucleoside 5'-diphosphate + [thioredoxin]-disulfide + H2O = a ribonucleoside 5'-diphosphate + [thioredoxin]-dithiol; Xref=Rhea:RHEA:23252, Rhea:RHEA-COMP:10698, Rhea:RHEA-COMP:10700, ChEBI:CHEBI:15377, ChEBI:CHEBI:29950, ChEBI:CHEBI:50058, ChEBI:CHEBI:57930, ChEBI:CHEBI:73316; EC=1.17.4.1; Evidence="
+      "Reaction=a 2^-deoxyribonucleoside 5^-diphosphate + [thioredoxin]-disulfide + H2O = a ribonucleoside 5^-diphosphate + [thioredoxin]-dithiol; Xref=Rhea:RHEA:23252, Rhea:RHEA-COMP:10698, Rhea:RHEA-COMP:10700, ChEBI:CHEBI:15377, ChEBI:CHEBI:29950, ChEBI:CHEBI:50058, ChEBI:CHEBI:57930, ChEBI:CHEBI:73316; EC=1.17.4.1; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH79508.1}.",
     "ec_numbers": [
@@ -95177,7 +95177,7 @@
   "A0A399E6G9": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=S-methyl-5'-thioadenosine + phosphate = 5-(methylsulfanyl)-alpha-D-ribose 1-phosphate + adenine; Xref=Rhea:RHEA:11852, ChEBI:CHEBI:16708, ChEBI:CHEBI:17509, ChEBI:CHEBI:43474, ChEBI:CHEBI:58533; EC=2.4.2.28; Evidence= ; PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:11853; Evidence=",
+      "Reaction=S-methyl-5^-thioadenosine + phosphate = 5-(methylsulfanyl)-alpha-D-ribose 1-phosphate + adenine; Xref=Rhea:RHEA:11852, ChEBI:CHEBI:16708, ChEBI:CHEBI:17509, ChEBI:CHEBI:43474, ChEBI:CHEBI:58533; EC=2.4.2.28; Evidence= ; PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:11853; Evidence=",
       "Reaction=adenosine + H2O + H(+) = inosine + NH4(+); Xref=Rhea:RHEA:24408, ChEBI:CHEBI:15377, ChEBI:CHEBI:15378, ChEBI:CHEBI:16335, ChEBI:CHEBI:17596, ChEBI:CHEBI:28938; EC=3.5.4.4; Evidence= ; PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:24409; Evidence=",
       "Reaction=adenosine + phosphate = alpha-D-ribose 1-phosphate + adenine; Xref=Rhea:RHEA:27642, ChEBI:CHEBI:16335, ChEBI:CHEBI:16708, ChEBI:CHEBI:43474, ChEBI:CHEBI:57720; EC=2.4.2.1; Evidence= ; PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:27643; Evidence=",
       "Reaction=inosine + phosphate = alpha-D-ribose 1-phosphate + hypoxanthine; Xref=Rhea:RHEA:27646, ChEBI:CHEBI:17368, ChEBI:CHEBI:17596, ChEBI:CHEBI:43474, ChEBI:CHEBI:57720; EC=2.4.2.1; Evidence= ; PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:27647; Evidence="
@@ -95826,7 +95826,7 @@
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_01417}.; CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH80105.1}.",
     "cofactor_names": [
       "Mg(2+)",
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.1.1.19"
@@ -96829,7 +96829,7 @@
   "A0A399E6T1": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=(R)-pantothenate + ATP = (R)-4'-phosphopantothenate + ADP + H(+); Xref=Rhea:RHEA:16373, ChEBI:CHEBI:10986, ChEBI:CHEBI:15378, ChEBI:CHEBI:29032, ChEBI:CHEBI:30616, ChEBI:CHEBI:456216; EC=2.7.1.33; Evidence="
+      "Reaction=(R)-pantothenate + ATP = (R)-4^-phosphopantothenate + ADP + H(+); Xref=Rhea:RHEA:16373, ChEBI:CHEBI:10986, ChEBI:CHEBI:15378, ChEBI:CHEBI:29032, ChEBI:CHEBI:30616, ChEBI:CHEBI:456216; EC=2.7.1.33; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH77682.1}.",
     "cofactor_names": [
@@ -98113,7 +98113,7 @@
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78570.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.8.1.7"
@@ -98348,7 +98348,7 @@
   "A0A399E747": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=3'-dephospho-CoA + ATP = ADP + CoA + H(+); Xref=Rhea:RHEA:18245, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:57287, ChEBI:CHEBI:57328, ChEBI:CHEBI:456216; EC=2.7.1.24; Evidence="
+      "Reaction=3^-dephospho-CoA + ATP = ADP + CoA + H(+); Xref=Rhea:RHEA:18245, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:57287, ChEBI:CHEBI:57328, ChEBI:CHEBI:456216; EC=2.7.1.24; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78580.1}.",
     "ec_numbers": [
@@ -99841,7 +99841,7 @@
   "A0A399E7E3": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=orotidine 5'-phosphate + diphosphate = orotate + 5-phospho-alpha-D-ribose 1-diphosphate; Xref=Rhea:RHEA:10380, ChEBI:CHEBI:30839, ChEBI:CHEBI:33019, ChEBI:CHEBI:57538, ChEBI:CHEBI:58017; EC=2.4.2.10; Evidence="
+      "Reaction=orotidine 5^-phosphate + diphosphate = orotate + 5-phospho-alpha-D-ribose 1-diphosphate; Xref=Rhea:RHEA:10380, ChEBI:CHEBI:30839, ChEBI:CHEBI:33019, ChEBI:CHEBI:57538, ChEBI:CHEBI:58017; EC=2.4.2.10; Evidence="
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_01208}.; CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH79796.1}.",
     "cofactor_names": [
@@ -100484,8 +100484,8 @@
   "A0A399E7J8": {
     "annotation_score": 4.0,
     "catalytic_activities": [
-      "Reaction=adenosine(2503) in 23S rRNA + 2 reduced [2Fe-2S]-[ferredoxin] + 2 S-adenosyl-L-methionine = 2-methyladenosine(2503) in 23S rRNA + 5'-deoxyadenosine + L-methionine + 2 oxidized [2Fe-2S]-[ferredoxin] + S-adenosyl-L-homocysteine; Xref=Rhea:RHEA:42916, Rhea:RHEA-COMP:10000, Rhea:RHEA-COMP:10001, Rhea:RHEA-COMP:10152, Rhea:RHEA-COMP:10282, ChEBI:CHEBI:17319, ChEBI:CHEBI:33737, ChEBI:CHEBI:33738, ChEBI:CHEBI:57844, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74411, ChEBI:CHEBI:74497; EC=2.1.1.192; Evidence=",
-      "Reaction=adenosine(37) in tRNA + 2 reduced [2Fe-2S]-[ferredoxin] + 2 S-adenosyl-L-methionine = 2-methyladenosine(37) in tRNA + 5'-deoxyadenosine + L-methionine + 2 oxidized [2Fe-2S]-[ferredoxin] + S-adenosyl-L-homocysteine; Xref=Rhea:RHEA:43332, Rhea:RHEA-COMP:10000, Rhea:RHEA-COMP:10001, Rhea:RHEA-COMP:10162, Rhea:RHEA-COMP:10485, ChEBI:CHEBI:17319, ChEBI:CHEBI:33737, ChEBI:CHEBI:33738, ChEBI:CHEBI:57844, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74411, ChEBI:CHEBI:74497; EC=2.1.1.192; Evidence="
+      "Reaction=adenosine(2503) in 23S rRNA + 2 reduced [2Fe-2S]-[ferredoxin] + 2 S-adenosyl-L-methionine = 2-methyladenosine(2503) in 23S rRNA + 5^-deoxyadenosine + L-methionine + 2 oxidized [2Fe-2S]-[ferredoxin] + S-adenosyl-L-homocysteine; Xref=Rhea:RHEA:42916, Rhea:RHEA-COMP:10000, Rhea:RHEA-COMP:10001, Rhea:RHEA-COMP:10152, Rhea:RHEA-COMP:10282, ChEBI:CHEBI:17319, ChEBI:CHEBI:33737, ChEBI:CHEBI:33738, ChEBI:CHEBI:57844, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74411, ChEBI:CHEBI:74497; EC=2.1.1.192; Evidence=",
+      "Reaction=adenosine(37) in tRNA + 2 reduced [2Fe-2S]-[ferredoxin] + 2 S-adenosyl-L-methionine = 2-methyladenosine(37) in tRNA + 5^-deoxyadenosine + L-methionine + 2 oxidized [2Fe-2S]-[ferredoxin] + S-adenosyl-L-homocysteine; Xref=Rhea:RHEA:43332, Rhea:RHEA-COMP:10000, Rhea:RHEA-COMP:10001, Rhea:RHEA-COMP:10162, Rhea:RHEA-COMP:10485, ChEBI:CHEBI:17319, ChEBI:CHEBI:33737, ChEBI:CHEBI:33738, ChEBI:CHEBI:57844, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74411, ChEBI:CHEBI:74497; EC=2.1.1.192; Evidence="
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_01849}.; CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH79908.1}.",
     "cofactor_names": [
@@ -102000,7 +102000,7 @@
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78381.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.2.1.20"
@@ -102227,7 +102227,7 @@
   "A0A399E7X2": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=guanosine(18) in tRNA + S-adenosyl-L-methionine = 2'-O-methylguanosine(18) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:20077, Rhea:RHEA-COMP:10190, Rhea:RHEA-COMP:10192, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74269, ChEBI:CHEBI:74445; EC=2.1.1.34; Evidence="
+      "Reaction=guanosine(18) in tRNA + S-adenosyl-L-methionine = 2^-O-methylguanosine(18) in tRNA + S-adenosyl-L-homocysteine + H(+); Xref=Rhea:RHEA:20077, Rhea:RHEA-COMP:10190, Rhea:RHEA-COMP:10192, ChEBI:CHEBI:15378, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:74269, ChEBI:CHEBI:74445; EC=2.1.1.34; Evidence="
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_02060}.; CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78112.1}.",
     "ec_numbers": [
@@ -102883,7 +102883,7 @@
   "A0A399E7Z9": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=adenosine 5'-phosphosulfate + ATP = 3'-phosphoadenylyl sulfate + ADP + H(+); Xref=Rhea:RHEA:24152, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:58243, ChEBI:CHEBI:58339, ChEBI:CHEBI:456216; EC=2.7.1.25; Evidence="
+      "Reaction=adenosine 5^-phosphosulfate + ATP = 3^-phosphoadenylyl sulfate + ADP + H(+); Xref=Rhea:RHEA:24152, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:58243, ChEBI:CHEBI:58339, ChEBI:CHEBI:456216; EC=2.7.1.25; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH79633.1}.",
     "ec_numbers": [
@@ -103367,7 +103367,7 @@
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78202.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.4.1.1"
@@ -103460,7 +103460,7 @@
     "annotation_score": 2.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH80036.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "4.3.1.19"
@@ -103604,7 +103604,7 @@
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_00051}.; CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH80046.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.1.2.1"
@@ -104300,7 +104300,7 @@
   "A0A399E8C3": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=pyridoxal + ATP = pyridoxal 5'-phosphate + ADP + H(+); Xref=Rhea:RHEA:10224, ChEBI:CHEBI:15378, ChEBI:CHEBI:17310, ChEBI:CHEBI:30616, ChEBI:CHEBI:456216, ChEBI:CHEBI:597326; EC=2.7.1.35; Evidence="
+      "Reaction=pyridoxal + ATP = pyridoxal 5^-phosphate + ADP + H(+); Xref=Rhea:RHEA:10224, ChEBI:CHEBI:15378, ChEBI:CHEBI:17310, ChEBI:CHEBI:30616, ChEBI:CHEBI:456216, ChEBI:CHEBI:597326; EC=2.7.1.35; Evidence="
     ],
     "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,HAMAP-Rule:MF_01639}.; CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH79753.1}.",
     "cofactor_names": [
@@ -104345,7 +104345,7 @@
     "organism_id": 172827,
     "organism_name": "Meiothermus taiwanensis",
     "pathways": [
-      "Cofactor metabolism; pyridoxal 5'-phosphate salvage; pyridoxal 5'-phosphate from pyridoxal: step 1/1"
+      "Cofactor metabolism; pyridoxal 5^-phosphate salvage; pyridoxal 5^-phosphate from pyridoxal: step 1/1"
     ],
     "pfam_ids": [
       "PF08543"
@@ -105531,7 +105531,7 @@
   "A0A399E8M2": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=L-aspartate(89)-[ribosomal protein uS12]-hydrogen + (sulfur carrier)-SH + AH2 + 2 S-adenosyl-L-methionine = 3-methylsulfanyl-L-aspartate(89)-[ribosomal protein uS12]-hydrogen + (sulfur carrier)-H + 5'-deoxyadenosine + L-methionine + A + S-adenosyl-L-homocysteine + 2 H(+); Xref=Rhea:RHEA:37087, Rhea:RHEA-COMP:10460, Rhea:RHEA-COMP:10461, Rhea:RHEA-COMP:14737, Rhea:RHEA-COMP:14739, ChEBI:CHEBI:13193, ChEBI:CHEBI:15378, ChEBI:CHEBI:17319, ChEBI:CHEBI:17499, ChEBI:CHEBI:29917, ChEBI:CHEBI:29961, ChEBI:CHEBI:57844, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:64428, ChEBI:CHEBI:73599; EC=2.8.4.4; Evidence="
+      "Reaction=L-aspartate(89)-[ribosomal protein uS12]-hydrogen + (sulfur carrier)-SH + AH2 + 2 S-adenosyl-L-methionine = 3-methylsulfanyl-L-aspartate(89)-[ribosomal protein uS12]-hydrogen + (sulfur carrier)-H + 5^-deoxyadenosine + L-methionine + A + S-adenosyl-L-homocysteine + 2 H(+); Xref=Rhea:RHEA:37087, Rhea:RHEA-COMP:10460, Rhea:RHEA-COMP:10461, Rhea:RHEA-COMP:14737, Rhea:RHEA-COMP:14739, ChEBI:CHEBI:13193, ChEBI:CHEBI:15378, ChEBI:CHEBI:17319, ChEBI:CHEBI:17499, ChEBI:CHEBI:29917, ChEBI:CHEBI:29961, ChEBI:CHEBI:57844, ChEBI:CHEBI:57856, ChEBI:CHEBI:59789, ChEBI:CHEBI:64428, ChEBI:CHEBI:73599; EC=2.8.4.4; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH79140.1}.",
     "cofactor_names": [
@@ -105843,7 +105843,7 @@
   "A0A399E8P9": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=5,6-dimethylbenzimidazole + nicotinate beta-D-ribonucleotide = alpha-ribazole 5'-phosphate + nicotinate + H(+); Xref=Rhea:RHEA:11196, ChEBI:CHEBI:15378, ChEBI:CHEBI:15890, ChEBI:CHEBI:32544, ChEBI:CHEBI:57502, ChEBI:CHEBI:57918; EC=2.4.2.21; Evidence="
+      "Reaction=5,6-dimethylbenzimidazole + nicotinate beta-D-ribonucleotide = alpha-ribazole 5^-phosphate + nicotinate + H(+); Xref=Rhea:RHEA:11196, ChEBI:CHEBI:15378, ChEBI:CHEBI:15890, ChEBI:CHEBI:32544, ChEBI:CHEBI:57502, ChEBI:CHEBI:57918; EC=2.4.2.21; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH79873.1}.",
     "ec_numbers": [
@@ -106330,7 +106330,7 @@
   "A0A399E8U1": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Hydrolysis of oligopeptides, with broad specificity. Gly or Ala commonly occur as P1 or P1' residues, but more distant residues are also important, as is shown by the fact that Z-Gly-Pro-Gly-|-Gly-Pro-Ala is cleaved, but not Z-(Gly)(5).; EC=3.4.24.70; Evidence="
+      "Reaction=Hydrolysis of oligopeptides, with broad specificity. Gly or Ala commonly occur as P1 or P1^ residues, but more distant residues are also important, as is shown by the fact that Z-Gly-Pro-Gly-,-Gly-Pro-Ala is cleaved, but not Z-(Gly)(5).; EC=3.4.24.70; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH79599.1}.",
     "cofactor_names": [
@@ -107072,7 +107072,7 @@
   "A0A399E903": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=Endonucleolytic cleavage to 5'-phosphomonoester.; EC=3.1.26.4; Evidence="
+      "Reaction=Endonucleolytic cleavage to 5^-phosphomonoester.; EC=3.1.26.4; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78791.1}.",
     "cofactor_names": [
@@ -107472,7 +107472,7 @@
   "A0A399E957": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Exonucleolytic cleavage in the 3'- to 5'-direction to yield nucleoside 5'-phosphates.; EC=3.1.13.1; Evidence="
+      "Reaction=Exonucleolytic cleavage in the 3^- to 5^-direction to yield nucleoside 5^-phosphates.; EC=3.1.13.1; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH78582.1}.",
     "ec_numbers": [
@@ -107533,7 +107533,7 @@
     "annotation_score": 1.0,
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH80043.1}.",
     "cofactor_names": [
-      "pyridoxal 5'-phosphate"
+      "pyridoxal 5^-phosphate"
     ],
     "ec_numbers": [
       "2.6.1.19"
@@ -110209,7 +110209,7 @@
     "organism_id": 172827,
     "organism_name": "Meiothermus taiwanensis",
     "pathways": [
-      "Amino-acid biosynthesis; L-methionine biosynthesis via salvage pathway; S-methyl-5-thio-alpha-D-ribose 1-phosphate from S-methyl-5'-thioadenosine (hydrolase route): step 1/2"
+      "Amino-acid biosynthesis; L-methionine biosynthesis via salvage pathway; S-methyl-5-thio-alpha-D-ribose 1-phosphate from S-methyl-5^-thioadenosine (hydrolase route): step 1/2"
     ],
     "pfam_ids": [
       "PF01048"
@@ -115552,7 +115552,7 @@
   "A0A399ECQ5": {
     "annotation_score": 3.0,
     "catalytic_activities": [
-      "Reaction=Endonucleolytic cleavage at apurinic or apyrimidinic sites to products with a 5'-phosphate.; EC=3.1.21.7; Evidence="
+      "Reaction=Endonucleolytic cleavage at apurinic or apyrimidinic sites to products with a 5^-phosphate.; EC=3.1.21.7; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH79932.1}.",
     "cofactor_names": [
@@ -115871,7 +115871,7 @@
   "A0A399ED26": {
     "annotation_score": 2.0,
     "catalytic_activities": [
-      "Reaction=Hydrolysis of Pro-|-Xaa >> Ala-|-Xaa in oligopeptides.; EC=3.4.21.26; Evidence="
+      "Reaction=Hydrolysis of Pro-,-Xaa >> Ala-,-Xaa in oligopeptides.; EC=3.4.21.26; Evidence="
     ],
     "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:RIH80052.1}.",
     "ec_numbers": [

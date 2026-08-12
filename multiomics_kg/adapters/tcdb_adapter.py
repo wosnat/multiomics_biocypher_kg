@@ -31,15 +31,12 @@ from multiomics_kg.utils.curie_utils import normalize_curie
 
 logger = logging.getLogger(__name__)
 
-_TC_CLASS_NAMES = {
-    "1": "Channels and Pores",
-    "2": "Electrochemical Potential-driven Transporters",
-    "3": "Primary Active Transporters",
-    "4": "Group Translocators",
-    "5": "Transmembrane Electron Carriers",
-    "8": "Auxiliary Transport Proteins",
-    "9": "Incompletely Characterized Transport Systems",
-}
+# NOTE: this module used to carry its own `_TC_CLASS_NAMES` copy as a fallback for
+# `tc_class` nodes with an empty name. It was dead code: `build_tcdb_hierarchy`
+# (prepare_data step 6) owns the authoritative table and fills every class name,
+# so all 7 kept classes arrive named and the branch never fired. It could not even
+# have helped the one unnamed class in the hierarchy — TC class `6` — because the
+# adapter's copy had no entry for it. Class names live in step 6 alone now.
 
 
 def _clean_str(value: str | None) -> str:
@@ -265,23 +262,50 @@ class MultiTcdbAnnotationAdapter:
         self._pfam_bridge = pruned.get("pfam_bridge", {}) or {}
         self._go_bridge = pruned.get("go_bridge", {}) or {}
 
+    def _compute_substrate_depth(self) -> dict[str, set[str]]:
+        """{tc_id: {primary_id it is the DEEPEST kept node for}}.
+
+        A kept node is *deepest* for a substrate when no kept child of it also
+        carries that substrate. Checking DIRECT children is sufficient — never
+        the whole subtree — because `_prune_tcdb` only ever walks *up* from a
+        seed, so the kept set is ancestor-closed: any kept descendant of `t` has
+        a kept child-of-`t` on its path to `t`, and the rollup is transitive, so
+        that child necessarily carries the substrate too.
+        """
+        children: dict[str, list[str]] = {}
+        for tc in self._kept_ids:
+            parent = self._hierarchy.get(tc, {}).get("parent")
+            if parent is not None and parent in self._kept_ids:
+                children.setdefault(parent, []).append(tc)
+
+        depth: dict[str, set[str]] = {}
+        for tc, primaries in self._subtree_substrates.items():
+            covered: set[str] = set()
+            for child in children.get(tc, []):
+                covered.update(self._subtree_substrates.get(child, ()))
+            depth[tc] = set(primaries) - covered
+        return depth
+
     def get_nodes(self) -> Iterator[tuple[str, str, dict]]:
         if not self._kept_ids:
             self.download_data(cache=self.cache)
 
+        # NOT capped under test_mode, matching every sibling ontology adapter
+        # (cazy / interpro / psortb / signalp all cap the per-gene EDGE loop and
+        # emit the full ontology). The ontology is bounded reference data — the
+        # expensive part is the 53K gene edges, which the per-strain adapter caps.
+        # Capping nodes here left gene/parent/substrate/bridge edges pointing at
+        # the ~1,400 unemitted nodes, and `skip_bad_relationships: true` dropped
+        # them silently, so `--test` produced a quietly broken TCDB layer.
         emit_count = 0
         for tcdb_id in sorted(self._kept_ids):
-            if self.test_mode and emit_count >= 100:
-                break
             entry = self._hierarchy.get(tcdb_id, {})
             level = entry.get("level", 0)
             level_kind = entry.get("level_kind", "tc_class")
-            raw_name = entry.get("name") or ""
-            # Class fallback: source name often empty; pull from _TC_CLASS_NAMES
-            if not raw_name and level_kind == "tc_class":
-                raw_name = _TC_CLASS_NAMES.get(tcdb_id, "")
-            # Other levels: fall back to the tcdb_id itself
-            display_name = raw_name or tcdb_id
+            # Falls back to the tcdb_id when the source has no name. TCDB ships
+            # descriptions only for classes and families, so subclass /
+            # subfamily / specificity nodes all render as their bare id.
+            display_name = (entry.get("name") or "") or tcdb_id
 
             props = {
                 "name": _clean_str(display_name),
@@ -386,17 +410,36 @@ class MultiTcdbAnnotationAdapter:
 
         # 3. Substrate edges. Pre-rolled-up at step-6 time over the FULL
         # hierarchy, so ancestors carry substrates from every TCDB descendant
-        # (not just gene-annotated ones). Recover leaf-only semantics by
-        # filtering to source.level_kind = 'tc_specificity'.
+        # (not just gene-annotated ones).
+        #
+        # `substrate_depth` marks whether this node is the DEEPEST kept node
+        # carrying the substrate ('deepest') or an ancestor of one ('ancestor').
+        # Without it, "how many distinct transporter systems move X" has no cheap
+        # answer: counting every level double-counts an ancestor with its own
+        # descendant, and the old `level_kind = 'tc_specificity'` filter selects
+        # only 466 of 11,263 edges — leaving 83% of transported metabolites at
+        # transporter_count = 0 after the ancestor-only prune.
+        #
+        # NOT the same as "curated vs inherited": only tc_specificity nodes carry
+        # their own `substrate_classes` and they are leaves, so curated-vs-inherited
+        # is exactly `level_kind = 'tc_specificity'` and needs no new property.
+        # Depth is the part that is not derivable without a hierarchy traversal.
+        substrate_depth = self._compute_substrate_depth()
         sub_count = 0
+        deepest_count = 0
         for tcdb_id, primary_ids in sorted(self._subtree_substrates.items()):
             for primary in primary_ids:
+                is_deepest = primary in substrate_depth.get(tcdb_id, ())
+                if is_deepest:
+                    deepest_count += 1
                 yield (
                     f"{tcdb_id}-transports-{primary}",
                     _tcdb_node_id(tcdb_id),
                     primary,
                     "tcdb_family_transports_metabolite",
-                    {},
+                    # Categorical str, not bool: BioCypher mishandles boolean
+                    # properties, so the KG uses string vocabularies throughout.
+                    {"substrate_depth": "deepest" if is_deepest else "ancestor"},
                 )
                 sub_count += 1
 
@@ -451,6 +494,7 @@ class MultiTcdbAnnotationAdapter:
 
         logger.info(
             f"MultiTcdbAnnotationAdapter.get_edges: {parent_count} parent, "
-            f"{gene_count} gene, {sub_count} substrate, "
+            f"{gene_count} gene, {sub_count} substrate "
+            f"({deepest_count} deepest / {sub_count - deepest_count} ancestor), "
             f"{pfam_count} Pfam-bridge, {go_count} GO-bridge edges"
         )

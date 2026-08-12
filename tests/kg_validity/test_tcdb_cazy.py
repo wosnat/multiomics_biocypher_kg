@@ -112,8 +112,10 @@ def test_tcdb_family_count_is_not_tier_gated(run_query):
 
 @pytest.mark.kg
 def test_gene_has_cazy_family_edge_count(run_query):
+    """Upper bound raised from 2000 by the InterPro two-layer integration
+    (2026-08-10): Layer B adds ~642 CAZy ids from FAMILY/DOMAIN entry xrefs."""
     n = run_query("MATCH ()-[r:Gene_has_cazy_family]->() RETURN count(r) AS n")[0]["n"]
-    assert 100 <= n <= 2000, f"Gene_has_cazy_family count {n} outside 100-2000"
+    assert 100 <= n <= 5000, f"Gene_has_cazy_family count {n} outside 100-5000"
 
 
 @pytest.mark.kg
@@ -397,3 +399,165 @@ def test_is_promiscuous_means_substrate_breadth_only(run_query):
         RETURN count(t) AS n
     """)[0]["n"]
     assert n == 0, f"{n} families flagged promiscuous without substrate breadth"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Substrate rollup depth + the arm split (TCDB rollup fix)
+#
+# The step-6 rollup materialises every descendant's substrates onto each
+# ancestor. Before this fix that inflation flowed unlabelled into three scalars:
+# Metabolite.transporter_count read 0 for 83% of transported metabolites, and
+# Gene/Metabolite/Organism metabolite counts unioned a p90=11 catalysis arm with
+# a p90=554 transport arm under one name.
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+@pytest.mark.kg
+def test_substrate_edges_carry_a_valid_depth_marker(run_query):
+    rows = run_query("""
+        MATCH ()-[r:Tcdb_family_transports_metabolite]->()
+        RETURN r.substrate_depth AS d, count(*) AS n
+    """)
+    seen = {r["d"]: r["n"] for r in rows}
+    assert set(seen) == {"deepest", "ancestor"}, f"unexpected substrate_depth values: {seen}"
+    assert seen["deepest"] > 0 and seen["ancestor"] > 0
+
+
+@pytest.mark.kg
+def test_substrate_depth_agrees_with_the_hierarchy(run_query):
+    """'deepest' must mean exactly: no kept child of this node carries the same
+    substrate. Guards the adapter's build-time shortcut (it checks DIRECT
+    children only, valid because the kept set is ancestor-closed) against the
+    graph-side definition."""
+    n = run_query("""
+        MATCH (t:TcdbFamily)-[r:Tcdb_family_transports_metabolite]->(m:Metabolite)
+        WITH t, r, m, EXISTS {
+            MATCH (c:TcdbFamily)-[:Tcdb_family_is_a_tcdb_family]->(t)
+            WHERE (c)-[:Tcdb_family_transports_metabolite]->(m)
+        } AS has_child_with_substrate
+        WHERE (r.substrate_depth = 'deepest') <> (NOT has_child_with_substrate)
+        RETURN count(*) AS n
+    """)[0]["n"]
+    assert n == 0, f"{n} substrate edges whose substrate_depth contradicts the hierarchy"
+
+
+@pytest.mark.kg
+def test_every_transported_metabolite_has_a_nonzero_transporter_count(run_query):
+    """The regression this fix exists for: with the old tc_specificity-only
+    filter, 1,218 of 1,462 transported metabolites read transporter_count = 0."""
+    n = run_query("""
+        MATCH (m:Metabolite)<-[:Tcdb_family_transports_metabolite]-()
+        WITH DISTINCT m WHERE coalesce(m.transporter_count, 0) = 0
+        RETURN count(m) AS n
+    """)[0]["n"]
+    assert n == 0, f"{n} transported metabolites still have transporter_count = 0"
+
+
+@pytest.mark.kg
+def test_transporter_count_never_double_counts_an_ancestor(run_query):
+    """transporter_count counts 'deepest' edges only, so it must never exceed the
+    number of distinct TcdbFamily nodes with any substrate edge to the metabolite."""
+    n = run_query("""
+        MATCH (m:Metabolite)<-[:Tcdb_family_transports_metabolite]-(t:TcdbFamily)
+        WITH m, count(DISTINCT t) AS all_levels
+        WHERE coalesce(m.transporter_count, 0) > all_levels
+        RETURN count(m) AS n
+    """)[0]["n"]
+    assert n == 0, f"{n} metabolites whose transporter_count exceeds their substrate-edge sources"
+
+
+@pytest.mark.kg
+def test_gene_metabolite_count_is_catalysis_only(run_query):
+    """BREAKING split: metabolite_count must match the catalysis arm exactly, with
+    no transport contribution folded in."""
+    n = run_query("""
+        MATCH (g:Gene)
+        OPTIONAL MATCH (g)-[:Gene_catalyzes_reaction]->(:Reaction)-[:Reaction_has_metabolite]->(m:Metabolite)
+        WITH g, count(DISTINCT m) AS expected
+        WHERE coalesce(g.metabolite_count, 0) <> expected
+        RETURN count(g) AS n
+    """)[0]["n"]
+    assert n == 0, f"{n} genes whose metabolite_count disagrees with the catalysis arm"
+
+
+@pytest.mark.kg
+def test_transported_metabolite_count_uses_deepest_attachments_only(run_query):
+    n = run_query("""
+        MATCH (g:Gene)
+        OPTIONAL MATCH (g)-[:Gene_has_tcdb_family]->(t:TcdbFamily)
+        WHERE NOT EXISTS {
+            MATCH (g)-[:Gene_has_tcdb_family]->(d:TcdbFamily)
+            WHERE (d)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t)
+        }
+        OPTIONAL MATCH (t)-[:Tcdb_family_transports_metabolite]->(m:Metabolite)
+        WITH g, count(DISTINCT m) AS expected
+        WHERE coalesce(g.transported_metabolite_count, 0) <> expected
+        RETURN count(g) AS n
+    """)[0]["n"]
+    assert n == 0, f"{n} genes whose transported_metabolite_count is not the deepest-attachment count"
+
+
+@pytest.mark.kg
+def test_transport_substrate_resolution_vocabulary_and_sparsity(run_query):
+    rows = run_query("""
+        MATCH (g:Gene) WHERE g.transport_substrate_resolution IS NOT NULL
+        RETURN g.transport_substrate_resolution AS v, count(*) AS n
+    """)
+    seen = {r["v"]: r["n"] for r in rows}
+    assert set(seen) <= {"resolved", "family_inferred"}, f"unexpected vocabulary: {seen}"
+    assert seen.get("resolved", 0) > 0 and seen.get("family_inferred", 0) > 0
+
+    # Sparse by design: set only on genes that actually carry a TCDB edge, so
+    # "no transporter evidence" stays distinguishable from a weak substrate claim.
+    n = run_query("""
+        MATCH (g:Gene)
+        WHERE g.transport_substrate_resolution IS NOT NULL
+          AND NOT (g)-[:Gene_has_tcdb_family]->()
+        RETURN count(g) AS n
+    """)[0]["n"]
+    assert n == 0, f"{n} genes carry a resolution verdict without any TCDB edge"
+
+
+@pytest.mark.kg
+def test_resolution_is_not_a_restatement_of_tier(run_query):
+    """Substrate resolution and evidence tier are orthogonal — a tier gate would
+    discard the narrow 2.A.x carriers that are 'resolved' but tier-3-only. If this
+    ever hits 0, the flag has silently collapsed into the tier gate."""
+    n = run_query("""
+        MATCH (g:Gene)-[r:Gene_has_tcdb_family]->()
+        WHERE g.transport_substrate_resolution = 'resolved'
+        WITH g, collect(coalesce(r.tier, 9)) AS tiers, collect(r.sources) AS srcs
+        WHERE none(t IN tiers WHERE t <= 2)
+          AND none(s IN srcs WHERE 'eggnog' IN s)
+        RETURN count(g) AS n
+    """)[0]["n"]
+    assert n > 0, "no 'resolved' tier-3-only genes — resolution has collapsed into the tier gate"
+
+
+@pytest.mark.kg
+def test_gene_and_metabolite_transport_projections_agree(run_query):
+    """Gene.transported_metabolite_count and Metabolite.transporter_gene_count are
+    two projections of ONE (gene, metabolite) set, so their totals must match."""
+    from_genes = run_query(
+        "MATCH (g:Gene) RETURN sum(coalesce(g.transported_metabolite_count, 0)) AS n"
+    )[0]["n"]
+    from_metabolites = run_query(
+        "MATCH (m:Metabolite) RETURN sum(coalesce(m.transporter_gene_count, 0)) AS n"
+    )[0]["n"]
+    assert from_genes == from_metabolites, (
+        f"gene-side total {from_genes} != metabolite-side total {from_metabolites}")
+
+
+@pytest.mark.kg
+def test_organism_metabolite_counts_are_split_by_evidence_arm(run_query):
+    n = run_query("""
+        MATCH (o:OrganismTaxon)
+        OPTIONAL MATCH (o)-[r:Organism_has_metabolite]->(m:Metabolite)
+        WITH o,
+             count(DISTINCT CASE WHEN 'metabolism' IN r.evidence_sources THEN m END) AS cat,
+             count(DISTINCT CASE WHEN 'transport'  IN r.evidence_sources THEN m END) AS tr
+        WHERE coalesce(o.metabolite_count, 0) <> cat
+           OR coalesce(o.transported_metabolite_count, 0) <> tr
+        RETURN count(o) AS n
+    """)[0]["n"]
+    assert n == 0, f"{n} organisms whose metabolite counts disagree with their edge evidence_sources"

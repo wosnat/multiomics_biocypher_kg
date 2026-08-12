@@ -747,3 +747,63 @@ class TestNewFieldConfigs:
         assert "catalytic_activities" not in result
         assert "cofactor_names" not in result
         assert "transmembrane_regions" not in result
+
+
+# ─── list-field sanitisation (regression) ────────────────────────────────────
+#
+# `_resolve_passthrough` sanitised `|` and `'` but `_resolve_passthrough_list`
+# did not, so pipe-bearing UniProt values reached the CSV where BioCypher's `|`
+# array delimiter re-split them. 239 `catalytic_activities` values were affected,
+# tearing 385 array elements apart in the deployed graph.
+
+SANITISE_CONFIG = {
+    "fields": {
+        "catalytic_activities": {
+            "type": "passthrough_list",
+            "field": "cc_catalytic_activity",
+            "delimiter": ";;",
+        },
+        "function_description": {
+            "type": "passthrough",
+            "field": "cc_function",
+        },
+    }
+}
+
+
+class TestListFieldSanitisation:
+    def setup_method(self):
+        self.builder = ProteinAnnotationBuilder(SANITISE_CONFIG)
+
+    def test_pipe_in_list_element_is_replaced(self):
+        """A `|` inside a list element must not survive to become an array split."""
+        row = {
+            "cc_catalytic_activity":
+                "Reaction=Release of an N-terminal amino acid, Xaa-|-Yaa-, in which Xaa is Leu",
+        }
+        out = self.builder.build_merged("P00001", row)
+        activities = out["catalytic_activities"]
+        assert len(activities) == 1, "value must stay a single element"
+        assert "|" not in activities[0]
+        assert "Xaa-,-Yaa-" in activities[0]
+
+    def test_single_quote_in_list_element_is_replaced(self):
+        row = {
+            "cc_catalytic_activity":
+                "Reaction=DNA(n) + a 2'-deoxyribonucleoside 5'-triphosphate = DNA(n+1)",
+        }
+        out = self.builder.build_merged("P00002", row)
+        assert "'" not in out["catalytic_activities"][0]
+        assert "2^-deoxyribonucleoside" in out["catalytic_activities"][0]
+
+    def test_every_element_of_a_multi_value_list_is_sanitised(self):
+        row = {"cc_catalytic_activity": "Reaction=a|b;;Reaction=c'd;;Reaction=clean"}
+        out = self.builder.build_merged("P00003", row)
+        assert len(out["catalytic_activities"]) == 3
+        assert all("|" not in v and "'" not in v for v in out["catalytic_activities"])
+
+    def test_scalar_path_still_sanitised(self):
+        row = {"cc_function": "FUNCTION: cleaves X-|-Y using Mg'2+"}
+        out = self.builder.build_merged("P00004", row)
+        assert "|" not in out["function_description"]
+        assert "'" not in out["function_description"]

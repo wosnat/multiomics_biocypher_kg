@@ -490,3 +490,89 @@ def test_sources_are_sorted_canonically(dual_source_strain):
     """
     for props in _gene_edges(dual_source_strain).values():
         assert props["sources"] == sorted(props["sources"]), props["sources"]
+
+
+# ── substrate_depth marker ───────────────────────────────────────────────────
+#
+# The step-6 rollup materialises every descendant's substrates onto each
+# ancestor, so a substrate edge alone cannot say whether this node is the actual
+# transporter system or just an ancestor of one. Without that distinction,
+# "how many systems transport X" has no cheap answer: counting all levels
+# double-counts an ancestor with its own descendant, and the old
+# level_kind='tc_specificity' filter selected only 466 of 11,263 real edges,
+# leaving 83% of transported metabolites at transporter_count = 0.
+
+
+def test_substrate_depth_marks_only_the_deepest_kept_node(cache_root, strain_dir):
+    """The leaf owns the substrate; all four ancestors carry it via rollup."""
+    orch = _make_orchestrator(cache_root, strain_dir)
+    by_source = {}
+    for edge_id, src, tgt, label, props in orch.get_edges():
+        if label == "tcdb_family_transports_metabolite":
+            by_source.setdefault(src, {})[tgt] = props["substrate_depth"]
+
+    assert by_source["tcdb:1.A.1.5.2"] == {
+        "chebi:9999": "deepest", "kegg.compound:C00208": "deepest"}
+    for ancestor in ("tcdb:1", "tcdb:1.A", "tcdb:1.A.1", "tcdb:1.A.1.5"):
+        assert set(by_source[ancestor].values()) == {"ancestor"}, ancestor
+
+
+def test_substrate_depth_is_a_categorical_string_not_a_bool(cache_root, strain_dir):
+    """BioCypher mishandles boolean properties — the KG uses str vocabularies."""
+    for _id, _s, _t, label, props in _make_orchestrator(cache_root, strain_dir).get_edges():
+        if label == "tcdb_family_transports_metabolite":
+            assert isinstance(props["substrate_depth"], str)
+            assert props["substrate_depth"] in {"deepest", "ancestor"}
+
+
+def test_every_substrate_is_deepest_for_exactly_one_node_per_branch(cache_root, strain_dir):
+    """Each metabolite must have >=1 'deepest' edge, else transporter_count is 0
+    again — the exact regression this marker exists to prevent."""
+    deepest_by_metabolite = {}
+    for _id, src, tgt, label, props in _make_orchestrator(cache_root, strain_dir).get_edges():
+        if label == "tcdb_family_transports_metabolite" and props["substrate_depth"] == "deepest":
+            deepest_by_metabolite.setdefault(tgt, set()).add(src)
+    assert deepest_by_metabolite == {
+        "chebi:9999": {"tcdb:1.A.1.5.2"},
+        "kegg.compound:C00208": {"tcdb:1.A.1.5.2"},
+    }
+
+
+def test_depth_is_per_substrate_not_per_node(tmp_path):
+    """A node can be 'deepest' for one substrate and 'ancestor' for another —
+    the marker is a (node, substrate) fact. Here 2.A.1 has a kept child that
+    carries only C1, so 2.A.1 stays deepest for C2."""
+    tcdb_dir = tmp_path / "cache" / "tcdb"
+    tcdb_dir.mkdir(parents=True)
+    (tcdb_dir / "tcdb_hierarchy.json").write_text(json.dumps({
+        "2":       {"name": "", "level": 0, "level_kind": "tc_class", "parent": None},
+        "2.A":     {"name": "", "level": 1, "level_kind": "tc_subclass", "parent": "2"},
+        "2.A.1":   {"name": "MFS", "level": 2, "level_kind": "tc_family", "parent": "2.A"},
+        "2.A.1.1": {"name": "", "level": 3, "level_kind": "tc_subfamily", "parent": "2.A.1"},
+    }))
+    (tcdb_dir / "tcdb_pruned.json").write_text(json.dumps({
+        "kept_tcdb_ids": ["2", "2.A", "2.A.1", "2.A.1.1"],
+        "subtree_substrates": {
+            "2":       ["kegg.compound:C1", "kegg.compound:C2"],
+            "2.A":     ["kegg.compound:C1", "kegg.compound:C2"],
+            "2.A.1":   ["kegg.compound:C1", "kegg.compound:C2"],
+            "2.A.1.1": ["kegg.compound:C1"],
+        },
+    }))
+    strain = tmp_path / "MED4"
+    strain.mkdir()
+    (strain / "gene_annotations_merged.json").write_text(json.dumps({}))
+    genomes_csv = tmp_path / "genomes.csv"
+    genomes_csv.write_text(f"ncbi_accession,strain_name,data_dir\nGCF_1,MED4,{strain}\n")
+
+    orch = MultiTcdbAnnotationAdapter(
+        genome_config_file=str(genomes_csv), cache_root=tcdb_dir.parent)
+    orch.download_data()
+    depth = {}
+    for _id, src, tgt, label, props in orch.get_edges():
+        if label == "tcdb_family_transports_metabolite":
+            depth[(src, tgt)] = props["substrate_depth"]
+
+    assert depth[("tcdb:2.A.1", "kegg.compound:C1")] == "ancestor"
+    assert depth[("tcdb:2.A.1", "kegg.compound:C2")] == "deepest"
+    assert depth[("tcdb:2.A.1.1", "kegg.compound:C1")] == "deepest"

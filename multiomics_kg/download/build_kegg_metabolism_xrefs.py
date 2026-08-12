@@ -1425,19 +1425,52 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
             download_tcdb_xref_map,
             load_tcdb_xref_map,
         )
+        # tcdb_pruned.json is COMMITTED, so a silent degradation here is durable:
+        # an empty bridge writes cleanly, drops ~8.4K edges from the next build,
+        # and shows up only as a log line nobody reads. tcdb.org is a flaky host,
+        # so fail loudly on both failure modes instead.
+        pruned_path = cache_root / "tcdb" / "tcdb_pruned.json"
+        previous: dict = {}
+        if pruned_path.exists():
+            try:
+                previous = json.loads(pruned_path.read_text())
+            except (OSError, json.JSONDecodeError):
+                previous = {}
+
         tcdb_bridges: dict[str, dict] = {}
         for kind in ("pfam", "go"):
             dest = cache_root / "tcdb" / "raw" / f"tcdb_{kind}_map.tsv"
             try:
                 download_tcdb_xref_map(kind, dest=dest, force=refetch_raw)
             except Exception as exc:
-                log.warning(f"  TCDB {kind}→TC map download failed: {exc}")
+                # A cached TSV is a fine fallback; no TSV at all is not.
+                if not dest.exists():
+                    raise RuntimeError(
+                        f"TCDB {kind}→TC map download failed and no cached copy exists at "
+                        f"{dest}: {exc}. Refusing to write tcdb_pruned.json without the "
+                        f"{kind} bridge — it is a committed artifact and the loss would be "
+                        f"silent. Retry when tcdb.org is reachable."
+                    ) from exc
+                log.warning(
+                    f"  TCDB {kind}→TC map download failed ({exc}); using cached {dest}"
+                )
             xref = load_tcdb_xref_map(kind, path=dest)
             tcdb_bridges[kind] = build_tcdb_bridges(xref, hierarchy, kept)
+            n_pairs = sum(len(v) for v in tcdb_bridges[kind].values())
+
+            # Never trade a populated committed bridge for an empty one.
+            prior_pairs = sum(len(v) for v in previous.get(f"{kind}_bridge", {}).values())
+            if n_pairs == 0 and prior_pairs > 0:
+                raise RuntimeError(
+                    f"TCDB {kind}→TC bridge came out EMPTY but the committed "
+                    f"tcdb_pruned.json holds {prior_pairs} pairs. That is data loss, not a "
+                    f"rebuild — check {dest} (size "
+                    f"{dest.stat().st_size if dest.exists() else 'missing'}). Delete the "
+                    f"stale TSV and re-run with --refetch-raw if the map genuinely changed."
+                )
             log.info(
                 f"  TCDB {kind}→TC bridge: {len(xref)} published {kind} ids -> "
-                f"{sum(len(v) for v in tcdb_bridges[kind].values())} pairs on "
-                f"{len(tcdb_bridges[kind])} kept TC nodes"
+                f"{n_pairs} pairs on {len(tcdb_bridges[kind])} kept TC nodes"
             )
 
         (cache_root / "tcdb" / "tcdb_pruned.json").write_text(json.dumps({

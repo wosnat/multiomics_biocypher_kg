@@ -762,6 +762,70 @@ class TestMultiEcAnnotationAdapterEdges:
 
 
 # ---------------------------------------------------------------------------
+# TestMultiEcDanglingProof
+# ---------------------------------------------------------------------------
+
+
+# Genes annotated with EC numbers absent from the Expasy hierarchy. InterPro's
+# entry-level EC xrefs carry obsolete (1.2.8.1) and invalid (2.8.3.183) numbers
+# that `normalize_ec` cannot remap, so the merge propagates them onto genes.
+EC_GENE_DATA_WITH_UNKNOWN: dict = {
+    "PMM0001": {"locus_tag": "PMM0001", "ec_numbers": ["2.7.7.7"]},
+    "PMM0002": {"locus_tag": "PMM0002", "ec_numbers": ["1.1.1.1", "9.9.9.9"]},
+    "PMM0003": {"locus_tag": "PMM0003", "ec_numbers": ["9.9.9.9"]},
+}
+
+
+@pytest.fixture
+def multi_ec_adapter_unknown(tmp_path, tmp_ec_cache_dir):
+    genome_dir = tmp_path / "genome_unknown"
+    genome_dir.mkdir()
+    (genome_dir / "gene_annotations_merged.json").write_text(
+        json.dumps(EC_GENE_DATA_WITH_UNKNOWN), encoding="utf-8"
+    )
+    csv_path = tmp_path / "ec_genomes_unknown.csv"
+    csv_path.write_text(
+        "ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir,clade\n"
+        f"GCF_000011465.1,Pro_MED4,59919,MED4,{genome_dir},HLI\n",
+        encoding="utf-8",
+    )
+    return MultiEcAnnotationAdapter(
+        genome_config_file=str(csv_path),
+        cache_dir=tmp_ec_cache_dir,
+        cache=True,
+    )
+
+
+class TestMultiEcDanglingProof:
+    """Gene→EC edges are pruned to the Expasy node universe (dangling-proof)."""
+
+    def test_all_ec_node_ids_matches_node_set(self, multi_ec_adapter):
+        assert multi_ec_adapter.all_ec_node_ids() == {
+            n[0] for n in multi_ec_adapter.get_nodes()
+        }
+
+    def test_unknown_ec_edge_dropped(self, multi_ec_adapter_unknown):
+        targets = [
+            e[2] for e in multi_ec_adapter_unknown.get_edges()
+            if e[3] == "gene_catalyzes_ec_number"
+        ]
+        assert "ec:9.9.9.9" not in targets
+
+    def test_known_ec_edges_survive(self, multi_ec_adapter_unknown):
+        targets = sorted(
+            e[2] for e in multi_ec_adapter_unknown.get_edges()
+            if e[3] == "gene_catalyzes_ec_number"
+        )
+        assert targets == ["ec:1.1.1.1", "ec:2.7.7.7"]
+
+    def test_no_gene_ec_edge_dangles(self, multi_ec_adapter_unknown):
+        nodes = multi_ec_adapter_unknown.all_ec_node_ids()
+        for e in multi_ec_adapter_unknown.get_edges():
+            if e[3] == "gene_catalyzes_ec_number":
+                assert e[2] in nodes, f"Dangling gene→EC edge target {e[2]}"
+
+
+# ---------------------------------------------------------------------------
 # TestMultiEcCacheBehavior
 # ---------------------------------------------------------------------------
 

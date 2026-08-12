@@ -374,3 +374,101 @@ class TestMultiUniprotRealConfigFormat:
         assert len(wrapper.adapters) == 2
         assert wrapper.adapters[0].ncbi_taxon_id == 59919  # Prochlorococcus
         assert wrapper.adapters[1].ncbi_taxon_id == 64471  # Synechococcus
+
+
+# ---------------------------------------------------------------------------
+# Regression: edge cardinality, provenance, and property sanitisation
+# ---------------------------------------------------------------------------
+
+
+def _adapter_with(data, refseq_to_strains):
+    """Build a UniprotAdapter with its loaded state injected directly."""
+    adapter = UniprotAdapter(
+        organism_group="Prochlorococcus",
+        ncbi_taxon_id=59919,
+        assembly_info=[{"accession": "GCF_000011465.1", "strain_name": "MED4",
+                        "ncbi_taxon_id": 59919}],
+        data_dirs=["cache/genomes/MED4/"],
+    )
+    adapter._data = data
+    adapter._refseq_to_strains = refseq_to_strains
+    return adapter
+
+
+class TestEdgeCardinality:
+    """A WP_ accession mapping to several locus tags in ONE assembly yields several
+    Gene_encodes_protein edges but only ONE Protein_belongs_to_organism edge.
+
+    80 real proteins hit this (e.g. uniprot:A8WIB5 -> PMM1896 + PMM2004). Keying
+    both edges on (locus_tag, ncbi_acc) emitted ~131 duplicate organism edges per
+    build, silently absorbed by BioCypher's Deduplicator.
+    """
+
+    def test_paralogs_yield_one_organism_edge_and_two_gene_edges(self):
+        adapter = _adapter_with(
+            {"A8WIB5": {"refseq_ids": ["WP_011132000.1"]}},
+            {"WP_011132000.1": [("PMM1896", "GCF_000011465.1"),
+                                ("PMM2004", "GCF_000011465.1")]},
+        )
+        edges = list(adapter.get_edges())
+        gene_edges = [e for e in edges if e[3] == "Gene_encodes_protein"]
+        org_edges = [e for e in edges if e[3] == "Protein_belongs_to_organism"]
+
+        assert len(gene_edges) == 2
+        assert {e[1] for e in gene_edges} == {"ncbigene:PMM1896", "ncbigene:PMM2004"}
+        assert len(org_edges) == 1
+        assert org_edges[0][2] == "insdc.gcf:GCF_000011465.1"
+
+    def test_distinct_assemblies_still_get_one_organism_edge_each(self):
+        adapter = _adapter_with(
+            {"P00001": {"refseq_ids": ["WP_1"]}},
+            {"WP_1": [("PMM0001", "GCF_000011465.1"), ("A9601_1", "GCF_000015645.1")]},
+        )
+        org_edges = [e for e in adapter.get_edges()
+                     if e[3] == "Protein_belongs_to_organism"]
+        assert len(org_edges) == 2
+        assert {e[2] for e in org_edges} == {
+            "insdc.gcf:GCF_000011465.1", "insdc.gcf:GCF_000015645.1"}
+
+    def test_multiple_refseq_ids_mapping_to_same_gene_are_deduped(self):
+        adapter = _adapter_with(
+            {"P00002": {"refseq_ids": ["WP_1", "WP_2"]}},
+            {"WP_1": [("PMM0001", "GCF_000011465.1")],
+             "WP_2": [("PMM0001", "GCF_000011465.1")]},
+        )
+        edges = list(adapter.get_edges())
+        assert len([e for e in edges if e[3] == "Gene_encodes_protein"]) == 1
+        assert len([e for e in edges if e[3] == "Protein_belongs_to_organism"]) == 1
+
+
+class TestProvenance:
+    def test_no_version_is_claimed(self):
+        """A UniProt release is never captured at download time, so asserting one
+        on ~89K edges was a fabrication (the hardcoded '2024_03' was stamped on
+        data actually fetched in 2026)."""
+        adapter = _adapter_with({}, {})
+        prov = adapter._provenance()
+        assert "version" not in prov
+        assert not hasattr(adapter, "data_version")
+
+    def test_source_and_licence_are_still_reported(self):
+        prov = _adapter_with({}, {})._provenance()
+        assert prov["source"] == "uniprot"
+        assert prov["licence"] == "CC BY 4.0"
+
+
+class TestNodePropertySanitisation:
+    def test_pipes_and_quotes_are_stripped_from_list_and_scalar_props(self):
+        adapter = _adapter_with(
+            {"P00003": {
+                "catalytic_activities": ["Reaction=Xaa-|-Yaa", "Reaction=2'-deoxy"],
+                "function_description": "cleaves X-|-Y using Mg'2+",
+                "sequence_length": 367,
+            }},
+            {},
+        )
+        _, _, props = next(iter(adapter.get_nodes()))
+        assert props["catalytic_activities"] == ["Reaction=Xaa--Yaa", "Reaction=2^-deoxy"]
+        assert props["function_description"] == "cleaves X--Y using Mg^2+"
+        # non-string properties pass through untouched
+        assert props["sequence_length"] == 367
