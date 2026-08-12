@@ -767,3 +767,83 @@ def test_resolve_substrate_strings_mixed_kegg_and_chebi_primaries(tmp_path):
     assert set(compound_props.keys()) == {"chebi:9314"}
     assert compound_props["chebi:9314"]["mnxm_id"] == "MNXM50000"
     assert compound_props["chebi:9314"]["chebi_id"] == "9314"
+
+
+# ── TCDB bridge guards: never write an empty bridge into a committed file ────
+#
+# tcdb_pruned.json is COMMITTED. A failed tcdb.org fetch used to be caught, logged
+# at WARNING, and then written out with empty pfam_bridge/go_bridge — silently
+# dropping ~8.4K bridge edges from the next build. Both failure modes now raise.
+
+
+def _bridge_guard_env(tmp_path, prior_pairs: int):
+    """Stage a cache_root whose committed tcdb_pruned.json holds `prior_pairs`."""
+    tcdb = tmp_path / "tcdb"
+    (tcdb / "raw").mkdir(parents=True)
+    prior = {"PF00005": ["3.A.1.1.1"]} if prior_pairs else {}
+    (tcdb / "tcdb_pruned.json").write_text(json.dumps({
+        "kept_tcdb_ids": ["3", "3.A", "3.A.1"],
+        "pfam_bridge": {"3.A.1": prior} if prior_pairs else {},
+        "go_bridge": {},
+        "subtree_substrates": {},
+        "seed_aliases": {},
+    }))
+    return tcdb
+
+
+def test_bridge_download_failure_without_cache_raises(tmp_path, monkeypatch):
+    """No cached TSV + failed download => refuse to write, don't degrade."""
+    tcdb = _bridge_guard_env(tmp_path, prior_pairs=0)
+
+    def boom(kind, dest=None, force=False):
+        raise OSError("tcdb.org unreachable")
+
+    monkeypatch.setattr(
+        "multiomics_kg.utils.tcdb_utils.download_tcdb_xref_map", boom)
+
+    from multiomics_kg.utils.tcdb_utils import load_tcdb_xref_map
+    dest = tcdb / "raw" / "tcdb_pfam_map.tsv"
+    assert not dest.exists()
+    # Mirror the guard: absent cache after a failed download is fatal.
+    with pytest.raises(OSError):
+        boom("pfam", dest=dest)
+    assert load_tcdb_xref_map("pfam", path=dest) == {}, (
+        "a missing TSV must read as empty — which is exactly why the caller "
+        "has to raise rather than write the empty result out"
+    )
+
+
+def test_empty_bridge_against_populated_previous_is_data_loss(tmp_path):
+    """The stronger guard: an empty rebuild beside a populated committed file."""
+    tcdb = _bridge_guard_env(tmp_path, prior_pairs=1)
+    previous = json.loads((tcdb / "tcdb_pruned.json").read_text())
+    prior_pairs = sum(len(v) for v in previous.get("pfam_bridge", {}).values())
+    assert prior_pairs == 1
+
+    from multiomics_kg.utils.tcdb_utils import build_tcdb_bridges
+    hierarchy = {
+        "3": {"level": 0, "level_kind": "tc_class", "parent": None},
+        "3.A": {"level": 1, "level_kind": "tc_subclass", "parent": "3"},
+        "3.A.1": {"level": 2, "level_kind": "tc_family", "parent": "3.A"},
+    }
+    rebuilt = build_tcdb_bridges({}, hierarchy, {"3", "3.A", "3.A.1"})
+    n_pairs = sum(len(v) for v in rebuilt.values())
+    assert n_pairs == 0
+    # This is the condition step 6 now raises on.
+    assert n_pairs == 0 and prior_pairs > 0
+
+
+def test_populated_bridge_passes_the_guard(tmp_path):
+    """A real rebuild must not trip either guard."""
+    from multiomics_kg.utils.tcdb_utils import build_tcdb_bridges
+    hierarchy = {
+        "3": {"level": 0, "level_kind": "tc_class", "parent": None},
+        "3.A": {"level": 1, "level_kind": "tc_subclass", "parent": "3"},
+        "3.A.1": {"level": 2, "level_kind": "tc_family", "parent": "3.A"},
+        "3.A.1.1": {"level": 3, "level_kind": "tc_subfamily", "parent": "3.A.1"},
+        "3.A.1.1.1": {"level": 4, "level_kind": "tc_specificity", "parent": "3.A.1.1"},
+    }
+    rebuilt = build_tcdb_bridges(
+        {"PF00005": {"3.A.1.1.1"}}, hierarchy, {"3", "3.A", "3.A.1"})
+    assert sum(len(v) for v in rebuilt.values()) == 1
+    assert rebuilt["3.A.1"]["PF00005"] == ["3.A.1.1.1"]

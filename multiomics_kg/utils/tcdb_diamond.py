@@ -85,14 +85,22 @@ def consensus_collapse(hits: list[dict]) -> dict | None:
     The returned dict has keys: tcid (str), agreement ("5_part" | "4_part" | "3_part"),
     n (number of hits considered).
 
-    All hits are assumed to carry 5-part TCIDs (TCDB curates only at the
-    tc_specificity leaves), so dot-prefix comparison is well-defined.
+    TCDB curates at the tc_specificity leaves, so in practice every hit carries a
+    5-part TCID (verified: 40,520/40,520 candidates across 42 strains). That is
+    ENFORCED here rather than assumed: `parse_tcdb_subject_id` accepts 3-5 parts,
+    and list slicing does not pad, so a group of 4-part hits would otherwise match
+    at depth 5 and be reported as "5_part" — inflating the confidence weight to
+    1.0 and mislabelling a subfamily-depth call as `tc_specificity`. Capping the
+    search at the shallowest hit makes the claimed depth always real.
     """
     if not hits:
         return None
     parts_lists = [h["tcid"].split(".") for h in hits]
+    max_depth = min(len(p) for p in parts_lists)
 
     for depth in (5, 4, 3):
+        if depth > max_depth:
+            continue
         prefixes = {tuple(p[:depth]) for p in parts_lists}
         if len(prefixes) == 1:
             shared = parts_lists[0][:depth]
