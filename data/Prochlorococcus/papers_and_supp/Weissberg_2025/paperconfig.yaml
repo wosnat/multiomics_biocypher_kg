@@ -38,7 +38,7 @@ publication:
       organism: Alteromonas macleodii HOT1A3
       treatment_condition: Coculture with Prochlorococcus MED4
       control_condition: Axenic
-      experimental_context: Day 11 in PRO99-lowN at 24C under continuous light
+      experimental_context: Days 11, 18, and 31 in PRO99-lowN at 24C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [coculture]
@@ -118,7 +118,7 @@ publication:
       organism: Prochlorococcus MED4
       treatment_condition: Coculture with Alteromonas HOT1A3
       control_condition: Axenic
-      experimental_context: Log exponential day 11 in PRO99-lowN at 24C under continuous light
+      experimental_context: Log exponential day 11 and day 18 in PRO99-lowN at 24C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [coculture]
@@ -316,6 +316,40 @@ publication:
         logfc_col: logFC
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
+    hot1a3_rnaseq_day_18_coculture_vs_axenic:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__rnaseq__day_18__coculture_with_MED4__vs__axenic.csv
+      organism: Alteromonas macleodii HOT1A3
+      id_columns:
+      - column: gene_id
+        id_type: locus_tag_ncbi
+      statistical_analyses:
+      - id: DE_hot1a3_rnaseq_coculture_vs_axenic_day_18
+        experiment: coculture_prochlorococcus_med4_hot1a3_rnaseq
+        timepoint: day 18
+        timepoint_hours: 432.0
+        growth_phase: nutrient_limited
+        name_col: gene_id
+        logfc_col: logFC
+        adjusted_p_value_col: padj
+        pvalue_threshold: 0.05
+    hot1a3_rnaseq_day_31_coculture_vs_axenic:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__rnaseq__day_31__coculture_with_MED4__vs__axenic.csv
+      organism: Alteromonas macleodii HOT1A3
+      id_columns:
+      - column: gene_id
+        id_type: locus_tag_ncbi
+      statistical_analyses:
+      - id: DE_hot1a3_rnaseq_coculture_vs_axenic_day_31
+        experiment: coculture_prochlorococcus_med4_hot1a3_rnaseq
+        timepoint: day 31
+        timepoint_hours: 744.0
+        growth_phase: nutrient_limited
+        name_col: gene_id
+        logfc_col: logFC
+        adjusted_p_value_col: padj
+        pvalue_threshold: 0.05
     hot1a3_proteome_axenic_day_18_vs_day_11:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__proteome__axenic_HOT1A3__day_18__vs__day_11.csv
@@ -452,6 +486,23 @@ publication:
         logfc_col: logFC
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
+    med4_rnaseq_axenic_longterm_vs_exp_day_7:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__axenic_MED4__longterm_starvation_days_60_and_89__vs__log_expnential_day_7.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+      - column: gene_id
+        id_type: locus_tag_ncbi
+      statistical_analyses:
+      - id: DE_med4_rnaseq_axenic_longterm_vs_exp_day_7
+        experiment: growth_state_pro99lown_nutrient_starvation_med4_rnaseq_axenic
+        timepoint: days 60+89
+        timepoint_hours: null
+        growth_phase: nutrient_limited
+        name_col: gene_id
+        logfc_col: logFC
+        adjusted_p_value_col: padj
+        pvalue_threshold: 0.05
     med4_rnaseq_coculture_day_18_vs_exp_day_11:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__coculture_with_HOT1A3__day_18__vs__log_expnential_day_11.csv
@@ -550,6 +601,23 @@ publication:
         timepoint: day 11
         timepoint_hours: 264.0
         growth_phase: exponential
+        name_col: gene_id
+        logfc_col: logFC
+        adjusted_p_value_col: padj
+        pvalue_threshold: 0.05
+    med4_rnaseq_day_18_coculture_vs_axenic:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__day_18__coculture_with_HOT1A3__vs__axenic.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+      - column: gene_id
+        id_type: locus_tag_ncbi
+      statistical_analyses:
+      - id: DE_med4_rnaseq_coculture_vs_axenic_day_18
+        experiment: coculture_alteromonas_hot1a3_med4_rnaseq
+        timepoint: day 18
+        timepoint_hours: 432.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
