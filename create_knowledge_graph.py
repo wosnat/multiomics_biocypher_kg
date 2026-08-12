@@ -282,13 +282,15 @@ def main():
     # InterProScan InterPro-entry ontology (hierarchical, scored edge) + Pfam bridge.
     # Reads per-strain interproscan calls.json for edge evidence + the committed
     # cache/data/interpro/interpro_reference.json (prepare_data step 9) for node
-    # names/types/is-a hierarchy. Pfam node set injected for a dangling-proof
-    # Pfam_in_interpro_entry bridge (BRITE-known_ko_ids precedent).
+    # names/types/is-a hierarchy. Pfam + EC node sets injected for dangling-proof
+    # Pfam_in_interpro_entry / Interpro_entry_related_to_ec_number edges
+    # (BRITE-known_ko_ids precedent).
     from multiomics_kg.adapters.interpro_adapter import MultiInterproAnnotationAdapter
     interpro_adapter = MultiInterproAnnotationAdapter(
         genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
         cache_root=Path("cache/data"),
         pfam_node_ids=pfam_adapter.all_pfam_ids(),
+        ec_node_ids=ec_anno_adapter.all_ec_node_ids(),
         test_mode=TEST_MODE,
     )
     interpro_adapter.download_data(cache=CACHE)
