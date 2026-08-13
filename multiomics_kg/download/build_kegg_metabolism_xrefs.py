@@ -1256,11 +1256,24 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
     log.info("Ensuring KEGG raw cache (downloads from KEGG REST if missing) ...")
     kegg_utils.download_kegg_raw(cache_root, force=refetch_raw)
 
-    log.info("Ensuring TCDB reference TSVs are downloaded ...")
-    download_all(cache_root=cache_root, force=refetch_raw, sources=["tcdb"])
-
-    log.info("Building tcdb_hierarchy.json ...")
-    _build_tcdb_hierarchy(cache_root)
+    # TCDB's CGI endpoints go down for maintenance from time to time (they 404
+    # while www.tcdb.org itself still answers). The raw TSVs are gitignored but
+    # tcdb_hierarchy.json is committed, so a download failure is recoverable:
+    # reuse the committed hierarchy and carry on. Only a missing hierarchy is
+    # fatal.
+    tcdb_hierarchy_path = cache_root / "tcdb" / "tcdb_hierarchy.json"
+    try:
+        log.info("Ensuring TCDB reference TSVs are downloaded ...")
+        download_all(cache_root=cache_root, force=refetch_raw, sources=["tcdb"])
+        log.info("Building tcdb_hierarchy.json ...")
+        _build_tcdb_hierarchy(cache_root)
+    except Exception as exc:
+        if not tcdb_hierarchy_path.exists():
+            raise
+        log.warning(
+            f"  TCDB reference download/rebuild failed ({exc}); reusing the "
+            f"committed {tcdb_hierarchy_path.name} unchanged."
+        )
 
     log.info("Parsing raw KEGG into in-memory dict ...")
     raw = _parse_raw_into_dict(cache_root)
@@ -1443,30 +1456,48 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
             try:
                 download_tcdb_xref_map(kind, dest=dest, force=refetch_raw)
             except Exception as exc:
-                # A cached TSV is a fine fallback; no TSV at all is not.
-                if not dest.exists():
-                    raise RuntimeError(
-                        f"TCDB {kind}→TC map download failed and no cached copy exists at "
-                        f"{dest}: {exc}. Refusing to write tcdb_pruned.json without the "
-                        f"{kind} bridge — it is a committed artifact and the loss would be "
-                        f"silent. Retry when tcdb.org is reachable."
-                    ) from exc
+                # A cached TSV is a fine fallback. With no TSV at all we fall
+                # through to the reuse-or-raise branch below, which can still
+                # recover the bridge from the committed tcdb_pruned.json —
+                # tcdb.org 404s its CGI endpoints during maintenance while the
+                # site root stays up, and that outage must not block step 6.
                 log.warning(
-                    f"  TCDB {kind}→TC map download failed ({exc}); using cached {dest}"
+                    f"  TCDB {kind}→TC map download failed ({exc}); "
+                    f"{'using cached ' + str(dest) if dest.exists() else 'no cached copy'}"
                 )
             xref = load_tcdb_xref_map(kind, path=dest)
-            tcdb_bridges[kind] = build_tcdb_bridges(xref, hierarchy, kept)
-            n_pairs = sum(len(v) for v in tcdb_bridges[kind].values())
-
-            # Never trade a populated committed bridge for an empty one.
-            prior_pairs = sum(len(v) for v in previous.get(f"{kind}_bridge", {}).values())
-            if n_pairs == 0 and prior_pairs > 0:
+            prior = previous.get(f"{kind}_bridge", {})
+            prior_pairs = sum(len(v) for v in prior.values())
+            if xref:
+                tcdb_bridges[kind] = build_tcdb_bridges(xref, hierarchy, kept)
+                n_pairs = sum(len(v) for v in tcdb_bridges[kind].values())
+                # Never trade a populated committed bridge for an empty one.
+                if n_pairs == 0 and prior_pairs > 0:
+                    raise RuntimeError(
+                        f"TCDB {kind}→TC bridge came out EMPTY but the committed "
+                        f"tcdb_pruned.json holds {prior_pairs} pairs. That is data loss, not a "
+                        f"rebuild — check {dest} (size "
+                        f"{dest.stat().st_size if dest.exists() else 'missing'}). Delete the "
+                        f"stale TSV and re-run with --refetch-raw if the map genuinely changed."
+                    )
+            elif prior_pairs:
+                # No usable map (TCDB down, nothing cached) but the committed
+                # artifact still holds the bridge — reuse it rather than drop
+                # every bridge edge. Filtered to THIS run's kept set, so stale
+                # nodes cannot leak back in.
+                tcdb_bridges[kind] = {k: v for k, v in prior.items() if k in kept}
+                n_pairs = sum(len(v) for v in tcdb_bridges[kind].values())
+                log.warning(
+                    f"  TCDB {kind}→TC map unavailable; reused {n_pairs} pairs on "
+                    f"{len(tcdb_bridges[kind])} kept node(s) from the committed "
+                    f"tcdb_pruned.json. Re-run with --refetch-raw once tcdb.org is back."
+                )
+            else:
                 raise RuntimeError(
-                    f"TCDB {kind}→TC bridge came out EMPTY but the committed "
-                    f"tcdb_pruned.json holds {prior_pairs} pairs. That is data loss, not a "
-                    f"rebuild — check {dest} (size "
-                    f"{dest.stat().st_size if dest.exists() else 'missing'}). Delete the "
-                    f"stale TSV and re-run with --refetch-raw if the map genuinely changed."
+                    f"TCDB {kind}→TC map is unavailable at {dest} and the committed "
+                    f"tcdb_pruned.json holds no {kind} bridge to fall back on. Refusing to "
+                    f"write tcdb_pruned.json without it — it is a committed artifact and the "
+                    f"loss would be silent. Retry when tcdb.org is reachable."
                 )
             log.info(
                 f"  TCDB {kind}→TC bridge: {len(xref)} published {kind} ids -> "
