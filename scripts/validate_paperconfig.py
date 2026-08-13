@@ -571,11 +571,23 @@ def _validate_experiments(experiments: dict, config_path: str,
                 f"{config_path} | experiments.{exp_key} | "
                 f"treatment_type includes 'coculture' or 'viral' but missing treatment_organism"
             )
-        if t_org and "coculture" not in tt_list and "viral" not in tt_list:
+        # A partner organism may be a background rather than the tested variable:
+        # e.g. a within-coculture time contrast (both arms co-cultured) tags
+        # treatment_type=growth_phase and background_factors=[coculture]. The
+        # Tests_coculture_with edge is gated on treatment_organism alone, so this
+        # is a valid shape — only warn when the partner is unaccounted for in
+        # BOTH fields.
+        raw_bg = exp.get("background_factors", "")
+        bg_list = raw_bg if isinstance(raw_bg, list) else ([raw_bg] if raw_bg else [])
+        partner_accounted = any(
+            v in tt_list or v in bg_list for v in ("coculture", "viral")
+        )
+        if t_org and not partner_accounted:
             warnings.append(
                 f"{config_path} | experiments.{exp_key} | "
-                f"has treatment_organism '{t_org}' but treatment_type {tt_list} "
-                f"does not include 'coculture' or 'viral'"
+                f"has treatment_organism '{t_org}' but neither treatment_type "
+                f"{tt_list} nor background_factors {bg_list} includes "
+                f"'coculture' or 'viral'"
             )
         if t_org and str(t_org).strip().lower() in ("phage", "virus", "bacteriophage") and "viral" not in tt_list:
             warnings.append(

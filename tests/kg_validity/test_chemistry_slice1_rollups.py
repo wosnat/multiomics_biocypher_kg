@@ -60,33 +60,54 @@ def test_gene_metabolite_count_total_positive(run_query):
 
 
 def test_gene_metabolite_count_consistent_with_2hop(run_query):
-    """Property matches the actual UNION-2hop DISTINCT metabolite count for
-    sampled genes — across catalysis (Gene→Reaction→Metabolite) AND transport
-    (Gene→TcdbFamily→Metabolite) paths, per TCDB-S3 / KG-A2.
+    """`metabolite_count` matches the CATALYSIS 2-hop exactly.
 
-    The transport arm attaches DIRECTLY to the gene's own TcdbFamily — no walk
-    down to a tc_specificity descendant. Step 6 pre-rolls each subtree's
-    substrates onto every kept ancestor (`subtree_substrates`), so the family a
-    gene is annotated at already carries its descendants' metabolites. This
-    mirrors post-import.cypher's `g.metabolite_count` computation exactly.
+    BREAKING (TCDB rollup fix): this property was the UNION of catalysis and
+    transport. The arms have incomparable epistemics — catalysis p90 = 11
+    metabolites, transport p90 = 554, because step 6 rolls every descendant's
+    substrates onto each ancestor — so they are now separate properties.
+    The transport arm is asserted in `test_gene_transported_metabolite_count_*`.
     """
     rows = run_query("""
         MATCH (g:Gene) WHERE g.metabolite_count > 0
         WITH g LIMIT 10
         OPTIONAL MATCH (g)-[:Gene_catalyzes_reaction]->(:Reaction)
                        -[:Reaction_has_metabolite]->(m_cat:Metabolite)
-        WITH g, collect(DISTINCT m_cat) AS cat
-        OPTIONAL MATCH (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)
-                       -[:Tcdb_family_transports_metabolite]->(m_tr:Metabolite)
-        WITH g, cat, collect(DISTINCT m_tr) AS tr
         RETURN g.locus_tag AS lt,
                g.metabolite_count AS prop,
-               size(apoc.coll.toSet(cat + tr)) AS actual
+               count(DISTINCT m_cat) AS actual
     """)
     assert len(rows) > 0
     for r in rows:
         assert r["prop"] == r["actual"], (
-            f"{r['lt']}: metabolite_count={r['prop']} vs actual UNION-2hop DISTINCT={r['actual']}"
+            f"{r['lt']}: metabolite_count={r['prop']} vs catalysis 2-hop DISTINCT={r['actual']}"
+        )
+
+
+def test_gene_transported_metabolite_count_consistent_with_deepest_2hop(run_query):
+    """The transport arm: 2-hop from the gene's DEEPEST TC attachments only.
+
+    Attaching at every level would let a gene annotated at both 3.A.1 and
+    3.A.1.14 inherit the ABC superfamily's full 554-substrate rollup despite
+    having a more specific call. 6,950 genes are in that position.
+    """
+    rows = run_query("""
+        MATCH (g:Gene) WHERE g.transported_metabolite_count > 0
+        WITH g LIMIT 10
+        OPTIONAL MATCH (g)-[:Gene_has_tcdb_family]->(t:TcdbFamily)
+        WHERE NOT EXISTS {
+            MATCH (g)-[:Gene_has_tcdb_family]->(d:TcdbFamily)
+            WHERE (d)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t)
+        }
+        OPTIONAL MATCH (t)-[:Tcdb_family_transports_metabolite]->(m_tr:Metabolite)
+        RETURN g.locus_tag AS lt,
+               g.transported_metabolite_count AS prop,
+               count(DISTINCT m_tr) AS actual
+    """)
+    assert len(rows) > 0
+    for r in rows:
+        assert r["prop"] == r["actual"], (
+            f"{r['lt']}: transported_metabolite_count={r['prop']} vs deepest 2-hop DISTINCT={r['actual']}"
         )
 
 

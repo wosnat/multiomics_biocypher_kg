@@ -1,5 +1,7 @@
 import argparse
+import logging
 import os
+import sys
 from pathlib import Path
 
 from biocypher import BioCypher
@@ -26,6 +28,32 @@ from multiomics_kg.adapters.tcdb_adapter import MultiTcdbAnnotationAdapter
 from multiomics_kg.adapters.data_source_adapter import DataSourceAdapter
 
 
+def configure_logging() -> None:
+    """Surface INFO from our own adapters in the build log.
+
+    Twelve adapters use stdlib ``logging.getLogger(__name__)`` (the rest use
+    BioCypher's logger). With no handler configured, the root logger's
+    ``lastResort`` fallback emits WARNING and above only — so every INFO
+    diagnostic those adapters produce was silently dropped, including node/edge
+    tallies and the TCDB seed-alias remap counts. Only the warnings survived,
+    which is why the safety nets appeared to work while the accounting was mute.
+
+    Deliberately NOT ``logging.basicConfig()``: BioCypher's own logger sets
+    ``propagate = True`` *and* attaches its own StreamHandler, so adding a root
+    handler would print every BioCypher record twice. Scoping a handler to the
+    ``multiomics_kg`` package with ``propagate = False`` keeps the two trees
+    independent.
+    """
+    pkg = logging.getLogger("multiomics_kg")
+    if pkg.handlers:
+        return
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setFormatter(logging.Formatter("%(levelname)s -- %(message)s"))
+    pkg.addHandler(handler)
+    pkg.setLevel(logging.INFO)
+    pkg.propagate = False
+
+
 def parse_args():
     parser = argparse.ArgumentParser(description="Build the multiomics BioCypher knowledge graph.")
     parser.add_argument("--test", action="store_true", help="Test mode: stop each adapter after 100 items.")
@@ -38,6 +66,7 @@ def parse_args():
 
 def main():
     args = parse_args()
+    configure_logging()
 
     CACHE = not args.no_cache
     export_as_csv = True
@@ -282,13 +311,15 @@ def main():
     # InterProScan InterPro-entry ontology (hierarchical, scored edge) + Pfam bridge.
     # Reads per-strain interproscan calls.json for edge evidence + the committed
     # cache/data/interpro/interpro_reference.json (prepare_data step 9) for node
-    # names/types/is-a hierarchy. Pfam node set injected for a dangling-proof
-    # Pfam_in_interpro_entry bridge (BRITE-known_ko_ids precedent).
+    # names/types/is-a hierarchy. Pfam + EC node sets injected for dangling-proof
+    # Pfam_in_interpro_entry / Interpro_entry_related_to_ec_number edges
+    # (BRITE-known_ko_ids precedent).
     from multiomics_kg.adapters.interpro_adapter import MultiInterproAnnotationAdapter
     interpro_adapter = MultiInterproAnnotationAdapter(
         genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
         cache_root=Path("cache/data"),
         pfam_node_ids=pfam_adapter.all_pfam_ids(),
+        ec_node_ids=ec_anno_adapter.all_ec_node_ids(),
         test_mode=TEST_MODE,
     )
     interpro_adapter.download_data(cache=CACHE)

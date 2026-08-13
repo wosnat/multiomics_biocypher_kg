@@ -112,7 +112,9 @@ def test_layer_a_related_ec_pruned_and_marked(tmp_path):
     )
     cfg = tmp_path / "genomes.csv"
     cfg.write_text("data_dir\n" + str(MED4_DIR) + "\n")
-    m = MultiInterproAnnotationAdapter(str(cfg), pfam_node_ids=set())
+    m = MultiInterproAnnotationAdapter(
+        str(cfg), pfam_node_ids=set(), ec_node_ids=_all_med4_ec_node_ids(),
+    )
 
     strain = m._strain_adapters[0]
     observed = strain.observed_ec_node_ids()
@@ -142,3 +144,63 @@ def test_layer_a_related_ec_pruned_and_marked(tmp_path):
 def _interpro_id(acc):
     from multiomics_kg.adapters.interpro_adapter import _interpro_node_id
     return _interpro_node_id(acc)
+
+
+def _all_med4_ec_node_ids() -> set[str]:
+    """Every EC node id MED4's genes reference — stands in for the real Expasy
+    node set in tests that only need 'the endpoint exists'."""
+    from multiomics_kg.adapters.interpro_adapter import _ec_node_id
+    return InterproAnnotationAdapter(MED4_DIR).observed_ec_node_ids() | {
+        _ec_node_id("9.9.9.9")
+    }
+
+
+def test_layer_a_related_ec_pruned_to_existing_ec_nodes(tmp_path):
+    """An EC a gene carries but Expasy has NO node for (obsolete InterPro xref,
+    e.g. 1.2.8.1) must not produce a Layer-A router edge — it would dangle."""
+    from multiomics_kg.adapters.interpro_adapter import (
+        MultiInterproAnnotationAdapter, _ec_node_id,
+    )
+    cfg = tmp_path / "genomes.csv"
+    cfg.write_text("data_dir\n" + str(MED4_DIR) + "\n")
+
+    strain = InterproAnnotationAdapter(MED4_DIR)
+    observed = strain.observed_ec_node_ids()
+    some_ec = next(
+        ec for g in strain._genes.values() for ec in (g.get("ec_numbers") or [])
+        if _ec_node_id(ec) in observed
+    )
+    # The gene set carries `some_ec` AND the obsolete one, but only `some_ec`
+    # has an EcNumber node.
+    obsolete = "1.2.8.1"
+    m = MultiInterproAnnotationAdapter(
+        str(cfg), pfam_node_ids=set(), ec_node_ids={_ec_node_id(some_ec)},
+    )
+    m._reference = {
+        "IPR900001": {"type": "FAMILY", "name": "fam", "ec_numbers": [some_ec]},
+        "IPR900003": {"type": "FAMILY", "name": "obs", "ec_numbers": [obsolete]},
+    }
+    m._observed_ids = lambda: {"IPR900001", "IPR900003"}
+    # Pretend a gene carries the obsolete EC, so `observed_ec` alone would keep it.
+    for a in m._strain_adapters:
+        a.observed_ec_node_ids = lambda: observed | {_ec_node_id(obsolete)}
+
+    ec_edges = [e for e in m.get_edges() if e[3] == "interpro_entry_related_to_ec_number"]
+    targets = {e[2] for e in ec_edges}
+    assert _ec_node_id(some_ec) in targets
+    assert _ec_node_id(obsolete) not in targets
+
+
+def test_layer_a_related_ec_suppressed_without_ec_node_ids(tmp_path):
+    """No EC node set injected → no Layer-A EC edges (mirrors pfam_node_ids)."""
+    from multiomics_kg.adapters.interpro_adapter import MultiInterproAnnotationAdapter
+    cfg = tmp_path / "genomes.csv"
+    cfg.write_text("data_dir\n" + str(MED4_DIR) + "\n")
+    m = MultiInterproAnnotationAdapter(str(cfg), pfam_node_ids=set())
+    m._reference = {
+        "IPR900001": {"type": "FAMILY", "name": "fam", "ec_numbers": ["2.7.7.7"]},
+    }
+    m._observed_ids = lambda: {"IPR900001"}
+    assert not [
+        e for e in m.get_edges() if e[3] == "interpro_entry_related_to_ec_number"
+    ]

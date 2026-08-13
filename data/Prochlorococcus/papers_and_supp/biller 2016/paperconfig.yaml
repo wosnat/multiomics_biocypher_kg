@@ -21,15 +21,15 @@ publication:
       treatment_assembly_accession: GCF_901457835.2
       table_scope: significant_any_timepoint
     coculture_24_hours_after_coculturing_mit1002_rnaseq:
-      name: MIT1002 24 hours after co-culturing with Prochlorococcus NATL2A vs Co-culture with Prochlorococcus NATL2A (RNASEQ)
+      name: MIT1002 24 hours vs 12 hours after co-culturing with Prochlorococcus NATL2A (RNASEQ)
       organism: Alteromonas macleodii MIT1002
       treatment_condition: 24 hours after co-culturing with Prochlorococcus NATL2A
-      control_condition: Co-culture with Prochlorococcus NATL2A
-      experimental_context: in Pro99 medium under continuous light
+      control_condition: 12 hours after co-culturing with Prochlorococcus NATL2A
+      experimental_context: in Pro99 medium under continuous light. Both arms are co-cultures with Prochlorococcus NATL2A; the reference is the 12 hour co-culture timepoint, not an axenic control. The study has no axenic Alteromonas arm.
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: [coculture]
-      background_factors: [light]
+      treatment_type: [growth_phase]
+      background_factors: [light, coculture]
       medium: Pro99 natural seawater medium
       temperature: 21C
       light_condition: continuous light
@@ -39,15 +39,15 @@ publication:
       treatment_assembly_accession: GCF_000012465.1
       table_scope: significant_any_timepoint
     coculture_48_hours_after_coculturing_mit1002_rnaseq:
-      name: MIT1002 48 hours after co-culturing with Prochlorococcus NATL2A vs Co-culture with Prochlorococcus NATL2A (RNASEQ)
+      name: MIT1002 48 hours vs 12 hours after co-culturing with Prochlorococcus NATL2A (RNASEQ)
       organism: Alteromonas macleodii MIT1002
       treatment_condition: 48 hours after co-culturing with Prochlorococcus NATL2A
-      control_condition: Co-culture with Prochlorococcus NATL2A
-      experimental_context: in Pro99 medium under continuous light
+      control_condition: 12 hours after co-culturing with Prochlorococcus NATL2A
+      experimental_context: in Pro99 medium under continuous light. Both arms are co-cultures with Prochlorococcus NATL2A; the reference is the 12 hour co-culture timepoint, not an axenic control. The study has no axenic Alteromonas arm.
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: [coculture]
-      background_factors: [light]
+      treatment_type: [growth_phase]
+      background_factors: [light, coculture]
       medium: Pro99 natural seawater medium
       temperature: 21C
       light_condition: continuous light

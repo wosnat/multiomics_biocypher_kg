@@ -137,7 +137,7 @@ def build_prompt(strains: list[str]) -> str:
 # ── LLM layer ──
 
 
-def extract_topics(client, file_ids, strains, model="gpt-4.1", flex=False):
+def extract_topics(client, file_ids, strains, model="gpt-5.4", flex=False):
     """Run topic extraction for one paper. Returns (parsed, usage_dict)."""
     dev_msg = build_prompt(strains)
     file_inputs = [{"type": "input_file", "file_id": fid} for fid in file_ids]
@@ -227,7 +227,7 @@ def merge_extractions(parsed_list: list[dict]) -> dict:
     }
 
 
-def extract_topics_chunked(client, pdf_path, strains, model="gpt-4.1",
+def extract_topics_chunked(client, pdf_path, strains, model="gpt-5.4",
                            flex=False, chunk_pages=15):
     """Extract by splitting the PDF into <=chunk_pages-page chunks (reference pages
     skipped), one request per chunk, then merging. Returns (merged, usage, n_chunks).
@@ -316,7 +316,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="Publication topics extraction pipeline")
     parser.add_argument("--paper", help="Filter by paper name (partial match)")
-    parser.add_argument("--model", default=os.environ.get("TOPICS_EXTRACTION_MODEL", "gpt-4.1"))
+    parser.add_argument("--model", default=os.environ.get("TOPICS_EXTRACTION_MODEL", "gpt-5.4"))
     parser.add_argument("--flex", action="store_true", help="Flex processing (cheaper)")
     parser.add_argument("--force", action="store_true", help="Overwrite existing")
     parser.add_argument("--dry-run", action="store_true", help="Show what would run")

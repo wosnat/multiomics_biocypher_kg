@@ -743,13 +743,19 @@ def test_experiment_no_empty_string_coculture_partner(run_query):
 def test_experiment_coculture_partner_null_when_no_partner(run_query):
     """Experiments without a treatment organism should have null coculture_partner.
 
-    Both coculture and viral experiments have a treatment organism (partner).
-    All other treatment types should have null coculture_partner.
+    A partner may be the experiment's TREATMENT or merely its BACKGROUND. The
+    Biller 2016 MIT1002 contrasts are 24-vs-12 h and 48-vs-12 h *within* a
+    coculture — both arms are cocultured, so the contrast is `growth_phase` with
+    `coculture` as a background factor, yet `Prochlorococcus NATL2A` is still a
+    real partner of the culture. Checking `treatment_type` alone would demand
+    that a partner be the thing under test, which is not what the field means.
     """
     result = run_query("""
         MATCH (e:Experiment)
         WHERE NOT 'coculture' IN e.treatment_type
           AND NOT 'viral' IN e.treatment_type
+          AND NOT 'coculture' IN coalesce(e.background_factors, [])
+          AND NOT 'viral' IN coalesce(e.background_factors, [])
           AND e.coculture_partner IS NOT NULL
         RETURN count(e) AS bad, collect(e.id)[..5] AS examples
     """)
@@ -1101,25 +1107,41 @@ def test_gene_annotation_types_includes_cazy_when_edges_present(run_query):
 
 @pytest.mark.kg
 def test_gene_metabolite_count_populated_for_genes_with_chemistry(run_query):
-    """Every Gene whose chemistry edges actually reach a Metabolite has
-    metabolite_count > 0.
+    """Every Gene whose chemistry edges actually reach a Metabolite has a
+    populated count on the ARM that reaches it.
 
     Looser than "has any chemistry edge": some genes annotate to KEGG glycan-only
     reactions (Reaction.compounds = []) or to TCDB sub-specifications without
     substrate annotations (e.g. 2.A.7.11.2 has no substrates in TCDB), so their
-    metabolite_count is legitimately 0. We only assert population for the genes
-    whose UNION-2hop actually yields a metabolite.
+    counts are legitimately 0.
+
+    The two arms are checked SEPARATELY. `metabolite_count` used to be the union
+    of catalysis and transport; it is now catalysis-only, with transport in
+    `transported_metabolite_count` — so asserting the union against
+    `metabolite_count` would now fail for the 23,137 transport-only genes.
     """
     rows = run_query("""
         MATCH (g:Gene)
         WHERE EXISTS { (g)-[:Gene_catalyzes_reaction]->(:Reaction)-[:Reaction_has_metabolite]->(:Metabolite) }
-           OR EXISTS {
-                (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)
-                  -[:Tcdb_family_transports_metabolite]->(:Metabolite)
-              }
         RETURN count(CASE WHEN g.metabolite_count IS NULL OR g.metabolite_count = 0 THEN 1 END) AS n
     """)
-    assert rows[0]["n"] == 0
+    assert rows[0]["n"] == 0, "genes reaching a metabolite via catalysis with metabolite_count = 0"
+
+    # Transport arm: only the gene's DEEPEST TC attachments count, so a gene whose
+    # substrate-bearing family is an ancestor of another of its attachments is
+    # legitimately 0 here — restrict the check to the deepest attachments.
+    rows = run_query("""
+        MATCH (g:Gene)-[:Gene_has_tcdb_family]->(t:TcdbFamily)
+        WHERE NOT EXISTS {
+            MATCH (g)-[:Gene_has_tcdb_family]->(d:TcdbFamily)
+            WHERE (d)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t)
+        }
+          AND EXISTS { (t)-[:Tcdb_family_transports_metabolite]->(:Metabolite) }
+        WITH DISTINCT g
+        RETURN count(CASE WHEN g.transported_metabolite_count IS NULL
+                            OR g.transported_metabolite_count = 0 THEN 1 END) AS n
+    """)
+    assert rows[0]["n"] == 0, "genes reaching a metabolite via transport with transported_metabolite_count = 0"
 
 
 @pytest.mark.kg

@@ -130,12 +130,20 @@ KNOWN_METRIC_TYPES: dict[str, str] = {
     "enrichment_ribosome":                    "boolean",
     "enrichment_tonb_associated_genes":       "boolean",
 
-    # ── Numeric, replicate-count proteomics detection per compartment (Lu 2025 S1) ──
-    # 0-N integer = number of biological replicates in which the protein was
-    # detected by LC-MS/MS in the named compartment. Not rankable (mass ties on
-    # a small ordinal) and no p-value. Compartment is encoded by the parent
-    # Experiment (exoproteome / whole_cell), so distinct metric_types per
-    # compartment let queries filter by detection compartment directly.
-    "exoproteome_detection_replicates":  "numeric",
-    "whole_cell_detection_replicates":   "numeric",
+    # ── Boolean, per-LTPE-strain proteomics detection per compartment (Lu 2026 S1) ──
+    # Detected by LC-MS/MS in the named compartment, in the named LTPE strain.
+    # The three strains are NOT replicates: LTPE26 is the ancestor, LTPE397 and
+    # LTPE403 evolved 500 generations at 400 and 800 ppm pCO2 respectively. The
+    # paper's central claim is that exudate composition CHANGED across them
+    # (only 1.7-4.2% proteome overlap between the 800 ppm strain and the other
+    # two), so collapsing the three into a 0-3 detection count would erase the
+    # result. Compartment is encoded by the parent Experiment (exoproteome /
+    # whole_cell) and repeated in the metric_type so queries can filter on
+    # either axis directly.
+    "exoproteome_detected_ancestor":        "boolean",
+    "exoproteome_detected_evolved_400ppm":  "boolean",
+    "exoproteome_detected_evolved_800ppm":  "boolean",
+    "whole_cell_detected_ancestor":         "boolean",
+    "whole_cell_detected_evolved_400ppm":   "boolean",
+    "whole_cell_detected_evolved_800ppm":   "boolean",
 }

@@ -296,6 +296,62 @@ class TestBackgroundFactors:
 
 
 # ---------------------------------------------------------------------------
+# Unit tests — treatment_organism accounted for by treatment_type OR background
+# ---------------------------------------------------------------------------
+
+class TestPartnerOrganismAccounting:
+    """A partner organism may be a background rather than the tested variable.
+
+    Within-coculture time contrasts (Biller 2016 MIT1002: 24h vs 12h after
+    addition) have a real treatment_organism but the coculture is the constant,
+    not the treatment — so treatment_type is growth_phase and coculture moves to
+    background_factors. Tests_coculture_with is gated on treatment_organism
+    alone, so the partner edge survives and the warning must not fire.
+    """
+
+    def _experiment(self, **extra) -> dict:
+        exp = {
+            "treatment_type": "growth_phase",
+            "treatment_condition": "24 hours after co-culturing",
+            "control_condition": "12 hours after co-culturing",
+        }
+        exp.update(extra)
+        return exp
+
+    def test_partner_in_background_factors_suppresses_warning(self, tmp_path, monkeypatch, capsys):
+        """coculture in background_factors accounts for the partner organism."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(
+            csv,
+            experiment_overrides=self._experiment(background_factors=["light", "coculture"]),
+        )
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        out = capsys.readouterr().out
+        assert result is True
+        assert "has treatment_organism" not in out, (
+            "coculture in background_factors should account for the partner organism"
+        )
+
+    def test_partner_unaccounted_still_warns(self, tmp_path, monkeypatch, capsys):
+        """A partner organism absent from BOTH fields must still warn."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(
+            csv,
+            experiment_overrides=self._experiment(background_factors=["light"]),
+        )
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        out = capsys.readouterr().out
+        assert result is True, "Unaccounted partner is a warning, not an error"
+        assert "has treatment_organism" in out, (
+            "partner organism in neither treatment_type nor background_factors should warn"
+        )
+
+
+# ---------------------------------------------------------------------------
 # Unit tests — canonical test_type validation
 # ---------------------------------------------------------------------------
 

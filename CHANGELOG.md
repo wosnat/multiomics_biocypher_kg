@@ -45,6 +45,29 @@ Both are extracted verbatim (markdown). The rest of the version section
   *who* asserted it (`sources`) and *how strong* the claim is (`evidence`:
   curated vs domain-inferred). Ask "which genes have this EC — from curated
   sources only?" or tell a domain-inferred guess from a reviewed annotation.
+- **Transporter substrates now say whether they can be trusted.** Every gene with
+  a transporter call carries a `resolved` / `family_inferred` verdict, so you can
+  tell "this gene moves nitrate" from "this gene is *some* ABC transporter, and
+  ABC transporters collectively move 554 things". Substrate counts per metabolite
+  and per gene were corrected to match, and every transported metabolite now
+  reports how many distinct transporter systems move it.
+
+### Breaking
+
+- **`metabolite_count` is now the catalysis arm only** on `Gene`, `Metabolite`
+  (`gene_count`) and `OrganismTaxon`. It previously unioned catalysis with
+  transport, which mixed a p90-of-11 signal with a p90-of-554 one; 23,137 genes
+  had transport evidence only, so their number was entirely the inflated arm. The
+  transport arm moved to `transported_metabolite_count` (`Gene`, `OrganismTaxon`)
+  and `transporter_gene_count` (`Metabolite`). Readers wanting the old union must
+  now add the two.
+- **`Metabolite.transporter_count` changed definition** from "distinct
+  `tc_specificity` nodes" to "distinct transporter systems at maximal depth". It
+  was reading 0 for 83% of transported metabolites, so any `transporter_count > 0`
+  filter was silently excluding most of them.
+- **Substrate queries must use `Tcdb_family_transports_metabolite.substrate_depth
+  = 'deepest'`**, not `level_kind = 'tc_specificity'` — the latter now matches
+  only 466 of 11,263 substrate edges.
 
 ### Added
 
@@ -86,6 +109,107 @@ Both are extracted verbatim (markdown). The rest of the version section
 ### Changed
 
 ### Fixed
+
+- **Dangling gene→EC and Layer-A EC edges.** `EcNumber` nodes are the Expasy
+  hierarchy (7,337 ids), but InterPro's entry-level EC xrefs include obsolete
+  (`1.2.8.1`) and invalid (`2.8.3.183`) numbers that `normalize_ec` cannot remap,
+  so Layer B propagated them onto genes and `neo4j-admin import` skipped 9 edges
+  (5 `Gene_catalyzes_ec_number` + 4 `Interpro_entry_related_to_ec_number`).
+  `MultiEcAnnotationAdapter` now prunes gene→EC edges to `all_ec_node_ids()` and
+  logs what it drops; that set is injected into `MultiInterproAnnotationAdapter`
+  as `ec_node_ids` so Layer A prunes against it too (`None` → no Layer-A EC
+  edges, mirroring `pfam_node_ids`). No count changes — import was already
+  dropping these. `output/import.report` is now empty.
+
+- **`Protein.catalytic_activities` was being split apart by the array delimiter.**
+  `build_protein_annotations` sanitised `|` and `'` only on the scalar
+  (`_resolve_passthrough`) path, never on the list (`_resolve_passthrough_list`)
+  one, and `uniprot_adapter` was the only adapter not applying `_clean_str` at the
+  yield point. 239 pipe-bearing UniProt values therefore reached the CSV where
+  BioCypher's `|` array delimiter re-split them, producing 385 fragment elements
+  across `Protein.catalytic_activities` (e.g. `"Release of an N-terminal amino
+  acid, Xaa-"` + `"-Yaa-, in which Xaa is preferably Leu…"` as two entries), and
+  1,568 Protein nodes retained raw `'`. Sanitisation now runs on every token in
+  both paths, with `_clean_value` in the adapter as defense in depth;
+  `protein_annotations.json` regenerated for all 39 taxids (3,002 lines, pure
+  character substitution). Gene nodes were never affected.
+
+- **Fabricated UniProt release on ~89K edges.** `uniprot_adapter` hardcoded
+  `data_version = "2024_03"` and stamped it on every `Gene_encodes_protein`
+  (44,646) and `Protein_belongs_to_organism` (44,515) edge, while the underlying
+  `uniprot_raw_data.json` was actually fetched in 2026 — nothing in the download
+  path captures a release at all. The `version` property is dropped rather than
+  guessed; `source` / `licence` are unchanged. (It never reached Protein *nodes*:
+  `version`/`source`/`licence` are not in the `protein` schema whitelist.)
+
+- **TCDB substrate rollup had no depth marker, inflating three scalars.** Step 6
+  materialises every descendant's substrates onto every ancestor (deliberately —
+  it is what keeps an ancestor substrate-reachable after its leaves are pruned),
+  but nothing distinguished "this node is the transporter system" from "this node
+  is an ancestor of one". Consequences, all fixed together and folded into the
+  existing unreleased TCDB upgrade contract
+  ([`docs/kg-changes/tcdb-two-source-upgrade.md`](docs/kg-changes/tcdb-two-source-upgrade.md) §7):
+  - `Tcdb_family_transports_metabolite` gains **`substrate_depth`** (`'deepest'` |
+    `'ancestor'`; 4,381 / 6,882). A (node, substrate) fact — a node can be deepest
+    for one substrate and an ancestor for another. Categorical string, not bool.
+  - `Metabolite.transporter_count` read **0 for 1,218 of 1,462 (83%)** transported
+    metabolites: it filtered `level_kind = 'tc_specificity'`, but only 466 of
+    11,263 substrate edges now sit there after the ancestor-only prune. Now counts
+    distinct `substrate_depth = 'deepest'` sources — non-zero for all 1,462.
+  - The transport arm now counts each gene's **deepest TC attachments only**.
+    6,950 genes are annotated at both an ancestor and its own descendant (e.g.
+    `3.A.1` *and* `3.A.1.14`) and were inheriting the superfamily's whole rollup
+    anyway; p90 drops 554 → 97 while keeping 26,813 of 26,894 genes (99.7%).
+  - New `Gene.transport_substrate_resolution` (`'resolved'` 28,405 / p90 33 ·
+    `'family_inferred'` 1,671 / p90 554), sparse — absent when the gene has no
+    TCDB edge. Answers the friction logged by the Alteromonas coculture analysis
+    ("carry a confident-vs-inferred flag on every substrate tag"). Deliberately
+    **not** tier-gated: 11,871 `resolved` genes are tier-3-only narrow `2.A.x`
+    carriers, exactly what a tier gate would wrongly discard.
+  - **Bridge-map fetch failures no longer degrade silently.** `tcdb_pruned.json` is
+    committed, so a failed tcdb.org fetch used to be caught, logged at WARNING, and
+    written out with empty `pfam_bridge`/`go_bridge` — durably dropping ~8.4K bridge
+    edges. Step 6 now raises when the download fails with no cached TSV, and when a
+    rebuilt bridge comes out empty beside a populated committed one. Verified the
+    happy path is untouched: a full `--force` re-run reproduces `tcdb_pruned.json`
+    and `kegg_data.json` byte-identically.
+  - **`--test` no longer produces a broken TCDB layer.** `MultiTcdbAnnotationAdapter`
+    was the only ontology adapter capping its *node* output at 100 (cazy, interpro,
+    psortb and signalp all cap the per-gene edge loop and emit the full ontology),
+    so gene/parent/substrate/bridge edges pointed at ~1,400 unemitted nodes and
+    `skip_bad_relationships: true` dropped them silently. The ontology is bounded
+    reference data; only the 53K gene edges needed capping.
+  - **Removed the adapter's dead `_TC_CLASS_NAMES` copy.** `build_tcdb_hierarchy`
+    (step 6) owns the authoritative table and names every class, so the fallback
+    never fired — and could not have helped the one unnamed class, TC `6`, because
+    the adapter's copy had no entry for it. Verified no-op: node-name hashes across
+    all 1,515 `TcdbFamily` nodes are unchanged.
+  - **`consensus_collapse` now enforces its 5-part assumption** instead of assuming
+    it. `parse_tcdb_subject_id` accepts 3-5 part TCIDs and list slicing does not pad,
+    so a group of 4-part hits would have matched at depth 5, reported `"5_part"`,
+    inflated the agreement weight to 1.0 and mislabelled a subfamily call as
+    `tc_specificity`. Latent only — TCDB ships 5-part headers throughout
+    (40,520/40,520 candidates across 42 strains).
+
+- **Adapter INFO logging was being discarded.** Twelve adapters use stdlib
+  `logging.getLogger(__name__)`; with no handler configured, the root logger's
+  `lastResort` fallback emits WARNING and above only, so every INFO diagnostic
+  they produced was dropped from the build log — node/edge tallies, TCDB
+  seed-alias remap counts, and the substrate depth breakdown. Only warnings
+  survived, which is why the safety nets looked healthy while the accounting was
+  mute. `create_knowledge_graph.configure_logging()` attaches a handler to the
+  `multiomics_kg` package logger with `propagate = False`. Deliberately not
+  `logging.basicConfig()`: BioCypher's logger sets `propagate = True` *and*
+  attaches its own StreamHandler, so a root handler would print every BioCypher
+  record twice (verified: 1x each after the fix).
+
+- **Duplicate `Protein_belongs_to_organism` edges.** The adapter deduped both
+  gene- and organism-edges on `(locus_tag, ncbi_acc)`, but the organism edge
+  depends only on the assembly — so the 80 proteins mapping to several locus tags
+  within one assembly emitted ~131 duplicate organism edges per build, absorbed
+  silently by BioCypher's `Deduplicator` (with a `Duplicate edge type
+  Protein_belongs_to_organism found` warning). Now deduped on the correct key.
+  No graph change: the deduplicator was already collapsing them.
 
 ## [0.1.0-alpha.6] - 2026-06-13
 

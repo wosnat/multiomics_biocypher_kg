@@ -37,6 +37,19 @@ from multiomics_kg.download.utils.paths import GENOMES_CSV, PROJECT_ROOT, infer_
 DEFAULT_CONFIG = PROJECT_ROOT / "config/protein_annotations_config.yaml"
 
 
+# ─── sanitisation ─────────────────────────────────────────────────────────────
+
+def _sanitize(value: str) -> str:
+    """Strip characters that corrupt the BioCypher CSV export.
+
+    `'` breaks the single-quote wrapping BioCypher puts around string fields, and
+    `|` is the array delimiter (see config/biocypher_config.yaml) — an unescaped
+    pipe silently SPLITS one value into several array elements. Applied to every
+    string that reaches a node property, scalar or list element alike.
+    """
+    return value.replace("|", ",").replace("'", "^")
+
+
 # ─── data loader ──────────────────────────────────────────────────────────────
 
 def load_uniprot_columnar(path: str) -> dict[str, dict]:
@@ -93,8 +106,7 @@ class ProteinAnnotationBuilder:
         if not _nonempty(raw):
             return None
         if isinstance(raw, str):
-            # Sanitize characters that break Neo4j CSV import
-            raw = raw.replace("|", ",").replace("'", "^")
+            raw = _sanitize(raw)
         transform = fconf.get("transform")
         if transform:
             raw = self._apply_transform(transform, raw)
@@ -115,6 +127,12 @@ class ProteinAnnotationBuilder:
         if transform and transform in _TRANSFORMS:
             fn = _TRANSFORMS[transform]
             tokens = [fn(t) for t in tokens if _nonempty(t)]
+        # Sanitize AFTER splitting/transforming: the delimiter here is ';' (or a
+        # split_pattern), never '|', so a pipe inside a value would otherwise
+        # survive into the CSV and be re-split by BioCypher's array delimiter.
+        # This is what tore UniProt `catalytic_activities` entries such as
+        # "Release of an N-terminal amino acid, Xaa-|-Yaa-, ..." into two elements.
+        tokens = [_sanitize(t) if isinstance(t, str) else t for t in tokens]
         tokens = [t for t in tokens if _nonempty(t)]
         return tokens if tokens else None
 

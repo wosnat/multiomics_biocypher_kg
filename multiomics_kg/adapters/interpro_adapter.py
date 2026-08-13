@@ -230,7 +230,10 @@ class MultiInterproAnnotationAdapter:
     ancestors (so hierarchy edges never dangle). ``pfam_node_ids`` is the KG's
     global set of raw Pfam accessions (PF*) with a node — injected by
     ``create_knowledge_graph`` (BRITE-``known_ko_ids`` precedent) so the Pfam bridge
-    never references a non-existent Pfam node.
+    never references a non-existent Pfam node. ``ec_node_ids`` is the same
+    guarantee for the Layer-A EC router: the EC node ids
+    ``MultiEcAnnotationAdapter`` emits, needed because a gene's ``ec_numbers`` can
+    name an obsolete/invalid EC that Expasy has no node for.
     """
 
     def __init__(
@@ -238,6 +241,7 @@ class MultiInterproAnnotationAdapter:
         genome_config_file: str,
         cache_root: str | Path = "cache/data",
         pfam_node_ids: set[str] | None = None,
+        ec_node_ids: set[str] | None = None,
         test_mode: bool = False,
     ) -> None:
         self.test_mode = test_mode
@@ -248,6 +252,8 @@ class MultiInterproAnnotationAdapter:
             None if pfam_node_ids is None
             else {p.split(".")[0] for p in pfam_node_ids}
         )
+        # Same contract for Layer-A EC edges: None → emit none.
+        self.ec_node_ids = ec_node_ids
         self._reference: dict[str, dict] = {}
         self._strain_adapters: list[InterproAnnotationAdapter] = []
         self._build_strain_adapters(genome_config_file)
@@ -360,12 +366,17 @@ class MultiInterproAnnotationAdapter:
         #    it is low-precision. NEVER use it to assign a gene its function — that is
         #    what Gene_catalyzes_ec_number (Layer B) is for. `ambiguous=true` marks a
         #    one-of-several candidate (multi-EC entry or non-FAMILY type). Pruned to
-        #    EC/CAZy nodes the gene edges already created (dangling-proof, no injection).
+        #    EC/CAZy nodes the gene edges already created. For EC that set is further
+        #    intersected with the injected `ec_node_ids`, because a gene's ec_numbers
+        #    can name an obsolete/invalid EC (InterPro xref) that Expasy has no node
+        #    for — MultiEcAnnotationAdapter drops those gene edges, so Layer A must
+        #    drop them too or it reintroduces the dangling target.
         observed_ec: set[str] = set()
         observed_cazy: set[str] = set()
         for adapter in self._strain_adapters:
             observed_ec |= adapter.observed_ec_node_ids()
             observed_cazy |= adapter.observed_cazy_node_ids()
+        observed_ec = set() if self.ec_node_ids is None else observed_ec & self.ec_node_ids
         la_ec = la_cazy = 0
         for acc in sorted(kept):
             ref = self._reference.get(acc)
