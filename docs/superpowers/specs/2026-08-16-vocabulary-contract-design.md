@@ -156,8 +156,11 @@ Gene.tcdb_best_evidence_score            -> tcdb_evidence_score_max (float)
 ```
 
 **Why normalize rather than publish two integer ranges.** The integer is not
-lost: the contract publishes `signal_count`, so `0.6 × 5 = 3` recovers it
-exactly. What normalizing buys is the failure mode of a consumer who never reads
+lost: the contract publishes `signal_count`, so `round(0.6 × 5) = 3` recovers
+it. The published instruction must say **`round`**, not "multiply" — on the
+3-signal scale `0.333 × 3 = 0.999`, and a consumer that truncates recovers 0
+instead of 1, silently converting the weakest positive evidence into none
+(KG-IPT-012). What normalizing buys is the failure mode of a consumer who never reads
 the contract — under two scales they compare a Pfam `3` to a TCDB `3` and are
 wrong by a factor; normalized, they degrade to "roughly comparable fraction".
 Neither scale is calibrated across edge types and the contract says so
@@ -199,6 +202,8 @@ on the `evidence` axis — the reuse is the uniformity, not a collision.
 | `Gene_has_tcdb_family` | `tcdb_evidence_score` | int 0–5 | `evidence_score`, float 0–1 | no |
 | `Gene` | `tcdb_best_evidence_score` | int 0–5 | `tcdb_evidence_score_max`, float 0–1 | no |
 | `Tcdb_family_transports_metabolite` | `substrate_depth` | `deepest` / `ancestor` | `most_specific` / `inherited` | no |
+| `Gene_has_interpro_entry` | `libraries` | `PFAM`, `SUPERFAMILY`, … | `pfam`, `superfamily`, … (13) | no |
+| `Interpro_entry_related_to_{ec_number,cazy_family}` | `ambiguous` | `bool` (broken — always false) | `"true"` / `"false"` string | no |
 
 Exactly one row is breaking, and it has no consumer.
 
@@ -242,8 +247,8 @@ Numeric vocabularies add `min_value` / `max_value`, and scores add
    signals:      ['eggnog_called', 'agrees_across_sources', 'tier_le_2',
                   'pfam_corroborated', 'go_corroborated'],
    description:  'Advisory ranking, never a filter. Fraction of independent
-                  corroborating signals that fired; multiply by signal_count
-                  for the raw count. NOT calibrated against other edge types
+                  corroborating signals that fired; round(score * signal_count)
+                  recovers the raw count. NOT calibrated against other edge types
                   — compare within an edge type. Float: sort and threshold,
                   never test equality.'
 })
@@ -304,8 +309,13 @@ not have to invent a value.
 Two groups. Everything else is a follow-up, added as later releases touch it.
 
 **Integration vocabularies** (all values final per §3–4): gene→ontology
-`sources` / `evidence` / `evidence_score`; `Gene_has_tcdb_family` `sources` /
-`tier` / `evidence_score`; `Gene.tcdb_evidence_score_max`;
+`sources` / `evidence` / `evidence_score` — **one node per edge type for
+`sources` as well as `evidence`**, since the domains differ (`ncbi` appears only
+on the GO edges; `Gene_has_cazy_family` admits only `eggnog` + `interproscan`),
+and collapsing them would offer `ncbi` as a CAZy filter that can never match
+(KG-IPT-011); `Gene_has_interpro_entry.libraries` (13 values, closed,
+`string_array`); `Gene_has_tcdb_family` `sources` / `tier` / `evidence_score`;
+`Gene.tcdb_evidence_score_max`;
 `InterproEntry.interpro_type` / `level_kind` (empty) / `is_multi_gene`;
 `TcdbFamily.is_multi_substrate`; `Tcdb_family_transports_metabolite.substrate_depth`;
 `Gene.transport_substrate_resolution`; Layer-A `ambiguous` / `source_db`.
@@ -473,7 +483,101 @@ work they were about to defer.
 
 ---
 
-## 9. Open items
+## 9. Follow-up review (explorer, 2026-08-16)
+
+The explorer approved the design and raised four items against it
+(`docs/kg-specs/2026-08-16-interpro-tcdb-followup-asks.md`, KG-IPT-009…012).
+All four are accepted and folded in above. One needed its diagnosis corrected.
+
+### 9.1 KG-IPT-009 — `ambiguous` is uniformly false (P1, real defect)
+
+The observation is correct: `ambiguous = false` on all 6,854 EC and all 122 CAZy
+router edges, including the 3,863 EC edges from non-FAMILY entries that the
+documented rule says must be `true`.
+
+**The proposed fix — "fix the `ambiguous` computation" — is wrong.** The
+computation is already correct:
+
+```python
+# multiomics_kg/adapters/interpro_adapter.py:388
+amb = len(ecs) > 1 or etype != "FAMILY"
+```
+
+The defect is the **property type**. `config/schema_config.yaml` declares
+`ambiguous: bool`, and this KG has a documented BioCypher boolean problem — it
+is precisely why `substrate_depth` is a categorical string and why `rankable` /
+`has_p_value` are `"true"` / `"false"` strings. Confirmed by blast radius: the
+schema has five `bool` properties, and the split is exactly diagnostic —
+
+| Property | Set by | State |
+|---|---|---|
+| `agrees_across_sources`, `pfam_corroborated`, `go_corroborated` | post-import Cypher | fine |
+| `ambiguous` (×2 router edge types) | **adapter** | broken |
+
+Adapter-emitted booleans are broken; post-import booleans are not. That is the
+rule §5.1 already encodes as `value_type: bool_string` vs `bool` — this defect
+is the first live instance of it, and it validates the distinction.
+
+**Fix:** change `ambiguous` to a categorical string carrying `"true"` / `"false"`,
+matching the released `rankable` convention. No logic change.
+
+**One R1 interaction to catch in implementation:** the guard compares
+`etype != "FAMILY"`. R1 lowercases `interpro_type`, so this must become
+`"family"` in the same change, or the flag inverts to true everywhere — failing
+loudly rather than silently, but still wrong.
+
+**Consequence for the explorer's entry criteria.** Their step-2 check reads
+`r.ambiguous` as a boolean. After the fix it is a string, so it must become
+`r.ambiguous = 'true'`. The expected count (≥ 3,863 true on EC) is unchanged.
+`is_multi_substrate` / `is_multi_gene` stay native booleans — post-import — so
+those checks are unaffected.
+
+### 9.2 KG-IPT-010 — `libraries` violates R1
+
+Accepted. 13 UPPERCASE values, unreleased, the identical problem R1 fixes for
+`interpro_type`. Lowercased and added to the v1 seed as `string_array`,
+`closed: true`. Their argument for seeding it now rather than later is sound:
+`libraries` is the member-DB granularity of the signature-vs-inferred
+distinction, which is how a user actually asks for method-independent
+corroboration of an eggNOG-transferred annotation.
+
+### 9.3 KG-IPT-011 — `sources` must be per edge type
+
+Accepted; §5.3 amended. They are right that §5.2's argument was made for
+`evidence` and then not applied to `sources`, whose domains are equally
+non-uniform. The node-id scheme already handles it — this was only a seed-listing
+error.
+
+### 9.4 KG-IPT-012 — integer recovery must round
+
+Accepted; §3 R4 and the published `description` both now say
+`round(score × signal_count)`.
+
+### 9.5 Accepted minor items
+
+- `source_db` is single-valued (`interpro.xml`, 6,976 edges). Declared as such;
+  not a harvest error.
+- `Gene.tcdb_evidence_score_max` sentinel guidance in
+  `tcdb-two-source-upgrade.md` §2 becomes `coalesce(..., -1.0)` — under
+  normalization `0.0` is a legitimate value and the integer `-1` no longer types.
+
+### 9.6 Sequencing — agreed
+
+1. KG lands the §4 renames + the KG-IPT-009 fix, and redeploys.
+2. Explorer implements W1 + W4 against the renamed graph.
+3. Coordinated KG + MCP release.
+
+`mcp_min_version` protects old-MCP-against-new-KG but not the reverse, which is
+the window the explorer would otherwise be developing in. Their entry-criteria
+queries are the acceptance check for step 1; the structural counts they list
+(`InterproEntry` 12,999 · `Gene_has_interpro_entry` 397,342 · `TcdbFamily` 1,515
+· `Gene_has_tcdb_family` 53,763 · `Tcdb_family_transports_metabolite` 11,263 ·
+GO inferred 45,226) must be unchanged by the rename pass, and are covered by the
+`post-import-validate` diff in §8.
+
+---
+
+## 10. Open items
 
 1. `create_knowledge_graph.py --test` wall-clock — measured during
    implementation; if minutes, the fast gate moves behind its own marker.

@@ -66,10 +66,3 @@ up — this file is the index, not the plan.
       now that §7.2 of the vocabulary spec establishes the GO provenance shape is
       final this release rather than pending.
       → `docs/kg-changes/interpro-two-layer.md` §7
-
-## Housekeeping
-
-- [ ] **Close the 8 stale GitHub issues** (#1–#8, all Jan–Feb 2026 paperconfig
-      requests). All eight are integrated — each has a live `paperconfig.yaml`
-      under `data/Prochlorococcus/papers_and_supp/`. Outward-facing, so do it
-      deliberately rather than in passing.
