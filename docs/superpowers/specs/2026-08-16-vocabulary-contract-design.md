@@ -1,11 +1,32 @@
 # Controlled-vocabulary contract + cross-ontology vocabulary alignment
 
 **Date:** 2026-08-16
-**Status:** Design — approved in brainstorming, not yet implemented
+**Status:** Design — rev 2, not yet implemented. Rev 1 was reviewed and approved
+by the explorer; **rev 2 contains changes that postdate that approval — see §0.**
 **Driver:** `multiomics_explorer/docs/kg-specs/2026-08-16-interpro-tcdb-asks.md`
-(KG-IPT-001 … 007)
+(KG-IPT-001 … 008) + `…-interpro-tcdb-followup-asks.md` (KG-IPT-009 … 012)
 **Verified against:** KG `0.0.0-dev`, `built_at 2026-08-13T12:19:46.858Z`; last
 release tag `kg-0.1.0-alpha.6`
+
+---
+
+## 0. What changed since your review
+
+Rev 1 is the version the explorer approved. Everything below is new, and two
+items **supersede things that were approved**, so please re-check rather than
+skim. Nothing here changes the sequencing agreed in §9.6.
+
+| # | Change | Why | Action for the explorer |
+|---|---|---|---|
+| 1 | **New house rule R5** — no native `bool`; a two-state fact is a categorical string naming both states meaningfully | KG-IPT-009 proved adapter-emitted `bool` is broken, and a bare `true` is unreadable in a result row an LLM reads one line at a time | Review R5 (§3) |
+| 2 | **R3 revised: breadth *tiers*, not flags.** `is_multi_substrate` / `is_multi_gene` **no longer exist** — they are `substrate_breadth: multi_substrate \| typical` and `gene_breadth: ubiquitous \| typical` | R5 exposed the binary as dishonest: `is_multi_gene` fires at `gene_count >= 1000`, so its false case means "not ubiquitous", not "one gene" — the negative had no truthful name | **Supersedes an approved name.** Update §6 entry criteria |
+| 3 | **KG-IPT-009 diagnosis corrected, and the fix is larger than asked.** The `ambiguous` computation is already correct; the `bool` *type* is the defect. The property becomes `xref_specificity: one_of_several \| sole_xref` | See §9.1 — the blast radius across all five `bool` properties is exactly diagnostic: post-import bools work, adapter-emitted ones do not | Note the fix is a rename, not just a retype |
+| 4 | Three of your §6 step-2 entry-criteria queries read native booleans and no longer parse | R5 removes native `bool` from the graph entirely | **Rewrite required** — mapping in §9.1; expected counts unchanged (≥3,863 · 13 · 22) |
+| 5 | Seven released `"true"` / `"false"` properties are grandfathered, not converted | All MCP-read; converting is breaking and would obscure the rename pass's validate diff | None now — backlogged (§10.5) |
+
+Accepted from your followup with no further comment: KG-IPT-010 (`libraries`
+lowercased + seeded), KG-IPT-011 (`sources` seeded per edge type),
+KG-IPT-012 (`round(score × signal_count)`), and both §5 minor items.
 
 ---
 
