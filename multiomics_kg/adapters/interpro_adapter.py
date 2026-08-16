@@ -38,6 +38,7 @@ from pathlib import Path
 from typing import Iterator
 
 from multiomics_kg.utils.curie_utils import normalize_curie
+from multiomics_kg.utils.interproscan import normalize_interpro_type, normalize_library
 from multiomics_kg.adapters.cazy_adapter import _cazy_node_id, _most_specific_id
 from multiomics_kg.download.utils.annotation_transforms import _TRANSFORMS
 
@@ -94,7 +95,7 @@ def aggregate_match_evidence(matches: list[dict]) -> dict:
     ends = [m["end"] for m in matches if m.get("end") is not None]
     evalues = [m["evalue"] for m in matches if m.get("evalue") is not None]
     scores = [m["score"] for m in matches if m.get("score") is not None]
-    libs = sorted({m["library"] for m in matches if m.get("library")})
+    libs = sorted({normalize_library(m["library"]) for m in matches if m.get("library")})
     props: dict = {"match_count": len(matches), "libraries": [_clean_str(x) for x in libs]}
     if starts:
         props["start"] = min(starts)
@@ -310,7 +311,7 @@ class MultiInterproAnnotationAdapter:
                 props = {
                     "name": _clean_str(ref.get("name")),
                     "interpro_id": acc,
-                    "interpro_type": _clean_str(ref.get("type")),
+                    "interpro_type": _clean_str(normalize_interpro_type(ref.get("type"))),
                     "level": int(ref.get("level") or 0),
                 }
             yield _interpro_node_id(acc), "interpro entry", props
@@ -382,10 +383,10 @@ class MultiInterproAnnotationAdapter:
             ref = self._reference.get(acc)
             if not ref:
                 continue
-            etype = (ref.get("type") or "").upper()
+            etype = normalize_interpro_type(ref.get("type"))
             ecs = ref.get("ec_numbers") or []
             if ecs:
-                amb = len(ecs) > 1 or etype != "FAMILY"
+                amb = len(ecs) > 1 or etype != "family"
                 for raw in ecs:
                     for norm in _normalize_ec_token(raw):
                         nid = _ec_node_id(norm)
@@ -401,7 +402,7 @@ class MultiInterproAnnotationAdapter:
                         la_ec += 1
             czs = ref.get("cazy_ids") or []
             if czs:
-                amb = len(czs) > 1 or etype != "FAMILY"
+                amb = len(czs) > 1 or etype != "family"
                 for cz in czs:
                     spec = _most_specific_id(cz)
                     if not spec:

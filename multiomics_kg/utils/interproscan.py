@@ -22,6 +22,18 @@ from typing import Any
 _REACTOME_SPECIES_RE = re.compile(r"^R-[A-Z]{3}-(\d+)$")
 
 
+def normalize_interpro_type(raw: str | None) -> str:
+    """House rule R1 — lowercase snake_case. InterPro ships UPPERCASE
+    (``FAMILY``, ``HOMOLOGOUS_SUPERFAMILY``, …)."""
+    return (raw or "").strip().lower()
+
+
+def normalize_library(raw: str | None) -> str:
+    """House rule R1 — lowercase snake_case member-DB name. InterProScan
+    ships UPPERCASE (``PFAM``, ``PROSITE_PATTERNS``, …)."""
+    return (raw or "").strip().lower()
+
+
 def normalize_pathway_xref(database: str, raw_id: str) -> str:
     """Render one ``pathwayXRefs`` entry as a ``DB:id`` string.
 
@@ -94,7 +106,9 @@ def _extract_matches(
                 "signature_description": sig_desc,
                 "interpro_accession": ipr_acc,
                 "interpro_description": ipr_desc,
-                "interpro_type": ipr_type,
+                # ipr_type is None for unintegrated member-DB hits (test_interproscan.py
+                # asserts this null semantic survives R1) — only lowercase real values.
+                "interpro_type": normalize_interpro_type(ipr_type) if ipr_type is not None else None,
                 "start": loc.get("start"),
                 "end": loc.get("end"),
                 "evalue": loc.get("evalue"),
@@ -121,7 +135,9 @@ def _extract_matches(
 def _aggregate(matches: list[dict], go_terms: list[str], pathways: list[str]) -> dict[str, Any]:
     """Roll a protein's flattened match list into the per-protein call dict."""
     interpro_entries = sorted({m["interpro_accession"] for m in matches if m["interpro_accession"]})
-    libraries = sorted({m["library"] for m in matches if m["library"]})
+    # rolled-up summary is normalized to house-rule casing (R1); the raw
+    # per-match "library" token above is left as InterProScan wrote it.
+    libraries = sorted({normalize_library(m["library"]) for m in matches if m["library"]})
     return {
         "match_count": len(matches),
         "interpro_entries": interpro_entries,

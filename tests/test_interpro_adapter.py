@@ -28,7 +28,9 @@ def test_aggregate_envelope_and_best_scores():
     assert props["end"] == 100           # max
     assert props["evalue"] == 1e-30      # best (min)
     assert props["score"] == 70.0        # best (max)
-    assert props["libraries"] == ["NCBIFAM", "PFAM"]  # sorted distinct
+    # R1: house-rule lowercase snake_case, even though InterProScan ships
+    # member-DB names UPPERCASE.
+    assert props["libraries"] == ["ncbifam", "pfam"]  # sorted distinct
     assert props["match_count"] == 2
 
 
@@ -39,7 +41,7 @@ def test_aggregate_null_evalue_score_omitted():
     assert "evalue" not in props
     assert "score" not in props
     assert props["start"] == 1 and props["end"] == 30
-    assert props["libraries"] == ["HAMAP"]
+    assert props["libraries"] == ["hamap"]
     assert props["match_count"] == 1
 
 
@@ -51,6 +53,21 @@ def test_aggregate_mixed_null_evalue_uses_present_ones():
     props = aggregate_match_evidence(matches)
     assert props["evalue"] == 3e-9
     assert props["score"] == 12.0
+
+
+def test_aggregate_libraries_match_the_declared_vocabulary():
+    """Every library aggregate_match_evidence can emit must be a declared value
+    of Gene_has_interpro_entry.libraries (config/controlled_vocabularies.yaml)."""
+    from multiomics_kg.utils.controlled_vocab import VOCAB
+
+    raw_libraries = ["CDD", "GENE3D", "HAMAP", "NCBIFAM", "PANTHER", "PFAM",
+                      "PIRSF", "PRINTS", "PROSITE_PATTERNS", "PROSITE_PROFILES",
+                      "SFLD", "SMART", "SUPERFAMILY"]
+    matches = [{"start": 1, "end": 1, "evalue": None, "score": None, "library": lib}
+               for lib in raw_libraries]
+    props = aggregate_match_evidence(matches)
+    for value in props["libraries"]:
+        VOCAB.check("Gene_has_interpro_entry", "libraries", value)
 
 
 # ── pure: ancestor pruning ────────────────────────────────────────────────────

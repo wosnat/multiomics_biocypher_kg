@@ -1,6 +1,8 @@
 """Unit tests for multiomics_kg.utils.interproscan (pure JSON parsing/summary)."""
 
 from multiomics_kg.utils.interproscan import (
+    normalize_interpro_type,
+    normalize_library,
     normalize_pathway_xref,
     parse_entry_xrefs,
     parse_interproscan_json,
@@ -94,7 +96,9 @@ def test_parse_flattens_matches_and_aggregates():
     assert rbcl["interpro_entries"] == ["IPR000685"]  # GENE3D hit is un-integrated
     assert rbcl["go_terms"] == ["GO:0016984"]
     assert rbcl["pathways"] == ["KEGG:00710"]
-    assert rbcl["libraries"] == ["GENE3D", "PFAM"]
+    # rolled-up "libraries" summary is lowercased (house rule R1); the raw
+    # per-match "library" token above stays as InterProScan wrote it.
+    assert rbcl["libraries"] == ["gene3d", "pfam"]
 
 
 def test_unintegrated_match_has_null_interpro_fields():
@@ -263,3 +267,32 @@ def test_summarize_xref_counters_zero_without_goterms():
     assert s["distinct_pathways"] == 0
     assert s["pathway_databases"] == {}
     assert s["xrefs_requested"] is False
+
+
+# ── house rule R1: lowercase snake_case for interpro_type / libraries ─────────
+
+def test_interpro_type_is_lowercase_snake_case():
+    assert normalize_interpro_type("HOMOLOGOUS_SUPERFAMILY") == "homologous_superfamily"
+    assert normalize_interpro_type("Family") == "family"
+    assert normalize_interpro_type("") == ""
+
+
+def test_libraries_are_lowercase_snake_case():
+    assert normalize_library("PROSITE_PATTERNS") == "prosite_patterns"
+    assert normalize_library("GENE3D") == "gene3d"
+
+
+def test_declared_vocabulary_matches_the_normalizer():
+    """Every value the normalizer can produce must be declared."""
+    from multiomics_kg.utils.controlled_vocab import VOCAB
+
+    for raw in ["FAMILY", "DOMAIN", "HOMOLOGOUS_SUPERFAMILY", "REPEAT",
+                "CONSERVED_SITE", "ACTIVE_SITE", "BINDING_SITE", "PTM"]:
+        VOCAB.check("InterproEntry", "interpro_type", normalize_interpro_type(raw))
+
+
+def test_unintegrated_match_interpro_type_stays_none_not_empty_string():
+    """R1 lowercases values but must not turn a null (unintegrated match) into ''."""
+    calls = parse_interproscan_json(SAMPLE)
+    g3d = next(m for m in calls["WP_002805854.1"]["matches"] if m["library"] == "GENE3D")
+    assert g3d["interpro_type"] is None
