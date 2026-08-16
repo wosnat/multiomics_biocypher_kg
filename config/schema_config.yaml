@@ -875,7 +875,7 @@ metabolite:
     hmdb_id: str                 # nullable
     evidence_sources: str[]      # ['metabolism', 'transport']; metabolomics reserved
     # post-import: distinct transporter systems at MAXIMAL DEPTH — TcdbFamily
-    # nodes whose substrate edge carries substrate_depth='deepest', so an ancestor
+    # nodes whose substrate edge carries substrate_depth='most_specific', so an ancestor
     # is never counted alongside its own descendant. (Was tc_specificity-only,
     # which read 0 for 83% of transported metabolites after the ancestor prune.)
     transporter_count: int

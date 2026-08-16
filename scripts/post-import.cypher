@@ -1268,7 +1268,7 @@ CALL {
 // tc_specificity nodes, because genes mostly annotate at family/subfamily depth
 // and the prune keeps no specificity node below them.
 //
-// substrate_depth = 'deepest' (set by tcdb_adapter) means no kept child of this
+// substrate_depth = 'most_specific' (set by tcdb_adapter) means no kept child of this
 // node also carries the substrate — so counting DISTINCT sources over those
 // edges counts each transporter system once, at the finest resolution the pruned
 // graph retains, without double-counting an ancestor together with its own
@@ -1276,7 +1276,7 @@ CALL {
 CALL {
   MATCH (m:Metabolite)
   OPTIONAL MATCH (t:TcdbFamily)-[r:Tcdb_family_transports_metabolite]->(m)
-    WHERE r.substrate_depth = 'deepest'
+    WHERE r.substrate_depth = 'most_specific'
   WITH m, count(DISTINCT t) AS tc
   SET m.transporter_count = tc
 } IN TRANSACTIONS OF 1000 ROWS;
