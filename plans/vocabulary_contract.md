@@ -1436,10 +1436,16 @@ def test_vocabularies_in_csvs_full(build_full):
     _check_vocabularies(build_full[0], both_directions=True)
 ```
 
-- [ ] **Step 2: Measure `--test` wall-clock (spec open item 1)**
+- [x] **Step 2: Measure `--test` wall-clock (spec open item 1)**
 
 Run: `time uv run python create_knowledge_graph.py --test --output-dir /tmp/kgtest`
 Record the result **in this plan file** under Task 8. If it exceeds ~3 minutes, move the two test-mode tests behind a new `@pytest.mark.build` marker, register it in `pyproject.toml`, and change the documented default command to `pytest -m "not slow and not kg and not build"`.
+
+**Measured:** `real 2m49.965s` (run against warm `cache/`); a repeat measurement via `pytest tests/test_create_knowledge_graph.py -k test_mode` (which also runs `--test` once) took `2m43.396s`. Both are under the ~3-minute threshold, so **no `@pytest.mark.build` marker was introduced** -- `test_build_no_errors_test_mode` and `test_vocabularies_in_csvs_test_mode` stay in the default `pytest -m "not slow and not kg"` run. This is close to the threshold (within ~10-15s of 3 minutes); worth revisiting if the build grows slower.
+
+Also discovered during this measurement: `create_knowledge_graph.py --output-dir` does **not** control where BioCypher writes its main node/edge CSVs -- it only affects the optional `--go`/`--ec` exports. The real CSVs always land in `<repo>/biocypher-out/<timestamp>/` (BioCypher's own default `output_directory`, since neither `config/biocypher_config.yaml` nor the script overrides it). `tests/test_create_knowledge_graph.py::_run_build` discovers the real directory by diffing `biocypher-out/` before/after the subprocess run rather than trusting `--output-dir`.
+
+Also discovered: `cache/data/*/genomes/*/gene_annotations_merged.json` was stale relative to Task 4's `interpro`->`interproscan` / `diamond`->`tcdb_diamond` renames (cache built before that commit). The CSV gate caught this immediately as real drift (`Gene_has_pfam.sources: undeclared ['interpro']`, etc.) -- proof the gate is not vacuous, independent of the deliberate-tamper test described in the Task 8 report. Fixed by rebuilding the caches: `bash scripts/prepare_data.sh --steps 2 --force` (~2m11s for all strains, no network I/O).
 
 - [ ] **Step 3: Write the live-graph gate**
 
