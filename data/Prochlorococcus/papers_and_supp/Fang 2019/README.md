@@ -1,7 +1,7 @@
 # Fang 2019
 
-**Citation:** Fang et al. 2019, "Transcriptomic responses of *Prochlorococcus* MIT9313 to viral lysis products (vDOM)", Environmental Microbiology (supp file prefix `emi14513`).
-**DOI:** (not listed in paperconfig; filename suggests Env. Microbiol. 2019)
+**Citation:** Fang X, Liu Y, Zhao Y, Chen Y, Liu R, Qin Q-L, Li G, Zhang Y-Z, Chan W, Hess WR, Zeng Q (2019). Transcriptomic responses of the marine cyanobacterium *Prochlorococcus* to viral lysis products. *Environmental Microbiology* 21(6):2015-2028.
+**DOI:** 10.1111/1462-2920.14513
 **Organism(s):** *Prochlorococcus* MIT9313
 **Topic:** RNA-seq time course of axenic MIT9313 in Pro99 medium amended with viral DOM (vDOM, released from phage-lysed MED4) vs Pro99-only control; samples at 0.5, 1, 2, 4, 8, 12, 24, 48, 72 h. Significance is carried in the source table as asterisks on fold-change cells (adjusted p < 0.1 and |log2FC| > 1).
 
