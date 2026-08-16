@@ -1,0 +1,292 @@
+# Controlled vocabularies published as ControlledVocabulary nodes.
+#
+# THE source of truth: adapters import their literals from here via
+# multiomics_kg/utils/controlled_vocab.py, and tests assert the live graph
+# matches. See docs/superpowers/specs/2026-08-16-vocabulary-contract-design.md.
+#
+# Required keys: applies_to, applies_to_kind, property, value_type, closed,
+#                values, description
+# Optional:      sparse, expected_empty, min_value, max_value,
+#                signal_count, signals
+#
+# value_type ∈ {string, string_array, float, int, bool_string}
+#   'bool' is NOT admissible — house rule R5.
+
+# ── evidence: per edge type, domains genuinely differ (spec §5.2) ────────────
+Gene_has_pfam.evidence:
+  applies_to: Gene_has_pfam
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [curated, signature]
+  description: >
+    Inference strength for this annotation. 'signature' = a direct Pfam HMM
+    hit. Note domain_inferred and family_inferred are NOT possible on this
+    edge type.
+
+Gene_catalyzes_ec_number.evidence:
+  applies_to: Gene_catalyzes_ec_number
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [curated, family_inferred]
+  description: >
+    Inference strength. InterPro contributes EC only from FAMILY entries with
+    a single EC, so domain_inferred is not possible on this edge type.
+
+Gene_involved_in_biological_process.evidence: &go_evidence
+  applies_to: Gene_involved_in_biological_process
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [curated, family_inferred, domain_inferred]
+  description: >
+    Inference strength. curated > signature > family_inferred >
+    domain_inferred. InterPro contributes GO from FAMILY and DOMAIN entries.
+
+Gene_enables_molecular_function.evidence:
+  <<: *go_evidence
+  applies_to: Gene_enables_molecular_function
+
+Gene_located_in_cellular_component.evidence:
+  <<: *go_evidence
+  applies_to: Gene_located_in_cellular_component
+
+Gene_has_cazy_family.evidence:
+  applies_to: Gene_has_cazy_family
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [curated, family_inferred, domain_inferred]
+  description: Inference strength for this CAZy assignment.
+
+# ── sources: also per edge type (KG-IPT-011); values are DataSource ids ──────
+Gene_has_pfam.sources:
+  applies_to: Gene_has_pfam
+  applies_to_kind: edge
+  property: sources
+  value_type: string_array
+  closed: true
+  values: [cyanorak, eggnog, interproscan, uniprot]
+  description: >
+    Who asserted this annotation. Every value is the id of a DataSource node.
+
+Gene_catalyzes_ec_number.sources:
+  applies_to: Gene_catalyzes_ec_number
+  applies_to_kind: edge
+  property: sources
+  value_type: string_array
+  closed: true
+  values: [cyanorak, eggnog, interproscan, uniprot]
+  description: Who asserted this annotation. Values are DataSource ids.
+
+Gene_involved_in_biological_process.sources: &go_sources
+  applies_to: Gene_involved_in_biological_process
+  applies_to_kind: edge
+  property: sources
+  value_type: string_array
+  closed: true
+  values: [cyanorak, eggnog, interproscan, ncbi, uniprot]
+  description: >
+    Who asserted this annotation. Values are DataSource ids. ncbi contributes
+    only to the GO edges.
+
+Gene_enables_molecular_function.sources:
+  <<: *go_sources
+  applies_to: Gene_enables_molecular_function
+
+Gene_located_in_cellular_component.sources:
+  <<: *go_sources
+  applies_to: Gene_located_in_cellular_component
+
+Gene_has_cazy_family.sources:
+  applies_to: Gene_has_cazy_family
+  applies_to_kind: edge
+  property: sources
+  value_type: string_array
+  closed: true
+  values: [eggnog, interproscan]
+  description: Who asserted this annotation. Values are DataSource ids.
+
+Gene_has_tcdb_family.sources:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: sources
+  value_type: string_array
+  closed: true
+  values: [eggnog, tcdb_diamond]
+  description: >
+    Evidence sources for this transporter call. Values are DataSource ids.
+    Both entries present = cross-source corroboration.
+
+# ── evidence_score: normalized float, signals published (R4, KG-IPT-012) ─────
+Gene_has_pfam.evidence_score: &score3
+  applies_to: Gene_has_pfam
+  applies_to_kind: edge
+  property: evidence_score
+  value_type: float
+  closed: false
+  values: []
+  min_value: 0.0
+  max_value: 1.0
+  signal_count: 3
+  signals: [multi_source, high_trust_assertion, not_domain_inferred]
+  description: >
+    Advisory ranking, never a filter. Fraction of independent corroborating
+    signals that fired; round(score * signal_count) recovers the raw count.
+    NOT calibrated against other edge types — compare within an edge type.
+    Float: sort and threshold, never test equality.
+
+Gene_catalyzes_ec_number.evidence_score:
+  <<: *score3
+  applies_to: Gene_catalyzes_ec_number
+Gene_involved_in_biological_process.evidence_score:
+  <<: *score3
+  applies_to: Gene_involved_in_biological_process
+Gene_enables_molecular_function.evidence_score:
+  <<: *score3
+  applies_to: Gene_enables_molecular_function
+Gene_located_in_cellular_component.evidence_score:
+  <<: *score3
+  applies_to: Gene_located_in_cellular_component
+Gene_has_cazy_family.evidence_score:
+  <<: *score3
+  applies_to: Gene_has_cazy_family
+
+Gene_has_tcdb_family.evidence_score:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: evidence_score
+  value_type: float
+  closed: false
+  values: []
+  min_value: 0.0
+  max_value: 1.0
+  signal_count: 5
+  signals: [eggnog_called, agrees_across_sources, tier_le_2,
+            pfam_corroborated, go_corroborated]
+  description: >
+    Advisory ranking, never a filter. Fraction of independent corroborating
+    signals that fired; round(score * signal_count) recovers the raw count.
+    NOT calibrated against other edge types. Float: sort and threshold, never
+    test equality.
+
+Gene.tcdb_evidence_score_max:
+  applies_to: Gene
+  applies_to_kind: node
+  property: tcdb_evidence_score_max
+  value_type: float
+  closed: false
+  values: []
+  min_value: 0.0
+  max_value: 1.0
+  sparse: true
+  description: >
+    Strongest TCDB claim this gene has = max(evidence_score) over its
+    Gene_has_tcdb_family edges. SPARSE BY DESIGN — absent when the gene has no
+    TCDB edge, so "no transporter evidence" stays distinguishable from weak
+    evidence. Use coalesce(x, -1.0) for a total order.
+
+# ── R5 conversions: two-state facts as meaningful strings ────────────────────
+Gene_has_tcdb_family.source_agreement:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: source_agreement
+  value_type: string
+  closed: true
+  values: [both_sources, single_source]
+  description: >
+    Whether eggNOG and diamond concur on this TC family. Agreement is
+    HIERARCHICAL (ancestor or descendant), not exact-node — the two sources
+    usually concur at different depths.
+
+Gene_has_tcdb_family.pfam_support:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: pfam_support
+  value_type: string
+  closed: true
+  values: [corroborated, uncorroborated]
+  description: >
+    Whether a Pfam domain on this gene is curated into this TC family via
+    Tcdb_family_has_pfam_domain. Read in the sound direction only.
+
+Gene_has_tcdb_family.go_support:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: go_support
+  value_type: string
+  closed: true
+  values: [corroborated, uncorroborated]
+  description: >
+    Whether a GO term on this gene is curated onto this TC family. Not
+    redundant with pfam_support — 11,565 edges carry exactly one of the two.
+
+Tcdb_family_transports_metabolite.substrate_depth:
+  applies_to: Tcdb_family_transports_metabolite
+  applies_to_kind: edge
+  property: substrate_depth
+  value_type: string
+  closed: true
+  values: [most_specific, inherited]
+  description: >
+    A (node, substrate) fact, not a node fact — 2.A.1 can be most_specific for
+    one substrate and inherited for another. most_specific = no kept child of
+    this node carries the same substrate. Use this, NOT
+    level_kind = 'tc_specificity', to recover leaf substrate semantics.
+
+Gene.transport_substrate_resolution:
+  applies_to: Gene
+  applies_to_kind: node
+  property: transport_substrate_resolution
+  value_type: string
+  closed: true
+  sparse: true
+  values: [resolved, family_inferred]
+  description: >
+    How specific this gene's transport substrate claim is. family_inferred =
+    its deepest TC attachment lumps many substrates, so the count is
+    reachability, not capability. SPARSE — absent when the gene has no TCDB
+    edge, so "no evidence" stays distinguishable from a weak claim.
+
+# ── InterPro ────────────────────────────────────────────────────────────────
+InterproEntry.interpro_type:
+  applies_to: InterproEntry
+  applies_to_kind: node
+  property: interpro_type
+  value_type: string
+  closed: true
+  values: [family, domain, homologous_superfamily, repeat, conserved_site,
+           active_site, binding_site, ptm]
+  description: >
+    InterPro entry class. PRIMARY stratification key for ORA over InterPro —
+    breadth varies by type far more than by level.
+
+InterproEntry.level_kind:
+  applies_to: InterproEntry
+  applies_to_kind: node
+  property: level_kind
+  value_type: string
+  closed: true
+  values: []
+  expected_empty: true
+  description: >
+    InterPro depth tiers have no natural names. Emit null. Stratify ORA by
+    (interpro_type, level) — interpro_type primary, level secondary.
+
+Gene_has_interpro_entry.libraries:
+  applies_to: Gene_has_interpro_entry
+  applies_to_kind: edge
+  property: libraries
+  value_type: string_array
+  closed: true
+  values: [cdd, gene3d, hamap, ncbifam, panther, pfam, pirsf, prints,
+           prosite_patterns, prosite_profiles, sfld, smart, superfamily]
+  description: >
+    InterProScan member databases that produced a match for this entry. The
+    member-DB granularity of the signature-vs-inferred distinction — 'pfam'
+    means a direct HMM hit.
