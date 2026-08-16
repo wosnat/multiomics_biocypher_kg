@@ -30,6 +30,23 @@ preflight questions:
 Both are extracted verbatim (markdown). The rest of the version section
 (`### Added` / `### Changed` / `### Fixed`) is unchanged in role.
 
+**Authoring convention for data changes.** The graph's *content* is part of the
+release, not just its code, so each version section MAY include a `### Data`
+subsection — placed after `### Breaking` and before `### Added` — logging every
+publication or dataset added, re-wired, superseded, or corrected. One bullet per
+paper/dataset, naming: the paper key as it appears under
+`data/Prochlorococcus/papers_and_supp/` (+ DOI for new papers), the organism(s)
+and omics type, what the experiments actually compare, and the scale (number of
+experiments / analyses / metrics, or edge counts if measured). A correction to an
+existing paper says what the KG asserted before and what it asserts now, because
+that changes query results. Strain additions belong here too — in `### Data`
+regardless of whether code landed with them, with the code side logged separately
+under `### Added` / `### Changed`. Unlike `### Highlights` / `### Breaking`, `### Data` is **not**
+extracted onto `Schema_info` — omit the heading entirely when a release adds no
+data. `/paperconfig`, `/add-a-strain` and `/integrate-a-tool` each end by writing
+here, and `/release-kg` preflight warns when paperconfigs changed since the last
+tag with nothing logged.
+
 ## [Unreleased]
 
 ### Highlights
@@ -51,6 +68,11 @@ Both are extracted verbatim (markdown). The rest of the version section
   ABC transporters collectively move 554 things". Substrate counts per metabolite
   and per gene were corrected to match, and every transported metabolite now
   reports how many distinct transporter systems move it.
+- **What *Alteromonas* releases into the medium.** A new publication (Lu 2026)
+  adds the EZ55 exudate proteome — which proteins are detected in the >50 kDa
+  cell-free supernatant versus the matching whole-cell lysate, for the ancestral
+  strain and two lineages evolved under elevated pCO₂. Ask which EZ55 proteins
+  are exuded, and whether that set shifted with pCO₂ adaptation.
 
 ### Breaking
 
@@ -68,6 +90,65 @@ Both are extracted verbatim (markdown). The rest of the version section
 - **Substrate queries must use `Tcdb_family_transports_metabolite.substrate_depth
   = 'deepest'`**, not `level_kind = 'tc_specificity'` — the latter now matches
   only 466 of 11,263 substrate edges.
+- **The Lu EZ55 exudate study moved from its bioRxiv preprint to the published
+  AEM paper, and every node id it owns changed with it.** alpha.5 and alpha.6
+  shipped it as `Lu 2025` / `10.1101/2025.05.28.656624`; it is now `Lu 2026` /
+  `10.1128/aem.00798-26`. Because `Publication`, `Experiment`
+  (`{doi}_{experiment_key}`) and `DerivedMetric` ids are all DOI-derived, the
+  old ids no longer resolve — anything pinned to them returns empty rather than
+  stale. The two **numeric** metric types the preprint reported
+  (`exoproteome_detection_replicates`, `whole_cell_detection_replicates`:
+  detection counts 0–3 across the three LTPE strains) are **removed from
+  `KNOWN_METRIC_TYPES`** and replaced by 6 **boolean** per-strain detection
+  metrics, so the same evidence is now queried as presence/absence per named
+  lineage instead of a count. A `metric_type` filter on either old name now
+  matches nothing.
+
+### Data
+
+- **Lu 2026** (new publication, `10.1128/aem.00798-26`) — *Alteromonas macleodii*
+  EZ55 exudate proteomics. Two `compartment` experiments over the same cultures:
+  the >50 kDa cell-free supernatant (EV-enriched exudate, `omics_type:
+  EXOPROTEOMICS`, `compartment: exoproteome`) and the matching crude cell lysate
+  (`PROTEOMICS`, `whole_cell`). Table S1 is a detection table, not a fold-change
+  table, so it is wired as two `derived_metrics_table` entries carrying **6
+  boolean DerivedMetrics** over 602 proteins — presence/absence in each
+  compartment for each of the three LTPE strains (LTPE26 ancestor, LTPE397 and
+  LTPE403 evolved 500 generations at 400 / 800 ppm pCO₂; distinct evolved
+  lineages, not replicates). **Supersedes the bioRxiv preprint of the same
+  study**, which shipped in alpha.5 and alpha.6 as `Lu 2025`
+  (`10.1101/2025.05.28.656624`) and is now de-registered — see `### Breaking`.
+  The registered-paper count is therefore unchanged at 36. Note the current
+  `Lu 2025` directory is **a different paper** (ISME `10.1093/ismejo/wrae259`,
+  the same group's pCO₂ coevolution survey): `48ca7103` reused the path after
+  the preprint was renamed away. It is staged, not registered.
+- **Weissberg 2025** — 4 new RNA-seq contrasts wired onto the existing
+  experiments: HOT1A3 coculture-with-MED4 vs axenic at day 18 and day 31,
+  MED4 long-term starvation (days 60 + 89 vs log-exponential day 7), and MED4
+  coculture-with-HOT1A3 vs axenic at day 18. All resolve via `locus_tag_ncbi`.
+- **Per-strain tool artifacts regenerated across all 42 strains** — InterProScan
+  re-run with `--goterms --pathways` enabled by default, and the TCDB
+  `calls.json` regenerated without derived fields. Artifact refreshes only; the
+  schema-side consequences are in `### Added` (InterPro two-layer integration,
+  TCDB two-source upgrade).
+- **biller 2016 — corrected contrast semantics on the two MIT1002 experiments**
+  (filed against this repo by the downstream `multiomics_analysis` consumer,
+  ticket 3). Both are *within-coculture* time contrasts
+  (24 h and 48 h vs 12 h after addition), but `control_condition` read
+  "Co-culture with *Prochlorococcus* NATL2A", dropping the reference timepoint —
+  a reader querying the KG alone misread the denominator as a generic coculture
+  state or as t0. The 12 h reference is restored, and `experimental_context`
+  now records it (indexed in `experimentFullText`, so it is searchable rather
+  than recoverable only from the ingestion config). `coculture` also moves from
+  `treatment_type` to `background_factors` and the treatment becomes
+  `growth_phase`: the study has no axenic *Alteromonas* arm, so a
+  `treatment_type = coculture` filter was surfacing two experiments with no
+  coculture-vs-axenic handle at all. **`Tests_coculture_with` and
+  `coculture_partner` are unaffected** — both are gated on `treatment_organism`.
+  A sweep of all 36 registered paperconfigs / 174 experiments found no other
+  collapsed time-contrast reference. `validate_paperconfig.py` now accepts a partner
+  organism in either `treatment_type` or `background_factors` and warns only
+  when it is accounted for in neither.
 
 ### Added
 

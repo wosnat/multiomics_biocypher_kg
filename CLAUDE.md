@@ -183,6 +183,7 @@ publication:
 5. Verify gene ID matching: use the `/check-gene-ids` skill; if mapping is needed, use `/fix-gene-ids`
 6. The `MultiOMICSAdapter` picks it up automatically from the text file list
 7. **Extract publication "discusses" edges** (literature index — run for every new paper with a PDF). Extraction is manual (LLM): `uv run python -m multiomics_kg.extraction.topics.extract --paper "Author Year"` (or `/extract-discussed-topics`). Resolution is **`prepare_data.sh` step 8** (deterministic): `bash scripts/prepare_data.sh --steps 8 --force` (or `uv run python -m multiomics_kg.download.resolve_paper_topics --papers "Author Year" --force` for one paper). Produces `publication_topics/topics_resolved.json`, which `publication_topics_adapter` reads at build time. See `plans/publication_discusses_edges.md`.
+8. **Log the paper in `CHANGELOG.md`** under `## [Unreleased]` → `### Data` (the subsection sits after `### Breaking`, before `### Added`; create it if this release has none). One bullet: paper key + DOI, organism(s) + omics type, what the experiments compare, and the scale. For a *correction* to an existing paper, say what the KG asserted before and what it asserts now. Add a `### Highlights` bullet when the paper enables a question that couldn't be asked before. `/release-kg` preflight warns when a paperconfig changed since the last tag with nothing logged.
 
 ### paperconfig supplementary_materials entry types
 
@@ -608,4 +609,5 @@ Update documentation to reflect the changes:
 - **`CLAUDE.md`** — if the change affects build commands, architecture, key facts, or known issues
 - **Plan files** (`plans/`) — mark completed phases, record decisions
 - **Skill files** (`.claude/skills/`) — if the change affects skill behavior or templates
+- **`CHANGELOG.md`** — log every user-visible change under `## [Unreleased]`. Code changes go in `### Added` / `### Changed` / `### Fixed`; **publications, datasets and strains go in `### Data`**; anything that changes the meaning of an existing property, count or filter goes in `### Breaking`; a new capability worth one plain-prose sentence goes in `### Highlights`. See the authoring conventions at the top of the file.
 - **Memory** — if the change introduces new patterns or facts that future conversations need

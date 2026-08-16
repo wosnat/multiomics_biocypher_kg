@@ -1130,6 +1130,7 @@ Before submitting a paperconfig:
 - [ ] For `annotation_gff` entries: `organism` is declared and `filename` exists
 - [ ] `id_translation` entries are listed **before** `csv` entries for the same organism so alt-IDs are in the lookup when DE data is processed
 - [ ] `id_columns` column names match actual headers in the CSV (check with `head -1` or pandas read)
+- [ ] The paper is logged in `CHANGELOG.md` under `## [Unreleased]` → `### Data` (+ a `### Highlights` bullet if it adds a user-visible capability)
 
 ## Workflow
 
@@ -1175,6 +1176,7 @@ When the user invokes this skill with a paper directory name (e.g., `/paperconfi
     - **Extract** (manual, LLM — not part of `prepare_data`): `uv run python -m multiomics_kg.extraction.topics.extract --paper "Author Year"` (or the `/extract-discussed-topics` skill) → `publication_topics/topics.json` (full PDF → LLM, 15-pp chunks, refs skipped)
     - **Resolve** = `prepare_data.sh` **step 8** (deterministic): `bash scripts/prepare_data.sh --steps 8 --force` (resolves all extracted papers), or for just this paper `uv run python -m multiomics_kg.download.resolve_paper_topics --papers "Author Year" --force` → `topics_resolved.json` + `resolution_report.txt`. Requires steps 3 (gene_id_mapping) + 6 (kegg_data.json).
     - The `publication_topics_adapter` then picks the resolved file up automatically at KG build time. See `plans/publication_discusses_edges.md`.
+12. **Log the paper in `CHANGELOG.md`** under `## [Unreleased]` → `### Data` (create the subsection if this release has none; it sits after `### Breaking` and before `### Added`). One bullet naming: the paper key as it appears under `papers_and_supp/` + DOI, the organism(s) and omics type, what the experiments actually compare, and the scale (experiments / analyses / metrics). If the paper is a **correction** to an existing config rather than a new one, say what the KG asserted before and what it asserts now -- that is what changes query results for anyone already using it. If the change is user-visible enough to answer "what can I now ask that I couldn't before?", also add one `### Highlights` bullet (plain prose, no internal jargon; cap the section at ~5). See the authoring conventions at the top of `CHANGELOG.md`. `/release-kg` preflight warns when a paperconfig changed since the last tag with nothing logged here.
 
 ### Registering New Organisms
 
