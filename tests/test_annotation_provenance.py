@@ -1,5 +1,7 @@
 """Unit tests for edge-level provenance/confidence (design 2026-08-10 §5.3)."""
 
+import pytest
+
 from multiomics_kg.utils.annotation_provenance import annotation_edge_props
 
 
@@ -22,33 +24,33 @@ def test_curated_multisource_high_score():
     p = annotation_edge_props(_gene(), "go_terms", "GO:1")
     assert p["sources"] == ["eggnog", "uniprot", "interproscan"]
     assert p["evidence"] == "curated"
-    assert p["evidence_score"] == 3          # >=2 indep + curated + not domain
+    assert p["evidence_score"] == 1.0          # >=2 indep + curated + not domain; 3/3
 
 
 def test_domain_inferred_low_score():
     p = annotation_edge_props(_gene(), "go_terms", "GO:2")
     assert p["evidence"] == "domain_inferred"
-    assert p["evidence_score"] == 0          # single source, not curated, domain
+    assert p["evidence_score"] == 0.0          # single source, not curated, domain; 0/3
 
 
 def test_curated_single_source_defaults_evidence():
     p = annotation_edge_props(_gene(), "go_terms", "GO:3")
     assert p["evidence"] == "curated"        # no evidence entry → default curated
-    assert p["evidence_score"] == 2          # curated + not domain, but 1 source
+    assert p["evidence_score"] == 0.667          # curated + not domain, but 1 source; 2/3
 
 
 def test_pfam_eggnog_interpro_not_independent():
     """eggNOG-Pfam and InterPro-Pfam are the same signal — no +1 for corroboration."""
     p = annotation_edge_props(_gene(), "pfam_ids", "PF1")
-    # curated (+1) + not domain (+1) = 2; the dependent pair does NOT add the corroboration +1
-    assert p["evidence_score"] == 2
+    # curated (+1) + not domain (+1) = 2/3; the dependent pair does NOT add the corroboration +1
+    assert p["evidence_score"] == 0.667
 
 
 def test_missing_token_is_curated_no_sources():
     p = annotation_edge_props({"go_terms": ["GO:9"]}, "go_terms", "GO:9")
     assert p["evidence"] == "curated"
     assert "sources" not in p
-    assert p["evidence_score"] == 2
+    assert p["evidence_score"] == 0.667
 
 
 def test_source_values_are_all_data_source_ids():
@@ -72,3 +74,28 @@ def test_interpro_source_label_is_interproscan():
             "go_terms_evidence": {"GO:1": "domain_inferred"}}
     props = annotation_edge_props(gene, "go_terms", "GO:1")
     assert props["sources"] == ["interproscan"]
+
+
+@pytest.mark.parametrize("sources,evidence,expected", [
+    (["uniprot", "eggnog"], "curated",         1.0),    # 3/3
+    (["eggnog"],            "curated",         0.667),  # 2/3
+    (["eggnog"],            "family_inferred", 0.333),  # 1/3
+    (["interproscan"],      "domain_inferred", 0.0),    # 0/3
+])
+def test_evidence_score_is_normalized_to_unit_interval(sources, evidence, expected):
+    gene = {"go_terms_source": {"GO:1": sources},
+            "go_terms_evidence": {"GO:1": evidence}}
+    assert annotation_edge_props(gene, "go_terms", "GO:1")["evidence_score"] == expected
+
+
+def test_score_is_rounded_to_three_decimals():
+    gene = {"go_terms_source": {"GO:1": ["eggnog"]},
+            "go_terms_evidence": {"GO:1": "family_inferred"}}
+    score = annotation_edge_props(gene, "go_terms", "GO:1")["evidence_score"]
+    assert isinstance(score, float)
+    assert score == round(score, 3)
+
+
+def test_round_recovers_the_raw_signal_count():
+    """KG-IPT-012: round, never truncate — 0.333 * 3 = 0.999."""
+    assert round(0.333 * 3) == 1

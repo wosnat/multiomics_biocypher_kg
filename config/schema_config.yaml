@@ -563,9 +563,9 @@ gene:
     significant_up_count: int         # expression edges where expression_status = 'significant_up'
     significant_down_count: int       # expression edges where expression_status = 'significant_down'
     reaction_count: int               # post-import: count of Gene_catalyzes_reaction edges (KG-A1)
-    tcdb_best_evidence_score: int     # post-import: max tcdb_evidence_score across this gene's
-                                      # Gene_has_tcdb_family edges (0-5). ADVISORY. SPARSE — set
-                                      # only when the gene has >=1 TCDB edge, so "no transporter
+    tcdb_evidence_score_max: float     # post-import: max evidence_score across this gene's
+                                      # Gene_has_tcdb_family edges (float 0-1). ADVISORY. SPARSE —
+                                      # set only when the gene has >=1 TCDB edge, so "no transporter
                                       # evidence" stays distinct from "weak evidence".
     closest_ortholog_group_size: int  # member_count from most specific OG (lowest specificity_rank)
     closest_ortholog_genera: str[]    # genera from most specific OG
@@ -998,9 +998,9 @@ protein_contributes_to_molecular_function:
     evidence_code: str
 
 # Provenance + confidence on gene→ontology edges (design 2026-08-10 §5.3):
-#   sources: str[]   — who asserted it (ncbi|cyanorak|uniprot|eggnog|interpro)
+#   sources: str[]   — who asserted it (ncbi|cyanorak|uniprot|eggnog|interproscan)
 #   evidence: str    — strength: curated > signature > family_inferred > domain_inferred
-#   evidence_score: int (0-3, advisory) — a ready sort key, never a filter
+#   evidence_score: float (0-1, advisory; 3 signals) — a ready sort key, never a filter
 # Set by annotation_provenance.annotation_edge_props from the per-token *_source /
 # *_evidence maps in gene_annotations_merged.json. `sources` omitted when absent.
 gene to biological process association:
@@ -1013,7 +1013,7 @@ gene to biological process association:
   properties:
     sources: str[]
     evidence: str
-    evidence_score: int
+    evidence_score: float
 
 gene to cellular component association:
   is_a: GeneToGoTermAssociation
@@ -1025,7 +1025,7 @@ gene to cellular component association:
   properties:
     sources: str[]
     evidence: str
-    evidence_score: int
+    evidence_score: float
 
 gene to molecular function association:
   is_a: GeneToGoTermAssociation
@@ -1037,7 +1037,7 @@ gene to molecular function association:
   properties:
     sources: str[]
     evidence: str
-    evidence_score: int
+    evidence_score: float
 
 biological_process_is_a_biological_process:
   is_a: association
@@ -1319,12 +1319,13 @@ gene to tcdb family association:
     qcov: float
     evalue: float
     consensus_n: int
-    # Post-import advisory ranking (0-5). ADVISORY ONLY — nothing filters on it,
+    # Post-import advisory ranking (float 0-1; 5 signals, see
+    # controlled_vocabularies.yaml). ADVISORY ONLY — nothing filters on it,
     # and the three booleans are stored alongside so consumers can see why and
     # re-weight without re-deriving. Agreement is HIERARCHICAL (ancestor or
     # descendant), not exact-node — the two sources usually concur at different
     # depths. See the post-import block for the full rationale.
-    tcdb_evidence_score: int
+    evidence_score: float
     agrees_across_sources: bool
     pfam_corroborated: bool
     go_corroborated: bool
@@ -1417,7 +1418,7 @@ gene to cazy family association:
   properties:                # see gene→ontology provenance note above (§5.3)
     sources: str[]
     evidence: str
-    evidence_score: int
+    evidence_score: float
 
 cazy family hierarchical association:
   is_a: association
@@ -1587,7 +1588,7 @@ gene to ec number association:
   properties:                # see gene→ontology provenance note above (§5.3)
     sources: str[]
     evidence: str
-    evidence_score: int
+    evidence_score: float
 
 ec number hierarchical association:
   is_a: molecular activity to molecular activity association
@@ -1655,7 +1656,7 @@ gene to pfam association:
   properties:                # see gene→ontology provenance note above (§5.3)
     sources: str[]
     evidence: str
-    evidence_score: int
+    evidence_score: float
 
 pfam in pfam clan:
   is_a: association

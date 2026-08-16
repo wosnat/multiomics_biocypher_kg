@@ -1115,7 +1115,7 @@ CALL {
 // discard exactly those while keeping eggNOG's equally-lumping tc_family edges,
 // since eggNOG carries no tier — an artifact of which tool called it. Tier
 // already gates annotation_types/annotation_quality and rolls up as
-// Gene.tcdb_best_evidence_score; that is its home.
+// Gene.tcdb_evidence_score_max; that is its home.
 MATCH (g:Gene)
 CALL {
   WITH g
@@ -1185,15 +1185,15 @@ CALL {
   SET r.agrees_across_sources = agree,
       r.pfam_corroborated = pfam_ok,
       r.go_corroborated = go_ok,
-      r.tcdb_evidence_score =
-          CASE WHEN curated THEN 1 ELSE 0 END
-        + CASE WHEN agree THEN 1 ELSE 0 END
-        + CASE WHEN strong_seq THEN 1 ELSE 0 END
-        + CASE WHEN pfam_ok THEN 1 ELSE 0 END
-        + CASE WHEN go_ok THEN 1 ELSE 0 END
+      r.evidence_score = round(
+          ( (CASE WHEN curated THEN 1 ELSE 0 END)
+          + (CASE WHEN agree THEN 1 ELSE 0 END)
+          + (CASE WHEN strong_seq THEN 1 ELSE 0 END)
+          + (CASE WHEN pfam_ok THEN 1 ELSE 0 END)
+          + (CASE WHEN go_ok THEN 1 ELSE 0 END) ) / 5.0, 3)
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Gene.tcdb_best_evidence_score: the strongest TCDB claim this gene has (0-5).
+// Gene.tcdb_evidence_score_max: the strongest TCDB claim this gene has (float 0-1).
 // Answers "how confident am I that this gene is a transporter at all", where the
 // edge-level score answers "how confident am I in THIS particular assignment".
 // Worth materializing: 9,792 of 30,076 TCDB-annotated genes (32.6%) carry several
@@ -1204,13 +1204,13 @@ CALL {
 // evidence is weak: writing 0 for both would collapse "we never found a
 // transporter signal" into "we found a poor one", which is the exact conflation
 // the tier gate and the advisory score exist to avoid. Absent means N/A; use
-// coalesce(g.tcdb_best_evidence_score, -1) if a total order is needed.
+// coalesce(g.tcdb_evidence_score_max, -1.0) if a total order is needed.
 //
 // Advisory, like the edge score it aggregates: nothing filters on it.
 CALL {
   MATCH (g:Gene)-[r:Gene_has_tcdb_family]->()
-  WITH g, max(r.tcdb_evidence_score) AS best
-  SET g.tcdb_best_evidence_score = best
+  WITH g, max(r.evidence_score) AS best
+  SET g.tcdb_evidence_score_max = best
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Gene.interpro_entry_count: distinct InterPro entries per gene (routing signal;
