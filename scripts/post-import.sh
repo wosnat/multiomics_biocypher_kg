@@ -1649,6 +1649,32 @@ KG_RELEASE_HIGHLIGHTS_ESC=$(printf '%s' "${KG_RELEASE_HIGHLIGHTS:-}" \
 KG_RELEASE_BREAKING_ESC=$(printf '%s' "${KG_RELEASE_BREAKING:-}" \
   | sed -e 's|\\|\\\\|g' -e "s/'/\\\\'/g")
 
+# Vocabulary hash written by the build stage next to BioCypher's real CSV
+# output (bc._output_directory, NOT --output-dir), under the shared
+# `biocypher_neo4j_volume` this container mounts at /data. The docker config
+# (config/biocypher_docker_config.yaml) sets output_directory: data/build2neo
+# as an explicit (non-None) value, so BioCypher's own timestamp-subdirectory
+# logic never fires there and the file lands flat at
+# /data/build2neo/controlled_vocabularies.sha256 -- but the non-Docker default
+# config leaves output_directory unset, which DOES get a timestamp
+# subdirectory (biocypher-out/<timestamp>/), so this glob covers both shapes
+# rather than assuming Docker's flat layout is the only one that can ever
+# reach this script. Empty when absent (a legacy build, or a build whose
+# hash somehow never landed under /data), which coalesces to '' and leaves
+# the property null -- but warn loudly, since a silently-missing hash here
+# defeats the whole point of this feature.
+KG_VOCAB_HASH=""
+vocab_hash_file=$(ls -t /data/build2neo/controlled_vocabularies.sha256 \
+  /data/build2neo/*/controlled_vocabularies.sha256 2>/dev/null | head -n 1 || true)
+if [ -n "$vocab_hash_file" ] && [ -r "$vocab_hash_file" ]; then
+  KG_VOCAB_HASH=$(cat "$vocab_hash_file")
+  echo "Found controlled_vocabularies.sha256 at $vocab_hash_file"
+else
+  echo "WARNING: controlled_vocabularies.sha256 not found under /data/build2neo" \
+       "(checked flat and one-level-timestamped layouts). Schema_info.controlled_vocabularies_hash" \
+       "will be left null."
+fi
+
 time cypher-shell \
   -P "version          => '${KG_RELEASE_VERSION:-0.0.0-dev}'" \
   -P "git_sha          => '${KG_GIT_SHA:-unknown}'" \
@@ -1660,6 +1686,7 @@ time cypher-shell \
   -P "release_notes_url => '${KG_RELEASE_NOTES_URL:-}'" \
   -P "release_highlights => '${KG_RELEASE_HIGHLIGHTS_ESC}'" \
   -P "release_breaking   => '${KG_RELEASE_BREAKING_ESC}'" \
+  -P "vocab_hash => '${KG_VOCAB_HASH}'" \
   <<'CYPHER'
 MATCH (s:Schema_info {id: 'schema_info'})
 SET s.version           = coalesce($version, '0.0.0-dev'),
@@ -1675,7 +1702,9 @@ SET s.version           = coalesce($version, '0.0.0-dev'),
     // release (no subsection authored) is indistinguishable from no value
     // on the wire. Clients render nothing when null.
     s.release_highlights = CASE WHEN coalesce($release_highlights, '') = '' THEN null ELSE $release_highlights END,
-    s.release_breaking   = CASE WHEN coalesce($release_breaking, '')   = '' THEN null ELSE $release_breaking   END
+    s.release_breaking   = CASE WHEN coalesce($release_breaking, '')   = '' THEN null ELSE $release_breaking   END,
+    s.controlled_vocabularies_hash = CASE WHEN coalesce($vocab_hash, '') = ''
+                                          THEN null ELSE $vocab_hash END
 WITH s
 SET s.paper_count           = COUNT { (:Publication) },
     s.experiment_count      = COUNT { (:Experiment) },

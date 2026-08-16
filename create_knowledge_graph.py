@@ -350,6 +350,27 @@ def main():
             go_adapter.export_as_csv(path=output_dir_path)
 
 
+    # Post-import (Group 4) stamps this onto Schema_info so kg_release_info can
+    # detect vocabulary drift. Written next to BioCypher's real CSV output
+    # (bc._output_directory) -- NOT --output-dir, which only controls the
+    # optional --go/--ec CSV export and is unrelated to where BioCypher writes
+    # its node/edge CSVs (biocypher-out/<timestamp>/ locally, data/build2neo in
+    # Docker). The post-process container runs the neo4j image and has no
+    # Python, so it cannot compute the hash itself -- it just reads this file.
+    from multiomics_kg.utils.controlled_vocab import vocabularies_hash
+    if not bc._output_directory:
+        raise RuntimeError(
+            "bc._output_directory is not set after the adapters' write_nodes/"
+            "write_edges calls; cannot write controlled_vocabularies.sha256. "
+            "BioCypher populates this as a side effect of the first "
+            "bc.write_nodes() call -- check for a BioCypher API change rather "
+            "than falling back to --output-dir, which is a different, "
+            "unrelated directory."
+        )
+    vocab_hash_path = Path(bc._output_directory) / "controlled_vocabularies.sha256"
+    vocab_hash_path.write_text(vocabularies_hash(controlled_vocab_adapter.entries()))
+    print(f"Wrote vocabulary hash to {vocab_hash_path}")
+
     # Write import call and other post-processing
     bc.write_schema_info(as_node=True)
 

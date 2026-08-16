@@ -1624,6 +1624,7 @@ CALL {
 :param release_notes_url => ''
 :param release_highlights => ''
 :param release_breaking   => ''
+:param vocab_hash         => ''
 
 MATCH (s:Schema_info {id: 'schema_info'})
 SET s.version           = coalesce($version, '0.0.0-dev'),
@@ -1637,7 +1638,9 @@ SET s.version           = coalesce($version, '0.0.0-dev'),
     s.release_notes_url = coalesce($release_notes_url, ''),
     // Empty string → real null property; see matching block in post-import.sh.
     s.release_highlights = CASE WHEN coalesce($release_highlights, '') = '' THEN null ELSE $release_highlights END,
-    s.release_breaking   = CASE WHEN coalesce($release_breaking, '')   = '' THEN null ELSE $release_breaking   END
+    s.release_breaking   = CASE WHEN coalesce($release_breaking, '')   = '' THEN null ELSE $release_breaking   END,
+    s.controlled_vocabularies_hash = CASE WHEN coalesce($vocab_hash, '') = ''
+                                          THEN null ELSE $vocab_hash END
 WITH s
 SET s.paper_count           = COUNT { (:Publication) },
     s.experiment_count      = COUNT { (:Experiment) },
