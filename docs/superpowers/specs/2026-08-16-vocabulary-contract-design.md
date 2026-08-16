@@ -1,26 +1,42 @@
 # Controlled-vocabulary contract + cross-ontology vocabulary alignment
 
 **Date:** 2026-08-16
-**Status:** Design — rev 2, not yet implemented. Rev 1 was reviewed and approved
-by the explorer; **rev 2 contains changes that postdate that approval — see §0.**
+**Status:** Design — rev 3, not yet implemented. Rev 1 and rev 2 were both
+reviewed by the explorer; rev 3 folds in their round-2 review — **see §0.**
 **Driver:** `multiomics_explorer/docs/kg-specs/2026-08-16-interpro-tcdb-asks.md`
-(KG-IPT-001 … 008) + `…-interpro-tcdb-followup-asks.md` (KG-IPT-009 … 012)
+(KG-IPT-001 … 008) + `…-interpro-tcdb-followup-asks.md` (KG-IPT-009 … 013)
 **Verified against:** KG `0.0.0-dev`, `built_at 2026-08-13T12:19:46.858Z`; last
 release tag `kg-0.1.0-alpha.6`
 
 ---
 
-## 0. What changed since your review
+## 0. What changed, by revision
 
-Rev 1 is the version the explorer approved. Everything below is new, and two
-items **supersede things that were approved**, so please re-check rather than
-skim. Nothing here changes the sequencing agreed in §9.6.
+### Rev 3 — round-2 review folded in
+
+The explorer endorsed R3, R4 and R5 with no further comment, and independently
+confirmed R5's diagnostic claim. One item is accepted against rev 2:
+
+| # | Change | Why |
+|---|---|---|
+| 6 | **`xref_specificity` is withdrawn.** The Layer-A edge carries `xref_multiplicity: one_of_several \| sole_xref` — the multiplicity arm **only** | KG-IPT-013. `ambiguous` fuses two orthogonal facts, and my rev-2 name stated only one of them: 1,922 EC router edges (39.5% of flagged) have exactly one xref and are flagged solely for being non-FAMILY. `one_of_several` would contradict their own data — worse than the uninformative flag it replaced |
+| 7 | R5's evidence claim is tempered, and its blast-radius table corrected to 7 `bool` pairs across 5 names | The two `is_promiscuous` pairs were omitted from rev 2's table. They are post-import and *work*, which strengthens the case — but the causal claim still rests on one adapter-emitted property, and rev 2 overstated the evidence base |
+
+Rev 3 also corrects an expected count in the explorer's own §6: the flagged
+total under `ambiguous` semantics is **4,865**, not 3,863 (3,863 non-FAMILY +
+1,002 multi-xref FAMILY). Independently reconciled — the four arms sum to 6,854.
+
+### Rev 2 — changes that postdated the rev-1 approval
+
+Rev 1 is the version the explorer approved. Everything below was new at rev 2,
+and two items **supersede things that were approved**. Nothing here changes the
+sequencing agreed in §9.6.
 
 | # | Change | Why | Action for the explorer |
 |---|---|---|---|
 | 1 | **New house rule R5** — no native `bool`; a two-state fact is a categorical string naming both states meaningfully | KG-IPT-009 proved adapter-emitted `bool` is broken, and a bare `true` is unreadable in a result row an LLM reads one line at a time | Review R5 (§3) |
 | 2 | **R3 revised: breadth *tiers*, not flags.** `is_multi_substrate` / `is_multi_gene` **no longer exist** — they are `substrate_breadth: multi_substrate \| typical` and `gene_breadth: ubiquitous \| typical` | R5 exposed the binary as dishonest: `is_multi_gene` fires at `gene_count >= 1000`, so its false case means "not ubiquitous", not "one gene" — the negative had no truthful name | **Supersedes an approved name.** Update §6 entry criteria |
-| 3 | **KG-IPT-009 diagnosis corrected, and the fix is larger than asked.** The `ambiguous` computation is already correct; the `bool` *type* is the defect. The property becomes `xref_specificity: one_of_several \| sole_xref` | See §9.1 — the blast radius across all five `bool` properties is exactly diagnostic: post-import bools work, adapter-emitted ones do not | Note the fix is a rename, not just a retype |
+| 3 | **KG-IPT-009 diagnosis corrected, and the fix is larger than asked.** The `ambiguous` computation is already correct; the `bool` *type* is the defect. ~~The property becomes `xref_specificity`~~ — **superseded at rev 3, see #6 above** | See §9.1 — the blast radius across all 7 `bool` (entity, property) pairs is exactly diagnostic: post-import bools work, the one adapter-emitted bool does not | Note the fix is a rename, not just a retype |
 | 4 | Three of your §6 step-2 entry-criteria queries read native booleans and no longer parse | R5 removes native `bool` from the graph entirely | **Rewrite required** — mapping in §9.1; expected counts unchanged (≥3,863 · 13 · 22) |
 | 5 | Seven released `"true"` / `"false"` properties are grandfathered, not converted | All MCP-read; converting is breaking and would obscure the rename pass's validate diff | None now — backlogged (§10.5) |
 
@@ -210,7 +226,11 @@ Two independent reasons, and the rule needs only the first:
 
 1. **Adapter-emitted `bool` is broken.** BioCypher does not round-trip it — the
    documented reason `substrate_depth` and `rankable` are already strings. §9.1
-   is the first live casualty.
+   is the first live casualty. *Stated precisely:* the causal claim rests on a
+   single property, because `ambiguous` is the only adapter-emitted `bool` in
+   the schema. The prior is strong and the fix is correct either way, since R5
+   removes the category rather than repairing it — but the evidence base is one
+   property, not a survey.
 2. **A bare `true` is unreadable in a result row.** These values are consumed by
    an LLM at query time, one row at a time, often with the property name far from
    the value. `multi_substrate` survives that; `true` does not.
@@ -260,7 +280,7 @@ on the `evidence` axis — the reuse is the uniformity, not a collision.
 | `Gene` | `tcdb_best_evidence_score` | int 0–5 | `tcdb_evidence_score_max`, float 0–1 | no |
 | `Tcdb_family_transports_metabolite` | `substrate_depth` | `deepest` / `ancestor` | `most_specific` / `inherited` | no |
 | `Gene_has_interpro_entry` | `libraries` | `PFAM`, `SUPERFAMILY`, … | `pfam`, `superfamily`, … (13) | no |
-| `Interpro_entry_related_to_{ec_number,cazy_family}` | `ambiguous` | `bool` (broken — always false) | `xref_specificity: one_of_several \| sole_xref` | no |
+| `Interpro_entry_related_to_{ec_number,cazy_family}` | `ambiguous` | `bool` (broken — always false) | `xref_multiplicity: one_of_several \| sole_xref` — **multiplicity arm only** | no |
 
 Two rows touch released properties (`substrate_breadth`, and `is_promiscuous`'s
 `TcdbFamily` arm is the same row) — and neither has a consumer: the explorer's
@@ -380,7 +400,7 @@ and collapsing them would offer `ncbi` as a CAZy filter that can never match
 `InterproEntry.interpro_type` / `level_kind` (empty) / `gene_breadth`;
 `TcdbFamily.substrate_breadth`; `Gene_has_tcdb_family.{source_agreement,
 pfam_support, go_support}`; `Tcdb_family_transports_metabolite.substrate_depth`;
-`Gene.transport_substrate_resolution`; Layer-A `xref_specificity` / `source_db`.
+`Gene.transport_substrate_resolution`; Layer-A `xref_multiplicity` / `source_db`.
 
 **Vocabularies the explorer already hard-codes**, i.e. the eight
 `list_filter_values` filters plus their neighbours: `omics_type`, `value_kind`,
@@ -526,6 +546,11 @@ built against now.
 - `tests/test_create_knowledge_graph.py` — parameterized over build mode (§6)
 - `tests/kg_validity/generate_snapshot.py` output — regenerated
 - `docs/kg-changes/{interproscan-extension,interpro-two-layer,tcdb-two-source-upgrade}.md`
+  — including two stale items in `tcdb-two-source-upgrade.md` §2: the
+  `tcdb_evidence_score` distribution predates the 2026-08-13 rebuild (doc says
+  `0 → 17,422 · 5 → 1,081`; graph has `0 → 17,045 · 1 → 8,599 · 2 → 9,461 ·
+  3 → 7,541 · 4 → 9,957 · 5 → 1,160`), and it is re-scaled to floats by R4
+  anyway; and the `coalesce(..., -1)` sentinel guidance becomes `-1.0`
 - `CLAUDE.md`, `CHANGELOG.md`
 
 **Validation gate.** `scripts/post-import-validate.sh` baseline captured against
@@ -572,19 +597,29 @@ is precisely why `substrate_depth` is a categorical string and why `rankable` /
 `has_p_value` are `"true"` / `"false"` strings. Confirmed by blast radius: the
 schema has five `bool` properties, and the split is exactly diagnostic —
 
-| Property | Set by | State |
-|---|---|---|
-| `agrees_across_sources`, `pfam_corroborated`, `go_corroborated` | post-import Cypher | fine |
-| `ambiguous` (×2 router edge types) | **adapter** | broken |
+| Set by | Property | Live distribution | State |
+|---|---|---|---|
+| post-import | `agrees_across_sources` | 21,684 true / 32,079 false | fine |
+| post-import | `pfam_corroborated` | 23,634 / 30,129 | fine |
+| post-import | `go_corroborated` | 26,885 / 26,878 | fine |
+| post-import | `TcdbFamily.is_promiscuous` | 13 true | fine |
+| post-import | `InterproEntry.is_promiscuous` | 22 true | fine |
+| **adapter** | `ambiguous` (×2 router edge types) | **6,976 false, 0 true** | **broken** |
+
+Seven `(entity, property)` pairs across five names. Every post-import one works;
+the only adapter-emitted one does not.
 
 Adapter-emitted booleans are broken; post-import booleans are not. That is the
 rule R5 now states outright: native `bool` is forbidden, and `value_type` does
 not admit it. This defect is what promoted that from a documented quirk to a
 rule.
 
-**Fix:** `ambiguous` becomes `xref_specificity: one_of_several | sole_xref` under
-R5 — a meaningful pair rather than a stringified boolean. No logic change; only
-the property type, name and the two output literals.
+**Fix (revised at rev 3 — see §9.7):** the edge carries
+`xref_multiplicity: one_of_several | sole_xref`, computed from `len(xrefs) > 1`
+**alone**. The type arm of the old disjunction is dropped from the edge, not
+because it is unimportant but because it is already on the graph — the edge's
+source is an `InterproEntry` carrying `interpro_type`. A consumer wanting the
+old fused flag writes it explicitly and can see which arm fired.
 
 **One R1 interaction to catch in implementation:** the guard compares
 `etype != "FAMILY"`. R1 lowercases `interpro_type`, so this must become
@@ -596,13 +631,16 @@ read properties as native booleans and must be rewritten — R5 removes native
 `bool` from the graph entirely, including the post-import ones:
 
 ```cypher
-r.ambiguous                  ->  r.xref_specificity = 'one_of_several'
-t.is_multi_substrate         ->  t.substrate_breadth = 'multi_substrate'
-n.is_multi_gene              ->  n.gene_breadth = 'ubiquitous'
+t.is_multi_substrate  ->  t.substrate_breadth = 'multi_substrate'      // 13
+n.is_multi_gene       ->  n.gene_breadth      = 'ubiquitous'           // 22
+
+// the old fused `ambiguous`, now written explicitly (4,865 on the EC router):
+MATCH (n:InterproEntry)-[r:Interpro_entry_related_to_ec_number]->()
+WHERE r.xref_multiplicity = 'one_of_several' OR n.interpro_type <> 'family'
 ```
 
-Expected counts are unchanged: ≥ 3,863 `one_of_several` on the EC router, 13
-`multi_substrate`, 22 `ubiquitous`.
+Per-arm expected counts on the EC router: `one_of_several` 2,943 · `sole_xref`
+3,911 (6,854 total).
 
 ### 9.2 KG-IPT-010 — `libraries` violates R1
 
@@ -632,6 +670,37 @@ Accepted; §3 R4 and the published `description` both now say
 - `Gene.tcdb_evidence_score_max` sentinel guidance in
   `tcdb-two-source-upgrade.md` §2 becomes `coalesce(..., -1.0)` — under
   normalization `0.0` is a legitimate value and the integer `-1` no longer types.
+
+### 9.7 Round-2 review (rev 2 → rev 3)
+
+R3, R4 and R5 endorsed with no further comment; the `gene_breadth` /
+`substrate_breadth` reframing was called an improvement on the flags approved at
+rev 1. One ask raised and accepted:
+
+**KG-IPT-013 — `xref_specificity` names only one of two arms.** Correct, and the
+error is provable from the code without touching the graph:
+
+```python
+amb = len(ecs) > 1 or etype != "FAMILY"     # interpro_adapter.py:388
+```
+
+A DOMAIN entry carrying exactly one EC satisfies the second disjunct. Under my
+rev-2 name that edge would read `one_of_several` while being, demonstrably, the
+sole xref on its entry — the value contradicted by the row's own data. On the EC
+router that is **1,922 of 4,865 flagged edges, 39.5%**. Worse than the defect it
+replaced: `ambiguous` was uninformative, this would have been actively false, and
+published inside a contract asserting the value set is meaningful.
+
+Their four-arm decomposition reconciles exactly and I verified the arithmetic
+independently: multi/FAMILY 1,002 + multi/non-FAMILY 1,941 + sole/non-FAMILY
+1,922 + sole/FAMILY 1,989 = 6,854, with the non-FAMILY arms summing to the 3,863
+from §9.1's type breakdown.
+
+**Accepted as recommended: split the axes rather than rename the fusion.** The
+edge carries multiplicity only; type stays on the source node where it already
+lives. Strictly more informative than the fused flag, R5-compliant, and every
+value is true of every row carrying it — which is the acceptance criterion they
+proposed and the right one.
 
 ### 9.6 Sequencing — agreed
 
