@@ -18,11 +18,15 @@ Yields:
   target entry is kept.
 - **Layer A** (design 2026-08-10): Interpro_entry_related_to_ec_number /
   _related_to_cazy_family cross-references from the reference's entry-level EC/CAZy
-  xrefs. A deliberately WEAK, recall-biased ROUTER (weak ``related_to`` verb,
-  ``ambiguous`` flag) that homes the multi-EC / DOMAIN ECs and fold CAZy that
-  Layer B refuses to stamp on genes — read backward it is low-precision; never use
-  it to assign gene function. Dangling-proof by pruning to the EC/CAZy nodes the
-  gene edges already created (self-computed from the merged JSONs — no injection).
+  xrefs. A deliberately WEAK, recall-biased ROUTER (weak ``related_to`` verb) that
+  homes the multi-EC / DOMAIN ECs and fold CAZy that Layer B refuses to stamp on
+  genes — read backward it is low-precision; never use it to assign gene function.
+  These edges carry NO properties (deleted 2026-08-16, spec §3 R3): the old
+  ``ambiguous`` flag is derivable from the graph — a consumer writes
+  ``WITH n, count(r) AS k WHERE k > 1 OR n.interpro_type <> 'family'`` — and
+  ``source_db`` was a hardcoded literal (``"interpro.xml"``), which the edge type
+  already says. Dangling-proof by pruning to the EC/CAZy nodes the gene edges
+  already created (self-computed from the merged JSONs — no injection).
 
 Two-class shape mirrors cazy_adapter (per-strain edges + multi orchestrator that
 owns nodes/hierarchy). See
@@ -365,13 +369,14 @@ class MultiInterproAnnotationAdapter:
         #    A deliberately WEAK, recall-biased ROUTER: read outward from a gene's
         #    known family it corroborates; read backward (carries EC → is that enzyme)
         #    it is low-precision. NEVER use it to assign a gene its function — that is
-        #    what Gene_catalyzes_ec_number (Layer B) is for. `ambiguous=true` marks a
-        #    one-of-several candidate (multi-EC entry or non-FAMILY type). Pruned to
-        #    EC/CAZy nodes the gene edges already created. For EC that set is further
-        #    intersected with the injected `ec_node_ids`, because a gene's ec_numbers
-        #    can name an obsolete/invalid EC (InterPro xref) that Expasy has no node
-        #    for — MultiEcAnnotationAdapter drops those gene edges, so Layer A must
-        #    drop them too or it reintroduces the dangling target.
+        #    what Gene_catalyzes_ec_number (Layer B) is for. These edges carry NO
+        #    properties — a consumer derives the old `ambiguous` flag as
+        #    `count(r) > 1 OR n.interpro_type <> 'family'`. Pruned to EC/CAZy nodes
+        #    the gene edges already created. For EC that set is further intersected
+        #    with the injected `ec_node_ids`, because a gene's ec_numbers can name an
+        #    obsolete/invalid EC (InterPro xref) that Expasy has no node for —
+        #    MultiEcAnnotationAdapter drops those gene edges, so Layer A must drop
+        #    them too or it reintroduces the dangling target.
         observed_ec: set[str] = set()
         observed_cazy: set[str] = set()
         for adapter in self._strain_adapters:
@@ -383,10 +388,8 @@ class MultiInterproAnnotationAdapter:
             ref = self._reference.get(acc)
             if not ref:
                 continue
-            etype = normalize_interpro_type(ref.get("type"))
             ecs = ref.get("ec_numbers") or []
             if ecs:
-                amb = len(ecs) > 1 or etype != "family"
                 for raw in ecs:
                     for norm in _normalize_ec_token(raw):
                         nid = _ec_node_id(norm)
@@ -397,12 +400,11 @@ class MultiInterproAnnotationAdapter:
                             _interpro_node_id(acc),
                             nid,
                             "interpro_entry_related_to_ec_number",
-                            {"ambiguous": amb, "source_db": "interpro.xml"},
+                            {},
                         )
                         la_ec += 1
             czs = ref.get("cazy_ids") or []
             if czs:
-                amb = len(czs) > 1 or etype != "family"
                 for cz in czs:
                     spec = _most_specific_id(cz)
                     if not spec:
@@ -415,7 +417,7 @@ class MultiInterproAnnotationAdapter:
                         _interpro_node_id(acc),
                         nid,
                         "interpro_entry_related_to_cazy_family",
-                        {"ambiguous": amb, "source_db": "interpro.xml"},
+                        {},
                     )
                     la_cazy += 1
 

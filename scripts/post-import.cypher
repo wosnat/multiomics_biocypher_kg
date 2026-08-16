@@ -919,38 +919,25 @@ CALL {
       t.metabolite_count = metc
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// is_promiscuous: this family transports MANY DISTINCT SUBSTRATES, so inferring
-// what a member gene moves from family membership is weak. Consumed by explorer
-// family_inferred-dominance warnings to separate curation-effort gaps from
-// biologically-promiscuous transporters (KG-MET-006).
-//
-// SUBSTRATE BREADTH ONLY. A `gene_count >= 500` arm was briefly added 2026-08-07
-// and reverted the same day: it answers a DIFFERENT question ("is this a large
-// bucket of genes?") and overloading one boolean with two axes destroyed the
-// term. It flagged e.g. 9.B.34 (KPSH) which has ZERO substrates — the opposite of
-// promiscuous in the only sense this flag means. Consumers wanting family size
-// should filter `t.gene_count` directly; it is already on the node, so no second
-// boolean is warranted.
-//
-// LEVEL-GATED (level >= 2, i.e. tc_family and deeper). Substrate counts scale
-// mechanically with hierarchy level because the step-6 rollup materializes every
-// descendant's substrates onto each ancestor: median metabolite_count is 153 at
-// tc_class vs 1 at tc_family. The previous absolute-only rule therefore fired on
-// 5 of 7 tc_class and 7 of 34 tc_subclass nodes — vacuously, since "Channels and
-// Pores transports many things" is what a class IS, not a warning. Those levels
-// are now always false; the flag only means something where a consumer would
-// actually infer substrate specificity from membership.
-//
-// Threshold >= 50 sits at ~p99 within the levels it applies to (p99 = 52 at
-// tc_family, 46 at tc_subfamily) and never fires at tc_specificity (max 17) —
-// correct, that is the most specific level.
-//
-// Flags 13 families/subfamilies, all textbook multi-substrate transporters: ABC
-// Superfamily 3.A.1 (554 substrates), MFS 2.A.1 (476), DMT 2.A.7, RND 2.A.6,
-// MOP flippase 2.A.66, APC 2.A.3, P-type ATPase 3.A.3.
-MATCH (t:TcdbFamily)
-SET t.is_promiscuous =
-  coalesce(t.level, 0) >= 2 AND coalesce(t.metabolite_count, 0) >= 50;
+// The old TcdbFamily promiscuity flag was DELETED (2026-08-16, spec §3 R3 +
+// §9.8): it restated a threshold — level >= 2 AND metabolite_count >= 50 —
+// over metabolite_count, a count the node already publishes. Consumers
+// derive it themselves rather than the KG storing a predicate. History for
+// context: it flagged a family as transporting MANY DISTINCT SUBSTRATES (so
+// inferring what a member gene moves from family membership is weak),
+// consumed by explorer family_inferred-dominance warnings (KG-MET-006).
+// SUBSTRATE BREADTH ONLY — a `gene_count >= 500` arm was briefly added
+// 2026-08-07 and reverted the same day (answers a different question and
+// flagged substrate-poor families like 9.B.34). LEVEL-GATED (level >= 2,
+// tc_family and deeper) because substrate counts scale mechanically with
+// hierarchy level (median metabolite_count is 153 at tc_class vs 1 at
+// tc_family — an unrestricted rule fired on 5 of 7 tc_class and 7 of 34
+// tc_subclass nodes vacuously). Threshold >= 50 sat at ~p99 within the levels
+// it applied to. Formerly flagged 13 families/subfamilies, all textbook
+// multi-substrate transporters: ABC Superfamily 3.A.1 (554 substrates), MFS
+// 2.A.1 (476), DMT 2.A.7, RND 2.A.6, MOP flippase 2.A.66, APC 2.A.3, P-type
+// ATPase 3.A.3. See the one internal read of this threshold, inlined into
+// transport_substrate_resolution below.
 
 // ── CazyFamily computed properties ───────────────────────────────────────────
 
@@ -981,11 +968,12 @@ CALL {
       e.organism_count = size([x IN orgs WHERE x IS NOT NULL])
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// is_promiscuous: ultra-common entries (broad domains / superfamilies present in
-// a large share of genes). Threshold gene_count >= 1000 flags the long tail so a
-// (type, level)-stratified ORA can down-weight them. Tunable (see design spec §8).
-MATCH (e:InterproEntry)
-SET e.is_promiscuous = (coalesce(e.gene_count, 0) >= 1000);
+// The old InterproEntry promiscuity flag was DELETED (2026-08-16, spec §3
+// R3 + §9.8): it restated a threshold — gene_count >= 1000 — over
+// gene_count, a count the node already publishes. Formerly flagged
+// ultra-common entries (broad domains / superfamilies present in a large
+// share of genes) so a (type, level)-stratified ORA could down-weight them
+// (design spec §8); consumers apply that cutoff to gene_count directly now.
 
 // ── SubcellularLocalization computed properties (PSORTb; flat ontology) ───────
 // gene_count + organism_count: direct gene->node traversal (no *0.. — flat).
@@ -1128,7 +1116,12 @@ CALL {
   WITH g,
        count(DISTINCT m_tr) AS tr_met_count,
        count(DISTINCT t) AS n_deepest,
-       collect(DISTINCT coalesce(t.is_promiscuous, false)) AS breadth
+       // Breadth threshold inlined (spec §3 R3): the deleted TcdbFamily
+       // promiscuity flag restated a predicate over metabolite_count, which
+       // the node already publishes. Consumers apply their own cutoff to the
+       // count; this is the KG's, and it lives in exactly one place.
+       collect(DISTINCT (coalesce(t.level, 0) >= 2
+                         AND coalesce(t.metabolite_count, 0) >= 50)) AS breadth
   SET g.transported_metabolite_count = tr_met_count,
       // null REMOVES the property, keeping it sparse: absent means "no TCDB
       // edge at all", which must stay distinguishable from a weak-but-present

@@ -587,15 +587,23 @@ def test_substrate_depth_uses_meaningful_values():
         VOCAB.check("Tcdb_family_transports_metabolite", "substrate_depth", v)
 
 
-@pytest.mark.xfail(
-    reason="two 'ambiguous: bool' properties remain on the interpro-entry "
-           "related_to edges; Task 7 deletes those properties entirely and "
-           "must remove this xfail.",
-    strict=True,
-)
 def test_no_schema_property_is_declared_bool():
     """R5: native bool is forbidden graph-wide."""
     import re, pathlib
     text = pathlib.Path("config/schema_config.yaml").read_text()
     offenders = re.findall(r"^\s+([a-z_]+): bool\s*$", text, re.M)
     assert offenders == [], f"native bool properties remain: {offenders}"
+
+
+def test_is_promiscuous_is_gone_from_post_import():
+    import pathlib
+    for p in ("scripts/post-import.cypher", "scripts/post-import.sh"):
+        text = pathlib.Path(p).read_text()
+        assert "is_promiscuous" not in text, f"{p} still sets or reads is_promiscuous"
+
+
+def test_transport_substrate_resolution_threshold_is_inlined():
+    import pathlib
+    text = pathlib.Path("scripts/post-import.cypher").read_text()
+    assert "metabolite_count, 0) >= 50" in text, (
+        "the breadth threshold must be inlined into transport_substrate_resolution")

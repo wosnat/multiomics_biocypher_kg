@@ -151,9 +151,11 @@ def test_layer_a_related_ec_pruned_and_marked(tmp_path):
     by_src = {e[1]: e[4] for e in ec_edges}
     fam_id = _interpro_id("IPR900001")
     dom_id = _interpro_id("IPR900002")
-    assert by_src[fam_id]["ambiguous"] is False          # FAMILY + single EC
-    assert by_src[fam_id]["source_db"] == "interpro.xml"
-    assert by_src[dom_id]["ambiguous"] is True           # DOMAIN / multi-EC
+    # Layer A edges carry no properties (deleted 2026-08-16, spec §3 R3): the old
+    # `ambiguous`/`source_db` fields are gone; multiplicity/type are derivable
+    # from the graph instead (out-degree + n.interpro_type).
+    assert by_src[fam_id] == {}
+    assert by_src[dom_id] == {}
     # the unobserved 9.9.9.9 was pruned (dangling-proof): only one edge per entry
     assert sum(1 for e in ec_edges if e[1] == dom_id) == 1
 
@@ -221,3 +223,11 @@ def test_layer_a_related_ec_suppressed_without_ec_node_ids(tmp_path):
     assert not [
         e for e in m.get_edges() if e[3] == "interpro_entry_related_to_ec_number"
     ]
+
+
+def test_layer_a_edges_carry_no_properties():
+    """rev 4/5: ambiguous is derivable and source_db is a constant."""
+    import pathlib
+    src = pathlib.Path("multiomics_kg/adapters/interpro_adapter.py").read_text()
+    assert '"ambiguous"' not in src
+    assert '"source_db"' not in src

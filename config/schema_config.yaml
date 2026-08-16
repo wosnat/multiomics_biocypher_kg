@@ -1272,9 +1272,12 @@ tcdb family:
     organism_count: int     # post-import
     member_count: int       # post-import: direct child count
     metabolite_count: int   # post-import: distinct substrate metabolites in subtree
-    is_promiscuous: bool    # post-import: LEVEL-GATED (level>=2 only) — too broad for
-                            # membership to support a functional inference.
-                            # metabolite_count>=50 OR gene_count>=500.
+    # is_promiscuous (deleted 2026-08-16, spec §3 R3): restated a threshold over a
+    # count the node already publishes. Consumers derive it themselves:
+    # level >= 2 AND metabolite_count >= 50. Level-gated because substrate counts
+    # scale mechanically with hierarchy level (the step-6 rollup materializes every
+    # descendant's substrates onto each ancestor) — see the "Why level-gated" bullet
+    # under TcdbFamily nodes in CLAUDE.md for the full rationale.
 
 cazy family:
   is_a: named thing
@@ -1503,7 +1506,9 @@ interpro entry:
     gene_count: int         # post-import
     organism_count: int     # post-import
     member_count: int       # post-import (recursive subtree gene count)
-    is_promiscuous: bool    # post-import (ORA support: ultra-common entry flag)
+    # is_promiscuous (deleted 2026-08-16, spec §3 R3): restated a threshold over
+    # a count the node already publishes. Consumers derive it themselves:
+    # gene_count >= 1000.
 
 gene to interpro entry association:
   is_a: association
@@ -1544,11 +1549,15 @@ pfam in interpro entry:
 # Layer A (design 2026-08-10 §4): ontology→ontology cross-references from
 # InterPro's curated entry xrefs. Deliberately WEAK verb (`related_to`) — a
 # recall-biased ROUTER, not an annotation. Homes the multi-EC / DOMAIN ECs and
-# fold-level CAZy that Layer B refuses to stamp on genes. `ambiguous=true` = one
-# candidate among several (multi-term entry or non-FAMILY type). Read outward
+# fold-level CAZy that Layer B refuses to stamp on genes. Read outward
 # (gene's known family → does this EC agree) it corroborates; read backward
 # (carries EC → is that enzyme) it is low-precision. Never assign gene function
 # from these — that is Gene_catalyzes_ec_number.
+# These edges carry NO properties (deleted 2026-08-16, spec §3 R3 + §9.8): both
+# arms of the old `ambiguous` flag are derivable from the graph —
+# `WITH n, count(r) AS k WHERE k > 1 OR n.interpro_type <> 'family'` — and
+# `source_db` was a hardcoded literal ("interpro.xml"); the edge type already
+# says the fact came from InterPro.
 interpro entry related to ec number:
   is_a: association
   represented_as: edge
@@ -1556,9 +1565,6 @@ interpro entry related to ec number:
   source: interpro entry
   target: ec number
   label_in_input: interpro_entry_related_to_ec_number
-  properties:
-    ambiguous: bool
-    source_db: str
 
 interpro entry related to cazy family:
   is_a: association
@@ -1567,9 +1573,6 @@ interpro entry related to cazy family:
   source: interpro entry
   target: cazy family
   label_in_input: interpro_entry_related_to_cazy_family
-  properties:
-    ambiguous: bool
-    source_db: str
 
 
 protein to ec number association:
