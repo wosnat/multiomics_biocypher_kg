@@ -488,6 +488,31 @@ data source:
     applies_to_organisms: str[]   # populated only for organism_restricted
     info_types: str[]             # auto-generated from gene_annotations_config.yaml
 
+# Controlled vocabularies published as data (spec 2026-08-16 §5). One node per
+# (label, property) pair. `evidence` and `sources` get one node PER EDGE TYPE
+# because their domains genuinely differ — a flat union would offer a filter
+# value that can never match on that edge.
+controlled vocabulary:
+  is_a: information content entity
+  represented_as: node
+  preferred_id: controlled_vocabulary
+  label_in_input: controlled_vocabulary
+  properties:
+    id: str                # '<applies_to>.<property>'
+    applies_to: str        # node label or edge type
+    applies_to_kind: str   # 'node' | 'edge'
+    property: str
+    value_type: str        # string | string_array | float | int | bool_string
+    closed: str            # "true" | "false"  — false = enumerate at runtime
+    sparse: str            # "true" | "false"  — property may be absent
+    expected_empty: str    # "true" | "false"  — declared, no values by design
+    values: str[]
+    description: str
+    min_value: float       # sparse: numeric vocabularies only
+    max_value: float       # sparse
+    signal_count: int      # sparse: evidence_score only
+    signals: str[]         # sparse: evidence_score component names
+
 #####################################
 
 

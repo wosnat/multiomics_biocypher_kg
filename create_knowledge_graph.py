@@ -26,6 +26,9 @@ from multiomics_kg.adapters.brite_adapter import MultiBriteAdapter
 from multiomics_kg.adapters.metabolism_adapter import MultiMetabolismAdapter
 from multiomics_kg.adapters.tcdb_adapter import MultiTcdbAnnotationAdapter
 from multiomics_kg.adapters.data_source_adapter import DataSourceAdapter
+from multiomics_kg.adapters.controlled_vocabulary_adapter import (
+    ControlledVocabularyAdapter,
+)
 
 
 def configure_logging() -> None:
@@ -87,6 +90,12 @@ def main():
     data_source_adapter = DataSourceAdapter(config_path="config/gene_annotations_config.yaml")
     data_source_adapter.download_data()
     bc.write_nodes(data_source_adapter.get_nodes())
+
+    # ControlledVocabulary nodes — the machine-readable vocabulary contract.
+    # Consumers (MCP/explorer) read these instead of hard-coding value sets.
+    controlled_vocab_adapter = ControlledVocabularyAdapter()
+    controlled_vocab_adapter.download_data()
+    bc.write_nodes(controlled_vocab_adapter.get_nodes())
 
     # CyanorakNcbi adapter MUST run before UniProt: it creates gene_mapping.csv
     # files in each data_dir, which UniProt uses for GENE_TO_PROTEIN edges.
