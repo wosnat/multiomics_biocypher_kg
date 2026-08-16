@@ -512,9 +512,9 @@ def test_substrate_depth_marks_only_the_deepest_kept_node(cache_root, strain_dir
             by_source.setdefault(src, {})[tgt] = props["substrate_depth"]
 
     assert by_source["tcdb:1.A.1.5.2"] == {
-        "chebi:9999": "deepest", "kegg.compound:C00208": "deepest"}
+        "chebi:9999": "most_specific", "kegg.compound:C00208": "most_specific"}
     for ancestor in ("tcdb:1", "tcdb:1.A", "tcdb:1.A.1", "tcdb:1.A.1.5"):
-        assert set(by_source[ancestor].values()) == {"ancestor"}, ancestor
+        assert set(by_source[ancestor].values()) == {"inherited"}, ancestor
 
 
 def test_substrate_depth_is_a_categorical_string_not_a_bool(cache_root, strain_dir):
@@ -522,7 +522,7 @@ def test_substrate_depth_is_a_categorical_string_not_a_bool(cache_root, strain_d
     for _id, _s, _t, label, props in _make_orchestrator(cache_root, strain_dir).get_edges():
         if label == "tcdb_family_transports_metabolite":
             assert isinstance(props["substrate_depth"], str)
-            assert props["substrate_depth"] in {"deepest", "ancestor"}
+            assert props["substrate_depth"] in {"most_specific", "inherited"}
 
 
 def test_every_substrate_is_deepest_for_exactly_one_node_per_branch(cache_root, strain_dir):
@@ -530,7 +530,7 @@ def test_every_substrate_is_deepest_for_exactly_one_node_per_branch(cache_root, 
     again — the exact regression this marker exists to prevent."""
     deepest_by_metabolite = {}
     for _id, src, tgt, label, props in _make_orchestrator(cache_root, strain_dir).get_edges():
-        if label == "tcdb_family_transports_metabolite" and props["substrate_depth"] == "deepest":
+        if label == "tcdb_family_transports_metabolite" and props["substrate_depth"] == "most_specific":
             deepest_by_metabolite.setdefault(tgt, set()).add(src)
     assert deepest_by_metabolite == {
         "chebi:9999": {"tcdb:1.A.1.5.2"},
@@ -573,6 +573,29 @@ def test_depth_is_per_substrate_not_per_node(tmp_path):
         if label == "tcdb_family_transports_metabolite":
             depth[(src, tgt)] = props["substrate_depth"]
 
-    assert depth[("tcdb:2.A.1", "kegg.compound:C1")] == "ancestor"
-    assert depth[("tcdb:2.A.1", "kegg.compound:C2")] == "deepest"
-    assert depth[("tcdb:2.A.1.1", "kegg.compound:C1")] == "deepest"
+    assert depth[("tcdb:2.A.1", "kegg.compound:C1")] == "inherited"
+    assert depth[("tcdb:2.A.1", "kegg.compound:C2")] == "most_specific"
+    assert depth[("tcdb:2.A.1.1", "kegg.compound:C1")] == "most_specific"
+
+
+def test_substrate_depth_uses_meaningful_values():
+    from multiomics_kg.utils.controlled_vocab import VOCAB
+    entry = VOCAB.get("Tcdb_family_transports_metabolite", "substrate_depth")
+    assert set(entry.values) == {"most_specific", "inherited"}
+    # and the adapter emits only declared values
+    for v in ("most_specific", "inherited"):
+        VOCAB.check("Tcdb_family_transports_metabolite", "substrate_depth", v)
+
+
+@pytest.mark.xfail(
+    reason="two 'ambiguous: bool' properties remain on the interpro-entry "
+           "related_to edges; Task 7 deletes those properties entirely and "
+           "must remove this xfail.",
+    strict=True,
+)
+def test_no_schema_property_is_declared_bool():
+    """R5: native bool is forbidden graph-wide."""
+    import re, pathlib
+    text = pathlib.Path("config/schema_config.yaml").read_text()
+    offenders = re.findall(r"^\s+([a-z_]+): bool\s*$", text, re.M)
+    assert offenders == [], f"native bool properties remain: {offenders}"

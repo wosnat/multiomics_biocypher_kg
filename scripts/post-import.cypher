@@ -1182,10 +1182,10 @@ CALL {
          MATCH (g)-[:Gene_involved_in_biological_process|Gene_enables_molecular_function|Gene_located_in_cellular_component]->(o)
                <-[:Tcdb_family_involved_in_biological_process|Tcdb_family_enables_molecular_function|Tcdb_family_located_in_cellular_component]-(t)
        } AS go_ok
-  SET r.agrees_across_sources = agree,
-      r.pfam_corroborated = pfam_ok,
-      r.go_corroborated = go_ok,
-      r.evidence_score = round(
+  SET r.source_agreement = CASE WHEN agree   THEN 'both_sources' ELSE 'single_source' END,
+      r.pfam_support     = CASE WHEN pfam_ok THEN 'corroborated' ELSE 'uncorroborated' END,
+      r.go_support       = CASE WHEN go_ok   THEN 'corroborated' ELSE 'uncorroborated' END,
+      r.evidence_score   = round(
           ( (CASE WHEN curated THEN 1 ELSE 0 END)
           + (CASE WHEN agree THEN 1 ELSE 0 END)
           + (CASE WHEN strong_seq THEN 1 ELSE 0 END)

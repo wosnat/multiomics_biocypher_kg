@@ -27,6 +27,7 @@ import logging
 from pathlib import Path
 from typing import Iterator
 
+from multiomics_kg.utils.controlled_vocab import VOCAB
 from multiomics_kg.utils.curie_utils import normalize_curie
 
 logger = logging.getLogger(__name__)
@@ -263,10 +264,10 @@ class MultiTcdbAnnotationAdapter:
         self._go_bridge = pruned.get("go_bridge", {}) or {}
 
     def _compute_substrate_depth(self) -> dict[str, set[str]]:
-        """{tc_id: {primary_id it is the DEEPEST kept node for}}.
+        """{tc_id: {primary_id it is the MOST-SPECIFIC kept node for}}.
 
-        A kept node is *deepest* for a substrate when no kept child of it also
-        carries that substrate. Checking DIRECT children is sufficient — never
+        A kept node is *most_specific* for a substrate when no kept child of it
+        also carries that substrate. Checking DIRECT children is sufficient — never
         the whole subtree — because `_prune_tcdb` only ever walks *up* from a
         seed, so the kept set is ancestor-closed: any kept descendant of `t` has
         a kept child-of-`t` on its path to `t`, and the rollup is transitive, so
@@ -412,13 +413,13 @@ class MultiTcdbAnnotationAdapter:
         # hierarchy, so ancestors carry substrates from every TCDB descendant
         # (not just gene-annotated ones).
         #
-        # `substrate_depth` marks whether this node is the DEEPEST kept node
-        # carrying the substrate ('deepest') or an ancestor of one ('ancestor').
-        # Without it, "how many distinct transporter systems move X" has no cheap
-        # answer: counting every level double-counts an ancestor with its own
-        # descendant, and the old `level_kind = 'tc_specificity'` filter selects
-        # only 466 of 11,263 edges — leaving 83% of transported metabolites at
-        # transporter_count = 0 after the ancestor-only prune.
+        # `substrate_depth` marks whether this node is the MOST-SPECIFIC kept
+        # node carrying the substrate ('most_specific') or an ancestor of one
+        # ('inherited'). Without it, "how many distinct transporter systems move
+        # X" has no cheap answer: counting every level double-counts an ancestor
+        # with its own descendant, and the old `level_kind = 'tc_specificity'`
+        # filter selects only 466 of 11,263 edges — leaving 83% of transported
+        # metabolites at transporter_count = 0 after the ancestor-only prune.
         #
         # NOT the same as "curated vs inherited": only tc_specificity nodes carry
         # their own `substrate_classes` and they are leaves, so curated-vs-inherited
@@ -439,7 +440,9 @@ class MultiTcdbAnnotationAdapter:
                     "tcdb_family_transports_metabolite",
                     # Categorical str, not bool: BioCypher mishandles boolean
                     # properties, so the KG uses string vocabularies throughout.
-                    {"substrate_depth": "deepest" if is_deepest else "ancestor"},
+                    {"substrate_depth": VOCAB.check(
+                        "Tcdb_family_transports_metabolite", "substrate_depth",
+                        "most_specific" if is_deepest else "inherited")},
                 )
                 sub_count += 1
 
@@ -495,6 +498,6 @@ class MultiTcdbAnnotationAdapter:
         logger.info(
             f"MultiTcdbAnnotationAdapter.get_edges: {parent_count} parent, "
             f"{gene_count} gene, {sub_count} substrate "
-            f"({deepest_count} deepest / {sub_count - deepest_count} ancestor), "
+            f"({deepest_count} most_specific / {sub_count - deepest_count} inherited), "
             f"{pfam_count} Pfam-bridge, {go_count} GO-bridge edges"
         )

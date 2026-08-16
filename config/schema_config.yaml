@@ -1326,9 +1326,10 @@ gene to tcdb family association:
     # descendant), not exact-node — the two sources usually concur at different
     # depths. See the post-import block for the full rationale.
     evidence_score: float
-    agrees_across_sources: bool
-    pfam_corroborated: bool
-    go_corroborated: bool
+    # R5: two-state facts are meaningful strings, never native bool.
+    source_agreement: str    # both_sources | single_source (HIERARCHICAL agreement)
+    pfam_support: str        # corroborated | uncorroborated
+    go_support: str          # corroborated | uncorroborated
 
 tcdb family hierarchical association:
   is_a: association
@@ -1346,12 +1347,13 @@ tcdb family transports metabolite:
   target: metabolite
   label_in_input: tcdb_family_transports_metabolite
   properties:
-    # "deepest" = no kept child of this node also carries the substrate, i.e.
-    # this is the most specific surviving transporter system for it.
-    # "ancestor" = an ancestor of such a node, carrying the substrate only via
-    # the step-6 subtree rollup. Count DISTINCT sources on "deepest" edges to get
-    # transporter systems without double-counting an ancestor with its descendant.
-    # Categorical str, not bool — BioCypher mishandles boolean properties.
+    # "most_specific" = no kept child of this node also carries the substrate,
+    # i.e. this is the most specific surviving transporter system for it.
+    # "inherited" = an ancestor of such a node, carrying the substrate only via
+    # the step-6 subtree rollup. Count DISTINCT sources on "most_specific" edges
+    # to get transporter systems without double-counting an ancestor with its
+    # descendant. Categorical str, not bool — BioCypher mishandles boolean
+    # properties.
     substrate_depth: str
 
 # ── TCDB cross-ontology bridges ──────────────────────────────────────────────
