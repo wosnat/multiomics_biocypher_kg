@@ -129,7 +129,7 @@ class TcdbAnnotationAdapter:
         """One Gene_has_tcdb_family edge per (gene, TC id), carrying source provenance.
 
         `transporter_classification` is the UNION of two independent sources, so a
-        TC called by both yields ONE edge with sources=['diamond','eggnog'] — that
+        TC called by both yields ONE edge with sources=['eggnog','tcdb_diamond'] — that
         agreement is the cross-source corroboration signal, and materialising it as
         two parallel edges would destroy it.
 
@@ -150,11 +150,11 @@ class TcdbAnnotationAdapter:
                 # SORTED so `sources` has one canonical form. The seed_alias merge
                 # in MultiTcdbAnnotationAdapter unions and sorts, so an unsorted
                 # build here would leave two spellings of the same value
-                # (['eggnog','diamond'] vs ['diamond','eggnog']) and any consumer
+                # (['eggnog','tcdb_diamond'] vs ['tcdb_diamond','eggnog']) and any consumer
                 # doing an equality check would silently miss one of them.
                 sources = sorted(
                     ({"eggnog"} if tc in egn else set())
-                    | ({"diamond"} if tc in dia else set())
+                    | ({"tcdb_diamond"} if tc in dia else set())
                 )
                 if not sources:
                     # Present in the union but attributable to neither per-source
@@ -165,7 +165,7 @@ class TcdbAnnotationAdapter:
                         f"TC {tc} has no source attribution; re-run prepare_data step 2"
                     )
                 props: dict = {"sources": sources}
-                cand = evidence.get(tc) if "diamond" in sources else None
+                cand = evidence.get(tc) if "tcdb_diamond" in sources else None
                 if cand:
                     for key in ("tier", "consensus_n"):
                         if cand.get(key) is not None:
@@ -353,7 +353,7 @@ class MultiTcdbAnnotationAdapter:
         # Remapping can make two distinct source TCIDs land on the SAME kept node:
         # e.g. eggNOG's retired `3.A.1.35` re-anchors to `3.A.1`, which diamond
         # already called directly. Emitting both would produce parallel edges whose
-        # `sources` are split (['eggnog'] on one, ['diamond'] on the other) —
+        # `sources` are split (['eggnog'] on one, ['tcdb_diamond'] on the other) —
         # destroying exactly the corroboration signal the single-edge model exists
         # to capture. So collapse per (gene, TC) after remapping: union `sources`
         # and keep the diamond evidence block from whichever edge carries it.

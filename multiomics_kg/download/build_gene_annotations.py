@@ -315,7 +315,7 @@ def _fold_interpro_field(gene: dict, field: str, new_tokens: dict[str, str]) -> 
     """Merge InterPro-contributed *new_tokens* ({token: strength}) into *field*.
 
     strength ∈ {family, domain, signature}. For each token: append to the field
-    list if new; add ``interpro`` to the per-token ``<field>_source`` map; and set
+    list if new; add ``interproscan`` to the per-token ``<field>_source`` map; and set
     ``<field>_evidence[token]`` to the strongest applicable evidence — ``curated``
     when any curated source also asserts it, else ``signature`` (direct Pfam HMM),
     ``family_inferred`` or ``domain_inferred``. The evidence map is sparse: only
@@ -332,7 +332,7 @@ def _fold_interpro_field(gene: dict, field: str, new_tokens: dict[str, str]) -> 
             lst.append(tok)
             seen.add(tok)
         srcs = set(src_map.get(tok, []))
-        srcs.add("interpro")
+        srcs.add("interproscan")
         src_map[tok] = sorted(srcs)
         if srcs & _CURATED_SOURCES:
             ev = "curated"
@@ -357,7 +357,7 @@ def enrich_interpro_fields(gene: dict, ipr_row: dict, interpro_ref: dict) -> Non
       is a candidate set, not a claim — those live in Layer A, Phase 3).
     - ``pfam_ids``: direct PFAM signature hits from calls.json (no inference).
 
-    Each contributed token is tagged with ``interpro`` in ``<field>_source`` and an
+    Each contributed token is tagged with ``interproscan`` in ``<field>_source`` and an
     ``<field>_evidence`` strength. GO/EC/CAZy come from the global reference
     (entry-level, equivalent to the per-protein scan xrefs); Pfam from *ipr_row*'s
     matches. Idempotent-ish: safe to run once per gene after ``build_merged``.
@@ -418,7 +418,7 @@ def _has_source_label(gene: dict, label: str) -> bool:
     `alternate_functional_descriptions`. Two `*_source` shapes coexist:
     - **scalar** (single-resolver fields): `product_source == "cyanorak"`.
     - **per-token map** (union fields, e.g. `go_terms_source`):
-      `{"GO:0003677": ["uniprot", "interpro"]}` — the label matches if it appears
+      `{"GO:0003677": ["uniprot", "interproscan"]}` — the label matches if it appears
       in any token's source list.
     """
     for k, v in gene.items():

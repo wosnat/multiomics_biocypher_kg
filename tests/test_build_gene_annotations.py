@@ -2215,7 +2215,7 @@ class TestEnrichInterproFields:
         assert set(g["go_terms"]) == {"GO:0000001", "GO:0000002"}      # fold GO:0000003 excluded
         assert g["go_terms_evidence"]["GO:0000001"] == "family_inferred"
         assert g["go_terms_evidence"]["GO:0000002"] == "domain_inferred"
-        assert g["go_terms_source"]["GO:0000001"] == ["interpro"]
+        assert g["go_terms_source"]["GO:0000001"] == ["interproscan"]
 
     def test_ec_family_single_only_with_bare_normalized(self):
         g = self._gene()
@@ -2240,7 +2240,7 @@ class TestEnrichInterproFields:
         g = self._gene(go_terms=["GO:0000001"],
                        go_terms_source={"GO:0000001": ["uniprot"]})
         type(self)._fn(g, self.IPR_ROW, self.REF)
-        assert g["go_terms_source"]["GO:0000001"] == ["interpro", "uniprot"]
+        assert g["go_terms_source"]["GO:0000001"] == ["interproscan", "uniprot"]
         assert g["go_terms_evidence"]["GO:0000001"] == "curated"      # curated source wins
 
     def test_alt_descriptions_family_domain_only(self):

@@ -7,20 +7,20 @@ def _gene():
     return {
         "go_terms": ["GO:1", "GO:2", "GO:3"],
         "go_terms_source": {
-            "GO:1": ["eggnog", "uniprot", "interpro"],  # multi-source, curated
-            "GO:2": ["interpro"],                        # interpro-only
+            "GO:1": ["eggnog", "uniprot", "interproscan"],  # multi-source, curated
+            "GO:2": ["interproscan"],                      # interproscan-only
             "GO:3": ["cyanorak"],                        # curated, single
         },
-        "go_terms_evidence": {"GO:2": "domain_inferred"},  # sparse: only interpro-touched
+        "go_terms_evidence": {"GO:2": "domain_inferred"},  # sparse: only interproscan-touched
         "pfam_ids": ["PF1"],
-        "pfam_ids_source": {"PF1": ["eggnog", "interpro"]},  # dependent pair
+        "pfam_ids_source": {"PF1": ["eggnog", "interproscan"]},  # dependent pair
         "pfam_ids_evidence": {"PF1": "curated"},
     }
 
 
 def test_curated_multisource_high_score():
     p = annotation_edge_props(_gene(), "go_terms", "GO:1")
-    assert p["sources"] == ["eggnog", "uniprot", "interpro"]
+    assert p["sources"] == ["eggnog", "uniprot", "interproscan"]
     assert p["evidence"] == "curated"
     assert p["evidence_score"] == 3          # >=2 indep + curated + not domain
 
@@ -49,3 +49,26 @@ def test_missing_token_is_curated_no_sources():
     assert p["evidence"] == "curated"
     assert "sources" not in p
     assert p["evidence_score"] == 2
+
+
+def test_source_values_are_all_data_source_ids():
+    """R2: every declared sources value must be an id in gene_annotations_config."""
+    import yaml
+    from multiomics_kg.utils.controlled_vocab import load_vocabularies
+    cfg = yaml.safe_load(open("config/gene_annotations_config.yaml"))
+    ds_ids = {ls["id"]
+              for src in cfg["sources"].values()
+              for ls in src["logical_sources"]}
+    for entry in load_vocabularies().values():
+        if entry.property == "sources":
+            undeclared = set(entry.values) - ds_ids
+            assert not undeclared, (
+                f"{entry.id} declares source value(s) {sorted(undeclared)} with "
+                f"no matching DataSource id. Known ids: {sorted(ds_ids)}")
+
+
+def test_interpro_source_label_is_interproscan():
+    gene = {"go_terms_source": {"GO:1": ["interproscan"]},
+            "go_terms_evidence": {"GO:1": "domain_inferred"}}
+    props = annotation_edge_props(gene, "go_terms", "GO:1")
+    assert props["sources"] == ["interproscan"]

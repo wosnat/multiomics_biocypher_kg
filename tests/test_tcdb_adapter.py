@@ -388,7 +388,7 @@ def test_both_sources_produce_ONE_edge_with_both_in_sources(dual_source_strain):
     corroboration signal, and two parallel edges would destroy it."""
     edges = _gene_edges(dual_source_strain)
     props = edges[("ncbigene:PMM_0001", "tcdb:1.A.1.5.2")]
-    assert sorted(props["sources"]) == ["diamond", "eggnog"]
+    assert sorted(props["sources"]) == ["eggnog", "tcdb_diamond"]
     assert len([k for k in edges if k[0] == "ncbigene:PMM_0001"]) == 1
 
 
@@ -414,7 +414,7 @@ def test_tier3_diamond_only_edge_is_still_emitted(dual_source_strain):
     """Tier 3 is conservative remote homology, not noise — it becomes an edge.
     Suppression happens downstream in post-import's annotation_types gate."""
     props = _gene_edges(dual_source_strain)[("ncbigene:PMM_0003", "tcdb:1.A.1")]
-    assert props["sources"] == ["diamond"]
+    assert props["sources"] == ["tcdb_diamond"]
     assert props["tier"] == 3
 
 
@@ -439,7 +439,7 @@ def test_seed_alias_collapse_merges_sources_not_duplicates(tmp_path):
     Regression: seed_aliases remaps in the Multi adapter AFTER the per-strain
     adapter builds props, so `3.A.1.35` (eggNOG, retired) and `3.A.1` (diamond)
     both landed on tcdb:3.A.1 as parallel edges carrying ['eggnog'] and
-    ['diamond'] separately. 82 such pairs existed in the live graph.
+    ['tcdb_diamond'] separately. 82 such pairs existed in the live graph.
     """
     d = tmp_path / "MED4"
     d.mkdir()
@@ -474,7 +474,7 @@ def test_seed_alias_collapse_merges_sources_not_duplicates(tmp_path):
     gene_edges = [e for e in a.get_edges() if e[3] == "gene_has_tcdb_family"]
     assert len(gene_edges) == 1, f"expected 1 merged edge, got {len(gene_edges)}"
     props = gene_edges[0][4]
-    assert sorted(props["sources"]) == ["diamond", "eggnog"]
+    assert sorted(props["sources"]) == ["eggnog", "tcdb_diamond"]
     # Diamond's evidence survives the merge
     assert props["tier"] == 3
     assert props["confidence_score"] == 0.2
@@ -484,8 +484,8 @@ def test_sources_are_sorted_canonically(dual_source_strain):
     """`sources` must have ONE spelling per value.
 
     The seed_alias merge path unions and sorts, so an unsorted build path would
-    leave ['eggnog','diamond'] and ['diamond','eggnog'] both in the graph for the
-    same meaning — and any consumer doing `r.sources = [...]` equality would
+    leave ['eggnog','tcdb_diamond'] and ['tcdb_diamond','eggnog'] both in the graph
+    for the same meaning — and any consumer doing `r.sources = [...]` equality would
     silently miss one set. Observed live: 3,559 vs 82 edges before this fix.
     """
     for props in _gene_edges(dual_source_strain).values():

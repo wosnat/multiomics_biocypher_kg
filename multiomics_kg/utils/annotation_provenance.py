@@ -7,7 +7,7 @@ Shared by the GO / EC / Pfam / CAZy adapters. Turns the per-token maps that
 gene→ontology edge now carries:
 
 - ``sources`` (str[]) — who asserted the annotation
-  (``ncbi|cyanorak|uniprot|eggnog|interpro``).
+  (``ncbi|cyanorak|uniprot|eggnog|interproscan``).
 - ``evidence`` (str) — inference strength: ``curated`` > ``signature`` (direct
   Pfam HMM hit) > ``family_inferred`` > ``domain_inferred``. Tokens no source
   labelled inferred default to ``curated`` (they came from a curated source).
@@ -39,8 +39,8 @@ def annotation_edge_props(gene: dict, field: str, token: str) -> dict:
     #     Pfam-via-InterPro are the SAME signal (InterPro integrates Pfam), so
     #     collapse that dependent pair before counting (spec §9.2).
     effective = set(sources)
-    if field == "pfam_ids" and {"eggnog", "interpro"} <= effective:
-        effective.discard("interpro")
+    if field == "pfam_ids" and {"eggnog", "interproscan"} <= effective:
+        effective.discard("interproscan")
     if len(effective) >= 2:
         score += 1
     # (2) at least one high-trust assertion (curated source or a direct signature).
