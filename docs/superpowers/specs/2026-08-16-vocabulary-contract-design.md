@@ -22,6 +22,7 @@ database's conventions, and the result is not uniform:
 | 3 | `is_promiscuous` means *many substrates* on `TcdbFamily` but *many genes* on `InterproEntry` — one name, two axes | `TcdbFamily`, `InterproEntry` |
 | 4 | Three near-identical score names on two different scales: `evidence_score` (0–3), `tcdb_evidence_score` (0–5), `tcdb_best_evidence_score` | annotation edges, `Gene` |
 | 5 | `substrate_depth: {deepest, ancestor}` mixes a superlative with a structural relation, and `ancestor` describes the *node* while the property describes a *(node, substrate) fact* | `Tcdb_family_transports_metabolite` |
+| 6 | Four different encodings for a two-state fact — meaningful pair, `"true"`/`"false"` string, native `bool`, sentinel-or-absent — and the native `bool` arm is silently broken (§9.1) | graph-wide |
 
 None of these are defects — the pre-flight in the asks doc ran 37 invariant
 checks and found zero. They are naming and contract problems, and they are
@@ -111,11 +112,17 @@ Enforced by a kg-validity test: no `sources` value may lack a matching
 ### R3 — breadth flags are named for *what* is broad
 
 ```
-TcdbFamily.is_promiscuous    -> is_multi_substrate
+TcdbFamily.is_promiscuous    -> substrate_breadth: multi_substrate | typical
   (many distinct substrates => inferring a member gene's cargo is weak)
-InterproEntry.is_promiscuous -> is_multi_gene
+InterproEntry.is_promiscuous -> gene_breadth:      ubiquitous | typical
   (matched by a large share of genes => unstratified ORA is invalid)
 ```
+
+These are **breadth tiers, not booleans**, per R5. The binary framing was
+dishonest: `is_multi_gene` would fire at `gene_count >= 1000`, so its false case
+means "not ubiquitous", not "one gene" — there is no truthful name for it. A
+tier vocabulary states what each side actually is, and leaves room for a middle
+band if the thresholds are ever recalibrated (§10.3).
 
 Both remain advisory. Neither is ever a default filter — this is the confirmed
 answer to KG-IPT-006, and the rename makes the intent legible without reading a
@@ -129,7 +136,7 @@ no class signal at all": the three GO roots, `cog.category:S`,
 stays informative even when the sub-class is unknown, which is why DUF/UPF Pfams
 and "Transport > Unknown substrate" are deliberately not flagged.
 
-`is_multi_gene` is **measured frequency**. Its members are the opposite of
+`gene_breadth` is **measured frequency**. Its `ubiquitous` members are the opposite of
 content-free: IPR027417 (P-loop NTPase superfamily) is highly informative about
 fold and function, and is flagged only because it appears in 6,909 genes and so
 cannot discriminate in an ORA. The two are independent — informative-but-
@@ -137,7 +144,7 @@ ubiquitous and uninformative-but-rare are both real quadrants.
 
 Naming the frequency flag `is_informative` would make it read as the negation of
 a released flag that means something else, and would assert that P-loop NTPase
-carries no functional content. `is_multi_gene` names the axis that is actually
+carries no functional content. `gene_breadth` names the axis that is actually
 broad and sits unambiguously beside `is_uninformative`.
 
 ### R4 — one score name per concept, on one scale
@@ -170,6 +177,32 @@ explicitly.
 it is an ordinal *state* (`no_evidence` → `informative_multi`), not a signal
 fraction.
 
+### R5 — no native `bool`; a two-state fact is a meaningful categorical string
+
+A boolean-valued property is stored as a string naming **both** states in terms
+that read correctly with the column name stripped off — the existing
+`OrthologGroup.has_cross_genus_members: cross_genus | single_genus` is the
+precedent to generalize. `"true"` / `"false"` is deprecated for new properties;
+native `bool` is forbidden outright.
+
+Two independent reasons, and the rule needs only the first:
+
+1. **Adapter-emitted `bool` is broken.** BioCypher does not round-trip it — the
+   documented reason `substrate_depth` and `rankable` are already strings. §9.1
+   is the first live casualty.
+2. **A bare `true` is unreadable in a result row.** These values are consumed by
+   an LLM at query time, one row at a time, often with the property name far from
+   the value. `multi_substrate` survives that; `true` does not.
+
+**Sentinel-or-absent stays legal** for rare-exception flags — `is_uninformative`,
+`level_is_best_effort` — where absence *is* the meaning and the flagged set is a
+small minority. Converting those would mean writing a value onto every ontology
+term in order to say nothing.
+
+Enforcement: the contract's `value_type` admits `string`, `string_array`,
+`float`, `int` and `bool_string`, but **not** `bool`. A property declared `bool`
+in `schema_config.yaml` fails the vocabulary test.
+
 ### Applied to the remaining two vocabularies
 
 ```
@@ -196,16 +229,22 @@ on the `evidence` axis — the reuse is the uniformity, not a collision.
 | `InterproEntry` | `interpro_type` | `FAMILY`, `DOMAIN`, … | `family`, `domain`, … | no |
 | gene→ontology edges | `sources` | `interpro` | `interproscan` | no |
 | `Gene_has_tcdb_family` | `sources` | `diamond` | `tcdb_diamond` | no |
-| `TcdbFamily` | `is_promiscuous` | — | `is_multi_substrate` | **yes** |
-| `InterproEntry` | `is_promiscuous` | — | `is_multi_gene` | no |
+| `TcdbFamily` | `is_promiscuous` | `bool` | `substrate_breadth: multi_substrate \| typical` | **yes** |
+| `InterproEntry` | `is_promiscuous` | `bool` | `gene_breadth: ubiquitous \| typical` | no |
+| `Gene_has_tcdb_family` | `agrees_across_sources` | `bool` | `source_agreement: both_sources \| single_source` | no |
+| `Gene_has_tcdb_family` | `pfam_corroborated` | `bool` | `pfam_support: corroborated \| uncorroborated` | no |
+| `Gene_has_tcdb_family` | `go_corroborated` | `bool` | `go_support: corroborated \| uncorroborated` | no |
 | gene→ontology edges | `evidence_score` | int 0–3 | float 0–1 | no |
 | `Gene_has_tcdb_family` | `tcdb_evidence_score` | int 0–5 | `evidence_score`, float 0–1 | no |
 | `Gene` | `tcdb_best_evidence_score` | int 0–5 | `tcdb_evidence_score_max`, float 0–1 | no |
 | `Tcdb_family_transports_metabolite` | `substrate_depth` | `deepest` / `ancestor` | `most_specific` / `inherited` | no |
 | `Gene_has_interpro_entry` | `libraries` | `PFAM`, `SUPERFAMILY`, … | `pfam`, `superfamily`, … (13) | no |
-| `Interpro_entry_related_to_{ec_number,cazy_family}` | `ambiguous` | `bool` (broken — always false) | `"true"` / `"false"` string | no |
+| `Interpro_entry_related_to_{ec_number,cazy_family}` | `ambiguous` | `bool` (broken — always false) | `xref_specificity: one_of_several \| sole_xref` | no |
 
-Exactly one row is breaking, and it has no consumer.
+Two rows touch released properties (`substrate_breadth`, and `is_promiscuous`'s
+`TcdbFamily` arm is the same row) — and neither has a consumer: the explorer's
+audit and ours independently found zero references. Everything else is
+unreleased.
 
 ---
 
@@ -225,7 +264,8 @@ the same pattern `config/gene_annotations_config.yaml` already uses to drive the
    applies_to_kind: 'edge',              // edge | node
    property:        'evidence',
    value_type:      'string',            // string | string_array | float | int
-                                         //   | bool | bool_string
+                                         //   | bool_string
+                                         // 'bool' is NOT admissible — see R5
    closed:          true,                // see 5.2
    values:          ['curated', 'family_inferred'],
    sparse:          false,               // property may be absent on some rows
@@ -316,9 +356,10 @@ and collapsing them would offer `ncbi` as a CAZy filter that can never match
 (KG-IPT-011); `Gene_has_interpro_entry.libraries` (13 values, closed,
 `string_array`); `Gene_has_tcdb_family` `sources` / `tier` / `evidence_score`;
 `Gene.tcdb_evidence_score_max`;
-`InterproEntry.interpro_type` / `level_kind` (empty) / `is_multi_gene`;
-`TcdbFamily.is_multi_substrate`; `Tcdb_family_transports_metabolite.substrate_depth`;
-`Gene.transport_substrate_resolution`; Layer-A `ambiguous` / `source_db`.
+`InterproEntry.interpro_type` / `level_kind` (empty) / `gene_breadth`;
+`TcdbFamily.substrate_breadth`; `Gene_has_tcdb_family.{source_agreement,
+pfam_support, go_support}`; `Tcdb_family_transports_metabolite.substrate_depth`;
+`Gene.transport_substrate_resolution`; Layer-A `xref_specificity` / `source_db`.
 
 **Vocabularies the explorer already hard-codes**, i.e. the eight
 `list_filter_values` filters plus their neighbours: `omics_type`, `value_kind`,
@@ -473,9 +514,10 @@ every count and every other value byte-identical. Then
 `pytest -m "not slow and not kg"`, Docker rebuild, `pytest -m kg`, and
 `/omics-edge-snapshot`.
 
-**CHANGELOG.** One `### Breaking` bullet (`is_promiscuous` → `is_multi_substrate`;
-`evidence_score` integer → normalized float), one `### Added` bullet for the
-contract, plus the KG-IPT-007 prose correction to the existing biller 2016 entry.
+**CHANGELOG.** One `### Breaking` bullet (`TcdbFamily.is_promiscuous` →
+`substrate_breadth`; `evidence_score` integer → normalized float), one
+`### Added` bullet for the contract and the R5 boolean rule, plus the KG-IPT-007
+prose correction to the existing biller 2016 entry.
 
 **Reply to the explorer.** A short doc answering all seven asks, pointing at §7
 and at the rename table in §4, and flagging §7.2 as a correction that unblocks
@@ -515,22 +557,31 @@ schema has five `bool` properties, and the split is exactly diagnostic —
 | `ambiguous` (×2 router edge types) | **adapter** | broken |
 
 Adapter-emitted booleans are broken; post-import booleans are not. That is the
-rule §5.1 already encodes as `value_type: bool_string` vs `bool` — this defect
-is the first live instance of it, and it validates the distinction.
+rule R5 now states outright: native `bool` is forbidden, and `value_type` does
+not admit it. This defect is what promoted that from a documented quirk to a
+rule.
 
-**Fix:** change `ambiguous` to a categorical string carrying `"true"` / `"false"`,
-matching the released `rankable` convention. No logic change.
+**Fix:** `ambiguous` becomes `xref_specificity: one_of_several | sole_xref` under
+R5 — a meaningful pair rather than a stringified boolean. No logic change; only
+the property type, name and the two output literals.
 
 **One R1 interaction to catch in implementation:** the guard compares
 `etype != "FAMILY"`. R1 lowercases `interpro_type`, so this must become
 `"family"` in the same change, or the flag inverts to true everywhere — failing
 loudly rather than silently, but still wrong.
 
-**Consequence for the explorer's entry criteria.** Their step-2 check reads
-`r.ambiguous` as a boolean. After the fix it is a string, so it must become
-`r.ambiguous = 'true'`. The expected count (≥ 3,863 true on EC) is unchanged.
-`is_multi_substrate` / `is_multi_gene` stay native booleans — post-import — so
-those checks are unaffected.
+**Consequence for the explorer's entry criteria.** Three of their step-2 checks
+read properties as native booleans and must be rewritten — R5 removes native
+`bool` from the graph entirely, including the post-import ones:
+
+```cypher
+r.ambiguous                  ->  r.xref_specificity = 'one_of_several'
+t.is_multi_substrate         ->  t.substrate_breadth = 'multi_substrate'
+n.is_multi_gene              ->  n.gene_breadth = 'ubiquitous'
+```
+
+Expected counts are unchanged: ≥ 3,863 `one_of_several` on the EC router, 13
+`multi_substrate`, 22 `ubiquitous`.
 
 ### 9.2 KG-IPT-010 — `libraries` violates R1
 
@@ -583,11 +634,18 @@ GO inferred 45,226) must be unchanged by the rename pass, and are covered by the
    implementation; if minutes, the fast gate moves behind its own marker.
 2. Exact value sets for the §5.3 second group, harvested and reviewed before
    landing.
-3. Whether `is_multi_gene` / `is_multi_substrate` thresholds are re-calibrated in
-   this change. Recommendation: **no** — the TCDB threshold was calibrated
+3. Whether the `gene_breadth` / `substrate_breadth` thresholds are re-calibrated
+   in this change. Recommendation: **no** — the TCDB threshold was calibrated
    against the pre-pruning node set and is flagged in `CLAUDE.md` as worth
    revisiting, but mixing a threshold change into a rename would make the
    `post-import-validate` diff unreadable. Separate change.
+5. **Released `"true"` / `"false"` properties predate R5** — `is_time_course`,
+   `reports_fold_change`, `rankable` (×2), `has_p_value`, `significant`, and the
+   `DerivedMetric` flag `value`. All are MCP-read, so converting them to
+   meaningful pairs is breaking and belongs in its own change with its own
+   baseline. R5 governs new properties; these are grandfathered until then.
+   → `plans/backlog.md`
+
 4. **InterPro has no `is_uninformative` coverage** — the one ontology missing
    from the informativeness filter, which is why `scripts/post-import.cypher`
    (~line 664) excludes `interpro` from `informative_annotation_types` and from

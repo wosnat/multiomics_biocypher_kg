@@ -34,6 +34,17 @@ up — this file is the index, not the plan.
       stays readable.
       → same spec §9.3, and the `is_promiscuous` note in `CLAUDE.md`
 
+- [ ] **Convert the grandfathered `"true"` / `"false"` properties to meaningful
+      pairs.** R5 of the vocabulary contract forbids native `bool` and deprecates
+      stringified booleans, but seven released properties predate it:
+      `Experiment.is_time_course`, `Experiment.reports_fold_change`,
+      `DerivedMetric.rankable`, `MetaboliteAssay.rankable`,
+      `DerivedMetric.has_p_value`, the DM edge `significant`, and the DM flag
+      edge `value`. All are MCP-read, so this is **breaking** and needs its own
+      `post-import-validate` baseline. Follow the
+      `has_cross_genus_members: cross_genus | single_genus` precedent.
+      → `docs/superpowers/specs/2026-08-16-vocabulary-contract-design.md` §3 R5, §10.5
+
 - [ ] **Orphan proteins.** ~46% of UniProt proteins have neither
       `Protein_belongs_to_organism` nor `Gene_encodes_protein`. Two kg-validity
       tests are failing on it. Unknown whether it is a pre-existing data gap or
