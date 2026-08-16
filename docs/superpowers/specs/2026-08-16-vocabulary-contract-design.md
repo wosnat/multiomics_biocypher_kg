@@ -1,9 +1,9 @@
 # Controlled-vocabulary contract + cross-ontology vocabulary alignment
 
 **Date:** 2026-08-16
-**Status:** Design — rev 4, not yet implemented. Rev 1 and rev 2 were both
-reviewed by the explorer; rev 3 folded in their round-2 review; **rev 4 resolves
-KG-IPT-009 and KG-IPT-013 by deleting the property — see §0.**
+**Status:** Design — rev 5, not yet implemented. Rev 1 and rev 2 were reviewed
+by the explorer; rev 3 folded in their round-2 review; **revs 4–5 delete four
+properties rather than rename them — see §0.**
 **Driver:** `multiomics_explorer/docs/kg-specs/2026-08-16-interpro-tcdb-asks.md`
 (KG-IPT-001 … 008) + `…-interpro-tcdb-followup-asks.md` (KG-IPT-009 … 013)
 **Verified against:** KG `0.0.0-dev`, `built_at 2026-08-13T12:19:46.858Z`; last
@@ -13,6 +13,38 @@ release tag `kg-0.1.0-alpha.6`
 
 ## 0. What changed, by revision
 
+### Rev 5 — the derivability audit, applied to everything
+
+Rev 4 deleted one property by asking *what does this tell a consumer that the
+graph does not?* Rev 5 applies that test to every flag this integration touches.
+Three more fail it.
+
+| Property | Derivable? | Read? | Verdict |
+|---|---|---|---|
+| Layer-A `source_db` | **a hardcoded literal** — `"interpro.xml"` at `interpro_adapter.py:399` / `:417`, single-valued by construction | no | **deleted** |
+| `TcdbFamily.is_promiscuous` | `metabolite_count >= 50 AND level >= 2`, both stored | one internal read | **deleted**, threshold inlined |
+| `InterproEntry.is_promiscuous` | `gene_count >= 1000`, stored | no | **deleted** |
+| `agrees_across_sources`, `pfam_corroborated`, `go_corroborated` | only via hierarchical traversal / 2-hop bridge checks | yes | keep |
+| `substrate_depth` | only via a per-(node, substrate) hierarchy walk | yes | keep |
+| `transport_substrate_resolution` | multi-hop chain | yes | keep |
+| `tcdb_evidence_score` | from `sources` / `tier` + the three booleans | yes | keep — cheap advisory sort key |
+
+The line that separates them: **materialize traversals, not predicates.** The
+keepers stand in for work that is expensive or awkward in Cypher; the deletions
+restate an adjacent node's property, a stored count, or a constant.
+
+Consequence: the Layer-A router edges now carry **no properties at all**, which
+is correct for a pure router — the edge type is the entire fact. R3 is rewritten
+from a naming rule into this modeling rule.
+
+**Two more of the explorer's §6 entry criteria disappear** (`is_multi_substrate`
+→ 13, `is_multi_gene` → 22). Replacements, if those exact sets are wanted:
+
+```cypher
+MATCH (t:TcdbFamily)    WHERE t.level >= 2 AND t.metabolite_count >= 50  // 13
+MATCH (n:InterproEntry) WHERE n.gene_count >= 1000                       // 22
+```
+
 ### Rev 4 — the Layer-A flag is deleted, not renamed
 
 Three review rounds went into naming a property that turns out to carry no
@@ -21,7 +53,7 @@ supersedes both the rev-2 rename and the rev-3 split.
 
 | # | Change | Why |
 |---|---|---|
-| 8 | **`ambiguous` is removed from both Layer-A router edge types.** No `xref_specificity`, no `xref_multiplicity`. `source_db` is the only property left on those edges | Both arms of `len(ecs) > 1 or etype != "FAMILY"` are recoverable from the graph, and the part that is not is arguably wrong — see §9.8 |
+| 8 | **`ambiguous` is removed from both Layer-A router edge types.** No `xref_specificity`, no `xref_multiplicity` | Both arms of `len(ecs) > 1 or etype != "FAMILY"` are recoverable from the graph, and the part that is not is arguably wrong — see §9.8 |
 
 A consumer wanting the old flag writes it from data already present:
 
@@ -75,7 +107,7 @@ database's conventions, and the result is not uniform:
 |---|---|---|
 | 1 | `interpro_type` values are `UPPERCASE`; every other categorical in the KG is lowercase `snake_case` | `InterproEntry` |
 | 2 | One provider, three spellings: edge `sources` says `interpro`, `DataSource` / `Gene.contributing_sources` say `interproscan`; the TCDB edge says `diamond`, `DataSource` says `tcdb_diamond` | gene→ontology edges, `Gene_has_tcdb_family` |
-| 3 | `is_promiscuous` means *many substrates* on `TcdbFamily` but *many genes* on `InterproEntry` — one name, two axes | `TcdbFamily`, `InterproEntry` |
+| 3 | `is_promiscuous` means *many substrates* on `TcdbFamily` but *many genes* on `InterproEntry` — one name, two axes. *Resolved by deletion at rev 5, not by renaming* | `TcdbFamily`, `InterproEntry` |
 | 4 | Three near-identical score names on two different scales: `evidence_score` (0–3), `tcdb_evidence_score` (0–5), `tcdb_best_evidence_score` | annotation edges, `Gene` |
 | 5 | `substrate_depth: {deepest, ancestor}` mixes a superlative with a structural relation, and `ancestor` describes the *node* while the property describes a *(node, substrate) fact* | `Tcdb_family_transports_metabolite` |
 | 6 | Four different encodings for a two-state fact — meaningful pair, `"true"`/`"false"` string, native `bool`, sentinel-or-absent — and the native `bool` arm is silently broken (§9.1) | graph-wide |
@@ -117,7 +149,8 @@ Everything the integration introduced. Confirmed unreleased (absent from
 `Gene_has_tcdb_family.{sources, tier, tcdb_evidence_score, agrees_across_sources,
 pfam_corroborated, go_corroborated}` · `Gene.tcdb_best_evidence_score` ·
 `InterproEntry.{interpro_type, is_promiscuous}` · `substrate_depth` ·
-`Gene.transport_substrate_resolution` · Layer-A `{ambiguous, source_db}`.
+`Gene.transport_substrate_resolution` · Layer-A `{ambiguous, source_db}`
+(both deleted at revs 4–5 rather than aligned).
 
 `TcdbFamily.is_promiscuous` shipped in alpha.6 but is read by nothing in the
 explorer, so renaming it costs one `### Breaking` bullet and no consumer work.
@@ -165,43 +198,50 @@ Gene_has_tcdb_family:     'diamond'   -> 'tcdb_diamond'
 Enforced by a kg-validity test: no `sources` value may lack a matching
 `DataSource`.
 
-### R3 — breadth flags are named for *what* is broad
+### R3 — do not materialize a threshold over a stored count
 
 ```
-TcdbFamily.is_promiscuous    -> substrate_breadth: multi_substrate | typical
-  (many distinct substrates => inferring a member gene's cargo is weak)
-InterproEntry.is_promiscuous -> gene_breadth:      ubiquitous | typical
-  (matched by a large share of genes => unstratified ORA is invalid)
+TcdbFamily.is_promiscuous     -> DELETED   (was metabolite_count >= 50 AND level >= 2)
+InterproEntry.is_promiscuous  -> DELETED   (was gene_count >= 1000)
 ```
 
-These are **breadth tiers, not booleans**, per R5. The binary framing was
-dishonest: `is_multi_gene` would fire at `gene_count >= 1000`, so its false case
-means "not ubiquitous", not "one gene" — there is no truthful name for it. A
-tier vocabulary states what each side actually is, and leaves room for a middle
-band if the thresholds are ever recalibrated (§10.3).
+Both were booleans computed from a count the node already publishes. A consumer
+can apply any cutoff to `metabolite_count` / `gene_count` directly, and sees the
+magnitude rather than a bit. Materializing the KG's cutoff instead hides that a
+judgement was made, and goes stale silently — both thresholds have been
+recalibrated once already, and `CLAUDE.md` flags the TCDB one as due again.
 
-Both remain advisory. Neither is ever a default filter — this is the confirmed
-answer to KG-IPT-006, and the rename makes the intent legible without reading a
-doc.
+The KG's own cutoffs are **documented, not stored**: `metabolite_count >= 50` at
+`level >= 2` flags 13 TCDB families; `gene_count >= 1000` flags 22 InterPro
+entries. Anyone wanting exactly those sets writes the predicate.
 
-**Why not `is_informative`.** The KG already has a released informativeness
-concept, and it is a *different axis*. `is_uninformative`
+**The one internal consumer is inlined.** `post-import.cypher:1131` reads
+`t.is_promiscuous` to compute `Gene.transport_substrate_resolution`; the
+threshold moves into that expression. `transport_substrate_resolution` stays —
+unlike a threshold restatement, it materializes a multi-hop traversal (gene →
+deepest TC attachments → substrate breadth) that is genuinely awkward at query
+time. That is the line R3 draws: **materialize traversals, not predicates.**
+
+This resolves inconsistency #3 by deletion rather than by naming, the same shape
+as #6. It does not weaken KG-IPT-006 — the ask was that breadth never becomes a
+default filter, and a property that does not exist cannot be one.
+
+**Why this is not the `is_informative` axis.** Worth recording, because the two
+look adjacent and are not. `is_uninformative`
 (`config/uninformative_terms.yaml`) is **curated content-emptiness** — "conveys
 no class signal at all": the three GO roots, `cog.category:S`,
 `cyanorak.role:R.4`. Its stated principle is that a term naming the broad class
 stays informative even when the sub-class is unknown, which is why DUF/UPF Pfams
-and "Transport > Unknown substrate" are deliberately not flagged.
+and "Transport > Unknown substrate" are deliberately not flagged. It is curated,
+not derivable, and therefore *does* earn storage — the exact opposite of the
+breadth flags.
 
-`gene_breadth` is **measured frequency**. Its `ubiquitous` members are the opposite of
-content-free: IPR027417 (P-loop NTPase superfamily) is highly informative about
-fold and function, and is flagged only because it appears in 6,909 genes and so
-cannot discriminate in an ORA. The two are independent — informative-but-
-ubiquitous and uninformative-but-rare are both real quadrants.
-
-Naming the frequency flag `is_informative` would make it read as the negation of
-a released flag that means something else, and would assert that P-loop NTPase
-carries no functional content. `gene_breadth` names the axis that is actually
-broad and sits unambiguously beside `is_uninformative`.
+Breadth was **measured frequency**. IPR027417 (P-loop NTPase superfamily) is
+highly informative about fold and function and would have been flagged only
+because it appears in 6,909 genes. The two axes are independent —
+informative-but-ubiquitous and uninformative-but-rare are both real quadrants —
+which is why the frequency axis was never a candidate for the `is_informative`
+name, and is now not a stored property at all.
 
 ### R4 — one score name per concept, on one scale
 
@@ -289,8 +329,8 @@ on the `evidence` axis — the reuse is the uniformity, not a collision.
 | `InterproEntry` | `interpro_type` | `FAMILY`, `DOMAIN`, … | `family`, `domain`, … | no |
 | gene→ontology edges | `sources` | `interpro` | `interproscan` | no |
 | `Gene_has_tcdb_family` | `sources` | `diamond` | `tcdb_diamond` | no |
-| `TcdbFamily` | `is_promiscuous` | `bool` | `substrate_breadth: multi_substrate \| typical` | **yes** |
-| `InterproEntry` | `is_promiscuous` | `bool` | `gene_breadth: ubiquitous \| typical` | no |
+| `TcdbFamily` | `is_promiscuous` | `bool` | **removed** (§3 R3) | **yes** |
+| `InterproEntry` | `is_promiscuous` | `bool` | **removed** (§3 R3) | no |
 | `Gene_has_tcdb_family` | `agrees_across_sources` | `bool` | `source_agreement: both_sources \| single_source` | no |
 | `Gene_has_tcdb_family` | `pfam_corroborated` | `bool` | `pfam_support: corroborated \| uncorroborated` | no |
 | `Gene_has_tcdb_family` | `go_corroborated` | `bool` | `go_support: corroborated \| uncorroborated` | no |
@@ -300,11 +340,11 @@ on the `evidence` axis — the reuse is the uniformity, not a collision.
 | `Tcdb_family_transports_metabolite` | `substrate_depth` | `deepest` / `ancestor` | `most_specific` / `inherited` | no |
 | `Gene_has_interpro_entry` | `libraries` | `PFAM`, `SUPERFAMILY`, … | `pfam`, `superfamily`, … (13) | no |
 | `Interpro_entry_related_to_{ec_number,cazy_family}` | `ambiguous` | `bool` (broken — always false) | **removed** (§9.8) | no |
+| `Interpro_entry_related_to_{ec_number,cazy_family}` | `source_db` | `"interpro.xml"` constant | **removed** (§0 rev 5) | no |
 
-Two rows touch released properties (`substrate_breadth`, and `is_promiscuous`'s
-`TcdbFamily` arm is the same row) — and neither has a consumer: the explorer's
-audit and ours independently found zero references. Everything else is
-unreleased.
+One row touches a released property — `TcdbFamily.is_promiscuous`, deleted —
+and it has no consumer: the explorer's audit and ours independently found zero
+references. Everything else is unreleased.
 
 ---
 
@@ -416,10 +456,11 @@ and collapsing them would offer `ncbi` as a CAZy filter that can never match
 (KG-IPT-011); `Gene_has_interpro_entry.libraries` (13 values, closed,
 `string_array`); `Gene_has_tcdb_family` `sources` / `tier` / `evidence_score`;
 `Gene.tcdb_evidence_score_max`;
-`InterproEntry.interpro_type` / `level_kind` (empty) / `gene_breadth`;
-`TcdbFamily.substrate_breadth`; `Gene_has_tcdb_family.{source_agreement,
-pfam_support, go_support}`; `Tcdb_family_transports_metabolite.substrate_depth`;
-`Gene.transport_substrate_resolution`; Layer-A `source_db` (single-valued).
+`InterproEntry.interpro_type` / `level_kind` (empty);
+`Gene_has_tcdb_family.{source_agreement, pfam_support, go_support}`;
+`Tcdb_family_transports_metabolite.substrate_depth`;
+`Gene.transport_substrate_resolution`. The Layer-A router edges seed nothing —
+they carry no properties.
 
 **Vocabularies the explorer already hard-codes**, i.e. the eight
 `list_filter_values` filters plus their neighbours: `omics_type`, `value_kind`,
@@ -580,7 +621,7 @@ every count and every other value byte-identical. Then
 `/omics-edge-snapshot`.
 
 **CHANGELOG.** One `### Breaking` bullet (`TcdbFamily.is_promiscuous` →
-`substrate_breadth`; `evidence_score` integer → normalized float), one
+deleted; `evidence_score` integer → normalized float), one
 `### Added` bullet for the contract and the R5 boolean rule, plus the KG-IPT-007
 prose correction to the existing biller 2016 entry.
 
@@ -646,17 +687,18 @@ read properties as native booleans and must be rewritten — R5 removes native
 `bool` from the graph entirely, including the post-import ones:
 
 ```cypher
-t.is_multi_substrate  ->  t.substrate_breadth = 'multi_substrate'      // 13
-n.is_multi_gene       ->  n.gene_breadth      = 'ubiquitous'           // 22
+// no replacement properties — all three derive from what is already stored:
+t.is_multi_substrate  ->  t.level >= 2 AND t.metabolite_count >= 50    // 13
+n.is_multi_gene       ->  n.gene_count >= 1000                         // 22
 
-// `r.ambiguous` has no replacement property — derive it (4,865 on the EC router):
+// `r.ambiguous` (4,865 on the EC router):
 MATCH (n:InterproEntry)-[r:Interpro_entry_related_to_ec_number]->()
 WITH n, count(r) AS k
 WHERE k > 1 OR n.interpro_type <> 'family'
 ```
 
-An entry-existence check replaces the old single-valuedness assertion: the
-router edges must carry `source_db` and nothing else.
+An emptiness check replaces the old single-valuedness assertion: the router
+edges must carry no properties at all.
 
 ### 9.2 KG-IPT-010 — `libraries` violates R1
 
@@ -681,8 +723,10 @@ Accepted; §3 R4 and the published `description` both now say
 
 ### 9.5 Accepted minor items
 
-- `source_db` is single-valued (`interpro.xml`, 6,976 edges). Declared as such;
-  not a harvest error.
+- `source_db` is single-valued (`interpro.xml`, 6,976 edges) — correctly
+  observed, and the reason is stronger than they knew: it is a hardcoded string
+  literal in the adapter, not harvested data. **Deleted at rev 5** rather than
+  declared.
 - `Gene.tcdb_evidence_score_max` sentinel guidance in
   `tcdb-two-source-upgrade.md` §2 becomes `coalesce(..., -1.0)` — under
   normalization `0.0` is a legitimate value and the integer `-1` no longer types.
@@ -690,8 +734,8 @@ Accepted; §3 R4 and the published `description` both now say
 ### 9.7 Round-2 review (rev 2 → rev 3)
 
 R3, R4 and R5 endorsed with no further comment; the `gene_breadth` /
-`substrate_breadth` reframing was called an improvement on the flags approved at
-rev 1. One ask raised and accepted:
+breadth reframing was called an improvement on the flags approved at rev 1 —
+since superseded, as rev 5 deletes both flags outright. One ask raised and accepted:
 
 **KG-IPT-013 — `xref_specificity` names only one of two arms.** Correct, and the
 error is provable from the code without touching the graph:
@@ -746,8 +790,8 @@ So the property is derivable, denormalized (an entry-level fact copied onto ever
 edge leaving that entry), and where it is not derivable it is less correct. It has
 also never been read: Layer-A routers are deferred explorer-side under W3.
 
-**Deleted from both router edge types.** `source_db` remains, single-valued.
-KG-IPT-009 (the flag is uniformly false) and KG-IPT-013 (the replacement name is
+**Deleted from both router edge types**, along with `source_db` at rev 5, so
+these edges carry no properties at all. KG-IPT-009 (the flag is uniformly false) and KG-IPT-013 (the replacement name is
 untruthful) are both resolved — there is no flag.
 
 The guardrail KG-IPT-009 was defending is not weakened. It never lived in this
@@ -777,8 +821,9 @@ GO inferred 45,226) must be unchanged by the rename pass, and are covered by the
    implementation; if minutes, the fast gate moves behind its own marker.
 2. Exact value sets for the §5.3 second group, harvested and reviewed before
    landing.
-3. Whether the `gene_breadth` / `substrate_breadth` thresholds are re-calibrated
-   in this change. Recommendation: **no** — the TCDB threshold was calibrated
+3. Whether the breadth thresholds are re-calibrated in this change. Only one
+   survives, inlined into `transport_substrate_resolution` (§3 R3).
+   Recommendation: **no** — the TCDB threshold was calibrated
    against the pre-pruning node set and is flagged in `CLAUDE.md` as worth
    revisiting, but mixing a threshold change into a rename would make the
    `post-import-validate` diff unreadable. Separate change.
