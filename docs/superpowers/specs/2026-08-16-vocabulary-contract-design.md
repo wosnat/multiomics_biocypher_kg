@@ -1,8 +1,9 @@
 # Controlled-vocabulary contract + cross-ontology vocabulary alignment
 
 **Date:** 2026-08-16
-**Status:** Design — rev 3, not yet implemented. Rev 1 and rev 2 were both
-reviewed by the explorer; rev 3 folds in their round-2 review — **see §0.**
+**Status:** Design — rev 4, not yet implemented. Rev 1 and rev 2 were both
+reviewed by the explorer; rev 3 folded in their round-2 review; **rev 4 resolves
+KG-IPT-009 and KG-IPT-013 by deleting the property — see §0.**
 **Driver:** `multiomics_explorer/docs/kg-specs/2026-08-16-interpro-tcdb-asks.md`
 (KG-IPT-001 … 008) + `…-interpro-tcdb-followup-asks.md` (KG-IPT-009 … 013)
 **Verified against:** KG `0.0.0-dev`, `built_at 2026-08-13T12:19:46.858Z`; last
@@ -11,6 +12,24 @@ release tag `kg-0.1.0-alpha.6`
 ---
 
 ## 0. What changed, by revision
+
+### Rev 4 — the Layer-A flag is deleted, not renamed
+
+Three review rounds went into naming a property that turns out to carry no
+information. Deleting it resolves **KG-IPT-009 and KG-IPT-013 together**, and
+supersedes both the rev-2 rename and the rev-3 split.
+
+| # | Change | Why |
+|---|---|---|
+| 8 | **`ambiguous` is removed from both Layer-A router edge types.** No `xref_specificity`, no `xref_multiplicity`. `source_db` is the only property left on those edges | Both arms of `len(ecs) > 1 or etype != "FAMILY"` are recoverable from the graph, and the part that is not is arguably wrong — see §9.8 |
+
+A consumer wanting the old flag writes it from data already present:
+
+```cypher
+MATCH (n:InterproEntry)-[r:Interpro_entry_related_to_ec_number]->()
+WITH n, count(r) AS k
+WHERE k > 1 OR n.interpro_type <> 'family'
+```
 
 ### Rev 3 — round-2 review folded in
 
@@ -280,7 +299,7 @@ on the `evidence` axis — the reuse is the uniformity, not a collision.
 | `Gene` | `tcdb_best_evidence_score` | int 0–5 | `tcdb_evidence_score_max`, float 0–1 | no |
 | `Tcdb_family_transports_metabolite` | `substrate_depth` | `deepest` / `ancestor` | `most_specific` / `inherited` | no |
 | `Gene_has_interpro_entry` | `libraries` | `PFAM`, `SUPERFAMILY`, … | `pfam`, `superfamily`, … (13) | no |
-| `Interpro_entry_related_to_{ec_number,cazy_family}` | `ambiguous` | `bool` (broken — always false) | `xref_multiplicity: one_of_several \| sole_xref` — **multiplicity arm only** | no |
+| `Interpro_entry_related_to_{ec_number,cazy_family}` | `ambiguous` | `bool` (broken — always false) | **removed** (§9.8) | no |
 
 Two rows touch released properties (`substrate_breadth`, and `is_promiscuous`'s
 `TcdbFamily` arm is the same row) — and neither has a consumer: the explorer's
@@ -400,7 +419,7 @@ and collapsing them would offer `ncbi` as a CAZy filter that can never match
 `InterproEntry.interpro_type` / `level_kind` (empty) / `gene_breadth`;
 `TcdbFamily.substrate_breadth`; `Gene_has_tcdb_family.{source_agreement,
 pfam_support, go_support}`; `Tcdb_family_transports_metabolite.substrate_depth`;
-`Gene.transport_substrate_resolution`; Layer-A `xref_multiplicity` / `source_db`.
+`Gene.transport_substrate_resolution`; Layer-A `source_db` (single-valued).
 
 **Vocabularies the explorer already hard-codes**, i.e. the eight
 `list_filter_values` filters plus their neighbours: `omics_type`, `value_kind`,
@@ -614,12 +633,8 @@ rule R5 now states outright: native `bool` is forbidden, and `value_type` does
 not admit it. This defect is what promoted that from a documented quirk to a
 rule.
 
-**Fix (revised at rev 3 — see §9.7):** the edge carries
-`xref_multiplicity: one_of_several | sole_xref`, computed from `len(xrefs) > 1`
-**alone**. The type arm of the old disjunction is dropped from the edge, not
-because it is unimportant but because it is already on the graph — the edge's
-source is an `InterproEntry` carrying `interpro_type`. A consumer wanting the
-old fused flag writes it explicitly and can see which arm fired.
+**Fix (final, rev 4 — see §9.8): the property is deleted.** Rev 2 renamed it,
+rev 3 split it; rev 4 establishes that neither arm is worth storing.
 
 **One R1 interaction to catch in implementation:** the guard compares
 `etype != "FAMILY"`. R1 lowercases `interpro_type`, so this must become
@@ -634,13 +649,14 @@ read properties as native booleans and must be rewritten — R5 removes native
 t.is_multi_substrate  ->  t.substrate_breadth = 'multi_substrate'      // 13
 n.is_multi_gene       ->  n.gene_breadth      = 'ubiquitous'           // 22
 
-// the old fused `ambiguous`, now written explicitly (4,865 on the EC router):
+// `r.ambiguous` has no replacement property — derive it (4,865 on the EC router):
 MATCH (n:InterproEntry)-[r:Interpro_entry_related_to_ec_number]->()
-WHERE r.xref_multiplicity = 'one_of_several' OR n.interpro_type <> 'family'
+WITH n, count(r) AS k
+WHERE k > 1 OR n.interpro_type <> 'family'
 ```
 
-Per-arm expected counts on the EC router: `one_of_several` 2,943 · `sole_xref`
-3,911 (6,854 total).
+An entry-existence check replaces the old single-valuedness assertion: the
+router edges must carry `source_db` and nothing else.
 
 ### 9.2 KG-IPT-010 — `libraries` violates R1
 
@@ -701,6 +717,43 @@ edge carries multiplicity only; type stays on the source node where it already
 lives. Strictly more informative than the fused flag, R5-compliant, and every
 value is true of every row carrying it — which is the acceptance criterion they
 proposed and the right one.
+
+### 9.8 Rev 4 — the flag is deleted (supersedes 9.7)
+
+KG-IPT-013's decomposition prompted the question the three naming rounds had
+skipped: *what does this property tell a consumer that the graph does not?*
+Nothing, and the residue is arguably wrong.
+
+**The type arm carries zero information.** The edge's source is an
+`InterproEntry` and `interpro_type` is on it. `etype != "FAMILY"` restates a
+property of the node the edge starts at.
+
+**The multiplicity arm is the entry's out-degree** on that edge type, which any
+consumer can count. There is one delta: the adapter computes `len(ecs) > 1` from
+the full reference list and only afterwards prunes edges to ECs that have nodes,
+so the stored value is *pre-pruning*. The pruning is real — the reference carries
+entries with up to **23** EC xrefs (2,596 of 10,849 entries have more than one)
+while the graph tops out at 14.
+
+**But that delta is a defect, not information.** The pruned ECs are the obsolete
+and invalid ones — the tokens `normalize_ec` cannot remap and Expasy has no node
+for, the same class that motivated the EC dangling-proof fix. If an entry lists
+23 ECs and 22 are dead, the survivor is the *only* valid claim, and flagging that
+link "one of several" is wrong. Post-pruning out-degree is the better semantics,
+and it is free.
+
+So the property is derivable, denormalized (an entry-level fact copied onto every
+edge leaving that entry), and where it is not derivable it is less correct. It has
+also never been read: Layer-A routers are deferred explorer-side under W3.
+
+**Deleted from both router edge types.** `source_db` remains, single-valued.
+KG-IPT-009 (the flag is uniformly false) and KG-IPT-013 (the replacement name is
+untruthful) are both resolved — there is no flag.
+
+The guardrail KG-IPT-009 was defending is not weakened. It never lived in this
+property, which was `false` on 100% of edges in every build ever deployed. It
+lives in the deliberately weak `related_to` verb, in the edge type name, and in
+the documented ~31% reverse precision — none of which this change touches.
 
 ### 9.6 Sequencing — agreed
 
