@@ -1,0 +1,40 @@
+{
+  "strain": "BP1",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2436,
+  "wallclock_s": 0.5,
+  "raw_hit_lines": 877,
+  "parse_failures": 0,
+  "proteins_with_hits": 92,
+  "proteins_with_call": 92,
+  "total_candidates": 93,
+  "candidates_per_protein_distribution": {
+    "1": 91,
+    "2": 1
+  },
+  "tier_distribution": {
+    "2": 7,
+    "3": 86
+  },
+  "consensus_agreement_distribution": {
+    "id": 16,
+    "subfamily": 23,
+    "family": 54
+  },
+  "catalytic_type_distribution": {
+    "M": 37,
+    "S": 34,
+    "C": 16,
+    "T": 3,
+    "N": 1,
+    "A": 2
+  },
+  "entry_type_distribution": {
+    "peptidase": 93
+  },
+  "best_hit_kind_distribution": {
+    "nonpeptidase_homolog": 16,
+    "putative": 28,
+    "holotype": 49
+  }
+}

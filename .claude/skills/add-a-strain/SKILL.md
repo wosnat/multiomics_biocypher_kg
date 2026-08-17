@@ -242,7 +242,7 @@ workflow (snapshot, Docker rebuild, verification) runs in parallel with them.
 Step 10's loop-back is the rendezvous point where you wait for them to finish.
 
 ```bash
-mkdir -p logs/{eggnog,psortb,tcdb,signalp}
+mkdir -p logs/{eggnog,psortb,tcdb,signalp,merops}
 
 # Wave 1 — independent tools, run in parallel:
 
@@ -264,6 +264,11 @@ nohup bash -c 'uv run python .claude/skills/signalp-run/run_signalp.py --strain 
 # for one strain. Requires the one-time image + data install (--prepare-image /
 # --refresh-data); see .claude/skills/interproscan-run/SKILL.md.
 nohup uv run python .claude/skills/interproscan-run/run_interproscan.py --strains <NEW_STRAIN> > logs/interproscan/<NEW_STRAIN>.log 2>&1 &
+
+# MEROPS-diamond — peptidase/protease family classification. Pure sequence
+# evidence (protein.faa vs the MEROPS scan library only — no eggNOG input,
+# so Wave 1). Fast: <1 s per strain; DB self-installs (<10 MB).
+nohup uv run python .claude/skills/merops-diamond/run_merops_diamond.py --strains <NEW_STRAIN> > logs/merops/<NEW_STRAIN>.log 2>&1 &
 
 # Wave 2 — depends on eggNOG (reads <strain>.emapper.annotations for egn_agreement
 #          + gene_annotations_merged.json for pfam_agreement). Subshell waits for
@@ -290,9 +295,9 @@ no-op. The Wave 2 gate still works because eggnog only exits once its full
 CSV walk finishes:
 
 ```bash
-mkdir -p logs/{eggnog,psortb,tcdb,signalp}
+mkdir -p logs/{eggnog,psortb,tcdb,signalp,merops}
 
-# Wave 1 — same three tools, no --strain flag → iterate the whole CSV
+# Wave 1 — same tools, no --strain flag → iterate the whole CSV
 nohup uv run python .claude/skills/eggnog-run/run_eggnog.py > logs/eggnog/batch.log 2>&1 &
 EGGNOG_PID=$!
 nohup uv run python .claude/skills/psortb-run/run_psortb.py > logs/psortb/batch.log 2>&1 &
@@ -301,6 +306,8 @@ nohup bash -c 'uv run python .claude/skills/signalp-run/run_signalp.py && uv run
 # InterProScan — all strains. NOTE: a full all-apps batch is multi-day wallclock;
 # for onboarding a single new strain prefer the --strains form above.
 nohup uv run python .claude/skills/interproscan-run/run_interproscan.py > logs/interproscan/batch.log 2>&1 &
+# MEROPS-diamond — all strains (<1 min total)
+nohup uv run python .claude/skills/merops-diamond/run_merops_diamond.py > logs/merops/batch.log 2>&1 &
 
 # Wave 2 — tcdb-diamond, after eggnog has annotated every strain in the CSV
 ( wait $EGGNOG_PID && \

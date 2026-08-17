@@ -1,0 +1,43 @@
+{
+  "strain": "DSS-3",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 4362,
+  "wallclock_s": 0.6,
+  "raw_hit_lines": 1242,
+  "parse_failures": 0,
+  "proteins_with_hits": 147,
+  "proteins_with_call": 147,
+  "total_candidates": 149,
+  "candidates_per_protein_distribution": {
+    "1": 145,
+    "2": 2
+  },
+  "tier_distribution": {
+    "3": 143,
+    "2": 6
+  },
+  "consensus_agreement_distribution": {
+    "id": 32,
+    "subfamily": 32,
+    "family": 85
+  },
+  "catalytic_type_distribution": {
+    "T": 5,
+    "M": 59,
+    "P": 2,
+    "inhibitor": 4,
+    "N": 1,
+    "C": 23,
+    "S": 52,
+    "A": 3
+  },
+  "entry_type_distribution": {
+    "peptidase": 145,
+    "inhibitor": 4
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 87,
+    "putative": 29,
+    "nonpeptidase_homolog": 33
+  }
+}

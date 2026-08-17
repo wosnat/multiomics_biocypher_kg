@@ -112,6 +112,13 @@ CREATE INDEX ncbifam_family_level_idx IF NOT EXISTS FOR (n:NcbifamFamily) ON (n.
 CREATE FULLTEXT INDEX ncbifamFamilyFullText IF NOT EXISTS
     FOR (n:NcbifamFamily) ON EACH [n.name, n.gene_symbol, n.description];
 
+// MEROPS MeropsFamily (hierarchical clan→family→subfamily ontology + scored edge)
+CREATE INDEX merops_family_level_idx IF NOT EXISTS FOR (m:MeropsFamily) ON (m.level);
+CREATE INDEX merops_family_level_kind_idx IF NOT EXISTS FOR (m:MeropsFamily) ON (m.level_kind);
+CREATE INDEX merops_family_id_idx IF NOT EXISTS FOR (m:MeropsFamily) ON (m.merops_id);
+CREATE FULLTEXT INDEX meropsFamilyFullText IF NOT EXISTS
+    FOR (m:MeropsFamily) ON EACH [m.name, m.merops_id, m.description];
+
 // PSORTb SubcellularLocalization (flat ontology + scored edge)
 CREATE INDEX subcellular_localization_level_idx IF NOT EXISTS FOR (n:SubcellularLocalization) ON (n.level);
 CREATE INDEX subcellular_localization_id_idx IF NOT EXISTS FOR (n:SubcellularLocalization) ON (n.psortb_id);
@@ -643,7 +650,7 @@ CALL {
                      |Gene_has_kegg_ko|Gene_has_pfam|Gene_catalyzes_ec_number
                      |Gene_in_cog_category|Gene_has_cyanorak_role|Gene_has_tigr_role
                      |Gene_catalyzes_reaction|Gene_has_tcdb_family|Gene_has_cazy_family
-                     |Gene_has_interpro_entry|Gene_has_ncbifam_family]->() } AS has_any_edge
+                     |Gene_has_interpro_entry|Gene_has_ncbifam_family|Gene_has_merops_family]->() } AS has_any_edge
   WITH g,
        (CASE WHEN has_go THEN 1 ELSE 0 END
         + CASE WHEN has_kegg THEN 1 ELSE 0 END
@@ -689,7 +696,8 @@ CALL {
     CASE WHEN EXISTS { MATCH (g)-[rt:Gene_has_tcdb_family]->() WHERE 'eggnog' IN rt.sources OR rt.tier <= 2 } THEN ['tcdb'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_interpro_entry]->() } THEN ['interpro'] ELSE [] END +
-    CASE WHEN EXISTS { (g)-[:Gene_has_ncbifam_family]->() } THEN ['ncbifam'] ELSE [] END
+    CASE WHEN EXISTS { (g)-[:Gene_has_ncbifam_family]->() } THEN ['ncbifam'] ELSE [] END +
+    CASE WHEN EXISTS { MATCH (g)-[rm:Gene_has_merops_family]->() WHERE rm.tier <= 2 } THEN ['merops'] ELSE [] END
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // NOTE: 'ncbifam' IS folded into both annotation_types (routing) AND the
@@ -699,6 +707,14 @@ CALL {
 // pfam/go/ec do. 'interpro' is deliberately NOT — it stays a conduit/routing
 // signal only (highly redundant with pfam/go/ec — would lift few genes' quality
 // for large blast radius). See the design spec §4.2 / §5.
+//
+// NOTE: 'merops' is TIER-GATED (tier <= 2), exactly like the tcdb tier gate:
+// tier-3 calls are conservative remote homology (92% of candidates), findable
+// through the edges but not allowed to inflate annotation coverage. merops has
+// NO annotation_quality bucket (single evidence source, tier-3-dominated —
+// see docs/superpowers/specs/2026-08-17-merops-kg-integration-design.md);
+// Gene_has_merops_family does count toward has_any_edge (catch_all_only),
+// the interpro/tcdb-tier-3 precedent.
 
 // =====================================================================
 // F1.4: Gene.informative_annotation_types — granular per-source list,
@@ -741,7 +757,8 @@ CALL {
     CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_ncbifam_family]->(t)
                        WHERE t.is_uninformative IS NULL }
-         THEN ['ncbifam'] ELSE [] END
+         THEN ['ncbifam'] ELSE [] END +
+    CASE WHEN EXISTS { MATCH (g)-[rm:Gene_has_merops_family]->() WHERE rm.tier <= 2 } THEN ['merops'] ELSE [] END
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // expression_edge_count + significant_up/down_count
@@ -1033,6 +1050,30 @@ CALL {
       n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
 } IN TRANSACTIONS OF 1000 ROWS;
 
+// ── MeropsFamily computed properties (hierarchical; subtree counts) ───────────
+// gene_count + organism_count: subtree traversal (descendants ∪ self via *0..,
+// CAZy pattern — a clan counts every gene under its families/subfamilies).
+// peptidase_gene_count is the number to use for "how many proteases": it keeps
+// only call_class='peptidase' edges, excluding inhibitor families and
+// nonpeptidase_homolog calls (fold evidence, not protease evidence). The gap
+// between gene_count and peptidase_gene_count is itself a signal — families
+// like C26/C44 are dominated by catalytically dead relatives.
+// member_count = direct child nodes (structural, TcdbFamily convention).
+MATCH (m:MeropsFamily)
+CALL {
+  WITH m
+  OPTIONAL MATCH (child:MeropsFamily)-[:Merops_family_is_a_merops_family]->(m)
+  WITH m, count(child) AS mc
+  OPTIONAL MATCH (m)<-[:Merops_family_is_a_merops_family*0..]-(desc:MeropsFamily)<-[r:Gene_has_merops_family]-(g:Gene)
+  WITH m, mc, count(DISTINCT g) AS gc,
+       count(DISTINCT CASE WHEN r.call_class = 'peptidase' THEN g END) AS pgc,
+       collect(DISTINCT g.organism_name) AS orgs
+  SET m.member_count = mc,
+      m.gene_count = gc,
+      m.peptidase_gene_count = pgc,
+      m.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 1000 ROWS;
+
 // ── SubcellularLocalization computed properties (PSORTb; flat ontology) ───────
 // gene_count + organism_count: direct gene->node traversal (no *0.. — flat).
 MATCH (n:SubcellularLocalization)
@@ -1132,13 +1173,21 @@ CALL {
   WITH g, count(DISTINCT r1) AS tc_count
   OPTIONAL MATCH (g)-[r2:Gene_has_cazy_family]->()
   WITH g, tc_count, count(r2) AS cz_count
+  // merops_family_count = ALL merops edges (routing, ungated — tcdb precedent).
+  // merops_classes = distinct call_class values, the at-a-glance guard so a
+  // gene whose only call is a dead homolog never reads as "1 protease".
+  OPTIONAL MATCH (g)-[r2b:Gene_has_merops_family]->()
+  WITH g, tc_count, cz_count, count(r2b) AS mer_count,
+       apoc.coll.sort([c IN collect(DISTINCT r2b.call_class) WHERE c IS NOT NULL]) AS mer_classes
   OPTIONAL MATCH (g)-[r3:Gene_catalyzes_reaction]->(rx:Reaction)
   OPTIONAL MATCH (rx)-[:Reaction_has_metabolite]->(m_cat:Metabolite)
-  WITH g, tc_count, cz_count,
+  WITH g, tc_count, cz_count, mer_count, mer_classes,
        count(DISTINCT r3) AS rxn_count,
        count(DISTINCT m_cat) AS cat_met_count
   SET g.tcdb_family_count = tc_count,
       g.cazy_family_count = cz_count,
+      g.merops_family_count = mer_count,
+      g.merops_classes = mer_classes,
       g.reaction_count = rxn_count,
       g.metabolite_count = cat_met_count
 } IN TRANSACTIONS OF 1000 ROWS;

@@ -1,0 +1,44 @@
+{
+  "strain": "PCC7002",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 3196,
+  "wallclock_s": 0.6,
+  "raw_hit_lines": 1130,
+  "parse_failures": 0,
+  "proteins_with_hits": 110,
+  "proteins_with_call": 110,
+  "total_candidates": 113,
+  "candidates_per_protein_distribution": {
+    "1": 107,
+    "2": 3
+  },
+  "tier_distribution": {
+    "3": 102,
+    "2": 10,
+    "1": 1
+  },
+  "consensus_agreement_distribution": {
+    "id": 21,
+    "subfamily": 24,
+    "family": 68
+  },
+  "catalytic_type_distribution": {
+    "S": 50,
+    "T": 4,
+    "M": 43,
+    "C": 11,
+    "A": 2,
+    "U": 1,
+    "N": 1,
+    "inhibitor": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 112,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "putative": 37,
+    "holotype": 61,
+    "nonpeptidase_homolog": 15
+  }
+}

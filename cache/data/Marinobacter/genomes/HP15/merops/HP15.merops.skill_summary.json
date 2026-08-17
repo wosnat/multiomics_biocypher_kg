@@ -1,0 +1,43 @@
+{
+  "strain": "HP15",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 4237,
+  "wallclock_s": 0.6,
+  "raw_hit_lines": 1153,
+  "parse_failures": 0,
+  "proteins_with_hits": 127,
+  "proteins_with_call": 127,
+  "total_candidates": 132,
+  "candidates_per_protein_distribution": {
+    "1": 122,
+    "2": 5
+  },
+  "tier_distribution": {
+    "3": 120,
+    "2": 11,
+    "1": 1
+  },
+  "consensus_agreement_distribution": {
+    "id": 32,
+    "subfamily": 20,
+    "family": 80
+  },
+  "catalytic_type_distribution": {
+    "inhibitor": 4,
+    "M": 33,
+    "T": 3,
+    "C": 24,
+    "S": 64,
+    "A": 3,
+    "U": 1
+  },
+  "entry_type_distribution": {
+    "inhibitor": 4,
+    "peptidase": 128
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 74,
+    "nonpeptidase_homolog": 31,
+    "putative": 27
+  }
+}

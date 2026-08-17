@@ -1,0 +1,45 @@
+{
+  "strain": "KT2440",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 5452,
+  "wallclock_s": 0.6,
+  "raw_hit_lines": 1380,
+  "parse_failures": 0,
+  "proteins_with_hits": 173,
+  "proteins_with_call": 173,
+  "total_candidates": 175,
+  "candidates_per_protein_distribution": {
+    "1": 171,
+    "2": 2
+  },
+  "tier_distribution": {
+    "3": 158,
+    "2": 14,
+    "1": 3
+  },
+  "consensus_agreement_distribution": {
+    "id": 40,
+    "subfamily": 27,
+    "family": 108
+  },
+  "catalytic_type_distribution": {
+    "C": 28,
+    "A": 3,
+    "S": 71,
+    "T": 5,
+    "inhibitor": 6,
+    "M": 55,
+    "U": 2,
+    "N": 4,
+    "P": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 169,
+    "inhibitor": 6
+  },
+  "best_hit_kind_distribution": {
+    "putative": 39,
+    "holotype": 93,
+    "nonpeptidase_homolog": 43
+  }
+}

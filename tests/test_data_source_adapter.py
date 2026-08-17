@@ -13,13 +13,25 @@ def adapter():
     return DataSourceAdapter(config_path="config/gene_annotations_config.yaml")
 
 
-def test_emits_seven_nodes(adapter):
-    """Eight data sources: ncbi, cyanorak, uniprot, eggnog, psortb, signalp, interproscan, tcdb_diamond."""
+def test_emits_nine_nodes(adapter):
+    """Nine data sources: ncbi, cyanorak, uniprot, eggnog, psortb, signalp, interproscan, tcdb_diamond, merops_diamond."""
     adapter.download_data()
     nodes = list(adapter.get_nodes())
     ids = {props["id"] for _, _, props in nodes}
     assert ids == {"ncbi", "cyanorak", "uniprot", "eggnog", "psortb", "signalp",
-                   "interproscan", "tcdb_diamond"}
+                   "interproscan", "tcdb_diamond", "merops_diamond"}
+
+
+def test_merops_diamond_is_tool_run_gene_level(adapter):
+    """diamond-vs-MEROPS is the KG's only MEROPS evidence source (no eggNOG or
+    InterProScan MEROPS output exists); feeds `merops_ids`."""
+    nodes = {n[0].split(":")[-1]: n[2] for n in adapter.get_nodes()}
+    mer = nodes["merops_diamond"]
+    assert mer["provenance"] == "tool_run"
+    assert mer["scope"] == "gene_level"
+    assert mer["name"] == "MEROPS (diamond)"
+    assert mer["description"] != ""
+    assert "merops_ids" in set(mer["info_types"])
 
 
 def test_interproscan_is_tool_run_gene_level(adapter):

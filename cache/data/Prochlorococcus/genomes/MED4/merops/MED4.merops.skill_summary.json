@@ -1,0 +1,39 @@
+{
+  "strain": "MED4",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 1872,
+  "wallclock_s": 0.5,
+  "raw_hit_lines": 627,
+  "parse_failures": 0,
+  "proteins_with_hits": 58,
+  "proteins_with_call": 58,
+  "total_candidates": 59,
+  "candidates_per_protein_distribution": {
+    "1": 57,
+    "2": 1
+  },
+  "tier_distribution": {
+    "3": 53,
+    "2": 6
+  },
+  "consensus_agreement_distribution": {
+    "id": 12,
+    "subfamily": 12,
+    "family": 35
+  },
+  "catalytic_type_distribution": {
+    "C": 11,
+    "S": 26,
+    "M": 20,
+    "A": 1,
+    "T": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 59
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 34,
+    "nonpeptidase_homolog": 8,
+    "putative": 17
+  }
+}

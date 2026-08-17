@@ -1,0 +1,3609 @@
+{
+ "clans": {
+  "AA": {
+   "description": "Water nucleophile; water bound by two Asp from monomer or dimer; all endopeptidases, from eukaryote organisms, some bacteria and viruses or virus-like organisms",
+   "family_type": "peptidase"
+  },
+  "AB": {
+   "description": "Water nucleophile; water bound by Asp and Asn; all endopeptidases",
+   "family_type": "peptidase"
+  },
+  "AC": {
+   "description": "Water nucleophile; water bound by two Asp; all membrane-bound endopeptidases known only from eubacteria with active site on periplasmic side of cell membrane.",
+   "family_type": "peptidase"
+  },
+  "AD": {
+   "description": "Water nucleophile; water bound by two Asp; all membrane-bound endopeptidases known only from eubacteria with active site on cytoplasmic side of cell membrane.",
+   "family_type": "peptidase"
+  },
+  "AE": {
+   "description": "Water nucleophile; water bound by two Asp",
+   "family_type": "peptidase"
+  },
+  "AF": {
+   "description": "Water nucleophile; water bound by Asp and His; all membrane-bound endopeptidases known only from eubacteria with active site on periplasmic side of cell membrane.",
+   "family_type": "peptidase"
+  },
+  "AG": {
+   "description": "available for re-use",
+   "family_type": "peptidase"
+  },
+  "CA": {
+   "description": "Cysteine nucleophile; catalytic residues in the order Cys, His, Asn (or Asp) in sequence",
+   "family_type": "peptidase"
+  },
+  "CB": {
+   "description": null,
+   "family_type": "peptidase"
+  },
+  "CC": {
+   "description": null,
+   "family_type": "peptidase"
+  },
+  "CD": {
+   "description": "Cysteine nucleophile; catalytic residues in the order His, Cys in sequence",
+   "family_type": "peptidase"
+  },
+  "CE": {
+   "description": "Cysteine nucleophile; catalytic residues in the order His, Glu (or Asp), Cys in sequence",
+   "family_type": "peptidase"
+  },
+  "CF": {
+   "description": "Cysteine nucleophile; catalytic residues in the order Glu, Cys, His in sequence",
+   "family_type": "peptidase"
+  },
+  "CG": {
+   "description": "Cysteine nucleophile; catalytic residues in the order Cys, Cys",
+   "family_type": "peptidase"
+  },
+  "CH": {
+   "description": "Cysteine nucleophile at the N-terminus of mature enzyme; catalytic residues in the order Cys, Thr, His",
+   "family_type": "peptidase"
+  },
+  "CJ": {
+   "description": "Cysteine nucleophile; catalytic residues in the order Cys, His consecutive in sequence",
+   "family_type": "inhibitor"
+  },
+  "CK": {
+   "description": "Cysteine nucleophile; catalytic residue in the order Cys, His in sequence.",
+   "family_type": "peptidase"
+  },
+  "CL": {
+   "description": "Cysteine nucleophile; catalytic residues in the order His, Cys in sequence",
+   "family_type": "peptidase"
+  },
+  "CM": {
+   "description": "Cysteine nucleophile; active peptidase is a homodimer with active site His and Glu from one monomer and Cys from the other. Catalytic residues in the order His, Glu, Cys in each monomer.",
+   "family_type": "peptidase"
+  },
+  "CN": {
+   "description": "Cysteine nucleophile: catalytic residues in the order Cys, His in sequence",
+   "family_type": "peptidase"
+  },
+  "CO": {
+   "description": "Cysteine nucleophile; catalytic residues in the order Cys, His, His in sequence",
+   "family_type": "peptidase"
+  },
+  "CP": {
+   "description": "Cysteine nucleophile; catalytic residues in the order His, Cys in sequence",
+   "family_type": "peptidase"
+  },
+  "CQ": {
+   "description": "Cysteine nucleophile; catalytic residues in the order Glu, His, Cys in sequence",
+   "family_type": "peptidase"
+  },
+  "CR": {
+   "description": "Cysteine nucleophile; catalytic residues in the order His, Cys.",
+   "family_type": "peptidase"
+  },
+  "GA": {
+   "description": "Water nucleophile; water bound by Gln and Glu; all endopeptidases",
+   "family_type": "peptidase"
+  },
+  "GB": {
+   "description": "Water nucleophile; water bound by Glu; all self-cleaving endopeptidases",
+   "family_type": "peptidase"
+  },
+  "GC": {
+   "description": "Water nucleophile; water bound by Glu and His; all endopeptidases",
+   "family_type": "peptidase"
+  },
+  "IA": {
+   "description": "Small proteins, mainly serine peptidase inhibitors with a conserved core consisting of a helix and a loop crosslinked with two disulfides",
+   "family_type": "inhibitor"
+  },
+  "IB": {
+   "description": "Small proteins, mainly serine peptidase inhibitors with a BPTI-like fold",
+   "family_type": "inhibitor"
+  },
+  "IC": {
+   "description": "All beta proteins, mainly serine peptidase inhibitors with a beta-trefoil fold",
+   "family_type": "inhibitor"
+  },
+  "ID": {
+   "description": "Alpha-beta proteins, mainly serine peptidase inhibitors with serpin-like fold",
+   "family_type": "inhibitor"
+  },
+  "IE": {
+   "description": "Serine and metallocarboxypeptidase inhibitors",
+   "family_type": "inhibitor"
+  },
+  "IF": {
+   "description": "Small proteins, mainly serine peptidase inhibitors with a knottin fold",
+   "family_type": "inhibitor"
+  },
+  "IG": {
+   "description": "Alpha-beta proteins, serine peptidase inhibitors with a CI-2 fold",
+   "family_type": "inhibitor"
+  },
+  "IH": {
+   "description": "Alpha-beta proteins, mainly cysteine peptidase inhibitors with an alpha-beta, cystatin-like fold",
+   "family_type": "inhibitor"
+  },
+  "II": {
+   "description": "Calpain inhibitors",
+   "family_type": "inhibitor"
+  },
+  "IJ": {
+   "description": "All-alpha proteins, serine peptidase inhibitors with a bifunctional inhibitor/lipid-transfer protein/seed storage 2S albumin fold",
+   "family_type": "inhibitor"
+  },
+  "IK": {
+   "description": "Mainly metallopeptidase inhibitors",
+   "family_type": "inhibitor"
+  },
+  "IL": {
+   "description": "Endopeptidase inhibitors of all catalytic types",
+   "family_type": "inhibitor"
+  },
+  "IM": {
+   "description": "Small proteins, serine peptidase inhibitors with a knottin-fold",
+   "family_type": "inhibitor"
+  },
+  "IN": {
+   "description": "All-beta proteins, serine peptidase inhibitors with an ecotin-like fold",
+   "family_type": "inhibitor"
+  },
+  "IO": {
+   "description": "Small proteins, serine peptidase inhibitors with a knottin-fold",
+   "family_type": "inhibitor"
+  },
+  "IP": {
+   "description": "Small proteins, serine peptidase inhibitors with a knottin-fold",
+   "family_type": "inhibitor"
+  },
+  "IQ": {
+   "description": "All beta proteins, mainly caspase inhibitors with a baculovirus p35 protein-like fold",
+   "family_type": "inhibitor"
+  },
+  "IR": {
+   "description": "All-alpha proteins, aspartic peptidase inhibitors with a pepsin inhibitor 3-like fold",
+   "family_type": "inhibitor"
+  },
+  "IS": {
+   "description": "Small proteins, metallocarboxypeptidase inhibitors with a carboxypeptidase inhibitor fold",
+   "family_type": "inhibitor"
+  },
+  "IT": {
+   "description": "All beta proteins, metallopeptidase inhibitors with an OB-like fold",
+   "family_type": "inhibitor"
+  },
+  "IU": {
+   "description": "All beta proteins, metallopeptidase inhibitors with a gamma-crystallin-like fold",
+   "family_type": "inhibitor"
+  },
+  "IV": {
+   "description": "Small proteins, caspase inhibitors with an IAP repeat",
+   "family_type": "inhibitor"
+  },
+  "IW": {
+   "description": "Small proteins with a PMP inhibitor-like fold",
+   "family_type": "inhibitor"
+  },
+  "IX": {
+   "description": "Small proteins with a thyroglobulin type-I domain",
+   "family_type": "inhibitor"
+  },
+  "IY": {
+   "description": "Alpha-beta proteins, subtilisin inhibitors with a subtilisin inhibitor fold",
+   "family_type": "inhibitor"
+  },
+  "IZ": {
+   "description": "All-beta proteins with a lipocalin-like fold",
+   "family_type": "inhibitor"
+  },
+  "JA": {
+   "description": null,
+   "family_type": "inhibitor"
+  },
+  "JB": {
+   "description": "Alpha-beta proteins with a C-type lectin-like fold",
+   "family_type": "inhibitor"
+  },
+  "JC": {
+   "description": "Alpha-beta proteins with a ferredoxin-like fold",
+   "family_type": "inhibitor"
+  },
+  "JD": {
+   "description": "Small proteins with a knottin-like fold",
+   "family_type": "inhibitor"
+  },
+  "JE": {
+   "description": "All beta proteins with a PEPB-like fold",
+   "family_type": "inhibitor"
+  },
+  "JF": {
+   "description": null,
+   "family_type": "inhibitor"
+  },
+  "JG": {
+   "description": "All beta proteins with an immunoglobulin-like beta sandwich",
+   "family_type": "inhibitor"
+  },
+  "JH": {
+   "description": "Small proteins with a knottin-like fold",
+   "family_type": "inhibitor"
+  },
+  "JI": {
+   "description": "All-beta proteins with a beta-trefoil fold",
+   "family_type": "inhibitor"
+  },
+  "JJ": {
+   "description": null,
+   "family_type": "inhibitor"
+  },
+  "JK": {
+   "description": "Small proteins with a defensin-like fold",
+   "family_type": "inhibitor"
+  },
+  "JL": {
+   "description": "All beta proteins with an immunoglobulin-like beta sandwich",
+   "family_type": "inhibitor"
+  },
+  "JM": {
+   "description": "All beta proteins with an immunoglobulin-like beta sandwich",
+   "family_type": "inhibitor"
+  },
+  "JN": {
+   "description": "Small proteins with a toxic hairpin fold",
+   "family_type": "inhibitor"
+  },
+  "JO": {
+   "description": "Small proteins",
+   "family_type": "inhibitor"
+  },
+  "JP": {
+   "description": "Alpha-beta proteins with a beta-Grasp fold",
+   "family_type": "inhibitor"
+  },
+  "MA": {
+   "description": "Water nucleophile; water bound by single zinc ion ligated to two His (within the motif HEXXH) and Glu, His or Asp",
+   "family_type": "peptidase"
+  },
+  "MB": {
+   "description": "Water nucleophile; water bound by single zinc ion ligated to two His (within the motif HEXXH) and His (or Asp)",
+   "family_type": "peptidase"
+  },
+  "MBA": {
+   "description": null,
+   "family_type": "peptidase"
+  },
+  "MC": {
+   "description": "Water nucleophile; water bound by single zinc ion ligated to His, Glu (within the motif HXXE) and His",
+   "family_type": "peptidase"
+  },
+  "MD": {
+   "description": "Water nucleophile; water bound by single zinc ion ligated to His, Asp and His",
+   "family_type": "peptidase"
+  },
+  "ME": {
+   "description": "Water nucleophile; water bound by single zinc ion ligated to two His (within the motif HXXEH) and Glu",
+   "family_type": "peptidase"
+  },
+  "MF": {
+   "description": "Water nucleophile; water bound by two zinc ions ligated by Lys, Asp, Asp, Asp, Glu",
+   "family_type": "peptidase"
+  },
+  "MG": {
+   "description": "Water nucleophile; water bound by two cobalt or manganese ions ligated by Asp, Asp, His, Glu, Glu",
+   "family_type": "peptidase"
+  },
+  "MH": {
+   "description": "Water nucleophile; water bound by two zinc ions ligated by His (or Asp), Asp, Glu, Asp (or Glu), His",
+   "family_type": "peptidase"
+  },
+  "MJ": {
+   "description": "Water nucleophile; water bound by two zinc ions ligated by His, His or Asp, Lys or Glu, His, His",
+   "family_type": "inhibitor"
+  },
+  "MK": {
+   "description": "Water nucleophile; water bound by single zinc ion probably ligated to two His (within the motif HXEXH) and an as yet unidentified third ligand; probable actin-like fold",
+   "family_type": "peptidase"
+  },
+  "ML": {
+   "description": "Water nucleophile; water bound by single nickel ion ligated by Glu, Asp, His",
+   "family_type": "peptidase"
+  },
+  "MM": {
+   "description": "Water nucleophile; water bound by single zinc ion ligated to two His (within the motif HEXXH) and Asp; membrane proteins with intramembrane active site.",
+   "family_type": "peptidase"
+  },
+  "MN": {
+   "description": "Water nucleophile; water bound by two zinc ions ligated by Asp, Glu, His, His, Glu",
+   "family_type": "peptidase"
+  },
+  "MO": {
+   "description": "Water nucleophile; water bound by single zinc ion ligated to two His and Asp (within the motifs HXXXD and HXH)",
+   "family_type": "peptidase"
+  },
+  "MP": {
+   "description": "Water nucleophile; water bound by single zinc ion ligated to two His and Asp (within the motif HSHP(X)9D)",
+   "family_type": "peptidase"
+  },
+  "MQ": {
+   "description": "Water nucleophile; water bound by two cobalt ions ligated by Glu, Glu, His, His, Asp",
+   "family_type": "peptidase"
+  },
+  "MR": {
+   "description": "Water nucleophile; water bound by single zinc ion ligated to two His (within the motif HEXXXH) and Glu",
+   "family_type": "peptidase"
+  },
+  "MS": {
+   "description": "Water nucleophile; water bound by a metal ion but ligands unknown",
+   "family_type": "peptidase"
+  },
+  "MT": {
+   "description": "Water nucleophile; water bound by single zinc ion ligated to Asp, His and His",
+   "family_type": "peptidase"
+  },
+  "MU": {
+   "description": "Water nucleophile; water bound by single zinc ion ligated to two His (within the motif HEXXXH) and Cys",
+   "family_type": "peptidase"
+  },
+  "MV": {
+   "description": "Water nucleophile; water bound by a metal ion but ligands unknown",
+   "family_type": "peptidase"
+  },
+  "NA": {
+   "description": "Asparagine nucleophile; catalytic residues in the order  Asp, Asn in sequence; all self-processing endopeptidases",
+   "family_type": "peptidase"
+  },
+  "NB": {
+   "description": "Asparagine nucleophile; all self-processing endopeptidases",
+   "family_type": "peptidase"
+  },
+  "NC": {
+   "description": "Asparagine nucleophile; all self-processing endopeptidases",
+   "family_type": "peptidase"
+  },
+  "ND": {
+   "description": "Asparagine nucleophile; catalytic residues in the order Asn, Glu in sequence; all self-processing endopeptidases",
+   "family_type": "peptidase"
+  },
+  "NE": {
+   "description": "Asparagine nucleophile; all self-processing endopeptidases",
+   "family_type": "peptidase"
+  },
+  "PA": {
+   "description": "Serine or cysteine nucleophile; catalytic residues in the order His, Asp, Ser (or Cys) in sequence; all endopeptidases",
+   "family_type": "peptidase"
+  },
+  "PB": {
+   "description": "Threonine, serine or cysteine nucleophile at the N-terminus of mature enzyme",
+   "family_type": "peptidase"
+  },
+  "PC": {
+   "description": "Serine or cysteine nucleophile; catalytic residues in the order Cys (or Ser), His, Glu in sequence.",
+   "family_type": "peptidase"
+  },
+  "PD": {
+   "description": "Cysteine nucleophile at the N-terminus of mature enzyme; catalytic residues in the order Cys, Thr, His",
+   "family_type": "peptidase"
+  },
+  "PE": {
+   "description": "Serine or threonine nucleophile; N-terminal nucleophile",
+   "family_type": "peptidase"
+  },
+  "SA": {
+   "description": null,
+   "family_type": "peptidase"
+  },
+  "SB": {
+   "description": "Serine nucleophile; catalytic residues in the order Asp, His, Ser in sequence in family S8, but family S53 differs",
+   "family_type": "peptidase"
+  },
+  "SC": {
+   "description": "Serine nucleophile; catalytic residues in the order Ser, Asp, His in sequence",
+   "family_type": "peptidase"
+  },
+  "SD": {
+   "description": null,
+   "family_type": "peptidase"
+  },
+  "SE": {
+   "description": "Serine nucleophile; catalytic residues in the order Ser, Lys (within the motif SXXK) in sequence",
+   "family_type": "peptidase"
+  },
+  "SF": {
+   "description": "Serine nucleophile; catalytic residues in the order Ser, Lys (or His) in sequence",
+   "family_type": "peptidase"
+  },
+  "SG": {
+   "description": null,
+   "family_type": "peptidase"
+  },
+  "SH": {
+   "description": "Serine nucleophile; catalytic residues in the order His, Ser, His in sequence",
+   "family_type": "peptidase"
+  },
+  "SJ": {
+   "description": "Serine nucleophile; catalytic residues in the order Ser, Lys in sequence",
+   "family_type": "inhibitor"
+  },
+  "SK": {
+   "description": "Serine nucleophile; catalytic residues in the order Ser, His, Asp in sequence",
+   "family_type": "peptidase"
+  },
+  "SL": {
+   "description": "Serine nucleophile; transmembrane protein with the catalytic residues in the order Ser, His on the lumenal side of the membrane",
+   "family_type": "peptidase"
+  },
+  "SM": {
+   "description": "Serine nucleophile; catalytic residues in the order Ser, Lys in sequence in subfamily S41A, but Ser, His, Ser, Glu in subfamily S41B",
+   "family_type": "peptidase"
+  },
+  "SN": {
+   "description": "Serine nucleophile; catalytic residues in the order Ser, His, Glu in sequence",
+   "family_type": "peptidase"
+  },
+  "SO": {
+   "description": "Serine nucleophile;",
+   "family_type": "peptidase"
+  },
+  "SP": {
+   "description": "Serine nucleophile; catalytic residues in the order His, Ser within the motif HXS.",
+   "family_type": "peptidase"
+  },
+  "SQ": {
+   "description": "Serine nucleophile; N-terminal nucleophile",
+   "family_type": "peptidase"
+  },
+  "SR": {
+   "description": "Serine nucleophile; catalytic residues in the order Lys, Ser in sequence",
+   "family_type": "peptidase"
+  },
+  "SS": {
+   "description": "Serine nucleophile; catalytic residues in the order Ser, Glu, His",
+   "family_type": "peptidase"
+  },
+  "ST": {
+   "description": "Serine nucleophile; transmembrane protein with catalytic residues in the order Ser, His embedded in the membrane",
+   "family_type": "peptidase"
+  },
+  "SU": {
+   "description": null,
+   "family_type": "peptidase"
+  },
+  "TA": {
+   "description": null,
+   "family_type": "peptidase"
+  },
+  "YY": {
+   "description": "unsequenced",
+   "family_type": "peptidase"
+  }
+ },
+ "families": {
+  "'DEL'": {
+   "clan": "'RM'",
+   "family_type": null,
+   "name": null
+  },
+  "A01": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": "pepsin"
+  },
+  "A02": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": "retropepsin"
+  },
+  "A03": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": "cauliflower mosaic virus-type peptidase"
+  },
+  "A04": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": "aspergillopepsin II"
+  },
+  "A05": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "thermopsin"
+  },
+  "A06": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A07": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A08": {
+   "clan": "AC",
+   "family_type": "peptidase",
+   "name": "signal peptidase II"
+  },
+  "A09": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": "spumapepsin"
+  },
+  "A10": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A11": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": "Copia transposon endopeptidase"
+  },
+  "A12": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A13": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A14": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A15": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A16": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A17": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A18": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A19": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A20": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A21": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A22": {
+   "clan": "AD",
+   "family_type": "peptidase",
+   "name": "presenilin"
+  },
+  "A23": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A24": {
+   "clan": "AD",
+   "family_type": "peptidase",
+   "name": "type IV prepilin peptidase"
+  },
+  "A25": {
+   "clan": "AE",
+   "family_type": "peptidase",
+   "name": "gpr protease"
+  },
+  "A26": {
+   "clan": "AF",
+   "family_type": "peptidase",
+   "name": "omptin"
+  },
+  "A27": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A28": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": "DNA-damage inducible protein 1"
+  },
+  "A29": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A30": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A31": {
+   "clan": "AE",
+   "family_type": "peptidase",
+   "name": "HybD endopeptidase"
+  },
+  "A32": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": "PerP peptidase ({Caulobacter} sp.)"
+  },
+  "A33": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A34": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A35": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A36": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "sporulation factor SpoIIGA"
+  },
+  "A37": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "sso1175 g.p. ({Sulfolobus solfataricus})"
+  },
+  "A38": {
+   "clan": "AA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "A39": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C01": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "papain"
+  },
+  "C02": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "calpain"
+  },
+  "C03": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "picornain"
+  },
+  "C04": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "NIa protease"
+  },
+  "C05": {
+   "clan": "CE",
+   "family_type": "peptidase",
+   "name": "adenain"
+  },
+  "C06": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "potato virus Y-type helper component peptidase"
+  },
+  "C07": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "chestnut blight fungus virus p29 peptidase"
+  },
+  "C08": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "chestnut blight fungus virus p48 peptidase"
+  },
+  "C09": {
+   "clan": "CN",
+   "family_type": "peptidase",
+   "name": "sindbis virus-type nsP2 peptidase"
+  },
+  "C10": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "streptopain"
+  },
+  "C100": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "agglutinin peptidase ({Marasmius oreades})"
+  },
+  "C101": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "OTULIN peptidase"
+  },
+  "C102": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "GtgE peptidase"
+  },
+  "C103": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C104": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "PlyC phage lysin"
+  },
+  "C105": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "papain-like peptidase 1 alpha (simian hemorrhagic fever virus)"
+  },
+  "C106": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "archaeosortase A ({Haloferax volcanii })"
+  },
+  "C107": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "alphamesonivirus 3C-like peptidase"
+  },
+  "C108": {
+   "clan": "CR",
+   "family_type": "peptidase",
+   "name": "Prp peptidase ({Staphylococcus aureus})"
+  },
+  "C109": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C11": {
+   "clan": "CD",
+   "family_type": "peptidase",
+   "name": "clostripain"
+  },
+  "C110": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "kyphoscoliosis peptidase"
+  },
+  "C111": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "coagulation factor XIIIa"
+  },
+  "C112": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C113": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "IgdE peptidase ({Streptococcus suis})"
+  },
+  "C114": {
+   "clan": "CD",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C115": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "MINDY-1 protein"
+  },
+  "C116": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "dermonecrotic toxin ({Pasteurella multocida})"
+  },
+  "C117": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "SpvD g.p. ({Salmonella enterica})"
+  },
+  "C118": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "EspL g.p. ({Escherichia coli})"
+  },
+  "C119": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "LotA g.p. ({Legionella pneumophila})"
+  },
+  "C12": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "ubiquitin C-terminal hydrolase"
+  },
+  "C120": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "mavirus processing peptidase"
+  },
+  "C121": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "MINDY-4 peptidase"
+  },
+  "C122": {
+   "clan": "CE",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C123": {
+   "clan": "CD",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C124": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C125": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C13": {
+   "clan": "CD",
+   "family_type": "peptidase",
+   "name": "legumain"
+  },
+  "C14": {
+   "clan": "CD",
+   "family_type": "peptidase",
+   "name": "caspase"
+  },
+  "C15": {
+   "clan": "CF",
+   "family_type": "peptidase",
+   "name": "pyroglutamyl peptidase I"
+  },
+  "C16": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "murine hepatitis coronavirus papain-like peptidase 1"
+  },
+  "C17": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C18": {
+   "clan": "CM",
+   "family_type": "peptidase",
+   "name": "hepatitis C virus peptidase 2"
+  },
+  "C19": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "ubiquitin-specific protease"
+  },
+  "C20": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C21": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "tymovirus endopeptidase"
+  },
+  "C22": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C23": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "carlavirus peptidase"
+  },
+  "C24": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "rabbit hemorrhagic disease virus 3C-like peptidase"
+  },
+  "C25": {
+   "clan": "CD",
+   "family_type": "peptidase",
+   "name": "gingipain"
+  },
+  "C26": {
+   "clan": "PC",
+   "family_type": "peptidase",
+   "name": "gamma-glutamyl hydrolase"
+  },
+  "C27": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "rubella virus peptidase"
+  },
+  "C28": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "foot-and-mouth disease virus L-peptidase"
+  },
+  "C29": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C30": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "coronavirus picornain 3C-like peptidase-1"
+  },
+  "C31": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "porcine reproductive and respiratory syndrome arterivirus-type cysteine peptidase alpha"
+  },
+  "C32": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "equine arteritis virus-type cysteine peptidase"
+  },
+  "C33": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "equine arteritis virus Nsp2-type cysteine peptidase"
+  },
+  "C34": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C35": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C36": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "beet necrotic yellow vein furovirus-type papain-like peptidase"
+  },
+  "C37": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "calicivirin"
+  },
+  "C38": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C39": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "bacteriocin-processing peptidase"
+  },
+  "C40": {
+   "clan": "CO",
+   "family_type": "peptidase",
+   "name": "dipeptidyl-peptidase VI (bacteria)"
+  },
+  "C41": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C42": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "beet yellows virus-type papain-like peptidase"
+  },
+  "C43": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C44": {
+   "clan": "PB",
+   "family_type": "peptidase",
+   "name": "amidophosphoribosyltransferase precursor"
+  },
+  "C45": {
+   "clan": "PB",
+   "family_type": "peptidase",
+   "name": "acyl-coenzyme A:6-aminopenicillanic acid acyl-transferase precursor"
+  },
+  "C46": {
+   "clan": "PD",
+   "family_type": "peptidase",
+   "name": "hedgehog"
+  },
+  "C47": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "staphopain"
+  },
+  "C48": {
+   "clan": "CE",
+   "family_type": "peptidase",
+   "name": "Ulp1endopeptidase"
+  },
+  "C49": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "Strawberry mottle virus 3C-like peptidase"
+  },
+  "C50": {
+   "clan": "CD",
+   "family_type": "peptidase",
+   "name": "separase"
+  },
+  "C51": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "D-alanyl-glycyl peptidase (staphylococcal phage phi11-type)"
+  },
+  "C52": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C53": {
+   "clan": "CQ",
+   "family_type": "peptidase",
+   "name": "pestivirus Npro peptidase"
+  },
+  "C54": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "Aut2 peptidase"
+  },
+  "C55": {
+   "clan": "CE",
+   "family_type": "peptidase",
+   "name": "YopJ protease"
+  },
+  "C56": {
+   "clan": "PC",
+   "family_type": "peptidase",
+   "name": "PfpI endopeptidase"
+  },
+  "C57": {
+   "clan": "CE",
+   "family_type": "peptidase",
+   "name": "vaccinia virus I7 peptidase"
+  },
+  "C58": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "YopT peptidase"
+  },
+  "C59": {
+   "clan": "PB",
+   "family_type": "peptidase",
+   "name": "penicillin V acylase precursor"
+  },
+  "C60": {
+   "clan": "CL",
+   "family_type": "peptidase",
+   "name": "sortase A ({Staphylococcus}-type)"
+  },
+  "C61": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C62": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "gill-associated virus 3C-like peptidase"
+  },
+  "C63": {
+   "clan": "CE",
+   "family_type": "peptidase",
+   "name": "African swine fever virus processing peptidase"
+  },
+  "C64": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "Cezanne peptidase"
+  },
+  "C65": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "otubain-1"
+  },
+  "C66": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "IdeS peptidase"
+  },
+  "C67": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "CylD peptidase"
+  },
+  "C68": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C69": {
+   "clan": "PB",
+   "family_type": "peptidase",
+   "name": "dipeptidase A"
+  },
+  "C70": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "AvrRpt2 peptidase"
+  },
+  "C71": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "pseudomurein endoisopeptidase Pei"
+  },
+  "C72": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C73": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C74": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "pestivirus NS2 peptidase"
+  },
+  "C75": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "AgrB peptidase"
+  },
+  "C76": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "viral tegument protein deubiquitinylating peptidase"
+  },
+  "C77": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C78": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "UfSP1 peptidase"
+  },
+  "C79": {
+   "clan": "CE",
+   "family_type": "peptidase",
+   "name": "ElaD peptidase ({Escherichia}-type)"
+  },
+  "C80": {
+   "clan": "CD",
+   "family_type": "peptidase",
+   "name": "RTX self-cleaving toxin"
+  },
+  "C81": {
+   "clan": "CL",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C82": {
+   "clan": "CL",
+   "family_type": "peptidase",
+   "name": "L,D-transpeptidase ({Enterococcus}-type)"
+  },
+  "C83": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "gamma-glutamylcysteine dipeptidyltranspeptidase"
+  },
+  "C84": {
+   "clan": "CD",
+   "family_type": "peptidase",
+   "name": "prtH peptidase ({Tannerella forsythensis} ATCC 43037)"
+  },
+  "C85": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "OTUD5 peptidase ({Homo sapiens})"
+  },
+  "C86": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "ataxin-3"
+  },
+  "C87": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "nairovirus deubiquitinylating peptidase"
+  },
+  "C88": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C89": {
+   "clan": "PB",
+   "family_type": "peptidase",
+   "name": "acid ceramidase precursor"
+  },
+  "C90": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C91": {
+   "clan": "CD",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C92": {
+   "clan": "CO",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C93": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "LapG peptidase ({Pseudomonas fluorescens})"
+  },
+  "C94": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "C95": {
+   "clan": "PB",
+   "family_type": "peptidase",
+   "name": "lysosomal 66.3 kDa protein ({Mus musculus}-type)"
+  },
+  "C96": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "McjB peptidase"
+  },
+  "C97": {
+   "clan": "CP",
+   "family_type": "peptidase",
+   "name": "desumoylating isopeptidase 1"
+  },
+  "C98": {
+   "clan": "CA",
+   "family_type": "peptidase",
+   "name": "USPL1 peptidase"
+  },
+  "C99": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "iflavirus processing peptidase"
+  },
+  "DEL": {
+   "clan": "ID",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "G01": {
+   "clan": "GA",
+   "family_type": "peptidase",
+   "name": "scytalidoglutamic peptidase"
+  },
+  "G02": {
+   "clan": "GB",
+   "family_type": "peptidase",
+   "name": "pre-neck appendage protein (Bacillus phage phi29)"
+  },
+  "G03": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "strawberry mottle virus glutamic peptidase"
+  },
+  "G04": {
+   "clan": "GC",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "G05": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "prenyl protease 2"
+  },
+  "G06": {
+   "clan": "GC",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "I01": {
+   "clan": "IA",
+   "family_type": "inhibitor",
+   "name": "Kazal"
+  },
+  "I02": {
+   "clan": "IB",
+   "family_type": "inhibitor",
+   "name": "Kunitz-BPTI"
+  },
+  "I03": {
+   "clan": "IC",
+   "family_type": "inhibitor",
+   "name": "Kunitz-P"
+  },
+  "I04": {
+   "clan": "ID",
+   "family_type": "inhibitor",
+   "name": "serpin"
+  },
+  "I05": {
+   "clan": "IA",
+   "family_type": "inhibitor",
+   "name": "ascidian"
+  },
+  "I06": {
+   "clan": "IJ",
+   "family_type": "inhibitor",
+   "name": "cereal"
+  },
+  "I07": {
+   "clan": "IE",
+   "family_type": "inhibitor",
+   "name": "squash"
+  },
+  "I08": {
+   "clan": "IA",
+   "family_type": "inhibitor",
+   "name": "Ascaris"
+  },
+  "I09": {
+   "clan": "JC",
+   "family_type": "inhibitor",
+   "name": "YIB"
+  },
+  "I10": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "marinostatin"
+  },
+  "I100": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "stanniocalcin-1"
+  },
+  "I101": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "hyalomin-1 ({Hyalomma marginatum})"
+  },
+  "I102": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I103": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I104": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I11": {
+   "clan": "IN",
+   "family_type": "inhibitor",
+   "name": "ecotin"
+  },
+  "I12": {
+   "clan": "IF",
+   "family_type": "inhibitor",
+   "name": "Bowman-Birk"
+  },
+  "I13": {
+   "clan": "IG",
+   "family_type": "inhibitor",
+   "name": "pot 1"
+  },
+  "I14": {
+   "clan": "IM",
+   "family_type": "inhibitor",
+   "name": "hirudin"
+  },
+  "I15": {
+   "clan": "IM",
+   "family_type": "inhibitor",
+   "name": "antistasin"
+  },
+  "I16": {
+   "clan": "IY",
+   "family_type": "inhibitor",
+   "name": "SSI"
+  },
+  "I17": {
+   "clan": "IP",
+   "family_type": "inhibitor",
+   "name": "WAP-type"
+  },
+  "I18": {
+   "clan": "JD",
+   "family_type": "inhibitor",
+   "name": "mustard"
+  },
+  "I19": {
+   "clan": "IW",
+   "family_type": "inhibitor",
+   "name": "pacifastin"
+  },
+  "I20": {
+   "clan": "JO",
+   "family_type": "inhibitor",
+   "name": "pot 2"
+  },
+  "I21": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "7B2"
+  },
+  "I22": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "BsuPI peptidase inhibitor ({Bacillus subtilis})"
+  },
+  "I23": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I24": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "pinA"
+  },
+  "I25": {
+   "clan": "IH",
+   "family_type": "inhibitor",
+   "name": "cystatin"
+  },
+  "I26": {
+   "clan": "RM",
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I27": {
+   "clan": "II",
+   "family_type": "inhibitor",
+   "name": "calpastatin"
+  },
+  "I28": {
+   "clan": "IR",
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I29": {
+   "clan": "JF",
+   "family_type": "inhibitor",
+   "name": "CTLA"
+  },
+  "I30": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I31": {
+   "clan": "IX",
+   "family_type": "inhibitor",
+   "name": "thyropin"
+  },
+  "I32": {
+   "clan": "IV",
+   "family_type": "inhibitor",
+   "name": "IAP"
+  },
+  "I33": {
+   "clan": "IR",
+   "family_type": "inhibitor",
+   "name": "ascaris PI3"
+  },
+  "I34": {
+   "clan": "JA",
+   "family_type": "inhibitor",
+   "name": "IA3"
+  },
+  "I35": {
+   "clan": "IT",
+   "family_type": "inhibitor",
+   "name": "timp"
+  },
+  "I36": {
+   "clan": "IU",
+   "family_type": "inhibitor",
+   "name": "SMI"
+  },
+  "I37": {
+   "clan": "IE",
+   "family_type": "inhibitor",
+   "name": "PCI"
+  },
+  "I38": {
+   "clan": "IK",
+   "family_type": "inhibitor",
+   "name": "aprin"
+  },
+  "I39": {
+   "clan": "IL",
+   "family_type": "inhibitor",
+   "name": "alpha2M"
+  },
+  "I40": {
+   "clan": "RM",
+   "family_type": "inhibitor",
+   "name": "bombyx"
+  },
+  "I41": {
+   "clan": "RM",
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I42": {
+   "clan": "JL",
+   "family_type": "inhibitor",
+   "name": "chagasin"
+  },
+  "I43": {
+   "clan": "JM",
+   "family_type": "inhibitor",
+   "name": "oprin"
+  },
+  "I44": {
+   "clan": "JJ",
+   "family_type": "inhibitor",
+   "name": "Ascaris CPI"
+  },
+  "I45": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I46": {
+   "clan": "IS",
+   "family_type": "inhibitor",
+   "name": "LCI"
+  },
+  "I47": {
+   "clan": "IH",
+   "family_type": "inhibitor",
+   "name": "latexin"
+  },
+  "I48": {
+   "clan": "IC",
+   "family_type": "inhibitor",
+   "name": "clitocypin"
+  },
+  "I49": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "proSAAS"
+  },
+  "I50": {
+   "clan": "IQ",
+   "family_type": "inhibitor",
+   "name": "p35"
+  },
+  "I51": {
+   "clan": "JE",
+   "family_type": "inhibitor",
+   "name": "IC"
+  },
+  "I52": {
+   "clan": "IB",
+   "family_type": "inhibitor",
+   "name": "TAP"
+  },
+  "I53": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "madanin"
+  },
+  "I54": {
+   "clan": "IX",
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I55": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "squash aspartic peptidase inhibitor"
+  },
+  "I56": {
+   "clan": "IJ",
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I57": {
+   "clan": "IK",
+   "family_type": "inhibitor",
+   "name": "staphostatin B"
+  },
+  "I58": {
+   "clan": "IK",
+   "family_type": "inhibitor",
+   "name": "staphostatin A"
+  },
+  "I59": {
+   "clan": "IZ",
+   "family_type": "inhibitor",
+   "name": "triabin"
+  },
+  "I60": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I61": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I62": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I63": {
+   "clan": "JB",
+   "family_type": "inhibitor",
+   "name": "pro-eosinophil major basic protein"
+  },
+  "I64": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "thrombostasin"
+  },
+  "I65": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I66": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "Lentinus"
+  },
+  "I67": {
+   "clan": "IF",
+   "family_type": "inhibitor",
+   "name": "bromein"
+  },
+  "I68": {
+   "clan": "JK",
+   "family_type": "inhibitor",
+   "name": "tick CPI"
+  },
+  "I69": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "streptopain inhibitor ({Streptococcus pyogenes})"
+  },
+  "I70": {
+   "clan": "RM",
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I71": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "falstatin"
+  },
+  "I72": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "chimadanin"
+  },
+  "I73": {
+   "clan": "JN",
+   "family_type": "inhibitor",
+   "name": "Veronica"
+  },
+  "I74": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "variegin"
+  },
+  "I75": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "bacteriophage lambda CIII protein"
+  },
+  "I76": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "thrombin inhibitor ({Glossina morsitans})"
+  },
+  "I77": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "anophelin"
+  },
+  "I78": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "Aspergillus elastase inhibitor"
+  },
+  "I79": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "AVR2 protein ({Passalora} sp.)"
+  },
+  "I80": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "IseA protein ({Bacillus subtilis})"
+  },
+  "I81": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "toxostatin"
+  },
+  "I82": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I83": {
+   "clan": "JH",
+   "family_type": "inhibitor",
+   "name": "AmFPI-1 ({Antheraea} sp.)"
+  },
+  "I84": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "cvSI-2 ({Crassostrea virginica})"
+  },
+  "I85": {
+   "clan": "IC",
+   "family_type": "inhibitor",
+   "name": "macrocypin"
+  },
+  "I86": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "securin"
+  },
+  "I87": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "HflC"
+  },
+  "I88": {
+   "clan": "IA",
+   "family_type": "inhibitor",
+   "name": "oryctin ({Oryctes rhinoceros})"
+  },
+  "I89": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I90": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "trypsin inhibitor ({Mirabilis jalapa})"
+  },
+  "I91": {
+   "clan": "IV",
+   "family_type": "inhibitor",
+   "name": "F1L protein (vaccinia virus)"
+  },
+  "I92": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "NvCI carboxypeptidase inhibitor ({Nerita versicolor})"
+  },
+  "I93": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "Sizzled protein ({Xenopus laevis})"
+  },
+  "I94": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "NleF protein ({Escherichia coli})"
+  },
+  "I95": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I96": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": "extracellular adherence protein ({Staphylococcus aureus})"
+  },
+  "I97": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I98": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "I99": {
+   "clan": "IF",
+   "family_type": "inhibitor",
+   "name": "Bowman-Birk-like trypsin inhibitor ({Odorrana versabilis})"
+  },
+  "J01": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J02": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J03": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J04": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J05": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J10": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J12": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J13": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J14": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J15": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J16": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J17": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J18": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J19": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J20": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J21": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J22": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J23": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J24": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J25": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J27": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J29": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J31": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "J32": {
+   "clan": null,
+   "family_type": "inhibitor",
+   "name": null
+  },
+  "M01": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "aminopeptidase N"
+  },
+  "M02": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "angiotensin-converting enzyme peptidase unit 1"
+  },
+  "M03": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "thimet oligopeptidase"
+  },
+  "M04": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "thermolysin"
+  },
+  "M05": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "mycolysin"
+  },
+  "M06": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "immune inhibitor A"
+  },
+  "M07": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "snapalysin"
+  },
+  "M08": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "leishmanolysin"
+  },
+  "M09": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "collagenase V ({Clostridium histolyticum})"
+  },
+  "M10": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "matrix metallopeptidase-1"
+  },
+  "M100": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "spartan peptidase"
+  },
+  "M101": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "flagellinolysin"
+  },
+  "M102": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "DA1 peptidase ({Arabidopsis thaliana})"
+  },
+  "M103": {
+   "clan": "MU",
+   "family_type": "peptidase",
+   "name": "TldD peptidase ({Escherichia coli})"
+  },
+  "M104": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M105": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M106": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M107": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M11": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "gametolysin"
+  },
+  "M12": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "astacin/adamalysin"
+  },
+  "M13": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "neprilysin"
+  },
+  "M14": {
+   "clan": "MC",
+   "family_type": "peptidase",
+   "name": "carboxypeptidase A"
+  },
+  "M15": {
+   "clan": "MD",
+   "family_type": "peptidase",
+   "name": "zinc D-Ala-D-Ala carboxypeptidase ({Streptomyces}-type)"
+  },
+  "M16": {
+   "clan": "ME",
+   "family_type": "peptidase",
+   "name": "pitrilysin"
+  },
+  "M17": {
+   "clan": "MF",
+   "family_type": "peptidase",
+   "name": "leucyl aminopeptidase"
+  },
+  "M18": {
+   "clan": "MH",
+   "family_type": "peptidase",
+   "name": "aminopeptidase I"
+  },
+  "M19": {
+   "clan": "MJ",
+   "family_type": "peptidase",
+   "name": "membrane dipeptidase"
+  },
+  "M20": {
+   "clan": "MH",
+   "family_type": "peptidase",
+   "name": "glutamate carboxypeptidase"
+  },
+  "M21": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M22": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M23": {
+   "clan": "MO",
+   "family_type": "peptidase",
+   "name": "beta-lytic metallopeptidase"
+  },
+  "M24": {
+   "clan": "MG",
+   "family_type": "peptidase",
+   "name": "methionyl aminopeptidase 1 ({Escherichia}-type)"
+  },
+  "M25": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M26": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "IgA1-specific metallopeptidase"
+  },
+  "M27": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "tentoxilysin"
+  },
+  "M28": {
+   "clan": "MH",
+   "family_type": "peptidase",
+   "name": "aminopeptidase Y"
+  },
+  "M29": {
+   "clan": "MQ",
+   "family_type": "peptidase",
+   "name": "aminopeptidase T"
+  },
+  "M30": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "hyicolysin"
+  },
+  "M31": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M32": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "carboxypeptidase Taq"
+  },
+  "M33": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M34": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "anthrax lethal factor"
+  },
+  "M35": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "deuterolysin"
+  },
+  "M36": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "fungalysin"
+  },
+  "M37": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": "lysostaphin"
+  },
+  "M38": {
+   "clan": "MJ",
+   "family_type": "peptidase",
+   "name": "beta-aspartyl dipeptidase"
+  },
+  "M39": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M40": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M41": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "FtsH endopeptidase"
+  },
+  "M42": {
+   "clan": "MH",
+   "family_type": "peptidase",
+   "name": "glutamyl aminopeptidase"
+  },
+  "M43": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "cytophagalysin"
+  },
+  "M44": {
+   "clan": "ME",
+   "family_type": "peptidase",
+   "name": "pox virus metallopeptidase"
+  },
+  "M45": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M46": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": "pappalysin"
+  },
+  "M47": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M48": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "Ste24 endopeptidase"
+  },
+  "M49": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "dipeptidyl-peptidase III"
+  },
+  "M50": {
+   "clan": "MM",
+   "family_type": "peptidase",
+   "name": "S2P protease"
+  },
+  "M51": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M52": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": "HybD endopeptidase"
+  },
+  "M53": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M54": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "archaelysin"
+  },
+  "M55": {
+   "clan": "MN",
+   "family_type": "peptidase",
+   "name": "DppA aminopeptidase"
+  },
+  "M56": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "BlaR1 peptidase"
+  },
+  "M57": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "prtB g.p. ({Myxococcus xanthus})"
+  },
+  "M58": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M59": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M60": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "enhancin"
+  },
+  "M61": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "glycyl aminopeptidase"
+  },
+  "M62": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M63": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": "gpr protease"
+  },
+  "M64": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "IgA peptidase ({Clostridium ramosum}-type)"
+  },
+  "M65": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M66": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "StcE peptidase"
+  },
+  "M67": {
+   "clan": "MP",
+   "family_type": "peptidase",
+   "name": "RPN11 peptidase"
+  },
+  "M68": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M69": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M70": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M71": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M72": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "peptidyl-Asp metallopeptidase"
+  },
+  "M73": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "camelysin"
+  },
+  "M74": {
+   "clan": "MD",
+   "family_type": "peptidase",
+   "name": "murein endopeptidase"
+  },
+  "M75": {
+   "clan": "MS",
+   "family_type": "peptidase",
+   "name": "imelysin"
+  },
+  "M76": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "Atp23 peptidase (animal-type)"
+  },
+  "M77": {
+   "clan": "MV",
+   "family_type": "peptidase",
+   "name": "tryptophanyl aminopeptidase 7-DMATS-type peptidase"
+  },
+  "M78": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "ImmA peptidase"
+  },
+  "M79": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "prenyl protease 2"
+  },
+  "M80": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "Wss1 peptidase ({Saccharomyces}-type)"
+  },
+  "M81": {
+   "clan": "MT",
+   "family_type": "peptidase",
+   "name": "microcystinase MlrC"
+  },
+  "M82": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "PrsW peptidase"
+  },
+  "M83": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M84": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "MpriBi peptidase ({Bacillus} sp.)"
+  },
+  "M85": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "NleC peptidase ({Escherichia coli})"
+  },
+  "M86": {
+   "clan": "MC",
+   "family_type": "peptidase",
+   "name": "PghP gamma-polyglutamate hydrolase (bacteriophage)"
+  },
+  "M87": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "chloride channel accessory protein 1"
+  },
+  "M88": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "IMPa peptidase ({Pseudomonas aeruginosa})"
+  },
+  "M89": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M90": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "MtfA peptidase"
+  },
+  "M91": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "NleD peptidase ({Escherichia coli}-type)"
+  },
+  "M92": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M93": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "BACCAC_01431 g.p. ({Bacteroides caccae}) and similar"
+  },
+  "M94": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "M95": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "abylysin ({Pyrococcus abyssi})"
+  },
+  "M96": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "Tiki1 peptidase"
+  },
+  "M97": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "EcxAB peptidase"
+  },
+  "M98": {
+   "clan": "MA",
+   "family_type": "peptidase",
+   "name": "YghJ g.p. ({Escherichia coli})"
+  },
+  "M99": {
+   "clan": "MC",
+   "family_type": "peptidase",
+   "name": "Csd4 peptidase ({Helicobacter pylori})"
+  },
+  "N01": {
+   "clan": "NA",
+   "family_type": "peptidase",
+   "name": "nodavirus peptide lyase"
+  },
+  "N02": {
+   "clan": "NA",
+   "family_type": "peptidase",
+   "name": "tetravirus coat protein"
+  },
+  "N03": {
+   "clan": "NA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "N04": {
+   "clan": "ND",
+   "family_type": "peptidase",
+   "name": "Tsh-associated self-cleaving domain ({Escherichia coli}) and similar"
+  },
+  "N05": {
+   "clan": "NE",
+   "family_type": "peptidase",
+   "name": "picobirnavirus self-cleaving protein"
+  },
+  "N06": {
+   "clan": "NB",
+   "family_type": "peptidase",
+   "name": "YscU protein"
+  },
+  "N07": {
+   "clan": "NC",
+   "family_type": "peptidase",
+   "name": "reovirus type 1 coat protein"
+  },
+  "N08": {
+   "clan": "NA",
+   "family_type": "peptidase",
+   "name": "poliovirus capsid VP0-type self-cleaving protein"
+  },
+  "N09": {
+   "clan": "PD",
+   "family_type": "peptidase",
+   "name": "intein-containing V-type proton ATPase catalytic subunit A"
+  },
+  "N10": {
+   "clan": "PD",
+   "family_type": "peptidase",
+   "name": "intein-containing DNA gyrase subunit A precursor"
+  },
+  "N11": {
+   "clan": "PD",
+   "family_type": "peptidase",
+   "name": "intein-containing chloroplast ATP-dependent peptide lyase"
+  },
+  "N12": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "N13": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "N14": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "N15": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "P01": {
+   "clan": "PE",
+   "family_type": "peptidase",
+   "name": "DmpA aminopeptidase"
+  },
+  "P02": {
+   "clan": "PB",
+   "family_type": "peptidase",
+   "name": "EGF-like module containing mucin-like hormone receptor-like 2"
+  },
+  "S01": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "chymotrypsin"
+  },
+  "S02": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S03": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "togavirin"
+  },
+  "S04": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S05": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S06": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "IgA1-specific serine peptidase ({Neisseria}-type)"
+  },
+  "S07": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "flavivirin"
+  },
+  "S08": {
+   "clan": "SB",
+   "family_type": "peptidase",
+   "name": "subtilisin"
+  },
+  "S09": {
+   "clan": "SC",
+   "family_type": "peptidase",
+   "name": "prolyl oligopeptidase"
+  },
+  "S10": {
+   "clan": "SC",
+   "family_type": "peptidase",
+   "name": "carboxypeptidase Y"
+  },
+  "S11": {
+   "clan": "SE",
+   "family_type": "peptidase",
+   "name": "D-Ala-D-Ala carboxypeptidase A"
+  },
+  "S12": {
+   "clan": "SE",
+   "family_type": "peptidase",
+   "name": "D-Ala-D-Ala carboxypeptidase B"
+  },
+  "S13": {
+   "clan": "SE",
+   "family_type": "peptidase",
+   "name": "D-Ala-D-Ala peptidase C"
+  },
+  "S14": {
+   "clan": "SK",
+   "family_type": "peptidase",
+   "name": "ClpP endopeptidase"
+  },
+  "S15": {
+   "clan": "SC",
+   "family_type": "peptidase",
+   "name": "Xaa-Pro dipeptidyl-peptidase"
+  },
+  "S16": {
+   "clan": "SJ",
+   "family_type": "peptidase",
+   "name": "lon protease"
+  },
+  "S17": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S18": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S19": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S20": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S21": {
+   "clan": "SH",
+   "family_type": "peptidase",
+   "name": "assemblin"
+  },
+  "S22": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S23": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S24": {
+   "clan": "SF",
+   "family_type": "peptidase",
+   "name": "LexA"
+  },
+  "S25": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S26": {
+   "clan": "SF",
+   "family_type": "peptidase",
+   "name": "signal peptidase I"
+  },
+  "S27": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S28": {
+   "clan": "SC",
+   "family_type": "peptidase",
+   "name": "lysosomal Pro-Xaa carboxypeptidase"
+  },
+  "S29": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "hepacivirin"
+  },
+  "S30": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "potyvirus P1 peptidase"
+  },
+  "S31": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "pestivirus NS3 polyprotein peptidase"
+  },
+  "S32": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "equine arteritis virus serine peptidase"
+  },
+  "S33": {
+   "clan": "SC",
+   "family_type": "peptidase",
+   "name": "prolyl aminopeptidase"
+  },
+  "S34": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S35": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S36": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S37": {
+   "clan": "SC",
+   "family_type": "peptidase",
+   "name": "PS-10 peptidase"
+  },
+  "S38": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S39": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "sobemovirus peptidase"
+  },
+  "S40": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S41": {
+   "clan": "SK",
+   "family_type": "peptidase",
+   "name": "C-terminal processing peptidase"
+  },
+  "S42": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S43": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S44": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S45": {
+   "clan": "PB",
+   "family_type": "peptidase",
+   "name": "penicillin G acylase precursor"
+  },
+  "S46": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "dipeptidyl-peptidase 7 ({Porphyromonas gingivalis}-type)"
+  },
+  "S47": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S48": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "HetR putative peptidase"
+  },
+  "S49": {
+   "clan": "SK",
+   "family_type": "peptidase",
+   "name": "protease IV"
+  },
+  "S50": {
+   "clan": "SJ",
+   "family_type": "peptidase",
+   "name": "infectious pancreatic necrosis birnavirus Vp4 peptidase"
+  },
+  "S51": {
+   "clan": "PC",
+   "family_type": "peptidase",
+   "name": "dipeptidase E"
+  },
+  "S52": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S53": {
+   "clan": "SB",
+   "family_type": "peptidase",
+   "name": "sedolisin"
+  },
+  "S54": {
+   "clan": "ST",
+   "family_type": "peptidase",
+   "name": "Rhomboid"
+  },
+  "S55": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "SpoIVB peptidase"
+  },
+  "S56": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S57": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S58": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": "DmpA aminopeptidase"
+  },
+  "S59": {
+   "clan": "SP",
+   "family_type": "peptidase",
+   "name": "nucleoporin 145"
+  },
+  "S60": {
+   "clan": "SR",
+   "family_type": "peptidase",
+   "name": "lactoferrin"
+  },
+  "S61": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S62": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "influenza A PA peptidase"
+  },
+  "S63": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S64": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "Ssy5 peptidase"
+  },
+  "S65": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "picornain-like serine peptidase (Breda-1 torovirus)"
+  },
+  "S66": {
+   "clan": "SS",
+   "family_type": "peptidase",
+   "name": "murein tetrapeptidase LD-carboxypeptidase ({Pseudomonas}-type)"
+  },
+  "S67": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S68": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "PIDD auto-processing protein unit 1"
+  },
+  "S69": {
+   "clan": "SJ",
+   "family_type": "peptidase",
+   "name": "Tellina virus 1 VP4 peptidase"
+  },
+  "S70": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S71": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "MUC1 self-cleaving mucin"
+  },
+  "S72": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "dystroglycan"
+  },
+  "S73": {
+   "clan": "SH",
+   "family_type": "peptidase",
+   "name": "gpO peptidase (Enterobacteria phage P2)"
+  },
+  "S74": {
+   "clan": "SO",
+   "family_type": "peptidase",
+   "name": "Escherichia coli phage K1F endosialidase CIMCD self-cleaving protein"
+  },
+  "S75": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": "White bream virus serine peptidase"
+  },
+  "S76": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S77": {
+   "clan": "SH",
+   "family_type": "peptidase",
+   "name": "phage prohead processing peptidase"
+  },
+  "S78": {
+   "clan": "SH",
+   "family_type": "peptidase",
+   "name": "prohead peptidase (bacteriophage HK97)"
+  },
+  "S79": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "CARD8 self-cleaving protein"
+  },
+  "S80": {
+   "clan": "SH",
+   "family_type": "peptidase",
+   "name": "prohead peptidase gp175 (Pseudomonas aeruginosa phage phiKZ)"
+  },
+  "S81": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "destabilase"
+  },
+  "S82": {
+   "clan": "SC",
+   "family_type": "peptidase",
+   "name": "autocrine proliferation repressor protein A ({Dictyostelium discoideum})"
+  },
+  "S83": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S84": {
+   "clan": "PA",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "S85": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "small protease ({Pseudomonas aeruginosa})"
+  },
+  "S99": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "T01": {
+   "clan": "PB",
+   "family_type": "peptidase",
+   "name": "proteasome"
+  },
+  "T02": {
+   "clan": "PB",
+   "family_type": "peptidase",
+   "name": "glycosylasparaginase precursor"
+  },
+  "T03": {
+   "clan": "PB",
+   "family_type": "peptidase",
+   "name": "gamma-glutamyltransferase"
+  },
+  "T04": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "T05": {
+   "clan": "PE",
+   "family_type": "peptidase",
+   "name": "ornithine acetyltransferase precursor"
+  },
+  "T06": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "T07": {
+   "clan": "PB",
+   "family_type": "peptidase",
+   "name": "CwpV ({Clostridium difficile}) self-cleaving threonine peptidase"
+  },
+  "T08": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "HopB1 g.p. ({Pseudomonas syringae})"
+  },
+  "U01": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U02": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U03": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U04": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "SpoIIGA peptidase"
+  },
+  "U05": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U06": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": "murein endopeptidase"
+  },
+  "U07": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U08": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U09": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": "phage prohead processing peptidase"
+  },
+  "U10": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U11": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U12": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U13": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U14": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U15": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U16": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U17": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U18": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U19": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U20": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U21": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U22": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U23": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U24": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U25": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U26": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U27": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U28": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U29": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U30": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U31": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U32": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "collagenase ({Porphyromonas}-type)"
+  },
+  "U33": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U34": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": "dipeptidase A"
+  },
+  "U35": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U36": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U37": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U38": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U39": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": "hepatitis C virus endopeptidase 2"
+  },
+  "U40": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "protein P5 murein endopeptidase (bacteriophage phi-6)"
+  },
+  "U41": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U42": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U43": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U44": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U45": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U46": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U47": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U48": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": "prenyl protease 2"
+  },
+  "U49": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "Lit protease"
+  },
+  "U50": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U51": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U52": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U53": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U54": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U55": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U56": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "homomultimeric peptidase"
+  },
+  "U57": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "yabG protein ({Bacillus}-type)"
+  },
+  "U58": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U59": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U60": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U61": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U62": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U63": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U64": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U65": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U66": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U67": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U68": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U69": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "AIDA-I self-cleaving autotransporter protein ({Escherichia coli})"
+  },
+  "U70": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U71": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U72": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "Dop isopeptidase"
+  },
+  "U73": {
+   "clan": "RM",
+   "family_type": "peptidase",
+   "name": null
+  },
+  "U74": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "neprosin"
+  },
+  "U75": {
+   "clan": null,
+   "family_type": "peptidase",
+   "name": "Ras/Rap1-specific peptidase"
+  },
+  "Y99": {
+   "clan": "YY",
+   "family_type": "peptidase",
+   "name": null
+  }
+ },
+ "subfamily_names": {
+  "A01A": "pepsin A",
+  "A01B": "nepenthesin",
+  "A01X": "Yps1 protein ({Schizosaccharomyces pombe})",
+  "A02A": "HIV-1 retropepsin",
+  "A02B": "Ty3 transposon peptidase",
+  "A02C": "Gypsy transposon peptidase",
+  "A02D": "equine infectious anaemia virus retropepsin",
+  "A02X": "retropepsin (human T-cell leukemia virus)",
+  "A03A": "cauliflower mosaic virus-type peptidase",
+  "A03B": "bacilliform virus peptidase",
+  "A11A": "Copia transposon peptidase",
+  "A11B": "Ty1 transposon peptidase",
+  "A22A": "presenilin 1",
+  "A22B": "impas 1 peptidase",
+  "A24A": "type 4 prepilin peptidase 1",
+  "A24B": "FlaK peptidase",
+  "A28A": "DNA-damage inducible protein 1",
+  "A28B": "skin SASPase",
+  "C01A": "papain",
+  "C01B": "bleomycin hydrolase (animal)",
+  "C01X": "At5g17080 ({Arabidopsis thaliana})",
+  "C02A": "calpain-1",
+  "C03A": "poliovirus-type picornain 3C",
+  "C03B": "enterovirus picornain 2A",
+  "C03C": "foot-and-mouth disease virus picornain 3C",
+  "C03D": "cowpea mosaic comovirus-type picornain 3C",
+  "C03E": "hepatitis A virus-type picornain 3C",
+  "C03F": "parechovirus picornain 3C",
+  "C03G": "Plautia stali intestine virus picornain C3",
+  "C03H": "grapevine fanleaf-type nepovirus picornain 3C",
+  "C03X": "tomato ringspot nepovirus picornain 3C",
+  "C11A": "clostripain",
+  "C11B": "PNT1 peptidase ({Trypanosoma brucei})",
+  "C11X": "thetapain",
+  "C14A": "caspase-1",
+  "C14B": "paracaspase",
+  "C16A": "murine hepatitis coronavirus papain-like peptidase 1",
+  "C16B": "human coronavirus 229E papain-like peptidase 1",
+  "C58A": "YopT peptidase",
+  "C58B": "AvrPphB peptidase",
+  "C60A": "sortase A ({Staphylococcus}-type)",
+  "C60B": "sortase B",
+  "C78A": "UfSP1 peptidase",
+  "C78B": "ZUP1 g.p. ({Homo sapiens})",
+  "C82A": "L,D-transpeptidase ({Enterococcus}-type)",
+  "C82B": "ykuD transpeptidase",
+  "C85A": "OTUD5 peptidase ({Homo sapiens})",
+  "C85B": "OTU1 peptidase ({Saccharomyces cerevisiae}-type)",
+  "I03A": "soybean Kunitz trypsin inhibitor",
+  "I03B": "proteinase inhibitor A ({Sagittaria sagittifolia})",
+  "I25A": "cystatin A",
+  "I25B": "cystatin C",
+  "I25C": "alpha-2-HS-glycoprotein inhibitor unit 1",
+  "I25X": "alpha-2-HS-glycoprotein inhibitor unit 2",
+  "I50A": "baculovirus P35 caspase inhibitor",
+  "I50B": "p35 homologue (Amsacta moorei entomopoxvirus)",
+  "M03A": "thimet oligopeptidase",
+  "M03B": "oligopeptidase F",
+  "M03C": "Pz-peptidase A",
+  "M09A": "collagenase V ({Clostridium histolyticum})",
+  "M09B": "collagenase G/A ({Clostridium histolyticum})",
+  "M10A": "matrix metallopeptidase-1",
+  "M10B": "S-layer-associated peptidase",
+  "M10C": "fragilysin",
+  "M12A": "astacin",
+  "M12B": "MIG-17 peptidase",
+  "M12X": "Mde10 metallopeptidase ({Schizosaccharomyces})",
+  "M14A": "carboxypeptidase A1",
+  "M14B": "carboxypeptidase N",
+  "M14C": "gamma-D-glutamyl-(L)-meso-diaminopimelate peptidase I",
+  "M14D": "carboxypeptidase-like protein X1; CPX-1 g.p. ({Mus musculus})",
+  "M14X": "PGP1 D,L-carboxypeptidase ({Campylobacter jejuni})",
+  "M15A": "zinc D-Ala-D-Ala carboxypeptidase ({Streptomyces}-type)",
+  "M15B": "DD-carboxypeptidase pdcA ({Myxococcus}-type)",
+  "M15C": "Ply118 L-Ala-D-Glu peptidase",
+  "M15D": "vanX D-Ala-D-Ala dipeptidase",
+  "M16A": "pitrilysin",
+  "M16B": "mitochondrial processing peptidase beta-subunit",
+  "M16C": "eupitrilysin",
+  "M16X": "Y70C5C.1 g.p. ({Caenorhabditis elegans})",
+  "M20A": "glutamate carboxypeptidase",
+  "M20B": "peptidase T",
+  "M20C": "Xaa-His dipeptidase",
+  "M20D": "carboxypeptidase Ss1",
+  "M20F": "carnosine dipeptidase II",
+  "M20X": "At4g20070 ({Arabidopsis thaliana})",
+  "M23A": "beta-lytic metallopeptidase",
+  "M23B": "lysostaphin",
+  "M24A": "methionyl aminopeptidase 1 ({Escherichia}-type)",
+  "M24B": "Xaa-Pro dipeptidase (bacteria-type)",
+  "M28A": "aminopeptidase Y",
+  "M28B": "ALTERED MERISTEM PROGRAM1-like peptidase",
+  "M28C": "IAP aminopeptidase",
+  "M28D": "carboxypeptidase Q",
+  "M28E": "aminopeptidase Ap1",
+  "M28F": "YwaD peptidase",
+  "M28X": "Mername-AA103 peptidase",
+  "M43A": "cytophagalysin",
+  "M43B": "metallopeptidase MEP1 ({Metarhizium}-type)",
+  "M48A": "Ste24 peptidase",
+  "M48B": "HtpX peptidase",
+  "M48C": "metalloprotease-related protein-1",
+  "M48X": "DDB_G0286165 g.p. ({Dictyostelium discoideum})",
+  "M50A": "site 2 peptidase",
+  "M50B": "sporulation factor SpoIVFB",
+  "M50X": "yydH g.p. ({Bacillus subtilis})",
+  "M67A": "RPN11 peptidase",
+  "M67B": "Mec peptidase",
+  "M67C": "Mername-AA165 peptidase",
+  "P02A": "EGF-like module containing mucin-like hormone receptor-like 2",
+  "P02B": "polycystin-1",
+  "S01A": "chymotrypsin A (cattle-type)",
+  "S01B": "glutamyl endopeptidase I",
+  "S01C": "cercarial elastase ({Schistosoma} sp.)",
+  "S01D": "glutamyl peptidase BL",
+  "S01E": "streptogrisin A",
+  "S01F": "astrovirus serine peptidase",
+  "S08A": "subtilisin Carlsberg",
+  "S08B": "kexin-like peptidse ({Pneumocystis}-type)",
+  "S08X": "EciP lantibiotic leader peptidase ({Staphylococcus epidermidis})",
+  "S09A": "prolyl oligopeptidase",
+  "S09B": "dipeptidyl-peptidase IV (eukaryote)",
+  "S09C": "acylaminoacyl-peptidase",
+  "S09D": "glutamyl endopeptidase C",
+  "S09X": "bat5 peptidase",
+  "S26A": "signal peptidase I",
+  "S26B": "signalase (animal) 18 kDa component",
+  "S26C": "TraF peptidase",
+  "S39A": "sobemovirus peptidase",
+  "S39B": "luteovirus peptidase",
+  "S41A": "C-terminal processing peptidase-1",
+  "S41B": "tricorn core peptidase (archaea)",
+  "S49A": "signal peptide peptidase A ({Pseudomonas aeruginosa})",
+  "S49B": "sohB peptidase",
+  "S49C": "archaean signal peptide peptidase 1",
+  "S49X": "signal peptide peptidase ({Bacillus}-type)",
+  "T01A": "archaean proteasome, beta component",
+  "T01B": "HslV component of HslUV peptidase",
+  "T01X": "Anbu protein"
+ }
+}

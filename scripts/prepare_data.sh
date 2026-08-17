@@ -170,7 +170,7 @@ cd "$PROJECT_ROOT"
 export PYTHONPATH="$PROJECT_ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
 echo "prepare_data.sh: steps=[${STEPS}]${STRAINS_ARG:+ strains=[${STRAINS[*]}]}${FORCE:+ (force)}${REFETCH_RAW:+ (refetch-raw)}${SKIP_CYANORAK:+ (skip-cyanorak)}"
-echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB hierarchy caches, step 7 = resolve paper metabolite names, step 8 = resolve paper discuss-topics, step 9 = central references: InterPro + NCBIfam reference caches)"
+echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB hierarchy caches, step 7 = resolve paper metabolite names, step 8 = resolve paper discuss-topics, step 9 = central references: InterPro + NCBIfam + MEROPS reference caches)"
 echo "Project root: $PROJECT_ROOT"
 echo "Logs dir:     $LOG_DIR"
 
@@ -264,6 +264,13 @@ for step in $STEPS; do
                 "Build NCBIfam reference cache (ncbifam_reference.json)" \
                 "$LOG_DIR/prepare_data_step9.log" \
                 uv run python -m multiomics_kg.download.build_ncbifam_reference \
+                    $FORCE \
+                    $REFETCH_RAW
+
+            RUN_STEP_APPEND=1 run_step 9 \
+                "Build MEROPS reference cache (merops_reference.json)" \
+                "$LOG_DIR/prepare_data_step9.log" \
+                uv run python -m multiomics_kg.download.build_merops_reference \
                     $FORCE \
                     $REFETCH_RAW
             ;;
