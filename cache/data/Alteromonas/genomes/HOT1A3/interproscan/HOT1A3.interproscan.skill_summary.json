@@ -30,13 +30,5 @@
   "sentinel_rate": 0.0769,
   "proteins_with_go_terms": 2412,
   "distinct_go_terms": 1359,
-  "proteins_with_pathways": 2678,
-  "distinct_pathways": 3715,
-  "pathway_databases": {
-    "MetaCyc": 9939,
-    "Reactome": 377085
-  },
-  "xrefs_requested": true,
-  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
-  "wallclock_s": 3162.1
+  "wallclock_s": 3.3
 }
