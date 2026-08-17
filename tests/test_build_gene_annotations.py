@@ -2303,3 +2303,52 @@ class TestEnrichInterproFields:
         g = {"interpro_entries": []}
         type(self)._fn(g, {}, self.REF)
         assert "go_terms" not in g and "ec_numbers" not in g
+
+
+# ─── enrich_interpro_fields: donor-attributed GO gate, naming recovery,
+#     ncbifam gene_name fill (Task 9) ──────────────────────────────────────────
+
+
+def _mk_gene(**kw):
+    g = {"product": "photosystem II reaction center protein I",
+         "interpro_entries": ["IPR003686"], "ncbifam_ids": ["NF002735"]}
+    g.update(kw)
+    return g
+
+
+IPR_REF = {"IPR003686": {"name": "Photosystem II PsbI", "type": "FAMILY",
+                          "go_terms": ["GO:0015979"], "ec_numbers": []},
+           "IPR999999": {"name": "Some fold", "type": "HOMOLOGOUS_SUPERFAMILY",
+                          "go_terms": ["GO:0000001"]}}
+NCBIFAM_REF = {"NF002735": {"name": "photosystem II reaction center protein I",
+                             "family_type": "equivalog", "gene_symbol": "psbI"}}
+
+
+def test_go_gate_uses_donor_attribution():
+    from multiomics_kg.download.build_gene_annotations import enrich_interpro_fields
+    g = _mk_gene(interpro_entries=["IPR003686", "IPR999999"])
+    row = {"go_term_donors": {"GO:0015979": ["IPR003686"], "GO:0000001": ["IPR999999"]}}
+    enrich_interpro_fields(g, row, IPR_REF, NCBIFAM_REF)
+    assert "GO:0015979" in g["go_terms"]
+    assert "GO:0000001" not in g.get("go_terms", [])   # superfamily-only donor refused
+
+
+def test_naming_recovery_dedup_against_product():
+    from multiomics_kg.download.build_gene_annotations import enrich_interpro_fields
+    g = _mk_gene()
+    row = {"hamap_descriptions": ["Photosystem II reaction center protein I"],
+           "ncbifam_ids": ["NF002735"]}
+    enrich_interpro_fields(g, row, IPR_REF, NCBIFAM_REF)
+    afd = g.get("alternate_functional_descriptions", [])
+    # both tokens case-insensitively equal product -> both skipped
+    assert not any(x.startswith("[hamap]") or x.startswith("[ncbifam]") for x in afd)
+
+
+def test_gene_name_fill_if_empty_never_overwrites():
+    from multiomics_kg.download.build_gene_annotations import enrich_interpro_fields
+    g = _mk_gene()
+    enrich_interpro_fields(g, {}, IPR_REF, NCBIFAM_REF)
+    assert g["gene_name"] == "psbI" and g["gene_name_source"] == "ncbifam"
+    g2 = _mk_gene(gene_name="psbI_existing", gene_name_source="uniprot")
+    enrich_interpro_fields(g2, {}, IPR_REF, NCBIFAM_REF)
+    assert g2["gene_name"] == "psbI_existing" and g2["gene_name_source"] == "uniprot"

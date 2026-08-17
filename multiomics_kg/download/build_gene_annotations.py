@@ -348,23 +348,67 @@ def _fold_interpro_field(gene: dict, field: str, new_tokens: dict[str, str]) -> 
     gene[f"{field}_evidence"] = ev_map
 
 
-def enrich_interpro_fields(gene: dict, ipr_row: dict, interpro_ref: dict) -> None:
-    """Promote InterPro entry-level xrefs into gene ontology fields (Layer B).
+def enrich_interpro_fields(gene: dict, ipr_row: dict, interpro_ref: dict,
+                            ncbifam_ref: dict | None = None) -> None:
+    """Promote InterPro/NCBIfam entry-level xrefs into gene fields (Layer B).
 
-    Noise-gated, type-aware propagation (design 2026-08-10 §2/§5.1):
-    - ``go_terms`` / ``cazy_ids``: FAMILY + DOMAIN entries (fold excluded).
+    Noise-gated, type-aware propagation (design 2026-08-10 §2/§5.1, extended
+    2026-08-17 for donor attribution + naming recovery):
+    - ``go_terms``: donor-attributed — a GO is added iff at least one of its
+      donor entries (``ipr_row["go_term_donors"]``, ``{GO: [IPR, ...]}``) is
+      FAMILY or DOMAIN typed; evidence is ``family`` if any donor is FAMILY,
+      else ``domain``. When *ipr_row* carries no ``go_term_donors`` key (old
+      callers / rows predating Task 8), donors are derived from this gene's
+      ``interpro_entries`` × *interpro_ref* exactly as the pre-donor code did.
+    - ``cazy_ids``: FAMILY + DOMAIN entries (fold excluded) — unchanged.
     - ``ec_numbers``: FAMILY entries carrying **exactly one** EC (a multi-EC family
       is a candidate set, not a claim — those live in Layer A, Phase 3).
     - ``pfam_ids``: direct PFAM signature hits from calls.json (no inference).
+    - ``alternate_functional_descriptions``: ``[interpro] <name>`` (FAMILY/DOMAIN,
+      as before) plus naming recovery — ``[hamap] <desc>`` (from
+      ``ipr_row["hamap_descriptions"]``) and ``[ncbifam] <product name>`` (from
+      *ncbifam_ref* via the gene's ``ncbifam_ids``). hamap/ncbifam tokens are
+      skipped when their text case-insensitively equals the gene's ``product``
+      (in addition to the existing exact-string afd dedup, which still applies
+      to all tokens).
+    - ``gene_name``: fill-if-empty from the first (sorted) ``gene_symbol`` among
+      the gene's ``ncbifam_ids`` reference entries; sets
+      ``gene_name_source = "ncbifam"``. Never overwrites an existing gene_name.
 
-    Each contributed token is tagged with ``interpro`` in ``<field>_source`` and an
-    ``<field>_evidence`` strength. GO/EC/CAZy come from the global reference
-    (entry-level, equivalent to the per-protein scan xrefs); Pfam from *ipr_row*'s
-    matches. Idempotent-ish: safe to run once per gene after ``build_merged``.
+    Each ontology token is tagged with ``interpro`` in ``<field>_source`` and an
+    ``<field>_evidence`` strength via ``_fold_interpro_field``. Idempotent-ish:
+    safe to run once per gene after ``build_merged``.
     """
     entries = gene.get("interpro_entries") or []
 
+    # ── GO: donor-attributed gate ───────────────────────────────────────────
+    donors = ipr_row.get("go_term_donors")
+    if donors is None:
+        # Fallback for rows without donor attribution: derive donors from this
+        # gene's entries × the reference (matches the pre-donor behavior).
+        donors = {}
+        for ipr_id in entries:
+            meta = interpro_ref.get(ipr_id)
+            if not meta:
+                continue
+            for go in meta.get("go_terms", []):
+                donors.setdefault(go, []).append(ipr_id)
+
     go_new: dict[str, str] = {}
+    for go, donor_ids in donors.items():
+        strength = None
+        for ipr_id in donor_ids:
+            meta = interpro_ref.get(ipr_id) or {}
+            etype = (meta.get("type") or "").upper()
+            if etype == "FAMILY":
+                strength = "family"
+                break
+            if etype == "DOMAIN" and strength is None:
+                strength = "domain"
+        if strength is not None:
+            go_new[go] = strength
+
+    # ── EC / CAZy / interpro-name descriptions (unchanged logic) ───────────
     ec_new: dict[str, str] = {}
     cazy_new: dict[str, str] = {}
     desc_entries: list[str] = []
@@ -375,8 +419,6 @@ def enrich_interpro_fields(gene: dict, ipr_row: dict, interpro_ref: dict) -> Non
         etype = (meta.get("type") or "").upper()
         strength = "family" if etype == "FAMILY" else "domain"
         if etype in _INTERPRO_PROPAGATE_TYPES:
-            for go in meta.get("go_terms", []):
-                go_new.setdefault(go, strength)
             for cz in meta.get("cazy_ids", []):
                 cazy_new.setdefault(cz, strength)
             name = meta.get("name")
@@ -393,6 +435,27 @@ def enrich_interpro_fields(gene: dict, ipr_row: dict, interpro_ref: dict) -> Non
     for sig in (ipr_row.get("pfam_signatures") or []):
         if sig.startswith("PF"):
             pfam_new.setdefault(sig, "signature")
+
+    # ── Naming recovery: hamap + ncbifam, deduped against `product` ────────
+    product_lc = (gene.get("product") or "").strip().lower()
+
+    def _maybe_desc(tag: str, text: str) -> None:
+        text = (text or "").strip()
+        if not text or text.lower() == product_lc:
+            return
+        desc_entries.append(f"[{tag}] {text}")
+
+    for h in (ipr_row.get("hamap_descriptions") or []):
+        _maybe_desc("hamap", h)
+    symbols: list[str] = []
+    for acc in (gene.get("ncbifam_ids") or []):
+        meta = (ncbifam_ref or {}).get(acc) or {}
+        _maybe_desc("ncbifam", meta.get("name") or "")
+        if meta.get("gene_symbol"):
+            symbols.append(meta["gene_symbol"])
+    if symbols and not gene.get("gene_name"):
+        gene["gene_name"] = sorted(symbols)[0]
+        gene["gene_name_source"] = "ncbifam"
 
     _fold_interpro_field(gene, "go_terms", go_new)
     _fold_interpro_field(gene, "ec_numbers", ec_new)
@@ -1244,6 +1307,7 @@ def process_strain(
     force: bool = False,
     pfam_data: PfamData | None = None,
     interpro_ref: dict | None = None,
+    ncbifam_ref: dict | None = None,
 ) -> None:
     strain_name = row["strain_name"]
     preferred_name = (row.get("preferred_name") or "").strip() or strain_name
@@ -1317,10 +1381,11 @@ def process_strain(
         merged = builder.build_merged(gm_row, eg_row, up_row, ps_row,
                                       organism_name=preferred_name, sp=sp_row, ipr=ipr_row,
                                       tcd=tcd_row)
-        # Layer B: promote InterPro entry xrefs into go/ec/cazy/pfam (before the
-        # pfam enrichment loop, so InterPro's direct PF* hits get re-keyed too).
+        # Layer B: promote InterPro/NCBIfam entry xrefs into go/ec/cazy/pfam +
+        # naming recovery (before the pfam enrichment loop, so InterPro's direct
+        # PF* hits get re-keyed too).
         if interpro_ref is not None:
-            enrich_interpro_fields(merged, ipr_row, interpro_ref)
+            enrich_interpro_fields(merged, ipr_row, interpro_ref, ncbifam_ref)
         merged_out[locus_tag] = merged
 
         if merged.get("product"):
@@ -1451,10 +1516,20 @@ def main() -> None:
     print(f"InterPro reference: {len(interpro_ref)} entries "
           f"({n_ec} with EC, {n_cazy} with CAZy)")
 
+    # Load the NCBIfam reference once (lazy — reads the committed cache directly;
+    # `{}` when missing so merge never blocks on a network fetch here).
+    ncbifam_ref_path = cache_root / "ncbifam" / "ncbifam_reference.json"
+    if ncbifam_ref_path.exists():
+        with open(ncbifam_ref_path, encoding="utf-8") as fh:
+            ncbifam_ref = json.load(fh)
+    else:
+        ncbifam_ref = {}
+    print(f"NCBIfam reference: {len(ncbifam_ref)} entries")
+
     print(f"Processing {len(rows)} strain(s) with config: {args.config}")
     for row in rows:
         process_strain(row, config, force=args.force, pfam_data=pfam_data,
-                       interpro_ref=interpro_ref)
+                       interpro_ref=interpro_ref, ncbifam_ref=ncbifam_ref)
 
     if args.llm_summary:
         print("\nLLM summary generation (Step 1C) not yet implemented.")

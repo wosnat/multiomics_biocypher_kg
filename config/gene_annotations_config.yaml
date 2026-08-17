@@ -83,9 +83,15 @@ sources:
     # Phase-1 artifact: dict keyed by RefSeq WP_ accession (== protein_id).
     path_pattern: "{data_dir}/interproscan/{strain_name}.interproscan.calls.json"
     # Join key: gene_mapping.protein_id == interproscan calls.json key (WP_ accessions).
-    # Only the light `interpro_entries` list is merged here (source bookkeeping +
-    # Gene routing); interpro_adapter reads the calls.json directly for per-match
-    # evidence (coords/evalue/score/libraries).
+    # load_interproscan() surfaces the faceted per-gene fields consumed here and
+    # by enrich_interpro_fields (Layer B): `interpro_entries` (routing + is-a
+    # ontology), `ncbifam_ids` (direct NCBIFAM family hits), `pfam_signatures`
+    # (direct Pfam HMM hits), `hamap_descriptions` + ncbifam product names
+    # (naming recovery into `alternate_functional_descriptions`, and a
+    # gene_name fill-if-empty from ncbifam gene_symbol), `go_term_donors`
+    # (donor-attributed GO gate), plus donor-gated ec_numbers/cazy_ids.
+    # interpro_adapter / ncbifam_adapter read the calls.json directly for
+    # per-match edge evidence (coords/evalue/score/libraries).
     join_to: protein_id
     description: "InterProScan 5 per-protein InterPro-entry domain predictions (Phase-1 calls.json)"
     logical_sources:
@@ -704,6 +710,17 @@ fields:
     type: passthrough
     source: interproscan
     field: interpro_entries
+
+  ncbifam_ids:
+    # Direct NCBIFAM HMM hits (curated prokaryotic families; TIGR* + NF*).
+    # Surfaced from the faceted calls.json by load_interproscan(). Feeds the
+    # NcbifamFamily ontology (adapter reads calls.json for edge evidence).
+    type: union
+    track_source: ncbifam_ids_source
+    sources:
+      - source: interproscan
+        source_label: interproscan
+        field: ncbifam_ids
 
   # ── Protein properties denormalized from UniProt ──────────────────────────────
   # Keeps these queryable directly on Gene nodes without requiring a protein join.
