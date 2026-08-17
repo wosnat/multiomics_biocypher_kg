@@ -248,27 +248,33 @@ def run_strain(strain: str, genome_dir: Path, data_dir: Path, args) -> tuple[str
 
 def normalize_strain(strain: str, data_dir: Path) -> tuple[str, str]:
     """Re-parse a strain's cached raw.json into the new faceted calls.json —
-    no Docker, no scan. Drops the stale entry_xrefs.json sidecar if present."""
+    no Docker, no scan. Drops the stale entry_xrefs.json sidecar if present.
+
+    Never raises — a corrupt/truncated raw.json (or any other parse/write
+    failure) yields a FAILED status row instead of aborting the whole batch.
+    """
     out_dir = data_dir / TOOL
     raw_json = out_dir / f"{strain}.{TOOL}.raw.json"
     if not raw_json.exists():
         return "NO_RAW", "raw.json missing — re-run the scan or use committed calls.json"
 
     import json
-    t0 = time.time()
-    with raw_json.open() as f:
-        data = json.load(f)
-    calls = parse_interproscan_json(data)
-    n_prot = len(calls)
-    summary = summarize(
-        calls, strain=strain, input_proteins=n_prot,
-        tool_version=IPS_VERSION, applications="ALL_DEFAULT",
-        wallclock_s=time.time() - t0,
-    )
-    (out_dir / f"{strain}.{TOOL}.calls.json").write_text(
-        json.dumps(calls, indent=1, sort_keys=True) + "\n")
-    (out_dir / f"{strain}.{TOOL}.skill_summary.json").write_text(
-        json.dumps(summary, indent=1, sort_keys=True) + "\n")
+    try:
+        t0 = time.time()
+        with raw_json.open() as f:
+            data = json.load(f)
+        calls = parse_interproscan_json(data)
+        n_prot = len(calls)
+        summary = summarize(
+            calls, strain=strain, input_proteins=n_prot,
+            tool_version=IPS_VERSION, applications="ALL_DEFAULT",
+            wallclock_s=time.time() - t0,
+        )
+        tcio.save_calls(data_dir, TOOL, strain, calls)
+        tcio.save_skill_summary(data_dir, TOOL, strain, summary)
+    except Exception as exc:  # noqa: BLE001 — one bad strain must not kill the batch
+        return "FAILED", f"{type(exc).__name__}: {exc}"
+
     stale = out_dir / f"{strain}.{TOOL}.entry_xrefs.json"
     if stale.exists():
         stale.unlink()
