@@ -80,8 +80,18 @@ CREATE FULLTEXT INDEX cazyFamilyFullText IF NOT EXISTS
 CREATE INDEX interpro_entry_level_idx IF NOT EXISTS FOR (e:InterproEntry) ON (e.level);
 CREATE INDEX interpro_entry_type_idx IF NOT EXISTS FOR (e:InterproEntry) ON (e.interpro_type);
 CREATE INDEX interpro_entry_id_idx IF NOT EXISTS FOR (e:InterproEntry) ON (e.interpro_id);
+// Full-text defs can't be ALTERed — drop + recreate so new fields are picked up
+// even on reruns against an existing graph.
+DROP INDEX interproEntryFullText IF EXISTS;
 CREATE FULLTEXT INDEX interproEntryFullText IF NOT EXISTS
-    FOR (e:InterproEntry) ON EACH [e.name];
+    FOR (e:InterproEntry) ON EACH [e.name, e.description];
+
+// NCBIfam (flat curated-family ontology; family_type is the stratification key)
+CREATE INDEX ncbifam_family_id_idx IF NOT EXISTS FOR (n:NcbifamFamily) ON (n.ncbifam_id);
+CREATE INDEX ncbifam_family_type_idx IF NOT EXISTS FOR (n:NcbifamFamily) ON (n.family_type);
+CREATE INDEX ncbifam_family_level_idx IF NOT EXISTS FOR (n:NcbifamFamily) ON (n.level);
+CREATE FULLTEXT INDEX ncbifamFamilyFullText IF NOT EXISTS
+    FOR (n:NcbifamFamily) ON EACH [n.name, n.gene_symbol, n.description];
 
 // PSORTb SubcellularLocalization (flat ontology + scored edge)
 CREATE INDEX subcellular_localization_level_idx IF NOT EXISTS FOR (n:SubcellularLocalization) ON (n.level);
@@ -563,12 +573,27 @@ MATCH (t:KeggTerm)
 WHERE t.name =~ '^K\\d+;\\s+uncharacterized protein\\b.*'
 SET t.is_uninformative = 'true';
 
+// InterPro: unknown-function entries (name-pattern rule; uninformative_terms.yaml)
+MATCH (t:InterproEntry)
+WHERE t.name =~ '^Protein of unknown function.*'
+   OR t.name =~ '^Domain of unknown function.*'
+   OR t.name =~ '^Uncharacteri[sz]ed protein family.*'
+SET t.is_uninformative = 'true';
+
+// NCBIfam: typed rule (family_type — third rule kind) + name-pattern fallback
+MATCH (t:NcbifamFamily)
+WHERE t.family_type IN ['hypoth_equivalog', 'hypoth_equivalog_domain']
+   OR t.name =~ '(?i).*hypothetical.*'
+   OR t.name =~ '(?i).*uncharacterized.*'
+   OR t.name =~ '.*DUF\\d.*'
+SET t.is_uninformative = 'true';
+
 // =====================================================================
 // F1.2 + F1.3: annotation_quality (numeric 0-3) + annotation_state (enum)
 // from informative_source_count over 8 source buckets.
 //
 // SOURCE_BUCKETS:start
-//   live (8): go, kegg, pfam, ec, role, reaction, transporter, cazy
+//   live (9): go, kegg, pfam, ec, role, reaction, transporter, cazy, ncbifam
 // TIER GATE on the TCDB buckets below.
 // Gene_has_tcdb_family carries two evidence sources. eggNOG's KEGG_TC is ortholog
 // transfer; diamond is direct sequence similarity, and its tier is BOTH a
@@ -606,10 +631,12 @@ CALL {
        EXISTS { (g)-[:Gene_catalyzes_reaction]->() } AS has_reaction,
        EXISTS { MATCH (g)-[rt:Gene_has_tcdb_family]->() WHERE 'eggnog' IN rt.sources OR rt.tier <= 2 } AS has_transporter,
        EXISTS { (g)-[:Gene_has_cazy_family]->() } AS has_cazy,
+       EXISTS { (g)-[:Gene_has_ncbifam_family]->(t) WHERE t.is_uninformative IS NULL } AS has_ncbifam,
        EXISTS { (g)-[:Gene_involved_in_biological_process|Gene_enables_molecular_function|Gene_located_in_cellular_component
                      |Gene_has_kegg_ko|Gene_has_pfam|Gene_catalyzes_ec_number
                      |Gene_in_cog_category|Gene_has_cyanorak_role|Gene_has_tigr_role
-                     |Gene_catalyzes_reaction|Gene_has_tcdb_family|Gene_has_cazy_family]->() } AS has_any_edge
+                     |Gene_catalyzes_reaction|Gene_has_tcdb_family|Gene_has_cazy_family
+                     |Gene_has_interpro_entry|Gene_has_ncbifam_family]->() } AS has_any_edge
   WITH g,
        (CASE WHEN has_go THEN 1 ELSE 0 END
         + CASE WHEN has_kegg THEN 1 ELSE 0 END
@@ -618,7 +645,8 @@ CALL {
         + CASE WHEN has_role THEN 1 ELSE 0 END
         + CASE WHEN has_reaction THEN 1 ELSE 0 END
         + CASE WHEN has_transporter THEN 1 ELSE 0 END
-        + CASE WHEN has_cazy THEN 1 ELSE 0 END) AS informative_count,
+        + CASE WHEN has_cazy THEN 1 ELSE 0 END
+        + CASE WHEN has_ncbifam THEN 1 ELSE 0 END) AS informative_count,
        has_any_edge
   SET g.annotation_state =
         CASE
@@ -658,14 +686,17 @@ CALL {
     CASE WHEN EXISTS { (g)-[:Gene_has_tigr_role]->() } THEN ['tigr_role'] ELSE [] END +
     CASE WHEN EXISTS { MATCH (g)-[rt:Gene_has_tcdb_family]->() WHERE 'eggnog' IN rt.sources OR rt.tier <= 2 } THEN ['tcdb'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END +
-    CASE WHEN EXISTS { (g)-[:Gene_has_interpro_entry]->() } THEN ['interpro'] ELSE [] END
+    CASE WHEN EXISTS { (g)-[:Gene_has_interpro_entry]->() } THEN ['interpro'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_ncbifam_family]->() } THEN ['ncbifam'] ELSE [] END
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// NOTE: 'interpro' is folded into annotation_types (routing) but NOT
-// informative_annotation_types (needs an InterPro term-informativeness filter —
-// deferred) and NOT the annotation_quality 8-bucket count (highly redundant with
-// pfam/go/ec — would lift few genes' quality for large blast radius). See the
-// design spec §5.
+// NOTE: 'ncbifam' IS folded into both annotation_types (routing) AND the
+// informative_annotation_types / annotation_quality 9-bucket count (F1.4 below) —
+// NCBIfam is a curated, functionally specific ontology (unlike Pfam-breadth
+// InterPro FAMILY/DOMAIN entries), so it earns a quality bucket the same way
+// pfam/go/ec do. 'interpro' is deliberately NOT — it stays a conduit/routing
+// signal only (highly redundant with pfam/go/ec — would lift few genes' quality
+// for large blast radius). See the design spec §4.2 / §5.
 
 // =====================================================================
 // F1.4: Gene.informative_annotation_types — granular per-source list,
@@ -705,7 +736,10 @@ CALL {
          THEN ['tigr_role'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_catalyzes_reaction]->() } THEN ['reaction'] ELSE [] END +
     CASE WHEN EXISTS { MATCH (g)-[rt:Gene_has_tcdb_family]->() WHERE 'eggnog' IN rt.sources OR rt.tier <= 2 } THEN ['transporter'] ELSE [] END +
-    CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END
+    CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_ncbifam_family]->(t)
+                       WHERE t.is_uninformative IS NULL }
+         THEN ['ncbifam'] ELSE [] END
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // expression_edge_count + significant_up/down_count
@@ -987,6 +1021,16 @@ CALL {
 MATCH (e:InterproEntry)
 SET e.is_promiscuous = (coalesce(e.gene_count, 0) >= 1000);
 
+// ── NcbifamFamily computed properties (flat; direct counts) ───────────────────
+MATCH (n:NcbifamFamily)
+CALL {
+  WITH n
+  OPTIONAL MATCH (n)<-[:Gene_has_ncbifam_family]-(g:Gene)
+  WITH n, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  SET n.gene_count = gc,
+      n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 1000 ROWS;
+
 // ── SubcellularLocalization computed properties (PSORTb; flat ontology) ───────
 // gene_count + organism_count: direct gene->node traversal (no *0.. — flat).
 MATCH (n:SubcellularLocalization)
@@ -1221,6 +1265,17 @@ CALL {
   OPTIONAL MATCH (g)-[r:Gene_has_interpro_entry]->()
   WITH g, count(r) AS ic
   SET g.interpro_entry_count = ic
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Gene.ncbifam_family_count: distinct NCBIfam families per gene (routing signal;
+// functional. Folded into annotation_types AND informative_annotation_types /
+// annotation_quality above — §4.2).
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (g)-[r:Gene_has_ncbifam_family]->()
+  WITH g, count(r) AS nc
+  SET g.ncbifam_family_count = nc
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // ── Metabolism rollups ────────────────────────────────────────────────────
