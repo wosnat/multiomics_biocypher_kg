@@ -1,6 +1,6 @@
 ---
 name: merops-diamond
-description: Run diamond blastp vs. the MEROPS peptidase scan library per strain to classify proteases/peptidases and their inhibitors into MEROPS families (clan / family / subfamily / identifier), with tiered confidence following the tcdb-diamond policy plus non-peptidase-homolog and inhibitor flags. Pure sequence evidence. Produces inspectable `<strain>.merops.calls.json` artifacts; Phase 1 only — no KG integration yet. Triggers: "run merops", "classify proteases/peptidases", "protease families for strain X", "exoprotease classification".
+description: Run diamond blastp vs. the MEROPS peptidase scan library per strain to classify proteases/peptidases and their inhibitors into MEROPS families (clan / family / subfamily / identifier), with tiered confidence following the tcdb-diamond policy plus non-peptidase-homolog and inhibitor flags. Pure sequence evidence. Produces inspectable `<strain>.merops.calls.json` artifacts; **Phase 2 KG integration is DONE** — `MeropsFamily` ontology + scored `Gene_has_merops_family` edges via `merops_adapter` (see `docs/kg-changes/merops-extension.md`). Triggers: "run merops", "classify proteases/peptidases", "protease families for strain X", "exoprotease classification".
 argument-hint: "[--strains <name> ... | --force | --limit N | --threads N | --refresh-merops]"
 user-invocable: true
 allowed-tools: Read, Bash(uv *), Bash(diamond *)
@@ -269,17 +269,25 @@ Per-strain proteins-with-call: **57** (Pro HL strains, ~1,850 proteins) →
 (the 5,009-sequence DB makes this the fastest tool in the project; the full
 42-strain batch is under a minute).
 
-## Phase 2 (Future)
+## Phase 2 (DONE, 2026-08-17)
 
-NOT yet wired into `gene_annotations_merged.json` or any KG adapter — the
-artifacts sit in the strain cache for inspection. The Phase-2 sketch
-(spec §"Phase 2 sketch"): CAZy-shaped `MeropsFamily` ontology (clan → family →
-subfamily, observed-only; catalytic type as node *property* — clans mix
-catalytic types) + scored `Gene_has_merops_family` edges via a new
-`merops_diamond` logical source, plus MEROPS-published Pfam/InterPro/GO
-bridges. No substrate→Metabolite arm (peptidase substrates are proteins);
-cleavage specificity becomes node properties. Integrate via
-`/integrate-a-tool` with a fresh design spec.
+Integrated via `/integrate-a-tool`: the calls.json flows through the
+gene-annotation merge as the `merops_diamond` source (field `merops_ids`,
+join `protein_id`), and `merops_adapter` materializes the CAZy-shaped
+`MeropsFamily` ontology (clan → family → subfamily, observed-only, 155 nodes)
+with scored `Gene_has_merops_family` edges carrying `call_class`
+(peptidase | inhibitor | nonpeptidase_homolog), tier, confidence and
+best-hit evidence. Node names come from the committed
+`cache/data/merops/merops_reference.json` (prepare_data step 9,
+`build_merops_reference.py`). Re-running this skill with `--force` requires
+`prepare_data.sh --steps 2 --force` + a Docker rebuild to propagate
+(tcdb-diamond precedent).
+
+- Design: `docs/superpowers/specs/2026-08-17-merops-kg-integration-design.md`
+- Release notes: `docs/kg-changes/merops-extension.md`
+- Deferred follow-ups (recorded there): MEROPS `interpro.txt` Pfam/InterPro
+  bridges, `GO_annotation.txt` GO bridges, cleavage-specificity node
+  properties, MCP/explorer ontology registration.
 
 ## Workflow When Invoked
 

@@ -189,6 +189,12 @@ cache/data/interpro/raw
 # sits one level up at cache/data/ncbifam/ and stays tracked.
 cache/data/ncbifam/raw
 
+# MEROPS raw reference files (family.txt, clan.txt) re-downloadable by
+# build_merops_reference.py (or already present under $MEROPS_DATA_DIR from
+# the /merops-diamond Phase-1 install). The committed output
+# (merops_reference.json) sits one level up at cache/data/merops/ and stays tracked.
+cache/data/merops/raw
+
 # TCDB-diamond skill: smoke-test artifacts (limited_N runs) are transient.
 # Full-run outputs (<strain>.tcdb.{tsv,calls.json,skill_summary.json}) are
 # intentionally committed alongside eggnog/ outputs.

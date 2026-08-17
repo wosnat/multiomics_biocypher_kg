@@ -533,6 +533,9 @@ def _compute_contributing_sources(gene: dict) -> list[str]:
     if (gene.get("tcdb_diamond_ids")
             or _has_source_label(gene, "tcdb_diamond")):
         sources.add("tcdb_diamond")
+    if (gene.get("merops_ids")
+            or _has_source_label(gene, "merops_diamond")):
+        sources.add("merops_diamond")
     return sorted(sources)
 
 
@@ -725,6 +728,41 @@ def load_tcdb_diamond(data_dir: str, strain_name: str) -> dict[str, dict]:
     return result
 
 
+def load_merops(data_dir: str, strain_name: str) -> dict[str, dict]:
+    """Load merops-diamond Phase-1 calls.json → {protein_id_wp: {merops_ids: [...]}}.
+
+    The artifact is a dict keyed by RefSeq WP_ accession (== gene_mapping.protein_id).
+    We surface only the distinct called codes (family / subfamily / identifier,
+    already tier-truncated by the runner) — the per-call evidence (tier /
+    confidence_score / identity / evalue / call_class inputs) is NOT merged;
+    `merops_adapter` reads this same calls.json directly at KG-build time for
+    edge properties, exactly as `tcdb_adapter` / `interpro_adapter` do.
+
+    ALL candidates are surfaced — the tier policy in
+    `multiomics_kg/utils/merops_diamond.py` is already the quality gate; weak
+    (tier-3) calls are gated downstream (post-import folds 'merops' into
+    annotation_types only for tier<=2 edges). Proteins with no call are
+    dropped. Missing file → {} (strain not yet merops-diamond-run). See
+    docs/superpowers/specs/2026-08-17-merops-kg-integration-design.md.
+    """
+    path = os.path.join(data_dir, "merops", f"{strain_name}.merops.calls.json")
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    result: dict[str, dict] = {}
+    for wp, rec in data.items():
+        if not isinstance(rec, dict):
+            continue
+        codes = sorted({
+            c["code"] for c in rec.get("calls", [])
+            if isinstance(c, dict) and c.get("code")
+        })
+        if codes:
+            result[str(wp).strip()] = {"merops_ids": codes}
+    return result
+
+
 def load_uniprot(
     data_dir: str,
     ncbi_taxon_id: int | None,
@@ -785,12 +823,14 @@ class AnnotationBuilder:
         ps: dict | None = None,
         sp: dict | None = None,
         ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None,
     ) -> Any:
         """Fetch raw value from source row according to src_cfg spec."""
         ps = ps or {}
         sp = sp or {}
         ipr = ipr or {}
         tcd = tcd or {}
+        mer = mer or {}
         source = src_cfg.get("source", "")
         field = src_cfg.get("field", "")
 
@@ -808,6 +848,8 @@ class AnnotationBuilder:
             raw = ipr.get(field)
         elif source == "tcdb_diamond":
             raw = tcd.get(field)
+        elif source == "merops_diamond":
+            raw = mer.get(field)
         else:
             return None
 
@@ -837,10 +879,11 @@ class AnnotationBuilder:
 
     def _resolve_passthrough(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None
     ) -> Any:
         keep_dash = bool(fconf.get("allow_dash", False))
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
         if not _nonempty(raw, keep_dash=keep_dash):
             return None
         transform = fconf.get("transform")
@@ -852,9 +895,10 @@ class AnnotationBuilder:
 
     def _resolve_passthrough_list(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None
     ) -> list[str] | None:
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
         if not _nonempty(raw):
             return None
         delimiter = fconf.get("delimiter", ",")
@@ -874,6 +918,7 @@ class AnnotationBuilder:
         locus_tag: str = "",
         sp: dict | None = None,
         ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None,
     ) -> Any:
         """First non-empty candidate wins; record source if track_source set.
 
@@ -887,7 +932,7 @@ class AnnotationBuilder:
         track_key = fconf.get("track_source")
         reject_ids = fconf.get("reject_identifiers", False)
         for cand in fconf.get("candidates", []):
-            raw = self._get_raw(cand, gm, eg, up, ps, sp, ipr, tcd)
+            raw = self._get_raw(cand, gm, eg, up, ps, sp, ipr, tcd, mer)
             if not _nonempty(raw):
                 continue
             transform = cand.get("transform")
@@ -925,6 +970,7 @@ class AnnotationBuilder:
     def _resolve_union(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
         sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None,
         source_tracking: dict | None = None,
     ) -> list[str] | None:
         """Merge tokens from all sources, deduplicate, apply global filter.
@@ -943,7 +989,7 @@ class AnnotationBuilder:
         token_sources: dict[str, set[str]] = {}
 
         for src_cfg in fconf.get("sources", []):
-            raw = self._get_raw(src_cfg, gm, eg, up, ps, sp, ipr, tcd)
+            raw = self._get_raw(src_cfg, gm, eg, up, ps, sp, ipr, tcd, mer)
             if not _nonempty(raw):
                 continue
 
@@ -998,9 +1044,10 @@ class AnnotationBuilder:
 
     def _resolve_integer(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None
     ) -> int | None:
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
         if raw is None:
             return None
         try:
@@ -1010,9 +1057,10 @@ class AnnotationBuilder:
 
     def _resolve_float(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None
     ) -> float | None:
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
         if raw is None:
             return None
         try:
@@ -1030,12 +1078,14 @@ class AnnotationBuilder:
         ps: dict | None = None,
         sp: dict | None = None,
         ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None,
     ) -> dict:
         """All source fields, source-prefixed — full audit trail."""
         ps = ps or {}
         sp = sp or {}
         ipr = ipr or {}
         tcd = tcd or {}
+        mer = mer or {}
         wide: dict[str, Any] = {}
         for k, v in gm.items():
             if _nonempty(v):
@@ -1058,6 +1108,9 @@ class AnnotationBuilder:
         for k, v in tcd.items():
             if _nonempty(v):
                 wide[f"tcdb_diamond_{k}"] = v
+        for k, v in mer.items():
+            if _nonempty(v):
+                wide[f"merops_diamond_{k}"] = v
         return wide
 
     # ── build merged ──────────────────────────────────────────────────────────
@@ -1071,12 +1124,14 @@ class AnnotationBuilder:
         organism_name: str | None = None,
         sp: dict | None = None,
         ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None,
     ) -> dict:
         """Apply merge rules → canonical field set."""
         ps = ps or {}
         sp = sp or {}
         ipr = ipr or {}
         tcd = tcd or {}
+        mer = mer or {}
         result: dict[str, Any] = {}
         source_tracking: dict[str, str] = {}
         locus_tag = gm.get("locus_tag", "")
@@ -1085,17 +1140,17 @@ class AnnotationBuilder:
             ftype = fconf.get("type", "passthrough")
 
             if ftype == "single":
-                val = self._resolve_single(fconf, gm, eg, up, ps, source_tracking, locus_tag, sp=sp, ipr=ipr, tcd=tcd)
+                val = self._resolve_single(fconf, gm, eg, up, ps, source_tracking, locus_tag, sp=sp, ipr=ipr, tcd=tcd, mer=mer)
             elif ftype == "union":
-                val = self._resolve_union(fconf, gm, eg, up, ps, sp, ipr, tcd, source_tracking=source_tracking)
+                val = self._resolve_union(fconf, gm, eg, up, ps, sp, ipr, tcd, mer, source_tracking=source_tracking)
             elif ftype == "passthrough":
-                val = self._resolve_passthrough(fconf, gm, eg, up, ps, sp, ipr, tcd)
+                val = self._resolve_passthrough(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
             elif ftype == "passthrough_list":
-                val = self._resolve_passthrough_list(fconf, gm, eg, up, ps, sp, ipr, tcd)
+                val = self._resolve_passthrough_list(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
             elif ftype == "integer":
-                val = self._resolve_integer(fconf, gm, eg, up, ps, sp, ipr, tcd)
+                val = self._resolve_integer(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
             elif ftype == "float":
-                val = self._resolve_float(fconf, gm, eg, up, ps, sp, ipr, tcd)
+                val = self._resolve_float(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
             elif ftype == "extract_first_match":
                 val = extract_first_match_in_sources(
                     fconf.get("sources", []), gm, eg, up,
@@ -1345,6 +1400,7 @@ def process_strain(
     sp_data = load_signalp(data_dir, strain_name)
     ipr_data = load_interproscan(data_dir, strain_name)
     tcd_data = load_tcdb_diamond(data_dir, strain_name)
+    mer_data = load_merops(data_dir, strain_name)
 
     print(f"  gene_mapping : {len(gm_data):>5} genes")
     print(f"  eggnog       : {len(eg_data):>5} entries")
@@ -1353,6 +1409,7 @@ def process_strain(
     print(f"  signalp      : {len(sp_data):>5} entries (keyed by RefSeq)")
     print(f"  interproscan : {len(ipr_data):>5} entries (keyed by RefSeq)")
     print(f"  tcdb_diamond : {len(tcd_data):>5} entries (keyed by RefSeq)")
+    print(f"  merops_diamond: {len(mer_data):>4} entries (keyed by RefSeq)")
 
     builder = AnnotationBuilder(config)
 
@@ -1370,6 +1427,7 @@ def process_strain(
         sp_row = sp_data.get(protein_id, {})
         ipr_row = ipr_data.get(protein_id, {})
         tcd_row = tcd_data.get(protein_id, {})
+        mer_row = mer_data.get(protein_id, {})
 
         stats["total"] += 1
         if eg_row:
@@ -1377,10 +1435,10 @@ def process_strain(
         if up_row:
             stats["uniprot_hit"] += 1
 
-        wide_out[locus_tag] = builder.build_wide(gm_row, eg_row, up_row, ps_row, sp_row, ipr_row, tcd_row)
+        wide_out[locus_tag] = builder.build_wide(gm_row, eg_row, up_row, ps_row, sp_row, ipr_row, tcd_row, mer_row)
         merged = builder.build_merged(gm_row, eg_row, up_row, ps_row,
                                       organism_name=preferred_name, sp=sp_row, ipr=ipr_row,
-                                      tcd=tcd_row)
+                                      tcd=tcd_row, mer=mer_row)
         # Layer B: promote InterPro/NCBIfam entry xrefs into go/ec/cazy/pfam +
         # naming recovery (before the pfam enrichment loop, so InterPro's direct
         # PF* hits get re-keyed too).

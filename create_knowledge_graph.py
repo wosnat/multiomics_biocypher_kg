@@ -351,6 +351,19 @@ def main():
     if ncbifam_edges:
         bc.write_edges(ncbifam_edges)
 
+    # MEROPS peptidase ontology (hierarchical clan→family→subfamily, scored
+    # edge; observed-only, CAZy pattern). Reads per-strain merops calls.json
+    # for edge evidence + the committed cache/data/merops/merops_reference.json
+    # (prepare_data step 9) for node names/clan descriptions/family typing.
+    from multiomics_kg.adapters.merops_adapter import MultiMeropsAnnotationAdapter
+    merops_adapter = MultiMeropsAnnotationAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        test_mode=TEST_MODE,
+    )
+    merops_adapter.download_data(cache=CACHE)
+    bc.write_nodes(merops_adapter.get_nodes())
+    bc.write_edges(merops_adapter.get_edges())
+
     # Full GO ontology (all 30K nodes + GO-GO hierarchy) — optional, slow.
     # NOTE: do not run with --go simultaneously; GO node IDs would conflict.
 

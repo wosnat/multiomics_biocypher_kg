@@ -51,6 +51,13 @@ Both are extracted verbatim (markdown). The rest of the version section
   ABC transporters collectively move 554 things". Substrate counts per metabolite
   and per gene were corrected to match, and every transported metabolite now
   reports how many distinct transporter systems move it.
+- **Proteases and their inhibitors are now classified.** Every strain's proteome
+  was scanned against MEROPS, the authoritative peptidase classification: ask
+  "which subtilisin-family (S08) peptidases does this Alteromonas carry?", count
+  an organism's proteases honestly, or join with the signal-peptide and
+  localization layers for secreted exoproteases. Each call says up front whether
+  it is a real peptidase, a protease *inhibitor*, or a catalytically dead
+  look-alike (`call_class`), so dead homologs never inflate protease counts.
 
 ### Breaking
 
@@ -70,6 +77,22 @@ Both are extracted verbatim (markdown). The rest of the version section
   only 466 of 11,263 substrate edges.
 
 ### Added
+
+- **MEROPS peptidase ontology** (merops-diamond Phase 2; design
+  `docs/superpowers/specs/2026-08-17-merops-kg-integration-design.md`, release
+  notes `docs/kg-changes/merops-extension.md`). 155 `MeropsFamily` nodes
+  (clan → family → subfamily, observed-only; ids `merops.clan:SC` /
+  `merops.family:S14`; catalytic type as full words, inhibitor families typed
+  `family_type='inhibitor'`) + ~4.2K scored `Gene_has_merops_family` edges
+  (`call_class` peptidase|inhibitor|nonpeptidase_homolog, tcdb-parity `tier`,
+  `confidence_score`, alignment stats, `best_hit_id`/`best_hit_kind`) + 108
+  `Merops_family_is_a_merops_family` edges. New `merops_diamond` merge source
+  (`merops_ids`, 9th DataSource node), committed
+  `cache/data/merops/merops_reference.json` (prepare_data step 9 sub-builder),
+  post-import rollups (`gene_count`/`peptidase_gene_count`/`organism_count`/
+  `member_count`), Gene routing `merops_family_count` + `merops_classes`,
+  tier-gated `annotation_types`/`informative_annotation_types` += `merops`
+  (no annotation_quality bucket). Indexes + `meropsFamilyFullText`.
 
 - **InterPro two-layer integration** (design
   `docs/superpowers/specs/2026-08-10-interpro-two-layer-integration-design.md`).

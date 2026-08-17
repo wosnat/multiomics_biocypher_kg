@@ -108,8 +108,174 @@ def parse_merops_subject_id(subject_id: str) -> dict | None:
 
 
 # ============================================================================
+# Phase-2 node vocabulary helpers (KG integration)
+# ============================================================================
+
+# MEROPS catalytic-type letters spelled out for the KG (`MeropsFamily.catalytic_type`).
+# Single letters like "S" are insider jargon; full words read correctly without docs.
+CATALYTIC_TYPE_WORDS = {
+    "S": "serine",
+    "C": "cysteine",
+    "M": "metallo",
+    "A": "aspartic",
+    "T": "threonine",
+    "G": "glutamic",
+    "N": "asparagine_lyase",  # asparagine peptide lyases (self-cleaving)
+    "P": "mixed",             # clans/families of mixed catalytic type
+    "U": "unknown",
+}
+
+_CLAN_CODE_RE = re.compile(r"^[A-Z][A-Z]$")
+_FAMILY_CODE_RE = re.compile(r"^[A-Z]\d+$")
+_SUBFAMILY_CODE_RE = re.compile(r"^[A-Z]\d+[A-Z]$")
+
+
+def catalytic_type_word(code: str) -> str | None:
+    """Full-word catalytic type for a clan/family/subfamily code.
+
+    None for inhibitor codes (I-prefixed) — inhibitors have no catalytic type.
+    """
+    if not code or code.startswith("I"):
+        return None
+    return CATALYTIC_TYPE_WORDS.get(code[0], "unknown")
+
+
+def family_type(code: str) -> str:
+    """'inhibitor' for I-prefixed codes, else 'peptidase' (node `family_type`)."""
+    return "inhibitor" if code.startswith("I") else "peptidase"
+
+
+def classify_code(code: str) -> tuple[int, str] | None:
+    """(level, level_kind) for a clan / family / subfamily code, None if malformed.
+
+    clan `SC` → (0, 'merops_clan'); family `S14` → (1, 'merops_family');
+    subfamily `S08A` → (2, 'merops_subfamily'). MEROPS identifiers (S08.001)
+    are NOT node codes — callers resolve them to subfamily/family first.
+    """
+    if _CLAN_CODE_RE.match(code or ""):
+        return 0, "merops_clan"
+    if _FAMILY_CODE_RE.match(code or ""):
+        return 1, "merops_family"
+    if _SUBFAMILY_CODE_RE.match(code or ""):
+        return 2, "merops_subfamily"
+    return None
+
+
+def edge_target_code(candidate: dict) -> str | None:
+    """Node code a Gene_has_merops_family edge attaches to for one candidate.
+
+    Tier-2/3 candidates attach at their called `code` (family or subfamily).
+    Tier-1 candidates call a full MEROPS identifier (S26.014) — no identifier
+    nodes exist (6 such calls in the whole 42-strain corpus), so they attach
+    at the claimed subfamily, else the family; the identifier is preserved on
+    the edge as `best_hit_id`. Returns None on malformed input.
+    """
+    if candidate.get("level_kind") == "merops_id":
+        target = candidate.get("subfamily") or candidate.get("family")
+    else:
+        target = candidate.get("code")
+    return target if target and classify_code(target) else None
+
+
+def call_class(candidate: dict) -> str:
+    """Read-first verdict for a candidate → edge `call_class`.
+
+    'inhibitor' when the family is an I-family; 'nonpeptidase_homolog' when
+    the best (nearest) hit is a catalytically dead .9xx entry; else
+    'peptidase'. Threshold-free — surfaces MEROPS's own curation as a
+    top-level token (expression_status pattern).
+    """
+    if candidate.get("entry_type") == "inhibitor":
+        return "inhibitor"
+    if candidate.get("best_hit_kind") == "nonpeptidase_homolog":
+        return "nonpeptidase_homolog"
+    return "peptidase"
+
+
+_TRAILING_ORGANISM_RE = re.compile(r"\s*\([^()]*\)\s*$")
+
+
+def _clean_type_example_name(name: str) -> str:
+    """Strip the trailing organism parenthetical from a scan-lib entry name.
+
+    "aminopeptidase N (Homo sapiens)" → "aminopeptidase N";
+    "chymotrypsin A (cattle-type) (Bos taurus)" → "chymotrypsin A (cattle-type)"
+    (only the LAST parenthetical is the organism).
+    """
+    return _TRAILING_ORGANISM_RE.sub("", name).strip()
+
+
+def type_example_names(scan_lib_text: str) -> dict[str, str]:
+    """{family_or_subfamily_code: type-example name} from merops_scan.lib text.
+
+    MEROPS names a family after its type example; family.txt carries that name
+    for only ~27% of families, so this derives the rest from the scan library:
+    per code, prefer the `.001` entry, else the lowest-numbered characterized
+    holotype (< .900), else the lowest putative (letter-tail) entry. Dead
+    `.9xx` homologs never name a family — a family observed only through dead
+    relatives keeps its bare code. Caller passes latin-1-decoded text.
+    """
+    # best[code] = (rank, sort_key, name); rank 0 = holotype, 1 = putative
+    best: dict[str, tuple[int, str, str]] = {}
+
+    def offer(code: str | None, tail: str, name: str) -> None:
+        if not code or not name:
+            return
+        if tail.isdigit():
+            if tail.startswith("9"):
+                return  # nonpeptidase homolog — never a namesake
+            cand = (0, tail.zfill(3), name)
+        else:
+            cand = (1, tail, name)
+        if code not in best or cand < best[code]:
+            best[code] = cand
+
+    for line in scan_lib_text.splitlines():
+        if not line.startswith(">"):
+            continue
+        rec = parse_scan_lib_header(line)
+        if not rec:
+            continue
+        m = _MEROPS_ID_RE.match(rec["merops_id"])
+        if not m:
+            continue
+        family = m.group("family")
+        tail = m.group("tail")
+        name = _clean_type_example_name(rec["name"])
+        offer(family, tail, name)
+        subfam = rec["subfamily"]
+        if subfam and subfam != family:
+            offer(subfam, tail, name)
+
+    return {code: name for code, (_, _, name) in best.items()}
+
+
+# ============================================================================
 # Reference tables (family.txt / clan.txt)
 # ============================================================================
+
+def parse_clan_txt(text: str) -> dict[str, dict]:
+    """Parse MEROPS `database_files/clan.txt` into {clan: {description, family_type}}.
+
+    Tab-separated columns (observed release 12.5): clan, subclan?, description,
+    NA?, reference, type ("peptidase"|"inhibitor"), active. Codes ending in
+    "-" (e.g. "A-") are the "families not assigned to a clan" sentinel rows —
+    skipped (families under them carry clan=None, matching parse_family_txt).
+    """
+    clans: dict[str, dict] = {}
+    for line in text.splitlines():
+        parts = line.split("\t")
+        if len(parts) < 6 or not parts[0].strip():
+            continue
+        clan = parts[0].strip()
+        if clan.endswith("-"):
+            continue
+        clans[clan] = {
+            "description": parts[2].strip() or None,
+            "family_type": parts[5].strip() or None,
+        }
+    return clans
+
 
 def parse_family_txt(text: str) -> dict[str, dict]:
     """Parse MEROPS `database_files/family.txt` into {family: {clan, name, entry_type}}.
