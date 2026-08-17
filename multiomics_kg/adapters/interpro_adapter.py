@@ -2,15 +2,23 @@
 
 Yields:
 - InterproEntry nodes (observed IPR entries + their is-a ancestors), with
-  name/type/level from the committed reference cache
+  name/type/level/description from the committed reference cache
   (``cache/data/interpro/interpro_reference.json``, built by prepare_data step 9).
+  ``description`` is sparse (Task 6): present only when the reference entry
+  carries a non-empty narrative.
 - Interpro_entry_is_a_interpro_entry parent edges (child → parent), pruned to kept
   entries (mirrors TCDB/BRITE subhierarchy pruning — never dangles).
-- Gene_has_interpro_entry edges (one per gene×entry) carrying per-match evidence
-  aggregated from the strain's Phase-1 calls.json: start/end envelope, best
-  evalue/score, member-DB libraries, match_count. Scored ontology edge (the
-  Changes_expression_of / psortb / signalp precedent). NO e-value filtering —
-  each member DB pre-applies its own curated threshold (see the design spec §1).
+- Gene_has_interpro_entry edges (one per gene×entry) carrying evidence read
+  DIRECTLY from the strain's faceted Phase-1 calls.json per-protein
+  ``interpro_entries`` rollup (precomputed at normalize time — no aggregation
+  here): start/end envelope, evalue (+ ``evalue_library`` naming which member DB
+  it came from), member-DB libraries, match_count. NO ``score``. Scored ontology
+  edge (the Changes_expression_of / psortb / signalp precedent). NO e-value
+  filtering — each member DB pre-applies its own curated threshold (see the
+  design spec §1). Merged ``interpro_entries`` (a per-gene list of accessions) is
+  the authority for which edges exist; when an authority entry is missing from
+  the calls.json rollup (skew between merge and calls artifacts), the edge is
+  still emitted fail-soft with ``{match_count: 0, libraries: []}``.
 - Pfam_in_interpro_entry bridge edges (Pfam → InterproEntry) connecting the
   existing eggNOG Pfam layer to the InterPro layer, derived from the calls.json
   PFAM signature→entry mapping. Dangling-proof: emitted only when the source Pfam
@@ -82,31 +90,6 @@ def _normalize_ec_token(raw: str) -> list[str]:
     return [t for t in (str(x).strip() for x in toks) if t]
 
 
-def aggregate_match_evidence(matches: list[dict]) -> dict:
-    """Fold a gene's matches to ONE InterPro entry into edge properties.
-
-    start = min start, end = max end (domain envelope); evalue = best (min) non-null;
-    score = best (max) non-null; libraries = sorted distinct member DBs; match_count =
-    number of match×location rows. evalue/score/start/end are omitted when no match
-    reports one (NOT filtered — see design spec §1 "No e-value cutoff"). Pure.
-    """
-    starts = [m["start"] for m in matches if m.get("start") is not None]
-    ends = [m["end"] for m in matches if m.get("end") is not None]
-    evalues = [m["evalue"] for m in matches if m.get("evalue") is not None]
-    scores = [m["score"] for m in matches if m.get("score") is not None]
-    libs = sorted({m["library"] for m in matches if m.get("library")})
-    props: dict = {"match_count": len(matches), "libraries": [_clean_str(x) for x in libs]}
-    if starts:
-        props["start"] = min(starts)
-    if ends:
-        props["end"] = max(ends)
-    if evalues:
-        props["evalue"] = min(evalues)
-    if scores:
-        props["score"] = max(scores)
-    return props
-
-
 def kept_ids(observed: set[str], reference: dict[str, dict]) -> set[str]:
     """Observed entries + every is-a ancestor (walk the reference parent chain).
 
@@ -125,11 +108,13 @@ def kept_ids(observed: set[str], reference: dict[str, dict]) -> set[str]:
 
 
 class InterproAnnotationAdapter:
-    """Per-strain adapter: Gene_has_interpro_entry edges with aggregated evidence.
+    """Per-strain adapter: Gene_has_interpro_entry edges with precomputed evidence.
 
     Reads the merged JSON (locus_tag → {protein_id, interpro_entries}) for the gene
-    set + protein_id join, and the strain's Phase-1 calls.json (WP_ → matches) for
-    the per-match evidence folded onto each edge.
+    set + protein_id join (authority for which edges exist), and the strain's
+    faceted Phase-1 calls.json (WP_ → {interpro_entries: {IPR: {...}}, ...}) for
+    the per-entry evidence rollup already computed at normalize time — no
+    aggregation happens here.
     """
 
     def __init__(self, genome_dir: Path, test_mode: bool = False) -> None:
@@ -178,14 +163,12 @@ class InterproAnnotationAdapter:
         return out
 
     def get_pfam_to_interpro(self) -> dict[str, str]:
-        """PF* → IPR* mapping from this strain's integrated PFAM matches (for the bridge)."""
+        """PF* → IPR* mapping from this strain's PFAM facet rows (for the bridge)."""
         out: dict[str, str] = {}
         for call in self._calls.values():
-            for m in call.get("matches") or []:
-                if m.get("library") != "PFAM":
-                    continue
-                sig = m.get("signature_accession")
-                ipr = m.get("interpro_accession")
+            for row in (call.get("libraries") or {}).get("PFAM") or []:
+                sig = row.get("accession")
+                ipr = row.get("ipr")
                 if sig and ipr:
                     out[sig.split(".")[0]] = ipr
         return out
@@ -194,27 +177,24 @@ class InterproAnnotationAdapter:
         count = 0
         for locus_tag, gene in self._genes.items():
             protein_id = (gene.get("protein_id") or "").strip()
-            entries = gene.get("interpro_entries") or []
+            entries = gene.get("interpro_entries") or []      # merged = authority
             if not protein_id or not entries:
                 continue
-            call = self._calls.get(protein_id)
-            if not call:
-                continue
-            # group this protein's matches by integrated InterPro entry
-            by_ipr: dict[str, list[dict]] = {}
-            for m in call.get("matches") or []:
-                acc = m.get("interpro_accession")
-                if acc:
-                    by_ipr.setdefault(acc, []).append(m)
-            for acc, matches in by_ipr.items():
-                props = aggregate_match_evidence(matches)
-                yield (
-                    f"{locus_tag}-has_interpro-{acc}",
-                    _gene_node_id(locus_tag),
-                    _interpro_node_id(acc),
-                    "gene_has_interpro_entry",
-                    props,
-                )
+            rollups = (self._calls.get(protein_id) or {}).get("interpro_entries") or {}
+            for acc in entries:
+                ent = rollups.get(acc)
+                props: dict = {"match_count": 0, "libraries": []}
+                if ent:
+                    props = {"match_count": ent.get("match_count") or 0,
+                             "libraries": [_clean_str(x) for x in ent.get("libraries") or []]}
+                    for k in ("start", "end"):
+                        if ent.get(k) is not None:
+                            props[k] = ent[k]
+                    if ent.get("evalue") is not None:
+                        props["evalue"] = ent["evalue"]
+                        props["evalue_library"] = _clean_str(ent.get("evalue_library"))
+                yield (f"{locus_tag}-has_interpro-{acc}", _gene_node_id(locus_tag),
+                       _interpro_node_id(acc), "gene_has_interpro_entry", props)
                 count += 1
                 if self.test_mode and count >= 100:
                     return
@@ -294,6 +274,17 @@ class MultiInterproAnnotationAdapter:
     def _kept_ids(self, observed: set[str]) -> set[str]:
         return kept_ids(observed, self._reference)
 
+    def kept_node_accessions(self) -> set[str]:
+        """Full pruned InterProEntry node-id set (observed + is-a ancestors).
+
+        Public accessor for downstream consumers (Task 14) that need the exact
+        set of InterPro accessions this adapter will emit nodes for, without
+        duplicating the observed-ids + ancestor-walk logic.
+        """
+        if not self._reference:
+            self.download_data()
+        return self._kept_ids(self._observed_ids())
+
     def get_nodes(self) -> Iterator[tuple[str, str, dict]]:
         if not self._reference:
             self.download_data()
@@ -313,6 +304,9 @@ class MultiInterproAnnotationAdapter:
                     "interpro_type": _clean_str(ref.get("type")),
                     "level": int(ref.get("level") or 0),
                 }
+                description = _clean_str(ref.get("description"))
+                if description:
+                    props["description"] = description
             yield _interpro_node_id(acc), "interpro entry", props
         logger.info(
             f"MultiInterproAnnotationAdapter.get_nodes: {len(kept)} InterproEntry nodes "
