@@ -231,13 +231,7 @@ def run_strain(strain: str, genome_dir: Path, data_dir: Path, args) -> tuple[str
     import json
     with raw_json.open() as f:
         data = json.load(f)
-    entry_xrefs: dict[str, dict[str, list[str]]] = {}
-    calls = parse_interproscan_json(data, entry_xrefs)
-    # Per-entry GO/pathway detail, normalized out of the match records.
-    xrefs_p = calls_p.with_name(calls_p.name.replace(".calls.json", ".entry_xrefs.json"))
-    with xrefs_p.open("w") as f:
-        json.dump(dict(sorted(entry_xrefs.items())), f, indent=1, sort_keys=True)
-        f.write("\n")
+    calls = parse_interproscan_json(data)
 
     summary = summarize(
         calls, strain=strain, input_proteins=input_proteins,
@@ -250,6 +244,36 @@ def run_strain(strain: str, genome_dir: Path, data_dir: Path, args) -> tuple[str
 
     return "OK", (f"{summary['calls_made']} calls, {summary['total_matches']} matches, "
                   f"{summary['proteins_no_match']} no-match, {wallclock:.0f}s")
+
+
+def normalize_strain(strain: str, data_dir: Path) -> tuple[str, str]:
+    """Re-parse a strain's cached raw.json into the new faceted calls.json —
+    no Docker, no scan. Drops the stale entry_xrefs.json sidecar if present."""
+    out_dir = data_dir / TOOL
+    raw_json = out_dir / f"{strain}.{TOOL}.raw.json"
+    if not raw_json.exists():
+        return "NO_RAW", "raw.json missing — re-run the scan or use committed calls.json"
+
+    import json
+    t0 = time.time()
+    with raw_json.open() as f:
+        data = json.load(f)
+    calls = parse_interproscan_json(data)
+    n_prot = len(calls)
+    summary = summarize(
+        calls, strain=strain, input_proteins=n_prot,
+        tool_version=IPS_VERSION, applications="ALL_DEFAULT",
+        wallclock_s=time.time() - t0,
+    )
+    (out_dir / f"{strain}.{TOOL}.calls.json").write_text(
+        json.dumps(calls, indent=1, sort_keys=True) + "\n")
+    (out_dir / f"{strain}.{TOOL}.skill_summary.json").write_text(
+        json.dumps(summary, indent=1, sort_keys=True) + "\n")
+    stale = out_dir / f"{strain}.{TOOL}.entry_xrefs.json"
+    if stale.exists():
+        stale.unlink()
+
+    return "NORMALIZED", f"{n_prot} proteins"
 
 
 # ---------------------------------------------------------------------------
@@ -270,6 +294,8 @@ def main() -> None:
                    help="InterProScan install root (default $INTERPROSCAN_DATA_DIR or ~/tools/InterProScan)")
     p.add_argument("--prepare-image", action="store_true", help="docker pull the image, then exit")
     p.add_argument("--refresh-data", action="store_true", help="download + extract the data tarball, then exit")
+    p.add_argument("--normalize", action="store_true",
+                   help="Re-parse cached raw.json into calls.json (new faceted format); no Docker, no scan")
     args = p.parse_args()
 
     data_root = Path(args.data_dir).expanduser() if args.data_dir else default_data_root()
@@ -278,6 +304,26 @@ def main() -> None:
         sys.exit(prepare_image())
     if args.refresh_data:
         sys.exit(refresh_data(data_root, args.force))
+
+    if args.normalize:
+        rows = load_genome_rows(strains=args.strains)
+        results: list[tuple[str, str, str]] = []
+        for row in rows:
+            strain = row["strain_name"]
+            genome_dir = REPO_ROOT / row["data_dir"].rstrip("/")
+            status, msg = normalize_strain(strain, genome_dir)
+            results.append((strain, status, msg))
+
+        print(f"\n{'='*74}\n{'Strain':<12} {'Status':<14} {'Info'}\n{'-'*12} {'-'*14} {'-'*44}")
+        for strain, status, msg in results:
+            print(f"{strain:<12} {status:<14} {msg}")
+        print(f"{'='*74}")
+
+        failed = [s for s, st, _ in results if st == "FAILED"]
+        if failed:
+            print(f"\nFAILED strains: {', '.join(failed)}", file=sys.stderr)
+            sys.exit(1)
+        sys.exit(0)
 
     # Normal run — refuse to start if the install is incomplete.
     if not check_image():
