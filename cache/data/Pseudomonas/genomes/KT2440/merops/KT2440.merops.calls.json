@@ -1,0 +1,4544 @@
+{
+  "WP_003247207.1": {
+    "calls": [
+      {
+        "best_hit_id": "C44.A03",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0011806",
+        "catalytic_type": "C",
+        "clan": "PB",
+        "code": "C44",
+        "confidence_score": 0.1317,
+        "consensus_agreement": "family",
+        "consensus_n": 5,
+        "entry_type": "peptidase",
+        "evalue": 1.06e-40,
+        "family": "C44",
+        "homolog_hit_fraction": 0.2,
+        "identity": 40.3,
+        "length": 236,
+        "level_kind": "merops_family",
+        "qcov": 46.7,
+        "scov": 93.7,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_003247609.1": {
+    "calls": [
+      {
+        "best_hit_id": "A08.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001313",
+        "catalytic_type": "A",
+        "clan": "AC",
+        "code": "A08",
+        "confidence_score": 0.3742,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 5.47e-33,
+        "family": "A08",
+        "homolog_hit_fraction": 0.0,
+        "identity": 41.3,
+        "length": 155,
+        "level_kind": "merops_family",
+        "qcov": 90.6,
+        "scov": 93.3,
+        "subfamily": null,
+        "tier": 2
+      }
+    ]
+  },
+  "WP_003249260.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0000431",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.3276,
+        "consensus_agreement": "family",
+        "consensus_n": 7,
+        "entry_type": "peptidase",
+        "evalue": 2.71e-112,
+        "family": "S33",
+        "homolog_hit_fraction": 0.143,
+        "identity": 48.3,
+        "length": 315,
+        "level_kind": "merops_family",
+        "qcov": 96.9,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_003249309.1": {
+    "calls": [
+      {
+        "best_hit_id": "T01.006",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001627",
+        "catalytic_type": "T",
+        "clan": "PB",
+        "code": "T01B",
+        "confidence_score": 0.6372,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 5.63e-88,
+        "family": "T01",
+        "homolog_hit_fraction": 0.0,
+        "identity": 77.6,
+        "length": 170,
+        "level_kind": "merops_subfamily",
+        "qcov": 96.6,
+        "scov": 97.1,
+        "subfamily": "T01B",
+        "tier": 2
+      }
+    ]
+  },
+  "WP_003249350.1": {
+    "calls": [
+      {
+        "best_hit_id": "S85.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0492485",
+        "catalytic_type": "S",
+        "clan": null,
+        "code": "S85",
+        "confidence_score": 0.5075,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 1.72e-68,
+        "family": "S85",
+        "homolog_hit_fraction": 0.0,
+        "identity": 58.0,
+        "length": 169,
+        "level_kind": "merops_family",
+        "qcov": 87.5,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 2
+      }
+    ]
+  },
+  "WP_003249484.1": {
+    "calls": [
+      {
+        "best_hit_id": "S09.A40",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0107796",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S09C",
+        "confidence_score": 0.3382,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 2.99e-33,
+        "family": "S09",
+        "homolog_hit_fraction": 0.0,
+        "identity": 40.9,
+        "length": 171,
+        "level_kind": "merops_subfamily",
+        "qcov": 82.7,
+        "scov": 100.0,
+        "subfamily": "S09C",
+        "tier": 2
+      }
+    ]
+  },
+  "WP_003249536.1": {
+    "calls": [
+      {
+        "best_hit_id": "I87.002",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0192051",
+        "catalytic_type": null,
+        "clan": null,
+        "code": "I87",
+        "confidence_score": 0.409,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "inhibitor",
+        "evalue": 1.06e-73,
+        "family": "I87",
+        "homolog_hit_fraction": 0.0,
+        "identity": 44.9,
+        "length": 372,
+        "level_kind": "merops_family",
+        "qcov": 91.1,
+        "scov": 87.1,
+        "subfamily": null,
+        "tier": 2
+      }
+    ]
+  },
+  "WP_003249538.1": {
+    "calls": [
+      {
+        "best_hit_id": "I87.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0191412",
+        "catalytic_type": null,
+        "clan": null,
+        "code": "I87",
+        "confidence_score": 0.2405,
+        "consensus_agreement": "family",
+        "consensus_n": 2,
+        "entry_type": "inhibitor",
+        "evalue": 1.96e-56,
+        "family": "I87",
+        "homolog_hit_fraction": 0.0,
+        "identity": 35.2,
+        "length": 327,
+        "level_kind": "merops_family",
+        "qcov": 97.6,
+        "scov": 97.3,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_003251491.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.A87",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0213280",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.1074,
+        "consensus_agreement": "family",
+        "consensus_n": 12,
+        "entry_type": "peptidase",
+        "evalue": 4.35e-21,
+        "family": "S33",
+        "homolog_hit_fraction": 0.167,
+        "identity": 37.9,
+        "length": 116,
+        "level_kind": "merops_family",
+        "qcov": 40.5,
+        "scov": 38.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_003251626.1": {
+    "calls": [
+      {
+        "best_hit_id": "S16.A04",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0014135",
+        "catalytic_type": "S",
+        "clan": "SJ",
+        "code": "S16",
+        "confidence_score": 0.2745,
+        "consensus_agreement": "family",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 1.09e-125,
+        "family": "S16",
+        "homolog_hit_fraction": 0.0,
+        "identity": 67.5,
+        "length": 265,
+        "level_kind": "merops_family",
+        "qcov": 58.1,
+        "scov": 97.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_003252057.1": {
+    "calls": [
+      {
+        "best_hit_id": "S26.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0000589",
+        "catalytic_type": "S",
+        "clan": "SF",
+        "code": "S26A",
+        "confidence_score": 0.2669,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 22,
+        "entry_type": "peptidase",
+        "evalue": 1.46e-54,
+        "family": "S26",
+        "homolog_hit_fraction": 0.0,
+        "identity": 42.9,
+        "length": 259,
+        "level_kind": "merops_subfamily",
+        "qcov": 73.2,
+        "scov": 100.0,
+        "subfamily": "S26A",
+        "tier": 2
+      }
+    ]
+  },
+  "WP_003252286.1": {
+    "calls": [
+      {
+        "best_hit_id": "M24.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001243",
+        "catalytic_type": "M",
+        "clan": "MG",
+        "code": "M24",
+        "confidence_score": 0.464,
+        "consensus_agreement": "family",
+        "consensus_n": 11,
+        "entry_type": "peptidase",
+        "evalue": 4.29e-125,
+        "family": "M24",
+        "homolog_hit_fraction": 0.091,
+        "identity": 67.3,
+        "length": 257,
+        "level_kind": "merops_family",
+        "qcov": 98.5,
+        "scov": 97.3,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_003252329.1": {
+    "calls": [
+      {
+        "best_hit_id": "C26.964",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0065554",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C26",
+        "confidence_score": 0.2202,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 2.3e-119,
+        "family": "C26",
+        "homolog_hit_fraction": 0.5,
+        "identity": 63.8,
+        "length": 268,
+        "level_kind": "merops_family",
+        "qcov": 49.3,
+        "scov": 99.6,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_003252340.1": {
+    "calls": [
+      {
+        "best_hit_id": "S09.A39",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0061081",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S09",
+        "confidence_score": 0.4117,
+        "consensus_agreement": "family",
+        "consensus_n": 3,
+        "entry_type": "peptidase",
+        "evalue": 4.22e-124,
+        "family": "S09",
+        "homolog_hit_fraction": 0.667,
+        "identity": 62.1,
+        "length": 269,
+        "level_kind": "merops_family",
+        "qcov": 94.7,
+        "scov": 97.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_003255509.1": {
+    "calls": [
+      {
+        "best_hit_id": "M23.009",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0069741",
+        "catalytic_type": "M",
+        "clan": "MO",
+        "code": "M23",
+        "confidence_score": 0.1221,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 13,
+        "entry_type": "peptidase",
+        "evalue": 2.17e-39,
+        "family": "M23",
+        "homolog_hit_fraction": 0.154,
+        "identity": 47.9,
+        "length": 144,
+        "level_kind": "merops_family",
+        "qcov": 30.0,
+        "scov": 81.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_003255531.1": {
+    "calls": [
+      {
+        "best_hit_id": "C26.955",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0043394",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C26",
+        "confidence_score": 0.3841,
+        "consensus_agreement": "family",
+        "consensus_n": 20,
+        "entry_type": "peptidase",
+        "evalue": 6.85e-78,
+        "family": "C26",
+        "homolog_hit_fraction": 0.45,
+        "identity": 64.7,
+        "length": 167,
+        "level_kind": "merops_family",
+        "qcov": 84.8,
+        "scov": 98.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_003255700.1": {
+    "calls": [
+      {
+        "best_hit_id": "M19.950",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0013479",
+        "catalytic_type": "M",
+        "clan": "MJ",
+        "code": "M19",
+        "confidence_score": 0.6357,
+        "consensus_agreement": "family",
+        "consensus_n": 10,
+        "entry_type": "peptidase",
+        "evalue": 1.66e-226,
+        "family": "M19",
+        "homolog_hit_fraction": 0.1,
+        "identity": 92.2,
+        "length": 320,
+        "level_kind": "merops_family",
+        "qcov": 98.5,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_003259400.1": {
+    "calls": [
+      {
+        "best_hit_id": "S14.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0000474",
+        "catalytic_type": "S",
+        "clan": "SK",
+        "code": "S14",
+        "confidence_score": 0.5029,
+        "consensus_agreement": "family",
+        "consensus_n": 14,
+        "entry_type": "peptidase",
+        "evalue": 1.9e-112,
+        "family": "S14",
+        "homolog_hit_fraction": 0.0,
+        "identity": 80.1,
+        "length": 191,
+        "level_kind": "merops_family",
+        "qcov": 89.7,
+        "scov": 92.3,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_004574734.1": {
+    "calls": [
+      {
+        "best_hit_id": "M20.010",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001272",
+        "catalytic_type": "M",
+        "clan": "MH",
+        "code": "M20A",
+        "confidence_score": 0.4122,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 1.02e-85,
+        "family": "M20",
+        "homolog_hit_fraction": 0.0,
+        "identity": 42.1,
+        "length": 375,
+        "level_kind": "merops_subfamily",
+        "qcov": 97.9,
+        "scov": 98.9,
+        "subfamily": "M20A",
+        "tier": 2
+      }
+    ]
+  },
+  "WP_004575476.1": {
+    "calls": [
+      {
+        "best_hit_id": "M16.019",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0195774",
+        "catalytic_type": "M",
+        "clan": "ME",
+        "code": "M16",
+        "confidence_score": 0.152,
+        "consensus_agreement": "family",
+        "consensus_n": 19,
+        "entry_type": "peptidase",
+        "evalue": 1.32e-66,
+        "family": "M16",
+        "homolog_hit_fraction": 0.211,
+        "identity": 55.4,
+        "length": 177,
+        "level_kind": "merops_family",
+        "qcov": 39.2,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_004575710.1": {
+    "calls": [
+      {
+        "best_hit_id": "S16.A10",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0003018",
+        "catalytic_type": "S",
+        "clan": "SJ",
+        "code": "S16",
+        "confidence_score": 0.0948,
+        "consensus_agreement": "family",
+        "consensus_n": 6,
+        "entry_type": "peptidase",
+        "evalue": 4.47e-61,
+        "family": "S16",
+        "homolog_hit_fraction": 0.0,
+        "identity": 50.7,
+        "length": 219,
+        "level_kind": "merops_family",
+        "qcov": 26.7,
+        "scov": 98.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_004576741.1": {
+    "calls": [
+      {
+        "best_hit_id": "S41.004",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001425",
+        "catalytic_type": "S",
+        "clan": "SK",
+        "code": "S41",
+        "confidence_score": 0.189,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 10,
+        "entry_type": "peptidase",
+        "evalue": 3.58e-55,
+        "family": "S41",
+        "homolog_hit_fraction": 0.0,
+        "identity": 57.6,
+        "length": 170,
+        "level_kind": "merops_family",
+        "qcov": 38.6,
+        "scov": 97.1,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_004577525.1": {
+    "calls": [
+      {
+        "best_hit_id": "U32.003",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0013876",
+        "catalytic_type": "U",
+        "clan": null,
+        "code": "U32",
+        "confidence_score": 0.2846,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 3.52e-191,
+        "family": "U32",
+        "homolog_hit_fraction": 0.0,
+        "identity": 73.8,
+        "length": 367,
+        "level_kind": "merops_family",
+        "qcov": 55.1,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010951538.1": {
+    "calls": [
+      {
+        "best_hit_id": "M16.006",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001223",
+        "catalytic_type": "M",
+        "clan": "ME",
+        "code": "M16",
+        "confidence_score": 0.0444,
+        "consensus_agreement": "family",
+        "consensus_n": 9,
+        "entry_type": "peptidase",
+        "evalue": 0.000355,
+        "family": "M16",
+        "homolog_hit_fraction": 0.222,
+        "identity": 34.5,
+        "length": 87,
+        "level_kind": "merops_family",
+        "qcov": 18.4,
+        "scov": 45.3,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010951584.1": {
+    "calls": [
+      {
+        "best_hit_id": "S49.005",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0042954",
+        "catalytic_type": "S",
+        "clan": "SK",
+        "code": "S49",
+        "confidence_score": 0.1521,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 1.55e-28,
+        "family": "S49",
+        "homolog_hit_fraction": 0.0,
+        "identity": 41.0,
+        "length": 166,
+        "level_kind": "merops_family",
+        "qcov": 37.1,
+        "scov": 96.3,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010951587.1": {
+    "calls": [
+      {
+        "best_hit_id": "M20.A25",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0369972",
+        "catalytic_type": "M",
+        "clan": "MH",
+        "code": "M20",
+        "confidence_score": 0.0729,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 2.01e-16,
+        "family": "M20",
+        "homolog_hit_fraction": 0.0,
+        "identity": 33.5,
+        "length": 191,
+        "level_kind": "merops_family",
+        "qcov": 31.1,
+        "scov": 40.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010951658.1": {
+    "calls": [
+      {
+        "best_hit_id": "C26.965",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0065588",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C26",
+        "confidence_score": 0.3583,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 5.48e-37,
+        "family": "C26",
+        "homolog_hit_fraction": 1.0,
+        "identity": 37.4,
+        "length": 203,
+        "level_kind": "merops_family",
+        "qcov": 95.8,
+        "scov": 98.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010951716.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.994",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0017142",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.284,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 2.73e-24,
+        "family": "S33",
+        "homolog_hit_fraction": 1.0,
+        "identity": 30.8,
+        "length": 234,
+        "level_kind": "merops_family",
+        "qcov": 92.2,
+        "scov": 93.1,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010951726.1": {
+    "calls": [
+      {
+        "best_hit_id": "S09.B03",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0140224",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S09",
+        "confidence_score": 0.1113,
+        "consensus_agreement": "family",
+        "consensus_n": 11,
+        "entry_type": "peptidase",
+        "evalue": 1.13e-60,
+        "family": "S09",
+        "homolog_hit_fraction": 0.0,
+        "identity": 44.4,
+        "length": 225,
+        "level_kind": "merops_family",
+        "qcov": 35.8,
+        "scov": 94.5,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010951730.1": {
+    "calls": [
+      {
+        "best_hit_id": "M16.006",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001223",
+        "catalytic_type": "M",
+        "clan": "ME",
+        "code": "M16",
+        "confidence_score": 0.075,
+        "consensus_agreement": "family",
+        "consensus_n": 25,
+        "entry_type": "peptidase",
+        "evalue": 4.73e-36,
+        "family": "M16",
+        "homolog_hit_fraction": 0.04,
+        "identity": 44.1,
+        "length": 186,
+        "level_kind": "merops_family",
+        "qcov": 24.3,
+        "scov": 96.9,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010951819.1": {
+    "calls": [
+      {
+        "best_hit_id": "M90.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0217243",
+        "catalytic_type": "M",
+        "clan": "MA",
+        "code": "M90",
+        "confidence_score": 0.3494,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 7.88e-49,
+        "family": "M90",
+        "homolog_hit_fraction": 0.0,
+        "identity": 39.8,
+        "length": 241,
+        "level_kind": "merops_family",
+        "qcov": 87.8,
+        "scov": 89.1,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010951828.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.994",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0017142",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.0684,
+        "consensus_agreement": "family",
+        "consensus_n": 12,
+        "entry_type": "peptidase",
+        "evalue": 5.71e-08,
+        "family": "S33",
+        "homolog_hit_fraction": 0.5,
+        "identity": 33.6,
+        "length": 107,
+        "level_kind": "merops_family",
+        "qcov": 29.1,
+        "scov": 41.5,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010951843.1": {
+    "calls": [
+      {
+        "best_hit_id": "I39.008",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0034541",
+        "catalytic_type": null,
+        "clan": "IL",
+        "code": "I39",
+        "confidence_score": 0.4469,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "inhibitor",
+        "evalue": 0.0,
+        "family": "I39",
+        "homolog_hit_fraction": 0.0,
+        "identity": 52.7,
+        "length": 1404,
+        "level_kind": "merops_family",
+        "qcov": 84.8,
+        "scov": 99.9,
+        "subfamily": null,
+        "tier": 2
+      }
+    ]
+  },
+  "WP_010951880.1": {
+    "calls": [
+      {
+        "best_hit_id": "M20.976",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0026469",
+        "catalytic_type": "M",
+        "clan": "MH",
+        "code": "M20",
+        "confidence_score": 0.2346,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 1.97e-47,
+        "family": "M20",
+        "homolog_hit_fraction": 0.5,
+        "identity": 30.3,
+        "length": 390,
+        "level_kind": "merops_family",
+        "qcov": 91.1,
+        "scov": 98.7,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010951890.1": {
+    "calls": [
+      {
+        "best_hit_id": "A24.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0000870",
+        "catalytic_type": "A",
+        "clan": "AD",
+        "code": "A24A",
+        "confidence_score": 0.4615,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 5,
+        "entry_type": "peptidase",
+        "evalue": 2.97e-113,
+        "family": "A24",
+        "homolog_hit_fraction": 0.0,
+        "identity": 68.3,
+        "length": 230,
+        "level_kind": "merops_subfamily",
+        "qcov": 79.5,
+        "scov": 99.1,
+        "subfamily": "A24A",
+        "tier": 2
+      }
+    ]
+  },
+  "WP_010951972.1": {
+    "calls": [
+      {
+        "best_hit_id": "C26.A08",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0031178",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C26",
+        "confidence_score": 0.1181,
+        "consensus_agreement": "family",
+        "consensus_n": 12,
+        "entry_type": "peptidase",
+        "evalue": 3.44e-10,
+        "family": "C26",
+        "homolog_hit_fraction": 0.25,
+        "identity": 30.4,
+        "length": 148,
+        "level_kind": "merops_family",
+        "qcov": 55.5,
+        "scov": 48.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952117.1": {
+    "calls": [
+      {
+        "best_hit_id": "M75.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0042581",
+        "catalytic_type": "M",
+        "clan": "MS",
+        "code": "M75.001",
+        "confidence_score": 0.729,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 8.9e-223,
+        "family": "M75",
+        "homolog_hit_fraction": 0.0,
+        "identity": 72.9,
+        "length": 446,
+        "level_kind": "merops_id",
+        "qcov": 100.0,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 1
+      }
+    ]
+  },
+  "WP_010952138.1": {
+    "calls": [
+      {
+        "best_hit_id": "M103.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0016301",
+        "catalytic_type": "M",
+        "clan": "MU",
+        "code": "M103",
+        "confidence_score": 0.4468,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 3.73e-218,
+        "family": "M103",
+        "homolog_hit_fraction": 0.25,
+        "identity": 66.0,
+        "length": 468,
+        "level_kind": "merops_family",
+        "qcov": 96.7,
+        "scov": 99.6,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952169.1": {
+    "calls": [
+      {
+        "best_hit_id": "M17.003",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001236",
+        "catalytic_type": "M",
+        "clan": "MF",
+        "code": "M17",
+        "confidence_score": 0.366,
+        "consensus_agreement": "family",
+        "consensus_n": 21,
+        "entry_type": "peptidase",
+        "evalue": 1.07e-177,
+        "family": "M17",
+        "homolog_hit_fraction": 0.048,
+        "identity": 53.9,
+        "length": 486,
+        "level_kind": "merops_family",
+        "qcov": 97.0,
+        "scov": 99.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952205.1": {
+    "calls": [
+      {
+        "best_hit_id": "M23.014",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0013541",
+        "catalytic_type": "M",
+        "clan": "MO",
+        "code": "M23",
+        "confidence_score": 0.1082,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 11,
+        "entry_type": "peptidase",
+        "evalue": 5.11e-22,
+        "family": "M23",
+        "homolog_hit_fraction": 0.182,
+        "identity": 41.2,
+        "length": 85,
+        "level_kind": "merops_family",
+        "qcov": 30.9,
+        "scov": 96.6,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952209.1": {
+    "calls": [
+      {
+        "best_hit_id": "C26.957",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0045886",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C26",
+        "confidence_score": 0.1309,
+        "consensus_agreement": "family",
+        "consensus_n": 13,
+        "entry_type": "peptidase",
+        "evalue": 1.51e-59,
+        "family": "C26",
+        "homolog_hit_fraction": 0.385,
+        "identity": 42.5,
+        "length": 233,
+        "level_kind": "merops_family",
+        "qcov": 44.0,
+        "scov": 94.5,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952214.1": {
+    "calls": [
+      {
+        "best_hit_id": "C56.972",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0042827",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C56",
+        "confidence_score": 0.0354,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 4.05e-25,
+        "family": "C56",
+        "homolog_hit_fraction": 1.0,
+        "identity": 47.9,
+        "length": 96,
+        "level_kind": "merops_family",
+        "qcov": 7.4,
+        "scov": 97.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952253.1": {
+    "calls": [
+      {
+        "best_hit_id": "M38.A02",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0061068",
+        "catalytic_type": "M",
+        "clan": "MJ",
+        "code": "M38",
+        "confidence_score": 0.474,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 6.32e-112,
+        "family": "M38",
+        "homolog_hit_fraction": 0.0,
+        "identity": 55.9,
+        "length": 295,
+        "level_kind": "merops_family",
+        "qcov": 84.8,
+        "scov": 99.0,
+        "subfamily": null,
+        "tier": 2
+      }
+    ]
+  },
+  "WP_010952288.1": {
+    "calls": [
+      {
+        "best_hit_id": "S12.A14",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0017074",
+        "catalytic_type": "S",
+        "clan": "SE",
+        "code": "S12",
+        "confidence_score": 0.2128,
+        "consensus_agreement": "family",
+        "consensus_n": 12,
+        "entry_type": "peptidase",
+        "evalue": 1.23e-51,
+        "family": "S12",
+        "homolog_hit_fraction": 0.167,
+        "identity": 33.0,
+        "length": 367,
+        "level_kind": "merops_family",
+        "qcov": 92.1,
+        "scov": 93.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952374.1": {
+    "calls": [
+      {
+        "best_hit_id": "M48.023",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0031491",
+        "catalytic_type": "M",
+        "clan": "MA",
+        "code": "M48",
+        "confidence_score": 0.1511,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 5,
+        "entry_type": "peptidase",
+        "evalue": 7.21e-43,
+        "family": "M48",
+        "homolog_hit_fraction": 0.0,
+        "identity": 45.0,
+        "length": 189,
+        "level_kind": "merops_family",
+        "qcov": 39.5,
+        "scov": 98.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952423.1": {
+    "calls": [
+      {
+        "best_hit_id": "S09.941",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0200434",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S09",
+        "confidence_score": 0.1452,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 9.67e-10,
+        "family": "S09",
+        "homolog_hit_fraction": 0.5,
+        "identity": 38.4,
+        "length": 99,
+        "level_kind": "merops_family",
+        "qcov": 44.5,
+        "scov": 85.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952461.1": {
+    "calls": [
+      {
+        "best_hit_id": "T05.002",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0011830",
+        "catalytic_type": "T",
+        "clan": "PE",
+        "code": "T05",
+        "confidence_score": 0.1479,
+        "consensus_agreement": "family",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 2.77e-42,
+        "family": "T05",
+        "homolog_hit_fraction": 0.0,
+        "identity": 39.8,
+        "length": 221,
+        "level_kind": "merops_family",
+        "qcov": 53.1,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952488.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.016",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0037236",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.0767,
+        "consensus_agreement": "family",
+        "consensus_n": 6,
+        "entry_type": "peptidase",
+        "evalue": 0.000528,
+        "family": "S33",
+        "homolog_hit_fraction": 0.333,
+        "identity": 27.2,
+        "length": 114,
+        "level_kind": "merops_family",
+        "qcov": 40.3,
+        "scov": 42.5,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952543.1": {
+    "calls": [
+      {
+        "best_hit_id": "S16.A03",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0011056",
+        "catalytic_type": "S",
+        "clan": "SJ",
+        "code": "S16",
+        "confidence_score": 0.0885,
+        "consensus_agreement": "family",
+        "consensus_n": 17,
+        "entry_type": "peptidase",
+        "evalue": 1.07e-57,
+        "family": "S16",
+        "homolog_hit_fraction": 0.0,
+        "identity": 50.0,
+        "length": 208,
+        "level_kind": "merops_family",
+        "qcov": 25.3,
+        "scov": 92.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952551.1": {
+    "calls": [
+      {
+        "best_hit_id": "C82.A01",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0152590",
+        "catalytic_type": "C",
+        "clan": "CL",
+        "code": "C82",
+        "confidence_score": 0.2076,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 7.85e-10,
+        "family": "C82",
+        "homolog_hit_fraction": 0.0,
+        "identity": 30.3,
+        "length": 132,
+        "level_kind": "merops_family",
+        "qcov": 68.5,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952592.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.A20",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0036047",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.0782,
+        "consensus_agreement": "family",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 7.13e-07,
+        "family": "S33",
+        "homolog_hit_fraction": 0.5,
+        "identity": 28.8,
+        "length": 125,
+        "level_kind": "merops_family",
+        "qcov": 38.8,
+        "scov": 43.3,
+        "subfamily": null,
+        "tier": 3
+      },
+      {
+        "best_hit_id": "S09.A67",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0017355",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S09",
+        "confidence_score": 0.0647,
+        "consensus_agreement": "family",
+        "consensus_n": 15,
+        "entry_type": "peptidase",
+        "evalue": 2.16e-07,
+        "family": "S09",
+        "homolog_hit_fraction": 0.0,
+        "identity": 30.2,
+        "length": 96,
+        "level_kind": "merops_family",
+        "qcov": 30.6,
+        "scov": 55.6,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952650.1": {
+    "calls": [
+      {
+        "best_hit_id": "S78.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001396",
+        "catalytic_type": "S",
+        "clan": "SH",
+        "code": "S78",
+        "confidence_score": 0.3089,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 2.74e-24,
+        "family": "S78",
+        "homolog_hit_fraction": 0.0,
+        "identity": 33.0,
+        "length": 227,
+        "level_kind": "merops_family",
+        "qcov": 93.6,
+        "scov": 96.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952725.1": {
+    "calls": [
+      {
+        "best_hit_id": "C40.013",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0004054",
+        "catalytic_type": "C",
+        "clan": "CO",
+        "code": "C40",
+        "confidence_score": 0.2077,
+        "consensus_agreement": "family",
+        "consensus_n": 16,
+        "entry_type": "peptidase",
+        "evalue": 4.79e-37,
+        "family": "C40",
+        "homolog_hit_fraction": 0.0,
+        "identity": 46.5,
+        "length": 114,
+        "level_kind": "merops_family",
+        "qcov": 63.8,
+        "scov": 93.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952777.1": {
+    "calls": [
+      {
+        "best_hit_id": "M18.A01",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0003372",
+        "catalytic_type": "M",
+        "clan": "MH",
+        "code": "M18",
+        "confidence_score": 0.2899,
+        "consensus_agreement": "family",
+        "consensus_n": 6,
+        "entry_type": "peptidase",
+        "evalue": 1.67e-116,
+        "family": "M18",
+        "homolog_hit_fraction": 0.0,
+        "identity": 42.0,
+        "length": 462,
+        "level_kind": "merops_family",
+        "qcov": 98.6,
+        "scov": 97.1,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952789.1": {
+    "calls": [
+      {
+        "best_hit_id": "M42.A02",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0025084",
+        "catalytic_type": "M",
+        "clan": "MH",
+        "code": "M42",
+        "confidence_score": 0.2214,
+        "consensus_agreement": "family",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 2.21e-75,
+        "family": "M42",
+        "homolog_hit_fraction": 0.0,
+        "identity": 37.0,
+        "length": 338,
+        "level_kind": "merops_family",
+        "qcov": 85.5,
+        "scov": 98.5,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952790.1": {
+    "calls": [
+      {
+        "best_hit_id": "C44.976",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0034539",
+        "catalytic_type": "C",
+        "clan": "PB",
+        "code": "C44",
+        "confidence_score": 0.0631,
+        "consensus_agreement": "family",
+        "consensus_n": 3,
+        "entry_type": "peptidase",
+        "evalue": 5.23e-19,
+        "family": "C44",
+        "homolog_hit_fraction": 0.667,
+        "identity": 36.5,
+        "length": 148,
+        "level_kind": "merops_family",
+        "qcov": 24.7,
+        "scov": 68.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952873.1": {
+    "calls": [
+      {
+        "best_hit_id": "C26.A05",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0043475",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C26",
+        "confidence_score": 0.1625,
+        "consensus_agreement": "family",
+        "consensus_n": 3,
+        "entry_type": "peptidase",
+        "evalue": 2.03e-26,
+        "family": "C26",
+        "homolog_hit_fraction": 0.0,
+        "identity": 33.7,
+        "length": 175,
+        "level_kind": "merops_family",
+        "qcov": 68.9,
+        "scov": 69.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952899.1": {
+    "calls": [
+      {
+        "best_hit_id": "M48.002",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0002637",
+        "catalytic_type": "M",
+        "clan": "MA",
+        "code": "M48",
+        "confidence_score": 0.2487,
+        "consensus_agreement": "family",
+        "consensus_n": 7,
+        "entry_type": "peptidase",
+        "evalue": 4.52e-61,
+        "family": "M48",
+        "homolog_hit_fraction": 0.0,
+        "identity": 50.9,
+        "length": 212,
+        "level_kind": "merops_family",
+        "qcov": 69.8,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952907.1": {
+    "calls": [
+      {
+        "best_hit_id": "N04.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0187148",
+        "catalytic_type": "N",
+        "clan": "ND",
+        "code": "N04",
+        "confidence_score": 0.1078,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 6.11e-18,
+        "family": "N04",
+        "homolog_hit_fraction": 0.0,
+        "identity": 28.3,
+        "length": 286,
+        "level_kind": "merops_family",
+        "qcov": 38.1,
+        "scov": 98.9,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952932.1": {
+    "calls": [
+      {
+        "best_hit_id": "S49.A08",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0321345",
+        "catalytic_type": "S",
+        "clan": "SK",
+        "code": "S49",
+        "confidence_score": 0.1248,
+        "consensus_agreement": "family",
+        "consensus_n": 7,
+        "entry_type": "peptidase",
+        "evalue": 9.48e-29,
+        "family": "S49",
+        "homolog_hit_fraction": 0.0,
+        "identity": 33.5,
+        "length": 176,
+        "level_kind": "merops_family",
+        "qcov": 53.2,
+        "scov": 94.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010952974.1": {
+    "calls": [
+      {
+        "best_hit_id": "S12.950",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0006204",
+        "catalytic_type": "S",
+        "clan": "SE",
+        "code": "S12",
+        "confidence_score": 0.0987,
+        "consensus_agreement": "family",
+        "consensus_n": 8,
+        "entry_type": "peptidase",
+        "evalue": 8.51e-14,
+        "family": "S12",
+        "homolog_hit_fraction": 0.125,
+        "identity": 32.2,
+        "length": 183,
+        "level_kind": "merops_family",
+        "qcov": 43.8,
+        "scov": 47.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953025.1": {
+    "calls": [
+      {
+        "best_hit_id": "S54.028",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0035255",
+        "catalytic_type": "S",
+        "clan": "ST",
+        "code": "S54",
+        "confidence_score": 0.318,
+        "consensus_agreement": "family",
+        "consensus_n": 18,
+        "entry_type": "peptidase",
+        "evalue": 2.2e-98,
+        "family": "S54",
+        "homolog_hit_fraction": 0.0,
+        "identity": 67.3,
+        "length": 199,
+        "level_kind": "merops_family",
+        "qcov": 67.5,
+        "scov": 98.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953026.1": {
+    "calls": [
+      {
+        "best_hit_id": "M01.005",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001001",
+        "catalytic_type": "M",
+        "clan": "MA",
+        "code": "M01",
+        "confidence_score": 0.1153,
+        "consensus_agreement": "family",
+        "consensus_n": 25,
+        "entry_type": "peptidase",
+        "evalue": 1.6e-101,
+        "family": "M01",
+        "homolog_hit_fraction": 0.0,
+        "identity": 69.5,
+        "length": 210,
+        "level_kind": "merops_family",
+        "qcov": 23.7,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953084.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.A58",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0209266",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.1225,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 0.00011,
+        "family": "S33",
+        "homolog_hit_fraction": 0.0,
+        "identity": 28.1,
+        "length": 153,
+        "level_kind": "merops_family",
+        "qcov": 43.6,
+        "scov": 43.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953131.1": {
+    "calls": [
+      {
+        "best_hit_id": "S24.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0000569",
+        "catalytic_type": "S",
+        "clan": "SF",
+        "code": "S24",
+        "confidence_score": 0.2563,
+        "consensus_agreement": "family",
+        "consensus_n": 3,
+        "entry_type": "peptidase",
+        "evalue": 5.42e-49,
+        "family": "S24",
+        "homolog_hit_fraction": 0.0,
+        "identity": 65.5,
+        "length": 113,
+        "level_kind": "merops_family",
+        "qcov": 55.9,
+        "scov": 95.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953165.1": {
+    "calls": [
+      {
+        "best_hit_id": "C26.961",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0031278",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C26",
+        "confidence_score": 0.2991,
+        "consensus_agreement": "family",
+        "consensus_n": 6,
+        "entry_type": "peptidase",
+        "evalue": 5e-64,
+        "family": "C26",
+        "homolog_hit_fraction": 0.167,
+        "identity": 44.1,
+        "length": 254,
+        "level_kind": "merops_family",
+        "qcov": 96.9,
+        "scov": 97.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953184.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.016",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0037236",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.0677,
+        "consensus_agreement": "family",
+        "consensus_n": 14,
+        "entry_type": "peptidase",
+        "evalue": 1.15e-09,
+        "family": "S33",
+        "homolog_hit_fraction": 0.429,
+        "identity": 30.3,
+        "length": 109,
+        "level_kind": "merops_family",
+        "qcov": 31.9,
+        "scov": 41.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953272.1": {
+    "calls": [
+      {
+        "best_hit_id": "S16.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0000485",
+        "catalytic_type": "S",
+        "clan": "SJ",
+        "code": "S16",
+        "confidence_score": 0.1423,
+        "consensus_agreement": "family",
+        "consensus_n": 19,
+        "entry_type": "peptidase",
+        "evalue": 8.86e-103,
+        "family": "S16",
+        "homolog_hit_fraction": 0.0,
+        "identity": 68.2,
+        "length": 239,
+        "level_kind": "merops_family",
+        "qcov": 29.8,
+        "scov": 96.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953288.1": {
+    "calls": [
+      {
+        "best_hit_id": "C82.A04",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0107825",
+        "catalytic_type": "C",
+        "clan": "CL",
+        "code": "C82",
+        "confidence_score": 0.1713,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 5.46e-39,
+        "family": "C82",
+        "homolog_hit_fraction": 0.0,
+        "identity": 50.0,
+        "length": 132,
+        "level_kind": "merops_family",
+        "qcov": 40.3,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953323.1": {
+    "calls": [
+      {
+        "best_hit_id": "M14.028",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0033179",
+        "catalytic_type": "M",
+        "clan": "MC",
+        "code": "M14",
+        "confidence_score": 0.055,
+        "consensus_agreement": "family",
+        "consensus_n": 8,
+        "entry_type": "peptidase",
+        "evalue": 1.49e-15,
+        "family": "M14",
+        "homolog_hit_fraction": 0.0,
+        "identity": 33.7,
+        "length": 89,
+        "level_kind": "merops_family",
+        "qcov": 23.3,
+        "scov": 48.6,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953426.1": {
+    "calls": [
+      {
+        "best_hit_id": "C56.976",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0002601",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C56",
+        "confidence_score": 0.0779,
+        "consensus_agreement": "family",
+        "consensus_n": 5,
+        "entry_type": "peptidase",
+        "evalue": 1.76e-06,
+        "family": "C56",
+        "homolog_hit_fraction": 0.2,
+        "identity": 35.2,
+        "length": 71,
+        "level_kind": "merops_family",
+        "qcov": 31.6,
+        "scov": 50.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953494.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.A26",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0044633",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.0928,
+        "consensus_agreement": "family",
+        "consensus_n": 8,
+        "entry_type": "peptidase",
+        "evalue": 3.68e-06,
+        "family": "S33",
+        "homolog_hit_fraction": 0.0,
+        "identity": 30.9,
+        "length": 139,
+        "level_kind": "merops_family",
+        "qcov": 42.9,
+        "scov": 37.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953603.1": {
+    "calls": [
+      {
+        "best_hit_id": "T01.022",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0080749",
+        "catalytic_type": "T",
+        "clan": "PB",
+        "code": "T01.022",
+        "confidence_score": 0.5624,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 7.39e-96,
+        "family": "T01",
+        "homolog_hit_fraction": 0.0,
+        "identity": 72.2,
+        "length": 187,
+        "level_kind": "merops_id",
+        "qcov": 77.9,
+        "scov": 100.0,
+        "subfamily": "T01X",
+        "tier": 1
+      }
+    ]
+  },
+  "WP_010953609.1": {
+    "calls": [
+      {
+        "best_hit_id": "M19.950",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0013479",
+        "catalytic_type": "M",
+        "clan": "MJ",
+        "code": "M19",
+        "confidence_score": 0.2536,
+        "consensus_agreement": "family",
+        "consensus_n": 10,
+        "entry_type": "peptidase",
+        "evalue": 2.02e-73,
+        "family": "M19",
+        "homolog_hit_fraction": 0.1,
+        "identity": 37.0,
+        "length": 322,
+        "level_kind": "merops_family",
+        "qcov": 97.9,
+        "scov": 98.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953620.1": {
+    "calls": [
+      {
+        "best_hit_id": "M20.A01",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0015354",
+        "catalytic_type": "M",
+        "clan": "MH",
+        "code": "M20",
+        "confidence_score": 0.1481,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 13,
+        "entry_type": "peptidase",
+        "evalue": 9.52e-33,
+        "family": "M20",
+        "homolog_hit_fraction": 0.0,
+        "identity": 44.0,
+        "length": 159,
+        "level_kind": "merops_family",
+        "qcov": 39.6,
+        "scov": 53.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953713.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.991",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0017193",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.0906,
+        "consensus_agreement": "family",
+        "consensus_n": 11,
+        "entry_type": "peptidase",
+        "evalue": 1.12e-06,
+        "family": "S33",
+        "homolog_hit_fraction": 0.455,
+        "identity": 29.7,
+        "length": 128,
+        "level_kind": "merops_family",
+        "qcov": 43.6,
+        "scov": 39.7,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953753.1": {
+    "calls": [
+      {
+        "best_hit_id": "M38.982",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0004801",
+        "catalytic_type": "M",
+        "clan": "MJ",
+        "code": "M38",
+        "confidence_score": 0.4976,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 2.83e-214,
+        "family": "M38",
+        "homolog_hit_fraction": 1.0,
+        "identity": 81.3,
+        "length": 347,
+        "level_kind": "merops_family",
+        "qcov": 61.2,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 2
+      }
+    ]
+  },
+  "WP_010953781.1": {
+    "calls": [
+      {
+        "best_hit_id": "S12.006",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0000463",
+        "catalytic_type": "S",
+        "clan": "SE",
+        "code": "S12",
+        "confidence_score": 0.2641,
+        "consensus_agreement": "family",
+        "consensus_n": 11,
+        "entry_type": "peptidase",
+        "evalue": 5.28e-93,
+        "family": "S12",
+        "homolog_hit_fraction": 0.091,
+        "identity": 41.1,
+        "length": 350,
+        "level_kind": "merops_family",
+        "qcov": 91.8,
+        "scov": 99.1,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953806.1": {
+    "calls": [
+      {
+        "best_hit_id": "M15.A05",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0004954",
+        "catalytic_type": "M",
+        "clan": "MD",
+        "code": "M15",
+        "confidence_score": 0.033,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 0.00051,
+        "family": "M15",
+        "homolog_hit_fraction": 0.0,
+        "identity": 31.1,
+        "length": 61,
+        "level_kind": "merops_family",
+        "qcov": 10.6,
+        "scov": 45.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953932.1": {
+    "calls": [
+      {
+        "best_hit_id": "S24.A20",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0037220",
+        "catalytic_type": "S",
+        "clan": "SF",
+        "code": "S24",
+        "confidence_score": 0.1632,
+        "consensus_agreement": "family",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 3.29e-26,
+        "family": "S24",
+        "homolog_hit_fraction": 0.0,
+        "identity": 43.9,
+        "length": 132,
+        "level_kind": "merops_family",
+        "qcov": 53.1,
+        "scov": 96.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953944.1": {
+    "calls": [
+      {
+        "best_hit_id": "S14.006",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0004182",
+        "catalytic_type": "S",
+        "clan": "SK",
+        "code": "S14",
+        "confidence_score": 0.1073,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 3.7e-09,
+        "family": "S14",
+        "homolog_hit_fraction": 0.0,
+        "identity": 30.3,
+        "length": 142,
+        "level_kind": "merops_family",
+        "qcov": 35.4,
+        "scov": 67.5,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953968.1": {
+    "calls": [
+      {
+        "best_hit_id": "N04.002",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0201226",
+        "catalytic_type": "N",
+        "clan": "ND",
+        "code": "N04",
+        "confidence_score": 0.0515,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 6.87e-06,
+        "family": "N04",
+        "homolog_hit_fraction": 0.0,
+        "identity": 24.4,
+        "length": 176,
+        "level_kind": "merops_family",
+        "qcov": 21.1,
+        "scov": 55.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010953971.1": {
+    "calls": [
+      {
+        "best_hit_id": "I11.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0018254",
+        "catalytic_type": null,
+        "clan": "IN",
+        "code": "I11",
+        "confidence_score": 0.3629,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "inhibitor",
+        "evalue": 3.8e-58,
+        "family": "I11",
+        "homolog_hit_fraction": 0.0,
+        "identity": 61.5,
+        "length": 135,
+        "level_kind": "merops_family",
+        "qcov": 84.3,
+        "scov": 95.1,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954079.1": {
+    "calls": [
+      {
+        "best_hit_id": "M38.002",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0005900",
+        "catalytic_type": "M",
+        "clan": "MJ",
+        "code": "M38",
+        "confidence_score": 0.1574,
+        "consensus_agreement": "family",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 8.43e-19,
+        "family": "M38",
+        "homolog_hit_fraction": 0.5,
+        "identity": 26.8,
+        "length": 384,
+        "level_kind": "merops_family",
+        "qcov": 83.9,
+        "scov": 92.9,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954094.1": {
+    "calls": [
+      {
+        "best_hit_id": "M38.981",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0037714",
+        "catalytic_type": "M",
+        "clan": "MJ",
+        "code": "M38",
+        "confidence_score": 0.1342,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 4.04e-06,
+        "family": "M38",
+        "homolog_hit_fraction": 1.0,
+        "identity": 24.1,
+        "length": 270,
+        "level_kind": "merops_family",
+        "qcov": 55.7,
+        "scov": 98.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954237.1": {
+    "calls": [
+      {
+        "best_hit_id": "M23.013",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0003906",
+        "catalytic_type": "M",
+        "clan": "MO",
+        "code": "M23",
+        "confidence_score": 0.0261,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 0.000133,
+        "family": "M23",
+        "homolog_hit_fraction": 0.0,
+        "identity": 32.3,
+        "length": 96,
+        "level_kind": "merops_family",
+        "qcov": 9.5,
+        "scov": 81.1,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954240.1": {
+    "calls": [
+      {
+        "best_hit_id": "S09.A74",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0004193",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S09",
+        "confidence_score": 0.1721,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 0.000259,
+        "family": "S09",
+        "homolog_hit_fraction": 0.0,
+        "identity": 25.8,
+        "length": 159,
+        "level_kind": "merops_family",
+        "qcov": 66.7,
+        "scov": 57.4,
+        "subfamily": null,
+        "tier": 3
+      },
+      {
+        "best_hit_id": "S33.980",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0036114",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.1497,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 0.000303,
+        "family": "S33",
+        "homolog_hit_fraction": 1.0,
+        "identity": 29.3,
+        "length": 116,
+        "level_kind": "merops_family",
+        "qcov": 51.1,
+        "scov": 36.7,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954297.1": {
+    "calls": [
+      {
+        "best_hit_id": "C56.A03",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0031432",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C56",
+        "confidence_score": 0.1371,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 1.12e-18,
+        "family": "C56",
+        "homolog_hit_fraction": 0.0,
+        "identity": 33.3,
+        "length": 141,
+        "level_kind": "merops_family",
+        "qcov": 58.8,
+        "scov": 85.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954392.1": {
+    "calls": [
+      {
+        "best_hit_id": "T03.971",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0037241",
+        "catalytic_type": "T",
+        "clan": "PB",
+        "code": "T03",
+        "confidence_score": 0.0524,
+        "consensus_agreement": "family",
+        "consensus_n": 25,
+        "entry_type": "peptidase",
+        "evalue": 9.98e-17,
+        "family": "T03",
+        "homolog_hit_fraction": 0.04,
+        "identity": 38.8,
+        "length": 116,
+        "level_kind": "merops_family",
+        "qcov": 19.3,
+        "scov": 50.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954444.1": {
+    "calls": [
+      {
+        "best_hit_id": "C26.A28",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0031288",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C26",
+        "confidence_score": 0.1826,
+        "consensus_agreement": "family",
+        "consensus_n": 11,
+        "entry_type": "peptidase",
+        "evalue": 2.07e-32,
+        "family": "C26",
+        "homolog_hit_fraction": 0.273,
+        "identity": 39.0,
+        "length": 182,
+        "level_kind": "merops_family",
+        "qcov": 66.9,
+        "scov": 72.6,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954506.1": {
+    "calls": [
+      {
+        "best_hit_id": "M24.026",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0013463",
+        "catalytic_type": "M",
+        "clan": "MG",
+        "code": "M24",
+        "confidence_score": 0.0473,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 0.000182,
+        "family": "M24",
+        "homolog_hit_fraction": 0.0,
+        "identity": 25.2,
+        "length": 127,
+        "level_kind": "merops_family",
+        "qcov": 26.8,
+        "scov": 48.1,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954624.1": {
+    "calls": [
+      {
+        "best_hit_id": "S11.002",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0000455",
+        "catalytic_type": "S",
+        "clan": "SE",
+        "code": "S11",
+        "confidence_score": 0.3979,
+        "consensus_agreement": "family",
+        "consensus_n": 9,
+        "entry_type": "peptidase",
+        "evalue": 1.29e-123,
+        "family": "S11",
+        "homolog_hit_fraction": 0.0,
+        "identity": 64.6,
+        "length": 271,
+        "level_kind": "merops_family",
+        "qcov": 88.0,
+        "scov": 96.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954641.1": {
+    "calls": [
+      {
+        "best_hit_id": "S09.951",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0043146",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S09",
+        "confidence_score": 0.1644,
+        "consensus_agreement": "family",
+        "consensus_n": 17,
+        "entry_type": "peptidase",
+        "evalue": 5.45e-28,
+        "family": "S09",
+        "homolog_hit_fraction": 0.294,
+        "identity": 33.6,
+        "length": 253,
+        "level_kind": "merops_family",
+        "qcov": 69.9,
+        "scov": 94.3,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954704.1": {
+    "calls": [
+      {
+        "best_hit_id": "S49.003",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001303",
+        "catalytic_type": "S",
+        "clan": "SK",
+        "code": "S49",
+        "confidence_score": 0.1451,
+        "consensus_agreement": "family",
+        "consensus_n": 5,
+        "entry_type": "peptidase",
+        "evalue": 2.21e-34,
+        "family": "S49",
+        "homolog_hit_fraction": 0.0,
+        "identity": 39.4,
+        "length": 170,
+        "level_kind": "merops_family",
+        "qcov": 52.6,
+        "scov": 87.6,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954747.1": {
+    "calls": [
+      {
+        "best_hit_id": "S49.002",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001300",
+        "catalytic_type": "S",
+        "clan": "SK",
+        "code": "S49",
+        "confidence_score": 0.2396,
+        "consensus_agreement": "family",
+        "consensus_n": 6,
+        "entry_type": "peptidase",
+        "evalue": 4.92e-79,
+        "family": "S49",
+        "homolog_hit_fraction": 0.0,
+        "identity": 69.0,
+        "length": 168,
+        "level_kind": "merops_family",
+        "qcov": 49.6,
+        "scov": 90.3,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954762.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.A38",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0036069",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.1189,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 2.04e-05,
+        "family": "S33",
+        "homolog_hit_fraction": 0.0,
+        "identity": 29.5,
+        "length": 112,
+        "level_kind": "merops_family",
+        "qcov": 40.3,
+        "scov": 32.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954823.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.992",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0026339",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.4434,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 6.5e-132,
+        "family": "S33",
+        "homolog_hit_fraction": 0.75,
+        "identity": 65.5,
+        "length": 267,
+        "level_kind": "merops_family",
+        "qcov": 96.7,
+        "scov": 99.6,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954832.1": {
+    "calls": [
+      {
+        "best_hit_id": "M20.976",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0026469",
+        "catalytic_type": "M",
+        "clan": "MH",
+        "code": "M20",
+        "confidence_score": 0.2453,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 2.51e-51,
+        "family": "M20",
+        "homolog_hit_fraction": 0.5,
+        "identity": 32.5,
+        "length": 382,
+        "level_kind": "merops_family",
+        "qcov": 88.8,
+        "scov": 96.7,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954860.1": {
+    "calls": [
+      {
+        "best_hit_id": "S24.A20",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0037220",
+        "catalytic_type": "S",
+        "clan": "SF",
+        "code": "S24",
+        "confidence_score": 0.079,
+        "consensus_agreement": "family",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 5.82e-06,
+        "family": "S24",
+        "homolog_hit_fraction": 0.0,
+        "identity": 41.2,
+        "length": 68,
+        "level_kind": "merops_family",
+        "qcov": 27.4,
+        "scov": 51.1,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954894.1": {
+    "calls": [
+      {
+        "best_hit_id": "S08.117",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0030016",
+        "catalytic_type": "S",
+        "clan": "SB",
+        "code": "S08",
+        "confidence_score": 0.0508,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 5,
+        "entry_type": "peptidase",
+        "evalue": 1.79e-05,
+        "family": "S08",
+        "homolog_hit_fraction": 0.0,
+        "identity": 31.1,
+        "length": 119,
+        "level_kind": "merops_family",
+        "qcov": 19.2,
+        "scov": 42.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954943.1": {
+    "calls": [
+      {
+        "best_hit_id": "S09.013",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001423",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S09",
+        "confidence_score": 0.1497,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 0.000228,
+        "family": "S09",
+        "homolog_hit_fraction": 0.0,
+        "identity": 23.0,
+        "length": 183,
+        "level_kind": "merops_family",
+        "qcov": 65.1,
+        "scov": 75.9,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010954973.1": {
+    "calls": [
+      {
+        "best_hit_id": "S09.968",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0036370",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S09",
+        "confidence_score": 0.11,
+        "consensus_agreement": "family",
+        "consensus_n": 21,
+        "entry_type": "peptidase",
+        "evalue": 1.67e-27,
+        "family": "S09",
+        "homolog_hit_fraction": 0.286,
+        "identity": 37.6,
+        "length": 133,
+        "level_kind": "merops_family",
+        "qcov": 41.8,
+        "scov": 75.9,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955026.1": {
+    "calls": [
+      {
+        "best_hit_id": "M38.981",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0037714",
+        "catalytic_type": "M",
+        "clan": "MJ",
+        "code": "M38",
+        "confidence_score": 0.2169,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 1.48e-49,
+        "family": "M38",
+        "homolog_hit_fraction": 1.0,
+        "identity": 37.2,
+        "length": 258,
+        "level_kind": "merops_family",
+        "qcov": 58.3,
+        "scov": 99.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955060.1": {
+    "calls": [
+      {
+        "best_hit_id": "N06.A01",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0181656",
+        "catalytic_type": "N",
+        "clan": "NB",
+        "code": "N06",
+        "confidence_score": 0.1737,
+        "consensus_agreement": "family",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 2.97e-08,
+        "family": "N06",
+        "homolog_hit_fraction": 0.0,
+        "identity": 39.7,
+        "length": 73,
+        "level_kind": "merops_family",
+        "qcov": 62.5,
+        "scov": 21.3,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955079.1": {
+    "calls": [
+      {
+        "best_hit_id": "N06.A01",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0181656",
+        "catalytic_type": "N",
+        "clan": "NB",
+        "code": "N06",
+        "confidence_score": 0.2738,
+        "consensus_agreement": "family",
+        "consensus_n": 5,
+        "entry_type": "peptidase",
+        "evalue": 9.13e-77,
+        "family": "N06",
+        "homolog_hit_fraction": 0.0,
+        "identity": 43.6,
+        "length": 342,
+        "level_kind": "merops_family",
+        "qcov": 89.7,
+        "scov": 99.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955215.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.992",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0026339",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.1153,
+        "consensus_agreement": "family",
+        "consensus_n": 11,
+        "entry_type": "peptidase",
+        "evalue": 8.57e-18,
+        "family": "S33",
+        "homolog_hit_fraction": 0.545,
+        "identity": 38.3,
+        "length": 120,
+        "level_kind": "merops_family",
+        "qcov": 43.0,
+        "scov": 44.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955225.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.A13",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0036048",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.0814,
+        "consensus_agreement": "family",
+        "consensus_n": 5,
+        "entry_type": "peptidase",
+        "evalue": 0.00018,
+        "family": "S33",
+        "homolog_hit_fraction": 0.6,
+        "identity": 29.2,
+        "length": 130,
+        "level_kind": "merops_family",
+        "qcov": 39.8,
+        "scov": 44.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955252.1": {
+    "calls": [
+      {
+        "best_hit_id": "S09.010",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0000410",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S09",
+        "confidence_score": 0.1558,
+        "consensus_agreement": "family",
+        "consensus_n": 18,
+        "entry_type": "peptidase",
+        "evalue": 2.16e-98,
+        "family": "S09",
+        "homolog_hit_fraction": 0.0,
+        "identity": 55.5,
+        "length": 274,
+        "level_kind": "merops_family",
+        "qcov": 40.1,
+        "scov": 95.5,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955315.1": {
+    "calls": [
+      {
+        "best_hit_id": "T03.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001978",
+        "catalytic_type": "T",
+        "clan": "PB",
+        "code": "T03",
+        "confidence_score": 0.2932,
+        "consensus_agreement": "family",
+        "consensus_n": 25,
+        "entry_type": "peptidase",
+        "evalue": 1.45e-138,
+        "family": "T03",
+        "homolog_hit_fraction": 0.0,
+        "identity": 44.9,
+        "length": 530,
+        "level_kind": "merops_family",
+        "qcov": 93.3,
+        "scov": 94.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955364.1": {
+    "calls": [
+      {
+        "best_hit_id": "C26.954",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0115185",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C26",
+        "confidence_score": 0.2132,
+        "consensus_agreement": "family",
+        "consensus_n": 15,
+        "entry_type": "peptidase",
+        "evalue": 2.4e-83,
+        "family": "C26",
+        "homolog_hit_fraction": 0.533,
+        "identity": 81.0,
+        "length": 142,
+        "level_kind": "merops_family",
+        "qcov": 37.6,
+        "scov": 99.3,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955382.1": {
+    "calls": [
+      {
+        "best_hit_id": "M24.008",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0004931",
+        "catalytic_type": "M",
+        "clan": "MG",
+        "code": "M24",
+        "confidence_score": 0.1404,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 1.3e-15,
+        "family": "M24",
+        "homolog_hit_fraction": 0.0,
+        "identity": 26.7,
+        "length": 236,
+        "level_kind": "merops_family",
+        "qcov": 52.6,
+        "scov": 96.9,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955415.1": {
+    "calls": [
+      {
+        "best_hit_id": "S66.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0016191",
+        "catalytic_type": "S",
+        "clan": "SS",
+        "code": "S66",
+        "confidence_score": 0.1917,
+        "consensus_agreement": "family",
+        "consensus_n": 3,
+        "entry_type": "peptidase",
+        "evalue": 7.59e-31,
+        "family": "S66",
+        "homolog_hit_fraction": 0.0,
+        "identity": 35.9,
+        "length": 245,
+        "level_kind": "merops_family",
+        "qcov": 76.3,
+        "scov": 83.3,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955418.1": {
+    "calls": [
+      {
+        "best_hit_id": "S11.008",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0000449",
+        "catalytic_type": "S",
+        "clan": "SE",
+        "code": "S11",
+        "confidence_score": 0.2223,
+        "consensus_agreement": "family",
+        "consensus_n": 10,
+        "entry_type": "peptidase",
+        "evalue": 1.01e-76,
+        "family": "S11",
+        "homolog_hit_fraction": 0.0,
+        "identity": 50.4,
+        "length": 250,
+        "level_kind": "merops_family",
+        "qcov": 63.0,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955442.1": {
+    "calls": [
+      {
+        "best_hit_id": "I87.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0191412",
+        "catalytic_type": null,
+        "clan": null,
+        "code": "I87",
+        "confidence_score": 0.0833,
+        "consensus_agreement": "family",
+        "consensus_n": 2,
+        "entry_type": "inhibitor",
+        "evalue": 0.0004,
+        "family": "I87",
+        "homolog_hit_fraction": 0.0,
+        "identity": 24.5,
+        "length": 151,
+        "level_kind": "merops_family",
+        "qcov": 48.6,
+        "scov": 44.9,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955495.1": {
+    "calls": [
+      {
+        "best_hit_id": "A32.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0151383",
+        "catalytic_type": "A",
+        "clan": "AA",
+        "code": "A32",
+        "confidence_score": 0.1489,
+        "consensus_agreement": "family",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 1.29e-12,
+        "family": "A32",
+        "homolog_hit_fraction": 0.0,
+        "identity": 35.5,
+        "length": 107,
+        "level_kind": "merops_family",
+        "qcov": 59.9,
+        "scov": 61.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955504.1": {
+    "calls": [
+      {
+        "best_hit_id": "S08.070",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0000364",
+        "catalytic_type": "S",
+        "clan": "SB",
+        "code": "S08",
+        "confidence_score": 0.035,
+        "consensus_agreement": "family",
+        "consensus_n": 25,
+        "entry_type": "peptidase",
+        "evalue": 8.6e-16,
+        "family": "S08",
+        "homolog_hit_fraction": 0.0,
+        "identity": 30.3,
+        "length": 314,
+        "level_kind": "merops_family",
+        "qcov": 16.5,
+        "scov": 94.9,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955564.1": {
+    "calls": [
+      {
+        "best_hit_id": "M38.972",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0005767",
+        "catalytic_type": "M",
+        "clan": "MJ",
+        "code": "M38",
+        "confidence_score": 0.1559,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 3.92e-23,
+        "family": "M38",
+        "homolog_hit_fraction": 1.0,
+        "identity": 30.6,
+        "length": 310,
+        "level_kind": "merops_family",
+        "qcov": 72.8,
+        "scov": 90.5,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955567.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.009",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0011785",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.0866,
+        "consensus_agreement": "family",
+        "consensus_n": 5,
+        "entry_type": "peptidase",
+        "evalue": 1.23e-06,
+        "family": "S33",
+        "homolog_hit_fraction": 0.2,
+        "identity": 28.7,
+        "length": 129,
+        "level_kind": "merops_family",
+        "qcov": 43.1,
+        "scov": 39.1,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955587.1": {
+    "calls": [
+      {
+        "best_hit_id": "M38.980",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0033186",
+        "catalytic_type": "M",
+        "clan": "MJ",
+        "code": "M38",
+        "confidence_score": 0.327,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 2.71e-68,
+        "family": "M38",
+        "homolog_hit_fraction": 1.0,
+        "identity": 41.5,
+        "length": 323,
+        "level_kind": "merops_family",
+        "qcov": 78.8,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 2
+      }
+    ]
+  },
+  "WP_010955607.1": {
+    "calls": [
+      {
+        "best_hit_id": "M23.950",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0005300",
+        "catalytic_type": "M",
+        "clan": "MO",
+        "code": "M23",
+        "confidence_score": 0.1029,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 5,
+        "entry_type": "peptidase",
+        "evalue": 1.92e-27,
+        "family": "M23",
+        "homolog_hit_fraction": 0.4,
+        "identity": 39.3,
+        "length": 135,
+        "level_kind": "merops_family",
+        "qcov": 30.8,
+        "scov": 81.6,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955622.1": {
+    "calls": [
+      {
+        "best_hit_id": "C44.003",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0198917",
+        "catalytic_type": "C",
+        "clan": "PB",
+        "code": "C44",
+        "confidence_score": 0.0731,
+        "consensus_agreement": "family",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 1.85e-91,
+        "family": "C44",
+        "homolog_hit_fraction": 0.5,
+        "identity": 42.3,
+        "length": 371,
+        "level_kind": "merops_family",
+        "qcov": 24.7,
+        "scov": 99.7,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955635.1": {
+    "calls": [
+      {
+        "best_hit_id": "C40.013",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0004054",
+        "catalytic_type": "C",
+        "clan": "CO",
+        "code": "C40",
+        "confidence_score": 0.1831,
+        "consensus_agreement": "family",
+        "consensus_n": 14,
+        "entry_type": "peptidase",
+        "evalue": 2.23e-37,
+        "family": "C40",
+        "homolog_hit_fraction": 0.0,
+        "identity": 45.5,
+        "length": 121,
+        "level_kind": "merops_family",
+        "qcov": 57.5,
+        "scov": 99.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955639.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.A41",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0044357",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.2533,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 1.35e-47,
+        "family": "S33",
+        "homolog_hit_fraction": 0.0,
+        "identity": 28.4,
+        "length": 412,
+        "level_kind": "merops_family",
+        "qcov": 89.2,
+        "scov": 85.7,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955650.1": {
+    "calls": [
+      {
+        "best_hit_id": "M16.970",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0237414",
+        "catalytic_type": "M",
+        "clan": "ME",
+        "code": "M16",
+        "confidence_score": 0.1509,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 8.92e-37,
+        "family": "M16",
+        "homolog_hit_fraction": 0.5,
+        "identity": 38.6,
+        "length": 233,
+        "level_kind": "merops_family",
+        "qcov": 46.0,
+        "scov": 98.7,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955652.1": {
+    "calls": [
+      {
+        "best_hit_id": "M16.019",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0195774",
+        "catalytic_type": "M",
+        "clan": "ME",
+        "code": "M16",
+        "confidence_score": 0.1165,
+        "consensus_agreement": "family",
+        "consensus_n": 16,
+        "entry_type": "peptidase",
+        "evalue": 1.65e-41,
+        "family": "M16",
+        "homolog_hit_fraction": 0.188,
+        "identity": 40.7,
+        "length": 177,
+        "level_kind": "merops_family",
+        "qcov": 40.9,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955653.1": {
+    "calls": [
+      {
+        "best_hit_id": "M16.970",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0237414",
+        "catalytic_type": "M",
+        "clan": "ME",
+        "code": "M16",
+        "confidence_score": 0.1523,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 8.24e-22,
+        "family": "M16",
+        "homolog_hit_fraction": 1.0,
+        "identity": 31.4,
+        "length": 229,
+        "level_kind": "merops_family",
+        "qcov": 48.5,
+        "scov": 95.3,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955654.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.A46",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0059846",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.2986,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 1.83e-85,
+        "family": "S33",
+        "homolog_hit_fraction": 0.25,
+        "identity": 43.3,
+        "length": 328,
+        "level_kind": "merops_family",
+        "qcov": 98.5,
+        "scov": 94.1,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955694.1": {
+    "calls": [
+      {
+        "best_hit_id": "S45.002",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0006198",
+        "catalytic_type": "S",
+        "clan": "PB",
+        "code": "S45",
+        "confidence_score": 0.084,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 1.43e-19,
+        "family": "S45",
+        "homolog_hit_fraction": 0.0,
+        "identity": 27.6,
+        "length": 366,
+        "level_kind": "merops_family",
+        "qcov": 43.5,
+        "scov": 67.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955712.1": {
+    "calls": [
+      {
+        "best_hit_id": "M20.974",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0001273",
+        "catalytic_type": "M",
+        "clan": "MH",
+        "code": "M20",
+        "confidence_score": 0.3087,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 1.21e-66,
+        "family": "M20",
+        "homolog_hit_fraction": 0.25,
+        "identity": 36.5,
+        "length": 381,
+        "level_kind": "merops_family",
+        "qcov": 99.5,
+        "scov": 98.5,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955724.1": {
+    "calls": [
+      {
+        "best_hit_id": "M24.004",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001244",
+        "catalytic_type": "M",
+        "clan": "MG",
+        "code": "M24",
+        "confidence_score": 0.2178,
+        "consensus_agreement": "family",
+        "consensus_n": 15,
+        "entry_type": "peptidase",
+        "evalue": 1.02e-91,
+        "family": "M24",
+        "homolog_hit_fraction": 0.0,
+        "identity": 52.3,
+        "length": 264,
+        "level_kind": "merops_family",
+        "qcov": 59.5,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955768.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.992",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0026339",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.3527,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 3.48e-92,
+        "family": "S33",
+        "homolog_hit_fraction": 1.0,
+        "identity": 52.1,
+        "length": 267,
+        "level_kind": "merops_family",
+        "qcov": 96.7,
+        "scov": 99.6,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955797.1": {
+    "calls": [
+      {
+        "best_hit_id": "C26.961",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0031278",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C26",
+        "confidence_score": 0.3122,
+        "consensus_agreement": "family",
+        "consensus_n": 6,
+        "entry_type": "peptidase",
+        "evalue": 4.67e-64,
+        "family": "C26",
+        "homolog_hit_fraction": 0.333,
+        "identity": 47.0,
+        "length": 247,
+        "level_kind": "merops_family",
+        "qcov": 94.9,
+        "scov": 95.3,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955815.1": {
+    "calls": [
+      {
+        "best_hit_id": "M23.014",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0013541",
+        "catalytic_type": "M",
+        "clan": "MO",
+        "code": "M23",
+        "confidence_score": 0.1142,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 8,
+        "entry_type": "peptidase",
+        "evalue": 2.95e-17,
+        "family": "M23",
+        "homolog_hit_fraction": 0.0,
+        "identity": 46.0,
+        "length": 87,
+        "level_kind": "merops_family",
+        "qcov": 29.2,
+        "scov": 89.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_010955884.1": {
+    "calls": [
+      {
+        "best_hit_id": "C44.971",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0003327",
+        "catalytic_type": "C",
+        "clan": "PB",
+        "code": "C44",
+        "confidence_score": 0.1652,
+        "consensus_agreement": "family",
+        "consensus_n": 9,
+        "entry_type": "peptidase",
+        "evalue": 1.16e-93,
+        "family": "C44",
+        "homolog_hit_fraction": 0.444,
+        "identity": 61.3,
+        "length": 235,
+        "level_kind": "merops_family",
+        "qcov": 38.5,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_012053749.1": {
+    "calls": [
+      {
+        "best_hit_id": "M41.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001620",
+        "catalytic_type": "M",
+        "clan": "MA",
+        "code": "M41",
+        "confidence_score": 0.1858,
+        "consensus_agreement": "family",
+        "consensus_n": 25,
+        "entry_type": "peptidase",
+        "evalue": 1.45e-106,
+        "family": "M41",
+        "homolog_hit_fraction": 0.0,
+        "identity": 68.4,
+        "length": 247,
+        "level_kind": "merops_family",
+        "qcov": 38.8,
+        "scov": 86.6,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_014589820.1": {
+    "calls": [
+      {
+        "best_hit_id": "M103.950",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0016222",
+        "catalytic_type": "M",
+        "clan": "MU",
+        "code": "M103",
+        "confidence_score": 0.3298,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 4.26e-145,
+        "family": "M103",
+        "homolog_hit_fraction": 0.25,
+        "identity": 51.1,
+        "length": 413,
+        "level_kind": "merops_family",
+        "qcov": 92.2,
+        "scov": 91.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_014592300.1": {
+    "calls": [
+      {
+        "best_hit_id": "S01.477",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0003293",
+        "catalytic_type": "S",
+        "clan": "PA",
+        "code": "S01",
+        "confidence_score": 0.2576,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 25,
+        "entry_type": "peptidase",
+        "evalue": 4.23e-74,
+        "family": "S01",
+        "homolog_hit_fraction": 0.0,
+        "identity": 78.5,
+        "length": 149,
+        "level_kind": "merops_family",
+        "qcov": 38.6,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_019751089.1": {
+    "calls": [
+      {
+        "best_hit_id": "C56.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0002455",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C56",
+        "confidence_score": 0.075,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 0.000305,
+        "family": "C56",
+        "homolog_hit_fraction": 0.0,
+        "identity": 29.2,
+        "length": 89,
+        "level_kind": "merops_family",
+        "qcov": 25.7,
+        "scov": 65.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_020191688.1": {
+    "calls": [
+      {
+        "best_hit_id": "S09.009",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0058228",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S09",
+        "confidence_score": 0.0753,
+        "consensus_agreement": "family",
+        "consensus_n": 3,
+        "entry_type": "peptidase",
+        "evalue": 2.01e-06,
+        "family": "S09",
+        "homolog_hit_fraction": 0.0,
+        "identity": 26.9,
+        "length": 182,
+        "level_kind": "merops_family",
+        "qcov": 40.0,
+        "scov": 74.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_020193431.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.992",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0026339",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.1128,
+        "consensus_agreement": "family",
+        "consensus_n": 15,
+        "entry_type": "peptidase",
+        "evalue": 1.38e-12,
+        "family": "S33",
+        "homolog_hit_fraction": 0.467,
+        "identity": 39.5,
+        "length": 119,
+        "level_kind": "merops_family",
+        "qcov": 40.8,
+        "scov": 44.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_023048454.1": {
+    "calls": [
+      {
+        "best_hit_id": "M24.008",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0004931",
+        "catalytic_type": "M",
+        "clan": "MG",
+        "code": "M24",
+        "confidence_score": 0.123,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 1.05e-17,
+        "family": "M24",
+        "homolog_hit_fraction": 0.0,
+        "identity": 24.7,
+        "length": 239,
+        "level_kind": "merops_family",
+        "qcov": 58.6,
+        "scov": 98.7,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049586134.1": {
+    "calls": [
+      {
+        "best_hit_id": "C56.004",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0031431",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C56",
+        "confidence_score": 0.0974,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 4.47e-18,
+        "family": "C56",
+        "homolog_hit_fraction": 0.0,
+        "identity": 36.8,
+        "length": 106,
+        "level_kind": "merops_family",
+        "qcov": 37.8,
+        "scov": 65.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049586158.1": {
+    "calls": [
+      {
+        "best_hit_id": "S45.004",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0035254",
+        "catalytic_type": "S",
+        "clan": "PB",
+        "code": "S45",
+        "confidence_score": 0.2701,
+        "consensus_agreement": "family",
+        "consensus_n": 3,
+        "entry_type": "peptidase",
+        "evalue": 2.95e-203,
+        "family": "S45",
+        "homolog_hit_fraction": 0.0,
+        "identity": 54.8,
+        "length": 549,
+        "level_kind": "merops_family",
+        "qcov": 70.4,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049586245.1": {
+    "calls": [
+      {
+        "best_hit_id": "C56.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0002455",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C56",
+        "confidence_score": 0.2267,
+        "consensus_agreement": "family",
+        "consensus_n": 5,
+        "entry_type": "peptidase",
+        "evalue": 8.28e-31,
+        "family": "C56",
+        "homolog_hit_fraction": 0.2,
+        "identity": 41.1,
+        "length": 141,
+        "level_kind": "merops_family",
+        "qcov": 78.8,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049586394.1": {
+    "calls": [
+      {
+        "best_hit_id": "M48.A01",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0026552",
+        "catalytic_type": "M",
+        "clan": "MA",
+        "code": "M48",
+        "confidence_score": 0.1901,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 6,
+        "entry_type": "peptidase",
+        "evalue": 2.43e-26,
+        "family": "M48",
+        "homolog_hit_fraction": 0.0,
+        "identity": 40.3,
+        "length": 154,
+        "level_kind": "merops_family",
+        "qcov": 55.5,
+        "scov": 84.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049586439.1": {
+    "calls": [
+      {
+        "best_hit_id": "S12.013",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER1143079",
+        "catalytic_type": "S",
+        "clan": "SE",
+        "code": "S12",
+        "confidence_score": 0.1005,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 0.000295,
+        "family": "S12",
+        "homolog_hit_fraction": 0.0,
+        "identity": 27.3,
+        "length": 132,
+        "level_kind": "merops_family",
+        "qcov": 36.8,
+        "scov": 42.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049586441.1": {
+    "calls": [
+      {
+        "best_hit_id": "C56.A01",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0014721",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C56",
+        "confidence_score": 0.3293,
+        "consensus_agreement": "family",
+        "consensus_n": 5,
+        "entry_type": "peptidase",
+        "evalue": 1.13e-61,
+        "family": "C56",
+        "homolog_hit_fraction": 0.2,
+        "identity": 58.3,
+        "length": 156,
+        "level_kind": "merops_family",
+        "qcov": 80.7,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049586694.1": {
+    "calls": [
+      {
+        "best_hit_id": "S13.003",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0011571",
+        "catalytic_type": "S",
+        "clan": "SE",
+        "code": "S13",
+        "confidence_score": 0.203,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 3.13e-71,
+        "family": "S13",
+        "homolog_hit_fraction": 0.0,
+        "identity": 34.9,
+        "length": 404,
+        "level_kind": "merops_family",
+        "qcov": 83.1,
+        "scov": 89.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049587072.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.972",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0017123",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.2657,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 1.76e-61,
+        "family": "S33",
+        "homolog_hit_fraction": 0.25,
+        "identity": 41.4,
+        "length": 290,
+        "level_kind": "merops_family",
+        "qcov": 91.7,
+        "scov": 97.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049587126.1": {
+    "calls": [
+      {
+        "best_hit_id": "M20.010",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001272",
+        "catalytic_type": "M",
+        "clan": "MH",
+        "code": "M20",
+        "confidence_score": 0.0769,
+        "consensus_agreement": "family",
+        "consensus_n": 10,
+        "entry_type": "peptidase",
+        "evalue": 9.41e-16,
+        "family": "M20",
+        "homolog_hit_fraction": 0.2,
+        "identity": 40.4,
+        "length": 109,
+        "level_kind": "merops_family",
+        "qcov": 27.2,
+        "scov": 41.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049587217.1": {
+    "calls": [
+      {
+        "best_hit_id": "C40.004",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0004035",
+        "catalytic_type": "C",
+        "clan": "CO",
+        "code": "C40",
+        "confidence_score": 0.175,
+        "consensus_agreement": "family",
+        "consensus_n": 15,
+        "entry_type": "peptidase",
+        "evalue": 2.45e-29,
+        "family": "C40",
+        "homolog_hit_fraction": 0.0,
+        "identity": 47.7,
+        "length": 111,
+        "level_kind": "merops_family",
+        "qcov": 52.4,
+        "scov": 94.6,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049587451.1": {
+    "calls": [
+      {
+        "best_hit_id": "M50.004",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0004480",
+        "catalytic_type": "M",
+        "clan": "MM",
+        "code": "M50",
+        "confidence_score": 0.2488,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 1.69e-88,
+        "family": "M50",
+        "homolog_hit_fraction": 0.0,
+        "identity": 39.8,
+        "length": 402,
+        "level_kind": "merops_family",
+        "qcov": 89.3,
+        "scov": 99.7,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049587479.1": {
+    "calls": [
+      {
+        "best_hit_id": "M103.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0016301",
+        "catalytic_type": "M",
+        "clan": "MU",
+        "code": "M103",
+        "confidence_score": 0.1594,
+        "consensus_agreement": "family",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 4.65e-22,
+        "family": "M103",
+        "homolog_hit_fraction": 0.0,
+        "identity": 28.4,
+        "length": 395,
+        "level_kind": "merops_family",
+        "qcov": 80.2,
+        "scov": 80.6,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049587496.1": {
+    "calls": [
+      {
+        "best_hit_id": "S82.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0789282",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S82",
+        "confidence_score": 0.2414,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 5.31e-46,
+        "family": "S82",
+        "homolog_hit_fraction": 0.0,
+        "identity": 28.6,
+        "length": 434,
+        "level_kind": "merops_family",
+        "qcov": 84.4,
+        "scov": 86.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049587511.1": {
+    "calls": [
+      {
+        "best_hit_id": "U32.002",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0003855",
+        "catalytic_type": "U",
+        "clan": null,
+        "code": "U32",
+        "confidence_score": 0.1869,
+        "consensus_agreement": "family",
+        "consensus_n": 5,
+        "entry_type": "peptidase",
+        "evalue": 3.64e-61,
+        "family": "U32",
+        "homolog_hit_fraction": 0.0,
+        "identity": 35.6,
+        "length": 337,
+        "level_kind": "merops_family",
+        "qcov": 75.0,
+        "scov": 79.3,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049587702.1": {
+    "calls": [
+      {
+        "best_hit_id": "S08.126",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0000319",
+        "catalytic_type": "S",
+        "clan": "SB",
+        "code": "S08",
+        "confidence_score": 0.1726,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 5.02e-06,
+        "family": "S08",
+        "homolog_hit_fraction": 0.0,
+        "identity": 26.8,
+        "length": 157,
+        "level_kind": "merops_family",
+        "qcov": 64.4,
+        "scov": 53.9,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049587819.1": {
+    "calls": [
+      {
+        "best_hit_id": "S24.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0000569",
+        "catalytic_type": "S",
+        "clan": "SF",
+        "code": "S24",
+        "confidence_score": 0.1793,
+        "consensus_agreement": "family",
+        "consensus_n": 4,
+        "entry_type": "peptidase",
+        "evalue": 7.72e-28,
+        "family": "S24",
+        "homolog_hit_fraction": 0.0,
+        "identity": 46.9,
+        "length": 113,
+        "level_kind": "merops_family",
+        "qcov": 54.6,
+        "scov": 95.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049587969.1": {
+    "calls": [
+      {
+        "best_hit_id": "P01.003",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0013629",
+        "catalytic_type": "P",
+        "clan": "PE",
+        "code": "P01",
+        "confidence_score": 0.1587,
+        "consensus_agreement": "family",
+        "consensus_n": 3,
+        "entry_type": "peptidase",
+        "evalue": 1.22e-49,
+        "family": "P01",
+        "homolog_hit_fraction": 0.0,
+        "identity": 66.7,
+        "length": 129,
+        "level_kind": "merops_family",
+        "qcov": 34.0,
+        "scov": 99.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049588043.1": {
+    "calls": [
+      {
+        "best_hit_id": "I87.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0191412",
+        "catalytic_type": null,
+        "clan": null,
+        "code": "I87",
+        "confidence_score": 0.1802,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "inhibitor",
+        "evalue": 0.000561,
+        "family": "I87",
+        "homolog_hit_fraction": 0.0,
+        "identity": 23.1,
+        "length": 247,
+        "level_kind": "merops_family",
+        "qcov": 78.0,
+        "scov": 73.4,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049588139.1": {
+    "calls": [
+      {
+        "best_hit_id": "M38.981",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0037714",
+        "catalytic_type": "M",
+        "clan": "MJ",
+        "code": "M38",
+        "confidence_score": 0.1432,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 6.54e-13,
+        "family": "M38",
+        "homolog_hit_fraction": 1.0,
+        "identity": 25.0,
+        "length": 268,
+        "level_kind": "merops_family",
+        "qcov": 57.3,
+        "scov": 99.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049588162.1": {
+    "calls": [
+      {
+        "best_hit_id": "M24.009",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0004321",
+        "catalytic_type": "M",
+        "clan": "MG",
+        "code": "M24",
+        "confidence_score": 0.1467,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 11,
+        "entry_type": "peptidase",
+        "evalue": 1.05e-55,
+        "family": "M24",
+        "homolog_hit_fraction": 0.0,
+        "identity": 40.7,
+        "length": 258,
+        "level_kind": "merops_family",
+        "qcov": 42.4,
+        "scov": 99.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049588163.1": {
+    "calls": [
+      {
+        "best_hit_id": "S09.A24",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0017246",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S09",
+        "confidence_score": 0.1245,
+        "consensus_agreement": "family",
+        "consensus_n": 2,
+        "entry_type": "peptidase",
+        "evalue": 7.22e-05,
+        "family": "S09",
+        "homolog_hit_fraction": 0.0,
+        "identity": 25.3,
+        "length": 198,
+        "level_kind": "merops_family",
+        "qcov": 70.3,
+        "scov": 63.2,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049588177.1": {
+    "calls": [
+      {
+        "best_hit_id": "M23.011",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0003380",
+        "catalytic_type": "M",
+        "clan": "MO",
+        "code": "M23",
+        "confidence_score": 0.1217,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 9,
+        "entry_type": "peptidase",
+        "evalue": 1.8e-13,
+        "family": "M23",
+        "homolog_hit_fraction": 0.222,
+        "identity": 40.8,
+        "length": 103,
+        "level_kind": "merops_family",
+        "qcov": 35.1,
+        "scov": 41.9,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049588212.1": {
+    "calls": [
+      {
+        "best_hit_id": "M19.012",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0006319",
+        "catalytic_type": "M",
+        "clan": "MJ",
+        "code": "M19",
+        "confidence_score": 0.1949,
+        "consensus_agreement": "family",
+        "consensus_n": 11,
+        "entry_type": "peptidase",
+        "evalue": 9.85e-46,
+        "family": "M19",
+        "homolog_hit_fraction": 0.091,
+        "identity": 31.5,
+        "length": 403,
+        "level_kind": "merops_family",
+        "qcov": 88.4,
+        "scov": 96.6,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049588266.1": {
+    "calls": [
+      {
+        "best_hit_id": "M38.973",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0015112",
+        "catalytic_type": "M",
+        "clan": "MJ",
+        "code": "M38",
+        "confidence_score": 0.3008,
+        "consensus_agreement": "family",
+        "consensus_n": 7,
+        "entry_type": "peptidase",
+        "evalue": 1.05e-143,
+        "family": "M38",
+        "homolog_hit_fraction": 1.0,
+        "identity": 52.4,
+        "length": 399,
+        "level_kind": "merops_family",
+        "qcov": 82.0,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049588323.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.A12",
+        "best_hit_kind": "putative",
+        "best_hit_mernum": "MER0036051",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.1138,
+        "consensus_agreement": "family",
+        "consensus_n": 3,
+        "entry_type": "peptidase",
+        "evalue": 3.24e-09,
+        "family": "S33",
+        "homolog_hit_fraction": 0.333,
+        "identity": 29.6,
+        "length": 179,
+        "level_kind": "merops_family",
+        "qcov": 54.9,
+        "scov": 54.7,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049588334.1": {
+    "calls": [
+      {
+        "best_hit_id": "C56.975",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0160094",
+        "catalytic_type": "C",
+        "clan": "PC",
+        "code": "C56",
+        "confidence_score": 0.1693,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 9.93e-19,
+        "family": "C56",
+        "homolog_hit_fraction": 1.0,
+        "identity": 52.9,
+        "length": 70,
+        "level_kind": "merops_family",
+        "qcov": 32.0,
+        "scov": 98.6,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_049588422.1": {
+    "calls": [
+      {
+        "best_hit_id": "M03.004",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001161",
+        "catalytic_type": "M",
+        "clan": "MA",
+        "code": "M03A",
+        "confidence_score": 0.4871,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 12,
+        "entry_type": "peptidase",
+        "evalue": 3.66e-285,
+        "family": "M03",
+        "homolog_hit_fraction": 0.0,
+        "identity": 59.2,
+        "length": 677,
+        "level_kind": "merops_subfamily",
+        "qcov": 96.8,
+        "scov": 99.4,
+        "subfamily": "M03A",
+        "tier": 2
+      }
+    ]
+  },
+  "WP_049588505.1": {
+    "calls": [
+      {
+        "best_hit_id": "S33.977",
+        "best_hit_kind": "nonpeptidase_homolog",
+        "best_hit_mernum": "MER0031611",
+        "catalytic_type": "S",
+        "clan": "SC",
+        "code": "S33",
+        "confidence_score": 0.0963,
+        "consensus_agreement": "family",
+        "consensus_n": 5,
+        "entry_type": "peptidase",
+        "evalue": 4.81e-05,
+        "family": "S33",
+        "homolog_hit_fraction": 0.6,
+        "identity": 27.4,
+        "length": 179,
+        "level_kind": "merops_family",
+        "qcov": 50.2,
+        "scov": 57.8,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_051122591.1": {
+    "calls": [
+      {
+        "best_hit_id": "M20.009",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0005163",
+        "catalytic_type": "M",
+        "clan": "MH",
+        "code": "M20D",
+        "confidence_score": 0.2193,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 13,
+        "entry_type": "peptidase",
+        "evalue": 5.66e-24,
+        "family": "M20",
+        "homolog_hit_fraction": 0.0,
+        "identity": 47.7,
+        "length": 109,
+        "level_kind": "merops_subfamily",
+        "qcov": 54.1,
+        "scov": 40.5,
+        "subfamily": "M20D",
+        "tier": 2
+      }
+    ]
+  },
+  "WP_164721827.1": {
+    "calls": [
+      {
+        "best_hit_id": "S41.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0001295",
+        "catalytic_type": "S",
+        "clan": "SK",
+        "code": "S41",
+        "confidence_score": 0.1049,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 13,
+        "entry_type": "peptidase",
+        "evalue": 2.48e-48,
+        "family": "S41",
+        "homolog_hit_fraction": 0.154,
+        "identity": 48.4,
+        "length": 190,
+        "level_kind": "merops_family",
+        "qcov": 25.5,
+        "scov": 97.3,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  },
+  "WP_172835033.1": {
+    "calls": [
+      {
+        "best_hit_id": "C93.001",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0320807",
+        "catalytic_type": "C",
+        "clan": "CA",
+        "code": "C93.001",
+        "confidence_score": 0.6799,
+        "consensus_agreement": "id",
+        "consensus_n": 1,
+        "entry_type": "peptidase",
+        "evalue": 1.9e-130,
+        "family": "C93",
+        "homolog_hit_fraction": 0.0,
+        "identity": 75.8,
+        "length": 227,
+        "level_kind": "merops_id",
+        "qcov": 89.7,
+        "scov": 98.7,
+        "subfamily": null,
+        "tier": 1
+      }
+    ]
+  },
+  "WP_370688748.1": {
+    "calls": [
+      {
+        "best_hit_id": "S01.453",
+        "best_hit_kind": "holotype",
+        "best_hit_mernum": "MER0013623",
+        "catalytic_type": "S",
+        "clan": "PA",
+        "code": "S01",
+        "confidence_score": 0.2406,
+        "consensus_agreement": "subfamily",
+        "consensus_n": 25,
+        "entry_type": "peptidase",
+        "evalue": 1.81e-93,
+        "family": "S01",
+        "homolog_hit_fraction": 0.0,
+        "identity": 86.3,
+        "length": 153,
+        "level_kind": "merops_family",
+        "qcov": 32.8,
+        "scov": 100.0,
+        "subfamily": null,
+        "tier": 3
+      }
+    ]
+  }
+}

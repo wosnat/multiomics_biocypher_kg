@@ -1,0 +1,39 @@
+{
+  "strain": "SS120",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 1858,
+  "wallclock_s": 0.5,
+  "raw_hit_lines": 618,
+  "parse_failures": 0,
+  "proteins_with_hits": 58,
+  "proteins_with_call": 58,
+  "total_candidates": 59,
+  "candidates_per_protein_distribution": {
+    "1": 57,
+    "2": 1
+  },
+  "tier_distribution": {
+    "3": 56,
+    "2": 3
+  },
+  "consensus_agreement_distribution": {
+    "id": 10,
+    "subfamily": 10,
+    "family": 39
+  },
+  "catalytic_type_distribution": {
+    "C": 11,
+    "S": 25,
+    "M": 20,
+    "A": 1,
+    "T": 2
+  },
+  "entry_type_distribution": {
+    "peptidase": 59
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 32,
+    "nonpeptidase_homolog": 9,
+    "putative": 18
+  }
+}

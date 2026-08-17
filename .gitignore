@@ -206,6 +206,11 @@ cache/data/*/genomes/*/signalp/*.limited_*
 # now that --goterms/--pathways are on, so it is disk-only by design.
 cache/data/*/genomes/*/interproscan/*.limited_*
 cache/data/*/genomes/*/interproscan/*.raw.json
+
+# MEROPS-diamond skill: smoke-test artifacts (limited_N runs) are transient.
+# Full-run outputs (<strain>.merops.{tsv,calls.json,skill_summary.json}) are
+# intentionally committed alongside tcdb/ outputs.
+cache/data/*/genomes/*/merops/*.limited_*
 cache/data/*/genomes/*/interproscan/temp/
 
 

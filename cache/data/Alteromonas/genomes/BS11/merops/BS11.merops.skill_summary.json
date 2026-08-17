@@ -1,0 +1,43 @@
+{
+  "strain": "BS11",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 3729,
+  "wallclock_s": 0.6,
+  "raw_hit_lines": 1651,
+  "parse_failures": 0,
+  "proteins_with_hits": 156,
+  "proteins_with_call": 156,
+  "total_candidates": 158,
+  "candidates_per_protein_distribution": {
+    "1": 154,
+    "2": 2
+  },
+  "tier_distribution": {
+    "3": 146,
+    "2": 12
+  },
+  "consensus_agreement_distribution": {
+    "id": 27,
+    "subfamily": 35,
+    "family": 96
+  },
+  "catalytic_type_distribution": {
+    "C": 19,
+    "N": 2,
+    "S": 63,
+    "M": 58,
+    "A": 5,
+    "T": 6,
+    "inhibitor": 4,
+    "U": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 154,
+    "inhibitor": 4
+  },
+  "best_hit_kind_distribution": {
+    "nonpeptidase_homolog": 29,
+    "putative": 23,
+    "holotype": 106
+  }
+}

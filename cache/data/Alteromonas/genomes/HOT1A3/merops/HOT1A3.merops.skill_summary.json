@@ -1,0 +1,42 @@
+{
+  "strain": "HOT1A3",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 3979,
+  "wallclock_s": 0.6,
+  "raw_hit_lines": 1589,
+  "parse_failures": 0,
+  "proteins_with_hits": 153,
+  "proteins_with_call": 153,
+  "total_candidates": 153,
+  "candidates_per_protein_distribution": {
+    "1": 153
+  },
+  "tier_distribution": {
+    "3": 141,
+    "2": 12
+  },
+  "consensus_agreement_distribution": {
+    "id": 23,
+    "subfamily": 35,
+    "family": 95
+  },
+  "catalytic_type_distribution": {
+    "S": 61,
+    "T": 6,
+    "M": 56,
+    "N": 2,
+    "C": 20,
+    "inhibitor": 2,
+    "A": 5,
+    "U": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 151,
+    "inhibitor": 2
+  },
+  "best_hit_kind_distribution": {
+    "putative": 25,
+    "holotype": 95,
+    "nonpeptidase_homolog": 33
+  }
+}
