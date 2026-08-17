@@ -272,12 +272,13 @@ def normalize_strain(strain: str, data_dir: Path) -> tuple[str, str]:
         )
         tcio.save_calls(data_dir, TOOL, strain, calls)
         tcio.save_skill_summary(data_dir, TOOL, strain, summary)
+        # Sidecar removed only on successful normalize — a FAILED strain's
+        # artifacts (including any stale entry_xrefs.json) are left untouched.
+        stale = out_dir / f"{strain}.{TOOL}.entry_xrefs.json"
+        if stale.exists():
+            stale.unlink()
     except Exception as exc:  # noqa: BLE001 — one bad strain must not kill the batch
         return "FAILED", f"{type(exc).__name__}: {exc}"
-
-    stale = out_dir / f"{strain}.{TOOL}.entry_xrefs.json"
-    if stale.exists():
-        stale.unlink()
 
     return "NORMALIZED", f"{n_prot} proteins"
 
