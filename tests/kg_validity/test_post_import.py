@@ -397,7 +397,7 @@ def test_annotation_types_values_valid(run_query):
         WITH DISTINCT t
         WHERE NOT t IN ['go_bp', 'go_mf', 'go_cc', 'pfam', 'cog_category',
                         'kegg', 'brite', 'ec', 'cyanorak_role', 'tigr_role',
-                        'tcdb', 'cazy', 'interpro']
+                        'tcdb', 'cazy', 'interpro', 'ncbifam']
         RETURN collect(t) AS bad
     """)
     assert result[0]["bad"] == [], (

@@ -885,47 +885,47 @@
     },
     {
       "properties": {
-        "metric_type": "rapid_recovery_low_co2_shock",
-        "value": "false"
-      },
-      "source": "derived_metric:ismej.2015.36:s2_concordance_low_co2:rapid_recovery_low_co2_shock",
-      "target": "ncbigene:PMM0051",
-      "type": "Derived_metric_flags_gene"
-    },
-    {
-      "properties": {
-        "metric_type": "rapid_recovery_low_co2_shock",
-        "value": "false"
-      },
-      "source": "derived_metric:ismej.2015.36:s2_concordance_low_co2:rapid_recovery_low_co2_shock",
-      "target": "ncbigene:PMM0075",
-      "type": "Derived_metric_flags_gene"
-    },
-    {
-      "properties": {
-        "metric_type": "rapid_recovery_low_co2_shock",
-        "value": "false"
-      },
-      "source": "derived_metric:ismej.2015.36:s2_concordance_low_co2:rapid_recovery_low_co2_shock",
-      "target": "ncbigene:PMM0087",
-      "type": "Derived_metric_flags_gene"
-    },
-    {
-      "properties": {
-        "metric_type": "rapid_recovery_low_co2_shock",
-        "value": "false"
-      },
-      "source": "derived_metric:ismej.2015.36:s2_concordance_low_co2:rapid_recovery_low_co2_shock",
-      "target": "ncbigene:PMM0115",
-      "type": "Derived_metric_flags_gene"
-    },
-    {
-      "properties": {
-        "metric_type": "rapid_recovery_low_co2_shock",
+        "metric_type": "exoproteome_detected_ancestor",
         "value": "true"
       },
-      "source": "derived_metric:ismej.2015.36:s2_concordance_low_co2:rapid_recovery_low_co2_shock",
-      "target": "ncbigene:PMM0195",
+      "source": "derived_metric:aem.00798-26:table_s1_exudate_detection:exoproteome_detected_ancestor",
+      "target": "ncbigene:EZ55_00033",
+      "type": "Derived_metric_flags_gene"
+    },
+    {
+      "properties": {
+        "metric_type": "exoproteome_detected_ancestor",
+        "value": "false"
+      },
+      "source": "derived_metric:aem.00798-26:table_s1_exudate_detection:exoproteome_detected_ancestor",
+      "target": "ncbigene:EZ55_00041",
+      "type": "Derived_metric_flags_gene"
+    },
+    {
+      "properties": {
+        "metric_type": "exoproteome_detected_ancestor",
+        "value": "false"
+      },
+      "source": "derived_metric:aem.00798-26:table_s1_exudate_detection:exoproteome_detected_ancestor",
+      "target": "ncbigene:EZ55_00076",
+      "type": "Derived_metric_flags_gene"
+    },
+    {
+      "properties": {
+        "metric_type": "exoproteome_detected_ancestor",
+        "value": "false"
+      },
+      "source": "derived_metric:aem.00798-26:table_s1_exudate_detection:exoproteome_detected_ancestor",
+      "target": "ncbigene:EZ55_00078",
+      "type": "Derived_metric_flags_gene"
+    },
+    {
+      "properties": {
+        "metric_type": "exoproteome_detected_ancestor",
+        "value": "false"
+      },
+      "source": "derived_metric:aem.00798-26:table_s1_exudate_detection:exoproteome_detected_ancestor",
+      "target": "ncbigene:EZ55_00079",
       "type": "Derived_metric_flags_gene"
     },
     {
@@ -1950,20 +1950,26 @@
     },
     {
       "properties": {},
-      "source": "ncbigene:A9601_04821",
-      "target": "cazy:GT51",
+      "source": "ncbigene:A9601_03891",
+      "target": "cazy:GT11",
       "type": "Gene_has_cazy_family"
     },
     {
       "properties": {},
-      "source": "ncbigene:A9601_06401",
-      "target": "cazy:CBM48",
+      "source": "ncbigene:A9601_03901",
+      "target": "cazy:GT2",
       "type": "Gene_has_cazy_family"
     },
     {
       "properties": {},
       "source": "cazy:AA10",
       "target": "cazy:AA",
+      "type": "Cazy_family_is_a_cazy_family"
+    },
+    {
+      "properties": {},
+      "source": "cazy:CBM12",
+      "target": "cazy:CBM",
       "type": "Cazy_family_is_a_cazy_family"
     },
     {
@@ -1981,12 +1987,6 @@
     {
       "properties": {},
       "source": "cazy:CBM5",
-      "target": "cazy:CBM",
-      "type": "Cazy_family_is_a_cazy_family"
-    },
-    {
-      "properties": {},
-      "source": "cazy:CBM73",
       "target": "cazy:CBM",
       "type": "Cazy_family_is_a_cazy_family"
     },
@@ -2261,7 +2261,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-08-06T17:51:31.158332+00:00",
+  "generated_at": "2026-08-17T12:14:21.829300+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -3756,6 +3756,17 @@
     },
     {
       "anchor": false,
+      "id": "cazy:CBM12",
+      "label": "CazyFamily",
+      "properties": {
+        "cazy_id": "CBM12",
+        "level": 1,
+        "level_kind": "cazy_family",
+        "name": "CBM12"
+      }
+    },
+    {
+      "anchor": false,
       "id": "cazy:CBM20",
       "label": "CazyFamily",
       "properties": {
@@ -3763,17 +3774,6 @@
         "level": 1,
         "level_kind": "cazy_family",
         "name": "CBM20"
-      }
-    },
-    {
-      "anchor": false,
-      "id": "cazy:CBM48",
-      "label": "CazyFamily",
-      "properties": {
-        "cazy_id": "CBM48",
-        "level": 1,
-        "level_kind": "cazy_family",
-        "name": "CBM48"
       }
     },
     {
