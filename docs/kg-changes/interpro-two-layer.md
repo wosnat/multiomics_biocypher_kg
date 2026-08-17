@@ -1,5 +1,12 @@
 # InterPro two-layer integration — what changed
 
+> **SUPERSEDED (2026-08-17)** by the multi-ontology redesign — see
+> [`docs/kg-changes/interpro-multi-ontology.md`](interpro-multi-ontology.md). This document describes the
+> PREVIOUS integration (predates the NCBIfam split, the `evalue_library` edge-property change, and the 9-bucket
+> `annotation_quality` resolution). The Layer A/B provenance mechanics described below are still accurate and
+> unchanged by the redesign — only the surrounding InterPro edge shape and bucket accounting moved. Kept for
+> history.
+
 **Design:** `docs/superpowers/specs/2026-08-10-interpro-two-layer-integration-design.md`
 **Commits:** Phase 1 `88b20f24`, Phase 2 `b30356cd`, Phase 3 `6c962f50`
 **Status:** KG-side complete. MCP/explorer surfacing is a separate follow-up (§ MCP below).
