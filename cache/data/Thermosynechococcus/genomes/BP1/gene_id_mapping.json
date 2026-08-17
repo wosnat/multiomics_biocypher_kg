@@ -5513,6 +5513,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "fbt",
+          "type": "gene_name"
+        },
+        {
           "id": "TLL_RS00075",
           "type": "gene_synonym"
         },
@@ -16368,6 +16372,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "nikE",
+          "type": "gene_name"
+        },
+        {
           "id": "TLL_RS02270",
           "type": "gene_synonym"
         },
@@ -17228,6 +17236,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "thyD",
+          "type": "gene_name"
+        },
         {
           "id": "TLL_RS02385",
           "type": "gene_synonym"
@@ -18219,6 +18231,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "argZ",
+          "type": "gene_name"
+        },
         {
           "id": "TLL_RS02590",
           "type": "gene_synonym"
@@ -31540,16 +31556,16 @@
       ],
       "tier3_ids": [
         {
+          "id": "hpnB",
+          "type": "gene_name"
+        },
+        {
           "id": "TLL_RS04985",
           "type": "gene_synonym"
         },
         {
           "id": "tll0986",
           "type": "gene_synonym"
-        },
-        {
-          "id": "hpnB",
-          "type": "gene_name"
         }
       ]
     },
@@ -43053,6 +43069,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "cdf31",
+          "type": "gene_name"
+        },
+        {
           "id": "TLL_RS07130",
           "type": "gene_synonym"
         },
@@ -50399,6 +50419,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "gifA",
+          "type": "gene_name"
+        },
         {
           "id": "TLL_RS08480",
           "type": "gene_synonym"
@@ -61709,16 +61733,16 @@
       ],
       "tier3_ids": [
         {
+          "id": "glgP",
+          "type": "gene_name"
+        },
+        {
           "id": "TLL_RS10535",
           "type": "gene_synonym"
         },
         {
           "id": "tll2079",
           "type": "gene_synonym"
-        },
-        {
-          "id": "glgP",
-          "type": "gene_name"
         }
       ]
     },
@@ -95956,16 +95980,16 @@
       ],
       "tier3_ids": [
         {
+          "id": "glgP",
+          "type": "gene_name"
+        },
+        {
           "id": "TLL_RS03970",
           "type": "gene_synonym"
         },
         {
           "id": "tlr0782",
           "type": "gene_synonym"
-        },
-        {
-          "id": "glgP",
-          "type": "gene_name"
         }
       ]
     },
@@ -99630,6 +99654,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "nikE",
+          "type": "gene_name"
+        },
         {
           "id": "TLL_RS04690",
           "type": "gene_synonym"
@@ -112611,16 +112639,16 @@
       ],
       "tier3_ids": [
         {
+          "id": "narM",
+          "type": "gene_name"
+        },
+        {
           "id": "TLL_RS06885",
           "type": "gene_synonym"
         },
         {
           "id": "tlr1356",
           "type": "gene_synonym"
-        },
-        {
-          "id": "narM",
-          "type": "gene_name"
         }
       ]
     },
@@ -128636,16 +128664,16 @@
       ],
       "tier3_ids": [
         {
+          "id": "ygfZ",
+          "type": "gene_name"
+        },
+        {
           "id": "TLL_RS09880",
           "type": "gene_synonym"
         },
         {
           "id": "tlr1949",
           "type": "gene_synonym"
-        },
-        {
-          "id": "ygfZ",
-          "type": "gene_name"
         }
       ]
     },
@@ -128762,6 +128790,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "yvcK",
+          "type": "gene_name"
+        },
         {
           "id": "TLL_RS09890",
           "type": "gene_synonym"
@@ -143808,6 +143840,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "ybiA",
+          "type": "gene_name"
+        },
+        {
           "id": "TLL_RS12545",
           "type": "gene_synonym"
         },
@@ -149496,6 +149532,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "isiD",
+          "type": "gene_name"
+        },
+        {
           "id": "TLL_RS12560",
           "type": "gene_synonym"
         },
@@ -151023,16 +151063,16 @@
       ],
       "tier3_ids": [
         {
+          "id": "petP",
+          "type": "gene_name"
+        },
+        {
           "id": "TLL_RS02675",
           "type": "gene_synonym"
         },
         {
           "id": "tsr0524",
           "type": "gene_synonym"
-        },
-        {
-          "id": "petP",
-          "type": "gene_name"
         }
       ]
     },
@@ -173153,6 +173193,9 @@
     "argS": [
       "tll0826"
     ],
+    "argZ": [
+      "tll0507"
+    ],
     "aroA": [
       "tlr0343"
     ],
@@ -173421,6 +173464,9 @@
     ],
     "cdaA": [
       "tlr1762"
+    ],
+    "cdf31": [
+      "tll1405"
     ],
     "cdsA": [
       "tll2108"
@@ -174119,6 +174165,9 @@
       "tll0541",
       "tll0016"
     ],
+    "fbt": [
+      "tll0016"
+    ],
     "fcI": [
       "tll0633"
     ],
@@ -174314,7 +174363,8 @@
       "tll1704"
     ],
     "gifA": [
-      "tll0165"
+      "tll0165",
+      "tll1670"
     ],
     "gifB": [
       "tll0165",
@@ -174355,9 +174405,9 @@
       "tlr1287"
     ],
     "glgP": [
-      "tlr1252",
       "tll2079",
-      "tlr0782"
+      "tlr0782",
+      "tlr1252"
     ],
     "glk": [
       "tll1495"
@@ -174777,6 +174827,9 @@
     ],
     "isiA": [
       "tlr1050"
+    ],
+    "isiD": [
+      "tsl2468"
     ],
     "ispD": [
       "tlr0605"
@@ -175449,6 +175502,10 @@
     ],
     "nikC": [
       "tll1105"
+    ],
+    "nikE": [
+      "tll0443",
+      "tlr0926"
     ],
     "nikK": [
       "tll1418"
@@ -177131,6 +177188,9 @@
     ],
     "thy1": [
       "tll1156"
+    ],
+    "thyD": [
+      "tll0465"
     ],
     "tic22": [
       "tll2028"
@@ -184583,6 +184643,9 @@
     "ybeY": [
       "tlr1585"
     ],
+    "ybiA": [
+      "tlr2465"
+    ],
     "ybiR": [
       "tll1777"
     ],
@@ -184773,6 +184836,9 @@
     ],
     "ytmL": [
       "TLL_RS12740"
+    ],
+    "yvcK": [
+      "tlr1951"
     ],
     "zam": [
       "tlr1873"
@@ -197085,7 +197151,7 @@
   "stats": {
     "n_conflicts": 31,
     "n_genes": 2449,
-    "n_multi": 9513,
+    "n_multi": 9521,
     "n_specific": 12276,
     "passes": 3
   },

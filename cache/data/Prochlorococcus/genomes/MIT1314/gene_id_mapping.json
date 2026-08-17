@@ -24045,6 +24045,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "trhO",
+          "type": "gene_name"
+        },
+        {
           "id": "SOI86_RS02870",
           "type": "gene_synonym"
         }
@@ -56972,6 +56976,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "dcm",
+          "type": "gene_name"
+        },
+        {
           "id": "SOI86_RS06840",
           "type": "gene_synonym"
         }
@@ -58413,6 +58421,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "coaX",
+          "type": "gene_name"
+        },
+        {
           "id": "SOI86_RS07015",
           "type": "gene_synonym"
         }
@@ -59461,6 +59473,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "petL",
+          "type": "gene_name"
+        },
         {
           "id": "SOI86_RS07140",
           "type": "gene_synonym"
@@ -65335,6 +65351,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "isiD",
+          "type": "gene_name"
+        },
+        {
           "id": "SOI86_RS07820",
           "type": "gene_synonym"
         }
@@ -67345,6 +67365,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "ygfZ",
+          "type": "gene_name"
+        },
+        {
           "id": "SOI86_RS08065",
           "type": "gene_synonym"
         }
@@ -67995,6 +68019,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "yvcK",
+          "type": "gene_name"
+        },
         {
           "id": "SOI86_RS08140",
           "type": "gene_synonym"
@@ -74760,6 +74788,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "petP",
+          "type": "gene_name"
+        },
+        {
           "id": "SOI86_RS08985",
           "type": "gene_synonym"
         }
@@ -80221,6 +80253,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "csoS4",
+          "type": "gene_name"
+        },
         {
           "id": "SOI86_RS09625",
           "type": "gene_synonym"
@@ -90759,6 +90795,9 @@
     "coaE": [
       "SOI86_RS06825"
     ],
+    "coaX": [
+      "SOI86_RS07015"
+    ],
     "cobA": [
       "SOI86_RS06465"
     ],
@@ -90850,6 +90889,9 @@
     "csoS3": [
       "SOI86_RS09620"
     ],
+    "csoS4": [
+      "SOI86_RS09625"
+    ],
     "cspR": [
       "SOI86_RS01915"
     ],
@@ -90922,6 +90964,9 @@
     ],
     "dcd": [
       "SOI86_RS07895"
+    ],
+    "dcm": [
+      "SOI86_RS06840"
     ],
     "ddl": [
       "SOI86_RS04380"
@@ -91448,6 +91493,9 @@
     ],
     "invA": [
       "SOI86_RS08335"
+    ],
+    "isiD": [
+      "SOI86_RS07820"
     ],
     "ispD": [
       "SOI86_RS09115"
@@ -91979,11 +92027,17 @@
     "petH": [
       "SOI86_RS02770"
     ],
+    "petL": [
+      "SOI86_RS07140"
+    ],
     "petM": [
       "SOI86_RS03485"
     ],
     "petN": [
       "SOI86_RS00935"
+    ],
+    "petP": [
+      "SOI86_RS08985"
     ],
     "pgeF": [
       "SOI86_RS09495"
@@ -92976,6 +93030,9 @@
     "tpx": [
       "SOI86_RS01970"
     ],
+    "trhO": [
+      "SOI86_RS02870"
+    ],
     "trkA": [
       "SOI86_RS07040"
     ],
@@ -93221,6 +93278,9 @@
     "yedP": [
       "SOI86_RS01400"
     ],
+    "ygfZ": [
+      "SOI86_RS08065"
+    ],
     "yhaH": [
       "SOI86_RS03570"
     ],
@@ -93232,6 +93292,9 @@
     ],
     "ylqF": [
       "SOI86_RS07635"
+    ],
+    "yvcK": [
+      "SOI86_RS08140"
     ],
     "zam": [
       "SOI86_RS02010"
@@ -99408,7 +99471,7 @@
   "stats": {
     "n_conflicts": 15,
     "n_genes": 1883,
-    "n_multi": 4177,
+    "n_multi": 4186,
     "n_specific": 6156,
     "passes": 2
   },
