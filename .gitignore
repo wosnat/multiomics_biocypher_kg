@@ -184,6 +184,11 @@ cache/data/kegg/raw
 # level up at cache/data/interpro/ and stays tracked.
 cache/data/interpro/raw
 
+# NCBIfam raw reference file (hmm_PGAP.tsv) re-downloadable by
+# build_ncbifam_reference.py. The committed output (ncbifam_reference.json)
+# sits one level up at cache/data/ncbifam/ and stays tracked.
+cache/data/ncbifam/raw
+
 # TCDB-diamond skill: smoke-test artifacts (limited_N runs) are transient.
 # Full-run outputs (<strain>.tcdb.{tsv,calls.json,skill_summary.json}) are
 # intentionally committed alongside eggnog/ outputs.
