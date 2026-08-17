@@ -98,10 +98,14 @@ _XML_ABSTRACT_CLOSE = "</abstract>"
 # citation as `[` <newline> `<cite idref="PUB..."/>` <newline> `]` (one or more
 # <cite> tags, comma-separated) — after tag stripping the brackets are empty
 # and must be swept up too. A handful of entries additionally carry a literal
-# `[cite:...]` text marker (not a tag) left over from InterPro's authoring
-# tooling; that is swept separately since it never matches a real XML tag.
+# (non-tag) citation marker left over from InterPro's authoring tooling, in
+# several shapes observed in the real release: `[cite:]`, `[[cite10944213]]`
+# (double-bracket, digits, no colon), and `[[cite21901419]` (mismatched
+# bracket count — one open, one close, but two open in the source). The
+# `\[{1,2}...\]{1,2}` bracket-count tolerance covers all of these without
+# over-matching unrelated single/double square brackets that don't say "cite".
 _TAG_RE = re.compile(r"<[^>]+>")
-_CITE_MARKER_RE = re.compile(r"\[cite:[^\]]*\]", re.IGNORECASE)
+_CITE_MARKER_RE = re.compile(r"\[{1,2}cite:?\d*\]{1,2}", re.IGNORECASE)
 _EMPTY_BRACKET_RE = re.compile(r"\[\s*(?:,\s*)*\]")
 _WHITESPACE_RE = re.compile(r"\s+")
 _SPACE_BEFORE_PUNCT_RE = re.compile(r"\s+([.,;:)])")
@@ -253,9 +257,11 @@ def clean_abstract(html_text: str, cap: int = 400) -> str:
     none), strips every XML/HTML tag (``<p>``, ``<i>``, ``<sub>``,
     ``<cite idref="..."/>`` …), unescapes HTML entities, sweeps up the empty
     ``[ ]``/``[ , ]`` citation brackets left behind once ``<cite>`` tags are
-    removed plus the rare literal ``[cite:...]`` text marker, collapses
-    whitespace, tidies stray whitespace before punctuation, and truncates to
-    *cap* characters.
+    removed plus the rare literal (non-tag) citation markers InterPro's
+    authoring tooling occasionally leaves in the plain text — ``[cite:]``,
+    ``[[cite10944213]]`` (double-bracket, digits, no colon), and mismatched
+    bracket counts like ``[[cite21901419]`` — collapses whitespace, tidies
+    stray whitespace before punctuation, and truncates to *cap* characters.
     """
     text = html_text.split("</p>", 1)[0]
     text = _TAG_RE.sub("", text)

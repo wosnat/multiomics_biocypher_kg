@@ -296,6 +296,33 @@ def test_clean_abstract_strips_literal_cite_bracket_marker():
     assert "cite:" not in out
 
 
+def test_clean_abstract_strips_double_bracket_digit_cite_marker():
+    """Real-world form (IPR016172/IPR016173, InterPro release 2026-08-06):
+    a literal ``[[citeNNNNNNNN]]`` marker — double brackets, digits, no
+    colon, no <cite> tag at all. Must not leak into the shipped description."""
+    html = (
+        "<p>the membrane-binding domain (residues 311-387 and 426-449, of "
+        "which residues 329-376 are in the disordered region) [[cite10944213]].</p>"
+    )
+    out = clean_abstract(html)
+    assert "[[cite" not in out
+    assert "cite" not in out.lower()
+    assert out == (
+        "the membrane-binding domain (residues 311-387 and 426-449, of "
+        "which residues 329-376 are in the disordered region)."
+    )
+
+
+def test_clean_abstract_strips_mismatched_bracket_count_cite_marker():
+    """Another real shape: two opening brackets but only one closing one
+    (``[[cite21901419]``) — the release is not internally consistent about
+    how many brackets it uses."""
+    html = "<p>as a substrate [[cite21901419], more text after.</p>"
+    out = clean_abstract(html)
+    assert "cite" not in out.lower()
+    assert "[[cite21901419]" not in out
+
+
 def test_clean_abstract_unescapes_entities():
     html = "<p>Binds Ca&#8322;&#43; ions &amp; other cofactors.</p>"
     out = clean_abstract(html)
