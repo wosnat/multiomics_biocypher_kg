@@ -2261,7 +2261,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-08-17T12:14:21.829300+00:00",
+  "generated_at": "2026-08-17T18:20:23.567926+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -4013,10 +4013,10 @@
     },
     {
       "anchor": false,
-      "id": "data_source:psortb",
+      "id": "data_source:merops_diamond",
       "label": "DataSource",
       "properties": {
-        "description": "PSORTb v3.0.3 per-protein subcellular-localization predictions (Gram-negative model).",
+        "description": "diamond blastp against the MEROPS peptidase scan library \u2014 per-protein protease/peptidase-inhibitor classifications (clan/family/subfamily) by direct sequence similarity; the KG^s only MEROPS evidence source.",
         "provenance": "tool_run",
         "scope": "gene_level"
       }

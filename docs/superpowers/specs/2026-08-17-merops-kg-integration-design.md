@@ -147,10 +147,13 @@ child-level > parent-level, no dangling edges, rollup sanity, DataSource presenc
 - [x] Docs: `docs/kg-changes/merops-extension.md`, CLAUDE.md, CHANGELOG.md,
       merops-diamond SKILL.md Phase-2, add-a-tool hand-off redirect
 - [x] `/omics-edge-snapshot --save pre_merops_integration` captured
-- [ ] Docker rebuild (multiomics_biocypher_kg clone, user-driven) → post-import
-- [ ] `/omics-edge-snapshot --compare pre_merops_integration` (expression edges unchanged)
-- [ ] `pytest -m kg` (incl. new `tests/kg_validity/test_merops.py`)
-- [ ] `snapshot_data.json` regeneration
+- [x] Docker rebuild (multiomics_biocypher_kg clone, user-driven) → post-import
+- [x] `/omics-edge-snapshot --compare pre_merops_integration` — exit 0, zero regressions,
+      all expression/DM/metabolism counts unchanged
+- [x] `pytest -m kg` — 1,122 passed (incl. `tests/kg_validity/test_merops.py`); live figures:
+      155 nodes · 108 is-a · 4,257 gene edges (3,427 peptidase / 778 nonpeptidase_homolog /
+      52 inhibitor) · 339 genes tier-gated into annotation_types · C26 gap 272 vs 41 visible
+- [x] `snapshot_data.json` regenerated (462 snapshot assertions green)
 
 ## Out of scope (recorded follow-ups)
 

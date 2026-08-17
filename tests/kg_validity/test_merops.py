@@ -286,11 +286,11 @@ def test_heterotrophs_carry_more_merops_genes_than_pro(run_query):
     rows = run_query("""
         MATCH (g:Gene)
         WHERE g.merops_family_count > 0
-          AND g.organism_name IN ['Prochlorococcus MED4', 'Alteromonas MIT1002']
+          AND g.organism_name IN ['Prochlorococcus MED4', 'Alteromonas macleodii MIT1002']
         RETURN g.organism_name AS org, count(g) AS n
     """)
     by_org = {r["org"]: r["n"] for r in rows}
     med4 = by_org.get("Prochlorococcus MED4", 0)
-    mit1002 = by_org.get("Alteromonas MIT1002", 0)
+    mit1002 = by_org.get("Alteromonas macleodii MIT1002", 0)
     assert med4 > 0 and mit1002 > 0
     assert mit1002 > med4 * 2
