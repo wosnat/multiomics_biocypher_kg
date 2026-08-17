@@ -1471,6 +1471,7 @@ interpro entry:
     name: str               # InterPro entry description
     interpro_id: str        # e.g. "IPR000685"
     interpro_type: str      # FAMILY | DOMAIN | HOMOLOGOUS_SUPERFAMILY | REPEAT | CONSERVED_SITE | ACTIVE_SITE | BINDING_SITE | PTM
+    description: str        # sparse — 400-char curated abstract
     level: int              # is-a depth in ParentChildTree (0 = parentless root); NOTE breadth is interpro_type, not level (ORA stratifies by (type, level))
     gene_count: int         # post-import
     organism_count: int     # post-import
@@ -1493,7 +1494,9 @@ gene to interpro entry association:
     start: int              # domain envelope start (min across this gene's matches to the entry)
     end: int                # domain envelope end (max)
     evalue: float           # best (min) non-null e-value; omitted when all matches lack one
-    score: float            # best (max) non-null score; omitted when N/A
+    evalue_library: str     # attribution for the min-evalue: which member DB reported it.
+                             # count-don't-combine — scores across heterogeneous member-DB scales
+                             # aren't comparable, so no combined `score` is stored (see spec §3.1).
     libraries: str[]        # member DBs supporting this entry for this gene (e.g. PFAM|NCBIFAM)
     match_count: int        # number of match×location rows folded into this edge
 
@@ -1542,6 +1545,45 @@ interpro entry related to cazy family:
   properties:
     ambiguous: bool
     source_db: str
+
+
+# ── NCBIfam ontology (flat — no hierarchy column in source; scored edge) ──────
+
+ncbifam family:
+  is_a: biological entity
+  represented_as: node
+  preferred_id: ncbifam
+  label_in_input: ncbifam family
+  properties:
+    name: str               # curated product name (hmm_PGAP product_name)
+    ncbifam_id: str          # e.g. "TIGR00198" / "NF002735" (unversioned)
+    family_type: str         # equivalog | subfamily | domain | exception | hypoth_equivalog | ... (specificity LABEL, flat ontology)
+    gene_symbol: str         # sparse
+    description: str         # sparse — curated comment column
+    level: int               # always 0 (flat)
+
+gene to ncbifam family association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Gene_has_ncbifam_family
+  source: gene
+  target: ncbifam family
+  label_in_input: gene_has_ncbifam_family
+  # Single-source scored edge (InterProScan NCBIFAM; homogeneous HMMER bits —
+  # both evalue AND score are meaningful, unlike the cross-library interpro edge).
+  properties:
+    start: int
+    end: int
+    evalue: float
+    score: float
+
+ncbifam family in interpro entry:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Ncbifam_family_in_interpro_entry
+  source: ncbifam family
+  target: interpro entry
+  label_in_input: ncbifam_family_in_interpro_entry
 
 
 protein to ec number association:
