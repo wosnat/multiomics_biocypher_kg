@@ -556,17 +556,29 @@ def load_signalp(data_dir: str, strain_name: str) -> dict[str, dict]:
 
 
 def load_interproscan(data_dir: str, strain_name: str) -> dict[str, dict]:
-    """Load InterProScan Phase-1 calls.json → {protein_id_wp: {field: value}}.
+    """Load InterProScan calls.json (faceted format) → {protein_id_wp: {field: value}}.
 
-    The artifact is a dict keyed by RefSeq WP_ accession (== gene_mapping.protein_id).
-    We surface only the light per-gene summary the merge needs — the distinct
-    InterPro entry ids — so the merged JSON carries `interpro_entries` (drives
-    contributing_sources + the DataSource node + Gene routing). The rich per-match
-    evidence (coordinates / e-value / score / libraries) is NOT merged here; the
-    interpro_adapter reads this same calls.json directly at KG-build time (like
-    tcdb_adapter reads tcdb_pruned.json). Proteins with no InterPro entry are
-    dropped (no `interpro_entries` key). Missing file → {} (strain not yet
-    InterProScan-run). See docs/superpowers/specs/2026-07-26-interproscan-kg-integration-design.md.
+    The artifact is a dict keyed by RefSeq WP_ accession (== gene_mapping.protein_id),
+    with a per-protein shape of
+    `{md5, match_count, libraries: {LIB: [{accession, name, ipr, start, end,
+    evalue, score}, ...]}, interpro_entries: {IPR: {...}}, go_terms: {GO: [IPR, ...]}}`
+    (accessions already version-stripped by the parser). We surface only the light
+    per-gene summary the merge needs:
+    - `interpro_entries` — distinct InterPro entry ids (drives contributing_sources
+      + the DataSource node + Gene routing)
+    - `pfam_signatures` — direct PFAM library HMM hits (a direct hit, no inference)
+    - `ncbifam_ids` — direct NCBIFAM library hits
+    - `hamap_descriptions` — HAMAP library match names (HAMAP has no stable
+      accession→description reference, so the name is carried here)
+    - `go_term_donors` — GO term → contributing InterPro entry id(s), as reported
+      by InterProScan's own GO attribution
+
+    The rich per-match evidence (coordinates / e-value / score / libraries) is NOT
+    merged here; the interpro_adapter reads this same calls.json directly at
+    KG-build time (like tcdb_adapter reads tcdb_pruned.json). All fields are sparse
+    (omitted when empty); a protein with nothing to surface is dropped entirely.
+    Missing file → {} (strain not yet InterProScan-run).
+    See docs/superpowers/specs/2026-08-17-interpro-multi-ontology-redesign-design.md.
     """
     path = os.path.join(data_dir, "interproscan", f"{strain_name}.interproscan.calls.json")
     if not os.path.exists(path):
@@ -577,23 +589,37 @@ def load_interproscan(data_dir: str, strain_name: str) -> dict[str, dict]:
     for wp, call in data.items():
         if not isinstance(call, dict):
             continue
-        entries = call.get("interpro_entries") or []
-        # Also surface the direct PFAM signature accessions (Layer B folds these
-        # into pfam_ids — a direct HMM hit, no inference). Light: just the PF* ids.
+        entries = sorted(call.get("interpro_entries") or {})
+        libs = call.get("libraries") or {}
         pfam_sigs = sorted({
-            sig.split(".")[0]
-            for m in (call.get("matches") or [])
-            if (m.get("library") or "").upper() == "PFAM"
-            for sig in [(m.get("signature_accession") or "")]
-            if sig.startswith("PF")
+            r["accession"]
+            for r in libs.get("PFAM", [])
+            if (r.get("accession") or "").startswith("PF")
         })
-        if not entries and not pfam_sigs:
+        ncbifam = sorted({
+            r["accession"]
+            for r in libs.get("NCBIFAM", [])
+            if r.get("accession")
+        })
+        hamap = sorted({
+            r["name"]
+            for r in libs.get("HAMAP", [])
+            if r.get("name")
+        })
+        donors = call.get("go_terms") or {}
+        if not (entries or pfam_sigs or ncbifam or hamap or donors):
             continue
         row: dict = {}
         if entries:
-            row["interpro_entries"] = list(entries)
+            row["interpro_entries"] = entries
         if pfam_sigs:
             row["pfam_signatures"] = pfam_sigs
+        if ncbifam:
+            row["ncbifam_ids"] = ncbifam
+        if hamap:
+            row["hamap_descriptions"] = hamap
+        if donors:
+            row["go_term_donors"] = donors
         result[str(wp).strip()] = row
     return result
 

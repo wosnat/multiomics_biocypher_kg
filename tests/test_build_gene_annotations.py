@@ -684,6 +684,54 @@ MINIMAL_CONFIG = {
 }
 
 
+# ─── load_interproscan ─────────────────────────────────────────────────────
+
+class TestLoadInterproscan:
+    def test_load_interproscan_faceted(self, tmp_path):
+        from multiomics_kg.download.build_gene_annotations import load_interproscan
+        d = tmp_path / "interproscan"; d.mkdir()
+        calls = {"WP_1.1": {
+            "md5": "x", "match_count": 3,
+            "libraries": {
+                "PFAM": [{"accession": "PF02532", "name": "PSII PsbI", "ipr": "IPR003686",
+                          "start": 1, "end": 36, "evalue": 4.1e-18, "score": 76.3}],
+                "NCBIFAM": [{"accession": "NF002735", "name": "psbI", "ipr": None,
+                             "start": 1, "end": 38, "evalue": 3.3e-23, "score": 92.7}],
+                "HAMAP": [{"accession": "MF_01316", "name": "Photosystem II reaction center protein I",
+                           "ipr": "IPR003686", "start": 1, "end": 36, "evalue": None, "score": 17.4}],
+            },
+            "interpro_entries": {"IPR003686": {"type": "FAMILY", "libraries": ["HAMAP", "PFAM"],
+                                               "match_count": 2, "start": 1, "end": 36,
+                                               "evalue": 4.1e-18, "evalue_library": "PFAM"}},
+            "go_terms": {"GO:0015979": ["IPR003686"]},
+        }}
+        (d / "S.interproscan.calls.json").write_text(json.dumps(calls))
+        rows = load_interproscan(str(tmp_path), "S")
+        r = rows["WP_1.1"]
+        assert r["interpro_entries"] == ["IPR003686"]
+        assert r["pfam_signatures"] == ["PF02532"]
+        assert r["ncbifam_ids"] == ["NF002735"]
+        assert r["hamap_descriptions"] == ["Photosystem II reaction center protein I"]
+        assert r["go_term_donors"] == {"GO:0015979": ["IPR003686"]}
+
+    def test_missing_file_returns_empty(self, tmp_path):
+        from multiomics_kg.download.build_gene_annotations import load_interproscan
+        assert load_interproscan(str(tmp_path), "Nope") == {}
+
+    def test_all_empty_row_dropped(self, tmp_path):
+        from multiomics_kg.download.build_gene_annotations import load_interproscan
+        d = tmp_path / "interproscan"; d.mkdir()
+        calls = {"WP_2.1": {
+            "md5": "x", "match_count": 0,
+            "libraries": {},
+            "interpro_entries": {},
+            "go_terms": {},
+        }}
+        (d / "S.interproscan.calls.json").write_text(json.dumps(calls))
+        rows = load_interproscan(str(tmp_path), "S")
+        assert rows == {}
+
+
 class TestAnnotationBuilderBuildWide:
     def setup_method(self):
         self.builder = AnnotationBuilder(MINIMAL_CONFIG)
