@@ -4,8 +4,10 @@ from __future__ import annotations
 
 from multiomics_kg.utils.interpro_reference import (
     build_reference,
+    clean_abstract,
     normalize_type,
     parse_entry_db_xrefs,
+    parse_entry_descriptions,
     parse_entry_list,
     parse_interpro2go,
     parse_parent_child_tree,
@@ -253,3 +255,106 @@ def test_build_reference_ec_numbers_stored_raw_unnormalized():
     """EC is stored verbatim; normalize_ec / bare-3-level is the consumer's job."""
     ref = build_reference(ENTRY_LIST, PARENT_CHILD, ec_map={"IPR000685": ["3.4.21"]})
     assert ref["IPR000685"]["ec_numbers"] == ["3.4.21"]
+
+
+# --------------------------------------------------------------------------
+# interpro.xml → description (first-paragraph abstract)
+# --------------------------------------------------------------------------
+
+def test_clean_abstract_strips_tags_and_caps():
+    html = "<p>This family represents <i>PsbI</i>, a small subunit.</p><p>Second para.</p>"
+    out = clean_abstract(html)
+    assert out == "This family represents PsbI, a small subunit."
+    assert len(clean_abstract("<p>" + "x" * 1000 + "</p>")) == 400
+
+
+def test_clean_abstract_strips_multiline_cite_tags_and_brackets():
+    """Real InterPro abstracts wrap citations in ``[ <cite idref="..."/> ]``,
+    each element pretty-printed on its own line. The empty bracket left behind
+    once the <cite> tag is stripped must not leak into the description."""
+    html = (
+        "<p>\n"
+        "  This entry represents PsbI, tightly associated with the D1/D2\n"
+        "  heterodimer in PSII [\n"
+        "  <cite idref=\"PUB00008166\"/>\n"
+        "  ].\n"
+        "</p>\n"
+        "<p>Second paragraph, not included.</p>"
+    )
+    out = clean_abstract(html)
+    assert out == "This entry represents PsbI, tightly associated with the D1/D2 heterodimer in PSII."
+    assert "cite" not in out.lower()
+    assert "[" not in out and "]" not in out
+
+
+def test_clean_abstract_strips_literal_cite_bracket_marker():
+    """A small number of real entries carry a literal ``[cite:]`` text marker
+    (not a tag) left over from InterPro's own authoring tooling."""
+    html = "<p>Mutations cause disease [<cite idref=\"PUB1\"/>, [cite:]]. More text.</p>"
+    out = clean_abstract(html)
+    assert "[cite:]" not in out
+    assert "cite:" not in out
+
+
+def test_clean_abstract_unescapes_entities():
+    html = "<p>Binds Ca&#8322;&#43; ions &amp; other cofactors.</p>"
+    out = clean_abstract(html)
+    assert "&amp;" not in out
+    assert "&" in out  # entity decoded to a literal ampersand
+
+
+def test_clean_abstract_whole_text_when_no_closing_p():
+    out = clean_abstract("<p>No closing tag here")
+    assert out == "No closing tag here"
+
+
+# Real interpro.xml <abstract> shape (IPR003686 excerpt, trimmed) plus a
+# no-abstract entry (IPR000002) and an empty-abstract entry (IPR000004) to
+# confirm sparsity.
+INTERPRO_XML_WITH_ABSTRACTS = """<?xml version="1.0"?>
+<interprodb>
+<interpro id="IPR003686" short_name="PSII_PsbI" type="Family">
+  <name>Photosystem II PsbI</name>
+  <abstract is-llm="false" is-llm-reviewed="false">
+    <p>
+      This entry represents the low molecular weight transmembrane protein
+      PsbI, which is tightly associated with the D1/D2 heterodimer in PSII [
+      <cite idref="PUB00008166"/>
+      ].
+    </p>
+
+    <p>
+      Second paragraph text that must not appear in the description.
+    </p>
+  </abstract>
+</interpro>
+<interpro id="IPR000002" short_name="NoAbstract" type="Family">
+  <name>No abstract entry</name>
+</interpro>
+<interpro id="IPR000004" short_name="EmptyAbstract" type="Conserved_site">
+  <name>Empty abstract entry</name>
+  <abstract is-llm="false" is-llm-reviewed="false">
+  </abstract>
+</interpro>
+</interprodb>
+"""
+
+
+def test_parse_entry_descriptions_captures_first_paragraph_only():
+    desc = parse_entry_descriptions(INTERPRO_XML_WITH_ABSTRACTS.splitlines())
+    assert desc["IPR003686"].startswith("This entry represents the low molecular weight")
+    assert "Second paragraph" not in desc["IPR003686"]
+    assert "cite" not in desc["IPR003686"].lower()
+
+
+def test_parse_entry_descriptions_sparse_for_no_or_empty_abstract():
+    desc = parse_entry_descriptions(INTERPRO_XML_WITH_ABSTRACTS.splitlines())
+    assert "IPR000002" not in desc  # no <abstract> at all
+    assert "IPR000004" not in desc  # <abstract> present but no <p> content
+
+
+def test_build_reference_attaches_description_sparse():
+    desc_map = parse_entry_descriptions(INTERPRO_XML_WITH_ABSTRACTS.splitlines())
+    ref = build_reference(ENTRY_LIST, PARENT_CHILD, description_map=desc_map)
+    assert "description" not in ref["IPR000002"]
+    assert "description" not in ref["IPR000685"]  # not in the fixture at all
