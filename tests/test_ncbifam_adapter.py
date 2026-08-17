@@ -137,6 +137,33 @@ def test_gene_edge_sparse_props_omit_nulls(tmp_path):
     assert props == {}
 
 
+def test_gene_edge_skips_falsy_accession_entries(tmp_path):
+    """An empty-string/None entry in ncbifam_ids (data glitch) must not emit an
+    edge to a bare `ncbifam_` node id -- mirrors the `if acc:` filter already
+    applied in get_all_ncbifam_ids."""
+    genes = {
+        "LT001": {
+            "protein_id": "WP_1.1",
+            "ncbifam_ids": ["", "TIGR00198", None],
+        }
+    }
+    calls = {
+        "WP_1.1": {
+            "libraries": {
+                "NCBIFAM": [
+                    {"accession": "TIGR00198", "name": "katG", "ipr": None,
+                     "start": 5, "end": 480, "evalue": 1e-200, "score": 850.5},
+                ]
+            }
+        }
+    }
+    genome_dir = _write_strain(tmp_path, genes, calls)
+    a = NcbifamAnnotationAdapter(genome_dir)
+    edges = list(a.get_edges())
+    assert len(edges) == 1
+    assert edges[0][2] == "ncbifam_TIGR00198"
+
+
 def test_gene_with_no_ncbifam_ids_yields_no_edges(tmp_path):
     genes = {"LT001": {"protein_id": "WP_000000001.1", "ncbifam_ids": []}}
     genome_dir = _write_strain(tmp_path, genes, {})
@@ -309,6 +336,32 @@ def test_bridge_edges_pruned_to_injected_interpro_kept_ids(tmp_path):
     assert src == "ncbifam_TIGR00198"
     assert tgt == "interpro:IPR010987"
     assert props == {}
+
+
+def test_bridge_edges_dropped_when_acc_has_no_emitted_node(tmp_path):
+    """Source-side dangling guard: calls.json can carry an (acc -> ipr) facet pair
+    for an accession that is NOT in the strain's merged ncbifam_ids (the
+    pre-Task-18 reality -- merged seeds are empty everywhere today, but calls.json
+    facet rows exist independently). get_nodes() never emits a node for such an
+    acc, so the bridge must skip it too, even when the target ipr is kept."""
+    genes = {"LT001": {"protein_id": "WP_1.1"}}  # no ncbifam_ids at all
+    calls = {
+        "WP_1.1": {
+            "libraries": {
+                "NCBIFAM": [
+                    {"accession": "TIGR00621", "name": "some family", "ipr": "IPR011344",
+                     "start": 1, "end": 100, "evalue": 1e-50, "score": 200.0},
+                ]
+            }
+        }
+    }
+    genome_dir = _write_strain(tmp_path, genes, calls)
+    m = MultiNcbifamAdapter(
+        str(_cfg(tmp_path, genome_dir)), interpro_kept_ids={"IPR011344"},
+    )
+    m._reference = {}
+    bridge_edges = [e for e in m.get_edges() if e[3] == "ncbifam_family_in_interpro_entry"]
+    assert bridge_edges == []
 
 
 def test_bridge_edges_none_when_interpro_kept_ids_not_injected(tmp_path):

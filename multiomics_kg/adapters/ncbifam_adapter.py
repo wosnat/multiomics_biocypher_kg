@@ -143,6 +143,8 @@ class NcbifamAnnotationAdapter:
                 if acc:
                     rows_by_acc.setdefault(acc, []).append(row)
             for acc in accs:
+                if not acc:
+                    continue
                 rows = rows_by_acc.get(acc) or []
                 props: dict = {}
                 if rows:
@@ -263,13 +265,21 @@ class MultiNcbifamAdapter:
         if not self._reference:
             self.download_data()
 
-        # 1. NcbifamFamily → InterproEntry bridge edges (dangling-proof)
+        # 1. NcbifamFamily → InterproEntry bridge edges (dangling-proof BOTH sides)
         acc_to_ipr: dict[str, str] = {}
         for adapter in self._strain_adapters:
             acc_to_ipr.update(adapter.get_ncbifam_to_interpro())
+        observed = self._observed_ids()
         bridge = 0
         for acc, ipr in sorted(acc_to_ipr.items()):
-            # dangling-proof: no set provided → no bridges; set provided → require membership
+            # source-side dangling guard — bridge accs must have an emitted node;
+            # mirrors the Pfam-bridge pfam_node_ids contract. Needed pre-Task-18:
+            # calls.json facet rows exist independently of merged ncbifam_ids, so
+            # a strain with no merged seeds yet can still surface (acc, ipr) pairs
+            # here whose acc never gets a node from get_nodes().
+            if acc not in observed:
+                continue
+            # target-side dangling-proof: no set provided → no bridges; set provided → require membership
             if self.interpro_kept_ids is None or ipr not in self.interpro_kept_ids:
                 continue
             yield (
