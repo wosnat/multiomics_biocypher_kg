@@ -56,7 +56,7 @@ points at (§8).
 | GO gate | **FAMILY + DOMAIN** entries donate GO (folds/superfamilies excluded), labeled `family_inferred` / `domain_inferred` — tighten at query time, not build time (205 MED4 proteins get their only InterPro GO from DOMAIN entries; e.g. hypothetical + MFS domain → transmembrane transporter activity) |
 | EC gate | **Single-EC FAMILY only** (multi-EC families are wrong (N−1)/N of the time; domain-ECs don't generalize). Refused xrefs park on ontology-level router edges |
 | Direct-attribution rule | Gene-level Pfam/NCBIfam edges come **only from direct HMM hits** (`libraries.PFAM` / `libraries.NCBIFAM`); entry-mediated sibling signatures are never stamped on genes — the entry↔signature association exists only as ontology-level bridges. IPR attachment is direct by construction (exact matched entry only; ancestors are nodes + is-a edges, never gene edges). GO/EC/CAZy are inherently entry-mediated — handled by gates + `evidence` labels |
-| Quality buckets | `ncbifam` joins as the **9th source bucket**; **no `interpro` bucket** (conduit routing evidence into go/ec/pfam/cazy, not an independent evidence kind — bucket-scale circularity); `has_any_edge` gains both new edge types (bug-fix: interpro/ncbifam-only genes read `catch_all_only`, not `no_evidence`). Measured: 185 / 706 gene movements, §4.2 |
+| Quality buckets | `ncbifam` joins as the **9th source bucket**; **no `interpro` bucket** (conduit routing evidence into go/ec/pfam/cazy, not an independent evidence kind — bucket-scale circularity); `has_any_edge` gains both new edge types (bug-fix: interpro/ncbifam-only genes read `catch_all_only`, not `no_evidence`). Measured: ~185 bucket climbs, ~367–420 no_evidence→catch_all_only movers, §4.2 |
 | Framing | add-a-tool / integrate-a-tool template family: Phase-1 redo under `/interproscan-run` (re-parse of cached `raw.json`, **no re-scan**), Phase 2 through the gene-annotation-merge front door |
 | prepare_data step numbers | Deferred to the implementation plan |
 
@@ -85,7 +85,10 @@ changes require raw. One record per protein (WP_ key), faceted by member DB:
   "interpro_entries": {
     "IPR003686": {"type": "FAMILY", "libraries": ["HAMAP", "PANTHER", "PFAM"],
                   "match_count": 3, "start": 1, "end": 36,
-                  "evalue": 4.1e-18, "evalue_library": "PFAM"}
+                  "evalue": 4.1e-18, "evalue_library": "PFAM"},
+    "IPR037271": {"type": "HOMOLOGOUS_SUPERFAMILY", "libraries": ["SUPERFAMILY"],
+                  "match_count": 1, "start": 1, "end": 35,
+                  "evalue": null, "evalue_library": null}
   },
   "go_terms": {"GO:0015979": ["IPR003686"], "GO:0009523": ["IPR003686"]}
 }
@@ -131,8 +134,8 @@ Rules:
 
 | File | Status | Contents |
 |---|---|---|
-| `cache/data/interpro/interpro_reference.json` | exists (prepare_data step 9) — **extended**: `description` added | IPR → name, type, parent, level, **`description` (new: plain-texted first paragraph of the curated `<abstract>` from `interpro.xml.gz`, which step 9 already streams; capped ~500 chars; sparse)**, sparse `go_terms` / `pathways` (MetaCyc-only) / `ec_numbers` / `cazy_ids`. Size policy: cap ~400 chars (functional gist); expected +12–18 MB committed. **This does NOT reopen the pruned-artifact decision** — but if the built file exceeds ~25 MB, the documented fallback is pruning the *descriptions only* to observed entries + ancestors: legal because descriptions are adapter-only metadata (the merge never reads them) and the observed set derives from the committed calls.json corpus, which exists BEFORE prepare_data — no ordering violation. Fallback cost: couples the reference to the strain corpus (new strain → re-run reference step, or fail-soft to missing descriptions), which is why it is the fallback, not the default. **MetaCyc parks here and stops** — not in calls.json, not merged, not in the KG (the KG's pathway layer is KEGG-native and InterPro has zero KEGG xrefs); dormant option for a future elevation |
-| `cache/data/ncbifam/ncbifam_reference.json` | **new** — `build_ncbifam_reference.py` | accession → product name, `family_type`, `gene_symbol`, `description` (curated `comment` column — 64% of observed families carry one), `gene_synonyms`, `pmids`, sparse EC/GO xrefs. Source: NCBI's `hmm_PGAP.tsv` (24 columns, verified 2026-08-17). Flat — no hierarchy, **data-verified**: no parent/child column exists in the TSV; `family_type` is a per-node specificity *label*, not a link (even `exception` doesn't record which family it overrides), so `is_a` edges are impossible — hierarchical context comes via the `Ncbifam_family_in_interpro_entry` bridge instead. **family_type vocab, observed distribution (4,947 of our 4,957 accessions in current TSV):** `equivalog` 3,496 (71% — the conserved-function precision type; validates the elevation), `subfamily`/`superfamily` 934, `domain`/`repeat`/`signature`/`_domain` variants 329, `exception` 74 (more-specific override), `hypoth_equivalog`(+`_domain`) 126 (unknown function → §5.5), `PfamEq`/`PfamAutoEq` **0 observed** (InterProScan's NCBIFAM excludes Pfam-wrapped models — no Pfam duplication). The 10 retired accessions absent from the current TSV get name-fallback from the calls.json facet `name`, `family_type` null |
+| `cache/data/interpro/interpro_reference.json` | exists (prepare_data step 9) — **extended**: `description` added | IPR → name, type, parent, level, **`description` (new: plain-texted first paragraph of the curated `<abstract>` from `interpro.xml.gz`, which step 9 already streams; capped ~400 chars; sparse)**, sparse `go_terms` / `pathways` (MetaCyc-only) / `ec_numbers` / `cazy_ids`. Size policy: cap ~400 chars (functional gist); expected +12–18 MB committed. **This does NOT reopen the pruned-artifact decision** — but if the built file exceeds ~25 MB, the documented fallback is pruning the *descriptions only* to observed entries + ancestors: legal because descriptions are adapter-only metadata (the merge never reads them) and the observed set derives from the committed calls.json corpus, which exists BEFORE prepare_data — no ordering violation. Fallback cost: couples the reference to the strain corpus (new strain → re-run reference step, or fail-soft to missing descriptions), which is why it is the fallback, not the default. **MetaCyc parks here and stops** — not in calls.json, not merged, not in the KG (the KG's pathway layer is KEGG-native and InterPro has zero KEGG xrefs); dormant option for a future elevation |
+| `cache/data/ncbifam/ncbifam_reference.json` | **new** — `build_ncbifam_reference.py` | accession → product name, `family_type`, `gene_symbol`, `description` (curated `comment` column — 64% of observed families carry one), `gene_synonyms`, `pmids`, sparse EC/GO xrefs. Source: NCBI's `hmm_PGAP.tsv` (24 columns incl. `comment`/`pmids` — verified against a fresh download 2026-08-17; the raw TSV gets cached under `cache/data/ncbifam/raw/` by the new step). Flat — no hierarchy, **data-verified**: no parent/child column exists in the TSV; `family_type` is a per-node specificity *label*, not a link (even `exception` doesn't record which family it overrides), so `is_a` edges are impossible — hierarchical context comes via the `Ncbifam_family_in_interpro_entry` bridge instead. **family_type vocab, observed distribution (4,947 of our 4,957 accessions in current TSV):** `equivalog` 3,496 (71% — the conserved-function precision type; validates the elevation), `subfamily`/`superfamily` 934, `domain`/`repeat`/`signature`/non-hypoth `_domain` variants 317, `exception` 74 (more-specific override), `hypoth_equivalog`(+`_domain`) 126 (unknown function → §5.5), `PfamEq`/`PfamAutoEq` **0 observed** (InterProScan's NCBIFAM excludes Pfam-wrapped models — no Pfam duplication). The 10 retired accessions absent from the current TSV get name-fallback from the calls.json facet `name`, `family_type` null |
 | `cache/data/pfam/pfam_reference.json` | exists — unchanged | Pfam names, clans |
 | `cache/data/go_terms/go_namespace_cache.json` | exists — unchanged | GO names, namespaces, DAG |
 
@@ -165,14 +168,14 @@ one bookkeeping field to a multi-field source reading the new facets:
 | `ec_numbers` | merge-time enrichment from `interpro_reference.json`: gene's IPR entries → entry EC xrefs, gated **FAMILY + single-EC** | `family_inferred` |
 | `cazy_ids` | same enrichment path, gated FAMILY + DOMAIN (fold excluded) | `family_inferred` / `domain_inferred` |
 | `alternate_functional_descriptions` | **naming recovery**: HAMAP signature descriptions (`[hamap] …`) from `libraries.HAMAP` + NCBIfam product names (`[ncbifam] …`) from the reference. **Dedup rule:** skip a token that case-insensitively matches the existing `product` or an already-present description — recovery is for disagreement and absence, not echo (NCBI products are themselves PGAP-derived from NCBIfam, see §4.1) | — |
-| `gene_name` | NCBIfam `gene_symbol` as **lowest-priority fallback** (after ncbi / cyanorak / uniprot / eggnog — never overrides an existing name) | — |
+| `gene_name` | NCBIfam `gene_symbol` as **lowest-priority fallback** — appended after the existing candidate order, which is `cyanorak > uniprot > ncbi > eggnog` (per config; do NOT reorder). Never overrides an existing name. NOT expressible via the `candidates` mechanism (the symbol lives in the central reference keyed by accession, not in a per-strain source file) → implemented as post-merge fill-if-empty enrichment; provenance label `ncbifam` recorded in `gene_name_source` | — |
 
 ### 4.1 Relationship to NCBI/PGAP annotation
 
 RefSeq genomes are annotated by PGAP, whose evidence library is the same
 `hmm_PGAP` = NCBIfam collection the scan runs — so NCBI `product` strings are
 often *conclusions derived from* NCBIfam hits (the GFF `inference=…HMM:NF*`
-attribute records the winner sparsely; 54 CDS in MED4; deliberately not
+attribute records the winner sparsely; 46 CDS lines in MED4 (43 NF* + 3 TIGR*); deliberately not
 parsed — the scan supersedes it). Running NCBIfam ourselves recovers the
 evidence behind those conclusions: all matches (not just PGAP's best), with
 e-values/coordinates, on one current library version across all 42 strains
@@ -191,9 +194,13 @@ UniProt-sourced fields.
   `evidence_score` (circularity guard).
 - `Gene_has_ncbifam_family` is single-source (verified: eggNOG emits no TIGR
   tokens in its PFAMs column) — no `sources[]`, psortb/signalp precedent.
-- `annotation_quality` / `informative_annotation_types` bucket resolution
-  (measured against the live KG, 2026-08-17; 15,002 genes at
-  no_evidence/catch_all_only):
+- `annotation_quality` / `informative_annotation_types` bucket resolution.
+  Measured against the live KG 2026-08-17 over **scan-eligible genes**
+  (`g.protein_id IS NOT NULL` — pseudogenes cannot have scan calls; record
+  this filter, it is why whole-KG totals read higher: 18,233 unfiltered):
+  15,002 scan-eligible genes at `no_evidence` (10,052) / `catch_all_only`
+  (4,950). Query: `MATCH (g:Gene) WHERE g.annotation_state IN
+  ['no_evidence','catch_all_only'] AND g.protein_id IS NOT NULL`.
   - **`ncbifam` becomes the 9th source bucket** (predicate: informative
     non-hypoth `Gene_has_ncbifam_family` edge, §5.5 filter). Independent
     curated library → counting pfam+ncbifam as two sources is honest
@@ -207,9 +214,13 @@ UniProt-sourced fields.
     mass-promoting single→multi spuriously (bucket-scale circularity).
   - **`has_any_edge` gains both new edge types** (bug-fix): a gene whose
     only annotation is an InterPro entry or NCBIfam family currently reads
-    `no_evidence`; it must read `catch_all_only`. The 706 interpro-only
-    low-quality genes land there — honest for what are mostly fold-only
-    entries with no functional xref.
+    `no_evidence`; it must read `catch_all_only`. 706 low-quality
+    scan-eligible genes carry interpro edges, **of which ~367 currently at
+    `no_evidence` actually move** (the other ~339 are already
+    `catch_all_only`); ~420 movers counting genes whose only signal is a
+    non-integrated NCBIFAM hit once `Gene_has_ncbifam_family` exists —
+    honest placement for what are mostly fold-only entries with no
+    functional xref.
   - InterPro-sourced GO/EC/CAZy tokens continue to flow into the existing
     go/ec/cazy buckets (the gene genuinely has that evidence).
 - The `interproscan` DataSource node's `info_types` is updated to the new
@@ -232,7 +243,8 @@ per-token `<field>_source` / `<field>_evidence` provenance maps,
 through `gene_annotations_config.yaml` (sources, union/passthrough rules,
 `transform:` functions, `track_source`) as far as the machinery reaches —
 `ncbifam_ids`, the pfam/go union additions, and simple facet extraction are
-plain config. Bespoke Python is reserved for what the per-value transform
+plain config (plus a small `load_interproscan()` extension to surface flat
+fields from the nested facets — precedent: it already flattens today). Bespoke Python is reserved for what the per-value transform
 model genuinely cannot express (reference-lookup gating for EC/CAZy/GO
 types, the naming-recovery dedup-against-product rule) — and those follow
 the `enrich_pfam_fields` post-merge-enrichment precedent, each as a small
@@ -279,7 +291,7 @@ merge against a stale reference):
 | Node | Status | Notes |
 |---|---|---|
 | `InterproEntry` | rebuilt, same shape + `description` | Observed entries + is-a ancestors (pruned). ID `interpro:IPR*`; name/type/level/**description** (sparse — truncated curated abstract) from central reference |
-| `NcbifamFamily` | **new** | Observed-only (~4,957 nodes: 2,204 TIGR\*, 2,753 NF\*), flat. ID `ncbifam:TIGR01234` / `ncbifam:NF002735` (underscore fallback if `ncbifam` is not a bioregistry prefix — check at implementation). Properties: `name` (product name), `ncbifam_id`, `family_type`, `gene_symbol` (sparse), `description` (sparse — curated `comment` from the reference, 64% of observed), `level` (always 0). TIGRFAM accessions (`TIGR*`) are absorbed unmodified — enables the future `Ncbifam_family_has_tigr_role` bridge (§8) without migration |
+| `NcbifamFamily` | **new** | Observed-only (~4,957 nodes: 2,204 TIGR\*, 2,753 NF\*), flat. ID **underscore form** `ncbifam_TIGR01234` / `ncbifam_NF002735` — resolved: `ncbifam` is NOT a bioregistry prefix (`normalize_prefix` → None in the project venv), so `normalize_curie` takes the underscore fallback, psortb/signalp precedent. Properties: `name` (product name), `ncbifam_id`, `family_type`, `gene_symbol` (sparse), `description` (sparse — curated `comment` from the reference, 64% of observed), `level` (always 0). TIGRFAM accessions (`TIGR*`) are absorbed unmodified — enables the future `Ncbifam_family_has_tigr_role` bridge (§8) without migration |
 | `Pfam`, GO terms, `EcNumber`, `CazyFamily` | existing, untouched | Gain InterProScan as an additional evidence source on their gene edges |
 
 ### 5.2 Gene → ontology edges
@@ -312,7 +324,7 @@ merge against a stale reference):
   flat-ontology pattern (psortb/signalp precedent). **No `member_count`**
   (no hierarchy) and **no `is_promiscuous`** (mean ~14 genes/family; curated
   families lack the rollup-inflation problem the flag exists for). Scalar
-  indexes `ncbifam_family_id_idx`, `ncbifam_family_type_idx` (family_type is
+  indexes `ncbifam_family_id_idx` (naming follows the `interpro_entry_id_idx` precedent, not the property-named `tcdb_family_tcdb_id_idx` style), `ncbifam_family_type_idx` (family_type is
   the stratification key, the `interpro_entry_type_idx` analog),
   `ncbifam_family_level_idx` (convention) + `ncbifamFamilyFullText` on
   `name`, `gene_symbol`, `description` (OrthologGroup precedent).
@@ -330,7 +342,10 @@ merge against a stale reference):
 Both new ontologies plug into the existing post-import F1.1 mechanism
 (`is_uninformative = 'true'` sentinel, absent otherwise; vocabulary in
 `config/uninformative_terms.yaml`, stamped by post-import Cypher — GO-roots /
-COG-S / role / KEGG-KO precedent):
+COG-S / role / KEGG-KO precedent). Note: the YAML currently supports two rule
+kinds (`ids`, `name_patterns`); the NCBIfam typed rule adds a third,
+property-valued kind (`family_type` values) — a small, explicit extension of
+the mechanism:
 
 - **`InterproEntry`** — name-pattern rule (mirrors the KEGG KO rule): flag
   entries named `Protein of unknown function*` / `Domain of unknown function
@@ -435,11 +450,12 @@ Expected count movements (judge the rebuild against predictions):
 `Gene_has_interpro_entry` ~unchanged (~397K); `Gene_has_pfam` source mix
 shifts (more `interpro`-tagged); GO/EC/CAZy edges approximately reproduce the
 old Layer-B gains; `annotation_state`/`annotation_quality` moves per the §4.2
-measurements — ~185 low-quality genes climb via the new `ncbifam` bucket,
-~706 interpro-only genes move `no_evidence` → `catch_all_only` via the
-`has_any_edge` fix, single→multi promotions only where pfam + ncbifam
-genuinely co-occur (no mass promotion — the rejected `interpro` bucket was
-the mass-promotion risk); per-strain `entry_xrefs.json` files deleted.
+measurements (scan-eligible filter recorded there) — ~185 low-quality genes
+climb via the new `ncbifam` bucket, ~367–420 genes move `no_evidence` →
+`catch_all_only` via the `has_any_edge` fix, single→multi promotions only
+where pfam + ncbifam genuinely co-occur (no mass promotion — the rejected
+`interpro` bucket was the mass-promotion risk); per-strain `entry_xrefs.json`
+files deleted.
 
 ## 7. Scrap / migration list
 
