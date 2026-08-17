@@ -1,6 +1,6 @@
 ---
 name: interproscan-run
-description: Run InterProScan 5 (via the interpro/interproscan Docker image) on each strain's protein.faa to predict protein domains/families across all member databases (Pfam, NCBIfam/TIGRFAM, Hamap, PROSITE, SFLD, PANTHER, Gene3D, SUPERFAMILY, CDD, PRINTS, SMART, …), integrated into InterPro entries with GO term attribution. Emits a faceted per-protein `calls.json` (per-library match rows, InterPro entry rollups, GO — no pathways). Phase 1 — produces inspectable `<strain>.interproscan.calls.json` artifacts; **Phase 2 KG integration is DONE** (`InterproEntry` ontology via `interpro_adapter` — see `docs/kg-changes/interproscan-extension.md`). Triggers on "run interproscan", "predict protein domains", "InterPro / domain annotation for all strains", "functional domains for the new strain".
+description: Run InterProScan 5 (via the interpro/interproscan Docker image) on each strain's protein.faa to predict protein domains/families across all member databases (Pfam, NCBIfam/TIGRFAM, Hamap, PROSITE, SFLD, PANTHER, Gene3D, SUPERFAMILY, CDD, PRINTS, SMART, …), integrated into InterPro entries with GO term attribution. Emits a faceted per-protein `calls.json` (per-library match rows, InterPro entry rollups, GO — no pathways). Phase 1 — produces inspectable `<strain>.interproscan.calls.json` artifacts; **Phase 2 KG integration is DONE** (`InterproEntry` ontology via `interpro_adapter` + split-out `NcbifamFamily` ontology via `ncbifam_adapter` — see `docs/kg-changes/interpro-multi-ontology.md`). Triggers on "run interproscan", "predict protein domains", "InterPro / domain annotation for all strains", "functional domains for the new strain".
 argument-hint: "[--strains <name> ... | --force | --limit N | --threads N | --applications APP,APP | --no-xrefs | --normalize | --prepare-image | --refresh-data]"
 user-invocable: true
 allowed-tools: Read, Bash(uv *), Bash(docker *), Bash(jq *)
@@ -416,13 +416,20 @@ Integrated via `/integrate-a-tool` (2026-07-26). The calls.json now flow into th
 KG on **both** surfaces the earlier sketch weighed: an `interproscan` logical
 source merged into `gene_annotations_merged.json` (light `interpro_entries` list),
 **and** an `InterproEntry` ontology (`interpro_adapter`) — hierarchical nodes +
-scored `Gene_has_interpro_entry` edges (coords/evalue/score/libraries) +
-`Interpro_entry_is_a_interpro_entry` hierarchy + `Pfam_in_interpro_entry` bridge.
-Node names/types/hierarchy come from `prepare_data` **step 9**
-(`build_interpro_reference.py` → committed `cache/data/interpro/interpro_reference.json`).
+scored `Gene_has_interpro_entry` edges (coords/evalue/`evalue_library`/libraries — **no `score`**; 0 of
+397,342 edges carry one as of the 2026-08-17 multi-ontology redesign, which dropped the synthesized
+cross-library score in favor of `evalue_library` naming which member DB reported the min evalue) +
+`Interpro_entry_is_a_interpro_entry` hierarchy + `Pfam_in_interpro_entry` bridge. That same redesign also
+split NCBIfam/TIGRFAM out into its own `NcbifamFamily` ontology (`ncbifam_adapter`) — its
+`Gene_has_ncbifam_family` edges DO keep both `evalue` and `score` (single-library HMMER scale, not a
+cross-library rollup). Node names/types/hierarchy come from `prepare_data` **step 9**
+(`build_interpro_reference.py` + `build_ncbifam_reference.py` → committed
+`cache/data/interpro/interpro_reference.json` + `cache/data/ncbifam/ncbifam_reference.json`).
 
-- **Integration design:** `docs/superpowers/specs/2026-07-26-interproscan-kg-integration-design.md`
-- **What-changed / MCP contract:** `docs/kg-changes/interproscan-extension.md`
+- **Integration design:** `docs/superpowers/specs/2026-07-26-interproscan-kg-integration-design.md` (original);
+  `docs/superpowers/specs/2026-08-17-interpro-multi-ontology-redesign-design.md` (NCBIfam split + faceted format)
+- **What-changed / MCP contract:** `docs/kg-changes/interpro-multi-ontology.md` (current — supersedes
+  `docs/kg-changes/interproscan-extension.md` and `docs/kg-changes/interpro-two-layer.md`, both kept for history)
 
 Re-running `/interproscan-run` on a new strain + `prepare_data.sh --steps 2` (and
 a KG rebuild) is all that's needed for that strain's domains to appear in the graph.

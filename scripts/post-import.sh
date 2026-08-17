@@ -597,7 +597,7 @@ echo "=== Post-process: Compute Gene routing signals, ranks, BriteCategory ==="
 time cypher-shell <<'CYPHER'
 // =====================================================================
 // F1.2 + F1.3: annotation_quality (numeric 0-3) + annotation_state (enum)
-// from informative_source_count over 8 source buckets.
+// from informative_source_count over 9 source buckets.
 //
 // SOURCE_BUCKETS:start
 //   live (9): go, kegg, pfam, ec, role, reaction, transporter, cazy, ncbifam

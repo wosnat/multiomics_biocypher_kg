@@ -138,7 +138,8 @@ contributed by another source.
   (case-sensitive, exact InterPro naming convention).
 - **NcbifamFamily:** a typed rule (`family_type IN ['hypoth_equivalog', 'hypoth_equivalog_domain']` — NCBIfam's
   own "this looks like an equivalog but function isn't confirmed" categories) plus a name-pattern fallback
-  (`(?i).*hypothetical.*`, `(?i).*uncharacterized.*`, `.*DUF\d.*`). 114 NcbifamFamily nodes flagged this way.
+  (`(?i).*hypothetical.*`, `(?i).*uncharacterized.*`, `.*DUF\d.*`). **195** NcbifamFamily nodes flagged this
+  way (verified live 2026-08-17: **126** via the typed rule, remaining **69** via name patterns).
 
 Both rules exist so ORA / routing signals can down-weight "we found a domain but don't know what it does" hits
 without hand-filtering by name at query time — see the 9-bucket `annotation_quality` section, which uses these
