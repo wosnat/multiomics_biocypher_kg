@@ -44,8 +44,11 @@ from pathlib import Path
 import requests
 
 from multiomics_kg.utils.merops_diamond import (
+    aggregate_cleavages,
+    cleavage_properties,
     parse_clan_txt,
     parse_family_txt,
+    parse_interpro_txt_stream,
     type_example_names,
 )
 
@@ -67,6 +70,10 @@ RAW_FILES = {
     "clan.txt": (f"{MEROPS_RELEASE_URL}/database_files/clan.txt", "clan.txt"),
     # the Phase-1 runner keeps the pristine download as merops_scan.raw.lib
     "merops_scan.lib": (f"{MEROPS_RELEASE_URL}/merops_scan.lib", "merops_scan.raw.lib"),
+    # Pfam bridge + cleavage specificity (2026-08-18 follow-up). Neither ships
+    # with the Phase-1 tool install — they download straight into raw/.
+    "interpro.txt": (f"{MEROPS_RELEASE_URL}/interpro.txt", "interpro.txt"),
+    "Substrate_search.txt": (f"{MEROPS_RELEASE_URL}/Substrate_search.txt", "Substrate_search.txt"),
 }
 
 
@@ -115,6 +122,19 @@ def build(force: bool = False, refetch_raw: bool = False) -> dict[str, dict]:
     # own naming convention — the .001 holotype, e.g. M01 → "aminopeptidase N").
     example_names = type_example_names(scan_lib_path.read_text(encoding="latin-1"))
 
+    interpro_path = _locate_raw("interpro.txt", refetch_raw)
+    with open(interpro_path, encoding="latin-1", newline="") as fh:
+        pfam_bridge = parse_interpro_txt_stream(fh)
+
+    substrate_path = _locate_raw("Substrate_search.txt", refetch_raw)
+    with open(substrate_path, encoding="latin-1") as fh:
+        cleavage_agg = aggregate_cleavages(fh)
+    cleavage = {
+        fam: props
+        for fam, agg in sorted(cleavage_agg.items())
+        if (props := cleavage_properties(agg))
+    }
+
     ref = {
         "families": {
             code: {
@@ -131,6 +151,8 @@ def build(force: bool = False, refetch_raw: bool = False) -> dict[str, dict]:
             if _SUBFAMILY_RE.match(code)
         },
         "clans": clans,
+        "pfam_bridge": pfam_bridge,
+        "cleavage": cleavage,
     }
 
     # QC — zero counts almost certainly mean the txt column layout changed.
@@ -148,6 +170,10 @@ def build(force: bool = False, refetch_raw: bool = False) -> dict[str, dict]:
             "Only %d/%d families named — did the scan-lib fallback break?",
             named, len(ref["families"]),
         )
+    if not pfam_bridge:
+        logger.warning("Parsed 0 pfam_bridge pairs — did interpro.txt column layout change?")
+    if not cleavage:
+        logger.warning("Parsed 0 cleavage profiles — did Substrate_search.txt column layout change?")
 
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     with open(REFERENCE_JSON, "w", encoding="utf-8") as fh:
@@ -155,9 +181,10 @@ def build(force: bool = False, refetch_raw: bool = False) -> dict[str, dict]:
 
     logger.info(
         "Wrote %s: %d families (%d named, %d clan-assigned, %d inhibitor), "
-        "%d subfamily names, %d clans",
+        "%d subfamily names, %d clans, %d pfam-bridge families, %d cleavage families",
         REFERENCE_JSON, len(ref["families"]), named, with_clan, inhibitors,
         len(ref["subfamily_names"]), len(ref["clans"]),
+        len(pfam_bridge), len(cleavage),
     )
     return ref
 
