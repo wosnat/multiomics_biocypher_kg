@@ -263,6 +263,25 @@ tag with nothing logged.
   `member_count`), Gene routing `merops_family_count` + `merops_classes`,
   tier-gated `annotation_types`/`informative_annotation_types` += `merops`
   (no annotation_quality bucket). Indexes + `meropsFamilyFullText`.
+  **2026-08-18 follow-up** (design
+  `docs/superpowers/specs/2026-08-18-merops-pfam-bridge-cleavage-design.md`):
+  new `Merops_family_has_pfam_domain` bridge edge (MeropsFamily → Pfam,
+  family-level only, ~183 edges expected, `member_id_count` property) built
+  from MEROPS's own curated `interpro.txt` family→Pfam map, giving the
+  single-source `Gene_has_merops_family` edge an independent corroboration
+  signal via new post-import property `pfam_support`
+  (`corroborated`|`uncorroborated`, same shape as the TCDB analog); three new
+  sparse family-level `MeropsFamily` cleavage-specificity properties from
+  `Substrate_search.txt` (`cleavage_p1_residues`, `cleavage_summary`,
+  `known_cleavage_count` — e.g. "cleaves after Lys (36%) / Arg (34%) - 39567
+  known cleavages"), `cleavage_summary` folded into `meropsFamilyFullText`;
+  the corresponding MEROPS→GO bridge was evaluated and rejected on
+  measurement (all-kingdom rollup too noisy, see `plans/backlog.md`); 5 new
+  controlled-vocabulary entries complete the merops set of 10 in
+  `config/controlled_vocabularies.yaml`; MEROPS reference build moved from
+  prepare_data step 9 to a new step 10 (own log), and prepare_data gained a
+  `--rebuild` flag that reruns every derived step (`9 1 2 3 4 5 6 7 8 10`)
+  with `--force` in one call.
 
 - **InterPro two-layer integration** (design
   `docs/superpowers/specs/2026-08-10-interpro-two-layer-integration-design.md`).
