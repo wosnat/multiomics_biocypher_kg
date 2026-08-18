@@ -88,7 +88,10 @@ def _observed_values(out_dir: Path) -> dict[tuple[str, str], set[str]]:
     the bare property name is everything before the first `:`. String-typed
     field values are wrapped in single quotes (`'value'`); array values are a
     single quoted field with `|`-separated members (`array_delimiter: "|"`),
-    not one quoted token per member. Numeric fields are unquoted.
+    not one quoted token per member. Numeric fields are unquoted. An
+    empty-string property is written as a quoted empty (`''`) -- distinct
+    from a fully absent field (empty `raw`) but equally "no value"; both are
+    excluded from the observed set after stripping quotes.
     """
     import csv
     observed: dict[tuple[str, str], set[str]] = {}
@@ -103,7 +106,14 @@ def _observed_values(out_dir: Path) -> dict[tuple[str, str], set[str]]:
                         if not raw:
                             continue
                         for v in raw.split("|"):
-                            observed.setdefault((label, col), set()).add(v.strip("'"))
+                            v = v.strip("'")
+                            if not v:
+                                # BioCypher writes an empty string property as a
+                                # quoted empty (''); after stripping quotes that
+                                # is indistinguishable from "field genuinely
+                                # empty" and must not count as an observed value.
+                                continue
+                            observed.setdefault((label, col), set()).add(v)
     return observed
 
 

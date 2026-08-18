@@ -381,7 +381,7 @@ DerivedMetric.metric_type:
   applies_to_kind: node
   property: metric_type
   value_type: string
-  closed: true
+  closed: false
   values: [fourier_score, peak_time_h, peak_fit_r_squared,
            protein_transcript_lag_h, damping_ratio, diel_amplitude,
            peak_time_transcript_h, peak_time_protein_h,
@@ -405,13 +405,21 @@ DerivedMetric.metric_type:
            whole_cell_detected_evolved_800ppm]
   description: >
     Harvested verbatim from KNOWN_METRIC_TYPES keys in
-    multiomics_kg/vocab/non_de_evidence.py. NOTE: that registry is a SOFT
-    allowlist by design — its own docstring says a metric_type absent from it
-    is accepted elsewhere with only a validator warning, not rejected, so a
-    future paper can legitimately introduce a metric_type not in this list.
-    Declared closed here per the harvest instructions because every value
-    currently emitted is a registry member; revisit if a future paper adds an
-    unregistered one and this list needs extending.
+    multiomics_kg/vocab/non_de_evidence.py. RESCOPED (2026-08-18) from
+    closed:true to closed:false: the registry is a SOFT allowlist by design —
+    its own docstring says a metric_type absent from it is accepted
+    elsewhere with only a validator warning, not rejected — and a merge
+    landed three papers (bagby 2015, Wang 2014, Oleza 2015) that legitimately
+    introduce 12 metric_type values with no registry entry
+    (exoproteome_avg_pct_nsaf, exoproteome_detection_status,
+    expression_change_high_light_shock,
+    expression_change_low_co2_no_o2_shock, expression_change_low_co2_shock,
+    expression_level_class, log2_mv_cell_enrichment, pangenome_membership,
+    prop_abund_cells_percent, prop_abund_mvs_percent,
+    rapid_recovery_low_co2_no_o2_shock, rapid_recovery_low_co2_shock).
+    Declaring this closed would break every time a paper introduces a new
+    metric type, which is expected behavior, not drift. `values` is kept as
+    a documentation list of the currently-known set; it is not enforced.
 
 BriteCategory.tree:
   applies_to: BriteCategory
@@ -751,3 +759,132 @@ Derived_metric_flags_gene.value:
     The boolean metric's value for this gene. Stringified boolean predating
     house rule R5 — grandfathered because it is MCP-read; conversion to a
     meaningful pair is tracked in plans/backlog.md.
+
+# ── MEROPS + NCBIfam + InterPro evalue_library (2026-08-18 merge) ────────────
+# MEROPS vocab (level_kind, family_type, call_class, best_hit_kind) is
+# KG-minted and verified against multiomics_kg/utils/merops_diamond.py's
+# CATALYTIC_TYPE_WORDS / call_class() / id_kind() and
+# config/schema_config.yaml's `merops family` / `gene to merops family
+# association` blocks. NcbifamFamily.family_type and
+# Gene_has_interpro_entry.evalue_library are external controlled vocabulary
+# (NCBIfam's own label / InterProScan's own member-DB name) and are
+# preserved verbatim per house rule R1's external-source exception.
+
+MeropsFamily.level_kind:
+  applies_to: MeropsFamily
+  applies_to_kind: node
+  property: level_kind
+  value_type: string
+  closed: true
+  values: [merops_clan, merops_family, merops_subfamily]
+  description: >
+    KG-minted depth tier for a MEROPS clan/family/subfamily node. Harvested
+    from classify_code() in multiomics_kg/utils/merops_diamond.py (returns
+    (0, 'merops_clan') / (1, 'merops_family') / (2, 'merops_subfamily'));
+    matches config/schema_config.yaml's `merops family` node comment
+    "level: int  # 0=merops_clan, 1=merops_family, 2=merops_subfamily"
+    exactly.
+
+MeropsFamily.family_type:
+  applies_to: MeropsFamily
+  applies_to_kind: node
+  property: family_type
+  value_type: string
+  closed: true
+  values: [peptidase, inhibitor]
+  description: >
+    KG-minted two-state label for a MEROPS family/subfamily/clan. Harvested
+    from family_type() in multiomics_kg/utils/merops_diamond.py ("inhibitor"
+    for I-prefixed codes, else "peptidase"); matches
+    config/schema_config.yaml's `merops family` node comment
+    `family_type: str  # "peptidase" | "inhibitor" (I-families)` exactly.
+
+MeropsFamily.catalytic_type:
+  applies_to: MeropsFamily
+  applies_to_kind: node
+  property: catalytic_type
+  value_type: string
+  closed: true
+  sparse: true
+  values: [serine, cysteine, metallo, aspartic, threonine, glutamic,
+           asparagine_lyase, mixed, unknown]
+  description: >
+    KG-minted full-word spelling of MEROPS's single-letter catalytic-type
+    code — MEROPS ships "S"/"C"/"M"/etc, the KG spells them out so the
+    values read correctly without a lookup table. Harvested verbatim from
+    the VALUES of CATALYTIC_TYPE_WORDS in
+    multiomics_kg/utils/merops_diamond.py. SPARSE — null for inhibitor
+    families (catalytic_type_word() returns None when the code starts with
+    "I"), matching config/schema_config.yaml's `null for inhibitors` note.
+
+Gene_has_merops_family.call_class:
+  applies_to: Gene_has_merops_family
+  applies_to_kind: edge
+  property: call_class
+  value_type: string
+  closed: true
+  values: [peptidase, inhibitor, nonpeptidase_homolog]
+  description: >
+    KG-minted read-first verdict for one Gene_has_merops_family candidate.
+    Harvested from the three return statements of call_class() in
+    multiomics_kg/utils/merops_diamond.py: 'inhibitor' when the family is an
+    I-family, 'nonpeptidase_homolog' when the best hit is a catalytically
+    dead .9xx entry, else 'peptidase'. Threshold-free, mirrors the
+    expression_status pattern.
+
+Gene_has_merops_family.best_hit_kind:
+  applies_to: Gene_has_merops_family
+  applies_to_kind: edge
+  property: best_hit_kind
+  value_type: string
+  closed: true
+  values: [holotype, putative, nonpeptidase_homolog]
+  description: >
+    KG-minted entry-kind label for a candidate's best (highest-identity)
+    MEROPS identifier hit. Harvested from id_kind() in
+    multiomics_kg/utils/merops_diamond.py: "holotype" for a characterized
+    numeric tail (001-899), "nonpeptidase_homolog" for a 9xx tail, "putative"
+    for a letter-prefixed tail; matches config/schema_config.yaml's `gene to
+    merops family association` comment
+    `best_hit_kind: str  # holotype | putative | nonpeptidase_homolog`.
+
+NcbifamFamily.family_type:
+  applies_to: NcbifamFamily
+  applies_to_kind: node
+  property: family_type
+  value_type: string
+  closed: true
+  values: [PfamAutoEq, PfamEq, domain, equivalog, equivalog_domain, exception,
+           hypoth_equivalog, hypoth_equivalog_domain, paralog, paralog_domain,
+           repeat, signature, subfamily, subfamily_domain, superfamily]
+  description: >
+    NCBIfam/TIGRFAM's own specificity-label vocabulary (flat ontology, no
+    hierarchy column in source). EXTERNAL — preserved verbatim in NCBIfam's
+    own mixed casing (including "PfamEq" / "PfamAutoEq", not lowercased or
+    snake_cased) per house rule R1's external-source exception, so the graph
+    stays directly comparable to the NCBIfam reference data. Harvested by
+    scanning the distinct `family_type` values across all 38,394 entries in
+    cache/data/ncbifam/ncbifam_reference.json (built by prepare_data step 9 /
+    build_ncbifam_reference.py); confirmed against
+    config/schema_config.yaml's `ncbifam family` node comment listing the
+    same value set.
+
+Gene_has_interpro_entry.evalue_library:
+  applies_to: Gene_has_interpro_entry
+  applies_to_kind: edge
+  property: evalue_library
+  value_type: string
+  closed: true
+  sparse: true
+  values: [CDD, GENE3D, HAMAP, NCBIFAM, PANTHER, PFAM, PIRSF, PRINTS,
+           PROSITE_PATTERNS, PROSITE_PROFILES, SFLD, SMART, SUPERFAMILY]
+  description: >
+    Which InterProScan member database reported the edge's (best/min)
+    evalue. EXTERNAL — same UPPERCASE member-DB name set as the existing
+    Gene_has_interpro_entry.libraries entry, copied verbatim per house rule
+    R1's external-source exception (InterProScan's own controlled
+    vocabulary, kept comparable to the source); not lowercased. SPARSE — set
+    only when a match reports an evalue at all (~58% of matches, per
+    schema_config.yaml's `evalue` comment "omitted when all matches lack
+    one"); a gene's edge with no reporting library carries no
+    evalue_library.
