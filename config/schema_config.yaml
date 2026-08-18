@@ -1263,11 +1263,12 @@ tcdb family:
   preferred_id: tcdb
   label_in_input: tcdb family
   properties:
-    name: str               # TCDB entry name; falls back to tcdb_id when empty
+    name: str               # TCDB entry name (scraped for subclass/subfamily/specificity since T6); falls back to tcdb_id when upstream has no name
     tcdb_id: str            # bare hierarchical ID, e.g. "1.A.1.5.2"
     level: int              # 0=tc_class … 4=tc_specificity
     level_kind: str
     superfamily: str        # sparse, leaf-only
+    description: str        # sparse, tc_specificity only — scraped TCDB curated text, 400-char capped (T6)
     tc_class_id: str        # post-import: pointer to root tc_class (e.g. "tcdb:3"); self on tc_class
     gene_count: int         # post-import
     organism_count: int     # post-import
