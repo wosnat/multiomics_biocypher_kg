@@ -55,3 +55,17 @@ def test_hash_is_stable_and_order_independent():
     h2 = vocabularies_hash(list(reversed(entries)))
     assert h1 == h2
     assert h1.startswith("sha256:")
+
+
+def test_every_list_filter_values_filter_is_declared():
+    """The 8 filters the MCP serves must all be declared, closed or open."""
+    from multiomics_kg.utils.controlled_vocab import load_vocabularies
+    declared = load_vocabularies()
+    required = [
+        "Gene.gene_category", "BriteCategory.tree", "Experiment.growth_phases",
+        "DerivedMetric.metric_type", "DerivedMetric.value_kind",
+        "Experiment.compartment", "Experiment.omics_type",
+        "Metabolite.evidence_sources",
+    ]
+    missing = [k for k in required if k not in declared]
+    assert not missing, f"list_filter_values filters not declared: {missing}"

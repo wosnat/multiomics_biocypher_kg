@@ -290,3 +290,458 @@ Gene_has_interpro_entry.libraries:
     InterProScan member databases that produced a match for this entry. The
     member-DB granularity of the signature-vs-inferred distinction — 'pfam'
     means a direct HMM hit.
+
+# ── Released vocabularies (harvested, not designed — spec §5.3 second group) ─
+# These vocabularies were already shipped and are read by the MCP explorer;
+# renaming any value here is a breaking change and out of scope. Harvested
+# from multiomics_kg/vocab/non_de_evidence.py, multiomics_kg/utils/brite_utils.py,
+# schema_config.yaml, and CLAUDE.md "Key graph facts" (no live Neo4j available
+# in this environment — see task-10-report.md for the harvest method and every
+# code-vs-CLAUDE.md mismatch found).
+
+Experiment.omics_type:
+  applies_to: Experiment
+  applies_to_kind: node
+  property: omics_type
+  value_type: string
+  closed: true
+  values: [RNASEQ, MICROARRAY, PROTEOMICS, EXOPROTEOMICS, VESICLE_PROTEOMICS,
+           METABOLOMICS, PAIRED_RNASEQ_PROTEOME, DNASEQ, VESICLE_DNASEQ]
+  description: >
+    Omics modality of this experiment. Harvested from EXTENDED_OMICS_TYPES in
+    multiomics_kg/vocab/non_de_evidence.py, which scripts/validate_paperconfig.py
+    assigns verbatim to VALID_TYPES — the two are the same set, no reconciliation
+    needed. Shipped as UPPERCASE_SNAKE_CASE (pre-existing convention; not
+    lowercased per the vocabulary-contract's no-rename rule for released values).
+
+Experiment.compartment:
+  applies_to: Experiment
+  applies_to_kind: node
+  property: compartment
+  value_type: string
+  closed: true
+  values: [whole_cell, vesicle, exoproteome, extracellular, spent_medium, lysate]
+  description: >
+    Subcellular fraction this experiment measured; default "whole_cell".
+    Harvested from COMPARTMENTS in multiomics_kg/vocab/non_de_evidence.py.
+    Matches CLAUDE.md exactly once its Phase-2 addendum ("extracellular")
+    is folded into the base 5-value list documented under SubcellularLocalization
+    — the two CLAUDE.md mentions are consistent, just split across two bullets.
+
+Experiment.table_scope:
+  applies_to: Experiment
+  applies_to_kind: node
+  property: table_scope
+  value_type: string
+  closed: true
+  values: [all_detected_genes, significant_any_timepoint, significant_only,
+           top_n, filtered_subset]
+  description: >
+    What genes the source DE table contains. No controlled-list constant
+    exists in code (the adapter passes the paperconfig value through
+    unvalidated) — harvested from CLAUDE.md "Key graph facts" per the
+    controller ruling designating CLAUDE.md as authority here.
+
+DerivedMetric.value_kind:
+  applies_to: DerivedMetric
+  applies_to_kind: node
+  property: value_kind
+  value_type: string
+  closed: true
+  values: [numeric, boolean, categorical]
+  description: >
+    Discriminator driving adapter edge-type dispatch (numeric->quantifies_gene,
+    boolean->flags_gene, categorical->classifies_gene). Harvested from
+    VALUE_KINDS in multiomics_kg/vocab/non_de_evidence.py; confirmed against
+    schema_config.yaml's inline comment on the `derived metric` node.
+
+MetaboliteAssay.value_kind:
+  applies_to: MetaboliteAssay
+  applies_to_kind: node
+  property: value_kind
+  value_type: string
+  closed: true
+  values: [numeric, boolean]
+  description: >
+    Same discriminator as DerivedMetric.value_kind but a NARROWER domain on
+    this label — MetaboliteAssay has no categorical arm. Harvested from
+    schema_config.yaml's inline comment on the `metabolite assay` node
+    ("numeric" | "boolean"); VALUE_KINDS in non_de_evidence.py is shared code
+    but not enforced per-label, so the two labels legitimately differ here,
+    mirroring the existing per-edge-type `evidence` precedent (spec §5.2).
+
+DerivedMetric.metric_type:
+  applies_to: DerivedMetric
+  applies_to_kind: node
+  property: metric_type
+  value_type: string
+  closed: true
+  values: [fourier_score, peak_time_h, peak_fit_r_squared,
+           protein_transcript_lag_h, damping_ratio, diel_amplitude,
+           peak_time_transcript_h, peak_time_protein_h,
+           diel_amplitude_transcript_log2, diel_amplitude_protein_log2,
+           periodic_in_axenic_LD, periodic_in_coculture_LD,
+           periodic_in_axenic_extended_darkness,
+           periodic_in_coculture_extended_darkness, darkness_survival_class,
+           cell_abundance_biovolume_normalized,
+           vesicle_abundance_biovolume_normalized,
+           log2_vesicle_cell_enrichment, vesicle_proteome_member,
+           mascot_identification_probability,
+           predicted_subcellular_localization,
+           vesicle_dna_avg_read_coverage, enrichment_bacterial_chemotaxis,
+           enrichment_biosynthesis_of_amino_acids,
+           enrichment_carbon_metabolism, enrichment_fatty_acid_metabolism,
+           enrichment_flagellar_assembly, enrichment_redox_genes,
+           enrichment_ribosome, enrichment_tonb_associated_genes,
+           exoproteome_detected_ancestor, exoproteome_detected_evolved_400ppm,
+           exoproteome_detected_evolved_800ppm, whole_cell_detected_ancestor,
+           whole_cell_detected_evolved_400ppm,
+           whole_cell_detected_evolved_800ppm]
+  description: >
+    Harvested verbatim from KNOWN_METRIC_TYPES keys in
+    multiomics_kg/vocab/non_de_evidence.py. NOTE: that registry is a SOFT
+    allowlist by design — its own docstring says a metric_type absent from it
+    is accepted elsewhere with only a validator warning, not rejected, so a
+    future paper can legitimately introduce a metric_type not in this list.
+    Declared closed here per the harvest instructions because every value
+    currently emitted is a registry member; revisit if a future paper adds an
+    unregistered one and this list needs extending.
+
+BriteCategory.tree:
+  applies_to: BriteCategory
+  applies_to_kind: node
+  property: tree
+  value_type: string
+  closed: true
+  values: [enzymes, transporters, peptidases, transcription_factors,
+           secretion, two_component, defense, chaperones, ribosome,
+           translation_factors, trna_biogenesis, dna_replication]
+  description: >
+    Canonical snake_case KEGG BRITE tree name. Harvested from the VALUES
+    (not keys — the keys are KEGG tree codes like "ko02000") of BRITE_TREES
+    in multiomics_kg/utils/brite_utils.py. Matches CLAUDE.md's "12 trees" list
+    exactly.
+
+Metabolite.evidence_sources:
+  applies_to: Metabolite
+  applies_to_kind: node
+  property: evidence_sources
+  value_type: string_array
+  closed: false
+  values: []
+  description: >
+    UNRESOLVED CONTRADICTION between two first-party sources: schema_config.yaml
+    (line ~876) comments this property as "['metabolism', 'transport'];
+    metabolomics reserved" (i.e. NOT yet a live value), while CLAUDE.md's
+    metabolomics-extension bullet says "evidence_sources may include
+    'metabolomics'" (implying it IS live) for the same Metabolite property.
+    Declared open per the harvest rule "when unsure whether a documented
+    value is actually emitted, prefer closed: false" — do not hand-pick a
+    side without querying the live graph. See task-10-report.md.
+
+Organism_has_metabolite.evidence_sources:
+  applies_to: Organism_has_metabolite
+  applies_to_kind: edge
+  property: evidence_sources
+  value_type: string_array
+  closed: true
+  values: [metabolism, transport, measured]
+  description: >
+    A DIFFERENT property from Metabolite.evidence_sources despite the shared
+    name — this one lives on the Organism_has_metabolite edge, uses "measured"
+    (not "metabolomics") as its third value, and both schema_config.yaml
+    (line ~1714, "post-import; values: metabolism | transport | measured")
+    and CLAUDE.md agree on it without contradiction. Recorded here because
+    disentangling it from Metabolite.evidence_sources was necessary to explain
+    that property's contradiction; not required by the coverage test.
+
+Changes_expression_of.expression_status:
+  applies_to: Changes_expression_of
+  applies_to_kind: edge
+  property: expression_status
+  value_type: string
+  closed: true
+  values: [significant_up, significant_down, not_significant]
+  description: >
+    Post-import derived call. Harvested from CLAUDE.md and confirmed against
+    the literal strings in scripts/post-import.cypher's CASE expression
+    (lines ~217-219).
+
+Derived_metric_quantifies_gene.metric_bucket:
+  applies_to: Derived_metric_quantifies_gene
+  applies_to_kind: edge
+  property: metric_bucket
+  value_type: string
+  closed: true
+  values: [top_decile, top_quartile, mid, low]
+  description: >
+    Post-import percentile bucket (rankable="true" only). Harvested from
+    BUCKET_THRESHOLD_TOP_DECILE/TOP_QUARTILE/MID (90/75/25) in
+    multiomics_kg/vocab/non_de_evidence.py; bucket names confirmed against
+    schema_config.yaml's inline comment and CLAUDE.md's "pinned thresholds
+    ≥90/≥75/≥25" bullet.
+
+Assay_quantifies_metabolite.metric_bucket:
+  applies_to: Assay_quantifies_metabolite
+  applies_to_kind: edge
+  property: metric_bucket
+  value_type: string
+  closed: true
+  values: [top_decile, top_quartile, mid, low]
+  description: >
+    Same bucket vocabulary and thresholds as
+    Derived_metric_quantifies_gene.metric_bucket, mirrored onto the
+    metabolomics measurement edge (rankable="true" only). Harvested from
+    schema_config.yaml's inline comment on `assay quantifies metabolite`
+    and CLAUDE.md's MetaboliteAssay computed-properties bullet.
+
+Assay_quantifies_metabolite.detection_status:
+  applies_to: Assay_quantifies_metabolite
+  applies_to_kind: edge
+  property: detection_status
+  value_type: string
+  closed: true
+  values: [detected, sporadic, not_detected]
+  description: >
+    Adapter-set replicate-detection call. Harvested from the exact strings
+    returned by _aggregate_replicates() in
+    multiomics_kg/adapters/metabolite_assay_adapter.py (all-replicates
+    nonzero -> detected; some -> sporadic; none -> not_detected); confirmed
+    against CLAUDE.md's schema-comment quote of the same three values.
+
+Gene.annotation_state:
+  applies_to: Gene
+  applies_to_kind: node
+  property: annotation_state
+  value_type: string
+  closed: true
+  values: [no_evidence, catch_all_only, informative_single, informative_multi]
+  description: >
+    Post-import qualitative bucket underlying the numeric annotation_quality
+    (0-3) encoding. No controlled-list constant exists in code (the four
+    literals appear inline in scripts/post-import.cypher's CASE expression,
+    lines ~623-628) — harvested from CLAUDE.md per the controller ruling, and
+    confirmed against those same literal strings.
+
+OrganismTaxon.organism_type:
+  applies_to: OrganismTaxon
+  applies_to_kind: node
+  property: organism_type
+  value_type: string
+  closed: true
+  values: [genome_strain, treatment, reference_proteome_match]
+  description: >
+    Harvested from the literal strings in
+    multiomics_kg/adapters/cyanorak_ncbi_adapter.py (default "genome_strain",
+    the hardcoded "treatment" for non-genomic treatment organisms) and the
+    organism_type column of
+    data/Prochlorococcus/genomes/cyanobacteria_genomes.csv
+    ("reference_proteome_match" rows). Matches CLAUDE.md exactly.
+
+Experiment.treatment_type:
+  applies_to: Experiment
+  applies_to_kind: node
+  property: treatment_type
+  value_type: string_array
+  closed: true
+  values: [nitrogen, phosphorus, iron, carbon, salt, light, temperature,
+           plastic, darkness, diel, viral, coculture, growth_phase, compartment]
+  description: >
+    Harvested from CLAUDE.md's "treatment_type canonical values" bullet, per
+    the controller ruling designating CLAUDE.md as authority for this property.
+    FINDING: scripts/validate_paperconfig.py does NOT enforce this narrower
+    per-field list. It validates treatment_type and background_factors
+    against one SHARED 17-value set (CANONICAL_CONDITION_TYPES, lines
+    ~189-213) that also contains "chemical", "mutant", and "axenic" — none of
+    which appear in this list. A paperconfig using treatment_type: [mutant]
+    or treatment_type: [axenic] would pass validation but the resulting value
+    would violate this closed vocabulary if ever emitted. Declared per
+    CLAUDE.md as instructed; the validator's wider allowance is unreconciled
+    and worth tightening or re-documenting. See task-10-report.md.
+
+Experiment.background_factors:
+  applies_to: Experiment
+  applies_to_kind: node
+  property: background_factors
+  value_type: string_array
+  closed: true
+  values: [axenic, light, diel, coculture, chemical, darkness, viral]
+  description: >
+    Harvested from CLAUDE.md's "background_factors canonical values" bullet,
+    per the controller ruling designating CLAUDE.md as authority. Same
+    FINDING as Experiment.treatment_type: scripts/validate_paperconfig.py's
+    CANONICAL_CONDITION_TYPES is one shared 17-value set covering BOTH
+    fields, so it additionally allows "nitrogen", "phosphorus", "iron",
+    "carbon", "salt", "temperature", "plastic", "growth_phase", "compartment",
+    and "mutant" here — none of which are in CLAUDE.md's narrower
+    background_factors list. Declared per CLAUDE.md as instructed; the
+    validator's wider allowance is unreconciled. See task-10-report.md.
+
+KeggTerm.level_kind:
+  applies_to: KeggTerm
+  applies_to_kind: node
+  property: level_kind
+  value_type: string
+  closed: true
+  values: [category, subcategory, pathway, ko]
+  description: >
+    Harvested from the literal strings assigned in
+    multiomics_kg/adapters/functional_annotation_adapter.py (lines ~663-692);
+    matches CLAUDE.md's "level_kind (category|subcategory|pathway|ko)" bullet
+    and the level 0-3 mapping exactly.
+
+TcdbFamily.level_kind:
+  applies_to: TcdbFamily
+  applies_to_kind: node
+  property: level_kind
+  value_type: string
+  closed: true
+  values: [tc_class, tc_subclass, tc_family, tc_subfamily, tc_specificity]
+  description: >
+    Harvested from the literal strings assigned in
+    multiomics_kg/download/build_kegg_metabolism_xrefs.py (lines ~216-259);
+    matches CLAUDE.md's "5 levels (tc_class | tc_subclass | tc_family |
+    tc_subfamily | tc_specificity)" bullet exactly.
+
+CazyFamily.level_kind:
+  applies_to: CazyFamily
+  applies_to_kind: node
+  property: level_kind
+  value_type: string
+  closed: true
+  values: [cazy_class, cazy_family, cazy_subfamily]
+  description: >
+    Harvested from the literal strings returned by _classify() in
+    multiomics_kg/adapters/cazy_adapter.py; matches CLAUDE.md's "3 levels
+    (cazy_class | cazy_family | cazy_subfamily)" bullet exactly.
+
+BriteCategory.level_kind:
+  applies_to: BriteCategory
+  applies_to_kind: node
+  property: level_kind
+  value_type: string
+  closed: true
+  values: [brite_class, brite_subclass, brite_family, brite_subfamily]
+  description: >
+    Harvested from _LEVEL_KINDS in multiomics_kg/utils/brite_utils.py
+    (depth 0-3); matches CLAUDE.md's "level (int, 0=broadest/A-level=
+    brite_class, 1=brite_subclass, 2=brite_family, 3=brite_subfamily)" bullet
+    exactly. Do not confuse with InterproEntry.level_kind (already declared
+    with expected_empty: true) — InterPro's depth tiers have no natural names.
+
+# ── Genuinely open (data-driven; consumer must enumerate at runtime) ─────────
+Gene.gene_category:
+  applies_to: Gene
+  applies_to_kind: node
+  property: gene_category
+  value_type: string
+  closed: false
+  values: []
+  description: >
+    Derived from role annotations (CyanorakRole / TigrRole / CogFunctionalCategory
+    majority vote); no fixed enum exists in code or CLAUDE.md. OPEN — the
+    list_filter_values MCP tool must enumerate this from the live graph, not
+    hard-code a value list.
+
+Experiment.growth_phases:
+  applies_to: Experiment
+  applies_to_kind: node
+  property: growth_phases
+  value_type: string_array
+  closed: false
+  values: []
+  description: >
+    Post-import: distinct growth_phase values rolled up from this
+    experiment's expression/derived-metric/metabolite-assay edges. Free text
+    from paperconfigs (scripts/validate_paperconfig.py's VALID_GROWTH_PHASES
+    is advisory validation with an "other:<slug>" escape hatch, not a closed
+    graph-level guarantee). OPEN — the list_filter_values MCP tool must
+    enumerate this from the live graph.
+
+# ── Grandfathered stringified booleans (predate house rule R5) ───────────────
+Experiment.is_time_course:
+  applies_to: Experiment
+  applies_to_kind: node
+  property: is_time_course
+  value_type: bool_string
+  closed: true
+  values: ["true", "false"]
+  description: >
+    Whether this experiment has multiple timepoints. Stringified boolean
+    predating house rule R5 — grandfathered because it is MCP-read;
+    conversion to a meaningful pair is tracked in plans/backlog.md.
+
+Experiment.reports_fold_change:
+  applies_to: Experiment
+  applies_to_kind: node
+  property: reports_fold_change
+  value_type: bool_string
+  closed: true
+  values: ["true", "false"]
+  description: >
+    Post-import: whether this experiment has any DerivedMetric quantifying
+    fold change. Stringified boolean predating house rule R5 — grandfathered
+    because it is MCP-read; conversion to a meaningful pair is tracked in
+    plans/backlog.md.
+
+DerivedMetric.rankable:
+  applies_to: DerivedMetric
+  applies_to_kind: node
+  property: rankable
+  value_type: bool_string
+  closed: true
+  values: ["true", "false"]
+  description: >
+    Whether this metric supports ranking. Stringified boolean predating
+    house rule R5 — grandfathered because it is MCP-read; conversion to a
+    meaningful pair is tracked in plans/backlog.md.
+
+MetaboliteAssay.rankable:
+  applies_to: MetaboliteAssay
+  applies_to_kind: node
+  property: rankable
+  value_type: bool_string
+  closed: true
+  values: ["true", "false"]
+  description: >
+    Whether this assay's numeric values support ranking. Stringified boolean
+    predating house rule R5 — grandfathered because it is MCP-read;
+    conversion to a meaningful pair is tracked in plans/backlog.md.
+
+DerivedMetric.has_p_value:
+  applies_to: DerivedMetric
+  applies_to_kind: node
+  property: has_p_value
+  value_type: bool_string
+  closed: true
+  values: ["true", "false"]
+  description: >
+    Whether this metric reports a p-value. Stringified boolean predating
+    house rule R5 — grandfathered because it is MCP-read; conversion to a
+    meaningful pair is tracked in plans/backlog.md.
+
+Derived_metric_quantifies_gene.significant:
+  applies_to: Derived_metric_quantifies_gene
+  applies_to_kind: edge
+  property: significant
+  value_type: bool_string
+  closed: true
+  values: ["true", "false"]
+  description: >
+    Post-import: whether adjusted_p_value crosses the parent DerivedMetric's
+    p_value_threshold (only set when has_p_value="true" and a threshold is
+    configured). Stringified boolean predating house rule R5 — grandfathered
+    because it is MCP-read; conversion to a meaningful pair is tracked in
+    plans/backlog.md.
+
+Derived_metric_flags_gene.value:
+  applies_to: Derived_metric_flags_gene
+  applies_to_kind: edge
+  property: value
+  value_type: bool_string
+  closed: true
+  values: ["true", "false"]
+  description: >
+    The boolean metric's value for this gene. Stringified boolean predating
+    house rule R5 — grandfathered because it is MCP-read; conversion to a
+    meaningful pair is tracked in plans/backlog.md.
