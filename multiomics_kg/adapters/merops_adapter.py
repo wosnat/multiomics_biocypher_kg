@@ -176,7 +176,7 @@ class MultiMeropsAnnotationAdapter:
         if not self.reference_path.exists():
             raise FileNotFoundError(
                 f"MEROPS reference cache missing: {self.reference_path} — "
-                f"run `bash scripts/prepare_data.sh --steps 9` "
+                f"run `bash scripts/prepare_data.sh --steps 10` "
                 f"(uv run python -m multiomics_kg.download.build_merops_reference)."
             )
         with open(self.reference_path, encoding="utf-8") as fh:

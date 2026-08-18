@@ -69,8 +69,14 @@
 #           ncbifam_reference.json per spec §4), so step 9 now runs BEFORE step 2 in the
 #           default order (see STEPS below). --refetch-raw re-pulls the FTP/NCBI files
 #           (only on an InterPro/NCBIfam release).
+# Step 10 — Build MEROPS reference cache (merops_reference.json + pfam_bridge + cleavage)
+#           calls: multiomics_kg/download/build_merops_reference.py
+#           Writes cache/data/merops/merops_reference.json, consumed by merops_adapter
+#           for node names/clan descriptions/typing at KG-build time. No ordering
+#           constraint (step 2 merge does not consume it); runs after step 2 by default
+#           but can run independently via --steps 10.
 #
-# Logs: logs/prepare_data_step0.log … logs/prepare_data_step9.log
+# Logs: logs/prepare_data_step0.log … logs/prepare_data_step10.log
 #       Monitor with: tail -f logs/prepare_data_step0.log
 #
 # Usage:
@@ -85,6 +91,8 @@
 #   ./scripts/prepare_data.sh --steps 3 --strains MIT9301 --force  # rebuild gene_id_mapping only
 #   ./scripts/prepare_data.sh --steps 6 7 --force                  # rebuild KEGG/TCDB caches from cached raw inputs (fast iteration)
 #   ./scripts/prepare_data.sh --steps 6 --refetch-raw              # also re-pull raw KEGG REST + TCDB TSVs (slow; only on upstream releases)
+#   ./scripts/prepare_data.sh --steps 10                           # build MEROPS reference only
+#   ./scripts/prepare_data.sh --rebuild                            # all derived steps (1-10, 9 before 2) with --force; step-0 downloads excluded
 
 set -euo pipefail
 
@@ -99,16 +107,21 @@ mkdir -p "$LOG_DIR"
 FORCE=""
 REFETCH_RAW=""
 # 9 = central references (interpro + ncbifam); runs BEFORE the step-2 merge which consumes them (spec 2026-08-17 §4)
-STEPS="0 9 1 2 3 4 5 6 7 8"
+# 10 = MEROPS reference; no ordering constraint with other steps
+STEPS="0 9 1 2 3 4 5 6 7 8 10"
 STRAINS=()
 SKIP_CYANORAK=0
+USER_STEPS=0
+REBUILD=0
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --force)          FORCE="--force"; shift ;;
         --refetch-raw)    REFETCH_RAW="--refetch-raw"; shift ;;
         --skip-cyanorak)  SKIP_CYANORAK=1; shift ;;
+        --rebuild)        REBUILD=1; shift ;;
         --steps)
+            USER_STEPS=1
             STEPS=""
             shift
             while [[ $# -gt 0 && "$1" != --* ]]; do
@@ -124,6 +137,16 @@ while [[ $# -gt 0 ]]; do
         *) echo "Unknown option: $1" >&2; exit 1 ;;
     esac
 done
+
+if [[ $REBUILD -eq 1 ]]; then
+    if [[ $USER_STEPS -eq 1 ]]; then
+        echo "--rebuild and --steps are mutually exclusive" >&2; exit 1
+    fi
+    # All derived steps in DEPENDENCY order (9 before 2 — step 2 consumes the
+    # step-9 reference caches). Step 0 (raw downloads) deliberately excluded.
+    STEPS="9 1 2 3 4 5 6 7 8 10"
+    FORCE="--force"
+fi
 
 STRAINS_ARG=""
 if [[ ${#STRAINS[@]} -gt 0 ]]; then
@@ -170,7 +193,7 @@ cd "$PROJECT_ROOT"
 export PYTHONPATH="$PROJECT_ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
 echo "prepare_data.sh: steps=[${STEPS}]${STRAINS_ARG:+ strains=[${STRAINS[*]}]}${FORCE:+ (force)}${REFETCH_RAW:+ (refetch-raw)}${SKIP_CYANORAK:+ (skip-cyanorak)}"
-echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB hierarchy caches, step 7 = resolve paper metabolite names, step 8 = resolve paper discuss-topics, step 9 = central references: InterPro + NCBIfam + MEROPS reference caches)"
+echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB hierarchy caches, step 7 = resolve paper metabolite names, step 8 = resolve paper discuss-topics, step 9 = central references: InterPro + NCBIfam reference caches, step 10 = MEROPS reference cache)"
 echo "Project root: $PROJECT_ROOT"
 echo "Logs dir:     $LOG_DIR"
 
@@ -266,16 +289,17 @@ for step in $STEPS; do
                 uv run python -m multiomics_kg.download.build_ncbifam_reference \
                     $FORCE \
                     $REFETCH_RAW
-
-            RUN_STEP_APPEND=1 run_step 9 \
-                "Build MEROPS reference cache (merops_reference.json)" \
-                "$LOG_DIR/prepare_data_step9.log" \
+            ;;
+        10)
+            run_step 10 \
+                "Build MEROPS reference cache (merops_reference.json + pfam_bridge + cleavage)" \
+                "$LOG_DIR/prepare_data_step10.log" \
                 uv run python -m multiomics_kg.download.build_merops_reference \
                     $FORCE \
                     $REFETCH_RAW
             ;;
         *)
-            echo "Unknown step: $step (valid: 0 1 2 3 4 5 6 7 8 9)" >&2
+            echo "Unknown step: $step (valid: 0 1 2 3 4 5 6 7 8 9 10)" >&2
             exit 1
             ;;
     esac
