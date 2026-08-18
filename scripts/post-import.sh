@@ -262,7 +262,7 @@ MATCH (t:NcbifamFamily)
 WHERE t.family_type IN ['hypoth_equivalog', 'hypoth_equivalog_domain']
    OR t.name =~ '(?i).*hypothetical.*'
    OR t.name =~ '(?i).*uncharacterized.*'
-   OR t.name =~ '.*DUF\\d.*'
+   OR t.name =~ '.*\\bDUF\\d.*'
 SET t.is_uninformative = 'true';
 
 // GeneCluster member_count

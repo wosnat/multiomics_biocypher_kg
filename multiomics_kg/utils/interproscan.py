@@ -111,6 +111,11 @@ def parse_interproscan_json(data: dict) -> dict[str, dict]:
             },
             "go_terms": {k: sorted(v) for k, v in sorted(go_terms.items())},
         }
+        # xref fan-out: InterProScan dedups identical sequences by md5, so one
+        # result can carry several accessions. Each gets its own top-level dict,
+        # but the nested libraries/interpro_entries/go_terms structures are
+        # SHARED (shallow copy) — fine while consumers are read-only; deepcopy
+        # here if a consumer ever mutates a call in place.
         for xref in result.get("xref") or []:
             if xref.get("id"):
                 calls[xref["id"]] = dict(record)

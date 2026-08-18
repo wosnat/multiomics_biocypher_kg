@@ -6,14 +6,8 @@ merged ncbifam_ids == calls libraries.NCBIFAM accessions.
 A failure means calls.json was re-normalized without re-running
 `prepare_data --steps 2` (or vice versa) — fix by re-running the merge.
 
-Mid-branch note (Task 10 of the interpro-multi-ontology redesign): the
-committed gene_annotations_merged.json files predate Tasks 8-9 and do not
-yet carry an `ncbifam_ids` field on any gene (merge re-runs in Task 18).
-Rather than hard-failing the whole fast suite for that known, temporary
-skew, a strain is SKIPPED (not failed) when its merged JSON shows no sign
-of the ncbifam_ids-era merge AND its calls.json actually has NCBIFAM
-facets to compare against. Once Task 18 regenerates the merges, the skip
-condition stops matching and this test bites for real.
+A strain whose merged JSON predates the ncbifam_ids-era merge is SKIPPED
+(not failed) with a re-run-the-merge hint; see the skip guard below.
 """
 import csv
 import json

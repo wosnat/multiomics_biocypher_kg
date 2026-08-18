@@ -398,6 +398,19 @@ tag with nothing logged.
 
 ### Fixed
 
+- **InterPro redesign deferred cleanups (all 7 from
+  `plans/interpro_redesign_backlog.md`).** NCBIfam `is_uninformative` DUF
+  name-pattern aligned with `config/uninformative_terms.yaml`
+  (`.*DUF\d.*` → `.*\bDUF\d.*` in both post-import scripts; verified a no-op
+  on the live graph — same 9 nodes match). `DataSource` `interproscan`
+  `info_types` now lists the Layer-B enrichment contributions
+  (go_terms/ec_numbers/cazy_ids/pfam_ids/alternate_functional_descriptions/
+  gene_name) via a new `info_types_extra` YAML override (spec §4.2).
+  `interproscan-run --normalize` `sentinel_rate` denominator now matches scan
+  mode (FASTA header count, falling back to call count). New multi-xref
+  fan-out test pins the parser's shallow-copy contract. Stale mid-branch
+  comments trimmed; `enrich_interpro_fields` docstring overclaim reworded;
+  `acc_to_ipr` last-write-wins documented in code.
 - **Duplicated KEGG reaction cross-references in `kegg_data.json`.** KEGG's
   `/link/pathway/reaction` endpoint serves **both** prefix forms for every link
   (`path:map00220` *and* `path:rn00220` — 19,775 of each, an exact pairing), and

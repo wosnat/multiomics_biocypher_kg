@@ -359,7 +359,9 @@ def enrich_interpro_fields(gene: dict, ipr_row: dict, interpro_ref: dict,
       FAMILY or DOMAIN typed; evidence is ``family`` if any donor is FAMILY,
       else ``domain``. When *ipr_row* carries no ``go_term_donors`` key (old
       callers / rows predating Task 8), donors are derived from this gene's
-      ``interpro_entries`` × *interpro_ref* exactly as the pre-donor code did.
+      ``interpro_entries`` × *interpro_ref* — the same gate as the pre-donor
+      code, though evidence-strength labeling can differ in mixed-type
+      donor-order cases (the donor-attributed labeling is the more correct one).
     - ``cazy_ids``: FAMILY + DOMAIN entries (fold excluded) — unchanged.
     - ``ec_numbers``: FAMILY entries carrying **exactly one** EC (a multi-EC family
       is a candidate set, not a claim — those live in Layer A, Phase 3).

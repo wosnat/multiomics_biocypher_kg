@@ -266,6 +266,11 @@ class MultiNcbifamAdapter:
             self.download_data()
 
         # 1. NcbifamFamily → InterproEntry bridge edges (dangling-proof BOTH sides)
+        # Last-write-wins across strains (mirrors the pf_to_ipr convention): if
+        # one NCBIfam accession were ever attributed two different IPR entries
+        # across strains' calls.json (cross-release drift), the later strain's
+        # attribution silently wins. Re-check after any InterProScan
+        # version-bump re-scan.
         acc_to_ipr: dict[str, str] = {}
         for adapter in self._strain_adapters:
             acc_to_ipr.update(adapter.get_ncbifam_to_interpro())
