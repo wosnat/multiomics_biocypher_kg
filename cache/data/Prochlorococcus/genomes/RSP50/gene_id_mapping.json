@@ -29691,6 +29691,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "psaI",
+          "type": "gene_name"
+        },
+        {
           "id": "BSR22_RS02060",
           "type": "gene_synonym"
         },
@@ -50043,6 +50047,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "coaX",
+          "type": "gene_name"
+        },
+        {
           "id": "BSR22_RS03490",
           "type": "gene_synonym"
         },
@@ -51740,6 +51748,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "petL",
+          "type": "gene_name"
+        },
         {
           "id": "BSR22_RS03605",
           "type": "gene_synonym"
@@ -65138,6 +65150,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "ygfZ",
+          "type": "gene_name"
+        },
+        {
           "id": "BSR22_RS04510",
           "type": "gene_synonym"
         },
@@ -66268,6 +66284,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "yvcK",
+          "type": "gene_name"
+        },
         {
           "id": "BSR22_RS04585",
           "type": "gene_synonym"
@@ -85000,6 +85020,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "csoS4",
+          "type": "gene_name"
+        },
         {
           "id": "BSR22_RS05895",
           "type": "gene_synonym"
@@ -128253,6 +128277,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "trhO",
+          "type": "gene_name"
+        },
+        {
           "id": "BSR22_RS08895",
           "type": "gene_synonym"
         },
@@ -157368,6 +157396,9 @@
     "coaE": [
       "BSR22_03310"
     ],
+    "coaX": [
+      "BSR22_03475"
+    ],
     "cobA": [
       "BSR22_02950"
     ],
@@ -157458,6 +157489,9 @@
     ],
     "csoS3": [
       "BSR22_05875"
+    ],
+    "csoS4": [
+      "BSR22_05880"
     ],
     "cspR": [
       "BSR22_07960"
@@ -158619,6 +158653,9 @@
     "petJ": [
       "BSR22_06665"
     ],
+    "petL": [
+      "BSR22_03590"
+    ],
     "petM": [
       "BSR22_00350"
     ],
@@ -158801,6 +158838,9 @@
     ],
     "psaF": [
       "BSR22_05445"
+    ],
+    "psaI": [
+      "BSR22_02060"
     ],
     "psaJ": [
       "BSR22_05440"
@@ -159618,6 +159658,9 @@
     "tpx": [
       "BSR22_08000"
     ],
+    "trhO": [
+      "BSR22_08880"
+    ],
     "trkA": [
       "BSR22_03500"
     ],
@@ -159868,6 +159911,9 @@
     "yedP": [
       "BSR22_07445"
     ],
+    "ygfZ": [
+      "BSR22_04495"
+    ],
     "yidC": [
       "BSR22_00550"
     ],
@@ -159876,6 +159922,9 @@
     ],
     "ylqF": [
       "BSR22_04065"
+    ],
+    "yvcK": [
+      "BSR22_04570"
     ],
     "zam": [
       "BSR22_08045"
@@ -171333,7 +171382,7 @@
   "stats": {
     "n_conflicts": 16,
     "n_genes": 1870,
-    "n_multi": 7679,
+    "n_multi": 7686,
     "n_specific": 11437,
     "passes": 2
   },

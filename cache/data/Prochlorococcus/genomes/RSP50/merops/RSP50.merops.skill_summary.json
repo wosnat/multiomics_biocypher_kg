@@ -1,0 +1,39 @@
+{
+  "strain": "RSP50",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 1869,
+  "wallclock_s": 0.5,
+  "raw_hit_lines": 610,
+  "parse_failures": 0,
+  "proteins_with_hits": 59,
+  "proteins_with_call": 59,
+  "total_candidates": 60,
+  "candidates_per_protein_distribution": {
+    "1": 58,
+    "2": 1
+  },
+  "tier_distribution": {
+    "3": 55,
+    "2": 5
+  },
+  "consensus_agreement_distribution": {
+    "id": 11,
+    "subfamily": 11,
+    "family": 38
+  },
+  "catalytic_type_distribution": {
+    "S": 23,
+    "A": 1,
+    "M": 23,
+    "C": 12,
+    "T": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 60
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 33,
+    "putative": 17,
+    "nonpeptidase_homolog": 10
+  }
+}

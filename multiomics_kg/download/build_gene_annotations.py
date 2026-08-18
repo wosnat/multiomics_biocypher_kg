@@ -348,23 +348,67 @@ def _fold_interpro_field(gene: dict, field: str, new_tokens: dict[str, str]) -> 
     gene[f"{field}_evidence"] = ev_map
 
 
-def enrich_interpro_fields(gene: dict, ipr_row: dict, interpro_ref: dict) -> None:
-    """Promote InterPro entry-level xrefs into gene ontology fields (Layer B).
+def enrich_interpro_fields(gene: dict, ipr_row: dict, interpro_ref: dict,
+                            ncbifam_ref: dict | None = None) -> None:
+    """Promote InterPro/NCBIfam entry-level xrefs into gene fields (Layer B).
 
-    Noise-gated, type-aware propagation (design 2026-08-10 §2/§5.1):
-    - ``go_terms`` / ``cazy_ids``: FAMILY + DOMAIN entries (fold excluded).
+    Noise-gated, type-aware propagation (design 2026-08-10 §2/§5.1, extended
+    2026-08-17 for donor attribution + naming recovery):
+    - ``go_terms``: donor-attributed — a GO is added iff at least one of its
+      donor entries (``ipr_row["go_term_donors"]``, ``{GO: [IPR, ...]}``) is
+      FAMILY or DOMAIN typed; evidence is ``family`` if any donor is FAMILY,
+      else ``domain``. When *ipr_row* carries no ``go_term_donors`` key (old
+      callers / rows predating Task 8), donors are derived from this gene's
+      ``interpro_entries`` × *interpro_ref* exactly as the pre-donor code did.
+    - ``cazy_ids``: FAMILY + DOMAIN entries (fold excluded) — unchanged.
     - ``ec_numbers``: FAMILY entries carrying **exactly one** EC (a multi-EC family
       is a candidate set, not a claim — those live in Layer A, Phase 3).
     - ``pfam_ids``: direct PFAM signature hits from calls.json (no inference).
+    - ``alternate_functional_descriptions``: ``[interpro] <name>`` (FAMILY/DOMAIN,
+      as before) plus naming recovery — ``[hamap] <desc>`` (from
+      ``ipr_row["hamap_descriptions"]``) and ``[ncbifam] <product name>`` (from
+      *ncbifam_ref* via the gene's ``ncbifam_ids``). hamap/ncbifam tokens are
+      skipped when their text case-insensitively equals the gene's ``product``
+      (in addition to the existing exact-string afd dedup, which still applies
+      to all tokens).
+    - ``gene_name``: fill-if-empty from the first (sorted) ``gene_symbol`` among
+      the gene's ``ncbifam_ids`` reference entries; sets
+      ``gene_name_source = "ncbifam"``. Never overwrites an existing gene_name.
 
-    Each contributed token is tagged with ``interproscan`` in ``<field>_source`` and an
-    ``<field>_evidence`` strength. GO/EC/CAZy come from the global reference
-    (entry-level, equivalent to the per-protein scan xrefs); Pfam from *ipr_row*'s
-    matches. Idempotent-ish: safe to run once per gene after ``build_merged``.
+    Each ontology token is tagged with ``interproscan`` in ``<field>_source`` and an
+    ``<field>_evidence`` strength via ``_fold_interpro_field``. Idempotent-ish:
+    safe to run once per gene after ``build_merged``.
     """
     entries = gene.get("interpro_entries") or []
 
+    # ── GO: donor-attributed gate ───────────────────────────────────────────
+    donors = ipr_row.get("go_term_donors")
+    if donors is None:
+        # Fallback for rows without donor attribution: derive donors from this
+        # gene's entries × the reference (matches the pre-donor behavior).
+        donors = {}
+        for ipr_id in entries:
+            meta = interpro_ref.get(ipr_id)
+            if not meta:
+                continue
+            for go in meta.get("go_terms", []):
+                donors.setdefault(go, []).append(ipr_id)
+
     go_new: dict[str, str] = {}
+    for go, donor_ids in donors.items():
+        strength = None
+        for ipr_id in donor_ids:
+            meta = interpro_ref.get(ipr_id) or {}
+            etype = (meta.get("type") or "").upper()
+            if etype == "FAMILY":
+                strength = "family"
+                break
+            if etype == "DOMAIN" and strength is None:
+                strength = "domain"
+        if strength is not None:
+            go_new[go] = strength
+
+    # ── EC / CAZy / interpro-name descriptions (unchanged logic) ───────────
     ec_new: dict[str, str] = {}
     cazy_new: dict[str, str] = {}
     desc_entries: list[str] = []
@@ -375,8 +419,6 @@ def enrich_interpro_fields(gene: dict, ipr_row: dict, interpro_ref: dict) -> Non
         etype = (meta.get("type") or "").upper()
         strength = "family" if etype == "FAMILY" else "domain"
         if etype in _INTERPRO_PROPAGATE_TYPES:
-            for go in meta.get("go_terms", []):
-                go_new.setdefault(go, strength)
             for cz in meta.get("cazy_ids", []):
                 cazy_new.setdefault(cz, strength)
             name = meta.get("name")
@@ -393,6 +435,27 @@ def enrich_interpro_fields(gene: dict, ipr_row: dict, interpro_ref: dict) -> Non
     for sig in (ipr_row.get("pfam_signatures") or []):
         if sig.startswith("PF"):
             pfam_new.setdefault(sig, "signature")
+
+    # ── Naming recovery: hamap + ncbifam, deduped against `product` ────────
+    product_lc = (gene.get("product") or "").strip().lower()
+
+    def _maybe_desc(tag: str, text: str) -> None:
+        text = (text or "").strip()
+        if not text or text.lower() == product_lc:
+            return
+        desc_entries.append(f"[{tag}] {text}")
+
+    for h in (ipr_row.get("hamap_descriptions") or []):
+        _maybe_desc("hamap", h)
+    symbols: list[str] = []
+    for acc in (gene.get("ncbifam_ids") or []):
+        meta = (ncbifam_ref or {}).get(acc) or {}
+        _maybe_desc("ncbifam", meta.get("name") or "")
+        if meta.get("gene_symbol"):
+            symbols.append(meta["gene_symbol"])
+    if symbols and not gene.get("gene_name"):
+        gene["gene_name"] = sorted(symbols)[0]
+        gene["gene_name_source"] = "ncbifam"
 
     _fold_interpro_field(gene, "go_terms", go_new)
     _fold_interpro_field(gene, "ec_numbers", ec_new)
@@ -470,6 +533,9 @@ def _compute_contributing_sources(gene: dict) -> list[str]:
     if (gene.get("tcdb_diamond_ids")
             or _has_source_label(gene, "tcdb_diamond")):
         sources.add("tcdb_diamond")
+    if (gene.get("merops_ids")
+            or _has_source_label(gene, "merops_diamond")):
+        sources.add("merops_diamond")
     return sorted(sources)
 
 
@@ -556,17 +622,29 @@ def load_signalp(data_dir: str, strain_name: str) -> dict[str, dict]:
 
 
 def load_interproscan(data_dir: str, strain_name: str) -> dict[str, dict]:
-    """Load InterProScan Phase-1 calls.json → {protein_id_wp: {field: value}}.
+    """Load InterProScan calls.json (faceted format) → {protein_id_wp: {field: value}}.
 
-    The artifact is a dict keyed by RefSeq WP_ accession (== gene_mapping.protein_id).
-    We surface only the light per-gene summary the merge needs — the distinct
-    InterPro entry ids — so the merged JSON carries `interpro_entries` (drives
-    contributing_sources + the DataSource node + Gene routing). The rich per-match
-    evidence (coordinates / e-value / score / libraries) is NOT merged here; the
-    interpro_adapter reads this same calls.json directly at KG-build time (like
-    tcdb_adapter reads tcdb_pruned.json). Proteins with no InterPro entry are
-    dropped (no `interpro_entries` key). Missing file → {} (strain not yet
-    InterProScan-run). See docs/superpowers/specs/2026-07-26-interproscan-kg-integration-design.md.
+    The artifact is a dict keyed by RefSeq WP_ accession (== gene_mapping.protein_id),
+    with a per-protein shape of
+    `{md5, match_count, libraries: {LIB: [{accession, name, ipr, start, end,
+    evalue, score}, ...]}, interpro_entries: {IPR: {...}}, go_terms: {GO: [IPR, ...]}}`
+    (accessions already version-stripped by the parser). We surface only the light
+    per-gene summary the merge needs:
+    - `interpro_entries` — distinct InterPro entry ids (drives contributing_sources
+      + the DataSource node + Gene routing)
+    - `pfam_signatures` — direct PFAM library HMM hits (a direct hit, no inference)
+    - `ncbifam_ids` — direct NCBIFAM library hits
+    - `hamap_descriptions` — HAMAP library match names (HAMAP has no stable
+      accession→description reference, so the name is carried here)
+    - `go_term_donors` — GO term → contributing InterPro entry id(s), as reported
+      by InterProScan's own GO attribution
+
+    The rich per-match evidence (coordinates / e-value / score / libraries) is NOT
+    merged here; the interpro_adapter reads this same calls.json directly at
+    KG-build time (like tcdb_adapter reads tcdb_pruned.json). All fields are sparse
+    (omitted when empty); a protein with nothing to surface is dropped entirely.
+    Missing file → {} (strain not yet InterProScan-run).
+    See docs/superpowers/specs/2026-08-17-interpro-multi-ontology-redesign-design.md.
     """
     path = os.path.join(data_dir, "interproscan", f"{strain_name}.interproscan.calls.json")
     if not os.path.exists(path):
@@ -577,23 +655,37 @@ def load_interproscan(data_dir: str, strain_name: str) -> dict[str, dict]:
     for wp, call in data.items():
         if not isinstance(call, dict):
             continue
-        entries = call.get("interpro_entries") or []
-        # Also surface the direct PFAM signature accessions (Layer B folds these
-        # into pfam_ids — a direct HMM hit, no inference). Light: just the PF* ids.
+        entries = sorted(call.get("interpro_entries") or {})
+        libs = call.get("libraries") or {}
         pfam_sigs = sorted({
-            sig.split(".")[0]
-            for m in (call.get("matches") or [])
-            if (m.get("library") or "").upper() == "PFAM"
-            for sig in [(m.get("signature_accession") or "")]
-            if sig.startswith("PF")
+            r["accession"]
+            for r in libs.get("PFAM", [])
+            if (r.get("accession") or "").startswith("PF")
         })
-        if not entries and not pfam_sigs:
+        ncbifam = sorted({
+            r["accession"]
+            for r in libs.get("NCBIFAM", [])
+            if r.get("accession")
+        })
+        hamap = sorted({
+            r["name"]
+            for r in libs.get("HAMAP", [])
+            if r.get("name")
+        })
+        donors = call.get("go_terms") or {}
+        if not (entries or pfam_sigs or ncbifam or hamap or donors):
             continue
         row: dict = {}
         if entries:
-            row["interpro_entries"] = list(entries)
+            row["interpro_entries"] = entries
         if pfam_sigs:
             row["pfam_signatures"] = pfam_sigs
+        if ncbifam:
+            row["ncbifam_ids"] = ncbifam
+        if hamap:
+            row["hamap_descriptions"] = hamap
+        if donors:
+            row["go_term_donors"] = donors
         result[str(wp).strip()] = row
     return result
 
@@ -633,6 +725,41 @@ def load_tcdb_diamond(data_dir: str, strain_name: str) -> dict[str, dict]:
         })
         if tcids:
             result[str(wp).strip()] = {"tcdb_ids": tcids}
+    return result
+
+
+def load_merops(data_dir: str, strain_name: str) -> dict[str, dict]:
+    """Load merops-diamond Phase-1 calls.json → {protein_id_wp: {merops_ids: [...]}}.
+
+    The artifact is a dict keyed by RefSeq WP_ accession (== gene_mapping.protein_id).
+    We surface only the distinct called codes (family / subfamily / identifier,
+    already tier-truncated by the runner) — the per-call evidence (tier /
+    confidence_score / identity / evalue / call_class inputs) is NOT merged;
+    `merops_adapter` reads this same calls.json directly at KG-build time for
+    edge properties, exactly as `tcdb_adapter` / `interpro_adapter` do.
+
+    ALL candidates are surfaced — the tier policy in
+    `multiomics_kg/utils/merops_diamond.py` is already the quality gate; weak
+    (tier-3) calls are gated downstream (post-import folds 'merops' into
+    annotation_types only for tier<=2 edges). Proteins with no call are
+    dropped. Missing file → {} (strain not yet merops-diamond-run). See
+    docs/superpowers/specs/2026-08-17-merops-kg-integration-design.md.
+    """
+    path = os.path.join(data_dir, "merops", f"{strain_name}.merops.calls.json")
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    result: dict[str, dict] = {}
+    for wp, rec in data.items():
+        if not isinstance(rec, dict):
+            continue
+        codes = sorted({
+            c["code"] for c in rec.get("calls", [])
+            if isinstance(c, dict) and c.get("code")
+        })
+        if codes:
+            result[str(wp).strip()] = {"merops_ids": codes}
     return result
 
 
@@ -696,12 +823,14 @@ class AnnotationBuilder:
         ps: dict | None = None,
         sp: dict | None = None,
         ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None,
     ) -> Any:
         """Fetch raw value from source row according to src_cfg spec."""
         ps = ps or {}
         sp = sp or {}
         ipr = ipr or {}
         tcd = tcd or {}
+        mer = mer or {}
         source = src_cfg.get("source", "")
         field = src_cfg.get("field", "")
 
@@ -719,6 +848,8 @@ class AnnotationBuilder:
             raw = ipr.get(field)
         elif source == "tcdb_diamond":
             raw = tcd.get(field)
+        elif source == "merops_diamond":
+            raw = mer.get(field)
         else:
             return None
 
@@ -748,10 +879,11 @@ class AnnotationBuilder:
 
     def _resolve_passthrough(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None
     ) -> Any:
         keep_dash = bool(fconf.get("allow_dash", False))
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
         if not _nonempty(raw, keep_dash=keep_dash):
             return None
         transform = fconf.get("transform")
@@ -763,9 +895,10 @@ class AnnotationBuilder:
 
     def _resolve_passthrough_list(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None
     ) -> list[str] | None:
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
         if not _nonempty(raw):
             return None
         delimiter = fconf.get("delimiter", ",")
@@ -785,6 +918,7 @@ class AnnotationBuilder:
         locus_tag: str = "",
         sp: dict | None = None,
         ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None,
     ) -> Any:
         """First non-empty candidate wins; record source if track_source set.
 
@@ -798,7 +932,7 @@ class AnnotationBuilder:
         track_key = fconf.get("track_source")
         reject_ids = fconf.get("reject_identifiers", False)
         for cand in fconf.get("candidates", []):
-            raw = self._get_raw(cand, gm, eg, up, ps, sp, ipr, tcd)
+            raw = self._get_raw(cand, gm, eg, up, ps, sp, ipr, tcd, mer)
             if not _nonempty(raw):
                 continue
             transform = cand.get("transform")
@@ -836,6 +970,7 @@ class AnnotationBuilder:
     def _resolve_union(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
         sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None,
         source_tracking: dict | None = None,
     ) -> list[str] | None:
         """Merge tokens from all sources, deduplicate, apply global filter.
@@ -854,7 +989,7 @@ class AnnotationBuilder:
         token_sources: dict[str, set[str]] = {}
 
         for src_cfg in fconf.get("sources", []):
-            raw = self._get_raw(src_cfg, gm, eg, up, ps, sp, ipr, tcd)
+            raw = self._get_raw(src_cfg, gm, eg, up, ps, sp, ipr, tcd, mer)
             if not _nonempty(raw):
                 continue
 
@@ -909,9 +1044,10 @@ class AnnotationBuilder:
 
     def _resolve_integer(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None
     ) -> int | None:
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
         if raw is None:
             return None
         try:
@@ -921,9 +1057,10 @@ class AnnotationBuilder:
 
     def _resolve_float(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None
     ) -> float | None:
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
         if raw is None:
             return None
         try:
@@ -941,12 +1078,14 @@ class AnnotationBuilder:
         ps: dict | None = None,
         sp: dict | None = None,
         ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None,
     ) -> dict:
         """All source fields, source-prefixed — full audit trail."""
         ps = ps or {}
         sp = sp or {}
         ipr = ipr or {}
         tcd = tcd or {}
+        mer = mer or {}
         wide: dict[str, Any] = {}
         for k, v in gm.items():
             if _nonempty(v):
@@ -969,6 +1108,9 @@ class AnnotationBuilder:
         for k, v in tcd.items():
             if _nonempty(v):
                 wide[f"tcdb_diamond_{k}"] = v
+        for k, v in mer.items():
+            if _nonempty(v):
+                wide[f"merops_diamond_{k}"] = v
         return wide
 
     # ── build merged ──────────────────────────────────────────────────────────
@@ -982,12 +1124,14 @@ class AnnotationBuilder:
         organism_name: str | None = None,
         sp: dict | None = None,
         ipr: dict | None = None, tcd: dict | None = None,
+        mer: dict | None = None,
     ) -> dict:
         """Apply merge rules → canonical field set."""
         ps = ps or {}
         sp = sp or {}
         ipr = ipr or {}
         tcd = tcd or {}
+        mer = mer or {}
         result: dict[str, Any] = {}
         source_tracking: dict[str, str] = {}
         locus_tag = gm.get("locus_tag", "")
@@ -996,17 +1140,17 @@ class AnnotationBuilder:
             ftype = fconf.get("type", "passthrough")
 
             if ftype == "single":
-                val = self._resolve_single(fconf, gm, eg, up, ps, source_tracking, locus_tag, sp=sp, ipr=ipr, tcd=tcd)
+                val = self._resolve_single(fconf, gm, eg, up, ps, source_tracking, locus_tag, sp=sp, ipr=ipr, tcd=tcd, mer=mer)
             elif ftype == "union":
-                val = self._resolve_union(fconf, gm, eg, up, ps, sp, ipr, tcd, source_tracking=source_tracking)
+                val = self._resolve_union(fconf, gm, eg, up, ps, sp, ipr, tcd, mer, source_tracking=source_tracking)
             elif ftype == "passthrough":
-                val = self._resolve_passthrough(fconf, gm, eg, up, ps, sp, ipr, tcd)
+                val = self._resolve_passthrough(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
             elif ftype == "passthrough_list":
-                val = self._resolve_passthrough_list(fconf, gm, eg, up, ps, sp, ipr, tcd)
+                val = self._resolve_passthrough_list(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
             elif ftype == "integer":
-                val = self._resolve_integer(fconf, gm, eg, up, ps, sp, ipr, tcd)
+                val = self._resolve_integer(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
             elif ftype == "float":
-                val = self._resolve_float(fconf, gm, eg, up, ps, sp, ipr, tcd)
+                val = self._resolve_float(fconf, gm, eg, up, ps, sp, ipr, tcd, mer)
             elif ftype == "extract_first_match":
                 val = extract_first_match_in_sources(
                     fconf.get("sources", []), gm, eg, up,
@@ -1218,6 +1362,7 @@ def process_strain(
     force: bool = False,
     pfam_data: PfamData | None = None,
     interpro_ref: dict | None = None,
+    ncbifam_ref: dict | None = None,
 ) -> None:
     strain_name = row["strain_name"]
     preferred_name = (row.get("preferred_name") or "").strip() or strain_name
@@ -1255,6 +1400,7 @@ def process_strain(
     sp_data = load_signalp(data_dir, strain_name)
     ipr_data = load_interproscan(data_dir, strain_name)
     tcd_data = load_tcdb_diamond(data_dir, strain_name)
+    mer_data = load_merops(data_dir, strain_name)
 
     print(f"  gene_mapping : {len(gm_data):>5} genes")
     print(f"  eggnog       : {len(eg_data):>5} entries")
@@ -1263,6 +1409,7 @@ def process_strain(
     print(f"  signalp      : {len(sp_data):>5} entries (keyed by RefSeq)")
     print(f"  interproscan : {len(ipr_data):>5} entries (keyed by RefSeq)")
     print(f"  tcdb_diamond : {len(tcd_data):>5} entries (keyed by RefSeq)")
+    print(f"  merops_diamond: {len(mer_data):>4} entries (keyed by RefSeq)")
 
     builder = AnnotationBuilder(config)
 
@@ -1280,6 +1427,7 @@ def process_strain(
         sp_row = sp_data.get(protein_id, {})
         ipr_row = ipr_data.get(protein_id, {})
         tcd_row = tcd_data.get(protein_id, {})
+        mer_row = mer_data.get(protein_id, {})
 
         stats["total"] += 1
         if eg_row:
@@ -1287,14 +1435,15 @@ def process_strain(
         if up_row:
             stats["uniprot_hit"] += 1
 
-        wide_out[locus_tag] = builder.build_wide(gm_row, eg_row, up_row, ps_row, sp_row, ipr_row, tcd_row)
+        wide_out[locus_tag] = builder.build_wide(gm_row, eg_row, up_row, ps_row, sp_row, ipr_row, tcd_row, mer_row)
         merged = builder.build_merged(gm_row, eg_row, up_row, ps_row,
                                       organism_name=preferred_name, sp=sp_row, ipr=ipr_row,
-                                      tcd=tcd_row)
-        # Layer B: promote InterPro entry xrefs into go/ec/cazy/pfam (before the
-        # pfam enrichment loop, so InterPro's direct PF* hits get re-keyed too).
+                                      tcd=tcd_row, mer=mer_row)
+        # Layer B: promote InterPro/NCBIfam entry xrefs into go/ec/cazy/pfam +
+        # naming recovery (before the pfam enrichment loop, so InterPro's direct
+        # PF* hits get re-keyed too).
         if interpro_ref is not None:
-            enrich_interpro_fields(merged, ipr_row, interpro_ref)
+            enrich_interpro_fields(merged, ipr_row, interpro_ref, ncbifam_ref)
         merged_out[locus_tag] = merged
 
         if merged.get("product"):
@@ -1425,10 +1574,20 @@ def main() -> None:
     print(f"InterPro reference: {len(interpro_ref)} entries "
           f"({n_ec} with EC, {n_cazy} with CAZy)")
 
+    # Load the NCBIfam reference once (lazy — reads the committed cache directly;
+    # `{}` when missing so merge never blocks on a network fetch here).
+    ncbifam_ref_path = cache_root / "ncbifam" / "ncbifam_reference.json"
+    if ncbifam_ref_path.exists():
+        with open(ncbifam_ref_path, encoding="utf-8") as fh:
+            ncbifam_ref = json.load(fh)
+    else:
+        ncbifam_ref = {}
+    print(f"NCBIfam reference: {len(ncbifam_ref)} entries")
+
     print(f"Processing {len(rows)} strain(s) with config: {args.config}")
     for row in rows:
         process_strain(row, config, force=args.force, pfam_data=pfam_data,
-                       interpro_ref=interpro_ref)
+                       interpro_ref=interpro_ref, ncbifam_ref=ncbifam_ref)
 
     if args.llm_summary:
         print("\nLLM summary generation (Step 1C) not yet implemented.")

@@ -32,6 +32,8 @@ SECTION_TO_LABEL = {
     "cyanorak_role": "CyanorakRole",
     "tigr_role": "TigrRole",
     "kegg_term": "KeggTerm",
+    "interpro_entry": "InterproEntry",
+    "ncbifam": "NcbifamFamily",
 }
 
 

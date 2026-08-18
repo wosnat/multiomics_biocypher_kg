@@ -1,7 +1,8 @@
 # Coe 2024
 
-**Citation:** Coe A, Biller SJ, Thomas E, Moreno-Cabezuelo JÁ, Blanco-Ameijeiras S, Berube PM, Laurenceau R, Boldt L, Peng M, Lin Y, Roggensack SE, Gandhi N, Arellano A, Rappé MS, Chisholm SW (2024). Dark tolerance in *Prochlorococcus* as an adaptive evolutionary trait selected by heterotroph co-culture. *ISME Journal* ycae131.
-**DOI:** 10.1093/ismejo/ycae131
+**Citation:** Coe A, Braakman R, Biller SJ, Arellano A, Bliem C, Vo NN, von Emster K, Thomas E, DeMers M, Steglich C, Huisman J, Chisholm SW (2024). Emergence of metabolic coupling to the heterotroph *Alteromonas* promotes dark survival in *Prochlorococcus*. *ISME Communications* 4(1):ycae131.
+**DOI:** 10.1093/ismeco/ycae131
+**GEO:** GSE264347
 **Organism(s):** *Prochlorococcus* NATL2A (dark-tolerant evolved + parental); *Alteromonas macleodii* MIT1002 (co-culture partner)
 **Topic:** Investigates how NATL2A evolves dark tolerance through long-term co-culture with MIT1002. RNA-seq time course (7 timepoints: 0, 4, 8, 13, 16, 20, 24h) under 13:11 L:D cycle at 37 umol photons m-2 s-1, 24C, Pro99 medium. Compares dark-tolerant vs parental strains in co-culture; also reports 15-cluster diel expression patterns (RAIN) for each strain.
 

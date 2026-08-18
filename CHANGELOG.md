@@ -55,7 +55,16 @@ tag with nothing logged.
   calls: ask "which InterPro entries does gene X have?", "which genes carry the
   RuBisCO large-subunit family?", or filter genes by protein domain — a
   method-independent cross-check on the existing eggNOG/Pfam annotations, with
-  domain coordinates and member-DB evidence on each edge.
+  domain coordinates and member-DB evidence on each edge, and a curated
+  description on every entry node (searchable full-text).
+- **NCBIfam families — a new ontology.** Genes carry direct hits from NCBI's
+  curated prokaryotic family HMMs (4,957 `NcbifamFamily` nodes, 67K edges,
+  47K genes): function-precise identity ("catalase-peroxidase katG", not just
+  "peroxidase domain"), comparable across all 42 strains on one library
+  version. The katG Black-Queen check works at family level now: present in
+  every Alteromonas, absent from every Prochlorococcus. NCBIfam product names
+  and HAMAP descriptions also backfill gene naming where UniProt (which is
+  removing most of our strains) goes dark.
 - **InterPro now enriches gene function, with provenance.** InterPro domain/
   family calls feed each gene's GO, EC, CAZy and Pfam annotations (thousands of
   genes gain a first functional term), and every GO/EC/Pfam/CAZy edge now says
@@ -73,9 +82,39 @@ tag with nothing logged.
   cell-free supernatant versus the matching whole-cell lysate, for the ancestral
   strain and two lineages evolved under elevated pCO₂. Ask which EZ55 proteins
   are exuded, and whether that set shifted with pCO₂ adaptation.
+- **Proteases and their inhibitors are now classified.** Every strain's proteome
+  was scanned against MEROPS, the authoritative peptidase classification: ask
+  "which subtilisin-family (S08) peptidases does this Alteromonas carry?", count
+  an organism's proteases honestly, or join with the signal-peptide and
+  localization layers for secreted exoproteases. Each call says up front whether
+  it is a real peptidase, a protease *inhibitor*, or a catalytically dead
+  look-alike (`call_class`), so dead homologs never inflate protease counts.
 
 ### Breaking
 
+- **`Gene_has_interpro_entry` no longer carries `score`.** Member-DB scores are
+  incomparable scales (HMMER bits vs HAMAP/PROSITE profile units), so the old
+  max-across-libraries value was meaningless whenever two libraries were
+  involved. The edge now carries `evalue` (best/min, nullable) + new
+  `evalue_library` (which member DB produced it); cross-library confidence is
+  `size(libraries)` / `match_count`, by counting not arithmetic.
+  `Gene_has_ncbifam_family` (single library, homogeneous HMMER scale) keeps
+  both `evalue` and `score`.
+- **`annotation_state` semantics tightened.** The quality source buckets grew
+  8 → 9 (`ncbifam` added; deliberately NO `interpro` bucket — it is a conduit
+  routing evidence into the go/ec/pfam/cazy buckets, and counting it would
+  double-count the same HMM hit). `has_any_edge` now includes
+  `Gene_has_interpro_entry` + `Gene_has_ncbifam_family`, so 420 genes whose
+  only annotation was an InterPro/NCBIfam edge moved `no_evidence` →
+  `catch_all_only` (they were misread before); ~184 more climbed into
+  informative states via the new bucket. Whole-KG: `no_evidence` 12,481 →
+  12,061, `catch_all_only` 5,752 → 5,988.
+- **`<strain>.interproscan.calls.json` format changed completely** (faceted:
+  per-member-DB `libraries` facets + `interpro_entries` rollups + attributed
+  `go_terms`; no `matches[]` list, no pathways) and the per-strain
+  `entry_xrefs.json` sidecars were **deleted** (the central
+  `interpro_reference.json` replaces them). Any external consumer of the old
+  artifact shape must migrate.
 - **`metabolite_count` is now the catalysis arm only** on `Gene`, `Metabolite`
   (`gene_count`) and `OrganismTaxon`. It previously unioned catalysis with
   transport, which mixed a p90-of-11 signal with a p90-of-554 one; 23,137 genes
@@ -152,6 +191,22 @@ tag with nothing logged.
 
 ### Added
 
+- **MEROPS peptidase ontology** (merops-diamond Phase 2; design
+  `docs/superpowers/specs/2026-08-17-merops-kg-integration-design.md`, release
+  notes `docs/kg-changes/merops-extension.md`). 155 `MeropsFamily` nodes
+  (clan → family → subfamily, observed-only; ids `merops.clan:SC` /
+  `merops.family:S14`; catalytic type as full words, inhibitor families typed
+  `family_type='inhibitor'`) + ~4.2K scored `Gene_has_merops_family` edges
+  (`call_class` peptidase|inhibitor|nonpeptidase_homolog, tcdb-parity `tier`,
+  `confidence_score`, alignment stats, `best_hit_id`/`best_hit_kind`) + 108
+  `Merops_family_is_a_merops_family` edges. New `merops_diamond` merge source
+  (`merops_ids`, 9th DataSource node), committed
+  `cache/data/merops/merops_reference.json` (prepare_data step 9 sub-builder),
+  post-import rollups (`gene_count`/`peptidase_gene_count`/`organism_count`/
+  `member_count`), Gene routing `merops_family_count` + `merops_classes`,
+  tier-gated `annotation_types`/`informative_annotation_types` += `merops`
+  (no annotation_quality bucket). Indexes + `meropsFamilyFullText`.
+
 - **InterPro two-layer integration** (design
   `docs/superpowers/specs/2026-08-10-interpro-two-layer-integration-design.md`).
   - **Layer B** — InterPro entry xrefs propagate into `go_terms` (+45K),
@@ -172,22 +227,75 @@ tag with nothing logged.
     annotation** — never assign gene function from it.
   - Reference cache (step 9) gains sparse `ec_numbers`/`cazy_ids` per entry.
   - See `docs/kg-changes/interpro-two-layer.md`.
-- **InterProScan InterPro-entry ontology** (`/integrate-a-tool` Phase 2).
-  `InterproEntry` nodes (~12,999; `interpro:IPR*`) with `interpro_type` +
-  is-a `level`; scored `Gene_has_interpro_entry` edges (~397K; 102,895 genes,
-  ~85%) carrying domain envelope + best e-value/score + member-DB `libraries`;
-  `Interpro_entry_is_a_interpro_entry` hierarchy (~1,569); `Pfam_in_interpro_entry`
-  bridge (~5,236) linking the eggNOG Pfam layer to InterPro (a link, not a merge).
+- **InterProScan InterPro-entry ontology** (`/integrate-a-tool` Phase 2, then
+  rebuilt by the multi-ontology redesign — see below). `InterproEntry` nodes
+  (12,999; `interpro:IPR*`) with `interpro_type`, is-a `level`, and sparse
+  curated `description` (400-char abstract; in `interproEntryFullText`);
+  `Gene_has_interpro_entry` edges (397,342; 102,895 genes, ~85%) carrying
+  domain envelope + best e-value with `evalue_library` attribution + member-DB
+  `libraries` + `match_count` (no `score` — see Breaking);
+  `Interpro_entry_is_a_interpro_entry` hierarchy; `Pfam_in_interpro_entry`
+  bridge linking the eggNOG Pfam layer to InterPro (a link, not a merge).
   Post-import `gene_count`/`organism_count`/`member_count`/`is_promiscuous`;
   scalar + full-text indexes. `Gene.annotation_types` gains `'interpro'` +
   `Gene.interpro_entry_count`. **ORA over InterPro must stratify by
-  `(interpro_type, level)`** (type primary). New `prepare_data` **step 9**
-  (`build_interpro_reference.py`) + committed `interpro_reference.json`; 7th
-  `DataSource` node (`interproscan`). No e-value cutoff (evidence-only). GO/pathway
-  xrefs deferred (empty in current artifacts). See
-  `docs/kg-changes/interproscan-extension.md`.
+  `(interpro_type, level)`** (type primary). `prepare_data` **step 9**
+  (central references, ordered before the merge) + committed
+  `interpro_reference.json`; `interproscan` `DataSource` node. No e-value
+  cutoff (evidence-only). See `docs/kg-changes/interpro-multi-ontology.md`.
+- **NCBIfam family ontology** (multi-ontology redesign,
+  `docs/superpowers/specs/2026-08-17-interpro-multi-ontology-redesign-design.md`).
+  4,957 observed-only `NcbifamFamily` nodes (2,204 TIGR\* + 2,753 NF\*; flat —
+  no hierarchy exists in the data; `family_type` is the specificity label,
+  71% `equivalog`) with `name`/`gene_symbol`/`description` from the new
+  committed `ncbifam_reference.json` (`hmm_PGAP.tsv`, prepare_data step 9).
+  67,459 `Gene_has_ncbifam_family` edges (direct HMM hits only; `evalue` +
+  `score`, single homogeneous scale) + 2,630 `Ncbifam_family_in_interpro_entry`
+  bridges (double-sided dangling guard). Node IDs `ncbifam_TIGR*`/`ncbifam_NF*`
+  (underscore — not a bioregistry prefix). Post-import
+  `gene_count`/`organism_count`, `Gene.ncbifam_family_count`,
+  `annotation_types` + informative buckets gain `'ncbifam'`,
+  `is_uninformative` on 195 unknown-function families (126 via the typed
+  `hypoth_equivalog` rule — a new third rule kind in
+  `config/uninformative_terms.yaml` — + 69 via name patterns), 3 scalar
+  indexes + `ncbifamFamilyFullText`.
+- **Naming recovery from local scans.** `[ncbifam]`/`[hamap]` tokens join
+  `alternate_functional_descriptions` (skipped when they merely echo the
+  product — NCBI products are themselves PGAP-derived from NCBIfam), and
+  NCBIfam `gene_symbol` fills `gene_name` as a lowest-priority fallback
+  (never overwrites; `gene_name_source: ncbifam`). Compensates for UniProt
+  removing most project strains from its database.
+- **Calls↔merge consistency guard** (`tests/test_interproscan_consistency.py`):
+  per-strain exact set-equality between the merged seeds
+  (`interpro_entries`, `ncbifam_ids`) and the calls.json facets — a
+  re-normalize without re-running the step-2 merge now fails loudly instead
+  of silently skewing. Plus a static 9-bucket gate
+  (`tests/test_annotation_quality_buckets.py`) pinning the bucket list and
+  `.cypher`/`.sh` agreement (the bucket-count test CLAUDE.md referenced but
+  which never existed).
 
 ### Changed
+
+- **Faceted InterProScan artifacts.** All 42 strains' calls.json re-normalized
+  (from cached raw output, no re-scan) to the multi-ontology format: sparse
+  per-member-DB `libraries` facets (all 17 DBs, `ipr: null` preserved for
+  non-integrated hits), per-protein `interpro_entries` rollups (min-evalue +
+  `evalue_library`; count-don't-combine — no cross-library score), `go_terms`
+  with donating-entry attribution, no pathways (Reactome/MetaCyc dropped from
+  per-strain files; MetaCyc parks in the central reference). New
+  `interproscan-run --normalize` re-parse mode (NORMALIZED/NO_RAW/FAILED,
+  batch-safe).
+- **GO/EC/CAZy gates re-implemented donor-attributed** in the step-2 merge:
+  a GO transfers iff ≥1 donating entry is FAMILY/DOMAIN (evidence
+  `family_inferred`/`domain_inferred`); EC stays single-EC-FAMILY-only; the
+  gates now read the artifact's attribution instead of re-deriving.
+- **InterPro reference descriptions ship observed-only** (full corpus would be
+  27.1 MB > the 25 MB gate): descriptions cover the 12,999 observed entries +
+  ancestors. Corpus-coupling consequence: onboarding a strain ⇒ re-run
+  prepare_data step 9, else new entries fail-soft to missing descriptions.
+- **prepare_data step 9 = central references** (InterPro + NCBIfam builders)
+  and the default step order is now dependency-ordered (`0 9 1 2 …`) — the
+  references must exist before the step-2 merge that consumes them.
 
 ### Fixed
 

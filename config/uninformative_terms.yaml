@@ -50,6 +50,26 @@ kegg_term:
   name_patterns:
     - '^K\d+;\s+uncharacterized protein\b'
 
+interpro_entry:
+  # Mirrored in post-import Cypher F1.1 (name-pattern rule, KEGG-KO precedent).
+  name_patterns:
+    - '^Protein of unknown function'
+    - '^Domain of unknown function'
+    - '^Uncharacterised protein family'
+    - '^Uncharacterized protein family'
+
+ncbifam:
+  # THIRD RULE KIND (spec 2026-08-17 §5.5): property-valued — flags by
+  # family_type, not id/name. hypoth_equivalog = "conserved family of unknown
+  # function" (126 observed nodes, ~2.5%). Name-pattern fallback included.
+  family_types:
+    - hypoth_equivalog
+    - hypoth_equivalog_domain
+  name_patterns:
+    - '(?i)hypothetical'
+    - '(?i)uncharacterized'
+    - '\bDUF\d'
+
 # ec_number: section omitted — every EC is functionally specific.
 # brite_category: section omitted — every BRITE entry sits inside a
 #   class-bearing tree (Transporters, Peptidases, Two-component, etc.);

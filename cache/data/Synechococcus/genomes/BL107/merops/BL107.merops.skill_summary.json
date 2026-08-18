@@ -1,0 +1,42 @@
+{
+  "strain": "BL107",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2419,
+  "wallclock_s": 0.5,
+  "raw_hit_lines": 717,
+  "parse_failures": 0,
+  "proteins_with_hits": 72,
+  "proteins_with_call": 72,
+  "total_candidates": 74,
+  "candidates_per_protein_distribution": {
+    "1": 70,
+    "2": 2
+  },
+  "tier_distribution": {
+    "3": 69,
+    "2": 5
+  },
+  "consensus_agreement_distribution": {
+    "id": 13,
+    "subfamily": 12,
+    "family": 49
+  },
+  "catalytic_type_distribution": {
+    "C": 14,
+    "S": 29,
+    "M": 25,
+    "T": 2,
+    "U": 1,
+    "A": 2,
+    "inhibitor": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 73,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "putative": 20,
+    "holotype": 44,
+    "nonpeptidase_homolog": 10
+  }
+}

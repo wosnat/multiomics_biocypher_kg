@@ -1,0 +1,43 @@
+{
+  "strain": "AltDE",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 3790,
+  "wallclock_s": 0.6,
+  "raw_hit_lines": 1390,
+  "parse_failures": 0,
+  "proteins_with_hits": 136,
+  "proteins_with_call": 136,
+  "total_candidates": 137,
+  "candidates_per_protein_distribution": {
+    "1": 135,
+    "2": 1
+  },
+  "tier_distribution": {
+    "3": 124,
+    "2": 13
+  },
+  "consensus_agreement_distribution": {
+    "id": 21,
+    "subfamily": 25,
+    "family": 91
+  },
+  "catalytic_type_distribution": {
+    "C": 18,
+    "M": 49,
+    "S": 54,
+    "A": 4,
+    "T": 6,
+    "N": 2,
+    "U": 2,
+    "inhibitor": 2
+  },
+  "entry_type_distribution": {
+    "peptidase": 135,
+    "inhibitor": 2
+  },
+  "best_hit_kind_distribution": {
+    "nonpeptidase_homolog": 31,
+    "holotype": 84,
+    "putative": 22
+  }
+}

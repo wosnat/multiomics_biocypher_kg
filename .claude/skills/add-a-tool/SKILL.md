@@ -37,9 +37,10 @@ Splitting per-strain prediction from KG integration is intentional:
 2. **Wallclock.** Tool runs are slow (hours per batch). Decoupling lets the artifacts persist across many Phase-2 schema iterations without re-running.
 3. **Cache locality.** Outputs live in `<data_dir>/<tool>/` next to `protein.faa` — same place every adapter and Phase-2 integration will look.
 
-Phase 2 (deferred) integrates the calls.json into either
-`gene_annotations_merged.json` (`prepare_data.sh` step 2 reads it) or a
-dedicated KG adapter — separate design spec.
+Phase 2 (deferred) integrates the calls.json into the KG — **use the
+[`/integrate-a-tool`](../integrate-a-tool/SKILL.md) skill**, which routes the
+tool through the gene-annotation merge (`prepare_data.sh` step 2) and then an
+ontology-track or gene-property-track adapter, with its own design spec.
 
 ## Before you start
 

@@ -1,0 +1,42 @@
+{
+  "strain": "EZ55",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 4096,
+  "wallclock_s": 0.6,
+  "raw_hit_lines": 1639,
+  "parse_failures": 0,
+  "proteins_with_hits": 160,
+  "proteins_with_call": 160,
+  "total_candidates": 160,
+  "candidates_per_protein_distribution": {
+    "1": 160
+  },
+  "tier_distribution": {
+    "3": 147,
+    "2": 13
+  },
+  "consensus_agreement_distribution": {
+    "id": 23,
+    "subfamily": 34,
+    "family": 103
+  },
+  "catalytic_type_distribution": {
+    "C": 20,
+    "M": 59,
+    "S": 65,
+    "T": 6,
+    "inhibitor": 2,
+    "A": 5,
+    "N": 2,
+    "U": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 158,
+    "inhibitor": 2
+  },
+  "best_hit_kind_distribution": {
+    "nonpeptidase_homolog": 34,
+    "holotype": 99,
+    "putative": 27
+  }
+}

@@ -1,5 +1,11 @@
 # InterProScan InterPro entries (`InterproEntry` nodes)
 
+> **SUPERSEDED (2026-08-17)** by the multi-ontology redesign — see
+> [`docs/kg-changes/interpro-multi-ontology.md`](interpro-multi-ontology.md). This document describes the
+> PREVIOUS integration (`Gene_has_interpro_entry` still carried a synthesized `score`; NCBIfam was folded into
+> InterPro rather than split into its own `NcbifamFamily` ontology; `calls.json` used the old flat shape). Kept
+> for history.
+
 **Date:** 2026-07-26
 **Spec:** [`docs/superpowers/specs/2026-07-26-interproscan-kg-integration-design.md`](../superpowers/specs/2026-07-26-interproscan-kg-integration-design.md)
 **Track:** 3A ontology · **hierarchical** · **scored** edge · **functional** (what the gene does)

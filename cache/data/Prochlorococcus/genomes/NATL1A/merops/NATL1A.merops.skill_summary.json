@@ -1,0 +1,39 @@
+{
+  "strain": "NATL1A",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2063,
+  "wallclock_s": 0.5,
+  "raw_hit_lines": 630,
+  "parse_failures": 0,
+  "proteins_with_hits": 61,
+  "proteins_with_call": 61,
+  "total_candidates": 63,
+  "candidates_per_protein_distribution": {
+    "1": 59,
+    "2": 2
+  },
+  "tier_distribution": {
+    "3": 58,
+    "2": 5
+  },
+  "consensus_agreement_distribution": {
+    "id": 11,
+    "subfamily": 12,
+    "family": 40
+  },
+  "catalytic_type_distribution": {
+    "S": 25,
+    "C": 13,
+    "T": 1,
+    "M": 23,
+    "A": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 63
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 32,
+    "putative": 18,
+    "nonpeptidase_homolog": 13
+  }
+}

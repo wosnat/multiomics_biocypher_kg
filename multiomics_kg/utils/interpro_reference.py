@@ -46,20 +46,25 @@ reference release is equivalent to, and ~27 wallclock-hours cheaper than, a
 42-strain re-scan.
 
 Combined result: ``{IPRxxxxxx: {"name", "type", "parent", "level"[, "go_terms"]
-[, "pathways"][, "ec_numbers"][, "cazy_ids"]}}`` — ``name``/``type`` from
-entry.list (authoritative, untruncated), ``parent``/``level`` from the tree
-(``None``/``0`` when the entry is not in the tree). ``go_terms``, ``pathways``,
-``ec_numbers`` and ``cazy_ids`` are all **sparse**: the key is absent rather than
-an empty list when the entry has none, which keeps the committed JSON small (only
-~27% of entries carry GO, ~39% of *observed* entries carry EC, far fewer CAZy).
+[, "pathways"][, "ec_numbers"][, "cazy_ids"][, "description"]}}`` — ``name``/
+``type`` from entry.list (authoritative, untruncated), ``parent``/``level``
+from the tree (``None``/``0`` when the entry is not in the tree).
+``go_terms``, ``pathways``, ``ec_numbers``, ``cazy_ids`` and ``description``
+are all **sparse**: the key is absent rather than an empty list/string when
+the entry has none, which keeps the committed JSON small (only ~27% of
+entries carry GO, ~39% of *observed* entries carry EC, far fewer CAZy).
 ``ec_numbers``/``cazy_ids`` are raw InterPro tokens; normalization is the
-consumer's job.
+consumer's job. ``description`` is the first paragraph of the entry's
+``<abstract>`` (plain text, tags stripped, capped to 400 chars) — see
+:func:`clean_abstract` / :func:`parse_entry_descriptions`, also parsed from
+``interpro.xml`` in the same streaming pass as the db_xrefs.
 
 See ``docs/superpowers/specs/2026-07-26-interproscan-kg-integration-design.md``.
 """
 
 from __future__ import annotations
 
+import html
 import re
 from collections.abc import Iterable
 
@@ -86,6 +91,24 @@ _IPR2GO_RE = re.compile(r"^InterPro:(?P<acc>IPR\d{6})\s.*?;\s*(?P<go>GO:\d{7})\s
 _XML_ENTRY_OPEN_RE = re.compile(r'<interpro\s+id="(IPR\d{6})"')
 _XML_ENTRY_CLOSE = "</interpro>"
 _XML_DB_XREF_RE = re.compile(r'<db_xref[^>]*\bdb="([A-Z]+)"[^>]*\bdbkey="([^"]+)"')
+_XML_ABSTRACT_OPEN = "<abstract"
+_XML_ABSTRACT_CLOSE = "</abstract>"
+
+# clean_abstract() building blocks. Real InterPro abstracts pretty-print each
+# citation as `[` <newline> `<cite idref="PUB..."/>` <newline> `]` (one or more
+# <cite> tags, comma-separated) — after tag stripping the brackets are empty
+# and must be swept up too. A handful of entries additionally carry a literal
+# (non-tag) citation marker left over from InterPro's authoring tooling, in
+# several shapes observed in the real release: `[cite:]`, `[[cite10944213]]`
+# (double-bracket, digits, no colon), and `[[cite21901419]` (mismatched
+# bracket count — one open, one close, but two open in the source). The
+# `\[{1,2}...\]{1,2}` bracket-count tolerance covers all of these without
+# over-matching unrelated single/double square brackets that don't say "cite".
+_TAG_RE = re.compile(r"<[^>]+>")
+_CITE_MARKER_RE = re.compile(r"\[{1,2}cite:?\d*\]{1,2}", re.IGNORECASE)
+_EMPTY_BRACKET_RE = re.compile(r"\[\s*(?:,\s*)*\]")
+_WHITESPACE_RE = re.compile(r"\s+")
+_SPACE_BEFORE_PUNCT_RE = re.compile(r"\s+([.,;:)])")
 
 # InterPro's uppercase `db` token → the `databaseName` casing InterProScan writes
 # into calls.json, so both artifacts speak one vocabulary (`MetaCyc:PWY-1042`).
@@ -227,6 +250,65 @@ def parse_pathway_xrefs(
     return out
 
 
+def clean_abstract(html_text: str, cap: int = 400) -> str:
+    """First paragraph of an InterPro entry ``<abstract>``, plain text, capped.
+
+    Takes the text up to the first ``</p>`` (or the whole string if there is
+    none), strips every XML/HTML tag (``<p>``, ``<i>``, ``<sub>``,
+    ``<cite idref="..."/>`` …), unescapes HTML entities, sweeps up the empty
+    ``[ ]``/``[ , ]`` citation brackets left behind once ``<cite>`` tags are
+    removed plus the rare literal (non-tag) citation markers InterPro's
+    authoring tooling occasionally leaves in the plain text — ``[cite:]``,
+    ``[[cite10944213]]`` (double-bracket, digits, no colon), and mismatched
+    bracket counts like ``[[cite21901419]`` — collapses whitespace, tidies
+    stray whitespace before punctuation, and truncates to *cap* characters.
+    """
+    text = html_text.split("</p>", 1)[0]
+    text = _TAG_RE.sub("", text)
+    text = html.unescape(text)
+    text = _CITE_MARKER_RE.sub("", text)
+    text = _EMPTY_BRACKET_RE.sub("", text)
+    text = _WHITESPACE_RE.sub(" ", text).strip()
+    text = _SPACE_BEFORE_PUNCT_RE.sub(r"\1", text)
+    return text[:cap]
+
+
+def parse_entry_descriptions(lines: Iterable[str]) -> dict[str, str]:
+    """Stream ``interpro.xml`` lines → ``{IPRxxxxxx: description}``.
+
+    Captures the first ``<abstract>`` block per entry (attributed the same
+    way :func:`parse_entry_db_xrefs` attributes ``<db_xref>`` elements — to
+    the most recently opened ``<interpro id="…">``), stops accumulating as
+    soon as the first ``</p>`` (or ``</abstract>`` for a paragraph-less
+    abstract) is seen, and runs :func:`clean_abstract` over the accumulated
+    raw markup. Entries with no ``<abstract>`` or an empty one are omitted —
+    sparse, matching ``go_terms``/``pathways``/``ec_numbers``/``cazy_ids``.
+    """
+    out: dict[str, str] = {}
+    current: str | None = None
+    in_abstract = False
+    buf: list[str] = []
+    for line in lines:
+        m = _XML_ENTRY_OPEN_RE.search(line)
+        if m:
+            current = m.group(1)
+            in_abstract = False
+            buf = []
+        if current is not None and current not in out:
+            if not in_abstract and _XML_ABSTRACT_OPEN in line:
+                in_abstract = True
+            if in_abstract:
+                buf.append(line)
+                if "</p>" in line or _XML_ABSTRACT_CLOSE in line:
+                    desc = clean_abstract("".join(buf))
+                    if desc:
+                        out[current] = desc
+                    in_abstract = False
+        if _XML_ENTRY_CLOSE in line:
+            current = None
+    return out
+
+
 def build_reference(
     entry_list_text: str,
     tree_text: str,
@@ -234,23 +316,28 @@ def build_reference(
     pathway_map: dict[str, list[str]] | None = None,
     ec_map: dict[str, list[str]] | None = None,
     cazy_map: dict[str, list[str]] | None = None,
+    description_map: dict[str, str] | None = None,
 ) -> dict[str, dict]:
     """Combine the release files into the committed reference dict.
 
     ``{IPRxxxxxx: {"name", "type", "parent", "level"[, "go_terms"][, "pathways"]
-    [, "ec_numbers"][, "cazy_ids"]}}`` — name/type from entry.list; parent/level
-    from the tree (``None``/``0`` when not in the tree); ``go_terms`` from *go_map*
-    (``interpro2go``); ``pathways`` / ``ec_numbers`` / ``cazy_ids`` from the
-    ``interpro.xml`` db_xrefs (*pathway_map* / *ec_map* / *cazy_map*).
+    [, "ec_numbers"][, "cazy_ids"][, "description"]}}`` — name/type from
+    entry.list; parent/level from the tree (``None``/``0`` when not in the
+    tree); ``go_terms`` from *go_map* (``interpro2go``); ``pathways`` /
+    ``ec_numbers`` / ``cazy_ids`` / ``description`` from the ``interpro.xml``
+    stream (*pathway_map* / *ec_map* / *cazy_map* / *description_map*).
 
     ``ec_numbers`` / ``cazy_ids`` are stored **raw** (``1.1.1.1`` / ``GH13``) —
     ``normalize_ec`` and bare-3-level EC normalization are applied by the
     consumer (Phase-2 gene-annotation enrichment), not here, so the reference
-    stays a faithful copy of InterPro.
+    stays a faithful copy of InterPro. ``description`` is the entry's first
+    abstract paragraph, plain text, capped to 400 chars (see
+    :func:`clean_abstract` / :func:`parse_entry_descriptions`).
 
-    All four xref fields are **sparse** — the key is omitted entirely for entries
-    with none, rather than carrying an empty list. Consumers must use
-    ``meta.get("ec_numbers", [])``.
+    All five xref/description fields are **sparse** — the key is omitted
+    entirely for entries with none, rather than carrying an empty
+    list/string. Consumers must use ``meta.get("ec_numbers", [])`` /
+    ``meta.get("description", "")``.
 
     Entries present only in the tree (should not happen, but guarded) get an
     empty name/type.
@@ -261,6 +348,7 @@ def build_reference(
     pathway_map = pathway_map or {}
     ec_map = ec_map or {}
     cazy_map = cazy_map or {}
+    description_map = description_map or {}
 
     ref: dict[str, dict] = {}
     for acc, meta in entries.items():
@@ -292,4 +380,7 @@ def build_reference(
     for acc, czs in cazy_map.items():
         if acc in ref and czs:
             ref[acc]["cazy_ids"] = sorted(set(czs))
+    for acc, desc in description_map.items():
+        if acc in ref and desc:
+            ref[acc]["description"] = desc
     return ref

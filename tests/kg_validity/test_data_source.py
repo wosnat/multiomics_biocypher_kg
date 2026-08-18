@@ -5,9 +5,9 @@ import pytest
 pytestmark = pytest.mark.kg
 
 
-def test_eight_data_source_nodes(run_query):
-    """Deployment has exactly 8 DataSource nodes (incl. psortb + signalp +
-    interproscan + tcdb_diamond, Phase-2).
+def test_nine_data_source_nodes(run_query):
+    """Deployment has exactly 9 DataSource nodes (incl. psortb + signalp +
+    interproscan + tcdb_diamond + merops_diamond, Phase-2).
 
     BioCypher prepends the `data_source:` CURIE prefix per schema_config.
     """
@@ -17,12 +17,20 @@ def test_eight_data_source_nodes(run_query):
         "data_source:cyanorak",
         "data_source:eggnog",
         "data_source:interproscan",
+        "data_source:merops_diamond",
         "data_source:ncbi",
         "data_source:psortb",
         "data_source:signalp",
         "data_source:tcdb_diamond",
         "data_source:uniprot",
     ]
+
+
+def test_merops_diamond_provenance_is_tool_run(run_query):
+    result = run_query("""
+        MATCH (d:DataSource {id: 'data_source:merops_diamond'}) RETURN d.provenance AS p
+    """)
+    assert result and result[0]["p"] == "tool_run"
 
 
 def test_interproscan_provenance_is_tool_run(run_query):
