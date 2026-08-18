@@ -51,6 +51,27 @@ tag with nothing logged.
 
 ### Highlights
 
+- **TCDB node names (T6).** 916 of the 1,515 `TcdbFamily` nodes rendered as
+  their bare TC id — 60% of the transporter ontology was reachable only by
+  exact id. Names are now scraped from tcdb.org into a committed
+  `cache/data/tcdb/tcdb_names.json` (browse.php + one `result.php` page per
+  kept family; 351 families, 0 failures) and folded in by step 6. Unnamed
+  drops **916 → 487**, all genuinely unnamed upstream (482 subfamilies TCDB
+  never named, 2 specificities, 3 retired families) — those keep the bare id
+  by design (`t.name = t.tcdb_id` is the fallback marker). `tc_specificity`
+  nodes gain a sparse 400-char `description` (284 nodes; `name` is the
+  citation-stripped first sentence, 150-char capped); `tcdbFamilyFullText`
+  now covers `name, tcdb_id, superfamily, description`, so "sugar porter" /
+  "ammonia" searches reach transporter nodes for the first time. Two class
+  names were wrong vs upstream and are fixed (`Channels/Pores`, `Accessory
+  Factors Involved in Transport`); the hardcoded `_TC_CLASS_NAMES` table is
+  deleted. New standalone scraper
+  `multiomics_kg/download/scrape_tcdb_names.py` (resumable, 2.5 s cadence,
+  scoped to kept families); step 6 warns with a top-up command when a strain
+  onboarding introduces families the scrape hasn't covered. See
+  `docs/kg-changes/tcdb-two-source-upgrade.md` ("Node names") and
+  `docs/superpowers/specs/2026-08-12-tcdb-node-names-design.md`.
+
 - **InterPro domains.** Every gene now carries direct InterProScan domain/family
   calls: ask "which InterPro entries does gene X have?", "which genes carry the
   RuBisCO large-subunit family?", or filter genes by protein domain — a

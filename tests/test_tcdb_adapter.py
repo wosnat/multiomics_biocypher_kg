@@ -40,7 +40,8 @@ def cache_root(tmp_path):
         "1.A.1.5": {"name": "", "level": 3, "level_kind": "tc_subfamily",
                     "parent": "1.A.1"},
         "1.A.1.5.2": {"name": "", "level": 4, "level_kind": "tc_specificity",
-                      "parent": "1.A.1.5", "superfamily": "VIC Superfamily"},
+                      "parent": "1.A.1.5", "superfamily": "VIC Superfamily",
+                      "description": "Epsilon leaf curated text with 'quote' and |pipe|."},
     }))
     (tcdb_dir / "tcdb_pruned.json").write_text(json.dumps({
         "kept_tcdb_ids": ["1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2"],
@@ -119,7 +120,7 @@ def test_orchestrator_node_props(cache_root, strain_dir):
     a = _make_orchestrator(cache_root, strain_dir)
     nodes = {n[0]: n for n in a.get_nodes()}
 
-    # Class node: name from _TC_CLASS_NAMES, level 0
+    # Class node: name from the fixture hierarchy (built from tcdb_names.json since T6), level 0
     nid, _label, props = nodes["tcdb:1"]
     assert props["level"] == 0
     assert props["level_kind"] == "tc_class"
@@ -134,6 +135,11 @@ def test_orchestrator_node_props(cache_root, strain_dir):
     assert props["tcdb_id"] == "1.A.1.5.2"
     assert props["name"] == "1.A.1.5.2"  # fallback
     assert props["superfamily"] == "VIC Superfamily"
+    # description: sparse, sanitized (quote → ^, pipe removed)
+    assert props["description"] == "Epsilon leaf curated text with ^quote^ and pipe."
+    # nodes without a description omit the key entirely
+    _nid, _label, props_subfam = nodes["tcdb:1.A.1.5"]
+    assert "description" not in props_subfam
 
 
 def test_orchestrator_drops_gene_edges_for_unpruned_ids(cache_root, strain_dir):

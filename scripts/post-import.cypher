@@ -70,8 +70,11 @@ CREATE INDEX cazy_family_level_kind_idx IF NOT EXISTS FOR (c:CazyFamily) ON (c.l
 CREATE INDEX cazy_family_cazy_id_idx IF NOT EXISTS FOR (c:CazyFamily) ON (c.cazy_id);
 
 // TCDB / CAZy full-text indexes
+// Full-text defs can't be ALTERed — drop + recreate so description is picked up
+// even on reruns against an existing graph (T6 node names).
+DROP INDEX tcdbFamilyFullText IF EXISTS;
 CREATE FULLTEXT INDEX tcdbFamilyFullText IF NOT EXISTS
-    FOR (t:TcdbFamily) ON EACH [t.name, t.tcdb_id, t.superfamily];
+    FOR (t:TcdbFamily) ON EACH [t.name, t.tcdb_id, t.superfamily, t.description];
 CREATE FULLTEXT INDEX cazyFamilyFullText IF NOT EXISTS
     FOR (c:CazyFamily) ON EACH [c.name, c.cazy_id];
 
