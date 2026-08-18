@@ -109,23 +109,37 @@ def test_pfam_bridge_edges_resolve(run_query):
 # ── post-import rollups ───────────────────────────────────────────────────────
 
 def test_rollups_computed(run_query):
-    """gene_count / organism_count / is_promiscuous set on every node post-import."""
+    """gene_count / organism_count set on every node post-import.
+
+    `is_promiscuous` was DELETED (vocabulary-contract cleanup); the breadth
+    predicate is now `n.gene_count >= 1000`, applied at query time by
+    consumers rather than stored. See test_promiscuous_predicate_is_populated
+    below for the surviving check on that predicate.
+    """
     n = run_query("""
         MATCH (e:InterproEntry)
-        WHERE e.gene_count IS NULL OR e.organism_count IS NULL OR e.is_promiscuous IS NULL
+        WHERE e.gene_count IS NULL OR e.organism_count IS NULL
         RETURN count(e) AS n
     """)[0]["n"]
     assert n == 0, f"{n} InterproEntry nodes missing post-import rollups"
 
 
-def test_is_promiscuous_matches_threshold(run_query):
-    """is_promiscuous == (gene_count >= 1000)."""
-    bad = run_query("""
-        MATCH (e:InterproEntry)
-        WHERE e.is_promiscuous <> (coalesce(e.gene_count,0) >= 1000)
+def test_promiscuous_predicate_is_populated(run_query):
+    """`is_promiscuous` (bool) was deleted; the breadth predicate
+    `gene_count >= 1000` must still identify a nonzero, bounded set of
+    ubiquitous entries (e.g. P-loop NTPase) — not everything (vacuous
+    threshold) and not nothing (threshold drifted too high).
+
+    The old test only checked a stored property against the very formula that
+    computed it — meaningless once nothing is stored to cross-check, since
+    recomputing the same predicate inline is tautologically true. This test
+    instead pins the predicate's real-world yield, which IS still a
+    regression-worthy fact."""
+    n = run_query("""
+        MATCH (e:InterproEntry) WHERE coalesce(e.gene_count, 0) >= 1000
         RETURN count(e) AS n
     """)[0]["n"]
-    assert bad == 0
+    assert 1 <= n <= 200, f"promiscuous-predicate entry count {n} outside expected 1-200"
 
 
 def test_gene_count_direct_matches_edges(run_query):

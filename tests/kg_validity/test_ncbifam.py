@@ -108,7 +108,7 @@ def test_kt2440_mfs_domain_inferred_go(run_query):
     """)
     assert rows, "expected a Gene_enables_molecular_function edge to GO:0022857 for WP_010953880.1"
     assert rows[0]["evidence"] in ("domain_inferred", "curated")
-    assert "interpro" in (rows[0]["sources"] or [])
+    assert "interproscan" in (rows[0]["sources"] or [])
 
 
 # ── informativeness (F1.1, ncbifam property-valued rule) ────────────────────
