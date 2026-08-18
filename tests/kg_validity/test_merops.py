@@ -294,3 +294,81 @@ def test_heterotrophs_carry_more_merops_genes_than_pro(run_query):
     mit1002 = by_org.get("Alteromonas macleodii MIT1002", 0)
     assert med4 > 0 and mit1002 > 0
     assert mit1002 > med4 * 2
+
+
+# ── Pfam bridge + pfam_support + cleavage (2026-08-18 follow-up) ─────────────
+
+def test_bridge_edge_count_in_range(run_query):
+    n = run_query("MATCH ()-[r:Merops_family_has_pfam_domain]->() RETURN count(r) AS n")[0]["n"]
+    assert 150 <= n <= 200, f"expected ~183 bridge edges, got {n}"
+
+
+def test_bridge_no_dangling_ends(run_query):
+    n = run_query("""
+        MATCH (a)-[r:Merops_family_has_pfam_domain]->(b)
+        WHERE NOT a:MeropsFamily OR NOT b:Pfam
+        RETURN count(r) AS n
+    """)[0]["n"]
+    assert n == 0
+
+
+def test_bridge_family_level_only_with_support(run_query):
+    n = run_query("""
+        MATCH (m:MeropsFamily)-[r:Merops_family_has_pfam_domain]->()
+        WHERE m.level <> 1 OR coalesce(r.member_id_count, 0) < 1
+        RETURN count(r) AS n
+    """)[0]["n"]
+    assert n == 0
+
+
+def test_s14_bridges_to_clpp_domain(run_query):
+    row = run_query("""
+        MATCH (:MeropsFamily {merops_id: 'S14'})-[:Merops_family_has_pfam_domain]->(p:Pfam)
+        RETURN p.id AS id
+    """)
+    assert [r["id"] for r in row] == ["pfam:PF00574"]
+
+
+def test_pfam_support_vocabulary_and_consistency(run_query):
+    rows = run_query("""
+        MATCH ()-[r:Gene_has_merops_family]->()
+        RETURN DISTINCT r.pfam_support AS v
+    """)
+    assert {r["v"] for r in rows} == {"corroborated", "uncorroborated"}
+    n = run_query("""
+        MATCH (g:Gene)-[r:Gene_has_merops_family]->(m:MeropsFamily)
+        WHERE r.pfam_support = 'corroborated'
+          AND NOT EXISTS {
+            MATCH (g)-[:Gene_has_pfam]->(:Pfam)<-[:Merops_family_has_pfam_domain]-(fam:MeropsFamily)
+            WHERE fam = m OR (m)-[:Merops_family_is_a_merops_family]->(fam)
+          }
+        RETURN count(r) AS n
+    """)[0]["n"]
+    assert n == 0
+
+
+def test_cleavage_properties_sparse_and_sane(run_query):
+    n = run_query("""
+        MATCH (m:MeropsFamily)
+        WHERE (m.cleavage_summary = '' OR m.cleavage_p1_residues = [])
+           OR (m.cleavage_summary IS NOT NULL AND m.level <> 1)
+           OR (m.cleavage_summary IS NOT NULL AND m.known_cleavage_count IS NULL)
+        RETURN count(m) AS n
+    """)[0]["n"]
+    assert n == 0
+    covered = run_query("""
+        MATCH (m:MeropsFamily) WHERE m.cleavage_summary IS NOT NULL
+        RETURN count(m) AS n
+    """)[0]["n"]
+    assert 60 <= covered <= 88
+
+
+def test_s01_cleaves_after_basic_residues(run_query):
+    row = run_query("""
+        MATCH (m:MeropsFamily {merops_id: 'S01'})
+        RETURN m.cleavage_p1_residues AS p1, m.cleavage_summary AS s,
+               m.known_cleavage_count AS n
+    """)
+    assert row and "Lys" in row[0]["p1"] and "Arg" in row[0]["p1"]
+    assert "known cleavages" in row[0]["s"]
+    assert row[0]["n"] > 10000

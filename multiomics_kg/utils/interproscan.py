@@ -21,6 +21,13 @@ an InterPro entry. This module produces three sparse facets per protein:
 No pathway xrefs anywhere — pathways are out of scope for this redesign (see
 ``docs/superpowers/specs/2026-07-22-interproscan-domains-design.md`` and the
 multi-ontology redesign SDD).
+
+This module stores everything in the tool's *native* casing (e.g. member-DB
+names like ``PFAM``, InterPro types like ``FAMILY``). These are InterPro's /
+InterProScan's own controlled vocabulary terms, preserved verbatim end to
+end (parser through adapter through graph) so they stay directly comparable
+to the source — see ``config/controlled_vocabularies.yaml`` for the
+declared value lists.
 """
 
 from __future__ import annotations

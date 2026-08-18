@@ -1,17 +1,28 @@
 # T6 — Naming the unnamed TcdbFamily nodes
 
-**Status: UNBLOCKED — live-site verification complete (2026-08-17). Design not
-settled: answer the open questions in section 5, then implement.**
+**Status: IMPLEMENTED (2026-08-18).** Plan:
+`docs/superpowers/plans/2026-08-18-tcdb-node-names.md`. Scrape ran clean
+(351/351 families, 0 failures); unnamed kept nodes dropped **916 → 487**, all
+genuinely unnamed upstream: 482 subfamilies (bimodal naming, 6d), 2
+specificities, and 3 families (`9.B.99`, `9.A.40`, `1.B.166`) that turned out
+to be retired — absent from BOTH the live families.tsv and browse.php, so 3a's
+"fixes 3 of 3 unnamed kept families" (a Wayback-era measurement) did not hold
+on the live site; the bare-ID fallback (5c) covers them correctly. 284 of 286
+kept specificities carry a 400-char `description`. Remaining external item:
+the two substrate CGIs were still HTTP 500 on 2026-08-17 (6f) — re-probe
+before a full `--refetch-raw`.**
 
 `tcdb.org` served an SDSC "planned maintenance" stub for the whole site on
 2026-08-12, so the original research was verified against **Wayback snapshots**
 only. On **2026-08-17 the site was back online** and every check in section 6
 was run against the live site; findings are recorded inline there. Headlines:
 
-- **The scrape is ~40% cheaper than designed**: `result.php?tc=<any 4-part>`
+- **The scrape is far cheaper than designed**: `result.php?tc=<any 4-part>`
   returns the **entire family** (all subfamily headers + all 5-part system
   names) in one page, so the unit of work is the *family* (≤2,208 requests),
-  not the subfamily (3,550). See 6a/6c.
+  not the subfamily (3,550) — see 6a/6c. The scoped-scrape decision (section
+  4) then cuts it to **~352 requests** (the 351 families carrying kept deep
+  nodes, plus `browse.php`).
 - The 2015 header template survives; the column layout changed (6a).
 - Subfamily naming upstream is **bimodal per family**: big superfamilies are
   100% named, many small families have no subfamily names at all — 5c's
@@ -22,8 +33,8 @@ was run against the live site; findings are recorded inline there. Headlines:
   impossible for those two files, and `/public/` carries no static fallback
   for them.
 
-Resume by answering the open design questions in section 5 (5c is now known to
-matter; 6d quantifies it), then implement.
+Nothing is left to decide — implement per sections 4 and 5, following the
+CLAUDE.md 5-phase workflow (section 7).
 
 ---
 
@@ -229,54 +240,120 @@ A `tc_specificity` node represents a transport system, so this is the wrong
 noun. Keep it only as a documented last-resort fallback for specificity nodes
 the scrape misses.
 
-## 4. Direction agreed so far
+## 4. Direction agreed: SCOPED scrape (decided 2026-08-17)
 
-`browse.php` **plus** the full per-family scrape (option chosen 2026-08-12;
-"per-subfamily" revised to per-family after the 2026-08-17 live check — one
-`result.php` fetch per family covers all its subfamilies and systems, see 3b):
-name every level across the whole hierarchy, delete `_TC_CLASS_NAMES`, fix class
-`6`, and correct the two wrong class names. Two clearly separated fetchers, both
-writing cached TSVs into the gitignored `cache/data/tcdb/raw/`, both gated behind
-`--refetch-raw` so `--force` stays a ~1 min no-network rebuild.
+`browse.php` **plus** a per-family `result.php` scrape **scoped to the kept
+graph**. Two clearly separated fetchers, both writing cached files into the
+gitignored `cache/data/tcdb/raw/`, both gated behind `--refetch-raw` so
+`--force` stays a ~1 min no-network rebuild.
 
-Scoping the scrape to only the ~592 kept families was rejected: it would make
-the committed `tcdb_hierarchy.json` gene-set-dependent, so adding a strain would
-silently reintroduce unnamed nodes until someone re-scraped.
+- **Classes / subclasses / families**: full coverage from the single
+  `browse.php` fetch (it names every one, zero blanks — 3a). Scoping never
+  applied to these levels. Delete `_TC_CLASS_NAMES`, fix class `6`, correct the
+  two wrong class names.
+- **Subfamilies / specificities**: scrape only the families that carry kept
+  deep nodes. Measured against the current `tcdb_pruned.json`: the 596 kept
+  subfamilies + 286 kept specificity nodes fall in **351 distinct families**,
+  so the scrape is **~352 requests total (~6–10 min)** instead of 2,208
+  (~40 min, 0.3–0.7 GB).
+- **Artifact**: scoped names are ~900 strings (~100 KB), so the 5a size
+  dilemma disappears. Recommended layout: one small committed
+  `cache/data/tcdb/tcdb_names.json` holding all scraped names (all levels),
+  consumed by `build_tcdb_hierarchy` at step-6 time — keeps
+  `tcdb_hierarchy.json`'s existing shape untouched. Inlining into
+  `tcdb_hierarchy.json` is acceptable too; minor implementation choice.
 
-Nothing below this line is settled.
+**The gene-set-coupling trade-off, accepted deliberately.** Scoping makes the
+committed names gene-set-dependent: onboarding a new strain can introduce kept
+TC nodes whose family was never scraped. This was originally grounds for
+rejection (2026-08-12), reversed because:
 
-## 5. Open design questions
+1. **Precedent** — `interpro_reference.json`'s `description` field is already
+   observed-only/corpus-coupled for the same size-gate reason, with the
+   documented "re-run step 9 after a new strain lands" implication. Same
+   pattern, same maintenance posture; add-a-strain already loops back through
+   prepare_data.
+2. **Self-healing at trivial cost** — step 6 already computes `kept_tcdb_ids`;
+   extend the `dc76076c` guard to flag kept 4/5-part IDs whose family is
+   absent from the names artifact (loud staleness, never silent), and the
+   top-up fetch for one new strain is typically a handful of family pages.
+3. **Failure mode is the status quo** — an unnamed new node renders its bare
+   TC ID, which is exactly today's behaviour for all 916, until the next
+   `--refetch-raw`.
 
-**5a. Committed-artifact size.** 19,743 specificity names at ~150 chars each adds
-roughly 3 MB to a `tcdb_hierarchy.json` that is currently 4.5 MB — nearly
-doubling a committed, indented, sort-keyed file, for names of which only 286 are
-ever used. Options: inline them anyway; put names in a separate committed
-`tcdb_names.json`; or carry names only for the levels above `tc_specificity` in
-the hierarchy and resolve specificity names at prune time. Decide before writing
-the parser, because it fixes the file layout.
+What is given up: the "complete per upstream release" property of the names
+artifact, and instant naming for new strains onboarded while tcdb.org is down
+(demonstrated risk — names lag until it recovers).
 
-**5b. Shape of a `tc_specificity` name.** The curated text is a full paragraph
-with inline citations. A node `name` feeding a full-text index and an explorer
-label probably wants something short. Options: whole string; first sentence;
-truncate at N chars; or short synthesized `name` plus the full text in a
-separate `description` property. Related: strip `(Author et al., YYYY)` citation
-parentheticals, or keep them?
+## 5. Design questions — ALL RESOLVED
 
-**5c. Fallback when upstream has no name.** Now known to matter (6d): upstream
-subfamily naming is bimodal per family — the big superfamilies are 100% named,
-but many small families carry **no** subfamily names at all, so a real fraction
-of the 596 kept subfamilies will stay nameless after the scrape. Current
-behaviour — render the bare TC ID — stays the default unless something better
-is chosen. A synthesized label such as `"2.A.1.1 (subfamily of The Major
-Facilitator Superfamily (MFS))"` is an option but arguably worse than an honest
-bare ID.
+**5a. Committed-artifact size. — RESOLVED by the scoped scrape (section 4).**
+The original dilemma was 19,743 specificity names (~3 MB) nearly doubling a
+committed 4.5 MB `tcdb_hierarchy.json` for names of which only 286 are ever
+used. Scoped to kept nodes, the artifact is ~900 names ≈ 100 KB; recommended
+layout is a separate committed `tcdb_names.json` (see section 4), with
+inline-in-hierarchy acceptable as a minor variant.
 
-**5d. Scrape hygiene.** Rate limit, retry policy, resume-after-partial-failure,
-and what happens when a single page 404s or the site goes back into maintenance
-mid-run. Given TCDB's demonstrated fragility this needs to be non-fatal and
-resumable, and the guard added in `dc76076c` (step 6 raises if a rebuild comes
-out empty beside a populated committed artifact) is the right precedent to
-extend to the name maps.
+**5b. Shape of a `tc_specificity` name. — RESOLVED (2026-08-18, empirically):
+citation-strip → first sentence → ~150-char word-boundary cap for `name`; full
+cleaned text in `description`.** Tested on 2,230 real system names parsed from
+six live family pages (2.A.1, 3.A.1, 1.A.11, 2.A.6, 3.A.3, 9.B.1):
+
+- Raw names: median 150 chars, p90 747, max 27,415 (some cells are essays).
+  Zero empty names.
+- **First sentence** (after stripping `(Author, YYYY)` citation
+  parentheticals, including nested/multi-ref groups): almost always a
+  complete, self-standing label — *"Glycerol-P:Pi antiporter."*,
+  *"α-Hemolysin exporter."*, *"Eye pigment precursor transporter, White."*
+  Median 68 chars; 15% still exceed 150 (parenthetical-heavy entries), max
+  705 — hence the cap.
+- **First-N-words was tested and REJECTED**: at N=8 it chops mid-phrase and
+  dangles open parentheses (*"…transporter of 560 aas and 12…"*) on anything
+  longer than one sentence.
+- Parser cautions: sentence-splitting must not break on abbreviations
+  (*"E. coli"*, *"et al."*, *"e.g."*, *"2.0 Å"*, single-letter genus
+  initials); tag-stripping must tolerate malformed fragments (one live cell
+  carries a dangling unclosed `<br /`).
+- `description` follows the InterproEntry precedent (400-char-capped there;
+  pick the cap at implementation time — these are ≤27 KB pre-clean).
+
+**5c. Fallback when upstream has no name. — RESOLVED (2026-08-18): keep the
+bare TC ID.** The question is real (6d: naming is bimodal per family — big
+superfamilies 100% named, many small families have **no** subfamily names at
+all, so a fraction of the 596 kept subfamilies stays nameless after the
+scrape). Decision: an honest bare ID beats a synthesized label like
+`"2.A.1.1 (subfamily of The Major Facilitator Superfamily (MFS))"` — the
+parent's name is one `Tcdb_family_is_a_tcdb_family` hop away, and synthesized
+text would pollute the full-text index with the parent's tokens. No
+`name_source` provenance property either: `t.name = t.tcdb_id` already *is*
+the fallback marker (a property restating that predicate is exactly the
+derivable-fact materialization rule R3 warns against), so no
+`controlled_vocabularies.yaml` entry is needed.
+
+**5d. Scrape hygiene. — RESOLVED (2026-08-18): standalone script, slow and
+easy, resumable.** The scraper is a **separate script**, decoupled from step
+6's fast no-network rebuild — code at
+`multiomics_kg/download/scrape_tcdb_names.py` (repo convention: it's
+upstream-reference fetching, sibling to `download_metabolism_reference.py`,
+importable/unit-testable), with its invocation documented in the tcdb skill's
+SKILL.md as the "refresh TCDB names" workflow. Step 6 only *consumes* the
+committed names artifact.
+
+Cadence — deliberately gentler than the server needs, because a rarely-run
+offline script gains nothing from speed:
+
+- Single-threaded, **one request per 2–3 s** (scoped 352 requests ≈ 15–20 min).
+- Polite User-Agent carrying a contact address.
+- Retry with exponential backoff on 5xx/timeouts; after a few consecutive
+  failures **abort and resume later** — never hammer a struggling host (TCDB
+  has demonstrated multi-day maintenance windows).
+- **Fetch and parse are separate stages**: raw HTML pages cached under
+  `cache/data/tcdb/raw/pages/` (gitignored); a re-run skips already-fetched
+  families, and re-parsing never re-fetches. A page that 404s is recorded and
+  skipped, not fatal.
+- The `dc76076c` guard precedent extends to the names artifact: step 6 raises
+  if a rebuild would come out empty beside a populated committed names file,
+  and flags kept TC IDs whose family is missing from it (section 4).
 
 ## 6. Live-site verification — ALL CHECKS RUN 2026-08-17
 
@@ -314,9 +391,10 @@ Answers 5c: a fallback story is genuinely needed.
 
 **6e. Politeness.** No `robots.txt` (404), no stated rate limit
 (Apache/2.4.52 Ubuntu). Observed ~1 s server time per family page, sizes
-22 KB (`9.B.1`) – 1.36 MB (`3.A.1`). At 1 req/s the ≤2,208-request scrape is
-**≈40 min and roughly 0.3–0.7 GB** (replaces the ~400 MB / 1 h per-subfamily
-estimate). Given the site just came out of maintenance, keep 1 req/s + retries.
+22 KB (`9.B.1`) – 1.36 MB (`3.A.1`). At 1 req/s a full-hierarchy scrape would
+be ≈40 min and roughly 0.3–0.7 GB (replaces the ~400 MB / 1 h per-subfamily
+estimate); the scoped scrape (section 4) is **~352 requests, ≈6–10 min**.
+Given the site just came out of maintenance, keep 1 req/s + retries.
 
 **6f. Re-download the four existing TSVs.** **Currently HALF-BLOCKED.** Live
 status 2026-08-17: `families.py` 200 (138 KB) · `acc2tcid.py` 200 (483 KB) ·
@@ -340,7 +418,22 @@ before implementation.
   values. That exact bug was just fixed for UniProt in `c043241d` — do not
   reintroduce it. HTML entities and `<sup>`/`<em>` markup must be unwrapped
   before sanitising.
-- BioCypher mishandles boolean properties; use categorical strings.
+- **The controlled-vocabulary contract (landed on main 2026-08-18, after this
+  spec was written) is binding** — see `docs/kg-changes/vocabulary-contract.md`
+  and `docs/superpowers/specs/2026-08-16-vocabulary-contract-design.md`:
+  - **R5** subsumes the old "BioCypher mishandles booleans" note: no native
+    `bool` properties ever; a two-state fact is a meaningful categorical
+    string (`bool_string`), and a `bool` in `schema_config.yaml` now *fails
+    the vocabulary test suite* rather than just silently misbehaving.
+  - Any **new categorical property** T6 introduces (e.g. a `name_source` /
+    fallback marker out of 5c) must be declared in
+    `config/controlled_vocabularies.yaml` — KG-minted values in lowercase
+    `snake_case` (R1) — or the four-gate vocabulary test fails the build scan.
+  - Scraped TCDB names themselves are free-text `name` properties, not
+    vocabulary values — no declaration needed, R1's "external terms verbatim"
+    spirit applies (keep upstream wording, post-sanitisation).
+  - `TcdbFamily.level_kind` is already a declared closed vocabulary; T6 adds
+    no new values to it.
 - `cache/data/tcdb/tcdb_hierarchy.json` and `tcdb_pruned.json` are **committed**
   artifacts. The `dc76076c` empty-rebuild guard is intentional; extend it.
 - Iteration loop: `bash scripts/prepare_data.sh --steps 6 --force` (~1 min, no
@@ -355,6 +448,9 @@ before implementation.
 - Named nodes at subclass, subfamily and specificity level (source confirmed
   live, 6a — subfamily coverage is bounded by upstream's bimodal naming, 6d);
   `t.name = t.tcdb_id` count drops substantially from 916.
+- The step-6 guard (extended `dc76076c` pattern) flags kept 4/5-part TC IDs
+  whose family is absent from the committed names artifact, so gene-set
+  staleness after a strain onboarding is loud, never silent.
 - Full Docker rebuild with `output/import.report` still empty (zero dangling).
 - `pytest -m "not slow and not kg"` and `pytest -m kg` both green.
 - Names searchable through the `tcdbFamilyFullText` index, verified with a real
@@ -365,9 +461,16 @@ before implementation.
 The explorer has not consumed the current TCDB upgrade and it is unreleased, so
 fold this into the **same** item rather than creating a new one:
 
-- `docs/kg-changes/tcdb-two-source-upgrade.md` — see its §7 for the pattern
+- `docs/kg-changes/tcdb-two-source-upgrade.md` — see its §7 for the pattern.
+  (Note: this doc was restructured by the 2026-08-18 vocabulary-contract merge
+  — `is_promiscuous` deleted, `substrate_depth` values renamed to
+  `most_specific`/`inherited`, scores rescaled — rebase T6's wording on the
+  current version, not on pre-merge quotes.)
 - `CHANGELOG.md` `[Unreleased]`
 - the `TcdbFamily` bullet in `CLAUDE.md`
+- `config/controlled_vocabularies.yaml` — only if T6 adds a categorical
+  property (see sections 5c and 7); plain `name`/`description` strings need no
+  entry
 
 ## 10. Related deferred work
 

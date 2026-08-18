@@ -105,6 +105,25 @@ def _fetch_json_cached(url: str, raw_dir: Path, force: bool = False) -> dict:
     return data
 
 
+def _require_parsed(kind: str, result: dict, text: str) -> None:
+    """Fail loudly when a non-empty KEGG response parses to nothing.
+
+    KEGG has changed the prefixes it serves on these endpoints before (the
+    `/link/pathway/reaction` `rn:` → `map:` switch silently zeroed every
+    reaction→pathway link while every fixture-based test kept passing). A
+    parser that yields nothing from a response full of lines is always a
+    format drift, never a legitimate result — so raise instead of writing a
+    silently-empty cache.
+    """
+    if result or not text.strip():
+        return
+    sample = next((ln for ln in text.splitlines() if ln.strip()), "")
+    raise ValueError(
+        f"KEGG {kind}: response has content but parsed to 0 entries — the "
+        f"upstream format likely changed. First line: {sample!r}"
+    )
+
+
 def _parse_ko_names(text: str) -> dict[str, str]:
     """Parse `list/ko` response into {K#####: name_str}."""
     result: dict[str, str] = {}
@@ -117,6 +136,7 @@ def _parse_ko_names(text: str) -> dict[str, str]:
         ko_id = raw_id.removeprefix("ko:")
         if ko_id.startswith("K"):
             result[ko_id] = name.strip()
+    _require_parsed("ko_names", result, text)
     logger.info(f"Parsed {len(result)} KO names")
     return result
 
@@ -139,6 +159,7 @@ def _parse_pathway_ko_names(text: str) -> dict[str, str]:
         pw_id = raw_id.removeprefix("path:")
         if pw_id.startswith("ko"):
             result[pw_id] = name.strip()
+    _require_parsed("pathway_ko_names", result, text)
     logger.info(f"Parsed {len(result)} pathway names from list/pathway/ko")
     return result
 
@@ -157,6 +178,7 @@ def _parse_ko_to_pathways(text: str) -> dict[str, list[str]]:
         if not ko_id.startswith("K") or not pw_id.startswith("ko"):
             continue
         result.setdefault(ko_id, []).append(pw_id)
+    _require_parsed("ko_to_pathways", result, text)
     logger.info(f"Parsed KO→Pathway links for {len(result)} KOs")
     return result
 
@@ -172,6 +194,7 @@ def _parse_reaction_names(text: str) -> dict[str, str]:
         rxn_id = raw_id.removeprefix("rn:")
         if rxn_id.startswith("R") and rxn_id[1:].isdigit():
             result[rxn_id] = name.strip()
+    _require_parsed("reaction_names", result, text)
     logger.info(f"Parsed {len(result)} reaction names")
     return result
 
@@ -191,6 +214,7 @@ def _parse_compound_names(text: str) -> dict[str, str]:
         if cpd_id.startswith("C") and cpd_id[1:].isdigit():
             first = names.split(";", 1)[0].strip()
             result[cpd_id] = first
+    _require_parsed("compound_names", result, text)
     logger.info(f"Parsed {len(result)} compound names")
     return result
 
@@ -210,7 +234,13 @@ def _parse_reaction_to_compounds(text: str) -> dict[str, list[str]]:
         cpd_id = raw_cpd.removeprefix("cpd:")
         if not (rxn_id.startswith("R") and cpd_id.startswith("C")):
             continue
-        result.setdefault(rxn_id, []).append(cpd_id)
+        # Dedup, order-preserving: KEGG serves ~165 literally duplicated rows
+        # (a compound on both sides, e.g. H+ `C00080`). `Reaction_has_metabolite`
+        # is direction-agnostic by design, so a repeat carries no information.
+        bucket = result.setdefault(rxn_id, [])
+        if cpd_id not in bucket:
+            bucket.append(cpd_id)
+    _require_parsed("reaction_to_compounds", result, text)
     logger.info(f"Parsed compound-reaction links for {len(result)} reactions")
     return result
 
@@ -218,8 +248,12 @@ def _parse_reaction_to_compounds(text: str) -> dict[str, list[str]]:
 def _parse_reaction_to_pathways(text: str) -> dict[str, list[str]]:
     """Parse `/link/pathway/reaction` into {R#####: [ko#####, ...]}.
 
-    KEGG returns rn-prefixed pathway IDs (e.g. `path:rn00010`); we rewrite them
-    to ko-prefixed form so they match existing KeggTerm pathway node IDs.
+    KEGG serves BOTH prefix forms for every link — `path:map00010` *and*
+    `path:rn00010` (verified 2026-08-18: 19,775 of each, an exact pairing).
+    Both are rewritten to ko-prefixed form so they match existing KeggTerm
+    pathway node IDs. Accepting only `rn` silently yielded zero links once KEGG
+    settled on the `map` form; accepting both without deduping stored every
+    pathway twice, so the result lists are deduped below.
     """
     result: dict[str, list[str]] = {}
     for line in text.splitlines():
@@ -231,12 +265,21 @@ def _parse_reaction_to_pathways(text: str) -> dict[str, list[str]]:
         pw_id = raw_pw.removeprefix("path:")
         if not rxn_id.startswith("R"):
             continue
-        # Normalize rn00010 → ko00010 (the form used by existing KeggTerm nodes)
-        if pw_id.startswith("rn"):
+        # Normalize map00010 / rn00010 → ko00010 (the form used by existing
+        # KeggTerm nodes)
+        if pw_id.startswith("map"):
+            pw_id = "ko" + pw_id[3:]
+        elif pw_id.startswith("rn"):
             pw_id = "ko" + pw_id[2:]
         if not pw_id.startswith("ko"):
             continue
-        result.setdefault(rxn_id, []).append(pw_id)
+        # Dedup, order-preserving: KEGG serves BOTH prefix forms for every link
+        # (`path:map00220` *and* `path:rn00220`), and both normalize to the same
+        # `ko` id above — so a plain append stores every pathway twice.
+        bucket = result.setdefault(rxn_id, [])
+        if pw_id not in bucket:
+            bucket.append(pw_id)
+    _require_parsed("reaction_to_pathways", result, text)
     logger.info(f"Parsed reaction-pathway links for {len(result)} reactions")
     return result
 
@@ -262,6 +305,7 @@ def _parse_compound_to_pathways(text: str) -> dict[str, list[str]]:
         if not pw_id.startswith("ko"):
             continue
         result.setdefault(cpd_id, []).append(pw_id)
+    _require_parsed("compound_to_pathways", result, text)
     logger.info(f"Parsed compound-pathway links for {len(result)} compounds")
     return result
 

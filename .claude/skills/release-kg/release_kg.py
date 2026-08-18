@@ -27,7 +27,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
+from typing import Iterable, Optional
 
 # ─── Constants ──────────────────────────────────────────────────────────────
 VERSION_RE = re.compile(r"^\d+\.\d+\.\d+(-(alpha|beta|rc)\.\d+)?$")
@@ -158,6 +158,64 @@ def git_out(*args: str) -> str:
     return subprocess.run(["git", *args], capture_output=True, text=True).stdout.strip()
 
 
+# ─── Unlogged-data preflight check ──────────────────────────────────────────
+# The graph's *content* is part of the release. These are the files that change
+# when a paper/dataset/strain is added, re-wired or corrected — supplementary
+# tables are excluded because they churn on every re-resolve without changing
+# what the KG asserts.
+DATA_PATH_RE = re.compile(
+    r"(?:^|/)(?:paperconfig\.ya?ml|paperconfig_files\.txt"
+    r"|cyanobacteria_genomes\.csv|treatment_organisms\.csv)$"
+)
+
+
+def filter_data_paths(paths: Iterable[str]) -> list[str]:
+    """Paths whose change implies a `### Data` CHANGELOG entry is owed."""
+    return [p for p in paths if DATA_PATH_RE.search(p.strip())]
+
+
+def warn_unlogged_data(changelog_path: Path, version: Optional[str] = None) -> None:
+    """Non-fatal: paperconfigs/registries changed since the last tag, nothing logged.
+
+    Advisory only — a release is never blocked on it, because the check cannot
+    tell a semantic change from a whitespace fix.
+
+    Looks under `[Unreleased]` *and* `[version]`: on `--resume` the CHANGELOG has
+    already been cut, so the operator's `### Data` entries have moved into the
+    version section and `[Unreleased]` is the fresh empty stub. Checking only
+    `[Unreleased]` would warn precisely when they did log the data.
+    """
+    last_tag = git_out("describe", "--tags", "--abbrev=0", "--match", f"{TAG_PREFIX}*")
+    if not last_tag:
+        log("  data log: no prior kg-* tag — skipping unlogged-data check")
+        return
+    # core.quotePath=false: git C-quotes paths with non-ASCII bytes (several
+    # paper dirs are accented, e.g. "Domínguez 2017"), and the wrapping quote
+    # would defeat DATA_PATH_RE's `$` anchor.
+    changed = filter_data_paths(
+        git_out("-c", "core.quotePath=false",
+                "diff", "--name-only", f"{last_tag}..HEAD").splitlines()
+    )
+    if not changed:
+        log(f"  data log: no data changes since {last_tag} ✓")
+        return
+    sections = ["Unreleased"] + ([version] if version else [])
+    for section_name in sections:
+        if extract_preflight_subsection(changelog_path, section_name, "Data"):
+            log(f"  data log: {len(changed)} data file(s) changed since {last_tag}, "
+                f"[{section_name}] ### Data present ✓")
+            return
+    where = "` / `".join(f"[{s}]" for s in sections)
+    log(f"\n  WARNING: {len(changed)} data file(s) changed since {last_tag}, but "
+        f"`{where}` has no `### Data` entries:")
+    for c in changed[:10]:
+        log(f"    - {c}")
+    if len(changed) > 10:
+        log(f"    … and {len(changed) - 10} more")
+    log("  Log the papers/datasets under `## [Unreleased]` → `### Data` before cutting")
+    log("  (see the authoring conventions at the top of CHANGELOG.md). Not fatal.\n")
+
+
 # ─── Phase 1: Preflight ─────────────────────────────────────────────────────
 def phase_preflight(ctx: Context) -> None:
     section("Phase 1: Preflight")
@@ -230,6 +288,8 @@ def phase_preflight(ctx: Context) -> None:
     # not real drift, so it does not flip the release's git_dirty stamp.
     ctx.git_dirty = dirty and not only_changelog_cut
     log(f"  branch: {branch} @ {sha_short} (dirty={ctx.git_dirty}, behind=0)")
+
+    warn_unlogged_data(Path("CHANGELOG.md"), ctx.version)
 
 
 # ─── CHANGELOG cut helper ───────────────────────────────────────────────────
@@ -1147,7 +1207,9 @@ def extract_changelog_fragment(path: Path, version: str) -> str:
 def extract_preflight_subsection(path: Path, version: str, heading: str) -> Optional[str]:
     """Body of `### {heading}` inside `## [{version}]`, or None when absent / empty.
 
-    Stamped onto Schema_info so MCP/explorer clients can render it at preflight.
+    `Highlights` / `Breaking` are stamped onto Schema_info so MCP/explorer clients
+    can render them at preflight. Also reused by `warn_unlogged_data` to test for
+    `### Data`, which is deliberately NOT stamped.
     See CHANGELOG.md "Authoring conventions for preflight subsections".
     """
     if not path.exists():

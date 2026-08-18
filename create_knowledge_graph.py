@@ -26,6 +26,9 @@ from multiomics_kg.adapters.brite_adapter import MultiBriteAdapter
 from multiomics_kg.adapters.metabolism_adapter import MultiMetabolismAdapter
 from multiomics_kg.adapters.tcdb_adapter import MultiTcdbAnnotationAdapter
 from multiomics_kg.adapters.data_source_adapter import DataSourceAdapter
+from multiomics_kg.adapters.controlled_vocabulary_adapter import (
+    ControlledVocabularyAdapter,
+)
 
 
 def configure_logging() -> None:
@@ -87,6 +90,12 @@ def main():
     data_source_adapter = DataSourceAdapter(config_path="config/gene_annotations_config.yaml")
     data_source_adapter.download_data()
     bc.write_nodes(data_source_adapter.get_nodes())
+
+    # ControlledVocabulary nodes — the machine-readable vocabulary contract.
+    # Consumers (MCP/explorer) read these instead of hard-coding value sets.
+    controlled_vocab_adapter = ControlledVocabularyAdapter()
+    controlled_vocab_adapter.download_data()
+    bc.write_nodes(controlled_vocab_adapter.get_nodes())
 
     # CyanorakNcbi adapter MUST run before UniProt: it creates gene_mapping.csv
     # files in each data_dir, which UniProt uses for GENE_TO_PROTEIN edges.
@@ -352,12 +361,15 @@ def main():
         bc.write_edges(ncbifam_edges)
 
     # MEROPS peptidase ontology (hierarchical clan→family→subfamily, scored
-    # edge; observed-only, CAZy pattern). Reads per-strain merops calls.json
-    # for edge evidence + the committed cache/data/merops/merops_reference.json
-    # (prepare_data step 9) for node names/clan descriptions/family typing.
+    # edge; observed-only, CAZy pattern) + Family→Pfam bridge edges + cleavage
+    # node properties. Reads per-strain merops calls.json for edge evidence +
+    # the committed cache/data/merops/merops_reference.json (prepare_data step 10)
+    # for node names/clan descriptions/family typing/pfam_bridge/cleavage.
+    # Pfam node set injected so the bridge can never dangle (TCDB-bridge precedent).
     from multiomics_kg.adapters.merops_adapter import MultiMeropsAnnotationAdapter
     merops_adapter = MultiMeropsAnnotationAdapter(
         genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        pfam_node_ids=pfam_adapter.all_pfam_ids(),
         test_mode=TEST_MODE,
     )
     merops_adapter.download_data(cache=CACHE)
@@ -378,6 +390,27 @@ def main():
         if export_as_csv:
             go_adapter.export_as_csv(path=output_dir_path)
 
+
+    # Post-import (Group 4) stamps this onto Schema_info so kg_release_info can
+    # detect vocabulary drift. Written next to BioCypher's real CSV output
+    # (bc._output_directory) -- NOT --output-dir, which only controls the
+    # optional --go/--ec CSV export and is unrelated to where BioCypher writes
+    # its node/edge CSVs (biocypher-out/<timestamp>/ locally, data/build2neo in
+    # Docker). The post-process container runs the neo4j image and has no
+    # Python, so it cannot compute the hash itself -- it just reads this file.
+    from multiomics_kg.utils.controlled_vocab import vocabularies_hash
+    if not bc._output_directory:
+        raise RuntimeError(
+            "bc._output_directory is not set after the adapters' write_nodes/"
+            "write_edges calls; cannot write controlled_vocabularies.sha256. "
+            "BioCypher populates this as a side effect of the first "
+            "bc.write_nodes() call -- check for a BioCypher API change rather "
+            "than falling back to --output-dir, which is a different, "
+            "unrelated directory."
+        )
+    vocab_hash_path = Path(bc._output_directory) / "controlled_vocabularies.sha256"
+    vocab_hash_path.write_text(vocabularies_hash(controlled_vocab_adapter.entries()))
+    print(f"Wrote vocabulary hash to {vocab_hash_path}")
 
     # Write import call and other post-processing
     bc.write_schema_info(as_node=True)

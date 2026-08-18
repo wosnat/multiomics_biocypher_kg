@@ -474,6 +474,7 @@ Then update the memory / docs trail:
 - If the strain has a quirk worth remembering (dual assembly, RAST/IMG annotation, MarRef proxy, cross-assembly bridging), one-line entry in `memory/known_bugs.md` or under "Common Gene ID Mismatches" in MEMORY.
 - If a follow-up is open (e.g., DEH24→MADE_RS diamond mapping deferred), record it in `plans/<strain>_deploy.md`.
 - Append the per-strain ID format to [references/known_id_formats.md](references/known_id_formats.md).
+- **Log the strain in `CHANGELOG.md`** under `## [Unreleased]` → `### Data` (the subsection sits after `### Breaking`, before `### Added`; create it if absent). One bullet: strain name, assembly accession, taxid, clade/ecotype, which annotation sources it carries (CyanoRak? eggNOG-only?), whether it arrives genome-only or with a DE paper, and the new organism totals. If the strain unlocks a comparison that was impossible before (completing a panel, first member of a genus), add a `### Highlights` bullet too. `kg-0.1.0-alpha.6`'s MIT1327 / MIT1314 entry is the template to copy. On a **re-deploy** of an existing strain, log it only if the graph's assertions changed (new resolutions, corrected IDs) -- a no-op re-resolve needs no entry.
 
 ## Worked examples to copy from
 

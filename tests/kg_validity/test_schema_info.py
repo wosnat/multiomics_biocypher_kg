@@ -36,6 +36,7 @@ STRING_PROPS = [
     "mcp_min_version",
     "deployment_role",
     "release_notes_url",
+    "controlled_vocabularies_hash",
 ]
 
 # Canonical self-declared deployment roles. The KG declares its own role at
@@ -179,3 +180,20 @@ def test_count_matches_live_graph(prop, count_expr, schema_info, run_query):
         f"Schema_info.{prop} = {stamped} but {count_expr} = {live}. "
         "Re-run post-process so the stamp matches the data."
     )
+
+
+def test_controlled_vocabularies_hash_present_and_matches(schema_info):
+    """The stamped hash must match the vocabulary contract the graph was built from.
+
+    Lets kg_release_info detect vocabulary drift rather than the explorer
+    discovering it through a wrong answer.
+    """
+    from multiomics_kg.utils.controlled_vocab import VOCAB, vocabularies_hash
+    key = "controlled_vocabularies_hash"
+    assert key in schema_info, (
+        "Schema_info is missing the vocabulary hash. Post-import Group 4 did "
+        "not find controlled_vocabularies.sha256 under /data/build2neo — check "
+        "that the build stage wrote it (bc._output_directory) and that the "
+        "post-process container's glob matched it."
+    )
+    assert schema_info[key] == vocabularies_hash(VOCAB.entries())

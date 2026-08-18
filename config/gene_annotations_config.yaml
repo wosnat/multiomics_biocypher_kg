@@ -397,7 +397,7 @@ fields:
   go_terms:
     # track_source records a per-token provenance map {GO:xxxx: [source_label, …]}
     # (Option B). source_label is the KG-edge source vocabulary
-    # (ncbi|cyanorak|uniprot|eggnog|interpro); go_component/function/process come
+    # (ncbi|cyanorak|uniprot|eggnog|interproscan); go_component/function/process come
     # from the NCBI GFF, Ontology_term_cyanorak from Cyanorak.
     type: union
     filter: "^GO:"
@@ -542,7 +542,7 @@ fields:
   # `transporter_classification` is the UNION of both, and is what step 6 seeds
   # the TCDB hierarchy prune from and what tcdb_adapter emits Gene_has_tcdb_family
   # edges for. The two per-source fields below preserve WHICH source called each
-  # TC id, so the adapter can stamp `sources: ['eggnog','diamond']` provenance on
+  # TC id, so the adapter can stamp `sources: ['eggnog','tcdb_diamond']` provenance on
   # the edge -- one edge per (gene, TC), never two.
   #
   # The sources differ in kind: eggNOG's KEGG_TC is ortholog TRANSFER (the seed

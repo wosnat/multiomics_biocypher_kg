@@ -166,10 +166,22 @@ Create a TodoWrite item per step. Each step links the matching `references/` fil
   presence, rollup sanity, no-orphan, numeric edge-property range checks à la `test_expression.py`) →
   `pytest -m kg` → regenerate `snapshot_data.json`.
 
-- **Step 6 — Release-notes / what-changed doc + CLAUDE.md.** Write
+- **Step 6 — Release-notes / what-changed doc + CLAUDE.md + CHANGELOG.** Write
   `docs/kg-changes/<tool>-extension.md` (new node/edge types + counts, property-additions table,
   indexes, vocabulary, conventions, validation results, out-of-scope) → update CLAUDE.md "Key graph
-  facts" + "Actual Neo4j labels" + link the doc.
+  facts" + "Actual Neo4j labels" + link the doc → log the integration in `CHANGELOG.md` under
+  `## [Unreleased]`. The kg-changes doc is the deep reference; the CHANGELOG entry is the release-
+  facing summary and is what `/release-kg` renders. Which subsections:
+  - `### Added` — the new node/edge types with counts, the merged field + `DataSource` node, the
+    post-import rollups/indexes, and a link to the kg-changes doc.
+  - `### Data` — only if the tool run itself added or regenerated per-strain artifacts worth
+    calling out (e.g. re-running all 42 strains with new flags); the *schema* side stays in `### Added`.
+  - `### Highlights` — one plain-prose bullet answering "what can I now ask that I couldn't before?".
+  - `### Breaking` — required if an existing property, count, or filter changes meaning under
+    readers (a rollup now counting something else, a vocabulary shift). Say what the old value meant
+    and what it means now.
+
+  See the authoring conventions at the top of `CHANGELOG.md`.
 
 - **Step 7 — Register / hand-off.** Confirm `add-a-tool`'s "Phase 2 hand-off" redirects here; confirm
   `add-a-strain` step-10 ("loop back through prepare_data") covers the new merged field so future
@@ -204,5 +216,6 @@ calls.json-normalization prerequisite. Copy those when implementing either.
 - [ ] `/omics-edge-snapshot` before/after: expression edges unchanged, new edges appear
 - [ ] kg-validity assertions added; `pytest -m kg` passes; `snapshot_data.json` regenerated
 - [ ] `docs/kg-changes/<tool>-extension.md` written; CLAUDE.md "Key graph facts" + "Actual Neo4j labels" updated + linked
+- [ ] `CHANGELOG.md` `## [Unreleased]` updated: `### Added` (nodes/edges/counts + doc link), `### Highlights` (one prose bullet), `### Breaking` (iff an existing property/count/filter changed meaning)
 - [ ] `add-a-tool` Phase-2 hand-off redirects here; `add-a-strain` step-10 covers the new field; MCP follow-up recorded as out-of-scope
 - [ ] `pytest -m "not slow and not kg"` passes

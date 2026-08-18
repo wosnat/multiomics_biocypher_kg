@@ -30,9 +30,47 @@ preflight questions:
 Both are extracted verbatim (markdown). The rest of the version section
 (`### Added` / `### Changed` / `### Fixed`) is unchanged in role.
 
+**Authoring convention for data changes.** The graph's *content* is part of the
+release, not just its code, so each version section MAY include a `### Data`
+subsection — placed after `### Breaking` and before `### Added` — logging every
+publication or dataset added, re-wired, superseded, or corrected. One bullet per
+paper/dataset, naming: the paper key as it appears under
+`data/Prochlorococcus/papers_and_supp/` (+ DOI for new papers), the organism(s)
+and omics type, what the experiments actually compare, and the scale (number of
+experiments / analyses / metrics, or edge counts if measured). A correction to an
+existing paper says what the KG asserted before and what it asserts now, because
+that changes query results. Strain additions belong here too — in `### Data`
+regardless of whether code landed with them, with the code side logged separately
+under `### Added` / `### Changed`. Unlike `### Highlights` / `### Breaking`, `### Data` is **not**
+extracted onto `Schema_info` — omit the heading entirely when a release adds no
+data. `/paperconfig`, `/add-a-strain` and `/integrate-a-tool` each end by writing
+here, and `/release-kg` preflight warns when paperconfigs changed since the last
+tag with nothing logged.
+
 ## [Unreleased]
 
 ### Highlights
+
+- **TCDB node names (T6).** 916 of the 1,515 `TcdbFamily` nodes rendered as
+  their bare TC id — 60% of the transporter ontology was reachable only by
+  exact id. Names are now scraped from tcdb.org into a committed
+  `cache/data/tcdb/tcdb_names.json` (browse.php + one `result.php` page per
+  kept family; 351 families, 0 failures) and folded in by step 6. Unnamed
+  drops **916 → 487**, all genuinely unnamed upstream (482 subfamilies TCDB
+  never named, 2 specificities, 3 retired families) — those keep the bare id
+  by design (`t.name = t.tcdb_id` is the fallback marker). `tc_specificity`
+  nodes gain a sparse 400-char `description` (284 nodes; `name` is the
+  citation-stripped first sentence, 150-char capped); `tcdbFamilyFullText`
+  now covers `name, tcdb_id, superfamily, description`, so "sugar porter" /
+  "ammonia" searches reach transporter nodes for the first time. Two class
+  names were wrong vs upstream and are fixed (`Channels/Pores`, `Accessory
+  Factors Involved in Transport`); the hardcoded `_TC_CLASS_NAMES` table is
+  deleted. New standalone scraper
+  `multiomics_kg/download/scrape_tcdb_names.py` (resumable, 2.5 s cadence,
+  scoped to kept families); step 6 warns with a top-up command when a strain
+  onboarding introduces families the scrape hasn't covered. See
+  `docs/kg-changes/tcdb-two-source-upgrade.md` ("Node names") and
+  `docs/superpowers/specs/2026-08-12-tcdb-node-names-design.md`.
 
 - **InterPro domains.** Every gene now carries direct InterProScan domain/family
   calls: ask "which InterPro entries does gene X have?", "which genes carry the
@@ -60,6 +98,11 @@ Both are extracted verbatim (markdown). The rest of the version section
   ABC transporters collectively move 554 things". Substrate counts per metabolite
   and per gene were corrected to match, and every transported metabolite now
   reports how many distinct transporter systems move it.
+- **What *Alteromonas* releases into the medium.** A new publication (Lu 2026)
+  adds the EZ55 exudate proteome — which proteins are detected in the >50 kDa
+  cell-free supernatant versus the matching whole-cell lysate, for the ancestral
+  strain and two lineages evolved under elevated pCO₂. Ask which EZ55 proteins
+  are exuded, and whether that set shifted with pCO₂ adaptation.
 - **Proteases and their inhibitors are now classified.** Every strain's proteome
   was scanned against MEROPS, the authoritative peptidase classification: ask
   "which subtilisin-family (S08) peptidases does this Alteromonas carry?", count
@@ -67,6 +110,12 @@ Both are extracted verbatim (markdown). The rest of the version section
   localization layers for secreted exoproteases. Each call says up front whether
   it is a real peptidase, a protease *inhibitor*, or a catalytically dead
   look-alike (`call_class`), so dead homologs never inflate protease counts.
+- **Ask the graph what a filter accepts, instead of guessing.** Every value a
+  property or edge can take — which "evidence" strengths are possible, which
+  sources contributed an annotation, which categories a transporter's substrate
+  breadth falls into — is now published as data in the graph itself, so a tool
+  built against the KG can look the allowed values up rather than hard-coding a
+  list that silently goes stale when the graph changes.
 
 ### Breaking
 
@@ -105,11 +154,121 @@ Both are extracted verbatim (markdown). The rest of the version section
   was reading 0 for 83% of transported metabolites, so any `transporter_count > 0`
   filter was silently excluding most of them.
 - **Substrate queries must use `Tcdb_family_transports_metabolite.substrate_depth
-  = 'deepest'`**, not `level_kind = 'tc_specificity'` — the latter now matches
+  = 'most_specific'`**, not `level_kind = 'tc_specificity'` — the latter now matches
   only 466 of 11,263 substrate edges.
+- **Controlled-vocabulary alignment pass** (`docs/kg-changes/vocabulary-contract.md`).
+  `TcdbFamily.is_promiscuous` and `InterproEntry.is_promiscuous` are **deleted** — both
+  only ever restated a threshold over a count the node already publishes
+  (`level >= 2 AND metabolite_count >= 50`, `gene_count >= 1000` respectively); query
+  the predicate directly instead. `evidence_score` is now a **float in `[0,1]`** (was
+  int 0–3) on every gene→ontology annotation edge, with paired `signal_count` /
+  `signals` so `round(score × signal_count)` recovers the old integer.
+  `Gene_has_tcdb_family.tcdb_evidence_score` is renamed `evidence_score` (also now
+  float `[0,1]`, was int 0–5) and `Gene.tcdb_best_evidence_score` is renamed
+  `tcdb_evidence_score_max`; its three component booleans
+  (`agrees_across_sources`/`pfam_corroborated`/`go_corroborated`) are renamed
+  `source_agreement`/`pfam_support`/`go_support` and are now meaningful-pair strings,
+  not native `bool`. `Tcdb_family_transports_metabolite.substrate_depth` values rename
+  `deepest`/`ancestor` → `most_specific`/`inherited`. `sources` values rename
+  `interpro` → `interproscan` and `diamond` → `tcdb_diamond` (every value is now the
+  `id` of a `DataSource` node). The Layer-A router edges
+  (`Interpro_entry_related_to_ec_number` / `_cazy_family`) lose their `ambiguous`
+  (native `bool`, uniformly `false` in every shipped build — BioCypher never
+  round-trips adapter-emitted `bool`) and `source_db` (a hardcoded literal) properties
+  entirely; they now carry no properties. See the doc for full derivation recipes and
+  a migration checklist.
+- **The Lu EZ55 exudate study moved from its bioRxiv preprint to the published
+  AEM paper, and every node id it owns changed with it.** alpha.5 and alpha.6
+  shipped it as `Lu 2025` / `10.1101/2025.05.28.656624`; it is now `Lu 2026` /
+  `10.1128/aem.00798-26`. Because `Publication`, `Experiment`
+  (`{doi}_{experiment_key}`) and `DerivedMetric` ids are all DOI-derived, the
+  old ids no longer resolve — anything pinned to them returns empty rather than
+  stale. The two **numeric** metric types the preprint reported
+  (`exoproteome_detection_replicates`, `whole_cell_detection_replicates`:
+  detection counts 0–3 across the three LTPE strains) are **removed from
+  `KNOWN_METRIC_TYPES`** and replaced by 6 **boolean** per-strain detection
+  metrics, so the same evidence is now queried as presence/absence per named
+  lineage instead of a count. A `metric_type` filter on either old name now
+  matches nothing.
+
+### Data
+
+- **Lu 2026** (new publication, `10.1128/aem.00798-26`) — *Alteromonas macleodii*
+  EZ55 exudate proteomics. Two `compartment` experiments over the same cultures:
+  the >50 kDa cell-free supernatant (EV-enriched exudate, `omics_type:
+  EXOPROTEOMICS`, `compartment: exoproteome`) and the matching crude cell lysate
+  (`PROTEOMICS`, `whole_cell`). Table S1 is a detection table, not a fold-change
+  table, so it is wired as two `derived_metrics_table` entries carrying **6
+  boolean DerivedMetrics** over 602 proteins — presence/absence in each
+  compartment for each of the three LTPE strains (LTPE26 ancestor, LTPE397 and
+  LTPE403 evolved 500 generations at 400 / 800 ppm pCO₂; distinct evolved
+  lineages, not replicates). **Supersedes the bioRxiv preprint of the same
+  study**, which shipped in alpha.5 and alpha.6 as `Lu 2025`
+  (`10.1101/2025.05.28.656624`) and is now de-registered — see `### Breaking`.
+  The registered-paper count is therefore unchanged at 36. Note the current
+  `Lu 2025` directory is **a different paper** (ISME `10.1093/ismejo/wrae259`,
+  the same group's pCO₂ coevolution survey): `48ca7103` reused the path after
+  the preprint was renamed away. It is staged, not registered.
+- **Weissberg 2025** — 4 new RNA-seq contrasts wired onto the existing
+  experiments: HOT1A3 coculture-with-MED4 vs axenic at day 18 and day 31,
+  MED4 long-term starvation (days 60 + 89 vs log-exponential day 7), and MED4
+  coculture-with-HOT1A3 vs axenic at day 18. All resolve via `locus_tag_ncbi`.
+- **Per-strain tool artifacts regenerated across all 42 strains** — InterProScan
+  re-run with `--goterms --pathways` enabled by default, and the TCDB
+  `calls.json` regenerated without derived fields. Artifact refreshes only; the
+  schema-side consequences are in `### Added` (InterPro two-layer integration,
+  TCDB two-source upgrade).
+- **biller 2016 — corrected contrast semantics on the two MIT1002 experiments**
+  (filed against this repo by the downstream `multiomics_analysis` consumer,
+  ticket 3). Both are *within-coculture* time contrasts
+  (24 h and 48 h vs 12 h after addition), but `control` read
+  "Co-culture with *Prochlorococcus* NATL2A", dropping the reference timepoint —
+  a reader querying the KG alone misread the denominator as a generic coculture
+  state or as t0. The 12 h reference is restored, and `experimental_context`
+  now records it (indexed in `experimentFullText`, so it is searchable rather
+  than recoverable only from the ingestion config). `coculture` also moves from
+  `treatment_type` to `background_factors` and the treatment becomes
+  `growth_phase`: the study has no axenic *Alteromonas* arm, so a
+  `treatment_type = coculture` filter was surfacing two experiments with no
+  coculture-vs-axenic handle at all. **`Tests_coculture_with` and
+  `coculture_partner` are unaffected** — both are gated on `treatment_organism`.
+  A sweep of all 36 registered paperconfigs / 174 experiments found no other
+  collapsed time-contrast reference. `validate_paperconfig.py` now accepts a partner
+  organism in either `treatment_type` or `background_factors` and warns only
+  when it is accounted for in neither.
 
 ### Added
 
+- **`ControlledVocabulary` nodes — the value sets a property or edge can take,
+  published as data** (design
+  `docs/superpowers/specs/2026-08-16-vocabulary-contract-design.md`, consumer doc
+  `docs/kg-changes/vocabulary-contract.md`). One node per (label-or-edge-type,
+  property) pair — `applies_to`, `property`, `value_type`, `closed`, `values`,
+  `description`, plus sparse `min_value`/`max_value`/`signal_count`/`signals` for
+  numeric/score vocabularies — sourced from `config/controlled_vocabularies.yaml`
+  (THE source of truth) via `multiomics_kg/utils/controlled_vocab.py` and emitted
+  by the node-only `controlled_vocabulary_adapter.py` (`DataSource`-adapter
+  pattern). A four-gate test suite (adapter unit checks, `--test`-build CSV
+  scan, `slow`-build CSV scan, live-graph) checks that no `closed` vocabulary
+  ever emits an undeclared value; the loader's `VOCAB.check()` is wired into
+  only one adapter (`tcdb_adapter.py`) today, so this is a detection net across
+  test runs, not a build-time guard on every emitter. The reverse
+  direction — everything declared was actually observed — is a separate,
+  opt-in coverage check (`exhaustive: true`).
+  `Schema_info.controlled_vocabularies_hash` (sha256 over the emitted set) lets a
+  consumer detect drift between releases instead of discovering it through a
+  wrong answer. Five house rules now govern every vocabulary the KG ships: **R1**
+  lowercase `snake_case` for KG-minted values, external database terms preserved
+  verbatim; **R1b** namespace a value only when it collides across labels; **R2**
+  every `sources` value joins a `DataSource` node via `id = 'data_source:' + value`; **R3** don't materialize a
+  threshold over an already-stored count; **R4** one score name per concept, on
+  one `[0,1]` float scale. **R5 — no native `bool`.** A two-state fact is now
+  required to be a categorical string naming both states meaningfully (the
+  existing `OrthologGroup.has_cross_genus_members: cross_genus | single_genus`
+  is the precedent), because BioCypher does not round-trip adapter-emitted
+  `bool` — the one place it shipped was silently `false` on every edge in every
+  build ever deployed. `value_type` in the contract admits `string`,
+  `string_array`, `float`, `int`, `bool_string`, never `bool`.
 - **MEROPS peptidase ontology** (merops-diamond Phase 2; design
   `docs/superpowers/specs/2026-08-17-merops-kg-integration-design.md`, release
   notes `docs/kg-changes/merops-extension.md`). 155 `MeropsFamily` nodes
@@ -125,6 +284,25 @@ Both are extracted verbatim (markdown). The rest of the version section
   `member_count`), Gene routing `merops_family_count` + `merops_classes`,
   tier-gated `annotation_types`/`informative_annotation_types` += `merops`
   (no annotation_quality bucket). Indexes + `meropsFamilyFullText`.
+  **2026-08-18 follow-up** (design
+  `docs/superpowers/specs/2026-08-18-merops-pfam-bridge-cleavage-design.md`):
+  new `Merops_family_has_pfam_domain` bridge edge (MeropsFamily → Pfam,
+  family-level only, 156 live edges, `member_id_count` property) built
+  from MEROPS's own curated `interpro.txt` family→Pfam map, giving the
+  single-source `Gene_has_merops_family` edge an independent corroboration
+  signal via new post-import property `pfam_support`
+  (`corroborated`|`uncorroborated`, same shape as the TCDB analog); three new
+  sparse family-level `MeropsFamily` cleavage-specificity properties from
+  `Substrate_search.txt` (`cleavage_p1_residues`, `cleavage_summary`,
+  `known_cleavage_count` — e.g. "cleaves after Lys (36%) / Arg (34%) - 39567
+  known cleavages"), `cleavage_summary` folded into `meropsFamilyFullText`;
+  the corresponding MEROPS→GO bridge was evaluated and rejected on
+  measurement (all-kingdom rollup too noisy, see `plans/backlog.md`); 5 new
+  controlled-vocabulary entries complete the merops set of 10 in
+  `config/controlled_vocabularies.yaml`; MEROPS reference build moved from
+  prepare_data step 9 to a new step 10 (own log), and prepare_data gained a
+  `--rebuild` flag that reruns every derived step (`9 1 2 3 4 5 6 7 8 10`)
+  with `--force` in one call.
 
 - **InterPro two-layer integration** (design
   `docs/superpowers/specs/2026-08-10-interpro-two-layer-integration-design.md`).
@@ -132,18 +310,20 @@ Both are extracted verbatim (markdown). The rest of the version section
     `ec_numbers` (+9.5K), `cazy_ids` (+642), `pfam_ids` (+14K net-new), noise-gated
     (GO/CAZy: FAMILY+DOMAIN, fold excluded; EC: FAMILY+single-EC only; Pfam:
     direct HMM hits). `alternate_functional_descriptions` gains `[interpro]` names.
-  - **Edge provenance** — `sources` (str[] `ncbi|cyanorak|uniprot|eggnog|interpro`),
+  - **Edge provenance** — `sources` (str[] `ncbi|cyanorak|uniprot|eggnog|interproscan`;
+    `interpro` renamed `interproscan` — see `### Breaking`),
     `evidence` (`curated`>`signature`>`family_inferred`>`domain_inferred`),
-    `evidence_score` (int 0–3, advisory) on all six gene→ontology edge types
+    `evidence_score` (now a float `[0,1]`, advisory — see `### Breaking`) on all six gene→ontology edge types
     (`Gene_involved_in_biological_process`/`_located_in_cellular_component`/
     `_enables_molecular_function`, `Gene_catalyzes_ec_number`, `Gene_has_pfam`,
     `Gene_has_cazy_family`). Backed by per-token `<field>_source`/`<field>_evidence`
     maps in `gene_annotations_merged.json`.
   - **Layer A** — `Interpro_entry_related_to_ec_number` (~6,961) +
     `Interpro_entry_related_to_cazy_family` (~122): a recall-biased **router**
-    (weak `related_to` verb, `ambiguous` bool, `source_db`) homing the multi-EC/
-    DOMAIN ECs and fold CAZy Layer B refuses to stamp on genes. **Not an
-    annotation** — never assign gene function from it.
+    (weak `related_to` verb; carries no properties — the `ambiguous` bool and
+    `source_db` it originally shipped with were both deleted, see `### Breaking`)
+    homing the multi-EC/DOMAIN ECs and fold CAZy Layer B refuses to stamp on genes.
+    **Not an annotation** — never assign gene function from it.
   - Reference cache (step 9) gains sparse `ec_numbers`/`cazy_ids` per entry.
   - See `docs/kg-changes/interpro-two-layer.md`.
 - **InterProScan InterPro-entry ontology** (`/integrate-a-tool` Phase 2, then
@@ -218,6 +398,20 @@ Both are extracted verbatim (markdown). The rest of the version section
 
 ### Fixed
 
+- **Duplicated KEGG reaction cross-references in `kegg_data.json`.** KEGG's
+  `/link/pathway/reaction` endpoint serves **both** prefix forms for every link
+  (`path:map00220` *and* `path:rn00220` — 19,775 of each, an exact pairing), and
+  `_parse_reaction_to_pathways` normalizes both to the same `ko` id, so a plain
+  append stored every pathway twice: 2,105 of 2,375 reactions carried 6,408
+  duplicate entries. `_parse_reaction_to_compounds` had the same missing dedup
+  against ~165 literally duplicated upstream rows (a compound on both sides of a
+  reaction, e.g. H+ `C00080`), affecting 45 reactions. Both parsers now dedup
+  order-preservingly. **No graph impact** — `Reaction_in_kegg_pathway` (6,408)
+  and `Reaction_has_metabolite` (10,149) were already one-edge-per-pair, since
+  edge ids collapse at import; this was cache bloat (6,408 spurious lines per
+  rebuild) that would have misled any consumer counting occurrences rather than
+  distinct values.
+
 - **Dangling gene→EC and Layer-A EC edges.** `EcNumber` nodes are the Expasy
   hierarchy (7,337 ids), but InterPro's entry-level EC xrefs include obsolete
   (`1.2.8.1`) and invalid (`2.8.3.183`) numbers that `normalize_ec` cannot remap,
@@ -257,13 +451,14 @@ Both are extracted verbatim (markdown). The rest of the version section
   is an ancestor of one". Consequences, all fixed together and folded into the
   existing unreleased TCDB upgrade contract
   ([`docs/kg-changes/tcdb-two-source-upgrade.md`](docs/kg-changes/tcdb-two-source-upgrade.md) §7):
-  - `Tcdb_family_transports_metabolite` gains **`substrate_depth`** (`'deepest'` |
-    `'ancestor'`; 4,381 / 6,882). A (node, substrate) fact — a node can be deepest
-    for one substrate and an ancestor for another. Categorical string, not bool.
+  - `Tcdb_family_transports_metabolite` gains **`substrate_depth`** (`'most_specific'` |
+    `'inherited'` — see `### Breaking` for the 2026-08-18 rename from `'deepest'`/
+    `'ancestor'`). A (node, substrate) fact — a node can be most-specific
+    for one substrate and inherited for another. Categorical string, not bool.
   - `Metabolite.transporter_count` read **0 for 1,218 of 1,462 (83%)** transported
     metabolites: it filtered `level_kind = 'tc_specificity'`, but only 466 of
     11,263 substrate edges now sit there after the ancestor-only prune. Now counts
-    distinct `substrate_depth = 'deepest'` sources — non-zero for all 1,462.
+    distinct `substrate_depth = 'most_specific'` sources — non-zero for all 1,462.
   - The transport arm now counts each gene's **deepest TC attachments only**.
     6,950 genes are annotated at both an ancestor and its own descendant (e.g.
     `3.A.1` *and* `3.A.1.14`) and were inheriting the superfamily's whole rollup

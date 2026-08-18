@@ -1,6 +1,9 @@
 """Tests for the faceted InterProScan parser (multi-ontology redesign)."""
 import pytest
-from multiomics_kg.utils.interproscan import parse_interproscan_json, summarize
+from multiomics_kg.utils.interproscan import (
+    parse_interproscan_json,
+    summarize,
+)
 
 
 def _loc(start, end, evalue=None, score=None):
@@ -97,3 +100,26 @@ def test_summarize_qc():
     assert s["distribution"] == {"HAMAP": 1, "NCBIFAM": 1, "PFAM": 1, "SUPERFAMILY": 1}
     assert s["proteins_with_go_terms"] == 1 and s["distinct_go_terms"] == 2
     assert "pathway_databases" not in s and "distinct_pathways" not in s
+
+
+# ── InterPro / InterProScan controlled vocabularies: preserved verbatim ──────
+#
+# The parser above stores everything in InterProScan's NATIVE casing (see
+# `calls["WP_000001.1"]["libraries"]` keyed by "PFAM" etc. above), and it
+# stays that way all the way to the graph — these are InterPro's own
+# controlled terms, not KG-minted values, so house rule R1 (lowercase
+# snake_case) does not apply to them (see `config/controlled_vocabularies.yaml`).
+
+def test_declared_vocabulary_matches_native_casing():
+    """Every value InterPro/InterProScan actually emits must be declared,
+    in their own native UPPERCASE casing."""
+    from multiomics_kg.utils.controlled_vocab import VOCAB
+
+    for raw in ["FAMILY", "DOMAIN", "HOMOLOGOUS_SUPERFAMILY", "REPEAT",
+                "CONSERVED_SITE", "ACTIVE_SITE", "BINDING_SITE", "PTM"]:
+        VOCAB.check("InterproEntry", "interpro_type", raw)
+
+    for raw in ["CDD", "GENE3D", "HAMAP", "NCBIFAM", "PANTHER", "PFAM", "PIRSF",
+                "PRINTS", "PROSITE_PATTERNS", "PROSITE_PROFILES", "SFLD", "SMART",
+                "SUPERFAMILY"]:
+        VOCAB.check("Gene_has_interpro_entry", "libraries", raw)

@@ -19,10 +19,13 @@ resulting extended cpds set rides through `_bulk_enrich_compounds` so transport-
 only KEGG compounds get their pathways/MNX cross-refs natively. Non-KEGG
 substrate primaries (chebi:*, mnx:*) become additional_compounds entries.
 
-Step 6 also downloads the 3 TCDB reference TSVs (tc_classes, tc_subclasses,
-families) and writes the assembled hierarchy to
+Step 6 also downloads the 4 TCDB reference TSVs (families, superfamilies,
+substrates, acc2tcid) and writes the assembled hierarchy to
 cache/data/tcdb/tcdb_hierarchy.json. The TCDB lift is unconditional and not
-gated on KEGG reachability.
+gated on KEGG reachability. Node names come from the committed
+cache/data/tcdb/tcdb_names.json, built separately by
+`python -m multiomics_kg.download.scrape_tcdb_names` (T6) — step 6 itself
+never scrapes.
 
 TCDB substrate rollup runs in three phases:
 
@@ -86,15 +89,43 @@ log = logging.getLogger(__name__)
 
 # ── TCDB hierarchy ────────────────────────────────────────────────────────────
 
-_TC_CLASS_NAMES = {
-    "1": "Channels and Pores",
-    "2": "Electrochemical Potential-driven Transporters",
-    "3": "Primary Active Transporters",
-    "4": "Group Translocators",
-    "5": "Transmembrane Electron Carriers",
-    "8": "Auxiliary Transport Proteins",
-    "9": "Incompletely Characterized Transport Systems",
-}
+def _load_tcdb_names(names_path: Path | None) -> tuple[dict[str, dict], list[str]]:
+    """Read the committed tcdb_names.json (built by scrape_tcdb_names — T6).
+
+    Returns ({tc_id: {"name": str[, "description": str]}}, scraped_families).
+    Missing file → empty maps (deep levels stay unnamed; the caller warns via
+    _warn_unscraped_families).
+    """
+    if names_path is None or not names_path.exists():
+        return {}, []
+    data = json.loads(names_path.read_text())
+    return data.get("names", {}), data.get("meta", {}).get("scraped_families", [])
+
+
+def _warn_unscraped_families(kept_ids: set[str], names_path: Path) -> list[str]:
+    """T6 self-healing guard: kept 4/5-part TC IDs whose family the name
+    scraper has not covered — loud staleness after a strain onboarding, never
+    silent. Returns the sorted missing family list."""
+    needed = {".".join(tc.split(".")[:3]) for tc in kept_ids
+              if len(tc.split(".")) >= 4}
+    if not names_path.exists():
+        if needed:
+            log.warning(
+                f"  cache/data/tcdb/tcdb_names.json is MISSING — {len(needed)} "
+                f"families' subfamily/specificity nodes will render as bare TC "
+                f"ids. Run: uv run python -m multiomics_kg.download.scrape_tcdb_names"
+            )
+        return sorted(needed)
+    _names, scraped = _load_tcdb_names(names_path)
+    missing = sorted(needed - set(scraped))
+    if missing:
+        log.warning(
+            f"  {len(missing)} kept TCDB families not covered by tcdb_names.json "
+            f"(e.g. {missing[:5]}) — their deep nodes render as bare TC ids. "
+            f"Top-up: uv run python -m multiomics_kg.download.scrape_tcdb_names "
+            f"--families {' '.join(missing[:5])} ..."
+        )
+    return missing
 
 
 def _parse_tcdb_families(path: Path) -> dict[str, str]:
@@ -177,6 +208,7 @@ def build_tcdb_hierarchy(
     superfamilies_path: Path,
     substrates_path: Path,
     acc2tcid_path: Path,
+    names_path: Path | None = None,
 ) -> int:
     """Build tcdb_hierarchy.json by joining the 4 TCDB sources.
 
@@ -194,6 +226,7 @@ def build_tcdb_hierarchy(
     fields are blank.
     """
     fam_descs = _parse_tcdb_families(families_path)
+    names, _scraped = _load_tcdb_names(names_path)
     super_rows = _parse_tcdb_superfamilies(superfamilies_path)
     substrates = _parse_tcdb_substrates(substrates_path)
     acc_tcids = _parse_tcdb_acc2tcid(acc2tcid_path)
@@ -211,7 +244,7 @@ def build_tcdb_hierarchy(
     def ensure_class(cls: str) -> None:
         if cls not in h:
             h[cls] = {
-                "name": _TC_CLASS_NAMES.get(cls, ""),
+                "name": names.get(cls, {}).get("name", ""),
                 "level": 0,
                 "level_kind": "tc_class",
                 "parent": None,
@@ -220,7 +253,7 @@ def build_tcdb_hierarchy(
     def ensure_subclass(subcls: str, cls: str) -> None:
         if subcls not in h:
             h[subcls] = {
-                "name": "",
+                "name": names.get(subcls, {}).get("name", ""),
                 "level": 1,
                 "level_kind": "tc_subclass",
                 "parent": cls,
@@ -230,7 +263,7 @@ def build_tcdb_hierarchy(
         if fam not in h:
             abbr, superfam = fam_meta_by_id.get(fam, ("", ""))
             entry: dict = {
-                "name": fam_descs.get(fam, ""),
+                "name": fam_descs.get(fam, "") or names.get(fam, {}).get("name", ""),
                 "level": 2,
                 "level_kind": "tc_family",
                 "parent": subcls,
@@ -244,7 +277,7 @@ def build_tcdb_hierarchy(
     def ensure_subfamily(subfam: str, fam: str) -> None:
         if subfam not in h:
             h[subfam] = {
-                "name": "",
+                "name": names.get(subfam, {}).get("name", ""),
                 "level": 3,
                 "level_kind": "tc_subfamily",
                 "parent": fam,
@@ -254,11 +287,14 @@ def build_tcdb_hierarchy(
         if tcid in h:
             return
         node: dict = {
-            "name": "",
+            "name": names.get(tcid, {}).get("name", ""),
             "level": 4,
             "level_kind": "tc_specificity",
             "parent": subfam,
         }
+        desc = names.get(tcid, {}).get("description", "")
+        if desc:
+            node["description"] = desc
         if tcid in substrates:
             node["substrate_classes"] = substrates[tcid]
         superfam = super_by_tcid.get(tcid, ("", ""))[1]
@@ -318,6 +354,7 @@ def _build_tcdb_hierarchy(cache_root: Path) -> int:
         superfamilies_path=raw_dir / "superfamilies.tsv",
         substrates_path=raw_dir / "substrates.tsv",
         acc2tcid_path=raw_dir / "acc2tcid.tsv",
+        names_path=tcdb_dir / "tcdb_names.json",
     )
 
 
@@ -1256,11 +1293,24 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
     log.info("Ensuring KEGG raw cache (downloads from KEGG REST if missing) ...")
     kegg_utils.download_kegg_raw(cache_root, force=refetch_raw)
 
-    log.info("Ensuring TCDB reference TSVs are downloaded ...")
-    download_all(cache_root=cache_root, force=refetch_raw, sources=["tcdb"])
-
-    log.info("Building tcdb_hierarchy.json ...")
-    _build_tcdb_hierarchy(cache_root)
+    # TCDB's CGI endpoints go down for maintenance from time to time (they 404
+    # while www.tcdb.org itself still answers). The raw TSVs are gitignored but
+    # tcdb_hierarchy.json is committed, so a download failure is recoverable:
+    # reuse the committed hierarchy and carry on. Only a missing hierarchy is
+    # fatal.
+    tcdb_hierarchy_path = cache_root / "tcdb" / "tcdb_hierarchy.json"
+    try:
+        log.info("Ensuring TCDB reference TSVs are downloaded ...")
+        download_all(cache_root=cache_root, force=refetch_raw, sources=["tcdb"])
+        log.info("Building tcdb_hierarchy.json ...")
+        _build_tcdb_hierarchy(cache_root)
+    except Exception as exc:
+        if not tcdb_hierarchy_path.exists():
+            raise
+        log.warning(
+            f"  TCDB reference download/rebuild failed ({exc}); reusing the "
+            f"committed {tcdb_hierarchy_path.name} unchanged."
+        )
 
     log.info("Parsing raw KEGG into in-memory dict ...")
     raw = _parse_raw_into_dict(cache_root)
@@ -1280,6 +1330,7 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
 
         log.info("Pruning TCDB hierarchy ...")
         kept, seed_aliases = _prune_tcdb(hierarchy, catalysis_sets["tcdb_ids"])
+        _warn_unscraped_families(kept, cache_root / "tcdb" / "tcdb_names.json")
         upgraded = {s: a for s, a in seed_aliases.items() if a}
         dropped = sorted(s for s, a in seed_aliases.items() if not a)
         if upgraded:
@@ -1443,30 +1494,48 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
             try:
                 download_tcdb_xref_map(kind, dest=dest, force=refetch_raw)
             except Exception as exc:
-                # A cached TSV is a fine fallback; no TSV at all is not.
-                if not dest.exists():
-                    raise RuntimeError(
-                        f"TCDB {kind}→TC map download failed and no cached copy exists at "
-                        f"{dest}: {exc}. Refusing to write tcdb_pruned.json without the "
-                        f"{kind} bridge — it is a committed artifact and the loss would be "
-                        f"silent. Retry when tcdb.org is reachable."
-                    ) from exc
+                # A cached TSV is a fine fallback. With no TSV at all we fall
+                # through to the reuse-or-raise branch below, which can still
+                # recover the bridge from the committed tcdb_pruned.json —
+                # tcdb.org 404s its CGI endpoints during maintenance while the
+                # site root stays up, and that outage must not block step 6.
                 log.warning(
-                    f"  TCDB {kind}→TC map download failed ({exc}); using cached {dest}"
+                    f"  TCDB {kind}→TC map download failed ({exc}); "
+                    f"{'using cached ' + str(dest) if dest.exists() else 'no cached copy'}"
                 )
             xref = load_tcdb_xref_map(kind, path=dest)
-            tcdb_bridges[kind] = build_tcdb_bridges(xref, hierarchy, kept)
-            n_pairs = sum(len(v) for v in tcdb_bridges[kind].values())
-
-            # Never trade a populated committed bridge for an empty one.
-            prior_pairs = sum(len(v) for v in previous.get(f"{kind}_bridge", {}).values())
-            if n_pairs == 0 and prior_pairs > 0:
+            prior = previous.get(f"{kind}_bridge", {})
+            prior_pairs = sum(len(v) for v in prior.values())
+            if xref:
+                tcdb_bridges[kind] = build_tcdb_bridges(xref, hierarchy, kept)
+                n_pairs = sum(len(v) for v in tcdb_bridges[kind].values())
+                # Never trade a populated committed bridge for an empty one.
+                if n_pairs == 0 and prior_pairs > 0:
+                    raise RuntimeError(
+                        f"TCDB {kind}→TC bridge came out EMPTY but the committed "
+                        f"tcdb_pruned.json holds {prior_pairs} pairs. That is data loss, not a "
+                        f"rebuild — check {dest} (size "
+                        f"{dest.stat().st_size if dest.exists() else 'missing'}). Delete the "
+                        f"stale TSV and re-run with --refetch-raw if the map genuinely changed."
+                    )
+            elif prior_pairs:
+                # No usable map (TCDB down, nothing cached) but the committed
+                # artifact still holds the bridge — reuse it rather than drop
+                # every bridge edge. Filtered to THIS run's kept set, so stale
+                # nodes cannot leak back in.
+                tcdb_bridges[kind] = {k: v for k, v in prior.items() if k in kept}
+                n_pairs = sum(len(v) for v in tcdb_bridges[kind].values())
+                log.warning(
+                    f"  TCDB {kind}→TC map unavailable; reused {n_pairs} pairs on "
+                    f"{len(tcdb_bridges[kind])} kept node(s) from the committed "
+                    f"tcdb_pruned.json. Re-run with --refetch-raw once tcdb.org is back."
+                )
+            else:
                 raise RuntimeError(
-                    f"TCDB {kind}→TC bridge came out EMPTY but the committed "
-                    f"tcdb_pruned.json holds {prior_pairs} pairs. That is data loss, not a "
-                    f"rebuild — check {dest} (size "
-                    f"{dest.stat().st_size if dest.exists() else 'missing'}). Delete the "
-                    f"stale TSV and re-run with --refetch-raw if the map genuinely changed."
+                    f"TCDB {kind}→TC map is unavailable at {dest} and the committed "
+                    f"tcdb_pruned.json holds no {kind} bridge to fall back on. Refusing to "
+                    f"write tcdb_pruned.json without it — it is a committed artifact and the "
+                    f"loss would be silent. Retry when tcdb.org is reachable."
                 )
             log.info(
                 f"  TCDB {kind}→TC bridge: {len(xref)} published {kind} ids -> "

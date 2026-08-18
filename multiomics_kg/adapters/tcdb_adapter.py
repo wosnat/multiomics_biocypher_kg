@@ -27,16 +27,18 @@ import logging
 from pathlib import Path
 from typing import Iterator
 
+from multiomics_kg.utils.controlled_vocab import VOCAB
 from multiomics_kg.utils.curie_utils import normalize_curie
 
 logger = logging.getLogger(__name__)
 
 # NOTE: this module used to carry its own `_TC_CLASS_NAMES` copy as a fallback for
-# `tc_class` nodes with an empty name. It was dead code: `build_tcdb_hierarchy`
-# (prepare_data step 6) owns the authoritative table and fills every class name,
-# so all 7 kept classes arrive named and the branch never fired. It could not even
-# have helped the one unnamed class in the hierarchy — TC class `6` — because the
-# adapter's copy had no entry for it. Class names live in step 6 alone now.
+# `tc_class` nodes with an empty name. It was dead code, and the hardcoded table
+# itself is gone since T6 (2026-08-18): ALL node names — classes through
+# specificities — now arrive in tcdb_hierarchy.json, filled by step 6 from the
+# committed cache/data/tcdb/tcdb_names.json (built by
+# multiomics_kg/download/scrape_tcdb_names.py). This adapter only falls back to
+# the bare tcdb_id when upstream genuinely has no name (spec 5c).
 
 
 def _clean_str(value: str | None) -> str:
@@ -129,7 +131,7 @@ class TcdbAnnotationAdapter:
         """One Gene_has_tcdb_family edge per (gene, TC id), carrying source provenance.
 
         `transporter_classification` is the UNION of two independent sources, so a
-        TC called by both yields ONE edge with sources=['diamond','eggnog'] — that
+        TC called by both yields ONE edge with sources=['eggnog','tcdb_diamond'] — that
         agreement is the cross-source corroboration signal, and materialising it as
         two parallel edges would destroy it.
 
@@ -150,11 +152,11 @@ class TcdbAnnotationAdapter:
                 # SORTED so `sources` has one canonical form. The seed_alias merge
                 # in MultiTcdbAnnotationAdapter unions and sorts, so an unsorted
                 # build here would leave two spellings of the same value
-                # (['eggnog','diamond'] vs ['diamond','eggnog']) and any consumer
+                # (['eggnog','tcdb_diamond'] vs ['tcdb_diamond','eggnog']) and any consumer
                 # doing an equality check would silently miss one of them.
                 sources = sorted(
                     ({"eggnog"} if tc in egn else set())
-                    | ({"diamond"} if tc in dia else set())
+                    | ({"tcdb_diamond"} if tc in dia else set())
                 )
                 if not sources:
                     # Present in the union but attributable to neither per-source
@@ -165,7 +167,7 @@ class TcdbAnnotationAdapter:
                         f"TC {tc} has no source attribution; re-run prepare_data step 2"
                     )
                 props: dict = {"sources": sources}
-                cand = evidence.get(tc) if "diamond" in sources else None
+                cand = evidence.get(tc) if "tcdb_diamond" in sources else None
                 if cand:
                     for key in ("tier", "consensus_n"):
                         if cand.get(key) is not None:
@@ -263,10 +265,10 @@ class MultiTcdbAnnotationAdapter:
         self._go_bridge = pruned.get("go_bridge", {}) or {}
 
     def _compute_substrate_depth(self) -> dict[str, set[str]]:
-        """{tc_id: {primary_id it is the DEEPEST kept node for}}.
+        """{tc_id: {primary_id it is the MOST-SPECIFIC kept node for}}.
 
-        A kept node is *deepest* for a substrate when no kept child of it also
-        carries that substrate. Checking DIRECT children is sufficient — never
+        A kept node is *most_specific* for a substrate when no kept child of it
+        also carries that substrate. Checking DIRECT children is sufficient — never
         the whole subtree — because `_prune_tcdb` only ever walks *up* from a
         seed, so the kept set is ancestor-closed: any kept descendant of `t` has
         a kept child-of-`t` on its path to `t`, and the rollup is transitive, so
@@ -315,6 +317,8 @@ class MultiTcdbAnnotationAdapter:
             }
             if entry.get("superfamily"):
                 props["superfamily"] = _clean_str(entry["superfamily"])
+            if entry.get("description"):
+                props["description"] = _clean_str(entry["description"])
             yield _tcdb_node_id(tcdb_id), "tcdb family", props
             emit_count += 1
         logger.info(f"MultiTcdbAnnotationAdapter.get_nodes: {emit_count} TcdbFamily nodes")
@@ -353,7 +357,7 @@ class MultiTcdbAnnotationAdapter:
         # Remapping can make two distinct source TCIDs land on the SAME kept node:
         # e.g. eggNOG's retired `3.A.1.35` re-anchors to `3.A.1`, which diamond
         # already called directly. Emitting both would produce parallel edges whose
-        # `sources` are split (['eggnog'] on one, ['diamond'] on the other) —
+        # `sources` are split (['eggnog'] on one, ['tcdb_diamond'] on the other) —
         # destroying exactly the corroboration signal the single-edge model exists
         # to capture. So collapse per (gene, TC) after remapping: union `sources`
         # and keep the diamond evidence block from whichever edge carries it.
@@ -412,13 +416,13 @@ class MultiTcdbAnnotationAdapter:
         # hierarchy, so ancestors carry substrates from every TCDB descendant
         # (not just gene-annotated ones).
         #
-        # `substrate_depth` marks whether this node is the DEEPEST kept node
-        # carrying the substrate ('deepest') or an ancestor of one ('ancestor').
-        # Without it, "how many distinct transporter systems move X" has no cheap
-        # answer: counting every level double-counts an ancestor with its own
-        # descendant, and the old `level_kind = 'tc_specificity'` filter selects
-        # only 466 of 11,263 edges — leaving 83% of transported metabolites at
-        # transporter_count = 0 after the ancestor-only prune.
+        # `substrate_depth` marks whether this node is the MOST-SPECIFIC kept
+        # node carrying the substrate ('most_specific') or an ancestor of one
+        # ('inherited'). Without it, "how many distinct transporter systems move
+        # X" has no cheap answer: counting every level double-counts an ancestor
+        # with its own descendant, and the old `level_kind = 'tc_specificity'`
+        # filter selects only 466 of 11,263 edges — leaving 83% of transported
+        # metabolites at transporter_count = 0 after the ancestor-only prune.
         #
         # NOT the same as "curated vs inherited": only tc_specificity nodes carry
         # their own `substrate_classes` and they are leaves, so curated-vs-inherited
@@ -439,7 +443,9 @@ class MultiTcdbAnnotationAdapter:
                     "tcdb_family_transports_metabolite",
                     # Categorical str, not bool: BioCypher mishandles boolean
                     # properties, so the KG uses string vocabularies throughout.
-                    {"substrate_depth": "deepest" if is_deepest else "ancestor"},
+                    {"substrate_depth": VOCAB.check(
+                        "Tcdb_family_transports_metabolite", "substrate_depth",
+                        "most_specific" if is_deepest else "inherited")},
                 )
                 sub_count += 1
 
@@ -495,6 +501,6 @@ class MultiTcdbAnnotationAdapter:
         logger.info(
             f"MultiTcdbAnnotationAdapter.get_edges: {parent_count} parent, "
             f"{gene_count} gene, {sub_count} substrate "
-            f"({deepest_count} deepest / {sub_count - deepest_count} ancestor), "
+            f"({deepest_count} most_specific / {sub_count - deepest_count} inherited), "
             f"{pfam_count} Pfam-bridge, {go_count} GO-bridge edges"
         )

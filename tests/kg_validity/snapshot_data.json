@@ -1440,7 +1440,7 @@
         "identity": 93.0,
         "qcov": 100.0,
         "sources": [
-          "diamond"
+          "tcdb_diamond"
         ],
         "tier": 2
       },
@@ -1455,7 +1455,7 @@
         "identity": 44.7,
         "qcov": 71.1,
         "sources": [
-          "diamond"
+          "tcdb_diamond"
         ],
         "tier": 3
       },
@@ -2261,7 +2261,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-08-17T18:20:23.567926+00:00",
+  "generated_at": "2026-08-18T17:26:52.794732+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -3618,7 +3618,7 @@
       "properties": {
         "level": 0,
         "level_kind": "tc_class",
-        "name": "Channels and Pores",
+        "name": "Channels/Pores",
         "tcdb_id": "1"
       }
     },
@@ -3629,7 +3629,7 @@
       "properties": {
         "level": 4,
         "level_kind": "tc_specificity",
-        "name": "3.A.1.4.4",
+        "name": "The high-affinity (",
         "tcdb_id": "3.A.1.4.4"
       }
     },
@@ -3651,7 +3651,7 @@
       "properties": {
         "level": 4,
         "level_kind": "tc_specificity",
-        "name": "1.A.12.2.2",
+        "name": "Putative Glutathione S-transferase.",
         "tcdb_id": "1.A.12.2.2"
       }
     },
@@ -3662,7 +3662,7 @@
       "properties": {
         "level": 1,
         "level_kind": "tc_subclass",
-        "name": "1.A",
+        "name": "\u03b1-Type Channels",
         "tcdb_id": "1.A"
       }
     },

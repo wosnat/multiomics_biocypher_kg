@@ -7,6 +7,7 @@ Covers the deterministic, network-free helpers:
 - extract_changelog_fragment
 - build_metadata shape
 - _parse_plain_row
+- filter_data_paths / warn_unlogged_data (git calls monkeypatched)
 
 The integration paths (subprocess to git/docker/gh/cypher-shell) are covered by
 `release_kg.py --dry-run`, not unit tests.
@@ -635,3 +636,186 @@ def test_render_diff_block_full_diff(rkg):
 def test_parse_args_rejects_bad_target(rkg):
     with pytest.raises(SystemExit):
         rkg.parse_args(["0.1.0-alpha.1", "--target", "nope"])
+
+
+# ─── filter_data_paths / unlogged-data preflight warning ────────────────────
+def test_filter_data_paths_keeps_paperconfigs(rkg):
+    changed = [
+        "data/Prochlorococcus/papers_and_supp/Lu 2026/paperconfig.yaml",
+        "data/Prochlorococcus/papers_and_supp/paperconfig_files.txt",
+        "data/Prochlorococcus/genomes/cyanobacteria_genomes.csv",
+    ]
+    assert rkg.filter_data_paths(changed) == changed
+
+
+def test_filter_data_paths_drops_code_and_supp_tables(rkg):
+    changed = [
+        "multiomics_kg/adapters/omics_adapter.py",
+        "CHANGELOG.md",
+        "data/Prochlorococcus/papers_and_supp/Lu 2026/aem.00798-26-s0002.csv",
+        "tests/test_paperconfig_validation.py",
+    ]
+    assert rkg.filter_data_paths(changed) == []
+
+
+def test_filter_data_paths_accepts_yml_and_treatment_organisms(rkg):
+    changed = [
+        "data/Prochlorococcus/papers_and_supp/Foo 2020/paperconfig.yml",
+        "data/Prochlorococcus/treatment_organisms.csv",
+    ]
+    assert rkg.filter_data_paths(changed) == changed
+
+
+def test_filter_data_paths_ignores_blank_lines(rkg):
+    assert rkg.filter_data_paths(["", "  "]) == []
+
+
+UNLOGGED_SAMPLE = """# Changelog
+
+## [Unreleased]
+
+### Added
+- code only
+"""
+
+LOGGED_SAMPLE = """# Changelog
+
+## [Unreleased]
+
+### Data
+- **Foo 2020** — new paper.
+
+### Added
+- code only
+"""
+
+EMPTY_DATA_SAMPLE = """# Changelog
+
+## [Unreleased]
+
+### Data
+
+### Added
+- code only
+"""
+
+
+def test_unreleased_data_missing(rkg, tmp_path: Path):
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(UNLOGGED_SAMPLE)
+    assert rkg.extract_preflight_subsection(p, "Unreleased", "Data") is None
+
+
+def test_unreleased_data_present(rkg, tmp_path: Path):
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(LOGGED_SAMPLE)
+    body = rkg.extract_preflight_subsection(p, "Unreleased", "Data")
+    assert body == "- **Foo 2020** — new paper."
+
+
+def test_unreleased_data_heading_without_bullets_counts_as_missing(rkg, tmp_path: Path):
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(EMPTY_DATA_SAMPLE)
+    assert rkg.extract_preflight_subsection(p, "Unreleased", "Data") is None
+
+
+def test_filter_data_paths_handles_git_quoted_nonascii(rkg):
+    # `git diff --name-only` C-quotes paths with non-ASCII bytes unless
+    # core.quotePath=false; the wrapping quote must not defeat the `$` anchor.
+    quoted = '"data/Prochlorococcus/papers_and_supp/Dom\\303\\255nguez 2017/paperconfig.yaml"'
+    assert rkg.filter_data_paths([quoted]) == []
+
+
+CUT_SAMPLE = """# Changelog
+
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Fixed
+
+## [1.2.3] - 2026-08-16
+
+### Data
+- **Foo 2020** — new paper.
+
+### Added
+- code
+"""
+
+
+def test_unreleased_data_after_cut_found_under_version(rkg, tmp_path: Path):
+    # --resume enters with the CHANGELOG already cut: [Unreleased] is the empty
+    # stub and the operator's ### Data now lives under [version].
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(CUT_SAMPLE)
+    assert rkg.extract_preflight_subsection(p, "Unreleased", "Data") is None
+    assert rkg.extract_preflight_subsection(p, "1.2.3", "Data") == "- **Foo 2020** — new paper."
+
+
+@pytest.fixture
+def fake_git(rkg, monkeypatch):
+    """Stub git_out: returns the last tag, then the changed-file list."""
+    def _install(last_tag: str, changed: list[str]):
+        def _git_out(*args: str) -> str:
+            if "describe" in args:
+                return last_tag
+            if "diff" in args:
+                return "\n".join(changed)
+            return ""
+        monkeypatch.setattr(rkg, "git_out", _git_out)
+    return _install
+
+
+def test_warn_unlogged_data_warns_when_nothing_logged(rkg, tmp_path, capsys, fake_git):
+    fake_git("kg-1.2.2", ["data/x/papers_and_supp/Foo 2020/paperconfig.yaml"])
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(UNLOGGED_SAMPLE)
+    rkg.warn_unlogged_data(p, "1.2.3")
+    out = capsys.readouterr().out
+    assert "WARNING" in out
+    assert "Foo 2020/paperconfig.yaml" in out
+
+
+def test_warn_unlogged_data_quiet_when_logged(rkg, tmp_path, capsys, fake_git):
+    fake_git("kg-1.2.2", ["data/x/papers_and_supp/Foo 2020/paperconfig.yaml"])
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(LOGGED_SAMPLE)
+    rkg.warn_unlogged_data(p, "1.2.3")
+    out = capsys.readouterr().out
+    assert "WARNING" not in out
+    assert "### Data present" in out
+
+
+def test_warn_unlogged_data_quiet_on_resume_after_cut(rkg, tmp_path, capsys, fake_git):
+    # Regression: the pre-cut [Unreleased] check alone warned on every --resume,
+    # i.e. precisely when the operator HAD logged the data.
+    fake_git("kg-1.2.2", ["data/x/papers_and_supp/Foo 2020/paperconfig.yaml"])
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(CUT_SAMPLE)
+    rkg.warn_unlogged_data(p, "1.2.3")
+    out = capsys.readouterr().out
+    assert "WARNING" not in out
+    assert "[1.2.3] ### Data present" in out
+
+
+def test_warn_unlogged_data_quiet_when_no_data_files_changed(rkg, tmp_path, capsys, fake_git):
+    fake_git("kg-1.2.2", ["multiomics_kg/adapters/omics_adapter.py"])
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(UNLOGGED_SAMPLE)
+    rkg.warn_unlogged_data(p, "1.2.3")
+    out = capsys.readouterr().out
+    assert "WARNING" not in out
+    assert "no data changes" in out
+
+
+def test_warn_unlogged_data_skips_without_prior_tag(rkg, tmp_path, capsys, fake_git):
+    fake_git("", ["data/x/papers_and_supp/Foo 2020/paperconfig.yaml"])
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(UNLOGGED_SAMPLE)
+    rkg.warn_unlogged_data(p, "1.2.3")
+    out = capsys.readouterr().out
+    assert "WARNING" not in out
+    assert "no prior kg-* tag" in out
