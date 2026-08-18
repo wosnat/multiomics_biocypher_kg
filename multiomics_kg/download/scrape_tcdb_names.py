@@ -179,3 +179,161 @@ def parse_family_page(
         if text:
             systems[tc_id] = text
     return subfams, systems
+
+
+# ── scope ────────────────────────────────────────────────────────────────────
+
+def scoped_families(kept_ids: set[str]) -> dict[str, str]:
+    """{family_3part: query_4part} for every family carrying a kept 4/5-part
+    ID. Any 4-part in the family works as the result.php query key — the page
+    returns the entire family (spec 3b)."""
+    out: dict[str, str] = {}
+    for tc in kept_ids:
+        parts = tc.split(".")
+        if len(parts) < 4:
+            continue
+        fam = ".".join(parts[:3])
+        four = ".".join(parts[:4])
+        if fam not in out or four < out[fam]:
+            out[fam] = four
+    return out
+
+
+# ── fetch (resumable, slow, backoff) ─────────────────────────────────────────
+
+def _http_get(url: str) -> str:
+    import requests
+
+    resp = requests.get(url, headers={"User-Agent": USER_AGENT}, timeout=120)
+    resp.raise_for_status()
+    return resp.text
+
+
+def fetch_page(url: str, dest: Path, *, force: bool, delay: float,
+               retries: int = 3) -> str:
+    """Fetch url → dest. Resume = return the cached file when present (unless
+    force). Sleeps `delay` BEFORE every network request; exponential backoff
+    between retries. Raises after `retries` failures."""
+    if dest.exists() and not force:
+        return dest.read_text(encoding="utf-8", errors="replace")
+    last_exc: Exception | None = None
+    for attempt in range(retries):
+        time.sleep(delay * (2 ** attempt) if attempt else delay)
+        try:
+            text = _http_get(url)
+        except Exception as exc:  # noqa: BLE001 — retried, then re-raised below
+            last_exc = exc
+            log.warning(f"  fetch failed (attempt {attempt + 1}/{retries}): {url}: {exc}")
+            continue
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(text, encoding="utf-8")
+        return text
+    raise RuntimeError(f"giving up on {url} after {retries} attempts") from last_exc
+
+
+# ── artifact assembly ────────────────────────────────────────────────────────
+
+def assemble_names(
+    browse_names: dict[str, str],
+    per_family_results: dict[str, tuple[dict[str, str], dict[str, str]]],
+    kept_ids: set[str],
+    scraped_families: list[str],
+    failed_families: list[str],
+) -> dict:
+    """Build the artifact dict. Browse layer (levels 0-2) kept in FULL —
+    removes gene-set coupling for those levels at ~150 KB. Deep layer (4/5
+    part) trimmed to kept IDs (spec §4 scoped-scrape decision)."""
+    names: dict[str, dict] = {}
+    for tc_id, name in browse_names.items():
+        names[tc_id] = {"name": name}
+
+    for _fam, (subfams, systems) in per_family_results.items():
+        for tc_id, name in subfams.items():
+            if tc_id in kept_ids:
+                names[tc_id] = {"name": name}
+        for tc_id, full_text in systems.items():
+            if tc_id in kept_ids:
+                names[tc_id] = {
+                    "name": make_name(full_text),
+                    "description": make_description(full_text),
+                }
+
+    return {
+        "meta": {
+            "scraped_at": date.today().isoformat(),
+            "source": "https://www.tcdb.org (browse.php + search/result.php per family)",
+            "scraped_families": sorted(scraped_families),
+            "failed_families": sorted(failed_families),
+        },
+        "names": dict(sorted(names.items())),
+    }
+
+
+# ── main ─────────────────────────────────────────────────────────────────────
+
+def main(force: bool = False, delay: float = DEFAULT_DELAY_S,
+         families: list[str] | None = None) -> int:
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
+
+    pruned = json.loads(PRUNED_FILE.read_text())
+    kept_ids = set(pruned["kept_tcdb_ids"])
+    fams = scoped_families(kept_ids)
+    if families:
+        fams = {f: q for f, q in fams.items() if f in set(families)}
+    log.info(f"scope: {len(fams)} families (from {len(kept_ids)} kept TC ids)")
+
+    browse_html = fetch_page(BROWSE_URL, PAGES_DIR / "browse.html",
+                             force=force, delay=delay)
+    browse_names = parse_browse(browse_html)
+    log.info(f"browse.php: {len(browse_names)} class/subclass/family names")
+
+    per_family: dict[str, tuple[dict[str, str], dict[str, str]]] = {}
+    scraped: list[str] = []
+    failed: list[str] = []
+    consecutive = 0
+    for i, (fam, query) in enumerate(sorted(fams.items()), 1):
+        dest = PAGES_DIR / f"family_{fam}.html"
+        try:
+            page = fetch_page(RESULT_URL.format(tc=query), dest,
+                              force=force, delay=delay)
+        except Exception as exc:  # noqa: BLE001 — per-family isolation
+            log.warning(f"[{i}/{len(fams)}] {fam}: FAILED ({exc})")
+            failed.append(fam)
+            consecutive += 1
+            if consecutive >= MAX_CONSECUTIVE_FAILURES:
+                log.error(
+                    f"{consecutive} consecutive failures — tcdb.org is likely "
+                    f"struggling. Aborting; re-run later to resume (cached "
+                    f"pages are skipped)."
+                )
+                sys.exit(1)
+            continue
+        consecutive = 0
+        subfams, systems = parse_family_page(page, family=fam)
+        per_family[fam] = (subfams, systems)
+        scraped.append(fam)
+        if i % 25 == 0 or i == len(fams):
+            log.info(f"[{i}/{len(fams)}] fetched+parsed (last: {fam}, "
+                     f"{len(subfams)} subfam names, {len(systems)} systems)")
+
+    artifact = assemble_names(browse_names, per_family, kept_ids, scraped, failed)
+    NAMES_FILE.parent.mkdir(parents=True, exist_ok=True)
+    NAMES_FILE.write_text(json.dumps(artifact, indent=1, ensure_ascii=False) + "\n",
+                          encoding="utf-8")
+    n = len(artifact["names"])
+    log.info(f"wrote {NAMES_FILE} — {n} names, "
+             f"{len(scraped)} families scraped, {len(failed)} failed")
+    return n
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--force", action="store_true",
+                        help="re-fetch pages even when cached")
+    parser.add_argument("--delay", type=float, default=DEFAULT_DELAY_S,
+                        help="seconds between requests (default 2.5)")
+    parser.add_argument("--families", nargs="*", default=None,
+                        help="restrict to these 3-part family ids (top-up mode)")
+    args = parser.parse_args()
+    main(force=args.force, delay=args.delay, families=args.families)

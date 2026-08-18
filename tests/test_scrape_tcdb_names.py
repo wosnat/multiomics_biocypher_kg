@@ -165,3 +165,63 @@ class TestParseFamilyPage:
         subfams, systems = m.parse_family_page(UNNAMED_FAMILY_PAGE_FIXTURE)
         assert subfams == {}
         assert systems["1.A.11.1.1"] == "Ammonia transporter and regulatory sensor, AmtB."
+
+
+class TestScopedFamilies:
+    def test_derives_families_from_kept_deep_ids(self):
+        kept = {"1", "1.A", "2.A.1", "2.A.1.3", "2.A.1.1.1", "3.A.1.5"}
+        fams = m.scoped_families(kept)
+        # 1-, 2-, 3-part kept ids do NOT create scrape work
+        assert fams == {"2.A.1": "2.A.1.1", "3.A.1": "3.A.1.5"}
+
+    def test_query_id_is_smallest_kept_4part(self):
+        kept = {"2.A.1.7.2", "2.A.1.3"}
+        assert m.scoped_families(kept) == {"2.A.1": "2.A.1.3"}
+
+
+class TestAssembleNames:
+    def test_deep_layer_trimmed_to_kept_ids(self):
+        browse = {"1": "Channels/Pores", "2.A.1": "MFS"}
+        per_family = {
+            "2.A.1": (
+                {"2.A.1.1": "The Sugar Porter (SP) Family",
+                 "2.A.1.2": "DHA1"},
+                {"2.A.1.1.1": "Galactose:H+ symporter, GalP (Henderson 1977). Tail.",
+                 "2.A.1.1.2": "Not kept system."},
+            )
+        }
+        kept = {"1", "2.A.1", "2.A.1.1", "2.A.1.1.1"}
+        art = m.assemble_names(browse, per_family, kept,
+                               scraped_families=["2.A.1"], failed_families=[])
+        names = art["names"]
+        assert names["1"] == {"name": "Channels/Pores"}          # full browse layer
+        assert names["2.A.1.1"] == {"name": "The Sugar Porter (SP) Family"}
+        assert "2.A.1.2" not in names                            # not kept
+        assert "2.A.1.1.2" not in names                          # not kept
+        assert names["2.A.1.1.1"]["name"] == "Galactose:H+ symporter, GalP."
+        assert names["2.A.1.1.1"]["description"].startswith(
+            "Galactose:H+ symporter, GalP (Henderson 1977). Tail.")
+        assert art["meta"]["scraped_families"] == ["2.A.1"]
+
+    def test_browse_layer_kept_even_when_not_in_kept_ids(self):
+        art = m.assemble_names({"6": "Membrane Transporter Metabolons (MTM)"},
+                               {}, set(), scraped_families=[], failed_families=[])
+        assert art["names"]["6"] == {"name": "Membrane Transporter Metabolons (MTM)"}
+
+
+class TestFetchResume:
+    def test_skips_existing_page(self, tmp_path, monkeypatch):
+        dest = tmp_path / "family_2.A.1.html"
+        dest.write_text("cached")
+        called = []
+        monkeypatch.setattr(m, "_http_get", lambda url: called.append(url) or "fresh")
+        out = m.fetch_page("http://x", dest, force=False, delay=0)
+        assert out == "cached" and called == []
+
+    def test_force_refetches(self, tmp_path, monkeypatch):
+        dest = tmp_path / "family_2.A.1.html"
+        dest.write_text("cached")
+        monkeypatch.setattr(m, "_http_get", lambda url: "fresh")
+        monkeypatch.setattr(m.time, "sleep", lambda s: None)
+        out = m.fetch_page("http://x", dest, force=True, delay=0)
+        assert out == "fresh" and dest.read_text() == "fresh"
