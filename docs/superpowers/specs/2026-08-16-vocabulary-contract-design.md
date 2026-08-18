@@ -909,7 +909,39 @@ extended to cover them (66 declared vocabularies).
 - Gate 1 as described in §6 **does not exist**: `VOCAB.check` is wired at one call site,
   not into every emitter. The real coverage is the CSV scan and the live-graph suite.
 
-### Not done — Task 12, the live validation gate
+### Task 12 — DONE (2026-08-18)
+
+Executed against a two-point baseline: `main` was rebuilt first (green — 1,125
+passed), captured to `.superpowers/sdd/vocabulary_contract/baseline-main/`, then
+the branch was rebuilt so the comparison isolates only this work.
+
+| Check | Result |
+|---|---|
+| Import | clean, `exit_code=0`, empty `import.report` |
+| `ControlledVocabulary` | 67 |
+| `substrate_depth` | `most_specific` 4,381 / `inherited` 6,882, `deepest` 0 |
+| `is_promiscuous` survivors | 0 |
+| `Schema_info.controlled_vocabularies_hash` | matches the shipped config byte-for-byte |
+| Expression edges | identical to main, zero per-paper drift |
+| `pytest -m kg` | **1,133 passed, 4 skipped, 0 failed** |
+| Fast suite | 2,365 passed |
+
+**`post-import-validate` diff vs main was empty — and that proves less than it
+looks like.** That script dumps indexes plus Gene / DerivedMetric /
+MetaboliteAssay aggregates and mentions *none* of the properties this change
+touched. It establishes no collateral damage to those layers; it is not evidence
+the renames are correct. The renames are evidenced by the targeted entry-criteria
+queries above and by the kg suite.
+
+**The gate caught a real consumer-facing defect in R2's own wording.** R2 said
+"every `sources` value is the `id` of a `DataSource` node". BioCypher writes the
+node's `id` *property* as the prefixed `data_source:ncbi`, so a consumer
+following R2 literally writes a join that matches nothing — our own kg test did
+exactly that and matched 0 of 6 values. Corrected in all six places R2 was
+stated; the correct join is `d.id = 'data_source:' + s`. Two docs-only reviews,
+including a whole-branch review on the strongest model, had passed this wording.
+
+### Superseded — the original Task 12 plan
 
 Requires a person present: it runs `docker compose down` plus a ~1 h rebuild, and its
 acceptance baseline must be captured from the **currently deployed pre-change graph**
