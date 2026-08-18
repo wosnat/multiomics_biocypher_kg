@@ -460,6 +460,18 @@ Both `kegg_annotation_adapter` / `metabolism_adapter` (KEGG side) and `tcdb_adap
 uv run python tests/kg_validity/generate_snapshot.py
 ```
 
+### Annotation-state distribution baseline
+
+`tests/kg_validity/capture_annotation_state.py` captures the Gene
+`annotation_state` / `annotation_quality` / `annotation_types` /
+`informative_annotation_types` distributions (global + per-organism) from the
+live graph into the committed `tests/kg_validity/annotation_state_baseline.json`,
+so bucket-movement claims across rebuilds are reproducible from artifacts
+rather than supplied context. Run `--save` before a rebuild (alongside the
+`/omics-edge-snapshot` baseline), `--compare` after. Deliberately a
+capture/compare tool, not a pass/fail test — distribution shifts are usually
+legitimate (new data landed).
+
 ### Actual Neo4j labels (BioCypher PascalCase output)
 
 - Nodes: `Gene`, `Protein`, `OrganismTaxon`, `Publication`, `Experiment`, `OrthologGroup`, `BiologicalProcess`, `CellularComponent`, `MolecularFunction`, `EcNumber`, `KeggTerm`, `CogFunctionalCategory`, `CyanorakRole`, `TigrRole`, `Pfam`, `PfamClan`, `TcdbFamily`, `CazyFamily`, `InterproEntry`, `NcbifamFamily`, `MeropsFamily`, `SubcellularLocalization`, `SignalPeptideType`, `BriteCategory`, `ClusteringAnalysis`, `GeneCluster`, `Reaction`, `Metabolite`, `MetaboliteAssay`, `ControlledVocabulary`
@@ -620,6 +632,7 @@ Before writing any code, define the scope explicitly:
   pytest -m kg -v
   ```
 - For schema or adapter changes: use `/omics-edge-snapshot` before and after to verify no edge regressions
+- For changes touching annotation_state / annotation_quality (post-import bucket logic, new sources): capture `tests/kg_validity/capture_annotation_state.py --save` before the rebuild, `--compare` after
 - For new paper integrations: use `/check-gene-ids` to validate match rates
 
 ### 4. Review

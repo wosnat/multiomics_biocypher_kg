@@ -239,6 +239,16 @@ tag with nothing logged.
 
 ### Added
 
+- **Annotation-state distribution baseline tool.**
+  `tests/kg_validity/capture_annotation_state.py` (`--save` / `--compare`,
+  omics-edge-snapshot pattern) captures the Gene `annotation_state` /
+  `annotation_quality` / `annotation_types` / `informative_annotation_types`
+  distributions (global + per-organism) into the committed
+  `annotation_state_baseline.json`, so bucket-movement claims across rebuilds
+  (e.g. the 2026-08-17 has_any_edge fix's −420 no_evidence) are reproducible
+  from artifacts. First baseline captured from the 2026-08-18 build: 124,751
+  genes — no_evidence 12,061 (9.7%) / catch_all_only 5,988 (4.8%) /
+  informative_single 12,642 (10.1%) / informative_multi 94,060 (75.4%).
 - **`ControlledVocabulary` nodes — the value sets a property or edge can take,
   published as data** (design
   `docs/superpowers/specs/2026-08-16-vocabulary-contract-design.md`, consumer doc

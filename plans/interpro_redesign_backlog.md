@@ -17,10 +17,13 @@ version-bump re-scan.
 
 ## Process / next rebuild
 
-- [ ] **Capture `annotation_state` distribution pre-rebuild** — alongside the
-  `/omics-edge-snapshot` baseline, so bucket-movement claims are
-  independently reproducible (the 2026-08-17 baseline was supplied context,
-  not a captured artifact).
+- [x] **Capture `annotation_state` distribution pre-rebuild** — landed
+  2026-08-18: `tests/kg_validity/capture_annotation_state.py`
+  (`--save` / `--compare`, omics-edge-snapshot pattern) + the committed
+  `annotation_state_baseline.json` captured from the 2026-08-18 build
+  (124,751 genes: no_evidence 12,061 / catch_all_only 5,988 /
+  informative_single 12,642 / informative_multi 94,060). Run `--save`
+  before each rebuild, `--compare` after.
 - [x] **Orphan-protein Known Issue** — verified 2026-08-18 on a fresh rebuild:
   **still real** (38% orphaned, 25,441/67,024); the tests pass only because
   their thresholds were loosened to <50%. Not closeable — tracked as a live
