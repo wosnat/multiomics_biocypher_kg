@@ -1457,6 +1457,9 @@ merops family:
     level_kind: str
     family_type: str        # "peptidase" | "inhibitor" (I-families)
     catalytic_type: str     # full word: serine/cysteine/metallo/aspartic/threonine/glutamic/asparagine_lyase/mixed/unknown; null for inhibitors
+    cleavage_p1_residues: str[]  # sparse — top P1 residues (>=10% share, max 3, 20 standard AAs)
+    cleavage_summary: str        # sparse — readable specificity sentence ("cleaves after ... N known cleavages")
+    known_cleavage_count: int    # sparse — curated cleavage records backing the profile
     gene_count: int         # post-import (subtree)
     peptidase_gene_count: int  # post-import (subtree, call_class='peptidase' edges only)
     organism_count: int     # post-import
@@ -1496,6 +1499,22 @@ merops family hierarchical association:
   source: merops family
   target: merops family
   label_in_input: merops_family_is_a_merops_family
+
+# From MEROPS's published interpro.txt member map, aggregated to family level
+# (183 pairs, median 1 Pfam/family). Semantics: "MEROPS's curated member
+# proteins of this family carry this domain" — Tcdb_family_has_pfam_domain
+# shape. Sound direction only: corroborate a gene's known family outward;
+# never assign peptidase identity backward from a domain (shared folds —
+# S09 alpha/beta-hydrolase, C26 GATase — are exactly the call_class trap).
+merops family to pfam association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Merops_family_has_pfam_domain
+  source: merops family
+  target: pfam
+  label_in_input: merops_family_has_pfam_domain
+  properties:
+    member_id_count: int
 
 
 # ── PSORTb subcellular localization (flat ontology + scored edge) ─────────────
