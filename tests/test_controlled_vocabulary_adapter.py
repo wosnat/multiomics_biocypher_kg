@@ -39,7 +39,7 @@ def test_expected_empty_vocabulary_emits_empty_values():
 def test_score_vocabulary_publishes_its_signals():
     props = _nodes()["Gene_has_tcdb_family.evidence_score"]
     assert props["signal_count"] == 5
-    assert "pfam_corroborated" in props["signals"]
+    assert "pfam_support" in props["signals"]
     assert props["min_value"] == 0.0 and props["max_value"] == 1.0
 
 

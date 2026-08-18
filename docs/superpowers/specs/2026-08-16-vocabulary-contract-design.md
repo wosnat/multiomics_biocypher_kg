@@ -498,17 +498,21 @@ values it did not verify.
 
 ## 6. Enforcement
 
-Adapters import their literals from the loader, so an undeclared value cannot be
-emitted. Post-import Cypher cannot import Python, so its literals are covered by
-the graph-level test only. Four gates, each catching something the others
-structurally cannot:
+**As implemented, this is a detection net across test runs, not a build-time
+guard on every emitter.** The loader's `VOCAB.check()` helper is wired into
+exactly one adapter (`tcdb_adapter.py`, for `substrate_depth`); every other
+vocabulary is emitted with no loader involvement, so an adapter drifting from
+the YAML is caught by the CSV/live-graph scans below, not blocked at emit
+time. Post-import Cypher cannot import Python either, so its literals are
+covered by the graph-level test only. Four gates, each catching something the
+others structurally cannot:
 
 | Gate | Marker | Runs | Checks |
 |---|---|---|---|
-| Adapter units — `VOCAB.check()` raises at emit | none | always | undeclared value, in seconds |
+| Adapter units — `VOCAB.check()` raises at emit | none | always | undeclared value, in seconds, but only where an adapter calls it (currently `tcdb_adapter.py` only) |
 | `--test` build → CSV scan | none | always | observed ⊆ declared, pre-import, no Neo4j |
-| Full build → CSV scan | `slow` | opt-in | + declared − observed ⊆ `expected_empty` |
-| Live graph | `kg` | every rebuild | both directions · post-import-only properties · R2's `DataSource` join · `controlled_vocabularies_hash` |
+| Full build → CSV scan | `slow` | opt-in | + declared − observed ⊆ `expected_empty`, but only on `exhaustive: true` entries |
+| Live graph | `kg` | every rebuild | observed ⊆ declared always; declared − observed only on `exhaustive: true` entries · post-import-only properties · R2's `DataSource` join · `controlled_vocabularies_hash` |
 
 `tests/test_create_knowledge_graph.py` is restructured to parameterize one
 helper over the two build modes:

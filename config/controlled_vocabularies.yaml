@@ -123,6 +123,22 @@ Gene_has_tcdb_family.sources:
     Evidence sources for this transporter call. Values are DataSource ids.
     Both entries present = cross-source corroboration.
 
+Gene_has_tcdb_family.tier:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: tier
+  value_type: int
+  closed: false
+  values: []
+  min_value: 1
+  max_value: 3
+  sparse: true
+  description: >
+    Both a confidence band and the truncation depth of the diamond call:
+    1 = tc_specificity (identity >= 70), 2 = tc_subfamily (identity >= 40),
+    3 = tc_family (no identity floor). SPARSE — rides only on diamond-sourced
+    edges ('tcdb_diamond' IN sources); absent on eggNOG-only edges.
+
 # ── evidence_score: normalized float, signals published (R4, KG-IPT-012) ─────
 Gene_has_pfam.evidence_score: &score3
   applies_to: Gene_has_pfam
@@ -167,8 +183,8 @@ Gene_has_tcdb_family.evidence_score:
   min_value: 0.0
   max_value: 1.0
   signal_count: 5
-  signals: [eggnog_called, agrees_across_sources, tier_le_2,
-            pfam_corroborated, go_corroborated]
+  signals: [eggnog_called, source_agreement, tier_le_2,
+            pfam_support, go_support]
   description: >
     Advisory ranking, never a filter. Fraction of independent corroborating
     signals that fired; round(score * signal_count) recovers the raw count.

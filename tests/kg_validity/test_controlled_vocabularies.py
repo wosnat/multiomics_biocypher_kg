@@ -56,7 +56,7 @@ def test_observed_values_are_declared(run_query, declared):
         undeclared = seen - set(e.values)
         if undeclared:
             problems.append(f"{e.id}: undeclared {sorted(undeclared)}")
-        if not e.expected_empty and seen:
+        if e.exhaustive and not e.expected_empty and seen:
             unseen = set(e.values) - seen
             if unseen:
                 problems.append(f"{e.id}: declared but absent {sorted(unseen)}")
@@ -79,20 +79,37 @@ def test_every_sources_value_joins_a_data_source(run_query):
 
 
 def test_no_native_boolean_properties_remain(run_query):
-    """R5. Checks the properties this change converted."""
+    """R5. Checks the two properties this change deleted are gone, and the
+    three properties it converted to R5-compliant strings are actually
+    strings on the live graph, not native bool."""
     for label, prop in [("TcdbFamily", "is_promiscuous"),
                         ("InterproEntry", "is_promiscuous")]:
         rows = run_query(
             f"MATCH (n:{label}) WHERE n.`{prop}` IS NOT NULL RETURN count(n) AS n")
         assert rows[0]["n"] == 0, f"{label}.{prop} should have been deleted"
 
+    for prop in ("source_agreement", "pfam_support", "go_support"):
+        rows = run_query(
+            f"MATCH ()-[r:Gene_has_tcdb_family]->() "
+            f"WHERE r.`{prop}` IS NOT NULL RETURN r.`{prop}` AS v LIMIT 5")
+        assert rows, f"no Gene_has_tcdb_family edges carry {prop}"
+        for row in rows:
+            assert isinstance(row["v"], str), (
+                f"Gene_has_tcdb_family.{prop} is {type(row['v'])!r}, expected str "
+                f"(R5: no native bool)")
+
 
 def test_layer_a_router_edges_carry_no_properties(run_query):
+    # BioCypher always writes an `id` column on relationships, so
+    # size(keys(r)) can never be 0 here -- assert the two deleted
+    # properties specifically stay gone instead.
     for rel in ("Interpro_entry_related_to_ec_number",
                 "Interpro_entry_related_to_cazy_family"):
         rows = run_query(
-            f"MATCH ()-[r:{rel}]->() WHERE size(keys(r)) > 0 RETURN count(r) AS n")
-        assert rows[0]["n"] == 0, f"{rel} edges still carry properties"
+            f"MATCH ()-[r:{rel}]->() "
+            "WHERE r.ambiguous IS NOT NULL OR r.source_db IS NOT NULL "
+            "RETURN count(r) AS n")
+        assert rows[0]["n"] == 0, f"{rel} edges still carry ambiguous/source_db"
 
 
 def test_schema_info_carries_the_vocabulary_hash(run_query, declared):

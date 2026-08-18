@@ -227,10 +227,13 @@ tag with nothing logged.
   numeric/score vocabularies — sourced from `config/controlled_vocabularies.yaml`
   (THE source of truth) via `multiomics_kg/utils/controlled_vocab.py` and emitted
   by the node-only `controlled_vocabulary_adapter.py` (`DataSource`-adapter
-  pattern). Adapters import their literals from the same loader, so an
-  undeclared value cannot be emitted; a four-gate test suite (adapter unit
-  checks, `--test`-build CSV scan, `slow`-build CSV scan, live-graph) checks the
-  declared set against the graph in both directions.
+  pattern). A four-gate test suite (adapter unit checks, `--test`-build CSV
+  scan, `slow`-build CSV scan, live-graph) checks that no `closed` vocabulary
+  ever emits an undeclared value; the loader's `VOCAB.check()` is wired into
+  only one adapter (`tcdb_adapter.py`) today, so this is a detection net across
+  test runs, not a build-time guard on every emitter. The reverse
+  direction — everything declared was actually observed — is a separate,
+  opt-in coverage check (`exhaustive: true`).
   `Schema_info.controlled_vocabularies_hash` (sha256 over the emitted set) lets a
   consumer detect drift between releases instead of discovering it through a
   wrong answer. Five house rules now govern every vocabulary the KG ships: **R1**

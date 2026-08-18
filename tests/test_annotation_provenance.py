@@ -97,5 +97,16 @@ def test_score_is_rounded_to_three_decimals():
 
 
 def test_round_recovers_the_raw_signal_count():
-    """KG-IPT-012: round, never truncate — 0.333 * 3 = 0.999."""
-    assert round(0.333 * 3) == 1
+    """KG-IPT-012: round, never truncate — 0.333 * 3 = 0.999.
+
+    Exercises the actual recovery path against a real emitted score, not
+    Python's `round` in isolation: single source + family_inferred fires
+    exactly one of the three signals ("not domain_inferred"), so
+    evidence_score = 1/3 = 0.333, and round(score * signal_count) must
+    recover that raw count of 1.
+    """
+    gene = {"go_terms_source": {"GO:1": ["eggnog"]},
+            "go_terms_evidence": {"GO:1": "family_inferred"}}
+    score = annotation_edge_props(gene, "go_terms", "GO:1")["evidence_score"]
+    assert score == 0.333
+    assert round(score * 3) == 1

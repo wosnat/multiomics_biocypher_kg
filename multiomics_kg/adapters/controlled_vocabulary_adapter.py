@@ -50,6 +50,7 @@ class ControlledVocabularyAdapter:
                 "closed": _b(e.closed),
                 "sparse": _b(e.sparse),
                 "expected_empty": _b(e.expected_empty),
+                "exhaustive": _b(e.exhaustive),
                 "values": [_clean_str(v) for v in e.values],
                 "description": _clean_str(e.description),
             }

@@ -591,7 +591,7 @@ def test_no_schema_property_is_declared_bool():
     """R5: native bool is forbidden graph-wide."""
     import re, pathlib
     text = pathlib.Path("config/schema_config.yaml").read_text()
-    offenders = re.findall(r"^\s+([a-z_]+): bool\s*$", text, re.M)
+    offenders = re.findall(r"^\s+([a-z_]+): bool\s*(?:#.*)?$", text, re.M)
     assert offenders == [], f"native bool properties remain: {offenders}"
 
 
@@ -604,6 +604,11 @@ def test_is_promiscuous_is_gone_from_post_import():
 
 def test_transport_substrate_resolution_threshold_is_inlined():
     import pathlib
-    text = pathlib.Path("scripts/post-import.cypher").read_text()
-    assert "metabolite_count, 0) >= 50" in text, (
-        "the breadth threshold must be inlined into transport_substrate_resolution")
+    # scripts/post-import.sh is authoritative; post-import.cypher is a kept-in-sync
+    # reference copy for non-Docker use. Assert against both so a drift between
+    # them is caught here, not just at rebuild time.
+    for p in ("scripts/post-import.cypher", "scripts/post-import.sh"):
+        text = pathlib.Path(p).read_text()
+        assert "metabolite_count, 0) >= 50" in text, (
+            f"{p}: the breadth threshold must be inlined into "
+            "transport_substrate_resolution")

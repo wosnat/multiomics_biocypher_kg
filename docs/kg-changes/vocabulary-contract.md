@@ -15,11 +15,18 @@ side. When the KG added or renamed a value, the consumer's hard-coded set
 silently drifted out of sync and produced wrong (not erroring) answers.
 
 This change publishes those value sets **as data**: one `ControlledVocabulary`
-node per (thing-it-applies-to, property) pair. Adapters import their literals
-from the same YAML file that seeds the nodes, so an adapter cannot emit an
-undeclared value; a four-gate test suite (unit, `--test`-build CSV scan,
-`slow`-build CSV scan, live-graph) checks the declared set against what the
-graph actually contains in both directions.
+node per (thing-it-applies-to, property) pair, loaded from the same YAML file
+by `multiomics_kg/utils/controlled_vocab.py`. A four-gate test suite (unit,
+`--test`-build CSV scan, `slow`-build CSV scan, live-graph) checks a `closed`
+vocabulary's declared set against what the graph actually contains — an
+undeclared emitted value always fails the gate; the reverse direction
+(everything declared was actually observed) is a separate, opt-in coverage
+check (`exhaustive: true`) run only where the declared set is known to equal
+the emitted set. **This is a detection net, not a build-time guard**: the
+loader's `VOCAB.check()` helper is wired into exactly one adapter today
+(`tcdb_adapter.py`, for `substrate_depth`) — every other vocabulary is emitted
+with no loader involvement, so an adapter drifting from the YAML is caught by
+the next test run, not blocked at write time.
 
 Along the way, five vocabularies that had accumulated inconsistent naming
 (casing, near-duplicate score names, three different two-state encodings)
@@ -51,8 +58,8 @@ Source of truth: `config/controlled_vocabularies.yaml`, loaded by
   min_value:       0.0,                      // sparse: numeric vocabularies only
   max_value:       1.0,                      // sparse
   signal_count:    5,                        // sparse: evidence_score-shaped only
-  signals:         ['eggnog_called', 'agrees_across_sources', 'tier_le_2',
-                     'pfam_corroborated', 'go_corroborated'],
+  signals:         ['eggnog_called', 'source_agreement', 'tier_le_2',
+                     'pfam_support', 'go_support'],
   description:     '...'
 })
 ```

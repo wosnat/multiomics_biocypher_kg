@@ -130,7 +130,7 @@ def _check_vocabularies(out_dir: Path, both_directions: bool) -> None:
             problems.append(
                 f"{entry.id}: emitted undeclared value(s) {sorted(undeclared)}; "
                 f"declared {sorted(entry.values)}")
-        if both_directions and not entry.expected_empty:
+        if both_directions and entry.exhaustive and not entry.expected_empty:
             unseen = set(entry.values) - seen
             if unseen and seen:
                 problems.append(

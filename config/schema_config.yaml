@@ -506,6 +506,7 @@ controlled vocabulary:
     closed: str            # "true" | "false"  — false = enumerate at runtime
     sparse: str            # "true" | "false"  — property may be absent
     expected_empty: str    # "true" | "false"  — declared, no values by design
+    exhaustive: str        # "true" | "false"  — declared set == observed set (coverage, opt-in)
     values: str[]
     description: str
     min_value: float       # sparse: numeric vocabularies only
@@ -1324,7 +1325,8 @@ gene to tcdb family association:
     consensus_n: int
     # Post-import advisory ranking (float 0-1; 5 signals, see
     # controlled_vocabularies.yaml). ADVISORY ONLY — nothing filters on it,
-    # and the three booleans are stored alongside so consumers can see why and
+    # and the three component facts are stored alongside as R5-compliant
+    # categorical strings (not native bools) so consumers can see why and
     # re-weight without re-deriving. Agreement is HIERARCHICAL (ancestor or
     # descendant), not exact-node — the two sources usually concur at different
     # depths. See the post-import block for the full rationale.

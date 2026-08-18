@@ -39,6 +39,7 @@ class VocabEntry:
     values: list[str] = field(default_factory=list)
     sparse: bool = False
     expected_empty: bool = False
+    exhaustive: bool = False
     min_value: float | None = None
     max_value: float | None = None
     signal_count: int | None = None
@@ -94,6 +95,7 @@ def load_vocabularies(path: str | Path = DEFAULT_PATH) -> dict[str, VocabEntry]:
             values=list(raw.get("values") or []),
             sparse=bool(raw.get("sparse", False)),
             expected_empty=bool(raw.get("expected_empty", False)),
+            exhaustive=bool(raw.get("exhaustive", False)),
             min_value=raw.get("min_value"),
             max_value=raw.get("max_value"),
             signal_count=raw.get("signal_count"),
@@ -108,7 +110,8 @@ def vocabularies_hash(entries: list[VocabEntry]) -> str:
         json.dumps({
             "id": e.id, "value_type": e.value_type, "closed": e.closed,
             "values": sorted(e.values), "sparse": e.sparse,
-            "expected_empty": e.expected_empty, "min_value": e.min_value,
+            "expected_empty": e.expected_empty, "exhaustive": e.exhaustive,
+            "min_value": e.min_value,
             "max_value": e.max_value, "signal_count": e.signal_count,
             "signals": sorted(e.signals),
         }, sort_keys=True)
