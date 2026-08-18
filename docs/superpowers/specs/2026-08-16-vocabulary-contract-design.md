@@ -206,9 +206,13 @@ interpro_type:  FAMILY, DOMAIN, HOMOLOGOUS_SUPERFAMILY, REPEAT,
                 conserved_site, active_site, binding_site, ptm
 ```
 
-### R2 — every `sources` value is the `id` of a `DataSource` node
+### R2 — every `sources` value corresponds to a `DataSource` node
 
-Provenance becomes joinable, and the three-spellings problem disappears:
+Provenance becomes joinable, and the three-spellings problem disappears. The
+`sources` value itself is bare (e.g. `'tcdb_diamond'`); the matching
+`DataSource` node's `id` property carries the `data_source:` prefix
+(`'data_source:tcdb_diamond'`), so the join is `d.id = 'data_source:' + s`,
+not `d.id = s`:
 
 ```
 gene→ontology edges:      'interpro'  -> 'interproscan'
@@ -216,7 +220,7 @@ Gene_has_tcdb_family:     'diamond'   -> 'tcdb_diamond'
 ```
 
 Enforced by a kg-validity test: no `sources` value may lack a matching
-`DataSource`.
+`DataSource` under that prefixed join.
 
 ### R3 — do not materialize a threshold over a stored count
 

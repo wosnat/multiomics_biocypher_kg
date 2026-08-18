@@ -64,7 +64,7 @@ Gene_has_cazy_family.evidence:
   values: [curated, family_inferred, domain_inferred]
   description: Inference strength for this CAZy assignment.
 
-# ── sources: also per edge type (KG-IPT-011); values are DataSource ids ──────
+# ── sources: also per edge type (KG-IPT-011); each value joins DataSource.id = 'data_source:'+value ──────
 Gene_has_pfam.sources:
   applies_to: Gene_has_pfam
   applies_to_kind: edge
@@ -73,7 +73,8 @@ Gene_has_pfam.sources:
   closed: true
   values: [cyanorak, eggnog, interproscan, uniprot]
   description: >
-    Who asserted this annotation. Every value is the id of a DataSource node.
+    Who asserted this annotation. Each value joins a DataSource node via
+    id = 'data_source:' + value.
 
 Gene_catalyzes_ec_number.sources:
   applies_to: Gene_catalyzes_ec_number
@@ -82,7 +83,7 @@ Gene_catalyzes_ec_number.sources:
   value_type: string_array
   closed: true
   values: [cyanorak, eggnog, interproscan, uniprot]
-  description: Who asserted this annotation. Values are DataSource ids.
+  description: Who asserted this annotation. Each value joins a DataSource node via id = 'data_source:' + value.
 
 Gene_involved_in_biological_process.sources: &go_sources
   applies_to: Gene_involved_in_biological_process
@@ -92,7 +93,7 @@ Gene_involved_in_biological_process.sources: &go_sources
   closed: true
   values: [cyanorak, eggnog, interproscan, ncbi, uniprot]
   description: >
-    Who asserted this annotation. Values are DataSource ids. ncbi contributes
+    Who asserted this annotation. Each value joins a DataSource node via id = 'data_source:' + value. ncbi contributes
     only to the GO edges.
 
 Gene_enables_molecular_function.sources:
@@ -110,7 +111,7 @@ Gene_has_cazy_family.sources:
   value_type: string_array
   closed: true
   values: [eggnog, interproscan]
-  description: Who asserted this annotation. Values are DataSource ids.
+  description: Who asserted this annotation. Each value joins a DataSource node via id = 'data_source:' + value.
 
 Gene_has_tcdb_family.sources:
   applies_to: Gene_has_tcdb_family
@@ -120,8 +121,9 @@ Gene_has_tcdb_family.sources:
   closed: true
   values: [eggnog, tcdb_diamond]
   description: >
-    Evidence sources for this transporter call. Values are DataSource ids.
-    Both entries present = cross-source corroboration.
+    Evidence sources for this transporter call. Each value joins a DataSource
+    node via id = 'data_source:' + value. Both entries present = cross-source
+    corroboration.
 
 Gene_has_tcdb_family.tier:
   applies_to: Gene_has_tcdb_family

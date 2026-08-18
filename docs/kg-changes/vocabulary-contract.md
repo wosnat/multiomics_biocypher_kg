@@ -132,11 +132,15 @@ and binding for anything the KG adds from here on:
   different ontologies on different labels — `level_kind` (five labels:
   `tc_family` vs `cazy_family` vs …) needs it, `interpro_type` (one label)
   does not.
-- **R2 — every `sources` value is the `id` of a `DataSource` node.**
+- **R2 — every `sources` value corresponds to a `DataSource` node.**
   Provenance becomes joinable: `gene→ontology edges.sources: 'interpro' ->
   'interproscan'`, `Gene_has_tcdb_family.sources: 'diamond' ->
-  'tcdb_diamond'`. Enforced by a kg-validity test — no `sources` value may
-  lack a matching `DataSource`.
+  'tcdb_diamond'`. The join is prefixed — a `sources` value `s` matches the
+  `DataSource` node whose `id` property is `'data_source:' + s` (e.g.
+  `sources` value `'tcdb_diamond'` joins `DataSource {id:
+  'data_source:tcdb_diamond'}`), not `d.id = s`. Enforced by a kg-validity
+  test — no `sources` value may lack a matching `DataSource` under that
+  prefixed join.
 - **R3 — do not materialize a threshold over a stored count.** A property
   that is only ever `some_count >= N` restates data the node already
   publishes and goes stale silently when the threshold is recalibrated.

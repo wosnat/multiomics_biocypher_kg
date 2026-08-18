@@ -32,7 +32,14 @@ def test_every_vocabulary_has_a_node(run_query, declared):
 
 
 def _seen_values(run_query, entry):
-    """Return the distinct values observed for one VocabEntry's property."""
+    """Return the distinct values observed for one VocabEntry's property.
+
+    An empty string means "absent", not a vocabulary member -- mirrors the
+    CSV-scanning gate in tests/test_create_knowledge_graph.py, which strips
+    BioCypher's quoted-empty (`''`) encoding of an unset string field before
+    comparing against declared values. Excluded here for both the scalar and
+    the string_array (post-UNWIND) query paths.
+    """
     if entry.applies_to_kind == "node":
         match_clause = f"MATCH (n:{entry.applies_to}) WHERE n.`{entry.property}` IS NOT NULL"
         var = "n"
@@ -41,9 +48,10 @@ def _seen_values(run_query, entry):
                          f"WHERE r.`{entry.property}` IS NOT NULL")
         var = "r"
     if entry.value_type == "string_array":
-        q = f"{match_clause} UNWIND {var}.`{entry.property}` AS v RETURN DISTINCT v AS v"
+        q = (f"{match_clause} UNWIND {var}.`{entry.property}` AS v "
+             f"WITH DISTINCT v WHERE v <> '' RETURN v AS v")
     else:
-        q = f"{match_clause} RETURN DISTINCT {var}.`{entry.property}` AS v"
+        q = f"{match_clause} AND {var}.`{entry.property}` <> '' RETURN DISTINCT {var}.`{entry.property}` AS v"
     return {r["v"] for r in run_query(q)}
 
 
@@ -66,12 +74,14 @@ def test_observed_values_are_declared(run_query, declared):
 
 
 def test_every_sources_value_joins_a_data_source(run_query):
-    """R2: sources values are DataSource ids."""
+    """R2: every sources value corresponds to a DataSource node whose `id`
+    property is `data_source:<value>` (the DataSource id is prefixed, the
+    edge-level sources value is bare)."""
     rows = run_query("""
         MATCH ()-[r]->() WHERE r.sources IS NOT NULL
         UNWIND r.sources AS s
         WITH DISTINCT s
-        WHERE NOT EXISTS { MATCH (d:DataSource) WHERE d.id = s }
+        WHERE NOT EXISTS { MATCH (d:DataSource) WHERE d.id = 'data_source:' + s }
         RETURN collect(s) AS orphans
     """)
     assert rows[0]["orphans"] == [], (

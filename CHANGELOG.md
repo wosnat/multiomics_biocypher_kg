@@ -239,7 +239,7 @@ tag with nothing logged.
   wrong answer. Five house rules now govern every vocabulary the KG ships: **R1**
   lowercase `snake_case` for KG-minted values, external database terms preserved
   verbatim; **R1b** namespace a value only when it collides across labels; **R2**
-  every `sources` value is a `DataSource` node id; **R3** don't materialize a
+  every `sources` value joins a `DataSource` node via `id = 'data_source:' + value`; **R3** don't materialize a
   threshold over an already-stored count; **R4** one score name per concept, on
   one `[0,1]` float scale. **R5 — no native `bool`.** A two-state fact is now
   required to be a categorical string naming both states meaningfully (the
