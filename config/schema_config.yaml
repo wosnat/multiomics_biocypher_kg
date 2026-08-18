@@ -1492,6 +1492,9 @@ gene to merops family association:
     consensus_n: int
     best_hit_id: str        # matched MEROPS reference, e.g. "S14.008"
     best_hit_kind: str      # holotype | putative | nonpeptidase_homolog
+    # pfam_support: str     # corroborated | uncorroborated — post-import (fold
+    #                       # corroboration via Merops_family_has_pfam_domain;
+    #                       # orthogonal to call_class, not written by the adapter)
 
 merops family hierarchical association:
   is_a: association

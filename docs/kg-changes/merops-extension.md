@@ -168,8 +168,10 @@ functional depth on the family nodes via curated cleavage-site specificity.
   pattern; `pfam_node_ids=None` → no bridge edges). Against our 97 observed
   families, `interpro.txt` collapses to **~183 distinct (family, Pfam)
   pairs** (62 families have exactly 1 Pfam, 18 have 2; the S09/C26 tail is
-  shared-fold biology — α/β-hydrolase, GATase — not noise), so the live
-  graph edge count is expected at ~183.
+  shared-fold biology — α/β-hydrolase, GATase — not noise). **Measured live
+  edge count: 156** — the 27-pair gap is observed-family pairs whose Pfam
+  has no node in the graph (pruned by the injected `pfam_node_ids`, as
+  designed).
 - Property: `member_id_count` (int) — how many distinct curated MEROPS
   identifiers back the (family, Pfam) pair. **Deliberate deviation** from
   TCDB's `curated_tcids` list: MEROPS backing lists run to hundreds of
@@ -201,7 +203,18 @@ functional depth on the family nodes via curated cleavage-site specificity.
   (`tier`, `pfam_support`) a synthesized score adds nothing over reading
   both. The no-`annotation_quality`-bucket decision for MEROPS is unchanged
   — corroboration is not a second independent evidence source.
-- **Measured `pfam_support` split by call_class: TO FILL post-rebuild.**
+- **Measured `pfam_support` split by call_class (2026-08-18 rebuild):**
+  `peptidase` 3,285 corroborated / 142 uncorroborated (95.9%) · `inhibitor`
+  52 / 0 (100%) · `nonpeptidase_homolog` 768 / 10 (**98.7%** corroborated).
+  The design predicted corroboration would be *depressed* on dead-homolog
+  edges — it is not, and the reason is instructive: **the Pfam bridge
+  corroborates the FOLD assignment, which catalytically dead relatives share
+  with the active members of their family.** So `pfam_support` and
+  `call_class` are orthogonal, complementary signals, not redundant ones:
+  `pfam_support = corroborated` says "the family/fold placement is right";
+  `call_class = nonpeptidase_homolog` says "but it is probably not an active
+  peptidase." Read both — a corroborated dead homolog is still not a
+  protease.
 
 ### Cleavage specificity — three sparse `MeropsFamily` properties
 

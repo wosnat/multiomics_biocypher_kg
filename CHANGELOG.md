@@ -287,7 +287,7 @@ tag with nothing logged.
   **2026-08-18 follow-up** (design
   `docs/superpowers/specs/2026-08-18-merops-pfam-bridge-cleavage-design.md`):
   new `Merops_family_has_pfam_domain` bridge edge (MeropsFamily → Pfam,
-  family-level only, ~183 edges expected, `member_id_count` property) built
+  family-level only, 156 live edges, `member_id_count` property) built
   from MEROPS's own curated `interpro.txt` family→Pfam map, giving the
   single-source `Gene_has_merops_family` edge an independent corroboration
   signal via new post-import property `pfam_support`

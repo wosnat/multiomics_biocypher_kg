@@ -363,7 +363,7 @@ def main():
     # MEROPS peptidase ontology (hierarchical clan→family→subfamily, scored
     # edge; observed-only, CAZy pattern) + Family→Pfam bridge edges + cleavage
     # node properties. Reads per-strain merops calls.json for edge evidence +
-    # the committed cache/data/merops/merops_reference.json (prepare_data step 9)
+    # the committed cache/data/merops/merops_reference.json (prepare_data step 10)
     # for node names/clan descriptions/family typing/pfam_bridge/cleavage.
     # Pfam node set injected so the bridge can never dangle (TCDB-bridge precedent).
     from multiomics_kg.adapters.merops_adapter import MultiMeropsAnnotationAdapter
