@@ -361,12 +361,15 @@ def main():
         bc.write_edges(ncbifam_edges)
 
     # MEROPS peptidase ontology (hierarchical clan→family→subfamily, scored
-    # edge; observed-only, CAZy pattern). Reads per-strain merops calls.json
-    # for edge evidence + the committed cache/data/merops/merops_reference.json
-    # (prepare_data step 9) for node names/clan descriptions/family typing.
+    # edge; observed-only, CAZy pattern) + Family→Pfam bridge edges + cleavage
+    # node properties. Reads per-strain merops calls.json for edge evidence +
+    # the committed cache/data/merops/merops_reference.json (prepare_data step 9)
+    # for node names/clan descriptions/family typing/pfam_bridge/cleavage.
+    # Pfam node set injected so the bridge can never dangle (TCDB-bridge precedent).
     from multiomics_kg.adapters.merops_adapter import MultiMeropsAnnotationAdapter
     merops_adapter = MultiMeropsAnnotationAdapter(
         genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        pfam_node_ids=pfam_adapter.all_pfam_ids(),
         test_mode=TEST_MODE,
     )
     merops_adapter.download_data(cache=CACHE)

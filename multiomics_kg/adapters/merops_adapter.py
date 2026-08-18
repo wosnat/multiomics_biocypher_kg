@@ -26,6 +26,7 @@ import logging
 from pathlib import Path
 from typing import Iterator
 
+from multiomics_kg.utils.controlled_vocab import VOCAB
 from multiomics_kg.utils.curie_utils import normalize_curie
 from multiomics_kg.utils.merops_diamond import (
     call_class,
@@ -59,6 +60,10 @@ def _merops_node_id(code: str) -> str:
     classified = classify_code(code)
     prefix = "merops.clan" if classified and classified[0] == 0 else "merops.family"
     return normalize_curie(f"{prefix}:{code}") or f"merops_{code}"
+
+
+def _pfam_node_id(acc: str) -> str:
+    return normalize_curie(f"pfam:{acc}") or f"pfam_{acc}"
 
 
 # Edge-evidence fields copied verbatim from each candidate (call_class is derived).
@@ -119,9 +124,12 @@ class MeropsAnnotationAdapter:
                     )
                     continue
                 props: dict = {
-                    "call_class": _clean_str(call_class(cand)),
+                    "call_class": VOCAB.check(
+                        "Gene_has_merops_family", "call_class", call_class(cand)),
                     "best_hit_id": _clean_str(cand.get("best_hit_id")),
-                    "best_hit_kind": _clean_str(cand.get("best_hit_kind")),
+                    "best_hit_kind": VOCAB.check(
+                        "Gene_has_merops_family", "best_hit_kind",
+                        cand.get("best_hit_kind")),
                 }
                 for field in _EDGE_EVIDENCE_FIELDS:
                     if cand.get(field) is not None:
@@ -148,10 +156,12 @@ class MultiMeropsAnnotationAdapter:
         self,
         genome_config_file: str,
         reference_path: str | Path = DEFAULT_REFERENCE_PATH,
+        pfam_node_ids: set[str] | None = None,
         test_mode: bool = False,
     ) -> None:
         self.test_mode = test_mode
         self.reference_path = Path(reference_path)
+        self.pfam_node_ids = pfam_node_ids
         self._reference: dict | None = None
         self._strain_adapters: list[MeropsAnnotationAdapter] = []
         self._build_strain_adapters(genome_config_file)
@@ -240,6 +250,13 @@ class MultiMeropsAnnotationAdapter:
             props["name"] = _clean_str(fam_meta.get("name") or code)
             if fam_meta.get("family_type"):
                 props["family_type"] = fam_meta["family_type"]
+            for key, val in (ref.get("cleavage", {}).get(code) or {}).items():
+                if key == "cleavage_summary":
+                    props[key] = _clean_str(val)
+                elif key == "cleavage_p1_residues":
+                    props[key] = [_clean_str(v) for v in val]
+                else:
+                    props[key] = val
         else:
             props["name"] = _clean_str(ref.get("subfamily_names", {}).get(code) or code)
         return props
@@ -276,7 +293,28 @@ class MultiMeropsAnnotationAdapter:
             )
             parent_count += 1
 
-        # 2. Gene→MEROPS edges via per-strain delegation. Every edge target is
+        # 2. Family→Pfam bridge (MEROPS interpro.txt, family-level only).
+        # Dangling-proof: emitted only for injected, existing Pfam node ids
+        # (TCDB-bridge precedent) — pfam_node_ids=None -> no bridge edges.
+        bridge_count = 0
+        if self.pfam_node_ids is not None:
+            for fam, pfams in sorted(self._ref().get("pfam_bridge", {}).items()):
+                if fam not in all_codes:
+                    continue
+                for pf, n in sorted(pfams.items()):
+                    pf_id = _pfam_node_id(pf)
+                    if pf_id not in self.pfam_node_ids:
+                        continue
+                    yield (
+                        f"{fam}-has_pfam-{pf}",
+                        _merops_node_id(fam),
+                        pf_id,
+                        "merops_family_has_pfam_domain",
+                        {"member_id_count": n},
+                    )
+                    bridge_count += 1
+
+        # 3. Gene→MEROPS edges via per-strain delegation. Every edge target is
         # in the node set by construction (same edge_target_code both places).
         gene_count = 0
         for adapter in self._strain_adapters:
@@ -284,5 +322,6 @@ class MultiMeropsAnnotationAdapter:
                 yield edge
                 gene_count += 1
         logger.info(
-            f"MultiMeropsAnnotationAdapter.get_edges: {parent_count} parent, {gene_count} gene edges"
+            f"MultiMeropsAnnotationAdapter.get_edges: {parent_count} parent, "
+            f"{bridge_count} bridge, {gene_count} gene edges"
         )

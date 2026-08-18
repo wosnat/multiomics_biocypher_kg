@@ -159,6 +159,18 @@ def _write_reference(tmp_path: Path) -> Path:
             "SB": {"description": "Ser/His/Asp subtilisin fold", "family_type": "peptidase"},
             "IL": {"description": "Inhibitor clan IL", "family_type": "inhibitor"},
         },
+        "pfam_bridge": {
+            "S14": {"PF00574": 120},
+            "S08": {"PF00082": 300},
+            "M99": {"PF99999": 5},      # family never observed -> no edge
+        },
+        "cleavage": {
+            "S14": {
+                "cleavage_p1_residues": ["Met", "Leu"],
+                "cleavage_summary": "cleaves after Met (40%) / Leu (20%) - 30 known cleavages (50% physiological)",
+                "known_cleavage_count": 30,
+            },
+        },
     }
     path = tmp_path / "merops_reference.json"
     with open(path, "w", encoding="utf-8") as fh:
@@ -296,6 +308,9 @@ def test_node_properties(multi):
         "merops_id": "S14", "level": 1, "level_kind": "merops_family",
         "family_type": "peptidase", "catalytic_type": "serine",
         "name": "endopeptidase Clp",
+        "cleavage_p1_residues": ["Met", "Leu"],
+        "cleavage_summary": "cleaves after Met (40%) / Leu (20%) - 30 known cleavages (50% physiological)",
+        "known_cleavage_count": 30,
     }
     clan = nodes["merops.clan:SK"]
     assert clan["level"] == 0 and clan["level_kind"] == "merops_clan"
@@ -345,3 +360,61 @@ def test_missing_reference_fails_loudly(tmp_path):
     )
     with pytest.raises(FileNotFoundError, match="prepare_data"):
         m.download_data()
+
+
+# ── Pfam bridge edges + cleavage properties ─────────────────────────────────
+
+def _bridge_edges(m):
+    return [e for e in m.get_edges() if e[3] == "merops_family_has_pfam_domain"]
+
+
+def test_bridge_edges_emitted_for_kept_families(tmp_path):
+    # rebuild the standard fixture but with pfam ids injected
+    genes = {"LT001": {"protein_id": "WP_1.1", "merops_ids": ["S14"]}}
+    calls = {"WP_1.1": {"calls": [_candidate()]}}
+    genome_dir = _write_strain(tmp_path, genes, calls)
+    config = _write_genome_config(tmp_path, [genome_dir])
+    m = MultiMeropsAnnotationAdapter(
+        genome_config_file=str(config),
+        reference_path=_write_reference(tmp_path),
+        pfam_node_ids={"pfam:PF00574", "pfam:PF00082"},
+    )
+    m.download_data()
+    edges = _bridge_edges(m)
+    assert edges == [(
+        "S14-has_pfam-PF00574", "merops.family:S14", "pfam:PF00574",
+        "merops_family_has_pfam_domain", {"member_id_count": 120},
+    )]  # S08 not observed in this fixture; M99 never observed
+
+
+def test_bridge_pruned_by_pfam_node_ids(tmp_path):
+    genes = {"LT001": {"protein_id": "WP_1.1", "merops_ids": ["S14"]}}
+    calls = {"WP_1.1": {"calls": [_candidate()]}}
+    genome_dir = _write_strain(tmp_path, genes, calls)
+    config = _write_genome_config(tmp_path, [genome_dir])
+    m = MultiMeropsAnnotationAdapter(
+        genome_config_file=str(config),
+        reference_path=_write_reference(tmp_path),
+        pfam_node_ids={"pfam:PF00082"},          # PF00574 absent from graph
+    )
+    m.download_data()
+    assert _bridge_edges(m) == []
+
+
+def test_bridge_absent_without_injection(multi):
+    """pfam_node_ids=None (default) -> no bridge edges (dangling-proof)."""
+    assert _bridge_edges(multi) == []
+
+
+def test_cleavage_properties_on_family_nodes(multi):
+    nodes = {nid: props for nid, _, props in multi.get_nodes()}
+    s14 = nodes["merops.family:S14"]
+    assert s14["cleavage_p1_residues"] == ["Met", "Leu"]
+    assert s14["known_cleavage_count"] == 30
+    assert "known cleavages" in s14["cleavage_summary"]
+    # sparse discipline: families without data carry none of the three keys
+    s08 = nodes["merops.family:S08"]
+    assert "cleavage_p1_residues" not in s08 and "cleavage_summary" not in s08
+    assert "known_cleavage_count" not in s08
+    # clans/subfamilies never carry them
+    assert "cleavage_summary" not in nodes["merops.clan:SK"]
