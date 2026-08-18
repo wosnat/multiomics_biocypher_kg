@@ -17,15 +17,23 @@ up — this file is the index, not the plan.
 
 ## KG semantics
 
-- [ ] **InterPro `is_uninformative` coverage.** InterPro is the only ontology
-      missing from `config/uninformative_terms.yaml`, which is why
-      `scripts/post-import.cypher` (~line 664) excludes `interpro` from
-      `informative_annotation_types` and from the `annotation_quality` 8-bucket
-      count. Likely a `name_patterns` rule over "Domain of unknown function" /
-      "Uncharacterised protein family" entries, mirroring the KEGG pattern.
-      **Breaking** — shifts `annotation_quality`, which the MCP reads and gates
-      defaults on, so it needs its own `post-import-validate` baseline.
-      → `docs/superpowers/specs/2026-08-16-vocabulary-contract-design.md` §9.4
+- [ ] **MEROPS cross-ontology bridges.** MEROPS publishes `interpro.txt` (182 MB,
+      per-accession MEROPS↔Pfam↔InterPro map — the structured corroboration
+      bridge InterPro's own XML lacks: `db="MEROPS"` xrefs = 0 there) and
+      `database_files/GO_annotation.txt` (MEROPS→GO). Both would be
+      TCDB-bridge-shaped (`Merops_family_has_pfam_domain` etc., ontology→ontology,
+      never gene-attaching). Landing either gives `Gene_has_merops_family` a
+      second corroboration signal — which is also the trigger to revisit the
+      deliberate no-`annotation_quality`-bucket decision (single-source was the
+      reason to stay out).
+      → `docs/kg-changes/merops-extension.md` "What does NOT change";
+      `docs/superpowers/specs/2026-08-17-merops-kg-integration-design.md` "Out of scope"
+
+- [ ] **MEROPS cleavage specificity as node properties.** `Substrate_search.txt`
+      carries per-family cleavage-site specificity; the Phase-2 design deferred it
+      (no substrate→Metabolite arm — peptidase substrates are proteins, so the
+      data belongs on `MeropsFamily` nodes, not edges to Metabolite).
+      → same two pointers as above
 
 - [ ] **Recalibrate `is_multi_substrate` / `is_multi_gene` thresholds.** The TCDB
       threshold (`level >= 2 AND metabolite_count >= 50`) was calibrated against
@@ -45,10 +53,13 @@ up — this file is the index, not the plan.
       `has_cross_genus_members: cross_genus | single_genus` precedent.
       → `docs/superpowers/specs/2026-08-16-vocabulary-contract-design.md` §3 R5, §10.5
 
-- [ ] **Orphan proteins.** ~46% of UniProt proteins have neither
-      `Protein_belongs_to_organism` nor `Gene_encodes_protein`. Two kg-validity
-      tests are failing on it. Unknown whether it is a pre-existing data gap or
-      a regression from the Feb 2026 UniProt adapter refactor (`fe5c2bb`).
+- [ ] **Orphan proteins.** ~46% of UniProt proteins were reported with neither
+      `Protein_belongs_to_organism` nor `Gene_encodes_protein`. The two
+      kg-validity tests documented as failing on it have now passed clean on
+      **two consecutive 2026-08-17 rebuilds** (InterPro multi-ontology + MEROPS),
+      so what remains is verification, not a live failure: confirm the orphan
+      fraction itself is gone (vs. the tests under-asserting), then close this
+      and the CLAUDE.md Known Issues entry together.
       → `plans/orphan_proteins.md`
 
 - [ ] **InterPro MetaCyc pathway xrefs.** Populated in
@@ -57,7 +68,12 @@ up — this file is the index, not the plan.
       pathway vocabulary rather than an extension of the KO-derived layer.
       Reactome is excluded by default (species-expanded, noisy for marine
       bacteria).
-      → `docs/kg-changes/interproscan-extension.md`
+      → `docs/kg-changes/interpro-multi-ontology.md` (supersedes
+      `interproscan-extension.md`)
+
+> InterPro multi-ontology redesign follow-ups (NCBIfam MCP registration,
+> naming-recovery extensions, etc.) have their own plan file:
+> `plans/interpro_redesign_backlog.md`.
 
 ## Explorer / MCP coordination
 
@@ -77,3 +93,12 @@ up — this file is the index, not the plan.
       now that §7.2 of the vocabulary spec establishes the GO provenance shape is
       final this release rather than pending.
       → `docs/kg-changes/interpro-two-layer.md` §7
+
+- [ ] **Register the MEROPS ontology in the explorer.** `MeropsFamily` /
+      `Gene_has_merops_family` are live in the KG but invisible to
+      `ontology_landscape` / `search_ontology` / `genes_by_ontology` until the
+      explorer's `ONTOLOGY_CONFIG` + ontology enum gain a `merops` entry
+      (currently only `run_cypher` reaches them). Registration should surface
+      `call_class` — the guard that keeps dead homologs and inhibitors out of
+      protease counts — and `peptidase_gene_count` as the default count.
+      → `docs/kg-changes/merops-extension.md` "What does NOT change"
