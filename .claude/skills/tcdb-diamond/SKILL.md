@@ -166,6 +166,37 @@ Nothing is pre-filtered. Consumers that want a stricter cut should threshold on 
 `identity`, or `confidence_score` **explicitly**, so the choice is visible at the point of
 use rather than frozen into the artifact.
 
+## Refreshing TCDB names (T6)
+
+`TcdbFamily` node names (all levels) come from a committed artifact,
+`cache/data/tcdb/tcdb_names.json`, built by a standalone, slow-and-polite
+scraper — TCDB publishes no bulk file for subclass/subfamily/specificity names:
+
+```bash
+# Full run (~352 requests at 2.5 s spacing ≈ 15-20 min; resumable)
+uv run python -m multiomics_kg.download.scrape_tcdb_names
+
+# Top-up after onboarding a strain that introduced unscraped families
+# (step 6 logs a warning naming the exact families + this command):
+uv run python -m multiomics_kg.download.scrape_tcdb_names --families 2.A.130 9.B.400
+```
+
+**When to run:** (1) step 6 warns `kept TCDB families not covered by
+tcdb_names.json` — a new strain's annotations reached families the scrape
+hasn't seen; (2) a TCDB upstream release worth picking up (`--force` re-fetches
+cached pages). After a run, rebuild the hierarchy: `bash scripts/prepare_data.sh
+--steps 6 --force`, then commit both `tcdb_names.json` and
+`tcdb_hierarchy.json`.
+
+**Hygiene (by design):** single-threaded, 2.5 s/request, exponential backoff,
+aborts after 3 consecutive failures (tcdb.org has multi-day maintenance
+windows — resume later; already-fetched pages under the gitignored
+`cache/data/tcdb/raw/pages/` are skipped). Scope = the ~351 families carrying
+kept 4/5-part IDs in `tcdb_pruned.json`, plus the full browse.php layer
+(classes/subclasses/families). Subfamilies with no upstream name stay as bare
+TC ids on purpose (`t.name = t.tcdb_id` is the fallback marker). Design:
+`docs/superpowers/specs/2026-08-12-tcdb-node-names-design.md`.
+
 ## Phase 2 — KG integration ✅ DONE
 
 These artifacts are merged into `gene_annotations_merged.json` and the KG as a

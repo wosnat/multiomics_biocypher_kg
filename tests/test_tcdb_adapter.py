@@ -120,7 +120,7 @@ def test_orchestrator_node_props(cache_root, strain_dir):
     a = _make_orchestrator(cache_root, strain_dir)
     nodes = {n[0]: n for n in a.get_nodes()}
 
-    # Class node: name from _TC_CLASS_NAMES, level 0
+    # Class node: name from the fixture hierarchy (built from tcdb_names.json since T6), level 0
     nid, _label, props = nodes["tcdb:1"]
     assert props["level"] == 0
     assert props["level_kind"] == "tc_class"

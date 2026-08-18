@@ -33,11 +33,12 @@ from multiomics_kg.utils.curie_utils import normalize_curie
 logger = logging.getLogger(__name__)
 
 # NOTE: this module used to carry its own `_TC_CLASS_NAMES` copy as a fallback for
-# `tc_class` nodes with an empty name. It was dead code: `build_tcdb_hierarchy`
-# (prepare_data step 6) owns the authoritative table and fills every class name,
-# so all 7 kept classes arrive named and the branch never fired. It could not even
-# have helped the one unnamed class in the hierarchy — TC class `6` — because the
-# adapter's copy had no entry for it. Class names live in step 6 alone now.
+# `tc_class` nodes with an empty name. It was dead code, and the hardcoded table
+# itself is gone since T6 (2026-08-18): ALL node names — classes through
+# specificities — now arrive in tcdb_hierarchy.json, filled by step 6 from the
+# committed cache/data/tcdb/tcdb_names.json (built by
+# multiomics_kg/download/scrape_tcdb_names.py). This adapter only falls back to
+# the bare tcdb_id when upstream genuinely has no name (spec 5c).
 
 
 def _clean_str(value: str | None) -> str:
