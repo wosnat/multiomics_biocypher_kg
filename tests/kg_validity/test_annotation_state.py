@@ -124,6 +124,37 @@ def test_state_matches_recomputed_bucket_count(run_query):
     )
 
 
+def test_known_well_annotated_gene(run_query):
+    """Spot-check: dnaA in MED4 (PMM0001) should be informative_multi."""
+    result = run_query(
+        "MATCH (g:Gene {locus_tag: 'PMM0001'}) "
+        "RETURN g.annotation_state AS state, g.annotation_quality AS qual"
+    )
+    assert result, "PMM0001 not found"
+    assert result[0]["state"] == "informative_multi"
+    assert result[0]["qual"] == 3
+
+
+def test_informative_subset_of_annotation_types(run_query):
+    """For every gene, informative_annotation_types must be a subset of
+    annotation_types — informativeness can only filter OUT, not add.
+    Exception: 'reaction' and 'transporter' are informative-only tokens
+    (legacy uses 'tcdb' for the same TCDB edges and has no reaction token;
+    verified against the 2026-08-18 baseline capture)."""
+    result = run_query(
+        "MATCH (g:Gene) "
+        "WITH g, [t IN coalesce(g.informative_annotation_types, []) "
+        "         WHERE NOT t IN coalesce(g.annotation_types, []) "
+        "           AND NOT t IN $exempt | t] AS extra "
+        "WHERE size(extra) > 0 "
+        "RETURN count(*) AS n, collect(DISTINCT extra)[..3] AS sample",
+        exempt=["reaction", "transporter"],
+    )
+    assert result[0]["n"] == 0, (
+        f"Genes with informative-only types outside the exempt list: {result[0]}"
+    )
+
+
 def test_no_evidence_has_any_edge_contract(run_query):
     """The has_any_edge contract, checked live in both directions:
     no_evidence genes have ZERO edges of the counted relationship types (and
