@@ -388,7 +388,7 @@ def test_both_sources_produce_ONE_edge_with_both_in_sources(dual_source_strain):
     corroboration signal, and two parallel edges would destroy it."""
     edges = _gene_edges(dual_source_strain)
     props = edges[("ncbigene:PMM_0001", "tcdb:1.A.1.5.2")]
-    assert sorted(props["sources"]) == ["diamond", "eggnog"]
+    assert sorted(props["sources"]) == ["eggnog", "tcdb_diamond"]
     assert len([k for k in edges if k[0] == "ncbigene:PMM_0001"]) == 1
 
 
@@ -414,7 +414,7 @@ def test_tier3_diamond_only_edge_is_still_emitted(dual_source_strain):
     """Tier 3 is conservative remote homology, not noise — it becomes an edge.
     Suppression happens downstream in post-import's annotation_types gate."""
     props = _gene_edges(dual_source_strain)[("ncbigene:PMM_0003", "tcdb:1.A.1")]
-    assert props["sources"] == ["diamond"]
+    assert props["sources"] == ["tcdb_diamond"]
     assert props["tier"] == 3
 
 
@@ -439,7 +439,7 @@ def test_seed_alias_collapse_merges_sources_not_duplicates(tmp_path):
     Regression: seed_aliases remaps in the Multi adapter AFTER the per-strain
     adapter builds props, so `3.A.1.35` (eggNOG, retired) and `3.A.1` (diamond)
     both landed on tcdb:3.A.1 as parallel edges carrying ['eggnog'] and
-    ['diamond'] separately. 82 such pairs existed in the live graph.
+    ['tcdb_diamond'] separately. 82 such pairs existed in the live graph.
     """
     d = tmp_path / "MED4"
     d.mkdir()
@@ -474,7 +474,7 @@ def test_seed_alias_collapse_merges_sources_not_duplicates(tmp_path):
     gene_edges = [e for e in a.get_edges() if e[3] == "gene_has_tcdb_family"]
     assert len(gene_edges) == 1, f"expected 1 merged edge, got {len(gene_edges)}"
     props = gene_edges[0][4]
-    assert sorted(props["sources"]) == ["diamond", "eggnog"]
+    assert sorted(props["sources"]) == ["eggnog", "tcdb_diamond"]
     # Diamond's evidence survives the merge
     assert props["tier"] == 3
     assert props["confidence_score"] == 0.2
@@ -484,8 +484,8 @@ def test_sources_are_sorted_canonically(dual_source_strain):
     """`sources` must have ONE spelling per value.
 
     The seed_alias merge path unions and sorts, so an unsorted build path would
-    leave ['eggnog','diamond'] and ['diamond','eggnog'] both in the graph for the
-    same meaning — and any consumer doing `r.sources = [...]` equality would
+    leave ['eggnog','tcdb_diamond'] and ['tcdb_diamond','eggnog'] both in the graph
+    for the same meaning — and any consumer doing `r.sources = [...]` equality would
     silently miss one set. Observed live: 3,559 vs 82 edges before this fix.
     """
     for props in _gene_edges(dual_source_strain).values():
@@ -512,9 +512,9 @@ def test_substrate_depth_marks_only_the_deepest_kept_node(cache_root, strain_dir
             by_source.setdefault(src, {})[tgt] = props["substrate_depth"]
 
     assert by_source["tcdb:1.A.1.5.2"] == {
-        "chebi:9999": "deepest", "kegg.compound:C00208": "deepest"}
+        "chebi:9999": "most_specific", "kegg.compound:C00208": "most_specific"}
     for ancestor in ("tcdb:1", "tcdb:1.A", "tcdb:1.A.1", "tcdb:1.A.1.5"):
-        assert set(by_source[ancestor].values()) == {"ancestor"}, ancestor
+        assert set(by_source[ancestor].values()) == {"inherited"}, ancestor
 
 
 def test_substrate_depth_is_a_categorical_string_not_a_bool(cache_root, strain_dir):
@@ -522,7 +522,7 @@ def test_substrate_depth_is_a_categorical_string_not_a_bool(cache_root, strain_d
     for _id, _s, _t, label, props in _make_orchestrator(cache_root, strain_dir).get_edges():
         if label == "tcdb_family_transports_metabolite":
             assert isinstance(props["substrate_depth"], str)
-            assert props["substrate_depth"] in {"deepest", "ancestor"}
+            assert props["substrate_depth"] in {"most_specific", "inherited"}
 
 
 def test_every_substrate_is_deepest_for_exactly_one_node_per_branch(cache_root, strain_dir):
@@ -530,7 +530,7 @@ def test_every_substrate_is_deepest_for_exactly_one_node_per_branch(cache_root, 
     again — the exact regression this marker exists to prevent."""
     deepest_by_metabolite = {}
     for _id, src, tgt, label, props in _make_orchestrator(cache_root, strain_dir).get_edges():
-        if label == "tcdb_family_transports_metabolite" and props["substrate_depth"] == "deepest":
+        if label == "tcdb_family_transports_metabolite" and props["substrate_depth"] == "most_specific":
             deepest_by_metabolite.setdefault(tgt, set()).add(src)
     assert deepest_by_metabolite == {
         "chebi:9999": {"tcdb:1.A.1.5.2"},
@@ -573,6 +573,42 @@ def test_depth_is_per_substrate_not_per_node(tmp_path):
         if label == "tcdb_family_transports_metabolite":
             depth[(src, tgt)] = props["substrate_depth"]
 
-    assert depth[("tcdb:2.A.1", "kegg.compound:C1")] == "ancestor"
-    assert depth[("tcdb:2.A.1", "kegg.compound:C2")] == "deepest"
-    assert depth[("tcdb:2.A.1.1", "kegg.compound:C1")] == "deepest"
+    assert depth[("tcdb:2.A.1", "kegg.compound:C1")] == "inherited"
+    assert depth[("tcdb:2.A.1", "kegg.compound:C2")] == "most_specific"
+    assert depth[("tcdb:2.A.1.1", "kegg.compound:C1")] == "most_specific"
+
+
+def test_substrate_depth_uses_meaningful_values():
+    from multiomics_kg.utils.controlled_vocab import VOCAB
+    entry = VOCAB.get("Tcdb_family_transports_metabolite", "substrate_depth")
+    assert set(entry.values) == {"most_specific", "inherited"}
+    # and the adapter emits only declared values
+    for v in ("most_specific", "inherited"):
+        VOCAB.check("Tcdb_family_transports_metabolite", "substrate_depth", v)
+
+
+def test_no_schema_property_is_declared_bool():
+    """R5: native bool is forbidden graph-wide."""
+    import re, pathlib
+    text = pathlib.Path("config/schema_config.yaml").read_text()
+    offenders = re.findall(r"^\s+([a-z_]+): bool\s*(?:#.*)?$", text, re.M)
+    assert offenders == [], f"native bool properties remain: {offenders}"
+
+
+def test_is_promiscuous_is_gone_from_post_import():
+    import pathlib
+    for p in ("scripts/post-import.cypher", "scripts/post-import.sh"):
+        text = pathlib.Path(p).read_text()
+        assert "is_promiscuous" not in text, f"{p} still sets or reads is_promiscuous"
+
+
+def test_transport_substrate_resolution_threshold_is_inlined():
+    import pathlib
+    # scripts/post-import.sh is authoritative; post-import.cypher is a kept-in-sync
+    # reference copy for non-Docker use. Assert against both so a drift between
+    # them is caught here, not just at rebuild time.
+    for p in ("scripts/post-import.cypher", "scripts/post-import.sh"):
+        text = pathlib.Path(p).read_text()
+        assert "metabolite_count, 0) >= 50" in text, (
+            f"{p}: the breadth threshold must be inlined into "
+            "transport_substrate_resolution")

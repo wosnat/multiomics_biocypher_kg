@@ -488,6 +488,32 @@ data source:
     applies_to_organisms: str[]   # populated only for organism_restricted
     info_types: str[]             # auto-generated from gene_annotations_config.yaml
 
+# Controlled vocabularies published as data (spec 2026-08-16 §5). One node per
+# (label, property) pair. `evidence` and `sources` get one node PER EDGE TYPE
+# because their domains genuinely differ — a flat union would offer a filter
+# value that can never match on that edge.
+controlled vocabulary:
+  is_a: information content entity
+  represented_as: node
+  preferred_id: controlled_vocabulary
+  label_in_input: controlled_vocabulary
+  properties:
+    id: str                # '<applies_to>.<property>'
+    applies_to: str        # node label or edge type
+    applies_to_kind: str   # 'node' | 'edge'
+    property: str
+    value_type: str        # string | string_array | float | int | bool_string
+    closed: str            # "true" | "false"  — false = enumerate at runtime
+    sparse: str            # "true" | "false"  — property may be absent
+    expected_empty: str    # "true" | "false"  — declared, no values by design
+    exhaustive: str        # "true" | "false"  — declared set == observed set (coverage, opt-in)
+    values: str[]
+    description: str
+    min_value: float       # sparse: numeric vocabularies only
+    max_value: float       # sparse
+    signal_count: int      # sparse: evidence_score only
+    signals: str[]         # sparse: evidence_score component names
+
 #####################################
 
 
@@ -538,9 +564,9 @@ gene:
     significant_up_count: int         # expression edges where expression_status = 'significant_up'
     significant_down_count: int       # expression edges where expression_status = 'significant_down'
     reaction_count: int               # post-import: count of Gene_catalyzes_reaction edges (KG-A1)
-    tcdb_best_evidence_score: int     # post-import: max tcdb_evidence_score across this gene's
-                                      # Gene_has_tcdb_family edges (0-5). ADVISORY. SPARSE — set
-                                      # only when the gene has >=1 TCDB edge, so "no transporter
+    tcdb_evidence_score_max: float     # post-import: max evidence_score across this gene's
+                                      # Gene_has_tcdb_family edges (float 0-1). ADVISORY. SPARSE —
+                                      # set only when the gene has >=1 TCDB edge, so "no transporter
                                       # evidence" stays distinct from "weak evidence".
     closest_ortholog_group_size: int  # member_count from most specific OG (lowest specificity_rank)
     closest_ortholog_genera: str[]    # genera from most specific OG
@@ -850,7 +876,7 @@ metabolite:
     hmdb_id: str                 # nullable
     evidence_sources: str[]      # ['metabolism', 'transport']; metabolomics reserved
     # post-import: distinct transporter systems at MAXIMAL DEPTH — TcdbFamily
-    # nodes whose substrate edge carries substrate_depth='deepest', so an ancestor
+    # nodes whose substrate edge carries substrate_depth='most_specific', so an ancestor
     # is never counted alongside its own descendant. (Was tc_specificity-only,
     # which read 0 for 83% of transported metabolites after the ancestor prune.)
     transporter_count: int
@@ -973,9 +999,9 @@ protein_contributes_to_molecular_function:
     evidence_code: str
 
 # Provenance + confidence on gene→ontology edges (design 2026-08-10 §5.3):
-#   sources: str[]   — who asserted it (ncbi|cyanorak|uniprot|eggnog|interpro)
+#   sources: str[]   — who asserted it (ncbi|cyanorak|uniprot|eggnog|interproscan)
 #   evidence: str    — strength: curated > signature > family_inferred > domain_inferred
-#   evidence_score: int (0-3, advisory) — a ready sort key, never a filter
+#   evidence_score: float (0-1, advisory; 3 signals) — a ready sort key, never a filter
 # Set by annotation_provenance.annotation_edge_props from the per-token *_source /
 # *_evidence maps in gene_annotations_merged.json. `sources` omitted when absent.
 gene to biological process association:
@@ -988,7 +1014,7 @@ gene to biological process association:
   properties:
     sources: str[]
     evidence: str
-    evidence_score: int
+    evidence_score: float
 
 gene to cellular component association:
   is_a: GeneToGoTermAssociation
@@ -1000,7 +1026,7 @@ gene to cellular component association:
   properties:
     sources: str[]
     evidence: str
-    evidence_score: int
+    evidence_score: float
 
 gene to molecular function association:
   is_a: GeneToGoTermAssociation
@@ -1012,7 +1038,7 @@ gene to molecular function association:
   properties:
     sources: str[]
     evidence: str
-    evidence_score: int
+    evidence_score: float
 
 biological_process_is_a_biological_process:
   is_a: association
@@ -1247,9 +1273,12 @@ tcdb family:
     organism_count: int     # post-import
     member_count: int       # post-import: direct child count
     metabolite_count: int   # post-import: distinct substrate metabolites in subtree
-    is_promiscuous: bool    # post-import: LEVEL-GATED (level>=2 only) — too broad for
-                            # membership to support a functional inference.
-                            # metabolite_count>=50 OR gene_count>=500.
+    # is_promiscuous (deleted 2026-08-16, spec §3 R3): restated a threshold over a
+    # count the node already publishes. Consumers derive it themselves:
+    # level >= 2 AND metabolite_count >= 50. Level-gated because substrate counts
+    # scale mechanically with hierarchy level (the step-6 rollup materializes every
+    # descendant's substrates onto each ancestor) — see the "Why level-gated" bullet
+    # under TcdbFamily nodes in CLAUDE.md for the full rationale.
 
 cazy family:
   is_a: named thing
@@ -1294,15 +1323,18 @@ gene to tcdb family association:
     qcov: float
     evalue: float
     consensus_n: int
-    # Post-import advisory ranking (0-5). ADVISORY ONLY — nothing filters on it,
-    # and the three booleans are stored alongside so consumers can see why and
+    # Post-import advisory ranking (float 0-1; 5 signals, see
+    # controlled_vocabularies.yaml). ADVISORY ONLY — nothing filters on it,
+    # and the three component facts are stored alongside as R5-compliant
+    # categorical strings (not native bools) so consumers can see why and
     # re-weight without re-deriving. Agreement is HIERARCHICAL (ancestor or
     # descendant), not exact-node — the two sources usually concur at different
     # depths. See the post-import block for the full rationale.
-    tcdb_evidence_score: int
-    agrees_across_sources: bool
-    pfam_corroborated: bool
-    go_corroborated: bool
+    evidence_score: float
+    # R5: two-state facts are meaningful strings, never native bool.
+    source_agreement: str    # both_sources | single_source (HIERARCHICAL agreement)
+    pfam_support: str        # corroborated | uncorroborated
+    go_support: str          # corroborated | uncorroborated
 
 tcdb family hierarchical association:
   is_a: association
@@ -1320,12 +1352,13 @@ tcdb family transports metabolite:
   target: metabolite
   label_in_input: tcdb_family_transports_metabolite
   properties:
-    # "deepest" = no kept child of this node also carries the substrate, i.e.
-    # this is the most specific surviving transporter system for it.
-    # "ancestor" = an ancestor of such a node, carrying the substrate only via
-    # the step-6 subtree rollup. Count DISTINCT sources on "deepest" edges to get
-    # transporter systems without double-counting an ancestor with its descendant.
-    # Categorical str, not bool — BioCypher mishandles boolean properties.
+    # "most_specific" = no kept child of this node also carries the substrate,
+    # i.e. this is the most specific surviving transporter system for it.
+    # "inherited" = an ancestor of such a node, carrying the substrate only via
+    # the step-6 subtree rollup. Count DISTINCT sources on "most_specific" edges
+    # to get transporter systems without double-counting an ancestor with its
+    # descendant. Categorical str, not bool — BioCypher mishandles boolean
+    # properties.
     substrate_depth: str
 
 # ── TCDB cross-ontology bridges ──────────────────────────────────────────────
@@ -1392,7 +1425,7 @@ gene to cazy family association:
   properties:                # see gene→ontology provenance note above (§5.3)
     sources: str[]
     evidence: str
-    evidence_score: int
+    evidence_score: float
 
 cazy family hierarchical association:
   is_a: association
@@ -1538,7 +1571,9 @@ interpro entry:
     gene_count: int         # post-import
     organism_count: int     # post-import
     member_count: int       # post-import (recursive subtree gene count)
-    is_promiscuous: bool    # post-import (ORA support: ultra-common entry flag)
+    # is_promiscuous (deleted 2026-08-16, spec §3 R3): restated a threshold over
+    # a count the node already publishes. Consumers derive it themselves:
+    # gene_count >= 1000.
 
 gene to interpro entry association:
   is_a: association
@@ -1581,11 +1616,15 @@ pfam in interpro entry:
 # Layer A (design 2026-08-10 §4): ontology→ontology cross-references from
 # InterPro's curated entry xrefs. Deliberately WEAK verb (`related_to`) — a
 # recall-biased ROUTER, not an annotation. Homes the multi-EC / DOMAIN ECs and
-# fold-level CAZy that Layer B refuses to stamp on genes. `ambiguous=true` = one
-# candidate among several (multi-term entry or non-FAMILY type). Read outward
+# fold-level CAZy that Layer B refuses to stamp on genes. Read outward
 # (gene's known family → does this EC agree) it corroborates; read backward
 # (carries EC → is that enzyme) it is low-precision. Never assign gene function
 # from these — that is Gene_catalyzes_ec_number.
+# These edges carry NO properties (deleted 2026-08-16, spec §3 R3 + §9.8): both
+# arms of the old `ambiguous` flag are derivable from the graph —
+# `WITH n, count(r) AS k WHERE k > 1 OR n.interpro_type <> 'FAMILY'` — and
+# `source_db` was a hardcoded literal ("interpro.xml"); the edge type already
+# says the fact came from InterPro.
 interpro entry related to ec number:
   is_a: association
   represented_as: edge
@@ -1593,9 +1632,6 @@ interpro entry related to ec number:
   source: interpro entry
   target: ec number
   label_in_input: interpro_entry_related_to_ec_number
-  properties:
-    ambiguous: bool
-    source_db: str
 
 interpro entry related to cazy family:
   is_a: association
@@ -1604,9 +1640,6 @@ interpro entry related to cazy family:
   source: interpro entry
   target: cazy family
   label_in_input: interpro_entry_related_to_cazy_family
-  properties:
-    ambiguous: bool
-    source_db: str
 
 
 # ── NCBIfam ontology (flat — no hierarchy column in source; scored edge) ──────
@@ -1666,7 +1699,7 @@ gene to ec number association:
   properties:                # see gene→ontology provenance note above (§5.3)
     sources: str[]
     evidence: str
-    evidence_score: int
+    evidence_score: float
 
 ec number hierarchical association:
   is_a: molecular activity to molecular activity association
@@ -1734,7 +1767,7 @@ gene to pfam association:
   properties:                # see gene→ontology provenance note above (§5.3)
     sources: str[]
     evidence: str
-    evidence_score: int
+    evidence_score: float
 
 pfam in pfam clan:
   is_a: association

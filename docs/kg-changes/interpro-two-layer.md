@@ -43,9 +43,11 @@ gains `[interpro] <entry name>` entries (FAMILY/DOMAIN only).
 - **`evidence`** (str) — strength: `curated` > `signature` (direct Pfam HMM) >
   `family_inferred` > `domain_inferred`. The single field an LLM/ORA should read
   to tell a curated fact from a domain guess. The label stays coarse on purpose.
-- **`evidence_score`** (int 0–3, advisory, never a filter) — +1 for ≥2
+- **`evidence_score`** (**float `[0,1]`**, advisory, never a filter — renamed
+  2026-08-18 from an int 0–3 scale, see `docs/kg-changes/vocabulary-contract.md`
+  R4; `round(score × 3)` recovers the raw fired-signal count) — +1 for ≥2
   *independent* sources (eggNOG-Pfam and InterPro-Pfam count as one — §circularity),
-  +1 curated/signature, +1 not a bare domain inference.
+  +1 curated/signature, +1 not a bare domain inference; divided by 3.
 
 Backing this: the gene-annotation merge now records a **per-token provenance map**
 (`<field>_source: {token: [source,…]}`) for union fields (`go_terms`,
@@ -61,12 +63,14 @@ Two new edges home the xrefs Layer B refuses:
 - `Interpro_entry_related_to_ec_number` (InterproEntry → EcNumber) — **6,961**
 - `Interpro_entry_related_to_cazy_family` (InterproEntry → CazyFamily) — **122**
 
-Deliberately weak `related_to` verb + `ambiguous` bool (`true` = multi-term entry
-or non-FAMILY type) + `source_db`. **A recall-biased ROUTER, not an annotation** —
-read outward from a gene's known family it corroborates; read backward (carries EC
-→ therefore is that enzyme) it is low-precision. **Never assign gene function from
-these** — that is `Gene_catalyzes_ec_number`. Same contract as
-`Publication_discusses_*` and the TCDB bridges.
+Deliberately weak `related_to` verb; **these edges carry no properties**
+(`ambiguous` bool and `source_db` were deleted 2026-08-18, vocabulary-contract
+R3 — a consumer derives the old `ambiguous` flag as
+`count(r) > 1 OR n.interpro_type <> 'FAMILY'`). **A recall-biased ROUTER, not an
+annotation** — read outward from a gene's known family it corroborates; read
+backward (carries EC → therefore is that enzyme) it is low-precision. **Never
+assign gene function from these** — that is `Gene_catalyzes_ec_number`. Same
+contract as `Publication_discusses_*` and the TCDB bridges.
 
 Dangling-proof by **pruning to the EC/CAZy nodes the gene edges already created**.
 Consequence: a DOMAIN/multi-EC entry's EC only gets a router edge if that EC exists
@@ -128,5 +132,6 @@ inside gene-annotation build (step 2), mirroring the Pfam precedent.
   on ontology-edge tools, reading the new edge `sources` / `evidence`.
 - Surface `sources` + `evidence` in `gene_ontology_terms` / `gene_overview`.
 - ORA over InterPro must stratify by `(interpro_type, level)` — `interpro_type`
-  primary. Expose the 2-hop `gene → entry → EC|CAZy` (`related_to`, `ambiguous`)
-  as an explicit opt-in "candidate/router" mode, never default annotation.
+  primary. Expose the 2-hop `gene → entry → EC|CAZy` (`related_to`, property-free —
+  derive `ambiguous` as `count(r) > 1 OR n.interpro_type <> 'FAMILY'`) as an
+  explicit opt-in "candidate/router" mode, never default annotation.

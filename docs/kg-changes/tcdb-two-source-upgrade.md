@@ -15,14 +15,14 @@ description — it assumes the existing TCDB surface documented in
 | | |
 |---|---|
 | ⚠️ **Behaviour change** | `'tcdb' IN g.annotation_types` no longer follows from "has a `Gene_has_tcdb_family` edge" — it is tier-gated. Affects **15,558 genes**. |
-| ⚠️ **Semantics change** | `TcdbFamily.is_promiscuous` is now level-gated (class/subclass always false). Family-level flags are **unchanged**. Node set went 12,902 → 1,515, so any hard-coded count is stale. |
+| ⚠️ **BREAKING (2026-08-18)** | `TcdbFamily.is_promiscuous` is **deleted** (vocabulary-contract R3) — it only ever restated `level >= 2 AND metabolite_count >= 50`, both already stored. Query the threshold directly. Node set went 12,902 → 1,515, so any hard-coded count is stale regardless. |
 | ⚠️ **Scale change** | `Gene_has_tcdb_family` 16,806 → **53,763** edges; genes with a TC call 11,103 → **30,076**. Result-size assumptions and default limits need review. |
-| ✅ **New** | Edge provenance (`sources`) + diamond evidence + an advisory `tcdb_evidence_score`. |
+| ✅ **New** | Edge provenance (`sources`) + diamond evidence + an advisory `evidence_score` (renamed 2026-08-18 from `tcdb_evidence_score`, now a float `[0,1]` — see §2). |
 | ✅ **New** | 4 ontology→ontology bridge edges (TcdbFamily → Pfam / GO). |
-| ✅ **New** | `Gene.tcdb_best_evidence_score`. |
+| ✅ **New** | `Gene.tcdb_evidence_score_max` (renamed 2026-08-18 from `tcdb_best_evidence_score`, now a float `[0,1]`). |
 | ⚠️ **BREAKING** | `metabolite_count` no longer unions catalysis with transport. Gene / Metabolite / OrganismTaxon each gain a separate transport-arm property. Gene p90 was 554 (transport-dominated), catalysis-only p90 is 11. See §7.3. |
 | ⚠️ **Semantics change** | `Metabolite.transporter_count` was 0 for 83% of transported metabolites; now non-zero for all 1,462. See §7.2. |
-| ✅ **New** | `Tcdb_family_transports_metabolite.substrate_depth` (`'deepest'`/`'ancestor'`) — tells a real transporter system from a rollup ancestor. See §7.1. |
+| ✅ **New** | `Tcdb_family_transports_metabolite.substrate_depth` (`'most_specific'`/`'inherited'`, renamed 2026-08-18 from `'deepest'`/`'ancestor'`) — tells a real transporter system from a rollup ancestor. See §7.1. |
 | ✅ **New** | `Gene.transport_substrate_resolution` (`'resolved'`/`'family_inferred'`) — is this gene's substrate tag usable? See §7.4. |
 
 ---
@@ -35,8 +35,8 @@ similarity**) both emit TCDB TC IDs. They feed **one ontology** and **one edge p
 
 ```cypher
 (Gene)-[:Gene_has_tcdb_family {
-    sources:          ['diamond','eggnog'],  // always present, SORTED
-    tier:             2,                      // ↓ diamond only — SPARSE, absent on eggNOG-only
+    sources:          ['eggnog','tcdb_diamond'],  // always present, SORTED
+    tier:             2,                      // ↓ tcdb_diamond only — SPARSE, absent on eggNOG-only
     confidence_score: 0.85,
     identity:         50.5,
     qcov:             78.0,
@@ -47,16 +47,16 @@ similarity**) both emit TCDB TC IDs. They feed **one ontology** and **one edge p
 
 | `sources` | Edges |
 |---|---|
-| `['diamond']` | 36,957 |
+| `['tcdb_diamond']` | 36,957 |
 | `['eggnog']` | 13,165 |
-| `['diamond','eggnog']` | 3,641 |
+| `['eggnog','tcdb_diamond']` | 3,641 |
 
 **Do not assume `tier` exists.** It is absent on all 13,165 eggNOG-only edges. Use
-`coalesce(r.tier, …)` or branch on `'diamond' IN r.sources`.
+`coalesce(r.tier, …)` or branch on `'tcdb_diamond' IN r.sources`.
 
-**`sources` is sorted** — the canonical two-source value is `['diamond','eggnog']`. Even
-so, prefer membership (`'eggnog' IN r.sources`) over list equality; it survives a future
-third source.
+**`sources` is sorted** — the canonical two-source value is `['eggnog','tcdb_diamond']`
+(`tcdb_diamond` sorts after `eggnog`). Even so, prefer membership (`'eggnog' IN
+r.sources`) over list equality; it survives a future third source.
 
 ### Corroboration is hierarchical — this is the easy thing to get wrong
 
@@ -72,34 +72,48 @@ different edges.
 | **any** | **21,684** |
 
 Filtering on `size(sources)=2` silently discards **83%** of real agreement. Use the
-precomputed `r.agrees_across_sources` (below) rather than recomputing.
+precomputed `r.source_agreement = 'both_sources'` (below) rather than recomputing.
 
 ---
 
-## 2. Advisory scores — `tcdb_evidence_score` and the gene rollup
+## 2. Advisory scores — `evidence_score` and the gene rollup
 
-**Edge property `tcdb_evidence_score` (int 0–5)** — five independent signals, `+1` each:
+**⚠️ Renamed and re-scaled (2026-08-18, `docs/kg-changes/vocabulary-contract.md` R4).**
+The edge property `tcdb_evidence_score` is now **`evidence_score`** — the same name
+every other annotation edge type uses — and it is a **float in `[0,1]`**, not an
+integer 0–5. The two component booleans are also gone as native `bool` (R5); they are
+now the categorical strings `source_agreement`, `pfam_support`, `go_support` (see the
+rename table). The distribution figures and `coalesce` guidance below **predate both
+changes** and are corrected in place rather than reproduced twice.
+
+**Edge property `evidence_score` (float `[0,1]`)** — five independent signals,
+`+1` each, then divided by 5 and rounded to 3 decimals; `round(score × 5)` recovers the
+raw fired-signal count:
 
 | Component | Stored as |
 |---|---|
 | eggNOG called it | `'eggnog' IN sources` |
-| sources agree (hierarchically) | `agrees_across_sources` (bool) |
+| sources agree (hierarchically) | `source_agreement = 'both_sources'` |
 | strong direct sequence evidence | `tier <= 2` |
-| a gene Pfam is curated into this family | `pfam_corroborated` (bool) |
-| a gene GO term is curated onto this family | `go_corroborated` (bool) |
+| a gene Pfam is curated into this family | `pfam_support = 'corroborated'` |
+| a gene GO term is curated onto this family | `go_support = 'corroborated'` |
 
-Distribution: 0 → 17,045 · 1 → 8,599 · 2 → 9,461 · 3 → 7,541 · 4 → 9,957 · 5 → 1,160.
-(Shifted from the 2026-08-07 figures by the InterPro two-layer merge, which added
-`Gene_has_pfam` edges and so more `pfam_corroborated` hits. Total edges unchanged.)
+The 2026-08-13 distribution figures this doc previously quoted for the 0–5 integer scale
+are stale relative to both the InterPro two-layer merge (which shifted the underlying
+counts) and this rename (which changed the scale entirely) — not re-verified here; do
+not treat any previously-published distribution as current. Re-measure against a live
+build if a distribution is needed.
 
-**Gene property `tcdb_best_evidence_score` (int 0–5)** = `max()` over the gene's edges.
+**Gene property `tcdb_evidence_score_max` (float `[0,1]`, renamed from
+`tcdb_best_evidence_score`)** = `max()` over the gene's `evidence_score` values.
 Answers *"is this gene a transporter at all"*, where the edge score answers *"is THIS
-assignment right"*. Not a copy: 33.0% of annotated genes (9,917 of 30,076) carry calls at differing scores.
+assignment right"*.
 
 > **SPARSE.** Set only on genes with ≥1 TCDB edge. A gene with **no** transporter
 > evidence is deliberately distinct from one with **weak** evidence — do not
-> `coalesce(..., 0)`, that collapses the distinction. Use `coalesce(..., -1)` if a
-> total order is required.
+> `coalesce(..., 0)`, that collapses the distinction. Use `coalesce(..., -1.0)` — not
+> `-1` — if a total order is required: under the float scale, `0.0` is now a
+> legitimate value, and an integer sentinel no longer even types against the property.
 
 ### Both are ADVISORY — please keep them that way
 
@@ -140,7 +154,22 @@ edges, being routing signals rather than quality signals.
 
 ---
 
-## 4. ⚠️ `is_promiscuous` — corrected semantics
+## 4. ⚠️ `is_promiscuous` — DELETED (2026-08-18)
+
+**This property no longer exists on `TcdbFamily`.** Per `docs/kg-changes/vocabulary-contract.md`
+house rule R3, a property that only ever restates a threshold over a count the node
+already publishes is deleted rather than maintained — `is_promiscuous` was exactly
+`level >= 2 AND metabolite_count >= 50`, and both `level` and `metabolite_count` are
+already stored. A consumer wanting the same 13 flagged nodes queries the predicate
+directly:
+
+```cypher
+MATCH (t:TcdbFamily) WHERE t.level >= 2 AND t.metabolite_count >= 50 RETURN t
+```
+
+The rest of this section is kept as historical record of the level-gating rationale
+(the threshold itself is unchanged by the deletion) — **the property name in the code
+blocks below no longer exists on the graph.**
 
 **Meaning is unchanged and is what it always was: this family transports MANY DISTINCT
 SUBSTRATES**, so inferring what a member gene moves from family membership is weak.
@@ -211,7 +240,7 @@ response-regulator receiver, histidine kinase, TPR and GGDEF domains all map to 
 families without being transporters.
 
 - ✅ Corroborate a `Gene_has_tcdb_family` call you already have (this is what
-  `pfam_corroborated` / `go_corroborated` do).
+  `pfam_support` / `go_support` do).
 - ✅ "What domains/functions characterise this family?"
 - ✅ `gene → TcdbFamily → GO` — 2 hops, first is direct evidence. Of the 4,997 TCDB-annotated
   genes with no direct GO, **2,914** gain reachable GO terms this way.
@@ -261,17 +290,20 @@ ambiguity. All are fixed together here.
 
 ```cypher
 (TcdbFamily)-[:Tcdb_family_transports_metabolite {
-    substrate_depth: 'deepest'   // no kept CHILD of this node carries this substrate
-                                 // → the most specific surviving system for it
-  //substrate_depth: 'ancestor'  // carries it only via the subtree rollup
+    substrate_depth: 'most_specific'   // no kept CHILD of this node carries this substrate
+                                        // → the most specific surviving system for it
+  //substrate_depth: 'inherited'     // carries it only via the subtree rollup
 }]->(Metabolite)
 ```
 
-Counts: **4,381 `deepest`**, 6,882 `ancestor`. Categorical **string**, not boolean
+Property renamed 2026-08-18 (`docs/kg-changes/vocabulary-contract.md` R5, `'deepest'`/
+`'ancestor'` → `'most_specific'`/`'inherited'`). Categorical **string**, not boolean
 (BioCypher mishandles bool properties — the KG uses string vocabularies throughout).
+Counts not re-verified against a live build since the rename — treat any previously-
+published `deepest`/`ancestor` split as describing the pre-rename property only.
 
-It is a **(node, substrate) fact, not a node fact**: `2.A.1` can be `deepest` for one
-substrate and `ancestor` for another, depending on which of its children survived.
+It is a **(node, substrate) fact, not a node fact**: `2.A.1` can be `most_specific` for
+one substrate and `inherited` for another, depending on which of its children survived.
 
 This is *not* "curated vs inherited" — only `tc_specificity` nodes own
 `substrate_classes` and they are leaves, so curated-vs-inherited is already exactly
@@ -281,7 +313,7 @@ This is *not* "curated vs inherited" — only `tc_specificity` nodes own
 
 Was `tc_specificity`-only, which read **0 for 1,218 of the 1,462 transported
 metabolites (83%)** — a filter written before the ancestor-only prune. Now counts
-DISTINCT sources over `substrate_depth = 'deepest'` edges: every transported
+DISTINCT sources over `substrate_depth = 'most_specific'` edges: every transported
 metabolite gets a non-zero count (median 1, max 123), with no ancestor counted
 alongside its own descendant.
 
@@ -297,6 +329,26 @@ inflated arm with nothing marking it.
 | `Gene` | catalysis only | `transported_metabolite_count` |
 | `Metabolite` | `gene_count` = catalysis only | `transporter_gene_count` |
 | `OrganismTaxon` | `'metabolism'` arm only | `transported_metabolite_count` |
+
+**The five chemistry counts, defined** (verbatim from
+`docs/superpowers/specs/2026-08-16-vocabulary-contract-design.md` §7.1, answering
+KG-IPT-004 — quotable in MCP field descriptions):
+
+- `Gene.metabolite_count` — distinct metabolites reachable from this gene by
+  **catalysis only** (`Gene_catalyzes_reaction` → `Reaction_has_metabolite`).
+- `Gene.transported_metabolite_count` — distinct metabolites reachable by
+  **transport only**, counting the gene's **deepest** TCDB attachments so an
+  ancestor's rollup is not inherited alongside its own descendant.
+- `Metabolite.gene_count` — distinct genes reaching this metabolite by
+  **catalysis only**. The catalysis-arm mirror of `Gene.metabolite_count`.
+- `Metabolite.transporter_gene_count` — distinct **genes** reaching this
+  metabolite by transport, same deepest-attachment predicate. Agrees with
+  `Gene.transported_metabolite_count` by construction — two projections of one
+  (gene, metabolite) set.
+- `Metabolite.transporter_count` — distinct **transporter systems**
+  (`TcdbFamily` nodes), not genes, whose substrate edge carries
+  `substrate_depth = 'most_specific'` (renamed 2026-08-18 from `'deepest'` —
+  see §7.1 above and `docs/kg-changes/vocabulary-contract.md`).
 
 The transport arm counts each gene's **DEEPEST TC attachments only**. 6,950 genes
 are annotated at both an ancestor and its own descendant (e.g. `3.A.1` *and*
@@ -334,23 +386,23 @@ where remote homology could not justify a subfamily call, and precisely the ones
 TCDB resolves well. A tier gate would discard them while keeping eggNOG's equally
 lumping `tc_family` edges, since eggNOG carries no `tier` at all — an artifact of
 which tool made the call. Tier keeps its existing homes: the edge property, the
-`annotation_types` / `annotation_quality` gate, and `Gene.tcdb_best_evidence_score`.
+`annotation_types` / `annotation_quality` gate, and `Gene.tcdb_evidence_score_max`.
 
 ---
 
 ## 8. Checklist
 
 - [ ] `tier` treated as optional (absent on 13,165 eggNOG-only edges)
-- [ ] Corroboration uses `agrees_across_sources`, **not** `size(sources) = 2`
-- [ ] `tcdb_best_evidence_score` not `coalesce`d to 0 (sparse is meaningful)
+- [ ] Corroboration uses `source_agreement = 'both_sources'`, **not** `size(sources) = 2`
+- [ ] `tcdb_evidence_score_max` not `coalesce`d to `0.0` (sparse is meaningful; use `coalesce(..., -1.0)`)
 - [ ] Scores used for ranking, not silent filtering; components surfaced
 - [ ] Queries conflating "has TCDB edge" with `'tcdb' IN annotation_types` audited (15,558 genes)
 - [ ] Bridge edges never traversed Pfam→TcdbFamily to assign gene function
 - [ ] Hard-coded `TcdbFamily` counts / result-size limits reviewed (12,902 → 1,515 nodes; 16.8K → 53.8K edges)
-- [ ] `is_promiscuous` consumers unaffected (meaning preserved), but any class/subclass-level use now returns false
+- [ ] `is_promiscuous` consumers migrated — the property is **deleted** (2026-08-18); query `level >= 2 AND metabolite_count >= 50` directly
 - [ ] **`metabolite_count` readers audited** — it is catalysis-only now; add `transported_metabolite_count` where the transport arm was wanted (Gene / Metabolite `transporter_gene_count` / OrganismTaxon)
 - [ ] **`Metabolite.transporter_count` thresholds re-checked** — it was 0 for 83% of transported metabolites, so any `> 0` filter silently excluded them
-- [ ] **Substrate queries use `substrate_depth = 'deepest'`**, not `level_kind = 'tc_specificity'` (466 of 11,263 edges)
+- [ ] **Substrate queries use `substrate_depth = 'most_specific'`** (renamed 2026-08-18 from `'deepest'`), not `level_kind = 'tc_specificity'` (466 of 11,263 edges)
 - [ ] **`transport_substrate_resolution` surfaced** wherever a substrate is shown — `family_inferred` (1,671 genes) means "do not read the substrate off TCDB"
 - [ ] Neither new property treated as a confidence/tier signal — resolution is substrate BREADTH, orthogonal to `tier` (11,871 `resolved` genes are tier-3-only)
 

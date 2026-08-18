@@ -76,10 +76,10 @@ def test_has_source_label_reads_per_token_map():
     gene = {
         "locus_tag": "X",
         "go_terms": ["GO:0003677"],
-        "go_terms_source": {"GO:0003677": ["uniprot", "interpro"]},
+        "go_terms_source": {"GO:0003677": ["uniprot", "interproscan"]},
     }
     assert _has_source_label(gene, "uniprot")
-    assert _has_source_label(gene, "interpro")
+    assert _has_source_label(gene, "interproscan")
     assert not _has_source_label(gene, "eggnog")
 
 

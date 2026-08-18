@@ -30,6 +30,68 @@ def _write_strain(tmp_path: Path, genes: dict, calls: dict, strain: str = "TESTS
     return genome_dir
 
 
+# ── emitted `libraries` / `evalue_library` / `interpro_type` are preserved in
+# InterPro's own native (UPPERCASE) casing and declared ─────────────────────
+#
+# The calls.json artifact stores InterProScan's NATIVE (UPPERCASE) library
+# names — see the "PFAM" keys elsewhere in this file. These are InterPro's /
+# InterProScan's own controlled vocabulary terms, so the adapter passes them
+# through verbatim (only `_clean_str` sanitization applies) rather than
+# normalizing casing — see `config/controlled_vocabularies.yaml`.
+
+def test_edge_libraries_and_evalue_library_are_native_cased_and_declared(tmp_path):
+    from multiomics_kg.utils.controlled_vocab import VOCAB
+
+    genes = {
+        "LT001": {
+            "protein_id": "WP_000000001.1",
+            "interpro_entries": ["IPR000001"],
+        }
+    }
+    calls = {
+        "WP_000000001.1": {
+            "interpro_entries": {
+                "IPR000001": {
+                    "type": "FAMILY",
+                    "start": 1,
+                    "end": 36,
+                    "evalue": 4.1e-18,
+                    "evalue_library": "PFAM",
+                    "libraries": ["HAMAP", "PFAM"],
+                    "match_count": 2,
+                }
+            },
+            "libraries": {},
+        }
+    }
+    genome_dir = _write_strain(tmp_path, genes, calls)
+    a = InterproAnnotationAdapter(genome_dir)
+    props = list(a.get_edges())[0][4]
+    assert props["libraries"] == ["HAMAP", "PFAM"]
+    assert props["evalue_library"] == "PFAM"
+    for value in props["libraries"]:
+        VOCAB.check("Gene_has_interpro_entry", "libraries", value)
+    VOCAB.check("Gene_has_interpro_entry", "libraries", props["evalue_library"])
+
+
+def test_node_interpro_type_is_native_cased_and_declared(tmp_path):
+    from multiomics_kg.utils.controlled_vocab import VOCAB
+
+    genes = {"LT001": {"protein_id": "WP_000000001.1", "interpro_entries": ["IPR000001"]}}
+    genome_dir = _write_strain(tmp_path, genes, {})
+    cfg = tmp_path / "genomes.csv"
+    cfg.write_text("data_dir\n" + str(genome_dir) + "\n")
+    m = MultiInterproAnnotationAdapter(str(cfg), pfam_node_ids=set())
+    m._reference = {
+        "IPR000001": {"parent": None, "level": 0, "type": "HOMOLOGOUS_SUPERFAMILY", "name": "fam"},
+    }
+    m._observed_ids = lambda: {"IPR000001"}
+    nodes = {nid: props for nid, _label, props in m.get_nodes()}
+    interpro_type = nodes["interpro:IPR000001"]["interpro_type"]
+    assert interpro_type == "HOMOLOGOUS_SUPERFAMILY"
+    VOCAB.check("InterproEntry", "interpro_type", interpro_type)
+
+
 # ── pure: ancestor pruning ────────────────────────────────────────────────────
 
 REF = {
@@ -320,9 +382,11 @@ def test_layer_a_related_ec_pruned_and_marked(tmp_path):
     by_src = {e[1]: e[4] for e in ec_edges}
     fam_id = _interpro_node_id("IPR900001")
     dom_id = _interpro_node_id("IPR900002")
-    assert by_src[fam_id]["ambiguous"] is False          # FAMILY + single EC
-    assert by_src[fam_id]["source_db"] == "interpro.xml"
-    assert by_src[dom_id]["ambiguous"] is True           # DOMAIN / multi-EC
+    # Layer A edges carry no properties (deleted 2026-08-16, spec §3 R3): the old
+    # `ambiguous`/`source_db` fields are gone; multiplicity/type are derivable
+    # from the graph instead (out-degree + n.interpro_type).
+    assert by_src[fam_id] == {}
+    assert by_src[dom_id] == {}
     # the unobserved 9.9.9.9 was pruned (dangling-proof): only one edge per entry
     assert sum(1 for e in ec_edges if e[1] == dom_id) == 1
 
@@ -380,3 +444,11 @@ def test_layer_a_related_ec_suppressed_without_ec_node_ids(tmp_path):
     assert not [
         e for e in m.get_edges() if e[3] == "interpro_entry_related_to_ec_number"
     ]
+
+
+def test_layer_a_edges_carry_no_properties():
+    """rev 4/5: ambiguous is derivable and source_db is a constant."""
+    import pathlib
+    src = pathlib.Path("multiomics_kg/adapters/interpro_adapter.py").read_text()
+    assert '"ambiguous"' not in src
+    assert '"source_db"' not in src

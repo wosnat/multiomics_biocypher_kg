@@ -972,38 +972,25 @@ CALL {
       t.metabolite_count = metc
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// is_promiscuous: this family transports MANY DISTINCT SUBSTRATES, so inferring
-// what a member gene moves from family membership is weak. Consumed by explorer
-// family_inferred-dominance warnings to separate curation-effort gaps from
-// biologically-promiscuous transporters (KG-MET-006).
-//
-// SUBSTRATE BREADTH ONLY. A `gene_count >= 500` arm was briefly added 2026-08-07
-// and reverted the same day: it answers a DIFFERENT question ("is this a large
-// bucket of genes?") and overloading one boolean with two axes destroyed the
-// term. It flagged e.g. 9.B.34 (KPSH) which has ZERO substrates — the opposite of
-// promiscuous in the only sense this flag means. Consumers wanting family size
-// should filter `t.gene_count` directly; it is already on the node, so no second
-// boolean is warranted.
-//
-// LEVEL-GATED (level >= 2, i.e. tc_family and deeper). Substrate counts scale
-// mechanically with hierarchy level because the step-6 rollup materializes every
-// descendant's substrates onto each ancestor: median metabolite_count is 153 at
-// tc_class vs 1 at tc_family. The previous absolute-only rule therefore fired on
-// 5 of 7 tc_class and 7 of 34 tc_subclass nodes — vacuously, since "Channels and
-// Pores transports many things" is what a class IS, not a warning. Those levels
-// are now always false; the flag only means something where a consumer would
-// actually infer substrate specificity from membership.
-//
-// Threshold >= 50 sits at ~p99 within the levels it applies to (p99 = 52 at
-// tc_family, 46 at tc_subfamily) and never fires at tc_specificity (max 17) —
-// correct, that is the most specific level.
-//
-// Flags 13 families/subfamilies, all textbook multi-substrate transporters: ABC
-// Superfamily 3.A.1 (554 substrates), MFS 2.A.1 (476), DMT 2.A.7, RND 2.A.6,
-// MOP flippase 2.A.66, APC 2.A.3, P-type ATPase 3.A.3.
-MATCH (t:TcdbFamily)
-SET t.is_promiscuous =
-  coalesce(t.level, 0) >= 2 AND coalesce(t.metabolite_count, 0) >= 50;
+// The old TcdbFamily promiscuity flag was DELETED (2026-08-16, spec §3 R3 +
+// §9.8): it restated a threshold — level >= 2 AND metabolite_count >= 50 —
+// over metabolite_count, a count the node already publishes. Consumers
+// derive it themselves rather than the KG storing a predicate. History for
+// context: it flagged a family as transporting MANY DISTINCT SUBSTRATES (so
+// inferring what a member gene moves from family membership is weak),
+// consumed by explorer family_inferred-dominance warnings (KG-MET-006).
+// SUBSTRATE BREADTH ONLY — a `gene_count >= 500` arm was briefly added
+// 2026-08-07 and reverted the same day (answers a different question and
+// flagged substrate-poor families like 9.B.34). LEVEL-GATED (level >= 2,
+// tc_family and deeper) because substrate counts scale mechanically with
+// hierarchy level (median metabolite_count is 153 at tc_class vs 1 at
+// tc_family — an unrestricted rule fired on 5 of 7 tc_class and 7 of 34
+// tc_subclass nodes vacuously). Threshold >= 50 sat at ~p99 within the levels
+// it applied to. Formerly flagged 13 families/subfamilies, all textbook
+// multi-substrate transporters: ABC Superfamily 3.A.1 (554 substrates), MFS
+// 2.A.1 (476), DMT 2.A.7, RND 2.A.6, MOP flippase 2.A.66, APC 2.A.3, P-type
+// ATPase 3.A.3. See the one internal read of this threshold, inlined into
+// transport_substrate_resolution below.
 
 // ── CazyFamily computed properties ───────────────────────────────────────────
 
@@ -1034,11 +1021,12 @@ CALL {
       e.organism_count = size([x IN orgs WHERE x IS NOT NULL])
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// is_promiscuous: ultra-common entries (broad domains / superfamilies present in
-// a large share of genes). Threshold gene_count >= 1000 flags the long tail so a
-// (type, level)-stratified ORA can down-weight them. Tunable (see design spec §8).
-MATCH (e:InterproEntry)
-SET e.is_promiscuous = (coalesce(e.gene_count, 0) >= 1000);
+// The old InterproEntry promiscuity flag was DELETED (2026-08-16, spec §3
+// R3 + §9.8): it restated a threshold — gene_count >= 1000 — over
+// gene_count, a count the node already publishes. Formerly flagged
+// ultra-common entries (broad domains / superfamilies present in a large
+// share of genes) so a (type, level)-stratified ORA could down-weight them
+// (design spec §8); consumers apply that cutoff to gene_count directly now.
 
 // ── NcbifamFamily computed properties (flat; direct counts) ───────────────────
 MATCH (n:NcbifamFamily)
@@ -1210,7 +1198,7 @@ CALL {
 // discard exactly those while keeping eggNOG's equally-lumping tc_family edges,
 // since eggNOG carries no tier — an artifact of which tool called it. Tier
 // already gates annotation_types/annotation_quality and rolls up as
-// Gene.tcdb_best_evidence_score; that is its home.
+// Gene.tcdb_evidence_score_max; that is its home.
 MATCH (g:Gene)
 CALL {
   WITH g
@@ -1223,7 +1211,12 @@ CALL {
   WITH g,
        count(DISTINCT m_tr) AS tr_met_count,
        count(DISTINCT t) AS n_deepest,
-       collect(DISTINCT coalesce(t.is_promiscuous, false)) AS breadth
+       // Breadth threshold inlined (spec §3 R3): the deleted TcdbFamily
+       // promiscuity flag restated a predicate over metabolite_count, which
+       // the node already publishes. Consumers apply their own cutoff to the
+       // count; this is the KG's, and it lives in exactly one place.
+       collect(DISTINCT (coalesce(t.level, 0) >= 2
+                         AND coalesce(t.metabolite_count, 0) >= 50)) AS breadth
   SET g.transported_metabolite_count = tr_met_count,
       // null REMOVES the property, keeping it sparse: absent means "no TCDB
       // edge at all", which must stay distinguishable from a weak-but-present
@@ -1277,18 +1270,18 @@ CALL {
          MATCH (g)-[:Gene_involved_in_biological_process|Gene_enables_molecular_function|Gene_located_in_cellular_component]->(o)
                <-[:Tcdb_family_involved_in_biological_process|Tcdb_family_enables_molecular_function|Tcdb_family_located_in_cellular_component]-(t)
        } AS go_ok
-  SET r.agrees_across_sources = agree,
-      r.pfam_corroborated = pfam_ok,
-      r.go_corroborated = go_ok,
-      r.tcdb_evidence_score =
-          CASE WHEN curated THEN 1 ELSE 0 END
-        + CASE WHEN agree THEN 1 ELSE 0 END
-        + CASE WHEN strong_seq THEN 1 ELSE 0 END
-        + CASE WHEN pfam_ok THEN 1 ELSE 0 END
-        + CASE WHEN go_ok THEN 1 ELSE 0 END
+  SET r.source_agreement = CASE WHEN agree   THEN 'both_sources' ELSE 'single_source' END,
+      r.pfam_support     = CASE WHEN pfam_ok THEN 'corroborated' ELSE 'uncorroborated' END,
+      r.go_support       = CASE WHEN go_ok   THEN 'corroborated' ELSE 'uncorroborated' END,
+      r.evidence_score   = round(
+          ( (CASE WHEN curated THEN 1 ELSE 0 END)
+          + (CASE WHEN agree THEN 1 ELSE 0 END)
+          + (CASE WHEN strong_seq THEN 1 ELSE 0 END)
+          + (CASE WHEN pfam_ok THEN 1 ELSE 0 END)
+          + (CASE WHEN go_ok THEN 1 ELSE 0 END) ) / 5.0, 3)
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Gene.tcdb_best_evidence_score: the strongest TCDB claim this gene has (0-5).
+// Gene.tcdb_evidence_score_max: the strongest TCDB claim this gene has (float 0-1).
 // Answers "how confident am I that this gene is a transporter at all", where the
 // edge-level score answers "how confident am I in THIS particular assignment".
 // Worth materializing: 9,792 of 30,076 TCDB-annotated genes (32.6%) carry several
@@ -1299,13 +1292,13 @@ CALL {
 // evidence is weak: writing 0 for both would collapse "we never found a
 // transporter signal" into "we found a poor one", which is the exact conflation
 // the tier gate and the advisory score exist to avoid. Absent means N/A; use
-// coalesce(g.tcdb_best_evidence_score, -1) if a total order is needed.
+// coalesce(g.tcdb_evidence_score_max, -1.0) if a total order is needed.
 //
 // Advisory, like the edge score it aggregates: nothing filters on it.
 CALL {
   MATCH (g:Gene)-[r:Gene_has_tcdb_family]->()
-  WITH g, max(r.tcdb_evidence_score) AS best
-  SET g.tcdb_best_evidence_score = best
+  WITH g, max(r.evidence_score) AS best
+  SET g.tcdb_evidence_score_max = best
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Gene.interpro_entry_count: distinct InterPro entries per gene (routing signal;
@@ -1374,7 +1367,7 @@ CALL {
 // tc_specificity nodes, because genes mostly annotate at family/subfamily depth
 // and the prune keeps no specificity node below them.
 //
-// substrate_depth = 'deepest' (set by tcdb_adapter) means no kept child of this
+// substrate_depth = 'most_specific' (set by tcdb_adapter) means no kept child of this
 // node also carries the substrate — so counting DISTINCT sources over those
 // edges counts each transporter system once, at the finest resolution the pruned
 // graph retains, without double-counting an ancestor together with its own
@@ -1382,7 +1375,7 @@ CALL {
 CALL {
   MATCH (m:Metabolite)
   OPTIONAL MATCH (t:TcdbFamily)-[r:Tcdb_family_transports_metabolite]->(m)
-    WHERE r.substrate_depth = 'deepest'
+    WHERE r.substrate_depth = 'most_specific'
   WITH m, count(DISTINCT t) AS tc
   SET m.transporter_count = tc
 } IN TRANSACTIONS OF 1000 ROWS;
@@ -1760,6 +1753,32 @@ KG_RELEASE_HIGHLIGHTS_ESC=$(printf '%s' "${KG_RELEASE_HIGHLIGHTS:-}" \
 KG_RELEASE_BREAKING_ESC=$(printf '%s' "${KG_RELEASE_BREAKING:-}" \
   | sed -e 's|\\|\\\\|g' -e "s/'/\\\\'/g")
 
+# Vocabulary hash written by the build stage next to BioCypher's real CSV
+# output (bc._output_directory, NOT --output-dir), under the shared
+# `biocypher_neo4j_volume` this container mounts at /data. The docker config
+# (config/biocypher_docker_config.yaml) sets output_directory: data/build2neo
+# as an explicit (non-None) value, so BioCypher's own timestamp-subdirectory
+# logic never fires there and the file lands flat at
+# /data/build2neo/controlled_vocabularies.sha256 -- but the non-Docker default
+# config leaves output_directory unset, which DOES get a timestamp
+# subdirectory (biocypher-out/<timestamp>/), so this glob covers both shapes
+# rather than assuming Docker's flat layout is the only one that can ever
+# reach this script. Empty when absent (a legacy build, or a build whose
+# hash somehow never landed under /data), which coalesces to '' and leaves
+# the property null -- but warn loudly, since a silently-missing hash here
+# defeats the whole point of this feature.
+KG_VOCAB_HASH=""
+vocab_hash_file=$(ls -t /data/build2neo/controlled_vocabularies.sha256 \
+  /data/build2neo/*/controlled_vocabularies.sha256 2>/dev/null | head -n 1 || true)
+if [ -n "$vocab_hash_file" ] && [ -r "$vocab_hash_file" ]; then
+  KG_VOCAB_HASH=$(cat "$vocab_hash_file")
+  echo "Found controlled_vocabularies.sha256 at $vocab_hash_file"
+else
+  echo "WARNING: controlled_vocabularies.sha256 not found under /data/build2neo" \
+       "(checked flat and one-level-timestamped layouts). Schema_info.controlled_vocabularies_hash" \
+       "will be left null."
+fi
+
 time cypher-shell \
   -P "version          => '${KG_RELEASE_VERSION:-0.0.0-dev}'" \
   -P "git_sha          => '${KG_GIT_SHA:-unknown}'" \
@@ -1771,6 +1790,7 @@ time cypher-shell \
   -P "release_notes_url => '${KG_RELEASE_NOTES_URL:-}'" \
   -P "release_highlights => '${KG_RELEASE_HIGHLIGHTS_ESC}'" \
   -P "release_breaking   => '${KG_RELEASE_BREAKING_ESC}'" \
+  -P "vocab_hash => '${KG_VOCAB_HASH}'" \
   <<'CYPHER'
 MATCH (s:Schema_info {id: 'schema_info'})
 SET s.version           = coalesce($version, '0.0.0-dev'),
@@ -1786,7 +1806,9 @@ SET s.version           = coalesce($version, '0.0.0-dev'),
     // release (no subsection authored) is indistinguishable from no value
     // on the wire. Clients render nothing when null.
     s.release_highlights = CASE WHEN coalesce($release_highlights, '') = '' THEN null ELSE $release_highlights END,
-    s.release_breaking   = CASE WHEN coalesce($release_breaking, '')   = '' THEN null ELSE $release_breaking   END
+    s.release_breaking   = CASE WHEN coalesce($release_breaking, '')   = '' THEN null ELSE $release_breaking   END,
+    s.controlled_vocabularies_hash = CASE WHEN coalesce($vocab_hash, '') = ''
+                                          THEN null ELSE $vocab_hash END
 WITH s
 SET s.paper_count           = COUNT { (:Publication) },
     s.experiment_count      = COUNT { (:Experiment) },

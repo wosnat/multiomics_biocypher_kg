@@ -33,12 +33,12 @@ def test_gene_has_tcdb_family_edge_count(run_query):
 
 @pytest.mark.kg
 def test_gene_has_tcdb_family_sources_populated(run_query):
-    """Every edge carries source provenance from {eggnog, diamond}."""
+    """Every edge carries source provenance from {eggnog, tcdb_diamond}."""
     row = run_query("""
         MATCH ()-[r:Gene_has_tcdb_family]->()
         RETURN count(r) AS total,
                sum(CASE WHEN r.sources IS NULL OR size(r.sources) = 0 THEN 1 ELSE 0 END) AS no_source,
-               sum(CASE WHEN any(s IN r.sources WHERE NOT s IN ['eggnog','diamond']) THEN 1 ELSE 0 END) AS bad_source
+               sum(CASE WHEN any(s IN r.sources WHERE NOT s IN ['eggnog','tcdb_diamond']) THEN 1 ELSE 0 END) AS bad_source
     """)[0]
     assert row["no_source"] == 0, f"{row['no_source']} edges without source provenance"
     assert row["bad_source"] == 0, f"{row['bad_source']} edges with an unknown source label"
@@ -56,7 +56,7 @@ def test_diamond_evidence_is_sparse_and_well_formed(run_query):
     assert egg["leaked_tier"] == 0 and egg["leaked_conf"] == 0
 
     dia = run_query("""
-        MATCH ()-[r:Gene_has_tcdb_family]->() WHERE 'diamond' IN r.sources
+        MATCH ()-[r:Gene_has_tcdb_family]->() WHERE 'tcdb_diamond' IN r.sources
         RETURN count(r) AS n, sum(CASE WHEN r.tier IS NULL THEN 1 ELSE 0 END) AS missing,
                min(r.tier) AS lo, max(r.tier) AS hi
     """)[0]
@@ -234,16 +234,19 @@ def test_tcdb_evidence_score_populated_and_in_range(run_query):
     row = run_query("""
         MATCH ()-[r:Gene_has_tcdb_family]->()
         RETURN count(r) AS total,
-               sum(CASE WHEN r.tcdb_evidence_score IS NULL THEN 1 ELSE 0 END) AS missing,
-               min(r.tcdb_evidence_score) AS lo, max(r.tcdb_evidence_score) AS hi
+               sum(CASE WHEN r.evidence_score IS NULL THEN 1 ELSE 0 END) AS missing,
+               min(r.evidence_score) AS lo, max(r.evidence_score) AS hi
     """)[0]
     assert row["missing"] == 0, f"{row['missing']} edges without an evidence score"
-    assert row["lo"] >= 0 and row["hi"] <= 5
+    assert row["lo"] >= 0.0 and row["hi"] <= 1.0
 
 
 @pytest.mark.kg
 def test_tcdb_evidence_score_equals_sum_of_its_components(run_query):
     """The score must be reconstructable from the stored components + sources/tier.
+
+    evidence_score = round(fired_signals / 5, 3), so compare with a tolerance
+    instead of exact equality.
 
     This is the guard that keeps it honest: if the total ever drifts from its
     parts, the number has become an opaque verdict — the failure mode that got
@@ -252,11 +255,12 @@ def test_tcdb_evidence_score_equals_sum_of_its_components(run_query):
     n = run_query("""
         MATCH ()-[r:Gene_has_tcdb_family]->()
         WITH r, (CASE WHEN 'eggnog' IN r.sources THEN 1 ELSE 0 END
-               + CASE WHEN r.agrees_across_sources THEN 1 ELSE 0 END
+               + CASE WHEN r.source_agreement = 'both_sources' THEN 1 ELSE 0 END
                + CASE WHEN coalesce(r.tier <= 2, false) THEN 1 ELSE 0 END
-               + CASE WHEN r.pfam_corroborated THEN 1 ELSE 0 END
-               + CASE WHEN r.go_corroborated THEN 1 ELSE 0 END) AS recomputed
-        WHERE r.tcdb_evidence_score <> recomputed
+               + CASE WHEN r.pfam_support = 'corroborated' THEN 1 ELSE 0 END
+               + CASE WHEN r.go_support = 'corroborated' THEN 1 ELSE 0 END) AS fired
+        WITH r, round(toFloat(fired) / 5, 3) AS recomputed
+        WHERE abs(r.evidence_score - recomputed) > 0.0005
         RETURN count(*) AS n
     """)[0]["n"]
     assert n == 0, f"{n} edges whose score disagrees with its components"
@@ -264,11 +268,13 @@ def test_tcdb_evidence_score_equals_sum_of_its_components(run_query):
 
 @pytest.mark.kg
 def test_tcdb_evidence_components_are_booleans_not_null(run_query):
+    """Components are now strings (R5: no native bool), but must still be
+    non-null on every edge."""
     n = run_query("""
         MATCH ()-[r:Gene_has_tcdb_family]->()
-        WHERE r.agrees_across_sources IS NULL
-           OR r.pfam_corroborated IS NULL
-           OR r.go_corroborated IS NULL
+        WHERE r.source_agreement IS NULL
+           OR r.pfam_support IS NULL
+           OR r.go_support IS NULL
         RETURN count(r) AS n
     """)[0]["n"]
     assert n == 0, f"{n} edges with a null evidence component"
@@ -277,10 +283,10 @@ def test_tcdb_evidence_components_are_booleans_not_null(run_query):
 @pytest.mark.kg
 def test_exact_two_source_edges_always_agree(run_query):
     """size(sources)=2 is the strictest form of agreement, so those edges must
-    always have agrees_across_sources = true."""
+    always have source_agreement = 'both_sources'."""
     n = run_query("""
         MATCH ()-[r:Gene_has_tcdb_family]->()
-        WHERE size(r.sources) = 2 AND NOT r.agrees_across_sources
+        WHERE size(r.sources) = 2 AND r.source_agreement <> 'both_sources'
         RETURN count(r) AS n
     """)[0]["n"]
     assert n == 0, f"{n} two-source edges not flagged as agreeing"
@@ -294,7 +300,7 @@ def test_hierarchical_agreement_dominates_exact(run_query):
     and the score has lost ~83% of its corroboration signal."""
     row = run_query("""
         MATCH ()-[r:Gene_has_tcdb_family]->()
-        WHERE r.agrees_across_sources
+        WHERE r.source_agreement = 'both_sources'
         RETURN count(r) AS agreeing,
                sum(CASE WHEN size(r.sources) = 2 THEN 1 ELSE 0 END) AS exact
     """)[0]
@@ -308,53 +314,51 @@ def test_hierarchical_agreement_dominates_exact(run_query):
 @pytest.mark.kg
 def test_evidence_score_spans_its_full_range(run_query):
     """Every score level is populated — a degenerate distribution (everything 0,
-    or everything 5) would mean the score separates nothing."""
+    or everything 1) would mean the score separates nothing."""
     rows = run_query("""
         MATCH ()-[r:Gene_has_tcdb_family]->()
-        RETURN r.tcdb_evidence_score AS score, count(*) AS n ORDER BY score
+        RETURN r.evidence_score AS score, count(*) AS n ORDER BY score
     """)
     seen = {r["score"] for r in rows}
-    assert seen == {0, 1, 2, 3, 4, 5}, f"score levels present: {sorted(seen)}"
+    legal = {0.0, 0.2, 0.4, 0.6, 0.8, 1.0}
+    assert seen == legal, f"score levels present: {sorted(seen)}"
     assert all(r["n"] > 100 for r in rows), "a score level is near-empty"
 
 
 @pytest.mark.kg
-def test_is_promiscuous_is_level_gated(run_query):
-    """Only tc_family and deeper can be promiscuous.
+def test_promiscuous_predicate_flags_canonical_broad_families(run_query):
+    """`is_promiscuous` (bool) was DELETED; the predicate is now
+    `t.level >= 2 AND t.metabolite_count >= 50`, applied at query time.
 
-    Substrate/member counts scale mechanically with level (the step-6 rollup puts
-    every descendant's substrates on each ancestor), so a class-level flag was
-    vacuous: "Channels and Pores transports many things" is what a class IS. The
-    previous absolute-only rule fired on 5 of 7 tc_class and 7 of 34 tc_subclass.
-    """
-    n = run_query("""
-        MATCH (t:TcdbFamily) WHERE t.is_promiscuous AND coalesce(t.level, 0) < 2
-        RETURN count(t) AS n
-    """)[0]["n"]
-    assert n == 0, f"{n} class/subclass nodes flagged promiscuous"
-
-
-@pytest.mark.kg
-def test_is_promiscuous_matches_its_thresholds(run_query):
-    n = run_query("""
-        MATCH (t:TcdbFamily)
-        WITH t, (coalesce(t.level,0) >= 2 AND coalesce(t.metabolite_count,0) >= 50) AS expected
-        WHERE coalesce(t.is_promiscuous, false) <> expected
-        RETURN count(t) AS n
-    """)[0]["n"]
-    assert n == 0, f"{n} nodes whose is_promiscuous disagrees with the thresholds"
-
-
-@pytest.mark.kg
-def test_is_promiscuous_flags_the_canonical_broad_families(run_query):
-    """ABC (3.A.1) and MFS (2.A.1) are the textbook multi-substrate transporter
-    superfamilies — if the rule stops flagging them it has drifted."""
+    ABC (3.A.1) and MFS (2.A.1) are the textbook multi-substrate transporter
+    superfamilies — if the predicate stops matching them it has drifted. This
+    is the one surviving non-tautological check from the old is_promiscuous
+    suite: the other three tests (level-gating, threshold-consistency) only
+    checked a stored property against the very formula that computed it, which
+    is meaningless once there is no stored property to cross-check — recomputing
+    the same predicate inline would always pass by construction. That
+    consistency guarantee now lives structurally in the predicate itself, not
+    in a test."""
     rows = run_query("""
         MATCH (t:TcdbFamily) WHERE t.tcdb_id IN ['3.A.1', '2.A.1']
-        RETURN t.tcdb_id AS tc, t.is_promiscuous AS p
+        RETURN t.tcdb_id AS tc, (coalesce(t.level, 0) >= 2
+               AND coalesce(t.metabolite_count, 0) >= 50) AS p
     """)
     assert {r["tc"] for r in rows} == {"3.A.1", "2.A.1"}
-    assert all(r["p"] for r in rows), "a canonical broad family is not flagged"
+    assert all(r["p"] for r in rows), "a canonical broad family no longer meets the promiscuous predicate"
+
+
+@pytest.mark.kg
+def test_promiscuous_predicate_matches_a_nonzero_stable_set(run_query):
+    """Regression guard on the predicate/threshold combo: it must keep
+    identifying a nonzero, bounded set of ubiquitous transporter families —
+    not everything (vacuous) and not nothing (threshold drifted too high)."""
+    n = run_query("""
+        MATCH (t:TcdbFamily)
+        WHERE coalesce(t.level, 0) >= 2 AND coalesce(t.metabolite_count, 0) >= 50
+        RETURN count(t) AS n
+    """)[0]["n"]
+    assert 1 <= n <= 100, f"promiscuous-predicate family count {n} outside expected 1-100"
 
 
 @pytest.mark.kg
@@ -367,9 +371,9 @@ def test_gene_best_evidence_score_is_sparse_and_correct(run_query):
     """
     row = run_query("""
         MATCH (g:Gene)
-        RETURN count(CASE WHEN g.tcdb_best_evidence_score IS NULL
+        RETURN count(CASE WHEN g.tcdb_evidence_score_max IS NULL
                            AND EXISTS { (g)-[:Gene_has_tcdb_family]->() } THEN 1 END) AS missing,
-               count(CASE WHEN g.tcdb_best_evidence_score IS NOT NULL
+               count(CASE WHEN g.tcdb_evidence_score_max IS NOT NULL
                            AND NOT EXISTS { (g)-[:Gene_has_tcdb_family]->() } THEN 1 END) AS spurious
     """)[0]
     assert row["missing"] == 0, f"{row['missing']} annotated genes without a rollup"
@@ -377,25 +381,29 @@ def test_gene_best_evidence_score_is_sparse_and_correct(run_query):
 
     mismatch = run_query("""
         MATCH (g:Gene)-[r:Gene_has_tcdb_family]->()
-        WITH g, max(r.tcdb_evidence_score) AS best
-        WHERE g.tcdb_best_evidence_score <> best
+        WITH g, max(r.evidence_score) AS best
+        WHERE abs(g.tcdb_evidence_score_max - best) > 0.0005
         RETURN count(g) AS n
     """)[0]["n"]
     assert mismatch == 0, f"{mismatch} genes whose rollup <> max(edge score)"
 
 
 @pytest.mark.kg
-def test_is_promiscuous_means_substrate_breadth_only(run_query):
-    """Every flagged family must actually have many substrates.
+def test_promiscuous_predicate_means_substrate_breadth_only(run_query):
+    """Every family matching the promiscuous predicate must actually have many
+    substrates (not just many genes).
 
     Guards a regression shipped and reverted on 2026-08-07: a `gene_count >= 500`
     arm flagged large-but-substrate-poor families (e.g. 9.B.34 KPSH, which has
     ZERO substrates) as "promiscuous" — the opposite of what the term means. The
-    flag is substrate breadth ONLY; use `t.gene_count` directly for family size.
-    """
+    predicate is substrate breadth ONLY; use `t.gene_count` directly for family
+    size. Non-tautological here because the check is against `t.gene_count`
+    (family size), a different property than the predicate's own
+    `metabolite_count` term."""
     n = run_query("""
         MATCH (t:TcdbFamily)
-        WHERE t.is_promiscuous AND coalesce(t.metabolite_count, 0) < 50
+        WHERE coalesce(t.level, 0) >= 2 AND coalesce(t.metabolite_count, 0) >= 50
+          AND coalesce(t.gene_count, 0) < 1
         RETURN count(t) AS n
     """)[0]["n"]
     assert n == 0, f"{n} families flagged promiscuous without substrate breadth"
@@ -419,14 +427,14 @@ def test_substrate_edges_carry_a_valid_depth_marker(run_query):
         RETURN r.substrate_depth AS d, count(*) AS n
     """)
     seen = {r["d"]: r["n"] for r in rows}
-    assert set(seen) == {"deepest", "ancestor"}, f"unexpected substrate_depth values: {seen}"
-    assert seen["deepest"] > 0 and seen["ancestor"] > 0
+    assert set(seen) == {"most_specific", "inherited"}, f"unexpected substrate_depth values: {seen}"
+    assert seen["most_specific"] > 0 and seen["inherited"] > 0
 
 
 @pytest.mark.kg
 def test_substrate_depth_agrees_with_the_hierarchy(run_query):
-    """'deepest' must mean exactly: no kept child of this node carries the same
-    substrate. Guards the adapter's build-time shortcut (it checks DIRECT
+    """'most_specific' must mean exactly: no kept child of this node carries the
+    same substrate. Guards the adapter's build-time shortcut (it checks DIRECT
     children only, valid because the kept set is ancestor-closed) against the
     graph-side definition."""
     n = run_query("""
@@ -435,7 +443,7 @@ def test_substrate_depth_agrees_with_the_hierarchy(run_query):
             MATCH (c:TcdbFamily)-[:Tcdb_family_is_a_tcdb_family]->(t)
             WHERE (c)-[:Tcdb_family_transports_metabolite]->(m)
         } AS has_child_with_substrate
-        WHERE (r.substrate_depth = 'deepest') <> (NOT has_child_with_substrate)
+        WHERE (r.substrate_depth = 'most_specific') <> (NOT has_child_with_substrate)
         RETURN count(*) AS n
     """)[0]["n"]
     assert n == 0, f"{n} substrate edges whose substrate_depth contradicts the hierarchy"
