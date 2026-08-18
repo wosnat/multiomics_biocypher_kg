@@ -326,6 +326,44 @@ def main():
     bc.write_nodes(interpro_adapter.get_nodes())
     bc.write_edges(interpro_adapter.get_edges())
 
+    # NCBIfam ontology (flat, scored edge) + bridge to InterPro entries.
+    # Reads per-strain interproscan calls.json NCBIFAM facet rows for edge
+    # evidence + the committed cache/data/ncbifam/ncbifam_reference.json
+    # (prepare_data step 9) for node names/family_type. InterPro kept-id set
+    # injected for dangling-proof Ncbifam_family_in_interpro_entry bridge
+    # edges (Pfam-bridge precedent) — must run after interpro_adapter.download_data().
+    from multiomics_kg.adapters.ncbifam_adapter import MultiNcbifamAdapter
+    ncbifam_adapter = MultiNcbifamAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        cache_root="cache/data",
+        interpro_kept_ids=interpro_adapter.kept_node_accessions(),
+        test_mode=TEST_MODE,
+    )
+    ncbifam_adapter.download_data(cache=CACHE)
+    # Materialize + guard (metabolite_assay_adapter precedent): the node/edge
+    # sets are observed-only from merged `ncbifam_ids` seeds, which are empty
+    # until Task 18 lands the merge field — BioCypher's write_nodes/write_edges
+    # raise StopIteration on a genuinely empty generator.
+    ncbifam_nodes = list(ncbifam_adapter.get_nodes())
+    ncbifam_edges = list(ncbifam_adapter.get_edges())
+    if ncbifam_nodes:
+        bc.write_nodes(ncbifam_nodes)
+    if ncbifam_edges:
+        bc.write_edges(ncbifam_edges)
+
+    # MEROPS peptidase ontology (hierarchical clan→family→subfamily, scored
+    # edge; observed-only, CAZy pattern). Reads per-strain merops calls.json
+    # for edge evidence + the committed cache/data/merops/merops_reference.json
+    # (prepare_data step 9) for node names/clan descriptions/family typing.
+    from multiomics_kg.adapters.merops_adapter import MultiMeropsAnnotationAdapter
+    merops_adapter = MultiMeropsAnnotationAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        test_mode=TEST_MODE,
+    )
+    merops_adapter.download_data(cache=CACHE)
+    bc.write_nodes(merops_adapter.get_nodes())
+    bc.write_edges(merops_adapter.get_edges())
+
     # Full GO ontology (all 30K nodes + GO-GO hierarchy) — optional, slow.
     # NOTE: do not run with --go simultaneously; GO node IDs would conflict.
 

@@ -1,7 +1,7 @@
 # Lin 2015
 
-**Citation:** Lin et al. 2015, "Transcriptomic response during phage infection of a marine cyanobacterium under P limitation", Environmental Microbiology (supp prefix `emi13104`).
-**DOI:** (not listed in paperconfig)
+**Citation:** Lin X, Ding H, Zeng Q (2015). Transcriptomic response during phage infection of a marine cyanobacterium under phosphorus-limited conditions. *Environmental Microbiology* 18(2):450-460.
+**DOI:** 10.1111/1462-2920.13104
 **Organism(s):** *Prochlorococcus* NATL2A; phage (cyanophage infection at 47 h)
 **Topic:** RNA-seq time-course of NATL2A under P-limited vs P-replete, with and without phage infection; time points span 4, 24, 46, 50 (P added), 59 h uninfected and 47, 48, 49, 51, 55, 55 (P added), 59, 59 (P added) infected. Tables S4A/S4B carry paired log2FC + padj columns per timepoint.
 

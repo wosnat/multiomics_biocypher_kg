@@ -1,17 +1,29 @@
 # T6 — Naming the unnamed TcdbFamily nodes
 
-**Status: BLOCKED on upstream availability. Research complete, design not settled.**
+**Status: UNBLOCKED — live-site verification complete (2026-08-17). Design not
+settled: answer the open questions in section 5, then implement.**
 
 `tcdb.org` served an SDSC "planned maintenance" stub for the whole site on
-2026-08-12 (nginx, `content-length: 1732`, body reads *"We'll be back soon.
-Planned maintenance is in progress."*). That includes the four TSV endpoints
-prepare_data step 6 already depends on. Nothing could be fetched live, so every
-upstream claim below was verified against **Wayback snapshots**, not the live
-site, and the snapshot age varies a lot per source. Section 6 lists what must be
-re-checked against the live site before any code is written.
+2026-08-12, so the original research was verified against **Wayback snapshots**
+only. On **2026-08-17 the site was back online** and every check in section 6
+was run against the live site; findings are recorded inline there. Headlines:
 
-Resume by working section 6 top to bottom, then answering the four open design
-questions in section 5.
+- **The scrape is ~40% cheaper than designed**: `result.php?tc=<any 4-part>`
+  returns the **entire family** (all subfamily headers + all 5-part system
+  names) in one page, so the unit of work is the *family* (≤2,208 requests),
+  not the subfamily (3,550). See 6a/6c.
+- The 2015 header template survives; the column layout changed (6a).
+- Subfamily naming upstream is **bimodal per family**: big superfamilies are
+  100% named, many small families have no subfamily names at all — 5c's
+  fallback question is confirmed real (6d).
+- **New availability problem**: `getSubstrates.py` and `listSuperfamilies.py`
+  (2 of the 4 TSV endpoints step 6 already depends on) return persistent
+  HTTP 500 as of 2026-08-17 — a same-pass `--refetch-raw` (6f) is currently
+  impossible for those two files, and `/public/` carries no static fallback
+  for them.
+
+Resume by answering the open design questions in section 5 (5c is now known to
+matter; 6d quantifies it), then implement.
 
 ---
 
@@ -78,23 +90,38 @@ specificity name. TCDB's own FAQ states the definitions of classes, subclasses,
 families and subfamilies are seen by *browsing* the TC system — consistent with
 this.
 
+Live re-check 2026-08-17: the CGI endpoints still exist but the **live
+`/download.php` no longer links any of them** (it only links site pages); the
+`/public/` index is the discoverable bulk inventory now and has grown static
+TSV copies — `families.tsv`, `acc2tcid.tsv`, `refseq.tsv`, `pdb.tsv`,
+`mim.tsv`, `pmid.tsv` (dated 2024-07-01) and `go.tsv`, `pfam.tsv` (2025-12-15),
+plus the FASTA `tcdb` (2025-08-04). **No static substrates or superfamilies
+file exists**, and both substrate CGIs are down — see 6f.
+
 ## 3. Sources found, with confidence
 
-### 3a. `browse.php` — one request, high confidence
+### 3a. `browse.php` — one request, VERIFIED LIVE 2026-08-17
 
-Snapshot **2025-07-31** (`20250731190452`, 68,796 bytes). Recent, and the
-structure matched the 2014 snapshot too, so the template is stable across a
-decade. A single page yields:
+Live page fetched 2026-08-17: 200, **686,668 bytes** (10× the 68,796-byte
+2025-07-31 snapshot — the page now inlines the full class/subclass/family tree
+as a treeview). Markup is uniform at all three levels:
+
+```html
+<div rel="1.A.1" class="entry" ...>
+  <div class="tcid name">&nbsp;1.A.1:&nbsp;The Voltage-gated Ion Channel (VIC) Superfamily </div>
+</div>
+```
+
+Parse `rel="<tc id>"` + the `tcid name` div text. A single page yields:
 
 - **all 8 class names**, including class `6`
-- **54 subclass names** — covers **34/34 kept**, 51/52 in the full hierarchy
-  (only `3.F` absent, present in our May-2026 TSVs; see 6b)
-- **2,061 family names** — fixes 6 of the 29 unnamed families in the full
-  hierarchy, **3 of 3 unnamed kept families**
+- **56 subclass names** (up from 54 in the 2025-07 snapshot) — covers
+  **34/34 kept** and **52/52 in the full hierarchy**, `3.F` included (6b)
+- **2,127 family names, zero blank** — fixes the 3 of 3 unnamed kept families
 
 No 4-part IDs appear on the page, so it cannot help with subfamilies.
 
-Class names as published:
+Class names as published (re-confirmed identical on the live 2026-08-17 page):
 
 ```
 1  Channels/Pores
@@ -109,7 +136,8 @@ Class names as published:
 
 Subclass samples: `1.A` α-Type Channels · `1.B` β-Barrel Porins · `1.C`
 Pore-Forming Toxins (Proteins and Peptides) · `1.D` Non-Ribosomally Synthesized
-Channels · `1.E` Holins · `1.F` Vesicle Fusion Pores.
+Channels · `1.E` Holins · `1.F` Vesicle Fusion Pores · `3.F` Artificial
+(Unusual energy sources) Active Transporters.
 
 **This obsoletes `_TC_CLASS_NAMES` rather than extending it.** Two of the seven
 hardcoded names disagree with upstream:
@@ -125,46 +153,61 @@ Class `6` is real, not a data artifact — it holds 9 nodes in our hierarchy
 Metabolon, `6.A.3`, `6.A.4`, `6.A.5`, `6.B.1`). It is not currently
 gene-annotated so it never reaches the graph.
 
-### 3b. `search/result.php?tc=<4-part>` — the only subfamily source, LOW confidence
+### 3b. `search/result.php?tc=<4-part>` — the subfamily + specificity source, VERIFIED LIVE 2026-08-17
 
-Snapshot **2015-03-28** (`20150328052704`, 144,084 bytes) — **an 11-year-old
-template, and this is the source carrying 882 of the 916 unnamed nodes.** It is
-the single largest risk in this task.
+The 2015-template risk is **retired**. Live fetches (`tc=2.A.1.1`,
+`tc=1.A.11.1`, `tc=9.B.1.1`, `tc=3.A.1.1`, `tc=2.A.6.1`, `tc=2.A.7.1`,
+`tc=3.A.3.1`, `tc=2.A.3.1`) confirm the structure, with two changes vs 2015:
 
-One fetch names **both** remaining levels:
+1. **A 4-part query returns the ENTIRE family**, not one subfamily:
+   `tc=2.A.1.1` came back with all 91 subfamily anchors of `2.A.1` and every
+   5-part system row (1.08 MB). So the unit of work is one request **per
+   family** — any known 4-part child works as the query key. This cuts the
+   full-hierarchy job from 3,550 to **≤2,208 requests**.
+2. The table columns changed from 4 (`TCID | Name | Organismal Type | Example`)
+   to **5** (`TCID | Name | Domain | Kingdom/Phylum | Protein(s)`). The
+   `colspan="4"` on header rows survives unchanged (upstream never updated it —
+   don't key the parser on it).
 
-- the subfamily itself, as a section header row:
+What survives from 2015, byte-for-byte:
+
+- `<table id="result-cluster">`
+- the named-subfamily section header row:
   ```html
-  <table id="result-cluster">
-  <tr><th>TCID</th><th>Name</th><th>Organismal Type</th><th class="right-border">Example</th></tr>
   <tr><td colspan="4" id="right-border"><strong><A id="2.A.1.1"></A>2.A.1.1:&nbsp;&nbsp;The Sugar Porter (SP) Family</strong></td></tr>
   ```
-- every child system's curated `Name`, e.g. `2.A.1.1.1` → *"Galactose:H⁺
-  symporter (also transports xylose) (Hernández-Montalvo et al., 2001). Relative
-  substrate affinities of wild-type and mutant forms of the E. coli sugar
-  transporter GalP have been determined by solid-state NMR (Patching et al.,
-  2008)."*
+  **Parser caveat**: subfamily names can contain inline markup
+  (`The Drug:H<sup>+</sup> Antiporter-1 …`, `<sub>`, `<em>`), so capture up to
+  `</strong>`, never `[^<]*`.
+- every child system's curated `Name` cell, e.g. `2.A.1.1.1` → *"Galactose:H⁺
+  symporter, GalP. Also transports glucose, xylose, …"* — with `<sup>`, `<em>`,
+  `<i>`, HTML entities, and `<a class="reflink">` citation links to unwrap.
 
-Name cells contain `<sup>`, `<em>`, `<i>`, HTML entities, and
-`<a class="reflink">` citation links that need unwrapping.
+**Unnamed subfamilies emit no header row at all** (not an empty one): in
+families without curated subfamily names the 4-part ID appears only as a bare
+`<A id="…"></A>` anchor — or not at all (`3.A.3` shows one anchor for 17
+subfamilies). Absence of a `<strong>` header == no upstream name. See 6d.
 
-Cost at full-hierarchy scope: **3,550 requests, ~400 MB, ≈1 h at 1 req/s.**
+**Scoping caveat**: pages embed 5-part IDs from outside the queried family
+(a sidebar module — `tc=2.A.1.1`'s page carries 1,041 distinct 5-part IDs).
+Parse only inside `result-cluster`.
 
-### 3c. `tcfamilybrowse.php?tc=<3-part>` — specificity only, cannot replace 3b
+Revised cost at full-hierarchy scope: **≤2,208 requests** (one per family;
+observed pages 22 KB–1.36 MB, ~1 s server time each), roughly **0.3–0.7 GB,
+≈40 min at 1 req/s.**
 
-Snapshot **2016-01-05** (`?tc=1.A.11`, 19,787 bytes). The "Format for printing"
-view: family narrative plus a **flat** `Examples:` table (`TC# | Name |
-Organismal Type | Example`) of 5-part systems with their curated names
-("Ammonia transporter and regulatory sensor, AmtB (…)").
+### 3c. `tcfamilybrowse.php?tc=<3-part>` — specificity only, SUPERSEDED by 3b
 
-**No subfamily headings** — 4-part IDs appear only as prefixes of 5-part IDs.
-So it gives specificity names in 2,208 requests over much smaller pages (1–40 KB,
-~40 MB total) but leaves all 3,550 subfamilies unnamed. Useful only as a
-cheaper specificity-only path, not as the primary source.
+Still live (`?tc=1.A.11` → 200, 82,527 bytes on 2026-08-17): the "Format for
+printing" view with the family narrative plus a flat 5-part `Examples:` table.
+But since a single `result.php` family fetch (3b) now yields subfamily *and*
+specificity names at the same request count (one per family), this endpoint no
+longer buys anything. Recorded for completeness only.
 
-No archived snapshot exists for a subclass- or class-level variant
-(`?tc=1.A`, `?tc=1`), suggesting those are unsupported. Worth one live probe
-anyway (6c) — a class-level variant would collapse the whole job to 8 requests.
+Class- and subclass-level variants are confirmed **unsupported** on the live
+site: `?tc=1` returns a 43-byte stub and `?tc=1.A` a 606-byte references-only
+fragment; `?tc=2.A.1.1` (4-part) also returns a 43-byte stub. There is no
+8-request shortcut (6c).
 
 ### 3d. Local `tcdb.raw.faa` — free, but semantically wrong
 
@@ -188,13 +231,15 @@ the scrape misses.
 
 ## 4. Direction agreed so far
 
-`browse.php` **plus** the full per-subfamily scrape (option chosen 2026-08-12):
+`browse.php` **plus** the full per-family scrape (option chosen 2026-08-12;
+"per-subfamily" revised to per-family after the 2026-08-17 live check — one
+`result.php` fetch per family covers all its subfamilies and systems, see 3b):
 name every level across the whole hierarchy, delete `_TC_CLASS_NAMES`, fix class
 `6`, and correct the two wrong class names. Two clearly separated fetchers, both
 writing cached TSVs into the gitignored `cache/data/tcdb/raw/`, both gated behind
 `--refetch-raw` so `--force` stays a ~1 min no-network rebuild.
 
-Scoping the scrape to only the ~596 kept subfamilies was rejected: it would make
+Scoping the scrape to only the ~592 kept families was rejected: it would make
 the committed `tcdb_hierarchy.json` gene-set-dependent, so adding a strain would
 silently reintroduce unnamed nodes until someone re-scraped.
 
@@ -217,11 +262,14 @@ truncate at N chars; or short synthesized `name` plus the full text in a
 separate `description` property. Related: strip `(Author et al., YYYY)` citation
 parentheticals, or keep them?
 
-**5c. Fallback when upstream has no name.** Unknown how many of the 3,550
-subfamilies are genuinely blank upstream (6d). Current behaviour — render the
-bare TC ID — stays the default unless something better is chosen. A synthesized
-label such as `"2.A.1.1 (subfamily of The Major Facilitator Superfamily (MFS))"`
-is an option but arguably worse than an honest bare ID.
+**5c. Fallback when upstream has no name.** Now known to matter (6d): upstream
+subfamily naming is bimodal per family — the big superfamilies are 100% named,
+but many small families carry **no** subfamily names at all, so a real fraction
+of the 596 kept subfamilies will stay nameless after the scrape. Current
+behaviour — render the bare TC ID — stays the default unless something better
+is chosen. A synthesized label such as `"2.A.1.1 (subfamily of The Major
+Facilitator Superfamily (MFS))"` is an option but arguably worse than an honest
+bare ID.
 
 **5d. Scrape hygiene.** Rate limit, retry policy, resume-after-partial-failure,
 and what happens when a single page 404s or the site goes back into maintenance
@@ -230,35 +278,57 @@ resumable, and the guard added in `dc76076c` (step 6 raises if a rebuild comes
 out empty beside a populated committed artifact) is the right precedent to
 extend to the name maps.
 
-## 6. To re-check against the live site before writing code
+## 6. Live-site verification — ALL CHECKS RUN 2026-08-17
 
-**6a. Does the 2015 subfamily-page template still hold?** *(highest risk)* Fetch
-`https://www.tcdb.org/search/result.php?tc=2.A.1.1` and confirm the
-`table id="result-cluster"` structure, the `<strong>…4-part:&nbsp;&nbsp;name</strong>`
-section-header row, and the four-column system rows. If the template changed,
-3b's parser design is void and this section restarts.
+**6a. Does the 2015 subfamily-page template still hold?** **Mostly yes — parser
+design survives with two adjustments.** `result.php?tc=2.A.1.1` fetched live:
+`table id="result-cluster"` and the `<strong><A id="…"></A>4-part:&nbsp;&nbsp;name</strong>`
+header row are intact. Changes: (1) system rows now have **five** columns
+(`TCID | Name | Domain | Kingdom/Phylum | Protein(s)`), not four; (2) subfamily
+names can contain inline `<sup>`/`<sub>`/`<em>` markup, so capture to
+`</strong>`. Bonus finding: the page covers the **whole family**, not just the
+queried subfamily — full details in 3b.
 
-**6b. Is `3.F` on the current `browse.php`?** It is in our May-2026 TSVs but
-absent from the 2025-07 snapshot. Confirms whether browse.php gives 52/52
-subclass coverage or 51/52 with one permanent gap.
+**6b. Is `3.F` on the current `browse.php`?** **Yes** — `3.F: Artificial
+(Unusual energy sources) Active Transporters`, with families `3.F.1` (LAMM),
+`3.F.2` beneath it. Live browse.php carries 56 subclasses → **52/52 coverage**
+of the full hierarchy, no permanent gap. (The page itself was rebuilt upstream
+as a 686 KB treeview — see 3a for the new markup.)
 
-**6c. Probe for a cheaper bulk path.** In order of value:
-`tcfamilybrowse.php?tc=1` and `?tc=1.A` (a class-level printer view would reduce
-the whole job to 8 requests); `tcfamilybrowse.php?tc=<4-part>`; a re-read of the
-live `/public/` index for files newer than the 2024-08-27 batch; and the live
-`/download.php` for endpoints added since the archived copy.
+**6c. Probe for a cheaper bulk path.** **Probed; the winner is 3b's own
+whole-family behaviour (≤2,208 requests), and nothing cheaper exists.**
+`tcfamilybrowse.php?tc=1` → 43-byte stub; `?tc=1.A` → 606-byte references-only
+fragment; `?tc=<4-part>` → 43-byte stub (only 3-part works). `result.php` at
+subclass/class level returns narrative-description pages with no child listing.
+Live `/download.php` no longer lists CGI endpoints at all; `/public/` gained
+static TSVs (`go.tsv` + `pfam.tsv` dated 2025-12-15, FASTA 2025-08-04, rest
+2024-07-01) but nothing that names subfamilies or specificities.
 
-**6d. Blank-name rate.** Over a sample of subfamily pages, how many subfamilies
-have no upstream name — this answers 5c.
+**6d. Blank-name rate.** **Bimodal per family, not a uniform rate.** Sample of
+8 families: the five large/curated ones are fully named — `2.A.1` 91/91,
+`3.A.1` 98/98, `2.A.7` 34/34, `2.A.3` 15/15, `2.A.6` 9/9 — while three
+smaller ones have **zero** named subfamilies (`1.A.11` 0/3, `9.B.1` 0/2,
+`3.A.3` 0/17; P-type ATPase!). Unnamed subfamilies emit no header row at all.
+Specificity (5-part) names were present for every system row in all 8 pages.
+Answers 5c: a fallback story is genuinely needed.
 
-**6e. Politeness.** Read `robots.txt` and any stated rate limit, and size the
-delay for ~3,550 requests accordingly. Measure real page sizes to replace the
-~400 MB estimate.
+**6e. Politeness.** No `robots.txt` (404), no stated rate limit
+(Apache/2.4.52 Ubuntu). Observed ~1 s server time per family page, sizes
+22 KB (`9.B.1`) – 1.36 MB (`3.A.1`). At 1 req/s the ≤2,208-request scrape is
+**≈40 min and roughly 0.3–0.7 GB** (replaces the ~400 MB / 1 h per-subfamily
+estimate). Given the site just came out of maintenance, keep 1 req/s + retries.
 
-**6f. Re-download the four existing TSVs.** They are cached from 2026-05-05
-(`families`, `superfamilies`, `substrates`, `acc2tcid`) and 2026-08-06
-(`tcdb_go_map`, `tcdb_pfam_map`). Refreshing them in the same pass keeps the
-hierarchy and the new name maps from the same upstream release.
+**6f. Re-download the four existing TSVs.** **Currently HALF-BLOCKED.** Live
+status 2026-08-17: `families.py` 200 (138 KB) · `acc2tcid.py` 200 (483 KB) ·
+`pfam.py` 200 (624 KB) · `go.py` 200 (2.5 MB) — but **`getSubstrates.py` and
+`listSuperfamilies.py` both return persistent HTTP 500** (retried; stable
+Apache error, `webdb-help@ucsd.edu` as contact). `/public/` has no static
+substrates/superfamilies fallback. So a same-release refresh of all raw inputs
+is impossible right now: either (a) wait for the substrate CGIs to recover
+before running `--refetch-raw`, or (b) accept mixed vintages — the design
+preference is (a); the empty-rebuild guard (`dc76076c`) protects against a 500
+silently emptying `substrates.tsv` in the meantime. Re-check the two endpoints
+before implementation.
 
 ## 7. Constraints carried from the task brief
 
@@ -282,8 +352,9 @@ hierarchy and the new name maps from the same upstream release.
 
 ## 8. Definition of done
 
-- Named nodes at subclass and subfamily level, and at specificity level if 6a
-  confirms the source; `t.name = t.tcdb_id` count drops substantially from 916.
+- Named nodes at subclass, subfamily and specificity level (source confirmed
+  live, 6a — subfamily coverage is bounded by upstream's bimodal naming, 6d);
+  `t.name = t.tcdb_id` count drops substantially from 916.
 - Full Docker rebuild with `output/import.report` still empty (zero dangling).
 - `pytest -m "not slow and not kg"` and `pytest -m kg` both green.
 - Names searchable through the `tcdbFamilyFullText` index, verified with a real

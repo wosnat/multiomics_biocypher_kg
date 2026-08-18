@@ -1,7 +1,8 @@
 # Wang 2014
 
-**Citation:** Wang J, Chen L, Huang S, Liu J, Zhang X, Qin S (2014). A transcriptomic study of the *Prochlorococcus* cells' differential response to various nutrients. *BMC Microbiology* 14:11.
+**Citation:** Wang B, Lu L, Lv H, Jiang H, Qu G, Tian C, Ma Y (2014). The transcriptome landscape of *Prochlorococcus* MED4 and the factors for stabilizing the core genome. *BMC Microbiology* 14:11.
 **DOI:** 10.1186/1471-2180-14-11
+**GEO:** GSE49517
 **Organism(s):** *Prochlorococcus marinus* MED4 (axenic)
 **Topic:** RNA-seq-based profiling of MED4 grown in Pro99 and AMP media at exponential and log-phase (10 samples total), 21C, continuous light at 28 umol quanta m-2 s-1. All MED4 CDS genes were classified by RPKM quartiles into expression-level categories (VEG/HEG/MEG/LEG/NEG) and Core/Flexible designation; operon predictions are also reported.
 

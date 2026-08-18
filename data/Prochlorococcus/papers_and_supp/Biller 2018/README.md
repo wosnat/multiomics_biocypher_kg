@@ -1,7 +1,8 @@
 # Biller 2018
 
-**Citation:** Biller SJ, Coe A, Roggensack SE, Chisholm SW (2018). Heterotroph interactions alter *Prochlorococcus* transcriptome dynamics during extended periods of darkness. *mSystems* 3(3):e00182-18.
-**DOI:** 10.1128/mSystems.00182-18
+**Citation:** Biller SJ, Coe A, Roggensack SE, Chisholm SW (2018). Heterotroph interactions alter *Prochlorococcus* transcriptome dynamics during extended periods of darkness. *mSystems* 3(3):e00040-18.
+**DOI:** 10.1128/mSystems.00040-18
+**GEO:** GSE93197
 **Organism(s):** *Prochlorococcus* NATL2A (axenic and coculture); *Alteromonas macleodii* MIT1002 (coculture partner)
 **Topic:** RNA-seq time course comparing cultures under extended darkness versus a 13:11 light:dark diel cycle control. Conditions include axenic NATL2A, NATL2A co-cultured with MIT1002, and MIT1002 in coculture. Cultures grown in Pro99 natural seawater medium at 24C, bubbled with air. Additional tables report 24h transcript periodicity (Y/N) and late-darkness transcript survival categories.
 

@@ -1,0 +1,43 @@
+{
+  "strain": "MruberA",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2883,
+  "wallclock_s": 0.6,
+  "raw_hit_lines": 1317,
+  "parse_failures": 0,
+  "proteins_with_hits": 124,
+  "proteins_with_call": 124,
+  "total_candidates": 128,
+  "candidates_per_protein_distribution": {
+    "1": 120,
+    "2": 4
+  },
+  "tier_distribution": {
+    "3": 122,
+    "2": 6
+  },
+  "consensus_agreement_distribution": {
+    "id": 16,
+    "subfamily": 40,
+    "family": 72
+  },
+  "catalytic_type_distribution": {
+    "S": 54,
+    "M": 53,
+    "C": 13,
+    "T": 3,
+    "inhibitor": 1,
+    "N": 1,
+    "A": 2,
+    "P": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 127,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 83,
+    "putative": 19,
+    "nonpeptidase_homolog": 26
+  }
+}

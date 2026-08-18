@@ -1403,6 +1403,68 @@ cazy family hierarchical association:
   label_in_input: cazy_family_is_a_cazy_family
 
 
+# ── MEROPS peptidase families (hierarchical ontology + scored edge) ───────────
+# Observed-only pruning (CAZy pattern): clan (level 0) → family (1) → subfamily
+# (2). No identifier-level nodes — tier-1 calls attach at subfamily/family and
+# keep the identifier on the edge as best_hit_id. Node ids: merops.clan:SC /
+# merops.family:S14 / merops.family:S08A (both registered bioregistry prefixes).
+# Single evidence source (merops-diamond); design:
+# docs/superpowers/specs/2026-08-17-merops-kg-integration-design.md
+
+merops family:
+  is_a: named thing
+  represented_as: node
+  preferred_id: merops.family
+  label_in_input: merops family
+  properties:
+    name: str               # family/subfamily: MEROPS type-example name (e.g. "aminopeptidase N"); clan: code
+    description: str        # sparse — clans only (fold/mechanism text from clan.txt)
+    merops_id: str          # bare code, e.g. "SC" / "S14" / "S08A"
+    level: int              # 0=merops_clan, 1=merops_family, 2=merops_subfamily
+    level_kind: str
+    family_type: str        # "peptidase" | "inhibitor" (I-families)
+    catalytic_type: str     # full word: serine/cysteine/metallo/aspartic/threonine/glutamic/asparagine_lyase/mixed/unknown; null for inhibitors
+    gene_count: int         # post-import (subtree)
+    peptidase_gene_count: int  # post-import (subtree, call_class='peptidase' edges only)
+    organism_count: int     # post-import
+    member_count: int       # post-import (direct children)
+
+# Scored edge, one per calls.json candidate (multi-domain proteins fan out).
+# `call_class` is the read-first verdict — 'peptidase' | 'inhibitor' |
+# 'nonpeptidase_homolog' (best hit is a catalytically dead .9xx relative:
+# fold evidence, NOT protease evidence). Threshold-free, derived from
+# best_hit_kind + the family type (expression_status pattern). `tier` is the
+# tcdb-diamond confidence band (1=identifier >=70% id, 2=subfamily >=40%,
+# 3=family floor-only); post-import folds 'merops' into annotation_types only
+# for tier<=2 edges, so tier-3 remote homology stays findable without
+# inflating annotation coverage.
+gene to merops family association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Gene_has_merops_family
+  source: gene
+  target: merops family
+  label_in_input: gene_has_merops_family
+  properties:
+    call_class: str
+    tier: int
+    confidence_score: float
+    identity: float
+    qcov: float
+    evalue: float
+    consensus_n: int
+    best_hit_id: str        # matched MEROPS reference, e.g. "S14.008"
+    best_hit_kind: str      # holotype | putative | nonpeptidase_homolog
+
+merops family hierarchical association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Merops_family_is_a_merops_family
+  source: merops family
+  target: merops family
+  label_in_input: merops_family_is_a_merops_family
+
+
 # ── PSORTb subcellular localization (flat ontology + scored edge) ─────────────
 
 subcellular localization:
@@ -1471,6 +1533,7 @@ interpro entry:
     name: str               # InterPro entry description
     interpro_id: str        # e.g. "IPR000685"
     interpro_type: str      # FAMILY | DOMAIN | HOMOLOGOUS_SUPERFAMILY | REPEAT | CONSERVED_SITE | ACTIVE_SITE | BINDING_SITE | PTM
+    description: str        # sparse — 400-char curated abstract
     level: int              # is-a depth in ParentChildTree (0 = parentless root); NOTE breadth is interpro_type, not level (ORA stratifies by (type, level))
     gene_count: int         # post-import
     organism_count: int     # post-import
@@ -1493,7 +1556,9 @@ gene to interpro entry association:
     start: int              # domain envelope start (min across this gene's matches to the entry)
     end: int                # domain envelope end (max)
     evalue: float           # best (min) non-null e-value; omitted when all matches lack one
-    score: float            # best (max) non-null score; omitted when N/A
+    evalue_library: str     # attribution for the min-evalue: which member DB reported it.
+                             # count-don't-combine — scores across heterogeneous member-DB scales
+                             # aren't comparable, so no combined `score` is stored (see spec §3.1).
     libraries: str[]        # member DBs supporting this entry for this gene (e.g. PFAM|NCBIFAM)
     match_count: int        # number of match×location rows folded into this edge
 
@@ -1542,6 +1607,45 @@ interpro entry related to cazy family:
   properties:
     ambiguous: bool
     source_db: str
+
+
+# ── NCBIfam ontology (flat — no hierarchy column in source; scored edge) ──────
+
+ncbifam family:
+  is_a: biological entity
+  represented_as: node
+  preferred_id: ncbifam
+  label_in_input: ncbifam family
+  properties:
+    name: str               # curated product name (hmm_PGAP product_name)
+    ncbifam_id: str          # e.g. "TIGR00198" / "NF002735" (unversioned)
+    family_type: str         # equivalog | subfamily | domain | exception | hypoth_equivalog | ... (specificity LABEL, flat ontology)
+    gene_symbol: str         # sparse
+    description: str         # sparse — curated comment column
+    level: int               # always 0 (flat)
+
+gene to ncbifam family association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Gene_has_ncbifam_family
+  source: gene
+  target: ncbifam family
+  label_in_input: gene_has_ncbifam_family
+  # Single-source scored edge (InterProScan NCBIFAM; homogeneous HMMER bits —
+  # both evalue AND score are meaningful, unlike the cross-library interpro edge).
+  properties:
+    start: int
+    end: int
+    evalue: float
+    score: float
+
+ncbifam family in interpro entry:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Ncbifam_family_in_interpro_entry
+  source: ncbifam family
+  target: interpro entry
+  label_in_input: ncbifam_family_in_interpro_entry
 
 
 protein to ec number association:

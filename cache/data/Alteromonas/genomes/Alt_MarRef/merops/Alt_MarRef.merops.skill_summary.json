@@ -1,0 +1,42 @@
+{
+  "strain": "Alt_MarRef",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 4305,
+  "wallclock_s": 0.6,
+  "raw_hit_lines": 1784,
+  "parse_failures": 0,
+  "proteins_with_hits": 182,
+  "proteins_with_call": 182,
+  "total_candidates": 182,
+  "candidates_per_protein_distribution": {
+    "1": 182
+  },
+  "tier_distribution": {
+    "3": 162,
+    "2": 19,
+    "1": 1
+  },
+  "consensus_agreement_distribution": {
+    "id": 44,
+    "subfamily": 36,
+    "family": 102
+  },
+  "catalytic_type_distribution": {
+    "S": 85,
+    "M": 64,
+    "T": 7,
+    "C": 15,
+    "A": 6,
+    "N": 2,
+    "inhibitor": 3
+  },
+  "entry_type_distribution": {
+    "peptidase": 179,
+    "inhibitor": 3
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 111,
+    "putative": 40,
+    "nonpeptidase_homolog": 31
+  }
+}

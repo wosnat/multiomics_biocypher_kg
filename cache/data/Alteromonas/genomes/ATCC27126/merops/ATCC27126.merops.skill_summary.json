@@ -1,0 +1,43 @@
+{
+  "strain": "ATCC27126",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 3791,
+  "wallclock_s": 0.6,
+  "raw_hit_lines": 1673,
+  "parse_failures": 0,
+  "proteins_with_hits": 163,
+  "proteins_with_call": 163,
+  "total_candidates": 164,
+  "candidates_per_protein_distribution": {
+    "1": 162,
+    "2": 1
+  },
+  "tier_distribution": {
+    "3": 152,
+    "2": 12
+  },
+  "consensus_agreement_distribution": {
+    "id": 26,
+    "subfamily": 37,
+    "family": 101
+  },
+  "catalytic_type_distribution": {
+    "C": 22,
+    "M": 60,
+    "S": 67,
+    "T": 6,
+    "N": 2,
+    "A": 4,
+    "U": 1,
+    "inhibitor": 2
+  },
+  "entry_type_distribution": {
+    "peptidase": 162,
+    "inhibitor": 2
+  },
+  "best_hit_kind_distribution": {
+    "nonpeptidase_homolog": 36,
+    "holotype": 103,
+    "putative": 25
+  }
+}

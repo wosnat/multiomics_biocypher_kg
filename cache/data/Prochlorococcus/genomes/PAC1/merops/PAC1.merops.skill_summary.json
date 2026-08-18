@@ -1,0 +1,39 @@
+{
+  "strain": "PAC1",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2115,
+  "wallclock_s": 0.5,
+  "raw_hit_lines": 624,
+  "parse_failures": 0,
+  "proteins_with_hits": 60,
+  "proteins_with_call": 60,
+  "total_candidates": 62,
+  "candidates_per_protein_distribution": {
+    "1": 58,
+    "2": 2
+  },
+  "tier_distribution": {
+    "3": 57,
+    "2": 5
+  },
+  "consensus_agreement_distribution": {
+    "id": 11,
+    "subfamily": 11,
+    "family": 40
+  },
+  "catalytic_type_distribution": {
+    "S": 23,
+    "M": 24,
+    "C": 12,
+    "A": 2,
+    "T": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 62
+  },
+  "best_hit_kind_distribution": {
+    "putative": 18,
+    "holotype": 33,
+    "nonpeptidase_homolog": 11
+  }
+}

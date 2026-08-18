@@ -1,7 +1,8 @@
 # He 2022
 
-**Citation:** He et al. 2022, "Transcriptomic response of *Prochlorococcus* NATL1A and MED4 to low-salinity acclimation", Frontiers in Microbiology (fmicb-13-1038136).
-**DOI:** (not listed in paperconfig; Frontiers article ID 1038136)
+**Citation:** He X, Liu H, Long L, Dong J, Huang S (2022). Acclimation and stress response of *Prochlorococcus* to low salinity. *Frontiers in Microbiology* 13:1038136.
+**DOI:** 10.3389/fmicb.2022.1038136
+**GEO:** GSE195946
 **Organism(s):** *Prochlorococcus* NATL1A, MED4
 **Topic:** RNA-seq of axenic cultures acclimated through five rounds of transfer in Pro99 medium with reduced salinity (28 psu) vs normal seawater salinity (34 psu); 21C, continuous light (10 uE/m2/s). Tables S1/S2 report only highly DE genes (p < 0.05 and |log2FC| > 1) per strain.
 

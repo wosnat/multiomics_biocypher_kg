@@ -117,6 +117,7 @@ class DataSourceAdapter:
             "signalp": "SignalP",
             "interproscan": "InterProScan",
             "tcdb_diamond": "TCDB (diamond)",
+            "merops_diamond": "MEROPS (diamond)",
         }.get(source_id, source_id.title())
 
     @staticmethod
@@ -130,6 +131,7 @@ class DataSourceAdapter:
             "signalp": "SignalP 6.0 per-protein signal-peptide-type predictions (SP/LIPO/TAT/TATLIPO/PILIN).",
             "interproscan": "InterProScan 5 per-protein InterPro-entry domain/family predictions (direct HMM/profile matching across member DBs).",
             "tcdb_diamond": "diamond blastp against the curated TCDB FASTA — per-protein transporter classifications by direct sequence similarity, independent of eggNOG's ortholog-transferred KEGG_TC.",
+            "merops_diamond": "diamond blastp against the MEROPS peptidase scan library — per-protein protease/peptidase-inhibitor classifications (clan/family/subfamily) by direct sequence similarity; the KG's only MEROPS evidence source.",
         }.get(source_id, "")
 
     def get_nodes(self) -> Iterator[tuple[str, str, dict[str, Any]]]:

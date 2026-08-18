@@ -56,13 +56,19 @@
 #           topics_resolved.json + resolution_report.txt. Deterministic; mirrors
 #           steps 4/7. Papers without a topics.json are skipped.
 #           Requires step 3 (gene_id_mapping.json) + step 6 (kegg_data.json).
-# Step 9 — Build the InterPro reference cache (interpro_reference.json)
+# Step 9 — Build the central reference caches (interpro_reference.json + ncbifam_reference.json)
 #           calls: multiomics_kg/download/build_interpro_reference.py
-#           Downloads InterPro current_release entry.list + ParentChildTreeFile.txt,
-#           writes cache/data/interpro/interpro_reference.json ({IPR: name/type/parent/level}),
-#           consumed by interpro_adapter for InterProEntry nodes + is-a hierarchy.
-#           Independent of steps 0-8 (global reference download). --refetch-raw re-pulls
-#           the FTP files (only on an InterPro release).
+#                  multiomics_kg/download/build_ncbifam_reference.py
+#           Downloads InterPro current_release entry.list + ParentChildTreeFile.txt
+#           (+ interpro2go + interpro.xml.gz) and NCBI's hmm_PGAP.tsv, writing
+#           cache/data/interpro/interpro_reference.json ({IPR: name/type/parent/level/...})
+#           and cache/data/ncbifam/ncbifam_reference.json ({unversioned_acc: name/family_type/...}),
+#           consumed by interpro_adapter / ncbifam_adapter for node names/metadata + hierarchy.
+#           Global reference downloads (no per-strain data needed), but the step-2 merge
+#           (build_gene_annotations.py) consumes them (interpro_reference.json already;
+#           ncbifam_reference.json per spec §4), so step 9 now runs BEFORE step 2 in the
+#           default order (see STEPS below). --refetch-raw re-pulls the FTP/NCBI files
+#           (only on an InterPro/NCBIfam release).
 #
 # Logs: logs/prepare_data_step0.log … logs/prepare_data_step9.log
 #       Monitor with: tail -f logs/prepare_data_step0.log
@@ -92,7 +98,8 @@ mkdir -p "$LOG_DIR"
 
 FORCE=""
 REFETCH_RAW=""
-STEPS="0 1 2 3 4 5 6 7 8 9"
+# 9 = central references (interpro + ncbifam); runs BEFORE the step-2 merge which consumes them (spec 2026-08-17 §4)
+STEPS="0 9 1 2 3 4 5 6 7 8"
 STRAINS=()
 SKIP_CYANORAK=0
 
@@ -140,8 +147,15 @@ run_step() {
     echo "══════════════════════════════════════════════════════════════════════"
     echo ""
 
+    # RUN_STEP_APPEND=1 appends to an existing log instead of overwriting it
+    # (used when a single step number runs more than one command, e.g. step 9)
+    local tee_args=("$log")
+    if [[ "${RUN_STEP_APPEND:-0}" -eq 1 ]]; then
+        tee_args=("-a" "$log")
+    fi
+
     # tee: show output live AND write to log
-    if ! "${cmd[@]}" 2>&1 | tee "$log"; then
+    if ! "${cmd[@]}" 2>&1 | tee "${tee_args[@]}"; then
         echo ""
         echo "ERROR: Step $step_num failed — check $log" >&2
         exit 1
@@ -156,7 +170,7 @@ cd "$PROJECT_ROOT"
 export PYTHONPATH="$PROJECT_ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
 echo "prepare_data.sh: steps=[${STEPS}]${STRAINS_ARG:+ strains=[${STRAINS[*]}]}${FORCE:+ (force)}${REFETCH_RAW:+ (refetch-raw)}${SKIP_CYANORAK:+ (skip-cyanorak)}"
-echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB hierarchy caches, step 7 = resolve paper metabolite names, step 8 = resolve paper discuss-topics, step 9 = InterPro reference cache)"
+echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB hierarchy caches, step 7 = resolve paper metabolite names, step 8 = resolve paper discuss-topics, step 9 = central references: InterPro + NCBIfam + MEROPS reference caches)"
 echo "Project root: $PROJECT_ROOT"
 echo "Logs dir:     $LOG_DIR"
 
@@ -243,6 +257,20 @@ for step in $STEPS; do
                 "Build InterPro reference cache (interpro_reference.json)" \
                 "$LOG_DIR/prepare_data_step9.log" \
                 uv run python -m multiomics_kg.download.build_interpro_reference \
+                    $FORCE \
+                    $REFETCH_RAW
+
+            RUN_STEP_APPEND=1 run_step 9 \
+                "Build NCBIfam reference cache (ncbifam_reference.json)" \
+                "$LOG_DIR/prepare_data_step9.log" \
+                uv run python -m multiomics_kg.download.build_ncbifam_reference \
+                    $FORCE \
+                    $REFETCH_RAW
+
+            RUN_STEP_APPEND=1 run_step 9 \
+                "Build MEROPS reference cache (merops_reference.json)" \
+                "$LOG_DIR/prepare_data_step9.log" \
+                uv run python -m multiomics_kg.download.build_merops_reference \
                     $FORCE \
                     $REFETCH_RAW
             ;;

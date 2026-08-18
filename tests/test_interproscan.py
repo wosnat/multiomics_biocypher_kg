@@ -1,265 +1,99 @@
-"""Unit tests for multiomics_kg.utils.interproscan (pure JSON parsing/summary)."""
-
-from multiomics_kg.utils.interproscan import (
-    normalize_pathway_xref,
-    parse_entry_xrefs,
-    parse_interproscan_json,
-    summarize,
-)
+"""Tests for the faceted InterProScan parser (multi-ontology redesign)."""
+import pytest
+from multiomics_kg.utils.interproscan import parse_interproscan_json, summarize
 
 
-# A trimmed but structurally faithful InterProScan --formats JSON document:
-# two proteins with matches (one integrated + one un-integrated + one
-# pattern-only signature with no evalue), and one processed protein with no
-# matches (the sentinel case).
-SAMPLE = {
-    "results": [
-        {
-            "md5": "aaa",
-            "xref": [{"id": "WP_002805854.1", "name": "WP_002805854.1 rbcL"}],
-            "matches": [
-                {
-                    "signature": {
-                        "accession": "PF00016",
-                        "name": "RuBisCO_large",
-                        "description": "Ribulose bisphosphate carboxylase large chain",
-                        "signatureLibraryRelease": {"library": "PFAM", "version": "37.0"},
-                        "entry": {
-                            "accession": "IPR000685",
-                            "description": "RuBisCO large subunit, C-terminal",
-                            "type": "DOMAIN",
-                            "goXRefs": [{"id": "GO:0016984", "databaseName": "GO"}],
-                            "pathwayXRefs": [{"id": "00710", "databaseName": "KEGG"}],
-                        },
-                    },
-                    "locations": [{"start": 20, "end": 460, "evalue": 1e-80, "score": 300.0}],
-                },
-                {
-                    # Un-integrated member-DB hit (entry is null).
-                    "signature": {
-                        "accession": "G3DSA:3.20.20.110",
-                        "name": None,
-                        "description": None,
-                        "signatureLibraryRelease": {"library": "GENE3D", "version": "4.3"},
-                        "entry": None,
-                    },
-                    "locations": [{"start": 15, "end": 470, "evalue": 2e-60, "score": 210.0}],
-                },
-            ],
-        },
-        {
-            "md5": "bbb",
-            "xref": [{"id": "WP_002805169.1", "name": "WP_002805169.1 atpH"}],
-            "matches": [
-                {
-                    # Pattern hit — no evalue/score.
-                    "signature": {
-                        "accession": "PS00000",
-                        "name": "ATP_C",
-                        "description": "ATP synthase c subunit signature",
-                        "signatureLibraryRelease": {"library": "PROSITE_PATTERNS", "version": "2024"},
-                        "entry": {
-                            "accession": "IPR000454",
-                            "description": "ATP synthase F0, subunit c",
-                            "type": "FAMILY",
-                            "goXRefs": [],
-                            "pathwayXRefs": [],
-                        },
-                    },
-                    "locations": [{"start": 5, "end": 40}],
-                },
-            ],
-        },
-        {
-            "md5": "ccc",
-            "xref": [{"id": "WP_999999999.1", "name": "WP_999999999.1 hypothetical"}],
-            "matches": [],
-        },
-    ]
+def _loc(start, end, evalue=None, score=None):
+    return {"start": start, "end": end, "evalue": evalue, "score": score}
+
+
+def _match(library, acc, desc, entry=None, locations=None):
+    sig = {"accession": acc, "description": desc,
+           "signatureLibraryRelease": {"library": library}}
+    if entry:
+        sig["entry"] = entry
+    return {"signature": sig, "locations": locations or [_loc(1, 50)]}
+
+
+ENTRY_FAM = {
+    "accession": "IPR003686", "description": "Photosystem II PsbI", "type": "FAMILY",
+    "goXRefs": [{"id": "GO:0015979"}, {"id": "GO:0009523"}],
+    "pathwayXRefs": [{"databaseName": "MetaCyc", "id": "PWY-101"}],  # must be DROPPED
+}
+ENTRY_SF = {
+    "accession": "IPR037271", "description": "PsbI superfamily",
+    "type": "HOMOLOGOUS_SUPERFAMILY", "goXRefs": [{"id": "GO:0015979"}],
+    "pathwayXRefs": [],
 }
 
-
-def test_parse_keys_by_wp_accession():
-    calls = parse_interproscan_json(SAMPLE)
-    assert set(calls) == {"WP_002805854.1", "WP_002805169.1", "WP_999999999.1"}
-
-
-def test_parse_flattens_matches_and_aggregates():
-    calls = parse_interproscan_json(SAMPLE)
-    rbcl = calls["WP_002805854.1"]
-    assert rbcl["md5"] == "aaa"
-    assert rbcl["match_count"] == 2
-    # sorted by (start, evalue, accession): GENE3D (start 15) before PFAM (start 20)
-    assert [m["library"] for m in rbcl["matches"]] == ["GENE3D", "PFAM"]
-    assert rbcl["interpro_entries"] == ["IPR000685"]  # GENE3D hit is un-integrated
-    assert rbcl["go_terms"] == ["GO:0016984"]
-    assert rbcl["pathways"] == ["KEGG:00710"]
-    assert rbcl["libraries"] == ["GENE3D", "PFAM"]
+RAW = {"results": [{
+    "md5": "abc", "xref": [{"id": "WP_000001.1"}],
+    "matches": [
+        _match("PFAM", "PF02532.18", "PSII PsbI", ENTRY_FAM,
+               [_loc(1, 36, evalue=4.1e-18, score=76.3)]),
+        _match("HAMAP", "MF_01316", "PSII reaction center I", ENTRY_FAM,
+               [_loc(1, 36, score=17.4)]),
+        _match("NCBIFAM", "NF002735.2", "photosystem II protein I", None,
+               [_loc(1, 38, evalue=3.3e-23, score=92.7)]),
+        _match("SUPERFAMILY", "SSF161041", "PsbI", ENTRY_SF, [_loc(1, 35)]),
+    ],
+}, {
+    "md5": "def", "xref": [{"id": "WP_000002.1"}], "matches": [],
+}]}
 
 
-def test_unintegrated_match_has_null_interpro_fields():
-    calls = parse_interproscan_json(SAMPLE)
-    g3d = next(m for m in calls["WP_002805854.1"]["matches"] if m["library"] == "GENE3D")
-    assert g3d["interpro_accession"] is None
-    assert g3d["interpro_description"] is None
-    assert g3d["interpro_type"] is None
-    # xrefs are not stored per match — they hang off the entry (see entry_xrefs)
-    assert "go_terms" not in g3d
-    assert "pathways" not in g3d
+@pytest.fixture()
+def calls():
+    return parse_interproscan_json(RAW)
 
 
-def test_pattern_hit_has_null_evalue_and_score():
-    calls = parse_interproscan_json(SAMPLE)
-    m = calls["WP_002805169.1"]["matches"][0]
-    assert m["evalue"] is None
-    assert m["score"] is None
-    assert m["interpro_accession"] == "IPR000454"
+def test_libraries_facet_sparse_and_version_stripped(calls):
+    rec = calls["WP_000001.1"]
+    assert set(rec["libraries"]) == {"PFAM", "HAMAP", "NCBIFAM", "SUPERFAMILY"}
+    pf = rec["libraries"]["PFAM"][0]
+    assert pf["accession"] == "PF02532"          # version stripped
+    assert pf["ipr"] == "IPR003686"
+    assert pf["evalue"] == 4.1e-18 and pf["score"] == 76.3
+    nf = rec["libraries"]["NCBIFAM"][0]
+    assert nf["accession"] == "NF002735" and nf["ipr"] is None
 
 
-def test_zero_match_protein_is_kept_as_sentinel():
-    calls = parse_interproscan_json(SAMPLE)
-    sentinel = calls["WP_999999999.1"]
-    assert sentinel["match_count"] == 0
-    assert sentinel["matches"] == []
-    assert sentinel["interpro_entries"] == []
+def test_interpro_rollup_no_score_evalue_attributed(calls):
+    ent = calls["WP_000001.1"]["interpro_entries"]["IPR003686"]
+    assert ent["type"] == "FAMILY"
+    assert ent["libraries"] == ["HAMAP", "PFAM"]
+    assert ent["match_count"] == 2
+    assert ent["evalue"] == 4.1e-18 and ent["evalue_library"] == "PFAM"
+    assert "score" not in ent                     # count-don't-combine
+    sf = calls["WP_000001.1"]["interpro_entries"]["IPR037271"]
+    assert sf["evalue"] is None and sf["evalue_library"] is None
 
 
-def test_multiple_xrefs_fan_out_to_each_accession():
-    doc = {"results": [{
-        "md5": "d", "xref": [{"id": "WP_A"}, {"id": "WP_B"}],
-        "matches": [{
-            "signature": {"accession": "PF1", "description": "x",
-                          "signatureLibraryRelease": {"library": "PFAM"}, "entry": None},
-            "locations": [{"start": 1, "end": 10, "evalue": 1e-5, "score": 20.0}],
-        }],
-    }]}
-    calls = parse_interproscan_json(doc)
-    assert calls["WP_A"]["match_count"] == 1
-    assert calls["WP_B"]["match_count"] == 1
+def test_go_terms_carry_entry_attribution(calls):
+    go = calls["WP_000001.1"]["go_terms"]
+    assert go["GO:0015979"] == ["IPR003686", "IPR037271"]
+    assert go["GO:0009523"] == ["IPR003686"]
 
 
-def test_empty_document():
-    assert parse_interproscan_json({}) == {}
-    assert parse_interproscan_json({"results": []}) == {}
+def test_no_pathways_anywhere(calls):
+    rec = calls["WP_000001.1"]
+    assert "pathways" not in rec
+    assert all("pathways" not in e for e in rec["interpro_entries"].values())
 
 
-def test_entry_xrefs_side_table_is_lossless_join():
-    """Per-entry GO/pathway detail is recoverable from `interpro_accession`."""
-    xrefs = parse_entry_xrefs(SAMPLE)
-    # Only entries carrying at least one xref appear (IPR000454 has none).
-    assert set(xrefs) == {"IPR000685"}
-    assert xrefs["IPR000685"] == {"go_terms": ["GO:0016984"], "pathways": ["KEGG:00710"]}
-    # Join back: rbcL's PFAM match points at the entry that holds the xrefs.
-    calls = parse_interproscan_json(SAMPLE)
-    pfam = next(m for m in calls["WP_002805854.1"]["matches"] if m["library"] == "PFAM")
-    assert xrefs[pfam["interpro_accession"]]["go_terms"] == calls["WP_002805854.1"]["go_terms"]
+def test_zero_match_protein_kept(calls):
+    rec = calls["WP_000002.1"]
+    assert rec["match_count"] == 0 and rec["libraries"] == {} \
+        and rec["interpro_entries"] == {} and rec["go_terms"] == {}
 
 
-def test_reactome_species_projections_collapse_to_stable_id():
-    """InterPro lists every species projection of one curated Reactome event;
-    for marine bacteria the species is noise, so only the stable id is kept."""
-    assert normalize_pathway_xref("Reactome", "R-HSA-73817") == "Reactome:73817"
-    assert normalize_pathway_xref("Reactome", "R-DME-73817") == "Reactome:73817"
-    assert normalize_pathway_xref("Reactome", "R-MTU-2408557") == "Reactome:2408557"
-    # Non-Reactome databases pass through untouched.
-    assert normalize_pathway_xref("MetaCyc", "PWY-6349") == "MetaCyc:PWY-6349"
-    assert normalize_pathway_xref("KEGG", "00710") == "KEGG:00710"
-    # Anything not matching the species pattern is left alone rather than mangled.
-    assert normalize_pathway_xref("Reactome", "73817") == "Reactome:73817"
-
-
-def test_reactome_collapse_dedups_protein_level_pathways():
-    doc = {
-        "results": [{
-            "md5": "a", "xref": [{"id": "WP_1.1", "name": "n"}],
-            "matches": [{
-                "signature": {
-                    "accession": "PF1", "name": "n", "description": "d",
-                    "signatureLibraryRelease": {"library": "PFAM", "version": "1"},
-                    "entry": {
-                        "accession": "IPR1", "description": "d", "type": "FAMILY",
-                        "goXRefs": [],
-                        "pathwayXRefs": [
-                            {"id": f"R-{sp}-73817", "databaseName": "Reactome"}
-                            for sp in ("HSA", "MMU", "DME", "CEL", "BTA")
-                        ],
-                    },
-                },
-                "locations": [{"start": 1, "end": 9, "evalue": 1e-9, "score": 1.0}],
-            }],
-        }]
-    }
-    calls = parse_interproscan_json(doc)
-    assert calls["WP_1.1"]["pathways"] == ["Reactome:73817"]  # 5 species → 1 id
-
-
-def test_summarize_qc_fields():
-    calls = parse_interproscan_json(SAMPLE)
-    s = summarize(
-        calls, strain="MED4", input_proteins=3, tool_version="5.78-109.0",
-        applications="ALL_DEFAULT", image_digest="sha256:x", wallclock_s=12.34,
-    )
-    assert s["strain"] == "MED4"
-    assert s["calls_made"] == 3
-    assert s["proteins_no_match"] == 1
-    assert s["total_matches"] == 3
-    assert s["interpro_integrated_matches"] == 2  # rbcL PFAM + atpH pattern
-    assert s["distribution"] == {"GENE3D": 1, "PFAM": 1, "PROSITE_PATTERNS": 1}
-    assert s["sentinel_rate"] == round(1 / 3, 4)
-    assert s["parse_failures"] == 0
-    assert s["image_digest"] == "sha256:x"
-    assert s["wallclock_s"] == 12.3
-
-
-def test_summarize_omits_optional_fields_when_absent():
-    s = summarize({}, strain="X", input_proteins=0, tool_version="v",
-                  applications="ALL_DEFAULT")
-    assert "image_digest" not in s
-    assert "wallclock_s" not in s
-    assert "xrefs_requested" not in s
-    assert s["sentinel_rate"] == 0.0
-
-
-def test_summarize_xref_coverage():
-    """GO/pathway coverage counters — these are what prove --goterms/--pathways
-    took effect; a run without them yields entries with empty xref arrays and
-    therefore zeros across all four counters."""
-    calls = parse_interproscan_json(SAMPLE)
-    s = summarize(calls, strain="MED4", input_proteins=3, tool_version="v",
-                  applications="ALL_DEFAULT", xrefs_requested=True)
-    # Only rbcL's IPR000685 carries xrefs in SAMPLE; atpH's entry has empty ones.
-    assert s["proteins_with_go_terms"] == 1
-    assert s["distinct_go_terms"] == 1
-    assert s["proteins_with_pathways"] == 1
-    assert s["distinct_pathways"] == 1
-    assert s["pathway_databases"] == {"KEGG": 1}
-    assert s["xrefs_requested"] is True
-
-
-def test_summarize_xref_counters_zero_without_goterms():
-    """A --no-xrefs run: every entry has empty goXRefs/pathwayXRefs."""
-    stripped = {
-        "results": [
-            {
-                "md5": "aaa",
-                "xref": [{"id": "WP_1.1", "name": "WP_1.1"}],
-                "matches": [{
-                    "signature": {
-                        "accession": "PF00016", "name": "n", "description": "d",
-                        "signatureLibraryRelease": {"library": "PFAM", "version": "37.0"},
-                        "entry": {"accession": "IPR000685", "description": "d",
-                                  "type": "DOMAIN", "goXRefs": [], "pathwayXRefs": []},
-                    },
-                    "locations": [{"start": 1, "end": 9, "evalue": 1e-9, "score": 1.0}],
-                }],
-            }
-        ]
-    }
-    s = summarize(parse_interproscan_json(stripped), strain="X", input_proteins=1,
-                  tool_version="v", applications="ALL_DEFAULT", xrefs_requested=False)
-    assert s["proteins_with_go_terms"] == 0
-    assert s["distinct_go_terms"] == 0
-    assert s["proteins_with_pathways"] == 0
-    assert s["distinct_pathways"] == 0
-    assert s["pathway_databases"] == {}
-    assert s["xrefs_requested"] is False
+def test_summarize_qc():
+    calls = parse_interproscan_json(RAW)
+    s = summarize(calls, strain="X", input_proteins=2,
+                  tool_version="5.78-109.0", applications="ALL_DEFAULT")
+    assert s["calls_made"] == 2 and s["proteins_no_match"] == 1
+    assert s["total_matches"] == 4
+    assert s["interpro_integrated_matches"] == 3
+    assert s["distribution"] == {"HAMAP": 1, "NCBIFAM": 1, "PFAM": 1, "SUPERFAMILY": 1}
+    assert s["proteins_with_go_terms"] == 1 and s["distinct_go_terms"] == 2
+    assert "pathway_databases" not in s and "distinct_pathways" not in s

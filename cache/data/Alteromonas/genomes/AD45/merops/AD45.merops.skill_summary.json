@@ -1,0 +1,42 @@
+{
+  "strain": "AD45",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 3917,
+  "wallclock_s": 0.6,
+  "raw_hit_lines": 1728,
+  "parse_failures": 0,
+  "proteins_with_hits": 163,
+  "proteins_with_call": 163,
+  "total_candidates": 163,
+  "candidates_per_protein_distribution": {
+    "1": 163
+  },
+  "tier_distribution": {
+    "3": 150,
+    "2": 13
+  },
+  "consensus_agreement_distribution": {
+    "id": 22,
+    "subfamily": 36,
+    "family": 105
+  },
+  "catalytic_type_distribution": {
+    "S": 67,
+    "N": 2,
+    "M": 60,
+    "C": 20,
+    "T": 7,
+    "A": 4,
+    "inhibitor": 2,
+    "U": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 161,
+    "inhibitor": 2
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 101,
+    "putative": 30,
+    "nonpeptidase_homolog": 32
+  }
+}

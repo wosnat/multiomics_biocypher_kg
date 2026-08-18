@@ -1,0 +1,43 @@
+{
+  "strain": "BGP6",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 4052,
+  "wallclock_s": 0.7,
+  "raw_hit_lines": 1741,
+  "parse_failures": 0,
+  "proteins_with_hits": 162,
+  "proteins_with_call": 162,
+  "total_candidates": 165,
+  "candidates_per_protein_distribution": {
+    "1": 159,
+    "2": 3
+  },
+  "tier_distribution": {
+    "3": 154,
+    "2": 11
+  },
+  "consensus_agreement_distribution": {
+    "id": 24,
+    "subfamily": 38,
+    "family": 103
+  },
+  "catalytic_type_distribution": {
+    "M": 61,
+    "S": 68,
+    "N": 2,
+    "C": 20,
+    "A": 5,
+    "T": 6,
+    "inhibitor": 2,
+    "U": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 163,
+    "inhibitor": 2
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 102,
+    "putative": 30,
+    "nonpeptidase_homolog": 33
+  }
+}
