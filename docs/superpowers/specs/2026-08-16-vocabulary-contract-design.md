@@ -870,3 +870,64 @@ GO inferred 45,226) must be unchanged by the rename pass, and are covered by the
    `post-import-validate` diff unreadable — and that diff is the only evidence
    the renames changed nothing else. Separate change, own baseline, own
    `### Breaking` bullet.
+
+---
+
+## 11. Implementation status (2026-08-18)
+
+Branch `docs/vocabulary-contract-spec`. **Implemented and reviewed; NOT yet validated
+against a live graph.**
+
+### Done
+
+Tasks 1–11 of `plans/vocabulary_contract.md`, each with a task review; one Critical was
+caught and fixed mid-flight (Task 6), and a final whole-branch review on the strongest
+model produced 1 Critical + 7 Important + ~8 Minor, all addressed in one fix wave with a
+scoped re-review. Fast suite green throughout (2,365 passed). The build-level drift gate
+passes with no drift.
+
+The branch was **merged with `origin/main` partway through**, absorbing the InterPro
+multi-ontology redesign plus the MEROPS and NCBIfam ontologies, and the contract was
+extended to cover them (66 declared vocabularies).
+
+### Changed since this spec was written
+
+- **R1 was rescoped** (§3): external database terms are preserved verbatim. `interpro_type`
+  stays `FAMILY`, `libraries` stays `PFAM`, `NcbifamFamily.family_type` keeps `PfamEq`.
+  The normalizers were deleted outright.
+- **`DerivedMetric.metric_type` is `closed: false`**, not closed. `KNOWN_METRIC_TYPES` is
+  documented as a *soft allowlist* — a paper may legitimately introduce a new type — so a
+  closed declaration would fail every time a paper is added.
+- **`exhaustive: bool` was added** to the contract. `closed: true` means "no value outside
+  this set may appear" and is asserted unconditionally; the declared-minus-observed
+  *coverage* direction is opt-in, because several entries legitimately declare a
+  documented superset of what the graph emits. No entry opts in yet.
+- Gate 1 as described in §6 **does not exist**: `VOCAB.check` is wired at one call site,
+  not into every emitter. The real coverage is the CSV scan and the live-graph suite.
+
+### Not done — Task 12, the live validation gate
+
+Requires a person present: it runs `docker compose down` plus a ~1 h rebuild, and its
+acceptance baseline must be captured from the **currently deployed pre-change graph**
+before anything is rebuilt. Nothing on this branch has been built end to end.
+
+`pytest -m kg` will open with roughly **14 red tests**, of which **one** is a real
+assertion about new behaviour and the rest are stale expectations this branch invalidated.
+Fix these as part of Task 12 rather than treating them as regressions:
+
+| File | What is stale |
+|---|---|
+| `tests/kg_validity/test_interpro.py:112-126` | requires the deleted `InterproEntry.is_promiscuous` |
+| `tests/kg_validity/test_tcdb_cazy.py` | ~10 tests: `tcdb_evidence_score` as int 0-5 (237-259); the three booleans (269-297); `is_promiscuous` (314, 322-354, 388-398); `tcdb_best_evidence_score` (370-381); `'diamond'` (41, 59); `substrate_depth` (419-441) |
+| `tests/kg_validity/test_ncbifam.py:111` | asserts `"interpro" in sources` |
+| `tests/kg_validity/snapshot_data.json:1443,1458` | `"diamond"` — regenerate the snapshot |
+
+Then run the §8 validation gate: `post-import-validate` baseline before the rebuild, diff
+after (only renamed properties and re-scaled score columns may differ), `pytest -m kg`,
+and `/omics-edge-snapshot` to confirm zero per-paper expression-edge deltas.
+
+### Sequencing with the explorer
+
+Unchanged from §9.6 — the explorer's W1 + W4 work is gated on this landing and
+redeploying. Their step-2 entry criteria need three query rewrites (§0 revs 4–5, §9.1),
+and note that under the R1 rescope `interpro_type` is **not** lowercased after all.
