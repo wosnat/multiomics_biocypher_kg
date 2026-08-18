@@ -54,6 +54,57 @@ up — this file is the index, not the plan.
       (`fe5c2bb`), fix or accept, then re-tighten the test thresholds.
       → `plans/orphan_proteins.md`
 
+- [ ] **TIGRFAM→TigrRole bridge — rejected on measurement (2026-08-18), revisit
+      only with a concrete cross-genus use case AND a coverage-correction
+      design.** The archived JCVI role links (NCBI FTP
+      `hmm/TIGRFAMs/release_15.0/{TIGRFAMS_ROLE_LINK,TIGR_ROLE_NAMES}`, frozen
+      2018) would let `NcbifamFamily` TIGR* nodes bridge to the existing
+      `TigrRole` nodes — role_id spaces are identical, 1,579 of our 2,204 TIGR
+      families carry an informative role, 91% concordant with Cyanorak's curated
+      assignments where both exist. Measured gain: 19,596 genes across the 21
+      role-less organisms would get a role edge, **but 19,583 of them are
+      already `informative_multi`** (zero dark-gene rescue), only 1,141
+      `gene_category='Unknown'` genes recategorize (~3%), and coverage is
+      hard-capped at ~20–26% per heterotroph genome (TIGRFAM-hit-bounded; the
+      2,753 NF* families post-date the frozen role system and can never join)
+      vs 89–94% curated coverage on Pro/Syn — so the one distinctive win,
+      a shared cross-genus role axis, would be ~4× coverage-biased against the
+      heterotroph side and misleading without corrected backgrounds. COG /
+      KEGG / BRITE / GO already provide uniform cross-genus category layers.
+
+- [ ] **NCBIfam→GO bridge — rejected on measurement (2026-08-18), revisit only
+      with a GO-corroboration design that discounts same-scan sources.**
+      `hmm_PGAP.tsv`'s curated per-family `go_terms` are already parsed into
+      `cache/data/ncbifam/ncbifam_reference.json` (11,480 families, 8,279 NF* +
+      3,201 TIGR*) but unused; 3,387 of our 4,957 observed families carry GO
+      (~8.3K would-be bridge edges). Measured over all 47,324 genes with an
+      NCBIfam edge: 120,222 candidate (gene, GO) pairs, **93% already on the
+      gene** — and 77% of that corroboration is circular (the existing edge
+      already lists `interproscan`, the same scan lineage that would deliver
+      the bridge; eggNOG-Pfam/InterPro-Pfam one-source precedent). Informative
+      additive content: 7,118 pairs (2,617 refinements + 4,501 novel; 1,429
+      coarser no-ops) across 5,618 genes; dark-gene rescue (no GO at all →
+      gains a specific level ≥ 4 term) is **344** — at the MEROPS-GO rejection
+      line (338) and far under TCDB's justifying 1,311. Independent (non-scan)
+      corroboration exists (25,978 pairs, ~24.4K single-source terms could gain
+      a second voice) but has no consumer until a GO evidence-score design
+      exists. The `ncbi` GFF GO source is the same curation lineage frozen at
+      assembly-annotation date, which is why the marginal gain concentrates on
+      old assemblies.
+
+- [ ] **TigrRole hierarchy normalization.** The 114 `TigrRole` nodes are flat
+      (`level = 0` everywhere) with the JCVI mainrole/subrole two-level scheme
+      embedded in compound names ("Energy metabolism / Electron transport") —
+      the only hierarchical ontology in the KG with no `is_a` edges, contra the
+      unified-level convention. Split into mainrole (level 0) / subrole
+      (level 1) nodes + `Tigr_role_is_a_tigr_role` edges, and flag the junk
+      role nodes ("Not Found", "Unclassified", "Hypothetical proteins",
+      "Unknown function", "Disrupted reading frame /") as uninformative.
+      Hygiene-only — fold into the next `functional_annotation_adapter` touch
+      that already forces a rebuild; not worth one on its own.
+      → `multiomics_kg/adapters/functional_annotation_adapter.py`
+      (`_tigr_role_node_id`, `MultiCogRoleAnnotationAdapter`)
+
 - [ ] **InterPro MetaCyc pathway xrefs — measured 2026-08-18, benefit is thin;
       revisit only with a concrete use case.** Populated in
       `cache/data/interpro/interpro_reference.json` (`pathways`, 5,091 entries)
