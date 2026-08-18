@@ -1,6 +1,6 @@
 # Scope: paperconfig updates from the GEO processed-file drop
 
-Status: **scoped — decisions taken, implementation not started**
+Status: **Tier 1 in progress** — 1.2 Huang done; 1.1 he 2022 BLOCKED (see Blocker B1)
 Branch: `data/geo-processed-supplements`
 Input: commit `6acdd54f` (84 files, 7.4 MB) + the seven paper dirs from `dd594f23`
 Triage doc: `docs/geo_prochlorococcus_candidates.md`
@@ -182,3 +182,52 @@ matrix conventions and the threshold; read them first.
 - `GSE195946` and the Hackl tables carry **URL-encoded** text (`%2C`); decode
   before it reaches a node property (and note `clean_text()` silently rewrites
   the pipe and apostrophe characters).
+
+---
+
+## Blocker B1 — runaway ID merge in the MED4 gene mapping (pre-existing)
+
+Surfaced while wiring he 2022 (1.1). **Not caused by that change** — it is a
+pre-existing defect in `cache/data/Prochlorococcus/genomes/MED4/gene_id_mapping.json`.
+
+`PMM0236` carries **273 tier-1 ids** against a median of 8 across MED4 genes; the
+next-largest gene has 16. Through the iterative transitive closure in
+`build_gene_id_mapping.py` it has absorbed:
+
+- all 44 `gene-RNA_*` ids and every `tRNA-*` / `rnpB` / `ffs` / `tmRNA` feature
+- 99 ids from `Wang 2014/med4_expression_level`
+- ~50 unrelated `TX50_RS*` locus tags
+
+Two poison ids are visible in its `tier1_ids`:
+
+| id | source | type | problem |
+|---|---|---|---|
+| `--` | `Wang 2014/med4_expression_level` | `alternative_locus_tag` | a placeholder for "no value" ingested as a real identifier. Already recorded in `conflicts` as `-- -> ['PMM0236','PMM0521']` |
+| `PMM0236,PMM1806` | `genomic_gcf/MED4` | `old_locus_tag` | a **comma-joined** cell that was never split, so it bridges two distinct genes. `expand_list()` splits on `,` and `;` but evidently is not applied to this field |
+
+**Impact on he 2022:** 46 of the full MED4 table's rows are `gene-RNA_*` and all
+resolve to `PMM0236`, so one gene would receive 46 conflicting expression values
+for a single experiment. 1,991 rows resolve but only 1,947 distinct locus tags.
+
+**Impact beyond he 2022:** anything resolving through those ids lands on PMM0236.
+Wang 2014 already feeds them in, so the deployed graph is affected today.
+
+A scan of all 42 strains found 4 with a runaway node
+(`max tier1_ids >= 3x median and >= 30`):
+
+| strain | max | median | runaway node | conflicts |
+|---|---|---|---|---|
+| MED4 | 273 | 8 | `PMM0236` | 43 |
+| W3-18-1 | 41 | 6 | `Sputw3181_2756` | 82 |
+| PCC7002 | 41 | 6 | `SYNPCC7002_A1277` | 99 |
+| KT2440 | 40 | 9 | `M8001_03425` | 161 |
+
+**Fix direction (own scope, own plan):** blocklist placeholder tokens (`--`, `-`,
+`NA`, `N/A`, empty) in `build_gene_id_mapping.py`, and split comma/semicolon-joined
+values for `old_locus_tag` as `expand_list()` already does elsewhere. Then rebuild
+step 3 for the affected strains and re-run step 4. Add a regression check that no
+gene accumulates more than ~3x the median tier-1 id count.
+
+**he 2022 is committed but MUST NOT be built into the graph until B1 is fixed** —
+it would add 46 junk edges on PMM0236. The config, data and resolution are correct
+and verified otherwise (see 1.1 acceptance).

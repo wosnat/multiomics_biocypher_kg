@@ -1,0 +1,35 @@
+Resolution report: He 2022 / geo_de_natl1a
+Source: GSE195946_Group_NATL1A-34-VS-NATL1A-28_DE_anno.txt
+name_col: GeneID
+id_columns: ['GeneID']
+
+Total rows with IDs: 2239
+Resolved: 2190 (97.8%)
+Unresolved: 49
+
+Resolution method breakdown:
+  tier1:GeneID: 2190
+  unresolved: 49
+
+Unresolved rows (49):
+  row 46: raw_id='gene-NATL1_06671'  reason=unresolved  [GeneID='gene-NATL1_06671']
+  row 119: raw_id='gene-NATL1_04891'  reason=unresolved  [GeneID='gene-NATL1_04891']
+  row 390: raw_id='gene-NATL1_tRNASerVIMSS1309189'  reason=unresolved  [GeneID='gene-NATL1_tRNASerVIMSS1309189']
+  row 398: raw_id='gene-NATL1_rnpBVIMSS1309406'  reason=unresolved  [GeneID='gene-NATL1_rnpBVIMSS1309406']
+  row 411: raw_id='gene-NATL1_ffsVIMSS1309407'  reason=unresolved  [GeneID='gene-NATL1_ffsVIMSS1309407']
+  row 463: raw_id='gene-NATL1_tRNAMetVIMSS1309206'  reason=unresolved  [GeneID='gene-NATL1_tRNAMetVIMSS1309206']
+  row 579: raw_id='gene-NATL1_tRNAArgVIMSS1309183'  reason=unresolved  [GeneID='gene-NATL1_tRNAArgVIMSS1309183']
+  row 678: raw_id='gene-NATL1_tRNALeuVIMSS1309185'  reason=unresolved  [GeneID='gene-NATL1_tRNALeuVIMSS1309185']
+  row 680: raw_id='gene-NATL1_rrfVIMSS1309405'  reason=unresolved  [GeneID='gene-NATL1_rrfVIMSS1309405']
+  row 698: raw_id='gene-NATL1_tRNAGlnVIMSS1309214'  reason=unresolved  [GeneID='gene-NATL1_tRNAGlnVIMSS1309214']
+  row 701: raw_id='gene-NATL1_16111'  reason=unresolved  [GeneID='gene-NATL1_16111']
+  row 819: raw_id='gene-NATL1_tRNAArgVIMSS1309215'  reason=unresolved  [GeneID='gene-NATL1_tRNAArgVIMSS1309215']
+  row 821: raw_id='gene-NATL1_tRNAThrVIMSS1309180'  reason=unresolved  [GeneID='gene-NATL1_tRNAThrVIMSS1309180']
+  row 913: raw_id='gene-NATL1_tRNAAspVIMSS1309200'  reason=unresolved  [GeneID='gene-NATL1_tRNAAspVIMSS1309200']
+  row 976: raw_id='gene-NATL1_tRNAAlaVIMSS1309191'  reason=unresolved  [GeneID='gene-NATL1_tRNAAlaVIMSS1309191']
+  row 1013: raw_id='gene-NATL1_tRNAThrVIMSS1309213'  reason=unresolved  [GeneID='gene-NATL1_tRNAThrVIMSS1309213']
+  row 1024: raw_id='gene-NATL1_tRNATyrVIMSS1309201'  reason=unresolved  [GeneID='gene-NATL1_tRNATyrVIMSS1309201']
+  row 1054: raw_id='gene-NATL1_tRNAValVIMSS1309186'  reason=unresolved  [GeneID='gene-NATL1_tRNAValVIMSS1309186']
+  row 1069: raw_id='gene-NATL1_tRNAProVIMSS1309195'  reason=unresolved  [GeneID='gene-NATL1_tRNAProVIMSS1309195']
+  row 1130: raw_id='gene-NATL1_13051'  reason=unresolved  [GeneID='gene-NATL1_13051']
+  ... (29 more)

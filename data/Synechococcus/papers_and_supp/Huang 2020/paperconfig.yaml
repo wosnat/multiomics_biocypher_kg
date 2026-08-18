@@ -1,0 +1,121 @@
+publication:
+  papername: Huang 2021
+  doi: "10.1002/mbo3.1150"
+  papermainpdf: "data/Synechococcus/papers_and_supp/Huang 2020/MicrobiologyOpen - 2021 - Huang - Temporal transcriptomes of a marine cyanopodovirus and its Synechococcus host during.pdf"
+
+  # Huang S, Sun Y, Zhang S, Long L (2021). Temporal transcriptomes of a marine
+  # cyanopodovirus and its Synechococcus host during infection. MicrobiologyOpen.
+  # Data source is GEO GSE150732 (see geo_source.txt) -- the journal article
+  # embeds its tables in the main text, so the GEO deposit is the only
+  # machine-readable form.
+  #
+  # Directory is named for the GEO submission year (2020); the paper published
+  # in 2021, which is what papername reflects.
+
+  experiments:
+    viral_s_sbp1_infection_wh7803_rnaseq:
+      name: "WH7803 Cyanopodovirus S-SBP1 infection vs Uninfected control (RNASEQ)"
+      organism: "Synechococcus WH7803"
+      treatment_condition: "Infection with cyanopodovirus S-SBP1 (MOI 2)"
+      control_condition: "Uninfected control culture at 30 min"
+      experimental_context: "Exponentially growing Synechococcus sp. WH7803 infected with cyanopodovirus S-SBP1 at a multiplicity of infection of 2; samples at 15 min, 1, 3, 5 and 7 h post-infection, each contrasted against the uninfected 30 min control"
+      omics_type: RNASEQ
+      test_type: edgeR
+      treatment_type: [viral]
+      background_factors: [light]
+      treatment_organism: Phage
+      treatment_taxid: 10239
+      medium: "SN medium"
+      temperature: ""
+      light_condition: ""
+      light_intensity: ""
+      table_scope: all_detected_genes
+      table_scope_detail: "All 2528 detected host genes reported at every timepoint; not pre-filtered for significance"
+
+  supplementary_materials:
+    geo_de_wh7803:
+      type: csv
+      # Exported from GSE150732_WH7803.Differential_Expression.xls (Sheet1) --
+      # the .xls is kept alongside as the untouched original.
+      filename: "data/Synechococcus/papers_and_supp/Huang 2020/GSE150732_WH7803_DE.csv"
+      organism: "Synechococcus WH7803"
+      id_columns:
+        - column: "Gene Locus"
+          id_type: locus_tag
+        - column: "Gene Locus"
+          id_type: gene_name
+      product_columns:
+        - column: "Gene Function"
+      statistical_analyses:
+        # Thresholds are the authors' own (Methods): "Host genes with log2FC >= 2
+        # as well as p < 0.05 were considered to be upregulated." Hence
+        # logfc_threshold 2.0, not the adapter default of 1.0.
+        #
+        # NOTE ON P-VALUES: the source reports UNADJUSTED p-values
+        # (Pvalue-<tp>_vs_CT30m), and the authors' own cut is on the unadjusted
+        # p. There is no `pvalue_col` in the paperconfig schema --
+        # `adjusted_p_value_col` is the only p slot the adapter reads -- so the
+        # raw p is carried there, and Changes_expression_of.adjusted_p_value
+        # holds an UNadjusted p for this publication. Consumers filtering on
+        # adjusted_p_value get a more permissive set here than the name implies.
+        # Omitting the column instead would reduce significance to a pure
+        # fold-change cut and discard the authors' statistics, which is worse.
+        #
+        # Both controls (30 min and 8 h, no phage) were statistically
+        # indistinguishable, so the authors compared every phage-treated
+        # timepoint against the 30 min control only.
+        - id: huang2021_wh7803_sbp1_15min
+          experiment: viral_s_sbp1_infection_wh7803_rnaseq
+          timepoint: "15 min"
+          timepoint_hours: 0.25
+          name_col: "Gene Locus"
+          logfc_col: "logFC-15min_vs_CT30m"
+          adjusted_p_value_col: "Pvalue-15min_vs_CT30m"
+          pvalue_threshold: 0.05
+          logfc_threshold: 2.0
+          growth_phase: infected
+          prefiltered: false
+        - id: huang2021_wh7803_sbp1_1h
+          experiment: viral_s_sbp1_infection_wh7803_rnaseq
+          timepoint: "1h"
+          timepoint_hours: 1
+          name_col: "Gene Locus"
+          logfc_col: "logFC-1h_vs_CT30m"
+          adjusted_p_value_col: "Pvalue-1h_vs_CT30m"
+          pvalue_threshold: 0.05
+          logfc_threshold: 2.0
+          growth_phase: infected
+          prefiltered: false
+        - id: huang2021_wh7803_sbp1_3h
+          experiment: viral_s_sbp1_infection_wh7803_rnaseq
+          timepoint: "3h"
+          timepoint_hours: 3
+          name_col: "Gene Locus"
+          logfc_col: "logFC-3h_vs_CT30m"
+          adjusted_p_value_col: "Pvalue-3h_vs_CT30m"
+          pvalue_threshold: 0.05
+          logfc_threshold: 2.0
+          growth_phase: infected
+          prefiltered: false
+        - id: huang2021_wh7803_sbp1_5h
+          experiment: viral_s_sbp1_infection_wh7803_rnaseq
+          timepoint: "5h"
+          timepoint_hours: 5
+          name_col: "Gene Locus"
+          logfc_col: "logFC-5h_vs_CT30m"
+          adjusted_p_value_col: "Pvalue-5h_vs_CT30m"
+          pvalue_threshold: 0.05
+          logfc_threshold: 2.0
+          growth_phase: infected
+          prefiltered: false
+        - id: huang2021_wh7803_sbp1_7h
+          experiment: viral_s_sbp1_infection_wh7803_rnaseq
+          timepoint: "7h"
+          timepoint_hours: 7
+          name_col: "Gene Locus"
+          logfc_col: "logFC-7h_vs_CT30m"
+          adjusted_p_value_col: "Pvalue-7h_vs_CT30m"
+          pvalue_threshold: 0.05
+          logfc_threshold: 2.0
+          growth_phase: infected
+          prefiltered: false

@@ -1,0 +1,36 @@
+Resolution report: Huang 2021 / geo_de_wh7803
+Source: GSE150732_WH7803_DE.csv
+name_col: Gene Locus
+id_columns: ['Gene Locus', 'Gene Locus']
+
+Total rows with IDs: 2528
+Resolved: 2456 (97.2%)
+Unresolved: 72
+
+Resolution method breakdown:
+  locus_tag:Gene Locus: 68
+  tier1:Gene Locus: 2388
+  unresolved: 72
+
+Unresolved rows (72):
+  row 39: raw_id='SYNWH7803_RS05520'  reason=unresolved  [Gene Locus='SYNWH7803_RS05520']
+  row 45: raw_id='SYNWH7803_RS01660'  reason=unresolved  [Gene Locus='SYNWH7803_RS01660']
+  row 54: raw_id='SYNWH7803_RS02535'  reason=unresolved  [Gene Locus='SYNWH7803_RS02535']
+  row 77: raw_id='SYNWH7803_RS10480'  reason=unresolved  [Gene Locus='SYNWH7803_RS10480']
+  row 101: raw_id='rrf'  reason=unresolved  [Gene Locus='rrf']
+  row 122: raw_id='SYNWH7803_RS09430'  reason=unresolved  [Gene Locus='SYNWH7803_RS09430']
+  row 163: raw_id='SYNWH7803_RS03780'  reason=unresolved  [Gene Locus='SYNWH7803_RS03780']
+  row 250: raw_id='SYNWH7803_RS01485'  reason=unresolved  [Gene Locus='SYNWH7803_RS01485']
+  row 256: raw_id='SYNWH7803_RS12705'  reason=unresolved  [Gene Locus='SYNWH7803_RS12705']
+  row 261: raw_id='SYNWH7803_RS09050'  reason=unresolved  [Gene Locus='SYNWH7803_RS09050']
+  row 273: raw_id='SYNWH7803_RS06115'  reason=unresolved  [Gene Locus='SYNWH7803_RS06115']
+  row 277: raw_id='SYNWH7803_RS12110'  reason=unresolved  [Gene Locus='SYNWH7803_RS12110']
+  row 282: raw_id='SYNWH7803_RS02325'  reason=unresolved  [Gene Locus='SYNWH7803_RS02325']
+  row 293: raw_id='ffs'  reason=unresolved  [Gene Locus='ffs']
+  row 328: raw_id='SYNWH7803_RS08680'  reason=unresolved  [Gene Locus='SYNWH7803_RS08680']
+  row 332: raw_id='rrf'  reason=unresolved  [Gene Locus='rrf']
+  row 351: raw_id='SYNWH7803_RS01830'  reason=unresolved  [Gene Locus='SYNWH7803_RS01830']
+  row 361: raw_id='SYNWH7803_RS08640'  reason=unresolved  [Gene Locus='SYNWH7803_RS08640']
+  row 375: raw_id='SYNWH7803_RS07020'  reason=unresolved  [Gene Locus='SYNWH7803_RS07020']
+  row 377: raw_id='SYNWH7803_RS02765'  reason=unresolved  [Gene Locus='SYNWH7803_RS02765']
+  ... (52 more)

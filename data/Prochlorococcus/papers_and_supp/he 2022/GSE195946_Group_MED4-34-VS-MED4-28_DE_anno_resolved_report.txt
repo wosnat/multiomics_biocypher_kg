@@ -1,0 +1,35 @@
+Resolution report: He 2022 / geo_de_med4
+Source: GSE195946_Group_MED4-34-VS-MED4-28_DE_anno.txt
+name_col: GeneID
+id_columns: ['GeneID']
+
+Total rows with IDs: 2042
+Resolved: 1991 (97.5%)
+Unresolved: 51
+
+Resolution method breakdown:
+  tier1:GeneID: 1991
+  unresolved: 51
+
+Unresolved rows (51):
+  row 44: raw_id='gene-PMED4_ncRNA_Yfr11'  reason=unresolved  [GeneID='gene-PMED4_ncRNA_Yfr11']
+  row 88: raw_id='gene-PMED4_asRNA_18171'  reason=unresolved  [GeneID='gene-PMED4_asRNA_18171']
+  row 139: raw_id='gene-PMM0950'  reason=unresolved  [GeneID='gene-PMM0950']
+  row 173: raw_id='gene-PMM1942'  reason=unresolved  [GeneID='gene-PMM1942']
+  row 178: raw_id='gene-PMM2065'  reason=unresolved  [GeneID='gene-PMM2065']
+  row 202: raw_id='gene-PMED4_ncRNA_Yfr16'  reason=unresolved  [GeneID='gene-PMED4_ncRNA_Yfr16']
+  row 261: raw_id='gene-PMM1917'  reason=unresolved  [GeneID='gene-PMM1917']
+  row 270: raw_id='gene-PMM0220'  reason=unresolved  [GeneID='gene-PMM0220']
+  row 279: raw_id='gene-PMED4_ncRNA_Yfr17'  reason=unresolved  [GeneID='gene-PMED4_ncRNA_Yfr17']
+  row 419: raw_id='gene-PMM1916'  reason=unresolved  [GeneID='gene-PMM1916']
+  row 437: raw_id='gene-PMM0236'  reason=unresolved  [GeneID='gene-PMM0236']
+  row 485: raw_id='gene-PMED4_asRNA_07511'  reason=unresolved  [GeneID='gene-PMED4_asRNA_07511']
+  row 493: raw_id='gene-PMM2017'  reason=unresolved  [GeneID='gene-PMM2017']
+  row 544: raw_id='gene-PMED4_asRNA_16371'  reason=unresolved  [GeneID='gene-PMED4_asRNA_16371']
+  row 570: raw_id='gene-PMED4_asRNA_17331'  reason=unresolved  [GeneID='gene-PMED4_asRNA_17331']
+  row 587: raw_id='gene-PMED4_ncRNA_Yfr8'  reason=unresolved  [GeneID='gene-PMED4_ncRNA_Yfr8']
+  row 619: raw_id='gene-PMED4_asRNA_17181'  reason=unresolved  [GeneID='gene-PMED4_asRNA_17181']
+  row 666: raw_id='gene-PMED4_ncRNA_Yfr10'  reason=unresolved  [GeneID='gene-PMED4_ncRNA_Yfr10']
+  row 675: raw_id='gene-PMED4_ncRNA_Yfr21'  reason=unresolved  [GeneID='gene-PMED4_ncRNA_Yfr21']
+  row 762: raw_id='gene-PMED4_ncRNA_Yfr9'  reason=unresolved  [GeneID='gene-PMED4_ncRNA_Yfr9']
+  ... (31 more)
