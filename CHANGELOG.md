@@ -358,6 +358,20 @@ tag with nothing logged.
 
 ### Fixed
 
+- **Duplicated KEGG reaction cross-references in `kegg_data.json`.** KEGG's
+  `/link/pathway/reaction` endpoint serves **both** prefix forms for every link
+  (`path:map00220` *and* `path:rn00220` — 19,775 of each, an exact pairing), and
+  `_parse_reaction_to_pathways` normalizes both to the same `ko` id, so a plain
+  append stored every pathway twice: 2,105 of 2,375 reactions carried 6,408
+  duplicate entries. `_parse_reaction_to_compounds` had the same missing dedup
+  against ~165 literally duplicated upstream rows (a compound on both sides of a
+  reaction, e.g. H+ `C00080`), affecting 45 reactions. Both parsers now dedup
+  order-preservingly. **No graph impact** — `Reaction_in_kegg_pathway` (6,408)
+  and `Reaction_has_metabolite` (10,149) were already one-edge-per-pair, since
+  edge ids collapse at import; this was cache bloat (6,408 spurious lines per
+  rebuild) that would have misled any consumer counting occurrences rather than
+  distinct values.
+
 - **Dangling gene→EC and Layer-A EC edges.** `EcNumber` nodes are the Expasy
   hierarchy (7,337 ids), but InterPro's entry-level EC xrefs include obsolete
   (`1.2.8.1`) and invalid (`2.8.3.183`) numbers that `normalize_ec` cannot remap,

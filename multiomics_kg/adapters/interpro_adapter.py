@@ -30,10 +30,19 @@ Yields:
   homes the multi-EC / DOMAIN ECs and fold CAZy that Layer B refuses to stamp on
   genes — read backward it is low-precision; never use it to assign gene function.
   These edges carry NO properties (deleted 2026-08-16, spec §3 R3): the old
-  ``ambiguous`` flag is derivable from the graph — a consumer writes
+  ``ambiguous`` flag is APPROXIMATELY derivable from the graph — a consumer writes
   ``WITH n, count(r) AS k WHERE k > 1 OR n.interpro_type <> 'FAMILY'`` — and
   ``source_db`` was a hardcoded literal (``"interpro.xml"``), which the edge type
-  already says. Dangling-proof by pruning to the EC/CAZy nodes the gene edges
+  already says. The derivation is not exact, because edges are pruned to
+  gene-referenced ECs *after* the flag would have been computed: of 5,021 entries
+  carrying a Layer-A EC edge it differs from the old flag on 105 — **42** read as
+  specific though the entry lists competing alternatives no gene in this corpus
+  carries (IPR001461 "Aspartic peptidase A1" lists 20 distinct ECs, 1 survives),
+  **32** drop a class+member nuance (``2.6.1.-`` plus ``2.6.1.50``), and **31**
+  are cases the derivation gets *right* where the old flag was a false positive
+  (raw tokens collapsing to one EC after obsolete-number remapping, e.g.
+  ``3.3.1.1`` → ``3.13.2.1``). Treat it as a floor on multiplicity, not a
+  faithful replay. Dangling-proof by pruning to the EC/CAZy nodes the gene edges
   already created (self-computed from the merged JSONs — no injection).
 
 Two-class shape mirrors cazy_adapter (per-strain edges + multi orchestrator that
@@ -363,8 +372,10 @@ class MultiInterproAnnotationAdapter:
         #    known family it corroborates; read backward (carries EC → is that enzyme)
         #    it is low-precision. NEVER use it to assign a gene its function — that is
         #    what Gene_catalyzes_ec_number (Layer B) is for. These edges carry NO
-        #    properties — a consumer derives the old `ambiguous` flag as
-        #    `count(r) > 1 OR n.interpro_type <> 'FAMILY'`. Pruned to EC/CAZy nodes
+        #    properties — a consumer APPROXIMATELY derives the old `ambiguous` flag
+        #    as `count(r) > 1 OR n.interpro_type <> 'FAMILY'` (a floor, not a replay:
+        #    the prune below runs after the flag would have been computed — see the
+        #    module docstring for the 42/32/31 breakdown). Pruned to EC/CAZy nodes
         #    the gene edges already created. For EC that set is further intersected
         #    with the injected `ec_node_ids`, because a gene's ec_numbers can name an
         #    obsolete/invalid EC (InterPro xref) that Expasy has no node for —

@@ -234,7 +234,12 @@ def _parse_reaction_to_compounds(text: str) -> dict[str, list[str]]:
         cpd_id = raw_cpd.removeprefix("cpd:")
         if not (rxn_id.startswith("R") and cpd_id.startswith("C")):
             continue
-        result.setdefault(rxn_id, []).append(cpd_id)
+        # Dedup, order-preserving: KEGG serves ~165 literally duplicated rows
+        # (a compound on both sides, e.g. H+ `C00080`). `Reaction_has_metabolite`
+        # is direction-agnostic by design, so a repeat carries no information.
+        bucket = result.setdefault(rxn_id, [])
+        if cpd_id not in bucket:
+            bucket.append(cpd_id)
     _require_parsed("reaction_to_compounds", result, text)
     logger.info(f"Parsed compound-reaction links for {len(result)} reactions")
     return result
@@ -243,11 +248,12 @@ def _parse_reaction_to_compounds(text: str) -> dict[str, list[str]]:
 def _parse_reaction_to_pathways(text: str) -> dict[str, list[str]]:
     """Parse `/link/pathway/reaction` into {R#####: [ko#####, ...]}.
 
-    KEGG returns map-prefixed pathway IDs (e.g. `path:map00010`), and has
-    historically also served rn-prefixed ones (`path:rn00010`); both are
-    rewritten to ko-prefixed form so they match existing KeggTerm pathway node
-    IDs. Accepting only `rn` silently yielded zero links once KEGG settled on
-    the `map` form.
+    KEGG serves BOTH prefix forms for every link — `path:map00010` *and*
+    `path:rn00010` (verified 2026-08-18: 19,775 of each, an exact pairing).
+    Both are rewritten to ko-prefixed form so they match existing KeggTerm
+    pathway node IDs. Accepting only `rn` silently yielded zero links once KEGG
+    settled on the `map` form; accepting both without deduping stored every
+    pathway twice, so the result lists are deduped below.
     """
     result: dict[str, list[str]] = {}
     for line in text.splitlines():
@@ -267,7 +273,12 @@ def _parse_reaction_to_pathways(text: str) -> dict[str, list[str]]:
             pw_id = "ko" + pw_id[2:]
         if not pw_id.startswith("ko"):
             continue
-        result.setdefault(rxn_id, []).append(pw_id)
+        # Dedup, order-preserving: KEGG serves BOTH prefix forms for every link
+        # (`path:map00220` *and* `path:rn00220`), and both normalize to the same
+        # `ko` id above — so a plain append stores every pathway twice.
+        bucket = result.setdefault(rxn_id, [])
+        if pw_id not in bucket:
+            bucket.append(pw_id)
     _require_parsed("reaction_to_pathways", result, text)
     logger.info(f"Parsed reaction-pathway links for {len(result)} reactions")
     return result

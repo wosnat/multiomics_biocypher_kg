@@ -88,6 +88,37 @@ def test_parse_reaction_to_pathways_strips_map_prefix():
     assert out["R00010"] == ["ko00010"]
 
 
+def test_parse_reaction_to_pathways_dedupes_dual_prefix():
+    """KEGG serves BOTH `map` and `rn` rows for every link; both normalize to
+    the same `ko` id, so the parser must not store the pathway twice.
+
+    Regression guard: without dedup this doubled every reaction's pathway list
+    (2,105 of 2,375 reactions, 6,408 duplicate entries in kegg_data.json).
+    """
+    out = kegg_utils._parse_reaction_to_pathways(
+        "rn:R00005\tpath:map00220\n"
+        "rn:R00005\tpath:rn00220\n"
+        "rn:R00005\tpath:map00791\n"
+        "rn:R00005\tpath:rn00791\n"
+    )
+    assert out["R00005"] == ["ko00220", "ko00791"]
+
+
+def test_parse_reaction_to_compounds_dedupes_repeated_rows():
+    """KEGG serves ~165 literally duplicated compound rows (a compound on both
+    sides of the reaction, e.g. H+ `C00080`).
+
+    `Reaction_has_metabolite` is direction-agnostic by design, so a repeat
+    carries no information and must collapse to one entry.
+    """
+    out = kegg_utils._parse_reaction_to_compounds(
+        "rn:R00081\tcpd:C00080\n"
+        "rn:R00081\tcpd:C00080\n"
+        "rn:R00081\tcpd:C00125\n"
+    )
+    assert out["R00081"] == ["C00080", "C00125"]
+
+
 def test_parsers_raise_when_response_parses_to_nothing():
     """A response full of lines that yields zero entries = upstream format drift.
 
