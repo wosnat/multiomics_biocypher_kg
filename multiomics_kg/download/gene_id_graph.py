@@ -67,14 +67,65 @@ def get_id_tier(id_type: str) -> int:
     return 3
 
 
+# ─── Junk-token guards ────────────────────────────────────────────────────────
+#
+# Tier 1 IDs are gene-UNIQUE: two rows sharing one Tier 1 token are declared to
+# be the same gene. A token that is not really an identifier therefore merges
+# every row that carries it. Two such classes have been observed in real data:
+#
+# 1. Placeholder cells. Wang 2014's MED4 table uses "--" in its locus_tag column
+#    for the 99 RNA/asRNA/Yfr features that have no alternative locus tag. Typed
+#    as `alternative_locus_tag` (Tier 1), that single token merged all 99 genes
+#    into PMM0236, which ended up carrying 273 Tier 1 IDs against a median of 8.
+#
+# 2. Free text. Beliaev 2014's supplementary tables carry a trailing footnote row
+#    ("1 RPKM is defined as a number of reads per kilobase of transcript ..."),
+#    which the whitespace-split below turned into one Tier 1 ID per word, so
+#    "is", "a", "of" and "reads" all resolved to a gene in W3-18-1 and PCC7002.
+#
+# Both guards are deliberately conservative. Shape-based rules were rejected:
+# real Tier 1 IDs include `ffs`, `rnpB` and `tmRNA`, which are short, lowercase
+# and digit-free, so nothing distinguishes them from "is" or "of" except context.
+
+_PLACEHOLDER_IDS = frozenset({
+    "", "-", "--", "---", ".", "..", "?", "0",
+    "na", "n/a", "n.a.", "nd", "n.d.", "none", "null", "nan",
+    "unknown", "unassigned", "not applicable", "not available",
+})
+
+# A compound Tier 1/2 cell is a real pattern ("dnaA PMM0001",
+# "P9313_15331 (PMT1212)") but tops out at a handful of tokens. Anything wordier
+# is prose, not an identifier: skip both the raw value and its tokens.
+_MAX_COMPOUND_TOKENS = 4
+
+
+def is_placeholder_id(id_val: str) -> bool:
+    """True when a cell is a 'no value here' marker rather than an identifier."""
+    return str(id_val).strip().lower() in _PLACEHOLDER_IDS
+
+
+def is_free_text(id_val: str) -> bool:
+    """True when a cell has too many whitespace tokens to be an identifier."""
+    return len(str(id_val).split()) > _MAX_COMPOUND_TOKENS
+
+
 def normalize_id(id_val: str, id_type: str) -> list[str]:
     """Return candidate normalized forms of id_val (raw form first).
 
     For uniprot_entry_name: also return the form with _ORGANISM stripped.
     Example: "DNAA_PROM0" → ["DNAA_PROM0", "DNAA"]
+
+    Returns [] for placeholder cells, and for free-text cells when the declared
+    id_type is gene-unique (Tier 1) or protein-level (Tier 2) — see the
+    junk-token guards above. Tier 3 is many-to-many by design and never drives
+    convergence, so prose there is harmless and left alone.
     """
     id_val = str(id_val).strip()
     if not id_val or id_val.lower() in ("nan", ""):
+        return []
+    if is_placeholder_id(id_val):
+        return []
+    if get_id_tier(id_type) <= 2 and is_free_text(id_val):
         return []
     candidates: list[str] = [id_val]
     if id_type == "uniprot_entry_name":
@@ -162,10 +213,13 @@ class GeneIdGraph:
                     changed = True
             # Whitespace-split compound values (e.g. "dnaA PMM0001" in gene_name column)
             # Also strip parentheses from tokens (e.g. "P9313_15331 (PMT1212)" → "PMT1212")
-            if " " in id_val and tier <= 2:
+            # Skipped for free text, which would otherwise yield one Tier 1 ID per word.
+            if " " in id_val and tier <= 2 and not is_free_text(id_val):
                 for token in id_val.split():
                     token = token.strip().strip("()")
-                    if token and self._add_mapping(anchor, token, id_type, tier, source_name):
+                    if not token or is_placeholder_id(token):
+                        continue
+                    if self._add_mapping(anchor, token, id_type, tier, source_name):
                         changed = True
         return changed
 
@@ -218,11 +272,13 @@ class GeneIdGraph:
         # matches; require unanimity within the chosen set to avoid false anchors
         # from generic tokens like gene names.
         for id_val, id_type in row_ids:
-            if get_id_tier(id_type) == 1 and " " in id_val:
+            if get_id_tier(id_type) == 1 and " " in id_val and not is_free_text(id_val):
                 canonical = set()   # tokens that ARE locus_tags (self-mapped)
                 alt_mapped = set()  # tokens that are alt-IDs mapping to some locus_tag
                 for token in id_val.split():
                     token = token.strip().strip("()")
+                    if is_placeholder_id(token):
+                        continue
                     if token and token in self.specific_lookup:
                         resolved = self.specific_lookup[token]
                         if resolved == token:

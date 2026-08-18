@@ -4,32 +4,32 @@ name_col: GeneID
 id_columns: ['GeneID']
 
 Total rows with IDs: 2042
-Resolved: 1991 (97.5%)
-Unresolved: 51
+Resolved: 1948 (95.4%)
+Unresolved: 94
 
 Resolution method breakdown:
-  tier1:GeneID: 1991
-  unresolved: 51
+  tier1:GeneID: 1948
+  unresolved: 94
 
-Unresolved rows (51):
+Unresolved rows (94):
+  row 7: raw_id='gene-RNA_44'  reason=unresolved  [GeneID='gene-RNA_44']
+  row 40: raw_id='gene-RNA_18'  reason=unresolved  [GeneID='gene-RNA_18']
   row 44: raw_id='gene-PMED4_ncRNA_Yfr11'  reason=unresolved  [GeneID='gene-PMED4_ncRNA_Yfr11']
+  row 86: raw_id='gene-RNA_34'  reason=unresolved  [GeneID='gene-RNA_34']
   row 88: raw_id='gene-PMED4_asRNA_18171'  reason=unresolved  [GeneID='gene-PMED4_asRNA_18171']
+  row 120: raw_id='gene-RNA_20'  reason=unresolved  [GeneID='gene-RNA_20']
+  row 131: raw_id='gene-RNA_21'  reason=unresolved  [GeneID='gene-RNA_21']
   row 139: raw_id='gene-PMM0950'  reason=unresolved  [GeneID='gene-PMM0950']
+  row 155: raw_id='gene-RNA_28'  reason=unresolved  [GeneID='gene-RNA_28']
   row 173: raw_id='gene-PMM1942'  reason=unresolved  [GeneID='gene-PMM1942']
   row 178: raw_id='gene-PMM2065'  reason=unresolved  [GeneID='gene-PMM2065']
   row 202: raw_id='gene-PMED4_ncRNA_Yfr16'  reason=unresolved  [GeneID='gene-PMED4_ncRNA_Yfr16']
+  row 204: raw_id='gene-RNA_12'  reason=unresolved  [GeneID='gene-RNA_12']
   row 261: raw_id='gene-PMM1917'  reason=unresolved  [GeneID='gene-PMM1917']
   row 270: raw_id='gene-PMM0220'  reason=unresolved  [GeneID='gene-PMM0220']
+  row 275: raw_id='gene-RNA_15'  reason=unresolved  [GeneID='gene-RNA_15']
   row 279: raw_id='gene-PMED4_ncRNA_Yfr17'  reason=unresolved  [GeneID='gene-PMED4_ncRNA_Yfr17']
-  row 419: raw_id='gene-PMM1916'  reason=unresolved  [GeneID='gene-PMM1916']
-  row 437: raw_id='gene-PMM0236'  reason=unresolved  [GeneID='gene-PMM0236']
-  row 485: raw_id='gene-PMED4_asRNA_07511'  reason=unresolved  [GeneID='gene-PMED4_asRNA_07511']
-  row 493: raw_id='gene-PMM2017'  reason=unresolved  [GeneID='gene-PMM2017']
-  row 544: raw_id='gene-PMED4_asRNA_16371'  reason=unresolved  [GeneID='gene-PMED4_asRNA_16371']
-  row 570: raw_id='gene-PMED4_asRNA_17331'  reason=unresolved  [GeneID='gene-PMED4_asRNA_17331']
-  row 587: raw_id='gene-PMED4_ncRNA_Yfr8'  reason=unresolved  [GeneID='gene-PMED4_ncRNA_Yfr8']
-  row 619: raw_id='gene-PMED4_asRNA_17181'  reason=unresolved  [GeneID='gene-PMED4_asRNA_17181']
-  row 666: raw_id='gene-PMED4_ncRNA_Yfr10'  reason=unresolved  [GeneID='gene-PMED4_ncRNA_Yfr10']
-  row 675: raw_id='gene-PMED4_ncRNA_Yfr21'  reason=unresolved  [GeneID='gene-PMED4_ncRNA_Yfr21']
-  row 762: raw_id='gene-PMED4_ncRNA_Yfr9'  reason=unresolved  [GeneID='gene-PMED4_ncRNA_Yfr9']
-  ... (31 more)
+  row 281: raw_id='gene-RNA_27'  reason=unresolved  [GeneID='gene-RNA_27']
+  row 373: raw_id='gene-RNA_33'  reason=unresolved  [GeneID='gene-RNA_33']
+  row 398: raw_id='gene-RNA_9'  reason=unresolved  [GeneID='gene-RNA_9']
+  ... (74 more)
