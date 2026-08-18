@@ -42,21 +42,35 @@ up — this file is the index, not the plan.
       `has_cross_genus_members: cross_genus | single_genus` precedent.
       → `docs/superpowers/specs/2026-08-16-vocabulary-contract-design.md` §3 R5, §10.5
 
-- [ ] **Orphan proteins.** ~46% of UniProt proteins were reported with neither
-      `Protein_belongs_to_organism` nor `Gene_encodes_protein`. The two
-      kg-validity tests documented as failing on it have now passed clean on
-      **two consecutive 2026-08-17 rebuilds** (InterPro multi-ontology + MEROPS),
-      so what remains is verification, not a live failure: confirm the orphan
-      fraction itself is gone (vs. the tests under-asserting), then close this
-      and the CLAUDE.md Known Issues entry together.
+- [ ] **Orphan proteins — verified still real (2026-08-18); NOT closeable.**
+      Direct query on the freshly rebuilt graph: **25,441 / 67,024 proteins
+      (38%)** have neither `Protein_belongs_to_organism` nor
+      `Gene_encodes_protein` (down from the ~46% originally reported). The two
+      kg-validity tests pass only because their thresholds were loosened to
+      `< 50%` (docstrings still say "currently failing") — the "passed clean on
+      two consecutive rebuilds" observation was the loosened assertion, not a
+      fixed data gap. The original investigation stands: determine whether the
+      WP_-join gap is pre-existing or a regression from the Feb 2026 refactor
+      (`fe5c2bb`), fix or accept, then re-tighten the test thresholds.
       → `plans/orphan_proteins.md`
 
-- [ ] **InterPro MetaCyc pathway xrefs.** Populated in
+- [ ] **InterPro MetaCyc pathway xrefs — measured 2026-08-18, benefit is thin;
+      revisit only with a concrete use case.** Populated in
       `cache/data/interpro/interpro_reference.json` (`pathways`, 5,091 entries)
       but not in the graph. InterPro ships no KEGG xrefs, so this would be a new
       pathway vocabulary rather than an extension of the KO-derived layer.
-      Reactome is excluded by default (species-expanded, noisy for marine
-      bacteria).
+      Measured over all 42 strains (124,751 genes): 23,744 genes would gain a
+      MetaCyc pathway, but 76% already have a KEGG pathway (and the delivery is
+      entry-level family inference, weaker than the per-gene KO layer). The
+      no-KEGG win (5,836 ungated / 3,792 FAMILY-gated) is driven by fold-level
+      superfamilies with heavy fan-out (p90 = 55 pathways/gene among gainers);
+      the truly dark-gene rescue (no KEGG *and* no GO) is **554 ungated / 271
+      FAMILY-gated** — MEROPS-GO-rejection territory (338) vs the 1,311 that
+      justified TCDB's GO bridge. Practical blocker: `interpro.xml` xrefs are
+      bare dbkeys (no name attribute), and MetaCyc pathway names are
+      registration/license-gated, so nodes would ship as unreadable `PWY-XXXX`
+      ids. Reactome remains excluded by default (species-expanded, noisy for
+      marine bacteria).
       → `docs/kg-changes/interpro-multi-ontology.md` (supersedes
       `interproscan-extension.md`)
 

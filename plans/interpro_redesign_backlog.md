@@ -8,39 +8,12 @@ whole-branch review — none affects correctness of the shipped graph.
 
 ## Small code/test cleanups
 
-- [ ] **Multi-xref fan-out test** — `tests/test_interproscan.py` has no
-  fixture with a result whose `xref` list carries 2+ accessions (the
-  sequence-dedup fan-out path). A 3-line fixture change would also pin the
-  shallow-copy behavior (`dict(record)` shares nested `libraries` /
-  `interpro_entries` structures across fanned-out accessions — read-only
-  today; a docstring note or deepcopy if a consumer ever mutates).
-- [ ] **DUF regex alignment** — post-import Cypher flags
-  `.*DUF\d.*` while `config/uninformative_terms.yaml` says `\bDUF\d`.
-  Align (Cypher needs `\\b`, both `.cypher` and `.sh`) on the next
-  post-import touch. Benign sentinel over-match meanwhile.
-- [ ] **DataSource `interproscan.info_types`** — auto-derived from declared
-  YAML fields only, so it reads `["interpro_entries", "ncbifam_ids"]` and
-  misses the enrichment contributions (pfam/go/ec/cazy/naming recovery).
-  Spec §4.2 wanted the full list. Fix = extend `_derive_info_types` or add
-  an explicit override in the YAML. Pre-existing mechanism limit (old
-  Layer B was equally invisible).
-- [ ] **`normalize_strain` sentinel_rate denominator** — `--normalize` passes
-  `input_proteins=len(calls)` (calls_made), while scan mode uses the FASTA
-  count; `sentinel_rate` semantics differ slightly between modes. Cosmetic
-  QC drift; fix = count FASTA headers or document the difference in the
-  runner.
-- [ ] **Stale mid-branch comments** — `tests/test_interproscan_consistency.py`
-  "Mid-branch note (Task 10)" docstring and `create_knowledge_graph.py`
-  "empty until Task 18 lands" comment are now historical; trim on next
-  touch.
-- [ ] **`enrich_interpro_fields` docstring** — claims the `go_term_donors`
-  fallback matches the old behavior "exactly"; evidence-strength labeling
-  can differ in mixed-type donor-order cases (new behavior is more
-  correct). Reword.
-- [ ] **`acc_to_ipr` last-write-wins** — if one NCBIfam accession were ever
-  attributed two different IPR entries (cross-release drift), the bridge
-  keeps the last. Mirrors the pre-existing `pf_to_ipr` convention; only
-  matters after an InterProScan version-bump re-scan — check then.
+All 7 items landed 2026-08-18 (each claim re-verified before changing; the
+DUF regex tightening was confirmed a no-op on the live graph — same 9
+NcbifamFamily nodes match either pattern). See CHANGELOG `[Unreleased]` →
+`### Fixed`. The `acc_to_ipr` last-write-wins watch note now lives as a code
+comment in `ncbifam_adapter.get_edges` — re-check it after any InterProScan
+version-bump re-scan.
 
 ## Process / next rebuild
 
@@ -48,16 +21,13 @@ whole-branch review — none affects correctness of the shipped graph.
   `/omics-edge-snapshot` baseline, so bucket-movement claims are
   independently reproducible (the 2026-08-17 baseline was supplied context,
   not a captured artifact).
-- [ ] **Orphan-protein Known Issue** — `test_no_orphan_proteins*` passed on
-  the 2026-08-17 rebuild; verify on the next rebuild, then close the
-  CLAUDE.md Known Issue + `plans/orphan_proteins.md`.
+- [x] **Orphan-protein Known Issue** — verified 2026-08-18 on a fresh rebuild:
+  **still real** (38% orphaned, 25,441/67,024); the tests pass only because
+  their thresholds were loosened to <50%. Not closeable — tracked as a live
+  investigation in `plans/backlog.md` → `plans/orphan_proteins.md`.
 
 ## Research-driven follow-ups (spec §8, interaction-mechanism framing)
 
-- [ ] **MEROPS peptidase classification** — `/add-a-tool` candidate; the one
-  real ontology gap for the exoproteolysis mechanism (secreted-protease
-  shortlists = MEROPS family × SignalP × PSORTb × coculture expression).
-  BRITE ko01002 + InterPro FAMILY entries approximate it meanwhile.
 - [ ] **antiSMASH BGC detection** — `/add-a-tool` candidate; siderophore /
   vitamin cross-feeding currency; per-genome region calls (new calls.json
   shape per the add-a-tool table).
@@ -77,7 +47,9 @@ whole-branch review — none affects correctness of the shipped graph.
   folds…) — each is one merge-config line + small adapter, per the faceted
   design. Only on demonstrated need.
 - [ ] **MetaCyc** — dormant in `interpro_reference.json` (`pathways` key);
-  elevate only if a MetaCyc ontology ever earns its keep vs KEGG.
+  measured 2026-08-18 and found thin (dark-gene rescue 554/271, no pathway
+  names without the MetaCyc license) — see the evidence-backed deferral in
+  `plans/backlog.md`; elevate only with a concrete use case.
 
 ## Operational notes (not tasks)
 
