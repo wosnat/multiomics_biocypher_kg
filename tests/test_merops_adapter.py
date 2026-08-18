@@ -369,7 +369,8 @@ def _bridge_edges(m):
 
 
 def test_bridge_edges_emitted_for_kept_families(tmp_path):
-    # rebuild the standard fixture but with pfam ids injected
+    # rebuild the standard fixture but with pfam ids injected. Caller contract
+    # (MultiPfamAnnotationAdapter.all_pfam_ids()): BARE accessions, not CURIEs.
     genes = {"LT001": {"protein_id": "WP_1.1", "merops_ids": ["S14"]}}
     calls = {"WP_1.1": {"calls": [_candidate()]}}
     genome_dir = _write_strain(tmp_path, genes, calls)
@@ -377,7 +378,7 @@ def test_bridge_edges_emitted_for_kept_families(tmp_path):
     m = MultiMeropsAnnotationAdapter(
         genome_config_file=str(config),
         reference_path=_write_reference(tmp_path),
-        pfam_node_ids={"pfam:PF00574", "pfam:PF00082"},
+        pfam_node_ids={"PF00574", "PF00082"},
     )
     m.download_data()
     edges = _bridge_edges(m)
@@ -395,7 +396,7 @@ def test_bridge_pruned_by_pfam_node_ids(tmp_path):
     m = MultiMeropsAnnotationAdapter(
         genome_config_file=str(config),
         reference_path=_write_reference(tmp_path),
-        pfam_node_ids={"pfam:PF00082"},          # PF00574 absent from graph
+        pfam_node_ids={"PF00082"},          # PF00574 absent from graph
     )
     m.download_data()
     assert _bridge_edges(m) == []
@@ -404,6 +405,27 @@ def test_bridge_pruned_by_pfam_node_ids(tmp_path):
 def test_bridge_absent_without_injection(multi):
     """pfam_node_ids=None (default) -> no bridge edges (dangling-proof)."""
     assert _bridge_edges(multi) == []
+
+
+def test_bridge_uses_bare_accession_contract(tmp_path):
+    """Real caller contract regression: MultiPfamAnnotationAdapter.all_pfam_ids()
+    (multiomics_kg/adapters/functional_annotation_adapter.py) returns BARE
+    PF* accessions ("PF00574"), never CURIEs ("pfam:PF00574"). Injecting the
+    CURIE form here must emit ZERO bridge edges — proving the adapter's
+    membership check runs in bare-accession space, so a future caller-contract
+    drift (e.g. someone injecting CURIEs) fails loudly instead of silently
+    dropping all bridge edges (the real bug this test guards against)."""
+    genes = {"LT001": {"protein_id": "WP_1.1", "merops_ids": ["S14"]}}
+    calls = {"WP_1.1": {"calls": [_candidate()]}}
+    genome_dir = _write_strain(tmp_path, genes, calls)
+    config = _write_genome_config(tmp_path, [genome_dir])
+    m = MultiMeropsAnnotationAdapter(
+        genome_config_file=str(config),
+        reference_path=_write_reference(tmp_path),
+        pfam_node_ids={"pfam:PF00574"},   # wrong (CURIE) form injected
+    )
+    m.download_data()
+    assert _bridge_edges(m) == []
 
 
 def test_cleavage_properties_on_family_nodes(multi):

@@ -296,19 +296,26 @@ class MultiMeropsAnnotationAdapter:
         # 2. Family→Pfam bridge (MEROPS interpro.txt, family-level only).
         # Dangling-proof: emitted only for injected, existing Pfam node ids
         # (TCDB-bridge precedent) — pfam_node_ids=None -> no bridge edges.
+        #
+        # Caller contract: pfam_node_ids is the BARE-ACCESSION set returned by
+        # MultiPfamAnnotationAdapter.all_pfam_ids() (e.g. "PF00082"), NOT the
+        # CURIE-form Pfam node id ("pfam:PF00082") — mirrors the
+        # tcdb_adapter/interpro_adapter pfam_node_ids convention. The
+        # membership check below must therefore run in bare-accession space;
+        # only the emitted edge TARGET is converted to the CURIE via
+        # _pfam_node_id().
         bridge_count = 0
         if self.pfam_node_ids is not None:
             for fam, pfams in sorted(self._ref().get("pfam_bridge", {}).items()):
                 if fam not in all_codes:
                     continue
                 for pf, n in sorted(pfams.items()):
-                    pf_id = _pfam_node_id(pf)
-                    if pf_id not in self.pfam_node_ids:
+                    if pf not in self.pfam_node_ids:
                         continue
                     yield (
                         f"{fam}-has_pfam-{pf}",
                         _merops_node_id(fam),
-                        pf_id,
+                        _pfam_node_id(pf),
                         "merops_family_has_pfam_domain",
                         {"member_id_count": n},
                     )
