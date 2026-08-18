@@ -114,3 +114,68 @@ def make_name(full_text: str) -> str:
 
 def make_description(full_text: str) -> str:
     return cap_at_word_boundary(full_text, DESCRIPTION_CAP)
+
+
+# ── parsers ──────────────────────────────────────────────────────────────────
+
+_BROWSE_ENTRY = re.compile(
+    r'<div rel="(\d[^"]*)" class="entry"[^>]*>\s*'
+    r'<div class="tcid name"[^>]*>([^<]*)</div>',
+)
+_SUBFAMILY_HEADER = re.compile(
+    r'<strong><A id="(\d\.[A-Z]\.\d+\.\d+)"></A>(.*?)</strong>', re.S
+)
+_SYSTEM_ROW = re.compile(
+    r'HREF="/search/result\.php\?tc=(\d\.[A-Z]\.\d+\.\d+\.\d+)">\s*'
+    r"[\d.A-Z]+\s*</A>.*?<td><div class='[0-9a-f]+'>(.*?)</div></td>",
+    re.S,
+)
+_RESULT_CLUSTER_START = re.compile(r'<table id="result-cluster"')
+
+
+def parse_browse(html: str) -> dict[str, str]:
+    """browse.php → {tc_id: name} for classes, subclasses and families."""
+    out: dict[str, str] = {}
+    for tc_id, raw in _BROWSE_ENTRY.findall(html):
+        name = clean_html_fragment(raw)
+        # strip the "1.A.1:" prefix the cell repeats
+        name = re.sub(rf"^{re.escape(tc_id)}\s*:\s*", "", name).strip()
+        if name:
+            out[tc_id] = name
+    return out
+
+
+def parse_family_page(
+    html: str, family: str | None = None
+) -> tuple[dict[str, str], dict[str, str]]:
+    """result.php?tc=<4-part> → (subfamily_names, system_full_texts).
+
+    Scoped from the result-cluster table start to end-of-page — the table
+    embeds an inner </table> mid-way, so a non-greedy table match silently
+    truncates (observed live: 2.A.1 lost subfamilies .71-.91). When `family`
+    (3-part id) is given, matches are filtered to that family — the page
+    embeds off-family 5-part IDs in a sidebar module. A subfamily with no
+    <strong> header row has NO upstream name (spec 6d) — absence is the
+    signal.
+    """
+    start = _RESULT_CLUSTER_START.search(html)
+    scope = html[start.start():] if start else html
+    prefix = f"{family}." if family else None
+
+    subfams: dict[str, str] = {}
+    for tc_id, raw in _SUBFAMILY_HEADER.findall(scope):
+        if prefix and not tc_id.startswith(prefix):
+            continue
+        name = clean_html_fragment(raw)
+        name = re.sub(rf"^{re.escape(tc_id)}\s*:\s*", "", name).strip()
+        if name:
+            subfams[tc_id] = name
+
+    systems: dict[str, str] = {}
+    for tc_id, raw in _SYSTEM_ROW.findall(scope):
+        if prefix and not tc_id.startswith(prefix):
+            continue
+        text = clean_html_fragment(raw)
+        if text:
+            systems[tc_id] = text
+    return subfams, systems
