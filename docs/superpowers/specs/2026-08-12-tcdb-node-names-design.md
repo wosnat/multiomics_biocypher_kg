@@ -1,11 +1,16 @@
 # T6 — Naming the unnamed TcdbFamily nodes
 
-**Status: READY TO IMPLEMENT — all design questions resolved. Live-site
-verification complete (2026-08-17); scope revised to a SCOPED scrape (section
-4, resolves 5a); 5b resolved empirically, 5c and 5d decided 2026-08-18.
-Aligned 2026-08-18 with the controlled-vocabulary contract on main (section
-7). Remaining external item: the two substrate CGIs were still HTTP 500 on
-2026-08-17 (6f) — re-probe before a full `--refetch-raw`.**
+**Status: IMPLEMENTED (2026-08-18).** Plan:
+`docs/superpowers/plans/2026-08-18-tcdb-node-names.md`. Scrape ran clean
+(351/351 families, 0 failures); unnamed kept nodes dropped **916 → 487**, all
+genuinely unnamed upstream: 482 subfamilies (bimodal naming, 6d), 2
+specificities, and 3 families (`9.B.99`, `9.A.40`, `1.B.166`) that turned out
+to be retired — absent from BOTH the live families.tsv and browse.php, so 3a's
+"fixes 3 of 3 unnamed kept families" (a Wayback-era measurement) did not hold
+on the live site; the bare-ID fallback (5c) covers them correctly. 284 of 286
+kept specificities carry a 400-char `description`. Remaining external item:
+the two substrate CGIs were still HTTP 500 on 2026-08-17 (6f) — re-probe
+before a full `--refetch-raw`.**
 
 `tcdb.org` served an SDSC "planned maintenance" stub for the whole site on
 2026-08-12, so the original research was verified against **Wayback snapshots**

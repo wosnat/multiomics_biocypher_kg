@@ -275,6 +275,39 @@ Only **466 of 11,263** substrate edges now sit on specificity nodes, because gen
 mostly annotate at family/subfamily depth and the ancestor-only prune keeps no
 specificity node beneath them. Use `substrate_depth` (§7) instead.
 
+### Node names (T6, 2026-08-18)
+
+**916 of the 1,515 nodes used to render as their bare TC id** (all 34
+subclasses, all 596 subfamilies, all 286 specificities, 3 families) — 60% of
+the ontology was reachable only by exact TC id, because `tcdbFamilyFullText`
+indexes `name`. Names are now scraped from tcdb.org (browse.php + one
+result.php page per kept family) into the committed
+`cache/data/tcdb/tcdb_names.json`; step 6 folds them into the hierarchy.
+
+What consumers see:
+
+- **Unnamed count drops 916 → 487**, all genuinely unnamed upstream:
+  482 subfamilies (TCDB names subfamilies only in the big curated
+  superfamilies — MFS/ABC/RND/APC are 100% named, most small families have
+  none), 2 specificities, and 3 retired families (9.B.99, 9.A.40, 1.B.166)
+  that no longer exist in any upstream source.
+- **Fallback detection**: an unnamed node satisfies `t.name = t.tcdb_id` —
+  that predicate IS the marker; there is no separate provenance property.
+- **New sparse `description`** (tc_specificity only, 284 nodes): the full
+  curated system text, 400-char capped, citations kept. `name` on those nodes
+  is the citation-stripped first sentence, 150-char capped.
+- **`tcdbFamilyFullText` now covers `name, tcdb_id, superfamily,
+  description`** — "sugar porter", "ammonia", "siderophore" style searches
+  reach subfamily/system nodes for the first time.
+- **Two class names changed** (upstream truth): `1` "Channels and Pores" →
+  **"Channels/Pores"**, `8` "Auxiliary Transport Proteins" → **"Accessory
+  Factors Involved in Transport"**. Class `6` (Membrane Transporter
+  Metabolons) is now named in the hierarchy (still not kept — no gene
+  annotates it).
+- Subclass/subfamily/specificity names are new strings in the full-text
+  index — cached keyword-to-node mappings on the consumer side should be
+  re-derived.
+
 ---
 
 ## 7. Substrate rollup depth — new edge property + rebuilt counts
