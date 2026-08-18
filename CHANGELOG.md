@@ -89,6 +89,12 @@ tag with nothing logged.
   localization layers for secreted exoproteases. Each call says up front whether
   it is a real peptidase, a protease *inhibitor*, or a catalytically dead
   look-alike (`call_class`), so dead homologs never inflate protease counts.
+- **Ask the graph what a filter accepts, instead of guessing.** Every value a
+  property or edge can take — which "evidence" strengths are possible, which
+  sources contributed an annotation, which categories a transporter's substrate
+  breadth falls into — is now published as data in the graph itself, so a tool
+  built against the KG can look the allowed values up rather than hard-coding a
+  list that silently goes stale when the graph changes.
 
 ### Breaking
 
@@ -127,8 +133,29 @@ tag with nothing logged.
   was reading 0 for 83% of transported metabolites, so any `transporter_count > 0`
   filter was silently excluding most of them.
 - **Substrate queries must use `Tcdb_family_transports_metabolite.substrate_depth
-  = 'deepest'`**, not `level_kind = 'tc_specificity'` — the latter now matches
+  = 'most_specific'`**, not `level_kind = 'tc_specificity'` — the latter now matches
   only 466 of 11,263 substrate edges.
+- **Controlled-vocabulary alignment pass** (`docs/kg-changes/vocabulary-contract.md`).
+  `TcdbFamily.is_promiscuous` and `InterproEntry.is_promiscuous` are **deleted** — both
+  only ever restated a threshold over a count the node already publishes
+  (`level >= 2 AND metabolite_count >= 50`, `gene_count >= 1000` respectively); query
+  the predicate directly instead. `evidence_score` is now a **float in `[0,1]`** (was
+  int 0–3) on every gene→ontology annotation edge, with paired `signal_count` /
+  `signals` so `round(score × signal_count)` recovers the old integer.
+  `Gene_has_tcdb_family.tcdb_evidence_score` is renamed `evidence_score` (also now
+  float `[0,1]`, was int 0–5) and `Gene.tcdb_best_evidence_score` is renamed
+  `tcdb_evidence_score_max`; its three component booleans
+  (`agrees_across_sources`/`pfam_corroborated`/`go_corroborated`) are renamed
+  `source_agreement`/`pfam_support`/`go_support` and are now meaningful-pair strings,
+  not native `bool`. `Tcdb_family_transports_metabolite.substrate_depth` values rename
+  `deepest`/`ancestor` → `most_specific`/`inherited`. `sources` values rename
+  `interpro` → `interproscan` and `diamond` → `tcdb_diamond` (every value is now the
+  `id` of a `DataSource` node). The Layer-A router edges
+  (`Interpro_entry_related_to_ec_number` / `_cazy_family`) lose their `ambiguous`
+  (native `bool`, uniformly `false` in every shipped build — BioCypher never
+  round-trips adapter-emitted `bool`) and `source_db` (a hardcoded literal) properties
+  entirely; they now carry no properties. See the doc for full derivation recipes and
+  a migration checklist.
 - **The Lu EZ55 exudate study moved from its bioRxiv preprint to the published
   AEM paper, and every node id it owns changed with it.** alpha.5 and alpha.6
   shipped it as `Lu 2025` / `10.1101/2025.05.28.656624`; it is now `Lu 2026` /
@@ -173,7 +200,7 @@ tag with nothing logged.
 - **biller 2016 — corrected contrast semantics on the two MIT1002 experiments**
   (filed against this repo by the downstream `multiomics_analysis` consumer,
   ticket 3). Both are *within-coculture* time contrasts
-  (24 h and 48 h vs 12 h after addition), but `control_condition` read
+  (24 h and 48 h vs 12 h after addition), but `control` read
   "Co-culture with *Prochlorococcus* NATL2A", dropping the reference timepoint —
   a reader querying the KG alone misread the denominator as a generic coculture
   state or as t0. The 12 h reference is restored, and `experimental_context`
@@ -191,6 +218,33 @@ tag with nothing logged.
 
 ### Added
 
+- **`ControlledVocabulary` nodes — the value sets a property or edge can take,
+  published as data** (design
+  `docs/superpowers/specs/2026-08-16-vocabulary-contract-design.md`, consumer doc
+  `docs/kg-changes/vocabulary-contract.md`). One node per (label-or-edge-type,
+  property) pair — `applies_to`, `property`, `value_type`, `closed`, `values`,
+  `description`, plus sparse `min_value`/`max_value`/`signal_count`/`signals` for
+  numeric/score vocabularies — sourced from `config/controlled_vocabularies.yaml`
+  (THE source of truth) via `multiomics_kg/utils/controlled_vocab.py` and emitted
+  by the node-only `controlled_vocabulary_adapter.py` (`DataSource`-adapter
+  pattern). Adapters import their literals from the same loader, so an
+  undeclared value cannot be emitted; a four-gate test suite (adapter unit
+  checks, `--test`-build CSV scan, `slow`-build CSV scan, live-graph) checks the
+  declared set against the graph in both directions.
+  `Schema_info.controlled_vocabularies_hash` (sha256 over the emitted set) lets a
+  consumer detect drift between releases instead of discovering it through a
+  wrong answer. Five house rules now govern every vocabulary the KG ships: **R1**
+  lowercase `snake_case` for KG-minted values, external database terms preserved
+  verbatim; **R1b** namespace a value only when it collides across labels; **R2**
+  every `sources` value is a `DataSource` node id; **R3** don't materialize a
+  threshold over an already-stored count; **R4** one score name per concept, on
+  one `[0,1]` float scale. **R5 — no native `bool`.** A two-state fact is now
+  required to be a categorical string naming both states meaningfully (the
+  existing `OrthologGroup.has_cross_genus_members: cross_genus | single_genus`
+  is the precedent), because BioCypher does not round-trip adapter-emitted
+  `bool` — the one place it shipped was silently `false` on every edge in every
+  build ever deployed. `value_type` in the contract admits `string`,
+  `string_array`, `float`, `int`, `bool_string`, never `bool`.
 - **MEROPS peptidase ontology** (merops-diamond Phase 2; design
   `docs/superpowers/specs/2026-08-17-merops-kg-integration-design.md`, release
   notes `docs/kg-changes/merops-extension.md`). 155 `MeropsFamily` nodes
@@ -213,18 +267,20 @@ tag with nothing logged.
     `ec_numbers` (+9.5K), `cazy_ids` (+642), `pfam_ids` (+14K net-new), noise-gated
     (GO/CAZy: FAMILY+DOMAIN, fold excluded; EC: FAMILY+single-EC only; Pfam:
     direct HMM hits). `alternate_functional_descriptions` gains `[interpro]` names.
-  - **Edge provenance** — `sources` (str[] `ncbi|cyanorak|uniprot|eggnog|interpro`),
+  - **Edge provenance** — `sources` (str[] `ncbi|cyanorak|uniprot|eggnog|interproscan`;
+    `interpro` renamed `interproscan` — see `### Breaking`),
     `evidence` (`curated`>`signature`>`family_inferred`>`domain_inferred`),
-    `evidence_score` (int 0–3, advisory) on all six gene→ontology edge types
+    `evidence_score` (now a float `[0,1]`, advisory — see `### Breaking`) on all six gene→ontology edge types
     (`Gene_involved_in_biological_process`/`_located_in_cellular_component`/
     `_enables_molecular_function`, `Gene_catalyzes_ec_number`, `Gene_has_pfam`,
     `Gene_has_cazy_family`). Backed by per-token `<field>_source`/`<field>_evidence`
     maps in `gene_annotations_merged.json`.
   - **Layer A** — `Interpro_entry_related_to_ec_number` (~6,961) +
     `Interpro_entry_related_to_cazy_family` (~122): a recall-biased **router**
-    (weak `related_to` verb, `ambiguous` bool, `source_db`) homing the multi-EC/
-    DOMAIN ECs and fold CAZy Layer B refuses to stamp on genes. **Not an
-    annotation** — never assign gene function from it.
+    (weak `related_to` verb; carries no properties — the `ambiguous` bool and
+    `source_db` it originally shipped with were both deleted, see `### Breaking`)
+    homing the multi-EC/DOMAIN ECs and fold CAZy Layer B refuses to stamp on genes.
+    **Not an annotation** — never assign gene function from it.
   - Reference cache (step 9) gains sparse `ec_numbers`/`cazy_ids` per entry.
   - See `docs/kg-changes/interpro-two-layer.md`.
 - **InterProScan InterPro-entry ontology** (`/integrate-a-tool` Phase 2, then
@@ -338,13 +394,14 @@ tag with nothing logged.
   is an ancestor of one". Consequences, all fixed together and folded into the
   existing unreleased TCDB upgrade contract
   ([`docs/kg-changes/tcdb-two-source-upgrade.md`](docs/kg-changes/tcdb-two-source-upgrade.md) §7):
-  - `Tcdb_family_transports_metabolite` gains **`substrate_depth`** (`'deepest'` |
-    `'ancestor'`; 4,381 / 6,882). A (node, substrate) fact — a node can be deepest
-    for one substrate and an ancestor for another. Categorical string, not bool.
+  - `Tcdb_family_transports_metabolite` gains **`substrate_depth`** (`'most_specific'` |
+    `'inherited'` — see `### Breaking` for the 2026-08-18 rename from `'deepest'`/
+    `'ancestor'`). A (node, substrate) fact — a node can be most-specific
+    for one substrate and inherited for another. Categorical string, not bool.
   - `Metabolite.transporter_count` read **0 for 1,218 of 1,462 (83%)** transported
     metabolites: it filtered `level_kind = 'tc_specificity'`, but only 466 of
     11,263 substrate edges now sit there after the ancestor-only prune. Now counts
-    distinct `substrate_depth = 'deepest'` sources — non-zero for all 1,462.
+    distinct `substrate_depth = 'most_specific'` sources — non-zero for all 1,462.
   - The transport arm now counts each gene's **deepest TC attachments only**.
     6,950 genes are annotated at both an ancestor and its own descendant (e.g.
     `3.A.1` *and* `3.A.1.14`) and were inheriting the superfamily's whole rollup
