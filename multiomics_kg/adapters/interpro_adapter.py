@@ -31,7 +31,7 @@ Yields:
   genes — read backward it is low-precision; never use it to assign gene function.
   These edges carry NO properties (deleted 2026-08-16, spec §3 R3): the old
   ``ambiguous`` flag is derivable from the graph — a consumer writes
-  ``WITH n, count(r) AS k WHERE k > 1 OR n.interpro_type <> 'family'`` — and
+  ``WITH n, count(r) AS k WHERE k > 1 OR n.interpro_type <> 'FAMILY'`` — and
   ``source_db`` was a hardcoded literal (``"interpro.xml"``), which the edge type
   already says. Dangling-proof by pruning to the EC/CAZy nodes the gene edges
   already created (self-computed from the merged JSONs — no injection).
@@ -50,7 +50,6 @@ from pathlib import Path
 from typing import Iterator
 
 from multiomics_kg.utils.curie_utils import normalize_curie
-from multiomics_kg.utils.interproscan import normalize_interpro_type, normalize_library
 from multiomics_kg.adapters.cazy_adapter import _cazy_node_id, _most_specific_id
 from multiomics_kg.download.utils.annotation_transforms import _TRANSFORMS
 
@@ -191,13 +190,13 @@ class InterproAnnotationAdapter:
                 props: dict = {"match_count": 0, "libraries": []}
                 if ent:
                     props = {"match_count": ent.get("match_count") or 0,
-                             "libraries": [_clean_str(normalize_library(x)) for x in ent.get("libraries") or []]}
+                             "libraries": [_clean_str(x) for x in ent.get("libraries") or []]}
                     for k in ("start", "end"):
                         if ent.get(k) is not None:
                             props[k] = ent[k]
                     if ent.get("evalue") is not None:
                         props["evalue"] = ent["evalue"]
-                        props["evalue_library"] = _clean_str(normalize_library(ent.get("evalue_library")))
+                        props["evalue_library"] = _clean_str(ent.get("evalue_library"))
                 yield (f"{locus_tag}-has_interpro-{acc}", _gene_node_id(locus_tag),
                        _interpro_node_id(acc), "gene_has_interpro_entry", props)
                 count += 1
@@ -306,7 +305,7 @@ class MultiInterproAnnotationAdapter:
                 props = {
                     "name": _clean_str(ref.get("name")),
                     "interpro_id": acc,
-                    "interpro_type": _clean_str(normalize_interpro_type(ref.get("type"))),
+                    "interpro_type": _clean_str(ref.get("type")),
                     "level": int(ref.get("level") or 0),
                 }
                 description = _clean_str(ref.get("description"))
@@ -365,7 +364,7 @@ class MultiInterproAnnotationAdapter:
         #    it is low-precision. NEVER use it to assign a gene its function — that is
         #    what Gene_catalyzes_ec_number (Layer B) is for. These edges carry NO
         #    properties — a consumer derives the old `ambiguous` flag as
-        #    `count(r) > 1 OR n.interpro_type <> 'family'`. Pruned to EC/CAZy nodes
+        #    `count(r) > 1 OR n.interpro_type <> 'FAMILY'`. Pruned to EC/CAZy nodes
         #    the gene edges already created. For EC that set is further intersected
         #    with the injected `ec_node_ids`, because a gene's ec_numbers can name an
         #    obsolete/invalid EC (InterPro xref) that Expasy has no node for —

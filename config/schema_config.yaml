@@ -1620,7 +1620,7 @@ pfam in interpro entry:
 # from these — that is Gene_catalyzes_ec_number.
 # These edges carry NO properties (deleted 2026-08-16, spec §3 R3 + §9.8): both
 # arms of the old `ambiguous` flag are derivable from the graph —
-# `WITH n, count(r) AS k WHERE k > 1 OR n.interpro_type <> 'family'` — and
+# `WITH n, count(r) AS k WHERE k > 1 OR n.interpro_type <> 'FAMILY'` — and
 # `source_db` was a hardcoded literal ("interpro.xml"); the edge type already
 # says the fact came from InterPro.
 interpro entry related to ec number:

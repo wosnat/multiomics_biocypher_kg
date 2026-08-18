@@ -26,7 +26,7 @@ def test_node_carries_the_declared_values():
     assert props["applies_to"] == "InterproEntry"
     assert props["applies_to_kind"] == "node"
     assert props["value_type"] == "string"
-    assert "homologous_superfamily" in props["values"]
+    assert "HOMOLOGOUS_SUPERFAMILY" in props["values"]
     assert props["closed"] == "true"          # R5: bool_string, not bool
 
 

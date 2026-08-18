@@ -30,15 +30,16 @@ def _write_strain(tmp_path: Path, genes: dict, calls: dict, strain: str = "TESTS
     return genome_dir
 
 
-# ── house rule R1: emitted `libraries` / `evalue_library` are lowercase and
-# declared ─────────────────────────────────────────────────────────────────
+# ── emitted `libraries` / `evalue_library` / `interpro_type` are preserved in
+# InterPro's own native (UPPERCASE) casing and declared ─────────────────────
 #
 # The calls.json artifact stores InterProScan's NATIVE (UPPERCASE) library
-# names — see the "PFAM" keys elsewhere in this file. R1 normalization
-# happens here, at the adapter's emission boundary
-# (`InterproAnnotationAdapter.get_edges`), not inside the parser.
+# names — see the "PFAM" keys elsewhere in this file. These are InterPro's /
+# InterProScan's own controlled vocabulary terms, so the adapter passes them
+# through verbatim (only `_clean_str` sanitization applies) rather than
+# normalizing casing — see `config/controlled_vocabularies.yaml`.
 
-def test_edge_libraries_and_evalue_library_are_lowercase_and_declared(tmp_path):
+def test_edge_libraries_and_evalue_library_are_native_cased_and_declared(tmp_path):
     from multiomics_kg.utils.controlled_vocab import VOCAB
 
     genes = {
@@ -66,14 +67,14 @@ def test_edge_libraries_and_evalue_library_are_lowercase_and_declared(tmp_path):
     genome_dir = _write_strain(tmp_path, genes, calls)
     a = InterproAnnotationAdapter(genome_dir)
     props = list(a.get_edges())[0][4]
-    assert props["libraries"] == ["hamap", "pfam"]
-    assert props["evalue_library"] == "pfam"
+    assert props["libraries"] == ["HAMAP", "PFAM"]
+    assert props["evalue_library"] == "PFAM"
     for value in props["libraries"]:
         VOCAB.check("Gene_has_interpro_entry", "libraries", value)
     VOCAB.check("Gene_has_interpro_entry", "libraries", props["evalue_library"])
 
 
-def test_node_interpro_type_is_lowercase_and_declared(tmp_path):
+def test_node_interpro_type_is_native_cased_and_declared(tmp_path):
     from multiomics_kg.utils.controlled_vocab import VOCAB
 
     genes = {"LT001": {"protein_id": "WP_000000001.1", "interpro_entries": ["IPR000001"]}}
@@ -87,7 +88,7 @@ def test_node_interpro_type_is_lowercase_and_declared(tmp_path):
     m._observed_ids = lambda: {"IPR000001"}
     nodes = {nid: props for nid, _label, props in m.get_nodes()}
     interpro_type = nodes["interpro:IPR000001"]["interpro_type"]
-    assert interpro_type == "homologous_superfamily"
+    assert interpro_type == "HOMOLOGOUS_SUPERFAMILY"
     VOCAB.check("InterproEntry", "interpro_type", interpro_type)
 
 
@@ -153,8 +154,8 @@ def test_edge_props_from_rollup_with_evalue(tmp_path):
     assert props["start"] == 1
     assert props["end"] == 36
     assert props["evalue"] == 4.1e-18
-    assert props["evalue_library"] == "pfam"
-    assert props["libraries"] == ["hamap", "pfam"]
+    assert props["evalue_library"] == "PFAM"
+    assert props["libraries"] == ["HAMAP", "PFAM"]
     assert props["match_count"] == 2
     assert "score" not in props
 
@@ -192,7 +193,7 @@ def test_edge_props_no_evalue_omits_evalue_library(tmp_path):
     assert "evalue_library" not in props
     assert "score" not in props
     assert props["match_count"] == 1
-    assert props["libraries"] == ["superfamily"]
+    assert props["libraries"] == ["SUPERFAMILY"]
 
 
 def test_edge_fail_soft_when_merged_seed_missing_from_rollup(tmp_path):

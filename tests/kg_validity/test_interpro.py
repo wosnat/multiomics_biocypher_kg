@@ -11,10 +11,12 @@ import pytest
 pytestmark = pytest.mark.kg
 
 VALID_TYPES = {
-    # R1: lowercase snake_case (config/controlled_vocabularies.yaml
-    # InterproEntry.interpro_type) — InterPro's raw type strings are UPPERCASE.
-    "family", "domain", "homologous_superfamily", "repeat",
-    "conserved_site", "active_site", "binding_site", "ptm", "",
+    # Preserved verbatim in InterPro's own native UPPERCASE casing
+    # (config/controlled_vocabularies.yaml InterproEntry.interpro_type) —
+    # this is InterPro's own controlled vocabulary, not KG-minted, so house
+    # rule R1 (lowercase snake_case) does not apply.
+    "FAMILY", "DOMAIN", "HOMOLOGOUS_SUPERFAMILY", "REPEAT",
+    "CONSERVED_SITE", "ACTIVE_SITE", "BINDING_SITE", "PTM", "",
 }
 
 

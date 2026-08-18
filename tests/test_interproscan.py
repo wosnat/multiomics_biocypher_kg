@@ -1,8 +1,6 @@
 """Tests for the faceted InterProScan parser (multi-ontology redesign)."""
 import pytest
 from multiomics_kg.utils.interproscan import (
-    normalize_interpro_type,
-    normalize_library,
     parse_interproscan_json,
     summarize,
 )
@@ -104,36 +102,24 @@ def test_summarize_qc():
     assert "pathway_databases" not in s and "distinct_pathways" not in s
 
 
-# ── house rule R1: lowercase snake_case for interpro_type / libraries ─────────
+# ── InterPro / InterProScan controlled vocabularies: preserved verbatim ──────
 #
 # The parser above stores everything in InterProScan's NATIVE casing (see
-# `calls["WP_000001.1"]["libraries"]` keyed by "PFAM" etc. above) — R1
-# normalization happens at the adapter emission boundary
-# (`multiomics_kg/adapters/interpro_adapter.py`), not inside the parser, so
-# these test the normalizer helpers directly rather than parser output.
+# `calls["WP_000001.1"]["libraries"]` keyed by "PFAM" etc. above), and it
+# stays that way all the way to the graph — these are InterPro's own
+# controlled terms, not KG-minted values, so house rule R1 (lowercase
+# snake_case) does not apply to them (see `config/controlled_vocabularies.yaml`).
 
-def test_interpro_type_is_lowercase_snake_case():
-    assert normalize_interpro_type("HOMOLOGOUS_SUPERFAMILY") == "homologous_superfamily"
-    assert normalize_interpro_type("Family") == "family"
-    assert normalize_interpro_type("") == ""
-    assert normalize_interpro_type(None) == ""
-
-
-def test_libraries_are_lowercase_snake_case():
-    assert normalize_library("PROSITE_PATTERNS") == "prosite_patterns"
-    assert normalize_library("GENE3D") == "gene3d"
-    assert normalize_library(None) == ""
-
-
-def test_declared_vocabulary_matches_the_normalizer():
-    """Every value the normalizer can produce must be declared."""
+def test_declared_vocabulary_matches_native_casing():
+    """Every value InterPro/InterProScan actually emits must be declared,
+    in their own native UPPERCASE casing."""
     from multiomics_kg.utils.controlled_vocab import VOCAB
 
     for raw in ["FAMILY", "DOMAIN", "HOMOLOGOUS_SUPERFAMILY", "REPEAT",
                 "CONSERVED_SITE", "ACTIVE_SITE", "BINDING_SITE", "PTM"]:
-        VOCAB.check("InterproEntry", "interpro_type", normalize_interpro_type(raw))
+        VOCAB.check("InterproEntry", "interpro_type", raw)
 
     for raw in ["CDD", "GENE3D", "HAMAP", "NCBIFAM", "PANTHER", "PFAM", "PIRSF",
                 "PRINTS", "PROSITE_PATTERNS", "PROSITE_PROFILES", "SFLD", "SMART",
                 "SUPERFAMILY"]:
-        VOCAB.check("Gene_has_interpro_entry", "libraries", normalize_library(raw))
+        VOCAB.check("Gene_has_interpro_entry", "libraries", raw)

@@ -260,11 +260,14 @@ InterproEntry.interpro_type:
   property: interpro_type
   value_type: string
   closed: true
-  values: [family, domain, homologous_superfamily, repeat, conserved_site,
-           active_site, binding_site, ptm]
+  values: [FAMILY, DOMAIN, HOMOLOGOUS_SUPERFAMILY, REPEAT, CONSERVED_SITE,
+           ACTIVE_SITE, BINDING_SITE, PTM]
   description: >
     InterPro entry class. PRIMARY stratification key for ORA over InterPro —
-    breadth varies by type far more than by level.
+    breadth varies by type far more than by level. Preserved in InterPro's own
+    UPPERCASE casing (not lowercased per house rule R1) because this is
+    InterPro's own controlled vocabulary term, kept verbatim so it stays
+    directly comparable to the source.
 
 InterproEntry.level_kind:
   applies_to: InterproEntry
@@ -284,12 +287,15 @@ Gene_has_interpro_entry.libraries:
   property: libraries
   value_type: string_array
   closed: true
-  values: [cdd, gene3d, hamap, ncbifam, panther, pfam, pirsf, prints,
-           prosite_patterns, prosite_profiles, sfld, smart, superfamily]
+  values: [CDD, GENE3D, HAMAP, NCBIFAM, PANTHER, PFAM, PIRSF, PRINTS,
+           PROSITE_PATTERNS, PROSITE_PROFILES, SFLD, SMART, SUPERFAMILY]
   description: >
     InterProScan member databases that produced a match for this entry. The
-    member-DB granularity of the signature-vs-inferred distinction — 'pfam'
-    means a direct HMM hit.
+    member-DB granularity of the signature-vs-inferred distinction — 'PFAM'
+    means a direct HMM hit. Preserved in InterProScan's own UPPERCASE casing
+    (not lowercased per house rule R1) because these are InterProScan's own
+    controlled vocabulary terms, kept verbatim so they stay directly
+    comparable to the source.
 
 # ── Released vocabularies (harvested, not designed — spec §5.3 second group) ─
 # These vocabularies were already shipped and are read by the MCP explorer;

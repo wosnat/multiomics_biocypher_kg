@@ -23,14 +23,11 @@ No pathway xrefs anywhere — pathways are out of scope for this redesign (see
 multi-ontology redesign SDD).
 
 This module stores everything in the tool's *native* casing (e.g. member-DB
-names like ``PFAM``, InterPro types like ``FAMILY``). House rule R1
-(controlled vocabulary values reaching the graph must be lowercase
-snake_case) is enforced at the adapter / emission boundary, not here — see
-``normalize_interpro_type`` / ``normalize_library`` below and their call
-sites in ``multiomics_kg/adapters/interpro_adapter.py``. Normalizing at parse
-time would strand the already-committed, uppercase-keyed
-``<strain>.interproscan.calls.json`` artifacts and break the adapter's
-uppercase-keyed ``libraries["PFAM"]``-style lookups against them.
+names like ``PFAM``, InterPro types like ``FAMILY``). These are InterPro's /
+InterProScan's own controlled vocabulary terms, preserved verbatim end to
+end (parser through adapter through graph) so they stay directly comparable
+to the source — see ``config/controlled_vocabularies.yaml`` for the
+declared value lists.
 """
 
 from __future__ import annotations
@@ -44,24 +41,6 @@ def _strip_version(acc: str | None) -> str | None:
     (``NF002735.2`` -> ``NF002735``). Accessions without a dot (or ``None``)
     pass through unchanged."""
     return acc.split(".")[0] if acc else acc
-
-
-def normalize_interpro_type(raw: str | None) -> str:
-    """House rule R1 — lowercase snake_case. InterPro ships UPPERCASE
-    (``FAMILY``, ``HOMOLOGOUS_SUPERFAMILY``, …).
-
-    Applied at the adapter emission boundary (``InterproEntry.interpro_type``),
-    not inside the parser — see module docstring."""
-    return (raw or "").strip().lower()
-
-
-def normalize_library(raw: str | None) -> str:
-    """House rule R1 — lowercase snake_case member-DB name. InterProScan
-    ships UPPERCASE (``PFAM``, ``PROSITE_PATTERNS``, …).
-
-    Applied at the adapter emission boundary (``Gene_has_interpro_entry.libraries``
-    and ``.evalue_library``), not inside the parser — see module docstring."""
-    return (raw or "").strip().lower()
 
 
 def parse_interproscan_json(data: dict) -> dict[str, dict]:
