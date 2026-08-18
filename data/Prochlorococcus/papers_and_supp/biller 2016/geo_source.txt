@@ -1,0 +1,4 @@
+GSE73511 -- https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE73511
+GSE73511_co-culture_counts.txt.gz : raw counts, 6335 rows, both organisms.
+Same column layout as GSE93197 (Biller 2018); sample cols are T{n}Ax / T{n}Alt x 3 reps.
+Unfiltered background for the DE tables already wired from the paper supplement.

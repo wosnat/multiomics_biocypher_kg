@@ -1,0 +1,11 @@
+GSE74921 (RNA-seq) + GSE63690 (microarray), SuperSeries GSE74922
+https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE74922
+
+GSE63690_Processed_data_{WH7803,WH8102,WH8109_Syn9}.txt.gz -- LIMMA output, 2813 rows.
+  Cols: Probe.ID, name, alias, start, end, startSeq, endSeq, description, reverseSeq,
+        length, S0.C0 .. S240.C240 (timepoint/control ratios), AveExpr, F,
+        P.Value, adj.P.Val
+GSE74921_syn9_{7803,8102,8109}.rnpB.norm.txt.gz -- reads + rnpB-normalised values.
+  CAUTION: PHAGE ONLY. Every row is NC_008296 (Synechococcus phage syn9); 232 rows.
+  Host expression is not in the processed GEO files -- use GSE63690 or the journal
+  supplement for the Synechococcus side.

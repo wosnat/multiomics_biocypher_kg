@@ -1,0 +1,6 @@
+GSE93197 -- https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE93197
+GSE93197_extended_darkness_counts.txt.gz : raw counts, 6339 rows, both organisms.
+Cols: Chromosome, RAST_RegionID, Original_NCBI_ID (PMN2A_1328), Alternate_NCBI_ID
+      (NATL2_00001), Alternate_NCBI_ID_2 (PMN2A_RS00015), RAST_Annotation,
+      then one column per sample (A0L_1 ... = axenic/timepoint/replicate).
+Unfiltered background for the DE tables already wired from the paper supplement.

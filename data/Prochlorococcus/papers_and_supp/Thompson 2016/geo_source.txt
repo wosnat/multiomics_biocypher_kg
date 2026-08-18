@@ -1,0 +1,11 @@
+GSE79359 -- https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE79359
+GSE79359_counts/ : 40 per-sample tables extracted from GSE79359_RAW.tar.
+Filenames encode the condition, e.g. GSM2092847_Ctr1_Dk_0h.txt.gz.
+Headerless, tab-separated, 2257 rows:
+  1 MED4-0001                      (array/feature id)
+  2 ID=PMM0001.p01(Genbank),fig|...(RAST)
+  3 strand   4 start   5 end
+  6 Name=dnaN(Genbank),<RAST annotation>
+  7,8,9 read counts (total / sense / antisense)
+This is the unfiltered all-gene background the README lists as the one open item
+(current DE tables are table_scope: significant_only).

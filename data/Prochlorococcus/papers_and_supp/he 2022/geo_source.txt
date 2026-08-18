@@ -1,0 +1,12 @@
+GSE195946 -- https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE195946
+Downloaded 2026-08-18 from ftp.ncbi.nlm.nih.gov/geo/series/GSE195nnn/GSE195946/suppl/
+
+GSE195946_Group_{MED4,NATL1A}-34-VS-{...}-28_DE_anno.txt.gz
+  FULL DE tables (2042 rows = all genes), tab-separated.
+  Cols: GeneID (gene-PMM0087 style), logFC, logCPM, PValue, FDR, GeneName,
+        Chr, Start, End, locus_tag, Product, KEGG, GO_*, COG
+  NOTE: GeneName/Product carry URL-encoded chars (%2C = comma).
+  These supersede supp tables S1/S2, which are significant-only. Wiring these
+  in changes the experiments' table_scope significant_only -> all_detected_genes.
+GSE195946_Group_*_DE_significant_anno.txt.gz -- the significant subset (= what S1/S2 hold)
+GSE195946_{MED4,NATL1A}-all.fpkm.txt.gz      -- per-sample FPKM
