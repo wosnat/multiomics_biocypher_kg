@@ -172,7 +172,27 @@ explorer, so renaming it costs one `### Breaking` bullet and no consumer work.
 Four rules, each resolving a numbered inconsistency from §1. These are the
 standing conventions for every vocabulary the KG adds from here on.
 
-### R1 — lowercase `snake_case`; namespace only when values collide across labels
+### R1 — lowercase `snake_case` for values the KG mints; external terms verbatim
+
+**Scope, rescoped 2026-08-17.** R1 governs values the KG **mints**. A value that is an
+**external database's own controlled term** is preserved **verbatim**, because mutating
+it makes the graph confusing to compare against the source. Casing uniformity is worth
+less than traceability to InterPro / InterProScan / NCBI.
+
+| Preserved verbatim (external) | Lowercased (KG-minted) |
+|---|---|
+| `InterproEntry.interpro_type` — `FAMILY`, `DOMAIN`, … | `evidence`, `sources`, `substrate_depth` |
+| `Gene_has_interpro_entry.libraries` / `evalue_library` — `PFAM`, `GENE3D`, … | `transport_substrate_resolution`, `level_kind` |
+| `NcbifamFamily.family_type` — incl. `PfamEq`, `PfamAutoEq` | `annotation_state`, `expression_status`, `metric_bucket` |
+| | `MeropsFamily.catalytic_type`, `call_class`, `best_hit_kind` |
+
+`catalytic_type` is KG-minted despite describing MEROPS data: the source ships single
+letters (`S`, `C`, `M`, …) and the KG chooses the words (`serine`, `asparagine_lyase`).
+
+The contract records the reason on each external entry's `description`, so a later reader
+does not "fix" the casing back.
+
+### R1b — namespace only when values collide across labels
 
 A value carries a namespace prefix **only** when the same property name holds
 values from different ontologies across labels. `level_kind` lives on five
