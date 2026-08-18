@@ -116,8 +116,11 @@ CREATE FULLTEXT INDEX ncbifamFamilyFullText IF NOT EXISTS
 CREATE INDEX merops_family_level_idx IF NOT EXISTS FOR (m:MeropsFamily) ON (m.level);
 CREATE INDEX merops_family_level_kind_idx IF NOT EXISTS FOR (m:MeropsFamily) ON (m.level_kind);
 CREATE INDEX merops_family_id_idx IF NOT EXISTS FOR (m:MeropsFamily) ON (m.merops_id);
+// Full-text defs can't be ALTERed — drop + recreate so cleavage_summary is
+// picked up even on reruns against an existing graph.
+DROP INDEX meropsFamilyFullText IF EXISTS;
 CREATE FULLTEXT INDEX meropsFamilyFullText IF NOT EXISTS
-    FOR (m:MeropsFamily) ON EACH [m.name, m.merops_id, m.description];
+    FOR (m:MeropsFamily) ON EACH [m.name, m.merops_id, m.description, m.cleavage_summary];
 
 // PSORTb SubcellularLocalization (flat ontology + scored edge)
 CREATE INDEX subcellular_localization_level_idx IF NOT EXISTS FOR (n:SubcellularLocalization) ON (n.level);
@@ -1060,6 +1063,22 @@ CALL {
       m.gene_count = gc,
       m.peptidase_gene_count = pgc,
       m.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Gene_has_merops_family.pfam_support: whether a Pfam on this gene is curated
+// into this MEROPS family via Merops_family_has_pfam_domain (interpro.txt).
+// Sound direction only — corroborates a known family; never assigns peptidase
+// identity backward from a domain. R5 string pair, tcdb pfam_support pattern.
+// The bridge attaches at family level (level 1); subfamily-attached gene edges
+// check their parent family (single is-a hop).
+CALL {
+  MATCH (g:Gene)-[r:Gene_has_merops_family]->(m:MeropsFamily)
+  WITH r, g, m,
+       EXISTS {
+         MATCH (g)-[:Gene_has_pfam]->(:Pfam)<-[:Merops_family_has_pfam_domain]-(fam:MeropsFamily)
+         WHERE fam = m OR (m)-[:Merops_family_is_a_merops_family]->(fam)
+       } AS pfam_ok
+  SET r.pfam_support = CASE WHEN pfam_ok THEN 'corroborated' ELSE 'uncorroborated' END
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // ── SubcellularLocalization computed properties (PSORTb; flat ontology) ───────

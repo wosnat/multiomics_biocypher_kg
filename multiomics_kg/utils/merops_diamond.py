@@ -23,9 +23,10 @@ Design: `docs/superpowers/specs/2026-08-17-merops-diamond-design.md`.
 """
 from __future__ import annotations
 
+import csv
 import json
 import re
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Iterator
 
@@ -591,3 +592,102 @@ def call_families(rec: dict) -> list[str]:
 def call_codes(rec: dict) -> list[str]:
     """Candidates' called `code` values in confidence-descending order."""
     return [c["code"] for c in rec.get("calls", [])]
+
+
+# ============================================================================
+# Phase-2 follow-up: Pfam bridge + cleavage specificity parsers
+# (spec docs/superpowers/specs/2026-08-18-merops-pfam-bridge-cleavage-design.md)
+# ============================================================================
+
+STANDARD_AA_3 = frozenset({
+    "Ala", "Arg", "Asn", "Asp", "Cys", "Gln", "Glu", "Gly", "His", "Ile",
+    "Leu", "Lys", "Met", "Phe", "Pro", "Ser", "Thr", "Trp", "Tyr", "Val",
+})
+
+
+def parse_interpro_txt_stream(lines) -> dict[str, dict[str, int]]:
+    """MEROPS interpro.txt → {family: {pfam_acc: member_id_count}}.
+
+    One input row per curated UniProt member: subfam token, MEROPS identifier,
+    name, peptidase-unit range, accession, slash-joined Pfam accessions, IPR.
+    member_id_count = DISTINCT MEROPS identifiers backing the (family, Pfam)
+    pair — accessions are heavily redundant (isoforms/orthologs), identifiers
+    are the curated unit. Stream-safe: never holds the 182 MB file.
+    """
+    backing: dict[str, dict[str, set[str]]] = {}
+    for row in csv.reader(lines):
+        if len(row) < 6:
+            continue
+        merops_id = row[1].strip()
+        family = id_family(merops_id)
+        if family is None:
+            continue
+        for pf in row[5].split("/"):
+            pf = pf.strip()
+            if pf.startswith("PF"):
+                backing.setdefault(family, {}).setdefault(pf, set()).add(merops_id)
+    return {
+        fam: {pf: len(ids) for pf, ids in sorted(pfams.items())}
+        for fam, pfams in sorted(backing.items())
+    }
+
+
+def aggregate_cleavages(lines) -> dict[str, dict]:
+    """MEROPS Substrate_search.txt → per-family cleavage aggregates.
+
+    Tab-separated, single-quote-quoted; col 1 = MEROPS identifier, col 7 = P1
+    residue, col 22 = record kind (physiological | non-physiological |
+    synthetic | theoretical | pathological). Returns
+    {family: {"p1": Counter, "physiological": int, "total": int}}. P1 counts
+    keep only the 20 standard residues (STANDARD_AA_3) so the downstream
+    vocabulary can be closed; modified residues (e.g. "TyI") still count
+    toward "total". Caller decodes latin-1.
+    """
+    agg: dict[str, dict] = {}
+    for line in lines:
+        parts = [p.strip().strip("'") for p in line.split("\t")]
+        if len(parts) < 23:
+            continue
+        family = id_family(parts[1])
+        if family is None:
+            continue
+        rec = agg.setdefault(
+            family, {"p1": Counter(), "physiological": 0, "total": 0}
+        )
+        rec["total"] += 1
+        if parts[22] == "physiological":
+            rec["physiological"] += 1
+        if parts[7] in STANDARD_AA_3:
+            rec["p1"][parts[7]] += 1
+    return agg
+
+
+def cleavage_properties(agg: dict) -> dict:
+    """One family's aggregate → the three sparse MeropsFamily node properties.
+
+    cleavage_p1_residues: P1 residues with >= 10% share of the standard-P1
+    subtotal, max 3, frequency order. cleavage_summary: readable sentence
+    (no ' or | — the clean-string rule applies to computed strings).
+    known_cleavage_count: ALL curated records ("known cleavages" is MEROPS's
+    own phrasing). Empty dict when the family has no records at all.
+    """
+    total = agg.get("total", 0)
+    if total == 0:
+        return {}
+    phys_pct = round(100 * agg.get("physiological", 0) / total)
+    tail = f"{total} known cleavages ({phys_pct}% physiological)"
+    p1: Counter = agg.get("p1") or Counter()
+    subtotal = sum(p1.values())
+    top = [
+        (res, round(100 * n / subtotal))
+        for res, n in p1.most_common(3)
+        if n / subtotal >= 0.10
+    ] if subtotal else []
+    props: dict = {"known_cleavage_count": total}
+    if top:
+        clause = " / ".join(f"{res} ({pct}%)" for res, pct in top)
+        props["cleavage_p1_residues"] = [res for res, _ in top]
+        props["cleavage_summary"] = f"cleaves after {clause} - {tail}"
+    else:
+        props["cleavage_summary"] = tail
+    return props

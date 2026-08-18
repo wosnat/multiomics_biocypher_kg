@@ -493,6 +493,1954 @@
    "family_type": "peptidase"
   }
  },
+ "cleavage": {
+  "A01": {
+   "cleavage_p1_residues": [
+    "Leu",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Leu (30%) / Phe (17%) - 5453 known cleavages (47% physiological)",
+   "known_cleavage_count": 5453
+  },
+  "A02": {
+   "cleavage_p1_residues": [
+    "Leu",
+    "Tyr",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Leu (24%) / Tyr (19%) / Phe (14%) - 1382 known cleavages (9% physiological)",
+   "known_cleavage_count": 1382
+  },
+  "A03": {
+   "cleavage_p1_residues": [
+    "Tyr",
+    "Leu",
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Tyr (29%) / Leu (14%) / Arg (14%) - 7 known cleavages (100% physiological)",
+   "known_cleavage_count": 7
+  },
+  "A05": {
+   "cleavage_p1_residues": [
+    "Phe",
+    "Leu",
+    "Val"
+   ],
+   "cleavage_summary": "cleaves after Phe (28%) / Leu (28%) / Val (11%) - 18 known cleavages (6% physiological)",
+   "known_cleavage_count": 18
+  },
+  "A08": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Gly (60%) / Ala (40%) - 5 known cleavages (20% physiological)",
+   "known_cleavage_count": 5
+  },
+  "A09": {
+   "cleavage_p1_residues": [
+    "Asn",
+    "Phe",
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Asn (50%) / Phe (20%) / Arg (10%) - 10 known cleavages (90% physiological)",
+   "known_cleavage_count": 10
+  },
+  "A11": {
+   "cleavage_p1_residues": [
+    "Phe",
+    "Glu",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Phe (25%) / Glu (17%) / Ala (17%) - 12 known cleavages (42% physiological)",
+   "known_cleavage_count": 12
+  },
+  "A22": {
+   "cleavage_p1_residues": [
+    "Leu",
+    "Ala",
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Leu (28%) / Ala (22%) / Gly (10%) - 40 known cleavages (80% physiological)",
+   "known_cleavage_count": 40
+  },
+  "A24": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (95%) - 42 known cleavages (52% physiological)",
+   "known_cleavage_count": 42
+  },
+  "A25": {
+   "cleavage_p1_residues": [
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Glu (97%) - 32 known cleavages (0% physiological)",
+   "known_cleavage_count": 32
+  },
+  "A26": {
+   "cleavage_p1_residues": [
+    "Arg",
+    "Lys"
+   ],
+   "cleavage_summary": "cleaves after Arg (75%) / Lys (23%) - 84 known cleavages (26% physiological)",
+   "known_cleavage_count": 84
+  },
+  "A28": {
+   "cleavage_p1_residues": [
+    "Tyr",
+    "Glu",
+    "Asn"
+   ],
+   "cleavage_summary": "cleaves after Tyr (60%) / Glu (13%) / Asn (13%) - 15 known cleavages (73% physiological)",
+   "known_cleavage_count": 15
+  },
+  "A31": {
+   "cleavage_p1_residues": [
+    "His",
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after His (86%) / Arg (14%) - 7 known cleavages (86% physiological)",
+   "known_cleavage_count": 7
+  },
+  "A32": {
+   "cleavage_p1_residues": [
+    "Leu",
+    "Ala",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Leu (17%) / Ala (12%) / Phe (11%) - 800 known cleavages (0% physiological)",
+   "known_cleavage_count": 800
+  },
+  "A36": {
+   "cleavage_p1_residues": [
+    "Tyr",
+    "Ile"
+   ],
+   "cleavage_summary": "cleaves after Tyr (75%) / Ile (25%) - 4 known cleavages (100% physiological)",
+   "known_cleavage_count": 4
+  },
+  "A37": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Pro",
+    "Val"
+   ],
+   "cleavage_summary": "cleaves after Gly (40%) / Pro (20%) / Val (20%) - 6 known cleavages (0% physiological)",
+   "known_cleavage_count": 6
+  },
+  "A39": {
+   "cleavage_p1_residues": [
+    "Cys",
+    "Leu"
+   ],
+   "cleavage_summary": "cleaves after Cys (50%) / Leu (50%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "A9": {
+   "cleavage_p1_residues": [
+    "Arg",
+    "Lys",
+    "Tyr"
+   ],
+   "cleavage_summary": "cleaves after Arg (26%) / Lys (23%) / Tyr (16%) - 31 known cleavages (0% physiological)",
+   "known_cleavage_count": 31
+  },
+  "C01": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Lys"
+   ],
+   "cleavage_summary": "cleaves after Gly (12%) / Lys (11%) - 12388 known cleavages (20% physiological)",
+   "known_cleavage_count": 12388
+  },
+  "C02": {
+   "cleavage_p1_residues": [
+    "Lys",
+    "Ser"
+   ],
+   "cleavage_summary": "cleaves after Lys (11%) / Ser (10%) - 916 known cleavages (93% physiological)",
+   "known_cleavage_count": 916
+  },
+  "C03": {
+   "cleavage_p1_residues": [
+    "Gln"
+   ],
+   "cleavage_summary": "cleaves after Gln (71%) - 122 known cleavages (68% physiological)",
+   "known_cleavage_count": 122
+  },
+  "C04": {
+   "cleavage_p1_residues": [
+    "Gln"
+   ],
+   "cleavage_summary": "cleaves after Gln (87%) - 62 known cleavages (60% physiological)",
+   "known_cleavage_count": 62
+  },
+  "C05": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Leu"
+   ],
+   "cleavage_summary": "cleaves after Gly (61%) / Leu (13%) - 26 known cleavages (23% physiological)",
+   "known_cleavage_count": 26
+  },
+  "C06": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "C07": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C08": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C09": {
+   "cleavage_p1_residues": [
+    "Ala",
+    "Tyr"
+   ],
+   "cleavage_summary": "cleaves after Ala (67%) / Tyr (33%) - 6 known cleavages (100% physiological)",
+   "known_cleavage_count": 6
+  },
+  "C10": {
+   "cleavage_p1_residues": [
+    "Lys",
+    "Ala",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Lys (28%) / Ala (14%) / Phe (14%) - 53 known cleavages (32% physiological)",
+   "known_cleavage_count": 53
+  },
+  "C101": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C102": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C104": {
+   "cleavage_summary": "1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C105": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "C106": {
+   "cleavage_p1_residues": [
+    "Leu"
+   ],
+   "cleavage_summary": "cleaves after Leu (100%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "C107": {
+   "cleavage_p1_residues": [
+    "Gln",
+    "Lys"
+   ],
+   "cleavage_summary": "cleaves after Gln (50%) / Lys (50%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "C108": {
+   "cleavage_p1_residues": [
+    "Phe",
+    "His"
+   ],
+   "cleavage_summary": "cleaves after Phe (50%) / His (50%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "C11": {
+   "cleavage_p1_residues": [
+    "Arg",
+    "Lys"
+   ],
+   "cleavage_summary": "cleaves after Arg (68%) / Lys (32%) - 22 known cleavages (41% physiological)",
+   "known_cleavage_count": 22
+  },
+  "C110": {
+   "cleavage_p1_residues": [
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Arg (100%) - 1 known cleavages (0% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C111": {
+   "cleavage_p1_residues": [
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Glu (100%) - 1 known cleavages (0% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C113": {
+   "cleavage_p1_residues": [
+    "Pro",
+    "Ile",
+    "Thr"
+   ],
+   "cleavage_summary": "cleaves after Pro (75%) / Ile (12%) / Thr (12%) - 8 known cleavages (100% physiological)",
+   "known_cleavage_count": 8
+  },
+  "C115": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C118": {
+   "cleavage_p1_residues": [
+    "Asn"
+   ],
+   "cleavage_summary": "cleaves after Asn (100%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "C12": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 45 known cleavages (0% physiological)",
+   "known_cleavage_count": 45
+  },
+  "C120": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Tyr"
+   ],
+   "cleavage_summary": "cleaves after Gly (75%) / Tyr (25%) - 4 known cleavages (100% physiological)",
+   "known_cleavage_count": 4
+  },
+  "C121": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 1 known cleavages (0% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C124": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 5 known cleavages (0% physiological)",
+   "known_cleavage_count": 5
+  },
+  "C13": {
+   "cleavage_p1_residues": [
+    "Asn",
+    "Asp"
+   ],
+   "cleavage_summary": "cleaves after Asn (66%) / Asp (29%) - 2330 known cleavages (4% physiological)",
+   "known_cleavage_count": 2330
+  },
+  "C14": {
+   "cleavage_p1_residues": [
+    "Asp"
+   ],
+   "cleavage_summary": "cleaves after Asp (93%) - 3321 known cleavages (82% physiological)",
+   "known_cleavage_count": 3321
+  },
+  "C15": {
+   "cleavage_summary": "13 known cleavages (0% physiological)",
+   "known_cleavage_count": 13
+  },
+  "C16": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Gly (78%) / Ala (22%) - 23 known cleavages (83% physiological)",
+   "known_cleavage_count": 23
+  },
+  "C18": {
+   "cleavage_p1_residues": [
+    "Leu",
+    "Thr"
+   ],
+   "cleavage_summary": "cleaves after Leu (50%) / Thr (50%) - 2 known cleavages (50% physiological)",
+   "known_cleavage_count": 2
+  },
+  "C19": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (99%) - 146 known cleavages (45% physiological)",
+   "known_cleavage_count": 146
+  },
+  "C21": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Ala",
+    "Ser"
+   ],
+   "cleavage_summary": "cleaves after Gly (33%) / Ala (33%) / Ser (33%) - 3 known cleavages (100% physiological)",
+   "known_cleavage_count": 3
+  },
+  "C23": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C24": {
+   "cleavage_p1_residues": [
+    "Glu",
+    "Gln"
+   ],
+   "cleavage_summary": "cleaves after Glu (72%) / Gln (28%) - 18 known cleavages (67% physiological)",
+   "known_cleavage_count": 18
+  },
+  "C25": {
+   "cleavage_p1_residues": [
+    "Lys",
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Lys (58%) / Arg (42%) - 89 known cleavages (39% physiological)",
+   "known_cleavage_count": 89
+  },
+  "C26": {
+   "cleavage_p1_residues": [
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Glu (100%) - 3 known cleavages (0% physiological)",
+   "known_cleavage_count": 3
+  },
+  "C27": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C28": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Lys",
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Gly (33%) / Lys (22%) / Arg (22%) - 9 known cleavages (56% physiological)",
+   "known_cleavage_count": 9
+  },
+  "C30": {
+   "cleavage_p1_residues": [
+    "Gln",
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gln (84%) / Gly (10%) - 127 known cleavages (50% physiological)",
+   "known_cleavage_count": 127
+  },
+  "C32": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Tyr"
+   ],
+   "cleavage_summary": "cleaves after Gly (57%) / Tyr (43%) - 7 known cleavages (100% physiological)",
+   "known_cleavage_count": 7
+  },
+  "C33": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 5 known cleavages (80% physiological)",
+   "known_cleavage_count": 5
+  },
+  "C37": {
+   "cleavage_p1_residues": [
+    "Gln",
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Gln (75%) / Glu (25%) - 12 known cleavages (83% physiological)",
+   "known_cleavage_count": 12
+  },
+  "C39": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Gly (53%) / Ala (47%) - 32 known cleavages (53% physiological)",
+   "known_cleavage_count": 32
+  },
+  "C40": {
+   "cleavage_summary": "16 known cleavages (50% physiological)",
+   "known_cleavage_count": 16
+  },
+  "C42": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Gly (67%) / Ala (33%) - 3 known cleavages (100% physiological)",
+   "known_cleavage_count": 3
+  },
+  "C44": {
+   "cleavage_p1_residues": [
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Glu (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C45": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "C46": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (91%) - 11 known cleavages (64% physiological)",
+   "known_cleavage_count": 11
+  },
+  "C47": {
+   "cleavage_p1_residues": [
+    "Glu",
+    "Gly",
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Glu (33%) / Gly (15%) / Arg (12%) - 33 known cleavages (0% physiological)",
+   "known_cleavage_count": 33
+  },
+  "C48": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (97%) - 110 known cleavages (58% physiological)",
+   "known_cleavage_count": 110
+  },
+  "C49": {
+   "cleavage_p1_residues": [
+    "Gln"
+   ],
+   "cleavage_summary": "cleaves after Gln (100%) - 5 known cleavages (100% physiological)",
+   "known_cleavage_count": 5
+  },
+  "C50": {
+   "cleavage_p1_residues": [
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Arg (100%) - 16 known cleavages (100% physiological)",
+   "known_cleavage_count": 16
+  },
+  "C51": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 4 known cleavages (25% physiological)",
+   "known_cleavage_count": 4
+  },
+  "C53": {
+   "cleavage_p1_residues": [
+    "Cys"
+   ],
+   "cleavage_summary": "cleaves after Cys (100%) - 4 known cleavages (100% physiological)",
+   "known_cleavage_count": 4
+  },
+  "C54": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (97%) - 36 known cleavages (61% physiological)",
+   "known_cleavage_count": 36
+  },
+  "C55": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 4 known cleavages (0% physiological)",
+   "known_cleavage_count": 4
+  },
+  "C56": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Ala",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Gly (22%) / Ala (22%) / Phe (11%) - 9 known cleavages (11% physiological)",
+   "known_cleavage_count": 9
+  },
+  "C57": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 4 known cleavages (75% physiological)",
+   "known_cleavage_count": 4
+  },
+  "C58": {
+   "cleavage_p1_residues": [
+    "Lys",
+    "Arg",
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Lys (50%) / Arg (25%) / Gly (12%) - 8 known cleavages (88% physiological)",
+   "known_cleavage_count": 8
+  },
+  "C59": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C60": {
+   "cleavage_p1_residues": [
+    "Thr"
+   ],
+   "cleavage_summary": "cleaves after Thr (90%) - 39 known cleavages (87% physiological)",
+   "known_cleavage_count": 39
+  },
+  "C62": {
+   "cleavage_p1_residues": [
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Glu (100%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "C63": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 6 known cleavages (33% physiological)",
+   "known_cleavage_count": 6
+  },
+  "C64": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 19 known cleavages (89% physiological)",
+   "known_cleavage_count": 19
+  },
+  "C65": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 16 known cleavages (50% physiological)",
+   "known_cleavage_count": 16
+  },
+  "C66": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Glu",
+    "Leu"
+   ],
+   "cleavage_summary": "cleaves after Gly (50%) / Glu (25%) / Leu (25%) - 4 known cleavages (50% physiological)",
+   "known_cleavage_count": 4
+  },
+  "C67": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 7 known cleavages (71% physiological)",
+   "known_cleavage_count": 7
+  },
+  "C69": {
+   "cleavage_p1_residues": [
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Arg (85%) - 13 known cleavages (0% physiological)",
+   "known_cleavage_count": 13
+  },
+  "C70": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 3 known cleavages (33% physiological)",
+   "known_cleavage_count": 3
+  },
+  "C71": {
+   "cleavage_p1_residues": [
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Ala (100%) - 1 known cleavages (0% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C74": {
+   "cleavage_p1_residues": [
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Arg (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C75": {
+   "cleavage_p1_residues": [
+    "Met"
+   ],
+   "cleavage_summary": "cleaves after Met (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C76": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 4 known cleavages (50% physiological)",
+   "known_cleavage_count": 4
+  },
+  "C78": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 11 known cleavages (18% physiological)",
+   "known_cleavage_count": 11
+  },
+  "C79": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 3 known cleavages (0% physiological)",
+   "known_cleavage_count": 3
+  },
+  "C80": {
+   "cleavage_p1_residues": [
+    "Leu"
+   ],
+   "cleavage_summary": "cleaves after Leu (100%) - 7 known cleavages (100% physiological)",
+   "known_cleavage_count": 7
+  },
+  "C82": {
+   "cleavage_p1_residues": [
+    "Lys"
+   ],
+   "cleavage_summary": "cleaves after Lys (100%) - 4 known cleavages (25% physiological)",
+   "known_cleavage_count": 4
+  },
+  "C83": {
+   "cleavage_p1_residues": [
+    "Cys"
+   ],
+   "cleavage_summary": "cleaves after Cys (100%) - 2 known cleavages (0% physiological)",
+   "known_cleavage_count": 2
+  },
+  "C84": {
+   "cleavage_p1_residues": [
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Arg (100%) - 1 known cleavages (0% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C85": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 19 known cleavages (84% physiological)",
+   "known_cleavage_count": 19
+  },
+  "C86": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 2 known cleavages (0% physiological)",
+   "known_cleavage_count": 2
+  },
+  "C87": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 3 known cleavages (0% physiological)",
+   "known_cleavage_count": 3
+  },
+  "C89": {
+   "cleavage_p1_residues": [
+    "Ile",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Ile (50%) / Phe (50%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "C9": {
+   "cleavage_p1_residues": [
+    "Arg",
+    "Lys",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Arg (38%) / Lys (15%) / Ala (12%) - 34 known cleavages (3% physiological)",
+   "known_cleavage_count": 34
+  },
+  "C93": {
+   "cleavage_p1_residues": [
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Ala (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C95": {
+   "cleavage_p1_residues": [
+    "Ser"
+   ],
+   "cleavage_summary": "cleaves after Ser (100%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "C96": {
+   "cleavage_p1_residues": [
+    "Lys"
+   ],
+   "cleavage_summary": "cleaves after Lys (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C97": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "C98": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 4 known cleavages (50% physiological)",
+   "known_cleavage_count": 4
+  },
+  "C99": {
+   "cleavage_p1_residues": [
+    "Glu",
+    "Gln"
+   ],
+   "cleavage_summary": "cleaves after Glu (50%) / Gln (50%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "G01": {
+   "cleavage_p1_residues": [
+    "Glu",
+    "Tyr",
+    "Asn"
+   ],
+   "cleavage_summary": "cleaves after Glu (11%) / Tyr (11%) / Asn (10%) - 108 known cleavages (6% physiological)",
+   "known_cleavage_count": 108
+  },
+  "G02": {
+   "cleavage_p1_residues": [
+    "Ser"
+   ],
+   "cleavage_summary": "cleaves after Ser (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "G03": {
+   "cleavage_p1_residues": [
+    "Pro"
+   ],
+   "cleavage_summary": "cleaves after Pro (100%) - 3 known cleavages (100% physiological)",
+   "known_cleavage_count": 3
+  },
+  "G04": {
+   "cleavage_p1_residues": [
+    "Leu"
+   ],
+   "cleavage_summary": "cleaves after Leu (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "G05": {
+   "cleavage_p1_residues": [
+    "Cys",
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Cys (80%) / Arg (20%) - 28 known cleavages (18% physiological)",
+   "known_cleavage_count": 28
+  },
+  "G06": {
+   "cleavage_p1_residues": [
+    "Tyr"
+   ],
+   "cleavage_summary": "cleaves after Tyr (100%) - 2 known cleavages (50% physiological)",
+   "known_cleavage_count": 2
+  },
+  "M01": {
+   "cleavage_p1_residues": [
+    "Leu",
+    "Arg",
+    "Thr"
+   ],
+   "cleavage_summary": "cleaves after Leu (15%) / Arg (14%) / Thr (11%) - 503 known cleavages (9% physiological)",
+   "known_cleavage_count": 503
+  },
+  "M02": {
+   "cleavage_p1_residues": [
+    "Pro",
+    "Gly",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Pro (37%) / Gly (18%) / Phe (14%) - 59 known cleavages (31% physiological)",
+   "known_cleavage_count": 59
+  },
+  "M03": {
+   "cleavage_p1_residues": [
+    "Pro",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Pro (38%) / Phe (15%) - 394 known cleavages (12% physiological)",
+   "known_cleavage_count": 394
+  },
+  "M04": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (12%) - 4252 known cleavages (2% physiological)",
+   "known_cleavage_count": 4252
+  },
+  "M05": {
+   "cleavage_p1_residues": [
+    "Phe",
+    "Gly",
+    "His"
+   ],
+   "cleavage_summary": "cleaves after Phe (33%) / Gly (25%) / His (17%) - 12 known cleavages (0% physiological)",
+   "known_cleavage_count": 12
+  },
+  "M06": {
+   "cleavage_p1_residues": [
+    "Ala",
+    "Lys",
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Ala (19%) / Lys (19%) / Gly (15%) - 27 known cleavages (56% physiological)",
+   "known_cleavage_count": 27
+  },
+  "M07": {
+   "cleavage_p1_residues": [
+    "Ala",
+    "Leu",
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Ala (25%) / Leu (25%) / Gly (25%) - 4 known cleavages (0% physiological)",
+   "known_cleavage_count": 4
+  },
+  "M08": {
+   "cleavage_p1_residues": [
+    "Tyr",
+    "Arg",
+    "Val"
+   ],
+   "cleavage_summary": "cleaves after Tyr (35%) / Arg (15%) / Val (15%) - 20 known cleavages (15% physiological)",
+   "known_cleavage_count": 20
+  },
+  "M09": {
+   "cleavage_p1_residues": [
+    "Pro",
+    "Leu",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Pro (20%) / Leu (12%) / Phe (12%) - 699 known cleavages (96% physiological)",
+   "known_cleavage_count": 699
+  },
+  "M10": {
+   "cleavage_p1_residues": [
+    "Ala",
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Ala (14%) / Gly (13%) - 8376 known cleavages (57% physiological)",
+   "known_cleavage_count": 8376
+  },
+  "M100": {
+   "cleavage_p1_residues": [
+    "Lys"
+   ],
+   "cleavage_summary": "cleaves after Lys (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "M101": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 2 known cleavages (0% physiological)",
+   "known_cleavage_count": 2
+  },
+  "M102": {
+   "cleavage_p1_residues": [
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Ala (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "M103": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Tyr"
+   ],
+   "cleavage_summary": "cleaves after Gly (21%) / Tyr (12%) - 24 known cleavages (4% physiological)",
+   "known_cleavage_count": 24
+  },
+  "M11": {
+   "cleavage_p1_residues": [
+    "Phe",
+    "Ala",
+    "Lys"
+   ],
+   "cleavage_summary": "cleaves after Phe (29%) / Ala (29%) / Lys (14%) - 7 known cleavages (43% physiological)",
+   "known_cleavage_count": 7
+  },
+  "M12": {
+   "cleavage_p1_residues": [
+    "Glu",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Glu (16%) / Ala (14%) - 4588 known cleavages (11% physiological)",
+   "known_cleavage_count": 4588
+  },
+  "M13": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Pro"
+   ],
+   "cleavage_summary": "cleaves after Gly (15%) / Pro (11%) - 380 known cleavages (61% physiological)",
+   "known_cleavage_count": 380
+  },
+  "M14": {
+   "cleavage_p1_residues": [
+    "Phe",
+    "Gly",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Phe (15%) / Gly (14%) / Ala (13%) - 322 known cleavages (29% physiological)",
+   "known_cleavage_count": 322
+  },
+  "M15": {
+   "cleavage_p1_residues": [
+    "Lys",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Lys (50%) / Ala (50%) - 22 known cleavages (23% physiological)",
+   "known_cleavage_count": 22
+  },
+  "M16": {
+   "cleavage_p1_residues": [
+    "Arg",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Arg (15%) / Phe (12%) - 371 known cleavages (55% physiological)",
+   "known_cleavage_count": 371
+  },
+  "M17": {
+   "cleavage_p1_residues": [
+    "Leu",
+    "Cys",
+    "Met"
+   ],
+   "cleavage_summary": "cleaves after Leu (32%) / Cys (16%) / Met (12%) - 57 known cleavages (11% physiological)",
+   "known_cleavage_count": 57
+  },
+  "M18": {
+   "cleavage_p1_residues": [
+    "Asp",
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Asp (71%) / Glu (21%) - 14 known cleavages (0% physiological)",
+   "known_cleavage_count": 14
+  },
+  "M19": {
+   "cleavage_p1_residues": [
+    "Cys",
+    "Gly",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Cys (44%) / Gly (22%) / Ala (22%) - 10 known cleavages (20% physiological)",
+   "known_cleavage_count": 10
+  },
+  "M20": {
+   "cleavage_p1_residues": [
+    "Ala",
+    "Gly",
+    "Asp"
+   ],
+   "cleavage_summary": "cleaves after Ala (30%) / Gly (21%) / Asp (18%) - 100 known cleavages (8% physiological)",
+   "known_cleavage_count": 100
+  },
+  "M23": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (88%) - 49 known cleavages (24% physiological)",
+   "known_cleavage_count": 49
+  },
+  "M24": {
+   "cleavage_p1_residues": [
+    "Met"
+   ],
+   "cleavage_summary": "cleaves after Met (82%) - 1550 known cleavages (89% physiological)",
+   "known_cleavage_count": 1550
+  },
+  "M26": {
+   "cleavage_p1_residues": [
+    "Pro"
+   ],
+   "cleavage_summary": "cleaves after Pro (100%) - 1 known cleavages (0% physiological)",
+   "known_cleavage_count": 1
+  },
+  "M27": {
+   "cleavage_p1_residues": [
+    "Gln",
+    "Arg",
+    "Lys"
+   ],
+   "cleavage_summary": "cleaves after Gln (30%) / Arg (30%) / Lys (17%) - 23 known cleavages (43% physiological)",
+   "known_cleavage_count": 23
+  },
+  "M28": {
+   "cleavage_p1_residues": [
+    "Leu",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Leu (22%) / Phe (11%) - 227 known cleavages (1% physiological)",
+   "known_cleavage_count": 227
+  },
+  "M29": {
+   "cleavage_p1_residues": [
+    "Leu",
+    "Ala",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Leu (29%) / Ala (14%) / Phe (14%) - 14 known cleavages (0% physiological)",
+   "known_cleavage_count": 14
+  },
+  "M30": {
+   "cleavage_p1_residues": [
+    "Ser",
+    "Lys",
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Ser (13%) / Lys (13%) / Arg (13%) - 15 known cleavages (47% physiological)",
+   "known_cleavage_count": 15
+  },
+  "M32": {
+   "cleavage_p1_residues": [
+    "Ala",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Ala (59%) / Phe (30%) - 61 known cleavages (0% physiological)",
+   "known_cleavage_count": 61
+  },
+  "M34": {
+   "cleavage_p1_residues": [
+    "Pro",
+    "Lys"
+   ],
+   "cleavage_summary": "cleaves after Pro (73%) / Lys (12%) - 33 known cleavages (55% physiological)",
+   "known_cleavage_count": 33
+  },
+  "M35": {
+   "cleavage_p1_residues": [
+    "Leu"
+   ],
+   "cleavage_summary": "cleaves after Leu (11%) - 2168 known cleavages (0% physiological)",
+   "known_cleavage_count": 2168
+  },
+  "M36": {
+   "cleavage_p1_residues": [
+    "Phe",
+    "Leu",
+    "His"
+   ],
+   "cleavage_summary": "cleaves after Phe (20%) / Leu (20%) / His (13%) - 15 known cleavages (0% physiological)",
+   "known_cleavage_count": 15
+  },
+  "M38": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Asp",
+    "Pro"
+   ],
+   "cleavage_summary": "cleaves after Gly (27%) / Asp (20%) / Pro (13%) - 15 known cleavages (7% physiological)",
+   "known_cleavage_count": 15
+  },
+  "M41": {
+   "cleavage_p1_residues": [
+    "Leu"
+   ],
+   "cleavage_summary": "cleaves after Leu (26%) - 62 known cleavages (11% physiological)",
+   "known_cleavage_count": 62
+  },
+  "M42": {
+   "cleavage_p1_residues": [
+    "Ala",
+    "Met",
+    "Val"
+   ],
+   "cleavage_summary": "cleaves after Ala (17%) / Met (13%) / Val (11%) - 71 known cleavages (0% physiological)",
+   "known_cleavage_count": 71
+  },
+  "M43": {
+   "cleavage_p1_residues": [
+    "Ser",
+    "Ala",
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Ser (19%) / Ala (19%) / Glu (19%) - 16 known cleavages (44% physiological)",
+   "known_cleavage_count": 16
+  },
+  "M44": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "M48": {
+   "cleavage_p1_residues": [
+    "Cys",
+    "Arg",
+    "Leu"
+   ],
+   "cleavage_summary": "cleaves after Cys (21%) / Arg (14%) / Leu (14%) - 20 known cleavages (40% physiological)",
+   "known_cleavage_count": 20
+  },
+  "M49": {
+   "cleavage_p1_residues": [
+    "Arg",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Arg (47%) / Ala (13%) - 45 known cleavages (2% physiological)",
+   "known_cleavage_count": 45
+  },
+  "M50": {
+   "cleavage_p1_residues": [
+    "Leu",
+    "Gly",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Leu (25%) / Gly (25%) / Phe (17%) - 12 known cleavages (75% physiological)",
+   "known_cleavage_count": 12
+  },
+  "M54": {
+   "cleavage_p1_residues": [
+    "Ala",
+    "Arg",
+    "Tyr"
+   ],
+   "cleavage_summary": "cleaves after Ala (40%) / Arg (30%) / Tyr (10%) - 10 known cleavages (20% physiological)",
+   "known_cleavage_count": 10
+  },
+  "M55": {
+   "cleavage_summary": "8 known cleavages (0% physiological)",
+   "known_cleavage_count": 8
+  },
+  "M56": {
+   "cleavage_p1_residues": [
+    "Arg",
+    "Asn"
+   ],
+   "cleavage_summary": "cleaves after Arg (50%) / Asn (50%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "M60": {
+   "cleavage_p1_residues": [
+    "Pro",
+    "Asp",
+    "Ser"
+   ],
+   "cleavage_summary": "cleaves after Pro (33%) / Asp (33%) / Ser (33%) - 6 known cleavages (0% physiological)",
+   "known_cleavage_count": 6
+  },
+  "M61": {
+   "cleavage_p1_residues": [
+    "Asp",
+    "Glu",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Asp (20%) / Glu (20%) / Ala (17%) - 36 known cleavages (0% physiological)",
+   "known_cleavage_count": 36
+  },
+  "M64": {
+   "cleavage_p1_residues": [
+    "Pro"
+   ],
+   "cleavage_summary": "cleaves after Pro (100%) - 2 known cleavages (0% physiological)",
+   "known_cleavage_count": 2
+  },
+  "M67": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (93%) - 15 known cleavages (87% physiological)",
+   "known_cleavage_count": 15
+  },
+  "M72": {
+   "cleavage_p1_residues": [
+    "Leu",
+    "Ser",
+    "Thr"
+   ],
+   "cleavage_summary": "cleaves after Leu (14%) / Ser (14%) / Thr (14%) - 23 known cleavages (22% physiological)",
+   "known_cleavage_count": 23
+  },
+  "M73": {
+   "cleavage_p1_residues": [
+    "Tyr",
+    "Leu"
+   ],
+   "cleavage_summary": "cleaves after Tyr (36%) / Leu (27%) - 11 known cleavages (9% physiological)",
+   "known_cleavage_count": 11
+  },
+  "M74": {
+   "cleavage_summary": "3 known cleavages (33% physiological)",
+   "known_cleavage_count": 3
+  },
+  "M75": {
+   "cleavage_p1_residues": [
+    "Arg",
+    "His",
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Arg (38%) / His (12%) / Glu (12%) - 8 known cleavages (0% physiological)",
+   "known_cleavage_count": 8
+  },
+  "M76": {
+   "cleavage_p1_residues": [
+    "Thr"
+   ],
+   "cleavage_summary": "cleaves after Thr (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "M78": {
+   "cleavage_p1_residues": [
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Phe (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "M85": {
+   "cleavage_p1_residues": [
+    "Cys"
+   ],
+   "cleavage_summary": "cleaves after Cys (100%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "M86": {
+   "cleavage_p1_residues": [
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Glu (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "M87": {
+   "cleavage_p1_residues": [
+    "Arg",
+    "Lys",
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Arg (33%) / Lys (25%) / Gly (21%) - 24 known cleavages (100% physiological)",
+   "known_cleavage_count": 24
+  },
+  "M88": {
+   "cleavage_p1_residues": [
+    "Ser"
+   ],
+   "cleavage_summary": "cleaves after Ser (100%) - 1 known cleavages (0% physiological)",
+   "known_cleavage_count": 1
+  },
+  "M9": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Gly (14%) / Ala (11%) - 267 known cleavages (5% physiological)",
+   "known_cleavage_count": 267
+  },
+  "M90": {
+   "cleavage_p1_residues": [
+    "Ala",
+    "Arg",
+    "Pro"
+   ],
+   "cleavage_summary": "cleaves after Ala (33%) / Arg (33%) / Pro (33%) - 5 known cleavages (0% physiological)",
+   "known_cleavage_count": 5
+  },
+  "M91": {
+   "cleavage_p1_residues": [
+    "Pro"
+   ],
+   "cleavage_summary": "cleaves after Pro (100%) - 1 known cleavages (0% physiological)",
+   "known_cleavage_count": 1
+  },
+  "M95": {
+   "cleavage_p1_residues": [
+    "Tyr"
+   ],
+   "cleavage_summary": "cleaves after Tyr (100%) - 1 known cleavages (0% physiological)",
+   "known_cleavage_count": 1
+  },
+  "M98": {
+   "cleavage_p1_residues": [
+    "Met"
+   ],
+   "cleavage_summary": "cleaves after Met (100%) - 1 known cleavages (0% physiological)",
+   "known_cleavage_count": 1
+  },
+  "M99": {
+   "cleavage_summary": "2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "N01": {
+   "cleavage_p1_residues": [
+    "Asn"
+   ],
+   "cleavage_summary": "cleaves after Asn (100%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "N02": {
+   "cleavage_p1_residues": [
+    "Asn"
+   ],
+   "cleavage_summary": "cleaves after Asn (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "N04": {
+   "cleavage_p1_residues": [
+    "Asn"
+   ],
+   "cleavage_summary": "cleaves after Asn (100%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "N06": {
+   "cleavage_p1_residues": [
+    "Asn"
+   ],
+   "cleavage_summary": "cleaves after Asn (100%) - 5 known cleavages (100% physiological)",
+   "known_cleavage_count": 5
+  },
+  "N07": {
+   "cleavage_p1_residues": [
+    "Asn"
+   ],
+   "cleavage_summary": "cleaves after Asn (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "N08": {
+   "cleavage_p1_residues": [
+    "Asn"
+   ],
+   "cleavage_summary": "cleaves after Asn (98%) - 40 known cleavages (100% physiological)",
+   "known_cleavage_count": 40
+  },
+  "N09": {
+   "cleavage_p1_residues": [
+    "Asn",
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Asn (51%) / Gly (49%) - 45 known cleavages (9% physiological)",
+   "known_cleavage_count": 45
+  },
+  "N10": {
+   "cleavage_p1_residues": [
+    "Asn",
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Asn (50%) / Gly (12%) - 259 known cleavages (0% physiological)",
+   "known_cleavage_count": 259
+  },
+  "N11": {
+   "cleavage_p1_residues": [
+    "Asn",
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Asn (50%) / Glu (50%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "P01": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Ala",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Gly (38%) / Ala (21%) / Phe (12%) - 49 known cleavages (4% physiological)",
+   "known_cleavage_count": 49
+  },
+  "P02": {
+   "cleavage_p1_residues": [
+    "Leu"
+   ],
+   "cleavage_summary": "cleaves after Leu (100%) - 4 known cleavages (50% physiological)",
+   "known_cleavage_count": 4
+  },
+  "S01": {
+   "cleavage_p1_residues": [
+    "Lys",
+    "Arg",
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Lys (36%) / Arg (34%) / Glu (11%) - 39567 known cleavages (14% physiological)",
+   "known_cleavage_count": 39567
+  },
+  "S03": {
+   "cleavage_p1_residues": [
+    "Trp"
+   ],
+   "cleavage_summary": "cleaves after Trp (100%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "S06": {
+   "cleavage_p1_residues": [
+    "Pro",
+    "Leu",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Pro (32%) / Leu (18%) / Phe (15%) - 34 known cleavages (32% physiological)",
+   "known_cleavage_count": 34
+  },
+  "S07": {
+   "cleavage_p1_residues": [
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Arg (90%) - 31 known cleavages (65% physiological)",
+   "known_cleavage_count": 31
+  },
+  "S08": {
+   "cleavage_p1_residues": [
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Arg (57%) - 2295 known cleavages (38% physiological)",
+   "known_cleavage_count": 2295
+  },
+  "S09": {
+   "cleavage_p1_residues": [
+    "Pro",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Pro (50%) / Ala (21%) - 410 known cleavages (25% physiological)",
+   "known_cleavage_count": 410
+  },
+  "S10": {
+   "cleavage_p1_residues": [
+    "Ala",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Ala (26%) / Phe (11%) - 309 known cleavages (2% physiological)",
+   "known_cleavage_count": 309
+  },
+  "S11": {
+   "cleavage_p1_residues": [
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Ala (100%) - 19 known cleavages (11% physiological)",
+   "known_cleavage_count": 19
+  },
+  "S12": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Gly (75%) / Ala (25%) - 47 known cleavages (2% physiological)",
+   "known_cleavage_count": 47
+  },
+  "S13": {
+   "cleavage_summary": "12 known cleavages (17% physiological)",
+   "known_cleavage_count": 12
+  },
+  "S14": {
+   "cleavage_p1_residues": [
+    "Met",
+    "Leu",
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Met (44%) / Leu (22%) / Gly (11%) - 27 known cleavages (0% physiological)",
+   "known_cleavage_count": 27
+  },
+  "S15": {
+   "cleavage_p1_residues": [
+    "Pro",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Pro (80%) / Ala (20%) - 10 known cleavages (0% physiological)",
+   "known_cleavage_count": 10
+  },
+  "S16": {
+   "cleavage_p1_residues": [
+    "Leu",
+    "Ala",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Leu (34%) / Ala (22%) / Phe (19%) - 32 known cleavages (59% physiological)",
+   "known_cleavage_count": 32
+  },
+  "S21": {
+   "cleavage_p1_residues": [
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Ala (100%) - 30 known cleavages (47% physiological)",
+   "known_cleavage_count": 30
+  },
+  "S24": {
+   "cleavage_p1_residues": [
+    "Ala",
+    "Cys"
+   ],
+   "cleavage_summary": "cleaves after Ala (78%) / Cys (22%) - 9 known cleavages (33% physiological)",
+   "known_cleavage_count": 9
+  },
+  "S26": {
+   "cleavage_p1_residues": [
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Ala (76%) - 828 known cleavages (92% physiological)",
+   "known_cleavage_count": 828
+  },
+  "S28": {
+   "cleavage_p1_residues": [
+    "Pro",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Pro (71%) / Ala (17%) - 42 known cleavages (2% physiological)",
+   "known_cleavage_count": 42
+  },
+  "S29": {
+   "cleavage_p1_residues": [
+    "Cys",
+    "Thr"
+   ],
+   "cleavage_summary": "cleaves after Cys (83%) / Thr (17%) - 6 known cleavages (100% physiological)",
+   "known_cleavage_count": 6
+  },
+  "S30": {
+   "cleavage_p1_residues": [
+    "Phe",
+    "Tyr"
+   ],
+   "cleavage_summary": "cleaves after Phe (67%) / Tyr (33%) - 3 known cleavages (100% physiological)",
+   "known_cleavage_count": 3
+  },
+  "S31": {
+   "cleavage_p1_residues": [
+    "Leu"
+   ],
+   "cleavage_summary": "cleaves after Leu (100%) - 4 known cleavages (0% physiological)",
+   "known_cleavage_count": 4
+  },
+  "S32": {
+   "cleavage_p1_residues": [
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Glu (88%) - 25 known cleavages (72% physiological)",
+   "known_cleavage_count": 25
+  },
+  "S33": {
+   "cleavage_p1_residues": [
+    "Pro",
+    "Arg",
+    "Leu"
+   ],
+   "cleavage_summary": "cleaves after Pro (45%) / Arg (13%) / Leu (11%) - 74 known cleavages (3% physiological)",
+   "known_cleavage_count": 74
+  },
+  "S37": {
+   "cleavage_p1_residues": [
+    "Pro"
+   ],
+   "cleavage_summary": "cleaves after Pro (100%) - 3 known cleavages (33% physiological)",
+   "known_cleavage_count": 3
+  },
+  "S39": {
+   "cleavage_p1_residues": [
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Glu (100%) - 5 known cleavages (100% physiological)",
+   "known_cleavage_count": 5
+  },
+  "S41": {
+   "cleavage_p1_residues": [
+    "Ala",
+    "Gly",
+    "Leu"
+   ],
+   "cleavage_summary": "cleaves after Ala (40%) / Gly (16%) / Leu (11%) - 740 known cleavages (1% physiological)",
+   "known_cleavage_count": 740
+  },
+  "S45": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 3 known cleavages (100% physiological)",
+   "known_cleavage_count": 3
+  },
+  "S46": {
+   "cleavage_p1_residues": [
+    "Ala",
+    "Asp",
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Ala (20%) / Asp (20%) / Phe (15%) - 40 known cleavages (20% physiological)",
+   "known_cleavage_count": 40
+  },
+  "S49": {
+   "cleavage_p1_residues": [
+    "Leu",
+    "Val",
+    "Asn"
+   ],
+   "cleavage_summary": "cleaves after Leu (27%) / Val (13%) / Asn (13%) - 15 known cleavages (13% physiological)",
+   "known_cleavage_count": 15
+  },
+  "S50": {
+   "cleavage_p1_residues": [
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Ala (90%) - 53 known cleavages (42% physiological)",
+   "known_cleavage_count": 53
+  },
+  "S51": {
+   "cleavage_p1_residues": [
+    "Asp",
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Asp (88%) / Arg (12%) - 8 known cleavages (12% physiological)",
+   "known_cleavage_count": 8
+  },
+  "S53": {
+   "cleavage_p1_residues": [
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Phe (61%) - 241 known cleavages (10% physiological)",
+   "known_cleavage_count": 241
+  },
+  "S54": {
+   "cleavage_p1_residues": [
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Ala (86%) - 76 known cleavages (16% physiological)",
+   "known_cleavage_count": 76
+  },
+  "S55": {
+   "cleavage_p1_residues": [
+    "Asn",
+    "Phe",
+    "Thr"
+   ],
+   "cleavage_summary": "cleaves after Asn (33%) / Phe (33%) / Thr (33%) - 3 known cleavages (100% physiological)",
+   "known_cleavage_count": 3
+  },
+  "S59": {
+   "cleavage_p1_residues": [
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Phe (100%) - 3 known cleavages (100% physiological)",
+   "known_cleavage_count": 3
+  },
+  "S60": {
+   "cleavage_p1_residues": [
+    "Arg",
+    "His"
+   ],
+   "cleavage_summary": "cleaves after Arg (55%) / His (18%) - 11 known cleavages (91% physiological)",
+   "known_cleavage_count": 11
+  },
+  "S65": {
+   "cleavage_p1_residues": [
+    "Gln"
+   ],
+   "cleavage_summary": "cleaves after Gln (100%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "S66": {
+   "cleavage_p1_residues": [
+    "Lys"
+   ],
+   "cleavage_summary": "cleaves after Lys (100%) - 7 known cleavages (14% physiological)",
+   "known_cleavage_count": 7
+  },
+  "S68": {
+   "cleavage_p1_residues": [
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Phe (100%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "S69": {
+   "cleavage_p1_residues": [
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Ala (100%) - 6 known cleavages (100% physiological)",
+   "known_cleavage_count": 6
+  },
+  "S71": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "S72": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "S73": {
+   "cleavage_p1_residues": [
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Phe (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "S74": {
+   "cleavage_p1_residues": [
+    "Thr",
+    "Pro"
+   ],
+   "cleavage_summary": "cleaves after Thr (50%) / Pro (50%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "S75": {
+   "cleavage_p1_residues": [
+    "Gln"
+   ],
+   "cleavage_summary": "cleaves after Gln (100%) - 4 known cleavages (100% physiological)",
+   "known_cleavage_count": 4
+  },
+  "S77": {
+   "cleavage_p1_residues": [
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Glu (100%) - 15 known cleavages (100% physiological)",
+   "known_cleavage_count": 15
+  },
+  "S79": {
+   "cleavage_p1_residues": [
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Phe (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "S80": {
+   "cleavage_p1_residues": [
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Glu (100%) - 28 known cleavages (96% physiological)",
+   "known_cleavage_count": 28
+  },
+  "S81": {
+   "cleavage_p1_residues": [
+    "Glu",
+    "Lys"
+   ],
+   "cleavage_summary": "cleaves after Glu (75%) / Lys (25%) - 4 known cleavages (25% physiological)",
+   "known_cleavage_count": 4
+  },
+  "S82": {
+   "cleavage_p1_residues": [
+    "Pro"
+   ],
+   "cleavage_summary": "cleaves after Pro (100%) - 1 known cleavages (0% physiological)",
+   "known_cleavage_count": 1
+  },
+  "S85": {
+   "cleavage_p1_residues": [
+    "Arg",
+    "Lys"
+   ],
+   "cleavage_summary": "cleaves after Arg (50%) / Lys (50%) - 4 known cleavages (0% physiological)",
+   "known_cleavage_count": 4
+  },
+  "S9": {
+   "cleavage_p1_residues": [
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Arg (42%) - 175 known cleavages (32% physiological)",
+   "known_cleavage_count": 175
+  },
+  "T01": {
+   "cleavage_p1_residues": [
+    "Leu"
+   ],
+   "cleavage_summary": "cleaves after Leu (16%) - 311 known cleavages (4% physiological)",
+   "known_cleavage_count": 311
+  },
+  "T02": {
+   "cleavage_p1_residues": [
+    "Asp"
+   ],
+   "cleavage_summary": "cleaves after Asp (97%) - 31 known cleavages (13% physiological)",
+   "known_cleavage_count": 31
+  },
+  "T03": {
+   "cleavage_p1_residues": [
+    "Glu",
+    "Ser",
+    "Gln"
+   ],
+   "cleavage_summary": "cleaves after Glu (43%) / Ser (29%) / Gln (14%) - 7 known cleavages (57% physiological)",
+   "known_cleavage_count": 7
+  },
+  "T05": {
+   "cleavage_p1_residues": [
+    "Thr",
+    "Ala"
+   ],
+   "cleavage_summary": "cleaves after Thr (50%) / Ala (50%) - 2 known cleavages (100% physiological)",
+   "known_cleavage_count": 2
+  },
+  "T07": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "U40": {
+   "cleavage_summary": "1 known cleavages (0% physiological)",
+   "known_cleavage_count": 1
+  },
+  "U49": {
+   "cleavage_p1_residues": [
+    "Gly"
+   ],
+   "cleavage_summary": "cleaves after Gly (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "U69": {
+   "cleavage_p1_residues": [
+    "Ser"
+   ],
+   "cleavage_summary": "cleaves after Ser (100%) - 1 known cleavages (100% physiological)",
+   "known_cleavage_count": 1
+  },
+  "U72": {
+   "cleavage_p1_residues": [
+    "Glu"
+   ],
+   "cleavage_summary": "cleaves after Glu (100%) - 1 known cleavages (0% physiological)",
+   "known_cleavage_count": 1
+  },
+  "U74": {
+   "cleavage_p1_residues": [
+    "Pro"
+   ],
+   "cleavage_summary": "cleaves after Pro (46%) - 110 known cleavages (0% physiological)",
+   "known_cleavage_count": 110
+  },
+  "U9": {
+   "cleavage_p1_residues": [
+    "Gly",
+    "Arg"
+   ],
+   "cleavage_summary": "cleaves after Gly (27%) / Arg (16%) - 134 known cleavages (47% physiological)",
+   "known_cleavage_count": 134
+  },
+  "X42": {
+   "cleavage_p1_residues": [
+    "Phe"
+   ],
+   "cleavage_summary": "cleaves after Phe (100%) - 1 known cleavages (0% physiological)",
+   "known_cleavage_count": 1
+  }
+ },
  "families": {
   "'DEL'": {
    "clan": "'RM'",
@@ -3463,6 +5411,1090 @@
    "clan": "YY",
    "family_type": "peptidase",
    "name": null
+  }
+ },
+ "pfam_bridge": {
+  "A01": {
+   "PF00026": 190,
+   "PF14541": 71,
+   "PF14543": 190
+  },
+  "A02": {
+   "PF00077": 52,
+   "PF12382": 43,
+   "PF12384": 3,
+   "PF13650": 5,
+   "PF13975": 5
+  },
+  "A03": {
+   "PF00077": 6,
+   "PF02160": 7,
+   "PF13650": 6
+  },
+  "A05": {
+   "PF05317": 2
+  },
+  "A08": {
+   "PF01252": 3
+  },
+  "A09": {
+   "PF03539": 2
+  },
+  "A11": {
+   "PF01021": 10,
+   "PF13976": 9
+  },
+  "A22": {
+   "PF01080": 13,
+   "PF04258": 22,
+   "PF06550": 35
+  },
+  "A24": {
+   "PF01478": 13
+  },
+  "A25": {
+   "PF03418": 3
+  },
+  "A26": {
+   "PF01278": 7
+  },
+  "A28": {
+   "PF00077": 18,
+   "PF09668": 18,
+   "PF13650": 5,
+   "PF13975": 5
+  },
+  "A31": {
+   "PF01750": 10
+  },
+  "A32": {
+   "PF13650": 3
+  },
+  "A36": {
+   "PF03419": 2
+  },
+  "C01": {
+   "PF00112": 238,
+   "PF03051": 8
+  },
+  "C02": {
+   "PF00648": 41
+  },
+  "C03": {
+   "PF00548": 19,
+   "PF00947": 4,
+   "PF12381": 9
+  },
+  "C04": {
+   "PF00863": 16
+  },
+  "C05": {
+   "PF00770": 2
+  },
+  "C06": {
+   "PF00851": 4
+  },
+  "C07": {
+   "PF01830": 2
+  },
+  "C08": {
+   "PF03569": 2
+  },
+  "C09": {
+   "PF01707": 4
+  },
+  "C10": {
+   "PF01640": 5
+  },
+  "C101": {
+   "PF16218": 4
+  },
+  "C104": {
+   "PF05257": 2
+  },
+  "C106": {
+   "PF09721": 3
+  },
+  "C108": {
+   "PF04327": 4
+  },
+  "C11": {
+   "PF03415": 5
+  },
+  "C110": {
+   "PF01841": 3
+  },
+  "C111": {
+   "PF01841": 12
+  },
+  "C113": {
+   "PF01841": 3
+  },
+  "C115": {
+   "PF04424": 4
+  },
+  "C117": {
+   "PF05563": 3
+  },
+  "C118": {
+   "PF07906": 3
+  },
+  "C12": {
+   "PF01088": 23
+  },
+  "C121": {
+   "PF13898": 4
+  },
+  "C122": {
+   "PF12252": 2
+  },
+  "C13": {
+   "PF01650": 15
+  },
+  "C14": {
+   "PF00656": 66
+  },
+  "C15": {
+   "PF01470": 11,
+   "PF06162": 11
+  },
+  "C16": {
+   "PF01831": 3,
+   "PF08715": 12
+  },
+  "C18": {
+   "PF01538": 4
+  },
+  "C19": {
+   "PF00443": 203,
+   "PF13423": 203
+  },
+  "C21": {
+   "PF05381": 2
+  },
+  "C23": {
+   "PF05379": 2
+  },
+  "C24": {
+   "PF03510": 4
+  },
+  "C25": {
+   "PF01364": 6
+  },
+  "C26": {
+   "PF00117": 46,
+   "PF01174": 46,
+   "PF07685": 46,
+   "PF07722": 46,
+   "PF09825": 46
+  },
+  "C27": {
+   "PF05407": 1
+  },
+  "C28": {
+   "PF05408": 3
+  },
+  "C30": {
+   "PF05409": 8
+  },
+  "C31": {
+   "PF05410": 2
+  },
+  "C32": {
+   "PF05411": 4
+  },
+  "C33": {
+   "PF05412": 2
+  },
+  "C36": {
+   "PF05415": 2
+  },
+  "C37": {
+   "PF05416": 4
+  },
+  "C39": {
+   "PF03412": 10,
+   "PF13529": 10
+  },
+  "C40": {
+   "PF00877": 23,
+   "PF05382": 23
+  },
+  "C42": {
+   "PF05533": 5
+  },
+  "C44": {
+   "PF00310": 18,
+   "PF00733": 18,
+   "PF12481": 18,
+   "PF13230": 18,
+   "PF13522": 18,
+   "PF13537": 18
+  },
+  "C45": {
+   "PF03417": 4
+  },
+  "C46": {
+   "PF01079": 17
+  },
+  "C47": {
+   "PF05543": 5
+  },
+  "C48": {
+   "PF02902": 60
+  },
+  "C50": {
+   "PF03568": 9
+  },
+  "C51": {
+   "PF05257": 5
+  },
+  "C53": {
+   "PF05550": 4
+  },
+  "C54": {
+   "PF03416": 20
+  },
+  "C55": {
+   "PF03421": 10
+  },
+  "C56": {
+   "PF01965": 19,
+   "PF13278": 19,
+   "PF13507": 19
+  },
+  "C57": {
+   "PF03290": 2
+  },
+  "C58": {
+   "PF03543": 8
+  },
+  "C59": {
+   "PF02275": 4
+  },
+  "C60": {
+   "PF04203": 13,
+   "PF07170": 3
+  },
+  "C62": {
+   "PF12380": 2
+  },
+  "C63": {
+   "PF02902": 1
+  },
+  "C64": {
+   "PF02338": 8
+  },
+  "C65": {
+   "PF10275": 6
+  },
+  "C66": {
+   "PF09028": 5
+  },
+  "C67": {
+   "PF00443": 6
+  },
+  "C69": {
+   "PF03577": 8
+  },
+  "C70": {
+   "PF12385": 2
+  },
+  "C71": {
+   "PF12386": 1
+  },
+  "C74": {
+   "PF12387": 2
+  },
+  "C75": {
+   "PF04647": 3
+  },
+  "C76": {
+   "PF04843": 2
+  },
+  "C78": {
+   "PF07910": 11
+  },
+  "C79": {
+   "PF02902": 3
+  },
+  "C80": {
+   "PF11713": 5
+  },
+  "C82": {
+   "PF03734": 12
+  },
+  "C83": {
+   "PF05023": 7
+  },
+  "C85": {
+   "PF02338": 23
+  },
+  "C86": {
+   "PF02099": 12
+  },
+  "C87": {
+   "PF02338": 3
+  },
+  "C89": {
+   "PF02275": 6
+  },
+  "C93": {
+   "PF06035": 2
+  },
+  "C95": {
+   "PF04916": 4
+  },
+  "C96": {
+   "PF13471": 3
+  },
+  "C97": {
+   "PF05903": 16
+  },
+  "C98": {
+   "PF15499": 3
+  },
+  "G01": {
+   "PF01828": 8
+  },
+  "G02": {
+   "PF11962": 3
+  },
+  "G04": {
+   "PF01963": 4
+  },
+  "G05": {
+   "PF02517": 12
+  },
+  "G06": {
+   "PF11647": 3
+  },
+  "I01": {
+   "PF00050": 90,
+   "PF07648": 90
+  },
+  "I02": {
+   "PF00014": 81
+  },
+  "I03": {
+   "PF00197": 33
+  },
+  "I04": {
+   "PF00079": 117
+  },
+  "I06": {
+   "PF00234": 5
+  },
+  "I07": {
+   "PF00299": 22
+  },
+  "I08": {
+   "PF01826": 23
+  },
+  "I09": {
+   "PF05922": 5
+  },
+  "I10": {
+   "PF12559": 2
+  },
+  "I100": {
+   "PF03298": 3
+  },
+  "I11": {
+   "PF03974": 5
+  },
+  "I12": {
+   "PF00228": 19
+  },
+  "I13": {
+   "PF00280": 17
+  },
+  "I14": {
+   "PF00713": 3
+  },
+  "I15": {
+   "PF02822": 14
+  },
+  "I16": {
+   "PF00720": 18
+  },
+  "I17": {
+   "PF00095": 11
+  },
+  "I18": {
+   "PF00537": 4
+  },
+  "I19": {
+   "PF05375": 14
+  },
+  "I20": {
+   "PF02428": 12
+  },
+  "I21": {
+   "PF05281": 2
+  },
+  "I22": {
+   "PF12690": 2
+  },
+  "I24": {
+   "PF10465": 2
+  },
+  "I25": {
+   "PF00031": 69
+  },
+  "I27": {
+   "PF00748": 5
+  },
+  "I29": {
+   "PF08246": 14
+  },
+  "I31": {
+   "PF00086": 13
+  },
+  "I32": {
+   "PF00653": 13
+  },
+  "I33": {
+   "PF06394": 3
+  },
+  "I34": {
+   "PF10466": 2
+  },
+  "I35": {
+   "PF00965": 6
+  },
+  "I36": {
+   "PF03995": 1
+  },
+  "I37": {
+   "PF02977": 2
+  },
+  "I38": {
+   "PF02974": 5
+  },
+  "I39": {
+   "PF00207": 13
+  },
+  "I42": {
+   "PF09394": 6
+  },
+  "I43": {
+   "PF00047": 5
+  },
+  "I44": {
+   "PF15270": 2
+  },
+  "I47": {
+   "PF06907": 3
+  },
+  "I48": {
+   "PF10467": 2
+  },
+  "I49": {
+   "PF07259": 2
+  },
+  "I50": {
+   "PF02331": 5
+  },
+  "I51": {
+   "PF01161": 4
+  },
+  "I52": {
+   "PF00014": 2
+  },
+  "I53": {
+   "PF11714": 2
+  },
+  "I55": {
+   "PF16845": 2
+  },
+  "I57": {
+   "PF09023": 2
+  },
+  "I58": {
+   "PF09022": 2
+  },
+  "I59": {
+   "PF03973": 2
+  },
+  "I63": {
+   "PF00059": 4
+  },
+  "I66": {
+   "PF16850": 4
+  },
+  "I67": {
+   "PF11405": 1
+  },
+  "I68": {
+   "PF10468": 3
+  },
+  "I69": {
+   "PF13734": 3
+  },
+  "I71": {
+   "PF12628": 2
+  },
+  "I75": {
+   "PF02061": 2
+  },
+  "I77": {
+   "PF10731": 1
+  },
+  "I78": {
+   "PF11720": 2
+  },
+  "I80": {
+   "PF16800": 2
+  },
+  "I83": {
+   "PF12190": 3
+  },
+  "I87": {
+   "PF01145": 3
+  },
+  "I90": {
+   "PF17983": 2
+  },
+  "I91": {
+   "PF11099": 2
+  },
+  "I93": {
+   "PF01392": 3
+  },
+  "I96": {
+   "PF03642": 4
+  },
+  "I99": {
+   "PF16048": 2
+  },
+  "M01": {
+   "PF01433": 67,
+   "PF13485": 67
+  },
+  "M02": {
+   "PF01401": 12
+  },
+  "M03": {
+   "PF01432": 21
+  },
+  "M04": {
+   "PF01447": 25,
+   "PF02868": 25
+  },
+  "M06": {
+   "PF05547": 5
+  },
+  "M07": {
+   "PF02031": 2
+  },
+  "M08": {
+   "PF01457": 14
+  },
+  "M09": {
+   "PF01752": 9,
+   "PF08453": 5
+  },
+  "M10": {
+   "PF00413": 72
+  },
+  "M100": {
+   "PF10263": 3
+  },
+  "M102": {
+   "PF12315": 2
+  },
+  "M103": {
+   "PF01523": 6
+  },
+  "M11": {
+   "PF05548": 5
+  },
+  "M12": {
+   "PF01400": 77,
+   "PF01421": 166,
+   "PF13574": 166,
+   "PF13582": 166,
+   "PF13583": 166,
+   "PF13688": 166
+  },
+  "M13": {
+   "PF01431": 50,
+   "PF05649": 50
+  },
+  "M14": {
+   "PF00246": 86,
+   "PF01476": 3,
+   "PF04952": 3
+  },
+  "M15": {
+   "PF01427": 4,
+   "PF01471": 3,
+   "PF01510": 8,
+   "PF02557": 14,
+   "PF05951": 3,
+   "PF08291": 3,
+   "PF13539": 8
+  },
+  "M16": {
+   "PF00675": 66,
+   "PF05193": 66
+  },
+  "M17": {
+   "PF00883": 23
+  },
+  "M18": {
+   "PF02127": 8
+  },
+  "M19": {
+   "PF01244": 15
+  },
+  "M20": {
+   "PF01546": 59
+  },
+  "M23": {
+   "PF01551": 24
+  },
+  "M24": {
+   "PF00557": 45
+  },
+  "M26": {
+   "PF05342": 6,
+   "PF07580": 6
+  },
+  "M27": {
+   "PF01742": 6
+  },
+  "M28": {
+   "PF04389": 60,
+   "PF05450": 22,
+   "PF09940": 7
+  },
+  "M29": {
+   "PF02073": 6
+  },
+  "M30": {
+   "PF10026": 3,
+   "PF10460": 3,
+   "PF13485": 3
+  },
+  "M32": {
+   "PF02074": 8
+  },
+  "M34": {
+   "PF07737": 5
+  },
+  "M35": {
+   "PF02102": 7,
+   "PF14521": 7
+  },
+  "M36": {
+   "PF02128": 3
+  },
+  "M38": {
+   "PF00962": 17,
+   "PF01979": 17,
+   "PF04909": 17,
+   "PF07969": 17,
+   "PF12890": 17,
+   "PF13147": 17,
+   "PF13594": 17
+  },
+  "M41": {
+   "PF01434": 39
+  },
+  "M42": {
+   "PF05343": 14
+  },
+  "M43": {
+   "PF05572": 11
+  },
+  "M44": {
+   "PF03410": 2
+  },
+  "M48": {
+   "PF01435": 31
+  },
+  "M49": {
+   "PF03571": 13
+  },
+  "M50": {
+   "PF02163": 23,
+   "PF13398": 17
+  },
+  "M54": {
+   "PF07998": 5
+  },
+  "M55": {
+   "PF04951": 4
+  },
+  "M56": {
+   "PF05569": 5
+  },
+  "M57": {
+   "PF12388": 2
+  },
+  "M60": {
+   "PF03272": 8,
+   "PF13402": 8
+  },
+  "M61": {
+   "PF05299": 4,
+   "PF13485": 4
+  },
+  "M64": {
+   "PF09471": 2
+  },
+  "M66": {
+   "PF10462": 3
+  },
+  "M67": {
+   "PF01398": 39,
+   "PF05021": 20,
+   "PF14464": 29
+  },
+  "M72": {
+   "PF13574": 4,
+   "PF13582": 4,
+   "PF13583": 4,
+   "PF13688": 4
+  },
+  "M73": {
+   "PF12389": 3
+  },
+  "M74": {
+   "PF03411": 3
+  },
+  "M75": {
+   "PF09375": 2
+  },
+  "M76": {
+   "PF09768": 7
+  },
+  "M77": {
+   "PF11991": 6
+  },
+  "M78": {
+   "PF06114": 4
+  },
+  "M80": {
+   "PF08325": 7
+  },
+  "M81": {
+   "PF07171": 2,
+   "PF07364": 2
+  },
+  "M82": {
+   "PF10086": 2,
+   "PF13367": 2
+  },
+  "M84": {
+   "PF13582": 3,
+   "PF13688": 3
+  },
+  "M85": {
+   "PF13678": 2
+  },
+  "M86": {
+   "PF05908": 3
+  },
+  "M87": {
+   "PF08434": 8
+  },
+  "M88": {
+   "PF13402": 2
+  },
+  "M90": {
+   "PF06167": 3
+  },
+  "M91": {
+   "PF14891": 2
+  },
+  "M93": {
+   "PF15890": 3
+  },
+  "M95": {
+   "PF01863": 4
+  },
+  "M97": {
+   "PF16313": 2
+  },
+  "M98": {
+   "PF13402": 6
+  },
+  "M99": {
+   "PF17033": 1
+  },
+  "N01": {
+   "PF01829": 2
+  },
+  "N02": {
+   "PF03566": 3
+  },
+  "N04": {
+   "PF03797": 4
+  },
+  "N06": {
+   "PF01312": 7
+  },
+  "N07": {
+   "PF05993": 3
+  },
+  "N08": {
+   "PF00073": 3,
+   "PF02226": 3
+  },
+  "N09": {
+   "PF05203": 3
+  },
+  "N10": {
+   "PF07591": 11,
+   "PF14890": 11
+  },
+  "N11": {
+   "PF00574": 2
+  },
+  "P01": {
+   "PF03576": 7
+  },
+  "P02": {
+   "PF00002": 47,
+   "PF01825": 6
+  },
+  "S01": {
+   "PF00089": 715,
+   "PF03761": 631,
+   "PF13365": 702
+  },
+  "S03": {
+   "PF00944": 3
+  },
+  "S06": {
+   "PF02395": 14
+  },
+  "S07": {
+   "PF00949": 4
+  },
+  "S08": {
+   "PF00082": 215
+  },
+  "S09": {
+   "PF00135": 176,
+   "PF00326": 223,
+   "PF00756": 201,
+   "PF01738": 176,
+   "PF02230": 176,
+   "PF02273": 119,
+   "PF03403": 119,
+   "PF05448": 119,
+   "PF05705": 119,
+   "PF05728": 176,
+   "PF06500": 119,
+   "PF07859": 180,
+   "PF08840": 119,
+   "PF10503": 119,
+   "PF12695": 201,
+   "PF12697": 201,
+   "PF12715": 176,
+   "PF12740": 57
+  },
+  "S10": {
+   "PF00450": 89
+  },
+  "S11": {
+   "PF00144": 14,
+   "PF00768": 14,
+   "PF13354": 14
+  },
+  "S12": {
+   "PF00144": 35
+  },
+  "S13": {
+   "PF02113": 8
+  },
+  "S14": {
+   "PF00574": 17
+  },
+  "S15": {
+   "PF02129": 3,
+   "PF08840": 3,
+   "PF12695": 3,
+   "PF12697": 3
+  },
+  "S16": {
+   "PF05362": 27,
+   "PF13541": 27
+  },
+  "S21": {
+   "PF00716": 9
+  },
+  "S24": {
+   "PF00717": 8
+  },
+  "S26": {
+   "PF00461": 11,
+   "PF10502": 31
+  },
+  "S28": {
+   "PF05577": 33
+  },
+  "S29": {
+   "PF02907": 4
+  },
+  "S30": {
+   "PF01577": 4
+  },
+  "S31": {
+   "PF05578": 2
+  },
+  "S32": {
+   "PF05579": 4
+  },
+  "S33": {
+   "PF00561": 153,
+   "PF00975": 153,
+   "PF03096": 153,
+   "PF07819": 153,
+   "PF08386": 153,
+   "PF11339": 153,
+   "PF12146": 153,
+   "PF12147": 153,
+   "PF12695": 153,
+   "PF12697": 153
+  },
+  "S37": {
+   "PF05576": 3
+  },
+  "S39": {
+   "PF02122": 5
+  },
+  "S41": {
+   "PF03572": 24,
+   "PF14684": 5
+  },
+  "S45": {
+   "PF01804": 7
+  },
+  "S46": {
+   "PF10459": 6
+  },
+  "S48": {
+   "PF03574": 2
+  },
+  "S49": {
+   "PF01343": 17,
+   "PF01972": 6
+  },
+  "S50": {
+   "PF01768": 5
+  },
+  "S51": {
+   "PF03575": 5
+  },
+  "S53": {
+   "PF00082": 15
+  },
+  "S54": {
+   "PF01694": 55,
+   "PF04511": 55
+  },
+  "S55": {
+   "PF05580": 3
+  },
+  "S59": {
+   "PF03093": 13,
+   "PF04096": 13
+  },
+  "S60": {
+   "PF00405": 13
+  },
+  "S62": {
+   "PF00603": 3
+  },
+  "S64": {
+   "PF08192": 2
+  },
+  "S66": {
+   "PF02016": 5
+  },
+  "S68": {
+   "PF10461": 4
+  },
+  "S69": {
+   "PF01766": 1
+  },
+  "S71": {
+   "PF01390": 4
+  },
+  "S72": {
+   "PF05454": 4
+  },
+  "S73": {
+   "PF05929": 3
+  },
+  "S74": {
+   "PF13884": 5
+  },
+  "S77": {
+   "PF03420": 3
+  },
+  "S78": {
+   "PF04586": 4
+  },
+  "S79": {
+   "PF13553": 9
+  },
+  "S81": {
+   "PF05497": 3
+  },
+  "S82": {
+   "PF10142": 3
+  },
+  "S85": {
+   "PF04264": 3
+  },
+  "T01": {
+   "PF00227": 68,
+   "PF10584": 54
+  },
+  "T02": {
+   "PF01112": 11
+  },
+  "T03": {
+   "PF01019": 32
+  },
+  "T05": {
+   "PF01960": 4
+  },
+  "U32": {
+   "PF01136": 7
+  },
+  "U40": {
+   "PF10464": 1
+  },
+  "U49": {
+   "PF10463": 2
+  },
+  "U56": {
+   "PF04454": 2
+  },
+  "U57": {
+   "PF05582": 2
+  },
+  "U69": {
+   "PF03212": 3
+  },
+  "U72": {
+   "PF03136": 2
+  },
+  "U74": {
+   "PF03080": 2
+  },
+  "X15": {
+   "PF00639": 1
+  },
+  "X19": {
+   "PF03245": 3
   }
  },
  "subfamily_names": {

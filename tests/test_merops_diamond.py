@@ -359,3 +359,71 @@ def test_parse_diamond_row_malformed():
     assert parse_diamond_row("q\ts\tNaNo\t1\t2\t3\t4\t5\n") is None
     row = parse_diamond_row("q\ts\t85.5\t90\t80\t200\t1e-50\t500\n")
     assert row["identity"] == 85.5 and row["length"] == 200
+
+
+# ============================================================================
+# Phase-2: Pfam bridge + cleavage specificity parsers
+# ============================================================================
+
+from multiomics_kg.utils.merops_diamond import (
+    STANDARD_AA_3,
+    aggregate_cleavages,
+    cleavage_properties,
+    parse_interpro_txt_stream,
+)
+
+
+def test_parse_interpro_txt_stream_counts_distinct_identifiers():
+    lines = [
+        '"A01A","A01.001","pepsin A","63-388","P0DJD8","PF00026/PF14543","IPR001461"',
+        '"A01A","A01.001","pepsin A","63-388","B7Z719","PF00026/PF14543","IPR001461"',  # same id, dup accession
+        '"A01A","A01.002","pepsin B","60-380","P27821","PF00026","IPR001461"',
+        '"S01A","S01.001","chymotrypsin A","34-263","P00766","PF00089",""',
+        '"M10B","M10.051","serralysin","1-470","P23694","",""',  # no Pfam -> ignored
+    ]
+    bridge = parse_interpro_txt_stream(lines)
+    assert bridge["A01"]["PF00026"] == 2      # A01.001 + A01.002, dedup on identifier
+    assert bridge["A01"]["PF14543"] == 1      # only A01.001
+    assert bridge["S01"]["PF00089"] == 1
+    assert "M10" not in bridge
+
+
+def test_aggregate_cleavages_filters_nonstandard_p1():
+    q = chr(39)  # single quote — the file quotes fields with it
+    def row(ident, p1, kind):
+        f = [q + "CLE1" + q, q + ident + q, "s", "s", "-", "-", "-",
+             q + p1 + q, "-", "-", "-", "-", "ref", "NULL", "NULL", "NULL",
+             "e", "NULL", "NULL", "NULL", "NULL", "NULL", q + kind + q]
+        return "\t".join(f)
+    agg = aggregate_cleavages([
+        row("S01.001", "Lys", "physiological"),
+        row("S01.001", "Arg", "synthetic"),
+        row("S01.151", "TyI", "non-physiological"),   # modified residue: counted in total, not in p1
+        row("A01.001", "Phe", "physiological"),
+    ])
+    assert agg["S01"]["total"] == 3
+    assert agg["S01"]["physiological"] == 1
+    assert agg["S01"]["p1"]["Lys"] == 1 and agg["S01"]["p1"]["Arg"] == 1
+    assert "TyI" not in agg["S01"]["p1"]
+    assert agg["A01"]["total"] == 1
+
+
+def test_cleavage_properties_shapes():
+    from collections import Counter
+    props = cleavage_properties({
+        "p1": Counter({"Lys": 36, "Arg": 34, "Glu": 11, "Ala": 9}),
+        "physiological": 25, "total": 100,
+    })
+    assert props["cleavage_p1_residues"] == ["Lys", "Arg", "Glu"]  # >=10% share, max 3 (Ala at exactly 10% loses to top-3)
+    assert props["known_cleavage_count"] == 100
+    s = props["cleavage_summary"]
+    # shares over the standard-P1 subtotal (90): 36/90=40%, 34/90=38%, 11/90=12%
+    assert s == "cleaves after Lys (40%) / Arg (38%) / Glu (12%) - 100 known cleavages (25% physiological)"
+    assert "'" not in s and "|" not in s
+    # no standard-P1 data -> count-only summary, no residues key
+    props2 = cleavage_properties({"p1": Counter(), "physiological": 3, "total": 10})
+    assert "cleavage_p1_residues" not in props2
+    assert props2["cleavage_summary"] == "10 known cleavages (30% physiological)"
+    assert props2["known_cleavage_count"] == 10
+    # no data at all -> empty (sparse discipline)
+    assert cleavage_properties({"p1": Counter(), "physiological": 0, "total": 0}) == {}

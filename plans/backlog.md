@@ -17,23 +17,12 @@ up — this file is the index, not the plan.
 
 ## KG semantics
 
-- [ ] **MEROPS cross-ontology bridges.** MEROPS publishes `interpro.txt` (182 MB,
-      per-accession MEROPS↔Pfam↔InterPro map — the structured corroboration
-      bridge InterPro's own XML lacks: `db="MEROPS"` xrefs = 0 there) and
-      `database_files/GO_annotation.txt` (MEROPS→GO). Both would be
-      TCDB-bridge-shaped (`Merops_family_has_pfam_domain` etc., ontology→ontology,
-      never gene-attaching). Landing either gives `Gene_has_merops_family` a
-      second corroboration signal — which is also the trigger to revisit the
-      deliberate no-`annotation_quality`-bucket decision (single-source was the
-      reason to stay out).
-      → `docs/kg-changes/merops-extension.md` "What does NOT change";
-      `docs/superpowers/specs/2026-08-17-merops-kg-integration-design.md` "Out of scope"
-
-- [ ] **MEROPS cleavage specificity as node properties.** `Substrate_search.txt`
-      carries per-family cleavage-site specificity; the Phase-2 design deferred it
-      (no substrate→Metabolite arm — peptidase substrates are proteins, so the
-      data belongs on `MeropsFamily` nodes, not edges to Metabolite).
-      → same two pointers as above
+- [ ] **MEROPS GO bridge — rejected on measurement (2026-08-18), revisit only
+      with a concrete use case.** All-kingdom member rollup yields median 19 /
+      max 389 GO terms per family incl. eukaryote-only terms; completeness win
+      is 338 genes (~8%) vs the 1,311 that justified TCDB's GO bridge. Needs a
+      filtering design (e.g. >= N supporting identifiers) before it can land.
+      → `docs/superpowers/specs/2026-08-18-merops-pfam-bridge-cleavage-design.md`
 
 - [ ] **Recalibrate `is_multi_substrate` / `is_multi_gene` thresholds.** The TCDB
       threshold (`level >= 2 AND metabolite_count >= 50`) was calibrated against
