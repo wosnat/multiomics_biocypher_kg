@@ -19,10 +19,13 @@ resulting extended cpds set rides through `_bulk_enrich_compounds` so transport-
 only KEGG compounds get their pathways/MNX cross-refs natively. Non-KEGG
 substrate primaries (chebi:*, mnx:*) become additional_compounds entries.
 
-Step 6 also downloads the 3 TCDB reference TSVs (tc_classes, tc_subclasses,
-families) and writes the assembled hierarchy to
+Step 6 also downloads the 4 TCDB reference TSVs (families, superfamilies,
+substrates, acc2tcid) and writes the assembled hierarchy to
 cache/data/tcdb/tcdb_hierarchy.json. The TCDB lift is unconditional and not
-gated on KEGG reachability.
+gated on KEGG reachability. Node names come from the committed
+cache/data/tcdb/tcdb_names.json, built separately by
+`python -m multiomics_kg.download.scrape_tcdb_names` (T6) — step 6 itself
+never scrapes.
 
 TCDB substrate rollup runs in three phases:
 
@@ -86,15 +89,43 @@ log = logging.getLogger(__name__)
 
 # ── TCDB hierarchy ────────────────────────────────────────────────────────────
 
-_TC_CLASS_NAMES = {
-    "1": "Channels and Pores",
-    "2": "Electrochemical Potential-driven Transporters",
-    "3": "Primary Active Transporters",
-    "4": "Group Translocators",
-    "5": "Transmembrane Electron Carriers",
-    "8": "Auxiliary Transport Proteins",
-    "9": "Incompletely Characterized Transport Systems",
-}
+def _load_tcdb_names(names_path: Path | None) -> tuple[dict[str, dict], list[str]]:
+    """Read the committed tcdb_names.json (built by scrape_tcdb_names — T6).
+
+    Returns ({tc_id: {"name": str[, "description": str]}}, scraped_families).
+    Missing file → empty maps (deep levels stay unnamed; the caller warns via
+    _warn_unscraped_families).
+    """
+    if names_path is None or not names_path.exists():
+        return {}, []
+    data = json.loads(names_path.read_text())
+    return data.get("names", {}), data.get("meta", {}).get("scraped_families", [])
+
+
+def _warn_unscraped_families(kept_ids: set[str], names_path: Path) -> list[str]:
+    """T6 self-healing guard: kept 4/5-part TC IDs whose family the name
+    scraper has not covered — loud staleness after a strain onboarding, never
+    silent. Returns the sorted missing family list."""
+    needed = {".".join(tc.split(".")[:3]) for tc in kept_ids
+              if len(tc.split(".")) >= 4}
+    if not names_path.exists():
+        if needed:
+            log.warning(
+                f"  cache/data/tcdb/tcdb_names.json is MISSING — {len(needed)} "
+                f"families' subfamily/specificity nodes will render as bare TC "
+                f"ids. Run: uv run python -m multiomics_kg.download.scrape_tcdb_names"
+            )
+        return sorted(needed)
+    _names, scraped = _load_tcdb_names(names_path)
+    missing = sorted(needed - set(scraped))
+    if missing:
+        log.warning(
+            f"  {len(missing)} kept TCDB families not covered by tcdb_names.json "
+            f"(e.g. {missing[:5]}) — their deep nodes render as bare TC ids. "
+            f"Top-up: uv run python -m multiomics_kg.download.scrape_tcdb_names "
+            f"--families {' '.join(missing[:5])} ..."
+        )
+    return missing
 
 
 def _parse_tcdb_families(path: Path) -> dict[str, str]:
@@ -177,6 +208,7 @@ def build_tcdb_hierarchy(
     superfamilies_path: Path,
     substrates_path: Path,
     acc2tcid_path: Path,
+    names_path: Path | None = None,
 ) -> int:
     """Build tcdb_hierarchy.json by joining the 4 TCDB sources.
 
@@ -194,6 +226,7 @@ def build_tcdb_hierarchy(
     fields are blank.
     """
     fam_descs = _parse_tcdb_families(families_path)
+    names, _scraped = _load_tcdb_names(names_path)
     super_rows = _parse_tcdb_superfamilies(superfamilies_path)
     substrates = _parse_tcdb_substrates(substrates_path)
     acc_tcids = _parse_tcdb_acc2tcid(acc2tcid_path)
@@ -211,7 +244,7 @@ def build_tcdb_hierarchy(
     def ensure_class(cls: str) -> None:
         if cls not in h:
             h[cls] = {
-                "name": _TC_CLASS_NAMES.get(cls, ""),
+                "name": names.get(cls, {}).get("name", ""),
                 "level": 0,
                 "level_kind": "tc_class",
                 "parent": None,
@@ -220,7 +253,7 @@ def build_tcdb_hierarchy(
     def ensure_subclass(subcls: str, cls: str) -> None:
         if subcls not in h:
             h[subcls] = {
-                "name": "",
+                "name": names.get(subcls, {}).get("name", ""),
                 "level": 1,
                 "level_kind": "tc_subclass",
                 "parent": cls,
@@ -230,7 +263,7 @@ def build_tcdb_hierarchy(
         if fam not in h:
             abbr, superfam = fam_meta_by_id.get(fam, ("", ""))
             entry: dict = {
-                "name": fam_descs.get(fam, ""),
+                "name": fam_descs.get(fam, "") or names.get(fam, {}).get("name", ""),
                 "level": 2,
                 "level_kind": "tc_family",
                 "parent": subcls,
@@ -244,7 +277,7 @@ def build_tcdb_hierarchy(
     def ensure_subfamily(subfam: str, fam: str) -> None:
         if subfam not in h:
             h[subfam] = {
-                "name": "",
+                "name": names.get(subfam, {}).get("name", ""),
                 "level": 3,
                 "level_kind": "tc_subfamily",
                 "parent": fam,
@@ -254,11 +287,14 @@ def build_tcdb_hierarchy(
         if tcid in h:
             return
         node: dict = {
-            "name": "",
+            "name": names.get(tcid, {}).get("name", ""),
             "level": 4,
             "level_kind": "tc_specificity",
             "parent": subfam,
         }
+        desc = names.get(tcid, {}).get("description", "")
+        if desc:
+            node["description"] = desc
         if tcid in substrates:
             node["substrate_classes"] = substrates[tcid]
         superfam = super_by_tcid.get(tcid, ("", ""))[1]
@@ -318,6 +354,7 @@ def _build_tcdb_hierarchy(cache_root: Path) -> int:
         superfamilies_path=raw_dir / "superfamilies.tsv",
         substrates_path=raw_dir / "substrates.tsv",
         acc2tcid_path=raw_dir / "acc2tcid.tsv",
+        names_path=tcdb_dir / "tcdb_names.json",
     )
 
 
@@ -1293,6 +1330,7 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
 
         log.info("Pruning TCDB hierarchy ...")
         kept, seed_aliases = _prune_tcdb(hierarchy, catalysis_sets["tcdb_ids"])
+        _warn_unscraped_families(kept, cache_root / "tcdb" / "tcdb_names.json")
         upgraded = {s: a for s, a in seed_aliases.items() if a}
         dropped = sorted(s for s, a in seed_aliases.items() if not a)
         if upgraded:

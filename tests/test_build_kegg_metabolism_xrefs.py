@@ -305,6 +305,101 @@ def test_build_tcdb_hierarchy_seeds_5part_from_acc2tcid(tmp_path):
     assert h["1.A.12"]["name"] == "The Intracellular Chloride Channel"
 
 
+def _write_tcdb_tsv_fixture(cache_root):
+    """Minimal 4-TSV fixture shared by the names-artifact tests (same shape as
+    test_build_tcdb_hierarchy_seeds_5part_from_acc2tcid)."""
+    raw_dir = cache_root / "tcdb" / "raw"
+    raw_dir.mkdir(parents=True, exist_ok=True)
+    (raw_dir / "families.tsv").write_text("1.A.1\tThe Voltage-gated Ion Channel\n")
+    (raw_dir / "superfamilies.tsv").write_text(
+        "1.A.1.5.2\t1.A.1.5\t1.A.1\tVIC\tVIC Superfamily\n"
+    )
+    (raw_dir / "substrates.tsv").write_text("")
+    (raw_dir / "acc2tcid.tsv").write_text("P12345\t1.A.1.5.2\n")
+
+
+def _write_names_file(cache_root, names, scraped_families):
+    tcdb_dir = cache_root / "tcdb"
+    tcdb_dir.mkdir(parents=True, exist_ok=True)
+    (tcdb_dir / "tcdb_names.json").write_text(json.dumps({
+        "meta": {"scraped_at": "2026-08-18", "source": "test",
+                 "scraped_families": scraped_families, "failed_families": []},
+        "names": names,
+    }))
+
+
+def test_build_tcdb_hierarchy_consumes_names_artifact(tmp_path):
+    """Names from the committed tcdb_names.json (T6 scraper) fill every level;
+    tc_specificity entries also gain a sparse description."""
+    from multiomics_kg.download import build_kegg_metabolism_xrefs as mod
+
+    cache_root = tmp_path / "cache" / "data"
+    _write_tcdb_tsv_fixture(cache_root)
+    _write_names_file(cache_root, {
+        "1": {"name": "Channels/Pores"},
+        "1.A": {"name": "\u03b1-Type Channels"},
+        "1.A.1.5": {"name": "The Epsilon Subfamily"},
+        "1.A.1.5.2": {"name": "Short name.",
+                      "description": "Short name. Much longer curated text."},
+    }, scraped_families=["1.A.1"])
+
+    mod._build_tcdb_hierarchy(cache_root=cache_root)
+    h = json.loads((cache_root / "tcdb" / "tcdb_hierarchy.json").read_text())
+
+    assert h["1"]["name"] == "Channels/Pores"     # replaces _TC_CLASS_NAMES
+    assert h["1.A"]["name"] == "\u03b1-Type Channels"  # was always ""
+    assert h["1.A.1.5"]["name"] == "The Epsilon Subfamily"
+    assert h["1.A.1.5.2"]["name"] == "Short name."
+    assert h["1.A.1.5.2"]["description"] == "Short name. Much longer curated text."
+    # families.tsv stays the primary family-name source
+    assert h["1.A.1"]["name"] == "The Voltage-gated Ion Channel"
+
+
+def test_build_tcdb_hierarchy_without_names_file_leaves_blank(tmp_path):
+    """No names artifact → deep levels stay unnamed; class names come ONLY
+    from the artifact now (no hardcoded fallback)."""
+    from multiomics_kg.download import build_kegg_metabolism_xrefs as mod
+
+    cache_root = tmp_path / "cache" / "data"
+    _write_tcdb_tsv_fixture(cache_root)
+
+    mod._build_tcdb_hierarchy(cache_root=cache_root)
+    h = json.loads((cache_root / "tcdb" / "tcdb_hierarchy.json").read_text())
+
+    assert h["1"]["name"] == ""
+    assert h["1.A"]["name"] == ""
+    assert "description" not in h["1.A.1.5.2"]
+
+
+def test_warn_unscraped_families(tmp_path, caplog):
+    """Spec S4 guard: kept 4/5-part ids whose family the scraper has not
+    covered are reported loudly with a top-up command."""
+    import logging as _logging
+    from multiomics_kg.download import build_kegg_metabolism_xrefs as mod
+
+    cache_root = tmp_path / "cache" / "data"
+    _write_names_file(cache_root, {}, scraped_families=["2.A.1"])
+    names_path = cache_root / "tcdb" / "tcdb_names.json"
+
+    with caplog.at_level(_logging.WARNING):
+        missing = mod._warn_unscraped_families(
+            {"2.A.1.1", "3.A.1.5.9", "1.A"},  # 1.A too shallow to need scraping
+            names_path)
+    assert missing == ["3.A.1"]
+    assert "3.A.1" in caplog.text and "scrape_tcdb_names" in caplog.text
+
+
+def test_warn_unscraped_families_missing_file(tmp_path, caplog):
+    import logging as _logging
+    from multiomics_kg.download import build_kegg_metabolism_xrefs as mod
+
+    with caplog.at_level(_logging.WARNING):
+        missing = mod._warn_unscraped_families(
+            {"2.A.1.1"}, tmp_path / "nope" / "tcdb_names.json")
+    assert missing == ["2.A.1"]
+    assert "MISSING" in caplog.text
+
+
 def test_bulk_enrich_compounds_returns_dict_keyed_by_kegg_id(tmp_path):
     """_bulk_enrich_compounds returns a dict mapping kegg_compound_id → enrichment."""
     conn = _make_resolver(tmp_path)
