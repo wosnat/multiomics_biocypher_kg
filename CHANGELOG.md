@@ -249,6 +249,14 @@ tag with nothing logged.
   from artifacts. First baseline captured from the 2026-08-18 build: 124,751
   genes — no_evidence 12,061 (9.7%) / catch_all_only 5,988 (4.8%) /
   informative_single 12,642 (10.1%) / informative_multi 94,060 (75.4%).
+- **Live annotation-state invariant tests**
+  (`tests/kg_validity/test_annotation_state.py`, `@pytest.mark.kg`): valid
+  enum coverage on every gene, state ↔ quality 1:1 correspondence, state vs
+  bucket count recomputed from `informative_annotation_types` +
+  `gene_category`, and the has_any_edge contract in both directions — the
+  test shape that would have caught the 2026-08-17 InterPro/NCBIfam-only
+  no_evidence miscount before it shipped. Complements the distribution
+  baseline (invariants fail loudly; distributions only shift).
 - **`ControlledVocabulary` nodes — the value sets a property or edge can take,
   published as data** (design
   `docs/superpowers/specs/2026-08-16-vocabulary-contract-design.md`, consumer doc
