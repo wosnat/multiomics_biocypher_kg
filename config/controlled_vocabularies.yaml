@@ -907,21 +907,10 @@ Gene_has_interpro_entry.evalue_library:
     one"); a gene's edge with no reporting library carries no
     evalue_library.
 
-# ── MEROPS peptidase layer (shipped 2026-08-17; registered + extended
-#    2026-08-18, spec docs/superpowers/specs/2026-08-18-merops-pfam-bridge-cleavage-design.md) ──
-
-Gene_has_merops_family.call_class:
-  applies_to: Gene_has_merops_family
-  applies_to_kind: edge
-  property: call_class
-  value_type: string
-  closed: true
-  values: [peptidase, inhibitor, nonpeptidase_homolog]
-  description: >
-    Read-first verdict for a MEROPS diamond call. nonpeptidase_homolog = the
-    best hit is a catalytically dead .9xx relative — fold evidence, NOT
-    protease evidence. inhibitor = I-family (protease inhibitors are biology).
-    Threshold-free: derived from best_hit_kind + the family type.
+# ── MEROPS peptidase layer: 2026-08-18 follow-up entries (tier / pfam_support /
+#    cleavage_p1_residues / member_id_count / merops_classes). Pre-existing
+#    entries (call_class / best_hit_kind / level_kind / family_type / catalytic_type)
+#    declared above. Spec: docs/superpowers/specs/2026-08-18-merops-pfam-bridge-cleavage-design.md ──
 
 Gene_has_merops_family.tier:
   applies_to: Gene_has_merops_family
@@ -938,18 +927,6 @@ Gene_has_merops_family.tier:
     NOT sparse — unlike Gene_has_tcdb_family.tier, every merops edge is
     diamond-sourced and carries one. ~92% tier 3 (expected remote homology).
 
-Gene_has_merops_family.best_hit_kind:
-  applies_to: Gene_has_merops_family
-  applies_to_kind: edge
-  property: best_hit_kind
-  value_type: string
-  closed: true
-  values: [holotype, putative, nonpeptidase_homolog]
-  description: >
-    How well-characterized the matched MEROPS reference is: holotype =
-    experimentally characterized peptidase (.001-.899), putative = predicted
-    only (letter tails), nonpeptidase_homolog = proven dead relative (.9xx).
-
 Gene_has_merops_family.pfam_support:
   applies_to: Gene_has_merops_family
   applies_to_kind: edge
@@ -960,39 +937,6 @@ Gene_has_merops_family.pfam_support:
   description: >
     Whether a Pfam domain on this gene is curated into this MEROPS family via
     Merops_family_has_pfam_domain. Read in the sound direction only.
-
-MeropsFamily.level_kind:
-  applies_to: MeropsFamily
-  applies_to_kind: node
-  property: level_kind
-  value_type: string
-  closed: true
-  values: [merops_clan, merops_family, merops_subfamily]
-  description: MEROPS hierarchy depth name (level 0 / 1 / 2).
-
-MeropsFamily.family_type:
-  applies_to: MeropsFamily
-  applies_to_kind: node
-  property: family_type
-  value_type: string
-  closed: true
-  values: [peptidase, inhibitor]
-  description: >
-    Whether this clan/family/subfamily holds peptidases or protease
-    inhibitors (I-prefixed codes).
-
-MeropsFamily.catalytic_type:
-  applies_to: MeropsFamily
-  applies_to_kind: node
-  property: catalytic_type
-  value_type: string
-  closed: true
-  values: [serine, cysteine, metallo, aspartic, threonine, glutamic,
-           asparagine_lyase, mixed, unknown]
-  sparse: true
-  description: >
-    Catalytic mechanism as a full word (MEROPS's one-letter codes spelled
-    out). SPARSE — absent on inhibitor families, which have no catalytic type.
 
 MeropsFamily.cleavage_p1_residues:
   applies_to: MeropsFamily
