@@ -1,0 +1,35 @@
+Resolution report: Hackl 2023 / de_mmc_vs_control_sense
+Source: GSE171435_MMC_vs_control_sense.csv
+name_col: gene
+id_columns: ['gene']
+
+Total rows with IDs: 2047
+Resolved: 2003 (97.9%)
+Unresolved: 44
+
+Resolution method breakdown:
+  tier1:gene: 2003
+  unresolved: 44
+
+Unresolved rows (44):
+  row 21: raw_id='MIT0604_00022'  reason=unresolved  [gene='MIT0604_00022']
+  row 124: raw_id='MIT0604_00127'  reason=unresolved  [gene='MIT0604_00127']
+  row 143: raw_id='MIT0604_00146'  reason=unresolved  [gene='MIT0604_00146']
+  row 148: raw_id='MIT0604_00152'  reason=unresolved  [gene='MIT0604_00152']
+  row 276: raw_id='MIT0604_00281'  reason=unresolved  [gene='MIT0604_00281']
+  row 279: raw_id='MIT0604_00284'  reason=unresolved  [gene='MIT0604_00284']
+  row 402: raw_id='MIT0604_00416'  reason=unresolved  [gene='MIT0604_00416']
+  row 607: raw_id='MIT0604_00626'  reason=unresolved  [gene='MIT0604_00626']
+  row 625: raw_id='MIT0604_00644'  reason=unresolved  [gene='MIT0604_00644']
+  row 674: raw_id='MIT0604_00693'  reason=unresolved  [gene='MIT0604_00693']
+  row 741: raw_id='MIT0604_00761'  reason=unresolved  [gene='MIT0604_00761']
+  row 746: raw_id='MIT0604_00766'  reason=unresolved  [gene='MIT0604_00766']
+  row 1039: raw_id='MIT0604_01062'  reason=unresolved  [gene='MIT0604_01062']
+  row 1065: raw_id='MIT0604_01088'  reason=unresolved  [gene='MIT0604_01088']
+  row 1077: raw_id='MIT0604_01101'  reason=unresolved  [gene='MIT0604_01101']
+  row 1097: raw_id='MIT0604_01121'  reason=unresolved  [gene='MIT0604_01121']
+  row 1156: raw_id='MIT0604_01180'  reason=unresolved  [gene='MIT0604_01180']
+  row 1160: raw_id='MIT0604_01184'  reason=unresolved  [gene='MIT0604_01184']
+  row 1371: raw_id='MIT0604_01398'  reason=unresolved  [gene='MIT0604_01398']
+  row 1419: raw_id='MIT0604_01447'  reason=unresolved  [gene='MIT0604_01447']
+  ... (24 more)
