@@ -3,19 +3,36 @@ Source: voigt2014_mit9313_tss_metrics.csv
 name_col: old_locus_tag
 id_columns: ['old_locus_tag', 'locus_tag_new']
 
-Total rows with IDs: 2144
-Resolved: 2139 (99.8%)
-Unresolved: 5
+Total rows with IDs: 2163
+Resolved: 2140 (98.9%)
+Unresolved: 23
 
 Resolution method breakdown:
-  empty: 404
+  empty: 403
   locus_tag:old_locus_tag: 2047
+  tier1:locus_tag_new: 1
   tier1:old_locus_tag: 92
-  unresolved: 5
+  unresolved: 23
 
-Unresolved rows (5):
-  row 1499: raw_id='PMT1222'  reason=unresolved  [old_locus_tag='PMT1222', locus_tag_new='P9313_15442']
-  row 2497: raw_id='new ORF deterimened by 454'  reason=unresolved  [old_locus_tag='new ORF deterimened by 454', locus_tag_new='P9313_09662']
-  row 2498: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_03332']
-  row 2499: raw_id='new ORF determined by 454_65'  reason=unresolved  [old_locus_tag='new ORF determined by 454_65', locus_tag_new='P9313_19922']
-  row 2500: raw_id='new ORF determined by Solexa'  reason=unresolved  [old_locus_tag='new ORF determined by Solexa', locus_tag_new='P9313_25252']
+Unresolved rows (23):
+  row 31: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_03332']
+  row 38: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_04472']
+  row 51: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_05672']
+  row 60: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_06332']
+  row 83: raw_id='new ORF deterimened by 454'  reason=unresolved  [old_locus_tag='new ORF deterimened by 454', locus_tag_new='P9313_09662']
+  row 92: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_09972']
+  row 93: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_09973']
+  row 105: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_10652']
+  row 129: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_11402']
+  row 147: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_12042']
+  row 178: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_13032']
+  row 179: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_13033']
+  row 191: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_13262']
+  row 192: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_13312']
+  row 197: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_13402']
+  row 236: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_17382']
+  row 259: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_19252']
+  row 275: raw_id='new ORF deterimened by 454'  reason=unresolved  [old_locus_tag='new ORF deterimened by 454', locus_tag_new='P9313_19822']
+  row 276: raw_id='new ORF determined by 454_65'  reason=unresolved  [old_locus_tag='new ORF determined by 454_65', locus_tag_new='P9313_19922']
+  row 334: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_24402']
+  ... (3 more)

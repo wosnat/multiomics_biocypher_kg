@@ -67,6 +67,12 @@ def main() -> None:
 
     for genome_id, strain in STRAINS.items():
         sub = islands[islands["genome_id"] == genome_id]
+        # every wired strain's intervals sit on the single main contig; the
+        # join below compares against primary-contig genes only, so fail loud
+        # if a future input breaks that assumption
+        assert (sub["contig_id"] == f"{genome_id}_1").all(), (
+            f"{genome_id}: islands on unexpected contigs {sorted(set(sub['contig_id']))}"
+        )
         anno_path = CACHE / strain / "gene_annotations_merged.json"
         genes = json.load(anno_path.open())
 

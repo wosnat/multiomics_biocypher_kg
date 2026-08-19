@@ -6,7 +6,6 @@ old_locus_tag,locus_tag_new,gene,product,has_primary_tss,antisense_tss_count,int
 ,1334081:1334248,,,False,0,1,,,,empty
 ,1357351:1357524,,,False,1,2,,,,empty
 ,1367540:1367676,,,False,1,0,,,,empty
-1397r,PMED4_15431,,,True,0,0,3.612533921,14.0,PMM1979,tier1:locus_tag_new
 ,1440417:1440698,,,False,0,1,,,,empty
 ,1533192:1533365,,,False,1,2,,,,empty
 ,258771:258772,,,False,1,0,,,,empty
@@ -22,9 +21,8 @@ old_locus_tag,locus_tag_new,gene,product,has_primary_tss,antisense_tss_count,int
 ,IG0057f3-5,,,True,0,0,3.530951357,42.0,,empty
 ,IG0064r2-4,,,True,1,0,3.898686889,15.0,,empty
 ,IG0090r2-3,,,True,0,0,4.720043179,0.0,,empty
-,IG0346r10,,,True,1,0,3.063111946,19.0,,empty
+,IG0346r10,,,False,1,0,,,,empty
 ,IG0346r3-4,,,True,0,0,2.913978297,15.0,,empty
-IG0348f10_198,PMED4_03472,,,True,0,0,3.041366904,16.0,,unresolved
 ,IG0350f2-3,,,False,1,0,,,,empty
 ,IG0354r3,,,False,1,1,,,,empty
 ,IG0371f5-6,,,True,0,0,2.48480766,69.0,,empty
@@ -33,14 +31,12 @@ IG0348f10_198,PMED4_03472,,,True,0,0,3.041366904,16.0,,unresolved
 ,IG0380f14-17,,new orf determined by microarrays,False,1,0,,,,empty
 ,IG0380r37-44,,,False,2,0,,,,empty
 ,IG0392f2,,,True,0,0,2.417778909,15.0,,empty
-,IG0418f,,,False,1,1,,,,empty
+,IG0418f,,,False,1,0,,,,empty
 ,IG0418r17,,,True,0,1,2.875441293,78.0,,empty
 ,IG0430r0-7,,,True,1,0,4.78707193,69.0,,empty
 ,IG0642r8,,,False,1,0,,,,empty
 ,IG0676f16-17,,,True,0,0,3.86685111,96.0,,empty
 ,IG0676r2,,,False,1,0,,,,empty
-IG0676r28-31,PMED4_07131,,,True,0,0,3.86685111,22.0,PMM1856,tier1:locus_tag_new
-IG0701r2-7,PMED4_07432,,,True,0,0,2.449614688,17.0,PMM2046,tier1:locus_tag_new
 ,IG0703f2-7,,,True,0,0,4.78707193,29.0,,empty
 ,IG0703r7-9,,,True,1,0,3.337999729,15.0,,empty
 ,IG0704f6,,,True,0,0,3.933879861,33.0,,empty
@@ -52,9 +48,7 @@ IG0701r2-7,PMED4_07432,,,True,0,0,2.449614688,17.0,PMM2046,tier1:locus_tag_new
 ,IG0735r5-6,,,False,1,0,,,,empty
 ,IG0751f9,,,True,0,0,4.78707193,14.0,,empty
 ,IG0754r,,,False,1,0,,,,empty
-IG0818r4,PMED4_08892,,,True,0,0,4.423464314,23.0,PMM2054,tier1:locus_tag_new
 ,IG0818r4_535,,,False,1,0,,,,empty
-IG0821f4,PMED4_08922,,,True,0,0,4.78707193,26.0,PMM2055,tier1:locus_tag_new
 ,IG0821f4_539,,,False,1,1,,,,empty
 ,IG0825r6-7,,,True,0,1,3.337999729,18.0,,empty
 ,IG0834r,,new orf determined by 5'RACE based on Bjoern's prediction cluster553rev,False,1,0,,,,empty
@@ -62,23 +56,19 @@ IG0821f4,PMED4_08922,,,True,0,0,4.78707193,26.0,PMM2055,tier1:locus_tag_new
 ,IG0977r2-4,,,True,0,0,4.78707193,16.0,,empty
 ,IG1016f5-6,,,False,1,0,,,,empty
 ,IG1022r,,,True,1,0,4.720043179,3.0,,empty
-IG1023r,PMED4_11311,,,True,0,0,3.86685111,17.0,PMM1934,tier1:locus_tag_new
 ,IG1042r,,,True,0,0,3.86685111,89.0,,empty
 ,IG1048f,,,True,0,0,4.356435563,17.0,,empty
-IG1054f8-13,PMED4_11782,,,True,0,0,2.417778909,73.0,PMM2057,tier1:locus_tag_new
 ,IG1054r19,,,True,1,0,2.974392112,23.0,,empty
 ,IG1142r10,,,True,0,0,4.78707193,14.0,,empty
 ,IG1142r19-25,,,False,1,0,,,,empty
 ,IG1149f1-3,,,False,1,0,,,,empty
-IG1149r,PMED4_12751,,,True,0,0,4.015984759,109.0,PMM1127,tier1:locus_tag_new
-,IG1153f,,,True,1,0,3.337999729,22.0,,empty
-IG1153r5,PMED4_12832,,,False,1,0,,,PMM2061,tier1:locus_tag_new
+,IG1153f,,,False,1,0,,,,empty
 ,IG1153r5-10,,,False,1,0,,,,empty
 ,IG1174r1,,,True,0,0,3.270970978,1.0,,empty
 ,IG1389r2,,new orf determined by phage and P microarray,False,1,0,,,,empty
 ,IG1389r2_914,,,False,1,0,,,,empty
 ,IG1397f8,,,True,0,0,2.48480766,0.0,,empty
-,IG1398f2-3,,new orf determined by microarrays,True,0,0,4.78707193,16.0,,empty
+,IG1398f2-3,,new orf determined by microarrays,True,0,0,4.78707193,119.0,,empty
 ,IG1398f2-3_924,,,False,2,0,,,,empty
 ,IG1398r3,,,False,1,0,,,,empty
 ,IG1399f16,,,True,0,0,3.862597209,0.0,,empty
@@ -100,19 +90,33 @@ IG1153r5,PMED4_12832,,,False,1,0,,,PMM2061,tier1:locus_tag_new
 ,IG1429f3-4,,,False,1,0,,,,empty
 ,IG1429r11-17,IG1429r11-17,,False,0,1,,,,empty
 ,IG1429r4-6,,,False,1,0,,,,empty
-IG1442f4,PMED4_16202,,,True,0,0,2.981007048,14.0,PMM2075,tier1:locus_tag_new
 ,IG1443f7-9,,,True,0,1,3.530951357,67.0,,empty
 ,IG1451f8-15,,,False,1,0,,,,empty
-IG1451f8-16,PMED4_16313,,,True,0,0,4.505569212,149.0,,unresolved
 ,IG1451r5-8,,,False,1,0,,,,empty
 ,PMED4_01602,PMED4_01602,,True,0,1,3.337999729,22.0,,empty
+IG0346r10,PMED4_03431,,,True,0,0,3.063111946,19.0,PMM1810,tier1:locus_tag_new
+IG0348f10_198,PMED4_03472,,,True,0,0,3.041366904,16.0,,unresolved
+IG0418f,PMED4_04471,,,False,0,1,,,PMM1845,tier1:locus_tag_new
+IG0676r28-31,PMED4_07131,,,True,0,0,3.86685111,22.0,PMM1856,tier1:locus_tag_new
+IG0701r2-7,PMED4_07432,,,True,0,0,2.449614688,17.0,PMM2046,tier1:locus_tag_new
 ,PMED4_08162,PMED4_08162,,True,0,0,4.720043179,28.0,,empty
+IG0818r4,PMED4_08892,,,True,0,0,4.423464314,23.0,PMM2054,tier1:locus_tag_new
+IG0821f4,PMED4_08922,,,True,0,0,4.78707193,26.0,PMM2055,tier1:locus_tag_new
 ,PMED4_11271,,,True,0,0,4.720043179,201.0,,empty
+IG1023r,PMED4_11311,,,True,0,0,3.86685111,17.0,PMM1934,tier1:locus_tag_new
+IG1054f8-13,PMED4_11782,,,True,0,0,2.417778909,73.0,PMM2057,tier1:locus_tag_new
 ,PMED4_12632,,,True,0,0,4.720043179,98.0,,empty
+IG1149r,PMED4_12751,,,True,0,0,4.015984759,109.0,PMM1127,tier1:locus_tag_new
+IG1153f,PMED4_12811,,,True,0,0,3.337999729,22.0,PMM1957,tier1:locus_tag_new
+IG1153r5,PMED4_12832,,,False,1,0,,,PMM2061,tier1:locus_tag_new
+1397r,PMED4_15431,,,True,0,0,3.612533921,14.0,PMM1979,tier1:locus_tag_new
+IG1398f2-3,PMED4_15442,,,True,0,0,4.720043179,16.0,PMM2064,tier1:locus_tag_new
 ,PMED4_15512,,,True,0,0,4.720043179,71.0,,empty
 ,PMED4_15721,,,True,0,0,3.270970978,232.0,,empty
 ,PMED4_15902,,,True,0,0,4.720043179,66.0,,empty
 ,PMED4_16131,,,True,0,0,4.720043179,110.0,,empty
+IG1442f4,PMED4_16202,,,True,0,0,2.981007048,14.0,PMM2075,tier1:locus_tag_new
+IG1451f8-16,PMED4_16313,,,True,0,0,4.505569212,149.0,,unresolved
 PMM0001,PMED4_00001,dnaN,"DNA polymerase III, beta chain",True,2,0,4.015984759,16.0,PMM0001,locus_tag:old_locus_tag
 PMM0003,PMED4_00021,purL,phosphoribosylformylglycinamidine synthetase II,False,0,1,,,PMM0003,locus_tag:old_locus_tag
 PMM0004,PMED4_00031,purF,Glutamine amidotransferase class-II:Phosphoribosyl transferase,False,1,1,,,PMM0004,locus_tag:old_locus_tag

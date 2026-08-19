@@ -138,6 +138,36 @@ Section references below are into that plan file, which holds the full designs.
       touched.
       → `plans/geo_paperconfig_updates.md` Blocker B1 consequences
 
+### Post-review additions (2026-08-19 subagent review of all wired paperconfigs)
+
+- [ ] **Voigt 2014 — Table S7 conserved-TSS ortholog comparison.** Per
+      MED4↔MIT9313 ortholog pair: TSS distance in each strain + delta.
+      Reducible to a promoter-conservation DerivedMetric, but a two-strain
+      fact sits awkwardly in DerivedMetric's single-organism shape — needs a
+      small design decision before wiring. Table S8 (prochlorosin/procA TSS
+      scalars) also skipped: mostly new-annotation genes absent from the gene
+      layer, near-zero resolution expected.
+- [ ] **Hackl 2023 — tycheposon element catalog (`pro-623-elements.tsv`).**
+      937 elements with coordinates; contigs of 7 deployed strains appear
+      (AS9601, MIT0604, MIT1314, MIT9303, MIT9312, MIT9313, RSP50 + excluded
+      MIT1327). Could ride the same coordinate-containment machinery as the
+      islands (cluster_type e.g. `tycheposon_element`) — arguably the paper's
+      core contribution. mmc3 (HMM profiles) / mmc4 (element-type summary) /
+      mmc5 (RT-qPCR primers) reviewed and correctly out of scope.
+- [ ] **Johnson 2026b — `media-7` per-iModulon enrichment tables** (GO / COG /
+      KEGG-Module / KEGG-Pathway per module). Not independently wired-worthy —
+      should feed the §2.1C cluster `functional_description`s when 2.1C lands.
+- [ ] **he 2022 — recover ~6 MED4 genes via a strip-`gene-` heuristic.** GEO
+      GeneID values are `gene-<tag>`; 6 protein-coding rows
+      (gene-PMM0220/0236/0950/1858/2002/2065) fail only because no resolution
+      pass strips the `gene-` prefix before the multi-singleton lookup
+      (`_heuristic_candidates` in `gene_id_utils.py`). ~0.3% gain; rerun
+      step 4 for the paper after.
+- [ ] **MED4 mapping quirk — `RNA_41`/`gene-RNA_41` absorbed into PMM0521
+      (frr).** Likely a frr/rrf 5S-rRNA name collision during the GCA/GCF
+      harvest; produces one spurious duplicate resolution in he 2022 (benign:
+      not_significant edge). Fix in the mapping builder, not per-paper.
+
 ## Explorer / MCP coordination
 
 - [ ] **Relationship-property index on `evidence`.** Explicitly not requested for

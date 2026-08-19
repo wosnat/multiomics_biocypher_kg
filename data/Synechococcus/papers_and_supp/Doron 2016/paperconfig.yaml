@@ -15,7 +15,7 @@ publication:
       background_factors: [diel]
       treatment_organism: Phage
       treatment_taxid: 10239
-      experimental_context: "Synechococcus WH7803 infected with cyanophage Syn9; whole-genome oligo microarray of infected vs uninfected cultures at 7 timepoints over 4 h (0-240 min); values are per-timepoint infected/control log-ratios (limma). The single F / P.Value / adj.P.Val triplet is limma's OMNIBUS series-level test."
+      experimental_context: "Synechococcus WH7803 infected with cyanophage Syn9; whole-genome oligo microarray of infected vs uninfected cultures at 7 timepoints over 4 h (2-5 min, then 30-240 min); values are per-timepoint infected/control log-ratios (limma). The single F / P.Value / adj.P.Val triplet is limma's OMNIBUS series-level test."
       medium: "ASW (artificial seawater, Wyman et al. 1985 with Lindell et al. 1998 modifications)"
       temperature: "22C"
       light_condition: "14:10 light:dark cycle, cool white light"
@@ -34,7 +34,7 @@ publication:
       background_factors: [diel]
       treatment_organism: Phage
       treatment_taxid: 10239
-      experimental_context: "Synechococcus WH8102 infected with cyanophage Syn9; whole-genome oligo microarray of infected vs uninfected cultures at 7 timepoints over 4 h (0-240 min); values are per-timepoint infected/control log-ratios (limma). The single F / P.Value / adj.P.Val triplet is limma's OMNIBUS series-level test."
+      experimental_context: "Synechococcus WH8102 infected with cyanophage Syn9; whole-genome oligo microarray of infected vs uninfected cultures at 7 timepoints over 4 h (2-5 min, then 30-240 min); values are per-timepoint infected/control log-ratios (limma). The single F / P.Value / adj.P.Val triplet is limma's OMNIBUS series-level test."
       medium: "ASW (artificial seawater, Wyman et al. 1985 with Lindell et al. 1998 modifications)"
       temperature: "22C"
       light_condition: "14:10 light:dark cycle, cool white light"
@@ -53,7 +53,7 @@ publication:
       background_factors: [diel]
       treatment_organism: Phage
       treatment_taxid: 10239
-      experimental_context: "Synechococcus WH8109 infected with cyanophage Syn9; whole-genome oligo microarray of infected vs uninfected cultures at 7 timepoints over 4 h (0-240 min); values are per-timepoint infected/control log-ratios (limma). The single F / P.Value / adj.P.Val triplet is limma's OMNIBUS series-level test."
+      experimental_context: "Synechococcus WH8109 infected with cyanophage Syn9; whole-genome oligo microarray of infected vs uninfected cultures at 7 timepoints over 4 h (2-5 min, then 30-240 min); values are per-timepoint infected/control log-ratios (limma). The single F / P.Value / adj.P.Val triplet is limma's OMNIBUS series-level test."
       medium: "ASW (artificial seawater, Wyman et al. 1985 with Lindell et al. 1998 modifications)"
       temperature: "22C"
       light_condition: "14:10 light:dark cycle, cool white light"
@@ -77,8 +77,10 @@ publication:
       statistical_analyses:
         - id: doron2016_wh7803_syn9_0min
           experiment: syn9_infection_wh7803
-          timepoint: "0 min"
-          timepoint_hours: 0.0
+          timepoint: "2-5 min"
+          # the array's nominal-0 column (S0.C0 / SYN9.0.C0) is the paper's
+          # 2-5 min post-infection sample, not time zero
+          timepoint_hours: 0.083
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S0.C0"
@@ -150,8 +152,10 @@ publication:
       statistical_analyses:
         - id: doron2016_wh8102_syn9_0h
           experiment: syn9_infection_wh8102
-          timepoint: "0 h"
-          timepoint_hours: 0.0
+          timepoint: "2-5 min"
+          # the array's nominal-0 column (S0.C0 / SYN9.0.C0) is the paper's
+          # 2-5 min post-infection sample, not time zero
+          timepoint_hours: 0.083
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "SYN9.0.C0"
@@ -223,8 +227,10 @@ publication:
       statistical_analyses:
         - id: doron2016_wh8109_syn9_0h
           experiment: syn9_infection_wh8109
-          timepoint: "0 h"
-          timepoint_hours: 0.0
+          timepoint: "2-5 min"
+          # the array's nominal-0 column (S0.C0 / SYN9.0.C0) is the paper's
+          # 2-5 min post-infection sample, not time zero
+          timepoint_hours: 0.083
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S0.C0"

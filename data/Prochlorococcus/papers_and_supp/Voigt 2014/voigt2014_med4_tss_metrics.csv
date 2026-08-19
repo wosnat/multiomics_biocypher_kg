@@ -6,7 +6,6 @@ old_locus_tag,locus_tag_new,gene,product,has_primary_tss,antisense_tss_count,int
 ,1334081:1334248,,,false,0,1,,
 ,1357351:1357524,,,false,1,2,,
 ,1367540:1367676,,,false,1,0,,
-1397r,PMED4_15431,,,true,0,0,3.612533921,14.0
 ,1440417:1440698,,,false,0,1,,
 ,1533192:1533365,,,false,1,2,,
 ,258771:258772,,,false,1,0,,
@@ -22,9 +21,8 @@ old_locus_tag,locus_tag_new,gene,product,has_primary_tss,antisense_tss_count,int
 ,IG0057f3-5,,,true,0,0,3.530951357,42.0
 ,IG0064r2-4,,,true,1,0,3.898686889,15.0
 ,IG0090r2-3,,,true,0,0,4.720043179,0.0
-,IG0346r10,,,true,1,0,3.063111946,19.0
+,IG0346r10,,,false,1,0,,
 ,IG0346r3-4,,,true,0,0,2.913978297,15.0
-IG0348f10_198,PMED4_03472,,,true,0,0,3.041366904,16.0
 ,IG0350f2-3,,,false,1,0,,
 ,IG0354r3,,,false,1,1,,
 ,IG0371f5-6,,,true,0,0,2.48480766,69.0
@@ -33,14 +31,12 @@ IG0348f10_198,PMED4_03472,,,true,0,0,3.041366904,16.0
 ,IG0380f14-17,,new orf determined by microarrays,false,1,0,,
 ,IG0380r37-44,,,false,2,0,,
 ,IG0392f2,,,true,0,0,2.417778909,15.0
-,IG0418f,,,false,1,1,,
+,IG0418f,,,false,1,0,,
 ,IG0418r17,,,true,0,1,2.875441293,78.0
 ,IG0430r0-7,,,true,1,0,4.78707193,69.0
 ,IG0642r8,,,false,1,0,,
 ,IG0676f16-17,,,true,0,0,3.86685111,96.0
 ,IG0676r2,,,false,1,0,,
-IG0676r28-31,PMED4_07131,,,true,0,0,3.86685111,22.0
-IG0701r2-7,PMED4_07432,,,true,0,0,2.449614688,17.0
 ,IG0703f2-7,,,true,0,0,4.78707193,29.0
 ,IG0703r7-9,,,true,1,0,3.337999729,15.0
 ,IG0704f6,,,true,0,0,3.933879861,33.0
@@ -52,9 +48,7 @@ IG0701r2-7,PMED4_07432,,,true,0,0,2.449614688,17.0
 ,IG0735r5-6,,,false,1,0,,
 ,IG0751f9,,,true,0,0,4.78707193,14.0
 ,IG0754r,,,false,1,0,,
-IG0818r4,PMED4_08892,,,true,0,0,4.423464314,23.0
 ,IG0818r4_535,,,false,1,0,,
-IG0821f4,PMED4_08922,,,true,0,0,4.78707193,26.0
 ,IG0821f4_539,,,false,1,1,,
 ,IG0825r6-7,,,true,0,1,3.337999729,18.0
 ,IG0834r,,new orf determined by 5'RACE based on Bjoern's prediction cluster553rev,false,1,0,,
@@ -62,23 +56,19 @@ IG0821f4,PMED4_08922,,,true,0,0,4.78707193,26.0
 ,IG0977r2-4,,,true,0,0,4.78707193,16.0
 ,IG1016f5-6,,,false,1,0,,
 ,IG1022r,,,true,1,0,4.720043179,3.0
-IG1023r,PMED4_11311,,,true,0,0,3.86685111,17.0
 ,IG1042r,,,true,0,0,3.86685111,89.0
 ,IG1048f,,,true,0,0,4.356435563,17.0
-IG1054f8-13,PMED4_11782,,,true,0,0,2.417778909,73.0
 ,IG1054r19,,,true,1,0,2.974392112,23.0
 ,IG1142r10,,,true,0,0,4.78707193,14.0
 ,IG1142r19-25,,,false,1,0,,
 ,IG1149f1-3,,,false,1,0,,
-IG1149r,PMED4_12751,,,true,0,0,4.015984759,109.0
-,IG1153f,,,true,1,0,3.337999729,22.0
-IG1153r5,PMED4_12832,,,false,1,0,,
+,IG1153f,,,false,1,0,,
 ,IG1153r5-10,,,false,1,0,,
 ,IG1174r1,,,true,0,0,3.270970978,1.0
 ,IG1389r2,,new orf determined by phage and P microarray,false,1,0,,
 ,IG1389r2_914,,,false,1,0,,
 ,IG1397f8,,,true,0,0,2.48480766,0.0
-,IG1398f2-3,,new orf determined by microarrays,true,0,0,4.78707193,16.0
+,IG1398f2-3,,new orf determined by microarrays,true,0,0,4.78707193,119.0
 ,IG1398f2-3_924,,,false,2,0,,
 ,IG1398r3,,,false,1,0,,
 ,IG1399f16,,,true,0,0,3.862597209,0.0
@@ -100,19 +90,33 @@ IG1153r5,PMED4_12832,,,false,1,0,,
 ,IG1429f3-4,,,false,1,0,,
 ,IG1429r11-17,IG1429r11-17,,false,0,1,,
 ,IG1429r4-6,,,false,1,0,,
-IG1442f4,PMED4_16202,,,true,0,0,2.981007048,14.0
 ,IG1443f7-9,,,true,0,1,3.530951357,67.0
 ,IG1451f8-15,,,false,1,0,,
-IG1451f8-16,PMED4_16313,,,true,0,0,4.505569212,149.0
 ,IG1451r5-8,,,false,1,0,,
 ,PMED4_01602,PMED4_01602,,true,0,1,3.337999729,22.0
+IG0346r10,PMED4_03431,,,true,0,0,3.063111946,19.0
+IG0348f10_198,PMED4_03472,,,true,0,0,3.041366904,16.0
+IG0418f,PMED4_04471,,,false,0,1,,
+IG0676r28-31,PMED4_07131,,,true,0,0,3.86685111,22.0
+IG0701r2-7,PMED4_07432,,,true,0,0,2.449614688,17.0
 ,PMED4_08162,PMED4_08162,,true,0,0,4.720043179,28.0
+IG0818r4,PMED4_08892,,,true,0,0,4.423464314,23.0
+IG0821f4,PMED4_08922,,,true,0,0,4.78707193,26.0
 ,PMED4_11271,,,true,0,0,4.720043179,201.0
+IG1023r,PMED4_11311,,,true,0,0,3.86685111,17.0
+IG1054f8-13,PMED4_11782,,,true,0,0,2.417778909,73.0
 ,PMED4_12632,,,true,0,0,4.720043179,98.0
+IG1149r,PMED4_12751,,,true,0,0,4.015984759,109.0
+IG1153f,PMED4_12811,,,true,0,0,3.337999729,22.0
+IG1153r5,PMED4_12832,,,false,1,0,,
+1397r,PMED4_15431,,,true,0,0,3.612533921,14.0
+IG1398f2-3,PMED4_15442,,,true,0,0,4.720043179,16.0
 ,PMED4_15512,,,true,0,0,4.720043179,71.0
 ,PMED4_15721,,,true,0,0,3.270970978,232.0
 ,PMED4_15902,,,true,0,0,4.720043179,66.0
 ,PMED4_16131,,,true,0,0,4.720043179,110.0
+IG1442f4,PMED4_16202,,,true,0,0,2.981007048,14.0
+IG1451f8-16,PMED4_16313,,,true,0,0,4.505569212,149.0
 PMM0001,PMED4_00001,dnaN,"DNA polymerase III, beta chain",true,2,0,4.015984759,16.0
 PMM0003,PMED4_00021,purL,phosphoribosylformylglycinamidine synthetase II,false,0,1,,
 PMM0004,PMED4_00031,purF,Glutamine amidotransferase class-II:Phosphoribosyl transferase,false,1,1,,

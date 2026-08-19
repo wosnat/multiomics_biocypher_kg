@@ -56,8 +56,14 @@ def strongest_gtss(rows: pd.DataFrame) -> pd.Series:
 def build(strain: str, src: Path) -> pd.DataFrame:
     df = pd.read_excel(src, sheet_name=0)
     df = df[df["type"].isin(GENE_TSS_TYPES)].copy()
-    # Gene key: prefer oldLocusTag (native PMM*/PMT*), fall back to locusTag.
-    df["gene_key"] = df["oldLocusTag"].fillna(df["locusTag"])
+    # Gene key: prefer oldLocusTag, but ONLY when it looks like a real native
+    # tag (PMM*/PMT*). The column also carries free text ("new ORF determined
+    # by 454", IG* intergenic labels) shared across unrelated loci — keying on
+    # those would merge distinct genes into one chimeric record. Anything
+    # non-native falls back to the row's locusTag (distinct per locus).
+    old = df["oldLocusTag"].astype("string")
+    native = old.str.match(r"^PM[MT]\d", na=False)
+    df["gene_key"] = old.where(native).fillna(df["locusTag"])
     df = df[df["gene_key"].notna()]
 
     records = []

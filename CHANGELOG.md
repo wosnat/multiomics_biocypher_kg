@@ -58,10 +58,10 @@ tag with nothing logged.
   (Voigt 2014 TSS scalars, MED4 + MIT9313), whether it sits inside a
   predicted genomic island (Hackl 2023, 11 Prochlorococcus strains), and how
   the same cyanophage (Syn9) rewires three different Synechococcus hosts
-  side-by-side (Doron 2016; WH8109 newly onboarded for it) — plus MED4
-  DNA-damage (mitomycin C / UV) and diel light-perturbation responses
-  (Hackl 2023 MIT0604, Johnson 2026b) and the full unfiltered he 2022
-  tables replacing 113-row significant-only subsets.
+  side-by-side (Doron 2016; WH8109 newly onboarded for it) — plus MIT0604
+  DNA-damage responses (mitomycin C / UV, Hackl 2023), MED4 diel
+  light-perturbation responses (Johnson 2026b), and the full unfiltered
+  he 2022 tables replacing 113-row significant-only subsets.
 - **TCDB node names (T6).** 916 of the 1,515 `TcdbFamily` nodes rendered as
   their bare TC id — 60% of the transporter ontology was reachable only by
   exact id. Names are now scraped from tcdb.org into a committed
@@ -213,11 +213,10 @@ tag with nothing logged.
   genome-wide mRNA half-lives from rifampicin transcription arrest
   (microarray). One Experiment (`treatment_type: []` — rifampicin is the
   measurement method, not a perturbation), 3 numeric DerivedMetrics
-  (`rna_half_life_min`, `rna_decay_rate_per_min`, `expression_at_t0_log2`)
+  (`rna_half_life_min`, `rna_decay_time_min` — the paper's 'decay rate' is a decay TIME, min per twofold decrease — `expression_at_t0_log2`) + an `expressed_above_background` reliability flag
   over 2,043 features at 94.5% resolution (1,930 genes), plus 12 Mfuzz
   decay-pattern GeneClusters (1,102 clustered rows, 1,010 resolved; new
-  `cluster_type: decay_pattern`). MIT9313 arm not wired (ships only in PPT
-  figures).
+  `cluster_type: decay_pattern`).
 - **Voigt 2014** (new publication, `10.1038/ismej.2014.57`) — MED4 + MIT9313
   transcriptome-architecture (TSS) maps reduced to per-gene routing scalars.
   2 Experiments, 10 DerivedMetrics (5 per strain: `has_primary_tss`,
@@ -235,7 +234,7 @@ tag with nothing logged.
   log-ratios with null adjusted_p_value.
 - **Hackl 2023** (new publication, `10.1016/j.cell.2022.12.006`) — two
   independent layers: (1) predicted genomic islands as `gene_clusters`
-  across 11 Prochlorococcus strains (149 islands with genes, 6,003
+  across 11 Prochlorococcus strains (139 islands with genes, 6,003
   membership rows, 100% resolved; membership by coordinate containment,
   frames verified vs mmc1; MIT1327 excluded pending coordinate remap;
   explicitly NOT a core/flexible label, decision D6); (2) MIT0604
@@ -244,7 +243,7 @@ tag with nothing logged.
   control), unfiltered DESeq2 tables (2,047 rows each) at 97.9% resolution
   via a generated `CK_Pro_` prefix id_translation. Antisense arm deferred
   (D8). First emitter of `treatment_type: chemical`.
-- **Johnson 2026b** (new publication, `10.1101/2026.04.15.718746`,
+- **Johnson 2026b** (new publication, `10.64898/2026.04.15.718746`,
   GSE314951) — MED4 diel light-perturbation DE from the PNNL iModulon
   preprint: dark shift during the light period (2 h / 4 h) and light
   exposure during the dark period (diel hours 14 / 16), 2 Experiments,
@@ -256,7 +255,7 @@ tag with nothing logged.
 - **he 2022 — DE source replaced with the full GEO tables** (correction).
   The KG previously carried only the paper's "highly DE" supplementary
   subsets (MED4 31 rows, NATL1A 82 rows, `significant_only`); it now
-  carries the full `GSE195946_Group_*_DE_anno` tables (MED4 2,041 /
+  carries the full `GSE195946_Group_*_DE_anno` tables (MED4 2,042 /
   NATL1A 2,239 rows, `all_detected_genes`, real FDR as adjusted p).
   Unblocked by the B1 placeholder-merge fix (`a84db12b`).
 - **Huang 2020** (new publication, `10.1002/mbo3.1150`) — WH7803 cyanophage

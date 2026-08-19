@@ -11,7 +11,7 @@ publication:
       treatment_condition: "Genome-wide transcriptional start site mapping in exponential growth"
       treatment_type: []
       background_factors: [axenic, light]
-      experimental_context: "Axenic MED4 at 22C in AMP1 medium under 10-30 umol quanta m-2 s-1 continuous cool white light, harvested in exponential phase; TSS positions mapped by 454 + Solexa differential RNA-seq with tiling-array support (control + pooled-stress hybridizations used only to call expressed segments). Derived per-gene scalars are ROUTING signals reduced from the multi-TSS-per-gene map — they do not capture transcript boundaries, UTR lengths, operon structure or the ncRNA catalogue (the paper's actual contribution; no schema slot yet)."
+      experimental_context: "MED4 monoculture at 22C in AMP1 medium under 10-30 umol quanta m-2 s-1 continuous cool white light, harvested in exponential phase; TSS positions mapped by 454 + Solexa differential RNA-seq with tiling-array support (control + pooled-stress hybridizations used only to call expressed segments). Derived per-gene scalars are ROUTING signals reduced from the multi-TSS-per-gene map — they do not capture transcript boundaries, UTR lengths, operon structure or the ncRNA catalogue (the paper's actual contribution; no schema slot yet)."
       medium: "AMP1"
       temperature: "22C"
       light_condition: "continuous cool white light"
@@ -26,7 +26,7 @@ publication:
       treatment_condition: "Genome-wide transcriptional start site mapping in exponential growth"
       treatment_type: []
       background_factors: [axenic, light]
-      experimental_context: "Axenic MIT9313 at 22C in AMP1 medium under 10-30 umol quanta m-2 s-1 continuous cool white light, harvested in exponential phase; TSS positions mapped by 454 + Solexa differential RNA-seq with tiling-array support (control + pooled-stress hybridizations used only to call expressed segments). Derived per-gene scalars are ROUTING signals reduced from the multi-TSS-per-gene map — they do not capture transcript boundaries, UTR lengths, operon structure or the ncRNA catalogue (the paper's actual contribution; no schema slot yet)."
+      experimental_context: "MIT9313 monoculture at 22C in AMP1 medium under 10-30 umol quanta m-2 s-1 continuous cool white light, harvested in exponential phase; TSS positions mapped by 454 + Solexa differential RNA-seq with tiling-array support (control + pooled-stress hybridizations used only to call expressed segments). Derived per-gene scalars are ROUTING signals reduced from the multi-TSS-per-gene map — they do not capture transcript boundaries, UTR lengths, operon structure or the ncRNA catalogue (the paper's actual contribution; no schema slot yet)."
       medium: "AMP1"
       temperature: "22C"
       light_condition: "continuous cool white light"

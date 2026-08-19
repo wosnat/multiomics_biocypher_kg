@@ -3,17 +3,17 @@ Source: voigt2014_med4_tss_metrics.csv
 name_col: old_locus_tag
 id_columns: ['old_locus_tag', 'locus_tag_new']
 
-Total rows with IDs: 1642
-Resolved: 1639 (99.8%)
+Total rows with IDs: 1646
+Resolved: 1643 (99.8%)
 Unresolved: 3
 
 Resolution method breakdown:
   empty: 133
   locus_tag:old_locus_tag: 1629
-  tier1:locus_tag_new: 10
+  tier1:locus_tag_new: 14
   unresolved: 3
 
 Unresolved rows (3):
-  row 25: raw_id='IG0348f10_198'  reason=unresolved  [old_locus_tag='IG0348f10_198', locus_tag_new='PMED4_03472']
-  row 104: raw_id='IG1451f8-16'  reason=unresolved  [old_locus_tag='IG1451f8-16', locus_tag_new='PMED4_16313']
-  row 1023: raw_id='PMM1018a'  reason=unresolved  [old_locus_tag='PMM1018a', locus_tag_new='PMED4_11521']
+  row 96: raw_id='IG0348f10_198'  reason=unresolved  [old_locus_tag='IG0348f10_198', locus_tag_new='PMED4_03472']
+  row 117: raw_id='IG1451f8-16'  reason=unresolved  [old_locus_tag='IG1451f8-16', locus_tag_new='PMED4_16313']
+  row 1027: raw_id='PMM1018a'  reason=unresolved  [old_locus_tag='PMM1018a', locus_tag_new='PMED4_11521']

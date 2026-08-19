@@ -20,7 +20,7 @@ Directory is named for the GEO submission year; the paper published in 2021.
 | `cluster_extractions/huang2021_response_groups.json` | JSON | Per-group descriptions (hand-authored from the Results text) | already in | — |
 | `GSE150732_WH7803.rpkm.xls` | XLS | Per-sample host RPKM | reference | no DE contrast; see D1 in `plans/geo_paperconfig_updates.md` |
 | `GSE150732_S-SBP1.rpkm.xls` | XLS | Per-sample **phage** RPKM | skip | phage genes are not KG Gene nodes |
-| `geo_source.txt` | TXT | GEO provenance + column notes | reference | — |
+| `data sources.txt` | TXT | GEO provenance note | reference | — |
 | `data sources.txt` | TXT | Original download note | reference | — |
 
 ## Current paperconfig summary
@@ -29,7 +29,7 @@ Directory is named for the GEO submission year; the paper published in 2021.
 - Statistical analyses: 5 — one per timepoint (0.25, 1, 3, 5, 7 h), all vs the 30 min uninfected control
 - Clustering analyses: 1 — `huang2021_response_groups`, 3 GeneClusters (1a n=9, 1b n=20, 2 n=3), 32 membership edges
 - Table scope: `all_detected_genes` (2528 host genes at every timepoint, unfiltered)
-- ID resolution: **97.2%** (2456/2528), tier-1 on native `SYNWH7803_RS#####`, plus 68 rows recovered via the gene-name column. **Zero locus-tag collisions.**
+- ID resolution: **97.2%** (2456/2528), tier-1 on native `SYNWH7803_RS#####`, of which 68 rows resolved via the declared locus_tag id_column path and 13 gene-name rows (rbcL etc.) via tier-1 lookup. **Zero locus-tag collisions.**
 - Expected edges: 2456 x 5 = **12,280** `Changes_expression_of`
 
 ## Notes

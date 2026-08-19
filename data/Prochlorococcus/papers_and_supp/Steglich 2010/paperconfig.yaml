@@ -20,12 +20,17 @@ publication:
       light_condition: "continuous cool white light"
       light_intensity: "30 umol quanta m-2 s-1"
       table_scope: all_detected_genes
-      table_scope_detail: "Whole-transcriptome half-life table (2,043 features incl. pseudogene/ncRNA/operon features absent from the gene layer). MED4 arm only — the paper also covers MIT9313 but those half-lives ship only inside PPT figures (Additional files 1-4) and are not wired."
+      table_scope_detail: "Whole-transcriptome half-life table (2,043 features incl. pseudogene/ncRNA/operon features absent from the gene layer)."
 
   supplementary_materials:
     # Built from 13059_2010_2347_MOESM5_ESM.XLS ("Additional file 1"'s table;
-    # the legend's numbering is offset by four) by
+    # the legend's file descriptions are scrambled relative to MOESM numbers) by
     # scripts/build_modified_csv/build_steglich2010_halflife_csv.py
+    # Deliberately NOT wired: MOESM6 (operon-organized genes — its half-life/
+    # decay values are 220/220 numerically identical to MOESM5; unique content
+    # is operon membership/position, no schema slot — Tier 3 operon layer);
+    # MOESM7 (operon-level Chen 2004 comparison, no per-gene metrics);
+    # MOESM8 (qRT-PCR oligo list); MOESM1-4 PPTs + MOESM10-15 PDFs (figures).
     halflife_table:
       type: derived_metrics_table
       filename: "data/Prochlorococcus/papers_and_supp/Steglich 2010/steglich2010_halflife_modified.csv"
@@ -47,16 +52,16 @@ publication:
           unit: "min"
           rankable: "true"
           has_p_value: "false"
-          field_description: "Fitted mRNA half-life in minutes after rifampicin transcription arrest (median 2.4 min genome-wide). Higher = more stable transcript. Standard error per gene in source column half_life_se_min (kept in the CSV, not wired as a metric)."
+          field_description: "Fitted mRNA half-life in minutes after rifampicin transcription arrest (median 2.4 min for expressed genes; 3.4 min over the whole table). Higher = more stable transcript. Caveat: fits for genes below the expression threshold (expressed_above_background = false) are unreliable, and half-lives of very highly expressed genes are saturation-inflated (paper: psbA 40 min by array vs 18 min by qPCR). Standard error per gene in source column half_life_se_min (kept in the CSV, not wired as a metric)."
 
-        - metric_type: rna_decay_rate_per_min
-          name: "mRNA decay rate (1/min)"
+        - metric_type: rna_decay_time_min
+          name: "mRNA decay time (min per twofold decrease)"
           value_kind: numeric
-          value_col: decay_rate_per_min
-          unit: "1/min"
+          value_col: decay_time_min
+          unit: "min"
           rankable: "true"
           has_p_value: "false"
-          field_description: "Fitted first-order mRNA decay rate constant after rifampicin transcription arrest. Higher = faster degradation (inverse of half-life). Standard error and error-interval bounds per gene in source columns decay_rate_se_per_min / decay_rate_lower / decay_rate_upper (kept in the CSV, not wired as metrics)."
+          field_description: "Two-phase-fit mRNA decay time in minutes per twofold decrease, measured relative to the timepoint of maximal expression (the paper idiosyncratically calls this 'decay rate'; it is a TIME, not a rate constant). Higher = MORE stable — same direction as rna_half_life_min, which it complements (different fitting approach; median 2.6 min for expressed genes). Standard error and error-interval bounds per gene in source columns decay_time_se_min / decay_time_lower / decay_time_upper (kept in the CSV, not wired as metrics)."
 
         - metric_type: expression_at_t0_log2
           name: "Expression at t0 (log2)"
@@ -66,6 +71,16 @@ publication:
           rankable: "true"
           has_p_value: "false"
           field_description: "log2 microarray expression level at 0 min (before rifampicin addition) — the steady-state abundance baseline the decay fit starts from."
+
+        - metric_type: expressed_above_background
+          name: "Expressed above background at t0"
+          value_kind: boolean
+          value_col: expressed
+          true_tokens: ["True", "true"]
+          false_tokens: ["False", "false"]
+          skip_tokens: ["NA", "N/A"]
+          blank_policy: skip
+          field_description: "The paper's expression-threshold call at t0. false = below background — the paper excluded these genes from its global half-life statistics and clustering, and their decay fits are unreliable. Use as a reliability filter on rna_half_life_min / rna_decay_time_min."
 
     decay_clusters:
       type: gene_clusters

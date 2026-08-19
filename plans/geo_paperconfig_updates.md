@@ -132,7 +132,7 @@ design question (D5) and the largest surface.
 **Identity, first.** The directory `johnson 2026 a/` holds bioRxiv
 `2026.04.15.718746` — *"Extreme genome reduction selectively retains modular
 regulatory architecture in Prochlorococcus MED4"* (Johnson, Sadler, …, Bohutskyi;
-PNNL). DOI `10.1101/2026.04.15.718746`. This is **not** the paper already sitting
+PNNL). DOI `10.64898/2026.04.15.718746`. This is **not** the paper already sitting
 in `Johnson 2026/` (`2026.01.21.700212`, the Lattice-Microbe whole-cell model,
 which merely *cites* GSE314951). The triage doc attributes GSE314951 to the
 modelling preprint; that attribution is wrong and should be corrected there too.

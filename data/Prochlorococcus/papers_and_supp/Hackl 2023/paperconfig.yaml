@@ -13,7 +13,11 @@ publication:
       background_factors: [axenic]
       treatment_condition: "Mitomycin C 15 ug/mL for 2 h (DNA-crosslinking damage; induces integrases/excisionases and mobilizes tycheposons)"
       control_condition: "Untreated parallel cultures"
-      experimental_context: "Triplicate 30 mL exponential-phase MIT0604 cultures; strand-specific RNA-seq (KAPA HyperPrep + RiboZero); DESeq2 Wald test, BH correction, authors' significance cutoff padj < 0.1. Sense-strand quantification (antisense tables deferred, see plans/backlog.md D8)."
+      experimental_context: "Triplicate 30 mL exponential-phase MIT0604 cultures (the paper grows cultures axenically 'except ... MIT0604 when specified'; the RNA-seq methods specify nothing, so axenic is the default reading); strand-specific RNA-seq (KAPA HyperPrep + RiboZero); DESeq2 Wald test, BH correction, authors' significance cutoff padj < 0.1. Sense-strand quantification (antisense tables deferred, see plans/backlog.md D8)."
+      medium: "Pro99 (Sargasso seawater based)"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "30-40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       table_scope_detail: "Unfiltered DESeq2 output, 2,047 rows (authors' custom MIT0604_* annotation bridged to Cyanorak ids via prefix id_translation)"
 
@@ -27,6 +31,10 @@ publication:
       treatment_condition: "UV shock: 30 s at 254 nm (100 mW cm-2) in open petri dish, then 1 h recovery in normal culture conditions"
       control_condition: "Untreated parallel cultures (same handling, no irradiation)"
       experimental_context: "Triplicate 30 mL exponential-phase MIT0604 cultures; strand-specific RNA-seq; DESeq2 Wald test, BH correction, authors' significance cutoff padj < 0.1. UV shock did NOT significantly induce the integrase (the paper's negative control for mitomycin C's effect). Sense-strand quantification (antisense tables deferred)."
+      medium: "Pro99 (Sargasso seawater based)"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "30-40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       table_scope_detail: "Unfiltered DESeq2 output, 2,047 rows"
 
@@ -40,6 +48,10 @@ publication:
       treatment_condition: "Mitomycin C 15 ug/mL for 2 h"
       control_condition: "UV shock arm (30 s 254 nm + 1 h recovery) — treatment-vs-treatment contrast, NOT an untreated baseline"
       experimental_context: "Direct DESeq2 contrast between the two DNA-damage arms; positive log2FC = higher in mitomycin C. Both arms from the same triplicate experiment as the vs-control contrasts. Sense-strand quantification."
+      medium: "Pro99 (Sargasso seawater based)"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "30-40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       table_scope_detail: "Unfiltered DESeq2 output, 2,047 rows"
 

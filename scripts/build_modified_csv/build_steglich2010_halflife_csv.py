@@ -35,10 +35,15 @@ COLUMN_MAP = {
     "cluster": "decay_cluster",
     "half-life time [min]": "half_life_min",
     "standard error of half-life time [min]": "half_life_se_min",
-    "decay rate [min]": "decay_rate_per_min",
-    "standard error of decay rate [min]": "decay_rate_se_per_min",
-    "lower bound of error interval of decay rate [min]": "decay_rate_lower",
-    "upper bound of error interval of decay rate [min]": "decay_rate_upper",
+    # NOTE: the paper's "decay rate [min]" is a decay TIME — minutes per
+    # twofold decrease from a two-phase fit relative to the timepoint of
+    # maximal expression (Methods: dT = (t - t0)/(log2 N(t0) - log2 N(t))).
+    # Higher = MORE stable. It is NOT a first-order rate constant
+    # (median(decay/half_life) ~= 1.00 across the table).
+    "decay rate [min]": "decay_time_min",
+    "standard error of decay rate [min]": "decay_time_se_min",
+    "lower bound of error interval of decay rate [min]": "decay_time_lower",
+    "upper bound of error interval of decay rate [min]": "decay_time_upper",
 }
 
 

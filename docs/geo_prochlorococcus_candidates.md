@@ -12,7 +12,7 @@ Triaged 2026-08-16 against `data/Prochlorococcus/papers_and_supp/paperconfig_fil
 | GSE | First author / year | Title | DOI |
 |---|---|---|---|
 | GSE335434 | Bohutskyi / Johnson (PNNL), public 2026 | P-SSP7 infection of *Prochlorococcus* MED4 under standard light, high light, and darkness | — unpublished |
-| GSE314951 | Johnson 2026b (bioRxiv, PNNL) | Extreme genome reduction selectively retains modular regulatory architecture in *Prochlorococcus* MED4 | 10.1101/2026.04.15.718746 |
+| GSE314951 | Johnson 2026b (bioRxiv, PNNL) | Extreme genome reduction selectively retains modular regulatory architecture in *Prochlorococcus* MED4 | 10.64898/2026.04.15.718746 |
 | GSE150732 | Huang S 2021, *MicrobiologyOpen* | Temporal transcriptomes of a marine cyanopodovirus and its *Synechococcus* host during infection | 10.1002/mbo3.1150 |
 | GSE74921 + GSE63690 (SuperSeries GSE74922) | Doron S 2016, *ISME J* | Transcriptome dynamics of a broad host-range cyanophage and its hosts | 10.1038/ismej.2015.210 |
 | GSE171435 | Hackl T 2023, *Cell* | Novel integrative elements and genomic plasticity in ocean ecosystems | 10.1016/j.cell.2022.12.006 |
@@ -23,7 +23,7 @@ Triaged 2026-08-16 against `data/Prochlorococcus/papers_and_supp/paperconfig_fil
 ### DOIs only (cut & paste)
 
 ```
-10.1101/2026.04.15.718746
+10.64898/2026.04.15.718746
 10.1002/mbo3.1150
 10.1038/ismej.2015.210
 10.1016/j.cell.2022.12.006
@@ -35,7 +35,7 @@ Triaged 2026-08-16 against `data/Prochlorococcus/papers_and_supp/paperconfig_fil
 ### Notes per candidate
 
 - **GSE335434** — 111 samples (MOI 10; 0/0.5/1/2/4/8/24 h + 26/32 h dark recovery; triplicates; uninfected controls). MED4 deployed. Raw counts CSV only → we run our own DE. Unpublished.
-- **GSE314951** — 44 samples, 2 h resolution over a full cycle, 12:12 L:D, 22 °C. MED4 deployed. Counts CSV. Dataset paper is the iModulon preprint `10.1101/2026.04.15.718746` (Johnson, Sadler, …, Bohutskyi; PNNL) — **not** the whole-cell-modeling preprint `2026.01.21.700212`, which merely cites the series (earlier revisions of this doc had that attribution wrong).
+- **GSE314951** — 44 samples, 2 h resolution over a full cycle, 12:12 L:D, 22 °C. MED4 deployed. Counts CSV. Dataset paper is the iModulon preprint `10.64898/2026.04.15.718746` (Johnson, Sadler, …, Bohutskyi; PNNL) — **not** the whole-cell-modeling preprint `2026.01.21.700212`, which merely cites the series (earlier revisions of this doc had that attribution wrong).
 - **GSE150732** — WH7803 deployed; supplement already ships a WH7803 DE file → lowest friction. `treatment_type: [viral]`.
 - **GSE74921 / GSE63690** — syn9 + P-TIM40 across WH7803, WH8102, WH8109 (+ NATL2A in the array arm). WH8109 would need onboarding.
 - **GSE171435** — MIT0604 mitomycin C / UV. Unfiltered sense + antisense DE tables (better `table_scope` than most). Blockers: MIT0604 not in KG (`/add-a-strain`) + custom `ThomasGenomeGFF` IDs (`annotation_gff` + `id_translation`). GEO lists no citation; Hackl 2023 is inferred from the shared submitters/tycheposon topic.

@@ -1,4 +1,4 @@
-old_annotation,new_annotation,gene_function,expression_t0_log2,expressed,decay_cluster,half_life_min,half_life_se_min,decay_rate_per_min,decay_rate_se_per_min,decay_rate_lower,decay_rate_upper,resolved_locus_tag,resolution_method
+old_annotation,new_annotation,gene_function,expression_t0_log2,expressed,decay_cluster,half_life_min,half_life_se_min,decay_time_min,decay_time_se_min,decay_time_lower,decay_time_upper,resolved_locus_tag,resolution_method
 PMM0001,PMED4_00001,"dnaN DNA polymerase III, beta chain",6.39215560867752,True,3.0,1.53640445356805,0.575169009274767,1.65404878840185,0.575169009274767,1.58402171681836,1.73055380991733,PMM0001,tier1:new_annotation
 PMM0002,PMED4_00011,conserved hypothetical protein,4.82834246481926,False,,2.02257356800777,1.37463299992709,4.69404402265072,1.37463299992709,3.80029518285762,6.13743969022455,PMM0002,tier1:new_annotation
 PMM0003,PMED4_00021,purL phosphoribosylformylglycinamidine synthetase II,5.22246056765389,False,,5.52975596584811,2.40561025503668,5.96734932626608,2.40561025503668,5.02626466525626,7.34202092262141,PMM0003,tier1:new_annotation

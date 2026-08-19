@@ -1,40 +1,42 @@
 publication:
   papername: "Johnson 2026b"
-  doi: "10.1101/2026.04.15.718746"
+  doi: "10.64898/2026.04.15.718746"  # bioRxiv post-2025 openRxiv prefix — 10.1101/... 404s
   papermainpdf: "data/Prochlorococcus/papers_and_supp/Johnson 2026b/2026.04.15.718746v1.full.pdf"
   # NOTE: this is the iModulon preprint (Johnson, Sadler, ..., Bohutskyi; PNNL;
   # GSE314951) — NOT the whole-cell-modeling preprint 2026.01.21.700212 that
   # sits in "Johnson 2026/" and merely cites the same GEO series (plan F8).
 
   experiments:
-    dark_shift_during_light_med4:
-      name: "MED4 dark shift during the light period vs continued light (RNA-seq)"
+    extended_darkness_med4:
+      name: "MED4 extended darkness past dawn vs normal light period (RNA-seq)"
       organism: "Prochlorococcus MED4"
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [darkness]
       background_factors: [axenic, diel]
-      treatment_condition: "Shift to darkness during the subjective light period of a 12:12 L:D-entrained culture"
-      control_condition: "Continued light (normal diel light period)"
-      experimental_context: "Diel-entrained axenic MED4 in Pro99 at 21C, 12:12 light:dark; cultures shifted to darkness during the light period and sampled 2 h and 4 h after the shift; DESeq2 vs time-matched light controls; authors' significance cutoff padj < 0.05. All 1,920 detected genes present in every contrast."
+      treatment_condition: "Extended darkness across dawn: lights NOT turned on at ZT 0, darkness continued into the subjective circadian day"
+      control_condition: "Normal diel light period (time-matched controls)"
+      experimental_context: "Diel-entrained MED4 monoculture in Pro99 at 21C, 12:12 light:dark (>=180 days entrainment); darkness extended past dawn (lights never turned on at ZT 0) and sampled at ZT 2 and 4 h (= 2 and 4 h into the extension); DESeq2 vs time-matched normal-light controls; authors' significance cutoff padj < 0.05. All 1,920 detected genes present in each contrast."
       medium: "Pro99"
       temperature: "21C"
       light_condition: "12:12 light:dark cycle"
+      light_intensity: "~45 umol photons m-2 s-1"
       table_scope: all_detected_genes
 
-    light_exposure_during_dark_med4:
-      name: "MED4 light exposure during the dark period vs continued darkness (RNA-seq)"
+    extended_light_med4:
+      name: "MED4 extended light past dusk vs normal dark period (RNA-seq)"
       organism: "Prochlorococcus MED4"
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [light]
       background_factors: [axenic, diel]
-      treatment_condition: "Light exposure during the subjective dark period of a 12:12 L:D-entrained culture"
-      control_condition: "Continued darkness (normal diel dark period)"
-      experimental_context: "Diel-entrained axenic MED4 in Pro99 at 21C, 12:12 light:dark; cultures exposed to light during the dark period and sampled at diel hours 14 and 16 (2 h and 4 h after the perturbation); DESeq2 vs time-matched dark controls; authors' significance cutoff padj < 0.05. All 1,920 detected genes present in every contrast."
+      treatment_condition: "Extended light across dusk: lights NOT turned off at ZT 12, light continued into the subjective circadian night"
+      control_condition: "Normal diel dark period (time-matched controls)"
+      experimental_context: "Diel-entrained MED4 monoculture in Pro99 at 21C, 12:12 light:dark (>=180 days entrainment); light extended past dusk (lights never turned off at ZT 12) and sampled at ZT 14 and 16 h (= 2 and 4 h into the extension); DESeq2 vs time-matched normal-dark controls; authors' significance cutoff padj < 0.05. All 1,920 detected genes present in each contrast (one gene has NaN stats at 16 h)."
       medium: "Pro99"
       temperature: "21C"
       light_condition: "12:12 light:dark cycle"
+      light_intensity: "~45 umol photons m-2 s-1"
       table_scope: all_detected_genes
 
   supplementary_materials:
@@ -53,7 +55,7 @@ publication:
           id_type: locus_tag_ncbi   # TX50_RS##### (MED4 RefSeq)
       statistical_analyses:
         - id: johnson2026b_med4_dark_vs_light_2h
-          experiment: dark_shift_during_light_med4
+          experiment: extended_darkness_med4
           timepoint: "2h"
           timepoint_hours: 2.0
           growth_phase: diel
@@ -63,7 +65,7 @@ publication:
           pvalue_threshold: 0.05
           prefiltered: false
         - id: johnson2026b_med4_dark_vs_light_4h
-          experiment: dark_shift_during_light_med4
+          experiment: extended_darkness_med4
           timepoint: "4h"
           timepoint_hours: 4.0
           growth_phase: diel
@@ -82,7 +84,7 @@ publication:
           id_type: locus_tag_ncbi
       statistical_analyses:
         - id: johnson2026b_med4_light_vs_dark_14h
-          experiment: light_exposure_during_dark_med4
+          experiment: extended_light_med4
           timepoint: "14h"
           timepoint_hours: 14.0
           growth_phase: diel
@@ -92,7 +94,7 @@ publication:
           pvalue_threshold: 0.05
           prefiltered: false
         - id: johnson2026b_med4_light_vs_dark_16h
-          experiment: light_exposure_during_dark_med4
+          experiment: extended_light_med4
           timepoint: "16h"
           timepoint_hours: 16.0
           growth_phase: diel
