@@ -141,6 +141,7 @@ CANONICAL_GENOMIC_ORGANISMS = {
     "Synechococcus elongatus PCC 7942",
     "Synechococcus elongatus UTEX 2973",
     "Synechococcus sp. BL107",
+    "Synechococcus WH8109",
     "Thermosynechococcus vestitus BP-1",
     "Alteromonas macleodii HOT1A3",
     "Alteromonas macleodii EZ55",
