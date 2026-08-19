@@ -45,42 +45,60 @@ def test_gene_reaction_count_consistent_with_edges(run_query):
         )
 
 
-# ── KG-A2: Gene.metabolite_count ──────────────────────────────────────────
+# ── KG-A2: Gene.catalyzed_metabolite_count (renamed from metabolite_count, KG-SYNC-001) ──
 
-def test_gene_metabolite_count_present_on_all_genes(run_query):
+def test_retired_catalysis_arm_names_are_absent(run_query):
+    """KG-SYNC-001: the bare names were RETIRED with the arm split, not aliased.
+
+    Label-scoped on purpose: metabolite_count survives on Experiment /
+    Publication / KeggTerm / TcdbFamily etc., and gene_count survives on every
+    ontology node — only the three renamed homes must be clean.
+    """
+    for label, prop in [
+        ("Gene", "metabolite_count"),
+        ("OrganismTaxon", "metabolite_count"),
+        ("Metabolite", "gene_count"),
+    ]:
+        n = run_query(
+            f"MATCH (x:{label}) WHERE x.{prop} IS NOT NULL RETURN count(x) AS n"
+        )[0]["n"]
+        assert n == 0, f"{n} {label} nodes still carry retired property {prop}"
+
+def test_gene_catalyzed_metabolite_count_present_on_all_genes(run_query):
     rows = run_query(
-        "MATCH (g:Gene) RETURN count(g) AS total, count(g.metabolite_count) AS with_prop"
+        "MATCH (g:Gene) RETURN count(g) AS total, count(g.catalyzed_metabolite_count) AS with_prop"
     )
     assert rows[0]["with_prop"] == rows[0]["total"]
 
 
-def test_gene_metabolite_count_total_positive(run_query):
-    n = run_query("MATCH (g:Gene) RETURN sum(g.metabolite_count) AS total")[0]["total"]
+def test_gene_catalyzed_metabolite_count_total_positive(run_query):
+    n = run_query("MATCH (g:Gene) RETURN sum(g.catalyzed_metabolite_count) AS total")[0]["total"]
     assert n > 0
 
 
-def test_gene_metabolite_count_consistent_with_2hop(run_query):
-    """`metabolite_count` matches the CATALYSIS 2-hop exactly.
+def test_gene_catalyzed_metabolite_count_consistent_with_2hop(run_query):
+    """`catalyzed_metabolite_count` matches the CATALYSIS 2-hop exactly.
 
-    BREAKING (TCDB rollup fix): this property was the UNION of catalysis and
-    transport. The arms have incomparable epistemics — catalysis p90 = 11
-    metabolites, transport p90 = 554, because step 6 rolls every descendant's
-    substrates onto each ancestor — so they are now separate properties.
+    BREAKING (TCDB rollup fix): the old `metabolite_count` was the UNION of
+    catalysis and transport. The arms have incomparable epistemics — catalysis
+    p90 = 11 metabolites, transport p90 = 554, because step 6 rolls every
+    descendant's substrates onto each ancestor — so they are now separate
+    properties, and the catalysis arm was renamed to name its arm (KG-SYNC-001).
     The transport arm is asserted in `test_gene_transported_metabolite_count_*`.
     """
     rows = run_query("""
-        MATCH (g:Gene) WHERE g.metabolite_count > 0
+        MATCH (g:Gene) WHERE g.catalyzed_metabolite_count > 0
         WITH g LIMIT 10
         OPTIONAL MATCH (g)-[:Gene_catalyzes_reaction]->(:Reaction)
                        -[:Reaction_has_metabolite]->(m_cat:Metabolite)
         RETURN g.locus_tag AS lt,
-               g.metabolite_count AS prop,
+               g.catalyzed_metabolite_count AS prop,
                count(DISTINCT m_cat) AS actual
     """)
     assert len(rows) > 0
     for r in rows:
         assert r["prop"] == r["actual"], (
-            f"{r['lt']}: metabolite_count={r['prop']} vs catalysis 2-hop DISTINCT={r['actual']}"
+            f"{r['lt']}: catalyzed_metabolite_count={r['prop']} vs catalysis 2-hop DISTINCT={r['actual']}"
         )
 
 

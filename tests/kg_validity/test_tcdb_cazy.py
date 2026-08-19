@@ -475,17 +475,17 @@ def test_transporter_count_never_double_counts_an_ancestor(run_query):
 
 
 @pytest.mark.kg
-def test_gene_metabolite_count_is_catalysis_only(run_query):
-    """BREAKING split: metabolite_count must match the catalysis arm exactly, with
-    no transport contribution folded in."""
+def test_gene_catalyzed_metabolite_count_is_catalysis_only(run_query):
+    """BREAKING split (+ KG-SYNC-001 rename): catalyzed_metabolite_count must match
+    the catalysis arm exactly, with no transport contribution folded in."""
     n = run_query("""
         MATCH (g:Gene)
         OPTIONAL MATCH (g)-[:Gene_catalyzes_reaction]->(:Reaction)-[:Reaction_has_metabolite]->(m:Metabolite)
         WITH g, count(DISTINCT m) AS expected
-        WHERE coalesce(g.metabolite_count, 0) <> expected
+        WHERE coalesce(g.catalyzed_metabolite_count, 0) <> expected
         RETURN count(g) AS n
     """)[0]["n"]
-    assert n == 0, f"{n} genes whose metabolite_count disagrees with the catalysis arm"
+    assert n == 0, f"{n} genes whose catalyzed_metabolite_count disagrees with the catalysis arm"
 
 
 @pytest.mark.kg
@@ -564,7 +564,7 @@ def test_organism_metabolite_counts_are_split_by_evidence_arm(run_query):
         WITH o,
              count(DISTINCT CASE WHEN 'metabolism' IN r.evidence_sources THEN m END) AS cat,
              count(DISTINCT CASE WHEN 'transport'  IN r.evidence_sources THEN m END) AS tr
-        WHERE coalesce(o.metabolite_count, 0) <> cat
+        WHERE coalesce(o.catalyzed_metabolite_count, 0) <> cat
            OR coalesce(o.transported_metabolite_count, 0) <> tr
         RETURN count(o) AS n
     """)[0]["n"]

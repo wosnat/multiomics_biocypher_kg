@@ -180,6 +180,7 @@ So all candidates become edges — but post-import folds `'tcdb'` into
 bucket **only** for eggNOG-sourced or tier ≤ 2 edges. Tier-3 calls stay findable
 without inflating a signal calibrated against curated sources and used by
 `genes_by_function` routing. `Gene.tcdb_family_count` and `Gene.metabolite_count`
+*(renamed `catalyzed_metabolite_count` 2026-08-19, KG-SYNC-001 — and no longer a union, see the note below)*
 are *not* gated — they are routing counts, not quality signals.
 
 ### `tcdb_evidence_score` — advisory ranking (post-import)
@@ -425,7 +426,7 @@ To match the existing rollup-based routing pattern (`expression_edge_count`, `nu
 
 The pre-existing `annotation_types: str[]` array also gains `'tcdb'` / `'cazy'` values when the corresponding count is > 0.
 
-`Gene.metabolite_count` (the property introduced by the chemistry-slice-1 chemistry-layer asks) is defined as **distinct Metabolite nodes reachable via *any* gene-reaching path** — UNION of catalysis (`Gene → Reaction → Metabolite`) and transport (`Gene → TcdbFamily → Metabolite`). On TCDB landing the count grows to include transport substrates automatically; consumers read one property regardless of source path. **2026-05-03**: post-import computes the transport arm via single-hop edges (no descendants walk) thanks to the substrate-edge rollup.
+`Gene.metabolite_count` (the property introduced by the chemistry-slice-1 chemistry-layer asks) is defined as **distinct Metabolite nodes reachable via *any* gene-reaching path** — UNION of catalysis (`Gene → Reaction → Metabolite`) and transport (`Gene → TcdbFamily → Metabolite`). *(Superseded 2026-08: the union was split by evidence arm and the catalysis arm renamed — now `Gene.catalyzed_metabolite_count` + `Gene.transported_metabolite_count`; see `tcdb-two-source-upgrade.md` §7.3.)* On TCDB landing the count grows to include transport substrates automatically; consumers read one property regardless of source path. **2026-05-03**: post-import computes the transport arm via single-hop edges (no descendants walk) thanks to the substrate-edge rollup.
 
 ## Removed Gene properties (breaking change)
 

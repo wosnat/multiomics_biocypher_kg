@@ -49,6 +49,8 @@ structural superfamilies + coordinates + the integrating InterPro-entry layer. S
   - `level` (int) — is-a depth in ParentChildTree (`0` = parentless root). **Sparse hierarchy:** ~86% of entries are `level 0`.
 - **Computed (post-import):** `gene_count` (DIRECT genes via `Gene_has_interpro_entry`),
   `organism_count`, `member_count` (direct child entries), `is_promiscuous` (bool — `gene_count >= 1000`).
+  *(Correction 2026-08-19: `is_promiscuous` was later **deleted** per vocabulary-contract R3 — query
+  `gene_count >= 1000` directly. See `vocabulary-contract.md`.)*
 
 ## New edge types
 
@@ -90,13 +92,15 @@ HOMOLOGOUS_SUPERFAMILY) and `level` is secondary (separates parent/child generat
 hierarchy exists). Over-Representation Analysis over InterPro is valid (domain/family enrichment,
 complementary to pathway/GO ORA) **only** when stratified by `(interpro_type, level)` — run naively
 over all types at once and broad domains/superfamilies dominate. `is_promiscuous` flags ultra-common
-entries so a band can down-weight them. Both `interpro_type` and `level` are indexed.
+entries so a band can down-weight them *(deleted 2026-08-18 — filter `gene_count >= 1000` instead)*.
+Both `interpro_type` and `level` are indexed.
 
 ## Indexes
 
 - Scalar: `interpro_entry_level_idx` (level), `interpro_entry_type_idx` (interpro_type — the ORA key),
   `interpro_entry_id_idx` (interpro_id).
-- Full-text: `interproEntryFullText` on `name`.
+- Full-text: `interproEntryFullText` on `name`. *(Correction 2026-08-19: the live index also covers
+  `description` since the multi-ontology redesign.)*
 
 ## Merge / provenance
 
@@ -136,7 +140,8 @@ the calls.json directly (like `tcdb_adapter` reads `tcdb_pruned.json`).
 - **Coverage:** 102,895 genes (~85%) carry an InterPro annotation (`'interpro'` in `annotation_types`).
 - **Additive-only:** `/omics-edge-snapshot` before vs after — expression edges 232,758 → 232,758 (+0),
   no publication lost edges.
-- **`is_promiscuous` (22 flagged, threshold ≥1000):** the flagged set is exactly the textbook-ubiquitous
+- **`is_promiscuous` (22 flagged, threshold ≥1000; property since deleted — the 22 nodes are now
+  `gene_count >= 1000` at query time):** the flagged set is exactly the textbook-ubiquitous
   entries — IPR027417 P-loop NTPase superfamily (6,909 genes), IPR036291 NAD(P)-binding superfamily
   (3,163), IPR036388 Winged-helix DNA-binding (2,942), IPR003593 AAA+ ATPase (2,892), IPR013785
   TIM-barrel (1,846) — mostly HOMOLOGOUS_SUPERFAMILY, confirming the `(type, level)` ORA rationale.

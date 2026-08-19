@@ -26,9 +26,13 @@ def _write_strain(tmp_path: Path, genes: dict, calls: dict, strain: str = "TESTS
 
 # ── node id helper ──────────────────────────────────────────────────────────
 
-def test_ncbifam_node_id_uses_underscore_form():
-    assert _ncbifam_node_id("TIGR00198") == "ncbifam_TIGR00198"
-    assert _ncbifam_node_id("NF002735") == "ncbifam_NF002735"
+def test_ncbifam_node_id_uses_colon_curie_form():
+    # House-minted colon CURIE (KG-SYNC-002): `ncbifam` is unregistered
+    # everywhere (bioregistry/identifiers.org/Biolink), but the ontology's
+    # peers (tcdb/interpro/pfam/merops.*) all use colon CURIEs, so consumers
+    # get one id grammar.
+    assert _ncbifam_node_id("TIGR00198") == "ncbifam:TIGR00198"
+    assert _ncbifam_node_id("NF002735") == "ncbifam:NF002735"
 
 
 # ── per-strain gene edges ────────────────────────────────────────────────────
@@ -59,7 +63,7 @@ def test_gene_edge_carries_evalue_and_score(tmp_path):
     eid, src, tgt, label, props = edges[0]
     assert label == "gene_has_ncbifam_family"
     assert src == "ncbigene:LT001"
-    assert tgt == "ncbifam_TIGR00198"
+    assert tgt == "ncbifam:TIGR00198"
     assert props["start"] == 5
     assert props["end"] == 480
     assert props["evalue"] == 1e-200
@@ -161,7 +165,7 @@ def test_gene_edge_skips_falsy_accession_entries(tmp_path):
     a = NcbifamAnnotationAdapter(genome_dir)
     edges = list(a.get_edges())
     assert len(edges) == 1
-    assert edges[0][2] == "ncbifam_TIGR00198"
+    assert edges[0][2] == "ncbifam:TIGR00198"
 
 
 def test_gene_with_no_ncbifam_ids_yields_no_edges(tmp_path):
@@ -223,8 +227,8 @@ def test_node_shape_from_reference(tmp_path):
         }
     }
     nodes = {nid: (label, props) for nid, label, props in m.get_nodes()}
-    assert "ncbifam_TIGR00198" in nodes
-    label, props = nodes["ncbifam_TIGR00198"]
+    assert "ncbifam:TIGR00198" in nodes
+    label, props = nodes["ncbifam:TIGR00198"]
     assert label == "ncbifam family"
     assert props["name"] == "catalase/peroxidase HPI"
     assert props["ncbifam_id"] == "TIGR00198"
@@ -242,7 +246,7 @@ def test_node_sparse_props_omitted_when_absent(tmp_path):
         "NF002735": {"name": "photosystem II reaction center protein I",
                      "family_type": "equivalog"},
     }
-    props = {nid: p for nid, _l, p in m.get_nodes()}["ncbifam_NF002735"]
+    props = {nid: p for nid, _l, p in m.get_nodes()}["ncbifam:NF002735"]
     assert "gene_symbol" not in props
     assert "description" not in props
 
@@ -255,7 +259,7 @@ def test_node_clean_str_applied(tmp_path):
         "NF002735": {"name": "it's a pipe|test", "family_type": "equivalog",
                      "description": "another 'quote' | pipe"},
     }
-    props = {nid: p for nid, _l, p in m.get_nodes()}["ncbifam_NF002735"]
+    props = {nid: p for nid, _l, p in m.get_nodes()}["ncbifam:NF002735"]
     assert "'" not in props["name"]
     assert "|" not in props["name"]
     assert "'" not in props["description"]
@@ -280,7 +284,7 @@ def test_node_retired_accession_fallback_from_calls(tmp_path):
     genome_dir = _write_strain(tmp_path, genes, calls)
     m = MultiNcbifamAdapter(str(_cfg(tmp_path, genome_dir)))
     m._reference = {}  # accession retired -- absent from the current TSV
-    props = {nid: p for nid, _l, p in m.get_nodes()}["ncbifam_TIGR99999"]
+    props = {nid: p for nid, _l, p in m.get_nodes()}["ncbifam:TIGR99999"]
     assert props["name"] == "retired family name"
     assert "family_type" not in props
     assert props["ncbifam_id"] == "TIGR99999"
@@ -297,7 +301,7 @@ def test_get_nodes_observed_only_no_ancestors(tmp_path):
         "TIGR00357": {"name": "unrelated, unobserved family", "family_type": "equivalog"},
     }
     node_ids = {nid for nid, _l, _p in m.get_nodes()}
-    assert node_ids == {"ncbifam_TIGR00198"}
+    assert node_ids == {"ncbifam:TIGR00198"}
 
 
 def test_download_data_raises_when_reference_missing(tmp_path):
@@ -333,7 +337,7 @@ def test_bridge_edges_pruned_to_injected_interpro_kept_ids(tmp_path):
     bridge_edges = [e for e in m.get_edges() if e[3] == "ncbifam_family_in_interpro_entry"]
     assert len(bridge_edges) == 1
     eid, src, tgt, label, props = bridge_edges[0]
-    assert src == "ncbifam_TIGR00198"
+    assert src == "ncbifam:TIGR00198"
     assert tgt == "interpro:IPR010987"
     assert props == {}
 
@@ -424,4 +428,4 @@ def test_get_edges_includes_gene_edges_via_delegation(tmp_path):
     gene_edges = [e for e in m.get_edges() if e[3] == "gene_has_ncbifam_family"]
     assert len(gene_edges) == 1
     assert gene_edges[0][1] == "ncbigene:LT001"
-    assert gene_edges[0][2] == "ncbifam_TIGR00198"
+    assert gene_edges[0][2] == "ncbifam:TIGR00198"

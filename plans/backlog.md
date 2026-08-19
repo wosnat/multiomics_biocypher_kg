@@ -156,3 +156,16 @@ up — this file is the index, not the plan.
       `call_class` — the guard that keeps dead homologs and inhibitors out of
       protease counts — and `peptidase_gene_count` as the default count.
       → `docs/kg-changes/merops-extension.md` "What does NOT change"
+
+- [ ] **File an upstream Bioregistry new-prefix request for `ncbifam`.**
+      KG-SYNC-002 (2026-08-19) minted `ncbifam:` as a house colon-CURIE prefix
+      for `NcbifamFamily` node ids — `ncbifam` is registered nowhere today
+      (verified live against bioregistry, identifiers.org, and the Biolink
+      prefix map; only `tigrfam` exists and its `^TIGR\d+$` pattern cannot hold
+      NF accessions). NCBIfam is a real, active NCBI resource (InterProScan's
+      member-DB name; successor of TIGRFAMs), so a registration request at
+      https://github.com/biopragmatics/bioregistry (new-prefix issue template)
+      would make the graph retroactively registry-correct. Suggested entry:
+      pattern `^(TIGR|NF)\d+$`, homepage
+      https://www.ncbi.nlm.nih.gov/genome/annotation_prok/evidence/.
+      → explorer `docs/kg-specs/2026-08-19-presync-kg-asks.md` KG-SYNC-002 / §6

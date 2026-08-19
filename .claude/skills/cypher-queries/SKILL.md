@@ -892,11 +892,11 @@ WHERE 'metabolomics' IN m.evidence_sources
 RETURN m.name,
        m.id,
        m.evidence_sources,
-       m.gene_count,
+       m.catalyst_gene_count,
        m.transporter_count,
        m.measured_assay_count,
        m.measured_paper_count
-ORDER BY m.measured_assay_count DESC, m.gene_count DESC
+ORDER BY m.measured_assay_count DESC, m.catalyst_gene_count DESC
 LIMIT 50;
 ```
 

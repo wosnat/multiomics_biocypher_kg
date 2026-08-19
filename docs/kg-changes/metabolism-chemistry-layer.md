@@ -126,8 +126,8 @@ RETURN DISTINCT m.kegg_compound_id, m.name, m.formula
 // Find which organisms can make/consume a given metabolite
 MATCH (m:Metabolite {kegg_compound_id: 'C00031'})  // D-glucose
       <-[:Organism_has_metabolite]-(o:OrganismTaxon)
-RETURN o.preferred_name, o.metabolite_count, o.reaction_count
-ORDER BY o.metabolite_count DESC
+RETURN o.preferred_name, o.catalyzed_metabolite_count, o.reaction_count
+ORDER BY o.catalyzed_metabolite_count DESC
 
 // Cross-reference: KEGG → MNX → ChEBI for ATP
 MATCH (m:Metabolite {kegg_compound_id: 'C00002'})
@@ -158,7 +158,9 @@ and the explorer-side companion
   reachable via *any* gene-reaching path. Slice-1 form is catalysis-only
   (2-hop `Gene → Reaction → Metabolite`); on TCDB-CAZy landing the same
   property expands to UNION across catalysis + transport. Coordinated with
-  TCDB-CAZy spec via TCDB-S3.
+  TCDB-CAZy spec via TCDB-S3. *(Superseded 2026-08: the union was split by
+  evidence arm and this property renamed `catalyzed_metabolite_count`
+  (catalysis arm only) — see `tcdb-two-source-upgrade.md` §7.3.)*
 - **`Metabolite.elements: list[str]`** (build-time) — sorted unique element
   symbols, Hill-parsed from `formula` via the `chemparse` library. Sparse —
   absent on metabolites without `formula` or with charge-only formulas

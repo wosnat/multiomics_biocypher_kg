@@ -620,7 +620,7 @@ SET t.is_uninformative = 'true';
 // quality/informativeness buckets count a gene as transporter-annotated only when
 // eggNOG called it, or diamond called it at tier<=2.
 //
-// Gene.tcdb_family_count and Gene.metabolite_count are deliberately NOT gated —
+// Gene.tcdb_family_count and Gene.catalyzed_metabolite_count are deliberately NOT gated —
 // they are routing counts, not quality signals.
 
 // SOURCE_BUCKETS:end
@@ -1160,7 +1160,8 @@ CALL {
 //   - tcdb_family_count  (TCDB-S1)
 //   - cazy_family_count  (TCDB-S2)
 //   - reaction_count     (KG-A1)
-//   - metabolite_count   (KG-A2 — CATALYSIS ONLY as of the TCDB rollup fix)
+//   - catalyzed_metabolite_count  (KG-A2 — the catalysis arm; renamed from
+//     metabolite_count for the alpha.7 cut, KG-SYNC-001)
 //
 // Each OPTIONAL MATCH is followed by a WITH aggregation so rows don't multiply.
 // count(DISTINCT ...) is required for the count rollups because the chained
@@ -1174,6 +1175,10 @@ CALL {
 // 23,137 genes had transport evidence ONLY, so for the majority of genes the
 // stored number was entirely the inflated arm with nothing signalling it. The
 // transport arm now lives in transported_metabolite_count (next statement).
+// The catalysis arm is RENAMED catalyzed_metabolite_count (KG-SYNC-001): keeping
+// the bare name after narrowing its meaning would hand every stale reader the
+// narrowed number silently; the rename makes them fail loudly (null) instead,
+// and each arm now names itself.
 MATCH (g:Gene)
 CALL {
   WITH g
@@ -1197,7 +1202,7 @@ CALL {
       g.merops_family_count = mer_count,
       g.merops_classes = mer_classes,
       g.reaction_count = rxn_count,
-      g.metabolite_count = cat_met_count
+      g.catalyzed_metabolite_count = cat_met_count
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Gene transport arm: transported_metabolite_count + transport_substrate_resolution.
@@ -1353,18 +1358,19 @@ CALL {
       r.organisms = organisms
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Metabolite.gene_count: UNION across catalysis + transport paths (single-hop).
+// Metabolite.catalyst_gene_count + transporter_gene_count (per gene-link arm).
 // Substrate edges are rolled up to every ancestor in the adapter, so the
 // transport arm is a 1-hop traversal at any TcdbFamily level the gene is
 // annotated at. organism_count is computed below from the materialized
 // Organism_has_metabolite edge so size(organism_names) == organism_count
 // is invariant by construction (KG-A8).
-// BREAKING, mirroring Gene.metabolite_count: gene_count is the CATALYSIS arm
-// only; the transport arm moves to transporter_gene_count. Both ends of the
-// transport relation now use the SAME predicate — the gene's DEEPEST TC
-// attachments — so Gene.transported_metabolite_count and
-// Metabolite.transporter_gene_count are two projections of one (gene, metabolite)
-// set and agree by construction.
+// BREAKING, mirroring Gene.catalyzed_metabolite_count: the CATALYSIS arm is
+// catalyst_gene_count (renamed from the bare gene_count, KG-SYNC-001 — where a
+// node has two gene-link arms, each count names its arm); the transport arm is
+// transporter_gene_count. Both ends of the transport relation use the SAME
+// predicate — the gene's DEEPEST TC attachments — so
+// Gene.transported_metabolite_count and Metabolite.transporter_gene_count are
+// two projections of one (gene, metabolite) set and agree by construction.
 CALL {
   MATCH (m:Metabolite)
   OPTIONAL MATCH (m)<-[:Reaction_has_metabolite]-(:Reaction)<-[:Gene_catalyzes_reaction]-(g_cat:Gene)
@@ -1375,7 +1381,7 @@ CALL {
       WHERE (d)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t)
     }
   WITH m, cat_gene_count, count(DISTINCT g_tr) AS tr_gene_count
-  SET m.gene_count = cat_gene_count,
+  SET m.catalyst_gene_count = cat_gene_count,
       m.transporter_gene_count = tr_gene_count
 } IN TRANSACTIONS OF 1000 ROWS;
 
@@ -1446,17 +1452,18 @@ CALL {
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Organism rollup props (~30 organisms — single batch fits comfortably)
-// BREAKING, mirroring Gene / Metabolite: metabolite_count is the CATALYSIS arm
-// only; the transport arm becomes transported_metabolite_count. (The measurement
-// arm already had its own scalar, measured_metabolite_count, so this completes
-// the three-way split.) evidence_sources on the edge is the discriminator, so
-// neither arm needs re-traversal here.
+// BREAKING, mirroring Gene / Metabolite: the CATALYSIS arm is
+// catalyzed_metabolite_count (renamed from the bare metabolite_count,
+// KG-SYNC-001); the transport arm is transported_metabolite_count. (The
+// measurement arm already had its own scalar, measured_metabolite_count, so
+// this completes the three-way split.) evidence_sources on the edge is the
+// discriminator, so neither arm needs re-traversal here.
 CALL {
   MATCH (o:OrganismTaxon)-[r:Organism_has_metabolite]->(m:Metabolite)
   WITH o,
        count(DISTINCT CASE WHEN 'metabolism' IN r.evidence_sources THEN m END) AS cat_count,
        count(DISTINCT CASE WHEN 'transport'  IN r.evidence_sources THEN m END) AS tr_count
-  SET o.metabolite_count = cat_count,
+  SET o.catalyzed_metabolite_count = cat_count,
       o.transported_metabolite_count = tr_count
 } IN TRANSACTIONS OF 1000 ROWS;
 
@@ -1468,8 +1475,8 @@ CALL {
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // ── Chemistry slice-1 rollups (KG-A4) ───────────────────────
-// (Note: KG-A1 Gene.reaction_count and KG-A2 Gene.metabolite_count are folded
-// into the combined Gene metabolism + ontology rollup statement above.)
+// (Note: KG-A1 Gene.reaction_count and KG-A2 Gene.catalyzed_metabolite_count are
+// folded into the combined Gene metabolism + ontology rollup statement above.)
 
 // KG-A4: KeggTerm pathway-level rollups (sparse on pathways only).
 // level_kind = 'pathway' filter; KOs / categories left unset.

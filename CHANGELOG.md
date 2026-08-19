@@ -142,13 +142,20 @@ tag with nothing logged.
   `entry_xrefs.json` sidecars were **deleted** (the central
   `interpro_reference.json` replaces them). Any external consumer of the old
   artifact shape must migrate.
-- **`metabolite_count` is now the catalysis arm only** on `Gene`, `Metabolite`
-  (`gene_count`) and `OrganismTaxon`. It previously unioned catalysis with
-  transport, which mixed a p90-of-11 signal with a p90-of-554 one; 23,137 genes
-  had transport evidence only, so their number was entirely the inflated arm. The
-  transport arm moved to `transported_metabolite_count` (`Gene`, `OrganismTaxon`)
-  and `transporter_gene_count` (`Metabolite`). Readers wanting the old union must
-  now add the two.
+- **The catalysis-arm metabolite counts are split out AND renamed** (arm split
+  2026-08-12; renames 2026-08-19, KG-SYNC-001): `Gene.metabolite_count` →
+  `Gene.catalyzed_metabolite_count`, `OrganismTaxon.metabolite_count` →
+  `OrganismTaxon.catalyzed_metabolite_count`, `Metabolite.gene_count` →
+  `Metabolite.catalyst_gene_count`; the bare names are retired on these three
+  labels (absent, not aliased). The old union previously mixed a p90-of-11
+  catalysis signal with a p90-of-554 transport one; 23,137 genes had transport
+  evidence only, so their number was entirely the inflated arm. The transport
+  arm lives in `transported_metabolite_count` (`Gene`, `OrganismTaxon`) and
+  `transporter_gene_count` (`Metabolite`). The renames make every stale reader
+  of the narrowed counts fail loudly (null) instead of silently getting the
+  narrowed number, and end the overloading of `metabolite_count` (the measured
+  metabolomics concept keeps that name on `Publication`/`Experiment`). Readers
+  wanting the old union must now add the two arms.
 - **`Metabolite.transporter_count` changed definition** from "distinct
   `tc_specificity` nodes" to "distinct transporter systems at maximal depth". It
   was reading 0 for 83% of transported metabolites, so any `transporter_count > 0`
@@ -368,8 +375,13 @@ tag with nothing logged.
   committed `ncbifam_reference.json` (`hmm_PGAP.tsv`, prepare_data step 9).
   67,459 `Gene_has_ncbifam_family` edges (direct HMM hits only; `evalue` +
   `score`, single homogeneous scale) + 2,630 `Ncbifam_family_in_interpro_entry`
-  bridges (double-sided dangling guard). Node IDs `ncbifam_TIGR*`/`ncbifam_NF*`
-  (underscore — not a bioregistry prefix). Post-import
+  bridges (double-sided dangling guard). Node IDs `ncbifam:TIGR*`/`ncbifam:NF*`
+  (colon-CURIE form since 2026-08-19, KG-SYNC-002 — a house-minted prefix:
+  `ncbifam` is registered nowhere (bioregistry/identifiers.org/Biolink all
+  verified; `tigrfam`'s `^TIGR\d+$` pattern cannot hold NF accessions), but
+  every peer cross-referenced ontology uses colon CURIEs, so uniform consumer
+  id grammar wins; upstream bioregistry registration request filed as
+  follow-up). Post-import
   `gene_count`/`organism_count`, `Gene.ncbifam_family_count`,
   `annotation_types` + informative buckets gain `'ncbifam'`,
   `is_uninformative` on 195 unknown-function families (126 via the typed

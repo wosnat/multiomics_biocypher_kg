@@ -22,10 +22,11 @@ def test_ncbifam_family_count_in_range(run_query):
     assert 4900 <= n <= 5050, f"expected NcbifamFamily count in [4900, 5050], got {n}"
 
 
-def test_ncbifam_node_id_uses_underscore_prefix(run_query):
-    """`ncbifam` is not a bioregistry prefix -> underscore fallback (psortb/signalp precedent)."""
+def test_ncbifam_node_id_uses_colon_curie_prefix(run_query):
+    """House-minted colon CURIE (KG-SYNC-002): `ncbifam` is unregistered
+    everywhere, but colon form matches every peer ontology's id grammar."""
     row = run_query("MATCH (n:NcbifamFamily) RETURN n.id AS id LIMIT 1")[0]
-    assert row["id"].startswith("ncbifam_")
+    assert row["id"].startswith("ncbifam:")
 
 
 def test_tigr00198_node_is_equivalog_katg(run_query):

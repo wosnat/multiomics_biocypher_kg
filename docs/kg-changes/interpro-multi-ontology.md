@@ -27,8 +27,13 @@ interpro/ncbifam-only genes were being scored as `no_evidence` instead of `catch
 
 - **Count:** 4,957 nodes (2,204 `TIGR*` + 2,753 `NF*`) — observed-only, flat (no ancestor walk; the source TSV
   carries no parent/child column, unlike InterPro's ParentChildTreeFile).
-- **ID prefix:** `ncbifam_<accession>` (underscore form — `ncbifam` is not a registered bioregistry prefix,
-  same convention as `psortb_*` / `signalp_*`).
+- **ID prefix:** `ncbifam:<accession>` (colon-CURIE form since 2026-08-19, KG-SYNC-002 — a **house-minted**
+  prefix: `ncbifam` is registered nowhere (verified against bioregistry, identifiers.org and Biolink; only
+  `tigrfam` exists and its `^TIGR\d+$` pattern cannot hold NF accessions), but every peer cross-referenced
+  ontology (`tcdb:`/`interpro:`/`pfam:`/`merops.*:`) uses colon CURIEs, so uniform consumer id grammar wins.
+  Upstream bioregistry registration request is the follow-up (`plans/backlog.md`). The underscore convention
+  remains for the flat structural vocabularies `psortb_*` / `signalp_*`. Originally shipped as
+  `ncbifam_<accession>` underscore form).
 - **Properties (adapter-emitted):** `name`, `ncbifam_id` (`TIGR*` | `NF*`), `family_type` (NCBIfam's own
   classification — **equivalog-dominant** in the observed set, i.e. most calls are precise
   "this exact enzymatic/functional role" assertions, not broad homology families),
