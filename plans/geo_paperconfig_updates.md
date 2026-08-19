@@ -4,6 +4,23 @@ Status: **Tier 1 done pending build** (1.2 Huang wired; 1.1 he 2022 wired and
 **unblocked** — Blocker B1 was fixed in `a84db12b` and the rebuilt MED4 mapping
 verified clean). **Tier 2 planned below** (2026-08-18): six items, four of them
 promoted out of Tier 3 on evidence — see Findings F1–F4.
+
+**2026-08-19 execution pass (scoped with user):** today ships the easy items —
+**2.2, 2.3 (D7 settled = (a)), 2.4, 2.5 sense arm only, 2.6, and 2.1A (DE
+only)** — in the plan's suggested order (2.2 → 2.4 → 2.6 → 2.3 → 2.5 → 2.1A),
+**plus new-strain onboarding where a wired paper needs it**: Synechococcus
+**WH8109** via `/add-a-strain` (kicked off first so its background tool runs
+overlap the paper work), which promotes the **Doron WH8109 arm** out of Tier 3 —
+2.3 becomes three hosts. Everything else is **filed as backlog items** in
+`plans/backlog.md` (section "GEO processed-supplements drop"): 2.1B diel
+metrics, 2.1C iModulons (+ the PCC7942 model and `media-5` module homology),
+the Hackl antisense arm (D8), the remaining Tier-3 items (munoz 2022 — not a
+plain strain add, it needs a reference-proteome-match organism + probe mapping;
+Hackl MIT1327 island remap; iModulon activity layer; TSS/operon/UTR/ncRNA
+entities; TF-binding-site layer), the B1 regression check, and the
+runaway-strain mapping re-check (W3-18-1, PCC7002, KT2440). The
+`johnson 2026 a/` → `Johnson 2026b/` rename still happens today because 2.1A
+needs the directory.
 Branch: `data/geo-processed-supplements`
 Input: commit `6acdd54f` (84 files, 7.4 MB) + the seven paper dirs from `dd594f23`
 Triage doc: `docs/geo_prochlorococcus_candidates.md`
@@ -85,6 +102,11 @@ design question (D5) and the largest surface.
 ---
 
 ### 2.1 Johnson 2026b — GSE314951 iModulon paper
+
+> **2026-08-19 split:** only **§A (DE, csv x2)** ships in today's pass, plus the
+> directory rename it needs. §B (diel periodicity metrics) and §C (iModulons)
+> are deferred to `plans/backlog.md` — same design as written here, nothing
+> re-decided.
 
 **Identity, first.** The directory `johnson 2026 a/` holds bioRxiv
 `2026.04.15.718746` — *"Extreme genome reduction selectively retains modular
@@ -276,23 +298,28 @@ edges; resolution ≥ 94%; `pytest -m kg` green.
 **F2 — there is no probe-mapping problem.** GSE63690 probe IDs are
 `<locus_tag>_at`: `SynWH7803_1834_at`, `SYNW2135_at`, `Syncc8109_1439_at`. A
 three-character suffix strip yields a native locus tag. Two of the three hosts
-are **already deployed**:
+are **already deployed**, and the third is being onboarded in the 2026-08-19
+pass (WH8109 via `/add-a-strain` — see the execution-pass note at the top):
 
 | file | host | in KG? | host rows | resolution |
 |---|---|---|---|---|
 | `GSE63690_Processed_data_WH7803.txt.gz` | WH7803 | yes | 2,580 | 2,510 / 2,580 = **97.3%** |
 | `GSE63690_Processed_data_WH8102.txt.gz` | WH8102 | yes | 2,585 | 2,504 / 2,585 = **96.9%** |
-| `GSE63690_Processed_data_WH8109_Syn9.txt.gz` | WH8109 | **no** | 2,758 | — (Tier 3) |
+| `GSE63690_Processed_data_WH8109_Syn9.txt.gz` | WH8109 | **onboarding 2026-08-19** | 2,758 | measure after onboarding |
 
 Each file also carries ~232 `BSV9_gp*` phage probes — **filter them out**; the
 phage has no Gene nodes and they would become dangling edges.
 
 **Shape.** Value columns are per-timepoint infected/control log-ratios:
 WH7803 `S0.C0, S30.C30, S60.C60, S90.C90, S120.C120, S180.C180, S240.C240`
-(minutes); WH8102 `SYN9.0.C0 … SYN9.4.C4` (hours). So: 1 Experiment per host,
+(minutes); WH8102 `SYN9.0.C0 … SYN9.4.C4` (hours); WH8109 per its own column
+set (read at wiring time). So: 1 Experiment per host,
 `treatment_type: [viral]`, `treatment_organism` = *Synechococcus* phage Syn9,
 7 `statistical_analyses` each (one per timepoint), `timepoint_hours` from the
-column label.
+column label. The WH8109 entry lands **after** its `/add-a-strain` onboarding
+completes far enough for gene-ID resolution (mapping built); if the onboarding
+stalls on tool runs, ship WH7803 + WH8102 and add WH8109 as soon as its
+mapping exists.
 
 **The p-value caveat is the one thing to get right.** limma reports a single
 omnibus `F` / `P.Value` / `adj.P.Val` per gene for the whole series — *"this
@@ -308,9 +335,11 @@ Note the GSE74921 RNA-seq arm stays out: it is **phage-only** (every row
 (`moesm37/38/39`) are likewise phage gene tables (syn9 genes, 45 asRNAs, P-TIM40
 expression clusters) — none of them host DE.
 
-**Acceptance:** 1 Publication, 2 Experiments, 14 analyses, ~35.1K expression
-edges (2,510 x 7 + 2,504 x 7), 0 dangling `BSV9_*` edges, `Tests_coculture_with` → Syn9 on both
-experiments; resolution ≥ 96%.
+**Acceptance:** 1 Publication, 3 Experiments (2 if WH8109 onboarding hasn't
+produced a mapping yet), 21 analyses (14 without WH8109), ~35.1K expression
+edges from the two deployed hosts (2,510 x 7 + 2,504 x 7) plus up to ~19K from
+WH8109 (2,758 x 7 at a comparable resolution rate), 0 dangling `BSV9_*` edges,
+`Tests_coculture_with` → Syn9 on every experiment; resolution ≥ 96% per host.
 
 ---
 
@@ -472,11 +501,12 @@ row-count report.
 
 ## Tier 3 — genuinely blocked or needs its own plan
 
-Four of the previous six Tier-3 items moved to Tier 2 above. What remains:
+Four of the previous six Tier-3 items moved to Tier 2 above. The WH8109 arm
+moved into the 2026-08-19 pass (onboarding via `/add-a-strain`, see 2.3).
+What remains — **each filed as a backlog bullet in `plans/backlog.md`**:
 
 | item | blocker | size |
 |---|---|---|
-| **Doron 2016 — WH8109 arm** | *Synechococcus* WH8109 is not in `cyanobacteria_genomes.csv`. Needs full `/add-a-strain`: assembly, `prepare_data`, and every per-strain tool (eggnog, psortb, signalp, tcdb-diamond, interproscan, merops). The DE itself is ready — 2,758 host probes, `Syncc8109_*` native ids, same limma shape as 2.3. | 1 strain onboarding + 1 `csv` entry |
 | **munoz 2022 (GSE154594)** | Nothing staged but two PDFs. Environmental samples at station ALOHA on a custom Agilent array (`GPL28884`), 129 MB RAW.tar not downloaded. Needs probe→gene mapping *and* a reference-proteome-match-style organism (the `Marinobacter (MarRef v6)` precedent). A different kind of integration. | own plan |
 | **Hackl 2023 — MIT1327 islands** | Hackl used a different MIT1327 assembly (2.58 Mb / 23 contigs) than our `GCF_001632125.1`. Needs a contig+coordinate remap before its 11 islands can transfer. Everything else in 2.4 is unaffected. | small, but its own verification |
 | **iModulon activity layer** | See **D5**. The A matrix (32 modules x 248 samples) and DIMA tables (per-module activity difference + p-adj per contrast) have no representation. | own spec |
@@ -621,21 +651,19 @@ regulator layer lands (TF_regs, `media-4` RpaB sites, module↔module homology i
 looks like a clustering result. That is the Tier-3 "TF binding sites" spec, and
 D5 should be settled together with it rather than separately.
 
-### D7 — Doron omnibus FDR: open
+### D7 — Doron omnibus FDR: **DECIDED (a)** (2026-08-19, with user)
 
 limma gives one `adj.P.Val` per gene for the whole time series, not per
 timepoint. Two readings:
 
-- **(a) recommended** — set `adjusted_p_value_col` on **one** analysis per host
+- **(a) DECIDED** — set `adjusted_p_value_col` on **one** analysis per host
   (the terminal timepoint), `table_scope_detail` naming the omnibus semantics;
   the other six timepoints get a null `adjusted_p_value` (the Thompson 2016 /
   Huang 2020 precedent). Honest, but makes six timepoints look untested.
-- **(b)** repeat the omnibus FDR on all 7 timepoints. Defensible as "this gene is
-  significant in this series", but inflates `Experiment.significant_up_count`
-  roughly sevenfold and makes per-timepoint `expression_status` claim something
-  the paper never tested.
-
-Settle before writing 2.3.
+- **(b) rejected** — repeat the omnibus FDR on all 7 timepoints. Defensible as
+  "this gene is significant in this series", but inflates
+  `Experiment.significant_up_count` roughly sevenfold and makes per-timepoint
+  `expression_status` claim something the paper never tested.
 
 ### D8 — Hackl antisense tables: open
 
@@ -660,8 +688,9 @@ The sense arm can ship regardless of how this settles.
 ## Explicitly NOT in scope
 
 - No schema changes, no new node/edge types.
-- No new strains in this pass (WH8109 deferred to Tier 3; MIT0604 turned out to
-  be already onboarded, see F3).
+- One new strain only: **WH8109** (added to the 2026-08-19 pass by user
+  request; MIT0604 turned out to be already onboarded, see F3). munoz 2022's
+  organism need is NOT a plain strain add and stays out.
 - No post-import Cypher changes.
 - No re-running `prepare_data.sh` steps 0-2 (no new genomes).
 - No DE computed by us (D1) — Tier 4 stays reference-only.
