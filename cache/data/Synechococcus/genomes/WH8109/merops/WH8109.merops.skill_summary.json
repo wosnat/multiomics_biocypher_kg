@@ -1,0 +1,42 @@
+{
+  "strain": "WH8109",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2317,
+  "wallclock_s": 1.6,
+  "raw_hit_lines": 758,
+  "parse_failures": 0,
+  "proteins_with_hits": 74,
+  "proteins_with_call": 74,
+  "total_candidates": 75,
+  "candidates_per_protein_distribution": {
+    "1": 73,
+    "2": 1
+  },
+  "tier_distribution": {
+    "2": 4,
+    "3": 71
+  },
+  "consensus_agreement_distribution": {
+    "id": 12,
+    "subfamily": 17,
+    "family": 46
+  },
+  "catalytic_type_distribution": {
+    "M": 26,
+    "T": 2,
+    "C": 13,
+    "S": 29,
+    "U": 1,
+    "A": 2,
+    "inhibitor": 2
+  },
+  "entry_type_distribution": {
+    "peptidase": 73,
+    "inhibitor": 2
+  },
+  "best_hit_kind_distribution": {
+    "putative": 16,
+    "holotype": 47,
+    "nonpeptidase_homolog": 12
+  }
+}
