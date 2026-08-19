@@ -130,6 +130,14 @@ KNOWN_METRIC_TYPES: dict[str, str] = {
     "enrichment_ribosome":                    "boolean",
     "enrichment_tonb_associated_genes":       "boolean",
 
+    # ── Numeric, rifampicin RNA-decay kinetics (Steglich 2010 MOESM5) ──
+    # Whole-transcriptome fitted half-life / decay rate after transcription
+    # arrest, plus the pre-arrest expression level. SE columns ride in
+    # field_description on the paperconfig entry, not as separate metrics.
+    "rna_half_life_min":        "numeric",
+    "rna_decay_rate_per_min":   "numeric",
+    "expression_at_t0_log2":    "numeric",
+
     # ── Boolean, per-LTPE-strain proteomics detection per compartment (Lu 2026 S1) ──
     # Detected by LC-MS/MS in the named compartment, in the named LTPE strain.
     # The three strains are NOT replicates: LTPE26 is the ancestor, LTPE397 and
