@@ -1,0 +1,103 @@
+publication:
+  papername: "Johnson 2026b"
+  doi: "10.1101/2026.04.15.718746"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Johnson 2026b/2026.04.15.718746v1.full.pdf"
+  # NOTE: this is the iModulon preprint (Johnson, Sadler, ..., Bohutskyi; PNNL;
+  # GSE314951) — NOT the whole-cell-modeling preprint 2026.01.21.700212 that
+  # sits in "Johnson 2026/" and merely cites the same GEO series (plan F8).
+
+  experiments:
+    dark_shift_during_light_med4:
+      name: "MED4 dark shift during the light period vs continued light (RNA-seq)"
+      organism: "Prochlorococcus MED4"
+      omics_type: RNASEQ
+      test_type: DESeq2
+      treatment_type: [darkness]
+      background_factors: [axenic, diel]
+      treatment_condition: "Shift to darkness during the subjective light period of a 12:12 L:D-entrained culture"
+      control_condition: "Continued light (normal diel light period)"
+      experimental_context: "Diel-entrained axenic MED4 in Pro99 at 21C, 12:12 light:dark; cultures shifted to darkness during the light period and sampled 2 h and 4 h after the shift; DESeq2 vs time-matched light controls; authors' significance cutoff padj < 0.05. All 1,920 detected genes present in every contrast."
+      medium: "Pro99"
+      temperature: "21C"
+      light_condition: "12:12 light:dark cycle"
+      table_scope: all_detected_genes
+
+    light_exposure_during_dark_med4:
+      name: "MED4 light exposure during the dark period vs continued darkness (RNA-seq)"
+      organism: "Prochlorococcus MED4"
+      omics_type: RNASEQ
+      test_type: DESeq2
+      treatment_type: [light]
+      background_factors: [axenic, diel]
+      treatment_condition: "Light exposure during the subjective dark period of a 12:12 L:D-entrained culture"
+      control_condition: "Continued darkness (normal diel dark period)"
+      experimental_context: "Diel-entrained axenic MED4 in Pro99 at 21C, 12:12 light:dark; cultures exposed to light during the dark period and sampled at diel hours 14 and 16 (2 h and 4 h after the perturbation); DESeq2 vs time-matched dark controls; authors' significance cutoff padj < 0.05. All 1,920 detected genes present in every contrast."
+      medium: "Pro99"
+      temperature: "21C"
+      light_condition: "12:12 light:dark cycle"
+      table_scope: all_detected_genes
+
+  supplementary_materials:
+    # Built from media-2.xlsx DESeq2 sheets by
+    # scripts/build_modified_csv/build_johnson2026b_de_csvs.py
+    # (headers carry embedded newlines in the source; exported flat).
+    # The DIMA sheets (per-iModulon activity) and media-3 diel metrics /
+    # media-8 iModulon memberships are deferred — plans/backlog.md
+    # ("GEO processed-supplements drop": 2.1B, 2.1C, D5).
+    de_dark_vs_light:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Johnson 2026b/johnson2026b_dark_vs_light_2_4h.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: refseq_locus
+          id_type: locus_tag_ncbi   # TX50_RS##### (MED4 RefSeq)
+      statistical_analyses:
+        - id: johnson2026b_med4_dark_vs_light_2h
+          experiment: dark_shift_during_light_med4
+          timepoint: "2h"
+          timepoint_hours: 2.0
+          growth_phase: diel
+          name_col: "refseq_locus"
+          logfc_col: "log2fc_2h"
+          adjusted_p_value_col: "padj_2h"
+          pvalue_threshold: 0.05
+          prefiltered: false
+        - id: johnson2026b_med4_dark_vs_light_4h
+          experiment: dark_shift_during_light_med4
+          timepoint: "4h"
+          timepoint_hours: 4.0
+          growth_phase: diel
+          name_col: "refseq_locus"
+          logfc_col: "log2fc_4h"
+          adjusted_p_value_col: "padj_4h"
+          pvalue_threshold: 0.05
+          prefiltered: false
+
+    de_light_vs_dark:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Johnson 2026b/johnson2026b_light_vs_dark_14_16h.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: refseq_locus
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - id: johnson2026b_med4_light_vs_dark_14h
+          experiment: light_exposure_during_dark_med4
+          timepoint: "14h"
+          timepoint_hours: 14.0
+          growth_phase: diel
+          name_col: "refseq_locus"
+          logfc_col: "log2fc_14h"
+          adjusted_p_value_col: "padj_14h"
+          pvalue_threshold: 0.05
+          prefiltered: false
+        - id: johnson2026b_med4_light_vs_dark_16h
+          experiment: light_exposure_during_dark_med4
+          timepoint: "16h"
+          timepoint_hours: 16.0
+          growth_phase: diel
+          name_col: "refseq_locus"
+          logfc_col: "log2fc_16h"
+          adjusted_p_value_col: "padj_16h"
+          pvalue_threshold: 0.05
+          prefiltered: false
