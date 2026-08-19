@@ -1,9 +1,30 @@
 # Scope: paperconfig updates from the GEO processed-file drop
 
-Status: **Tier 1 done pending build** (1.2 Huang wired; 1.1 he 2022 wired and
-**unblocked** — Blocker B1 was fixed in `a84db12b` and the rebuilt MED4 mapping
-verified clean). **Tier 2 planned below** (2026-08-18): six items, four of them
-promoted out of Tier 3 on evidence — see Findings F1–F4.
+Status: **2026-08-19 execution pass COMPLETE (wiring side)** — everything the
+pass scoped is wired, validated, and committed on `data/geo-processed-supplements`;
+awaiting the Docker rebuild in the other clone. Shipped: 2.2 (Steglich, 94.5%),
+2.4 (Hackl islands, 11 strains, 6,003 rows, 100%), 2.6 (Voigt, 99.8%),
+2.3 (Doron, D7=(a), three hosts 97.9/97.1/93.9%), 2.5 sense arm (MIT0604,
+97.9% via prefix id_translation), 2.1A (Johnson 2026b DE, 97.8%), the
+`johnson 2026 a/` → `Johnson 2026b/` rename + triage-doc F8 correction, and
+the **WH8109 onboarding** (registered + prepare_data + all six tools; loop-back
+steps 1–7 pending tool completion). Measured deltas vs plan: Steglich cluster
+membership is ~1.0K (not ~1.9K — the 12 clusters cover 1,102 rows); Voigt
+resolution beat the estimate (old-locus-tag column resolves directly); WH8109
+first measurement 2,589/2,757 = 93.9% (unresolved = JCVI features dropped by
+RefSeq PGAP). New vocab registrations: 8 KNOWN_METRIC_TYPES, cluster_types
+`decay_pattern`/`genomic_island`/`response_pattern`, `chemical` promoted into
+the closed `Experiment.treatment_type` vocabulary (first emitter: Hackl MMC).
+Test-mode build gate green (4/4) after two catches (chemical vocab; pandas
+bool round-trip on Voigt's has_primary_tss). Discuss-topics extraction run
+for all six new papers. Remaining for the pass: WH8109 prepare_data loop-back,
+Docker rebuild + `pytest -m kg` + `/omics-edge-snapshot` + `/check-gene-ids`
+(per-item acceptance numbers below), snapshot regeneration.
+
+Previous status: Tier 1 done pending build (1.2 Huang wired; 1.1 he 2022 wired
+and **unblocked** — Blocker B1 was fixed in `a84db12b` and the rebuilt MED4
+mapping verified clean). Tier 2 planned 2026-08-18: six items, four promoted
+out of Tier 3 on evidence — see Findings F1–F4.
 
 **2026-08-19 execution pass (scoped with user):** today ships the easy items —
 **2.2, 2.3 (D7 settled = (a)), 2.4, 2.5 sense arm only, 2.6, and 2.1A (DE
