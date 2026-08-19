@@ -57,8 +57,8 @@ publication:
           name: "Has mapped primary TSS (gTSS)"
           value_kind: boolean
           value_col: has_primary_tss
-          true_tokens: ["true"]
-          false_tokens: ["false"]
+          true_tokens: ["true", "True"]   # resolver round-trip capitalizes (pandas bool parse)
+          false_tokens: ["false", "False"]
           skip_tokens: ["NA", "N/A"]
           blank_policy: skip
           field_description: "At least one primary/genic TSS (gTSS) mapped for this gene. false = gene appears in the TSS map only via antisense/internal sites. Routing signal reduced from the Voigt 2014 TSS map — NOT a complete promoter annotation."
@@ -118,8 +118,8 @@ publication:
           name: "Has mapped primary TSS (gTSS)"
           value_kind: boolean
           value_col: has_primary_tss
-          true_tokens: ["true"]
-          false_tokens: ["false"]
+          true_tokens: ["true", "True"]   # resolver round-trip capitalizes (pandas bool parse)
+          false_tokens: ["false", "False"]
           skip_tokens: ["NA", "N/A"]
           blank_policy: skip
           field_description: "At least one primary/genic TSS (gTSS) mapped for this gene. false = gene appears in the TSS map only via antisense/internal sites. Routing signal reduced from the Voigt 2014 TSS map — NOT a complete promoter annotation."

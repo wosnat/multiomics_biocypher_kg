@@ -577,15 +577,18 @@ Experiment.treatment_type:
   value_type: string_array
   closed: true
   values: [nitrogen, phosphorus, iron, carbon, salt, light, temperature,
-           plastic, darkness, diel, viral, coculture, growth_phase, compartment]
+           plastic, darkness, diel, viral, coculture, growth_phase, compartment,
+           chemical]
   description: >
     Harvested from CLAUDE.md's "treatment_type canonical values" bullet, per
     the controller ruling designating CLAUDE.md as authority for this property.
+    "chemical" added 2026-08-19 — first emitted by Hackl 2023's MIT0604
+    mitomycin-C experiments (previously validator-only).
     FINDING: scripts/validate_paperconfig.py does NOT enforce this narrower
     per-field list. It validates treatment_type and background_factors
     against one SHARED 17-value set (CANONICAL_CONDITION_TYPES, lines
-    ~189-213) that also contains "chemical", "mutant", and "axenic" — none of
-    which appear in this list. A paperconfig using treatment_type: [mutant]
+    ~189-213) that also contains "mutant" and "axenic" — which do not
+    appear in this list. A paperconfig using treatment_type: [mutant]
     or treatment_type: [axenic] would pass validation but the resulting value
     would violate this closed vocabulary if ever emitted. Declared per
     CLAUDE.md as instructed; the validator's wider allowance is unreconciled
