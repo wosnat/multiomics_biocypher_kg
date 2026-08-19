@@ -51,6 +51,17 @@ tag with nothing logged.
 
 ### Highlights
 
+- **Seven papers from the GEO drop: RNA lifetimes, promoter architecture,
+  genomic islands, and phage infection across three Synechococcus hosts.**
+  You can now ask how long a MED4 transcript lives (genome-wide half-lives,
+  Steglich 2010), whether a gene has mapped antisense or internal promoters
+  (Voigt 2014 TSS scalars, MED4 + MIT9313), whether it sits inside a
+  predicted genomic island (Hackl 2023, 11 Prochlorococcus strains), and how
+  the same cyanophage (Syn9) rewires three different Synechococcus hosts
+  side-by-side (Doron 2016; WH8109 newly onboarded for it) — plus MED4
+  DNA-damage (mitomycin C / UV) and diel light-perturbation responses
+  (Hackl 2023 MIT0604, Johnson 2026b) and the full unfiltered he 2022
+  tables replacing 113-row significant-only subsets.
 - **TCDB node names (T6).** 916 of the 1,515 `TcdbFamily` nodes rendered as
   their bare TC id — 60% of the transporter ontology was reachable only by
   exact id. Names are now scraped from tcdb.org into a committed
@@ -193,6 +204,76 @@ tag with nothing logged.
 
 ### Data
 
+- **GEO processed-supplements drop (2026-08-19 pass)** — seven papers wired or
+  upgraded from the staged GEO/journal files (branch
+  `data/geo-processed-supplements`; plan `plans/geo_paperconfig_updates.md`;
+  deferred arms filed in `plans/backlog.md` under "GEO processed-supplements
+  drop"). Individual papers below.
+- **Steglich 2010** (new publication, `10.1186/gb-2010-11-5-r54`) — MED4
+  genome-wide mRNA half-lives from rifampicin transcription arrest
+  (microarray). One Experiment (`treatment_type: []` — rifampicin is the
+  measurement method, not a perturbation), 3 numeric DerivedMetrics
+  (`rna_half_life_min`, `rna_decay_rate_per_min`, `expression_at_t0_log2`)
+  over 2,043 features at 94.5% resolution (1,930 genes), plus 12 Mfuzz
+  decay-pattern GeneClusters (1,102 clustered rows, 1,010 resolved; new
+  `cluster_type: decay_pattern`). MIT9313 arm not wired (ships only in PPT
+  figures).
+- **Voigt 2014** (new publication, `10.1038/ismej.2014.57`) — MED4 + MIT9313
+  transcriptome-architecture (TSS) maps reduced to per-gene routing scalars.
+  2 Experiments, 10 DerivedMetrics (5 per strain: `has_primary_tss`,
+  `antisense_tss_count`, `internal_tss_count`, `minus10_element_score`,
+  `tss_distance_to_cds`); MED4 1,775 genes / MIT9313 2,548 genes from
+  4,190 / 8,746 TSS rows, 99.8% resolution of ID-bearing rows. Deliberately
+  NOT the paper's TSS/UTR/operon/ncRNA catalogue (no schema slot; Tier 3).
+- **Doron 2016** (new publication, `10.1038/ismej.2015.210`) — cyanophage
+  Syn9 infection microarray time courses on THREE Synechococcus hosts
+  (WH7803, WH8102, freshly onboarded WH8109). 3 viral Experiments x 7
+  timepoints over 0-4 h = 21 analyses; ~7.6K resolved host rows per-timepoint
+  (97.9% / 97.1% / 93.9% per host); 232 Syn9 phage probes per file dropped
+  (no Gene nodes). limma's omnibus series-level `adj.P.Val` rides only on
+  each terminal 4 h analysis (decision D7(a)) — earlier timepoints carry
+  log-ratios with null adjusted_p_value.
+- **Hackl 2023** (new publication, `10.1016/j.cell.2022.12.006`) — two
+  independent layers: (1) predicted genomic islands as `gene_clusters`
+  across 11 Prochlorococcus strains (149 islands with genes, 6,003
+  membership rows, 100% resolved; membership by coordinate containment,
+  frames verified vs mmc1; MIT1327 excluded pending coordinate remap;
+  explicitly NOT a core/flexible label, decision D6); (2) MIT0604
+  mitomycin-C / UV DNA-damage RNA-seq — 3 Experiments (MMC vs control
+  [chemical], UV vs control [light], MMC vs UV with the UV arm as stated
+  control), unfiltered DESeq2 tables (2,047 rows each) at 97.9% resolution
+  via a generated `CK_Pro_` prefix id_translation. Antisense arm deferred
+  (D8). First emitter of `treatment_type: chemical`.
+- **Johnson 2026b** (new publication, `10.1101/2026.04.15.718746`,
+  GSE314951) — MED4 diel light-perturbation DE from the PNNL iModulon
+  preprint: dark shift during the light period (2 h / 4 h) and light
+  exposure during the dark period (diel hours 14 / 16), 2 Experiments,
+  4 analyses, 1,920 rows each at 97.8% resolution. Directory renamed from
+  `johnson 2026 a/`; the triage doc's attribution of GSE314951 to the
+  whole-cell-modeling preprint `2026.01.21.700212` was corrected (F8).
+  iModulon memberships, diel cosinor metrics, and module-activity layers
+  deferred (`plans/backlog.md`, D5).
+- **he 2022 — DE source replaced with the full GEO tables** (correction).
+  The KG previously carried only the paper's "highly DE" supplementary
+  subsets (MED4 31 rows, NATL1A 82 rows, `significant_only`); it now
+  carries the full `GSE195946_Group_*_DE_anno` tables (MED4 2,041 /
+  NATL1A 2,239 rows, `all_detected_genes`, real FDR as adjusted p).
+  Unblocked by the B1 placeholder-merge fix (`a84db12b`).
+- **Huang 2020** (new publication, `10.1002/mbo3.1150`) — WH7803 cyanophage
+  S-SBP1 infection RNA-seq, 5 timepoints (15 min - 7 h) vs the 30-min
+  control, ~2,528 rows per contrast. Raw p carried in the adjusted-p slot
+  per the documented precedent (source reports unadjusted p only).
+- **Synechococcus WH8109 onboarded** (`GCF_000161795.2`, taxid 166314,
+  Cyanorak `Syn_WH8109`, sub-cluster 5.1
+  clade II, complete genome NZ_CP006882) — third Doron 2016 host; canonical
+  locus tags are natively the array's `Syncc8109_*` form. Full per-strain
+  tool suite run at onboarding. Organism totals: 8 Synechococcus-clade
+  strains, 48 OrganismTaxon nodes (41 genome strains).
+- **Wang 2014 / Thompson 2016 — B1 correction propagated** (correction).
+  The a84db12b placeholder fix re-resolved MED4-dependent papers: Wang 2014
+  drops 97 false gene resolutions (RNA/asRNA features with `--` locus tags
+  that the old runaway merge had attached to real genes — each was a
+  factually wrong expression edge); Thompson 2016 similarly drops `RNA_15`.
 - **Lu 2026** (new publication, `10.1128/aem.00798-26`) — *Alteromonas macleodii*
   EZ55 exudate proteomics. Two `compartment` experiments over the same cultures:
   the >50 kDa cell-free supernatant (EV-enriched exudate, `omics_type:
