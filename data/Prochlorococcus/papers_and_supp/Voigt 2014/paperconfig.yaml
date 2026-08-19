@@ -1,0 +1,161 @@
+publication:
+  papername: "Voigt 2014"
+  doi: "10.1038/ismej.2014.57"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Voigt 2014/41396_2014_article_bfismej201457.pdf"
+
+  experiments:
+    tss_mapping_med4:
+      name: "MED4 transcriptome architecture mapping (TSS map, 454 + Solexa dRNA-seq + tiling array)"
+      organism: "Prochlorococcus MED4"
+      omics_type: RNASEQ
+      treatment_condition: "Genome-wide transcriptional start site mapping in exponential growth"
+      treatment_type: []
+      background_factors: [axenic]
+      experimental_context: "Axenic MED4 at 22C in AMP1 medium under 10-30 umol quanta m-2 s-1 continuous cool white light, harvested in exponential phase; TSS positions mapped by 454 + Solexa differential RNA-seq with tiling-array support (control + pooled-stress hybridizations used only to call expressed segments). Derived per-gene scalars are ROUTING signals reduced from the multi-TSS-per-gene map — they do not capture transcript boundaries, UTR lengths, operon structure or the ncRNA catalogue (the paper's actual contribution; no schema slot yet)."
+      medium: "AMP1"
+      temperature: "22C"
+      light_condition: "continuous cool white light"
+      light_intensity: "10-30 umol quanta m-2 s-1"
+      table_scope: filtered_subset
+      table_scope_detail: "Only genes with at least one mapped gene-linked TSS (gTSS/aTSS/aArray/iTSS) appear; orphan nTSS rows are dropped. Genes without any mapped TSS are absent, not zero."
+
+    tss_mapping_mit9313:
+      name: "MIT9313 transcriptome architecture mapping (TSS map, 454 + Solexa dRNA-seq + tiling array)"
+      organism: "Prochlorococcus MIT9313"
+      omics_type: RNASEQ
+      treatment_condition: "Genome-wide transcriptional start site mapping in exponential growth"
+      treatment_type: []
+      background_factors: [axenic]
+      experimental_context: "Axenic MIT9313 at 22C in AMP1 medium under 10-30 umol quanta m-2 s-1 continuous cool white light, harvested in exponential phase; TSS positions mapped by 454 + Solexa differential RNA-seq with tiling-array support (control + pooled-stress hybridizations used only to call expressed segments). Derived per-gene scalars are ROUTING signals reduced from the multi-TSS-per-gene map — they do not capture transcript boundaries, UTR lengths, operon structure or the ncRNA catalogue (the paper's actual contribution; no schema slot yet)."
+      medium: "AMP1"
+      temperature: "22C"
+      light_condition: "continuous cool white light"
+      light_intensity: "10-30 umol quanta m-2 s-1"
+      table_scope: filtered_subset
+      table_scope_detail: "Only genes with at least one mapped gene-linked TSS (gTSS/aTSS/aArray/iTSS) appear; orphan nTSS rows are dropped. Genes without any mapped TSS are absent, not zero."
+
+  supplementary_materials:
+    # Built from Table S4 (moesm59) by
+    # scripts/build_modified_csv/build_voigt2014_tss_metrics.py
+    # (per-gene collapse of the multi-row TSS table; see script docstring
+    #  for the strongest-gTSS rule behind tss_distance_to_cds)
+    tss_metrics_med4:
+      type: derived_metrics_table
+      filename: "data/Prochlorococcus/papers_and_supp/Voigt 2014/voigt2014_med4_tss_metrics.csv"
+      organism: "Prochlorococcus MED4"
+      experiment: tss_mapping_med4
+      name_col: old_locus_tag
+      id_columns:
+        - column: old_locus_tag
+          id_type: locus_tag               # PMM#### (canonical MED4)
+        - column: locus_tag_new
+          id_type: alternative_locus_tag   # PMED4_XXXXX (newer annotation)
+      product_columns:
+        - column: product
+      metrics:
+        - metric_type: has_primary_tss
+          name: "Has mapped primary TSS (gTSS)"
+          value_kind: boolean
+          value_col: has_primary_tss
+          true_tokens: ["true"]
+          false_tokens: ["false"]
+          skip_tokens: ["NA", "N/A"]
+          blank_policy: skip
+          field_description: "At least one primary/genic TSS (gTSS) mapped for this gene. false = gene appears in the TSS map only via antisense/internal sites. Routing signal reduced from the Voigt 2014 TSS map — NOT a complete promoter annotation."
+
+        - metric_type: antisense_tss_count
+          name: "Antisense TSS count"
+          value_kind: numeric
+          value_col: antisense_tss_count
+          unit: "count"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Number of mapped antisense TSS rows (aTSS + array-only aArray) at this gene's locus. 0 = gene is in the TSS map but with no antisense site. Routing signal ('does this gene have mapped antisense transcription?') — NOT a complete antisense-transcript annotation (the paper's asRNA/ncRNA catalogue is not wired)."
+
+        - metric_type: internal_tss_count
+          name: "Internal TSS count"
+          value_kind: numeric
+          value_col: internal_tss_count
+          unit: "count"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Number of mapped internal TSS (iTSS) rows inside this gene's CDS. Routing signal reduced from the Voigt 2014 TSS map."
+
+        - metric_type: minus10_element_score
+          name: "-10 element score (best gTSS)"
+          value_kind: numeric
+          value_col: minus10_element_score
+          unit: ""
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Maximum -10 promoter element motif score across the gene's primary (gTSS) sites. Present only for genes with a gTSS. Higher = stronger canonical -10 box."
+
+        - metric_type: tss_distance_to_cds
+          name: "TSS distance to CDS (5'UTR length)"
+          value_kind: numeric
+          value_col: tss_distance_to_cds
+          unit: "nt"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Distance from the gene's dominant primary TSS (strongest gTSS by normalized Solexa read value; fallback raw Solexa / 454 reads) to the CDS start = 5'UTR length in nt. 0 = leaderless. Present only for genes with a gTSS carrying a mapped distance."
+
+    # Built from Table S5 (moesm60) by the same script
+    tss_metrics_mit9313:
+      type: derived_metrics_table
+      filename: "data/Prochlorococcus/papers_and_supp/Voigt 2014/voigt2014_mit9313_tss_metrics.csv"
+      organism: "Prochlorococcus MIT9313"
+      experiment: tss_mapping_mit9313
+      name_col: old_locus_tag
+      id_columns:
+        - column: old_locus_tag
+          id_type: locus_tag               # PMT#### (canonical MIT9313)
+        - column: locus_tag_new
+          id_type: alternative_locus_tag   # P9313_XXXXX (newer annotation)
+      product_columns:
+        - column: product
+      metrics:
+        - metric_type: has_primary_tss
+          name: "Has mapped primary TSS (gTSS)"
+          value_kind: boolean
+          value_col: has_primary_tss
+          true_tokens: ["true"]
+          false_tokens: ["false"]
+          skip_tokens: ["NA", "N/A"]
+          blank_policy: skip
+          field_description: "At least one primary/genic TSS (gTSS) mapped for this gene. false = gene appears in the TSS map only via antisense/internal sites. Routing signal reduced from the Voigt 2014 TSS map — NOT a complete promoter annotation."
+
+        - metric_type: antisense_tss_count
+          name: "Antisense TSS count"
+          value_kind: numeric
+          value_col: antisense_tss_count
+          unit: "count"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Number of mapped antisense TSS rows (aTSS + array-only aArray) at this gene's locus. 0 = gene is in the TSS map but with no antisense site. Routing signal — NOT a complete antisense-transcript annotation."
+
+        - metric_type: internal_tss_count
+          name: "Internal TSS count"
+          value_kind: numeric
+          value_col: internal_tss_count
+          unit: "count"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Number of mapped internal TSS (iTSS) rows inside this gene's CDS. Routing signal reduced from the Voigt 2014 TSS map."
+
+        - metric_type: minus10_element_score
+          name: "-10 element score (best gTSS)"
+          value_kind: numeric
+          value_col: minus10_element_score
+          unit: ""
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Maximum -10 promoter element motif score across the gene's primary (gTSS) sites. Present only for genes with a gTSS. Higher = stronger canonical -10 box."
+
+        - metric_type: tss_distance_to_cds
+          name: "TSS distance to CDS (5'UTR length)"
+          value_kind: numeric
+          value_col: tss_distance_to_cds
+          unit: "nt"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Distance from the gene's dominant primary TSS (strongest gTSS by normalized Solexa read value; fallback raw Solexa / 454 reads) to the CDS start = 5'UTR length in nt. 0 = leaderless. Present only for genes with a gTSS carrying a mapped distance."

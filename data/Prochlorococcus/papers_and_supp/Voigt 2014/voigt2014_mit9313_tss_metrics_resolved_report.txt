@@ -1,0 +1,21 @@
+Resolution report: Voigt 2014 / tss_metrics_mit9313
+Source: voigt2014_mit9313_tss_metrics.csv
+name_col: old_locus_tag
+id_columns: ['old_locus_tag', 'locus_tag_new']
+
+Total rows with IDs: 2144
+Resolved: 2139 (99.8%)
+Unresolved: 5
+
+Resolution method breakdown:
+  empty: 404
+  locus_tag:old_locus_tag: 2047
+  tier1:old_locus_tag: 92
+  unresolved: 5
+
+Unresolved rows (5):
+  row 1499: raw_id='PMT1222'  reason=unresolved  [old_locus_tag='PMT1222', locus_tag_new='P9313_15442']
+  row 2497: raw_id='new ORF deterimened by 454'  reason=unresolved  [old_locus_tag='new ORF deterimened by 454', locus_tag_new='P9313_09662']
+  row 2498: raw_id='new ORF determined by 454'  reason=unresolved  [old_locus_tag='new ORF determined by 454', locus_tag_new='P9313_03332']
+  row 2499: raw_id='new ORF determined by 454_65'  reason=unresolved  [old_locus_tag='new ORF determined by 454_65', locus_tag_new='P9313_19922']
+  row 2500: raw_id='new ORF determined by Solexa'  reason=unresolved  [old_locus_tag='new ORF determined by Solexa', locus_tag_new='P9313_25252']

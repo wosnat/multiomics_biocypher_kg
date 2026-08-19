@@ -138,6 +138,16 @@ KNOWN_METRIC_TYPES: dict[str, str] = {
     "rna_decay_rate_per_min":   "numeric",
     "expression_at_t0_log2":    "numeric",
 
+    # ── TSS architecture routing scalars (Voigt 2014 S4/S5, MED4 + MIT9313) ──
+    # Per-gene reductions of the TSS map — routing signals ("does this gene
+    # have mapped antisense transcription?"), NOT a representation of the
+    # paper's TSS/UTR/operon/ncRNA contribution (that layer stays Tier 3).
+    "has_primary_tss":        "boolean",
+    "antisense_tss_count":    "numeric",
+    "internal_tss_count":     "numeric",
+    "minus10_element_score":  "numeric",
+    "tss_distance_to_cds":    "numeric",
+
     # ── Boolean, per-LTPE-strain proteomics detection per compartment (Lu 2026 S1) ──
     # Detected by LC-MS/MS in the named compartment, in the named LTPE strain.
     # The three strains are NOT replicates: LTPE26 is the ancestor, LTPE397 and
