@@ -1,0 +1,283 @@
+publication:
+  papername: "Doron 2016"
+  doi: "10.1038/ismej.2015.210"
+  papermainpdf: "data/Synechococcus/papers_and_supp/Doron 2016/41396_2016_article_bfismej2015210.pdf"
+
+  experiments:
+    syn9_infection_wh7803:
+      name: "WH7803 cyanophage Syn9 infection time course (microarray)"
+      organism: "Synechococcus WH7803"
+      omics_type: MICROARRAY
+      test_type: microarray
+      treatment_condition: "Infection with broad-host-range cyanomyovirus Syn9 (MOI 2-3, ~2 h after lights-on)"
+      control_condition: "Uninfected parallel control cultures"
+      treatment_type: [viral]
+      background_factors: [diel]
+      treatment_organism: Phage
+      treatment_taxid: 10239
+      experimental_context: "Synechococcus WH7803 infected with cyanophage Syn9; whole-genome oligo microarray of infected vs uninfected cultures at 7 timepoints over 4 h (0-240 min); values are per-timepoint infected/control log-ratios (limma). The single F / P.Value / adj.P.Val triplet is limma's OMNIBUS series-level test."
+      medium: "ASW (artificial seawater, Wyman et al. 1985 with Lindell et al. 1998 modifications)"
+      temperature: "22C"
+      light_condition: "14:10 light:dark cycle, cool white light"
+      light_intensity: "30 umol photons m-2 s-1"
+      table_scope: all_detected_genes
+      table_scope_detail: "All host probes on the array (WH7803); 232 BSV9_* Syn9 phage probes filtered out at CSV-generation time (no Gene nodes). adjusted_p_value is wired ONLY on the terminal 4 h timepoint and is limma's omnibus series-level FDR ('this gene changed at some point in the series'), not a timepoint-specific test; the other six timepoints carry log-ratios with null adjusted_p_value (decision D7(a))."
+
+    syn9_infection_wh8102:
+      name: "WH8102 cyanophage Syn9 infection time course (microarray)"
+      organism: "Synechococcus WH8102"
+      omics_type: MICROARRAY
+      test_type: microarray
+      treatment_condition: "Infection with broad-host-range cyanomyovirus Syn9 (MOI 2-3, ~2 h after lights-on)"
+      control_condition: "Uninfected parallel control cultures"
+      treatment_type: [viral]
+      background_factors: [diel]
+      treatment_organism: Phage
+      treatment_taxid: 10239
+      experimental_context: "Synechococcus WH8102 infected with cyanophage Syn9; whole-genome oligo microarray of infected vs uninfected cultures at 7 timepoints over 4 h (0-240 min); values are per-timepoint infected/control log-ratios (limma). The single F / P.Value / adj.P.Val triplet is limma's OMNIBUS series-level test."
+      medium: "ASW (artificial seawater, Wyman et al. 1985 with Lindell et al. 1998 modifications)"
+      temperature: "22C"
+      light_condition: "14:10 light:dark cycle, cool white light"
+      light_intensity: "30 umol photons m-2 s-1"
+      table_scope: all_detected_genes
+      table_scope_detail: "All host probes on the array (WH8102); 232 BSV9_* Syn9 phage probes filtered out at CSV-generation time (no Gene nodes). adjusted_p_value is wired ONLY on the terminal 4 h timepoint and is limma's omnibus series-level FDR ('this gene changed at some point in the series'), not a timepoint-specific test; the other six timepoints carry log-ratios with null adjusted_p_value (decision D7(a))."
+
+    syn9_infection_wh8109:
+      name: "WH8109 cyanophage Syn9 infection time course (microarray)"
+      organism: "Synechococcus WH8109"
+      omics_type: MICROARRAY
+      test_type: microarray
+      treatment_condition: "Infection with broad-host-range cyanomyovirus Syn9 (MOI 2-3, ~2 h after lights-on)"
+      control_condition: "Uninfected parallel control cultures"
+      treatment_type: [viral]
+      background_factors: [diel]
+      treatment_organism: Phage
+      treatment_taxid: 10239
+      experimental_context: "Synechococcus WH8109 infected with cyanophage Syn9; whole-genome oligo microarray of infected vs uninfected cultures at 7 timepoints over 4 h (0-240 min); values are per-timepoint infected/control log-ratios (limma). The single F / P.Value / adj.P.Val triplet is limma's OMNIBUS series-level test."
+      medium: "ASW (artificial seawater, Wyman et al. 1985 with Lindell et al. 1998 modifications)"
+      temperature: "22C"
+      light_condition: "14:10 light:dark cycle, cool white light"
+      light_intensity: "30 umol photons m-2 s-1"
+      table_scope: all_detected_genes
+      table_scope_detail: "All host probes on the array (WH8109); 232 BSV9_* Syn9 phage probes filtered out at CSV-generation time (no Gene nodes). adjusted_p_value is wired ONLY on the terminal 4 h timepoint and is limma's omnibus series-level FDR ('this gene changed at some point in the series'), not a timepoint-specific test; the other six timepoints carry log-ratios with null adjusted_p_value (decision D7(a))."
+
+  supplementary_materials:
+    # Derived from GSE63690_Processed_data_WH7803.txt.gz by
+    # scripts/build_modified_csv/build_doron2016_host_tables.py
+    # (phage probes dropped; locus_tag = Probe ID minus '_at')
+    host_de_wh7803:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Doron 2016/doron2016_wh7803_host_de.csv"
+      organism: "Synechococcus WH7803"
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: description
+      statistical_analyses:
+        - id: doron2016_wh7803_syn9_0min
+          experiment: syn9_infection_wh7803
+          timepoint: "0 min"
+          timepoint_hours: 0.0
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "S0.C0"
+          prefiltered: false
+        - id: doron2016_wh7803_syn9_30min
+          experiment: syn9_infection_wh7803
+          timepoint: "30 min"
+          timepoint_hours: 0.5
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "S30.C30"
+          prefiltered: false
+        - id: doron2016_wh7803_syn9_60min
+          experiment: syn9_infection_wh7803
+          timepoint: "60 min"
+          timepoint_hours: 1.0
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "S60.C60"
+          prefiltered: false
+        - id: doron2016_wh7803_syn9_90min
+          experiment: syn9_infection_wh7803
+          timepoint: "90 min"
+          timepoint_hours: 1.5
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "S90.C90"
+          prefiltered: false
+        - id: doron2016_wh7803_syn9_120min
+          experiment: syn9_infection_wh7803
+          timepoint: "120 min"
+          timepoint_hours: 2.0
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "S120.C120"
+          prefiltered: false
+        - id: doron2016_wh7803_syn9_180min
+          experiment: syn9_infection_wh7803
+          timepoint: "180 min"
+          timepoint_hours: 3.0
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "S180.C180"
+          prefiltered: false
+        - id: doron2016_wh7803_syn9_240min
+          experiment: syn9_infection_wh7803
+          timepoint: "240 min"
+          timepoint_hours: 4.0
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "S240.C240"
+          # limma omnibus series-level BH-adjusted F-test p — see table_scope_detail
+          adjusted_p_value_col: "adj.P.Val"
+          pvalue_threshold: 0.05
+          prefiltered: false
+
+    # Derived from GSE63690_Processed_data_WH8102.txt.gz by
+    # scripts/build_modified_csv/build_doron2016_host_tables.py
+    # (phage probes dropped; locus_tag = Probe ID minus '_at')
+    host_de_wh8102:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Doron 2016/doron2016_wh8102_host_de.csv"
+      organism: "Synechococcus WH8102"
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: description
+      statistical_analyses:
+        - id: doron2016_wh8102_syn9_0h
+          experiment: syn9_infection_wh8102
+          timepoint: "0 h"
+          timepoint_hours: 0.0
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "SYN9.0.C0"
+          prefiltered: false
+        - id: doron2016_wh8102_syn9_0_5h
+          experiment: syn9_infection_wh8102
+          timepoint: "0.5 h"
+          timepoint_hours: 0.5
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "SYN9.0.5.C0.5"
+          prefiltered: false
+        - id: doron2016_wh8102_syn9_1h
+          experiment: syn9_infection_wh8102
+          timepoint: "1 h"
+          timepoint_hours: 1.0
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "SYN9.1.C1"
+          prefiltered: false
+        - id: doron2016_wh8102_syn9_1_5h
+          experiment: syn9_infection_wh8102
+          timepoint: "1.5 h"
+          timepoint_hours: 1.5
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "SYN9.1.5.C1.5"
+          prefiltered: false
+        - id: doron2016_wh8102_syn9_2h
+          experiment: syn9_infection_wh8102
+          timepoint: "2 h"
+          timepoint_hours: 2.0
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "SYN9.2.C2"
+          prefiltered: false
+        - id: doron2016_wh8102_syn9_3h
+          experiment: syn9_infection_wh8102
+          timepoint: "3 h"
+          timepoint_hours: 3.0
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "SYN9.3.C3"
+          prefiltered: false
+        - id: doron2016_wh8102_syn9_4h
+          experiment: syn9_infection_wh8102
+          timepoint: "4 h"
+          timepoint_hours: 4.0
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "SYN9.4.C4"
+          # limma omnibus series-level BH-adjusted F-test p — see table_scope_detail
+          adjusted_p_value_col: "adj.P.Val"
+          pvalue_threshold: 0.05
+          prefiltered: false
+
+    # Derived from GSE63690_Processed_data_WH8109_Syn9.txt.gz by
+    # scripts/build_modified_csv/build_doron2016_host_tables.py
+    # (phage probes dropped; locus_tag = Probe ID minus '_at')
+    host_de_wh8109:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Doron 2016/doron2016_wh8109_host_de.csv"
+      organism: "Synechococcus WH8109"
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: description
+      statistical_analyses:
+        - id: doron2016_wh8109_syn9_0h
+          experiment: syn9_infection_wh8109
+          timepoint: "0 h"
+          timepoint_hours: 0.0
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "S0.C0"
+          prefiltered: false
+        - id: doron2016_wh8109_syn9_0_5h
+          experiment: syn9_infection_wh8109
+          timepoint: "0.5 h"
+          timepoint_hours: 0.5
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "S0.5.C0.5"
+          prefiltered: false
+        - id: doron2016_wh8109_syn9_1h
+          experiment: syn9_infection_wh8109
+          timepoint: "1 h"
+          timepoint_hours: 1.0
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "S1.C1"
+          prefiltered: false
+        - id: doron2016_wh8109_syn9_1_5h
+          experiment: syn9_infection_wh8109
+          timepoint: "1.5 h"
+          timepoint_hours: 1.5
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "S1.5.C1.5"
+          prefiltered: false
+        - id: doron2016_wh8109_syn9_2h
+          experiment: syn9_infection_wh8109
+          timepoint: "2 h"
+          timepoint_hours: 2.0
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "S2.C2"
+          prefiltered: false
+        - id: doron2016_wh8109_syn9_3h
+          experiment: syn9_infection_wh8109
+          timepoint: "3 h"
+          timepoint_hours: 3.0
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "S3.C3"
+          prefiltered: false
+        - id: doron2016_wh8109_syn9_4h
+          experiment: syn9_infection_wh8109
+          timepoint: "4 h"
+          timepoint_hours: 4.0
+          growth_phase: infected
+          name_col: "locus_tag"
+          logfc_col: "S4.C4"
+          # limma omnibus series-level BH-adjusted F-test p — see table_scope_detail
+          adjusted_p_value_col: "adj.P.Val"
+          pvalue_threshold: 0.05
+          prefiltered: false
+

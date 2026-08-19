@@ -1,0 +1,36 @@
+Resolution report: Doron 2016 / host_de_wh8109
+Source: doron2016_wh8109_host_de.csv
+name_col: locus_tag
+id_columns: ['locus_tag']
+
+Total rows with IDs: 2757
+Resolved: 2589 (93.9%)
+Unresolved: 168
+
+Resolution method breakdown:
+  locus_tag:locus_tag: 2584
+  tier1:locus_tag: 5
+  unresolved: 168
+
+Unresolved rows (168):
+  row 242: raw_id='Syncc8109_1953'  reason=unresolved  [locus_tag='Syncc8109_1953']
+  row 279: raw_id='Syncc8109_0386'  reason=unresolved  [locus_tag='Syncc8109_0386']
+  row 352: raw_id='Syncc8109_1352'  reason=unresolved  [locus_tag='Syncc8109_1352']
+  row 375: raw_id='Syncc8109_1165'  reason=unresolved  [locus_tag='Syncc8109_1165']
+  row 524: raw_id='Syncc8109_0708'  reason=unresolved  [locus_tag='Syncc8109_0708']
+  row 698: raw_id='Syncc8109_2438'  reason=unresolved  [locus_tag='Syncc8109_2438']
+  row 726: raw_id='Syncc8109_0531'  reason=unresolved  [locus_tag='Syncc8109_0531']
+  row 860: raw_id='Syncc8109_1653'  reason=unresolved  [locus_tag='Syncc8109_1653']
+  row 861: raw_id='Syncc8109_0506'  reason=unresolved  [locus_tag='Syncc8109_0506']
+  row 903: raw_id='Syncc8109_0698'  reason=unresolved  [locus_tag='Syncc8109_0698']
+  row 917: raw_id='Syncc8109_2131'  reason=unresolved  [locus_tag='Syncc8109_2131']
+  row 924: raw_id='Syncc8109_0703'  reason=unresolved  [locus_tag='Syncc8109_0703']
+  row 1031: raw_id='Syncc8109_0171'  reason=unresolved  [locus_tag='Syncc8109_0171']
+  row 1046: raw_id='Syncc8109_0426'  reason=unresolved  [locus_tag='Syncc8109_0426']
+  row 1091: raw_id='Syncc8109_0208'  reason=unresolved  [locus_tag='Syncc8109_0208']
+  row 1157: raw_id='Syncc8109_2122'  reason=unresolved  [locus_tag='Syncc8109_2122']
+  row 1191: raw_id='Syncc8109_0511'  reason=unresolved  [locus_tag='Syncc8109_0511']
+  row 1266: raw_id='Syncc8109_2420'  reason=unresolved  [locus_tag='Syncc8109_2420']
+  row 1267: raw_id='Syncc8109_0399'  reason=unresolved  [locus_tag='Syncc8109_0399']
+  row 1289: raw_id='Syncc8109_1564'  reason=unresolved  [locus_tag='Syncc8109_1564']
+  ... (148 more)
