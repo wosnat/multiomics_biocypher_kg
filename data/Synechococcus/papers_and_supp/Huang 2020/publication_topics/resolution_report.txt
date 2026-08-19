@@ -1,0 +1,24 @@
+Topics resolution report: Huang 2021
+Strains: ['Synechococcus WH7803', 'Phage']
+
+Genes:    14/19 resolved (73.7%)
+  methods: multi:v=2, no_mapping=5, tier1:v=12
+Pathways: 5/7 resolved (71.4%)
+  methods: id=5, unresolved=2
+
+Captured identifiers: 6  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 5}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (5):
+  - pol  [lookup_miss]  strain=Phage
+  - psbA  [lookup_miss]  strain=Phage
+  - hli  [lookup_miss]  strain=Phage
+  - talC  [lookup_miss]  strain=Phage
+  - thyX  [lookup_miss]  strain=Phage
+
+Unresolved pathway mentions (2):
+  - phosphorus acquisition  (raw id=—)
+  - SOS response  (raw id=—)

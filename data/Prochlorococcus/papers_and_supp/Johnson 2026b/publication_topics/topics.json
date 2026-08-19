@@ -1,0 +1,1012 @@
+{
+  "metadata": {
+    "paper": "Johnson 2026b",
+    "doi": "10.1101/2026.04.15.718746",
+    "strains": [
+      "Prochlorococcus MED4"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 3,
+    "chunk_pages": 15,
+    "self_assessment": "low",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Most genes are named by symbols only; additional identifiers likely exist in supplemental datasets and full gene lists not present in the provided text.; Figure 3 and Figure 5 print many additional PMM locus tags and gene labels inside heatmaps that were not all captured individually.; No extractable focal-paper gene identifiers were available in the provided text.",
+    "extracted_at": "2026-08-19T08:39:26.659793",
+    "input_tokens": 33130,
+    "output_tokens": 10151
+  },
+  "genes": [
+    {
+      "surface_form": "RpaB",
+      "gene_name": "rpaB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "RpaB is named among conserved modules governing photosynthesis and light responses (Abstract, lines 34-35)"
+    },
+    {
+      "surface_form": "RpaA",
+      "gene_name": "rpaA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "RpaA governs circadian rhythms through three temporally distinct modules in MED4 (Abstract, lines 37-39)"
+    },
+    {
+      "surface_form": "PhoB",
+      "gene_name": "phoB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "conserved modules reveal regulatory programs governing nutrient assimilation (NtcA, PhoB) (Abstract, lines 35-36)"
+    },
+    {
+      "surface_form": "NtcA",
+      "gene_name": "ntcA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "NtcA, the global regulator of nitrogen assimilation, is represented by two iModulons in MED4 (Results 2.4, lines 186-187)"
+    },
+    {
+      "surface_form": "RbcR",
+      "gene_name": "rbcR",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "MED4 retains the CCM regulator RbcR, which is inferred to regulate the CCM iModulon (Results 2.4, lines 211-213)"
+    },
+    {
+      "surface_form": "Rre1",
+      "gene_name": "rre1",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "conserved regulons are identified for six TFs: RpaA, RpaB and Rre1... (Results 2.3, lines 161-163)"
+    },
+    {
+      "surface_form": "LexA",
+      "gene_name": "lexA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Stress-responsive iModulons encompass... the DNA damage SOS response (LexA) (Results 2.2, lines 131-132)"
+    },
+    {
+      "surface_form": "psaC",
+      "gene_name": "psaC",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaB~P ... BBH gene names (MED4) psaC, psaA, psaJ, psaK, psbO, psaF, psaD (Table 2)"
+    },
+    {
+      "surface_form": "psaA",
+      "gene_name": "psaA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaB~P ... BBH gene names (MED4) psaC, psaA, psaJ, psaK, psbO, psaF, psaD (Table 2)"
+    },
+    {
+      "surface_form": "psaJ",
+      "gene_name": "psaJ",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaB~P ... BBH gene names (MED4) psaC, psaA, psaJ, psaK, psbO, psaF, psaD (Table 2)"
+    },
+    {
+      "surface_form": "psaK",
+      "gene_name": "psaK",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaB~P ... BBH gene names (MED4) psaC, psaA, psaJ, psaK, psbO, psaF, psaD (Table 2)"
+    },
+    {
+      "surface_form": "psbO",
+      "gene_name": "psbO",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaB~P ... BBH gene names (MED4) psaC, psaA, psaJ, psaK, psbO, psaF, psaD (Table 2)"
+    },
+    {
+      "surface_form": "psaF",
+      "gene_name": "psaF",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaB~P ... BBH gene names (MED4) psaC, psaA, psaJ, psaK, psbO, psaF, psaD (Table 2)"
+    },
+    {
+      "surface_form": "psaD",
+      "gene_name": "psaD",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaB~P ... BBH gene names (MED4) psaC, psaA, psaJ, psaK, psbO, psaF, psaD (Table 2)"
+    },
+    {
+      "surface_form": "ftsH3",
+      "gene_name": "ftsH3",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaB ROS ... BBH gene names (MED4) ftsH3, psbD2, hepB, PMM0921, PMM0680 (Table 2)"
+    },
+    {
+      "surface_form": "psbD2",
+      "gene_name": "psbD2",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaB ROS ... BBH gene names (MED4) ftsH3, psbD2, hepB, PMM0921, PMM0680 (Table 2)"
+    },
+    {
+      "surface_form": "hepB",
+      "gene_name": "hepB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaB ROS ... BBH gene names (MED4) ftsH3, psbD2, hepB, PMM0921, PMM0680 (Table 2)"
+    },
+    {
+      "surface_form": "PMM0921",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0921"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaB ROS ... BBH gene names (MED4) ftsH3, psbD2, hepB, PMM0921, PMM0680 (Table 2)"
+    },
+    {
+      "surface_form": "PMM0680",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0680"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaB ROS ... BBH gene names (MED4) ftsH3, psbD2, hepB, PMM0921, PMM0680 (Table 2)"
+    },
+    {
+      "surface_form": "rpoD3",
+      "gene_name": "rpoD3",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "HLI ... BBH gene names (MED4) rpoD3, hli17 (Table 2)"
+    },
+    {
+      "surface_form": "hli17",
+      "gene_name": "hli17",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "HLI ... BBH gene names (MED4) rpoD3, hli17 (Table 2)"
+    },
+    {
+      "surface_form": "pntA1",
+      "gene_name": "pntA1",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaA~P ... BBH gene names (MED4) pntA1, zwf, gndA, rpoD6, tal, opcA, pntB, glgP, PMM0383 (Table 2)"
+    },
+    {
+      "surface_form": "zwf",
+      "gene_name": "zwf",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaA~P ... BBH gene names (MED4) pntA1, zwf, gndA, rpoD6, tal, opcA, pntB, glgP, PMM0383 (Table 2)"
+    },
+    {
+      "surface_form": "gndA",
+      "gene_name": "gndA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaA~P ... BBH gene names (MED4) pntA1, zwf, gndA, rpoD6, tal, opcA, pntB, glgP, PMM0383 (Table 2)"
+    },
+    {
+      "surface_form": "rpoD6",
+      "gene_name": "rpoD6",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "Mapped BBH orthologs ... identify conserved regulatory control of ... transcriptional regulation (rpoD6) (Results 2.6, lines 272-273)"
+    },
+    {
+      "surface_form": "tal",
+      "gene_name": "tal",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaA~P ... BBH gene names (MED4) pntA1, zwf, gndA, rpoD6, tal, opcA, pntB, glgP, PMM0383 (Table 2)"
+    },
+    {
+      "surface_form": "opcA",
+      "gene_name": "opcA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaA~P ... BBH gene names (MED4) pntA1, zwf, gndA, rpoD6, tal, opcA, pntB, glgP, PMM0383 (Table 2)"
+    },
+    {
+      "surface_form": "pntB",
+      "gene_name": "pntB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaA~P ... BBH gene names (MED4) pntA1, zwf, gndA, rpoD6, tal, opcA, pntB, glgP, PMM0383 (Table 2)"
+    },
+    {
+      "surface_form": "glgP",
+      "gene_name": "glgP",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "Mapped BBH orthologs ... identify conserved regulatory control of glycogen catabolism (glgP) (Results 2.6, lines 272-273)"
+    },
+    {
+      "surface_form": "PMM0383",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0383"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaA~P ... BBH gene names (MED4) pntA1, zwf, gndA, rpoD6, tal, opcA, pntB, glgP, PMM0383 (Table 2)"
+    },
+    {
+      "surface_form": "ctaC",
+      "gene_name": "ctaC",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaA cox ... BBH gene names (MED4) ctaC, ctaB, ctaE, ctaA, ctaD (Table 2)"
+    },
+    {
+      "surface_form": "ctaB",
+      "gene_name": "ctaB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaA cox ... BBH gene names (MED4) ctaC, ctaB, ctaE, ctaA, ctaD (Table 2)"
+    },
+    {
+      "surface_form": "ctaE",
+      "gene_name": "ctaE",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaA cox ... BBH gene names (MED4) ctaC, ctaB, ctaE, ctaA, ctaD (Table 2)"
+    },
+    {
+      "surface_form": "ctaA",
+      "gene_name": "ctaA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaA cox ... BBH gene names (MED4) ctaC, ctaB, ctaE, ctaA, ctaD (Table 2)"
+    },
+    {
+      "surface_form": "ctaD",
+      "gene_name": "ctaD",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RpaA cox ... BBH gene names (MED4) ctaC, ctaB, ctaE, ctaA, ctaD (Table 2)"
+    },
+    {
+      "surface_form": "cynB",
+      "gene_name": "cynB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "NtcA ABC ... BBH gene names (MED4) cynB, cynA, cynS, cynD, glnA (Table 2)"
+    },
+    {
+      "surface_form": "cynA",
+      "gene_name": "cynA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "NtcA ABC ... BBH gene names (MED4) cynB, cynA, cynS, cynD, glnA (Table 2)"
+    },
+    {
+      "surface_form": "cynS",
+      "gene_name": "cynS",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "NtcA ABC ... BBH gene names (MED4) cynB, cynA, cynS, cynD, glnA (Table 2)"
+    },
+    {
+      "surface_form": "cynD",
+      "gene_name": "cynD",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "NtcA ABC ... BBH gene names (MED4) cynB, cynA, cynS, cynD, glnA (Table 2)"
+    },
+    {
+      "surface_form": "glnA",
+      "gene_name": "glnA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The larger NtcA iModulon includes ntcA, glutamate synthase (glnA), glnB (Results 2.4, lines 193-195)"
+    },
+    {
+      "surface_form": "glnB",
+      "gene_name": "glnB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The larger NtcA iModulon includes ntcA, glutamate synthase (glnA), glnB (Results 2.4, lines 193-195)"
+    },
+    {
+      "surface_form": "groES",
+      "gene_name": "groES",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Rre1 ... BBH gene names (MED4) groES, dnaK2, groEL1, htpG (Table 2)"
+    },
+    {
+      "surface_form": "dnaK2",
+      "gene_name": "dnaK2",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Rre1 ... BBH gene names (MED4) groES, dnaK2, groEL1, htpG (Table 2)"
+    },
+    {
+      "surface_form": "groEL1",
+      "gene_name": "groEL1",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Rre1 ... BBH gene names (MED4) groES, dnaK2, groEL1, htpG (Table 2)"
+    },
+    {
+      "surface_form": "htpG",
+      "gene_name": "htpG",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Rre1 ... BBH gene names (MED4) groES, dnaK2, groEL1, htpG (Table 2)"
+    },
+    {
+      "surface_form": "pstC",
+      "gene_name": "pstC",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "PhoB ... BBH gene names (MED4) pstC, phoB / sphR (Table 2)"
+    },
+    {
+      "surface_form": "ptrA",
+      "gene_name": "ptrA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "This gene set also includes the secondary regulator (ptrA) (Results 2.4, lines 206-207)"
+    },
+    {
+      "surface_form": "phoA",
+      "gene_name": "phoA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "This gene set also includes ... phosphatases (phoA, psip1) (Results 2.4, lines 206-207)"
+    },
+    {
+      "surface_form": "psip1",
+      "gene_name": "psip1",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "This gene set also includes ... phosphatases (phoA, psip1) (Results 2.4, lines 206-207)"
+    },
+    {
+      "surface_form": "phoE",
+      "gene_name": "phoE",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "This gene set also includes ... the outer membrane porin (phoE) (Results 2.4, lines 206-207)"
+    },
+    {
+      "surface_form": "chrA",
+      "gene_name": "chrA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "This gene set also includes ... the chromate transporter (chrA) (Results 2.4, lines 206-207)"
+    },
+    {
+      "surface_form": "csoS1",
+      "gene_name": "csoS1",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The CCM iModulon captures ... carboxysome shell proteins, carbonic anhydrase, and Rubisco (cso1-3, rbcLS) (Results 2.4, lines 212-214)"
+    },
+    {
+      "surface_form": "csoS2",
+      "gene_name": "csoS2",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "Figure 2c labels scaffold proteins CsoS2 within the CCM iModulon (Figure 2c, page 11)"
+    },
+    {
+      "surface_form": "csoS3",
+      "gene_name": "csoS3",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "Figure 2c labels carbonic anhydrase as CA, CsoS3 within the CCM iModulon (Figure 2c, page 11)"
+    },
+    {
+      "surface_form": "cbbS",
+      "gene_name": "cbbS",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "RbcRd CCM ... BBH gene names (MED4) csoS1, cbbS, cbbL (Table 2)"
+    },
+    {
+      "surface_form": "cbbL",
+      "gene_name": "cbbL",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "RbcRd CCM ... BBH gene names (MED4) csoS1, cbbS, cbbL (Table 2)"
+    },
+    {
+      "surface_form": "nrtABCDS",
+      "gene_name": "nrtABCDS",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "shared with the PCC 7942 NtcA regulon, including the nitrate/cyanate transporter (nrtABCDS) (Results 2.4, lines 188-190)"
+    },
+    {
+      "surface_form": "urtABC",
+      "gene_name": "urtABC",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The smaller NtcA-ABC iModulon captures ... the urea transporter (urtABC) (Results 2.4, lines 197-198)"
+    },
+    {
+      "surface_form": "secG",
+      "gene_name": "secG",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The smaller NtcA-ABC iModulon captures ... membrane transport complex proteins (secG, tatA) (Results 2.4, lines 198-199)"
+    },
+    {
+      "surface_form": "tatA",
+      "gene_name": "tatA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The smaller NtcA-ABC iModulon captures ... membrane transport complex proteins (secG, tatA) (Results 2.4, lines 198-199)"
+    },
+    {
+      "surface_form": "PMM1846",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1846"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The larger NtcA iModulon includes ... IF7/IF17 ... homologs (PMM1846, TX50_RS09260) (Results 2.4, lines 194-196)"
+    },
+    {
+      "surface_form": "TX50_RS09260",
+      "gene_name": "",
+      "identifiers": [
+        "TX50_RS09260"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The larger NtcA iModulon includes ... IF7/IF17 ... homologs (PMM1846, TX50_RS09260) (Results 2.4, lines 194-196)"
+    },
+    {
+      "surface_form": "KaiABC",
+      "gene_name": "kaiABC",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "canonical circadian control is mediated by the KaiABC oscillator (Results 2.5, lines 237-239)"
+    },
+    {
+      "surface_form": "KaiA",
+      "gene_name": "kaiA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "MED4 encodes a simplified circadian architecture lacking KaiA (Results 2.5, lines 238-240)"
+    },
+    {
+      "surface_form": "cp12",
+      "gene_name": "cp12",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "the MED4 iModulon additionally captures ... a redox-sensing regulator of the Calvin-Benson Cycle (cp12) (Results 2.6, lines 274-276)"
+    },
+    {
+      "surface_form": "himA",
+      "gene_name": "himA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "the MED4 iModulon additionally captures ... a nucleoid protein ... (himA) (Results 2.6, lines 275-276)"
+    },
+    {
+      "surface_form": "ndhD",
+      "gene_name": "ndhD",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "the MED4 iModulon additionally captures ... NDH1 subunit (ndhD) (Results 2.6, lines 276-277)"
+    },
+    {
+      "surface_form": "ftsZ",
+      "gene_name": "ftsZ",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "the MED4 iModulon additionally captures ... cell division proteins (ftsZ, minD) (Results 2.6, lines 276-277)"
+    },
+    {
+      "surface_form": "minD",
+      "gene_name": "minD",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "the MED4 iModulon additionally captures ... cell division proteins (ftsZ, minD) (Results 2.6, lines 276-277)"
+    },
+    {
+      "surface_form": "PMM1176",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1176"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "the CopG family regulator (PMM1176) (Results 2.6, lines 283-284)"
+    },
+    {
+      "surface_form": "rpoD7/sigD",
+      "gene_name": "sigD",
+      "identifiers": [
+        "PMM0577"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "rpaA, rpoD6, rpoD7/sigD (PMM0577), and the CopG family regulator are co-regulated (Results 2.6, lines 288-289)"
+    },
+    {
+      "surface_form": "rpoD7/sigD",
+      "gene_name": "rpoD7/sigD",
+      "identifiers": [
+        "PMM0577"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "MED4 utilizes a phylogenetically distinct sigma factor RpoD7/SigD and lacks homologs of RpoD5 and RpoD2 (Discussion 3.2, p22)"
+    },
+    {
+      "surface_form": "hemEJ",
+      "gene_name": "hemEJ",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "pigment biosynthesis, including genes involved in heme biosynthesis hemEJ (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "acsF",
+      "gene_name": "acsF",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "divinyl chlorophyll biosynthesis acsF, chlLNP (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "chlLNP",
+      "gene_name": "chlLNP",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "divinyl chlorophyll biosynthesis acsF, chlLNP (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "crtL2",
+      "gene_name": "crtL2",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Of the RpaB~P iModulon genes, only one gene is involved in carotenoid biosynthesis crtL2 (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "psbIMN",
+      "gene_name": "psbIMN",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "PSII repair and assembly proteins psbIMN (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "PMM1498",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1498"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "the PSII high-light adaptation protein PMM1498, a homolog of slr0320 (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "slr0320",
+      "gene_name": "slr0320",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "PMM1498, a homolog of slr0320, previously shown to be crucial for high-light adaptation (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "ferredoxin",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0316"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "captures the expression of rpaA, ferredoxin PMM0316, carotenoid metabolism ... and ROS defense genes (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "sds",
+      "gene_name": "sds",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "carotenoid metabolism sds, zds, pds, PMM0280 (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "zds",
+      "gene_name": "zds",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "carotenoid metabolism sds, zds, pds, PMM0280 (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "pds",
+      "gene_name": "pds",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "carotenoid metabolism sds, zds, pds, PMM0280 (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "PMM0280",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0280"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "carotenoid metabolism sds, zds, pds, PMM0280 (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "flvB",
+      "gene_name": "flvB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "ROS defense genes flvB, gst1, btuE, rub, ftsH2 PMM1015, PMM1359, PMM0345 (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "gst1",
+      "gene_name": "gst1",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "ROS defense genes flvB, gst1, btuE, rub, ftsH2 PMM1015, PMM1359, PMM0345 (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "btuE",
+      "gene_name": "btuE",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "ROS defense genes flvB, gst1, btuE, rub, ftsH2 PMM1015, PMM1359, PMM0345 (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "rub",
+      "gene_name": "rub",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "ROS defense genes flvB, gst1, btuE, rub, ftsH2 PMM1015, PMM1359, PMM0345 (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "ftsH2",
+      "gene_name": "ftsH2",
+      "identifiers": [
+        "PMM1015"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "ROS defense genes flvB, gst1, btuE, rub, ftsH2 PMM1015, PMM1359, PMM0345 (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "PMM1359",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1359"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "ROS defense genes flvB, gst1, btuE, rub, ftsH2 PMM1015, PMM1359, PMM0345 (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "PMM0345",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0345"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "ROS defense genes flvB, gst1, btuE, rub, ftsH2 PMM1015, PMM1359, PMM0345 (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "cbbLS",
+      "gene_name": "cbbLS",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "Type IA RuBisCO cbbLS, with carboxysome shell proteins csoS1,2,4 and carbonic anhydrase csoS3 (Discussion 3.1, p21)"
+    },
+    {
+      "surface_form": "csoS1,2,4",
+      "gene_name": "csoS1,2,4",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "with carboxysome shell proteins csoS1,2,4 and carbonic anhydrase csoS3 (Discussion 3.1, p21)"
+    },
+    {
+      "surface_form": "rbcLS",
+      "gene_name": "rbcLS",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "PCC 7942 encodes a \u03b2-carboxysome architecture ... using Type IB RuBisCO rbcLS (Discussion 3.1, p21)"
+    },
+    {
+      "surface_form": "csoS2-3",
+      "gene_name": "csoS2-3",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The iModulon includes csoS2-3 but excludes csoS4A and csoS4B (Discussion 3.1, p22)"
+    },
+    {
+      "surface_form": "csoS4A",
+      "gene_name": "csoS4A",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The iModulon includes csoS2-3 but excludes csoS4A and csoS4B (Discussion 3.1, p22)"
+    },
+    {
+      "surface_form": "csoS4B",
+      "gene_name": "csoS4B",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The iModulon includes csoS2-3 but excludes csoS4A and csoS4B (Discussion 3.1, p22)"
+    },
+    {
+      "surface_form": "RpoD5",
+      "gene_name": "RpoD5",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "lacks homologs of circadian-coordinating sigma factors ... RpoD5 SigC and RpoD2 SigB (Discussion 3.2, p22)"
+    },
+    {
+      "surface_form": "SigC",
+      "gene_name": "SigC",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "RpoD5 SigC and RpoD2 SigB (Discussion 3.2, p22)"
+    },
+    {
+      "surface_form": "RpoD2",
+      "gene_name": "RpoD2",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "RpoD5 SigC and RpoD2 SigB (Discussion 3.2, p22)"
+    },
+    {
+      "surface_form": "SigB",
+      "gene_name": "SigB",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "RpoD5 SigC and RpoD2 SigB (Discussion 3.2, p22)"
+    },
+    {
+      "surface_form": "ctaABCDE",
+      "gene_name": "ctaABCDE",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "regulatory control of the cox operon ctaABCDE in the RpaA cox iModulon (Discussion 3.2, p22)"
+    },
+    {
+      "surface_form": "PMM0806",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0806"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "RpaB~P iModulon includes rpaA and a putative CRP-family redox-responsive regulator PMM0806 (Discussion 3.3, p23)"
+    },
+    {
+      "surface_form": "Pcbs",
+      "gene_name": "Pcbs",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "genes encoding its simplified light-harvesting complexes, the prochlorophyte chlorophyll-binding proteins Pcbs (Discussion 3.3, p23)"
+    },
+    {
+      "surface_form": "PipX",
+      "gene_name": "PipX",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "PipX, the coactivator of NtcA, is a global regulator in cyanobacteria (References cited, p30)"
+    },
+    {
+      "surface_form": "RbcR",
+      "gene_name": "RbcR",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "The transcriptional regulator RbcR controls RuBisCO genes in Synechocystis sp. PCC 6803 (References cited, p30)"
+    },
+    {
+      "surface_form": "LexA",
+      "gene_name": "LexA",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "DNA-binding sites for cyanobacterial TFs NtcA, SphR PhoB, and LexA were obtained from RegPrecise (Methods 5.7, p28)"
+    },
+    {
+      "surface_form": "SphR",
+      "gene_name": "SphR",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "DNA-binding sites for cyanobacterial TFs NtcA, SphR PhoB, and LexA were obtained from RegPrecise (Methods 5.7, p28)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id": "map00195",
+      "prominence": "central",
+      "evidence": "conserved modules reveal regulatory programs governing photosynthesis and light responses (Abstract, lines 34-35)"
+    },
+    {
+      "surface_form": "oxidative phosphorylation",
+      "kegg_pathway_id": "map00190",
+      "prominence": "central",
+      "evidence": "RpaA cox ... Oxidative phosphorylation (KEGG: map00190) (Table 3)"
+    },
+    {
+      "surface_form": "purine metabolism",
+      "kegg_pathway_id": "map00230",
+      "prominence": "peripheral",
+      "evidence": "RpaA~P ... Purine metabolism (KEGG: map00230) (Table 3)"
+    },
+    {
+      "surface_form": "nitrogen assimilation",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "Transcriptional regulation of nitrogen, phosphorus, and carbon assimilation (section title 2.4)"
+    },
+    {
+      "surface_form": "phosphorus assimilation",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "Transcriptional regulation of nitrogen, phosphorus, and carbon assimilation (section title 2.4)"
+    },
+    {
+      "surface_form": "carbon fixation",
+      "kegg_pathway_id": "map00710",
+      "prominence": "central",
+      "evidence": "Three distinct iModulons ... correspond to conserved regulators of ... carbon fixation (Results 2.4, lines 180-181)"
+    },
+    {
+      "surface_form": "carbon concentrating mechanism",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "Despite its simplified carbon-concentration machinery (CCM), MED4 retains the CCM regulator RbcR (Results 2.4, lines 211-212)"
+    },
+    {
+      "surface_form": "ribosome",
+      "kegg_pathway_id": "M00178",
+      "prominence": "peripheral",
+      "evidence": "Ribo-2 ... Ribosome (KEGG: M00178) and Ribo-1 ... Ribosome (KEGG: M00178) (Table 3)"
+    },
+    {
+      "surface_form": "F-type ATPase",
+      "kegg_pathway_id": "M00157",
+      "prominence": "peripheral",
+      "evidence": "Ribo-2 ... F-type ATPase (KEGG: M00157) (Table 3)"
+    },
+    {
+      "surface_form": "Calvin-Benson Cycle",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "a redox-sensing regulator of the Calvin-Benson Cycle (cp12) (Results 2.6, lines 274-276)"
+    },
+    {
+      "surface_form": "amino acid biosynthesis",
+      "kegg_pathway_id": "map01230",
+      "prominence": "peripheral",
+      "evidence": "Genes are linked to ... amino acid biosynthesis AA (Fig. 3c, p17)"
+    },
+    {
+      "surface_form": "carotenoid biosynthesis",
+      "kegg_pathway_id": "map00906",
+      "prominence": "central",
+      "evidence": "The broader photoprotection program including carotenoid metabolism, ROS defense, and PSII repair (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "porphyrin and chlorophyll metabolism",
+      "kegg_pathway_id": "map00860",
+      "prominence": "central",
+      "evidence": "pigment biosynthesis, including genes involved in heme biosynthesis hemEJ and divinyl chlorophyll biosynthesis acsF, chlLNP (Results 2.8, p19)"
+    },
+    {
+      "surface_form": "oxidative pentose phosphate pathway",
+      "kegg_pathway_id": "map00030",
+      "prominence": "central",
+      "evidence": "The conserved co-regulation of the oxidative pentose phosphate pathway OxPPP (Discussion 3.2, p22)"
+    },
+    {
+      "surface_form": "glycogen metabolism",
+      "kegg_pathway_id": "map00500",
+      "prominence": "central",
+      "evidence": "glycogen phosphorylase GlgP reflects a shared requirement for coordinated glycogen mobilization (Discussion 3.2, p22)"
+    },
+    {
+      "surface_form": "one carbon pool by folate",
+      "kegg_pathway_id": "map00670",
+      "prominence": "peripheral",
+      "evidence": "tetrahydrofolate 1-carbon metabolism 1-C (Fig. 3d, p17)"
+    }
+  ]
+}

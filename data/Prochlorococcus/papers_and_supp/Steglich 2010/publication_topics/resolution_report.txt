@@ -1,0 +1,40 @@
+Topics resolution report: Steglich 2010
+Strains: ['Prochlorococcus MED4']
+
+Genes:    32/54 resolved (59.3%)
+  methods: locus_tag:v=6, tier1:v=26, unresolved=22
+Pathways: 3/4 resolved (75.0%)
+  methods: id=3, unresolved=1
+
+Captured identifiers: 6  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 21, 'descriptive_only': 1}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (22):
+  - psbAI  [lookup_miss]  strain=unspecified
+  - 16S rRNA  [descriptive_only]  strain=Prochlorococcus MED4
+  - ssrA  [lookup_miss]  strain=Prochlorococcus MED4
+  - rnpB  [lookup_miss]  strain=Prochlorococcus MED4
+  - ffs  [lookup_miss]  strain=Prochlorococcus MED4
+  - ssrS  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr1  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr2  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr4  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr5  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr16  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr6  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr7  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr8  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr9  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr11  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr13  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr14  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr19  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr20  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr21  [lookup_miss]  strain=Prochlorococcus MED4
+  - hli03  [lookup_miss]  strain=Prochlorococcus MED4
+
+Unresolved pathway mentions (1):
+  - Ammonium transport  (raw id=—)

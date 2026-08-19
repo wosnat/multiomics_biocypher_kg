@@ -1,0 +1,48 @@
+Topics resolution report: Johnson 2026b
+Strains: ['Prochlorococcus MED4']
+
+Genes:    82/108 resolved (75.9%)
+  methods: locus_tag:v=15, multi:v=15, multi_ci:v=3, tier1:v=47, tier1_ci:v=2, unresolved=26
+Pathways: 11/16 resolved (68.8%)
+  methods: id=10, name=1, unresolved=5
+
+Captured identifiers: 15  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 26}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (26):
+  - rre1  [lookup_miss]  strain=Prochlorococcus MED4
+  - psbD2  [lookup_miss]  strain=Prochlorococcus MED4
+  - hepB  [lookup_miss]  strain=Prochlorococcus MED4
+  - rpoD3  [lookup_miss]  strain=Prochlorococcus MED4
+  - groEL1  [lookup_miss]  strain=Prochlorococcus MED4
+  - nrtABCDS  [lookup_miss]  strain=Prochlorococcus MED4
+  - urtABC  [lookup_miss]  strain=Prochlorococcus MED4
+  - tatA  [lookup_miss]  strain=Prochlorococcus MED4
+  - kaiABC  [lookup_miss]  strain=Prochlorococcus MED4
+  - kaiA  [lookup_miss]  strain=Prochlorococcus MED4
+  - hemEJ  [lookup_miss]  strain=Prochlorococcus MED4
+  - chlLNP  [lookup_miss]  strain=Prochlorococcus MED4
+  - psbIMN  [lookup_miss]  strain=Prochlorococcus MED4
+  - slr0320  [lookup_miss]  strain=unspecified
+  - flvB  [lookup_miss]  strain=Prochlorococcus MED4
+  - gst1  [lookup_miss]  strain=Prochlorococcus MED4
+  - cbbLS  [lookup_miss]  strain=Prochlorococcus MED4
+  - rbcLS  [lookup_miss]  strain=unspecified
+  - csoS2-3  [lookup_miss]  strain=Prochlorococcus MED4
+  - RpoD5  [lookup_miss]  strain=unspecified
+  - SigC  [lookup_miss]  strain=unspecified
+  - RpoD2  [lookup_miss]  strain=unspecified
+  - SigB  [lookup_miss]  strain=unspecified
+  - ctaABCDE  [lookup_miss]  strain=Prochlorococcus MED4
+  - Pcbs  [lookup_miss]  strain=Prochlorococcus MED4
+  - SphR  [lookup_miss]  strain=unspecified
+
+Unresolved pathway mentions (5):
+  - nitrogen assimilation  (raw id=—)
+  - phosphorus assimilation  (raw id=—)
+  - carbon concentrating mechanism  (raw id=—)
+  - F-type ATPase  (raw id=M00157)
+  - Calvin-Benson Cycle  (raw id=—)

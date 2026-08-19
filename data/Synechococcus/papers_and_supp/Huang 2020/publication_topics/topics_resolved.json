@@ -1,0 +1,351 @@
+{
+  "metadata": {
+    "paper": "Huang 2021",
+    "doi": "10.1002/mbo3.1150",
+    "strains": [
+      "Synechococcus WH7803",
+      "Phage"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Table 3 prints many WH7803 locus tags for upregulated genes whose gene symbols are not named in the prose; I captured only explicitly discussed/named genes, not every table-listed hypothetical or ribosomal locus tag.",
+    "extracted_at": "2026-08-19T08:40:44.221510",
+    "input_tokens": 21212,
+    "output_tokens": 1690,
+    "resolution": {
+      "gene_records": 19,
+      "genes_resolved": 14,
+      "gene_methods": {
+        "no_mapping": 5,
+        "tier1:v": 12,
+        "multi:v": 2
+      },
+      "pathway_records": 7,
+      "pathways_resolved": 5,
+      "pathway_methods": {
+        "id": 5,
+        "unresolved": 2
+      },
+      "paper_strains": [
+        "Synechococcus WH7803",
+        "Phage"
+      ],
+      "captured_identifiers": 6,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "lookup_miss": 5
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "DNA polymerase gene pol",
+      "gene_name": "pol",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "DNA polymerase gene pol as previously described (Materials and Methods, p2)",
+      "mention_strain": "Phage",
+      "strain": "Phage",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "no_mapping"
+    },
+    {
+      "surface_form": "photosystem II D1 psbA",
+      "gene_name": "psbA",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Some of these genes, such as those encoding photosystem II D1 psbA (Introduction, p2)",
+      "mention_strain": "Phage",
+      "strain": "Phage",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "no_mapping"
+    },
+    {
+      "surface_form": "high-light inducible protein hli",
+      "gene_name": "hli",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Some of these genes, such as those encoding ... high-light inducible protein hli (Introduction, p2)",
+      "mention_strain": "Phage",
+      "strain": "Phage",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "no_mapping"
+    },
+    {
+      "surface_form": "transaldolase talC",
+      "gene_name": "talC",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Some of these genes, such as those encoding ... transaldolase talC (Introduction, p2)",
+      "mention_strain": "Phage",
+      "strain": "Phage",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "no_mapping"
+    },
+    {
+      "surface_form": "thyX",
+      "gene_name": "thyX",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "The thymidylate synthase gene thyX located at the right end of the genome map (Results, p8)",
+      "mention_strain": "Phage",
+      "strain": "Phage",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "no_mapping"
+    },
+    {
+      "surface_form": "ccmK",
+      "gene_name": "ccmK",
+      "identifiers": [
+        "SYNWH7803_RS03420"
+      ],
+      "prominence": "central",
+      "evidence": "such as ccmK, rbcL, rbcS, and csoS, which were immediately upregulated (Results, p8; Table 3, p9)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_0677",
+      "resolved_from": "SYNWH7803_RS03420",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "rbcL",
+      "gene_name": "rbcL",
+      "identifiers": [
+        "SYNWH7803_RS03425"
+      ],
+      "prominence": "central",
+      "evidence": "such as ccmK, rbcL, rbcS, and csoS, which were immediately upregulated (Results, p8; Table 3, p9)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_0678",
+      "resolved_from": "SYNWH7803_RS03425",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "rbcS",
+      "gene_name": "rbcS",
+      "identifiers": [
+        "SYNWH7803_RS03430"
+      ],
+      "prominence": "central",
+      "evidence": "such as ccmK, rbcL, rbcS, and csoS, which were immediately upregulated (Results, p8; Table 3, p9)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_0679",
+      "resolved_from": "SYNWH7803_RS03430",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "csoS",
+      "gene_name": "csoS",
+      "identifiers": [
+        "SYNWH7803_RS03435"
+      ],
+      "prominence": "central",
+      "evidence": "such as ccmK, rbcL, rbcS, and csoS, which were immediately upregulated (Results, p8; Table 3, p9)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_0680",
+      "resolved_from": "SYNWH7803_RS03435",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "umuC",
+      "gene_name": "umuC",
+      "identifiers": [
+        "SYNWH7803_RS05320"
+      ],
+      "prominence": "central",
+      "evidence": "including umuC, umuD, and one unknown gene, that were upregulated during the late period (Results, p8; Table 3, p9)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1080",
+      "resolved_from": "SYNWH7803_RS05320",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "umuD",
+      "gene_name": "umuD",
+      "identifiers": [
+        "SYNWH7803_RS05325"
+      ],
+      "prominence": "central",
+      "evidence": "including umuC, umuD, and one unknown gene, that were upregulated during the late period (Results, p8; Table 3, p9)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1081",
+      "resolved_from": "SYNWH7803_RS05325",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "rpoC2",
+      "gene_name": "rpoC2",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "such as those involved in transcription rpoC2, rpoD ... were not upregulated (Results, p8)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_2060",
+      "resolved_from": "rpoC2",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "rpoD",
+      "gene_name": "rpoD",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "such as those involved in transcription rpoC2, rpoD ... were not upregulated (Results, p8)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_0153",
+      "resolved_from": "rpoD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "rne",
+      "gene_name": "rne",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "RNA degradation and modification rne, rnhB, dus, and sun (Results, p8)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_0372",
+      "resolved_from": "rne",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "rnhB",
+      "gene_name": "rnhB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "RNA degradation and modification rne, rnhB, dus, and sun (Results, p8)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_0373",
+      "resolved_from": "rnhB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "dus",
+      "gene_name": "dus",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "RNA degradation and modification rne, rnhB, dus, and sun (Results, p8)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_0564",
+      "resolved_from": "dus",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "sun",
+      "gene_name": "sun",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "RNA degradation and modification rne, rnhB, dus, and sun (Results, p8)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1778",
+      "resolved_from": "sun",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "clpS",
+      "gene_name": "clpS",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "protein turnover clpS (Results, p8)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_0369",
+      "resolved_from": "clpS",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "phoH",
+      "gene_name": "phoH",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "stress responses hli, phoH (Results, p8)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1729",
+      "resolved_from": "phoH",
+      "resolution_method": "tier1:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id_raw": "ko00195",
+      "prominence": "central",
+      "evidence": "Cyanophages also encode several auxiliary metabolic genes AMGs involved in photosynthesis (Introduction, p2)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "carbon metabolism",
+      "kegg_pathway_id_raw": "ko01200",
+      "prominence": "central",
+      "evidence": "AMGs involved in ... carbon metabolism (Introduction, p2); host genes were upregulated including those involved in carbon metabolism (Abstract, p1)",
+      "pathway_id": "ko01200",
+      "pathway_name": "carbon metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "pentose phosphate pathway",
+      "kegg_pathway_id_raw": "ko00030",
+      "prominence": "central",
+      "evidence": "AMGs involved in ... the pentose phosphate pathway (Introduction, p2)",
+      "pathway_id": "ko00030",
+      "pathway_name": "pentose phosphate pathway",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "phosphorus acquisition",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "AMGs involved in ... phosphorus acquisition (Introduction, p2)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "ribosome",
+      "kegg_pathway_id_raw": "ko03010",
+      "prominence": "central",
+      "evidence": "Thirty-two host genes were upregulated during phage infection, including those involved in ... ribosome components (Abstract, p1)",
+      "pathway_id": "ko03010",
+      "pathway_name": "ribosome",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "carbon fixation in photosynthetic organisms",
+      "kegg_pathway_id_raw": "ko00710",
+      "prominence": "central",
+      "evidence": "genes such as ccmK, rbcL, rbcS, and csoS ... appear to be associated with carbon metabolism (Results, p8)",
+      "pathway_id": "ko00710",
+      "pathway_name": "carbon fixation by calvin cycle",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "SOS response",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "umuC, umuD ... putatively associated with stress responses (Results, p8)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    }
+  ]
+}

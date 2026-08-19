@@ -1,0 +1,419 @@
+{
+  "metadata": {
+    "paper": "Doron 2016",
+    "doi": "10.1038/ismej.2015.210",
+    "strains": [
+      "Synechococcus WH7803",
+      "Phage",
+      "Synechococcus WH8102",
+      "Synechococcus WH8109"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 2,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Many additional explicit phage gp or g numbers appear in figures and supplementary tables, plus P-TIM40 gene numbers and classical T4 gp-like references, but not all were captured because the prose did not substantively discuss each one.",
+    "extracted_at": "2026-08-19T08:40:05.093616",
+    "input_tokens": 28409,
+    "output_tokens": 2970
+  },
+  "genes": [
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "psbA is listed among Syn9 auxiliary metabolic genes and discussed as middle-cluster transcription, Results p10"
+    },
+    {
+      "surface_form": "psbD",
+      "gene_name": "psbD",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "the photosystem II core reaction center genes, psbA and psbD, Results p10"
+    },
+    {
+      "surface_form": "hli",
+      "gene_name": "hli",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "two photosynthesis-related hli stress-response genes, Results p10"
+    },
+    {
+      "surface_form": "cpeT",
+      "gene_name": "cpeT",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "peripheral",
+      "evidence": "the phycoerythrin biosynthesis gene, cpeT, Results p10"
+    },
+    {
+      "surface_form": "petE",
+      "gene_name": "petE",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "peripheral",
+      "evidence": "two photosynthetic electron transfer genes petE and PTOX clustered with the late genes, Results p10"
+    },
+    {
+      "surface_form": "PTOX",
+      "gene_name": "PTOX",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "two photosynthetic electron transfer genes petE and PTOX clustered with the late genes, Results p10"
+    },
+    {
+      "surface_form": "CP12",
+      "gene_name": "CP12",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "the CP12 Calvin cycle inhibitor gene had maximal transcription 1 h after infection, Results p10"
+    },
+    {
+      "surface_form": "gnd",
+      "gene_name": "gnd",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "the three pentose phosphate pathway genes gnd, zwf and talC clustered with the late genes, Results p10"
+    },
+    {
+      "surface_form": "zwf",
+      "gene_name": "zwf",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "the three pentose phosphate pathway genes gnd, zwf and talC clustered with the late genes, Results p10"
+    },
+    {
+      "surface_form": "talC",
+      "gene_name": "talC",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "the three pentose phosphate pathway genes gnd, zwf and talC clustered with the late genes, Results p10"
+    },
+    {
+      "surface_form": "phoH",
+      "gene_name": "phoH",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "peripheral",
+      "evidence": "the phoH-family stress-response gene, the mazG potential regulatory gene and the tryptophan halogenase genes, Results p10"
+    },
+    {
+      "surface_form": "mazG",
+      "gene_name": "mazG",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "peripheral",
+      "evidence": "the phoH-family stress-response gene, the mazG potential regulatory gene and the tryptophan halogenase genes, Results p10"
+    },
+    {
+      "surface_form": "tryptophan halogenase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "peripheral",
+      "evidence": "the phoH-family stress-response gene, the mazG potential regulatory gene and the tryptophan halogenase genes, Results p10"
+    },
+    {
+      "surface_form": "g20",
+      "gene_name": "g20",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "peripheral",
+      "evidence": "Extracellular phage DNA was quantified using qPCR for the g20 gene, Methods p3"
+    },
+    {
+      "surface_form": "rbcL",
+      "gene_name": "rbcL",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "the rbcL gene was amplified for Synechococcus DNA, Methods p3"
+    },
+    {
+      "surface_form": "rnpB",
+      "gene_name": "rnpB",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "normalized to host rnpB transcript levels, Methods p4"
+    },
+    {
+      "surface_form": "g75",
+      "gene_name": "",
+      "identifiers": [
+        "g75"
+      ],
+      "strain": "Phage",
+      "prominence": "peripheral",
+      "evidence": "These are a helicase g75, Results p7"
+    },
+    {
+      "surface_form": "g153",
+      "gene_name": "",
+      "identifiers": [
+        "g153"
+      ],
+      "strain": "Phage",
+      "prominence": "peripheral",
+      "evidence": "a gene with AAA and cbbQ type domains g153, previously annotated as cobS, Results p7"
+    },
+    {
+      "surface_form": "cobS",
+      "gene_name": "cobS",
+      "identifiers": [
+        "g153"
+      ],
+      "strain": "Phage",
+      "prominence": "peripheral",
+      "evidence": "g153, previously annotated as cobS or a putative porphyrin biosynthesis gene, Results p7"
+    },
+    {
+      "surface_form": "g184",
+      "gene_name": "",
+      "identifiers": [
+        "g184"
+      ],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "a gene with a nucleotidyl transferase domain g184... remains highly expressed, Results p7"
+    },
+    {
+      "surface_form": "gp55",
+      "gene_name": "gp55",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "The T4 gp55 sigma factor homolog required for gene expression from late promoters, Results p7"
+    },
+    {
+      "surface_form": "regA",
+      "gene_name": "regA",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "peripheral",
+      "evidence": "Other late genes include... the regA translational repressor gene, Results p9"
+    },
+    {
+      "surface_form": "ntcA",
+      "gene_name": "ntcA",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "including ntcA itself, which is the major nitrogen transcriptional regulator, Results p14"
+    },
+    {
+      "surface_form": "nirA",
+      "gene_name": "nirA",
+      "identifiers": [],
+      "strain": "Synechococcus WH7803",
+      "prominence": "central",
+      "evidence": "a few nitrogen-related genes nirA, narB, amt1 increased significantly in WH7803, Results p14"
+    },
+    {
+      "surface_form": "narB",
+      "gene_name": "narB",
+      "identifiers": [],
+      "strain": "Synechococcus WH7803",
+      "prominence": "central",
+      "evidence": "a few nitrogen-related genes nirA, narB, amt1 increased significantly in WH7803, Results p14"
+    },
+    {
+      "surface_form": "amt1",
+      "gene_name": "amt1",
+      "identifiers": [],
+      "strain": "Synechococcus WH7803",
+      "prominence": "central",
+      "evidence": "a few nitrogen-related genes nirA, narB, amt1 increased significantly in WH7803, Results p14"
+    },
+    {
+      "surface_form": "SYNW0071",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0071"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "Two of these genes, SYNW0071 and SYNW1946, encode a single-stranded RNA nuclease PIN domain, Results p14"
+    },
+    {
+      "surface_form": "SYNW1946",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1946"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "Two of these genes, SYNW0071 and SYNW1946, encode a single-stranded RNA nuclease PIN domain, Results p14"
+    },
+    {
+      "surface_form": "SYNW1659",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1659"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "A third gene, SYNW1659, is a conserved hypothetical protein... associated with type I and type III restriction enzymes, Results p14"
+    },
+    {
+      "surface_form": "ccmK2",
+      "gene_name": "ccmK2",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "only two of them were common to all three hosts. These were the carboxysome carbon-fixation gene, ccmK2 csoS1, Results p13-14"
+    },
+    {
+      "surface_form": "csoS1",
+      "gene_name": "csoS1",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "the carboxysome carbon-fixation gene, ccmK2 csoS1, Results p13-14"
+    },
+    {
+      "surface_form": "motA",
+      "gene_name": "motA",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "the lack of T4-like middle promoters and the motA and or asiA genes, Introduction p2"
+    },
+    {
+      "surface_form": "asiA",
+      "gene_name": "asiA",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "the lack of T4-like middle promoters and the motA and or asiA genes, Introduction p2"
+    },
+    {
+      "surface_form": "hli",
+      "gene_name": "hli",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "\"including hli and phoH-family genes, DNA repair and heat shock genes\" (Discussion, p1)"
+    },
+    {
+      "surface_form": "phoH-family genes",
+      "gene_name": "phoH",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "\"including hli and phoH-family genes, DNA repair and heat shock genes\" (Discussion, p1)"
+    },
+    {
+      "surface_form": "DUF4278 domain-carrying genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "\"genes of unknown function like the conserved DUF4278 domain-carrying genes\" (Discussion, p1)"
+    },
+    {
+      "surface_form": "pil genes",
+      "gene_name": "pil",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "\"help annotating the pil genes\" (Acknowledgements, p1)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id": "ko00195",
+      "prominence": "central",
+      "evidence": "auxiliary metabolic genes that are of bacterial origin, such as photosynthesis genes, Introduction p2"
+    },
+    {
+      "surface_form": "carbon metabolism",
+      "kegg_pathway_id": "ko01200",
+      "prominence": "central",
+      "evidence": "auxiliary metabolic genes that are of bacterial origin, such as carbon metabolism genes, Introduction p2"
+    },
+    {
+      "surface_form": "phosphorus utilization",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "auxiliary metabolic genes... such as photosynthesis, carbon metabolism and phosphorus utilization genes, Introduction p2"
+    },
+    {
+      "surface_form": "porphyrin biosynthesis",
+      "kegg_pathway_id": "ko00860",
+      "prominence": "peripheral",
+      "evidence": "g153, previously annotated as cobS or a putative porphyrin biosynthesis gene, Results p7"
+    },
+    {
+      "surface_form": "nucleotide metabolism",
+      "kegg_pathway_id": "ko01232",
+      "prominence": "central",
+      "evidence": "middle genes include the DNA replication, nucleotide metabolism and recombination repair genes, Results p7"
+    },
+    {
+      "surface_form": "DNA replication",
+      "kegg_pathway_id": "ko03030",
+      "prominence": "central",
+      "evidence": "middle genes include the DNA replication... genes, Results p7"
+    },
+    {
+      "surface_form": "homologous recombination and repair",
+      "kegg_pathway_id": "ko03440",
+      "prominence": "peripheral",
+      "evidence": "middle genes include... recombination repair genes, Results p7"
+    },
+    {
+      "surface_form": "Calvin cycle",
+      "kegg_pathway_id": "ko00710",
+      "prominence": "central",
+      "evidence": "the CP12 Calvin cycle inhibitor gene, Results p10"
+    },
+    {
+      "surface_form": "pentose phosphate pathway",
+      "kegg_pathway_id": "ko00030",
+      "prominence": "central",
+      "evidence": "direct carbon flux to the pentose phosphate pathway PPP during infection, Results p10"
+    },
+    {
+      "surface_form": "phycoerythrin biosynthesis",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "the phycoerythrin biosynthesis gene, cpeT, Results p10"
+    },
+    {
+      "surface_form": "nitrogen metabolism",
+      "kegg_pathway_id": "ko00910",
+      "prominence": "central",
+      "evidence": "nitrogen transport and assimilation genes... Many belong to the NtcA regulon, Results p14"
+    },
+    {
+      "surface_form": "respiration",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "host-specific response genes often belonged to the same general functional groups of... respiration, Results p13-14"
+    },
+    {
+      "surface_form": "DNA repair",
+      "kegg_pathway_id": "map03400",
+      "prominence": "peripheral",
+      "evidence": "\"including hli and phoH-family genes, DNA repair and heat shock genes\" (Discussion, p1)"
+    },
+    {
+      "surface_form": "heat shock",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "\"including hli and phoH-family genes, DNA repair and heat shock genes\" (Discussion, p1)"
+    }
+  ]
+}

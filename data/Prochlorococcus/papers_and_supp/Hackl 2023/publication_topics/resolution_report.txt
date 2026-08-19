@@ -1,0 +1,39 @@
+Topics resolution report: Hackl 2023
+Strains: ['Prochlorococcus MIT0604']
+
+Genes:    0/16 resolved (0.0%)
+  methods: unresolved=16
+Pathways: 1/7 resolved (14.3%)
+  methods: id=1, unresolved=6
+
+Captured identifiers: 1  (truncated/bare-number: 0)
+Unresolved gene reasons: {'descriptive_only': 11, 'lookup_miss': 5}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (16):
+  - nitrate assimilation cassette  [descriptive_only]  strain=Prochlorococcus MIT0604
+  - site-specific tyrosine recombinase  [descriptive_only]  strain=all
+  - integrase  [descriptive_only]  strain=all
+  - MerR-like transcriptional regulator  [descriptive_only]  strain=all
+  - major capsid protein  [descriptive_only]  strain=all
+  - DnaB-like replicative helicase  [descriptive_only]  strain=all
+  - xis  [lookup_miss]  strain=all
+  - polymerases  [descriptive_only]  strain=all
+  - pri  [lookup_miss]  strain=all
+  - hel  [lookup_miss]  strain=all
+  - PrimPol  [lookup_miss]  strain=all  ids=['cd04859']
+  - MCP  [descriptive_only]  strain=all
+  - terS  [descriptive_only]  strain=all
+  - integrase associated with a cargo-carrying tycheposon  [descriptive_only]  strain=Prochlorococcus MIT0604
+  - xis  [lookup_miss]  strain=Prochlorococcus MIT0604
+  - replication genes  [descriptive_only]  strain=Prochlorococcus MIT0604
+
+Unresolved pathway mentions (6):
+  - nitrate assimilation  (raw id=—)
+  - phosphate assimilation  (raw id=—)
+  - phosphite assimilation  (raw id=—)
+  - siderophore-mediated iron uptake  (raw id=—)
+  - phage defense  (raw id=—)
+  - zinc homeostasis  (raw id=—)
