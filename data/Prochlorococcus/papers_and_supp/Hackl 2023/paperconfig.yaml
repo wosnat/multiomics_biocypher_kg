@@ -1,0 +1,175 @@
+publication:
+  papername: "Hackl 2023"
+  doi: "10.1016/j.cell.2022.12.006"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Hackl 2023/PIIS0092867422015197.pdf"
+
+  supplementary_materials:
+    # Derived from mmc2.xlsx (Table S2 island intervals) by
+    # scripts/build_modified_csv/build_hackl2023_island_membership.py
+    # (coordinate containment against gene_annotations_merged.json;
+    #  MIT1327 excluded — different assembly, needs coordinate remap)
+    med4_genomic_islands:
+      type: gene_clusters
+      name: "MED4 predicted genomic islands (Hackl 2023)"
+      filename: "data/Prochlorococcus/papers_and_supp/Hackl 2023/islands/MED4_island_membership.csv"
+      organism: "Prochlorococcus MED4"
+      gene_id_col: "locus_tag"
+      cluster_col: "island_id"
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      cluster_type: "genomic_island"
+      cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
+      treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
+      experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
+
+    as9601_genomic_islands:
+      type: gene_clusters
+      name: "AS9601 predicted genomic islands (Hackl 2023)"
+      filename: "data/Prochlorococcus/papers_and_supp/Hackl 2023/islands/AS9601_island_membership.csv"
+      organism: "Prochlorococcus AS9601"
+      gene_id_col: "locus_tag"
+      cluster_col: "island_id"
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      cluster_type: "genomic_island"
+      cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
+      treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
+      experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
+
+    mit9301_genomic_islands:
+      type: gene_clusters
+      name: "MIT9301 predicted genomic islands (Hackl 2023)"
+      filename: "data/Prochlorococcus/papers_and_supp/Hackl 2023/islands/MIT9301_island_membership.csv"
+      organism: "Prochlorococcus MIT9301"
+      gene_id_col: "locus_tag"
+      cluster_col: "island_id"
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      cluster_type: "genomic_island"
+      cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
+      treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
+      experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
+
+    mit9312_genomic_islands:
+      type: gene_clusters
+      name: "MIT9312 predicted genomic islands (Hackl 2023)"
+      filename: "data/Prochlorococcus/papers_and_supp/Hackl 2023/islands/MIT9312_island_membership.csv"
+      organism: "Prochlorococcus MIT9312"
+      gene_id_col: "locus_tag"
+      cluster_col: "island_id"
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      cluster_type: "genomic_island"
+      cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
+      treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
+      experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
+
+    mit9313_genomic_islands:
+      type: gene_clusters
+      name: "MIT9313 predicted genomic islands (Hackl 2023)"
+      filename: "data/Prochlorococcus/papers_and_supp/Hackl 2023/islands/MIT9313_island_membership.csv"
+      organism: "Prochlorococcus MIT9313"
+      gene_id_col: "locus_tag"
+      cluster_col: "island_id"
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      cluster_type: "genomic_island"
+      cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
+      treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
+      experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
+
+    mit9303_genomic_islands:
+      type: gene_clusters
+      name: "MIT9303 predicted genomic islands (Hackl 2023)"
+      filename: "data/Prochlorococcus/papers_and_supp/Hackl 2023/islands/MIT9303_island_membership.csv"
+      organism: "Prochlorococcus MIT9303"
+      gene_id_col: "locus_tag"
+      cluster_col: "island_id"
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      cluster_type: "genomic_island"
+      cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
+      treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
+      experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
+
+    natl1a_genomic_islands:
+      type: gene_clusters
+      name: "NATL1A predicted genomic islands (Hackl 2023)"
+      filename: "data/Prochlorococcus/papers_and_supp/Hackl 2023/islands/NATL1A_island_membership.csv"
+      organism: "Prochlorococcus NATL1A"
+      gene_id_col: "locus_tag"
+      cluster_col: "island_id"
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      cluster_type: "genomic_island"
+      cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
+      treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
+      experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
+
+    natl2a_genomic_islands:
+      type: gene_clusters
+      name: "NATL2A predicted genomic islands (Hackl 2023)"
+      filename: "data/Prochlorococcus/papers_and_supp/Hackl 2023/islands/NATL2A_island_membership.csv"
+      organism: "Prochlorococcus NATL2A"
+      gene_id_col: "locus_tag"
+      cluster_col: "island_id"
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      cluster_type: "genomic_island"
+      cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
+      treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
+      experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
+
+    ss120_genomic_islands:
+      type: gene_clusters
+      name: "SS120 predicted genomic islands (Hackl 2023)"
+      filename: "data/Prochlorococcus/papers_and_supp/Hackl 2023/islands/SS120_island_membership.csv"
+      organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      gene_id_col: "locus_tag"
+      cluster_col: "island_id"
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      cluster_type: "genomic_island"
+      cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
+      treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
+      experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
+
+    mit1314_genomic_islands:
+      type: gene_clusters
+      name: "MIT1314 predicted genomic islands (Hackl 2023)"
+      filename: "data/Prochlorococcus/papers_and_supp/Hackl 2023/islands/MIT1314_island_membership.csv"
+      organism: "Prochlorococcus MIT1314"
+      gene_id_col: "locus_tag"
+      cluster_col: "island_id"
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      cluster_type: "genomic_island"
+      cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
+      treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
+      experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
+
+    rsp50_genomic_islands:
+      type: gene_clusters
+      name: "RSP50 predicted genomic islands (Hackl 2023)"
+      filename: "data/Prochlorococcus/papers_and_supp/Hackl 2023/islands/RSP50_island_membership.csv"
+      organism: "Prochlorococcus RSP50"
+      gene_id_col: "locus_tag"
+      cluster_col: "island_id"
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      cluster_type: "genomic_island"
+      cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
+      treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
+      experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
+
