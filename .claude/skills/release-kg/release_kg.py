@@ -133,6 +133,10 @@ class Context:
     # Filled by verify
     schema_info: dict = field(default_factory=dict)
     per_publication_edges: dict = field(default_factory=dict)
+    # Filled by verify: the vocabulary manifest computed from the tag checkout
+    # ({hash, entry_count, entry_ids}); asserted equal to the staged
+    # Schema_info.controlled_vocabularies_hash and published in metadata.json.
+    vocab_manifest: dict = field(default_factory=dict)
     # Filled by Phase 7 if a prior kg-* release with metadata.json exists
     prior_release: Optional[dict] = None
 
@@ -216,6 +220,83 @@ def warn_unlogged_data(changelog_path: Path, version: Optional[str] = None) -> N
     log("  (see the authoring conventions at the top of CHANGELOG.md). Not fatal.\n")
 
 
+# ─── Controlled-vocabulary manifest ──────────────────────────────────────────
+# The vocabulary contract (docs/kg-changes/vocabulary-contract.md) promises that
+# Schema_info.controlled_vocabularies_hash reflects the build's own
+# config/controlled_vocabularies.yaml. Post-import only WARNS when the build's
+# controlled_vocabularies.sha256 file is missing (it leaves the property null),
+# so the release is where that promise gets enforced: recompute the hash from
+# the tag checkout and require the staged graph to carry exactly that value.
+VOCAB_YAML_REL = Path("config/controlled_vocabularies.yaml")
+
+
+def compute_vocab_manifest(repo_dir: Path) -> dict:
+    """{hash, entry_count, entry_ids} for the vocabulary YAML under `repo_dir`.
+
+    Uses the package's own loader + `vocabularies_hash` (the same code the build
+    ran), so the manifest is the checkout's expected stamp, not a re-derivation.
+    """
+    # The skill is launched as a script (sys.path[0] = its own directory), so the
+    # package is only importable once the repo root is on the path.
+    repo_root = str(Path(__file__).resolve().parents[3])
+    if repo_root not in sys.path:
+        sys.path.insert(0, repo_root)
+    from multiomics_kg.utils.controlled_vocab import load_vocabularies, vocabularies_hash
+    entries = load_vocabularies(repo_dir / VOCAB_YAML_REL)
+    return {
+        "hash": vocabularies_hash(list(entries.values())),
+        "entry_count": len(entries),
+        "entry_ids": sorted(entries),
+    }
+
+
+def assert_vocab_hash(graph_hash: str, manifest: dict, what: str) -> None:
+    """Die unless the graph's stamp equals the checkout's manifest hash."""
+    if not graph_hash:
+        die(f"{what}: Schema_info.controlled_vocabularies_hash is null — the build's "
+            "controlled_vocabularies.sha256 did not reach post-import (which only "
+            "warns). Do not release an unstamped vocabulary.")
+    if graph_hash != manifest["hash"]:
+        die(f"{what}: Schema_info.controlled_vocabularies_hash = {graph_hash} but the "
+            f"tag's config/controlled_vocabularies.yaml hashes to {manifest['hash']} — "
+            "graph was not built from this checkout.")
+
+
+def warn_unlogged_vocab(changelog_path: Path, version: Optional[str] = None) -> None:
+    """Non-fatal: the vocabulary YAML changed since the last tag, CHANGELOG silent.
+
+    Every change to config/controlled_vocabularies.yaml moves
+    Schema_info.controlled_vocabularies_hash, which consumers pin and warn on —
+    so the release notes owe them a sentence saying what moved. Looks for the
+    token "vocabular" under `### Added` / `### Changed` / `### Breaking` in
+    `[Unreleased]` and `[version]` (the latter for `--resume`, after the cut).
+    """
+    last_tag = git_out("describe", "--tags", "--abbrev=0", "--match", f"{TAG_PREFIX}*")
+    if not last_tag:
+        log("  vocab log: no prior kg-* tag — skipping unlogged-vocabulary check")
+        return
+    changed = [
+        p for p in git_out("diff", "--name-only", f"{last_tag}..HEAD").splitlines()
+        if p.strip() == str(VOCAB_YAML_REL)
+    ]
+    if not changed:
+        log(f"  vocab log: {VOCAB_YAML_REL} unchanged since {last_tag} ✓")
+        return
+    sections = ["Unreleased"] + ([version] if version else [])
+    for section_name in sections:
+        for heading in ("Added", "Changed", "Breaking"):
+            body = extract_preflight_subsection(changelog_path, section_name, heading)
+            if body and "vocabular" in body.lower():
+                log(f"  vocab log: {VOCAB_YAML_REL} changed since {last_tag}, "
+                    f"[{section_name}] ### {heading} mentions the vocabulary ✓")
+                return
+    where = "` / `".join(f"[{s}]" for s in sections)
+    log(f"\n  WARNING: {VOCAB_YAML_REL} changed since {last_tag} (so "
+        f"Schema_info.controlled_vocabularies_hash will move), but `{where}` never "
+        f"mentions the vocabulary under ### Added / ### Changed / ### Breaking.")
+    log("  Consumers pin the hash and warn on mismatch — say which entries moved. Not fatal.\n")
+
+
 # ─── Phase 1: Preflight ─────────────────────────────────────────────────────
 def phase_preflight(ctx: Context) -> None:
     section("Phase 1: Preflight")
@@ -290,6 +371,7 @@ def phase_preflight(ctx: Context) -> None:
     log(f"  branch: {branch} @ {sha_short} (dirty={ctx.git_dirty}, behind=0)")
 
     warn_unlogged_data(Path("CHANGELOG.md"), ctx.version)
+    warn_unlogged_vocab(Path("CHANGELOG.md"), ctx.version)
 
 
 # ─── CHANGELOG cut helper ───────────────────────────────────────────────────
@@ -470,6 +552,12 @@ def phase_build_and_verify(ctx: Context) -> None:
         log(f"  [would stamp] release_breaking:   {_fmt_subsection_log(breaking)}")
         dry_msg(f"query Schema_info via `docker exec {STAGING_DEPLOY_CONTAINER} "
                 f"cypher-shell -a {STAGING_INNER_BOLT_URL}`; assert version == {ctx.version}")
+        # The manifest is a pure local computation, so exercise it for real even
+        # in a dry run (against the working tree, since no clone was made).
+        ctx.vocab_manifest = compute_vocab_manifest(Path.cwd())
+        dry_msg(f"assert Schema_info.controlled_vocabularies_hash == "
+                f"{ctx.vocab_manifest['hash']} (checkout: "
+                f"{ctx.vocab_manifest['entry_count']} vocabulary entries)")
         if ctx.skip_kg_tests:
             dry_msg("KG validity suite: SKIPPED (--skip-kg-tests)")
         else:
@@ -478,7 +566,8 @@ def phase_build_and_verify(ctx: Context) -> None:
         ctx.schema_info = {"version": ctx.version, "git_sha": ctx.git_sha,
                            "papers": -1, "experiments": -1, "genes": -1,
                            "organisms": -1, "expr_edges": -1,
-                           "mcp_min": ctx.mcp_min, "built_at": "<dry-run>"}
+                           "mcp_min": ctx.mcp_min, "built_at": "<dry-run>",
+                           "vocab_hash": ctx.vocab_manifest["hash"]}
         return
 
     # Re-run robustness: a `staging-deploy` container left running from a prior
@@ -527,6 +616,7 @@ def phase_build_and_verify(ctx: Context) -> None:
         "s.gene_count AS genes, s.organism_count AS organisms, "
         "s.expression_edge_count AS expr_edges, "
         "s.mcp_min_version AS mcp_min, s.built_at AS built_at, "
+        "coalesce(s.controlled_vocabularies_hash, '') AS vocab_hash, "
         "size(coalesce(s.release_highlights,'')) AS highlights_chars, "
         "size(coalesce(s.release_breaking,'')) AS breaking_chars"
     )
@@ -536,6 +626,12 @@ def phase_build_and_verify(ctx: Context) -> None:
 
     if ctx.schema_info.get("version") != ctx.version:
         die(f"Schema_info.version = {ctx.schema_info.get('version')!r} but expected {ctx.version!r}")
+
+    # Vocabulary contract: the stamp must be present and must be the hash of
+    # THIS tag's config/controlled_vocabularies.yaml.
+    assert ctx.clone_dir is not None
+    ctx.vocab_manifest = compute_vocab_manifest(ctx.clone_dir)
+    assert_vocab_hash(ctx.schema_info.get("vocab_hash") or "", ctx.vocab_manifest, "staging")
 
     # Per-Publication expression-edge counts → metadata.json. Used by Phase 7
     # to render a "What changed since kg-X.Y.Z" diff against the prior release.
@@ -557,6 +653,8 @@ def phase_build_and_verify(ctx: Context) -> None:
         f"{ctx.schema_info['genes']} genes · "
         f"{ctx.schema_info['organisms']} organisms · "
         f"{ctx.schema_info['expr_edges']} expression edges")
+    log(f"  vocabulary hash: {ctx.schema_info['vocab_hash']} ✓ (matches tag checkout, "
+        f"{ctx.vocab_manifest['entry_count']} entries)")
     log(f"  release_highlights: {_fmt_subsection_log(highlights)}")
     log(f"  release_breaking:   {_fmt_subsection_log(breaking)}")
     log(f"  explorer smoke test: out-of-scope here (explorer-repo work; verify manually if needed)")
@@ -840,6 +938,7 @@ def _alpha_build_and_verify(ctx: Context, inactive_color: str, env_alpha: dict) 
         "s.gene_count AS genes, s.organism_count AS organisms, "
         "s.expression_edge_count AS expr_edges, "
         "s.mcp_min_version AS mcp_min, s.built_at AS built_at, "
+        "coalesce(s.controlled_vocabularies_hash, '') AS vocab_hash, "
         "size(coalesce(s.release_highlights,'')) AS highlights_chars, "
         "size(coalesce(s.release_breaking,'')) AS breaking_chars"
     )
@@ -851,6 +950,8 @@ def _alpha_build_and_verify(ctx: Context, inactive_color: str, env_alpha: dict) 
             f"expected {ctx.version!r}; leaving alpha-build stack up at "
             f"{ALPHA_TEMP_BOLT_URL} for inspection")
     log(f"  alpha-build version: {schema['version']} ✓ (matches tag)")
+    assert_vocab_hash(schema.get("vocab_hash") or "", ctx.vocab_manifest, "alpha-build")
+    log(f"  alpha-build vocabulary hash: {schema['vocab_hash']} ✓ (matches tag checkout)")
     log(f"  alpha-build counts: {schema['papers']} papers · {schema['experiments']} "
         f"experiments · {schema['genes']} genes · {schema['organisms']} organisms · "
         f"{schema['expr_edges']} expression edges")
@@ -1047,6 +1148,15 @@ def build_metadata(ctx: Context) -> dict:
         # next release's Phase 7 to detect per-paper regressions Schema_info
         # totals would hide.
         "per_publication_edges": dict(sorted(ctx.per_publication_edges.items())),
+        # Vocabulary manifest: the hash consumers pin (explorer kg_release_info
+        # warns on mismatch) plus the entry ids, so the next release's diff block
+        # can say WHICH vocabularies moved — the hash moves on almost every data
+        # release (closed vocabularies gain values), so bare "changed" is useless.
+        "controlled_vocabularies": {
+            "hash": ctx.schema_info.get("vocab_hash") or ctx.vocab_manifest.get("hash", ""),
+            "entry_count": ctx.vocab_manifest.get("entry_count", 0),
+            "entry_ids": list(ctx.vocab_manifest.get("entry_ids", [])),
+        },
         "stamped_at": datetime.now(timezone.utc).isoformat(),
     }
 
@@ -1146,7 +1256,18 @@ def render_diff_block(prior: dict, current: dict) -> str:
         if prior_pub[doi] != cur_pub[doi]
     )
 
-    if not (any_headline_change or added_pubs or removed_pubs or changed_pubs):
+    prior_vocab = prior.get("controlled_vocabularies") or {}
+    cur_vocab = current.get("controlled_vocabularies") or {}
+    vocab_hash_changed = bool(cur_vocab) and (
+        prior_vocab.get("hash") != cur_vocab.get("hash")
+    )
+    prior_ids = set(prior_vocab.get("entry_ids") or [])
+    cur_ids = set(cur_vocab.get("entry_ids") or [])
+    added_vocab = sorted(cur_ids - prior_ids) if prior_vocab else []
+    removed_vocab = sorted(prior_ids - cur_ids) if prior_vocab else []
+
+    if not (any_headline_change or added_pubs or removed_pubs or changed_pubs
+            or vocab_hash_changed):
         return ""
 
     lines: list[str] = [f"## What changed since {prior_tag}", ""]
@@ -1183,6 +1304,25 @@ def render_diff_block(prior: dict, current: dict) -> str:
             for doi in removed_pubs:
                 lines.append(f"- `{doi}` — was {prior_pub[doi]:,} edges")
             lines.append("")
+
+    if vocab_hash_changed:
+        lines.extend(["### Controlled vocabularies", ""])
+        lines.append(
+            f"`Schema_info.controlled_vocabularies_hash` changed: "
+            f"`{prior_vocab.get('hash') or '(none)'}` → `{cur_vocab.get('hash')}`. "
+            "Consumers pinning the hash should re-read the `ControlledVocabulary` nodes."
+        )
+        if not prior_vocab:
+            lines.append(f"({prior_tag} published no vocabulary manifest — entry-level diff unavailable.)")
+        else:
+            if added_vocab:
+                lines.append(f"- added ({len(added_vocab)}): " + ", ".join(f"`{i}`" for i in added_vocab))
+            if removed_vocab:
+                lines.append(f"- removed ({len(removed_vocab)}): " + ", ".join(f"`{i}`" for i in removed_vocab))
+            if not (added_vocab or removed_vocab):
+                lines.append("- same entry set — value lists changed (a closed vocabulary gained "
+                             "or lost values); see `### Changed` / `### Data` above.")
+        lines.append("")
 
     return "\n".join(lines).rstrip() + "\n\n"
 

@@ -112,7 +112,13 @@ RETURN v.values
   identical string on every rebuild, and a description-only edit does not
   change it. A consumer may pin the string and treat a mismatch as "re-read
   the vocabulary nodes" (the explorer folds this into its
-  `kg_release_info` verdict as `warn`).
+  `kg_release_info` verdict as `warn`). **Enforced at release:** `/release-kg`
+  Phase 5 recomputes the hash from the tag checkout and refuses to release a
+  staged graph whose stamp is null or different; `metadata.json` on every
+  `kg-*` GitHub Release carries `controlled_vocabularies: {hash, entry_count,
+  entry_ids}`, and the release notes' "What changed since" block lists the
+  added/removed entries whenever the hash moved. Expect it to move on most
+  data releases — closed vocabularies gain values as papers land.
 - **List everything the contract covers:**
   ```cypher
   MATCH (v:ControlledVocabulary) RETURN v.applies_to, v.property ORDER BY 1, 2

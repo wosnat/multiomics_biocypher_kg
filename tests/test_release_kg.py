@@ -272,6 +272,80 @@ def test_build_metadata_shape(rkg):
     assert meta["target"] == "staging"
     # per_publication_edges is always present (empty dict when no per-pub data)
     assert meta["per_publication_edges"] == {}
+    assert set(meta["controlled_vocabularies"]) == {"hash", "entry_count", "entry_ids"}
+
+
+def test_build_metadata_vocab_prefers_graph_hash(rkg):
+    ctx = rkg.Context(
+        version="0.1.0-alpha.1", target="staging", mcp_min="0.1.0",
+        allow_dirty=False, draft=False, dry_run=True, resume=False,
+        skip_kg_tests=False,
+        git_sha="a" * 40, git_sha_short="aaaaaaa", git_branch="main", git_dirty=False,
+        schema_info={"version": "0.1.0-alpha.1", "built_at": "x", "vocab_hash": "sha256:graph"},
+        vocab_manifest={"hash": "sha256:checkout", "entry_count": 2, "entry_ids": ["A.b", "C.d"]},
+    )
+    meta = rkg.build_metadata(ctx)
+    assert meta["controlled_vocabularies"] == {
+        "hash": "sha256:graph", "entry_count": 2, "entry_ids": ["A.b", "C.d"],
+    }
+
+
+def test_compute_vocab_manifest_matches_package_hash(rkg):
+    """The manifest must be the same digest the build stamps (same loader, same fn)."""
+    from multiomics_kg.utils.controlled_vocab import load_vocabularies, vocabularies_hash
+    manifest = rkg.compute_vocab_manifest(REPO_ROOT)
+    entries = load_vocabularies(REPO_ROOT / "config" / "controlled_vocabularies.yaml")
+    assert manifest["hash"] == vocabularies_hash(list(entries.values()))
+    assert manifest["hash"].startswith("sha256:") and len(manifest["hash"]) == 7 + 64
+    assert manifest["entry_count"] == len(entries) == len(manifest["entry_ids"])
+    assert manifest["entry_ids"] == sorted(entries)
+
+
+def test_assert_vocab_hash(rkg):
+    m = {"hash": "sha256:x"}
+    rkg.assert_vocab_hash("sha256:x", m, "t")  # no raise
+    with pytest.raises(SystemExit):
+        rkg.assert_vocab_hash("", m, "t")
+    with pytest.raises(SystemExit):
+        rkg.assert_vocab_hash("sha256:y", m, "t")
+
+
+def _meta(counts=None, pubs=None, vocab=None, tag="kg-0.0.1"):
+    m = {"tag": tag, "counts": counts or {"papers": 1, "experiments": 1, "genes": 1,
+                                          "organisms": 1, "expression_edges": 1},
+         "per_publication_edges": pubs or {"10.x/a": 1}}
+    if vocab is not None:
+        m["controlled_vocabularies"] = vocab
+    return m
+
+
+def test_render_diff_vocab_unchanged_is_silent(rkg):
+    v = {"hash": "sha256:same", "entry_count": 1, "entry_ids": ["A.b"]}
+    assert rkg.render_diff_block(_meta(vocab=v), _meta(vocab=v, tag="kg-0.0.2")) == ""
+
+
+def test_render_diff_vocab_hash_change_lists_added_removed(rkg):
+    prior = _meta(vocab={"hash": "sha256:old", "entry_count": 2, "entry_ids": ["A.b", "Z.gone"]})
+    cur = _meta(vocab={"hash": "sha256:new", "entry_count": 2, "entry_ids": ["A.b", "N.new"]},
+                tag="kg-0.0.2")
+    out = rkg.render_diff_block(prior, cur)
+    assert "### Controlled vocabularies" in out
+    assert "`sha256:old` → `sha256:new`" in out
+    assert "added (1): `N.new`" in out
+    assert "removed (1): `Z.gone`" in out
+
+
+def test_render_diff_vocab_same_ids_values_moved(rkg):
+    prior = _meta(vocab={"hash": "sha256:old", "entry_count": 1, "entry_ids": ["A.b"]})
+    cur = _meta(vocab={"hash": "sha256:new", "entry_count": 1, "entry_ids": ["A.b"]}, tag="kg-0.0.2")
+    assert "same entry set" in rkg.render_diff_block(prior, cur)
+
+
+def test_render_diff_vocab_prior_without_manifest(rkg):
+    cur = _meta(vocab={"hash": "sha256:new", "entry_count": 1, "entry_ids": ["A.b"]}, tag="kg-0.0.2")
+    out = rkg.render_diff_block(_meta(), cur)
+    assert "`(none)` → `sha256:new`" in out
+    assert "published no vocabulary manifest" in out
 
 
 def test_build_metadata_includes_per_publication_edges(rkg):
@@ -767,6 +841,34 @@ def fake_git(rkg, monkeypatch):
             return ""
         monkeypatch.setattr(rkg, "git_out", _git_out)
     return _install
+
+
+def test_warn_unlogged_vocab_warns_when_silent(rkg, tmp_path, capsys, fake_git):
+    fake_git("kg-1.2.2", ["config/controlled_vocabularies.yaml", "README.md"])
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(UNLOGGED_SAMPLE)
+    rkg.warn_unlogged_vocab(p, "1.2.3")
+    out = capsys.readouterr().out
+    assert "WARNING" in out and "controlled_vocabularies_hash will move" in out
+
+
+def test_warn_unlogged_vocab_quiet_when_mentioned(rkg, tmp_path, capsys, fake_git):
+    fake_git("kg-1.2.2", ["config/controlled_vocabularies.yaml"])
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(UNLOGGED_SAMPLE.replace(
+        "## [Unreleased]\n", "## [Unreleased]\n\n### Changed\n\n- Registered a new vocabulary.\n", 1))
+    rkg.warn_unlogged_vocab(p, "1.2.3")
+    out = capsys.readouterr().out
+    assert "WARNING" not in out
+    assert "mentions the vocabulary" in out
+
+
+def test_warn_unlogged_vocab_quiet_when_yaml_untouched(rkg, tmp_path, capsys, fake_git):
+    fake_git("kg-1.2.2", ["data/x/papers_and_supp/Foo 2020/paperconfig.yaml"])
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(UNLOGGED_SAMPLE)
+    rkg.warn_unlogged_vocab(p, "1.2.3")
+    assert "unchanged since kg-1.2.2" in capsys.readouterr().out
 
 
 def test_warn_unlogged_data_warns_when_nothing_logged(rkg, tmp_path, capsys, fake_git):

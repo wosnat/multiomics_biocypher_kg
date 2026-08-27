@@ -337,6 +337,14 @@ tag with nothing logged.
 - **`controlled_vocabularies_hash` recipe documented** in
   `docs/kg-changes/vocabulary-contract.md` (what is hashed, what is not, and
   the rebuild-stability guarantee) so consumers can pin the string.
+- **`/release-kg` enforces and publishes the vocabulary contract.** Phase 5
+  recomputes the hash from the tag checkout and dies when the staged
+  `Schema_info.controlled_vocabularies_hash` is null or differs (alpha-color
+  build checked the same way); `metadata.json` gains a
+  `controlled_vocabularies` manifest (`hash`, `entry_count`, `entry_ids`); the
+  "What changed since kg-X" notes block reports hash moves with added/removed
+  entry ids; preflight warns when `config/controlled_vocabularies.yaml`
+  changed since the last tag without a CHANGELOG mention.
 
 - **Uniform annotation-trust surface (KG-SYNC-005).** `sources` + `evidence` on all 14
   gene→ontology edge types (was 7 / 6): KO, COG, CyanorakRole, TigrRole, InterPro, NCBIfam,
