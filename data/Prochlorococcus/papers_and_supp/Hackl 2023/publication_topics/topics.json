@@ -1,0 +1,194 @@
+{
+  "metadata": {
+    "paper": "Hackl 2023",
+    "doi": "10.1016/j.cell.2022.12.006",
+    "strains": [
+      "Prochlorococcus MIT0604"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Figure labels and tables likely contain additional abbreviated gene/profile labels and element IDs not fully captured from the parsed text/images.",
+    "extracted_at": "2026-08-19T08:38:04.574023",
+    "input_tokens": 22418,
+    "output_tokens": 1273
+  },
+  "genes": [
+    {
+      "surface_form": "nitrate assimilation cassette",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT0604",
+      "prominence": "central",
+      "evidence": "nitrate assimilation cassette were dynamically gained and lost (Summary, p2)"
+    },
+    {
+      "surface_form": "site-specific tyrosine recombinase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "including a deep-branching site-specific tyrosine recombinase (Summary, p2)"
+    },
+    {
+      "surface_form": "integrase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "coded for a large serine recombinase integrase-type protein common in MGEs (Results, p3)"
+    },
+    {
+      "surface_form": "MerR-like transcriptional regulator",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "identified a putative transcriptional regulator MerR-like (Results, p3)"
+    },
+    {
+      "surface_form": "major capsid protein",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "a putative major capsid protein HK97-fold (Results, p3)"
+    },
+    {
+      "surface_form": "DnaB-like replicative helicase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "a replicative helicase DnaB-like (Results, p3)"
+    },
+    {
+      "surface_form": "excisionase",
+      "gene_name": "xis",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "encoding the integrase and sometimes an excisionase (Results, p5)"
+    },
+    {
+      "surface_form": "polymerases",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "carry genes associated with replication 2\u20134 kb modules with polymerases, primases, and or helicases (Results, p5)"
+    },
+    {
+      "surface_form": "primases",
+      "gene_name": "pri",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "carry genes associated with replication 2\u20134 kb modules with polymerases, primases, and or helicases (Results, p5)"
+    },
+    {
+      "surface_form": "helicases",
+      "gene_name": "hel",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "carry genes associated with replication 2\u20134 kb modules with polymerases, primases, and or helicases (Results, p5)"
+    },
+    {
+      "surface_form": "PrimPol",
+      "gene_name": "",
+      "identifiers": [
+        "cd04859"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "15% of the tycheposons also carry a putative multifunctional primase-polymerase domain PrimPol, cd04859 (Results, p5)"
+    },
+    {
+      "surface_form": "MCP",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "carry either a predicted major capsid protein ... Figure 1B (Results, p6)"
+    },
+    {
+      "surface_form": "terS",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "or a small terminase subunit ... Figure 1B (Results, p6)"
+    },
+    {
+      "surface_form": "integrase associated with a cargo-carrying tycheposon",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT0604",
+      "prominence": "central",
+      "evidence": "measured the transcriptional response of an integrase associated with a cargo-carrying tycheposon in MIT0604 (Results, p7)"
+    },
+    {
+      "surface_form": "putative excisionases",
+      "gene_name": "xis",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT0604",
+      "prominence": "peripheral",
+      "evidence": "most integrases, putative excisionases, and replication genes all had elevated transcripts (Results, p8)"
+    },
+    {
+      "surface_form": "replication genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT0604",
+      "prominence": "peripheral",
+      "evidence": "most integrases, putative excisionases, and replication genes all had elevated transcripts (Results, p8)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "nitrate assimilation",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "harboring a nitrate assimilation cassette were dynamically gained and lost (Summary, p2)"
+    },
+    {
+      "surface_form": "phosphate assimilation",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "Cargo modules were annotated with roles in nitrate assimilation ... phosphate assimilation (Figure 1 legend, p4)"
+    },
+    {
+      "surface_form": "phosphite assimilation",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "Cargo modules were annotated with roles in ... phosphite assimilation (Figure 1 legend, p4)"
+    },
+    {
+      "surface_form": "siderophore-mediated iron uptake",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "complete multigene assimilation pathways for nitrate, phosphate, phosphite, and siderophore-mediated iron uptake (Results, p6)"
+    },
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id": "map00195",
+      "prominence": "peripheral",
+      "evidence": "gene exchange with cyanophages has been observed for genes involved in photosynthesis (Introduction, p2)"
+    },
+    {
+      "surface_form": "phage defense",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "genomic islands that have been linked to niche differentiation and phage defense (Introduction, p2)"
+    },
+    {
+      "surface_form": "zinc homeostasis",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "Cargo modules were annotated with roles in ... zinc homeostasis (Figure 1 legend, p4)"
+    }
+  ]
+}

@@ -130,6 +130,28 @@ KNOWN_METRIC_TYPES: dict[str, str] = {
     "enrichment_ribosome":                    "boolean",
     "enrichment_tonb_associated_genes":       "boolean",
 
+    # ── Rifampicin RNA-decay kinetics (Steglich 2010 MOESM5) ──
+    # Whole-transcriptome fitted half-life / decay TIME after transcription
+    # arrest, plus the pre-arrest expression level and the paper's
+    # expressed-above-background reliability flag. NOTE the paper's "decay
+    # rate [min]" is a decay TIME (min per twofold decrease, two-phase fit) —
+    # higher = more stable — NOT a rate constant; hence rna_decay_time_min.
+    # SE columns ride in field_description, not as separate metrics.
+    "rna_half_life_min":          "numeric",
+    "rna_decay_time_min":         "numeric",
+    "expression_at_t0_log2":      "numeric",
+    "expressed_above_background": "boolean",
+
+    # ── TSS architecture routing scalars (Voigt 2014 S4/S5, MED4 + MIT9313) ──
+    # Per-gene reductions of the TSS map — routing signals ("does this gene
+    # have mapped antisense transcription?"), NOT a representation of the
+    # paper's TSS/UTR/operon/ncRNA contribution (that layer stays Tier 3).
+    "has_primary_tss":        "boolean",
+    "antisense_tss_count":    "numeric",
+    "internal_tss_count":     "numeric",
+    "minus10_element_score":  "numeric",
+    "tss_distance_to_cds":    "numeric",
+
     # ── Boolean, per-LTPE-strain proteomics detection per compartment (Lu 2026 S1) ──
     # Detected by LC-MS/MS in the named compartment, in the named LTPE strain.
     # The three strains are NOT replicates: LTPE26 is the ancestor, LTPE397 and

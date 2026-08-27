@@ -1,0 +1,24 @@
+{
+  "strain": "WH8109",
+  "gene_count": 2707,
+  "kegg_reactions": {
+    "raw_total": 1305,
+    "raw_unique": 983,
+    "kept_total": 1305,
+    "kept_unique_r_numbers": 983
+  },
+  "transporter_classification": {
+    "raw_total": 263,
+    "raw_unique": 114,
+    "validated_total": 867,
+    "validated_unique": 339,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 31,
+    "raw_unique": 19,
+    "validated_total": 41,
+    "validated_unique": 21,
+    "invalid_examples": []
+  }
+}

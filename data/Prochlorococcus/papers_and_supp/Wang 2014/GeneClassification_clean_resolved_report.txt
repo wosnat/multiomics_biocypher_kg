@@ -4,23 +4,39 @@ name_col: sysName
 id_columns: ['sysName', 'locus_tag', 'name']
 
 Total rows with IDs: 2058
-Resolved: 2053 (99.8%)
-Unresolved: 5
+Resolved: 1956 (95.0%)
+Unresolved: 102
 
 Resolution method breakdown:
-  ambiguous: 1
+  ambiguous: 9
   empty: 1
   locus_tag:sysName: 1716
   multi:name: 1
-  tier1:sysName: 335
+  tier1:sysName: 238
   tier1_ci:sysName: 1
-  unresolved: 4
+  unresolved: 93
 
-Unresolved rows (5):
-  row 1140: raw_id='HyPMM130'  reason=ambiguous  [sysName='HyPMM130', locus_tag='PMED4_10681', name='Protein-coding gene']
-  row 1224: raw_id='PMM1018a'  reason=unresolved  [sysName='PMM1018a', locus_tag='PMED4_11521', name='PMM1018a']
-  row 2056: raw_id='b Locus tag of P.marinus MED4 in the MicrobesOnLine database [62].'  reason=unresolved  [sysName='b Locus tag of P.marinus MED4 in the MicrobesOnLine database [62].']
-  row 2057: raw_id='c All CDS genes were classified into the core or flexible genome by Ketter et al. [7].'  reason=unresolved  [sysName='c All CDS genes were classified into the core or flexible genome by Ketter et al. [7].']
-  row 2058: raw_id='a Genes of Core and Flexible genome were classified into five expresison subclasses respectively: non expressed genes (NEG), lowly expressed genes (LEG), moderately expressed genes (MEG), highly expressed genes (HEG), and variably expressed genes (VEG)'  reason=unresolved  [sysName='a Genes of Core and Flexible genome were classified into five expresison subclasses respectively: non expressed genes (NEG), lowly expressed genes (LEG), moderately expressed genes (MEG), highly expressed genes (HEG), and variably expressed genes (VEG)']
+Unresolved rows (102):
+  row 55: raw_id='RNA_43'  reason=unresolved  [sysName='RNA_43', locus_tag='--', name='tmRNA']
+  row 64: raw_id='RNA_37'  reason=unresolved  [sysName='RNA_37', locus_tag='--', name='tRNACys1']
+  row 67: raw_id='asRNA_00641'  reason=unresolved  [sysName='asRNA_00641', locus_tag='--', name='Antisense RNA']
+  row 81: raw_id='asRNA_00771'  reason=unresolved  [sysName='asRNA_00771', locus_tag='--', name='Antisense RNA']
+  row 137: raw_id='RNA_1'  reason=unresolved  [sysName='RNA_1', locus_tag='--', name='tRNA-Asn1']
+  row 241: raw_id='asRNA_02331'  reason=unresolved  [sysName='asRNA_02331', locus_tag='--', name='Antisense RNA']
+  row 251: raw_id='RNA_2'  reason=unresolved  [sysName='RNA_2', locus_tag='--', name='tRNAVal2']
+  row 274: raw_id='RNA_36'  reason=unresolved  [sysName='RNA_36', locus_tag='--', name='tRNAGly3']
+  row 285: raw_id='asRNA_02731'  reason=unresolved  [sysName='asRNA_02731', locus_tag='--', name='Antisense RNA']
+  row 292: raw_id='RNA_35'  reason=unresolved  [sysName='RNA_35', locus_tag='--', name='tRNAGlu1']
+  row 329: raw_id='RNA_34'  reason=unresolved  [sysName='RNA_34', locus_tag='--', name='tRNAAla1']
+  row 336: raw_id='asRNA_03211'  reason=unresolved  [sysName='asRNA_03211', locus_tag='--', name='Antisense RNA']
+  row 342: raw_id='RNA_33'  reason=unresolved  [sysName='RNA_33', locus_tag='--', name='tRNAPro3']
+  row 351: raw_id='RNA_39'  reason=unresolved  [sysName='RNA_39', locus_tag='--', name='16s-rRNA']
+  row 352: raw_id='RNA_38'  reason=unresolved  [sysName='RNA_38', locus_tag='--', name='tRNALeu4']
+  row 353: raw_id='asRNA_38'  reason=ambiguous  [sysName='asRNA_38', locus_tag='--', name='Protein-coding gene']
+  row 354: raw_id='RNA_3'  reason=unresolved  [sysName='RNA_3', locus_tag='--', name='tRNAAsp1']
+  row 355: raw_id='RNA_4'  reason=unresolved  [sysName='RNA_4', locus_tag='--', name='tRNASer1']
+  row 356: raw_id='RNA_40'  reason=unresolved  [sysName='RNA_40', locus_tag='--', name='tRNAIle1']
+  row 366: raw_id='asRNA_03431'  reason=unresolved  [sysName='asRNA_03431', locus_tag='--', name='Other non-coding RNA']
+  ... (82 more)
 
-NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.
+NOTE: 9 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

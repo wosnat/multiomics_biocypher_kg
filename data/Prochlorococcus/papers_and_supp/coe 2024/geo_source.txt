@@ -1,0 +1,6 @@
+GSE264347 -- https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE264347
+GSE264347_raw_counts.tsv.gz : raw counts, 6219 rows, 42 samples.
+Cols: organism (MIT1002 | NATL2A), ID, sample_1 .. sample_42.
+NOTE: ID is a protein accession (cds-WP_049585420.1), i.e. Tier-2 in the v2 gene-ID
+mapping -- resolves only when singleton for the organism. Sample columns are not
+labelled with condition/timepoint; cross-reference the GEO sample table before use.

@@ -54,7 +54,7 @@ HyPMM2,PMED4_00502,54068.0,54310.0,-,Flexible,HEG,Protein-coding gene,protein fa
 PMM0051,PMED4_00511,54244.0,54915.0,-,Flexible,HEG,PMM0051,ATPases involved in chromosome partitioning  (Katherine Huang),COG1192,D,ATPases involved in chromosome partitioning,PMM0051,locus_tag:sysName
 PMM0052,PMED4_00521,55066.0,56028.0,+,Flexible,LEG,tas,Aldo/keto reductase family (NCBI),COG667,C,Predicted oxidoreductases (related to aryl-alcohol dehydrogenases),PMM0052,locus_tag:sysName
 HyPMM3,PMED4_00531,56047.0,56181.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1801,tier1:sysName
-RNA_43,--,56335.0,56592.0,-,,--,tmRNA,"tmRNA, 10Sa RNA, SsrA (RefSeq)",,,,PMM0236,tier1:sysName
+RNA_43,--,56335.0,56592.0,-,,--,tmRNA,"tmRNA, 10Sa RNA, SsrA (RefSeq)",,,,,unresolved
 PMM0053,PMED4_00541,56663.0,57787.0,+,Core,MEG,PMM0053,Putative RNA methylase family UPF0020 (NCBI),COG116,L,Predicted N6-adenine-specific DNA methylase,PMM0053,locus_tag:sysName
 PMM0054,PMED4_00551,57789.0,58175.0,-,Core,VEG,PMM0054,conserved hypothetical protein (NCBI),,,,PMM0054,locus_tag:sysName
 PMM0055,PMED4_00561,58176.0,58637.0,-,Core,HEG,PMM0055,conserved hypothetical protein (NCBI),,,,PMM0055,locus_tag:sysName
@@ -63,10 +63,10 @@ PMM0056,PMED4_00581,59051.0,59413.0,+,Core,VEG,PMM0056,conserved hypothetical pr
 PMM0057,PMED4_00591,59496.0,63080.0,+,Core,MEG,smc,"putative chromosome segregation protein, SMC ATPase superfamily (NCBI)",COG1196,D,Chromosome segregation ATPases,PMM0057,locus_tag:sysName
 PMM0058,PMED4_00601,63132.0,64148.0,+,Core,MEG,PMM0058,Uncharacterized conserved protein (Katherine Huang),COG1873,S,Uncharacterized conserved protein,PMM0058,locus_tag:sysName
 PMM0059,PMED4_00611,64160.0,65449.0,-,Core,VEG,PMM0059,cyanobacteria-specific protein related to lipid A disaccharide synthetase (Katherine Huang),,,,PMM0059,locus_tag:sysName
-RNA_37,--,65454.0,65535.0,-,,--,tRNACys1,tRNA-Cys (RefSeq),,,,PMM0236,tier1:sysName
+RNA_37,--,65454.0,65535.0,-,,--,tRNACys1,tRNA-Cys (RefSeq),,,,,unresolved
 PMM0060,PMED4_00621,65841.0,67190.0,+,Core,VEG,accC,"acetyl-CoA carboxylase, biotin carboxylase subunit (NCBI)",COG4770,I,"Acetyl/propionyl-CoA carboxylase, alpha subunit",PMM0060,locus_tag:sysName
 PMM0061,PMED4_00631,67208.0,67513.0,-,Core,VEG,PMM0061,"YGGT family, conserved hypothetical integral membrane protein (NCBI)",,,,PMM0061,locus_tag:sysName
-asRNA_00641,--,67629.0,67875.0,-,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_00641,--,67629.0,67875.0,-,,--,Antisense RNA,,,,,,unresolved
 PMM0062,PMED4_00641,67652.0,67792.0,+,Flexible,HEG,psbX,photosystem II PsbX protein (NCBI),,,,PMM0062,locus_tag:sysName
 PMM0063,PMED4_00651,67870.0,68802.0,+,Core,HEG,PMM0063,conserved hypothetical protein (NCBI),,,,PMM0063,locus_tag:sysName
 PMM0064,PMED4_00661,68803.0,69036.0,-,Core,HEG,hli2,possible high light inducible protein (NCBI),,,,PMM0064,locus_tag:sysName
@@ -80,7 +80,7 @@ PMM0071,PMED4_00731,75650.0,76867.0,-,Core,VEG,PMM0071,"ABC transporter, membran
 PMM0072,PMED4_00741,76872.0,77657.0,-,Core,MEG,sufC,"ABC transporter, ATP binding component (NCBI)",COG396,O,"ABC-type transport system involved in Fe-S cluster assembly, ATPase component",PMM0072,locus_tag:sysName
 PMM0073,PMED4_00751,77679.0,79121.0,-,Core,VEG,PMM0073,"ABC transporter, membrane component (NCBI)",COG719,O,"ABC-type transport system involved in Fe-S cluster assembly, permease component",PMM0073,locus_tag:sysName
 PMM0074,PMED4_00761,79219.0,79581.0,+,Flexible,VEG,PMM0074,conserved hypothetical (NCBI),,,,PMM0074,locus_tag:sysName
-asRNA_00771,--,79767.0,79930.0,-,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_00771,--,79767.0,79930.0,-,,--,Antisense RNA,,,,,,unresolved
 PMM0075,PMED4_00771,79845.0,80951.0,+,Core,VEG,PMM0075,Uncharacterized protein conserved in bacteria (Katherine Huang),COG3330,S,Uncharacterized protein conserved in bacteria,PMM0075,locus_tag:sysName
 HyPMM5,PMED4_00781,80967.0,81137.0,+,Flexible,VEG,Protein-coding gene,membrane protein  (Katherine Huang),,,,PMM1803,tier1:sysName
 PMM0076,PMED4_00791,81171.0,82808.0,+,Core,VEG,pgm,Phosphoglucomutase (NCBI),COG33,G,Phosphoglucomutase,PMM0076,locus_tag:sysName
@@ -136,7 +136,7 @@ PMM0122,PMED4_01281,120073.0,120750.0,-,Core,VEG,PMM0122,possible heat shock pro
 PMM0123,PMED4_01291,120767.0,121735.0,-,Core,MEG,cysK2,O-acetylserine (thiol)-lyase A (NCBI),COG31,E,Cysteine synthase,PMM0123,locus_tag:sysName
 PMM0124,PMED4_01301,121892.0,122161.0,+,Core,MEG,PMM0124,conserved hypothetical protein in cyanobacteria (NCBI),,,,PMM0124,locus_tag:sysName
 PMM0125,PMED4_01311,122163.0,122846.0,+,Core,MEG,PMM0125,"possible ABC transporter, ATP-binding component (NCBI)",COG1122,P,"ABC-type cobalt transport system, ATPase component",PMM0125,locus_tag:sysName
-RNA_1,--,122896.0,122967.0,+,,--,tRNA-Asn1,tRNA-Asn (NCBI),,,,PMM0236,tier1:sysName
+RNA_1,--,122896.0,122967.0,+,,--,tRNA-Asn1,tRNA-Asn (NCBI),,,,,unresolved
 PMM0126,PMED4_01321,123319.0,124260.0,+,Flexible,MEG,PMM0126,possible Herpesvirus UL6 like (NCBI),,,,PMM0126,locus_tag:sysName
 PMM0127,PMED4_01331,124573.0,124932.0,-,Flexible,VEG,PMM0127,possible Signal peptide binding domain (NCBI),,,,PMM0127,locus_tag:sysName
 PMM0128,PMED4_01341,125358.0,126113.0,+,Core,HEG,rpaA,two-component response regulator (NCBI),COG745,TK,Response regulators consisting of a CheY-like receiver domain and a winged-helix DNA-binding domain,PMM0128,locus_tag:sysName
@@ -240,7 +240,7 @@ PMM0225,PMED4_02301,219107.0,219748.0,-,Flexible,MEG,eda,possible 2-keto-3-deoxy
 PMM0226,PMED4_02311,219760.0,221616.0,-,Core,HEG,ftsH2,cell division protein FtsH2 (NCBI),COG465,O,ATP-dependent Zn proteases,PMM0226,locus_tag:sysName
 PMM0227,PMED4_02321,221663.0,222838.0,-,Core,VEG,cysD,ATP-sulfurylase (NCBI),COG2046,P,ATP sulfurylase (sulfate adenylyltransferase),PMM0227,locus_tag:sysName
 PMM0228,PMED4_02331,222913.0,223707.0,-,Core,HEG,psbO,Photosystem II manganese-stabilizing protein (NCBI),,,,PMM0228,locus_tag:sysName
-asRNA_02331,--,223722.0,223828.0,+,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_02331,--,223722.0,223828.0,+,,--,Antisense RNA,,,,,,unresolved
 PMM0229,PMED4_02341,223922.0,225178.0,-,Core,VEG,dfp,putative p-pantothenate cysteine ligase and p-pantothenenoylcysteine decarboxylase (NCBI),COG452,H,Phosphopantothenoylcysteine synthetase/decarboxylase,PMM0229,locus_tag:sysName
 PMM0230,PMED4_02351,225168.0,225389.0,-,Flexible,VEG,PMM0230,conserved hypothetical protein (NCBI),,,,PMM0230,locus_tag:sysName
 PMM0231,PMED4_02361,225590.0,225772.0,+,Core,HEG,PMM0231,conserved hypothetical protein (NCBI),,,,PMM0231,locus_tag:sysName
@@ -250,7 +250,7 @@ PMM0234,PMED4_02391,227169.0,227666.0,-,Flexible,MEG,PMM0234,possible Methylpuri
 PMM0235,PMED4_02401,227987.0,228280.0,+,Core,VEG,gatC,Glutamyl-tRNA(Gln) amidotransferase subunit C (NCBI),COG721,J,Asp-tRNAAsn/Glu-tRNAGln amidotransferase C subunit,PMM0235,locus_tag:sysName
 HyPMM8,PMED4_02411,228281.0,229063.0,-,Core,MEG,Protein-coding gene,Beta-carotene hydroxylase (Katherine Huang),COG3239,I,Fatty acid desaturase,PMM0236,tier1:sysName
 PMM0236,--,228281.0,229270.0,-,Flexible,MEG,crtR,beta carotene hydroxylase (NCBI),,,,PMM0236,locus_tag:sysName
-RNA_2,--,229473.0,229554.0,+,,--,tRNAVal2,tRNA-Val (RefSeq),,,,PMM0236,tier1:sysName
+RNA_2,--,229473.0,229554.0,+,,--,tRNAVal2,tRNA-Val (RefSeq),,,,,unresolved
 PMM0237,PMED4_02421,229639.0,230163.0,+,Flexible,NEG,PMM0237,conserved hypothetical protein (NCBI),,,,PMM0237,locus_tag:sysName
 PMM0238,PMED4_02431,230206.0,233103.0,+,Core,MEG,ileS,Isoleucyl-tRNA synthetase (NCBI),COG60,J,Isoleucyl-tRNA synthetase,PMM0238,locus_tag:sysName
 PMM0239,PMED4_02441,233270.0,233893.0,-,Core,VEG,PMM0239,conserved hypothetical protein (NCBI),,,,PMM0239,locus_tag:sysName
@@ -273,7 +273,7 @@ PMM0255,PMED4_02601,244685.0,245305.0,-,Core,VEG,leuD,3-isopropylmalate dehydrat
 PMM0256,PMED4_02611,245302.0,246711.0,-,Core,VEG,leuC,3-isopropylmalate dehydratase large subunit (NCBI),COG65,E,3-isopropylmalate dehydratase large subunit,PMM0256,locus_tag:sysName
 PMM0257,PMED4_02621,246725.0,248026.0,-,Core,MEG,cinA,Molybdenum cofactor biosynthesis protein (Katherine Huang),COG1058,R,Predicted nucleotide-utilizing enzyme related to molybdopterin-biosynthesis enzyme MoeA,PMM0257,locus_tag:sysName
 PMM0258,PMED4_02631,247995.0,249266.0,-,Core,HEG,glyA,Serine hydroxymethyltransferase (SHMT) (NCBI),COG112,E,Glycine/serine hydroxymethyltransferase,PMM0258,locus_tag:sysName
-RNA_36,--,249345.0,249418.0,-,,--,tRNAGly3,tRNA-Gly (RefSeq),,,,PMM0236,tier1:sysName
+RNA_36,--,249345.0,249418.0,-,,--,tRNAGly3,tRNA-Gly (RefSeq),,,,,unresolved
 PMM0259,PMED4_02641,249507.0,249758.0,+,Flexible,MEG,PMM0259,conserved hypothetical protein (NCBI),,,,PMM0259,locus_tag:sysName
 PMM0260,PMED4_02651,249768.0,250049.0,+,Core,VEG,PMM0260,conserved hypothetical protein (NCBI),,,,PMM0260,locus_tag:sysName
 PMM0261,PMED4_02661,250057.0,251637.0,-,Core,VEG,mviN,"Uncharacterized membrane protein, putative virulence factor  (Katherine Huang)",COG728,R,"Uncharacterized membrane protein, putative virulence factor",PMM0261,locus_tag:sysName
@@ -284,14 +284,14 @@ PMM0265,PMED4_02701,255473.0,256033.0,+,Core,HEG,PMM0265,Predicted membrane prot
 PMM0266,PMED4_02711,256035.0,257588.0,-,Core,VEG,purH,AICARFT/IMPCHase bienzyme:Methylglyoxal synthase-like domain (NCBI),COG138,F,AICAR transformylase/IMP cyclohydrolase PurH (only IMP cyclohydrolase domain in Aful),PMM0266,locus_tag:sysName
 PMM0267,PMED4_02721,257622.0,258239.0,+,Core,VEG,PMM0267,probable esterase (NCBI),COG400,R,Predicted esterase,PMM0267,locus_tag:sysName
 PMM0268,PMED4_02731,258236.0,258604.0,-,Core,HEG,PMM0268,conserved hypothetical protein (NCBI),,,,PMM0268,locus_tag:sysName
-asRNA_02731,--,258538.0,258669.0,+,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_02731,--,258538.0,258669.0,+,,--,Antisense RNA,,,,,,unresolved
 PMM0269,PMED4_02741,258843.0,259979.0,+,Core,VEG,PMM0269,two-component sensor histidine kinase (NCBI),COG642,T,Signal transduction histidine kinase,PMM0269,locus_tag:sysName
 PMM0270,PMED4_02751,259957.0,260697.0,-,Core,VEG,CobS,Cobalamin-5-phosphate synthase CobS (NCBI),COG368,H,Cobalamin-5-phosphate synthase,PMM0270,locus_tag:sysName
 PMM0271,PMED4_02761,260796.0,261914.0,+,Core,VEG,tgt,tRNA-guanine transglycosylase (NCBI),COG343,J,Queuine/archaeosine tRNA-ribosyltransferase,PMM0271,locus_tag:sysName
 PMM0272,PMED4_02771,261948.0,262088.0,+,Core,VEG,psbK,Photosystem II protein PsbK (NCBI),,,,PMM0272,locus_tag:sysName
 PMM0273,PMED4_02781,262103.0,263107.0,-,Core,VEG,PMM0273,probable oxidoreductase (NCBI),COG673,R,Predicted dehydrogenases and related proteins,PMM0273,locus_tag:sysName
 PMM0274,PMED4_02791,263158.0,264426.0,-,Core,MEG,PMM0274,Hemolysins and related proteins containing CBS domains  (Katherine Huang),COG1253,R,Hemolysins and related proteins containing CBS domains,PMM0274,locus_tag:sysName
-RNA_35,--,264442.0,264517.0,-,,--,tRNAGlu1,tRNA-Glu (RefSeq),,,,PMM0236,tier1:sysName
+RNA_35,--,264442.0,264517.0,-,,--,tRNAGlu1,tRNA-Glu (RefSeq),,,,,unresolved
 PMM0275,PMED4_02801,264658.0,265218.0,+,Core,MEG,pyrE,Orotate phosphoribosyltransferase (NCBI),COG461,F,Orotate phosphoribosyltransferase,PMM0275,locus_tag:sysName
 PMM0276,PMED4_02811,265222.0,266070.0,+,Core,LEG,PMM0276,Predicted aminomethyltransferase related to GcvT  (Katherine Huang),COG354,R,Predicted aminomethyltransferase related to GcvT,PMM0276,locus_tag:sysName
 PMM0277,PMED4_02821,266079.0,267497.0,-,Core,VEG,PMM0277,Predicted nuclease (RecB family)  (Katherine Huang),COG2251,R,Predicted nuclease (RecB family),PMM0277,locus_tag:sysName
@@ -328,20 +328,20 @@ PMM0306,PMED4_03121,294221.0,294772.0,-,Core,VEG,cpeS,phycoerythrin linker prote
 PMM0307,PMED4_03131,294747.0,294926.0,-,Flexible,HEG,PMM0307,hypothetical (NCBI),,,,PMM0307,locus_tag:sysName
 PMM0308,PMED4_03141,295042.0,295677.0,-,Core,MEG,PMM0308,Uncharacterized conserved protein (Katherine Huang),COG398,S,Uncharacterized conserved protein,PMM0308,locus_tag:sysName
 PMM0309,PMED4_03151,295903.0,296322.0,+,Core,VEG,PMM0309,possible Pollen allergen (NCBI),,,,PMM0309,locus_tag:sysName
-RNA_34,--,296377.0,296452.0,-,,--,tRNAAla1,tRNA-Ala (RefSeq),,,,PMM0236,tier1:sysName
+RNA_34,--,296377.0,296452.0,-,,--,tRNAAla1,tRNA-Ala (RefSeq),,,,,unresolved
 PMM0310,PMED4_03161,296547.0,297776.0,-,Flexible,MEG,xylB,"Carbohydrate kinase, FGGY family (NCBI)",COG1070,G,Sugar (pentulose and hexulose) kinases,PMM0310,locus_tag:sysName
 PMM0311,PMED4_03171,297783.0,299024.0,-,Core,VEG,metK,S-adenosylmethionine synthetase (NCBI),COG192,H,S-adenosylmethionine synthetase,PMM0311,locus_tag:sysName
 PMM0312,PMED4_03181,299159.0,300250.0,-,Core,HEG,"rps1a, rpsA1","30S ribosomal protein S1, homolog A (NCBI)",,,,PMM0312,locus_tag:sysName
 PMM0313,PMED4_03191,300358.0,300837.0,-,Core,VEG,PMM0313,"Predicted transcriptional regulator, consists of a Zn-ribbon and ATP-cone domains  (Katherine Huang)",COG1327,K,"Predicted transcriptional regulator, consists of a Zn-ribbon and ATP-cone domains",PMM0313,locus_tag:sysName
 PMM0314,PMED4_03201,300941.0,301039.0,-,Flexible,VEG,psbT,Photosystem II PsbT protein (NCBI),,,,PMM0314,locus_tag:sysName
 PMM0315,PMED4_03211,301064.0,302587.0,-,Core,HEG,psbB,Photosystem II PsbB protein (CP47) (NCBI),,,,PMM0315,locus_tag:sysName
-asRNA_03211,--,302065.0,302662.0,+,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_03211,--,302065.0,302662.0,+,,--,Antisense RNA,,,,,,unresolved
 PMM0316,PMED4_03221,302812.0,303174.0,+,Flexible,MEG,fdx,possible ferredoxin (NCBI),COG633,C,Ferredoxin,PMM0316,locus_tag:sysName
 PMM0317,PMED4_03231,303280.0,303432.0,+,Flexible,HEG,psbM,possible Photosystem II reaction center M protein (PsbM) (NCBI),,,,PMM0317,locus_tag:sysName
 PMM0318,PMED4_03241,303445.0,304314.0,+,Core,MEG,hemK,putative protein methyltransferase (NCBI),COG2890,J,Methylase of polypeptide chain release factors,PMM0318,locus_tag:sysName
 PMM0319,PMED4_03251,304335.0,304919.0,+,Core,MEG,sua5,Putative translation factor (SUA5)  (Katherine Huang),COG9,J,Putative translation factor (SUA5),PMM0319,locus_tag:sysName
 HyPMM10,PMED4_03261,304928.0,305092.0,+,Flexible,VEG,Protein-coding gene,Hypothetical protein (Katherine Huang),,,,PMM1808,tier1:sysName
-RNA_33,--,305096.0,305167.0,-,,--,tRNAPro3,tRNA-Pro (RefSeq),,,,PMM0236,tier1:sysName
+RNA_33,--,305096.0,305167.0,-,,--,tRNAPro3,tRNA-Pro (RefSeq),,,,,unresolved
 PMM0320,PMED4_03271,305233.0,305553.0,-,Core,HEG,minE,possible septum site-determining protein MinE (NCBI),COG851,D,Septum formation topological specificity factor,PMM0320,locus_tag:sysName
 PMM0321,PMED4_03281,305556.0,306371.0,-,Core,VEG,minD,putative septum site-determining protein MinD (NCBI),COG2894,D,Septum formation inhibitor-activating ATPase,PMM0321,locus_tag:sysName
 PMM0322,PMED4_03291,306489.0,307151.0,-,Core,VEG,minC,possible septum site-determining protein (NCBI),COG850,D,Septum formation inhibitor,PMM0322,locus_tag:sysName
@@ -350,12 +350,12 @@ PMM0324,PMED4_03311,308446.0,309735.0,-,Core,HEG,ctpA,carboxyl-terminal protease
 PMM0325,PMED4_03321,309806.0,310462.0,+,Core,HEG,petB,Cytochrome b6 (NCBI),,,,PMM0325,locus_tag:sysName
 PMM0326,PMED4_03331,310505.0,310987.0,+,Core,HEG,petD,PetD protein (subunit IV of the Cytochrome b6f complex) (NCBI),,,,PMM0326,locus_tag:sysName
 PMM0327,PMED4_03341,310994.0,312430.0,-,Core,HEG,PMM0327,putative neutral invertase-like protein (NCBI),,,,PMM0327,locus_tag:sysName
-RNA_39,--,313061.0,314525.0,+,,--,16s-rRNA,tRNA-Leu (RefSeq),,,,PMM0236,tier1:sysName
-RNA_38,--,313061.0,318126.0,+,,--,tRNALeu4,tRNA-Leu (RefSeq),,,,PMM0236,tier1:sysName
-asRNA_38,--,314574.0,314884.0,-,,--,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM0236,tier1:sysName
-RNA_3,--,314649.0,314722.0,+,,--,tRNAAsp1,tRNA-Asp (RefSeq),,,,PMM0236,tier1:sysName
-RNA_4,--,314735.0,314807.0,+,,--,tRNASer1,tRNA-Ser (RefSeq),,,,PMM0236,tier1:sysName
-RNA_40,--,315074.0,317948.0,+,,--,tRNAIle1,tRNA-Ile (RefSeq),,,,PMM0236,tier1:sysName
+RNA_39,--,313061.0,314525.0,+,,--,16s-rRNA,tRNA-Leu (RefSeq),,,,,unresolved
+RNA_38,--,313061.0,318126.0,+,,--,tRNALeu4,tRNA-Leu (RefSeq),,,,,unresolved
+asRNA_38,--,314574.0,314884.0,-,,--,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,,ambiguous
+RNA_3,--,314649.0,314722.0,+,,--,tRNAAsp1,tRNA-Asp (RefSeq),,,,,unresolved
+RNA_4,--,314735.0,314807.0,+,,--,tRNASer1,tRNA-Ser (RefSeq),,,,,unresolved
+RNA_40,--,315074.0,317948.0,+,,--,tRNAIle1,tRNA-Ile (RefSeq),,,,,unresolved
 RNA_41,--,318012.0,318126.0,+,,--,tRNAAla2,tRNA-Ala (RefSeq),,,,PMM0521,tier1:sysName
 PMM0328,PMED4_03351,318175.0,319053.0,-,Core,VEG,FPG,Formamidopyrimidine-DNA glycolase (FAPY-DNA glycolase) (NCBI),COG266,L,Formamidopyrimidine-DNA glycosylase,PMM0328,locus_tag:sysName
 PMM0329,PMED4_03361,319058.0,319267.0,-,Core,HEG,psaE,Photosystem I PsaE protein (subunit IV) (NCBI),,,,PMM0329,locus_tag:sysName
@@ -365,7 +365,7 @@ PMM0332,PMED4_03391,321681.0,322274.0,+,Flexible,VEG,PMM0332,possible Rhomboid f
 PMM0333,PMED4_03401,322362.0,323249.0,+,Core,VEG,rimI,GCN5-related N-acetyltransferase (NCBI),,,,PMM0333,locus_tag:sysName
 PMM0334,PMED4_03411,323345.0,323599.0,-,Core,VEG,PMM0334,conserved hypothetical protein (NCBI),,,,PMM0334,locus_tag:sysName
 HyPMM11,PMED4_03421,323821.0,323955.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1809,tier1:sysName
-asRNA_03431,--,324060.0,324207.0,+,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+asRNA_03431,--,324060.0,324207.0,+,,--,Other non-coding RNA,,,,,,unresolved
 HyPMM12,PMED4_03431,324090.0,324233.0,-,Flexible,HEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1810,tier1:sysName
 HyPMM13,PMED4_03441,324355.0,324456.0,-,Flexible,HEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1811,tier1:sysName
 PMM0335,PMED4_03451,324602.0,325036.0,+,Flexible,HEG,PMM0335,NADH-plastoquinone oxidoreductase chain 5-like (Katherine Huang),,,,PMM0335,locus_tag:sysName
@@ -403,8 +403,8 @@ HyPMM25,PMED4_03751,338778.0,338873.0,-,Flexible,VEG,Protein-coding gene,Hypothe
 PMM0355,PMED4_03761,339039.0,339380.0,+,Flexible,VEG,PMM0355,Uncharacterized conserved protein (Katherine Huang),COG5470,S,Uncharacterized conserved protein,PMM0355,locus_tag:sysName
 HyPMM26,PMED4_03771,339448.0,339549.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1823,tier1:sysName
 HyPMM27,PMED4_03781,339593.0,339781.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1824,tier1:sysName
-Yfr9,--,339887.0,340176.0,-,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
-Yfr8,--,339952.0,340241.0,+,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+Yfr9,--,339887.0,340176.0,-,,--,Other non-coding RNA,,,,,,unresolved
+Yfr8,--,339952.0,340241.0,+,,--,Other non-coding RNA,,,,,,unresolved
 PMM0356,PMED4_03791,340325.0,341272.0,+,Flexible,MEG,PMM0356,proline iminopeptidase (Katherine Huang),COG596,R,Predicted hydrolases or acyltransferases (alpha/beta hydrolase superfamily),PMM0356,locus_tag:sysName
 HyPMM28,PMED4_03801,341305.0,341478.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1825,tier1:sysName
 PMM0357,PMED4_03811,341600.0,342223.0,+,Flexible,VEG,PMM0357,TENA/THI-4 protein (NCBI),COG819,K,Putative transcription activator,PMM0357,locus_tag:sysName
@@ -416,8 +416,8 @@ PMM0361,PMED4_03861,344527.0,344904.0,+,Flexible,VEG,PMM0361,possible Phosphoeno
 PMM0362,PMED4_03871,344969.0,345265.0,+,Flexible,NEG,PMM0362,hypothetical (NCBI),,,,PMM0362,locus_tag:sysName
 PMM0363,PMED4_03881,345420.0,345821.0,+,Flexible,VEG,PMM0363,possible MarR family (NCBI),,,,PMM0363,locus_tag:sysName
 HyPMM30,PMED4_03891,346297.0,346425.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1827,tier1:sysName
-Yfr10,--,346661.0,346738.0,+,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
-Yfr2,--,346828.0,346921.0,+,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+Yfr10,--,346661.0,346738.0,+,,--,Other non-coding RNA,,,,,,unresolved
+Yfr2,--,346828.0,346921.0,+,,--,Other non-coding RNA,,,,,,unresolved
 HyPMM31,PMED4_03901,346954.0,347136.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1828,tier1:sysName
 PMM0364,PMED4_03911,347296.0,347616.0,+,Flexible,HEG,PMM0364,possible Malic enzyme (NCBI),,,,PMM0364,locus_tag:sysName
 PMM0365,PMED4_03921,347668.0,348045.0,-,Flexible,VEG,PMM0365,possible DsrE-like protein (NCBI),COG2044,R,Predicted peroxiredoxins,PMM0365,locus_tag:sysName
@@ -432,7 +432,7 @@ HyPMM36,PMED4_03965,350362.0,350514.0,+,Flexible,VEG,Protein-coding gene,Conserv
 HyPMM37,PMED4_03971,350589.0,350732.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1830,tier1:sysName
 HyPMM38,PMED4_03981,350803.0,350988.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1831,tier1:sysName
 HyPMM39,PMED4_03991,351016.0,351174.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1832,tier1:sysName
-asRNA_04001,--,351488.0,351591.0,+,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+asRNA_04001,--,351488.0,351591.0,+,,--,Other non-coding RNA,,,,,,unresolved
 HyPMM40,PMED4_04001,351526.0,351660.0,-,Flexible,MEG,Protein-coding gene,Hypothetical protein (Katherine Huang),,,,PMM1833,tier1:sysName
 HyPMM41,PMED4_04011,351856.0,352020.0,-,Flexible,VEG,Protein-coding gene,Hypothetical protein (Katherine Huang),,,,PMM1834,tier1:sysName
 PMM0369,PMED4_04021,352195.0,352527.0,+,Flexible,VEG,PMM0369,possible Ribosomal protein S14p/S29e (NCBI),,,,PMM0369,locus_tag:sysName
@@ -444,9 +444,9 @@ PMM0374,PMED4_04071,356905.0,357096.0,-,Core,VEG,PMM0374,mttA/Hcf106 family (NCB
 PMM0375,PMED4_04081,357196.0,357519.0,+,Flexible,NEG,PMM0375,possible Type II intron maturase (NCBI),,,,PMM0375,locus_tag:sysName
 PMM0376,PMED4_04091,357535.0,357903.0,-,Flexible,VEG,PMM0376,hypothetical (NCBI),,,,PMM0376,locus_tag:sysName
 PMM0377,PMED4_04101,357904.0,358167.0,-,Flexible,VEG,PMM0377,hypothetical (NCBI),,,,PMM0377,locus_tag:sysName
-asRNA_04101,--,358027.0,358183.0,+,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_04101,--,358027.0,358183.0,+,,--,Antisense RNA,,,,,,unresolved
 PMM0378,PMED4_04111,358218.0,358490.0,-,Flexible,HEG,PMM0378,conserved hypothetical protein (NCBI),,,,PMM0378,locus_tag:sysName
-Yfr11,--,358606.0,358754.0,-,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+Yfr11,--,358606.0,358754.0,-,,--,Other non-coding RNA,,,,,,unresolved
 HyPMM42,PMED4_04121,358796.0,358942.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1835,tier1:sysName
 HyPMM43,PMED4_04131,358942.0,359055.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1836,tier1:sysName
 HyPMM44,PMED4_04141,359300.0,359485.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1837,tier1:sysName
@@ -463,8 +463,8 @@ PMM0385,PMED4_04241,365498.0,366988.0,-,Flexible,VEG,PMM0385,possible degenerate
 PMM0386,PMED4_04251,366972.0,367616.0,-,Flexible,VEG,PMM0386,possible uncharacterized DNA methylase (NCBI),,,,PMM0386,locus_tag:sysName
 HyPMM49,PMED4_04261,367828.0,367983.0,+,Flexible,VEG,Protein-coding gene,Hypothetical protein (Katherine Huang),,,,PMM1842,tier1:sysName
 HyPMM50,PMED4_04271,368002.0,368220.0,-,Flexible,VEG,Protein-coding gene,Hypothetical protein (Katherine Huang),,,,PMM1843,tier1:sysName
-RNA_32,--,368348.0,368419.0,-,,--,tRNASer4,tRNA-Ser (RefSeq),,,,PMM0236,tier1:sysName
-RNA_31,--,368430.0,368511.0,-,,--,tRNASer3,tRNA-Ser (RefSeq),,,,PMM0236,tier1:sysName
+RNA_32,--,368348.0,368419.0,-,,--,tRNASer4,tRNA-Ser (RefSeq),,,,,unresolved
+RNA_31,--,368430.0,368511.0,-,,--,tRNASer3,tRNA-Ser (RefSeq),,,,,unresolved
 PMM0387,PMED4_04281,368613.0,369053.0,+,Core,MEG,aroD,Dehydroquinase class II (NCBI),COG757,E,3-dehydroquinate dehydratase II,PMM0387,locus_tag:sysName
 PMM0388,PMED4_04291,369054.0,369662.0,+,Core,MEG,miaE,putative similar to tRNA-(MS[2]IO[6]A)-hydroxylase (NCBI),COG4445,FJ,Hydroxylase for synthesis of 2-methylthio-cis-ribozeatin in tRNA,PMM0388,locus_tag:sysName
 PMM0389,PMED4_04301,369683.0,370438.0,+,Core,VEG,cobI/cbiL,precorrin-2 C20-methyltransferase (NCBI),COG2243,H,Precorrin-2 methylase,PMM0389,locus_tag:sysName
@@ -485,8 +485,8 @@ PMM0403,PMED4_04441,381740.0,382186.0,+,Core,HEG,PMM0403,conserved hypothetical 
 PMM0404,PMED4_04451,382301.0,382612.0,-,Flexible,VEG,PMM0404,hypothetical (NCBI),,,,PMM0404,locus_tag:sysName
 HyPMM51,PMED4_04461,382776.0,382919.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1844,tier1:sysName
 HyPMM52,PMED4_04471,382974.0,383168.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1845,tier1:sysName
-Yfr12,--,383230.0,383312.0,+,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
-Yfr4,--,383389.0,383483.0,+,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+Yfr12,--,383230.0,383312.0,+,,--,Other non-coding RNA,,,,,,unresolved
+Yfr4,--,383389.0,383483.0,+,,--,Other non-coding RNA,,,,,,unresolved
 PMM0405,PMED4_04481,383670.0,385037.0,+,Core,HEG,pdhC,Dihydrolipoamide acetyltransferase (Katherine Huang),COG508,C,"Pyruvate/2-oxoglutarate dehydrogenase complex, dihydrolipoamide acyltransferase (E2) component, and related enzymes",PMM0405,locus_tag:sysName
 PMM0406,PMED4_04491,385044.0,386168.0,+,Core,VEG,queA,Queuosine biosynthesis protein (NCBI),COG809,J,S-adenosylmethionine:tRNA-ribosyltransferase-isomerase (queuine synthetase),PMM0406,locus_tag:sysName
 PMM0407,PMED4_04501,386171.0,387157.0,-,Core,HEG,cysK1,O-acetylserine (thiol)-lyase A (NCBI),COG31,E,Cysteine synthase,PMM0407,locus_tag:sysName
@@ -500,7 +500,7 @@ PMM0414,PMED4_04571,392828.0,393532.0,+,Flexible,VEG,PMM0414,putative short chai
 PMM0415,PMED4_04581,393515.0,394696.0,-,Core,LEG,PMM0415,putative L-cysteine/cystine lyase (NCBI),COG520,E,Selenocysteine lyase,PMM0415,locus_tag:sysName
 PMM0416,PMED4_04591,394729.0,395523.0,-,Flexible,MEG,PMM0416,putative methyltransferase (Katherine Huang),COG500,QR,SAM-dependent methyltransferases,PMM0416,locus_tag:sysName
 HyPMM53,PMED4_04601,395600.0,395797.0,-,Flexible,HEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1846,tier1:sysName
-asRNA_04601,--,395661.0,395842.0,+,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_04601,--,395661.0,395842.0,+,,--,Antisense RNA,,,,,,unresolved
 PMM0417,PMED4_04611,396030.0,396290.0,+,Flexible,VEG,PMM0417,hypothetical (NCBI),,,,PMM0417,locus_tag:sysName
 PMM0418,PMED4_04621,396312.0,396557.0,-,Core,HEG,PMM0418,NifU-like protein (NCBI),COG694,O,Thioredoxin-like proteins and domains,PMM0418,locus_tag:sysName
 PMM0419,PMED4_04631,396695.0,398122.0,+,Core,LEG,mqo,putative malate/quinone oxidoreductase (NCBI),COG579,R,Predicted dehydrogenase,PMM0419,locus_tag:sysName
@@ -562,9 +562,9 @@ PMM0470,PMED4_05181,445994.0,447064.0,+,Core,MEG,qri7,probable o-sialoglycoprote
 PMM0471,PMED4_05191,447070.0,447252.0,+,Core,MEG,hli20,possible high light inducible protein (NCBI),,,,PMM0471,locus_tag:sysName
 PMM0472,PMED4_05201,447410.0,448609.0,+,Core,MEG,nhaP,"putative Na+/H+ antiporter, CPA1 family (NCBI)",COG25,P,NhaP-type Na+/H+ and K+/H+ antiporters,PMM0472,locus_tag:sysName
 PMM0473,PMED4_05211,448610.0,450046.0,-,Core,MEG,gltX,Glutamyl-tRNA synthetase (NCBI),COG8,J,Glutamyl- and glutaminyl-tRNA synthetases,PMM0473,locus_tag:sysName
-RNA_30,--,450064.0,450137.0,-,,--,tRNALys1,tRNA-Lys (RefSeq),,,,PMM0236,tier1:sysName
+RNA_30,--,450064.0,450137.0,-,,--,tRNALys1,tRNA-Lys (RefSeq),,,,,unresolved
 PMM0474,PMED4_05221,450293.0,450481.0,-,Core,HEG,PMM0474,Conserved hypothetical protein (NCBI),,,,PMM0474,locus_tag:sysName
-RNA_29,--,450520.0,450592.0,-,,--,tRNAMet3,tRNA-Met (RefSeq),,,,PMM0236,tier1:sysName
+RNA_29,--,450520.0,450592.0,-,,--,tRNAMet3,tRNA-Met (RefSeq),,,,,unresolved
 PMM0475,PMED4_05231,450648.0,451130.0,-,Core,VEG,rplS,Ribosomal protein L19 (NCBI),COG335,J,Ribosomal protein L19,PMM0475,locus_tag:sysName
 PMM0476,PMED4_05241,451145.0,451453.0,-,Flexible,VEG,PMM0476,conserved hypothetical protein (NCBI),,,,PMM0476,locus_tag:sysName
 PMM0477,PMED4_05251,451543.0,452382.0,+,Core,HEG,map,putative methionine aminopeptidase (NCBI),COG24,J,Methionine aminopeptidase,PMM0477,locus_tag:sysName
@@ -661,7 +661,7 @@ PMM0566,PMED4_06151,533102.0,534340.0,-,Core,VEG,PMM0566,Glutathione S-transfera
 PMM0567,PMED4_06161,534377.0,535756.0,+,Core,VEG,gshR,probable glutathione reductase (NADPH) (NCBI),COG1249,C,"Pyruvate/2-oxoglutarate dehydrogenase complex, dihydrolipoamide dehydrogenase (E3) component, and related enzymes",PMM0567,locus_tag:sysName
 PMM0568,PMED4_06171,535762.0,536841.0,-,Core,VEG,ECM27,putative CaCA family sodium/calcium exchanger (NCBI),COG530,P,Ca2+/Na+ antiporter,PMM0568,locus_tag:sysName
 PMM0569,PMED4_06181,536949.0,537998.0,+,Core,VEG,pyrC,Dihydroorotase (NCBI),COG418,F,Dihydroorotase,PMM0569,locus_tag:sysName
-RNA_5,--,538180.0,538265.0,+,,--,tRNATrp1,tRNA-Trp (RefSeq),,,,PMM0236,tier1:sysName
+RNA_5,--,538180.0,538265.0,+,,--,tRNATrp1,tRNA-Trp (RefSeq),,,,,unresolved
 PMM0570,PMED4_06191,538345.0,538578.0,+,Flexible,VEG,ndhL,NADH dehydrogenase subunit NdhL (ndhL) (NCBI),,,,PMM0570,locus_tag:sysName
 PMM0571,PMED4_06201,538582.0,538902.0,+,Core,MEG,PMM0571,conserved hypothetical protein (NCBI),,,,PMM0571,locus_tag:sysName
 PMM0572,PMED4_06211,538941.0,539780.0,+,Core,MEG,trpA,"Tryptophan synthase, alpha subunit (Katherine Huang)",COG159,E,Tryptophan synthase alpha chain,PMM0572,locus_tag:sysName
@@ -746,7 +746,7 @@ PMM0649,PMED4_06991,619616.0,620089.0,+,Core,VEG,PMM0649,Pentapeptide repeats (N
 PMM0650,PMED4_07001,620091.0,620507.0,-,Flexible,VEG,PMM0650,possible LEM domain (NCBI),,,,PMM0650,locus_tag:sysName
 PMM0651,PMED4_07011,620479.0,620976.0,-,Flexible,VEG,PMM0651,possible VHS domain (NCBI),,,,PMM0651,locus_tag:sysName
 PMM0652,PMED4_07021,621167.0,621544.0,-,Flexible,LEG,PMM0652,"possible 5'-3' exonuclease, C-terminal SAM fol (NCBI)",,,,PMM0652,locus_tag:sysName
-Yfr13,--,621601.0,621701.0,-,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+Yfr13,--,621601.0,621701.0,-,,--,Other non-coding RNA,,,,,,unresolved
 HyPMM60,PMED4_07031,621735.0,621887.0,-,Flexible,MEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1853,tier1:sysName
 PMM0653,PMED4_07041,621890.0,622279.0,-,Flexible,MEG,gloA,Glyoxalase I (Katherine Huang),COG346,E,Lactoylglutathione lyase and related lyases,PMM0653,locus_tag:sysName
 PMM0654,PMED4_07051,622370.0,622804.0,+,Core,VEG,PMM0654,conserved hypothetical protein (NCBI),,,,PMM0654,locus_tag:sysName
@@ -757,13 +757,13 @@ HyPMM62,PMED4_07082,623897.0,624037.0,+,Flexible,VEG,Protein-coding gene,,,,,PMM
 HyPMM63,PMED4_07091,624090.0,624326.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1855,tier1:sysName
 PMM0657,PMED4_07101,624356.0,624646.0,+,Flexible,VEG,PMM0657,possible Vanadium/alternative nitrogenase delt (NCBI),,,,PMM0657,locus_tag:sysName
 PMM0658,PMED4_07111,624955.0,625677.0,+,Core,VEG,rsuA,putative pseudouridylate synthase specific to ribosomal small subunit (NCBI),COG1187,J,16S rRNA uridine-516 pseudouridylate synthase and related pseudouridylate synthases,PMM0658,locus_tag:sysName
-RNA_28,--,625757.0,625846.0,-,,--,tRNAThr3,tRNA-Thr (RefSeq),,,,PMM0236,tier1:sysName
+RNA_28,--,625757.0,625846.0,-,,--,tRNAThr3,tRNA-Thr (RefSeq),,,,,unresolved
 PMM0659,PMED4_07121,626013.0,626762.0,+,Flexible,MEG,PMM0659,NAD-dependent DNA ligase N-terminus (NCBI),,,,PMM0659,locus_tag:sysName
 HyPMM64,PMED4_07131,626920.0,627024.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1856,tier1:sysName
 HyPMM65,PMED4_07141,627256.0,627405.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1857,tier1:sysName
-HyPMM66,--,627531.0,627690.0,+,Flexible,VEG,pseudo,Pseudogene of VIMSS1214415 with 0 gaps (VIMSS-AUTO),,,,PMM0236,tier1:sysName
-Yfr6,--,627729.0,627972.0,-,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
-Yfr14,--,627811.0,628062.0,+,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+HyPMM66,--,627531.0,627690.0,+,Flexible,VEG,pseudo,Pseudogene of VIMSS1214415 with 0 gaps (VIMSS-AUTO),,,,,ambiguous
+Yfr6,--,627729.0,627972.0,-,,--,Other non-coding RNA,,,,,,unresolved
+Yfr14,--,627811.0,628062.0,+,,--,Other non-coding RNA,,,,,,unresolved
 HyPMM67,PMED4_07151,628178.0,628378.0,+,Flexible,HEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1859,tier1:sysName
 PMM0660,PMED4_07161,628383.0,628646.0,-,Flexible,HEG,PMM0660,possible RNA recognition motif.  (NCBI),,,,PMM0660,locus_tag:sysName
 PMM0661,PMED4_07171,628726.0,631134.0,-,Core,HEG,nrdJ,ribonucleotide reductase (Class II) (NCBI),,,,PMM0661,locus_tag:sysName
@@ -789,27 +789,27 @@ PMM0680,PMED4_07361,648173.0,648970.0,-,Core,VEG,PMM0680,conserved hypothetical 
 PMM0681,PMED4_07371,649003.0,650193.0,+,Core,LEG,PMM0681,Uncharacterized conserved protein (Katherine Huang),COG1565,S,Uncharacterized conserved protein,PMM0681,locus_tag:sysName
 PMM0682,PMED4_07381,650190.0,651281.0,-,Core,VEG,aroB,3-dehydroquinate synthase (NCBI),COG337,E,3-dehydroquinate synthetase,PMM0682,locus_tag:sysName
 PMM0683,PMED4_07391,651412.0,652602.0,+,Core,VEG,purK,phosphoribosylaminoimidazole carboxylase (NCBI),COG26,F,Phosphoribosylaminoimidazole carboxylase (NCAIR synthetase),PMM0683,locus_tag:sysName
-Yfr7,--,652625.0,652844.0,+,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+Yfr7,--,652625.0,652844.0,+,,--,Other non-coding RNA,,,,,,unresolved
 PMM0684,PMED4_07401,652890.0,653243.0,+,Core,HEG,PMM0684,"possible Zinc finger, C2H2 type (NCBI)",,,,PMM0684,locus_tag:sysName
-asRNA_07401,--,653119.0,653401.0,-,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_07401,--,653119.0,653401.0,-,,--,Antisense RNA,,,,,,unresolved
 HyPMM68,PMED4_07411,653240.0,653377.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1860,tier1:sysName
 PMM0685,PMED4_07421,653377.0,653607.0,+,Flexible,VEG,PMM0685,hypothetical protein (NCBI),,,,PMM0685,locus_tag:sysName
 HyPMM69,PMED4_07431,653669.0,653791.0,+,Flexible,HEG,Protein-coding gene,Hypothetical protein (Katherine Huang),,,,PMM1861,tier1:sysName
 HyPMM70,PMED4_07432,653818.0,653964.0,-,Flexible,HEG,Protein-coding gene,,,,,PMM2046,tier1:sysName
 PMM0686,PMED4_07441,654112.0,654294.0,+,Flexible,VEG,PMM0686,conserved hypothetical protein (NCBI),,,,PMM0686,locus_tag:sysName
-Yfr15,--,654301.0,654562.0,-,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
-Yfr3,--,654511.0,654604.0,+,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+Yfr15,--,654301.0,654562.0,-,,--,Other non-coding RNA,,,,,,unresolved
+Yfr3,--,654511.0,654604.0,+,,--,Other non-coding RNA,,,,,,unresolved
 HyPMM71,PMED4_07451,654709.0,654840.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1862,tier1:sysName
 HyPMM72,PMED4_07461,655057.0,655233.0,-,Flexible,MEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1863,tier1:sysName
 PMM0687,PMED4_07471,655346.0,655672.0,-,Flexible,MEG,PMM0687,conserved hypothetical (NCBI),,,,PMM0687,locus_tag:sysName
-asRNA_07481,--,655649.0,656062.0,+,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_07481,--,655649.0,656062.0,+,,--,Antisense RNA,,,,,,unresolved
 HyPMM73,PMED4_07481,655765.0,655920.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1864,tier1:sysName
 HyPMM74,PMED4_07491,655989.0,656198.0,-,Flexible,MEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1865,tier1:sysName
 PMM0688,PMED4_07501,656275.0,656592.0,-,Flexible,HEG,PMM0688,possible Elongation factor Tu domain 2 (NCBI),,,,PMM0688,locus_tag:sysName
-asRNA_07511,--,656732.0,656919.0,+,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_07511,--,656732.0,656919.0,+,,--,Antisense RNA,,,,,,unresolved
 HyPMM75,PMED4_07511,656770.0,656943.0,-,Flexible,HEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1866,tier1:sysName
 HyPMM76,PMED4_07521,657049.0,657258.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1867,tier1:sysName
-Yfr16,--,657392.0,657529.0,-,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+Yfr16,--,657392.0,657529.0,-,,--,Other non-coding RNA,,,,,,unresolved
 HyPMM77,PMED4_07522,657730.0,657891.0,+,Flexible,VEG,Protein-coding gene,,,,,PMM2051,tier1:sysName
 HyPMM78,PMED4_07531,657956.0,658111.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1868,tier1:sysName
 PMM0689,PMED4_07541,658635.0,658889.0,-,Flexible,VEG,hli22,possible high light inducible protein (NCBI),,,,PMM0689,locus_tag:sysName
@@ -829,7 +829,7 @@ PMM0697,PMED4_07661,663435.0,663662.0,-,Flexible,MEG,PMM0697,possible D12 class 
 HyPMM84,PMED4_07671,663762.0,663917.0,-,Flexible,VEG,Protein-coding gene,protein family PM-16  (Katherine Huang),,,,PMM1873,tier1:sysName
 PMM0698,PMED4_07681,663940.0,664191.0,-,Flexible,MEG,PMM0698,possible DnaJ central domain (4 repeats) (NCBI),,,,PMM0698,locus_tag:sysName
 HyPMM85,PMED4_07691,664508.0,664648.0,-,Flexible,NEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1874,tier1:sysName
-Yfr17,--,664667.0,664930.0,+,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+Yfr17,--,664667.0,664930.0,+,,--,Other non-coding RNA,,,,,,unresolved
 PMM0699,PMED4_07701,665181.0,665417.0,+,Flexible,VEG,PMM0699,conserved hypothetical (NCBI),,,,PMM0699,locus_tag:sysName
 PMM0700,PMED4_07711,665432.0,665674.0,+,Core,VEG,PMM0700,conserved hypothetical protein (NCBI),,,,PMM0700,locus_tag:sysName
 HyPMM86,PMED4_07721,665689.0,665880.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1875,tier1:sysName
@@ -855,7 +855,7 @@ PMM0716,PMED4_07911,681401.0,682366.0,-,Flexible,LEG,arsA,"putative arsenite tra
 PMM0717,PMED4_07921,682455.0,682685.0,-,Flexible,VEG,PMM0717,conserved hypothetical protein (NCBI),,,,PMM0717,locus_tag:sysName
 PMM0718,PMED4_07931,682867.0,683403.0,+,Flexible,NEG,ptrA,"possible Bacterial regulatory proteins, crp fa (NCBI)",COG664,T,cAMP-binding proteins - catabolite gene activator and regulatory subunit of cAMP-dependent protein kinases,PMM0718,locus_tag:sysName
 PMM0719,PMED4_07941,683454.0,683759.0,+,Core,VEG,PMM0719,hypothetical (NCBI),,,,PMM0719,locus_tag:sysName
-HyPMM90,--,683762.0,684012.0,+,Flexible,VEG,pseudo,Pseudogene of VIMSS1199069 with 2 gaps (VIMSS-AUTO),,,,PMM0236,tier1:sysName
+HyPMM90,--,683762.0,684012.0,+,Flexible,VEG,pseudo,Pseudogene of VIMSS1199069 with 2 gaps (VIMSS-AUTO),,,,,ambiguous
 HyPMM91,PMED4_07951,684046.0,684228.0,-,Flexible,VEG,Protein-coding gene,Hypothetical protein (Katherine Huang),,,,PMM1880,tier1:sysName
 PMM0720,PMED4_07961,684390.0,684644.0,-,Flexible,VEG,PMM0720,possible Poly A polymerase regulatory subunit (NCBI),,,,PMM0720,locus_tag:sysName
 PMM0721,PMED4_07971,685013.0,685351.0,+,Flexible,VEG,PMM0721,possible Myosin N-terminal SH3-like domain (NCBI),,,,PMM0721,locus_tag:sysName
@@ -978,8 +978,8 @@ HyPMM110,PMED4_09111,774177.0,774344.0,-,Flexible,VEG,Protein-coding gene,Conser
 HyPMM111,PMED4_09121,774319.0,774459.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1898,tier1:sysName
 PMM0819,PMED4_09131,774456.0,774755.0,-,Flexible,VEG,PMM0819,hypothetical (NCBI),,,,PMM0819,locus_tag:sysName
 PMM0820,PMED4_09141,774815.0,775021.0,-,Flexible,VEG,PMM0820,possible EPSP synthase (3-phosphoshikimate 1-c (NCBI),,,,PMM0820,locus_tag:sysName
-TibPMM1,--,775504.0,775611.0,-,Flexible,VEG,TibPMM1,Hypothetical protein,,,,PMM0236,tier1:sysName
-RNA_27,--,776396.0,776472.0,-,,--,tRNAArg4,tRNA-Arg (RefSeq),,,,PMM0236,tier1:sysName
+TibPMM1,--,775504.0,775611.0,-,Flexible,VEG,TibPMM1,Hypothetical protein,,,,,unresolved
+RNA_27,--,776396.0,776472.0,-,,--,tRNAArg4,tRNA-Arg (RefSeq),,,,,unresolved
 PMM0821,PMED4_09151,776518.0,777483.0,-,Core,VEG,ansA,L-asparaginase II  (Katherine Huang),COG4448,E,L-asparaginase II,PMM0821,locus_tag:sysName
 PMM0822,PMED4_09161,777485.0,777979.0,-,Flexible,VEG,K8K14.9,putative protein (NCBI),,,,PMM0822,locus_tag:sysName
 PMM0823,PMED4_09171,777989.0,778333.0,-,Core,MEG,PMM0823,Domain of unknown function DUF143:Iojap-related protein (NCBI),COG799,S,Uncharacterized homolog of plant Iojap protein,PMM0823,locus_tag:sysName
@@ -1034,11 +1034,11 @@ HyPMM123,PMED4_09651,817042.0,817191.0,+,Flexible,VEG,Protein-coding gene,Conser
 HyPMM124,PMED4_09661,817404.0,817568.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1911,tier1:sysName
 HyPMM125,PMED4_09671,817735.0,817920.0,+,Flexible,MEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1912,tier1:sysName
 HyPMM126,PMED4_09681,817924.0,818061.0,-,Flexible,MEG,Protein-coding gene,Hypothetical protein (Katherine Huang),,,,PMM1913,tier1:sysName
-RNA_6,--,818172.0,818243.0,+,,--,tRNAGln1,tRNA-Gln (RefSeq),,,,PMM0236,tier1:sysName
+RNA_6,--,818172.0,818243.0,+,,--,tRNAGln1,tRNA-Gln (RefSeq),,,,,unresolved
 PMM0860,PMED4_09691,818478.0,818726.0,-,Flexible,VEG,PMM0860,possible Hantavirus glycoprotein G1 (NCBI),,,,PMM0860,locus_tag:sysName
 PMM0861,PMED4_09701,819133.0,819372.0,+,Flexible,VEG,PMM0861,possible Virion host shutoff protein (NCBI),,,,PMM0861,locus_tag:sysName
 HyPMM127,PMED4_09711,819432.0,819632.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1914,tier1:sysName
-RNA_26,--,819740.0,819813.0,-,,--,tRNAThr2,tRNA-Thr (RefSeq),,,,PMM0236,tier1:sysName
+RNA_26,--,819740.0,819813.0,-,,--,tRNAThr2,tRNA-Thr (RefSeq),,,,,unresolved
 PMM0862,PMED4_09721,820328.0,820810.0,-,Core,LEG,cspR,putative tRNA/rRNA methyltransferase (SpoU family) (NCBI),COG219,J,Predicted rRNA methylase (SpoU class),PMM0862,locus_tag:sysName
 PMM0863,PMED4_09731,820814.0,821362.0,-,Core,VEG,cobU,putative cobinamide kinase (NCBI),COG2087,H,Adenosyl cobinamide kinase/adenosyl cobinamide phosphate guanylyltransferase,PMM0863,locus_tag:sysName
 PMM0864,PMED4_09741,821372.0,821686.0,-,Flexible,VEG,PMM0864,possible Fusion glycoprotein F0. (NCBI),,,,PMM0864,locus_tag:sysName
@@ -1076,7 +1076,7 @@ PMM0894,PMED4_10051,857094.0,857531.0,-,Core,HEG,PMM0894,Cyclophilin-type peptid
 PMM0895,PMED4_10061,857568.0,857960.0,-,Core,VEG,PMM0895,conserved hypothetical protein (NCBI),,,,PMM0895,locus_tag:sysName
 PMM0896,PMED4_10071,857995.0,858936.0,-,Core,VEG,dnaJ2,DnaJ2 protein (NCBI),COG2214,O,DnaJ-class molecular chaperone,PMM0896,locus_tag:sysName
 PMM0897,PMED4_10081,858920.0,860917.0,-,Core,MEG,dnaK,"Molecular chaperone DnaK, heat shock protein hsp70 (NCBI)",COG443,O,Molecular chaperone,PMM0897,locus_tag:sysName
-RNA_25,--,861144.0,861230.0,-,,--,tRNAThr1,tRNA-Thr (RefSeq),,,,PMM0236,tier1:sysName
+RNA_25,--,861144.0,861230.0,-,,--,tRNAThr1,tRNA-Thr (RefSeq),,,,,unresolved
 PMM0898,PMED4_10091,861281.0,861655.0,+,Core,VEG,petF,"ferredoxin, petF-like protein (NCBI)",COG633,C,Ferredoxin,PMM0898,locus_tag:sysName
 PMM0899,PMED4_10101,861661.0,862509.0,+,Core,LEG,suhB,Possible myo-inositol-1(or 4)-monophosphatase (NCBI),COG483,G,"Archaeal fructose-1,6-bisphosphatase and related enzymes of inositol monophosphatase family",PMM0899,locus_tag:sysName
 PMM0900,PMED4_10111,862531.0,863682.0,+,Core,VEG,hisZ,possible Histidyl-tRNA synthetase (NCBI),COG124,J,Histidyl-tRNA synthetase,PMM0900,locus_tag:sysName
@@ -1107,7 +1107,7 @@ PMM0924,PMED4_10351,884709.0,885443.0,-,Core,VEG,PMM0924,conserved hypothetical 
 PMM0925,PMED4_10361,885463.0,886515.0,+,Core,VEG,PMM0925,Predicted ATPase  (Katherine Huang),COG2603,R,Predicted ATPase,PMM0925,locus_tag:sysName
 PMM0926,PMED4_10371,886571.0,886924.0,+,Core,VEG,psb28,possible Photosystem II reaction center Psb28 protein (NCBI),,,,PMM0926,locus_tag:sysName
 PMM0927,PMED4_10381,886939.0,887982.0,+,Core,VEG,PMM0927,Predicted permease  (Katherine Huang),COG628,R,Predicted permease,PMM0927,locus_tag:sysName
-HyPMM129,--,887996.0,888170.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM0236,tier1:sysName
+HyPMM129,--,887996.0,888170.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,,ambiguous
 PMM0928,PMED4_10391,888188.0,889105.0,-,Core,VEG,secF,preprotein translocase subunit (NCBI),COG341,U,Preprotein translocase subunit SecF,PMM0928,locus_tag:sysName
 PMM0929,PMED4_10401,889131.0,890591.0,-,Core,MEG,secD,preprotein translocase subunit (NCBI),COG342,U,Preprotein translocase subunit SecD,PMM0929,locus_tag:sysName
 PMM0930,PMED4_10411,890595.0,891578.0,-,Core,HEG,pdhB,Pyruvate dehydrogenase E1 beta subunit (NCBI),COG22,C,"Pyruvate/2-oxoglutarate dehydrogenase complex, dehydrogenase (E1) component, eukaryotic type, beta subunit",PMM0930,locus_tag:sysName
@@ -1136,7 +1136,7 @@ PMM0952,PMED4_10621,910472.0,911503.0,-,Core,MEG,PMM0952,putative Anthranilate s
 PMM0953,PMED4_10631,911533.0,911829.0,-,Core,VEG,PMM0953,conserved hypothetical protein (NCBI),,,,PMM0953,locus_tag:sysName
 PMM0954,PMED4_10641,911909.0,913654.0,+,Core,LEG,PMM0954,"ABC transporter, multidrug efflux family (NCBI)",COG1132,V,"ABC-type multidrug transport system, ATPase and permease components",PMM0954,locus_tag:sysName
 PMM0955,PMED4_10651,913686.0,914414.0,+,Core,VEG,msrA,Peptide methionine sulfoxide reductase (NCBI),COG225,O,Peptide methionine sulfoxide reductase,PMM0955,locus_tag:sysName
-RNA_7,--,914442.0,914515.0,+,,--,tRNALeu1,tRNA-Leu (RefSeq),,,,PMM0236,tier1:sysName
+RNA_7,--,914442.0,914515.0,+,,--,tRNALeu1,tRNA-Leu (RefSeq),,,,,unresolved
 PMM0956,PMED4_10661,914736.0,915536.0,-,Core,LEG,bacA,Bacitracin resistance protein BacA (NCBI),COG1968,V,Uncharacterized bacitracin resistance protein,PMM0956,locus_tag:sysName
 PMM0957,PMED4_10671,915626.0,915904.0,+,Flexible,VEG,PMM0957,possible GRAM domain (NCBI),,,,PMM0957,locus_tag:sysName
 HyPMM130,PMED4_10681,915907.0,916041.0,-,Flexible,HEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,,ambiguous
@@ -1230,7 +1230,7 @@ HyPMM154,PMED4_11551,966230.0,966409.0,-,Flexible,VEG,pseudo,Pseudogene of VIMSS
 PMM1020,PMED4_11561,966656.0,966838.0,+,Flexible,VEG,PMM1020,conserved hypothetical protein (NCBI),,,,PMM1020,locus_tag:sysName
 PMM1021,PMED4_11571,966927.0,967682.0,+,Flexible,LEG,PMM1021,possible Gram-negative pili assembly chaperone (NCBI),,,,PMM1021,locus_tag:sysName
 PMM1022,PMED4_11581,967785.0,968132.0,+,Flexible,VEG,PMM1022,conserved hypothetical (NCBI),,,,PMM1022,locus_tag:sysName
-HyPMM155,--,968150.0,968303.0,-,Flexible,HEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM0236,tier1:sysName
+HyPMM155,--,968150.0,968303.0,-,Flexible,HEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,,ambiguous
 HyPMM156,PMED4_11591,968405.0,968758.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1943,tier1:sysName
 HyPMM157,PMED4_11601,968937.0,969140.0,+,Flexible,NEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1944,tier1:sysName
 PMM1023,PMED4_11611,969422.0,969673.0,+,Flexible,NEG,PMM1023,"possible lactate/malate dehydrogenase, alpha/b (NCBI)",,,,PMM1023,locus_tag:sysName
@@ -1238,11 +1238,11 @@ PMM1024,PMED4_11621,969677.0,969946.0,+,Flexible,LEG,PMM1024,hypothetical (NCBI)
 PMM1025,PMED4_11631,969954.0,970361.0,+,Flexible,LEG,PMM1025,putative stress-induced protein OsmC (NCBI),COG1765,O,"Predicted redox protein, regulator of disulfide bond formation",PMM1025,locus_tag:sysName
 HyPMM158,PMED4_11641,970403.0,970519.0,+,Flexible,NEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1945,tier1:sysName
 HyPMM159,PMED4_11651,970557.0,970763.0,-,Flexible,NEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1946,tier1:sysName
-HyPMM160,--,970889.0,971081.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM0236,tier1:sysName
+HyPMM160,--,970889.0,971081.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,,ambiguous
 PMM1026,PMED4_11661,971277.0,971672.0,-,Core,VEG,PMM1026,Uncharacterized protein conserved in bacteria (Katherine Huang),COG4446,S,Uncharacterized protein conserved in bacteria,PMM1026,locus_tag:sysName
 PMM1027,PMED4_11671,971799.0,972089.0,+,Flexible,VEG,PMM1027,possible Inward rectifier potassium channel (NCBI),,,,PMM1027,locus_tag:sysName
-Yfr5,--,972088.0,972176.0,-,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
-Yfr18,--,972284.0,972388.0,-,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+Yfr5,--,972088.0,972176.0,-,,--,Other non-coding RNA,,,,,,unresolved
+Yfr18,--,972284.0,972388.0,-,,--,Other non-coding RNA,,,,,,unresolved
 HyPMM161,PMED4_11681,972438.0,972584.0,+,Flexible,NEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1948,tier1:sysName
 HyPMM162,PMED4_11691,972744.0,972896.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1949,tier1:sysName
 PMM1028,PMED4_11701,972906.0,973154.0,+,Flexible,MEG,PMM1028,conserved hypothetical (NCBI),,,,PMM1028,locus_tag:sysName
@@ -1284,7 +1284,7 @@ PMM1058,PMED4_12041,998989.0,999108.0,+,Flexible,VEG,petG,"Cytochrome b6/f compl
 PMM1059,PMED4_12051,999094.0,999681.0,-,Core,MEG,PMM1059,N6-adenine-specific methylase  (Katherine Huang),COG742,L,N6-adenine-specific methylase,PMM1059,locus_tag:sysName
 PMM1060,PMED4_12061,999697.0,1000314.0,-,Core,VEG,PMM1060,Glutamine amidotransferase class-I (NCBI),COG118,E,Glutamine amidotransferase,PMM1060,locus_tag:sysName
 PMM1061,PMED4_12071,1000324.0,1000647.0,-,Core,HEG,trxA,Thioredoxin (NCBI),,,,PMM1061,locus_tag:sysName
-Yfr1,--,1000744.0,1000797.0,-,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+Yfr1,--,1000744.0,1000797.0,-,,--,Other non-coding RNA,,,,,,unresolved
 PMM1062,PMED4_12081,1000856.0,1002019.0,-,Core,VEG,guaB,putative IMP dehydrogenase (NCBI),COG2070,R,Dioxygenases related to 2-nitropropane dioxygenase,PMM1062,locus_tag:sysName
 PMM1063,PMED4_12091,1002199.0,1004802.0,+,Core,MEG,gyrA,"DNA gyrase/topoisomerase IV, subunit A (NCBI)",COG188,L,"Type IIA topoisomerase (DNA gyrase/topo II, topoisomerase IV), A subunit",PMM1063,locus_tag:sysName
 PMM1064,PMED4_12101,1004827.0,1006038.0,+,Core,MEG,crtL1,putative lycopene beta cyclase (NCBI),COG644,C,Dehydrogenases (flavoproteins),PMM1064,locus_tag:sysName
@@ -1300,7 +1300,7 @@ PMM1073,PMED4_12191,1015278.0,1016579.0,-,Core,MEG,PMM1073,Putative glucose 6-ph
 PMM1074,PMED4_12201,1016587.0,1018110.0,-,Core,MEG,zwf,Glucose-6-phosphate dehydrogenase (NCBI),COG364,G,Glucose-6-phosphate 1-dehydrogenase,PMM1074,locus_tag:sysName
 PMM1075,PMED4_12211,1018224.0,1019336.0,-,Core,HEG,petH,ferredoxin-NADP oxidoreductase (FNR) (NCBI),,,,PMM1075,locus_tag:sysName
 PMM1076,PMED4_12221,1019519.0,1020055.0,+,Flexible,VEG,PMM1076,conserved hypothetical protein (NCBI),,,,PMM1076,locus_tag:sysName
-RNA_24,--,1020083.0,1020155.0,-,,--,tRNAGly2,tRNA-Gly (RefSeq),,,,PMM0236,tier1:sysName
+RNA_24,--,1020083.0,1020155.0,-,,--,tRNAGly2,tRNA-Gly (RefSeq),,,,,unresolved
 PMM1077,PMED4_12231,1020197.0,1021315.0,-,Core,VEG,PMM1077,two-component sensor histidine kinase (NCBI),COG642,T,Signal transduction histidine kinase,PMM1077,locus_tag:sysName
 PMM1078,PMED4_12241,1021422.0,1021964.0,+,Flexible,MEG,PMM1078,conserved hypothetical (NCBI),,,,PMM1078,locus_tag:sysName
 PMM1079,PMED4_12251,1022033.0,1022473.0,+,Flexible,VEG,PMM1079,possible Villin headpiece domain (NCBI),,,,PMM1079,locus_tag:sysName
@@ -1342,16 +1342,16 @@ PMM1114,PMED4_12601,1060080.0,1060586.0,-,Flexible,VEG,PMM1114,conserved hypothe
 PMM1115,PMED4_12611,1060599.0,1062200.0,-,Core,VEG,crtH,putative carotenoid isomerase (NCBI),COG1233,Q,Phytoene dehydrogenase and related proteins,PMM1115,locus_tag:sysName
 PMM1116,PMED4_12621,1062157.0,1063569.0,-,Core,HEG,gidA,NAD binding site:Glucose inhibited division protein A family (NCBI),COG1206,J,NAD(FAD)-utilizing enzyme possibly involved in translation,PMM1116,locus_tag:sysName
 PMM1117,PMED4_12631,1063576.0,1063692.0,-,Flexible,HEG,psbY,possible Photosystem II reaction center Y protein (PsbY) (NCBI),,,,PMM1117,locus_tag:sysName
-RNA_8,--,1063867.0,1063938.0,+,,--,tRNAArg1,tRNA-Arg (RefSeq),,,,PMM0236,tier1:sysName
+RNA_8,--,1063867.0,1063938.0,+,,--,tRNAArg1,tRNA-Arg (RefSeq),,,,,unresolved
 PMM1118,PMED4_12641,1064501.0,1064608.0,+,Core,VEG,hli4,possible high light inducible protein (NCBI),,,,PMM1118,locus_tag:sysName
 PMM1119,PMED4_12651,1065058.0,1066200.0,-,Core,HEG,som,possible porin (NCBI),,,,PMM1119,locus_tag:sysName
 PMM1120,PMED4_12661,1066296.0,1068137.0,-,Flexible,VEG,PMM1120,Sulfotransferase:TPR repeat (NCBI),,,,PMM1120,locus_tag:sysName
 PMM1121,PMED4_12671,1068274.0,1069419.0,-,Core,HEG,som,possible porin (NCBI),,,,PMM1121,locus_tag:sysName
-Yfr21,--,1069553.0,1069757.0,-,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+Yfr21,--,1069553.0,1069757.0,-,,--,Other non-coding RNA,,,,,,unresolved
 HyPMM168,PMED4_12681,1070174.0,1070341.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1954,tier1:sysName
-TibPMM2,--,1070560.0,1070664.0,+,Flexible,VEG,TibPMM2,Hypothetical protein,,,,PMM0236,tier1:sysName
+TibPMM2,--,1070560.0,1070664.0,+,Flexible,VEG,TibPMM2,Hypothetical protein,,,,,unresolved
 PMM1122,PMED4_12691,1070764.0,1071279.0,-,Core,VEG,apt,Phosphoribosyl transferase (NCBI),COG503,F,Adenine/guanine phosphoribosyltransferases and related PRPP-binding proteins,PMM1122,locus_tag:sysName
-RNA_9,--,1071431.0,1071504.0,+,,--,tRNAPro1,tRNA-Pro (NCBI),,,,PMM0236,tier1:sysName
+RNA_9,--,1071431.0,1071504.0,+,,--,tRNAPro1,tRNA-Pro (NCBI),,,,,unresolved
 PMM1123,PMED4_12701,1071671.0,1072375.0,-,Flexible,HEG,hupE,putative hydrogenase accessory protein (NCBI),COG2370,O,Hydrogenase/urease accessory protein,PMM1123,locus_tag:sysName
 HyPMM169,PMED4_12711,1072317.0,1072454.0,-,Flexible,HEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1955,tier1:sysName
 PMM1124,PMED4_12721,1073083.0,1074558.0,-,Flexible,VEG,PMM1124,possible Natural resistance-associated macroph (NCBI),,,,PMM1124,locus_tag:sysName
@@ -1359,7 +1359,7 @@ PMM1125,PMED4_12731,1074807.0,1075076.0,-,Flexible,VEG,PMM1125,"possible Bacteri
 PMM1126,PMED4_12741,1075636.0,1077651.0,-,Flexible,VEG,PMM1126,Domain of unknown function DUF33 (NCBI),COG1835,I,Predicted acyltransferases,PMM1126,locus_tag:sysName
 HyPMM170,PMED4_12742,1077697.0,1077921.0,+,Flexible,LEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM2059,tier1:sysName
 PMM1127,PMED4_12751,1078230.0,1078721.0,-,Flexible,VEG,PMM1127,possible NAD(P) transhydrogenase beta subunit (NCBI),,,,PMM1127,locus_tag:sysName
-asRNA_12751,--,1078498.0,1078920.0,+,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_12751,--,1078498.0,1078920.0,+,,--,Antisense RNA,,,,,,unresolved
 PMM1128,PMED4_12761,1079191.0,1079445.0,-,Flexible,MEG,hli15,possible high light inducible protein (NCBI),,,,PMM1128,locus_tag:sysName
 HyPMM171,PMED4_12771,1079979.0,1080155.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1956,tier1:sysName
 PMM1129,PMED4_12781,1080146.0,1080400.0,-,Flexible,VEG,PMM1129,possible Notch (DSL) domain (NCBI),,,,PMM1129,locus_tag:sysName
@@ -1375,7 +1375,7 @@ HyPMM176,PMED4_12861,1084505.0,1084666.0,-,Flexible,VEG,Protein-coding gene,Cons
 HyPMM177,PMED4_12871,1084749.0,1084931.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1961,tier1:sysName
 PMM1134,PMED4_12881,1085062.0,1085352.0,+,Core,VEG,PMM1134,possible Phosphatidylinositol-specific phospho (NCBI),,,,PMM1134,locus_tag:sysName
 PMM1135,PMED4_12891,1085656.0,1085862.0,+,Core,VEG,hli14,possible high light inducible protein (NCBI),,,,PMM1135,locus_tag:sysName
-Yfr19,--,1086081.0,1086162.0,-,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+Yfr19,--,1086081.0,1086162.0,-,,--,Other non-coding RNA,,,,,,unresolved
 HyPMM178,PMED4_12901,1086220.0,1086435.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1962,tier1:sysName
 PMM1136,PMED4_12911,1086493.0,1086744.0,-,Flexible,NEG,PMM1136,possible Uncharacterized protein family UPF005 (NCBI),,,,PMM1136,locus_tag:sysName
 HyPMM179,PMED4_12921,1086747.0,1086932.0,-,Flexible,NEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1963,tier1:sysName
@@ -1414,7 +1414,7 @@ PMM1163,PMED4_13241,1114579.0,1115091.0,+,Flexible,VEG,PMM1163,possible Trehalas
 HyPMM184,PMED4_13251,1115150.0,1115353.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1968,tier1:sysName
 HyPMM185,PMED4_13261,1115350.0,1115532.0,+,Flexible,MEG,Protein-coding gene,Hypothetical protein (Katherine Huang),,,,PMM1969,tier1:sysName
 HyPMM186,PMED4_13271,1115463.0,1115684.0,+,Flexible,MEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1970,tier1:sysName
-RNA_23,--,1115986.0,1116070.0,-,,--,tRNATyr1,tRNA-Tyr (RefSeq),,,,PMM0236,tier1:sysName
+RNA_23,--,1115986.0,1116070.0,-,,--,tRNATyr1,tRNA-Tyr (RefSeq),,,,,unresolved
 PMM1164,PMED4_13281,1116122.0,1117144.0,-,Core,VEG,afuA,"putative iron ABC transporter, substrate binding protein (NCBI)",COG1840,P,"ABC-type Fe3+ transport system, periplasmic component",PMM1164,locus_tag:sysName
 PMM1165,PMED4_13291,1117277.0,1118146.0,-,Core,MEG,glyQ,Glycyl-tRNA synthetase alpha subunit (NCBI),COG752,J,"Glycyl-tRNA synthetase, alpha subunit",PMM1165,locus_tag:sysName
 PMM1166,PMED4_13301,1118243.0,1118632.0,-,Core,VEG,PMM1166,conserved hypothetical protein (NCBI),,,,PMM1166,locus_tag:sysName
@@ -1449,7 +1449,7 @@ PMM1193,PMED4_13581,1139925.0,1140788.0,+,Core,VEG,PMM1193,putative tetrapyrrole
 PMM1194,PMED4_13591,1140810.0,1141028.0,+,Flexible,VEG,PMM1194,conserved hypothetical protein (NCBI),,,,PMM1194,locus_tag:sysName
 PMM1195,PMED4_13601,1141032.0,1141688.0,-,Core,VEG,PMM1195,conserved hypothetical protein (NCBI),,,,PMM1195,locus_tag:sysName
 PMM1196,PMED4_13611,1141786.0,1143243.0,+,Core,MEG,manC,GDP-mannose pyrophosphorylase (NCBI),COG836,M,Mannose-1-phosphate guanylyltransferase,PMM1196,locus_tag:sysName
-RNA_10,--,1143410.0,1143483.0,+,,--,tRNAArg2,tRNA-Arg (NCBI),,,,PMM0236,tier1:sysName
+RNA_10,--,1143410.0,1143483.0,+,,--,tRNAArg2,tRNA-Arg (NCBI),,,,,unresolved
 PMM1197,PMED4_13621,1143639.0,1145000.0,+,Flexible,LEG,PMM1197,conserved hypothetical protein (NCBI),,,,PMM1197,locus_tag:sysName
 PMM1198,PMED4_13631,1145324.0,1146697.0,-,Flexible,LEG,PMM1198,hypothetical protein (NCBI),,,,PMM1198,locus_tag:sysName
 PMM1199,PMED4_13641,1146830.0,1147942.0,-,Flexible,VEG,PMM1199,conserved hypothetical protein (NCBI),COG2246,S,Predicted membrane protein,PMM1199,locus_tag:sysName
@@ -1510,7 +1510,7 @@ PMM1252,PMED4_14181,1205054.0,1205506.0,+,Flexible,VEG,PMM1252,possible acetyltr
 PMM1253,PMED4_14191,1205599.0,1206240.0,+,Flexible,VEG,PMM1253,possible methyltransferase (NCBI),COG2226,H,Methylase involved in ubiquinone/menaquinone biosynthesis,PMM1253,locus_tag:sysName
 PMM1254,PMED4_14201,1206280.0,1207254.0,-,Flexible,VEG,PMM1254,"putative glycosyl transferase, family 2 (NCBI)",COG463,M,Glycosyltransferases involved in cell wall biogenesis,PMM1254,locus_tag:sysName
 PMM1255,PMED4_14211,1207244.0,1208536.0,-,Flexible,VEG,PMM1255,hypothetical protein (NCBI),,,,PMM1255,locus_tag:sysName
-RNA_22,--,1208565.0,1208637.0,-,,--,tRNALeu3,tRNA-Leu (RefSeq),,,,PMM0236,tier1:sysName
+RNA_22,--,1208565.0,1208637.0,-,,--,tRNALeu3,tRNA-Leu (RefSeq),,,,,unresolved
 PMM1256,PMED4_14221,1209114.0,1209992.0,-,Flexible,MEG,PMM1256,"putative glycosyl transferase, family 2 (NCBI)",COG463,M,Glycosyltransferases involved in cell wall biogenesis,PMM1256,locus_tag:sysName
 PMM1257,PMED4_14231,1210385.0,1211374.0,-,Core,VEG,PMM1257,"possible dTDP-glucose 4,6-dehydratase (NCBI)",COG1088,M,"dTDP-D-glucose 4,6-dehydratase",PMM1257,locus_tag:sysName
 PMM1258,PMED4_14241,1211578.0,1212726.0,+,Flexible,MEG,PMM1258,pyridoxal-phosphate-dependent aminotransferase (NCBI),COG399,M,Predicted pyridoxal phosphate-dependent enzyme apparently involved in regulation of cell wall biogenesis,PMM1258,locus_tag:sysName
@@ -1557,18 +1557,18 @@ PMM1298,PMED4_14641,1248616.0,1250055.0,-,Core,VEG,lpd,putative dihydrolipoamide
 PMM1299,PMED4_14651,1250052.0,1250792.0,-,Core,MEG,spoU,tRNA/rRNA methyltransferase (SpoU) (NCBI),COG566,J,rRNA methylases,PMM1299,locus_tag:sysName
 PMM1300,PMED4_14661,1251103.0,1252476.0,+,Core,MEG,murA,UDP-N-glucosamine 1-carboxyvinyltransferase (NCBI),COG766,M,UDP-N-acetylglucosamine enolpyruvyl transferase,PMM1300,locus_tag:sysName
 HyPMM189,PMED4_14671,1252592.0,1252711.0,-,Flexible,MEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1973,tier1:sysName
-RNA_11,--,1252993.0,1253074.0,+,,--,tRNAHis1,tRNA-His (RefSeq),,,,PMM0236,tier1:sysName
+RNA_11,--,1252993.0,1253074.0,+,,--,tRNAHis1,tRNA-His (RefSeq),,,,,unresolved
 PMM1301,PMED4_14681,1253002.0,1254255.0,+,Core,MEG,argD,Acetylornithine and succinylornithine aminotransferases (Katherine Huang),COG4992,E,Ornithine/acetylornithine aminotransferase,PMM1301,locus_tag:sysName
 PMM1302,PMED4_14691,1254268.0,1255500.0,+,Core,VEG,folC,putuative bifunctional Dihydrofolate/Folylpolyglutamate synthase (NCBI),COG285,H,Folylpolyglutamate synthase,PMM1302,locus_tag:sysName
 PMM1303,PMED4_14701,1255497.0,1256852.0,-,Core,VEG,PMM1303,FAD/FMN-containing dehydrogenases  (Katherine Huang),COG277,C,FAD/FMN-containing dehydrogenases,PMM1303,locus_tag:sysName
 PMM1304,PMED4_14711,1256891.0,1258126.0,-,Core,VEG,codA,possible cytosine deaminase (NCBI),COG402,FR,Cytosine deaminase and related metal-dependent hydrolases,PMM1304,locus_tag:sysName
-RNA_12,--,1258262.0,1258334.0,+,,--,tRNAArg3,tRNA-Arg (RefSeq),,,,PMM0236,tier1:sysName
+RNA_12,--,1258262.0,1258334.0,+,,--,tRNAArg3,tRNA-Arg (RefSeq),,,,,unresolved
 PMM1305,PMED4_14721,1258409.0,1259803.0,+,Core,MEG,PMM1305,2-methylthioadenine synthetase  (Katherine Huang),COG621,J,2-methylthioadenine synthetase,PMM1305,locus_tag:sysName
 PMM1306,PMED4_14731,1259813.0,1260880.0,+,Core,LEG,ddlA,D-alanine--D-alanine ligase (NCBI),COG1181,M,D-alanine-D-alanine ligase and related ATP-grasp enzymes,PMM1306,locus_tag:sysName
 PMM1307,PMED4_14741,1260892.0,1261302.0,+,Core,MEG,PMM1307,conserved hypothetical protein (NCBI),,,,PMM1307,locus_tag:sysName
 PMM1308,PMED4_14751,1261299.0,1262024.0,+,Core,VEG,ftsQ,Cell division septal protein  (Katherine Huang),COG1589,M,Cell division septal protein,PMM1308,locus_tag:sysName
 PMM1309,PMED4_14761,1262202.0,1263317.0,+,Core,VEG,ftsZ,Cell division protein FtsZ:Tubulin/FtsZ family (NCBI),COG206,D,Cell division GTPase,PMM1309,locus_tag:sysName
-RNA_44,--,1263327.0,1263426.0,-,,--,5S_rRNA,5S ribosomal RNA (RefSeq),,,,PMM0236,tier1:sysName
+RNA_44,--,1263327.0,1263426.0,-,,--,5S_rRNA,5S ribosomal RNA (RefSeq),,,,,unresolved
 PMM1310,PMED4_14771,1263472.0,1264245.0,+,Core,MEG,panB,putative Ketopantoate hydroxymethyltransferase (NCBI),COG413,H,Ketopantoate hydroxymethyltransferase,PMM1310,locus_tag:sysName
 PMM1311,PMED4_14781,1264238.0,1265464.0,-,Core,VEG,hemN,Putative oxygen-independent coproporphyrinogen III oxidase (Katherine Huang),COG635,H,Coproporphyrinogen III oxidase and related Fe-S oxidoreductases,PMM1311,locus_tag:sysName
 PMM1312,PMED4_14791,1265560.0,1266669.0,+,Core,VEG,PMM1312,Integral membrane protein (PIN domain superfamily)  (Katherine Huang),COG4956,R,Integral membrane protein (PIN domain superfamily),PMM1312,locus_tag:sysName
@@ -1583,7 +1583,7 @@ PMM1319,PMED4_14871,1270969.0,1271214.0,-,Flexible,VEG,PMM1319,possible Beta-lac
 PMM1320,PMED4_14881,1271269.0,1271598.0,-,Flexible,VEG,PMM1320,hypothetical (NCBI),,,,PMM1320,locus_tag:sysName
 PMM1321,PMED4_14891,1271727.0,1272002.0,-,Core,HEG,himA,Bacterial histone-like DNA-binding protein (NCBI),COG776,L,Bacterial nucleoid DNA-binding protein,PMM1321,locus_tag:sysName
 PMM1322,PMED4_14901,1272635.0,1274668.0,+,Core,MEG,glgX,Putative isoamylase (NCBI),COG1523,G,"Type II secretory pathway, pullulanase PulA and related glycosidases",PMM1322,locus_tag:sysName
-RNA_21,--,1274670.0,1274740.0,-,,--,tRNASer2,tRNA-Ser (RefSeq),,,,PMM0236,tier1:sysName
+RNA_21,--,1274670.0,1274740.0,-,,--,tRNASer2,tRNA-Ser (RefSeq),,,,,unresolved
 PMM1323,PMED4_14911,1274850.0,1276199.0,+,Core,MEG,melB,putative GPH family sugar transporter (NCBI),COG2211,G,Na+/melibiose symporter and related transporters,PMM1323,locus_tag:sysName
 PMM1324,PMED4_14921,1276209.0,1276964.0,+,Core,MEG,PMM1324,"possible transporter, membrane component (NCBI)",COG767,Q,"ABC-type transport system involved in resistance to organic solvents, permease component",PMM1324,locus_tag:sysName
 PMM1325,PMED4_14931,1276969.0,1277373.0,+,Core,VEG,PMM1325,conserved hypothetical protein (NCBI),,,,PMM1325,locus_tag:sysName
@@ -1618,7 +1618,7 @@ PMM1353,PMED4_15211,1302241.0,1303143.0,-,Core,VEG,prmA,putative methyltransfera
 PMM1354,PMED4_15221,1303160.0,1304746.0,-,Core,MEG,serA,putative D-3-phosphoglycerate dehydrogenase (PGDH) (NCBI),COG111,HE,Phosphoglycerate dehydrogenase and related dehydrogenases,PMM1354,locus_tag:sysName
 PMM1355,PMED4_15231,1304849.0,1305415.0,+,Core,MEG,PMM1355,conserved hypothetical protein (NCBI),,,,PMM1355,locus_tag:sysName
 PMM1356,PMED4_15241,1305416.0,1306207.0,+,Core,LEG,PMM1356,"Uncharacterized conserved protein, contains S4-like domain  (Katherine Huang)",COG2302,S,"Uncharacterized conserved protein, contains S4-like domain",PMM1356,locus_tag:sysName
-RNA_13,--,1306262.0,1306333.0,+,,--,tRNAPhe1,tRNA-Phe (RefSeq),,,,PMM0236,tier1:sysName
+RNA_13,--,1306262.0,1306333.0,+,,--,tRNAPhe1,tRNA-Phe (RefSeq),,,,,unresolved
 PMM1357,PMED4_15251,1306399.0,1307022.0,+,Flexible,VEG,PMM1357,"Steroid 5-alpha reductase, C-terminal domain (NCBI)",,,,PMM1357,locus_tag:sysName
 PMM1358,PMED4_15261,1307009.0,1307560.0,+,Flexible,VEG,PMM1358,Uncharacterized conserved protein (Katherine Huang),COG5135,S,Uncharacterized conserved protein,PMM1358,locus_tag:sysName
 HyPMM191,PMED4_15271,1307636.0,1307803.0,+,Flexible,VEG,Protein-coding gene,Hypothetical protein (Katherine Huang),,,,PMM1975,tier1:sysName
@@ -1667,26 +1667,26 @@ PMM1380,PMED4_15661,1329368.0,1330045.0,+,Flexible,MEG,PMM1380,unknown (NCBI),CO
 PMM1381,PMED4_15671,1330099.0,1330737.0,+,Core,VEG,PMM1381,Uncharacterized conserved protein (Katherine Huang),COG2135,S,Uncharacterized conserved protein,PMM1381,locus_tag:sysName
 HyPMM212,PMED4_15681,1330836.0,1330967.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1993,tier1:sysName
 PMM1382,PMED4_15691,1331162.0,1332340.0,+,Core,VEG,PMM1382,"fatty acid desaturase, type 2 (NCBI)",COG3239,I,Fatty acid desaturase,PMM1382,locus_tag:sysName
-asRNA_15701,--,1332438.0,1332603.0,-,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_15701,--,1332438.0,1332603.0,-,,--,Antisense RNA,,,,,,unresolved
 HyPMM213,PMED4_15701,1332456.0,1332617.0,+,Flexible,VEG,Protein-coding gene,,,,,PMM1994,tier1:sysName
 PMM1383,PMED4_15711,1332751.0,1333374.0,-,Flexible,MEG,PMM1383,conserved hypothetical protein (NCBI),,,,PMM1383,locus_tag:sysName
 HyPMM214,PMED4_15712,1333383.0,1333547.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM2067,tier1:sysName
 HyPMM215,PMED4_15721,1334314.0,1334448.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1995,tier1:sysName
-asRNA_15721,--,1334333.0,1334537.0,-,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_15721,--,1334333.0,1334537.0,-,,--,Antisense RNA,,,,,,unresolved
 PMM1384,PMED4_15731,1334613.0,1334720.0,+,Flexible,HEG,hli12,possible high light inducible protein (NCBI),,,,PMM1384,locus_tag:sysName
 PMM1385,PMED4_15741,1334720.0,1334860.0,+,Flexible,HEG,hli11,possible high light inducible protein (NCBI),,,,PMM1385,locus_tag:sysName
 HyPMM216,PMED4_15751,1335037.0,1335156.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1996,tier1:sysName
 HyPMM217,PMED4_15761,1335158.0,1335271.0,+,Flexible,MEG,Protein-coding gene,,,,,PMM1997,tier1:sysName
 HyPMM218,PMED4_15762,1335365.0,1335481.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM2069,tier1:sysName
 HyPMM219,PMED4_15771,1335506.0,1335655.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1998,tier1:sysName
-asRNA_15771,--,1335589.0,1335723.0,-,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_15771,--,1335589.0,1335723.0,-,,--,Antisense RNA,,,,,,unresolved
 HyPMM220,PMED4_15781,1335749.0,1335865.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM1999,tier1:sysName
 HyPMM221,PMED4_15791,1336192.0,1336326.0,+,Flexible,VEG,Protein-coding gene,,,,,PMM2000,tier1:sysName
-Yfr20,--,1336435.0,1336523.0,+,,--,Other non-coding RNA,,,,,PMM0236,tier1:sysName
+Yfr20,--,1336435.0,1336523.0,+,,--,Other non-coding RNA,,,,,,unresolved
 HyPMM222,PMED4_15792,1336734.0,1336835.0,+,Flexible,NEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM2072,tier1:sysName
 HyPMM223,PMED4_15801,1336952.0,1337071.0,-,Flexible,VEG,pseudo,Pseudogene of VIMSS1213976 with 0 gaps (VIMSS-AUTO),,,,PMM2001,tier1:sysName
 PMM1386,PMED4_15811,1337265.0,1338467.0,+,Core,VEG,PMM1386,possible permease (NCBI),COG795,R,Predicted permeases,PMM1386,locus_tag:sysName
-HyPMM224,--,1338524.0,1338805.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM0236,tier1:sysName
+HyPMM224,--,1338524.0,1338805.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,,ambiguous
 PMM1387,PMED4_15821,1338998.0,1339198.0,+,Flexible,VEG,PMM1387,hypothetical (NCBI),,,,PMM1387,locus_tag:sysName
 PMM1388,PMED4_15831,1339254.0,1339802.0,-,Core,VEG,PMM1388,conserved hypothetical protein (NCBI),,,,PMM1388,locus_tag:sysName
 PMM1389,PMED4_15841,1339931.0,1340563.0,+,Flexible,VEG,PMM1389,possible Trypsin (NCBI),,,,PMM1389,locus_tag:sysName
@@ -1708,7 +1708,7 @@ PMM1401,PMED4_15991,1347131.0,1347412.0,+,Core,HEG,PMM1401,conserved hypothetica
 HyPMM228,PMED4_16001,1347450.0,1347623.0,+,Flexible,MEG,Protein-coding gene,Hypothetical protein (Katherine Huang),,,,PMM2006,tier1:sysName
 PMM1402,PMED4_16011,1347829.0,1348188.0,+,Flexible,VEG,PMM1402,Conserved hypothetical protein (Katherine Huang),,,,PMM1402,locus_tag:sysName
 HyPMM229,PMED4_16021,1348681.0,1348842.0,-,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM2007,tier1:sysName
-asRNA_16031,--,1349017.0,1349248.0,-,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_16031,--,1349017.0,1349248.0,-,,--,Antisense RNA,,,,,,unresolved
 HyPMM230,PMED4_16031,1349117.0,1349317.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM2008,tier1:sysName
 PMM1403,PMED4_16041,1349355.0,1349756.0,-,Flexible,VEG,PMM1403,HNH endonuclease:HNH nuclease (NCBI),,,,PMM1403,locus_tag:sysName
 PMM1404,PMED4_16051,1350213.0,1350368.0,-,Flexible,VEG,hli5,possible high light inducible protein (NCBI),,,,PMM1404,locus_tag:sysName
@@ -1731,7 +1731,7 @@ PMM1415,PMED4_16201,1355995.0,1356975.0,+,Flexible,VEG,PMM1415,possible UBX doma
 HyPMM236,PMED4_16202,1357133.0,1357237.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM2075,tier1:sysName
 PMM1416,PMED4_16211,1357735.0,1359819.0,+,Flexible,VEG,PMM1416,conserved hypothetical (NCBI),,,,PMM1416,locus_tag:sysName
 HyPMM237,PMED4_16221,1360010.0,1360168.0,-,Flexible,VEG,Protein-coding gene,Hypothetical protein (Katherine Huang),,,,PMM2013,tier1:sysName
-asRNA_16221,--,1360031.0,1360274.0,+,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_16221,--,1360031.0,1360274.0,+,,--,Antisense RNA,,,,,,unresolved
 PMM1417,PMED4_16231,1360407.0,1360814.0,+,Flexible,VEG,PMM1417,Staphylococcus nuclease (SNase) homologues (NCBI),COG1525,L,Micrococcal nuclease (thermonuclease) homologs,PMM1417,locus_tag:sysName
 PMM1418,PMED4_16241,1361026.0,1361424.0,+,Flexible,LEG,PMM1418,possible Voltage gated chloride channel (NCBI),,,,PMM1418,locus_tag:sysName
 PMM1419,PMED4_16251,1361504.0,1361908.0,+,Flexible,VEG,PMM1419,possible ATP synthase B/B' CF(0) (NCBI),,,,PMM1419,locus_tag:sysName
@@ -1748,7 +1748,7 @@ PMM1426,PMED4_16341,1366747.0,1367064.0,+,Flexible,VEG,PMM1426,hypothetical (NCB
 PMM1427,PMED4_16351,1367126.0,1367356.0,+,Flexible,VEG,PMM1427,conserved hypothetical (NCBI),,,,PMM1427,locus_tag:sysName
 PMM1428,PMED4_16361,1367679.0,1368140.0,+,Core,VEG,PMM1428,Uncharacterized conserved protein (Katherine Huang),COG2947,S,Uncharacterized conserved protein,PMM1428,locus_tag:sysName
 PMM1429,PMED4_16371,1368154.0,1368405.0,-,Core,VEG,PMM1429,conserved hypothetical protein (NCBI),,,,PMM1429,locus_tag:sysName
-asRNA_16371,--,1368187.0,1368662.0,+,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_16371,--,1368187.0,1368662.0,+,,--,Antisense RNA,,,,,,unresolved
 PMM1430,PMED4_16381,1368721.0,1369092.0,-,Core,VEG,PMM1430,conserved hypothetical protein (NCBI),,,,PMM1430,locus_tag:sysName
 PMM1431,PMED4_16391,1369095.0,1369331.0,-,Core,VEG,rpoZ,putative DNA-directed RNA polymerase (omega chain) (NCBI),,,,PMM1431,locus_tag:sysName
 PMM1432,PMED4_16401,1369433.0,1370998.0,+,Core,VEG,PMM1432,putative DnaK-type molecular chaperone (HSP70 family) (NCBI),COG443,O,Molecular chaperone,PMM1432,locus_tag:sysName
@@ -1785,7 +1785,7 @@ PMM1461,PMED4_16701,1395377.0,1395787.0,-,Core,VEG,PMM1461,Enzyme related to GTP
 PMM1462,PMED4_16711,1395967.0,1396212.0,+,Core,VEG,PMM1462,conserved hypothetical protein (NCBI),,,,PMM1462,locus_tag:sysName
 PMM1463,PMED4_16721,1396237.0,1396575.0,+,Core,VEG,glnB,Nitrogen regulatory protein P-II (NCBI),COG347,E,Nitrogen regulatory protein PII,PMM1463,locus_tag:sysName
 PMM1464,PMED4_16731,1396576.0,1397388.0,-,Core,MEG,PMM1464,FtsJ cell division protein:S4 domain:Hemolysin A (NCBI),COG1189,J,Predicted rRNA methylase,PMM1464,locus_tag:sysName
-HyPMM242,--,1397444.0,1397619.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,PMM0236,tier1:sysName
+HyPMM242,--,1397444.0,1397619.0,+,Flexible,VEG,Protein-coding gene,Conserved hypothetical protein (Katherine Huang),,,,,ambiguous
 PMM1465,PMED4_16741,1397682.0,1398977.0,+,Core,VEG,purB,Fumarate lyase:Adenylosuccinate lyase (NCBI),COG15,F,Adenylosuccinate lyase,PMM1465,locus_tag:sysName
 PMM1466,PMED4_16751,1399018.0,1400403.0,+,Core,MEG,fumC,Fumarate lyase (NCBI),COG114,C,Fumarase,PMM1466,locus_tag:sysName
 PMM1467,PMED4_16761,1400415.0,1403141.0,-,Core,MEG,PMM1467,putative DNA helicase (NCBI),COG4581,L,Superfamily II RNA helicase,PMM1467,locus_tag:sysName
@@ -1831,7 +1831,7 @@ PMM1505,PMED4_17151,1444352.0,1445287.0,-,Core,MEG,PMM1505,SAM (and some other n
 PMM1506,PMED4_17161,1445288.0,1445944.0,-,Core,MEG,PMM1506,ATP-dependent protease La (LON) domain (NCBI),COG2802,R,"Uncharacterized protein, similar to the N-terminal domain of Lon protease",PMM1506,locus_tag:sysName
 PMM1507,PMED4_17171,1446000.0,1446320.0,-,Core,HEG,rpsJ,30S ribosomal protein S10 (NCBI),COG51,J,Ribosomal protein S10,PMM1507,locus_tag:sysName
 PMM1508,PMED4_17181,1446430.0,1447629.0,-,Core,HEG,tufA,Elongation factor Tu (NCBI),COG50,J,GTPases - translation elongation factors,PMM1508,locus_tag:sysName
-asRNA_17181,--,1447331.0,1447687.0,+,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_17181,--,1447331.0,1447687.0,+,,--,Antisense RNA,,,,,,unresolved
 PMM1509,PMED4_17191,1447673.0,1449748.0,-,Core,HEG,fusA,Elongation factor G (NCBI),COG480,J,Translation elongation factors (GTPases),PMM1509,locus_tag:sysName
 PMM1510,PMED4_17201,1449853.0,1450323.0,-,Core,HEG,rpsG,30S ribosomal protein S7 (NCBI),COG49,J,Ribosomal protein S7,PMM1510,locus_tag:sysName
 PMM1511,PMED4_17211,1450350.0,1450727.0,-,Core,HEG,rpsL,30S ribosomal protein S12 (NCBI),COG48,J,Ribosomal protein S12,PMM1511,locus_tag:sysName
@@ -1847,11 +1847,11 @@ PMM1520,PMED4_17301,1460235.0,1460348.0,-,Flexible,VEG,psaI,photosystem I subuni
 PMM1521,PMED4_17311,1460441.0,1460827.0,+,Core,NEG,PMM1521,possible Annexin (NCBI),,,,PMM1521,locus_tag:sysName
 PMM1522,PMED4_17321,1460832.0,1461794.0,-,Core,LEG,PMM1522,"Glycosyl transferase, family 2 (NCBI)",COG463,M,Glycosyltransferases involved in cell wall biogenesis,PMM1522,locus_tag:sysName
 PMM1523,PMED4_17331,1461905.0,1464133.0,-,Core,HEG,psaB,Photosystem I PsaB protein (NCBI),,,,PMM1523,locus_tag:sysName
-asRNA_17331,--,1463785.0,1464156.0,+,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_17331,--,1463785.0,1464156.0,+,,--,Antisense RNA,,,,,,unresolved
 PMM1524,PMED4_17341,1464162.0,1466465.0,-,Core,HEG,psaA,Photosystem I PsaA protein (NCBI),,,,PMM1524,locus_tag:sysName
 PMM1525,PMED4_17351,1466807.0,1468627.0,+,Core,VEG,cobJ,bifunctional cbiH protein and precorrin-3B C17-methyltransferase (NCBI),COG2073,H,Cobalamin biosynthesis protein CbiG,PMM1525,locus_tag:sysName
 PMM1526,PMED4_17361,1468725.0,1469528.0,+,Core,VEG,hisB,putative imidazoleglycerol-phosphate dehydratase (NCBI),COG546,R,Predicted phosphatases,PMM1526,locus_tag:sysName
-RNA_20,--,1469551.0,1469639.0,-,,--,tRNAGly1,tRNA-Gly (RefSeq),,,,PMM0236,tier1:sysName
+RNA_20,--,1469551.0,1469639.0,-,,--,tRNAGly1,tRNA-Gly (RefSeq),,,,,unresolved
 PMM1527,PMED4_17371,1469701.0,1470888.0,-,Core,LEG,alr,putative Alanine racemase (NCBI),COG787,M,Alanine racemase,PMM1527,locus_tag:sysName
 PMM1528,PMED4_17381,1470969.0,1471475.0,+,Core,VEG,mcrA,HNH endonuclease family protein (NCBI),COG1403,V,Restriction endonuclease,PMM1528,locus_tag:sysName
 PMM1529,PMED4_17391,1471482.0,1472576.0,-,Core,MEG,prfA,peptide chain release factor RF-1 (NCBI),COG216,J,Protein chain release factor A,PMM1529,locus_tag:sysName
@@ -1886,7 +1886,7 @@ PMM1557,PMED4_17671,1486333.0,1486965.0,-,Core,VEG,rplD,50S ribosomal protein L4
 PMM1558,PMED4_17681,1486962.0,1487615.0,-,Core,VEG,rplC,50S ribosomal protein L3 (NCBI),COG87,J,Ribosomal protein L3,PMM1558,locus_tag:sysName
 PMM1559,PMED4_17691,1487908.0,1488378.0,+,Core,VEG,PMM1559,NADH dehydrogenase I subunit N (Katherine Huang),,,,PMM1559,locus_tag:sysName
 PMM1560,PMED4_17701,1488368.0,1489378.0,+,Core,VEG,hycB,Fe-S-cluster-containing hydrogenase components 2  (Katherine Huang),COG1142,C,Fe-S-cluster-containing hydrogenase components 2,PMM1560,locus_tag:sysName
-RNA_14,--,1489483.0,1489554.0,+,,--,tRNAAsn1,tRNA-Asn (RefSeq),,,,PMM0236,tier1:sysName
+RNA_14,--,1489483.0,1489554.0,+,,--,tRNAAsn1,tRNA-Asn (RefSeq),,,,,unresolved
 PMM1561,PMED4_17711,1489572.0,1490348.0,+,Core,VEG,PMM1561,conserved hypothetical protein (NCBI),,,,PMM1561,locus_tag:sysName
 PMM1562,PMED4_17721,1490458.0,1491570.0,+,Core,HEG,recA,RecA bacterial DNA recombination protein (NCBI),COG468,L,RecA/RadA recombinase,PMM1562,locus_tag:sysName
 PMM1563,PMED4_17731,1491573.0,1491818.0,-,Core,HEG,PMM1563,conserved hypothetical protein (NCBI),,,,PMM1563,locus_tag:sysName
@@ -1900,7 +1900,7 @@ PMM1570,PMED4_17801,1498446.0,1499606.0,-,Core,MEG,PMM1570,ATP:corrinoid adenosy
 PMM1571,PMED4_17811,1499717.0,1500541.0,+,Core,VEG,PMM1571,ATP-utilizing enzymes of the PP-loop superfamily  (Katherine Huang),COG1606,R,ATP-utilizing enzymes of the PP-loop superfamily,PMM1571,locus_tag:sysName
 PMM1572,PMED4_17821,1500557.0,1500985.0,-,Core,VEG,PMM1572,DUF206 (NCBI),COG1586,E,S-adenosylmethionine decarboxylase,PMM1572,locus_tag:sysName
 PMM1573,PMED4_17831,1501038.0,1502009.0,-,Core,VEG,recF,putative DNA repair and genetic recombination protein RecF (NCBI),COG1195,L,Recombinational DNA repair ATPase (RecF pathway),PMM1573,locus_tag:sysName
-RNA_15,--,1502203.0,1502276.0,+,,--,tRNAPro2,tRNA-Pro (RefSeq),,,,PMM0236,tier1:sysName
+RNA_15,--,1502203.0,1502276.0,+,,--,tRNAPro2,tRNA-Pro (RefSeq),,,,,unresolved
 PMM1574,PMED4_17841,1502288.0,1502734.0,-,Core,MEG,PMM1574,conserved hypothetical protein (NCBI),,,,PMM1574,locus_tag:sysName
 PMM1575,PMED4_17851,1502738.0,1505707.0,-,Core,MEG,ppc,Phosphoenolpyruvate carboxylase (NCBI),COG2352,C,Phosphoenolpyruvate carboxylase,PMM1575,locus_tag:sysName
 PMM1576,PMED4_17861,1505761.0,1506879.0,-,Core,VEG,PMM1576,Uncharacterized conserved protein (Katherine Huang),COG2170,S,Uncharacterized conserved protein,PMM1576,locus_tag:sysName
@@ -1914,8 +1914,8 @@ PMM1583,PMED4_17931,1513923.0,1514483.0,-,Core,VEG,PMM1583,conserved hypothetica
 PMM1584,PMED4_17941,1514652.0,1515293.0,+,Core,VEG,rnd,putative ribonuclease D (NCBI),,,,PMM1584,locus_tag:sysName
 PMM1585,PMED4_17951,1515294.0,1515560.0,-,Core,VEG,PMM1585,conserved hypothetical protein (NCBI),,,,PMM1585,locus_tag:sysName
 PMM1586,PMED4_17961,1515594.0,1516901.0,-,Core,VEG,PMM1586,Uncharacterized protein conserved in bacteria (Katherine Huang),COG4370,S,Uncharacterized protein conserved in bacteria,PMM1586,locus_tag:sysName
-RNA_16,--,1516866.0,1516936.0,+,,--,tRNAMet1,tRNA-Met (RefSeq),,,,PMM0236,tier1:sysName
-asRNA_17971,--,1517214.0,1517307.0,+,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+RNA_16,--,1516866.0,1516936.0,+,,--,tRNAMet1,tRNA-Met (RefSeq),,,,,unresolved
+asRNA_17971,--,1517214.0,1517307.0,+,,--,Antisense RNA,,,,,,unresolved
 PMM1587,PMED4_17971,1517250.0,1517411.0,-,Flexible,VEG,PMM1587,conserved hypothetical protein (NCBI),,,,PMM1587,locus_tag:sysName
 PMM1588,PMED4_17981,1517428.0,1518042.0,-,Core,VEG,PMM1588,possible Conserved carboxylase domain (NCBI),,,,PMM1588,locus_tag:sysName
 PMM1589,PMED4_17991,1518177.0,1519220.0,-,Core,MEG,purM,phosphoribosyl formylglycinamidine cyclo-ligase (NCBI),COG150,F,Phosphoribosylaminoimidazole (AIR) synthetase,PMM1589,locus_tag:sysName
@@ -1932,13 +1932,13 @@ PMM1599,PMED4_18091,1527912.0,1528817.0,-,Core,MEG,PMM1599,Predicted hydrolases 
 PMM1600,PMED4_18101,1528860.0,1530227.0,-,Core,VEG,kefB,"putative Na+/H+ antiporter, CPA2 family (NCBI)",COG475,P,"Kef-type K+ transport systems, membrane components",PMM1600,locus_tag:sysName
 PMM1601,PMED4_18111,1530381.0,1532927.0,+,Core,VEG,glgP,phosphorylase (NCBI),COG58,G,Glucan phosphorylase,PMM1601,locus_tag:sysName
 PMM1602,PMED4_18121,1533406.0,1533738.0,-,Core,HEG,PMM1602,conserved hypothetical protein (NCBI),,,,PMM1602,locus_tag:sysName
-RNA_19,--,1533818.0,1533891.0,-,,--,tRNAMet2,tRNA-Met (RefSeq),,,,PMM0236,tier1:sysName
-RNA_42,--,1533930.0,1534303.0,+,,--,rrnA,rRNA operon (RefSeq),,,,PMM0236,tier1:sysName
+RNA_19,--,1533818.0,1533891.0,-,,--,tRNAMet2,tRNA-Met (RefSeq),,,,,unresolved
+RNA_42,--,1533930.0,1534303.0,+,,--,rrnA,rRNA operon (RefSeq),,,,,unresolved
 PMM1603,PMED4_18131,1534329.0,1535078.0,+,Core,MEG,rnc,putative ribonuclease III (NCBI),COG571,K,dsRNA-specific ribonuclease,PMM1603,locus_tag:sysName
 PMM1604,PMED4_18141,1535083.0,1535268.0,-,Core,MEG,PMM1604,conserved hypothetical protein (NCBI),,,,PMM1604,locus_tag:sysName
 PMM1605,PMED4_18151,1535291.0,1535830.0,+,Core,VEG,rimM,possible 16S rRNA processing protein RimM (NCBI),COG806,J,"RimM protein, required for 16S rRNA processing",PMM1605,locus_tag:sysName
 PMM1606,PMED4_18161,1535851.0,1537746.0,-,Core,MEG,glmS,Glutamine--fructose-6-phosphate transaminase (isomerizing) (NCBI),COG449,M,"Glucosamine 6-phosphate synthetase, contains amidotransferase and phosphosugar isomerase domains",PMM1606,locus_tag:sysName
-asRNA_18171,--,1537773.0,1537988.0,+,,--,Antisense RNA,,,,,PMM0236,tier1:sysName
+asRNA_18171,--,1537773.0,1537988.0,+,,--,Antisense RNA,,,,,,unresolved
 PMM1607,PMED4_18171,1537828.0,1538073.0,-,Core,HEG,psaC,Photosystem I subunit PsaC (NCBI),,,,PMM1607,locus_tag:sysName
 PMM1608,PMED4_18181,1538208.0,1538450.0,+,Core,HEG,acpP,acyl carrier protein (ACP) (NCBI),COG236,IQ,Acyl carrier protein,PMM1608,locus_tag:sysName
 PMM1609,PMED4_18191,1538457.0,1539701.0,+,Core,HEG,fabF,3-oxoacyl-[acyl-carrier-protein] synthase II (NCBI),COG304,IQ,3-oxoacyl-(acyl-carrier-protein) synthase,PMM1609,locus_tag:sysName
@@ -1975,7 +1975,7 @@ PMM1639,PMED4_18491,1566315.0,1569146.0,-,Core,MEG,secA,Preprotein translocase S
 PMM1640,PMED4_18501,1569324.0,1569779.0,+,Core,VEG,PMM1640,"putative acetyltransferase, GNAT family (NCBI)",,,,PMM1640,locus_tag:sysName
 PMM1641,PMED4_18511,1569781.0,1570233.0,-,Flexible,LEG,PMM1641,hypothetical protein (NCBI),,,,PMM1641,locus_tag:sysName
 PMM1642,PMED4_18521,1570206.0,1570637.0,-,Flexible,VEG,PMM1642,possible transcription regulator (NCBI),,,,PMM1642,locus_tag:sysName
-RNA_18,--,1570753.0,1570824.0,-,,--,tRNALeu2,tRNA-Leu (RefSeq),,,,PMM0236,tier1:sysName
+RNA_18,--,1570753.0,1570824.0,-,,--,tRNALeu2,tRNA-Leu (RefSeq),,,,,unresolved
 PMM1643,PMED4_18531,1570887.0,1571363.0,-,Core,MEG,ribH,"Putative 6,7-dimethyl-8-ribityllumazine synthase or riboflavin synthase beta chain (NCBI)",COG54,H,Riboflavin synthase beta-chain,PMM1643,locus_tag:sysName
 PMM1644,PMED4_18541,1571412.0,1571609.0,-,Core,HEG,psbZ,possible Photosystem II reaction center Z protein (PsbZ) (NCBI),,,,PMM1644,locus_tag:sysName
 PMM1645,PMED4_18551,1571753.0,1574500.0,+,Core,VEG,PMM1645,putative DNA mismatch repair protein (NCBI),COG249,L,Mismatch repair ATPase (MutS family),PMM1645,locus_tag:sysName
@@ -2018,7 +2018,7 @@ PMM1680,PMED4_18911,1613393.0,1613545.0,+,Flexible,VEG,PMM1680,conserved hypothe
 PMM1681,PMED4_18921,1613535.0,1614146.0,-,Core,VEG,PMM1681,Uncharacterized conserved protein (Katherine Huang),COG398,S,Uncharacterized conserved protein,PMM1681,locus_tag:sysName
 PMM1682,PMED4_18931,1614148.0,1616904.0,-,Core,MEG,valS,Valyl-tRNA synthetase (NCBI),COG525,J,Valyl-tRNA synthetase,PMM1682,locus_tag:sysName
 PMM1683,PMED4_18941,1616997.0,1617329.0,-,Core,VEG,PMM1683,conserved hypothetical (NCBI),,,,PMM1683,locus_tag:sysName
-RNA_17,--,1617346.0,1617417.0,-,,--,tRNAVal3,tRNA-Val (NCBI),,,,PMM0236,tier1:sysName
+RNA_17,--,1617346.0,1617417.0,-,,--,tRNAVal3,tRNA-Val (NCBI),,,,,unresolved
 PMM1684,PMED4_18951,1617516.0,1618370.0,+,Core,VEG,PMM1684,MazG family protein (NCBI),,,,PMM1684,locus_tag:sysName
 PMM1685,PMED4_18961,1618367.0,1619218.0,+,Core,VEG,speE,putative spermidine synthase (NCBI),COG421,E,Spermidine synthase,PMM1685,locus_tag:sysName
 PMM1686,PMED4_18971,1619220.0,1620104.0,+,Core,VEG,speB,Arginase family (NCBI),COG10,E,"Arginase/agmatinase/formimionoglutamate hydrolase, arginase family",PMM1686,locus_tag:sysName

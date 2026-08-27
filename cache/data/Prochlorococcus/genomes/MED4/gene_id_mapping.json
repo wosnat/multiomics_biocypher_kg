@@ -1,9 +1,5 @@
 {
   "conflicts": {
-    "--": [
-      "PMM0236",
-      "PMM0521"
-    ],
     "PMED4_03591": [
       "PMM1817",
       "PMM1873"
@@ -23775,1845 +23771,11 @@
           "type": "locus_tag"
         },
         {
-          "id": "--",
+          "id": "PMED4_pseudo_1",
           "sources": [
-            "Wang 2014/med4_expression_level"
+            "Steglich 2010/halflife_table"
           ],
           "type": "alternative_locus_tag"
-        },
-        {
-          "id": "RNA_2",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_36",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_02731",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_35",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_34",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_03211",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_33",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_39",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_38",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_38",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_3",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_4",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_40",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_03431",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr9",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr8",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr10",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr2",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_04001",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_04101",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr11",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_32",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_31",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr12",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr4",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_04601",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_30",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_29",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_5",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr13",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_28",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "HyPMM66",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr6",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr14",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr7",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_07401",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr15",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr3",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_07481",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_07511",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr16",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr17",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "HyPMM90",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "TibPMM1",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_27",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_6",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_26",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_25",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "HyPMM129",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_7",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "HyPMM155",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "HyPMM160",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr5",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr18",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr1",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_24",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_8",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr21",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "TibPMM2",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_9",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_12751",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr19",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_23",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_10",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_22",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_11",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_12",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_44",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_21",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_13",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_15701",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_15721",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_15771",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "Yfr20",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "HyPMM224",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_16031",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_16221",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_16371",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "HyPMM242",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_17181",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_17331",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_20",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_14",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_15",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_16",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_17971",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_19",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_42",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_18171",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_18",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_17",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "gene-RNA_2",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Leu1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_36",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Arg4",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_35",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Met3",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_34",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Phe1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_33",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Thr3",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_38",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "gene-RNA_39",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "gene-RNA_3",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Ile1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_4",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Ala1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_40",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "gene-RNA_32",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Thr2",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_31",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Tyr1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_30",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Asp1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_29",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Trp1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_5",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Leu2",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_28",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Ser4",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_27",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Met2",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_6",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Thr1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_26",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Met1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_25",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Ser3",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_7",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Pro1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_24",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Glu1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_8",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Lys1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_9",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Pro2",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_23",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Ser2",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_10",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Arg1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_22",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Ala2",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_11",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Leu3",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_12",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-His1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_44",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "ffs",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_21",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Gly2",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_13",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Val1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_20",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Ser1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_14",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Gln1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_15",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Arg2",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_16",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Cys1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_19",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Arg3",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_42",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "rnpB",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_18",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Gly1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_17",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Val2",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS01225",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS01225",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS01340",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS01340",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS01425",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS01425",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS01605",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS01605",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS01660",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS01660",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS01705",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS01705",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS01710",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS01710",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS01715",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS01715",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS01720",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS01720",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS02075",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS02075",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS02080",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS02080",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS02545",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS02545",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS02555",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS02555",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS03040",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS03040",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS03500",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS03500",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS04395",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS04395",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS04595",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS04595",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS04610",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS04610",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS04795",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS04795",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS05085",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS05085",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS05780",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS05780",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS05990",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS05990",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS06020",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS06020",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS06285",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS06285",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS06455",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS06455",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS06750",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS06750",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS06975",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS06975",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS07000",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS07000",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS09320",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS09320",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS07100",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS07100",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS07275",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS07275",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS08185",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS08185",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS08355",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS08355",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS08425",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS08425",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS08495",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS08495",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS08575",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS08575",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS09220",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS09220",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS08780",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS08780",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS08990",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS08990",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "RNA_43",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_37",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_00641",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_00771",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "RNA_1",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "asRNA_02331",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        },
-        {
-          "id": "gene-RNA_43",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tmRNA",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_37",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Leu4",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-RNA_1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "tRNA-Asn1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS00315",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS00315",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-TX50_RS00660",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "TX50_RS00660",
-          "sources": [
-            "genomic_gcf/MED4"
-          ],
-          "type": "locus_tag_ncbi"
         }
       ],
       "tier2_ids": [
@@ -25651,350 +23813,6 @@
         },
         {
           "id": "Protein-coding gene",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAVal2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAGly3",
-          "type": "gene_name"
-        },
-        {
-          "id": "Antisense RNA",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAGlu1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAAla1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAPro3",
-          "type": "gene_name"
-        },
-        {
-          "id": "16s-rRNA",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNALeu4",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAAsp1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNASer1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAIle1",
-          "type": "gene_name"
-        },
-        {
-          "id": "Other non-coding RNA",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNASer4",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNASer3",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNALys1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAMet3",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNATrp1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAThr3",
-          "type": "gene_name"
-        },
-        {
-          "id": "pseudo",
-          "type": "gene_name"
-        },
-        {
-          "id": "TibPMM1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAArg4",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAGln1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAThr2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAThr1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNALeu1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAGly2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAArg1",
-          "type": "gene_name"
-        },
-        {
-          "id": "TibPMM2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAPro1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNATyr1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAArg2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNALeu3",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAHis1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAArg3",
-          "type": "gene_name"
-        },
-        {
-          "id": "5S_rRNA",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNASer2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAPhe1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAGly1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAAsn1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAPro2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAMet1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAMet2",
-          "type": "gene_name"
-        },
-        {
-          "id": "rrnA",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNALeu2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNAVal3",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Leu1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Arg4",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Met3",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Phe1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Thr3",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Ile1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Ala1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Thr2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Tyr1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Asp1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Trp1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Leu2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Ser4",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Met2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Thr1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Met1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Ser3",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Pro1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Glu1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Lys1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Pro2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Ser2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Arg1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Ala2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Leu3",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-His1",
-          "type": "gene_name"
-        },
-        {
-          "id": "ffs",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Gly2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Val1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Ser1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Gln1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Arg2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Cys1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Arg3",
-          "type": "gene_name"
-        },
-        {
-          "id": "rnpB",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Gly1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Val2",
-          "type": "gene_name"
-        },
-        {
-          "id": "tmRNA",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNACys1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Asn1",
-          "type": "gene_name"
-        },
-        {
-          "id": "tRNA-Leu4",
           "type": "gene_name"
         }
       ]
@@ -178282,6 +176100,13 @@
             "Wang 2014/med4_expression_level"
           ],
           "type": "locus_tag"
+        },
+        {
+          "id": "PMED4_pseudo_2",
+          "sources": [
+            "Steglich 2010/halflife_table"
+          ],
+          "type": "alternative_locus_tag"
         }
       ],
       "tier2_ids": [
@@ -196745,9 +194570,6 @@
     "158987183": [
       "PMM1943"
     ],
-    "16s-rRNA": [
-      "PMM0236"
-    ],
     "33633663": [
       "PMM0161"
     ],
@@ -196867,9 +194689,6 @@
     ],
     "33639977": [
       "PMM0688"
-    ],
-    "5S_rRNA": [
-      "PMM0236"
     ],
     "A8WI02": [
       "PMM1800"
@@ -197258,9 +195077,6 @@
     ],
     "AT103": [
       "PMM0844"
-    ],
-    "Antisense RNA": [
-      "PMM0236"
     ],
     "B9ER30": [
       "PMM2046"
@@ -204572,9 +202388,6 @@
     ],
     "O07295": [
       "PMM0627"
-    ],
-    "Other non-coding RNA": [
-      "PMM0236"
     ],
     "P28": [
       "PMM0630"
@@ -218563,12 +216376,6 @@
     "TX50_RS09990": [
       "PMM1245"
     ],
-    "TibPMM1": [
-      "PMM0236"
-    ],
-    "TibPMM2": [
-      "PMM0236"
-    ],
     "VTE5": [
       "PMM1698"
     ],
@@ -225304,9 +223111,6 @@
     "ffh": [
       "PMM1286"
     ],
-    "ffs": [
-      "PMM0236"
-    ],
     "fixC": [
       "PMM0520"
     ],
@@ -227080,7 +224884,6 @@
     ],
     "pseudo": [
       "PMM1813",
-      "PMM0236",
       "PMM1915",
       "PMM1941",
       "PMM2001",
@@ -227451,9 +225254,6 @@
     ],
     "rnpA": [
       "PMM1184"
-    ],
-    "rnpB": [
-      "PMM0236"
     ],
     "rnz": [
       "PMM1349"
@@ -228149,9 +225949,6 @@
     "rrf": [
       "PMM0521"
     ],
-    "rrnA": [
-      "PMM0236"
-    ],
     "rsbU": [
       "PMM0011"
     ],
@@ -228437,233 +226234,8 @@
     "surE": [
       "PMM1271"
     ],
-    "tRNA-Ala1": [
-      "PMM0236"
-    ],
-    "tRNA-Ala2": [
-      "PMM0236"
-    ],
-    "tRNA-Arg1": [
-      "PMM0236"
-    ],
-    "tRNA-Arg2": [
-      "PMM0236"
-    ],
-    "tRNA-Arg3": [
-      "PMM0236"
-    ],
-    "tRNA-Arg4": [
-      "PMM0236"
-    ],
-    "tRNA-Asn1": [
-      "PMM0236"
-    ],
-    "tRNA-Asp1": [
-      "PMM0236"
-    ],
-    "tRNA-Cys1": [
-      "PMM0236"
-    ],
-    "tRNA-Gln1": [
-      "PMM0236"
-    ],
-    "tRNA-Glu1": [
-      "PMM0236"
-    ],
-    "tRNA-Gly1": [
-      "PMM0236"
-    ],
-    "tRNA-Gly2": [
-      "PMM0236"
-    ],
-    "tRNA-His1": [
-      "PMM0236"
-    ],
-    "tRNA-Ile1": [
-      "PMM0236"
-    ],
-    "tRNA-Leu1": [
-      "PMM0236"
-    ],
-    "tRNA-Leu2": [
-      "PMM0236"
-    ],
-    "tRNA-Leu3": [
-      "PMM0236"
-    ],
-    "tRNA-Leu4": [
-      "PMM0236"
-    ],
-    "tRNA-Lys1": [
-      "PMM0236"
-    ],
-    "tRNA-Met1": [
-      "PMM0236"
-    ],
-    "tRNA-Met2": [
-      "PMM0236"
-    ],
-    "tRNA-Met3": [
-      "PMM0236"
-    ],
-    "tRNA-Phe1": [
-      "PMM0236"
-    ],
-    "tRNA-Pro1": [
-      "PMM0236"
-    ],
-    "tRNA-Pro2": [
-      "PMM0236"
-    ],
-    "tRNA-Ser1": [
-      "PMM0236"
-    ],
-    "tRNA-Ser2": [
-      "PMM0236"
-    ],
-    "tRNA-Ser3": [
-      "PMM0236"
-    ],
-    "tRNA-Ser4": [
-      "PMM0236"
-    ],
-    "tRNA-Thr1": [
-      "PMM0236"
-    ],
-    "tRNA-Thr2": [
-      "PMM0236"
-    ],
-    "tRNA-Thr3": [
-      "PMM0236"
-    ],
-    "tRNA-Trp1": [
-      "PMM0236"
-    ],
-    "tRNA-Tyr1": [
-      "PMM0236"
-    ],
-    "tRNA-Val1": [
-      "PMM0236"
-    ],
-    "tRNA-Val2": [
-      "PMM0236"
-    ],
-    "tRNAAla1": [
-      "PMM0236"
-    ],
     "tRNAAla2": [
       "PMM0521"
-    ],
-    "tRNAArg1": [
-      "PMM0236"
-    ],
-    "tRNAArg2": [
-      "PMM0236"
-    ],
-    "tRNAArg3": [
-      "PMM0236"
-    ],
-    "tRNAArg4": [
-      "PMM0236"
-    ],
-    "tRNAAsn1": [
-      "PMM0236"
-    ],
-    "tRNAAsp1": [
-      "PMM0236"
-    ],
-    "tRNACys1": [
-      "PMM0236"
-    ],
-    "tRNAGln1": [
-      "PMM0236"
-    ],
-    "tRNAGlu1": [
-      "PMM0236"
-    ],
-    "tRNAGly1": [
-      "PMM0236"
-    ],
-    "tRNAGly2": [
-      "PMM0236"
-    ],
-    "tRNAGly3": [
-      "PMM0236"
-    ],
-    "tRNAHis1": [
-      "PMM0236"
-    ],
-    "tRNAIle1": [
-      "PMM0236"
-    ],
-    "tRNALeu1": [
-      "PMM0236"
-    ],
-    "tRNALeu2": [
-      "PMM0236"
-    ],
-    "tRNALeu3": [
-      "PMM0236"
-    ],
-    "tRNALeu4": [
-      "PMM0236"
-    ],
-    "tRNALys1": [
-      "PMM0236"
-    ],
-    "tRNAMet1": [
-      "PMM0236"
-    ],
-    "tRNAMet2": [
-      "PMM0236"
-    ],
-    "tRNAMet3": [
-      "PMM0236"
-    ],
-    "tRNAPhe1": [
-      "PMM0236"
-    ],
-    "tRNAPro1": [
-      "PMM0236"
-    ],
-    "tRNAPro2": [
-      "PMM0236"
-    ],
-    "tRNAPro3": [
-      "PMM0236"
-    ],
-    "tRNASer1": [
-      "PMM0236"
-    ],
-    "tRNASer2": [
-      "PMM0236"
-    ],
-    "tRNASer3": [
-      "PMM0236"
-    ],
-    "tRNASer4": [
-      "PMM0236"
-    ],
-    "tRNAThr1": [
-      "PMM0236"
-    ],
-    "tRNAThr2": [
-      "PMM0236"
-    ],
-    "tRNAThr3": [
-      "PMM0236"
-    ],
-    "tRNATrp1": [
-      "PMM0236"
-    ],
-    "tRNATyr1": [
-      "PMM0236"
-    ],
-    "tRNAVal2": [
-      "PMM0236"
-    ],
-    "tRNAVal3": [
-      "PMM0236"
     ],
     "tal": [
       "PMM0519"
@@ -228779,9 +226351,6 @@
     ],
     "tly": [
       "PMM1464"
-    ],
-    "tmRNA": [
-      "PMM0236"
     ],
     "tmk": [
       "PMM0130"
@@ -229232,7 +226801,6 @@
   },
   "organism": "MED4",
   "specific_lookup": {
-    "--": "PMM0236",
     "/": "PMM0762",
     "AT103": "PMM0844",
     "BioA": "PMM1472",
@@ -233191,7 +230759,6 @@
     "HyPMM126": "PMM1913",
     "HyPMM127": "PMM1914",
     "HyPMM128": "PMM1915",
-    "HyPMM129": "PMM0236",
     "HyPMM13": "PMM1811",
     "HyPMM131": "PMM1918",
     "HyPMM132": "PMM1919",
@@ -233219,13 +230786,11 @@
     "HyPMM152": "PMM1939",
     "HyPMM153": "PMM1940",
     "HyPMM154": "PMM1941",
-    "HyPMM155": "PMM0236",
     "HyPMM156": "PMM1943",
     "HyPMM157": "PMM1944",
     "HyPMM158": "PMM1945",
     "HyPMM159": "PMM1946",
     "HyPMM16": "PMM1813",
-    "HyPMM160": "PMM0236",
     "HyPMM161": "PMM1948",
     "HyPMM162": "PMM1949",
     "HyPMM163": "PMM1950",
@@ -233296,7 +230861,6 @@
     "HyPMM221": "PMM2000",
     "HyPMM222": "PMM2072",
     "HyPMM223": "PMM2001",
-    "HyPMM224": "PMM0236",
     "HyPMM225": "PMM2003",
     "HyPMM226": "PMM2004",
     "HyPMM227": "PMM2005",
@@ -233316,7 +230880,6 @@
     "HyPMM24": "PMM1821",
     "HyPMM240": "PMM2015",
     "HyPMM241": "PMM2016",
-    "HyPMM242": "PMM0236",
     "HyPMM243": "PMM2018",
     "HyPMM244": "PMM2019",
     "HyPMM245": "PMM2020",
@@ -233364,7 +230927,6 @@
     "HyPMM63": "PMM1855",
     "HyPMM64": "PMM1856",
     "HyPMM65": "PMM1857",
-    "HyPMM66": "PMM0236",
     "HyPMM67": "PMM1859",
     "HyPMM68": "PMM1860",
     "HyPMM69": "PMM1861",
@@ -233391,7 +230953,6 @@
     "HyPMM88": "PMM1877",
     "HyPMM89": "PMM1878",
     "HyPMM9": "PMM1807",
-    "HyPMM90": "PMM0236",
     "HyPMM91": "PMM1880",
     "HyPMM92": "PMM1881",
     "HyPMM93": "PMM1882",
@@ -235457,6 +233018,8 @@
     "PMED4_19261": "PMM1714",
     "PMED4_19271": "PMM1715",
     "PMED4_19281": "PMM1716",
+    "PMED4_pseudo_1": "PMM0236",
+    "PMED4_pseudo_2": "PMM1841",
     "PMM0106*": "PMM0106",
     "PMM0170*": "PMM0170",
     "PMM0195*": "PMM0195",
@@ -235564,50 +233127,7 @@
     "PMM2069*": "PMM2069",
     "PNIL34": "PMM0844",
     "PNIL34,AT103": "PMM0844",
-    "RNA_1": "PMM0236",
-    "RNA_10": "PMM0236",
-    "RNA_11": "PMM0236",
-    "RNA_12": "PMM0236",
-    "RNA_13": "PMM0236",
-    "RNA_14": "PMM0236",
-    "RNA_15": "PMM0236",
-    "RNA_16": "PMM0236",
-    "RNA_17": "PMM0236",
-    "RNA_18": "PMM0236",
-    "RNA_19": "PMM0236",
-    "RNA_2": "PMM0236",
-    "RNA_20": "PMM0236",
-    "RNA_21": "PMM0236",
-    "RNA_22": "PMM0236",
-    "RNA_23": "PMM0236",
-    "RNA_24": "PMM0236",
-    "RNA_25": "PMM0236",
-    "RNA_26": "PMM0236",
-    "RNA_27": "PMM0236",
-    "RNA_28": "PMM0236",
-    "RNA_29": "PMM0236",
-    "RNA_3": "PMM0236",
-    "RNA_30": "PMM0236",
-    "RNA_31": "PMM0236",
-    "RNA_32": "PMM0236",
-    "RNA_33": "PMM0236",
-    "RNA_34": "PMM0236",
-    "RNA_35": "PMM0236",
-    "RNA_36": "PMM0236",
-    "RNA_37": "PMM0236",
-    "RNA_38": "PMM0236",
-    "RNA_39": "PMM0236",
-    "RNA_4": "PMM0236",
-    "RNA_40": "PMM0236",
     "RNA_41": "PMM0521",
-    "RNA_42": "PMM0236",
-    "RNA_43": "PMM0236",
-    "RNA_44": "PMM0236",
-    "RNA_5": "PMM0236",
-    "RNA_6": "PMM0236",
-    "RNA_7": "PMM0236",
-    "RNA_8": "PMM0236",
-    "RNA_9": "PMM0236",
     "T8L23.23": "PMM0339",
     "TX50_RS00020": "PMM0001",
     "TX50_RS00025": "PMM0002",
@@ -235668,7 +233188,6 @@
     "TX50_RS00300": "PMM0057",
     "TX50_RS00305": "PMM0058",
     "TX50_RS00310": "PMM0059",
-    "TX50_RS00315": "PMM0236",
     "TX50_RS00320": "PMM0060",
     "TX50_RS00325": "PMM0061",
     "TX50_RS00330": "PMM0062",
@@ -235734,7 +233253,6 @@
     "TX50_RS00645": "PMM0123",
     "TX50_RS00650": "PMM0124",
     "TX50_RS00655": "PMM0125",
-    "TX50_RS00660": "PMM0236",
     "TX50_RS00665": "PMM0126",
     "TX50_RS00670": "PMM0127",
     "TX50_RS00675": "PMM0128",
@@ -235845,7 +233363,6 @@
     "TX50_RS01205": "PMM0234",
     "TX50_RS01210": "PMM0235",
     "TX50_RS01215": "PMM0236",
-    "TX50_RS01225": "PMM0236",
     "TX50_RS01230": "PMM0237",
     "TX50_RS01235": "PMM0238",
     "TX50_RS01240": "PMM0239",
@@ -235868,7 +233385,6 @@
     "TX50_RS01325": "PMM0256",
     "TX50_RS01330": "PMM0257",
     "TX50_RS01335": "PMM0258",
-    "TX50_RS01340": "PMM0236",
     "TX50_RS01345": "PMM0259",
     "TX50_RS01350": "PMM0260",
     "TX50_RS01355": "PMM0261",
@@ -235885,7 +233401,6 @@
     "TX50_RS01410": "PMM0272",
     "TX50_RS01415": "PMM0273",
     "TX50_RS01420": "PMM0274",
-    "TX50_RS01425": "PMM0236",
     "TX50_RS01430": "PMM0275",
     "TX50_RS01435": "PMM0276",
     "TX50_RS01440": "PMM0277",
@@ -235921,7 +233436,6 @@
     "TX50_RS01590": "PMM0307",
     "TX50_RS01595": "PMM0308",
     "TX50_RS01600": "PMM0309",
-    "TX50_RS01605": "PMM0236",
     "TX50_RS01610": "PMM0310",
     "TX50_RS01615": "PMM0311",
     "TX50_RS01620": "PMM0312",
@@ -235932,7 +233446,6 @@
     "TX50_RS01645": "PMM0317",
     "TX50_RS01650": "PMM0318",
     "TX50_RS01655": "PMM0319",
-    "TX50_RS01660": "PMM0236",
     "TX50_RS01665": "PMM0320",
     "TX50_RS01670": "PMM0321",
     "TX50_RS01675": "PMM0322",
@@ -235941,10 +233454,6 @@
     "TX50_RS01690": "PMM0325",
     "TX50_RS01695": "PMM0326",
     "TX50_RS01700": "PMM0327",
-    "TX50_RS01705": "PMM0236",
-    "TX50_RS01710": "PMM0236",
-    "TX50_RS01715": "PMM0236",
-    "TX50_RS01720": "PMM0236",
     "TX50_RS01725": "PMM0521",
     "TX50_RS01730": "PMM0328",
     "TX50_RS01735": "PMM0329",
@@ -236014,8 +233523,6 @@
     "TX50_RS02055": "PMM1841",
     "TX50_RS02060": "PMM0386",
     "TX50_RS02070": "PMM1843",
-    "TX50_RS02075": "PMM0236",
-    "TX50_RS02080": "PMM0236",
     "TX50_RS02085": "PMM0387",
     "TX50_RS02090": "PMM0388",
     "TX50_RS02095": "PMM0389",
@@ -236107,9 +233614,7 @@
     "TX50_RS02530": "PMM0471",
     "TX50_RS02535": "PMM0472",
     "TX50_RS02540": "PMM0473",
-    "TX50_RS02545": "PMM0236",
     "TX50_RS02550": "PMM0474",
-    "TX50_RS02555": "PMM0236",
     "TX50_RS02560": "PMM0475",
     "TX50_RS02565": "PMM0476",
     "TX50_RS02570": "PMM0477",
@@ -236206,7 +233711,6 @@
     "TX50_RS03025": "PMM0567",
     "TX50_RS03030": "PMM0568",
     "TX50_RS03035": "PMM0569",
-    "TX50_RS03040": "PMM0236",
     "TX50_RS03045": "PMM0570",
     "TX50_RS03050": "PMM0571",
     "TX50_RS03055": "PMM0572",
@@ -236296,7 +233800,6 @@
     "TX50_RS03485": "PMM1855",
     "TX50_RS03490": "PMM0657",
     "TX50_RS03495": "PMM0658",
-    "TX50_RS03500": "PMM0236",
     "TX50_RS03505": "PMM0659",
     "TX50_RS03510": "PMM1859",
     "TX50_RS03515": "PMM0660",
@@ -236467,7 +233970,6 @@
     "TX50_RS04380": "PMM0818",
     "TX50_RS04385": "PMM0819",
     "TX50_RS04390": "PMM0820",
-    "TX50_RS04395": "PMM0236",
     "TX50_RS04400": "PMM0821",
     "TX50_RS04405": "PMM0822",
     "TX50_RS04410": "PMM0823",
@@ -236505,10 +234007,8 @@
     "TX50_RS04580": "PMM0857",
     "TX50_RS04585": "PMM0858",
     "TX50_RS04590": "PMM0859",
-    "TX50_RS04595": "PMM0236",
     "TX50_RS04600": "PMM0860",
     "TX50_RS04605": "PMM0861",
-    "TX50_RS04610": "PMM0236",
     "TX50_RS04615": "PMM0862",
     "TX50_RS04620": "PMM0863",
     "TX50_RS04625": "PMM0864",
@@ -236545,7 +234045,6 @@
     "TX50_RS04780": "PMM0895",
     "TX50_RS04785": "PMM0896",
     "TX50_RS04790": "PMM0897",
-    "TX50_RS04795": "PMM0236",
     "TX50_RS04800": "PMM0898",
     "TX50_RS04805": "PMM0899",
     "TX50_RS04810": "PMM0900",
@@ -236603,7 +234102,6 @@
     "TX50_RS05070": "PMM0953",
     "TX50_RS05075": "PMM0954",
     "TX50_RS05080": "PMM0955",
-    "TX50_RS05085": "PMM0236",
     "TX50_RS05090": "PMM0956",
     "TX50_RS05095": "PMM0957",
     "TX50_RS05100": "PMM0958",
@@ -236732,7 +234230,6 @@
     "TX50_RS05765": "PMM1074",
     "TX50_RS05770": "PMM1075",
     "TX50_RS05775": "PMM1076",
-    "TX50_RS05780": "PMM0236",
     "TX50_RS05785": "PMM1077",
     "TX50_RS05790": "PMM1078",
     "TX50_RS05795": "PMM1079",
@@ -236774,13 +234271,11 @@
     "TX50_RS05975": "PMM1115",
     "TX50_RS05980": "PMM1116",
     "TX50_RS05985": "PMM1117",
-    "TX50_RS05990": "PMM0236",
     "TX50_RS05995": "PMM1118",
     "TX50_RS06000": "PMM1119",
     "TX50_RS06005": "PMM1120",
     "TX50_RS06010": "PMM1121",
     "TX50_RS06015": "PMM1122",
-    "TX50_RS06020": "PMM0236",
     "TX50_RS06025": "PMM1123",
     "TX50_RS06035": "PMM1125",
     "TX50_RS06050": "PMM1127",
@@ -236828,7 +234323,6 @@
     "TX50_RS06265": "PMM1162",
     "TX50_RS06270": "PMM1163",
     "TX50_RS06275": "PMM1968",
-    "TX50_RS06285": "PMM0236",
     "TX50_RS06290": "PMM1164",
     "TX50_RS06295": "PMM1165",
     "TX50_RS06300": "PMM1166",
@@ -236862,7 +234356,6 @@
     "TX50_RS06440": "PMM1194",
     "TX50_RS06445": "PMM1195",
     "TX50_RS06450": "PMM1196",
-    "TX50_RS06455": "PMM0236",
     "TX50_RS06460": "PMM1197",
     "TX50_RS06465": "PMM1198",
     "TX50_RS06470": "PMM1199",
@@ -236917,7 +234410,6 @@
     "TX50_RS06735": "PMM1253",
     "TX50_RS06740": "PMM1254",
     "TX50_RS06745": "PMM1255",
-    "TX50_RS06750": "PMM0236",
     "TX50_RS06755": "PMM1256",
     "TX50_RS06760": "PMM1257",
     "TX50_RS06765": "PMM1258",
@@ -236960,12 +234452,10 @@
     "TX50_RS06960": "PMM1298",
     "TX50_RS06965": "PMM1299",
     "TX50_RS06970": "PMM1300",
-    "TX50_RS06975": "PMM0236",
     "TX50_RS06980": "PMM1301",
     "TX50_RS06985": "PMM1302",
     "TX50_RS06990": "PMM1303",
     "TX50_RS06995": "PMM1304",
-    "TX50_RS07000": "PMM0236",
     "TX50_RS07005": "PMM1305",
     "TX50_RS07010": "PMM1306",
     "TX50_RS07015": "PMM1307",
@@ -236984,7 +234474,6 @@
     "TX50_RS07085": "PMM1320",
     "TX50_RS07090": "PMM1321",
     "TX50_RS07095": "PMM1322",
-    "TX50_RS07100": "PMM0236",
     "TX50_RS07105": "PMM1323",
     "TX50_RS07110": "PMM1324",
     "TX50_RS07115": "PMM1325",
@@ -237019,7 +234508,6 @@
     "TX50_RS07260": "PMM1354",
     "TX50_RS07265": "PMM1355",
     "TX50_RS07270": "PMM1356",
-    "TX50_RS07275": "PMM0236",
     "TX50_RS07280": "PMM1357",
     "TX50_RS07285": "PMM1358",
     "TX50_RS07290": "PMM1359",
@@ -237194,7 +234682,6 @@
     "TX50_RS08170": "PMM1524",
     "TX50_RS08175": "PMM1525",
     "TX50_RS08180": "PMM1526",
-    "TX50_RS08185": "PMM0236",
     "TX50_RS08190": "PMM1527",
     "TX50_RS08195": "PMM1528",
     "TX50_RS08200": "PMM1529",
@@ -237228,7 +234715,6 @@
     "TX50_RS08340": "PMM1558",
     "TX50_RS08345": "PMM1559",
     "TX50_RS08350": "PMM1560",
-    "TX50_RS08355": "PMM0236",
     "TX50_RS08360": "PMM1561",
     "TX50_RS08365": "PMM1562",
     "TX50_RS08370": "PMM1563",
@@ -237242,7 +234728,6 @@
     "TX50_RS08410": "PMM1571",
     "TX50_RS08415": "PMM1572",
     "TX50_RS08420": "PMM1573",
-    "TX50_RS08425": "PMM0236",
     "TX50_RS08430": "PMM1574",
     "TX50_RS08435": "PMM1575",
     "TX50_RS08440": "PMM1576",
@@ -237255,7 +234740,6 @@
     "TX50_RS08475": "PMM1583",
     "TX50_RS08480": "PMM1584",
     "TX50_RS08485": "PMM1585",
-    "TX50_RS08495": "PMM0236",
     "TX50_RS08500": "PMM1588",
     "TX50_RS08505": "PMM1589",
     "TX50_RS08510": "PMM1590",
@@ -237271,7 +234755,6 @@
     "TX50_RS08560": "PMM1600",
     "TX50_RS08565": "PMM1601",
     "TX50_RS08570": "PMM1602",
-    "TX50_RS08575": "PMM0236",
     "TX50_RS08580": "PMM1603",
     "TX50_RS08585": "PMM1604",
     "TX50_RS08590": "PMM1605",
@@ -237312,7 +234795,6 @@
     "TX50_RS08765": "PMM1640",
     "TX50_RS08770": "PMM1641",
     "TX50_RS08775": "PMM1642",
-    "TX50_RS08780": "PMM0236",
     "TX50_RS08785": "PMM1643",
     "TX50_RS08790": "PMM1644",
     "TX50_RS08795": "PMM1645",
@@ -237354,7 +234836,6 @@
     "TX50_RS08975": "PMM1681",
     "TX50_RS08980": "PMM1682",
     "TX50_RS08985": "PMM1683",
-    "TX50_RS08990": "PMM0236",
     "TX50_RS08995": "PMM1684",
     "TX50_RS09000": "PMM1685",
     "TX50_RS09005": "PMM1686",
@@ -237394,7 +234875,6 @@
     "TX50_RS09205": "PMM1230",
     "TX50_RS09210": "PMM1252",
     "TX50_RS09215": "PMM1425",
-    "TX50_RS09220": "PMM0236",
     "TX50_RS09230": "PMM0111",
     "TX50_RS09240": "PMM0220",
     "TX50_RS09245": "PMM0299",
@@ -237403,7 +234883,6 @@
     "TX50_RS09285": "PMM1884",
     "TX50_RS09300": "PMM0950",
     "TX50_RS09315": "PMM1005",
-    "TX50_RS09320": "PMM0236",
     "TX50_RS09325": "PMM2002",
     "TX50_RS09330": "PMM1427",
     "TX50_RS09335": "PMM1538",
@@ -237514,8 +234993,6 @@
     "TX50_RS09980": "PMM2018",
     "TX50_RS09985": "PMM1976",
     "TX50_RS09990": "PMM1245",
-    "TibPMM1": "PMM0236",
-    "TibPMM2": "PMM0236",
     "WP_002805124.1": "PMM0253",
     "WP_002805169.1": "PMM1455",
     "WP_002805854.1": "PMM0550",
@@ -239388,27 +236865,6 @@
     "WP_327077679.1": "PMM0234",
     "WP_412081025.1": "PMM1855",
     "WP_412081026.1": "PMM0050",
-    "Yfr1": "PMM0236",
-    "Yfr10": "PMM0236",
-    "Yfr11": "PMM0236",
-    "Yfr12": "PMM0236",
-    "Yfr13": "PMM0236",
-    "Yfr14": "PMM0236",
-    "Yfr15": "PMM0236",
-    "Yfr16": "PMM0236",
-    "Yfr17": "PMM0236",
-    "Yfr18": "PMM0236",
-    "Yfr19": "PMM0236",
-    "Yfr2": "PMM0236",
-    "Yfr20": "PMM0236",
-    "Yfr21": "PMM0236",
-    "Yfr3": "PMM0236",
-    "Yfr4": "PMM0236",
-    "Yfr5": "PMM0236",
-    "Yfr6": "PMM0236",
-    "Yfr7": "PMM0236",
-    "Yfr8": "PMM0236",
-    "Yfr9": "PMM0236",
     "accA": "PMM0534",
     "accB": "PMM0027",
     "accB,fabE": "PMM0027",
@@ -239455,30 +236911,6 @@
     "arsB": "PMM0716",
     "arsJ": "PMM0712",
     "arsS": "PMM0638",
-    "asRNA_00641": "PMM0236",
-    "asRNA_00771": "PMM0236",
-    "asRNA_02331": "PMM0236",
-    "asRNA_02731": "PMM0236",
-    "asRNA_03211": "PMM0236",
-    "asRNA_03431": "PMM0236",
-    "asRNA_04001": "PMM0236",
-    "asRNA_04101": "PMM0236",
-    "asRNA_04601": "PMM0236",
-    "asRNA_07401": "PMM0236",
-    "asRNA_07481": "PMM0236",
-    "asRNA_07511": "PMM0236",
-    "asRNA_12751": "PMM0236",
-    "asRNA_15701": "PMM0236",
-    "asRNA_15721": "PMM0236",
-    "asRNA_15771": "PMM0236",
-    "asRNA_16031": "PMM0236",
-    "asRNA_16221": "PMM0236",
-    "asRNA_16371": "PMM0236",
-    "asRNA_17181": "PMM0236",
-    "asRNA_17331": "PMM0236",
-    "asRNA_17971": "PMM0236",
-    "asRNA_18171": "PMM0236",
-    "asRNA_38": "PMM0236",
     "asd": "PMM1654",
     "aspC": "PMM0674",
     "aspS": "PMM1688",
@@ -239664,7 +237096,6 @@
     "fda": "PMM0781",
     "fdv": "PMM1645",
     "ffh": "PMM1286",
-    "ffs": "PMM0236",
     "fldA": "PMM1171",
     "fmt": "PMM0841",
     "folB": "PMM0591",
@@ -241661,50 +239092,7 @@
     "gene-PMM2074": "PMM2074",
     "gene-PMM2075": "PMM2075",
     "gene-PMM2077": "PMM2077",
-    "gene-RNA_1": "PMM0236",
-    "gene-RNA_10": "PMM0236",
-    "gene-RNA_11": "PMM0236",
-    "gene-RNA_12": "PMM0236",
-    "gene-RNA_13": "PMM0236",
-    "gene-RNA_14": "PMM0236",
-    "gene-RNA_15": "PMM0236",
-    "gene-RNA_16": "PMM0236",
-    "gene-RNA_17": "PMM0236",
-    "gene-RNA_18": "PMM0236",
-    "gene-RNA_19": "PMM0236",
-    "gene-RNA_2": "PMM0236",
-    "gene-RNA_20": "PMM0236",
-    "gene-RNA_21": "PMM0236",
-    "gene-RNA_22": "PMM0236",
-    "gene-RNA_23": "PMM0236",
-    "gene-RNA_24": "PMM0236",
-    "gene-RNA_25": "PMM0236",
-    "gene-RNA_26": "PMM0236",
-    "gene-RNA_27": "PMM0236",
-    "gene-RNA_28": "PMM0236",
-    "gene-RNA_29": "PMM0236",
-    "gene-RNA_3": "PMM0236",
-    "gene-RNA_30": "PMM0236",
-    "gene-RNA_31": "PMM0236",
-    "gene-RNA_32": "PMM0236",
-    "gene-RNA_33": "PMM0236",
-    "gene-RNA_34": "PMM0236",
-    "gene-RNA_35": "PMM0236",
-    "gene-RNA_36": "PMM0236",
-    "gene-RNA_37": "PMM0236",
-    "gene-RNA_38": "PMM0236",
-    "gene-RNA_39": "PMM0236",
-    "gene-RNA_4": "PMM0236",
-    "gene-RNA_40": "PMM0236",
     "gene-RNA_41": "PMM0521",
-    "gene-RNA_42": "PMM0236",
-    "gene-RNA_43": "PMM0236",
-    "gene-RNA_44": "PMM0236",
-    "gene-RNA_5": "PMM0236",
-    "gene-RNA_6": "PMM0236",
-    "gene-RNA_7": "PMM0236",
-    "gene-RNA_8": "PMM0236",
-    "gene-RNA_9": "PMM0236",
     "gene-TX50_RS00020": "PMM0001",
     "gene-TX50_RS00025": "PMM0002",
     "gene-TX50_RS00030": "PMM0003",
@@ -241764,7 +239152,6 @@
     "gene-TX50_RS00300": "PMM0057",
     "gene-TX50_RS00305": "PMM0058",
     "gene-TX50_RS00310": "PMM0059",
-    "gene-TX50_RS00315": "PMM0236",
     "gene-TX50_RS00320": "PMM0060",
     "gene-TX50_RS00325": "PMM0061",
     "gene-TX50_RS00330": "PMM0062",
@@ -241830,7 +239217,6 @@
     "gene-TX50_RS00645": "PMM0123",
     "gene-TX50_RS00650": "PMM0124",
     "gene-TX50_RS00655": "PMM0125",
-    "gene-TX50_RS00660": "PMM0236",
     "gene-TX50_RS00665": "PMM0126",
     "gene-TX50_RS00670": "PMM0127",
     "gene-TX50_RS00675": "PMM0128",
@@ -241941,7 +239327,6 @@
     "gene-TX50_RS01205": "PMM0234",
     "gene-TX50_RS01210": "PMM0235",
     "gene-TX50_RS01215": "PMM0236",
-    "gene-TX50_RS01225": "PMM0236",
     "gene-TX50_RS01230": "PMM0237",
     "gene-TX50_RS01235": "PMM0238",
     "gene-TX50_RS01240": "PMM0239",
@@ -241964,7 +239349,6 @@
     "gene-TX50_RS01325": "PMM0256",
     "gene-TX50_RS01330": "PMM0257",
     "gene-TX50_RS01335": "PMM0258",
-    "gene-TX50_RS01340": "PMM0236",
     "gene-TX50_RS01345": "PMM0259",
     "gene-TX50_RS01350": "PMM0260",
     "gene-TX50_RS01355": "PMM0261",
@@ -241981,7 +239365,6 @@
     "gene-TX50_RS01410": "PMM0272",
     "gene-TX50_RS01415": "PMM0273",
     "gene-TX50_RS01420": "PMM0274",
-    "gene-TX50_RS01425": "PMM0236",
     "gene-TX50_RS01430": "PMM0275",
     "gene-TX50_RS01435": "PMM0276",
     "gene-TX50_RS01440": "PMM0277",
@@ -242017,7 +239400,6 @@
     "gene-TX50_RS01590": "PMM0307",
     "gene-TX50_RS01595": "PMM0308",
     "gene-TX50_RS01600": "PMM0309",
-    "gene-TX50_RS01605": "PMM0236",
     "gene-TX50_RS01610": "PMM0310",
     "gene-TX50_RS01615": "PMM0311",
     "gene-TX50_RS01620": "PMM0312",
@@ -242028,7 +239410,6 @@
     "gene-TX50_RS01645": "PMM0317",
     "gene-TX50_RS01650": "PMM0318",
     "gene-TX50_RS01655": "PMM0319",
-    "gene-TX50_RS01660": "PMM0236",
     "gene-TX50_RS01665": "PMM0320",
     "gene-TX50_RS01670": "PMM0321",
     "gene-TX50_RS01675": "PMM0322",
@@ -242037,10 +239418,6 @@
     "gene-TX50_RS01690": "PMM0325",
     "gene-TX50_RS01695": "PMM0326",
     "gene-TX50_RS01700": "PMM0327",
-    "gene-TX50_RS01705": "PMM0236",
-    "gene-TX50_RS01710": "PMM0236",
-    "gene-TX50_RS01715": "PMM0236",
-    "gene-TX50_RS01720": "PMM0236",
     "gene-TX50_RS01725": "PMM0521",
     "gene-TX50_RS01730": "PMM0328",
     "gene-TX50_RS01735": "PMM0329",
@@ -242110,8 +239487,6 @@
     "gene-TX50_RS02055": "PMM1841",
     "gene-TX50_RS02060": "PMM0386",
     "gene-TX50_RS02070": "PMM1843",
-    "gene-TX50_RS02075": "PMM0236",
-    "gene-TX50_RS02080": "PMM0236",
     "gene-TX50_RS02085": "PMM0387",
     "gene-TX50_RS02090": "PMM0388",
     "gene-TX50_RS02095": "PMM0389",
@@ -242203,9 +239578,7 @@
     "gene-TX50_RS02530": "PMM0471",
     "gene-TX50_RS02535": "PMM0472",
     "gene-TX50_RS02540": "PMM0473",
-    "gene-TX50_RS02545": "PMM0236",
     "gene-TX50_RS02550": "PMM0474",
-    "gene-TX50_RS02555": "PMM0236",
     "gene-TX50_RS02560": "PMM0475",
     "gene-TX50_RS02565": "PMM0476",
     "gene-TX50_RS02570": "PMM0477",
@@ -242302,7 +239675,6 @@
     "gene-TX50_RS03025": "PMM0567",
     "gene-TX50_RS03030": "PMM0568",
     "gene-TX50_RS03035": "PMM0569",
-    "gene-TX50_RS03040": "PMM0236",
     "gene-TX50_RS03045": "PMM0570",
     "gene-TX50_RS03050": "PMM0571",
     "gene-TX50_RS03055": "PMM0572",
@@ -242392,7 +239764,6 @@
     "gene-TX50_RS03485": "PMM1855",
     "gene-TX50_RS03490": "PMM0657",
     "gene-TX50_RS03495": "PMM0658",
-    "gene-TX50_RS03500": "PMM0236",
     "gene-TX50_RS03505": "PMM0659",
     "gene-TX50_RS03510": "PMM1859",
     "gene-TX50_RS03515": "PMM0660",
@@ -242564,7 +239935,6 @@
     "gene-TX50_RS04380": "PMM0818",
     "gene-TX50_RS04385": "PMM0819",
     "gene-TX50_RS04390": "PMM0820",
-    "gene-TX50_RS04395": "PMM0236",
     "gene-TX50_RS04400": "PMM0821",
     "gene-TX50_RS04405": "PMM0822",
     "gene-TX50_RS04410": "PMM0823",
@@ -242602,10 +239972,8 @@
     "gene-TX50_RS04580": "PMM0857",
     "gene-TX50_RS04585": "PMM0858",
     "gene-TX50_RS04590": "PMM0859",
-    "gene-TX50_RS04595": "PMM0236",
     "gene-TX50_RS04600": "PMM0860",
     "gene-TX50_RS04605": "PMM0861",
-    "gene-TX50_RS04610": "PMM0236",
     "gene-TX50_RS04615": "PMM0862",
     "gene-TX50_RS04620": "PMM0863",
     "gene-TX50_RS04625": "PMM0864",
@@ -242642,7 +240010,6 @@
     "gene-TX50_RS04780": "PMM0895",
     "gene-TX50_RS04785": "PMM0896",
     "gene-TX50_RS04790": "PMM0897",
-    "gene-TX50_RS04795": "PMM0236",
     "gene-TX50_RS04800": "PMM0898",
     "gene-TX50_RS04805": "PMM0899",
     "gene-TX50_RS04810": "PMM0900",
@@ -242700,7 +240067,6 @@
     "gene-TX50_RS05070": "PMM0953",
     "gene-TX50_RS05075": "PMM0954",
     "gene-TX50_RS05080": "PMM0955",
-    "gene-TX50_RS05085": "PMM0236",
     "gene-TX50_RS05090": "PMM0956",
     "gene-TX50_RS05095": "PMM0957",
     "gene-TX50_RS05100": "PMM0958",
@@ -242829,7 +240195,6 @@
     "gene-TX50_RS05765": "PMM1074",
     "gene-TX50_RS05770": "PMM1075",
     "gene-TX50_RS05775": "PMM1076",
-    "gene-TX50_RS05780": "PMM0236",
     "gene-TX50_RS05785": "PMM1077",
     "gene-TX50_RS05790": "PMM1078",
     "gene-TX50_RS05795": "PMM1079",
@@ -242871,13 +240236,11 @@
     "gene-TX50_RS05975": "PMM1115",
     "gene-TX50_RS05980": "PMM1116",
     "gene-TX50_RS05985": "PMM1117",
-    "gene-TX50_RS05990": "PMM0236",
     "gene-TX50_RS05995": "PMM1118",
     "gene-TX50_RS06000": "PMM1119",
     "gene-TX50_RS06005": "PMM1120",
     "gene-TX50_RS06010": "PMM1121",
     "gene-TX50_RS06015": "PMM1122",
-    "gene-TX50_RS06020": "PMM0236",
     "gene-TX50_RS06025": "PMM1123",
     "gene-TX50_RS06035": "PMM1125",
     "gene-TX50_RS06050": "PMM1127",
@@ -242925,7 +240288,6 @@
     "gene-TX50_RS06265": "PMM1162",
     "gene-TX50_RS06270": "PMM1163",
     "gene-TX50_RS06275": "PMM1968",
-    "gene-TX50_RS06285": "PMM0236",
     "gene-TX50_RS06290": "PMM1164",
     "gene-TX50_RS06295": "PMM1165",
     "gene-TX50_RS06300": "PMM1166",
@@ -242959,7 +240321,6 @@
     "gene-TX50_RS06440": "PMM1194",
     "gene-TX50_RS06445": "PMM1195",
     "gene-TX50_RS06450": "PMM1196",
-    "gene-TX50_RS06455": "PMM0236",
     "gene-TX50_RS06460": "PMM1197",
     "gene-TX50_RS06465": "PMM1198",
     "gene-TX50_RS06470": "PMM1199",
@@ -243014,7 +240375,6 @@
     "gene-TX50_RS06735": "PMM1253",
     "gene-TX50_RS06740": "PMM1254",
     "gene-TX50_RS06745": "PMM1255",
-    "gene-TX50_RS06750": "PMM0236",
     "gene-TX50_RS06755": "PMM1256",
     "gene-TX50_RS06760": "PMM1257",
     "gene-TX50_RS06765": "PMM1258",
@@ -243057,12 +240417,10 @@
     "gene-TX50_RS06960": "PMM1298",
     "gene-TX50_RS06965": "PMM1299",
     "gene-TX50_RS06970": "PMM1300",
-    "gene-TX50_RS06975": "PMM0236",
     "gene-TX50_RS06980": "PMM1301",
     "gene-TX50_RS06985": "PMM1302",
     "gene-TX50_RS06990": "PMM1303",
     "gene-TX50_RS06995": "PMM1304",
-    "gene-TX50_RS07000": "PMM0236",
     "gene-TX50_RS07005": "PMM1305",
     "gene-TX50_RS07010": "PMM1306",
     "gene-TX50_RS07015": "PMM1307",
@@ -243081,7 +240439,6 @@
     "gene-TX50_RS07085": "PMM1320",
     "gene-TX50_RS07090": "PMM1321",
     "gene-TX50_RS07095": "PMM1322",
-    "gene-TX50_RS07100": "PMM0236",
     "gene-TX50_RS07105": "PMM1323",
     "gene-TX50_RS07110": "PMM1324",
     "gene-TX50_RS07115": "PMM1325",
@@ -243116,7 +240473,6 @@
     "gene-TX50_RS07260": "PMM1354",
     "gene-TX50_RS07265": "PMM1355",
     "gene-TX50_RS07270": "PMM1356",
-    "gene-TX50_RS07275": "PMM0236",
     "gene-TX50_RS07280": "PMM1357",
     "gene-TX50_RS07285": "PMM1358",
     "gene-TX50_RS07290": "PMM1359",
@@ -243291,7 +240647,6 @@
     "gene-TX50_RS08170": "PMM1524",
     "gene-TX50_RS08175": "PMM1525",
     "gene-TX50_RS08180": "PMM1526",
-    "gene-TX50_RS08185": "PMM0236",
     "gene-TX50_RS08190": "PMM1527",
     "gene-TX50_RS08195": "PMM1528",
     "gene-TX50_RS08200": "PMM1529",
@@ -243325,7 +240680,6 @@
     "gene-TX50_RS08340": "PMM1558",
     "gene-TX50_RS08345": "PMM1559",
     "gene-TX50_RS08350": "PMM1560",
-    "gene-TX50_RS08355": "PMM0236",
     "gene-TX50_RS08360": "PMM1561",
     "gene-TX50_RS08365": "PMM1562",
     "gene-TX50_RS08370": "PMM1563",
@@ -243339,7 +240693,6 @@
     "gene-TX50_RS08410": "PMM1571",
     "gene-TX50_RS08415": "PMM1572",
     "gene-TX50_RS08420": "PMM1573",
-    "gene-TX50_RS08425": "PMM0236",
     "gene-TX50_RS08430": "PMM1574",
     "gene-TX50_RS08435": "PMM1575",
     "gene-TX50_RS08440": "PMM1576",
@@ -243352,7 +240705,6 @@
     "gene-TX50_RS08475": "PMM1583",
     "gene-TX50_RS08480": "PMM1584",
     "gene-TX50_RS08485": "PMM1585",
-    "gene-TX50_RS08495": "PMM0236",
     "gene-TX50_RS08500": "PMM1588",
     "gene-TX50_RS08505": "PMM1589",
     "gene-TX50_RS08510": "PMM1590",
@@ -243368,7 +240720,6 @@
     "gene-TX50_RS08560": "PMM1600",
     "gene-TX50_RS08565": "PMM1601",
     "gene-TX50_RS08570": "PMM1602",
-    "gene-TX50_RS08575": "PMM0236",
     "gene-TX50_RS08580": "PMM1603",
     "gene-TX50_RS08585": "PMM1604",
     "gene-TX50_RS08590": "PMM1605",
@@ -243409,7 +240760,6 @@
     "gene-TX50_RS08765": "PMM1640",
     "gene-TX50_RS08770": "PMM1641",
     "gene-TX50_RS08775": "PMM1642",
-    "gene-TX50_RS08780": "PMM0236",
     "gene-TX50_RS08785": "PMM1643",
     "gene-TX50_RS08790": "PMM1644",
     "gene-TX50_RS08795": "PMM1645",
@@ -243451,7 +240801,6 @@
     "gene-TX50_RS08975": "PMM1681",
     "gene-TX50_RS08980": "PMM1682",
     "gene-TX50_RS08985": "PMM1683",
-    "gene-TX50_RS08990": "PMM0236",
     "gene-TX50_RS08995": "PMM1684",
     "gene-TX50_RS09000": "PMM1685",
     "gene-TX50_RS09005": "PMM1686",
@@ -243491,7 +240840,6 @@
     "gene-TX50_RS09205": "PMM1230",
     "gene-TX50_RS09210": "PMM1252",
     "gene-TX50_RS09215": "PMM1425",
-    "gene-TX50_RS09220": "PMM0236",
     "gene-TX50_RS09230": "PMM0111",
     "gene-TX50_RS09240": "PMM0220",
     "gene-TX50_RS09245": "PMM0299",
@@ -243503,7 +240851,6 @@
     "gene-TX50_RS09290": "TX50_RS09290",
     "gene-TX50_RS09300": "PMM0950",
     "gene-TX50_RS09315": "PMM1005",
-    "gene-TX50_RS09320": "PMM0236",
     "gene-TX50_RS09325": "PMM2002",
     "gene-TX50_RS09330": "PMM1427",
     "gene-TX50_RS09335": "PMM1538",
@@ -245961,7 +243308,6 @@
     "rnd": "PMM1584",
     "rnhA": "PMM0200",
     "rnpA": "PMM1184",
-    "rnpB": "PMM0236",
     "rnz": "PMM1349",
     "rodA": "PMM1580",
     "rpaA": "PMM0128",
@@ -246300,43 +243646,6 @@
     "sufB": "PMM0073",
     "sufC": "PMM0072",
     "surE": "PMM1271",
-    "tRNA-Ala1": "PMM0236",
-    "tRNA-Ala2": "PMM0236",
-    "tRNA-Arg1": "PMM0236",
-    "tRNA-Arg2": "PMM0236",
-    "tRNA-Arg3": "PMM0236",
-    "tRNA-Arg4": "PMM0236",
-    "tRNA-Asn1": "PMM0236",
-    "tRNA-Asp1": "PMM0236",
-    "tRNA-Cys1": "PMM0236",
-    "tRNA-Gln1": "PMM0236",
-    "tRNA-Glu1": "PMM0236",
-    "tRNA-Gly1": "PMM0236",
-    "tRNA-Gly2": "PMM0236",
-    "tRNA-His1": "PMM0236",
-    "tRNA-Ile1": "PMM0236",
-    "tRNA-Leu1": "PMM0236",
-    "tRNA-Leu2": "PMM0236",
-    "tRNA-Leu3": "PMM0236",
-    "tRNA-Leu4": "PMM0236",
-    "tRNA-Lys1": "PMM0236",
-    "tRNA-Met1": "PMM0236",
-    "tRNA-Met2": "PMM0236",
-    "tRNA-Met3": "PMM0236",
-    "tRNA-Phe1": "PMM0236",
-    "tRNA-Pro1": "PMM0236",
-    "tRNA-Pro2": "PMM0236",
-    "tRNA-Ser1": "PMM0236",
-    "tRNA-Ser2": "PMM0236",
-    "tRNA-Ser3": "PMM0236",
-    "tRNA-Ser4": "PMM0236",
-    "tRNA-Thr1": "PMM0236",
-    "tRNA-Thr2": "PMM0236",
-    "tRNA-Thr3": "PMM0236",
-    "tRNA-Trp1": "PMM0236",
-    "tRNA-Tyr1": "PMM0236",
-    "tRNA-Val1": "PMM0236",
-    "tRNA-Val2": "PMM0236",
     "tal": "PMM0519",
     "tatC": "PMM0464",
     "tgt": "PMM0271",
@@ -246361,7 +243670,6 @@
     "tktA, cbbT": "PMM1610",
     "tktA,cbbT": "PMM1610",
     "tldD": "PMM0843",
-    "tmRNA": "PMM0236",
     "tmk": "PMM0130",
     "todF": "PMM1086",
     "topA": "PMM0436",
@@ -246443,11 +243751,11 @@
     "zwf": "PMM1074"
   },
   "stats": {
-    "n_conflicts": 43,
+    "n_conflicts": 42,
     "n_genes": 1976,
-    "n_multi": 10718,
-    "n_specific": 17209,
-    "passes": 4
+    "n_multi": 10633,
+    "n_specific": 16948,
+    "passes": 3
   },
   "strain": "MED4",
   "version": 2

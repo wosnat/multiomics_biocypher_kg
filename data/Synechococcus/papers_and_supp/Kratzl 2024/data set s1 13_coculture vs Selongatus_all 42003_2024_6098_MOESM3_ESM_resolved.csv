@@ -105,7 +105,7 @@ Synpcc7942_0216,Q31RS1,-0.975,0.00323,0.0101, Putative zinc-binding oxidoreducta
 nrtC,P38045,-0.974,8.85e-05,0.000545, Nitrate import ATP-binding protein NrtC OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=nrtC PE=1 SV=1,H6G84_08800,tier1:Gene Name
 Synpcc7942_1065,Q31PC4,-0.971,0.00273,0.00874, DEAD/DEAH box helicase-like OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_1065 PE=4 SV=1,H6G84_09695,tier1:Gene Name
 Synpcc7942_1501,Q31N38,-0.965,4.67e-05,0.000338, D-3-phosphoglycerate dehydrogenase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_1501 PE=3 SV=1,H6G84_11150,tier1:Gene Name
-pepA,O06865,-0.964,0.000831,0.00325, Probable cytosol aminopeptidase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=pepA PE=3 SV=2,H6G84_09045,tier1:Gene Name
+pepA,O06865,-0.964,0.000831,0.00325, Probable cytosol aminopeptidase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=pepA PE=3 SV=2,,unresolved
 ilvD,Q31QL1,-0.952,0.0655,0.134, Dihydroxy-acid dehydratase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=ilvD PE=3 SV=1,H6G84_13350,tier1:Gene Name
 Synpcc7942_0538,Q31QU9,-0.951,0.00397,0.012, Transketolase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_0538 PE=3 SV=1,H6G84_05070,tier1:Gene Name
 Synpcc7942_0050,Q31S87,-0.933,0.00206,0.00684, Uncharacterized protein OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_0050 PE=4 SV=1,H6G84_07575,tier1:Gene Name
@@ -495,7 +495,7 @@ psb28,Q31ML0,1.16,7.62e-05,0.000491, Photosystem II reaction center Psb28 protei
 Synpcc7942_0415,Q31R72,1.18,4.93e-05,0.00035, Uncharacterized protein OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_0415 PE=4 SV=1,H6G84_05695,tier1:Gene Name
 Synpcc7942_0109,Q31S28,1.21,0.000209,0.00108, DNA-binding ferritin-like protein (Oxidative damage protectant)-like OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_0109 PE=3 SV=1,H6G84_07275,tier1:Gene Name
 thiC,Q31P93,1.21,0.0176,0.0431, Phosphomethylpyrimidine synthase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=thiC PE=3 SV=1,H6G84_09540,tier1:Gene Name
-cpcB1,P06539,1.23,0.000244,0.00121, C-phycocyanin beta chain OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=cpcB1 PE=1 SV=2;sp|P00312|PHCB1_SYNP6 C-phycocyanin-1 beta chain OS=Synechococcus sp. (strain ATCC 27144 / PCC 6301 / SAUG 1402/1) OX=269084 GN=cpcB1 PE=1,H6G84_09790,tier1:Gene Name
+cpcB1,P06539,1.23,0.000244,0.00121, C-phycocyanin beta chain OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=cpcB1 PE=1 SV=2;sp|P00312|PHCB1_SYNP6 C-phycocyanin-1 beta chain OS=Synechococcus sp. (strain ATCC 27144 / PCC 6301 / SAUG 1402/1) OX=269084 GN=cpcB1 PE=1,,unresolved
 nblB,Q9Z3G5,1.23,7.9e-05,0.000504, PBS lyase HEAT-like repeat OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=nblB PE=4 SV=1,H6G84_03875,tier1:Gene Name
 Synpcc7942_0473,Q31R14,1.23,4.53e-05,0.000338, NADH:flavin oxidoreductases Old Yellow Enzyme family-like OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_0473 PE=4 SV=1,H6G84_05395,tier1:Gene Name
 gltX,Q8L1E5,1.24,0.105,0.192, Glutamate--tRNA ligase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=gltX PE=3 SV=1,H6G84_00935,tier1:Gene Name
@@ -531,7 +531,7 @@ Synpcc7942_0325,Q31RG2,1.78,0.00395,0.012," Phycobilisome 7.8 kDa linker polypep
 Synpcc7942_1781,Q31MA8,1.79,2.5e-06,3.73e-05, Uncharacterized protein OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_1781 PE=4 SV=1,H6G84_04085,tier1:Gene Name
 Synpcc7942_2450,Q31KD9,1.79,0.00223,0.00729, General secretion pathway protein D OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_2450 PE=3 SV=1,H6G84_00645,tier1:Gene Name
 trxA,P12243,1.79,9.79e-05,0.000572, Thioredoxin 1 OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=trxA PE=3 SV=2,H6G84_03840,tier1:Gene Name
-cpcA1,P13530,1.8,1.31e-09,1.06e-07, C-phycocyanin alpha chain OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=cpcA1 PE=1 SV=2;sp|P00308|PHCA1_SYNP6 C-phycocyanin-1 alpha chain OS=Synechococcus sp. (strain ATCC 27144 / PCC 6301 / SAUG 1402/1) OX=269084 GN=cpcA1 PE,H6G84_09785,tier1:Gene Name
+cpcA1,P13530,1.8,1.31e-09,1.06e-07, C-phycocyanin alpha chain OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=cpcA1 PE=1 SV=2;sp|P00308|PHCA1_SYNP6 C-phycocyanin-1 alpha chain OS=Synechococcus sp. (strain ATCC 27144 / PCC 6301 / SAUG 1402/1) OX=269084 GN=cpcA1 PE,,unresolved
 tal,Q31KU2,1.8,3.6e-05,0.000296, Transaldolase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=tal PE=3 SV=1,H6G84_01430,tier1:Gene Name
 Synpcc7942_1885,Q31M04,1.81,1.95e-06,3.07e-05," HAD-superfamily hydrolase subfamily IA, variant 3 OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_1885 PE=4 SV=1",H6G84_03555,tier1:Gene Name
 Synpcc7942_2121,Q31LB8,1.82,0.00402,0.0121, Anti-sigma factor antagonist OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_2121 PE=3 SV=1,H6G84_02355,tier1:Gene Name

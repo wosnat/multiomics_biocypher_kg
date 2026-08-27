@@ -1,0 +1,32 @@
+Topics resolution report: Voigt 2014
+Strains: ['Prochlorococcus MED4', 'Prochlorococcus MIT9313']
+
+Genes:    65/82 resolved (79.3%)
+  methods: locus_tag:v=4, tier1:v=61, unresolved=17
+Pathways: 6/6 resolved (100.0%)
+  methods: id=6
+
+Captured identifiers: 20  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 16, 'descriptive_only': 1}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (17):
+  - Yfr1  [lookup_miss]  strain=Prochlorococcus MED4
+  - PMM121  [lookup_miss]  strain=Prochlorococcus MED4  ids=['PMM121']
+  - psbEFLJ operon  [descriptive_only]  strain=all
+  - Yfr11  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr16  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr103  [lookup_miss]  strain=Prochlorococcus MIT9313
+  - Yfr2-5  [lookup_miss]  strain=Prochlorococcus MIT9313
+  - Yfr23  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr102  [lookup_miss]  strain=Prochlorococcus MIT9313
+  - Yfr22  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr24  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr25  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr26  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr27  [lookup_miss]  strain=Prochlorococcus MED4
+  - Yfr101  [lookup_miss]  strain=Prochlorococcus MIT9313
+  - Yfr104  [lookup_miss]  strain=Prochlorococcus MIT9313
+  - Yfr105  [lookup_miss]  strain=Prochlorococcus MIT9313

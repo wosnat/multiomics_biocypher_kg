@@ -1,21 +1,5 @@
 {
   "conflicts": {
-    "Synpcc7942_1047;": [
-      "H6G84_09790",
-      "H6G84_09765"
-    ],
-    "Synpcc7942_1048;": [
-      "H6G84_09785",
-      "H6G84_09760"
-    ],
-    "Synpcc7942_1052": [
-      "H6G84_09790",
-      "H6G84_09765"
-    ],
-    "Synpcc7942_1053": [
-      "H6G84_09785",
-      "H6G84_09760"
-    ],
     "WP_011055139.1": [
       "H6G84_13700",
       "H6G84_10655"
@@ -108,34 +92,6 @@
       "H6G84_09760",
       "H6G84_09785"
     ],
-    "cpcA1": [
-      "H6G84_09785",
-      "H6G84_09760"
-    ],
-    "cpcA1 cpcA Synpcc7942_1048; cpcA2 Synpcc7942_1053": [
-      "H6G84_09785",
-      "H6G84_09760"
-    ],
-    "cpcA2": [
-      "H6G84_09785",
-      "H6G84_09760"
-    ],
-    "cpcB": [
-      "H6G84_09790",
-      "H6G84_09765"
-    ],
-    "cpcB1": [
-      "H6G84_09790",
-      "H6G84_09765"
-    ],
-    "cpcB1 cpcB Synpcc7942_1047; cpcB2 Synpcc7942_1052": [
-      "H6G84_09790",
-      "H6G84_09765"
-    ],
-    "cpcB2": [
-      "H6G84_09790",
-      "H6G84_09765"
-    ],
     "cpcS": [
       "H6G84_05960",
       "H6G84_07005",
@@ -172,10 +128,6 @@
       "H6G84_10030",
       "H6G84_10315",
       "H6G84_08410"
-    ],
-    "groEL": [
-      "H6G84_12995",
-      "H6G84_01345"
     ],
     "groL": [
       "H6G84_01345",
@@ -27875,34 +27827,6 @@
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "groEL cpn60 groL mopA Synpcc7942_2313",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "cpn60",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "mopA",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "Synpcc7942_2313",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "gene-SYNPCC7942_RS11760",
           "sources": [
             "Kratzl 2024/annotation_gff_pcc7942_old"
@@ -27915,6 +27839,13 @@
             "Kratzl 2024/annotation_gff_pcc7942_old"
           ],
           "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "Synpcc7942_2313",
+          "sources": [
+            "Kratzl 2024/annotation_gff_pcc7942_old"
+          ],
+          "type": "old_locus_tag"
         }
       ],
       "tier2_ids": [
@@ -187898,46 +187829,11 @@
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "pepA ampA lap Synpcc7942_1190 SEE0038",
+          "id": "SYNPCC7942_RS06095",
           "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
+            "Kratzl 2024/annotation_gff_pcc7942_old"
           ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "pepA",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "ampA",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "lap",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "Synpcc7942_1190",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "SEE0038",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
+          "type": "locus_tag_ncbi"
         },
         {
           "id": "gene-SYNPCC7942_RS06095",
@@ -187947,11 +187843,11 @@
           "type": "gff_gene_id"
         },
         {
-          "id": "SYNPCC7942_RS06095",
+          "id": "Synpcc7942_1190",
           "sources": [
             "Kratzl 2024/annotation_gff_pcc7942_old"
           ],
-          "type": "locus_tag_ncbi"
+          "type": "old_locus_tag"
         }
       ],
       "tier2_ids": [
@@ -202721,6 +202617,27 @@
             "Kratzl 2024/annotation_gff_pcc7942_old"
           ],
           "type": "old_locus_tag"
+        },
+        {
+          "id": "gene-SYNPCC7942_RS05400",
+          "sources": [
+            "Kratzl 2024/annotation_gff_pcc7942_old"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "SYNPCC7942_RS05400",
+          "sources": [
+            "Kratzl 2024/annotation_gff_pcc7942_old"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "Synpcc7942_1053",
+          "sources": [
+            "Kratzl 2024/annotation_gff_pcc7942_old"
+          ],
+          "type": "old_locus_tag"
         }
       ],
       "tier2_ids": [
@@ -202802,6 +202719,13 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "SYNPCC7942_RS05395",
+          "sources": [
+            "Kratzl 2024/annotation_gff_pcc7942_old"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
           "id": "gene-SYNPCC7942_RS05370",
           "sources": [
             "Kratzl 2024/annotation_gff_pcc7942_old"
@@ -202810,6 +202734,20 @@
         },
         {
           "id": "Synpcc7942_1047",
+          "sources": [
+            "Kratzl 2024/annotation_gff_pcc7942_old"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
+          "id": "gene-SYNPCC7942_RS05395",
+          "sources": [
+            "Kratzl 2024/annotation_gff_pcc7942_old"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "Synpcc7942_1052",
           "sources": [
             "Kratzl 2024/annotation_gff_pcc7942_old"
           ],
@@ -203212,55 +203150,6 @@
             "genomic_gcf/PCC7942"
           ],
           "type": "gff_gene_id"
-        },
-        {
-          "id": "cpcA1 cpcA Synpcc7942_1048; cpcA2 Synpcc7942_1053",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "cpcA1",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "Synpcc7942_1048;",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "cpcA2",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "Synpcc7942_1053",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "gene-SYNPCC7942_RS05400",
-          "sources": [
-            "Kratzl 2024/annotation_gff_pcc7942_old"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "SYNPCC7942_RS05400",
-          "sources": [
-            "Kratzl 2024/annotation_gff_pcc7942_old"
-          ],
-          "type": "locus_tag_ncbi"
         }
       ],
       "tier2_ids": [
@@ -203326,62 +203215,6 @@
             "genomic_gcf/PCC7942"
           ],
           "type": "gff_gene_id"
-        },
-        {
-          "id": "cpcB1 cpcB Synpcc7942_1047; cpcB2 Synpcc7942_1052",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "cpcB1",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "cpcB",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "Synpcc7942_1047;",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "cpcB2",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "Synpcc7942_1052",
-          "sources": [
-            "Kratzl 2024/sheet6_rnaseq_selongatus"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "gene-SYNPCC7942_RS05395",
-          "sources": [
-            "Kratzl 2024/annotation_gff_pcc7942_old"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "SYNPCC7942_RS05395",
-          "sources": [
-            "Kratzl 2024/annotation_gff_pcc7942_old"
-          ],
-          "type": "locus_tag_ncbi"
         }
       ],
       "tier2_ids": [
@@ -337083,7 +336916,6 @@
     "SEE0020 Synpcc7942_1207": "H6G84_08960",
     "SEE0026": "H6G84_08990",
     "SEE0026 Synpcc7942_1201": "H6G84_08990",
-    "SEE0038": "H6G84_09045",
     "SEE0051": "H6G84_09105",
     "SEF0012": "H6G84_08915",
     "SEF0012 Synpcc7942_1215": "H6G84_08915",
@@ -338119,8 +337951,8 @@
     "SYNPCC7942_RS05380": "H6G84_09780",
     "SYNPCC7942_RS05385": "H6G84_09775",
     "SYNPCC7942_RS05390": "H6G84_09770",
-    "SYNPCC7942_RS05395": "H6G84_09790",
-    "SYNPCC7942_RS05400": "H6G84_09785",
+    "SYNPCC7942_RS05395": "H6G84_09765",
+    "SYNPCC7942_RS05400": "H6G84_09760",
     "SYNPCC7942_RS05405": "H6G84_09755",
     "SYNPCC7942_RS05410": "H6G84_09750",
     "SYNPCC7942_RS05415": "H6G84_09745",
@@ -340810,14 +340642,12 @@
     "Synpcc7942_1045": "H6G84_09800",
     "Synpcc7942_1046": "H6G84_09795",
     "Synpcc7942_1047": "H6G84_09765",
-    "Synpcc7942_1047;": "H6G84_09790",
     "Synpcc7942_1048": "H6G84_09760",
-    "Synpcc7942_1048;": "H6G84_09785",
     "Synpcc7942_1049": "H6G84_09780",
     "Synpcc7942_1050": "H6G84_09775",
     "Synpcc7942_1051": "H6G84_09770",
-    "Synpcc7942_1052": "H6G84_09790",
-    "Synpcc7942_1053": "H6G84_09785",
+    "Synpcc7942_1052": "H6G84_09765",
+    "Synpcc7942_1053": "H6G84_09760",
     "Synpcc7942_1054": "H6G84_09755",
     "Synpcc7942_1055": "H6G84_09750",
     "Synpcc7942_1056": "H6G84_09745",
@@ -345177,7 +345007,6 @@
     "alaS Synpcc7942_0876": "H6G84_11960",
     "ald": "H6G84_04190",
     "alr": "H6G84_01925",
-    "ampA": "H6G84_09045",
     "anL01": "H6G84_13615",
     "anL02": "H6G84_13620",
     "anL03": "H6G84_13625",
@@ -345399,13 +345228,6 @@
     "cp12": "H6G84_05975",
     "cp12 Synpcc7942_0361": "H6G84_05975",
     "cpcA": "H6G84_09760",
-    "cpcA1": "H6G84_09785",
-    "cpcA1 cpcA Synpcc7942_1048; cpcA2 Synpcc7942_1053": "H6G84_09785",
-    "cpcA2": "H6G84_09785",
-    "cpcB": "H6G84_09790",
-    "cpcB1": "H6G84_09790",
-    "cpcB1 cpcB Synpcc7942_1047; cpcB2 Synpcc7942_1052": "H6G84_09790",
-    "cpcB2": "H6G84_09790",
     "cpcE": "H6G84_09755",
     "cpcE Synpcc7942_1054": "H6G84_09755",
     "cpcF": "H6G84_09750",
@@ -345420,7 +345242,6 @@
     "cpcT Synpcc7942_0800": "H6G84_12350",
     "cpmA": "H6G84_09155",
     "cpmA Synpcc7942_1168": "H6G84_09155",
-    "cpn60": "H6G84_01345",
     "crtB": "H6G84_03055",
     "crtB pys Synpcc7942_1984": "H6G84_03055",
     "crtD": "H6G84_10175",
@@ -352009,8 +351830,8 @@
     "gene-SYNPCC7942_RS05380": "H6G84_09780",
     "gene-SYNPCC7942_RS05385": "H6G84_09775",
     "gene-SYNPCC7942_RS05390": "H6G84_09770",
-    "gene-SYNPCC7942_RS05395": "H6G84_09790",
-    "gene-SYNPCC7942_RS05400": "H6G84_09785",
+    "gene-SYNPCC7942_RS05395": "H6G84_09765",
+    "gene-SYNPCC7942_RS05400": "H6G84_09760",
     "gene-SYNPCC7942_RS05405": "H6G84_09755",
     "gene-SYNPCC7942_RS05410": "H6G84_09750",
     "gene-SYNPCC7942_RS05415": "H6G84_09745",
@@ -353721,7 +353542,6 @@
     "gpmI": "H6G84_05415",
     "gpmI Synpcc7942_0469": "H6G84_05415",
     "groEL": "H6G84_12995",
-    "groEL cpn60 groL mopA Synpcc7942_2313": "H6G84_01345",
     "groEL groL Synpcc7942_0685": "H6G84_12995",
     "groES": "H6G84_01340",
     "groES groS Synpcc7942_2314": "H6G84_01340",
@@ -353841,7 +353661,6 @@
     "kdsB Synpcc7942_2290": "H6G84_01465",
     "ksgA": "H6G84_06235",
     "labA": "H6G84_03525",
-    "lap": "H6G84_09045",
     "larB": "H6G84_09155",
     "larC": "H6G84_01155",
     "larE": "H6G84_08040",
@@ -356655,7 +356474,6 @@
     "moeA": "H6G84_08550",
     "moeA Synpcc7942_1286": "H6G84_08550",
     "moeB": "H6G84_07020",
-    "mopA": "H6G84_01345",
     "mraW": "H6G84_10155",
     "mraY": "H6G84_07050",
     "mrdA": "H6G84_04850",
@@ -356819,8 +356637,6 @@
     "pdxJ": "H6G84_09025",
     "pdxJ Synpcc7942_1194 sef0034": "H6G84_09025",
     "pedR": "H6G84_01595",
-    "pepA": "H6G84_09045",
-    "pepA ampA lap Synpcc7942_1190 SEE0038": "H6G84_09045",
     "petA": "H6G84_08830",
     "petA Synpcc7942_1231": "H6G84_08830",
     "petB": "H6G84_01255",
@@ -357549,10 +357365,10 @@
     "zwf Synpcc7942_2334": "H6G84_01240"
   },
   "stats": {
-    "n_conflicts": 66,
+    "n_conflicts": 54,
     "n_genes": 2717,
     "n_multi": 15017,
-    "n_specific": 25918,
+    "n_specific": 25901,
     "passes": 3
   },
   "strain": "PCC7942",

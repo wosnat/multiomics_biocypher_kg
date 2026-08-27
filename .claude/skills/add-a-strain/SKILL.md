@@ -38,7 +38,7 @@ the single-strain flow:
 | 0 | Identify each accession individually — only step that's per-strain by nature. |
 | 1 | Append N rows to `cyanobacteria_genomes.csv`; add N alias bundles to `ORGANISM_TO_GENOME_DIR`; add N entries to `CANONICAL_GENOMIC_ORGANISMS`. One pytest run validates all of them. |
 | 2 | `bash scripts/prepare_data.sh --strains S1 S2 … SN --steps 0 1 2 3 4 5 6 7` — accepts a space-separated list. |
-| 3 | **Drop the `--strain` flag entirely** in each runner. eggnog/psortb/signalp/tcdb-diamond all default to iterating `cyanobacteria_genomes.csv` and skipping strains that already have output — so the new strains run, the old ones no-op. The Wave 2 `wait $EGGNOG_PID` gate still works since each runner only exits after its full CSV walk finishes. See the multi-strain block inline in Step 3. |
+| 3 | **Drop the `--strain` flag entirely** in each runner. eggnog/psortb/signalp/tcdb-diamond all default to iterating `cyanobacteria_genomes.csv` and skipping strains that already have output — so the new strains run, the old ones no-op. See the multi-strain block inline in Step 3. |
 | 4–9 | One snapshot, one Docker rebuild, one `/check-gene-ids` and one snapshot-compare cover the whole batch. |
 | 10 | `bash scripts/prepare_data.sh --strains S1 S2 … SN --steps 1 2 3 4 5 6 7 --force`. |
 | 11 | Final sweep is unchanged. |
@@ -244,12 +244,10 @@ Step 10's loop-back is the rendezvous point where you wait for them to finish.
 ```bash
 mkdir -p logs/{eggnog,psortb,tcdb,signalp,merops}
 
-# Wave 1 — independent tools, run in parallel:
+# All tools are independent — run them in parallel:
 
-# eggNOG — functional annotation (read by prepare_data step 2 when present;
-#          tcdb-diamond also reads its output → must finish before Wave 2)
+# eggNOG — functional annotation (read by prepare_data step 2 when present)
 nohup uv run python .claude/skills/eggnog-run/run_eggnog.py --strain <NEW_STRAIN> > logs/eggnog/<NEW_STRAIN>.log 2>&1 &
-EGGNOG_PID=$!
 
 # PSORTb — Gram-negative subcellular localization
 nohup uv run python .claude/skills/psortb-run/run_psortb.py --strain <NEW_STRAIN> > logs/psortb/<NEW_STRAIN>.log 2>&1 &
@@ -266,40 +264,30 @@ nohup bash -c 'uv run python .claude/skills/signalp-run/run_signalp.py --strain 
 nohup uv run python .claude/skills/interproscan-run/run_interproscan.py --strains <NEW_STRAIN> > logs/interproscan/<NEW_STRAIN>.log 2>&1 &
 
 # MEROPS-diamond — peptidase/protease family classification. Pure sequence
-# evidence (protein.faa vs the MEROPS scan library only — no eggNOG input,
-# so Wave 1). Fast: <1 s per strain; DB self-installs (<10 MB).
+# evidence (protein.faa vs the MEROPS scan library only — no eggNOG input).
+# Fast: <1 s per strain; DB self-installs (<10 MB).
 nohup uv run python .claude/skills/merops-diamond/run_merops_diamond.py --strains <NEW_STRAIN> > logs/merops/<NEW_STRAIN>.log 2>&1 &
 
-# Wave 2 — depends on eggNOG (reads <strain>.emapper.annotations for egn_agreement
-#          + gene_annotations_merged.json for pfam_agreement). Subshell waits for
-#          eggNOG to finish, then launches tcdb — the outer shell doesn't block,
-#          so you can proceed to Step 4 immediately.
-( wait $EGGNOG_PID && \
-    nohup uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --strains <NEW_STRAIN> > logs/tcdb/<NEW_STRAIN>.log 2>&1 ) &
+# TCDB-diamond — transporter classification. Pure sequence evidence (protein.faa
+# vs the curated TCDB FASTA — no eggNOG or gene-annotation inputs; eggNOG
+# reconciliation happens downstream at merge/adapter time).
+nohup uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --strains <NEW_STRAIN> > logs/tcdb/<NEW_STRAIN>.log 2>&1 &
 
-# Add new tools here as they're created via /add-a-tool — note the wave they belong in
+# Add new tools here as they're created via /add-a-tool
 ```
-
-If you launch tcdb-diamond before eggnog has finished, the runner still
-completes but every call's `egn_agreement = "extends"` (it can't see the
-eggNOG TC assignments) — silently degraded output that's hard to spot
-after-the-fact. The subshell + `wait $EGGNOG_PID` gate is what prevents this
-without stalling the foreground workflow.
 
 ### Multi-strain variant
 
 For a batch (e.g. all 8 missing Prochlorococcus strains), **omit the
 `--strain` flag entirely**. Each runner then iterates `cyanobacteria_genomes.csv`
 and skips strains that already have output — new strains run, old strains
-no-op. The Wave 2 gate still works because eggnog only exits once its full
-CSV walk finishes:
+no-op:
 
 ```bash
 mkdir -p logs/{eggnog,psortb,tcdb,signalp,merops}
 
-# Wave 1 — same tools, no --strain flag → iterate the whole CSV
+# Same tools, no --strain flag → iterate the whole CSV
 nohup uv run python .claude/skills/eggnog-run/run_eggnog.py > logs/eggnog/batch.log 2>&1 &
-EGGNOG_PID=$!
 nohup uv run python .claude/skills/psortb-run/run_psortb.py > logs/psortb/batch.log 2>&1 &
 # SignalP run, THEN normalize raw output → calls.json (required for Phase-2 merge)
 nohup bash -c 'uv run python .claude/skills/signalp-run/run_signalp.py && uv run python .claude/skills/signalp-run/run_signalp.py --normalize' > logs/signalp/batch.log 2>&1 &
@@ -308,10 +296,8 @@ nohup bash -c 'uv run python .claude/skills/signalp-run/run_signalp.py && uv run
 nohup uv run python .claude/skills/interproscan-run/run_interproscan.py > logs/interproscan/batch.log 2>&1 &
 # MEROPS-diamond — all strains (<1 min total)
 nohup uv run python .claude/skills/merops-diamond/run_merops_diamond.py > logs/merops/batch.log 2>&1 &
-
-# Wave 2 — tcdb-diamond, after eggnog has annotated every strain in the CSV
-( wait $EGGNOG_PID && \
-    nohup uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py > logs/tcdb/batch.log 2>&1 ) &
+# TCDB-diamond — all strains (pure sequence evidence, no eggNOG input)
+nohup uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py > logs/tcdb/batch.log 2>&1 &
 ```
 
 Pass `--force` to a specific runner only if you want to re-process strains
@@ -346,8 +332,10 @@ is also read by step 2 (`psortb_localization`/`psortb_score`,
 `signalp_type`/`signalp_probability`/`signalp_cleavage_*` fields →
 `SubcellularLocalization` / `SignalPeptideType` ontology nodes; see
 `docs/kg-changes/{psortb,signalp}-extension.md`). SignalP needs its `--normalize`
-follow-up (chained above) to produce the calls.json first. tcdb-diamond is still
-Phase-1 only — its artifacts sit in the strain cache until its Phase-2 spec lands.
+follow-up (chained above) to produce the calls.json first. tcdb-diamond and
+MEROPS-diamond are also Phase-2 integrated — their `<strain>.<tool>.calls.json`
+feeds the step-2 merge (`tcdb_diamond` / `merops_diamond` sources) and the
+`tcdb_adapter` / `merops_adapter` read them directly for edge evidence.
 
 ## Step 4 — Snapshot the KG
 
@@ -455,10 +443,11 @@ bash scripts/prepare_data.sh --strains <NEW_STRAIN> --steps 1 2 3 4 5 6 7 --forc
 Then redo step 7 (Docker rebuild), step 8 (post-Docker check + KG validity),
 step 9 (snapshot compare) so the KG picks up the enriched annotations.
 
-Tools that are still Phase-1-only (PSORTb, tcdb-diamond as of 2026-05) don't
-strictly need this loop — their outputs sit in the strain cache until their
-Phase-2 integration spec lands. The loop becomes mandatory once a tool's Phase
-2 wires into `build_gene_annotations.py` or an adapter.
+All the current tools (eggNOG, PSORTb, SignalP, InterProScan, tcdb-diamond,
+MEROPS-diamond) are Phase-2 integrated and consumed by this loop. A future
+Phase-1-only tool wouldn't strictly need it — its outputs would sit in the
+strain cache until its Phase-2 integration wires into
+`build_gene_annotations.py` or an adapter.
 
 ## Step 11 — Final sanity sweep
 

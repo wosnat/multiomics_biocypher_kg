@@ -1,0 +1,490 @@
+{
+  "metadata": {
+    "paper": "Steglich 2010",
+    "doi": "10.1186/gb-2010-11-5-r54",
+    "strains": [
+      "Prochlorococcus MED4"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Many ribosomal protein names and antisense RNA identifiers are printed in figures and Table 2, but not all were captured because they are largely illustrative or tabulated rather than substantively discussed.",
+    "extracted_at": "2026-08-19T08:36:30.631325",
+    "input_tokens": 20363,
+    "output_tokens": 3807
+  },
+  "genes": [
+    {
+      "surface_form": "PMM1003",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1003"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "The hypothetical gene PMM1003 displayed the shortest half-life and decay rate at 33 seconds (Results and discussion, p2)"
+    },
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The longest half-lives of protein-coding transcripts were found for psbA (PsbA protein D1) (Results and discussion, p2)"
+    },
+    {
+      "surface_form": "amt1",
+      "gene_name": "amt1",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The longest half-lives of protein-coding transcripts were found for amt1 (permease for ammonium transport) (Results and discussion, p2)"
+    },
+    {
+      "surface_form": "pcb",
+      "gene_name": "pcb",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The longest half-lives of protein-coding transcripts were found for pcb (light harvesting complex protein) (Results and discussion, p2)"
+    },
+    {
+      "surface_form": "som",
+      "gene_name": "som",
+      "identifiers": [
+        "PMM1121"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The longest half-lives of protein-coding transcripts were found for som (PMM1121, porin) (Results and discussion, p2)"
+    },
+    {
+      "surface_form": "psbAI",
+      "gene_name": "psbAI",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "Kulkarni et al. determined a half-life of 18 minutes for psbAI in Synechococcus PCC 7942 (Results and discussion, p2)"
+    },
+    {
+      "surface_form": "PMM1077",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1077"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Comparison of decay rates and half-lives of 17 selected genes includes PMM1077 (Table 1, p3)"
+    },
+    {
+      "surface_form": "dnaN",
+      "gene_name": "dnaN",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Comparison of decay rates and half-lives of 17 selected genes includes dnaN (Table 1, p3)"
+    },
+    {
+      "surface_form": "psaK",
+      "gene_name": "psaK",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Comparison of decay rates and half-lives of 17 selected genes includes psaK (Table 1, p3)"
+    },
+    {
+      "surface_form": "atpA",
+      "gene_name": "atpA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "Comparison of decay rates and half-lives of 17 selected genes includes atpA; the ATPase operon is analyzed in depth (Table 1 and p6-p10)"
+    },
+    {
+      "surface_form": "recN",
+      "gene_name": "recN",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "the recA and recN repair genes (Additional file 2) (Results and discussion, p6)"
+    },
+    {
+      "surface_form": "recA",
+      "gene_name": "recA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "the recA and recN repair genes (Additional file 2) (Results and discussion, p6)"
+    },
+    {
+      "surface_form": "ftsZ",
+      "gene_name": "ftsZ",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Comparison of decay rates and half-lives of 17 selected genes includes ftsZ (Table 1, p3)"
+    },
+    {
+      "surface_form": "psbD",
+      "gene_name": "psbD",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Comparison of decay rates and half-lives of 17 selected genes includes psbD (Table 1, p3)"
+    },
+    {
+      "surface_form": "PMM1447",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1447"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The insert on top shows gene expression over time of all genes of the ATPase operon ending with PMM1447 (Figure 7 legend, p10)"
+    },
+    {
+      "surface_form": "atpE",
+      "gene_name": "atpE",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "we have mapped two transcriptional start sites for the atp1BEGFHAC operon ... an alternative promoter upstream of atpE (Results and discussion, p7)"
+    },
+    {
+      "surface_form": "atpB",
+      "gene_name": "atpB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "very unstable transcripts for the first two genes (atp1 and atpB) (Results and discussion, p8)"
+    },
+    {
+      "surface_form": "atp1",
+      "gene_name": "atp1",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The atp1BEGFHAC operon, which encodes subunits of the ATPase complex, is a typical example of a type II operon (Results and discussion, p6)"
+    },
+    {
+      "surface_form": "16S rRNA",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Comparison of decay rates and half-lives of 17 selected genes includes 16S rRNA (Table 1, p3)"
+    },
+    {
+      "surface_form": "ssrA",
+      "gene_name": "ssrA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Those with longer decay rates are members of clusters 2 or 4 and represent housekeeping RNAs like ssrA (Results and discussion, p4)"
+    },
+    {
+      "surface_form": "rnpB",
+      "gene_name": "rnpB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Those with longer decay rates are members of clusters 2 or 4 and represent housekeeping RNAs like ... rnpB (Results and discussion, p4)"
+    },
+    {
+      "surface_form": "ffs",
+      "gene_name": "ffs",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Those with longer decay rates are members of clusters 2 or 4 and represent housekeeping RNAs like ... ffs (SRP RNA) (Results and discussion, p4)"
+    },
+    {
+      "surface_form": "ssrS",
+      "gene_name": "ssrS",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Those with longer decay rates are members of clusters 2 or 4 and represent housekeeping RNAs like ... ssrS (tmRNA) (Results and discussion, p4)"
+    },
+    {
+      "surface_form": "Yfr1",
+      "gene_name": "Yfr1",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "The functions of ncRNAs Yfr1 to Yfr21 are unknown (Results and discussion, p4)"
+    },
+    {
+      "surface_form": "Yfr2",
+      "gene_name": "Yfr2",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "the other long-lived ncRNAs Yfr2, Yfr4, Yfr5 and Yfr16 may also be involved in general processes in the cell (Results and discussion, p4)"
+    },
+    {
+      "surface_form": "Yfr4",
+      "gene_name": "Yfr4",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "the other long-lived ncRNAs Yfr2, Yfr4, Yfr5 and Yfr16 may also be involved in general processes in the cell (Results and discussion, p4)"
+    },
+    {
+      "surface_form": "Yfr5",
+      "gene_name": "Yfr5",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "the other long-lived ncRNAs Yfr2, Yfr4, Yfr5 and Yfr16 may also be involved in general processes in the cell (Results and discussion, p4)"
+    },
+    {
+      "surface_form": "Yfr16",
+      "gene_name": "Yfr16",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "the other long-lived ncRNAs Yfr2, Yfr4, Yfr5 and Yfr16 may also be involved in general processes in the cell (Results and discussion, p4)"
+    },
+    {
+      "surface_form": "Yfr6",
+      "gene_name": "Yfr6",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Table 2 shows decay rates determined for all expressed ncRNAs and asRNAs ... Yfr6 4.0 (p6)"
+    },
+    {
+      "surface_form": "Yfr7",
+      "gene_name": "Yfr7",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "ssrS (6S RNA;Yfr7) (Table 2, p6)"
+    },
+    {
+      "surface_form": "Yfr8",
+      "gene_name": "Yfr8",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Table 2 shows decay rates determined for all expressed ncRNAs and asRNAs ... Yfr8 19.7 (p6)"
+    },
+    {
+      "surface_form": "Yfr9",
+      "gene_name": "Yfr9",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "ncRNA_Yfr9 6.9 (Table 2, p6)"
+    },
+    {
+      "surface_form": "Yfr11",
+      "gene_name": "Yfr11",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Yfr11 4.8 (Table 2, p6)"
+    },
+    {
+      "surface_form": "Yfr13",
+      "gene_name": "Yfr13",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Yfr13 2.2 (Table 2, p6)"
+    },
+    {
+      "surface_form": "Yfr14",
+      "gene_name": "Yfr14",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Yfr14 11.6 (Table 2, p6)"
+    },
+    {
+      "surface_form": "Yfr19",
+      "gene_name": "Yfr19",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Yfr19 2.2 (Table 2, p6)"
+    },
+    {
+      "surface_form": "Yfr20",
+      "gene_name": "Yfr20",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Yfr20 2.0 (Table 2, p6)"
+    },
+    {
+      "surface_form": "Yfr21",
+      "gene_name": "Yfr21",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Yfr21 1.5 (Table 2, p6)"
+    },
+    {
+      "surface_form": "psbH",
+      "gene_name": "psbH",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "the half-lives for photosystem II genes ranged from 1.1 minutes (psbH) to 18.5 minutes (psbA) (Results and discussion, p5)"
+    },
+    {
+      "surface_form": "glsF",
+      "gene_name": "glsF",
+      "identifiers": [
+        "PMM1512"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RNA decay profiles of single probes of glsF ... PMM1512 (glsF) (Figure 5 legend, p8)"
+    },
+    {
+      "surface_form": "rpoB",
+      "gene_name": "rpoB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RNA decay profiles of type I and type II operons ... rpoB (1) (Figure 6, p9)"
+    },
+    {
+      "surface_form": "rpoC1",
+      "gene_name": "rpoC1",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RNA decay profiles of type I and type II operons ... rpoC1 (2) (Figure 6, p9)"
+    },
+    {
+      "surface_form": "rpoC2",
+      "gene_name": "rpoC2",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RNA decay profiles of type I and type II operons ... rpoC2 (3) (Figure 6, p9)"
+    },
+    {
+      "surface_form": "hli03",
+      "gene_name": "hli03",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RNA decay profiles of type I and type II operons ... hli03 (4) (Figure 6, p9)"
+    },
+    {
+      "surface_form": "des9",
+      "gene_name": "des9",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RNA decay profiles of type I and type II operons ... des9 (1) (Figure 6, p9)"
+    },
+    {
+      "surface_form": "rpl9",
+      "gene_name": "rpl9",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RNA decay profiles of type I and type II operons ... rpl9 (2) (Figure 6, p9)"
+    },
+    {
+      "surface_form": "dnaB",
+      "gene_name": "dnaB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RNA decay profiles of type I and type II operons ... dnaB (3) (Figure 6, p9)"
+    },
+    {
+      "surface_form": "gidA",
+      "gene_name": "gidA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "RNA decay profiles of type I and type II operons ... gidA (4) (Figure 6, p9)"
+    },
+    {
+      "surface_form": "atpG",
+      "gene_name": "atpG",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The insert on top shows gene expression over time of all genes of the ATPase operon ... atpG (Figure 7 legend, p10)"
+    },
+    {
+      "surface_form": "atpF",
+      "gene_name": "atpF",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The insert on top shows gene expression over time of all genes of the ATPase operon ... atpF (Figure 7 legend, p10)"
+    },
+    {
+      "surface_form": "atpH",
+      "gene_name": "atpH",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The insert on top shows gene expression over time of all genes of the ATPase operon ... atpH (Figure 7 legend, p10)"
+    },
+    {
+      "surface_form": "atpC",
+      "gene_name": "atpC",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The insert on top shows gene expression over time of all genes of the ATPase operon ... atpC (Figure 7 legend, p10)"
+    },
+    {
+      "surface_form": "petF",
+      "gene_name": "petF",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The insert on top shows gene expression over time of all genes of the ATPase operon ... petF (Figure 7 legend, p10)"
+    },
+    {
+      "surface_form": "PMM1448",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1448"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The insert on top shows gene expression over time of all genes of the ATPase operon ... PMM1448 (Figure 7 legend, p10)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Photosystem II",
+      "kegg_pathway_id": "map00195",
+      "prominence": "peripheral",
+      "evidence": "the half-lives for photosystem II genes ranged from 1.1 minutes (psbH) to 18.5 minutes (psbA) (Results and discussion, p5)"
+    },
+    {
+      "surface_form": "ATPase complex",
+      "kegg_pathway_id": "map00190",
+      "prominence": "central",
+      "evidence": "The atp1BEGFHAC operon, which encodes subunits of the ATPase complex, is a typical example of a type II operon (Results and discussion, p6)"
+    },
+    {
+      "surface_form": "CO2 fixation",
+      "kegg_pathway_id": "map00710",
+      "prominence": "peripheral",
+      "evidence": "cluster 11 also appears to be enriched for ... CO2 fixation related genes (5 out of 9) (Results and discussion, p4)"
+    },
+    {
+      "surface_form": "Ammonium transport",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "amt1 (permease for ammonium transport) (Results and discussion, p2)"
+    }
+  ]
+}

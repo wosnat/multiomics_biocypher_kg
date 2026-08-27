@@ -1,0 +1,48 @@
+Topics resolution report: Doron 2016
+Strains: ['Synechococcus WH7803', 'Phage', 'Synechococcus WH8102', 'Synechococcus WH8109']
+
+Genes:    16/42 resolved (38.1%)
+  methods: locus_tag:v=3, no_mapping=22, tier1:v=13, unresolved=4
+Pathways: 9/14 resolved (64.3%)
+  methods: id=9, unresolved=5
+
+Captured identifiers: 7  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 24, 'descriptive_only': 2}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (26):
+  - psbA  [lookup_miss]  strain=Phage
+  - psbD  [lookup_miss]  strain=Phage
+  - hli  [lookup_miss]  strain=Phage
+  - cpeT  [lookup_miss]  strain=Phage
+  - petE  [lookup_miss]  strain=Phage
+  - PTOX  [lookup_miss]  strain=Phage
+  - CP12  [lookup_miss]  strain=Phage
+  - gnd  [lookup_miss]  strain=Phage
+  - zwf  [lookup_miss]  strain=Phage
+  - talC  [lookup_miss]  strain=Phage
+  - phoH  [lookup_miss]  strain=Phage
+  - mazG  [lookup_miss]  strain=Phage
+  - tryptophan halogenase  [descriptive_only]  strain=Phage
+  - g20  [lookup_miss]  strain=Phage
+  - rnpB  [lookup_miss]  strain=all
+  - g75  [lookup_miss]  strain=Phage  ids=['g75']
+  - g153  [lookup_miss]  strain=Phage  ids=['g153']
+  - cobS  [lookup_miss]  strain=Phage  ids=['g153']
+  - g184  [lookup_miss]  strain=Phage  ids=['g184']
+  - gp55  [lookup_miss]  strain=Phage
+  - regA  [lookup_miss]  strain=Phage
+  - csoS1  [lookup_miss]  strain=all
+  - motA  [lookup_miss]  strain=Phage
+  - asiA  [lookup_miss]  strain=Phage
+  - DUF4278 domain-carrying genes  [descriptive_only]  strain=all
+  - pil  [lookup_miss]  strain=unspecified
+
+Unresolved pathway mentions (5):
+  - phosphorus utilization  (raw id=—)
+  - phycoerythrin biosynthesis  (raw id=—)
+  - respiration  (raw id=—)
+  - DNA repair  (raw id=map03400)
+  - heat shock  (raw id=—)

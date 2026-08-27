@@ -1,0 +1,36 @@
+Resolution report: Doron 2016 / host_de_wh8102
+Source: doron2016_wh8102_host_de.csv
+name_col: locus_tag
+id_columns: ['locus_tag']
+
+Total rows with IDs: 2585
+Resolved: 2509 (97.1%)
+Unresolved: 76
+
+Resolution method breakdown:
+  locus_tag:locus_tag: 2507
+  tier1:locus_tag: 2
+  unresolved: 76
+
+Unresolved rows (76):
+  row 82: raw_id='SYNW_RNA_29'  reason=unresolved  [locus_tag='SYNW_RNA_29']
+  row 114: raw_id='SYNW2226'  reason=unresolved  [locus_tag='SYNW2226']
+  row 233: raw_id='SYNW2018'  reason=unresolved  [locus_tag='SYNW2018']
+  row 444: raw_id='SYNW0020'  reason=unresolved  [locus_tag='SYNW0020']
+  row 768: raw_id='SYNW0019'  reason=unresolved  [locus_tag='SYNW0019']
+  row 865: raw_id='SYNW2535.MF'  reason=unresolved  [locus_tag='SYNW2535.MF']
+  row 884: raw_id='SYNW2528.MF'  reason=unresolved  [locus_tag='SYNW2528.MF']
+  row 963: raw_id='SYNW2534.MF'  reason=unresolved  [locus_tag='SYNW2534.MF']
+  row 964: raw_id='SYNW0585'  reason=unresolved  [locus_tag='SYNW0585']
+  row 1101: raw_id='SYNW2225'  reason=unresolved  [locus_tag='SYNW2225']
+  row 1272: raw_id='SYNW0021'  reason=unresolved  [locus_tag='SYNW0021']
+  row 1319: raw_id='SYNW_RNA_21'  reason=unresolved  [locus_tag='SYNW_RNA_21']
+  row 1373: raw_id='SYNW1398'  reason=unresolved  [locus_tag='SYNW1398']
+  row 1383: raw_id='SYNW0916'  reason=unresolved  [locus_tag='SYNW0916']
+  row 1388: raw_id='SYNW2536.MF'  reason=unresolved  [locus_tag='SYNW2536.MF']
+  row 1432: raw_id='SYNW_RNA_18'  reason=unresolved  [locus_tag='SYNW_RNA_18']
+  row 1560: raw_id='SYNW2532.MF'  reason=unresolved  [locus_tag='SYNW2532.MF']
+  row 1711: raw_id='SYNW2533.MF'  reason=unresolved  [locus_tag='SYNW2533.MF']
+  row 1805: raw_id='SYNW_RNA_16'  reason=unresolved  [locus_tag='SYNW_RNA_16']
+  row 1842: raw_id='SYNW0584'  reason=unresolved  [locus_tag='SYNW0584']
+  ... (56 more)

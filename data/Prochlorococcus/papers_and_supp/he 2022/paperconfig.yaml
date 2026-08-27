@@ -17,8 +17,7 @@ publication:
       temperature: 21C
       light_condition: continuous light
       light_intensity: 10 umol photons m-2 s-1
-      table_scope: significant_only
-      table_scope_detail: p < 0.05 and |logFC| > 1
+      table_scope: all_detected_genes
     salt_low_salinity_acclimation_28_med4_rnaseq:
       name: MED4 Low salinity acclimation (28 psu) vs Normal seawater salinity (34 psu) (RNASEQ)
       organism: Prochlorococcus MED4
@@ -34,52 +33,64 @@ publication:
       temperature: 21C
       light_condition: continuous light
       light_intensity: 10 umol photons m-2 s-1
-      table_scope: significant_only
-      table_scope_detail: p < 0.05 and |logFC| > 1
+      table_scope: all_detected_genes
   supplementary_materials:
-    supp_table_s1:
+    # Source: GEO GSE195946 (the study's own deposit) rather than the paper's
+    # supplementary tables S1/S2. S1/S2 carry only the "highly differentially
+    # expressed" genes (FDR <= 0.05 AND |logFC| > 1): 82 rows for NATL1A, 31 for
+    # MED4. These files are the complete edgeR output for every detected gene
+    # (2239 / 2042 rows) with a real FDR column, so the KG gets the full
+    # detection background instead of a pre-filtered slice.
+    #
+    # Significance is now derived rather than asserted: prefiltered is false and
+    # the adapter defaults (pvalue_threshold 0.05, logfc_threshold 1.0, both set
+    # explicitly below) reproduce the authors' own selection -- 81 NATL1A and 30
+    # MED4 genes come out significant, against the 82 / 31 rows S1/S2 listed.
+    #
+    # GeneID is 'gene-<locus_tag>' and hits specific_lookup directly
+    # (gene-NATL1_00011 -> NATL1_00011, gene-PMM0087 -> PMM0087), so no bridge
+    # column is needed. See geo_source.txt.
+    geo_de_natl1a:
       type: csv
-      filename: data/Prochlorococcus/papers_and_supp/he 2022/table s1 Highly differentially expressed genes in low salinity
-        acclimated cells of NATL1A .csv
+      filename: data/Prochlorococcus/papers_and_supp/he 2022/GSE195946_Group_NATL1A-34-VS-NATL1A-28_DE_anno.txt
       organism: Prochlorococcus NATL1A
+      sep: "\t"
       id_columns:
-        - column: Gene Name
-          id_type: old_locus_tag
-        - column: Gene Name
-          id_type: gene_name
+        - column: GeneID
+          id_type: locus_tag
       product_columns:
-      - column: Definition
+      - column: Product
       statistical_analyses:
       - id: DE_low_salinity_vs_normal_NATL1A
         experiment: salt_low_salinity_acclimation_28_natl1a_rnaseq
         timepoint: acclimated
         timepoint_hours: null
         growth_phase: acclimated_steady_state
-        name_col: Gene Name
-        logfc_col: Log2FC
-        adjusted_p_value_col: p-value
+        name_col: GeneID
+        logfc_col: logFC
+        adjusted_p_value_col: FDR
         pvalue_threshold: 0.05
-        prefiltered: true
-    supp_table_s2:
+        logfc_threshold: 1.0
+        prefiltered: false
+    geo_de_med4:
       type: csv
-      filename: data/Prochlorococcus/papers_and_supp/he 2022/table s2 Highly differentially expressed genes in low salinity
-        acclimated cells of MED4 .csv
+      filename: data/Prochlorococcus/papers_and_supp/he 2022/GSE195946_Group_MED4-34-VS-MED4-28_DE_anno.txt
       organism: Prochlorococcus MED4
+      sep: "\t"
       id_columns:
-        - column: Gene Name
-          id_type: old_locus_tag
-        - column: Gene Name
-          id_type: gene_name
+        - column: GeneID
+          id_type: locus_tag
       product_columns:
-      - column: Definition
+      - column: Product
       statistical_analyses:
       - id: DE_low_salinity_vs_normal_MED4
         experiment: salt_low_salinity_acclimation_28_med4_rnaseq
         timepoint: acclimated
         timepoint_hours: null
         growth_phase: acclimated_steady_state
-        name_col: Gene Name
+        name_col: GeneID
         logfc_col: logFC
-        adjusted_p_value_col: p-value
+        adjusted_p_value_col: FDR
         pvalue_threshold: 0.05
-        prefiltered: true
+        logfc_threshold: 1.0
+        prefiltered: false
