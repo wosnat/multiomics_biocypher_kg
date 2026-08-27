@@ -292,6 +292,60 @@ def test_experiment_has_treatment_type(run_query):
     )
 
 
+def test_experiment_list_props_dense(run_query):
+    """treatment_type and background_factors are DENSE on every Experiment.
+
+    The adapters emit [] for a characterization experiment, but
+    ``neo4j-admin import`` drops an empty string[] cell entirely, so
+    post-import re-materializes []. Consumers must never need
+    ``coalesce(e.treatment_type, [])``.
+    """
+    result = run_query("""
+        MATCH (e:Experiment)
+        RETURN count(e) AS total,
+               count(e.treatment_type) AS with_tt,
+               count(e.background_factors) AS with_bf
+    """)
+    row = result[0]
+    assert row["total"] > 0
+    assert row["with_tt"] == row["total"], (
+        f"{row['total'] - row['with_tt']} Experiment nodes lack treatment_type"
+    )
+    assert row["with_bf"] == row["total"], (
+        f"{row['total'] - row['with_bf']} Experiment nodes lack background_factors"
+    )
+
+
+def test_experiment_background_factors_non_empty(run_query):
+    """Every Experiment has a non-empty background_factors list — an
+    experiment always has a held-constant context (axenic, continuous
+    light, coculture, ...). Enforced upstream by validate_paperconfig.py."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        WHERE size(e.background_factors) = 0
+        RETURN collect(e.id) AS empty
+    """)
+    empty = result[0]["empty"]
+    assert not empty, f"Experiments with empty background_factors: {empty}"
+
+
+@pytest.mark.parametrize("label", ["ClusteringAnalysis", "DerivedMetric", "MetaboliteAssay"])
+def test_denormalized_experiment_list_props_dense(run_query, label):
+    """The Experiment list props copied onto ClusteringAnalysis / DerivedMetric /
+    MetaboliteAssay nodes are dense too (same neo4j-admin empty-array drop)."""
+    result = run_query(f"""
+        MATCH (n:{label})
+        RETURN count(n) AS total,
+               count(n.treatment_type) AS with_tt,
+               count(n.background_factors) AS with_bf
+    """)
+    row = result[0]
+    if row["total"] == 0:
+        pytest.skip(f"no {label} nodes")
+    assert row["with_tt"] == row["total"], f"{label}: treatment_type not dense"
+    assert row["with_bf"] == row["total"], f"{label}: background_factors not dense"
+
+
 def test_experiment_treatment_type_values_canonical(run_query):
     """All treatment_type values should be from the canonical vocabulary."""
     result = run_query("""
@@ -303,7 +357,7 @@ def test_experiment_treatment_type_values_canonical(run_query):
     known = {
         "nitrogen", "phosphorus", "iron", "carbon", "salt", "light",
         "temperature", "plastic", "darkness", "diel", "viral", "coculture",
-        "growth_phase", "compartment", "chemical",
+        "growth_phase", "compartment", "chemical", "oxygen",
     }
     actual = set(result[0]["all_types"])
     unknown = actual - known

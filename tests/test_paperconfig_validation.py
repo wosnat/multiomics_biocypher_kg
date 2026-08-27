@@ -94,6 +94,7 @@ def _make_valid_config(csv_path: Path, overrides: dict = None,
         "omics_type": "RNASEQ",
         "test_type": "DESeq2",
         "treatment_type": "coculture",
+        "background_factors": ["light"],
         "treatment_condition": "Coculture",
         "control_condition": "Axenic",
         "treatment_organism": "Alteromonas",
@@ -499,6 +500,7 @@ class TestValidConfigPasses:
             experiment_overrides={
                 "name": "Phosphorus depletion experiment",
                 "treatment_type": "phosphorus",
+                "background_factors": ["axenic"],
                 "treatment_condition": "P-depleted medium",
                 "control_condition": "P-replete medium",
                 # Remove coculture-specific fields
@@ -764,6 +766,7 @@ def test_validate_paperconfig_content_accepts_minimal_valid_config(tmp_path):
                     "omics_type": "RNASEQ",
                     "test_type": "DESeq2",
                     "treatment_type": ["nitrogen"],
+                    "background_factors": ["axenic"],
                     "treatment_condition": "N-limited",
                     "control_condition": "N-replete",
                 },
@@ -812,6 +815,7 @@ def test_validate_rejects_unknown_compartment(tmp_path):
                     "name": "e", "organism": "Prochlorococcus MED4",
                     "omics_type": "RNASEQ", "test_type": "DESeq2",
                     "treatment_type": ["nitrogen"],
+                    "background_factors": ["axenic"],
                     "treatment_condition": "A", "control_condition": "B",
                     "compartment": "nucleus",   # ← not in vocabulary
                 },
@@ -844,6 +848,7 @@ def test_validate_accepts_whole_cell_compartment(tmp_path):
                 "name": "e", "organism": "Prochlorococcus MED4",
                 "omics_type": "RNASEQ", "test_type": "DESeq2",
                 "treatment_type": ["nitrogen"],
+                "background_factors": ["axenic"],
                 "treatment_condition": "A", "control_condition": "B",
                 "compartment": "whole_cell",
             }},
@@ -908,6 +913,7 @@ def test_validate_relaxes_de_fields_for_derived_metrics_only_experiment(tmp_path
                 "name": "e", "organism": "Prochlorococcus NATL2A",
                 "omics_type": "RNASEQ",
                 "treatment_type": ["darkness"],
+                "background_factors": ["axenic"],
                 "treatment_condition": "A",
                 # ← control_condition + test_type deliberately omitted
             }},
@@ -959,6 +965,7 @@ def _dm_wrapper_config(tmp_path: Path, dm_entry: dict) -> dict:
                 "name": "e", "organism": "Prochlorococcus NATL2A",
                 "omics_type": "RNASEQ",
                 "treatment_type": ["darkness"],
+                "background_factors": ["axenic"],
                 "treatment_condition": "ED",
             }},
             "supplementary_materials": {"dm1": dm_entry},
@@ -1418,3 +1425,57 @@ def test_validate_rejects_missing_top_level_fields(tmp_path):
     joined = " | ".join(errors)
     for req in ("filename", "organism", "experiment", "name_col", "metrics"):
         assert req in joined, f"'{req}' should be flagged as missing; errors={errors}"
+
+
+# ---------------------------------------------------------------------------
+# treatment_type / background_factors emptiness rules (2026-08-27)
+# ---------------------------------------------------------------------------
+
+def _run_validation(tmp_path, experiment_overrides=None, drop_analysis=False):
+    from validate_paperconfig import validate_paperconfig_content
+    csv_path = _write_minimal_csv(tmp_path)
+    config = _make_valid_config(csv_path, experiment_overrides=experiment_overrides)
+    if drop_analysis:
+        for entry in config["publication"]["supplementary_materials"].values():
+            entry.pop("statistical_analyses", None)
+    cfg = _write_config(tmp_path, config)
+    return validate_paperconfig_content(config, str(cfg))
+
+
+def test_validate_rejects_empty_background_factors(tmp_path):
+    errors, _ = _run_validation(tmp_path, {"background_factors": []})
+    assert any("background_factors must be a non-empty list" in e for e in errors), errors
+
+
+def test_validate_rejects_missing_background_factors(tmp_path):
+    cfg_over = {"background_factors": None}
+    errors, _ = _run_validation(tmp_path, cfg_over)
+    assert any("background_factors must be a non-empty list" in e for e in errors), errors
+
+
+def test_validate_rejects_empty_treatment_type_with_de_analyses(tmp_path):
+    errors, _ = _run_validation(
+        tmp_path, {"treatment_type": [], "background_factors": ["axenic"],
+                   "treatment_organism": None, "treatment_taxid": None})
+    assert any("treatment_type is empty but the experiment has DE analyses" in e
+               for e in errors), errors
+    # [] is a legal VALUE — must not also trip the missing-required-field check
+    assert not any("missing required field 'treatment_type'" in e for e in errors), errors
+
+
+def test_validate_accepts_empty_treatment_type_for_characterization(tmp_path):
+    """No DE analyses reference the experiment → [] is a characterization
+    experiment (Steglich 2010 half-lives, Voigt 2014 TSS maps)."""
+    errors, _ = _run_validation(
+        tmp_path, {"treatment_type": [], "background_factors": ["axenic", "light"],
+                   "treatment_organism": None, "treatment_taxid": None},
+        drop_analysis=True)
+    assert not any("treatment_type" in e for e in errors), errors
+    assert not any("background_factors" in e for e in errors), errors
+
+
+def test_validate_accepts_oxygen_treatment_type(tmp_path):
+    errors, _ = _run_validation(
+        tmp_path, {"treatment_type": ["oxygen", "light"], "background_factors": ["axenic"],
+                   "treatment_organism": None, "treatment_taxid": None})
+    assert not any("treatment_type" in e for e in errors), errors

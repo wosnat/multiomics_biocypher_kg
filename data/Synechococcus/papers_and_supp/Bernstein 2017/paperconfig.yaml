@@ -10,8 +10,11 @@ publication:
       control_condition: "No differential expression control — expression profiling across conditions"
       experimental_context: "T. elongatus BP-1 in binary coculture with M. ruber strain A in photobioreactors; 6 conditions (3 light x 2 oxygen levels); RNA-seq (Illumina NextSeq); transcript abundances measured across LLLO, MLLO, HLLO, HLMO, HLHO conditions"
       omics_type: RNASEQ
-      treatment_type: ["coculture", "light"]
-      background_factors: []
+      # Three manipulated variables (paper: axenic vs binary partnership x 3
+      # irradiance steady states x 3 pO2 tensions). Continuous illumination in
+      # turbidostat steady state is the held-constant regime.
+      treatment_type: ["coculture", "light", "oxygen"]
+      background_factors: [light]
       medium: ""
       temperature: ""
       light_condition: "variable (low/medium/high)"
@@ -37,8 +40,9 @@ publication:
       cluster_method: "hierarchical clustering"
       omics_type: RNASEQ
       light_condition: "variable (low/medium/high)"
-      treatment_type: ["coculture"]
-      background_factors: []
+      # Light is the varied axis; every sample is in binary coculture.
+      treatment_type: ["light"]
+      background_factors: [coculture]
       treatment: "Binary coculture with Meiothermus ruber strain A under 3 light levels (low/medium/high) at low oxygen"
       experimental_context: "T. elongatus BP-1 in binary coculture with M. ruber strain A in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per light condition (LLLO, MLLO, HLLO)"
       figure_hint: "Figure 6, pages 6-7"
@@ -63,8 +67,9 @@ publication:
       cluster_method: "hierarchical clustering"
       omics_type: RNASEQ
       light_condition: "high light"
-      treatment_type: ["coculture"]
-      background_factors: []
+      # pO2 is the varied axis; every sample is in binary coculture at high light.
+      treatment_type: ["oxygen"]
+      background_factors: [coculture, light]
       treatment: "Binary coculture with Meiothermus ruber strain A under 3 oxygen levels (low/medium/high) at high light"
       experimental_context: "T. elongatus BP-1 in binary coculture with M. ruber strain A in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per oxygen condition (HLLO, HLMO, HLHO)"
       figure_hint: "Figure 6, pages 6-7"
@@ -91,8 +96,9 @@ publication:
       cluster_method: "hierarchical clustering"
       omics_type: RNASEQ
       light_condition: "variable (low/medium/high)"
-      treatment_type: ["coculture"]
-      background_factors: []
+      # Light is the varied axis; every sample is in binary coculture.
+      treatment_type: ["light"]
+      background_factors: [coculture]
       treatment: "Binary coculture with Meiothermus ruber strain A under 3 light levels (low/medium/high) at low oxygen"
       experimental_context: "M. ruber strain A in binary coculture with T. elongatus BP-1 in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per light condition (LLLO, MLLO, HLLO)"
       figure_hint: "Figure 6, pages 6-7"
@@ -119,8 +125,9 @@ publication:
       cluster_method: "hierarchical clustering"
       omics_type: RNASEQ
       light_condition: "high light"
-      treatment_type: ["coculture"]
-      background_factors: []
+      # pO2 is the varied axis; every sample is in binary coculture at high light.
+      treatment_type: ["oxygen"]
+      background_factors: [coculture, light]
       treatment: "Binary coculture with Meiothermus ruber strain A under 3 oxygen levels (low/medium/high) at high light"
       experimental_context: "M. ruber strain A in binary coculture with T. elongatus BP-1 in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per oxygen condition (HLLO, HLMO, HLHO)"
       figure_hint: "Figure 6, pages 6-7"

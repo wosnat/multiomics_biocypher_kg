@@ -648,10 +648,16 @@ Experiment.treatment_type:
   closed: true
   values: [nitrogen, phosphorus, iron, carbon, salt, light, temperature,
            plastic, darkness, diel, viral, coculture, growth_phase, compartment,
-           chemical]
+           chemical, oxygen]
   description: >
     Harvested from CLAUDE.md's "treatment_type canonical values" bullet, per
     the controller ruling designating CLAUDE.md as authority for this property.
+    DENSE: every Experiment carries the list; [] = characterization experiment
+    with no perturbation (Steglich 2010 half-lives, Voigt 2014 TSS maps), NOT
+    missing data. neo4j-admin import drops an empty string[] cell, so
+    post-import re-materializes [] (2026-08-27).
+    "oxygen" added 2026-08-27 — first emitted by Bernstein 2017's BP-1 /
+    M. ruber turbidostat pO2 steady states.
     "chemical" added 2026-08-19 — first emitted by Hackl 2023's MIT0604
     mitomycin-C experiments (previously validator-only).
     FINDING: scripts/validate_paperconfig.py does NOT enforce this narrower
@@ -672,6 +678,10 @@ Experiment.background_factors:
   closed: true
   values: [axenic, light, diel, coculture, chemical, darkness, viral]
   description: >
+    DENSE and NON-EMPTY on every Experiment (validate_paperconfig.py errors
+    on an empty list; kg_validity asserts size > 0) — an experiment always has
+    a held-constant context. neo4j-admin import drops an empty string[] cell,
+    so post-import re-materializes [] defensively (2026-08-27).
     Harvested from CLAUDE.md's "background_factors canonical values" bullet,
     per the controller ruling designating CLAUDE.md as authority. Same
     FINDING as Experiment.treatment_type: scripts/validate_paperconfig.py's

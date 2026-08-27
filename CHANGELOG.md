@@ -231,6 +231,21 @@ tag with nothing logged.
 
 ### Data
 
+- **Bernstein 2017 (10.1128/mSystems.00181-16) treatment/background
+  relabelled.** The KG asserted `treatment_type: [coculture, light]`,
+  `background_factors: []` on the BP-1 / *M. ruber* experiment and
+  `treatment_type: [coculture]`, `background_factors: []` on all four
+  clustering analyses. The paper manipulates three variables — partnership
+  (axenic vs binary), irradiance, and dissolved-O₂ tension — while every
+  clustered sample is in binary coculture. Now: experiment
+  `treatment_type: [coculture, light, oxygen]`, `background_factors: [light]`
+  (continuous illumination in turbidostat steady state); light clusters
+  `treatment_type: [light]`, `background_factors: [coculture]`; oxygen
+  clusters `treatment_type: [oxygen]`, `background_factors: [coculture,
+  light]` (held at high light). `oxygen` is a new `Experiment.treatment_type`
+  vocabulary value (`config/controlled_vocabularies.yaml`, validator,
+  kg_validity, CLAUDE.md) — the first pO₂ perturbation in the KG.
+
 - **GEO processed-supplements drop (2026-08-19 pass)** — seven papers wired or
   upgraded from the staged GEO/journal files (branch
   `data/geo-processed-supplements`; plan `plans/geo_paperconfig_updates.md`;
@@ -574,6 +589,25 @@ tag with nothing logged.
   references must exist before the step-2 merge that consumes them.
 
 ### Fixed
+
+- **`Experiment.treatment_type` / `background_factors` are dense again.**
+  The adapters emit `[]` for the three characterization experiments
+  (Steglich 2010 half-lives, Voigt 2014 TSS maps ×2), but `neo4j-admin
+  import` materializes an empty `string[]` cell as *no property*, so those
+  nodes — and the denormalized copies on 12 `ClusteringAnalysis` (Steglich
+  decay clusters + Hackl 2023 genomic islands) and 14 `DerivedMetric` nodes —
+  came out with `treatment_type IS NULL`, and the explorer's
+  `gene_clusters_by_gene` raised a pydantic error on them. Post-import now
+  re-materializes `[]` on Experiment / ClusteringAnalysis / DerivedMetric /
+  MetaboliteAssay. Semantics: `treatment_type = []` = characterization
+  experiment (no perturbation), **not** missing data; `background_factors`
+  is non-empty on every Experiment. New `kg_validity` assertions:
+  `count(e) = count(e.treatment_type) = count(e.background_factors)` on
+  Experiment (and the three denormalized labels), `size(background_factors)
+  > 0` on every Experiment. `validate_paperconfig.py` now errors on an empty
+  `background_factors` and on an empty `treatment_type` when the experiment
+  has DE analyses (also fixed a crash on an explicit `background_factors:
+  null`). See `docs/kg-changes/experiment-list-props-dense.md`.
 
 - **Orphan proteins (38% of `Protein` nodes had no `Protein_belongs_to_organism`
   and no `Gene_encodes_protein`).** Two causes: the organism edge had been a

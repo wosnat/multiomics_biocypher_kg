@@ -271,6 +271,20 @@ OPTIONAL MATCH (gc)-[r:Gene_in_gene_cluster]->()
 WITH gc, count(r) AS actual_count
 SET gc.member_count = actual_count;
 
+// Dense list properties on experiment-shaped nodes. The adapters emit [] for
+// treatment_type / background_factors, but neo4j-admin import materializes an
+// empty string[] cell as NO property. Re-materialize [] so every consumer can
+// rely on a list: treatment_type = [] means "characterization experiment, no
+// perturbation", never missing data (2026-08-27).
+MATCH (e:Experiment)
+SET e.treatment_type = coalesce(e.treatment_type, []),
+    e.background_factors = coalesce(e.background_factors, []);
+
+MATCH (n)
+WHERE n:ClusteringAnalysis OR n:DerivedMetric OR n:MetaboliteAssay
+SET n.treatment_type = coalesce(n.treatment_type, []),
+    n.background_factors = coalesce(n.background_factors, []);
+
 // Experiment growth_phases (must run before Publication rollup)
 MATCH (e:Experiment)
 OPTIONAL MATCH (e)-[r:Changes_expression_of]->(:Gene)

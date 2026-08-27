@@ -199,6 +199,7 @@ CANONICAL_CONDITION_TYPES = {
     "diel",             # Diel light-dark cycling / circadian
     "temperature",      # Thermal shift / acclimation
     "salt",             # Salinity / osmotic
+    "oxygen",           # Dissolved O2 / pO2 tension (Bernstein 2017 turbidostats)
     # Biotic interactions
     "coculture",        # Co-cultivation with another organism
     "viral",            # Phage infection
@@ -411,6 +412,8 @@ def _validate_experiments(experiments: dict, config_path: str,
         # Required fields
         for field in REQUIRED_EXPERIMENT_FIELDS:
             val = exp.get(field)
+            # treatment_type: [] is a legal value (characterization experiment,
+            # checked below); only a missing key / blank string is an error here.
             if val is None or (isinstance(val, str) and not val.strip()):
                 errors.append(
                     f"{config_path} | experiments.{exp_key} | "
@@ -432,6 +435,34 @@ def _validate_experiments(experiments: dict, config_path: str,
                         f"{config_path} | experiments.{exp_key} | "
                         f"missing field '{field}' (optional for cluster-only experiments)"
                     )
+
+        # treatment_type / background_factors emptiness rules.
+        # background_factors must always be a non-empty list — every experiment
+        # has a held-constant context (axenic, continuous light, ...).
+        # treatment_type may be [] ONLY for characterization experiments with
+        # no DE analyses (Steglich 2010 half-lives, Voigt 2014 TSS maps);
+        # an experiment that reports differential expression has a perturbation.
+        raw_bg_check = exp.get("background_factors")
+        bg_check = raw_bg_check if isinstance(raw_bg_check, list) else (
+            [raw_bg_check] if raw_bg_check else [])
+        if not bg_check:
+            errors.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"background_factors must be a non-empty list (what is held "
+                f"constant: axenic, light, diel, coculture, chemical, darkness, viral)"
+            )
+        raw_tt_check = exp.get("treatment_type")
+        tt_check = raw_tt_check if isinstance(raw_tt_check, list) else (
+            [raw_tt_check] if raw_tt_check else [])
+        if not tt_check:
+            if has_analyses:
+                errors.append(
+                    f"{config_path} | experiments.{exp_key} | "
+                    f"treatment_type is empty but the experiment has DE analyses "
+                    f"— name the perturbation"
+                )
+            else:
+                print(f"    treatment_type []: characterization experiment (no perturbation)")
 
         # Canonical organism
         organism = exp.get("organism", "")
@@ -493,7 +524,7 @@ def _validate_experiments(experiments: dict, config_path: str,
             print(f"    treatment_type '{treatment_type}': OK")
 
         # Canonical background_factors (optional list)
-        background_factors = exp.get("background_factors", [])
+        background_factors = exp.get("background_factors") or []
         if isinstance(background_factors, str):
             background_factors = [background_factors]
         for bf in background_factors:
