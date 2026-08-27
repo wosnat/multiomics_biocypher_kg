@@ -584,7 +584,7 @@ gene:
     # different epistemics — catalysis p90 = 11, transport p90 = 554 — and
     # unioning them under one name hid which one a gene's number came from, for
     # the 23,137 genes that had transport evidence only.
-    metabolite_count: int                    # catalysis ONLY (Gene→Reaction→Metabolite)
+    catalyzed_metabolite_count: int          # catalysis ONLY (Gene→Reaction→Metabolite); renamed from metabolite_count (KG-SYNC-001)
     transported_metabolite_count: int        # transport arm, DEEPEST attachments only
     # "resolved"       = the gene's deepest TC attachment resolves a substrate
     # "family_inferred" = it bottoms out on a substrate-lumping node (e.g. ABC
@@ -676,7 +676,7 @@ organism taxon:
     # which had every organism "holding" ~63% of all metabolite nodes. Now split
     # three ways by the edge's evidence_sources, completing the split that
     # measured_metabolite_count already started.
-    metabolite_count: int              # 'metabolism' (catalysis) arm
+    catalyzed_metabolite_count: int    # 'metabolism' (catalysis) arm; renamed from metabolite_count (KG-SYNC-001)
     transported_metabolite_count: int  # 'transport' arm, genes' DEEPEST TC attachments only
     reaction_count: int            # post-import: distinct reactions catalyzed by genes belonging to this organism
     measured_metabolite_count: int # post-import (Phase 2 metabolomics)
@@ -881,7 +881,7 @@ metabolite:
     # which read 0 for 83% of transported metabolites after the ancestor prune.)
     transporter_count: int
     organism_count: int          # post-import
-    gene_count: int              # post-import: CATALYSIS arm only (BREAKING — was catalysis ∪ transport)
+    catalyst_gene_count: int     # post-import: CATALYSIS arm only (renamed from bare gene_count, KG-SYNC-001; was catalysis ∪ transport)
     transporter_gene_count: int  # post-import: transport arm, genes' DEEPEST TC attachments only
     pathway_ids: list[str]       # post-import (KG-A5): distinct sorted KeggTerm.id reachable via Metabolite_in_pathway
     pathway_names: list[str]     # post-import (KG-A6): KeggTerm.name aligned index-for-index with pathway_ids

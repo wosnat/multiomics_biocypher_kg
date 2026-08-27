@@ -1115,17 +1115,18 @@ def test_gene_metabolite_count_populated_for_genes_with_chemistry(run_query):
     substrate annotations (e.g. 2.A.7.11.2 has no substrates in TCDB), so their
     counts are legitimately 0.
 
-    The two arms are checked SEPARATELY. `metabolite_count` used to be the union
-    of catalysis and transport; it is now catalysis-only, with transport in
-    `transported_metabolite_count` — so asserting the union against
-    `metabolite_count` would now fail for the 23,137 transport-only genes.
+    The two arms are checked SEPARATELY. The old `metabolite_count` used to be
+    the union of catalysis and transport; the catalysis arm is now
+    `catalyzed_metabolite_count` (KG-SYNC-001 rename), with transport in
+    `transported_metabolite_count` — so asserting the union would fail for the
+    23,137 transport-only genes.
     """
     rows = run_query("""
         MATCH (g:Gene)
         WHERE EXISTS { (g)-[:Gene_catalyzes_reaction]->(:Reaction)-[:Reaction_has_metabolite]->(:Metabolite) }
-        RETURN count(CASE WHEN g.metabolite_count IS NULL OR g.metabolite_count = 0 THEN 1 END) AS n
+        RETURN count(CASE WHEN g.catalyzed_metabolite_count IS NULL OR g.catalyzed_metabolite_count = 0 THEN 1 END) AS n
     """)
-    assert rows[0]["n"] == 0, "genes reaching a metabolite via catalysis with metabolite_count = 0"
+    assert rows[0]["n"] == 0, "genes reaching a metabolite via catalysis with catalyzed_metabolite_count = 0"
 
     # Transport arm: only the gene's DEEPEST TC attachments count, so a gene whose
     # substrate-bearing family is an ancestor of another of its attachments is

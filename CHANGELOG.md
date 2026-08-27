@@ -153,13 +153,20 @@ tag with nothing logged.
   `entry_xrefs.json` sidecars were **deleted** (the central
   `interpro_reference.json` replaces them). Any external consumer of the old
   artifact shape must migrate.
-- **`metabolite_count` is now the catalysis arm only** on `Gene`, `Metabolite`
-  (`gene_count`) and `OrganismTaxon`. It previously unioned catalysis with
-  transport, which mixed a p90-of-11 signal with a p90-of-554 one; 23,137 genes
-  had transport evidence only, so their number was entirely the inflated arm. The
-  transport arm moved to `transported_metabolite_count` (`Gene`, `OrganismTaxon`)
-  and `transporter_gene_count` (`Metabolite`). Readers wanting the old union must
-  now add the two.
+- **The catalysis-arm metabolite counts are split out AND renamed** (arm split
+  2026-08-12; renames 2026-08-19, KG-SYNC-001): `Gene.metabolite_count` →
+  `Gene.catalyzed_metabolite_count`, `OrganismTaxon.metabolite_count` →
+  `OrganismTaxon.catalyzed_metabolite_count`, `Metabolite.gene_count` →
+  `Metabolite.catalyst_gene_count`; the bare names are retired on these three
+  labels (absent, not aliased). The old union previously mixed a p90-of-11
+  catalysis signal with a p90-of-554 transport one; 23,137 genes had transport
+  evidence only, so their number was entirely the inflated arm. The transport
+  arm lives in `transported_metabolite_count` (`Gene`, `OrganismTaxon`) and
+  `transporter_gene_count` (`Metabolite`). The renames make every stale reader
+  of the narrowed counts fail loudly (null) instead of silently getting the
+  narrowed number, and end the overloading of `metabolite_count` (the measured
+  metabolomics concept keeps that name on `Publication`/`Experiment`). Readers
+  wanting the old union must now add the two arms.
 - **`Metabolite.transporter_count` changed definition** from "distinct
   `tc_specificity` nodes" to "distinct transporter systems at maximal depth". It
   was reading 0 for 83% of transported metabolites, so any `transporter_count > 0`
@@ -319,6 +326,24 @@ tag with nothing logged.
 
 ### Added
 
+- **Annotation-state distribution baseline tool.**
+  `tests/kg_validity/capture_annotation_state.py` (`--save` / `--compare`,
+  omics-edge-snapshot pattern) captures the Gene `annotation_state` /
+  `annotation_quality` / `annotation_types` / `informative_annotation_types`
+  distributions (global + per-organism) into the committed
+  `annotation_state_baseline.json`, so bucket-movement claims across rebuilds
+  (e.g. the 2026-08-17 has_any_edge fix's −420 no_evidence) are reproducible
+  from artifacts. First baseline captured from the 2026-08-18 build: 124,751
+  genes — no_evidence 12,061 (9.7%) / catch_all_only 5,988 (4.8%) /
+  informative_single 12,642 (10.1%) / informative_multi 94,060 (75.4%).
+- **Live annotation-state invariant tests**
+  (`tests/kg_validity/test_annotation_state.py`, `@pytest.mark.kg`): valid
+  enum coverage on every gene, state ↔ quality 1:1 correspondence, state vs
+  bucket count recomputed from `informative_annotation_types` +
+  `gene_category`, and the has_any_edge contract in both directions — the
+  test shape that would have caught the 2026-08-17 InterPro/NCBIfam-only
+  no_evidence miscount before it shipped. Complements the distribution
+  baseline (invariants fail loudly; distributions only shift).
 - **`ControlledVocabulary` nodes — the value sets a property or edge can take,
   published as data** (design
   `docs/superpowers/specs/2026-08-16-vocabulary-contract-design.md`, consumer doc
@@ -430,8 +455,13 @@ tag with nothing logged.
   committed `ncbifam_reference.json` (`hmm_PGAP.tsv`, prepare_data step 9).
   67,459 `Gene_has_ncbifam_family` edges (direct HMM hits only; `evalue` +
   `score`, single homogeneous scale) + 2,630 `Ncbifam_family_in_interpro_entry`
-  bridges (double-sided dangling guard). Node IDs `ncbifam_TIGR*`/`ncbifam_NF*`
-  (underscore — not a bioregistry prefix). Post-import
+  bridges (double-sided dangling guard). Node IDs `ncbifam:TIGR*`/`ncbifam:NF*`
+  (colon-CURIE form since 2026-08-19, KG-SYNC-002 — a house-minted prefix:
+  `ncbifam` is registered nowhere (bioregistry/identifiers.org/Biolink all
+  verified; `tigrfam`'s `^TIGR\d+$` pattern cannot hold NF accessions), but
+  every peer cross-referenced ontology uses colon CURIEs, so uniform consumer
+  id grammar wins; upstream bioregistry registration request filed as
+  follow-up). Post-import
   `gene_count`/`organism_count`, `Gene.ncbifam_family_count`,
   `annotation_types` + informative buckets gain `'ncbifam'`,
   `is_uninformative` on 195 unknown-function families (126 via the typed
@@ -478,6 +508,19 @@ tag with nothing logged.
 
 ### Fixed
 
+- **InterPro redesign deferred cleanups (all 7 from
+  `plans/interpro_redesign_backlog.md`).** NCBIfam `is_uninformative` DUF
+  name-pattern aligned with `config/uninformative_terms.yaml`
+  (`.*DUF\d.*` → `.*\bDUF\d.*` in both post-import scripts; verified a no-op
+  on the live graph — same 9 nodes match). `DataSource` `interproscan`
+  `info_types` now lists the Layer-B enrichment contributions
+  (go_terms/ec_numbers/cazy_ids/pfam_ids/alternate_functional_descriptions/
+  gene_name) via a new `info_types_extra` YAML override (spec §4.2).
+  `interproscan-run --normalize` `sentinel_rate` denominator now matches scan
+  mode (FASTA header count, falling back to call count). New multi-xref
+  fan-out test pins the parser's shallow-copy contract. Stale mid-branch
+  comments trimmed; `enrich_interpro_fields` docstring overclaim reworded;
+  `acc_to_ipr` last-write-wins documented in code.
 - **Duplicated KEGG reaction cross-references in `kegg_data.json`.** KEGG's
   `/link/pathway/reaction` endpoint serves **both** prefix forms for every link
   (`path:map00220` *and* `path:rn00220` — 19,775 of each, an exact pairing), and

@@ -350,9 +350,10 @@ def main():
     )
     ncbifam_adapter.download_data(cache=CACHE)
     # Materialize + guard (metabolite_assay_adapter precedent): the node/edge
-    # sets are observed-only from merged `ncbifam_ids` seeds, which are empty
-    # until Task 18 lands the merge field — BioCypher's write_nodes/write_edges
-    # raise StopIteration on a genuinely empty generator.
+    # sets are observed-only from merged `ncbifam_ids` seeds, which can be
+    # empty (test mode, or merges predating the ncbifam_ids field) —
+    # BioCypher's write_nodes/write_edges raise StopIteration on a genuinely
+    # empty generator.
     ncbifam_nodes = list(ncbifam_adapter.get_nodes())
     ncbifam_edges = list(ncbifam_adapter.get_edges())
     if ncbifam_nodes:

@@ -145,7 +145,12 @@ class DataSourceAdapter:
             # directly to the logical source id (e.g. 'ncbi', 'cyanorak', 'eggnog').
             yaml_bucket = set(self._info_types_by_source.get(yaml_name, []))
             id_bucket = set(self._info_types_by_source.get(src_id, []))
-            info_types = sorted(yaml_bucket | id_bucket)
+            # info_types_extra: contributions made in code rather than via a
+            # declared field rule (e.g. interproscan's Layer-B enrichment in
+            # enrich_interpro_fields) are invisible to _derive_info_types;
+            # a logical source may declare them explicitly in the YAML.
+            extra_bucket = set(ls.get("info_types_extra") or [])
+            info_types = sorted(yaml_bucket | id_bucket | extra_bucket)
             node_id = f"data_source:{src_id}"
             properties = {
                 "id": _clean_str(src_id),

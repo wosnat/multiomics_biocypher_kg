@@ -98,6 +98,15 @@ sources:
       - id: interproscan
         scope: gene_level
         provenance: tool_run
+        # Layer-B enrichment contributions made in code (enrich_interpro_fields),
+        # invisible to the fields-block auto-derivation (spec 2026-08-17 §4.2).
+        info_types_extra:
+          - go_terms
+          - ec_numbers
+          - cazy_ids
+          - pfam_ids
+          - alternate_functional_descriptions
+          - gene_name
 
   tcdb_diamond:
     type: json_roworiented

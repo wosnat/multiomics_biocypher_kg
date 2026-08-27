@@ -45,6 +45,16 @@ RAW = {"results": [{
 }]}
 
 
+# One md5-deduplicated sequence carried by TWO accessions — the xref fan-out path.
+RAW_MULTI_XREF = {"results": [{
+    "md5": "ghi", "xref": [{"id": "WP_000003.1"}, {"id": "WP_000004.1"}],
+    "matches": [
+        _match("PFAM", "PF02532.18", "PSII PsbI", ENTRY_FAM,
+               [_loc(1, 36, evalue=4.1e-18, score=76.3)]),
+    ],
+}]}
+
+
 @pytest.fixture()
 def calls():
     return parse_interproscan_json(RAW)
@@ -82,6 +92,24 @@ def test_no_pathways_anywhere(calls):
     rec = calls["WP_000001.1"]
     assert "pathways" not in rec
     assert all("pathways" not in e for e in rec["interpro_entries"].values())
+
+
+def test_multi_xref_result_fans_out_to_every_accession():
+    """A sequence-dedup result with N xref accessions yields N equal calls.
+
+    Also pins the shallow-copy contract: ``dict(record)`` gives each accession
+    its own top-level dict, but the nested ``libraries`` /
+    ``interpro_entries`` / ``go_terms`` structures are SHARED across the
+    fanned-out accessions. All consumers are read-only today; switch the
+    parser to a deep copy if one ever mutates a call in place.
+    """
+    fanned = parse_interproscan_json(RAW_MULTI_XREF)
+    assert set(fanned) == {"WP_000003.1", "WP_000004.1"}
+    a, b = fanned["WP_000003.1"], fanned["WP_000004.1"]
+    assert a == b
+    assert a is not b                      # own top-level dict per accession
+    assert a["libraries"] is b["libraries"]          # shared nested state
+    assert a["interpro_entries"] is b["interpro_entries"]
 
 
 def test_zero_match_protein_kept(calls):

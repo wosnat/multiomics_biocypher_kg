@@ -43,6 +43,12 @@ def test_interproscan_is_tool_run_gene_level(adapter):
     assert interproscan["name"] == "InterProScan"
     # info_types auto-derived from the interpro_entries field rule
     assert "interpro_entries" in set(interproscan["info_types"])
+    # plus the explicit info_types_extra declaration for the Layer-B
+    # enrichment contributions made in code (enrich_interpro_fields),
+    # which the fields-block auto-derivation cannot see
+    assert {"go_terms", "ec_numbers", "cazy_ids", "pfam_ids",
+            "alternate_functional_descriptions", "gene_name"} \
+        <= set(interproscan["info_types"])
 
 
 def test_psortb_is_tool_run_gene_level(adapter):

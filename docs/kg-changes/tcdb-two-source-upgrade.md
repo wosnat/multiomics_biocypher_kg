@@ -20,7 +20,7 @@ description — it assumes the existing TCDB surface documented in
 | ✅ **New** | Edge provenance (`sources`) + diamond evidence + an advisory `evidence_score` (renamed 2026-08-18 from `tcdb_evidence_score`, now a float `[0,1]` — see §2). |
 | ✅ **New** | 4 ontology→ontology bridge edges (TcdbFamily → Pfam / GO). |
 | ✅ **New** | `Gene.tcdb_evidence_score_max` (renamed 2026-08-18 from `tcdb_best_evidence_score`, now a float `[0,1]`). |
-| ⚠️ **BREAKING** | `metabolite_count` no longer unions catalysis with transport. Gene / Metabolite / OrganismTaxon each gain a separate transport-arm property. Gene p90 was 554 (transport-dominated), catalysis-only p90 is 11. See §7.3. |
+| ⚠️ **BREAKING** | The old union `metabolite_count` is split by evidence arm AND the catalysis arm is renamed (2026-08-19, KG-SYNC-001): `Gene.catalyzed_metabolite_count` / `Metabolite.catalyst_gene_count` / `OrganismTaxon.catalyzed_metabolite_count`, with the bare names retired on those three labels. Gene p90 was 554 (transport-dominated), catalysis-only p90 is 11. See §7.3. |
 | ⚠️ **Semantics change** | `Metabolite.transporter_count` was 0 for 83% of transported metabolites; now non-zero for all 1,462. See §7.2. |
 | ✅ **New** | `Tcdb_family_transports_metabolite.substrate_depth` (`'most_specific'`/`'inherited'`, renamed 2026-08-18 from `'deepest'`/`'ancestor'`) — tells a real transporter system from a rollup ancestor. See §7.1. |
 | ✅ **New** | `Gene.transport_substrate_resolution` (`'resolved'`/`'family_inferred'`) — is this gene's substrate tag usable? See §7.4. |
@@ -149,8 +149,8 @@ quality signal calibrated against curated sources.
 `annotation_types`" as equivalent is now wrong for 15,558 genes. Pick deliberately:
 edge presence for recall, `annotation_types` for quality.
 
-`Gene.tcdb_family_count` and `Gene.metabolite_count` are **not** gated — they count all
-edges, being routing signals rather than quality signals.
+`Gene.tcdb_family_count` and `Gene.catalyzed_metabolite_count` are **not** gated — they
+count all edges, being routing signals rather than quality signals.
 
 ---
 
@@ -350,30 +350,36 @@ DISTINCT sources over `substrate_depth = 'most_specific'` edges: every transport
 metabolite gets a non-zero count (median 1, max 123), with no ancestor counted
 alongside its own descendant.
 
-### 7.3 ⚠️ BREAKING — metabolite counts split by evidence arm
+### 7.3 ⚠️ BREAKING — metabolite counts split by evidence arm (catalysis arm renamed 2026-08-19, KG-SYNC-001)
 
-`metabolite_count` used to union catalysis with transport. The arms are not
-comparable — catalysis **p90 = 11**, transport **p90 = 554** — and **23,137 genes**
-had transport evidence only, so for most genes the stored number was entirely the
-inflated arm with nothing marking it.
+The old `metabolite_count` used to union catalysis with transport. The arms are
+not comparable — catalysis **p90 = 11**, transport **p90 = 554** — and **23,137
+genes** had transport evidence only, so for most genes the stored number was
+entirely the inflated arm with nothing marking it. The split (2026-08-12) is
+completed by renames on the catalysis arm (2026-08-19): keeping the bare name
+after narrowing its meaning would hand every stale reader the narrowed number
+silently, so the bare names are retired on these three labels (absent, not
+aliased) and each arm names itself.
 
-| Node | `metabolite_count` (was union) | new transport property |
+| Node | catalysis-arm property (bare name retired) | transport-arm property |
 |---|---|---|
-| `Gene` | catalysis only | `transported_metabolite_count` |
-| `Metabolite` | `gene_count` = catalysis only | `transporter_gene_count` |
-| `OrganismTaxon` | `'metabolism'` arm only | `transported_metabolite_count` |
+| `Gene` | `catalyzed_metabolite_count` (was union `metabolite_count`) | `transported_metabolite_count` |
+| `Metabolite` | `catalyst_gene_count` (was union `gene_count`) | `transporter_gene_count` |
+| `OrganismTaxon` | `catalyzed_metabolite_count` = `'metabolism'` arm (was `metabolite_count`) | `transported_metabolite_count` |
 
 **The five chemistry counts, defined** (verbatim from
 `docs/superpowers/specs/2026-08-16-vocabulary-contract-design.md` §7.1, answering
 KG-IPT-004 — quotable in MCP field descriptions):
 
-- `Gene.metabolite_count` — distinct metabolites reachable from this gene by
-  **catalysis only** (`Gene_catalyzes_reaction` → `Reaction_has_metabolite`).
+- `Gene.catalyzed_metabolite_count` — distinct metabolites reachable from this
+  gene by **catalysis only** (`Gene_catalyzes_reaction` → `Reaction_has_metabolite`).
+  Renamed from `metabolite_count` (KG-SYNC-001).
 - `Gene.transported_metabolite_count` — distinct metabolites reachable by
   **transport only**, counting the gene's **deepest** TCDB attachments so an
   ancestor's rollup is not inherited alongside its own descendant.
-- `Metabolite.gene_count` — distinct genes reaching this metabolite by
-  **catalysis only**. The catalysis-arm mirror of `Gene.metabolite_count`.
+- `Metabolite.catalyst_gene_count` — distinct genes reaching this metabolite by
+  **catalysis only**. The catalysis-arm mirror of `Gene.catalyzed_metabolite_count`.
+  Renamed from the bare `gene_count` (KG-SYNC-001).
 - `Metabolite.transporter_gene_count` — distinct **genes** reaching this
   metabolite by transport, same deepest-attachment predicate. Agrees with
   `Gene.transported_metabolite_count` by construction — two projections of one
@@ -407,7 +413,9 @@ weak substrate claim).
 | `family_inferred` | 1,671 | 554 |
 
 `family_inferred` means the gene's deepest TC attachment is a substrate-lumping
-node (`is_promiscuous`, e.g. ABC superfamily `3.A.1` with 554 substrates) — the
+node (`level >= 2 AND metabolite_count >= 50` — the predicate the deleted
+`is_promiscuous` flag restated, see §4; e.g. ABC superfamily `3.A.1` with 554
+substrates) — the
 count is reachability, not capability; take the substrate from `product` / COG /
 `function_description` instead. **This answers the friction reported by the
 Alteromonas coculture analysis** ("carry a confident-vs-inferred flag on every

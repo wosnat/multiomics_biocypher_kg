@@ -15,7 +15,7 @@
 - **String sanitization**: every string property yielded by an adapter goes through `_clean_str(value) -> value.replace("'", "^").replace("|", "")`. Curated descriptions WILL contain apostrophes.
 - **No e-value cutoff anywhere** — member DBs pre-apply curated thresholds; evalue/score are evidence-only, never filters.
 - **Count-don't-combine**: no cross-library `score` on the InterPro rollup or `Gene_has_interpro_entry` edge. Rollup carries `evalue` (min, nullable) + `evalue_library`. `Gene_has_ncbifam_family` keeps both `evalue` + `score` (single library, homogeneous HMMER bits).
-- **NCBIfam node IDs are the underscore form** `ncbifam_TIGR00198` / `ncbifam_NF002735` (`ncbifam` is NOT a bioregistry prefix; `normalize_curie` falls back — psortb/signalp precedent).
+- **NCBIfam node IDs are the underscore form** `ncbifam_TIGR00198` / `ncbifam_NF002735` (`ncbifam` is NOT a bioregistry prefix; `normalize_curie` falls back — psortb/signalp precedent). *(Superseded 2026-08-19, KG-SYNC-002: ids are now the colon form `ncbifam:TIGR00198` / `ncbifam:NF002735` — a house-minted prefix, see `docs/kg-changes/interpro-multi-ontology.md`.)*
 - **Merged-JSON authority**: adapters emit edges ONLY for entries in the merged seed fields (`interpro_entries`, `ncbifam_ids`); calls.json only decorates evidence. Skew fails soft (missing decorations, never phantom edges).
 - **Direct attribution**: gene Pfam/NCBIfam contributions come only from direct hits (`libraries.PFAM` / `libraries.NCBIFAM`); entry-mediated GO/EC/CAZy are gated (GO: FAMILY+DOMAIN; EC: single-EC FAMILY; CAZy: FAMILY+DOMAIN) and evidence-labeled.
 - **Declarative-first**: YAML + transforms where the machinery reaches; bespoke Python only as named post-merge enrichment functions (`enrich_*` precedent).

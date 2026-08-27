@@ -264,7 +264,11 @@ def normalize_strain(strain: str, data_dir: Path) -> tuple[str, str]:
         with raw_json.open() as f:
             data = json.load(f)
         calls = parse_interproscan_json(data)
-        n_prot = len(calls)
+        # Match scan mode's input_proteins semantics (FASTA header count) so
+        # sentinel_rate has the same denominator in both modes; fall back to
+        # the fanned-out call count when protein.faa is not on disk.
+        faa = data_dir / "protein.faa"
+        n_prot = _count_seqs(faa) if faa.exists() else len(calls)
         summary = summarize(
             calls, strain=strain, input_proteins=n_prot,
             tool_version=IPS_VERSION, applications="ALL_DEFAULT",

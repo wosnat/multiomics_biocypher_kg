@@ -58,11 +58,18 @@ def _gene_node_id(locus_tag: str) -> str:
 
 
 def _ncbifam_node_id(acc: str) -> str:
-    # `ncbifam` is NOT a registered bioregistry prefix (normalize_prefix -> None
-    # in this project's venv), so normalize_curie would fall back to the
-    # underscore form anyway -- spelled out explicitly here (psortb/signalp
-    # precedent) rather than relying on that fallback silently.
-    return f"ncbifam_{acc}"
+    # HOUSE-MINTED colon CURIE (KG-SYNC-002, 2026-08-19). `ncbifam` is NOT a
+    # registered prefix anywhere (verified live against bioregistry,
+    # identifiers.org and the Biolink prefix map; only `tigrfam` exists and its
+    # ^TIGR\d+$ pattern cannot hold the majority-NF accessions), so this
+    # deliberately bypasses normalize_curie, which would reject the prefix and
+    # fall back to underscore. Colon form is minted anyway because NcbifamFamily
+    # is a cross-referenced ontology and all its peers (tcdb/interpro/pfam/
+    # merops.*) use colon CURIEs — uniform id grammar for consumers outweighs
+    # registry purity. An upstream bioregistry new-prefix request is the
+    # follow-up (plans/backlog.md). The underscore convention remains for flat
+    # structural vocabularies (psortb_/signalp_).
+    return f"ncbifam:{acc}"
 
 
 def _best_facet_row(rows: list[dict]) -> dict:
@@ -266,6 +273,11 @@ class MultiNcbifamAdapter:
             self.download_data()
 
         # 1. NcbifamFamily → InterproEntry bridge edges (dangling-proof BOTH sides)
+        # Last-write-wins across strains (mirrors the pf_to_ipr convention): if
+        # one NCBIfam accession were ever attributed two different IPR entries
+        # across strains' calls.json (cross-release drift), the later strain's
+        # attribution silently wins. Re-check after any InterProScan
+        # version-bump re-scan.
         acc_to_ipr: dict[str, str] = {}
         for adapter in self._strain_adapters:
             acc_to_ipr.update(adapter.get_ncbifam_to_interpro())
