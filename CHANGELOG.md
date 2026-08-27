@@ -253,7 +253,10 @@ tag with nothing logged.
   Hackl 2023 genomic islands (11 `ClusteringAnalysis`) → `genomic_analysis`.
   Three new closed-vocabulary values; `Experiment.treatment_type` and
   `.background_factors` declare `min_size: 1` (new vocabulary key, asserted
-  generically on the live graph).
+  generically on the live graph). The denormalized copies on
+  `ClusteringAnalysis` / `DerivedMetric` / `MetaboliteAssay` get their own six
+  `ControlledVocabulary` entries (`min_size: 1` except
+  `ClusteringAnalysis.background_factors`, where `[]` is legal).
 
 - **GEO processed-supplements drop (2026-08-19 pass)** — seven papers wired or
   upgraded from the staged GEO/journal files (branch

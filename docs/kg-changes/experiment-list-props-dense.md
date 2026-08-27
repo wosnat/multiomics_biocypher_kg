@@ -41,6 +41,11 @@ the three characterization experiments; it was revised the same day because
 
 ### Vocabulary mechanics
 
+- The denormalized copies are registered too: `ClusteringAnalysis` / `DerivedMetric` /
+  `MetaboliteAssay` × `treatment_type` / `background_factors` (6 closed entries, same value
+  lists; `min_size: 1` everywhere except `ClusteringAnalysis.background_factors`), so
+  `genomic_analysis` — which only occurs on `ClusteringAnalysis` — is graph-verified.
+
 - `config/controlled_vocabularies.yaml` gains a `min_size` key (string_array
   only; the loader rejects it on scalars). `test_controlled_vocabularies.py::
   test_min_size_lists_are_dense_and_long_enough` asserts it generically on every

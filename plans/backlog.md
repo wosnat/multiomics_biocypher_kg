@@ -17,7 +17,7 @@ up — this file is the index, not the plan.
 
 ## KG semantics
 
-- [ ] **Register `treatment_type` / `background_factors` vocab entries on the
+- [x] DONE 2026-08-27 (6 entries, same rebuild). **Register `treatment_type` / `background_factors` vocab entries on the
       denormalized labels.** Only `Experiment.*` have `ControlledVocabulary`
       nodes, so `genomic_analysis` — which lives ONLY on `ClusteringAnalysis`
       (Hackl 2023 islands) — is never graph-verified by

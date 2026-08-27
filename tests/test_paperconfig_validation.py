@@ -1504,3 +1504,13 @@ def test_validate_accepts_oxygen_treatment_type(tmp_path):
         tmp_path, {"treatment_type": ["oxygen", "light"], "background_factors": ["axenic"],
                    "treatment_organism": None, "treatment_taxid": None})
     assert not any("treatment_type" in e for e in errors), errors
+
+
+def test_denormalized_condition_vocabs_match_experiment():
+    from multiomics_kg.utils.controlled_vocab import load_vocabularies
+    v = load_vocabularies()
+    for label in ("ClusteringAnalysis", "DerivedMetric", "MetaboliteAssay"):
+        for prop in ("treatment_type", "background_factors"):
+            assert v[f"{label}.{prop}"].values == v[f"Experiment.{prop}"].values, (label, prop)
+    assert v["ClusteringAnalysis.background_factors"].min_size is None
+    assert v["ClusteringAnalysis.treatment_type"].min_size == 1
