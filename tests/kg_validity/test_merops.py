@@ -57,7 +57,7 @@ def test_s14_node_is_serine_clp(run_query):
     row = run_query("""
         MATCH (m:MeropsFamily {merops_id: 'S14'})
         OPTIONAL MATCH (m)-[:Merops_family_is_a_merops_family]->(p:MeropsFamily)
-        RETURN m.catalytic_type AS ct, m.family_type AS ft, m.level AS level,
+        RETURN m.catalytic_type AS ct, m.family_class AS ft, m.level AS level,
                m.name AS name, p.merops_id AS clan
     """)
     assert row, "S14 node not found"
@@ -73,7 +73,7 @@ def test_inhibitor_families_typed_with_null_catalytic(run_query):
         MATCH (m:MeropsFamily)
         WHERE m.merops_id STARTS WITH 'I'
         RETURN count(*) AS n,
-               sum(CASE WHEN m.family_type = 'inhibitor' THEN 1 ELSE 0 END) AS inhib,
+               sum(CASE WHEN m.family_class = 'inhibitor' THEN 1 ELSE 0 END) AS inhib,
                sum(CASE WHEN m.catalytic_type IS NULL THEN 1 ELSE 0 END) AS null_ct
     """)
     assert rows[0]["n"] > 0, "expected at least one inhibitor family/clan"

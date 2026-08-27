@@ -743,3 +743,14 @@ class TestCyanorakRolesCsvCoversGenomeData:
             f"{len(mismatches)} description mismatch(es) between "
             f"{self.REAL_CSV} and genome data:\n" + "\n".join(mismatches)
         )
+
+
+# ── KG-SYNC-005: uniform provenance on the constant-source edge types ─────────
+
+def test_cog_and_role_edges_carry_constant_provenance():
+    from multiomics_kg.adapters.functional_annotation_adapter import (
+        _COG_EDGE_PROPS, _CYANORAK_EDGE_PROPS, _KO_EDGE_PROPS,
+    )
+    assert _KO_EDGE_PROPS == {"sources": ["eggnog"], "evidence": "family_inferred"}
+    assert _COG_EDGE_PROPS == {"sources": ["eggnog"], "evidence": "family_inferred"}
+    assert _CYANORAK_EDGE_PROPS == {"sources": ["cyanorak"], "evidence": "curated"}

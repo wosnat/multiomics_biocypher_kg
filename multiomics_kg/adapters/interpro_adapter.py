@@ -196,9 +196,13 @@ class InterproAnnotationAdapter:
             rollups = (self._calls.get(protein_id) or {}).get("interpro_entries") or {}
             for acc in entries:
                 ent = rollups.get(acc)
-                props: dict = {"match_count": 0, "libraries": []}
+                # sources/evidence: uniform provenance (KG-SYNC-005). One tool, direct
+                # HMM/profile signature hits -> `signature` on the shared ladder.
+                props: dict = {"sources": ["interproscan"], "evidence": "signature",
+                               "match_count": 0, "libraries": []}
                 if ent:
-                    props = {"match_count": ent.get("match_count") or 0,
+                    props = {"sources": ["interproscan"], "evidence": "signature",
+                             "match_count": ent.get("match_count") or 0,
                              "libraries": [_clean_str(x) for x in ent.get("libraries") or []]}
                     for k in ("start", "end"):
                         if ent.get(k) is not None:

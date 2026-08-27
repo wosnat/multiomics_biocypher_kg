@@ -124,6 +124,13 @@ class MeropsAnnotationAdapter:
                     )
                     continue
                 props: dict = {
+                    # Uniform provenance (KG-SYNC-005): one tool, a direct blastp hit
+                    # vs. the curated MEROPS scan library -> `homology` on the shared
+                    # ladder (strength within it is read from `tier`). Orthogonal to
+                    # call_class: a nonpeptidase_homolog is still homology evidence
+                    # for the *placement*; the verdict lives in call_class.
+                    "sources": ["merops_diamond"],
+                    "evidence": "homology",
                     "call_class": VOCAB.check(
                         "Gene_has_merops_family", "call_class", call_class(cand)),
                     "best_hit_id": _clean_str(cand.get("best_hit_id")),
@@ -231,7 +238,7 @@ class MultiMeropsAnnotationAdapter:
             "merops_id": code,
             "level": level,
             "level_kind": level_kind,
-            "family_type": family_type(code),
+            "family_class": family_type(code),
         }
         # sparse (tcdb-superfamily pattern): inhibitors have no catalytic type —
         # omit the key so the Neo4j property is absent, not an empty string
@@ -244,12 +251,12 @@ class MultiMeropsAnnotationAdapter:
             if clan_meta.get("description"):
                 props["description"] = _clean_str(clan_meta["description"])
             if clan_meta.get("family_type"):
-                props["family_type"] = clan_meta["family_type"]
+                props["family_class"] = clan_meta["family_type"]
         elif level == 1:
             fam_meta = ref["families"].get(code) or {}
             props["name"] = _clean_str(fam_meta.get("name") or code)
             if fam_meta.get("family_type"):
-                props["family_type"] = fam_meta["family_type"]
+                props["family_class"] = fam_meta["family_type"]
             for key, val in (ref.get("cleavage", {}).get(code) or {}).items():
                 if key == "cleavage_summary":
                     props[key] = _clean_str(val)

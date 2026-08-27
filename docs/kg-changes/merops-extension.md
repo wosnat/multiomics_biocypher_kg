@@ -44,7 +44,7 @@ un-missable to an LLM reader**, at each read-point:
   family.txt where curated, else derived from the scan library's `.001`/lowest
   holotype, organism suffix stripped; 100% of observed families named; clans:
   code), `description` (sparse, clans only — clan.txt fold/mechanism text),
-  `merops_id`, `level`, `level_kind`, `family_type`
+  `merops_id`, `level`, `level_kind`, `family_class` (was `family_type` until KG-SYNC-005, 2026-08-27)
   (`peptidase`|`inhibitor`), `catalytic_type` (**full words**: serine,
   cysteine, metallo, aspartic, threonine, glutamic, asparagine_lyase, mixed,
   unknown; null on inhibitors — one-letter MEROPS codes are insider jargon).
@@ -123,7 +123,7 @@ Scalar: `merops_family_level_idx`, `merops_family_level_kind_idx`,
 - Honest per-organism protease counting via `peptidase_gene_count` /
   `call_class`, joined with the SignalP + PSORTb layers for the secreted
   exoprotease story (heterotroph DOM degradation).
-- Protease-inhibitor biology via `family_type = 'inhibitor'`.
+- Protease-inhibitor biology via `family_class = 'inhibitor'` (was `family_type`).
 
 ## What does NOT change
 
@@ -253,7 +253,7 @@ per-gene claim):
 `config/controlled_vocabularies.yaml` now carries **10** MEROPS entries
 total. **5 were already registered** by a parallel change before this work
 landed — `Gene_has_merops_family.call_class`, `Gene_has_merops_family.best_hit_kind`,
-`MeropsFamily.level_kind`, `MeropsFamily.family_type`,
+`MeropsFamily.level_kind`, `MeropsFamily.family_class` (renamed from `family_type`, KG-SYNC-005),
 `MeropsFamily.catalytic_type`. **This work adds the remaining 5**, completing
 the set:
 
@@ -297,3 +297,12 @@ terms from member proteins across **all kingdoms**) was evaluated and
   before 2; step 0 downloads deliberately excluded). Mutually exclusive with
   `--steps`; composes with `--strains` / `--skip-cyanorak` / `--refetch-raw`
   as usual.
+
+## KG-SYNC-005 follow-up (2026-08-27) — trust surface
+
+See `docs/kg-changes/annotation-trust-surface.md`. On this ontology: `Gene_has_merops_family` gains
+`sources = ['merops_diamond']`, `evidence = 'homology'` (orthogonal to `call_class`) and a post-import
+`evidence_score ∈ {0, 0.5, 1}` over two placement signals (`tier <= 2`, `pfam_support = 'corroborated'`;
+`call_class` deliberately excluded); `Gene.merops_evidence_score_max` (sparse) mirrors
+`tcdb_evidence_score_max`; `MeropsFamily.family_type` → **`family_class`** (R1b collision with
+`NcbifamFamily.family_type`); `MeropsFamily` gains `direct_gene_count` and `peptidase_organism_count`.

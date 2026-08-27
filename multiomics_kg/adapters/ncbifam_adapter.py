@@ -153,12 +153,19 @@ class NcbifamAnnotationAdapter:
                 if not acc:
                     continue
                 rows = rows_by_acc.get(acc) or []
-                props: dict = {}
+                # sources/evidence: uniform provenance (KG-SYNC-005). Direct HMM hit
+                # against one homogeneous HMMER library -> `signature`.
+                props: dict = {"sources": ["interproscan"], "evidence": "signature"}
                 if rows:
                     best = _best_facet_row(rows)
-                    for k in ("start", "end", "evalue", "score"):
+                    for k in ("start", "end", "evalue"):
                         if best.get(k) is not None:
                             props[k] = best[k]
+                    # HMMER bit score. Named `bit_score`, not `score`: `score` is
+                    # PSORTb's confidence on Gene_has_subcellular_localization and
+                    # the two scales are unrelated (ONT-011, R4 spirit).
+                    if best.get("score") is not None:
+                        props["bit_score"] = best["score"]
                 yield (f"{locus_tag}-has_ncbifam-{acc}", _gene_node_id(locus_tag),
                        _ncbifam_node_id(acc), "gene_has_ncbifam_family", props)
                 count += 1
@@ -249,7 +256,11 @@ class MultiNcbifamAdapter:
                     facet_names = facet_names or {}
                 name = facet_names.get(acc, "")
                 logger.warning(f"NCBIfam accession {acc} not in reference (retired?); emitting minimal node")
-                props = {"name": _clean_str(name), "ncbifam_id": acc, "level": 0}
+                # family_type = 'retired': the one KG-minted sentinel in an otherwise
+                # external-verbatim vocabulary (ONT-004) — keeps the property dense so
+                # consumers get a closed value set instead of a null.
+                props = {"name": _clean_str(name), "ncbifam_id": acc,
+                         "family_type": "retired", "level": 0}
             else:
                 props = {
                     "name": _clean_str(ref.get("name")),

@@ -32,6 +32,19 @@ from multiomics_kg.utils.curie_utils import normalize_curie
 
 logger = logging.getLogger(__name__)
 
+
+def _tcdb_evidence(sources: list[str]) -> str:
+    """Rung of the shared evidence ladder for a Gene_has_tcdb_family edge.
+
+    curated > signature > homology > family_inferred > domain_inferred.
+    A diamond call is a direct blastp hit vs. the curated TCDB FASTA ->
+    ``homology`` (strength within it is read from ``tier``); an eggNOG-only call
+    is orthology transfer -> ``family_inferred``. Both-source edges take the
+    strongest (KG-SYNC-005 / ONT-008).
+    """
+    return "homology" if "tcdb_diamond" in sources else "family_inferred"
+
+
 # NOTE: this module used to carry its own `_TC_CLASS_NAMES` copy as a fallback for
 # `tc_class` nodes with an empty name. It was dead code, and the hardcoded table
 # itself is gone since T6 (2026-08-18): ALL node names — classes through
@@ -166,7 +179,7 @@ class TcdbAnnotationAdapter:
                         f"TcdbAnnotationAdapter({self.genome_dir.name}): {locus_tag} "
                         f"TC {tc} has no source attribution; re-run prepare_data step 2"
                     )
-                props: dict = {"sources": sources}
+                props: dict = {"sources": sources, "evidence": _tcdb_evidence(sources)}
                 cand = evidence.get(tc) if "tcdb_diamond" in sources else None
                 if cand:
                     for key in ("tier", "consensus_n"):
@@ -392,6 +405,7 @@ class MultiTcdbAnnotationAdapter:
                     base = props
                 combined = dict(base)
                 combined["sources"] = sources
+                combined["evidence"] = _tcdb_evidence(sources)
                 # Keep the lexicographically smaller id so the merge is deterministic.
                 by_pair[key] = (min(prev_id, edge_id), combined)
             for key in order:

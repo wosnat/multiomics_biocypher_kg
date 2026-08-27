@@ -306,7 +306,7 @@ def test_node_properties(multi):
     s14 = nodes["merops.family:S14"]
     assert s14 == {
         "merops_id": "S14", "level": 1, "level_kind": "merops_family",
-        "family_type": "peptidase", "catalytic_type": "serine",
+        "family_class": "peptidase", "catalytic_type": "serine",
         "name": "endopeptidase Clp",
         "cleavage_p1_residues": ["Met", "Leu"],
         "cleavage_summary": "cleaves after Met (40%) / Leu (20%) - 30 known cleavages (50% physiological)",
@@ -319,7 +319,7 @@ def test_node_properties(multi):
     subfam = nodes["merops.family:S08A"]
     assert subfam["level"] == 2 and subfam["name"] == "subtilisin Carlsberg"
     inhib = nodes["merops.family:I39"]
-    assert inhib["family_type"] == "inhibitor"
+    assert inhib["family_class"] == "inhibitor"
     assert "catalytic_type" not in inhib  # sparse — absent, not empty/None
     # clan-unassigned family stays a root but keeps its level
     assert nodes["merops.family:U32"]["level"] == 1

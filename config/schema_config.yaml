@@ -1215,6 +1215,9 @@ gene to kegg ko association:
   source: gene
   target: kegg term
   label_in_input: gene_has_kegg_ko
+  properties:               # uniform provenance (KG-SYNC-005): sources joins DataSource (R2), evidence is a rung of the shared ladder
+    sources: str[]
+    evidence: str
 
 kegg term hierarchical association:
   is_a: association
@@ -1318,6 +1321,8 @@ gene to tcdb family association:
   label_in_input: gene_has_tcdb_family
   properties:
     sources: str[]
+    evidence: str           # 'homology' (diamond called it) | 'family_inferred' (eggNOG-only); both-source = strongest
+    # attachment_depth: str — post-import: most_specific | superseded (a sibling edge of the same gene lands on a descendant)
     tier: int
     confidence_score: float
     identity: float
@@ -1456,7 +1461,7 @@ merops family:
     merops_id: str          # bare code, e.g. "SC" / "S14" / "S08A"
     level: int              # 0=merops_clan, 1=merops_family, 2=merops_subfamily
     level_kind: str
-    family_type: str        # "peptidase" | "inhibitor" (I-families)
+    family_class: str       # "peptidase" | "inhibitor" (I-families). Was family_type — renamed (ONT-012, R1b) to avoid colliding with NcbifamFamily.family_type, an unrelated external vocabulary
     catalytic_type: str     # full word: serine/cysteine/metallo/aspartic/threonine/glutamic/asparagine_lyase/mixed/unknown; null for inhibitors
     cleavage_p1_residues: str[]  # sparse — top P1 residues (>=10% share, max 3, 20 standard AAs)
     cleavage_summary: str        # sparse — readable specificity sentence ("cleaves after ... N known cleavages")
@@ -1483,6 +1488,9 @@ gene to merops family association:
   target: merops family
   label_in_input: gene_has_merops_family
   properties:
+    sources: str[]          # ['merops_diamond'] — uniform provenance (KG-SYNC-005)
+    evidence: str           # 'homology' — direct blastp hit vs. the curated scan library; strength within it = tier
+    # evidence_score: float — post-import, 2 signals (tier<=2, pfam_support); see controlled_vocabularies.yaml
     call_class: str
     tier: int
     confidence_score: float
@@ -1611,6 +1619,8 @@ gene to interpro entry association:
   # filtered (each member DB pre-applies its own curated threshold; ~42% of matches
   # legitimately have no e-value). See the design spec §1 "No e-value cutoff".
   properties:
+    sources: str[]          # ['interproscan'] — uniform provenance (KG-SYNC-005)
+    evidence: str           # 'signature' — direct HMM/profile hit, pre-thresholded by the member DB
     start: int              # domain envelope start (min across this gene's matches to the entry)
     end: int                # domain envelope end (max)
     evalue: float           # best (min) non-null e-value; omitted when all matches lack one
@@ -1690,10 +1700,12 @@ gene to ncbifam family association:
   # Single-source scored edge (InterProScan NCBIFAM; homogeneous HMMER bits —
   # both evalue AND score are meaningful, unlike the cross-library interpro edge).
   properties:
+    sources: str[]          # ['interproscan'] — uniform provenance (KG-SYNC-005)
+    evidence: str           # 'signature'
     start: int
     end: int
     evalue: float
-    score: float
+    bit_score: float        # HMMER bit score. Was `score` (renamed ONT-011: `score` is PSORTb's unrelated confidence scale)
 
 ncbifam family in interpro entry:
   is_a: association
@@ -1739,6 +1751,9 @@ gene to cog category association:
   source: gene
   target: cog functional category
   label_in_input: gene_in_cog_category
+  properties:               # uniform provenance (KG-SYNC-005): sources joins DataSource (R2), evidence is a rung of the shared ladder
+    sources: str[]
+    evidence: str
 
 gene to cyanorak role association:
   is_a: association
@@ -1747,6 +1762,9 @@ gene to cyanorak role association:
   source: gene
   target: cyanorak role
   label_in_input: gene_has_cyanorak_role
+  properties:               # uniform provenance (KG-SYNC-005): sources joins DataSource (R2), evidence is a rung of the shared ladder
+    sources: str[]
+    evidence: str
 
 cyanorak role hierarchical association:
   is_a: association
@@ -1779,6 +1797,9 @@ gene to tigr role association:
   source: gene
   target: tigr role
   label_in_input: gene_has_tigr_role
+  properties:               # uniform provenance (KG-SYNC-005): sources joins DataSource (R2), evidence is a rung of the shared ladder
+    sources: str[]
+    evidence: str
 
 gene to pfam association:
   is_a: association

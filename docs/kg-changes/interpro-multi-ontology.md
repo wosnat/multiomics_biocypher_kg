@@ -46,7 +46,7 @@ interpro/ncbifam-only genes were being scored as `no_evidence` instead of `catch
 
 | Edge | Source → Target | Count | Properties |
 |---|---|---|---|
-| `Gene_has_ncbifam_family` | Gene → NcbifamFamily | 67,459 | `start:int`, `end:int`, `evalue:float`, `score:float`, `match_count:int` — **keeps both `evalue` AND `score`**, unlike `Gene_has_interpro_entry` (see below), because NCBIfam is a single homogeneous HMMER-scale library, not a cross-library rollup |
+| `Gene_has_ncbifam_family` | Gene → NcbifamFamily | 67,459 | `sources:str[]`, `evidence:str` (KG-SYNC-005), `start:int`, `end:int`, `evalue:float`, `bit_score:float` (was `score` until 2026-08-27; no `match_count` — this table wrongly listed one) — **keeps both `evalue` AND `bit_score`**, unlike `Gene_has_interpro_entry` (see below), because NCBIfam is a single homogeneous HMMER-scale library, not a cross-library rollup |
 | `Ncbifam_family_in_interpro_entry` | NcbifamFamily → InterproEntry | 2,630 | — (bridge; overlap link between the two ontologies, not a merge) |
 
 `Gene_has_interpro_entry` stays at **397,342 edges** (unchanged — NCBIfam calls were already folding into

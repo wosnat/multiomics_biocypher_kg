@@ -225,7 +225,8 @@ def test_edge_fail_soft_when_merged_seed_missing_from_rollup(tmp_path):
     a = InterproAnnotationAdapter(genome_dir)
     edges = {e[2]: e[4] for e in a.get_edges()}
     assert edges["interpro:IPR000001"]["match_count"] == 1
-    assert edges["interpro:IPR999999"] == {"match_count": 0, "libraries": []}
+    assert edges["interpro:IPR999999"] == {"sources": ["interproscan"], "evidence": "signature",
+                                           "match_count": 0, "libraries": []}
 
 
 def test_edge_fail_soft_when_protein_has_no_calls_at_all(tmp_path):
@@ -241,7 +242,8 @@ def test_edge_fail_soft_when_protein_has_no_calls_at_all(tmp_path):
     a = InterproAnnotationAdapter(genome_dir)
     edges = list(a.get_edges())
     assert len(edges) == 1
-    assert edges[0][4] == {"match_count": 0, "libraries": []}
+    assert edges[0][4] == {"sources": ["interproscan"], "evidence": "signature",
+                           "match_count": 0, "libraries": []}
 
 
 def test_gene_with_no_interpro_entries_yields_no_edges(tmp_path):

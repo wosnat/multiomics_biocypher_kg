@@ -142,15 +142,17 @@ def test_promiscuous_predicate_is_populated(run_query):
     assert 1 <= n <= 200, f"promiscuous-predicate entry count {n} outside expected 1-200"
 
 
-def test_gene_count_direct_matches_edges(run_query):
-    """gene_count is DIRECT: equals distinct genes with an edge to the entry."""
+def test_direct_gene_count_matches_edges(run_query):
+    """direct_gene_count is DIRECT: equals distinct genes with an edge to the
+    entry. gene_count is SUBTREE since KG-SYNC-005 (2026-08-27) and is >= it."""
     row = run_query("""
-        MATCH (e:InterproEntry) WHERE e.gene_count > 0
+        MATCH (e:InterproEntry) WHERE e.direct_gene_count > 0
         WITH e LIMIT 1
         MATCH (g:Gene)-[:Gene_has_interpro_entry]->(e)
-        RETURN e.gene_count AS stored, count(DISTINCT g) AS actual
+        RETURN e.gene_count AS subtree, e.direct_gene_count AS stored, count(DISTINCT g) AS actual
     """)[0]
     assert row["stored"] == row["actual"]
+    assert row["subtree"] >= row["stored"]
 
 
 # ── functional fold-in (annotation_types only, NOT quality) ───────────────────

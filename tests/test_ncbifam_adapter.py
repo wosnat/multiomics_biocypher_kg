@@ -67,7 +67,7 @@ def test_gene_edge_carries_evalue_and_score(tmp_path):
     assert props["start"] == 5
     assert props["end"] == 480
     assert props["evalue"] == 1e-200
-    assert props["score"] == 850.5
+    assert props["bit_score"] == 850.5
 
 
 def test_gene_edge_best_row_selected_by_min_evalue(tmp_path):
@@ -99,7 +99,7 @@ def test_gene_edge_best_row_selected_by_min_evalue(tmp_path):
     assert props["evalue"] == 1e-30  # the lower one
     assert props["start"] == 2
     assert props["end"] == 39
-    assert props["score"] == 60.0
+    assert props["bit_score"] == 60.0
 
 
 def test_gene_edge_fail_soft_when_facet_row_missing(tmp_path):
@@ -115,7 +115,7 @@ def test_gene_edge_fail_soft_when_facet_row_missing(tmp_path):
     a = NcbifamAnnotationAdapter(genome_dir)
     edges = list(a.get_edges())
     assert len(edges) == 1
-    assert edges[0][4] == {}
+    assert edges[0][4] == {"sources": ["interproscan"], "evidence": "signature"}
 
 
 def test_gene_edge_sparse_props_omit_nulls(tmp_path):
@@ -138,7 +138,7 @@ def test_gene_edge_sparse_props_omit_nulls(tmp_path):
     genome_dir = _write_strain(tmp_path, genes, calls)
     a = NcbifamAnnotationAdapter(genome_dir)
     props = list(a.get_edges())[0][4]
-    assert props == {}
+    assert props == {"sources": ["interproscan"], "evidence": "signature"}
 
 
 def test_gene_edge_skips_falsy_accession_entries(tmp_path):
@@ -269,7 +269,7 @@ def test_node_clean_str_applied(tmp_path):
 def test_node_retired_accession_fallback_from_calls(tmp_path):
     """Accession observed on a gene but absent from the reference (retired) still
     gets a node, with `name` pulled from any strain's NCBIFAM facet row and
-    `family_type` omitted."""
+    `family_type = 'retired'` (the one KG-minted sentinel, ONT-004)."""
     genes = {"LT001": {"protein_id": "WP_1.1", "ncbifam_ids": ["TIGR99999"]}}
     calls = {
         "WP_1.1": {
@@ -286,7 +286,7 @@ def test_node_retired_accession_fallback_from_calls(tmp_path):
     m._reference = {}  # accession retired -- absent from the current TSV
     props = {nid: p for nid, _l, p in m.get_nodes()}["ncbifam:TIGR99999"]
     assert props["name"] == "retired family name"
-    assert "family_type" not in props
+    assert props["family_type"] == "retired"
     assert props["ncbifam_id"] == "TIGR99999"
     assert props["level"] == 0
 

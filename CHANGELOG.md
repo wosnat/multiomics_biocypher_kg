@@ -119,6 +119,16 @@ tag with nothing logged.
 
 ### Breaking
 
+- **`InterproEntry.gene_count` is now SUBTREE, not DIRECT** (KG-SYNC-005, ONT-009) — the same
+  semantics as every other hierarchical ontology. The old direct number lives on the new
+  `direct_gene_count` (also added to TcdbFamily / CazyFamily / MeropsFamily and the newly counted
+  GO / EC / KEGG / CyanorakRole nodes). ORA over InterPro must read `direct_gene_count`.
+- **`Gene_has_ncbifam_family.score` → `bit_score`** (ONT-011; `score` is PSORTb's unrelated
+  confidence scale) and **`MeropsFamily.family_type` → `family_class`** (ONT-012, R1b collision
+  with `NcbifamFamily.family_type`). Both ontologies are unreleased.
+- `Gene_has_ncbifam_family.match_count` struck from the contract — it was documented but never emitted.
+
+
 - **`Gene_has_interpro_entry` no longer carries `score`.** Member-DB scores are
   incomparable scales (HMMER bits vs HAMAP/PROSITE profile units), so the old
   max-across-libraries value was meaningless whenever two libraries were
@@ -223,7 +233,21 @@ tag with nothing logged.
 - **Per-strain tool artifacts regenerated across all 42 strains** — InterProScan
   re-run with `--goterms --pathways` enabled by default, and the TCDB
   `calls.json` regenerated without derived fields. Artifact refreshes only; the
-  schema-side consequences are in `### Added` (InterPro two-layer integration,
+  schema-side consequences are in `### Added
+
+- **Uniform annotation-trust surface (KG-SYNC-005).** `sources` + `evidence` on all 14
+  gene→ontology edge types (was 7 / 6): KO, COG, CyanorakRole, TigrRole, InterPro, NCBIfam,
+  MEROPS gain constant `sources`; `evidence` gains the rung **`homology`** (direct sequence hit
+  vs. a curated reference DB — diamond TCDB/MEROPS; strength within it = `tier`) on the shared
+  ladder `curated > signature > homology > family_inferred > domain_inferred`. New:
+  `Gene_has_merops_family.evidence_score` (2 signals) + sparse `Gene.merops_evidence_score_max`;
+  `Gene_has_tcdb_family.attachment_depth` (`most_specific | superseded`, read by the three
+  transport-arm rollups); `gene_count` / `organism_count` on every ontology label (GO×3 via
+  `is_a ∪ part_of`, EC, KEGG all levels, CyanorakRole, Pfam, PfamClan, TigrRole, COG) with
+  `direct_gene_count` on the hierarchical ones; `MeropsFamily.peptidase_organism_count`;
+  `NcbifamFamily.family_type = 'retired'` on the 10 retired nodes; ~50 `ControlledVocabulary`
+  entries incl. the numeric edge props. `docs/kg-changes/annotation-trust-surface.md`.
+` (InterPro two-layer integration,
   TCDB two-source upgrade).
 - **biller 2016 — corrected contrast semantics on the two MIT1002 experiments**
   (filed against this repo by the downstream `multiomics_analysis` consumer,

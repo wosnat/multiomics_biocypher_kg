@@ -44,8 +44,9 @@ Gene_involved_in_biological_process.evidence: &go_evidence
   closed: true
   values: [curated, family_inferred, domain_inferred]
   description: >
-    Inference strength. curated > signature > family_inferred >
-    domain_inferred. InterPro contributes GO from FAMILY and DOMAIN entries.
+    Inference strength on the shared ladder curated > signature > homology >
+    family_inferred > domain_inferred (homology cannot occur on this edge).
+    InterPro contributes GO from FAMILY and DOMAIN entries.
 
 Gene_enables_molecular_function.evidence:
   <<: *go_evidence
@@ -803,15 +804,17 @@ MeropsFamily.level_kind:
     "level: int  # 0=merops_clan, 1=merops_family, 2=merops_subfamily"
     exactly.
 
-MeropsFamily.family_type:
+MeropsFamily.family_class:
   applies_to: MeropsFamily
   applies_to_kind: node
-  property: family_type
+  property: family_class
   value_type: string
   closed: true
   values: [peptidase, inhibitor]
   description: >
-    KG-minted two-state label for a MEROPS family/subfamily/clan. Harvested
+    KG-minted two-state label for a MEROPS family/subfamily/clan. Renamed
+    from family_type (KG-SYNC-005 / ONT-012, R1b): the same property name on
+    NcbifamFamily holds an unrelated external vocabulary. Harvested
     from family_type() in multiomics_kg/utils/merops_diamond.py ("inhibitor"
     for I-prefixed codes, else "peptidase"); matches
     config/schema_config.yaml's `merops family` node comment
@@ -874,10 +877,13 @@ NcbifamFamily.family_type:
   closed: true
   values: [PfamAutoEq, PfamEq, domain, equivalog, equivalog_domain, exception,
            hypoth_equivalog, hypoth_equivalog_domain, paralog, paralog_domain,
-           repeat, signature, subfamily, subfamily_domain, superfamily]
+           repeat, retired, signature, subfamily, subfamily_domain, superfamily]
   description: >
     NCBIfam/TIGRFAM's own specificity-label vocabulary (flat ontology, no
-    hierarchy column in source). EXTERNAL — preserved verbatim in NCBIfam's
+    hierarchy column in source), plus ONE KG-minted sentinel: 'retired' marks
+    an accession a strain's InterProScan run still calls but the current
+    NCBIfam reference release no longer lists (10 nodes, all NF*; ONT-004) —
+    the node keeps its calls.json name and no other reference field. EXTERNAL — preserved verbatim in NCBIfam's
     own mixed casing (including "PfamEq" / "PfamAutoEq", not lowercased or
     snake_cased) per house rule R1's external-source exception, so the graph
     stays directly comparable to the NCBIfam reference data. Harvested by
@@ -976,3 +982,486 @@ Gene.merops_classes:
     Sorted distinct call_class values across the gene's Gene_has_merops_family
     edges — the at-a-glance guard so a gene whose only call is a dead homolog
     never reads as "1 protease". Empty when the gene has no merops edge.
+
+# ── KG-SYNC-005 (2026-08-27): uniform annotation-trust surface ──────────────
+# sources + evidence on the seven gene→ontology edge types that lacked them,
+# evidence on Gene_has_tcdb_family, MEROPS evidence_score, TCDB attachment_depth,
+# and the numeric edge props the explorer filters / rolls up on (ONT-002/003/014).
+
+Gene_has_kegg_ko.sources:
+  applies_to: Gene_has_kegg_ko
+  applies_to_kind: edge
+  property: sources
+  value_type: string_array
+  closed: true
+  values: [eggnog]
+  description: >
+    Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007).
+    Each value joins a DataSource node via id = 'data_source:' + value. Constant: kegg_ko is eggNOG-only in gene_annotations_config.yaml.
+
+Gene_in_cog_category.sources:
+  applies_to: Gene_in_cog_category
+  applies_to_kind: edge
+  property: sources
+  value_type: string_array
+  closed: true
+  values: [eggnog]
+  description: >
+    Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007).
+    Each value joins a DataSource node via id = 'data_source:' + value. Constant: cog_category is eggNOG-only.
+
+Gene_has_cyanorak_role.sources:
+  applies_to: Gene_has_cyanorak_role
+  applies_to_kind: edge
+  property: sources
+  value_type: string_array
+  closed: true
+  values: [cyanorak]
+  description: >
+    Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007).
+    Each value joins a DataSource node via id = 'data_source:' + value. Constant: roles come only from the Cyanorak GFF (Pro/Syn strains).
+
+Gene_has_tigr_role.sources:
+  applies_to: Gene_has_tigr_role
+  applies_to_kind: edge
+  property: sources
+  value_type: string_array
+  closed: true
+  values: [cyanorak]
+  description: >
+    Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007).
+    Each value joins a DataSource node via id = 'data_source:' + value. Constant: TIGR roles are carried by the Cyanorak GFF (Pro/Syn strains).
+
+Gene_has_interpro_entry.sources:
+  applies_to: Gene_has_interpro_entry
+  applies_to_kind: edge
+  property: sources
+  value_type: string_array
+  closed: true
+  values: [interproscan]
+  description: >
+    Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007).
+    Each value joins a DataSource node via id = 'data_source:' + value. Constant: one tool. The member DB(s) behind the hit are in `libraries`.
+
+Gene_has_ncbifam_family.sources:
+  applies_to: Gene_has_ncbifam_family
+  applies_to_kind: edge
+  property: sources
+  value_type: string_array
+  closed: true
+  values: [interproscan]
+  description: >
+    Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007).
+    Each value joins a DataSource node via id = 'data_source:' + value. Constant: the NCBIFAM facet of the InterProScan run.
+
+Gene_has_merops_family.sources:
+  applies_to: Gene_has_merops_family
+  applies_to_kind: edge
+  property: sources
+  value_type: string_array
+  closed: true
+  values: [merops_diamond]
+  description: >
+    Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007).
+    Each value joins a DataSource node via id = 'data_source:' + value. Constant: one tool (diamond blastp vs. the MEROPS scan library).
+
+Gene_has_kegg_ko.evidence:
+  applies_to: Gene_has_kegg_ko
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [family_inferred]
+  description: >
+    Rung of the shared inference-strength ladder curated > signature >
+    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
+    eggNOG KO = orthology transfer from the seed ortholog's OG.
+
+Gene_in_cog_category.evidence:
+  applies_to: Gene_in_cog_category
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [family_inferred]
+  description: >
+    Rung of the shared inference-strength ladder curated > signature >
+    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
+    eggNOG COG category = orthology transfer.
+
+Gene_has_cyanorak_role.evidence:
+  applies_to: Gene_has_cyanorak_role
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [curated]
+  description: >
+    Rung of the shared inference-strength ladder curated > signature >
+    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
+    Cyanorak roles are curator-assigned.
+
+Gene_has_tigr_role.evidence:
+  applies_to: Gene_has_tigr_role
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [curated]
+  description: >
+    Rung of the shared inference-strength ladder curated > signature >
+    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
+    TIGR roles as carried by the curated Cyanorak annotation.
+
+Gene_has_interpro_entry.evidence:
+  applies_to: Gene_has_interpro_entry
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [signature]
+  description: >
+    Rung of the shared inference-strength ladder curated > signature >
+    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
+    Direct HMM/profile signature hit, pre-thresholded by each member DB.
+
+Gene_has_ncbifam_family.evidence:
+  applies_to: Gene_has_ncbifam_family
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [signature]
+  description: >
+    Rung of the shared inference-strength ladder curated > signature >
+    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
+    Direct HMMER hit against one homogeneous library.
+
+Gene_has_merops_family.evidence:
+  applies_to: Gene_has_merops_family
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [homology]
+  description: >
+    Rung of the shared inference-strength ladder curated > signature >
+    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
+    Direct blastp hit vs. the curated MEROPS scan library; strength WITHIN
+    homology is read from `tier`. Orthogonal to call_class (the verdict axis):
+    a nonpeptidase_homolog is still homology evidence for the placement.
+
+Gene_has_tcdb_family.evidence:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [family_inferred, homology]
+  description: >
+    Rung of the shared inference-strength ladder curated > signature >
+    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
+    homology = diamond called it (direct blastp vs. the curated TCDB FASTA;
+    strength within it from `tier`); family_inferred = eggNOG-only (orthology
+    transfer). Both-source edges take the strongest (homology).
+
+Gene_has_merops_family.evidence_score:
+  applies_to: Gene_has_merops_family
+  applies_to_kind: edge
+  property: evidence_score
+  value_type: float
+  closed: false
+  values: []
+  min_value: 0.0
+  max_value: 1.0
+  signal_count: 2
+  signals: [tier_le_2, pfam_support]
+  description: >
+    Advisory placement-confidence ranking, never a filter (ONT-006, R4). Two
+    independent signals: tier <= 2 (identity >= 40%) and pfam_support =
+    'corroborated'. Scale is {0, 0.5, 1}; round(score * 2) recovers the fired
+    count. call_class is deliberately NOT a signal — it is the verdict axis
+    (active peptidase?), read separately. NOT calibrated against the 5-signal
+    Gene_has_tcdb_family.evidence_score.
+
+Gene.merops_evidence_score_max:
+  applies_to: Gene
+  applies_to_kind: node
+  property: merops_evidence_score_max
+  value_type: float
+  closed: false
+  values: []
+  sparse: true
+  min_value: 0.0
+  max_value: 1.0
+  description: >
+    max(evidence_score) over the gene's Gene_has_merops_family edges (ONT-013,
+    mirror of tcdb_evidence_score_max). SPARSE — absent when the gene has no
+    MEROPS edge; coalesce(x, -1.0) for a total order. Read alongside
+    Gene.merops_classes: this says how well the best call is PLACED,
+    merops_classes says whether any call is an active peptidase.
+
+Gene_has_tcdb_family.attachment_depth:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: attachment_depth
+  value_type: string
+  closed: true
+  values: [most_specific, superseded]
+  description: >
+    Post-import structural fact (ONT-010, not a threshold — R3 does not apply).
+    'superseded' = another Gene_has_tcdb_family edge of the SAME gene lands on a
+    descendant of this node (e.g. eggNOG 3.A.1 next to diamond 3.A.1.14) — a
+    less specific call, NOT a wrong one. 'most_specific' = no such sibling.
+    The transport-arm counts (Gene.transported_metabolite_count,
+    Metabolite.transporter_gene_count, Organism_has_metabolite) read only
+    most_specific edges. Mirrors substrate_depth's value grammar.
+
+Gene_has_interpro_entry.evalue:
+  applies_to: Gene_has_interpro_entry
+  applies_to_kind: edge
+  property: evalue
+  value_type: float
+  closed: false
+  values: []
+  sparse: true
+  min_value: 0.0
+  description: >
+    Best (min) e-value across this gene's matches to the entry; SPARSE —
+    omitted when no match reports one (~30% of edges). Libraries that never
+    report an e-value (measured over the committed calls.json, 2026-08-27):
+    COILS, HAMAP, MOBIDB_LITE, PANTHER, PRINTS, PROSITE_PATTERNS, PROSITE_PROFILES, SUPERFAMILY. Evidence only, NEVER a filter — each member DB pre-applies
+    its own curated threshold.
+
+Gene_has_interpro_entry.match_count:
+  applies_to: Gene_has_interpro_entry
+  applies_to_kind: edge
+  property: match_count
+  value_type: int
+  closed: false
+  values: []
+  min_value: 0
+  description: >
+    Number of member-DB match×location rows folded into this edge. Read
+    size(libraries) for cross-library corroboration, match_count for volume.
+
+Gene_has_ncbifam_family.evalue:
+  applies_to: Gene_has_ncbifam_family
+  applies_to_kind: edge
+  property: evalue
+  value_type: float
+  closed: false
+  values: []
+  min_value: 0.0
+  description: >
+    HMMER e-value of the best NCBIFAM facet row for this (gene, family). Dense.
+
+Gene_has_ncbifam_family.bit_score:
+  applies_to: Gene_has_ncbifam_family
+  applies_to_kind: edge
+  property: bit_score
+  value_type: float
+  closed: false
+  values: []
+  min_value: 0.0
+  description: >
+    HMMER bit score of the best NCBIFAM facet row (ONT-011: renamed from
+    `score`, which is PSORTb's unrelated confidence scale). Single homogeneous
+    library, so evalue AND bit_score are both meaningful.
+
+Gene_has_ncbifam_family.start:
+  applies_to: Gene_has_ncbifam_family
+  applies_to_kind: edge
+  property: start
+  value_type: int
+  closed: false
+  values: []
+  min_value: 1
+  description: >
+    Alignment start (1-based residue) of the best facet row.
+
+Gene_has_ncbifam_family.end:
+  applies_to: Gene_has_ncbifam_family
+  applies_to_kind: edge
+  property: end
+  value_type: int
+  closed: false
+  values: []
+  min_value: 1
+  description: >
+    Alignment end (1-based residue) of the best facet row.
+
+Gene_has_tcdb_family.confidence_score:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: confidence_score
+  value_type: float
+  closed: false
+  values: []
+  sparse: true
+  min_value: 0.0
+  max_value: 1.0
+  description: >
+    tcdb-diamond native per-call confidence in [0,1] (NOT the R4 evidence_score;
+    tool-internal scale, never compared across ontologies). SPARSE — present only on diamond-called edges (absent on eggNOG-only).
+
+Gene_has_tcdb_family.identity:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: identity
+  value_type: float
+  closed: false
+  values: []
+  sparse: true
+  min_value: 0.0
+  max_value: 100.0
+  description: >
+    blastp percent identity of the consensus best hit (0-100). SPARSE — present only on diamond-called edges (absent on eggNOG-only).
+
+Gene_has_tcdb_family.qcov:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: qcov
+  value_type: float
+  closed: false
+  values: []
+  sparse: true
+  min_value: 0.0
+  max_value: 1.0
+  description: >
+    Query coverage of the best hit, fraction in [0,1]. SPARSE — present only on diamond-called edges (absent on eggNOG-only).
+
+Gene_has_tcdb_family.evalue:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: evalue
+  value_type: float
+  closed: false
+  values: []
+  sparse: true
+  min_value: 0.0
+  description: >
+    blastp e-value of the best hit. SPARSE — present only on diamond-called edges (absent on eggNOG-only).
+
+Gene_has_tcdb_family.consensus_n:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: consensus_n
+  value_type: int
+  closed: false
+  values: []
+  sparse: true
+  min_value: 1
+  description: >
+    Number of hits agreeing on this call after consensus collapse. SPARSE — present only on diamond-called edges (absent on eggNOG-only).
+
+Gene_has_merops_family.confidence_score:
+  applies_to: Gene_has_merops_family
+  applies_to_kind: edge
+  property: confidence_score
+  value_type: float
+  closed: false
+  values: []
+  min_value: 0.0
+  max_value: 1.0
+  description: >
+    merops-diamond native per-call confidence in [0,1] (NOT the R4 evidence_score;
+    tool-internal scale, never compared across ontologies). Dense — every edge is diamond-sourced.
+
+Gene_has_merops_family.identity:
+  applies_to: Gene_has_merops_family
+  applies_to_kind: edge
+  property: identity
+  value_type: float
+  closed: false
+  values: []
+  min_value: 0.0
+  max_value: 100.0
+  description: >
+    blastp percent identity of the consensus best hit (0-100). Dense — every edge is diamond-sourced.
+
+Gene_has_merops_family.qcov:
+  applies_to: Gene_has_merops_family
+  applies_to_kind: edge
+  property: qcov
+  value_type: float
+  closed: false
+  values: []
+  min_value: 0.0
+  max_value: 1.0
+  description: >
+    Query coverage of the best hit, fraction in [0,1]. Dense — every edge is diamond-sourced.
+
+Gene_has_merops_family.evalue:
+  applies_to: Gene_has_merops_family
+  applies_to_kind: edge
+  property: evalue
+  value_type: float
+  closed: false
+  values: []
+  min_value: 0.0
+  description: >
+    blastp e-value of the best hit. Dense — every edge is diamond-sourced.
+
+Gene_has_merops_family.consensus_n:
+  applies_to: Gene_has_merops_family
+  applies_to_kind: edge
+  property: consensus_n
+  value_type: int
+  closed: false
+  values: []
+  min_value: 1
+  description: >
+    Number of hits agreeing on this call after consensus collapse. Dense — every edge is diamond-sourced.
+
+Gene_has_subcellular_localization.score:
+  applies_to: Gene_has_subcellular_localization
+  applies_to_kind: edge
+  property: score
+  value_type: float
+  closed: false
+  values: []
+  min_value: 0.0
+  max_value: 10.0
+  description: >
+    PSORTb v3 localization confidence (≈7.5-10.0 on confident calls; the
+    Unknown sentinel is never emitted). Dense. Post-import rank_by_score ranks
+    within each localization.
+
+Gene_has_signal_peptide_type.probability:
+  applies_to: Gene_has_signal_peptide_type
+  applies_to_kind: edge
+  property: probability
+  value_type: float
+  closed: false
+  values: []
+  min_value: 0.0
+  max_value: 1.0
+  description: >
+    SignalP 6 winning-class likelihood in [0,1]. Dense.
+
+Gene_has_signal_peptide_type.cleavage_site:
+  applies_to: Gene_has_signal_peptide_type
+  applies_to_kind: edge
+  property: cleavage_site
+  value_type: int
+  closed: false
+  values: []
+  sparse: true
+  min_value: 1
+  description: >
+    Residue index before the predicted cut; SPARSE — absent when no cleavage
+    site was predicted.
+
+Gene_has_signal_peptide_type.cleavage_probability:
+  applies_to: Gene_has_signal_peptide_type
+  applies_to_kind: edge
+  property: cleavage_probability
+  value_type: float
+  closed: false
+  values: []
+  sparse: true
+  min_value: 0.0
+  max_value: 1.0
+  description: >
+    Likelihood of the predicted cleavage site; SPARSE — absent with cleavage_site.

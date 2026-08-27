@@ -265,3 +265,17 @@ varied. Both Layer-A router edge types now carry no properties at all.
   NCBIfam redesign whose vocabularies are also declared here
 - [`interpro-two-layer.md`](interpro-two-layer.md) — the Layer A/B edge
   provenance this change renamed `sources` / `evidence_score` on
+
+## KG-SYNC-005 addendum (2026-08-27) — one evidence ladder, everywhere
+
+`evidence` and `sources` now exist on all **14** gene→ontology edge types (previously 7 / 6). The ladder
+gains one rung — **`curated > signature > homology > family_inferred > domain_inferred`** — where
+`homology` is a direct sequence-similarity hit vs. a curated reference DB (diamond: TCDB, MEROPS);
+strength *within* `homology` is read from the edge's `tier`, never split into further ladder values.
+Per-edge `ControlledVocabulary` entries keep declaring their own possible **subset** (spec §5.2 stands).
+New R3-exempt structural pair `Gene_has_tcdb_family.attachment_depth: most_specific | superseded`. Renames:
+`Gene_has_ncbifam_family.score` → `bit_score` (R4 spirit — `score` is PSORTb's scale);
+`MeropsFamily.family_type` → `family_class` (R1b collision with `NcbifamFamily.family_type`).
+`NcbifamFamily.family_type` gains the single KG-minted sentinel `retired` inside an otherwise
+external-verbatim set (R1 exception, documented on the entry). Full contract:
+`docs/kg-changes/annotation-trust-surface.md`.

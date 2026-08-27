@@ -618,3 +618,13 @@ def test_transport_substrate_resolution_threshold_is_inlined():
         assert "metabolite_count, 0) >= 50" in text, (
             f"{p}: the breadth threshold must be inlined into "
             "transport_substrate_resolution")
+
+
+# ── KG-SYNC-005: uniform `evidence` rung derived from `sources` ──────────────
+
+def test_tcdb_evidence_rung_from_sources():
+    from multiomics_kg.adapters.tcdb_adapter import _tcdb_evidence
+    assert _tcdb_evidence(["eggnog"]) == "family_inferred"
+    assert _tcdb_evidence(["tcdb_diamond"]) == "homology"
+    # both-source edges take the strongest rung
+    assert _tcdb_evidence(["eggnog", "tcdb_diamond"]) == "homology"

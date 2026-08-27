@@ -968,12 +968,15 @@ CALL {
   WITH t
   OPTIONAL MATCH (child:TcdbFamily)-[:Tcdb_family_is_a_tcdb_family]->(t)
   WITH t, count(child) AS mc
-  OPTIONAL MATCH (t)<-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily)<-[:Gene_has_tcdb_family]-(g:Gene)
-  WITH t, mc, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  OPTIONAL MATCH (t)<-[:Tcdb_family_is_a_tcdb_family*0..]-(desc:TcdbFamily)<-[:Gene_has_tcdb_family]-(g:Gene)
+  WITH t, mc, count(DISTINCT g) AS gc,
+       count(DISTINCT CASE WHEN desc = t THEN g END) AS dgc,
+       collect(DISTINCT g.organism_name) AS orgs
   OPTIONAL MATCH (t)-[:Tcdb_family_transports_metabolite]->(m:Metabolite)
-  WITH t, mc, gc, orgs, count(DISTINCT m) AS metc
+  WITH t, mc, gc, dgc, orgs, count(DISTINCT m) AS metc
   SET t.member_count = mc,
       t.gene_count = gc,
+      t.direct_gene_count = dgc,
       t.organism_count = size([x IN orgs WHERE x IS NOT NULL]),
       t.metabolite_count = metc
 } IN TRANSACTIONS OF 1000 ROWS;
@@ -1005,25 +1008,34 @@ MATCH (c:CazyFamily)
 CALL {
   WITH c
   OPTIONAL MATCH (c)<-[:Cazy_family_is_a_cazy_family*0..]-(desc:CazyFamily)<-[:Gene_has_cazy_family]-(g:Gene)
-  WITH c, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  WITH c, count(DISTINCT g) AS gc,
+       count(DISTINCT CASE WHEN desc = c THEN g END) AS dgc,
+       collect(DISTINCT g.organism_name) AS orgs
   SET c.gene_count = gc,
+      c.direct_gene_count = dgc,
       c.organism_count = size([x IN orgs WHERE x IS NOT NULL])
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // ── InterproEntry computed properties (InterProScan; hierarchical ontology) ───
-// gene_count / organism_count are DIRECT (genes with a Gene_has_interpro_entry
-// edge to this exact entry) — the correct per-term count for (type,level)-
-// stratified ORA (no *0.. subtree, which would double-count across levels).
+// gene_count / organism_count are SUBTREE (descendants ∪ self via *0..), the
+// same semantics as every other hierarchical ontology (KG-SYNC-005 / ONT-009 —
+// was DIRECT until 2026-08-27). direct_gene_count keeps the DIRECT number
+// (genes with an edge to this exact entry) — the correct per-term count for
+// (type,level)-stratified ORA. The is-a hierarchy is sparse (~1.6K edges over
+// ~13K nodes, ~86% level-0), so the two differ on few nodes.
 // member_count = direct child entries (structural, like TcdbFamily).
 MATCH (e:InterproEntry)
 CALL {
   WITH e
   OPTIONAL MATCH (child:InterproEntry)-[:Interpro_entry_is_a_interpro_entry]->(e)
   WITH e, count(child) AS mc
-  OPTIONAL MATCH (e)<-[:Gene_has_interpro_entry]-(g:Gene)
-  WITH e, mc, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  OPTIONAL MATCH (e)<-[:Interpro_entry_is_a_interpro_entry*0..]-(desc:InterproEntry)<-[:Gene_has_interpro_entry]-(g:Gene)
+  WITH e, mc, count(DISTINCT g) AS gc,
+       count(DISTINCT CASE WHEN desc = e THEN g END) AS dgc,
+       collect(DISTINCT g.organism_name) AS orgs
   SET e.member_count = mc,
       e.gene_count = gc,
+      e.direct_gene_count = dgc,
       e.organism_count = size([x IN orgs WHERE x IS NOT NULL])
 } IN TRANSACTIONS OF 1000 ROWS;
 
@@ -1060,12 +1072,16 @@ CALL {
   WITH m, count(child) AS mc
   OPTIONAL MATCH (m)<-[:Merops_family_is_a_merops_family*0..]-(desc:MeropsFamily)<-[r:Gene_has_merops_family]-(g:Gene)
   WITH m, mc, count(DISTINCT g) AS gc,
+       count(DISTINCT CASE WHEN desc = m THEN g END) AS dgc,
        count(DISTINCT CASE WHEN r.call_class = 'peptidase' THEN g END) AS pgc,
-       collect(DISTINCT g.organism_name) AS orgs
+       collect(DISTINCT g.organism_name) AS orgs,
+       collect(DISTINCT CASE WHEN r.call_class = 'peptidase' THEN g.organism_name END) AS porgs
   SET m.member_count = mc,
       m.gene_count = gc,
+      m.direct_gene_count = dgc,
       m.peptidase_gene_count = pgc,
-      m.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+      m.organism_count = size([x IN orgs WHERE x IS NOT NULL]),
+      m.peptidase_organism_count = size([x IN porgs WHERE x IS NOT NULL])
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Gene_has_merops_family.pfam_support: whether a Pfam on this gene is curated
@@ -1082,6 +1098,170 @@ CALL {
          WHERE fam = m OR (m)-[:Merops_family_is_a_merops_family]->(fam)
        } AS pfam_ok
   SET r.pfam_support = CASE WHEN pfam_ok THEN 'corroborated' ELSE 'uncorroborated' END
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Gene_has_merops_family.evidence_score (KG-SYNC-005, ONT-006; R4 — one score
+// name per concept, float in [0,1]). TWO placement-confidence signals:
+//   +1  tier <= 2                      — identity >= 40% (subfamily/identifier band)
+//   +1  pfam_support = 'corroborated'  — a Pfam on this gene is curated into the family
+// call_class is deliberately NOT a signal: it is the verdict axis (active
+// peptidase?), orthogonal to placement confidence — a confidently placed dead
+// homolog must not score lower for being honest. Scale is {0, 0.5, 1};
+// round(score * 2) recovers the fired count. Advisory, never a filter, and NOT
+// calibrated against the 5-signal TCDB score.
+CALL {
+  MATCH ()-[r:Gene_has_merops_family]->()
+  SET r.evidence_score = round(
+      ( (CASE WHEN coalesce(r.tier <= 2, false) THEN 1 ELSE 0 END)
+      + (CASE WHEN r.pfam_support = 'corroborated' THEN 1 ELSE 0 END) ) / 2.0, 3)
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Gene.merops_evidence_score_max (ONT-013): mirror of tcdb_evidence_score_max.
+// SPARSE — only on genes with a Gene_has_merops_family edge; coalesce(x, -1.0)
+// for a total order. Read with Gene.merops_classes: the max says how well the
+// best call is PLACED, merops_classes says whether any call is an active peptidase.
+CALL {
+  MATCH (g:Gene)-[r:Gene_has_merops_family]->()
+  WITH g, max(r.evidence_score) AS best
+  SET g.merops_evidence_score_max = best
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// ── gene_count / organism_count on the eggNOG-era ontologies (KG-SYNC-005, ONT-015)
+// One semantics everywhere: SUBTREE on every hierarchical label (plus
+// direct_gene_count = genes attached to this exact node), DIRECT on flat labels.
+// GO walks is_a ∪ part_of (what `level` and the explorer's genes_by_ontology
+// both walk; `regulates` is not in the graph). GO and KEGG are DAGs: a gene
+// reachable through two parents is counted once per node, so sibling counts do
+// NOT sum to the parent's. Descendants are collected DISTINCT first and genes
+// matched second, so DAG path multiplicity never multiplies the gene rows.
+// PfamClan (genes reach it only through member Pfams) and BriteCategory (only
+// through KO leaves; already counted above) get no direct_gene_count — it would
+// be a constant 0.
+
+MATCH (n:BiologicalProcess)
+CALL {
+  WITH n
+  OPTIONAL MATCH (n)<-[:Biological_process_is_a_biological_process|Biological_process_part_of_biological_process*0..]-(desc:BiologicalProcess)
+  WITH n, collect(DISTINCT desc) AS descs
+  UNWIND descs AS d
+  OPTIONAL MATCH (d)<-[:Gene_involved_in_biological_process]-(g:Gene)
+  WITH n, count(DISTINCT g) AS gc,
+       count(DISTINCT CASE WHEN d = n THEN g END) AS dgc,
+       collect(DISTINCT g.organism_name) AS orgs
+  SET n.gene_count = gc,
+      n.direct_gene_count = dgc,
+      n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 100 ROWS;
+
+MATCH (n:MolecularFunction)
+CALL {
+  WITH n
+  OPTIONAL MATCH (n)<-[:Molecular_function_is_a_molecular_function|Molecular_function_part_of_molecular_function*0..]-(desc:MolecularFunction)
+  WITH n, collect(DISTINCT desc) AS descs
+  UNWIND descs AS d
+  OPTIONAL MATCH (d)<-[:Gene_enables_molecular_function]-(g:Gene)
+  WITH n, count(DISTINCT g) AS gc,
+       count(DISTINCT CASE WHEN d = n THEN g END) AS dgc,
+       collect(DISTINCT g.organism_name) AS orgs
+  SET n.gene_count = gc,
+      n.direct_gene_count = dgc,
+      n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 100 ROWS;
+
+MATCH (n:CellularComponent)
+CALL {
+  WITH n
+  OPTIONAL MATCH (n)<-[:Cellular_component_is_a_cellular_component|Cellular_component_part_of_cellular_component*0..]-(desc:CellularComponent)
+  WITH n, collect(DISTINCT desc) AS descs
+  UNWIND descs AS d
+  OPTIONAL MATCH (d)<-[:Gene_located_in_cellular_component]-(g:Gene)
+  WITH n, count(DISTINCT g) AS gc,
+       count(DISTINCT CASE WHEN d = n THEN g END) AS dgc,
+       collect(DISTINCT g.organism_name) AS orgs
+  SET n.gene_count = gc,
+      n.direct_gene_count = dgc,
+      n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 100 ROWS;
+
+MATCH (n:EcNumber)
+CALL {
+  WITH n
+  OPTIONAL MATCH (n)<-[:Ec_number_is_a_ec_number*0..]-(desc:EcNumber)
+  WITH n, collect(DISTINCT desc) AS descs
+  UNWIND descs AS d
+  OPTIONAL MATCH (d)<-[:Gene_catalyzes_ec_number]-(g:Gene)
+  WITH n, count(DISTINCT g) AS gc,
+       count(DISTINCT CASE WHEN d = n THEN g END) AS dgc,
+       collect(DISTINCT g.organism_name) AS orgs
+  SET n.gene_count = gc,
+      n.direct_gene_count = dgc,
+      n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 100 ROWS;
+
+MATCH (n:KeggTerm)
+CALL {
+  WITH n
+  OPTIONAL MATCH (n)<-[:Kegg_term_is_a_kegg_term*0..]-(desc:KeggTerm)
+  WITH n, collect(DISTINCT desc) AS descs
+  UNWIND descs AS d
+  OPTIONAL MATCH (d)<-[:Gene_has_kegg_ko]-(g:Gene)
+  WITH n, count(DISTINCT g) AS gc,
+       count(DISTINCT CASE WHEN d = n THEN g END) AS dgc,
+       collect(DISTINCT g.organism_name) AS orgs
+  SET n.gene_count = gc,
+      n.direct_gene_count = dgc,
+      n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 100 ROWS;
+
+MATCH (n:CyanorakRole)
+CALL {
+  WITH n
+  OPTIONAL MATCH (n)<-[:Cyanorak_role_is_a_cyanorak_role*0..]-(desc:CyanorakRole)
+  WITH n, collect(DISTINCT desc) AS descs
+  UNWIND descs AS d
+  OPTIONAL MATCH (d)<-[:Gene_has_cyanorak_role]-(g:Gene)
+  WITH n, count(DISTINCT g) AS gc,
+       count(DISTINCT CASE WHEN d = n THEN g END) AS dgc,
+       collect(DISTINCT g.organism_name) AS orgs
+  SET n.gene_count = gc,
+      n.direct_gene_count = dgc,
+      n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 100 ROWS;
+
+MATCH (n:PfamClan)
+CALL {
+  WITH n
+  OPTIONAL MATCH (n)<-[:Pfam_in_pfam_clan]-(:Pfam)<-[:Gene_has_pfam]-(g:Gene)
+  WITH n, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  SET n.gene_count = gc,
+      n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 100 ROWS;
+
+MATCH (n:Pfam)
+CALL {
+  WITH n
+  OPTIONAL MATCH (n)<-[:Gene_has_pfam]-(g:Gene)
+  WITH n, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  SET n.gene_count = gc,
+      n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 1000 ROWS;
+
+MATCH (n:TigrRole)
+CALL {
+  WITH n
+  OPTIONAL MATCH (n)<-[:Gene_has_tigr_role]-(g:Gene)
+  WITH n, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  SET n.gene_count = gc,
+      n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 1000 ROWS;
+
+MATCH (n:CogFunctionalCategory)
+CALL {
+  WITH n
+  OPTIONAL MATCH (n)<-[:Gene_in_cog_category]-(g:Gene)
+  WITH n, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  SET n.gene_count = gc,
+      n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // ── SubcellularLocalization computed properties (PSORTb; flat ontology) ───────
@@ -1207,17 +1387,38 @@ CALL {
       g.catalyzed_metabolite_count = cat_met_count
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Gene transport arm: transported_metabolite_count + transport_substrate_resolution.
-//
-// DEEPEST ATTACHMENTS ONLY. 6,950 genes are annotated at both an ancestor and
-// its own descendant (e.g. both 3.A.1 and 3.A.1.14); unioning across all of a
-// gene's attachments pulled in the ancestor's full rolled-up substrate set even
-// though a more specific call existed. Restricting to the deepest attachments
-// keeps 26,813 of 26,894 genes (99.7%) and cuts p90 from 554 to 97.
+// ── Gene_has_tcdb_family.attachment_depth (KG-SYNC-005, ONT-010) ─────────────
+// Materializes the deepest-attachment predicate ONCE. 'most_specific' = no other
+// Gene_has_tcdb_family edge of the SAME gene lands on a descendant of this node;
+// 'superseded' = one does (e.g. an eggNOG 3.A.1 call next to a diamond 3.A.1.14
+// call — a less specific call, NOT a wrong one). A structural fact, not a
+// threshold (R3 does not apply); R5 string pair mirroring substrate_depth.
 //
 // Checking DIRECT ancestry is not enough — a gene may be annotated at 3.A.1 and
 // 3.A.1.14.2 with no edge to the intervening 3.A.1.14 — hence *1..4 (TCDB is 5
 // levels, so 4 hops is the maximum ancestor distance).
+//
+// The three transport-arm consumers (Gene.transported_metabolite_count,
+// Metabolite.transporter_gene_count, Organism_has_metabolite) read this property
+// instead of re-deriving the predicate, so they cannot drift from each other or
+// from what a consumer sees on the edge.
+CALL {
+  MATCH (g:Gene)-[r:Gene_has_tcdb_family]->(t:TcdbFamily)
+  WITH r, EXISTS {
+    MATCH (g)-[:Gene_has_tcdb_family]->(d:TcdbFamily)
+    WHERE (d)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t)
+  } AS superseded
+  SET r.attachment_depth = CASE WHEN superseded THEN 'superseded' ELSE 'most_specific' END
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Gene transport arm: transported_metabolite_count + transport_substrate_resolution.
+//
+// MOST-SPECIFIC ATTACHMENTS ONLY (attachment_depth above). 6,950 genes are
+// annotated at both an ancestor and its own descendant (e.g. both 3.A.1 and
+// 3.A.1.14); unioning across all of a gene's attachments pulled in the
+// ancestor's full rolled-up substrate set even though a more specific call
+// existed. Restricting to the most specific attachments keeps 26,813 of 26,894
+// genes (99.7%) and cuts p90 from 554 to 97.
 //
 // NOT tier-gated, deliberately. Tier and substrate resolution are orthogonal:
 // 11,871 genes are 'resolved' yet tier-3-only (narrow 2.A.x secondary carriers
@@ -1229,11 +1430,7 @@ CALL {
 MATCH (g:Gene)
 CALL {
   WITH g
-  OPTIONAL MATCH (g)-[:Gene_has_tcdb_family]->(t:TcdbFamily)
-  WHERE NOT EXISTS {
-    MATCH (g)-[:Gene_has_tcdb_family]->(d:TcdbFamily)
-    WHERE (d)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t)
-  }
+  OPTIONAL MATCH (g)-[:Gene_has_tcdb_family {attachment_depth: 'most_specific'}]->(t:TcdbFamily)
   OPTIONAL MATCH (t)-[:Tcdb_family_transports_metabolite]->(m_tr:Metabolite)
   WITH g,
        count(DISTINCT m_tr) AS tr_met_count,
@@ -1370,18 +1567,14 @@ CALL {
 // catalyst_gene_count (renamed from the bare gene_count, KG-SYNC-001 — where a
 // node has two gene-link arms, each count names its arm); the transport arm is
 // transporter_gene_count. Both ends of the transport relation use the SAME
-// predicate — the gene's DEEPEST TC attachments — so
+// predicate — the gene's most-specific TC attachments (attachment_depth) — so
 // Gene.transported_metabolite_count and Metabolite.transporter_gene_count are
 // two projections of one (gene, metabolite) set and agree by construction.
 CALL {
   MATCH (m:Metabolite)
   OPTIONAL MATCH (m)<-[:Reaction_has_metabolite]-(:Reaction)<-[:Gene_catalyzes_reaction]-(g_cat:Gene)
   WITH m, count(DISTINCT g_cat) AS cat_gene_count
-  OPTIONAL MATCH (m)<-[:Tcdb_family_transports_metabolite]-(t:TcdbFamily)<-[:Gene_has_tcdb_family]-(g_tr:Gene)
-    WHERE NOT EXISTS {
-      MATCH (g_tr)-[:Gene_has_tcdb_family]->(d:TcdbFamily)
-      WHERE (d)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t)
-    }
+  OPTIONAL MATCH (m)<-[:Tcdb_family_transports_metabolite]-(t:TcdbFamily)<-[:Gene_has_tcdb_family {attachment_depth: 'most_specific'}]-(g_tr:Gene)
   WITH m, cat_gene_count, count(DISTINCT g_tr) AS tr_gene_count
   SET m.catalyst_gene_count = cat_gene_count,
       m.transporter_gene_count = tr_gene_count
@@ -1429,18 +1622,15 @@ CALL {
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Materialize Organism_has_metabolite (transport arm).
-// Uses the SAME deepest-attachment predicate as Gene.transported_metabolite_count
-// so the organism edge and the gene scalar cannot disagree. Without it, one gene
+// Uses the SAME most-specific-attachment property (attachment_depth) as
+// Gene.transported_metabolite_count so the organism edge and the gene scalar
+// cannot disagree. Without it, one gene
 // annotated at ABC superfamily 3.A.1 gave its whole organism all 554 ABC
 // substrates, which is how every organism came to "have" 63% of all metabolites.
 CALL {
   MATCH (o:OrganismTaxon)<-[:Gene_belongs_to_organism]-(g:Gene)
-        -[:Gene_has_tcdb_family]->(t:TcdbFamily)
+        -[:Gene_has_tcdb_family {attachment_depth: 'most_specific'}]->(t:TcdbFamily)
         -[:Tcdb_family_transports_metabolite]->(m:Metabolite)
-  WHERE NOT EXISTS {
-    MATCH (g)-[:Gene_has_tcdb_family]->(d:TcdbFamily)
-    WHERE (d)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t)
-  }
   WITH DISTINCT o, m
   MERGE (o)-[r:Organism_has_metabolite]->(m)
   ON CREATE SET r.evidence_sources = ['transport'],

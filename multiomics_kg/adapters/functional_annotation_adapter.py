@@ -63,6 +63,20 @@ from multiomics_kg.utils.pfam_utils import load_pfam_data
 
 logger = logging.getLogger(__name__)
 
+# ── Uniform provenance on every gene→ontology edge (KG-SYNC-005, ONT-007/008) ──
+# These four edge types each have exactly ONE contributing source (see
+# config/gene_annotations_config.yaml: kegg_ko + cog_category are eggNOG-only;
+# cyanorak_Role + tIGR_Role come only from the Cyanorak GFF), so `sources` is a
+# constant list and `evidence` is a constant rung of the shared ladder
+# curated > signature > homology > family_inferred > domain_inferred:
+#   eggNOG KO / COG   = orthology transfer          -> family_inferred
+#   Cyanorak roles    = curator-assigned            -> curated
+# Each `sources` value joins a DataSource node via id = 'data_source:' + value (R2).
+_KO_EDGE_PROPS = {"sources": ["eggnog"], "evidence": "family_inferred"}
+_COG_EDGE_PROPS = {"sources": ["eggnog"], "evidence": "family_inferred"}
+_CYANORAK_EDGE_PROPS = {"sources": ["cyanorak"], "evidence": "curated"}
+
+
 # Maps GO namespace string → gene→GO edge label_in_input value
 _NS_TO_GENE_EDGE_LABEL: dict[str, str] = {
     "biological_process": "gene_involved_in_biological_process",
@@ -534,7 +548,7 @@ class KeggAnnotationAdapter:
                     _gene_node_id(locus_tag),
                     _ko_node_id(ko_id),
                     "gene_has_kegg_ko",
-                    {},
+                    dict(_KO_EDGE_PROPS),
                 )
                 count += 1
                 if self.test_mode and count >= 100:
@@ -913,7 +927,7 @@ class CogRoleAnnotationAdapter:
                     _gene_node_id(locus_tag),
                     _cog_cat_node_id(letter),
                     "gene_in_cog_category",
-                    {},
+                    dict(_COG_EDGE_PROPS),
                 )
                 cog_count += 1
                 if self.test_mode and cog_count >= 100:
@@ -931,7 +945,7 @@ class CogRoleAnnotationAdapter:
                     _gene_node_id(locus_tag),
                     _cyanorak_role_node_id(code),
                     "gene_has_cyanorak_role",
-                    {},
+                    dict(_CYANORAK_EDGE_PROPS),
                 )
                 cyr_count += 1
                 if self.test_mode and cyr_count >= 100:
@@ -949,7 +963,7 @@ class CogRoleAnnotationAdapter:
                     _gene_node_id(locus_tag),
                     _tigr_role_node_id(code),
                     "gene_has_tigr_role",
-                    {},
+                    dict(_CYANORAK_EDGE_PROPS),
                 )
                 tigr_count += 1
                 if self.test_mode and tigr_count >= 100:
