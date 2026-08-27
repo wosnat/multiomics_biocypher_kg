@@ -57,6 +57,8 @@ def test_clustering_analysis_cluster_type_values(run_query):
     """cluster_type must be from the valid enum."""
     valid_types = {
         "time_course", "diel", "condition_comparison", "expression_bin",
+        "decay_pattern",   # Steglich 2010 mRNA half-life decay clusters
+        "genomic_island",  # Hackl 2023 predicted genomic islands as gene sets
     }
     result = run_query(
         "MATCH (ca:ClusteringAnalysis) RETURN DISTINCT ca.cluster_type AS ct"

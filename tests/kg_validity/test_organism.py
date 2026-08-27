@@ -47,12 +47,12 @@ def test_no_non_bacterial_organisms(run_query):
 
 
 def test_organism_count(run_query):
-    """47 OrganismTaxon nodes: 40 genome strains + 2 reference proteome match + 5 treatment organisms.
+    """48 OrganismTaxon nodes: 41 genome strains + 2 reference proteome match + 5 treatment organisms.
 
-    Genome strains (40): 19 Pro (MED4, AS9601, MIT9301, MIT9312, MIT9313,
+    Genome strains (41): 19 Pro (MED4, AS9601, MIT9301, MIT9312, MIT9313,
     MIT9303, NATL1A, NATL2A, RSP50, SS120, MIT0801, MIT9515, MIT9202, MIT9215,
-    MIT0604, SB, PAC1, MIT1327, MIT1314), 7 Syn (CC9311, WH7803, WH8102, BL107,
-    PCC7002, PCC7942, UTEX2973), 1 Thermosynechococcus (BP1), 9 Alteromonas
+    MIT0604, SB, PAC1, MIT1327, MIT1314), 8 Syn (CC9311, WH7803, WH8102, BL107,
+    PCC7002, PCC7942, UTEX2973, WH8109), 1 Thermosynechococcus (BP1), 9 Alteromonas
     (MIT1002, EZ55, HOT1A3, AD45, ATCC27126, BGP6, BS11, AltDE, AltDE1),
     4 heterotrophs (W3-18-1, KT2440, DSS-3, MruberA).
     Reference proteome match (2): Marinobacter (MarRef v6), Alteromonas (MarRef v6).
@@ -60,8 +60,8 @@ def test_organism_count(run_query):
     parahaemolyticus, Meiothermus ruber, E. coli.
     """
     result = run_query("MATCH (o:OrganismTaxon) RETURN count(o) AS cnt")
-    assert result[0]["cnt"] == 47, (
-        f"Expected 47 OrganismTaxon nodes, got {result[0]['cnt']}"
+    assert result[0]["cnt"] == 48, (
+        f"Expected 48 OrganismTaxon nodes, got {result[0]['cnt']}"
     )
 
 
@@ -119,7 +119,7 @@ def test_organism_type_values(run_query):
     assert set(counts.keys()) == {"genome_strain", "treatment", "reference_proteome_match"}, (
         f"Unexpected organism_type values: {counts}"
     )
-    assert counts["genome_strain"] == 40
+    assert counts["genome_strain"] == 41
     assert counts["treatment"] == 5
     assert counts["reference_proteome_match"] == 2
 

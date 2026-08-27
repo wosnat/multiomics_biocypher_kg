@@ -81,12 +81,20 @@ def test_snapshot_node_exists(run_query, test_id, node):
 @pytest.mark.parametrize("test_id,edge", _edge_ids(), ids=lambda x: x if isinstance(x, str) else "")
 def test_snapshot_edge_exists(run_query, test_id, edge):
     """Verify that a previously observed edge still exists between the expected nodes."""
+    # Time-course experiments carry one parallel edge per time point between
+    # the same (Experiment, Gene) pair; pin the match to the sampled time point
+    # so the property comparison below reads the right edge.
+    props = edge.get("properties", {})
+    tp_filter = ""
+    params = {"src": edge["source"], "tgt": edge["target"]}
+    if "time_point_order" in props:
+        tp_filter = "AND r.time_point_order = $tpo "
+        params["tpo"] = props["time_point_order"]
     result = run_query(
         f"MATCH (src)-[r:`{edge['type']}`]->(tgt) "
-        f"WHERE src.id = $src AND tgt.id = $tgt "
+        f"WHERE src.id = $src AND tgt.id = $tgt {tp_filter}"
         f"RETURN properties(r) AS props",
-        src=edge["source"],
-        tgt=edge["target"],
+        **params,
     )
     assert len(result) >= 1, (
         f"Snapshot edge missing from graph: {edge['type']} "

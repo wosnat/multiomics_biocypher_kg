@@ -123,63 +123,74 @@
     },
     {
       "properties": {
-        "adjusted_p_value": 0.65,
+        "adjusted_p_value": 0.472611726798457,
         "expression_direction": "down",
-        "log2_fold_change": -0.29,
-        "time_point": "acclimated",
-        "time_point_order": 1
+        "log2_fold_change": -0.475447834373154,
+        "time_point": "5h",
+        "time_point_hours": 5.0,
+        "time_point_order": 4
       },
-      "source": "10.1016/j.micres.2015.04.006_salt_saltacclimated_5_salt_as9601_rnaseq",
-      "target": "ncbigene:A9601_00011",
+      "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
+      "target": "ncbigene:SYNWH7803_RS00465",
       "type": "Changes_expression_of"
     },
     {
       "properties": {
-        "adjusted_p_value": 0.97,
+        "adjusted_p_value": 0.168932371857294,
         "expression_direction": "down",
-        "log2_fold_change": -0.02,
-        "time_point": "acclimated",
-        "time_point_order": 1
+        "log2_fold_change": -0.918582631661619,
+        "time_point": "1h",
+        "time_point_hours": 1.0,
+        "time_point_order": 2
       },
-      "source": "10.1016/j.micres.2015.04.006_salt_saltacclimated_5_salt_as9601_rnaseq",
-      "target": "ncbigene:A9601_00021",
+      "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
+      "target": "ncbigene:SYNWH7803_RS00465",
       "type": "Changes_expression_of"
     },
     {
       "properties": {
-        "adjusted_p_value": 0.91,
+        "adjusted_p_value": 4.62277346559386e-05,
         "expression_direction": "down",
-        "log2_fold_change": -0.06,
-        "time_point": "acclimated",
+        "log2_fold_change": -2.88375242322746,
+        "time_point": "15 min",
+        "time_point_hours": 0.25,
         "time_point_order": 1
       },
-      "source": "10.1016/j.micres.2015.04.006_salt_saltacclimated_5_salt_as9601_rnaseq",
-      "target": "ncbigene:A9601_00031",
+      "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
+      "target": "ncbigene:SYNWH7803_RS00465",
       "type": "Changes_expression_of"
     },
     {
       "properties": {
-        "adjusted_p_value": 0.36,
+        "adjusted_p_value": 0.0497405479367472,
         "expression_direction": "down",
-        "log2_fold_change": -0.27,
-        "time_point": "acclimated",
-        "time_point_order": 1
+        "log2_fold_change": -1.31842722939405,
+        "time_point": "3h",
+        "time_point_hours": 3.0,
+        "time_point_order": 3
       },
-      "source": "10.1016/j.micres.2015.04.006_salt_saltacclimated_5_salt_as9601_rnaseq",
-      "target": "ncbigene:A9601_00041",
+      "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
+      "target": "ncbigene:SYNWH7803_RS00465",
       "type": "Changes_expression_of"
     },
     {
       "properties": {
-        "adjusted_p_value": 0.67,
+        "adjusted_p_value": 0.0187745334528315,
         "expression_direction": "down",
-        "log2_fold_change": -0.43,
-        "time_point": "acclimated",
-        "time_point_order": 1
+        "log2_fold_change": -1.60801963813729,
+        "time_point": "7h",
+        "time_point_hours": 7.0,
+        "time_point_order": 5
       },
-      "source": "10.1016/j.micres.2015.04.006_salt_saltacclimated_5_salt_as9601_rnaseq",
-      "target": "ncbigene:A9601_00051",
+      "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
+      "target": "ncbigene:SYNWH7803_RS00465",
       "type": "Changes_expression_of"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1002/mbo3.1150",
+      "target": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
+      "type": "Has_experiment"
     },
     {
       "properties": {},
@@ -195,21 +206,21 @@
     },
     {
       "properties": {},
-      "source": "doi:10.1016/j.micres.2015.04.006",
-      "target": "10.1016/j.micres.2015.04.006_salt_saltacclimated_5_salt_as9601_rnaseq",
+      "source": "doi:10.1016/j.cell.2022.12.006",
+      "target": "10.1016/j.cell.2022.12.006_mmc_dna_damage_mit0604",
       "type": "Has_experiment"
     },
     {
       "properties": {},
-      "source": "doi:10.1021/pr060460c",
-      "target": "10.1021/pr060460c_light_HL_vs_LL_med4_proteomics",
+      "source": "doi:10.1016/j.cell.2022.12.006",
+      "target": "10.1016/j.cell.2022.12.006_mmc_vs_uv_mit0604",
       "type": "Has_experiment"
     },
     {
       "properties": {},
-      "source": "doi:10.1021/pr060460c",
-      "target": "10.1021/pr060460c_light_ML_vs_LL_med4_proteomics",
-      "type": "Has_experiment"
+      "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
+      "target": "ncbitaxon:10239",
+      "type": "Tests_coculture_with"
     },
     {
       "properties": {},
@@ -233,12 +244,6 @@
       "properties": {},
       "source": "10.1038/ismej.2014.69_coculture_hco3_vs_axenic_syn7002_rnaseq",
       "target": "insdc.gcf:GCF_000015185.1",
-      "type": "Tests_coculture_with"
-    },
-    {
-      "properties": {},
-      "source": "10.1038/ismej.2014.69_coculture_hco3_vs_lactate_shew_w3181_rnaseq",
-      "target": "insdc.gcf:GCF_000019485.1",
       "type": "Tests_coculture_with"
     },
     {
@@ -819,8 +824,8 @@
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2015.36",
-      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2:expression_change_high_light_shock",
+      "source": "doi:10.1038/ismej.2014.57",
+      "target": "derived_metric:ismej.2014.57:tss_metrics_med4:antisense_tss_count",
       "type": "PublicationHasDerivedMetric"
     },
     {
@@ -849,8 +854,8 @@
     },
     {
       "properties": {},
-      "source": "10.1038/ismej.2015.36_carbon_low_co2_0004_co2_med4_microarray",
-      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2:expression_change_high_light_shock",
+      "source": "10.1038/ismej.2014.57_tss_mapping_med4",
+      "target": "derived_metric:ismej.2014.57:tss_metrics_med4:antisense_tss_count",
       "type": "ExperimentHasDerivedMetric"
     },
     {
@@ -2112,63 +2117,69 @@
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2011.49",
-      "target": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
+      "source": "doi:10.1002/mbo3.1150",
+      "target": "clustering_analysis:mbo3.1150:huang2021_response_groups",
       "type": "PublicationHasClusteringAnalysis"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2011.49",
-      "target": "clustering_analysis:ismej.2011.49:mit9313_iron_response_clusters",
+      "source": "doi:10.1016/j.cell.2022.12.006",
+      "target": "clustering_analysis:j.cell.2022.12.006:as9601_genomic_islands",
       "type": "PublicationHasClusteringAnalysis"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/msb4100087",
-      "target": "clustering_analysis:msb4100087:med4_kmeans_nstarvation",
+      "source": "doi:10.1016/j.cell.2022.12.006",
+      "target": "clustering_analysis:j.cell.2022.12.006:med4_genomic_islands",
       "type": "PublicationHasClusteringAnalysis"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/msb4100087",
-      "target": "clustering_analysis:msb4100087:mit9313_kmeans_nstarvation",
+      "source": "doi:10.1016/j.cell.2022.12.006",
+      "target": "clustering_analysis:j.cell.2022.12.006:mit1314_genomic_islands",
       "type": "PublicationHasClusteringAnalysis"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/nature06130",
-      "target": "clustering_analysis:nature06130:med4_phage_transcription_groups",
+      "source": "doi:10.1016/j.cell.2022.12.006",
+      "target": "clustering_analysis:j.cell.2022.12.006:mit9301_genomic_islands",
       "type": "PublicationHasClusteringAnalysis"
     },
     {
       "properties": {},
-      "source": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
-      "target": "cluster:ismej.2011.49:med4_iron_response_clusters:1",
+      "source": "clustering_analysis:gb-2010-11-5-r54:decay_clusters",
+      "target": "cluster:gb-2010-11-5-r54:decay_clusters:1",
       "type": "ClusteringAnalysisHasGeneCluster"
     },
     {
       "properties": {},
-      "source": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
-      "target": "cluster:ismej.2011.49:med4_iron_response_clusters:13",
+      "source": "clustering_analysis:gb-2010-11-5-r54:decay_clusters",
+      "target": "cluster:gb-2010-11-5-r54:decay_clusters:10",
       "type": "ClusteringAnalysisHasGeneCluster"
     },
     {
       "properties": {},
-      "source": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
-      "target": "cluster:ismej.2011.49:med4_iron_response_clusters:16",
+      "source": "clustering_analysis:gb-2010-11-5-r54:decay_clusters",
+      "target": "cluster:gb-2010-11-5-r54:decay_clusters:11",
       "type": "ClusteringAnalysisHasGeneCluster"
     },
     {
       "properties": {},
-      "source": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
-      "target": "cluster:ismej.2011.49:med4_iron_response_clusters:19",
+      "source": "clustering_analysis:gb-2010-11-5-r54:decay_clusters",
+      "target": "cluster:gb-2010-11-5-r54:decay_clusters:12",
       "type": "ClusteringAnalysisHasGeneCluster"
     },
     {
       "properties": {},
-      "source": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
-      "target": "cluster:ismej.2011.49:med4_iron_response_clusters:22",
+      "source": "clustering_analysis:gb-2010-11-5-r54:decay_clusters",
+      "target": "cluster:gb-2010-11-5-r54:decay_clusters:2",
       "type": "ClusteringAnalysisHasGeneCluster"
+    },
+    {
+      "properties": {},
+      "source": "clustering_analysis:gb-2010-11-5-r54:decay_clusters",
+      "target": "insdc.gcf:GCF_000011465.1",
+      "type": "ClusteringanalysisBelongsToOrganism"
     },
     {
       "properties": {},
@@ -2184,21 +2195,21 @@
     },
     {
       "properties": {},
-      "source": "clustering_analysis:journal.pone.0005135:med4_diel_clusters",
+      "source": "clustering_analysis:j.cell.2022.12.006:as9601_genomic_islands",
+      "target": "insdc.gcf:GCF_000015645.1",
+      "type": "ClusteringanalysisBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "clustering_analysis:j.cell.2022.12.006:med4_genomic_islands",
       "target": "insdc.gcf:GCF_000011465.1",
       "type": "ClusteringanalysisBelongsToOrganism"
     },
     {
       "properties": {},
-      "source": "clustering_analysis:mSystems.00181-16:bp1_light_clusters",
-      "target": "insdc.gcf:GCF_000011345.1",
-      "type": "ClusteringanalysisBelongsToOrganism"
-    },
-    {
-      "properties": {},
-      "source": "clustering_analysis:mSystems.00181-16:bp1_oxygen_clusters",
-      "target": "insdc.gcf:GCF_000011345.1",
-      "type": "ClusteringanalysisBelongsToOrganism"
+      "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
+      "target": "clustering_analysis:mbo3.1150:huang2021_response_groups",
+      "type": "ExperimentHasClusteringAnalysis"
     },
     {
       "properties": {},
@@ -2226,42 +2237,36 @@
     },
     {
       "properties": {},
-      "source": "10.1038/ismej.2011.49_iron_iron_starvation_mit9313_mit9313_microarray",
-      "target": "clustering_analysis:ismej.2011.49:mit9313_iron_response_clusters",
-      "type": "ExperimentHasClusteringAnalysis"
-    },
-    {
-      "properties": {},
-      "source": "cluster:ismej.2011.49:med4_iron_response_clusters:1",
-      "target": "ncbigene:PMM2001",
+      "source": "cluster:gb-2010-11-5-r54:decay_clusters:1",
+      "target": "ncbigene:PMM0046",
       "type": "Gene_in_gene_cluster"
     },
     {
       "properties": {},
-      "source": "cluster:ismej.2011.49:med4_iron_response_clusters:13",
-      "target": "ncbigene:PMM0731",
+      "source": "cluster:gb-2010-11-5-r54:decay_clusters:1",
+      "target": "ncbigene:PMM0048",
       "type": "Gene_in_gene_cluster"
     },
     {
       "properties": {},
-      "source": "cluster:ismej.2011.49:med4_iron_response_clusters:13",
-      "target": "ncbigene:PMM1365",
+      "source": "cluster:gb-2010-11-5-r54:decay_clusters:1",
+      "target": "ncbigene:PMM0051",
       "type": "Gene_in_gene_cluster"
     },
     {
       "properties": {},
-      "source": "cluster:ismej.2011.49:med4_iron_response_clusters:13",
-      "target": "ncbigene:PMM1391",
+      "source": "cluster:gb-2010-11-5-r54:decay_clusters:1",
+      "target": "ncbigene:PMM0073",
       "type": "Gene_in_gene_cluster"
     },
     {
       "properties": {},
-      "source": "cluster:ismej.2011.49:med4_iron_response_clusters:13",
-      "target": "ncbigene:PMM1808",
+      "source": "cluster:gb-2010-11-5-r54:decay_clusters:1",
+      "target": "ncbigene:PMM0085",
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-08-27T08:06:00.535186+00:00",
+  "generated_at": "2026-08-27T14:00:20.588292+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -2500,6 +2505,26 @@
     },
     {
       "anchor": false,
+      "id": "doi:10.1002/mbo3.1150",
+      "label": "Publication",
+      "properties": {
+        "doi": "10.1002/mbo3.1150",
+        "experiment_count": 1,
+        "omics_types": [
+          "RNASEQ"
+        ],
+        "organisms": [
+          "Phage",
+          "Synechococcus WH7803"
+        ],
+        "title": "Temporal transcriptomes of a marine cyanopodovirus and its Synechococcus host during infection",
+        "treatment_types": [
+          "viral"
+        ]
+      }
+    },
+    {
+      "anchor": false,
       "id": "doi:10.1002/pmic.201400562",
       "label": "Publication",
       "properties": {
@@ -2516,6 +2541,26 @@
         "title": "You produce while I clean up, a strategy revealed by exoproteomics during Synechococcus\u2013Roseobacter interactions",
         "treatment_types": [
           "coculture"
+        ]
+      }
+    },
+    {
+      "anchor": false,
+      "id": "doi:10.1016/j.cell.2022.12.006",
+      "label": "Publication",
+      "properties": {
+        "doi": "10.1016/j.cell.2022.12.006",
+        "experiment_count": 3,
+        "omics_types": [
+          "RNASEQ"
+        ],
+        "organisms": [
+          "Prochlorococcus MIT0604"
+        ],
+        "title": "Novel integrative elements and genomic plasticity in ocean ecosystems",
+        "treatment_types": [
+          "chemical",
+          "light"
         ]
       }
     },
@@ -2559,42 +2604,17 @@
     },
     {
       "anchor": false,
-      "id": "doi:10.1038/ismej.2011.49",
-      "label": "Publication",
+      "id": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
+      "label": "Experiment",
       "properties": {
-        "doi": "10.1038/ismej.2011.49",
-        "experiment_count": 5,
-        "omics_types": [
-          "MICROARRAY"
-        ],
-        "organisms": [
-          "Prochlorococcus MED4",
-          "Prochlorococcus MIT9313"
-        ],
-        "title": "Transcriptome response of high- and low-light-adapted Prochlorococcus strains to changing iron availability",
-        "treatment_types": [
-          "iron"
-        ]
-      }
-    },
-    {
-      "anchor": false,
-      "id": "doi:10.1038/ismej.2014.69",
-      "label": "Publication",
-      "properties": {
-        "doi": "10.1038/ismej.2014.69",
-        "experiment_count": 6,
-        "omics_types": [
-          "RNASEQ"
-        ],
-        "organisms": [
-          "Shewanella sp. W3-18-1",
-          "Synechococcus PCC 7002"
-        ],
-        "title": "Inference of interactions in cyanobacterial\u2013heterotrophic co-cultures via transcriptome sequencing",
-        "treatment_types": [
-          "carbon",
-          "coculture"
+        "control": "Uninfected control culture at 30 min",
+        "is_time_course": "true",
+        "name": "WH7803 Cyanopodovirus S-SBP1 infection vs Uninfected control (RNASEQ)",
+        "omics_type": "RNASEQ",
+        "organism_name": "Synechococcus WH7803",
+        "treatment": "Infection with cyanopodovirus S-SBP1 (MOI 2)",
+        "treatment_type": [
+          "viral"
         ]
       }
     },
@@ -2632,49 +2652,33 @@
     },
     {
       "anchor": false,
-      "id": "10.1016/j.micres.2015.04.006_salt_saltacclimated_5_salt_as9601_rnaseq",
+      "id": "10.1016/j.cell.2022.12.006_mmc_dna_damage_mit0604",
       "label": "Experiment",
       "properties": {
-        "control": "Normal seawater control (3.8% salt)",
+        "control": "Untreated parallel cultures",
         "is_time_course": "false",
-        "name": "AS9601 Salt-acclimated (5% salt) vs Normal seawater control (3.8% salt) (RNASEQ)",
+        "name": "MIT0604 mitomycin C DNA-damage induction vs untreated control (RNA-seq)",
         "omics_type": "RNASEQ",
-        "organism_name": "Prochlorococcus AS9601",
-        "treatment": "Salt-acclimated (5% salt)",
+        "organism_name": "Prochlorococcus MIT0604",
+        "treatment": "Mitomycin C 15 ug/mL for 2 h (DNA-crosslinking damage; induces integrases/excisionases and mobilizes tycheposons)",
         "treatment_type": [
-          "salt"
+          "chemical"
         ]
       }
     },
     {
       "anchor": false,
-      "id": "10.1021/pr060460c_light_HL_vs_LL_med4_proteomics",
+      "id": "10.1016/j.cell.2022.12.006_mmc_vs_uv_mit0604",
       "label": "Experiment",
       "properties": {
-        "control": "Low light (20 umol photons m-2 s-1)",
+        "control": "UV shock arm (30 s 254 nm + 1 h recovery) \u2014 treatment-vs-treatment contrast, NOT an untreated baseline",
         "is_time_course": "false",
-        "name": "MED4 proteomics: high light (100 uE) vs low light (20 uE) (iTRAQ)",
-        "omics_type": "PROTEOMICS",
-        "organism_name": "Prochlorococcus MED4",
-        "treatment": "High light (100 umol photons m-2 s-1)",
+        "name": "MIT0604 mitomycin C vs UV shock (treatment-vs-treatment contrast, RNA-seq)",
+        "omics_type": "RNASEQ",
+        "organism_name": "Prochlorococcus MIT0604",
+        "treatment": "Mitomycin C 15 ug/mL for 2 h",
         "treatment_type": [
-          "light"
-        ]
-      }
-    },
-    {
-      "anchor": false,
-      "id": "10.1021/pr060460c_light_ML_vs_LL_med4_proteomics",
-      "label": "Experiment",
-      "properties": {
-        "control": "Low light (20 umol photons m-2 s-1)",
-        "is_time_course": "false",
-        "name": "MED4 proteomics: medium light (60 uE) vs low light (20 uE) (iTRAQ)",
-        "omics_type": "PROTEOMICS",
-        "organism_name": "Prochlorococcus MED4",
-        "treatment": "Medium light (60 umol photons m-2 s-1)",
-        "treatment_type": [
-          "light"
+          "chemical"
         ]
       }
     },
@@ -3238,13 +3242,13 @@
         "omics_type": "VESICLE_PROTEOMICS",
         "organism_name": "Prochlorococcus MIT9313",
         "rankable": "true",
-        "total_gene_count": 1039,
+        "total_gene_count": 1044,
         "value_kind": "numeric",
         "value_max": 2.98e-06,
         "value_median": 1.87e-08,
         "value_min": 2.24e-09,
         "value_q1": 7.48e-09,
-        "value_q3": 5.125e-08
+        "value_q3": 5.1075e-08
       }
     },
     {
@@ -3260,13 +3264,13 @@
         "omics_type": "VESICLE_PROTEOMICS",
         "organism_name": "Prochlorococcus MIT9313",
         "rankable": "true",
-        "total_gene_count": 350,
+        "total_gene_count": 353,
         "value_kind": "numeric",
         "value_max": 4.31e-07,
         "value_median": 1.1e-09,
         "value_min": 2.2e-10,
         "value_q1": 4.41e-10,
-        "value_q3": 3.475e-09
+        "value_q3": 3.31e-09
       }
     },
     {
@@ -3851,6 +3855,19 @@
     },
     {
       "anchor": false,
+      "id": "clustering_analysis:gb-2010-11-5-r54:decay_clusters",
+      "label": "ClusteringAnalysis",
+      "properties": {
+        "cluster_count": 12,
+        "cluster_method": "Soft clustering (Mfuzz, m=2, 12 clusters) of rifampicin decay time-course profiles",
+        "cluster_type": "decay_pattern",
+        "name": "MED4 mRNA decay-pattern clusters (Steglich 2010)",
+        "omics_type": "MICROARRAY",
+        "organism_name": "Prochlorococcus MED4"
+      }
+    },
+    {
+      "anchor": false,
       "id": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
       "label": "ClusteringAnalysis",
       "properties": {
@@ -3877,28 +3894,28 @@
     },
     {
       "anchor": false,
-      "id": "clustering_analysis:journal.pone.0005135:med4_diel_clusters",
+      "id": "clustering_analysis:j.cell.2022.12.006:as9601_genomic_islands",
       "label": "ClusteringAnalysis",
       "properties": {
-        "cluster_count": 18,
-        "cluster_method": "Soft clustering (Mfuzz, c=16, m=1.25)",
-        "cluster_type": "diel",
-        "name": "MED4 diel cycling expression clusters",
-        "omics_type": "MICROARRAY",
-        "organism_name": "Prochlorococcus MED4"
+        "cluster_count": 12,
+        "cluster_method": "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)",
+        "cluster_type": "genomic_island",
+        "name": "AS9601 predicted genomic islands (Hackl 2023)",
+        "omics_type": "",
+        "organism_name": "Prochlorococcus AS9601"
       }
     },
     {
       "anchor": false,
-      "id": "clustering_analysis:mSystems.00181-16:bp1_oxygen_clusters",
+      "id": "clustering_analysis:j.cell.2022.12.006:med4_genomic_islands",
       "label": "ClusteringAnalysis",
       "properties": {
-        "cluster_count": 4,
-        "cluster_method": "hierarchical clustering",
-        "cluster_type": "condition_comparison",
-        "name": "BP-1 transcript clusters by oxygen condition (coculture with M. ruber)",
-        "omics_type": "RNASEQ",
-        "organism_name": "Thermosynechococcus vestitus BP-1"
+        "cluster_count": 10,
+        "cluster_method": "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)",
+        "cluster_type": "genomic_island",
+        "name": "MED4 predicted genomic islands (Hackl 2023)",
+        "omics_type": "",
+        "organism_name": "Prochlorococcus MED4"
       }
     },
     {
@@ -3913,51 +3930,51 @@
     },
     {
       "anchor": false,
-      "id": "cluster:ismej.2011.49:med4_iron_response_clusters:1",
+      "id": "cluster:gb-2010-11-5-r54:decay_clusters:1",
+      "label": "GeneCluster",
+      "properties": {
+        "member_count": 113,
+        "name": "Cluster 1",
+        "organism_name": "Prochlorococcus MED4"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "cluster:gb-2010-11-5-r54:decay_clusters:10",
+      "label": "GeneCluster",
+      "properties": {
+        "member_count": 105,
+        "name": "Cluster 10",
+        "organism_name": "Prochlorococcus MED4"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "cluster:gb-2010-11-5-r54:decay_clusters:11",
+      "label": "GeneCluster",
+      "properties": {
+        "member_count": 48,
+        "name": "Cluster 11",
+        "organism_name": "Prochlorococcus MED4"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "cluster:gb-2010-11-5-r54:decay_clusters:12",
+      "label": "GeneCluster",
+      "properties": {
+        "member_count": 108,
+        "name": "Cluster 12",
+        "organism_name": "Prochlorococcus MED4"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "cluster:gb-2010-11-5-r54:decay_clusters:2",
       "label": "GeneCluster",
       "properties": {
         "member_count": 1,
-        "name": "Prochlorococcus MED4 cluster 1 (1 genes)",
-        "organism_name": "Prochlorococcus MED4"
-      }
-    },
-    {
-      "anchor": false,
-      "id": "cluster:ismej.2011.49:med4_iron_response_clusters:13",
-      "label": "GeneCluster",
-      "properties": {
-        "member_count": 7,
-        "name": "Prochlorococcus MED4 cluster 13 (7 genes)",
-        "organism_name": "Prochlorococcus MED4"
-      }
-    },
-    {
-      "anchor": false,
-      "id": "cluster:ismej.2011.49:med4_iron_response_clusters:16",
-      "label": "GeneCluster",
-      "properties": {
-        "member_count": 2,
-        "name": "Prochlorococcus MED4 cluster 16 (4 genes)",
-        "organism_name": "Prochlorococcus MED4"
-      }
-    },
-    {
-      "anchor": false,
-      "id": "cluster:ismej.2011.49:med4_iron_response_clusters:19",
-      "label": "GeneCluster",
-      "properties": {
-        "member_count": 59,
-        "name": "Prochlorococcus MED4 cluster 19 (63 genes)",
-        "organism_name": "Prochlorococcus MED4"
-      }
-    },
-    {
-      "anchor": false,
-      "id": "cluster:ismej.2011.49:med4_iron_response_clusters:22",
-      "label": "GeneCluster",
-      "properties": {
-        "member_count": 1,
-        "name": "Prochlorococcus MED4 cluster 22 (1 genes)",
+        "name": "Cluster 2",
         "organism_name": "Prochlorococcus MED4"
       }
     },

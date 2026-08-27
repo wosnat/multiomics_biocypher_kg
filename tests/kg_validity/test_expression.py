@@ -273,10 +273,17 @@ def test_experiment_name_present_on_majority(run_query):
 
 
 def test_experiment_has_treatment_type(run_query):
-    """Every Experiment node must have a non-empty treatment_type list."""
+    """Every Experiment with expression edges must have a non-empty treatment_type.
+
+    Characterization experiments that report no differential expression
+    (Steglich 2010 rifampicin half-lives, Voigt 2014 TSS maps) deliberately
+    declare ``treatment_type: []`` — there is no perturbation whose response
+    is reported — and are the only nodes allowed to carry none.
+    """
     result = run_query("""
         MATCH (exp:Experiment)
-        WHERE exp.treatment_type IS NULL OR size(exp.treatment_type) = 0
+        WHERE (exp.treatment_type IS NULL OR size(exp.treatment_type) = 0)
+          AND EXISTS { (exp)-[:Changes_expression_of]->() }
         RETURN count(exp) AS missing
     """)
     missing = result[0]["missing"]
@@ -296,7 +303,7 @@ def test_experiment_treatment_type_values_canonical(run_query):
     known = {
         "nitrogen", "phosphorus", "iron", "carbon", "salt", "light",
         "temperature", "plastic", "darkness", "diel", "viral", "coculture",
-        "growth_phase", "compartment",
+        "growth_phase", "compartment", "chemical",
     }
     actual = set(result[0]["all_types"])
     unknown = actual - known

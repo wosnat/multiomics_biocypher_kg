@@ -137,7 +137,7 @@ def test_subfamilies_all_have_parents(run_query):
 
 def test_gene_merops_edges_exist(run_query):
     n = run_query("MATCH ()-[r:Gene_has_merops_family]->() RETURN count(r) AS n")[0]["n"]
-    assert 3800 <= n <= 4300, f"expected ~4.2K Gene_has_merops_family edges, got {n}"
+    assert 3800 <= n <= 4600, f"expected ~4.3K Gene_has_merops_family edges, got {n}"
 
 
 def test_no_orphan_gene_merops_edges(run_query):
