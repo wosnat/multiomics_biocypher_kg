@@ -4,28 +4,17 @@ name_col: Gene Number
 id_columns: ['Gene Number', 'Protein ID', 'NCBI reference sequence', 'Biller et al. 2014 Science paper Table S3 MIT9313 vesicle detected proteins']
 
 Total rows with IDs: 1184
-Resolved: 1171 (98.9%)
-Unresolved: 13
+Resolved: 1179 (99.6%)
+Unresolved: 5
 
 Resolution method breakdown:
-  ambiguous: 1
   locus_tag:Gene Number: 75
-  tier1:Gene Number: 1096
-  unresolved: 12
+  tier1:Gene Number: 1104
+  unresolved: 5
 
-Unresolved rows (13):
+Unresolved rows (5):
   row 19: raw_id='iRT-InternalStandard'  reason=unresolved  [Gene Number='iRT-InternalStandard', Protein ID='Biognosys']
   row 23: raw_id='Hi3-InternalStandard'  reason=unresolved  [Gene Number='Hi3-InternalStandard', Protein ID='P63284']
-  row 147: raw_id='PMT_1796'  reason=unresolved  [Gene Number='PMT_1796', Protein ID='Q7V4Y8']
   row 212: raw_id='Randomized'  reason=unresolved  [Gene Number='Randomized', Protein ID='RAND1_Q7V3W5_1002']
-  row 214: raw_id='PMT_0297'  reason=unresolved  [Gene Number='PMT_0297', Protein ID='Q7V8N9']
   row 252: raw_id='Randomized'  reason=unresolved  [Gene Number='Randomized', Protein ID='RAND1_Q7V5X8_6']
-  row 350: raw_id='PMT_0768'  reason=unresolved  [Gene Number='PMT_0768', Protein ID='Q7V7H8']
-  row 570: raw_id='PMT_1530'  reason=unresolved  [Gene Number='PMT_1530', Protein ID='Q7V5M2']
   row 682: raw_id='Randomized'  reason=unresolved  [Gene Number='Randomized', Protein ID='RAND1_Q7V8G1_1134']
-  row 1039: raw_id='PMT_0969'  reason=unresolved  [Gene Number='PMT_0969', Protein ID='Q7TUX8']
-  row 1047: raw_id='trmFO'  reason=ambiguous  [Gene Number='trmFO', Protein ID='Q7TUW5']
-  row 1126: raw_id='hli4'  reason=unresolved  [Gene Number='hli4', Protein ID='Q7V5G6']
-  row 1183: raw_id='PMT_1599'  reason=unresolved  [Gene Number='PMT_1599', Protein ID='Q7V5G1', NCBI reference sequence='WP_011130966.1', Biller et al. 2014 Science paper Table S3 MIT9313 vesicle detected proteins='gi|33863866|ref|NP_895426.1| Putative magnesium chelatase family protein']
-
-NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

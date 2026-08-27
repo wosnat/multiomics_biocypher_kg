@@ -4,6 +4,10 @@
       "PMM1817",
       "PMM1873"
     ],
+    "PMED4_15911": [
+      "PMM1395",
+      "PMM1393"
+    ],
     "WP_011132450.1": [
       "PMM0816",
       "PMM1397"
@@ -173602,10 +173606,6 @@
         {
           "id": "MED4_ARR_1920_x_at",
           "type": "probeset"
-        },
-        {
-          "id": "pseudo",
-          "type": "gene_name"
         }
       ]
     },
@@ -182936,10 +182936,6 @@
         {
           "id": "MED4_ARR_1758_x_at",
           "type": "probeset"
-        },
-        {
-          "id": "pseudo",
-          "type": "gene_name"
         }
       ]
     },
@@ -185074,10 +185070,6 @@
         {
           "id": "PMM1941",
           "type": "gene_synonym"
-        },
-        {
-          "id": "pseudo",
-          "type": "gene_name"
         }
       ]
     },
@@ -190520,12 +190512,7 @@
           "type": "protein_id_refseq"
         }
       ],
-      "tier3_ids": [
-        {
-          "id": "pseudo",
-          "type": "gene_name"
-        }
-      ]
+      "tier3_ids": []
     },
     "PMM2002": {
       "tier1_ids": [
@@ -191978,12 +191965,7 @@
           "type": "protein_id_refseq"
         }
       ],
-      "tier3_ids": [
-        {
-          "id": "pseudo",
-          "type": "gene_name"
-        }
-      ]
+      "tier3_ids": []
     },
     "PMM2018": {
       "tier1_ids": [
@@ -224882,13 +224864,6 @@
     "psbZ": [
       "PMM1644"
     ],
-    "pseudo": [
-      "PMM1813",
-      "PMM1915",
-      "PMM1941",
-      "PMM2001",
-      "PMM2016"
-    ],
     "psiH": [
       "PMM1284"
     ],
@@ -243751,9 +243726,9 @@
     "zwf": "PMM1074"
   },
   "stats": {
-    "n_conflicts": 42,
+    "n_conflicts": 43,
     "n_genes": 1976,
-    "n_multi": 10633,
+    "n_multi": 10632,
     "n_specific": 16948,
     "passes": 3
   },

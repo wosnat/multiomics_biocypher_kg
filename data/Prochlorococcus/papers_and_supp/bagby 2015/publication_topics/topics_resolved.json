@@ -15,12 +15,12 @@
     "output_tokens": 3385,
     "resolution": {
       "gene_records": 70,
-      "genes_resolved": 67,
+      "genes_resolved": 66,
       "gene_methods": {
-        "tier1:v": 38,
+        "tier1:v": 37,
         "locus_tag:v": 25,
-        "multi:v": 4,
-        "unresolved": 3
+        "unresolved": 4,
+        "multi:v": 4
       },
       "pathway_records": 4,
       "pathways_resolved": 4,
@@ -34,8 +34,8 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "descriptive_only": 2,
-        "lookup_miss": 1
+        "lookup_miss": 2,
+        "descriptive_only": 2
       }
     }
   },
@@ -748,9 +748,9 @@
       "evidence": "the strongest response observed for any gene was the ~30-fold upregulation of the non-coding RNA Yfr20 under both \u2013CO2 and \u2013CO2/\u2013O2 shock (Figure 4b). (Results, p2238)",
       "mention_strain": "Prochlorococcus MED4",
       "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0236",
-      "resolved_from": "Yfr20",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "bicA (Na+/HCO3- symporter)",

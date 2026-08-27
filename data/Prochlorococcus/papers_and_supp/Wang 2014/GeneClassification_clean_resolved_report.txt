@@ -8,13 +8,13 @@ Resolved: 1956 (95.0%)
 Unresolved: 102
 
 Resolution method breakdown:
-  ambiguous: 9
+  ambiguous: 7
   empty: 1
   locus_tag:sysName: 1716
   multi:name: 1
   tier1:sysName: 238
   tier1_ci:sysName: 1
-  unresolved: 93
+  unresolved: 95
 
 Unresolved rows (102):
   row 55: raw_id='RNA_43'  reason=unresolved  [sysName='RNA_43', locus_tag='--', name='tmRNA']
@@ -39,4 +39,4 @@ Unresolved rows (102):
   row 366: raw_id='asRNA_03431'  reason=unresolved  [sysName='asRNA_03431', locus_tag='--', name='Other non-coding RNA']
   ... (82 more)
 
-NOTE: 9 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.
+NOTE: 7 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

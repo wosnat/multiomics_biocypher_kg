@@ -16,9 +16,9 @@
     "output_tokens": 189,
     "resolution": {
       "gene_records": 1,
-      "genes_resolved": 1,
+      "genes_resolved": 0,
       "gene_methods": {
-        "tier1:v": 1
+        "unresolved": 1
       },
       "pathway_records": 0,
       "pathways_resolved": 0,
@@ -29,7 +29,9 @@
       "captured_identifiers": 0,
       "truncated_identifiers": 0,
       "truncated_examples": [],
-      "unresolved_reasons": {}
+      "unresolved_reasons": {
+        "lookup_miss": 1
+      }
     }
   },
   "genes": [
@@ -41,9 +43,9 @@
       "evidence": "expression of the aperiodic gene rnpB (Figure S3 caption, p1)",
       "mention_strain": "Prochlorococcus MED4",
       "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0236",
-      "resolved_from": "rnpB",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     }
   ],
   "pathways": []

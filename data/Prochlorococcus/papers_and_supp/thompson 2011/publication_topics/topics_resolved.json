@@ -16,12 +16,12 @@
     "output_tokens": 3311,
     "resolution": {
       "gene_records": 39,
-      "genes_resolved": 37,
+      "genes_resolved": 35,
       "gene_methods": {
-        "tier1:v": 22,
+        "tier1:v": 20,
         "multi:v": 2,
         "locus_tag:v": 13,
-        "unresolved": 2
+        "unresolved": 4
       },
       "pathway_records": 0,
       "pathways_resolved": 0,
@@ -34,7 +34,7 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 2
+        "lookup_miss": 4
       }
     }
   },
@@ -354,10 +354,10 @@
       "prominence": "peripheral",
       "evidence": "some sRNAs, for example Yfr11 and Yfr19, are also controlled by light and phage infection, suggesting a range of target genes and functional roles for sRNAs in Prochlorococcus iron metabolism (Results, p9)",
       "mention_strain": "all",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0236",
-      "resolved_from": "Yfr11",
-      "resolution_method": "tier1:v"
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "Yfr19",
@@ -368,10 +368,10 @@
       "prominence": "peripheral",
       "evidence": "some sRNAs, for example Yfr11 and Yfr19, are also controlled by light and phage infection, suggesting a range of target genes and functional roles for sRNAs in Prochlorococcus iron metabolism (Results, p9)",
       "mention_strain": "all",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0236",
-      "resolved_from": "Yfr19",
-      "resolution_method": "tier1:v"
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "PMM0370",

@@ -28,6 +28,7 @@ or the paperconfig comment to keep the numbers checkable).
 """
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import numpy as np
@@ -41,6 +42,8 @@ SOURCES = {
 }
 
 GENE_TSS_TYPES = {"gTSS", "aTSS", "aArray", "iTSS"}
+NATIVE_TAG = re.compile(r"^PM[MT]\d{4}$")
+NEW_TAG = re.compile(r"^(PMED4|P9313)_\d+$")
 
 
 def strongest_gtss(rows: pd.DataFrame) -> pd.Series:
@@ -71,8 +74,17 @@ def build(strain: str, src: Path) -> pd.DataFrame:
         first = rows.iloc[0]
         g = rows[rows["type"] == "gTSS"]
         rec = {
-            "old_locus_tag": first["oldLocusTag"] if pd.notna(first["oldLocusTag"]) else "",
-            "locus_tag_new": first["locusTag"] if pd.notna(first["locusTag"]) else "",
+            # Emit old_locus_tag ONLY for a canonical native tag. The paperconfig
+            # types this column as a Tier-1 locus_tag, so any IG*/"pseudo"/
+            # suffixed label here would be merged into a real gene via the
+            # row's locus_tag_new (the B1 placeholder-merge failure mode).
+            "old_locus_tag": first["oldLocusTag"]
+            if pd.notna(first["oldLocusTag"])
+            and NATIVE_TAG.match(str(first["oldLocusTag"]))
+            else "",
+            "locus_tag_new": first["locusTag"]
+            if pd.notna(first["locusTag"]) and NEW_TAG.match(str(first["locusTag"]))
+            else "",
             "gene": first.get("gene") if pd.notna(first.get("gene")) else "",
             "product": first.get("product") if pd.notna(first.get("product")) else "",
             "has_primary_tss": "true" if len(g) else "false",

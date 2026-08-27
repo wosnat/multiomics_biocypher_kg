@@ -4,12 +4,8 @@ name_col: refseq_protein_id
 id_columns: ['refseq_protein_id']
 
 Total rows with IDs: 27
-Resolved: 26 (96.3%)
-Unresolved: 1
+Resolved: 27 (100.0%)
+Unresolved: 0
 
 Resolution method breakdown:
-  multi:refseq_protein_id: 26
-  unresolved: 1
-
-Unresolved rows (1):
-  row 16: raw_id='NP_895426.1'  reason=unresolved  [refseq_protein_id='NP_895426.1']
+  multi:refseq_protein_id: 27

@@ -91,6 +91,8 @@ _PLACEHOLDER_IDS = frozenset({
     "", "-", "--", "---", ".", "..", "?", "0",
     "na", "n/a", "n.a.", "nd", "n.d.", "none", "null", "nan",
     "unknown", "unassigned", "not applicable", "not available",
+    # Voigt 2014's locusTag column writes "pseudo" for pseudogenes (MED4 crtR).
+    "pseudo", "pseudogene",
 })
 
 # A compound Tier 1/2 cell is a real pattern ("dnaA PMM0001",

@@ -654,7 +654,8 @@ class TestJunkTokenGuards:
     """
 
     def test_placeholder_normalizes_to_nothing(self):
-        for token in ("--", "-", "NA", "N/A", "none", "NULL", ".", "?", "0", "  --  "):
+        for token in ("--", "-", "NA", "N/A", "none", "NULL", ".", "?", "0", "  --  ",
+                      "pseudo", "Pseudogene"):
             assert normalize_id(token, "alternative_locus_tag") == [], token
 
     def test_real_short_ids_survive(self):

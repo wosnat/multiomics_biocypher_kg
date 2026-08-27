@@ -1,5 +1,13 @@
 {
   "conflicts": {
+    "P9313_00401": [
+      "PMT_0040",
+      "PMT0040"
+    ],
+    "P9313_01111": [
+      "PMT_0105",
+      "PMT0105"
+    ],
     "P9313_01161": [
       "PMT_0110",
       "PMT0110"
@@ -8,25 +16,93 @@
       "PMT_0166",
       "PMT_2291"
     ],
+    "P9313_02691": [
+      "AKG35_RS12655",
+      "PMT0235"
+    ],
     "P9313_02701": [
       "PMT0236",
       "PMT2127"
+    ],
+    "P9313_02891": [
+      "PMT2126",
+      "PMT0248"
+    ],
+    "P9313_03091": [
+      "PMT_0263",
+      "PMT0263"
+    ],
+    "P9313_03291": [
+      "PMT0298",
+      "PMT0279"
+    ],
+    "P9313_03971": [
+      "PMT_0331",
+      "PMT0331"
     ],
     "P9313_04431": [
       "PMT_0372",
       "PMT_1878"
     ],
+    "P9313_04471": [
+      "PMT_0376",
+      "PMT0376"
+    ],
+    "P9313_04541": [
+      "PMT_0381",
+      "PMT0381"
+    ],
     "P9313_04931": [
       "PMT0419",
       "PMT1532"
+    ],
+    "P9313_05491": [
+      "PMT_0467",
+      "PMT0467"
+    ],
+    "P9313_06471": [
+      "PMT_0544",
+      "PMT0544"
+    ],
+    "P9313_07491": [
+      "PMT_0628",
+      "PMT0628"
+    ],
+    "P9313_07591": [
+      "PMT_0637",
+      "PMT0637"
+    ],
+    "P9313_07721": [
+      "PMT_0649",
+      "PMT0649"
     ],
     "P9313_09681": [
       "PMT0827",
       "PMT_0829"
     ],
+    "P9313_09821": [
+      "PMT0837",
+      "PMT1609"
+    ],
+    "P9313_09831": [
+      "PMT_0838",
+      "PMT0838"
+    ],
+    "P9313_10021": [
+      "PMT_0849",
+      "PMT0849"
+    ],
+    "P9313_10161": [
+      "PMT_0860",
+      "PMT0860"
+    ],
     "P9313_10171": [
       "PMT_0861",
       "PMT0861"
+    ],
+    "P9313_10431": [
+      "RG24_RS04620",
+      "PMT0881"
     ],
     "P9313_10981": [
       "PMT_0916",
@@ -34,7 +110,12 @@
     ],
     "P9313_11121": [
       "PMT_0923",
-      "PMT_0928"
+      "PMT_0928",
+      "PMT0923"
+    ],
+    "P9313_11231": [
+      "PMT_0928",
+      "PMT0928"
     ],
     "P9313_11751": [
       "PMT0956",
@@ -48,9 +129,74 @@
       "PMT0962",
       "PMT0983"
     ],
+    "P9313_12201": [
+      "PMT_0985",
+      "PMT0985"
+    ],
+    "P9313_12281": [
+      "RG24_RS05275",
+      "PMT0988"
+    ],
+    "P9313_13011": [
+      "PMT_1027",
+      "PMT1027"
+    ],
+    "P9313_13211": [
+      "PMT1033",
+      "PMT1036"
+    ],
+    "P9313_13871": [
+      "PMT_1090",
+      "PMT1090"
+    ],
+    "P9313_14971": [
+      "PMT_1182",
+      "PMT1182"
+    ],
+    "P9313_16151": [
+      "PMT_1281",
+      "PMT1281"
+    ],
+    "P9313_17321": [
+      "PMT_1382",
+      "PMT1382"
+    ],
+    "P9313_17461": [
+      "PMT1389",
+      "PMT1390"
+    ],
+    "P9313_18031": [
+      "PMT_1428",
+      "PMT1428"
+    ],
+    "P9313_20381": [
+      "PMT_1610",
+      "PMT1610"
+    ],
+    "P9313_22661": [
+      "PMT_1792",
+      "PMT1792"
+    ],
+    "P9313_23271": [
+      "PMT_1842",
+      "PMT1842"
+    ],
+    "P9313_24201": [
+      "PMT1915",
+      "PMT1923"
+    ],
     "P9313_25361": [
       "PMT_2023",
-      "PMT_2022"
+      "PMT_2022",
+      "PMT2023"
+    ],
+    "P9313_25831": [
+      "PMT_2063",
+      "PMT2063"
+    ],
+    "P9313_26771": [
+      "PMT2133",
+      "PMT1611"
     ],
     "PMT_0166": [
       "PMT_0166",
@@ -72,6 +218,10 @@
       "PMT0827",
       "PMT_0829"
     ],
+    "PMT_0837": [
+      "PMT0837",
+      "PMT1609"
+    ],
     "PMT_0923": [
       "PMT_0923",
       "PMT_0928"
@@ -88,9 +238,17 @@
       "PMT0962",
       "PMT0983"
     ],
+    "PMT_1389": [
+      "PMT1389",
+      "PMT1390"
+    ],
     "PMT_2023": [
       "PMT_2023",
       "PMT_2022"
+    ],
+    "PMT_2133": [
+      "PMT2133",
+      "PMT1611"
     ],
     "WP_011129798.1": [
       "PMT0419",
@@ -199,6 +357,10 @@
     "ftsH3": [
       "PMT0378",
       "PMT1798"
+    ],
+    "gidA": [
+      "PMT1049",
+      "PMT1050"
     ],
     "groL": [
       "PMT1334",
@@ -11237,9 +11399,73 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_00681",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0064",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20239.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS00340",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "lcl|NC_005071.1_cds_AKG35_RS00340_66",
+          "sources": [
+            "cds_from_genomic.fna"
+          ],
+          "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT_0064",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "asd",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20239.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7TV81",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "asd",
@@ -22422,9 +22648,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_01801",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0167",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20342.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0167",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20342.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0167",
@@ -22562,9 +22824,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_01821",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0169",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20344.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0169",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20344.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0169",
@@ -35162,12 +35460,59 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_03251",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0276",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20451.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0276",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "gerCB",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20451.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "menG",
+          "type": "gene_name"
+        },
+        {
+          "id": "gerCB",
           "type": "gene_name"
         }
       ]
@@ -35564,9 +35909,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_03311",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0281",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20456.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0281",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20456.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0281",
@@ -35582,9 +35963,66 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_03331",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0282",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20457.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS01490",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "lcl|NC_005071.1_cds_AKG35_RS01490_296",
+          "sources": [
+            "cds_from_genomic.fna"
+          ],
+          "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT_0282",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20457.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V8Q2",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "unk3B",
@@ -36429,9 +36867,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_03401",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0288",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20463.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0288",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20463.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0288",
@@ -36691,9 +37165,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_03481",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0292",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20467.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0292",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20467.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0292",
@@ -37197,9 +37707,52 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_03561",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0297",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20472.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0297",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20472.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V8N9",
+          "sources": [
+            "Biller 2022/s3_mit9313_abundance"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0297",
@@ -38140,9 +38693,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_03681",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0306",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20481.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0306",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20481.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0306",
@@ -39354,12 +39943,73 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_03811",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0317",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20492.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS01690",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "lcl|NC_005071.1_cds_AKG35_RS01690_337",
+          "sources": [
+            "cds_from_genomic.fna"
+          ],
+          "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT_0317",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20492.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7TV49",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "hemN",
+          "type": "gene_name"
+        },
+        {
+          "id": "hemW",
           "type": "gene_name"
         }
       ]
@@ -40032,9 +40682,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_03891",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0324",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20499.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0324",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20499.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0324",
@@ -46509,9 +47195,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_04561",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0383",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20558.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0383",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20558.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0383",
@@ -49889,9 +50611,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_04841",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0410",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20585.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0410",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20585.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0410",
@@ -54889,9 +55647,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_05321",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0451",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20626.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0451",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20626.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0451",
@@ -54907,9 +55701,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_05331",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0452",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20627.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0452",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20627.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0452",
@@ -55991,9 +56821,66 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_05431",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0461",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20636.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS12225",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "lcl|NC_005071.1_cds_AKG35_RS12225_482",
+          "sources": [
+            "cds_from_genomic.fna"
+          ],
+          "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT_0461",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20636.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V8A1",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0461",
@@ -57719,9 +58606,59 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_05611",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0476",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20651.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS02515",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "gene-PMT_0476",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20651.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V889",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0476",
@@ -58924,9 +59861,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_05771",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0487",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20662.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0487",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20662.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0487",
@@ -60073,9 +61046,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_05961",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0500",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20675.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0500",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20675.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0500",
@@ -67999,9 +69008,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_06731",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0563",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20738.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0563",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20738.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0563",
@@ -74387,9 +75432,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_07311",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0614",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20789.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0614",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20789.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0614",
@@ -75310,9 +76391,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_07411",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0622",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20797.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0622",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20797.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0622",
@@ -76225,9 +77342,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_07521",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0631",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20806.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0631",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20806.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0631",
@@ -88998,9 +90151,66 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_08641",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0734",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20909.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS03830",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "lcl|NC_005071.1_cds_AKG35_RS03830_759",
+          "sources": [
+            "cds_from_genomic.fna"
+          ],
+          "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT_0734",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20909.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7TUZ9",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "sigF2",
@@ -92920,13 +94130,74 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_09001",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0768",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20943.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "Q7V7H8_PROMM",
+          "sources": [
+            "Biller 2022/s4_mit9313_enrichment"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "Q7V7H8",
+          "sources": [
+            "Biller 2022/s4_mit9313_enrichment"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "gene-PMT_0768",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20943.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V7H8",
+          "sources": [
+            "Biller 2022/s3_mit9313_abundance"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0768",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMT_0768",
+          "type": "gene_name"
         }
       ]
     },
@@ -96904,9 +98175,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_09361",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0800",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE20975.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0800",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE20975.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0800",
@@ -100827,9 +102134,66 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_09771",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0833",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21008.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS04350",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "lcl|NC_005071.1_cds_AKG35_RS04350_860",
+          "sources": [
+            "cds_from_genomic.fna"
+          ],
+          "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT_0833",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21008.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V7B6",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0833",
@@ -101215,9 +102579,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_09821",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0837",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21012.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0837",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21012.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0837",
@@ -105682,9 +107082,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_10441",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0882",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21057.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0882",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21057.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0882",
@@ -111564,9 +113000,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_11491",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0944",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21119.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0944",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21119.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0944",
@@ -111826,9 +113298,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_11551",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0947",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21122.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0947",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21122.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0947",
@@ -113246,9 +114754,101 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_11801",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0960",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21135.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS05105",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "lcl|NC_005071.1_cds_AKG35_RS05105_1029",
+          "sources": [
+            "cds_from_genomic.fna"
+          ],
+          "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT_0960",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PMT_0957",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
+          "id": "P9313_11761",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
+          "id": "gene-PMT_0957",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "CAE21132.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21135.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7TTD0",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        },
+        {
+          "id": "CAE21132.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0960",
@@ -113897,9 +115497,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_11941",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0968",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21143.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0968",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21143.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0968",
@@ -113915,9 +115551,52 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_11951",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0969",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21144.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0969",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21144.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7TUX8",
+          "sources": [
+            "Biller 2022/s3_mit9313_abundance"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0969",
@@ -113933,9 +115612,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_11971",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0970",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21145.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0970",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21145.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0970",
@@ -114073,9 +115788,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_12021",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0973",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21148.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0973",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21148.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0973",
@@ -115298,9 +117049,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_12241",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0986",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21161.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0986",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21161.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0986",
@@ -115316,9 +117103,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_12261",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_0987",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21162.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_0987",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21162.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT0987",
@@ -117033,9 +118856,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_12551",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1006",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21181.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1006",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21181.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1006",
@@ -118631,9 +120490,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_12891",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1021",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21196.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1021",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21196.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1021",
@@ -121392,12 +123287,87 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_13431",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1049",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21224.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS05645",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "trmFO",
+          "sources": [
+            "Biller 2022/s3_mit9313_abundance"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
+          "id": "lcl|NC_005071.1_cds_AKG35_RS05645_1137",
+          "sources": [
+            "cds_from_genomic.fna"
+          ],
+          "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT_1049",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "gidA",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21224.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7TUW5",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "trmFO",
+          "type": "gene_name"
+        },
+        {
+          "id": "gidA",
           "type": "gene_name"
         }
       ]
@@ -121410,9 +123380,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_13441",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1050",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21225.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1050",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21225.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "trmFO",
@@ -121420,6 +123426,10 @@
         },
         {
           "id": "gidA2",
+          "type": "gene_name"
+        },
+        {
+          "id": "gidA",
           "type": "gene_name"
         }
       ]
@@ -129686,9 +131696,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_14221",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1115",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21290.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1115",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21290.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1115",
@@ -129826,9 +131872,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_14251",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1117",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21292.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1117",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21292.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1117",
@@ -131329,9 +133411,66 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_14371",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1129",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21304.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS06060",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "lcl|NC_005071.1_cds_AKG35_RS06060_1219",
+          "sources": [
+            "cds_from_genomic.fna"
+          ],
+          "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT_1129",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21304.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V6M4",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "rsmD",
@@ -150772,9 +152911,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_16211",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1286",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21461.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1286",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21461.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1286",
@@ -155177,9 +157352,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_16641",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1321",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21496.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1321",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21496.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1321",
@@ -157120,9 +159331,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_16831",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1336",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21511.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1336",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21511.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1336",
@@ -162927,9 +165174,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_17331",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1383",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21558.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1383",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21558.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1383",
@@ -163067,9 +165350,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_17391",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1385",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21560.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1385",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21560.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1385",
@@ -163207,9 +165526,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_17411",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1387",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21562.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1387",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21562.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1387",
@@ -163347,9 +165702,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_17461",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1389",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21564.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1389",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21564.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1389",
@@ -163365,9 +165756,73 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_17471",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1390",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21565.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS12960",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "lcl|NC_005071.1_cds_AKG35_RS12960_1489",
+          "sources": [
+            "cds_from_genomic.fna"
+          ],
+          "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT_1390",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21565.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V5Z3",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        },
+        {
+          "id": "Q7V5Z4",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1390",
@@ -173039,9 +175494,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_18491",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1465",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21640.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1465",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21640.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1465",
@@ -181122,9 +183613,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_19241",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1529",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21704.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1529",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21704.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1529",
@@ -181140,9 +183667,66 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_19251",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1530",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21705.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS12600",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "lcl|NC_005071.1_cds_AKG35_RS12600_1639",
+          "sources": [
+            "cds_from_genomic.fna"
+          ],
+          "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT_1530",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21705.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V5M2",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1530",
@@ -181416,9 +184000,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_19291",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1533",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21708.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1533",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21708.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1533",
@@ -185429,9 +188049,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_19751",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1566",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21741.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1566",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21741.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1566",
@@ -188782,12 +191438,66 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_20111",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1594",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21769.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1594",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "hli4",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21769.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V5G6",
+          "sources": [
+            "Biller 2022/s3_mit9313_abundance"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "hli",
+          "type": "gene_name"
+        },
+        {
+          "id": "hli4",
           "type": "gene_name"
         }
       ]
@@ -189052,9 +191762,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_20151",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1597",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21772.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1597",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21772.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1597",
@@ -189070,9 +191816,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_20161",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1598",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21773.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1598",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21773.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1598",
@@ -189088,9 +191870,94 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_20181",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1599",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21774.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS08515",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "lcl|NC_005071.1_cds_AKG35_RS08515_1710",
+          "sources": [
+            "cds_from_genomic.fna"
+          ],
+          "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT_1599",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21774.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V5G1",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        },
+        {
+          "id": "B9ESD3",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        },
+        {
+          "id": "B9ESD2",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        },
+        {
+          "id": "WP_011130966.1",
+          "sources": [
+            "Biller 2022/s3_mit9313_abundance"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "NP_895426.1",
+          "sources": [
+            "Biller 2022/s3_mit9313_abundance"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1599",
@@ -190300,9 +193167,66 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_20371",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1609",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21784.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS12755",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "gene-PMT_1609",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21784.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7U399",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        },
+        {
+          "id": "Q7U3A3",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1609",
@@ -190340,9 +193264,80 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_20391",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1611",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21786.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS08590",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "lcl|NC_005071.1_cds_AKG35_RS08590_1725",
+          "sources": [
+            "cds_from_genomic.fna"
+          ],
+          "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT_1611",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21786.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V5F1",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        },
+        {
+          "id": "Q7V437",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        },
+        {
+          "id": "B9ERA5",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1611",
@@ -195883,9 +198878,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_21001",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1658",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21833.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1658",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21833.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1658",
@@ -198993,9 +202024,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_21371",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1684",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21859.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1684",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21859.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1684",
@@ -200664,9 +203731,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_21581",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1698",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21873.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1698",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21873.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1698",
@@ -214146,13 +217249,74 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_22711",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1796",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21971.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "Q7V4Y8_PROMM",
+          "sources": [
+            "Biller 2022/s4_mit9313_enrichment"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "Q7V4Y8",
+          "sources": [
+            "Biller 2022/s4_mit9313_enrichment"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "gene-PMT_1796",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21971.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V4Y8",
+          "sources": [
+            "Biller 2022/s3_mit9313_abundance"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1796",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMT_1796",
+          "type": "gene_name"
         }
       ]
     },
@@ -216001,9 +219165,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_22881",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1812",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE21987.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1812",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE21987.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1812",
@@ -228809,9 +232009,66 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_24211",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1924",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE22099.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS10255",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "lcl|NC_005071.1_cds_AKG35_RS10255_2053",
+          "sources": [
+            "cds_from_genomic.fna"
+          ],
+          "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT_1924",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE22099.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V4M5",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1924",
@@ -229573,9 +232830,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_24301",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1932",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE22106.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1932",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE22106.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1932",
@@ -229986,9 +233279,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_24361",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1936",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE22110.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1936",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE22110.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1936",
@@ -230381,9 +233710,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_24421",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_1941",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE22115.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_1941",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE22115.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT1941",
@@ -241019,9 +244384,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_25381",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_2025",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE22199.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_2025",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE22199.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT2025",
@@ -244110,9 +247511,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_25721",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_2053",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE22227.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_2053",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE22227.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT2053",
@@ -246861,9 +250298,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_26091",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_2078",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE22252.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_2078",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE22252.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT2078",
@@ -251383,9 +254856,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_26471",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_2112",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE22286.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_2112",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE22286.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT2112",
@@ -253361,9 +256870,45 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_26771",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_2133",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE22307.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_2133",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE22307.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT2133",
@@ -262020,9 +265565,66 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_27641",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_2206",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE22380.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AKG35_RS11755",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "lcl|NC_005071.1_cds_AKG35_RS11755_2352",
+          "sources": [
+            "cds_from_genomic.fna"
+          ],
+          "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT_2206",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE22380.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V3Y0",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "PMT2206",
@@ -265286,9 +268888,52 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9313_27951",
+          "sources": [
+            "Voigt 2014/tss_metrics_mit9313"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
+          "id": "PMT_2232",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "CAE22406.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PMT_2232",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "ureE",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
-      "tier2_ids": [],
+      "tier2_ids": [
+        {
+          "id": "CAE22406.1",
+          "sources": [
+            "genomic_gca/MIT9313"
+          ],
+          "type": "protein_id_refseq"
+        }
+      ],
       "tier3_ids": [
         {
           "id": "ureE",
@@ -325778,6 +329423,9 @@
     "B9ERA3": [
       "PMT_2454"
     ],
+    "B9ERA5": [
+      "PMT1611"
+    ],
     "B9ERA6": [
       "PMT_2468"
     ],
@@ -326133,6 +329781,12 @@
     "B9ESD1": [
       "PMT_2754"
     ],
+    "B9ESD2": [
+      "PMT1599"
+    ],
+    "B9ESD3": [
+      "PMT1599"
+    ],
     "B9ESE1": [
       "PMT_2764"
     ],
@@ -326442,6 +330096,9 @@
     "CAE20238.1": [
       "PMT0063"
     ],
+    "CAE20239.1": [
+      "PMT0064"
+    ],
     "CAE20240.1": [
       "PMT0065"
     ],
@@ -326745,8 +330402,14 @@
     "CAE20341.1": [
       "PMT_0166"
     ],
+    "CAE20342.1": [
+      "PMT0167"
+    ],
     "CAE20343.1": [
       "PMT0168"
+    ],
+    "CAE20344.1": [
+      "PMT0169"
     ],
     "CAE20345.1": [
       "PMT0170"
@@ -327063,6 +330726,9 @@
     "CAE20449.1": [
       "PMT0274"
     ],
+    "CAE20451.1": [
+      "PMT0276"
+    ],
     "CAE20452.1": [
       "PMT0277"
     ],
@@ -327074,6 +330740,12 @@
     ],
     "CAE20455.1": [
       "PMT0280"
+    ],
+    "CAE20456.1": [
+      "PMT0281"
+    ],
+    "CAE20457.1": [
+      "PMT0282"
     ],
     "CAE20458.1": [
       "PMT0283"
@@ -327090,6 +330762,9 @@
     "CAE20462.1": [
       "PMT0287"
     ],
+    "CAE20463.1": [
+      "PMT0288"
+    ],
     "CAE20464.1": [
       "PMT_0289"
     ],
@@ -327098,6 +330773,9 @@
     ],
     "CAE20466.1": [
       "PMT0291"
+    ],
+    "CAE20467.1": [
+      "PMT0292"
     ],
     "CAE20468.1": [
       "PMT0293"
@@ -327110,6 +330788,9 @@
     ],
     "CAE20471.1": [
       "PMT0296"
+    ],
+    "CAE20472.1": [
+      "PMT0297"
     ],
     "CAE20473.1": [
       "PMT0298"
@@ -327134,6 +330815,9 @@
     ],
     "CAE20480.1": [
       "PMT0305"
+    ],
+    "CAE20481.1": [
+      "PMT0306"
     ],
     "CAE20482.1": [
       "PMT_0307"
@@ -327165,6 +330849,9 @@
     "CAE20491.1": [
       "PMT0316"
     ],
+    "CAE20492.1": [
+      "PMT0317"
+    ],
     "CAE20493.1": [
       "PMT_0318"
     ],
@@ -327182,6 +330869,9 @@
     ],
     "CAE20498.1": [
       "PMT0323"
+    ],
+    "CAE20499.1": [
+      "PMT0324"
     ],
     "CAE20500.1": [
       "PMT0325"
@@ -327357,6 +331047,9 @@
     "CAE20557.1": [
       "PMT0382"
     ],
+    "CAE20558.1": [
+      "PMT0383"
+    ],
     "CAE20559.1": [
       "PMT0384"
     ],
@@ -327434,6 +331127,9 @@
     ],
     "CAE20584.1": [
       "PMT0409"
+    ],
+    "CAE20585.1": [
+      "PMT0410"
     ],
     "CAE20586.1": [
       "PMT0411"
@@ -327555,6 +331251,12 @@
     "CAE20625.1": [
       "PMT0450"
     ],
+    "CAE20626.1": [
+      "PMT0451"
+    ],
+    "CAE20627.1": [
+      "PMT0452"
+    ],
     "CAE20628.1": [
       "PMT0453"
     ],
@@ -327578,6 +331280,9 @@
     ],
     "CAE20635.1": [
       "PMT0460"
+    ],
+    "CAE20636.1": [
+      "PMT0461"
     ],
     "CAE20637.1": [
       "PMT0462"
@@ -327621,6 +331326,9 @@
     "CAE20650.1": [
       "PMT0475"
     ],
+    "CAE20651.1": [
+      "PMT0476"
+    ],
     "CAE20652.1": [
       "PMT0477"
     ],
@@ -327650,6 +331358,9 @@
     ],
     "CAE20661.1": [
       "PMT0486"
+    ],
+    "CAE20662.1": [
+      "PMT0487"
     ],
     "CAE20663.1": [
       "PMT_0488"
@@ -327686,6 +331397,9 @@
     ],
     "CAE20674.1": [
       "PMT0499"
+    ],
+    "CAE20675.1": [
+      "PMT0500"
     ],
     "CAE20676.1": [
       "PMT0501"
@@ -327873,6 +331587,9 @@
     "CAE20737.1": [
       "PMT0562"
     ],
+    "CAE20738.1": [
+      "PMT0563"
+    ],
     "CAE20739.1": [
       "PMT0564"
     ],
@@ -328023,6 +331740,9 @@
     "CAE20788.1": [
       "PMT_0613"
     ],
+    "CAE20789.1": [
+      "PMT0614"
+    ],
     "CAE20790.1": [
       "PMT0615"
     ],
@@ -328043,6 +331763,9 @@
     ],
     "CAE20796.1": [
       "PMT0621"
+    ],
+    "CAE20797.1": [
+      "PMT0622"
     ],
     "CAE20798.1": [
       "PMT0623"
@@ -328067,6 +331790,9 @@
     ],
     "CAE20805.1": [
       "PMT0630"
+    ],
+    "CAE20806.1": [
+      "PMT0631"
     ],
     "CAE20807.1": [
       "PMT0632"
@@ -328368,6 +332094,9 @@
     "CAE20908.1": [
       "PMT_0733"
     ],
+    "CAE20909.1": [
+      "PMT0734"
+    ],
     "CAE20910.1": [
       "PMT0735"
     ],
@@ -328467,6 +332196,9 @@
     "CAE20942.1": [
       "PMT0767"
     ],
+    "CAE20943.1": [
+      "PMT0768"
+    ],
     "CAE20944.1": [
       "PMT0769"
     ],
@@ -328559,6 +332291,9 @@
     ],
     "CAE20974.1": [
       "PMT0799"
+    ],
+    "CAE20975.1": [
+      "PMT0800"
     ],
     "CAE20976.1": [
       "PMT0801"
@@ -328656,6 +332391,9 @@
     "CAE21007.1": [
       "PMT0832"
     ],
+    "CAE21008.1": [
+      "PMT0833"
+    ],
     "CAE21009.1": [
       "PMT0834"
     ],
@@ -328664,6 +332402,9 @@
     ],
     "CAE21011.1": [
       "PMT0836"
+    ],
+    "CAE21012.1": [
+      "PMT0837"
     ],
     "CAE21013.1": [
       "PMT_0838"
@@ -328793,6 +332534,9 @@
     ],
     "CAE21056.1": [
       "RG24_RS04620"
+    ],
+    "CAE21057.1": [
+      "PMT0882"
     ],
     "CAE21058.1": [
       "PMT0883"
@@ -328971,11 +332715,17 @@
     "CAE21118.1": [
       "PMT0943"
     ],
+    "CAE21119.1": [
+      "PMT0944"
+    ],
     "CAE21120.1": [
       "PMT0945"
     ],
     "CAE21121.1": [
       "PMT0946"
+    ],
+    "CAE21122.1": [
+      "PMT0947"
     ],
     "CAE21123.1": [
       "PMT0948"
@@ -329004,11 +332754,17 @@
     "CAE21131.1": [
       "PMT0956"
     ],
+    "CAE21132.1": [
+      "PMT0960"
+    ],
     "CAE21133.1": [
       "PMT0958"
     ],
     "CAE21134.1": [
       "PMT0959"
+    ],
+    "CAE21135.1": [
+      "PMT0960"
     ],
     "CAE21136.1": [
       "PMT_0961"
@@ -329031,11 +332787,23 @@
     "CAE21142.1": [
       "PMT0967"
     ],
+    "CAE21143.1": [
+      "PMT0968"
+    ],
+    "CAE21144.1": [
+      "PMT0969"
+    ],
+    "CAE21145.1": [
+      "PMT0970"
+    ],
     "CAE21146.1": [
       "PMT_0971"
     ],
     "CAE21147.1": [
       "PMT0972"
+    ],
+    "CAE21148.1": [
+      "PMT0973"
     ],
     "CAE21149.1": [
       "PMT0974"
@@ -329069,6 +332837,12 @@
     ],
     "CAE21160.1": [
       "PMT_0985"
+    ],
+    "CAE21161.1": [
+      "PMT0986"
+    ],
+    "CAE21162.1": [
+      "PMT0987"
     ],
     "CAE21163.1": [
       "RG24_RS05275"
@@ -329124,6 +332898,9 @@
     "CAE21180.1": [
       "PMT1005"
     ],
+    "CAE21181.1": [
+      "PMT1006"
+    ],
     "CAE21182.1": [
       "PMT1007"
     ],
@@ -329162,6 +332939,9 @@
     ],
     "CAE21194.1": [
       "PMT1019"
+    ],
+    "CAE21196.1": [
+      "PMT1021"
     ],
     "CAE21197.1": [
       "PMT_1022"
@@ -329240,6 +333020,12 @@
     ],
     "CAE21223.1": [
       "PMT1048"
+    ],
+    "CAE21224.1": [
+      "PMT1049"
+    ],
+    "CAE21225.1": [
+      "PMT1050"
     ],
     "CAE21226.1": [
       "PMT1051"
@@ -329433,8 +333219,14 @@
     "CAE21289.1": [
       "PMT1114"
     ],
+    "CAE21290.1": [
+      "PMT1115"
+    ],
     "CAE21291.1": [
       "PMT1116"
+    ],
+    "CAE21292.1": [
+      "PMT1117"
     ],
     "CAE21293.1": [
       "PMT1118"
@@ -329468,6 +333260,9 @@
     ],
     "CAE21303.1": [
       "PMT1128"
+    ],
+    "CAE21304.1": [
+      "PMT1129"
     ],
     "CAE21305.1": [
       "PMT_1130"
@@ -329928,6 +333723,9 @@
     "CAE21460.1": [
       "PMT_1285"
     ],
+    "CAE21461.1": [
+      "PMT1286"
+    ],
     "CAE21462.1": [
       "PMT1287"
     ],
@@ -330027,6 +333825,9 @@
     "CAE21495.1": [
       "PMT1320"
     ],
+    "CAE21496.1": [
+      "PMT1321"
+    ],
     "CAE21497.1": [
       "PMT1322"
     ],
@@ -330068,6 +333869,9 @@
     ],
     "CAE21510.1": [
       "PMT1335"
+    ],
+    "CAE21511.1": [
+      "PMT1336"
     ],
     "CAE21512.1": [
       "PMT1337"
@@ -330207,14 +334011,29 @@
     "CAE21557.1": [
       "PMT_1382"
     ],
+    "CAE21558.1": [
+      "PMT1383"
+    ],
     "CAE21559.1": [
       "PMT1384"
+    ],
+    "CAE21560.1": [
+      "PMT1385"
     ],
     "CAE21561.1": [
       "PMT1386"
     ],
+    "CAE21562.1": [
+      "PMT1387"
+    ],
     "CAE21563.1": [
       "PMT1388"
+    ],
+    "CAE21564.1": [
+      "PMT1389"
+    ],
+    "CAE21565.1": [
+      "PMT1390"
     ],
     "CAE21566.1": [
       "PMT1391"
@@ -330438,6 +334257,9 @@
     "CAE21639.1": [
       "PMT1464"
     ],
+    "CAE21640.1": [
+      "PMT1465"
+    ],
     "CAE21641.1": [
       "PMT1466"
     ],
@@ -330624,11 +334446,20 @@
     "CAE21703.1": [
       "PMT1528"
     ],
+    "CAE21704.1": [
+      "PMT1529"
+    ],
+    "CAE21705.1": [
+      "PMT1530"
+    ],
     "CAE21706.1": [
       "PMT1531"
     ],
     "CAE21707.1": [
       "PMT1532"
+    ],
+    "CAE21708.1": [
+      "PMT1533"
     ],
     "CAE21709.1": [
       "PMT1534"
@@ -330726,6 +334557,9 @@
     "CAE21740.1": [
       "PMT1565"
     ],
+    "CAE21741.1": [
+      "PMT1566"
+    ],
     "CAE21742.1": [
       "PMT1567"
     ],
@@ -330804,11 +334638,23 @@
     "CAE21768.1": [
       "PMT1593"
     ],
+    "CAE21769.1": [
+      "PMT1594"
+    ],
     "CAE21770.1": [
       "PMT1595"
     ],
     "CAE21771.1": [
       "PMT1596"
+    ],
+    "CAE21772.1": [
+      "PMT1597"
+    ],
+    "CAE21773.1": [
+      "PMT1598"
+    ],
+    "CAE21774.1": [
+      "PMT1599"
     ],
     "CAE21775.1": [
       "PMT1600"
@@ -330837,8 +334683,14 @@
     "CAE21783.1": [
       "PMT1608"
     ],
+    "CAE21784.1": [
+      "PMT1609"
+    ],
     "CAE21785.1": [
       "PMT_1610"
+    ],
+    "CAE21786.1": [
+      "PMT1611"
     ],
     "CAE21787.1": [
       "PMT1612"
@@ -330978,6 +334830,9 @@
     "CAE21832.1": [
       "PMT1657"
     ],
+    "CAE21833.1": [
+      "PMT1658"
+    ],
     "CAE21834.1": [
       "PMT1659"
     ],
@@ -331050,6 +334905,9 @@
     "CAE21858.1": [
       "PMT1683"
     ],
+    "CAE21859.1": [
+      "PMT1684"
+    ],
     "CAE21860.1": [
       "PMT1685"
     ],
@@ -331088,6 +334946,9 @@
     ],
     "CAE21872.1": [
       "PMT1697"
+    ],
+    "CAE21873.1": [
+      "PMT1698"
     ],
     "CAE21874.1": [
       "PMT_1699"
@@ -331380,6 +335241,9 @@
     "CAE21970.1": [
       "PMT1795"
     ],
+    "CAE21971.1": [
+      "PMT1796"
+    ],
     "CAE21972.1": [
       "PMT1797"
     ],
@@ -331424,6 +335288,9 @@
     ],
     "CAE21986.1": [
       "PMT_1811"
+    ],
+    "CAE21987.1": [
+      "PMT1812"
     ],
     "CAE21988.1": [
       "PMT1813"
@@ -331752,6 +335619,9 @@
     "CAE22098.1": [
       "PMT1915"
     ],
+    "CAE22099.1": [
+      "PMT1924"
+    ],
     "CAE22100.1": [
       "PMT1925"
     ],
@@ -331770,6 +335640,9 @@
     "CAE22105.1": [
       "PMT1930"
     ],
+    "CAE22106.1": [
+      "PMT1932"
+    ],
     "CAE22107.1": [
       "PMT1933"
     ],
@@ -331778,6 +335651,9 @@
     ],
     "CAE22109.1": [
       "PMT1935"
+    ],
+    "CAE22110.1": [
+      "PMT1936"
     ],
     "CAE22111.1": [
       "PMT_1937"
@@ -331790,6 +335666,9 @@
     ],
     "CAE22114.1": [
       "PMT1940"
+    ],
+    "CAE22115.1": [
+      "PMT1941"
     ],
     "CAE22116.1": [
       "PMT1942"
@@ -332040,6 +335919,9 @@
     "CAE22198.1": [
       "PMT2024"
     ],
+    "CAE22199.1": [
+      "PMT2025"
+    ],
     "CAE22200.1": [
       "PMT2026"
     ],
@@ -332121,6 +336003,9 @@
     "CAE22226.1": [
       "PMT_2052"
     ],
+    "CAE22227.1": [
+      "PMT2053"
+    ],
     "CAE22228.1": [
       "PMT2054"
     ],
@@ -332189,6 +336074,9 @@
     ],
     "CAE22251.1": [
       "PMT2077"
+    ],
+    "CAE22252.1": [
+      "PMT2078"
     ],
     "CAE22253.1": [
       "PMT_2079"
@@ -332289,6 +336177,9 @@
     "CAE22285.1": [
       "PMT2111"
     ],
+    "CAE22286.1": [
+      "PMT2112"
+    ],
     "CAE22287.1": [
       "PMT2113"
     ],
@@ -332348,6 +336239,9 @@
     ],
     "CAE22306.1": [
       "PMT2132"
+    ],
+    "CAE22307.1": [
+      "PMT2133"
     ],
     "CAE22308.1": [
       "PMT_2134"
@@ -332565,6 +336459,9 @@
     "CAE22379.1": [
       "PMT2205"
     ],
+    "CAE22380.1": [
+      "PMT2206"
+    ],
     "CAE22381.1": [
       "PMT2207"
     ],
@@ -332639,6 +336536,9 @@
     ],
     "CAE22405.1": [
       "PMT2231"
+    ],
+    "CAE22406.1": [
+      "PMT2232"
     ],
     "CAE22407.1": [
       "PMT2233"
@@ -334748,6 +338648,9 @@
     ],
     "NP_895350.1": [
       "PMT1523"
+    ],
+    "NP_895426.1": [
+      "PMT1599"
     ],
     "NP_895427.1": [
       "PMT1600"
@@ -343776,6 +347679,9 @@
     "PMT_0767": [
       "PMT0767"
     ],
+    "PMT_0768": [
+      "PMT0768"
+    ],
     "PMT_0769": [
       "PMT0769"
     ],
@@ -346677,6 +350583,9 @@
     "PMT_1795": [
       "PMT1795"
     ],
+    "PMT_1796": [
+      "PMT1796"
+    ],
     "PMT_1797": [
       "PMT1797"
     ],
@@ -348550,6 +352459,9 @@
     "Q2KN49": [
       "PMT1831"
     ],
+    "Q7TTD0": [
+      "PMT0960"
+    ],
     "Q7TTH6": [
       "PMT1532"
     ],
@@ -348964,6 +352876,9 @@
     "Q7TUW4": [
       "PMT1054"
     ],
+    "Q7TUW5": [
+      "PMT1049"
+    ],
     "Q7TUW6": [
       "PMT1047"
     ],
@@ -348993,6 +352908,9 @@
     ],
     "Q7TUX7": [
       "PMT0975"
+    ],
+    "Q7TUX8": [
+      "PMT0969"
     ],
     "Q7TUX9": [
       "PMT_0961"
@@ -349053,6 +352971,9 @@
     ],
     "Q7TUZ8": [
       "PMT0740"
+    ],
+    "Q7TUZ9": [
+      "PMT0734"
     ],
     "Q7TV00": [
       "PMT0728"
@@ -349192,6 +353113,9 @@
     "Q7TV48": [
       "PMT_0318"
     ],
+    "Q7TV49": [
+      "PMT0317"
+    ],
     "Q7TV50": [
       "PMT0308"
     ],
@@ -349279,6 +353203,9 @@
     "Q7TV80": [
       "PMT0071"
     ],
+    "Q7TV81": [
+      "PMT0064"
+    ],
     "Q7TV82": [
       "PMT0038"
     ],
@@ -349297,11 +353224,17 @@
     "Q7TV87": [
       "PMT0004"
     ],
+    "Q7U399": [
+      "PMT1609"
+    ],
     "Q7U3A0": [
       "PMT1373"
     ],
     "Q7U3A1": [
       "PMT1188"
+    ],
+    "Q7U3A3": [
+      "PMT1609"
     ],
     "Q7U3A4": [
       "PMT0147"
@@ -349486,6 +353419,9 @@
     "Q7V3X9": [
       "PMT2207"
     ],
+    "Q7V3Y0": [
+      "PMT2206"
+    ],
     "Q7V3Y1": [
       "PMT2205"
     ],
@@ -349653,6 +353589,9 @@
     ],
     "Q7V436": [
       "PMT2135"
+    ],
+    "Q7V437": [
+      "PMT1611"
     ],
     "Q7V438": [
       "PMT2132"
@@ -350201,6 +354140,9 @@
     "Q7V4M4": [
       "PMT1925"
     ],
+    "Q7V4M5": [
+      "PMT1924"
+    ],
     "Q7V4M6": [
       "PMT1915"
     ],
@@ -350533,6 +354475,9 @@
     ],
     "Q7V4Y7": [
       "PMT1797"
+    ],
+    "Q7V4Y8": [
+      "PMT1796"
     ],
     "Q7V4Y9": [
       "PMT1795"
@@ -351012,6 +354957,9 @@
     "Q7V5F0": [
       "PMT1612"
     ],
+    "Q7V5F1": [
+      "PMT1611"
+    ],
     "Q7V5F2": [
       "PMT_1610"
     ],
@@ -351039,11 +354987,17 @@
     "Q7V5G0": [
       "PMT1600"
     ],
+    "Q7V5G1": [
+      "PMT1599"
+    ],
     "Q7V5G4": [
       "PMT1596"
     ],
     "Q7V5G5": [
       "PMT1595"
+    ],
+    "Q7V5G6": [
+      "PMT1594"
     ],
     "Q7V5G7": [
       "PMT1593"
@@ -351201,6 +355155,9 @@
     ],
     "Q7V5M1": [
       "PMT1531"
+    ],
+    "Q7V5M2": [
+      "PMT1530"
     ],
     "Q7V5M4": [
       "PMT1528"
@@ -351557,6 +355514,12 @@
     ],
     "Q7V5Z2": [
       "PMT1391"
+    ],
+    "Q7V5Z3": [
+      "PMT1390"
+    ],
+    "Q7V5Z4": [
+      "PMT1390"
     ],
     "Q7V5Z5": [
       "PMT1388"
@@ -352231,6 +356194,9 @@
     "Q7V6M2": [
       "PMT1132"
     ],
+    "Q7V6M4": [
+      "PMT1129"
+    ],
     "Q7V6M5": [
       "PMT1128"
     ],
@@ -352900,6 +356866,9 @@
     "Q7V7B5": [
       "PMT0834"
     ],
+    "Q7V7B6": [
+      "PMT0833"
+    ],
     "Q7V7B7": [
       "PMT0832"
     ],
@@ -353080,6 +357049,9 @@
     ],
     "Q7V7H7": [
       "PMT0769"
+    ],
+    "Q7V7H8": [
+      "PMT0768"
     ],
     "Q7V7H9": [
       "PMT0767"
@@ -353835,6 +357807,9 @@
     "Q7V888": [
       "PMT0477"
     ],
+    "Q7V889": [
+      "PMT0476"
+    ],
     "Q7V890": [
       "PMT0475"
     ],
@@ -353867,6 +357842,9 @@
     ],
     "Q7V8A0": [
       "PMT0463"
+    ],
+    "Q7V8A1": [
+      "PMT0461"
     ],
     "Q7V8A2": [
       "PMT0460"
@@ -354265,6 +358243,9 @@
     "Q7V8N8": [
       "PMT0298"
     ],
+    "Q7V8N9": [
+      "PMT0297"
+    ],
     "Q7V8P0": [
       "PMT0296"
     ],
@@ -354291,6 +358272,9 @@
     ],
     "Q7V8Q1": [
       "PMT0283"
+    ],
+    "Q7V8Q2": [
+      "PMT0282"
     ],
     "Q7V8Q3": [
       "PMT0280"
@@ -365130,6 +369114,9 @@
     "WP_011130963.1": [
       "PMT1596"
     ],
+    "WP_011130966.1": [
+      "PMT1599"
+    ],
     "WP_011130967.1": [
       "PMT1600"
     ],
@@ -370066,6 +374053,9 @@
     "gdhA": [
       "PMT0623"
     ],
+    "gerCB": [
+      "PMT0276"
+    ],
     "ggpP": [
       "PMT0863"
     ],
@@ -370082,7 +374072,9 @@
       "PMT0692"
     ],
     "gidA": [
-      "PMT2177"
+      "PMT2177",
+      "PMT1049",
+      "PMT1050"
     ],
     "gidA2": [
       "PMT1050"
@@ -370369,6 +374361,9 @@
     "hemN": [
       "PMT0317"
     ],
+    "hemW": [
+      "PMT0317"
+    ],
     "hepA": [
       "PMT2158"
     ],
@@ -370460,6 +374455,9 @@
     ],
     "hli3": [
       "PMT1504"
+    ],
+    "hli4": [
+      "PMT1594"
     ],
     "hli5": [
       "PMT_0990"
@@ -373950,6 +377948,7 @@
     "AKG35_RS00325": "PMT0061",
     "AKG35_RS00330": "PMT0062",
     "AKG35_RS00335": "PMT0063",
+    "AKG35_RS00340": "PMT0064",
     "AKG35_RS00345": "PMT0065",
     "AKG35_RS00350": "PMT0066",
     "AKG35_RS00355": "PMT0067",
@@ -374159,6 +378158,7 @@
     "AKG35_RS01470": "PMT0278",
     "AKG35_RS01480": "PMT0280",
     "AKG35_RS01485": "RG24_RS01490",
+    "AKG35_RS01490": "PMT0282",
     "AKG35_RS01495": "PMT0283",
     "AKG35_RS01500": "PMT0284",
     "AKG35_RS01505": "PMT0285",
@@ -374191,6 +378191,7 @@
     "AKG35_RS01675": "PMT0314",
     "AKG35_RS01680": "PMT0315",
     "AKG35_RS01685": "PMT0316",
+    "AKG35_RS01690": "PMT0317",
     "AKG35_RS01705": "PMT0319",
     "AKG35_RS01710": "PMT0320",
     "AKG35_RS01715": "PMT0321",
@@ -374338,6 +378339,7 @@
     "AKG35_RS02500": "PMT0473",
     "AKG35_RS02505": "PMT0474",
     "AKG35_RS02510": "PMT0475",
+    "AKG35_RS02515": "PMT0476",
     "AKG35_RS02525": "PMT0478",
     "AKG35_RS02530": "PMT0479",
     "AKG35_RS02535": "PMT_2376",
@@ -374585,6 +378587,7 @@
     "AKG35_RS03810": "PMT0730",
     "AKG35_RS03815": "PMT0731",
     "AKG35_RS03820": "PMT0732",
+    "AKG35_RS03830": "PMT0734",
     "AKG35_RS03835": "PMT0735",
     "AKG35_RS03840": "PMT0736",
     "AKG35_RS03845": "PMT0737",
@@ -374679,6 +378682,7 @@
     "AKG35_RS04325": "PMT0830",
     "AKG35_RS04330": "PMT_0831",
     "AKG35_RS04345": "PMT0832",
+    "AKG35_RS04350": "PMT0833",
     "AKG35_RS04355": "PMT0834",
     "AKG35_RS04360": "PMT0835",
     "AKG35_RS04365": "PMT0836",
@@ -374808,6 +378812,7 @@
     "AKG35_RS05090": "PMT0958",
     "AKG35_RS05095": "PMT_2527",
     "AKG35_RS05100": "PMT0959",
+    "AKG35_RS05105": "PMT0960",
     "AKG35_RS05115": "PMT_2529",
     "AKG35_RS05120": "PMT0962",
     "AKG35_RS05130": "PMT0964",
@@ -374888,6 +378893,7 @@
     "AKG35_RS05625": "PMT1047",
     "AKG35_RS05630": "PMT_2613",
     "AKG35_RS05640": "PMT1048",
+    "AKG35_RS05645": "PMT1049",
     "AKG35_RS05650": "PMT1051",
     "AKG35_RS05655": "PMT1052",
     "AKG35_RS05660": "PMT1053",
@@ -374965,6 +378971,7 @@
     "AKG35_RS06045": "PMT1126",
     "AKG35_RS06050": "PMT1127",
     "AKG35_RS06055": "PMT1128",
+    "AKG35_RS06060": "PMT1129",
     "AKG35_RS06065": "PMT1131",
     "AKG35_RS06070": "PMT1132",
     "AKG35_RS06075": "PMT1133",
@@ -375420,6 +379427,7 @@
     "AKG35_RS08495": "PMT1593",
     "AKG35_RS08505": "PMT1595",
     "AKG35_RS08510": "PMT1596",
+    "AKG35_RS08515": "PMT1599",
     "AKG35_RS08525": "PMT1600",
     "AKG35_RS08530": "PMT1601",
     "AKG35_RS08535": "PMT1602",
@@ -375431,6 +379439,7 @@
     "AKG35_RS08570": "PMT1608",
     "AKG35_RS08575": "PMT_2765",
     "AKG35_RS08585": "PMT_1610",
+    "AKG35_RS08590": "PMT1611",
     "AKG35_RS08595": "PMT1612",
     "AKG35_RS08600": "PMT1613",
     "AKG35_RS08605": "PMT1614",
@@ -375728,6 +379737,7 @@
     "AKG35_RS10240": "PMT1920",
     "AKG35_RS10245": "PMT1921",
     "AKG35_RS10250": "PMT1922",
+    "AKG35_RS10255": "PMT1924",
     "AKG35_RS10260": "PMT1925",
     "AKG35_RS10265": "PMT1926",
     "AKG35_RS10270": "PMT1927",
@@ -376000,6 +380010,7 @@
     "AKG35_RS11740": "PMT2203",
     "AKG35_RS11745": "PMT2204",
     "AKG35_RS11750": "PMT2205",
+    "AKG35_RS11755": "PMT2206",
     "AKG35_RS11760": "PMT2207",
     "AKG35_RS11765": "PMT2208",
     "AKG35_RS11770": "PMT2209",
@@ -376075,6 +380086,7 @@
     "AKG35_RS12175": "PMT_0240",
     "AKG35_RS12200": "PMT_0318",
     "AKG35_RS12205": "PMT_0331",
+    "AKG35_RS12225": "PMT0461",
     "AKG35_RS12235": "PMT_2396",
     "AKG35_RS12250": "PMT_0673",
     "AKG35_RS12260": "PMT_0739",
@@ -376104,6 +380116,7 @@
     "AKG35_RS12515": "PMT_2883",
     "AKG35_RS12520": "PMT_2079",
     "AKG35_RS12555": "PMT_0356",
+    "AKG35_RS12600": "PMT1530",
     "AKG35_RS12620": "PMT_0084",
     "AKG35_RS12625": "PMT_0105",
     "AKG35_RS12630": "PMT_0116",
@@ -376119,6 +380132,7 @@
     "AKG35_RS12710": "PMT_2397",
     "AKG35_RS12725": "PMT_0637",
     "AKG35_RS12730": "PMT_2416",
+    "AKG35_RS12755": "PMT1609",
     "AKG35_RS12760": "PMT_2443",
     "AKG35_RS12765": "PMT_2452",
     "AKG35_RS12770": "PMT_2459",
@@ -376140,6 +380154,7 @@
     "AKG35_RS12935": "PMT_2649",
     "AKG35_RS12945": "PMT_2665",
     "AKG35_RS12955": "PMT_2677",
+    "AKG35_RS12960": "PMT1390",
     "AKG35_RS12965": "PMT_2693",
     "AKG35_RS12980": "PMT_2714",
     "AKG35_RS12990": "PMT_2721",
@@ -376300,6 +380315,7 @@
     "CAE20236.1": "PMT0061",
     "CAE20237.1": "PMT0062",
     "CAE20238.1": "PMT0063",
+    "CAE20239.1": "PMT0064",
     "CAE20240.1": "PMT0065",
     "CAE20241.1": "PMT0066",
     "CAE20242.1": "PMT0067",
@@ -376401,7 +380417,9 @@
     "CAE20339.1": "PMT0164",
     "CAE20340.1": "PMT0165",
     "CAE20341.1": "PMT_0166",
+    "CAE20342.1": "PMT0167",
     "CAE20343.1": "PMT0168",
+    "CAE20344.1": "PMT0169",
     "CAE20345.1": "PMT0170",
     "CAE20346.1": "PMT0171",
     "CAE20347.1": "PMT0172",
@@ -376507,22 +380525,28 @@
     "CAE20447.1": "PMT0272",
     "CAE20448.1": "PMT0273",
     "CAE20449.1": "PMT0274",
+    "CAE20451.1": "PMT0276",
     "CAE20452.1": "PMT0277",
     "CAE20453.1": "PMT0278",
     "CAE20454.1": "PMT0298",
     "CAE20455.1": "PMT0280",
+    "CAE20456.1": "PMT0281",
+    "CAE20457.1": "PMT0282",
     "CAE20458.1": "PMT0283",
     "CAE20459.1": "PMT0284",
     "CAE20460.1": "PMT0285",
     "CAE20461.1": "PMT0286",
     "CAE20462.1": "PMT0287",
+    "CAE20463.1": "PMT0288",
     "CAE20464.1": "PMT_0289",
     "CAE20465.1": "PMT0290",
     "CAE20466.1": "PMT0291",
+    "CAE20467.1": "PMT0292",
     "CAE20468.1": "PMT0293",
     "CAE20469.1": "PMT0294",
     "CAE20470.1": "PMT0295",
     "CAE20471.1": "PMT0296",
+    "CAE20472.1": "PMT0297",
     "CAE20473.1": "PMT0298",
     "CAE20474.1": "PMT0299",
     "CAE20475.1": "PMT0300",
@@ -376531,6 +380555,7 @@
     "CAE20478.1": "PMT0303",
     "CAE20479.1": "PMT_0304",
     "CAE20480.1": "PMT0305",
+    "CAE20481.1": "PMT0306",
     "CAE20482.1": "PMT_0307",
     "CAE20483.1": "PMT0308",
     "CAE20484.1": "PMT0309",
@@ -376541,12 +380566,14 @@
     "CAE20489.1": "PMT0314",
     "CAE20490.1": "PMT0315",
     "CAE20491.1": "PMT0316",
+    "CAE20492.1": "PMT0317",
     "CAE20493.1": "PMT_0318",
     "CAE20494.1": "PMT0319",
     "CAE20495.1": "PMT0320",
     "CAE20496.1": "PMT0321",
     "CAE20497.1": "PMT0322",
     "CAE20498.1": "PMT0323",
+    "CAE20499.1": "PMT0324",
     "CAE20500.1": "PMT0325",
     "CAE20501.1": "PMT0326",
     "CAE20502.1": "PMT0327",
@@ -376605,6 +380632,7 @@
     "CAE20555.1": "PMT0380",
     "CAE20556.1": "PMT_0381",
     "CAE20557.1": "PMT0382",
+    "CAE20558.1": "PMT0383",
     "CAE20559.1": "PMT0384",
     "CAE20560.1": "PMT0385",
     "CAE20561.1": "PMT0386",
@@ -376631,6 +380659,7 @@
     "CAE20582.1": "PMT0407",
     "CAE20583.1": "PMT0408",
     "CAE20584.1": "PMT0409",
+    "CAE20585.1": "PMT0410",
     "CAE20586.1": "PMT0411",
     "CAE20587.1": "PMT0412",
     "CAE20588.1": "PMT0413",
@@ -376671,6 +380700,8 @@
     "CAE20623.1": "PMT_0448",
     "CAE20624.1": "PMT0449",
     "CAE20625.1": "PMT0450",
+    "CAE20626.1": "PMT0451",
+    "CAE20627.1": "PMT0452",
     "CAE20628.1": "PMT0453",
     "CAE20629.1": "PMT0454",
     "CAE20630.1": "PMT0455",
@@ -376679,6 +380710,7 @@
     "CAE20633.1": "PMT0458",
     "CAE20634.1": "PMT0459",
     "CAE20635.1": "PMT0460",
+    "CAE20636.1": "PMT0461",
     "CAE20637.1": "PMT0462",
     "CAE20638.1": "PMT0463",
     "CAE20639.1": "PMT0464",
@@ -376693,6 +380725,7 @@
     "CAE20648.1": "PMT0473",
     "CAE20649.1": "PMT0474",
     "CAE20650.1": "PMT0475",
+    "CAE20651.1": "PMT0476",
     "CAE20652.1": "PMT0477",
     "CAE20653.1": "PMT0478",
     "CAE20654.1": "PMT0479",
@@ -376703,6 +380736,7 @@
     "CAE20659.1": "PMT0484",
     "CAE20660.1": "PMT0485",
     "CAE20661.1": "PMT0486",
+    "CAE20662.1": "PMT0487",
     "CAE20663.1": "PMT_0488",
     "CAE20664.1": "PMT0489",
     "CAE20665.1": "PMT_0490",
@@ -376715,6 +380749,7 @@
     "CAE20672.1": "PMT0497",
     "CAE20673.1": "PMT0498",
     "CAE20674.1": "PMT0499",
+    "CAE20675.1": "PMT0500",
     "CAE20676.1": "PMT0501",
     "CAE20677.1": "PMT0502",
     "CAE20678.1": "PMT0503",
@@ -376777,6 +380812,7 @@
     "CAE20735.1": "PMT0560",
     "CAE20736.1": "PMT0561",
     "CAE20737.1": "PMT0562",
+    "CAE20738.1": "PMT0563",
     "CAE20739.1": "PMT0564",
     "CAE20740.1": "PMT0565",
     "CAE20741.1": "PMT0566",
@@ -376827,6 +380863,7 @@
     "CAE20786.1": "PMT0611",
     "CAE20787.1": "PMT0612",
     "CAE20788.1": "PMT_0613",
+    "CAE20789.1": "PMT0614",
     "CAE20790.1": "PMT0615",
     "CAE20791.1": "PMT0616",
     "CAE20792.1": "PMT0617",
@@ -376834,6 +380871,7 @@
     "CAE20794.1": "PMT0619",
     "CAE20795.1": "PMT0620",
     "CAE20796.1": "PMT0621",
+    "CAE20797.1": "PMT0622",
     "CAE20798.1": "PMT0623",
     "CAE20799.1": "PMT0624",
     "CAE20800.1": "PMT0625",
@@ -376842,6 +380880,7 @@
     "CAE20803.1": "PMT_0628",
     "CAE20804.1": "PMT0629",
     "CAE20805.1": "PMT0630",
+    "CAE20806.1": "PMT0631",
     "CAE20807.1": "PMT0632",
     "CAE20808.1": "PMT0633",
     "CAE20809.1": "PMT0634",
@@ -376942,6 +380981,7 @@
     "CAE20906.1": "PMT0731",
     "CAE20907.1": "PMT0732",
     "CAE20908.1": "PMT_0733",
+    "CAE20909.1": "PMT0734",
     "CAE20910.1": "PMT0735",
     "CAE20911.1": "PMT0736",
     "CAE20912.1": "PMT0737",
@@ -376975,6 +381015,7 @@
     "CAE20940.1": "PMT0765",
     "CAE20941.1": "PMT0766",
     "CAE20942.1": "PMT0767",
+    "CAE20943.1": "PMT0768",
     "CAE20944.1": "PMT0769",
     "CAE20945.1": "PMT0770",
     "CAE20946.1": "PMT0771",
@@ -377006,6 +381047,7 @@
     "CAE20972.1": "PMT0797",
     "CAE20973.1": "PMT0798",
     "CAE20974.1": "PMT0799",
+    "CAE20975.1": "PMT0800",
     "CAE20976.1": "PMT0801",
     "CAE20977.1": "PMT0802",
     "CAE20978.1": "PMT0803",
@@ -377038,9 +381080,11 @@
     "CAE21005.1": "PMT0830",
     "CAE21006.1": "PMT_0831",
     "CAE21007.1": "PMT0832",
+    "CAE21008.1": "PMT0833",
     "CAE21009.1": "PMT0834",
     "CAE21010.1": "PMT0835",
     "CAE21011.1": "PMT0836",
+    "CAE21012.1": "PMT0837",
     "CAE21013.1": "PMT_0838",
     "CAE21015.1": "PMT0840",
     "CAE21016.1": "PMT_0841",
@@ -377084,6 +381128,7 @@
     "CAE21054.1": "PMT_0879",
     "CAE21055.1": "PMT0880",
     "CAE21056.1": "RG24_RS04620",
+    "CAE21057.1": "PMT0882",
     "CAE21058.1": "PMT0883",
     "CAE21059.1": "PMT0884",
     "CAE21060.1": "PMT_0885",
@@ -377143,8 +381188,10 @@
     "CAE21116.1": "PMT0941",
     "CAE21117.1": "PMT_0942",
     "CAE21118.1": "PMT0943",
+    "CAE21119.1": "PMT0944",
     "CAE21120.1": "PMT0945",
     "CAE21121.1": "PMT0946",
+    "CAE21122.1": "PMT0947",
     "CAE21123.1": "PMT0948",
     "CAE21124.1": "PMT0949",
     "CAE21125.1": "PMT0950",
@@ -377154,8 +381201,10 @@
     "CAE21129.1": "PMT0954",
     "CAE21130.1": "PMT0955",
     "CAE21131.1": "PMT0956",
+    "CAE21132.1": "PMT0960",
     "CAE21133.1": "PMT0958",
     "CAE21134.1": "PMT0959",
+    "CAE21135.1": "PMT0960",
     "CAE21136.1": "PMT_0961",
     "CAE21137.1": "PMT0962",
     "CAE21138.1": "PMT0982",
@@ -377163,8 +381212,12 @@
     "CAE21140.1": "PMT0965",
     "CAE21141.1": "PMT0966",
     "CAE21142.1": "PMT0967",
+    "CAE21143.1": "PMT0968",
+    "CAE21144.1": "PMT0969",
+    "CAE21145.1": "PMT0970",
     "CAE21146.1": "PMT_0971",
     "CAE21147.1": "PMT0972",
+    "CAE21148.1": "PMT0973",
     "CAE21149.1": "PMT0974",
     "CAE21150.1": "PMT0975",
     "CAE21151.1": "PMT_0976",
@@ -377176,6 +381229,8 @@
     "CAE21157.1": "PMT0982",
     "CAE21158.1": "PMT0983",
     "CAE21160.1": "PMT_0985",
+    "CAE21161.1": "PMT0986",
+    "CAE21162.1": "PMT0987",
     "CAE21163.1": "RG24_RS05275",
     "CAE21164.1": "PMT0989",
     "CAE21165.1": "PMT_0990",
@@ -377194,6 +381249,7 @@
     "CAE21178.1": "PMT1003",
     "CAE21179.1": "PMT1004",
     "CAE21180.1": "PMT1005",
+    "CAE21181.1": "PMT1006",
     "CAE21182.1": "PMT1007",
     "CAE21183.1": "PMT1008",
     "CAE21184.1": "PMT1009",
@@ -377207,6 +381263,7 @@
     "CAE21192.1": "PMT1017",
     "CAE21193.1": "PMT1018",
     "CAE21194.1": "PMT1019",
+    "CAE21196.1": "PMT1021",
     "CAE21197.1": "PMT_1022",
     "CAE21199.1": "PMT1024",
     "CAE21200.1": "PMT1025",
@@ -377233,6 +381290,8 @@
     "CAE21221.1": "PMT1046",
     "CAE21222.1": "PMT1047",
     "CAE21223.1": "PMT1048",
+    "CAE21224.1": "PMT1049",
+    "CAE21225.1": "PMT1050",
     "CAE21226.1": "PMT1051",
     "CAE21227.1": "PMT1052",
     "CAE21228.1": "PMT1053",
@@ -377297,7 +381356,9 @@
     "CAE21287.1": "PMT1112",
     "CAE21288.1": "PMT1113",
     "CAE21289.1": "PMT1114",
+    "CAE21290.1": "PMT1115",
     "CAE21291.1": "PMT1116",
+    "CAE21292.1": "PMT1117",
     "CAE21293.1": "PMT1118",
     "CAE21294.1": "PMT1119",
     "CAE21295.1": "PMT1120",
@@ -377309,6 +381370,7 @@
     "CAE21301.1": "PMT1126",
     "CAE21302.1": "PMT1127",
     "CAE21303.1": "PMT1128",
+    "CAE21304.1": "PMT1129",
     "CAE21305.1": "PMT_1130",
     "CAE21306.1": "PMT1131",
     "CAE21307.1": "PMT1132",
@@ -377462,6 +381524,7 @@
     "CAE21458.1": "PMT1283",
     "CAE21459.1": "PMT1284",
     "CAE21460.1": "PMT_1285",
+    "CAE21461.1": "PMT1286",
     "CAE21462.1": "PMT1287",
     "CAE21463.1": "PMT1288",
     "CAE21464.1": "PMT1289",
@@ -377495,6 +381558,7 @@
     "CAE21492.1": "PMT_1317",
     "CAE21494.1": "PMT1319",
     "CAE21495.1": "PMT1320",
+    "CAE21496.1": "PMT1321",
     "CAE21497.1": "PMT1322",
     "CAE21498.1": "PMT1323",
     "CAE21499.1": "PMT1324",
@@ -377509,6 +381573,7 @@
     "CAE21508.1": "PMT1333",
     "CAE21509.1": "PMT1334",
     "CAE21510.1": "PMT1335",
+    "CAE21511.1": "PMT1336",
     "CAE21512.1": "PMT1337",
     "CAE21513.1": "PMT1338",
     "CAE21514.1": "PMT1339",
@@ -377555,9 +381620,14 @@
     "CAE21555.1": "PMT1380",
     "CAE21556.1": "PMT1381",
     "CAE21557.1": "PMT_1382",
+    "CAE21558.1": "PMT1383",
     "CAE21559.1": "PMT1384",
+    "CAE21560.1": "PMT1385",
     "CAE21561.1": "PMT1386",
+    "CAE21562.1": "PMT1387",
     "CAE21563.1": "PMT1388",
+    "CAE21564.1": "PMT1389",
+    "CAE21565.1": "PMT1390",
     "CAE21566.1": "PMT1391",
     "CAE21567.1": "PMT1392",
     "CAE21568.1": "PMT1393",
@@ -377632,6 +381702,7 @@
     "CAE21637.1": "PMT1462",
     "CAE21638.1": "PMT1463",
     "CAE21639.1": "PMT1464",
+    "CAE21640.1": "PMT1465",
     "CAE21641.1": "PMT1466",
     "CAE21642.1": "PMT1467",
     "CAE21643.1": "PMT1468",
@@ -377694,8 +381765,11 @@
     "CAE21701.1": "PMT1526",
     "CAE21702.1": "PMT1527",
     "CAE21703.1": "PMT1528",
+    "CAE21704.1": "PMT1529",
+    "CAE21705.1": "PMT1530",
     "CAE21706.1": "PMT1531",
     "CAE21707.1": "PMT1532",
+    "CAE21708.1": "PMT1533",
     "CAE21709.1": "PMT1534",
     "CAE21710.1": "PMT1535",
     "CAE21711.1": "PMT1536",
@@ -377728,6 +381802,7 @@
     "CAE21738.1": "PMT1563",
     "CAE21739.1": "PMT_1564",
     "CAE21740.1": "PMT1565",
+    "CAE21741.1": "PMT1566",
     "CAE21742.1": "PMT1567",
     "CAE21743.1": "PMT1568",
     "CAE21744.1": "PMT1569",
@@ -377754,8 +381829,12 @@
     "CAE21766.1": "PMT1591",
     "CAE21767.1": "PMT1592",
     "CAE21768.1": "PMT1593",
+    "CAE21769.1": "PMT1594",
     "CAE21770.1": "PMT1595",
     "CAE21771.1": "PMT1596",
+    "CAE21772.1": "PMT1597",
+    "CAE21773.1": "PMT1598",
+    "CAE21774.1": "PMT1599",
     "CAE21775.1": "PMT1600",
     "CAE21776.1": "PMT1601",
     "CAE21777.1": "PMT1602",
@@ -377765,7 +381844,9 @@
     "CAE21781.1": "PMT1606",
     "CAE21782.1": "PMT1607",
     "CAE21783.1": "PMT1608",
+    "CAE21784.1": "PMT1609",
     "CAE21785.1": "PMT_1610",
+    "CAE21786.1": "PMT1611",
     "CAE21787.1": "PMT1612",
     "CAE21788.1": "PMT1613",
     "CAE21789.1": "PMT1614",
@@ -377812,6 +381893,7 @@
     "CAE21830.1": "PMT_1655",
     "CAE21831.1": "PMT_1656",
     "CAE21832.1": "PMT1657",
+    "CAE21833.1": "PMT1658",
     "CAE21834.1": "PMT1659",
     "CAE21835.1": "PMT1660",
     "CAE21836.1": "PMT1661",
@@ -377836,6 +381918,7 @@
     "CAE21856.1": "PMT1681",
     "CAE21857.1": "PMT1682",
     "CAE21858.1": "PMT1683",
+    "CAE21859.1": "PMT1684",
     "CAE21860.1": "PMT1685",
     "CAE21861.1": "PMT1686",
     "CAE21862.1": "PMT1687",
@@ -377849,6 +381932,7 @@
     "CAE21870.1": "PMT1695",
     "CAE21871.1": "PMT1696",
     "CAE21872.1": "PMT1697",
+    "CAE21873.1": "PMT1698",
     "CAE21874.1": "PMT_1699",
     "CAE21875.1": "PMT1700",
     "CAE21876.1": "PMT1701",
@@ -377946,6 +382030,7 @@
     "CAE21968.1": "PMT1793",
     "CAE21969.1": "PMT1794",
     "CAE21970.1": "PMT1795",
+    "CAE21971.1": "PMT1796",
     "CAE21972.1": "PMT1797",
     "CAE21973.1": "PMT1798",
     "CAE21974.1": "PMT1799",
@@ -377961,6 +382046,7 @@
     "CAE21984.1": "PMT1809",
     "CAE21985.1": "PMT1810",
     "CAE21986.1": "PMT_1811",
+    "CAE21987.1": "PMT1812",
     "CAE21988.1": "PMT1813",
     "CAE21989.1": "PMT1814",
     "CAE21990.1": "PMT1815",
@@ -378070,19 +382156,23 @@
     "CAE22096.1": "PMT1921",
     "CAE22097.1": "PMT1922",
     "CAE22098.1": "PMT1915",
+    "CAE22099.1": "PMT1924",
     "CAE22100.1": "PMT1925",
     "CAE22101.1": "PMT1926",
     "CAE22102.1": "PMT1927",
     "CAE22103.1": "PMT1928",
     "CAE22104.1": "PMT1929",
     "CAE22105.1": "PMT1930",
+    "CAE22106.1": "PMT1932",
     "CAE22107.1": "PMT1933",
     "CAE22108.1": "PMT1934",
     "CAE22109.1": "PMT1935",
+    "CAE22110.1": "PMT1936",
     "CAE22111.1": "PMT_1937",
     "CAE22112.1": "PMT1938",
     "CAE22113.1": "PMT1939",
     "CAE22114.1": "PMT1940",
+    "CAE22115.1": "PMT1941",
     "CAE22116.1": "PMT1942",
     "CAE22117.1": "PMT1943",
     "CAE22118.1": "PMT1944",
@@ -378166,6 +382256,7 @@
     "CAE22196.1": "PMT_2022",
     "CAE22197.1": "PMT_2023",
     "CAE22198.1": "PMT2024",
+    "CAE22199.1": "PMT2025",
     "CAE22200.1": "PMT2026",
     "CAE22201.1": "PMT2027",
     "CAE22202.1": "PMT2028",
@@ -378193,6 +382284,7 @@
     "CAE22224.1": "PMT_2050",
     "CAE22225.1": "PMT_2051",
     "CAE22226.1": "PMT_2052",
+    "CAE22227.1": "PMT2053",
     "CAE22228.1": "PMT2054",
     "CAE22229.1": "PMT2055",
     "CAE22230.1": "PMT2056",
@@ -378216,6 +382308,7 @@
     "CAE22249.1": "PMT2075",
     "CAE22250.1": "PMT2076",
     "CAE22251.1": "PMT2077",
+    "CAE22252.1": "PMT2078",
     "CAE22253.1": "PMT_2079",
     "CAE22254.1": "PMT2080",
     "CAE22255.1": "PMT2081",
@@ -378249,6 +382342,7 @@
     "CAE22283.1": "PMT2109",
     "CAE22284.1": "PMT2110",
     "CAE22285.1": "PMT2111",
+    "CAE22286.1": "PMT2112",
     "CAE22287.1": "PMT2113",
     "CAE22288.1": "PMT2114",
     "CAE22289.1": "PMT2115",
@@ -378269,6 +382363,7 @@
     "CAE22304.1": "PMT2130",
     "CAE22305.1": "PMT2131",
     "CAE22306.1": "PMT2132",
+    "CAE22307.1": "PMT2133",
     "CAE22308.1": "PMT_2134",
     "CAE22309.1": "PMT2135",
     "CAE22310.1": "PMT2136",
@@ -378341,6 +382436,7 @@
     "CAE22377.1": "PMT2203",
     "CAE22378.1": "PMT2204",
     "CAE22379.1": "PMT2205",
+    "CAE22380.1": "PMT2206",
     "CAE22381.1": "PMT2207",
     "CAE22382.1": "PMT2208",
     "CAE22383.1": "PMT2209",
@@ -378366,6 +382462,7 @@
     "CAE22403.1": "PMT2229",
     "CAE22404.1": "PMT2230",
     "CAE22405.1": "PMT2231",
+    "CAE22406.1": "PMT2232",
     "CAE22407.1": "PMT2233",
     "CAE22408.1": "PMT2234",
     "CAE22409.1": "PMT2235",
@@ -381931,6 +386028,7 @@
     "P9313_00651": "PMT0061",
     "P9313_00661": "PMT0062",
     "P9313_00671": "PMT0063",
+    "P9313_00681": "PMT0064",
     "P9313_00691": "PMT_2280",
     "P9313_00701": "PMT0065",
     "P9313_00711": "PMT_2281",
@@ -382044,7 +386142,9 @@
     "P9313_01771": "PMT0165",
     "P9313_01781": "PMT_0166",
     "P9313_01791": "PMT_2291",
+    "P9313_01801": "PMT0167",
     "P9313_01811": "PMT0168",
+    "P9313_01821": "PMT0169",
     "P9313_01831": "PMT0170",
     "P9313_01841": "PMT0171",
     "P9313_01851": "PMT0172",
@@ -382182,12 +386282,15 @@
     "P9313_03211": "PMT0273",
     "P9313_03221": "PMT0274",
     "P9313_03231": "PMT_2333",
+    "P9313_03251": "PMT0276",
     "P9313_03261": "PMT0277",
     "P9313_03271": "PMT_2334",
     "P9313_03281": "PMT0278",
     "P9313_03291": "PMT0298",
     "P9313_03301": "PMT0280",
+    "P9313_03311": "PMT0281",
     "P9313_03321": "PMT_2335",
+    "P9313_03331": "PMT0282",
     "P9313_03341": "PMT0283",
     "P9313_03341 (PMT0283)": "PMT0283",
     "P9313_03351": "PMT_2336",
@@ -382199,6 +386302,7 @@
     "P9313_03381 (PMT0286)": "PMT0286",
     "P9313_03391": "PMT0287",
     "P9313_03391 (PMT0287)": "PMT0287",
+    "P9313_03401": "PMT0288",
     "P9313_03411": "PMT_0289",
     "P9313_03421": "PMT_2338",
     "P9313_03431": "PMT_2339",
@@ -382206,6 +386310,7 @@
     "P9313_03451": "PMT0291",
     "P9313_03461": "PMT_2340",
     "P9313_03471": "PMT_2341",
+    "P9313_03481": "PMT0292",
     "P9313_03491": "PMT_2342",
     "P9313_03501": "PMT_2343",
     "P9313_03511": "PMT0293",
@@ -382213,6 +386318,7 @@
     "P9313_03531": "PMT0294",
     "P9313_03541": "PMT0295",
     "P9313_03551": "PMT0296",
+    "P9313_03561": "PMT0297",
     "P9313_03571": "PMT_2345",
     "P9313_03581": "PMT0298",
     "P9313_03591": "PMT0299",
@@ -382225,6 +386331,7 @@
     "P9313_03651": "PMT_2348",
     "P9313_03661": "PMT_0304",
     "P9313_03671": "PMT0305",
+    "P9313_03681": "PMT0306",
     "P9313_03691": "PMT_0307",
     "P9313_03701": "PMT0308",
     "P9313_03711": "PMT_2349",
@@ -382237,6 +386344,7 @@
     "P9313_03781": "PMT0314",
     "P9313_03791": "PMT0315",
     "P9313_03801": "PMT0316",
+    "P9313_03811": "PMT0317",
     "P9313_03821": "PMT_0318",
     "P9313_03831": "PMT0319",
     "P9313_03841": "PMT_2352",
@@ -382244,6 +386352,7 @@
     "P9313_03861": "PMT0321",
     "P9313_03871": "PMT0322",
     "P9313_03881": "PMT0323",
+    "P9313_03891": "PMT0324",
     "P9313_03901": "PMT_2353",
     "P9313_03911": "PMT0325",
     "P9313_03921": "PMT0326",
@@ -382311,6 +386420,7 @@
     "P9313_04531": "PMT0380",
     "P9313_04541": "PMT_0381",
     "P9313_04551": "PMT0382",
+    "P9313_04561": "PMT0383",
     "P9313_04571": "PMT0384",
     "P9313_04581": "PMT0385",
     "P9313_04591": "PMT0386",
@@ -382338,6 +386448,7 @@
     "P9313_04811": "PMT0407",
     "P9313_04821": "PMT0408",
     "P9313_04831": "PMT0409",
+    "P9313_04841": "PMT0410",
     "P9313_04851": "PMT0411",
     "P9313_04861": "PMT0412",
     "P9313_04871": "PMT0413",
@@ -382385,6 +386496,8 @@
     "P9313_05291": "PMT_0448",
     "P9313_05301": "PMT0449",
     "P9313_05311": "PMT0450",
+    "P9313_05321": "PMT0451",
+    "P9313_05331": "PMT0452",
     "P9313_05341": "PMT0453",
     "P9313_05351": "PMT0454",
     "P9313_05361": "PMT0455",
@@ -382394,6 +386507,7 @@
     "P9313_05401": "PMT0458",
     "P9313_05411": "PMT0459",
     "P9313_05421": "PMT0460",
+    "P9313_05431": "PMT0461",
     "P9313_05441": "PMT0462",
     "P9313_05451": "PMT0463",
     "P9313_05461": "PMT0464",
@@ -382411,6 +386525,7 @@
     "P9313_05581": "PMT0473",
     "P9313_05591": "PMT0474",
     "P9313_05601": "PMT0475",
+    "P9313_05611": "PMT0476",
     "P9313_05621": "PMT0477",
     "P9313_05621 (PMT0477)": "PMT0477",
     "P9313_05631": "PMT0478",
@@ -382427,6 +386542,7 @@
     "P9313_05741": "PMT0485",
     "P9313_05751": "PMT0486",
     "P9313_05761": "PMT_2380",
+    "P9313_05771": "PMT0487",
     "P9313_05781": "PMT_0488",
     "P9313_05791": "PMT0489",
     "P9313_05801": "PMT_2381",
@@ -382448,6 +386564,7 @@
     "P9313_05941 (PMT0498)": "PMT0498",
     "P9313_05951": "PMT0499",
     "P9313_05951 (PMT0499)": "PMT0499",
+    "P9313_05961": "PMT0500",
     "P9313_05971": "PMT0501",
     "P9313_05981": "PMT0502",
     "P9313_05991": "PMT0503",
@@ -382525,6 +386642,7 @@
     "P9313_06701": "PMT0560",
     "P9313_06711": "PMT0561",
     "P9313_06721": "PMT0562",
+    "P9313_06731": "PMT0563",
     "P9313_06741": "PMT0564",
     "P9313_06751": "PMT0565",
     "P9313_06761": "PMT_2402",
@@ -382582,6 +386700,7 @@
     "P9313_07281": "PMT_2408",
     "P9313_07291": "PMT_0613",
     "P9313_07301": "PMT_2409",
+    "P9313_07311": "PMT0614",
     "P9313_07321": "PMT0615",
     "P9313_07331": "PMT0616",
     "P9313_07341": "PMT0617",
@@ -382591,6 +386710,7 @@
     "P9313_07381": "PMT0620",
     "P9313_07391": "PMT0621",
     "P9313_07401": "PMT_2411",
+    "P9313_07411": "PMT0622",
     "P9313_07421": "PMT_2412",
     "P9313_07431": "PMT0623",
     "P9313_07441": "PMT0624",
@@ -382601,6 +386721,7 @@
     "P9313_07491": "PMT_0628",
     "P9313_07501": "PMT0629",
     "P9313_07511": "PMT0630",
+    "P9313_07521": "PMT0631",
     "P9313_07531": "PMT0632",
     "P9313_07541": "PMT0633",
     "P9313_07551": "PMT0634",
@@ -382712,6 +386833,7 @@
     "P9313_08611": "PMT0731",
     "P9313_08621": "PMT0732",
     "P9313_08631": "PMT_0733",
+    "P9313_08641": "PMT0734",
     "P9313_08651": "PMT0735",
     "P9313_08661": "PMT0736",
     "P9313_08671": "PMT0737",
@@ -382747,6 +386869,7 @@
     "P9313_08971": "PMT0765",
     "P9313_08981": "PMT0766",
     "P9313_08991": "PMT0767",
+    "P9313_09001": "PMT0768",
     "P9313_09011": "PMT0769",
     "P9313_09021": "PMT0770",
     "P9313_09031": "PMT0771",
@@ -382781,6 +386904,7 @@
     "P9313_09331": "PMT0797",
     "P9313_09341": "PMT0798",
     "P9313_09351": "PMT0799",
+    "P9313_09361": "PMT0800",
     "P9313_09371": "PMT0801",
     "P9313_09371 (PMT0801)": "PMT0801",
     "P9313_09381": "PMT0802",
@@ -382823,10 +386947,12 @@
     "P9313_09741": "PMT_2439",
     "P9313_09751": "PMT0832",
     "P9313_09761": "PMT_2440",
+    "P9313_09771": "PMT0833",
     "P9313_09781": "PMT0834",
     "P9313_09791": "PMT0835",
     "P9313_09801": "PMT_2441",
     "P9313_09811": "PMT0836",
+    "P9313_09821": "PMT0837",
     "P9313_09831": "PMT_0838",
     "P9313_09841": "PMT_2443",
     "P9313_09861": "PMT_2444",
@@ -382892,6 +387018,7 @@
     "P9313_10411": "PMT_2461",
     "P9313_10421": "PMT0880",
     "P9313_10431": "RG24_RS04620",
+    "P9313_10441": "PMT0882",
     "P9313_10451": "PMT0883",
     "P9313_10461": "PMT0884",
     "P9313_10471": "PMT_2463",
@@ -382998,11 +387125,13 @@
     "P9313_11461": "PMT_2512",
     "P9313_11471": "PMT_0942",
     "P9313_11481": "PMT0943",
+    "P9313_11491": "PMT0944",
     "P9313_11501": "PMT0945",
     "P9313_11511": "PMT_2513",
     "P9313_11521": "PMT0946",
     "P9313_11531": "PMT_2514",
     "P9313_11541": "PMT_2515",
+    "P9313_11551": "PMT0947",
     "P9313_11561": "PMT_2516",
     "P9313_11571": "PMT_2517",
     "P9313_11581": "PMT_2518",
@@ -383023,9 +387152,11 @@
     "P9313_11731": "PMT0955",
     "P9313_11741": "PMT_2526",
     "P9313_11751": "PMT0956",
+    "P9313_11761": "PMT0960",
     "P9313_11771": "PMT0958",
     "P9313_11781": "PMT_2527",
     "P9313_11791": "PMT0959",
+    "P9313_11801": "PMT0960",
     "P9313_11811": "PMT_2528",
     "P9313_11821": "PMT_0961",
     "P9313_11831": "PMT_2529",
@@ -383039,11 +387170,15 @@
     "P9313_11911": "PMT0965",
     "P9313_11921": "PMT0966",
     "P9313_11931": "PMT0967",
+    "P9313_11941": "PMT0968",
+    "P9313_11951": "PMT0969",
     "P9313_11961": "PMT_2534",
+    "P9313_11971": "PMT0970",
     "P9313_11981": "PMT_2535",
     "P9313_11991": "PMT_0971",
     "P9313_12001": "PMT_2536",
     "P9313_12011": "PMT0972",
+    "P9313_12021": "PMT0973",
     "P9313_12031": "PMT0974",
     "P9313_12041": "PMT0975",
     "P9313_12051": "PMT_0976",
@@ -383064,7 +387199,9 @@
     "P9313_12211": "PMT_2544",
     "P9313_12221": "PMT_2545",
     "P9313_12231": "PMT_2546",
+    "P9313_12241": "PMT0986",
     "P9313_12251": "PMT_2547",
+    "P9313_12261": "PMT0987",
     "P9313_12271": "PMT_2548",
     "P9313_12281": "RG24_RS05275",
     "P9313_12291": "PMT_2549",
@@ -383094,6 +387231,7 @@
     "P9313_12521": "PMT1004",
     "P9313_12531": "PMT1005",
     "P9313_12541": "PMT_2560",
+    "P9313_12551": "PMT1006",
     "P9313_12561": "PMT1007",
     "P9313_12571": "PMT_2561",
     "P9313_12581": "PMT_2562",
@@ -383129,6 +387267,7 @@
     "P9313_12861": "PMT_2578",
     "P9313_12871": "PMT_2579",
     "P9313_12881": "PMT_2580",
+    "P9313_12891": "PMT1021",
     "P9313_12901": "PMT_2581",
     "P9313_12911": "PMT_2582",
     "P9313_12921": "PMT_1022",
@@ -383182,6 +387321,8 @@
     "P9313_13401": "PMT1047",
     "P9313_13411": "PMT_2613",
     "P9313_13421": "PMT1048",
+    "P9313_13431": "PMT1049",
+    "P9313_13441": "PMT1050",
     "P9313_13451": "PMT1051",
     "P9313_13461": "PMT1052",
     "P9313_13471": "PMT1053",
@@ -383258,8 +387399,10 @@
     "P9313_14191": "PMT_2625",
     "P9313_14201": "PMT1114",
     "P9313_14211": "PMT_2626",
+    "P9313_14221": "PMT1115",
     "P9313_14231": "PMT_2627",
     "P9313_14241": "PMT1116",
+    "P9313_14251": "PMT1117",
     "P9313_14261": "PMT1118",
     "P9313_14271": "PMT1119",
     "P9313_14281": "PMT1120",
@@ -383271,6 +387414,7 @@
     "P9313_14341": "PMT1126",
     "P9313_14351": "PMT1127",
     "P9313_14361": "PMT1128",
+    "P9313_14371": "PMT1129",
     "P9313_14381": "PMT_1130",
     "P9313_14391": "PMT1131",
     "P9313_14401": "PMT1132",
@@ -383458,6 +387602,7 @@
     "P9313_16181": "PMT1284",
     "P9313_16191": "PMT_2661",
     "P9313_16201": "PMT_1285",
+    "P9313_16211": "PMT1286",
     "P9313_16221": "PMT1287",
     "P9313_16231": "PMT_2662",
     "P9313_16241": "PMT_2663",
@@ -383501,6 +387646,7 @@
     "P9313_16611": "PMT1318",
     "P9313_16621": "PMT1319",
     "P9313_16631": "PMT1320",
+    "P9313_16641": "PMT1321",
     "P9313_16651": "PMT1322",
     "P9313_16661": "PMT1323",
     "P9313_16671": "PMT1324",
@@ -383519,6 +387665,7 @@
     "P9313_16801": "PMT_2676",
     "P9313_16811": "PMT1334",
     "P9313_16821": "PMT1335",
+    "P9313_16831": "PMT1336",
     "P9313_16841": "PMT1337",
     "P9313_16851": "PMT1338",
     "P9313_16861": "PMT1339",
@@ -383568,16 +387715,21 @@
     "P9313_17301": "PMT1380",
     "P9313_17311": "PMT1381",
     "P9313_17321": "PMT_1382",
+    "P9313_17331": "PMT1383",
     "P9313_17341": "PMT_2680",
     "P9313_17351": "PMT_2681",
     "P9313_17361": "PMT_2682",
     "P9313_17371": "PMT_2683",
     "P9313_17381": "PMT1384",
+    "P9313_17391": "PMT1385",
     "P9313_17401": "PMT1386",
+    "P9313_17411": "PMT1387",
     "P9313_17421": "PMT_2684",
     "P9313_17431": "PMT_2685",
     "P9313_17441": "PMT1388",
     "P9313_17451": "PMT_2686",
+    "P9313_17461": "PMT1389",
+    "P9313_17471": "PMT1390",
     "P9313_17481": "PMT_2687",
     "P9313_17491": "PMT_2688",
     "P9313_17501": "PMT_2689",
@@ -383679,6 +387831,7 @@
     "P9313_18461": "PMT1462",
     "P9313_18471": "PMT1463",
     "P9313_18481": "PMT1464",
+    "P9313_18491": "PMT1465",
     "P9313_18501": "PMT1466",
     "P9313_18511": "PMT1467",
     "P9313_18521": "PMT1468",
@@ -383752,9 +387905,12 @@
     "P9313_19211": "PMT1525",
     "P9313_19221": "PMT1526",
     "P9313_19231": "PMT1527",
+    "P9313_19241": "PMT1529",
+    "P9313_19251": "PMT1530",
     "P9313_19261": "PMT_2729",
     "P9313_19271": "PMT1531",
     "P9313_19281": "PMT1532",
+    "P9313_19291": "PMT1533",
     "P9313_19301": "PMT1534",
     "P9313_19311": "PMT_2730",
     "P9313_19321": "PMT1535",
@@ -383801,6 +387957,7 @@
     "P9313_19721": "PMT1563",
     "P9313_19731": "PMT_1564",
     "P9313_19741": "PMT1565",
+    "P9313_19751": "PMT1566",
     "P9313_19761": "PMT_2745",
     "P9313_19771": "PMT_2746",
     "P9313_19781": "PMT1567",
@@ -383837,10 +387994,14 @@
     "P9313_20081": "PMT1591",
     "P9313_20091": "PMT1592",
     "P9313_20101": "PMT1593",
+    "P9313_20111": "PMT1594",
     "P9313_20121": "PMT1595",
     "P9313_20131": "PMT1596",
     "P9313_20141": "PMT_2755",
+    "P9313_20151": "PMT1597",
+    "P9313_20161": "PMT1598",
     "P9313_20171": "PMT_2756",
+    "P9313_20181": "PMT1599",
     "P9313_20191": "PMT_2757",
     "P9313_20201": "PMT1600",
     "P9313_20211": "PMT_2758",
@@ -383859,7 +388020,9 @@
     "P9313_20341": "PMT1608",
     "P9313_20351": "PMT_2764",
     "P9313_20361": "PMT_2765",
+    "P9313_20371": "PMT1609",
     "P9313_20381": "PMT_1610",
+    "P9313_20391": "PMT1611",
     "P9313_20401": "PMT1612",
     "P9313_20411": "PMT1613",
     "P9313_20421": "PMT1614",
@@ -383916,6 +388079,7 @@
     "P9313_20971": "PMT_1656",
     "P9313_20981": "PMT1657",
     "P9313_20991": "PMT_2783",
+    "P9313_21001": "PMT1658",
     "P9313_21011": "PMT1659",
     "P9313_21021": "PMT1660",
     "P9313_21031": "PMT1661",
@@ -383948,6 +388112,7 @@
     "P9313_21321": "PMT1681",
     "P9313_21341": "PMT1682",
     "P9313_21351": "PMT1683",
+    "P9313_21371": "PMT1684",
     "P9313_21381": "PMT_2796",
     "P9313_21391": "PMT1685",
     "P9313_21401": "PMT_2797",
@@ -383966,6 +388131,7 @@
     "P9313_21551": "PMT1697",
     "P9313_21561": "PMT_2801",
     "P9313_21571": "PMT_2802",
+    "P9313_21581": "PMT1698",
     "P9313_21591": "PMT_1699",
     "P9313_21601": "PMT_2803",
     "P9313_21611": "PMT_2804",
@@ -384076,6 +388242,7 @@
     "P9313_22681": "PMT1794",
     "P9313_22691": "PMT_2817",
     "P9313_22701": "PMT1795",
+    "P9313_22711": "PMT1796",
     "P9313_22721": "PMT1797",
     "P9313_22731": "PMT1798",
     "P9313_22741": "PMT1799",
@@ -384092,6 +388259,7 @@
     "P9313_22851": "PMT1809",
     "P9313_22861": "PMT1810",
     "P9313_22871": "PMT_1811",
+    "P9313_22881": "PMT1812",
     "P9313_22891": "PMT1813",
     "P9313_22901": "PMT_2820",
     "P9313_22911": "PMT_2821",
@@ -384225,6 +388393,7 @@
     "P9313_24181": "PMT1921",
     "P9313_24191": "PMT1922",
     "P9313_24201": "PMT1915",
+    "P9313_24211": "PMT1924",
     "P9313_24221": "PMT_2846",
     "P9313_24231": "PMT1925",
     "P9313_24241": "PMT_2847",
@@ -384234,16 +388403,19 @@
     "P9313_24271": "PMT1928",
     "P9313_24281": "PMT1929",
     "P9313_24291": "PMT1930",
+    "P9313_24301": "PMT1932",
     "P9313_24311": "PMT_2848",
     "P9313_24321": "PMT1933",
     "P9313_24331": "PMT1934",
     "P9313_24341": "PMT_2849",
     "P9313_24351": "PMT1935",
+    "P9313_24361": "PMT1936",
     "P9313_24371": "PMT_2850",
     "P9313_24381": "PMT_1937",
     "P9313_24391": "PMT1938",
     "P9313_24401": "PMT1939",
     "P9313_24411": "PMT1940",
+    "P9313_24421": "PMT1941",
     "P9313_24431": "PMT1942",
     "P9313_24441": "PMT1943",
     "P9313_24451": "PMT1944",
@@ -384338,6 +388510,7 @@
     "P9313_25351": "PMT_2022",
     "P9313_25361": "PMT_2023",
     "P9313_25371": "PMT2024",
+    "P9313_25381": "PMT2025",
     "P9313_25391": "PMT2026",
     "P9313_25401": "PMT2027",
     "P9313_25411": "PMT_2864",
@@ -384371,6 +388544,7 @@
     "P9313_25691": "PMT_2869",
     "P9313_25701": "PMT_2051",
     "P9313_25711": "PMT_2052",
+    "P9313_25721": "PMT2053",
     "P9313_25731": "PMT2054",
     "P9313_25741": "PMT_2870",
     "P9313_25751": "PMT2055",
@@ -384406,6 +388580,7 @@
     "P9313_26061": "PMT_2882",
     "P9313_26071": "PMT2077",
     "P9313_26081": "PMT_2883",
+    "P9313_26091": "PMT2078",
     "P9313_26101": "PMT_2079",
     "P9313_26111": "PMT_2884",
     "P9313_26121": "PMT_2885",
@@ -384443,6 +388618,7 @@
     "P9313_26441": "PMT2109",
     "P9313_26451": "PMT2110",
     "P9313_26461": "PMT2111",
+    "P9313_26471": "PMT2112",
     "P9313_26481": "PMT2113",
     "P9313_26491": "PMT2114",
     "P9313_26501": "PMT_2890",
@@ -384472,6 +388648,7 @@
     "P9313_26741": "PMT2130",
     "P9313_26751": "PMT2131",
     "P9313_26761": "PMT2132",
+    "P9313_26771": "PMT2133",
     "P9313_26781": "PMT_2902",
     "P9313_26791": "PMT_2134",
     "P9313_26801": "PMT_2903",
@@ -384558,6 +388735,7 @@
     "P9313_27611": "PMT2204",
     "P9313_27621": "PMT2205",
     "P9313_27631": "PMT_2915",
+    "P9313_27641": "PMT2206",
     "P9313_27651": "PMT2207",
     "P9313_27661": "PMT2208",
     "P9313_27671": "PMT2209",
@@ -384588,6 +388766,7 @@
     "P9313_27921": "PMT2229",
     "P9313_27931": "PMT2230",
     "P9313_27941": "PMT2231",
+    "P9313_27951": "PMT2232",
     "P9313_27971": "PMT2233",
     "P9313_27981": "PMT2234",
     "P9313_27991": "PMT2235",
@@ -386832,6 +391011,7 @@
     "PMT_0061": "PMT0061",
     "PMT_0062": "PMT0062",
     "PMT_0063": "PMT0063",
+    "PMT_0064": "PMT0064",
     "PMT_0065": "PMT0065",
     "PMT_0066": "PMT0066",
     "PMT_0067": "PMT0067",
@@ -386921,7 +391101,9 @@
     "PMT_0163": "PMT0163",
     "PMT_0164": "PMT0164",
     "PMT_0165": "PMT0165",
+    "PMT_0167": "PMT0167",
     "PMT_0168": "PMT0168",
+    "PMT_0169": "PMT0169",
     "PMT_0170": "PMT0170",
     "PMT_0171": "PMT0171",
     "PMT_0172": "PMT0172",
@@ -387024,21 +391206,27 @@
     "PMT_0272": "PMT0272",
     "PMT_0273": "PMT0273",
     "PMT_0274": "PMT0274",
+    "PMT_0276": "PMT0276",
     "PMT_0277": "PMT0277",
     "PMT_0278": "PMT0278",
     "PMT_0279": "PMT0298",
     "PMT_0280": "PMT0280",
+    "PMT_0281": "PMT0281",
+    "PMT_0282": "PMT0282",
     "PMT_0283": "PMT0283",
     "PMT_0284": "PMT0284",
     "PMT_0285": "PMT0285",
     "PMT_0286": "PMT0286",
     "PMT_0287": "PMT0287",
+    "PMT_0288": "PMT0288",
     "PMT_0290": "PMT0290",
     "PMT_0291": "PMT0291",
+    "PMT_0292": "PMT0292",
     "PMT_0293": "PMT0293",
     "PMT_0294": "PMT0294",
     "PMT_0295": "PMT0295",
     "PMT_0296": "PMT0296",
+    "PMT_0297": "PMT0297",
     "PMT_0298": "PMT0298",
     "PMT_0299": "PMT0299",
     "PMT_0300": "PMT0300",
@@ -387047,6 +391235,7 @@
     "PMT_0303": "PMT0303",
     "PMT_0304,RG24_RS01620": "PMT_0304",
     "PMT_0305": "PMT0305",
+    "PMT_0306": "PMT0306",
     "PMT_0308": "PMT0308",
     "PMT_0309": "PMT0309",
     "PMT_0310": "PMT0310",
@@ -387056,11 +391245,13 @@
     "PMT_0314": "PMT0314",
     "PMT_0315": "PMT0315",
     "PMT_0316": "PMT0316",
+    "PMT_0317": "PMT0317",
     "PMT_0319": "PMT0319",
     "PMT_0320": "PMT0320",
     "PMT_0321": "PMT0321",
     "PMT_0322": "PMT0322",
     "PMT_0323": "PMT0323",
+    "PMT_0324": "PMT0324",
     "PMT_0325": "PMT0325",
     "PMT_0326": "PMT0326",
     "PMT_0327": "PMT0327",
@@ -387114,6 +391305,7 @@
     "PMT_0380": "PMT0380",
     "PMT_0381,RG24_RS02045": "PMT_0381",
     "PMT_0382": "PMT0382",
+    "PMT_0383": "PMT0383",
     "PMT_0384": "PMT0384",
     "PMT_0385": "PMT0385",
     "PMT_0386": "PMT0386",
@@ -387140,6 +391332,7 @@
     "PMT_0407": "PMT0407",
     "PMT_0408": "PMT0408",
     "PMT_0409": "PMT0409",
+    "PMT_0410": "PMT0410",
     "PMT_0411": "PMT0411",
     "PMT_0412": "PMT0412",
     "PMT_0413": "PMT0413",
@@ -387179,6 +391372,8 @@
     "PMT_0447": "PMT0447",
     "PMT_0449": "PMT0449",
     "PMT_0450": "PMT0450",
+    "PMT_0451": "PMT0451",
+    "PMT_0452": "PMT0452",
     "PMT_0453": "PMT0453",
     "PMT_0454": "PMT0454",
     "PMT_0455": "PMT0455",
@@ -387187,6 +391382,7 @@
     "PMT_0458": "PMT0458",
     "PMT_0459": "PMT0459",
     "PMT_0460": "PMT0460",
+    "PMT_0461": "PMT0461",
     "PMT_0462": "PMT0462",
     "PMT_0463": "PMT0463",
     "PMT_0464": "PMT0464",
@@ -387201,6 +391397,7 @@
     "PMT_0473": "PMT0473",
     "PMT_0474": "PMT0474",
     "PMT_0475": "PMT0475",
+    "PMT_0476": "PMT0476",
     "PMT_0477": "PMT0477",
     "PMT_0478": "PMT0478",
     "PMT_0479": "PMT0479",
@@ -387211,6 +391408,7 @@
     "PMT_0484": "PMT0484",
     "PMT_0485": "PMT0485",
     "PMT_0486": "PMT0486",
+    "PMT_0487": "PMT0487",
     "PMT_0488,RG24_RS02585": "PMT_0488",
     "PMT_0489": "PMT0489",
     "PMT_0492": "PMT0492",
@@ -387221,6 +391419,7 @@
     "PMT_0497": "PMT0497",
     "PMT_0498": "PMT0498",
     "PMT_0499": "PMT0499",
+    "PMT_0500": "PMT0500",
     "PMT_0501": "PMT0501",
     "PMT_0502": "PMT0502",
     "PMT_0503": "PMT0503",
@@ -387281,6 +391480,7 @@
     "PMT_0560": "PMT0560",
     "PMT_0561": "PMT0561",
     "PMT_0562": "PMT0562",
+    "PMT_0563": "PMT0563",
     "PMT_0564": "PMT0564",
     "PMT_0565": "PMT0565",
     "PMT_0566": "PMT0566",
@@ -387330,6 +391530,7 @@
     "PMT_0611": "PMT0611",
     "PMT_0612": "PMT0612",
     "PMT_0613,RG24_RS03225": "PMT_0613",
+    "PMT_0614": "PMT0614",
     "PMT_0615": "PMT0615",
     "PMT_0616": "PMT0616",
     "PMT_0617": "PMT0617",
@@ -387337,6 +391538,7 @@
     "PMT_0619": "PMT0619",
     "PMT_0620": "PMT0620",
     "PMT_0621": "PMT0621",
+    "PMT_0622": "PMT0622",
     "PMT_0623": "PMT0623",
     "PMT_0624": "PMT0624",
     "PMT_0625": "PMT0625",
@@ -387345,6 +391547,7 @@
     "PMT_0628,RG24_RS03305": "PMT_0628",
     "PMT_0629": "PMT0629",
     "PMT_0630": "PMT0630",
+    "PMT_0631": "PMT0631",
     "PMT_0632": "PMT0632",
     "PMT_0633": "PMT0633",
     "PMT_0634": "PMT0634",
@@ -387443,6 +391646,7 @@
     "PMT_0730": "PMT0730",
     "PMT_0731": "PMT0731",
     "PMT_0732": "PMT0732",
+    "PMT_0734": "PMT0734",
     "PMT_0735": "PMT0735",
     "PMT_0736": "PMT0736",
     "PMT_0737": "PMT0737",
@@ -387473,6 +391677,7 @@
     "PMT_0765": "PMT0765",
     "PMT_0766": "PMT0766",
     "PMT_0767": "PMT0767",
+    "PMT_0768": "PMT0768",
     "PMT_0769": "PMT0769",
     "PMT_0770": "PMT0770",
     "PMT_0771": "PMT0771",
@@ -387504,6 +391709,7 @@
     "PMT_0797": "PMT0797",
     "PMT_0798": "PMT0798",
     "PMT_0799": "PMT0799",
+    "PMT_0800": "PMT0800",
     "PMT_0801": "PMT0801",
     "PMT_0802": "PMT0802",
     "PMT_0803": "PMT0803",
@@ -387536,9 +391742,11 @@
     "PMT_0830": "PMT0830",
     "PMT_0831,RG24_RS04340": "PMT_0831",
     "PMT_0832": "PMT0832",
+    "PMT_0833": "PMT0833",
     "PMT_0834": "PMT0834",
     "PMT_0835": "PMT0835",
     "PMT_0836": "PMT0836",
+    "PMT_0837": "PMT0837",
     "PMT_0838,RG24_RS04380": "PMT_0838",
     "PMT_0840": "PMT0840",
     "PMT_0842,RG24_RS04400": "PMT_0842",
@@ -387579,6 +391787,7 @@
     "PMT_0878": "PMT0878",
     "PMT_0880": "PMT0880",
     "PMT_0881": "RG24_RS04620",
+    "PMT_0882": "PMT0882",
     "PMT_0883": "PMT0883",
     "PMT_0884": "PMT0884",
     "PMT_0885,RG24_RS04640": "PMT_0885",
@@ -387635,8 +391844,10 @@
     "PMT_0939": "PMT0939",
     "PMT_0941": "PMT0941",
     "PMT_0943": "PMT0943",
+    "PMT_0944": "PMT0944",
     "PMT_0945": "PMT0945",
     "PMT_0946": "PMT0946",
+    "PMT_0947": "PMT0947",
     "PMT_0948": "PMT0948",
     "PMT_0949": "PMT0949",
     "PMT_0950": "PMT0950",
@@ -387646,16 +391857,22 @@
     "PMT_0954": "PMT0954",
     "PMT_0955": "PMT0955",
     "PMT_0956": "PMT0956",
+    "PMT_0957": "PMT0960",
     "PMT_0958": "PMT0958",
     "PMT_0959": "PMT0959",
+    "PMT_0960": "PMT0960",
     "PMT_0962": "PMT0962",
     "PMT_0963": "PMT0982",
     "PMT_0964": "PMT0964",
     "PMT_0965": "PMT0965",
     "PMT_0966": "PMT0966",
     "PMT_0967": "PMT0967",
+    "PMT_0968": "PMT0968",
+    "PMT_0969": "PMT0969",
+    "PMT_0970": "PMT0970",
     "PMT_0971,RG24_RS05185": "PMT_0971",
     "PMT_0972": "PMT0972",
+    "PMT_0973": "PMT0973",
     "PMT_0974": "PMT0974",
     "PMT_0975": "PMT0975",
     "PMT_0977": "PMT0977",
@@ -387666,6 +391883,8 @@
     "PMT_0982": "PMT0982",
     "PMT_0983": "PMT0983",
     "PMT_0985,RG24_RS05255": "PMT_0985",
+    "PMT_0986": "PMT0986",
+    "PMT_0987": "PMT0987",
     "PMT_0988": "RG24_RS05275",
     "PMT_0989": "PMT0989",
     "PMT_0991": "PMT0991",
@@ -387680,6 +391899,7 @@
     "PMT_1003": "PMT1003",
     "PMT_1004": "PMT1004",
     "PMT_1005": "PMT1005",
+    "PMT_1006": "PMT1006",
     "PMT_1007": "PMT1007",
     "PMT_1008": "PMT1008",
     "PMT_1009": "PMT1009",
@@ -387693,6 +391913,7 @@
     "PMT_1017": "PMT1017",
     "PMT_1018": "PMT1018",
     "PMT_1019": "PMT1019",
+    "PMT_1021": "PMT1021",
     "PMT_1024": "PMT1024",
     "PMT_1025": "PMT1025",
     "PMT_1026": "PMT1026",
@@ -387717,6 +391938,8 @@
     "PMT_1046": "PMT1046",
     "PMT_1047": "PMT1047",
     "PMT_1048": "PMT1048",
+    "PMT_1049": "PMT1049",
+    "PMT_1050": "PMT1050",
     "PMT_1051": "PMT1051",
     "PMT_1052": "PMT1052",
     "PMT_1053": "PMT1053",
@@ -387780,7 +392003,9 @@
     "PMT_1112": "PMT1112",
     "PMT_1113": "PMT1113",
     "PMT_1114": "PMT1114",
+    "PMT_1115": "PMT1115",
     "PMT_1116": "PMT1116",
+    "PMT_1117": "PMT1117",
     "PMT_1118": "PMT1118",
     "PMT_1119": "PMT1119",
     "PMT_1120": "PMT1120",
@@ -387792,6 +392017,7 @@
     "PMT_1126": "PMT1126",
     "PMT_1127": "PMT1127",
     "PMT_1128": "PMT1128",
+    "PMT_1129": "PMT1129",
     "PMT_1131": "PMT1131",
     "PMT_1132": "PMT1132",
     "PMT_1133": "PMT1133",
@@ -387940,6 +392166,7 @@
     "PMT_1282": "PMT1282",
     "PMT_1283": "PMT1283",
     "PMT_1284": "PMT1284",
+    "PMT_1286": "PMT1286",
     "PMT_1287": "PMT1287",
     "PMT_1288": "PMT1288",
     "PMT_1289": "PMT1289",
@@ -387973,6 +392200,7 @@
     "PMT_1318": "PMT1318",
     "PMT_1319": "PMT1319",
     "PMT_1320": "PMT1320",
+    "PMT_1321": "PMT1321",
     "PMT_1322": "PMT1322",
     "PMT_1323": "PMT1323",
     "PMT_1324": "PMT1324",
@@ -387987,6 +392215,7 @@
     "PMT_1333": "PMT1333",
     "PMT_1334": "PMT1334",
     "PMT_1335": "PMT1335",
+    "PMT_1336": "PMT1336",
     "PMT_1337": "PMT1337",
     "PMT_1338": "PMT1338",
     "PMT_1339": "PMT1339",
@@ -388031,9 +392260,14 @@
     "PMT_1379": "PMT1379",
     "PMT_1380": "PMT1380",
     "PMT_1381": "PMT1381",
+    "PMT_1383": "PMT1383",
     "PMT_1384": "PMT1384",
+    "PMT_1385": "PMT1385",
     "PMT_1386": "PMT1386",
+    "PMT_1387": "PMT1387",
     "PMT_1388": "PMT1388",
+    "PMT_1389": "PMT1389",
+    "PMT_1390": "PMT1390",
     "PMT_1391": "PMT1391",
     "PMT_1392": "PMT1392",
     "PMT_1393": "PMT1393",
@@ -388108,6 +392342,7 @@
     "PMT_1462": "PMT1462",
     "PMT_1463": "PMT1463",
     "PMT_1464": "PMT1464",
+    "PMT_1465": "PMT1465",
     "PMT_1466": "PMT1466",
     "PMT_1467": "PMT1467",
     "PMT_1468": "PMT1468",
@@ -388168,8 +392403,11 @@
     "PMT_1526": "PMT1526",
     "PMT_1527": "PMT1527",
     "PMT_1528": "PMT1528",
+    "PMT_1529": "PMT1529",
+    "PMT_1530": "PMT1530",
     "PMT_1531": "PMT1531",
     "PMT_1532": "PMT1532",
+    "PMT_1533": "PMT1533",
     "PMT_1534": "PMT1534",
     "PMT_1535": "PMT1535",
     "PMT_1536": "PMT1536",
@@ -388202,6 +392440,7 @@
     "PMT_1563": "PMT1563",
     "PMT_1564,RG24_RS08375": "PMT_1564",
     "PMT_1565": "PMT1565",
+    "PMT_1566": "PMT1566",
     "PMT_1567": "PMT1567",
     "PMT_1568": "PMT1568",
     "PMT_1569": "PMT1569",
@@ -388228,8 +392467,12 @@
     "PMT_1591": "PMT1591",
     "PMT_1592": "PMT1592",
     "PMT_1593": "PMT1593",
+    "PMT_1594": "PMT1594",
     "PMT_1595": "PMT1595",
     "PMT_1596": "PMT1596",
+    "PMT_1597": "PMT1597",
+    "PMT_1598": "PMT1598",
+    "PMT_1599": "PMT1599",
     "PMT_1600": "PMT1600",
     "PMT_1601": "PMT1601",
     "PMT_1602": "PMT1602",
@@ -388239,7 +392482,9 @@
     "PMT_1606": "PMT1606",
     "PMT_1607": "PMT1607",
     "PMT_1608": "PMT1608",
+    "PMT_1609": "PMT1609",
     "PMT_1610,RG24_RS08620": "PMT_1610",
+    "PMT_1611": "PMT1611",
     "PMT_1612": "PMT1612",
     "PMT_1613": "PMT1613",
     "PMT_1614": "PMT1614",
@@ -388284,6 +392529,7 @@
     "PMT_1653": "PMT1653",
     "PMT_1654": "PMT1654",
     "PMT_1657": "PMT1657",
+    "PMT_1658": "PMT1658",
     "PMT_1659": "PMT1659",
     "PMT_1660": "PMT1660",
     "PMT_1661": "PMT1661",
@@ -388307,6 +392553,7 @@
     "PMT_1681": "PMT1681",
     "PMT_1682": "PMT1682",
     "PMT_1683": "PMT1683",
+    "PMT_1684": "PMT1684",
     "PMT_1685": "PMT1685",
     "PMT_1686": "PMT1686",
     "PMT_1687": "PMT1687",
@@ -388319,6 +392566,7 @@
     "PMT_1695": "PMT1695",
     "PMT_1696": "PMT1696",
     "PMT_1697": "PMT1697",
+    "PMT_1698": "PMT1698",
     "PMT_1700": "PMT1700",
     "PMT_1701": "PMT1701",
     "PMT_1702": "PMT1702",
@@ -388413,6 +392661,7 @@
     "PMT_1793": "PMT1793",
     "PMT_1794": "PMT1794",
     "PMT_1795": "PMT1795",
+    "PMT_1796": "PMT1796",
     "PMT_1797": "PMT1797",
     "PMT_1798": "PMT1798",
     "PMT_1799": "PMT1799",
@@ -388427,6 +392676,7 @@
     "PMT_1808": "PMT1808",
     "PMT_1809": "PMT1809",
     "PMT_1810": "PMT1810",
+    "PMT_1812": "PMT1812",
     "PMT_1813": "PMT1813",
     "PMT_1814": "PMT1814",
     "PMT_1815": "PMT1815",
@@ -388529,18 +392779,22 @@
     "PMT_1921": "PMT1921",
     "PMT_1922": "PMT1922",
     "PMT_1923": "PMT1915",
+    "PMT_1924": "PMT1924",
     "PMT_1925": "PMT1925",
     "PMT_1926": "PMT1926",
     "PMT_1927": "PMT1927",
     "PMT_1928": "PMT1928",
     "PMT_1929": "PMT1929",
     "PMT_1930": "PMT1930",
+    "PMT_1932": "PMT1932",
     "PMT_1933": "PMT1933",
     "PMT_1934": "PMT1934",
     "PMT_1935": "PMT1935",
+    "PMT_1936": "PMT1936",
     "PMT_1938": "PMT1938",
     "PMT_1939": "PMT1939",
     "PMT_1940": "PMT1940",
+    "PMT_1941": "PMT1941",
     "PMT_1942": "PMT1942",
     "PMT_1943": "PMT1943",
     "PMT_1944": "PMT1944",
@@ -388622,6 +392876,7 @@
     "PMT_2020": "PMT2020",
     "PMT_2021": "PMT2021",
     "PMT_2024": "PMT2024",
+    "PMT_2025": "PMT2025",
     "PMT_2026": "PMT2026",
     "PMT_2027": "PMT2027",
     "PMT_2028": "PMT2028",
@@ -388646,6 +392901,7 @@
     "PMT_2047": "PMT2047",
     "PMT_2048": "PMT2048",
     "PMT_2049": "PMT2049",
+    "PMT_2053": "PMT2053",
     "PMT_2054": "PMT2054",
     "PMT_2055": "PMT2055",
     "PMT_2056": "PMT2056",
@@ -388669,6 +392925,7 @@
     "PMT_2075": "PMT2075",
     "PMT_2076": "PMT2076",
     "PMT_2077": "PMT2077",
+    "PMT_2078": "PMT2078",
     "PMT_2080": "PMT2080",
     "PMT_2081": "PMT2081",
     "PMT_2082": "PMT2082",
@@ -388701,6 +392958,7 @@
     "PMT_2109": "PMT2109",
     "PMT_2110": "PMT2110",
     "PMT_2111": "PMT2111",
+    "PMT_2112": "PMT2112",
     "PMT_2113": "PMT2113",
     "PMT_2114": "PMT2114",
     "PMT_2115": "PMT2115",
@@ -388720,6 +392978,7 @@
     "PMT_2130": "PMT2130",
     "PMT_2131": "PMT2131",
     "PMT_2132": "PMT2132",
+    "PMT_2133": "PMT2133",
     "PMT_2134,RG24_RS11400": "PMT_2134",
     "PMT_2135": "PMT2135",
     "PMT_2136": "PMT2136",
@@ -388788,6 +393047,7 @@
     "PMT_2203": "PMT2203",
     "PMT_2204": "PMT2204",
     "PMT_2205": "PMT2205",
+    "PMT_2206": "PMT2206",
     "PMT_2207": "PMT2207",
     "PMT_2208": "PMT2208",
     "PMT_2209": "PMT2209",
@@ -388813,6 +393073,7 @@
     "PMT_2229": "PMT2229",
     "PMT_2230": "PMT2230",
     "PMT_2231": "PMT2231",
+    "PMT_2232": "PMT2232",
     "PMT_2233": "PMT2233",
     "PMT_2234": "PMT2234",
     "PMT_2235": "PMT2235",
@@ -389063,6 +393324,8 @@
     "Q7V4Y0_PROMM": "PMT1804",
     "Q7V4Y4": "PMT1800",
     "Q7V4Y4_PROMM": "PMT1800",
+    "Q7V4Y8": "PMT1796",
+    "Q7V4Y8_PROMM": "PMT1796",
     "Q7V504": "PMT1778",
     "Q7V504_PROMM": "PMT1778",
     "Q7V512": "PMT1768",
@@ -389247,6 +393510,8 @@
     "Q7V7H0_PROMM": "PMT0776",
     "Q7V7H5": "PMT0771",
     "Q7V7H5_PROMM": "PMT0771",
+    "Q7V7H8": "PMT0768",
+    "Q7V7H8_PROMM": "PMT0768",
     "Q7V7J1": "PMT0754",
     "Q7V7J1_PROMM": "PMT0754",
     "Q7V7K0": "PMT0744",
@@ -394046,6 +398311,7 @@
     "arsA": "PMT1001",
     "arsJ": "PMT0999",
     "arsS": "PMT0862",
+    "asd": "PMT0064",
     "aslB": "PMT1520",
     "aspC": "PMT0779",
     "aspS": "PMT2216",
@@ -396758,6 +401024,7 @@
     "gene-PMT_0061": "PMT0061",
     "gene-PMT_0062": "PMT0062",
     "gene-PMT_0063": "PMT0063",
+    "gene-PMT_0064": "PMT0064",
     "gene-PMT_0065": "PMT0065",
     "gene-PMT_0066": "PMT0066",
     "gene-PMT_0067": "PMT0067",
@@ -396859,7 +401126,9 @@
     "gene-PMT_0164": "PMT0164",
     "gene-PMT_0165": "PMT0165",
     "gene-PMT_0166": "PMT_0166",
+    "gene-PMT_0167": "PMT0167",
     "gene-PMT_0168": "PMT0168",
+    "gene-PMT_0169": "PMT0169",
     "gene-PMT_0170": "PMT0170",
     "gene-PMT_0171": "PMT0171",
     "gene-PMT_0172": "PMT0172",
@@ -396965,22 +401234,28 @@
     "gene-PMT_0272": "PMT0272",
     "gene-PMT_0273": "PMT0273",
     "gene-PMT_0274": "PMT0274",
+    "gene-PMT_0276": "PMT0276",
     "gene-PMT_0277": "PMT0277",
     "gene-PMT_0278": "PMT0278",
     "gene-PMT_0279": "PMT0298",
     "gene-PMT_0280": "PMT0280",
+    "gene-PMT_0281": "PMT0281",
+    "gene-PMT_0282": "PMT0282",
     "gene-PMT_0283": "PMT0283",
     "gene-PMT_0284": "PMT0284",
     "gene-PMT_0285": "PMT0285",
     "gene-PMT_0286": "PMT0286",
     "gene-PMT_0287": "PMT0287",
+    "gene-PMT_0288": "PMT0288",
     "gene-PMT_0289": "PMT_0289",
     "gene-PMT_0290": "PMT0290",
     "gene-PMT_0291": "PMT0291",
+    "gene-PMT_0292": "PMT0292",
     "gene-PMT_0293": "PMT0293",
     "gene-PMT_0294": "PMT0294",
     "gene-PMT_0295": "PMT0295",
     "gene-PMT_0296": "PMT0296",
+    "gene-PMT_0297": "PMT0297",
     "gene-PMT_0298": "PMT0298",
     "gene-PMT_0299": "PMT0299",
     "gene-PMT_0300": "PMT0300",
@@ -396989,6 +401264,7 @@
     "gene-PMT_0303": "PMT0303",
     "gene-PMT_0304": "PMT_0304",
     "gene-PMT_0305": "PMT0305",
+    "gene-PMT_0306": "PMT0306",
     "gene-PMT_0307": "PMT_0307",
     "gene-PMT_0308": "PMT0308",
     "gene-PMT_0309": "PMT0309",
@@ -396999,12 +401275,14 @@
     "gene-PMT_0314": "PMT0314",
     "gene-PMT_0315": "PMT0315",
     "gene-PMT_0316": "PMT0316",
+    "gene-PMT_0317": "PMT0317",
     "gene-PMT_0318": "PMT_0318",
     "gene-PMT_0319": "PMT0319",
     "gene-PMT_0320": "PMT0320",
     "gene-PMT_0321": "PMT0321",
     "gene-PMT_0322": "PMT0322",
     "gene-PMT_0323": "PMT0323",
+    "gene-PMT_0324": "PMT0324",
     "gene-PMT_0325": "PMT0325",
     "gene-PMT_0326": "PMT0326",
     "gene-PMT_0327": "PMT0327",
@@ -397063,6 +401341,7 @@
     "gene-PMT_0380": "PMT0380",
     "gene-PMT_0381": "PMT_0381",
     "gene-PMT_0382": "PMT0382",
+    "gene-PMT_0383": "PMT0383",
     "gene-PMT_0384": "PMT0384",
     "gene-PMT_0385": "PMT0385",
     "gene-PMT_0386": "PMT0386",
@@ -397089,6 +401368,7 @@
     "gene-PMT_0407": "PMT0407",
     "gene-PMT_0408": "PMT0408",
     "gene-PMT_0409": "PMT0409",
+    "gene-PMT_0410": "PMT0410",
     "gene-PMT_0411": "PMT0411",
     "gene-PMT_0412": "PMT0412",
     "gene-PMT_0413": "PMT0413",
@@ -397129,6 +401409,8 @@
     "gene-PMT_0448": "PMT_0448",
     "gene-PMT_0449": "PMT0449",
     "gene-PMT_0450": "PMT0450",
+    "gene-PMT_0451": "PMT0451",
+    "gene-PMT_0452": "PMT0452",
     "gene-PMT_0453": "PMT0453",
     "gene-PMT_0454": "PMT0454",
     "gene-PMT_0455": "PMT0455",
@@ -397137,6 +401419,7 @@
     "gene-PMT_0458": "PMT0458",
     "gene-PMT_0459": "PMT0459",
     "gene-PMT_0460": "PMT0460",
+    "gene-PMT_0461": "PMT0461",
     "gene-PMT_0462": "PMT0462",
     "gene-PMT_0463": "PMT0463",
     "gene-PMT_0464": "PMT0464",
@@ -397151,6 +401434,7 @@
     "gene-PMT_0473": "PMT0473",
     "gene-PMT_0474": "PMT0474",
     "gene-PMT_0475": "PMT0475",
+    "gene-PMT_0476": "PMT0476",
     "gene-PMT_0477": "PMT0477",
     "gene-PMT_0478": "PMT0478",
     "gene-PMT_0479": "PMT0479",
@@ -397161,6 +401445,7 @@
     "gene-PMT_0484": "PMT0484",
     "gene-PMT_0485": "PMT0485",
     "gene-PMT_0486": "PMT0486",
+    "gene-PMT_0487": "PMT0487",
     "gene-PMT_0488": "PMT_0488",
     "gene-PMT_0489": "PMT0489",
     "gene-PMT_0490": "PMT_0490",
@@ -397173,6 +401458,7 @@
     "gene-PMT_0497": "PMT0497",
     "gene-PMT_0498": "PMT0498",
     "gene-PMT_0499": "PMT0499",
+    "gene-PMT_0500": "PMT0500",
     "gene-PMT_0501": "PMT0501",
     "gene-PMT_0502": "PMT0502",
     "gene-PMT_0503": "PMT0503",
@@ -397235,6 +401521,7 @@
     "gene-PMT_0560": "PMT0560",
     "gene-PMT_0561": "PMT0561",
     "gene-PMT_0562": "PMT0562",
+    "gene-PMT_0563": "PMT0563",
     "gene-PMT_0564": "PMT0564",
     "gene-PMT_0565": "PMT0565",
     "gene-PMT_0566": "PMT0566",
@@ -397285,6 +401572,7 @@
     "gene-PMT_0611": "PMT0611",
     "gene-PMT_0612": "PMT0612",
     "gene-PMT_0613": "PMT_0613",
+    "gene-PMT_0614": "PMT0614",
     "gene-PMT_0615": "PMT0615",
     "gene-PMT_0616": "PMT0616",
     "gene-PMT_0617": "PMT0617",
@@ -397292,6 +401580,7 @@
     "gene-PMT_0619": "PMT0619",
     "gene-PMT_0620": "PMT0620",
     "gene-PMT_0621": "PMT0621",
+    "gene-PMT_0622": "PMT0622",
     "gene-PMT_0623": "PMT0623",
     "gene-PMT_0624": "PMT0624",
     "gene-PMT_0625": "PMT0625",
@@ -397300,6 +401589,7 @@
     "gene-PMT_0628": "PMT_0628",
     "gene-PMT_0629": "PMT0629",
     "gene-PMT_0630": "PMT0630",
+    "gene-PMT_0631": "PMT0631",
     "gene-PMT_0632": "PMT0632",
     "gene-PMT_0633": "PMT0633",
     "gene-PMT_0634": "PMT0634",
@@ -397400,6 +401690,7 @@
     "gene-PMT_0731": "PMT0731",
     "gene-PMT_0732": "PMT0732",
     "gene-PMT_0733": "PMT_0733",
+    "gene-PMT_0734": "PMT0734",
     "gene-PMT_0735": "PMT0735",
     "gene-PMT_0736": "PMT0736",
     "gene-PMT_0737": "PMT0737",
@@ -397433,6 +401724,7 @@
     "gene-PMT_0765": "PMT0765",
     "gene-PMT_0766": "PMT0766",
     "gene-PMT_0767": "PMT0767",
+    "gene-PMT_0768": "PMT0768",
     "gene-PMT_0769": "PMT0769",
     "gene-PMT_0770": "PMT0770",
     "gene-PMT_0771": "PMT0771",
@@ -397464,6 +401756,7 @@
     "gene-PMT_0797": "PMT0797",
     "gene-PMT_0798": "PMT0798",
     "gene-PMT_0799": "PMT0799",
+    "gene-PMT_0800": "PMT0800",
     "gene-PMT_0801": "PMT0801",
     "gene-PMT_0802": "PMT0802",
     "gene-PMT_0803": "PMT0803",
@@ -397496,9 +401789,11 @@
     "gene-PMT_0830": "PMT0830",
     "gene-PMT_0831": "PMT_0831",
     "gene-PMT_0832": "PMT0832",
+    "gene-PMT_0833": "PMT0833",
     "gene-PMT_0834": "PMT0834",
     "gene-PMT_0835": "PMT0835",
     "gene-PMT_0836": "PMT0836",
+    "gene-PMT_0837": "PMT0837",
     "gene-PMT_0838": "PMT_0838",
     "gene-PMT_0840": "PMT0840",
     "gene-PMT_0841": "PMT_0841",
@@ -397542,6 +401837,7 @@
     "gene-PMT_0879": "PMT_0879",
     "gene-PMT_0880": "PMT0880",
     "gene-PMT_0881": "RG24_RS04620",
+    "gene-PMT_0882": "PMT0882",
     "gene-PMT_0883": "PMT0883",
     "gene-PMT_0884": "PMT0884",
     "gene-PMT_0885": "PMT_0885",
@@ -397601,8 +401897,10 @@
     "gene-PMT_0941": "PMT0941",
     "gene-PMT_0942": "PMT_0942",
     "gene-PMT_0943": "PMT0943",
+    "gene-PMT_0944": "PMT0944",
     "gene-PMT_0945": "PMT0945",
     "gene-PMT_0946": "PMT0946",
+    "gene-PMT_0947": "PMT0947",
     "gene-PMT_0948": "PMT0948",
     "gene-PMT_0949": "PMT0949",
     "gene-PMT_0950": "PMT0950",
@@ -397612,8 +401910,10 @@
     "gene-PMT_0954": "PMT0954",
     "gene-PMT_0955": "PMT0955",
     "gene-PMT_0956": "PMT0956",
+    "gene-PMT_0957": "PMT0960",
     "gene-PMT_0958": "PMT0958",
     "gene-PMT_0959": "PMT0959",
+    "gene-PMT_0960": "PMT0960",
     "gene-PMT_0961": "PMT_0961",
     "gene-PMT_0962": "PMT0962",
     "gene-PMT_0963": "PMT0982",
@@ -397621,8 +401921,12 @@
     "gene-PMT_0965": "PMT0965",
     "gene-PMT_0966": "PMT0966",
     "gene-PMT_0967": "PMT0967",
+    "gene-PMT_0968": "PMT0968",
+    "gene-PMT_0969": "PMT0969",
+    "gene-PMT_0970": "PMT0970",
     "gene-PMT_0971": "PMT_0971",
     "gene-PMT_0972": "PMT0972",
+    "gene-PMT_0973": "PMT0973",
     "gene-PMT_0974": "PMT0974",
     "gene-PMT_0975": "PMT0975",
     "gene-PMT_0976": "PMT_0976",
@@ -397634,6 +401938,8 @@
     "gene-PMT_0982": "PMT0982",
     "gene-PMT_0983": "PMT0983",
     "gene-PMT_0985": "PMT_0985",
+    "gene-PMT_0986": "PMT0986",
+    "gene-PMT_0987": "PMT0987",
     "gene-PMT_0988": "RG24_RS05275",
     "gene-PMT_0989": "PMT0989",
     "gene-PMT_0990": "PMT_0990",
@@ -397652,6 +401958,7 @@
     "gene-PMT_1003": "PMT1003",
     "gene-PMT_1004": "PMT1004",
     "gene-PMT_1005": "PMT1005",
+    "gene-PMT_1006": "PMT1006",
     "gene-PMT_1007": "PMT1007",
     "gene-PMT_1008": "PMT1008",
     "gene-PMT_1009": "PMT1009",
@@ -397665,6 +401972,7 @@
     "gene-PMT_1017": "PMT1017",
     "gene-PMT_1018": "PMT1018",
     "gene-PMT_1019": "PMT1019",
+    "gene-PMT_1021": "PMT1021",
     "gene-PMT_1022": "PMT_1022",
     "gene-PMT_1024": "PMT1024",
     "gene-PMT_1025": "PMT1025",
@@ -397691,6 +401999,8 @@
     "gene-PMT_1046": "PMT1046",
     "gene-PMT_1047": "PMT1047",
     "gene-PMT_1048": "PMT1048",
+    "gene-PMT_1049": "PMT1049",
+    "gene-PMT_1050": "PMT1050",
     "gene-PMT_1051": "PMT1051",
     "gene-PMT_1052": "PMT1052",
     "gene-PMT_1053": "PMT1053",
@@ -397755,7 +402065,9 @@
     "gene-PMT_1112": "PMT1112",
     "gene-PMT_1113": "PMT1113",
     "gene-PMT_1114": "PMT1114",
+    "gene-PMT_1115": "PMT1115",
     "gene-PMT_1116": "PMT1116",
+    "gene-PMT_1117": "PMT1117",
     "gene-PMT_1118": "PMT1118",
     "gene-PMT_1119": "PMT1119",
     "gene-PMT_1120": "PMT1120",
@@ -397767,6 +402079,7 @@
     "gene-PMT_1126": "PMT1126",
     "gene-PMT_1127": "PMT1127",
     "gene-PMT_1128": "PMT1128",
+    "gene-PMT_1129": "PMT1129",
     "gene-PMT_1130": "PMT_1130",
     "gene-PMT_1131": "PMT1131",
     "gene-PMT_1132": "PMT1132",
@@ -397920,6 +402233,7 @@
     "gene-PMT_1283": "PMT1283",
     "gene-PMT_1284": "PMT1284",
     "gene-PMT_1285": "PMT_1285",
+    "gene-PMT_1286": "PMT1286",
     "gene-PMT_1287": "PMT1287",
     "gene-PMT_1288": "PMT1288",
     "gene-PMT_1289": "PMT1289",
@@ -397953,6 +402267,7 @@
     "gene-PMT_1317": "PMT_1317",
     "gene-PMT_1319": "PMT1319",
     "gene-PMT_1320": "PMT1320",
+    "gene-PMT_1321": "PMT1321",
     "gene-PMT_1322": "PMT1322",
     "gene-PMT_1323": "PMT1323",
     "gene-PMT_1324": "PMT1324",
@@ -397967,6 +402282,7 @@
     "gene-PMT_1333": "PMT1333",
     "gene-PMT_1334": "PMT1334",
     "gene-PMT_1335": "PMT1335",
+    "gene-PMT_1336": "PMT1336",
     "gene-PMT_1337": "PMT1337",
     "gene-PMT_1338": "PMT1338",
     "gene-PMT_1339": "PMT1339",
@@ -398013,9 +402329,14 @@
     "gene-PMT_1380": "PMT1380",
     "gene-PMT_1381": "PMT1381",
     "gene-PMT_1382": "PMT_1382",
+    "gene-PMT_1383": "PMT1383",
     "gene-PMT_1384": "PMT1384",
+    "gene-PMT_1385": "PMT1385",
     "gene-PMT_1386": "PMT1386",
+    "gene-PMT_1387": "PMT1387",
     "gene-PMT_1388": "PMT1388",
+    "gene-PMT_1389": "PMT1389",
+    "gene-PMT_1390": "PMT1390",
     "gene-PMT_1391": "PMT1391",
     "gene-PMT_1392": "PMT1392",
     "gene-PMT_1393": "PMT1393",
@@ -398090,6 +402411,7 @@
     "gene-PMT_1462": "PMT1462",
     "gene-PMT_1463": "PMT1463",
     "gene-PMT_1464": "PMT1464",
+    "gene-PMT_1465": "PMT1465",
     "gene-PMT_1466": "PMT1466",
     "gene-PMT_1467": "PMT1467",
     "gene-PMT_1468": "PMT1468",
@@ -398152,8 +402474,11 @@
     "gene-PMT_1526": "PMT1526",
     "gene-PMT_1527": "PMT1527",
     "gene-PMT_1528": "PMT1528",
+    "gene-PMT_1529": "PMT1529",
+    "gene-PMT_1530": "PMT1530",
     "gene-PMT_1531": "PMT1531",
     "gene-PMT_1532": "PMT1532",
+    "gene-PMT_1533": "PMT1533",
     "gene-PMT_1534": "PMT1534",
     "gene-PMT_1535": "PMT1535",
     "gene-PMT_1536": "PMT1536",
@@ -398186,6 +402511,7 @@
     "gene-PMT_1563": "PMT1563",
     "gene-PMT_1564": "PMT_1564",
     "gene-PMT_1565": "PMT1565",
+    "gene-PMT_1566": "PMT1566",
     "gene-PMT_1567": "PMT1567",
     "gene-PMT_1568": "PMT1568",
     "gene-PMT_1569": "PMT1569",
@@ -398212,8 +402538,12 @@
     "gene-PMT_1591": "PMT1591",
     "gene-PMT_1592": "PMT1592",
     "gene-PMT_1593": "PMT1593",
+    "gene-PMT_1594": "PMT1594",
     "gene-PMT_1595": "PMT1595",
     "gene-PMT_1596": "PMT1596",
+    "gene-PMT_1597": "PMT1597",
+    "gene-PMT_1598": "PMT1598",
+    "gene-PMT_1599": "PMT1599",
     "gene-PMT_1600": "PMT1600",
     "gene-PMT_1601": "PMT1601",
     "gene-PMT_1602": "PMT1602",
@@ -398223,7 +402553,9 @@
     "gene-PMT_1606": "PMT1606",
     "gene-PMT_1607": "PMT1607",
     "gene-PMT_1608": "PMT1608",
+    "gene-PMT_1609": "PMT1609",
     "gene-PMT_1610": "PMT_1610",
+    "gene-PMT_1611": "PMT1611",
     "gene-PMT_1612": "PMT1612",
     "gene-PMT_1613": "PMT1613",
     "gene-PMT_1614": "PMT1614",
@@ -398270,6 +402602,7 @@
     "gene-PMT_1655": "PMT_1655",
     "gene-PMT_1656": "PMT_1656",
     "gene-PMT_1657": "PMT1657",
+    "gene-PMT_1658": "PMT1658",
     "gene-PMT_1659": "PMT1659",
     "gene-PMT_1660": "PMT1660",
     "gene-PMT_1661": "PMT1661",
@@ -398294,6 +402627,7 @@
     "gene-PMT_1681": "PMT1681",
     "gene-PMT_1682": "PMT1682",
     "gene-PMT_1683": "PMT1683",
+    "gene-PMT_1684": "PMT1684",
     "gene-PMT_1685": "PMT1685",
     "gene-PMT_1686": "PMT1686",
     "gene-PMT_1687": "PMT1687",
@@ -398307,6 +402641,7 @@
     "gene-PMT_1695": "PMT1695",
     "gene-PMT_1696": "PMT1696",
     "gene-PMT_1697": "PMT1697",
+    "gene-PMT_1698": "PMT1698",
     "gene-PMT_1699": "PMT_1699",
     "gene-PMT_1700": "PMT1700",
     "gene-PMT_1701": "PMT1701",
@@ -398404,6 +402739,7 @@
     "gene-PMT_1793": "PMT1793",
     "gene-PMT_1794": "PMT1794",
     "gene-PMT_1795": "PMT1795",
+    "gene-PMT_1796": "PMT1796",
     "gene-PMT_1797": "PMT1797",
     "gene-PMT_1798": "PMT1798",
     "gene-PMT_1799": "PMT1799",
@@ -398419,6 +402755,7 @@
     "gene-PMT_1809": "PMT1809",
     "gene-PMT_1810": "PMT1810",
     "gene-PMT_1811": "PMT_1811",
+    "gene-PMT_1812": "PMT1812",
     "gene-PMT_1813": "PMT1813",
     "gene-PMT_1814": "PMT1814",
     "gene-PMT_1815": "PMT1815",
@@ -398528,19 +402865,23 @@
     "gene-PMT_1921": "PMT1921",
     "gene-PMT_1922": "PMT1922",
     "gene-PMT_1923": "PMT1915",
+    "gene-PMT_1924": "PMT1924",
     "gene-PMT_1925": "PMT1925",
     "gene-PMT_1926": "PMT1926",
     "gene-PMT_1927": "PMT1927",
     "gene-PMT_1928": "PMT1928",
     "gene-PMT_1929": "PMT1929",
     "gene-PMT_1930": "PMT1930",
+    "gene-PMT_1932": "PMT1932",
     "gene-PMT_1933": "PMT1933",
     "gene-PMT_1934": "PMT1934",
     "gene-PMT_1935": "PMT1935",
+    "gene-PMT_1936": "PMT1936",
     "gene-PMT_1937": "PMT_1937",
     "gene-PMT_1938": "PMT1938",
     "gene-PMT_1939": "PMT1939",
     "gene-PMT_1940": "PMT1940",
+    "gene-PMT_1941": "PMT1941",
     "gene-PMT_1942": "PMT1942",
     "gene-PMT_1943": "PMT1943",
     "gene-PMT_1944": "PMT1944",
@@ -398624,6 +402965,7 @@
     "gene-PMT_2022": "PMT_2022",
     "gene-PMT_2023": "PMT_2023",
     "gene-PMT_2024": "PMT2024",
+    "gene-PMT_2025": "PMT2025",
     "gene-PMT_2026": "PMT2026",
     "gene-PMT_2027": "PMT2027",
     "gene-PMT_2028": "PMT2028",
@@ -398651,6 +402993,7 @@
     "gene-PMT_2050": "PMT_2050",
     "gene-PMT_2051": "PMT_2051",
     "gene-PMT_2052": "PMT_2052",
+    "gene-PMT_2053": "PMT2053",
     "gene-PMT_2054": "PMT2054",
     "gene-PMT_2055": "PMT2055",
     "gene-PMT_2056": "PMT2056",
@@ -398674,6 +403017,7 @@
     "gene-PMT_2075": "PMT2075",
     "gene-PMT_2076": "PMT2076",
     "gene-PMT_2077": "PMT2077",
+    "gene-PMT_2078": "PMT2078",
     "gene-PMT_2079": "PMT_2079",
     "gene-PMT_2080": "PMT2080",
     "gene-PMT_2081": "PMT2081",
@@ -398707,6 +403051,7 @@
     "gene-PMT_2109": "PMT2109",
     "gene-PMT_2110": "PMT2110",
     "gene-PMT_2111": "PMT2111",
+    "gene-PMT_2112": "PMT2112",
     "gene-PMT_2113": "PMT2113",
     "gene-PMT_2114": "PMT2114",
     "gene-PMT_2115": "PMT2115",
@@ -398727,6 +403072,7 @@
     "gene-PMT_2130": "PMT2130",
     "gene-PMT_2131": "PMT2131",
     "gene-PMT_2132": "PMT2132",
+    "gene-PMT_2133": "PMT2133",
     "gene-PMT_2134": "PMT_2134",
     "gene-PMT_2135": "PMT2135",
     "gene-PMT_2136": "PMT2136",
@@ -398799,6 +403145,7 @@
     "gene-PMT_2203": "PMT2203",
     "gene-PMT_2204": "PMT2204",
     "gene-PMT_2205": "PMT2205",
+    "gene-PMT_2206": "PMT2206",
     "gene-PMT_2207": "PMT2207",
     "gene-PMT_2208": "PMT2208",
     "gene-PMT_2209": "PMT2209",
@@ -398824,6 +403171,7 @@
     "gene-PMT_2229": "PMT2229",
     "gene-PMT_2230": "PMT2230",
     "gene-PMT_2231": "PMT2231",
+    "gene-PMT_2232": "PMT2232",
     "gene-PMT_2233": "PMT2233",
     "gene-PMT_2234": "PMT2234",
     "gene-PMT_2235": "PMT2235",
@@ -399426,6 +403774,8 @@
     "gene-PMT_2926": "PMT_2926",
     "gene-rrf": "PMT1245",
     "gene-rrf-2": "PMT1245",
+    "gerCB": "PMT0276",
+    "gidA": "PMT1049",
     "gidB": "PMT1496",
     "glcD": "PMT1295",
     "glcE": "PMT1939",
@@ -399520,6 +403870,7 @@
     "hli1": "PMT1314",
     "hli2": "PMT_1640",
     "hli3": "PMT1504",
+    "hli4": "PMT1594",
     "hli5": "PMT_0990",
     "hli6": "PMT1153",
     "hli7": "PMT0992",
@@ -399562,9 +403913,24 @@
     "lanM": "PMT0250",
     "larB": "PMT0358",
     "larE": "PMT1717",
+    "lcl|NC_005071.1_cds_AKG35_RS00340_66": "PMT0064",
+    "lcl|NC_005071.1_cds_AKG35_RS01490_296": "PMT0282",
+    "lcl|NC_005071.1_cds_AKG35_RS01690_337": "PMT0317",
+    "lcl|NC_005071.1_cds_AKG35_RS03830_759": "PMT0734",
+    "lcl|NC_005071.1_cds_AKG35_RS04350_860": "PMT0833",
+    "lcl|NC_005071.1_cds_AKG35_RS05105_1029": "PMT0960",
+    "lcl|NC_005071.1_cds_AKG35_RS05645_1137": "PMT1049",
+    "lcl|NC_005071.1_cds_AKG35_RS06060_1219": "PMT1129",
     "lcl|NC_005071.1_cds_AKG35_RS06160_1240": "PMT_2631",
     "lcl|NC_005071.1_cds_AKG35_RS06175_1243": "PMT1152",
     "lcl|NC_005071.1_cds_AKG35_RS06810_1374": "PMT1277",
+    "lcl|NC_005071.1_cds_AKG35_RS08515_1710": "PMT1599",
+    "lcl|NC_005071.1_cds_AKG35_RS08590_1725": "PMT1611",
+    "lcl|NC_005071.1_cds_AKG35_RS10255_2053": "PMT1924",
+    "lcl|NC_005071.1_cds_AKG35_RS11755_2352": "PMT2206",
+    "lcl|NC_005071.1_cds_AKG35_RS12225_482": "PMT0461",
+    "lcl|NC_005071.1_cds_AKG35_RS12600_1639": "PMT1530",
+    "lcl|NC_005071.1_cds_AKG35_RS12960_1489": "PMT1390",
     "lcl|NC_005071.1_cds_WP_006041398.1_694": "PMT_0673",
     "lcl|NC_005071.1_cds_WP_006041809.1_1262": "PMT1169",
     "lcl|NC_005071.1_cds_WP_006042532.1_149": "PMT0148",
@@ -402702,6 +407068,7 @@
     "tpx": "PMT0754",
     "trmB": "PMT1820",
     "trmD": "PMT_0356",
+    "trmFO": "PMT1049",
     "trmH": "PMT0268",
     "trpA": "PMT0465",
     "trpB": "PMT2027",
@@ -402738,6 +407105,7 @@
     "ureB": "PMT2235",
     "ureC": "PMT2236",
     "ureD": "PMT2233",
+    "ureE": "PMT2232",
     "ureF": "PMT2231",
     "ureG": "PMT2230",
     "urtA": "PMT2229",
@@ -402777,11 +407145,11 @@
     "zwf": "PMT1102"
   },
   "stats": {
-    "n_conflicts": 76,
+    "n_conflicts": 116,
     "n_genes": 2948,
-    "n_multi": 17812,
-    "n_specific": 28893,
-    "passes": 4
+    "n_multi": 17929,
+    "n_specific": 29263,
+    "passes": 5
   },
   "strain": "MIT9313",
   "version": 2

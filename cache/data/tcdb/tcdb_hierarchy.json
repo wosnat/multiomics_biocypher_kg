@@ -56314,6 +56314,18 @@
     "name": "The Autonomous NanoPore Membrane (ANPM) Family",
     "parent": "1.D"
   },
+  "1.D.363": {
+    "level": 2,
+    "level_kind": "tc_family",
+    "name": "The Pillararene-Cyclodextrin Cation-selective Channel (PCCC) Family",
+    "parent": "1.D"
+  },
+  "1.D.364": {
+    "level": 2,
+    "level_kind": "tc_family",
+    "name": "The Fluorinated Squaramide + Lipophilic Thymine Derivative Anionophore (FS+LP-A) Family",
+    "parent": "1.D"
+  },
   "1.D.37": {
     "level": 2,
     "level_kind": "tc_family",
@@ -87557,6 +87569,16 @@
     ],
     "superfamily": "APC Superfamily"
   },
+  "2.A.18.2.14": {
+    "level": 4,
+    "level_kind": "tc_specificity",
+    "name": "",
+    "parent": "2.A.18.2",
+    "substrate_classes": [
+      "CHEBI:33709;amino acid"
+    ],
+    "superfamily": "APC Superfamily"
+  },
   "2.A.18.2.2": {
     "level": 4,
     "level_kind": "tc_specificity",
@@ -116030,6 +116052,16 @@
     "parent": "2.A.85.2",
     "substrate_classes": [
       "CHEBI:22563;anion"
+    ],
+    "superfamily": "Major Facilitator (MFS) Superfamily"
+  },
+  "2.A.85.2.9": {
+    "level": 4,
+    "level_kind": "tc_specificity",
+    "name": "",
+    "parent": "2.A.85.2",
+    "substrate_classes": [
+      "CHEBI:15595;malate(2-)"
     ],
     "superfamily": "Major Facilitator (MFS) Superfamily"
   },
