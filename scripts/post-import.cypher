@@ -1544,6 +1544,23 @@ CALL {
   SET g.ncbifam_family_count = nc
 } IN TRANSACTIONS OF 1000 ROWS;
 
+// OrganismTaxon annotation-capability rollups (KG-SYNC-006 ORG-001): distinct
+// genes per organism, scoped by Gene_belongs_to_organism like every sibling
+// rollup. Dense 0. peptidase / nonpeptidase_homolog read Gene.merops_classes
+// (a gene can be in both -- do not subtract); interpro = edge existence;
+// ncbifam = Gene.ncbifam_family_count > 0 (retired families still count).
+MATCH (o:OrganismTaxon)
+OPTIONAL MATCH (g:Gene)-[:Gene_belongs_to_organism]->(o)
+WITH o,
+     count(DISTINCT CASE WHEN 'peptidase' IN coalesce(g.merops_classes, []) THEN g END) AS pep,
+     count(DISTINCT CASE WHEN 'nonpeptidase_homolog' IN coalesce(g.merops_classes, []) THEN g END) AS nonpep,
+     count(DISTINCT CASE WHEN EXISTS { (g)-[:Gene_has_interpro_entry]->() } THEN g END) AS ipr,
+     count(DISTINCT CASE WHEN coalesce(g.ncbifam_family_count, 0) > 0 THEN g END) AS nf
+SET o.peptidase_gene_count = pep,
+    o.nonpeptidase_homolog_gene_count = nonpep,
+    o.interpro_gene_count = ipr,
+    o.ncbifam_gene_count = nf;
+
 // ── Metabolism rollups ────────────────────────────────────────────────────
 
 // Reaction.gene_count, organism_count, organisms[]

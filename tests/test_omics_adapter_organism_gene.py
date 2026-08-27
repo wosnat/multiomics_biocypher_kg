@@ -1613,7 +1613,7 @@ class TestExperimentNodeProperties:
         assert len(exp_nodes) == 1
         assert exp_nodes[0][2]['table_scope'] == 'all_detected_genes'
 
-    def test_experiment_table_scope_defaults_to_empty(self, temp_data_dir, sample_de_data):
+    def test_experiment_table_scope_omitted_when_unset(self, temp_data_dir, sample_de_data):
         """table_scope defaults to empty string when not set in paperconfig."""
         data_file = os.path.join(temp_data_dir, 'de_genes2.csv')
         sample_de_data.to_csv(data_file, index=False)
@@ -1654,7 +1654,9 @@ class TestExperimentNodeProperties:
         adapter.extracted_data = {'title': 'T', 'authors': [], 'journal': '', 'year': 2024, 'abstract': '', 'description': ''}
         nodes = adapter.get_nodes()
         exp_nodes = [n for n in nodes if n[1] == 'experiment']
-        assert exp_nodes[0][2]['table_scope'] == ''
+        # table_scope is sparse (KG-SYNC-006 ORG-003): omitted, never "",
+        # when the paperconfig sets none — keeps the closed vocabulary clean.
+        assert 'table_scope' not in exp_nodes[0][2]
 
 
 class TestHasExperimentEdges:

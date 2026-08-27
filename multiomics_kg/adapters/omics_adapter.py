@@ -374,10 +374,16 @@ class OMICSAdapter:
                     "temperature": self.clean_text(exp.get("temperature", "")),
                     "light_condition": self.clean_text(exp.get("light_condition", "")),
                     "light_intensity": self.clean_text(exp.get("light_intensity", "")),
-                    "table_scope": self.clean_text(exp.get("table_scope", "")),
                     "table_scope_detail": self.clean_text(exp.get("table_scope_detail", "")),
                     "background_factors": self._normalize_list_field(exp, "background_factors"),
             }
+            # table_scope is a closed vocabulary (ControlledVocabulary
+            # Experiment.table_scope); experiments with no DE table (metabolomics /
+            # derived-metric-only) have none, so the property is sparse — omitted,
+            # never "" (KG-SYNC-006 ORG-003).
+            table_scope = self.clean_text(exp.get("table_scope", ""))
+            if table_scope:
+                exp_props["table_scope"] = table_scope
             partner = exp.get("treatment_organism", "")
             if partner:
                 exp_props["coculture_partner"] = self.clean_text(partner)

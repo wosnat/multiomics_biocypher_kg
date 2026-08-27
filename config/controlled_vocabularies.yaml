@@ -367,6 +367,21 @@ Experiment.table_scope:
     unvalidated) — harvested from CLAUDE.md "Key graph facts" per the
     controller ruling designating CLAUDE.md as authority here.
 
+ClusteringAnalysis.cluster_type:
+  applies_to: ClusteringAnalysis
+  applies_to_kind: node
+  property: cluster_type
+  value_type: string
+  closed: true
+  values: [time_course, diel, condition_comparison, expression_bin,
+           decay_pattern, genomic_island]
+  description: >
+    What kind of gene grouping a clustering analysis is (paperconfig
+    `gene_clusters.cluster_type`, validated by scripts/validate_paperconfig.py
+    VALID_CLUSTER_TYPES). Registered 2026-08-27 (KG-SYNC-006) when the GEO
+    pass added `decay_pattern` (Steglich 2010 mRNA-decay profile clusters) and
+    `genomic_island` (Hackl 2023 predicted genomic islands as gene sets).
+
 DerivedMetric.value_kind:
   applies_to: DerivedMetric
   applies_to_kind: node
@@ -555,6 +570,60 @@ Gene.annotation_state:
     literals appear inline in scripts/post-import.cypher's CASE expression,
     lines ~623-628) — harvested from CLAUDE.md per the controller ruling, and
     confirmed against those same literal strings.
+
+# ── KG-SYNC-006 ORG-001: organism annotation-capability rollups ─────────────
+#    Post-import, dense 0, distinct genes scoped by Gene_belongs_to_organism.
+#    Asked by the explorer's list_organisms (docs/kg-specs/2026-08-27-slice4-kg-asks.md).
+
+OrganismTaxon.peptidase_gene_count:
+  applies_to: OrganismTaxon
+  applies_to_kind: node
+  property: peptidase_gene_count
+  value_type: int
+  closed: false
+  values: []
+  min_value: 0
+  description: >
+    Genes of this organism with 'peptidase' in Gene.merops_classes (at least
+    one Gene_has_merops_family edge whose call_class is peptidase). The
+    organism-side complement of MeropsFamily.peptidase_gene_count.
+
+OrganismTaxon.nonpeptidase_homolog_gene_count:
+  applies_to: OrganismTaxon
+  applies_to_kind: node
+  property: nonpeptidase_homolog_gene_count
+  value_type: int
+  closed: false
+  values: []
+  min_value: 0
+  description: >
+    Genes with 'nonpeptidase_homolog' in Gene.merops_classes. A gene can be
+    counted here AND in peptidase_gene_count (multi-domain proteins) — never
+    subtract one from the other.
+
+OrganismTaxon.interpro_gene_count:
+  applies_to: OrganismTaxon
+  applies_to_kind: node
+  property: interpro_gene_count
+  value_type: int
+  closed: false
+  values: []
+  min_value: 0
+  description: >
+    Genes with at least one Gene_has_interpro_entry edge — InterProScan
+    domain coverage per organism.
+
+OrganismTaxon.ncbifam_gene_count:
+  applies_to: OrganismTaxon
+  applies_to_kind: node
+  property: ncbifam_gene_count
+  value_type: int
+  closed: false
+  values: []
+  min_value: 0
+  description: >
+    Genes with Gene.ncbifam_family_count > 0. Retired NCBIfam families
+    (family_type = 'retired') still count — they are still calls.
 
 OrganismTaxon.organism_type:
   applies_to: OrganismTaxon

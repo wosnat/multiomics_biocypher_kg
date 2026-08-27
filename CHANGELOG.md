@@ -325,6 +325,19 @@ tag with nothing logged.
   `calls.json` regenerated without derived fields. Artifact refreshes only; the
   schema-side consequences are in `### Added
 
+- **Organism annotation-capability rollups (KG-SYNC-006 ORG-001).** Four
+  dense post-import `OrganismTaxon` ints — `peptidase_gene_count`,
+  `nonpeptidase_homolog_gene_count`, `interpro_gene_count`,
+  `ncbifam_gene_count` — distinct genes per organism scoped by
+  `Gene_belongs_to_organism`, so the explorer's `list_organisms` can answer
+  "which organisms are protease-rich / have thin domain coverage" from a flat
+  node scan. Registered as `ControlledVocabulary` entries.
+- **`ClusteringAnalysis.cluster_type` is now a registered closed vocabulary**
+  (6 values; the GEO pass added `decay_pattern` and `genomic_island`).
+- **`controlled_vocabularies_hash` recipe documented** in
+  `docs/kg-changes/vocabulary-contract.md` (what is hashed, what is not, and
+  the rebuild-stability guarantee) so consumers can pin the string.
+
 - **Uniform annotation-trust surface (KG-SYNC-005).** `sources` + `evidence` on all 14
   gene→ontology edge types (was 7 / 6): KO, COG, CyanorakRole, TigrRole, InterPro, NCBIfam,
   MEROPS gain constant `sources`; `evidence` gains the rung **`homology`** (direct sequence hit
@@ -518,6 +531,11 @@ tag with nothing logged.
   which never existed).
 
 ### Changed
+
+- **`Experiment.table_scope` is sparse.** Experiments with no DE table
+  (metabolomics and derived-metric-only, ~35 nodes) used to carry
+  `table_scope = ""`, a value outside the closed vocabulary; the property is
+  now omitted on them. Read `coalesce(e.table_scope, null)`.
 
 - **Faceted InterProScan artifacts.** All 42 strains' calls.json re-normalized
   (from cached raw output, no re-scan) to the multi-ontology format: sparse

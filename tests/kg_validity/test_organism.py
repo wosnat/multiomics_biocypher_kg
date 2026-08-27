@@ -200,6 +200,34 @@ def test_no_null_precomputed_lists(run_query):
     )
 
 
+def test_annotation_capability_rollups(run_query):
+    """KG-SYNC-006 ORG-001: the four capability rollups are dense (0, never
+    null) and peptidase_gene_count matches a live recount per organism."""
+    props = [
+        "peptidase_gene_count", "nonpeptidase_homolog_gene_count",
+        "interpro_gene_count", "ncbifam_gene_count",
+    ]
+    for prop in props:
+        rows = run_query(
+            f"MATCH (o:OrganismTaxon) WHERE o.{prop} IS NULL "
+            "RETURN o.preferred_name AS name"
+        )
+        assert not rows, f"{prop} is null on: {[r['name'] for r in rows]}"
+    bad = run_query("""
+        MATCH (o:OrganismTaxon)
+        OPTIONAL MATCH (g:Gene)-[:Gene_belongs_to_organism]->(o)
+        WHERE 'peptidase' IN coalesce(g.merops_classes, [])
+        WITH o, count(DISTINCT g) AS live
+        WHERE live <> o.peptidase_gene_count
+        RETURN o.preferred_name AS name, live, o.peptidase_gene_count AS stored
+    """)
+    assert not bad, f"peptidase_gene_count drift: {bad}"
+    total = run_query(
+        "MATCH (o:OrganismTaxon) RETURN sum(o.peptidase_gene_count) AS n"
+    )[0]["n"]
+    assert total > 0, "no organism has any peptidase gene"
+
+
 def test_gene_count_not_null(run_query):
     """gene_count must be set on all OrganismTaxon nodes."""
     result = run_query("""

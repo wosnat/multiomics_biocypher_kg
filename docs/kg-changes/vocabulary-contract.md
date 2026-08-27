@@ -97,6 +97,22 @@ RETURN v.values
   `config/controlled_vocabularies.yaml`. Compare it release-to-release
   (surfaced by `kg_release_info` on the MCP side) instead of discovering
   drift through a wrong answer.
+
+  **Recipe** (`multiomics_kg/utils/controlled_vocab.py::vocabularies_hash`,
+  written by `create_knowledge_graph.py` to `controlled_vocabularies.sha256`
+  in the build output and read by post-import): for every entry, serialise
+  `{id, value_type, closed, values (sorted), sparse, expected_empty,
+  exhaustive, min_value, max_value, signal_count, signals (sorted)}` with
+  `json.dumps(..., sort_keys=True)`; **sort** the resulting strings; join with
+  `\n`; sha256 over the UTF-8 bytes; store as `"sha256:" + <64 hex chars>`.
+  **Not hashed:** `description` and `applies_to_kind` (`id` is
+  `<applies_to>.<property>`, which already pins the target). **Guarantee:**
+  nothing build-specific enters the digest — no timestamp, node id, YAML
+  order or emission order — so an unchanged vocabulary *set* yields an
+  identical string on every rebuild, and a description-only edit does not
+  change it. A consumer may pin the string and treat a mismatch as "re-read
+  the vocabulary nodes" (the explorer folds this into its
+  `kg_release_info` verdict as `warn`).
 - **List everything the contract covers:**
   ```cypher
   MATCH (v:ControlledVocabulary) RETURN v.applies_to, v.property ORDER BY 1, 2
