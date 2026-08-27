@@ -17,6 +17,43 @@ up — this file is the index, not the plan.
 
 ## KG semantics
 
+- [ ] **Reconcile `CANONICAL_CONDITION_TYPES` with the two vocabulary lists
+      (2026-08-27 follow-up to the dense treatment_type fix).** The validator
+      keeps ONE 18-value set for both `treatment_type` and `background_factors`
+      (now incl. `oxygen`), while `config/controlled_vocabularies.yaml` declares
+      16 treatment values and 7 background values. Gaps: `mutant` is validator-
+      only (no paperconfig uses it, so the kg_validity canonical test never
+      sees it); `oxygen`/`nitrogen`/`salt`/… are accepted as background factors
+      by the validator but not by the yaml. A paperconfig that passes
+      validation can therefore still fail `test_experiment_background_factors_
+      values_canonical` after the build. Fix: split the validator set in two
+      and load both from the yaml via `controlled_vocab.py`.
+      → `config/controlled_vocabularies.yaml` (the FINDING note on
+      `Experiment.background_factors`), `scripts/validate_paperconfig.py`
+
+- [ ] **`gene_clusters` entries have no emptiness rule.** The new validator
+      errors cover the `experiments` block only; a `gene_clusters` entry may
+      still omit `treatment_type` / `background_factors` (Hackl 2023 genomic
+      islands legitimately do — sequence-predicted, no experiment). Decide
+      whether cluster entries need a `cluster_type`-gated rule (e.g. required
+      unless `genomic_island`), or whether `[]` on `ClusteringAnalysis` stays
+      the documented "no experiment" value.
+      → `docs/kg-changes/experiment-list-props-dense.md`
+
+- [ ] **Vocabulary schema has no "dense / non-empty" flag.** `sparse` and
+      `expected_empty` exist; the new contract ("dense, `[]` allowed" vs
+      "dense, non-empty") is documented only in the `description` prose of
+      `Experiment.treatment_type` / `.background_factors`. Consider a
+      `min_size: 1` (or `non_empty: true`) key so `test_controlled_vocabularies`
+      can assert it generically instead of the bespoke kg_validity test.
+
+- [ ] **Bernstein 2017 experiment-level `background_factors: [light]` is a
+      judgment call.** Chosen to mean "continuous illumination in turbidostat
+      steady state" while `light` is ALSO a treatment axis (irradiance steps).
+      Revisit if the same-token-in-both-fields shape confuses explorer filters;
+      the four clustering analyses are unambiguous (`[light]`/`[coculture]`,
+      `[oxygen]`/`[coculture, light]`).
+
 - [ ] **MEROPS GO bridge — rejected on measurement (2026-08-18), revisit only
       with a concrete use case.** All-kingdom member rollup yields median 19 /
       max 389 GO terms per family incl. eukaryote-only terms; completeness win
@@ -240,6 +277,15 @@ Section references below are into that plan file, which holds the full designs.
       not_significant edge). Fix in the mapping builder, not per-paper.
 
 ## Explorer / MCP coordination
+
+- [ ] **Explorer: pick up the dense-list contract + `oxygen`.** After the next
+      rebuild: (a) withdraw the slice-4 coalesce amendment — `treatment_type` /
+      `background_factors` are dense on Experiment, ClusteringAnalysis,
+      DerivedMetric, MetaboliteAssay; `[]` = characterization / no experiment;
+      (b) add `oxygen` wherever the treatment-type enum is hard-coded (or read
+      `ControlledVocabulary` `Experiment.treatment_type`); (c) edge-case gate
+      asserts `treatment_type == []` on the Steglich decay analysis.
+      → `docs/kg-changes/experiment-list-props-dense.md`
 
 - [ ] **Relationship-property index on `evidence`.** Explicitly not requested for
       this release — current edge-property filters touch
