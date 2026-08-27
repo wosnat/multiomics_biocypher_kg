@@ -17,6 +17,18 @@ up — this file is the index, not the plan.
 
 ## KG semantics
 
+- [ ] **Register `treatment_type` / `background_factors` vocab entries on the
+      denormalized labels.** Only `Experiment.*` have `ControlledVocabulary`
+      nodes, so `genomic_analysis` — which lives ONLY on `ClusteringAnalysis`
+      (Hackl 2023 islands) — is never graph-verified by
+      `test_observed_values_are_declared`, and the `min_size: 1` guarantee is
+      not asserted on `ClusteringAnalysis.treatment_type` / `DerivedMetric.*` /
+      `MetaboliteAssay.*` even though the validator + adapters enforce it.
+      Add four closed entries (same value lists; `min_size: 1` on all but
+      `ClusteringAnalysis.background_factors`, which may be `[]`). Bumps the
+      vocab hash — fold into the next vocab-touching change.
+      → `config/controlled_vocabularies.yaml`, `docs/kg-changes/experiment-list-props-dense.md`
+
 - [x] DONE 2026-08-27 (validator loads both sets from the yaml). **Reconcile `CANONICAL_CONDITION_TYPES` with the two vocabulary lists
       (2026-08-27 follow-up to the dense treatment_type fix).** The validator
       keeps ONE 18-value set for both `treatment_type` and `background_factors`
