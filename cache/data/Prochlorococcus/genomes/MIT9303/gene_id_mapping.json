@@ -172007,10 +172007,6 @@
       ],
       "tier3_ids": [
         {
-          "id": "pseudogene",
-          "type": "gene_name"
-        },
-        {
           "id": "P9303_RS14615",
           "type": "gene_synonym"
         },
@@ -277670,9 +277666,6 @@
     "pseE": [
       "P9303_01211"
     ],
-    "pseudogene": [
-      "P9303_22261"
-    ],
     "psp": [
       "P9303_07531"
     ],
@@ -299208,7 +299201,7 @@
   "stats": {
     "n_conflicts": 23,
     "n_genes": 3114,
-    "n_multi": 13109,
+    "n_multi": 13108,
     "n_specific": 20100,
     "passes": 2
   },
