@@ -117,13 +117,11 @@ def test_no_orphan_genes(run_query):
 def test_no_orphan_proteins(run_query):
     """Every Protein must be linked to an OrganismTaxon via Protein_belongs_to_organism.
 
-    KNOWN ISSUE: This test is currently failing (~46% orphans).
-    The UniProt adapter only creates Protein_belongs_to_organism when a protein's
-    RefSeq WP_ ID matches gene_mapping.csv. Proteins without a WP_ cross-reference
-    in UniProt get no organism edge. Root cause unclear — may be a pre-existing data
-    gap or a regression from the Feb 2026 adapter refactor (fe5c2bb).
-    See plans/orphan_proteins.md for investigation plan.
-    TODO: fix root cause and re-tighten or replace this assertion.
+    The UniProt adapter emits a protein only when it is linkable to one of OUR
+    assemblies (RefSeq WP_ join, locus-tag join, or the assembly's own UniProt
+    proteome) and gives every emitted protein an organism edge — so 0 is the
+    contract, not an aspiration. Was ~38% orphaned between the Feb 2026
+    refactor (fe5c2bb) and 2026-08-27; see plans/orphan_proteins.md.
     """
     result = run_query("""
         MATCH (p:Protein)
@@ -134,10 +132,8 @@ def test_no_orphan_proteins(run_query):
     total = run_query("MATCH (p:Protein) RETURN count(p) AS cnt")[0]["cnt"]
     if total == 0:
         pytest.skip("No Protein nodes found")
-    orphan_fraction = orphans / total
-    assert orphan_fraction < 0.50, (
-        f"{orphans} / {total} Protein node(s) ({orphan_fraction:.1%}) have no "
-        f"Protein_belongs_to_organism edge; threshold is < 50%"
+    assert orphans == 0, (
+        f"{orphans} / {total} Protein node(s) have no Protein_belongs_to_organism edge"
     )
 
 
@@ -170,15 +166,13 @@ def test_gene_encodes_protein_links_correct_types(run_query):
 def test_no_orphan_proteins_without_gene(run_query):
     """
     Most proteins should be linked to a gene via Gene_encodes_protein.
-    Allow up to 15% unlinked (some UniProt entries may lack RefSeq cross-refs).
 
-    KNOWN ISSUE: This test is currently failing — actual unlinked fraction is ~46%.
-    Same root cause as test_no_orphan_proteins: the Gene_encodes_protein edge is
-    created only when a protein's RefSeq WP_ ID matches gene_mapping.csv.
-    The 15% threshold was aspirational. Investigation needed to determine whether
-    this gap is expected or a regression from the Feb 2026 refactor (fe5c2bb).
-    See plans/orphan_proteins.md for investigation plan.
-    TODO: fix root cause and re-tighten, or raise threshold to match reality (~50%).
+    Proteins kept on own-proteome evidence alone (same UniProt proteome as our
+    matched proteins, but a WP_ absent from our RefSeq annotation build) get an
+    organism edge but legitimately no gene edge — 3,899 / 52,735 (7.4%) on the
+    2026-08-27 offline dry run. Threshold 10% leaves headroom for a new strain
+    without hiding a regression of the RefSeq/locus-tag joins (~38% before the
+    fix; see plans/orphan_proteins.md).
     """
     result = run_query("""
         MATCH (p:Protein)
@@ -190,9 +184,9 @@ def test_no_orphan_proteins_without_gene(run_query):
     if row["total"] == 0:
         pytest.skip("No Protein nodes found")
     unlinked_fraction = row["unlinked"] / row["total"]
-    assert unlinked_fraction < 0.50, (
+    assert unlinked_fraction < 0.10, (
         f"{row['unlinked']} / {row['total']} proteins ({unlinked_fraction:.1%}) "
-        f"have no Gene_encodes_protein edge; threshold is < 15%"
+        f"have no Gene_encodes_protein edge; threshold is < 10%"
     )
 
 

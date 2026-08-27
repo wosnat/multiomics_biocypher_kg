@@ -119,6 +119,16 @@ tag with nothing logged.
 
 ### Breaking
 
+- **UniProt `Protein` nodes are now restricted to proteins linkable to one of
+  our assemblies — ~14.3K nodes disappear (67,024 → 52,735 on the offline dry
+  run).** UniProt is queried per taxid, and a taxid can be species-level
+  (28108 = every *Alteromonas macleodii* isolate UniProt knows) or backed by a
+  different annotation build than our RefSeq download. Those proteins were
+  never ours; they sat in the graph as orphans with no organism and no gene.
+  A protein is kept iff it joins by RefSeq WP_, by locus tag, or belongs to the
+  assembly's own UniProt proteome. `uniprot:` ids of dropped proteins no longer
+  resolve. Details: `plans/orphan_proteins.md`.
+
 - **`InterproEntry.gene_count` is now SUBTREE, not DIRECT** (KG-SYNC-005, ONT-009) — the same
   semantics as every other hierarchical ontology. The old direct number lives on the new
   `direct_gene_count` (also added to TcdbFamily / CazyFamily / MeropsFamily and the newly counted
@@ -451,6 +461,18 @@ tag with nothing logged.
   references must exist before the step-2 merge that consumes them.
 
 ### Fixed
+
+- **Orphan proteins (38% of `Protein` nodes had no `Protein_belongs_to_organism`
+  and no `Gene_encodes_protein`).** Two causes: the organism edge had been a
+  regression from the Feb 2026 adapter refactor (`fe5c2bb` tied it to the
+  RefSeq join; it is again emitted for every kept protein, from the assembly
+  it belongs to), and 7,596 entries carried no RefSeq xref but a `gene_oln`
+  locus tag already in `gene_mapping.csv` — now a fallback gene join. After
+  the fix every protein has an organism edge and 92.6% (was 62%) have a gene
+  edge; the remaining 7.4% are own-proteome proteins absent from our RefSeq
+  build. `test_no_orphan_proteins` re-tightened to `== 0`,
+  `test_no_orphan_proteins_without_gene` to `< 10%` (both were loosened to
+  `< 50%`). Not yet verified on a live rebuild.
 
 - **InterPro redesign deferred cleanups (all 7 from
   `plans/interpro_redesign_backlog.md`).** NCBIfam `is_uninformative` DUF

@@ -96,7 +96,8 @@ def _make_adapter(data_dirs, assembly_info, refseq_data, organism=59919):
         else:
             adapter._data[acc] = {"refseq_ids": []}
     # Build _refseq_to_strains from gene_mapping.csv files
-    adapter._refseq_to_strains = adapter._load_gene_mapping()
+    adapter._refseq_to_strains, adapter._locus_to_strains = adapter._load_gene_mapping()
+    adapter._own_proteomes = adapter._derive_own_proteomes()
     return adapter
 
 
@@ -118,7 +119,7 @@ class TestLoadGeneMapping:
             assembly_info=_MED4_INFO,
             data_dirs=[gene_mapping_med4],
         )
-        refseq_map = adapter._load_gene_mapping()
+        refseq_map, _ = adapter._load_gene_mapping()
         assert "WP_011131639.1" in refseq_map
         locus_tags = [lt for lt, _ in refseq_map["WP_011131639.1"]]
         assert locus_tags == ["PMM0001"]
@@ -133,7 +134,7 @@ class TestLoadGeneMapping:
             assembly_info=_ALT_INFO,
             data_dirs=[gene_mapping_mit1002, gene_mapping_ez55],
         )
-        refseq_map = adapter._load_gene_mapping()
+        refseq_map, _ = adapter._load_gene_mapping()
         # MIT1002 has 3 genes, EZ55 has 2, but WP_SHARED_001.1 is shared
         assert len(refseq_map) == 4  # 4 unique protein_ids
 
@@ -146,7 +147,7 @@ class TestLoadGeneMapping:
             assembly_info=_ALT_INFO,
             data_dirs=[gene_mapping_mit1002, gene_mapping_ez55],
         )
-        refseq_map = adapter._load_gene_mapping()
+        refseq_map, _ = adapter._load_gene_mapping()
         shared_locus_tags = [lt for lt, _ in refseq_map["WP_SHARED_001.1"]]
         assert len(shared_locus_tags) == 2
         assert "MIT1002_00004" in shared_locus_tags
@@ -159,7 +160,7 @@ class TestLoadGeneMapping:
             assembly_info=[],
             data_dirs=[],
         )
-        refseq_map = adapter._load_gene_mapping()
+        refseq_map, _ = adapter._load_gene_mapping()
         assert refseq_map == {}
 
     def test_missing_file_logs_warning(self, temp_dir):
@@ -169,7 +170,7 @@ class TestLoadGeneMapping:
             assembly_info=_MED4_INFO,
             data_dirs=[os.path.join(temp_dir, "nonexistent")],
         )
-        refseq_map = adapter._load_gene_mapping()
+        refseq_map, _ = adapter._load_gene_mapping()
         assert refseq_map == {}
 
 

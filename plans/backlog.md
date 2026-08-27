@@ -42,17 +42,23 @@ up — this file is the index, not the plan.
       `has_cross_genus_members: cross_genus | single_genus` precedent.
       → `docs/superpowers/specs/2026-08-16-vocabulary-contract-design.md` §3 R5, §10.5
 
-- [ ] **Orphan proteins — verified still real (2026-08-18); NOT closeable.**
-      Direct query on the freshly rebuilt graph: **25,441 / 67,024 proteins
-      (38%)** have neither `Protein_belongs_to_organism` nor
-      `Gene_encodes_protein` (down from the ~46% originally reported). The two
-      kg-validity tests pass only because their thresholds were loosened to
-      `< 50%` (docstrings still say "currently failing") — the "passed clean on
-      two consecutive rebuilds" observation was the loosened assertion, not a
-      fixed data gap. The original investigation stands: determine whether the
-      WP_-join gap is pre-existing or a regression from the Feb 2026 refactor
-      (`fe5c2bb`), fix or accept, then re-tighten the test thresholds.
+- [ ] **Orphan proteins — fixed in code 2026-08-27, awaiting a Docker rebuild
+      to verify live and close.** Root cause + fix in `plans/orphan_proteins.md`
+      (organism edge was a `fe5c2bb` regression; gene-edge gap was pre-existing
+      and mostly foreign-isolate proteins under shared taxids). Adapter now
+      drops unlinkable proteins (−14,289 nodes on dry run), restores the
+      taxid-independent organism edge, and adds a `gene_oln` fallback join;
+      kg tests re-tightened to `== 0` / `< 10%`. Rebuild, run `pytest -m kg`,
+      regenerate the snapshot, then delete this bullet.
       → `plans/orphan_proteins.md`
+
+- [ ] **Meiothermus 172827 naming drift.** The MruberA assembly
+      (`GCF_000836395.1`) is *Meiothermus taiwanensis* in NCBI's own record and
+      in UniProt; the registry `preferred_name` says *Meiothermus ruber*
+      (Bernstein 2017's "*M. ruber* strain A", since reclassified). Genome is
+      right; decide whether `preferred_name` / the treatment-organism row should
+      follow the reclassification (touches `test_organism.py` + snapshot).
+      → found during the orphan-protein investigation, `plans/orphan_proteins.md`
 
 - [ ] **TIGRFAM→TigrRole bridge — rejected on measurement (2026-08-18), revisit
       only with a concrete cross-genus use case AND a coverage-correction
