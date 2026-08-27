@@ -345,6 +345,13 @@ tag with nothing logged.
   "What changed since kg-X" notes block reports hash moves with added/removed
   entry ids; preflight warns when `config/controlled_vocabularies.yaml`
   changed since the last tag without a CHANGELOG mention.
+- **`/release-kg <version> --bringup --target local`** — stand up an
+  already-published release on a new machine (release port, auth on, shared
+  `explorer` login) without cutting, tagging or publishing: clone the tag,
+  rebuild via the blue/green alpha deploy, then refuse to call it the release
+  unless the rebuilt `Schema_info` reproduces the release's `metadata.json`
+  (headline counts, vocabulary hash, git SHA). No MNX / eggNOG / API keys
+  needed — every build input is committed at the tag.
 
 - **Uniform annotation-trust surface (KG-SYNC-005).** `sources` + `evidence` on all 14
   gene→ontology edge types (was 7 / 6): KO, COG, CyanorakRole, TigrRole, InterPro, NCBIfam,

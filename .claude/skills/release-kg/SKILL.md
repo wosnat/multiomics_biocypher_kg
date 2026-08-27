@@ -43,6 +43,18 @@ The script runs six phases in order; each phase is idempotent. The default invoc
 7. **Deploy** — `--target staging`: leave staging up, print the Bolt URI. `--target local`: build+verify the alpha-inactive color via a transient `kg-alpha-build` project, tear it down (volume kept), then flip the live `alpha-deploy` onto the new color bound to `ALPHA_BIND_IP` with `up -d --no-deps deploy` (the `--no-deps` is load-bearing — it mounts the already-built/stamped color volume instead of letting `deploy`'s `depends_on` re-run build→import→post-process unstamped), provision the shared `explorer` login (`CREATE OR REPLACE USER`), check the `DOCKER-USER` firewall allowlist (warn-only — needs root), and write `.alpha_active_color`.
 8. **Publish** — compose `metadata.json` (version + sha + counts + timestamps + `per_publication_edges` map + `controlled_vocabularies` manifest `{hash, entry_count, entry_ids}` — the hash consumers pin), extract the `[<version>]` CHANGELOG section to a notes fragment, **find the most recent published `kg-*` release on origin and download its `metadata.json`**, render a "What changed since kg-X.Y.Z" diff block (headline-count deltas from Schema_info + per-publication added/changed/removed + a "Controlled vocabularies" section whenever the hash moved: old → new hash, added/removed entry ids, or "same entry set — value lists changed"), prepend the diff block to the notes fragment if non-empty, `gh release create kg-<version> --notes-file <fragment> --prerelease`, `gh release upload` the manifest. First-ever releases or older prior releases without `metadata.json` skip the diff (non-fatal).
 
+## Bringing up an existing release on a new machine (`--bringup`)
+
+The "just run it" path: no cut, tag, push or publish — stand up an **already-published** `kg-<version>` on this box on the release port with the shared `explorer` login, exactly as `--target local` would have left it.
+
+```bash
+git clone git@github.com:wosnat/multiomics_biocypher_kg.git && cd multiomics_biocypher_kg
+cp .env.alpha.example .env.alpha   # fill ALPHA_BIND_IP / NEO4J_AUTH / ALPHA_EXPLORER_PASSWORD
+uv run python .claude/skills/release-kg/release_kg.py 0.1.0-alpha.6 --bringup --target local
+```
+
+What it does: verifies the tag exists on origin → creates an empty `.env` if missing (build.sh copies it; nothing at build time needs a value — every build input is committed at the tag, so **no MNX, eggNOG DB or API keys**) → `gh release download <tag> metadata.json` (the release's published stamp; a missing manifest only warns) → clean clone of the tag → derives the stamp (SHA from the tag, `mcp_min` from the manifest else the clone's `pyproject.toml`, vocabulary manifest from the clone) → the same blue/green alpha deploy as Phase 6 `--target local` (build into the inactive color on a temp port, assert `Schema_info.version` + `controlled_vocabularies_hash`, flip `alpha-deploy` onto `${ALPHA_BIND_IP}:17687`, `CREATE OR REPLACE USER explorer`, firewall check) → **compares the rebuilt `Schema_info` against `metadata.json`** (papers / experiments / genes / organisms / expression edges, vocabulary hash, git SHA) and dies — stack left up for inspection — if the rebuild does not reproduce the release. Needs `docker`, `git`, `gh` (auth'd) and ~1 h for the build. `--dry-run` walks every step. Staging is not supported here (it is a verification stack, not a deployment). A prebuilt Neo4j dump asset would make this minutes instead of an hour — backlog.
+
 ## Examples
 
 ```bash
@@ -56,6 +68,9 @@ uv run python .claude/skills/release-kg/release_kg.py 0.1.0-alpha.1
 
 # Resume after polish
 uv run python .claude/skills/release-kg/release_kg.py 0.1.0-alpha.1 --resume
+
+# New machine: bring up an existing release on the release port + explorer login
+uv run python .claude/skills/release-kg/release_kg.py 0.1.0-alpha.6 --bringup --target local
 ```
 
 ## What this skill does NOT do (yet)

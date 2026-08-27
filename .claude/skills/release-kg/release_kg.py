@@ -123,6 +123,7 @@ class Context:
     dry_run: bool
     resume: bool
     skip_kg_tests: bool
+    bringup: bool = False
     # Filled by preflight
     git_sha: str = ""
     git_sha_short: str = ""
@@ -857,7 +858,7 @@ def deploy_local(ctx: Context) -> None:
     # time. (The clone is from the tag, which doesn't carry the gitignored file.)
     shutil.copy(env_alpha_path, ctx.clone_dir / ".env.alpha")
 
-    _alpha_build_and_verify(ctx, inactive_color, env_alpha)
+    ctx.schema_info = _alpha_build_and_verify(ctx, inactive_color, env_alpha)
     _alpha_teardown_build_project(ctx)
     _alpha_flip_live_deploy(ctx, active_color, inactive_color, env_alpha)
     _alpha_provision_explorer_user(env_alpha)
@@ -868,7 +869,7 @@ def deploy_local(ctx: Context) -> None:
     _alpha_print_operator_summary(ctx, env_alpha)
 
 
-def _alpha_build_and_verify(ctx: Context, inactive_color: str, env_alpha: dict) -> None:
+def _alpha_build_and_verify(ctx: Context, inactive_color: str, env_alpha: dict) -> dict:
     """Run the build → import → post-process → deploy chain in the
     `kg-alpha-build` project, then verify Schema_info on the temp Bolt port."""
     log(f"  building into kg-alpha-{inactive_color} via {ALPHA_BUILD_PROJECT} …")
@@ -957,6 +958,7 @@ def _alpha_build_and_verify(ctx: Context, inactive_color: str, env_alpha: dict) 
         f"{schema['expr_edges']} expression edges")
     log(f"  L2 KG-validity suite: skipped on alpha-build (already passed in "
         f"Phase 5 against the staging stack; same tag + env yields the same KG)")
+    return schema
 
 
 def _alpha_teardown_build_project(ctx: Context) -> None:
@@ -1159,6 +1161,48 @@ def build_metadata(ctx: Context) -> dict:
         },
         "stamped_at": datetime.now(timezone.utc).isoformat(),
     }
+
+
+def download_release_metadata(tag: str) -> Optional[dict]:
+    """Download `metadata.json` from the GitHub Release for `tag`; None when the
+    release or the asset does not exist (older releases predate the manifest)."""
+    tmp_path = Path("/tmp") / f"release-metadata-{tag}.json"
+    download = subprocess.run(
+        ["gh", "release", "download", tag,
+         "--pattern", "metadata.json", "--output", str(tmp_path), "--clobber"],
+        capture_output=True, text=True,
+    )
+    if download.returncode != 0:
+        return None
+    try:
+        return json.loads(tmp_path.read_text())
+    except (json.JSONDecodeError, OSError):
+        return None
+
+
+def compare_with_release_metadata(schema: dict, vocab_hash: str, meta: dict) -> list[str]:
+    """Mismatches between a freshly built graph and the published release
+    manifest. Empty list = the rebuild reproduced the release. Only fields the
+    manifest carries are compared, so older manifests degrade gracefully."""
+    problems: list[str] = []
+    counts = meta.get("counts") or {}
+    for label, key in (("papers", "papers"), ("experiments", "experiments"),
+                       ("genes", "genes"), ("organisms", "organisms"),
+                       ("expression_edges", "expr_edges")):
+        want = counts.get(label)
+        if want is None:
+            continue
+        got = schema.get(key)
+        if got != want:
+            problems.append(f"{label}: built {got} vs released {want}")
+    want_hash = (meta.get("controlled_vocabularies") or {}).get("hash")
+    if want_hash and want_hash != vocab_hash:
+        problems.append(f"controlled_vocabularies_hash: built {vocab_hash} vs released {want_hash}")
+    want_sha = meta.get("git_sha")
+    got_sha = schema.get("git_sha")
+    if want_sha and got_sha and got_sha != want_sha:
+        problems.append(f"git_sha: built {got_sha} vs released {want_sha}")
+    return problems
 
 
 def fetch_prior_release_metadata(current_version: str) -> Optional[dict]:
@@ -1449,6 +1493,101 @@ def phase_publish(ctx: Context) -> None:
         log(f"    - Clean up clone: rm -rf {ctx.clone_dir}")
 
 
+# ─── Bring-up: redeploy an EXISTING release on this machine ─────────────────
+def phase_bringup(ctx: Context) -> int:
+    """`release_kg.py <version> --bringup`: stand up an already-published
+    `kg-<version>` on this box — release port, auth on, shared `explorer`
+    login — without cutting, tagging, pushing or publishing anything.
+
+    Flow: clone the tag → derive the stamp (SHA from the tag, mcp_min from the
+    release manifest, else the clone's pyproject) → the same blue/green alpha
+    deploy `--target local` uses (build → verify version + vocabulary hash →
+    flip → provision `explorer`) → compare the rebuilt graph's Schema_info
+    against the release's published metadata.json and refuse to call it the
+    release if any headline count, the vocabulary hash or the git SHA differ.
+
+    Needs on the new machine: docker, git, gh (auth'd, for metadata.json),
+    a checkout of this repo (any state) to run from, and `.env.alpha`.
+    `.env` is created empty if missing — build.sh copies it but no build-time
+    code needs a value. No MNX / eggNOG DB / API keys: every build input is
+    committed at the tag.
+    """
+    section(f"Bring-up: {TAG_PREFIX}{ctx.version} on this machine (--target {ctx.target})")
+    if ctx.target != "local":
+        die("--bringup only supports --target local (release port + explorer login); "
+            "staging is a verification stack, not a deployment")
+    if not VERSION_RE.match(ctx.version):
+        die(f"version {ctx.version!r} does not match X.Y.Z[-(alpha|beta|rc).N]")
+    for tool in ("git", "docker", "gh"):
+        if not ctx.dry_run and not shutil.which(tool):
+            die(f"required tool not on PATH: {tool}")
+    tag = f"{TAG_PREFIX}{ctx.version}"
+    origin_url = git_out("remote", "get-url", "origin")
+    if not origin_url:
+        die("run from a checkout of the KG repo (need `git remote get-url origin`)")
+    remote_tag = git_out("ls-remote", "--tags", origin_url, tag)
+    if not remote_tag and not ctx.dry_run:
+        die(f"tag {tag} not found on {origin_url}")
+    log(f"  tag {tag} on origin ✓")
+
+    if not Path(".env").exists():
+        if ctx.dry_run:
+            dry_msg("create empty .env (build.sh copies it; nothing at build time needs a value)")
+        else:
+            Path(".env").touch()
+            log("  created empty .env (build.sh copies it; nothing at build time needs a value)")
+
+    # Release manifest first: it pins the stamp we must reproduce.
+    meta: Optional[dict] = None
+    if ctx.dry_run:
+        dry_msg(f"gh release download {tag} --pattern metadata.json")
+    else:
+        meta = download_release_metadata(tag)
+        if meta is None:
+            log(f"  WARNING: {tag} has no metadata.json on GitHub — the rebuild cannot be "
+                f"checked against the release's published counts/hash; proceeding")
+        else:
+            log(f"  release manifest: {meta.get('counts', {}).get('genes', '?')} genes · "
+                f"{meta.get('counts', {}).get('expression_edges', '?')} edges · "
+                f"vocab {((meta.get('controlled_vocabularies') or {}).get('hash') or '(none)')[:19]}…")
+            if meta.get("mcp_min_version"):
+                ctx.mcp_min = meta["mcp_min_version"]
+
+    phase_clean_clone(ctx)
+    if ctx.dry_run:
+        ctx.git_sha, ctx.git_sha_short = "<tag-sha>", "<tag-sha>"
+        dry_msg(f"read tag SHA via `git -C {ctx.clone_dir} rev-parse HEAD`; "
+                f"mcp_min from metadata.json else the clone's pyproject.toml")
+        dry_msg(f"compute vocabulary manifest from {ctx.clone_dir}/config/controlled_vocabularies.yaml")
+    else:
+        assert ctx.clone_dir is not None
+        ctx.git_sha = git_out("-C", str(ctx.clone_dir), "rev-parse", "HEAD")
+        ctx.git_sha_short = ctx.git_sha[:8]
+        if meta is None or not meta.get("mcp_min_version"):
+            ctx.mcp_min = _load_default_mcp_min(ctx.clone_dir / "pyproject.toml")
+        ctx.vocab_manifest = compute_vocab_manifest(ctx.clone_dir)
+        log(f"  stamp: version={ctx.version} sha={ctx.git_sha_short} mcp_min={ctx.mcp_min} "
+            f"vocab={ctx.vocab_manifest['hash'][:19]}… ({ctx.vocab_manifest['entry_count']} entries)")
+    ctx.git_branch = tag
+    ctx.git_dirty = False
+
+    phase_deploy(ctx)   # --target local: build → verify → flip → explorer login
+
+    if ctx.dry_run:
+        dry_msg("compare rebuilt Schema_info (counts, vocabulary hash, git_sha) against "
+                "the release's metadata.json; die on any mismatch")
+        return 0
+    if meta is not None:
+        problems = compare_with_release_metadata(
+            ctx.schema_info, ctx.vocab_manifest["hash"], meta)
+        if problems:
+            die(f"rebuild of {tag} does NOT reproduce the published release "
+                f"(stack left up for inspection):\n    - " + "\n    - ".join(problems))
+        log(f"  rebuild reproduces {tag}'s metadata.json ✓ (counts · vocabulary hash · git_sha)")
+    log(f"\n=== release-kg: {tag} brought up ===")
+    return 0
+
+
 # ─── Entry point ────────────────────────────────────────────────────────────
 def parse_args(argv: Optional[list[str]] = None) -> Context:
     ap = argparse.ArgumentParser(
@@ -1468,6 +1607,11 @@ def parse_args(argv: Optional[list[str]] = None) -> Context:
                     help="Skip the KG validity suite step in Phase 5 (emergency override; "
                          "default is to gate the release on `pytest tests/kg_validity/` "
                          "passing against the staging stack)")
+    ap.add_argument("--bringup", action="store_true",
+                    help="Stand up an ALREADY-PUBLISHED kg-<version> on this machine "
+                         "(clone tag → alpha build+verify → flip → explorer login → "
+                         "compare with the release's metadata.json). No cut/tag/push/"
+                         "publish. --target local only.")
     args = ap.parse_args(argv)
     return Context(
         version=args.version,
@@ -1478,12 +1622,16 @@ def parse_args(argv: Optional[list[str]] = None) -> Context:
         dry_run=args.dry_run,
         resume=args.resume,
         skip_kg_tests=args.skip_kg_tests,
+        bringup=args.bringup,
     )
 
 
 def main(argv: Optional[list[str]] = None) -> int:
     ctx = parse_args(argv)
     suffix = ", --dry-run" if ctx.dry_run else ""
+    if ctx.bringup:
+        log(f"=== release-kg: bring up {TAG_PREFIX}{ctx.version} (--target {ctx.target}{suffix}) ===")
+        return phase_bringup(ctx)
     log(f"=== release-kg: {ctx.version} (--target {ctx.target}{suffix}) ===")
 
     phase_preflight(ctx)

@@ -310,6 +310,44 @@ def test_assert_vocab_hash(rkg):
         rkg.assert_vocab_hash("sha256:y", m, "t")
 
 
+def test_parse_args_bringup_flag(rkg):
+    ctx = rkg.parse_args(["0.1.0-alpha.6", "--bringup", "--target", "local"])
+    assert ctx.bringup is True and ctx.target == "local"
+    assert rkg.parse_args(["0.1.0-alpha.6"]).bringup is False
+
+
+def test_compare_with_release_metadata_reproduced(rkg):
+    schema = {"papers": 49, "experiments": 209, "genes": 127458, "organisms": 48,
+              "expr_edges": 327522, "git_sha": "abc"}
+    meta = {"git_sha": "abc",
+            "counts": {"papers": 49, "experiments": 209, "genes": 127458,
+                       "organisms": 48, "expression_edges": 327522},
+            "controlled_vocabularies": {"hash": "sha256:v"}}
+    assert rkg.compare_with_release_metadata(schema, "sha256:v", meta) == []
+
+
+def test_compare_with_release_metadata_reports_each_drift(rkg):
+    schema = {"papers": 49, "experiments": 209, "genes": 1, "organisms": 48,
+              "expr_edges": 327522, "git_sha": "abc"}
+    meta = {"git_sha": "def",
+            "counts": {"papers": 49, "experiments": 209, "genes": 2,
+                       "organisms": 48, "expression_edges": 327522},
+            "controlled_vocabularies": {"hash": "sha256:v"}}
+    out = rkg.compare_with_release_metadata(schema, "sha256:w", meta)
+    assert any(p.startswith("genes: built 1 vs released 2") for p in out)
+    assert any(p.startswith("controlled_vocabularies_hash:") for p in out)
+    assert any(p.startswith("git_sha:") for p in out)
+    assert len(out) == 3
+
+
+def test_compare_with_release_metadata_old_manifest_degrades(rkg):
+    """A manifest without the vocab block or git_sha compares counts only."""
+    schema = {"papers": 1, "experiments": 1, "genes": 1, "organisms": 1, "expr_edges": 1}
+    meta = {"counts": {"papers": 1, "experiments": 1, "genes": 1, "organisms": 1,
+                       "expression_edges": 1}}
+    assert rkg.compare_with_release_metadata(schema, "sha256:anything", meta) == []
+
+
 def _meta(counts=None, pubs=None, vocab=None, tag="kg-0.0.1"):
     m = {"tag": tag, "counts": counts or {"papers": 1, "experiments": 1, "genes": 1,
                                           "organisms": 1, "expression_edges": 1},
