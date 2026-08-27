@@ -50,3 +50,26 @@ def test_strings_are_sanitized():
             for s in (v if isinstance(v, list) else [v]):
                 if isinstance(s, str):
                     assert "'" not in s and "|" not in s
+
+
+def test_min_size_is_emitted_and_rejected_on_scalars(tmp_path):
+    from multiomics_kg.utils.controlled_vocab import load_vocabularies
+    import pytest as _pytest
+    good = tmp_path / "v.yaml"
+    good.write_text("""
+Experiment.treatment_type:
+  applies_to: Experiment
+  applies_to_kind: node
+  property: treatment_type
+  value_type: string_array
+  closed: true
+  values: [a]
+  min_size: 1
+  description: x
+""")
+    e = load_vocabularies(good)["Experiment.treatment_type"]
+    assert e.min_size == 1
+    bad = tmp_path / "bad.yaml"
+    bad.write_text(good.read_text().replace("string_array", "string"))
+    with _pytest.raises(ValueError, match="min_size"):
+        load_vocabularies(bad)

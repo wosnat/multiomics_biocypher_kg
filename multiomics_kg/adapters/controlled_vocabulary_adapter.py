@@ -60,6 +60,8 @@ class ControlledVocabularyAdapter:
                 props["min_value"] = float(e.min_value)
             if e.max_value is not None:
                 props["max_value"] = float(e.max_value)
+            if e.min_size is not None:
+                props["min_size"] = int(e.min_size)
             if e.signal_count is not None:
                 props["signal_count"] = int(e.signal_count)
             if e.signals:

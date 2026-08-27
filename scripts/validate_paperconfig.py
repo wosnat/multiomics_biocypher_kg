@@ -184,11 +184,30 @@ _TREATMENT_ORGANISMS_CSV_DEFAULT = {
     # "Pseudohoeflea",
 }
 
-# Canonical vocabulary shared by treatment_type and background_factors.
+# Canonical vocabularies for treatment_type and background_factors are loaded
+# from config/controlled_vocabularies.yaml (THE source of truth, published as
+# ControlledVocabulary nodes) so the validator can never accept a value the
+# KG validity suite would reject. Two SEPARATE sets since 2026-08-27:
 # treatment_type = "what environmental variable is being manipulated"
 # background_factors = "what conditions are held constant"
-# Same canonical terms; meaning depends on which field they appear in.
-CANONICAL_CONDITION_TYPES = {
+# The old shared CANONICAL_CONDITION_TYPES is kept as their union for callers
+# that only need "is this a known condition token"; the per-field checks use
+# the specific set. The literal below documents the terms; the yaml governs.
+def _load_condition_vocab(entry_id: str) -> set[str]:
+    try:
+        from multiomics_kg.utils.controlled_vocab import load_vocabularies
+        return set(load_vocabularies()[entry_id].values)
+    except Exception as exc:  # pragma: no cover — import/env failure
+        raise RuntimeError(
+            f"cannot load {entry_id} from config/controlled_vocabularies.yaml: {exc}"
+        ) from exc
+
+
+CANONICAL_TREATMENT_TYPES = _load_condition_vocab("Experiment.treatment_type")
+CANONICAL_BACKGROUND_FACTORS = _load_condition_vocab("Experiment.background_factors")
+CANONICAL_CONDITION_TYPES = CANONICAL_TREATMENT_TYPES | CANONICAL_BACKGROUND_FACTORS
+
+_CONDITION_TERM_NOTES = {
     # Nutrient / environmental variables
     "nitrogen",         # N-limitation / N-replete
     "phosphorus",       # P-limitation / P-replete
@@ -208,12 +227,19 @@ CANONICAL_CONDITION_TYPES = {
     "plastic",          # Plastic leachate exposure
     # Growth / baseline
     "growth_phase",     # Growth state / multi-condition comparison
-    "mutant",           # Mutant or evolved strain comparison
     # Subcellular fractionation comparisons (vesicle/exoproteome/secretome vs whole cell)
     "compartment",      # Subcellular fraction comparison; specific fraction lives in `compartment` field
     # Background-only (typically not used as treatment_type)
     "axenic",           # Pure culture, no other organisms
+    # Characterization studies (no perturbation; what was measured)
+    "rna_decay",        # Steglich 2010 rifampicin half-lives
+    "tss_mapping",      # Voigt 2014 TSS maps
+    "genomic_analysis", # Hackl 2023 genomic islands (gene_clusters entries)
 }
+_undocumented = CANONICAL_CONDITION_TYPES - set(_CONDITION_TERM_NOTES)
+if _undocumented:  # keep the comment table honest without making it authoritative
+    import warnings as _warnings
+    _warnings.warn(f"validate_paperconfig: condition terms without a note: {sorted(_undocumented)}")
 
 # Valid cluster_type values for gene_clusters entries.
 VALID_CLUSTER_TYPES = {
@@ -412,8 +438,7 @@ def _validate_experiments(experiments: dict, config_path: str,
         # Required fields
         for field in REQUIRED_EXPERIMENT_FIELDS:
             val = exp.get(field)
-            # treatment_type: [] is a legal value (characterization experiment,
-            # checked below); only a missing key / blank string is an error here.
+            # treatment_type: [] is reported by the emptiness rule below, not here.
             if val is None or (isinstance(val, str) and not val.strip()):
                 errors.append(
                     f"{config_path} | experiments.{exp_key} | "
@@ -436,12 +461,13 @@ def _validate_experiments(experiments: dict, config_path: str,
                         f"missing field '{field}' (optional for cluster-only experiments)"
                     )
 
-        # treatment_type / background_factors emptiness rules.
-        # background_factors must always be a non-empty list — every experiment
+        # treatment_type / background_factors emptiness rules (2026-08-27).
+        # Both must be non-empty lists. background_factors: every experiment
         # has a held-constant context (axenic, continuous light, ...).
-        # treatment_type may be [] ONLY for characterization experiments with
-        # no DE analyses (Steglich 2010 half-lives, Voigt 2014 TSS maps);
-        # an experiment that reports differential expression has a perturbation.
+        # treatment_type: a non-empty list is the explorer's indicator that
+        # the node is a real experiment — characterization studies name what
+        # was measured (rna_decay, tss_mapping, genomic_analysis); add a new
+        # vocabulary value when nothing fits, never leave [].
         raw_bg_check = exp.get("background_factors")
         bg_check = raw_bg_check if isinstance(raw_bg_check, list) else (
             [raw_bg_check] if raw_bg_check else [])
@@ -455,14 +481,13 @@ def _validate_experiments(experiments: dict, config_path: str,
         tt_check = raw_tt_check if isinstance(raw_tt_check, list) else (
             [raw_tt_check] if raw_tt_check else [])
         if not tt_check:
-            if has_analyses:
-                errors.append(
-                    f"{config_path} | experiments.{exp_key} | "
-                    f"treatment_type is empty but the experiment has DE analyses "
-                    f"— name the perturbation"
-                )
-            else:
-                print(f"    treatment_type []: characterization experiment (no perturbation)")
+            errors.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"treatment_type must be a non-empty list — name the perturbation, "
+                f"or for a characterization study what was measured "
+                f"(rna_decay, tss_mapping, genomic_analysis, ...; add a "
+                f"vocabulary value if nothing fits)"
+            )
 
         # Canonical organism
         organism = exp.get("organism", "")
@@ -504,20 +529,20 @@ def _validate_experiments(experiments: dict, config_path: str,
         treatment_type = exp.get("treatment_type", "")
         if isinstance(treatment_type, list):
             for tt in treatment_type:
-                if tt not in CANONICAL_CONDITION_TYPES:
+                if tt not in CANONICAL_TREATMENT_TYPES:
                     errors.append(
                         _canonical_field_error(
                             config_path, f"experiments.{exp_key}",
-                            "treatment_type", tt, CANONICAL_CONDITION_TYPES,
+                            "treatment_type", tt, CANONICAL_TREATMENT_TYPES,
                         )
                     )
                 else:
                     print(f"    treatment_type '{tt}': OK")
-        elif treatment_type and treatment_type not in CANONICAL_CONDITION_TYPES:
+        elif treatment_type and treatment_type not in CANONICAL_TREATMENT_TYPES:
             errors.append(
                 _canonical_field_error(
                     config_path, f"experiments.{exp_key}",
-                    "treatment_type", treatment_type, CANONICAL_CONDITION_TYPES,
+                    "treatment_type", treatment_type, CANONICAL_TREATMENT_TYPES,
                 )
             )
         elif treatment_type:
@@ -528,11 +553,11 @@ def _validate_experiments(experiments: dict, config_path: str,
         if isinstance(background_factors, str):
             background_factors = [background_factors]
         for bf in background_factors:
-            if bf not in CANONICAL_CONDITION_TYPES:
+            if bf not in CANONICAL_BACKGROUND_FACTORS:
                 errors.append(
                     _canonical_field_error(
                         config_path, f"experiments.{exp_key}",
-                        "background_factors", bf, CANONICAL_CONDITION_TYPES,
+                        "background_factors", bf, CANONICAL_BACKGROUND_FACTORS,
                     )
                 )
             else:
@@ -778,15 +803,36 @@ def _validate_gene_clusters_entry(key, table, config, paperconfig_dir,
     if ot and ot not in VALID_TYPES:
         warnings.append(f"  [{key}] omics_type '{ot}' not in {VALID_TYPES}")
 
-    # treatment_type must be a list
+    # treatment_type must be a NON-EMPTY list (2026-08-27): a non-empty list is
+    # the explorer's indicator of a real analysis; sequence-only analyses use
+    # genomic_analysis, decay/TSS characterization rna_decay / tss_mapping.
     tt = table.get("treatment_type")
-    if tt is not None:
-        if not isinstance(tt, list):
-            errors.append(f"  [{key}] treatment_type must be a list, got {type(tt).__name__}")
-        else:
-            for t in tt:
-                if t not in CANONICAL_CONDITION_TYPES:
-                    warnings.append(f"  [{key}] treatment_type '{t}' not canonical")
+    if tt is None or tt == []:
+        errors.append(
+            f"  [{key}] treatment_type must be a non-empty list "
+            f"(perturbation, or genomic_analysis / rna_decay / tss_mapping for "
+            f"characterization; add a vocabulary value if nothing fits)"
+        )
+    elif not isinstance(tt, list):
+        errors.append(f"  [{key}] treatment_type must be a list, got {type(tt).__name__}")
+    else:
+        for t in tt:
+            if t not in CANONICAL_TREATMENT_TYPES:
+                errors.append(
+                    _canonical_field_error(config_path, key, "treatment_type", t,
+                                           CANONICAL_TREATMENT_TYPES))
+    # background_factors: optional on gene_clusters (a genomic_analysis has no
+    # experimental context), but every listed value must be canonical.
+    bfc = table.get("background_factors") or []
+    bfc = [bfc] if isinstance(bfc, str) else bfc
+    if not isinstance(bfc, list):
+        errors.append(f"  [{key}] background_factors must be a list, got {type(bfc).__name__}")
+    else:
+        for b in bfc:
+            if b not in CANONICAL_BACKGROUND_FACTORS:
+                errors.append(
+                    _canonical_field_error(config_path, key, "background_factors", b,
+                                           CANONICAL_BACKGROUND_FACTORS))
 
     # Entry key naming
     if key.startswith("cluster_table_"):

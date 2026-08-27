@@ -10,9 +10,10 @@ publication:
       omics_type: MICROARRAY
       treatment_condition: "Rifampicin transcription arrest (150 ug/ml); transcript decay sampled at 0, 2.5, 5, 10, 20, 40, 60 min"
       # Rifampicin is the measurement METHOD (arrest transcription, watch decay),
-      # not a perturbation whose response is reported — so no treatment_type;
-      # the chemical presence is a background factor.
-      treatment_type: []
+      # not a perturbation whose response is reported — treatment_type names
+      # what was measured (characterization); the chemical presence is a
+      # background factor.
+      treatment_type: [rna_decay]
       background_factors: [axenic, chemical, light]
       experimental_context: "Axenic Prochlorococcus MED4 in Sargasso-seawater-based Pro99 at 21C under 30 umol quanta m-2 s-1 continuous cool white light (growth rate 0.325 per day); triplicate cultures split into seven subcultures; rifampicin dissolved in Pro99 (no organic solvent) to 150 ug/ml final; decay followed on high-density Affymetrix MD4-9313 microarrays; per-gene half-life and decay rate fitted from the 0-60 min series"
       medium: "Pro99 (Sargasso seawater based)"
@@ -97,7 +98,7 @@ publication:
       cluster_type: "decay_pattern"
       cluster_method: "Soft clustering (Mfuzz, m=2, 12 clusters) of rifampicin decay time-course profiles"
       omics_type: MICROARRAY
-      treatment_type: []
+      treatment_type: [rna_decay]
       background_factors: [axenic, chemical, light]
       treatment: "Rifampicin transcription arrest, 0-60 min mRNA decay time course"
       light_condition: "continuous cool white light"

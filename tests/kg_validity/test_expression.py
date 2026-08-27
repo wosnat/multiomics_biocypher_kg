@@ -273,23 +273,19 @@ def test_experiment_name_present_on_majority(run_query):
 
 
 def test_experiment_has_treatment_type(run_query):
-    """Every Experiment with expression edges must have a non-empty treatment_type.
+    """Every Experiment has a NON-EMPTY treatment_type (2026-08-27).
 
-    Characterization experiments that report no differential expression
-    (Steglich 2010 rifampicin half-lives, Voigt 2014 TSS maps) deliberately
-    declare ``treatment_type: []`` — there is no perturbation whose response
-    is reported — and are the only nodes allowed to carry none.
+    A non-empty list is the explorer's indicator that the node is a real
+    experiment. Characterization studies name what was measured instead of
+    a perturbation (rna_decay — Steglich 2010; tss_mapping — Voigt 2014).
     """
     result = run_query("""
         MATCH (exp:Experiment)
-        WHERE (exp.treatment_type IS NULL OR size(exp.treatment_type) = 0)
-          AND EXISTS { (exp)-[:Changes_expression_of]->() }
-        RETURN count(exp) AS missing
+        WHERE exp.treatment_type IS NULL OR size(exp.treatment_type) = 0
+        RETURN collect(exp.id) AS missing
     """)
     missing = result[0]["missing"]
-    assert missing == 0, (
-        f"{missing} Experiment nodes are missing treatment_type"
-    )
+    assert not missing, f"Experiment nodes with empty treatment_type: {missing}"
 
 
 def test_experiment_list_props_dense(run_query):
@@ -358,6 +354,7 @@ def test_experiment_treatment_type_values_canonical(run_query):
         "nitrogen", "phosphorus", "iron", "carbon", "salt", "light",
         "temperature", "plastic", "darkness", "diel", "viral", "coculture",
         "growth_phase", "compartment", "chemical", "oxygen",
+        "rna_decay", "tss_mapping", "genomic_analysis",
     }
     actual = set(result[0]["all_types"])
     unknown = actual - known

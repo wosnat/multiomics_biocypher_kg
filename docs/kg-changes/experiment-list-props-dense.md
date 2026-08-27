@@ -20,17 +20,35 @@ denormalized copies on 12 `ClusteringAnalysis` (Steglich decay clusters, Hackl
 `growth_phases` never had this problem only because post-import already sets
 it unconditionally.
 
-## Semantics (the contract)
+## Semantics (the contract) — revised the same day
 
-| Property | Density | Meaning of `[]` |
+| Property | Density | Empty list? |
 |---|---|---|
-| `Experiment.treatment_type` | **dense** | characterization experiment — no perturbation whose response is reported (rifampicin decay, TSS mapping). *Not* missing data. |
-| `Experiment.background_factors` | **dense and non-empty** | never `[]` — an experiment always has a held-constant context (`axenic`, continuous `light`, `coculture`, …) |
-| same two props on `ClusteringAnalysis` / `DerivedMetric` / `MetaboliteAssay` | **dense** | `[]` allowed (e.g. Hackl 2023 genomic-island "clusters" are predicted from sequence, no experiment) |
+| `Experiment.treatment_type` | **dense, non-empty** (`min_size: 1`) | never. A non-empty list is the explorer's indicator that the node is a real experiment. A study with no perturbation names *what was measured*: `rna_decay` (Steglich 2010), `tss_mapping` (Voigt 2014), `genomic_analysis` (Hackl 2023 islands). Mint a new short categorical value when a new paper fits nothing. |
+| `Experiment.background_factors` | **dense, non-empty** (`min_size: 1`) | never — an experiment always has a held-constant context (`axenic`, continuous `light`, `coculture`, …) |
+| `ClusteringAnalysis.treatment_type` | dense, non-empty (validator rule on `gene_clusters`) | never (`genomic_analysis` for sequence-only analyses) |
+| `ClusteringAnalysis.background_factors` | dense | `[]` allowed — a `genomic_analysis` has no experimental context (Hackl 2023) |
+| `DerivedMetric.*`, `MetaboliteAssay.*` | dense (copied from the parent Experiment) | inherits the Experiment rule |
 
 Contrast with `table_scope` (KG-SYNC-006 ORG-003), which is *sparse* because a
 metabolomics-only experiment genuinely has no DE table — the treatment axis is
-applicable to every experiment, so its empty case is `[]`, not absence.
+applicable to every experiment.
+
+The first cut of this fix (commit `33772b9b`) allowed `treatment_type = []` on
+the three characterization experiments; it was revised the same day because
+"non-empty ⇒ real experiment" is a more useful invariant for the explorer than
+"`[]` ⇒ characterization".
+
+### Vocabulary mechanics
+
+- `config/controlled_vocabularies.yaml` gains a `min_size` key (string_array
+  only; the loader rejects it on scalars). `test_controlled_vocabularies.py::
+  test_min_size_lists_are_dense_and_long_enough` asserts it generically on every
+  carrier, so no bespoke test is needed per property.
+- `scripts/validate_paperconfig.py` loads `CANONICAL_TREATMENT_TYPES` and
+  `CANONICAL_BACKGROUND_FACTORS` from the yaml. The two sets are disjoint except
+  `light`, `darkness`, `diel`, `coculture`, `chemical`, `viral` (meaning depends
+  on the field). `mutant` was validator-only and unused — dropped.
 
 ## What changed
 
@@ -39,11 +57,10 @@ applicable to every experiment, so its empty case is `[]`, not absence.
   [])`, same for `background_factors`, on Experiment and the three denormalized
   labels.
 - `scripts/validate_paperconfig.py`: **error** on empty/missing
-  `background_factors`; **error** on empty `treatment_type` when the
-  experiment is referenced by any `csv` statistical analysis (DE ⇒
-  perturbation); `[]` with no DE analyses prints a "characterization
-  experiment" note. Fixed a `TypeError` on an explicit `background_factors:
-  null`. New vocabulary value `oxygen`.
+  `background_factors` and on empty `treatment_type` (experiments and
+  `gene_clusters`); per-field canonical sets loaded from the yaml. Fixed a
+  `TypeError` on an explicit `background_factors: null`. New vocabulary
+  values `oxygen`, `rna_decay`, `tss_mapping`, `genomic_analysis`.
 - `config/controlled_vocabularies.yaml`: `Experiment.treatment_type` gains
   `oxygen`; both descriptions document the dense rule. (Hash drift until the
   next build — expected.)
@@ -59,5 +76,7 @@ applicable to every experiment, so its empty case is `[]`, not absence.
 
 No code change. `coalesce(e.treatment_type, [])` is not needed at any
 projection site; the edge-case scenario becomes an assertion that
-`treatment_type == []` on the Steglich analysis. Verification:
+`treatment_type == ['rna_decay']` on the Steglich analysis. Add `oxygen`,
+`rna_decay`, `tss_mapping`, `genomic_analysis` to any hard-coded
+treatment-type enum (or read `ControlledVocabulary`). Verification:
 `MATCH (e:Experiment) RETURN count(e) = count(e.treatment_type) AS dense` → `true`.

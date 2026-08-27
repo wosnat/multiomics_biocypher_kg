@@ -22,7 +22,7 @@ from pathlib import Path
 VALIDATE_SCRIPT_DIR = os.path.join(os.path.dirname(__file__), os.pardir, "scripts")
 sys.path.insert(0, os.path.abspath(VALIDATE_SCRIPT_DIR))
 
-from validate_paperconfig import validate, CANONICAL_GENOMIC_ORGANISMS, CANONICAL_CONDITION_TYPES, CANONICAL_TEST_TYPES, REQUIRED_EXPERIMENT_FIELDS
+from validate_paperconfig import validate, CANONICAL_GENOMIC_ORGANISMS, CANONICAL_CONDITION_TYPES, CANONICAL_TREATMENT_TYPES, CANONICAL_BACKGROUND_FACTORS, CANONICAL_TEST_TYPES, REQUIRED_EXPERIMENT_FIELDS
 
 # Project root (one level up from tests/)
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -201,7 +201,7 @@ class TestCanonicalTreatmentType:
         """Every canonical treatment_type value must be accepted."""
         monkeypatch.chdir(PROJECT_ROOT)
         csv = _write_minimal_csv(tmp_path)
-        for ttype in sorted(CANONICAL_CONDITION_TYPES):
+        for ttype in sorted(CANONICAL_TREATMENT_TYPES):
             config = _make_valid_config(
                 csv,
                 experiment_overrides={"treatment_type": ttype},
@@ -1453,25 +1453,50 @@ def test_validate_rejects_missing_background_factors(tmp_path):
     assert any("background_factors must be a non-empty list" in e for e in errors), errors
 
 
-def test_validate_rejects_empty_treatment_type_with_de_analyses(tmp_path):
+def test_validate_rejects_empty_treatment_type(tmp_path):
     errors, _ = _run_validation(
         tmp_path, {"treatment_type": [], "background_factors": ["axenic"],
                    "treatment_organism": None, "treatment_taxid": None})
-    assert any("treatment_type is empty but the experiment has DE analyses" in e
-               for e in errors), errors
-    # [] is a legal VALUE — must not also trip the missing-required-field check
+    assert any("treatment_type must be a non-empty list" in e for e in errors), errors
+    # [] is reported once, by the emptiness rule — not as a missing key
     assert not any("missing required field 'treatment_type'" in e for e in errors), errors
 
 
-def test_validate_accepts_empty_treatment_type_for_characterization(tmp_path):
-    """No DE analyses reference the experiment → [] is a characterization
-    experiment (Steglich 2010 half-lives, Voigt 2014 TSS maps)."""
+def test_validate_rejects_empty_treatment_type_even_without_de_analyses(tmp_path):
+    """Characterization studies name what was measured (rna_decay, ...)."""
     errors, _ = _run_validation(
         tmp_path, {"treatment_type": [], "background_factors": ["axenic", "light"],
                    "treatment_organism": None, "treatment_taxid": None},
         drop_analysis=True)
-    assert not any("treatment_type" in e for e in errors), errors
-    assert not any("background_factors" in e for e in errors), errors
+    assert any("treatment_type must be a non-empty list" in e for e in errors), errors
+
+
+def test_validate_accepts_characterization_treatment_types(tmp_path):
+    for v in ("rna_decay", "tss_mapping", "genomic_analysis"):
+        errors, _ = _run_validation(
+            tmp_path, {"treatment_type": [v], "background_factors": ["axenic"],
+                       "treatment_organism": None, "treatment_taxid": None},
+            drop_analysis=True)
+        assert not any("treatment_type" in e for e in errors), (v, errors)
+
+
+def test_validator_vocab_split_matches_yaml():
+    """The validator's two sets come from controlled_vocabularies.yaml, not a
+    hand-maintained union — a treatment-only value is NOT a background factor."""
+    from multiomics_kg.utils.controlled_vocab import load_vocabularies
+    vocab = load_vocabularies()
+    assert CANONICAL_TREATMENT_TYPES == set(vocab["Experiment.treatment_type"].values)
+    assert CANONICAL_BACKGROUND_FACTORS == set(vocab["Experiment.background_factors"].values)
+    assert "nitrogen" in CANONICAL_TREATMENT_TYPES and "nitrogen" not in CANONICAL_BACKGROUND_FACTORS
+    assert "axenic" in CANONICAL_BACKGROUND_FACTORS and "axenic" not in CANONICAL_TREATMENT_TYPES
+    assert "mutant" not in CANONICAL_CONDITION_TYPES
+
+
+def test_validate_rejects_treatment_only_value_as_background_factor(tmp_path):
+    errors, _ = _run_validation(
+        tmp_path, {"treatment_type": ["light"], "background_factors": ["nitrogen"],
+                   "treatment_organism": None, "treatment_taxid": None})
+    assert any("background_factors" in e and "nitrogen" in e for e in errors), errors
 
 
 def test_validate_accepts_oxygen_treatment_type(tmp_path):

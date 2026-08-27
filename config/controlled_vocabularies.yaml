@@ -648,16 +648,23 @@ Experiment.treatment_type:
   closed: true
   values: [nitrogen, phosphorus, iron, carbon, salt, light, temperature,
            plastic, darkness, diel, viral, coculture, growth_phase, compartment,
-           chemical, oxygen]
+           chemical, oxygen, rna_decay, tss_mapping, genomic_analysis]
+  min_size: 1
   description: >
     Harvested from CLAUDE.md's "treatment_type canonical values" bullet, per
     the controller ruling designating CLAUDE.md as authority for this property.
-    DENSE: every Experiment carries the list; [] = characterization experiment
-    with no perturbation (Steglich 2010 half-lives, Voigt 2014 TSS maps), NOT
-    missing data. neo4j-admin import drops an empty string[] cell, so
-    post-import re-materializes [] (2026-08-27).
-    "oxygen" added 2026-08-27 — first emitted by Bernstein 2017's BP-1 /
-    M. ruber turbidostat pO2 steady states.
+    DENSE and NON-EMPTY (min_size 1) on every Experiment — a non-empty list is
+    the explorer's indicator that the node is a real experiment, so
+    characterization studies get a short categorical value naming what was
+    measured instead of []: rna_decay (Steglich 2010 rifampicin half-lives),
+    tss_mapping (Voigt 2014 TSS maps), genomic_analysis (Hackl 2023 genomic
+    islands, on ClusteringAnalysis). Add a new value when a new paper fits
+    nothing here. "oxygen" added 2026-08-27 — first emitted by Bernstein
+    2017's BP-1 / M. ruber turbidostat pO2 steady states. neo4j-admin import
+    drops an empty string[] cell, so post-import re-materializes [] on the
+    denormalized labels (ClusteringAnalysis / DerivedMetric / MetaboliteAssay)
+    where [] is still legal.
+    scripts/validate_paperconfig.py loads this list (CANONICAL_TREATMENT_TYPES).
     "chemical" added 2026-08-19 — first emitted by Hackl 2023's MIT0604
     mitomycin-C experiments (previously validator-only).
     FINDING: scripts/validate_paperconfig.py does NOT enforce this narrower
@@ -677,20 +684,17 @@ Experiment.background_factors:
   value_type: string_array
   closed: true
   values: [axenic, light, diel, coculture, chemical, darkness, viral]
+  min_size: 1
   description: >
-    DENSE and NON-EMPTY on every Experiment (validate_paperconfig.py errors
-    on an empty list; kg_validity asserts size > 0) — an experiment always has
-    a held-constant context. neo4j-admin import drops an empty string[] cell,
-    so post-import re-materializes [] defensively (2026-08-27).
-    Harvested from CLAUDE.md's "background_factors canonical values" bullet,
-    per the controller ruling designating CLAUDE.md as authority. Same
-    FINDING as Experiment.treatment_type: scripts/validate_paperconfig.py's
-    CANONICAL_CONDITION_TYPES is one shared 17-value set covering BOTH
-    fields, so it additionally allows "nitrogen", "phosphorus", "iron",
-    "carbon", "salt", "temperature", "plastic", "growth_phase", "compartment",
-    and "mutant" here — none of which are in CLAUDE.md's narrower
-    background_factors list. Declared per CLAUDE.md as instructed; the
-    validator's wider allowance is unreconciled. See task-10-report.md.
+    DENSE and NON-EMPTY (min_size 1) on every Experiment — an experiment
+    always has a held-constant context. neo4j-admin import drops an empty
+    string[] cell, so post-import re-materializes [] on the denormalized
+    labels (ClusteringAnalysis may legitimately be [] — Hackl 2023 genomic
+    islands have no experimental context). Harvested from CLAUDE.md's
+    "background_factors canonical values" bullet. Since 2026-08-27
+    scripts/validate_paperconfig.py loads THIS list
+    (CANONICAL_BACKGROUND_FACTORS) instead of a shared set, closing the old
+    FINDING that the validator accepted treatment-only values here.
 
 KeggTerm.level_kind:
   applies_to: KeggTerm

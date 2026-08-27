@@ -237,14 +237,23 @@ tag with nothing logged.
   `treatment_type: [coculture]`, `background_factors: []` on all four
   clustering analyses. The paper manipulates three variables — partnership
   (axenic vs binary), irradiance, and dissolved-O₂ tension — while every
-  clustered sample is in binary coculture. Now: experiment
-  `treatment_type: [coculture, light, oxygen]`, `background_factors: [light]`
-  (continuous illumination in turbidostat steady state); light clusters
+  clustered sample is in binary coculture — and only the coculture samples
+  are wired into the KG. Now: experiment `treatment_type: [light, oxygen]`,
+  `background_factors: [coculture]` (`treatment_organism` still drives
+  `Tests_coculture_with`); light clusters
   `treatment_type: [light]`, `background_factors: [coculture]`; oxygen
   clusters `treatment_type: [oxygen]`, `background_factors: [coculture,
   light]` (held at high light). `oxygen` is a new `Experiment.treatment_type`
   vocabulary value (`config/controlled_vocabularies.yaml`, validator,
   kg_validity, CLAUDE.md) — the first pO₂ perturbation in the KG.
+- **Characterization studies now carry a non-empty `treatment_type`.** A
+  non-empty list is the explorer's "this is a real experiment" indicator, so
+  instead of `[]` they name what was measured: Steglich 2010 → `rna_decay`
+  (experiment + decay clusters), Voigt 2014 → `tss_mapping` (MED4 + MIT9313),
+  Hackl 2023 genomic islands (11 `ClusteringAnalysis`) → `genomic_analysis`.
+  Three new closed-vocabulary values; `Experiment.treatment_type` and
+  `.background_factors` declare `min_size: 1` (new vocabulary key, asserted
+  generically on the live graph).
 
 - **GEO processed-supplements drop (2026-08-19 pass)** — seven papers wired or
   upgraded from the staged GEO/journal files (branch
@@ -605,9 +614,18 @@ tag with nothing logged.
   `count(e) = count(e.treatment_type) = count(e.background_factors)` on
   Experiment (and the three denormalized labels), `size(background_factors)
   > 0` on every Experiment. `validate_paperconfig.py` now errors on an empty
-  `background_factors` and on an empty `treatment_type` when the experiment
-  has DE analyses (also fixed a crash on an explicit `background_factors:
-  null`). See `docs/kg-changes/experiment-list-props-dense.md`.
+  `background_factors` and on an empty `treatment_type` (also fixed a crash
+  on an explicit `background_factors: null`). See
+  `docs/kg-changes/experiment-list-props-dense.md`.
+- **Validator vocabulary drift closed.** `validate_paperconfig.py` kept one
+  hand-maintained 18-value set for both `treatment_type` and
+  `background_factors`, so a paperconfig could pass validation with
+  `nitrogen` as a background factor or the never-used `mutant` anywhere and
+  then fail the kg_validity canonical test after the build. It now loads
+  `CANONICAL_TREATMENT_TYPES` / `CANONICAL_BACKGROUND_FACTORS` from
+  `config/controlled_vocabularies.yaml` (`mutant` dropped; the union
+  `CANONICAL_CONDITION_TYPES` is kept for callers), and `gene_clusters`
+  entries are checked against the same sets.
 
 - **Orphan proteins (38% of `Protein` nodes had no `Protein_belongs_to_organism`
   and no `Gene_encodes_protein`).** Two causes: the organism edge had been a

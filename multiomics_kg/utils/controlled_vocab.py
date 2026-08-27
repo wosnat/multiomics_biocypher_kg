@@ -42,6 +42,7 @@ class VocabEntry:
     exhaustive: bool = False
     min_value: float | None = None
     max_value: float | None = None
+    min_size: int | None = None      # string_array only: minimum list length on every carrier
     signal_count: int | None = None
     signals: list[str] = field(default_factory=list)
 
@@ -64,6 +65,11 @@ def _validate(key: str, raw: dict[str, Any]) -> None:
             f"value_type='{vt}'. Allowed: {sorted(VALUE_TYPES)}. Note 'bool' "
             f"is forbidden by house rule R5 — use a meaningful two-state "
             f"string instead."
+        )
+    if raw.get("min_size") is not None and vt != "string_array":
+        raise ValueError(
+            f"controlled_vocabularies.yaml entry '{key}' declares min_size but "
+            f"value_type='{vt}'; min_size only applies to string_array."
         )
     if raw["applies_to_kind"] not in ("node", "edge"):
         raise ValueError(
@@ -97,6 +103,7 @@ def load_vocabularies(path: str | Path = DEFAULT_PATH) -> dict[str, VocabEntry]:
             expected_empty=bool(raw.get("expected_empty", False)),
             exhaustive=bool(raw.get("exhaustive", False)),
             min_value=raw.get("min_value"),
+            min_size=raw.get("min_size"),
             max_value=raw.get("max_value"),
             signal_count=raw.get("signal_count"),
             signals=list(raw.get("signals") or []),
@@ -111,7 +118,7 @@ def vocabularies_hash(entries: list[VocabEntry]) -> str:
             "id": e.id, "value_type": e.value_type, "closed": e.closed,
             "values": sorted(e.values), "sparse": e.sparse,
             "expected_empty": e.expected_empty, "exhaustive": e.exhaustive,
-            "min_value": e.min_value,
+            "min_value": e.min_value, "min_size": e.min_size,
             "max_value": e.max_value, "signal_count": e.signal_count,
             "signals": sorted(e.signals),
         }, sort_keys=True)

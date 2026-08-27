@@ -73,6 +73,25 @@ def test_observed_values_are_declared(run_query, declared):
     assert not problems, "\n".join(problems)
 
 
+def test_min_size_lists_are_dense_and_long_enough(run_query, declared):
+    """A vocabulary with min_size N asserts the string_array property is
+    present on EVERY carrier with at least N elements — no null, no []."""
+    problems = []
+    for e in declared.values():
+        if e.min_size is None:
+            continue
+        if e.applies_to_kind == "node":
+            q = (f"MATCH (n:{e.applies_to}) WHERE n.`{e.property}` IS NULL "
+                 f"OR size(n.`{e.property}`) < {int(e.min_size)} RETURN count(n) AS bad")
+        else:
+            q = (f"MATCH ()-[r:{e.applies_to}]->() WHERE r.`{e.property}` IS NULL "
+                 f"OR size(r.`{e.property}`) < {int(e.min_size)} RETURN count(r) AS bad")
+        bad = run_query(q)[0]["bad"]
+        if bad:
+            problems.append(f"{e.id}: {bad} carriers null or shorter than min_size={e.min_size}")
+    assert not problems, "\n".join(problems)
+
+
 def test_every_sources_value_joins_a_data_source(run_query):
     """R2: every sources value corresponds to a DataSource node whose `id`
     property is `data_source:<value>` (the DataSource id is prefixed, the

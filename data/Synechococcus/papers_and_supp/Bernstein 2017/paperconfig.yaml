@@ -10,11 +10,13 @@ publication:
       control_condition: "No differential expression control — expression profiling across conditions"
       experimental_context: "T. elongatus BP-1 in binary coculture with M. ruber strain A in photobioreactors; 6 conditions (3 light x 2 oxygen levels); RNA-seq (Illumina NextSeq); transcript abundances measured across LLLO, MLLO, HLLO, HLMO, HLHO conditions"
       omics_type: RNASEQ
-      # Three manipulated variables (paper: axenic vs binary partnership x 3
-      # irradiance steady states x 3 pO2 tensions). Continuous illumination in
-      # turbidostat steady state is the held-constant regime.
-      treatment_type: ["coculture", "light", "oxygen"]
-      background_factors: [light]
+      # The data wired here (four clustering analyses) are all binary-coculture
+      # samples across 3 irradiance x 3 pO2 turbidostat steady states, so
+      # coculture is the held-constant context and light + oxygen are the
+      # manipulated variables. (The paper's axenic-vs-binary comparison is not
+      # in the KG; treatment_organism still drives Tests_coculture_with.)
+      treatment_type: ["light", "oxygen"]
+      background_factors: [coculture]
       medium: ""
       temperature: ""
       light_condition: "variable (low/medium/high)"

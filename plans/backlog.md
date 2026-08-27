@@ -17,7 +17,7 @@ up — this file is the index, not the plan.
 
 ## KG semantics
 
-- [ ] **Reconcile `CANONICAL_CONDITION_TYPES` with the two vocabulary lists
+- [x] DONE 2026-08-27 (validator loads both sets from the yaml). **Reconcile `CANONICAL_CONDITION_TYPES` with the two vocabulary lists
       (2026-08-27 follow-up to the dense treatment_type fix).** The validator
       keeps ONE 18-value set for both `treatment_type` and `background_factors`
       (now incl. `oxygen`), while `config/controlled_vocabularies.yaml` declares
@@ -31,7 +31,7 @@ up — this file is the index, not the plan.
       → `config/controlled_vocabularies.yaml` (the FINDING note on
       `Experiment.background_factors`), `scripts/validate_paperconfig.py`
 
-- [ ] **`gene_clusters` entries have no emptiness rule.** The new validator
+- [x] DONE 2026-08-27 (`treatment_type` non-empty on `gene_clusters`; `genomic_analysis` minted). **`gene_clusters` entries have no emptiness rule.** The new validator
       errors cover the `experiments` block only; a `gene_clusters` entry may
       still omit `treatment_type` / `background_factors` (Hackl 2023 genomic
       islands legitimately do — sequence-predicted, no experiment). Decide
@@ -40,15 +40,16 @@ up — this file is the index, not the plan.
       the documented "no experiment" value.
       → `docs/kg-changes/experiment-list-props-dense.md`
 
-- [ ] **Vocabulary schema has no "dense / non-empty" flag.** `sparse` and
+- [x] DONE 2026-08-27 (`min_size` key + generic kg test). **Vocabulary schema has no "dense / non-empty" flag.** `sparse` and
       `expected_empty` exist; the new contract ("dense, `[]` allowed" vs
       "dense, non-empty") is documented only in the `description` prose of
       `Experiment.treatment_type` / `.background_factors`. Consider a
       `min_size: 1` (or `non_empty: true`) key so `test_controlled_vocabularies`
       can assert it generically instead of the bespoke kg_validity test.
 
-- [ ] **Bernstein 2017 experiment-level `background_factors: [light]` is a
-      judgment call.** Chosen to mean "continuous illumination in turbidostat
+- [x] **Bernstein 2017 experiment-level `background_factors: [light]` is a
+      judgment call.** RESOLVED 2026-08-27: `treatment_type: [light, oxygen]`,
+      `background_factors: [coculture]` — only coculture samples are in the KG. Chosen to mean "continuous illumination in turbidostat
       steady state" while `light` is ALSO a treatment axis (irradiance steps).
       Revisit if the same-token-in-both-fields shape confuses explorer filters;
       the four clustering analyses are unambiguous (`[light]`/`[coculture]`,
@@ -282,9 +283,11 @@ Section references below are into that plan file, which holds the full designs.
       rebuild: (a) withdraw the slice-4 coalesce amendment — `treatment_type` /
       `background_factors` are dense on Experiment, ClusteringAnalysis,
       DerivedMetric, MetaboliteAssay; `[]` = characterization / no experiment;
-      (b) add `oxygen` wherever the treatment-type enum is hard-coded (or read
+      (b) add `oxygen`, `rna_decay`, `tss_mapping`, `genomic_analysis`
+      wherever the treatment-type enum is hard-coded (or read
       `ControlledVocabulary` `Experiment.treatment_type`); (c) edge-case gate
-      asserts `treatment_type == []` on the Steglich decay analysis.
+      asserts `treatment_type == ['rna_decay']` on the Steglich decay analysis
+      — `[]` no longer occurs on Experiment (min_size 1).
       → `docs/kg-changes/experiment-list-props-dense.md`
 
 - [ ] **Relationship-property index on `evidence`.** Explicitly not requested for

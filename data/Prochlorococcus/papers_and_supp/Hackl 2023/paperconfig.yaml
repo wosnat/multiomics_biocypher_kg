@@ -83,6 +83,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
       experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
@@ -98,6 +99,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
       experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
@@ -113,6 +115,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
       experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
@@ -128,6 +131,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
       experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
@@ -143,6 +147,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
       experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
@@ -158,6 +163,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
       experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
@@ -173,6 +179,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
       experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
@@ -188,6 +195,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
       experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
@@ -203,6 +211,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
       experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
@@ -218,6 +227,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
       experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
@@ -233,6 +243,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
       experimental_context: "Predicted variable-region genomic islands transferred onto the deployed assembly by coordinate containment (gene fully inside the mmc2 interval; assembly frame verified against mmc1, delta <= 236 bp). island_id encodes contig + start + end. Islands are predicted variable regions within one genome — NOT a pangenome core/flexible label. No per-island narrative exists; functional_description stays null."
