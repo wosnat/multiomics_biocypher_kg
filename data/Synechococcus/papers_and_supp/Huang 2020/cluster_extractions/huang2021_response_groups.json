@@ -1,0 +1,82 @@
+{
+  "metadata": {
+    "paper": "Huang 2021",
+    "doi": "10.1002/mbo3.1150",
+    "organism": "Synechococcus WH7803",
+    "entry_key": "huang2021_response_groups",
+    "model": "manual",
+    "extracted_at": "2026-08-18",
+    "notes": "Authored by hand from the Results text, not an LLM extraction run. The paper describes each group explicitly in one paragraph, so no inference was needed."
+  },
+  "clusters": {
+    "1a": {
+      "id": "wh7803_response_group_1a",
+      "name": "Early carbon-metabolism response",
+      "functional_description": "Carbon fixation and carboxysome genes -- rbcL, the RuBisCO small subunit, the carboxysome shell protein and the carbon dioxide-concentrating protein CcmK -- plus peroxiredoxin and three uncharacterised proteins.",
+      "temporal_pattern": "Immediate upregulation after phage addition",
+      "expression_dynamics": "Rises by the first sampling point (15 min) and stays elevated through the early infection period.",
+      "enrichment_category": "Carbon metabolism",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Group membership and functional label are stated directly in the Results.",
+      "supporting_quotes": [
+        {
+          "location": "Results and Discussion",
+          "quote": "Group 1a consisted of nine genes, such as ccmK, rbcL, rbcS, and csoS, which were immediately upregulated after phage addition and appear to be associated with carbon metabolism."
+        }
+      ],
+      "source_figures": [
+        "Figure 6",
+        "Table 3"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "9 genes, matching the paper's count."
+    },
+    "1b": {
+      "id": "wh7803_response_group_1b",
+      "name": "Ribosomal protein response",
+      "functional_description": "Ribosomal proteins -- 30S subunit proteins S3, S4, S5, S8, S17 and 50S subunit proteins L1, L2, L3, L4, L5, L6, L7/L12, L10, L14, L15, L16, L18, L22, L23, L24.",
+      "temporal_pattern": "Upregulated 1-3 h after phage addition",
+      "expression_dynamics": "Lags Group 1a; together the two form the early-infection response.",
+      "enrichment_category": "Translation / ribosome",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Every member of this group is an annotated ribosomal protein, consistent with the paper's description.",
+      "supporting_quotes": [
+        {
+          "location": "Results and Discussion",
+          "quote": "Genes of group 1b code for ribosomal proteins and were upregulated within 1-3 h after phage addition. Together, groups 1a and 1b consist of genes that were upregulated during the early period of infection."
+        }
+      ],
+      "source_figures": [
+        "Figure 6",
+        "Table 3"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "20 genes; all 20 are ribosomal proteins."
+    },
+    "2": {
+      "id": "wh7803_response_group_2",
+      "name": "Late SOS / stress response",
+      "functional_description": "SOS-response genes umuC and umuD (annotated in the source table as a nucleotidyltransferase and an SOS-regulated protein) plus one uncharacterised protein; putatively a stress response.",
+      "temporal_pattern": "Upregulated late in infection, 5-7 h after phage addition",
+      "expression_dynamics": "No early induction; rises only in the late period, shortly before the 8 h latent-period end.",
+      "enrichment_category": "Stress / SOS response",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "The paper names umuC and umuD; the source table's annotations correspond to those products.",
+      "supporting_quotes": [
+        {
+          "location": "Results and Discussion",
+          "quote": "Group 2 contains three genes, including umuC, umuD, and one unknown gene, that were upregulated during the late period of infection (5-7 h after phage addition) and putatively associated with stress responses."
+        }
+      ],
+      "source_figures": [
+        "Figure 6",
+        "Table 3"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "3 genes, matching the paper's count."
+    }
+  }
+}

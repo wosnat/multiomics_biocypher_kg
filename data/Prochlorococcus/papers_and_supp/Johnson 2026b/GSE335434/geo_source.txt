@@ -1,0 +1,26 @@
+GSE335434 -- https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE335434
+"P-SSP7 infection of Prochlorococcus MED4 under standard light, high light, and darkness"
+Bohutskyi P, Johnson Z, Anderson LN, Cheung M (PNNL). Public 2026-06-17.
+GEO lists no citation of its own.
+
+WHY IT LIVES HERE: this is the "P-SSP7 LD" arm of the compendium behind the parent
+directory's paper. media-1 sheet "metadata" carries 111 rows with Project = "P-SSP7 LD"
+and doi = "This Study"; their Sample_id values (Ctr-8h-2, Ctr-24h-1, ...) match the
+column names of the counts file below. GEO_series is blank on those rows because the
+series was not yet public when the preprint was written.
+
+GSE335434_rna_seq_counts.csv.gz : raw counts, 1979 rows, 111 samples.
+Row ids include phage genes (PSSP7_###) alongside MED4 genes.
+Column names encode the design, e.g. Inf-dk-0h-1 = infected / dark / 0 h / rep 1.
+Design: MOI 10; 0, 0.5, 1, 2, 4, 8, 24 h post-infection in standard light, high
+light and darkness; dark arm extended to 26 and 32 h after light was restored;
+uninfected controls for standard and high light; biological triplicates.
+
+Counts only -- no DE tables in GEO or in the paper supplement for this arm.
+
+FULL COMPENDIUM (media-1 "metadata", 253 samples) draws on four sources:
+  Circadian     44  GSE314951  This Study   (counts also in this directory, parent level)
+  P-SSP7 LD    111  --         This Study   (this folder)
+  Perturbation  51  --         This Study   (Salish/Sargasso shifts, nutrient pulse; no GEO series seen)
+  P-HM2 LD      40  GSE79359   10.1371/journal.pone.0165375  = Thompson 2016, already in the KG
+  Salinity       6  GSE195946  10.3389/fmicb.2022.1038136    = He 2022,       already in the KG

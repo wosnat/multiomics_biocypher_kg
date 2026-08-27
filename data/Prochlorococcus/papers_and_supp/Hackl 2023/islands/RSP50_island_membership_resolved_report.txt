@@ -1,0 +1,11 @@
+Resolution report: Hackl 2023 / rsp50_genomic_islands
+Source: RSP50_island_membership.csv
+name_col: locus_tag
+id_columns: ['locus_tag']
+
+Total rows with IDs: 399
+Resolved: 399 (100.0%)
+Unresolved: 0
+
+Resolution method breakdown:
+  locus_tag:locus_tag: 399

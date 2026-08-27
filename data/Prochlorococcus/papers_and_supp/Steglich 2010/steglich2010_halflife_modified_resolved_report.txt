@@ -1,0 +1,36 @@
+Resolution report: Steglich 2010 / decay_clusters
+Source: steglich2010_halflife_modified.csv
+name_col: new_annotation
+id_columns: ['new_annotation', 'old_annotation']
+
+Total rows with IDs: 2042
+Resolved: 1930 (94.5%)
+Unresolved: 112
+
+Resolution method breakdown:
+  empty: 1
+  tier1:new_annotation: 1930
+  unresolved: 112
+
+Unresolved rows (112):
+  row 239: raw_id='-'  reason=unresolved  [new_annotation='-', old_annotation='PMM_or0124']
+  row 1821: raw_id='PMED4_10681'  reason=unresolved  [new_annotation='PMED4_10681', old_annotation='-']
+  row 1933: raw_id='PMED4_pseudo_3'  reason=unresolved  [new_annotation='PMED4_pseudo_3', old_annotation='-']
+  row 1934: raw_id='PMED4_pseudo_4'  reason=unresolved  [new_annotation='PMED4_pseudo_4', old_annotation='-']
+  row 1935: raw_id='PMED4_pseudo_5'  reason=unresolved  [new_annotation='PMED4_pseudo_5', old_annotation='-']
+  row 1936: raw_id='PMED4_pseudo_6'  reason=unresolved  [new_annotation='PMED4_pseudo_6', old_annotation='-']
+  row 1937: raw_id='PMED4_pseudo_7'  reason=unresolved  [new_annotation='PMED4_pseudo_7', old_annotation='-']
+  row 1938: raw_id='PMED4_pseudo_8'  reason=unresolved  [new_annotation='PMED4_pseudo_8', old_annotation='-']
+  row 1939: raw_id='PMED4_pseudo_9'  reason=unresolved  [new_annotation='PMED4_pseudo_9', old_annotation='-']
+  row 1940: raw_id='-'  reason=unresolved  [new_annotation='-', old_annotation='PMM_tmRNA']
+  row 1941: raw_id='-'  reason=unresolved  [new_annotation='-', old_annotation='PMM_tRNA-Leu4']
+  row 1942: raw_id='-'  reason=unresolved  [new_annotation='-', old_annotation='PMM_tRNA-Asn1']
+  row 1943: raw_id='-'  reason=unresolved  [new_annotation='-', old_annotation='PMM_tRNA-Leu1']
+  row 1944: raw_id='-'  reason=unresolved  [new_annotation='-', old_annotation='PMM_tRNA-Arg4']
+  row 1945: raw_id='-'  reason=unresolved  [new_annotation='-', old_annotation='PMM_tRNA-Met3']
+  row 1946: raw_id='-'  reason=unresolved  [new_annotation='-', old_annotation='PMM_tRNA-Phe1']
+  row 1947: raw_id='-'  reason=unresolved  [new_annotation='-', old_annotation='PMM_tRNA-Thr3']
+  row 1948: raw_id='-'  reason=unresolved  [new_annotation='-', old_annotation='PMM_16S-rRNA']
+  row 1949: raw_id='-'  reason=unresolved  [new_annotation='-', old_annotation='PMM_16S-rRNA']
+  row 1950: raw_id='-'  reason=unresolved  [new_annotation='-', old_annotation='PMM_16S-rRNA']
+  ... (92 more)

@@ -3,7 +3,7 @@
     "alternative_locus_tag": {
       "conflict": 0,
       "multi": 0,
-      "unique": 2061
+      "unique": 4135
     },
     "cds_fna_id": {
       "conflict": 0,
@@ -48,6 +48,9 @@
   },
   "strain": "MIT0604",
   "unresolved_rows_per_source": {
+    "Hackl 2023/de_mmc_vs_control_sense": 44,
+    "Hackl 2023/de_mmc_vs_uv_sense": 44,
+    "Hackl 2023/de_uv_vs_control_sense": 44,
     "cds_from_genomic.fna": 7,
     "genomic_gca/MIT0604": 42,
     "genomic_gcf/MIT0604": 49

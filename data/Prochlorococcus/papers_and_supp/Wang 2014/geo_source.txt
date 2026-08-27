@@ -1,0 +1,5 @@
+GSE49517 -- https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE49517
+GSE49517_rpkm/ : 10 per-sample tables extracted from GSE49517_RAW.tar.
+Cols: Sysname (PMM0001, native), Gene_left, Gene_right, Strand, Reads, RPKM. 2059 rows.
+Samples: esl{1,3,4,8,10}d (Pro99 time course), amp3d, s6_{5,10}h, s24_{5,10}h
+(AMP + 6 or 24 mM bicarbonate).

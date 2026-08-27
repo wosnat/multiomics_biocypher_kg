@@ -203,6 +203,44 @@
       "title": "Comparative quantitative proteomics of Prochlorococcus ecotypes to a decrease in environmental phosphate concentrations"
     }
   },
+  "data/Prochlorococcus/papers_and_supp/Hackl 2023/PIIS0092867422015197.pdf": {
+    "publication": {
+      "abstract": "Horizontal gene transfer accelerates microbial evolution. The marine picocyanobacterium Prochlorococcus exhibits high genomic plasticity, yet the underlying mechanisms are elusive. Here, we report a novel family of DNA transposons\u2014\u201ctycheposons\u201d\u2014some of which are viral satellites while others carry cargo, such as nutrient-acquisition genes, which shape the genetic variability in this globally abundant genus. Tycheposons share distinctive mobile-lifecycle-linked hallmark genes, including a deep-branching site-specific tyrosine recombinase. Their excision and integration at tRNA genes appear to drive the remodeling of genomic islands\u2014key reservoirs for flexible genes in bacteria. In a selection experiment, tycheposons harboring a nitrate assimilation cassette were dynamically gained and lost, thereby promoting chromosomal rearrangements and host adaptation. Vesicles and phage particles harvested from seawater are enriched in tycheposons, providing a means for their dispersal in the wild. Similar elements are found in microbes co-occurring with Prochlorococcus, suggesting a common mechanism for microbial diversification in the vast oligotrophic oceans.",
+      "authors": [
+        "Thomas Hackl",
+        "Rapha\u00ebl Laurenceau",
+        "Markus J. Ankenbrand",
+        "Christina Bliem",
+        "Zev Cariani",
+        "Elaina Thomas",
+        "Keven D. Dooley",
+        "Aldo A. Arellano",
+        "Shane L. Hogle",
+        "Paul Berube",
+        "Gabriel E. Leventhal",
+        "Elaine Luo",
+        "John M. Eppley",
+        "Ahmed A. Zayed",
+        "John Beaulaurier",
+        "Ramunas Stepanauskas",
+        "Matthew B. Sullivan",
+        "Edward F. DeLong",
+        "Steven J. Biller",
+        "Sallie W. Chisholm"
+      ],
+      "description": "Investigation of the hidden mobilome in Prochlorococcus to understand genomic island formation and global genomic plasticity; identification of tycheposons, their cargo, and their roles in horizontal gene transfer, island remodeling, and dispersal via vesicles and phages; genome-wide survey of 623 Prochlorococcus genomes and a selection experiment illustrating dynamic gene gain/loss and chromosomal rearrangements.",
+      "doi": "10.1016/j.cell.2022.12.006",
+      "journal": "Cell",
+      "organism": [
+        "Prochlorococcus"
+      ],
+      "pmid": null,
+      "publication_id": "10.1016/j.cell.2022.12.006",
+      "publication_year": "2023",
+      "study_type": "Comparative genomics / Genomic analysis of mobile genetic elements in Prochlorococcus",
+      "title": "Novel integrative elements and genomic plasticity in ocean ecosystems"
+    }
+  },
   "data/Prochlorococcus/papers_and_supp/Hennon 2017/41396_2018_article_bfismej2017189.pdf": {
     "publication": {
       "abstract": "Prochlorococcus MIT9312 (VOL4) was co-cultured with Alteromonas EZ55 under ambient (400 p.p.m.) and elevated (800 p.p.m.) CO2. Elevated CO2 prolonged Prochlorococcus lag phase and increased die-off after transfers, suggesting higher oxidative stress. Whole-transcriptome analysis revealed reduced expression of the carbon fixation operon and carboxysome subunits in Prochlorococcus, with fewer carboxysome structures observed by electron microscopy. Prochlorococcus co-culture responsive gene 1 was upregulated under elevated CO2, indicating a shift in microbial interactions. Alteromonas displayed decreased catalase expression and hydrogen peroxide removal rates by approximately sixfold in co-culture, implying reduced ROS detoxification support for Prochlorococcus under high CO2. These findings suggest elevated CO2 could alter microbial interactions and the ecosystem services provided by helper bacteria in the ocean.",
@@ -228,6 +266,36 @@
       "publication_year": "2018",
       "study_type": "Transcriptomics",
       "title": "The impact of elevated CO 2 on Prochlorococcus and microbial interactions with \u2018helper\u2019 bacterium Alteromonas"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Johnson 2026b/2026.04.15.718746v1.full.pdf": {
+    "publication": {
+      "abstract": "Prochlorococcus MED4 is a minimal photoautotroph whose extreme genome streamlining extends to its transcriptional regulatory architecture, yet it dominates high-light oligotrophic surface waters and drives marine carbon cycling. Despite ecological significance, MED4 remains genetically intractable, lacking molecular tools to characterize regulatory mechanisms and construct a transcriptome-wide regulatory map. To address this, we assembled an RNA-seq compendium of 253 samples, including 207 new samples capturing transcriptional responses across three classes of experiments: diverse environmental perturbations, a 24-hour circadian cycle, and phage infection. Using independent component analysis (ICA) applied to 247 quality-filtered samples, we identify 32 independently regulated gene set modules in MED4 (iModulons). By comparison, we previously identified 78 iModulons in the model cyanobacterium Synechococcus elongatus PCC 7942, revealing how dramatically genome reduction has simplified MED4\u2019s regulatory architecture. Of the 32 iModulons in MED4, 13 are conserved modules that correlate with experimentally validated transcriptional regulons in PCC 7942, identifying regulatory programs that resisted elimination under extreme selective pressure. These conserved modules reveal regulatory programs governing photosynthesis and light responses (RpaB), circadian rhythms (RpaA), and nutrient assimilation (NtcA, PhoB). Known regulator-specific DNA-binding motifs upstream of genes in conserved modules independently support their identification as regulatory targets. Notably, RpaA governs circadian rhythms through three temporally distinct modules in MED4 versus one in PCC 7942, and the RpaB photoprotection module similarly splits into two. This work uncovers the minimal regulatory core governing photosynthesis, circadian rhythms, and C/N/P metabolism in a globally critical but genetically intractable photoautotroph. This approach offers a generalizable framework for regulatory inference beyond model organisms.",
+      "authors": [
+        "Zachary Johnson",
+        "Natalie C. Sadler",
+        "Marci R. Garcia",
+        "Xiaolu Li",
+        "Jordan Rozum",
+        "Lindsey Anderson",
+        "Tong Zhang",
+        "Song Feng",
+        "Wei-Jun Qian",
+        "Margaret S. Cheung",
+        "Pavlo Bohutskyi"
+      ],
+      "description": "RNA-seq compendium comprising 253 samples (247 after QC) collected from perturbation, circadian, and phage-infection experiments; independent component analysis (ICA) was applied to identify iModulons (independently regulated gene sets), resulting in 32 iModulons explaining 71.3% of variance; comparison with the model cyanobacterium Synechococcus elongatus PCC 7942 reveals conserved transcriptional modules and regulatory programs.",
+      "doi": "10.64898/2026.04.15.718746",
+      "journal": "bioRxiv",
+      "organism": [
+        "Prochlorococcus MED4",
+        "Synechococcus elongatus PCC 7942"
+      ],
+      "pmid": null,
+      "publication_id": "10.64898/2026.04.15.718746",
+      "publication_year": "2026",
+      "study_type": "RNA-seq, Transcriptomics",
+      "title": "Extreme genome reduction selectively retains modular regulatory architecture in Prochlorococcus MED4: conserved transcriptional modules reveal core physiological regulatory programs"
     }
   },
   "data/Prochlorococcus/papers_and_supp/Kujawinski 2023/kujawinski-et-al-2023-metabolite-diversity-among-representatives-of-divergent-prochlorococcus-ecotypes.pdf": {
@@ -398,6 +466,30 @@
       "title": "Nitrogen cost minimization is promoted by structural changes in the transcriptome of N-deprived Prochlorococcus cells"
     }
   },
+  "data/Prochlorococcus/papers_and_supp/Steglich 2010/gb-2010-11-5-r54.pdf": {
+    "publication": {
+      "abstract": "RNA turnover plays an important role in the gene regulation of microorganisms and influences their speed of acclimation to environmental changes. We investigated whole-genome RNA stability of Prochlorococcus, a relatively slow-growing marine cyanobacterium doubling approximately once a day, which is extremely abundant in the oceans. Using a combination of microarrays, quantitative RT-PCR and a new fitting method for determining RNA decay rates, we found a median half-life of 2.4 minutes and a median decay rate of 2.6 minutes for expressed genes\u2014twofold faster than that reported for any organism. The shortest transcript half-life (33 seconds) was for a gene of unknown function, while some of the longest (approximately 18 minutes) were for genes with high transcript levels. Genes organized in operons displayed intriguing mRNA decay patterns, such as increased stability, and delayed onset of decay with greater distance from the transcriptional start site. The same phenomenon was observed on a single probe resolution for genes greater than 2 kb. Conclusions: We hypothesize that the fast turnover relative to the slow generation time in Prochlorococcus may enable a swift response to environmental changes through rapid recycling of nucleotides, which could be advantageous in nutrient poor oceans. Our growing understanding of RNA half-lives will help us interpret the growing bank of metatranscriptomic studies of wild populations of Prochlorococcus. The surprisingly complex decay patterns of large transcripts reported here, and the method developed to describe them, will open new avenues for the investigation and understanding of RNA decay for all organisms.",
+      "authors": [
+        "Claudia Steglich",
+        "Debbie Lindell",
+        "Matthias Futschik",
+        "Trent Rector",
+        "Robert Steen",
+        "Sallie W Chisholm"
+      ],
+      "description": "Genome-wide measurement of RNA stability in Prochlorococcus MED4 using rifampicin inhibition of transcription, high-density Affymetrix microarrays, and qRT-PCR validation, with two-phase decay-rate fitting to describe complex decay patterns and determine RNA half-lives and decay rates.",
+      "doi": "10.1186/gb-2010-11-5-r54",
+      "journal": "Genome Biology",
+      "organism": [
+        "Prochlorococcus MED4"
+      ],
+      "pmid": null,
+      "publication_id": "10.1186/gb-2010-11-5-r54",
+      "publication_year": "2010",
+      "study_type": "Microarray-based transcriptomics",
+      "title": "RNA half-lives in the slow-growing marine cyanobacterium Prochlorococcus"
+    }
+  },
   "data/Prochlorococcus/papers_and_supp/Thompson 2016/thompson 2016 file.pdf": {
     "publication": {
       "abstract": "Cyanophage infection of marine cyanobacteria requires light and host photosystem activity. We sequenced transcriptomes of cyanophage P-HM2 and host Prochlorococcus MED4 during infection in the light and in the dark, analyzed in the context of phage replication and metabolite measurements, to evaluate whether cyclic or linear photosynthetic electron transport predominates and how NADPH and ATP are supplied for nucleotide biosynthesis.",
@@ -418,6 +510,37 @@
       "publication_year": "2016",
       "study_type": "Transcriptomics (RNA-seq)",
       "title": "Gene Expression Patterns during Light and Dark Infection of Prochlorococcus by Cyanophage"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Voigt 2014/41396_2014_article_bfismej201457.pdf": {
+    "publication": {
+      "abstract": "The study presents genome-wide maps of transcriptional start sites (TSS) for two Prochlorococcus strains (MED4 and MIT9313) using differential RNA-seq, combined with 454 and Solexa sequencing, and microarray validation. It reports extensive antisense transcription across genes, numerous intragenic TSS, ultra-short 5' untranslated regions, and possible alternative translation initiation mechanisms in Prochlorococcus, with little conservation of TSS and non-coding transcripts between strains, indicating high transcriptional architectural variability.",
+      "authors": [
+        "Karsten Voigt",
+        "Cynthia M Sharma",
+        "Jan Mitschke",
+        "S Joke Lambrecht",
+        "Bj\u00f6rn Vo\u00df",
+        "Wolfgang R Hess",
+        "Claudia Steglich"
+      ],
+      "description": "Comparative genome-wide analysis of transcriptional start sites (TSS) in two Prochlorococcus strains using differential RNA-seq (dRNA-seq) to map primary transcripts, complemented by 454 and Solexa sequencing and Affymetrix microarrays to verify antisense transcripts; aims to understand transcriptional architecture and regulatory RNA elements in the two ecotypes (high-light MED4 and low-light MIT9313).",
+      "doi": "10.1038/ismej.2014.57",
+      "journal": "The ISME Journal",
+      "organism": [
+        "Prochlorococcus MED4",
+        "Prochlorococcus MIT9313"
+      ],
+      "pmid": null,
+      "publication_id": "10.1038/ismej.2014.57",
+      "publication_year": "2014",
+      "study_type": [
+        "RNA-seq",
+        "dRNA-seq",
+        "Microarray",
+        "Transcriptomics"
+      ],
+      "title": "Comparative transcriptomics of two environmentally relevant cyanobacteria reveals unexpected transcriptome diversity"
     }
   },
   "data/Prochlorococcus/papers_and_supp/Waldbauer  2012/Waldbauer  2012 file.pdf": {
@@ -988,6 +1111,62 @@
       "publication_year": "2017",
       "study_type": "Transcriptomics",
       "title": "Indirect Interspecies Regulation: Transcriptional and Physiological Responses of a Cyanobacterium to Heterotrophic Partnership"
+    }
+  },
+  "data/Synechococcus/papers_and_supp/Doron 2016/41396_2016_article_bfismej2015210.pdf": {
+    "publication": {
+      "abstract": "This study uses RNA-seq and microarray analyses to investigate the interaction between the Syn9 T4-like cyanophage and three phylogenetically distinct marine Synechococcus strains (WH7803, WH8102, WH8109). The authors report a nearly identical phage transcriptional program across hosts, with three temporally regulated gene expression classes and a novel regulatory element controlling early gene transcription. Host responses are host-specific, concentrated in hypervariable genomic islands, suggesting islands as a major axis of phage\u2013cyanobacteria interactions. Similar patterns were observed for the P-TIM40 phage infecting Prochlorococcus NATL2A. Genomic/metagenomic analyses indicate that these regulatory elements are abundant among T4-like cyanophages. The findings imply broad-host-range phages rely more on host defense strategies than on differential phage transcriptional tailoring.",
+      "authors": [
+        "Shany Doron",
+        "Ayalla Fedida",
+        "Miguel A Hern\u00e1ndez-Prieto",
+        "Gazalah Sabehi",
+        "Iris Karunker",
+        "Damir Stazic",
+        "Roi Feingersch",
+        "Claudia Steglich",
+        "Matthias Futschik",
+        "Debbie Lindell",
+        "Rotem Sorek"
+      ],
+      "description": "Comprehensive transcriptional profiling of infection of multiple Synechococcus hosts by the broad-host-range cyanophage Syn9 using RNA-seq and microarray, revealing nearly identical phage transcriptional programs across hosts, three temporal gene expression classes, novel regulatory elements, and host-specific responses localized to genomic islands; implications for phage host-range and defense strategies.",
+      "doi": "10.1038/ismej.2015.210",
+      "journal": "The ISME Journal",
+      "organism": [
+        "Synechococcus WH7803",
+        "Synechococcus WH8102",
+        "Synechococcus WH8109",
+        "Syn9 cyanophage",
+        "P-TIM40 phage",
+        "Prochlorococcus NATL2A"
+      ],
+      "publication_id": "10.1038/ismej.2015.210",
+      "publication_year": "2016",
+      "study_type": "Transcriptomics (RNA-seq and Microarray)",
+      "title": "Transcriptome dynamics of a broad host-range cyanophage and its hosts"
+    }
+  },
+  "data/Synechococcus/papers_and_supp/Huang 2020/MicrobiologyOpen - 2021 - Huang - Temporal transcriptomes of a marine cyanopodovirus and its Synechococcus host during.pdf": {
+    "publication": {
+      "abstract": "Marine picocyanobacteria belonging to genera Synechococcus and Prochlorococcus are genetically diverged and distributed into distinct biogeographical patterns, and both are infected by genetically closely related cyanopodoviruses. Previous studies have not fully explored whether the two virus\u2013host systems share similar gene expression patterns during infection. Whole-genome expression dynamics of T7-like cyanopodovirus P-SSP7 and its host Prochlorococcus strain MED4 have already been reported. Here, we conducted genomic and transcriptomic analyses on T7-like cyanopodovirus S-SBP1 during its infection on Synechococcus strain WH7803. S-SBP1 has a latent period of 8 h and phage DNA production of 30 copies per cell. In terms of whole-genome phylogenetic relationships and average nucleotide identity, S-SBP1 was most similar to cyanopodovirus S-RIP2, which also infects Synechococcus WH7803. Three hyper-variable genomic islands were identified when comparing the genomes of S-SBP1 and S-RIP2. Single nucleotide variants were also observed in three S-SBP1 genes, which were located within the island regions. Based on RNA-seq analysis, S-SBP1 genes clustered into three temporal expression classes, whose gene content was similar to that of P-SSP7. Thirty-two host genes were upregulated during phage infection, including those involved in carbon metabolism, ribosome components, and stress response. These upregulated genes were similar to those upregulated by Prochlorococcus MED4 in response to infection by P-SSP7. Our study demonstrates a programmed temporal expression pattern of cyanopodoviruses and hosts during infection.",
+      "authors": [
+        "Sijun Huang",
+        "Yingting Sun",
+        "Si Zhang",
+        "Lijuan Long"
+      ],
+      "description": "Genomic and transcriptomic analyses of a T7-like cyanopodovirus S-SBP1 infecting the marine Synechococcus strain WH7803, including isolation, genome comparison with S-RIP2, and RNA-seq to characterize temporal gene expression and host response.",
+      "doi": "10.1002/mbo3.1150",
+      "journal": "MicrobiologyOpen",
+      "organism": [
+        "Synechococcus WH7803",
+        "S-SBP1"
+      ],
+      "pmid": null,
+      "publication_id": "10.1002/mbo3.1150",
+      "publication_year": "2021",
+      "study_type": "RNA-seq, Transcriptomics",
+      "title": "Temporal transcriptomes of a marine cyanopodovirus and its Synechococcus host during infection"
     }
   },
   "data/Synechococcus/papers_and_supp/Kratzl 2024/Synechococcus elogantus - Pseudomonas putida co-culutre multi omics Franzi Com biol 2024.pdf": {

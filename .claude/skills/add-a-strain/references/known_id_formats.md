@@ -24,13 +24,14 @@ see whether a similar pattern has already been solved.
 | MIT1002 | Coe 2024 | `MIT1002_NNNNN` (5-digit) | Canonical locus tags from GCF_901457835.2 | **99.5%** — resolves natively |
 | MIT1002 | Biller 2016 | `MIT1002_NNNN` (4-digit RAST) | RAST annotation on draft genome GCF_001077695.1 | **96.6%** — cross-assembly protein bridging via `map_img_to_ncbi_proteins.py` + transitive closure through conversion table |
 | MIT1002 | Biller 2018 | `RAST_region_ID` (coordinate format `contig00001_start_stop`) | RAST annotation on draft genome | **97.2%** — resolved via conversion table `assembly_coordinates` → `alternative_locus_tag` (Tier 1) through transitive closure |
+| WH8109 | Doron 2016 | `Syncc8109_####_at` array probes | Strip `_at` → NATIVE locus tags of GCF_000161795.2 (canonical form IS `Syncc8109_####`) | **93.9%** — 168 unresolved are Moore/JCVI-annotation features dropped by RefSeq PGAP re-annotation of the same assembly (2,757 array features vs 2,707 current genes); no bridge work possible or needed |
 
 Add new rows above as strains are deployed. Keep columns consistent so the
 patterns are pattern-greppable by future deployments.
 
 ## Already-deployed strains (no action needed)
 
-MIT9312, MIT9301, NATL1A, MED4, NATL2A, MIT9313, WH8102, CC9311, EZ55, MIT1002, AS9601, RSP50, HOT1A3, SS120, BL107, HP15 (Marinobacter MarRef v6), Alt_MarRef.
+MIT9312, MIT9301, NATL1A, MED4, NATL2A, MIT9313, WH8102, CC9311, EZ55, MIT1002, AS9601, RSP50, HOT1A3, SS120, BL107, HP15 (Marinobacter MarRef v6), Alt_MarRef, WH8109.
 
 ## Backlog
 

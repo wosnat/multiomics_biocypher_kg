@@ -1,0 +1,36 @@
+Resolution report: Doron 2016 / host_de_wh7803
+Source: doron2016_wh7803_host_de.csv
+name_col: locus_tag
+id_columns: ['locus_tag']
+
+Total rows with IDs: 2580
+Resolved: 2525 (97.9%)
+Unresolved: 55
+
+Resolution method breakdown:
+  locus_tag:locus_tag: 2508
+  tier1:locus_tag: 17
+  unresolved: 55
+
+Unresolved rows (55):
+  row 337: raw_id='SynWH7803_0390'  reason=unresolved  [locus_tag='SynWH7803_0390']
+  row 385: raw_id='SynWH7803_2113'  reason=unresolved  [locus_tag='SynWH7803_2113']
+  row 1201: raw_id='SynWH7803_RNA_18'  reason=unresolved  [locus_tag='SynWH7803_RNA_18']
+  row 1349: raw_id='SynWH7803_2119'  reason=unresolved  [locus_tag='SynWH7803_2119']
+  row 1513: raw_id='SynWH7803_RNA_38'  reason=unresolved  [locus_tag='SynWH7803_RNA_38']
+  row 1610: raw_id='SynWH7803_RNA_49'  reason=unresolved  [locus_tag='SynWH7803_RNA_49']
+  row 1839: raw_id='SynWH7803_RNA_50'  reason=unresolved  [locus_tag='SynWH7803_RNA_50']
+  row 2019: raw_id='SynWH7803_RNA_17'  reason=unresolved  [locus_tag='SynWH7803_RNA_17']
+  row 2031: raw_id='SynWH7803_1091'  reason=unresolved  [locus_tag='SynWH7803_1091']
+  row 2281: raw_id='SynWH7803_1623'  reason=unresolved  [locus_tag='SynWH7803_1623']
+  row 2315: raw_id='SynWH7803_2465'  reason=unresolved  [locus_tag='SynWH7803_2465']
+  row 2353: raw_id='SynWH7803_RNA_26'  reason=unresolved  [locus_tag='SynWH7803_RNA_26']
+  row 2375: raw_id='SynWH7803_RNA_39'  reason=unresolved  [locus_tag='SynWH7803_RNA_39']
+  row 2405: raw_id='SynWH7803_RNA_45'  reason=unresolved  [locus_tag='SynWH7803_RNA_45']
+  row 2433: raw_id='SynWH7803_RNA_13'  reason=unresolved  [locus_tag='SynWH7803_RNA_13']
+  row 2434: raw_id='SynWH7803_RNA_30'  reason=unresolved  [locus_tag='SynWH7803_RNA_30']
+  row 2436: raw_id='SynWH7803_RNA_31'  reason=unresolved  [locus_tag='SynWH7803_RNA_31']
+  row 2445: raw_id='SynWH7803_RNA_25'  reason=unresolved  [locus_tag='SynWH7803_RNA_25']
+  row 2451: raw_id='SynWH7803_RNA_8'  reason=unresolved  [locus_tag='SynWH7803_RNA_8']
+  row 2452: raw_id='SynWH7803_0357'  reason=unresolved  [locus_tag='SynWH7803_0357']
+  ... (35 more)

@@ -141,6 +141,7 @@ CANONICAL_GENOMIC_ORGANISMS = {
     "Synechococcus elongatus PCC 7942",
     "Synechococcus elongatus UTEX 2973",
     "Synechococcus sp. BL107",
+    "Synechococcus WH8109",
     "Thermosynechococcus vestitus BP-1",
     "Alteromonas macleodii HOT1A3",
     "Alteromonas macleodii EZ55",
@@ -219,6 +220,9 @@ VALID_CLUSTER_TYPES = {
     "diel",
     "condition_comparison",
     "expression_bin",
+    "decay_pattern",      # Steglich 2010 — RNA decay-profile clusters (Mfuzz)
+    "genomic_island",     # Hackl 2023 — predicted genomic islands as gene sets
+    "response_pattern",   # used by cluster extraction/tests; K-means response clusters
 }
 
 # Required fields on gene_clusters supplementary entries.

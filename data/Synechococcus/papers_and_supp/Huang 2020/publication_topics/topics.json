@@ -1,0 +1,229 @@
+{
+  "metadata": {
+    "paper": "Huang 2021",
+    "doi": "10.1002/mbo3.1150",
+    "strains": [
+      "Synechococcus WH7803",
+      "Phage"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Table 3 prints many WH7803 locus tags for upregulated genes whose gene symbols are not named in the prose; I captured only explicitly discussed/named genes, not every table-listed hypothetical or ribosomal locus tag.",
+    "extracted_at": "2026-08-19T08:40:44.221510",
+    "input_tokens": 21212,
+    "output_tokens": 1690
+  },
+  "genes": [
+    {
+      "surface_form": "DNA polymerase gene pol",
+      "gene_name": "pol",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "peripheral",
+      "evidence": "DNA polymerase gene pol as previously described (Materials and Methods, p2)"
+    },
+    {
+      "surface_form": "photosystem II D1 psbA",
+      "gene_name": "psbA",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "Some of these genes, such as those encoding photosystem II D1 psbA (Introduction, p2)"
+    },
+    {
+      "surface_form": "high-light inducible protein hli",
+      "gene_name": "hli",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "Some of these genes, such as those encoding ... high-light inducible protein hli (Introduction, p2)"
+    },
+    {
+      "surface_form": "transaldolase talC",
+      "gene_name": "talC",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "Some of these genes, such as those encoding ... transaldolase talC (Introduction, p2)"
+    },
+    {
+      "surface_form": "thyX",
+      "gene_name": "thyX",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "The thymidylate synthase gene thyX located at the right end of the genome map (Results, p8)"
+    },
+    {
+      "surface_form": "ccmK",
+      "gene_name": "ccmK",
+      "identifiers": [
+        "SYNWH7803_RS03420"
+      ],
+      "strain": "Synechococcus WH7803",
+      "prominence": "central",
+      "evidence": "such as ccmK, rbcL, rbcS, and csoS, which were immediately upregulated (Results, p8; Table 3, p9)"
+    },
+    {
+      "surface_form": "rbcL",
+      "gene_name": "rbcL",
+      "identifiers": [
+        "SYNWH7803_RS03425"
+      ],
+      "strain": "Synechococcus WH7803",
+      "prominence": "central",
+      "evidence": "such as ccmK, rbcL, rbcS, and csoS, which were immediately upregulated (Results, p8; Table 3, p9)"
+    },
+    {
+      "surface_form": "rbcS",
+      "gene_name": "rbcS",
+      "identifiers": [
+        "SYNWH7803_RS03430"
+      ],
+      "strain": "Synechococcus WH7803",
+      "prominence": "central",
+      "evidence": "such as ccmK, rbcL, rbcS, and csoS, which were immediately upregulated (Results, p8; Table 3, p9)"
+    },
+    {
+      "surface_form": "csoS",
+      "gene_name": "csoS",
+      "identifiers": [
+        "SYNWH7803_RS03435"
+      ],
+      "strain": "Synechococcus WH7803",
+      "prominence": "central",
+      "evidence": "such as ccmK, rbcL, rbcS, and csoS, which were immediately upregulated (Results, p8; Table 3, p9)"
+    },
+    {
+      "surface_form": "umuC",
+      "gene_name": "umuC",
+      "identifiers": [
+        "SYNWH7803_RS05320"
+      ],
+      "strain": "Synechococcus WH7803",
+      "prominence": "central",
+      "evidence": "including umuC, umuD, and one unknown gene, that were upregulated during the late period (Results, p8; Table 3, p9)"
+    },
+    {
+      "surface_form": "umuD",
+      "gene_name": "umuD",
+      "identifiers": [
+        "SYNWH7803_RS05325"
+      ],
+      "strain": "Synechococcus WH7803",
+      "prominence": "central",
+      "evidence": "including umuC, umuD, and one unknown gene, that were upregulated during the late period (Results, p8; Table 3, p9)"
+    },
+    {
+      "surface_form": "rpoC2",
+      "gene_name": "rpoC2",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "such as those involved in transcription rpoC2, rpoD ... were not upregulated (Results, p8)"
+    },
+    {
+      "surface_form": "rpoD",
+      "gene_name": "rpoD",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "such as those involved in transcription rpoC2, rpoD ... were not upregulated (Results, p8)"
+    },
+    {
+      "surface_form": "rne",
+      "gene_name": "rne",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "RNA degradation and modification rne, rnhB, dus, and sun (Results, p8)"
+    },
+    {
+      "surface_form": "rnhB",
+      "gene_name": "rnhB",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "RNA degradation and modification rne, rnhB, dus, and sun (Results, p8)"
+    },
+    {
+      "surface_form": "dus",
+      "gene_name": "dus",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "RNA degradation and modification rne, rnhB, dus, and sun (Results, p8)"
+    },
+    {
+      "surface_form": "sun",
+      "gene_name": "sun",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "RNA degradation and modification rne, rnhB, dus, and sun (Results, p8)"
+    },
+    {
+      "surface_form": "clpS",
+      "gene_name": "clpS",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "protein turnover clpS (Results, p8)"
+    },
+    {
+      "surface_form": "phoH",
+      "gene_name": "phoH",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "stress responses hli, phoH (Results, p8)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id": "ko00195",
+      "prominence": "central",
+      "evidence": "Cyanophages also encode several auxiliary metabolic genes AMGs involved in photosynthesis (Introduction, p2)"
+    },
+    {
+      "surface_form": "carbon metabolism",
+      "kegg_pathway_id": "ko01200",
+      "prominence": "central",
+      "evidence": "AMGs involved in ... carbon metabolism (Introduction, p2); host genes were upregulated including those involved in carbon metabolism (Abstract, p1)"
+    },
+    {
+      "surface_form": "pentose phosphate pathway",
+      "kegg_pathway_id": "ko00030",
+      "prominence": "central",
+      "evidence": "AMGs involved in ... the pentose phosphate pathway (Introduction, p2)"
+    },
+    {
+      "surface_form": "phosphorus acquisition",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "AMGs involved in ... phosphorus acquisition (Introduction, p2)"
+    },
+    {
+      "surface_form": "ribosome",
+      "kegg_pathway_id": "ko03010",
+      "prominence": "central",
+      "evidence": "Thirty-two host genes were upregulated during phage infection, including those involved in ... ribosome components (Abstract, p1)"
+    },
+    {
+      "surface_form": "carbon fixation in photosynthetic organisms",
+      "kegg_pathway_id": "ko00710",
+      "prominence": "central",
+      "evidence": "genes such as ccmK, rbcL, rbcS, and csoS ... appear to be associated with carbon metabolism (Results, p8)"
+    },
+    {
+      "surface_form": "SOS response",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "umuC, umuD ... putatively associated with stress responses (Results, p8)"
+    }
+  ]
+}

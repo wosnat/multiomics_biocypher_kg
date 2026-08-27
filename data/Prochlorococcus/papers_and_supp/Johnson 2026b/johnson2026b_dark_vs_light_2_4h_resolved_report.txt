@@ -1,0 +1,36 @@
+Resolution report: Johnson 2026b / de_dark_vs_light
+Source: johnson2026b_dark_vs_light_2_4h.csv
+name_col: refseq_locus
+id_columns: ['refseq_locus']
+
+Total rows with IDs: 1920
+Resolved: 1877 (97.8%)
+Unresolved: 43
+
+Resolution method breakdown:
+  locus_tag:refseq_locus: 14
+  tier1:refseq_locus: 1863
+  unresolved: 43
+
+Unresolved rows (43):
+  row 59: raw_id='TX50_RS00315'  reason=unresolved  [refseq_locus='TX50_RS00315']
+  row 125: raw_id='TX50_RS00660'  reason=unresolved  [refseq_locus='TX50_RS00660']
+  row 236: raw_id='TX50_RS01225'  reason=unresolved  [refseq_locus='TX50_RS01225']
+  row 259: raw_id='TX50_RS01340'  reason=unresolved  [refseq_locus='TX50_RS01340']
+  row 276: raw_id='TX50_RS01425'  reason=unresolved  [refseq_locus='TX50_RS01425']
+  row 312: raw_id='TX50_RS01605'  reason=unresolved  [refseq_locus='TX50_RS01605']
+  row 323: raw_id='TX50_RS01660'  reason=unresolved  [refseq_locus='TX50_RS01660']
+  row 332: raw_id='TX50_RS01705'  reason=unresolved  [refseq_locus='TX50_RS01705']
+  row 333: raw_id='TX50_RS01710'  reason=unresolved  [refseq_locus='TX50_RS01710']
+  row 334: raw_id='TX50_RS01715'  reason=unresolved  [refseq_locus='TX50_RS01715']
+  row 335: raw_id='TX50_RS01720'  reason=unresolved  [refseq_locus='TX50_RS01720']
+  row 405: raw_id='TX50_RS02075'  reason=unresolved  [refseq_locus='TX50_RS02075']
+  row 406: raw_id='TX50_RS02080'  reason=unresolved  [refseq_locus='TX50_RS02080']
+  row 498: raw_id='TX50_RS02545'  reason=unresolved  [refseq_locus='TX50_RS02545']
+  row 500: raw_id='TX50_RS02555'  reason=unresolved  [refseq_locus='TX50_RS02555']
+  row 597: raw_id='TX50_RS03040'  reason=unresolved  [refseq_locus='TX50_RS03040']
+  row 687: raw_id='TX50_RS03500'  reason=unresolved  [refseq_locus='TX50_RS03500']
+  row 859: raw_id='TX50_RS04395'  reason=unresolved  [refseq_locus='TX50_RS04395']
+  row 897: raw_id='TX50_RS04595'  reason=unresolved  [refseq_locus='TX50_RS04595']
+  row 900: raw_id='TX50_RS04610'  reason=unresolved  [refseq_locus='TX50_RS04610']
+  ... (23 more)

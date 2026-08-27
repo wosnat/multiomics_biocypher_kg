@@ -1,0 +1,11 @@
+Resolution report: Hackl 2023 / as9601_genomic_islands
+Source: AS9601_island_membership.csv
+name_col: locus_tag
+id_columns: ['locus_tag']
+
+Total rows with IDs: 492
+Resolved: 492 (100.0%)
+Unresolved: 0
+
+Resolution method breakdown:
+  locus_tag:locus_tag: 492

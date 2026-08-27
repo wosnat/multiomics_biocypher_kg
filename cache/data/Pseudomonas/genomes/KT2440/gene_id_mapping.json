@@ -30,42 +30,6 @@
       "M8001_09555",
       "M8001_20015"
     ],
-    "PP_1865": [
-      "M8001_13255",
-      "M8001_11045",
-      "M8001_22575",
-      "M8001_09640"
-    ],
-    "PP_1865 PP_1990 PP_2114 PP_2218 PP_2522 PP_4318": [
-      "M8001_13255",
-      "M8001_11045",
-      "M8001_22575",
-      "M8001_09640"
-    ],
-    "PP_1990": [
-      "M8001_13255",
-      "M8001_11045",
-      "M8001_22575",
-      "M8001_09640"
-    ],
-    "PP_2114": [
-      "M8001_13255",
-      "M8001_11045",
-      "M8001_22575",
-      "M8001_09640"
-    ],
-    "PP_2218": [
-      "M8001_13255",
-      "M8001_11045",
-      "M8001_22575",
-      "M8001_09640"
-    ],
-    "PP_2522": [
-      "M8001_13255",
-      "M8001_11045",
-      "M8001_22575",
-      "M8001_09640"
-    ],
     "PP_3172": [
       "M8001_09555",
       "M8001_20015"
@@ -101,12 +65,6 @@
       "M8001_21080",
       "M8001_03420",
       "M8001_24945"
-    ],
-    "PP_4318": [
-      "M8001_13255",
-      "M8001_11045",
-      "M8001_22575",
-      "M8001_09640"
     ],
     "PP_4439": [
       "M8001_20850",
@@ -195554,6 +195512,132 @@
             "genomic_gcf/KT2440"
           ],
           "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "PP_RS09575",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "PP_RS10330",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "PP_RS10975",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "PP_RS11500",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "PP_RS13180",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "PP_RS22420",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gene-PP_RS09575",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PP_1865",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
+          "id": "gene-PP_RS10330",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PP_1990",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
+          "id": "gene-PP_RS10975",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PP_2114",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
+          "id": "gene-PP_RS11500",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PP_2218",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
+          "id": "gene-PP_RS13180",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PP_2522",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
+          "id": "gene-PP_RS22420",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PP_4318",
+          "sources": [
+            "Kratzl 2024/annotation_gff_kt2440_old"
+          ],
+          "type": "old_locus_tag"
         }
       ],
       "tier2_ids": [
@@ -265949,139 +266033,6 @@
             "genomic_gcf/KT2440"
           ],
           "type": "gff_gene_id"
-        },
-        {
-          "id": "PP_1865 PP_1990 PP_2114 PP_2218 PP_2522 PP_4318",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "PP_1865",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "PP_1990",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "PP_2114",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "PP_2218",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "PP_2522",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "PP_4318",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "gene-PP_RS09575",
-          "sources": [
-            "Kratzl 2024/annotation_gff_kt2440_old"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PP_RS09575",
-          "sources": [
-            "Kratzl 2024/annotation_gff_kt2440_old"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-PP_RS10330",
-          "sources": [
-            "Kratzl 2024/annotation_gff_kt2440_old"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PP_RS10330",
-          "sources": [
-            "Kratzl 2024/annotation_gff_kt2440_old"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-PP_RS10975",
-          "sources": [
-            "Kratzl 2024/annotation_gff_kt2440_old"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PP_RS10975",
-          "sources": [
-            "Kratzl 2024/annotation_gff_kt2440_old"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-PP_RS11500",
-          "sources": [
-            "Kratzl 2024/annotation_gff_kt2440_old"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PP_RS11500",
-          "sources": [
-            "Kratzl 2024/annotation_gff_kt2440_old"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-PP_RS13180",
-          "sources": [
-            "Kratzl 2024/annotation_gff_kt2440_old"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PP_RS13180",
-          "sources": [
-            "Kratzl 2024/annotation_gff_kt2440_old"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
-          "id": "gene-PP_RS22420",
-          "sources": [
-            "Kratzl 2024/annotation_gff_kt2440_old"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PP_RS22420",
-          "sources": [
-            "Kratzl 2024/annotation_gff_kt2440_old"
-          ],
-          "type": "locus_tag_ncbi"
         }
       ],
       "tier2_ids": [
@@ -674956,8 +674907,7 @@
     "PP_1862": "M8001_09625",
     "PP_1863": "M8001_09630",
     "PP_1864": "M8001_09635",
-    "PP_1865": "M8001_13255",
-    "PP_1865 PP_1990 PP_2114 PP_2218 PP_2522 PP_4318": "M8001_13255",
+    "PP_1865": "M8001_09640",
     "PP_1866": "M8001_09650",
     "PP_1867": "M8001_09655",
     "PP_1869": "M8001_09665",
@@ -675074,7 +675024,7 @@
     "PP_1987": "M8001_10380",
     "PP_1988": "M8001_10385",
     "PP_1989": "M8001_10390",
-    "PP_1990": "M8001_13255",
+    "PP_1990": "M8001_09640",
     "PP_1992": "M8001_10400",
     "PP_1993": "M8001_10405",
     "PP_1994": "M8001_10410",
@@ -675194,7 +675144,7 @@
     "PP_2111": "M8001_11030",
     "PP_2112": "M8001_11035",
     "PP_2113": "M8001_11040",
-    "PP_2114": "M8001_13255",
+    "PP_2114": "M8001_09640",
     "PP_2115": "M8001_11050",
     "PP_2116": "M8001_11055",
     "PP_2117": "M8001_11060",
@@ -675294,7 +675244,7 @@
     "PP_2215": "M8001_11565",
     "PP_2216": "M8001_11570",
     "PP_2217": "M8001_11575",
-    "PP_2218": "M8001_13255",
+    "PP_2218": "M8001_09640",
     "PP_2219": "M8001_RS28675",
     "PP_2220": "M8001_11590",
     "PP_2222": "M8001_11595",
@@ -675582,7 +675532,7 @@
     "PP_2516": "M8001_13230",
     "PP_2517": "M8001_13235",
     "PP_2518": "M8001_13240",
-    "PP_2522": "M8001_13255",
+    "PP_2522": "M8001_09640",
     "PP_2524": "M8001_13265",
     "PP_2525": "M8001_13270",
     "PP_2526": "M8001_13275",
@@ -677244,7 +677194,7 @@
     "PP_4315": "M8001_22560",
     "PP_4316": "M8001_22565",
     "PP_4317": "M8001_22570",
-    "PP_4318": "M8001_13255",
+    "PP_4318": "M8001_09640",
     "PP_4319": "M8001_22580",
     "PP_4320": "M8001_22585",
     "PP_4321": "M8001_22595",
@@ -680388,7 +680338,7 @@
     "PP_RS09560": "M8001_09625",
     "PP_RS09565": "M8001_09630",
     "PP_RS09570": "M8001_09635",
-    "PP_RS09575": "M8001_13255",
+    "PP_RS09575": "M8001_09640",
     "PP_RS09585": "M8001_09650",
     "PP_RS09590": "M8001_09655",
     "PP_RS09600": "M8001_09665",
@@ -680520,7 +680470,7 @@
     "PP_RS10315": "M8001_10380",
     "PP_RS10320": "M8001_10385",
     "PP_RS10325": "M8001_10390",
-    "PP_RS10330": "M8001_13255",
+    "PP_RS10330": "M8001_09640",
     "PP_RS10335": "M8001_10400",
     "PP_RS10340": "M8001_10405",
     "PP_RS10345": "M8001_10410",
@@ -680644,7 +680594,7 @@
     "PP_RS10960": "M8001_11030",
     "PP_RS10965": "M8001_11035",
     "PP_RS10970": "M8001_11040",
-    "PP_RS10975": "M8001_13255",
+    "PP_RS10975": "M8001_09640",
     "PP_RS10980": "M8001_11050",
     "PP_RS10985": "M8001_11055",
     "PP_RS10990": "M8001_11060",
@@ -680745,7 +680695,7 @@
     "PP_RS11485": "M8001_11565",
     "PP_RS11490": "M8001_11570",
     "PP_RS11495": "M8001_11575",
-    "PP_RS11500": "M8001_13255",
+    "PP_RS11500": "M8001_09640",
     "PP_RS11510": "M8001_11590",
     "PP_RS11515": "M8001_11595",
     "PP_RS11520": "M8001_11600",
@@ -681059,7 +681009,7 @@
     "PP_RS13155": "M8001_13230",
     "PP_RS13160": "M8001_13235",
     "PP_RS13165": "M8001_13240",
-    "PP_RS13180": "M8001_13255",
+    "PP_RS13180": "M8001_09640",
     "PP_RS13190": "M8001_13265",
     "PP_RS13195": "M8001_13270",
     "PP_RS13200": "M8001_13275",
@@ -682819,7 +682769,7 @@
     "PP_RS22405": "M8001_22560",
     "PP_RS22410": "M8001_22565",
     "PP_RS22415": "M8001_22570",
-    "PP_RS22420": "M8001_13255",
+    "PP_RS22420": "M8001_09640",
     "PP_RS22425": "M8001_22580",
     "PP_RS22430": "M8001_22585",
     "PP_RS22435": "M8001_22590",
@@ -708246,7 +708196,7 @@
     "gene-PP_RS09560": "M8001_09625",
     "gene-PP_RS09565": "M8001_09630",
     "gene-PP_RS09570": "M8001_09635",
-    "gene-PP_RS09575": "M8001_13255",
+    "gene-PP_RS09575": "M8001_09640",
     "gene-PP_RS09585": "M8001_09650",
     "gene-PP_RS09590": "M8001_09655",
     "gene-PP_RS09600": "M8001_09665",
@@ -708378,7 +708328,7 @@
     "gene-PP_RS10315": "M8001_10380",
     "gene-PP_RS10320": "M8001_10385",
     "gene-PP_RS10325": "M8001_10390",
-    "gene-PP_RS10330": "M8001_13255",
+    "gene-PP_RS10330": "M8001_09640",
     "gene-PP_RS10335": "M8001_10400",
     "gene-PP_RS10340": "M8001_10405",
     "gene-PP_RS10345": "M8001_10410",
@@ -708502,7 +708452,7 @@
     "gene-PP_RS10960": "M8001_11030",
     "gene-PP_RS10965": "M8001_11035",
     "gene-PP_RS10970": "M8001_11040",
-    "gene-PP_RS10975": "M8001_13255",
+    "gene-PP_RS10975": "M8001_09640",
     "gene-PP_RS10980": "M8001_11050",
     "gene-PP_RS10985": "M8001_11055",
     "gene-PP_RS10990": "M8001_11060",
@@ -708603,7 +708553,7 @@
     "gene-PP_RS11485": "M8001_11565",
     "gene-PP_RS11490": "M8001_11570",
     "gene-PP_RS11495": "M8001_11575",
-    "gene-PP_RS11500": "M8001_13255",
+    "gene-PP_RS11500": "M8001_09640",
     "gene-PP_RS11510": "M8001_11590",
     "gene-PP_RS11515": "M8001_11595",
     "gene-PP_RS11520": "M8001_11600",
@@ -708917,7 +708867,7 @@
     "gene-PP_RS13155": "M8001_13230",
     "gene-PP_RS13160": "M8001_13235",
     "gene-PP_RS13165": "M8001_13240",
-    "gene-PP_RS13180": "M8001_13255",
+    "gene-PP_RS13180": "M8001_09640",
     "gene-PP_RS13190": "M8001_13265",
     "gene-PP_RS13195": "M8001_13270",
     "gene-PP_RS13200": "M8001_13275",
@@ -710677,7 +710627,7 @@
     "gene-PP_RS22405": "M8001_22560",
     "gene-PP_RS22410": "M8001_22565",
     "gene-PP_RS22415": "M8001_22570",
-    "gene-PP_RS22420": "M8001_13255",
+    "gene-PP_RS22420": "M8001_09640",
     "gene-PP_RS22425": "M8001_22580",
     "gene-PP_RS22430": "M8001_22585",
     "gene-PP_RS22435": "M8001_22590",
@@ -718297,10 +718247,10 @@
     "zwf T1E_3962": "M8001_28055"
   },
   "stats": {
-    "n_conflicts": 161,
+    "n_conflicts": 154,
     "n_genes": 5487,
     "n_multi": 31077,
-    "n_specific": 51120,
+    "n_specific": 51119,
     "passes": 3
   },
   "strain": "KT2440",

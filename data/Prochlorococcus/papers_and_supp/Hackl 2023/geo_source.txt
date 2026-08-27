@@ -1,0 +1,16 @@
+GSE171435 -- https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE171435
+Six DESeq2 tables, all UNFILTERED (~2046 rows each).
+Cols: baseMean, log2FoldChange, lfcSE, stat, pvalue, padj, gene (MIT0604_00001).
+
+Renamed on download -- the GEO names exceed the Windows path limit:
+  GSE171435_MMC_vs_control_sense.csv.gz
+      <- GSE171435_Mitomycin_C_treatment_vs_control_sense_ThomasGenomeGFF_notFilteredForSig_sameGenesGroupedTogether.csv.gz
+  GSE171435_MMC_vs_control_antisense.csv.gz
+      <- GSE171435_Mitomycin_C_treatment_vs_control_antisense_ThomasGenomeGFF_notJustSig_groupingDuplicateGenes.csv.gz
+  GSE171435_UV_vs_control_sense.csv.gz / _antisense.csv.gz      <- ..._UV_treatment_vs_control_{sense,antisense}_...
+  GSE171435_MMC_vs_UV_sense.csv.gz     / _antisense.csv.gz      <- ..._Mitomycin_C_treatment_vs_UV_treatment_{sense,antisense}_...
+
+Relation to pro-deseq2.tsv (from github.com/thackl/pro-tycheposons, already here):
+that file = the two SENSE vs-control contrasts merged (4093 rows) plus coordinates
+and geneFunction. GEO adds the three ANTISENSE tables and the MMC-vs-UV contrast.
+Gene ids are the authors' custom MIT0604 annotation -- strain not yet in the KG.

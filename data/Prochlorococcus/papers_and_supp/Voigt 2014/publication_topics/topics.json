@@ -1,0 +1,560 @@
+{
+  "metadata": {
+    "paper": "Voigt 2014",
+    "doi": "10.1038/ismej.2014.57",
+    "strains": [
+      "Prochlorococcus MED4",
+      "Prochlorococcus MIT9313"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Additional locus tags and per-strain IDs likely appear in supplementary tables/figures, especially for procA homologs and ncRNA/TSS lists, but were not all attachable from the prose shown.",
+    "extracted_at": "2026-08-19T08:37:09.452342",
+    "input_tokens": 21238,
+    "output_tokens": 4483
+  },
+  "genes": [
+    {
+      "surface_form": "Yfr1",
+      "gene_name": "Yfr1",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "For the ncRNA Yfr1, a function in the control of major outer-membrane proteins PMM1119 and PMM121 was shown (Introduction, p2)"
+    },
+    {
+      "surface_form": "PMM1119",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1119"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "For the ncRNA Yfr1, a function in the control of major outer-membrane proteins PMM1119 and PMM121 was shown (Introduction, p2)"
+    },
+    {
+      "surface_form": "PMM121",
+      "gene_name": "",
+      "identifiers": [
+        "PMM121"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "For the ncRNA Yfr1, a function in the control of major outer-membrane proteins PMM1119 and PMM121 was shown (Introduction, p2)"
+    },
+    {
+      "surface_form": "cpeB",
+      "gene_name": "cpeB",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "mapping of the TSS of cpeB ... there is no information on promoters that are actually utilized in Prochlorococcus (Introduction, p2)"
+    },
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "mapping of the TSS of ... psbA, psbC, psbD and pcbA genes (Introduction, p2)"
+    },
+    {
+      "surface_form": "psbC",
+      "gene_name": "psbC",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "mapping of the TSS of ... psbA, psbC, psbD and pcbA genes (Introduction, p2)"
+    },
+    {
+      "surface_form": "psbD",
+      "gene_name": "psbD",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "Among the photosynthesis-related genes ... photosystem II psbA, psbB, psbE, psbH, psbO and psb28 are found (Results, p6)"
+    },
+    {
+      "surface_form": "pcbA",
+      "gene_name": "pcbA",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "mapping of the TSS of cpeB, psbA, psbC, psbD and pcbA genes (Introduction, p2)"
+    },
+    {
+      "surface_form": "NtcA",
+      "gene_name": "ntcA",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "restricted on the knowledge of the NtcA regulon (Introduction, p2)"
+    },
+    {
+      "surface_form": "psbEFLJ operon",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "The only gTSS in the top 20 list that occurs in both strains is driving transcription of the psbEFLJ operon (Results, p5)"
+    },
+    {
+      "surface_form": "psbE",
+      "gene_name": "psbE",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "the conserved gTSS upstream of psbE, in fact driving the transcription of psbEFLJ (Results, p6)"
+    },
+    {
+      "surface_form": "pcb",
+      "gene_name": "pcb",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "genes such as pcb or hli10 in MED4, which encode the single light harvesting protein and one of the high-light-inducible proteins (Results, p5)"
+    },
+    {
+      "surface_form": "hli10",
+      "gene_name": "hli10",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "genes such as pcb or hli10 in MED4 (Results, p5)"
+    },
+    {
+      "surface_form": "PMED4_11782",
+      "gene_name": "",
+      "identifiers": [
+        "PMED4_11782"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "gTSS with most reads PMED4_11782 (cons. hyp., 482 reads) (Table 1, p5)"
+    },
+    {
+      "surface_form": "groES",
+      "gene_name": "groES",
+      "identifiers": [
+        "PMED4_16461"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "PMED4_16461 (groES, 93 670 reads) (Table 1, p5)"
+    },
+    {
+      "surface_form": "P9313_14931",
+      "gene_name": "psbD",
+      "identifiers": [
+        "P9313_14931"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "P9313_14931 (psbD, 263 reads) (Table 1, p5)"
+    },
+    {
+      "surface_form": "smc",
+      "gene_name": "smc",
+      "identifiers": [
+        "P9313_20011"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "P9313_20011 (smc, 124 649 reads) (Table 1, p5)"
+    },
+    {
+      "surface_form": "clpB",
+      "gene_name": "clpB",
+      "identifiers": [
+        "PMED4_06291"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "aTSS with most reads asPMED4_06291 (clpB, 52 reads) (Table 1, p5)"
+    },
+    {
+      "surface_form": "PMED4_04671",
+      "gene_name": "",
+      "identifiers": [
+        "PMED4_04671"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "asPMED4_04671 (cons. hyp., 21 506 reads) (Table 1, p5)"
+    },
+    {
+      "surface_form": "priA",
+      "gene_name": "priA",
+      "identifiers": [
+        "P9313_16021"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "asP9313_16021 (priA, 184 reads) (Table 1, p5)"
+    },
+    {
+      "surface_form": "recG",
+      "gene_name": "recG",
+      "identifiers": [
+        "P9313_06941"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "asP9313_06941 (recG, 3542 reads) (Table 1, p5)"
+    },
+    {
+      "surface_form": "Yfr11",
+      "gene_name": "Yfr11",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "nTSS with most reads Yfr11 (1700 reads) (Table 1, p5)"
+    },
+    {
+      "surface_form": "Yfr16",
+      "gene_name": "Yfr16",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "nTSS with most reads Yfr16 (1 184 303 reads) (Table 1, p5)"
+    },
+    {
+      "surface_form": "Yfr103",
+      "gene_name": "Yfr103",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "nTSS with most reads Yfr103 (413 reads) (Table 1, p5)"
+    },
+    {
+      "surface_form": "Yfr2-5",
+      "gene_name": "Yfr2-5",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "nTSS with most reads Yfr2-5 (48 227 reads) (Table 1, p5)"
+    },
+    {
+      "surface_form": "Yfr23",
+      "gene_name": "Yfr23",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "including transfer-messenger RNA ... and the newly verified ncRNAs Yfr23 (MED4), Yfr102 and Yfr103 (MIT9313) (Results, p5)"
+    },
+    {
+      "surface_form": "Yfr102",
+      "gene_name": "Yfr102",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "the newly verified ncRNAs Yfr23 (MED4), Yfr102 and Yfr103 (MIT9313) (Results, p5)"
+    },
+    {
+      "surface_form": "psaC",
+      "gene_name": "psaC",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "photosynthesis-related genes ... photosystem I (psaC, psaD, psaE and psaF) (Results, p6)"
+    },
+    {
+      "surface_form": "psaD",
+      "gene_name": "psaD",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "photosystem I (psaC, psaD, psaE and psaF) (Results, p6)"
+    },
+    {
+      "surface_form": "psaE",
+      "gene_name": "psaE",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "photosystem I (psaC, psaD, psaE and psaF) (Results, p6)"
+    },
+    {
+      "surface_form": "psaF",
+      "gene_name": "psaF",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "photosystem I (psaC, psaD, psaE and psaF) (Results, p6)"
+    },
+    {
+      "surface_form": "psbB",
+      "gene_name": "psbB",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "photosystem II (psbA, psbB, psbE, psbH, psbO and psb28) are found (Results, p6)"
+    },
+    {
+      "surface_form": "psbH",
+      "gene_name": "psbH",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "photosystem II (psbA, psbB, psbE, psbH, psbO and psb28) are found (Results, p6)"
+    },
+    {
+      "surface_form": "psbO",
+      "gene_name": "psbO",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "photosystem II (psbA, psbB, psbE, psbH, psbO and psb28) are found (Results, p6)"
+    },
+    {
+      "surface_form": "psb28",
+      "gene_name": "psb28",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "photosystem II (psbA, psbB, psbE, psbH, psbO and psb28) are found (Results, p6)"
+    },
+    {
+      "surface_form": "petE",
+      "gene_name": "petE",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "Other genes in this category encode electron transfer proteins (petE, petH) (Results, p6)"
+    },
+    {
+      "surface_form": "petH",
+      "gene_name": "petH",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "Other genes in this category encode electron transfer proteins (petE, petH) (Results, p6)"
+    },
+    {
+      "surface_form": "petB",
+      "gene_name": "petB",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "and cytochrome b6/f complex components (petB) (Results, p6)"
+    },
+    {
+      "surface_form": "Rps1a",
+      "gene_name": "rps1a",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "In many cyanobacteria, two homologous ribosomal S1 proteins Rps1a and Rps1b exist (Results, p6)"
+    },
+    {
+      "surface_form": "Rps1b",
+      "gene_name": "rps1b",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "In many cyanobacteria, two homologous ribosomal S1 proteins Rps1a and Rps1b exist (Results, p6)"
+    },
+    {
+      "surface_form": "ruvB",
+      "gene_name": "ruvB",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "The only exceptions are the ruvB, degT and the PMED4_05961/P9313_15281 homologs (Results, p6)"
+    },
+    {
+      "surface_form": "degT",
+      "gene_name": "degT",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "The only exceptions are the ruvB, degT and the PMED4_05961/P9313_15281 homologs (Results, p6)"
+    },
+    {
+      "surface_form": "PMED4_05961/P9313_15281",
+      "gene_name": "",
+      "identifiers": [
+        "PMED4_05961",
+        "P9313_15281"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "PMED4_05961/P9313_15281 homologs, encoding ... carboxysome shell protein CsoS1d (Results, p6)"
+    },
+    {
+      "surface_form": "CsoS1d",
+      "gene_name": "csoS1d",
+      "identifiers": [
+        "PMED4_05961",
+        "P9313_15281"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "PMED4_05961/P9313_15281 homologs, encoding ... carboxysome shell protein CsoS1d (Results, p6)"
+    },
+    {
+      "surface_form": "procA",
+      "gene_name": "procA",
+      "identifiers": [
+        "P9313_02811",
+        "P9313_26751"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "Among those are TSS that are located within prochlorosin (procA) genes, of which 29 homologs exist in MIT9313 (Results, p7)"
+    },
+    {
+      "surface_form": "cynS",
+      "gene_name": "cynS",
+      "identifiers": [
+        "PMM0373"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "CynS (PMM0373) encodes a cyanase ... under nitrogen-limiting conditions, an asRNA of ~300 nt is induced (Results, p10)"
+    },
+    {
+      "surface_form": "YocE",
+      "gene_name": "desA",
+      "identifiers": [
+        "PMM1378"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "YocE (PMM1378, desA) encodes a fatty acid desaturase, type II (Results, p10)"
+    },
+    {
+      "surface_form": "psbY",
+      "gene_name": "psbY",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "The mRNA of the manganese-binding photosystem II protein Y, encoded by psbY, is covered by a 120-nt-long asRNA (Results, p10)"
+    },
+    {
+      "surface_form": "gidA",
+      "gene_name": "gidA",
+      "identifiers": [
+        "PMT1049"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "PsbY and the gene immediately downstream, gidA (PMT1049, containing a NAD-binding domain), appear to be organized in a dicistron (Results, p10)"
+    },
+    {
+      "surface_form": "P9313_10131",
+      "gene_name": "",
+      "identifiers": [
+        "P9313_10131"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "An ~130-nt asRNA covers the 3 region of P9313_10131 ... decrease in the asRNA abundance under nitrogen starvation (Results, p10)"
+    },
+    {
+      "surface_form": "Yfr22",
+      "gene_name": "Yfr22",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Verification of ncRNA candidates by northern blot hybridization ... yfr22 (Figure 5, p11)"
+    },
+    {
+      "surface_form": "Yfr24",
+      "gene_name": "Yfr24",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Verification of ncRNA candidates ... yfr24 (Figure 5, p11)"
+    },
+    {
+      "surface_form": "Yfr25",
+      "gene_name": "Yfr25",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Verification of ncRNA candidates ... yfr25 (Figure 5, p11)"
+    },
+    {
+      "surface_form": "Yfr26",
+      "gene_name": "Yfr26",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "homologs of the newly detected MED4 ncRNAs are restricted to the high-light clade ... for example, Yfr26 and Yfr27 (Results, p11)"
+    },
+    {
+      "surface_form": "Yfr27",
+      "gene_name": "Yfr27",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "homologs of the newly detected MED4 ncRNAs ... Yfr26 and Yfr27 (Results, p11)"
+    },
+    {
+      "surface_form": "Yfr101",
+      "gene_name": "Yfr101",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "Verification of ncRNA candidates by northern blot hybridization ... yfr101 (Figure 5, p11)"
+    },
+    {
+      "surface_form": "Yfr104",
+      "gene_name": "Yfr104",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "Verification of ncRNA candidates by northern blot hybridization ... yfr104 (Figure 5, p11)"
+    },
+    {
+      "surface_form": "Yfr105",
+      "gene_name": "Yfr105",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "Verification of ncRNA candidates by northern blot hybridization ... yfr105 (Figure 5, p11)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Photosynthesis",
+      "kegg_pathway_id": "map00195",
+      "prominence": "central",
+      "evidence": "photosynthesis-related genes were highly overrepresented in this group (Results, p6)"
+    },
+    {
+      "surface_form": "Nitrogen metabolism",
+      "kegg_pathway_id": "map00910",
+      "prominence": "peripheral",
+      "evidence": "genes that are involved in nutrient uptake, assimilation and metabolic functions (Introduction, p2)"
+    },
+    {
+      "surface_form": "Histidine metabolism",
+      "kegg_pathway_id": "map00340",
+      "prominence": "peripheral",
+      "evidence": "These classes include histidine metabolism (Results, p6)"
+    },
+    {
+      "surface_form": "Aminoacyl-tRNA biosynthesis",
+      "kegg_pathway_id": "map00970",
+      "prominence": "peripheral",
+      "evidence": "These classes include histidine metabolism, aminoacyl-tRNA biosynthesis (Results, p6)"
+    },
+    {
+      "surface_form": "Oxidative phosphorylation",
+      "kegg_pathway_id": "map00190",
+      "prominence": "peripheral",
+      "evidence": "genes encoding subunits of the NAD(P)H-quinone oxidoreductase (Results, p6)"
+    },
+    {
+      "surface_form": "Terpenoid backbone biosynthesis",
+      "kegg_pathway_id": "map00900",
+      "prominence": "peripheral",
+      "evidence": "and terpenoid backbone biosynthesis (Results, p6)"
+    }
+  ]
+}

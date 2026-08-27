@@ -644,3 +644,77 @@ class TestExpandList:
         """Full value is always the first element (IDs may contain commas)."""
         result = expand_list("A, B")
         assert result[0] == "A, B"
+
+
+class TestJunkTokenGuards:
+    """Placeholder cells and free text must never become gene-unique IDs.
+
+    Regression tests for the runaway ID merge found in the MED4 and
+    W3-18-1 / PCC7002 mappings -- see gene_id_graph._PLACEHOLDER_IDS.
+    """
+
+    def test_placeholder_normalizes_to_nothing(self):
+        for token in ("--", "-", "NA", "N/A", "none", "NULL", ".", "?", "0", "  --  "):
+            assert normalize_id(token, "alternative_locus_tag") == [], token
+
+    def test_real_short_ids_survive(self):
+        """Guards must not eat genuine short, digit-free locus tags."""
+        for token in ("ffs", "rnpB", "tmRNA", "Yfr9", "dnaA"):
+            assert normalize_id(token, "locus_tag_ncbi") == [token], token
+
+    def test_placeholder_does_not_merge_genes(self):
+        """The MED4 failure: 3 unrelated genes sharing '--' must stay separate."""
+        graph = GeneIdGraph()
+        for lt in ("PMM0001", "PMM0002", "PMM0003"):
+            graph.add_anchor(lt)
+        rows = [
+            ([(lt, "locus_tag"), ("--", "alternative_locus_tag")], "paper/table")
+            for lt in ("PMM0001", "PMM0002", "PMM0003")
+        ]
+        graph.process_all_rows(rows)
+
+        assert "--" not in graph.specific_lookup
+        assert "--" not in graph.conflicts
+        for lt in ("PMM0001", "PMM0002", "PMM0003"):
+            # add_anchor self-maps the locus tag, so tier1_ids may legitimately
+            # be empty; what matters is that no FOREIGN id was absorbed.
+            ids = {e["id"] for e in graph._genes[lt]["tier1_ids"]}
+            assert ids <= {lt}, f"{lt} absorbed foreign IDs: {ids - {lt}}"
+
+    def test_free_text_is_not_tokenized_into_ids(self):
+        """The Beliaev 2014 failure: a footnote row must not yield one ID per word."""
+        footnote = (
+            "1 RPKM is defined as a number of reads per kilobase of transcript "
+            "per million of mapped reads"
+        )
+        assert normalize_id(footnote, "locus_tag") == []
+
+        graph = GeneIdGraph()
+        graph.add_anchor("Sputw3181_0001")
+        graph.process_all_rows(
+            [([("Sputw3181_0001", "locus_tag"), (footnote, "locus_tag")], "paper/table")]
+        )
+        for word in ("is", "a", "of", "reads", "RPKM", "1"):
+            assert word not in graph.specific_lookup, word
+
+    def test_short_compound_still_splits(self):
+        """The guard must not break the real compound-cell pattern."""
+        graph = GeneIdGraph()
+        graph.add_anchor("PMM0001")
+        graph.process_all_rows(
+            [([("PMM0001", "locus_tag"), ("dnaA PMM0001", "old_locus_tag")], "paper/table")]
+        )
+        assert graph.specific_lookup.get("dnaA") == "PMM0001"
+
+    def test_no_gene_accumulates_absurd_id_counts(self):
+        """Guard-rail: a single gene must not absorb every row in a table."""
+        graph = GeneIdGraph()
+        for i in range(1, 21):
+            graph.add_anchor(f"PMM{i:04d}")
+        rows = [
+            ([(f"PMM{i:04d}", "locus_tag"), ("--", "alternative_locus_tag")], "paper/table")
+            for i in range(1, 21)
+        ]
+        graph.process_all_rows(rows)
+        worst = max(len(g["tier1_ids"]) for g in graph._genes.values())
+        assert worst <= 2, f"a gene accumulated {worst} Tier 1 IDs"

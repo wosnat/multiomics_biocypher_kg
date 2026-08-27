@@ -152345,13 +152345,6 @@
           "type": "protein_id_refseq"
         },
         {
-          "id": "0",
-          "sources": [
-            "Christie-Oleza 2017/supp_table_s7"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
           "id": "Q5LSY1",
           "sources": [
             "Christie-Oleza 2017/supp_table_s7"
@@ -213993,13 +213986,6 @@
           "type": "protein_id_refseq"
         },
         {
-          "id": "0",
-          "sources": [
-            "Christie-Oleza 2017/supp_table_s7"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
           "id": "Q5LR41",
           "sources": [
             "Christie-Oleza 2017/supp_table_s7"
@@ -271604,13 +271590,6 @@
         },
         {
           "id": "YP_168133.1",
-          "sources": [
-            "Christie-Oleza 2017/supp_table_s7"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
-          "id": "0",
           "sources": [
             "Christie-Oleza 2017/supp_table_s7"
           ],
@@ -387568,13 +387547,6 @@
           "type": "protein_id_refseq"
         },
         {
-          "id": "-",
-          "sources": [
-            "Christie-Oleza 2017/supp_table_s7"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
           "id": "AHC32568",
           "sources": [
             "Christie-Oleza 2017/supp_table_s7"
@@ -410153,14 +410125,6 @@
     }
   },
   "multi_lookup": {
-    "-": [
-      "SPOA0272a"
-    ],
-    "0": [
-      "SPO2925",
-      "SPO2290",
-      "SPO1633"
-    ],
     "A0A5C6": [
       "SPO3865"
     ],
@@ -529356,7 +529320,7 @@
   "stats": {
     "n_conflicts": 53,
     "n_genes": 4368,
-    "n_multi": 29833,
+    "n_multi": 29831,
     "n_specific": 27074,
     "passes": 2
   },
