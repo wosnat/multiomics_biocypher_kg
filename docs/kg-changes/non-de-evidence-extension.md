@@ -29,8 +29,8 @@ Three **measurement** edges (DM → Gene). Each DerivedMetric emits exactly ONE 
 
 | Edge | `value_kind` | Edge properties |
 |---|---|---|
-| `Derived_metric_quantifies_gene` | `numeric` | `metric_type`, `value` (float), `p_value`, `adjusted_p_value`, `rank_by_metric` (post-import, only if parent `rankable="true"`), `metric_percentile` (post-import), `metric_bucket` (post-import: `top_decile`/`top_quartile`/`mid`/`low`), `significant` (post-import, only if parent `has_p_value="true"` and edge has non-null `adjusted_p_value`) |
-| `Derived_metric_flags_gene` | `boolean` | `metric_type`, `value_flag ∈ {"true","false"}` |
+| `Derived_metric_quantifies_gene` | `numeric` | `metric_type`, `value` (float), `p_value`, `adjusted_p_value`, `rank_by_metric` (post-import, only if parent `rankable = 'rankable'`), `metric_percentile` (post-import), `metric_bucket` (post-import: `top_decile`/`top_quartile`/`mid`/`low`), `significant ∈ {significant, not_significant}` (post-import, only if parent `has_p_value = 'p_value'` and edge has non-null `adjusted_p_value`) |
+| `Derived_metric_flags_gene` | `boolean` | `metric_type`, `value ∈ {flagged, not_flagged}` (R5 pair since 2026-08-28; was `"true"`/`"false"`) |
 | `Derived_metric_classifies_gene` | `categorical` | `metric_type`, `value_text` (must be in parent `allowed_categories`) |
 
 ### New `Experiment.compartment` property
@@ -50,7 +50,7 @@ Plan 3 post-import Cypher (`scripts/post-import.sh` + `scripts/post-import.cyphe
 - `growth_phases` (str[]) — union from parent Experiment
 
 ### Per Experiment
-- `reports_fold_change` (str `"true"`/`"false"`) — `"true"` iff has outgoing `Changes_expression_of`
+- `reports_fold_change ∈ {fold_change, no_fold_change}` — `fold_change` iff has outgoing `Changes_expression_of` (R5 pair since 2026-08-28)
 - `reports_derived_metric_types` (str[])
 - `derived_metric_count` (int)
 - `derived_metric_value_kinds` (str[])
@@ -99,7 +99,7 @@ Edge counts (production graph):
 // Find all genes flagged as periodic in NATL2A axenic L:D (boolean)
 MATCH (dm:DerivedMetric {metric_type: 'periodic_in_axenic_LD'})
   -[r:Derived_metric_flags_gene]->(g:Gene)
-WHERE r.value_flag = 'true'
+WHERE r.value = 'flagged'
   AND g.organism_name = 'Prochlorococcus NATL2A'
 RETURN g.locus_tag, g.product;
 

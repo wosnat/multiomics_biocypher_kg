@@ -891,7 +891,7 @@
     {
       "properties": {
         "metric_type": "exoproteome_detected_ancestor",
-        "value": "true"
+        "value": "flagged"
       },
       "source": "derived_metric:aem.00798-26:table_s1_exudate_detection:exoproteome_detected_ancestor",
       "target": "ncbigene:EZ55_00033",
@@ -900,7 +900,7 @@
     {
       "properties": {
         "metric_type": "exoproteome_detected_ancestor",
-        "value": "false"
+        "value": "not_flagged"
       },
       "source": "derived_metric:aem.00798-26:table_s1_exudate_detection:exoproteome_detected_ancestor",
       "target": "ncbigene:EZ55_00041",
@@ -909,7 +909,7 @@
     {
       "properties": {
         "metric_type": "exoproteome_detected_ancestor",
-        "value": "false"
+        "value": "not_flagged"
       },
       "source": "derived_metric:aem.00798-26:table_s1_exudate_detection:exoproteome_detected_ancestor",
       "target": "ncbigene:EZ55_00076",
@@ -918,7 +918,7 @@
     {
       "properties": {
         "metric_type": "exoproteome_detected_ancestor",
-        "value": "false"
+        "value": "not_flagged"
       },
       "source": "derived_metric:aem.00798-26:table_s1_exudate_detection:exoproteome_detected_ancestor",
       "target": "ncbigene:EZ55_00078",
@@ -927,7 +927,7 @@
     {
       "properties": {
         "metric_type": "exoproteome_detected_ancestor",
-        "value": "false"
+        "value": "not_flagged"
       },
       "source": "derived_metric:aem.00798-26:table_s1_exudate_detection:exoproteome_detected_ancestor",
       "target": "ncbigene:EZ55_00079",
@@ -1240,7 +1240,7 @@
     },
     {
       "properties": {
-        "flag_value": "false",
+        "flag_value": "not_detected",
         "n_positive": 0,
         "n_replicates": 1
       },
@@ -1250,7 +1250,7 @@
     },
     {
       "properties": {
-        "flag_value": "false",
+        "flag_value": "not_detected",
         "n_positive": 0,
         "n_replicates": 1
       },
@@ -1260,7 +1260,7 @@
     },
     {
       "properties": {
-        "flag_value": "false",
+        "flag_value": "not_detected",
         "n_positive": 0,
         "n_replicates": 1
       },
@@ -1270,7 +1270,7 @@
     },
     {
       "properties": {
-        "flag_value": "true",
+        "flag_value": "detected",
         "n_positive": 1,
         "n_replicates": 1
       },
@@ -1280,7 +1280,7 @@
     },
     {
       "properties": {
-        "flag_value": "false",
+        "flag_value": "not_detected",
         "n_positive": 0,
         "n_replicates": 1
       },
@@ -2538,7 +2538,7 @@
           "Synechococcus WH7803",
           "Synechococcus WH8102"
         ],
-        "title": "You produce while I clean up, a strategy revealed by exoproteomics during Synechococcus\u2013Roseobacter interactions",
+        "title": "You produce while I clean up, a strategy revealed by exoproteomics during Synechococcus–Roseobacter interactions",
         "treatment_types": [
           "coculture"
         ]
@@ -2608,7 +2608,7 @@
       "label": "Experiment",
       "properties": {
         "control": "Uninfected control culture at 30 min",
-        "is_time_course": "true",
+        "is_time_course": "time_course",
         "name": "WH7803 Cyanopodovirus S-SBP1 infection vs Uninfected control (RNASEQ)",
         "omics_type": "RNASEQ",
         "organism_name": "Synechococcus WH7803",
@@ -2624,7 +2624,7 @@
       "label": "Experiment",
       "properties": {
         "control": "",
-        "is_time_course": "false",
+        "is_time_course": "single_time_point",
         "name": "Ruegeria pomeroyi DSS-3 exoproteome in co-culture with Synechococcus WH7803",
         "omics_type": "EXOPROTEOMICS",
         "organism_name": "Ruegeria pomeroyi DSS-3",
@@ -2640,7 +2640,7 @@
       "label": "Experiment",
       "properties": {
         "control": "",
-        "is_time_course": "false",
+        "is_time_course": "single_time_point",
         "name": "Ruegeria pomeroyi DSS-3 exoproteome in co-culture with Synechococcus WH8102",
         "omics_type": "EXOPROTEOMICS",
         "organism_name": "Ruegeria pomeroyi DSS-3",
@@ -2656,7 +2656,7 @@
       "label": "Experiment",
       "properties": {
         "control": "Untreated parallel cultures",
-        "is_time_course": "false",
+        "is_time_course": "single_time_point",
         "name": "MIT0604 mitomycin C DNA-damage induction vs untreated control (RNA-seq)",
         "omics_type": "RNASEQ",
         "organism_name": "Prochlorococcus MIT0604",
@@ -2671,8 +2671,8 @@
       "id": "10.1016/j.cell.2022.12.006_mmc_vs_uv_mit0604",
       "label": "Experiment",
       "properties": {
-        "control": "UV shock arm (30 s 254 nm + 1 h recovery) \u2014 treatment-vs-treatment contrast, NOT an untreated baseline",
-        "is_time_course": "false",
+        "control": "UV shock arm (30 s 254 nm + 1 h recovery) — treatment-vs-treatment contrast, NOT an untreated baseline",
+        "is_time_course": "single_time_point",
         "name": "MIT0604 mitomycin C vs UV shock (treatment-vs-treatment contrast, RNA-seq)",
         "omics_type": "RNASEQ",
         "organism_name": "Prochlorococcus MIT0604",
@@ -3126,12 +3126,12 @@
         "experiment_id": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_axenic",
         "flag_false_count": 0,
         "flag_true_count": 1377,
-        "has_p_value": "false",
+        "has_p_value": "no_p_value",
         "metric_type": "periodic_in_axenic_LD",
         "name": "Periodic in NATL2A axenic L:D (Table S4A)",
         "omics_type": "RNASEQ",
         "organism_name": "Prochlorococcus NATL2A",
-        "rankable": "false",
+        "rankable": "not_rankable",
         "total_gene_count": 1377,
         "value_kind": "boolean"
       }
@@ -3153,12 +3153,12 @@
         ],
         "compartment": "whole_cell",
         "experiment_id": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_axenic",
-        "has_p_value": "false",
+        "has_p_value": "no_p_value",
         "metric_type": "darkness_survival_class",
         "name": "NATL2A darkness survival class (Table S5)",
         "omics_type": "RNASEQ",
         "organism_name": "Prochlorococcus NATL2A",
-        "rankable": "false",
+        "rankable": "not_rankable",
         "total_gene_count": 258,
         "value_kind": "categorical"
       }
@@ -3170,12 +3170,12 @@
       "properties": {
         "compartment": "whole_cell",
         "experiment_id": "10.1371/journal.pone.0043432_waldbauer_2012_med4_paired_diel",
-        "has_p_value": "false",
+        "has_p_value": "no_p_value",
         "metric_type": "peak_time_protein_h",
         "name": "Time of peak protein abundance (h)",
         "omics_type": "PAIRED_RNASEQ_PROTEOME",
         "organism_name": "Prochlorococcus MED4",
-        "rankable": "false",
+        "rankable": "not_rankable",
         "total_gene_count": 312,
         "value_kind": "numeric",
         "value_max": 24.0,
@@ -3192,12 +3192,12 @@
       "properties": {
         "compartment": "vesicle",
         "experiment_id": "10.1111/1462-2920.15834_vesicle_proteomics_mit9312",
-        "has_p_value": "false",
+        "has_p_value": "no_p_value",
         "metric_type": "cell_abundance_biovolume_normalized",
         "name": "MIT9312 whole-cell protein abundance (biovolume-normalized, Trypsin/Lys-C)",
         "omics_type": "VESICLE_PROTEOMICS",
         "organism_name": "Prochlorococcus MIT9312",
-        "rankable": "true",
+        "rankable": "rankable",
         "total_gene_count": 1014,
         "value_kind": "numeric",
         "value_max": 8.02e-07,
@@ -3214,12 +3214,12 @@
       "properties": {
         "compartment": "vesicle",
         "experiment_id": "10.1111/1462-2920.15834_vesicle_proteomics_mit9312",
-        "has_p_value": "false",
+        "has_p_value": "no_p_value",
         "metric_type": "vesicle_abundance_biovolume_normalized",
         "name": "MIT9312 vesicle protein abundance (biovolume-normalized, Trypsin/Lys-C)",
         "omics_type": "VESICLE_PROTEOMICS",
         "organism_name": "Prochlorococcus MIT9312",
-        "rankable": "true",
+        "rankable": "rankable",
         "total_gene_count": 221,
         "value_kind": "numeric",
         "value_max": 2.79e-07,
@@ -3236,12 +3236,12 @@
       "properties": {
         "compartment": "vesicle",
         "experiment_id": "10.1111/1462-2920.15834_vesicle_proteomics_mit9313",
-        "has_p_value": "false",
+        "has_p_value": "no_p_value",
         "metric_type": "cell_abundance_biovolume_normalized",
         "name": "MIT9313 whole-cell protein abundance (biovolume-normalized, Trypsin/Lys-C)",
         "omics_type": "VESICLE_PROTEOMICS",
         "organism_name": "Prochlorococcus MIT9313",
-        "rankable": "true",
+        "rankable": "rankable",
         "total_gene_count": 1044,
         "value_kind": "numeric",
         "value_max": 2.98e-06,
@@ -3258,12 +3258,12 @@
       "properties": {
         "compartment": "vesicle",
         "experiment_id": "10.1111/1462-2920.15834_vesicle_proteomics_mit9313",
-        "has_p_value": "false",
+        "has_p_value": "no_p_value",
         "metric_type": "vesicle_abundance_biovolume_normalized",
         "name": "MIT9313 vesicle protein abundance (biovolume-normalized, Trypsin/Lys-C)",
         "omics_type": "VESICLE_PROTEOMICS",
         "organism_name": "Prochlorococcus MIT9313",
-        "rankable": "true",
+        "rankable": "rankable",
         "total_gene_count": 353,
         "value_kind": "numeric",
         "value_max": 4.31e-07,
@@ -3280,12 +3280,12 @@
       "properties": {
         "compartment": "vesicle",
         "experiment_id": "10.1111/1462-2920.15834_vesicle_proteomics_mit9312",
-        "has_p_value": "false",
+        "has_p_value": "no_p_value",
         "metric_type": "log2_vesicle_cell_enrichment",
         "name": "MIT9312 log2 vesicle/cell enrichment (Biller 2022 Table S4)",
         "omics_type": "VESICLE_PROTEOMICS",
         "organism_name": "Prochlorococcus MIT9312",
-        "rankable": "true",
+        "rankable": "rankable",
         "total_gene_count": 204,
         "value_kind": "numeric",
         "value_max": 2.050230564,
@@ -3438,7 +3438,7 @@
         "name": "MIT9301 intracellular metabolite concentration (mol/cell)",
         "omics_type": "METABOLOMICS",
         "organism_name": "Prochlorococcus MIT9301",
-        "rankable": "true",
+        "rankable": "rankable",
         "value_kind": "numeric"
       }
     },
@@ -3454,7 +3454,7 @@
         "name": "MIT9312 whole-cell targeted metabolite relative peak area (biovolume-normalized)",
         "omics_type": "METABOLOMICS",
         "organism_name": "Prochlorococcus MIT9312",
-        "rankable": "true",
+        "rankable": "rankable",
         "value_kind": "numeric"
       }
     },
@@ -3470,7 +3470,7 @@
         "name": "MIT9313 whole-cell targeted metabolite relative peak area (biovolume-normalized)",
         "omics_type": "METABOLOMICS",
         "organism_name": "Prochlorococcus MIT9313",
-        "rankable": "true",
+        "rankable": "rankable",
         "value_kind": "numeric"
       }
     },
@@ -3486,7 +3486,7 @@
         "name": "MIT9312 vesicle targeted metabolite relative peak area (biovolume-normalized)",
         "omics_type": "METABOLOMICS",
         "organism_name": "Prochlorococcus MIT9312",
-        "rankable": "true",
+        "rankable": "rankable",
         "value_kind": "numeric"
       }
     },
@@ -3502,7 +3502,7 @@
         "name": "MIT9313 vesicle targeted metabolite relative peak area (biovolume-normalized)",
         "omics_type": "METABOLOMICS",
         "organism_name": "Prochlorococcus MIT9313",
-        "rankable": "true",
+        "rankable": "rankable",
         "value_kind": "numeric"
       }
     },
@@ -3518,7 +3518,7 @@
         "name": "MIT0801 extracellular metabolite concentration (mol/cell)",
         "omics_type": "METABOLOMICS",
         "organism_name": "Prochlorococcus MIT0801",
-        "rankable": "true",
+        "rankable": "rankable",
         "value_kind": "numeric"
       }
     },
@@ -3666,7 +3666,7 @@
       "properties": {
         "level": 1,
         "level_kind": "tc_subclass",
-        "name": "\u03b1-Type Channels",
+        "name": "α-Type Channels",
         "tcdb_id": "1.A"
       }
     },
@@ -4033,7 +4033,7 @@
       "id": "data_source:merops_diamond",
       "label": "DataSource",
       "properties": {
-        "description": "diamond blastp against the MEROPS peptidase scan library \u2014 per-protein protease/peptidase-inhibitor classifications (clan/family/subfamily) by direct sequence similarity; the KG^s only MEROPS evidence source.",
+        "description": "diamond blastp against the MEROPS peptidase scan library — per-protein protease/peptidase-inhibitor classifications (clan/family/subfamily) by direct sequence similarity; the KG^s only MEROPS evidence source.",
         "provenance": "tool_run",
         "scope": "gene_level"
       }

@@ -88,6 +88,26 @@ multiplicity never multiplies rows. `MeropsFamily.peptidase_organism_count` adde
 0.5 → 3,768, 1.0 → 338. InterPro subtree `gene_count` differs from `direct_gene_count` on 115 of 12,999
 entries (max +63). GO root `biological_process`: 66,484 subtree / 20,563 direct.
 
+## Relationship-property indexes (2026-08-28, explorer HO-003 / R5)
+
+The explorer's trust filters (`build_trust_filter_clause`: `r.evidence IN $evidence`,
+`r.evidence_score >= $min_evidence_score`, `r.tier <= $max_tier`, `r.call_class IN
+$call_class`, `any(s IN $sources WHERE s IN r.sources)`) run on all 14 gene→ontology
+edge types. Only the types over ~100K edges are indexed — the rest are scanned inside
+a term/gene-anchored match where an index does not pay:
+
+| Index | Edge type | Property |
+|---|---|---|
+| `gene_go_bp_evidence_idx` / `gene_go_bp_evidence_score_idx` | `Gene_involved_in_biological_process` (539,873) | `evidence` / `evidence_score` |
+| `gene_go_mf_evidence_idx` / `gene_go_mf_evidence_score_idx` | `Gene_enables_molecular_function` | `evidence` / `evidence_score` |
+| `gene_go_cc_evidence_idx` / `gene_go_cc_evidence_score_idx` | `Gene_located_in_cellular_component` | `evidence` / `evidence_score` |
+| `gene_pfam_evidence_idx` / `gene_pfam_evidence_score_idx` | `Gene_has_pfam` (177,453) | `evidence` / `evidence_score` |
+| `gene_interpro_evidence_idx` | `Gene_has_interpro_entry` (404,191) | `evidence` only — constant-source edge, no `evidence_score` |
+
+Not indexed: `sources` (list property; the `any(...)` predicate cannot use a range
+index), `tier` / `call_class` (only on the 54K-edge TCDB and 4K-edge MEROPS types).
+These are the KG's first relationship-property indexes.
+
 ## Verification
 
 `tests/kg_validity/test_annotation_trust.py` (AC1–AC6 of the plan) + `pytest -m kg`; unit gates in

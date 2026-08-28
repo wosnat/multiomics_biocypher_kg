@@ -1,11 +1,11 @@
 # Treatment organisms without loaded genomes (genus-level or non-specific)
 # These are used as edge sources in changes_expression_of edges from paperconfigs
-ncbi_taxon_id,organism_name
+ncbi_taxon_id,organism_name,name_synonyms,taxonomy_note
 10239,Phage
 28108,Alteromonas
 # Synechococcus coculture partners (no DE data for these organisms)
 670,Vibrio parahaemolyticus
-1299,Meiothermus ruber
+277,Meiothermus ruber,Meiothermus taiwanensis,"Bernstein 2017 coculture partner (M. ruber strain A); the sequenced isolate MruberA (GCF_000836395.1, taxid 172827) is Meiothermus taiwanensis in NCBI/UniProt. Taxid was 1299 (= Deinococcus radiodurans) until 2026-08-28"
 562,Escherichia coli
 # Ziegler 2025 organisms (not yet in paperconfig_files.txt):
 # 2742,Marinobacter

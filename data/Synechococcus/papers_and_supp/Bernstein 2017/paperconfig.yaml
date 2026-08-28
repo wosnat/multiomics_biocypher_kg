@@ -22,7 +22,7 @@ publication:
       light_condition: "variable (low/medium/high)"
       light_intensity: ""
       treatment_organism: "Meiothermus ruber"
-      treatment_taxid: 1299
+      treatment_taxid: 277   # Meiothermus ruber (was 1299 = Deinococcus radiodurans, a registry error)
 
   supplementary_materials:
     # ── BP-1 gene cluster data (light condition clustering) ────────────

@@ -860,93 +860,115 @@ Experiment.growth_phases:
     graph-level guarantee). OPEN — the list_filter_values MCP tool must
     enumerate this from the live graph.
 
-# ── Grandfathered stringified booleans (predate house rule R5) ───────────────
+# ── Two-state facts (house rule R5) ──────────────────────────────────────────
+# Converted 2026-08-28 from the grandfathered "true"/"false" strings. Each
+# value names its state so a consumer never has to remember which side of a
+# bool a property was. The paperconfig keeps the author-facing "true"/"false"
+# tokens for rankable / has_p_value / true_tokens / blank_policy; adapters map
+# them (observations_adapter.RANKABLE / HAS_P_VALUE / FLAG_VALUE,
+# metabolite_assay_adapter.RANKABLE / FLAG_VALUE). See
+# docs/kg-changes/two-state-strings.md.
 Experiment.is_time_course:
   applies_to: Experiment
   applies_to_kind: node
   property: is_time_course
-  value_type: bool_string
+  value_type: string
   closed: true
-  values: ["true", "false"]
+  values: [time_course, single_time_point]
   description: >
-    Whether this experiment has multiple timepoints. Stringified boolean
-    predating house rule R5 — grandfathered because it is MCP-read;
-    conversion to a meaningful pair is tracked in plans/backlog.md.
+    time_course = the experiment's analyses reference more than one timepoint;
+    single_time_point otherwise. Adapter-set (omics_adapter).
 
 Experiment.reports_fold_change:
   applies_to: Experiment
   applies_to_kind: node
   property: reports_fold_change
-  value_type: bool_string
+  value_type: string
   closed: true
-  values: ["true", "false"]
+  values: [fold_change, no_fold_change]
   description: >
-    Post-import: whether this experiment has any DerivedMetric quantifying
-    fold change. Stringified boolean predating house rule R5 — grandfathered
-    because it is MCP-read; conversion to a meaningful pair is tracked in
-    plans/backlog.md.
+    Post-import: fold_change iff the experiment has at least one outgoing
+    Changes_expression_of edge (a differential-expression table);
+    no_fold_change for derived-metric-only / metabolomics experiments.
 
 DerivedMetric.rankable:
   applies_to: DerivedMetric
   applies_to_kind: node
   property: rankable
-  value_type: bool_string
+  value_type: string
   closed: true
-  values: ["true", "false"]
+  values: [rankable, not_rankable]
   description: >
-    Whether this metric supports ranking. Stringified boolean predating
-    house rule R5 — grandfathered because it is MCP-read; conversion to a
-    meaningful pair is tracked in plans/backlog.md.
+    rankable = the numeric metric supports ranking, so post-import sets
+    rank_by_metric / metric_percentile / metric_bucket on its quantifies
+    edges; not_rankable otherwise (always not_rankable on boolean and
+    categorical metrics).
 
 MetaboliteAssay.rankable:
   applies_to: MetaboliteAssay
   applies_to_kind: node
   property: rankable
-  value_type: bool_string
+  value_type: string
   closed: true
-  values: ["true", "false"]
+  values: [rankable, not_rankable]
   description: >
-    Whether this assay's numeric values support ranking. Stringified boolean
-    predating house rule R5 — grandfathered because it is MCP-read;
-    conversion to a meaningful pair is tracked in plans/backlog.md.
+    rankable = the assay's numeric values support ranking, so post-import
+    sets rank_by_metric / metric_percentile / metric_bucket on its
+    Assay_quantifies_metabolite edges; not_rankable otherwise.
 
 DerivedMetric.has_p_value:
   applies_to: DerivedMetric
   applies_to_kind: node
   property: has_p_value
-  value_type: bool_string
+  value_type: string
   closed: true
-  values: ["true", "false"]
+  values: [p_value, no_p_value]
   description: >
-    Whether this metric reports a p-value. Stringified boolean predating
-    house rule R5 — grandfathered because it is MCP-read; conversion to a
-    meaningful pair is tracked in plans/backlog.md.
+    p_value = the metric reports a p-value, so p_value_threshold is set and
+    post-import derives `significant` on its quantifies edges; no_p_value
+    otherwise (always no_p_value on boolean and categorical metrics).
 
 Derived_metric_quantifies_gene.significant:
   applies_to: Derived_metric_quantifies_gene
   applies_to_kind: edge
   property: significant
-  value_type: bool_string
+  value_type: string
   closed: true
-  values: ["true", "false"]
+  sparse: true
+  values: [significant, not_significant]
   description: >
-    Post-import: whether adjusted_p_value crosses the parent DerivedMetric's
-    p_value_threshold (only set when has_p_value="true" and a threshold is
-    configured). Stringified boolean predating house rule R5 — grandfathered
-    because it is MCP-read; conversion to a meaningful pair is tracked in
-    plans/backlog.md.
+    Post-import: significant iff adjusted_p_value < the parent DerivedMetric's
+    p_value_threshold. Only set when the parent has has_p_value = p_value, a
+    threshold is configured and the edge carries a non-null adjusted_p_value;
+    absent otherwise. Same pair as Changes_expression_of.expression_status's
+    not_significant token.
 
 Derived_metric_flags_gene.value:
   applies_to: Derived_metric_flags_gene
   applies_to_kind: edge
   property: value
-  value_type: bool_string
+  value_type: string
   closed: true
-  values: ["true", "false"]
+  values: [flagged, not_flagged]
   description: >
-    The boolean metric's value for this gene. Stringified boolean predating
-    house rule R5 — grandfathered because it is MCP-read; conversion to a
-    meaningful pair is tracked in plans/backlog.md.
+    The boolean metric's outcome for this gene: flagged = the paper's
+    true-token (or blank_policy true) applied; not_flagged = the false-token
+    applied. Rows the paper skipped produce no edge.
+
+Assay_flags_metabolite.flag_value:
+  applies_to: Assay_flags_metabolite
+  applies_to_kind: edge
+  property: flag_value
+  value_type: string
+  closed: true
+  values: [detected, not_detected]
+  description: >
+    Presence flag for this metabolite in this sample column: detected iff the
+    cell equals the column's flag_true_value. Same pair as
+    Assay_quantifies_metabolite.detection_status minus its `sporadic` state
+    (a single presence call cannot be sporadic). About 62% of rows are
+    not_detected — tested-absent is real data, never noise. Was undeclared
+    until 2026-08-28.
 
 # ── MEROPS + NCBIfam + InterPro evalue_library (2026-08-18 merge) ────────────
 # MEROPS vocab (level_kind, family_type, call_class, best_hit_kind) is

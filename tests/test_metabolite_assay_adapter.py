@@ -165,7 +165,7 @@ def test_adapter_emits_one_node_per_assay(tmp_path):
     assert props["compartment"] == "whole_cell"
     assert props["organism_name"] == "Prochlorococcus MIT9303"
     assert props["unit"] == "fg/cell"
-    assert props["rankable"] == "true"
+    assert props["rankable"] == "rankable"
     assert props["aggregation_method"] == "mean_across_replicates"
     assert props["treatment_type"] == ["nitrogen"]
 
@@ -197,9 +197,9 @@ def test_adapter_emits_boolean_flag_edges(tmp_path):
     edges = [e for e in adapter.get_edges() if e[3] == "assay_flags_metabolite"]
     assert len(edges) == 2
     by_dst = {e[2]: e[4] for e in edges}
-    assert by_dst["kegg.compound:C00334"]["flag_value"] == "true"
+    assert by_dst["kegg.compound:C00334"]["flag_value"] == "detected"
     assert by_dst["kegg.compound:C00334"]["n_positive"] == 1
-    assert by_dst["kegg.compound:C00031"]["flag_value"] == "false"
+    assert by_dst["kegg.compound:C00031"]["flag_value"] == "not_detected"
     assert by_dst["kegg.compound:C00031"]["n_positive"] == 0
 
 

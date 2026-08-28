@@ -677,12 +677,12 @@ RETURN exp.name, r.time_point, r.time_point_hours, r.time_point_order,
 ORDER BY r.time_point_order
 
 // Time-course experiments only
-MATCH (exp:Experiment {is_time_course: true})-[r:Changes_expression_of]->(g:Gene {locus_tag: 'PMM0001'})
+MATCH (exp:Experiment {is_time_course: 'time_course'})-[r:Changes_expression_of]->(g:Gene {locus_tag: 'PMM0001'})
 RETURN exp.name, r.time_point, r.time_point_hours, r.log2_fold_change, r.expression_direction
 ORDER BY exp.name, r.time_point_order
 
 // Genes with consistent direction across all time points in a time-course experiment
-MATCH (exp:Experiment {is_time_course: true})-[r:Changes_expression_of]->(g:Gene)
+MATCH (exp:Experiment {is_time_course: 'time_course'})-[r:Changes_expression_of]->(g:Gene)
 WITH g, exp, collect(r.expression_direction) AS directions
 WHERE size([d IN directions WHERE d = 'up']) = size(directions)
    OR size([d IN directions WHERE d = 'down']) = size(directions)
@@ -777,7 +777,7 @@ When the user invokes this skill (e.g., `/cypher-queries "genes affected by Alte
 
 Plan 3 (non-DE evidence slice) added DerivedMetric nodes that capture per-gene scalar summaries (periodicity flags, classification labels, numeric scores) from differential expression publications. Each DM emits ONE of three measurement edge types based on its `value_kind`:
 
-- `Derived_metric_flags_gene` (`value_kind: boolean`, property `value ∈ {"true","false"}`)
+- `Derived_metric_flags_gene` (`value_kind: boolean`, property `value ∈ {flagged, not_flagged}`)
 - `Derived_metric_classifies_gene` (`value_kind: categorical`, property `value` must match parent `allowed_categories`)
 - `Derived_metric_quantifies_gene` (`value_kind: numeric`, properties `value`, `p_value`, `adjusted_p_value`, plus post-import `rank_by_metric` / `metric_percentile` / `metric_bucket` / `significant`)
 
@@ -790,7 +790,7 @@ Binding edges (BioCypher CamelCase): `PublicationHasDerivedMetric`, `ExperimentH
 ```cypher
 MATCH (dm:DerivedMetric {metric_type: $metric_type})
   -[r:Derived_metric_flags_gene]->(g:Gene)
-WHERE r.value = 'true'
+WHERE r.value = 'flagged'
   AND g.organism_name = $organism
 RETURN g.locus_tag, g.product
 ORDER BY g.locus_tag;
@@ -810,7 +810,7 @@ Example: `$metric_type = "darkness_survival_class"` — gene count per survival 
 ### Numeric rankings: top-N genes by rank_by_metric
 
 ```cypher
-MATCH (dm:DerivedMetric {metric_type: $metric_type, rankable: 'true'})
+MATCH (dm:DerivedMetric {metric_type: $metric_type, rankable: 'rankable'})
   -[r:Derived_metric_quantifies_gene]->(g:Gene)
 WHERE r.rank_by_metric <= $top_n
 RETURN g.organism_name, g.locus_tag, r.rank_by_metric, r.value,
@@ -824,7 +824,7 @@ ORDER BY r.rank_by_metric;
 MATCH (dm:DerivedMetric {metric_type: $metric_type})
   -[r:Derived_metric_quantifies_gene]->(g:Gene)
 WHERE r.metric_bucket IN ['top_decile', 'top_quartile']
-  AND r.significant = 'true'
+  AND r.significant = 'significant'
 RETURN g.locus_tag, r.value, r.adjusted_p_value, r.metric_percentile
 ORDER BY r.value DESC;
 ```
@@ -900,12 +900,12 @@ ORDER BY m.measured_assay_count DESC, m.catalyst_gene_count DESC
 LIMIT 50;
 ```
 
-### Top-bucket metabolites per assay (numeric, rankable=true only)
+### Top-bucket metabolites per assay (numeric, rankable = 'rankable' only)
 
-Mirrors the DerivedMetric `metric_bucket` pattern. Edges only carry bucket/percentile when the parent assay declared `rankable: "true"`.
+Mirrors the DerivedMetric `metric_bucket` pattern. Edges only carry bucket/percentile when the parent assay is `rankable = 'rankable'` (paperconfig `rankable: "true"`).
 
 ```cypher
-MATCH (a:MetaboliteAssay {rankable: 'true'})-[r:Assay_quantifies_metabolite]->(m:Metabolite)
+MATCH (a:MetaboliteAssay {rankable: 'rankable'})-[r:Assay_quantifies_metabolite]->(m:Metabolite)
 WHERE r.metric_bucket IN ['top_decile', 'top_quartile']
 RETURN a.organism_name,
        a.compartment,
@@ -923,7 +923,7 @@ ORDER BY a.organism_name, r.metric_percentile DESC;
 
 ```cypher
 MATCH (a:MetaboliteAssay {value_kind: 'boolean'})-[r:Assay_flags_metabolite]->(m:Metabolite)
-WHERE r.flag_value = 'true'
+WHERE r.flag_value = 'detected'
 WITH m, collect(DISTINCT a.metric_type) AS detected_in
 WHERE size(detected_in) = 1
 RETURN m.name, m.id, detected_in[0] AS only_compartment

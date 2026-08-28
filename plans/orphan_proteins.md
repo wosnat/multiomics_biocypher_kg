@@ -183,4 +183,4 @@ Meiothermus 172827 naming drift is logged in `plans/backlog.md`, not changed.
 - [x] Run Cypher investigation queries (step 1–4 above) — 2026-08-27
 - [x] Determine whether gap is regression or pre-existing — organism edge: regression; gene edge: pre-existing
 - [x] Choose fix (B + proteome gate + gene_oln join) and implement — 2026-08-27
-- [x] Re-tighten kg tests (== 0 / < 10%) — verify on next rebuild
+- [x] Re-tighten kg tests (== 0 / < 10%) — verified live 2026-08-27 rebuild (0 orphans / 52,735 proteins; snapshot regenerated in `d7252549`)

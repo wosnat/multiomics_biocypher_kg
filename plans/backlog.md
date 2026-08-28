@@ -17,98 +17,12 @@ up — this file is the index, not the plan.
 
 ## KG semantics
 
-- [x] DONE 2026-08-27 (6 entries, same rebuild). **Register `treatment_type` / `background_factors` vocab entries on the
-      denormalized labels.** Only `Experiment.*` have `ControlledVocabulary`
-      nodes, so `genomic_analysis` — which lives ONLY on `ClusteringAnalysis`
-      (Hackl 2023 islands) — is never graph-verified by
-      `test_observed_values_are_declared`, and the `min_size: 1` guarantee is
-      not asserted on `ClusteringAnalysis.treatment_type` / `DerivedMetric.*` /
-      `MetaboliteAssay.*` even though the validator + adapters enforce it.
-      Add four closed entries (same value lists; `min_size: 1` on all but
-      `ClusteringAnalysis.background_factors`, which may be `[]`). Bumps the
-      vocab hash — fold into the next vocab-touching change.
-      → `config/controlled_vocabularies.yaml`, `docs/kg-changes/experiment-list-props-dense.md`
-
-- [x] DONE 2026-08-27 (validator loads both sets from the yaml). **Reconcile `CANONICAL_CONDITION_TYPES` with the two vocabulary lists
-      (2026-08-27 follow-up to the dense treatment_type fix).** The validator
-      keeps ONE 18-value set for both `treatment_type` and `background_factors`
-      (now incl. `oxygen`), while `config/controlled_vocabularies.yaml` declares
-      16 treatment values and 7 background values. Gaps: `mutant` is validator-
-      only (no paperconfig uses it, so the kg_validity canonical test never
-      sees it); `oxygen`/`nitrogen`/`salt`/… are accepted as background factors
-      by the validator but not by the yaml. A paperconfig that passes
-      validation can therefore still fail `test_experiment_background_factors_
-      values_canonical` after the build. Fix: split the validator set in two
-      and load both from the yaml via `controlled_vocab.py`.
-      → `config/controlled_vocabularies.yaml` (the FINDING note on
-      `Experiment.background_factors`), `scripts/validate_paperconfig.py`
-
-- [x] DONE 2026-08-27 (`treatment_type` non-empty on `gene_clusters`; `genomic_analysis` minted). **`gene_clusters` entries have no emptiness rule.** The new validator
-      errors cover the `experiments` block only; a `gene_clusters` entry may
-      still omit `treatment_type` / `background_factors` (Hackl 2023 genomic
-      islands legitimately do — sequence-predicted, no experiment). Decide
-      whether cluster entries need a `cluster_type`-gated rule (e.g. required
-      unless `genomic_island`), or whether `[]` on `ClusteringAnalysis` stays
-      the documented "no experiment" value.
-      → `docs/kg-changes/experiment-list-props-dense.md`
-
-- [x] DONE 2026-08-27 (`min_size` key + generic kg test). **Vocabulary schema has no "dense / non-empty" flag.** `sparse` and
-      `expected_empty` exist; the new contract ("dense, `[]` allowed" vs
-      "dense, non-empty") is documented only in the `description` prose of
-      `Experiment.treatment_type` / `.background_factors`. Consider a
-      `min_size: 1` (or `non_empty: true`) key so `test_controlled_vocabularies`
-      can assert it generically instead of the bespoke kg_validity test.
-
-- [x] **Bernstein 2017 experiment-level `background_factors: [light]` is a
-      judgment call.** RESOLVED 2026-08-27: `treatment_type: [light, oxygen]`,
-      `background_factors: [coculture]` — only coculture samples are in the KG. Chosen to mean "continuous illumination in turbidostat
-      steady state" while `light` is ALSO a treatment axis (irradiance steps).
-      Revisit if the same-token-in-both-fields shape confuses explorer filters;
-      the four clustering analyses are unambiguous (`[light]`/`[coculture]`,
-      `[oxygen]`/`[coculture, light]`).
-
 - [ ] **MEROPS GO bridge — rejected on measurement (2026-08-18), revisit only
       with a concrete use case.** All-kingdom member rollup yields median 19 /
       max 389 GO terms per family incl. eukaryote-only terms; completeness win
       is 338 genes (~8%) vs the 1,311 that justified TCDB's GO bridge. Needs a
       filtering design (e.g. >= N supporting identifiers) before it can land.
       → `docs/superpowers/specs/2026-08-18-merops-pfam-bridge-cleavage-design.md`
-
-- [ ] **Recalibrate `is_multi_substrate` / `is_multi_gene` thresholds.** The TCDB
-      threshold (`level >= 2 AND metabolite_count >= 50`) was calibrated against
-      the pre-pruning node set of ~12.9K nodes; the graph now has 1,515. Held
-      back from the vocabulary-contract change so the rename's validate diff
-      stays readable.
-      → same spec §9.3, and the `is_promiscuous` note in `CLAUDE.md`
-
-- [ ] **Convert the grandfathered `"true"` / `"false"` properties to meaningful
-      pairs.** R5 of the vocabulary contract forbids native `bool` and deprecates
-      stringified booleans, but seven released properties predate it:
-      `Experiment.is_time_course`, `Experiment.reports_fold_change`,
-      `DerivedMetric.rankable`, `MetaboliteAssay.rankable`,
-      `DerivedMetric.has_p_value`, the DM edge `significant`, and the DM flag
-      edge `value`. All are MCP-read, so this is **breaking** and needs its own
-      `post-import-validate` baseline. Follow the
-      `has_cross_genus_members: cross_genus | single_genus` precedent.
-      → `docs/superpowers/specs/2026-08-16-vocabulary-contract-design.md` §3 R5, §10.5
-
-- [ ] **Orphan proteins — fixed in code 2026-08-27, awaiting a Docker rebuild
-      to verify live and close.** Root cause + fix in `plans/orphan_proteins.md`
-      (organism edge was a `fe5c2bb` regression; gene-edge gap was pre-existing
-      and mostly foreign-isolate proteins under shared taxids). Adapter now
-      drops unlinkable proteins (−14,289 nodes on dry run), restores the
-      taxid-independent organism edge, and adds a `gene_oln` fallback join;
-      kg tests re-tightened to `== 0` / `< 10%`. Rebuild, run `pytest -m kg`,
-      regenerate the snapshot, then delete this bullet.
-      → `plans/orphan_proteins.md`
-
-- [ ] **Meiothermus 172827 naming drift.** The MruberA assembly
-      (`GCF_000836395.1`) is *Meiothermus taiwanensis* in NCBI's own record and
-      in UniProt; the registry `preferred_name` says *Meiothermus ruber*
-      (Bernstein 2017's "*M. ruber* strain A", since reclassified). Genome is
-      right; decide whether `preferred_name` / the treatment-organism row should
-      follow the reclassification (touches `test_organism.py` + snapshot).
-      → found during the orphan-protein investigation, `plans/orphan_proteins.md`
 
 - [ ] **TIGRFAM→TigrRole bridge — rejected on measurement (2026-08-18), revisit
       only with a concrete cross-genus use case AND a coverage-correction
@@ -253,10 +167,13 @@ Section references below are into that plan file, which holds the full designs.
       proposed with the B1 fix (`a84db12b`) but not in the commit.
       → `plans/geo_paperconfig_updates.md` Blocker B1
 
-- [ ] **Runaway-mapping re-check: W3-18-1, PCC7002, KT2440.** The B1 fix is
-      global but these strains' `gene_id_mapping.json` files predate it; rebuild
-      (step 3) and verify max-tier-1-id counts before their papers are next
-      touched.
+- [ ] **Runaway-mapping residual: KT2440 `M8001_03425` (40 tier-1 ids).**
+      Re-check done 2026-08-28: all three `gene_id_mapping.json` files were in
+      fact rebuilt by the B1 fix commit (`a84db12b`), not before it. W3-18-1
+      (median 6 / max 7) and PCC7002 (6 / 8) are clean; KT2440 (median 9) has
+      one gene at 40 tier-1 ids — >4× the median, the shape the B1 guard above
+      would catch. Inspect which paper's `id_columns` feeds it before the next
+      KT2440 paper touch.
       → `plans/geo_paperconfig_updates.md` Blocker B1 consequences
 
 ### Post-review additions (2026-08-19 subagent review of all wired paperconfigs)
@@ -290,43 +207,6 @@ Section references below are into that plan file, which holds the full designs.
       not_significant edge). Fix in the mapping builder, not per-paper.
 
 ## Explorer / MCP coordination
-
-- [ ] **Explorer: pick up the dense-list contract + `oxygen`.** After the next
-      rebuild: (a) withdraw the slice-4 coalesce amendment — `treatment_type` /
-      `background_factors` are dense on Experiment, ClusteringAnalysis,
-      DerivedMetric, MetaboliteAssay; `[]` = characterization / no experiment;
-      (b) add `oxygen`, `rna_decay`, `tss_mapping`, `genomic_analysis`
-      wherever the treatment-type enum is hard-coded (or read
-      `ControlledVocabulary` `Experiment.treatment_type`); (c) edge-case gate
-      asserts `treatment_type == ['rna_decay']` on the Steglich decay analysis
-      — `[]` no longer occurs on Experiment (min_size 1).
-      → `docs/kg-changes/experiment-list-props-dense.md`
-
-- [ ] **Relationship-property index on `evidence`.** Explicitly not requested for
-      this release — current edge-property filters touch
-      `Tcdb_family_transports_metabolite` (11,263) and `Gene_has_tcdb_family`
-      (53,763), where it does not matter. It starts to matter if the deferred W2
-      workstream lands `source_filter` / `evidence_filter` over
-      `Gene_involved_in_biological_process` (539,873) and `Gene_has_pfam`
-      (177,453). The graph currently has 86 indexes and zero relationship-property
-      indexes.
-      → explorer `docs/kg-specs/2026-08-16-interpro-tcdb-asks.md` KG-IPT-008
-
-- [ ] **MCP surfacing of InterPro two-layer provenance.** Source / evidence
-      filters on the gene→ontology tools, and a 2-hop router mode over the
-      Layer-A `Interpro_entry_related_to_*` edges. Explorer-side work; unblocked
-      now that §7.2 of the vocabulary spec establishes the GO provenance shape is
-      final this release rather than pending.
-      → `docs/kg-changes/interpro-two-layer.md` §7
-
-- [ ] **Register the MEROPS ontology in the explorer.** `MeropsFamily` /
-      `Gene_has_merops_family` are live in the KG but invisible to
-      `ontology_landscape` / `search_ontology` / `genes_by_ontology` until the
-      explorer's `ONTOLOGY_CONFIG` + ontology enum gain a `merops` entry
-      (currently only `run_cypher` reaches them). Registration should surface
-      `call_class` — the guard that keeps dead homologs and inhibitors out of
-      protease counts — and `peptidase_gene_count` as the default count.
-      → `docs/kg-changes/merops-extension.md` "What does NOT change"
 
 - [ ] **File an upstream Bioregistry new-prefix request for `ncbifam`.**
       KG-SYNC-002 (2026-08-19) minted `ncbifam:` as a house colon-CURIE prefix

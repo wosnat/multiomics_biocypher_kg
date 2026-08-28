@@ -130,6 +130,20 @@ tag with nothing logged.
 
 ### Breaking
 
+- **The last eight `"true"`/`"false"` string properties are now named pairs (house rule R5).**
+  `Experiment.is_time_course` → `time_course | single_time_point`; `Experiment.reports_fold_change` →
+  `fold_change | no_fold_change`; `DerivedMetric.rankable` / `MetaboliteAssay.rankable` →
+  `rankable | not_rankable`; `DerivedMetric.has_p_value` → `p_value | no_p_value`;
+  `Derived_metric_quantifies_gene.significant` → `significant | not_significant`;
+  `Derived_metric_flags_gene.value` → `flagged | not_flagged`; `Assay_flags_metabolite.flag_value`
+  → `detected | not_detected` (this one was never declared in the vocabulary). Property names
+  unchanged; paperconfigs unchanged (adapters map the author-facing `"true"`/`"false"`).
+  Any Cypher comparing against `'true'`/`'false'` on these returns nothing. `bool_string` is no
+  longer an admissible vocabulary `value_type`. See `docs/kg-changes/two-state-strings.md`.
+- **Treatment organism *Meiothermus ruber* had NCBI taxid 1299 — which is *Deinococcus
+  radiodurans*.** Corrected to 277, so its node id moves `ncbitaxon:1299` → `ncbitaxon:277`
+  (Bernstein 2017 `Tests_coculture_with` edges retarget with it).
+
 - **UniProt `Protein` nodes are now restricted to proteins linkable to one of
   our assemblies — ~14.3K nodes disappear (67,024 → 52,735 on the offline dry
   run).** UniProt is queried per taxid, and a taxid can be species-level
@@ -230,6 +244,12 @@ tag with nothing logged.
   matches nothing.
 
 ### Data
+
+- **Bernstein 2017** — the coculture partner's `treatment_taxid` corrected 1299 (*Deinococcus
+  radiodurans*) → 277 (*Meiothermus ruber*). The sequenced isolate MruberA (`GCF_000836395.1`,
+  taxid 172827) is *Meiothermus taiwanensis* in NCBI and UniProt; `preferred_name` deliberately
+  keeps the paper's *Meiothermus ruber*, and both nodes now carry
+  `name_synonyms = ['Meiothermus taiwanensis']` + a `taxonomy_note`.
 
 - **Bernstein 2017 (10.1128/mSystems.00181-16) treatment/background
   relabelled.** The KG asserted `treatment_type: [coculture, light]`,
@@ -351,6 +371,15 @@ tag with nothing logged.
   re-run with `--goterms --pathways` enabled by default, and the TCDB
   `calls.json` regenerated without derived fields. Artifact refreshes only; the
   schema-side consequences are in `### Added
+
+- First relationship-property indexes: `evidence` + `evidence_score` on the three GO edge types and
+  `Gene_has_pfam`, `evidence` on `Gene_has_interpro_entry` (explorer HO-003; the trust filters over the
+  >100K-edge types). `sources` stays unindexed (list property).
+
+- `OrganismTaxon.name_synonyms` (str[], sparse) + `OrganismTaxon.taxonomy_note` (str, sparse), fed
+  by two new optional registry columns in `cyanobacteria_genomes.csv` / `treatment_organisms.csv`,
+  and a new full-text index `organismTaxonFullText` (preferred_name, organism_name, strain_name,
+  species, name_synonyms, taxonomy_note) so a search for a reclassified species name finds the node.
 
 - **Organism annotation-capability rollups (KG-SYNC-006 ORG-001).** Four
   dense post-import `OrganismTaxon` ints — `peptidase_gene_count`,
@@ -573,6 +602,11 @@ tag with nothing logged.
   which never existed).
 
 ### Changed
+
+- TCDB multi-substrate threshold (`level >= 2 AND metabolite_count >= 50`) re-measured on the
+  pruned 1,515-node graph and **kept**: ≈p99 at `tc_family` (p99 = 79) and `tc_subfamily`
+  (p99 = 55), 13 nodes flagged. No natural gap at 50 (79 → 50 → 48 → 44 …); the nearest one (≥ 75)
+  would only relabel 55-substrate families as `resolved`. `docs/kg-changes/tcdb-two-source-upgrade.md` §4.
 
 - **`Experiment.table_scope` is sparse.** Experiments with no DE table
   (metabolomics and derived-metric-only, ~35 nodes) used to carry

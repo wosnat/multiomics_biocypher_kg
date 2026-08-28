@@ -420,8 +420,8 @@ Column-level scalar summaries per gene (periodicity flags, classifiers, numeric 
 | `unit` | str | Unit of measurement (numeric only) |
 | `blank_policy` | str | **REQUIRED when `value_kind: boolean`.** `skip` \| `false` \| `true` — how to treat blank/NaN cells |
 | `allowed_categories` | str[] | **REQUIRED when `value_kind: categorical`.** Validator rejects rows with values outside this list |
-| `rankable` | str | `"true"` \| `"false"` (**string**, never bool) — numeric only; governs post-import `rank_by_metric` / `metric_percentile` / `metric_bucket` |
-| `has_p_value` | str | `"true"` \| `"false"` (**string**) — numeric only; enables `significant` derivation |
+| `rankable` | str | `"true"` \| `"false"` (**string**, never bool) — numeric only; governs post-import `rank_by_metric` / `metric_percentile` / `metric_bucket`. The graph stores the R5 pair `rankable` \| `not_rankable` (adapter maps) |
+| `has_p_value` | str | `"true"` \| `"false"` (**string**) — numeric only; enables `significant` derivation. Graph stores `p_value` \| `no_p_value` |
 | `p_value_col` | str | CSV column for raw p-values (numeric + `has_p_value="true"`) |
 | `adjusted_p_value_col` | str | CSV column for adjusted p-values (numeric + `has_p_value="true"`) |
 | `p_value_threshold` | float | Cutoff for `significant` derivation (numeric + `has_p_value="true"`) |
@@ -431,7 +431,7 @@ Column-level scalar summaries per gene (periodicity flags, classifiers, numeric 
 | `value_kind` | Edge type | Edge properties |
 |---|---|---|
 | `numeric` | `Derived_metric_quantifies_gene` | `value`, `p_value`, `adjusted_p_value`, plus post-import `rank_by_metric` / `metric_percentile` / `metric_bucket` (if rankable) / `significant` (if has_p_value) |
-| `boolean` | `Derived_metric_flags_gene` | `value ∈ {"true","false"}` |
+| `boolean` | `Derived_metric_flags_gene` | `value ∈ {flagged, not_flagged}` (true_tokens → `flagged`, false_tokens → `not_flagged`) |
 | `categorical` | `Derived_metric_classifies_gene` | `value` (must match `allowed_categories`) |
 
 **Examples:**
@@ -514,7 +514,7 @@ Per-metabolite measurements (concentrations + presence flags) from a metabolomic
 | `value_kind` | Edge type | Carries |
 |---|---|---|
 | `numeric` | `Assay_quantifies_metabolite` | `value`, `value_sd`, `n_replicates`, `n_non_zero`, `replicate_values`, `detection_status` |
-| `boolean` | `Assay_flags_metabolite` | `flag_value`, `n_replicates`, `n_positive` |
+| `boolean` | `Assay_flags_metabolite` | `flag_value ∈ {detected, not_detected}`, `n_replicates`, `n_positive` |
 
 **When to use:** the paper measures metabolite pool concentrations, fluxes, or presence/absence flags — i.e. `omics_type: METABOLOMICS`. Use one entry per (CSV, Experiment) tuple; if the same source CSV is split across multiple Experiments (e.g. one paper with separate intracellular vs extracellular pools), declare separate experiments and one entry per experiment.
 

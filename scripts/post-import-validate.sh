@@ -307,7 +307,7 @@ CYPHER
 
 section "NUMERIC DM RANK SUBSAMPLE: top-5 per DerivedMetric by rank_by_metric"
 CYPHER <<'CYPHER'
-MATCH (dm:DerivedMetric {rankable: 'true'})-[r:Derived_metric_quantifies_gene]->(g:Gene)
+MATCH (dm:DerivedMetric {rankable: 'rankable'})-[r:Derived_metric_quantifies_gene]->(g:Gene)
 WHERE r.rank_by_metric <= 5
 RETURN dm.id AS dm_id,
        r.rank_by_metric AS rank,

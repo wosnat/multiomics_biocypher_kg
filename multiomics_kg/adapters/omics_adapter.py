@@ -369,7 +369,8 @@ class OMICSAdapter:
                     "experimental_context": self.clean_text(exp.get("experimental_context", "")),
                     "omics_type": self.clean_text(exp.get("omics_type", "")),
                     "statistical_test": self.clean_text(exp.get("test_type", "")),
-                    "is_time_course": "true" if len(timepoints) > 1 else "false",
+                    # R5 two-state string (not a stringified bool): time_course | single_time_point
+                    "is_time_course": "time_course" if len(timepoints) > 1 else "single_time_point",
                     "medium": self.clean_text(exp.get("medium", "")),
                     "temperature": self.clean_text(exp.get("temperature", "")),
                     "light_condition": self.clean_text(exp.get("light_condition", "")),

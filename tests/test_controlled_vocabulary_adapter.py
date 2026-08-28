@@ -27,7 +27,7 @@ def test_node_carries_the_declared_values():
     assert props["applies_to_kind"] == "node"
     assert props["value_type"] == "string"
     assert "HOMOLOGOUS_SUPERFAMILY" in props["values"]
-    assert props["closed"] == "true"          # R5: bool_string, not bool
+    assert props["closed"] == "true"          # adapter-emitted flag on the vocab node itself, not a KG data property
 
 
 def test_expected_empty_vocabulary_emits_empty_values():

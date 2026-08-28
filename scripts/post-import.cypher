@@ -83,6 +83,20 @@ CREATE FULLTEXT INDEX cazyFamilyFullText IF NOT EXISTS
 CREATE INDEX interpro_entry_level_idx IF NOT EXISTS FOR (e:InterproEntry) ON (e.level);
 CREATE INDEX interpro_entry_type_idx IF NOT EXISTS FOR (e:InterproEntry) ON (e.interpro_type);
 CREATE INDEX interpro_entry_id_idx IF NOT EXISTS FOR (e:InterproEntry) ON (e.interpro_id);
+// Relationship-property indexes (2026-08-28, HO-003): the explorer's trust filters
+// (`r.evidence IN $evidence`, `r.evidence_score >= $min`) run on every gene→ontology
+// edge type; only the >100K-edge types get an index. `sources` is a list — the
+// `any(...)` predicate cannot use a range index, so it is deliberately not indexed.
+// Gene_has_interpro_entry carries no evidence_score (constant-source edge).
+CREATE INDEX gene_go_bp_evidence_idx        IF NOT EXISTS FOR ()-[r:Gene_involved_in_biological_process]-() ON (r.evidence);
+CREATE INDEX gene_go_bp_evidence_score_idx  IF NOT EXISTS FOR ()-[r:Gene_involved_in_biological_process]-() ON (r.evidence_score);
+CREATE INDEX gene_go_mf_evidence_idx        IF NOT EXISTS FOR ()-[r:Gene_enables_molecular_function]-() ON (r.evidence);
+CREATE INDEX gene_go_mf_evidence_score_idx  IF NOT EXISTS FOR ()-[r:Gene_enables_molecular_function]-() ON (r.evidence_score);
+CREATE INDEX gene_go_cc_evidence_idx        IF NOT EXISTS FOR ()-[r:Gene_located_in_cellular_component]-() ON (r.evidence);
+CREATE INDEX gene_go_cc_evidence_score_idx  IF NOT EXISTS FOR ()-[r:Gene_located_in_cellular_component]-() ON (r.evidence_score);
+CREATE INDEX gene_pfam_evidence_idx         IF NOT EXISTS FOR ()-[r:Gene_has_pfam]-() ON (r.evidence);
+CREATE INDEX gene_pfam_evidence_score_idx   IF NOT EXISTS FOR ()-[r:Gene_has_pfam]-() ON (r.evidence_score);
+CREATE INDEX gene_interpro_evidence_idx     IF NOT EXISTS FOR ()-[r:Gene_has_interpro_entry]-() ON (r.evidence);
 // Full-text defs can't be ALTERed — drop + recreate so new fields are picked up
 // even on reruns against an existing graph.
 DROP INDEX interproEntryFullText IF EXISTS;
@@ -151,6 +165,11 @@ CREATE FULLTEXT INDEX experimentFullText
 
 // ── OrganismTaxon indexes ──────────────────────────────────────────────
 CREATE INDEX organism_type_idx IF NOT EXISTS FOR (o:OrganismTaxon) ON (o.organism_type);
+// Organism name search incl. registry synonyms / taxonomy notes (2026-08-28), so a
+// query for the current NCBI name ("Meiothermus taiwanensis") finds MruberA even
+// though preferred_name keeps the paper's name.
+CREATE FULLTEXT INDEX organismTaxonFullText IF NOT EXISTS
+  FOR (o:OrganismTaxon) ON EACH [o.preferred_name, o.organism_name, o.strain_name, o.species, o.name_synonyms, o.taxonomy_note];
 
 // ── ClusteringAnalysis indexes ──────────────────────────────────────────
 CREATE INDEX clustering_analysis_organism_idx IF NOT EXISTS FOR (ca:ClusteringAnalysis) ON (ca.organism_name);
@@ -527,16 +546,17 @@ SET e.clustering_analysis_count = ca_count,
 
 // Experiment DM rollup defaults (empty-state; compute below overrides where children exist)
 MATCH (e:Experiment)
-SET e.reports_fold_change = 'false',
+SET e.reports_fold_change = 'no_fold_change',
     e.reports_derived_metric_types = [],
     e.derived_metric_count = 0,
     e.derived_metric_value_kinds = [],
     e.derived_metric_gene_count = 0;
 
-// Experiment reports_fold_change: 'true' iff outgoing Changes_expression_of exists
+// Experiment reports_fold_change: 'fold_change' iff outgoing Changes_expression_of exists
+// (R5 two-state string: fold_change | no_fold_change)
 MATCH (e:Experiment)
 WHERE EXISTS { (e)-[:Changes_expression_of]->() }
-SET e.reports_fold_change = 'true';
+SET e.reports_fold_change = 'fold_change';
 
 // Experiment DM compute (overrides defaults)
 MATCH (e:Experiment)
@@ -837,11 +857,11 @@ CALL {
 } IN TRANSACTIONS OF 30 ROWS;
 
 // Numeric DM rank/percentile/bucket: ranks derived_metric_quantifies_gene edges
-// grouped by DerivedMetric, only when parent DM has rankable='true'. Ties on
+// grouped by DerivedMetric, only when parent DM has rankable='rankable'. Ties on
 // value broken by Gene.locus_tag ascending (reproducibility).
 // Percentile: rank 1 (highest value) -> 100.0; rank N (lowest) -> 0.0.
 // Buckets pinned per slice spec §Post-import (thresholds must not drift).
-MATCH (dm:DerivedMetric {rankable: 'true'})
+MATCH (dm:DerivedMetric {rankable: 'rankable'})
 CALL {
   WITH dm
   MATCH (dm)-[r:Derived_metric_quantifies_gene]->(g:Gene)
@@ -864,17 +884,17 @@ CALL {
 } IN TRANSACTIONS OF 30 ROWS;
 
 // Numeric DM significance: on derived_metric_quantifies_gene edges,
-// only when parent DM has has_p_value='true' AND p_value_threshold IS NOT NULL
+// only when parent DM has has_p_value='p_value' AND p_value_threshold IS NOT NULL
 // AND the edge's adjusted_p_value is non-null. Left null otherwise.
-MATCH (dm:DerivedMetric {has_p_value: 'true'})
+MATCH (dm:DerivedMetric {has_p_value: 'p_value'})
 WHERE dm.p_value_threshold IS NOT NULL
 CALL {
   WITH dm
   MATCH (dm)-[r:Derived_metric_quantifies_gene]->()
   WHERE r.adjusted_p_value IS NOT NULL
   SET r.significant = CASE
-    WHEN r.adjusted_p_value < dm.p_value_threshold THEN 'true'
-    ELSE 'false'
+    WHEN r.adjusted_p_value < dm.p_value_threshold THEN 'significant'
+    ELSE 'not_significant'
   END
 } IN TRANSACTIONS OF 1000 ROWS;
 
@@ -1760,10 +1780,10 @@ CREATE INDEX metabolite_assay_experiment_idx   IF NOT EXISTS FOR (a:MetaboliteAs
 CREATE FULLTEXT INDEX metaboliteAssayFullText  IF NOT EXISTS
   FOR (a:MetaboliteAssay) ON EACH [a.name, a.field_description, a.treatment, a.experimental_context];
 
-// MetaboliteAssay numeric ranks: per-assay, only when rankable='true'.
+// MetaboliteAssay numeric ranks: per-assay, only when rankable='rankable'.
 // Mirrors DerivedMetric pattern (per-assay scope, deterministic Metabolite.id tiebreaker,
 // pinned bucket thresholds 90/75/25).
-MATCH (a:MetaboliteAssay {rankable: 'true'})
+MATCH (a:MetaboliteAssay {rankable: 'rankable'})
 CALL {
   WITH a
   MATCH (a)-[r:Assay_quantifies_metabolite]->(m:Metabolite)
@@ -1814,8 +1834,8 @@ CALL {
   WITH a
   MATCH (a)-[r:Assay_flags_metabolite]->()
   WITH a,
-       sum(CASE WHEN r.flag_value='true'  THEN 1 ELSE 0 END) AS t,
-       sum(CASE WHEN r.flag_value='false' THEN 1 ELSE 0 END) AS f
+       sum(CASE WHEN r.flag_value='detected'     THEN 1 ELSE 0 END) AS t,
+       sum(CASE WHEN r.flag_value='not_detected' THEN 1 ELSE 0 END) AS f
   SET a.flag_true_count = t, a.flag_false_count = f
 } IN TRANSACTIONS OF 1000 ROWS;
 

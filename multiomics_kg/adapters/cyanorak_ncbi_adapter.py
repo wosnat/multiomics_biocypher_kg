@@ -36,6 +36,13 @@ _NCBI_RANK_TO_PROP = {
 }
 
 
+def _split_synonyms(raw: str | None) -> list[str]:
+    """Registry `name_synonyms` cell: ';'-separated list, blank -> []."""
+    if not raw:
+        return []
+    return [s.strip() for s in str(raw).split(';') if s.strip()]
+
+
 def _fetch_ncbi_taxonomy(taxid: int, cache_dir: str) -> dict:
     """Fetch taxonomy lineage from NCBI efetch API with file-based caching.
 
@@ -201,6 +208,8 @@ class CyanorakNcbi:
         organism_type: str = "genome_strain",
         reference_database: str = None,
         reference_proteome: str = None,
+        name_synonyms: list[str] | None = None,
+        taxonomy_note: str = None,
         **kwargs,  # absorb legacy cluster_node_fields etc.
     ):
 
@@ -227,6 +236,13 @@ class CyanorakNcbi:
         self.organism_type = organism_type
         self.reference_database = reference_database
         self.reference_proteome = reference_proteome
+        # Sparse naming aids (registry columns): alternative names the
+        # organism is known by (e.g. a reclassified species) + a free-text
+        # note. Indexed by organismTaxonFullText so a search for the
+        # current NCBI name still finds a node whose preferred_name keeps
+        # the paper's name.
+        self.name_synonyms = [s for s in (name_synonyms or []) if s]
+        self.taxonomy_note = taxonomy_note
         self.taxonomy = {}  # populated by download_data()
         # {RefSeq WP_ accession → AA sequence} populated by download_data() from
         # cache/data/<organism>/genomes/<strain>/protein.faa
@@ -381,6 +397,10 @@ class CyanorakNcbi:
                 properties['species'] = f"{words[0]} {words[1]}"
 
         properties['organism_type'] = self.organism_type
+        if self.name_synonyms:
+            properties['name_synonyms'] = list(self.name_synonyms)
+        if self.taxonomy_note:
+            properties['taxonomy_note'] = self.taxonomy_note
         if self.reference_database:
             properties['reference_database'] = self.reference_database
         if self.reference_proteome:
@@ -525,6 +545,8 @@ class MultiCyanorakNcbi:
                     organism_type=row.get('organism_type') or 'genome_strain',
                     reference_database=row.get('reference_database') or None,
                     reference_proteome=row.get('reference_proteome') or None,
+                    name_synonyms=_split_synonyms(row.get('name_synonyms')),
+                    taxonomy_note=row.get('taxonomy_note') or None,
                     **kwargs,
                 )
                 self.adapters.append(adapter)
@@ -553,6 +575,11 @@ class MultiCyanorakNcbi:
                     'ncbi_taxon_id': taxid,
                     'organism_type': 'treatment',
                 }
+                synonyms = _split_synonyms(row.get('name_synonyms'))
+                if synonyms:
+                    props['name_synonyms'] = synonyms
+                if row.get('taxonomy_note'):
+                    props['taxonomy_note'] = row['taxonomy_note']
                 taxonomy = _fetch_ncbi_taxonomy(taxid=taxid, cache_dir=taxonomy_cache_dir)
                 for key in ('lineage', 'superkingdom', 'kingdom', 'phylum', 'tax_class',
                             'order', 'family', 'genus', 'species'):

@@ -9,8 +9,8 @@
 
 ### New node + edge types
 - **`MetaboliteAssay`** — one per (Experiment × `value_kind`). Carries assay-level metabolomics semantics. Adapter: [metabolite_assay_adapter.py](../../multiomics_kg/adapters/metabolite_assay_adapter.py) (mirrors `observations_adapter.py`). Node IDs: `metabolite_assay:{doi_short}:{entry_key}:{metric_type}`.
-- **`Assay_quantifies_metabolite`** — numeric edge. Replicate-aggregated. Carries `value`, `value_sd`, `n_replicates`, `n_non_zero`, `replicate_values`, adapter-set `detection_status ∈ {detected, sporadic, not_detected}`. Post-import: `rank_by_metric`, `metric_percentile`, `metric_bucket` (only when parent assay `rankable: "true"`).
-- **`Assay_flags_metabolite`** — boolean edge. Carries `flag_value`, `n_replicates`, `n_positive`.
+- **`Assay_quantifies_metabolite`** — numeric edge. Replicate-aggregated. Carries `value`, `value_sd`, `n_replicates`, `n_non_zero`, `replicate_values`, adapter-set `detection_status ∈ {detected, sporadic, not_detected}`. Post-import: `rank_by_metric`, `metric_percentile`, `metric_bucket` (only when parent assay `rankable = 'rankable'`; R5 pair `rankable | not_rankable` since 2026-08-28).
+- **`Assay_flags_metabolite`** — boolean edge. Carries `flag_value ∈ {detected, not_detected}` (R5 pair since 2026-08-28, was `"true"`/`"false"`; mirrors `detection_status`), `n_replicates`, `n_positive`.
 - Binding edges: `PublicationHasMetaboliteAssay`, `ExperimentHasMetaboliteAssay`, `MetaboliteAssayBelongsToOrganism` (PascalCase form mirrors existing DerivedMetric bindings).
 
 ### Property additions on existing types

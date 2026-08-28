@@ -33,6 +33,23 @@ logger = logging.getLogger(__name__)
 _DEFAULT_PDF_CACHE = Path(__file__).parent.parent.parent / "cache" / "pdf_extraction_cache.json"
 
 
+# R5 two-state strings. The paperconfig keeps the author-facing "true"/"false"
+# tokens (validated by scripts/validate_paperconfig.py); the graph carries the
+# meaningful pair so a value never reads as a stringified bool.
+RANKABLE = {"true": "rankable", "false": "not_rankable"}
+HAS_P_VALUE = {"true": "p_value", "false": "no_p_value"}
+FLAG_VALUE = {"true": "flagged", "false": "not_flagged"}
+
+
+def _two_state(raw, mapping: dict[str, str], field: str) -> str:
+    key = str(raw).strip().lower()
+    if key not in mapping:
+        raise ValueError(
+            f"{field}: expected 'true' or 'false' in the paperconfig, got {raw!r}"
+        )
+    return mapping[key]
+
+
 def _clean_str(value) -> str:
     """Sanitize string for BioCypher CSV output (CLAUDE.md convention)."""
     if value is None:
@@ -83,7 +100,10 @@ def _parse_boolean_cell(
     blank_policy: str,
     context: str = "",
 ) -> str | None:
-    """Map a single CSV cell value to "true" / "false" / None (=skip).
+    """Map a single CSV cell value to "flagged" / "not_flagged" / None (=skip).
+
+    The paperconfig's true_tokens / false_tokens / blank_policy keep their
+    "true"/"false" wording; the returned edge value is the R5 two-state pair.
 
     Hard-errors on unexpected tokens — per parent spec, the adapter must not
     silently coerce ambiguous values.
@@ -100,9 +120,9 @@ def _parse_boolean_cell(
     if s == "":
         return _apply_blank_policy(blank_policy)
     if s in true_tokens:
-        return "true"
+        return FLAG_VALUE["true"]
     if s in false_tokens:
-        return "false"
+        return FLAG_VALUE["false"]
     if s in skip_tokens:
         return None
     prefix = f"{context}\n  " if context else ""
@@ -118,9 +138,9 @@ def _apply_blank_policy(blank_policy: str) -> str | None:
     if blank_policy == "skip":
         return None
     if blank_policy == "true":
-        return "true"
+        return FLAG_VALUE["true"]
     if blank_policy == "false":
-        return "false"
+        return FLAG_VALUE["false"]
     raise ValueError(
         f"Invalid blank_policy {blank_policy!r}; must be one of {VALID_BLANK_POLICIES}"
     )
@@ -229,14 +249,14 @@ class ObservationsAdapter:
                 }
 
                 if value_kind == "boolean":
-                    props["rankable"] = "false"
-                    props["has_p_value"] = "false"
+                    props["rankable"] = RANKABLE["false"]
+                    props["has_p_value"] = HAS_P_VALUE["false"]
                     props["unit"] = ""
                     props["allowed_categories"] = []
                 elif value_kind == "categorical":
                     # Task 6 completes the categorical branch
-                    props["rankable"] = "false"
-                    props["has_p_value"] = "false"
+                    props["rankable"] = RANKABLE["false"]
+                    props["has_p_value"] = HAS_P_VALUE["false"]
                     props["unit"] = ""
                     ac = metric.get("allowed_categories", [])
                     if isinstance(ac, str):
@@ -246,8 +266,10 @@ class ObservationsAdapter:
                     props["allowed_categories"] = [_clean_str(c) for c in ac]
                 elif value_kind == "numeric":
                     # Task 7 completes the numeric branch
-                    props["rankable"] = _clean_str(metric.get("rankable", "false"))
-                    props["has_p_value"] = _clean_str(metric.get("has_p_value", "false"))
+                    props["rankable"] = _two_state(
+                        metric.get("rankable", "false"), RANKABLE, f"{entry_key}/{metric_type}: rankable")
+                    props["has_p_value"] = _two_state(
+                        metric.get("has_p_value", "false"), HAS_P_VALUE, f"{entry_key}/{metric_type}: has_p_value")
                     props["unit"] = _clean_str(metric.get("unit", ""))
                     props["allowed_categories"] = []
                     pvt = metric.get("p_value_threshold")

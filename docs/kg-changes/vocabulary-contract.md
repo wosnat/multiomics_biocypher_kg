@@ -48,7 +48,7 @@ Source of truth: `config/controlled_vocabularies.yaml`, loaded by
   applies_to_kind: 'edge',                   // 'node' | 'edge'
   property:        'evidence_score',
   value_type:      'float',                  // string | string_array | float
-                                              //   | int | bool_string
+                                              //   | int
                                               // NOTE: 'bool' is not admissible — R5
   closed:          'true',                   // "true"/"false" string, not native bool (R5)
   sparse:          'false',
@@ -180,7 +180,7 @@ and binding for anything the KG adds from here on:
   the one place this shipped (`Interpro_entry_related_to_ec_number` /
   `_cazy_family` `.ambiguous`) was silently `false` on every edge in every
   build ever deployed. `value_type` in the contract admits `string`,
-  `string_array`, `float`, `int`, `bool_string` — **not** `bool`; a property
+  `string_array`, `float`, `int` — **not** `bool` (and, since 2026-08-28, no `bool_string`: every two-state fact is a named pair, see `two-state-strings.md`); a property
   declared `bool` in `schema_config.yaml` fails the vocabulary test.
   Sentinel-or-absent stays legal for rare-exception flags
   (`is_uninformative`, `level_is_best_effort`) where absence *is* the

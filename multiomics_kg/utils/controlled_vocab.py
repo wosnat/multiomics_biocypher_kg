@@ -22,7 +22,7 @@ DEFAULT_PATH = Path("config/controlled_vocabularies.yaml")
 # R5: a two-state fact is a meaningful categorical string. Native bool is not
 # admissible — BioCypher does not round-trip it, and a bare `true` is
 # unreadable in a result row.
-VALUE_TYPES = {"string", "string_array", "float", "int", "bool_string"}
+VALUE_TYPES = {"string", "string_array", "float", "int"}  # R5: no bool, no bool_string
 
 _REQUIRED = ("applies_to", "applies_to_kind", "property", "value_type",
              "closed", "description")

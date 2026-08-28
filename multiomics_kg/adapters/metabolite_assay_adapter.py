@@ -69,6 +69,18 @@ _EMBEDDED_PATTERN = re.compile(
 )
 
 
+# R5 two-state strings (paperconfig keeps "true"/"false"; the graph carries the pair).
+RANKABLE = {"true": "rankable", "false": "not_rankable"}
+FLAG_VALUE = {"true": "detected", "false": "not_detected"}  # mirrors detection_status
+
+
+def _rankable(raw, where: str) -> str:
+    key = str(raw).strip().lower()
+    if key not in RANKABLE:
+        raise ValueError(f"{where}: rankable must be 'true' or 'false' in the paperconfig, got {raw!r}")
+    return RANKABLE[key]
+
+
 def _clean_str(value) -> str:
     """Sanitize string for BioCypher CSV output (CLAUDE.md convention)."""
     if value is None:
@@ -275,7 +287,7 @@ class MetaboliteAssayAdapter:
                     "metric_type": _clean_str(metric_type),
                     "value_kind": _clean_str(value_kind),
                     "unit": _clean_str(assay.get("unit", "")),
-                    "rankable": _clean_str(assay.get("rankable", "false")),
+                    "rankable": _rankable(assay.get("rankable", "false"), f"{entry_key}/{metric_type}"),
                     "aggregation_method": _clean_str(
                         assay.get("aggregation_method")
                         or entry.get("aggregation_method", "mean_across_replicates")
@@ -411,7 +423,7 @@ class MetaboliteAssayAdapter:
                 props = {
                     "metric_type": _clean_str(assay.get("metric_type", "")),
                     "condition_label": cond_label,
-                    "flag_value": "true" if is_true else "false",
+                    "flag_value": FLAG_VALUE["true"] if is_true else FLAG_VALUE["false"],
                     "n_replicates": 1,
                     "n_positive": 1 if is_true else 0,
                 }

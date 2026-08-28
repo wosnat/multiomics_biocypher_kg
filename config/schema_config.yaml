@@ -55,7 +55,7 @@ experiment:
     coculture_partner: str
     omics_type: str
     statistical_test: str
-    is_time_course: str
+    is_time_course: str              # time_course | single_time_point (R5 two-state string)
     medium: str
     temperature: str
     light_condition: str
@@ -76,7 +76,7 @@ experiment:
     time_point_significant_down: int[]
     time_point_growth_phases: str[]  # post-import: per-timepoint growth_phase (parallel array; "" = unknown)
     growth_phases: str[]          # post-import: distinct growth_phase values from edges
-    reports_fold_change: str         # post-import (Plan 3): "true" | "false"
+    reports_fold_change: str         # post-import (Plan 3): fold_change | no_fold_change
     reports_derived_metric_types: str[]  # post-import (Plan 3): distinct metric_type from child DMs
     derived_metric_count: int        # post-import (Plan 3): count of child DerivedMetric nodes
     derived_metric_value_kinds: str[]  # post-import (Plan 3): distinct value_kind from child DMs
@@ -145,8 +145,8 @@ derived metric:
     metric_type: str
     value_kind: str                  # "numeric" | "boolean" | "categorical"
     unit: str
-    rankable: str                    # "true" | "false" (string enum)
-    has_p_value: str                 # "true" | "false" (string enum)
+    rankable: str                    # rankable | not_rankable (R5 two-state string)
+    has_p_value: str                 # p_value | no_p_value (R5 two-state string)
     p_value_threshold: float
     allowed_categories: str[]
     field_description: str
@@ -277,10 +277,10 @@ derived metric quantifies gene:
     value: float
     p_value: float
     adjusted_p_value: float
-    rank_by_metric: int              # post-import (Plan 3; rankable="true" only)
-    metric_percentile: float         # post-import (Plan 3; rankable="true" only)
-    metric_bucket: str               # post-import (Plan 3; rankable="true" only)
-    significant: str                 # post-import (Plan 3; has_p_value="true" only)
+    rank_by_metric: int              # post-import (Plan 3; rankable="rankable" only)
+    metric_percentile: float         # post-import (Plan 3; rankable="rankable" only)
+    metric_bucket: str               # post-import (Plan 3; rankable="rankable" only)
+    significant: str                 # post-import (Plan 3; has_p_value="p_value" only): significant | not_significant
 
 # DerivedMetric → Gene (boolean metric_type; value_kind="boolean")
 derived metric flags gene:
@@ -292,7 +292,7 @@ derived metric flags gene:
   target: gene
   properties:
     metric_type: str
-    value: str                       # "true" | "false" (string enum)
+    value: str                       # flagged | not_flagged (R5 two-state string)
 
 # DerivedMetric → Gene (categorical metric_type; value_kind="categorical")
 derived metric classifies gene:
@@ -330,7 +330,7 @@ metabolite assay:
     metric_type: str
     value_kind: str                  # "numeric" | "boolean"
     unit: str
-    rankable: str                    # "true" | "false"
+    rankable: str                    # rankable | not_rankable (R5 two-state string)
     aggregation_method: str          # "mean_across_replicates" | "pre_aggregated" | "single_measurement"
     # Canonical per-paper provenance / normalisation note for this assay (e.g.
     # "Intracellular metabolite concentration in fg/cell, blank-corrected,
@@ -407,7 +407,7 @@ assay flags metabolite:
   properties:
     metric_type: str
     condition_label: str
-    flag_value: str                  # "true" | "false"
+    flag_value: str                  # detected | not_detected (R5 two-state string, mirrors detection_status)
     n_replicates: int
     n_positive: int
 
@@ -502,7 +502,7 @@ controlled vocabulary:
     applies_to: str        # node label or edge type
     applies_to_kind: str   # 'node' | 'edge'
     property: str
-    value_type: str        # string | string_array | float | int | bool_string
+    value_type: str        # string | string_array | float | int (R5: no bool / bool_string)
     closed: str            # "true" | "false"  — false = enumerate at runtime
     sparse: str            # "true" | "false"  — property may be absent
     expected_empty: str    # "true" | "false"  — declared, no values by design
@@ -683,6 +683,8 @@ organism taxon:
     organism_type: str   # genome_strain | treatment | reference_proteome_match
     reference_database: str   # e.g. "MarRef v6" (reference_proteome_match only)
     reference_proteome: str   # e.g. "UP000262181" (reference_proteome_match only)
+    name_synonyms: str[]  # sparse: other names the organism is known by (e.g. reclassified species); indexed by organismTaxonFullText
+    taxonomy_note: str    # sparse: free-text taxonomy caveat (e.g. MruberA is M. taiwanensis in NCBI); indexed by organismTaxonFullText
 
 
 protein domain:  

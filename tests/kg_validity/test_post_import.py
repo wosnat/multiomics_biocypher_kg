@@ -1249,3 +1249,44 @@ def test_gene_neighbors_query_uses_composite_index(neo4j_driver, run_query):
         "neighbor query plan does not seek the composite index "
         f"Gene(organism_name, contig, start); plan details:\n{details}"
     )
+
+
+# ---------------------------------------------------------------------------
+# 2026-08-28: organism full-text index + first relationship-property indexes
+# ---------------------------------------------------------------------------
+
+def test_organism_taxon_fulltext_index_exists(run_query):
+    """organismTaxonFullText (preferred_name/organism_name/strain_name/species/
+    name_synonyms/taxonomy_note) — a search for a reclassified species name
+    must find a node whose preferred_name keeps the paper's name."""
+    result = run_query(
+        "SHOW INDEXES YIELD name, type WHERE name = 'organismTaxonFullText' "
+        "AND type = 'FULLTEXT' RETURN count(*) AS cnt"
+    )
+    assert result[0]["cnt"] == 1, "organismTaxonFullText index missing"
+    hits = run_query(
+        "CALL db.index.fulltext.queryNodes('organismTaxonFullText', 'taiwanensis') "
+        "YIELD node RETURN collect(node.id) AS ids"
+    )[0]["ids"]
+    assert "insdc.gcf:GCF_000836395.1" in hits, f"MruberA not found via synonym: {hits}"
+
+
+def test_evidence_relationship_indexes_exist(run_query):
+    """HO-003: evidence / evidence_score indexed on the >100K-edge gene→ontology
+    types (GO x3, Pfam) and evidence-only on Gene_has_interpro_entry."""
+    expected = {
+        "gene_go_bp_evidence_idx", "gene_go_bp_evidence_score_idx",
+        "gene_go_mf_evidence_idx", "gene_go_mf_evidence_score_idx",
+        "gene_go_cc_evidence_idx", "gene_go_cc_evidence_score_idx",
+        "gene_pfam_evidence_idx", "gene_pfam_evidence_score_idx",
+        "gene_interpro_evidence_idx",
+    }
+    rows = run_query(
+        "SHOW INDEXES YIELD name, entityType, state "
+        "WHERE entityType = 'RELATIONSHIP' RETURN name, state"
+    )
+    present = {r["name"] for r in rows}
+    missing = expected - present
+    assert not missing, f"relationship indexes missing: {sorted(missing)}"
+    not_online = [r["name"] for r in rows if r["name"] in expected and r["state"] != "ONLINE"]
+    assert not not_online, f"relationship indexes not ONLINE: {not_online}"

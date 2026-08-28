@@ -68,34 +68,34 @@ def test_derived_metric_value_kind_enum(run_query):
 
 
 def test_derived_metric_rankable_enum(run_query):
-    """rankable must be string 'true' or 'false' (never bool, never null)."""
+    """rankable must be 'rankable' or 'not_rankable' (R5 pair; never bool, never null)."""
     result = run_query("""
         MATCH (dm:DerivedMetric)
-        WHERE NOT dm.rankable IN ['true', 'false']
+        WHERE NOT dm.rankable IN ['rankable', 'not_rankable']
         RETURN count(dm) AS bad
     """)
     assert result[0]["bad"] == 0
 
 
 def test_derived_metric_has_p_value_enum(run_query):
-    """has_p_value must be string 'true' or 'false'."""
+    """has_p_value must be 'p_value' or 'no_p_value' (R5 pair)."""
     result = run_query("""
         MATCH (dm:DerivedMetric)
-        WHERE NOT dm.has_p_value IN ['true', 'false']
+        WHERE NOT dm.has_p_value IN ['p_value', 'no_p_value']
         RETURN count(dm) AS bad
     """)
     assert result[0]["bad"] == 0
 
 
 def test_derived_metric_rankable_only_numeric(run_query):
-    """rankable='true' must imply value_kind='numeric'."""
+    """rankable='rankable' must imply value_kind='numeric'."""
     result = run_query("""
         MATCH (dm:DerivedMetric)
-        WHERE dm.rankable = 'true' AND dm.value_kind <> 'numeric'
+        WHERE dm.rankable = 'rankable' AND dm.value_kind <> 'numeric'
         RETURN count(dm) AS bad, collect(dm.id)[..3] AS examples
     """)
     assert result[0]["bad"] == 0, (
-        f"{result[0]['bad']} DMs have rankable='true' but value_kind != 'numeric': {result[0]['examples']}"
+        f"{result[0]['bad']} DMs have rankable='rankable' but value_kind != 'numeric': {result[0]['examples']}"
     )
 
 
@@ -204,10 +204,10 @@ def test_measurement_edges_target_gene(run_query, rel_type):
 # ---------------------------------------------------------------------------
 
 def test_flag_edges_value_enum(run_query):
-    """Every derived_metric_flags_gene edge has value in {'true','false'}."""
+    """Every derived_metric_flags_gene edge has value in {'flagged','not_flagged'}."""
     result = run_query("""
         MATCH ()-[r:Derived_metric_flags_gene]->()
-        WHERE r.value IS NULL OR NOT r.value IN ['true', 'false']
+        WHERE r.value IS NULL OR NOT r.value IN ['flagged', 'not_flagged']
         RETURN count(r) AS bad
     """)
     assert result[0]["bad"] == 0
@@ -389,8 +389,8 @@ def test_boolean_dm_flag_counts_match_aggregation(run_query):
         MATCH (dm:DerivedMetric {value_kind: 'boolean'})
         OPTIONAL MATCH (dm)-[r:Derived_metric_flags_gene]->(:Gene)
         WITH dm,
-             count(CASE WHEN r.value = 'true'  THEN 1 END) AS computed_true,
-             count(CASE WHEN r.value = 'false' THEN 1 END) AS computed_false
+             count(CASE WHEN r.value = 'flagged'     THEN 1 END) AS computed_true,
+             count(CASE WHEN r.value = 'not_flagged' THEN 1 END) AS computed_false
         WHERE dm.flag_true_count <> computed_true
            OR dm.flag_false_count <> computed_false
         RETURN count(dm) AS mismatched, collect(dm.id)[..3] AS examples
@@ -527,19 +527,19 @@ def test_experiment_derived_metric_gene_count_matches_query(run_query):
 def test_experiment_reports_fold_change_enum(run_query):
     result = run_query("""
         MATCH (e:Experiment)
-        WHERE NOT e.reports_fold_change IN ['true', 'false']
+        WHERE NOT e.reports_fold_change IN ['fold_change', 'no_fold_change']
         RETURN count(e) AS bad
     """)
     assert result[0]["bad"] == 0
 
 
 def test_experiment_reports_fold_change_consistent(run_query):
-    """reports_fold_change='true' iff Experiment has any Changes_expression_of edge."""
+    """reports_fold_change='fold_change' iff Experiment has any Changes_expression_of edge."""
     result = run_query("""
         MATCH (e:Experiment)
         WITH e, e.reports_fold_change AS declared,
              EXISTS { (e)-[:Changes_expression_of]->() } AS has_de
-        WHERE (declared = 'true') <> has_de
+        WHERE (declared = 'fold_change') <> has_de
         RETURN count(e) AS mismatched, collect(e.id)[..3] AS examples
     """)
     assert result[0]["mismatched"] == 0

@@ -860,7 +860,9 @@ GO inferred 45,226) must be unchanged by the rename pass, and are covered by the
    `DerivedMetric` flag `value`. All are MCP-read, so converting them to
    meaningful pairs is breaking and belongs in its own change with its own
    baseline. R5 governs new properties; these are grandfathered until then.
-   → `plans/backlog.md`
+   → `plans/backlog.md` — **DONE 2026-08-28**, plus the undeclared 8th
+   (`Assay_flags_metabolite.flag_value`); see `docs/kg-changes/two-state-strings.md`.
+   `bool_string` removed from `VALUE_TYPES`.
 
 4. **InterPro has no `is_uninformative` coverage** — the one ontology missing
    from the informativeness filter, which is why `scripts/post-import.cypher`

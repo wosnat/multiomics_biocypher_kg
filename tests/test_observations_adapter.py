@@ -77,13 +77,13 @@ def _bp(value, blank_policy="skip"):
 
 
 def test_boolean_true_token():
-    assert _bp("Y") == "true"
-    assert _bp("yes") == "true"
+    assert _bp("Y") == "flagged"
+    assert _bp("yes") == "flagged"
 
 
 def test_boolean_false_token():
-    assert _bp("N") == "false"
-    assert _bp("no") == "false"
+    assert _bp("N") == "not_flagged"
+    assert _bp("no") == "not_flagged"
 
 
 def test_boolean_skip_token_returns_none():
@@ -98,13 +98,13 @@ def test_boolean_blank_with_skip_policy():
 
 
 def test_boolean_blank_with_true_policy():
-    assert _bp("", blank_policy="true") == "true"
-    assert _bp(None, blank_policy="true") == "true"
+    assert _bp("", blank_policy="true") == "flagged"
+    assert _bp(None, blank_policy="true") == "flagged"
 
 
 def test_boolean_blank_with_false_policy():
-    assert _bp("", blank_policy="false") == "false"
-    assert _bp(float("nan"), blank_policy="false") == "false"
+    assert _bp("", blank_policy="false") == "not_flagged"
+    assert _bp(float("nan"), blank_policy="false") == "not_flagged"
 
 
 def test_boolean_unknown_token_raises():
@@ -121,7 +121,7 @@ def test_boolean_whitespace_treated_as_blank():
     # Exercises the strip()-then-empty branch (distinct from None/NaN/"" pre-strip)
     assert _bp("   ") is None
     # With blank_policy="false", whitespace is blank → "false"
-    assert _bp("   ", blank_policy="false") == "false"
+    assert _bp("   ", blank_policy="false") == "not_flagged"
 
 
 def test_boolean_pd_na_is_blank():
@@ -304,8 +304,8 @@ def test_boolean_dm_node_has_expected_props(tmp_path):
     )
     assert dm["metric_type"] == "periodic_in_axenic_LD"
     assert dm["value_kind"] == "boolean"
-    assert dm["rankable"] == "false"
-    assert dm["has_p_value"] == "false"
+    assert dm["rankable"] == "not_rankable"
+    assert dm["has_p_value"] == "no_p_value"
     assert dm["allowed_categories"] == []
     assert dm["unit"] == ""
     assert dm["field_description"] == "RAIN FDR<0.05 axenic L:D"
@@ -520,8 +520,8 @@ def test_categorical_dm_node_has_allowed_categories_from_paperconfig(tmp_path):
     assert len(dm_nodes) == 1
     _, _, props = dm_nodes[0]
     assert props["value_kind"] == "categorical"
-    assert props["rankable"] == "false"
-    assert props["has_p_value"] == "false"
+    assert props["rankable"] == "not_rankable"
+    assert props["has_p_value"] == "no_p_value"
     assert props["allowed_categories"] == [
         "darkness_axenic+darkness_coculture",
         "darkness_coculture+unique_coculture",
@@ -594,8 +594,8 @@ def test_numeric_dm_node_props_from_paperconfig(tmp_path):
     _, _, props = dm_nodes[0]
     assert props["metric_type"] == "fourier_score"
     assert props["value_kind"] == "numeric"
-    assert props["rankable"] == "true"
-    assert props["has_p_value"] == "true"
+    assert props["rankable"] == "rankable"
+    assert props["has_p_value"] == "p_value"
     assert props["p_value_threshold"] == 0.05
     assert props["unit"] == ""
     assert props["allowed_categories"] == []
@@ -703,7 +703,7 @@ def test_boolean_edges_emit_true_flag_only_for_Y_rows(tmp_path):
     for eid, src, tgt, label, props in flag_edges:
         assert src.startswith("derived_metric:mSystems.00040-18:s4a_axenic:")
         assert tgt.startswith("ncbigene:")
-        assert props["value"] == "true"
+        assert props["value"] == "flagged"
         assert props["metric_type"] in {
             "periodic_in_axenic_LD", "periodic_in_axenic_extended_darkness",
         }

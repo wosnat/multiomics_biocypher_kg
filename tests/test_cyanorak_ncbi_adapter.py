@@ -591,6 +591,33 @@ class TestOrganismNode:
         nodes = a._get_organism_node()
         assert nodes[0][2]["preferred_name"] == "Prochlorococcus MED4"
 
+    def test_organism_node_name_synonyms_and_note(self):
+        a = CyanorakNcbi(
+            data_dir="/fake/dir",
+            strain_name="MruberA",
+            ncbi_accession="GCF_000836395.1",
+            preferred_name="Meiothermus ruber",
+            name_synonyms=["Meiothermus taiwanensis", ""],
+            taxonomy_note="NCBI classifies this genome as M. taiwanensis",
+        )
+        a.taxonomy = {}
+        props = a._get_organism_node()[0][2]
+        assert props["preferred_name"] == "Meiothermus ruber"       # unchanged
+        assert props["name_synonyms"] == ["Meiothermus taiwanensis"]  # blanks dropped
+        assert props["taxonomy_note"].startswith("NCBI classifies")
+
+    def test_organism_node_synonym_props_sparse_when_unset(self):
+        a = CyanorakNcbi(data_dir="/fake/dir", strain_name="MED4", ncbi_accession="GCF_000011465.1")
+        a.taxonomy = {}
+        props = a._get_organism_node()[0][2]
+        assert "name_synonyms" not in props and "taxonomy_note" not in props
+
+    def test_split_synonyms(self):
+        from multiomics_kg.adapters.cyanorak_ncbi_adapter import _split_synonyms
+        assert _split_synonyms(None) == []
+        assert _split_synonyms("") == []
+        assert _split_synonyms("A; B ;;C") == ["A", "B", "C"]
+
     def test_organism_node_no_preferred_name_when_not_set(self):
         a = CyanorakNcbi(
             data_dir="/fake/dir",

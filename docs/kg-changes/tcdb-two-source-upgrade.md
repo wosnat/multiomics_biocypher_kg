@@ -205,6 +205,18 @@ All 13 are textbook multi-substrate transporters: ABC `3.A.1` (554 substrates) �
 MFS `2.A.1` (476) · DMT `2.A.7` · RND `2.A.6` · MOP flippase `2.A.66` · APC `2.A.3` ·
 P-type ATPase `3.A.3`.
 
+**Re-measured 2026-08-28 on the live 1,515-node graph (closing the backlog item that
+said the threshold was calibrated on the pre-pruning set — it was not; the numbers
+above are already post-pruning).** `>= 50` still sits at ≈p99 within the levels it
+applies to (`tc_family` p99 = 79, 7 flagged of 592; `tc_subfamily` p99 = 55, 6 of 596;
+no `tc_specificity` node reaches it — max 17). There is no natural gap at 50: `tc_family`
+runs 79 (APC) → **50 (P-type ATPase `3.A.3`)** → 48 (SSS `2.A.21`) → 44 (MIP) → 41 …, so the
+cut is a percentile choice, not a cliff. The nearest clean gaps are at ≥ 75 (79 → 50 and
+90 → 55), which would drop `3.A.3`, `2.A.1.1`, `3.A.1.1` (13 → 10 nodes) and move their
+~390 genes from `transport_substrate_resolution = family_inferred` to `resolved`; 55
+sugars on CUT1 `3.A.1.1` is still substrate lumping, so that was judged not an improvement.
+**Decision: keep 50.** The explorer's KG-MET-006 list of 13 stays valid.
+
 ⚠️ [`metabolomics-extension.md`](metabolomics-extension.md) previously documented the
 old rule (`metabolite_count >= 50 OR member_count >= 100`, "~30 of 12,883 families").
 That row is now corrected; this doc is authoritative.

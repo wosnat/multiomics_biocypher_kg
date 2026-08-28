@@ -126,12 +126,24 @@ inside gene-annotation build (step 2), mirroring the Pfam precedent.
   MetaCyc pathway layer. Layer A GO was dropped (redundant — is-a ancestors add 5
   entries).
 
-## MCP / explorer follow-up (out of scope here — spec §7)
+## MCP / explorer follow-up — status 2026-08-28 (explorer answer to HO-004)
 
-- Optional `source_filter` / `evidence_filter` (curated-only vs include inferred)
-  on ontology-edge tools, reading the new edge `sources` / `evidence`.
-- Surface `sources` + `evidence` in `gene_ontology_terms` / `gene_overview`.
-- ORA over InterPro must stratify by `(interpro_type, level)` — `interpro_type`
-  primary. Expose the 2-hop `gene → entry → EC|CAZy` (`related_to`, property-free —
-  derive `ambiguous` as `count(r) > 1 OR n.interpro_type <> 'FAMILY'`) as an
-  explicit opt-in "candidate/router" mode, never default annotation.
+- **Source / evidence filters — DONE (explorer slice 3).** `genes_by_ontology`,
+  `gene_ontology_terms`, `pathway_enrichment`, `cluster_enrichment` filter on
+  `sources` / `evidence` / `max_tier` / `min_evidence_score` / `call_class` /
+  `interpro_type`; rows carry compact `evidence` plus verbose `sources` /
+  `evidence_score` / `tier`. Documented at `docs://analysis/annotation_evidence`.
+  KG side: relationship-property indexes on `evidence` / `evidence_score` for the
+  >100K-edge types landed 2026-08-28 (`annotation-trust-surface.md`).
+- **Layer-A router — term side DONE, gene side DECLINED.**
+  `ontology_term_details.links_out[]` walks the `Interpro_entry_related_to_*` bridges
+  with verbose `router_ambiguous = links_total > 1 OR interpro_type <> 'FAMILY'`,
+  documented as recall-biased and never a function call. The gene-side opt-in mode
+  (gene → InterproEntry → EC/CAZy as a `genes_by_ontology` mode) is declined until a
+  workflow needs it.
+- **ORA stratification — MOOT for the precomputed counts.** The enrichment tools
+  compute term sizes from the TERM2GENE pairs they fetch (gene-level;
+  `interpro_type` is required for `ontology='interpro'`), not from `gene_count` /
+  `direct_gene_count`, so the KG-SYNC-005 subtree redefinition never reaches ORA.
+  The `(interpro_type, level)` stratification rule still applies to anyone running
+  ORA directly over the node counts.

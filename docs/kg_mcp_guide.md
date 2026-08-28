@@ -178,7 +178,7 @@ Examples to verify your connection is healthy and to feel out the graph shape.
 The full conventions live at `docs://guide/conventions`. Highlights:
 
 - **Labels are PascalCase** in Cypher: `Gene`, `Experiment`, `OrthologGroup`, `Schema_info`. Relationship types: `Changes_expression_of`, `Has_experiment`, `Gene_in_ortholog_group`, etc.
-- **Booleans are strings.** `significant`, `is_time_course`, `rankable`, `git_dirty` are `"true"` / `"false"` strings, not booleans (Neo4j-array/null interaction).
+- **Two-state facts are named string pairs, never booleans** (house rule R5). `is_time_course ∈ {time_course, single_time_point}`, `rankable ∈ {rankable, not_rankable}`, `has_p_value ∈ {p_value, no_p_value}`, DM `significant ∈ {significant, not_significant}`, DM flag `value ∈ {flagged, not_flagged}`, assay `flag_value ∈ {detected, not_detected}`. The explorer coerces these to Python bools at its boundary. (`Schema_info.git_dirty` is the one remaining `"true"`/`"false"` build-metadata string.)
 - **Time-course experiments** carry parallel arrays on the `Experiment` node (`time_point_labels`, `time_point_orders`, `time_point_hours`, `time_point_totals`, …). Sentinel values: `""` = no label, `-1.0` = unknown hours.
 - **`adjusted_p_value` can be null** on `Changes_expression_of` edges when the original study didn't report it. Filter accordingly.
 - **`Schema_info.schema_info`** is a JSON string containing the full schema. Parse it with `apoc.convert.fromJsonMap` or just have your agent read it for richer schema introspection than `kg_schema` provides.

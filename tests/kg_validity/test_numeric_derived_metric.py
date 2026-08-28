@@ -77,15 +77,15 @@ def test_fixture_quantifies_edge_count(run_query, skip_if_no_fixture):
 # ---------------------------------------------------------------------------
 
 def test_rank_by_metric_only_on_rankable(run_query, skip_if_no_numeric_dm):
-    """rank_by_metric non-null iff parent DM.rankable='true' (quantifies edges only)."""
+    """rank_by_metric non-null iff parent DM.rankable='rankable' (quantifies edges only)."""
     # Assumes dm.rankable is non-null on every DerivedMetric (guaranteed by
     # test_derived_metric_required_properties in test_derived_metric.py).
     result = run_query("""
         MATCH (dm:DerivedMetric)-[r:Derived_metric_quantifies_gene]->()
         WITH
-          count(CASE WHEN r.rank_by_metric IS NOT NULL AND dm.rankable <> 'true'
+          count(CASE WHEN r.rank_by_metric IS NOT NULL AND dm.rankable <> 'rankable'
                      THEN 1 END) AS rank_on_non_rankable,
-          count(CASE WHEN r.rank_by_metric IS NULL AND dm.rankable = 'true'
+          count(CASE WHEN r.rank_by_metric IS NULL AND dm.rankable = 'rankable'
                      THEN 1 END) AS rankable_missing_rank
         RETURN rank_on_non_rankable, rankable_missing_rank
     """)
@@ -101,7 +101,7 @@ def test_rank_by_metric_only_on_rankable(run_query, skip_if_no_numeric_dm):
 def test_rank_contiguous_per_dm(run_query, skip_if_no_numeric_dm):
     """rank_by_metric should be 1..N contiguous per DerivedMetric."""
     result = run_query("""
-        MATCH (dm:DerivedMetric {rankable: 'true'})-[r:Derived_metric_quantifies_gene]->()
+        MATCH (dm:DerivedMetric {rankable: 'rankable'})-[r:Derived_metric_quantifies_gene]->()
         WITH dm.id AS dm_id, collect(r.rank_by_metric) AS ranks
         WITH dm_id, ranks, size(ranks) AS n, apoc.coll.sort(ranks) AS sorted
         WHERE sorted <> range(1, n)
@@ -164,7 +164,7 @@ def test_highest_value_has_rank_1(run_query, skip_if_no_numeric_dm):
     rather than universality.
     """
     result = run_query("""
-        MATCH (dm:DerivedMetric {rankable: 'true'})-[r:Derived_metric_quantifies_gene]->()
+        MATCH (dm:DerivedMetric {rankable: 'rankable'})-[r:Derived_metric_quantifies_gene]->()
         WITH dm, max(r.value) AS max_val
         MATCH (dm)-[r1:Derived_metric_quantifies_gene]->()
         WHERE r1.rank_by_metric = 1
@@ -182,12 +182,12 @@ def test_highest_value_has_rank_1(run_query, skip_if_no_numeric_dm):
 # ---------------------------------------------------------------------------
 
 def test_significant_only_on_has_p_value(run_query, skip_if_no_numeric_dm):
-    """significant non-null only when parent DM.has_p_value='true' AND p_value_threshold IS NOT NULL
+    """significant non-null only when parent DM.has_p_value='p_value' AND p_value_threshold IS NOT NULL
     AND edge.adjusted_p_value IS NOT NULL."""
     result = run_query("""
         MATCH (dm:DerivedMetric)-[r:Derived_metric_quantifies_gene]->()
         WHERE r.significant IS NOT NULL
-          AND (dm.has_p_value <> 'true'
+          AND (dm.has_p_value <> 'p_value'
                OR dm.p_value_threshold IS NULL
                OR r.adjusted_p_value IS NULL)
         RETURN count(r) AS bad
@@ -196,14 +196,14 @@ def test_significant_only_on_has_p_value(run_query, skip_if_no_numeric_dm):
 
 
 def test_significant_computed_correctly(run_query, skip_if_no_numeric_dm):
-    """significant='true' iff adjusted_p_value < threshold."""
+    """significant='significant' iff adjusted_p_value < threshold."""
     result = run_query("""
-        MATCH (dm:DerivedMetric {has_p_value: 'true'})-[r:Derived_metric_quantifies_gene]->()
+        MATCH (dm:DerivedMetric {has_p_value: 'p_value'})-[r:Derived_metric_quantifies_gene]->()
         WHERE r.significant IS NOT NULL
           AND dm.p_value_threshold IS NOT NULL
           AND r.adjusted_p_value IS NOT NULL
         WITH r, dm,
-             CASE WHEN r.adjusted_p_value < dm.p_value_threshold THEN 'true' ELSE 'false' END AS expected
+             CASE WHEN r.adjusted_p_value < dm.p_value_threshold THEN 'significant' ELSE 'not_significant' END AS expected
         WHERE r.significant <> expected
         RETURN count(r) AS bad, collect([r.adjusted_p_value, dm.p_value_threshold, r.significant, expected])[..3] AS examples
     """)
@@ -211,18 +211,18 @@ def test_significant_computed_correctly(run_query, skip_if_no_numeric_dm):
 
 
 def test_significant_enum(run_query, skip_if_no_numeric_dm):
-    """When non-null, significant ∈ {'true','false'}."""
+    """When non-null, significant ∈ {'significant','not_significant'}."""
     result = run_query("""
         MATCH ()-[r:Derived_metric_quantifies_gene]->()
         WHERE r.significant IS NOT NULL
-          AND NOT r.significant IN ['true', 'false']
+          AND NOT r.significant IN ['significant', 'not_significant']
         RETURN count(r) AS bad
     """)
     assert result[0]["bad"] == 0
 
 
 def test_fourier_score_has_significance(run_query, skip_if_no_fixture):
-    """Synthetic fixture fourier_score (has_p_value='true', threshold=0.05) has 100 edges with significant set."""
+    """Synthetic fixture fourier_score (has_p_value='p_value', threshold=0.05) has 100 edges with significant set."""
     result = run_query("""
         MATCH (dm:DerivedMetric {metric_type: 'fourier_score'})
           -[r:Derived_metric_quantifies_gene]->()
@@ -235,7 +235,7 @@ def test_fourier_score_has_significance(run_query, skip_if_no_fixture):
 
 
 def test_peak_time_has_no_significance(run_query, skip_if_no_fixture):
-    """Synthetic fixture peak_time_h (has_p_value='false') should have no significant set."""
+    """Synthetic fixture peak_time_h (has_p_value='no_p_value') should have no significant set."""
     result = run_query("""
         MATCH (dm:DerivedMetric {metric_type: 'peak_time_h'})
           -[r:Derived_metric_quantifies_gene]->()
