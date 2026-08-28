@@ -19,10 +19,9 @@
       "gene_records": 30,
       "genes_resolved": 28,
       "gene_methods": {
-        "multi:v": 24,
+        "multi:v": 25,
         "unresolved": 2,
-        "tier1:v": 2,
-        "multi_named:v": 2
+        "multi_named:v": 3
       },
       "pathway_records": 5,
       "pathways_resolved": 3,
@@ -222,7 +221,7 @@
       "strain": "Prochlorococcus MIT9312",
       "locus_tag": "PMT9312_1544",
       "resolved_from": "atpA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "AtpA",
@@ -256,9 +255,9 @@
       "evidence": "They are the ATP synthase subunits AtpA and AtpD ... found in all three strains (Results, p3)",
       "mention_strain": "all",
       "strain": "Prochlorococcus MIT9312",
-      "locus_tag": "PMT9312_1531",
+      "locus_tag": "PMT9312_1545",
       "resolved_from": "atpD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "AtpD",

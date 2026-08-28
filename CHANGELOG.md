@@ -646,9 +646,15 @@ tag with nothing logged.
   A shared gene symbol had been declared gene-unique, merging KT2440's 12 `tnpB` IS copies into
   one gene (40 Tier-1 ids) and MED4's 5S rRNA `rrf` (RNA_41) into `frr`. `Name == gene` → Tier 3,
   `Name == protein_id` → Tier 2. Across 43 strains: max Tier-1 ids per gene 40 → 14, Tier-1
-  conflicts 2,300 → 114. 85 of 210,247 supp-table rows and 58 of 1,373 narrative mentions that
+  conflicts 2,300 → 114. 100 of 210,247 supp-table rows and 68 of 1,373 narrative mentions that
   resolved through that accident (multi-copy `psbA`/`pstS`/`petF`/`dnaK`) are now honestly
-  `ambiguous`; he 2022 MED4 gains 6 rows. `plans/gene_id_mapping_hygiene.md`.
+  `ambiguous`, and 159 rows move to the gene their accession actually names (biller 2022 `rplW`
+  → PMT9312_1648, Kratzl `ftsH` → FtsH3, 62 Beliaev rows off a junk "Gene abbreviation" bridge);
+  he 2022 MED4 gains 6 rows. Paper columns can no longer promote an annotation-known gene symbol
+  to Tier 1 (`known_gene_names` demotion). `plans/gene_id_mapping_hygiene.md`.
+- **barreto 2022 `pro_9312_anot.csv` — `uniprot_acc` is shifted by one row for 95 of 1,304 MIT9312
+  genes** (PMT9312_1637/rpsH carried Q318J8 = rplF); the column is no longer an id column in any
+  of barreto's three tables. biller 2022's mixed "Gene Number" columns retyped `gene_name`.
 
 - **`Experiment.treatment_type` / `background_factors` are dense again.**
   The adapters emit `[]` for the three characterization experiments

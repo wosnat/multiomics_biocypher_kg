@@ -16,11 +16,10 @@
     "output_tokens": 1724,
     "resolution": {
       "gene_records": 14,
-      "genes_resolved": 8,
+      "genes_resolved": 7,
       "gene_methods": {
-        "unresolved": 6,
-        "multi:v": 6,
-        "tier1:v": 2
+        "unresolved": 7,
+        "multi:v": 7
       },
       "pathway_records": 5,
       "pathways_resolved": 2,
@@ -36,7 +35,7 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 5,
+        "lookup_miss": 6,
         "descriptive_only": 1
       }
     }
@@ -194,9 +193,9 @@
       "evidence": "Transcripts of several genes involved in photosynthesis and carbon fixation were enriched in the presence of chitosan in MIT9313, a secondary degrader of chitin (p4, Results and Discussion; Fig. 5B)",
       "mention_strain": "Prochlorococcus MIT9313",
       "strain": "Prochlorococcus MIT9313",
-      "locus_tag": "PMT_1199",
-      "resolved_from": "csoS1",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "PsbH",
@@ -208,7 +207,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1837",
       "resolved_from": "psbH",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     }
   ],
   "pathways": [

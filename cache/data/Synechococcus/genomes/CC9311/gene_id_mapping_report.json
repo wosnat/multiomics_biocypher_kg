@@ -39,17 +39,13 @@
       "conflict": 0,
       "multi": 14,
       "unique": 5565
-    },
-    "uniprot_accession": {
-      "conflict": 0,
-      "multi": 19,
-      "unique": 2858
     }
   },
   "runaway_genes": [],
   "strain": "CC9311",
   "tier1_count_max": 5,
   "tier1_count_median": 5.0,
+  "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
     "Barreto 2022/id_translation_syn_9311": 64,
     "Barreto 2022/supp_table_S1_CC9311": 6,

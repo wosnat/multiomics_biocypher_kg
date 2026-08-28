@@ -7,8 +7,8 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 108,
-      "unique": 1102
+      "multi": 114,
+      "unique": 1099
     },
     "gene_synonym": {
       "conflict": 0,
@@ -36,9 +36,9 @@
       "unique": 1830
     },
     "old_locus_tag": {
-      "conflict": 13,
+      "conflict": 0,
       "multi": 0,
-      "unique": 1635
+      "unique": 859
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -60,6 +60,7 @@
   "strain": "MIT9301",
   "tier1_count_max": 11,
   "tier1_count_median": 8.0,
+  "tier1_demoted_known_names": 2463,
   "unresolved_rows_per_source": {
     "Anjur-Dietrich 2025/annotation_genome_9301": 52,
     "Anjur-Dietrich 2025/annotation_gff_mit9301": 49,
@@ -68,7 +69,5 @@
     "genomic_gca/MIT9301": 58,
     "genomic_gcf/MIT9301": 47
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 13 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

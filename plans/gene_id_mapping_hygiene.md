@@ -36,3 +36,15 @@ multi-copy symbols; he 2022 +6), narrative mentions 1,373 → 1,315 (−58: mult
 Tier-1 token — junk resolutions, correctly gone); Tier-1 conflicts 2,300 → 114; max Tier-1 ids/gene
 40 → 14; 0 runaways. `RNA_41` no longer resolves (rRNA gene, no Gene node — correct).
 `pytest -m "not slow and not kg"` 2481 passed. Needs a Docker rebuild to reach the graph.
+
+**Post-rebuild addendum (2026-08-28, second pass).** The first rebuild's `/omics-edge-snapshot`
+showed 186 rows *moving* between genes. Tracing biller 2022 `rplF` → PMT9312_1637 (rpsH) found two
+more masked problems: (1) barreto 2022's `pro_9312_anot.csv` `uniprot_acc` column is off by one row
+for 95 genes — dropped as an id column in all three barreto tables; (2) paper columns typed Tier 1
+but holding gene symbols (biller "Gene Number", barreto `symbol`, tolonen `GENE`, thompson `Gene`,
+Tal "Gene Name") — fixed generically: `GeneIdGraph.known_gene_names` demotes any annotation-known
+symbol a paper types as Tier 1 (`tier1_demoted_known_names` in the report), biller's column also
+retyped `gene_name`. Final numbers vs baseline: tables 210,247 → 210,147 (−100), topics 1,373 → 1,305
+(−68), 159 moved rows — every inspected move is a correction (`rplW` → 1648/L23, `som` → PMT1979 per
+UniProt Q7V4H2, Kratzl `ftsH` → FtsH3 per Q31RJ0, Beliaev off a junk bridge). 186 paper-only
+symbols (`rpl9`, `dhsS`) remain Tier 1 within their paper — harmless, not pursued. Needs rebuild #2.

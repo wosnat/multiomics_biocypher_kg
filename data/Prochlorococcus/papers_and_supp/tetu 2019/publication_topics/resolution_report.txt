@@ -1,18 +1,21 @@
 Topics resolution report: Tetu 2019
 Strains: ['Prochlorococcus MIT9312', 'Prochlorococcus NATL2A']
 
-Genes:    33/36 resolved (91.7%)
-  methods: multi:v=2, tier1:v=31, unresolved=3
+Genes:    30/36 resolved (83.3%)
+  methods: multi:v=8, tier1:v=22, unresolved=6
 Pathways: 3/3 resolved (100.0%)
   methods: id=3
 
 Captured identifiers: 23  (truncated/bare-number: 0)
-Unresolved gene reasons: {'lookup_miss': 3}
+Unresolved gene reasons: {'lookup_miss': 6}
     descriptive_only = function/enzyme phrase, no symbol or id (paper style)
     truncated_id_only = bare locus number, recoverable via strain prefix
     lookup_miss       = had a name/full id but no mapping match
 
-Unresolved gene mentions (3):
+Unresolved gene mentions (6):
   - groEL  [lookup_miss]  strain=Prochlorococcus MIT9312
+  - dnaK  [lookup_miss]  strain=Prochlorococcus MIT9312
+  - clpP  [lookup_miss]  strain=Prochlorococcus MIT9312
+  - ftsH  [lookup_miss]  strain=Prochlorococcus MIT9312
   - hli  [lookup_miss]  strain=Prochlorococcus MIT9312
   - psbA  [lookup_miss]  strain=Prochlorococcus MIT9312

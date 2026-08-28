@@ -16,14 +16,15 @@
     "input_tokens": 38407,
     "output_tokens": 5283,
     "resolution": {
-      "gene_records": 84,
-      "genes_resolved": 80,
+      "gene_records": 83,
+      "genes_resolved": 79,
       "gene_methods": {
         "locus_tag:v": 32,
-        "tier1:v": 17,
-        "multi:v": 30,
+        "multi:v": 42,
         "unresolved": 4,
-        "multi_named:v": 1
+        "multi_named:v": 1,
+        "tier1:v": 3,
+        "tier1_ci:v": 1
       },
       "pathway_records": 5,
       "pathways_resolved": 4,
@@ -143,7 +144,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1481",
       "resolved_from": "glnB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glnA",
@@ -331,7 +332,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT0623",
       "resolved_from": "gdhA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glsF",
@@ -359,7 +360,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1777",
       "resolved_from": "glsF",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -801,7 +802,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1314",
       "resolved_from": "hli1",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -903,7 +904,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1153",
       "resolved_from": "hli6",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -1011,7 +1012,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1213",
       "resolved_from": "sbtA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "csoS12",
@@ -1101,7 +1102,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1248",
       "resolved_from": "tal",
-      "resolution_method": "tier1:v"
+      "resolution_method": "tier1_ci:v"
     },
     {
       "surface_form": "acnB",
@@ -1129,7 +1130,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT2249",
       "resolved_from": "acnB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "icd",
@@ -1157,7 +1158,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1935",
       "resolved_from": "icd",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "sigma factors",
@@ -1275,7 +1276,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1853",
       "resolved_from": "amt1",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "nitrite permease",
@@ -1333,7 +1334,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT2234",
       "resolved_from": "ureA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rbcLS genes",
@@ -1435,7 +1436,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1102",
       "resolved_from": "zwf",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "csoS1",
@@ -1450,20 +1451,6 @@
       "locus_tag": "PMM0549",
       "resolved_from": "csoS1",
       "resolution_method": "multi:v"
-    },
-    {
-      "surface_form": "csoS1",
-      "gene_name": "csoS1",
-      "identifiers": [
-        "csoS1"
-      ],
-      "prominence": "peripheral",
-      "evidence": "Carboxysome csoS1... (Table III, p10)",
-      "mention_strain": "all",
-      "strain": "Prochlorococcus MIT9313",
-      "locus_tag": "PMT_1199",
-      "resolved_from": "csoS1",
-      "resolution_method": "tier1:v"
     },
     {
       "surface_form": "csoS2",
@@ -1491,7 +1478,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1203",
       "resolved_from": "csoS2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PMT1479",

@@ -16,12 +16,12 @@
     "output_tokens": 3311,
     "resolution": {
       "gene_records": 38,
-      "genes_resolved": 34,
+      "genes_resolved": 32,
       "gene_methods": {
-        "multi:v": 16,
-        "tier1:v": 5,
+        "multi:v": 18,
+        "unresolved": 6,
         "locus_tag:v": 13,
-        "unresolved": 4
+        "tier1:v": 1
       },
       "pathway_records": 0,
       "pathways_resolved": 0,
@@ -34,7 +34,7 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 4
+        "lookup_miss": 6
       }
     }
   },
@@ -76,10 +76,10 @@
       "prominence": "central",
       "evidence": "downregulate the iron-requiring electron transfer gene, ferredoxin (petF)... This expression pattern was shown in Prochlorococcus MED4, SS120 and MIT9313 (Bibby et al., 2003). (Introduction, p1-2)",
       "mention_strain": "all",
-      "strain": "Prochlorococcus MIT9313",
-      "locus_tag": "PMT1429",
-      "resolved_from": "petF",
-      "resolution_method": "tier1:v"
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "ferritin",
@@ -211,7 +211,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT0501",
       "resolved_from": "futC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli05/hli08 (PMM1404/PMT1154)",
@@ -523,9 +523,9 @@
       "evidence": "One notable member of this group is pcbB. The association of PcbB with PSI under iron stress has been shown in MIT9313 (Bibby et al., 2003) and we observed similar differential expression (Results, p10)",
       "mention_strain": "Prochlorococcus MIT9313",
       "strain": "Prochlorococcus MIT9313",
-      "locus_tag": "PMT1046",
-      "resolved_from": "pcbB",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "PMT0284 (possible porin)",
@@ -582,7 +582,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT0283",
       "resolved_from": "glyQ",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     }
   ],
   "pathways": []

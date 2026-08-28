@@ -75,10 +75,6 @@
       "M8001_21080",
       "M8001_03420",
       "M8001_24945"
-    ],
-    "speB": [
-      "M8001_11470",
-      "M8001_23720"
     ]
   },
   "genes": {
@@ -359,13 +355,6 @@
         },
         {
           "id": "mnmG gidA DM483_14265",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "mnmG",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -703,13 +692,6 @@
         },
         {
           "id": "rnpA T1E_0869",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "rnpA",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -22099,13 +22081,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "gshA",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_16280",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -23701,13 +23676,6 @@
         },
         {
           "id": "cysQ DM483_16375",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "cysQ",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -29040,13 +29008,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "gbcB",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_16705",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -32833,13 +32794,6 @@
         },
         {
           "id": "srkA DM483_20795",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "srkA",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -41551,13 +41505,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "rpmC",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "PSCI_1182",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -44080,13 +44027,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "fdhE",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_24850",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -46203,13 +46143,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "ribB",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "T1E_3519",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -46262,6 +46195,10 @@
         {
           "id": "M8001_02740",
           "type": "gene_synonym"
+        },
+        {
+          "id": "ribB",
+          "type": "gene_name"
         }
       ]
     },
@@ -58760,13 +58697,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "mdh",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "PRJ_0667",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -60644,13 +60574,6 @@
         },
         {
           "id": "gdhA T1E_0762",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "gdhA",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -69500,13 +69423,6 @@
         },
         {
           "id": "yiaD T1E_2112",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "yiaD",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -83283,13 +83199,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "mreB",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "PPS_0963",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -83456,13 +83365,6 @@
         },
         {
           "id": "mreD CW309_23505",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "mreD",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -84268,20 +84170,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "aspA",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "fumC",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_01605",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -84338,6 +84226,10 @@
         {
           "id": "M8001_04975",
           "type": "gene_synonym"
+        },
+        {
+          "id": "aspA",
+          "type": "gene_name"
         }
       ]
     },
@@ -91180,13 +91072,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "pgl",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_02005",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -92237,13 +92122,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "tadA",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "PRJ_1086",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -93226,13 +93104,6 @@
         },
         {
           "id": "gspD DM483_02120",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "gspD",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -96727,13 +96598,6 @@
         },
         {
           "id": "rnt T1E_4717",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "rnt",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -105505,13 +105369,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "tsaA",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_22085",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -108207,13 +108064,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "tolB",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "T1E_5731",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -110615,13 +110465,6 @@
         },
         {
           "id": "mqo DM483_29060",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "mqo",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -114451,13 +114294,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "rhlB",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "T1E_0556",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -116994,13 +116830,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "gmhA",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "T1E_4343",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -117276,13 +117105,6 @@
         },
         {
           "id": "rsmI PRJ_4515",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "rsmI",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -117720,13 +117542,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "murE",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_05600",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -117991,13 +117806,6 @@
         },
         {
           "id": "murD JEU22_30035",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "murD",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -126723,13 +126531,6 @@
         },
         {
           "id": "era DM483_06150",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "era",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -141496,13 +141297,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "rseP",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_07000",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -148057,13 +147851,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "cobD",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_15770",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -148116,6 +147903,10 @@
         {
           "id": "M8001_08675",
           "type": "gene_synonym"
+        },
+        {
+          "id": "cobD",
+          "type": "gene_name"
         }
       ]
     },
@@ -153018,13 +152809,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "minC",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_15465",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -153663,13 +153447,6 @@
         },
         {
           "id": "opuAC T1E_2254",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "opuAC",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -158801,13 +158578,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "gmd",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "T1E_3058",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -160938,13 +160708,6 @@
         },
         {
           "id": "folE T1E_5169",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "folE",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -169296,13 +169059,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "mltG",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_18175",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -170344,13 +170100,6 @@
         },
         {
           "id": "arsH GN299_32595",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "arsH",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -177847,13 +177596,6 @@
         },
         {
           "id": "fadH DM483_18605",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "fadH",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -186082,13 +185824,6 @@
         },
         {
           "id": "dacB C4Q27_20520",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "dacB",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -194685,13 +194420,6 @@
         },
         {
           "id": "speB T1E_4733",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "speB",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -204792,13 +204520,6 @@
         },
         {
           "id": "clpX T1E_5381",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "clpX",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -235156,13 +234877,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "mgtA",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_02715",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -250591,13 +250305,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "mexC",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_03585",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -254322,13 +254029,6 @@
         },
         {
           "id": "uppP DM483_03820",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "uppP",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -274745,13 +274445,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "clpV",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_05025",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -275207,13 +274900,6 @@
         },
         {
           "id": "tssB DM483_05050",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "tssB",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -277499,13 +277185,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "lexA",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_25740",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -277777,13 +277456,6 @@
         },
         {
           "id": "dnaE2 DM483_25725",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "dnaE2",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -284023,13 +283695,6 @@
         },
         {
           "id": "tenA DM483_13175",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "tenA",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -295877,13 +295542,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "clpK",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_12475",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -304862,13 +304520,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "gspG",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "C1882_13555",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -308105,13 +307756,6 @@
         },
         {
           "id": "peaA DM483_19355",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "peaA",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -317772,13 +317416,6 @@
         },
         {
           "id": "argE DM483_21865",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "argE",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -362001,13 +361638,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "glgE",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_25270",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -373879,13 +373509,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "yjiR",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "T1E_0438",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -373938,6 +373561,10 @@
         {
           "id": "M8001_21950",
           "type": "gene_synonym"
+        },
+        {
+          "id": "yjiR",
+          "type": "gene_name"
         }
       ]
     },
@@ -381671,13 +381298,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "aqpZ",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "PRJ_1646",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -388518,13 +388138,6 @@
         },
         {
           "id": "fliN E4195_09880 FGL99_23030 JEU22_20930",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "fliN",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -399204,13 +398817,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "phnN",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "DM483_17000",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -402215,13 +401821,6 @@
         },
         {
           "id": "yciI T1E_4070",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "yciI",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -422396,13 +421995,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "ftsH",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "PRJ_4726",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -429987,13 +429579,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "lipB",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "T1E_3678",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -430441,13 +430026,6 @@
         },
         {
           "id": "mrdB",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "rodA",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -432726,13 +432304,6 @@
         },
         {
           "id": "cobG DM483_23685",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "cobG",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -438164,13 +437735,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "hflK",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "T1E_2599",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -439654,13 +439218,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "serB",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "JEU22_19690",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -440566,13 +440123,6 @@
         },
         {
           "id": "nudF T1E_1192",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "nudF",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -442993,13 +442543,6 @@
         },
         {
           "id": "putP DM483_13765",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "putP",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -445794,13 +445337,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "ahcY",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "PRJ_4996",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -445888,13 +445424,6 @@
         },
         {
           "id": "metF DM483_13605",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "metF",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -450334,13 +449863,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "pip",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "T1E_2483",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -452381,13 +451903,6 @@
         },
         {
           "id": "yibK",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "trmL",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -457385,13 +456900,6 @@
         },
         {
           "id": "ftsE T1E_4671",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "ftsE",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -467264,13 +466772,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "ppk1",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "ppk",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -476247,13 +475748,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "phoB",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "T1E_3994",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -479057,13 +478551,6 @@
           "type": "old_locus_tag"
         },
         {
-          "id": "zwf",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
           "id": "T1E_3962",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
@@ -480232,13 +479719,6 @@
         },
         {
           "id": "cls clsA DM483_21135",
-          "sources": [
-            "Kratzl 2024/sheet1_rnaseq_pputida"
-          ],
-          "type": "old_locus_tag"
-        },
-        {
-          "id": "cls",
           "sources": [
             "Kratzl 2024/sheet1_rnaseq_pputida"
           ],
@@ -572775,7 +572255,8 @@
       "M8001_09055"
     ],
     "aspA": [
-      "M8001_27990"
+      "M8001_27990",
+      "M8001_04975"
     ],
     "aspC": [
       "M8001_19825"
@@ -573465,7 +572946,8 @@
       "M8001_08700"
     ],
     "cobD": [
-      "M8001_08680"
+      "M8001_08680",
+      "M8001_08675"
     ],
     "cobF": [
       "M8001_19710"
@@ -578461,7 +577943,8 @@
     ],
     "ribB": [
       "M8001_02810",
-      "M8001_19980"
+      "M8001_19980",
+      "M8001_02740"
     ],
     "ribBA": [
       "M8001_02740",
@@ -580866,7 +580349,8 @@
       "M8001_23735"
     ],
     "yjiR": [
-      "M8001_27685"
+      "M8001_27685",
+      "M8001_21950"
     ],
     "yjiX": [
       "M8001_24350"
@@ -598000,59 +597484,35 @@
     "T1E_5718": "M8001_06215",
     "T1E_5731": "M8001_06370",
     "X970_25455": "M8001_28220",
-    "ahcY": "M8001_26145",
     "ahcY PRJ_4996": "M8001_26145",
     "aldA_1": "M8001_13060",
     "aldA_1 NCTC10392_00874": "M8001_13060",
-    "aqpZ": "M8001_22400",
     "aqpZ PRJ_1646": "M8001_22400",
-    "argE": "M8001_18675",
     "argE DM483_21865": "M8001_18675",
-    "arsH": "M8001_10005",
     "arsH GN299_32595": "M8001_10005",
-    "aspA": "M8001_04975",
     "aspA fumC DM483_01605": "M8001_04975",
     "cap1D": "M8001_09340",
     "cap1D T1E_3064": "M8001_09340",
-    "clpK": "M8001_17405",
     "clpK DM483_12475": "M8001_17405",
-    "clpV": "M8001_16140",
     "clpV DM483_05025": "M8001_16140",
-    "clpX": "M8001_12095",
     "clpX T1E_5381": "M8001_12095",
-    "cls": "M8001_28120",
     "cls clsA DM483_21135": "M8001_28120",
     "clsA": "M8001_28120",
-    "cobD": "M8001_08675",
     "cobD DM483_15770": "M8001_08675",
-    "cobG": "M8001_25390",
     "cobG DM483_23685": "M8001_25390",
-    "cysQ": "M8001_01370",
     "cysQ DM483_16375": "M8001_01370",
-    "dacB": "M8001_10965",
     "dacB C4Q27_20520": "M8001_10965",
-    "dnaE2": "M8001_16370",
     "dnaE2 DM483_25725": "M8001_16370",
     "dxr": "M8001_08295",
     "dxr PRJ_4297": "M8001_08295",
-    "era": "M8001_07450",
     "era DM483_06150": "M8001_07450",
-    "fadH": "M8001_10500",
     "fadH DM483_18605": "M8001_10500",
-    "fdhE": "M8001_02610",
     "fdhE DM483_24850": "M8001_02610",
-    "fliN": "M8001_22785",
     "fliN E4195_09880 FGL99_23030 JEU22_20930": "M8001_22785",
-    "folE": "M8001_09435",
     "folE T1E_5169": "M8001_09435",
-    "ftsE": "M8001_26815",
     "ftsE T1E_4671": "M8001_26815",
-    "ftsH": "M8001_24785",
     "ftsH PRJ_4726": "M8001_24785",
-    "fumC": "M8001_04975",
-    "gbcB": "M8001_01685",
     "gbcB DM483_16705": "M8001_01685",
-    "gdhA": "M8001_03620",
     "gdhA T1E_0762": "M8001_03620",
     "gene-M8001_00005": "M8001_00005",
     "gene-M8001_00010": "M8001_00010",
@@ -614415,19 +613875,12 @@
     "gene-PP_RS29125": "M8001_RS28805",
     "gene-PP_RS29140": "M8001_RS28820",
     "gidA": "M8001_00020",
-    "glgE": "M8001_21250",
     "glgE DM483_25270": "M8001_21250",
-    "gmd": "M8001_09310",
     "gmd T1E_3058": "M8001_09310",
-    "gmhA": "M8001_06880",
     "gmhA T1E_4343": "M8001_06880",
-    "gshA": "M8001_01280",
     "gshA DM483_16280": "M8001_01280",
-    "gspD": "M8001_05475",
     "gspD DM483_02120": "M8001_05475",
-    "gspG": "M8001_17935",
     "gspG C1882_13555": "M8001_17935",
-    "hflK": "M8001_25720",
     "hflK T1E_2599": "M8001_25720",
     "lcl|NZ_CP097527.1_cds_WP_002553999.1_4139": "M8001_20990",
     "lcl|NZ_CP097527.1_cds_WP_002555468.1_491": "M8001_02525",
@@ -619916,113 +619369,68 @@
     "lcl|NZ_CP097527.1_cds_WP_404943662.1_330": "M8001_RS28570",
     "lcl|NZ_CP097527.1_cds_WP_407473313.1_335": "M8001_RS28585",
     "lcl|NZ_CP097527.1_cds_WP_425335737.1_1599": "M8001_08175",
-    "lexA": "M8001_16355",
     "lexA DM483_25740": "M8001_16355",
-    "lipB": "M8001_25235",
     "lipB T1E_3678": "M8001_25235",
-    "mdh": "M8001_03510",
     "mdh PRJ_0667": "M8001_03510",
-    "metF": "M8001_26150",
     "metF DM483_13605": "M8001_26150",
-    "mexC": "M8001_14725",
     "mexC DM483_03585": "M8001_14725",
-    "mgtA": "M8001_13860",
     "mgtA DM483_02715": "M8001_13860",
-    "minC": "M8001_08975",
     "minC DM483_15465": "M8001_08975",
-    "mltG": "M8001_09945",
     "mltG DM483_18175": "M8001_09945",
-    "mnmG": "M8001_00020",
     "mnmG gidA DM483_14265": "M8001_00020",
-    "mqo": "M8001_06520",
     "mqo DM483_29060": "M8001_06520",
     "mrdB": "M8001_25260",
     "mrdB rodA AA098_03070": "M8001_25260",
-    "mreB": "M8001_04920",
     "mreB PPS_0963": "M8001_04920",
-    "mreD": "M8001_04930",
     "mreD CW309_23505": "M8001_04930",
-    "murD": "M8001_06940",
     "murD JEU22_30035": "M8001_06940",
-    "murE": "M8001_06925",
     "murE DM483_05600": "M8001_06925",
-    "nudF": "M8001_25855",
     "nudF T1E_1192": "M8001_25855",
-    "opuAC": "M8001_09010",
     "opuAC T1E_2254": "M8001_09010",
     "opuCD": "M8001_04620",
     "opuCD PRJ_0910": "M8001_04620",
-    "peaA": "M8001_18120",
     "peaA DM483_19355": "M8001_18120",
-    "pgl": "M8001_05360",
     "pgl DM483_02005": "M8001_05360",
-    "phnN": "M8001_23420",
     "phnN DM483_17000": "M8001_23420",
-    "phoB": "M8001_27900",
     "phoB T1E_3994": "M8001_27900",
-    "pip": "M8001_26405",
     "pip T1E_2483": "M8001_26405",
     "ppk": "M8001_27375",
-    "ppk1": "M8001_27375",
     "ppk1 ppk DM483_10705": "M8001_27375",
-    "putP": "M8001_25990",
     "putP DM483_13765": "M8001_25990",
-    "rhlB": "M8001_06740",
     "rhlB T1E_0556": "M8001_06740",
-    "ribB": "M8001_02740",
     "ribB T1E_3519": "M8001_02740",
-    "rnpA": "M8001_00040",
     "rnpA T1E_0869": "M8001_00040",
-    "rnt": "M8001_05670",
     "rnt T1E_4717": "M8001_05670",
-    "rodA": "M8001_25260",
-    "rpmC": "M8001_02460",
     "rpmC PSCI_1182": "M8001_02460",
-    "rseP": "M8001_08300",
     "rseP DM483_07000": "M8001_08300",
-    "rsmI": "M8001_06895",
     "rsmI PRJ_4515": "M8001_06895",
-    "serB": "M8001_25805",
     "serB JEU22_19690": "M8001_25805",
     "soxY": "M8001_14025",
     "soxY PRJ_3226": "M8001_14025",
-    "speB": "M8001_11470",
     "speB DM483_17310": "M8001_23720",
     "speB T1E_4733": "M8001_11470",
-    "srkA": "M8001_01905",
     "srkA DM483_20795": "M8001_01905",
-    "tadA": "M8001_05420",
     "tadA PRJ_1086": "M8001_05420",
-    "tenA": "M8001_16720",
     "tenA DM483_13175": "M8001_16720",
-    "tolB": "M8001_06370",
     "tolB T1E_5731": "M8001_06370",
     "trg1": "M8001_05050",
     "trg1 ttg2B": "M8001_05050",
-    "trmL": "M8001_26520",
-    "tsaA": "M8001_06185",
     "tsaA DM483_22085": "M8001_06185",
-    "tssB": "M8001_16165",
     "tssB DM483_05050": "M8001_16165",
     "ttg2B": "M8001_05050",
-    "uppP": "M8001_14945",
     "uppP DM483_03820": "M8001_14945",
-    "yciI": "M8001_23615",
     "yciI T1E_4070": "M8001_23615",
-    "yiaD": "M8001_04135",
     "yiaD T1E_2112": "M8001_04135",
     "yibK": "M8001_26520",
     "yibK trmL T1E_0182": "M8001_26520",
-    "yjiR": "M8001_21950",
     "yjiR T1E_0438": "M8001_21950",
-    "zwf": "M8001_28055",
     "zwf T1E_3962": "M8001_28055"
   },
   "stats": {
-    "n_conflicts": 18,
+    "n_conflicts": 17,
     "n_genes": 5487,
     "n_multi": 31077,
-    "n_specific": 38937,
+    "n_specific": 38861,
     "passes": 3
   },
   "strain": "KT2440",

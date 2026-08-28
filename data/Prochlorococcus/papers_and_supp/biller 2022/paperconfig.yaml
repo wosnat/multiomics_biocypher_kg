@@ -104,7 +104,7 @@ publication:
       name_col: Gene Number
       id_columns:
         - column: Gene Number
-          id_type: locus_tag
+          id_type: gene_name   # mixed column: 769 locus tags + 379 symbols (rplF, cbbL); symbols must not be Tier 1
         - column: Protein ID
           id_type: uniprot_accession
         - column: NCBI reference sequence
@@ -139,7 +139,7 @@ publication:
       name_col: Gene Number
       id_columns:
         - column: Gene Number
-          id_type: old_locus_tag
+          id_type: gene_name   # mixed column: 623 old locus tags + 561 symbols (som, groS); symbols must not be Tier 1
         - column: Protein ID
           id_type: uniprot_accession
         - column: NCBI reference sequence

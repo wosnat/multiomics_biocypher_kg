@@ -8,17 +8,17 @@
     "cds_fna_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 2407
+      "unique": 2406
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 210,
+      "multi": 225,
       "unique": 1463
     },
     "gene_synonym": {
       "conflict": 0,
-      "multi": 87,
-      "unique": 8701
+      "multi": 88,
+      "unique": 8700
     },
     "gff_gene_id": {
       "conflict": 0,
@@ -28,7 +28,7 @@
     "locus_tag": {
       "conflict": 0,
       "multi": 0,
-      "unique": 26
+      "unique": 25
     },
     "locus_tag_cyanorak": {
       "conflict": 0,
@@ -43,7 +43,7 @@
     "old_locus_tag": {
       "conflict": 13,
       "multi": 0,
-      "unique": 7029
+      "unique": 6481
     },
     "other": {
       "conflict": 0,
@@ -57,34 +57,35 @@
     },
     "uniprot_accession": {
       "conflict": 0,
-      "multi": 31,
-      "unique": 2333
+      "multi": 15,
+      "unique": 2331
     },
     "uniprot_entry_name": {
       "conflict": 0,
       "multi": 0,
-      "unique": 624
+      "unique": 622
     }
   },
   "runaway_genes": [],
   "strain": "MIT9313",
   "tier1_count_max": 14,
   "tier1_count_median": 9.0,
+  "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
     "Aharonovich 2016/supp_table_2": 1,
     "Aharonovich 2016/supp_table_3": 1,
-    "Biller 2022/s3_mit9313_abundance": 6,
-    "Biller 2022/s4_mit9313_enrichment": 2,
+    "Biller 2022/s3_mit9313_abundance": 17,
+    "Biller 2022/s4_mit9313_enrichment": 3,
     "Capovilla 2023/de_genes_mit9313": 8,
     "Fang 2019/supp_table_2": 237,
-    "MIT9313_resources/mit9313_id_translation": 22,
+    "MIT9313_resources/mit9313_id_translation": 23,
     "Martiny 2006/supp_table_2": 4,
     "Thompson 2011/mit9313_iron_response_clusters": 14,
     "Thompson 2011/supp_table_2": 14,
     "Tolonen 2006/mit9313_kmeans_nstarvation": 1,
     "Tolonen 2006/supp_table_mit9313": 9,
     "Voigt 2014/tss_metrics_mit9313": 34,
-    "cds_from_genomic.fna": 14,
+    "cds_from_genomic.fna": 15,
     "genomic_gca/MIT9313": 182,
     "genomic_gcf/MIT9313": 60
   },

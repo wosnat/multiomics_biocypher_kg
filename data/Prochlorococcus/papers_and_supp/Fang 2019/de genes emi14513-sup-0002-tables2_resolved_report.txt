@@ -4,16 +4,16 @@ name_col: Gene ID
 id_columns: ['Gene ID', 'Gene']
 
 Total rows with IDs: 665
-Resolved: 429 (64.5%)
-Unresolved: 236
+Resolved: 428 (64.4%)
+Unresolved: 237
 
 Resolution method breakdown:
+  ambiguous: 1
   locus_tag:Gene ID: 394
-  tier1:Gene: 1
   tier1:Gene ID: 34
   unresolved: 236
 
-Unresolved rows (236):
+Unresolved rows (237):
   row 74: raw_id='RNA_16'  reason=unresolved  [Gene ID='RNA_16', Gene='tRNA-Val1']
   row 90: raw_id='RNA_1'  reason=unresolved  [Gene ID='RNA_1', Gene='tRNA-Gly1']
   row 91: raw_id='RNA_10'  reason=unresolved  [Gene ID='RNA_10', Gene='tRNA-Ser3']
@@ -34,4 +34,6 @@ Unresolved rows (236):
   row 106: raw_id='RNA_31'  reason=unresolved  [Gene ID='RNA_31', Gene='tRNA-Gln1']
   row 107: raw_id='RNA_32'  reason=unresolved  [Gene ID='RNA_32', Gene='tRNA-Arg4']
   row 108: raw_id='RNA_33'  reason=unresolved  [Gene ID='RNA_33', Gene='tRNA-Cys1']
-  ... (216 more)
+  ... (217 more)
+
+NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

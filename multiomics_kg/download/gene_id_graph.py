@@ -167,6 +167,14 @@ class GeneIdGraph:
         # Per-gene ID collections (for gene_id_mapping.json "genes" section)
         self._genes: dict[str, dict[str, list]] = {}
 
+        # Gene symbols the annotation itself declares (Tier-3 `gene_name`
+        # records added during seeding). A paper column that types one of
+        # these as Tier 1 ("Gene Number: locus_tag" holding rplF) is
+        # contradicted by the annotation, so the token is demoted to Tier 3
+        # instead of being declared gene-unique — see _add_mapping.
+        self.known_gene_names: set[str] = set()
+        self._demoted: set[tuple[str, str]] = set()  # distinct (gene, token) demotions
+
         # Processing statistics
         self._stats: dict[str, Any] = {
             "passes": 0,
@@ -193,6 +201,8 @@ class GeneIdGraph:
         """
         for candidate in normalize_id(id_val, id_type):
             tier = get_id_tier(id_type)
+            if id_type == "gene_name":
+                self.known_gene_names.add(candidate)
             self._add_mapping(locus_tag, candidate, id_type, tier, source)
 
     # ── Paper-source processing ───────────────────────────────────────────────
@@ -330,6 +340,12 @@ class GeneIdGraph:
         if id_val == anchor and tier == 1 and id_type == "locus_tag":
             return False
 
+        if tier == 1 and id_val in self.known_gene_names:
+            # Annotation says this token is a gene symbol; a paper column
+            # cannot make it gene-unique (symbols repeat: tnpB, psbA, petF).
+            self._demoted.add((anchor, id_val))
+            self._add_tier3(anchor, id_val, "gene_name")
+            return False
         if tier == 1:
             return self._add_tier1(anchor, id_val, id_type, source)
         elif tier == 2:
@@ -492,6 +508,7 @@ class GeneIdGraph:
 
         return {
             "per_id_type": dict(type_stats),
+            "tier1_demoted_known_names": len(self._demoted),
             "tier1_count_median": median,
             "tier1_count_max": max(tier1_counts.values()) if tier1_counts else 0,
             "runaway_genes": runaway,

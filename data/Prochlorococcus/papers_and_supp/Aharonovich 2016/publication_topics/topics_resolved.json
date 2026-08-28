@@ -19,11 +19,12 @@
       "gene_records": 35,
       "genes_resolved": 29,
       "gene_methods": {
-        "multi:v": 9,
-        "tier1:v": 10,
+        "multi:v": 11,
         "unresolved": 6,
-        "multi_named:v": 1,
-        "locus_tag:v": 9
+        "tier1_ci:v": 1,
+        "multi_named:v": 2,
+        "locus_tag:v": 9,
+        "tier1:v": 6
       },
       "pathway_records": 10,
       "pathways_resolved": 8,
@@ -80,7 +81,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1260",
       "resolved_from": "psb27",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PsbI",
@@ -104,7 +105,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1706",
       "resolved_from": "hemF",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "menE",
@@ -152,7 +153,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT0449",
       "resolved_from": "clpB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "tier1_ci:v"
     },
     {
       "surface_form": "FtsH3",
@@ -162,9 +163,9 @@
       "evidence": "two proteases including one (FtsH3) predicted to be involved in repair of photosystem 1 proteins (p5, Results)",
       "mention_strain": "Prochlorococcus MIT9313",
       "strain": "Prochlorococcus MIT9313",
-      "locus_tag": "PMT0378",
+      "locus_tag": "PMT0756",
       "resolved_from": "ftsH3",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "recR",

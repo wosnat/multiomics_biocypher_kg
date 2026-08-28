@@ -4,24 +4,35 @@ name_col: Gene Number
 id_columns: ['Gene Number', 'Protein ID', 'NCBI reference sequence', 'Biller et al. 2014 Science paper Table S2 MED4 vesicle detected proteins']
 
 Total rows with IDs: 1141
-Resolved: 1132 (99.2%)
-Unresolved: 9
+Resolved: 1123 (98.4%)
+Unresolved: 18
 
 Resolution method breakdown:
   ambiguous: 1
   empty: 7
   locus_tag:Gene Number: 769
-  multi:Gene Number: 12
-  tier1:Gene Number: 351
-  unresolved: 8
+  multi:Gene Number: 333
+  multi:Protein ID: 8
+  multi_named:Gene Number: 5
+  tier1:Protein ID: 8
+  unresolved: 17
 
-Unresolved rows (9):
+Unresolved rows (18):
   row 19: raw_id='iRT-InternalStandard'  reason=unresolved  [Gene Number='iRT-InternalStandard', Protein ID='Biognosys']
+  row 26: raw_id='rplO1'  reason=unresolved  [Gene Number='rplO1', Protein ID='Q318K1']
   row 29: raw_id='Hi3-InternalStandard'  reason=unresolved  [Gene Number='Hi3-InternalStandard', Protein ID='P63284']
+  row 110: raw_id='dnaK'  reason=ambiguous  [Gene Number='dnaK', Protein ID='Q317T7']
   row 133: raw_id='Randomized'  reason=unresolved  [Gene Number='Randomized', Protein ID='RAND1_Q31BY4_88']
+  row 134: raw_id='groS'  reason=unresolved  [Gene Number='groS', Protein ID='Q318V5']
   row 270: raw_id='rplI2'  reason=unresolved  [Gene Number='rplI2', Protein ID='Q317W9']
-  row 275: raw_id='psbA1'  reason=ambiguous  [Gene Number='psbA1', Protein ID='Q31A92']
+  row 275: raw_id='psbA1'  reason=unresolved  [Gene Number='psbA1', Protein ID='Q31A92']
   row 438: raw_id='panC/cmk'  reason=unresolved  [Gene Number='panC/cmk', Protein ID='Q318F2']
+  row 474: raw_id='thiG1'  reason=unresolved  [Gene Number='thiG1', Protein ID='Q317X8']
+  row 575: raw_id='nadK2'  reason=unresolved  [Gene Number='nadK2', Protein ID='Q319M2']
+  row 607: raw_id='ndhD'  reason=unresolved  [Gene Number='ndhD', Protein ID='Q31D31']
+  row 649: raw_id='nadK1'  reason=unresolved  [Gene Number='nadK1', Protein ID='Q31D25']
+  row 780: raw_id='ispH'  reason=unresolved  [Gene Number='ispH', Protein ID='Q31CR8']
+  row 938: raw_id='thf1'  reason=unresolved  [Gene Number='thf1', Protein ID='Q31BD6']
   row 975: raw_id='Randomized'  reason=unresolved  [Gene Number='Randomized', Protein ID='RAND1_Q31DG1_642']
   row 1058: raw_id='Randomized'  reason=unresolved  [Gene Number='Randomized', Protein ID='RAND1_Q317U1_802']
   row 1079: raw_id='Randomized'  reason=unresolved  [Gene Number='Randomized', Protein ID='RAND1_Q31CE7_218']

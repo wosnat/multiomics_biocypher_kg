@@ -195,8 +195,10 @@ publication:
         id_type: old_locus_tag
       - column: SYMBOL
         id_type: gene_name
-      - column: uniprot_acc
-        id_type: uniprot_accession
+      # uniprot_acc dropped as an id column 2026-08-28: in pro_9312_anot.csv the
+      # column is shifted by one row for 95 of 1,304 genes (PMT9312_1637/rpsH carries
+      # Q318J8 = rplF), which seeded wrong Tier-2 links; the KG's own UniProt join
+      # already covers these genes.
       product_columns:
       - column: PRODUCT
     id_translation_syn_9311:
@@ -208,8 +210,10 @@ publication:
         id_type: locus_tag
       - column: genename
         id_type: gene_name
-      - column: uniprot_acc
-        id_type: uniprot_accession
+      # uniprot_acc dropped as an id column 2026-08-28: in pro_9312_anot.csv the
+      # column is shifted by one row for 95 of 1,304 genes (PMT9312_1637/rpsH carries
+      # Q318J8 = rplF), which seeded wrong Tier-2 links; the KG's own UniProt join
+      # already covers these genes.
       product_columns:
       - column: definition
     id_translation_syn_8102:
@@ -221,8 +225,10 @@ publication:
         id_type: locus_tag
       - column: SYMBOL
         id_type: gene_name
-      - column: uniprot_acc
-        id_type: uniprot_accession
+      # uniprot_acc dropped as an id column 2026-08-28: in pro_9312_anot.csv the
+      # column is shifted by one row for 95 of 1,304 genes (PMT9312_1637/rpsH carries
+      # Q318J8 = rplF), which seeded wrong Tier-2 links; the KG's own UniProt join
+      # already covers these genes.
       product_columns:
       - column: PRODUCT
     annotation_gtf_ez55:

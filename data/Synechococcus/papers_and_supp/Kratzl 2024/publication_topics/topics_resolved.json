@@ -20,11 +20,11 @@
       "genes_resolved": 59,
       "gene_methods": {
         "unresolved": 15,
-        "tier1:v": 44,
-        "multi:v": 5,
-        "tier1_ci:v": 4,
+        "tier1:v": 43,
+        "multi:v": 6,
+        "tier1_ci:v": 3,
         "multi_named:v": 1,
-        "multi_ci:v": 5
+        "multi_ci:v": 6
       },
       "pathway_records": 19,
       "pathways_resolved": 16,
@@ -858,7 +858,7 @@
       "strain": "Synechococcus elongatus PCC 7942",
       "locus_tag": "H6G84_01370",
       "resolved_from": "tpxA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "KatG",
@@ -870,7 +870,7 @@
       "strain": "Synechococcus elongatus PCC 7942",
       "locus_tag": "H6G84_04715",
       "resolved_from": "KatG",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "SodB",

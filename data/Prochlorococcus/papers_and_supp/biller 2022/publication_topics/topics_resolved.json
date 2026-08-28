@@ -16,12 +16,12 @@
     "output_tokens": 1347,
     "resolution": {
       "gene_records": 13,
-      "genes_resolved": 12,
+      "genes_resolved": 11,
       "gene_methods": {
         "locus_tag:v": 4,
-        "tier1:v": 7,
-        "multi:v": 1,
-        "unresolved": 1
+        "tier1:v": 4,
+        "unresolved": 2,
+        "multi:v": 3
       },
       "pathway_records": 0,
       "pathways_resolved": 0,
@@ -34,7 +34,7 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 1
+        "lookup_miss": 2
       }
     }
   },
@@ -89,10 +89,10 @@
       "prominence": "peripheral",
       "evidence": "both MIT9312 and MIT9313 vesicles contained ... chaperones (e.g. DnaK and DnaJ) (p4, Results)",
       "mention_strain": "all",
-      "strain": "Prochlorococcus MIT9312",
-      "locus_tag": "PMT9312_1797",
-      "resolved_from": "dnaK",
-      "resolution_method": "tier1:v"
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "PMT9312_0858",
@@ -132,7 +132,7 @@
       "strain": "Prochlorococcus MIT9312",
       "locus_tag": "PMT9312_0729",
       "resolved_from": "pstB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "UrtA",
@@ -144,7 +144,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT2229",
       "resolved_from": "urtA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "FutA1",

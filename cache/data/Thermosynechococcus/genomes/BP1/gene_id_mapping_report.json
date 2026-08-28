@@ -7,12 +7,12 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 287,
+      "multi": 291,
       "unique": 1386
     },
     "gene_synonym": {
       "conflict": 0,
-      "multi": 24,
+      "multi": 20,
       "unique": 4182
     },
     "gff_gene_id": {
@@ -40,6 +40,7 @@
   "strain": "BP1",
   "tier1_count_max": 3,
   "tier1_count_median": 3.0,
+  "tier1_demoted_known_names": 2328,
   "unresolved_rows_per_source": {
     "Bernstein 2017/bp1_light_clusters": 114,
     "Bernstein 2017/bp1_oxygen_clusters": 114,

@@ -186,3 +186,4 @@ All answered; the R1 answer exposes a KG-side precompute bug:
 
 R2 → the explorer pins the 8 new vocab entries; R4 → reads `Schema_info.paper_count`.
 
+**R6 verified fixed by the explorer on the 2026-08-28 rebuild #2:** `sum(flag_true_count)=8,126`, `sum(flag_false_count)=3,773`, matching the edge counts. Hash unchanged; `kg_release_info` → `ok`.

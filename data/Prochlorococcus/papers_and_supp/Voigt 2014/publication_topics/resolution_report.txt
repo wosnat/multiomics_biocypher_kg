@@ -1,20 +1,21 @@
 Topics resolution report: Voigt 2014
 Strains: ['Prochlorococcus MED4', 'Prochlorococcus MIT9313']
 
-Genes:    64/81 resolved (79.0%)
-  methods: locus_tag:v=4, multi:v=26, tier1:v=34, unresolved=17
+Genes:    63/81 resolved (77.8%)
+  methods: locus_tag:v=4, multi:v=40, tier1:v=15, tier1_ci:v=4, unresolved=18
 Pathways: 6/6 resolved (100.0%)
   methods: id=6
 
 Captured identifiers: 20  (truncated/bare-number: 0)
-Unresolved gene reasons: {'lookup_miss': 16, 'descriptive_only': 1}
+Unresolved gene reasons: {'lookup_miss': 17, 'descriptive_only': 1}
     descriptive_only = function/enzyme phrase, no symbol or id (paper style)
     truncated_id_only = bare locus number, recoverable via strain prefix
     lookup_miss       = had a name/full id but no mapping match
 
-Unresolved gene mentions (17):
+Unresolved gene mentions (18):
   - Yfr1  [lookup_miss]  strain=Prochlorococcus MED4
   - PMM121  [lookup_miss]  strain=Prochlorococcus MED4  ids=['PMM121']
+  - pcbA  [lookup_miss]  strain=all
   - psbEFLJ operon  [descriptive_only]  strain=all
   - Yfr11  [lookup_miss]  strain=Prochlorococcus MED4
   - Yfr16  [lookup_miss]  strain=Prochlorococcus MED4

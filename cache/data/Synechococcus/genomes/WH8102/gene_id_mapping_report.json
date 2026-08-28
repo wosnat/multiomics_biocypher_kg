@@ -1,10 +1,5 @@
 {
   "per_id_type": {
-    "alternative_locus_tag": {
-      "conflict": 0,
-      "multi": 0,
-      "unique": 1
-    },
     "cds_fna_id": {
       "conflict": 0,
       "multi": 0,
@@ -47,14 +42,15 @@
     },
     "uniprot_accession": {
       "conflict": 0,
-      "multi": 4,
-      "unique": 2499
+      "multi": 0,
+      "unique": 1978
     }
   },
   "runaway_genes": [],
   "strain": "WH8102",
   "tier1_count_max": 6,
   "tier1_count_median": 5.0,
+  "tier1_demoted_known_names": 1,
   "unresolved_rows_per_source": {
     "Barreto 2022/id_translation_syn_8102": 72,
     "Barreto 2022/supp_table_S1_WH8102": 7,

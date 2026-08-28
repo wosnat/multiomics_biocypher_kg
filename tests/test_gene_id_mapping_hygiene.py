@@ -188,3 +188,27 @@ def test_load_mapping_v2_builds_named_lookup(tmp_path):
         }}))
     md = load_mapping_v2(tmp_path)
     assert md.named_lookup == {"atpB": ["G1"]}   # singleton rbcL needs no tie-break entry
+
+
+# ── 6. A paper column cannot promote an annotation-known gene symbol to Tier 1 ─
+
+def test_known_gene_name_typed_tier1_by_paper_is_demoted():
+    g = GeneIdGraph()
+    g.add_anchor("G1"); g.add_anchor("G2")
+    g.add_id_for_gene("G1", "rplF", "gene_name", "annotation")       # seeding: rplF is a symbol
+    g.add_id_for_gene("G2", "Q318J8", "uniprot_accession", "annotation")
+    # biller-2022-shaped row: "Gene Number" typed locus_tag holds the symbol,
+    # anchored through the accession onto G2
+    g.process_all_rows([([("rplF", "locus_tag"), ("Q318J8", "uniprot_accession")], "paper/table")])
+    assert "rplF" not in g.specific_lookup                       # never Tier 1
+    assert sorted(g.multi_lookup["rplF"]) == ["G1", "G2"]        # paper claim kept as Tier 3
+    assert not g.conflicts
+    rep = g.build_diagnostic_report()
+    assert rep["tier1_demoted_known_names"] == 1
+
+
+def test_unknown_token_typed_tier1_still_promoted():
+    g = GeneIdGraph()
+    g.add_anchor("G1")
+    g.process_all_rows([([("P9301_05911", "old_locus_tag"), ("G1", "locus_tag")], "paper/table")])
+    assert g.specific_lookup["P9301_05911"] == "G1"
