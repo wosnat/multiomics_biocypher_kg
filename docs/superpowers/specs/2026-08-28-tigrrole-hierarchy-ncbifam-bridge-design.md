@@ -53,11 +53,19 @@ scope** and recorded in `plans/backlog.md`.
 1. **Hierarchy**: `TigrRole` becomes two-level. Existing subrole nodes keep
    their ids (`tigr.role:<id>`) and their compound `name` (non-breaking for
    name consumers); they get `level = 1`, `level_kind = 'tigr_subrole'`. New
-   mainrole nodes `tigr.mainrole:<slug>` (`level = 0`,
+   mainrole nodes `tigr.role:<slug>` (`level = 0`,
    `level_kind = 'tigr_mainrole'`, `name` = mainrole text, `code` = slug) and
    `Tigr_role_is_a_tigr_role` (subrole → mainrole). Cyanorak-only codes whose
    description has no `" / "` (e.g. `856` "Not Found") stay level-0 roots
    with no parent.
+   *CURIE check (2026-08-28):* `tigr.role` is not a bioregistry prefix
+   (`normalize_curie` → `None`; house-minted raw string, same as
+   `cyanorak.role`); the registered `tigrfam` prefix is the family namespace
+   (`^TIGR\d+$`), not roles; and the archive gives mainroles no id of their
+   own. So mainroles reuse the single existing prefix — one prefix per
+   ontology, the CyanorakRole precedent (`cyanorak.role:R` / `R.1`) — rather
+   than minting a second one. No collision: subrole local ids are all-numeric,
+   mainrole slugs alphabetic; `level_kind` is the authoritative discriminator.
 2. **Bridge edge** `Ncbifam_family_has_tigr_role` (NcbifamFamily → TigrRole),
    ~1,720 edges, `TIGR*` only, **no properties** (vocabulary-contract R3/R5:
    the archive is a single frozen source; provenance is documented on the
@@ -119,7 +127,7 @@ scope** and recorded in `plans/backlog.md`.
 - `get_nodes()` emits, for the union of observed Cyanorak codes ∪
   `extra_tigr_roles`: the subrole node (`level 1`, `level_kind
   'tigr_subrole'`, name unchanged) and, from the `" / "` split of the
-  compound name, a deduplicated mainrole node (`tigr.mainrole:<slug>`, `level
+  compound name, a deduplicated mainrole node (`tigr.role:<slug>`, `level
   0`, `level_kind 'tigr_mainrole'`). Codes without `" / "` → level 0,
   `level_kind 'tigr_mainrole'`, no parent.
 - `get_edges()` adds `tigr_role_is_a_tigr_role` (subrole → mainrole).
