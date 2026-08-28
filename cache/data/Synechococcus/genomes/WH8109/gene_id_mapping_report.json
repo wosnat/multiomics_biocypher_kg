@@ -18,7 +18,7 @@
     "gff_gene_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 4910
+      "unique": 4906
     },
     "locus_tag_cyanorak": {
       "conflict": 0,
@@ -26,14 +26,14 @@
       "unique": 2616
     },
     "locus_tag_ncbi": {
-      "conflict": 48,
+      "conflict": 0,
       "multi": 0,
-      "unique": 8060
+      "unique": 2210
     },
     "old_locus_tag": {
       "conflict": 0,
       "multi": 0,
-      "unique": 26
+      "unique": 24
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -41,14 +41,15 @@
       "unique": 4902
     }
   },
+  "runaway_genes": [],
   "strain": "WH8109",
+  "tier1_count_max": 6,
+  "tier1_count_median": 5.0,
   "unresolved_rows_per_source": {
     "Doron 2016/host_de_wh8109": 168,
     "cds_from_genomic.fna": 28,
-    "genomic_gca/WH8109": 168,
-    "genomic_gcf/WH8109": 57
+    "genomic_gca/WH8109": 170,
+    "genomic_gcf/WH8109": 61
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 48 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

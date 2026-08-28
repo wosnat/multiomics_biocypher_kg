@@ -15,12 +15,11 @@
     "input_tokens": 21124,
     "output_tokens": 4273,
     "resolution": {
-      "gene_records": 51,
-      "genes_resolved": 39,
+      "gene_records": 50,
+      "genes_resolved": 37,
       "gene_methods": {
-        "unresolved": 12,
-        "tier1:v": 13,
-        "multi:v": 17,
+        "unresolved": 13,
+        "multi:v": 28,
         "locus_tag:v": 9
       },
       "pathway_records": 11,
@@ -37,7 +36,7 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 2,
+        "lookup_miss": 3,
         "descriptive_only": 10
       }
     }
@@ -65,9 +64,9 @@
       "evidence": "multiple DNA repair enzymes, including the DnaJ chaperone... were transcriptionally depleted in co-culture (p5, Table 2)",
       "mention_strain": "Prochlorococcus NATL2A",
       "strain": "Prochlorococcus NATL2A",
-      "locus_tag": "PMN2A_1344",
-      "resolved_from": "dnaJ",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "deoxyribodipyrimidine photolyase",
@@ -95,7 +94,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_0160",
       "resolved_from": "recG",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "UmuD",
@@ -121,7 +120,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_0016",
       "resolved_from": "clpB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "alkyl hydroperoxide reductase",
@@ -151,7 +150,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_1150",
       "resolved_from": "psaD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PSI subunits",
@@ -188,24 +187,6 @@
       "locus_tag": "PMN2A_1085",
       "resolved_from": "psaI",
       "resolution_method": "multi:v"
-    },
-    {
-      "surface_form": "PSI subunits",
-      "gene_name": "",
-      "identifiers": [
-        "psaD",
-        "psaF",
-        "psaI",
-        "psaJ",
-        "psaL"
-      ],
-      "prominence": "central",
-      "evidence": "notable changes were seen in transcripts encoding components of the photosynthetic apparatus (particularly, an increase in PSI subunits...) (Abstract, p1; Table 2)",
-      "mention_strain": "Prochlorococcus NATL2A",
-      "strain": "Prochlorococcus NATL2A",
-      "locus_tag": "PMN2A_1800",
-      "resolved_from": "psaJ",
-      "resolution_method": "tier1:v"
     },
     {
       "surface_form": "PSI subunits",
@@ -263,9 +244,9 @@
       "evidence": "no significant change in... the expression of transcripts encoding the PSII D1 and D2 proteins (p6)",
       "mention_strain": "Prochlorococcus NATL2A",
       "strain": "Prochlorococcus NATL2A",
-      "locus_tag": "PMN2A_1592",
+      "locus_tag": "PMN2A_0767",
       "resolved_from": "psbA, psbD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "RuBisCO operon regulator",
@@ -405,7 +386,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_1555",
       "resolved_from": "nadC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "NAD biosynthesis enzymes",
@@ -446,7 +427,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_1273",
       "resolved_from": "dnaB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ABC-type transporters",
@@ -523,7 +504,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_1220",
       "resolved_from": "secA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "SecA, SecE",
@@ -538,7 +519,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_1573",
       "resolved_from": "secE",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "outer membrane transporter",
@@ -624,9 +605,9 @@
       "evidence": "encodes the B12-independent MetE methionine synthetase... also encodes the B12-dependent MetH methionine synthetase (p7)",
       "mention_strain": "Alteromonas macleodii MIT1002",
       "strain": "Alteromonas macleodii MIT1002",
-      "locus_tag": "MIT1002_01114",
+      "locus_tag": "MIT1002_02349",
       "resolved_from": "metE, metH",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PhoB transcription factor",
@@ -694,7 +675,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_1690",
       "resolved_from": "nrdR",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "AbrB-family regulator",
@@ -754,7 +735,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_0914",
       "resolved_from": "kaiB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     }
   ],
   "pathways": [

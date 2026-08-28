@@ -31,9 +31,9 @@
       "unique": 2074
     },
     "locus_tag_ncbi": {
-      "conflict": 34,
+      "conflict": 0,
       "multi": 0,
-      "unique": 6474
+      "unique": 1944
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -46,7 +46,10 @@
       "unique": 4026
     }
   },
+  "runaway_genes": [],
   "strain": "MIT0604",
+  "tier1_count_max": 7,
+  "tier1_count_median": 7.0,
   "unresolved_rows_per_source": {
     "Hackl 2023/de_mmc_vs_control_sense": 44,
     "Hackl 2023/de_mmc_vs_uv_sense": 44,
@@ -55,7 +58,5 @@
     "genomic_gca/MIT0604": 42,
     "genomic_gcf/MIT0604": 49
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 34 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

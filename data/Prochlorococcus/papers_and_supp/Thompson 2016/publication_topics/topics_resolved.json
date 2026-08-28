@@ -16,12 +16,12 @@
     "input_tokens": 29615,
     "output_tokens": 2353,
     "resolution": {
-      "gene_records": 28,
-      "genes_resolved": 18,
+      "gene_records": 26,
+      "genes_resolved": 16,
       "gene_methods": {
-        "tier1:v": 14,
+        "multi:v": 15,
         "no_mapping": 6,
-        "multi:v": 4,
+        "multi_named:v": 1,
         "unresolved": 4
       },
       "pathway_records": 4,
@@ -53,7 +53,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0223",
       "resolved_from": "psbA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "talC",
@@ -146,7 +146,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1404",
       "resolved_from": "hli5",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
@@ -165,30 +165,9 @@
       "evidence": "high-light inducible genes (hli5,6,7,11,14,17,19) ... were enriched in light (depleted in dark) much more so in infected than uninfected cells (Results, p8)",
       "mention_strain": "Prochlorococcus MED4",
       "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1399",
+      "locus_tag": "PMM1317",
       "resolved_from": "hli6",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
-      "gene_name": "",
-      "identifiers": [
-        "hli5",
-        "hli6",
-        "hli7",
-        "hli11",
-        "hli14",
-        "hli17",
-        "hli19",
-        "hli22"
-      ],
-      "prominence": "central",
-      "evidence": "high-light inducible genes (hli5,6,7,11,14,17,19) ... were enriched in light (depleted in dark) much more so in infected than uninfected cells (Results, p8)",
-      "mention_strain": "Prochlorococcus MED4",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1398",
-      "resolved_from": "hli7",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
@@ -209,7 +188,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1385",
       "resolved_from": "hli11",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
@@ -230,28 +209,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1135",
       "resolved_from": "hli14",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
-      "gene_name": "",
-      "identifiers": [
-        "hli5",
-        "hli6",
-        "hli7",
-        "hli11",
-        "hli14",
-        "hli17",
-        "hli19",
-        "hli22"
-      ],
-      "prominence": "central",
-      "evidence": "high-light inducible genes (hli5,6,7,11,14,17,19) ... were enriched in light (depleted in dark) much more so in infected than uninfected cells (Results, p8)",
-      "mention_strain": "Prochlorococcus MED4",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0817",
-      "resolved_from": "hli17",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
@@ -272,7 +230,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0815",
       "resolved_from": "hli19",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
@@ -293,7 +251,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0689",
       "resolved_from": "hli22",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "plastoquinol terminal oxidase (PTOX)",
@@ -365,7 +323,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1309",
       "resolved_from": "ftsZ",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ftsK",
@@ -389,7 +347,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1655",
       "resolved_from": "tig",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rpoD",
@@ -401,7 +359,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0496",
       "resolved_from": "rpoD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "amt1",
@@ -413,7 +371,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0263",
       "resolved_from": "amt1",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "gap2",
@@ -425,7 +383,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0023",
       "resolved_from": "gap2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "prkB",

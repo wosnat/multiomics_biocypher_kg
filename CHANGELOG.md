@@ -372,6 +372,12 @@ tag with nothing logged.
   `calls.json` regenerated without derived fields. Artifact refreshes only; the
   schema-side consequences are in `### Added
 
+- Gene-ID resolution: `heuristic_multi:<col>` (heuristic candidates such as `AAV93747` → `.1`
+  now also match Tier-2 singletons), `multi_named:<col>` (an ambiguous symbol resolves to the one
+  gene that carries it as `gene_name` over synonym-only claimants), a `gene-`/`cds-`/`rna-`
+  prefix heuristic, and a `[RUNAWAY]` guard in `gene_id_mapping_report.json`
+  (`tier1_count_median` / `tier1_count_max` / `runaway_genes`).
+
 - First relationship-property indexes: `evidence` + `evidence_score` on the three GO edge types and
   `Gene_has_pfam`, `evidence` on `Gene_has_interpro_entry` (explorer HO-003; the trust filters over the
   >100K-edge types). `sources` stays unindexed (list property).
@@ -635,6 +641,14 @@ tag with nothing logged.
   references must exist before the step-2 merge that consumes them.
 
 ### Fixed
+
+- **Gene-ID mapping: GFF `Name=` symbols are no longer Tier-1 locus tags** (`_gff_name_type`).
+  A shared gene symbol had been declared gene-unique, merging KT2440's 12 `tnpB` IS copies into
+  one gene (40 Tier-1 ids) and MED4's 5S rRNA `rrf` (RNA_41) into `frr`. `Name == gene` → Tier 3,
+  `Name == protein_id` → Tier 2. Across 43 strains: max Tier-1 ids per gene 40 → 14, Tier-1
+  conflicts 2,300 → 114. 85 of 210,247 supp-table rows and 58 of 1,373 narrative mentions that
+  resolved through that accident (multi-copy `psbA`/`pstS`/`petF`/`dnaK`) are now honestly
+  `ambiguous`; he 2022 MED4 gains 6 rows. `plans/gene_id_mapping_hygiene.md`.
 
 - **`Experiment.treatment_type` / `background_factors` are dense again.**
   The adapters emit `[]` for the three characterization experiments

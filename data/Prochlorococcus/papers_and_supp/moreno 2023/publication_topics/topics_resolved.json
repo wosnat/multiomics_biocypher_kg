@@ -21,14 +21,12 @@
     "input_tokens": 32405,
     "output_tokens": 5626,
     "resolution": {
-      "gene_records": 55,
-      "genes_resolved": 46,
+      "gene_records": 52,
+      "genes_resolved": 42,
       "gene_methods": {
-        "multi:v": 14,
-        "tier1:v": 26,
-        "multi_ci:v": 1,
-        "unresolved": 9,
-        "tier1_ci:v": 5
+        "multi:v": 36,
+        "multi_ci:v": 6,
+        "unresolved": 10
       },
       "pathway_records": 10,
       "pathways_resolved": 8,
@@ -49,7 +47,7 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 4,
+        "lookup_miss": 5,
         "descriptive_only": 5
       }
     }
@@ -125,7 +123,7 @@
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "locus_tag": "Pro1065",
       "resolved_from": "glk",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glucokinase",
@@ -137,7 +135,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW1480",
       "resolved_from": "glk",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glucose-6-phosphate isomerase",
@@ -149,7 +147,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW1256",
       "resolved_from": "pgi",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "fructose-1,6-bisphosphate aldolase",
@@ -161,7 +159,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW0791",
       "resolved_from": "fba",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "fructose-1,6-bisphosphatase",
@@ -173,7 +171,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW1116",
       "resolved_from": "fbp",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glucose-6-phosphate dehydrogenase",
@@ -185,7 +183,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW0750",
       "resolved_from": "zwf",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "OpcA protein",
@@ -235,7 +233,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW1115",
       "resolved_from": "rpe",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "transaldolase",
@@ -247,7 +245,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW1759",
       "resolved_from": "tal",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "transketolase",
@@ -271,7 +269,7 @@
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "locus_tag": "Pro0023",
       "resolved_from": "gap2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glyceraldehyde-3-phosphate dehydrogenase gap3",
@@ -283,7 +281,7 @@
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "locus_tag": "Pro1577",
       "resolved_from": "gap3",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "phosphoglycerate mutase",
@@ -307,7 +305,7 @@
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "locus_tag": "Pro0235",
       "resolved_from": "eno",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "pyruvate dehydrogenase a subunit",
@@ -319,7 +317,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW1620",
       "resolved_from": "pdhA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "pyruvate dehydrogenase b subunit",
@@ -331,7 +329,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW1055",
       "resolved_from": "pdhB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "alpha-1,4-glucan phosphorylase",
@@ -355,7 +353,7 @@
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "locus_tag": "Pro1052",
       "resolved_from": "glgA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glycogen branching enzyme",
@@ -367,7 +365,7 @@
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "locus_tag": "Pro1078",
       "resolved_from": "glgB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "phosphoribulokinase",
@@ -379,7 +377,7 @@
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "locus_tag": "Pro0861",
       "resolved_from": "prk",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "RubisCO large subunit",
@@ -498,7 +496,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW0549",
       "resolved_from": "kaiB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "KaiC",
@@ -510,7 +508,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW0550",
       "resolved_from": "kaiC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "signal recognition particle protein",
@@ -534,9 +532,9 @@
       "evidence": "phosphate-binding protein PstS ... showed a strong increase in abundance (almost 15-fold in the SS120) under darkness (Results, p11)",
       "mention_strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
-      "locus_tag": "Pro1533",
-      "resolved_from": "pstS",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "phosphate import ATP-binding protein PstB",
@@ -548,7 +546,7 @@
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "locus_tag": "Pro0596",
       "resolved_from": "pstB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "phosphate starvation-inducible protein PhoH",
@@ -560,7 +558,7 @@
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "locus_tag": "Pro1358",
       "resolved_from": "phoH",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glucose transporter (GlcH)",
@@ -596,7 +594,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0223",
       "resolved_from": "psbA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "KaiB and KaiC",
@@ -608,7 +606,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1343",
       "resolved_from": "KaiB and KaiC",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "KaiB and KaiC",
@@ -620,7 +618,7 @@
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "locus_tag": "Pro1424",
       "resolved_from": "KaiB and KaiC",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "KaiB and KaiC",
@@ -632,7 +630,7 @@
       "strain": "Synechococcus WH7803",
       "locus_tag": "SynWH7803_1965",
       "resolved_from": "KaiB and KaiC",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "KaiB and KaiC",
@@ -644,7 +642,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW0549",
       "resolved_from": "KaiB and KaiC",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "KaiB and KaiC",
@@ -656,7 +654,7 @@
       "strain": "Synechococcus sp. BL107",
       "locus_tag": "BL107_16385",
       "resolved_from": "KaiB and KaiC",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "kai genes",
@@ -680,43 +678,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0710",
       "resolved_from": "pstS",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "PstS",
-      "gene_name": "pstS",
-      "identifiers": [],
-      "prominence": "peripheral",
-      "evidence": "we were very surprised to see the strong increase in the concentration of PstS in all strains but BL107. (Results, p19)",
-      "mention_strain": "all",
-      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
-      "locus_tag": "Pro1533",
-      "resolved_from": "pstS",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "PstS",
-      "gene_name": "pstS",
-      "identifiers": [],
-      "prominence": "peripheral",
-      "evidence": "we were very surprised to see the strong increase in the concentration of PstS in all strains but BL107. (Results, p19)",
-      "mention_strain": "all",
-      "strain": "Synechococcus WH8102",
-      "locus_tag": "SYNW1018",
-      "resolved_from": "pstS",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "PstS",
-      "gene_name": "pstS",
-      "identifiers": [],
-      "prominence": "peripheral",
-      "evidence": "we were very surprised to see the strong increase in the concentration of PstS in all strains but BL107. (Results, p19)",
-      "mention_strain": "all",
-      "strain": "Synechococcus sp. BL107",
-      "locus_tag": "BL107_12275",
-      "resolved_from": "pstS",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PstS",

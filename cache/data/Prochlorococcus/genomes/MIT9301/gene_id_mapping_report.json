@@ -31,14 +31,14 @@
       "unique": 1910
     },
     "locus_tag_ncbi": {
-      "conflict": 23,
+      "conflict": 0,
       "multi": 0,
-      "unique": 6447
+      "unique": 1830
     },
     "old_locus_tag": {
-      "conflict": 2,
+      "conflict": 13,
       "multi": 0,
-      "unique": 904
+      "unique": 1635
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -56,7 +56,10 @@
       "unique": 3684
     }
   },
+  "runaway_genes": [],
   "strain": "MIT9301",
+  "tier1_count_max": 11,
+  "tier1_count_median": 8.0,
   "unresolved_rows_per_source": {
     "Anjur-Dietrich 2025/annotation_genome_9301": 52,
     "Anjur-Dietrich 2025/annotation_gff_mit9301": 49,
@@ -66,7 +69,6 @@
     "genomic_gcf/MIT9301": 47
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 23 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 2 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 13 data conflicts \u2014 check annotation quality."
   ]
 }

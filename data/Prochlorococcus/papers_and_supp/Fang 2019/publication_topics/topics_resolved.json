@@ -19,7 +19,8 @@
       "genes_resolved": 13,
       "gene_methods": {
         "unresolved": 2,
-        "tier1:v": 10,
+        "tier1:v": 6,
+        "multi:v": 4,
         "locus_tag:v": 3
       },
       "pathway_records": 4,
@@ -137,7 +138,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT2228",
       "resolved_from": "urtB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PMT0894",
@@ -193,7 +194,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1044",
       "resolved_from": "proP",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ndhA",
@@ -207,7 +208,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT2020",
       "resolved_from": "ndhA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "sdhB",
@@ -221,7 +222,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT0133",
       "resolved_from": "sdhB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "gap2",

@@ -171,20 +171,6 @@ Section references below are into that plan file, which holds the full designs.
       two specs together.
       → `plans/geo_paperconfig_updates.md` Tier 3 + D5
 
-- [ ] **B1 regression check.** Guard in `build_gene_id_mapping` (or its report
-      tests) that no gene accumulates more than ~3× the median tier-1 id count —
-      proposed with the B1 fix (`a84db12b`) but not in the commit.
-      → `plans/geo_paperconfig_updates.md` Blocker B1
-
-- [ ] **Runaway-mapping residual: KT2440 `M8001_03425` (40 tier-1 ids).**
-      Re-check done 2026-08-28: all three `gene_id_mapping.json` files were in
-      fact rebuilt by the B1 fix commit (`a84db12b`), not before it. W3-18-1
-      (median 6 / max 7) and PCC7002 (6 / 8) are clean; KT2440 (median 9) has
-      one gene at 40 tier-1 ids — >4× the median, the shape the B1 guard above
-      would catch. Inspect which paper's `id_columns` feeds it before the next
-      KT2440 paper touch.
-      → `plans/geo_paperconfig_updates.md` Blocker B1 consequences
-
 ### Post-review additions (2026-08-19 subagent review of all wired paperconfigs)
 
 - [ ] **Voigt 2014 — Table S7 conserved-TSS ortholog comparison.** Per
@@ -204,17 +190,6 @@ Section references below are into that plan file, which holds the full designs.
 - [ ] **Johnson 2026b — `media-7` per-iModulon enrichment tables** (GO / COG /
       KEGG-Module / KEGG-Pathway per module). Not independently wired-worthy —
       should feed the §2.1C cluster `functional_description`s when 2.1C lands.
-- [ ] **he 2022 — recover ~6 MED4 genes via a strip-`gene-` heuristic.** GEO
-      GeneID values are `gene-<tag>`; 6 protein-coding rows
-      (gene-PMM0220/0236/0950/1858/2002/2065) fail only because no resolution
-      pass strips the `gene-` prefix before the multi-singleton lookup
-      (`_heuristic_candidates` in `gene_id_utils.py`). ~0.3% gain; rerun
-      step 4 for the paper after.
-- [ ] **MED4 mapping quirk — `RNA_41`/`gene-RNA_41` absorbed into PMM0521
-      (frr).** Likely a frr/rrf 5S-rRNA name collision during the GCA/GCF
-      harvest; produces one spurious duplicate resolution in he 2022 (benign:
-      not_significant edge). Fix in the mapping builder, not per-paper.
-
 ## Explorer / MCP coordination
 
 - [ ] **File an upstream Bioregistry new-prefix request for `ncbifam`.**

@@ -21,9 +21,9 @@
       "unique": 8233
     },
     "locus_tag_ncbi": {
-      "conflict": 61,
+      "conflict": 0,
       "multi": 0,
-      "unique": 13240
+      "unique": 4097
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -41,7 +41,10 @@
       "unique": 1274
     }
   },
+  "runaway_genes": [],
   "strain": "EZ55",
+  "tier1_count_max": 8,
+  "tier1_count_median": 5.0,
   "unresolved_rows_per_source": {
     "Barreto 2022/supp_table_S10": 20,
     "Barreto 2022/supp_table_S11": 5,
@@ -61,7 +64,5 @@
     "genomic_gca/EZ55": 367,
     "genomic_gcf/EZ55": 107
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 61 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

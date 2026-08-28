@@ -17,11 +17,12 @@
     "output_tokens": 1690,
     "resolution": {
       "gene_records": 19,
-      "genes_resolved": 14,
+      "genes_resolved": 12,
       "gene_methods": {
         "no_mapping": 5,
-        "tier1:v": 12,
-        "multi:v": 2
+        "tier1:v": 6,
+        "multi:v": 6,
+        "unresolved": 2
       },
       "pathway_records": 7,
       "pathways_resolved": 5,
@@ -37,7 +38,7 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 5
+        "lookup_miss": 7
       }
     }
   },
@@ -196,7 +197,7 @@
       "strain": "Synechococcus WH7803",
       "locus_tag": "SynWH7803_2060",
       "resolved_from": "rpoC2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rpoD",
@@ -205,10 +206,10 @@
       "prominence": "peripheral",
       "evidence": "such as those involved in transcription rpoC2, rpoD ... were not upregulated (Results, p8)",
       "mention_strain": "unspecified",
-      "strain": "Synechococcus WH7803",
-      "locus_tag": "SynWH7803_0153",
-      "resolved_from": "rpoD",
-      "resolution_method": "tier1:v"
+      "strain": "unspecified",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "rne",
@@ -232,7 +233,7 @@
       "strain": "Synechococcus WH7803",
       "locus_tag": "SynWH7803_0373",
       "resolved_from": "rnhB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "dus",
@@ -244,7 +245,7 @@
       "strain": "Synechococcus WH7803",
       "locus_tag": "SynWH7803_0564",
       "resolved_from": "dus",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "sun",
@@ -265,10 +266,10 @@
       "prominence": "peripheral",
       "evidence": "protein turnover clpS (Results, p8)",
       "mention_strain": "unspecified",
-      "strain": "Synechococcus WH7803",
-      "locus_tag": "SynWH7803_0369",
-      "resolved_from": "clpS",
-      "resolution_method": "tier1:v"
+      "strain": "unspecified",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "phoH",
@@ -280,7 +281,7 @@
       "strain": "Synechococcus WH7803",
       "locus_tag": "SynWH7803_1729",
       "resolved_from": "phoH",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     }
   ],
   "pathways": [

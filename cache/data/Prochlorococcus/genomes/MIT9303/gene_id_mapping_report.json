@@ -26,9 +26,9 @@
       "unique": 2983
     },
     "locus_tag_ncbi": {
-      "conflict": 23,
+      "conflict": 0,
       "multi": 0,
-      "unique": 8934
+      "unique": 2465
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -51,14 +51,15 @@
       "unique": 1627
     }
   },
+  "runaway_genes": [],
   "strain": "MIT9303",
+  "tier1_count_max": 5,
+  "tier1_count_median": 5.0,
   "unresolved_rows_per_source": {
     "Capovilla 2023/de_genes_mit9303": 11,
     "cds_from_genomic.fna": 48,
     "genomic_gca/MIT9303": 104,
     "genomic_gcf/MIT9303": 65
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 23 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

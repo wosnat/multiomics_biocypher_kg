@@ -18,10 +18,10 @@
       "gene_records": 17,
       "genes_resolved": 15,
       "gene_methods": {
-        "tier1:v": 6,
+        "multi:v": 10,
         "unresolved": 2,
-        "multi:v": 5,
-        "locus_tag:v": 4
+        "locus_tag:v": 4,
+        "tier1:v": 1
       },
       "pathway_records": 9,
       "pathways_resolved": 6,
@@ -52,7 +52,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_0914",
       "resolved_from": "kaiB, kaiC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "KaiA",
@@ -114,7 +114,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_0969",
       "resolved_from": "groES, clpB, dnaJ",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "CCRG-1 (NATL2_11351)",
@@ -140,7 +140,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_1133",
       "resolved_from": "recA, ruvB, mutS, radA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psbA, psbB, psaA, psaB",
@@ -150,9 +150,9 @@
       "evidence": "many of the increases in transcript abundance for photosystem subunits (e.g., psbA, psbB, psaA, and psaB) seen in the axenic cultures did not occur in the cocultures (Table 2 and Table S3) (p9)",
       "mention_strain": "Prochlorococcus NATL2A",
       "strain": "Prochlorococcus NATL2A",
-      "locus_tag": "PMN2A_1592",
+      "locus_tag": "PMN2A_1692",
       "resolved_from": "psbA, psbB, psaA, psaB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "Eda (2-keto-3-deoxygluconate-6-phosphate aldolase)",
@@ -188,7 +188,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_1735",
       "resolved_from": "hpf",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "Pro1404 transporter",

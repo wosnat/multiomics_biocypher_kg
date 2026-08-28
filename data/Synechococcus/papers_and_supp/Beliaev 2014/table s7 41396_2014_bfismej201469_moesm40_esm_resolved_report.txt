@@ -4,16 +4,16 @@ name_col:  Locus tag
 id_columns: [' Locus tag', 'Gene abbreviation']
 
 Total rows with IDs: 701
-Resolved: 674 (96.1%)
-Unresolved: 27
+Resolved: 673 (96.0%)
+Unresolved: 28
 
 Resolution method breakdown:
+  ambiguous: 1
   empty: 1
   locus_tag: Locus tag: 673
-  tier1: Locus tag: 1
   unresolved: 27
 
-Unresolved rows (27):
+Unresolved rows (28):
   row 246: raw_id='SYNPCC7002_A0262'  reason=unresolved  [ Locus tag='SYNPCC7002_A0262', Gene abbreviation='lipB']
   row 381: raw_id='SYNPCC7002_A0471'  reason=unresolved  [ Locus tag='SYNPCC7002_A0471']
   row 385: raw_id='SYNPCC7002_F0109'  reason=unresolved  [ Locus tag='SYNPCC7002_F0109']
@@ -34,4 +34,6 @@ Unresolved rows (27):
   row 507: raw_id='SYNPCC7002_A2725'  reason=unresolved  [ Locus tag='SYNPCC7002_A2725']
   row 561: raw_id='SYNPCC7002_A2007'  reason=unresolved  [ Locus tag='SYNPCC7002_A2007']
   row 583: raw_id='SYNPCC7002_E0017'  reason=unresolved  [ Locus tag='SYNPCC7002_E0017']
-  ... (7 more)
+  ... (8 more)
+
+NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

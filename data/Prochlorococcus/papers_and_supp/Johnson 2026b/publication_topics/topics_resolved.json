@@ -16,14 +16,13 @@
     "output_tokens": 10151,
     "resolution": {
       "gene_records": 108,
-      "genes_resolved": 82,
+      "genes_resolved": 79,
       "gene_methods": {
-        "tier1:v": 47,
-        "unresolved": 26,
+        "multi_named:v": 2,
+        "multi:v": 57,
+        "unresolved": 29,
         "locus_tag:v": 15,
-        "multi:v": 15,
-        "multi_ci:v": 3,
-        "tier1_ci:v": 2
+        "multi_ci:v": 5
       },
       "pathway_records": 16,
       "pathways_resolved": 11,
@@ -39,7 +38,7 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 26
+        "lookup_miss": 29
       }
     }
   },
@@ -54,7 +53,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0134",
       "resolved_from": "rpaB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "RpaA",
@@ -66,7 +65,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0128",
       "resolved_from": "rpaA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PhoB",
@@ -78,7 +77,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0705",
       "resolved_from": "phoB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "NtcA",
@@ -90,7 +89,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0246",
       "resolved_from": "ntcA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "RbcR",
@@ -102,7 +101,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0147",
       "resolved_from": "rbcR",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "Rre1",
@@ -126,7 +125,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1262",
       "resolved_from": "lexA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaC",
@@ -138,7 +137,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1607",
       "resolved_from": "psaC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaA",
@@ -150,7 +149,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1524",
       "resolved_from": "psaA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaJ",
@@ -162,7 +161,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0468",
       "resolved_from": "psaJ",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaK",
@@ -174,7 +173,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0906",
       "resolved_from": "psaK",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psbO",
@@ -186,7 +185,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0228",
       "resolved_from": "psbO",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaF",
@@ -198,7 +197,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0469",
       "resolved_from": "psaF",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaD",
@@ -210,7 +209,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1578",
       "resolved_from": "psaD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ftsH3",
@@ -220,9 +219,9 @@
       "evidence": "RpaB ROS ... BBH gene names (MED4) ftsH3, psbD2, hepB, PMM0921, PMM0680 (Table 2)",
       "mention_strain": "Prochlorococcus MED4",
       "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1264",
+      "locus_tag": "PMM0854",
       "resolved_from": "ftsH3",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "psbD2",
@@ -296,9 +295,9 @@
       "evidence": "HLI ... BBH gene names (MED4) rpoD3, hli17 (Table 2)",
       "mention_strain": "Prochlorococcus MED4",
       "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0817",
-      "resolved_from": "hli17",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "pntA1",
@@ -322,7 +321,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1074",
       "resolved_from": "zwf",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "gndA",
@@ -334,7 +333,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0770",
       "resolved_from": "gndA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rpoD6",
@@ -358,7 +357,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0519",
       "resolved_from": "tal",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "opcA",
@@ -382,7 +381,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1145",
       "resolved_from": "pntB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glgP",
@@ -420,7 +419,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0446",
       "resolved_from": "ctaC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ctaB",
@@ -432,7 +431,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0448",
       "resolved_from": "ctaB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ctaE",
@@ -444,7 +443,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0444",
       "resolved_from": "ctaE",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ctaA",
@@ -468,7 +467,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0445",
       "resolved_from": "ctaD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "cynB",
@@ -504,7 +503,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0373",
       "resolved_from": "cynS",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "cynD",
@@ -528,7 +527,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0920",
       "resolved_from": "glnA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glnB",
@@ -540,7 +539,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1463",
       "resolved_from": "glnB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "groES",
@@ -552,7 +551,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1437",
       "resolved_from": "groES",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "dnaK2",
@@ -562,9 +561,9 @@
       "evidence": "Rre1 ... BBH gene names (MED4) groES, dnaK2, groEL1, htpG (Table 2)",
       "mention_strain": "Prochlorococcus MED4",
       "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1704",
-      "resolved_from": "dnaK2",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "groEL1",
@@ -588,7 +587,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0901",
       "resolved_from": "htpG",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "pstC",
@@ -600,7 +599,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0723",
       "resolved_from": "pstC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ptrA",
@@ -660,7 +659,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0711",
       "resolved_from": "chrA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "csoS1",
@@ -672,7 +671,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0549",
       "resolved_from": "csoS1",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "csoS2",
@@ -684,7 +683,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0552",
       "resolved_from": "csoS2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "csoS3",
@@ -696,7 +695,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0553",
       "resolved_from": "csoS3",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "cbbS",
@@ -708,7 +707,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0551",
       "resolved_from": "cbbS",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "cbbL",
@@ -720,7 +719,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0550",
       "resolved_from": "cbbL",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "nrtABCDS",
@@ -756,7 +755,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1435",
       "resolved_from": "secG",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "tatA",
@@ -854,9 +853,9 @@
       "evidence": "the MED4 iModulon additionally captures ... NDH1 subunit (ndhD) (Results 2.6, lines 276-277)",
       "mention_strain": "Prochlorococcus MED4",
       "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0150",
-      "resolved_from": "ndhD",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "ftsZ",
@@ -868,7 +867,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1309",
       "resolved_from": "ftsZ",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "minD",
@@ -880,7 +879,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0321",
       "resolved_from": "minD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PMM1176",
@@ -946,7 +945,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0844",
       "resolved_from": "acsF",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "chlLNP",
@@ -970,7 +969,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0633",
       "resolved_from": "crtL2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psbIMN",
@@ -1034,7 +1033,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0618",
       "resolved_from": "sds",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "zds",
@@ -1046,7 +1045,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0115",
       "resolved_from": "zds",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "pds",
@@ -1058,7 +1057,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0144",
       "resolved_from": "pds",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PMM0280",
@@ -1120,7 +1119,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0295",
       "resolved_from": "rub",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ftsH2",
@@ -1186,7 +1185,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0549",
       "resolved_from": "csoS1,2,4",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rbcLS",
@@ -1344,7 +1343,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0147",
       "resolved_from": "RbcR",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "LexA",
@@ -1356,7 +1355,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1262",
       "resolved_from": "LexA",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "SphR",

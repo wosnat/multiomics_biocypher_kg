@@ -31,6 +31,7 @@ Algorithm
 
 from __future__ import annotations
 
+import statistics
 from collections import defaultdict
 from typing import Any
 
@@ -99,6 +100,14 @@ _PLACEHOLDER_IDS = frozenset({
 # "P9313_15331 (PMT1212)") but tops out at a handful of tokens. Anything wordier
 # is prose, not an identifier: skip both the raw value and its tokens.
 _MAX_COMPOUND_TOKENS = 4
+
+
+# Runaway-gene guard: flag genes whose Tier-1 id count exceeds
+# max(RUNAWAY_TIER1_FACTOR * median, RUNAWAY_TIER1_MIN). Real genes top out at
+# ~1.5-2x the median (a few extra xrefs); 3x with a floor of 12 has flagged
+# only the known merges (PMM0236 at 273, M8001_03425 at 40).
+RUNAWAY_TIER1_FACTOR = 3
+RUNAWAY_TIER1_MIN = 12
 
 
 def is_placeholder_id(id_val: str) -> bool:
@@ -439,8 +448,29 @@ class GeneIdGraph:
                 else:
                     type_stats[t]["unique"] += 1
 
+        # Runaway-gene guard (B1 consequence, 2026-08-28): a gene that has
+        # accumulated far more Tier-1 ids than its neighbours has almost always
+        # absorbed other genes through a junk or non-unique token ("--",
+        # a shared gene symbol typed as a locus tag). Report-only.
+        tier1_counts = {lt: len(g.get("tier1_ids", [])) for lt, g in self._genes.items()}
+        runaway: list[dict] = []
+        median = 0.0
+        if tier1_counts:
+            median = float(statistics.median(tier1_counts.values()))
+            limit = max(RUNAWAY_TIER1_FACTOR * median, RUNAWAY_TIER1_MIN)
+            for lt, n in sorted(tier1_counts.items(), key=lambda kv: -kv[1]):
+                if n > limit:
+                    runaway.append({"locus_tag": lt, "tier1_count": n})
+
         # Add reclassification warnings
         warnings = []
+        if runaway:
+            top = ", ".join(f"{r['locus_tag']} ({r['tier1_count']})" for r in runaway[:5])
+            warnings.append(
+                f"[RUNAWAY] {len(runaway)} gene(s) hold more than "
+                f"{RUNAWAY_TIER1_FACTOR}x the median Tier 1 id count "
+                f"(median {median:g}): {top} — a junk or shared token is merging genes."
+            )
         for id_type, stats in type_stats.items():
             total = stats["unique"] + stats["multi"] + stats["conflict"]
             if total == 0:
@@ -462,6 +492,9 @@ class GeneIdGraph:
 
         return {
             "per_id_type": dict(type_stats),
+            "tier1_count_median": median,
+            "tier1_count_max": max(tier1_counts.values()) if tier1_counts else 0,
+            "runaway_genes": runaway,
             "warnings": warnings,
             "unresolved_rows_per_source": dict(self._stats["unresolved_rows_per_source"]),
         }

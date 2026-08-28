@@ -4,21 +4,37 @@ name_col: Accession
 id_columns: ['extracted_gn', 'Accession']
 
 Total rows with IDs: 408
-Resolved: 402 (98.5%)
-Unresolved: 6
+Resolved: 367 (90.0%)
+Unresolved: 41
 
 Resolution method breakdown:
-  ambiguous: 1
-  multi:extracted_gn: 14
-  tier1:extracted_gn: 388
+  ambiguous: 36
+  multi:extracted_gn: 206
+  multi_named:extracted_gn: 16
+  tier1:extracted_gn: 145
   unresolved: 5
 
-Unresolved rows (6):
+Unresolved rows (41):
+  row 1: raw_id='1::PSBF_PROMA'  reason=ambiguous  [extracted_gn='psbF', Accession='1::PSBF_PROMA']
+  row 16: raw_id='1::Q7VA90_PROMA'  reason=ambiguous  [extracted_gn='pstS', Accession='1::Q7VA90_PROMA']
+  row 22: raw_id='1::Q7VE04_PROMA'  reason=ambiguous  [extracted_gn='hisC', Accession='1::Q7VE04_PROMA']
   row 27: raw_id='1::CCMK_PROMA'  reason=unresolved  [extracted_gn='ccmK', Accession='1::CCMK_PROMA']
+  row 33: raw_id='1::Q7VBU9_PROMA'  reason=ambiguous  [extracted_gn='petF', Accession='1::Q7VBU9_PROMA']
+  row 38: raw_id='1::Q7VC00_PROMA'  reason=ambiguous  [extracted_gn='ppiB', Accession='1::Q7VC00_PROMA']
+  row 44: raw_id='1::Q7VDX6_PROMA'  reason=ambiguous  [extracted_gn='trxB', Accession='1::Q7VDX6_PROMA']
+  row 74: raw_id='1::Q7VDG5_PROMA'  reason=ambiguous  [extracted_gn='trxA', Accession='1::Q7VDG5_PROMA']
+  row 80: raw_id='1::Q7VE70_PROMA'  reason=ambiguous  [extracted_gn='cysK', Accession='1::Q7VE70_PROMA']
+  row 93: raw_id='1::TRPD_PROMA'  reason=ambiguous  [extracted_gn='trpD', Accession='1::TRPD_PROMA']
+  row 109: raw_id='1::Q7VA15_PROMA'  reason=ambiguous  [extracted_gn='clpS', Accession='1::Q7VA15_PROMA']
+  row 115: raw_id='1::Q7VAG1_PROMA'  reason=ambiguous  [extracted_gn='fur', Accession='1::Q7VAG1_PROMA']
+  row 132: raw_id='1::PURL_PROMA'  reason=ambiguous  [extracted_gn='purL', Accession='1::PURL_PROMA']
+  row 152: raw_id='1::PNP_PROMA'  reason=ambiguous  [extracted_gn='pnp', Accession='1::PNP_PROMA']
+  row 153: raw_id='1::Q7VDM5_PROMA'  reason=ambiguous  [extracted_gn='rpsA', Accession='1::Q7VDM5_PROMA']
+  row 166: raw_id='1::Q7VDC8_PROMA'  reason=ambiguous  [extracted_gn='fabG', Accession='1::Q7VDC8_PROMA']
   row 174: raw_id='1::ISPH_PROMA'  reason=unresolved  [extracted_gn='ispH', Accession='1::ISPH_PROMA']
+  row 184: raw_id='1::Q7VEC0_PROMA'  reason=ambiguous  [extracted_gn='ccp', Accession='1::Q7VEC0_PROMA']
   row 196: raw_id='1::THF1_PROMA'  reason=unresolved  [extracted_gn='thf1', Accession='1::THF1_PROMA']
-  row 243: raw_id='1::DNAK2_PROMA'  reason=ambiguous  [extracted_gn='dnaK2', Accession='1::DNAK2_PROMA']
-  row 264: raw_id='1::KPRS_PROMA'  reason=unresolved  [extracted_gn='prs', Accession='1::KPRS_PROMA']
-  row 364: raw_id='1::NADK1_PROMA'  reason=unresolved  [extracted_gn='nadK1', Accession='1::NADK1_PROMA']
+  row 199: raw_id='1::Q7VC40_PROMA'  reason=ambiguous  [extracted_gn='folP', Accession='1::Q7VC40_PROMA']
+  ... (21 more)
 
-NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.
+NOTE: 36 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

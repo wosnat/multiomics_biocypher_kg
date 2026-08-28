@@ -1,19 +1,20 @@
 Topics resolution report: Biller 2016
 Strains: ['Prochlorococcus NATL2A', 'Alteromonas macleodii MIT1002']
 
-Genes:    39/51 resolved (76.5%)
-  methods: locus_tag:v=9, multi:v=17, tier1:v=13, unresolved=12
+Genes:    37/50 resolved (74.0%)
+  methods: locus_tag:v=9, multi:v=28, unresolved=13
 Pathways: 1/11 resolved (9.1%)
   methods: id=1, unresolved=10
 
 Captured identifiers: 31  (truncated/bare-number: 0)
-Unresolved gene reasons: {'lookup_miss': 2, 'descriptive_only': 10}
+Unresolved gene reasons: {'lookup_miss': 3, 'descriptive_only': 10}
     descriptive_only = function/enzyme phrase, no symbol or id (paper style)
     truncated_id_only = bare locus number, recoverable via strain prefix
     lookup_miss       = had a name/full id but no mapping match
 
-Unresolved gene mentions (12):
+Unresolved gene mentions (13):
   - hli  [lookup_miss]  strain=Prochlorococcus NATL2A
+  - dnaJ  [lookup_miss]  strain=Prochlorococcus NATL2A  ids=['dnaJ']
   - alkyl hydroperoxide reductase  [descriptive_only]  strain=Prochlorococcus NATL2A
   - RuBisCO subunits  [descriptive_only]  strain=Prochlorococcus NATL2A
   - NAD(P)H-quinone oxidoreductase  [descriptive_only]  strain=Prochlorococcus NATL2A

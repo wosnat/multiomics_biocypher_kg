@@ -20,10 +20,11 @@
       "genes_resolved": 59,
       "gene_methods": {
         "unresolved": 15,
-        "tier1:v": 46,
-        "multi:v": 4,
-        "tier1_ci:v": 7,
-        "multi_ci:v": 2
+        "tier1:v": 44,
+        "multi:v": 5,
+        "tier1_ci:v": 4,
+        "multi_named:v": 1,
+        "multi_ci:v": 5
       },
       "pathway_records": 19,
       "pathways_resolved": 16,
@@ -287,7 +288,7 @@
       "strain": "Pseudomonas putida KT2440",
       "locus_tag": "M8001_00700",
       "resolved_from": "gltP",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "gltK",
@@ -309,9 +310,9 @@
       "evidence": "genes encoding proteins connected to the transport of other amino acids derivatives, such as putrescine or spermidine (potA ATB-binding... up-regulated. (p10)",
       "mention_strain": "Pseudomonas putida KT2440",
       "strain": "Pseudomonas putida KT2440",
-      "locus_tag": "M8001_27165",
+      "locus_tag": "M8001_02175",
       "resolved_from": "potA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "PP_0412",
@@ -409,7 +410,7 @@
       "strain": "Pseudomonas putida KT2440",
       "locus_tag": "M8001_26505",
       "resolved_from": "NtrC",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "Synpcc7942_0197",
@@ -607,7 +608,7 @@
       "strain": "Pseudomonas putida KT2440",
       "locus_tag": "M8001_16585",
       "resolved_from": "BenR",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "PP_0738 to PP_0742",
@@ -779,7 +780,7 @@
       "strain": "Pseudomonas putida KT2440",
       "locus_tag": "M8001_19165",
       "resolved_from": "KatG",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "SoxR",

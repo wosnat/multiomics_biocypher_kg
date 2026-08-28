@@ -17,7 +17,7 @@
       "gene_records": 15,
       "genes_resolved": 14,
       "gene_methods": {
-        "tier1:v": 10,
+        "multi:v": 10,
         "unresolved": 1,
         "locus_tag:v": 4
       },
@@ -48,7 +48,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0246",
       "resolved_from": "ntcA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glnA",
@@ -60,7 +60,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0920",
       "resolved_from": "glnA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ureA-C",
@@ -76,7 +76,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0965",
       "resolved_from": "ureA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ureA-C",
@@ -92,7 +92,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0964",
       "resolved_from": "ureB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ureA-C",
@@ -108,7 +108,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0963",
       "resolved_from": "ureC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "urtA-E",
@@ -126,7 +126,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0970",
       "resolved_from": "urtA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "urtA-E",
@@ -144,7 +144,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0971",
       "resolved_from": "urtB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "urtA-E",
@@ -162,7 +162,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0972",
       "resolved_from": "urtC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "urtA-E",
@@ -180,7 +180,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0973",
       "resolved_from": "urtD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "urtA-E",
@@ -198,7 +198,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0974",
       "resolved_from": "urtE",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "Hli10",

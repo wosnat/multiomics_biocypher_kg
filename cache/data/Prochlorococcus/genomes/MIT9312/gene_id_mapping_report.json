@@ -8,7 +8,7 @@
     "annotation_specific": {
       "conflict": 0,
       "multi": 0,
-      "unique": 1960
+      "unique": 1959
     },
     "cds_fna_id": {
       "conflict": 0,
@@ -17,8 +17,8 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 89,
-      "unique": 1114
+      "multi": 111,
+      "unique": 1103
     },
     "gene_synonym": {
       "conflict": 0,
@@ -33,7 +33,7 @@
     "locus_tag": {
       "conflict": 0,
       "multi": 0,
-      "unique": 86
+      "unique": 345
     },
     "locus_tag_cyanorak": {
       "conflict": 0,
@@ -41,9 +41,9 @@
       "unique": 1962
     },
     "locus_tag_ncbi": {
-      "conflict": 16,
+      "conflict": 0,
       "multi": 0,
-      "unique": 6199
+      "unique": 1873
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -53,32 +53,33 @@
     "protein_id_refseq": {
       "conflict": 0,
       "multi": 7,
-      "unique": 3924
+      "unique": 3922
     },
     "uniprot_accession": {
       "conflict": 0,
-      "multi": 273,
-      "unique": 1753
+      "multi": 211,
+      "unique": 1778
     },
     "uniprot_entry_name": {
       "conflict": 0,
       "multi": 0,
-      "unique": 376
+      "unique": 388
     }
   },
+  "runaway_genes": [],
   "strain": "MIT9312",
+  "tier1_count_max": 11,
+  "tier1_count_median": 6.0,
   "unresolved_rows_per_source": {
     "Barreto 2022/id_translation_pro_9312": 45,
     "Barreto 2022/supp_table_S1_MIT9312": 4,
-    "Biller 2022/s3_mit9312_abundance": 20,
-    "Biller 2022/s4_mit9312_enrichment": 19,
-    "Hennon 2017/id_translation_mit9312_annot": 2,
+    "Biller 2022/s3_mit9312_abundance": 28,
+    "Biller 2022/s4_mit9312_enrichment": 13,
+    "Hennon 2017/id_translation_mit9312_annot": 3,
     "Hennon 2017/supp_table_2": 103,
     "Tetu 2019/supp_dataset_3_mit9312": 3,
     "genomic_gca/MIT9312": 52,
     "genomic_gcf/MIT9312": 48
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 16 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

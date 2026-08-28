@@ -18,22 +18,22 @@
     "gff_gene_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 8096
+      "unique": 8089
     },
     "locus_tag_ncbi": {
-      "conflict": 50,
+      "conflict": 0,
       "multi": 0,
-      "unique": 11433
+      "unique": 5377
     },
     "old_locus_tag": {
-      "conflict": 4,
+      "conflict": 14,
       "multi": 0,
-      "unique": 3598
+      "unique": 3897
     },
     "protein_id_refseq": {
       "conflict": 0,
-      "multi": 30,
-      "unique": 5727
+      "multi": 16,
+      "unique": 5732
     },
     "uniprot_accession": {
       "conflict": 0,
@@ -46,17 +46,19 @@
       "unique": 3
     }
   },
+  "runaway_genes": [],
   "strain": "PCC7942",
+  "tier1_count_max": 11,
+  "tier1_count_median": 7.0,
   "unresolved_rows_per_source": {
-    "Kratzl 2024/annotation_gff_pcc7942_old": 114,
+    "Kratzl 2024/annotation_gff_pcc7942_old": 126,
     "Kratzl 2024/sheet13_proteomics_selongatus": 269,
     "Kratzl 2024/sheet6_rnaseq_selongatus": 53,
     "cds_from_genomic.fna": 15,
-    "genomic_gca/PCC7942": 79,
+    "genomic_gca/PCC7942": 81,
     "genomic_gcf/PCC7942": 56
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 50 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 4 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 14 data conflicts \u2014 check annotation quality."
   ]
 }

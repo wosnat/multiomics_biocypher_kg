@@ -18,9 +18,8 @@
       "gene_records": 50,
       "genes_resolved": 50,
       "gene_methods": {
-        "tier1:v": 17,
-        "multi:v": 21,
-        "locus_tag:v": 12
+        "multi:v": 37,
+        "locus_tag:v": 13
       },
       "pathway_records": 8,
       "pathways_resolved": 6,
@@ -56,7 +55,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tll1285",
       "resolved_from": "psbV",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psbV, psbX, psbV2",
@@ -94,7 +93,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tll1284",
       "resolved_from": "psbV2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ccmK1 and ccmL",
@@ -162,7 +161,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tlr1169",
       "resolved_from": "pdhA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "cysE and metE",
@@ -179,7 +178,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tlr0851",
       "resolved_from": "cysE",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "cysE and metE",
@@ -196,7 +195,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tlr1090",
       "resolved_from": "metE",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "coaX and panC-cmk",
@@ -281,7 +280,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tlr1905",
       "resolved_from": "sufD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "sufD and iscU",
@@ -313,7 +312,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tll0874",
       "resolved_from": "grxD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "grxD and tll1454",
@@ -343,7 +342,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tll1911",
       "resolved_from": "argJ",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "tll1944",
@@ -430,7 +429,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tll0887",
       "resolved_from": "acs",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ackA",
@@ -586,7 +585,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tll1588",
       "resolved_from": "glnA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glnB",
@@ -646,7 +645,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tll1027",
       "resolved_from": "metH",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "metE",
@@ -661,7 +660,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tlr1090",
       "resolved_from": "metE",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ahcY, metK, mtaP, and mtnA",
@@ -682,7 +681,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tll2390",
       "resolved_from": "ahcY",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ahcY, metK, mtaP, and mtnA",
@@ -703,7 +702,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tll0978",
       "resolved_from": "metK",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ahcY, metK, mtaP, and mtnA",
@@ -745,7 +744,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tll1061",
       "resolved_from": "mtnA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "cysK",
@@ -759,8 +758,8 @@
       "mention_strain": "Thermosynechococcus vestitus BP-1",
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tlr0504",
-      "resolved_from": "cysK",
-      "resolution_method": "tier1:v"
+      "resolved_from": "tlr0504",
+      "resolution_method": "locus_tag:v"
     },
     {
       "surface_form": "cysE",
@@ -775,7 +774,7 @@
       "strain": "Thermosynechococcus vestitus BP-1",
       "locus_tag": "tlr0851",
       "resolved_from": "cysE",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "flv4",

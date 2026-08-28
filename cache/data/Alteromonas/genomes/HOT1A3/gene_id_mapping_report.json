@@ -21,9 +21,9 @@
       "unique": 7915
     },
     "locus_tag_ncbi": {
-      "conflict": 61,
+      "conflict": 0,
       "multi": 0,
-      "unique": 12755
+      "unique": 3917
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -41,7 +41,10 @@
       "unique": 1402
     }
   },
+  "runaway_genes": [],
   "strain": "HOT1A3",
+  "tier1_count_max": 5,
+  "tier1_count_median": 5.0,
   "unresolved_rows_per_source": {
     "Aharonovich 2016/supp_table_hot1a3_9313_vs_9313dil": 87,
     "Aharonovich 2016/supp_table_hot1a3_9313_vs_med4": 86,
@@ -68,7 +71,5 @@
     "genomic_gca/HOT1A3": 212,
     "genomic_gcf/HOT1A3": 108
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 61 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

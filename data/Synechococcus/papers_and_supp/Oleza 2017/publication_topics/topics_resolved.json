@@ -18,9 +18,8 @@
       "gene_records": 17,
       "genes_resolved": 11,
       "gene_methods": {
-        "multi:v": 10,
-        "unresolved": 6,
-        "tier1:v": 1
+        "multi:v": 11,
+        "unresolved": 6
       },
       "pathway_records": 9,
       "pathways_resolved": 4,
@@ -158,7 +157,7 @@
       "strain": "Ruegeria pomeroyi DSS-3",
       "locus_tag": "SPO1953",
       "resolved_from": "phoB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "Alkaline phosphatases (PhoD, PhoX)",

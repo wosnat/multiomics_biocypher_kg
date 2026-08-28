@@ -26,9 +26,9 @@
       "unique": 2577
     },
     "locus_tag_ncbi": {
-      "conflict": 82,
+      "conflict": 0,
       "multi": 0,
-      "unique": 8261
+      "unique": 2388
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -46,15 +46,16 @@
       "unique": 359
     }
   },
+  "runaway_genes": [],
   "strain": "WH7803",
+  "tier1_count_max": 5,
+  "tier1_count_median": 5.0,
   "unresolved_rows_per_source": {
     "Doron 2016/host_de_wh7803": 55,
-    "Huang 2021/geo_de_wh7803": 72,
+    "Huang 2021/geo_de_wh7803": 84,
     "cds_from_genomic.fna": 18,
     "genomic_gca/WH7803": 75,
     "genomic_gcf/WH7803": 61
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 82 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

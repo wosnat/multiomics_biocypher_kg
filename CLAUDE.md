@@ -315,7 +315,11 @@ supp_table_1:
 - `resolve_row(row, name_col, id_columns, mapping_data)` → `(locus_tag | None, method_str)`
 - `expand_list(raw_val)` → splits list-valued cells on `,` and `;`
 
-**Resolution method strings**: `tier1:<col>`, `heuristic:<col>` (zero-pad / strip asterisk), `multi:<col>` (Tier 2+3 singleton), `tier1_conflict`, `ambiguous`, `unresolved`.
+**Resolution method strings**: `tier1:<col>`, `heuristic:<col>` (zero-pad / strip asterisk / strip `gene-`-`cds-`-`rna-` GFF-ID prefix / add `.1`), `heuristic_multi:<col>` (a heuristic candidate that is a Tier 2+3 singleton — unversioned protein accessions), `multi:<col>` (Tier 2+3 singleton), `multi_named:<col>` (symbol ambiguous in `multi_lookup` but exactly one gene carries it as `gene_name`, the others only as `gene_synonym` — `atpB` → the F1 β subunit, not the Fo a subunit whose synonym list still says atpB; from `MappingData.named_lookup`), `tier1_conflict`, `ambiguous`, `unresolved`.
+
+**GFF `Name=` typing (2026-08-28, `_gff_name_type`)**: NCBI GFFs put the gene *symbol* in `Name` whenever one exists (`Name=tnpB;gene=tnpB` — 1,338 of 5,587 KT2440 genes) and the protein accession on CDS rows; only symbol-less genes carry the locus tag there. Typing every `Name` as Tier-1 `locus_tag_ncbi` had declared shared symbols gene-unique, merging KT2440's 12 `tnpB` IS copies into `M8001_03425` (40 Tier-1 ids) and MED4's 5S rRNA `rrf` into `frr` (synonym `rrf`). Now `Name == gene` → `gene_name` (Tier 3), `Name == protein_id` → `protein_id_refseq` (Tier 2), `Name == locus_tag/old_locus_tag` → skipped, anything else stays Tier 1. Effect over 43 strains: max Tier-1 ids per gene 40 → 14 (median 6–9 → 4–7), Tier-1 conflicts 2,300 → 114, `specific_lookup` shrinks ~30% (protein accessions moved to Tier 2, still resolvable as singletons). Net resolution: −85 of 210,247 supp-table rows and −58 of 1,373 narrative mentions, all multi-copy symbols (`psbA`, `pstS`, `petF` ×4, `dnaK`) that were silently assigned to whichever paralog NCBI's GFF happened to name; he 2022 +6 via the `gene-` heuristic.
+
+**Runaway guard**: `gene_id_mapping_report.json` carries `tier1_count_median` / `tier1_count_max` / `runaway_genes` (Tier-1 count > max(3 × median, 12)) and a `[RUNAWAY]` warning on stderr — report-only, never fails the build. Zero runaways on 2026-08-28 (was PMM0236 at 273 before the B1 fix, M8001_03425 at 40 before the Name fix).
 
 Diagnostic report after build: `gene_id_mapping_report.json` (per-ID-type stats, reclassification warnings).
 

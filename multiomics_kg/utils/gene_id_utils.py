@@ -241,6 +241,12 @@ class MappingData:
     conflicts: dict[str, list[str]] = field(default_factory=dict)
     locus_tags: set[str] = field(default_factory=set)
     version: int = 2
+    # token -> genes that carry it as `gene_name` (annotation symbol), a subset
+    # of multi_lookup used only as a tie-break: when a symbol is ambiguous in
+    # multi_lookup but exactly one gene *names* itself that way and the others
+    # merely list it as a synonym, the named gene wins (atpB: the F1 beta
+    # subunit, not the Fo a subunit whose synonym list still says atpB).
+    named_lookup: dict[str, list[str]] = field(default_factory=dict)
     _ci_specific: Optional[dict[str, str]] = field(default=None, repr=False)
     _ci_multi: Optional[dict[str, list[str]]] = field(default=None, repr=False)
     _ci_locus_tags: Optional[dict[str, str]] = field(default=None, repr=False)
@@ -306,6 +312,15 @@ def load_mapping_v2(genome_dir: str | Path) -> Optional["MappingData"]:
         # locus_tags: all keys in genes dict + keys that self-map in specific_lookup
         genes_dict = raw.get("genes", {})
         md.locus_tags = set(genes_dict.keys())
+        # named_lookup: only tokens that are ambiguous in multi_lookup need it
+        for lt, entry in genes_dict.items():
+            for rec in entry.get("tier3_ids", []):
+                if rec.get("type") == "gene_name":
+                    tok = rec.get("id")
+                    if tok and len(md.multi_lookup.get(tok, [])) > 1:
+                        lst = md.named_lookup.setdefault(tok, [])
+                        if lt not in lst:
+                            lst.append(lt)
         # Also include anything in specific_lookup that maps to itself (canonical forms)
         for k, v in md.specific_lookup.items():
             md.locus_tags.add(v)
@@ -467,15 +482,25 @@ def extract_uniprot_annotation_tokens(value) -> list[tuple[str, str]]:
     return out
 
 
+_GFF_ID_PREFIX_RE = re.compile(r"^(?:gene|cds|rna|exon)-(.+)$")
+
+
 def _heuristic_candidates(raw_val: str) -> list[str]:
     """Return heuristic normalized forms of a raw ID (in addition to the raw form).
 
     Heuristics:
     - Strip trailing '*' or '+' (footnote artifacts)
     - Try adding '.1' version suffix (protein accessions like AAV95689 → AAV95689.1)
+    - Strip a GFF feature-ID prefix (gene-PMM0950 → PMM0950; also cds-/rna-),
+      for GEO tables that export the GFF ID column verbatim (he 2022)
     - Strip trailing/leading whitespace (already done by caller)
     """
     candidates: list[str] = []
+    # GFF feature-ID prefix (gene-<locus_tag>) — the bare tag is the Tier-1 anchor
+    if (m := _GFF_ID_PREFIX_RE.match(raw_val)):
+        bare = m.group(1).strip()
+        if bare:
+            candidates.append(bare)
     # Strip trailing asterisk / plus (footnote artifacts)
     stripped = raw_val.rstrip("*+").strip()
     if stripped and stripped != raw_val:
@@ -497,8 +522,10 @@ def resolve_row(
     Tries columns in order: name_col first, then id_columns.
     Within each column, tries in order:
       Pass 1: specific_lookup (Tier 1) with list expansion
-      Pass 2: heuristics (zero-pad, strip asterisk) → specific_lookup
+      Pass 2: heuristics (zero-pad, strip asterisk, gene- prefix, .1) → specific_lookup
+      Pass 2b: the same heuristic candidates → multi_lookup, singletons only
       Pass 3: multi_lookup (Tier 2+3), accept only singletons
+      Pass 3a: ambiguous symbol whose unique `gene_name` claimant wins over synonym-only claimants
 
     Never duplicates rows. When a column is ambiguous (multi_lookup > 1 match),
     tries other columns before giving up.
@@ -586,6 +613,20 @@ def resolve_row(
                 if h_val in mapping_data.locus_tags:
                     return h_val, f"heuristic:{col}"
 
+    # ── Pass 2b: heuristics → multi_lookup, singletons only ───────────────────
+    # Unversioned protein accessions (AAV93747 → AAV93747.1) live in
+    # multi_lookup since 2026-08-28, when GFF Name= accessions stopped being
+    # typed as Tier-1 locus tags. A singleton is as safe here as in Pass 3.
+    for col in all_cols:
+        raw = row.get(col)
+        for val in _candidate_values(col, raw):
+            for h_val in _heuristic_candidates(val):
+                matches = ml.get(h_val)
+                if matches:
+                    if len(matches) == 1:
+                        return matches[0], f"heuristic_multi:{col}"
+                    diagnostic.setdefault(col, f"ambiguous:{len(matches)}")
+
     # ── Pass 3: multi_lookup, singletons only ─────────────────────────────────
     for col in all_cols:
         raw = row.get(col)
@@ -598,6 +639,19 @@ def resolve_row(
                     return matches[0], f"multi:{col}"
                 else:
                     diagnostic[col] = f"ambiguous:{len(matches)}"
+
+    # ── Pass 3a: ambiguous symbol, but exactly one gene is *named* that way ───
+    # (2026-08-28) Before GFF Name= symbols stopped being Tier-1 tokens, this
+    # case resolved silently to whichever gene NCBI's GFF named. Keep that
+    # answer, but as an explicit rule: gene_name beats gene_synonym.
+    for col in all_cols:
+        raw = row.get(col)
+        for val in _candidate_values(col, raw):
+            if not val:
+                continue
+            named = mapping_data.named_lookup.get(val)
+            if named and len(named) == 1 and len(ml.get(val, [])) > 1:
+                return named[0], f"multi_named:{col}"
 
     # ── Pass 3b: case-insensitive fallback on multi_lookup, singletons only ───
     for col in all_cols:

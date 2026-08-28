@@ -19,11 +19,11 @@
     "output_tokens": 2970,
     "resolution": {
       "gene_records": 42,
-      "genes_resolved": 16,
+      "genes_resolved": 15,
       "gene_methods": {
         "no_mapping": 22,
-        "tier1:v": 13,
-        "unresolved": 4,
+        "multi:v": 12,
+        "unresolved": 5,
         "locus_tag:v": 3
       },
       "pathway_records": 14,
@@ -42,7 +42,7 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 24,
+        "lookup_miss": 25,
         "descriptive_only": 2
       }
     }
@@ -226,7 +226,7 @@
       "strain": "Synechococcus WH7803",
       "locus_tag": "SynWH7803_0678",
       "resolved_from": "rbcL",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rbcL",
@@ -238,7 +238,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW1718",
       "resolved_from": "rbcL",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rbcL",
@@ -250,7 +250,7 @@
       "strain": "Synechococcus WH8109",
       "locus_tag": "Syncc8109_1955",
       "resolved_from": "rbcL",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rnpB",
@@ -354,7 +354,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW0275",
       "resolved_from": "ntcA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "nirA",
@@ -366,7 +366,7 @@
       "strain": "Synechococcus WH7803",
       "locus_tag": "SynWH7803_2492",
       "resolved_from": "nirA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "narB",
@@ -378,7 +378,7 @@
       "strain": "Synechococcus WH7803",
       "locus_tag": "SynWH7803_2481",
       "resolved_from": "narB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "amt1",
@@ -390,7 +390,7 @@
       "strain": "Synechococcus WH7803",
       "locus_tag": "SynWH7803_0297",
       "resolved_from": "amt1",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "SYNW0071",
@@ -444,7 +444,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW1712",
       "resolved_from": "ccmK2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ccmK2",
@@ -456,7 +456,7 @@
       "strain": "Synechococcus WH8109",
       "locus_tag": "Syncc8109_1948",
       "resolved_from": "ccmK2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "csoS1",
@@ -501,10 +501,10 @@
       "prominence": "peripheral",
       "evidence": "\"including hli and phoH-family genes, DNA repair and heat shock genes\" (Discussion, p1)",
       "mention_strain": "all",
-      "strain": "Synechococcus WH7803",
-      "locus_tag": "SynWH7803_0797",
-      "resolved_from": "hli",
-      "resolution_method": "tier1:v"
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "phoH-family genes",
@@ -516,7 +516,7 @@
       "strain": "Synechococcus WH7803",
       "locus_tag": "SynWH7803_1729",
       "resolved_from": "phoH",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "phoH-family genes",
@@ -528,7 +528,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW1616",
       "resolved_from": "phoH",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "phoH-family genes",
@@ -540,7 +540,7 @@
       "strain": "Synechococcus WH8109",
       "locus_tag": "Syncc8109_1845",
       "resolved_from": "phoH",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "DUF4278 domain-carrying genes",

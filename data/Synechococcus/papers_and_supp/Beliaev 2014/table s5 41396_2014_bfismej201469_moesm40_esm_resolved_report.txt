@@ -4,16 +4,16 @@ name_col:  Locus tag
 id_columns: [' Locus tag', 'Gene abbreviation']
 
 Total rows with IDs: 691
-Resolved: 672 (97.3%)
-Unresolved: 19
+Resolved: 671 (97.1%)
+Unresolved: 20
 
 Resolution method breakdown:
+  ambiguous: 1
   empty: 1
   locus_tag: Locus tag: 671
-  tier1: Locus tag: 1
   unresolved: 19
 
-Unresolved rows (19):
+Unresolved rows (20):
   row 3: raw_id='SYNPCC7002_F0109'  reason=unresolved  [ Locus tag='SYNPCC7002_F0109']
   row 8: raw_id='SYNPCC7002_A2259'  reason=unresolved  [ Locus tag='SYNPCC7002_A2259']
   row 17: raw_id='SYNPCC7002_A0473'  reason=unresolved  [ Locus tag='SYNPCC7002_A0473']
@@ -33,3 +33,6 @@ Unresolved rows (19):
   row 663: raw_id='SYNPCC7002_D0011'  reason=unresolved  [ Locus tag='SYNPCC7002_D0011']
   row 677: raw_id='SYNPCC7002_A0111'  reason=unresolved  [ Locus tag='SYNPCC7002_A0111']
   row 681: raw_id='SYNPCC7002_E0024'  reason=unresolved  [ Locus tag='SYNPCC7002_E0024']
+  row 691: raw_id='1 RPKM is defined as a number of reads per kilobase of transcript per million of mapped reads. If the number of reads that map to a given transcript t is Mt, the length of that transcript is Lt, and the total number of mapped reads is M, such that M= ΣMt, then RPKM = (109*Mt)/(Lt*M)'  reason=ambiguous  [ Locus tag='1 RPKM is defined as a number of reads per kilobase of transcript per million of mapped reads. If the number of reads that map to a given transcript t is Mt, the length of that transcript is Lt, and the total number of mapped reads is M, such that M= ΣMt, then RPKM = (109*Mt)/(Lt*M)']
+
+NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

@@ -19,13 +19,12 @@
     "input_tokens": 21371,
     "output_tokens": 1791,
     "resolution": {
-      "gene_records": 45,
-      "genes_resolved": 33,
+      "gene_records": 35,
+      "genes_resolved": 22,
       "gene_methods": {
-        "unresolved": 12,
-        "multi:v": 2,
-        "tier1:v": 13,
-        "tier1_ci:v": 18
+        "unresolved": 13,
+        "multi:v": 15,
+        "multi_ci:v": 7
       },
       "pathway_records": 1,
       "pathways_resolved": 0,
@@ -45,7 +44,7 @@
       "truncated_examples": [],
       "unresolved_reasons": {
         "descriptive_only": 9,
-        "lookup_miss": 3
+        "lookup_miss": 4
       }
     }
   },
@@ -96,7 +95,7 @@
       "strain": "Alteromonas macleodii AD45",
       "locus_tag": "AMBAS45_02905",
       "resolved_from": "tolC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "TolC",
@@ -108,7 +107,7 @@
       "strain": "Alteromonas macleodii ATCC27126",
       "locus_tag": "MASE_02630",
       "resolved_from": "tolC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "TolC",
@@ -120,7 +119,7 @@
       "strain": "Alteromonas macleodii BGP6",
       "locus_tag": "ALTBGP6_00605",
       "resolved_from": "tolC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "TolC",
@@ -132,7 +131,7 @@
       "strain": "Alteromonas macleodii BS11",
       "locus_tag": "AMBLS11_02825",
       "resolved_from": "tolC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "TolC",
@@ -144,7 +143,7 @@
       "strain": "Alteromonas macleodii HOT1A3",
       "locus_tag": "ACZ81_02945",
       "resolved_from": "tolC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "TolC",
@@ -156,7 +155,7 @@
       "strain": "Alteromonas macleodii MIT1002",
       "locus_tag": "MIT1002_00670",
       "resolved_from": "tolC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "MotA/TolQ/ExbB proton channels",
@@ -168,7 +167,7 @@
       "strain": "Alteromonas macleodii AD45",
       "locus_tag": "AMBAS45_06290",
       "resolved_from": "MotA/TolQ/ExbB proton channels",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "MotA/TolQ/ExbB proton channels",
@@ -180,7 +179,7 @@
       "strain": "Alteromonas macleodii ATCC27126",
       "locus_tag": "MASE_06080",
       "resolved_from": "MotA/TolQ/ExbB proton channels",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "MotA/TolQ/ExbB proton channels",
@@ -192,7 +191,7 @@
       "strain": "Alteromonas macleodii BGP6",
       "locus_tag": "ALTBGP6_01338",
       "resolved_from": "MotA/TolQ/ExbB proton channels",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "MotA/TolQ/ExbB proton channels",
@@ -204,7 +203,7 @@
       "strain": "Alteromonas macleodii BS11",
       "locus_tag": "AMBLS11_06135",
       "resolved_from": "MotA/TolQ/ExbB proton channels",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "MotA/TolQ/ExbB proton channels",
@@ -216,7 +215,7 @@
       "strain": "Alteromonas macleodii HOT1A3",
       "locus_tag": "ACZ81_06415",
       "resolved_from": "MotA/TolQ/ExbB proton channels",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "MotA/TolQ/ExbB proton channels",
@@ -226,33 +225,9 @@
       "evidence": "as well as MotA/TolQ/ExbB proton channels; Table S1 (p5, Results and discussion)",
       "mention_strain": "all",
       "strain": "Alteromonas macleodii MIT1002",
-      "locus_tag": "MIT1002_01335",
+      "locus_tag": "MIT1002_02690",
       "resolved_from": "MotA/TolQ/ExbB proton channels",
-      "resolution_method": "tier1_ci:v"
-    },
-    {
-      "surface_form": "F0F1-type ATP synthase (alpha and beta subunits)",
-      "gene_name": "",
-      "identifiers": [],
-      "prominence": "peripheral",
-      "evidence": "efflux channels (both alpha and beta subunits of F0F1-type ATP synthase... (p5, Results and discussion)",
-      "mention_strain": "all",
-      "strain": "Alteromonas macleodii AD45",
-      "locus_tag": "AMBAS45_13945",
-      "resolved_from": "F0F1-type ATP synthase (alpha and beta subunits)",
-      "resolution_method": "tier1_ci:v"
-    },
-    {
-      "surface_form": "F0F1-type ATP synthase (alpha and beta subunits)",
-      "gene_name": "",
-      "identifiers": [],
-      "prominence": "peripheral",
-      "evidence": "efflux channels (both alpha and beta subunits of F0F1-type ATP synthase... (p5, Results and discussion)",
-      "mention_strain": "all",
-      "strain": "Alteromonas macleodii ATCC27126",
-      "locus_tag": "MASE_13425",
-      "resolved_from": "F0F1-type ATP synthase (alpha and beta subunits)",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "F0F1-type ATP synthase (alpha and beta subunits)",
@@ -264,43 +239,7 @@
       "strain": "Alteromonas macleodii BGP6",
       "locus_tag": "ALTBGP6_02875",
       "resolved_from": "F0F1-type ATP synthase (alpha and beta subunits)",
-      "resolution_method": "tier1_ci:v"
-    },
-    {
-      "surface_form": "F0F1-type ATP synthase (alpha and beta subunits)",
-      "gene_name": "",
-      "identifiers": [],
-      "prominence": "peripheral",
-      "evidence": "efflux channels (both alpha and beta subunits of F0F1-type ATP synthase... (p5, Results and discussion)",
-      "mention_strain": "all",
-      "strain": "Alteromonas macleodii BS11",
-      "locus_tag": "AMBLS11_13375",
-      "resolved_from": "F0F1-type ATP synthase (alpha and beta subunits)",
-      "resolution_method": "tier1_ci:v"
-    },
-    {
-      "surface_form": "F0F1-type ATP synthase (alpha and beta subunits)",
-      "gene_name": "",
-      "identifiers": [],
-      "prominence": "peripheral",
-      "evidence": "efflux channels (both alpha and beta subunits of F0F1-type ATP synthase... (p5, Results and discussion)",
-      "mention_strain": "all",
-      "strain": "Alteromonas macleodii HOT1A3",
-      "locus_tag": "ACZ81_14050",
-      "resolved_from": "F0F1-type ATP synthase (alpha and beta subunits)",
-      "resolution_method": "tier1_ci:v"
-    },
-    {
-      "surface_form": "F0F1-type ATP synthase (alpha and beta subunits)",
-      "gene_name": "",
-      "identifiers": [],
-      "prominence": "peripheral",
-      "evidence": "efflux channels (both alpha and beta subunits of F0F1-type ATP synthase... (p5, Results and discussion)",
-      "mention_strain": "all",
-      "strain": "Alteromonas macleodii MIT1002",
-      "locus_tag": "MIT1002_02909",
-      "resolved_from": "F0F1-type ATP synthase (alpha and beta subunits)",
-      "resolution_method": "tier1_ci:v"
+      "resolution_method": "multi_ci:v"
     },
     {
       "surface_form": "glutamine synthetase",
@@ -372,7 +311,7 @@
       "strain": "Alteromonas macleodii HOT1A3",
       "locus_tag": "ACZ81_19075",
       "resolved_from": "groEL",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "thioredoxins (cnoX)",
@@ -396,7 +335,7 @@
       "strain": "Alteromonas macleodii AD45",
       "locus_tag": "AMBAS45_03440",
       "resolved_from": "surA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "peptidylprolyl isomerase (surA)",
@@ -408,7 +347,7 @@
       "strain": "Alteromonas macleodii ATCC27126",
       "locus_tag": "MASE_03185",
       "resolved_from": "surA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "peptidylprolyl isomerase (surA)",
@@ -420,7 +359,7 @@
       "strain": "Alteromonas macleodii BGP6",
       "locus_tag": "ALTBGP6_00740",
       "resolved_from": "surA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "peptidylprolyl isomerase (surA)",
@@ -432,7 +371,7 @@
       "strain": "Alteromonas macleodii BS11",
       "locus_tag": "AMBLS11_03365",
       "resolved_from": "surA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "peptidylprolyl isomerase (surA)",
@@ -444,7 +383,7 @@
       "strain": "Alteromonas macleodii HOT1A3",
       "locus_tag": "ACZ81_03510",
       "resolved_from": "surA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "peptidylprolyl isomerase (surA)",
@@ -456,7 +395,7 @@
       "strain": "Alteromonas macleodii MIT1002",
       "locus_tag": "MIT1002_00783",
       "resolved_from": "surA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "elongation factors (tufA and FusA)",
@@ -477,70 +416,10 @@
       "prominence": "peripheral",
       "evidence": "elongation factors (tufA and FusA; Table S1). (p7, Results and discussion)",
       "mention_strain": "all",
-      "strain": "Alteromonas macleodii AD45",
-      "locus_tag": "AMBAS45_07265",
-      "resolved_from": "FusA",
-      "resolution_method": "tier1_ci:v"
-    },
-    {
-      "surface_form": "elongation factors (tufA and FusA)",
-      "gene_name": "FusA",
-      "identifiers": [],
-      "prominence": "peripheral",
-      "evidence": "elongation factors (tufA and FusA; Table S1). (p7, Results and discussion)",
-      "mention_strain": "all",
-      "strain": "Alteromonas macleodii ATCC27126",
-      "locus_tag": "MASE_06930",
-      "resolved_from": "FusA",
-      "resolution_method": "tier1_ci:v"
-    },
-    {
-      "surface_form": "elongation factors (tufA and FusA)",
-      "gene_name": "FusA",
-      "identifiers": [],
-      "prominence": "peripheral",
-      "evidence": "elongation factors (tufA and FusA; Table S1). (p7, Results and discussion)",
-      "mention_strain": "all",
-      "strain": "Alteromonas macleodii BGP6",
-      "locus_tag": "ALTBGP6_01537",
-      "resolved_from": "FusA",
-      "resolution_method": "tier1_ci:v"
-    },
-    {
-      "surface_form": "elongation factors (tufA and FusA)",
-      "gene_name": "FusA",
-      "identifiers": [],
-      "prominence": "peripheral",
-      "evidence": "elongation factors (tufA and FusA; Table S1). (p7, Results and discussion)",
-      "mention_strain": "all",
-      "strain": "Alteromonas macleodii BS11",
-      "locus_tag": "AMBLS11_06950",
-      "resolved_from": "FusA",
-      "resolution_method": "tier1_ci:v"
-    },
-    {
-      "surface_form": "elongation factors (tufA and FusA)",
-      "gene_name": "FusA",
-      "identifiers": [],
-      "prominence": "peripheral",
-      "evidence": "elongation factors (tufA and FusA; Table S1). (p7, Results and discussion)",
-      "mention_strain": "all",
-      "strain": "Alteromonas macleodii HOT1A3",
-      "locus_tag": "ACZ81_18000",
-      "resolved_from": "FusA",
-      "resolution_method": "tier1_ci:v"
-    },
-    {
-      "surface_form": "elongation factors (tufA and FusA)",
-      "gene_name": "FusA",
-      "identifiers": [],
-      "prominence": "peripheral",
-      "evidence": "elongation factors (tufA and FusA; Table S1). (p7, Results and discussion)",
-      "mention_strain": "all",
-      "strain": "Alteromonas macleodii MIT1002",
-      "locus_tag": "MIT1002_01524",
-      "resolved_from": "FusA",
-      "resolution_method": "tier1_ci:v"
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "leucyl aminopeptidases (EC 3.4.11.1)",

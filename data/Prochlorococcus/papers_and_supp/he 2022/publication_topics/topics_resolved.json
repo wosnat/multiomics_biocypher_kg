@@ -15,11 +15,12 @@
     "input_tokens": 19405,
     "output_tokens": 3171,
     "resolution": {
-      "gene_records": 36,
-      "genes_resolved": 36,
+      "gene_records": 38,
+      "genes_resolved": 38,
       "gene_methods": {
-        "tier1:v": 28,
-        "multi:v": 5,
+        "multi:v": 23,
+        "multi_named:v": 5,
+        "tier1:v": 7,
         "locus_tag:v": 3
       },
       "pathway_records": 6,
@@ -55,7 +56,7 @@
       "strain": "Prochlorococcus NATL1A",
       "locus_tag": "NATL1_16181",
       "resolved_from": "afuA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "idiA",
@@ -73,7 +74,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1164",
       "resolved_from": "idiA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "atpA",
@@ -88,7 +89,22 @@
       "strain": "Prochlorococcus NATL1A",
       "locus_tag": "NATL1_18491",
       "resolved_from": "atpA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "atpC",
+      "gene_name": "atpC",
+      "identifiers": [
+        "atpC",
+        "gene-NATL1_18391"
+      ],
+      "prominence": "central",
+      "evidence": "ATP-producing genes were down-regulated (atpA, atpC, atpD, atpH and other ATP synthase genes) (p6, Results)",
+      "mention_strain": "Prochlorococcus NATL1A",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_18481",
+      "resolved_from": "atpC",
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "atpC",
@@ -102,8 +118,24 @@
       "mention_strain": "Prochlorococcus NATL1A",
       "strain": "Prochlorococcus NATL1A",
       "locus_tag": "NATL1_18391",
-      "resolved_from": "atpC",
+      "resolved_from": "gene-NATL1_18391",
       "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "atpD",
+      "gene_name": "atpD",
+      "identifiers": [
+        "atpD",
+        "gene-NATL1_18381",
+        "gene-PMM1452"
+      ],
+      "prominence": "central",
+      "evidence": "ATP-producing genes were down-regulated (atpA, atpC, atpD, atpH and other ATP synthase genes) (p6, Results); gene-PMM1452 atpH,atpD ATP synthase, delta (OSCP) subunit (Table 3, p9)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_18501",
+      "resolved_from": "atpD",
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "atpD",
@@ -118,7 +150,7 @@
       "mention_strain": "all",
       "strain": "Prochlorococcus NATL1A",
       "locus_tag": "NATL1_18381",
-      "resolved_from": "atpD",
+      "resolved_from": "gene-NATL1_18381",
       "resolution_method": "tier1:v"
     },
     {
@@ -135,7 +167,23 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1452",
       "resolved_from": "atpD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
+    },
+    {
+      "surface_form": "atpH",
+      "gene_name": "atpH",
+      "identifiers": [
+        "atpH",
+        "gene-NATL1_18501",
+        "gene-PMM1452"
+      ],
+      "prominence": "central",
+      "evidence": "ATP-producing genes were down-regulated (atpA, atpC, atpD, atpH and other ATP synthase genes) (p6, Results); gene-PMM1452 atpH,atpD ATP synthase, delta (OSCP) subunit (Table 3, p9)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_18531",
+      "resolved_from": "atpH",
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "atpH",
@@ -150,7 +198,7 @@
       "mention_strain": "all",
       "strain": "Prochlorococcus NATL1A",
       "locus_tag": "NATL1_18501",
-      "resolved_from": "atpH",
+      "resolved_from": "gene-NATL1_18501",
       "resolution_method": "tier1:v"
     },
     {
@@ -165,8 +213,24 @@
       "evidence": "ATP-producing genes were down-regulated (atpA, atpC, atpD, atpH and other ATP synthase genes) (p6, Results); gene-PMM1452 atpH,atpD ATP synthase, delta (OSCP) subunit (Table 3, p9)",
       "mention_strain": "all",
       "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1452",
+      "locus_tag": "PMM1455",
       "resolved_from": "atpH",
+      "resolution_method": "multi_named:v"
+    },
+    {
+      "surface_form": "atpH",
+      "gene_name": "atpH",
+      "identifiers": [
+        "atpH",
+        "gene-NATL1_18501",
+        "gene-PMM1452"
+      ],
+      "prominence": "central",
+      "evidence": "ATP-producing genes were down-regulated (atpA, atpC, atpD, atpH and other ATP synthase genes) (p6, Results); gene-PMM1452 atpH,atpD ATP synthase, delta (OSCP) subunit (Table 3, p9)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1452",
+      "resolved_from": "gene-PMM1452",
       "resolution_method": "tier1:v"
     },
     {
@@ -182,7 +246,7 @@
       "strain": "Prochlorococcus NATL1A",
       "locus_tag": "NATL1_20591",
       "resolved_from": "psaC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psb27",
@@ -197,7 +261,7 @@
       "strain": "Prochlorococcus NATL1A",
       "locus_tag": "NATL1_05651",
       "resolved_from": "psb27",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rbcS",
@@ -212,7 +276,7 @@
       "strain": "Prochlorococcus NATL1A",
       "locus_tag": "NATL1_06051",
       "resolved_from": "rbcS",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "cyoA",
@@ -227,7 +291,7 @@
       "strain": "Prochlorococcus NATL1A",
       "locus_tag": "NATL1_05001",
       "resolved_from": "cyoA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "cyoB",
@@ -242,7 +306,7 @@
       "strain": "Prochlorococcus NATL1A",
       "locus_tag": "NATL1_04991",
       "resolved_from": "cyoB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ctaE",
@@ -257,7 +321,7 @@
       "strain": "Prochlorococcus NATL1A",
       "locus_tag": "NATL1_04981",
       "resolved_from": "ctaE",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ndhA",
@@ -272,7 +336,7 @@
       "strain": "Prochlorococcus NATL1A",
       "locus_tag": "NATL1_02331",
       "resolved_from": "ndhA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ndhH",
@@ -287,7 +351,7 @@
       "strain": "Prochlorococcus NATL1A",
       "locus_tag": "NATL1_02471",
       "resolved_from": "ndhH",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psbA",
@@ -302,7 +366,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0223",
       "resolved_from": "psbA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psbB",
@@ -317,7 +381,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0315",
       "resolved_from": "psbB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psbD",
@@ -332,7 +396,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1157",
       "resolved_from": "psbD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psbN",
@@ -347,7 +411,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0252",
       "resolved_from": "psbN",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "petA",
@@ -362,22 +426,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0461",
       "resolved_from": "petA",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "ndhD",
-      "gene_name": "ndhD",
-      "identifiers": [
-        "ndhD",
-        "gene-PMM0594"
-      ],
-      "prominence": "peripheral",
-      "evidence": "cytochrome F (petA), and electron transport chain intermediate (ndhD) (p6, Results)",
-      "mention_strain": "Prochlorococcus MED4",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0150",
-      "resolved_from": "ndhD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ndhD",
@@ -535,7 +584,7 @@
       "strain": "Prochlorococcus NATL1A",
       "locus_tag": "NATL1_05281",
       "resolved_from": "nhaP",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "dnaK",
@@ -550,23 +599,7 @@
       "mention_strain": "all",
       "strain": "Prochlorococcus NATL1A",
       "locus_tag": "NATL1_09851",
-      "resolved_from": "dnaK",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "dnaK",
-      "gene_name": "dnaK",
-      "identifiers": [
-        "dnaK",
-        "gene-NATL1_09851",
-        "gene-PMM1704"
-      ],
-      "prominence": "central",
-      "evidence": "Up-regulated expression of dnaK was observed in both MED4 and NATL1A, which suggests that this gene could play a role in low salinity acclimation (p8, Results)",
-      "mention_strain": "all",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0897",
-      "resolved_from": "dnaK",
+      "resolved_from": "gene-NATL1_09851",
       "resolution_method": "tier1:v"
     },
     {
@@ -598,7 +631,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1171",
       "resolved_from": "isiB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     }
   ],
   "pathways": [

@@ -31,9 +31,9 @@
       "unique": 1927
     },
     "locus_tag_ncbi": {
-      "conflict": 16,
+      "conflict": 0,
       "multi": 0,
-      "unique": 6049
+      "unique": 1798
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -51,13 +51,14 @@
       "unique": 1560
     }
   },
+  "runaway_genes": [],
   "strain": "SB",
+  "tier1_count_max": 6,
+  "tier1_count_median": 6.0,
   "unresolved_rows_per_source": {
     "cds_from_genomic.fna": 10,
     "genomic_gca/SB": 40,
     "genomic_gcf/SB": 48
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 16 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

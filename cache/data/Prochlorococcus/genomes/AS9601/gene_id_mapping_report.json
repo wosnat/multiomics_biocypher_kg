@@ -26,9 +26,9 @@
       "unique": 1926
     },
     "locus_tag_ncbi": {
-      "conflict": 17,
+      "conflict": 0,
       "multi": 0,
-      "unique": 6427
+      "unique": 1824
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -46,14 +46,15 @@
       "unique": 1375
     }
   },
+  "runaway_genes": [],
   "strain": "AS9601",
+  "tier1_count_max": 5,
+  "tier1_count_median": 5.0,
   "unresolved_rows_per_source": {
-    "Al-Hosani 2015/supp_table_3": 57,
+    "Al-Hosani 2015/supp_table_3": 768,
     "cds_from_genomic.fna": 6,
     "genomic_gca/AS9601": 56,
     "genomic_gcf/AS9601": 48
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 17 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

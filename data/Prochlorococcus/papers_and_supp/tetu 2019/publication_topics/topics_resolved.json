@@ -16,11 +16,11 @@
     "output_tokens": 3182,
     "resolution": {
       "gene_records": 36,
-      "genes_resolved": 34,
+      "genes_resolved": 33,
       "gene_methods": {
-        "unresolved": 2,
-        "tier1:v": 33,
-        "multi:v": 1
+        "unresolved": 3,
+        "tier1:v": 31,
+        "multi:v": 2
       },
       "pathway_records": 3,
       "pathways_resolved": 3,
@@ -35,7 +35,7 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 2
+        "lookup_miss": 3
       }
     }
   },
@@ -60,7 +60,7 @@
       "evidence": "Exposure to both leachates led to increased transcription of common stress response genes, such as groEL, dnaK, clpP and ftsH. (p3, Results)",
       "mention_strain": "Prochlorococcus MIT9312",
       "strain": "Prochlorococcus MIT9312",
-      "locus_tag": "PMT9312_0903",
+      "locus_tag": "PMT9312_1797",
       "resolved_from": "dnaK",
       "resolution_method": "tier1:v"
     },
@@ -72,7 +72,7 @@
       "evidence": "Exposure to both leachates led to increased transcription of common stress response genes, such as groEL, dnaK, clpP and ftsH. (p3, Results)",
       "mention_strain": "Prochlorococcus MIT9312",
       "strain": "Prochlorococcus MIT9312",
-      "locus_tag": "PMT9312_0750",
+      "locus_tag": "PMT9312_1410",
       "resolved_from": "clpP",
       "resolution_method": "tier1:v"
     },
@@ -84,7 +84,7 @@
       "evidence": "Exposure to both leachates led to increased transcription of common stress response genes, such as groEL, dnaK, clpP and ftsH. (p3, Results)",
       "mention_strain": "Prochlorococcus MIT9312",
       "strain": "Prochlorococcus MIT9312",
-      "locus_tag": "PMT9312_0228",
+      "locus_tag": "PMT9312_1358",
       "resolved_from": "ftsH",
       "resolution_method": "tier1:v"
     },
@@ -286,9 +286,9 @@
       "evidence": "two psbA genes showed a significant increase in transcription (p4, Results)",
       "mention_strain": "Prochlorococcus MIT9312",
       "strain": "Prochlorococcus MIT9312",
-      "locus_tag": "PMT9312_0225",
-      "resolved_from": "psbA",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "Psb28",
@@ -516,7 +516,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_1612",
       "resolved_from": "ntcA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PMN2A_RS07615",

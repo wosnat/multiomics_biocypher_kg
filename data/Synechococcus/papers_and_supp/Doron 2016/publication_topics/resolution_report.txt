@@ -1,18 +1,18 @@
 Topics resolution report: Doron 2016
 Strains: ['Synechococcus WH7803', 'Phage', 'Synechococcus WH8102', 'Synechococcus WH8109']
 
-Genes:    16/42 resolved (38.1%)
-  methods: locus_tag:v=3, no_mapping=22, tier1:v=13, unresolved=4
+Genes:    15/42 resolved (35.7%)
+  methods: locus_tag:v=3, multi:v=12, no_mapping=22, unresolved=5
 Pathways: 9/14 resolved (64.3%)
   methods: id=9, unresolved=5
 
 Captured identifiers: 7  (truncated/bare-number: 0)
-Unresolved gene reasons: {'lookup_miss': 24, 'descriptive_only': 2}
+Unresolved gene reasons: {'lookup_miss': 25, 'descriptive_only': 2}
     descriptive_only = function/enzyme phrase, no symbol or id (paper style)
     truncated_id_only = bare locus number, recoverable via strain prefix
     lookup_miss       = had a name/full id but no mapping match
 
-Unresolved gene mentions (26):
+Unresolved gene mentions (27):
   - psbA  [lookup_miss]  strain=Phage
   - psbD  [lookup_miss]  strain=Phage
   - hli  [lookup_miss]  strain=Phage
@@ -37,6 +37,7 @@ Unresolved gene mentions (26):
   - csoS1  [lookup_miss]  strain=all
   - motA  [lookup_miss]  strain=Phage
   - asiA  [lookup_miss]  strain=Phage
+  - hli  [lookup_miss]  strain=all
   - DUF4278 domain-carrying genes  [descriptive_only]  strain=all
   - pil  [lookup_miss]  strain=unspecified
 

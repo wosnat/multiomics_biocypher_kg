@@ -356,7 +356,7 @@ asRNA_38,--,314574.0,314884.0,-,,--,Protein-coding gene,Conserved hypothetical p
 RNA_3,--,314649.0,314722.0,+,,--,tRNAAsp1,tRNA-Asp (RefSeq),,,,,unresolved
 RNA_4,--,314735.0,314807.0,+,,--,tRNASer1,tRNA-Ser (RefSeq),,,,,unresolved
 RNA_40,--,315074.0,317948.0,+,,--,tRNAIle1,tRNA-Ile (RefSeq),,,,,unresolved
-RNA_41,--,318012.0,318126.0,+,,--,tRNAAla2,tRNA-Ala (RefSeq),,,,PMM0521,tier1:sysName
+RNA_41,--,318012.0,318126.0,+,,--,tRNAAla2,tRNA-Ala (RefSeq),,,,,unresolved
 PMM0328,PMED4_03351,318175.0,319053.0,-,Core,VEG,FPG,Formamidopyrimidine-DNA glycolase (FAPY-DNA glycolase) (NCBI),COG266,L,Formamidopyrimidine-DNA glycosylase,PMM0328,locus_tag:sysName
 PMM0329,PMED4_03361,319058.0,319267.0,-,Core,HEG,psaE,Photosystem I PsaE protein (subunit IV) (NCBI),,,,PMM0329,locus_tag:sysName
 PMM0330,PMED4_03371,319348.0,320109.0,-,Core,MEG,PMM0330,possible LysM domain (NCBI),,,,PMM0330,locus_tag:sysName
@@ -2054,7 +2054,7 @@ PMM1714,PMED4_19261,1654279.0,1656135.0,+,Core,MEG,PMM1714,possible protein kina
 PMM1715,PMED4_19271,1656136.0,1656711.0,+,Core,VEG,PMM1715,conserved hypothetical protein (NCBI),,,,PMM1715,locus_tag:sysName
 PMM1716,PMED4_19281,1656714.0,1657817.0,+,Core,MEG,thrC,"Threonine synthase: Pyridoxal-5'-phosphate-dependent enzymes, beta family (NCBI)",COG498,E,Threonine synthase,PMM1716,locus_tag:sysName
 ,,,,,,,,,,,,,empty
-a New CDS genes excluded in NCBI were named HyPMM## sorted by their coordinates on genome;and new CDS genes reported by this study named TibPMM## sorted by their coordinates on genome.,,,,,,,,,,,,PMM1275,tier1_ci:sysName
+a New CDS genes excluded in NCBI were named HyPMM## sorted by their coordinates on genome;and new CDS genes reported by this study named TibPMM## sorted by their coordinates on genome.,,,,,,,,,,,,PMM1275,multi_ci:sysName
 b Locus tag of P.marinus MED4 in the MicrobesOnLine database [62].,,,,,,,,,,,,,unresolved
 c All CDS genes were classified into the core or flexible genome by Ketter et al. [7].,,,,,,,,,,,,,unresolved
 "a Genes of Core and Flexible genome were classified into five expresison subclasses respectively: non expressed genes (NEG), lowly expressed genes (LEG), moderately expressed genes (MEG), highly expressed genes (HEG), and variably expressed genes (VEG)",,,,,,,,,,,,,unresolved

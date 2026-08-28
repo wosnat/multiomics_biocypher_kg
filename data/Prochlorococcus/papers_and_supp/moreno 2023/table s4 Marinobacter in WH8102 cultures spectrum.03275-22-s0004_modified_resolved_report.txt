@@ -4,25 +4,37 @@ name_col: Accession
 id_columns: ['Accession', 'extracted_gn']
 
 Total rows with IDs: 504
-Resolved: 493 (97.8%)
-Unresolved: 11
+Resolved: 484 (96.0%)
+Unresolved: 20
 
 Resolution method breakdown:
+  ambiguous: 9
   locus_tag:extracted_gn: 218
-  multi:Accession: 14
-  multi:extracted_gn: 3
-  tier1:extracted_gn: 258
+  multi:Accession: 222
+  multi:extracted_gn: 43
+  multi_named:extracted_gn: 1
   unresolved: 11
 
-Unresolved rows (11):
+Unresolved rows (20):
   row 1: raw_id='E4PH20'  reason=unresolved  [Accession='E4PH20', extracted_gn='groS']
   row 8: raw_id='E4PNT9'  reason=unresolved  [Accession='E4PNT9', extracted_gn='gpmI']
+  row 16: raw_id='E4PPA9'  reason=ambiguous  [Accession='E4PPA9', extracted_gn='leuB']
+  row 18: raw_id='E4PL69'  reason=ambiguous  [Accession='E4PL69', extracted_gn='fadA']
   row 68: raw_id='E4PPW9'  reason=unresolved  [Accession='E4PPW9', extracted_gn='rplY']
+  row 91: raw_id='E4PNT0'  reason=ambiguous  [Accession='E4PNT0', extracted_gn='phbA']
+  row 148: raw_id='E4PPG7'  reason=ambiguous  [Accession='E4PPG7', extracted_gn='ftsH']
   row 172: raw_id='E4PGF3'  reason=unresolved  [Accession='E4PGF3', extracted_gn='HP15_2300']
+  row 194: raw_id='E4PP47'  reason=ambiguous  [Accession='E4PP47', extracted_gn='ilvD']
   row 197: raw_id='E4PL15'  reason=unresolved  [Accession='E4PL15', extracted_gn='polA']
+  row 211: raw_id='E4PLY6'  reason=ambiguous  [Accession='E4PLY6', extracted_gn='tuf']
   row 219: raw_id='E4PF37'  reason=unresolved  [Accession='E4PF37', extracted_gn='HP15_2153']
   row 265: raw_id='E4PG18'  reason=unresolved  [Accession='E4PG18', extracted_gn='HP15_3518']
   row 295: raw_id='E4PMV8'  reason=unresolved  [Accession='E4PMV8', extracted_gn='HP15_472']
   row 301: raw_id='E4PNS1'  reason=unresolved  [Accession='E4PNS1', extracted_gn='HP15_1801']
   row 384: raw_id='E4PQ63'  reason=unresolved  [Accession='E4PQ63', extracted_gn='HP15_3164']
+  row 436: raw_id='E4PK62'  reason=ambiguous  [Accession='E4PK62', extracted_gn='trxA']
+  row 447: raw_id='E4PK67'  reason=ambiguous  [Accession='E4PK67', extracted_gn='rho']
+  row 468: raw_id='E4PPA4'  reason=ambiguous  [Accession='E4PPA4', extracted_gn='trpB']
   row 480: raw_id='E4PLW6'  reason=unresolved  [Accession='E4PLW6', extracted_gn='tyrS']
+
+NOTE: 9 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

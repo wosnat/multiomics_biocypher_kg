@@ -13,7 +13,7 @@
     "gene_name": {
       "conflict": 0,
       "multi": 347,
-      "unique": 1369
+      "unique": 1368
     },
     "gene_synonym": {
       "conflict": 0,
@@ -23,7 +23,7 @@
     "gff_gene_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 3826
+      "unique": 3824
     },
     "locus_tag": {
       "conflict": 0,
@@ -36,14 +36,14 @@
       "unique": 1962
     },
     "locus_tag_ncbi": {
-      "conflict": 41,
+      "conflict": 0,
       "multi": 0,
-      "unique": 6844
+      "unique": 1863
     },
     "old_locus_tag": {
       "conflict": 0,
       "multi": 0,
-      "unique": 207
+      "unique": 206
     },
     "other": {
       "conflict": 0,
@@ -66,7 +66,10 @@
       "unique": 1454
     }
   },
+  "runaway_genes": [],
   "strain": "MED4",
+  "tier1_count_max": 9,
+  "tier1_count_median": 6.0,
   "unresolved_rows_per_source": {
     "Bagby and Chisholm 2015/s2_concordance_low_co2": 3,
     "Bagby and Chisholm 2015/s2_concordance_low_co2_no_o2": 3,
@@ -76,9 +79,9 @@
     "Bagby and Chisholm 2015/supp_table_1_no_o2": 30,
     "Biller 2014/s2_med4_vesicle_proteome": 8,
     "Biller 2014/s4_med4_vesicle_dna_top50": 4,
-    "He 2022/geo_de_med4": 94,
-    "Johnson 2026b/de_dark_vs_light": 43,
-    "Johnson 2026b/de_light_vs_dark": 43,
+    "He 2022/geo_de_med4": 95,
+    "Johnson 2026b/de_dark_vs_light": 44,
+    "Johnson 2026b/de_light_vs_dark": 44,
     "Steglich 2010/decay_clusters": 112,
     "Steglich 2010/halflife_table": 112,
     "Thompson 2011/med4_iron_response_clusters": 13,
@@ -86,12 +89,12 @@
     "Thompson 2016/dark_vs_light_infected_8.5h": 1,
     "Thompson 2016/lysate_vs_spent_medium_dark_2.5h": 2,
     "Thompson 2016/lysate_vs_spent_medium_dark_4.5h": 3,
-    "Thompson 2016/lysate_vs_spent_medium_dark_8.5h": 1,
+    "Thompson 2016/lysate_vs_spent_medium_dark_8.5h": 2,
     "Thompson 2016/lysate_vs_spent_medium_light_1.5h": 1,
     "Thompson 2016/lysate_vs_spent_medium_light_8.5h": 2,
     "Tolonen 2006/supp_table_med4": 1,
     "Voigt 2014/tss_metrics_med4": 8,
-    "Wang 2014/med4_expression_level": 104,
+    "Wang 2014/med4_expression_level": 105,
     "Weissberg 2025/med4_rnaseq_axenic_day_14_vs_exp_day_7": 6,
     "Weissberg 2025/med4_rnaseq_axenic_longterm_vs_exp_day_7": 6,
     "Weissberg 2025/med4_rnaseq_coculture_day_18_vs_exp_day_11": 6,
@@ -102,11 +105,10 @@
     "Weissberg 2025/med4_rnaseq_day_18_coculture_vs_axenic": 6,
     "Weissberg 2025/med4_rnaseq_exp_day_11_coculture_vs_axenic": 6,
     "cds_from_genomic.fna": 4,
-    "genomic_gca/MED4": 126,
-    "genomic_gcf/MED4": 45
+    "genomic_gca/MED4": 127,
+    "genomic_gcf/MED4": 47
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 41 data conflicts \u2014 check annotation quality.",
     "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 2 data conflicts \u2014 check annotation quality."
   ]
 }
