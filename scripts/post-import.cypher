@@ -419,8 +419,8 @@ SET dm.value_min    = v_min,
 MATCH (dm:DerivedMetric {value_kind: 'boolean'})
 OPTIONAL MATCH (dm)-[r:Derived_metric_flags_gene]->(:Gene)
 WITH dm,
-     count(CASE WHEN r.value = 'true'  THEN 1 END) AS n_true,
-     count(CASE WHEN r.value = 'false' THEN 1 END) AS n_false
+     count(CASE WHEN r.value = 'flagged'     THEN 1 END) AS n_true,
+     count(CASE WHEN r.value = 'not_flagged' THEN 1 END) AS n_false
 SET dm.flag_true_count  = n_true,
     dm.flag_false_count = n_false;
 

@@ -136,12 +136,12 @@
     },
     {
       "properties": {
-        "adjusted_p_value": 0.168932371857294,
+        "adjusted_p_value": 4.62277346559386e-05,
         "expression_direction": "down",
-        "log2_fold_change": -0.918582631661619,
-        "time_point": "1h",
-        "time_point_hours": 1.0,
-        "time_point_order": 2
+        "log2_fold_change": -2.88375242322746,
+        "time_point": "15 min",
+        "time_point_hours": 0.25,
+        "time_point_order": 1
       },
       "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
       "target": "ncbigene:SYNWH7803_RS00465",
@@ -149,12 +149,12 @@
     },
     {
       "properties": {
-        "adjusted_p_value": 4.62277346559386e-05,
+        "adjusted_p_value": 0.168932371857294,
         "expression_direction": "down",
-        "log2_fold_change": -2.88375242322746,
-        "time_point": "15 min",
-        "time_point_hours": 0.25,
-        "time_point_order": 1
+        "log2_fold_change": -0.918582631661619,
+        "time_point": "1h",
+        "time_point_hours": 1.0,
+        "time_point_order": 2
       },
       "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
       "target": "ncbigene:SYNWH7803_RS00465",
@@ -2266,7 +2266,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-08-27T14:00:20.588292+00:00",
+  "generated_at": "2026-08-28T12:01:28.723117+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -2538,7 +2538,7 @@
           "Synechococcus WH7803",
           "Synechococcus WH8102"
         ],
-        "title": "You produce while I clean up, a strategy revealed by exoproteomics during Synechococcus–Roseobacter interactions",
+        "title": "You produce while I clean up, a strategy revealed by exoproteomics during Synechococcus\u2013Roseobacter interactions",
         "treatment_types": [
           "coculture"
         ]
@@ -2671,7 +2671,7 @@
       "id": "10.1016/j.cell.2022.12.006_mmc_vs_uv_mit0604",
       "label": "Experiment",
       "properties": {
-        "control": "UV shock arm (30 s 254 nm + 1 h recovery) — treatment-vs-treatment contrast, NOT an untreated baseline",
+        "control": "UV shock arm (30 s 254 nm + 1 h recovery) \u2014 treatment-vs-treatment contrast, NOT an untreated baseline",
         "is_time_course": "single_time_point",
         "name": "MIT0604 mitomycin C vs UV shock (treatment-vs-treatment contrast, RNA-seq)",
         "omics_type": "RNASEQ",
@@ -3666,7 +3666,7 @@
       "properties": {
         "level": 1,
         "level_kind": "tc_subclass",
-        "name": "α-Type Channels",
+        "name": "\u03b1-Type Channels",
         "tcdb_id": "1.A"
       }
     },
@@ -4033,7 +4033,7 @@
       "id": "data_source:merops_diamond",
       "label": "DataSource",
       "properties": {
-        "description": "diamond blastp against the MEROPS peptidase scan library — per-protein protease/peptidase-inhibitor classifications (clan/family/subfamily) by direct sequence similarity; the KG^s only MEROPS evidence source.",
+        "description": "diamond blastp against the MEROPS peptidase scan library \u2014 per-protein protease/peptidase-inhibitor classifications (clan/family/subfamily) by direct sequence similarity; the KG^s only MEROPS evidence source.",
         "provenance": "tool_run",
         "scope": "gene_level"
       }

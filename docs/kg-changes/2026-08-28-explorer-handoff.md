@@ -182,7 +182,7 @@ All answered; the R1 answer exposes a KG-side precompute bug:
 
 | ID | Request | Kind |
 |---|---|---|
-| **R6** | **`DerivedMetric.dm_false_count` is wrong on the live build**: `MATCH ()-[r:Derived_metric_flags_gene]->() RETURN r.value, count(*)` gives `false: 3,773 / true: 8,126`, yet `sum(dm_false_count)` over the 27 boolean DMs is **0** (`dm_true_count` sums are consistent). The explorer's "positive-only" doc came from reading that column. Fix the precompute in the same rebuild (likely counts a literal that never matched — will be `'not_flagged'` after HO-001) and add a validity test `dm_false_count = count(r WHERE r.value = 'not_flagged')` per DM. The explorer will correct the `genes_by_boolean_metric` / `metabolites_by_flags_assay` docs and its `by_metric` false-count comparison once the column is right. | **P1, same rebuild** |
+| **R6** | **`DerivedMetric.flag_true_count` / `flag_false_count` are zero on the live build** (property names corrected from an earlier draft that said `dm_*_count`): on the 2026-08-28 11:58Z build, `MATCH ()-[r:Derived_metric_flags_gene]->() RETURN r.value, count(*)` gives `flagged: 8,126 / not_flagged: 3,773`, yet `sum(flag_true_count)` and `sum(flag_false_count)` over the 27 boolean DMs are **both 0** (and were 0 before the rename too). The precompute never matched the stored literal. Fix in the next rebuild and add a validity test `flag_true_count = count(r WHERE r.value = 'flagged')` (and the `not_flagged` twin) per DM. The explorer's `genes_by_boolean_metric.by_metric` pairs its filtered-slice counts with these columns, so they read `dm_true: 0 / dm_false: 0` today. | **P1, next rebuild** |
 
 R2 → the explorer pins the 8 new vocab entries; R4 → reads `Schema_info.paper_count`.
 

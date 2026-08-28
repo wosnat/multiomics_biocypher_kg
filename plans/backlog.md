@@ -62,6 +62,15 @@ up — this file is the index, not the plan.
       assembly-annotation date, which is why the marginal gain concentrates on
       old assemblies.
 
+- [ ] **Two sparse `"true"`-only markers remain outside R5.** `is_uninformative`
+      (ontology terms, post-import) and GO `level_is_best_effort` are set to the
+      string `'true'` and absent otherwise — presence-flags, not two-state facts,
+      so the 2026-08-28 conversion left them. Either declare them as
+      presence markers in the vocabulary contract or convert to a pair
+      (`informative | uninformative`, `exact | best_effort`); the latter is
+      breaking for the explorer's `is_uninformative` filter.
+      → `docs/kg-changes/two-state-strings.md`, `scripts/post-import.sh` §is_uninformative
+
 - [ ] **TigrRole hierarchy normalization.** The 114 `TigrRole` nodes are flat
       (`level = 0` everywhere) with the JCVI mainrole/subrole two-level scheme
       embedded in compound names ("Energy metabolism / Electron transport") —
