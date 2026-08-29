@@ -450,6 +450,20 @@ tag with nothing logged.
 
 ### Added
 
+- **Per-value descriptions on the trust vocabularies (explorer B1).** 39 of
+  the 122 `ControlledVocabulary` nodes — every `evidence` and `sources` edge
+  vocabulary plus `call_class`, `best_hit_kind`, `attachment_depth`,
+  `substrate_depth`, `pfam_support`, `go_support`, `source_agreement`,
+  `detection_status`, `table_scope`, `annotation_state` — now carry a sparse
+  `value_descriptions: str[]` of `"<value>: <one line>"` elements in `values`
+  order (split on the first `: `). Declared as an optional
+  `value_descriptions` map in `config/controlled_vocabularies.yaml`; the loader
+  rejects a described value that is not declared and a closed vocabulary that
+  describes only some of its values. Not part of `controlled_vocabularies_hash`
+  (wording may improve without a re-pin — hash unchanged, `sha256:d7191e2a…`).
+  A unit test pins every described `sources` value to a `logical_sources` id in
+  `config/gene_annotations_config.yaml` so the two files cannot drift.
+
 - **Annotation-state distribution baseline tool.**
   `tests/kg_validity/capture_annotation_state.py` (`--save` / `--compare`,
   omics-edge-snapshot pattern) captures the Gene `annotation_state` /

@@ -108,3 +108,93 @@ def test_evidence_ladder_placements():
     assert vocab["Gene_has_tcdb_family.attachment_depth"].values == ["most_specific", "superseded"]
     assert "retired" in vocab["NcbifamFamily.family_type"].values
     assert "MeropsFamily.family_class" in vocab and "MeropsFamily.family_type" not in vocab
+
+
+# --- value_descriptions (explorer B1, 2026-08-29) ---------------------------
+
+_VD_BASE = """
+Edge.evidence:
+  applies_to: Edge
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [curated, signature]
+  description: x
+"""
+
+
+def _write(tmp_path, extra):
+    p = tmp_path / "v.yaml"
+    p.write_text(_VD_BASE + extra)
+    return p
+
+
+def test_value_descriptions_are_loaded_and_whitespace_normalized(tmp_path):
+    p = _write(tmp_path, """  value_descriptions:
+    curated: >
+      hand-curated
+      by a person
+    signature: direct HMM hit
+""")
+    e = load_vocabularies(p)["Edge.evidence"]
+    assert e.value_descriptions == {"curated": "hand-curated by a person",
+                                    "signature": "direct HMM hit"}
+
+
+def test_value_descriptions_default_to_empty(tmp_path):
+    e = load_vocabularies(_write(tmp_path, ""))["Edge.evidence"]
+    assert e.value_descriptions == {}
+
+
+def test_value_descriptions_reject_undeclared_value(tmp_path):
+    p = _write(tmp_path, """  value_descriptions:
+    curated: a
+    signature: b
+    homology: not a declared value
+""")
+    with pytest.raises(ValueError, match="homology"):
+        load_vocabularies(p)
+
+
+def test_value_descriptions_on_closed_vocab_must_cover_every_value(tmp_path):
+    p = _write(tmp_path, """  value_descriptions:
+    curated: a
+""")
+    with pytest.raises(ValueError, match="signature"):
+        load_vocabularies(p)
+
+
+def test_value_descriptions_do_not_affect_the_hash(tmp_path):
+    without = list(load_vocabularies(_write(tmp_path, "")).values())
+    with_ = list(load_vocabularies(_write(tmp_path, """  value_descriptions:
+    curated: a
+    signature: b
+""")).values())
+    assert vocabularies_hash(without) == vocabularies_hash(with_)
+
+
+def test_trust_slice_carries_value_descriptions():
+    """Every trust vocabulary the explorer filters on is described per value."""
+    entries = load_vocabularies()
+    trust_props = {"evidence", "sources", "call_class", "best_hit_kind",
+                   "attachment_depth", "substrate_depth", "pfam_support",
+                   "go_support", "source_agreement", "detection_status",
+                   "table_scope", "annotation_state"}
+    missing = [e.id for e in entries.values()
+               if e.property in trust_props and e.closed and not e.value_descriptions]
+    assert not missing, missing
+
+
+def test_sources_descriptions_do_not_drift_from_gene_annotations_config():
+    """Every described `sources` value is a logical_sources id, and every
+    source any `sources` vocabulary declares is described somewhere."""
+    import yaml
+    cfg = yaml.safe_load(open("config/gene_annotations_config.yaml"))
+    logical = {ls["id"] for src in cfg["sources"].values()
+               for ls in src["logical_sources"]}
+    entries = [e for e in load_vocabularies().values() if e.property == "sources"]
+    described = {v for e in entries for v in e.value_descriptions}
+    declared = {v for e in entries for v in e.values}
+    assert described <= logical, described - logical
+    assert declared <= described, declared - described
