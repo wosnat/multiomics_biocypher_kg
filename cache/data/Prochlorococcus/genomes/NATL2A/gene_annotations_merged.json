@@ -33426,6 +33426,7 @@
       "[interpro] DevC protein",
       "[interpro] ABC-4 integral membrane protein family, HrtB subfamily",
       "[ncbifam] ABC transporter permease DevC",
+      "[tigr_role_inferred] Transport and binding proteins / Other",
       "[pfam] FtsX: FtsX-like permease C-terminal"
     ],
     "alternative_locus_tags": [
@@ -37513,6 +37514,7 @@
       "[interpro] LPS export ABC transporter, ATP-binding protein LptB",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[ncbifam] LPS export ABC transporter ATP-binding protein",
+      "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of surface polysaccharides and lipopolysaccharides",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -38026,6 +38028,7 @@
       "[interpro] Cytochrome c-type biogenesis protein CcsA/CcmC",
       "[hamap] Cytochrome c biogenesis protein CcsA [ccsA].",
       "[ncbifam] c-type cytochrome biogenesis protein CcsB",
+      "[tigr_role_inferred] Protein fate / Protein modification and repair",
       "[pfam] Cytochrom_C_asm: Cytochrome C assembly protein"
     ],
     "alternative_locus_tags": [
@@ -38556,6 +38559,7 @@
       "[kegg] 6-bisphosphate phosphatase",
       "[interpro] Fructose-1,6-bisphosphatase class 2/Sedoheputulose-1,7-bisphosphatase",
       "[ncbifam] class II fructose-bisphosphatase",
+      "[tigr_role_inferred] Energy metabolism / Pentose phosphate pathway",
       "[pfam] FBPase_glpX: Bacterial fructose-1,6-bisphosphatase, glpX-encoded"
     ],
     "alternative_locus_tags": [
@@ -44825,6 +44829,7 @@
       "[interpro] YqgF/RNase H-like domain",
       "[hamap] Putative pre-16S rRNA nuclease [yqgF].",
       "[ncbifam] Holliday junction resolvase RuvX",
+      "[tigr_role_inferred] Unknown function / General",
       "[pfam] RuvX: Holliday junction resolvase"
     ],
     "alternative_locus_tags": [
@@ -46515,6 +46520,7 @@
       "[interpro] CDP-alcohol phosphatidyltransferase",
       "[interpro] CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase",
       "[interpro] CDP-alcohol phosphatidyltransferase class-I",
+      "[tigr_role_inferred] Fatty acid and phospholipid metabolism / Biosynthesis",
       "[pfam] CDP-OH_P_transf: CDP-alcohol phosphatidyltransferase"
     ],
     "alternative_locus_tags": [
@@ -49955,6 +49961,7 @@
       "[interpro] Protein Iojap/ribosomal silencing factor RsfS",
       "[hamap] Ribosomal silencing factor RsfS [rsfS].",
       "[ncbifam] ribosome silencing factor",
+      "[tigr_role_inferred] Protein synthesis / Translation factors",
       "[pfam] RsfS: Ribosomal silencing factor during starvation"
     ],
     "alternative_locus_tags": [
@@ -64421,6 +64428,8 @@
       "[interpro] AAA ATPase, AAA+ lid domain",
       "[hamap] ATP-dependent zinc metalloprotease FtsH [ftsH].",
       "[ncbifam] ATP-dependent zinc metalloprotease FtsH",
+      "[tigr_role_inferred] Protein fate / Degradation of proteins, peptides, and glycopeptides",
+      "[tigr_role_inferred] Cellular processes / Cell division",
       "[pfam] FtsH_ext: FtsH Extracellular",
       "[pfam] Peptidase_M41: Peptidase family M41",
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
@@ -66190,6 +66199,7 @@
       "[interpro] Deoxyxylulose-5-phosphate synthase",
       "[interpro] Transketolase, C-terminal domain",
       "[hamap] 1-deoxy-D-xylulose-5-phosphate synthase [dxs].",
+      "[tigr_role_inferred] Biosynthesis of cofactors, prosthetic groups, and carriers / Other",
       "[pfam] DXP_synthase_N: 1-deoxy-D-xylulose-5-phosphate synthase",
       "[pfam] Transketolase_C: Transketolase, C-terminal domain",
       "[pfam] Transket_pyr: Transketolase, pyrimidine binding domain"
@@ -67897,6 +67907,7 @@
       "[interpro] Class II Histidinyl-tRNA synthetase (HisRS)-like catalytic core domain",
       "[hamap] ATP phosphoribosyltransferase regulatory subunit [hisZ].",
       "[ncbifam] ATP phosphoribosyltransferase regulatory subunit",
+      "[tigr_role_inferred] Amino acid biosynthesis / Histidine family",
       "[pfam] tRNA-synt_His: Histidyl-tRNA synthetase"
     ],
     "alternative_locus_tags": [
@@ -73987,6 +73998,7 @@
       "[interpro] Protoporphyrinogen oxidase HemJ-like",
       "[hamap] Protoporphyrinogen IX oxidase.",
       "[ncbifam] protoporphyrinogen oxidase HemJ",
+      "[tigr_role_inferred] Hypothetical proteins / Conserved",
       "[pfam] UPF0093: Uncharacterised protein family (UPF0093)"
     ],
     "alternative_locus_tags": [
@@ -78200,6 +78212,7 @@
       "[interpro] Lipopolysaccharide assembly, LptC-related",
       "[interpro] Lipopolysaccharide export system protein LptC",
       "[ncbifam] LPS export ABC transporter periplasmic protein LptC",
+      "[tigr_role_inferred] Transport and binding proteins / Other",
       "[pfam] LptC: Lipopolysaccharide-assembly, LptC-related"
     ],
     "alternative_locus_tags": [
@@ -79893,6 +79906,8 @@
       "[interpro] AAA ATPase, AAA+ lid domain",
       "[hamap] ATP-dependent zinc metalloprotease FtsH [ftsH].",
       "[ncbifam] ATP-dependent zinc metalloprotease FtsH",
+      "[tigr_role_inferred] Protein fate / Degradation of proteins, peptides, and glycopeptides",
+      "[tigr_role_inferred] Cellular processes / Cell division",
       "[pfam] Peptidase_M41: Peptidase family M41",
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
       "[pfam] FtsH_ext: FtsH Extracellular",
@@ -121780,6 +121795,7 @@
       "[interpro] Monothiol glutaredoxin",
       "[interpro] Glutaredoxin, PICOT-like",
       "[ncbifam] Grx4 family monothiol glutaredoxin",
+      "[tigr_role_inferred] Energy metabolism / Electron transport",
       "[pfam] Glutaredoxin: Glutaredoxin"
     ],
     "alternative_locus_tags": [
@@ -126497,6 +126513,7 @@
       "[interpro] DNA integrity scanning protein DisA",
       "[hamap] Diadenylate cyclase [dacA].",
       "[ncbifam] diadenylate cyclase CdaA",
+      "[tigr_role_inferred] Hypothetical proteins / Conserved",
       "[pfam] DAC: DisA bacterial checkpoint controller nucleotide-binding"
     ],
     "alternative_locus_tags": [
@@ -134154,6 +134171,7 @@
       "[interpro] Inosine-5'-monophosphate dehydrogenase",
       "[interpro] IMP dehydrogenase-related 2",
       "[ncbifam] GuaB3 family IMP dehydrogenase-related protein",
+      "[tigr_role_inferred] Unknown function / General",
       "[pfam] IMPDH: IMP dehydrogenase / GMP reductase domain"
     ],
     "alternative_locus_tags": [
@@ -144891,6 +144909,7 @@
       "[interpro] YchF, N-terminal",
       "[hamap] Ribosome-binding ATPase YchF [ychF].",
       "[ncbifam] redox-regulated ATPase YchF",
+      "[tigr_role_inferred] Unknown function / General",
       "[pfam] MMR_HSR1: 50S ribosome-binding GTPase",
       "[pfam] YchF-GTPase_C: Protein of unknown function (DUF933)"
     ],
@@ -150548,6 +150567,7 @@
       "[interpro] Photosystem II protein D1/D2",
       "[hamap] Photosystem II D2 protein [psbD].",
       "[ncbifam] photosystem II D2 protein (photosystem q(a) protein)",
+      "[tigr_role_inferred] Energy metabolism / Electron transport",
       "[pfam] Photo_RC: Photosynthetic reaction centre protein"
     ],
     "alternative_locus_tags": [
@@ -150877,6 +150897,7 @@
       "[interpro] Photosystem II CP43 reaction centre protein",
       "[hamap] Photosystem II CP43 reaction center protein [psbC].",
       "[ncbifam] photosystem II reaction center protein CP43",
+      "[tigr_role_inferred] Energy metabolism / Electron transport",
       "[pfam] PSII: Photosystem II protein"
     ],
     "alternative_locus_tags": [
@@ -165114,6 +165135,7 @@
       "[interpro] Survival protein SurE",
       "[hamap] 5'/3'-nucleotidase SurE [surE].",
       "[ncbifam] 5'/3'-nucleotidase SurE",
+      "[tigr_role_inferred] Cellular processes / Adaptations to atypical conditions",
       "[pfam] SurE: Survival protein SurE"
     ],
     "alternative_locus_tags": [
@@ -167182,6 +167204,7 @@
       "[hamap] tRNA (guanine-N(1)-)-methyltransferase [trmD].",
       "[ncbifam] tRNA (guanosine(37)-N1)-methyltransferase TrmD",
       "[ncbifam] 2-C-methyl-D-erythritol 2,4-cyclodiphosphate synthase",
+      "[tigr_role_inferred] Protein synthesis / tRNA and rRNA base modification",
       "[pfam] YgbB: YgbB family",
       "[pfam] tRNA_m1G_MT: tRNA (Guanine-1)-methyltransferase TrmD"
     ],
@@ -167674,6 +167697,7 @@
       "[hamap] GTPase Era [era].",
       "[ncbifam] GTPase Era",
       "[ncbifam] GTP-binding protein",
+      "[tigr_role_inferred] Protein synthesis / Other",
       "[pfam] MMR_HSR1: 50S ribosome-binding GTPase",
       "[pfam] KH_2: KH domain"
     ],
@@ -171158,6 +171182,7 @@
       "[interpro] Peptidase S26A, superoxide dismutase maturation protease, nickel-type",
       "[interpro] Peptidase S26",
       "[interpro] Mitochondrial Inner Membrane Protease Subunit 1",
+      "[tigr_role_inferred] Protein fate / Protein modification and repair",
       "[pfam] Peptidase_S24: Peptidase S24-like",
       "[pfam] Peptidase_S26: Signal peptidase, peptidase S26"
     ],
@@ -215167,6 +215192,7 @@
       "[interpro] Urease alpha subunit, C-terminal",
       "[hamap] Urease subunit alpha [ureC].",
       "[ncbifam] urease subunit alpha",
+      "[tigr_role_inferred] Central intermediary metabolism / Nitrogen metabolism",
       "[pfam] Urease_alpha: Urease alpha-subunit, N-terminal domain",
       "[pfam] Amidohydro_1: Amidohydrolase family"
     ],
@@ -225204,6 +225230,7 @@
       "[interpro] Alanine racemase, N-terminal",
       "[interpro] Alanine racemase, C-terminal",
       "[hamap] Alanine racemase.",
+      "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of murein sacculus and peptidoglycan",
       "[pfam] Ala_racemase_N: Alanine racemase, N-terminal domain",
       "[pfam] Ala_racemase_C: Alanine racemase, C-terminal domain"
     ],
@@ -239414,6 +239441,7 @@
       "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase LarE-like",
       "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase-like",
       "[ncbifam] ATP-dependent sacrificial sulfur transferase LarE",
+      "[tigr_role_inferred] Hypothetical proteins / Conserved",
       "[pfam] Asn_synthase: Asparagine synthase",
       "[pfam] NAD_synthase: NAD synthase"
     ],
@@ -241836,6 +241864,7 @@
       "[interpro] Probable peptidoglycan glycosyltransferase RodA/MrdB",
       "[hamap] Peptidoglycan glycosyltransferase MrdB [mrdB].",
       "[ncbifam] rod shape-determining protein RodA",
+      "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of murein sacculus and peptidoglycan",
       "[pfam] FTSW_RODA_SPOVE: Cell cycle protein"
     ],
     "alternative_locus_tags": [
@@ -244457,6 +244486,7 @@
       "[ncbifam] bifunctional pantoate--beta-alanine ligase/(d)CMP kinase",
       "[ncbifam] (d)CMP kinase",
       "[ncbifam] pantoate--beta-alanine ligase",
+      "[tigr_role_inferred] Biosynthesis of cofactors, prosthetic groups, and carriers / Pantothenate and coenzyme A",
       "[pfam] Cytidylate_kin: Cytidylate kinase",
       "[pfam] Pantoate_ligase: Pantoate-beta-alanine ligase"
     ],
@@ -270711,6 +270741,7 @@
       "[interpro] Glycine cleavage system H-protein/Simiate",
       "[hamap] Glycine cleavage system H protein [gcvH].",
       "[ncbifam] glycine cleavage system protein GcvH",
+      "[tigr_role_inferred] Energy metabolism / Amino acids and amines",
       "[pfam] GCV_H: Glycine cleavage H-protein"
     ],
     "alternative_locus_tags": [
@@ -276918,6 +276949,7 @@
       "[interpro] Queuosine biosynthesis protein QueC",
       "[hamap] 7-cyano-7-deazaguanine synthase [queC].",
       "[ncbifam] 7-cyano-7-deazaguanine synthase QueC",
+      "[tigr_role_inferred] Unknown function / General",
       "[pfam] QueC: Queuosine biosynthesis protein QueC"
     ],
     "alternative_locus_tags": [
@@ -287367,6 +287399,7 @@
       "[interpro] NusB/RsmB/TIM44",
       "[interpro] NusB antitermination factor",
       "[ncbifam] transcription antitermination factor NusB",
+      "[tigr_role_inferred] Transcription / Transcription factors",
       "[pfam] NusB: NusB family"
     ],
     "alternative_locus_tags": [
@@ -289917,6 +289950,7 @@
       "[interpro] Circularly permuted (CP)-type guanine nucleotide-binding (G) domain",
       "[hamap] Small ribosomal subunit biogenesis GTPase RsgA [rsgA].",
       "[ncbifam] ribosome small subunit-dependent GTPase A",
+      "[tigr_role_inferred] Protein synthesis / Translation factors",
       "[pfam] RsgA_GTPase: RsgA GTPase"
     ],
     "alternative_locus_tags": [
@@ -290147,6 +290181,7 @@
       "[interpro] Nucleoid-associated protein YbaB/EbfC",
       "[hamap] Nucleoid-associated protein YbaB [ybaB].",
       "[ncbifam] YbaB/EbfC family nucleoid-associated protein",
+      "[tigr_role_inferred] Unknown function / General",
       "[pfam] YbaB_DNA_bd: YbaB/EbfC DNA-binding family"
     ],
     "alternative_locus_tags": [
@@ -300141,6 +300176,7 @@
       "[interpro] Cyanate hydratase",
       "[hamap] Cyanate hydratase [cynS].",
       "[ncbifam] cyanase",
+      "[tigr_role_inferred] Cellular processes / Detoxification",
       "[pfam] Cyanate_lyase: Cyanate lyase C-terminal domain"
     ],
     "alternative_locus_tags": [
@@ -307512,6 +307548,7 @@
       "[interpro] SUF system FeS cluster assembly, SufD",
       "[interpro] SUF system FeS cluster assembly, SufBD",
       "[ncbifam] Fe-S cluster assembly protein SufD",
+      "[tigr_role_inferred] Biosynthesis of cofactors, prosthetic groups, and carriers / Other",
       "[pfam] SUFBD_core: SUF system FeS cluster assembly, SufBD core domain"
     ],
     "alternative_locus_tags": [
@@ -307701,6 +307738,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] FeS cluster assembly SUF system, ATPase SufC",
       "[ncbifam] Fe-S cluster assembly ATPase SufC",
+      "[tigr_role_inferred] Biosynthesis of cofactors, prosthetic groups, and carriers / Other",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -320205,6 +320243,7 @@
       "[interpro] Thymidylate kinase",
       "[interpro] Thymidylate kinase-like domain",
       "[hamap] Thymidylate kinase [tmk].",
+      "[tigr_role_inferred] Purines, pyrimidines, nucleosides, and nucleotides / Nucleotide and nucleoside interconversions",
       "[pfam] Thymidylate_kin: Thymidylate kinase"
     ],
     "alternative_locus_tags": [
@@ -322946,6 +322985,7 @@
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
       "[interpro] tRNA threonylcarbamoyl adenosine modification protein TsaB",
       "[ncbifam] tRNA (adenosine(37)-N6)-threonylcarbamoyltransferase complex dimerization subunit type 1 TsaB",
+      "[tigr_role_inferred] Protein synthesis / tRNA and rRNA base modification",
       "[pfam] TsaD: tRNA N6-adenosine threonylcarbamoyltransferase"
     ],
     "alternative_locus_tags": [
@@ -334651,6 +334691,7 @@
       "[interpro] Endoribonuclease YbeY",
       "[hamap] Endoribonuclease YbeY [ybeY].",
       "[ncbifam] rRNA maturation RNase YbeY",
+      "[tigr_role_inferred] Protein synthesis / Other",
       "[pfam] YbeY: Endoribonuclease YbeY"
     ],
     "alternative_locus_tags": [
@@ -338164,6 +338205,7 @@
       "[interpro] GTPase, MTG1",
       "[interpro] GTP-binding protein, ribosome biogenesis",
       "[ncbifam] ribosome biogenesis GTPase YlqF",
+      "[tigr_role_inferred] Protein synthesis / Other",
       "[pfam] MMR_HSR1: 50S ribosome-binding GTPase"
     ],
     "alternative_locus_tags": [
@@ -344330,6 +344372,7 @@
       "[interpro] MutS2 and Smr-associated SH3 domain",
       "[hamap] Endonuclease MutS2 [mutS2].",
       "[ncbifam] endonuclease MutS2",
+      "[tigr_role_inferred] DNA metabolism / Other",
       "[pfam] Smr: Smr domain",
       "[pfam] MutS_V: MutS domain V",
       "[pfam] MutS_III: MutS domain III",
@@ -346889,6 +346932,7 @@
       "[interpro] AAA ATPase, AAA+ lid domain",
       "[hamap] ATP-dependent zinc metalloprotease FtsH [ftsH].",
       "[ncbifam] ATP-dependent zinc metalloprotease FtsH",
+      "[tigr_role_inferred] Protein fate / Degradation of proteins, peptides, and glycopeptides",
       "[pfam] Peptidase_M41: Peptidase family M41",
       "[pfam] FtsH_ext: FtsH Extracellular",
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
@@ -350903,6 +350947,7 @@
       "[kegg] thymidylate synthase (FAD); Thy1; ThyX",
       "[interpro] Thymidylate synthase ThyX",
       "[ncbifam] FAD-dependent thymidylate synthase",
+      "[tigr_role_inferred] Purines, pyrimidines, nucleosides, and nucleotides / 2'-Deoxyribonucleotide metabolism",
       "[pfam] Thy1: Thymidylate synthase complementing protein"
     ],
     "alternative_locus_tags": [
@@ -351628,6 +351673,7 @@
       "[interpro] Crp-type HTH domain",
       "[interpro] Transcription regulator, NtcA",
       "[ncbifam] global nitrogen regulator NtcA",
+      "[tigr_role_inferred] Regulatory functions / DNA interactions",
       "[pfam] HTH_Crp_2: Crp-like helix-turn-helix domain",
       "[pfam] cNMP_binding: Cyclic nucleotide-binding domain"
     ],
@@ -352349,6 +352395,7 @@
       "[interpro] Peptidyl-tRNA hydrolase",
       "[hamap] Peptidyl-tRNA hydrolase [pth].",
       "[ncbifam] aminoacyl-tRNA hydrolase",
+      "[tigr_role_inferred] Protein synthesis / Other",
       "[pfam] Pept_tRNA_hydro: Peptidyl-tRNA hydrolase"
     ],
     "alternative_locus_tags": [
@@ -359121,6 +359168,7 @@
       "[interpro] dITP/XTP pyrophosphatase",
       "[hamap] dITP/XTP pyrophosphatase.",
       "[ncbifam] RdgB/HAM1 family non-canonical purine NTP pyrophosphatase",
+      "[tigr_role_inferred] DNA metabolism / DNA replication, recombination, and repair",
       "[pfam] Ham1p_like: Ham1 family"
     ],
     "alternative_locus_tags": [
@@ -369188,6 +369236,7 @@
       "[interpro] S-adenosylmethionine synthetase, central domain",
       "[interpro] S-adenosylmethionine synthetase, C-terminal",
       "[hamap] S-adenosylmethionine synthase [metK].",
+      "[tigr_role_inferred] Central intermediary metabolism / Other",
       "[pfam] S-AdoMet_synt_N: S-adenosylmethionine synthetase, N-terminal domain",
       "[pfam] S-AdoMet_synt_C: S-adenosylmethionine synthetase, C-terminal domain",
       "[pfam] S-AdoMet_synt_M: S-adenosylmethionine synthetase, central domain"
@@ -371019,6 +371068,7 @@
       "[interpro] Release factor glutamine methyltransferase, cyanobacteria-type",
       "[ncbifam] HemK family protein methyltransferase",
       "[ncbifam] peptide chain release factor N(5)-glutamine methyltransferase",
+      "[tigr_role_inferred] Protein fate / Protein modification and repair",
       "[pfam] MTS: Methyltransferase small domain",
       "[pfam] Methyltransf_31: Methyltransferase domain"
     ],
@@ -377156,6 +377206,7 @@
       "[hamap] GTPase Der [der].",
       "[ncbifam] GTP-binding protein",
       "[ncbifam] ribosome biogenesis GTPase Der",
+      "[tigr_role_inferred] Protein synthesis / Other",
       "[pfam] MMR_HSR1: 50S ribosome-binding GTPase",
       "[pfam] KH_dom-like: KH-domain-like of EngA bacterial GTPase enzymes, C-terminal"
     ],
@@ -378877,6 +378928,8 @@
       "[interpro] DeoC/FbaB/LacD aldolase",
       "[interpro] Deoxyribose-phosphate aldolase",
       "[ncbifam] deoxyribose-phosphate aldolase",
+      "[tigr_role_inferred] Purines, pyrimidines, nucleosides, and nucleotides / Other",
+      "[tigr_role_inferred] Energy metabolism / Other",
       "[pfam] DeoC: DeoC/LacD family aldolase"
     ],
     "alternative_locus_tags": [
@@ -379565,6 +379618,7 @@
       "[interpro] Biotinyl protein ligase (BPL) and lipoyl protein ligase (LPL), catalytic domain",
       "[hamap] Octanoyltransferase [lipB].",
       "[ncbifam] lipoyl(octanoyl) transferase LipB",
+      "[tigr_role_inferred] Protein fate / Protein modification and repair",
       "[pfam] BPL_LplA_LipB: Biotin/lipoate A/B protein ligase family",
       "[pfam] LplA-B_cat: Lipoyl protein ligase A/B catalytic domain"
     ],
@@ -382346,6 +382400,7 @@
       "[interpro] Membrane protein insertion efficiency factor YidD-like",
       "[hamap] Putative membrane protein insertion efficiency factor [yidD].",
       "[ncbifam] membrane protein insertion efficiency factor YidD",
+      "[tigr_role_inferred] Hypothetical proteins / Conserved",
       "[pfam] YidD: Putative membrane protein insertion efficiency factor"
     ],
     "alternative_locus_tags": [
@@ -394389,6 +394444,7 @@
       "[interpro] Sec-independent periplasmic protein translocase TatC",
       "[hamap] Sec-independent protein translocase protein TatC [tatC].",
       "[ncbifam] twin-arginine translocase subunit TatC",
+      "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
       "[pfam] TatC: Sec-independent protein translocase protein (TatC)"
     ],
     "alternative_locus_tags": [
@@ -399865,6 +399921,7 @@
       "[hamap] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide nickel insertion protein [larC].",
       "[ncbifam] nickel pincer cofactor biosynthesis protein LarC2",
       "[ncbifam] nickel pincer cofactor biosynthesis protein LarC",
+      "[tigr_role_inferred] Hypothetical proteins / Conserved",
       "[pfam] Ni_insertion: Nickel insertion protein"
     ],
     "alternative_locus_tags": [
@@ -410265,6 +410322,7 @@
       "[interpro] Long-chain fatty aldehyde decarbonylase",
       "[hamap] Aldehyde decarbonylase.",
       "[ncbifam] aldehyde oxygenase (deformylating)",
+      "[tigr_role_inferred] Central intermediary metabolism / Other",
       "[pfam] Ald_deCOase: Long-chain fatty aldehyde decarbonylase"
     ],
     "alternative_locus_tags": [
@@ -410474,6 +410532,7 @@
       "[interpro] Semialdehyde dehydrogenase, NAD-binding",
       "[interpro] Long-chain acyl-[acyl-carrier-protein] reductase",
       "[ncbifam] long-chain acyl-[acyl-carrier-protein] reductase",
+      "[tigr_role_inferred] Central intermediary metabolism / Other",
       "[pfam] adh_short: short chain dehydrogenase",
       "[pfam] Shikimate_DH: Shikimate / quinate 5-dehydrogenase",
       "[pfam] Semialdhyde_dh: Semialdehyde dehydrogenase, NAD binding domain"
@@ -415250,6 +415309,7 @@
       "[interpro] Ethanolamine utilization protein EutN/carboxysome shell vertex protein CcmL",
       "[interpro] Carboxysome shell vertex protein CsoS4A",
       "[ncbifam] alpha-carboxysome shell vertex protein CsoS4",
+      "[tigr_role_inferred] Central intermediary metabolism / One-carbon metabolism",
       "[pfam] EutN_CcmL: Ethanolamine utilisation protein EutN/carboxysome"
     ],
     "alternative_locus_tags": [
@@ -415454,6 +415514,7 @@
       "[interpro] Ethanolamine utilization protein EutN/carboxysome shell vertex protein CcmL",
       "[interpro] Carboxysome shell vertex protein CsoS4B",
       "[ncbifam] carboxysome peptide B",
+      "[tigr_role_inferred] Central intermediary metabolism / One-carbon metabolism",
       "[pfam] EutN_CcmL: Ethanolamine utilisation protein EutN/carboxysome"
     ],
     "alternative_locus_tags": [
@@ -417456,6 +417517,7 @@
       "[interpro] Glycosyltransferase 2-like",
       "[interpro] Transferase 2, rSAM/selenodomain-associated",
       "[ncbifam] TIGR04283 family arsenosugar biosynthesis glycosyltransferase",
+      "[tigr_role_inferred] Unknown function / Enzymes of unknown specificity",
       "[pfam] Glycos_transf_2: Glycosyl transferase family 2"
     ],
     "alternative_locus_tags": [
