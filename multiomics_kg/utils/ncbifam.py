@@ -99,3 +99,75 @@ def parse_hmm_pgap_rows(rows: Iterable[dict]) -> dict[str, dict]:
 
         out[acc] = entry
     return out
+
+
+# ── TIGRFAMs 15.0 role archive (frozen 2018) ───────────────────────────────
+#
+# NCBI FTP: https://ftp.ncbi.nlm.nih.gov/hmm/TIGRFAMs/release_15.0/
+#   TIGR_ROLE_NAMES   -- "role_id:\t<id>\tmainrole:\t<text>" / "...\tsub1role:\t<text>"
+#   TIGRFAMS_ROLE_LINK -- "<TIGRxxxxx>\t<role_id>"
+# NCBIfam kept the TIGR accessions but dropped the role column, so this archive
+# is the ONLY source of family -> JCVI role. Role ids are the same id space the
+# Cyanorak GFF `tIGR_Role` field uses (110/110 shared codes name-identical,
+# measured 2026-08-28).
+
+
+def parse_tigr_role_names(lines: Iterable[str]) -> dict[str, dict]:
+    """Parse ``TIGR_ROLE_NAMES`` → ``{role_id: {"mainrole", "sub1role"}}``.
+
+    Roles with no ``mainrole`` line (e.g. ``719`` in release 15.0) are dropped —
+    an unnamed role cannot become a node. Raises ``ValueError`` when non-empty
+    input yields nothing (format drift, never a real result).
+    """
+    roles: dict[str, dict] = {}
+    n_lines = 0
+    for line in lines:
+        line = line.rstrip("\n")
+        if not line.strip():
+            continue
+        n_lines += 1
+        parts = line.split("\t")
+        if len(parts) < 4 or parts[0].strip() != "role_id:":
+            continue
+        role_id = parts[1].strip()
+        kind = parts[2].strip().rstrip(":")
+        text = parts[3].strip()
+        if kind not in ("mainrole", "sub1role") or not role_id or not text:
+            continue
+        roles.setdefault(role_id, {})[kind] = text
+    if n_lines and not roles:
+        raise ValueError("TIGR_ROLE_NAMES: non-empty input parsed to zero roles — format drift?")
+    return {
+        rid: {"mainrole": r["mainrole"], "sub1role": r.get("sub1role", "")}
+        for rid, r in roles.items()
+        if r.get("mainrole")
+    }
+
+
+def parse_tigr_role_link(lines: Iterable[str], roles: dict[str, dict]) -> dict[str, str]:
+    """Parse ``TIGRFAMS_ROLE_LINK`` → ``{unversioned_TIGR_acc: role_id}``.
+
+    Links to roles absent from *roles* (unnamed or unknown) are dropped so the
+    result is closed over the named-role set. Raises ``ValueError`` when
+    non-empty input yields no parseable pair.
+    """
+    out: dict[str, str] = {}
+    n_lines = n_parsed = 0
+    for line in lines:
+        line = line.rstrip("\n")
+        if not line.strip():
+            continue
+        n_lines += 1
+        parts = line.split("\t")
+        if len(parts) < 2:
+            continue
+        acc = parts[0].strip().split(".", 1)[0]
+        role_id = parts[1].strip()
+        if not acc.startswith("TIGR") or not role_id:
+            continue
+        n_parsed += 1
+        if role_id in roles:
+            out[acc] = role_id
+    if n_lines and not n_parsed:
+        raise ValueError("TIGRFAMS_ROLE_LINK: non-empty input parsed to zero links — format drift?")
+    return out
