@@ -429,3 +429,58 @@ def test_get_edges_includes_gene_edges_via_delegation(tmp_path):
     assert len(gene_edges) == 1
     assert gene_edges[0][1] == "ncbigene:LT001"
     assert gene_edges[0][2] == "ncbifam:TIGR00198"
+
+
+# ── MultiNcbifamAdapter: TIGR role bridge ───────────────────────────────────
+
+def _multi(tmp_path, genes, calls, **kwargs):
+    genome_dir = _write_strain(tmp_path, genes, calls)
+    cfg = tmp_path / "genomes.csv"
+    cfg.write_text("strain_name,data_dir\nTESTSTRAIN," + str(genome_dir) + "\n")
+    cache_root = tmp_path / "cache"
+    (cache_root / "ncbifam").mkdir(parents=True)
+    (cache_root / "ncbifam" / "ncbifam_reference.json").write_text(json.dumps({
+        "TIGR00001": {"name": "a", "family_type": "equivalog"},
+        "TIGR00002": {"name": "b", "family_type": "subfamily"},
+        "NF000001": {"name": "n", "family_type": "equivalog"},
+    }))
+    (cache_root / "ncbifam" / "tigr_roles.json").write_text(json.dumps({
+        "release": "t",
+        "roles": {"120": {"mainrole": "Energy metabolism", "sub1role": "TCA cycle"},
+                  "132": {"mainrole": "DNA metabolism", "sub1role": "x"}},
+        "family_role": {"TIGR00001": ["120"], "TIGR00002": ["132", "120"]},
+    }))
+    a = MultiNcbifamAdapter(genome_config_file=str(cfg), cache_root=cache_root, **kwargs)
+    a.download_data()
+    return a
+
+
+_GENES = {"LT001": {"protein_id": "WP_1", "ncbifam_ids": ["TIGR00001", "TIGR00002", "NF000001"]}}
+_CALLS = {"WP_1": {"libraries": {"NCBIFAM": [
+    {"accession": "TIGR00001", "name": "a", "start": 1, "end": 9, "evalue": 1e-9, "score": 10.0},
+    {"accession": "TIGR00002", "name": "b", "start": 1, "end": 9, "evalue": 1e-9, "score": 10.0},
+    {"accession": "NF000001", "name": "n", "start": 1, "end": 9, "evalue": 1e-9, "score": 10.0},
+]}}}
+
+
+def _bridge(adapter):
+    return {(e[1], e[2]): e[4] for e in adapter.get_edges() if e[3] == "ncbifam_family_has_tigr_role"}
+
+
+def test_tigr_role_bridge_ungated_and_dangling_proof(tmp_path):
+    a = _multi(tmp_path, _GENES, _CALLS, tigr_role_node_ids={"tigr.role:120", "tigr.role:132"})
+    assert _bridge(a) == {
+        ("ncbifam:TIGR00001", "tigr.role:120"): {},
+        ("ncbifam:TIGR00002", "tigr.role:132"): {},   # subfamily still bridges (ontology-level)
+        ("ncbifam:TIGR00002", "tigr.role:120"): {},   # second role of a multi-role family
+    }
+
+
+def test_tigr_role_bridge_skips_missing_target_node(tmp_path):
+    a = _multi(tmp_path, _GENES, _CALLS, tigr_role_node_ids={"tigr.role:120"})
+    assert set(_bridge(a)) == {("ncbifam:TIGR00001", "tigr.role:120"), ("ncbifam:TIGR00002", "tigr.role:120")}
+
+
+def test_tigr_role_bridge_none_means_no_edges(tmp_path):
+    a = _multi(tmp_path, _GENES, _CALLS)
+    assert _bridge(a) == {}
