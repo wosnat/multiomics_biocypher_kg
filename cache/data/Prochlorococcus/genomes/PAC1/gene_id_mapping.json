@@ -5976,41 +5976,6 @@
         }
       ]
     },
-    "EV03_0089": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_00089",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_0089",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_1938",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG22419.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV03_0090": {
       "tier1_ids": [
         {
@@ -9522,41 +9487,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "EV03_0143": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_00143",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_0143",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_2225",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG22250.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "EV03_0144": {
       "tier1_ids": [
@@ -20207,41 +20137,6 @@
         }
       ]
     },
-    "EV03_0286": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_00286",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_0286",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_1789",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG21967.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV03_0287": {
       "tier1_ids": [
         {
@@ -28167,6 +28062,20 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "CK_Pro_PAC1_50003",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50003",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000005.1_cds_WP_036904645.1_357",
           "sources": [
             "cds_from_genomic.fna"
@@ -28201,6 +28110,10 @@
         },
         {
           "id": "EV03_0395",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50003",
           "type": "gene_synonym"
         }
       ]
@@ -29000,41 +28913,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "EV03_0406": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_00406",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_0406",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_0148",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG21667.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "EV03_0407": {
       "tier1_ids": [
@@ -37285,6 +37163,20 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "CK_Pro_PAC1_50004",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50004",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000005.1_cds_WP_036904799.1_472",
           "sources": [
             "cds_from_genomic.fna"
@@ -37319,6 +37211,10 @@
         },
         {
           "id": "EV03_0514",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50004",
           "type": "gene_synonym"
         }
       ]
@@ -41441,41 +41337,6 @@
       "tier2_ids": [
         {
           "id": "KGG21389.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
-    "EV03_0574": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_00574",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_0574",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_0013",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG21390.1",
           "sources": [
             "genomic_gca/PAC1"
           ],
@@ -45981,41 +45842,6 @@
         }
       ]
     },
-    "EV03_0637": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_00637",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_0637",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_1903",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG21303.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV03_0638": {
       "tier1_ids": [
         {
@@ -47028,86 +46854,6 @@
         }
       ]
     },
-    "EV03_0653": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_00653",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_0653",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_0074",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG21235.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "hli",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_0654": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_00654",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_0654",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_0075",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG21236.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "hli",
-          "type": "gene_name"
-        }
-      ]
-    },
     "EV03_0655": {
       "tier1_ids": [
         {
@@ -48001,41 +47747,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "EV03_0667": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_00667",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_0667",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_0033",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG21194.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "EV03_0668": {
       "tier1_ids": [
@@ -57625,41 +57336,6 @@
         }
       ]
     },
-    "EV03_0800": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_00800",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_0800",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_1483",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG20864.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV03_0801": {
       "tier1_ids": [
         {
@@ -62336,46 +62012,6 @@
         {
           "id": "EV03_2261",
           "type": "gene_synonym"
-        }
-      ]
-    },
-    "EV03_0864": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_00864",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_0864",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_1547",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG20927.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "hli",
-          "type": "gene_name"
         }
       ]
     },
@@ -68633,41 +68269,6 @@
         }
       ]
     },
-    "EV03_0948": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_00948",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_0948",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_1631",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG21009.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV03_0949": {
       "tier1_ids": [
         {
@@ -74434,46 +74035,6 @@
         }
       ]
     },
-    "EV03_1032": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_01032",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_1032",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_1983",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG20531.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "psbZ",
-          "type": "gene_name"
-        }
-      ]
-    },
     "EV03_1033": {
       "tier1_ids": [
         {
@@ -79135,41 +78696,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "EV03_1092": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_01092",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_1092",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_2043",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG20591.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "EV03_1093": {
       "tier1_ids": [
@@ -93236,46 +92762,6 @@
         }
       ]
     },
-    "EV03_1280": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_01280",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_1280",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_1236",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG20318.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "psbE",
-          "type": "gene_name"
-        }
-      ]
-    },
     "EV03_1281": {
       "tier1_ids": [
         {
@@ -98426,41 +97912,6 @@
       ],
       "tier3_ids": []
     },
-    "EV03_1358": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_01358",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_1358",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_1308",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG20157.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV03_1359": {
       "tier1_ids": [
         {
@@ -101957,41 +101408,6 @@
         }
       ]
     },
-    "EV03_1410": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_01410",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_1410",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_1360",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG20208.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV03_1411": {
       "tier1_ids": [
         {
@@ -102181,6 +101597,20 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "CK_Pro_PAC1_50014",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50014",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000013.1_cds_WP_036906440.1_1301",
           "sources": [
             "cds_from_genomic.fna"
@@ -102211,6 +101641,10 @@
         },
         {
           "id": "EV03_1414",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50014",
           "type": "gene_synonym"
         }
       ]
@@ -104008,41 +103442,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "EV03_1443": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_01443",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_1443",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_0315",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG19979.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "EV03_1444": {
       "tier1_ids": [
@@ -114653,41 +114052,6 @@
         }
       ]
     },
-    "EV03_1590": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_01590",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_1590",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_0479",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG19212.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV03_1591": {
       "tier1_ids": [
         {
@@ -115498,6 +114862,20 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "CK_Pro_PAC1_50018",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50018",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_036906752.1_1469",
           "sources": [
             "cds_from_genomic.fna"
@@ -115528,6 +114906,10 @@
         },
         {
           "id": "EV03_1601",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50018",
           "type": "gene_synonym"
         }
       ]
@@ -115924,41 +115306,6 @@
         }
       ]
     },
-    "EV03_1607": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_01607",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_1607",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_0496",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG19228.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV03_1608": {
       "tier1_ids": [
         {
@@ -116200,6 +115547,20 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "CK_Pro_PAC1_50019",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50019",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_241434818.1_1479",
           "sources": [
             "cds_from_genomic.fna"
@@ -116230,6 +115591,10 @@
         },
         {
           "id": "EV03_1611",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50019",
           "type": "gene_synonym"
         }
       ]
@@ -120637,41 +120002,6 @@
         }
       ]
     },
-    "EV03_1669": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_01669",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_1669",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_0558",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG19289.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV03_1670": {
       "tier1_ids": [
         {
@@ -121106,6 +120436,20 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "CK_Pro_PAC1_50020",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50020",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_036906844.1_1541",
           "sources": [
             "cds_from_genomic.fna"
@@ -121140,6 +120484,10 @@
         },
         {
           "id": "EV03_1676",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50020",
           "type": "gene_synonym"
         }
       ]
@@ -121621,6 +120969,20 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "CK_Pro_PAC1_50022",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50022",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_011294430.1_1549",
           "sources": [
             "cds_from_genomic.fna"
@@ -121651,6 +121013,10 @@
         },
         {
           "id": "EV03_1683",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50022",
           "type": "gene_synonym"
         }
       ]
@@ -129371,41 +128737,6 @@
         }
       ]
     },
-    "EV03_1781": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_01781",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_1781",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_0671",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG19399.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV03_1782": {
       "tier1_ids": [
         {
@@ -129889,46 +129220,6 @@
         {
           "id": "EV03_1787",
           "type": "gene_synonym"
-        }
-      ]
-    },
-    "EV03_1788": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_01788",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_1788",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_0678",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG19406.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "ndhL",
-          "type": "gene_name"
         }
       ]
     },
@@ -130565,41 +129856,6 @@
         }
       ]
     },
-    "EV03_1798": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_01798",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_1798",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_0688",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG19416.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV03_1799": {
       "tier1_ids": [
         {
@@ -131030,6 +130286,20 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "CK_Pro_PAC1_50028",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50028",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_036907028.1_1670",
           "sources": [
             "cds_from_genomic.fna"
@@ -131060,6 +130330,10 @@
         },
         {
           "id": "EV03_1805",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50028",
           "type": "gene_synonym"
         }
       ]
@@ -138828,6 +138102,20 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "CK_Pro_PAC1_50024",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50024",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_036907147.1_1768",
           "sources": [
             "cds_from_genomic.fna"
@@ -138862,6 +138150,10 @@
         },
         {
           "id": "EV03_1907",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50024",
           "type": "gene_synonym"
         }
       ]
@@ -138944,41 +138236,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "EV03_1909": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_01909",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_1909",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_0799",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG19524.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "EV03_1910": {
       "tier1_ids": [
@@ -145767,41 +145024,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "EV03_2001": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_02001",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_2001",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_0891",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG19616.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "EV03_2002": {
       "tier1_ids": [
@@ -154341,46 +153563,6 @@
       ],
       "tier3_ids": []
     },
-    "EV03_2116": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_02116",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_2116",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_1006",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG19730.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "rpmB",
-          "type": "gene_name"
-        }
-      ]
-    },
     "EV03_2117": {
       "tier1_ids": [
         {
@@ -162417,41 +161599,6 @@
         }
       ]
     },
-    "EV03_2223": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_02223",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_2223",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_1113",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG19835.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV03_2224": {
       "tier1_ids": [
         {
@@ -164215,41 +163362,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "EV03_2248": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_02248",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV03_2248",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PPAC1_1138",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG19859.1",
-          "sources": [
-            "genomic_gca/PAC1"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "EV03_2249": {
       "tier1_ids": [
@@ -167573,253 +166685,6 @@
         }
       ]
     },
-    "EV03_50001": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50001",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "hli",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50002": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50002",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "rpmJ",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50003": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50003",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "spoT",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50004": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50004",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "cysH",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50005": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50005",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "coaX",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50006": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50006",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "hli",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50007": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50007",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "hli",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50008": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50008",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "panB",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50009": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50009",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "bioC",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50010": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50010",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "rpsU",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50011": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50011",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "rnhB",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50012": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50012",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "rpmI",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50013": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50013",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "psbI",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50014": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50014",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
     "EV03_50015": {
       "tier1_ids": [
         {
@@ -167846,148 +166711,6 @@
       "tier2_ids": [],
       "tier3_ids": []
     },
-    "EV03_50017": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50017",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "psaJ2",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50018": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50018",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "queA",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50019": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50019",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "EV03_50020": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50020",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "ppx",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50021": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50021",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "EV03_50022": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50022",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "EV03_50023": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50023",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "EV03_50024": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50024",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "purK",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV03_50025": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50025",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "ddpX",
-          "type": "gene_name"
-        }
-      ]
-    },
     "EV03_50026": {
       "tier1_ids": [
         {
@@ -168010,19 +166733,6 @@
       "tier1_ids": [
         {
           "id": "CK_Pro_PAC1_50027",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "EV03_50028": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_PAC1_50028",
           "sources": [
             "annotation"
           ],
@@ -168068,11 +166778,39 @@
     "EV03_RS00300": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_00089",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_0089",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000002.1_cds_WP_036904149.1_75",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_0089",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_1938",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS00300",
@@ -168089,11 +166827,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG22419.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS00300",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_0089",
           "type": "gene_synonym"
         }
       ]
@@ -168134,6 +166883,20 @@
     "EV03_RS00405": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_50001",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50001",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000002.1_cds_WP_036904206.1_104",
           "sources": [
             "cds_from_genomic.fna"
@@ -168159,7 +166922,15 @@
       ],
       "tier3_ids": [
         {
+          "id": "hli",
+          "type": "gene_name"
+        },
+        {
           "id": "EV03_RS00405",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50001",
           "type": "gene_synonym"
         }
       ]
@@ -168167,11 +166938,39 @@
     "EV03_RS00465": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_00143",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_0143",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000003.1_cds_WP_036904261.1_121",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_0143",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_2225",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS00465",
@@ -168188,11 +166987,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG22250.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS00465",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_0143",
           "type": "gene_synonym"
         }
       ]
@@ -168332,11 +167142,39 @@
     "EV03_RS01655": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_00406",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_0406",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000005.1_cds_WP_193743093.1_368",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_0406",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_0148",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS01655",
@@ -168353,12 +167191,23 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG21667.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "grxC",
           "type": "gene_name"
+        },
+        {
+          "id": "EV03_0406",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -168398,6 +167247,20 @@
     "EV03_RS02170": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_50005",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50005",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000005.1_cds_WP_036904898.1_473",
           "sources": [
             "cds_from_genomic.fna"
@@ -168423,13 +167286,35 @@
       ],
       "tier3_ids": [
         {
+          "id": "coaX",
+          "type": "gene_name"
+        },
+        {
           "id": "EV03_RS02170",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50005",
           "type": "gene_synonym"
         }
       ]
     },
     "EV03_RS02375": {
       "tier1_ids": [
+        {
+          "id": "CK_Pro_PAC1_50006",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50006",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NZ_JNAX01000005.1_cds_WP_036904874.1_517",
           "sources": [
@@ -168456,7 +167341,15 @@
       ],
       "tier3_ids": [
         {
+          "id": "hli",
+          "type": "gene_name"
+        },
+        {
           "id": "EV03_RS02375",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50006",
           "type": "gene_synonym"
         }
       ]
@@ -168464,11 +167357,39 @@
     "EV03_RS02410": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_00574",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_0574",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000006.1_cds_WP_036904941.1_529",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_0574",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_0013",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS02410",
@@ -168485,11 +167406,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG21390.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS02410",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_0574",
           "type": "gene_synonym"
         }
       ]
@@ -168497,11 +167429,39 @@
     "EV03_RS02705": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_00653",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_0653",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000008.1_cds_WP_011294533.1_597",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_0653",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_0074",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS02705",
@@ -168518,17 +167478,46 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG21235.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
+          "id": "hli",
+          "type": "gene_name"
+        },
+        {
           "id": "EV03_RS02705",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_0653",
           "type": "gene_synonym"
         }
       ]
     },
     "EV03_RS02740": {
       "tier1_ids": [
+        {
+          "id": "CK_Pro_PAC1_50007",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50007",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NZ_JNAX01000009.1_cds_WP_011125327.1_606",
           "sources": [
@@ -168555,7 +167544,15 @@
       ],
       "tier3_ids": [
         {
+          "id": "hli",
+          "type": "gene_name"
+        },
+        {
           "id": "EV03_RS02740",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50007",
           "type": "gene_synonym"
         }
       ]
@@ -168563,11 +167560,39 @@
     "EV03_RS02755": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_00667",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_0667",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000009.1_cds_WP_036905110.1_612",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_0667",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_0033",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS02755",
@@ -168584,11 +167609,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG21194.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS02755",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_0667",
           "type": "gene_synonym"
         }
       ]
@@ -168662,6 +167698,20 @@
     "EV03_RS03295": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_50008",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50008",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000010.1_cds_WP_036905328.1_722",
           "sources": [
             "cds_from_genomic.fna"
@@ -168689,17 +167739,49 @@
         {
           "id": "panB",
           "type": "gene_name"
+        },
+        {
+          "id": "EV03_50008",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV03_RS03635": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_00864",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_0864",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000010.1_cds_WP_011125327.1_789",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_0864",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_1547",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS03635",
@@ -168716,17 +167798,46 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG20927.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
+          "id": "hli",
+          "type": "gene_name"
+        },
+        {
           "id": "EV03_RS03635",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_0864",
           "type": "gene_synonym"
         }
       ]
     },
     "EV03_RS03905": {
       "tier1_ids": [
+        {
+          "id": "CK_Pro_PAC1_50009",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50009",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NZ_JNAX01000010.1_cds_WP_036905581.1_847",
           "sources": [
@@ -168753,7 +167864,15 @@
       ],
       "tier3_ids": [
         {
+          "id": "bioC",
+          "type": "gene_name"
+        },
+        {
           "id": "EV03_RS03905",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50009",
           "type": "gene_synonym"
         }
       ]
@@ -168761,11 +167880,39 @@
     "EV03_RS04020": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_00948",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_0948",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000010.1_cds_WP_036905622.1_870",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_0948",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_1631",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS04020",
@@ -168782,11 +167929,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG21009.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS04020",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_0948",
           "type": "gene_synonym"
         }
       ]
@@ -168827,6 +167985,20 @@
     "EV03_RS04240": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_50011",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50011",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000010.1_cds_WP_036905711.1_920",
           "sources": [
             "cds_from_genomic.fna"
@@ -168857,6 +168029,10 @@
         },
         {
           "id": "EV03_RS04240",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50011",
           "type": "gene_synonym"
         }
       ]
@@ -168897,11 +168073,39 @@
     "EV03_RS04380": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_01032",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_1032",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000011.1_cds_WP_036905834.1_949",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_1032",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_1983",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS04380",
@@ -168918,17 +168122,42 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG20531.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "psbZ",
           "type": "gene_name"
+        },
+        {
+          "id": "EV03_1032",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV03_RS04465": {
       "tier1_ids": [
+        {
+          "id": "CK_Pro_PAC1_50012",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50012",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NZ_JNAX01000011.1_cds_WP_036905878.1_966",
           "sources": [
@@ -168957,17 +168186,49 @@
         {
           "id": "rpmI",
           "type": "gene_name"
+        },
+        {
+          "id": "EV03_50012",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV03_RS04680": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_01092",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_1092",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000011.1_cds_WP_036905957.1_1009",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_1092",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_2043",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS04680",
@@ -168984,11 +168245,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG20591.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS04680",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_1092",
           "type": "gene_synonym"
         }
       ]
@@ -168996,11 +168268,39 @@
     "EV03_RS05570": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_01280",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_1280",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000012.1_cds_WP_011294296.1_1187",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_1280",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_1236",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS05570",
@@ -169017,23 +168317,62 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG20318.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "psbE",
           "type": "gene_name"
+        },
+        {
+          "id": "EV03_1280",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV03_RS05915": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_01358",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_1358",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000013.1_cds_WP_011823871.1_1254",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_1358",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_1308",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS05915",
@@ -169050,11 +168389,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG20157.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS05915",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_1358",
           "type": "gene_synonym"
         }
       ]
@@ -169095,11 +168445,39 @@
     "EV03_RS06195": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_01443",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_1443",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000014.1_cds_WP_036906477.1_1327",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_1443",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_0315",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS06195",
@@ -169116,11 +168494,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG19979.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS06195",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_1443",
           "type": "gene_synonym"
         }
       ]
@@ -169161,11 +168550,39 @@
     "EV03_RS06870": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_01590",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_1590",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_036906735.1_1457",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_1590",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_0479",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS06870",
@@ -169182,11 +168599,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG19212.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS06870",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_1590",
           "type": "gene_synonym"
         }
       ]
@@ -169227,11 +168655,39 @@
     "EV03_RS06960": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_01607",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_1607",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_011823214.1_1475",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_1607",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_0496",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS06960",
@@ -169248,11 +168704,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG19228.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS06960",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_1607",
           "type": "gene_synonym"
         }
       ]
@@ -169260,11 +168727,39 @@
     "EV03_RS07225": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_01669",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_1669",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_036906834.1_1535",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_1669",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_0558",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS07225",
@@ -169281,17 +168776,42 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG19289.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS07225",
           "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_1669",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV03_RS07260": {
       "tier1_ids": [
+        {
+          "id": "CK_Pro_PAC1_50021",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50021",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_036906845.1_1542",
           "sources": [
@@ -169320,11 +168840,29 @@
         {
           "id": "EV03_RS07260",
           "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50021",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV03_RS07345": {
       "tier1_ids": [
+        {
+          "id": "CK_Pro_PAC1_50023",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50023",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_006043540.1_1559",
           "sources": [
@@ -169353,17 +168891,49 @@
         {
           "id": "EV03_RS07345",
           "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50023",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV03_RS07780": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_01781",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_1781",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_036906993.1_1648",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_1781",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_0671",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS07780",
@@ -169380,11 +168950,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG19399.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS07780",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_1781",
           "type": "gene_synonym"
         }
       ]
@@ -169392,11 +168973,39 @@
     "EV03_RS07820": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_01788",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_1788",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_072013386.1_1655",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_1788",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_0678",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS07820",
@@ -169413,23 +169022,62 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG19406.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "ndhL",
           "type": "gene_name"
+        },
+        {
+          "id": "EV03_1788",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV03_RS07865": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_01798",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_1798",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_036907016.1_1664",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_1798",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_0688",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS07865",
@@ -169446,11 +169094,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG19416.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS07865",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_1798",
           "type": "gene_synonym"
         }
       ]
@@ -169458,11 +169117,39 @@
     "EV03_RS08390": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_01909",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_1909",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_036907150.1_1770",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_1909",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_0799",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS08390",
@@ -169479,17 +169166,42 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG19524.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS08390",
           "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_1909",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV03_RS08605": {
       "tier1_ids": [
+        {
+          "id": "CK_Pro_PAC1_50025",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50025",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_036907215.1_1817",
           "sources": [
@@ -169521,6 +169233,10 @@
         },
         {
           "id": "EV03_RS08605",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50025",
           "type": "gene_synonym"
         }
       ]
@@ -169561,11 +169277,39 @@
     "EV03_RS09310": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_02116",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_2116",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_011293839.1_1962",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_2116",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_1006",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS09310",
@@ -169582,23 +169326,62 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG19730.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "rpmB",
           "type": "gene_name"
+        },
+        {
+          "id": "EV03_2116",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV03_RS09785": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_02223",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_2223",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_241434845.1_2062",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_2223",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_1113",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS09785",
@@ -169615,11 +169398,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG19835.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS09785",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_2223",
           "type": "gene_synonym"
         }
       ]
@@ -169627,11 +169421,39 @@
     "EV03_RS09895": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_02248",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_2248",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_036907793.1_2086",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_2248",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_1138",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS09895",
@@ -169648,11 +169470,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG19859.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS09895",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_2248",
           "type": "gene_synonym"
         }
       ]
@@ -169726,6 +169559,20 @@
     "EV03_RS10200": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_50002",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50002",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000004.1_cds_WP_011295453.1_310",
           "sources": [
             "cds_from_genomic.fna"
@@ -169753,6 +169600,10 @@
         {
           "id": "rpmJ",
           "type": "gene_name"
+        },
+        {
+          "id": "EV03_50002",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -169825,6 +169676,20 @@
     "EV03_RS10270": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_50010",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50010",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000010.1_cds_WP_011295405.1_912",
           "sources": [
             "cds_from_genomic.fna"
@@ -169852,11 +169717,29 @@
         {
           "id": "rpsU",
           "type": "gene_name"
+        },
+        {
+          "id": "EV03_50010",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV03_RS10285": {
       "tier1_ids": [
+        {
+          "id": "CK_Pro_PAC1_50013",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50013",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NZ_JNAX01000012.1_cds_WP_011294252.1_1143",
           "sources": [
@@ -169888,6 +169771,10 @@
         },
         {
           "id": "EV03_RS10285",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50013",
           "type": "gene_synonym"
         }
       ]
@@ -170031,6 +169918,20 @@
     "EV03_RS10330": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_50017",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_50017",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000013.1_cds_WP_072013382.1_1305",
           "sources": [
             "cds_from_genomic.fna"
@@ -170056,11 +169957,15 @@
       ],
       "tier3_ids": [
         {
-          "id": "psaJ",
+          "id": "psaJ2",
           "type": "gene_name"
         },
         {
           "id": "EV03_RS10330",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_50017",
           "type": "gene_synonym"
         }
       ]
@@ -170068,11 +169973,39 @@
     "EV03_RS10365": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_02001",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_2001",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000015.1_cds_WP_080725202.1_1853",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_2001",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_0891",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS10365",
@@ -170089,11 +170022,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG19616.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS10365",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_2001",
           "type": "gene_synonym"
         }
       ]
@@ -170134,11 +170078,39 @@
     "EV03_RS10445": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_00286",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_0286",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000004.1_cds_WP_152559070.1_257",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_0286",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_1789",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS10445",
@@ -170155,11 +170127,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG21967.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS10445",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_0286",
           "type": "gene_synonym"
         }
       ]
@@ -170200,11 +170183,39 @@
     "EV03_RS10475": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_00637",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_0637",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000007.1_cds_WP_152559078.1_584",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_0637",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_1903",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS10475",
@@ -170221,11 +170232,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG21303.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS10475",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_0637",
           "type": "gene_synonym"
         }
       ]
@@ -170431,11 +170453,39 @@
     "EV03_RS10825": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_00654",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_0654",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000008.1_cds_WP_187146463.1_598",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_0654",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_0075",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS10825",
@@ -170452,11 +170502,26 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG21236.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
+          "id": "hli",
+          "type": "gene_name"
+        },
+        {
           "id": "EV03_RS10825",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_0654",
           "type": "gene_synonym"
         }
       ]
@@ -170530,11 +170595,39 @@
     "EV03_RS10985": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_01410",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_1410",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000013.1_cds_WP_036906434.1_1298",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_1410",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_1360",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS10985",
@@ -170551,11 +170644,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG20208.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS10985",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_1410",
           "type": "gene_synonym"
         }
       ]
@@ -170695,11 +170799,39 @@
     "EV03_RS11260": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_PAC1_00800",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV03_0800",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAX01000010.1_cds_WP_241434790.1_731",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV03_0800",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PPAC1_1483",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV03_RS11260",
@@ -170716,11 +170848,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG20864.1",
+          "sources": [
+            "genomic_gca/PAC1"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV03_RS11260",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV03_0800",
           "type": "gene_synonym"
         }
       ]
@@ -176054,6 +176197,9 @@
     "EV03_0088": [
       "EV03_0088"
     ],
+    "EV03_0089": [
+      "EV03_RS00300"
+    ],
     "EV03_0090": [
       "EV03_0090"
     ],
@@ -176172,6 +176318,9 @@
     ],
     "EV03_0142": [
       "EV03_0142"
+    ],
+    "EV03_0143": [
+      "EV03_RS00465"
     ],
     "EV03_0144": [
       "EV03_0144"
@@ -176566,6 +176715,9 @@
     "EV03_0285": [
       "EV03_0285"
     ],
+    "EV03_0286": [
+      "EV03_RS10445"
+    ],
     "EV03_0287": [
       "EV03_0287"
     ],
@@ -176886,6 +177038,9 @@
     ],
     "EV03_0405": [
       "EV03_0405"
+    ],
+    "EV03_0406": [
+      "EV03_RS01655"
     ],
     "EV03_0407": [
       "EV03_0407"
@@ -177349,6 +177504,9 @@
     "EV03_0571": [
       "EV03_0571"
     ],
+    "EV03_0574": [
+      "EV03_RS02410"
+    ],
     "EV03_0575": [
       "EV03_0575"
     ],
@@ -177511,6 +177669,9 @@
     "EV03_0636": [
       "EV03_0636"
     ],
+    "EV03_0637": [
+      "EV03_RS10475"
+    ],
     "EV03_0638": [
       "EV03_0638"
     ],
@@ -177547,6 +177708,12 @@
     "EV03_0652": [
       "EV03_0652"
     ],
+    "EV03_0653": [
+      "EV03_RS02705"
+    ],
+    "EV03_0654": [
+      "EV03_RS10825"
+    ],
     "EV03_0656": [
       "EV03_0656"
     ],
@@ -177579,6 +177746,9 @@
     ],
     "EV03_0666": [
       "EV03_0666"
+    ],
+    "EV03_0667": [
+      "EV03_RS02755"
     ],
     "EV03_0668": [
       "EV03_0668"
@@ -177919,6 +178089,9 @@
     "EV03_0799": [
       "EV03_0799"
     ],
+    "EV03_0800": [
+      "EV03_RS11260"
+    ],
     "EV03_0803": [
       "EV03_0803"
     ],
@@ -178091,6 +178264,9 @@
       "EV03_0125",
       "EV03_0863",
       "EV03_2261"
+    ],
+    "EV03_0864": [
+      "EV03_RS03635"
     ],
     "EV03_0865": [
       "EV03_0865"
@@ -178326,6 +178502,9 @@
     "EV03_0947": [
       "EV03_0947"
     ],
+    "EV03_0948": [
+      "EV03_RS04020"
+    ],
     "EV03_0949": [
       "EV03_0949"
     ],
@@ -178542,6 +178721,9 @@
     "EV03_1031": [
       "EV03_1031"
     ],
+    "EV03_1032": [
+      "EV03_RS04380"
+    ],
     "EV03_1033": [
       "EV03_1033"
     ],
@@ -178715,6 +178897,9 @@
     ],
     "EV03_1091": [
       "EV03_1091"
+    ],
+    "EV03_1092": [
+      "EV03_RS04680"
     ],
     "EV03_1094": [
       "EV03_1094"
@@ -179238,6 +179423,9 @@
     "EV03_1279": [
       "EV03_1279"
     ],
+    "EV03_1280": [
+      "EV03_RS05570"
+    ],
     "EV03_1281": [
       "EV03_1281"
     ],
@@ -179427,6 +179615,9 @@
     "EV03_1356": [
       "EV03_1356"
     ],
+    "EV03_1358": [
+      "EV03_RS05915"
+    ],
     "EV03_1360": [
       "EV03_1360"
     ],
@@ -179550,6 +179741,9 @@
     "EV03_1409": [
       "EV03_1409"
     ],
+    "EV03_1410": [
+      "EV03_RS10985"
+    ],
     "EV03_1412": [
       "EV03_1412"
     ],
@@ -179624,6 +179818,9 @@
     ],
     "EV03_1442": [
       "EV03_1442"
+    ],
+    "EV03_1443": [
+      "EV03_RS06195"
     ],
     "EV03_1444": [
       "EV03_1444"
@@ -180006,6 +180203,9 @@
     "EV03_1589": [
       "EV03_1589"
     ],
+    "EV03_1590": [
+      "EV03_RS06870"
+    ],
     "EV03_1591": [
       "EV03_1591"
     ],
@@ -180053,6 +180253,9 @@
     ],
     "EV03_1606": [
       "EV03_1606"
+    ],
+    "EV03_1607": [
+      "EV03_RS06960"
     ],
     "EV03_1608": [
       "EV03_1608"
@@ -180227,6 +180430,9 @@
     ],
     "EV03_1668": [
       "EV03_1668"
+    ],
+    "EV03_1669": [
+      "EV03_RS07225"
     ],
     "EV03_1671": [
       "EV03_1671"
@@ -180555,6 +180761,9 @@
     "EV03_1780": [
       "EV03_1780"
     ],
+    "EV03_1781": [
+      "EV03_RS07780"
+    ],
     "EV03_1782": [
       "EV03_1782"
     ],
@@ -180572,6 +180781,9 @@
     ],
     "EV03_1787": [
       "EV03_1787"
+    ],
+    "EV03_1788": [
+      "EV03_RS07820"
     ],
     "EV03_1789": [
       "EV03_1789"
@@ -180593,6 +180805,9 @@
     ],
     "EV03_1797": [
       "EV03_1797"
+    ],
+    "EV03_1798": [
+      "EV03_RS07865"
     ],
     "EV03_1799": [
       "EV03_1799"
@@ -180906,6 +181121,9 @@
     "EV03_1908": [
       "EV03_1908"
     ],
+    "EV03_1909": [
+      "EV03_RS08390"
+    ],
     "EV03_1913": [
       "EV03_1913"
     ],
@@ -181148,6 +181366,9 @@
     ],
     "EV03_2000": [
       "EV03_2000"
+    ],
+    "EV03_2001": [
+      "EV03_RS10365"
     ],
     "EV03_2002": [
       "EV03_2002"
@@ -181461,6 +181682,9 @@
     "EV03_2114": [
       "EV03_2114"
     ],
+    "EV03_2116": [
+      "EV03_RS09310"
+    ],
     "EV03_2117": [
       "EV03_2117"
     ],
@@ -181758,6 +181982,9 @@
     "EV03_2222": [
       "EV03_2222"
     ],
+    "EV03_2223": [
+      "EV03_RS09785"
+    ],
     "EV03_2224": [
       "EV03_2224"
     ],
@@ -181823,6 +182050,9 @@
     ],
     "EV03_2247": [
       "EV03_2247"
+    ],
+    "EV03_2248": [
+      "EV03_RS09895"
     ],
     "EV03_2250": [
       "EV03_2250"
@@ -181945,6 +182175,78 @@
     ],
     "EV03_2305": [
       "EV03_2305"
+    ],
+    "EV03_50001": [
+      "EV03_RS00405"
+    ],
+    "EV03_50002": [
+      "EV03_RS10200"
+    ],
+    "EV03_50003": [
+      "EV03_0395"
+    ],
+    "EV03_50004": [
+      "EV03_0514"
+    ],
+    "EV03_50005": [
+      "EV03_RS02170"
+    ],
+    "EV03_50006": [
+      "EV03_RS02375"
+    ],
+    "EV03_50007": [
+      "EV03_RS02740"
+    ],
+    "EV03_50008": [
+      "EV03_RS03295"
+    ],
+    "EV03_50009": [
+      "EV03_RS03905"
+    ],
+    "EV03_50010": [
+      "EV03_RS10270"
+    ],
+    "EV03_50011": [
+      "EV03_RS04240"
+    ],
+    "EV03_50012": [
+      "EV03_RS04465"
+    ],
+    "EV03_50013": [
+      "EV03_RS10285"
+    ],
+    "EV03_50014": [
+      "EV03_1414"
+    ],
+    "EV03_50017": [
+      "EV03_RS10330"
+    ],
+    "EV03_50018": [
+      "EV03_1601"
+    ],
+    "EV03_50019": [
+      "EV03_1611"
+    ],
+    "EV03_50020": [
+      "EV03_1676"
+    ],
+    "EV03_50021": [
+      "EV03_RS07260"
+    ],
+    "EV03_50022": [
+      "EV03_1683"
+    ],
+    "EV03_50023": [
+      "EV03_RS07345"
+    ],
+    "EV03_50024": [
+      "EV03_1907"
+    ],
+    "EV03_50025": [
+      "EV03_RS08605"
+    ],
+    "EV03_50028": [
+      "EV03_1805"
     ],
     "EV03_RS00005": [
       "EV03_RS00005"
@@ -186807,7 +187109,7 @@
       "EV03_1589"
     ],
     "KGG19212.1": [
-      "EV03_1590"
+      "EV03_RS06870"
     ],
     "KGG19213.1": [
       "EV03_1591"
@@ -186855,7 +187157,7 @@
       "EV03_1606"
     ],
     "KGG19228.1": [
-      "EV03_1607"
+      "EV03_RS06960"
     ],
     "KGG19229.1": [
       "EV03_1608"
@@ -187038,7 +187340,7 @@
       "EV03_1668"
     ],
     "KGG19289.1": [
-      "EV03_1669"
+      "EV03_RS07225"
     ],
     "KGG19290.1": [
       "EV03_1670"
@@ -187368,7 +187670,7 @@
       "EV03_1780"
     ],
     "KGG19399.1": [
-      "EV03_1781"
+      "EV03_RS07780"
     ],
     "KGG19400.1": [
       "EV03_1782"
@@ -187389,7 +187691,7 @@
       "EV03_1787"
     ],
     "KGG19406.1": [
-      "EV03_1788"
+      "EV03_RS07820"
     ],
     "KGG19407.1": [
       "EV03_1789"
@@ -187419,7 +187721,7 @@
       "EV03_1797"
     ],
     "KGG19416.1": [
-      "EV03_1798"
+      "EV03_RS07865"
     ],
     "KGG19417.1": [
       "EV03_1799"
@@ -187743,7 +188045,7 @@
       "EV03_1908"
     ],
     "KGG19524.1": [
-      "EV03_1909"
+      "EV03_RS08390"
     ],
     "KGG19525.1": [
       "EV03_1910"
@@ -188019,7 +188321,7 @@
       "EV03_2000"
     ],
     "KGG19616.1": [
-      "EV03_2001"
+      "EV03_RS10365"
     ],
     "KGG19617.1": [
       "EV03_2002"
@@ -188361,7 +188663,7 @@
       "EV03_2115"
     ],
     "KGG19730.1": [
-      "EV03_2116"
+      "EV03_RS09310"
     ],
     "KGG19731.1": [
       "EV03_2117"
@@ -188676,7 +188978,7 @@
       "EV03_2222"
     ],
     "KGG19835.1": [
-      "EV03_2223"
+      "EV03_RS09785"
     ],
     "KGG19836.1": [
       "EV03_2224"
@@ -188748,7 +189050,7 @@
       "EV03_2247"
     ],
     "KGG19859.1": [
-      "EV03_2248"
+      "EV03_RS09895"
     ],
     "KGG19860.1": [
       "EV03_2249"
@@ -188865,7 +189167,7 @@
       "EV03_1442"
     ],
     "KGG19979.1": [
-      "EV03_1443"
+      "EV03_RS06195"
     ],
     "KGG19980.1": [
       "EV03_1444"
@@ -189285,7 +189587,7 @@
       "EV03_1357"
     ],
     "KGG20157.1": [
-      "EV03_1358"
+      "EV03_RS05915"
     ],
     "KGG20158.1": [
       "EV03_1359"
@@ -189438,7 +189740,7 @@
       "EV03_1408"
     ],
     "KGG20208.1": [
-      "EV03_1410"
+      "EV03_RS10985"
     ],
     "KGG20209.1": [
       "EV03_1411"
@@ -189690,7 +189992,7 @@
       "EV03_1279"
     ],
     "KGG20318.1": [
-      "EV03_1280"
+      "EV03_RS05570"
     ],
     "KGG20319.1": [
       "EV03_1281"
@@ -189888,7 +190190,7 @@
       "EV03_1031"
     ],
     "KGG20531.1": [
-      "EV03_1032"
+      "EV03_RS04380"
     ],
     "KGG20532.1": [
       "EV03_1033"
@@ -190068,7 +190370,7 @@
       "EV03_1091"
     ],
     "KGG20591.1": [
-      "EV03_1092"
+      "EV03_RS04680"
     ],
     "KGG20592.1": [
       "EV03_1093"
@@ -190722,7 +191024,7 @@
       "EV03_0799"
     ],
     "KGG20864.1": [
-      "EV03_0800"
+      "EV03_RS11260"
     ],
     "KGG20865.1": [
       "EV03_0801"
@@ -190911,7 +191213,7 @@
       "EV03_0863"
     ],
     "KGG20927.1": [
-      "EV03_0864"
+      "EV03_RS03635"
     ],
     "KGG20928.1": [
       "EV03_0865"
@@ -191154,7 +191456,7 @@
       "EV03_0947"
     ],
     "KGG21009.1": [
-      "EV03_0948"
+      "EV03_RS04020"
     ],
     "KGG21010.1": [
       "EV03_0949"
@@ -191385,7 +191687,7 @@
       "EV03_0666"
     ],
     "KGG21194.1": [
-      "EV03_0667"
+      "EV03_RS02755"
     ],
     "KGG21195.1": [
       "EV03_0668"
@@ -191508,10 +191810,10 @@
       "EV03_0652"
     ],
     "KGG21235.1": [
-      "EV03_0653"
+      "EV03_RS02705"
     ],
     "KGG21236.1": [
-      "EV03_0654"
+      "EV03_RS10825"
     ],
     "KGG21237.1": [
       "EV03_0655"
@@ -191679,7 +191981,7 @@
       "EV03_0636"
     ],
     "KGG21303.1": [
-      "EV03_0637"
+      "EV03_RS10475"
     ],
     "KGG21304.1": [
       "EV03_0638"
@@ -191724,7 +192026,7 @@
       "EV03_0573"
     ],
     "KGG21390.1": [
-      "EV03_0574"
+      "EV03_RS02410"
     ],
     "KGG21391.1": [
       "EV03_0575"
@@ -191913,7 +192215,7 @@
       "EV03_0405"
     ],
     "KGG21667.1": [
-      "EV03_0406"
+      "EV03_RS01655"
     ],
     "KGG21668.1": [
       "EV03_0407"
@@ -192609,7 +192911,7 @@
       "EV03_0285"
     ],
     "KGG21967.1": [
-      "EV03_0286"
+      "EV03_RS10445"
     ],
     "KGG21968.1": [
       "EV03_0287"
@@ -192840,7 +193142,7 @@
       "EV03_0142"
     ],
     "KGG22250.1": [
-      "EV03_0143"
+      "EV03_RS00465"
     ],
     "KGG22251.1": [
       "EV03_0144"
@@ -193107,7 +193409,7 @@
       "EV03_0088"
     ],
     "KGG22419.1": [
-      "EV03_0089"
+      "EV03_RS00300"
     ],
     "KGG22420.1": [
       "EV03_0090"
@@ -199989,7 +200291,7 @@
       "EV03_1491"
     ],
     "bioC": [
-      "EV03_50009"
+      "EV03_RS03905"
     ],
     "bioD": [
       "EV03_0924"
@@ -200159,7 +200461,7 @@
       "EV03_1195"
     ],
     "coaX": [
-      "EV03_50005"
+      "EV03_RS02170"
     ],
     "cobA": [
       "EV03_1086"
@@ -200386,8 +200688,7 @@
       "EV03_0218"
     ],
     "cysH": [
-      "EV03_0514",
-      "EV03_50004"
+      "EV03_0514"
     ],
     "cysK": [
       "EV03_0465",
@@ -200427,7 +200728,6 @@
       "EV03_0394"
     ],
     "ddpX": [
-      "EV03_50025",
       "EV03_RS08605"
     ],
     "deaD": [
@@ -201033,11 +201333,8 @@
       "EV03_0125",
       "EV03_0499",
       "EV03_0531",
-      "EV03_0653",
-      "EV03_0654",
       "EV03_0862",
       "EV03_0863",
-      "EV03_0864",
       "EV03_0868",
       "EV03_0936",
       "EV03_1689",
@@ -201046,9 +201343,12 @@
       "EV03_2260",
       "EV03_2261",
       "EV03_2262",
-      "EV03_50001",
-      "EV03_50006",
-      "EV03_50007"
+      "EV03_RS00405",
+      "EV03_RS02375",
+      "EV03_RS02705",
+      "EV03_RS02740",
+      "EV03_RS03635",
+      "EV03_RS10825"
     ],
     "hli6": [
       "EV03_0803"
@@ -201611,7 +201911,6 @@
       "EV03_1276"
     ],
     "ndhL": [
-      "EV03_1788",
       "EV03_RS07820"
     ],
     "ndhM": [
@@ -201701,7 +202000,6 @@
       "EV03_1085"
     ],
     "panB": [
-      "EV03_50008",
       "EV03_RS03295"
     ],
     "panC-cmk": [
@@ -201939,8 +202237,7 @@
       "EV03_1111"
     ],
     "ppx": [
-      "EV03_1676",
-      "EV03_50020"
+      "EV03_1676"
     ],
     "prfA": [
       "EV03_0349"
@@ -202010,11 +202307,10 @@
       "EV03_1015"
     ],
     "psaJ": [
-      "EV03_1686",
-      "EV03_RS10330"
+      "EV03_1686"
     ],
     "psaJ2": [
-      "EV03_50017"
+      "EV03_RS10330"
     ],
     "psaK": [
       "EV03_2111"
@@ -202050,7 +202346,6 @@
       "EV03_0615"
     ],
     "psbE": [
-      "EV03_1280",
       "EV03_RS05570"
     ],
     "psbF": [
@@ -202063,7 +202358,6 @@
       "EV03_1235"
     ],
     "psbI": [
-      "EV03_50013",
       "EV03_RS10285"
     ],
     "psbJ": [
@@ -202091,7 +202385,6 @@
       "EV03_0533"
     ],
     "psbZ": [
-      "EV03_1032",
       "EV03_RS04380"
     ],
     "psp": [
@@ -202143,8 +202436,7 @@
       "EV03_1249"
     ],
     "purK": [
-      "EV03_1907",
-      "EV03_50024"
+      "EV03_1907"
     ],
     "purL": [
       "EV03_1140"
@@ -202198,8 +202490,7 @@
       "EV03_0886"
     ],
     "queA": [
-      "EV03_1601",
-      "EV03_50018"
+      "EV03_1601"
     ],
     "queC": [
       "EV03_1083"
@@ -202360,7 +202651,6 @@
       "EV03_0383"
     ],
     "rnhB": [
-      "EV03_50011",
       "EV03_RS04240"
     ],
     "rnj": [
@@ -202521,7 +202811,6 @@
       "EV03_0834"
     ],
     "rpmB": [
-      "EV03_2116",
       "EV03_RS09310"
     ],
     "rpmC": [
@@ -202540,11 +202829,9 @@
       "EV03_0718"
     ],
     "rpmI": [
-      "EV03_50012",
       "EV03_RS04465"
     ],
     "rpmJ": [
-      "EV03_50002",
       "EV03_RS10200"
     ],
     "rpoA": [
@@ -202686,7 +202973,6 @@
       "EV03_0942"
     ],
     "rpsU": [
-      "EV03_50010",
       "EV03_RS10270"
     ],
     "rqcU": [
@@ -202856,8 +203142,7 @@
       "EV03_1048"
     ],
     "spoT": [
-      "EV03_0395",
-      "EV03_50003"
+      "EV03_0395"
     ],
     "spoU": [
       "EV03_0779"
@@ -203492,7 +203777,7 @@
     "CK_Pro_PAC1_00086": "EV03_0086",
     "CK_Pro_PAC1_00087": "EV03_0087",
     "CK_Pro_PAC1_00088": "EV03_0088",
-    "CK_Pro_PAC1_00089": "EV03_0089",
+    "CK_Pro_PAC1_00089": "EV03_RS00300",
     "CK_Pro_PAC1_00090": "EV03_0090",
     "CK_Pro_PAC1_00091": "EV03_0091",
     "CK_Pro_PAC1_00092": "EV03_0092",
@@ -203545,7 +203830,7 @@
     "CK_Pro_PAC1_00140": "EV03_0140",
     "CK_Pro_PAC1_00141": "EV03_0141",
     "CK_Pro_PAC1_00142": "EV03_0142",
-    "CK_Pro_PAC1_00143": "EV03_0143",
+    "CK_Pro_PAC1_00143": "EV03_RS00465",
     "CK_Pro_PAC1_00144": "EV03_0144",
     "CK_Pro_PAC1_00145": "EV03_0145",
     "CK_Pro_PAC1_00146": "EV03_0146",
@@ -203686,7 +203971,7 @@
     "CK_Pro_PAC1_00283": "EV03_0283",
     "CK_Pro_PAC1_00284": "EV03_0284",
     "CK_Pro_PAC1_00285": "EV03_0285",
-    "CK_Pro_PAC1_00286": "EV03_0286",
+    "CK_Pro_PAC1_00286": "EV03_RS10445",
     "CK_Pro_PAC1_00287": "EV03_0287",
     "CK_Pro_PAC1_00288": "EV03_0288",
     "CK_Pro_PAC1_00289": "EV03_0289",
@@ -203800,7 +204085,7 @@
     "CK_Pro_PAC1_00403": "EV03_0403",
     "CK_Pro_PAC1_00404": "EV03_0404",
     "CK_Pro_PAC1_00405": "EV03_0405",
-    "CK_Pro_PAC1_00406": "EV03_0406",
+    "CK_Pro_PAC1_00406": "EV03_RS01655",
     "CK_Pro_PAC1_00407": "EV03_0407",
     "CK_Pro_PAC1_00408": "EV03_0408",
     "CK_Pro_PAC1_00409": "EV03_0409",
@@ -203961,7 +204246,7 @@
     "CK_Pro_PAC1_00571": "EV03_0571",
     "CK_Pro_PAC1_00572": "EV03_0572",
     "CK_Pro_PAC1_00573": "EV03_0573",
-    "CK_Pro_PAC1_00574": "EV03_0574",
+    "CK_Pro_PAC1_00574": "EV03_RS02410",
     "CK_Pro_PAC1_00575": "EV03_0575",
     "CK_Pro_PAC1_00576": "EV03_0576",
     "CK_Pro_PAC1_00577": "EV03_0577",
@@ -204023,7 +204308,7 @@
     "CK_Pro_PAC1_00634": "EV03_0634",
     "CK_Pro_PAC1_00635": "EV03_0635",
     "CK_Pro_PAC1_00636": "EV03_0636",
-    "CK_Pro_PAC1_00637": "EV03_0637",
+    "CK_Pro_PAC1_00637": "EV03_RS10475",
     "CK_Pro_PAC1_00638": "EV03_0638",
     "CK_Pro_PAC1_00639": "EV03_0639",
     "CK_Pro_PAC1_00641": "EV03_0641",
@@ -204038,8 +204323,8 @@
     "CK_Pro_PAC1_00650": "EV03_0650",
     "CK_Pro_PAC1_00651": "EV03_0651",
     "CK_Pro_PAC1_00652": "EV03_0652",
-    "CK_Pro_PAC1_00653": "EV03_0653",
-    "CK_Pro_PAC1_00654": "EV03_0654",
+    "CK_Pro_PAC1_00653": "EV03_RS02705",
+    "CK_Pro_PAC1_00654": "EV03_RS10825",
     "CK_Pro_PAC1_00655": "EV03_0655",
     "CK_Pro_PAC1_00656": "EV03_0656",
     "CK_Pro_PAC1_00657": "EV03_0657",
@@ -204052,7 +204337,7 @@
     "CK_Pro_PAC1_00664": "EV03_0664",
     "CK_Pro_PAC1_00665": "EV03_0665",
     "CK_Pro_PAC1_00666": "EV03_0666",
-    "CK_Pro_PAC1_00667": "EV03_0667",
+    "CK_Pro_PAC1_00667": "EV03_RS02755",
     "CK_Pro_PAC1_00668": "EV03_0668",
     "CK_Pro_PAC1_00669": "EV03_0669",
     "CK_Pro_PAC1_00670": "EV03_0670",
@@ -204184,7 +204469,7 @@
     "CK_Pro_PAC1_00797": "EV03_0797",
     "CK_Pro_PAC1_00798": "EV03_0798",
     "CK_Pro_PAC1_00799": "EV03_0799",
-    "CK_Pro_PAC1_00800": "EV03_0800",
+    "CK_Pro_PAC1_00800": "EV03_RS11260",
     "CK_Pro_PAC1_00801": "EV03_0801",
     "CK_Pro_PAC1_00802": "EV03_0802",
     "CK_Pro_PAC1_00803": "EV03_0803",
@@ -204247,7 +204532,7 @@
     "CK_Pro_PAC1_00861": "EV03_0861",
     "CK_Pro_PAC1_00862": "EV03_0862",
     "CK_Pro_PAC1_00863": "EV03_0863",
-    "CK_Pro_PAC1_00864": "EV03_0864",
+    "CK_Pro_PAC1_00864": "EV03_RS03635",
     "CK_Pro_PAC1_00865": "EV03_0865",
     "CK_Pro_PAC1_00866": "EV03_0866",
     "CK_Pro_PAC1_00867": "EV03_0867",
@@ -204328,7 +204613,7 @@
     "CK_Pro_PAC1_00945": "EV03_0945",
     "CK_Pro_PAC1_00946": "EV03_0946",
     "CK_Pro_PAC1_00947": "EV03_0947",
-    "CK_Pro_PAC1_00948": "EV03_0948",
+    "CK_Pro_PAC1_00948": "EV03_RS04020",
     "CK_Pro_PAC1_00949": "EV03_0949",
     "CK_Pro_PAC1_00950": "EV03_0950",
     "CK_Pro_PAC1_00951": "EV03_0951",
@@ -204403,7 +204688,7 @@
     "CK_Pro_PAC1_01022": "EV03_1022",
     "CK_Pro_PAC1_01030": "EV03_1030",
     "CK_Pro_PAC1_01031": "EV03_1031",
-    "CK_Pro_PAC1_01032": "EV03_1032",
+    "CK_Pro_PAC1_01032": "EV03_RS04380",
     "CK_Pro_PAC1_01033": "EV03_1033",
     "CK_Pro_PAC1_01034": "EV03_1034",
     "CK_Pro_PAC1_01035": "EV03_1035",
@@ -204463,7 +204748,7 @@
     "CK_Pro_PAC1_01089": "EV03_1089",
     "CK_Pro_PAC1_01090": "EV03_1090",
     "CK_Pro_PAC1_01091": "EV03_1091",
-    "CK_Pro_PAC1_01092": "EV03_1092",
+    "CK_Pro_PAC1_01092": "EV03_RS04680",
     "CK_Pro_PAC1_01093": "EV03_1093",
     "CK_Pro_PAC1_01094": "EV03_1094",
     "CK_Pro_PAC1_01095": "EV03_1095",
@@ -204647,7 +204932,7 @@
     "CK_Pro_PAC1_01277": "EV03_1277",
     "CK_Pro_PAC1_01278": "EV03_1278",
     "CK_Pro_PAC1_01279": "EV03_1279",
-    "CK_Pro_PAC1_01280": "EV03_1280",
+    "CK_Pro_PAC1_01280": "EV03_RS05570",
     "CK_Pro_PAC1_01281": "EV03_1281",
     "CK_Pro_PAC1_01282": "EV03_1282",
     "CK_Pro_PAC1_01283": "EV03_1283",
@@ -204715,7 +205000,7 @@
     "CK_Pro_PAC1_01355": "EV03_1355",
     "CK_Pro_PAC1_01356": "EV03_1356",
     "CK_Pro_PAC1_01357": "EV03_1357",
-    "CK_Pro_PAC1_01358": "EV03_1358",
+    "CK_Pro_PAC1_01358": "EV03_RS05915",
     "CK_Pro_PAC1_01359": "EV03_1359",
     "CK_Pro_PAC1_01360": "EV03_1360",
     "CK_Pro_PAC1_01361": "EV03_1361",
@@ -204766,7 +205051,7 @@
     "CK_Pro_PAC1_01406": "EV03_1406",
     "CK_Pro_PAC1_01407": "EV03_1407",
     "CK_Pro_PAC1_01408": "EV03_1408",
-    "CK_Pro_PAC1_01410": "EV03_1410",
+    "CK_Pro_PAC1_01410": "EV03_RS10985",
     "CK_Pro_PAC1_01411": "EV03_1411",
     "CK_Pro_PAC1_01412": "EV03_1412",
     "CK_Pro_PAC1_01413": "EV03_1413",
@@ -204794,7 +205079,7 @@
     "CK_Pro_PAC1_01440": "EV03_1440",
     "CK_Pro_PAC1_01441": "EV03_1441",
     "CK_Pro_PAC1_01442": "EV03_1442",
-    "CK_Pro_PAC1_01443": "EV03_1443",
+    "CK_Pro_PAC1_01443": "EV03_RS06195",
     "CK_Pro_PAC1_01444": "EV03_1444",
     "CK_Pro_PAC1_01445": "EV03_1445",
     "CK_Pro_PAC1_01446": "EV03_1446",
@@ -204938,7 +205223,7 @@
     "CK_Pro_PAC1_01587": "EV03_1587",
     "CK_Pro_PAC1_01588": "EV03_1588",
     "CK_Pro_PAC1_01589": "EV03_1589",
-    "CK_Pro_PAC1_01590": "EV03_1590",
+    "CK_Pro_PAC1_01590": "EV03_RS06870",
     "CK_Pro_PAC1_01591": "EV03_1591",
     "CK_Pro_PAC1_01592": "EV03_1592",
     "CK_Pro_PAC1_01593": "EV03_1593",
@@ -204954,7 +205239,7 @@
     "CK_Pro_PAC1_01604": "EV03_1604",
     "CK_Pro_PAC1_01605": "EV03_1605",
     "CK_Pro_PAC1_01606": "EV03_1606",
-    "CK_Pro_PAC1_01607": "EV03_1607",
+    "CK_Pro_PAC1_01607": "EV03_RS06960",
     "CK_Pro_PAC1_01608": "EV03_1608",
     "CK_Pro_PAC1_01609": "EV03_1609",
     "CK_Pro_PAC1_01610": "EV03_1610",
@@ -205015,7 +205300,7 @@
     "CK_Pro_PAC1_01666": "EV03_1666",
     "CK_Pro_PAC1_01667": "EV03_1667",
     "CK_Pro_PAC1_01668": "EV03_1668",
-    "CK_Pro_PAC1_01669": "EV03_1669",
+    "CK_Pro_PAC1_01669": "EV03_RS07225",
     "CK_Pro_PAC1_01670": "EV03_1670",
     "CK_Pro_PAC1_01671": "EV03_1671",
     "CK_Pro_PAC1_01672": "EV03_1672",
@@ -205125,14 +205410,14 @@
     "CK_Pro_PAC1_01778": "EV03_1778",
     "CK_Pro_PAC1_01779": "EV03_1779",
     "CK_Pro_PAC1_01780": "EV03_1780",
-    "CK_Pro_PAC1_01781": "EV03_1781",
+    "CK_Pro_PAC1_01781": "EV03_RS07780",
     "CK_Pro_PAC1_01782": "EV03_1782",
     "CK_Pro_PAC1_01783": "EV03_1783",
     "CK_Pro_PAC1_01784": "EV03_1784",
     "CK_Pro_PAC1_01785": "EV03_1785",
     "CK_Pro_PAC1_01786": "EV03_1786",
     "CK_Pro_PAC1_01787": "EV03_1787",
-    "CK_Pro_PAC1_01788": "EV03_1788",
+    "CK_Pro_PAC1_01788": "EV03_RS07820",
     "CK_Pro_PAC1_01789": "EV03_1789",
     "CK_Pro_PAC1_01790": "EV03_1790",
     "CK_Pro_PAC1_01791": "EV03_1791",
@@ -205142,7 +205427,7 @@
     "CK_Pro_PAC1_01795": "EV03_1795",
     "CK_Pro_PAC1_01796": "EV03_1796",
     "CK_Pro_PAC1_01797": "EV03_1797",
-    "CK_Pro_PAC1_01798": "EV03_1798",
+    "CK_Pro_PAC1_01798": "EV03_RS07865",
     "CK_Pro_PAC1_01799": "EV03_1799",
     "CK_Pro_PAC1_01800": "EV03_1800",
     "CK_Pro_PAC1_01801": "EV03_1801",
@@ -205250,7 +205535,7 @@
     "CK_Pro_PAC1_01905": "EV03_1905",
     "CK_Pro_PAC1_01906": "EV03_1906",
     "CK_Pro_PAC1_01908": "EV03_1908",
-    "CK_Pro_PAC1_01909": "EV03_1909",
+    "CK_Pro_PAC1_01909": "EV03_RS08390",
     "CK_Pro_PAC1_01910": "EV03_1910",
     "CK_Pro_PAC1_01911": "EV03_1911",
     "CK_Pro_PAC1_01912": "EV03_1912",
@@ -205342,7 +205627,7 @@
     "CK_Pro_PAC1_01998": "EV03_1998",
     "CK_Pro_PAC1_01999": "EV03_1999",
     "CK_Pro_PAC1_02000": "EV03_2000",
-    "CK_Pro_PAC1_02001": "EV03_2001",
+    "CK_Pro_PAC1_02001": "EV03_RS10365",
     "CK_Pro_PAC1_02002": "EV03_2002",
     "CK_Pro_PAC1_02003": "EV03_2003",
     "CK_Pro_PAC1_02004": "EV03_2004",
@@ -205456,7 +205741,7 @@
     "CK_Pro_PAC1_02113": "EV03_2113",
     "CK_Pro_PAC1_02114": "EV03_2114",
     "CK_Pro_PAC1_02115": "EV03_2115",
-    "CK_Pro_PAC1_02116": "EV03_2116",
+    "CK_Pro_PAC1_02116": "EV03_RS09310",
     "CK_Pro_PAC1_02117": "EV03_2117",
     "CK_Pro_PAC1_02118": "EV03_2118",
     "CK_Pro_PAC1_02119": "EV03_2119",
@@ -205561,7 +205846,7 @@
     "CK_Pro_PAC1_02220": "EV03_2220",
     "CK_Pro_PAC1_02221": "EV03_2221",
     "CK_Pro_PAC1_02222": "EV03_2222",
-    "CK_Pro_PAC1_02223": "EV03_2223",
+    "CK_Pro_PAC1_02223": "EV03_RS09785",
     "CK_Pro_PAC1_02224": "EV03_2224",
     "CK_Pro_PAC1_02225": "EV03_2225",
     "CK_Pro_PAC1_02226": "EV03_2226",
@@ -205585,7 +205870,7 @@
     "CK_Pro_PAC1_02245": "EV03_2245",
     "CK_Pro_PAC1_02246": "EV03_2246",
     "CK_Pro_PAC1_02247": "EV03_2247",
-    "CK_Pro_PAC1_02248": "EV03_2248",
+    "CK_Pro_PAC1_02248": "EV03_RS09895",
     "CK_Pro_PAC1_02249": "EV03_2249",
     "CK_Pro_PAC1_02250": "EV03_2250",
     "CK_Pro_PAC1_02251": "EV03_2251",
@@ -205631,34 +205916,87 @@
     "CK_Pro_PAC1_02303": "EV03_2303",
     "CK_Pro_PAC1_02304": "EV03_2304",
     "CK_Pro_PAC1_02305": "EV03_2305",
-    "CK_Pro_PAC1_50001": "EV03_50001",
-    "CK_Pro_PAC1_50002": "EV03_50002",
-    "CK_Pro_PAC1_50003": "EV03_50003",
-    "CK_Pro_PAC1_50004": "EV03_50004",
-    "CK_Pro_PAC1_50005": "EV03_50005",
-    "CK_Pro_PAC1_50006": "EV03_50006",
-    "CK_Pro_PAC1_50007": "EV03_50007",
-    "CK_Pro_PAC1_50008": "EV03_50008",
-    "CK_Pro_PAC1_50009": "EV03_50009",
-    "CK_Pro_PAC1_50010": "EV03_50010",
-    "CK_Pro_PAC1_50011": "EV03_50011",
-    "CK_Pro_PAC1_50012": "EV03_50012",
-    "CK_Pro_PAC1_50013": "EV03_50013",
-    "CK_Pro_PAC1_50014": "EV03_50014",
+    "CK_Pro_PAC1_50001": "EV03_RS00405",
+    "CK_Pro_PAC1_50002": "EV03_RS10200",
+    "CK_Pro_PAC1_50003": "EV03_0395",
+    "CK_Pro_PAC1_50004": "EV03_0514",
+    "CK_Pro_PAC1_50005": "EV03_RS02170",
+    "CK_Pro_PAC1_50006": "EV03_RS02375",
+    "CK_Pro_PAC1_50007": "EV03_RS02740",
+    "CK_Pro_PAC1_50008": "EV03_RS03295",
+    "CK_Pro_PAC1_50009": "EV03_RS03905",
+    "CK_Pro_PAC1_50010": "EV03_RS10270",
+    "CK_Pro_PAC1_50011": "EV03_RS04240",
+    "CK_Pro_PAC1_50012": "EV03_RS04465",
+    "CK_Pro_PAC1_50013": "EV03_RS10285",
+    "CK_Pro_PAC1_50014": "EV03_1414",
     "CK_Pro_PAC1_50015": "EV03_50015",
     "CK_Pro_PAC1_50016": "EV03_50016",
-    "CK_Pro_PAC1_50017": "EV03_50017",
-    "CK_Pro_PAC1_50018": "EV03_50018",
-    "CK_Pro_PAC1_50019": "EV03_50019",
-    "CK_Pro_PAC1_50020": "EV03_50020",
-    "CK_Pro_PAC1_50021": "EV03_50021",
-    "CK_Pro_PAC1_50022": "EV03_50022",
-    "CK_Pro_PAC1_50023": "EV03_50023",
-    "CK_Pro_PAC1_50024": "EV03_50024",
-    "CK_Pro_PAC1_50025": "EV03_50025",
+    "CK_Pro_PAC1_50017": "EV03_RS10330",
+    "CK_Pro_PAC1_50018": "EV03_1601",
+    "CK_Pro_PAC1_50019": "EV03_1611",
+    "CK_Pro_PAC1_50020": "EV03_1676",
+    "CK_Pro_PAC1_50021": "EV03_RS07260",
+    "CK_Pro_PAC1_50022": "EV03_1683",
+    "CK_Pro_PAC1_50023": "EV03_RS07345",
+    "CK_Pro_PAC1_50024": "EV03_1907",
+    "CK_Pro_PAC1_50025": "EV03_RS08605",
     "CK_Pro_PAC1_50026": "EV03_50026",
     "CK_Pro_PAC1_50027": "EV03_50027",
-    "CK_Pro_PAC1_50028": "EV03_50028",
+    "CK_Pro_PAC1_50028": "EV03_1805",
+    "EV03_0089": "EV03_RS00300",
+    "EV03_0143": "EV03_RS00465",
+    "EV03_0286": "EV03_RS10445",
+    "EV03_0406": "EV03_RS01655",
+    "EV03_0574": "EV03_RS02410",
+    "EV03_0637": "EV03_RS10475",
+    "EV03_0653": "EV03_RS02705",
+    "EV03_0654": "EV03_RS10825",
+    "EV03_0667": "EV03_RS02755",
+    "EV03_0800": "EV03_RS11260",
+    "EV03_0864": "EV03_RS03635",
+    "EV03_0948": "EV03_RS04020",
+    "EV03_1032": "EV03_RS04380",
+    "EV03_1092": "EV03_RS04680",
+    "EV03_1280": "EV03_RS05570",
+    "EV03_1358": "EV03_RS05915",
+    "EV03_1410": "EV03_RS10985",
+    "EV03_1443": "EV03_RS06195",
+    "EV03_1590": "EV03_RS06870",
+    "EV03_1607": "EV03_RS06960",
+    "EV03_1669": "EV03_RS07225",
+    "EV03_1781": "EV03_RS07780",
+    "EV03_1788": "EV03_RS07820",
+    "EV03_1798": "EV03_RS07865",
+    "EV03_1909": "EV03_RS08390",
+    "EV03_2001": "EV03_RS10365",
+    "EV03_2116": "EV03_RS09310",
+    "EV03_2223": "EV03_RS09785",
+    "EV03_2248": "EV03_RS09895",
+    "EV03_50001": "EV03_RS00405",
+    "EV03_50002": "EV03_RS10200",
+    "EV03_50003": "EV03_0395",
+    "EV03_50004": "EV03_0514",
+    "EV03_50005": "EV03_RS02170",
+    "EV03_50006": "EV03_RS02375",
+    "EV03_50007": "EV03_RS02740",
+    "EV03_50008": "EV03_RS03295",
+    "EV03_50009": "EV03_RS03905",
+    "EV03_50010": "EV03_RS10270",
+    "EV03_50011": "EV03_RS04240",
+    "EV03_50012": "EV03_RS04465",
+    "EV03_50013": "EV03_RS10285",
+    "EV03_50014": "EV03_1414",
+    "EV03_50017": "EV03_RS10330",
+    "EV03_50018": "EV03_1601",
+    "EV03_50019": "EV03_1611",
+    "EV03_50020": "EV03_1676",
+    "EV03_50021": "EV03_RS07260",
+    "EV03_50022": "EV03_1683",
+    "EV03_50023": "EV03_RS07345",
+    "EV03_50024": "EV03_1907",
+    "EV03_50025": "EV03_RS08605",
+    "EV03_50028": "EV03_1805",
     "EV03_RS00010": "EV03_0001",
     "EV03_RS00015": "EV03_0002",
     "EV03_RS00020": "EV03_0003",
@@ -207702,7 +208040,7 @@
     "PPAC1_0010": "EV03_0571",
     "PPAC1_0011": "EV03_0572",
     "PPAC1_0012": "EV03_0573",
-    "PPAC1_0013": "EV03_0574",
+    "PPAC1_0013": "EV03_RS02410",
     "PPAC1_0014": "EV03_0575",
     "PPAC1_0015": "EV03_0576",
     "PPAC1_0016": "EV03_0577",
@@ -207721,7 +208059,7 @@
     "PPAC1_0030": "EV03_0664",
     "PPAC1_0031": "EV03_0665",
     "PPAC1_0032": "EV03_0666",
-    "PPAC1_0033": "EV03_0667",
+    "PPAC1_0033": "EV03_RS02755",
     "PPAC1_0034": "EV03_0668",
     "PPAC1_0035": "EV03_0669",
     "PPAC1_0036": "EV03_0670",
@@ -207762,8 +208100,8 @@
     "PPAC1_0071": "EV03_0650",
     "PPAC1_0072": "EV03_0651",
     "PPAC1_0073": "EV03_0652",
-    "PPAC1_0074": "EV03_0653",
-    "PPAC1_0075": "EV03_0654",
+    "PPAC1_0074": "EV03_RS02705",
+    "PPAC1_0075": "EV03_RS10825",
     "PPAC1_0076": "EV03_0655",
     "PPAC1_0077": "EV03_0656",
     "PPAC1_0078": "EV03_0657",
@@ -207833,7 +208171,7 @@
     "PPAC1_0145": "EV03_0403",
     "PPAC1_0146": "EV03_0404",
     "PPAC1_0147": "EV03_0405",
-    "PPAC1_0148": "EV03_0406",
+    "PPAC1_0148": "EV03_RS01655",
     "PPAC1_0149": "EV03_0407",
     "PPAC1_0150": "EV03_0408",
     "PPAC1_0151": "EV03_0409",
@@ -207995,7 +208333,7 @@
     "PPAC1_0312": "EV03_1440",
     "PPAC1_0313": "EV03_1441",
     "PPAC1_0314": "EV03_1442",
-    "PPAC1_0315": "EV03_1443",
+    "PPAC1_0315": "EV03_RS06195",
     "PPAC1_0316": "EV03_1444",
     "PPAC1_0317": "EV03_1445",
     "PPAC1_0318": "EV03_1446",
@@ -208145,7 +208483,7 @@
     "PPAC1_0476": "EV03_1587",
     "PPAC1_0477": "EV03_1588",
     "PPAC1_0478": "EV03_1589",
-    "PPAC1_0479": "EV03_1590",
+    "PPAC1_0479": "EV03_RS06870",
     "PPAC1_0480": "EV03_1591",
     "PPAC1_0481": "EV03_1592",
     "PPAC1_0482": "EV03_1593",
@@ -208161,7 +208499,7 @@
     "PPAC1_0493": "EV03_1604",
     "PPAC1_0494": "EV03_1605",
     "PPAC1_0495": "EV03_1606",
-    "PPAC1_0496": "EV03_1607",
+    "PPAC1_0496": "EV03_RS06960",
     "PPAC1_0497": "EV03_1608",
     "PPAC1_0498": "EV03_1609",
     "PPAC1_0499": "EV03_1610",
@@ -208222,7 +208560,7 @@
     "PPAC1_0555": "EV03_1666",
     "PPAC1_0556": "EV03_1667",
     "PPAC1_0557": "EV03_1668",
-    "PPAC1_0558": "EV03_1669",
+    "PPAC1_0558": "EV03_RS07225",
     "PPAC1_0559": "EV03_1670",
     "PPAC1_0560": "EV03_1671",
     "PPAC1_0561": "EV03_1672",
@@ -208332,14 +208670,14 @@
     "PPAC1_0668": "EV03_1778",
     "PPAC1_0669": "EV03_1779",
     "PPAC1_0670": "EV03_1780",
-    "PPAC1_0671": "EV03_1781",
+    "PPAC1_0671": "EV03_RS07780",
     "PPAC1_0672": "EV03_1782",
     "PPAC1_0673": "EV03_1783",
     "PPAC1_0674": "EV03_1784",
     "PPAC1_0675": "EV03_1785",
     "PPAC1_0676": "EV03_1786",
     "PPAC1_0677": "EV03_1787",
-    "PPAC1_0678": "EV03_1788",
+    "PPAC1_0678": "EV03_RS07820",
     "PPAC1_0679": "EV03_1789",
     "PPAC1_0680": "EV03_1790",
     "PPAC1_0681": "EV03_1791",
@@ -208349,7 +208687,7 @@
     "PPAC1_0685": "EV03_1795",
     "PPAC1_0686": "EV03_1796",
     "PPAC1_0687": "EV03_1797",
-    "PPAC1_0688": "EV03_1798",
+    "PPAC1_0688": "EV03_RS07865",
     "PPAC1_0689": "EV03_1799",
     "PPAC1_0690": "EV03_1800",
     "PPAC1_0691": "EV03_1801",
@@ -208457,7 +208795,7 @@
     "PPAC1_0795": "EV03_1905",
     "PPAC1_0796": "EV03_1906",
     "PPAC1_0798": "EV03_1908",
-    "PPAC1_0799": "EV03_1909",
+    "PPAC1_0799": "EV03_RS08390",
     "PPAC1_0800": "EV03_1910",
     "PPAC1_0801": "EV03_1911",
     "PPAC1_0802": "EV03_1912",
@@ -208549,7 +208887,7 @@
     "PPAC1_0888": "EV03_1998",
     "PPAC1_0889": "EV03_1999",
     "PPAC1_0890": "EV03_2000",
-    "PPAC1_0891": "EV03_2001",
+    "PPAC1_0891": "EV03_RS10365",
     "PPAC1_0892": "EV03_2002",
     "PPAC1_0893": "EV03_2003",
     "PPAC1_0894": "EV03_2004",
@@ -208663,7 +209001,7 @@
     "PPAC1_1003": "EV03_2113",
     "PPAC1_1004": "EV03_2114",
     "PPAC1_1005": "EV03_2115",
-    "PPAC1_1006": "EV03_2116",
+    "PPAC1_1006": "EV03_RS09310",
     "PPAC1_1007": "EV03_2117",
     "PPAC1_1008": "EV03_2118",
     "PPAC1_1009": "EV03_2119",
@@ -208768,7 +209106,7 @@
     "PPAC1_1110": "EV03_2220",
     "PPAC1_1111": "EV03_2221",
     "PPAC1_1112": "EV03_2222",
-    "PPAC1_1113": "EV03_2223",
+    "PPAC1_1113": "EV03_RS09785",
     "PPAC1_1114": "EV03_2224",
     "PPAC1_1115": "EV03_2225",
     "PPAC1_1116": "EV03_2226",
@@ -208792,7 +209130,7 @@
     "PPAC1_1135": "EV03_2245",
     "PPAC1_1136": "EV03_2246",
     "PPAC1_1137": "EV03_2247",
-    "PPAC1_1138": "EV03_2248",
+    "PPAC1_1138": "EV03_RS09895",
     "PPAC1_1139": "EV03_2249",
     "PPAC1_1140": "EV03_2250",
     "PPAC1_1141": "EV03_2251",
@@ -208887,7 +209225,7 @@
     "PPAC1_1233": "EV03_1277",
     "PPAC1_1234": "EV03_1278",
     "PPAC1_1235": "EV03_1279",
-    "PPAC1_1236": "EV03_1280",
+    "PPAC1_1236": "EV03_RS05570",
     "PPAC1_1237": "EV03_1281",
     "PPAC1_1238": "EV03_1282",
     "PPAC1_1239": "EV03_1283",
@@ -208956,7 +209294,7 @@
     "PPAC1_1305": "EV03_1355",
     "PPAC1_1306": "EV03_1356",
     "PPAC1_1307": "EV03_1357",
-    "PPAC1_1308": "EV03_1358",
+    "PPAC1_1308": "EV03_RS05915",
     "PPAC1_1309": "EV03_1359",
     "PPAC1_1310": "EV03_1360",
     "PPAC1_1311": "EV03_1361",
@@ -209007,7 +209345,7 @@
     "PPAC1_1356": "EV03_1406",
     "PPAC1_1357": "EV03_1407",
     "PPAC1_1358": "EV03_1408",
-    "PPAC1_1360": "EV03_1410",
+    "PPAC1_1360": "EV03_RS10985",
     "PPAC1_1361": "EV03_1411",
     "PPAC1_1362": "EV03_1412",
     "PPAC1_1363": "EV03_1413",
@@ -209125,7 +209463,7 @@
     "PPAC1_1480": "EV03_0797",
     "PPAC1_1481": "EV03_0798",
     "PPAC1_1482": "EV03_0799",
-    "PPAC1_1483": "EV03_0800",
+    "PPAC1_1483": "EV03_RS11260",
     "PPAC1_1484": "EV03_0801",
     "PPAC1_1485": "EV03_0802",
     "PPAC1_1486": "EV03_0803",
@@ -209188,7 +209526,7 @@
     "PPAC1_1544": "EV03_0861",
     "PPAC1_1545": "EV03_0862",
     "PPAC1_1546": "EV03_0863",
-    "PPAC1_1547": "EV03_0864",
+    "PPAC1_1547": "EV03_RS03635",
     "PPAC1_1548": "EV03_0865",
     "PPAC1_1549": "EV03_0866",
     "PPAC1_1550": "EV03_0867",
@@ -209269,7 +209607,7 @@
     "PPAC1_1628": "EV03_0945",
     "PPAC1_1629": "EV03_0946",
     "PPAC1_1630": "EV03_0947",
-    "PPAC1_1631": "EV03_0948",
+    "PPAC1_1631": "EV03_RS04020",
     "PPAC1_1632": "EV03_0949",
     "PPAC1_1633": "EV03_0950",
     "PPAC1_1634": "EV03_0951",
@@ -209425,7 +209763,7 @@
     "PPAC1_1786": "EV03_0283",
     "PPAC1_1787": "EV03_0284",
     "PPAC1_1788": "EV03_0285",
-    "PPAC1_1789": "EV03_0286",
+    "PPAC1_1789": "EV03_RS10445",
     "PPAC1_1790": "EV03_0287",
     "PPAC1_1792": "EV03_0288",
     "PPAC1_1793": "EV03_0289",
@@ -209538,7 +209876,7 @@
     "PPAC1_1900": "EV03_0634",
     "PPAC1_1901": "EV03_0635",
     "PPAC1_1902": "EV03_0636",
-    "PPAC1_1903": "EV03_0637",
+    "PPAC1_1903": "EV03_RS10475",
     "PPAC1_1904": "EV03_0638",
     "PPAC1_1905": "EV03_0639",
     "PPAC1_1906": "EV03_0057",
@@ -209572,7 +209910,7 @@
     "PPAC1_1935": "EV03_0086",
     "PPAC1_1936": "EV03_0087",
     "PPAC1_1937": "EV03_0088",
-    "PPAC1_1938": "EV03_0089",
+    "PPAC1_1938": "EV03_RS00300",
     "PPAC1_1939": "EV03_0090",
     "PPAC1_1940": "EV03_0091",
     "PPAC1_1941": "EV03_0092",
@@ -209616,7 +209954,7 @@
     "PPAC1_1980": "EV03_0131",
     "PPAC1_1981": "EV03_1030",
     "PPAC1_1982": "EV03_1031",
-    "PPAC1_1983": "EV03_1032",
+    "PPAC1_1983": "EV03_RS04380",
     "PPAC1_1984": "EV03_1033",
     "PPAC1_1985": "EV03_1034",
     "PPAC1_1986": "EV03_1035",
@@ -209676,7 +210014,7 @@
     "PPAC1_2040": "EV03_1089",
     "PPAC1_2041": "EV03_1090",
     "PPAC1_2042": "EV03_1091",
-    "PPAC1_2043": "EV03_1092",
+    "PPAC1_2043": "EV03_RS04680",
     "PPAC1_2044": "EV03_1093",
     "PPAC1_2045": "EV03_1094",
     "PPAC1_2046": "EV03_1095",
@@ -209857,7 +210195,7 @@
     "PPAC1_2222": "EV03_0140",
     "PPAC1_2223": "EV03_0141",
     "PPAC1_2224": "EV03_0142",
-    "PPAC1_2225": "EV03_0143",
+    "PPAC1_2225": "EV03_RS00465",
     "PPAC1_2226": "EV03_0144",
     "PPAC1_2227": "EV03_0145",
     "PPAC1_2228": "EV03_0146",
@@ -210001,7 +210339,7 @@
     "gene-EV03_0086": "EV03_0086",
     "gene-EV03_0087": "EV03_0087",
     "gene-EV03_0088": "EV03_0088",
-    "gene-EV03_0089": "EV03_0089",
+    "gene-EV03_0089": "EV03_RS00300",
     "gene-EV03_0090": "EV03_0090",
     "gene-EV03_0091": "EV03_0091",
     "gene-EV03_0092": "EV03_0092",
@@ -210054,7 +210392,7 @@
     "gene-EV03_0140": "EV03_0140",
     "gene-EV03_0141": "EV03_0141",
     "gene-EV03_0142": "EV03_0142",
-    "gene-EV03_0143": "EV03_0143",
+    "gene-EV03_0143": "EV03_RS00465",
     "gene-EV03_0144": "EV03_0144",
     "gene-EV03_0145": "EV03_0145",
     "gene-EV03_0146": "EV03_0146",
@@ -210195,7 +210533,7 @@
     "gene-EV03_0283": "EV03_0283",
     "gene-EV03_0284": "EV03_0284",
     "gene-EV03_0285": "EV03_0285",
-    "gene-EV03_0286": "EV03_0286",
+    "gene-EV03_0286": "EV03_RS10445",
     "gene-EV03_0287": "EV03_0287",
     "gene-EV03_0288": "EV03_0288",
     "gene-EV03_0289": "EV03_0289",
@@ -210309,7 +210647,7 @@
     "gene-EV03_0403": "EV03_0403",
     "gene-EV03_0404": "EV03_0404",
     "gene-EV03_0405": "EV03_0405",
-    "gene-EV03_0406": "EV03_0406",
+    "gene-EV03_0406": "EV03_RS01655",
     "gene-EV03_0407": "EV03_0407",
     "gene-EV03_0408": "EV03_0408",
     "gene-EV03_0409": "EV03_0409",
@@ -210470,7 +210808,7 @@
     "gene-EV03_0571": "EV03_0571",
     "gene-EV03_0572": "EV03_0572",
     "gene-EV03_0573": "EV03_0573",
-    "gene-EV03_0574": "EV03_0574",
+    "gene-EV03_0574": "EV03_RS02410",
     "gene-EV03_0575": "EV03_0575",
     "gene-EV03_0576": "EV03_0576",
     "gene-EV03_0577": "EV03_0577",
@@ -210532,7 +210870,7 @@
     "gene-EV03_0634": "EV03_0634",
     "gene-EV03_0635": "EV03_0635",
     "gene-EV03_0636": "EV03_0636",
-    "gene-EV03_0637": "EV03_0637",
+    "gene-EV03_0637": "EV03_RS10475",
     "gene-EV03_0638": "EV03_0638",
     "gene-EV03_0639": "EV03_0639",
     "gene-EV03_0641": "EV03_0641",
@@ -210547,8 +210885,8 @@
     "gene-EV03_0650": "EV03_0650",
     "gene-EV03_0651": "EV03_0651",
     "gene-EV03_0652": "EV03_0652",
-    "gene-EV03_0653": "EV03_0653",
-    "gene-EV03_0654": "EV03_0654",
+    "gene-EV03_0653": "EV03_RS02705",
+    "gene-EV03_0654": "EV03_RS10825",
     "gene-EV03_0655": "EV03_0655",
     "gene-EV03_0656": "EV03_0656",
     "gene-EV03_0657": "EV03_0657",
@@ -210561,7 +210899,7 @@
     "gene-EV03_0664": "EV03_0664",
     "gene-EV03_0665": "EV03_0665",
     "gene-EV03_0666": "EV03_0666",
-    "gene-EV03_0667": "EV03_0667",
+    "gene-EV03_0667": "EV03_RS02755",
     "gene-EV03_0668": "EV03_0668",
     "gene-EV03_0669": "EV03_0669",
     "gene-EV03_0670": "EV03_0670",
@@ -210693,7 +211031,7 @@
     "gene-EV03_0797": "EV03_0797",
     "gene-EV03_0798": "EV03_0798",
     "gene-EV03_0799": "EV03_0799",
-    "gene-EV03_0800": "EV03_0800",
+    "gene-EV03_0800": "EV03_RS11260",
     "gene-EV03_0801": "EV03_0801",
     "gene-EV03_0802": "EV03_0802",
     "gene-EV03_0803": "EV03_0803",
@@ -210756,7 +211094,7 @@
     "gene-EV03_0861": "EV03_0861",
     "gene-EV03_0862": "EV03_0862",
     "gene-EV03_0863": "EV03_0863",
-    "gene-EV03_0864": "EV03_0864",
+    "gene-EV03_0864": "EV03_RS03635",
     "gene-EV03_0865": "EV03_0865",
     "gene-EV03_0866": "EV03_0866",
     "gene-EV03_0867": "EV03_0867",
@@ -210837,7 +211175,7 @@
     "gene-EV03_0945": "EV03_0945",
     "gene-EV03_0946": "EV03_0946",
     "gene-EV03_0947": "EV03_0947",
-    "gene-EV03_0948": "EV03_0948",
+    "gene-EV03_0948": "EV03_RS04020",
     "gene-EV03_0949": "EV03_0949",
     "gene-EV03_0950": "EV03_0950",
     "gene-EV03_0951": "EV03_0951",
@@ -210912,7 +211250,7 @@
     "gene-EV03_1022": "EV03_1022",
     "gene-EV03_1030": "EV03_1030",
     "gene-EV03_1031": "EV03_1031",
-    "gene-EV03_1032": "EV03_1032",
+    "gene-EV03_1032": "EV03_RS04380",
     "gene-EV03_1033": "EV03_1033",
     "gene-EV03_1034": "EV03_1034",
     "gene-EV03_1035": "EV03_1035",
@@ -210972,7 +211310,7 @@
     "gene-EV03_1089": "EV03_1089",
     "gene-EV03_1090": "EV03_1090",
     "gene-EV03_1091": "EV03_1091",
-    "gene-EV03_1092": "EV03_1092",
+    "gene-EV03_1092": "EV03_RS04680",
     "gene-EV03_1093": "EV03_1093",
     "gene-EV03_1094": "EV03_1094",
     "gene-EV03_1095": "EV03_1095",
@@ -211156,7 +211494,7 @@
     "gene-EV03_1277": "EV03_1277",
     "gene-EV03_1278": "EV03_1278",
     "gene-EV03_1279": "EV03_1279",
-    "gene-EV03_1280": "EV03_1280",
+    "gene-EV03_1280": "EV03_RS05570",
     "gene-EV03_1281": "EV03_1281",
     "gene-EV03_1282": "EV03_1282",
     "gene-EV03_1283": "EV03_1283",
@@ -211224,7 +211562,7 @@
     "gene-EV03_1355": "EV03_1355",
     "gene-EV03_1356": "EV03_1356",
     "gene-EV03_1357": "EV03_1357",
-    "gene-EV03_1358": "EV03_1358",
+    "gene-EV03_1358": "EV03_RS05915",
     "gene-EV03_1359": "EV03_1359",
     "gene-EV03_1360": "EV03_1360",
     "gene-EV03_1361": "EV03_1361",
@@ -211275,7 +211613,7 @@
     "gene-EV03_1406": "EV03_1406",
     "gene-EV03_1407": "EV03_1407",
     "gene-EV03_1408": "EV03_1408",
-    "gene-EV03_1410": "EV03_1410",
+    "gene-EV03_1410": "EV03_RS10985",
     "gene-EV03_1411": "EV03_1411",
     "gene-EV03_1412": "EV03_1412",
     "gene-EV03_1413": "EV03_1413",
@@ -211303,7 +211641,7 @@
     "gene-EV03_1440": "EV03_1440",
     "gene-EV03_1441": "EV03_1441",
     "gene-EV03_1442": "EV03_1442",
-    "gene-EV03_1443": "EV03_1443",
+    "gene-EV03_1443": "EV03_RS06195",
     "gene-EV03_1444": "EV03_1444",
     "gene-EV03_1445": "EV03_1445",
     "gene-EV03_1446": "EV03_1446",
@@ -211447,7 +211785,7 @@
     "gene-EV03_1587": "EV03_1587",
     "gene-EV03_1588": "EV03_1588",
     "gene-EV03_1589": "EV03_1589",
-    "gene-EV03_1590": "EV03_1590",
+    "gene-EV03_1590": "EV03_RS06870",
     "gene-EV03_1591": "EV03_1591",
     "gene-EV03_1592": "EV03_1592",
     "gene-EV03_1593": "EV03_1593",
@@ -211463,7 +211801,7 @@
     "gene-EV03_1604": "EV03_1604",
     "gene-EV03_1605": "EV03_1605",
     "gene-EV03_1606": "EV03_1606",
-    "gene-EV03_1607": "EV03_1607",
+    "gene-EV03_1607": "EV03_RS06960",
     "gene-EV03_1608": "EV03_1608",
     "gene-EV03_1609": "EV03_1609",
     "gene-EV03_1610": "EV03_1610",
@@ -211524,7 +211862,7 @@
     "gene-EV03_1666": "EV03_1666",
     "gene-EV03_1667": "EV03_1667",
     "gene-EV03_1668": "EV03_1668",
-    "gene-EV03_1669": "EV03_1669",
+    "gene-EV03_1669": "EV03_RS07225",
     "gene-EV03_1670": "EV03_1670",
     "gene-EV03_1671": "EV03_1671",
     "gene-EV03_1672": "EV03_1672",
@@ -211634,14 +211972,14 @@
     "gene-EV03_1778": "EV03_1778",
     "gene-EV03_1779": "EV03_1779",
     "gene-EV03_1780": "EV03_1780",
-    "gene-EV03_1781": "EV03_1781",
+    "gene-EV03_1781": "EV03_RS07780",
     "gene-EV03_1782": "EV03_1782",
     "gene-EV03_1783": "EV03_1783",
     "gene-EV03_1784": "EV03_1784",
     "gene-EV03_1785": "EV03_1785",
     "gene-EV03_1786": "EV03_1786",
     "gene-EV03_1787": "EV03_1787",
-    "gene-EV03_1788": "EV03_1788",
+    "gene-EV03_1788": "EV03_RS07820",
     "gene-EV03_1789": "EV03_1789",
     "gene-EV03_1790": "EV03_1790",
     "gene-EV03_1791": "EV03_1791",
@@ -211651,7 +211989,7 @@
     "gene-EV03_1795": "EV03_1795",
     "gene-EV03_1796": "EV03_1796",
     "gene-EV03_1797": "EV03_1797",
-    "gene-EV03_1798": "EV03_1798",
+    "gene-EV03_1798": "EV03_RS07865",
     "gene-EV03_1799": "EV03_1799",
     "gene-EV03_1800": "EV03_1800",
     "gene-EV03_1801": "EV03_1801",
@@ -211759,7 +212097,7 @@
     "gene-EV03_1905": "EV03_1905",
     "gene-EV03_1906": "EV03_1906",
     "gene-EV03_1908": "EV03_1908",
-    "gene-EV03_1909": "EV03_1909",
+    "gene-EV03_1909": "EV03_RS08390",
     "gene-EV03_1910": "EV03_1910",
     "gene-EV03_1911": "EV03_1911",
     "gene-EV03_1912": "EV03_1912",
@@ -211851,7 +212189,7 @@
     "gene-EV03_1998": "EV03_1998",
     "gene-EV03_1999": "EV03_1999",
     "gene-EV03_2000": "EV03_2000",
-    "gene-EV03_2001": "EV03_2001",
+    "gene-EV03_2001": "EV03_RS10365",
     "gene-EV03_2002": "EV03_2002",
     "gene-EV03_2003": "EV03_2003",
     "gene-EV03_2004": "EV03_2004",
@@ -211965,7 +212303,7 @@
     "gene-EV03_2113": "EV03_2113",
     "gene-EV03_2114": "EV03_2114",
     "gene-EV03_2115": "EV03_2115",
-    "gene-EV03_2116": "EV03_2116",
+    "gene-EV03_2116": "EV03_RS09310",
     "gene-EV03_2117": "EV03_2117",
     "gene-EV03_2118": "EV03_2118",
     "gene-EV03_2119": "EV03_2119",
@@ -212070,7 +212408,7 @@
     "gene-EV03_2220": "EV03_2220",
     "gene-EV03_2221": "EV03_2221",
     "gene-EV03_2222": "EV03_2222",
-    "gene-EV03_2223": "EV03_2223",
+    "gene-EV03_2223": "EV03_RS09785",
     "gene-EV03_2224": "EV03_2224",
     "gene-EV03_2225": "EV03_2225",
     "gene-EV03_2226": "EV03_2226",
@@ -212094,7 +212432,7 @@
     "gene-EV03_2245": "EV03_2245",
     "gene-EV03_2246": "EV03_2246",
     "gene-EV03_2247": "EV03_2247",
-    "gene-EV03_2248": "EV03_2248",
+    "gene-EV03_2248": "EV03_RS09895",
     "gene-EV03_2249": "EV03_2249",
     "gene-EV03_2250": "EV03_2250",
     "gene-EV03_2251": "EV03_2251",
@@ -216381,9 +216719,9 @@
   },
   "stats": {
     "n_conflicts": 0,
-    "n_genes": 2370,
-    "n_multi": 10782,
-    "n_specific": 12972,
+    "n_genes": 2317,
+    "n_multi": 10835,
+    "n_specific": 13025,
     "passes": 2
   },
   "strain": "PAC1",

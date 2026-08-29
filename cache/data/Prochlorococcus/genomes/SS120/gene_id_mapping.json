@@ -37,6 +37,13 @@
     "PRO_RS00745": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SS120_00148",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
           "id": "lcl|NC_005042.1_cds_WP_164923196.1_148",
           "sources": [
             "cds_from_genomic.fna"
@@ -61,6 +68,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "Pro0148",
+          "type": "gene_name"
+        },
         {
           "id": "PRO_RS00745",
           "type": "gene_synonym"
@@ -205,6 +216,20 @@
     "PRO_RS03015": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SS120_05971",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SS120_05971",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_005042.1_cds_WP_164923210.1_588",
           "sources": [
             "cds_from_genomic.fna"
@@ -231,6 +256,10 @@
       "tier3_ids": [
         {
           "id": "PRO_RS03015",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "SS120_05971",
           "type": "gene_synonym"
         }
       ]
@@ -680,6 +709,20 @@
     "PRO_RS05800": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SS120_12001",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SS120_12001",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_005042.1_cds_WP_164923233.1_1163",
           "sources": [
             "cds_from_genomic.fna"
@@ -706,6 +749,10 @@
       "tier3_ids": [
         {
           "id": "PRO_RS05800",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "SS120_12001",
           "type": "gene_synonym"
         }
       ]
@@ -1268,6 +1315,20 @@
     "PRO_RS07770": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SS120_16221",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SS120_16221",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_005042.1_cds_WP_036892494.1_1572",
           "sources": [
             "cds_from_genomic.fna"
@@ -1294,6 +1355,10 @@
       "tier3_ids": [
         {
           "id": "PRO_RS07770",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "SS120_16221",
           "type": "gene_synonym"
         }
       ]
@@ -1385,6 +1450,20 @@
     "PRO_RS09310": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SS120_06561",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SS120_06561",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_005042.1_cds_WP_165438627.1_641",
           "sources": [
             "cds_from_genomic.fna"
@@ -1411,6 +1490,10 @@
       "tier3_ids": [
         {
           "id": "PRO_RS09310",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "SS120_06561",
           "type": "gene_synonym"
         }
       ]
@@ -15363,46 +15446,6 @@
         },
         {
           "id": "Pro_0147",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "Pro0148": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SS120_00148",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-Pro_0148",
-          "sources": [
-            "genomic_gca/SS120"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "Pro_0148",
-          "sources": [
-            "genomic_gca/SS120"
-          ],
-          "type": "locus_tag_ncbi"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "AAP99194.1",
-          "sources": [
-            "genomic_gca/SS120"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "Pro0148",
           "type": "gene_synonym"
         }
       ]
@@ -170303,19 +170346,6 @@
       "tier2_ids": [],
       "tier3_ids": []
     },
-    "SS120_05971": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SS120_05971",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
     "SS120_06361": {
       "tier1_ids": [
         {
@@ -170333,19 +170363,6 @@
       "tier1_ids": [
         {
           "id": "CK_Pro_SS120_06431",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "SS120_06561": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SS120_06561",
           "sources": [
             "annotation"
           ],
@@ -170437,19 +170454,6 @@
       "tier1_ids": [
         {
           "id": "CK_Pro_SS120_11371",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "SS120_12001": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SS120_12001",
           "sources": [
             "annotation"
           ],
@@ -170559,19 +170563,6 @@
       "tier1_ids": [
         {
           "id": "CK_Pro_SS120_15891",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "SS120_16221": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SS120_16221",
           "sources": [
             "annotation"
           ],
@@ -171088,9 +171079,6 @@
     ],
     "AAP99193.1": [
       "Pro0147"
-    ],
-    "AAP99194.1": [
-      "Pro0148"
     ],
     "AAP99195.1": [
       "Pro0149"
@@ -180859,7 +180847,7 @@
       "Pro0147"
     ],
     "Pro0148": [
-      "Pro0148"
+      "PRO_RS00745"
     ],
     "Pro0149": [
       "Pro0149"
@@ -196143,11 +196131,17 @@
     "SS120_04211": [
       "PRO_RS02150"
     ],
+    "SS120_05971": [
+      "PRO_RS03015"
+    ],
     "SS120_06001": [
       "PRO_RS03030"
     ],
     "SS120_06451": [
       "PRO_RS03220"
+    ],
+    "SS120_06561": [
+      "PRO_RS09310"
     ],
     "SS120_06711": [
       "PRO_RS09315"
@@ -196173,6 +196167,9 @@
     "SS120_11961": [
       "PRO_RS05780"
     ],
+    "SS120_12001": [
+      "PRO_RS05800"
+    ],
     "SS120_12131": [
       "PRO_RS05850"
     ],
@@ -196196,6 +196193,9 @@
     ],
     "SS120_16041": [
       "PRO_RS07680"
+    ],
+    "SS120_16221": [
+      "PRO_RS07770"
     ],
     "STE14": [
       "Pro1091"
@@ -206125,7 +206125,7 @@
     "CK_Pro_SS120_00145": "Pro0145",
     "CK_Pro_SS120_00146": "Pro0146",
     "CK_Pro_SS120_00147": "Pro0147",
-    "CK_Pro_SS120_00148": "Pro0148",
+    "CK_Pro_SS120_00148": "PRO_RS00745",
     "CK_Pro_SS120_00149": "Pro0149",
     "CK_Pro_SS120_00150": "Pro0150",
     "CK_Pro_SS120_00151": "Pro0151",
@@ -207866,12 +207866,12 @@
     "CK_Pro_SS120_04521": "SS120_04521",
     "CK_Pro_SS120_04641": "SS120_04641",
     "CK_Pro_SS120_05391": "SS120_05391",
-    "CK_Pro_SS120_05971": "SS120_05971",
+    "CK_Pro_SS120_05971": "PRO_RS03015",
     "CK_Pro_SS120_06001": "PRO_RS03030",
     "CK_Pro_SS120_06361": "SS120_06361",
     "CK_Pro_SS120_06431": "SS120_06431",
     "CK_Pro_SS120_06451": "PRO_RS03220",
-    "CK_Pro_SS120_06561": "SS120_06561",
+    "CK_Pro_SS120_06561": "PRO_RS09310",
     "CK_Pro_SS120_06711": "PRO_RS09315",
     "CK_Pro_SS120_06771": "PRO_RS09325",
     "CK_Pro_SS120_06871": "PRO_RS03380",
@@ -207887,7 +207887,7 @@
     "CK_Pro_SS120_10041": "PRO_RS09530",
     "CK_Pro_SS120_11371": "SS120_11371",
     "CK_Pro_SS120_11961": "PRO_RS05780",
-    "CK_Pro_SS120_12001": "SS120_12001",
+    "CK_Pro_SS120_12001": "PRO_RS05800",
     "CK_Pro_SS120_12131": "PRO_RS05850",
     "CK_Pro_SS120_13101": "SS120_13101",
     "CK_Pro_SS120_13701": "SS120_13701",
@@ -207904,7 +207904,7 @@
     "CK_Pro_SS120_15891": "SS120_15891",
     "CK_Pro_SS120_15941": "PRO_RS07630",
     "CK_Pro_SS120_16041": "PRO_RS07680",
-    "CK_Pro_SS120_16221": "SS120_16221",
+    "CK_Pro_SS120_16221": "PRO_RS07770",
     "CK_Pro_SS120_16461": "SS120_16461",
     "CK_Pro_SS120_16701": "SS120_16701",
     "CK_Pro_SS120_17791": "SS120_17791",
@@ -211682,7 +211682,6 @@
     "Pro_0145": "Pro0145",
     "Pro_0146": "Pro0146",
     "Pro_0147": "Pro0147",
-    "Pro_0148": "Pro0148",
     "Pro_0149": "Pro0149",
     "Pro_0150": "Pro0150",
     "Pro_0151": "Pro0151",
@@ -213420,8 +213419,10 @@
     "Pro_50023": "PRO_RS09300",
     "SS120_03821": "PRO_RS09570",
     "SS120_04211": "PRO_RS02150",
+    "SS120_05971": "PRO_RS03015",
     "SS120_06001": "PRO_RS03030",
     "SS120_06451": "PRO_RS03220",
+    "SS120_06561": "PRO_RS09310",
     "SS120_06711": "PRO_RS09315",
     "SS120_06771": "PRO_RS09325",
     "SS120_06871": "PRO_RS03380",
@@ -213430,6 +213431,7 @@
     "SS120_07421": "PRO_RS09370",
     "SS120_10041": "PRO_RS09530",
     "SS120_11961": "PRO_RS05780",
+    "SS120_12001": "PRO_RS05800",
     "SS120_12131": "PRO_RS05850",
     "SS120_14791": "PRO_RS09620",
     "SS120_14861": "PRO_RS07200",
@@ -213438,6 +213440,7 @@
     "SS120_15871": "PRO_RS07600",
     "SS120_15941": "PRO_RS07630",
     "SS120_16041": "PRO_RS07680",
+    "SS120_16221": "PRO_RS07770",
     "gene-PRO_RS00005": "Pro0001",
     "gene-PRO_RS00010": "Pro0002",
     "gene-PRO_RS00015": "Pro0003",
@@ -215444,7 +215447,6 @@
     "gene-Pro_0145": "Pro0145",
     "gene-Pro_0146": "Pro0146",
     "gene-Pro_0147": "Pro0147",
-    "gene-Pro_0148": "Pro0148",
     "gene-Pro_0149": "Pro0149",
     "gene-Pro_0150": "Pro0150",
     "gene-Pro_0151": "Pro0151",
@@ -219040,9 +219042,9 @@
   },
   "stats": {
     "n_conflicts": 0,
-    "n_genes": 1964,
-    "n_multi": 11706,
-    "n_specific": 13059,
+    "n_genes": 1959,
+    "n_multi": 11709,
+    "n_specific": 13061,
     "passes": 2
   },
   "strain": "SS120",

@@ -8032,101 +8032,6 @@
       "Hypothetical proteins / Conserved"
     ]
   },
-  "Syncc8109_0039": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_00039"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] HNH endonuclease family protein",
-      "[cyanorak_role] DNA replication, recombination, and repair",
-      "[cyanorak_role] 2'-Deoxyribonucleotide metabolism",
-      "[tigr_role] Purines, pyrimidines, nucleosides, and nucleotides / 2'-Deoxyribonucleotide metabolism",
-      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
-      "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
-      "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
-      "[pfam] HNH: HNH endonuclease"
-    ],
-    "bacteria_cog_og": "COG1403",
-    "cluster_number": "CK_00000339",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "F.1",
-      "M.1"
-    ],
-    "cyanorak_Role_description": [
-      "DNA replication, recombination, and repair",
-      "2'-Deoxyribonucleotide metabolism"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
-      "bactNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
-      "cyaNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms"
-    ],
-    "eggnog_ogs": [
-      "NOG86494",
-      "COG1403",
-      "NOG295816",
-      "NOG69674",
-      "bactNOG53806",
-      "cyaNOG04857"
-    ],
-    "end_cyanorak": 33601,
-    "gene_category": "Replication and repair",
-    "gene_name": "mcrA",
-    "gene_name_source": "cyanorak",
-    "gene_summary": "mcrA :: HNH endonuclease family protein",
-    "go_term_descriptions": [
-      "nucleic acid binding",
-      "Description not found."
-    ],
-    "go_terms": [
-      "GO:0003676",
-      "GO:0004519"
-    ],
-    "go_terms_source": {
-      "GO:0003676": [
-        "cyanorak"
-      ],
-      "GO:0004519": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "Syncc8109_0039",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_00039",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00000339",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF01844"
-    ],
-    "pfam_ids_source": {
-      "PF01844": [
-        "cyanorak"
-      ]
-    },
-    "product": "HNH endonuclease family protein",
-    "product_cyanorak": "HNH endonuclease family protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 33386,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "123"
-    ],
-    "tIGR_Role_description": [
-      "Purines, pyrimidines, nucleosides, and nucleotides / 2'-Deoxyribonucleotide metabolism"
-    ]
-  },
   "Syncc8109_0040": {
     "all_identifiers": [
       "CK_Syn_WH8109_00040",
@@ -19962,84 +19867,6 @@
     "start_cyanorak": 91084,
     "strand_cyanorak": "-"
   },
-  "Syncc8109_0099": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_00099"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] acyltransferase family protein",
-      "[tigr_role] Unknown function / Enzymes of unknown specificity",
-      "[cog] COG: METABOLISM [I] Lipid transport and metabolism",
-      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] bactNOG: METABOLISM [I] Lipid transport and metabolism",
-      "[cog] cyaNOG: METABOLISM [I] Lipid transport and metabolism",
-      "[pfam] Acyl_transf_3: Acyltransferase domain"
-    ],
-    "bacteria_cog_og": "COG1835",
-    "cluster_number": "CK_00003620",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: METABOLISM [I] Lipid transport and metabolism",
-      "COG: POORLY CHARACTERIZED [S] Function unknown",
-      "bactNOG: METABOLISM [I] Lipid transport and metabolism",
-      "cyaNOG: METABOLISM [I] Lipid transport and metabolism"
-    ],
-    "eggnog_ogs": [
-      "COG1835",
-      "NOG132452",
-      "bactNOG30314",
-      "cyaNOG04329"
-    ],
-    "end_cyanorak": 92015,
-    "gene_category": "Unknown",
-    "gene_summary": "acyltransferase family protein",
-    "go_term_descriptions": [
-      "Description not found."
-    ],
-    "go_terms": [
-      "GO:0016747"
-    ],
-    "go_terms_source": {
-      "GO:0016747": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "Syncc8109_0099",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_00099",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00003620",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF01757"
-    ],
-    "pfam_ids_source": {
-      "PF01757": [
-        "cyanorak"
-      ]
-    },
-    "product": "acyltransferase family protein",
-    "product_cyanorak": "acyltransferase family protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 91602,
-    "strand_cyanorak": "+",
-    "tIGR_Role": [
-      "703"
-    ],
-    "tIGR_Role_description": [
-      "Unknown function / Enzymes of unknown specificity"
-    ]
-  },
   "Syncc8109_0100": {
     "all_identifiers": [
       "CK_Syn_WH8109_00100",
@@ -20462,69 +20289,6 @@
     "strand": "-",
     "strand_cyanorak": "-"
   },
-  "Syncc8109_0105": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_00105"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] methyltransferase domain protein",
-      "[tigr_role] Unknown function / Enzymes of unknown specificity",
-      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[pfam] Methyltransf_24: Methyltransferase domain"
-    ],
-    "cluster_number": "CK_00003630",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: POORLY CHARACTERIZED [S] Function unknown",
-      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "eggnog_ogs": [
-      "NOG47678",
-      "bactNOG29420",
-      "cyaNOG04686"
-    ],
-    "end_cyanorak": 101060,
-    "gene_category": "Unknown",
-    "gene_summary": "methyltransferase domain protein",
-    "locus_tag": "Syncc8109_0105",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_00105",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00003630",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF13578"
-    ],
-    "pfam_ids_source": {
-      "PF13578": [
-        "cyanorak"
-      ]
-    },
-    "product": "methyltransferase domain protein",
-    "product_cyanorak": "methyltransferase domain protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 100740,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "703"
-    ],
-    "tIGR_Role_description": [
-      "Unknown function / Enzymes of unknown specificity"
-    ]
-  },
   "Syncc8109_0106": {
     "all_identifiers": [
       "CK_Syn_WH8109_00106",
@@ -20751,128 +20515,6 @@
     "transporter_classification": [
       "3.A.1.103",
       "3.A.1"
-    ]
-  },
-  "Syncc8109_0107": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_00107"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] serine O-acetyltransferase",
-      "[cyanorak_role] Serine family (Ser, Gly, Cys)",
-      "[tigr_role] Amino acid biosynthesis / Serine family",
-      "[cog] COG: METABOLISM [E] Amino acid transport and metabolism",
-      "[cog] bactNOG: METABOLISM [E] Amino acid transport and metabolism",
-      "[cog] cyaNOG: METABOLISM [E] Amino acid transport and metabolism",
-      "[kegg] Description not found.",
-      "[pfam] SATase_N: Serine acetyltransferase, N-terminal",
-      "[pfam] Hexapep: Bacterial transferase hexapeptide (six repeats)"
-    ],
-    "bacteria_cog_og": "COG1045",
-    "cluster_number": "CK_00000313",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "A.6"
-    ],
-    "cyanorak_Role_description": [
-      "Serine family (Ser, Gly, Cys)"
-    ],
-    "ec_numbers": [
-      "2.3.1.30"
-    ],
-    "ec_numbers_source": {
-      "2.3.1.30": [
-        "cyanorak"
-      ]
-    },
-    "eggnog_og_descriptions": [
-      "COG: METABOLISM [E] Amino acid transport and metabolism",
-      "bactNOG: METABOLISM [E] Amino acid transport and metabolism",
-      "cyaNOG: METABOLISM [E] Amino acid transport and metabolism"
-    ],
-    "eggnog_ogs": [
-      "COG1045",
-      "bactNOG02995",
-      "cyaNOG00260"
-    ],
-    "end_cyanorak": 103997,
-    "gene_category": "Amino acid metabolism",
-    "gene_name": "cysE",
-    "gene_name_source": "cyanorak",
-    "gene_summary": "cysE :: serine O-acetyltransferase",
-    "go_term_descriptions": [
-      "Description not found.",
-      "cysteine biosynthetic process from serine",
-      "Description not found.",
-      "serine O-acetyltransferase activity",
-      "transferase activity",
-      "cysteine biosynthetic process from serine",
-      "serine O-acetyltransferase activity",
-      "serine O-acetyltransferase activity",
-      "transferase activity",
-      "cytoplasm"
-    ],
-    "go_terms": [
-      "GO:0006535",
-      "GO:0009001",
-      "GO:0016740",
-      "GO:0005737"
-    ],
-    "go_terms_source": {
-      "GO:0005737": [
-        "cyanorak"
-      ],
-      "GO:0006535": [
-        "cyanorak"
-      ],
-      "GO:0009001": [
-        "cyanorak"
-      ],
-      "GO:0016740": [
-        "cyanorak"
-      ]
-    },
-    "kegg_ko_descriptions": [
-      "Description not found."
-    ],
-    "locus_tag": "Syncc8109_0107",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_00107",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00000313",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF06426",
-      "PF00132"
-    ],
-    "pfam_ids_source": {
-      "PF00132": [
-        "cyanorak"
-      ],
-      "PF06426": [
-        "cyanorak"
-      ]
-    },
-    "product": "serine O-acetyltransferase",
-    "product_cyanorak": "serine O-acetyltransferase",
-    "product_source": "cyanorak",
-    "start_cyanorak": 103821,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "75"
-    ],
-    "tIGR_Role_description": [
-      "Amino acid biosynthesis / Serine family"
     ]
   },
   "Syncc8109_0108": {
@@ -113688,46 +113330,6 @@
       "Hypothetical proteins / Conserved"
     ]
   },
-  "Syncc8109_0597": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_00597"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein",
-      "[cyanorak_role] Conserved hypothetical domains"
-    ],
-    "cluster_number": "CK_00057259",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "R.1"
-    ],
-    "cyanorak_Role_description": [
-      "Conserved hypothetical domains"
-    ],
-    "end_cyanorak": 491075,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "Syncc8109_0597",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_00597",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00057259",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 490503,
-    "strand_cyanorak": "-"
-  },
   "Syncc8109_0598": {
     "all_identifiers": [
       "CK_Syn_WH8109_00598"
@@ -114615,39 +114217,6 @@
     "tIGR_Role_description": [
       "Hypothetical proteins / Conserved"
     ]
-  },
-  "Syncc8109_0615": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_00615"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] hypothetical protein"
-    ],
-    "cluster_number": "CK_00035813",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 503527,
-    "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein",
-    "locus_tag": "Syncc8109_0615",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_00615",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00035813",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "hypothetical protein",
-    "product_cyanorak": "hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 503339,
-    "strand_cyanorak": "+"
   },
   "Syncc8109_0616": {
     "all_identifiers": [
@@ -145086,64 +144655,6 @@
       "1.A.1"
     ]
   },
-  "Syncc8109_0777": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_00777"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] uncharacterized conserved membrane protein",
-      "[cyanorak_role] Conserved hypothetical proteins",
-      "[tigr_role] Hypothetical proteins / Conserved"
-    ],
-    "cluster_number": "CK_00051874",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "R.2"
-    ],
-    "cyanorak_Role_description": [
-      "Conserved hypothetical proteins"
-    ],
-    "end_cyanorak": 628181,
-    "gene_category": "Unknown",
-    "gene_summary": "uncharacterized conserved membrane protein",
-    "go_term_descriptions": [
-      "membrane"
-    ],
-    "go_terms": [
-      "GO:0016020"
-    ],
-    "go_terms_source": {
-      "GO:0016020": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "Syncc8109_0777",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_00777",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00051874",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "uncharacterized conserved membrane protein",
-    "product_cyanorak": "uncharacterized conserved membrane protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 628038,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
-    ]
-  },
   "Syncc8109_0778": {
     "all_identifiers": [
       "CK_Syn_WH8109_00778",
@@ -171044,88 +170555,6 @@
       "Energy metabolism / Photosynthesis"
     ]
   },
-  "Syncc8109_0957": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_00957"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] photosystem II PsbY protein",
-      "[cyanorak_role] Photosystem II",
-      "[tigr_role] Energy metabolism / Photosynthesis",
-      "[pfam] PsbY: Photosystem II protein Y (PsbY)"
-    ],
-    "cluster_number": "CK_00001996",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "J.8"
-    ],
-    "cyanorak_Role_description": [
-      "Photosystem II"
-    ],
-    "end_cyanorak": 742885,
-    "gene_category": "Photosynthesis",
-    "gene_name": "psbY",
-    "gene_name_source": "cyanorak",
-    "gene_summary": "psbY :: photosystem II PsbY protein",
-    "go_term_descriptions": [
-      "photosynthesis",
-      "photosynthesis",
-      "manganese ion binding",
-      "photosynthesis",
-      "manganese ion binding",
-      "photosystem II"
-    ],
-    "go_terms": [
-      "GO:0015979",
-      "GO:0030145",
-      "GO:0009523"
-    ],
-    "go_terms_source": {
-      "GO:0009523": [
-        "cyanorak"
-      ],
-      "GO:0015979": [
-        "cyanorak"
-      ],
-      "GO:0030145": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "Syncc8109_0957",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_00957",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00001996",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF06298"
-    ],
-    "pfam_ids_source": {
-      "PF06298": [
-        "cyanorak"
-      ]
-    },
-    "product": "photosystem II PsbY protein",
-    "product_cyanorak": "photosystem II PsbY protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 742673,
-    "strand_cyanorak": "+",
-    "tIGR_Role": [
-      "164"
-    ],
-    "tIGR_Role_description": [
-      "Energy metabolism / Photosynthesis"
-    ]
-  },
   "Syncc8109_0958": {
     "all_identifiers": [
       "CK_Syn_WH8109_00958",
@@ -186999,106 +186428,6 @@
       "Energy metabolism / Photosynthesis"
     ]
   },
-  "Syncc8109_1052": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_01052"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] putative hydrolase/acyltransferase",
-      "[cyanorak_role] Other",
-      "[cyanorak_role] Enzymes of unknown specificity",
-      "[tigr_role] Unknown function / Enzymes of unknown specificity",
-      "[cog] COG: POORLY CHARACTERIZED [R] General function prediction only",
-      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[pfam] Abhydrolase_6: Alpha/beta hydrolase family"
-    ],
-    "bacteria_cog_og": "COG0596",
-    "cluster_number": "CK_00002271",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "D.1.9",
-      "R.3"
-    ],
-    "cyanorak_Role_description": [
-      "Other",
-      "Enzymes of unknown specificity"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: POORLY CHARACTERIZED [R] General function prediction only",
-      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "eggnog_ogs": [
-      "COG0596",
-      "bactNOG15691",
-      "cyaNOG00948"
-    ],
-    "end_cyanorak": 826084,
-    "gene_category": "Stress response and adaptation",
-    "gene_summary": "putative hydrolase/acyltransferase",
-    "go_term_descriptions": [
-      "Description not found.",
-      "hydrolase activity",
-      "transferase activity, transferring acyl groups",
-      "transferase activity"
-    ],
-    "go_terms": [
-      "GO:0008415",
-      "GO:0016787",
-      "GO:0016746",
-      "GO:0016740"
-    ],
-    "go_terms_source": {
-      "GO:0008415": [
-        "cyanorak"
-      ],
-      "GO:0016740": [
-        "cyanorak"
-      ],
-      "GO:0016746": [
-        "cyanorak"
-      ],
-      "GO:0016787": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "Syncc8109_1052",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_01052",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00002271",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF12697"
-    ],
-    "pfam_ids_source": {
-      "PF12697": [
-        "cyanorak"
-      ]
-    },
-    "product": "putative hydrolase/acyltransferase",
-    "product_cyanorak": "putative hydrolase/acyltransferase",
-    "product_source": "cyanorak",
-    "start_cyanorak": 825710,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "703"
-    ],
-    "tIGR_Role_description": [
-      "Unknown function / Enzymes of unknown specificity"
-    ]
-  },
   "Syncc8109_1053": {
     "all_identifiers": [
       "CK_Syn_WH8109_01053"
@@ -190987,46 +190316,6 @@
     "product_source": "cyanorak",
     "start_cyanorak": 847030,
     "strand_cyanorak": "-"
-  },
-  "Syncc8109_1092": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_01092"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein",
-      "[tigr_role] Hypothetical proteins / Conserved"
-    ],
-    "cluster_number": "CK_00006269",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 847272,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "Syncc8109_1092",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_01092",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00006269",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 847159,
-    "strand_cyanorak": "+",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
-    ]
   },
   "Syncc8109_1093": {
     "all_identifiers": [
@@ -202089,74 +201378,6 @@
     "start_cyanorak": 888845,
     "strand": "+",
     "strand_cyanorak": "+",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
-    ]
-  },
-  "Syncc8109_1194": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_01194"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein",
-      "[cyanorak_role] Other",
-      "[cyanorak_role] Conserved hypothetical proteins",
-      "[tigr_role] Hypothetical proteins / Conserved",
-      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] COG: LK",
-      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "bacteria_cog_og": "COG1197",
-    "cluster_number": "CK_00001953",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "D.1.9",
-      "R.2"
-    ],
-    "cyanorak_Role_description": [
-      "Other",
-      "Conserved hypothetical proteins"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: POORLY CHARACTERIZED [S] Function unknown",
-      "COG: LK",
-      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "eggnog_ogs": [
-      "NOG44847",
-      "COG1197",
-      "bactNOG72638",
-      "cyaNOG08005"
-    ],
-    "end_cyanorak": 889250,
-    "gene_category": "Stress response and adaptation",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "Syncc8109_1194",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_01194",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00001953",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 888996,
-    "strand_cyanorak": "-",
     "tIGR_Role": [
       "156"
     ],
@@ -224605,111 +223826,6 @@
     "start_cyanorak": 985213,
     "strand_cyanorak": "-"
   },
-  "Syncc8109_1312": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_01312"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] RNA polymerase sigma factor, type III",
-      "[cyanorak_role] DNA-dependent RNA polymerase",
-      "[tigr_role] Transcription / DNA-dependent RNA polymerase",
-      "[cog] COG: INFORMATION STORAGE AND PROCESSING [K] Transcription",
-      "[cog] bactNOG: INFORMATION STORAGE AND PROCESSING [K] Transcription",
-      "[cog] cyaNOG: INFORMATION STORAGE AND PROCESSING [K] Transcription",
-      "[pfam] Sigma70_r4: Sigma-70, region 4",
-      "[pfam] Sigma70_r2: Sigma-70 region 2"
-    ],
-    "bacteria_cog_og": "COG1191",
-    "cluster_number": "CK_00001785",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "P.2"
-    ],
-    "cyanorak_Role_description": [
-      "DNA-dependent RNA polymerase"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: INFORMATION STORAGE AND PROCESSING [K] Transcription",
-      "bactNOG: INFORMATION STORAGE AND PROCESSING [K] Transcription",
-      "cyaNOG: INFORMATION STORAGE AND PROCESSING [K] Transcription"
-    ],
-    "eggnog_ogs": [
-      "COG1191",
-      "bactNOG68798",
-      "cyaNOG07518"
-    ],
-    "end_cyanorak": 985782,
-    "gene_category": "Transcription",
-    "gene_name": "sigF2",
-    "gene_name_source": "cyanorak",
-    "gene_summary": "sigF2 :: RNA polymerase sigma factor, type III",
-    "go_term_descriptions": [
-      "DNA-templated transcription, initiation",
-      "DNA-templated transcription, initiation",
-      "sigma factor activity",
-      "DNA-binding transcription factor activity",
-      "DNA binding"
-    ],
-    "go_terms": [
-      "GO:0006352",
-      "GO:0016987",
-      "GO:0003700",
-      "GO:0003677"
-    ],
-    "go_terms_source": {
-      "GO:0003677": [
-        "cyanorak"
-      ],
-      "GO:0003700": [
-        "cyanorak"
-      ],
-      "GO:0006352": [
-        "cyanorak"
-      ],
-      "GO:0016987": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "Syncc8109_1312",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_01312",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00001785",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF04545",
-      "PF04542"
-    ],
-    "pfam_ids_source": {
-      "PF04542": [
-        "cyanorak"
-      ],
-      "PF04545": [
-        "cyanorak"
-      ]
-    },
-    "product": "RNA polymerase sigma factor, type III",
-    "product_cyanorak": "RNA polymerase sigma factor, type III",
-    "product_source": "cyanorak",
-    "start_cyanorak": 985384,
-    "strand_cyanorak": "+",
-    "tIGR_Role": [
-      "135"
-    ],
-    "tIGR_Role_description": [
-      "Transcription / DNA-dependent RNA polymerase"
-    ]
-  },
   "Syncc8109_1313": {
     "all_identifiers": [
       "CK_Syn_WH8109_01313",
@@ -242990,46 +242106,79 @@
   },
   "Syncc8109_1425": {
     "all_identifiers": [
+      "CK_Syn_WH8109_50022",
+      "Syncc8109_50022",
       "Syncc8109_RS05835",
       "WP_025362302.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] drug/metabolite transporter (DMT) superfamily efflux protein",
       "[ncbi] EamA family transporter",
       "[eggnog] COG0697 Permeases of the drug metabolite transporter (DMT) superfamily",
+      "[tigr_role] Transport and binding proteins / Other",
+      "[cog] COG: GER",
+      "[cog] bactNOG: G",
+      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] EamA domain",
-      "[pfam] EamA: EamA-like transporter family"
+      "[pfam] EamA: EamA-like transporter family",
+      "[pfam] GATase: Glutamine amidotransferase class-I",
+      "[pfam] CTP_synth_N: CTP synthase N-terminus"
     ],
     "alternative_locus_tags": [
       "Syncc8109_RS05835",
-      "Syncc8109_1425"
+      "Syncc8109_1425",
+      "Syncc8109_50022"
     ],
     "bacteria_cog_og": "COG0697",
+    "cluster_number": "CK_00000868",
     "cog_category": [
       "E",
       "G"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "eggnog_og_descriptions": [
+      "COG: GER",
+      "bactNOG: G",
+      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+    ],
     "eggnog_ogs": [
+      "NOG318920",
+      "COG0697",
+      "NOG280361",
+      "bactNOG68253",
+      "bactNOG02522",
+      "bactNOG12597",
+      "bactNOG84578",
+      "bactNOG96337",
+      "cyaNOG00794",
       "COG0697@1|root",
       "COG0697@2|Bacteria",
       "1G0QG@1117|Cyanobacteria",
       "1GZV5@1129|Synechococcus"
     ],
     "end": 1069229,
+    "end_cyanorak": 1069229,
     "function_description": "COG0697 Permeases of the drug metabolite transporter (DMT) superfamily",
     "function_description_source": "eggnog",
-    "gene_category": "Amino acid metabolism",
-    "gene_summary": "EamA family transporter :: COG0697 Permeases of the drug metabolite transporter (DMT) superfamily",
+    "gene_category": "Transport",
+    "gene_summary": "drug/metabolite transporter (DMT) superfamily efflux protein :: COG0697 Permeases of the drug metabolite transporter (DMT) superfamily",
     "gene_synonyms": [
       "Syncc8109_RS05835",
-      "Syncc8109_1425"
+      "Syncc8109_1425",
+      "Syncc8109_50022"
+    ],
+    "go_term_descriptions": [
+      "membrane"
     ],
     "go_terms": [
       "GO:0016020"
@@ -243039,6 +242188,7 @@
     },
     "go_terms_source": {
       "GO:0016020": [
+        "cyanorak",
         "interproscan",
         "ncbi"
       ]
@@ -243048,13 +242198,22 @@
       "IPR037185"
     ],
     "locus_tag": "Syncc8109_1425",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_50022",
     "locus_tag_ncbi": "Syncc8109_RS05835",
     "max_annot_lvl": "1117|Cyanobacteria",
     "old_locus_tags": [
-      "Syncc8109_1425"
+      "Syncc8109_1425",
+      "Syncc8109_50022"
     ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00000868",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG0697@2",
         "source": "eggnog",
@@ -243078,19 +242237,29 @@
       }
     ],
     "pfam_ids": [
-      "PF00892"
+      "PF00892",
+      "PF00117",
+      "PF06418"
     ],
     "pfam_ids_evidence": {
-      "PF00892": "signature"
+      "PF00892": "curated"
     },
     "pfam_ids_source": {
+      "PF00117": [
+        "cyanorak"
+      ],
       "PF00892": [
+        "cyanorak",
         "eggnog",
         "interproscan"
+      ],
+      "PF06418": [
+        "cyanorak"
       ]
     },
-    "product": "EamA family transporter",
-    "product_source": "ncbi",
+    "product": "drug/metabolite transporter (DMT) superfamily efflux protein",
+    "product_cyanorak": "drug/metabolite transporter (DMT) superfamily efflux protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_025362302.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
@@ -243099,7 +242268,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1068366,
-    "strand": "+"
+    "start_cyanorak": 1068471,
+    "strand": "+",
+    "strand_cyanorak": "+",
+    "tIGR_Role": [
+      "147"
+    ],
+    "tIGR_Role_description": [
+      "Transport and binding proteins / Other"
+    ]
   },
   "Syncc8109_1426": {
     "all_identifiers": [
@@ -270223,26 +269400,37 @@
   },
   "Syncc8109_1563": {
     "all_identifiers": [
+      "CK_Syn_WH8109_50024",
+      "Syncc8109_50024",
       "Syncc8109_RS06425",
       "WP_006851816.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] L,D-transpeptidase catalytic domain protein",
       "[ncbi] L,D-transpeptidase",
       "[eggnog] protein conserved in bacteria",
+      "[cyanorak_role] Degradation of proteins, peptides, and glycopeptides",
+      "[tigr_role] Protein fate / Degradation of proteins, peptides, and glycopeptides",
+      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] L,D-transpeptidase catalytic domain",
       "[interpro] Bacterial L,D-transpeptidase",
       "[pfam] YkuD: L,D-transpeptidase catalytic domain"
     ],
     "alternative_locus_tags": [
       "Syncc8109_RS06425",
-      "Syncc8109_1563"
+      "Syncc8109_1563",
+      "Syncc8109_50024"
     ],
     "bacteria_cog_og": "COG1376",
+    "cluster_number": "CK_00049602",
     "cog_category": [
       "S"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "merops_diamond",
@@ -270250,6 +269438,12 @@
       "psortb",
       "signalp",
       "uniprot"
+    ],
+    "cyanorak_Role": [
+      "L.4"
+    ],
+    "cyanorak_Role_description": [
+      "Degradation of proteins, peptides, and glycopeptides"
     ],
     "ec_numbers": [
       "2.3.2.-"
@@ -270259,20 +269453,33 @@
         "uniprot"
       ]
     },
+    "eggnog_og_descriptions": [
+      "COG: POORLY CHARACTERIZED [S] Function unknown",
+      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+    ],
     "eggnog_ogs": [
+      "COG1376",
+      "bactNOG32398",
+      "cyaNOG02963",
       "COG1376@1|root",
       "COG1376@2|Bacteria",
       "1G6YH@1117|Cyanobacteria",
       "1H06J@1129|Synechococcus"
     ],
     "end": 1181399,
+    "end_cyanorak": 1181393,
     "function_description": "protein conserved in bacteria",
     "function_description_source": "eggnog",
-    "gene_category": "Unknown",
-    "gene_summary": "L,D-transpeptidase :: protein conserved in bacteria",
+    "gene_category": "Post-translational modification",
+    "gene_summary": "L,D-transpeptidase catalytic domain protein :: protein conserved in bacteria",
     "gene_synonyms": [
       "Syncc8109_RS06425",
-      "Syncc8109_1563"
+      "Syncc8109_1563",
+      "Syncc8109_50024"
+    ],
+    "go_term_descriptions": [
+      "transferase activity"
     ],
     "go_terms": [
       "GO:0016746",
@@ -270281,10 +269488,11 @@
       "GO:0016740"
     ],
     "go_terms_evidence": {
-      "GO:0016740": "domain_inferred"
+      "GO:0016740": "curated"
     },
     "go_terms_source": {
       "GO:0016740": [
+        "cyanorak",
         "interproscan"
       ],
       "GO:0016746": [
@@ -270303,16 +269511,25 @@
       "IPR050979"
     ],
     "locus_tag": "Syncc8109_1563",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_50024",
     "locus_tag_ncbi": "Syncc8109_RS06425",
     "max_annot_lvl": "1117|Cyanobacteria",
     "merops_ids": [
       "C82"
     ],
     "old_locus_tags": [
-      "Syncc8109_1563"
+      "Syncc8109_1563",
+      "Syncc8109_50024"
     ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00049602",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG1376@2",
         "source": "eggnog",
@@ -270339,16 +269556,18 @@
       "PF03734"
     ],
     "pfam_ids_evidence": {
-      "PF03734": "signature"
+      "PF03734": "curated"
     },
     "pfam_ids_source": {
       "PF03734": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
-    "product": "L,D-transpeptidase",
-    "product_source": "ncbi",
+    "product": "L,D-transpeptidase catalytic domain protein",
+    "product_cyanorak": "L,D-transpeptidase catalytic domain protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_006851816.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -270357,7 +269576,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1181112,
-    "strand": "-"
+    "start_cyanorak": 1181112,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "138"
+    ],
+    "tIGR_Role_description": [
+      "Protein fate / Degradation of proteins, peptides, and glycopeptides"
+    ]
   },
   "Syncc8109_1565": {
     "all_identifiers": [
@@ -274926,55 +274153,6 @@
     ],
     "tIGR_Role_description": [
       "Cell envelope / Other"
-    ]
-  },
-  "Syncc8109_1611": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_01611"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein",
-      "[tigr_role] Hypothetical proteins / Conserved",
-      "[pfam] DUF1499: Protein of unknown function (DUF1499)"
-    ],
-    "cluster_number": "CK_00053816",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1202220,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "Syncc8109_1611",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_01611",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00053816",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF07386"
-    ],
-    "pfam_ids_source": {
-      "PF07386": [
-        "cyanorak"
-      ]
-    },
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1201972,
-    "strand_cyanorak": "+",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
     ]
   },
   "Syncc8109_1612": {
@@ -295293,88 +294471,6 @@
       "Hypothetical proteins / Conserved"
     ]
   },
-  "Syncc8109_1745": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_01745"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] rod linker polypeptide (Lr), C-phycoerythrin II-associated",
-      "[cyanorak_role] Light-harvesting-Phycobilisomes",
-      "[tigr_role] Energy metabolism / Photosynthesis",
-      "[pfam] PBS_linker_poly: Phycobilisome Linker polypeptide"
-    ],
-    "cluster_number": "CK_00008023",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "J.5"
-    ],
-    "cyanorak_Role_description": [
-      "Light-harvesting-Phycobilisomes"
-    ],
-    "end_cyanorak": 1289053,
-    "gene_category": "Photosynthesis",
-    "gene_name": "mpeG",
-    "gene_name_source": "cyanorak",
-    "gene_summary": "mpeG :: rod linker polypeptide (Lr), C-phycoerythrin II-associated",
-    "go_term_descriptions": [
-      "protein-containing complex assembly",
-      "protein-containing complex assembly",
-      "energy transducer activity",
-      "protein-containing complex assembly",
-      "energy transducer activity",
-      "phycobilisome"
-    ],
-    "go_terms": [
-      "GO:0006461",
-      "GO:0031992",
-      "GO:0030089"
-    ],
-    "go_terms_source": {
-      "GO:0006461": [
-        "cyanorak"
-      ],
-      "GO:0030089": [
-        "cyanorak"
-      ],
-      "GO:0031992": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "Syncc8109_1745",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_01745",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00008023",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF00427"
-    ],
-    "pfam_ids_source": {
-      "PF00427": [
-        "cyanorak"
-      ]
-    },
-    "product": "rod linker polypeptide (Lr), C-phycoerythrin II-associated",
-    "product_cyanorak": "rod linker polypeptide (Lr), C-phycoerythrin II-associated",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1288115,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "164"
-    ],
-    "tIGR_Role_description": [
-      "Energy metabolism / Photosynthesis"
-    ]
-  },
   "Syncc8109_1747": {
     "all_identifiers": [
       "CK_Syn_WH8109_01747"
@@ -296435,107 +295531,6 @@
     ],
     "tIGR_Role_description": [
       "Cell envelope / Other"
-    ]
-  },
-  "Syncc8109_1760": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_01760"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] phage integrase family protein",
-      "[cyanorak_role] DNA replication, recombination, and repair",
-      "[cyanorak_role] Mobile and extrachromosomal element functions",
-      "[tigr_role] DNA metabolism / DNA replication, recombination, and repair",
-      "[tigr_role] Mobile and extrachromosomal element functions / Prophage functions",
-      "[cog] COG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
-      "[cog] bactNOG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
-      "[cog] cyaNOG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
-      "[pfam] Phage_integrase: Phage integrase family"
-    ],
-    "bacteria_cog_og": "COG0582",
-    "cluster_number": "CK_00053945",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "F.1",
-      "I"
-    ],
-    "cyanorak_Role_description": [
-      "DNA replication, recombination, and repair",
-      "Mobile and extrachromosomal element functions"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
-      "bactNOG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
-      "cyaNOG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair"
-    ],
-    "eggnog_ogs": [
-      "COG0582",
-      "NOG120573",
-      "bactNOG78079",
-      "cyaNOG09173"
-    ],
-    "end_cyanorak": 1293892,
-    "gene_category": "Replication and repair",
-    "gene_summary": "phage integrase family protein",
-    "go_term_descriptions": [
-      "DNA recombination",
-      "Description not found.",
-      "DNA recombination",
-      "DNA integration",
-      "DNA binding"
-    ],
-    "go_terms": [
-      "GO:0006310",
-      "GO:0015074",
-      "GO:0003677"
-    ],
-    "go_terms_source": {
-      "GO:0003677": [
-        "cyanorak"
-      ],
-      "GO:0006310": [
-        "cyanorak"
-      ],
-      "GO:0015074": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "Syncc8109_1760",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_01760",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00053945",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF00589"
-    ],
-    "pfam_ids_source": {
-      "PF00589": [
-        "cyanorak"
-      ]
-    },
-    "product": "phage integrase family protein",
-    "product_cyanorak": "phage integrase family protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1293401,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "132",
-      "152"
-    ],
-    "tIGR_Role_description": [
-      "DNA metabolism / DNA replication, recombination, and repair",
-      "Mobile and extrachromosomal element functions / Prophage functions"
     ]
   },
   "Syncc8109_1761": {
@@ -298970,46 +297965,6 @@
       "Hypothetical proteins / Conserved"
     ]
   },
-  "Syncc8109_1793": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_01793"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein",
-      "[tigr_role] Hypothetical proteins / Conserved"
-    ],
-    "cluster_number": "CK_00050755",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1313468,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "Syncc8109_1793",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_01793",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00050755",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1313355,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
-    ]
-  },
   "Syncc8109_1794": {
     "all_identifiers": [
       "CK_Syn_WH8109_01794"
@@ -299663,106 +298618,6 @@
     ],
     "tIGR_Role_description": [
       "Hypothetical proteins / Conserved"
-    ]
-  },
-  "Syncc8109_1804": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_01804"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] metallopeptidase",
-      "[cyanorak_role] Trace metals",
-      "[cyanorak_role] Enzymes of unknown specificity",
-      "[tigr_role] Unknown function / Enzymes of unknown specificity",
-      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [N] Cell motility",
-      "[pfam] FG-GAP_2: FG-GAP repeat",
-      "[pfam] Peptidase_M10_C: Peptidase M10 serralysin C terminal"
-    ],
-    "bacteria_cog_og": "COG5651",
-    "cluster_number": "CK_00006528",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "D.1.7",
-      "R.3"
-    ],
-    "cyanorak_Role_description": [
-      "Trace metals",
-      "Enzymes of unknown specificity"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: CELLULAR PROCESSES AND SIGNALING [N] Cell motility"
-    ],
-    "eggnog_ogs": [
-      "COG5651"
-    ],
-    "end_cyanorak": 1322103,
-    "gene_category": "Stress response and adaptation",
-    "gene_summary": "metallopeptidase",
-    "go_term_descriptions": [
-      "proteolysis",
-      "proteolysis",
-      "calcium ion binding",
-      "metallopeptidase activity",
-      "zinc ion binding"
-    ],
-    "go_terms": [
-      "GO:0006508",
-      "GO:0005509",
-      "GO:0008237",
-      "GO:0008270"
-    ],
-    "go_terms_source": {
-      "GO:0005509": [
-        "cyanorak"
-      ],
-      "GO:0006508": [
-        "cyanorak"
-      ],
-      "GO:0008237": [
-        "cyanorak"
-      ],
-      "GO:0008270": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "Syncc8109_1804",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_01804",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00006528",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF14312",
-      "PF08548"
-    ],
-    "pfam_ids_source": {
-      "PF08548": [
-        "cyanorak"
-      ],
-      "PF14312": [
-        "cyanorak"
-      ]
-    },
-    "product": "metallopeptidase",
-    "product_cyanorak": "metallopeptidase",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1318360,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "703"
-    ],
-    "tIGR_Role_description": [
-      "Unknown function / Enzymes of unknown specificity"
     ]
   },
   "Syncc8109_1805": {
@@ -372432,28 +371287,42 @@
   },
   "Syncc8109_2171": {
     "all_identifiers": [
+      "CK_Syn_WH8109_50025",
+      "Syncc8109_50025",
       "Syncc8109_RS08830",
       "WP_232202408.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] uncharacterized conserved membrane protein",
       "[ncbi] hypothetical protein",
-      "[eggnog] ABC-type amino acid transport signal transduction systems periplasmic component domain"
+      "[eggnog] ABC-type amino acid transport signal transduction systems periplasmic component domain",
+      "[cyanorak_role] Conserved hypothetical proteins",
+      "[tigr_role] Hypothetical proteins / Conserved"
     ],
     "alternative_locus_tags": [
       "Syncc8109_RS08830",
-      "Syncc8109_2171"
+      "Syncc8109_2171",
+      "Syncc8109_50025"
     ],
     "bacteria_cog_og": "COG0834",
+    "cluster_number": "CK_00001928",
     "cog_category": [
       "E",
       "T"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
       "signalp"
+    ],
+    "cyanorak_Role": [
+      "R.2"
+    ],
+    "cyanorak_Role_description": [
+      "Conserved hypothetical proteins"
     ],
     "eggnog_ogs": [
       "COG0834@1|root",
@@ -372462,22 +371331,44 @@
       "1GZIW@1129|Synechococcus"
     ],
     "end": 1629925,
+    "end_cyanorak": 1629886,
     "function_description": "ABC-type amino acid transport signal transduction systems periplasmic component domain",
     "function_description_source": "eggnog",
     "gene_category": "Amino acid metabolism",
-    "gene_summary": "hypothetical protein :: ABC-type amino acid transport signal transduction systems periplasmic component domain",
+    "gene_summary": "uncharacterized conserved membrane protein :: ABC-type amino acid transport signal transduction systems periplasmic component domain",
     "gene_synonyms": [
       "Syncc8109_RS08830",
-      "Syncc8109_2171"
+      "Syncc8109_2171",
+      "Syncc8109_50025"
     ],
+    "go_term_descriptions": [
+      "membrane"
+    ],
+    "go_terms": [
+      "GO:0016020"
+    ],
+    "go_terms_source": {
+      "GO:0016020": [
+        "cyanorak"
+      ]
+    },
     "locus_tag": "Syncc8109_2171",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_50025",
     "locus_tag_ncbi": "Syncc8109_RS08830",
     "max_annot_lvl": "1117|Cyanobacteria",
     "old_locus_tags": [
-      "Syncc8109_2171"
+      "Syncc8109_2171",
+      "Syncc8109_50025"
     ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00001928",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG0834@2",
         "source": "eggnog",
@@ -372500,8 +371391,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "uncharacterized conserved membrane protein",
+    "product_cyanorak": "uncharacterized conserved membrane protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_232202408.1",
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
@@ -372510,7 +371402,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1628996,
-    "strand": "-"
+    "start_cyanorak": 1628996,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "Syncc8109_2173": {
     "all_identifiers": [
@@ -400148,46 +399048,6 @@
       "Hypothetical proteins / Conserved"
     ]
   },
-  "Syncc8109_2323": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_02323"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein",
-      "[tigr_role] Hypothetical proteins / Conserved"
-    ],
-    "cluster_number": "CK_00002887",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1739677,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "Syncc8109_2323",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_02323",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00002887",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1739297,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
-    ]
-  },
   "Syncc8109_2324": {
     "all_identifiers": [
       "CK_Syn_WH8109_02324",
@@ -418365,77 +417225,6 @@
     ],
     "tIGR_Role_description": [
       "Unknown function / General"
-    ]
-  },
-  "Syncc8109_2449": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_02449"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] cupin domain-containing protein",
-      "[cyanorak_role] Conserved hypothetical proteins",
-      "[tigr_role] Hypothetical proteins / Conserved",
-      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[pfam] Cupin_2: Cupin domain"
-    ],
-    "bacteria_cog_og": "COG1917",
-    "cluster_number": "CK_00042284",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "R.2"
-    ],
-    "cyanorak_Role_description": [
-      "Conserved hypothetical proteins"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: POORLY CHARACTERIZED [S] Function unknown",
-      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "eggnog_ogs": [
-      "COG1917",
-      "bactNOG51894",
-      "cyaNOG07925"
-    ],
-    "end_cyanorak": 1834785,
-    "gene_category": "Unknown",
-    "gene_summary": "cupin domain-containing protein",
-    "locus_tag": "Syncc8109_2449",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_02449",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00042284",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF07883"
-    ],
-    "pfam_ids_source": {
-      "PF07883": [
-        "cyanorak"
-      ]
-    },
-    "product": "cupin domain-containing protein",
-    "product_cyanorak": "cupin domain-containing protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1834621,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
     ]
   },
   "Syncc8109_2451": {
@@ -457269,71 +456058,6 @@
       "Protein synthesis / tRNA and rRNA base modification"
     ]
   },
-  "Syncc8109_2622": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_02622"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] uncharacterized conserved membrane protein",
-      "[cyanorak_role] Conserved hypothetical proteins",
-      "[tigr_role] Hypothetical proteins / Conserved",
-      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [N] Cell motility",
-      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "bacteria_cog_og": "COG5651",
-    "cluster_number": "CK_00001967",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "R.2"
-    ],
-    "cyanorak_Role_description": [
-      "Conserved hypothetical proteins"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: POORLY CHARACTERIZED [S] Function unknown",
-      "COG: CELLULAR PROCESSES AND SIGNALING [N] Cell motility",
-      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "eggnog_ogs": [
-      "NOG15063",
-      "COG5651",
-      "bactNOG67567",
-      "cyaNOG04488"
-    ],
-    "end_cyanorak": 1994446,
-    "gene_category": "Unknown",
-    "gene_summary": "uncharacterized conserved membrane protein",
-    "locus_tag": "Syncc8109_2622",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_02622",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00001967",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "uncharacterized conserved membrane protein",
-    "product_cyanorak": "uncharacterized conserved membrane protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1994366,
-    "strand_cyanorak": "+",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
-    ]
-  },
   "Syncc8109_2623": {
     "all_identifiers": [
       "CK_Syn_WH8109_02623",
@@ -462583,53 +461307,6 @@
     ],
     "tIGR_Role_description": [
       "Unknown function / General"
-    ]
-  },
-  "Syncc8109_2658": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_02658"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein",
-      "[cyanorak_role] Conserved hypothetical proteins",
-      "[tigr_role] Hypothetical proteins / Conserved"
-    ],
-    "cluster_number": "CK_00036058",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "R.2"
-    ],
-    "cyanorak_Role_description": [
-      "Conserved hypothetical proteins"
-    ],
-    "end_cyanorak": 2015221,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "Syncc8109_2658",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_02658",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00036058",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 2015090,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
     ]
   },
   "Syncc8109_2659": {
@@ -484199,74 +482876,6 @@
       "Unknown function / Enzymes of unknown specificity"
     ]
   },
-  "Syncc8109_50006": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_50006"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein",
-      "[cyanorak_role] Conserved hypothetical proteins",
-      "[tigr_role] Hypothetical proteins / Conserved",
-      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "cluster_number": "CK_00002114",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "R.2"
-    ],
-    "cyanorak_Role_description": [
-      "Conserved hypothetical proteins"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: POORLY CHARACTERIZED [S] Function unknown",
-      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "eggnog_ogs": [
-      "NOG116276",
-      "NOG326003",
-      "NOG42132",
-      "bactNOG81353",
-      "bactNOG55162",
-      "bactNOG81937",
-      "bactNOG90140",
-      "cyaNOG08793",
-      "cyaNOG04675",
-      "cyaNOG08616"
-    ],
-    "end_cyanorak": 379188,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "Syncc8109_50006",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_50006",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00002114",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 379000,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
-    ]
-  },
   "Syncc8109_50007": {
     "all_identifiers": [
       "CK_Syn_WH8109_50007"
@@ -484366,353 +482975,6 @@
     "product_cyanorak": "conserved hypothetical protein",
     "product_source": "cyanorak",
     "start_cyanorak": 406488,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
-    ]
-  },
-  "Syncc8109_50019": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_50019"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] thioredoxin-disulfide reductase (NTR system)",
-      "[cyanorak_role] Thioredoxin, glutaredoxin and glutathione",
-      "[cyanorak_role] Oxidative stress, Other",
-      "[cyanorak_role] Chaperones",
-      "[tigr_role] Cellular processes / Adaptations to atypical conditions",
-      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
-      "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
-      "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
-      "[kegg] Description not found.",
-      "[pfam] Pyr_redox_2: Pyridine nucleotide-disulphide oxidoreductase"
-    ],
-    "bacteria_cog_og": "COG0492",
-    "cluster_number": "CK_00001904",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "B.9",
-      "D.1.4",
-      "D.1.9",
-      "D.4"
-    ],
-    "cyanorak_Role_description": [
-      "Thioredoxin, glutaredoxin and glutathione",
-      "Oxidative stress, Other",
-      "Chaperones"
-    ],
-    "ec_numbers": [
-      "1.8.1.9"
-    ],
-    "ec_numbers_source": {
-      "1.8.1.9": [
-        "cyanorak"
-      ]
-    },
-    "eggnog_og_descriptions": [
-      "COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
-      "bactNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
-      "cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones"
-    ],
-    "eggnog_ogs": [
-      "COG0492",
-      "bactNOG00066",
-      "cyaNOG01952"
-    ],
-    "end_cyanorak": 825706,
-    "gene_category": "Coenzyme metabolism",
-    "gene_name": "trxB",
-    "gene_name_source": "cyanorak",
-    "gene_summary": "trxB :: thioredoxin-disulfide reductase (NTR system)",
-    "go_term_descriptions": [
-      "oxidation-reduction process",
-      "oxidation-reduction process",
-      "Description not found.",
-      "oxidoreductase activity"
-    ],
-    "go_terms": [
-      "GO:0055114",
-      "GO:0004791",
-      "GO:0016491"
-    ],
-    "go_terms_source": {
-      "GO:0004791": [
-        "cyanorak"
-      ],
-      "GO:0016491": [
-        "cyanorak"
-      ],
-      "GO:0055114": [
-        "cyanorak"
-      ]
-    },
-    "kegg_ko_descriptions": [
-      "Description not found."
-    ],
-    "locus_tag": "Syncc8109_50019",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_50019",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00001904",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF07992"
-    ],
-    "pfam_ids_source": {
-      "PF07992": [
-        "cyanorak"
-      ]
-    },
-    "product": "thioredoxin-disulfide reductase (NTR system)",
-    "product_cyanorak": "thioredoxin-disulfide reductase (NTR system)",
-    "product_source": "cyanorak",
-    "start_cyanorak": 824747,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "149"
-    ],
-    "tIGR_Role_description": [
-      "Cellular processes / Adaptations to atypical conditions"
-    ]
-  },
-  "Syncc8109_50022": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_50022"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] drug/metabolite transporter (DMT) superfamily efflux protein",
-      "[tigr_role] Transport and binding proteins / Other",
-      "[cog] COG: GER",
-      "[cog] bactNOG: G",
-      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[pfam] EamA: EamA-like transporter family",
-      "[pfam] GATase: Glutamine amidotransferase class-I",
-      "[pfam] CTP_synth_N: CTP synthase N-terminus"
-    ],
-    "bacteria_cog_og": "COG0697",
-    "cluster_number": "CK_00000868",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: GER",
-      "bactNOG: G",
-      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "eggnog_ogs": [
-      "NOG318920",
-      "COG0697",
-      "NOG280361",
-      "bactNOG68253",
-      "bactNOG02522",
-      "bactNOG12597",
-      "bactNOG84578",
-      "bactNOG96337",
-      "cyaNOG00794"
-    ],
-    "end_cyanorak": 1069229,
-    "gene_category": "Transport",
-    "gene_summary": "drug/metabolite transporter (DMT) superfamily efflux protein",
-    "go_term_descriptions": [
-      "membrane"
-    ],
-    "go_terms": [
-      "GO:0016020"
-    ],
-    "go_terms_source": {
-      "GO:0016020": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "Syncc8109_50022",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_50022",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00000868",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF00892",
-      "PF00117",
-      "PF06418"
-    ],
-    "pfam_ids_source": {
-      "PF00117": [
-        "cyanorak"
-      ],
-      "PF00892": [
-        "cyanorak"
-      ],
-      "PF06418": [
-        "cyanorak"
-      ]
-    },
-    "product": "drug/metabolite transporter (DMT) superfamily efflux protein",
-    "product_cyanorak": "drug/metabolite transporter (DMT) superfamily efflux protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1068471,
-    "strand_cyanorak": "+",
-    "tIGR_Role": [
-      "147"
-    ],
-    "tIGR_Role_description": [
-      "Transport and binding proteins / Other"
-    ]
-  },
-  "Syncc8109_50024": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_50024"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] L,D-transpeptidase catalytic domain protein",
-      "[cyanorak_role] Degradation of proteins, peptides, and glycopeptides",
-      "[tigr_role] Protein fate / Degradation of proteins, peptides, and glycopeptides",
-      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[pfam] YkuD: L,D-transpeptidase catalytic domain"
-    ],
-    "bacteria_cog_og": "COG1376",
-    "cluster_number": "CK_00049602",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "L.4"
-    ],
-    "cyanorak_Role_description": [
-      "Degradation of proteins, peptides, and glycopeptides"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: POORLY CHARACTERIZED [S] Function unknown",
-      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "eggnog_ogs": [
-      "COG1376",
-      "bactNOG32398",
-      "cyaNOG02963"
-    ],
-    "end_cyanorak": 1181393,
-    "gene_category": "Post-translational modification",
-    "gene_summary": "L,D-transpeptidase catalytic domain protein",
-    "go_term_descriptions": [
-      "transferase activity"
-    ],
-    "go_terms": [
-      "GO:0016740"
-    ],
-    "go_terms_source": {
-      "GO:0016740": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "Syncc8109_50024",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_50024",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00049602",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF03734"
-    ],
-    "pfam_ids_source": {
-      "PF03734": [
-        "cyanorak"
-      ]
-    },
-    "product": "L,D-transpeptidase catalytic domain protein",
-    "product_cyanorak": "L,D-transpeptidase catalytic domain protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1181112,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "138"
-    ],
-    "tIGR_Role_description": [
-      "Protein fate / Degradation of proteins, peptides, and glycopeptides"
-    ]
-  },
-  "Syncc8109_50025": {
-    "all_identifiers": [
-      "CK_Syn_WH8109_50025"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] uncharacterized conserved membrane protein",
-      "[cyanorak_role] Conserved hypothetical proteins",
-      "[tigr_role] Hypothetical proteins / Conserved"
-    ],
-    "cluster_number": "CK_00001928",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "R.2"
-    ],
-    "cyanorak_Role_description": [
-      "Conserved hypothetical proteins"
-    ],
-    "end_cyanorak": 1629886,
-    "gene_category": "Unknown",
-    "gene_summary": "uncharacterized conserved membrane protein",
-    "go_term_descriptions": [
-      "membrane"
-    ],
-    "go_terms": [
-      "GO:0016020"
-    ],
-    "go_terms_source": {
-      "GO:0016020": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "Syncc8109_50025",
-    "locus_tag_cyanorak": "CK_Syn_WH8109_50025",
-    "organism_name": "Synechococcus WH8109",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00001928",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "uncharacterized conserved membrane protein",
-    "product_cyanorak": "uncharacterized conserved membrane protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1628996,
     "strand_cyanorak": "-",
     "tIGR_Role": [
       "156"
@@ -485128,11 +483390,20 @@
   },
   "Syncc8109_RS00175": {
     "all_identifiers": [
+      "CK_Syn_WH8109_00039",
+      "Syncc8109_0039",
       "WP_025361984.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] HNH endonuclease family protein",
       "[ncbi] HNH endonuclease",
       "[eggnog] HNH endonuclease",
+      "[cyanorak_role] DNA replication, recombination, and repair",
+      "[cyanorak_role] 2'-Deoxyribonucleotide metabolism",
+      "[tigr_role] Purines, pyrimidines, nucleosides, and nucleotides / 2'-Deoxyribonucleotide metabolism",
+      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
+      "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
+      "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
       "[interpro] HNH endonuclease",
       "[interpro] HNH nuclease",
       "[interpro] Nucleic_acid-targeting_endonuclease",
@@ -485140,35 +483411,63 @@
       "[pfam] HNH_5: HNH endonuclease"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS00175"
+      "Syncc8109_RS00175",
+      "Syncc8109_0039"
     ],
     "bacteria_cog_og": "COG1403",
+    "cluster_number": "CK_00000339",
     "cog_category": [
       "L"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "cyanorak_Role": [
+      "F.1",
+      "M.1"
+    ],
+    "cyanorak_Role_description": [
+      "DNA replication, recombination, and repair",
+      "2'-Deoxyribonucleotide metabolism"
+    ],
+    "eggnog_og_descriptions": [
+      "COG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
+      "bactNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
+      "cyaNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms"
+    ],
     "eggnog_ogs": [
+      "NOG86494",
+      "COG1403",
+      "NOG295816",
+      "NOG69674",
+      "bactNOG53806",
+      "cyaNOG04857",
       "COG1403@1|root",
       "COG1403@2|Bacteria",
       "1GDA5@1117|Cyanobacteria",
       "1H0GG@1129|Synechococcus"
     ],
     "end": 33781,
+    "end_cyanorak": 33601,
     "function_description": "HNH endonuclease",
     "function_description_source": "eggnog",
     "gene_category": "Replication and repair",
     "gene_name": "mcrA",
-    "gene_name_source": "eggnog",
-    "gene_summary": "mcrA :: HNH endonuclease",
+    "gene_name_source": "cyanorak",
+    "gene_summary": "mcrA :: HNH endonuclease family protein :: HNH endonuclease",
     "gene_synonyms": [
-      "Syncc8109_RS00175"
+      "Syncc8109_RS00175",
+      "Syncc8109_0039"
+    ],
+    "go_term_descriptions": [
+      "nucleic acid binding",
+      "Description not found."
     ],
     "go_terms": [
       "GO:0003676",
@@ -485182,10 +483481,12 @@
     },
     "go_terms_source": {
       "GO:0003676": [
+        "cyanorak",
         "interproscan",
         "ncbi"
       ],
       "GO:0004519": [
+        "cyanorak",
         "interproscan",
         "ncbi"
       ],
@@ -485199,10 +483500,21 @@
       "IPR052892"
     ],
     "locus_tag": "Syncc8109_RS00175",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_00039",
     "locus_tag_ncbi": "Syncc8109_RS00175",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_0039"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00000339",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG1403@2",
         "source": "eggnog",
@@ -485230,10 +483542,11 @@
       "PF14279"
     ],
     "pfam_ids_evidence": {
-      "PF01844": "signature"
+      "PF01844": "curated"
     },
     "pfam_ids_source": {
       "PF01844": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ],
@@ -485241,8 +483554,9 @@
         "eggnog"
       ]
     },
-    "product": "HNH endonuclease",
-    "product_source": "ncbi",
+    "product": "HNH endonuclease family protein",
+    "product_cyanorak": "HNH endonuclease family protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_025361984.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -485251,7 +483565,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 33386,
-    "strand": "-"
+    "start_cyanorak": 33386,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "123"
+    ],
+    "tIGR_Role_description": [
+      "Purines, pyrimidines, nucleosides, and nucleotides / 2'-Deoxyribonucleotide metabolism"
+    ]
   },
   "Syncc8109_RS00430": {
     "all_identifiers": [
@@ -487400,24 +485722,38 @@
   },
   "Syncc8109_RS03340": {
     "all_identifiers": [
+      "CK_Syn_WH8109_00777",
+      "Syncc8109_0777",
       "WP_025362160.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] uncharacterized conserved membrane protein",
       "[ncbi] DUF6737 family protein",
       "[eggnog] -",
+      "[cyanorak_role] Conserved hypothetical proteins",
+      "[tigr_role] Hypothetical proteins / Conserved",
       "[interpro] Protein of unknown function DUF6737",
       "[pfam] DUF6737: Domain of unknown function (DUF6737)"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS03340"
+      "Syncc8109_RS03340",
+      "Syncc8109_0777"
     ],
+    "cluster_number": "CK_00051874",
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
+    ],
+    "cyanorak_Role": [
+      "R.2"
+    ],
+    "cyanorak_Role_description": [
+      "Conserved hypothetical proteins"
     ],
     "eggnog_ogs": [
       "2E3F0@1|root",
@@ -487426,19 +485762,43 @@
       "1H1KD@1129|Synechococcus"
     ],
     "end": 628277,
+    "end_cyanorak": 628181,
     "gene_category": "Unknown",
-    "gene_summary": "DUF6737 family protein :: -",
+    "gene_summary": "uncharacterized conserved membrane protein :: -",
     "gene_synonyms": [
-      "Syncc8109_RS03340"
+      "Syncc8109_RS03340",
+      "Syncc8109_0777"
     ],
+    "go_term_descriptions": [
+      "membrane"
+    ],
+    "go_terms": [
+      "GO:0016020"
+    ],
+    "go_terms_source": {
+      "GO:0016020": [
+        "cyanorak"
+      ]
+    },
     "interpro_entries": [
       "IPR046625"
     ],
     "locus_tag": "Syncc8109_RS03340",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_00777",
     "locus_tag_ncbi": "Syncc8109_RS03340",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_0777"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00051874",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:32YDX@2",
         "source": "eggnog",
@@ -487472,8 +485832,9 @@
         "interproscan"
       ]
     },
-    "product": "DUF6737 family protein",
-    "product_source": "ncbi",
+    "product": "uncharacterized conserved membrane protein",
+    "product_cyanorak": "uncharacterized conserved membrane protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_025362160.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
@@ -487482,21 +485843,36 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 628038,
-    "strand": "-"
+    "start_cyanorak": 628038,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "Syncc8109_RS04515": {
     "all_identifiers": [
+      "CK_Syn_WH8109_01092",
+      "Syncc8109_1092",
       "WP_025362226.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
-      "[eggnog] -"
+      "[eggnog] -",
+      "[tigr_role] Hypothetical proteins / Conserved"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS04515"
+      "Syncc8109_RS04515",
+      "Syncc8109_1092"
     ],
+    "cluster_number": "CK_00006269",
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -487509,16 +485885,29 @@
       "1H2AN@1129|Synechococcus"
     ],
     "end": 847272,
+    "end_cyanorak": 847272,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "Syncc8109_RS04515"
+      "Syncc8109_RS04515",
+      "Syncc8109_1092"
     ],
     "locus_tag": "Syncc8109_RS04515",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_01092",
     "locus_tag_ncbi": "Syncc8109_RS04515",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_1092"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00006269",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:30UBV@2",
         "source": "eggnog",
@@ -487541,8 +485930,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_025362226.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.86,
@@ -487551,7 +485941,15 @@
     "signalp_probability": 0.991239,
     "signalp_type": "OTHER",
     "start": 847084,
-    "strand": "+"
+    "start_cyanorak": 847159,
+    "strand": "+",
+    "strand_cyanorak": "+",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "Syncc8109_RS05400": {
     "all_identifiers": [
@@ -487832,23 +486230,30 @@
   },
   "Syncc8109_RS06530": {
     "all_identifiers": [
+      "CK_Syn_WH8109_01611",
+      "Syncc8109_1611",
       "WP_006851807.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] DUF1499 domain-containing protein",
       "[eggnog] protein conserved in bacteria",
+      "[tigr_role] Hypothetical proteins / Conserved",
       "[interpro] Protein of unknown function DUF1499",
       "[pfam] DUF1499: Protein of unknown function (DUF1499)"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS06530"
+      "Syncc8109_RS06530",
+      "Syncc8109_1611"
     ],
     "bacteria_cog_og": "COG4446",
+    "cluster_number": "CK_00053816",
     "cog_category": [
       "S"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
@@ -487862,21 +486267,34 @@
       "1H0U6@1129|Synechococcus"
     ],
     "end": 1202220,
+    "end_cyanorak": 1202220,
     "function_description": "protein conserved in bacteria",
     "function_description_source": "eggnog",
     "gene_category": "Unknown",
-    "gene_summary": "DUF1499 domain-containing protein :: protein conserved in bacteria",
+    "gene_summary": "conserved hypothetical protein :: protein conserved in bacteria",
     "gene_synonyms": [
-      "Syncc8109_RS06530"
+      "Syncc8109_RS06530",
+      "Syncc8109_1611"
     ],
     "interpro_entries": [
       "IPR010865"
     ],
     "locus_tag": "Syncc8109_RS06530",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_01611",
     "locus_tag_ncbi": "Syncc8109_RS06530",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_1611"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00053816",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG4446@2",
         "source": "eggnog",
@@ -487903,16 +486321,18 @@
       "PF07386"
     ],
     "pfam_ids_evidence": {
-      "PF07386": "signature"
+      "PF07386": "curated"
     },
     "pfam_ids_source": {
       "PF07386": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
-    "product": "DUF1499 domain-containing protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_006851807.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.5,
@@ -487923,32 +486343,54 @@
     "signalp_probability": 0.997427,
     "signalp_type": "SP",
     "start": 1201780,
-    "strand": "+"
+    "start_cyanorak": 1201972,
+    "strand": "+",
+    "strand_cyanorak": "+",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "Syncc8109_RS07050": {
     "all_identifiers": [
+      "CK_Syn_WH8109_01745",
+      "Syncc8109_1745",
       "WP_232202397.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] rod linker polypeptide (Lr), C-phycoerythrin II-associated",
       "[ncbi] phycobilisome rod-core linker polypeptide",
       "[eggnog] Phycobilisome Linker polypeptide",
+      "[cyanorak_role] Light-harvesting-Phycobilisomes",
+      "[tigr_role] Energy metabolism / Photosynthesis",
       "[interpro] Phycobilisome linker domain",
       "[pfam] PBS_linker_poly: Phycobilisome Linker polypeptide"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS07050"
+      "Syncc8109_RS07050",
+      "Syncc8109_1745"
     ],
     "bacteria_cog_og": "COG0237",
+    "cluster_number": "CK_00008023",
     "cog_category": [
       "H"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
+    ],
+    "cyanorak_Role": [
+      "J.5"
+    ],
+    "cyanorak_Role_description": [
+      "Light-harvesting-Phycobilisomes"
     ],
     "eggnog_ogs": [
       "COG0237@1|root",
@@ -487957,27 +486399,48 @@
       "1GZD8@1129|Synechococcus"
     ],
     "end": 1288861,
+    "end_cyanorak": 1289053,
     "function_description": "Phycobilisome Linker polypeptide",
     "function_description_source": "eggnog",
-    "gene_category": "Coenzyme metabolism",
-    "gene_summary": "phycobilisome rod-core linker polypeptide :: Phycobilisome Linker polypeptide",
+    "gene_category": "Photosynthesis",
+    "gene_name": "mpeG",
+    "gene_name_source": "cyanorak",
+    "gene_summary": "mpeG :: rod linker polypeptide (Lr), C-phycoerythrin II-associated :: Phycobilisome Linker polypeptide",
     "gene_synonyms": [
-      "Syncc8109_RS07050"
+      "Syncc8109_RS07050",
+      "Syncc8109_1745"
+    ],
+    "go_term_descriptions": [
+      "protein-containing complex assembly",
+      "protein-containing complex assembly",
+      "energy transducer activity",
+      "protein-containing complex assembly",
+      "energy transducer activity",
+      "phycobilisome"
     ],
     "go_terms": [
-      "GO:0015979",
-      "GO:0030089"
+      "GO:0006461",
+      "GO:0031992",
+      "GO:0030089",
+      "GO:0015979"
     ],
     "go_terms_evidence": {
       "GO:0015979": "domain_inferred",
-      "GO:0030089": "domain_inferred"
+      "GO:0030089": "curated"
     },
     "go_terms_source": {
+      "GO:0006461": [
+        "cyanorak"
+      ],
       "GO:0015979": [
         "interproscan"
       ],
       "GO:0030089": [
+        "cyanorak",
         "interproscan"
+      ],
+      "GO:0031992": [
+        "cyanorak"
       ]
     },
     "interpro_entries": [
@@ -487985,10 +486448,21 @@
       "IPR038255"
     ],
     "locus_tag": "Syncc8109_RS07050",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_01745",
     "locus_tag_ncbi": "Syncc8109_RS07050",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_1745"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00008023",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG0237@2",
         "source": "eggnog",
@@ -488015,16 +486489,18 @@
       "PF00427"
     ],
     "pfam_ids_evidence": {
-      "PF00427": "signature"
+      "PF00427": "curated"
     },
     "pfam_ids_source": {
       "PF00427": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
-    "product": "phycobilisome rod-core linker polypeptide",
-    "product_source": "ncbi",
+    "product": "rod linker polypeptide (Lr), C-phycoerythrin II-associated",
+    "product_cyanorak": "rod linker polypeptide (Lr), C-phycoerythrin II-associated",
+    "product_source": "cyanorak",
     "protein_id": "WP_232202397.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
@@ -488033,7 +486509,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1288115,
-    "strand": "-"
+    "start_cyanorak": 1288115,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "164"
+    ],
+    "tIGR_Role_description": [
+      "Energy metabolism / Photosynthesis"
+    ]
   },
   "Syncc8109_RS09455": {
     "all_identifiers": [
@@ -488184,21 +486668,35 @@
   },
   "Syncc8109_RS10845": {
     "all_identifiers": [
+      "CK_Syn_WH8109_02658",
+      "Syncc8109_2658",
       "WP_025362572.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
-      "[eggnog] -"
+      "[eggnog] -",
+      "[cyanorak_role] Conserved hypothetical proteins",
+      "[tigr_role] Hypothetical proteins / Conserved"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS10845"
+      "Syncc8109_RS10845",
+      "Syncc8109_2658"
     ],
+    "cluster_number": "CK_00036058",
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
       "signalp"
+    ],
+    "cyanorak_Role": [
+      "R.2"
+    ],
+    "cyanorak_Role_description": [
+      "Conserved hypothetical proteins"
     ],
     "eggnog_ogs": [
       "2A4TW@1|root",
@@ -488207,16 +486705,29 @@
       "1H1H6@1129|Synechococcus"
     ],
     "end": 2015302,
+    "end_cyanorak": 2015221,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "Syncc8109_RS10845"
+      "Syncc8109_RS10845",
+      "Syncc8109_2658"
     ],
     "locus_tag": "Syncc8109_RS10845",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_02658",
     "locus_tag_ncbi": "Syncc8109_RS10845",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_2658"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00036058",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:30TFC@2",
         "source": "eggnog",
@@ -488239,8 +486750,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_025362572.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -488249,7 +486761,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 2015090,
-    "strand": "-"
+    "start_cyanorak": 2015090,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "Syncc8109_RS11355": {
     "all_identifiers": [
@@ -488789,24 +487309,35 @@
   },
   "Syncc8109_RS11415": {
     "all_identifiers": [
+      "CK_Syn_WH8109_00099",
+      "Syncc8109_0099",
       "WP_006851224.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] acyltransferase family protein",
       "[ncbi] acyltransferase",
       "[eggnog] Acyltransferase",
+      "[tigr_role] Unknown function / Enzymes of unknown specificity",
+      "[cog] COG: METABOLISM [I] Lipid transport and metabolism",
+      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] bactNOG: METABOLISM [I] Lipid transport and metabolism",
+      "[cog] cyaNOG: METABOLISM [I] Lipid transport and metabolism",
       "[interpro] Acyltransferase 3 domain",
       "[interpro] Acyltransferase 3",
       "[pfam] Acyl_transf_3: Acyltransferase domain"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS11415"
+      "Syncc8109_RS11415",
+      "Syncc8109_0099"
     ],
     "bacteria_cog_og": "COG1835",
+    "cluster_number": "CK_00003620",
     "cog_category": [
       "I"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
@@ -488830,18 +487361,33 @@
         "interproscan"
       ]
     },
+    "eggnog_og_descriptions": [
+      "COG: METABOLISM [I] Lipid transport and metabolism",
+      "COG: POORLY CHARACTERIZED [S] Function unknown",
+      "bactNOG: METABOLISM [I] Lipid transport and metabolism",
+      "cyaNOG: METABOLISM [I] Lipid transport and metabolism"
+    ],
     "eggnog_ogs": [
+      "COG1835",
+      "NOG132452",
+      "bactNOG30314",
+      "cyaNOG04329",
       "COG1835@1|root",
       "COG1835@2|Bacteria",
       "2I91W@201174|Actinobacteria"
     ],
     "end": 92015,
+    "end_cyanorak": 92015,
     "function_description": "Acyltransferase",
     "function_description_source": "eggnog",
     "gene_category": "Lipid metabolism",
-    "gene_summary": "acyltransferase :: Acyltransferase",
+    "gene_summary": "acyltransferase family protein :: Acyltransferase",
     "gene_synonyms": [
-      "Syncc8109_RS11415"
+      "Syncc8109_RS11415",
+      "Syncc8109_0099"
+    ],
+    "go_term_descriptions": [
+      "Description not found."
     ],
     "go_terms": [
       "GO:0016747"
@@ -488851,6 +487397,7 @@
     },
     "go_terms_source": {
       "GO:0016747": [
+        "cyanorak",
         "interproscan",
         "ncbi"
       ]
@@ -488860,10 +487407,21 @@
       "IPR050879"
     ],
     "locus_tag": "Syncc8109_RS11415",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_00099",
     "locus_tag_ncbi": "Syncc8109_RS11415",
     "max_annot_lvl": "201174|Actinobacteria",
+    "old_locus_tags": [
+      "Syncc8109_0099"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00003620",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG1835@2",
         "source": "eggnog",
@@ -488876,16 +487434,18 @@
       "PF01757"
     ],
     "pfam_ids_evidence": {
-      "PF01757": "signature"
+      "PF01757": "curated"
     },
     "pfam_ids_source": {
       "PF01757": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
-    "product": "acyltransferase",
-    "product_source": "ncbi",
+    "product": "acyltransferase family protein",
+    "product_cyanorak": "acyltransferase family protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_006851224.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
@@ -488894,7 +487454,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 90870,
+    "start_cyanorak": 91602,
     "strand": "+",
+    "strand_cyanorak": "+",
+    "tIGR_Role": [
+      "703"
+    ],
+    "tIGR_Role_description": [
+      "Unknown function / Enzymes of unknown specificity"
+    ],
     "tcdb_diamond_ids": [
       "9.B.97"
     ],
@@ -489024,17 +487592,25 @@
   },
   "Syncc8109_RS11430": {
     "all_identifiers": [
+      "CK_Syn_WH8109_00105",
+      "Syncc8109_0105",
       "WP_084213240.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] methyltransferase domain protein",
       "[ncbi] class I SAM-dependent methyltransferase",
       "[eggnog] PFAM Glycosyl transferase family 2",
+      "[tigr_role] Unknown function / Enzymes of unknown specificity",
+      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[pfam] Methyltransf_24: Methyltransferase domain",
       "[pfam] Glycos_transf_2: Glycosyl transferase family 2",
-      "[pfam] Sulfotransfer_3: Sulfotransferase family",
-      "[pfam] Methyltransf_24: Methyltransferase domain"
+      "[pfam] Sulfotransfer_3: Sulfotransferase family"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS11430"
+      "Syncc8109_RS11430",
+      "Syncc8109_0105"
     ],
     "bacteria_cog_og": "COG1215",
     "cazy_ids": [
@@ -489049,11 +487625,13 @@
         "eggnog"
       ]
     },
+    "cluster_number": "CK_00003630",
     "cog_category": [
       "M"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
@@ -489069,7 +487647,15 @@
         "uniprot"
       ]
     },
+    "eggnog_og_descriptions": [
+      "COG: POORLY CHARACTERIZED [S] Function unknown",
+      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+    ],
     "eggnog_ogs": [
+      "NOG47678",
+      "bactNOG29420",
+      "cyaNOG04686",
       "COG1215@1|root",
       "COG1216@1|root",
       "COG1215@2|Bacteria",
@@ -489078,12 +487664,14 @@
       "3VIKN@52604|Pleurocapsales"
     ],
     "end": 101609,
+    "end_cyanorak": 101060,
     "function_description": "PFAM Glycosyl transferase family 2",
     "function_description_source": "eggnog",
     "gene_category": "Cell wall and membrane",
-    "gene_summary": "class I SAM-dependent methyltransferase :: PFAM Glycosyl transferase family 2",
+    "gene_summary": "methyltransferase domain protein :: PFAM Glycosyl transferase family 2",
     "gene_synonyms": [
-      "Syncc8109_RS11430"
+      "Syncc8109_RS11430",
+      "Syncc8109_0105"
     ],
     "go_terms": [
       "GO:0008168",
@@ -489110,10 +487698,21 @@
       "K20444"
     ],
     "locus_tag": "Syncc8109_RS11430",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_00105",
     "locus_tag_ncbi": "Syncc8109_RS11430",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_0105"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00003630",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG1216@2",
         "source": "eggnog",
@@ -489130,12 +487729,12 @@
       }
     ],
     "pfam_ids": [
+      "PF13578",
       "PF00535",
-      "PF13469",
-      "PF13578"
+      "PF13469"
     ],
     "pfam_ids_evidence": {
-      "PF13578": "signature"
+      "PF13578": "curated"
     },
     "pfam_ids_source": {
       "PF00535": [
@@ -489145,11 +487744,13 @@
         "eggnog"
       ],
       "PF13578": [
+        "cyanorak",
         "interproscan"
       ]
     },
-    "product": "class I SAM-dependent methyltransferase",
-    "product_source": "ncbi",
+    "product": "methyltransferase domain protein",
+    "product_cyanorak": "methyltransferase domain protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_084213240.1",
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
@@ -489158,7 +487759,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 100740,
+    "start_cyanorak": 100740,
     "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "703"
+    ],
+    "tIGR_Role_description": [
+      "Unknown function / Enzymes of unknown specificity"
+    ],
     "tcdb_eggnog_ids": [
       "4.D.1.3"
     ],
@@ -489315,30 +487924,50 @@
   },
   "Syncc8109_RS11440": {
     "all_identifiers": [
+      "CK_Syn_WH8109_00107",
+      "Syncc8109_0107",
       "WP_071823026.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] serine O-acetyltransferase",
       "[ncbi] serine O-acetyltransferase",
       "[eggnog] Serine acetyltransferase",
+      "[cyanorak_role] Serine family (Ser, Gly, Cys)",
+      "[tigr_role] Amino acid biosynthesis / Serine family",
+      "[cog] COG: METABOLISM [E] Amino acid transport and metabolism",
+      "[cog] bactNOG: METABOLISM [E] Amino acid transport and metabolism",
+      "[cog] cyaNOG: METABOLISM [E] Amino acid transport and metabolism",
+      "[kegg] Description not found.",
       "[interpro] Serine O-acetyltransferase",
       "[interpro] Serine acetyltransferase, LbH domain",
       "[interpro] Serine acetyltransferase",
       "[ncbifam] serine O-acetyltransferase EpsC",
-      "[pfam] Hexapep: Bacterial transferase hexapeptide (six repeats)",
-      "[pfam] SATase_N: Serine acetyltransferase, N-terminal"
+      "[pfam] SATase_N: Serine acetyltransferase, N-terminal",
+      "[pfam] Hexapep: Bacterial transferase hexapeptide (six repeats)"
+    ],
+    "alternative_locus_tags": [
+      "Syncc8109_0107"
     ],
     "bacteria_cog_og": "COG1045",
+    "cluster_number": "CK_00000313",
     "cog_category": [
       "E"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp",
       "uniprot"
+    ],
+    "cyanorak_Role": [
+      "A.6"
+    ],
+    "cyanorak_Role_description": [
+      "Serine family (Ser, Gly, Cys)"
     ],
     "ec_numbers": [
       "2.3.1.30"
@@ -489348,28 +487977,54 @@
     },
     "ec_numbers_source": {
       "2.3.1.30": [
+        "cyanorak",
         "eggnog",
         "interproscan",
         "uniprot"
       ]
     },
+    "eggnog_og_descriptions": [
+      "COG: METABOLISM [E] Amino acid transport and metabolism",
+      "bactNOG: METABOLISM [E] Amino acid transport and metabolism",
+      "cyaNOG: METABOLISM [E] Amino acid transport and metabolism"
+    ],
     "eggnog_ogs": [
+      "COG1045",
+      "bactNOG02995",
+      "cyaNOG00260",
       "COG1045@1|root",
       "COG1045@2|Bacteria",
       "1G0WM@1117|Cyanobacteria",
       "1GZIY@1129|Synechococcus"
     ],
     "end": 104585,
+    "end_cyanorak": 103997,
     "function_description": "Serine acetyltransferase",
     "function_description_source": "eggnog",
     "gene_category": "Amino acid metabolism",
     "gene_name": "cysE",
-    "gene_name_source": "ncbi",
+    "gene_name_source": "cyanorak",
     "gene_summary": "cysE :: serine O-acetyltransferase :: Serine acetyltransferase",
+    "gene_synonyms": [
+      "Syncc8109_0107"
+    ],
+    "go_term_descriptions": [
+      "Description not found.",
+      "cysteine biosynthetic process from serine",
+      "Description not found.",
+      "serine O-acetyltransferase activity",
+      "transferase activity",
+      "cysteine biosynthetic process from serine",
+      "serine O-acetyltransferase activity",
+      "serine O-acetyltransferase activity",
+      "transferase activity",
+      "cytoplasm"
+    ],
     "go_terms": [
       "GO:0005737",
       "GO:0009001",
       "GO:0006535",
+      "GO:0016740",
       "GO:0019344"
     ],
     "go_terms_evidence": {
@@ -489379,15 +488034,21 @@
     },
     "go_terms_source": {
       "GO:0005737": [
+        "cyanorak",
         "interproscan",
         "ncbi"
       ],
       "GO:0006535": [
+        "cyanorak",
         "ncbi"
       ],
       "GO:0009001": [
+        "cyanorak",
         "interproscan",
         "ncbi"
+      ],
+      "GO:0016740": [
+        "cyanorak"
       ],
       "GO:0019344": [
         "interproscan"
@@ -489411,6 +488072,9 @@
     "kegg_ko": [
       "K00640"
     ],
+    "kegg_ko_descriptions": [
+      "Description not found."
+    ],
     "kegg_module": [
       "M00021"
     ],
@@ -489428,6 +488092,7 @@
       "R00586"
     ],
     "locus_tag": "Syncc8109_RS11440",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_00107",
     "locus_tag_ncbi": "Syncc8109_RS11440",
     "max_annot_lvl": "1117|Cyanobacteria",
     "ncbifam_ids": [
@@ -489442,8 +488107,18 @@
         "interproscan"
       ]
     },
+    "old_locus_tags": [
+      "Syncc8109_0107"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00000313",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG1045@2",
         "source": "eggnog",
@@ -489467,23 +488142,26 @@
       }
     ],
     "pfam_ids": [
-      "PF00132",
-      "PF06426"
+      "PF06426",
+      "PF00132"
     ],
     "pfam_ids_evidence": {
-      "PF00132": "signature"
+      "PF00132": "curated"
     },
     "pfam_ids_source": {
       "PF00132": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ],
       "PF06426": [
+        "cyanorak",
         "eggnog"
       ]
     },
     "product": "serine O-acetyltransferase",
-    "product_source": "ncbi",
+    "product_cyanorak": "serine O-acetyltransferase",
+    "product_source": "cyanorak",
     "protein_id": "WP_071823026.1",
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
@@ -489492,7 +488170,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 103821,
-    "strand": "-"
+    "start_cyanorak": 103821,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "75"
+    ],
+    "tIGR_Role_description": [
+      "Amino acid biosynthesis / Serine family"
+    ]
   },
   "Syncc8109_RS11465": {
     "all_identifiers": [
@@ -491229,30 +489915,55 @@
   },
   "Syncc8109_RS11640": {
     "all_identifiers": [
+      "CK_Syn_WH8109_50019",
+      "Syncc8109_50019",
       "WP_156915485.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] thioredoxin-disulfide reductase (NTR system)",
       "[ncbi] NAD(P)/FAD-dependent oxidoreductase",
       "[eggnog] Pyridine nucleotide-disulphide oxidoreductase",
+      "[cyanorak_role] Thioredoxin, glutaredoxin and glutathione",
+      "[cyanorak_role] Oxidative stress, Other",
+      "[cyanorak_role] Chaperones",
+      "[tigr_role] Cellular processes / Adaptations to atypical conditions",
+      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
+      "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
+      "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
+      "[kegg] Description not found.",
       "[interpro] FAD/NAD(P)-binding domain",
       "[interpro] Ferredoxin--NADP / Thioredoxin reductase",
       "[pfam] Pyr_redox_2: Pyridine nucleotide-disulphide oxidoreductase",
       "[pfam] Pyr_redox_3: Pyridine nucleotide-disulphide oxidoreductase"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS11640"
+      "Syncc8109_RS11640",
+      "Syncc8109_50019"
     ],
     "bacteria_cog_og": "COG0492",
+    "cluster_number": "CK_00001904",
     "cog_category": [
       "C"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
+    ],
+    "cyanorak_Role": [
+      "B.9",
+      "D.1.4",
+      "D.1.9",
+      "D.4"
+    ],
+    "cyanorak_Role_description": [
+      "Thioredoxin, glutaredoxin and glutathione",
+      "Oxidative stress, Other",
+      "Chaperones"
     ],
     "ec_numbers": [
       "1.8.1.9",
@@ -491266,39 +489977,65 @@
         "interproscan"
       ],
       "1.8.1.9": [
+        "cyanorak",
         "eggnog"
       ]
     },
+    "eggnog_og_descriptions": [
+      "COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
+      "bactNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
+      "cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones"
+    ],
     "eggnog_ogs": [
+      "COG0492",
+      "bactNOG00066",
+      "cyaNOG01952",
       "COG0492@1|root",
       "COG0492@2|Bacteria",
       "1G0DS@1117|Cyanobacteria",
       "1GYUT@1129|Synechococcus"
     ],
     "end": 825697,
+    "end_cyanorak": 825706,
     "function_description": "Pyridine nucleotide-disulphide oxidoreductase",
     "function_description_source": "eggnog",
-    "gene_category": "Energy production",
+    "gene_category": "Coenzyme metabolism",
     "gene_name": "trxB",
-    "gene_name_source": "eggnog",
-    "gene_summary": "trxB :: NAD(P)/FAD-dependent oxidoreductase :: Pyridine nucleotide-disulphide oxidoreductase",
+    "gene_name_source": "cyanorak",
+    "gene_summary": "trxB :: thioredoxin-disulfide reductase (NTR system) :: Pyridine nucleotide-disulphide oxidoreductase",
     "gene_synonyms": [
-      "Syncc8109_RS11640"
+      "Syncc8109_RS11640",
+      "Syncc8109_50019"
+    ],
+    "go_term_descriptions": [
+      "oxidation-reduction process",
+      "oxidation-reduction process",
+      "Description not found.",
+      "oxidoreductase activity"
     ],
     "go_terms": [
       "GO:0016491",
-      "GO:0050660"
+      "GO:0050660",
+      "GO:0055114",
+      "GO:0004791"
     ],
     "go_terms_evidence": {
       "GO:0016491": "curated"
     },
     "go_terms_source": {
+      "GO:0004791": [
+        "cyanorak"
+      ],
       "GO:0016491": [
+        "cyanorak",
         "interproscan",
         "ncbi"
       ],
       "GO:0050660": [
         "ncbi"
+      ],
+      "GO:0055114": [
+        "cyanorak"
       ]
     },
     "interpro_entries": [
@@ -491314,6 +490051,9 @@
     "kegg_ko": [
       "K00384"
     ],
+    "kegg_ko_descriptions": [
+      "Description not found."
+    ],
     "kegg_pathway": [
       "ko00450"
     ],
@@ -491323,10 +490063,21 @@
       "R09372"
     ],
     "locus_tag": "Syncc8109_RS11640",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_50019",
     "locus_tag_ncbi": "Syncc8109_RS11640",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_50019"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00001904",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG0492@2",
         "source": "eggnog",
@@ -491354,10 +490105,11 @@
       "PF13738"
     ],
     "pfam_ids_evidence": {
-      "PF07992": "signature"
+      "PF07992": "curated"
     },
     "pfam_ids_source": {
       "PF07992": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ],
@@ -491365,8 +490117,9 @@
         "eggnog"
       ]
     },
-    "product": "NAD(P)/FAD-dependent oxidoreductase",
-    "product_source": "ncbi",
+    "product": "thioredoxin-disulfide reductase (NTR system)",
+    "product_cyanorak": "thioredoxin-disulfide reductase (NTR system)",
+    "product_source": "cyanorak",
     "protein_id": "WP_156915485.1",
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
@@ -491375,54 +490128,130 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 824747,
-    "strand": "-"
+    "start_cyanorak": 824747,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "149"
+    ],
+    "tIGR_Role_description": [
+      "Cellular processes / Adaptations to atypical conditions"
+    ]
   },
   "Syncc8109_RS11645": {
     "all_identifiers": [
+      "CK_Syn_WH8109_01052",
+      "Syncc8109_1052",
       "WP_071823052.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] putative hydrolase/acyltransferase",
       "[ncbi] alpha/beta fold hydrolase",
       "[eggnog] alpha beta",
+      "[cyanorak_role] Other",
+      "[cyanorak_role] Enzymes of unknown specificity",
+      "[tigr_role] Unknown function / Enzymes of unknown specificity",
+      "[cog] COG: POORLY CHARACTERIZED [R] General function prediction only",
+      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[pfam] Abhydrolase_6: Alpha/beta hydrolase family",
       "[pfam] Abhydrolase_1: alpha/beta hydrolase fold"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS11645"
+      "Syncc8109_RS11645",
+      "Syncc8109_1052"
     ],
     "bacteria_cog_og": "COG1073",
+    "cluster_number": "CK_00002271",
     "cog_category": [
       "S"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "cyanorak_Role": [
+      "D.1.9",
+      "R.3"
+    ],
+    "cyanorak_Role_description": [
+      "Other",
+      "Enzymes of unknown specificity"
+    ],
+    "eggnog_og_descriptions": [
+      "COG: POORLY CHARACTERIZED [R] General function prediction only",
+      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+    ],
     "eggnog_ogs": [
+      "COG0596",
+      "bactNOG15691",
+      "cyaNOG00948",
       "COG1073@1|root",
       "COG1073@2|Bacteria",
       "1GBN3@1117|Cyanobacteria",
       "1H4DT@1129|Synechococcus"
     ],
     "end": 826471,
+    "end_cyanorak": 826084,
     "function_description": "alpha beta",
     "function_description_source": "eggnog",
-    "gene_category": "Unknown",
-    "gene_summary": "alpha/beta fold hydrolase :: alpha beta",
+    "gene_category": "Stress response and adaptation",
+    "gene_summary": "putative hydrolase/acyltransferase :: alpha beta",
     "gene_synonyms": [
-      "Syncc8109_RS11645"
+      "Syncc8109_RS11645",
+      "Syncc8109_1052"
     ],
+    "go_term_descriptions": [
+      "Description not found.",
+      "hydrolase activity",
+      "transferase activity, transferring acyl groups",
+      "transferase activity"
+    ],
+    "go_terms": [
+      "GO:0008415",
+      "GO:0016787",
+      "GO:0016746",
+      "GO:0016740"
+    ],
+    "go_terms_source": {
+      "GO:0008415": [
+        "cyanorak"
+      ],
+      "GO:0016740": [
+        "cyanorak"
+      ],
+      "GO:0016746": [
+        "cyanorak"
+      ],
+      "GO:0016787": [
+        "cyanorak"
+      ]
+    },
     "interpro_entries": [
       "IPR029058"
     ],
     "locus_tag": "Syncc8109_RS11645",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_01052",
     "locus_tag_ncbi": "Syncc8109_RS11645",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_1052"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00002271",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG1073@2",
         "source": "eggnog",
@@ -491446,15 +490275,20 @@
       }
     ],
     "pfam_ids": [
+      "PF12697",
       "PF00561"
     ],
     "pfam_ids_source": {
       "PF00561": [
         "eggnog"
+      ],
+      "PF12697": [
+        "cyanorak"
       ]
     },
-    "product": "alpha/beta fold hydrolase",
-    "product_source": "ncbi",
+    "product": "putative hydrolase/acyltransferase",
+    "product_cyanorak": "putative hydrolase/acyltransferase",
+    "product_source": "cyanorak",
     "protein_id": "WP_071823052.1",
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
@@ -491463,7 +490297,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 825710,
-    "strand": "-"
+    "start_cyanorak": 825710,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "703"
+    ],
+    "tIGR_Role_description": [
+      "Unknown function / Enzymes of unknown specificity"
+    ]
   },
   "Syncc8109_RS11655": {
     "all_identifiers": [
@@ -493079,52 +491921,90 @@
   },
   "Syncc8109_RS11945": {
     "all_identifiers": [
+      "CK_Syn_WH8109_02449",
+      "Syncc8109_2449",
       "WP_071823089.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] cupin domain-containing protein",
       "[ncbi] cupin domain-containing protein",
       "[eggnog] Cupin domain",
-      "[pfam] Cupin_1: Cupin",
-      "[pfam] Cupin_2: Cupin domain"
+      "[cyanorak_role] Conserved hypothetical proteins",
+      "[tigr_role] Hypothetical proteins / Conserved",
+      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[pfam] Cupin_2: Cupin domain",
+      "[pfam] Cupin_1: Cupin"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS11945"
+      "Syncc8109_RS11945",
+      "Syncc8109_2449"
     ],
     "bacteria_cog_og": "COG1917",
+    "cluster_number": "CK_00042284",
     "cog_category": [
       "S"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "cyanorak_Role": [
+      "R.2"
+    ],
+    "cyanorak_Role_description": [
+      "Conserved hypothetical proteins"
+    ],
+    "eggnog_og_descriptions": [
+      "COG: POORLY CHARACTERIZED [S] Function unknown",
+      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+    ],
     "eggnog_ogs": [
+      "COG1917",
+      "bactNOG51894",
+      "cyaNOG07925",
       "COG1917@1|root",
       "COG1917@2|Bacteria",
       "1GNGR@1117|Cyanobacteria",
       "1H0XU@1129|Synechococcus"
     ],
     "end": 1835076,
+    "end_cyanorak": 1834785,
     "function_description": "Cupin domain",
     "function_description_source": "eggnog",
     "gene_category": "Unknown",
     "gene_summary": "cupin domain-containing protein :: Cupin domain",
     "gene_synonyms": [
-      "Syncc8109_RS11945"
+      "Syncc8109_RS11945",
+      "Syncc8109_2449"
     ],
     "interpro_entries": [
       "IPR011051",
       "IPR014710"
     ],
     "locus_tag": "Syncc8109_RS11945",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_02449",
     "locus_tag_ncbi": "Syncc8109_RS11945",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_2449"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00042284",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG1917@2",
         "source": "eggnog",
@@ -493148,19 +492028,21 @@
       }
     ],
     "pfam_ids": [
-      "PF00190",
-      "PF07883"
+      "PF07883",
+      "PF00190"
     ],
     "pfam_ids_source": {
       "PF00190": [
         "eggnog"
       ],
       "PF07883": [
+        "cyanorak",
         "eggnog"
       ]
     },
     "product": "cupin domain-containing protein",
-    "product_source": "ncbi",
+    "product_cyanorak": "cupin domain-containing protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_071823089.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -493171,7 +492053,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "LIPO",
     "start": 1834621,
-    "strand": "-"
+    "start_cyanorak": 1834621,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "Syncc8109_RS11960": {
     "all_identifiers": [
@@ -493773,38 +492663,62 @@
   },
   "Syncc8109_RS12135": {
     "all_identifiers": [
+      "CK_Syn_WH8109_00615",
+      "Syncc8109_0615",
       "WP_156915475.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] hypothetical protein",
       "[ncbi] hypothetical protein"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS12135"
+      "Syncc8109_RS12135",
+      "Syncc8109_0615"
     ],
+    "cluster_number": "CK_00035813",
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "ncbi",
       "psortb",
       "signalp"
     ],
     "end": 503527,
+    "end_cyanorak": 503527,
     "gene_category": "Unknown",
     "gene_summary": "hypothetical protein",
     "gene_synonyms": [
-      "Syncc8109_RS12135"
+      "Syncc8109_RS12135",
+      "Syncc8109_0615"
     ],
     "locus_tag": "Syncc8109_RS12135",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_00615",
     "locus_tag_ncbi": "Syncc8109_RS12135",
+    "old_locus_tags": [
+      "Syncc8109_0615"
+    ],
     "organism_name": "Synechococcus WH8109",
+    "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00035813",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      }
+    ],
     "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product_cyanorak": "hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_156915475.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 0.999781,
     "signalp_type": "OTHER",
     "start": 502985,
-    "strand": "+"
+    "start_cyanorak": 503339,
+    "strand": "+",
+    "strand_cyanorak": "+"
   },
   "Syncc8109_RS12155": {
     "all_identifiers": [
@@ -494002,31 +492916,54 @@
   },
   "Syncc8109_RS12365": {
     "all_identifiers": [
+      "CK_Syn_WH8109_01793",
+      "Syncc8109_1793",
       "WP_156915515.1"
     ],
     "alternate_functional_descriptions": [
-      "[ncbi] hypothetical protein"
+      "[cyanorak] conserved hypothetical protein",
+      "[ncbi] hypothetical protein",
+      "[tigr_role] Hypothetical proteins / Conserved"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS12365"
+      "Syncc8109_RS12365",
+      "Syncc8109_1793"
     ],
+    "cluster_number": "CK_00050755",
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "ncbi",
       "psortb",
       "signalp"
     ],
     "end": 1313996,
+    "end_cyanorak": 1313468,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein",
+    "gene_summary": "conserved hypothetical protein",
     "gene_synonyms": [
-      "Syncc8109_RS12365"
+      "Syncc8109_RS12365",
+      "Syncc8109_1793"
     ],
     "locus_tag": "Syncc8109_RS12365",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_01793",
     "locus_tag_ncbi": "Syncc8109_RS12365",
+    "old_locus_tags": [
+      "Syncc8109_1793"
+    ],
     "organism_name": "Synechococcus WH8109",
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00050755",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      }
+    ],
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_156915515.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.5,
@@ -494035,52 +492972,112 @@
     "signalp_probability": 0.999161,
     "signalp_type": "SP",
     "start": 1313355,
-    "strand": "-"
+    "start_cyanorak": 1313355,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "Syncc8109_RS12375": {
     "all_identifiers": [
+      "CK_Syn_WH8109_01804",
+      "Syncc8109_1804",
       "WP_156915517.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] metallopeptidase",
       "[ncbi] Ig-like domain-containing protein",
       "[eggnog] domain, Protein",
+      "[cyanorak_role] Trace metals",
+      "[cyanorak_role] Enzymes of unknown specificity",
+      "[tigr_role] Unknown function / Enzymes of unknown specificity",
+      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [N] Cell motility",
       "[interpro] Domain of unknown function DUF5648",
       "[interpro] Bacterial Ig-like domain 12",
+      "[pfam] FG-GAP_2: FG-GAP repeat",
+      "[pfam] Peptidase_M10_C: Peptidase M10 serralysin C terminal",
       "[pfam] Big_3_3: Bacterial Ig-like domain (group 3)",
       "[pfam] DUF4347: Domain of unknown function (DUF4347)",
-      "[pfam] FG-GAP_2: FG-GAP repeat",
       "[pfam] FG-GAP_3: FG-GAP-like repeat",
       "[pfam] DUF5648: Domain of unknown function (DUF5648)",
       "[pfam] Big_12: Bacterial Ig-like domain"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS12375"
+      "Syncc8109_RS12375",
+      "Syncc8109_1804"
     ],
     "bacteria_cog_og": "COG2931",
+    "cluster_number": "CK_00006528",
     "cog_category": [
       "Q"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "cyanorak_Role": [
+      "D.1.7",
+      "R.3"
+    ],
+    "cyanorak_Role_description": [
+      "Trace metals",
+      "Enzymes of unknown specificity"
+    ],
+    "eggnog_og_descriptions": [
+      "COG: CELLULAR PROCESSES AND SIGNALING [N] Cell motility"
+    ],
     "eggnog_ogs": [
+      "COG5651",
       "COG2931@1|root",
       "COG2931@2|Bacteria",
       "1G2XZ@1117|Cyanobacteria"
     ],
     "end": 1325028,
+    "end_cyanorak": 1322103,
     "function_description": "domain, Protein",
     "function_description_source": "eggnog",
-    "gene_category": "Secondary metabolites",
-    "gene_summary": "Ig-like domain-containing protein :: domain, Protein",
+    "gene_category": "Stress response and adaptation",
+    "gene_summary": "metallopeptidase :: domain, Protein",
     "gene_synonyms": [
-      "Syncc8109_RS12375"
+      "Syncc8109_RS12375",
+      "Syncc8109_1804"
     ],
+    "go_term_descriptions": [
+      "proteolysis",
+      "proteolysis",
+      "calcium ion binding",
+      "metallopeptidase activity",
+      "zinc ion binding"
+    ],
+    "go_terms": [
+      "GO:0006508",
+      "GO:0005509",
+      "GO:0008237",
+      "GO:0008270"
+    ],
+    "go_terms_source": {
+      "GO:0005509": [
+        "cyanorak"
+      ],
+      "GO:0006508": [
+        "cyanorak"
+      ],
+      "GO:0008237": [
+        "cyanorak"
+      ],
+      "GO:0008270": [
+        "cyanorak"
+      ]
+    },
     "interpro_entries": [
       "IPR011043",
       "IPR013783",
@@ -494089,10 +493086,21 @@
       "IPR044048"
     ],
     "locus_tag": "Syncc8109_RS12375",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_01804",
     "locus_tag_ncbi": "Syncc8109_RS12375",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_1804"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00006528",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG2931@2",
         "source": "eggnog",
@@ -494109,9 +493117,10 @@
       }
     ],
     "pfam_ids": [
+      "PF14312",
+      "PF08548",
       "PF13750",
       "PF14252",
-      "PF14312",
       "PF13517",
       "PF18885",
       "PF19078"
@@ -494121,6 +493130,9 @@
       "PF19078": "signature"
     },
     "pfam_ids_source": {
+      "PF08548": [
+        "cyanorak"
+      ],
       "PF13517": [
         "eggnog"
       ],
@@ -494131,6 +493143,7 @@
         "eggnog"
       ],
       "PF14312": [
+        "cyanorak",
         "eggnog"
       ],
       "PF18885": [
@@ -494140,8 +493153,9 @@
         "interproscan"
       ]
     },
-    "product": "Ig-like domain-containing protein",
-    "product_source": "ncbi",
+    "product": "metallopeptidase",
+    "product_cyanorak": "metallopeptidase",
+    "product_source": "cyanorak",
     "protein_id": "WP_156915517.1",
     "psortb_localization": "Unknown",
     "psortb_score": 6.04,
@@ -494150,7 +493164,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1318360,
-    "strand": "-"
+    "start_cyanorak": 1318360,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "703"
+    ],
+    "tIGR_Role_description": [
+      "Unknown function / Enzymes of unknown specificity"
+    ]
   },
   "Syncc8109_RS12405": {
     "all_identifiers": [
@@ -494189,39 +493211,81 @@
   },
   "Syncc8109_RS12445": {
     "all_identifiers": [
+      "CK_Syn_WH8109_02622",
+      "Syncc8109_2622",
       "WP_006851585.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] uncharacterized conserved membrane protein",
       "[ncbi] hypothetical protein",
-      "[eggnog] -"
+      "[eggnog] -",
+      "[cyanorak_role] Conserved hypothetical proteins",
+      "[tigr_role] Hypothetical proteins / Conserved",
+      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [N] Cell motility",
+      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS12445"
+      "Syncc8109_RS12445",
+      "Syncc8109_2622"
     ],
+    "bacteria_cog_og": "COG5651",
+    "cluster_number": "CK_00001967",
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "cyanorak_Role": [
+      "R.2"
+    ],
+    "cyanorak_Role_description": [
+      "Conserved hypothetical proteins"
+    ],
+    "eggnog_og_descriptions": [
+      "COG: POORLY CHARACTERIZED [S] Function unknown",
+      "COG: CELLULAR PROCESSES AND SIGNALING [N] Cell motility",
+      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+    ],
     "eggnog_ogs": [
+      "NOG15063",
+      "COG5651",
+      "bactNOG67567",
+      "cyaNOG04488",
       "2F9QG@1|root",
       "3420K@2|Bacteria",
       "1GE88@1117|Cyanobacteria",
       "1H0TX@1129|Synechococcus"
     ],
     "end": 1994446,
+    "end_cyanorak": 1994446,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "uncharacterized conserved membrane protein :: -",
     "gene_synonyms": [
-      "Syncc8109_RS12445"
+      "Syncc8109_RS12445",
+      "Syncc8109_2622"
     ],
     "locus_tag": "Syncc8109_RS12445",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_02622",
     "locus_tag_ncbi": "Syncc8109_RS12445",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_2622"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00001967",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:3420K@2",
         "source": "eggnog",
@@ -494244,8 +493308,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "uncharacterized conserved membrane protein",
+    "product_cyanorak": "uncharacterized conserved membrane protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_006851585.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -494254,7 +493319,15 @@
     "signalp_probability": 0.997421,
     "signalp_type": "OTHER",
     "start": 1994309,
-    "strand": "+"
+    "start_cyanorak": 1994366,
+    "strand": "+",
+    "strand_cyanorak": "+",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "Syncc8109_RS12460": {
     "all_identifiers": [
@@ -494293,46 +493366,91 @@
   },
   "Syncc8109_RS12480": {
     "all_identifiers": [
+      "CK_Syn_WH8109_50006",
+      "Syncc8109_50006",
       "WP_006852127.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
+      "[cyanorak_role] Conserved hypothetical proteins",
+      "[tigr_role] Hypothetical proteins / Conserved",
+      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Domain of unknown function DUF8639"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS12480"
+      "Syncc8109_RS12480",
+      "Syncc8109_50006"
     ],
+    "cluster_number": "CK_00002114",
     "cog_category": [
       "S"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "cyanorak_Role": [
+      "R.2"
+    ],
+    "cyanorak_Role_description": [
+      "Conserved hypothetical proteins"
+    ],
+    "eggnog_og_descriptions": [
+      "COG: POORLY CHARACTERIZED [S] Function unknown",
+      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+    ],
     "eggnog_ogs": [
+      "NOG116276",
+      "NOG326003",
+      "NOG42132",
+      "bactNOG81353",
+      "bactNOG55162",
+      "bactNOG81937",
+      "bactNOG90140",
+      "cyaNOG08793",
+      "cyaNOG04675",
+      "cyaNOG08616",
       "2EJ9J@1|root",
       "33D0R@2|Bacteria",
       "1GAHC@1117|Cyanobacteria",
       "1H233@1129|Synechococcus"
     ],
     "end": 379158,
+    "end_cyanorak": 379188,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein",
+    "gene_summary": "conserved hypothetical protein",
     "gene_synonyms": [
-      "Syncc8109_RS12480"
+      "Syncc8109_RS12480",
+      "Syncc8109_50006"
     ],
     "interpro_entries": [
       "IPR061700"
     ],
     "locus_tag": "Syncc8109_RS12480",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_50006",
     "locus_tag_ncbi": "Syncc8109_RS12480",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_50006"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00002114",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:33D0R@2",
         "source": "eggnog",
@@ -494366,8 +493484,9 @@
         "interproscan"
       ]
     },
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_006852127.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -494376,32 +493495,55 @@
     "signalp_probability": 0.999974,
     "signalp_type": "OTHER",
     "start": 379000,
-    "strand": "-"
+    "start_cyanorak": 379000,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "Syncc8109_RS12520": {
     "all_identifiers": [
+      "CK_Syn_WH8109_00957",
+      "Syncc8109_0957",
       "WP_025362202.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] photosystem II PsbY protein",
       "[ncbi] photosystem II protein Y",
       "[eggnog] Manganese-binding polypeptide with L-arginine metabolizing enzyme activity. Component of the core of photosystem II",
+      "[cyanorak_role] Photosystem II",
+      "[tigr_role] Energy metabolism / Photosynthesis",
       "[interpro] Photosystem II PsbY",
       "[hamap] Photosystem II reaction center protein Y [psbY].",
+      "[ncbifam] photosystem II protein Y",
       "[pfam] PsbY: Photosystem II protein Y (PsbY)"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS12520"
+      "Syncc8109_RS12520",
+      "Syncc8109_0957"
     ],
+    "cluster_number": "CK_00001996",
     "cog_category": [
       "S"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
+    ],
+    "cyanorak_Role": [
+      "J.8"
+    ],
+    "cyanorak_Role_description": [
+      "Photosystem II"
     ],
     "eggnog_ogs": [
       "2DDSC@1|root",
@@ -494410,38 +493552,51 @@
       "1H29W@1129|Synechococcus"
     ],
     "end": 742885,
+    "end_cyanorak": 742885,
     "function_description": "Manganese-binding polypeptide with L-arginine metabolizing enzyme activity. Component of the core of photosystem II",
     "function_description_source": "eggnog",
-    "gene_category": "Unknown",
+    "gene_category": "Photosynthesis",
     "gene_name": "psbY",
-    "gene_name_source": "eggnog",
-    "gene_summary": "psbY :: photosystem II protein Y :: Manganese-binding polypeptide with L-arginine metabolizing enzyme activity. Component of the core of photosystem II",
+    "gene_name_source": "cyanorak",
+    "gene_summary": "psbY :: photosystem II PsbY protein :: Manganese-binding polypeptide with L-arginine metabolizing enzyme activity. Component of the core of photosystem II",
     "gene_synonyms": [
-      "Syncc8109_RS12520"
+      "Syncc8109_RS12520",
+      "Syncc8109_0957"
+    ],
+    "go_term_descriptions": [
+      "photosynthesis",
+      "photosynthesis",
+      "manganese ion binding",
+      "photosynthesis",
+      "manganese ion binding",
+      "photosystem II"
     ],
     "go_terms": [
-      "GO:0009523",
       "GO:0015979",
-      "GO:0016020",
-      "GO:0030145"
+      "GO:0030145",
+      "GO:0009523",
+      "GO:0016020"
     ],
     "go_terms_evidence": {
-      "GO:0009523": "family_inferred",
-      "GO:0015979": "family_inferred",
+      "GO:0009523": "curated",
+      "GO:0015979": "curated",
       "GO:0016020": "family_inferred",
-      "GO:0030145": "family_inferred"
+      "GO:0030145": "curated"
     },
     "go_terms_source": {
       "GO:0009523": [
+        "cyanorak",
         "interproscan"
       ],
       "GO:0015979": [
+        "cyanorak",
         "interproscan"
       ],
       "GO:0016020": [
         "interproscan"
       ],
       "GO:0030145": [
+        "cyanorak",
         "interproscan"
       ]
     },
@@ -494461,6 +493616,7 @@
       "ko01100"
     ],
     "locus_tag": "Syncc8109_RS12520",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_00957",
     "locus_tag_ncbi": "Syncc8109_RS12520",
     "max_annot_lvl": "1117|Cyanobacteria",
     "ncbifam_ids": [
@@ -494471,8 +493627,18 @@
         "interproscan"
       ]
     },
+    "old_locus_tags": [
+      "Syncc8109_0957"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00001996",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:2ZJ2H@2",
         "source": "eggnog",
@@ -494499,16 +493665,18 @@
       "PF06298"
     ],
     "pfam_ids_evidence": {
-      "PF06298": "signature"
+      "PF06298": "curated"
     },
     "pfam_ids_source": {
       "PF06298": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
-    "product": "photosystem II protein Y",
-    "product_source": "ncbi",
+    "product": "photosystem II PsbY protein",
+    "product_cyanorak": "photosystem II PsbY protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_025362202.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
@@ -494517,7 +493685,15 @@
     "signalp_probability": 0.999862,
     "signalp_type": "OTHER",
     "start": 742763,
-    "strand": "+"
+    "start_cyanorak": 742673,
+    "strand": "+",
+    "strand_cyanorak": "+",
+    "tIGR_Role": [
+      "164"
+    ],
+    "tIGR_Role_description": [
+      "Energy metabolism / Photosynthesis"
+    ]
   },
   "Syncc8109_RS12665": {
     "all_identifiers": [
@@ -495414,39 +494590,84 @@
   },
   "Syncc8109_RS12855": {
     "all_identifiers": [
+      "CK_Syn_WH8109_01194",
+      "Syncc8109_1194",
       "WP_232202474.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
-      "[eggnog] -"
+      "[eggnog] -",
+      "[cyanorak_role] Other",
+      "[cyanorak_role] Conserved hypothetical proteins",
+      "[tigr_role] Hypothetical proteins / Conserved",
+      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] COG: LK",
+      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS12855"
+      "Syncc8109_RS12855",
+      "Syncc8109_1194"
     ],
+    "bacteria_cog_og": "COG1197",
+    "cluster_number": "CK_00001953",
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "cyanorak_Role": [
+      "D.1.9",
+      "R.2"
+    ],
+    "cyanorak_Role_description": [
+      "Other",
+      "Conserved hypothetical proteins"
+    ],
+    "eggnog_og_descriptions": [
+      "COG: POORLY CHARACTERIZED [S] Function unknown",
+      "COG: LK",
+      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+    ],
     "eggnog_ogs": [
+      "NOG44847",
+      "COG1197",
+      "bactNOG72638",
+      "cyaNOG08005",
       "29BKI@1|root",
       "2ZYIU@2|Bacteria",
       "1GNQM@1117|Cyanobacteria",
       "1H1E2@1129|Synechococcus"
     ],
     "end": 889529,
-    "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "end_cyanorak": 889250,
+    "gene_category": "Stress response and adaptation",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "Syncc8109_RS12855"
+      "Syncc8109_RS12855",
+      "Syncc8109_1194"
     ],
     "locus_tag": "Syncc8109_RS12855",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_01194",
     "locus_tag_ncbi": "Syncc8109_RS12855",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_1194"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00001953",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:2ZYIU@2",
         "source": "eggnog",
@@ -495469,8 +494690,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_232202474.1",
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
@@ -495479,47 +494701,111 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 888996,
-    "strand": "-"
+    "start_cyanorak": 888996,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "Syncc8109_RS12860": {
     "all_identifiers": [
+      "CK_Syn_WH8109_01312",
+      "Syncc8109_1312",
       "WP_232202479.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] RNA polymerase sigma factor, type III",
       "[ncbi] hypothetical protein",
       "[eggnog] Belongs to the sigma-70 factor family",
-      "[pfam] Sigma70_r2: Sigma-70 region 2",
+      "[cyanorak_role] DNA-dependent RNA polymerase",
+      "[tigr_role] Transcription / DNA-dependent RNA polymerase",
+      "[cog] COG: INFORMATION STORAGE AND PROCESSING [K] Transcription",
+      "[cog] bactNOG: INFORMATION STORAGE AND PROCESSING [K] Transcription",
+      "[cog] cyaNOG: INFORMATION STORAGE AND PROCESSING [K] Transcription",
       "[pfam] Sigma70_r4: Sigma-70, region 4",
+      "[pfam] Sigma70_r2: Sigma-70 region 2",
       "[pfam] Sigma70_r4_2: Sigma-70, region 4"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS12860"
+      "Syncc8109_RS12860",
+      "Syncc8109_1312"
     ],
     "bacteria_cog_og": "COG1191",
+    "cluster_number": "CK_00001785",
     "cog_category": [
       "K"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "cyanorak_Role": [
+      "P.2"
+    ],
+    "cyanorak_Role_description": [
+      "DNA-dependent RNA polymerase"
+    ],
+    "eggnog_og_descriptions": [
+      "COG: INFORMATION STORAGE AND PROCESSING [K] Transcription",
+      "bactNOG: INFORMATION STORAGE AND PROCESSING [K] Transcription",
+      "cyaNOG: INFORMATION STORAGE AND PROCESSING [K] Transcription"
+    ],
     "eggnog_ogs": [
+      "COG1191",
+      "bactNOG68798",
+      "cyaNOG07518",
       "COG1191@1|root",
       "COG1191@2|Bacteria",
       "1G2IA@1117|Cyanobacteria",
       "1H0TP@1129|Synechococcus"
     ],
     "end": 985782,
+    "end_cyanorak": 985782,
     "function_description": "Belongs to the sigma-70 factor family",
     "function_description_source": "eggnog",
     "gene_category": "Transcription",
-    "gene_summary": "hypothetical protein :: Belongs to the sigma-70 factor family",
+    "gene_name": "sigF2",
+    "gene_name_source": "cyanorak",
+    "gene_summary": "sigF2 :: RNA polymerase sigma factor, type III :: Belongs to the sigma-70 factor family",
     "gene_synonyms": [
-      "Syncc8109_RS12860"
+      "Syncc8109_RS12860",
+      "Syncc8109_1312"
     ],
+    "go_term_descriptions": [
+      "DNA-templated transcription, initiation",
+      "DNA-templated transcription, initiation",
+      "sigma factor activity",
+      "DNA-binding transcription factor activity",
+      "DNA binding"
+    ],
+    "go_terms": [
+      "GO:0006352",
+      "GO:0016987",
+      "GO:0003700",
+      "GO:0003677"
+    ],
+    "go_terms_source": {
+      "GO:0003677": [
+        "cyanorak"
+      ],
+      "GO:0003700": [
+        "cyanorak"
+      ],
+      "GO:0006352": [
+        "cyanorak"
+      ],
+      "GO:0016987": [
+        "cyanorak"
+      ]
+    },
     "kegg_brite": [
       "ko00000",
       "ko03021"
@@ -495528,10 +494814,21 @@
       "K03090"
     ],
     "locus_tag": "Syncc8109_RS12860",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_01312",
     "locus_tag_ncbi": "Syncc8109_RS12860",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_1312"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00001785",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG1191@2",
         "source": "eggnog",
@@ -495555,23 +494852,26 @@
       }
     ],
     "pfam_ids": [
-      "PF04542",
       "PF04545",
+      "PF04542",
       "PF08281"
     ],
     "pfam_ids_source": {
       "PF04542": [
+        "cyanorak",
         "eggnog"
       ],
       "PF04545": [
+        "cyanorak",
         "eggnog"
       ],
       "PF08281": [
         "eggnog"
       ]
     },
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "RNA polymerase sigma factor, type III",
+    "product_cyanorak": "RNA polymerase sigma factor, type III",
+    "product_source": "cyanorak",
     "protein_id": "WP_232202479.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -495580,54 +494880,129 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 985624,
-    "strand": "+"
+    "start_cyanorak": 985384,
+    "strand": "+",
+    "strand_cyanorak": "+",
+    "tIGR_Role": [
+      "135"
+    ],
+    "tIGR_Role_description": [
+      "Transcription / DNA-dependent RNA polymerase"
+    ]
   },
   "Syncc8109_RS12900": {
     "all_identifiers": [
+      "CK_Syn_WH8109_01760",
+      "Syncc8109_1760",
       "WP_156915513.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] phage integrase family protein",
       "[ncbi] hypothetical protein",
-      "[eggnog] Contains the applicable subsitutions in the R-H-R-Y motif identified by Nunes-Duby et al 1998"
+      "[eggnog] Contains the applicable subsitutions in the R-H-R-Y motif identified by Nunes-Duby et al 1998",
+      "[cyanorak_role] DNA replication, recombination, and repair",
+      "[cyanorak_role] Mobile and extrachromosomal element functions",
+      "[tigr_role] DNA metabolism / DNA replication, recombination, and repair",
+      "[tigr_role] Mobile and extrachromosomal element functions / Prophage functions",
+      "[cog] COG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
+      "[cog] bactNOG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
+      "[cog] cyaNOG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
+      "[pfam] Phage_integrase: Phage integrase family"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS12900"
+      "Syncc8109_RS12900",
+      "Syncc8109_1760"
     ],
     "bacteria_cog_og": "COG0582",
+    "cluster_number": "CK_00053945",
     "cog_category": [
       "L"
     ],
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "cyanorak_Role": [
+      "F.1",
+      "I"
+    ],
+    "cyanorak_Role_description": [
+      "DNA replication, recombination, and repair",
+      "Mobile and extrachromosomal element functions"
+    ],
+    "eggnog_og_descriptions": [
+      "COG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
+      "bactNOG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
+      "cyaNOG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair"
+    ],
     "eggnog_ogs": [
+      "COG0582",
+      "NOG120573",
+      "bactNOG78079",
+      "cyaNOG09173",
       "COG0582@1|root",
       "COG0582@2|Bacteria",
       "1GG22@1117|Cyanobacteria",
       "1GZMC@1129|Synechococcus"
     ],
     "end": 1293643,
+    "end_cyanorak": 1293892,
     "function_description": "Contains the applicable subsitutions in the R-H-R-Y motif identified by Nunes-Duby et al 1998",
     "function_description_source": "eggnog",
     "gene_category": "Replication and repair",
-    "gene_summary": "hypothetical protein :: Contains the applicable subsitutions in the R-H-R-Y motif identified by Nunes-Duby et al 1998",
+    "gene_summary": "phage integrase family protein :: Contains the applicable subsitutions in the R-H-R-Y motif identified by Nunes-Duby et al 1998",
     "gene_synonyms": [
-      "Syncc8109_RS12900"
+      "Syncc8109_RS12900",
+      "Syncc8109_1760"
     ],
+    "go_term_descriptions": [
+      "DNA recombination",
+      "Description not found.",
+      "DNA recombination",
+      "DNA integration",
+      "DNA binding"
+    ],
+    "go_terms": [
+      "GO:0006310",
+      "GO:0015074",
+      "GO:0003677"
+    ],
+    "go_terms_source": {
+      "GO:0003677": [
+        "cyanorak"
+      ],
+      "GO:0006310": [
+        "cyanorak"
+      ],
+      "GO:0015074": [
+        "cyanorak"
+      ]
+    },
     "interpro_entries": [
       "IPR011010",
       "IPR013762"
     ],
     "locus_tag": "Syncc8109_RS12900",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_01760",
     "locus_tag_ncbi": "Syncc8109_RS12900",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_1760"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00053945",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG0582@2",
         "source": "eggnog",
@@ -495650,8 +495025,17 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "pfam_ids": [
+      "PF00589"
+    ],
+    "pfam_ids_source": {
+      "PF00589": [
+        "cyanorak"
+      ]
+    },
+    "product": "phage integrase family protein",
+    "product_cyanorak": "phage integrase family protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_156915513.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -495660,7 +495044,17 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1293401,
-    "strand": "-"
+    "start_cyanorak": 1293401,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "132",
+      "152"
+    ],
+    "tIGR_Role_description": [
+      "DNA metabolism / DNA replication, recombination, and repair",
+      "Mobile and extrachromosomal element functions / Prophage functions"
+    ]
   },
   "Syncc8109_RS12910": {
     "all_identifiers": [
@@ -495870,17 +495264,24 @@
   },
   "Syncc8109_RS12965": {
     "all_identifiers": [
+      "CK_Syn_WH8109_02323",
+      "Syncc8109_2323",
       "WP_006850116.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
-      "[eggnog] -"
+      "[eggnog] -",
+      "[tigr_role] Hypothetical proteins / Conserved"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS12965"
+      "Syncc8109_RS12965",
+      "Syncc8109_2323"
     ],
+    "cluster_number": "CK_00002887",
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -495893,16 +495294,29 @@
       "1H364@1129|Synechococcus"
     ],
     "end": 1739530,
+    "end_cyanorak": 1739677,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "Syncc8109_RS12965"
+      "Syncc8109_RS12965",
+      "Syncc8109_2323"
     ],
     "locus_tag": "Syncc8109_RS12965",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_02323",
     "locus_tag_ncbi": "Syncc8109_RS12965",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_2323"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00002887",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:3029N@2",
         "source": "eggnog",
@@ -495925,8 +495339,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_006850116.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -495935,7 +495350,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1739297,
-    "strand": "-"
+    "start_cyanorak": 1739297,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "Syncc8109_RS12980": {
     "all_identifiers": [
@@ -496346,21 +495769,34 @@
   },
   "Syncc8109_RS13020": {
     "all_identifiers": [
+      "CK_Syn_WH8109_00597",
+      "Syncc8109_0597",
       "WP_006851965.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
-      "[eggnog] -"
+      "[eggnog] -",
+      "[cyanorak_role] Conserved hypothetical domains"
     ],
     "alternative_locus_tags": [
-      "Syncc8109_RS13020"
+      "Syncc8109_RS13020",
+      "Syncc8109_0597"
     ],
+    "cluster_number": "CK_00057259",
     "contig": "NZ_CP006882.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
       "signalp"
+    ],
+    "cyanorak_Role": [
+      "R.1"
+    ],
+    "cyanorak_Role_description": [
+      "Conserved hypothetical domains"
     ],
     "eggnog_ogs": [
       "2A6Z5@1|root",
@@ -496369,16 +495805,29 @@
       "1H249@1129|Synechococcus"
     ],
     "end": 490634,
+    "end_cyanorak": 491075,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "Syncc8109_RS13020"
+      "Syncc8109_RS13020",
+      "Syncc8109_0597"
     ],
     "locus_tag": "Syncc8109_RS13020",
+    "locus_tag_cyanorak": "CK_Syn_WH8109_00597",
     "locus_tag_ncbi": "Syncc8109_RS13020",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "Syncc8109_0597"
+    ],
     "organism_name": "Synechococcus WH8109",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00057259",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:30VU6@2",
         "source": "eggnog",
@@ -496401,8 +495850,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_006851965.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -496411,7 +495861,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 490503,
-    "strand": "-"
+    "start_cyanorak": 490503,
+    "strand": "-",
+    "strand_cyanorak": "-"
   },
   "Syncc8109_RS13025": {
     "all_identifiers": [

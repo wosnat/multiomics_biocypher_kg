@@ -61732,55 +61732,6 @@
         }
       ]
     },
-    "P9301_06501": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9301_06501",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-P9301_06501",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "A3PBZ8_PROM0",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "uniprot_entry_name"
-        },
-        {
-          "id": "A3PBZ8",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "uniprot_entry_name"
-        },
-        {
-          "id": "2626311803",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "jgi_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABO17273.1",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "P9301_06511": {
       "tier1_ids": [
         {
@@ -89714,39 +89665,6 @@
         }
       ]
     },
-    "P9301_09501": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9301_09501",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-P9301_09501",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABO17573.1",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "scpB",
-          "type": "gene_name"
-        }
-      ]
-    },
     "P9301_09511": {
       "tier1_ids": [
         {
@@ -93193,55 +93111,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "P9301_09861": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9301_09861",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-P9301_09861",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "A3PCY4_PROM0",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "uniprot_entry_name"
-        },
-        {
-          "id": "A3PCY4",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "uniprot_entry_name"
-        },
-        {
-          "id": "2626312139",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "jgi_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABO17609.1",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "P9301_09871": {
       "tier1_ids": [
@@ -101741,55 +101610,6 @@
       ],
       "tier3_ids": []
     },
-    "P9301_10821": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9301_10821",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-P9301_10821",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "A3PD80_PROM0",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "uniprot_entry_name"
-        },
-        {
-          "id": "A3PD80",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "uniprot_entry_name"
-        },
-        {
-          "id": "2626312236",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "jgi_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABO17705.1",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "P9301_10841": {
       "tier1_ids": [
         {
@@ -104951,34 +104771,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "P9301_11191": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9301_11191",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-P9301_11191",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABO17742.1",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "P9301_11201": {
       "tier1_ids": [
@@ -113037,55 +112829,6 @@
         }
       ]
     },
-    "P9301_12071": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9301_12071",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-P9301_12071",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "A3PDK5_PROM0",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "uniprot_entry_name"
-        },
-        {
-          "id": "A3PDK5",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "uniprot_entry_name"
-        },
-        {
-          "id": "2626312363",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "jgi_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABO17830.1",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "P9301_12081": {
       "tier1_ids": [
         {
@@ -120822,55 +120565,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "P9301_12951": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9301_12951",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-P9301_12951",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "A3PDU3_PROM0",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "uniprot_entry_name"
-        },
-        {
-          "id": "A3PDU3",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "uniprot_entry_name"
-        },
-        {
-          "id": "2626312447",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "jgi_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABO17918.1",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "P9301_12961": {
       "tier1_ids": [
@@ -150644,55 +150338,6 @@
         }
       ]
     },
-    "P9301_16171": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9301_16171",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-P9301_16171",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "A3PER5_PROM0",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "uniprot_entry_name"
-        },
-        {
-          "id": "A3PER5",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "uniprot_entry_name"
-        },
-        {
-          "id": "2626312779",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "jgi_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABO18240.1",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "P9301_16181": {
       "tier1_ids": [
         {
@@ -157729,64 +157374,6 @@
         {
           "id": "P9301_16891",
           "type": "gene_synonym"
-        }
-      ]
-    },
-    "P9301_16901": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9301_16901",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-P9301_16901",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "A3PEY8_PROM0",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "uniprot_entry_name"
-        },
-        {
-          "id": "A3PEY8",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "uniprot_entry_name"
-        },
-        {
-          "id": "2626312853",
-          "sources": [
-            "Anjur-Dietrich 2025/annotation_genome_9301"
-          ],
-          "type": "jgi_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABO18313.1",
-          "sources": [
-            "genomic_gca/MIT9301"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "clpS2",
-          "type": "gene_name"
-        },
-        {
-          "id": "clpS",
-          "type": "gene_name"
         }
       ]
     },
@@ -178876,6 +178463,20 @@
     "P9301_RS13830": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9301_09861",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9301_09861",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009091.1_cds_WP_041484687.1_962",
           "sources": [
             "cds_from_genomic.fna"
@@ -178883,11 +178484,39 @@
           "type": "cds_fna_id"
         },
         {
+          "id": "gene-P9301_09861",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
           "id": "gene-P9301_RS13830",
           "sources": [
             "genomic_gcf/MIT9301"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "A3PCY4_PROM0",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "A3PCY4",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "2626312139",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "jgi_id"
         }
       ],
       "tier2_ids": [
@@ -178897,17 +178526,42 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABO17609.1",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "P9301_RS13830",
           "type": "gene_synonym"
+        },
+        {
+          "id": "P9301_09861",
+          "type": "gene_synonym"
         }
       ]
     },
     "P9301_RS14260": {
       "tier1_ids": [
+        {
+          "id": "CK_Pro_MIT9301_10821",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9301_10821",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NC_009091.1_cds_WP_041484691.1_1048",
           "sources": [
@@ -178916,11 +178570,39 @@
           "type": "cds_fna_id"
         },
         {
+          "id": "gene-P9301_10821",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
           "id": "gene-P9301_RS14260",
           "sources": [
             "genomic_gcf/MIT9301"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "A3PD80_PROM0",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "A3PD80",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "2626312236",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "jgi_id"
         }
       ],
       "tier2_ids": [
@@ -178930,11 +178612,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABO17705.1",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "P9301_RS14260",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "P9301_10821",
           "type": "gene_synonym"
         }
       ]
@@ -178942,11 +178635,32 @@
     "P9301_RS14435": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9301_11191",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9301_11191",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009091.1_cds_WP_041484695.1_1084",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-P9301_11191",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-P9301_RS14435",
@@ -178963,17 +178677,42 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABO17742.1",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "P9301_RS14435",
           "type": "gene_synonym"
+        },
+        {
+          "id": "P9301_11191",
+          "type": "gene_synonym"
         }
       ]
     },
     "P9301_RS15205": {
       "tier1_ids": [
+        {
+          "id": "CK_Pro_MIT9301_12951",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9301_12951",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NC_009091.1_cds_WP_011818716.1_1250",
           "sources": [
@@ -178982,11 +178721,39 @@
           "type": "cds_fna_id"
         },
         {
+          "id": "gene-P9301_12951",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
           "id": "gene-P9301_RS15205",
           "sources": [
             "genomic_gcf/MIT9301"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "A3PDU3_PROM0",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "A3PDU3",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "2626312447",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "jgi_id"
         }
       ],
       "tier2_ids": [
@@ -178996,11 +178763,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABO17918.1",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "P9301_RS15205",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "P9301_12951",
           "type": "gene_synonym"
         }
       ]
@@ -179041,6 +178819,20 @@
     "P9301_RS17065": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9301_16901",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9301_16901",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009091.1_cds_WP_041484725.1_1638",
           "sources": [
             "cds_from_genomic.fna"
@@ -179048,11 +178840,39 @@
           "type": "cds_fna_id"
         },
         {
+          "id": "gene-P9301_16901",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
           "id": "gene-P9301_RS17065",
           "sources": [
             "genomic_gcf/MIT9301"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "A3PEY8_PROM0",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "A3PEY8",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "2626312853",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "jgi_id"
         }
       ],
       "tier2_ids": [
@@ -179062,12 +178882,27 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABO18313.1",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
-          "id": "clpS",
+          "id": "clpS2",
           "type": "gene_name"
+        },
+        {
+          "id": "clpS",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "P9301_16901",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -179144,11 +178979,32 @@
     "P9301_RS18305": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9301_09501",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9301_09501",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009091.1_cds_WP_029969066.1_926",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-P9301_09501",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-P9301_RS18305",
@@ -179165,12 +179021,23 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABO17573.1",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "scpB",
           "type": "gene_name"
+        },
+        {
+          "id": "P9301_09501",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -179393,6 +179260,20 @@
     "P9301_RS18860": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9301_06501",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9301_06501",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009091.1_cds_WP_225866356.1_633",
           "sources": [
             "cds_from_genomic.fna"
@@ -179400,11 +179281,39 @@
           "type": "cds_fna_id"
         },
         {
+          "id": "gene-P9301_06501",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
           "id": "gene-P9301_RS18860",
           "sources": [
             "genomic_gcf/MIT9301"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "A3PBZ8_PROM0",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "A3PBZ8",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "2626311803",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "jgi_id"
         }
       ],
       "tier2_ids": [
@@ -179414,17 +179323,42 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABO17273.1",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "P9301_RS18860",
           "type": "gene_synonym"
+        },
+        {
+          "id": "P9301_06501",
+          "type": "gene_synonym"
         }
       ]
     },
     "P9301_RS18870": {
       "tier1_ids": [
+        {
+          "id": "CK_Pro_MIT9301_12071",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9301_12071",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NC_009091.1_cds_WP_225866346.1_1166",
           "sources": [
@@ -179433,11 +179367,39 @@
           "type": "cds_fna_id"
         },
         {
+          "id": "gene-P9301_12071",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
           "id": "gene-P9301_RS18870",
           "sources": [
             "genomic_gcf/MIT9301"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "A3PDK5_PROM0",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "A3PDK5",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "2626312363",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "jgi_id"
         }
       ],
       "tier2_ids": [
@@ -179447,11 +179409,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABO17830.1",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "P9301_RS18870",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "P9301_12071",
           "type": "gene_synonym"
         }
       ]
@@ -179543,6 +179516,20 @@
     "P9301_RS18890": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9301_16171",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9301_16171",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009091.1_cds_WP_225866353.1_1564",
           "sources": [
             "cds_from_genomic.fna"
@@ -179550,11 +179537,39 @@
           "type": "cds_fna_id"
         },
         {
+          "id": "gene-P9301_16171",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
           "id": "gene-P9301_RS18890",
           "sources": [
             "genomic_gcf/MIT9301"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "A3PER5_PROM0",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "A3PER5",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "uniprot_entry_name"
+        },
+        {
+          "id": "2626312779",
+          "sources": [
+            "Anjur-Dietrich 2025/annotation_genome_9301"
+          ],
+          "type": "jgi_id"
         }
       ],
       "tier2_ids": [
@@ -179564,11 +179579,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABO18240.1",
+          "sources": [
+            "genomic_gca/MIT9301"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "P9301_RS18890",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "P9301_16171",
           "type": "gene_synonym"
         }
       ]
@@ -185978,7 +186004,7 @@
       "P9301_06491"
     ],
     "ABO17273.1": [
-      "P9301_06501"
+      "P9301_RS18860"
     ],
     "ABO17274.1": [
       "P9301_06511"
@@ -186875,7 +186901,7 @@
       "P9301_09491"
     ],
     "ABO17573.1": [
-      "P9301_09501"
+      "P9301_RS18305"
     ],
     "ABO17574.1": [
       "P9301_09511"
@@ -186983,7 +187009,7 @@
       "P9301_09851"
     ],
     "ABO17609.1": [
-      "P9301_09861"
+      "P9301_RS13830"
     ],
     "ABO17610.1": [
       "P9301_09871"
@@ -187268,7 +187294,7 @@
       "P9301_10811"
     ],
     "ABO17705.1": [
-      "P9301_10821"
+      "P9301_RS14260"
     ],
     "ABO17707.1": [
       "P9301_10841"
@@ -187376,7 +187402,7 @@
       "P9301_11181"
     ],
     "ABO17742.1": [
-      "P9301_11191"
+      "P9301_RS14435"
     ],
     "ABO17743.1": [
       "P9301_11201"
@@ -187640,7 +187666,7 @@
       "P9301_12061"
     ],
     "ABO17830.1": [
-      "P9301_12071"
+      "P9301_RS18870"
     ],
     "ABO17831.1": [
       "P9301_12081"
@@ -187901,7 +187927,7 @@
       "P9301_12941"
     ],
     "ABO17918.1": [
-      "P9301_12951"
+      "P9301_RS15205"
     ],
     "ABO17919.1": [
       "P9301_12961"
@@ -188867,7 +188893,7 @@
       "P9301_16161"
     ],
     "ABO18240.1": [
-      "P9301_16171"
+      "P9301_RS18890"
     ],
     "ABO18241.1": [
       "P9301_16181"
@@ -189086,7 +189112,7 @@
       "P9301_16891"
     ],
     "ABO18313.1": [
-      "P9301_16901"
+      "P9301_RS17065"
     ],
     "ABO18314.1": [
       "P9301_16911"
@@ -191650,6 +191676,9 @@
     "P9301_06491": [
       "P9301_06491"
     ],
+    "P9301_06501": [
+      "P9301_RS18860"
+    ],
     "P9301_06511": [
       "P9301_06511"
     ],
@@ -192514,6 +192543,9 @@
     "P9301_09491": [
       "P9301_09491"
     ],
+    "P9301_09501": [
+      "P9301_RS18305"
+    ],
     "P9301_09511": [
       "P9301_09511"
     ],
@@ -192618,6 +192650,9 @@
     ],
     "P9301_09851": [
       "P9301_09851"
+    ],
+    "P9301_09861": [
+      "P9301_RS13830"
     ],
     "P9301_09871": [
       "P9301_09871"
@@ -192871,6 +192906,9 @@
     "P9301_10791": [
       "P9301_10791"
     ],
+    "P9301_10821": [
+      "P9301_RS14260"
+    ],
     "P9301_10841": [
       "P9301_10841"
     ],
@@ -192969,6 +193007,9 @@
     ],
     "P9301_11181": [
       "P9301_11181"
+    ],
+    "P9301_11191": [
+      "P9301_RS14435"
     ],
     "P9301_11201": [
       "P9301_11201"
@@ -193213,6 +193254,9 @@
     "P9301_12061": [
       "P9301_12061"
     ],
+    "P9301_12071": [
+      "P9301_RS18870"
+    ],
     "P9301_12081": [
       "P9301_12081"
     ],
@@ -193456,6 +193500,9 @@
     ],
     "P9301_12941": [
       "P9301_12941"
+    ],
+    "P9301_12951": [
+      "P9301_RS15205"
     ],
     "P9301_12961": [
       "P9301_12961"
@@ -194367,6 +194414,9 @@
     "P9301_16161": [
       "P9301_16161"
     ],
+    "P9301_16171": [
+      "P9301_RS18890"
+    ],
     "P9301_16181": [
       "P9301_16181"
     ],
@@ -194582,6 +194632,9 @@
     ],
     "P9301_16891": [
       "P9301_16891"
+    ],
+    "P9301_16901": [
+      "P9301_RS17065"
     ],
     "P9301_16911": [
       "P9301_16911"
@@ -205301,14 +205354,13 @@
     ],
     "clpS": [
       "P9301_09991",
-      "P9301_RS17065",
-      "P9301_16901"
+      "P9301_RS17065"
     ],
     "clpS1": [
       "P9301_09991"
     ],
     "clpS2": [
-      "P9301_16901"
+      "P9301_RS17065"
     ],
     "clpX": [
       "P9301_18471"
@@ -208150,7 +208202,6 @@
       "P9301_01701"
     ],
     "scpB": [
-      "P9301_09501",
       "P9301_RS18305"
     ],
     "sdhA": [
@@ -208924,7 +208975,7 @@
     "2626311800": "P9301_06471",
     "2626311801": "P9301_06481",
     "2626311802": "P9301_06491",
-    "2626311803": "P9301_06501",
+    "2626311803": "P9301_RS18860",
     "2626311804": "P9301_06511",
     "2626311805": "P9301_06521",
     "2626311806": "P9301_06531",
@@ -209255,7 +209306,7 @@
     "2626312136": "P9301_09831",
     "2626312137": "P9301_09841",
     "2626312138": "P9301_09851",
-    "2626312139": "P9301_09861",
+    "2626312139": "P9301_RS13830",
     "2626312140": "P9301_09871",
     "2626312141": "P9301_09881",
     "2626312142": "P9301_09891",
@@ -209350,7 +209401,7 @@
     "2626312233": "P9301_10781",
     "2626312234": "P9301_10791",
     "2626312235": "P9301_10811",
-    "2626312236": "P9301_10821",
+    "2626312236": "P9301_RS14260",
     "2626312237": "P9301_09141",
     "2626312238": "P9301_10851",
     "2626312239": "P9301_10861",
@@ -209474,7 +209525,7 @@
     "2626312360": "P9301_12041",
     "2626312361": "P9301_12051",
     "2626312362": "P9301_12061",
-    "2626312363": "P9301_12071",
+    "2626312363": "P9301_RS18870",
     "2626312364": "P9301_12081",
     "2626312365": "P9301_12091",
     "2626312366": "P9301_12101",
@@ -209553,7 +209604,7 @@
     "2626312444": "P9301_12921",
     "2626312445": "P9301_12931",
     "2626312446": "P9301_12941",
-    "2626312447": "P9301_12951",
+    "2626312447": "P9301_RS15205",
     "2626312448": "P9301_12961",
     "2626312449": "P9301_12981",
     "2626312450": "P9301_12991",
@@ -209873,7 +209924,7 @@
     "2626312776": "P9301_16141",
     "2626312777": "P9301_16151",
     "2626312778": "P9301_16161",
-    "2626312779": "P9301_16171",
+    "2626312779": "P9301_RS18890",
     "2626312780": "P9301_16181",
     "2626312781": "P9301_16191",
     "2626312782": "P9301_16201",
@@ -209945,7 +209996,7 @@
     "2626312850": "P9301_16871",
     "2626312851": "P9301_16881",
     "2626312852": "P9301_16891",
-    "2626312853": "P9301_16901",
+    "2626312853": "P9301_RS17065",
     "2626312854": "P9301_16911",
     "2626312855": "P9301_16921",
     "2626312856": "P9301_16931",
@@ -211759,8 +211810,8 @@
     "A3PBZ5_PROM0": "P9301_06471",
     "A3PBZ6": "P9301_06481",
     "A3PBZ6_PROM0": "P9301_06481",
-    "A3PBZ8": "P9301_06501",
-    "A3PBZ8_PROM0": "P9301_06501",
+    "A3PBZ8": "P9301_RS18860",
+    "A3PBZ8_PROM0": "P9301_RS18860",
     "A3PBZ9": "P9301_06511",
     "A3PBZ9_PROM0": "P9301_06511",
     "A3PC00": "P9301_06521",
@@ -212325,8 +212376,8 @@
     "A3PCY2_PROM0": "P9301_09841",
     "A3PCY3": "P9301_09851",
     "A3PCY3_PROM0": "P9301_09851",
-    "A3PCY4": "P9301_09861",
-    "A3PCY4_PROM0": "P9301_09861",
+    "A3PCY4": "P9301_RS13830",
+    "A3PCY4_PROM0": "P9301_RS13830",
     "A3PCY5": "P9301_09871",
     "A3PCY5_PROM0": "P9301_09871",
     "A3PCY6": "P9301_09881",
@@ -212499,8 +212550,8 @@
     "A3PD77_PROM0": "P9301_10791",
     "A3PD79": "P9301_10811",
     "A3PD79_PROM0": "P9301_10811",
-    "A3PD80": "P9301_10821",
-    "A3PD80_PROM0": "P9301_10821",
+    "A3PD80": "P9301_RS14260",
+    "A3PD80_PROM0": "P9301_RS14260",
     "A3PD83": "P9301_10851",
     "A3PD83_PROM0": "P9301_10851",
     "A3PD84": "P9301_10861",
@@ -212717,8 +212768,8 @@
     "A3PDK3_PROM0": "P9301_12051",
     "A3PDK4": "P9301_12061",
     "A3PDK4_PROM0": "P9301_12061",
-    "A3PDK5": "P9301_12071",
-    "A3PDK5_PROM0": "P9301_12071",
+    "A3PDK5": "P9301_RS18870",
+    "A3PDK5_PROM0": "P9301_RS18870",
     "A3PDK6": "P9301_12081",
     "A3PDK6_PROM0": "P9301_12081",
     "A3PDK7": "P9301_12091",
@@ -212843,8 +212894,8 @@
     "A3PDU1_PROM0": "P9301_12931",
     "A3PDU2": "P9301_12941",
     "A3PDU2_PROM0": "P9301_12941",
-    "A3PDU3": "P9301_12951",
-    "A3PDU3_PROM0": "P9301_12951",
+    "A3PDU3": "P9301_RS15205",
+    "A3PDU3_PROM0": "P9301_RS15205",
     "A3PDU4": "P9301_12961",
     "A3PDU4_PROM0": "P9301_12961",
     "A3PDU6": "P9301_12981",
@@ -213405,8 +213456,8 @@
     "A3PER3_PROM0": "P9301_16151",
     "A3PER4": "P9301_16161",
     "A3PER4_PROM0": "P9301_16161",
-    "A3PER5": "P9301_16171",
-    "A3PER5_PROM0": "P9301_16171",
+    "A3PER5": "P9301_RS18890",
+    "A3PER5_PROM0": "P9301_RS18890",
     "A3PER6": "P9301_16181",
     "A3PER6_PROM0": "P9301_16181",
     "A3PER7": "P9301_16191",
@@ -213505,8 +213556,8 @@
     "A3PEY6_PROM0": "P9301_16881",
     "A3PEY7": "P9301_16891",
     "A3PEY7_PROM0": "P9301_16891",
-    "A3PEY8": "P9301_16901",
-    "A3PEY8_PROM0": "P9301_16901",
+    "A3PEY8": "P9301_RS17065",
+    "A3PEY8_PROM0": "P9301_RS17065",
     "A3PEZ0": "P9301_16921",
     "A3PEZ0_PROM0": "P9301_16921",
     "A3PEZ2": "P9301_16941",
@@ -214500,7 +214551,7 @@
     "CK_Pro_MIT9301_06471": "P9301_06471",
     "CK_Pro_MIT9301_06481": "P9301_06481",
     "CK_Pro_MIT9301_06491": "P9301_06491",
-    "CK_Pro_MIT9301_06501": "P9301_06501",
+    "CK_Pro_MIT9301_06501": "P9301_RS18860",
     "CK_Pro_MIT9301_06511": "P9301_06511",
     "CK_Pro_MIT9301_06521": "P9301_06521",
     "CK_Pro_MIT9301_06531": "P9301_06531",
@@ -214799,7 +214850,7 @@
     "CK_Pro_MIT9301_09471": "P9301_09471",
     "CK_Pro_MIT9301_09481": "P9301_09481",
     "CK_Pro_MIT9301_09491": "P9301_09491",
-    "CK_Pro_MIT9301_09501": "P9301_09501",
+    "CK_Pro_MIT9301_09501": "P9301_RS18305",
     "CK_Pro_MIT9301_09511": "P9301_09511",
     "CK_Pro_MIT9301_09521": "P9301_09521",
     "CK_Pro_MIT9301_09531": "P9301_09531",
@@ -214835,7 +214886,7 @@
     "CK_Pro_MIT9301_09831": "P9301_09831",
     "CK_Pro_MIT9301_09841": "P9301_09841",
     "CK_Pro_MIT9301_09851": "P9301_09851",
-    "CK_Pro_MIT9301_09861": "P9301_09861",
+    "CK_Pro_MIT9301_09861": "P9301_RS13830",
     "CK_Pro_MIT9301_09871": "P9301_09871",
     "CK_Pro_MIT9301_09881": "P9301_09881",
     "CK_Pro_MIT9301_09891": "P9301_09891",
@@ -214930,7 +214981,7 @@
     "CK_Pro_MIT9301_10791": "P9301_10791",
     "CK_Pro_MIT9301_10801": "P9301_10801",
     "CK_Pro_MIT9301_10811": "P9301_10811",
-    "CK_Pro_MIT9301_10821": "P9301_10821",
+    "CK_Pro_MIT9301_10821": "P9301_RS14260",
     "CK_Pro_MIT9301_10841": "P9301_10841",
     "CK_Pro_MIT9301_10851": "P9301_10851",
     "CK_Pro_MIT9301_10861": "P9301_10861",
@@ -214966,7 +215017,7 @@
     "CK_Pro_MIT9301_11161": "P9301_11161",
     "CK_Pro_MIT9301_11171": "P9301_11171",
     "CK_Pro_MIT9301_11181": "P9301_11181",
-    "CK_Pro_MIT9301_11191": "P9301_11191",
+    "CK_Pro_MIT9301_11191": "P9301_RS14435",
     "CK_Pro_MIT9301_11201": "P9301_11201",
     "CK_Pro_MIT9301_11211": "P9301_11211",
     "CK_Pro_MIT9301_11221": "P9301_11221",
@@ -215054,7 +215105,7 @@
     "CK_Pro_MIT9301_12041": "P9301_12041",
     "CK_Pro_MIT9301_12051": "P9301_12051",
     "CK_Pro_MIT9301_12061": "P9301_12061",
-    "CK_Pro_MIT9301_12071": "P9301_12071",
+    "CK_Pro_MIT9301_12071": "P9301_RS18870",
     "CK_Pro_MIT9301_12081": "P9301_12081",
     "CK_Pro_MIT9301_12091": "P9301_12091",
     "CK_Pro_MIT9301_12101": "P9301_12101",
@@ -215141,7 +215192,7 @@
     "CK_Pro_MIT9301_12921": "P9301_12921",
     "CK_Pro_MIT9301_12931": "P9301_12931",
     "CK_Pro_MIT9301_12941": "P9301_12941",
-    "CK_Pro_MIT9301_12951": "P9301_12951",
+    "CK_Pro_MIT9301_12951": "P9301_RS15205",
     "CK_Pro_MIT9301_12961": "P9301_12961",
     "CK_Pro_MIT9301_12971": "P9301_12971",
     "CK_Pro_MIT9301_12981": "P9301_12981",
@@ -215463,7 +215514,7 @@
     "CK_Pro_MIT9301_16141": "P9301_16141",
     "CK_Pro_MIT9301_16151": "P9301_16151",
     "CK_Pro_MIT9301_16161": "P9301_16161",
-    "CK_Pro_MIT9301_16171": "P9301_16171",
+    "CK_Pro_MIT9301_16171": "P9301_RS18890",
     "CK_Pro_MIT9301_16181": "P9301_16181",
     "CK_Pro_MIT9301_16191": "P9301_16191",
     "CK_Pro_MIT9301_16201": "P9301_16201",
@@ -215536,7 +215587,7 @@
     "CK_Pro_MIT9301_16871": "P9301_16871",
     "CK_Pro_MIT9301_16881": "P9301_16881",
     "CK_Pro_MIT9301_16891": "P9301_16891",
-    "CK_Pro_MIT9301_16901": "P9301_16901",
+    "CK_Pro_MIT9301_16901": "P9301_RS17065",
     "CK_Pro_MIT9301_16911": "P9301_16911",
     "CK_Pro_MIT9301_16921": "P9301_16921",
     "CK_Pro_MIT9301_16931": "P9301_16931",
@@ -215943,6 +215994,15 @@
     "NU4C_PROM0": "P9301_01691",
     "OBG": "P9301_02391",
     "OBG_PROM0": "P9301_02391",
+    "P9301_06501": "P9301_RS18860",
+    "P9301_09501": "P9301_RS18305",
+    "P9301_09861": "P9301_RS13830",
+    "P9301_10821": "P9301_RS14260",
+    "P9301_11191": "P9301_RS14435",
+    "P9301_12071": "P9301_RS18870",
+    "P9301_12951": "P9301_RS15205",
+    "P9301_16171": "P9301_RS18890",
+    "P9301_16901": "P9301_RS17065",
     "P9301_50004": "P9301_pseudoVIMSS1362553",
     "P9301_50005": "P9301_RS18980",
     "P9301_50009": "P9301_RS18885",
@@ -219037,7 +219097,7 @@
     "gene-P9301_06471": "P9301_06471",
     "gene-P9301_06481": "P9301_06481",
     "gene-P9301_06491": "P9301_06491",
-    "gene-P9301_06501": "P9301_06501",
+    "gene-P9301_06501": "P9301_RS18860",
     "gene-P9301_06511": "P9301_06511",
     "gene-P9301_06521": "P9301_06521",
     "gene-P9301_06531": "P9301_06531",
@@ -219336,7 +219396,7 @@
     "gene-P9301_09471": "P9301_09471",
     "gene-P9301_09481": "P9301_09481",
     "gene-P9301_09491": "P9301_09491",
-    "gene-P9301_09501": "P9301_09501",
+    "gene-P9301_09501": "P9301_RS18305",
     "gene-P9301_09511": "P9301_09511",
     "gene-P9301_09521": "P9301_09521",
     "gene-P9301_09531": "P9301_09531",
@@ -219372,7 +219432,7 @@
     "gene-P9301_09831": "P9301_09831",
     "gene-P9301_09841": "P9301_09841",
     "gene-P9301_09851": "P9301_09851",
-    "gene-P9301_09861": "P9301_09861",
+    "gene-P9301_09861": "P9301_RS13830",
     "gene-P9301_09871": "P9301_09871",
     "gene-P9301_09881": "P9301_09881",
     "gene-P9301_09891": "P9301_09891",
@@ -219467,7 +219527,7 @@
     "gene-P9301_10791": "P9301_10791",
     "gene-P9301_10801": "P9301_10801",
     "gene-P9301_10811": "P9301_10811",
-    "gene-P9301_10821": "P9301_10821",
+    "gene-P9301_10821": "P9301_RS14260",
     "gene-P9301_10841": "P9301_10841",
     "gene-P9301_10851": "P9301_10851",
     "gene-P9301_10861": "P9301_10861",
@@ -219503,7 +219563,7 @@
     "gene-P9301_11161": "P9301_11161",
     "gene-P9301_11171": "P9301_11171",
     "gene-P9301_11181": "P9301_11181",
-    "gene-P9301_11191": "P9301_11191",
+    "gene-P9301_11191": "P9301_RS14435",
     "gene-P9301_11201": "P9301_11201",
     "gene-P9301_11211": "P9301_11211",
     "gene-P9301_11221": "P9301_11221",
@@ -219591,7 +219651,7 @@
     "gene-P9301_12041": "P9301_12041",
     "gene-P9301_12051": "P9301_12051",
     "gene-P9301_12061": "P9301_12061",
-    "gene-P9301_12071": "P9301_12071",
+    "gene-P9301_12071": "P9301_RS18870",
     "gene-P9301_12081": "P9301_12081",
     "gene-P9301_12091": "P9301_12091",
     "gene-P9301_12101": "P9301_12101",
@@ -219678,7 +219738,7 @@
     "gene-P9301_12921": "P9301_12921",
     "gene-P9301_12931": "P9301_12931",
     "gene-P9301_12941": "P9301_12941",
-    "gene-P9301_12951": "P9301_12951",
+    "gene-P9301_12951": "P9301_RS15205",
     "gene-P9301_12961": "P9301_12961",
     "gene-P9301_12971": "P9301_12971",
     "gene-P9301_12981": "P9301_12981",
@@ -220000,7 +220060,7 @@
     "gene-P9301_16141": "P9301_16141",
     "gene-P9301_16151": "P9301_16151",
     "gene-P9301_16161": "P9301_16161",
-    "gene-P9301_16171": "P9301_16171",
+    "gene-P9301_16171": "P9301_RS18890",
     "gene-P9301_16181": "P9301_16181",
     "gene-P9301_16191": "P9301_16191",
     "gene-P9301_16201": "P9301_16201",
@@ -220073,7 +220133,7 @@
     "gene-P9301_16871": "P9301_16871",
     "gene-P9301_16881": "P9301_16881",
     "gene-P9301_16891": "P9301_16891",
-    "gene-P9301_16901": "P9301_16901",
+    "gene-P9301_16901": "P9301_RS17065",
     "gene-P9301_16911": "P9301_16911",
     "gene-P9301_16921": "P9301_16921",
     "gene-P9301_16931": "P9301_16931",
@@ -224628,9 +224688,9 @@
   },
   "stats": {
     "n_conflicts": 0,
-    "n_genes": 1935,
-    "n_multi": 9608,
-    "n_specific": 15760,
+    "n_genes": 1926,
+    "n_multi": 9617,
+    "n_specific": 15769,
     "passes": 3
   },
   "strain": "MIT9301",

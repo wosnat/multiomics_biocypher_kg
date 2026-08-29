@@ -7298,41 +7298,6 @@
         }
       ]
     },
-    "EV02_0098": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_00098",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_0098",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_1495",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG09513.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV02_0099": {
       "tier1_ids": [
         {
@@ -12245,41 +12210,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "EV02_0161": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_00161",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_0161",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_1558",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG09576.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "EV02_0162": {
       "tier1_ids": [
@@ -25031,41 +24961,6 @@
         }
       ]
     },
-    "EV02_0328": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_00328",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_0328",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_1725",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG09740.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV02_0329": {
       "tier1_ids": [
         {
@@ -28451,41 +28346,6 @@
       ],
       "tier3_ids": []
     },
-    "EV02_0375": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_00375",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_0375",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_1772",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG09787.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV02_0377": {
       "tier1_ids": [
         {
@@ -29674,41 +29534,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "EV02_0392": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_00392",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_0392",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_1789",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG09803.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "EV02_0393": {
       "tier1_ids": [
@@ -41235,6 +41060,20 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "CK_Pro_SB_50017",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_50017",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_032519223.1_521",
           "sources": [
             "cds_from_genomic.fna"
@@ -41269,6 +41108,10 @@
         },
         {
           "id": "EV02_0549",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_50017",
           "type": "gene_synonym"
         }
       ]
@@ -47297,46 +47140,6 @@
         }
       ]
     },
-    "EV02_0627": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_00627",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_0627",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_0095",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG07959.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "ndhL",
-          "type": "gene_name"
-        }
-      ]
-    },
     "EV02_0628": {
       "tier1_ids": [
         {
@@ -49622,41 +49425,6 @@
         }
       ]
     },
-    "EV02_0656": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_00656",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_0656",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_0124",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG07988.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV02_0657": {
       "tier1_ids": [
         {
@@ -51417,41 +51185,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "EV02_0679": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_00679",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_0679",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_0147",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG08011.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "EV02_0680": {
       "tier1_ids": [
@@ -64264,41 +63997,6 @@
         }
       ]
     },
-    "EV02_0844": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_00844",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_0844",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_0312",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG08176.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV02_0845": {
       "tier1_ids": [
         {
@@ -66156,41 +65854,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "EV02_0872": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_00872",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_0872",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_0340",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG08204.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "EV02_0873": {
       "tier1_ids": [
@@ -84456,6 +84119,20 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "CK_Pro_SB_50008",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_50008",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_032519766.1_1064",
           "sources": [
             "cds_from_genomic.fna"
@@ -84481,11 +84158,19 @@
       ],
       "tier3_ids": [
         {
+          "id": "sulA",
+          "type": "gene_name"
+        },
+        {
           "id": "EV02_RS0108810",
           "type": "gene_synonym"
         },
         {
           "id": "EV02_1105",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_50008",
           "type": "gene_synonym"
         }
       ]
@@ -90979,41 +90664,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "EV02_1190": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_01190",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_1190",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_0658",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG08518.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "EV02_1191": {
       "tier1_ids": [
@@ -100598,41 +100248,6 @@
       ],
       "tier3_ids": []
     },
-    "EV02_1315": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_01315",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_1315",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_0783",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG08642.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV02_1316": {
       "tier1_ids": [
         {
@@ -109544,6 +109159,20 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "CK_Pro_SB_50011",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_50011",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_032520078.1_1383",
           "sources": [
             "cds_from_genomic.fna"
@@ -109574,6 +109203,10 @@
         },
         {
           "id": "EV02_1428",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_50011",
           "type": "gene_synonym"
         }
       ]
@@ -112255,41 +111888,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "EV02_1463": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_01463",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_1463",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_0932",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG08789.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "EV02_1464": {
       "tier1_ids": [
@@ -119640,41 +119238,6 @@
       "tier2_ids": [
         {
           "id": "KGG08886.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
-    "EV02_1562": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_01562",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_1562",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_1031",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG08887.1",
           "sources": [
             "genomic_gca/SB"
           ],
@@ -131777,41 +131340,6 @@
         }
       ]
     },
-    "EV02_1723": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_01723",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_1723",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_1192",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG09045.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV02_1724": {
       "tier1_ids": [
         {
@@ -132803,6 +132331,20 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "CK_Pro_SB_50013",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_50013",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_032520294.1_1670",
           "sources": [
             "cds_from_genomic.fna"
@@ -132833,6 +132375,10 @@
         },
         {
           "id": "EV02_1738",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_50013",
           "type": "gene_synonym"
         }
       ]
@@ -135178,41 +134724,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "EV02_1769": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_01769",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_1769",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_1238",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG09090.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "EV02_1770": {
       "tier1_ids": [
@@ -143629,41 +143140,6 @@
         }
       ]
     },
-    "EV02_1881": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_01881",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-EV02_1881",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PSB_1350",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "KGG09202.1",
-          "sources": [
-            "genomic_gca/SB"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "EV02_1882": {
       "tier1_ids": [
         {
@@ -147349,37 +146825,6 @@
         }
       ]
     },
-    "EV02_50005": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_50005",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "EV02_50006": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_50006",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "psaM",
-          "type": "gene_name"
-        }
-      ]
-    },
     "EV02_50007": {
       "tier1_ids": [
         {
@@ -147394,140 +146839,6 @@
       "tier3_ids": [
         {
           "id": "dnaJ4",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV02_50008": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_50008",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "sulA",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV02_50009": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_50009",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "psbX",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV02_50010": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_50010",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "EV02_50011": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_50011",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "rpmE",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV02_50012": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_50012",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "psaI",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV02_50013": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_50013",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "EV02_50014": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_50014",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "petM",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "EV02_50017": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_SB_50017",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "cbiX",
           "type": "gene_name"
         }
       ]
@@ -147601,11 +146912,39 @@
     "EV02_RS0108535": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_00098",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_0098",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000001.1_cds_WP_032518741.1_96",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_0098",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_1495",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS0108535",
@@ -147622,11 +146961,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG09513.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS0108535",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_0098",
           "type": "gene_synonym"
         }
       ]
@@ -147634,11 +146984,39 @@
     "EV02_RS0108545": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_00161",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_0161",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000001.1_cds_WP_032518814.1_159",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_0161",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_1558",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS0108545",
@@ -147655,11 +147033,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG09576.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS0108545",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_0161",
           "type": "gene_synonym"
         }
       ]
@@ -147788,11 +147177,39 @@
     "EV02_RS0108595": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_00375",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_0375",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000001.1_cds_WP_032518996.1_360",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_0375",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_1772",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS0108595",
@@ -147809,11 +147226,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG09787.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS0108595",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_0375",
           "type": "gene_synonym"
         }
       ]
@@ -147821,11 +147249,39 @@
     "EV02_RS0108610": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_00392",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_0392",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000001.1_cds_WP_032519017.1_376",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_0392",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_1789",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS0108610",
@@ -147842,11 +147298,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG09803.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS0108610",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_0392",
           "type": "gene_synonym"
         }
       ]
@@ -147854,11 +147321,39 @@
     "EV02_RS0108685": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_00627",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_0627",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_032519343.1_598",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_0627",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_0095",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS0108685",
@@ -147875,17 +147370,42 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG07959.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "ndhL",
           "type": "gene_name"
+        },
+        {
+          "id": "EV02_0627",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV02_RS0108695": {
       "tier1_ids": [
+        {
+          "id": "CK_Pro_SB_50006",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_50006",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_025945794.1_628",
           "sources": [
@@ -147914,17 +147434,49 @@
         {
           "id": "psaM",
           "type": "gene_name"
+        },
+        {
+          "id": "EV02_50006",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV02_RS0108730": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_00844",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_0844",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_152556881.1_811",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_0844",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_0312",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS0108730",
@@ -147941,11 +147493,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG08176.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS0108730",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_0844",
           "type": "gene_synonym"
         }
       ]
@@ -147953,11 +147516,39 @@
     "EV02_RS0108755": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_00872",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_0872",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_032519577.1_834",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_0872",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_0340",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS0108755",
@@ -147974,11 +147565,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG08204.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS0108755",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_0872",
           "type": "gene_synonym"
         }
       ]
@@ -148019,6 +147621,20 @@
     "EV02_RS0108820": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_50009",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_50009",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_025905805.1_1126",
           "sources": [
             "cds_from_genomic.fna"
@@ -148046,17 +147662,49 @@
         {
           "id": "psbX",
           "type": "gene_name"
+        },
+        {
+          "id": "EV02_50009",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV02_RS0108825": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_01190",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_1190",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_032520481.1_1148",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_1190",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_0658",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS0108825",
@@ -148073,11 +147721,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG08518.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS0108825",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_1190",
           "type": "gene_synonym"
         }
       ]
@@ -148118,11 +147777,39 @@
     "EV02_RS0108875": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_01463",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_1463",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_080724858.1_1418",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_1463",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_0932",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS0108875",
@@ -148139,11 +147826,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG08789.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS0108875",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_1463",
           "type": "gene_synonym"
         }
       ]
@@ -148151,11 +147849,39 @@
     "EV02_RS0108880": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_01562",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_1562",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_032520184.1_1506",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_1562",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_1031",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS0108880",
@@ -148172,11 +147898,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG08887.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS0108880",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_1562",
           "type": "gene_synonym"
         }
       ]
@@ -148217,11 +147954,39 @@
     "EV02_RS0108935": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_01723",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_1723",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_152556888.1_1657",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_1723",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_1192",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS0108935",
@@ -148238,11 +148003,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG09045.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS0108935",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_1723",
           "type": "gene_synonym"
         }
       ]
@@ -148250,11 +148026,39 @@
     "EV02_RS0108960": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_01769",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_1769",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_032520530.1_1700",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_1769",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_1238",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS0108960",
@@ -148271,17 +148075,42 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG09090.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS0108960",
           "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_1769",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV02_RS0108965": {
       "tier1_ids": [
+        {
+          "id": "CK_Pro_SB_50014",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_50014",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_011132786.1_1728",
           "sources": [
@@ -148310,17 +148139,49 @@
         {
           "id": "petM",
           "type": "gene_name"
+        },
+        {
+          "id": "EV02_50014",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV02_RS0109015": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_01881",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_1881",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_032520554.1_1805",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_1881",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_1350",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS0109015",
@@ -148337,11 +148198,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG09202.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS0109015",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_1881",
           "type": "gene_synonym"
         }
       ]
@@ -148481,11 +148353,39 @@
     "EV02_RS09170": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_00328",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_0328",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000001.1_cds_WP_342665564.1_318",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_0328",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_1725",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS09170",
@@ -148502,11 +148402,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG09740.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS09170",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_0328",
           "type": "gene_synonym"
         }
       ]
@@ -148584,6 +148495,20 @@
     "EV02_RS09235": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_50012",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_50012",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_011863629.1_1393",
           "sources": [
             "cds_from_genomic.fna"
@@ -148614,6 +148539,10 @@
         },
         {
           "id": "EV02_RS09235",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_50012",
           "type": "gene_synonym"
         }
       ]
@@ -148654,6 +148583,20 @@
     "EV02_RS09315": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_50010",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_50010",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_144010192.1_1133",
           "sources": [
             "cds_from_genomic.fna"
@@ -148680,6 +148623,10 @@
       "tier3_ids": [
         {
           "id": "EV02_RS09315",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_50010",
           "type": "gene_synonym"
         }
       ]
@@ -148753,6 +148700,20 @@
     "EV02_RS09735": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_50005",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_50005",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_032519323.1_582",
           "sources": [
             "cds_from_genomic.fna"
@@ -148780,17 +148741,49 @@
         {
           "id": "EV02_RS09735",
           "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_50005",
+          "type": "gene_synonym"
         }
       ]
     },
     "EV02_RS09740": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_00656",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_0656",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_241433704.1_627",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_0656",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_0124",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS09740",
@@ -148807,11 +148800,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG07988.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS09740",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_0656",
           "type": "gene_synonym"
         }
       ]
@@ -148819,11 +148823,39 @@
     "EV02_RS09745": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_00679",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_0679",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_241433705.1_651",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_0679",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_0147",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS09745",
@@ -148840,11 +148872,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG08011.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS09745",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_0679",
           "type": "gene_synonym"
         }
       ]
@@ -148852,11 +148895,39 @@
     "EV02_RS09770": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_SB_01315",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "EV02_1315",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NZ_JNAS01000002.1_cds_WP_241433716.1_1271",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-EV02_1315",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PSB_0783",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-EV02_RS09770",
@@ -148873,11 +148944,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "KGG08642.1",
+          "sources": [
+            "genomic_gca/SB"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "EV02_RS09770",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "EV02_1315",
           "type": "gene_synonym"
         }
       ]
@@ -153897,6 +153979,9 @@
     "EV02_0097": [
       "EV02_0097"
     ],
+    "EV02_0098": [
+      "EV02_RS0108535"
+    ],
     "EV02_0099": [
       "EV02_0099"
     ],
@@ -154082,6 +154167,9 @@
     ],
     "EV02_0160": [
       "EV02_0160"
+    ],
+    "EV02_0161": [
+      "EV02_RS0108545"
     ],
     "EV02_0162": [
       "EV02_0162"
@@ -154548,6 +154636,9 @@
     "EV02_0327": [
       "EV02_0327"
     ],
+    "EV02_0328": [
+      "EV02_RS09170"
+    ],
     "EV02_0329": [
       "EV02_0329"
     ],
@@ -154668,6 +154759,9 @@
     "EV02_0372": [
       "EV02_0372"
     ],
+    "EV02_0375": [
+      "EV02_RS0108595"
+    ],
     "EV02_0377": [
       "EV02_0377"
     ],
@@ -154712,6 +154806,9 @@
     ],
     "EV02_0391": [
       "EV02_0391"
+    ],
+    "EV02_0392": [
+      "EV02_RS0108610"
     ],
     "EV02_0393": [
       "EV02_0393"
@@ -155364,6 +155461,9 @@
     "EV02_0626": [
       "EV02_0626"
     ],
+    "EV02_0627": [
+      "EV02_RS0108685"
+    ],
     "EV02_0628": [
       "EV02_0628"
     ],
@@ -155448,6 +155548,9 @@
     "EV02_0655": [
       "EV02_0655"
     ],
+    "EV02_0656": [
+      "EV02_RS09740"
+    ],
     "EV02_0657": [
       "EV02_0657"
     ],
@@ -155513,6 +155616,9 @@
     ],
     "EV02_0678": [
       "EV02_0678"
+    ],
+    "EV02_0679": [
+      "EV02_RS09745"
     ],
     "EV02_0680": [
       "EV02_0680"
@@ -155991,6 +156097,9 @@
     "EV02_0843": [
       "EV02_0843"
     ],
+    "EV02_0844": [
+      "EV02_RS0108730"
+    ],
     "EV02_0846": [
       "EV02_0846"
     ],
@@ -156053,6 +156162,9 @@
     ],
     "EV02_0871": [
       "EV02_0871"
+    ],
+    "EV02_0872": [
+      "EV02_RS0108755"
     ],
     "EV02_0873": [
       "EV02_0873"
@@ -156975,6 +157087,9 @@
     "EV02_1189": [
       "EV02_1189"
     ],
+    "EV02_1190": [
+      "EV02_RS0108825"
+    ],
     "EV02_1192": [
       "EV02_1192"
     ],
@@ -157331,6 +157446,9 @@
     ],
     "EV02_1312": [
       "EV02_1312"
+    ],
+    "EV02_1315": [
+      "EV02_RS09770"
     ],
     "EV02_1316": [
       "EV02_1316"
@@ -157764,6 +157882,9 @@
     "EV02_1462": [
       "EV02_1462"
     ],
+    "EV02_1463": [
+      "EV02_RS0108875"
+    ],
     "EV02_1464": [
       "EV02_1464"
     ],
@@ -158024,6 +158145,9 @@
     ],
     "EV02_1558": [
       "EV02_1558"
+    ],
+    "EV02_1562": [
+      "EV02_RS0108880"
     ],
     "EV02_1563": [
       "EV02_1563"
@@ -158469,6 +158593,9 @@
     "EV02_1722": [
       "EV02_1722"
     ],
+    "EV02_1723": [
+      "EV02_RS0108935"
+    ],
     "EV02_1724": [
       "EV02_1724"
     ],
@@ -158594,6 +158721,9 @@
     ],
     "EV02_1768": [
       "EV02_1768"
+    ],
+    "EV02_1769": [
+      "EV02_RS0108960"
     ],
     "EV02_1771": [
       "EV02_1771"
@@ -158901,6 +159031,9 @@
     "EV02_1880": [
       "EV02_1880"
     ],
+    "EV02_1881": [
+      "EV02_RS0109015"
+    ],
     "EV02_1882": [
       "EV02_1882"
     ],
@@ -159033,11 +159166,41 @@
     "EV02_50004": [
       "EV02_0469"
     ],
+    "EV02_50005": [
+      "EV02_RS09735"
+    ],
+    "EV02_50006": [
+      "EV02_RS0108695"
+    ],
+    "EV02_50008": [
+      "EV02_1105"
+    ],
+    "EV02_50009": [
+      "EV02_RS0108820"
+    ],
+    "EV02_50010": [
+      "EV02_RS09315"
+    ],
+    "EV02_50011": [
+      "EV02_1428"
+    ],
+    "EV02_50012": [
+      "EV02_RS09235"
+    ],
+    "EV02_50013": [
+      "EV02_1738"
+    ],
+    "EV02_50014": [
+      "EV02_RS0108965"
+    ],
     "EV02_50015": [
       "EV02_0323"
     ],
     "EV02_50016": [
       "EV02_RS0108575"
+    ],
+    "EV02_50017": [
+      "EV02_0549"
     ],
     "EV02_RS00005": [
       "EV02_1969"
@@ -163261,7 +163424,7 @@
       "EV02_0626"
     ],
     "KGG07959.1": [
-      "EV02_0627"
+      "EV02_RS0108685"
     ],
     "KGG07960.1": [
       "EV02_0628"
@@ -163348,7 +163511,7 @@
       "EV02_0655"
     ],
     "KGG07988.1": [
-      "EV02_0656"
+      "EV02_RS09740"
     ],
     "KGG07989.1": [
       "EV02_0657"
@@ -163417,7 +163580,7 @@
       "EV02_0678"
     ],
     "KGG08011.1": [
-      "EV02_0679"
+      "EV02_RS09745"
     ],
     "KGG08012.1": [
       "EV02_0680"
@@ -163912,7 +164075,7 @@
       "EV02_0843"
     ],
     "KGG08176.1": [
-      "EV02_0844"
+      "EV02_RS0108730"
     ],
     "KGG08177.1": [
       "EV02_0845"
@@ -163996,7 +164159,7 @@
       "EV02_0871"
     ],
     "KGG08204.1": [
-      "EV02_0872"
+      "EV02_RS0108755"
     ],
     "KGG08205.1": [
       "EV02_0873"
@@ -164935,7 +165098,7 @@
       "EV02_1189"
     ],
     "KGG08518.1": [
-      "EV02_1190"
+      "EV02_RS0108825"
     ],
     "KGG08519.1": [
       "EV02_1191"
@@ -165307,7 +165470,7 @@
       "EV02_1314"
     ],
     "KGG08642.1": [
-      "EV02_1315"
+      "EV02_RS09770"
     ],
     "KGG08643.1": [
       "EV02_1316"
@@ -165748,7 +165911,7 @@
       "EV02_1462"
     ],
     "KGG08789.1": [
-      "EV02_1463"
+      "EV02_RS0108875"
     ],
     "KGG08790.1": [
       "EV02_1464"
@@ -166042,7 +166205,7 @@
       "EV02_1561"
     ],
     "KGG08887.1": [
-      "EV02_1562"
+      "EV02_RS0108880"
     ],
     "KGG08888.1": [
       "EV02_1564"
@@ -166516,7 +166679,7 @@
       "EV02_1722"
     ],
     "KGG09045.1": [
-      "EV02_1723"
+      "EV02_RS0108935"
     ],
     "KGG09046.1": [
       "EV02_1724"
@@ -166651,7 +166814,7 @@
       "EV02_1768"
     ],
     "KGG09090.1": [
-      "EV02_1769"
+      "EV02_RS0108960"
     ],
     "KGG09091.1": [
       "EV02_1770"
@@ -166987,7 +167150,7 @@
       "EV02_1880"
     ],
     "KGG09202.1": [
-      "EV02_1881"
+      "EV02_RS0109015"
     ],
     "KGG09203.1": [
       "EV02_1882"
@@ -167413,7 +167576,7 @@
       "EV02_0097"
     ],
     "KGG09513.1": [
-      "EV02_0098"
+      "EV02_RS0108535"
     ],
     "KGG09514.1": [
       "EV02_0099"
@@ -167602,7 +167765,7 @@
       "EV02_0160"
     ],
     "KGG09576.1": [
-      "EV02_0161"
+      "EV02_RS0108545"
     ],
     "KGG09577.1": [
       "EV02_0162"
@@ -168094,7 +168257,7 @@
       "EV02_0327"
     ],
     "KGG09740.1": [
-      "EV02_0328"
+      "EV02_RS09170"
     ],
     "KGG09741.1": [
       "EV02_0329"
@@ -168235,7 +168398,7 @@
       "EV02_0374"
     ],
     "KGG09787.1": [
-      "EV02_0375"
+      "EV02_RS0108595"
     ],
     "KGG09788.1": [
       "EV02_0377"
@@ -168283,7 +168446,7 @@
       "EV02_0391"
     ],
     "KGG09803.1": [
-      "EV02_0392"
+      "EV02_RS0108610"
     ],
     "KGG09804.1": [
       "EV02_0393"
@@ -174496,8 +174659,7 @@
       "EV02_0811"
     ],
     "cbiX": [
-      "EV02_0549",
-      "EV02_50017"
+      "EV02_0549"
     ],
     "ccmA": [
       "EV02_0749"
@@ -176034,7 +176196,6 @@
       "EV02_0928"
     ],
     "ndhL": [
-      "EV02_0627",
       "EV02_RS0108685"
     ],
     "ndhM": [
@@ -176232,7 +176393,6 @@
       "EV02_RS0108815"
     ],
     "petM": [
-      "EV02_50014",
       "EV02_RS0108965"
     ],
     "petN": [
@@ -176450,7 +176610,6 @@
       "EV02_0728"
     ],
     "psaI": [
-      "EV02_50012",
       "EV02_RS09235"
     ],
     "psaJ": [
@@ -176463,7 +176622,6 @@
       "EV02_1439"
     ],
     "psaM": [
-      "EV02_50006",
       "EV02_RS0108695"
     ],
     "psb27": [
@@ -176535,7 +176693,6 @@
       "EV02_RS09190"
     ],
     "psbX": [
-      "EV02_50009",
       "EV02_RS0108820"
     ],
     "psbY": [
@@ -176975,8 +177132,7 @@
       "EV02_1408"
     ],
     "rpmE": [
-      "EV02_1428",
-      "EV02_50011"
+      "EV02_1428"
     ],
     "rpmF": [
       "EV02_0311"
@@ -177364,7 +177520,7 @@
       "EV02_1009"
     ],
     "sulA": [
-      "EV02_50008"
+      "EV02_1105"
     ],
     "sun": [
       "EV02_0772"
@@ -177940,7 +178096,7 @@
     "CK_Pro_SB_00095": "EV02_0095",
     "CK_Pro_SB_00096": "EV02_0096",
     "CK_Pro_SB_00097": "EV02_0097",
-    "CK_Pro_SB_00098": "EV02_0098",
+    "CK_Pro_SB_00098": "EV02_RS0108535",
     "CK_Pro_SB_00099": "EV02_0099",
     "CK_Pro_SB_00100": "EV02_0100",
     "CK_Pro_SB_00101": "EV02_0101",
@@ -178003,7 +178159,7 @@
     "CK_Pro_SB_00158": "EV02_0158",
     "CK_Pro_SB_00159": "EV02_0159",
     "CK_Pro_SB_00160": "EV02_0160",
-    "CK_Pro_SB_00161": "EV02_0161",
+    "CK_Pro_SB_00161": "EV02_RS0108545",
     "CK_Pro_SB_00162": "EV02_0162",
     "CK_Pro_SB_00163": "EV02_0163",
     "CK_Pro_SB_00164": "EV02_0164",
@@ -178167,7 +178323,7 @@
     "CK_Pro_SB_00325": "EV02_0325",
     "CK_Pro_SB_00326": "EV02_0326",
     "CK_Pro_SB_00327": "EV02_0327",
-    "CK_Pro_SB_00328": "EV02_0328",
+    "CK_Pro_SB_00328": "EV02_RS09170",
     "CK_Pro_SB_00329": "EV02_0329",
     "CK_Pro_SB_00330": "EV02_0330",
     "CK_Pro_SB_00331": "EV02_0331",
@@ -178214,7 +178370,7 @@
     "CK_Pro_SB_00372": "EV02_0372",
     "CK_Pro_SB_00373": "EV02_0373",
     "CK_Pro_SB_00374": "EV02_0374",
-    "CK_Pro_SB_00375": "EV02_0375",
+    "CK_Pro_SB_00375": "EV02_RS0108595",
     "CK_Pro_SB_00377": "EV02_0377",
     "CK_Pro_SB_00378": "EV02_0378",
     "CK_Pro_SB_00379": "EV02_0379",
@@ -178230,7 +178386,7 @@
     "CK_Pro_SB_00389": "EV02_0389",
     "CK_Pro_SB_00390": "EV02_0390",
     "CK_Pro_SB_00391": "EV02_0391",
-    "CK_Pro_SB_00392": "EV02_0392",
+    "CK_Pro_SB_00392": "EV02_RS0108610",
     "CK_Pro_SB_00393": "EV02_0393",
     "CK_Pro_SB_00394": "EV02_0394",
     "CK_Pro_SB_00395": "EV02_0395",
@@ -178456,7 +178612,7 @@
     "CK_Pro_SB_00624": "EV02_0624",
     "CK_Pro_SB_00625": "EV02_0625",
     "CK_Pro_SB_00626": "EV02_0626",
-    "CK_Pro_SB_00627": "EV02_0627",
+    "CK_Pro_SB_00627": "EV02_RS0108685",
     "CK_Pro_SB_00628": "EV02_0628",
     "CK_Pro_SB_00629": "EV02_0629",
     "CK_Pro_SB_00630": "EV02_0630",
@@ -178485,7 +178641,7 @@
     "CK_Pro_SB_00653": "EV02_0653",
     "CK_Pro_SB_00654": "EV02_0654",
     "CK_Pro_SB_00655": "EV02_0655",
-    "CK_Pro_SB_00656": "EV02_0656",
+    "CK_Pro_SB_00656": "EV02_RS09740",
     "CK_Pro_SB_00657": "EV02_0657",
     "CK_Pro_SB_00658": "EV02_0658",
     "CK_Pro_SB_00659": "EV02_0659",
@@ -178508,7 +178664,7 @@
     "CK_Pro_SB_00676": "EV02_0676",
     "CK_Pro_SB_00677": "EV02_0677",
     "CK_Pro_SB_00678": "EV02_0678",
-    "CK_Pro_SB_00679": "EV02_0679",
+    "CK_Pro_SB_00679": "EV02_RS09745",
     "CK_Pro_SB_00680": "EV02_0680",
     "CK_Pro_SB_00681": "EV02_0681",
     "CK_Pro_SB_00682": "EV02_0682",
@@ -178673,7 +178829,7 @@
     "CK_Pro_SB_00841": "EV02_0841",
     "CK_Pro_SB_00842": "EV02_0842",
     "CK_Pro_SB_00843": "EV02_0843",
-    "CK_Pro_SB_00844": "EV02_0844",
+    "CK_Pro_SB_00844": "EV02_RS0108730",
     "CK_Pro_SB_00845": "EV02_0845",
     "CK_Pro_SB_00846": "EV02_0846",
     "CK_Pro_SB_00847": "EV02_0847",
@@ -178701,7 +178857,7 @@
     "CK_Pro_SB_00869": "EV02_0869",
     "CK_Pro_SB_00870": "EV02_0870",
     "CK_Pro_SB_00871": "EV02_0871",
-    "CK_Pro_SB_00872": "EV02_0872",
+    "CK_Pro_SB_00872": "EV02_RS0108755",
     "CK_Pro_SB_00873": "EV02_0873",
     "CK_Pro_SB_00874": "EV02_0874",
     "CK_Pro_SB_00875": "EV02_0875",
@@ -179014,7 +179170,7 @@
     "CK_Pro_SB_01187": "EV02_1187",
     "CK_Pro_SB_01188": "EV02_1188",
     "CK_Pro_SB_01189": "EV02_1189",
-    "CK_Pro_SB_01190": "EV02_1190",
+    "CK_Pro_SB_01190": "EV02_RS0108825",
     "CK_Pro_SB_01191": "EV02_1191",
     "CK_Pro_SB_01192": "EV02_1192",
     "CK_Pro_SB_01193": "EV02_1193",
@@ -179138,7 +179294,7 @@
     "CK_Pro_SB_01312": "EV02_1312",
     "CK_Pro_SB_01313": "EV02_1313",
     "CK_Pro_SB_01314": "EV02_1314",
-    "CK_Pro_SB_01315": "EV02_1315",
+    "CK_Pro_SB_01315": "EV02_RS09770",
     "CK_Pro_SB_01316": "EV02_1316",
     "CK_Pro_SB_01317": "EV02_1317",
     "CK_Pro_SB_01318": "EV02_1318",
@@ -179285,7 +179441,7 @@
     "CK_Pro_SB_01460": "EV02_1460",
     "CK_Pro_SB_01461": "EV02_1461",
     "CK_Pro_SB_01462": "EV02_1462",
-    "CK_Pro_SB_01463": "EV02_1463",
+    "CK_Pro_SB_01463": "EV02_RS0108875",
     "CK_Pro_SB_01464": "EV02_1464",
     "CK_Pro_SB_01465": "EV02_1465",
     "CK_Pro_SB_01466": "EV02_1466",
@@ -179383,7 +179539,7 @@
     "CK_Pro_SB_01559": "EV02_1559",
     "CK_Pro_SB_01560": "EV02_1560",
     "CK_Pro_SB_01561": "EV02_1561",
-    "CK_Pro_SB_01562": "EV02_1562",
+    "CK_Pro_SB_01562": "EV02_RS0108880",
     "CK_Pro_SB_01564": "EV02_1564",
     "CK_Pro_SB_01565": "EV02_1565",
     "CK_Pro_SB_01566": "EV02_1566",
@@ -179541,7 +179697,7 @@
     "CK_Pro_SB_01720": "EV02_1720",
     "CK_Pro_SB_01721": "EV02_1721",
     "CK_Pro_SB_01722": "EV02_1722",
-    "CK_Pro_SB_01723": "EV02_1723",
+    "CK_Pro_SB_01723": "EV02_RS0108935",
     "CK_Pro_SB_01724": "EV02_1724",
     "CK_Pro_SB_01725": "EV02_1725",
     "CK_Pro_SB_01726": "EV02_1726",
@@ -179586,7 +179742,7 @@
     "CK_Pro_SB_01766": "EV02_1766",
     "CK_Pro_SB_01767": "EV02_1767",
     "CK_Pro_SB_01768": "EV02_1768",
-    "CK_Pro_SB_01769": "EV02_1769",
+    "CK_Pro_SB_01769": "EV02_RS0108960",
     "CK_Pro_SB_01770": "EV02_1770",
     "CK_Pro_SB_01771": "EV02_1771",
     "CK_Pro_SB_01772": "EV02_1772",
@@ -179698,7 +179854,7 @@
     "CK_Pro_SB_01878": "EV02_1878",
     "CK_Pro_SB_01879": "EV02_1879",
     "CK_Pro_SB_01880": "EV02_1880",
-    "CK_Pro_SB_01881": "EV02_1881",
+    "CK_Pro_SB_01881": "EV02_RS0109015",
     "CK_Pro_SB_01882": "EV02_1882",
     "CK_Pro_SB_01883": "EV02_1883",
     "CK_Pro_SB_01884": "EV02_1884",
@@ -179759,25 +179915,52 @@
     "CK_Pro_SB_50002": "EV02_0262",
     "CK_Pro_SB_50003": "EV02_RS09875",
     "CK_Pro_SB_50004": "EV02_0469",
-    "CK_Pro_SB_50005": "EV02_50005",
-    "CK_Pro_SB_50006": "EV02_50006",
+    "CK_Pro_SB_50005": "EV02_RS09735",
+    "CK_Pro_SB_50006": "EV02_RS0108695",
     "CK_Pro_SB_50007": "EV02_50007",
-    "CK_Pro_SB_50008": "EV02_50008",
-    "CK_Pro_SB_50009": "EV02_50009",
-    "CK_Pro_SB_50010": "EV02_50010",
-    "CK_Pro_SB_50011": "EV02_50011",
-    "CK_Pro_SB_50012": "EV02_50012",
-    "CK_Pro_SB_50013": "EV02_50013",
-    "CK_Pro_SB_50014": "EV02_50014",
+    "CK_Pro_SB_50008": "EV02_1105",
+    "CK_Pro_SB_50009": "EV02_RS0108820",
+    "CK_Pro_SB_50010": "EV02_RS09315",
+    "CK_Pro_SB_50011": "EV02_1428",
+    "CK_Pro_SB_50012": "EV02_RS09235",
+    "CK_Pro_SB_50013": "EV02_1738",
+    "CK_Pro_SB_50014": "EV02_RS0108965",
     "CK_Pro_SB_50015": "EV02_0323",
     "CK_Pro_SB_50016": "EV02_RS0108575",
-    "CK_Pro_SB_50017": "EV02_50017",
+    "CK_Pro_SB_50017": "EV02_0549",
+    "EV02_0098": "EV02_RS0108535",
+    "EV02_0161": "EV02_RS0108545",
+    "EV02_0328": "EV02_RS09170",
+    "EV02_0375": "EV02_RS0108595",
+    "EV02_0392": "EV02_RS0108610",
+    "EV02_0627": "EV02_RS0108685",
+    "EV02_0656": "EV02_RS09740",
+    "EV02_0679": "EV02_RS09745",
+    "EV02_0844": "EV02_RS0108730",
+    "EV02_0872": "EV02_RS0108755",
+    "EV02_1190": "EV02_RS0108825",
+    "EV02_1315": "EV02_RS09770",
+    "EV02_1463": "EV02_RS0108875",
+    "EV02_1562": "EV02_RS0108880",
+    "EV02_1723": "EV02_RS0108935",
+    "EV02_1769": "EV02_RS0108960",
+    "EV02_1881": "EV02_RS0109015",
     "EV02_50001": "EV02_0087",
     "EV02_50002": "EV02_0262",
     "EV02_50003": "EV02_RS09875",
     "EV02_50004": "EV02_0469",
+    "EV02_50005": "EV02_RS09735",
+    "EV02_50006": "EV02_RS0108695",
+    "EV02_50008": "EV02_1105",
+    "EV02_50009": "EV02_RS0108820",
+    "EV02_50010": "EV02_RS09315",
+    "EV02_50011": "EV02_1428",
+    "EV02_50012": "EV02_RS09235",
+    "EV02_50013": "EV02_1738",
+    "EV02_50014": "EV02_RS0108965",
     "EV02_50015": "EV02_0323",
     "EV02_50016": "EV02_RS0108575",
+    "EV02_50017": "EV02_0549",
     "EV02_RS00005": "EV02_1969",
     "EV02_RS00010": "EV02_1968",
     "EV02_RS00015": "EV02_1967",
@@ -181669,7 +181852,7 @@
     "PSB_0092": "EV02_0624",
     "PSB_0093": "EV02_0625",
     "PSB_0094": "EV02_0626",
-    "PSB_0095": "EV02_0627",
+    "PSB_0095": "EV02_RS0108685",
     "PSB_0096": "EV02_0628",
     "PSB_0097": "EV02_0629",
     "PSB_0098": "EV02_0630",
@@ -181698,7 +181881,7 @@
     "PSB_0121": "EV02_0653",
     "PSB_0122": "EV02_0654",
     "PSB_0123": "EV02_0655",
-    "PSB_0124": "EV02_0656",
+    "PSB_0124": "EV02_RS09740",
     "PSB_0125": "EV02_0657",
     "PSB_0126": "EV02_0658",
     "PSB_0127": "EV02_0659",
@@ -181721,7 +181904,7 @@
     "PSB_0144": "EV02_0676",
     "PSB_0145": "EV02_0677",
     "PSB_0146": "EV02_0678",
-    "PSB_0147": "EV02_0679",
+    "PSB_0147": "EV02_RS09745",
     "PSB_0148": "EV02_0680",
     "PSB_0149": "EV02_0681",
     "PSB_0150": "EV02_0682",
@@ -181886,7 +182069,7 @@
     "PSB_0309": "EV02_0841",
     "PSB_0310": "EV02_0842",
     "PSB_0311": "EV02_0843",
-    "PSB_0312": "EV02_0844",
+    "PSB_0312": "EV02_RS0108730",
     "PSB_0313": "EV02_0845",
     "PSB_0314": "EV02_0846",
     "PSB_0315": "EV02_0847",
@@ -181914,7 +182097,7 @@
     "PSB_0337": "EV02_0869",
     "PSB_0338": "EV02_0870",
     "PSB_0339": "EV02_0871",
-    "PSB_0340": "EV02_0872",
+    "PSB_0340": "EV02_RS0108755",
     "PSB_0341": "EV02_0873",
     "PSB_0342": "EV02_0874",
     "PSB_0343": "EV02_0875",
@@ -182227,7 +182410,7 @@
     "PSB_0655": "EV02_1187",
     "PSB_0656": "EV02_1188",
     "PSB_0657": "EV02_1189",
-    "PSB_0658": "EV02_1190",
+    "PSB_0658": "EV02_RS0108825",
     "PSB_0659": "EV02_1191",
     "PSB_0660": "EV02_1192",
     "PSB_0661": "EV02_1193",
@@ -182351,7 +182534,7 @@
     "PSB_0780": "EV02_1312",
     "PSB_0781": "EV02_1313",
     "PSB_0782": "EV02_1314",
-    "PSB_0783": "EV02_1315",
+    "PSB_0783": "EV02_RS09770",
     "PSB_0784": "EV02_1316",
     "PSB_0785": "EV02_1317",
     "PSB_0786": "EV02_1318",
@@ -182498,7 +182681,7 @@
     "PSB_0929": "EV02_1460",
     "PSB_0930": "EV02_1461",
     "PSB_0931": "EV02_1462",
-    "PSB_0932": "EV02_1463",
+    "PSB_0932": "EV02_RS0108875",
     "PSB_0933": "EV02_1464",
     "PSB_0934": "EV02_1465",
     "PSB_0935": "EV02_1466",
@@ -182596,7 +182779,7 @@
     "PSB_1028": "EV02_1559",
     "PSB_1029": "EV02_1560",
     "PSB_1030": "EV02_1561",
-    "PSB_1031": "EV02_1562",
+    "PSB_1031": "EV02_RS0108880",
     "PSB_1033": "EV02_1564",
     "PSB_1034": "EV02_1565",
     "PSB_1035": "EV02_1566",
@@ -182754,7 +182937,7 @@
     "PSB_1189": "EV02_1720",
     "PSB_1190": "EV02_1721",
     "PSB_1191": "EV02_1722",
-    "PSB_1192": "EV02_1723",
+    "PSB_1192": "EV02_RS0108935",
     "PSB_1193": "EV02_1724",
     "PSB_1194": "EV02_1725",
     "PSB_1195": "EV02_1726",
@@ -182799,7 +182982,7 @@
     "PSB_1235": "EV02_1766",
     "PSB_1236": "EV02_1767",
     "PSB_1237": "EV02_1768",
-    "PSB_1238": "EV02_1769",
+    "PSB_1238": "EV02_RS0108960",
     "PSB_1239": "EV02_1770",
     "PSB_1240": "EV02_1771",
     "PSB_1241": "EV02_1772",
@@ -182911,7 +183094,7 @@
     "PSB_1347": "EV02_1878",
     "PSB_1348": "EV02_1879",
     "PSB_1349": "EV02_1880",
-    "PSB_1350": "EV02_1881",
+    "PSB_1350": "EV02_RS0109015",
     "PSB_1351": "EV02_1882",
     "PSB_1352": "EV02_1883",
     "PSB_1353": "EV02_1884",
@@ -183053,7 +183236,7 @@
     "PSB_1492": "EV02_0095",
     "PSB_1493": "EV02_0096",
     "PSB_1494": "EV02_0097",
-    "PSB_1495": "EV02_0098",
+    "PSB_1495": "EV02_RS0108535",
     "PSB_1496": "EV02_0099",
     "PSB_1497": "EV02_0100",
     "PSB_1498": "EV02_0101",
@@ -183116,7 +183299,7 @@
     "PSB_1555": "EV02_0158",
     "PSB_1556": "EV02_0159",
     "PSB_1557": "EV02_0160",
-    "PSB_1558": "EV02_0161",
+    "PSB_1558": "EV02_RS0108545",
     "PSB_1559": "EV02_0162",
     "PSB_1560": "EV02_0163",
     "PSB_1561": "EV02_0164",
@@ -183280,7 +183463,7 @@
     "PSB_1722": "EV02_0325",
     "PSB_1723": "EV02_0326",
     "PSB_1724": "EV02_0327",
-    "PSB_1725": "EV02_0328",
+    "PSB_1725": "EV02_RS09170",
     "PSB_1726": "EV02_0329",
     "PSB_1727": "EV02_0330",
     "PSB_1728": "EV02_0331",
@@ -183327,7 +183510,7 @@
     "PSB_1769": "EV02_0372",
     "PSB_1770": "EV02_0373",
     "PSB_1771": "EV02_0374",
-    "PSB_1772": "EV02_0375",
+    "PSB_1772": "EV02_RS0108595",
     "PSB_1774": "EV02_0377",
     "PSB_1775": "EV02_0378",
     "PSB_1776": "EV02_0379",
@@ -183343,7 +183526,7 @@
     "PSB_1786": "EV02_0389",
     "PSB_1787": "EV02_0390",
     "PSB_1788": "EV02_0391",
-    "PSB_1789": "EV02_0392",
+    "PSB_1789": "EV02_RS0108610",
     "PSB_1790": "EV02_0393",
     "PSB_1791": "EV02_0394",
     "PSB_1792": "EV02_0395",
@@ -183581,7 +183764,7 @@
     "gene-EV02_0095": "EV02_0095",
     "gene-EV02_0096": "EV02_0096",
     "gene-EV02_0097": "EV02_0097",
-    "gene-EV02_0098": "EV02_0098",
+    "gene-EV02_0098": "EV02_RS0108535",
     "gene-EV02_0099": "EV02_0099",
     "gene-EV02_0100": "EV02_0100",
     "gene-EV02_0101": "EV02_0101",
@@ -183644,7 +183827,7 @@
     "gene-EV02_0158": "EV02_0158",
     "gene-EV02_0159": "EV02_0159",
     "gene-EV02_0160": "EV02_0160",
-    "gene-EV02_0161": "EV02_0161",
+    "gene-EV02_0161": "EV02_RS0108545",
     "gene-EV02_0162": "EV02_0162",
     "gene-EV02_0163": "EV02_0163",
     "gene-EV02_0164": "EV02_0164",
@@ -183808,7 +183991,7 @@
     "gene-EV02_0325": "EV02_0325",
     "gene-EV02_0326": "EV02_0326",
     "gene-EV02_0327": "EV02_0327",
-    "gene-EV02_0328": "EV02_0328",
+    "gene-EV02_0328": "EV02_RS09170",
     "gene-EV02_0329": "EV02_0329",
     "gene-EV02_0330": "EV02_0330",
     "gene-EV02_0331": "EV02_0331",
@@ -183855,7 +184038,7 @@
     "gene-EV02_0372": "EV02_0372",
     "gene-EV02_0373": "EV02_0373",
     "gene-EV02_0374": "EV02_0374",
-    "gene-EV02_0375": "EV02_0375",
+    "gene-EV02_0375": "EV02_RS0108595",
     "gene-EV02_0377": "EV02_0377",
     "gene-EV02_0378": "EV02_0378",
     "gene-EV02_0379": "EV02_0379",
@@ -183871,7 +184054,7 @@
     "gene-EV02_0389": "EV02_0389",
     "gene-EV02_0390": "EV02_0390",
     "gene-EV02_0391": "EV02_0391",
-    "gene-EV02_0392": "EV02_0392",
+    "gene-EV02_0392": "EV02_RS0108610",
     "gene-EV02_0393": "EV02_0393",
     "gene-EV02_0394": "EV02_0394",
     "gene-EV02_0395": "EV02_0395",
@@ -184097,7 +184280,7 @@
     "gene-EV02_0624": "EV02_0624",
     "gene-EV02_0625": "EV02_0625",
     "gene-EV02_0626": "EV02_0626",
-    "gene-EV02_0627": "EV02_0627",
+    "gene-EV02_0627": "EV02_RS0108685",
     "gene-EV02_0628": "EV02_0628",
     "gene-EV02_0629": "EV02_0629",
     "gene-EV02_0630": "EV02_0630",
@@ -184126,7 +184309,7 @@
     "gene-EV02_0653": "EV02_0653",
     "gene-EV02_0654": "EV02_0654",
     "gene-EV02_0655": "EV02_0655",
-    "gene-EV02_0656": "EV02_0656",
+    "gene-EV02_0656": "EV02_RS09740",
     "gene-EV02_0657": "EV02_0657",
     "gene-EV02_0658": "EV02_0658",
     "gene-EV02_0659": "EV02_0659",
@@ -184149,7 +184332,7 @@
     "gene-EV02_0676": "EV02_0676",
     "gene-EV02_0677": "EV02_0677",
     "gene-EV02_0678": "EV02_0678",
-    "gene-EV02_0679": "EV02_0679",
+    "gene-EV02_0679": "EV02_RS09745",
     "gene-EV02_0680": "EV02_0680",
     "gene-EV02_0681": "EV02_0681",
     "gene-EV02_0682": "EV02_0682",
@@ -184314,7 +184497,7 @@
     "gene-EV02_0841": "EV02_0841",
     "gene-EV02_0842": "EV02_0842",
     "gene-EV02_0843": "EV02_0843",
-    "gene-EV02_0844": "EV02_0844",
+    "gene-EV02_0844": "EV02_RS0108730",
     "gene-EV02_0845": "EV02_0845",
     "gene-EV02_0846": "EV02_0846",
     "gene-EV02_0847": "EV02_0847",
@@ -184342,7 +184525,7 @@
     "gene-EV02_0869": "EV02_0869",
     "gene-EV02_0870": "EV02_0870",
     "gene-EV02_0871": "EV02_0871",
-    "gene-EV02_0872": "EV02_0872",
+    "gene-EV02_0872": "EV02_RS0108755",
     "gene-EV02_0873": "EV02_0873",
     "gene-EV02_0874": "EV02_0874",
     "gene-EV02_0875": "EV02_0875",
@@ -184655,7 +184838,7 @@
     "gene-EV02_1187": "EV02_1187",
     "gene-EV02_1188": "EV02_1188",
     "gene-EV02_1189": "EV02_1189",
-    "gene-EV02_1190": "EV02_1190",
+    "gene-EV02_1190": "EV02_RS0108825",
     "gene-EV02_1191": "EV02_1191",
     "gene-EV02_1192": "EV02_1192",
     "gene-EV02_1193": "EV02_1193",
@@ -184779,7 +184962,7 @@
     "gene-EV02_1312": "EV02_1312",
     "gene-EV02_1313": "EV02_1313",
     "gene-EV02_1314": "EV02_1314",
-    "gene-EV02_1315": "EV02_1315",
+    "gene-EV02_1315": "EV02_RS09770",
     "gene-EV02_1316": "EV02_1316",
     "gene-EV02_1317": "EV02_1317",
     "gene-EV02_1318": "EV02_1318",
@@ -184926,7 +185109,7 @@
     "gene-EV02_1460": "EV02_1460",
     "gene-EV02_1461": "EV02_1461",
     "gene-EV02_1462": "EV02_1462",
-    "gene-EV02_1463": "EV02_1463",
+    "gene-EV02_1463": "EV02_RS0108875",
     "gene-EV02_1464": "EV02_1464",
     "gene-EV02_1465": "EV02_1465",
     "gene-EV02_1466": "EV02_1466",
@@ -185024,7 +185207,7 @@
     "gene-EV02_1559": "EV02_1559",
     "gene-EV02_1560": "EV02_1560",
     "gene-EV02_1561": "EV02_1561",
-    "gene-EV02_1562": "EV02_1562",
+    "gene-EV02_1562": "EV02_RS0108880",
     "gene-EV02_1564": "EV02_1564",
     "gene-EV02_1565": "EV02_1565",
     "gene-EV02_1566": "EV02_1566",
@@ -185182,7 +185365,7 @@
     "gene-EV02_1720": "EV02_1720",
     "gene-EV02_1721": "EV02_1721",
     "gene-EV02_1722": "EV02_1722",
-    "gene-EV02_1723": "EV02_1723",
+    "gene-EV02_1723": "EV02_RS0108935",
     "gene-EV02_1724": "EV02_1724",
     "gene-EV02_1725": "EV02_1725",
     "gene-EV02_1726": "EV02_1726",
@@ -185227,7 +185410,7 @@
     "gene-EV02_1766": "EV02_1766",
     "gene-EV02_1767": "EV02_1767",
     "gene-EV02_1768": "EV02_1768",
-    "gene-EV02_1769": "EV02_1769",
+    "gene-EV02_1769": "EV02_RS0108960",
     "gene-EV02_1770": "EV02_1770",
     "gene-EV02_1771": "EV02_1771",
     "gene-EV02_1772": "EV02_1772",
@@ -185339,7 +185522,7 @@
     "gene-EV02_1878": "EV02_1878",
     "gene-EV02_1879": "EV02_1879",
     "gene-EV02_1880": "EV02_1880",
-    "gene-EV02_1881": "EV02_1881",
+    "gene-EV02_1881": "EV02_RS0109015",
     "gene-EV02_1882": "EV02_1882",
     "gene-EV02_1883": "EV02_1883",
     "gene-EV02_1884": "EV02_1884",
@@ -189077,9 +189260,9 @@
   },
   "stats": {
     "n_conflicts": 0,
-    "n_genes": 1977,
-    "n_multi": 9613,
-    "n_specific": 11229,
+    "n_genes": 1950,
+    "n_multi": 9640,
+    "n_specific": 11256,
     "passes": 2
   },
   "strain": "SB",

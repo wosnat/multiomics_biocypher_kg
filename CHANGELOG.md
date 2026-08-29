@@ -656,6 +656,21 @@ tag with nothing logged.
 
 ### Fixed
 
+- **Gene-ID mapping: NCBI↔Cyanorak position fallback now pairs by stop codon and reading
+  frame, per contig** (`_position_fallback_merge`, step 0). The old overlap ≥ 0.9 / start ≤ 50 bp /
+  end ≤ 3 bp gates were strand-blind and start-codon-hostile, so one gene whose start PGAP and
+  Cyanorak call differently stayed two rows — MIT9313's `PMT0040` (Cyanorak) vs `PMT_0040`
+  (NCBI) "two locus-tag families" (49 of its 62 Tier-1 conflicts, `P9313_xxxxx → [PMT_nnnn,
+  PMTnnnn]`) — and, ignoring contigs, merged 2 wrong pairs on the draft genomes PAC1/SB. Now 923
+  merges over 21 Cyanorak strains (was 500), each translation-verified against the
+  NCBI protein (0 false); `gene_mapping.csv` −423 duplicate rows (MIT9313 −42, PAC1 −53,
+  WH8102 −51). MIT9313 Tier-1 conflicts 62 → 33 (the rest are the stale `MIT9313_genbank.tsv`
+  `PMTid` rows, see backlog). Step 4 re-resolution: 359 supp-table rows across 27 papers moved
+  from a coordinate-less Cyanorak-only shadow gene onto the NCBI-backed gene (Aharonovich 2016
+  MIT9313 80, tolonen 2006 47, Doron 2016 59, Hackl 2023 72); 0 rows lost, 0 gained.
+  `docs/methods_position_fallback_merge.md` rewritten. Needs a Docker rebuild to reach the graph
+  (−423 Gene nodes; snapshot refresh expected).
+
 - **Gene-ID mapping: GFF `Name=` symbols are no longer Tier-1 locus tags** (`_gff_name_type`).
   A shared gene symbol had been declared gene-unique, merging KT2440's 12 `tnpB` IS copies into
   one gene (40 Tier-1 ids) and MED4's 5S rRNA `rrf` (RNA_41) into `frr`. `Name == gene` → Tier 3,

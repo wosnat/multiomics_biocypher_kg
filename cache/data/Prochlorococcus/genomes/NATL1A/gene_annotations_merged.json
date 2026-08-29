@@ -60079,76 +60079,6 @@
       "Transcription / Transcription factors"
     ]
   },
-  "NATL1_02821": {
-    "all_identifiers": [
-      "CK_Pro_NATL1A_02821"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] Preprotein translocase SecE subunit",
-      "[tigr_role] Protein fate / Protein and peptide secretion and trafficking",
-      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [U] Intracellular trafficking, secretion, and vesicular transport",
-      "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [U] Intracellular trafficking, secretion, and vesicular transport",
-      "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [U] Intracellular trafficking, secretion, and vesicular transport",
-      "[pfam] SecE: SecE/Sec61-gamma subunits of protein translocation complex"
-    ],
-    "bacteria_cog_og": "COG0690",
-    "cluster_number": "CK_00000424",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: CELLULAR PROCESSES AND SIGNALING [U] Intracellular trafficking, secretion, and vesicular transport",
-      "bactNOG: CELLULAR PROCESSES AND SIGNALING [U] Intracellular trafficking, secretion, and vesicular transport",
-      "cyaNOG: CELLULAR PROCESSES AND SIGNALING [U] Intracellular trafficking, secretion, and vesicular transport"
-    ],
-    "eggnog_ogs": [
-      "COG0690",
-      "bactNOG73179",
-      "bactNOG75001",
-      "bactNOG50168",
-      "cyaNOG07947",
-      "cyaNOG04399",
-      "cyaNOG08348"
-    ],
-    "end_cyanorak": 260236,
-    "gene_category": "Post-translational modification",
-    "gene_name": "secE",
-    "gene_name_source": "cyanorak",
-    "gene_summary": "secE :: Preprotein translocase SecE subunit",
-    "locus_tag": "NATL1_02821",
-    "locus_tag_cyanorak": "CK_Pro_NATL1A_02821",
-    "organism_name": "Prochlorococcus NATL1A",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00000424",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF00584"
-    ],
-    "pfam_ids_source": {
-      "PF00584": [
-        "cyanorak"
-      ]
-    },
-    "product": "Preprotein translocase SecE subunit",
-    "product_cyanorak": "Preprotein translocase SecE subunit",
-    "product_source": "cyanorak",
-    "start_cyanorak": 260096,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "97"
-    ],
-    "tIGR_Role_description": [
-      "Protein fate / Protein and peptide secretion and trafficking"
-    ]
-  },
   "NATL1_02831": {
     "all_identifiers": [
       "A2C037",
@@ -73072,76 +73002,6 @@
     "tIGR_Role_description": [
       "Purines, pyrimidines, nucleosides, and nucleotides / Purine ribonucleotide biosynthesis",
       "Amino acid biosynthesis / Serine family"
-    ]
-  },
-  "NATL1_03371": {
-    "all_identifiers": [
-      "CK_Pro_NATL1A_03371"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein",
-      "[tigr_role] Hypothetical proteins / Conserved",
-      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] COG: METABOLISM [C] Energy production and conversion",
-      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
-      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[pfam] DUF3181: Protein of unknown function (DUF3181)"
-    ],
-    "bacteria_cog_og": "COG1620",
-    "cluster_number": "CK_00000457",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: POORLY CHARACTERIZED [S] Function unknown",
-      "COG: METABOLISM [C] Energy production and conversion",
-      "COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
-      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "eggnog_ogs": [
-      "NOG15453",
-      "COG1620",
-      "COG0443",
-      "bactNOG41059",
-      "cyaNOG04057"
-    ],
-    "end_cyanorak": 312408,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "NATL1_03371",
-    "locus_tag_cyanorak": "CK_Pro_NATL1A_03371",
-    "organism_name": "Prochlorococcus NATL1A",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00000457",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF11378"
-    ],
-    "pfam_ids_source": {
-      "PF11378": [
-        "cyanorak"
-      ]
-    },
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 311929,
-    "strand_cyanorak": "+",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
     ]
   },
   "NATL1_03381": {
@@ -93407,39 +93267,6 @@
     "transporter_classification": [
       "9.B.27"
     ]
-  },
-  "NATL1_04271": {
-    "all_identifiers": [
-      "CK_Pro_NATL1A_04271"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] Hypothetical protein"
-    ],
-    "cluster_number": "CK_00045973",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 397767,
-    "gene_category": "Unknown",
-    "gene_summary": "Hypothetical protein",
-    "locus_tag": "NATL1_04271",
-    "locus_tag_cyanorak": "CK_Pro_NATL1A_04271",
-    "organism_name": "Prochlorococcus NATL1A",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00045973",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "Hypothetical protein",
-    "product_cyanorak": "Hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 397561,
-    "strand_cyanorak": "-"
   },
   "NATL1_04281": {
     "all_identifiers": [
@@ -181114,39 +180941,6 @@
     ],
     "uniprot_accession": "A2C1M6"
   },
-  "NATL1_08291": {
-    "all_identifiers": [
-      "CK_Pro_NATL1A_08291"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00042840",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 762674,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "NATL1_08291",
-    "locus_tag_cyanorak": "CK_Pro_NATL1A_08291",
-    "organism_name": "Prochlorococcus NATL1A",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00042840",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 762561,
-    "strand_cyanorak": "-"
-  },
   "NATL1_08301": {
     "all_identifiers": [
       "A2C1M8",
@@ -239977,75 +239771,6 @@
     "product_source": "cyanorak",
     "start_cyanorak": 1020320,
     "strand_cyanorak": "+"
-  },
-  "NATL1_11391": {
-    "all_identifiers": [
-      "CK_Pro_NATL1A_11391"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] high light inducible protein",
-      "[cyanorak_role] Light",
-      "[cyanorak_role] Photosynthesis and respiration",
-      "[tigr_role] Cellular processes / Adaptations to atypical conditions"
-    ],
-    "cluster_number": "CK_00057173",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "D.1.2",
-      "J"
-    ],
-    "cyanorak_Role_description": [
-      "Light",
-      "Photosynthesis and respiration"
-    ],
-    "end_cyanorak": 1020910,
-    "gene_category": "Stress response and adaptation",
-    "gene_name": "hli",
-    "gene_name_source": "cyanorak",
-    "gene_summary": "hli :: high light inducible protein",
-    "go_term_descriptions": [
-      "response to high light intensity",
-      "response to high light intensity",
-      "membrane"
-    ],
-    "go_terms": [
-      "GO:0009644",
-      "GO:0016020"
-    ],
-    "go_terms_source": {
-      "GO:0009644": [
-        "cyanorak"
-      ],
-      "GO:0016020": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "NATL1_11391",
-    "locus_tag_cyanorak": "CK_Pro_NATL1A_11391",
-    "organism_name": "Prochlorococcus NATL1A",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00057173",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "high light inducible protein",
-    "product_cyanorak": "high light inducible protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1020614,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "149"
-    ],
-    "tIGR_Role_description": [
-      "Cellular processes / Adaptations to atypical conditions"
-    ]
   },
   "NATL1_11411": {
     "all_identifiers": [
@@ -442415,22 +442140,35 @@
   },
   "NATL1_RS01315": {
     "all_identifiers": [
+      "CK_Pro_NATL1A_02821",
+      "NATL1_02821",
       "WP_011294206.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] Preprotein translocase SecE subunit",
       "[ncbi] preprotein translocase subunit SecE",
       "[eggnog] Essential subunit of the Sec protein translocation channel SecYEG. Clamps together the 2 halves of SecY. May contact the channel plug during translocation",
+      "[tigr_role] Protein fate / Protein and peptide secretion and trafficking",
+      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [U] Intracellular trafficking, secretion, and vesicular transport",
+      "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [U] Intracellular trafficking, secretion, and vesicular transport",
+      "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [U] Intracellular trafficking, secretion, and vesicular transport",
       "[interpro] Protein translocase complex, SecE/Sec61-gamma subunit",
       "[interpro] SecE subunit of protein translocation complex, bacterial-like",
       "[hamap] Protein translocase subunit SecE [secE].",
+      "[ncbifam] preprotein translocase subunit SecE",
       "[pfam] SecE: SecE/Sec61-gamma subunits of protein translocation complex"
     ],
+    "alternative_locus_tags": [
+      "NATL1_02821"
+    ],
     "bacteria_cog_og": "COG0690",
+    "cluster_number": "CK_00000424",
     "cog_category": [
       "U"
     ],
     "contig": "NC_008819.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
@@ -442438,19 +442176,35 @@
       "signalp",
       "tcdb_diamond"
     ],
+    "eggnog_og_descriptions": [
+      "COG: CELLULAR PROCESSES AND SIGNALING [U] Intracellular trafficking, secretion, and vesicular transport",
+      "bactNOG: CELLULAR PROCESSES AND SIGNALING [U] Intracellular trafficking, secretion, and vesicular transport",
+      "cyaNOG: CELLULAR PROCESSES AND SIGNALING [U] Intracellular trafficking, secretion, and vesicular transport"
+    ],
     "eggnog_ogs": [
+      "COG0690",
+      "bactNOG73179",
+      "bactNOG75001",
+      "bactNOG50168",
+      "cyaNOG07947",
+      "cyaNOG04399",
+      "cyaNOG08348",
       "COG0690@1|root",
       "COG0690@2|Bacteria",
       "1GFPW@1117|Cyanobacteria",
       "1MMZH@1212|Prochloraceae"
     ],
     "end": 260338,
+    "end_cyanorak": 260236,
     "function_description": "Essential subunit of the Sec protein translocation channel SecYEG. Clamps together the 2 halves of SecY. May contact the channel plug during translocation",
     "function_description_source": "eggnog",
-    "gene_category": "Intracellular trafficking",
+    "gene_category": "Post-translational modification",
     "gene_name": "secE",
-    "gene_name_source": "ncbi",
-    "gene_summary": "secE :: preprotein translocase subunit SecE :: Essential subunit of the Sec protein translocation channel SecYEG. Clamps together the 2 halves of SecY. May contact the channel plug during translocation",
+    "gene_name_source": "cyanorak",
+    "gene_summary": "secE :: Preprotein translocase SecE subunit :: Essential subunit of the Sec protein translocation channel SecYEG. Clamps together the 2 halves of SecY. May contact the channel plug during translocation",
+    "gene_synonyms": [
+      "NATL1_02821"
+    ],
     "go_terms": [
       "GO:0005886",
       "GO:0015450",
@@ -442518,6 +442272,7 @@
       "ko03070"
     ],
     "locus_tag": "NATL1_RS01315",
+    "locus_tag_cyanorak": "CK_Pro_NATL1A_02821",
     "locus_tag_ncbi": "NATL1_RS01315",
     "max_annot_lvl": "1117|Cyanobacteria",
     "ncbifam_ids": [
@@ -442528,8 +442283,18 @@
         "interproscan"
       ]
     },
+    "old_locus_tags": [
+      "NATL1_02821"
+    ],
     "organism_name": "Prochlorococcus NATL1A",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00000424",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG0690@2",
         "source": "eggnog",
@@ -442556,16 +442321,18 @@
       "PF00584"
     ],
     "pfam_ids_evidence": {
-      "PF00584": "signature"
+      "PF00584": "curated"
     },
     "pfam_ids_source": {
       "PF00584": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
-    "product": "preprotein translocase subunit SecE",
-    "product_source": "ncbi",
+    "product": "Preprotein translocase SecE subunit",
+    "product_cyanorak": "Preprotein translocase SecE subunit",
+    "product_source": "cyanorak",
     "protein_id": "WP_011294206.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.86,
@@ -442574,7 +442341,15 @@
     "signalp_probability": 0.99995,
     "signalp_type": "OTHER",
     "start": 260096,
+    "start_cyanorak": 260096,
     "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "97"
+    ],
+    "tIGR_Role_description": [
+      "Protein fate / Protein and peptide secretion and trafficking"
+    ],
     "tcdb_diamond_ids": [
       "3.A.5.4"
     ],
@@ -442590,47 +442365,85 @@
   },
   "NATL1_RS01580": {
     "all_identifiers": [
+      "CK_Pro_NATL1A_03371",
+      "NATL1_03371",
       "WP_011294258.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] DUF3181 family protein",
+      "[tigr_role] Hypothetical proteins / Conserved",
+      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] COG: METABOLISM [C] Energy production and conversion",
+      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
+      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Protein of unknown function DUF3181",
       "[pfam] DUF3181: Protein of unknown function (DUF3181)"
     ],
     "alternative_locus_tags": [
-      "NATL1_RS01580"
+      "NATL1_RS01580",
+      "NATL1_03371"
     ],
+    "bacteria_cog_og": "COG1620",
+    "cluster_number": "CK_00000457",
     "cog_category": [
       "S"
     ],
     "contig": "NC_008819.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "eggnog_og_descriptions": [
+      "COG: POORLY CHARACTERIZED [S] Function unknown",
+      "COG: METABOLISM [C] Energy production and conversion",
+      "COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
+      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+    ],
     "eggnog_ogs": [
+      "NOG15453",
+      "COG1620",
+      "COG0443",
+      "bactNOG41059",
+      "cyaNOG04057",
       "2A2SP@1|root",
       "30R61@2|Bacteria",
       "1GMK6@1117|Cyanobacteria",
       "1MMQN@1212|Prochloraceae"
     ],
     "end": 312408,
+    "end_cyanorak": 312408,
     "gene_category": "Unknown",
-    "gene_summary": "DUF3181 family protein",
+    "gene_summary": "conserved hypothetical protein",
     "gene_synonyms": [
-      "NATL1_RS01580"
+      "NATL1_RS01580",
+      "NATL1_03371"
     ],
     "interpro_entries": [
       "IPR021518"
     ],
     "locus_tag": "NATL1_RS01580",
+    "locus_tag_cyanorak": "CK_Pro_NATL1A_03371",
     "locus_tag_ncbi": "NATL1_RS01580",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "NATL1_03371"
+    ],
     "organism_name": "Prochlorococcus NATL1A",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00000457",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:30R61@2",
         "source": "eggnog",
@@ -442657,16 +442470,18 @@
       "PF11378"
     ],
     "pfam_ids_evidence": {
-      "PF11378": "signature"
+      "PF11378": "curated"
     },
     "pfam_ids_source": {
       "PF11378": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
-    "product": "DUF3181 family protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_011294258.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -442675,7 +442490,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 312112,
-    "strand": "+"
+    "start_cyanorak": 311929,
+    "strand": "+",
+    "strand_cyanorak": "+",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "NATL1_RS02050": {
     "all_identifiers": [
@@ -443921,19 +443744,25 @@
   },
   "NATL1_RS10595": {
     "all_identifiers": [
+      "CK_Pro_NATL1A_04271",
+      "NATL1_04271",
       "WP_071813344.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] Hypothetical protein",
       "[ncbi] hypothetical protein"
     ],
     "alternative_locus_tags": [
-      "NATL1_RS10595"
+      "NATL1_RS10595",
+      "NATL1_04271"
     ],
+    "cluster_number": "CK_00045973",
     "cog_category": [
       "S"
     ],
     "contig": "NC_008819.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -443946,16 +443775,29 @@
       "1MNA4@1212|Prochloraceae"
     ],
     "end": 397893,
+    "end_cyanorak": 397767,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein",
+    "gene_summary": "Hypothetical protein",
     "gene_synonyms": [
-      "NATL1_RS10595"
+      "NATL1_RS10595",
+      "NATL1_04271"
     ],
     "locus_tag": "NATL1_RS10595",
+    "locus_tag_cyanorak": "CK_Pro_NATL1A_04271",
     "locus_tag_ncbi": "NATL1_RS10595",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "NATL1_04271"
+    ],
     "organism_name": "Prochlorococcus NATL1A",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00045973",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:32BC2@2",
         "source": "eggnog",
@@ -443978,8 +443820,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "Hypothetical protein",
+    "product_cyanorak": "Hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_071813344.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -443988,7 +443831,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 397561,
-    "strand": "-"
+    "start_cyanorak": 397561,
+    "strand": "-",
+    "strand_cyanorak": "-"
   },
   "NATL1_RS10685": {
     "all_identifiers": [
@@ -444061,23 +443906,40 @@
   },
   "NATL1_RS10715": {
     "all_identifiers": [
+      "CK_Pro_NATL1A_11391",
+      "NATL1_11391",
       "WP_187152595.1"
     ],
     "alternate_functional_descriptions": [
-      "[ncbi] high light inducible protein"
+      "[cyanorak] high light inducible protein",
+      "[ncbi] high light inducible protein",
+      "[cyanorak_role] Light",
+      "[cyanorak_role] Photosynthesis and respiration",
+      "[tigr_role] Cellular processes / Adaptations to atypical conditions"
     ],
     "alternative_locus_tags": [
-      "NATL1_RS10715"
+      "NATL1_RS10715",
+      "NATL1_11391"
     ],
+    "cluster_number": "CK_00057173",
     "cog_category": [
       "S"
     ],
     "contig": "NC_008819.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
       "signalp"
+    ],
+    "cyanorak_Role": [
+      "D.1.2",
+      "J"
+    ],
+    "cyanorak_Role_description": [
+      "Light",
+      "Photosynthesis and respiration"
     ],
     "eggnog_ogs": [
       "2B88B@1|root",
@@ -444086,16 +443948,48 @@
       "1MMMY@1212|Prochloraceae"
     ],
     "end": 1020769,
-    "gene_category": "Unknown",
-    "gene_summary": "high light inducible protein",
+    "end_cyanorak": 1020910,
+    "gene_category": "Stress response and adaptation",
+    "gene_name": "hli",
+    "gene_name_source": "cyanorak",
+    "gene_summary": "hli :: high light inducible protein",
     "gene_synonyms": [
-      "NATL1_RS10715"
+      "NATL1_RS10715",
+      "NATL1_11391"
     ],
+    "go_term_descriptions": [
+      "response to high light intensity",
+      "response to high light intensity",
+      "membrane"
+    ],
+    "go_terms": [
+      "GO:0009644",
+      "GO:0016020"
+    ],
+    "go_terms_source": {
+      "GO:0009644": [
+        "cyanorak"
+      ],
+      "GO:0016020": [
+        "cyanorak"
+      ]
+    },
     "locus_tag": "NATL1_RS10715",
+    "locus_tag_cyanorak": "CK_Pro_NATL1A_11391",
     "locus_tag_ncbi": "NATL1_RS10715",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "NATL1_11391"
+    ],
     "organism_name": "Prochlorococcus NATL1A",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00057173",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:321GY@2",
         "source": "eggnog",
@@ -444119,7 +444013,8 @@
       }
     ],
     "product": "high light inducible protein",
-    "product_source": "ncbi",
+    "product_cyanorak": "high light inducible protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_187152595.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -444128,7 +444023,15 @@
     "signalp_probability": 0.999964,
     "signalp_type": "OTHER",
     "start": 1020614,
-    "strand": "-"
+    "start_cyanorak": 1020614,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "149"
+    ],
+    "tIGR_Role_description": [
+      "Cellular processes / Adaptations to atypical conditions"
+    ]
   },
   "NATL1_RS10755": {
     "all_identifiers": [
@@ -444521,25 +444424,32 @@
   },
   "NATL1_RS11135": {
     "all_identifiers": [
+      "CK_Pro_NATL1A_08291",
+      "NATL1_08291",
       "WP_071813347.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] YqeG family HAD IIIA-type phosphatase",
       "[interpro] HAD-superfamily hydrolase,subfamily IIIA",
       "[interpro] Phosphatidylglycerophosphate phosphatase",
       "[ncbifam] HAD-IIIA family hydrolase",
+      "[ncbifam] YqeG family HAD IIIA-type phosphatase",
       "[pfam] Hydrolase_like: HAD-hyrolase-like",
       "[pfam] PGP_phosphatase: Mitochondrial PGP phosphatase"
     ],
     "alternative_locus_tags": [
-      "NATL1_RS11135"
+      "NATL1_RS11135",
+      "NATL1_08291"
     ],
     "bacteria_cog_og": "COG2179",
+    "cluster_number": "CK_00042840",
     "cog_category": [
       "S"
     ],
     "contig": "NC_008819.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
@@ -444564,10 +444474,12 @@
       "1MMQD@1212|Prochloraceae"
     ],
     "end": 763082,
+    "end_cyanorak": 762674,
     "gene_category": "Unknown",
-    "gene_summary": "YqeG family HAD IIIA-type phosphatase",
+    "gene_summary": "conserved hypothetical protein",
     "gene_synonyms": [
-      "NATL1_RS11135"
+      "NATL1_RS11135",
+      "NATL1_08291"
     ],
     "go_terms": [
       "GO:0008962"
@@ -444594,6 +444506,7 @@
       "K07015"
     ],
     "locus_tag": "NATL1_RS11135",
+    "locus_tag_cyanorak": "CK_Pro_NATL1A_08291",
     "locus_tag_ncbi": "NATL1_RS11135",
     "max_annot_lvl": "1117|Cyanobacteria",
     "ncbifam_ids": [
@@ -444608,8 +444521,18 @@
         "interproscan"
       ]
     },
+    "old_locus_tags": [
+      "NATL1_08291"
+    ],
     "organism_name": "Prochlorococcus NATL1A",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00042840",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG2179@2",
         "source": "eggnog",
@@ -444648,8 +444571,9 @@
         "interproscan"
       ]
     },
-    "product": "YqeG family HAD IIIA-type phosphatase",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_071813347.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -444658,7 +444582,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 762561,
-    "strand": "-"
+    "start_cyanorak": 762561,
+    "strand": "-",
+    "strand_cyanorak": "-"
   },
   "NATL1_RS11140": {
     "all_identifiers": [

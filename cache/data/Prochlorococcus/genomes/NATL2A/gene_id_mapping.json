@@ -16283,60 +16283,6 @@
         }
       ]
     },
-    "PMN2A_0197": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_NATL2A_00197",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-PMN2A_0197",
-          "sources": [
-            "genomic_gca/NATL2A"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "NATL2_08101",
-          "sources": [
-            "genomic_gca/NATL2A"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
-          "id": "PMN2A_RS10075",
-          "sources": [
-            "Coe 2024/supp_table_2"
-          ],
-          "type": "locus_tag_ncbi"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "AAZ57689.1",
-          "sources": [
-            "genomic_gca/NATL2A"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
-          "id": "WP_071813622.1",
-          "sources": [
-            "Tetu 2019/supp_dataset_4_natl2a"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "cds-WP_071813622.1",
-          "type": "annotation_specific"
-        }
-      ]
-    },
     "PMN2A_0198": {
       "tier1_ids": [
         {
@@ -35589,64 +35535,6 @@
         },
         {
           "id": "cds-WP_011294531.1",
-          "type": "annotation_specific"
-        }
-      ]
-    },
-    "PMN2A_0433": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_NATL2A_00433",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-PMN2A_0433",
-          "sources": [
-            "genomic_gca/NATL2A"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "NATL2_10841",
-          "sources": [
-            "genomic_gca/NATL2A"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
-          "id": "PMN2A_RS05170",
-          "sources": [
-            "Coe 2024/supp_table_2"
-          ],
-          "type": "locus_tag_ncbi"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "AAZ57925.1",
-          "sources": [
-            "genomic_gca/NATL2A"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
-          "id": "WP_011294532.1",
-          "sources": [
-            "Tetu 2019/supp_dataset_4_natl2a"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "hli",
-          "type": "gene_name"
-        },
-        {
-          "id": "cds-WP_011294532.1",
           "type": "annotation_specific"
         }
       ]
@@ -64126,53 +64014,6 @@
         },
         {
           "id": "cds-WP_011294868.1",
-          "type": "annotation_specific"
-        }
-      ]
-    },
-    "PMN2A_0781": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_NATL2A_00781",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-PMN2A_0781",
-          "sources": [
-            "genomic_gca/NATL2A"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "NATL2_15621",
-          "sources": [
-            "genomic_gca/NATL2A"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
-          "id": "PMN2A_RS07080",
-          "sources": [
-            "Biller 2018/supp_table_s3"
-          ],
-          "type": "locus_tag_ncbi"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "AAZ58272.1",
-          "sources": [
-            "genomic_gca/NATL2A"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "cds-WP_011294869.1",
           "type": "annotation_specific"
         }
       ]
@@ -115112,53 +114953,6 @@
         },
         {
           "id": "fig|1218.94.peg.92",
-          "type": "annotation_specific"
-        }
-      ]
-    },
-    "PMN2A_1406": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_NATL2A_01406",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-PMN2A_1406",
-          "sources": [
-            "genomic_gca/NATL2A"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "NATL2_00851",
-          "sources": [
-            "genomic_gca/NATL2A"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
-          "id": "PMN2A_RS00415",
-          "sources": [
-            "Biller 2016/supp_table_2"
-          ],
-          "type": "locus_tag_ncbi"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "AAZ58894.1",
-          "sources": [
-            "genomic_gca/NATL2A"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "cds-WP_011822907.1",
           "type": "annotation_specific"
         }
       ]
@@ -173515,6 +173309,20 @@
     "PMN2A_RS10380": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_NATL2A_01406",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "PMN2A_1406",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_007335.2_cds_WP_187146452.1_87",
           "sources": [
             "cds_from_genomic.fna"
@@ -173522,11 +173330,32 @@
           "type": "cds_fna_id"
         },
         {
+          "id": "gene-PMN2A_1406",
+          "sources": [
+            "genomic_gca/NATL2A"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "NATL2_00851",
+          "sources": [
+            "genomic_gca/NATL2A"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
           "id": "gene-PMN2A_RS10380",
           "sources": [
             "genomic_gcf/NATL2A"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "PMN2A_RS00415",
+          "sources": [
+            "Biller 2016/supp_table_2"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
       "tier2_ids": [
@@ -173536,12 +173365,27 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "AAZ58894.1",
+          "sources": [
+            "genomic_gca/NATL2A"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "PMN2A_RS10380",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMN2A_1406",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "cds-WP_011822907.1",
+          "type": "annotation_specific"
         }
       ]
     },
@@ -173713,6 +173557,20 @@
     "PMN2A_RS10545": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_NATL2A_00433",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "PMN2A_0433",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_007335.2_cds_WP_187146463.1_1056",
           "sources": [
             "cds_from_genomic.fna"
@@ -173720,11 +173578,32 @@
           "type": "cds_fna_id"
         },
         {
+          "id": "gene-PMN2A_0433",
+          "sources": [
+            "genomic_gca/NATL2A"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "NATL2_10841",
+          "sources": [
+            "genomic_gca/NATL2A"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
           "id": "gene-PMN2A_RS10545",
           "sources": [
             "genomic_gcf/NATL2A"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "PMN2A_RS05170",
+          "sources": [
+            "Coe 2024/supp_table_2"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
       "tier2_ids": [
@@ -173734,12 +173613,38 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "AAZ57925.1",
+          "sources": [
+            "genomic_gca/NATL2A"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "WP_011294532.1",
+          "sources": [
+            "Tetu 2019/supp_dataset_4_natl2a"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
+          "id": "hli",
+          "type": "gene_name"
+        },
+        {
           "id": "PMN2A_RS10545",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMN2A_0433",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "cds-WP_011294532.1",
+          "type": "annotation_specific"
         }
       ]
     },
@@ -174212,6 +174117,20 @@
     "PMN2A_RS10940": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_NATL2A_00781",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "PMN2A_0781",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_007335.2_cds_WP_225866301.1_1485",
           "sources": [
             "cds_from_genomic.fna"
@@ -174219,11 +174138,32 @@
           "type": "cds_fna_id"
         },
         {
+          "id": "gene-PMN2A_0781",
+          "sources": [
+            "genomic_gca/NATL2A"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "NATL2_15621",
+          "sources": [
+            "genomic_gca/NATL2A"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
           "id": "gene-PMN2A_RS10940",
           "sources": [
             "genomic_gcf/NATL2A"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "PMN2A_RS07080",
+          "sources": [
+            "Biller 2018/supp_table_s3"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
       "tier2_ids": [
@@ -174233,12 +174173,27 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "AAZ58272.1",
+          "sources": [
+            "genomic_gca/NATL2A"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "PMN2A_RS10940",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMN2A_0781",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "cds-WP_011294869.1",
+          "type": "annotation_specific"
         }
       ]
     },
@@ -174410,6 +174365,20 @@
     "PMN2A_RS11085": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_NATL2A_00197",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "PMN2A_0197",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_007335.2_cds_WP_071813622.1_793",
           "sources": [
             "cds_from_genomic.fna"
@@ -174417,11 +174386,32 @@
           "type": "cds_fna_id"
         },
         {
+          "id": "gene-PMN2A_0197",
+          "sources": [
+            "genomic_gca/NATL2A"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "NATL2_08101",
+          "sources": [
+            "genomic_gca/NATL2A"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
           "id": "gene-PMN2A_RS11085",
           "sources": [
             "genomic_gcf/NATL2A"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "PMN2A_RS10075",
+          "sources": [
+            "Coe 2024/supp_table_2"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
       "tier2_ids": [
@@ -174431,12 +174421,27 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "AAZ57689.1",
+          "sources": [
+            "genomic_gca/NATL2A"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "PMN2A_RS11085",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMN2A_0197",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "cds-WP_071813622.1",
+          "type": "annotation_specific"
         }
       ]
     },
@@ -175447,7 +175452,7 @@
       "PMN2A_0196"
     ],
     "AAZ57689.1": [
-      "PMN2A_0197"
+      "PMN2A_RS11085"
     ],
     "AAZ57690.1": [
       "PMN2A_0198"
@@ -176155,7 +176160,7 @@
       "PMN2A_0432"
     ],
     "AAZ57925.1": [
-      "PMN2A_0433"
+      "PMN2A_RS10545"
     ],
     "AAZ57926.1": [
       "PMN2A_0434"
@@ -177196,7 +177201,7 @@
       "PMN2A_0780"
     ],
     "AAZ58272.1": [
-      "PMN2A_0781"
+      "PMN2A_RS10940"
     ],
     "AAZ58273.1": [
       "PMN2A_0782"
@@ -179062,7 +179067,7 @@
       "PMN2A_1405"
     ],
     "AAZ58894.1": [
-      "PMN2A_1406"
+      "PMN2A_RS10380"
     ],
     "AAZ58895.1": [
       "PMN2A_1407"
@@ -181953,6 +181958,9 @@
     "PMN2A_0196": [
       "PMN2A_0196"
     ],
+    "PMN2A_0197": [
+      "PMN2A_RS11085"
+    ],
     "PMN2A_0198": [
       "PMN2A_0198"
     ],
@@ -182638,6 +182646,9 @@
     ],
     "PMN2A_0432": [
       "PMN2A_0432"
+    ],
+    "PMN2A_0433": [
+      "PMN2A_RS10545"
     ],
     "PMN2A_0434": [
       "PMN2A_0434"
@@ -183663,6 +183674,9 @@
     ],
     "PMN2A_0780": [
       "PMN2A_0780"
+    ],
+    "PMN2A_0781": [
+      "PMN2A_RS10940"
     ],
     "PMN2A_0782": [
       "PMN2A_0782"
@@ -185513,6 +185527,9 @@
     ],
     "PMN2A_1405": [
       "PMN2A_1405"
+    ],
+    "PMN2A_1406": [
+      "PMN2A_RS10380"
     ],
     "PMN2A_1407": [
       "PMN2A_1407"
@@ -198955,7 +198972,7 @@
       "PMN2A_0432"
     ],
     "WP_011294532.1": [
-      "PMN2A_0433"
+      "PMN2A_RS10545"
     ],
     "WP_011294533.1": [
       "PMN2A_0434"
@@ -201918,8 +201935,7 @@
       "PMN2A_0085"
     ],
     "WP_071813622.1": [
-      "PMN2A_RS11085",
-      "PMN2A_0197"
+      "PMN2A_RS11085"
     ],
     "WP_071813624.1": [
       "PMN2A_0260"
@@ -205517,7 +205533,7 @@
       "PMN2A_0432"
     ],
     "cds-WP_011294532.1": [
-      "PMN2A_0433"
+      "PMN2A_RS10545"
     ],
     "cds-WP_011294533.1": [
       "PMN2A_0434"
@@ -206411,7 +206427,7 @@
       "PMN2A_0780"
     ],
     "cds-WP_011294869.1": [
-      "PMN2A_0781"
+      "PMN2A_RS10940"
     ],
     "cds-WP_011294870.1": [
       "PMN2A_0782"
@@ -208103,7 +208119,7 @@
       "PMN2A_1327"
     ],
     "cds-WP_011822907.1": [
-      "PMN2A_1406"
+      "PMN2A_RS10380"
     ],
     "cds-WP_011822909.1": [
       "PMN2A_1408"
@@ -208313,7 +208329,7 @@
       "PMN2A_0085"
     ],
     "cds-WP_071813622.1": [
-      "PMN2A_0197"
+      "PMN2A_RS11085"
     ],
     "cds-WP_071813624.1": [
       "PMN2A_0260"
@@ -209858,7 +209874,6 @@
       "PMN2A_0417",
       "PMN2A_0418",
       "PMN2A_0419",
-      "PMN2A_0433",
       "PMN2A_0434",
       "PMN2A_0507",
       "PMN2A_0508",
@@ -209890,7 +209905,8 @@
       "PMN2A_2061",
       "PMN2A_2077",
       "PMN2A_2108",
-      "PMN2A_2155"
+      "PMN2A_2155",
+      "PMN2A_RS10545"
     ],
     "hli2": [
       "PMN2A_1427"
@@ -212447,7 +212463,7 @@
     "CK_Pro_NATL2A_00194": "PMN2A_0194",
     "CK_Pro_NATL2A_00195": "PMN2A_0195",
     "CK_Pro_NATL2A_00196": "PMN2A_0196",
-    "CK_Pro_NATL2A_00197": "PMN2A_0197",
+    "CK_Pro_NATL2A_00197": "PMN2A_RS11085",
     "CK_Pro_NATL2A_00198": "PMN2A_0198",
     "CK_Pro_NATL2A_00199": "PMN2A_0199",
     "CK_Pro_NATL2A_00200": "PMN2A_0200",
@@ -212683,7 +212699,7 @@
     "CK_Pro_NATL2A_00430": "PMN2A_0430",
     "CK_Pro_NATL2A_00431": "PMN2A_0431",
     "CK_Pro_NATL2A_00432": "PMN2A_0432",
-    "CK_Pro_NATL2A_00433": "PMN2A_0433",
+    "CK_Pro_NATL2A_00433": "PMN2A_RS10545",
     "CK_Pro_NATL2A_00434": "PMN2A_0434",
     "CK_Pro_NATL2A_00435": "PMN2A_0435",
     "CK_Pro_NATL2A_00436": "PMN2A_0436",
@@ -213030,7 +213046,7 @@
     "CK_Pro_NATL2A_00778": "PMN2A_0778",
     "CK_Pro_NATL2A_00779": "PMN2A_0779",
     "CK_Pro_NATL2A_00780": "PMN2A_0780",
-    "CK_Pro_NATL2A_00781": "PMN2A_0781",
+    "CK_Pro_NATL2A_00781": "PMN2A_RS10940",
     "CK_Pro_NATL2A_00782": "PMN2A_0782",
     "CK_Pro_NATL2A_00783": "PMN2A_0783",
     "CK_Pro_NATL2A_00784": "PMN2A_0784",
@@ -213652,7 +213668,7 @@
     "CK_Pro_NATL2A_01403": "PMN2A_1403",
     "CK_Pro_NATL2A_01404": "PMN2A_1404",
     "CK_Pro_NATL2A_01405": "PMN2A_1405",
-    "CK_Pro_NATL2A_01406": "PMN2A_1406",
+    "CK_Pro_NATL2A_01406": "PMN2A_RS10380",
     "CK_Pro_NATL2A_01407": "PMN2A_1407",
     "CK_Pro_NATL2A_01408": "PMN2A_1408",
     "CK_Pro_NATL2A_01409": "PMN2A_1409",
@@ -214498,7 +214514,7 @@
     "NATL2_00821": "PMN2A_1403",
     "NATL2_00831": "PMN2A_1404",
     "NATL2_00841": "PMN2A_1405",
-    "NATL2_00851": "PMN2A_1406",
+    "NATL2_00851": "PMN2A_RS10380",
     "NATL2_00861": "PMN2A_1407",
     "NATL2_00871": "PMN2A_1408",
     "NATL2_00881": "PMN2A_1409",
@@ -215223,7 +215239,7 @@
     "NATL2_08071": "PMN2A_0194",
     "NATL2_08081": "PMN2A_0195",
     "NATL2_08091": "PMN2A_0196",
-    "NATL2_08101": "PMN2A_0197",
+    "NATL2_08101": "PMN2A_RS11085",
     "NATL2_08111": "PMN2A_0198",
     "NATL2_08121": "PMN2A_0199",
     "NATL2_08131": "PMN2A_0200",
@@ -215501,7 +215517,7 @@
     "NATL2_10811": "PMN2A_0431",
     "NATL2_10821": "PMN2A_0432",
     "NATL2_10831": "PMN2A_1991",
-    "NATL2_10841": "PMN2A_0433",
+    "NATL2_10841": "PMN2A_RS10545",
     "NATL2_10851": "PMN2A_0434",
     "NATL2_10861": "PMN2A_1992",
     "NATL2_10871": "PMN2A_1993",
@@ -215983,7 +215999,7 @@
     "NATL2_15591": "PMN2A_2133",
     "NATL2_15601": "PMN2A_2134",
     "NATL2_15611": "PMN2A_0780",
-    "NATL2_15621": "PMN2A_0781",
+    "NATL2_15621": "PMN2A_RS10940",
     "NATL2_15631": "PMN2A_2135",
     "NATL2_15641": "PMN2A_2136",
     "NATL2_15651": "PMN2A_0782",
@@ -216581,7 +216597,11 @@
     "NATL2_21551": "PMN2A_1325",
     "NATL2_21561": "PMN2A_1326",
     "NATL2_21571": "PMN2A_1327",
+    "PMN2A_0197": "PMN2A_RS11085",
+    "PMN2A_0433": "PMN2A_RS10545",
+    "PMN2A_0781": "PMN2A_RS10940",
     "PMN2A_1365": "PMN2A_RS00200",
+    "PMN2A_1406": "PMN2A_RS10380",
     "PMN2A_2053": "PMN2A_0546",
     "PMN2A_R0004": "PMN2A_1951",
     "PMN2A_RS00015": "PMN2A_1328",
@@ -216660,7 +216680,7 @@
     "PMN2A_RS00400": "PMN2A_1402",
     "PMN2A_RS00405": "PMN2A_1403",
     "PMN2A_RS00410": "PMN2A_1404",
-    "PMN2A_RS00415": "PMN2A_1406",
+    "PMN2A_RS00415": "PMN2A_RS10380",
     "PMN2A_RS00420": "PMN2A_1407",
     "PMN2A_RS00425": "PMN2A_1408",
     "PMN2A_RS00430": "PMN2A_1409",
@@ -217582,7 +217602,7 @@
     "PMN2A_RS05155": "PMN2A_0429",
     "PMN2A_RS05160": "PMN2A_0431",
     "PMN2A_RS05165": "PMN2A_0432",
-    "PMN2A_RS05170": "PMN2A_0433",
+    "PMN2A_RS05170": "PMN2A_RS10545",
     "PMN2A_RS05175": "PMN2A_0434",
     "PMN2A_RS05180": "PMN2A_1995",
     "PMN2A_RS05185": "PMN2A_1996",
@@ -217947,7 +217967,7 @@
     "PMN2A_RS07065": "PMN2A_0778",
     "PMN2A_RS07070": "PMN2A_0779",
     "PMN2A_RS07075": "PMN2A_0780",
-    "PMN2A_RS07080": "PMN2A_0781",
+    "PMN2A_RS07080": "PMN2A_RS10940",
     "PMN2A_RS07085": "PMN2A_2135",
     "PMN2A_RS07090": "PMN2A_2136",
     "PMN2A_RS07095": "PMN2A_0782",
@@ -218514,7 +218534,7 @@
     "PMN2A_RS10055": "PMN2A_1800",
     "PMN2A_RS10065": "PMN2A_0122",
     "PMN2A_RS10070": "PMN2A_0185",
-    "PMN2A_RS10075": "PMN2A_0197",
+    "PMN2A_RS10075": "PMN2A_RS11085",
     "PMN2A_RS10080": "PMN2A_0219",
     "PMN2A_RS10085": "PMN2A_0290",
     "PMN2A_RS10095": "PMN2A_0471",
@@ -218854,7 +218874,7 @@
     "gene-PMN2A_0194": "PMN2A_0194",
     "gene-PMN2A_0195": "PMN2A_0195",
     "gene-PMN2A_0196": "PMN2A_0196",
-    "gene-PMN2A_0197": "PMN2A_0197",
+    "gene-PMN2A_0197": "PMN2A_RS11085",
     "gene-PMN2A_0198": "PMN2A_0198",
     "gene-PMN2A_0199": "PMN2A_0199",
     "gene-PMN2A_0200": "PMN2A_0200",
@@ -219090,7 +219110,7 @@
     "gene-PMN2A_0430": "PMN2A_0430",
     "gene-PMN2A_0431": "PMN2A_0431",
     "gene-PMN2A_0432": "PMN2A_0432",
-    "gene-PMN2A_0433": "PMN2A_0433",
+    "gene-PMN2A_0433": "PMN2A_RS10545",
     "gene-PMN2A_0434": "PMN2A_0434",
     "gene-PMN2A_0435": "PMN2A_0435",
     "gene-PMN2A_0436": "PMN2A_0436",
@@ -219437,7 +219457,7 @@
     "gene-PMN2A_0778": "PMN2A_0778",
     "gene-PMN2A_0779": "PMN2A_0779",
     "gene-PMN2A_0780": "PMN2A_0780",
-    "gene-PMN2A_0781": "PMN2A_0781",
+    "gene-PMN2A_0781": "PMN2A_RS10940",
     "gene-PMN2A_0782": "PMN2A_0782",
     "gene-PMN2A_0783": "PMN2A_0783",
     "gene-PMN2A_0784": "PMN2A_0784",
@@ -220059,7 +220079,7 @@
     "gene-PMN2A_1403": "PMN2A_1403",
     "gene-PMN2A_1404": "PMN2A_1404",
     "gene-PMN2A_1405": "PMN2A_1405",
-    "gene-PMN2A_1406": "PMN2A_1406",
+    "gene-PMN2A_1406": "PMN2A_RS10380",
     "gene-PMN2A_1407": "PMN2A_1407",
     "gene-PMN2A_1408": "PMN2A_1408",
     "gene-PMN2A_1409": "PMN2A_1409",
@@ -224943,9 +224963,9 @@
   },
   "stats": {
     "n_conflicts": 4,
-    "n_genes": 2214,
-    "n_multi": 12515,
-    "n_specific": 12689,
+    "n_genes": 2210,
+    "n_multi": 12519,
+    "n_specific": 12693,
     "passes": 4
   },
   "strain": "NATL2A",

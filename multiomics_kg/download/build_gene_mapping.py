@@ -183,25 +183,88 @@ _CYAN_COLUMNS_TO_COPY = [
 ]
 
 
+def _contig_offsets(ncbi_sourced: pd.DataFrame) -> dict:
+    """Derive, per NCBI contig, the constant added to NCBI coordinates to obtain
+    Cyanorak coordinates.
+
+    Cyanorak stores a draft genome as ONE concatenated record (NCBI contigs in
+    order), so contig-relative NCBI coordinates only compare after a per-contig
+    shift (PAC1 contig 5: +229,662; SB contig 2: +420,116; every closed genome:
+    0). The shift is measured on genes the locus_tag merge already paired, at
+    the 3' end (stop codon), because start codons legitimately differ. A contig
+    is usable when its matched genes agree on one offset (mode >= 50%); an
+    unmatched-only contig is usable at offset 0 only when the assembly is a
+    single sequence. Contigs without a derivable offset are left out and the
+    fallback never compares coordinates on them.
+    """
+    seqid_col = 'seqid' if 'seqid' in ncbi_sourced.columns else None
+    seqids = ncbi_sourced[seqid_col] if seqid_col else pd.Series([None] * len(ncbi_sourced), index=ncbi_sourced.index)
+    distinct = list(pd.unique(seqids.fillna('')))
+    matched = ncbi_sourced[
+        ncbi_sourced['ID'].notna()
+        & ncbi_sourced['start_ncbi'].notna() & ncbi_sourced['start_cyanorak'].notna()
+    ]
+    offsets: dict = {}
+    for sid in distinct:
+        m = matched[seqids.loc[matched.index].fillna('') == sid]
+        if m.empty:
+            if len(distinct) == 1:
+                offsets[sid] = 0
+            continue
+        minus = m['strand_ncbi'] == '-'
+        diff = np.where(
+            minus,
+            m['start_cyanorak'].astype(float) - m['start_ncbi'].astype(float),
+            m['end_cyanorak'].astype(float) - m['end_ncbi'].astype(float),
+        )
+        vals, counts = np.unique(diff, return_counts=True)
+        best = int(np.argmax(counts))
+        if counts[best] * 2 >= len(diff):
+            offsets[sid] = int(vals[best])
+        else:
+            logger.warning(
+                f"Position fallback: contig {sid!r} has no consistent "
+                f"Cyanorak offset ({len(diff)} matched genes) — skipped"
+            )
+    return offsets
+
+
 def _position_fallback_merge(
     ncbi_sourced: pd.DataFrame,
     cyan_only: pd.DataFrame,
-    min_overlap: float = 0.9,
-    max_start_diff: int = 50,
-    max_end_diff: int = 3,
 ) -> tuple[int, set[str]]:
-    """Merge unmatched Cyanorak entries into NCBI entries by genomic position.
+    """Merge unmatched Cyanorak entries into NCBI entries by shared reading frame.
 
     After the initial locus_tag-based merge, some genes remain unmatched because
     NCBI old_locus_tag is incomplete (e.g., MIT9313 PMT_0107 vs Cyanorak PMT0107).
-    This fallback matches by coordinate overlap on the same strand.
+    This fallback matches by genomic position.
 
-    Criteria for a match:
+    A bacterial CDS is identified by its stop codon and reading frame, not by
+    its start: re-annotation routinely moves the start codon (PGAP vs. Cyanorak
+    differ by up to ~250 bp on MIT9313), so the 5' boundary and the resulting
+    overlap ratio are NOT identity evidence and are not used. Cyanorak also
+    sometimes reports the CDS without its stop codon (3' end 3 bp short) or
+    truncated a few codons early, still in frame.
+
+    Criteria for a match (a Cyanorak call C against an NCBI call N):
+    - Same contig, via the per-contig coordinate offset from ``_contig_offsets``
+      (a draft genome's NCBI contigs are contig-relative; Cyanorak's single
+      concatenated record is not — the old fallback ignored this and produced
+      cross-contig false merges on PAC1 and SB)
     - Same strand
-    - Reciprocal overlap >= min_overlap (overlap / max(len_ncbi, len_cyan))
-    - abs(start_diff) <= max_start_diff (default 50 bp)
-    - abs(end_diff) <= max_end_diff (default 3 bp)
-    - 1:1 only; conflicts (one NCBI gene matching multiple Cyanorak) are skipped
+    - In frame: the 3' ends differ by a multiple of 3 (3' end = genomic
+      ``end`` on the + strand, genomic ``start`` on the - strand — strand-aware;
+      the old strand-blind ``end`` gate rejected every - strand start re-call)
+    - C's 3' end lies inside N's interval. In frame and inside means no stop
+      codon can separate the two 3' ends, so C is the same ORF as N (up to the
+      start-codon choice / a missing stop codon), by construction.
+    - 1:1 only; conflicts (one NCBI gene matching multiple Cyanorak, e.g. a
+      fusion/split disagreement) are skipped
+
+    Verified 2026-08-29 by translating both coordinate sets from the Cyanorak
+    genome over 21 strains: every candidate pair (~700, incl. the 336 the old
+    overlap/±bp thresholds missed and the 11 stop-codon-excluded ones they
+    caught) encodes the same CDS; zero false merges.
 
     Modifies ncbi_sourced in-place by filling Cyanorak columns for matched rows.
 
@@ -212,41 +275,48 @@ def _position_fallback_merge(
     if ncbi_unmatched.empty or cyan_only.empty:
         return 0, set()
 
-    # Build candidate pairs: cyan_lt -> (ncbi_index, overlap)
-    # Keyed by NCBI locus_tag_ncbi to detect conflicts
-    ncbi_to_cyan: dict[str, list[tuple[str, int, float]]] = {}
+    # Shift NCBI coordinates into Cyanorak's coordinate space, per contig;
+    # rows on contigs with no derivable offset are dropped from consideration.
+    offsets = _contig_offsets(ncbi_sourced)
+    if 'seqid' in ncbi_unmatched.columns:
+        sid = ncbi_unmatched['seqid'].fillna('')
+    else:
+        sid = pd.Series([''] * len(ncbi_unmatched), index=ncbi_unmatched.index)
+    ncbi_unmatched = ncbi_unmatched[sid.isin(list(offsets))].copy()
+    if ncbi_unmatched.empty:
+        return 0, set()
+    shift = sid.loc[ncbi_unmatched.index].map(offsets).astype(float)
+    ncbi_unmatched['_start_shifted'] = ncbi_unmatched['start_ncbi'].astype(float) + shift
+    ncbi_unmatched['_end_shifted'] = ncbi_unmatched['end_ncbi'].astype(float) + shift
 
-    for cyan_idx, c in cyan_only.iterrows():
+    # Build candidate pairs keyed by NCBI locus_tag_ncbi to detect conflicts
+    ncbi_to_cyan: dict[str, list[tuple[str, int]]] = {}
+
+    for _cyan_idx, c in cyan_only.iterrows():
         c_start = c['start_cyanorak']
         c_end = c['end_cyanorak']
         c_strand = c['strand_cyanorak']
         if pd.isna(c_start) or pd.isna(c_end) or pd.isna(c_strand):
             continue
-        c_len = c_end - c_start
 
         same_strand = ncbi_unmatched[ncbi_unmatched['strand_ncbi'] == c_strand]
         if same_strand.empty:
             continue
 
-        n_starts = same_strand['start_ncbi'].values
-        n_ends = same_strand['end_ncbi'].values
-        n_lens = n_ends - n_starts
+        # The 3' end (stop codon) is the genomic end on +, genomic start on -
+        n_starts = same_strand['_start_shifted'].values
+        n_ends = same_strand['_end_shifted'].values
+        c_stop = float(c_start) if c_strand == '-' else float(c_end)
+        n_stop = n_starts if c_strand == '-' else n_ends
+        in_frame = (np.abs(n_stop - c_stop) % 3) == 0
+        inside = (n_starts <= c_stop) & (c_stop <= n_ends)
+        mask = in_frame & inside
 
-        overlap_start = np.maximum(n_starts, c_start)
-        overlap_end = np.minimum(n_ends, c_end)
-        overlap_len = np.maximum(overlap_end - overlap_start, 0)
-        max_len = np.maximum(c_len, n_lens)
-        recip = np.where(max_len > 0, overlap_len / max_len, 0)
-
-        start_diff = np.abs(n_starts - c_start)
-        end_diff = np.abs(n_ends - c_end)
-
-        mask = (recip >= min_overlap) & (start_diff <= max_start_diff) & (end_diff <= max_end_diff)
         for i in np.where(mask)[0]:
             n_row = same_strand.iloc[i]
             n_lt_ncbi = n_row['locus_tag_ncbi']
             ncbi_to_cyan.setdefault(n_lt_ncbi, []).append(
-                (c['locus_tag'], same_strand.index[i], recip[i])
+                (c['locus_tag'], same_strand.index[i])
             )
 
     # Resolve: skip conflicts (1 NCBI → multiple Cyanorak)
@@ -262,7 +332,7 @@ def _position_fallback_merge(
             )
             continue
 
-        cyan_lt, ncbi_idx, overlap = candidates[0]
+        cyan_lt, ncbi_idx = candidates[0]
         # Also check reverse: is this Cyanorak entry claimed by another NCBI entry?
         # (shouldn't happen with strict thresholds, but be safe)
         if cyan_lt in consumed_cyan:
@@ -389,7 +459,7 @@ def load_gff_from_ncbi_and_cyanorak(
 
     # --- Position-based fallback for unmatched entries ---
     # When NCBI old_locus_tag doesn't include the Cyanorak locus_tag form
-    # (e.g., MIT9313 PMT_0107 vs Cyanorak PMT0107), match by genomic coords.
+    # (e.g., MIT9313 PMT_0107 vs Cyanorak PMT0107), match by shared reading frame.
     n_pos_merged = 0
     if not ncbi_sourced.empty and not cyan_only.empty:
         n_pos_merged, consumed_cyan_lts = _position_fallback_merge(

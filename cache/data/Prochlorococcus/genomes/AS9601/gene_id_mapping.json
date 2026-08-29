@@ -47717,34 +47717,6 @@
         }
       ]
     },
-    "A9601_06801": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_AS9601_06801",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-A9601_06801",
-          "sources": [
-            "genomic_gca/AS9601"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABM69966.1",
-          "sources": [
-            "genomic_gca/AS9601"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "A9601_06811": {
       "tier1_ids": [
         {
@@ -60795,34 +60767,6 @@
         }
       ]
     },
-    "A9601_08691": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_AS9601_08691",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-A9601_08691",
-          "sources": [
-            "genomic_gca/AS9601"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABM70153.1",
-          "sources": [
-            "genomic_gca/AS9601"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "A9601_08701": {
       "tier1_ids": [
         {
@@ -66440,39 +66384,6 @@
         }
       ]
     },
-    "A9601_09521": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_AS9601_09521",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-A9601_09521",
-          "sources": [
-            "genomic_gca/AS9601"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABM70236.1",
-          "sources": [
-            "genomic_gca/AS9601"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "scpB",
-          "type": "gene_name"
-        }
-      ]
-    },
     "A9601_09531": {
       "tier1_ids": [
         {
@@ -71408,34 +71319,6 @@
         }
       ]
     },
-    "A9601_10231": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_AS9601_10231",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-A9601_10231",
-          "sources": [
-            "genomic_gca/AS9601"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABM70307.1",
-          "sources": [
-            "genomic_gca/AS9601"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "A9601_10241": {
       "tier1_ids": [
         {
@@ -74090,34 +73973,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "A9601_10621": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_AS9601_10621",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-A9601_10621",
-          "sources": [
-            "genomic_gca/AS9601"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABM70346.1",
-          "sources": [
-            "genomic_gca/AS9601"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "A9601_10631": {
       "tier1_ids": [
@@ -112027,34 +111882,6 @@
       ],
       "tier3_ids": []
     },
-    "A9601_16181": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_AS9601_16181",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-A9601_16181",
-          "sources": [
-            "genomic_gca/AS9601"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABM70901.1",
-          "sources": [
-            "genomic_gca/AS9601"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "A9601_16191": {
       "tier1_ids": [
         {
@@ -133784,11 +133611,32 @@
     "A9601_RS13275": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_AS9601_08691",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "A9601_08691",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008816.1_cds_WP_041484526.1_840",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-A9601_08691",
+          "sources": [
+            "genomic_gca/AS9601"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-A9601_RS13275",
@@ -133805,11 +133653,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABM70153.1",
+          "sources": [
+            "genomic_gca/AS9601"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "A9601_RS13275",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "A9601_08691",
           "type": "gene_synonym"
         }
       ]
@@ -133850,11 +133709,32 @@
     "A9601_RS14185": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_AS9601_10621",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "A9601_10621",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008816.1_cds_WP_041484535.1_1027",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-A9601_10621",
+          "sources": [
+            "genomic_gca/AS9601"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-A9601_RS14185",
@@ -133871,11 +133751,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABM70346.1",
+          "sources": [
+            "genomic_gca/AS9601"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "A9601_RS14185",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "A9601_10621",
           "type": "gene_synonym"
         }
       ]
@@ -133953,11 +133844,32 @@
     "A9601_RS18335": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_AS9601_09521",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "A9601_09521",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008816.1_cds_WP_071813227.1_920",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-A9601_09521",
+          "sources": [
+            "genomic_gca/AS9601"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-A9601_RS18335",
@@ -133974,12 +133886,23 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABM70236.1",
+          "sources": [
+            "genomic_gca/AS9601"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "scpB",
           "type": "gene_name"
+        },
+        {
+          "id": "A9601_09521",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -134136,11 +134059,32 @@
     "A9601_RS18520": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_AS9601_16181",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "A9601_16181",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008816.1_cds_WP_032555741.1_1547",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-A9601_16181",
+          "sources": [
+            "genomic_gca/AS9601"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-A9601_RS18520",
@@ -134157,11 +134101,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABM70901.1",
+          "sources": [
+            "genomic_gca/AS9601"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "A9601_RS18520",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "A9601_16181",
           "type": "gene_synonym"
         }
       ]
@@ -134202,11 +134157,32 @@
     "A9601_RS18875": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_AS9601_06801",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "A9601_06801",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008816.1_cds_WP_225866262.1_659",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-A9601_06801",
+          "sources": [
+            "genomic_gca/AS9601"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-A9601_RS18875",
@@ -134223,11 +134199,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABM69966.1",
+          "sources": [
+            "genomic_gca/AS9601"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "A9601_RS18875",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "A9601_06801",
           "type": "gene_synonym"
         }
       ]
@@ -134272,11 +134259,32 @@
     "A9601_RS18890": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_AS9601_10231",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "A9601_10231",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008816.1_cds_WP_225866239.1_990",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-A9601_10231",
+          "sources": [
+            "genomic_gca/AS9601"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-A9601_RS18890",
@@ -134293,11 +134301,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABM70307.1",
+          "sources": [
+            "genomic_gca/AS9601"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "A9601_RS18890",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "A9601_10231",
           "type": "gene_synonym"
         }
       ]
@@ -140909,6 +140928,9 @@
     "A9601_06791": [
       "A9601_06791"
     ],
+    "A9601_06801": [
+      "A9601_RS18875"
+    ],
     "A9601_06811": [
       "A9601_06811"
     ],
@@ -141440,6 +141462,9 @@
     "A9601_08681": [
       "A9601_08681"
     ],
+    "A9601_08691": [
+      "A9601_RS13275"
+    ],
     "A9601_08701": [
       "A9601_08701"
     ],
@@ -141668,6 +141693,9 @@
     "A9601_09511": [
       "A9601_09511"
     ],
+    "A9601_09521": [
+      "A9601_RS18335"
+    ],
     "A9601_09531": [
       "A9601_09531"
     ],
@@ -141869,6 +141897,9 @@
     "A9601_10221": [
       "A9601_10221"
     ],
+    "A9601_10231": [
+      "A9601_RS18890"
+    ],
     "A9601_10241": [
       "A9601_10241"
     ],
@@ -141976,6 +142007,9 @@
     ],
     "A9601_10611": [
       "A9601_10611"
+    ],
+    "A9601_10621": [
+      "A9601_RS14185"
     ],
     "A9601_10641": [
       "A9601_10641"
@@ -143500,6 +143534,9 @@
     ],
     "A9601_16151": [
       "A9601_16151"
+    ],
+    "A9601_16181": [
+      "A9601_RS18520"
     ],
     "A9601_16191": [
       "A9601_16191"
@@ -150420,7 +150457,7 @@
       "A9601_06791"
     ],
     "ABM69966.1": [
-      "A9601_06801"
+      "A9601_RS18875"
     ],
     "ABM69967.1": [
       "A9601_06811"
@@ -150981,7 +151018,7 @@
       "A9601_08681"
     ],
     "ABM70153.1": [
-      "A9601_08691"
+      "A9601_RS13275"
     ],
     "ABM70154.1": [
       "A9601_08701"
@@ -151227,7 +151264,7 @@
       "A9601_09511"
     ],
     "ABM70236.1": [
-      "A9601_09521"
+      "A9601_RS18335"
     ],
     "ABM70237.1": [
       "A9601_09531"
@@ -151440,7 +151477,7 @@
       "A9601_10221"
     ],
     "ABM70307.1": [
-      "A9601_10231"
+      "A9601_RS18890"
     ],
     "ABM70308.1": [
       "A9601_10241"
@@ -151557,7 +151594,7 @@
       "A9601_10611"
     ],
     "ABM70346.1": [
-      "A9601_10621"
+      "A9601_RS14185"
     ],
     "ABM70347.1": [
       "A9601_10631"
@@ -153216,7 +153253,7 @@
       "A9601_16171"
     ],
     "ABM70901.1": [
-      "A9601_16181"
+      "A9601_RS18520"
     ],
     "ABM70902.1": [
       "A9601_16191"
@@ -162790,7 +162827,6 @@
       "A9601_01681"
     ],
     "scpB": [
-      "A9601_09521",
       "A9601_RS18335"
     ],
     "sdhA": [
@@ -163482,6 +163518,12 @@
   },
   "organism": "AS9601",
   "specific_lookup": {
+    "A9601_06801": "A9601_RS18875",
+    "A9601_08691": "A9601_RS13275",
+    "A9601_09521": "A9601_RS18335",
+    "A9601_10231": "A9601_RS18890",
+    "A9601_10621": "A9601_RS14185",
+    "A9601_16181": "A9601_RS18520",
     "A9601_50004": "A9601_RS11640",
     "A9601_50007": "A9601_pseudoVIMSS1362524",
     "A9601_50009": "A9601_RS18965",
@@ -165988,7 +166030,7 @@
     "CK_Pro_AS9601_06771": "A9601_06771",
     "CK_Pro_AS9601_06781": "A9601_06781",
     "CK_Pro_AS9601_06791": "A9601_06791",
-    "CK_Pro_AS9601_06801": "A9601_06801",
+    "CK_Pro_AS9601_06801": "A9601_RS18875",
     "CK_Pro_AS9601_06811": "A9601_06811",
     "CK_Pro_AS9601_06821": "A9601_06821",
     "CK_Pro_AS9601_06831": "A9601_06831",
@@ -166175,7 +166217,7 @@
     "CK_Pro_AS9601_08661": "A9601_08661",
     "CK_Pro_AS9601_08671": "A9601_08671",
     "CK_Pro_AS9601_08681": "A9601_08681",
-    "CK_Pro_AS9601_08691": "A9601_08691",
+    "CK_Pro_AS9601_08691": "A9601_RS13275",
     "CK_Pro_AS9601_08701": "A9601_08701",
     "CK_Pro_AS9601_08711": "A9601_08711",
     "CK_Pro_AS9601_08721": "A9601_08721",
@@ -166257,7 +166299,7 @@
     "CK_Pro_AS9601_09491": "A9601_09491",
     "CK_Pro_AS9601_09501": "A9601_09501",
     "CK_Pro_AS9601_09511": "A9601_09511",
-    "CK_Pro_AS9601_09521": "A9601_09521",
+    "CK_Pro_AS9601_09521": "A9601_RS18335",
     "CK_Pro_AS9601_09531": "A9601_09531",
     "CK_Pro_AS9601_09541": "A9601_09541",
     "CK_Pro_AS9601_09551": "A9601_09551",
@@ -166328,7 +166370,7 @@
     "CK_Pro_AS9601_10201": "A9601_10201",
     "CK_Pro_AS9601_10211": "A9601_10211",
     "CK_Pro_AS9601_10221": "A9601_10221",
-    "CK_Pro_AS9601_10231": "A9601_10231",
+    "CK_Pro_AS9601_10231": "A9601_RS18890",
     "CK_Pro_AS9601_10241": "A9601_10241",
     "CK_Pro_AS9601_10251": "A9601_10251",
     "CK_Pro_AS9601_10261": "A9601_10261",
@@ -166367,7 +166409,7 @@
     "CK_Pro_AS9601_10591": "A9601_10591",
     "CK_Pro_AS9601_10601": "A9601_10601",
     "CK_Pro_AS9601_10611": "A9601_10611",
-    "CK_Pro_AS9601_10621": "A9601_10621",
+    "CK_Pro_AS9601_10621": "A9601_RS14185",
     "CK_Pro_AS9601_10631": "A9601_10631",
     "CK_Pro_AS9601_10641": "A9601_10641",
     "CK_Pro_AS9601_10651": "A9601_10651",
@@ -166920,7 +166962,7 @@
     "CK_Pro_AS9601_16151": "A9601_16151",
     "CK_Pro_AS9601_16161": "A9601_16161",
     "CK_Pro_AS9601_16171": "A9601_16171",
-    "CK_Pro_AS9601_16181": "A9601_16181",
+    "CK_Pro_AS9601_16181": "A9601_RS18520",
     "CK_Pro_AS9601_16191": "A9601_16191",
     "CK_Pro_AS9601_16201": "A9601_16201",
     "CK_Pro_AS9601_16211": "A9601_16211",
@@ -167914,7 +167956,7 @@
     "gene-A9601_06771": "A9601_06771",
     "gene-A9601_06781": "A9601_06781",
     "gene-A9601_06791": "A9601_06791",
-    "gene-A9601_06801": "A9601_06801",
+    "gene-A9601_06801": "A9601_RS18875",
     "gene-A9601_06811": "A9601_06811",
     "gene-A9601_06821": "A9601_06821",
     "gene-A9601_06831": "A9601_06831",
@@ -168101,7 +168143,7 @@
     "gene-A9601_08661": "A9601_08661",
     "gene-A9601_08671": "A9601_08671",
     "gene-A9601_08681": "A9601_08681",
-    "gene-A9601_08691": "A9601_08691",
+    "gene-A9601_08691": "A9601_RS13275",
     "gene-A9601_08701": "A9601_08701",
     "gene-A9601_08711": "A9601_08711",
     "gene-A9601_08721": "A9601_08721",
@@ -168183,7 +168225,7 @@
     "gene-A9601_09491": "A9601_09491",
     "gene-A9601_09501": "A9601_09501",
     "gene-A9601_09511": "A9601_09511",
-    "gene-A9601_09521": "A9601_09521",
+    "gene-A9601_09521": "A9601_RS18335",
     "gene-A9601_09531": "A9601_09531",
     "gene-A9601_09541": "A9601_09541",
     "gene-A9601_09551": "A9601_09551",
@@ -168254,7 +168296,7 @@
     "gene-A9601_10201": "A9601_10201",
     "gene-A9601_10211": "A9601_10211",
     "gene-A9601_10221": "A9601_10221",
-    "gene-A9601_10231": "A9601_10231",
+    "gene-A9601_10231": "A9601_RS18890",
     "gene-A9601_10241": "A9601_10241",
     "gene-A9601_10251": "A9601_10251",
     "gene-A9601_10261": "A9601_10261",
@@ -168293,7 +168335,7 @@
     "gene-A9601_10591": "A9601_10591",
     "gene-A9601_10601": "A9601_10601",
     "gene-A9601_10611": "A9601_10611",
-    "gene-A9601_10621": "A9601_10621",
+    "gene-A9601_10621": "A9601_RS14185",
     "gene-A9601_10631": "A9601_10631",
     "gene-A9601_10641": "A9601_10641",
     "gene-A9601_10651": "A9601_10651",
@@ -168846,7 +168888,7 @@
     "gene-A9601_16151": "A9601_16151",
     "gene-A9601_16161": "A9601_16161",
     "gene-A9601_16171": "A9601_16171",
-    "gene-A9601_16181": "A9601_16181",
+    "gene-A9601_16181": "A9601_RS18520",
     "gene-A9601_16191": "A9601_16191",
     "gene-A9601_16201": "A9601_16201",
     "gene-A9601_16211": "A9601_16211",
@@ -172849,9 +172891,9 @@
   },
   "stats": {
     "n_conflicts": 0,
-    "n_genes": 1951,
-    "n_multi": 9520,
-    "n_specific": 9364,
+    "n_genes": 1945,
+    "n_multi": 9526,
+    "n_specific": 9370,
     "passes": 2
   },
   "strain": "AS9601",

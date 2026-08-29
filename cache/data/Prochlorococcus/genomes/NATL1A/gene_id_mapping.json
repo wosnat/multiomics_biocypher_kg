@@ -19589,39 +19589,6 @@
         }
       ]
     },
-    "NATL1_02821": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_NATL1A_02821",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-NATL1_02821",
-          "sources": [
-            "genomic_gca/NATL1A"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABM74846.1",
-          "sources": [
-            "genomic_gca/NATL1A"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "secE",
-          "type": "gene_name"
-        }
-      ]
-    },
     "NATL1_02831": {
       "tier1_ids": [
         {
@@ -23401,34 +23368,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "NATL1_03371": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_NATL1A_03371",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-NATL1_03371",
-          "sources": [
-            "genomic_gca/NATL1A"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABM74901.1",
-          "sources": [
-            "genomic_gca/NATL1A"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "NATL1_03381": {
       "tier1_ids": [
@@ -29672,34 +29611,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "NATL1_04271": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_NATL1A_04271",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-NATL1_04271",
-          "sources": [
-            "genomic_gca/NATL1A"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABM74991.1",
-          "sources": [
-            "genomic_gca/NATL1A"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "NATL1_04281": {
       "tier1_ids": [
@@ -57635,34 +57546,6 @@
         }
       ]
     },
-    "NATL1_08291": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_NATL1A_08291",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-NATL1_08291",
-          "sources": [
-            "genomic_gca/NATL1A"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABM75387.1",
-          "sources": [
-            "genomic_gca/NATL1A"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
-    },
     "NATL1_08301": {
       "tier1_ids": [
         {
@@ -79170,39 +79053,6 @@
         }
       ],
       "tier3_ids": []
-    },
-    "NATL1_11391": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_NATL1A_11391",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-NATL1_11391",
-          "sources": [
-            "genomic_gca/NATL1A"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABM75697.1",
-          "sources": [
-            "genomic_gca/NATL1A"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "hli",
-          "type": "gene_name"
-        }
-      ]
     },
     "NATL1_11411": {
       "tier1_ids": [
@@ -151442,11 +151292,32 @@
     "NATL1_RS01315": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_NATL1A_02821",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "NATL1_02821",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008819.1_cds_WP_011294206.1_269",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-NATL1_02821",
+          "sources": [
+            "genomic_gca/NATL1A"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-NATL1_RS01315",
@@ -151463,23 +151334,55 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABM74846.1",
+          "sources": [
+            "genomic_gca/NATL1A"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "secE",
           "type": "gene_name"
+        },
+        {
+          "id": "NATL1_02821",
+          "type": "gene_synonym"
         }
       ]
     },
     "NATL1_RS01580": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_NATL1A_03371",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "NATL1_03371",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008819.1_cds_WP_011294258.1_322",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-NATL1_03371",
+          "sources": [
+            "genomic_gca/NATL1A"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-NATL1_RS01580",
@@ -151496,11 +151399,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABM74901.1",
+          "sources": [
+            "genomic_gca/NATL1A"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "NATL1_RS01580",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "NATL1_03371",
           "type": "gene_synonym"
         }
       ]
@@ -152207,11 +152121,32 @@
     "NATL1_RS10595": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_NATL1A_04271",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "NATL1_04271",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008819.1_cds_WP_071813344.1_409",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-NATL1_04271",
+          "sources": [
+            "genomic_gca/NATL1A"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-NATL1_RS10595",
@@ -152228,11 +152163,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABM74991.1",
+          "sources": [
+            "genomic_gca/NATL1A"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "NATL1_RS10595",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "NATL1_04271",
           "type": "gene_synonym"
         }
       ]
@@ -152273,11 +152219,32 @@
     "NATL1_RS10715": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_NATL1A_11391",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "NATL1_11391",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008819.1_cds_WP_187152595.1_1095",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-NATL1_11391",
+          "sources": [
+            "genomic_gca/NATL1A"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-NATL1_RS10715",
@@ -152294,11 +152261,26 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABM75697.1",
+          "sources": [
+            "genomic_gca/NATL1A"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
+          "id": "hli",
+          "type": "gene_name"
+        },
+        {
           "id": "NATL1_RS10715",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "NATL1_11391",
           "type": "gene_synonym"
         }
       ]
@@ -152504,11 +152486,32 @@
     "NATL1_RS11135": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_NATL1A_08291",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "NATL1_08291",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008819.1_cds_WP_071813347.1_798",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-NATL1_08291",
+          "sources": [
+            "genomic_gca/NATL1A"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-NATL1_RS11135",
@@ -152525,11 +152528,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABM75387.1",
+          "sources": [
+            "genomic_gca/NATL1A"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "NATL1_RS11135",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "NATL1_08291",
           "type": "gene_synonym"
         }
       ]
@@ -158036,7 +158050,7 @@
       "NATL1_02811"
     ],
     "ABM74846.1": [
-      "NATL1_02821"
+      "NATL1_RS01315"
     ],
     "ABM74847.1": [
       "NATL1_02831"
@@ -158201,7 +158215,7 @@
       "NATL1_03361"
     ],
     "ABM74901.1": [
-      "NATL1_03371"
+      "NATL1_RS01580"
     ],
     "ABM74902.1": [
       "NATL1_03381"
@@ -158471,7 +158485,7 @@
       "NATL1_04261"
     ],
     "ABM74991.1": [
-      "NATL1_04271"
+      "NATL1_RS10595"
     ],
     "ABM74992.1": [
       "NATL1_04281"
@@ -159659,7 +159673,7 @@
       "NATL1_08281"
     ],
     "ABM75387.1": [
-      "NATL1_08291"
+      "NATL1_RS11135"
     ],
     "ABM75388.1": [
       "NATL1_08301"
@@ -160589,7 +160603,7 @@
       "NATL1_11381"
     ],
     "ABM75697.1": [
-      "NATL1_11391"
+      "NATL1_RS10715"
     ],
     "ABM75698.1": [
       "NATL1_RS05380"
@@ -164575,6 +164589,9 @@
     "NATL1_02811": [
       "NATL1_02811"
     ],
+    "NATL1_02821": [
+      "NATL1_RS01315"
+    ],
     "NATL1_02831": [
       "NATL1_02831"
     ],
@@ -164730,6 +164747,9 @@
     ],
     "NATL1_03361": [
       "NATL1_03361"
+    ],
+    "NATL1_03371": [
+      "NATL1_RS01580"
     ],
     "NATL1_03381": [
       "NATL1_03381"
@@ -164985,6 +165005,9 @@
     ],
     "NATL1_04261": [
       "NATL1_04261"
+    ],
+    "NATL1_04271": [
+      "NATL1_RS10595"
     ],
     "NATL1_04281": [
       "NATL1_04281"
@@ -166137,6 +166160,9 @@
     "NATL1_08281": [
       "NATL1_08281"
     ],
+    "NATL1_08291": [
+      "NATL1_RS11135"
+    ],
     "NATL1_08301": [
       "NATL1_08301"
     ],
@@ -167015,6 +167041,9 @@
     ],
     "NATL1_11371": [
       "NATL1_11371"
+    ],
+    "NATL1_11391": [
+      "NATL1_RS10715"
     ],
     "NATL1_11401": [
       "NATL1_RS05380"
@@ -182306,7 +182335,6 @@
       "NATL1_11161",
       "NATL1_11171",
       "NATL1_11181",
-      "NATL1_11391",
       "NATL1_12351",
       "NATL1_12361",
       "NATL1_12371",
@@ -182331,7 +182359,8 @@
       "NATL1_18051",
       "NATL1_18061",
       "NATL1_18831",
-      "NATL1_RS05380"
+      "NATL1_RS05380",
+      "NATL1_RS10715"
     ],
     "hli2": [
       "NATL1_01281"
@@ -184078,7 +184107,6 @@
       "NATL1_09521"
     ],
     "secE": [
-      "NATL1_02821",
       "NATL1_RS01315"
     ],
     "secF": [
@@ -185053,7 +185081,7 @@
     "CK_Pro_NATL1A_02791": "NATL1_02791",
     "CK_Pro_NATL1A_02801": "NATL1_02801",
     "CK_Pro_NATL1A_02811": "NATL1_02811",
-    "CK_Pro_NATL1A_02821": "NATL1_02821",
+    "CK_Pro_NATL1A_02821": "NATL1_RS01315",
     "CK_Pro_NATL1A_02831": "NATL1_02831",
     "CK_Pro_NATL1A_02841": "NATL1_02841",
     "CK_Pro_NATL1A_02851": "NATL1_02851",
@@ -185108,7 +185136,7 @@
     "CK_Pro_NATL1A_03341": "NATL1_03341",
     "CK_Pro_NATL1A_03351": "NATL1_03351",
     "CK_Pro_NATL1A_03361": "NATL1_03361",
-    "CK_Pro_NATL1A_03371": "NATL1_03371",
+    "CK_Pro_NATL1A_03371": "NATL1_RS01580",
     "CK_Pro_NATL1A_03381": "NATL1_03381",
     "CK_Pro_NATL1A_03391": "NATL1_03391",
     "CK_Pro_NATL1A_03401": "NATL1_03401",
@@ -185198,7 +185226,7 @@
     "CK_Pro_NATL1A_04241": "NATL1_04241",
     "CK_Pro_NATL1A_04251": "NATL1_04251",
     "CK_Pro_NATL1A_04261": "NATL1_04261",
-    "CK_Pro_NATL1A_04271": "NATL1_04271",
+    "CK_Pro_NATL1A_04271": "NATL1_RS10595",
     "CK_Pro_NATL1A_04281": "NATL1_04281",
     "CK_Pro_NATL1A_04291": "NATL1_04291",
     "CK_Pro_NATL1A_04301": "NATL1_04301",
@@ -185594,7 +185622,7 @@
     "CK_Pro_NATL1A_08261": "NATL1_08261",
     "CK_Pro_NATL1A_08271": "NATL1_08271",
     "CK_Pro_NATL1A_08281": "NATL1_08281",
-    "CK_Pro_NATL1A_08291": "NATL1_08291",
+    "CK_Pro_NATL1A_08291": "NATL1_RS11135",
     "CK_Pro_NATL1A_08301": "NATL1_08301",
     "CK_Pro_NATL1A_08311": "NATL1_08311",
     "CK_Pro_NATL1A_08321": "NATL1_08321",
@@ -185904,7 +185932,7 @@
     "CK_Pro_NATL1A_11361": "NATL1_11361",
     "CK_Pro_NATL1A_11371": "NATL1_11371",
     "CK_Pro_NATL1A_11381": "NATL1_11381",
-    "CK_Pro_NATL1A_11391": "NATL1_11391",
+    "CK_Pro_NATL1A_11391": "NATL1_RS10715",
     "CK_Pro_NATL1A_11401": "NATL1_RS05380",
     "CK_Pro_NATL1A_11411": "NATL1_11411",
     "CK_Pro_NATL1A_11421": "NATL1_11421",
@@ -186966,6 +186994,11 @@
     "CK_Pro_NATL1A_50006": "NATL1_50006",
     "CK_Pro_NATL1A_50007": "NATL1_RS10455",
     "CK_Pro_NATL1A_50010": "NATL1_RS10315",
+    "NATL1_02821": "NATL1_RS01315",
+    "NATL1_03371": "NATL1_RS01580",
+    "NATL1_04271": "NATL1_RS10595",
+    "NATL1_08291": "NATL1_RS11135",
+    "NATL1_11391": "NATL1_RS10715",
     "NATL1_11401": "NATL1_RS05380",
     "NATL1_50007": "NATL1_RS10455",
     "NATL1_50010": "NATL1_RS10315",
@@ -189302,7 +189335,7 @@
     "gene-NATL1_02791": "NATL1_02791",
     "gene-NATL1_02801": "NATL1_02801",
     "gene-NATL1_02811": "NATL1_02811",
-    "gene-NATL1_02821": "NATL1_02821",
+    "gene-NATL1_02821": "NATL1_RS01315",
     "gene-NATL1_02831": "NATL1_02831",
     "gene-NATL1_02841": "NATL1_02841",
     "gene-NATL1_02851": "NATL1_02851",
@@ -189357,7 +189390,7 @@
     "gene-NATL1_03341": "NATL1_03341",
     "gene-NATL1_03351": "NATL1_03351",
     "gene-NATL1_03361": "NATL1_03361",
-    "gene-NATL1_03371": "NATL1_03371",
+    "gene-NATL1_03371": "NATL1_RS01580",
     "gene-NATL1_03381": "NATL1_03381",
     "gene-NATL1_03391": "NATL1_03391",
     "gene-NATL1_03401": "NATL1_03401",
@@ -189447,7 +189480,7 @@
     "gene-NATL1_04241": "NATL1_04241",
     "gene-NATL1_04251": "NATL1_04251",
     "gene-NATL1_04261": "NATL1_04261",
-    "gene-NATL1_04271": "NATL1_04271",
+    "gene-NATL1_04271": "NATL1_RS10595",
     "gene-NATL1_04281": "NATL1_04281",
     "gene-NATL1_04291": "NATL1_04291",
     "gene-NATL1_04301": "NATL1_04301",
@@ -189843,7 +189876,7 @@
     "gene-NATL1_08261": "NATL1_08261",
     "gene-NATL1_08271": "NATL1_08271",
     "gene-NATL1_08281": "NATL1_08281",
-    "gene-NATL1_08291": "NATL1_08291",
+    "gene-NATL1_08291": "NATL1_RS11135",
     "gene-NATL1_08301": "NATL1_08301",
     "gene-NATL1_08311": "NATL1_08311",
     "gene-NATL1_08321": "NATL1_08321",
@@ -190153,7 +190186,7 @@
     "gene-NATL1_11361": "NATL1_11361",
     "gene-NATL1_11371": "NATL1_11371",
     "gene-NATL1_11381": "NATL1_11381",
-    "gene-NATL1_11391": "NATL1_11391",
+    "gene-NATL1_11391": "NATL1_RS10715",
     "gene-NATL1_11401": "NATL1_RS05380",
     "gene-NATL1_11411": "NATL1_11411",
     "gene-NATL1_11421": "NATL1_11421",
@@ -195379,9 +195412,9 @@
   },
   "stats": {
     "n_conflicts": 0,
-    "n_genes": 2226,
-    "n_multi": 10641,
-    "n_specific": 10605,
+    "n_genes": 2221,
+    "n_multi": 10646,
+    "n_specific": 10610,
     "passes": 2
   },
   "strain": "NATL1A",

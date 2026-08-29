@@ -58165,13 +58165,21 @@
   },
   "PMM0236": {
     "all_identifiers": [
+      "CK_Pro_MED4_01723",
+      "PMM1723",
       "PMM1806",
       "TX50_RS01215",
       "WP_152556156.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] beta-carotene hydroxylase",
       "[ncbi] fatty acid desaturase",
       "[eggnog] Beta-carotene hydroxylase",
+      "[cyanorak_role] Carotenoids",
+      "[tigr_role] Biosynthesis of cofactors, prosthetic groups, and carriers / Other",
+      "[cog] COG: METABOLISM [I] Lipid transport and metabolism",
+      "[cog] bactNOG: METABOLISM [I] Lipid transport and metabolism",
+      "[cog] cyaNOG: METABOLISM [I] Lipid transport and metabolism",
       "[interpro] Fatty acid desaturase domain",
       "[interpro] Fatty acid desaturase",
       "[pfam] FA_desaturase: Fatty acid desaturase"
@@ -58179,17 +58187,20 @@
     "alternative_locus_tags": [
       "TX50_RS01215",
       "PMM0236",
-      "PMM1806"
+      "PMM1806",
+      "PMM1723"
     ],
     "bacteria_cog_og": "COG3239",
     "bigg_reaction": [
       "iJN678.bhy"
     ],
+    "cluster_number": "CK_00001196",
     "cog_category": [
       "I"
     ],
     "contig": "NC_005072.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
@@ -58198,38 +58209,65 @@
       "tcdb_diamond",
       "uniprot"
     ],
+    "cyanorak_Role": [
+      "B.5.1"
+    ],
+    "cyanorak_Role_description": [
+      "Carotenoids"
+    ],
     "ec_numbers": [
-      "1.14.19.-"
+      "1.14.19.-",
+      "1.14.13.-"
     ],
     "ec_numbers_evidence": {
       "1.14.19.-": "curated"
     },
     "ec_numbers_source": {
+      "1.14.13.-": [
+        "cyanorak"
+      ],
       "1.14.19.-": [
         "interproscan",
         "uniprot"
       ]
     },
+    "eggnog_og_descriptions": [
+      "COG: METABOLISM [I] Lipid transport and metabolism",
+      "bactNOG: METABOLISM [I] Lipid transport and metabolism",
+      "cyaNOG: METABOLISM [I] Lipid transport and metabolism"
+    ],
     "eggnog_ogs": [
+      "COG3239",
+      "bactNOG38720",
+      "bactNOG19984",
+      "bactNOG00931",
+      "cyaNOG00929",
       "COG3239@1|root",
       "COG3239@2|Bacteria",
       "1G1XJ@1117|Cyanobacteria",
       "1MKXI@1212|Prochloraceae"
     ],
     "end": 229150,
+    "end_cyanorak": 229063,
     "function_description": "Beta-carotene hydroxylase",
     "function_description_source": "eggnog",
-    "gene_category": "Lipid metabolism",
+    "gene_category": "Coenzyme metabolism",
     "gene_name": "crtR",
-    "gene_name_source": "eggnog",
-    "gene_summary": "crtR :: fatty acid desaturase :: Beta-carotene hydroxylase",
+    "gene_name_source": "cyanorak",
+    "gene_summary": "crtR :: beta-carotene hydroxylase :: Beta-carotene hydroxylase",
     "gene_synonyms": [
       "TX50_RS01215",
       "PMM0236",
-      "PMM1806"
+      "PMM1806",
+      "PMM1723"
+    ],
+    "go_term_descriptions": [
+      "pigment biosynthetic process",
+      "lipid metabolic process"
     ],
     "go_terms": [
       "GO:0006629",
+      "GO:0046148",
       "GO:0016491"
     ],
     "go_terms_evidence": {
@@ -58238,11 +58276,15 @@
     },
     "go_terms_source": {
       "GO:0006629": [
+        "cyanorak",
         "interproscan",
         "ncbi"
       ],
       "GO:0016491": [
         "interproscan"
+      ],
+      "GO:0046148": [
+        "cyanorak"
       ]
     },
     "interpro_entries": [
@@ -58270,14 +58312,23 @@
       "R07561"
     ],
     "locus_tag": "PMM0236",
+    "locus_tag_cyanorak": "CK_Pro_MED4_01723",
     "locus_tag_ncbi": "TX50_RS01215",
     "max_annot_lvl": "1117|Cyanobacteria",
     "old_locus_tags": [
       "PMM0236",
-      "PMM1806"
+      "PMM1806",
+      "PMM1723"
     ],
     "organism_name": "Prochlorococcus MED4",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00001196",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG3239@2",
         "source": "eggnog",
@@ -58304,16 +58355,18 @@
       "PF00487"
     ],
     "pfam_ids_evidence": {
-      "PF00487": "signature"
+      "PF00487": "curated"
     },
     "pfam_ids_source": {
       "PF00487": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
-    "product": "fatty acid desaturase",
-    "product_source": "ncbi",
+    "product": "beta-carotene hydroxylase",
+    "product_cyanorak": "beta-carotene hydroxylase",
+    "product_source": "cyanorak",
     "protein_id": "WP_152556156.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
@@ -58322,7 +58375,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 228281,
+    "start_cyanorak": 228281,
     "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "76"
+    ],
+    "tIGR_Role_description": [
+      "Biosynthesis of cofactors, prosthetic groups, and carriers / Other"
+    ],
     "tcdb_diamond_ids": [
       "9.A.76"
     ],
@@ -147807,45 +147868,6 @@
     "tIGR_Role_description": [
       "Protein synthesis / tRNA aminoacylation"
     ]
-  },
-  "PMM0624": {
-    "all_identifiers": [
-      "CK_Pro_MED4_00624"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] possible Hantavirus glycoprotein G2"
-    ],
-    "alternative_locus_tags": [
-      "PMM0624"
-    ],
-    "cluster_number": "CK_00044313",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 595439,
-    "gene_category": "Unknown",
-    "gene_summary": "possible Hantavirus glycoprotein G2",
-    "gene_synonyms": [
-      "PMM0624"
-    ],
-    "locus_tag": "PMM0624",
-    "locus_tag_cyanorak": "CK_Pro_MED4_00624",
-    "organism_name": "Prochlorococcus MED4",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00044313",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "possible Hantavirus glycoprotein G2",
-    "product_cyanorak": "possible Hantavirus glycoprotein G2",
-    "product_source": "cyanorak",
-    "start_cyanorak": 595185,
-    "strand_cyanorak": "+"
   },
   "PMM0625": {
     "all_identifiers": [
@@ -397780,105 +397802,6 @@
       "Energy metabolism / Photosynthesis"
     ]
   },
-  "PMM1723": {
-    "all_identifiers": [
-      "CK_Pro_MED4_01723"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] beta-carotene hydroxylase",
-      "[cyanorak_role] Carotenoids",
-      "[tigr_role] Biosynthesis of cofactors, prosthetic groups, and carriers / Other",
-      "[cog] COG: METABOLISM [I] Lipid transport and metabolism",
-      "[cog] bactNOG: METABOLISM [I] Lipid transport and metabolism",
-      "[cog] cyaNOG: METABOLISM [I] Lipid transport and metabolism",
-      "[pfam] FA_desaturase: Fatty acid desaturase"
-    ],
-    "bacteria_cog_og": "COG3239",
-    "cluster_number": "CK_00001196",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "B.5.1"
-    ],
-    "cyanorak_Role_description": [
-      "Carotenoids"
-    ],
-    "ec_numbers": [
-      "1.14.13.-"
-    ],
-    "ec_numbers_source": {
-      "1.14.13.-": [
-        "cyanorak"
-      ]
-    },
-    "eggnog_og_descriptions": [
-      "COG: METABOLISM [I] Lipid transport and metabolism",
-      "bactNOG: METABOLISM [I] Lipid transport and metabolism",
-      "cyaNOG: METABOLISM [I] Lipid transport and metabolism"
-    ],
-    "eggnog_ogs": [
-      "COG3239",
-      "bactNOG38720",
-      "bactNOG19984",
-      "bactNOG00931",
-      "cyaNOG00929"
-    ],
-    "end_cyanorak": 229063,
-    "gene_category": "Coenzyme metabolism",
-    "gene_name": "crtR",
-    "gene_name_source": "cyanorak",
-    "gene_summary": "crtR :: beta-carotene hydroxylase",
-    "go_term_descriptions": [
-      "pigment biosynthetic process",
-      "lipid metabolic process"
-    ],
-    "go_terms": [
-      "GO:0046148",
-      "GO:0006629"
-    ],
-    "go_terms_source": {
-      "GO:0006629": [
-        "cyanorak"
-      ],
-      "GO:0046148": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "PMM1723",
-    "locus_tag_cyanorak": "CK_Pro_MED4_01723",
-    "organism_name": "Prochlorococcus MED4",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00001196",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF00487"
-    ],
-    "pfam_ids_source": {
-      "PF00487": [
-        "cyanorak"
-      ]
-    },
-    "product": "beta-carotene hydroxylase",
-    "product_cyanorak": "beta-carotene hydroxylase",
-    "product_source": "cyanorak",
-    "start_cyanorak": 228281,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "76"
-    ],
-    "tIGR_Role_description": [
-      "Biosynthesis of cofactors, prosthetic groups, and carriers / Other"
-    ]
-  },
   "PMM1800": {
     "all_identifiers": [
       "A8WI02",
@@ -404452,64 +404375,6 @@
       "Hypothetical proteins / Conserved"
     ],
     "uniprot_accession": "A8WI96"
-  },
-  "PMM1878": {
-    "all_identifiers": [
-      "CK_Pro_MED4_01878"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] uncharacterized conserved lipoprotein",
-      "[cyanorak_role] Conserved hypothetical proteins",
-      "[tigr_role] Hypothetical proteins / Conserved"
-    ],
-    "cluster_number": "CK_00045417",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "R.2"
-    ],
-    "cyanorak_Role_description": [
-      "Conserved hypothetical proteins"
-    ],
-    "end_cyanorak": 680994,
-    "gene_category": "Unknown",
-    "gene_summary": "uncharacterized conserved lipoprotein",
-    "go_term_descriptions": [
-      "membrane"
-    ],
-    "go_terms": [
-      "GO:0016020"
-    ],
-    "go_terms_source": {
-      "GO:0016020": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "PMM1878",
-    "locus_tag_cyanorak": "CK_Pro_MED4_01878",
-    "organism_name": "Prochlorococcus MED4",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00045417",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "uncharacterized conserved lipoprotein",
-    "product_cyanorak": "uncharacterized conserved lipoprotein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 680881,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
-    ]
   },
   "PMM1880": {
     "all_identifiers": [
@@ -417629,21 +417494,35 @@
   },
   "TX50_RS03815": {
     "all_identifiers": [
+      "CK_Pro_MED4_01878",
+      "PMM1878",
       "WP_225866773.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] uncharacterized conserved lipoprotein",
       "[ncbi] hypothetical protein",
-      "[eggnog] -"
+      "[eggnog] -",
+      "[cyanorak_role] Conserved hypothetical proteins",
+      "[tigr_role] Hypothetical proteins / Conserved"
     ],
     "alternative_locus_tags": [
-      "TX50_RS03815"
+      "TX50_RS03815",
+      "PMM1878"
     ],
+    "cluster_number": "CK_00045417",
     "contig": "NC_005072.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
       "signalp"
+    ],
+    "cyanorak_Role": [
+      "R.2"
+    ],
+    "cyanorak_Role_description": [
+      "Conserved hypothetical proteins"
     ],
     "eggnog_ogs": [
       "2B8H4@1|root",
@@ -417652,16 +417531,40 @@
       "1MMZI@1212|Prochloraceae"
     ],
     "end": 681087,
+    "end_cyanorak": 680994,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "uncharacterized conserved lipoprotein :: -",
     "gene_synonyms": [
-      "TX50_RS03815"
+      "TX50_RS03815",
+      "PMM1878"
     ],
+    "go_term_descriptions": [
+      "membrane"
+    ],
+    "go_terms": [
+      "GO:0016020"
+    ],
+    "go_terms_source": {
+      "GO:0016020": [
+        "cyanorak"
+      ]
+    },
     "locus_tag": "TX50_RS03815",
+    "locus_tag_cyanorak": "CK_Pro_MED4_01878",
     "locus_tag_ncbi": "TX50_RS03815",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "PMM1878"
+    ],
     "organism_name": "Prochlorococcus MED4",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00045417",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:321S7@2",
         "source": "eggnog",
@@ -417684,8 +417587,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "uncharacterized conserved lipoprotein",
+    "product_cyanorak": "uncharacterized conserved lipoprotein",
+    "product_source": "cyanorak",
     "protein_id": "WP_225866773.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -417694,7 +417598,15 @@
     "signalp_probability": 0.999999,
     "signalp_type": "OTHER",
     "start": 680881,
-    "strand": "-"
+    "start_cyanorak": 680881,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "TX50_RS09255": {
     "all_identifiers": [
@@ -418386,20 +418298,26 @@
   },
   "TX50_RS09915": {
     "all_identifiers": [
+      "CK_Pro_MED4_00624",
+      "PMM0624",
       "WP_268741263.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] possible Hantavirus glycoprotein G2",
       "[ncbi] hypothetical protein",
       "[eggnog] Hantavirus glycoprotein G2"
     ],
     "alternative_locus_tags": [
+      "PMM0624",
       "TX50_RS09915"
     ],
+    "cluster_number": "CK_00044313",
     "cog_category": [
       "S"
     ],
     "contig": "NC_005072.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -418412,18 +418330,31 @@
       "1MNUE@1212|Prochloraceae"
     ],
     "end": 595439,
+    "end_cyanorak": 595439,
     "function_description": "Hantavirus glycoprotein G2",
     "function_description_source": "eggnog",
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: Hantavirus glycoprotein G2",
+    "gene_summary": "possible Hantavirus glycoprotein G2 :: Hantavirus glycoprotein G2",
     "gene_synonyms": [
+      "PMM0624",
       "TX50_RS09915"
     ],
     "locus_tag": "TX50_RS09915",
+    "locus_tag_cyanorak": "CK_Pro_MED4_00624",
     "locus_tag_ncbi": "TX50_RS09915",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "PMM0624"
+    ],
     "organism_name": "Prochlorococcus MED4",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00044313",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:30RXF@2",
         "source": "eggnog",
@@ -418446,8 +418377,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "possible Hantavirus glycoprotein G2",
+    "product_cyanorak": "possible Hantavirus glycoprotein G2",
+    "product_source": "cyanorak",
     "protein_id": "WP_268741263.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -418456,7 +418388,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 595314,
-    "strand": "+"
+    "start_cyanorak": 595185,
+    "strand": "+",
+    "strand_cyanorak": "+"
   },
   "TX50_RS09930": {
     "all_identifiers": [

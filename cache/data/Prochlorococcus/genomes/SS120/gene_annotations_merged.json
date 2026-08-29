@@ -38,38 +38,61 @@
   },
   "PRO_RS00745": {
     "all_identifiers": [
+      "CK_Pro_SS120_00148",
       "WP_164923196.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] Predicted membrane protein",
       "[ncbi] hypothetical protein"
     ],
     "alternative_locus_tags": [
       "PRO_RS00745"
     ],
+    "cluster_number": "CK_00048765",
     "contig": "NC_005042.1",
     "contributing_sources": [
+      "cyanorak",
       "ncbi",
       "psortb",
       "signalp"
     ],
     "end": 149028,
+    "end_cyanorak": 149457,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein",
+    "gene_name": "Pro0148",
+    "gene_name_source": "cyanorak",
+    "gene_summary": "Pro0148 :: Predicted membrane protein",
     "gene_synonyms": [
       "PRO_RS00745"
     ],
     "locus_tag": "PRO_RS00745",
+    "locus_tag_cyanorak": "CK_Pro_SS120_00148",
     "locus_tag_ncbi": "PRO_RS00745",
+    "old_locus_tags": [
+      "Pro0148"
+    ],
     "organism_name": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00048765",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      }
+    ],
+    "product": "Predicted membrane protein",
+    "product_cyanorak": "Predicted membrane protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_164923196.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 148813,
-    "strand": "-"
+    "start_cyanorak": 148813,
+    "strand": "-",
+    "strand_cyanorak": "-"
   },
   "PRO_RS00895": {
     "all_identifiers": [
@@ -272,17 +295,23 @@
   },
   "PRO_RS03015": {
     "all_identifiers": [
+      "CK_Pro_SS120_05971",
+      "SS120_05971",
       "WP_164923210.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] Conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -"
     ],
     "alternative_locus_tags": [
-      "PRO_RS03015"
+      "PRO_RS03015",
+      "SS120_05971"
     ],
+    "cluster_number": "CK_00051876",
     "contig": "NC_005042.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -295,16 +324,29 @@
       "1MP6A@1212|Prochloraceae"
     ],
     "end": 557362,
+    "end_cyanorak": 557362,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "Conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "PRO_RS03015"
+      "PRO_RS03015",
+      "SS120_05971"
     ],
     "locus_tag": "PRO_RS03015",
+    "locus_tag_cyanorak": "CK_Pro_SS120_05971",
     "locus_tag_ncbi": "PRO_RS03015",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "SS120_05971"
+    ],
     "organism_name": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00051876",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:30PC2@2",
         "source": "eggnog",
@@ -327,8 +369,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "Conserved hypothetical protein",
+    "product_cyanorak": "Conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_164923210.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
@@ -337,7 +380,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 557225,
-    "strand": "+"
+    "start_cyanorak": 557246,
+    "strand": "+",
+    "strand_cyanorak": "+"
   },
   "PRO_RS03030": {
     "all_identifiers": [
@@ -1105,38 +1150,62 @@
   },
   "PRO_RS05800": {
     "all_identifiers": [
+      "CK_Pro_SS120_12001",
+      "SS120_12001",
       "WP_164923233.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] Hypothetical protein",
       "[ncbi] hypothetical protein"
     ],
     "alternative_locus_tags": [
-      "PRO_RS05800"
+      "PRO_RS05800",
+      "SS120_12001"
     ],
+    "cluster_number": "CK_00050306",
     "contig": "NC_005042.1",
     "contributing_sources": [
+      "cyanorak",
       "ncbi",
       "psortb",
       "signalp"
     ],
     "end": 1098725,
+    "end_cyanorak": 1098725,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein",
+    "gene_summary": "Hypothetical protein",
     "gene_synonyms": [
-      "PRO_RS05800"
+      "PRO_RS05800",
+      "SS120_12001"
     ],
     "locus_tag": "PRO_RS05800",
+    "locus_tag_cyanorak": "CK_Pro_SS120_12001",
     "locus_tag_ncbi": "PRO_RS05800",
+    "old_locus_tags": [
+      "SS120_12001"
+    ],
     "organism_name": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00050306",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      }
+    ],
+    "product": "Hypothetical protein",
+    "product_cyanorak": "Hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_164923233.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 0.999999,
     "signalp_type": "OTHER",
     "start": 1098585,
-    "strand": "+"
+    "start_cyanorak": 1098567,
+    "strand": "+",
+    "strand_cyanorak": "+"
   },
   "PRO_RS05850": {
     "all_identifiers": [
@@ -1835,31 +1904,53 @@
   },
   "PRO_RS07770": {
     "all_identifiers": [
+      "CK_Pro_SS120_16221",
+      "SS120_16221",
       "WP_036892494.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] Conserved hypothetical protein",
       "[ncbi] hypothetical protein"
     ],
     "alternative_locus_tags": [
-      "PRO_RS07770"
+      "PRO_RS07770",
+      "SS120_16221"
     ],
+    "cluster_number": "CK_00046217",
     "contig": "NC_005042.1",
     "contributing_sources": [
+      "cyanorak",
       "ncbi",
       "psortb",
       "signalp"
     ],
     "end": 1445180,
+    "end_cyanorak": 1445180,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein",
+    "gene_summary": "Conserved hypothetical protein",
     "gene_synonyms": [
-      "PRO_RS07770"
+      "PRO_RS07770",
+      "SS120_16221"
     ],
     "locus_tag": "PRO_RS07770",
+    "locus_tag_cyanorak": "CK_Pro_SS120_16221",
     "locus_tag_ncbi": "PRO_RS07770",
+    "old_locus_tags": [
+      "SS120_16221"
+    ],
     "organism_name": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00046217",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      }
+    ],
+    "product": "Conserved hypothetical protein",
+    "product_cyanorak": "Conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_036892494.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -1868,7 +1959,9 @@
     "signalp_probability": 0.601052,
     "signalp_type": "SP",
     "start": 1444914,
-    "strand": "+"
+    "start_cyanorak": 1445046,
+    "strand": "+",
+    "strand_cyanorak": "+"
   },
   "PRO_RS09295": {
     "all_identifiers": [
@@ -2032,17 +2125,23 @@
   },
   "PRO_RS09310": {
     "all_identifiers": [
+      "CK_Pro_SS120_06561",
+      "SS120_06561",
       "WP_165438627.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] Conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -"
     ],
     "alternative_locus_tags": [
-      "PRO_RS09310"
+      "PRO_RS09310",
+      "SS120_06561"
     ],
+    "cluster_number": "CK_00055286",
     "contig": "NC_005042.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -2055,16 +2154,29 @@
       "1MP0X@1212|Prochloraceae"
     ],
     "end": 603643,
+    "end_cyanorak": 603598,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "Conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "PRO_RS09310"
+      "PRO_RS09310",
+      "SS120_06561"
     ],
     "locus_tag": "PRO_RS09310",
+    "locus_tag_cyanorak": "CK_Pro_SS120_06561",
     "locus_tag_ncbi": "PRO_RS09310",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "SS120_06561"
+    ],
     "organism_name": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00055286",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:32ICI@2",
         "source": "eggnog",
@@ -2087,8 +2199,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "Conserved hypothetical protein",
+    "product_cyanorak": "Conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_165438627.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -2097,7 +2210,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 603479,
-    "strand": "-"
+    "start_cyanorak": 603479,
+    "strand": "-",
+    "strand_cyanorak": "-"
   },
   "PRO_RS09315": {
     "all_identifiers": [
@@ -35834,45 +35949,6 @@
       "16..49"
     ],
     "uniprot_accession": "Q7VE66"
-  },
-  "Pro0148": {
-    "all_identifiers": [
-      "CK_Pro_SS120_00148"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] Predicted membrane protein"
-    ],
-    "cluster_number": "CK_00048765",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 149457,
-    "gene_category": "Unknown",
-    "gene_name_synonyms": [
-      "Pro0148"
-    ],
-    "gene_summary": "Predicted membrane protein",
-    "gene_synonyms": [
-      "Pro0148"
-    ],
-    "locus_tag": "Pro0148",
-    "locus_tag_cyanorak": "CK_Pro_SS120_00148",
-    "organism_name": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00048765",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "Predicted membrane protein",
-    "product_cyanorak": "Predicted membrane protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 148813,
-    "strand_cyanorak": "-"
   },
   "Pro0149": {
     "all_identifiers": [
@@ -422075,39 +422151,6 @@
     "start_cyanorak": 512393,
     "strand_cyanorak": "-"
   },
-  "SS120_05971": {
-    "all_identifiers": [
-      "CK_Pro_SS120_05971"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] Conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00051876",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 557362,
-    "gene_category": "Unknown",
-    "gene_summary": "Conserved hypothetical protein",
-    "locus_tag": "SS120_05971",
-    "locus_tag_cyanorak": "CK_Pro_SS120_05971",
-    "organism_name": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00051876",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "Conserved hypothetical protein",
-    "product_cyanorak": "Conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 557246,
-    "strand_cyanorak": "+"
-  },
   "SS120_06361": {
     "all_identifiers": [
       "CK_Pro_SS120_06361"
@@ -422173,39 +422216,6 @@
     "product_source": "cyanorak",
     "start_cyanorak": 598827,
     "strand_cyanorak": "+"
-  },
-  "SS120_06561": {
-    "all_identifiers": [
-      "CK_Pro_SS120_06561"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] Conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00055286",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 603598,
-    "gene_category": "Unknown",
-    "gene_summary": "Conserved hypothetical protein",
-    "locus_tag": "SS120_06561",
-    "locus_tag_cyanorak": "CK_Pro_SS120_06561",
-    "organism_name": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00055286",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "Conserved hypothetical protein",
-    "product_cyanorak": "Conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 603479,
-    "strand_cyanorak": "-"
   },
   "SS120_07021": {
     "all_identifiers": [
@@ -422436,39 +422446,6 @@
     "product_cyanorak": "Hypothetical protein",
     "product_source": "cyanorak",
     "start_cyanorak": 1045049,
-    "strand_cyanorak": "+"
-  },
-  "SS120_12001": {
-    "all_identifiers": [
-      "CK_Pro_SS120_12001"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] Hypothetical protein"
-    ],
-    "cluster_number": "CK_00050306",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1098725,
-    "gene_category": "Unknown",
-    "gene_summary": "Hypothetical protein",
-    "locus_tag": "SS120_12001",
-    "locus_tag_cyanorak": "CK_Pro_SS120_12001",
-    "organism_name": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00050306",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "Hypothetical protein",
-    "product_cyanorak": "Hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1098567,
     "strand_cyanorak": "+"
   },
   "SS120_13101": {
@@ -422858,39 +422835,6 @@
     "product_source": "cyanorak",
     "start_cyanorak": 1419964,
     "strand_cyanorak": "-"
-  },
-  "SS120_16221": {
-    "all_identifiers": [
-      "CK_Pro_SS120_16221"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] Conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00046217",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1445180,
-    "gene_category": "Unknown",
-    "gene_summary": "Conserved hypothetical protein",
-    "locus_tag": "SS120_16221",
-    "locus_tag_cyanorak": "CK_Pro_SS120_16221",
-    "organism_name": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00046217",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "Conserved hypothetical protein",
-    "product_cyanorak": "Conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1445046,
-    "strand_cyanorak": "+"
   },
   "SS120_16461": {
     "all_identifiers": [
