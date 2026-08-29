@@ -17,11 +17,11 @@
     "output_tokens": 2188,
     "resolution": {
       "gene_records": 30,
-      "genes_resolved": 29,
+      "genes_resolved": 28,
       "gene_methods": {
-        "multi:v": 13,
-        "tier1:v": 16,
-        "unresolved": 1
+        "multi:v": 25,
+        "unresolved": 2,
+        "multi_named:v": 3
       },
       "pathway_records": 5,
       "pathways_resolved": 3,
@@ -38,7 +38,7 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 1
+        "lookup_miss": 2
       }
     }
   },
@@ -77,7 +77,7 @@
       "strain": "Prochlorococcus MIT9312",
       "locus_tag": "PMT9312_0722",
       "resolved_from": "pstS",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PstS",
@@ -89,7 +89,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_0441",
       "resolved_from": "pstS",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PstS",
@@ -99,9 +99,9 @@
       "evidence": "SS120 is deficient in most Pi acquisition genes [14,15], however it does have two copies of PstS, neither of which were present in our assay (Results, p4)",
       "mention_strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
-      "locus_tag": "Pro1533",
-      "resolved_from": "pstS",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "phoBR",
@@ -149,7 +149,7 @@
       "strain": "Prochlorococcus MIT9312",
       "locus_tag": "PMT9312_0768",
       "resolved_from": "chlP",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "FumC",
@@ -173,7 +173,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_1185",
       "resolved_from": "acpP",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "CobJ",
@@ -185,7 +185,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_1081",
       "resolved_from": "cobJ",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "CitT",
@@ -197,7 +197,7 @@
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "locus_tag": "Pro0097",
       "resolved_from": "citT",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "LuxR",
@@ -221,7 +221,7 @@
       "strain": "Prochlorococcus MIT9312",
       "locus_tag": "PMT9312_1544",
       "resolved_from": "atpA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "AtpA",
@@ -233,7 +233,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_0981",
       "resolved_from": "atpA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "AtpA",
@@ -245,7 +245,7 @@
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "locus_tag": "Pro1604",
       "resolved_from": "atpA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "AtpD",
@@ -255,9 +255,9 @@
       "evidence": "They are the ATP synthase subunits AtpA and AtpD ... found in all three strains (Results, p3)",
       "mention_strain": "all",
       "strain": "Prochlorococcus MIT9312",
-      "locus_tag": "PMT9312_1531",
+      "locus_tag": "PMT9312_1545",
       "resolved_from": "atpD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "AtpD",
@@ -267,9 +267,9 @@
       "evidence": "They are the ATP synthase subunits AtpA and AtpD ... found in all three strains (Results, p3)",
       "mention_strain": "all",
       "strain": "Prochlorococcus NATL2A",
-      "locus_tag": "PMN2A_0970",
+      "locus_tag": "PMN2A_0982",
       "resolved_from": "atpD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "AtpD",
@@ -279,9 +279,9 @@
       "evidence": "They are the ATP synthase subunits AtpA and AtpD ... found in all three strains (Results, p3)",
       "mention_strain": "all",
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
-      "locus_tag": "Pro1591",
+      "locus_tag": "Pro1605",
       "resolved_from": "atpD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "PsbO",
@@ -317,7 +317,7 @@
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "locus_tag": "Pro0257",
       "resolved_from": "psbO",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "GlnK",
@@ -353,7 +353,7 @@
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "locus_tag": "Pro1616",
       "resolved_from": "glnK",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "CsoS1",
@@ -401,7 +401,7 @@
       "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
       "locus_tag": "Pro1123",
       "resolved_from": "petH",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     }
   ],
   "pathways": [

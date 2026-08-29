@@ -15,11 +15,12 @@
     "input_tokens": 20111,
     "output_tokens": 3681,
     "resolution": {
-      "gene_records": 51,
-      "genes_resolved": 51,
+      "gene_records": 44,
+      "genes_resolved": 44,
       "gene_methods": {
         "locus_tag:v": 15,
-        "tier1:v": 36
+        "multi:v": 28,
+        "multi_named:v": 1
       },
       "pathway_records": 3,
       "pathways_resolved": 3,
@@ -74,7 +75,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1524",
       "resolved_from": "psaA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaB",
@@ -86,7 +87,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1523",
       "resolved_from": "psaB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaC",
@@ -98,7 +99,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1607",
       "resolved_from": "psaC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaD",
@@ -110,7 +111,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1578",
       "resolved_from": "psaD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaF",
@@ -122,7 +123,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0469",
       "resolved_from": "psaF",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaI",
@@ -134,7 +135,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1520",
       "resolved_from": "psaI",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaJ",
@@ -146,7 +147,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0468",
       "resolved_from": "psaJ",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaK",
@@ -158,7 +159,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0906",
       "resolved_from": "psaK",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaL",
@@ -170,7 +171,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1519",
       "resolved_from": "psaL",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaM",
@@ -182,7 +183,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0540",
       "resolved_from": "psaM",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psbA",
@@ -194,7 +195,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0223",
       "resolved_from": "psbA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psbN (psbTc)",
@@ -206,7 +207,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0252",
       "resolved_from": "psbN",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psb28",
@@ -218,7 +219,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0926",
       "resolved_from": "psb28",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
@@ -237,51 +238,9 @@
       "evidence": "Among these, hli6, hli7, hli8, and hli9 form an operon, which has been duplicated (hli16, hli17, hli18, and hli19) in this strain. Both copies of the operon were significantly upregulated under all light conditions except green light (p7)",
       "mention_strain": "Prochlorococcus MED4",
       "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1399",
+      "locus_tag": "PMM1317",
       "resolved_from": "hli6",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
-      "gene_name": "",
-      "identifiers": [
-        "hli6",
-        "hli7",
-        "hli8",
-        "hli9",
-        "hli16",
-        "hli17",
-        "hli18",
-        "hli19"
-      ],
-      "prominence": "central",
-      "evidence": "Among these, hli6, hli7, hli8, and hli9 form an operon, which has been duplicated (hli16, hli17, hli18, and hli19) in this strain. Both copies of the operon were significantly upregulated under all light conditions except green light (p7)",
-      "mention_strain": "Prochlorococcus MED4",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1398",
-      "resolved_from": "hli7",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
-      "gene_name": "",
-      "identifiers": [
-        "hli6",
-        "hli7",
-        "hli8",
-        "hli9",
-        "hli16",
-        "hli17",
-        "hli18",
-        "hli19"
-      ],
-      "prominence": "central",
-      "evidence": "Among these, hli6, hli7, hli8, and hli9 form an operon, which has been duplicated (hli16, hli17, hli18, and hli19) in this strain. Both copies of the operon were significantly upregulated under all light conditions except green light (p7)",
-      "mention_strain": "Prochlorococcus MED4",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1397",
-      "resolved_from": "hli8",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
@@ -302,70 +261,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1396",
       "resolved_from": "hli9",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
-      "gene_name": "",
-      "identifiers": [
-        "hli6",
-        "hli7",
-        "hli8",
-        "hli9",
-        "hli16",
-        "hli17",
-        "hli18",
-        "hli19"
-      ],
-      "prominence": "central",
-      "evidence": "Among these, hli6, hli7, hli8, and hli9 form an operon, which has been duplicated (hli16, hli17, hli18, and hli19) in this strain. Both copies of the operon were significantly upregulated under all light conditions except green light (p7)",
-      "mention_strain": "Prochlorococcus MED4",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0818",
-      "resolved_from": "hli16",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
-      "gene_name": "",
-      "identifiers": [
-        "hli6",
-        "hli7",
-        "hli8",
-        "hli9",
-        "hli16",
-        "hli17",
-        "hli18",
-        "hli19"
-      ],
-      "prominence": "central",
-      "evidence": "Among these, hli6, hli7, hli8, and hli9 form an operon, which has been duplicated (hli16, hli17, hli18, and hli19) in this strain. Both copies of the operon were significantly upregulated under all light conditions except green light (p7)",
-      "mention_strain": "Prochlorococcus MED4",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0817",
-      "resolved_from": "hli17",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
-      "gene_name": "",
-      "identifiers": [
-        "hli6",
-        "hli7",
-        "hli8",
-        "hli9",
-        "hli16",
-        "hli17",
-        "hli18",
-        "hli19"
-      ],
-      "prominence": "central",
-      "evidence": "Among these, hli6, hli7, hli8, and hli9 form an operon, which has been duplicated (hli16, hli17, hli18, and hli19) in this strain. Both copies of the operon were significantly upregulated under all light conditions except green light (p7)",
-      "mention_strain": "Prochlorococcus MED4",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0816",
-      "resolved_from": "hli18",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
@@ -386,24 +282,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0815",
       "resolved_from": "hli19",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli4, hli5, hli14, hli21",
-      "gene_name": "",
-      "identifiers": [
-        "hli4",
-        "hli5",
-        "hli14",
-        "hli21"
-      ],
-      "prominence": "central",
-      "evidence": "The same expression pattern was apparent for hli4, hli5, hli14, and hli21 (p7)",
-      "mention_strain": "Prochlorococcus MED4",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1118",
-      "resolved_from": "hli4",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli4, hli5, hli14, hli21",
@@ -420,7 +299,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1404",
       "resolved_from": "hli5",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli4, hli5, hli14, hli21",
@@ -437,7 +316,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1135",
       "resolved_from": "hli14",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli4, hli5, hli14, hli21",
@@ -454,7 +333,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0690",
       "resolved_from": "hli21",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli11, hli12, hli22, hli3, hli15",
@@ -472,25 +351,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1385",
       "resolved_from": "hli11",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli11, hli12, hli22, hli3, hli15",
-      "gene_name": "",
-      "identifiers": [
-        "hli11",
-        "hli12",
-        "hli22",
-        "hli3",
-        "hli15"
-      ],
-      "prominence": "peripheral",
-      "evidence": "only modest to minor changes were detectable for hli11, hli12, hli22, hli3, and hli15 (p7)",
-      "mention_strain": "Prochlorococcus MED4",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1384",
-      "resolved_from": "hli12",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli11, hli12, hli22, hli3, hli15",
@@ -508,7 +369,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0689",
       "resolved_from": "hli22",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli11, hli12, hli22, hli3, hli15",
@@ -526,7 +387,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1482",
       "resolved_from": "hli3",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli11, hli12, hli22, hli3, hli15",
@@ -544,7 +405,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1128",
       "resolved_from": "hli15",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli1, hli2, hli10, hli13, hli20",
@@ -562,7 +423,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0093",
       "resolved_from": "hli1",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli1, hli2, hli10, hli13, hli20",
@@ -580,7 +441,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0064",
       "resolved_from": "hli2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli1, hli2, hli10, hli13, hli20",
@@ -598,7 +459,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1390",
       "resolved_from": "hli10",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli1, hli2, hli10, hli13, hli20",
@@ -616,7 +477,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1317",
       "resolved_from": "hli13",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli1, hli2, hli10, hli13, hli20",
@@ -634,7 +495,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0471",
       "resolved_from": "hli20",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PMM1359",
@@ -800,7 +661,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0195",
       "resolved_from": "pgk",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "cpeB (PMM0305)",

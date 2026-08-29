@@ -18,17 +18,17 @@
     "gff_gene_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 8325
+      "unique": 8322
     },
     "locus_tag_ncbi": {
-      "conflict": 83,
+      "conflict": 0,
       "multi": 0,
-      "unique": 13463
+      "unique": 4082
     },
     "protein_id_refseq": {
       "conflict": 0,
       "multi": 6,
-      "unique": 8319
+      "unique": 8316
     },
     "uniprot_accession": {
       "conflict": 0,
@@ -36,7 +36,11 @@
       "unique": 3074
     }
   },
+  "runaway_genes": [],
   "strain": "HP15",
+  "tier1_count_max": 4,
+  "tier1_count_median": 4.0,
+  "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
     "Moreno 2023/supp_table_s4_marino_in_bl107": 26,
     "Moreno 2023/supp_table_s4_marino_in_med4": 84,
@@ -44,10 +48,8 @@
     "Moreno 2023/supp_table_s4_marino_in_wh7803": 39,
     "Moreno 2023/supp_table_s4_marino_in_wh8102": 120,
     "cds_from_genomic.fna": 65,
-    "genomic_gca/HP15": 735,
+    "genomic_gca/HP15": 741,
     "genomic_gcf/HP15": 89
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 83 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

@@ -21,9 +21,9 @@
       "unique": 7808
     },
     "locus_tag_ncbi": {
-      "conflict": 41,
+      "conflict": 0,
       "multi": 0,
-      "unique": 12630
+      "unique": 3879
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -31,14 +31,16 @@
       "unique": 7793
     }
   },
+  "runaway_genes": [],
   "strain": "AD45",
+  "tier1_count_max": 4,
+  "tier1_count_median": 4.0,
+  "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
     "Fadeev 2022/s1_ad45": 1,
     "cds_from_genomic.fna": 20,
     "genomic_gca/AD45": 262,
     "genomic_gcf/AD45": 106
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 41 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

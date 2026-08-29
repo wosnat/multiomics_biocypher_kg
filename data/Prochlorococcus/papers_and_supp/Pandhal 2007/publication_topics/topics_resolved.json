@@ -17,7 +17,7 @@
       "gene_records": 24,
       "genes_resolved": 24,
       "gene_methods": {
-        "tier1:v": 15,
+        "multi:v": 15,
         "locus_tag:v": 9
       },
       "pathway_records": 4,
@@ -46,7 +46,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1436",
       "resolved_from": "groEL",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "Pcb",
@@ -58,7 +58,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0627",
       "resolved_from": "pcb",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PsbB",
@@ -70,7 +70,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0315",
       "resolved_from": "psbB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PsbC",
@@ -82,7 +82,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1158",
       "resolved_from": "psbC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PsbD",
@@ -94,7 +94,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1157",
       "resolved_from": "psbD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PsbO",
@@ -106,7 +106,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0228",
       "resolved_from": "psbO",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PsaA",
@@ -118,7 +118,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1524",
       "resolved_from": "psaA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PsaB",
@@ -130,7 +130,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1523",
       "resolved_from": "psaB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PsaE",
@@ -142,7 +142,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0329",
       "resolved_from": "psaE",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PsaL",
@@ -154,7 +154,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1519",
       "resolved_from": "psaL",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "D1 protein",
@@ -166,7 +166,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0223",
       "resolved_from": "psbA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "GroEL2",
@@ -178,7 +178,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0452",
       "resolved_from": "groEL2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "DnaK2",
@@ -204,7 +204,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0901",
       "resolved_from": "htpG",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ClpC",
@@ -230,7 +230,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1437",
       "resolved_from": "groES",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "FtsZ",
@@ -284,7 +284,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0552",
       "resolved_from": "csoS2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "Rubisco",

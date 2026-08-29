@@ -19,7 +19,8 @@
       "genes_resolved": 47,
       "gene_methods": {
         "locus_tag:v": 45,
-        "tier1:v": 2
+        "multi:v": 1,
+        "tier1:v": 1
       },
       "pathway_records": 8,
       "pathways_resolved": 2,
@@ -384,7 +385,7 @@
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW0275",
       "resolved_from": "ntcA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "SYNW0303",

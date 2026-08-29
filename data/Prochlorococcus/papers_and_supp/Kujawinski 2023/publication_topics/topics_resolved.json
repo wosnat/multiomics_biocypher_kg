@@ -19,7 +19,8 @@
       "gene_records": 14,
       "genes_resolved": 6,
       "gene_methods": {
-        "tier1:v": 6,
+        "tier1_ci:v": 3,
+        "multi:v": 3,
         "unresolved": 7,
         "no_mapping": 1
       },
@@ -54,7 +55,7 @@
       "strain": "Prochlorococcus MIT9301",
       "locus_tag": "P9301_03361",
       "resolved_from": "metK",
-      "resolution_method": "tier1:v"
+      "resolution_method": "tier1_ci:v"
     },
     {
       "surface_form": "SAM synthetase (metK)",
@@ -66,7 +67,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1670",
       "resolved_from": "metK",
-      "resolution_method": "tier1:v"
+      "resolution_method": "tier1_ci:v"
     },
     {
       "surface_form": "SAM:tRNA isomerase (queA)",
@@ -78,7 +79,7 @@
       "strain": "Prochlorococcus MIT9301",
       "locus_tag": "P9301_04251",
       "resolved_from": "queA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "tier1_ci:v"
     },
     {
       "surface_form": "SAM:tRNA isomerase (queA)",
@@ -90,7 +91,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT0223",
       "resolved_from": "queA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "SAM decarboxylase (speD)",
@@ -102,7 +103,7 @@
       "strain": "Prochlorococcus MIT9301",
       "locus_tag": "P9301_17631",
       "resolved_from": "speD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "SAM decarboxylase (speD)",
@@ -114,7 +115,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1716",
       "resolved_from": "speD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "SAM-dependent cytosine methyltransferase (EC.2.1.1.199)",

@@ -123,12 +123,12 @@
     },
     {
       "properties": {
-        "adjusted_p_value": 0.472611726798457,
+        "adjusted_p_value": 0.0497405479367472,
         "expression_direction": "down",
-        "log2_fold_change": -0.475447834373154,
-        "time_point": "5h",
-        "time_point_hours": 5.0,
-        "time_point_order": 4
+        "log2_fold_change": -1.31842722939405,
+        "time_point": "3h",
+        "time_point_hours": 3.0,
+        "time_point_order": 3
       },
       "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
       "target": "ncbigene:SYNWH7803_RS00465",
@@ -136,12 +136,12 @@
     },
     {
       "properties": {
-        "adjusted_p_value": 0.168932371857294,
+        "adjusted_p_value": 0.472611726798457,
         "expression_direction": "down",
-        "log2_fold_change": -0.918582631661619,
-        "time_point": "1h",
-        "time_point_hours": 1.0,
-        "time_point_order": 2
+        "log2_fold_change": -0.475447834373154,
+        "time_point": "5h",
+        "time_point_hours": 5.0,
+        "time_point_order": 4
       },
       "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
       "target": "ncbigene:SYNWH7803_RS00465",
@@ -162,12 +162,12 @@
     },
     {
       "properties": {
-        "adjusted_p_value": 0.0497405479367472,
+        "adjusted_p_value": 0.168932371857294,
         "expression_direction": "down",
-        "log2_fold_change": -1.31842722939405,
-        "time_point": "3h",
-        "time_point_hours": 3.0,
-        "time_point_order": 3
+        "log2_fold_change": -0.918582631661619,
+        "time_point": "1h",
+        "time_point_hours": 1.0,
+        "time_point_order": 2
       },
       "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
       "target": "ncbigene:SYNWH7803_RS00465",
@@ -981,7 +981,7 @@
     {
       "properties": {
         "metric_bucket": "mid",
-        "metric_percentile": 69.49654491609083,
+        "metric_percentile": 69.58661417322834,
         "metric_type": "cell_abundance_biovolume_normalized",
         "rank_by_metric": 310,
         "value": 1.68e-08
@@ -993,9 +993,9 @@
     {
       "properties": {
         "metric_bucket": "top_quartile",
-        "metric_percentile": 82.4284304047384,
+        "metric_percentile": 82.38188976377953,
         "metric_type": "cell_abundance_biovolume_normalized",
-        "rank_by_metric": 179,
+        "rank_by_metric": 180,
         "value": 2.89e-08
       },
       "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
@@ -1005,9 +1005,9 @@
     {
       "properties": {
         "metric_bucket": "mid",
-        "metric_percentile": 49.45705824284304,
+        "metric_percentile": 49.50787401574803,
         "metric_type": "cell_abundance_biovolume_normalized",
-        "rank_by_metric": 513,
+        "rank_by_metric": 514,
         "value": 7.38e-09
       },
       "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
@@ -1017,9 +1017,9 @@
     {
       "properties": {
         "metric_bucket": "mid",
-        "metric_percentile": 62.48766041461007,
+        "metric_percentile": 62.5,
         "metric_type": "cell_abundance_biovolume_normalized",
-        "rank_by_metric": 381,
+        "rank_by_metric": 382,
         "value": 1.18e-08
       },
       "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
@@ -1029,9 +1029,9 @@
     {
       "properties": {
         "metric_bucket": "top_quartile",
-        "metric_percentile": 75.22211253701876,
+        "metric_percentile": 75.39370078740157,
         "metric_type": "cell_abundance_biovolume_normalized",
-        "rank_by_metric": 252,
+        "rank_by_metric": 251,
         "value": 2.01e-08
       },
       "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
@@ -2266,7 +2266,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-08-27T14:00:20.588292+00:00",
+  "generated_at": "2026-08-29T07:25:55.746384+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -2538,7 +2538,7 @@
           "Synechococcus WH7803",
           "Synechococcus WH8102"
         ],
-        "title": "You produce while I clean up, a strategy revealed by exoproteomics during Synechococcus–Roseobacter interactions",
+        "title": "You produce while I clean up, a strategy revealed by exoproteomics during Synechococcus\u2013Roseobacter interactions",
         "treatment_types": [
           "coculture"
         ]
@@ -2671,7 +2671,7 @@
       "id": "10.1016/j.cell.2022.12.006_mmc_vs_uv_mit0604",
       "label": "Experiment",
       "properties": {
-        "control": "UV shock arm (30 s 254 nm + 1 h recovery) — treatment-vs-treatment contrast, NOT an untreated baseline",
+        "control": "UV shock arm (30 s 254 nm + 1 h recovery) \u2014 treatment-vs-treatment contrast, NOT an untreated baseline",
         "is_time_course": "single_time_point",
         "name": "MIT0604 mitomycin C vs UV shock (treatment-vs-treatment contrast, RNA-seq)",
         "omics_type": "RNASEQ",
@@ -3198,7 +3198,7 @@
         "omics_type": "VESICLE_PROTEOMICS",
         "organism_name": "Prochlorococcus MIT9312",
         "rankable": "rankable",
-        "total_gene_count": 1014,
+        "total_gene_count": 1017,
         "value_kind": "numeric",
         "value_max": 8.02e-07,
         "value_median": 7.67e-09,
@@ -3220,7 +3220,7 @@
         "omics_type": "VESICLE_PROTEOMICS",
         "organism_name": "Prochlorococcus MIT9312",
         "rankable": "rankable",
-        "total_gene_count": 221,
+        "total_gene_count": 222,
         "value_kind": "numeric",
         "value_max": 2.79e-07,
         "value_median": 1.18e-09,
@@ -3242,13 +3242,13 @@
         "omics_type": "VESICLE_PROTEOMICS",
         "organism_name": "Prochlorococcus MIT9313",
         "rankable": "rankable",
-        "total_gene_count": 1044,
+        "total_gene_count": 1052,
         "value_kind": "numeric",
         "value_max": 2.98e-06,
         "value_median": 1.87e-08,
         "value_min": 2.24e-09,
         "value_q1": 7.48e-09,
-        "value_q3": 5.1075e-08
+        "value_q3": 5.09e-08
       }
     },
     {
@@ -3264,13 +3264,13 @@
         "omics_type": "VESICLE_PROTEOMICS",
         "organism_name": "Prochlorococcus MIT9313",
         "rankable": "rankable",
-        "total_gene_count": 353,
+        "total_gene_count": 355,
         "value_kind": "numeric",
         "value_max": 4.31e-07,
         "value_median": 1.1e-09,
         "value_min": 2.2e-10,
         "value_q1": 4.41e-10,
-        "value_q3": 3.31e-09
+        "value_q3": 3.42e-09
       }
     },
     {
@@ -3286,13 +3286,13 @@
         "omics_type": "VESICLE_PROTEOMICS",
         "organism_name": "Prochlorococcus MIT9312",
         "rankable": "rankable",
-        "total_gene_count": 204,
+        "total_gene_count": 205,
         "value_kind": "numeric",
         "value_max": 2.050230564,
-        "value_median": -3.7982188199999998,
+        "value_median": -3.777845649,
         "value_min": -10.31939404,
-        "value_q1": -6.3470493515,
-        "value_q3": -1.7275050052500003
+        "value_q1": -6.277546607,
+        "value_q3": -1.738636687
       }
     },
     {
@@ -3666,7 +3666,7 @@
       "properties": {
         "level": 1,
         "level_kind": "tc_subclass",
-        "name": "α-Type Channels",
+        "name": "\u03b1-Type Channels",
         "tcdb_id": "1.A"
       }
     },
@@ -3923,7 +3923,7 @@
       "id": "cluster:mSystems.00181-16:bp1_light_clusters:C",
       "label": "GeneCluster",
       "properties": {
-        "member_count": 929,
+        "member_count": 928,
         "name": "Thermosynechococcus elongatus cluster C (irradiance-responsive)",
         "organism_name": "Thermosynechococcus vestitus BP-1"
       }
@@ -4033,7 +4033,7 @@
       "id": "data_source:merops_diamond",
       "label": "DataSource",
       "properties": {
-        "description": "diamond blastp against the MEROPS peptidase scan library — per-protein protease/peptidase-inhibitor classifications (clan/family/subfamily) by direct sequence similarity; the KG^s only MEROPS evidence source.",
+        "description": "diamond blastp against the MEROPS peptidase scan library \u2014 per-protein protease/peptidase-inhibitor classifications (clan/family/subfamily) by direct sequence similarity; the KG^s only MEROPS evidence source.",
         "provenance": "tool_run",
         "scope": "gene_level"
       }

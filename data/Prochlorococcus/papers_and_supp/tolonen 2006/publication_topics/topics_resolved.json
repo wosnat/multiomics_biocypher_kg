@@ -16,13 +16,15 @@
     "input_tokens": 38407,
     "output_tokens": 5283,
     "resolution": {
-      "gene_records": 92,
-      "genes_resolved": 88,
+      "gene_records": 83,
+      "genes_resolved": 79,
       "gene_methods": {
         "locus_tag:v": 32,
-        "tier1:v": 54,
+        "multi:v": 42,
         "unresolved": 4,
-        "multi:v": 2
+        "multi_named:v": 1,
+        "tier1:v": 3,
+        "tier1_ci:v": 1
       },
       "pathway_records": 5,
       "pathways_resolved": 4,
@@ -142,7 +144,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1481",
       "resolved_from": "glnB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glnA",
@@ -277,7 +279,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0373",
       "resolved_from": "cynS",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "nirA",
@@ -330,7 +332,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT0623",
       "resolved_from": "gdhA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glsF",
@@ -344,7 +346,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1512",
       "resolved_from": "glsF",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glsF",
@@ -358,7 +360,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1777",
       "resolved_from": "glsF",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -424,43 +426,9 @@
       "evidence": "Three of the hli genes in each strain (MED4 hlilO, hli21, hli22 and MIT9313 hli5, hli7, hli1) were among the most upregulated genes (Results, p7)",
       "mention_strain": "all",
       "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1398",
-      "resolved_from": "hli7",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli genes",
-      "gene_name": "",
-      "identifiers": [
-        "PMM1390",
-        "PMT0990",
-        "PMT0992",
-        "hliS",
-        "hli7",
-        "hli1",
-        "hli2",
-        "hli3",
-        "hli4",
-        "hli5",
-        "hli6",
-        "hli8",
-        "hli9",
-        "hli10",
-        "hli11",
-        "hli12",
-        "hli13",
-        "hli14",
-        "hli15",
-        "hli16",
-        "hli17"
-      ],
-      "prominence": "central",
-      "evidence": "Three of the hli genes in each strain (MED4 hlilO, hli21, hli22 and MIT9313 hli5, hli7, hli1) were among the most upregulated genes (Results, p7)",
-      "mention_strain": "all",
-      "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0093",
       "resolved_from": "hli1",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -494,7 +462,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0064",
       "resolved_from": "hli2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -528,41 +496,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1482",
       "resolved_from": "hli3",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli genes",
-      "gene_name": "",
-      "identifiers": [
-        "PMM1390",
-        "PMT0990",
-        "PMT0992",
-        "hliS",
-        "hli7",
-        "hli1",
-        "hli2",
-        "hli3",
-        "hli4",
-        "hli5",
-        "hli6",
-        "hli8",
-        "hli9",
-        "hli10",
-        "hli11",
-        "hli12",
-        "hli13",
-        "hli14",
-        "hli15",
-        "hli16",
-        "hli17"
-      ],
-      "prominence": "central",
-      "evidence": "Three of the hli genes in each strain (MED4 hlilO, hli21, hli22 and MIT9313 hli5, hli7, hli1) were among the most upregulated genes (Results, p7)",
-      "mention_strain": "all",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1118",
-      "resolved_from": "hli4",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -596,7 +530,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1404",
       "resolved_from": "hli5",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -628,43 +562,9 @@
       "evidence": "Three of the hli genes in each strain (MED4 hlilO, hli21, hli22 and MIT9313 hli5, hli7, hli1) were among the most upregulated genes (Results, p7)",
       "mention_strain": "all",
       "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1399",
+      "locus_tag": "PMM1317",
       "resolved_from": "hli6",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli genes",
-      "gene_name": "",
-      "identifiers": [
-        "PMM1390",
-        "PMT0990",
-        "PMT0992",
-        "hliS",
-        "hli7",
-        "hli1",
-        "hli2",
-        "hli3",
-        "hli4",
-        "hli5",
-        "hli6",
-        "hli8",
-        "hli9",
-        "hli10",
-        "hli11",
-        "hli12",
-        "hli13",
-        "hli14",
-        "hli15",
-        "hli16",
-        "hli17"
-      ],
-      "prominence": "central",
-      "evidence": "Three of the hli genes in each strain (MED4 hlilO, hli21, hli22 and MIT9313 hli5, hli7, hli1) were among the most upregulated genes (Results, p7)",
-      "mention_strain": "all",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1397",
-      "resolved_from": "hli8",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "hli genes",
@@ -698,7 +598,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1396",
       "resolved_from": "hli9",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -732,75 +632,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1385",
       "resolved_from": "hli11",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli genes",
-      "gene_name": "",
-      "identifiers": [
-        "PMM1390",
-        "PMT0990",
-        "PMT0992",
-        "hliS",
-        "hli7",
-        "hli1",
-        "hli2",
-        "hli3",
-        "hli4",
-        "hli5",
-        "hli6",
-        "hli8",
-        "hli9",
-        "hli10",
-        "hli11",
-        "hli12",
-        "hli13",
-        "hli14",
-        "hli15",
-        "hli16",
-        "hli17"
-      ],
-      "prominence": "central",
-      "evidence": "Three of the hli genes in each strain (MED4 hlilO, hli21, hli22 and MIT9313 hli5, hli7, hli1) were among the most upregulated genes (Results, p7)",
-      "mention_strain": "all",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1384",
-      "resolved_from": "hli12",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli genes",
-      "gene_name": "",
-      "identifiers": [
-        "PMM1390",
-        "PMT0990",
-        "PMT0992",
-        "hliS",
-        "hli7",
-        "hli1",
-        "hli2",
-        "hli3",
-        "hli4",
-        "hli5",
-        "hli6",
-        "hli8",
-        "hli9",
-        "hli10",
-        "hli11",
-        "hli12",
-        "hli13",
-        "hli14",
-        "hli15",
-        "hli16",
-        "hli17"
-      ],
-      "prominence": "central",
-      "evidence": "Three of the hli genes in each strain (MED4 hlilO, hli21, hli22 and MIT9313 hli5, hli7, hli1) were among the most upregulated genes (Results, p7)",
-      "mention_strain": "all",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM1317",
-      "resolved_from": "hli13",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -834,7 +666,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1135",
       "resolved_from": "hli14",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -868,75 +700,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1128",
       "resolved_from": "hli15",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli genes",
-      "gene_name": "",
-      "identifiers": [
-        "PMM1390",
-        "PMT0990",
-        "PMT0992",
-        "hliS",
-        "hli7",
-        "hli1",
-        "hli2",
-        "hli3",
-        "hli4",
-        "hli5",
-        "hli6",
-        "hli8",
-        "hli9",
-        "hli10",
-        "hli11",
-        "hli12",
-        "hli13",
-        "hli14",
-        "hli15",
-        "hli16",
-        "hli17"
-      ],
-      "prominence": "central",
-      "evidence": "Three of the hli genes in each strain (MED4 hlilO, hli21, hli22 and MIT9313 hli5, hli7, hli1) were among the most upregulated genes (Results, p7)",
-      "mention_strain": "all",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0818",
-      "resolved_from": "hli16",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli genes",
-      "gene_name": "",
-      "identifiers": [
-        "PMM1390",
-        "PMT0990",
-        "PMT0992",
-        "hliS",
-        "hli7",
-        "hli1",
-        "hli2",
-        "hli3",
-        "hli4",
-        "hli5",
-        "hli6",
-        "hli8",
-        "hli9",
-        "hli10",
-        "hli11",
-        "hli12",
-        "hli13",
-        "hli14",
-        "hli15",
-        "hli16",
-        "hli17"
-      ],
-      "prominence": "central",
-      "evidence": "Three of the hli genes in each strain (MED4 hlilO, hli21, hli22 and MIT9313 hli5, hli7, hli1) were among the most upregulated genes (Results, p7)",
-      "mention_strain": "all",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0817",
-      "resolved_from": "hli17",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -1038,41 +802,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1314",
       "resolved_from": "hli1",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "hli genes",
-      "gene_name": "",
-      "identifiers": [
-        "PMM1390",
-        "PMT0990",
-        "PMT0992",
-        "hliS",
-        "hli7",
-        "hli1",
-        "hli2",
-        "hli3",
-        "hli4",
-        "hli5",
-        "hli6",
-        "hli8",
-        "hli9",
-        "hli10",
-        "hli11",
-        "hli12",
-        "hli13",
-        "hli14",
-        "hli15",
-        "hli16",
-        "hli17"
-      ],
-      "prominence": "central",
-      "evidence": "Three of the hli genes in each strain (MED4 hlilO, hli21, hli22 and MIT9313 hli5, hli7, hli1) were among the most upregulated genes (Results, p7)",
-      "mention_strain": "all",
-      "strain": "Prochlorococcus MIT9313",
-      "locus_tag": "PMT_1640",
-      "resolved_from": "hli2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -1106,7 +836,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1504",
       "resolved_from": "hli3",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -1140,7 +870,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1594",
       "resolved_from": "hli4",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -1174,7 +904,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1153",
       "resolved_from": "hli6",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -1208,7 +938,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT_1154",
       "resolved_from": "hli8",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli genes",
@@ -1242,7 +972,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1152",
       "resolved_from": "hli9",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rbcLS",
@@ -1268,7 +998,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0213",
       "resolved_from": "sbtA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "sbtA",
@@ -1282,7 +1012,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1213",
       "resolved_from": "sbtA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "csoS12",
@@ -1358,7 +1088,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0519",
       "resolved_from": "tal",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "tal",
@@ -1372,7 +1102,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1248",
       "resolved_from": "tal",
-      "resolution_method": "tier1:v"
+      "resolution_method": "tier1_ci:v"
     },
     {
       "surface_form": "acnB",
@@ -1386,7 +1116,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1700",
       "resolved_from": "acnB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "acnB",
@@ -1400,7 +1130,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT2249",
       "resolved_from": "acnB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "icd",
@@ -1414,7 +1144,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1596",
       "resolved_from": "icd",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "icd",
@@ -1428,7 +1158,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1935",
       "resolved_from": "icd",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "sigma factors",
@@ -1532,7 +1262,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0263",
       "resolved_from": "amt1",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ammonium transporter amt1",
@@ -1546,7 +1276,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1853",
       "resolved_from": "amt1",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "nitrite permease",
@@ -1590,7 +1320,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0965",
       "resolved_from": "ureA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "urease",
@@ -1604,7 +1334,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT2234",
       "resolved_from": "ureA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rbcLS genes",
@@ -1619,7 +1349,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0550",
       "resolved_from": "rbcL",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rbcLS genes",
@@ -1634,7 +1364,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0551",
       "resolved_from": "rbcS",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rbcLS genes",
@@ -1649,7 +1379,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1205",
       "resolved_from": "rbcL",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rbcLS genes",
@@ -1664,7 +1394,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1204",
       "resolved_from": "rbcS",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glgA",
@@ -1678,7 +1408,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0609",
       "resolved_from": "glgA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "zwf",
@@ -1692,7 +1422,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1074",
       "resolved_from": "zwf",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "zwf",
@@ -1706,7 +1436,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1102",
       "resolved_from": "zwf",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "csoS1",
@@ -1720,21 +1450,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0549",
       "resolved_from": "csoS1",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "csoS1",
-      "gene_name": "csoS1",
-      "identifiers": [
-        "csoS1"
-      ],
-      "prominence": "peripheral",
-      "evidence": "Carboxysome csoS1... (Table III, p10)",
-      "mention_strain": "all",
-      "strain": "Prochlorococcus MIT9313",
-      "locus_tag": "PMT_1199",
-      "resolved_from": "csoS1",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "csoS2",
@@ -1748,7 +1464,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0552",
       "resolved_from": "csoS2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "csoS2",
@@ -1762,7 +1478,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1203",
       "resolved_from": "csoS2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PMT1479",

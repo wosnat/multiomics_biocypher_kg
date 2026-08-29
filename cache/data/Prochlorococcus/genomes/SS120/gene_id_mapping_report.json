@@ -26,9 +26,9 @@
       "unique": 1937
     },
     "locus_tag_ncbi": {
-      "conflict": 103,
+      "conflict": 0,
       "multi": 0,
-      "unique": 6512
+      "unique": 1881
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -46,14 +46,16 @@
       "unique": 1568
     }
   },
+  "runaway_genes": [],
   "strain": "SS120",
+  "tier1_count_max": 7,
+  "tier1_count_median": 7.0,
+  "tier1_demoted_known_names": 719,
   "unresolved_rows_per_source": {
     "Dominguez-Martin 2017/supp_table_s3_combined": 408,
     "cds_from_genomic.fna": 7,
     "genomic_gca/SS120": 56,
     "genomic_gcf/SS120": 51
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 103 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

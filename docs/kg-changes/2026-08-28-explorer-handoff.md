@@ -182,7 +182,97 @@ All answered; the R1 answer exposes a KG-side precompute bug:
 
 | ID | Request | Kind |
 |---|---|---|
-| **R6** | **`DerivedMetric.dm_false_count` is wrong on the live build**: `MATCH ()-[r:Derived_metric_flags_gene]->() RETURN r.value, count(*)` gives `false: 3,773 / true: 8,126`, yet `sum(dm_false_count)` over the 27 boolean DMs is **0** (`dm_true_count` sums are consistent). The explorer's "positive-only" doc came from reading that column. Fix the precompute in the same rebuild (likely counts a literal that never matched — will be `'not_flagged'` after HO-001) and add a validity test `dm_false_count = count(r WHERE r.value = 'not_flagged')` per DM. The explorer will correct the `genes_by_boolean_metric` / `metabolites_by_flags_assay` docs and its `by_metric` false-count comparison once the column is right. | **P1, same rebuild** |
+| **R6** | **`DerivedMetric.flag_true_count` / `flag_false_count` are zero on the live build** (property names corrected from an earlier draft that said `dm_*_count`): on the 2026-08-28 11:58Z build, `MATCH ()-[r:Derived_metric_flags_gene]->() RETURN r.value, count(*)` gives `flagged: 8,126 / not_flagged: 3,773`, yet `sum(flag_true_count)` and `sum(flag_false_count)` over the 27 boolean DMs are **both 0** (and were 0 before the rename too). The precompute never matched the stored literal. Fix in the next rebuild and add a validity test `flag_true_count = count(r WHERE r.value = 'flagged')` (and the `not_flagged` twin) per DM. The explorer's `genes_by_boolean_metric.by_metric` pairs its filtered-slice counts with these columns, so they read `dm_true: 0 / dm_false: 0` today. | **P1, next rebuild** |
 
 R2 → the explorer pins the 8 new vocab entries; R4 → reads `Schema_info.paper_count`.
 
+**R6 verified fixed by the explorer on the 2026-08-28 rebuild #2:** `sum(flag_true_count)=8,126`, `sum(flag_false_count)=3,773`, matching the edge counts. Hash unchanged; `kg_release_info` → `ok`.
+
+## Explorer report (2026-08-29) — sync against the 06:22Z build
+
+**§1 verification block — all green on the live graph** (`built_at 2026-08-29T06:22:10Z`):
+0 residual `'true'`/`'false'` on the eight properties (Experiment / DM+assay / three edge types);
+`name_synonyms = ['Meiothermus taiwanensis']` on both `insdc.gcf:GCF_000836395.1` and `ncbitaxon:277`;
+`organismTaxonFullText('taiwanensis')` returns both; Bernstein 2017 `Tests_coculture_with → ncbitaxon:277` (1 edge);
+9 relationship indexes ONLINE (`gene_go_{bp,mf,cc}_evidence[_score]_idx`, `gene_pfam_evidence[_score]_idx`,
+`gene_interpro_evidence_idx`); `flag_true_count / flag_false_count = 8,126 / 3,773` (R6 fixed).
+Hash `sha256:d7191e2a…` was already pinned on 2026-08-28 (explorer `bc9b5c0`); `kg_release_info` → **`ok`**.
+R1 correction already applied on 2026-08-28: `genes_by_boolean_metric` docs say `flag=False` returns rows on the
+11 of 27 DMs that store `not_flagged`; the docs also now point at `dm_false_count` as the full-DM twin.
+
+Two nits: `Schema_info.git_sha_short` reads `unknown` on this build (you quote `e60ff0da`); and
+`Publication_discusses_gene` has **1,230 edges** — your "1,305 resolved mentions" is the pre-dedup figure, fine, just
+noting the number the explorer sees.
+
+**§2 gene-ID mapping hygiene — golden regen diff** (explorer regression suite, 176 cases; 11 goldens moved, all
+counts / gene assignments, no shape change; 2 integration pins bumped):
+
+| Tool (golden) | Drift |
+|---|---|
+| `list_experiments` (×4 goldens) | 4 experiments moved: Kratzl 2024 `coculture_vs_selongatus_axenic_proteomics` gene_count 521 → 522; Domínguez-Martín 2017 `vdom_addition_mit9313_rnaseq` gene_count 3,852 → 3,843 / distinct 521 → 522; two others 428 → 427 distinct. |
+| `list_publications` (×4) | `discussed_gene_count` down on 7 papers: Biller 2022 (15834) 32 → 29, ismej.2014.57 34 → 32, ismej.2011.49 76 → 75, s42003-019-0410-x 61 → 60, pnas.2213271120 12 → 11, 2025.08.05.668435 8 → 7, one 6 → 5. Matches the 1,373 → 1,305 mention drop. |
+| `list_derived_metrics` (×2) | Biller 2022 `total_gene_count` UP on all 6 DMs: MIT9312 cell_abundance 1,000 → **1,016**, vesicle_abundance 217 → 221, log2_vesicle_cell_enrichment 200 → 204; MIT9313 1,048 → 1,052, 354 → 355, 313 → 314. |
+| `genes_by_numeric_metric` cross-organism (Biller 2022 DMs) | `total_matching` 308 → 309 / 156 → 157; 26 gene rows in the top page changed identity (12 out, 14 in). |
+| everything else (165 goldens) | byte-identical — incl. all ontology / chemistry / metabolomics / homolog / cluster cases, consistent with your "metabolism layer and annotation-state byte-identical". |
+
+**What surprised me (please spot-check):**
+1. **`DerivedMetric.total_gene_count` moved by +30 across the six Biller 2022 DMs (+16 on MIT9312 cell abundance alone)**, while you report `Derived_metric_quantifies_gene` **+4** net. Either `total_gene_count` is not the edge count (a source-table row count?) or the per-DM edge deltas are larger than the net suggests. Which is it?
+2. In the same DMs, several MIT9312 rows moved to the **adjacent locus**: `PMT9312_1733` (wecD) → `PMT9312_1732` (secA), `PMT9312_1719` (tsaE) → `PMT9312_1718` (ahcY); 6 of the 26 moved rows pair at Δ = −1, 1 at −2, 2 at +1. Not systematic, but adjacent-locus reassignment of a numeric measurement is the kind of thing that is right if the paper keyed on an old/alternate locus numbering and wrong if a heuristic picked a neighbour. Worth a look at which `resolution_method` those rows carry.
+3. Nothing else surprising: the DE-edge drop (327,522 → 327,420) is invisible to the explorer's goldens except through the four `list_experiments` counts above; Kratzl / Beliaev per-gene rows are not pinned by any golden.
+
+`resolution_method` is not surfaced by any explorer tool (not on `Changes_expression_of` edges either — where does it live?), so the new `heuristic_multi:<col>` / `multi_named:<col>` strings need no explorer change.
+
+**§3 HO-004 item 2 (gene-side InterPro router): drop it from the KG backlog.** Term-side routing already exists
+(`ontology_term_details.links_out` with `router_ambiguous`), no workflow has asked for the gene-side mode, and
+the explorer backlog no longer lists it. If a use case shows up it is explorer-only work and needs nothing from the KG.
+
+## KG answers to the 2026-08-29 report (same day)
+
+| Item | Answer |
+|---|---|
+| §1 nit — `git_sha_short = unknown` | By design on a dev `docker compose up`: `post-import.sh` reads `KG_GIT_SHA[_SHORT]` from the environment, and only `/release-kg` exports them (`release_kg.py`). A dev build has no git in the container. Will read correctly on the next release cut. |
+| §1 nit — `Publication_discusses_gene` 1,230 vs "1,305" | 1,305 is resolved *mentions* (pre-dedup, per surface form × strain); 1,230 is edges after collapsing mentions of the same gene. Both are right; the explorer's number is the one to quote. |
+| **Surprise 1** — `total_gene_count` +30 vs edges +4 | `DerivedMetric.total_gene_count` **is** the edge count (post-import: `count(r)` over the DM's measurement edges; verified live = edges = distinct genes on all six Biller 2022 DMs). Your +30 spans **two** rebuilds (your goldens were from the 08-27 KG-SYNC-006 build); against the KG's own 08-28 baseline Biller 2022 quantifies edges are +14 and fadeev 2022 −10, net +4. |
+| **Surprise 2** — adjacent-locus moves (`wecD` → `secA`, `tsaE` → `ahcY`) | **Not moves.** In the resolved tables the `secA`, `ahcY`, `PMT9312_1733` and `PMT9312_1719` rows resolve to the same genes before and after; what changed is the *composition of the top page* by value (12 genes out, 14 in), and pairing by list position produces the Δ = −1 illusion. **But your instinct was right about the table**: the same review found biller 2022 `groL1`/`groL2` swapped and `rplF`/`rplW` on the neighbouring locus — a real regression from the symbol demotion (a Cyanorak-numbered symbol was outranking the row's own UniProt accession by column order) compounded by barreto 2022's `uniprot_acc` column being shifted by one row in the ribosomal block. Fixed in KG commit *(next)*: Pass 3 now takes protein-level tokens before symbols across all columns, and barreto's accessions are back as row-aligned `_modified` tables. Post-fix: `rplF` → 1636, `rplR` → 1635, `rpsH` → 1637, `rplW` → 1648, `groL2` → 1529 (CH602_PROM9), `groL1` → 0451 (CH601_PROM9), `ftsH` → 1358 — each per its accession. Expect Biller 2022 goldens to move once more on rebuild #3, then settle. |
+| `resolution_method` — where it lives | Only in the per-table `*_resolved.csv` / `_resolved_report.txt` under `data/…/papers_and_supp/` (prepare_data step 4/8 artifacts); never on a graph edge. No explorer change. |
+| §3 HO-004 gene-side router | Dropped from the KG backlog (was removed 2026-08-28). |
+| R6 | Confirmed fixed on rebuild #2 (8,126 / 3,773); `tests/kg_validity/test_derived_metric.py::test_boolean_dm_flag_counts_match_aggregation` asserts it. |
+
+**Rebuild #3 expectations for the explorer:** vs the 08-28 baseline, `Changes_expression_of` −94 (moreno −31, Domínguez −35, Al-Hosani −8, biller 2022 −6, fadeev −4, Kratzl/Beliaev −3 each, singles; he 2022 +6); Biller 2022 DM rows re-home to accession-backed genes; everything else byte-identical. Hash unchanged.
+
+## Explorer open asks (2026-08-29) — consolidated, non-release
+
+Everything the explorer still wants from the KG that is *not* tied to a release cut (the A1/A2
+`Schema_info` stamp + hash freeze stay parked until a cut is scheduled). Verified against the
+06:22Z build; re-numbered from the explorer backlog §4 so the IDs match there.
+
+| ID | Ask | Why the explorer cares | Prio |
+|---|---|---|---|
+| **B1** | Per-value descriptions on closed vocabularies: a `value_descriptions` map (value → one line) on the `ControlledVocabulary` node, alongside `values`. Live: 0 of 122 vocab nodes carry it. | Unblocks explorer 2.3 — `list_filter_values` can then serve per-row descriptions once and drop the vocab text it currently repeats per row on the trust types (`evidence`, `sources`, `call_class`, …). Nothing else reads it. | P3 |
+| **B2** | Vocab `description` text is user-facing (served verbatim by `list_filter_values` and `docs://ontologies/*`). `ClusteringAnalysis.cluster_type` still says "paperconfig `gene_clusters.cluster_type`, validated by scripts/validate_paperconfig.py VALID_CLUSTER_TYPES … Registered 2026-08-27 (KG-SYNC-006)"; `treatment_type` / `background_factors` on the same label carry "neo4j-admin import drops an empty string[] cell, so post-import re-materializes []". Move build/provenance notes to the yaml comment; keep the node text to what a researcher needs. Hash-neutral (description-only). | The researcher-facing surface quotes the node text. | P3 |
+| **B3** | Stamp `min_size` on the vocab node (it is in `config/controlled_vocabularies.yaml` — `treatment_type` / `background_factors` `min_size: 1` — but 0 of 122 live nodes carry it). **Hash-affecting** per A2 — batch with the next intentional hash change, and tell the explorer so it re-pins. | The explorer's drift test can then assert dense-non-empty from the node instead of hard-coding which properties are `min_size 1`. | P3 |
+| **B5** *(new)* | Rebuild #3 (Biller 2022 accession-backed re-homing, `Changes_expression_of` −94): ping when it is up. Explorer will regen the Biller 2022 goldens (`list_derived_metrics` ×2, `genes_by_numeric_metric` cross-organism) and the four `list_experiments` counts, expects everything else byte-identical and hash unchanged. | Two rebuilds in two days already moved goldens; the explorer wants one regen, not three. | when built |
+| **KG-MET-002** | Docstring-only: a comment in `schema_config.yaml` stating the compartment-in-name convention for metabolite assays (`<metabolite> (<compartment>)` vs the `compartment` property). No graph change. | Lowest stakes; carried over from the metabolites hand-off. | P4 |
+| **MET-DM** | Metabolomics-DM spec (KG-side): whether `MetaboliteAssay` gets non-DE column-level evidence analogous to `DerivedMetric` (rhythmicity / response class per metabolite). Explorer 3.9 (`list_metabolite_measurements`, `metabolite_response_profile`) is gated on it — no explorer work until a spec exists; a "not planned" answer closes 3.9. | Decide, don't build. | question |
+
+Nothing here blocks explorer work; B1 is the only ask with an explorer item waiting on it.
+
+## KG answers to the consolidated explorer asks (2026-08-29)
+
+| ID | Answer |
+|---|---|
+| **B2** | **Done, in rebuild #3.** All 42 `ControlledVocabulary` descriptions that carried build provenance (harvest source, validator constants, KG-SYNC ids, neo4j-admin behaviour) are rewritten as one researcher-facing paragraph; the provenance text moved verbatim into a `# provenance:` YAML comment above each entry. Hash unchanged (`description` is not in the payload — verified `sha256:d7191e2a…` before and after). |
+| **B3** | **Done, in rebuild #3 — and hash-neutral.** `min_size` was already emitted by the adapter and already in the hash payload; the node never carried it because `schema_config.yaml` lacked the property, so BioCypher dropped it. Added `min_size: int` (sparse). After rebuild #3: `Experiment.treatment_type` / `.background_factors` and the six denormalized copies (`ClusteringAnalysis.treatment_type`, `DerivedMetric.*`, `MetaboliteAssay.*`) read `min_size = 1`; `ClusteringAnalysis.background_factors` has none. No re-pin needed. |
+| **B1** | **Decided 2026-08-29: option A, filed** (`plans/backlog.md`) — trust-vocabulary slice as `value_descriptions: str[]` of `"<value>: <one line>"`, not hashed, rides a rebuild after #3. *(Earlier note follows.)* **Deferred — not a pre-rebuild fix.** ~120 vocabularies × per-value one-liners is content work; a `value_descriptions` map also needs a schema slot (`str[]` of `value: text` pairs — Neo4j has no map property) and a hash decision. Proposal: first slice = the trust vocabularies you named (`evidence`, `sources`, `call_class`, `best_hit_kind`, `attachment_depth`, `pfam_support`, `substrate_depth`, `source_agreement`, `detection_status`, `table_scope`, `annotation_state`) as `value_descriptions: str[]` with `"<value>: <one line>"` elements, hash-affecting once, batched with the next intentional hash change. Say yes/no on the shape and I file it. |
+| **B5** | Will ping when rebuild #3 is up. Expectations unchanged from the previous section: `Changes_expression_of` −94 vs the 08-28 baseline, Biller 2022 DM rows re-home to accession-backed genes, hash unchanged, plus B2/B3 above (node text + `min_size`). |
+| **KG-MET-002** | **Done, in rebuild #3** (comment-only): `schema_config.yaml` `metabolite assay.name` now documents the `<strain> <compartment> <what> (<normalization>)` naming and says to filter on the `compartment` property, never the name. |
+| **MET-DM** | **Decided 2026-08-29 (KG owner): not planned.** No driver dataset; explorer 3.9 (`list_metabolite_measurements`, `metabolite_response_profile`) can be closed. Reopenable if a paper with per-metabolite rhythmicity / response-class columns arrives — `MetaboliteAssay` mirrors `DerivedMetric` closely enough that a categorical assay kind would be a small extension then. *(Earlier note follows.)* Open — a decision for the KG owner, not the explorer. Two facts to decide on: no paper in hand reports per-metabolite rhythmicity / response-class columns (the Biller 2022 and Kujawinski 2023 tables are concentrations + presence flags, already modelled), and `MetaboliteAssay` mirrors `DerivedMetric` closely enough that a `value_kind: categorical` assay would be a small extension when a driver paper appears. Recommendation: **"not planned until a driver dataset exists"** — closes explorer 3.9 now, reopenable. Will confirm once the owner decides. |
+
+## B5 — rebuild #3 is up (2026-08-29, `built_at 07:22:39Z`)
+
+KG `main` `56e933bb` + this note. Verified live: `Changes_expression_of` 327,522 → 327,420 (−102 vs the 08-28
+baseline, same 9 publications); `Derived_metric_quantifies_gene` +7; flags / classifies / metabolism byte-identical;
+annotation-state distributions unchanged; hash **unchanged** (`sha256:d7191e2a…`); `pytest -m kg` 1197 passed after
+fixture regen. Biller 2022 rows sit on their accession-backed genes (`rplF` → PMT9312_1636, `rplW` → 1648,
+`groL2` → 1529, `groL1` → 0451). B2 descriptions and B3 `min_size` (7 nodes) are live. Regen your Biller 2022 /
+`list_experiments` goldens against this build; everything else should be byte-identical.

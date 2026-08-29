@@ -15,5 +15,7 @@ paperconfig, `Schema_info.git_dirty`, post-import row selection.
 green incl. the enum tests and `test_controlled_vocabularies`; verification queries in
 `docs/kg-changes/two-state-strings.md` return only the pairs; snapshot regenerated.
 
-**Status.** Code + docs done 2026-08-28. Pending: Docker rebuild, `pytest -m kg`,
-`generate_snapshot.py`, explorer pick-up (`docs/kg-changes/2026-08-28-explorer-handoff.md`).
+**Status.** DONE 2026-08-28 — rebuilt, `pytest -m kg` 1197 passed (after fixing the one
+missed post-import site: DerivedMetric `flag_true_count` compared `r.value = 'true'`),
+snapshot regenerated, hand-off verification queries all clean (0 residual literals,
+9 relationship indexes ONLINE, `ncbitaxon:277` targeted). Explorer pick-up pending.

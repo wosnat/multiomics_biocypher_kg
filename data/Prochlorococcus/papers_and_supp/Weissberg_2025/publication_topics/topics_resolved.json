@@ -18,7 +18,8 @@
       "gene_records": 16,
       "genes_resolved": 16,
       "gene_methods": {
-        "tier1:v": 16
+        "multi:v": 1,
+        "tier1:v": 15
       },
       "pathway_records": 11,
       "pathways_resolved": 9,
@@ -47,7 +48,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0246",
       "resolved_from": "ntcA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "TX50_RS01985",

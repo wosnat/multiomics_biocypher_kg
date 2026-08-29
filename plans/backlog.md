@@ -62,6 +62,30 @@ up — this file is the index, not the plan.
       assembly-annotation date, which is why the marginal gain concentrates on
       old assemblies.
 
+- [ ] **Two sparse `"true"`-only markers remain outside R5.** `is_uninformative`
+      (ontology terms, post-import) and GO `level_is_best_effort` are set to the
+      string `'true'` and absent otherwise — presence-flags, not two-state facts,
+      so the 2026-08-28 conversion left them. Either declare them as
+      presence markers in the vocabulary contract or convert to a pair
+      (`informative | uninformative`, `exact | best_effort`); the latter is
+      breaking for the explorer's `is_uninformative` filter.
+      → `docs/kg-changes/two-state-strings.md`, `scripts/post-import.sh` §is_uninformative
+
+- [ ] **MIT9313 carries two locus-tag families as separate gene anchors.** The
+      merged annotation has 703 `PMT_####` genes alongside the 2,245 `PMT####`
+      ones, and they are *different* genes sharing a number (`PMT0040`: no NCBI
+      tag, no protein, "conserved hypothetical"; `PMT_0040`: AKG35_RS00210,
+      chemotaxis protein). Papers keyed on the Cyanorak-era `PMT####` tags and
+      the newer `P9313_#####` / `PMT_####` tags therefore collide — 29 of the 62
+      Tier-1 conflicts left after the 2026-08-28 hygiene pass are
+      `P9313_xxxxx → [PMT_nnnn, PMTnnnn]`. Decide which family is canonical for
+      MIT9313 (the GCF assembly's `old_locus_tag` is `PMT_`), whether the 703
+      `PMT_`-only genes are real (new PGAP calls) or a stale second annotation
+      build in `gene_mapping.csv`, and dedupe in `build_gene_annotations`
+      (step 2), not in the mapping builder.
+      → `cache/data/Prochlorococcus/genomes/MIT9313/gene_id_mapping_report.json`,
+      `plans/gene_id_mapping_hygiene.md`
+
 - [ ] **TigrRole hierarchy normalization.** The 114 `TigrRole` nodes are flat
       (`level = 0` everywhere) with the JCVI mainrole/subrole two-level scheme
       embedded in compound names ("Energy metabolism / Electron transport") —
@@ -162,20 +186,6 @@ Section references below are into that plan file, which holds the full designs.
       two specs together.
       → `plans/geo_paperconfig_updates.md` Tier 3 + D5
 
-- [ ] **B1 regression check.** Guard in `build_gene_id_mapping` (or its report
-      tests) that no gene accumulates more than ~3× the median tier-1 id count —
-      proposed with the B1 fix (`a84db12b`) but not in the commit.
-      → `plans/geo_paperconfig_updates.md` Blocker B1
-
-- [ ] **Runaway-mapping residual: KT2440 `M8001_03425` (40 tier-1 ids).**
-      Re-check done 2026-08-28: all three `gene_id_mapping.json` files were in
-      fact rebuilt by the B1 fix commit (`a84db12b`), not before it. W3-18-1
-      (median 6 / max 7) and PCC7002 (6 / 8) are clean; KT2440 (median 9) has
-      one gene at 40 tier-1 ids — >4× the median, the shape the B1 guard above
-      would catch. Inspect which paper's `id_columns` feeds it before the next
-      KT2440 paper touch.
-      → `plans/geo_paperconfig_updates.md` Blocker B1 consequences
-
 ### Post-review additions (2026-08-19 subagent review of all wired paperconfigs)
 
 - [ ] **Voigt 2014 — Table S7 conserved-TSS ortholog comparison.** Per
@@ -195,18 +205,25 @@ Section references below are into that plan file, which holds the full designs.
 - [ ] **Johnson 2026b — `media-7` per-iModulon enrichment tables** (GO / COG /
       KEGG-Module / KEGG-Pathway per module). Not independently wired-worthy —
       should feed the §2.1C cluster `functional_description`s when 2.1C lands.
-- [ ] **he 2022 — recover ~6 MED4 genes via a strip-`gene-` heuristic.** GEO
-      GeneID values are `gene-<tag>`; 6 protein-coding rows
-      (gene-PMM0220/0236/0950/1858/2002/2065) fail only because no resolution
-      pass strips the `gene-` prefix before the multi-singleton lookup
-      (`_heuristic_candidates` in `gene_id_utils.py`). ~0.3% gain; rerun
-      step 4 for the paper after.
-- [ ] **MED4 mapping quirk — `RNA_41`/`gene-RNA_41` absorbed into PMM0521
-      (frr).** Likely a frr/rrf 5S-rRNA name collision during the GCA/GCF
-      harvest; produces one spurious duplicate resolution in he 2022 (benign:
-      not_significant edge). Fix in the mapping builder, not per-paper.
-
 ## Explorer / MCP coordination
+
+- [ ] **Per-value descriptions on the trust vocabularies (explorer B1, decided
+      2026-08-29: option A).** Add an optional `value_descriptions` key to
+      `config/controlled_vocabularies.yaml` — emitted as `str[]` of
+      `"<value>: <one line>"` (Neo4j has no map property; self-describing, the
+      explorer splits on the first `: `) — for the ~11 vocabularies
+      `list_filter_values` serves on trust filters: `evidence` (all 14 edge
+      types share the ladder text), `sources`, `call_class`, `best_hit_kind`,
+      `attachment_depth`, `substrate_depth`, `pfam_support`, `go_support`,
+      `source_agreement`, `detection_status`, `table_scope`,
+      `annotation_state`. Loader validates every described value is declared
+      and, when the key is present on a closed vocab, that every value is
+      described; NOT part of `controlled_vocabularies_hash` (wording may
+      improve without a re-pin); schema slot `value_descriptions: str[]`
+      (sparse). Unblocks explorer 2.3; nothing else reads it. Hash-neutral —
+      rides any rebuild after #3.
+      → `docs/kg-changes/2026-08-28-explorer-handoff.md` B1,
+      `multiomics_kg/utils/controlled_vocab.py`, `controlled_vocabulary_adapter.py`
 
 - [ ] **File an upstream Bioregistry new-prefix request for `ncbifam`.**
       KG-SYNC-002 (2026-08-19) minted `ncbifam:` as a house colon-CURIE prefix

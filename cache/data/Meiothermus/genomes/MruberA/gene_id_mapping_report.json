@@ -21,9 +21,9 @@
       "unique": 5610
     },
     "locus_tag_ncbi": {
-      "conflict": 22,
+      "conflict": 0,
       "multi": 0,
-      "unique": 8942
+      "unique": 2781
     },
     "other": {
       "conflict": 0,
@@ -41,7 +41,11 @@
       "unique": 1676
     }
   },
+  "runaway_genes": [],
   "strain": "MruberA",
+  "tier1_count_max": 4,
+  "tier1_count_median": 4.0,
+  "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
     "Bernstein 2017/mruber_light_clusters": 66,
     "Bernstein 2017/mruber_oxygen_clusters": 66,
@@ -49,7 +53,5 @@
     "genomic_gca/MruberA": 193,
     "genomic_gcf/MruberA": 56
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 22 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

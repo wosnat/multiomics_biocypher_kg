@@ -19,9 +19,12 @@
       "gene_records": 35,
       "genes_resolved": 29,
       "gene_methods": {
-        "tier1:v": 20,
+        "multi:v": 11,
         "unresolved": 6,
-        "locus_tag:v": 9
+        "tier1_ci:v": 1,
+        "multi_named:v": 2,
+        "locus_tag:v": 9,
+        "tier1:v": 6
       },
       "pathway_records": 10,
       "pathways_resolved": 8,
@@ -66,7 +69,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1157",
       "resolved_from": "psbD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "Psb27",
@@ -78,7 +81,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1260",
       "resolved_from": "psb27",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PsbI",
@@ -90,7 +93,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT_1840",
       "resolved_from": "psbI",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hemF",
@@ -102,7 +105,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1706",
       "resolved_from": "hemF",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "menE",
@@ -114,7 +117,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT2057",
       "resolved_from": "menE",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "Ferredoxin",
@@ -150,7 +153,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT0449",
       "resolved_from": "clpB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "tier1_ci:v"
     },
     {
       "surface_form": "FtsH3",
@@ -160,9 +163,9 @@
       "evidence": "two proteases including one (FtsH3) predicted to be involved in repair of photosystem 1 proteins (p5, Results)",
       "mention_strain": "Prochlorococcus MIT9313",
       "strain": "Prochlorococcus MIT9313",
-      "locus_tag": "PMT0378",
+      "locus_tag": "PMT0756",
       "resolved_from": "ftsH3",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "recR",
@@ -174,7 +177,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1097",
       "resolved_from": "recR",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "recO",
@@ -186,7 +189,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0398",
       "resolved_from": "recO",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "recC",
@@ -198,7 +201,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1105",
       "resolved_from": "recC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ftsH4",
@@ -208,9 +211,9 @@
       "evidence": "as was ftsH4 (an ortholog of ftsH3 mentioned above), lending further supports the hypothesis that MED4 is sensing significantly lower cell stress (p5, Results)",
       "mention_strain": "Prochlorococcus MED4",
       "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0854",
+      "locus_tag": "PMM1264",
       "resolved_from": "ftsH4",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "HLIP",
@@ -237,7 +240,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0246",
       "resolved_from": "ntcA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ntcA",
@@ -252,7 +255,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1831",
       "resolved_from": "ntcA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PhoR",
@@ -266,7 +269,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0706",
       "resolved_from": "phoR",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PhoB-like",

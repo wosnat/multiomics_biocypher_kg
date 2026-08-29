@@ -372,6 +372,12 @@ tag with nothing logged.
   `calls.json` regenerated without derived fields. Artifact refreshes only; the
   schema-side consequences are in `### Added
 
+- Gene-ID resolution: `heuristic_multi:<col>` (heuristic candidates such as `AAV93747` → `.1`
+  now also match Tier-2 singletons), `multi_named:<col>` (an ambiguous symbol resolves to the one
+  gene that carries it as `gene_name` over synonym-only claimants), a `gene-`/`cds-`/`rna-`
+  prefix heuristic, and a `[RUNAWAY]` guard in `gene_id_mapping_report.json`
+  (`tier1_count_median` / `tier1_count_max` / `runaway_genes`).
+
 - First relationship-property indexes: `evidence` + `evidence_score` on the three GO edge types and
   `Gene_has_pfam`, `evidence` on `Gene_has_interpro_entry` (explorer HO-003; the trust filters over the
   >100K-edge types). `sources` stays unindexed (list property).
@@ -635,6 +641,27 @@ tag with nothing logged.
   references must exist before the step-2 merge that consumes them.
 
 ### Fixed
+
+- **Gene-ID mapping: GFF `Name=` symbols are no longer Tier-1 locus tags** (`_gff_name_type`).
+  A shared gene symbol had been declared gene-unique, merging KT2440's 12 `tnpB` IS copies into
+  one gene (40 Tier-1 ids) and MED4's 5S rRNA `rrf` (RNA_41) into `frr`. `Name == gene` → Tier 3,
+  `Name == protein_id` → Tier 2. Across 43 strains: max Tier-1 ids per gene 40 → 14, Tier-1
+  conflicts 2,300 → 114. 100 of 210,247 supp-table rows and 68 of 1,373 narrative mentions that
+  resolved through that accident (multi-copy `psbA`/`pstS`/`petF`/`dnaK`) are now honestly
+  `ambiguous`, and 159 rows move to the gene their accession actually names (biller 2022 `rplW`
+  → PMT9312_1648, Kratzl `ftsH` → FtsH3, 62 Beliaev rows off a junk "Gene abbreviation" bridge);
+  he 2022 MED4 gains 6 rows. Paper columns can no longer promote an annotation-known gene symbol
+  to Tier 1 (`known_gene_names` demotion). `plans/gene_id_mapping_hygiene.md`.
+- **barreto 2022 `pro_9312_anot.csv` — `uniprot_acc` is shifted by one row in several blocks**
+  (PMT9312_1637/rpsH carried Q318J8 = rplF). `scripts/barreto_align_uniprot.py` now writes
+  `_modified` tables (MIT9312, WH8102) with the accession blanked where it contradicts the KG's
+  UniProt join or fits a neighbouring row's product as well as its own; the kept rows are the only
+  accession anchor for genes UniProt no longer lists for these taxids. biller 2022's mixed
+  "Gene Number" columns retyped `gene_name`.
+- **Gene-ID resolution Pass 3 tries protein-level (Tier-2) tokens across all columns before gene
+  symbols**, so a row's accession beats its symbol regardless of column order — biller 2022
+  `groL1`/`groL2` follow the paper's UniProt accessions (CH601/CH602_PROM9), not Cyanorak's
+  swapped numbering.
 
 - **`Experiment.treatment_type` / `background_factors` are dense again.**
   The adapters emit `[]` for the three characterization experiments

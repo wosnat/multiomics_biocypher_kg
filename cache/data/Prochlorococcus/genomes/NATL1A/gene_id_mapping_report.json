@@ -26,9 +26,9 @@
       "unique": 2195
     },
     "locus_tag_ncbi": {
-      "conflict": 25,
+      "conflict": 0,
       "multi": 0,
-      "unique": 7165
+      "unique": 2051
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -46,14 +46,16 @@
       "unique": 1512
     }
   },
+  "runaway_genes": [],
   "strain": "NATL1A",
+  "tier1_count_max": 5,
+  "tier1_count_median": 5.0,
+  "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
     "He 2022/geo_de_natl1a": 49,
     "cds_from_genomic.fna": 8,
     "genomic_gca/NATL1A": 57,
     "genomic_gcf/NATL1A": 51
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 25 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

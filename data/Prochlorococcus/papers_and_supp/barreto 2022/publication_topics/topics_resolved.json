@@ -21,8 +21,7 @@
       "genes_resolved": 6,
       "gene_methods": {
         "unresolved": 31,
-        "tier1:v": 3,
-        "multi:v": 3
+        "multi:v": 6
       },
       "pathway_records": 10,
       "pathways_resolved": 7,
@@ -92,7 +91,7 @@
       "strain": "Alteromonas macleodii EZ55",
       "locus_tag": "EZ55_00599",
       "resolved_from": "rpoS",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "NH4+ transporter",
@@ -476,7 +475,7 @@
       "strain": "Alteromonas macleodii EZ55",
       "locus_tag": "EZ55_02693",
       "resolved_from": "rpoE",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rpoH",
@@ -488,7 +487,7 @@
       "strain": "Alteromonas macleodii EZ55",
       "locus_tag": "EZ55_03669",
       "resolved_from": "rpoH",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     }
   ],
   "pathways": [

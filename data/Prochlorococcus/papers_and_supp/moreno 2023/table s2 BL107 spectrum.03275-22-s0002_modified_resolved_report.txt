@@ -4,21 +4,25 @@ name_col: Accession
 id_columns: ['Accession', 'extracted_gn']
 
 Total rows with IDs: 173
-Resolved: 168 (97.1%)
-Unresolved: 5
+Resolved: 163 (94.2%)
+Unresolved: 10
 
 Resolution method breakdown:
-  ambiguous: 1
+  ambiguous: 6
   locus_tag:extracted_gn: 112
-  multi:extracted_gn: 12
-  tier1:extracted_gn: 44
+  multi:extracted_gn: 51
   unresolved: 4
 
-Unresolved rows (5):
+Unresolved rows (10):
   row 0: raw_id='Q060Q0'  reason=unresolved  [Accession='Q060Q0', extracted_gn='cbbL']
   row 9: raw_id='Q05YH2'  reason=unresolved  [Accession='Q05YH2', extracted_gn='tal']
+  row 12: raw_id='Q062E4'  reason=ambiguous  [Accession='Q062E4', extracted_gn='dnaK']
   row 29: raw_id='Q064T3'  reason=unresolved  [Accession='Q064T3', extracted_gn='groS']
+  row 33: raw_id='Q064T4'  reason=ambiguous  [Accession='Q064T4', extracted_gn='groL']
+  row 49: raw_id='Q065U6'  reason=ambiguous  [Accession='Q065U6', extracted_gn='pyrC']
+  row 84: raw_id='Q05YR7'  reason=ambiguous  [Accession='Q05YR7', extracted_gn='groL']
+  row 93: raw_id='Q067G7'  reason=ambiguous  [Accession='Q067G7', extracted_gn='clpP']
   row 125: raw_id='Q05YI2'  reason=ambiguous  [Accession='Q05YI2', extracted_gn='ppa']
   row 155: raw_id='Q067G8'  reason=unresolved  [Accession='Q067G8', extracted_gn='thf1']
 
-NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.
+NOTE: 6 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

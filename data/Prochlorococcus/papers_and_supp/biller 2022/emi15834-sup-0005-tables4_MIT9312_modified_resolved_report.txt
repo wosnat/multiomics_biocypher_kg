@@ -4,10 +4,16 @@ name_col: Protein ID
 id_columns: ['Protein ID', 'UniProt Annotation']
 
 Total rows with IDs: 207
-Resolved: 207 (100.0%)
-Unresolved: 0
+Resolved: 205 (99.0%)
+Unresolved: 2
 
 Resolution method breakdown:
-  locus_tag:UniProt Annotation: 6
-  tier1:Protein ID: 141
-  tier1:UniProt Annotation: 60
+  locus_tag:UniProt Annotation: 2
+  multi:UniProt Annotation: 22
+  tier1:Protein ID: 147
+  tier1:UniProt Annotation: 34
+  unresolved: 2
+
+Unresolved rows (2):
+  row 45: raw_id='Q318K1'  reason=unresolved  [Protein ID='Q318K1', UniProt Annotation='RL15_PROM9 50S ribosomal protein L15 OS=Prochlorococcus marinus (strain MIT 9312) GN=rplO1 PE=3 SV=1']
+  row 195: raw_id='Q318V5'  reason=unresolved  [Protein ID='Q318V5', UniProt Annotation='CH10_PROM9 10 kDa chaperonin OS=Prochlorococcus marinus (strain MIT 9312) GN=groS PE=3 SV=1']

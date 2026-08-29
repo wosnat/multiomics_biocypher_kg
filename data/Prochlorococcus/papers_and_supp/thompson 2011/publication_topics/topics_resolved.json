@@ -15,13 +15,13 @@
     "input_tokens": 26007,
     "output_tokens": 3311,
     "resolution": {
-      "gene_records": 39,
-      "genes_resolved": 35,
+      "gene_records": 38,
+      "genes_resolved": 32,
       "gene_methods": {
-        "tier1:v": 20,
-        "multi:v": 2,
+        "multi:v": 18,
+        "unresolved": 6,
         "locus_tag:v": 13,
-        "unresolved": 4
+        "tier1:v": 1
       },
       "pathway_records": 0,
       "pathways_resolved": 0,
@@ -34,7 +34,7 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 4
+        "lookup_miss": 6
       }
     }
   },
@@ -51,7 +51,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1171",
       "resolved_from": "isiB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "isiB",
@@ -76,24 +76,10 @@
       "prominence": "central",
       "evidence": "downregulate the iron-requiring electron transfer gene, ferredoxin (petF)... This expression pattern was shown in Prochlorococcus MED4, SS120 and MIT9313 (Bibby et al., 2003). (Introduction, p1-2)",
       "mention_strain": "all",
-      "strain": "Prochlorococcus MED4",
-      "locus_tag": "PMM0898",
-      "resolved_from": "petF",
-      "resolution_method": "tier1:v"
-    },
-    {
-      "surface_form": "petF",
-      "gene_name": "petF",
-      "identifiers": [
-        "petF"
-      ],
-      "prominence": "central",
-      "evidence": "downregulate the iron-requiring electron transfer gene, ferredoxin (petF)... This expression pattern was shown in Prochlorococcus MED4, SS120 and MIT9313 (Bibby et al., 2003). (Introduction, p1-2)",
-      "mention_strain": "all",
-      "strain": "Prochlorococcus MIT9313",
-      "locus_tag": "PMT1429",
-      "resolved_from": "petF",
-      "resolution_method": "tier1:v"
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "ferritin",
@@ -121,7 +107,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0637",
       "resolved_from": "fur",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "fur",
@@ -135,7 +121,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "RG24_RS04505",
       "resolved_from": "fur",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "idiA (futA/afuA)",
@@ -151,7 +137,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1164",
       "resolved_from": "idiA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "idiA (futA/afuA)",
@@ -167,7 +153,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT0287",
       "resolved_from": "idiA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "futB",
@@ -181,7 +167,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0489",
       "resolved_from": "futB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "futB",
@@ -195,7 +181,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1287",
       "resolved_from": "futB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "futC/sfuC",
@@ -210,7 +196,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0803",
       "resolved_from": "futC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "futC/sfuC",
@@ -225,7 +211,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT0501",
       "resolved_from": "futC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli05/hli08 (PMM1404/PMT1154)",
@@ -273,7 +259,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1220",
       "resolved_from": "psaM",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaI",
@@ -287,7 +273,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1520",
       "resolved_from": "psaI",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "psaL",
@@ -301,7 +287,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1519",
       "resolved_from": "psaL",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "petA",
@@ -315,7 +301,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0461",
       "resolved_from": "petA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "petC",
@@ -329,7 +315,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0462",
       "resolved_from": "petC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "cytochrome b6/f complex subunit VII",
@@ -469,7 +455,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0768",
       "resolved_from": "hemA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PMM1283",
@@ -537,9 +523,9 @@
       "evidence": "One notable member of this group is pcbB. The association of PcbB with PSI under iron stress has been shown in MIT9313 (Bibby et al., 2003) and we observed similar differential expression (Results, p10)",
       "mention_strain": "Prochlorococcus MIT9313",
       "strain": "Prochlorococcus MIT9313",
-      "locus_tag": "PMT1046",
-      "resolved_from": "pcbB",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "PMT0284 (possible porin)",
@@ -596,7 +582,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT0283",
       "resolved_from": "glyQ",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     }
   ],
   "pathways": []

@@ -21,9 +21,9 @@
       "unique": 8595
     },
     "locus_tag_ncbi": {
-      "conflict": 53,
+      "conflict": 0,
       "multi": 0,
-      "unique": 14058
+      "unique": 4228
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -36,7 +36,11 @@
       "unique": 5609
     }
   },
+  "runaway_genes": [],
   "strain": "DSS-3",
+  "tier1_count_max": 4,
+  "tier1_count_median": 4.0,
+  "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
     "Kaur 2018/supp_table_s5a": 41,
     "Kaur 2018/supp_table_s5b": 51,
@@ -47,7 +51,5 @@
     "genomic_gcf/DSS-3": 72,
     "ncbi_ipg_xref": 10
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 53 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

@@ -19,7 +19,7 @@
       "genes_resolved": 13,
       "gene_methods": {
         "unresolved": 2,
-        "tier1:v": 10,
+        "multi:v": 10,
         "locus_tag:v": 3
       },
       "pathway_records": 4,
@@ -67,7 +67,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1744",
       "resolved_from": "rplE",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "glnB",
@@ -81,7 +81,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1481",
       "resolved_from": "glnB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "gdhA",
@@ -95,7 +95,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT0623",
       "resolved_from": "gdhA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "amt1",
@@ -109,7 +109,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1853",
       "resolved_from": "amt1",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "urtA",
@@ -123,7 +123,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT2229",
       "resolved_from": "urtA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "urtB",
@@ -137,7 +137,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT2228",
       "resolved_from": "urtB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PMT0894",
@@ -193,7 +193,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1044",
       "resolved_from": "proP",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ndhA",
@@ -207,7 +207,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT2020",
       "resolved_from": "ndhA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "sdhB",
@@ -221,7 +221,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT0133",
       "resolved_from": "sdhB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "gap2",
@@ -235,7 +235,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT0028",
       "resolved_from": "gap2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PMT_ncRNA_Yfr7 (6S RNA)",

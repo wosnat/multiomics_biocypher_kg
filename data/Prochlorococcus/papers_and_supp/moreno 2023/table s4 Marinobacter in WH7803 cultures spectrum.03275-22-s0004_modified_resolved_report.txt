@@ -4,18 +4,25 @@ name_col: Accession
 id_columns: ['Accession', 'extracted_gn']
 
 Total rows with IDs: 153
-Resolved: 149 (97.4%)
-Unresolved: 4
+Resolved: 146 (95.4%)
+Unresolved: 7
 
 Resolution method breakdown:
+  ambiguous: 3
   empty: 1
   locus_tag:extracted_gn: 64
-  multi:Accession: 3
-  tier1:extracted_gn: 82
+  multi:Accession: 67
+  multi:extracted_gn: 14
+  multi_named:extracted_gn: 1
   unresolved: 4
 
-Unresolved rows (4):
+Unresolved rows (7):
   row 19: raw_id='E4PH20'  reason=unresolved  [Accession='E4PH20', extracted_gn='groS']
   row 43: raw_id='E4PMV8'  reason=unresolved  [Accession='E4PMV8', extracted_gn='HP15_472']
+  row 51: raw_id='E4PK62'  reason=ambiguous  [Accession='E4PK62', extracted_gn='trxA']
+  row 97: raw_id='E4PLY6'  reason=ambiguous  [Accession='E4PLY6', extracted_gn='tuf']
+  row 120: raw_id='E4PPA9'  reason=ambiguous  [Accession='E4PPA9', extracted_gn='leuB']
   row 130: raw_id='E4PF37'  reason=unresolved  [Accession='E4PF37', extracted_gn='HP15_2153']
   row 142: raw_id='E4PQ63'  reason=unresolved  [Accession='E4PQ63', extracted_gn='HP15_3164']
+
+NOTE: 3 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

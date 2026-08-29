@@ -36,9 +36,9 @@
       "unique": 2169
     },
     "locus_tag_ncbi": {
-      "conflict": 20,
+      "conflict": 0,
       "multi": 0,
-      "unique": 6779
+      "unique": 2075
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -56,7 +56,11 @@
       "unique": 1475
     }
   },
+  "runaway_genes": [],
   "strain": "NATL2A",
+  "tier1_count_max": 9,
+  "tier1_count_median": 6.0,
+  "tier1_demoted_known_names": 960,
   "unresolved_rows_per_source": {
     "Biller 2016/supp_table_2": 1,
     "Biller 2018/s4a_natl2a_axenic": 7,
@@ -72,7 +76,6 @@
     "genomic_gcf/NATL2A": 48
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 20 data conflicts \u2014 check annotation quality.",
     "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 4 data conflicts \u2014 check annotation quality."
   ]
 }

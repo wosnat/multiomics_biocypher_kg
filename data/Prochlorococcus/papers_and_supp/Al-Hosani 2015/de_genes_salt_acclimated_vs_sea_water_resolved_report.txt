@@ -4,16 +4,17 @@ name_col: Gene id
 id_columns: ['Gene id']
 
 Total rows with IDs: 1961
-Resolved: 1911 (97.5%)
-Unresolved: 50
+Resolved: 1903 (97.0%)
+Unresolved: 58
 
 Resolution method breakdown:
+  ambiguous: 8
   locus_tag:Gene id: 1193
-  multi:Gene id: 7
-  tier1:Gene id: 711
+  multi:Gene id: 704
+  multi_named:Gene id: 6
   unresolved: 50
 
-Unresolved rows (50):
+Unresolved rows (58):
   row 320: raw_id='A9601_05491'  reason=unresolved  [Gene id='A9601_05491']
   row 503: raw_id='A9601_08181'  reason=unresolved  [Gene id='A9601_08181']
   row 662: raw_id='A9601_10831'  reason=unresolved  [Gene id='A9601_10831']
@@ -34,4 +35,6 @@ Unresolved rows (50):
   row 1210: raw_id='A9601_tRNAGlyVIMSS1309069'  reason=unresolved  [Gene id='A9601_tRNAGlyVIMSS1309069']
   row 1211: raw_id='A9601_tRNAGlyVIMSS1309072'  reason=unresolved  [Gene id='A9601_tRNAGlyVIMSS1309072']
   row 1212: raw_id='A9601_tRNAHisVIMSS1309099'  reason=unresolved  [Gene id='A9601_tRNAHisVIMSS1309099']
-  ... (30 more)
+  ... (38 more)
+
+NOTE: 8 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

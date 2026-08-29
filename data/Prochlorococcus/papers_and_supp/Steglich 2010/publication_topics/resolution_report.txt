@@ -1,18 +1,18 @@
 Topics resolution report: Steglich 2010
 Strains: ['Prochlorococcus MED4']
 
-Genes:    32/54 resolved (59.3%)
-  methods: locus_tag:v=6, tier1:v=26, unresolved=22
+Genes:    30/54 resolved (55.6%)
+  methods: locus_tag:v=6, multi:v=20, multi_named:v=4, unresolved=24
 Pathways: 3/4 resolved (75.0%)
   methods: id=3, unresolved=1
 
 Captured identifiers: 6  (truncated/bare-number: 0)
-Unresolved gene reasons: {'lookup_miss': 21, 'descriptive_only': 1}
+Unresolved gene reasons: {'lookup_miss': 23, 'descriptive_only': 1}
     descriptive_only = function/enzyme phrase, no symbol or id (paper style)
     truncated_id_only = bare locus number, recoverable via strain prefix
     lookup_miss       = had a name/full id but no mapping match
 
-Unresolved gene mentions (22):
+Unresolved gene mentions (24):
   - psbAI  [lookup_miss]  strain=unspecified
   - 16S rRNA  [descriptive_only]  strain=Prochlorococcus MED4
   - ssrA  [lookup_miss]  strain=Prochlorococcus MED4
@@ -35,6 +35,8 @@ Unresolved gene mentions (22):
   - Yfr20  [lookup_miss]  strain=Prochlorococcus MED4
   - Yfr21  [lookup_miss]  strain=Prochlorococcus MED4
   - hli03  [lookup_miss]  strain=Prochlorococcus MED4
+  - gidA  [lookup_miss]  strain=Prochlorococcus MED4
+  - petF  [lookup_miss]  strain=Prochlorococcus MED4
 
 Unresolved pathway mentions (1):
   - Ammonium transport  (raw id=—)

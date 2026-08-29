@@ -21,9 +21,9 @@
       "unique": 7621
     },
     "locus_tag_ncbi": {
-      "conflict": 88,
+      "conflict": 0,
       "multi": 0,
-      "unique": 12283
+      "unique": 3787
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -31,14 +31,16 @@
       "unique": 7535
     }
   },
+  "runaway_genes": [],
   "strain": "ATCC27126",
+  "tier1_count_max": 4,
+  "tier1_count_median": 4.0,
+  "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
     "Fadeev 2022/s1_atcc27126": 1,
     "cds_from_genomic.fna": 57,
     "genomic_gca/ATCC27126": 239,
     "genomic_gcf/ATCC27126": 97
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 88 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

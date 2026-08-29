@@ -1,19 +1,21 @@
 Topics resolution report: Thompson 2011
 Strains: ['Prochlorococcus MED4', 'Prochlorococcus MIT9313']
 
-Genes:    35/39 resolved (89.7%)
-  methods: locus_tag:v=13, multi:v=2, tier1:v=20, unresolved=4
+Genes:    32/38 resolved (84.2%)
+  methods: locus_tag:v=13, multi:v=18, tier1:v=1, unresolved=6
 Pathways: 0/0 resolved (0.0%)
   methods: 
 
 Captured identifiers: 39  (truncated/bare-number: 0)
-Unresolved gene reasons: {'lookup_miss': 4}
+Unresolved gene reasons: {'lookup_miss': 6}
     descriptive_only = function/enzyme phrase, no symbol or id (paper style)
     truncated_id_only = bare locus number, recoverable via strain prefix
     lookup_miss       = had a name/full id but no mapping match
 
-Unresolved gene mentions (4):
+Unresolved gene mentions (6):
+  - petF  [lookup_miss]  strain=all  ids=['petF']
   - cytochrome b6/f complex subunit VII  [lookup_miss]  strain=Prochlorococcus MIT9313  ids=['cytochrome b6/f complex subunit VII']
   - Yfr11  [lookup_miss]  strain=all  ids=['Yfr11']
   - Yfr19  [lookup_miss]  strain=all  ids=['Yfr19']
   - iraI  [lookup_miss]  strain=Prochlorococcus MED4  ids=['iraI']
+  - pcbB  [lookup_miss]  strain=Prochlorococcus MIT9313  ids=['pcbB']

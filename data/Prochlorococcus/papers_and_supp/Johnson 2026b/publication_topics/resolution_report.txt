@@ -1,28 +1,31 @@
 Topics resolution report: Johnson 2026b
 Strains: ['Prochlorococcus MED4']
 
-Genes:    82/108 resolved (75.9%)
-  methods: locus_tag:v=15, multi:v=15, multi_ci:v=3, tier1:v=47, tier1_ci:v=2, unresolved=26
+Genes:    79/108 resolved (73.1%)
+  methods: locus_tag:v=15, multi:v=57, multi_ci:v=5, multi_named:v=2, unresolved=29
 Pathways: 11/16 resolved (68.8%)
   methods: id=10, name=1, unresolved=5
 
 Captured identifiers: 15  (truncated/bare-number: 0)
-Unresolved gene reasons: {'lookup_miss': 26}
+Unresolved gene reasons: {'lookup_miss': 29}
     descriptive_only = function/enzyme phrase, no symbol or id (paper style)
     truncated_id_only = bare locus number, recoverable via strain prefix
     lookup_miss       = had a name/full id but no mapping match
 
-Unresolved gene mentions (26):
+Unresolved gene mentions (29):
   - rre1  [lookup_miss]  strain=Prochlorococcus MED4
   - psbD2  [lookup_miss]  strain=Prochlorococcus MED4
   - hepB  [lookup_miss]  strain=Prochlorococcus MED4
   - rpoD3  [lookup_miss]  strain=Prochlorococcus MED4
+  - hli17  [lookup_miss]  strain=Prochlorococcus MED4
+  - dnaK2  [lookup_miss]  strain=Prochlorococcus MED4
   - groEL1  [lookup_miss]  strain=Prochlorococcus MED4
   - nrtABCDS  [lookup_miss]  strain=Prochlorococcus MED4
   - urtABC  [lookup_miss]  strain=Prochlorococcus MED4
   - tatA  [lookup_miss]  strain=Prochlorococcus MED4
   - kaiABC  [lookup_miss]  strain=Prochlorococcus MED4
   - kaiA  [lookup_miss]  strain=Prochlorococcus MED4
+  - ndhD  [lookup_miss]  strain=Prochlorococcus MED4
   - hemEJ  [lookup_miss]  strain=Prochlorococcus MED4
   - chlLNP  [lookup_miss]  strain=Prochlorococcus MED4
   - psbIMN  [lookup_miss]  strain=Prochlorococcus MED4

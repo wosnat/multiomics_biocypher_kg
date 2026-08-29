@@ -514,7 +514,7 @@ RAST Locus Tag,NCBI Locus Tag,Main_Role,Subrole,Subsystem,Curated Product Descri
 ,tll1205,Regulatory functions,Protein interactions,serine/threonine protein kinases,serine/threonine protein kinase,,3,A,4,H,1799.730496,2230.250104,1901.016005,1976.998868,tll1205,locus_tag:NCBI Locus Tag
 ,tll1213,Prosthetic groups_ cofactors_ and carriers,Ubiquinone and other terpenoid-quinone biosynthesis,phylloquinone biosynthesis via SEPHCHC,menaquinone-specific isochorismate synthase MenF,menF,2,B,3,G,541.1827966,583.8836414,1175.155864,766.7407672,tll1213,locus_tag:NCBI Locus Tag
 ,tll1221,Prosthetic groups_ cofactors_ and carriers,Ubiquinone and other terpenoid-quinone biosynthesis,phylloquinone biosynthesis via SEPHCHC,O-succinylbenzoic acid--CoA ligase MenE,menE,4,C,0,,910.5048857,224.4276661,246.7034154,460.5453224,tll1221,locus_tag:NCBI Locus Tag
-,tll1225,Amino acid metabolism,Glycine_ serine and threonine metabolism,threonine biosynthesis from aspartate semialdehyde,threonine synthase ThrC,thrC,4,C,4,H,371.7296822,267.9097778,116.8046319,252.1480306,tlr0982,tier1:gene
+,tll1225,Amino acid metabolism,Glycine_ serine and threonine metabolism,threonine biosynthesis from aspartate semialdehyde,threonine synthase ThrC,thrC,4,C,4,H,371.7296822,267.9097778,116.8046319,252.1480306,,ambiguous
 ,tll1227,Amino acid metabolism,Glycine_ serine and threonine metabolism,threonine biosynthesis from homoserine,threonine synthase ThrC,thrC,4,C,3,G,9799.624139,6434.376548,7819.411711,8017.804132,tll1227,locus_tag:NCBI Locus Tag
 ,tll1230,Unknown function,General,,hypothetical protein,,4,C,4,H,3006.586921,1331.4946,853.1549912,1730.412171,tll1230,locus_tag:NCBI Locus Tag
 ,tll1231,Unknown function,General,,membrane protein RDD family,,4,C,4,H,1870.203276,582.695603,312.5102391,921.8030393,tll1231,locus_tag:NCBI Locus Tag
@@ -832,7 +832,7 @@ RAST Locus Tag,NCBI Locus Tag,Main_Role,Subrole,Subsystem,Curated Product Descri
 ,tll1937,Transcription,Transcription factors,rRNA transcription factors,transcription elongation factor NusA,nusA,1,D,3,G,5919.536464,9916.042576,12546.50142,9460.693485,tll1937,locus_tag:NCBI Locus Tag
 ,tll1938,Translation,Ribosomal proteins: synthesis and modification,other ribosome maturation factor,ribosome maturation factor rimP,rimP,4,C,3,G,6240.412407,2906.845534,3207.213744,4118.157228,tll1938,locus_tag:NCBI Locus Tag
 ,tll1939,Unknown function,General,,hypothetical protein,,3,A,4,H,10372.8076,21199.62196,13585.25356,15052.56104,tll1939,locus_tag:NCBI Locus Tag
-,tll1940,Energy metabolism,Carbon fixation in prokaryotes,Calvin-Benson cycle,glyceraldehyde-3-phosphate dehydrogenase Gap,gap,4,C,4,H,507.7193743,153.232239,169.1427889,276.6981341,tll0043,tier1:gene
+,tll1940,Energy metabolism,Carbon fixation in prokaryotes,Calvin-Benson cycle,glyceraldehyde-3-phosphate dehydrogenase Gap,gap,4,C,4,H,507.7193743,153.232239,169.1427889,276.6981341,tll0043,multi:gene
 ,tll1941,Transport and binding proteins,Unknown substrate,,multidrug efflux transporter MFS family,,0,,0,,54.44000938,24.9471157,30.70977978,36.69896829,,unresolved
 ,tll1942,Unknown function,General,,hypothetical protein,,4,C,4,H,2451.075735,1183.003974,1547.228389,1727.102699,tll1942,locus_tag:NCBI Locus Tag
 ,tll1943,Unknown function,General,,hypothetical protein,,2,B,3,G,12447.04201,5847.235215,9727.381356,9340.55286,tll1943,locus_tag:NCBI Locus Tag
@@ -1347,7 +1347,7 @@ RAST Locus Tag,NCBI Locus Tag,Main_Role,Subrole,Subsystem,Curated Product Descri
 ,tlr0628,Intracellular trafficking_ assembly_ and processing,Peptidases,protease_ periplasmic,periplasmic processing metalloprotease YmxG,ymxG,1,D,3,G,177.9815018,282.6671535,755.5554409,405.4013654,tlr0628,locus_tag:NCBI Locus Tag
 ,tlr0630,Unknown function,General,,hypothetical protein,,4,C,4,H,947.7000943,277.953805,189.4850812,471.7129935,tlr0630,locus_tag:NCBI Locus Tag
 ,tlr0631,Unknown function,General,,hypothetical protein,,4,C,4,H,1325.833691,535.6192668,376.5759468,746.0096347,tlr0631,locus_tag:NCBI Locus Tag
-,tlr0636,Energy metabolism,Oxidative phosphorylation,NAD(P)H:quinone oxidoreductase (complex I) NdhABCDEFGHIJKLMNOPQS,NADH-plastoquinone oxidoreductase subunit NdhS,ndhS,1,D,1,E,11906.77571,25164.86089,24312.75821,20461.46493,TLL_RS12675,tier1:gene
+,tlr0636,Energy metabolism,Oxidative phosphorylation,NAD(P)H:quinone oxidoreductase (complex I) NdhABCDEFGHIJKLMNOPQS,NADH-plastoquinone oxidoreductase subunit NdhS,ndhS,1,D,1,E,11906.77571,25164.86089,24312.75821,20461.46493,TLL_RS12675,multi:NCBI Locus Tag
 ,tlr0637,Unknown function,General,,HAS barrel domain protein,,1,D,1,E,2285.353929,3303.846381,2874.157931,2821.119414,tlr0637,locus_tag:NCBI Locus Tag
 ,tlr0648,Translation,tRNA and rRNA base modification,tRNA modification factors,tRNA dimethylallyltransferase MiaA,miaA,4,C,4,H,356.0954551,151.4188826,127.6600765,211.7248047,tlr0648,locus_tag:NCBI Locus Tag
 ,tlr0651,Unknown function,General,,protein of unknown function UPF0081,,0,,0,,59.18106875,63.40308546,99.52253793,74.03556405,tlr0651,locus_tag:NCBI Locus Tag
@@ -2336,7 +2336,7 @@ RAST Locus Tag,NCBI Locus Tag,Main_Role,Subrole,Subsystem,Curated Product Descri
 ,tsr0968,Unknown function,General,,hypothetical protein,,3,A,4,H,30886.72729,33805.47146,20292.09738,28328.09871,tsr0968,locus_tag:NCBI Locus Tag
 ,tsr0983,Prosthetic groups_ cofactors_ and carriers,Sulfur relay system,Moco biosynthesis sulfur relay,ThiS domain-containing protein,,1,D,3,G,5475.918253,21335.69265,16230.73564,14347.44885,tsr0983,locus_tag:NCBI Locus Tag
 ,tsr1000,,,,,,4,C,3,G,934.9007948,805.2924313,770.4007111,836.8646457,,unresolved
-,tsr1002,Transport and binding proteins,Anions,phosphate homeostasis,ABC-type phosphate uptake system ATPase component PstB,pstB,4,C,4,H,2028.169041,212.0352051,90.81870219,777.0076496,tlr2167,tier1:gene
+,tsr1002,Transport and binding proteins,Anions,phosphate homeostasis,ABC-type phosphate uptake system ATPase component PstB,pstB,4,C,4,H,2028.169041,212.0352051,90.81870219,777.0076496,tlr2167,multi:gene
 ,tsr1012,Unknown function,General,,hypothetical protein,,4,C,4,H,3092.57788,1211.927693,1264.733025,1856.412866,tsr1012,locus_tag:NCBI Locus Tag
 ,tsr1026,Transport and binding proteins,Anions,,BASS family bile acid:Na+ symporter,,4,C,4,H,6137.28358,417.178979,137.2145051,2230.559021,,unresolved
 ,tsr1055,Unknown function,General,,hypothetical protein,,4,C,3,G,3807.622165,1991.772259,2322.800143,2707.398189,,unresolved

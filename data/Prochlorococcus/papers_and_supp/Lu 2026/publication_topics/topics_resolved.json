@@ -19,8 +19,7 @@
       "genes_resolved": 2,
       "gene_methods": {
         "unresolved": 10,
-        "tier1:v": 1,
-        "multi:v": 1
+        "multi:v": 2
       },
       "pathway_records": 5,
       "pathways_resolved": 2,
@@ -87,7 +86,7 @@
       "strain": "Alteromonas macleodii EZ55",
       "locus_tag": "EZ55_02671",
       "resolved_from": "ribH",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "RibE",

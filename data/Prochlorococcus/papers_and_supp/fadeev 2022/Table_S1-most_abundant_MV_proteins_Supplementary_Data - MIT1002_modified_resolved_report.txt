@@ -4,12 +4,16 @@ name_col: NCBI_PGAP_accession
 id_columns: ['NCBI_PGAP_accession']
 
 Total rows with IDs: 93
-Resolved: 92 (98.9%)
-Unresolved: 1
+Resolved: 91 (97.8%)
+Unresolved: 2
 
 Resolution method breakdown:
-  tier1:NCBI_PGAP_accession: 92
+  ambiguous: 1
+  multi:NCBI_PGAP_accession: 91
   unresolved: 1
 
-Unresolved rows (1):
+Unresolved rows (2):
+  row 1: raw_id='WP_014977498.1'  reason=ambiguous  [NCBI_PGAP_accession='WP_014977498.1']
   row 20: raw_id='WP_049586079.1'  reason=unresolved  [NCBI_PGAP_accession='WP_049586079.1']
+
+NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

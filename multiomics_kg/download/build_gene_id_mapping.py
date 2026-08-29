@@ -166,6 +166,31 @@ def _parse_gtf_attrs(attr_str: str) -> dict[str, str]:
     return attrs
 
 
+def _gff_name_type(name: str, attrs: dict[str, str]) -> str | None:
+    """Type a GFF ``Name=`` value by what it duplicates on the same row.
+
+    NCBI GFFs put the gene *symbol* in ``Name`` whenever one exists
+    (``Name=tnpB;gene=tnpB``) and the protein accession on CDS rows
+    (``Name=WP_...;protein_id=WP_...``); only symbol-less genes carry the locus
+    tag there. Typing every Name as Tier-1 ``locus_tag_ncbi`` declared shared
+    symbols gene-unique, which merged the 12 ``tnpB`` IS copies of KT2440 into
+    one gene and MED4's 5S rRNA ``rrf`` into ``frr`` (synonym ``rrf``).
+
+    Returns the id_type to register, or None to skip a value that is already
+    registered from another attribute on the row.
+    """
+    def _same(attr: str) -> bool:
+        return unquote(attrs.get(attr, "")).strip() == name
+
+    if _same("locus_tag") or _same("old_locus_tag"):
+        return None  # duplicate of a Tier-1 token already taken from that attr
+    if _same("protein_id"):
+        return "protein_id_refseq"  # Tier 2: paralogs may share a WP_ accession
+    if _same("gene"):
+        return "gene_name"  # Tier 3: symbols are not gene-unique (tnpB, rrf)
+    return "locus_tag_ncbi"
+
+
 def extract_rows_from_annotation_gff(
     entry: dict,
     paper_name: str,
@@ -191,7 +216,7 @@ def extract_rows_from_annotation_gff(
         "locus_tag": "locus_tag_ncbi",
         "old_locus_tag": "old_locus_tag",
         "protein_id": "protein_id_refseq",
-        "Name": "locus_tag_ncbi",  # GFF Name attr is often the locus tag
+        "Name": "locus_tag_ncbi",  # only when it is not a gene symbol / accession — see _gff_name_type
         "gene": "gene_name",
     }
     VALID_FEATURES = {"gene", "CDS", "exon", "transcript"}
@@ -216,6 +241,10 @@ def extract_rows_from_annotation_gff(
                         row_pairs.append((gff_id, "gff_gene_id"))
                 for attr_name, id_type in GFF_ATTR_TYPES.items():
                     val = unquote(attrs.get(attr_name, "")).strip()
+                    if attr_name == "Name" and val:
+                        id_type = _gff_name_type(val, attrs)
+                        if id_type is None:
+                            continue
                     if val:
                         row_pairs.append((val, id_type))
                         # GFF Name/gene attrs may list synonyms separated

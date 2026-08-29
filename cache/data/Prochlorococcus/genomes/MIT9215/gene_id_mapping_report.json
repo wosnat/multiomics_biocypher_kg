@@ -26,9 +26,9 @@
       "unique": 1990
     },
     "locus_tag_ncbi": {
-      "conflict": 62,
+      "conflict": 0,
       "multi": 0,
-      "unique": 6660
+      "unique": 1896
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -46,13 +46,15 @@
       "unique": 1442
     }
   },
+  "runaway_genes": [],
   "strain": "MIT9215",
+  "tier1_count_max": 5,
+  "tier1_count_median": 5.0,
+  "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
     "cds_from_genomic.fna": 8,
     "genomic_gca/MIT9215": 54,
     "genomic_gcf/MIT9215": 52
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 62 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

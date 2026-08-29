@@ -316,6 +316,10 @@ metabolite assay:
   preferred_id: metabolite_assay_id
   label_in_input: metabolite_assay
   properties:
+    # name convention (KG-MET-002): '<strain> <compartment> <what was measured> (<normalization>)',
+    # e.g. 'MIT9312 vesicle targeted metabolite relative peak area (biovolume-normalized)'.
+    # The compartment word in the name is human-readable only; filter on the `compartment`
+    # property (whole_cell | vesicle | extracellular | ...), never on the name.
     name: str
     experiment_id: str
     organism_name: str
@@ -509,6 +513,7 @@ controlled vocabulary:
     exhaustive: str        # "true" | "false"  — declared set == observed set (coverage, opt-in)
     values: str[]
     description: str
+    min_size: int          # sparse: dense list properties that must be non-empty (treatment_type / background_factors); explorer B3, 2026-08-29
     min_value: float       # sparse: numeric vocabularies only
     max_value: float       # sparse
     signal_count: int      # sparse: evidence_score only

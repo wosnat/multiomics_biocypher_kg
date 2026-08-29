@@ -4,8 +4,12 @@ name_col: locus_tag
 id_columns: ['locus_tag']
 
 Total rows with IDs: 103
-Resolved: 103 (100.0%)
-Unresolved: 0
+Resolved: 102 (99.0%)
+Unresolved: 1
 
 Resolution method breakdown:
-  multi:locus_tag: 103
+  multi:locus_tag: 102
+  unresolved: 1
+
+Unresolved rows (1):
+  row 102: raw_id='lcl|CP000111.1_cds_Pmt9312_1815_1782'  reason=unresolved  [locus_tag='lcl|CP000111.1_cds_Pmt9312_1815_1782']

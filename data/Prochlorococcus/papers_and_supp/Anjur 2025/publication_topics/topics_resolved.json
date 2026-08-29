@@ -16,10 +16,10 @@
     "output_tokens": 1690,
     "resolution": {
       "gene_records": 7,
-      "genes_resolved": 6,
+      "genes_resolved": 5,
       "gene_methods": {
-        "tier1:v": 6,
-        "unresolved": 1
+        "unresolved": 2,
+        "multi:v": 5
       },
       "pathway_records": 2,
       "pathways_resolved": 2,
@@ -33,7 +33,7 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 1
+        "lookup_miss": 2
       }
     }
   },
@@ -46,9 +46,9 @@
       "evidence": "the inorganic phosphate uptake genes (pstS, A, B, C) were significantly more expressed in cells from biofilms compared to planktonic cells (Fig. 3A,B) (Results, p6)",
       "mention_strain": "Prochlorococcus MIT9301",
       "strain": "Prochlorococcus MIT9301",
-      "locus_tag": "P9301_07741",
-      "resolved_from": "pstS",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "pstA",
@@ -60,7 +60,7 @@
       "strain": "Prochlorococcus MIT9301",
       "locus_tag": "P9301_07761",
       "resolved_from": "pstA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "pstB",
@@ -72,7 +72,7 @@
       "strain": "Prochlorococcus MIT9301",
       "locus_tag": "P9301_07771",
       "resolved_from": "pstB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "pstC",
@@ -84,7 +84,7 @@
       "strain": "Prochlorococcus MIT9301",
       "locus_tag": "P9301_07751",
       "resolved_from": "pstC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "phoR",
@@ -96,7 +96,7 @@
       "strain": "Prochlorococcus MIT9301",
       "locus_tag": "P9301_12411",
       "resolved_from": "phoR",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "ebfG",
@@ -120,7 +120,7 @@
       "strain": "Prochlorococcus MIT9301",
       "locus_tag": "P9301_05761",
       "resolved_from": "rbcL",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     }
   ],
   "pathways": [

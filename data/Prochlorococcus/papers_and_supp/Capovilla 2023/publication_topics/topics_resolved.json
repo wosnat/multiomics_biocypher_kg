@@ -16,11 +16,10 @@
     "output_tokens": 1724,
     "resolution": {
       "gene_records": 14,
-      "genes_resolved": 9,
+      "genes_resolved": 7,
       "gene_methods": {
-        "unresolved": 5,
-        "tier1:v": 5,
-        "multi:v": 4
+        "unresolved": 7,
+        "multi:v": 7
       },
       "pathway_records": 5,
       "pathways_resolved": 2,
@@ -36,7 +35,8 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 5
+        "lookup_miss": 6,
+        "descriptive_only": 1
       }
     }
   },
@@ -72,10 +72,10 @@
       "prominence": "central",
       "evidence": "Subunits of the putative chitobiose transporter UgpBAE also occur at high frequency within low-light-adapted VII (LLVII) Prochlorococcus (p2, Results and Discussion)",
       "mention_strain": "all",
-      "strain": "Prochlorococcus MIT9313",
-      "locus_tag": "PMT0332",
-      "resolved_from": "UgpBAE (putative chitobiose transporter)",
-      "resolution_method": "tier1:v"
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "NagB",
@@ -123,7 +123,7 @@
       "strain": "Prochlorococcus MIT9303",
       "locus_tag": "P9303_27141",
       "resolved_from": "nagA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "NagZ",
@@ -183,7 +183,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1197",
       "resolved_from": "cbbX",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "CsoS1 RuBisCO",
@@ -193,9 +193,9 @@
       "evidence": "Transcripts of several genes involved in photosynthesis and carbon fixation were enriched in the presence of chitosan in MIT9313, a secondary degrader of chitin (p4, Results and Discussion; Fig. 5B)",
       "mention_strain": "Prochlorococcus MIT9313",
       "strain": "Prochlorococcus MIT9313",
-      "locus_tag": "PMT_1199",
-      "resolved_from": "csoS1",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "PsbH",
@@ -207,7 +207,7 @@
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1837",
       "resolved_from": "psbH",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     }
   ],
   "pathways": [

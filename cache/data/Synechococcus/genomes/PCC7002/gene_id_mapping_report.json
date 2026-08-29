@@ -21,9 +21,9 @@
       "unique": 6307
     },
     "locus_tag_ncbi": {
-      "conflict": 99,
+      "conflict": 0,
       "multi": 0,
-      "unique": 10393
+      "unique": 3101
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -36,7 +36,11 @@
       "unique": 5
     }
   },
+  "runaway_genes": [],
   "strain": "PCC7002",
+  "tier1_count_max": 4,
+  "tier1_count_median": 4.0,
+  "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
     "Beliaev 2014/supp_table_s3": 27,
     "Beliaev 2014/supp_table_s5": 20,
@@ -45,7 +49,5 @@
     "genomic_gca/PCC7002": 221,
     "genomic_gcf/PCC7002": 65
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 99 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

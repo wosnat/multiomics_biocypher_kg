@@ -21,9 +21,9 @@
       "unique": 8086
     },
     "locus_tag_ncbi": {
-      "conflict": 45,
+      "conflict": 0,
       "multi": 0,
-      "unique": 13064
+      "unique": 4023
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -36,14 +36,16 @@
       "unique": 1458
     }
   },
+  "runaway_genes": [],
   "strain": "BGP6",
+  "tier1_count_max": 4,
+  "tier1_count_median": 4.0,
+  "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
     "Fadeev 2022/s1_bgp6": 1,
     "cds_from_genomic.fna": 29,
     "genomic_gca/BGP6": 294,
     "genomic_gcf/BGP6": 103
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 45 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

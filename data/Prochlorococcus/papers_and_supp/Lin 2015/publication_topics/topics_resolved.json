@@ -15,11 +15,11 @@
     "output_tokens": 3129,
     "resolution": {
       "gene_records": 26,
-      "genes_resolved": 20,
+      "genes_resolved": 19,
       "gene_methods": {
-        "tier1:v": 13,
-        "unresolved": 6,
-        "multi:v": 7
+        "multi:v": 16,
+        "unresolved": 7,
+        "multi_named:v": 3
       },
       "pathway_records": 5,
       "pathways_resolved": 4,
@@ -34,7 +34,7 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 6
+        "lookup_miss": 7
       }
     }
   },
@@ -51,7 +51,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_0441",
       "resolved_from": "pstS",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "g247",
@@ -107,7 +107,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_0309",
       "resolved_from": "pstB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "phoA",
@@ -163,7 +163,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_0311",
       "resolved_from": "pstC",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "pstA",
@@ -177,7 +177,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_0310",
       "resolved_from": "pstA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "gap1",
@@ -219,7 +219,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_0981",
       "resolved_from": "atpA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "atpB",
@@ -231,9 +231,9 @@
       "evidence": "Most genes with depleted transcripts...belong to the ATP synthase operon (atpA, atpB, atpE, atpF, atpG, atpH and atpI) (p3)",
       "mention_strain": "Prochlorococcus NATL2A",
       "strain": "Prochlorococcus NATL2A",
-      "locus_tag": "PMN2A_0986",
+      "locus_tag": "PMN2A_0970",
       "resolved_from": "atpB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "atpE",
@@ -245,9 +245,9 @@
       "evidence": "Most genes with depleted transcripts...belong to the ATP synthase operon (atpA, atpB, atpE, atpF, atpG, atpH and atpI) (p3)",
       "mention_strain": "Prochlorococcus NATL2A",
       "strain": "Prochlorococcus NATL2A",
-      "locus_tag": "PMN2A_0985",
+      "locus_tag": "PMN2A_0971",
       "resolved_from": "atpE",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "atpF",
@@ -287,9 +287,9 @@
       "evidence": "Most genes with depleted transcripts...belong to the ATP synthase operon (atpA, atpB, atpE, atpF, atpG, atpH and atpI) (p3)",
       "mention_strain": "Prochlorococcus NATL2A",
       "strain": "Prochlorococcus NATL2A",
-      "locus_tag": "PMN2A_0982",
+      "locus_tag": "PMN2A_0985",
       "resolved_from": "atpH",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi_named:v"
     },
     {
       "surface_form": "atpI",
@@ -317,7 +317,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_0194",
       "resolved_from": "leuB",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rplJ",
@@ -331,7 +331,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_1569",
       "resolved_from": "rplJ",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rplL",
@@ -345,7 +345,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_1568",
       "resolved_from": "rplL",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rpsR",
@@ -359,7 +359,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_0340",
       "resolved_from": "rpsR",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "cp12",
@@ -385,9 +385,9 @@
       "evidence": "host-like metabolic genes psbA (photosystem II subunit)...were expressed as middle cluster genes (p2)",
       "mention_strain": "Prochlorococcus NATL2A",
       "strain": "Prochlorococcus NATL2A",
-      "locus_tag": "PMN2A_1592",
-      "resolved_from": "psbA",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "talC",

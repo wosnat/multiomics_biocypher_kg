@@ -274,6 +274,11 @@ Gene.transport_substrate_resolution:
 
 # ── InterPro ────────────────────────────────────────────────────────────────
 InterproEntry.interpro_type:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   InterPro entry class. PRIMARY stratification key for ORA over InterPro — breadth varies by
+  #   type far more than by level. Preserved in InterPro's own UPPERCASE casing (not lowercased
+  #   per house rule R1) because this is InterPro's own controlled vocabulary term, kept verbatim
+  #   so it stays directly comparable to the source.
   applies_to: InterproEntry
   applies_to_kind: node
   property: interpro_type
@@ -282,11 +287,11 @@ InterproEntry.interpro_type:
   values: [FAMILY, DOMAIN, HOMOLOGOUS_SUPERFAMILY, REPEAT, CONSERVED_SITE,
            ACTIVE_SITE, BINDING_SITE, PTM]
   description: >
-    InterPro entry class. PRIMARY stratification key for ORA over InterPro —
-    breadth varies by type far more than by level. Preserved in InterPro's own
-    UPPERCASE casing (not lowercased per house rule R1) because this is
-    InterPro's own controlled vocabulary term, kept verbatim so it stays
-    directly comparable to the source.
+    InterPro entry class (FAMILY, DOMAIN, HOMOLOGOUS_SUPERFAMILY,
+    CONSERVED_SITE, ACTIVE_SITE, REPEAT, BINDING_SITE, PTM). The primary
+    stratification key for enrichment over InterPro: entry breadth varies far
+    more by type than by hierarchy level. InterPro's own upper-case terms,
+    kept verbatim.
 
 InterproEntry.level_kind:
   applies_to: InterproEntry
@@ -301,6 +306,12 @@ InterproEntry.level_kind:
     (interpro_type, level) — interpro_type primary, level secondary.
 
 Gene_has_interpro_entry.libraries:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   InterProScan member databases that produced a match for this entry. The member-DB
+  #   granularity of the signature-vs-inferred distinction — 'PFAM' means a direct HMM hit.
+  #   Preserved in InterProScan's own UPPERCASE casing (not lowercased per house rule R1) because
+  #   these are InterProScan's own controlled vocabulary terms, kept verbatim so they stay
+  #   directly comparable to the source.
   applies_to: Gene_has_interpro_entry
   applies_to_kind: edge
   property: libraries
@@ -309,12 +320,10 @@ Gene_has_interpro_entry.libraries:
   values: [CDD, GENE3D, HAMAP, NCBIFAM, PANTHER, PFAM, PIRSF, PRINTS,
            PROSITE_PATTERNS, PROSITE_PROFILES, SFLD, SMART, SUPERFAMILY]
   description: >
-    InterProScan member databases that produced a match for this entry. The
-    member-DB granularity of the signature-vs-inferred distinction — 'PFAM'
-    means a direct HMM hit. Preserved in InterProScan's own UPPERCASE casing
-    (not lowercased per house rule R1) because these are InterProScan's own
-    controlled vocabulary terms, kept verbatim so they stay directly
-    comparable to the source.
+    InterProScan member databases that matched this entry for this gene (e.g.
+    PFAM, PANTHER, GENE3D). More libraries = independent corroboration of the
+    same entry; 'PFAM' means a direct HMM hit. InterProScan's own upper-case
+    names, kept verbatim.
 
 # ── Released vocabularies (harvested, not designed — spec §5.3 second group) ─
 # These vocabularies were already shipped and are read by the MCP explorer;
@@ -325,6 +334,12 @@ Gene_has_interpro_entry.libraries:
 # code-vs-CLAUDE.md mismatch found).
 
 Experiment.omics_type:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Omics modality of this experiment. Harvested from EXTENDED_OMICS_TYPES in
+  #   multiomics_kg/vocab/non_de_evidence.py, which scripts/validate_paperconfig.py assigns
+  #   verbatim to VALID_TYPES — the two are the same set, no reconciliation needed. Shipped as
+  #   UPPERCASE_SNAKE_CASE (pre-existing convention; not lowercased per the vocabulary-contract's
+  #   no-rename rule for released values).
   applies_to: Experiment
   applies_to_kind: node
   property: omics_type
@@ -333,11 +348,9 @@ Experiment.omics_type:
   values: [RNASEQ, MICROARRAY, PROTEOMICS, EXOPROTEOMICS, VESICLE_PROTEOMICS,
            METABOLOMICS, PAIRED_RNASEQ_PROTEOME, DNASEQ, VESICLE_DNASEQ]
   description: >
-    Omics modality of this experiment. Harvested from EXTENDED_OMICS_TYPES in
-    multiomics_kg/vocab/non_de_evidence.py, which scripts/validate_paperconfig.py
-    assigns verbatim to VALID_TYPES — the two are the same set, no reconciliation
-    needed. Shipped as UPPERCASE_SNAKE_CASE (pre-existing convention; not
-    lowercased per the vocabulary-contract's no-rename rule for released values).
+    Omics modality of the experiment (RNASEQ, PROTEOMICS, MICROARRAY,
+    METABOLOMICS, EXOPROTEOMICS, ...). Upper-case snake_case by long-standing
+    convention.
 
 Experiment.compartment:
   applies_to: Experiment
@@ -354,6 +367,10 @@ Experiment.compartment:
     — the two CLAUDE.md mentions are consistent, just split across two bullets.
 
 Experiment.table_scope:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   What genes the source DE table contains. No controlled-list constant exists in code (the
+  #   adapter passes the paperconfig value through unvalidated) — harvested from CLAUDE.md "Key
+  #   graph facts" per the controller ruling designating CLAUDE.md as authority here.
   applies_to: Experiment
   applies_to_kind: node
   property: table_scope
@@ -362,12 +379,19 @@ Experiment.table_scope:
   values: [all_detected_genes, significant_any_timepoint, significant_only,
            top_n, filtered_subset]
   description: >
-    What genes the source DE table contains. No controlled-list constant
-    exists in code (the adapter passes the paperconfig value through
-    unvalidated) — harvested from CLAUDE.md "Key graph facts" per the
-    controller ruling designating CLAUDE.md as authority here.
+    What genes the source differential-expression table contains:
+    all_detected_genes, significant_any_timepoint, significant_only, top_n, or
+    filtered_subset. Absent on experiments with no DE table (metabolomics /
+    derived-metric-only). Read it before treating a table as a genome-wide
+    background.
 
 ClusteringAnalysis.cluster_type:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   What kind of gene grouping a clustering analysis is (paperconfig
+  #   `gene_clusters.cluster_type`, validated by scripts/validate_paperconfig.py
+  #   VALID_CLUSTER_TYPES). Registered 2026-08-27 (KG-SYNC-006) when the GEO pass added
+  #   `decay_pattern` (Steglich 2010 mRNA-decay profile clusters) and `genomic_island` (Hackl 2023
+  #   predicted genomic islands as gene sets).
   applies_to: ClusteringAnalysis
   applies_to_kind: node
   property: cluster_type
@@ -376,13 +400,17 @@ ClusteringAnalysis.cluster_type:
   values: [time_course, diel, condition_comparison, expression_bin,
            decay_pattern, genomic_island]
   description: >
-    What kind of gene grouping a clustering analysis is (paperconfig
-    `gene_clusters.cluster_type`, validated by scripts/validate_paperconfig.py
-    VALID_CLUSTER_TYPES). Registered 2026-08-27 (KG-SYNC-006) when the GEO
-    pass added `decay_pattern` (Steglich 2010 mRNA-decay profile clusters) and
-    `genomic_island` (Hackl 2023 predicted genomic islands as gene sets).
+    What kind of gene grouping the analysis is: time_course, diel,
+    condition_comparison, expression_bin, decay_pattern (mRNA-decay profiles,
+    Steglich 2010) or genomic_island (predicted islands as gene sets, Hackl
+    2023).
 
 DerivedMetric.value_kind:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Discriminator driving adapter edge-type dispatch (numeric->quantifies_gene,
+  #   boolean->flags_gene, categorical->classifies_gene). Harvested from VALUE_KINDS in
+  #   multiomics_kg/vocab/non_de_evidence.py; confirmed against schema_config.yaml's inline
+  #   comment on the `derived metric` node.
   applies_to: DerivedMetric
   applies_to_kind: node
   property: value_kind
@@ -390,10 +418,9 @@ DerivedMetric.value_kind:
   closed: true
   values: [numeric, boolean, categorical]
   description: >
-    Discriminator driving adapter edge-type dispatch (numeric->quantifies_gene,
-    boolean->flags_gene, categorical->classifies_gene). Harvested from
-    VALUE_KINDS in multiomics_kg/vocab/non_de_evidence.py; confirmed against
-    schema_config.yaml's inline comment on the `derived metric` node.
+    Kind of value the metric assigns to each gene: numeric (quantifies edges,
+    rankable), boolean (flags edges) or categorical (classifies edges).
+    Determines which measurement edge type the metric emits.
 
 MetaboliteAssay.value_kind:
   applies_to: MetaboliteAssay
@@ -544,6 +571,11 @@ Assay_quantifies_metabolite.metric_bucket:
     and CLAUDE.md's MetaboliteAssay computed-properties bullet.
 
 Assay_quantifies_metabolite.detection_status:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Adapter-set replicate-detection call. Harvested from the exact strings returned by
+  #   _aggregate_replicates() in multiomics_kg/adapters/metabolite_assay_adapter.py
+  #   (all-replicates nonzero -> detected; some -> sporadic; none -> not_detected); confirmed
+  #   against CLAUDE.md's schema-comment quote of the same three values.
   applies_to: Assay_quantifies_metabolite
   applies_to_kind: edge
   property: detection_status
@@ -551,11 +583,10 @@ Assay_quantifies_metabolite.detection_status:
   closed: true
   values: [detected, sporadic, not_detected]
   description: >
-    Adapter-set replicate-detection call. Harvested from the exact strings
-    returned by _aggregate_replicates() in
-    multiomics_kg/adapters/metabolite_assay_adapter.py (all-replicates
-    nonzero -> detected; some -> sporadic; none -> not_detected); confirmed
-    against CLAUDE.md's schema-comment quote of the same three values.
+    Replicate-level detection call for this metabolite in this assay: detected
+    (non-zero in every replicate), sporadic (non-zero in some), not_detected
+    (zero in all). A not_detected row is real data — the metabolite was
+    measured and absent.
 
 Gene.annotation_state:
   applies_to: Gene
@@ -626,6 +657,11 @@ OrganismTaxon.ncbifam_gene_count:
     (family_type = 'retired') still count — they are still calls.
 
 OrganismTaxon.organism_type:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Harvested from the literal strings in multiomics_kg/adapters/cyanorak_ncbi_adapter.py
+  #   (default "genome_strain", the hardcoded "treatment" for non-genomic treatment organisms) and
+  #   the organism_type column of data/Prochlorococcus/genomes/cyanobacteria_genomes.csv
+  #   ("reference_proteome_match" rows). Matches CLAUDE.md exactly.
   applies_to: OrganismTaxon
   applies_to_kind: node
   property: organism_type
@@ -633,14 +669,33 @@ OrganismTaxon.organism_type:
   closed: true
   values: [genome_strain, treatment, reference_proteome_match]
   description: >
-    Harvested from the literal strings in
-    multiomics_kg/adapters/cyanorak_ncbi_adapter.py (default "genome_strain",
-    the hardcoded "treatment" for non-genomic treatment organisms) and the
-    organism_type column of
-    data/Prochlorococcus/genomes/cyanobacteria_genomes.csv
-    ("reference_proteome_match" rows). Matches CLAUDE.md exactly.
+    How the organism entered the graph: genome_strain (a sequenced isolate
+    with its own genes), treatment (a coculture / infection partner named in a
+    paper, no genome loaded), or reference_proteome_match (community
+    proteomics attributed to a reference proteome such as MarRef).
 
 Experiment.treatment_type:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Harvested from CLAUDE.md's "treatment_type canonical values" bullet, per the controller
+  #   ruling designating CLAUDE.md as authority for this property. DENSE and NON-EMPTY (min_size
+  #   1) on every Experiment — a non-empty list is the explorer's indicator that the node is a
+  #   real experiment, so characterization studies get a short categorical value naming what was
+  #   measured instead of []: rna_decay (Steglich 2010 rifampicin half-lives), tss_mapping (Voigt
+  #   2014 TSS maps), genomic_analysis (Hackl 2023 genomic islands, on ClusteringAnalysis). Add a
+  #   new value when a new paper fits nothing here. "oxygen" added 2026-08-27 — first emitted by
+  #   Bernstein 2017's BP-1 / M. ruber turbidostat pO2 steady states. neo4j-admin import drops an
+  #   empty string[] cell, so post-import re-materializes [] on the denormalized labels
+  #   (ClusteringAnalysis / DerivedMetric / MetaboliteAssay) where [] is still legal.
+  #   scripts/validate_paperconfig.py loads this list (CANONICAL_TREATMENT_TYPES). "chemical"
+  #   added 2026-08-19 — first emitted by Hackl 2023's MIT0604 mitomycin-C experiments (previously
+  #   validator-only). FINDING: scripts/validate_paperconfig.py does NOT enforce this narrower
+  #   per-field list. It validates treatment_type and background_factors against one SHARED
+  #   17-value set (CANONICAL_CONDITION_TYPES, lines ~189-213) that also contains "mutant" and
+  #   "axenic" — which do not appear in this list. A paperconfig using treatment_type: [mutant] or
+  #   treatment_type: [axenic] would pass validation but the resulting value would violate this
+  #   closed vocabulary if ever emitted. Declared per CLAUDE.md as instructed; the validator's
+  #   wider allowance is unreconciled and worth tightening or re-documenting. See
+  #   task-10-report.md.
   applies_to: Experiment
   applies_to_kind: node
   property: treatment_type
@@ -651,33 +706,22 @@ Experiment.treatment_type:
            chemical, oxygen, rna_decay, tss_mapping, genomic_analysis]
   min_size: 1
   description: >
-    Harvested from CLAUDE.md's "treatment_type canonical values" bullet, per
-    the controller ruling designating CLAUDE.md as authority for this property.
-    DENSE and NON-EMPTY (min_size 1) on every Experiment — a non-empty list is
-    the explorer's indicator that the node is a real experiment, so
-    characterization studies get a short categorical value naming what was
-    measured instead of []: rna_decay (Steglich 2010 rifampicin half-lives),
-    tss_mapping (Voigt 2014 TSS maps), genomic_analysis (Hackl 2023 genomic
-    islands, on ClusteringAnalysis). Add a new value when a new paper fits
-    nothing here. "oxygen" added 2026-08-27 — first emitted by Bernstein
-    2017's BP-1 / M. ruber turbidostat pO2 steady states. neo4j-admin import
-    drops an empty string[] cell, so post-import re-materializes [] on the
-    denormalized labels (ClusteringAnalysis / DerivedMetric / MetaboliteAssay)
-    where [] is still legal.
-    scripts/validate_paperconfig.py loads this list (CANONICAL_TREATMENT_TYPES).
-    "chemical" added 2026-08-19 — first emitted by Hackl 2023's MIT0604
-    mitomycin-C experiments (previously validator-only).
-    FINDING: scripts/validate_paperconfig.py does NOT enforce this narrower
-    per-field list. It validates treatment_type and background_factors
-    against one SHARED 17-value set (CANONICAL_CONDITION_TYPES, lines
-    ~189-213) that also contains "mutant" and "axenic" — which do not
-    appear in this list. A paperconfig using treatment_type: [mutant]
-    or treatment_type: [axenic] would pass validation but the resulting value
-    would violate this closed vocabulary if ever emitted. Declared per
-    CLAUDE.md as instructed; the validator's wider allowance is unreconciled
-    and worth tightening or re-documenting. See task-10-report.md.
+    The manipulated variable(s) of the experiment — nitrogen, phosphorus,
+    iron, carbon, salt, light, temperature, plastic, darkness, diel, viral,
+    coculture, growth_phase, compartment, chemical, oxygen — or, for a
+    characterization study with no perturbation, what was measured: rna_decay,
+    tss_mapping, genomic_analysis. Always non-empty: a non-empty list is the
+    sign that the node is a real experiment.
 
 Experiment.background_factors:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   DENSE and NON-EMPTY (min_size 1) on every Experiment — an experiment always has a
+  #   held-constant context. neo4j-admin import drops an empty string[] cell, so post-import
+  #   re-materializes [] on the denormalized labels (ClusteringAnalysis may legitimately be [] —
+  #   Hackl 2023 genomic islands have no experimental context). Harvested from CLAUDE.md's
+  #   "background_factors canonical values" bullet. Since 2026-08-27
+  #   scripts/validate_paperconfig.py loads THIS list (CANONICAL_BACKGROUND_FACTORS) instead of a
+  #   shared set, closing the old FINDING that the validator accepted treatment-only values here.
   applies_to: Experiment
   applies_to_kind: node
   property: background_factors
@@ -686,17 +730,17 @@ Experiment.background_factors:
   values: [axenic, light, diel, coculture, chemical, darkness, viral]
   min_size: 1
   description: >
-    DENSE and NON-EMPTY (min_size 1) on every Experiment — an experiment
-    always has a held-constant context. neo4j-admin import drops an empty
-    string[] cell, so post-import re-materializes [] on the denormalized
-    labels (ClusteringAnalysis may legitimately be [] — Hackl 2023 genomic
-    islands have no experimental context). Harvested from CLAUDE.md's
-    "background_factors canonical values" bullet. Since 2026-08-27
-    scripts/validate_paperconfig.py loads THIS list
-    (CANONICAL_BACKGROUND_FACTORS) instead of a shared set, closing the old
-    FINDING that the validator accepted treatment-only values here.
+    Held-constant context of the experiment that is not the manipulated
+    variable: axenic, light, diel, coculture, chemical, darkness, viral.
+    Always non-empty — every experiment has a context.
 
 ClusteringAnalysis.treatment_type:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Denormalized copy of Experiment.treatment_type (same closed value list; 2026-08-27). Set per
+  #   gene_clusters entry, not inherited: non-empty by validator rule; sequence-only analyses
+  #   (Hackl 2023 genomic islands) carry genomic_analysis — the only carrier of that value.
+  #   neo4j-admin import drops an empty string[] cell, so post-import re-materializes [] — the
+  #   property is always present.
   applies_to: ClusteringAnalysis
   applies_to_kind: node
   property: treatment_type
@@ -707,11 +751,16 @@ ClusteringAnalysis.treatment_type:
            chemical, oxygen, rna_decay, tss_mapping, genomic_analysis]
   min_size: 1
   description: >
-    Denormalized copy of Experiment.treatment_type (same closed value list;
-    2026-08-27). Set per gene_clusters entry, not inherited: non-empty by validator rule; sequence-only analyses (Hackl 2023 genomic islands) carry genomic_analysis — the only carrier of that value. neo4j-admin import drops an empty string[] cell, so
-    post-import re-materializes [] — the property is always present.
+    The manipulated variable(s) behind the clustering (same value set as
+    Experiment.treatment_type). Always non-empty; a sequence-only analysis
+    (Hackl 2023 genomic islands) carries genomic_analysis.
 
 ClusteringAnalysis.background_factors:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Denormalized copy of Experiment.background_factors (same closed value list; 2026-08-27). Set
+  #   per gene_clusters entry; [] is LEGAL here (a genomic_analysis has no experimental context),
+  #   hence no min_size. neo4j-admin import drops an empty string[] cell, so post-import
+  #   re-materializes [] — the property is always present.
   applies_to: ClusteringAnalysis
   applies_to_kind: node
   property: background_factors
@@ -719,11 +768,16 @@ ClusteringAnalysis.background_factors:
   closed: true
   values: [axenic, light, diel, coculture, chemical, darkness, viral]
   description: >
-    Denormalized copy of Experiment.background_factors (same closed value list;
-    2026-08-27). Set per gene_clusters entry; [] is LEGAL here (a genomic_analysis has no experimental context), hence no min_size. neo4j-admin import drops an empty string[] cell, so
-    post-import re-materializes [] — the property is always present.
+    Held-constant context of the clustering (same value set as
+    Experiment.background_factors). May be [] — a genomic_analysis has no
+    experimental context. Always present.
 
 DerivedMetric.treatment_type:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Denormalized copy of Experiment.treatment_type (same closed value list; 2026-08-27). Copied
+  #   verbatim from the parent Experiment, so min_size 1 holds by construction. neo4j-admin import
+  #   drops an empty string[] cell, so post-import re-materializes [] — the property is always
+  #   present.
   applies_to: DerivedMetric
   applies_to_kind: node
   property: treatment_type
@@ -734,11 +788,15 @@ DerivedMetric.treatment_type:
            chemical, oxygen, rna_decay, tss_mapping, genomic_analysis]
   min_size: 1
   description: >
-    Denormalized copy of Experiment.treatment_type (same closed value list;
-    2026-08-27). Copied verbatim from the parent Experiment, so min_size 1 holds by construction. neo4j-admin import drops an empty string[] cell, so
-    post-import re-materializes [] — the property is always present.
+    The parent experiment's treatment_type, copied onto the metric for
+    filtering (same value set as Experiment.treatment_type). Always non-empty.
 
 DerivedMetric.background_factors:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Denormalized copy of Experiment.background_factors (same closed value list; 2026-08-27).
+  #   Copied verbatim from the parent Experiment, so min_size 1 holds by construction. neo4j-admin
+  #   import drops an empty string[] cell, so post-import re-materializes [] — the property is
+  #   always present.
   applies_to: DerivedMetric
   applies_to_kind: node
   property: background_factors
@@ -747,11 +805,16 @@ DerivedMetric.background_factors:
   values: [axenic, light, diel, coculture, chemical, darkness, viral]
   min_size: 1
   description: >
-    Denormalized copy of Experiment.background_factors (same closed value list;
-    2026-08-27). Copied verbatim from the parent Experiment, so min_size 1 holds by construction. neo4j-admin import drops an empty string[] cell, so
-    post-import re-materializes [] — the property is always present.
+    The parent experiment's background_factors, copied onto the metric for
+    filtering (same value set as Experiment.background_factors). Always
+    non-empty.
 
 MetaboliteAssay.treatment_type:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Denormalized copy of Experiment.treatment_type (same closed value list; 2026-08-27). Copied
+  #   verbatim from the parent Experiment, so min_size 1 holds by construction. neo4j-admin import
+  #   drops an empty string[] cell, so post-import re-materializes [] — the property is always
+  #   present.
   applies_to: MetaboliteAssay
   applies_to_kind: node
   property: treatment_type
@@ -762,11 +825,15 @@ MetaboliteAssay.treatment_type:
            chemical, oxygen, rna_decay, tss_mapping, genomic_analysis]
   min_size: 1
   description: >
-    Denormalized copy of Experiment.treatment_type (same closed value list;
-    2026-08-27). Copied verbatim from the parent Experiment, so min_size 1 holds by construction. neo4j-admin import drops an empty string[] cell, so
-    post-import re-materializes [] — the property is always present.
+    The parent experiment's treatment_type, copied onto the assay for
+    filtering (same value set as Experiment.treatment_type). Always non-empty.
 
 MetaboliteAssay.background_factors:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Denormalized copy of Experiment.background_factors (same closed value list; 2026-08-27).
+  #   Copied verbatim from the parent Experiment, so min_size 1 holds by construction. neo4j-admin
+  #   import drops an empty string[] cell, so post-import re-materializes [] — the property is
+  #   always present.
   applies_to: MetaboliteAssay
   applies_to_kind: node
   property: background_factors
@@ -775,11 +842,16 @@ MetaboliteAssay.background_factors:
   values: [axenic, light, diel, coculture, chemical, darkness, viral]
   min_size: 1
   description: >
-    Denormalized copy of Experiment.background_factors (same closed value list;
-    2026-08-27). Copied verbatim from the parent Experiment, so min_size 1 holds by construction. neo4j-admin import drops an empty string[] cell, so
-    post-import re-materializes [] — the property is always present.
+    The parent experiment's background_factors, copied onto the assay for
+    filtering (same value set as Experiment.background_factors). Always
+    non-empty.
 
 KeggTerm.level_kind:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Harvested from the literal strings assigned in
+  #   multiomics_kg/adapters/functional_annotation_adapter.py (lines ~663-692); matches
+  #   CLAUDE.md's "level_kind (category|subcategory|pathway|ko)" bullet and the level 0-3 mapping
+  #   exactly.
   applies_to: KeggTerm
   applies_to_kind: node
   property: level_kind
@@ -787,10 +859,9 @@ KeggTerm.level_kind:
   closed: true
   values: [category, subcategory, pathway, ko]
   description: >
-    Harvested from the literal strings assigned in
-    multiomics_kg/adapters/functional_annotation_adapter.py (lines ~663-692);
-    matches CLAUDE.md's "level_kind (category|subcategory|pathway|ko)" bullet
-    and the level 0-3 mapping exactly.
+    Position of the term in the KEGG hierarchy: category (level 0),
+    subcategory (1), pathway (2), ko (3). Pathway-level terms carry
+    reaction_count / metabolite_count; KO terms are what genes attach to.
 
 TcdbFamily.level_kind:
   applies_to: TcdbFamily
@@ -806,6 +877,10 @@ TcdbFamily.level_kind:
     tc_subfamily | tc_specificity)" bullet exactly.
 
 CazyFamily.level_kind:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Harvested from the literal strings returned by _classify() in
+  #   multiomics_kg/adapters/cazy_adapter.py; matches CLAUDE.md's "3 levels (cazy_class |
+  #   cazy_family | cazy_subfamily)" bullet exactly.
   applies_to: CazyFamily
   applies_to_kind: node
   property: level_kind
@@ -813,9 +888,8 @@ CazyFamily.level_kind:
   closed: true
   values: [cazy_class, cazy_family, cazy_subfamily]
   description: >
-    Harvested from the literal strings returned by _classify() in
-    multiomics_kg/adapters/cazy_adapter.py; matches CLAUDE.md's "3 levels
-    (cazy_class | cazy_family | cazy_subfamily)" bullet exactly.
+    Position in the CAZy hierarchy: cazy_class (level 0), cazy_family (1),
+    cazy_subfamily (2). Genes attach at the most specific observed level.
 
 BriteCategory.level_kind:
   applies_to: BriteCategory
@@ -846,6 +920,12 @@ Gene.gene_category:
     hard-code a value list.
 
 Experiment.growth_phases:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Post-import: distinct growth_phase values rolled up from this experiment's
+  #   expression/derived-metric/metabolite-assay edges. Free text from paperconfigs
+  #   (scripts/validate_paperconfig.py's VALID_GROWTH_PHASES is advisory validation with an
+  #   "other:<slug>" escape hatch, not a closed graph-level guarantee). OPEN — the
+  #   list_filter_values MCP tool must enumerate this from the live graph.
   applies_to: Experiment
   applies_to_kind: node
   property: growth_phases
@@ -853,12 +933,9 @@ Experiment.growth_phases:
   closed: false
   values: []
   description: >
-    Post-import: distinct growth_phase values rolled up from this
-    experiment's expression/derived-metric/metabolite-assay edges. Free text
-    from paperconfigs (scripts/validate_paperconfig.py's VALID_GROWTH_PHASES
-    is advisory validation with an "other:<slug>" escape hatch, not a closed
-    graph-level guarantee). OPEN — the list_filter_values MCP tool must
-    enumerate this from the live graph.
+    Growth phases sampled by the experiment (e.g. exponential, stationary),
+    rolled up from its expression, derived-metric and metabolite-assay edges.
+    Open vocabulary — enumerate from the live graph.
 
 # ── Two-state facts (house rule R5) ──────────────────────────────────────────
 # Converted 2026-08-28 from the grandfathered "true"/"false" strings. Each
@@ -869,6 +946,9 @@ Experiment.growth_phases:
 # metabolite_assay_adapter.RANKABLE / FLAG_VALUE). See
 # docs/kg-changes/two-state-strings.md.
 Experiment.is_time_course:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   time_course = the experiment's analyses reference more than one timepoint; single_time_point
+  #   otherwise. Adapter-set (omics_adapter).
   applies_to: Experiment
   applies_to_kind: node
   property: is_time_course
@@ -877,7 +957,7 @@ Experiment.is_time_course:
   values: [time_course, single_time_point]
   description: >
     time_course = the experiment's analyses reference more than one timepoint;
-    single_time_point otherwise. Adapter-set (omics_adapter).
+    single_time_point otherwise.
 
 Experiment.reports_fold_change:
   applies_to: Experiment
@@ -996,6 +1076,13 @@ MeropsFamily.level_kind:
     exactly.
 
 MeropsFamily.family_class:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   KG-minted two-state label for a MEROPS family/subfamily/clan. Renamed from family_type
+  #   (KG-SYNC-005 / ONT-012, R1b): the same property name on NcbifamFamily holds an unrelated
+  #   external vocabulary. Harvested from family_type() in multiomics_kg/utils/merops_diamond.py
+  #   ("inhibitor" for I-prefixed codes, else "peptidase"); matches config/schema_config.yaml's
+  #   `merops family` node comment `family_type: str # "peptidase" | "inhibitor" (I-families)`
+  #   exactly.
   applies_to: MeropsFamily
   applies_to_kind: node
   property: family_class
@@ -1003,13 +1090,9 @@ MeropsFamily.family_class:
   closed: true
   values: [peptidase, inhibitor]
   description: >
-    KG-minted two-state label for a MEROPS family/subfamily/clan. Renamed
-    from family_type (KG-SYNC-005 / ONT-012, R1b): the same property name on
-    NcbifamFamily holds an unrelated external vocabulary. Harvested
-    from family_type() in multiomics_kg/utils/merops_diamond.py ("inhibitor"
-    for I-prefixed codes, else "peptidase"); matches
-    config/schema_config.yaml's `merops family` node comment
-    `family_type: str  # "peptidase" | "inhibitor" (I-families)` exactly.
+    Whether a MEROPS family / subfamily / clan groups peptidases or peptidase
+    inhibitors (I-prefixed codes). Inhibitors are kept because protease
+    inhibitors are biology; use it to keep them out of protease counts.
 
 MeropsFamily.catalytic_type:
   applies_to: MeropsFamily
@@ -1061,6 +1144,17 @@ Gene_has_merops_family.best_hit_kind:
     `best_hit_kind: str  # holotype | putative | nonpeptidase_homolog`.
 
 NcbifamFamily.family_type:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   NCBIfam/TIGRFAM's own specificity-label vocabulary (flat ontology, no hierarchy column in
+  #   source), plus ONE KG-minted sentinel: 'retired' marks an accession a strain's InterProScan
+  #   run still calls but the current NCBIfam reference release no longer lists (10 nodes, all
+  #   NF*; ONT-004) — the node keeps its calls.json name and no other reference field. EXTERNAL —
+  #   preserved verbatim in NCBIfam's own mixed casing (including "PfamEq" / "PfamAutoEq", not
+  #   lowercased or snake_cased) per house rule R1's external-source exception, so the graph stays
+  #   directly comparable to the NCBIfam reference data. Harvested by scanning the distinct
+  #   `family_type` values across all 38,394 entries in cache/data/ncbifam/ncbifam_reference.json
+  #   (built by prepare_data step 9 / build_ncbifam_reference.py); confirmed against
+  #   config/schema_config.yaml's `ncbifam family` node comment listing the same value set.
   applies_to: NcbifamFamily
   applies_to_kind: node
   property: family_type
@@ -1070,21 +1164,22 @@ NcbifamFamily.family_type:
            hypoth_equivalog, hypoth_equivalog_domain, paralog, paralog_domain,
            repeat, retired, signature, subfamily, subfamily_domain, superfamily]
   description: >
-    NCBIfam/TIGRFAM's own specificity-label vocabulary (flat ontology, no
-    hierarchy column in source), plus ONE KG-minted sentinel: 'retired' marks
-    an accession a strain's InterProScan run still calls but the current
-    NCBIfam reference release no longer lists (10 nodes, all NF*; ONT-004) —
-    the node keeps its calls.json name and no other reference field. EXTERNAL — preserved verbatim in NCBIfam's
-    own mixed casing (including "PfamEq" / "PfamAutoEq", not lowercased or
-    snake_cased) per house rule R1's external-source exception, so the graph
-    stays directly comparable to the NCBIfam reference data. Harvested by
-    scanning the distinct `family_type` values across all 38,394 entries in
-    cache/data/ncbifam/ncbifam_reference.json (built by prepare_data step 9 /
-    build_ncbifam_reference.py); confirmed against
-    config/schema_config.yaml's `ncbifam family` node comment listing the
-    same value set.
+    NCBIfam / TIGRFAM's own specificity label for the family (equivalog,
+    subfamily, domain, hypoth_equivalog, PfamEq, ...). equivalog-class
+    families are near-EC-grade specific; hypoth_* families are flagged
+    uninformative. One KG-minted sentinel, 'retired', marks an accession a
+    strain's InterProScan run still calls but the current NCBIfam release no
+    longer lists. NCBIfam's own mixed casing, kept verbatim.
 
 Gene_has_interpro_entry.evalue_library:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Which InterProScan member database reported the edge's (best/min) evalue. EXTERNAL — same
+  #   UPPERCASE member-DB name set as the existing Gene_has_interpro_entry.libraries entry, copied
+  #   verbatim per house rule R1's external-source exception (InterProScan's own controlled
+  #   vocabulary, kept comparable to the source); not lowercased. SPARSE — set only when a match
+  #   reports an evalue at all (~58% of matches, per schema_config.yaml's `evalue` comment
+  #   "omitted when all matches lack one"); a gene's edge with no reporting library carries no
+  #   evalue_library.
   applies_to: Gene_has_interpro_entry
   applies_to_kind: edge
   property: evalue_library
@@ -1094,15 +1189,9 @@ Gene_has_interpro_entry.evalue_library:
   values: [CDD, GENE3D, HAMAP, NCBIFAM, PANTHER, PFAM, PIRSF, PRINTS,
            PROSITE_PATTERNS, PROSITE_PROFILES, SFLD, SMART, SUPERFAMILY]
   description: >
-    Which InterProScan member database reported the edge's (best/min)
-    evalue. EXTERNAL — same UPPERCASE member-DB name set as the existing
-    Gene_has_interpro_entry.libraries entry, copied verbatim per house rule
-    R1's external-source exception (InterProScan's own controlled
-    vocabulary, kept comparable to the source); not lowercased. SPARSE — set
-    only when a match reports an evalue at all (~58% of matches, per
-    schema_config.yaml's `evalue` comment "omitted when all matches lack
-    one"); a gene's edge with no reporting library carries no
-    evalue_library.
+    Which InterProScan member database reported the edge's best (minimum)
+    e-value. Same upper-case name set as `libraries`. Absent when no matching
+    library reported an e-value (~42% of matches).
 
 # ── MEROPS peptidase layer: 2026-08-18 follow-up entries (tier / pfam_support /
 #    cleavage_p1_residues / member_id_count / merops_classes). Pre-existing
@@ -1180,6 +1269,10 @@ Gene.merops_classes:
 # and the numeric edge props the explorer filters / rolls up on (ONT-002/003/014).
 
 Gene_has_kegg_ko.sources:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007). Each value joins a
+  #   DataSource node via id = 'data_source:' + value. Constant: kegg_ko is eggNOG-only in
+  #   gene_annotations_config.yaml.
   applies_to: Gene_has_kegg_ko
   applies_to_kind: edge
   property: sources
@@ -1187,10 +1280,14 @@ Gene_has_kegg_ko.sources:
   closed: true
   values: [eggnog]
   description: >
-    Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007).
-    Each value joins a DataSource node via id = 'data_source:' + value. Constant: kegg_ko is eggNOG-only in gene_annotations_config.yaml.
+    Who asserted this KO annotation; each value joins a DataSource node via id
+    = 'data_source:' + value. Always ['eggnog'] — KO assignments come only
+    from eggNOG-mapper.
 
 Gene_in_cog_category.sources:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007). Each value joins a
+  #   DataSource node via id = 'data_source:' + value. Constant: cog_category is eggNOG-only.
   applies_to: Gene_in_cog_category
   applies_to_kind: edge
   property: sources
@@ -1198,10 +1295,14 @@ Gene_in_cog_category.sources:
   closed: true
   values: [eggnog]
   description: >
-    Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007).
-    Each value joins a DataSource node via id = 'data_source:' + value. Constant: cog_category is eggNOG-only.
+    Who asserted this COG category; each value joins a DataSource node via id
+    = 'data_source:' + value. Always ['eggnog'].
 
 Gene_has_cyanorak_role.sources:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007). Each value joins a
+  #   DataSource node via id = 'data_source:' + value. Constant: roles come only from the Cyanorak
+  #   GFF (Pro/Syn strains).
   applies_to: Gene_has_cyanorak_role
   applies_to_kind: edge
   property: sources
@@ -1209,10 +1310,15 @@ Gene_has_cyanorak_role.sources:
   closed: true
   values: [cyanorak]
   description: >
-    Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007).
-    Each value joins a DataSource node via id = 'data_source:' + value. Constant: roles come only from the Cyanorak GFF (Pro/Syn strains).
+    Who asserted this role; each value joins a DataSource node via id =
+    'data_source:' + value. Always ['cyanorak'] — roles exist only for
+    Prochlorococcus / Synechococcus strains with a Cyanorak annotation.
 
 Gene_has_tigr_role.sources:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007). Each value joins a
+  #   DataSource node via id = 'data_source:' + value. Constant: TIGR roles are carried by the
+  #   Cyanorak GFF (Pro/Syn strains).
   applies_to: Gene_has_tigr_role
   applies_to_kind: edge
   property: sources
@@ -1220,10 +1326,15 @@ Gene_has_tigr_role.sources:
   closed: true
   values: [cyanorak]
   description: >
-    Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007).
-    Each value joins a DataSource node via id = 'data_source:' + value. Constant: TIGR roles are carried by the Cyanorak GFF (Pro/Syn strains).
+    Who asserted this TIGR role; each value joins a DataSource node via id =
+    'data_source:' + value. Always ['cyanorak'] — TIGR roles are carried by
+    the Cyanorak annotation.
 
 Gene_has_interpro_entry.sources:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007). Each value joins a
+  #   DataSource node via id = 'data_source:' + value. Constant: one tool. The member DB(s) behind
+  #   the hit are in `libraries`.
   applies_to: Gene_has_interpro_entry
   applies_to_kind: edge
   property: sources
@@ -1231,10 +1342,15 @@ Gene_has_interpro_entry.sources:
   closed: true
   values: [interproscan]
   description: >
-    Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007).
-    Each value joins a DataSource node via id = 'data_source:' + value. Constant: one tool. The member DB(s) behind the hit are in `libraries`.
+    Who asserted this entry; each value joins a DataSource node via id =
+    'data_source:' + value. Always ['interproscan']; the member database(s)
+    behind the hit are in `libraries`.
 
 Gene_has_ncbifam_family.sources:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007). Each value joins a
+  #   DataSource node via id = 'data_source:' + value. Constant: the NCBIFAM facet of the
+  #   InterProScan run.
   applies_to: Gene_has_ncbifam_family
   applies_to_kind: edge
   property: sources
@@ -1242,10 +1358,15 @@ Gene_has_ncbifam_family.sources:
   closed: true
   values: [interproscan]
   description: >
-    Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007).
-    Each value joins a DataSource node via id = 'data_source:' + value. Constant: the NCBIFAM facet of the InterProScan run.
+    Who asserted this family; each value joins a DataSource node via id =
+    'data_source:' + value. Always ['interproscan'] (its NCBIFAM member
+    database).
 
 Gene_has_merops_family.sources:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007). Each value joins a
+  #   DataSource node via id = 'data_source:' + value. Constant: one tool (diamond blastp vs. the
+  #   MEROPS scan library).
   applies_to: Gene_has_merops_family
   applies_to_kind: edge
   property: sources
@@ -1253,10 +1374,15 @@ Gene_has_merops_family.sources:
   closed: true
   values: [merops_diamond]
   description: >
-    Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007).
-    Each value joins a DataSource node via id = 'data_source:' + value. Constant: one tool (diamond blastp vs. the MEROPS scan library).
+    Who asserted this family; each value joins a DataSource node via id =
+    'data_source:' + value. Always ['merops_diamond'] (diamond blastp vs. the
+    MEROPS scan library).
 
 Gene_has_kegg_ko.evidence:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Rung of the shared inference-strength ladder curated > signature > homology >
+  #   family_inferred > domain_inferred (KG-SYNC-005 / ONT-008). eggNOG KO = orthology transfer
+  #   from the seed ortholog's OG.
   applies_to: Gene_has_kegg_ko
   applies_to_kind: edge
   property: evidence
@@ -1264,11 +1390,15 @@ Gene_has_kegg_ko.evidence:
   closed: true
   values: [family_inferred]
   description: >
-    Rung of the shared inference-strength ladder curated > signature >
-    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
-    eggNOG KO = orthology transfer from the seed ortholog's OG.
+    Inference strength on the shared ladder curated > signature > homology >
+    family_inferred > domain_inferred. KO assignments are family_inferred:
+    orthology transfer from the eggNOG seed ortholog's group.
 
 Gene_in_cog_category.evidence:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Rung of the shared inference-strength ladder curated > signature > homology >
+  #   family_inferred > domain_inferred (KG-SYNC-005 / ONT-008). eggNOG COG category = orthology
+  #   transfer.
   applies_to: Gene_in_cog_category
   applies_to_kind: edge
   property: evidence
@@ -1276,11 +1406,15 @@ Gene_in_cog_category.evidence:
   closed: true
   values: [family_inferred]
   description: >
-    Rung of the shared inference-strength ladder curated > signature >
-    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
-    eggNOG COG category = orthology transfer.
+    Inference strength on the shared ladder curated > signature > homology >
+    family_inferred > domain_inferred. COG categories are family_inferred
+    (eggNOG orthology transfer).
 
 Gene_has_cyanorak_role.evidence:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Rung of the shared inference-strength ladder curated > signature > homology >
+  #   family_inferred > domain_inferred (KG-SYNC-005 / ONT-008). Cyanorak roles are
+  #   curator-assigned.
   applies_to: Gene_has_cyanorak_role
   applies_to_kind: edge
   property: evidence
@@ -1288,11 +1422,15 @@ Gene_has_cyanorak_role.evidence:
   closed: true
   values: [curated]
   description: >
-    Rung of the shared inference-strength ladder curated > signature >
-    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
-    Cyanorak roles are curator-assigned.
+    Inference strength on the shared ladder curated > signature > homology >
+    family_inferred > domain_inferred. Cyanorak roles are curated
+    (curator-assigned).
 
 Gene_has_tigr_role.evidence:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Rung of the shared inference-strength ladder curated > signature > homology >
+  #   family_inferred > domain_inferred (KG-SYNC-005 / ONT-008). TIGR roles as carried by the
+  #   curated Cyanorak annotation.
   applies_to: Gene_has_tigr_role
   applies_to_kind: edge
   property: evidence
@@ -1300,11 +1438,15 @@ Gene_has_tigr_role.evidence:
   closed: true
   values: [curated]
   description: >
-    Rung of the shared inference-strength ladder curated > signature >
-    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
-    TIGR roles as carried by the curated Cyanorak annotation.
+    Inference strength on the shared ladder curated > signature > homology >
+    family_inferred > domain_inferred. TIGR roles are curated, as carried by
+    the Cyanorak annotation.
 
 Gene_has_interpro_entry.evidence:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Rung of the shared inference-strength ladder curated > signature > homology >
+  #   family_inferred > domain_inferred (KG-SYNC-005 / ONT-008). Direct HMM/profile signature hit,
+  #   pre-thresholded by each member DB.
   applies_to: Gene_has_interpro_entry
   applies_to_kind: edge
   property: evidence
@@ -1312,11 +1454,15 @@ Gene_has_interpro_entry.evidence:
   closed: true
   values: [signature]
   description: >
-    Rung of the shared inference-strength ladder curated > signature >
-    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
-    Direct HMM/profile signature hit, pre-thresholded by each member DB.
+    Inference strength on the shared ladder curated > signature > homology >
+    family_inferred > domain_inferred. InterPro entries are signature: a
+    direct HMM / profile hit, pre-thresholded by each member database.
 
 Gene_has_ncbifam_family.evidence:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Rung of the shared inference-strength ladder curated > signature > homology >
+  #   family_inferred > domain_inferred (KG-SYNC-005 / ONT-008). Direct HMMER hit against one
+  #   homogeneous library.
   applies_to: Gene_has_ncbifam_family
   applies_to_kind: edge
   property: evidence
@@ -1324,11 +1470,16 @@ Gene_has_ncbifam_family.evidence:
   closed: true
   values: [signature]
   description: >
-    Rung of the shared inference-strength ladder curated > signature >
-    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
-    Direct HMMER hit against one homogeneous library.
+    Inference strength on the shared ladder curated > signature > homology >
+    family_inferred > domain_inferred. NCBIfam families are signature: a
+    direct HMMER hit against one homogeneous library.
 
 Gene_has_merops_family.evidence:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Rung of the shared inference-strength ladder curated > signature > homology >
+  #   family_inferred > domain_inferred (KG-SYNC-005 / ONT-008). Direct blastp hit vs. the curated
+  #   MEROPS scan library; strength WITHIN homology is read from `tier`. Orthogonal to call_class
+  #   (the verdict axis): a nonpeptidase_homolog is still homology evidence for the placement.
   applies_to: Gene_has_merops_family
   applies_to_kind: edge
   property: evidence
@@ -1336,13 +1487,18 @@ Gene_has_merops_family.evidence:
   closed: true
   values: [homology]
   description: >
-    Rung of the shared inference-strength ladder curated > signature >
-    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
-    Direct blastp hit vs. the curated MEROPS scan library; strength WITHIN
-    homology is read from `tier`. Orthogonal to call_class (the verdict axis):
-    a nonpeptidase_homolog is still homology evidence for the placement.
+    Inference strength on the shared ladder curated > signature > homology >
+    family_inferred > domain_inferred. MEROPS families are homology: a direct
+    blastp hit vs. the curated scan library; strength within homology is read
+    from `tier`. Independent of call_class — a nonpeptidase_homolog is still
+    homology evidence for the fold placement.
 
 Gene_has_tcdb_family.evidence:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Rung of the shared inference-strength ladder curated > signature > homology >
+  #   family_inferred > domain_inferred (KG-SYNC-005 / ONT-008). homology = diamond called it
+  #   (direct blastp vs. the curated TCDB FASTA; strength within it from `tier`); family_inferred
+  #   = eggNOG-only (orthology transfer). Both-source edges take the strongest (homology).
   applies_to: Gene_has_tcdb_family
   applies_to_kind: edge
   property: evidence
@@ -1350,13 +1506,18 @@ Gene_has_tcdb_family.evidence:
   closed: true
   values: [family_inferred, homology]
   description: >
-    Rung of the shared inference-strength ladder curated > signature >
-    homology > family_inferred > domain_inferred (KG-SYNC-005 / ONT-008).
-    homology = diamond called it (direct blastp vs. the curated TCDB FASTA;
-    strength within it from `tier`); family_inferred = eggNOG-only (orthology
-    transfer). Both-source edges take the strongest (homology).
+    Inference strength on the shared ladder curated > signature > homology >
+    family_inferred > domain_inferred. homology = diamond blastp called it
+    (strength within it from `tier`); family_inferred = eggNOG-only orthology
+    transfer. An edge with both sources takes the stronger (homology).
 
 Gene_has_merops_family.evidence_score:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Advisory placement-confidence ranking, never a filter (ONT-006, R4). Two independent
+  #   signals: tier <= 2 (identity >= 40%) and pfam_support = 'corroborated'. Scale is {0, 0.5,
+  #   1}; round(score * 2) recovers the fired count. call_class is deliberately NOT a signal — it
+  #   is the verdict axis (active peptidase?), read separately. NOT calibrated against the
+  #   5-signal Gene_has_tcdb_family.evidence_score.
   applies_to: Gene_has_merops_family
   applies_to_kind: edge
   property: evidence_score
@@ -1368,12 +1529,11 @@ Gene_has_merops_family.evidence_score:
   signal_count: 2
   signals: [tier_le_2, pfam_support]
   description: >
-    Advisory placement-confidence ranking, never a filter (ONT-006, R4). Two
-    independent signals: tier <= 2 (identity >= 40%) and pfam_support =
-    'corroborated'. Scale is {0, 0.5, 1}; round(score * 2) recovers the fired
-    count. call_class is deliberately NOT a signal — it is the verdict axis
-    (active peptidase?), read separately. NOT calibrated against the 5-signal
-    Gene_has_tcdb_family.evidence_score.
+    Advisory placement confidence in {0, 0.5, 1}, never a filter: one point
+    for tier <= 2 (identity >= 40%), one for pfam_support = 'corroborated';
+    round(score * 2) recovers the count. call_class (is it an active
+    peptidase?) is a separate axis, deliberately not scored. Not comparable to
+    Gene_has_tcdb_family.evidence_score (5 signals).
 
 Gene.merops_evidence_score_max:
   applies_to: Gene
@@ -1393,6 +1553,14 @@ Gene.merops_evidence_score_max:
     merops_classes says whether any call is an active peptidase.
 
 Gene_has_tcdb_family.attachment_depth:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Post-import structural fact (ONT-010, not a threshold — R3 does not apply). 'superseded' =
+  #   another Gene_has_tcdb_family edge of the SAME gene lands on a descendant of this node (e.g.
+  #   eggNOG 3.A.1 next to diamond 3.A.1.14) — a less specific call, NOT a wrong one.
+  #   'most_specific' = no such sibling. The transport-arm counts
+  #   (Gene.transported_metabolite_count, Metabolite.transporter_gene_count,
+  #   Organism_has_metabolite) read only most_specific edges. Mirrors substrate_depth's value
+  #   grammar.
   applies_to: Gene_has_tcdb_family
   applies_to_kind: edge
   property: attachment_depth
@@ -1400,13 +1568,12 @@ Gene_has_tcdb_family.attachment_depth:
   closed: true
   values: [most_specific, superseded]
   description: >
-    Post-import structural fact (ONT-010, not a threshold — R3 does not apply).
-    'superseded' = another Gene_has_tcdb_family edge of the SAME gene lands on a
-    descendant of this node (e.g. eggNOG 3.A.1 next to diamond 3.A.1.14) — a
-    less specific call, NOT a wrong one. 'most_specific' = no such sibling.
-    The transport-arm counts (Gene.transported_metabolite_count,
-    Metabolite.transporter_gene_count, Organism_has_metabolite) read only
-    most_specific edges. Mirrors substrate_depth's value grammar.
+    most_specific = no other TCDB edge of the same gene lands on a descendant
+    of this family; superseded = one does (e.g. an eggNOG 3.A.1 call next to a
+    diamond 3.A.1.14 call) — a less specific call, not a wrong one.
+    Transport-arm counts (Gene.transported_metabolite_count,
+    Metabolite.transporter_gene_count, Organism_has_metabolite) read
+    most_specific edges only.
 
 Gene_has_interpro_entry.evalue:
   applies_to: Gene_has_interpro_entry
@@ -1483,6 +1650,10 @@ Gene_has_ncbifam_family.end:
     Alignment end (1-based residue) of the best facet row.
 
 Gene_has_tcdb_family.confidence_score:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   tcdb-diamond native per-call confidence in [0,1] (NOT the R4 evidence_score; tool-internal
+  #   scale, never compared across ontologies). SPARSE — present only on diamond-called edges
+  #   (absent on eggNOG-only).
   applies_to: Gene_has_tcdb_family
   applies_to_kind: edge
   property: confidence_score
@@ -1493,8 +1664,9 @@ Gene_has_tcdb_family.confidence_score:
   min_value: 0.0
   max_value: 1.0
   description: >
-    tcdb-diamond native per-call confidence in [0,1] (NOT the R4 evidence_score;
-    tool-internal scale, never compared across ontologies). SPARSE — present only on diamond-called edges (absent on eggNOG-only).
+    tcdb-diamond's own per-call confidence in [0,1] — a tool-internal scale,
+    not the cross-ontology evidence_score. Present only on diamond-called
+    edges (absent on eggNOG-only edges).
 
 Gene_has_tcdb_family.identity:
   applies_to: Gene_has_tcdb_family
@@ -1547,6 +1719,9 @@ Gene_has_tcdb_family.consensus_n:
     Number of hits agreeing on this call after consensus collapse. SPARSE — present only on diamond-called edges (absent on eggNOG-only).
 
 Gene_has_merops_family.confidence_score:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   merops-diamond native per-call confidence in [0,1] (NOT the R4 evidence_score; tool-internal
+  #   scale, never compared across ontologies). Dense — every edge is diamond-sourced.
   applies_to: Gene_has_merops_family
   applies_to_kind: edge
   property: confidence_score
@@ -1556,8 +1731,9 @@ Gene_has_merops_family.confidence_score:
   min_value: 0.0
   max_value: 1.0
   description: >
-    merops-diamond native per-call confidence in [0,1] (NOT the R4 evidence_score;
-    tool-internal scale, never compared across ontologies). Dense — every edge is diamond-sourced.
+    merops-diamond's own per-call confidence in [0,1] — a tool-internal scale,
+    not the cross-ontology evidence_score. Present on every edge (all are
+    diamond-sourced).
 
 Gene_has_merops_family.identity:
   applies_to: Gene_has_merops_family

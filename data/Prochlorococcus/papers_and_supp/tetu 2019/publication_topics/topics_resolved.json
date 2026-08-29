@@ -16,11 +16,12 @@
     "output_tokens": 3182,
     "resolution": {
       "gene_records": 36,
-      "genes_resolved": 34,
+      "genes_resolved": 30,
       "gene_methods": {
-        "unresolved": 2,
-        "tier1:v": 33,
-        "multi:v": 1
+        "unresolved": 6,
+        "tier1:v": 22,
+        "tier1_ci:v": 2,
+        "multi:v": 6
       },
       "pathway_records": 3,
       "pathways_resolved": 3,
@@ -35,7 +36,7 @@
       "truncated_identifiers": 0,
       "truncated_examples": [],
       "unresolved_reasons": {
-        "lookup_miss": 2
+        "lookup_miss": 6
       }
     }
   },
@@ -60,9 +61,9 @@
       "evidence": "Exposure to both leachates led to increased transcription of common stress response genes, such as groEL, dnaK, clpP and ftsH. (p3, Results)",
       "mention_strain": "Prochlorococcus MIT9312",
       "strain": "Prochlorococcus MIT9312",
-      "locus_tag": "PMT9312_0903",
-      "resolved_from": "dnaK",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "clpP",
@@ -72,9 +73,9 @@
       "evidence": "Exposure to both leachates led to increased transcription of common stress response genes, such as groEL, dnaK, clpP and ftsH. (p3, Results)",
       "mention_strain": "Prochlorococcus MIT9312",
       "strain": "Prochlorococcus MIT9312",
-      "locus_tag": "PMT9312_0750",
-      "resolved_from": "clpP",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "ftsH",
@@ -84,9 +85,9 @@
       "evidence": "Exposure to both leachates led to increased transcription of common stress response genes, such as groEL, dnaK, clpP and ftsH. (p3, Results)",
       "mention_strain": "Prochlorococcus MIT9312",
       "strain": "Prochlorococcus MIT9312",
-      "locus_tag": "PMT9312_0228",
-      "resolved_from": "ftsH",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "hli (high-light inducible) family genes",
@@ -212,9 +213,9 @@
       "evidence": "PVC leachate exposure resulted in substantial reduction in transcription of almost all genes encoding photosystem I subunits (psaA,B,C,D,E,F,J,K,L) (p3, Results)",
       "mention_strain": "Prochlorococcus MIT9312",
       "strain": "Prochlorococcus MIT9312",
-      "locus_tag": "PMT9312_1616",
+      "locus_tag": "PMT9312_1700",
       "resolved_from": "psaA, psaB, psaC, psaD, psaE, psaF, psaJ, psaK, psaL",
-      "resolution_method": "tier1:v"
+      "resolution_method": "tier1_ci:v"
     },
     {
       "surface_form": "psbB,H,J,M,O,T,Z",
@@ -226,7 +227,7 @@
       "strain": "Prochlorococcus MIT9312",
       "locus_tag": "PMT9312_0321",
       "resolved_from": "psbB, psbH, psbJ, psbM, psbO, psbT, psbZ",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "petA,C,G",
@@ -238,7 +239,7 @@
       "strain": "Prochlorococcus MIT9312",
       "locus_tag": "PMT9312_0461",
       "resolved_from": "petA, petC, petG",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "pcbD",
@@ -262,7 +263,7 @@
       "strain": "Prochlorococcus MIT9312",
       "locus_tag": "PMT9312_0321",
       "resolved_from": "psbB, psbJ, psbK, psbT, psbO",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PMT9312_RS06075",
@@ -286,9 +287,9 @@
       "evidence": "two psbA genes showed a significant increase in transcription (p4, Results)",
       "mention_strain": "Prochlorococcus MIT9312",
       "strain": "Prochlorococcus MIT9312",
-      "locus_tag": "PMT9312_0225",
-      "resolved_from": "psbA",
-      "resolution_method": "tier1:v"
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "Psb28",
@@ -300,7 +301,7 @@
       "strain": "Prochlorococcus MIT9312",
       "locus_tag": "PMT9312_0874",
       "resolved_from": "psb28",
-      "resolution_method": "tier1:v"
+      "resolution_method": "tier1_ci:v"
     },
     {
       "surface_form": "PsbN",
@@ -312,7 +313,7 @@
       "strain": "Prochlorococcus MIT9312",
       "locus_tag": "PMT9312_0254",
       "resolved_from": "psbN",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PMT9312_RS04330",
@@ -516,7 +517,7 @@
       "strain": "Prochlorococcus NATL2A",
       "locus_tag": "PMN2A_1612",
       "resolved_from": "ntcA",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "PMN2A_RS07615",

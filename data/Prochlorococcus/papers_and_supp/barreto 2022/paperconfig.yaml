@@ -188,7 +188,7 @@ publication:
   supplementary_materials:
     id_translation_pro_9312:
       type: id_translation
-      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/pro_9312_anot.csv
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/pro_9312_anot_modified.csv
       organism: Prochlorococcus MIT9312
       id_columns:
       - column: GID
@@ -197,6 +197,11 @@ publication:
         id_type: gene_name
       - column: uniprot_acc
         id_type: uniprot_accession
+      # _modified (2026-08-29): uniprot_acc blanked on rows where it disagrees with the
+      # KG's UniProt join, or whose uniprot_def describes a neighbouring row's product
+      # rather than its own (pro_9312: the column is shifted by one row in several
+      # blocks, e.g. PMT9312_1637/rpsH carried Q318J8 = rplF). Kept rows are the paper's only accession anchor for
+      # genes UniProt no longer lists for this taxid (groL1/groL2 -> CH601/CH602_PROM9).
       product_columns:
       - column: PRODUCT
     id_translation_syn_9311:
@@ -208,13 +213,12 @@ publication:
         id_type: locus_tag
       - column: genename
         id_type: gene_name
-      - column: uniprot_acc
-        id_type: uniprot_accession
+      # uniprot_acc not an id column: syn_9311.csv carries none of the KG's known accessions.
       product_columns:
       - column: definition
     id_translation_syn_8102:
       type: id_translation
-      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/syn_8102_anot.csv
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/syn_8102_anot_modified.csv
       organism: Synechococcus WH8102
       id_columns:
       - column: GID
@@ -223,6 +227,9 @@ publication:
         id_type: gene_name
       - column: uniprot_acc
         id_type: uniprot_accession
+      # _modified (2026-08-29): uniprot_acc blanked on rows where it disagrees with the
+      # KG's UniProt join or with the row's own product text (syn_8102: 1 real mismatch, SYNW0082). Kept rows are the paper's only accession anchor for
+      # genes UniProt no longer lists for this taxid (groL1/groL2 -> CH601/CH602_PROM9).
       product_columns:
       - column: PRODUCT
     annotation_gtf_ez55:

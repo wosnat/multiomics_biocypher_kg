@@ -19,9 +19,8 @@
       "genes_resolved": 14,
       "gene_methods": {
         "no_mapping": 6,
-        "tier1:v": 10,
-        "unresolved": 6,
-        "multi:v": 4
+        "multi:v": 14,
+        "unresolved": 6
       },
       "pathway_records": 1,
       "pathways_resolved": 1,
@@ -142,7 +141,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0550",
       "resolved_from": "rbcL",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "hli",
@@ -184,7 +183,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1483",
       "resolved_from": "rpoC2",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rpoD",
@@ -198,7 +197,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM0496",
       "resolved_from": "rpoD",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rpl5",
@@ -212,7 +211,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1546",
       "resolved_from": "rpl5",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rpl6",
@@ -226,7 +225,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1544",
       "resolved_from": "rpl6",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rps8",
@@ -240,7 +239,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1545",
       "resolved_from": "rps8",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rps11",
@@ -254,7 +253,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1536",
       "resolved_from": "rps11",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rps17",
@@ -268,7 +267,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1549",
       "resolved_from": "rps17",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "rne",
@@ -338,7 +337,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1499",
       "resolved_from": "clpS",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "AAA ATPase family gene",
@@ -380,7 +379,7 @@
       "strain": "Prochlorococcus MED4",
       "locus_tag": "PMM1284",
       "resolved_from": "phoH",
-      "resolution_method": "tier1:v"
+      "resolution_method": "multi:v"
     },
     {
       "surface_form": "HNH endonuclease",

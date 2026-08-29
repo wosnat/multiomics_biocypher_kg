@@ -31,6 +31,7 @@ Algorithm
 
 from __future__ import annotations
 
+import statistics
 from collections import defaultdict
 from typing import Any
 
@@ -101,6 +102,14 @@ _PLACEHOLDER_IDS = frozenset({
 _MAX_COMPOUND_TOKENS = 4
 
 
+# Runaway-gene guard: flag genes whose Tier-1 id count exceeds
+# max(RUNAWAY_TIER1_FACTOR * median, RUNAWAY_TIER1_MIN). Real genes top out at
+# ~1.5-2x the median (a few extra xrefs); 3x with a floor of 12 has flagged
+# only the known merges (PMM0236 at 273, M8001_03425 at 40).
+RUNAWAY_TIER1_FACTOR = 3
+RUNAWAY_TIER1_MIN = 12
+
+
 def is_placeholder_id(id_val: str) -> bool:
     """True when a cell is a 'no value here' marker rather than an identifier."""
     return str(id_val).strip().lower() in _PLACEHOLDER_IDS
@@ -158,6 +167,14 @@ class GeneIdGraph:
         # Per-gene ID collections (for gene_id_mapping.json "genes" section)
         self._genes: dict[str, dict[str, list]] = {}
 
+        # Gene symbols the annotation itself declares (Tier-3 `gene_name`
+        # records added during seeding). A paper column that types one of
+        # these as Tier 1 ("Gene Number: locus_tag" holding rplF) is
+        # contradicted by the annotation, so the token is demoted to Tier 3
+        # instead of being declared gene-unique — see _add_mapping.
+        self.known_gene_names: set[str] = set()
+        self._demoted: set[tuple[str, str]] = set()  # distinct (gene, token) demotions
+
         # Processing statistics
         self._stats: dict[str, Any] = {
             "passes": 0,
@@ -184,6 +201,8 @@ class GeneIdGraph:
         """
         for candidate in normalize_id(id_val, id_type):
             tier = get_id_tier(id_type)
+            if id_type == "gene_name":
+                self.known_gene_names.add(candidate)
             self._add_mapping(locus_tag, candidate, id_type, tier, source)
 
     # ── Paper-source processing ───────────────────────────────────────────────
@@ -321,6 +340,12 @@ class GeneIdGraph:
         if id_val == anchor and tier == 1 and id_type == "locus_tag":
             return False
 
+        if tier == 1 and id_val in self.known_gene_names:
+            # Annotation says this token is a gene symbol; a paper column
+            # cannot make it gene-unique (symbols repeat: tnpB, psbA, petF).
+            self._demoted.add((anchor, id_val))
+            self._add_tier3(anchor, id_val, "gene_name")
+            return False
         if tier == 1:
             return self._add_tier1(anchor, id_val, id_type, source)
         elif tier == 2:
@@ -439,8 +464,29 @@ class GeneIdGraph:
                 else:
                     type_stats[t]["unique"] += 1
 
+        # Runaway-gene guard (B1 consequence, 2026-08-28): a gene that has
+        # accumulated far more Tier-1 ids than its neighbours has almost always
+        # absorbed other genes through a junk or non-unique token ("--",
+        # a shared gene symbol typed as a locus tag). Report-only.
+        tier1_counts = {lt: len(g.get("tier1_ids", [])) for lt, g in self._genes.items()}
+        runaway: list[dict] = []
+        median = 0.0
+        if tier1_counts:
+            median = float(statistics.median(tier1_counts.values()))
+            limit = max(RUNAWAY_TIER1_FACTOR * median, RUNAWAY_TIER1_MIN)
+            for lt, n in sorted(tier1_counts.items(), key=lambda kv: -kv[1]):
+                if n > limit:
+                    runaway.append({"locus_tag": lt, "tier1_count": n})
+
         # Add reclassification warnings
         warnings = []
+        if runaway:
+            top = ", ".join(f"{r['locus_tag']} ({r['tier1_count']})" for r in runaway[:5])
+            warnings.append(
+                f"[RUNAWAY] {len(runaway)} gene(s) hold more than "
+                f"{RUNAWAY_TIER1_FACTOR}x the median Tier 1 id count "
+                f"(median {median:g}): {top} — a junk or shared token is merging genes."
+            )
         for id_type, stats in type_stats.items():
             total = stats["unique"] + stats["multi"] + stats["conflict"]
             if total == 0:
@@ -462,6 +508,10 @@ class GeneIdGraph:
 
         return {
             "per_id_type": dict(type_stats),
+            "tier1_demoted_known_names": len(self._demoted),
+            "tier1_count_median": median,
+            "tier1_count_max": max(tier1_counts.values()) if tier1_counts else 0,
+            "runaway_genes": runaway,
             "warnings": warnings,
             "unresolved_rows_per_source": dict(self._stats["unresolved_rows_per_source"]),
         }
