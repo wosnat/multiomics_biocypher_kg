@@ -130,6 +130,14 @@ tag with nothing logged.
 
 ### Breaking
 
+- **`Gene.tcdb_family_count` now counts most-specific attachments only** (explorer ask
+  `2026-08-29-gene-overview-family-counts-asks.md`). It counted every `Gene_has_tcdb_family` edge,
+  including ancestors carrying `attachment_depth = 'superseded'` because the same gene is attached
+  to a descendant — over-reading 7,045 genes (PMM0392 8 → 7). Now the same deepest-attachment
+  projection as `transported_metabolite_count` / `Metabolite.transporter_gene_count`; still not
+  tier-gated. `cazy_family_count` / `merops_family_count` unchanged. New invariant:
+  `tcdb_family_count > 0 ⟺ transport_substrate_resolution IS NOT NULL`.
+
 - **~423 `ncbigene:` Gene nodes disappear and 359 expression/metric rows move to a different
   gene id** (position-fallback rewrite in step 0, see *Fixed*). Each vanished node was a
   Cyanorak-only shadow of an NCBI gene (no coordinates, no protein, no eggNOG/InterPro) — e.g.

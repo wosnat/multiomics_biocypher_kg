@@ -661,7 +661,7 @@ time cypher-shell <<'CYPHER'
 // quality/informativeness buckets count a gene as transporter-annotated only when
 // eggNOG called it, or diamond called it at tier<=2.
 //
-// Gene.tcdb_family_count and Gene.catalyzed_metabolite_count are deliberately NOT gated —
+// Gene.tcdb_family_count (most-specific attachments) and Gene.catalyzed_metabolite_count are deliberately NOT tier-gated —
 // they are routing counts, not quality signals.
 
 // SOURCE_BUCKETS:end
@@ -1373,8 +1373,10 @@ CALL {
 // annotation_types statement above — no separate extension pass.)
 
 // Gene metabolism + ontology counts (combined single Gene scan):
-//   - tcdb_family_count  (TCDB-S1)
 //   - cazy_family_count  (TCDB-S2)
+//   (tcdb_family_count moved to the transport-arm statement below, where the
+//    most-specific attachment set it now counts is already in hand — explorer
+//    ask 2026-08-29-gene-overview-family-counts-asks)
 //   - reaction_count     (KG-A1)
 //   - catalyzed_metabolite_count  (KG-A2 — the catalysis arm; renamed from
 //     metabolite_count for the alpha.7 cut, KG-SYNC-001)
@@ -1398,23 +1400,20 @@ CALL {
 MATCH (g:Gene)
 CALL {
   WITH g
-  OPTIONAL MATCH (g)-[r1:Gene_has_tcdb_family]->()
-  WITH g, count(DISTINCT r1) AS tc_count
   OPTIONAL MATCH (g)-[r2:Gene_has_cazy_family]->()
-  WITH g, tc_count, count(r2) AS cz_count
+  WITH g, count(r2) AS cz_count
   // merops_family_count = ALL merops edges (routing, ungated — tcdb precedent).
   // merops_classes = distinct call_class values, the at-a-glance guard so a
   // gene whose only call is a dead homolog never reads as "1 protease".
   OPTIONAL MATCH (g)-[r2b:Gene_has_merops_family]->()
-  WITH g, tc_count, cz_count, count(r2b) AS mer_count,
+  WITH g, cz_count, count(r2b) AS mer_count,
        apoc.coll.sort([c IN collect(DISTINCT r2b.call_class) WHERE c IS NOT NULL]) AS mer_classes
   OPTIONAL MATCH (g)-[r3:Gene_catalyzes_reaction]->(rx:Reaction)
   OPTIONAL MATCH (rx)-[:Reaction_has_metabolite]->(m_cat:Metabolite)
-  WITH g, tc_count, cz_count, mer_count, mer_classes,
+  WITH g, cz_count, mer_count, mer_classes,
        count(DISTINCT r3) AS rxn_count,
        count(DISTINCT m_cat) AS cat_met_count
-  SET g.tcdb_family_count = tc_count,
-      g.cazy_family_count = cz_count,
+  SET g.cazy_family_count = cz_count,
       g.merops_family_count = mer_count,
       g.merops_classes = mer_classes,
       g.reaction_count = rxn_count,
@@ -1445,7 +1444,16 @@ CALL {
   SET r.attachment_depth = CASE WHEN superseded THEN 'superseded' ELSE 'most_specific' END
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Gene transport arm: transported_metabolite_count + transport_substrate_resolution.
+// Gene transport arm: tcdb_family_count + transported_metabolite_count +
+// transport_substrate_resolution.
+//
+// tcdb_family_count (TCDB-S1) = the gene's MOST-SPECIFIC attachments only
+// (2026-08-29, explorer ask gene-overview-family-counts; was every edge).
+// A superseded ancestor edge (3.A.1 beside the gene's own 3.A.1.14) is a less
+// specific restatement of the same membership, not a second family — counting
+// it over-read 7,045 genes (PMM0392: 8 → 7). Same projection the two other
+// transport-arm counts already use. Still NOT tier-gated: depth and tier are
+// different axes, an uncorroborated most_specific DIAMOND hit still counts.
 //
 // MOST-SPECIFIC ATTACHMENTS ONLY (attachment_depth above). 6,950 genes are
 // annotated at both an ancestor and its own descendant (e.g. both 3.A.1 and
@@ -1475,7 +1483,8 @@ CALL {
        // count; this is the KG's, and it lives in exactly one place.
        collect(DISTINCT (coalesce(t.level, 0) >= 2
                          AND coalesce(t.metabolite_count, 0) >= 50)) AS breadth
-  SET g.transported_metabolite_count = tr_met_count,
+  SET g.tcdb_family_count = n_deepest,
+      g.transported_metabolite_count = tr_met_count,
       // null REMOVES the property, keeping it sparse: absent means "no TCDB
       // edge at all", which must stay distinguishable from a weak-but-present
       // substrate claim.
