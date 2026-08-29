@@ -142,7 +142,20 @@ def test_hierarchical_counts(run_query, label):
         f"sum(CASE WHEN n.gene_count < n.direct_gene_count THEN 1 ELSE 0 END) AS bad, "
         f"sum(CASE WHEN n.gene_count > n.direct_gene_count THEN 1 ELSE 0 END) AS rolled"
     )[0]
-    assert row["gc"] == row["dgc"] == row["oc"] == row["n"] > 0, row
+    assert row["gc"] == row["oc"] == row["n"] > 0, row
+    if label == "KeggTerm":
+        # DOC-006 (2026-08-29): genes attach to KOs only, so direct_gene_count
+        # is OMITTED on pathway / subcategory / category nodes (was a constant 0).
+        kos = run_query("MATCH (n:KeggTerm {level_kind: 'ko'}) RETURN count(n) AS n")[0]["n"]
+        assert row["dgc"] == kos > 0, row
+        # rollup evidence: a node with no direct attachments still has a subtree count
+        rolled = run_query(
+            "MATCH (n:KeggTerm) WHERE n.level_kind <> 'ko' AND n.gene_count > 0 RETURN count(n) AS n"
+        )[0]["n"]
+        assert rolled > 0, "KeggTerm: no pathway/category node carries a subtree gene_count"
+        assert row["bad"] == 0
+        return
+    assert row["dgc"] == row["n"], row
     assert row["bad"] == 0
     assert row["rolled"] > 0, f"{label}: subtree never exceeds direct — rollup not applied?"
 
