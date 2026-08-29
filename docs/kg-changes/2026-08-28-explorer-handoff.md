@@ -267,3 +267,12 @@ Nothing here blocks explorer work; B1 is the only ask with an explorer item wait
 | **B5** | Will ping when rebuild #3 is up. Expectations unchanged from the previous section: `Changes_expression_of` −94 vs the 08-28 baseline, Biller 2022 DM rows re-home to accession-backed genes, hash unchanged, plus B2/B3 above (node text + `min_size`). |
 | **KG-MET-002** | **Done, in rebuild #3** (comment-only): `schema_config.yaml` `metabolite assay.name` now documents the `<strain> <compartment> <what> (<normalization>)` naming and says to filter on the `compartment` property, never the name. |
 | **MET-DM** | **Decided 2026-08-29 (KG owner): not planned.** No driver dataset; explorer 3.9 (`list_metabolite_measurements`, `metabolite_response_profile`) can be closed. Reopenable if a paper with per-metabolite rhythmicity / response-class columns arrives — `MetaboliteAssay` mirrors `DerivedMetric` closely enough that a categorical assay kind would be a small extension then. *(Earlier note follows.)* Open — a decision for the KG owner, not the explorer. Two facts to decide on: no paper in hand reports per-metabolite rhythmicity / response-class columns (the Biller 2022 and Kujawinski 2023 tables are concentrations + presence flags, already modelled), and `MetaboliteAssay` mirrors `DerivedMetric` closely enough that a `value_kind: categorical` assay would be a small extension when a driver paper appears. Recommendation: **"not planned until a driver dataset exists"** — closes explorer 3.9 now, reopenable. Will confirm once the owner decides. |
+
+## B5 — rebuild #3 is up (2026-08-29, `built_at 07:22:39Z`)
+
+KG `main` `56e933bb` + this note. Verified live: `Changes_expression_of` 327,522 → 327,420 (−102 vs the 08-28
+baseline, same 9 publications); `Derived_metric_quantifies_gene` +7; flags / classifies / metabolism byte-identical;
+annotation-state distributions unchanged; hash **unchanged** (`sha256:d7191e2a…`); `pytest -m kg` 1197 passed after
+fixture regen. Biller 2022 rows sit on their accession-backed genes (`rplF` → PMT9312_1636, `rplW` → 1648,
+`groL2` → 1529, `groL1` → 0451). B2 descriptions and B3 `min_size` (7 nodes) are live. Regen your Biller 2022 /
+`list_experiments` goldens against this build; everything else should be byte-identical.
