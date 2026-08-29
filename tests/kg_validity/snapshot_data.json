@@ -123,12 +123,12 @@
     },
     {
       "properties": {
-        "adjusted_p_value": 0.0497405479367472,
+        "adjusted_p_value": 0.472611726798457,
         "expression_direction": "down",
-        "log2_fold_change": -1.31842722939405,
-        "time_point": "3h",
-        "time_point_hours": 3.0,
-        "time_point_order": 3
+        "log2_fold_change": -0.475447834373154,
+        "time_point": "5h",
+        "time_point_hours": 5.0,
+        "time_point_order": 4
       },
       "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
       "target": "ncbigene:SYNWH7803_RS00465",
@@ -136,12 +136,12 @@
     },
     {
       "properties": {
-        "adjusted_p_value": 0.472611726798457,
+        "adjusted_p_value": 0.168932371857294,
         "expression_direction": "down",
-        "log2_fold_change": -0.475447834373154,
-        "time_point": "5h",
-        "time_point_hours": 5.0,
-        "time_point_order": 4
+        "log2_fold_change": -0.918582631661619,
+        "time_point": "1h",
+        "time_point_hours": 1.0,
+        "time_point_order": 2
       },
       "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
       "target": "ncbigene:SYNWH7803_RS00465",
@@ -162,12 +162,12 @@
     },
     {
       "properties": {
-        "adjusted_p_value": 0.168932371857294,
+        "adjusted_p_value": 0.0497405479367472,
         "expression_direction": "down",
-        "log2_fold_change": -0.918582631661619,
-        "time_point": "1h",
-        "time_point_hours": 1.0,
-        "time_point_order": 2
+        "log2_fold_change": -1.31842722939405,
+        "time_point": "3h",
+        "time_point_hours": 3.0,
+        "time_point_order": 3
       },
       "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
       "target": "ncbigene:SYNWH7803_RS00465",
@@ -2266,7 +2266,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-08-29T07:25:55.746384+00:00",
+  "generated_at": "2026-08-29T10:15:17.797704+00:00",
   "nodes": [
     {
       "anchor": true,
