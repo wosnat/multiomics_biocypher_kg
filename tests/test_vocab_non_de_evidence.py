@@ -28,9 +28,9 @@ from multiomics_kg.vocab.non_de_evidence import (
 def test_compartments_has_expected_values():
     # `extracellular` added in Phase 2 metabolomics (66bca38) — general
     # outside-the-cell pool, distinct from the proteomics-specific `exoproteome`.
+    # spent_medium / lysate pruned 2026-08-29 (DOC-004): never emitted.
     assert COMPARTMENTS == {
         "whole_cell", "vesicle", "exoproteome", "extracellular",
-        "spent_medium", "lysate",
     }
 
 

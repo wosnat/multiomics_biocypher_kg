@@ -518,7 +518,7 @@ Per-metabolite measurements (concentrations + presence flags) from a metabolomic
 
 **When to use:** the paper measures metabolite pool concentrations, fluxes, or presence/absence flags — i.e. `omics_type: METABOLOMICS`. Use one entry per (CSV, Experiment) tuple; if the same source CSV is split across multiple Experiments (e.g. one paper with separate intracellular vs extracellular pools), declare separate experiments and one entry per experiment.
 
-**Compartment vocab** (lives on the parent Experiment; the adapter denormalizes onto each MetaboliteAssay): `whole_cell` (default; intracellular), `extracellular` (general "outside the cell" metabolite pool), `vesicle`, `exoproteome` (proteomics term — TCA-precipitated supernatant), `spent_medium`, `lysate`. The adapter does NOT accept compartment in the per-assay block — set it on the Experiment.
+**Compartment vocab** (lives on the parent Experiment; the adapter denormalizes onto each MetaboliteAssay): `whole_cell` (default; intracellular), `extracellular` (general "outside the cell" metabolite pool), `vesicle`, `exoproteome` (proteomics term — TCA-precipitated supernatant). (`spent_medium` / `lysate` were removed 2026-08-29 — never used; re-add to `COMPARTMENTS` + `controlled_vocabularies.yaml` if a paper needs them.) The adapter does NOT accept compartment in the per-assay block — set it on the Experiment.
 
 **ID resolution priority** (per row, decided in step 6):
 1. `id_col` cell parsed per `id_type` (when set + non-empty in the row) → `kegg_direct` / `chebi_direct` / `mnx_direct`

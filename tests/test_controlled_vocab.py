@@ -1,3 +1,5 @@
+import re
+
 import pytest
 from multiomics_kg.utils.controlled_vocab import (
     VOCAB, load_vocabularies, vocabularies_hash,
@@ -240,3 +242,25 @@ def test_presence_marker_must_be_sparse(tmp_path):
 """)
     with pytest.raises(ValueError, match="presence marker"):
         load_vocabularies(p)
+
+
+# --- DOC-003 (2026-08-29): descriptions are researcher-facing ----------------
+
+_PROVENANCE_LEAK = re.compile(
+    r"CLAUDE\.md|\.py\b|\.yaml\b|\.cypher\b|\.sh\b|Phase-|addendum|[Hh]arvested"
+    r"|controller ruling|spec §|task-\d+-report|lines? ~\d")
+
+
+@pytest.mark.parametrize("entry_id", sorted(load_vocabularies()))
+def test_descriptions_carry_no_build_provenance(entry_id):
+    """The explorer's list_filter_values surfaces `description` (and each
+    value_descriptions line) verbatim to researchers. Build provenance —
+    which module a list was harvested from, which CLAUDE.md bullet it
+    matches — belongs in a `# provenance:` YAML comment above the entry,
+    not in the text."""
+    from multiomics_kg.utils.controlled_vocab import load_vocabularies
+    entry = load_vocabularies()[entry_id]
+    texts = [entry.description, *(entry.value_descriptions or {}).values()]
+    for t in texts:
+        m = _PROVENANCE_LEAK.search(t or "")
+        assert not m, f"{entry_id}: provenance leak {m.group(0)!r} in {t!r}"

@@ -141,6 +141,34 @@ tag with nothing logged.
 
 ### Breaking
 
+- **`evidence` on eggNOG-only GO / EC / Pfam / CAZy edges is now `family_inferred`, not
+  `curated`** (explorer docs review DOC-001). The shared ladder has always defined
+  `family_inferred` as orthology transfer, and KO / COG / TCDB edges already said so — but the six
+  merge-derived edge types defaulted untouched tokens to `curated` and counted `eggnog` as a
+  curated source, so `evidence = 'curated'` meant "curated *or* eggNOG-transferred" there. Expected
+  movement on the 2026-08-29 build: GO-BP −434K, GO-MF −180K, GO-CC −100K, EC −11.7K, Pfam −24.7K,
+  CAZy −744 (eggNOG-only) plus the `['eggnog','interproscan']` pairs on EC / CAZy / GO (a
+  key-alignment artefact made the same pair read `signature` on Pfam and `curated` on CAZy; Pfam
+  keeps `signature`, the others become `family_inferred`). `evidence_score` on those edges drops by
+  one signal (the "curated or signature" +1). Curated-source edges (`ncbi` / `cyanorak` / `uniprot`
+  in `sources`) are unchanged. `Gene_has_pfam.evidence` gains `family_inferred`. The rung is now
+  derived from `sources` at build time (`annotation_provenance.derive_evidence`), so no
+  `prepare_data` rerun is needed. Verify: `MATCH ()-[r]->() WHERE r.sources = ['eggnog'] AND
+  r.evidence = 'curated' RETURN count(r)` → 0.
+- **`KeggTerm.is_uninformative` now also flags 11 KEGG global / overview maps** (DOC-002):
+  `ko01100` Metabolic pathways, `ko01110`, `ko01120`, `ko01200`, `ko01210`, `ko01212`, `ko01220`,
+  `ko01230`, `ko01232`, `ko01240`, `ko01250` — parentless pathway-level nodes that are unions of other
+  pathways, the standard KEGG-ORA exclusion. The two other parentless maps, `ko01310` Nitrogen cycle
+  (16 KOs ⊂ `ko00910`) and `ko01320` Sulfur cycle (22 KOs), are narrow subsets, not unions, and stay
+  informative. Any `informative_only`
+  consumer now drops them; `annotation_state` is unaffected (the `kegg` bucket reads KO edges).
+- **`KeggTerm.direct_gene_count` is omitted on pathway / subcategory / category nodes** (DOC-006):
+  genes attach to KOs only, so it was a constant 0 on 499 nodes; now absent, matching
+  BriteCategory / PfamClan. Use `gene_count` (subtree) on those levels.
+- **`Experiment.compartment` closed vocabulary shrinks to `whole_cell | vesicle | exoproteome |
+  extracellular`** (DOC-004): `spent_medium` and `lysate` were declared but never emitted on any
+  label; `COMPARTMENTS` and the paperconfig validator reject them until a paper re-adds them.
+
 - **`TigrRole` is now two-level (114 → 136 nodes), and `Gene_has_tigr_role`
   spans all 43 organisms instead of 22.** `level` is no longer `0` everywhere:
   existing role nodes keep their ids and compound names but become `level = 1`
@@ -711,6 +739,21 @@ tag with nothing logged.
   which never existed).
 
 ### Changed
+
+- **`ControlledVocabulary.description` is researcher-facing text** (DOC-003): the explorer's
+  `list_filter_values` prints it verbatim, so 17 entries whose description was build provenance
+  ("Harvested from COMPARTMENTS in …", "matches CLAUDE.md once its Phase-2 addendum …") were
+  rewritten to say what the property means, with the provenance moved to a `# provenance:` comment
+  above the entry; `Experiment.compartment` gains `value_descriptions`. Enforced by
+  `tests/test_controlled_vocab.py::test_descriptions_carry_no_build_provenance`.
+  `Metabolite.evidence_sources`'s "UNRESOLVED CONTRADICTION" note is resolved against the live graph
+  (`metabolomics` is live — 149 nodes).
+- KG review of the explorer's 2026-08-29 docs-review asks appended to
+  `multiomics_explorer/docs/kg-specs/2026-08-29-docs-review-kg-asks.md`; change note in
+  `docs/kg-changes/docs-review-asks.md`. DOC-005 answer: `Gene.ec_numbers` / `cog_category` /
+  `kegg_ko` were removed on 2026-03-16 (`285d95a5`), before the first tagged release — never
+  in a released graph. DOC-007 / DOC-008 confirmed as already true (`e91f20ce`; both `270` and
+  `856` are in the F1.1 list — 9 flagged `TigrRole` nodes).
 
 - TCDB multi-substrate threshold (`level >= 2 AND metabolite_count >= 50`) re-measured on the
   pruned 1,515-node graph and **kept**: ≈p99 at `tc_family` (p99 = 79) and `tc_subfamily`

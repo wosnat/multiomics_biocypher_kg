@@ -8,9 +8,18 @@ gene→ontology edge now carries:
 
 - ``sources`` (str[]) — who asserted the annotation
   (``ncbi|cyanorak|uniprot|eggnog|interproscan``).
-- ``evidence`` (str) — inference strength: ``curated`` > ``signature`` (direct
-  Pfam HMM hit) > ``family_inferred`` > ``domain_inferred``. Tokens no source
-  labelled inferred default to ``curated`` (they came from a curated source).
+- ``evidence`` (str) — inference strength on the shared ladder ``curated`` >
+  ``signature`` (direct Pfam HMM hit) > ``family_inferred`` (orthology transfer
+  — eggNOG — or a single-function InterPro FAMILY) > ``domain_inferred``.
+  The rung is DERIVED here from ``sources`` + the sparse ``<field>_evidence``
+  entry, never trusted verbatim: a token backed by a curated reference
+  (``ncbi`` / ``cyanorak`` / ``uniprot``) is ``curated``; a token whose only
+  backing is eggNOG is ``family_inferred`` (DOC-001, 2026-08-29 — before this
+  the eggNOG transfer read ``curated`` on GO / EC / Pfam / CAZy while the same
+  transfer read ``family_inferred`` on KO / COG / TCDB); an InterPro-only
+  token keeps the strength the merge recorded. A token with no provenance at
+  all (legacy rows without a ``<field>_source`` map) still defaults to
+  ``curated``.
 - ``evidence_score`` (float in [0,1]) — advisory, never a filter; a ready sort
   key. Multiply by 3 and round to recover the signal count.
 
@@ -20,7 +29,33 @@ See ``docs/superpowers/specs/2026-08-10-interpro-two-layer-integration-design.md
 
 from __future__ import annotations
 
-_CURATED_SOURCES = {"ncbi", "cyanorak", "uniprot", "eggnog"}
+# Reference annotations a human curated or a curated pipeline asserted. eggNOG
+# is deliberately NOT here: it transfers annotations from an ortholog group,
+# which is the definition of the family_inferred rung.
+_CURATED_SOURCES = {"ncbi", "cyanorak", "uniprot"}
+
+_LADDER = ("curated", "signature", "homology", "family_inferred", "domain_inferred")
+
+
+def derive_evidence(sources, recorded: str | None) -> str:
+    """Resolve the ladder rung for one token from its sources + recorded strength.
+
+    *recorded* is the sparse ``<field>_evidence`` entry the step-2 merge wrote
+    (``None`` for tokens InterPro never touched). Multi-source tokens take the
+    strongest rung any of their sources licenses.
+    """
+    srcs = set(sources or ())
+    if srcs & _CURATED_SOURCES:
+        return "curated"
+    if recorded in ("signature", "homology"):
+        return recorded
+    if "eggnog" in srcs:
+        return "family_inferred"          # orthology transfer; beats domain_inferred
+    if recorded in ("family_inferred", "domain_inferred"):
+        return recorded                   # interproscan-only token
+    if not srcs:
+        return "curated"                  # legacy row without a provenance map
+    return "family_inferred"
 
 _SIGNAL_COUNT = 3   # module constant, mirrored in controlled_vocabularies.yaml
 
@@ -34,7 +69,7 @@ def annotation_edge_props(gene: dict, field: str, token: str) -> dict:
     src_map = gene.get(f"{field}_source") or {}
     ev_map = gene.get(f"{field}_evidence") or {}
     sources = list(src_map.get(token) or [])
-    evidence = ev_map.get(token) or "curated"
+    evidence = derive_evidence(sources, ev_map.get(token))
 
     # evidence_score (advisory): three independent +1 signals.
     score = 0

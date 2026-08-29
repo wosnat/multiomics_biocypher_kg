@@ -28,8 +28,9 @@ COMPARTMENTS: frozenset[str] = frozenset({
     "vesicle",          # extracellular vesicle fraction
     "exoproteome",      # secreted proteins in medium (proteomics convention)
     "extracellular",    # general "outside the cell" pool — used by metabolomics
-    "spent_medium",     # culture supernatant
-    "lysate",           # cell lysate
+    # spent_medium / lysate were declared until 2026-08-29 but never emitted on
+    # any label (DOC-004); re-add here AND in controlled_vocabularies.yaml when
+    # a paper actually needs one.
 })
 
 

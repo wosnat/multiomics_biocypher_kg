@@ -42,8 +42,41 @@ def test_curated_single_source_defaults_evidence():
 def test_pfam_eggnog_interpro_not_independent():
     """eggNOG-Pfam and InterPro-Pfam are the same signal — no +1 for corroboration."""
     p = annotation_edge_props(_gene(), "pfam_ids", "PF1")
-    # curated (+1) + not domain (+1) = 2/3; the dependent pair does NOT add the corroboration +1
-    assert p["evidence_score"] == 0.667
+    # A recorded 'curated' with no curated source is re-derived (DOC-001):
+    # eggnog + interproscan on Pfam = family_inferred, so only the "not domain"
+    # signal fires = 1/3; the dependent pair does NOT add the corroboration +1.
+    assert p["evidence"] == "family_inferred"
+    assert p["evidence_score"] == 0.333
+
+
+# ── DOC-001 (2026-08-29): eggNOG transfer is family_inferred, never curated ──
+
+@pytest.mark.parametrize("sources,recorded,expected", [
+    (["eggnog"],                 None,              "family_inferred"),  # untouched eggNOG-only token
+    (["eggnog"],                 "curated",         "family_inferred"),  # stale merge value is overridden
+    (["eggnog", "interproscan"], "curated",         "family_inferred"),  # CAZy/EC/GO pair (old artefact)
+    (["eggnog", "interproscan"], "signature",       "signature"),        # Pfam pair keeps the direct hit
+    (["eggnog", "interproscan"], "domain_inferred", "family_inferred"),  # eggNOG floor beats domain
+    (["eggnog", "uniprot"],      None,              "curated"),          # a curated source wins
+    (["ncbi"],                   None,              "curated"),
+    (["cyanorak"],               None,              "curated"),
+    (["interproscan"],           "domain_inferred", "domain_inferred"),
+    (["interproscan"],           "family_inferred", "family_inferred"),
+    (["interproscan"],           "signature",       "signature"),
+])
+def test_evidence_is_derived_from_sources(sources, recorded, expected):
+    from multiomics_kg.utils.annotation_provenance import derive_evidence
+    assert derive_evidence(sources, recorded) == expected
+    gene = {"go_terms_source": {"GO:1": sources}}
+    if recorded:
+        gene["go_terms_evidence"] = {"GO:1": recorded}
+    assert annotation_edge_props(gene, "go_terms", "GO:1")["evidence"] == expected
+
+
+def test_eggnog_is_not_a_curated_source():
+    from multiomics_kg.utils import annotation_provenance as ap
+    assert "eggnog" not in ap._CURATED_SOURCES
+    assert ap._CURATED_SOURCES == {"ncbi", "cyanorak", "uniprot"}
 
 
 def test_missing_token_is_curated_no_sources():
@@ -78,7 +111,7 @@ def test_interpro_source_label_is_interproscan():
 
 @pytest.mark.parametrize("sources,evidence,expected", [
     (["uniprot", "eggnog"], "curated",         1.0),    # 3/3
-    (["eggnog"],            "curated",         0.667),  # 2/3
+    (["eggnog"],            "curated",         0.333),  # re-derived to family_inferred: 1/3
     (["eggnog"],            "family_inferred", 0.333),  # 1/3
     (["interproscan"],      "domain_inferred", 0.0),    # 0/3
 ])

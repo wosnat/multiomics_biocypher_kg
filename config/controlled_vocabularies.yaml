@@ -20,14 +20,16 @@ Gene_has_pfam.evidence:
   property: evidence
   value_type: string
   closed: true
-  values: [curated, signature]
+  values: [curated, signature, family_inferred]
   description: >
     Inference strength for this annotation. 'signature' = a direct Pfam HMM
-    hit. Note domain_inferred and family_inferred are NOT possible on this
-    edge type.
+    hit (InterProScan); 'family_inferred' = the domain is known only from
+    eggNOG's ortholog-group transfer, with no direct hit. domain_inferred is
+    NOT possible on this edge type.
   value_descriptions:
     curated: assigned by a human curator or a curated reference annotation (Cyanorak, UniProt, NCBI); strongest rung
     signature: direct HMM / profile hit against a member database that pre-applies its own curated threshold (InterProScan, Pfam)
+    family_inferred: transferred from an ortholog family (eggNOG orthology transfer) with no direct HMM hit
 
 Gene_catalyzes_ec_number.evidence:
   applies_to: Gene_catalyzes_ec_number
@@ -402,18 +404,26 @@ Experiment.omics_type:
     convention.
 
 Experiment.compartment:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   COMPARTMENTS in multiomics_kg/vocab/non_de_evidence.py (validator + adapters
+  #   import it). spent_medium and lysate were declared until 2026-08-29 but never
+  #   emitted on any label (DOC-004) — pruned; re-add when a paper needs them.
   applies_to: Experiment
   applies_to_kind: node
   property: compartment
   value_type: string
   closed: true
-  values: [whole_cell, vesicle, exoproteome, extracellular, spent_medium, lysate]
+  values: [whole_cell, vesicle, exoproteome, extracellular]
   description: >
-    Subcellular fraction this experiment measured; default "whole_cell".
-    Harvested from COMPARTMENTS in multiomics_kg/vocab/non_de_evidence.py.
-    Matches CLAUDE.md exactly once its Phase-2 addendum ("extracellular")
-    is folded into the base 5-value list documented under SubcellularLocalization
-    — the two CLAUDE.md mentions are consistent, just split across two bullets.
+    Subcellular fraction this experiment measured; default whole_cell.
+    exoproteome is the proteomics term for secreted proteins recovered from
+    the medium; extracellular is the general outside-the-cell pool used by
+    metabolomics; vesicle is the extracellular-vesicle fraction.
+  value_descriptions:
+    whole_cell: intracellular / whole-cell fraction (the default)
+    vesicle: extracellular-vesicle fraction
+    exoproteome: secreted proteins recovered from the culture medium (proteomics convention)
+    extracellular: general outside-the-cell pool, used by metabolomics
 
 Experiment.table_scope:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -478,6 +488,10 @@ DerivedMetric.value_kind:
     Determines which measurement edge type the metric emits.
 
 MetaboliteAssay.value_kind:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   schema_config.yaml's inline comment on the `metabolite assay` node; VALUE_KINDS
+  #   in non_de_evidence.py is shared code but not enforced per-label, so the two
+  #   labels legitimately differ (per-edge-type `evidence` precedent, spec §5.2).
   applies_to: MetaboliteAssay
   applies_to_kind: node
   property: value_kind
@@ -485,14 +499,19 @@ MetaboliteAssay.value_kind:
   closed: true
   values: [numeric, boolean]
   description: >
-    Same discriminator as DerivedMetric.value_kind but a NARROWER domain on
-    this label — MetaboliteAssay has no categorical arm. Harvested from
-    schema_config.yaml's inline comment on the `metabolite assay` node
-    ("numeric" | "boolean"); VALUE_KINDS in non_de_evidence.py is shared code
-    but not enforced per-label, so the two labels legitimately differ here,
-    mirroring the existing per-edge-type `evidence` precedent (spec §5.2).
+    Kind of value this assay reports per metabolite: numeric (a concentration
+    or abundance, carried on Assay_quantifies_metabolite) or boolean (a
+    presence call, carried on Assay_flags_metabolite). Same discriminator as
+    DerivedMetric.value_kind but narrower — MetaboliteAssay has no
+    categorical arm.
 
 DerivedMetric.metric_type:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   KNOWN_METRIC_TYPES keys in multiomics_kg/vocab/non_de_evidence.py. RESCOPED
+  #   (2026-08-18) closed:true -> closed:false: the registry is a SOFT allowlist by
+  #   design (a metric_type absent from it is accepted with a validator warning),
+  #   and bagby 2015 / Wang 2014 / Oleza 2015 legitimately introduced 12 values
+  #   with no registry entry. Declaring it closed would break on every new paper.
   applies_to: DerivedMetric
   applies_to_kind: node
   property: metric_type
@@ -520,24 +539,15 @@ DerivedMetric.metric_type:
            whole_cell_detected_evolved_400ppm,
            whole_cell_detected_evolved_800ppm]
   description: >
-    Harvested verbatim from KNOWN_METRIC_TYPES keys in
-    multiomics_kg/vocab/non_de_evidence.py. RESCOPED (2026-08-18) from
-    closed:true to closed:false: the registry is a SOFT allowlist by design —
-    its own docstring says a metric_type absent from it is accepted
-    elsewhere with only a validator warning, not rejected — and a merge
-    landed three papers (bagby 2015, Wang 2014, Oleza 2015) that legitimately
-    introduce 12 metric_type values with no registry entry
-    (exoproteome_avg_pct_nsaf, exoproteome_detection_status,
-    expression_change_high_light_shock,
-    expression_change_low_co2_no_o2_shock, expression_change_low_co2_shock,
-    expression_level_class, log2_mv_cell_enrichment, pangenome_membership,
-    prop_abund_cells_percent, prop_abund_mvs_percent,
-    rapid_recovery_low_co2_no_o2_shock, rapid_recovery_low_co2_shock).
-    Declaring this closed would break every time a paper introduces a new
-    metric type, which is expected behavior, not drift. `values` is kept as
-    a documentation list of the currently-known set; it is not enforced.
+    Snake_case name of the per-gene quantity a DerivedMetric reports (e.g.
+    periodicity flags, growth-phase classifiers, enrichment scores). OPEN:
+    every paper may mint new metric types, so `values` is the currently
+    known set for documentation only — enumerate live for a complete list.
 
 BriteCategory.tree:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   VALUES (not keys — keys are KEGG tree codes like "ko02000") of BRITE_TREES in
+  #   multiomics_kg/utils/brite_utils.py.
   applies_to: BriteCategory
   applies_to_kind: node
   property: tree
@@ -547,12 +557,17 @@ BriteCategory.tree:
            secretion, two_component, defense, chaperones, ribosome,
            translation_factors, trna_biogenesis, dna_replication]
   description: >
-    Canonical snake_case KEGG BRITE tree name. Harvested from the VALUES
-    (not keys — the keys are KEGG tree codes like "ko02000") of BRITE_TREES
-    in multiomics_kg/utils/brite_utils.py. Matches CLAUDE.md's "12 trees" list
-    exactly.
+    Snake_case name of the KEGG BRITE functional hierarchy this category
+    belongs to (one of 12 trees, e.g. transporters = ko02000, enzymes =
+    ko01000); tree_code carries the KEGG code.
 
 Metabolite.evidence_sources:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Set by prepare_data step 6 (build_kegg_metabolism_xrefs.py) from the compound's
+  #   origin. Was declared open on 2026-08-16 because schema_config.yaml said
+  #   "metabolomics reserved" while CLAUDE.md said it may be emitted; resolved
+  #   2026-08-29 against the live graph (metabolism 2,225 / transport 1,462 /
+  #   metabolomics 149 — all three live).
   applies_to: Metabolite
   applies_to_kind: node
   property: evidence_sources
@@ -560,16 +575,15 @@ Metabolite.evidence_sources:
   closed: false
   values: []
   description: >
-    UNRESOLVED CONTRADICTION between two first-party sources: schema_config.yaml
-    (line ~876) comments this property as "['metabolism', 'transport'];
-    metabolomics reserved" (i.e. NOT yet a live value), while CLAUDE.md's
-    metabolomics-extension bullet says "evidence_sources may include
-    'metabolomics'" (implying it IS live) for the same Metabolite property.
-    Declared open per the harvest rule "when unsure whether a documented
-    value is actually emitted, prefer closed: false" — do not hand-pick a
-    side without querying the live graph. See task-10-report.md.
+    Why this metabolite is in the graph: metabolism (reachable through a
+    gene-catalyzed Reaction), transport (a TCDB substrate of an annotated
+    transporter family), metabolomics (measured by a paper's metabolite
+    assay). A metabolite may carry any combination.
 
 Organism_has_metabolite.evidence_sources:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Post-import (scripts/post-import.sh Organism_has_metabolite materialization);
+  #   schema_config.yaml and CLAUDE.md agree on the three values.
   applies_to: Organism_has_metabolite
   applies_to_kind: edge
   property: evidence_sources
@@ -577,15 +591,15 @@ Organism_has_metabolite.evidence_sources:
   closed: true
   values: [metabolism, transport, measured]
   description: >
-    A DIFFERENT property from Metabolite.evidence_sources despite the shared
-    name — this one lives on the Organism_has_metabolite edge, uses "measured"
-    (not "metabolomics") as its third value, and both schema_config.yaml
-    (line ~1714, "post-import; values: metabolism | transport | measured")
-    and CLAUDE.md agree on it without contradiction. Recorded here because
-    disentangling it from Metabolite.evidence_sources was necessary to explain
-    that property's contradiction; not required by the coverage test.
+    Why this organism is linked to this metabolite: metabolism (a gene of the
+    organism catalyzes a reaction involving it), transport (a gene's deepest
+    TCDB attachment transports it), measured (a metabolite assay on this
+    organism measured it). Note the third value is "measured" here but
+    "metabolomics" on Metabolite.evidence_sources — different properties.
 
 Changes_expression_of.expression_status:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   CASE expression in scripts/post-import.sh (expression_status derivation).
   applies_to: Changes_expression_of
   applies_to_kind: edge
   property: expression_status
@@ -593,11 +607,14 @@ Changes_expression_of.expression_status:
   closed: true
   values: [significant_up, significant_down, not_significant]
   description: >
-    Post-import derived call. Harvested from CLAUDE.md and confirmed against
-    the literal strings in scripts/post-import.cypher's CASE expression
-    (lines ~217-219).
+    Post-import significance call combining the edge's significant flag and
+    the sign of log2_fold_change: significant_up, significant_down, or
+    not_significant.
 
 Derived_metric_quantifies_gene.metric_bucket:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   BUCKET_THRESHOLD_TOP_DECILE / TOP_QUARTILE / MID (90/75/25) in
+  #   multiomics_kg/vocab/non_de_evidence.py.
   applies_to: Derived_metric_quantifies_gene
   applies_to_kind: edge
   property: metric_bucket
@@ -605,13 +622,14 @@ Derived_metric_quantifies_gene.metric_bucket:
   closed: true
   values: [top_decile, top_quartile, mid, low]
   description: >
-    Post-import percentile bucket (rankable="true" only). Harvested from
-    BUCKET_THRESHOLD_TOP_DECILE/TOP_QUARTILE/MID (90/75/25) in
-    multiomics_kg/vocab/non_de_evidence.py; bucket names confirmed against
-    schema_config.yaml's inline comment and CLAUDE.md's "pinned thresholds
-    ≥90/≥75/≥25" bullet.
+    Post-import percentile bucket of this gene's value within its metric
+    (rankable metrics only): top_decile (percentile >= 90), top_quartile
+    (>= 75), mid (>= 25), low (< 25).
 
 Assay_quantifies_metabolite.metric_bucket:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Same thresholds as Derived_metric_quantifies_gene.metric_bucket
+  #   (non_de_evidence.py BUCKET_THRESHOLD_*), applied in scripts/post-import.sh.
   applies_to: Assay_quantifies_metabolite
   applies_to_kind: edge
   property: metric_bucket
@@ -619,11 +637,10 @@ Assay_quantifies_metabolite.metric_bucket:
   closed: true
   values: [top_decile, top_quartile, mid, low]
   description: >
-    Same bucket vocabulary and thresholds as
-    Derived_metric_quantifies_gene.metric_bucket, mirrored onto the
-    metabolomics measurement edge (rankable="true" only). Harvested from
-    schema_config.yaml's inline comment on `assay quantifies metabolite`
-    and CLAUDE.md's MetaboliteAssay computed-properties bullet.
+    Post-import percentile bucket of this metabolite's value within its assay
+    (rankable assays only): top_decile (percentile >= 90), top_quartile
+    (>= 75), mid (>= 25), low (< 25). Same thresholds as
+    Derived_metric_quantifies_gene.metric_bucket.
 
 Assay_quantifies_metabolite.detection_status:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -648,6 +665,9 @@ Assay_quantifies_metabolite.detection_status:
     not_detected: zero in every replicate; the metabolite was measured and absent, a real result
 
 Gene.annotation_state:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   Inline literals in scripts/post-import.sh's annotation_state CASE expression;
+  #   no controlled-list constant exists in code.
   applies_to: Gene
   applies_to_kind: node
   property: annotation_state
@@ -655,11 +675,10 @@ Gene.annotation_state:
   closed: true
   values: [no_evidence, catch_all_only, informative_single, informative_multi]
   description: >
-    Post-import qualitative bucket underlying the numeric annotation_quality
-    (0-3) encoding. No controlled-list constant exists in code (the four
-    literals appear inline in scripts/post-import.cypher's CASE expression,
-    lines ~623-628) — harvested from CLAUDE.md per the controller ruling, and
-    confirmed against those same literal strings.
+    Post-import qualitative annotation bucket, the string form of the numeric
+    annotation_quality (0-3): how many independent informative source buckets
+    (GO, KEGG, Pfam, EC, role, reaction, transporter, CAZy, NCBIfam) back
+    this gene, after uninformative terms are discounted.
   value_descriptions:
     no_evidence: no functional annotation edge of any kind (annotation_quality 0)
     catch_all_only: only uninformative terms, e.g. hypothetical protein, DUF, general function prediction only (annotation_quality 1)
@@ -928,6 +947,8 @@ KeggTerm.level_kind:
     reaction_count / metabolite_count; KO terms are what genes attach to.
 
 TcdbFamily.level_kind:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   literal strings assigned in multiomics_kg/download/build_kegg_metabolism_xrefs.py.
   applies_to: TcdbFamily
   applies_to_kind: node
   property: level_kind
@@ -935,10 +956,10 @@ TcdbFamily.level_kind:
   closed: true
   values: [tc_class, tc_subclass, tc_family, tc_subfamily, tc_specificity]
   description: >
-    Harvested from the literal strings assigned in
-    multiomics_kg/download/build_kegg_metabolism_xrefs.py (lines ~216-259);
-    matches CLAUDE.md's "5 levels (tc_class | tc_subclass | tc_family |
-    tc_subfamily | tc_specificity)" bullet exactly.
+    Named depth of this node in the 5-level TCDB hierarchy: tc_class (1.),
+    tc_subclass (1.A), tc_family (1.A.1), tc_subfamily (1.A.1.1),
+    tc_specificity (1.A.1.1.1 — an individual transport system). Parallels
+    the integer level 0-4.
 
 CazyFamily.level_kind:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -975,6 +996,9 @@ TigrRole.level_kind:
     Tigr_role_is_a_tigr_role.
 
 BriteCategory.level_kind:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   _LEVEL_KINDS in multiomics_kg/utils/brite_utils.py. Do not confuse with
+  #   InterproEntry.level_kind (declared expected_empty: true).
   applies_to: BriteCategory
   applies_to_kind: node
   property: level_kind
@@ -982,14 +1006,14 @@ BriteCategory.level_kind:
   closed: true
   values: [brite_class, brite_subclass, brite_family, brite_subfamily]
   description: >
-    Harvested from _LEVEL_KINDS in multiomics_kg/utils/brite_utils.py
-    (depth 0-3); matches CLAUDE.md's "level (int, 0=broadest/A-level=
-    brite_class, 1=brite_subclass, 2=brite_family, 3=brite_subfamily)" bullet
-    exactly. Do not confuse with InterproEntry.level_kind (already declared
-    with expected_empty: true) — InterPro's depth tiers have no natural names.
+    Named depth of this node in its KEGG BRITE tree: brite_class (level 0,
+    the A-level heading), brite_subclass (1), brite_family (2),
+    brite_subfamily (3). Parallels the integer level.
 
 # ── Genuinely open (data-driven; consumer must enumerate at runtime) ─────────
 Gene.gene_category:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   build_gene_annotations.py gene_category priority chain; no fixed enum in code.
   applies_to: Gene
   applies_to_kind: node
   property: gene_category
@@ -997,10 +1021,10 @@ Gene.gene_category:
   closed: false
   values: []
   description: >
-    Derived from role annotations (CyanorakRole / TigrRole / CogFunctionalCategory
-    majority vote); no fixed enum exists in code or CLAUDE.md. OPEN — the
-    list_filter_values MCP tool must enumerate this from the live graph, not
-    hard-code a value list.
+    Broad functional category of the gene, derived at build time from its role
+    annotations by priority (Cyanorak role, then Cyanorak TIGR role, then COG
+    category, then NCBIfam-inferred TIGR role; Unknown when none). OPEN —
+    enumerate the values from the live graph.
 
 Experiment.growth_phases:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1144,6 +1168,8 @@ Assay_flags_metabolite.flag_value:
 # preserved verbatim per house rule R1's external-source exception.
 
 MeropsFamily.level_kind:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   classify_code() in multiomics_kg/utils/merops_diamond.py.
   applies_to: MeropsFamily
   applies_to_kind: node
   property: level_kind
@@ -1151,12 +1177,9 @@ MeropsFamily.level_kind:
   closed: true
   values: [merops_clan, merops_family, merops_subfamily]
   description: >
-    KG-minted depth tier for a MEROPS clan/family/subfamily node. Harvested
-    from classify_code() in multiomics_kg/utils/merops_diamond.py (returns
-    (0, 'merops_clan') / (1, 'merops_family') / (2, 'merops_subfamily'));
-    matches config/schema_config.yaml's `merops family` node comment
-    "level: int  # 0=merops_clan, 1=merops_family, 2=merops_subfamily"
-    exactly.
+    Named depth of this node in the MEROPS hierarchy: merops_clan (level 0,
+    e.g. SC), merops_family (1, e.g. S14), merops_subfamily (2, e.g. S08A).
+    Parallels the integer level.
 
 MeropsFamily.family_class:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1178,6 +1201,10 @@ MeropsFamily.family_class:
     inhibitors are biology; use it to keep them out of protease counts.
 
 MeropsFamily.catalytic_type:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   VALUES of CATALYTIC_TYPE_WORDS in multiomics_kg/utils/merops_diamond.py;
+  #   catalytic_type_word() returns None for I-families. Kept as the full MEROPS
+  #   code set on purpose (external vocabulary mirrored whole) — DOC-004, 2026-08-29.
   applies_to: MeropsFamily
   applies_to_kind: node
   property: catalytic_type
@@ -1187,15 +1214,16 @@ MeropsFamily.catalytic_type:
   values: [serine, cysteine, metallo, aspartic, threonine, glutamic,
            asparagine_lyase, mixed, unknown]
   description: >
-    KG-minted full-word spelling of MEROPS's single-letter catalytic-type
-    code — MEROPS ships "S"/"C"/"M"/etc, the KG spells them out so the
-    values read correctly without a lookup table. Harvested verbatim from
-    the VALUES of CATALYTIC_TYPE_WORDS in
-    multiomics_kg/utils/merops_diamond.py. SPARSE — null for inhibitor
-    families (catalytic_type_word() returns None when the code starts with
-    "I"), matching config/schema_config.yaml's `null for inhibitors` note.
+    Catalytic mechanism of a peptidase family, MEROPS's single-letter code
+    spelled out (S = serine, C = cysteine, M = metallo, A = aspartic, T =
+    threonine, G = glutamic, N = asparagine_lyase, P = mixed, U = unknown).
+    The list is the complete MEROPS code set, so a value may be absent from a
+    given build (no glutamic-peptidase family is observed in the current
+    corpus). Absent on inhibitor families.
 
 Gene_has_merops_family.call_class:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   the three return statements of call_class() in multiomics_kg/utils/merops_diamond.py.
   applies_to: Gene_has_merops_family
   applies_to_kind: edge
   property: call_class
@@ -1203,18 +1231,18 @@ Gene_has_merops_family.call_class:
   closed: true
   values: [peptidase, inhibitor, nonpeptidase_homolog]
   description: >
-    KG-minted read-first verdict for one Gene_has_merops_family candidate.
-    Harvested from the three return statements of call_class() in
-    multiomics_kg/utils/merops_diamond.py: 'inhibitor' when the family is an
-    I-family, 'nonpeptidase_homolog' when the best hit is a catalytically
-    dead .9xx entry, else 'peptidase'. Threshold-free, mirrors the
-    expression_status pattern.
+    Read-first verdict for one MEROPS candidate: inhibitor when the family is
+    an I-family, nonpeptidase_homolog when the best hit is a catalytically
+    dead .9xx entry (fold evidence, not protease evidence), else peptidase.
+    Threshold-free; orthogonal to evidence and pfam_support.
   value_descriptions:
     peptidase: best hit is a characterized or putative active peptidase; protease evidence
     inhibitor: family is a MEROPS I-family; the product is a peptidase inhibitor, not a protease
     nonpeptidase_homolog: best hit is a catalytically dead .9xx relative; fold evidence only, NOT protease evidence
 
 Gene_has_merops_family.best_hit_kind:
+  # provenance (moved out of the researcher-facing description, 2026-08-29):
+  #   id_kind() in multiomics_kg/utils/merops_diamond.py.
   applies_to: Gene_has_merops_family
   applies_to_kind: edge
   property: best_hit_kind
@@ -1222,13 +1250,10 @@ Gene_has_merops_family.best_hit_kind:
   closed: true
   values: [holotype, putative, nonpeptidase_homolog]
   description: >
-    KG-minted entry-kind label for a candidate's best (highest-identity)
-    MEROPS identifier hit. Harvested from id_kind() in
-    multiomics_kg/utils/merops_diamond.py: "holotype" for a characterized
-    numeric tail (001-899), "nonpeptidase_homolog" for a 9xx tail, "putative"
-    for a letter-prefixed tail; matches config/schema_config.yaml's `gene to
-    merops family association` comment
-    `best_hit_kind: str  # holotype | putative | nonpeptidase_homolog`.
+    Kind of MEROPS entry the candidate's best (highest-identity) hit is:
+    holotype (a characterized peptidase, identifier tail 001-899), putative
+    (a letter-prefixed identifier, not yet characterized), or
+    nonpeptidase_homolog (a 9xx tail — a catalytically dead relative).
   value_descriptions:
     holotype: characterized MEROPS identifier (numeric tail 001-899)
     putative: letter-prefixed identifier; sequence-only, uncharacterized member
@@ -1987,7 +2012,7 @@ BiologicalProcess.is_uninformative:
   values: ['true']
   sparse: true
   description: >
-    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    PRESENCE MARKER set post-import on
     catch-all terms that carry no functional information — for BiologicalProcess:
     the GO root term go:0008150 (biological_process). Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
@@ -2004,7 +2029,7 @@ MolecularFunction.is_uninformative:
   values: ['true']
   sparse: true
   description: >
-    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    PRESENCE MARKER set post-import on
     catch-all terms that carry no functional information — for MolecularFunction:
     the GO root term go:0003674 (molecular_function). Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
@@ -2021,7 +2046,7 @@ CellularComponent.is_uninformative:
   values: ['true']
   sparse: true
   description: >
-    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    PRESENCE MARKER set post-import on
     catch-all terms that carry no functional information — for CellularComponent:
     the GO root term go:0005575 (cellular_component). Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
@@ -2038,7 +2063,7 @@ CogFunctionalCategory.is_uninformative:
   values: ['true']
   sparse: true
   description: >
-    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    PRESENCE MARKER set post-import on
     catch-all terms that carry no functional information — for CogFunctionalCategory:
     category S (function unknown). Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
@@ -2055,9 +2080,9 @@ CyanorakRole.is_uninformative:
   values: ['true']
   sparse: true
   description: >
-    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    PRESENCE MARKER set post-import on
     catch-all terms that carry no functional information — for CyanorakRole:
-    catch-all roles listed in config/uninformative_terms.yaml. Absent on every informative term. Genes whose only
+    catch-all roles (Other, conserved hypothetical, hypothetical). Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
     the explorer's informative_only filter is `t.is_uninformative IS NULL`.
   value_descriptions:
@@ -2072,7 +2097,7 @@ TigrRole.is_uninformative:
   values: ['true']
   sparse: true
   description: >
-    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    PRESENCE MARKER set post-import on
     catch-all terms that carry no functional information — for TigrRole:
     the junk mainroles hypothetical_proteins / unknown_function / unclassified and junk subroles (Not Found, Disrupted reading frame, …). Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
@@ -2089,9 +2114,12 @@ KeggTerm.is_uninformative:
   values: ['true']
   sparse: true
   description: >
-    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    PRESENCE MARKER set post-import on
     catch-all terms that carry no functional information — for KeggTerm:
-    uncharacterized-protein KOs listed in config/uninformative_terms.yaml. Absent on every informative term. Genes whose only
+    uncharacterized-protein KOs plus the 13 KEGG global / overview maps
+    (ko011xx-ko013xx, e.g. ko01100 Metabolic pathways — unions of other
+    pathways, the standard KEGG-ORA exclusion). Absent on every informative
+    term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
     the explorer's informative_only filter is `t.is_uninformative IS NULL`.
   value_descriptions:
@@ -2106,7 +2134,7 @@ InterproEntry.is_uninformative:
   values: ['true']
   sparse: true
   description: >
-    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    PRESENCE MARKER set post-import on
     catch-all terms that carry no functional information — for InterproEntry:
     entries whose name starts 'Protein of unknown function', 'Domain of unknown function' or 'Uncharacteri[sz]ed protein family'. Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
@@ -2123,7 +2151,7 @@ NcbifamFamily.is_uninformative:
   values: ['true']
   sparse: true
   description: >
-    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    PRESENCE MARKER set post-import on
     catch-all terms that carry no functional information — for NcbifamFamily:
     family_type hypoth_equivalog(_domain) plus the hypothetical / uncharacterized / DUF name patterns. Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;

@@ -346,7 +346,8 @@ def apply_tigr_role_inference(gene: dict, tigr_roles: dict | None,
 
 # Curated / direct sources; when any of these also asserts a token, the token is
 # curated regardless of the InterPro inference that corroborates it.
-_CURATED_SOURCES = {"ncbi", "cyanorak", "uniprot", "eggnog"}
+# eggNOG is orthology transfer (family_inferred), not a curated reference (DOC-001).
+_CURATED_SOURCES = {"ncbi", "cyanorak", "uniprot"}
 # GO / CAZy propagate from FAMILY + DOMAIN entries; fold-level (HOMOLOGOUS_SUPERFAMILY)
 # is shape-only and excluded. EC propagates from FAMILY only, single-EC (see below).
 _INTERPRO_PROPAGATE_TYPES = {"FAMILY", "DOMAIN"}
@@ -376,9 +377,13 @@ def _fold_interpro_field(gene: dict, field: str, new_tokens: dict[str, str]) -> 
     strength ∈ {family, domain, signature}. For each token: append to the field
     list if new; add ``interproscan`` to the per-token ``<field>_source`` map; and set
     ``<field>_evidence[token]`` to the strongest applicable evidence — ``curated``
-    when any curated source also asserts it, else ``signature`` (direct Pfam HMM),
-    ``family_inferred`` or ``domain_inferred``. The evidence map is sparse: only
-    InterPro-touched tokens get an entry; consumers default the rest to ``curated``.
+    when a curated reference (ncbi / cyanorak / uniprot — NOT eggNOG, which is
+    orthology transfer) also asserts it, else ``signature`` (direct Pfam HMM),
+    ``family_inferred`` (InterPro FAMILY, or eggNOG also carries the token) or
+    ``domain_inferred``. The evidence map is sparse: only InterPro-touched tokens
+    get an entry; ``annotation_provenance.derive_evidence`` re-derives the rung
+    for every token from ``<field>_source`` at KG-build time, so eggNOG-only
+    tokens read ``family_inferred`` without an entry here.
     """
     if not new_tokens:
         return
@@ -397,8 +402,8 @@ def _fold_interpro_field(gene: dict, field: str, new_tokens: dict[str, str]) -> 
             ev = "curated"
         elif strength == "signature":
             ev = "signature"
-        elif strength == "family":
-            ev = "family_inferred"
+        elif strength == "family" or "eggnog" in srcs:
+            ev = "family_inferred"        # eggNOG transfer is itself family-level
         else:
             ev = "domain_inferred"
         ev_map[tok] = ev

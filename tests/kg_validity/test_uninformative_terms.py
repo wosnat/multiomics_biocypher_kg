@@ -101,3 +101,38 @@ def test_drift_role_yaml_matches_to_category_mappings(yaml_vocab):
     # TIGR: ids are 'tigr.role:156' but TIGR_TO_CATEGORY is keyed by description.
     # Skip programmatic lookup here; rely on COG + Cyanorak checks above.
     assert not failures, "\n".join(failures)
+
+
+KEGG_OVERVIEW_MAPS_KEPT_INFORMATIVE = {"kegg.pathway:ko01310", "kegg.pathway:ko01320"}
+
+
+def test_kegg_global_maps_are_flagged(run_query):
+    """DOC-002 (2026-08-29): the parentless pathway-level KeggTerms are KEGG's
+    global / overview maps. The union-type ones (ko011xx-ko012xx) carry the
+    flag and the YAML id list must equal that live set (drift both ways);
+    ko01310 Nitrogen cycle / ko01320 Sulfur cycle are narrow class-bearing
+    subsets and are deliberately left unflagged."""
+    live = run_query("""
+        MATCH (p:KeggTerm {level_kind: 'pathway'})
+        WHERE NOT (p)-[:Kegg_term_is_a_kegg_term]->()
+        RETURN p.id AS id, p.is_uninformative AS flag ORDER BY id
+    """)
+    assert live, "no parentless pathway nodes — KEGG hierarchy shape changed?"
+    with open("config/uninformative_terms.yaml") as f:
+        declared = set(yaml.safe_load(f)["kegg_term"]["ids"])
+    parentless = {r["id"] for r in live}
+    assert declared | KEGG_OVERVIEW_MAPS_KEPT_INFORMATIVE == parentless
+    assert not declared & KEGG_OVERVIEW_MAPS_KEPT_INFORMATIVE
+    wrong = [r["id"] for r in live
+             if (r["flag"] == "true") != (r["id"] in declared)]
+    assert not wrong, f"flag disagrees with uninformative_terms.yaml on: {wrong}"
+
+
+def test_kegg_category_levels_stay_unflagged(run_query):
+    """category / subcategory nodes carry a class signal and are gated by
+    `level`, not by the flag (decision recorded in uninformative_terms.yaml)."""
+    r = run_query("""
+        MATCH (t:KeggTerm) WHERE t.level_kind IN ['category', 'subcategory']
+          AND t.is_uninformative IS NOT NULL RETURN count(*) AS n
+    """)
+    assert r[0]["n"] == 0

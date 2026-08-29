@@ -55,6 +55,29 @@ kegg_term:
   # ~210 KOs match this pattern; ID list omitted (too many; pattern stable).
   name_patterns:
     - '^K\d+;\s+uncharacterized protein\b'
+  # KEGG global / overview maps (DOC-002, 2026-08-29): unions of other pathways
+  # (ko01100 "Metabolic pathways" rolls up 27K genes), the standard KEGG-ORA
+  # exclusion. Parentless level-2 nodes in the KG — no "Global and overview
+  # maps" subcategory node exists — so an explicit id list. Enumerate live with
+  #   MATCH (p:KeggTerm {level_kind:'pathway'})
+  #   WHERE NOT (p)-[:Kegg_term_is_a_kegg_term]->() RETURN p.id
+  # category / subcategory nodes (6 + 46) stay UN-flagged: "Carbohydrate
+  # metabolism" is a class signal; gate them with `level`, not this flag.
+  # ko01310 "Nitrogen cycle" (16 KOs, a strict subset of ko00910) and ko01320
+  # "Sulfur cycle" (22 KOs) are ALSO parentless overview maps but are narrow,
+  # class-bearing subsets, not unions — deliberately NOT flagged (11 of 13).
+  ids:
+    - kegg.pathway:ko01100   # Metabolic pathways
+    - kegg.pathway:ko01110   # Biosynthesis of secondary metabolites
+    - kegg.pathway:ko01120   # Microbial metabolism in diverse environments
+    - kegg.pathway:ko01200   # Carbon metabolism
+    - kegg.pathway:ko01210   # 2-Oxocarboxylic acid metabolism
+    - kegg.pathway:ko01212   # Fatty acid metabolism
+    - kegg.pathway:ko01220   # Degradation of aromatic compounds
+    - kegg.pathway:ko01230   # Biosynthesis of amino acids
+    - kegg.pathway:ko01232   # Nucleotide metabolism
+    - kegg.pathway:ko01240   # Biosynthesis of cofactors
+    - kegg.pathway:ko01250   # Biosynthesis of nucleotide sugars
 
 interpro_entry:
   # Mirrored in post-import Cypher F1.1 (name-pattern rule, KEGG-KO precedent).

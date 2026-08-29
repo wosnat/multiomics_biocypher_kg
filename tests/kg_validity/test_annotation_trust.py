@@ -218,3 +218,58 @@ def test_explorer_vocab_pairs_have_nodes(run_query):
     ids = {r["id"] for r in run_query("MATCH (v:ControlledVocabulary) RETURN v.id AS id")}
     missing = [f"{a}.{p}" for a, p in EXPLORER_VOCAB_PAIRS if f"{a}.{p}" not in ids]
     assert not missing, missing
+
+
+# ── DOC-001 / DOC-006 (explorer docs review, 2026-08-29) ─────────────────────
+
+MERGED_ANNOTATION_EDGES = [
+    "Gene_involved_in_biological_process", "Gene_enables_molecular_function",
+    "Gene_located_in_cellular_component", "Gene_catalyzes_ec_number",
+    "Gene_has_pfam", "Gene_has_cazy_family",
+]
+
+
+@pytest.mark.parametrize("edge", MERGED_ANNOTATION_EDGES)
+def test_eggnog_only_edges_are_family_inferred(run_query, edge):
+    """DOC-001: eggNOG orthology transfer is `family_inferred` on every edge
+    type, never `curated` — the ladder rung must not depend on which adapter
+    emitted the edge. Conversely a curated source (ncbi/cyanorak/uniprot)
+    always reads `curated`."""
+    rows = run_query(
+        f"MATCH ()-[r:{edge}]->() WHERE r.sources = ['eggnog'] "
+        f"RETURN r.evidence AS e, count(*) AS n"
+    )
+    assert rows, f"{edge}: no eggNOG-only edges?"
+    assert {r["e"] for r in rows} == {"family_inferred"}, rows
+    bad = run_query(
+        f"MATCH ()-[r:{edge}]->() WHERE any(s IN r.sources WHERE s IN "
+        f"['ncbi','cyanorak','uniprot']) AND r.evidence <> 'curated' "
+        f"RETURN count(*) AS n"
+    )[0]["n"]
+    assert bad == 0, f"{edge}: {bad} curated-backed edges not 'curated'"
+
+
+def test_pfam_and_cazy_agree_on_the_eggnog_interproscan_pair(run_query):
+    """The same source pair used to read `signature` on Pfam and `curated` on
+    CAZy (a key-alignment artefact in the step-2 merge). Now: Pfam keeps the
+    direct-hit rung; CAZy/EC/GO take eggNOG's family-level floor."""
+    pf = run_query("MATCH ()-[r:Gene_has_pfam]->() WHERE r.sources = ['eggnog','interproscan'] "
+                   "RETURN collect(DISTINCT r.evidence) AS v")[0]["v"]
+    assert set(pf) == {"signature"}, pf
+    for edge in ("Gene_has_cazy_family", "Gene_catalyzes_ec_number",
+                 "Gene_involved_in_biological_process"):
+        v = run_query(f"MATCH ()-[r:{edge}]->() WHERE r.sources = ['eggnog','interproscan'] "
+                      "RETURN collect(DISTINCT r.evidence) AS v")[0]["v"]
+        assert set(v) <= {"family_inferred"}, (edge, v)
+
+
+def test_kegg_direct_gene_count_only_on_kos(run_query):
+    """DOC-006: genes attach to KOs only, so direct_gene_count is omitted (not
+    stored as 0) on pathway / subcategory / category KeggTerm nodes —
+    BriteCategory / PfamClan precedent."""
+    rows = run_query("MATCH (t:KeggTerm) RETURN t.level_kind AS k, count(*) AS n, "
+                     "count(t.direct_gene_count) AS dgc")
+    by = {r["k"]: r for r in rows}
+    assert by["ko"]["dgc"] == by["ko"]["n"]
+    for k in ("pathway", "subcategory", "category"):
+        assert by[k]["dgc"] == 0, (k, by[k])

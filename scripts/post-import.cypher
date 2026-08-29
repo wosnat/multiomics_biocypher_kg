@@ -624,6 +624,20 @@ MATCH (t:KeggTerm)
 WHERE t.name =~ '^K\\d+;\\s+uncharacterized protein\\b.*'
 SET t.is_uninformative = 'true';
 
+// KEGG global / overview maps (the ko011xx-ko013xx block: ko01100 "Metabolic
+// pathways" alone rolls up 27K genes). Unions of other pathways, so they carry
+// no pathway-level class signal and are the standard KEGG-ORA exclusion. They
+// are parentless level-2 nodes in the KG (no "Global and overview maps"
+// subcategory node exists to key a structural rule on), hence an id list —
+// mirrored in config/uninformative_terms.yaml (DOC-002, 2026-08-29). ko01310
+// Nitrogen cycle / ko01320 Sulfur cycle are parentless too but are narrow
+// (16 / 22 KOs) class-bearing subsets, not unions — deliberately NOT flagged.
+MATCH (t:KeggTerm)
+WHERE t.id IN ['kegg.pathway:ko01100', 'kegg.pathway:ko01110', 'kegg.pathway:ko01120', 'kegg.pathway:ko01200',
+               'kegg.pathway:ko01210', 'kegg.pathway:ko01212', 'kegg.pathway:ko01220', 'kegg.pathway:ko01230',
+               'kegg.pathway:ko01232', 'kegg.pathway:ko01240', 'kegg.pathway:ko01250']
+SET t.is_uninformative = 'true';
+
 // InterPro: unknown-function entries (name-pattern rule; uninformative_terms.yaml)
 MATCH (t:InterproEntry)
 WHERE t.name =~ '^Protein of unknown function.*'
@@ -1244,8 +1258,11 @@ CALL {
   WITH n, count(DISTINCT g) AS gc,
        count(DISTINCT CASE WHEN d = n THEN g END) AS dgc,
        collect(DISTINCT g.organism_name) AS orgs
+  // direct_gene_count only on KO leaves: genes attach to KOs alone, so on
+  // pathway / subcategory / category nodes it is 0 by construction and is
+  // OMITTED (BriteCategory / PfamClan precedent; DOC-006, 2026-08-29).
   SET n.gene_count = gc,
-      n.direct_gene_count = dgc,
+      n.direct_gene_count = CASE WHEN n.level_kind = 'ko' THEN dgc ELSE null END,
       n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
 } IN TRANSACTIONS OF 100 ROWS;
 
