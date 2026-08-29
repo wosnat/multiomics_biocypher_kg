@@ -316,7 +316,7 @@ NCBI FTP archive ──step 9──▶ cache/data/ncbifam/tigr_roles.json (commi
   ≥ 13K edges with `'interproscan' IN r.sources`; every edge `sources` ⊆
   {cyanorak, interproscan}; no edge with `evidence = 'family_inferred'` AND
   `'cyanorak' IN r.sources`. `test_ontology_level.py` — `TigrRole` leaves the flat list;
-  new assertions: ≥ 1,600 bridge edges, every bridge source is `TIGR*`, at most 2 roles per family, every
+  new assertions: ≥ 1,600 bridge edges, every bridge source is `TIGR*`, at most 3 roles per family (13 carry three), every
   level-1 node has exactly one parent, `direct_gene_count <= gene_count`,
   mainrole `gene_count` = union of children. Regenerate `snapshot_data.json`.
   `capture_annotation_state.py --save/--compare` (expect 0 moves).

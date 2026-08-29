@@ -16,7 +16,7 @@
 - Vocabulary rules R1–R5 (`docs/kg-changes/vocabulary-contract.md`): values the KG mints are lowercase `snake_case`; every `sources` value must be a `DataSource` id (`data_source:<value>`); no native `bool`; new closed value sets are declared in `config/controlled_vocabularies.yaml`.
 - Equivalog gate: a `Gene_has_tigr_role` edge, a `gene_category` fill, or a `[tigr_role_inferred]` line is produced ONLY from `ncbifam_ids` accessions whose reference `family_type == "equivalog"` (exact string) AND which have a role in `tigr_roles.json["family_role"]`.
 - Edge id for gene→TigrRole is `{locus_tag}-tigrrole-{code}` for BOTH curated and inferred edges; the adapter merges them before yielding (one edge per (gene, role)).
-- `tigr_roles.json["family_role"]` values are LISTS of role ids (296 archive families carry two roles; both are honoured: one bridge edge per (family, role), gene inference fans out).
+- `tigr_roles.json["family_role"]` values are LISTS of role ids (294 archive families carry two or three roles; both are honoured: one bridge edge per (family, role), gene inference fans out).
 - Node ids: subroles `tigr.role:<numeric code>` (unchanged); mainroles `tigr.role:<slug>` where slug = lowercase, runs of non-`[a-z0-9]` → `_`, stripped of leading/trailing `_`. One prefix only — never `tigr.mainrole:`.
 - Role `719` (unnamed in the archive) never appears anywhere.
 - `scripts/post-import.sh` and `scripts/post-import.cypher` must carry identical Cypher logic.
@@ -1720,7 +1720,7 @@ def test_ncbifam_tigr_role_bridge(run_query):
     """)[0]
     assert row["n"] >= 1600, row
     assert row["tigr"] == row["n"], "bridge sources must all be TIGR*"
-    assert row["fams"] <= row["n"] <= 2 * row["fams"], "at most two roles per family"
+    assert row["fams"] <= row["n"] <= 3 * row["fams"], "at most three roles per family (13 archive families carry 3)"
 
 
 def test_inferred_tigr_role_edges_span_all_organisms(run_query):
