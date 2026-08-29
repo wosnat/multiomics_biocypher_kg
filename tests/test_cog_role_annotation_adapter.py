@@ -139,6 +139,18 @@ def multi_adapter(genome_config_csv, roles_csv_file):
     )
 
 
+@pytest.fixture
+def multi_adapter_factory(genome_config_csv, roles_csv_file):
+    """Same inputs as `multi_adapter`, forwarding kwargs (extra_tigr_roles, tigr_roles, …)."""
+    def _make(**kwargs):
+        return MultiCogRoleAnnotationAdapter(
+            genome_config_file=genome_config_csv,
+            role_tree_file=roles_csv_file,
+            **kwargs,
+        )
+    return _make
+
+
 # ===========================================================================
 # Tests for parse_cyanorak_role_tree
 # ===========================================================================
@@ -754,3 +766,51 @@ def test_cog_and_role_edges_carry_constant_provenance():
     assert _KO_EDGE_PROPS == {"sources": ["eggnog"], "evidence": "family_inferred"}
     assert _COG_EDGE_PROPS == {"sources": ["eggnog"], "evidence": "family_inferred"}
     assert _CYANORAK_EDGE_PROPS == {"sources": ["cyanorak"], "evidence": "curated"}
+
+
+# ── Task 5: two-level TigrRole nodes + Tigr_role_is_a_tigr_role hierarchy ─────
+
+from multiomics_kg.adapters.functional_annotation_adapter import _tigr_mainrole_node_id
+
+
+class TestTigrRoleHierarchy:
+    @pytest.fixture
+    def adapter_with_extra(self, multi_adapter_factory):
+        return multi_adapter_factory(extra_tigr_roles={
+            "120": "Energy metabolism / TCA cycle",
+            "108": "Energy metabolism / Aerobic",
+            "132": "DNA metabolism / DNA replication, recombination, and repair",
+        })
+
+    def test_mainrole_node_id(self):
+        assert _tigr_mainrole_node_id("Energy metabolism") == "tigr.role:energy_metabolism"
+
+    def test_subroles_level_one_and_mainroles_level_zero(self, adapter_with_extra):
+        nodes = {n[0]: n[2] for n in adapter_with_extra.get_nodes() if n[1] == "tigr role"}
+        assert nodes["tigr.role:120"] == {"code": "120", "name": "Energy metabolism / TCA cycle",
+                                          "level": 1, "level_kind": "tigr_subrole"}
+        assert nodes["tigr.role:energy_metabolism"] == {"code": "energy_metabolism",
+                                                        "name": "Energy metabolism",
+                                                        "level": 0, "level_kind": "tigr_mainrole"}
+        # mainrole emitted ONCE although two subroles share it
+        assert sum(1 for k in nodes if k == "tigr.role:energy_metabolism") == 1
+        assert "tigr.role:dna_metabolism" in nodes
+
+    def test_code_without_separator_is_a_root(self, adapter_with_extra):
+        nodes = {n[0]: n[2] for n in adapter_with_extra.get_nodes() if n[1] == "tigr role"}
+        # "12345" → "Some tIGR role" (fixture) has no " / "
+        assert nodes["tigr.role:12345"]["level"] == 0
+        assert nodes["tigr.role:12345"]["level_kind"] == "tigr_mainrole"
+
+    def test_is_a_edges(self, adapter_with_extra):
+        edges = [e for e in adapter_with_extra.get_edges() if e[3] == "tigr_role_is_a_tigr_role"]
+        pairs = {(e[1], e[2]) for e in edges}
+        assert ("tigr.role:120", "tigr.role:energy_metabolism") in pairs
+        assert ("tigr.role:108", "tigr.role:energy_metabolism") in pairs
+        assert ("tigr.role:132", "tigr.role:dna_metabolism") in pairs
+        assert not any(src == "tigr.role:12345" for src, _ in pairs)
+        assert all(e[4] == {} for e in edges)
+
+    def test_tigr_role_node_ids_matches_emitted_nodes(self, adapter_with_extra):
+        emitted = {n[0] for n in adapter_with_extra.get_nodes() if n[1] == "tigr role"}
+        assert adapter_with_extra.tigr_role_node_ids() == emitted

@@ -819,6 +819,7 @@ tigr role:
     code: str
     name: str
     level: int
+    level_kind: str
     level_is_best_effort: str
 
 pfam:
@@ -1775,6 +1776,14 @@ cyanorak role hierarchical association:
   source: cyanorak role
   target: cyanorak role
   label_in_input: cyanorak_role_is_a_cyanorak_role
+
+tigr role hierarchical association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: tigr_role_is_a_tigr_role
+  source: tigr role
+  target: tigr role
+  label_in_input: tigr_role_is_a_tigr_role
 
 og to cog category association:
   is_a: association
