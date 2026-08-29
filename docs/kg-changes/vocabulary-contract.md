@@ -205,6 +205,16 @@ and binding for anything the KG adds from here on:
 | `InterproEntry` | `is_promiscuous` | native `bool` | **deleted** — see derivation below | no |
 | `Interpro_entry_related_to_{ec_number,cazy_family}` | `ambiguous` | native `bool` (always `false`) | **deleted** — see derivation below | no |
 | `Interpro_entry_related_to_{ec_number,cazy_family}` | `source_db` | constant `"interpro.xml"` | **deleted** — hardcoded literal, not data | no |
+| `TigrRole` | `level_kind` | (did not exist — the label was flat) | **new**: `tigr_mainrole` \| `tigr_subrole`, closed (R1 KG-minted snake_case; R1b-clean — `level_kind` is the cross-label hierarchy-position property, same role as on TCDB/CAZy/MEROPS/BRITE) | no |
+| `Gene_has_tigr_role` | `sources` | `[cyanorak]` | **widened**: `[cyanorak, interproscan]`, closed (R2 — both join a `DataSource`) | no |
+| `Gene_has_tigr_role` | `evidence` | `[curated]` | **widened**: `[curated, family_inferred]` — two rungs of the one KG-SYNC-005 ladder | no |
+| `Ncbifam_family_has_tigr_role` | — | (new edge type) | **no properties at all** (R3/R5): the archive is one frozen source, so provenance is documented on the edge type, not repeated per edge; there is no two-state fact to name | no |
+
+The last four rows are additions/widenings rather than renames or deletions —
+they are listed here because the table is where a consumer looks to find out
+whether a value set it hard-coded is still complete. Nothing is renamed or
+removed by them; a query reading `Gene_has_tigr_role` still parses, it just
+now sees values it did not before (see Migration notes).
 
 `TcdbFamily.is_promiscuous` is the one row that touches a released property;
 the design spec's pre-change audit of the explorer's own code found zero
@@ -273,6 +283,14 @@ varied. Both Layer-A router edge types now carry no properties at all.
   `'interproscan' IN r.sources`, and `'diamond' IN r.sources` with
   `'tcdb_diamond' IN r.sources`. Prefer `IN` membership over list equality in
   general — it survives a future third source.
+- **`Gene_has_tigr_role` is the worked example of that last point** (2026-08-29):
+  it was a single-source edge (`['cyanorak']`) and now carries a second source,
+  so `r.sources = ['cyanorak']` silently drops every edge where the curated
+  Cyanorak role and the inferred equivalog-family role agree — exactly the
+  edges a curated-only query most wants. Use `'cyanorak' IN r.sources`. Its
+  `evidence` likewise gains `family_inferred`, so `evidence = 'curated'` is now
+  a *filter* rather than a tautology, and a query that wants everything must
+  stop asserting the old single value.
 - **Do not hard-code any of the value sets in this document long-term** —
   that is precisely the drift this change exists to prevent. Read them from
   `ControlledVocabulary` nodes at startup or on a schedule, and use
@@ -287,6 +305,9 @@ varied. Both Layer-A router edge types now carry no properties at all.
   NCBIfam redesign whose vocabularies are also declared here
 - [`interpro-two-layer.md`](interpro-two-layer.md) — the Layer A/B edge
   provenance this change renamed `sources` / `evidence_score` on
+- [`tigr-role-bridge.md`](tigr-role-bridge.md) — the TigrRole hierarchy /
+  NCBIfam role bridge whose `level_kind` and widened
+  `Gene_has_tigr_role.sources` / `.evidence` are declared here
 
 ## KG-SYNC-005 addendum (2026-08-27) — one evidence ladder, everywhere
 
