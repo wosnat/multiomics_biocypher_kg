@@ -22,6 +22,13 @@ Both are fixed here, from one source: JCVI's frozen TIGRFAMs 15.0 role archive.
 - **Subroles** keep their ids (`tigr.role:<numeric code>`) and their compound
   `name` — non-breaking for name consumers — and gain `level = 1`,
   `level_kind = 'tigr_subrole'`.
+
+  > **Breaking (level consumers):** every pre-existing subrole moves
+  > `level` 0 → 1. A consumer that fetched "all TIGR roles" with `level = 0`
+  > now gets the **21 roots** (19 mainroles + `tigr.role:856` /
+  > `tigr.role:270`) instead of the 114 roles it used to get. Select subroles
+  > with `level_kind = 'tigr_subrole'` — `level_kind` is the reliable
+  > discriminator, not `level` (the two Cyanorak-only roots keep numeric ids).
 - **Mainroles** are new nodes: `tigr.role:<slug>` (e.g.
   `tigr.role:energy_metabolism`), `level = 0`,
   `level_kind = 'tigr_mainrole'`, `name` = the mainrole text,
@@ -54,10 +61,15 @@ role column. The assignments survive only in JCVI's frozen release-15.0 archive
 on the NCBI FTP, which step 9 now downloads and freezes into a committed
 artifact.
 
-The verb is `has`, with the same composition semantics as
-`Tcdb_family_has_pfam_domain`: *"JCVI assigned this family this role."* No
-properties, per vocabulary-contract R3/R5 — the archive is a single frozen
-source, so provenance belongs on the edge type, not repeated on every edge.
+The verb is `has`: *"JCVI assigned this family this role."* Explorer
+`link_kind`: **`router`** — read outward only, the
+`Interpro_entry_related_to_ec_number` precedent. Read outward from a gene's
+known NCBIfam family it *suggests* a role; read backward ("maps to role X, so
+any gene hitting it does X") it is only safe for the equivalog subset, which is
+exactly what §3 gates on — the bridge itself never asserts a gene role (see
+Semantics). No properties, per vocabulary-contract R3/R5 — the archive is a
+single frozen source, so provenance belongs on the edge type, not repeated on
+every edge.
 
 ### 3. Equivalog-gated inferred `Gene_has_tigr_role`
 
@@ -141,7 +153,11 @@ no-ops.
   `Tigr_role_is_a_tigr_role`): **`gene_count`** (subtree),
   **`direct_gene_count`**, **`organism_count`**.
 - New **`TigrRole.ncbifam_family_count`** (int, subtree count of incoming
-  bridge edges; 0 when none).
+  bridge edges; 0 when none). On mainroles it is a **subtree sum** with the
+  same caveat as `gene_count`: all 1,847 bridge edges attach to subroles, so a
+  mainrole's own direct count is always 0 (live:
+  `tigr.role:energy_metabolism` has `ncbifam_family_count = 285`,
+  `direct_gene_count = 0`, `gene_count = 7,353`).
 - New indexes `tigr_role_level_idx`, `tigr_role_level_kind_idx`;
   `tigrRoleFullText` unchanged.
 - F1.1 uninformative flags gain the three junk **mainrole** nodes
@@ -152,6 +168,8 @@ no-ops.
 - `annotation_types` / `informative_annotation_types` `tigr_role` rules are
   **unchanged**: they key off `Gene_has_tigr_role` existence plus
   `is_uninformative`, so the inferred edges join automatically with no new rule.
+  The visible effect is large, though — 43,778 → 57,434 genes carry
+  `tigr_role` in `annotation_types` (see the numbers table, footnote ³).
 
 ### 7. Vocabulary
 
@@ -183,10 +201,20 @@ different edge:
 | | all role-bearing types | **equivalog only** |
 |---|---|---|
 | Non-Cyanorak genes gaining a role edge | 20,869 | **13,667** (18%) |
-| Genes with >1 informative role / conflicting mainroles | 375 / 308 | **15 / 14** |
+| Genes with >1 informative role / conflicting mainroles¹ | 375 / 308 | **15 / 14** |
 | Cyanorak genes carrying curated **and** inferred roles | 13,484 | 10,369 |
 | … exact agreement / same mainrole / contradiction / junk-only | 83 / 3 / 7 / 7 % | **88 / 3 / 5.4 / 3 %** |
 | `Unknown` → category fill (non-Cyanorak + Cyanorak) | 1,032 + 101 | **704 + 17** |
+
+¹ **Population:** non-Cyanorak genes only, **informative** roles only
+(`is_uninformative` excluded), and counting a gene only when its roles come
+from **≥ 2 different families that do not share a role** — i.e. cross-family
+*disagreement*. A single multi-role family (CsrA = *Glycolysis* + *RNA
+interactions*) fanning out is not counted here. The corpus table's
+"~1,751 of 24,052 … 1,429" row is the complementary measure: **all 43
+organisms**, every inferred role including junk, single-family fan-out
+included, pre-merge. Both were re-measured live 2026-08-29 and reproduce
+exactly.
 
 **The 557 curated/inferred contradictions are facet choices, not errors.** They
 were sampled: FtsH1 is Cyanorak *Cell division* vs TIGR *Protein degradation*;
@@ -341,11 +369,21 @@ hypoth_equivalog 185 · equivalog_domain 123 · other 198) — the difference is
 | Mainrole name concordance, Cyanorak vs archive, shared codes | **110 / 110** identical |
 | Cyanorak-only codes not in the archive | `128`, `270`, `701`, `856` |
 | Non-Cyanorak genes gaining a role edge (equivalog gate) | **13,667** (18% of 75,996) |
-| Genes with > 1 inferred role (list fan-out) | ~1,751 of 24,052 equivalog-role genes; 1,429 with > 1 mainrole |
+| Genes with > 1 inferred role (list fan-out)² | 1,751 of 24,052 genes with ≥ 1 inferred edge (all 43 organisms); 1,429 with > 1 mainrole |
 | Curated + inferred contradictions | 557 (5.4%) — facet choices, kept as two edges |
 | `gene_category` `Unknown` → category | ~720 (704 non-Cyanorak + 17 Cyanorak) |
 | `annotation_state` / `annotation_quality` movement | **0** |
+| Genes with `tigr_role` in `Gene.annotation_types`³ | 43,778 → **57,434** (+13,656; all 43 organisms, was 22) — 13,644 of them non-Cyanorak |
+| Genes with `tigr_role` in `Gene.informative_annotation_types` | **44,130** (13,338 non-Cyanorak) |
 | Non-Cyanorak genes whose TIGR category differs from the COG one | 7,837 of 19,115 (41%) — schemes carve biology differently, **not** an error rate; fill-only means zero churn |
+
+² All-organism, all-role, single-family fan-out included — see footnote ¹ for
+how this differs from the gate table's 15 / 14.
+
+³ The consequence of §6's "rules unchanged, inferred edges join
+automatically": this **is** a visible per-gene change — the explorer's
+`gene_overview.by_annotation_type` shifts by these amounts even though
+`annotation_quality` does not move.
 
 **Graph shape** (measured full build, 2026-08-29):
 
