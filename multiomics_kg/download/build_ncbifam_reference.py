@@ -12,6 +12,10 @@ One source file:
 
 - ``hmm_PGAP.tsv`` (NCBI FTP, ``https://ftp.ncbi.nlm.nih.gov/hmm/current/``) —
   tab-separated, one header line, ~38.4K rows (one per PGAP HMM family).
+- ``TIGR_ROLE_NAMES`` + ``TIGRFAMS_ROLE_LINK`` (NCBI FTP,
+  ``https://ftp.ncbi.nlm.nih.gov/hmm/TIGRFAMs/release_15.0/``) — the frozen
+  2018 JCVI role archive; written to ``cache/data/ncbifam/tigr_roles.json``
+  (separate file so ``ncbifam_reference.json`` keeps its flat ``{acc: …}`` shape).
 
 Pure parsing lives in ``multiomics_kg/utils/ncbifam.py``; this module only
 handles download, caching, and I/O.
@@ -35,7 +39,12 @@ from pathlib import Path
 
 import requests
 
-from multiomics_kg.utils.ncbifam import HYPOTH_FAMILY_TYPES, parse_hmm_pgap_rows
+from multiomics_kg.utils.ncbifam import (
+    HYPOTH_FAMILY_TYPES,
+    parse_hmm_pgap_rows,
+    parse_tigr_role_link,
+    parse_tigr_role_names,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -47,6 +56,15 @@ CACHE_DIR = PROJECT_ROOT / "cache" / "data" / "ncbifam"
 RAW_DIR = CACHE_DIR / "raw"
 HMM_PGAP_RAW = RAW_DIR / "hmm_PGAP.tsv"
 REFERENCE_JSON = CACHE_DIR / "ncbifam_reference.json"
+
+# TIGRFAMs 15.0 role archive (frozen 2018) — the only surviving family→role map.
+TIGRFAMS_15_BASE = "https://ftp.ncbi.nlm.nih.gov/hmm/TIGRFAMs/release_15.0"
+TIGR_ROLE_NAMES_URL = f"{TIGRFAMS_15_BASE}/TIGR_ROLE_NAMES"
+TIGRFAMS_ROLE_LINK_URL = f"{TIGRFAMS_15_BASE}/TIGRFAMS_ROLE_LINK"
+TIGR_ROLE_NAMES_RAW = RAW_DIR / "TIGR_ROLE_NAMES"
+TIGRFAMS_ROLE_LINK_RAW = RAW_DIR / "TIGRFAMS_ROLE_LINK"
+TIGR_ROLES_JSON = CACHE_DIR / "tigr_roles.json"
+TIGR_ROLES_RELEASE = "TIGRFAMs 15.0 (frozen 2018)"
 
 
 def _download(url: str, dest: Path) -> None:
@@ -65,10 +83,57 @@ def _ensure_raw(refetch: bool) -> None:
         _download(HMM_PGAP_URL, HMM_PGAP_RAW)
 
 
+def _load_tigr_roles_json() -> dict | None:
+    if TIGR_ROLES_JSON.exists():
+        with open(TIGR_ROLES_JSON, encoding="utf-8") as fh:
+            return json.load(fh)
+    return None
+
+
+def build_tigr_roles(force: bool = False, refetch_raw: bool = False) -> dict:
+    """Build (and cache) ``tigr_roles.json`` from the frozen TIGRFAMs 15.0 archive.
+
+    ``{"release", "roles": {role_id: {mainrole, sub1role}}, "family_role":
+    {TIGR_acc: role_id}}``. Unnamed roles (``719``) are excluded from both maps.
+    On a download failure the committed file is reused with a warning (TCDB
+    outage precedent); only a missing file is fatal.
+    """
+    existing = _load_tigr_roles_json()
+    if existing is not None and not force and not refetch_raw:
+        logger.info("TIGR roles cache exists: %s (use --force to rebuild)", TIGR_ROLES_JSON)
+        return existing
+
+    try:
+        for url, dest in ((TIGR_ROLE_NAMES_URL, TIGR_ROLE_NAMES_RAW),
+                          (TIGRFAMS_ROLE_LINK_URL, TIGRFAMS_ROLE_LINK_RAW)):
+            if refetch_raw or not dest.exists():
+                _download(url, dest)
+    except Exception as exc:  # network / FTP outage
+        if existing is not None:
+            logger.warning("TIGRFAMs archive download failed (%s); reusing committed %s",
+                           exc, TIGR_ROLES_JSON)
+            return existing
+        raise
+
+    with open(TIGR_ROLE_NAMES_RAW, encoding="utf-8") as fh:
+        roles = parse_tigr_role_names(fh)
+    with open(TIGRFAMS_ROLE_LINK_RAW, encoding="utf-8") as fh:
+        family_role = parse_tigr_role_link(fh, roles)
+
+    out = {"release": TIGR_ROLES_RELEASE, "roles": roles, "family_role": family_role}
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    with open(TIGR_ROLES_JSON, "w", encoding="utf-8") as fh:
+        json.dump(out, fh, indent=1, sort_keys=True)
+    logger.info("Wrote %s: %d named roles, %d family→role links",
+                TIGR_ROLES_JSON, len(roles), len(family_role))
+    return out
+
+
 def build(force: bool = False, refetch_raw: bool = False) -> dict[str, dict]:
     """Build (and cache) the reference dict. Returns it."""
     if REFERENCE_JSON.exists() and not force and not refetch_raw:
         logger.info("NCBIfam reference cache exists: %s (use --force to rebuild)", REFERENCE_JSON)
+        build_tigr_roles(force=False, refetch_raw=False)
         with open(REFERENCE_JSON, encoding="utf-8") as fh:
             return json.load(fh)
 
@@ -117,6 +182,7 @@ def build(force: bool = False, refetch_raw: bool = False) -> dict[str, dict]:
         with_synonyms, with_pmids, with_ec, with_go,
         dict(sorted(type_counts.items())),
     )
+    build_tigr_roles(force=force, refetch_raw=refetch_raw)
     return ref
 
 

@@ -64,6 +64,9 @@
 #           cache/data/interpro/interpro_reference.json ({IPR: name/type/parent/level/...})
 #           and cache/data/ncbifam/ncbifam_reference.json ({unversioned_acc: name/family_type/...}),
 #           consumed by interpro_adapter / ncbifam_adapter for node names/metadata + hierarchy.
+#           Also writes cache/data/ncbifam/tigr_roles.json (TIGRFAMs 15.0 frozen role
+#           archive: roles + TIGR family→role), consumed by step 2 (gene_category fill +
+#           [tigr_role_inferred] lines) and by functional_annotation/ncbifam adapters.
 #           Global reference downloads (no per-strain data needed), but the step-2 merge
 #           (build_gene_annotations.py) consumes them (interpro_reference.json already;
 #           ncbifam_reference.json per spec §4), so step 9 now runs BEFORE step 2 in the
