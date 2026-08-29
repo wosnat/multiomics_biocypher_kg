@@ -814,3 +814,87 @@ class TestTigrRoleHierarchy:
     def test_tigr_role_node_ids_matches_emitted_nodes(self, adapter_with_extra):
         emitted = {n[0] for n in adapter_with_extra.get_nodes() if n[1] == "tigr role"}
         assert adapter_with_extra.tigr_role_node_ids() == emitted
+
+
+import json as _json
+
+_TR = {
+    "release": "t",
+    "roles": {
+        "120": {"mainrole": "Energy metabolism", "sub1role": "TCA cycle"},
+        "132": {"mainrole": "DNA metabolism", "sub1role": "DNA replication, recombination, and repair"},
+        "156": {"mainrole": "Hypothetical proteins", "sub1role": "Conserved"},
+    },
+    "family_role": {"TIGR00001": ["120"], "TIGR00002": ["132"], "TIGR00003": ["156"], "TIGR00004": ["120"]},
+}
+_NR = {
+    "TIGR00001": {"name": "a", "family_type": "equivalog"},
+    "TIGR00002": {"name": "b", "family_type": "equivalog"},
+    "TIGR00003": {"name": "c", "family_type": "equivalog"},
+    "TIGR00004": {"name": "d", "family_type": "subfamily"},
+}
+
+
+def _strain_dir(tmp_path, genes: dict):
+    d = tmp_path / "STRAIN"
+    d.mkdir()
+    (d / "gene_annotations_merged.json").write_text(_json.dumps(genes))
+    return d
+
+
+def _tigr_edges(adapter, locus_tag):
+    return {e[2]: e[4] for e in adapter.get_edges()
+            if e[3] == "gene_has_tigr_role" and e[1].endswith(locus_tag)}
+
+
+class TestInferredTigrRoleEdges:
+    def test_inferred_edge_props(self, tmp_path):
+        a = CogRoleAnnotationAdapter(_strain_dir(tmp_path, {
+            "G1": {"locus_tag": "G1", "ncbifam_ids": ["TIGR00001"]}}), tigr_roles=_TR, ncbifam_ref=_NR)
+        edges = _tigr_edges(a, "G1")
+        assert edges == {"tigr.role:120": {"sources": ["interproscan"], "evidence": "family_inferred"}}
+
+    def test_subfamily_hit_gives_no_edge(self, tmp_path):
+        a = CogRoleAnnotationAdapter(_strain_dir(tmp_path, {
+            "G1": {"locus_tag": "G1", "ncbifam_ids": ["TIGR00004"]}}), tigr_roles=_TR, ncbifam_ref=_NR)
+        assert _tigr_edges(a, "G1") == {}
+
+    def test_curated_and_inferred_same_role_merge_into_one_edge(self, tmp_path):
+        a = CogRoleAnnotationAdapter(_strain_dir(tmp_path, {
+            "G1": {"locus_tag": "G1", "tIGR_Role": ["120"],
+                   "tIGR_Role_description": ["Energy metabolism / TCA cycle"],
+                   "ncbifam_ids": ["TIGR00001"]}}), tigr_roles=_TR, ncbifam_ref=_NR)
+        all_edges = [e for e in a.get_edges() if e[3] == "gene_has_tigr_role"]
+        assert len(all_edges) == 1
+        eid, src, tgt, _, props = all_edges[0]
+        assert eid == "G1-tigrrole-120"
+        assert props == {"sources": ["cyanorak", "interproscan"], "evidence": "curated"}
+
+    def test_disagreement_yields_two_edges(self, tmp_path):
+        a = CogRoleAnnotationAdapter(_strain_dir(tmp_path, {
+            "G1": {"locus_tag": "G1", "tIGR_Role": ["120"],
+                   "tIGR_Role_description": ["Energy metabolism / TCA cycle"],
+                   "ncbifam_ids": ["TIGR00002"]}}), tigr_roles=_TR, ncbifam_ref=_NR)
+        edges = _tigr_edges(a, "G1")
+        assert edges == {
+            "tigr.role:120": {"sources": ["cyanorak"], "evidence": "curated"},
+            "tigr.role:132": {"sources": ["interproscan"], "evidence": "family_inferred"},
+        }
+
+    def test_junk_role_still_emitted(self, tmp_path):
+        a = CogRoleAnnotationAdapter(_strain_dir(tmp_path, {
+            "G1": {"locus_tag": "G1", "ncbifam_ids": ["TIGR00003"]}}), tigr_roles=_TR, ncbifam_ref=_NR)
+        assert "tigr.role:156" in _tigr_edges(a, "G1")
+
+    def test_no_reference_means_curated_only(self, tmp_path):
+        a = CogRoleAnnotationAdapter(_strain_dir(tmp_path, {
+            "G1": {"locus_tag": "G1", "tIGR_Role": ["120"],
+                   "tIGR_Role_description": ["Energy metabolism / TCA cycle"],
+                   "ncbifam_ids": ["TIGR00001"]}}))
+        assert _tigr_edges(a, "G1") == {"tigr.role:120": {"sources": ["cyanorak"], "evidence": "curated"}}
+
+    def test_get_inferred_tigr_codes(self, tmp_path):
+        a = CogRoleAnnotationAdapter(_strain_dir(tmp_path, {
+            "G1": {"locus_tag": "G1", "ncbifam_ids": ["TIGR00001", "TIGR00004"]},
+            "G2": {"locus_tag": "G2", "ncbifam_ids": ["TIGR00003"]}}), tigr_roles=_TR, ncbifam_ref=_NR)
+        assert a.get_inferred_tigr_codes() == {"120", "156"}
