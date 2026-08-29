@@ -88,11 +88,21 @@ scope** and recorded in `plans/backlog.md`.
    +~1,130 genes. Priority order becomes Cyanorak role → Cyanorak TIGR role →
    COG → **NCBIfam-bridged TIGR role**. (Placed after COG deliberately: COG is
    per-gene orthology; the bridge is family-level inference.)
-6. **Uninformative flags**: the 5 existing subrole flags stay; the mainrole
+6. **Inferred role in gene descriptions** (build-time, step 2, broad): for
+   every gene with ≥1 bridged role (via `ncbifam_ids`), append
+   `[tigr_role_inferred] <Main> / <Sub>` to `alternate_functional_descriptions`
+   — one line per distinct role, deduplicated against the curated
+   `[tigr_role]` line so a Cyanorak gene whose archive role matches gets no
+   duplicate. The label is deliberately distinct from `[tigr_role]` (curated)
+   so curated vs family-inferred stays readable in the text, mirroring the
+   `evidence` ladder. Same pattern as the existing `[interpro]` / `[pfam]`
+   family-level lines. Effect: ~19K heterotroph genes become full-text
+   searchable by role via `geneFullText`; no graph-structure change.
+7. **Uninformative flags**: the 5 existing subrole flags stay; the mainrole
    nodes for "Hypothetical proteins", "Unknown function", "Unclassified",
    "Not Found" are added to `config/uninformative_terms.yaml` and the
    post-import F1.1 list. `141`/`703` stay unflagged (class known).
-7. **Not done**: `annotation_types` / `informative_annotation_types` /
+8. **Not done**: `annotation_types` / `informative_annotation_types` /
    `annotation_quality` are untouched (bridge is ontology→ontology; measured
    effect 12 genes). Enrichment backgrounds over `TigrRole` for heterotrophs
    must be documented as coverage-biased (25% vs ~90%).
@@ -165,6 +175,10 @@ Order today: `cog_role_adapter` (line ~256) runs before `ncbifam_adapter`
 - `_compute_gene_category(result, tigr_roles: dict | None = None)`: new
   priority 4 as in §3.5. `tigr_roles` is loaded lazily next to `ncbifam_ref`
   (step 9 artefact; absent → rule is a no-op with one warning).
+- `alternate_functional_descriptions`: after the curated `[tigr_role]`
+  lines, add `[tigr_role_inferred] <mainrole> / <sub1role>` for each distinct
+  archive role reached by the gene's `ncbifam_ids` (§3.6); skip when the same
+  `<Main> / <Sub>` text is already present under `[tigr_role]`.
 - `TIGR_TO_CATEGORY` unchanged (already covers every archive mainrole; a
   build-time assertion checks this so an archive refresh can't introduce an
   unmapped mainrole silently).
@@ -216,7 +230,8 @@ NCBI FTP archive ──step 9──▶ cache/data/ncbifam/tigr_roles.json (commi
   (mainrole dedup, no-`" / "` root case, slug); `MultiNcbifamAdapter` bridge
   (None → 0 edges, dangling target skipped, NF* ignored);
   `_compute_gene_category` fill (Unknown → category, existing category
-  untouched, tie rule, missing `tigr_roles`).
+  untouched, tie rule, missing `tigr_roles`); `[tigr_role_inferred]` lines
+  (added, deduped vs curated, absent when no bridged role).
 - Static: `tests/test_controlled_vocab.py` picks up the new entry;
   `tests/test_annotation_quality_buckets.py` unchanged (no bucket change).
 - KG validity: `test_ontology_level.py` — `TigrRole` leaves the flat list;
