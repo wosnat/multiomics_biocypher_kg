@@ -9,8 +9,9 @@
 # Optional:      sparse, expected_empty, min_value, max_value,
 #                signal_count, signals
 #
-# value_type ∈ {string, string_array, float, int, bool_string}
-#   'bool' is NOT admissible — house rule R5.
+# value_type ∈ {string, string_array, float, int}
+#   'bool' and 'bool_string' are NOT admissible — house rule R5. A closed,
+#   sparse, 'true'-only entry is a PRESENCE MARKER (see the section at the end).
 
 # ── evidence: per edge type, domains genuinely differ (spec §5.2) ────────────
 Gene_has_pfam.evidence:
@@ -1970,3 +1971,213 @@ Gene_has_signal_peptide_type.cleavage_probability:
   max_value: 1.0
   description: >
     Likelihood of the predicted cleavage site; SPARSE — absent with cleavage_site.
+
+# ── presence markers: the two sanctioned sentinel-or-absent flags (R5) ──────
+# Shape: closed, sparse, single value 'true'. ABSENCE is the negative state —
+# consumers test `IS NULL` / `IS NOT NULL`, never compare against 'false'.
+# Reserved for minority exception flags; a new two-state fact must be a named
+# pair (substrate_depth: most_specific | inherited), not a third marker.
+
+BiologicalProcess.is_uninformative:
+  applies_to: BiologicalProcess
+  applies_to_kind: node
+  property: is_uninformative
+  value_type: string
+  closed: true
+  values: ['true']
+  sparse: true
+  description: >
+    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    catch-all terms that carry no functional information — for BiologicalProcess:
+    the GO root term go:0008150 (biological_process). Absent on every informative term. Genes whose only
+    annotations point at flagged terms are annotation_state = catch_all_only;
+    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+  value_descriptions:
+    'true': flagged as a catch-all term; absence of the property means the term is informative
+
+MolecularFunction.is_uninformative:
+  applies_to: MolecularFunction
+  applies_to_kind: node
+  property: is_uninformative
+  value_type: string
+  closed: true
+  values: ['true']
+  sparse: true
+  description: >
+    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    catch-all terms that carry no functional information — for MolecularFunction:
+    the GO root term go:0003674 (molecular_function). Absent on every informative term. Genes whose only
+    annotations point at flagged terms are annotation_state = catch_all_only;
+    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+  value_descriptions:
+    'true': flagged as a catch-all term; absence of the property means the term is informative
+
+CellularComponent.is_uninformative:
+  applies_to: CellularComponent
+  applies_to_kind: node
+  property: is_uninformative
+  value_type: string
+  closed: true
+  values: ['true']
+  sparse: true
+  description: >
+    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    catch-all terms that carry no functional information — for CellularComponent:
+    the GO root term go:0005575 (cellular_component). Absent on every informative term. Genes whose only
+    annotations point at flagged terms are annotation_state = catch_all_only;
+    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+  value_descriptions:
+    'true': flagged as a catch-all term; absence of the property means the term is informative
+
+CogFunctionalCategory.is_uninformative:
+  applies_to: CogFunctionalCategory
+  applies_to_kind: node
+  property: is_uninformative
+  value_type: string
+  closed: true
+  values: ['true']
+  sparse: true
+  description: >
+    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    catch-all terms that carry no functional information — for CogFunctionalCategory:
+    category S (function unknown). Absent on every informative term. Genes whose only
+    annotations point at flagged terms are annotation_state = catch_all_only;
+    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+  value_descriptions:
+    'true': flagged as a catch-all term; absence of the property means the term is informative
+
+CyanorakRole.is_uninformative:
+  applies_to: CyanorakRole
+  applies_to_kind: node
+  property: is_uninformative
+  value_type: string
+  closed: true
+  values: ['true']
+  sparse: true
+  description: >
+    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    catch-all terms that carry no functional information — for CyanorakRole:
+    catch-all roles listed in config/uninformative_terms.yaml. Absent on every informative term. Genes whose only
+    annotations point at flagged terms are annotation_state = catch_all_only;
+    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+  value_descriptions:
+    'true': flagged as a catch-all term; absence of the property means the term is informative
+
+TigrRole.is_uninformative:
+  applies_to: TigrRole
+  applies_to_kind: node
+  property: is_uninformative
+  value_type: string
+  closed: true
+  values: ['true']
+  sparse: true
+  description: >
+    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    catch-all terms that carry no functional information — for TigrRole:
+    the junk mainroles hypothetical_proteins / unknown_function / unclassified and junk subroles (Not Found, Disrupted reading frame, …). Absent on every informative term. Genes whose only
+    annotations point at flagged terms are annotation_state = catch_all_only;
+    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+  value_descriptions:
+    'true': flagged as a catch-all term; absence of the property means the term is informative
+
+KeggTerm.is_uninformative:
+  applies_to: KeggTerm
+  applies_to_kind: node
+  property: is_uninformative
+  value_type: string
+  closed: true
+  values: ['true']
+  sparse: true
+  description: >
+    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    catch-all terms that carry no functional information — for KeggTerm:
+    uncharacterized-protein KOs listed in config/uninformative_terms.yaml. Absent on every informative term. Genes whose only
+    annotations point at flagged terms are annotation_state = catch_all_only;
+    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+  value_descriptions:
+    'true': flagged as a catch-all term; absence of the property means the term is informative
+
+InterproEntry.is_uninformative:
+  applies_to: InterproEntry
+  applies_to_kind: node
+  property: is_uninformative
+  value_type: string
+  closed: true
+  values: ['true']
+  sparse: true
+  description: >
+    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    catch-all terms that carry no functional information — for InterproEntry:
+    entries whose name starts 'Protein of unknown function', 'Domain of unknown function' or 'Uncharacteri[sz]ed protein family'. Absent on every informative term. Genes whose only
+    annotations point at flagged terms are annotation_state = catch_all_only;
+    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+  value_descriptions:
+    'true': flagged as a catch-all term; absence of the property means the term is informative
+
+NcbifamFamily.is_uninformative:
+  applies_to: NcbifamFamily
+  applies_to_kind: node
+  property: is_uninformative
+  value_type: string
+  closed: true
+  values: ['true']
+  sparse: true
+  description: >
+    PRESENCE MARKER set post-import (scripts/post-import.sh F1.1) on
+    catch-all terms that carry no functional information — for NcbifamFamily:
+    family_type hypoth_equivalog(_domain) plus the hypothetical / uncharacterized / DUF name patterns. Absent on every informative term. Genes whose only
+    annotations point at flagged terms are annotation_state = catch_all_only;
+    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+  value_descriptions:
+    'true': flagged as a catch-all term; absence of the property means the term is informative
+
+BiologicalProcess.level_is_best_effort:
+  applies_to: BiologicalProcess
+  applies_to_kind: node
+  property: level_is_best_effort
+  value_type: string
+  closed: true
+  values: ['true']
+  sparse: true
+  description: >
+    PRESENCE MARKER emitted by go_adapter on GO DAG terms whose min-path and
+    max-path depth to the namespace root differ, so the integer `level` is a
+    min-path approximation rather than an exact depth. Absent when the two
+    depths agree. Only GO labels ever carry it (the other ontologies are
+    trees). Test with `IS NOT NULL`.
+  value_descriptions:
+    'true': level is a best-effort min-path depth (DAG term with multiple root paths); absence means level is exact
+
+MolecularFunction.level_is_best_effort:
+  applies_to: MolecularFunction
+  applies_to_kind: node
+  property: level_is_best_effort
+  value_type: string
+  closed: true
+  values: ['true']
+  sparse: true
+  description: >
+    PRESENCE MARKER emitted by go_adapter on GO DAG terms whose min-path and
+    max-path depth to the namespace root differ, so the integer `level` is a
+    min-path approximation rather than an exact depth. Absent when the two
+    depths agree. Only GO labels ever carry it (the other ontologies are
+    trees). Test with `IS NOT NULL`.
+  value_descriptions:
+    'true': level is a best-effort min-path depth (DAG term with multiple root paths); absence means level is exact
+
+CellularComponent.level_is_best_effort:
+  applies_to: CellularComponent
+  applies_to_kind: node
+  property: level_is_best_effort
+  value_type: string
+  closed: true
+  values: ['true']
+  sparse: true
+  description: >
+    PRESENCE MARKER emitted by go_adapter on GO DAG terms whose min-path and
+    max-path depth to the namespace root differ, so the integer `level` is a
+    min-path approximation rather than an exact depth. Absent when the two
+    depths agree. Only GO labels ever carry it (the other ontologies are
+    trees). Test with `IS NOT NULL`.
+  value_descriptions:
+    'true': level is a best-effort min-path depth (DAG term with multiple root paths); absence means level is exact

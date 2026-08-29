@@ -198,3 +198,45 @@ def test_sources_descriptions_do_not_drift_from_gene_annotations_config():
     declared = {v for e in entries for v in e.values}
     assert described <= logical, described - logical
     assert declared <= described, declared - described
+
+
+# ── presence markers (backlog 2026-08-29): the two sentinel-or-absent flags ──
+
+_UNINFORMATIVE_LABELS = [
+    "BiologicalProcess", "MolecularFunction", "CellularComponent",
+    "CogFunctionalCategory", "CyanorakRole", "TigrRole", "KeggTerm",
+    "InterproEntry", "NcbifamFamily",
+]
+_BEST_EFFORT_LABELS = ["BiologicalProcess", "MolecularFunction", "CellularComponent"]
+
+
+@pytest.mark.parametrize("entry_id", (
+    [f"{lbl}.is_uninformative" for lbl in _UNINFORMATIVE_LABELS]
+    + [f"{lbl}.level_is_best_effort" for lbl in _BEST_EFFORT_LABELS]
+))
+def test_presence_markers_are_declared(entry_id):
+    """The two R5 exceptions are declared with the presence-marker shape:
+    closed, single value 'true', sparse (absence IS the negative state)."""
+    e = load_vocabularies()[entry_id]
+    assert e.value_type == "string"
+    assert e.closed is True
+    assert e.values == ["true"]
+    assert e.sparse is True
+    assert "absen" in e.value_descriptions["true"].lower()
+
+
+def test_presence_marker_must_be_sparse(tmp_path):
+    """A 'true'-only vocabulary that is not sparse is a dense stringified bool,
+    which R5 forbids — the loader refuses it."""
+    p = tmp_path / "v.yaml"
+    p.write_text("""Node.flag:
+  applies_to: Node
+  applies_to_kind: node
+  property: flag
+  value_type: string
+  closed: true
+  values: ['true']
+  description: x
+""")
+    with pytest.raises(ValueError, match="presence marker"):
+        load_vocabularies(p)

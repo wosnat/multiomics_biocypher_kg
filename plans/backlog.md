@@ -96,15 +96,6 @@ up — this file is the index, not the plan.
       assembly-annotation date, which is why the marginal gain concentrates on
       old assemblies.
 
-- [ ] **Two sparse `"true"`-only markers remain outside R5.** `is_uninformative`
-      (ontology terms, post-import) and GO `level_is_best_effort` are set to the
-      string `'true'` and absent otherwise — presence-flags, not two-state facts,
-      so the 2026-08-28 conversion left them. Either declare them as
-      presence markers in the vocabulary contract or convert to a pair
-      (`informative | uninformative`, `exact | best_effort`); the latter is
-      breaking for the explorer's `is_uninformative` filter.
-      → `docs/kg-changes/two-state-strings.md`, `scripts/post-import.sh` §is_uninformative
-
 - [ ] **MIT9313 — `MIT9313_genbank.tsv` `PMTid` column is stale for ~13 genes.**
       The resource table (an older RefSeq build of the same assembly) gives
       e.g. `PMT_0166 → AKG35_RS12635` and `PMT_0956/0959/0962 → AKG35_RS05225`,

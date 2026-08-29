@@ -205,9 +205,15 @@ and binding for anything the KG adds from here on:
   build ever deployed. `value_type` in the contract admits `string`,
   `string_array`, `float`, `int` — **not** `bool` (and, since 2026-08-28, no `bool_string`: every two-state fact is a named pair, see `two-state-strings.md`); a property
   declared `bool` in `schema_config.yaml` fails the vocabulary test.
-  Sentinel-or-absent stays legal for rare-exception flags
-  (`is_uninformative`, `level_is_best_effort`) where absence *is* the
-  meaning.
+  **Presence markers** are the one sanctioned exception (formalised
+  2026-08-29): a closed, `sparse`, `'true'`-only vocabulary for a minority
+  exception flag where absence *is* the negative state — consumers test
+  `IS NULL` / `IS NOT NULL`, never compare against `'false'`. Exactly two
+  properties use it, each declared per label in the yaml:
+  `is_uninformative` (9 ontology labels, post-import F1.1) and GO
+  `level_is_best_effort` (3 labels, adapter-emitted). The loader refuses a
+  `'true'`-only entry that is not `sparse` (a dense stringified bool). Do not
+  mint a third — a new two-state fact is a named pair.
 
 ## Rename / deletion table
 

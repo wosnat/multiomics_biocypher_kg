@@ -21,7 +21,10 @@ DEFAULT_PATH = Path("config/controlled_vocabularies.yaml")
 
 # R5: a two-state fact is a meaningful categorical string. Native bool is not
 # admissible — BioCypher does not round-trip it, and a bare `true` is
-# unreadable in a result row.
+# unreadable in a result row. The one sanctioned exception is the PRESENCE
+# MARKER: a closed, sparse, 'true'-only vocabulary for a minority exception
+# flag where absence is the meaning (`is_uninformative`,
+# `level_is_best_effort`) — see docs/kg-changes/vocabulary-contract.md §R5.
 VALUE_TYPES = {"string", "string_array", "float", "int"}  # R5: no bool, no bool_string
 
 _REQUIRED = ("applies_to", "applies_to_kind", "property", "value_type",
@@ -75,6 +78,14 @@ def _validate(key: str, raw: dict[str, Any]) -> None:
         raise ValueError(
             f"controlled_vocabularies.yaml entry '{key}' declares min_size but "
             f"value_type='{vt}'; min_size only applies to string_array."
+        )
+    if list(raw.get("values") or []) == ["true"] and not raw.get("sparse"):
+        raise ValueError(
+            f"controlled_vocabularies.yaml entry '{key}' declares the single "
+            f"value 'true' but is not sparse. A 'true'-only vocabulary is a "
+            f"presence marker (absence IS the negative state) and must set "
+            f"sparse: true; a dense 'true'/'false' flag is forbidden by R5 — "
+            f"name both states instead."
         )
     if raw["applies_to_kind"] not in ("node", "edge"):
         raise ValueError(

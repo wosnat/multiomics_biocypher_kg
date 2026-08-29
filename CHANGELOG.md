@@ -497,6 +497,19 @@ tag with nothing logged.
 
 ### Added
 
+- **Presence markers declared in the vocabulary contract.** `is_uninformative`
+  (9 ontology labels) and GO `level_is_best_effort` (3 labels) — the two
+  sentinel-or-absent `'true'` flags R5 had exempted in prose — now have
+  `ControlledVocabulary` entries (12, closed, `sparse`, single value `'true'`,
+  with a `value_descriptions` line stating that absence is the negative
+  state). The loader refuses a `'true'`-only entry that is not `sparse`, so a
+  dense stringified bool cannot be declared. Property names and values are
+  unchanged — nothing for consumers to do; `Schema_info.controlled_vocabularies_hash`
+  changes. Closes the `plans/backlog.md` "two `'true'`-only markers" item
+  (declare, not convert: conversion would write a value onto ~100K terms to
+  say nothing and break the explorer's `coalesce(t.is_uninformative,'') <> 'true'`
+  filter for no consumer gain).
+
 - **`TigrRole` hierarchy + NCBIfam role bridge + inferred gene roles.**
   New `Tigr_role_is_a_tigr_role` (subrole → mainrole, one parent each; Cyanorak-only
   codes with no `" / "` in their description stay level-0 roots). New bridge edge
