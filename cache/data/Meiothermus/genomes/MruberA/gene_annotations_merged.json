@@ -2012,7 +2012,7 @@
     "go_terms_evidence": {
       "GO:0005524": "family_inferred",
       "GO:0005737": "family_inferred",
-      "GO:0016301": "curated"
+      "GO:0016301": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -2289,7 +2289,7 @@
       "1.3.8.1"
     ],
     "ec_numbers_evidence": {
-      "1.3.8.1": "curated"
+      "1.3.8.1": "family_inferred"
     },
     "ec_numbers_source": {
       "1.3.8.-": [
@@ -4576,7 +4576,7 @@
     ],
     "go_terms_evidence": {
       "GO:0004056": "curated",
-      "GO:0006526": "curated"
+      "GO:0006526": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -8321,12 +8321,12 @@
     "go_terms_evidence": {
       "GO:0000049": "curated",
       "GO:0000166": "curated",
-      "GO:0004812": "curated",
+      "GO:0004812": "family_inferred",
       "GO:0004826": "curated",
       "GO:0005524": "curated",
       "GO:0005737": "curated",
       "GO:0006432": "curated",
-      "GO:0043039": "curated"
+      "GO:0043039": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000049": [
@@ -14199,7 +14199,7 @@
       "GO:0004844": "curated",
       "GO:0006284": "curated",
       "GO:0033958": "curated",
-      "GO:0051536": "curated"
+      "GO:0051536": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -14671,7 +14671,7 @@
       "6.3.2.17"
     ],
     "ec_numbers_evidence": {
-      "6.3.2.17": "curated"
+      "6.3.2.17": "family_inferred"
     },
     "ec_numbers_source": {
       "6.3.2.-": [
@@ -17126,7 +17126,7 @@
       "GO:1901617"
     ],
     "go_terms_evidence": {
-      "GO:0016765": "curated"
+      "GO:0016765": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000287": [
@@ -21157,7 +21157,7 @@
     ],
     "go_terms_evidence": {
       "GO:0000166": "curated",
-      "GO:0004812": "curated",
+      "GO:0004812": "family_inferred",
       "GO:0004831": "curated",
       "GO:0005524": "curated",
       "GO:0006418": "family_inferred",
@@ -22383,7 +22383,7 @@
       "1.8.7.1"
     ],
     "ec_numbers_evidence": {
-      "1.8.1.2": "curated"
+      "1.8.1.2": "family_inferred"
     },
     "ec_numbers_source": {
       "1.7.7.1": [
@@ -24865,7 +24865,7 @@
       "GO:0004832": "curated",
       "GO:0005524": "curated",
       "GO:0005737": "domain_inferred",
-      "GO:0006418": "curated",
+      "GO:0006418": "family_inferred",
       "GO:0006438": "curated"
     },
     "go_terms_source": {
@@ -26071,7 +26071,7 @@
       "GO:0004139": "curated",
       "GO:0005737": "curated",
       "GO:0009264": "curated",
-      "GO:0016829": "curated"
+      "GO:0016829": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -26813,7 +26813,7 @@
     ],
     "go_terms_evidence": {
       "GO:0003735": "curated",
-      "GO:0005840": "curated",
+      "GO:0005840": "family_inferred",
       "GO:0006412": "curated"
     },
     "go_terms_source": {
@@ -27749,7 +27749,7 @@
       "2.7.11.1"
     ],
     "ec_numbers_evidence": {
-      "2.7.11.1": "curated"
+      "2.7.11.1": "family_inferred"
     },
     "ec_numbers_source": {
       "2.7.11.-": [
@@ -28498,7 +28498,7 @@
       "3.4.24.70"
     ],
     "ec_numbers_evidence": {
-      "3.4.24.70": "curated"
+      "3.4.24.70": "family_inferred"
     },
     "ec_numbers_source": {
       "3.4.24.-": [
@@ -31542,7 +31542,7 @@
       "GO:2001141"
     ],
     "go_terms_evidence": {
-      "GO:0003677": "curated",
+      "GO:0003677": "family_inferred",
       "GO:0003700": "curated",
       "GO:0006355": "curated"
     },
@@ -31917,7 +31917,7 @@
       "GO:1901360"
     ],
     "go_terms_evidence": {
-      "GO:0008168": "curated"
+      "GO:0008168": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000154": [
@@ -33266,7 +33266,7 @@
       "GT28"
     ],
     "cazy_ids_evidence": {
-      "GT28": "curated"
+      "GT28": "family_inferred"
     },
     "cazy_ids_source": {
       "GT28": [
@@ -34451,7 +34451,7 @@
       "GO:1901576"
     ],
     "go_terms_evidence": {
-      "GO:0004520": "curated",
+      "GO:0004520": "family_inferred",
       "GO:0006281": "curated",
       "GO:0006310": "curated"
     },
@@ -41841,7 +41841,7 @@
       "GO:1901564"
     ],
     "go_terms_evidence": {
-      "GO:0016874": "curated",
+      "GO:0016874": "family_inferred",
       "GO:0016884": "curated"
     },
     "go_terms_source": {
@@ -47756,7 +47756,7 @@
       "GO:0008276"
     ],
     "go_terms_evidence": {
-      "GO:0008168": "curated",
+      "GO:0008168": "family_inferred",
       "GO:0008276": "family_inferred"
     },
     "go_terms_source": {
@@ -48186,7 +48186,7 @@
       "GO:0006886"
     ],
     "go_terms_evidence": {
-      "GO:0005524": "curated",
+      "GO:0005524": "family_inferred",
       "GO:0006605": "family_inferred",
       "GO:0006886": "family_inferred",
       "GO:0016020": "curated",
@@ -50218,10 +50218,10 @@
     "go_terms_evidence": {
       "GO:0000166": "family_inferred",
       "GO:0003676": "curated",
-      "GO:0004812": "curated",
+      "GO:0004812": "family_inferred",
       "GO:0004816": "curated",
       "GO:0005524": "curated",
-      "GO:0006418": "curated",
+      "GO:0006418": "family_inferred",
       "GO:0006421": "curated"
     },
     "go_terms_source": {
@@ -50805,7 +50805,7 @@
     ],
     "go_terms_evidence": {
       "GO:0003677": "curated",
-      "GO:0006355": "curated"
+      "GO:0006355": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000166": [
@@ -56785,7 +56785,7 @@
       "3.4.13.19"
     ],
     "ec_numbers_evidence": {
-      "3.4.13.19": "curated"
+      "3.4.13.19": "family_inferred"
     },
     "ec_numbers_source": {
       "3.4.13.-": [
@@ -57313,7 +57313,7 @@
     ],
     "ec_numbers_evidence": {
       "3.4.21.-": "family_inferred",
-      "3.4.21.26": "curated"
+      "3.4.21.26": "family_inferred"
     },
     "ec_numbers_source": {
       "3.4.-.-": [
@@ -63803,8 +63803,8 @@
     ],
     "go_terms_evidence": {
       "GO:0000287": "curated",
-      "GO:0003824": "curated",
-      "GO:0005737": "curated",
+      "GO:0003824": "family_inferred",
+      "GO:0005737": "family_inferred",
       "GO:0008973": "curated",
       "GO:0009117": "curated",
       "GO:0043094": "curated",
@@ -67817,7 +67817,7 @@
       "4.1.1.50"
     ],
     "ec_numbers_evidence": {
-      "4.1.1.50": "curated"
+      "4.1.1.50": "family_inferred"
     },
     "ec_numbers_source": {
       "4.1.1.-": [
@@ -68029,7 +68029,7 @@
       "GO:1901576"
     ],
     "go_terms_evidence": {
-      "GO:0003824": "curated"
+      "GO:0003824": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -69655,7 +69655,7 @@
       "2.1.1.74"
     ],
     "ec_numbers_evidence": {
-      "2.1.1.74": "curated"
+      "2.1.1.74": "family_inferred"
     },
     "ec_numbers_source": {
       "2.1.1.74": [
@@ -69733,7 +69733,7 @@
       "GO:0047151"
     ],
     "go_terms_evidence": {
-      "GO:0005737": "curated",
+      "GO:0005737": "family_inferred",
       "GO:0008033": "curated",
       "GO:0047151": "family_inferred",
       "GO:0050660": "curated"
@@ -72589,7 +72589,7 @@
       "2.8.1.7"
     ],
     "ec_numbers_evidence": {
-      "2.8.1.7": "curated"
+      "2.8.1.7": "family_inferred"
     },
     "ec_numbers_source": {
       "2.8.1.7": [
@@ -79973,7 +79973,7 @@
       "GO:0003677": "curated",
       "GO:0003697": "curated",
       "GO:0005524": "curated",
-      "GO:0006259": "curated",
+      "GO:0006259": "family_inferred",
       "GO:0006281": "curated",
       "GO:0008094": "curated",
       "GO:0140664": "curated"
@@ -80256,7 +80256,7 @@
       "3.1.4.58"
     ],
     "ec_numbers_evidence": {
-      "3.1.4.58": "curated"
+      "3.1.4.58": "family_inferred"
     },
     "ec_numbers_source": {
       "3.1.4.58": [
@@ -82690,7 +82690,7 @@
       "3.1.3.15"
     ],
     "ec_numbers_evidence": {
-      "3.1.3.15": "curated"
+      "3.1.3.15": "family_inferred"
     },
     "ec_numbers_source": {
       "3.1.3.15": [
@@ -82764,9 +82764,9 @@
       "GO:1901607"
     ],
     "go_terms_evidence": {
-      "GO:0000105": "curated",
-      "GO:0003824": "curated",
-      "GO:0004401": "curated"
+      "GO:0000105": "family_inferred",
+      "GO:0003824": "family_inferred",
+      "GO:0004401": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000105": [
@@ -83858,9 +83858,9 @@
       "GO:0004328"
     ],
     "go_terms_evidence": {
-      "GO:0004061": "curated",
+      "GO:0004061": "family_inferred",
       "GO:0004328": "family_inferred",
-      "GO:0006569": "curated"
+      "GO:0006569": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -84202,7 +84202,7 @@
       "GO:0009116"
     ],
     "go_terms_evidence": {
-      "GO:0003824": "curated",
+      "GO:0003824": "family_inferred",
       "GO:0009116": "domain_inferred",
       "GO:0009234": "curated",
       "GO:0016799": "curated"
@@ -86289,7 +86289,7 @@
       "GT35"
     ],
     "cazy_ids_evidence": {
-      "GT35": "curated"
+      "GT35": "family_inferred"
     },
     "cazy_ids_source": {
       "GT35": [
@@ -88276,7 +88276,7 @@
     ],
     "go_terms_evidence": {
       "GO:0003735": "curated",
-      "GO:0005840": "curated",
+      "GO:0005840": "family_inferred",
       "GO:0006412": "curated"
     },
     "go_terms_source": {
@@ -90102,9 +90102,9 @@
       "GO:1901576"
     ],
     "go_terms_evidence": {
-      "GO:0009143": "curated",
+      "GO:0009143": "family_inferred",
       "GO:0017111": "curated",
-      "GO:0047429": "curated"
+      "GO:0047429": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000166": [
@@ -97324,7 +97324,7 @@
       "1.3.5.1"
     ],
     "ec_numbers_evidence": {
-      "1.3.5.1": "curated"
+      "1.3.5.1": "family_inferred"
     },
     "ec_numbers_source": {
       "1.3.5.1": [
@@ -97514,7 +97514,7 @@
       "1.3.5.1"
     ],
     "ec_numbers_evidence": {
-      "1.3.5.1": "curated"
+      "1.3.5.1": "family_inferred"
     },
     "ec_numbers_source": {
       "1.3.5.1": [
@@ -111221,7 +111221,7 @@
     "go_terms_evidence": {
       "GO:0000034": "curated",
       "GO:0006146": "curated",
-      "GO:0016787": "curated"
+      "GO:0016787": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000034": [
@@ -111479,7 +111479,7 @@
       "GO:0006147": "curated",
       "GO:0008270": "curated",
       "GO:0008892": "curated",
-      "GO:0016787": "curated"
+      "GO:0016787": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -117560,9 +117560,9 @@
       "GO:1901360"
     ],
     "go_terms_evidence": {
-      "GO:0002161": "curated",
+      "GO:0002161": "family_inferred",
       "GO:0005737": "curated",
-      "GO:0051499": "curated"
+      "GO:0051499": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000049": [
@@ -120032,7 +120032,7 @@
       "1.17.7.3"
     ],
     "ec_numbers_evidence": {
-      "1.17.7.3": "curated"
+      "1.17.7.3": "family_inferred"
     },
     "ec_numbers_source": {
       "1.17.7.1": [
@@ -120108,7 +120108,7 @@
     ],
     "go_terms_evidence": {
       "GO:0005506": "family_inferred",
-      "GO:0008299": "curated",
+      "GO:0008299": "family_inferred",
       "GO:0016114": "family_inferred",
       "GO:0046429": "curated"
     },
@@ -122521,7 +122521,7 @@
       "GO:0008324"
     ],
     "go_terms_evidence": {
-      "GO:0006812": "curated",
+      "GO:0006812": "family_inferred",
       "GO:0008324": "domain_inferred",
       "GO:0015095": "curated",
       "GO:0015693": "curated",
@@ -124762,7 +124762,7 @@
       "2.7.7.7"
     ],
     "ec_numbers_evidence": {
-      "2.7.7.7": "curated"
+      "2.7.7.7": "family_inferred"
     },
     "ec_numbers_source": {
       "2.7.7.7": [
@@ -134644,10 +134644,10 @@
     "go_terms_evidence": {
       "GO:0000166": "curated",
       "GO:0002161": "curated",
-      "GO:0004812": "curated",
+      "GO:0004812": "family_inferred",
       "GO:0004823": "curated",
       "GO:0005524": "curated",
-      "GO:0006418": "curated",
+      "GO:0006418": "family_inferred",
       "GO:0006429": "curated"
     },
     "go_terms_source": {
@@ -135419,7 +135419,7 @@
     ],
     "go_terms_evidence": {
       "GO:0004350": "curated",
-      "GO:0016491": "curated",
+      "GO:0016491": "family_inferred",
       "GO:0050661": "curated",
       "GO:0055129": "curated"
     },
@@ -135685,7 +135685,7 @@
       "GO:0004349": "curated",
       "GO:0005524": "curated",
       "GO:0005737": "curated",
-      "GO:0016301": "curated",
+      "GO:0016301": "family_inferred",
       "GO:0055129": "curated"
     },
     "go_terms_source": {
@@ -142600,9 +142600,9 @@
     ],
     "go_terms_evidence": {
       "GO:0003735": "curated",
-      "GO:0005840": "curated",
+      "GO:0005840": "family_inferred",
       "GO:0006412": "curated",
-      "GO:0019843": "curated"
+      "GO:0019843": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000314": [
@@ -143022,7 +143022,7 @@
     ],
     "go_terms_evidence": {
       "GO:0003735": "curated",
-      "GO:0005840": "curated",
+      "GO:0005840": "family_inferred",
       "GO:0006412": "curated"
     },
     "go_terms_source": {
@@ -143984,7 +143984,7 @@
       "GO:0051536"
     ],
     "go_terms_evidence": {
-      "GO:0003824": "curated",
+      "GO:0003824": "family_inferred",
       "GO:0009107": "curated",
       "GO:0016992": "curated",
       "GO:0051536": "domain_inferred",
@@ -144387,7 +144387,7 @@
     "go_terms_evidence": {
       "GO:0009249": "curated",
       "GO:0033819": "curated",
-      "GO:0036211": "curated"
+      "GO:0036211": "family_inferred"
     },
     "go_terms_source": {
       "GO:0005737": [
@@ -144959,7 +144959,7 @@
       "GO:1901576"
     ],
     "go_terms_evidence": {
-      "GO:0009058": "curated",
+      "GO:0009058": "family_inferred",
       "GO:0030170": "curated"
     },
     "go_terms_source": {
@@ -146666,7 +146666,7 @@
       "6.1.1.18"
     ],
     "ec_numbers_evidence": {
-      "6.1.1.18": "curated"
+      "6.1.1.18": "family_inferred"
     },
     "ec_numbers_source": {
       "6.1.1.18": [
@@ -150944,10 +150944,10 @@
     "go_terms_evidence": {
       "GO:0000049": "domain_inferred",
       "GO:0000166": "curated",
-      "GO:0004812": "curated",
+      "GO:0004812": "family_inferred",
       "GO:0004822": "curated",
       "GO:0005524": "curated",
-      "GO:0006418": "curated",
+      "GO:0006418": "family_inferred",
       "GO:0006428": "curated"
     },
     "go_terms_source": {
@@ -151901,7 +151901,7 @@
       "GO:1901360"
     ],
     "go_terms_evidence": {
-      "GO:0008033": "curated",
+      "GO:0008033": "family_inferred",
       "GO:0052381": "curated"
     },
     "go_terms_source": {
@@ -153068,10 +153068,10 @@
     "go_terms_evidence": {
       "GO:0000049": "curated",
       "GO:0000166": "domain_inferred",
-      "GO:0004812": "curated",
+      "GO:0004812": "family_inferred",
       "GO:0004825": "curated",
       "GO:0005524": "curated",
-      "GO:0006418": "curated",
+      "GO:0006418": "family_inferred",
       "GO:0006431": "curated"
     },
     "go_terms_source": {
@@ -162398,7 +162398,7 @@
     ],
     "go_terms_evidence": {
       "GO:0000906": "curated",
-      "GO:0009231": "curated",
+      "GO:0009231": "family_inferred",
       "GO:0009349": "curated"
     },
     "go_terms_source": {
@@ -175133,13 +175133,13 @@
     ],
     "go_terms_evidence": {
       "GO:0000166": "domain_inferred",
-      "GO:0004812": "curated",
+      "GO:0004812": "family_inferred",
       "GO:0004829": "curated",
       "GO:0005524": "curated",
       "GO:0005737": "curated",
-      "GO:0006418": "curated",
+      "GO:0006418": "family_inferred",
       "GO:0006435": "curated",
-      "GO:0043039": "curated"
+      "GO:0043039": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000166": [
@@ -175804,7 +175804,7 @@
       "3.6.1.40"
     ],
     "ec_numbers_evidence": {
-      "3.6.1.40": "curated"
+      "3.6.1.40": "family_inferred"
     },
     "ec_numbers_source": {
       "3.6.1.11": [
@@ -183594,7 +183594,7 @@
     ],
     "go_terms_evidence": {
       "GO:0004359": "curated",
-      "GO:0042819": "curated",
+      "GO:0042819": "family_inferred",
       "GO:0042823": "curated"
     },
     "go_terms_source": {
@@ -185399,7 +185399,7 @@
     "go_terms_evidence": {
       "GO:0003723": "curated",
       "GO:0003735": "curated",
-      "GO:0005840": "curated",
+      "GO:0005840": "family_inferred",
       "GO:0006412": "curated",
       "GO:0015934": "curated",
       "GO:0016740": "curated"
@@ -185774,7 +185774,7 @@
     ],
     "go_terms_evidence": {
       "GO:0003735": "curated",
-      "GO:0005840": "curated",
+      "GO:0005840": "family_inferred",
       "GO:0006412": "curated",
       "GO:0015935": "curated"
     },
@@ -186064,7 +186064,7 @@
     ],
     "go_terms_evidence": {
       "GO:0003735": "curated",
-      "GO:0005840": "curated",
+      "GO:0005840": "family_inferred",
       "GO:0006412": "curated",
       "GO:0015934": "curated"
     },
@@ -186673,7 +186673,7 @@
     ],
     "go_terms_evidence": {
       "GO:0003735": "curated",
-      "GO:0005840": "curated",
+      "GO:0005840": "family_inferred",
       "GO:0006412": "curated",
       "GO:0019843": "curated"
     },
@@ -187680,7 +187680,7 @@
     ],
     "go_terms_evidence": {
       "GO:0003735": "curated",
-      "GO:0005840": "curated",
+      "GO:0005840": "family_inferred",
       "GO:0006412": "curated",
       "GO:0015934": "curated"
     },
@@ -189969,7 +189969,7 @@
     "go_terms_evidence": {
       "GO:0003723": "family_inferred",
       "GO:0003735": "curated",
-      "GO:0005840": "curated",
+      "GO:0005840": "family_inferred",
       "GO:0006412": "curated",
       "GO:0015935": "curated"
     },
@@ -192257,7 +192257,7 @@
       "GO:2000112"
     ],
     "go_terms_evidence": {
-      "GO:0003723": "curated",
+      "GO:0003723": "family_inferred",
       "GO:0003735": "curated",
       "GO:0006412": "curated",
       "GO:0015935": "curated",
@@ -195559,7 +195559,7 @@
       "2.3.1.12"
     ],
     "ec_numbers_evidence": {
-      "2.3.1.12": "curated"
+      "2.3.1.12": "family_inferred"
     },
     "ec_numbers_source": {
       "2.3.-.-": [
@@ -198248,10 +198248,10 @@
     ],
     "go_terms_evidence": {
       "GO:0006108": "curated",
-      "GO:0016491": "curated",
+      "GO:0016491": "family_inferred",
       "GO:0016615": "curated",
-      "GO:0016616": "curated",
-      "GO:0019752": "curated"
+      "GO:0016616": "family_inferred",
+      "GO:0019752": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -200967,7 +200967,7 @@
     ],
     "go_terms_evidence": {
       "GO:0009024": "family_inferred",
-      "GO:0016829": "curated"
+      "GO:0016829": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -201247,7 +201247,7 @@
       "1.1.1.369"
     ],
     "ec_numbers_evidence": {
-      "1.1.1.18": "curated"
+      "1.1.1.18": "family_inferred"
     },
     "ec_numbers_source": {
       "1.1.1.18": [
@@ -206271,10 +206271,10 @@
     ],
     "go_terms_evidence": {
       "GO:0000166": "domain_inferred",
-      "GO:0004814": "curated",
+      "GO:0004814": "family_inferred",
       "GO:0005524": "family_inferred",
-      "GO:0005737": "curated",
-      "GO:0006420": "curated"
+      "GO:0005737": "family_inferred",
+      "GO:0006420": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000166": [
@@ -207346,7 +207346,7 @@
     ],
     "go_terms_evidence": {
       "GO:0004373": "curated",
-      "GO:0016757": "curated"
+      "GO:0016757": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -210799,7 +210799,7 @@
       "2.3.2.29"
     ],
     "ec_numbers_evidence": {
-      "2.3.2.29": "curated"
+      "2.3.2.29": "family_inferred"
     },
     "ec_numbers_source": {
       "2.3.1.-": [
@@ -210875,7 +210875,7 @@
     ],
     "go_terms_evidence": {
       "GO:0004057": "curated",
-      "GO:0016598": "curated"
+      "GO:0016598": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -213637,7 +213637,7 @@
       "2.8.1.2"
     ],
     "ec_numbers_evidence": {
-      "2.8.1.1": "curated"
+      "2.8.1.1": "family_inferred"
     },
     "ec_numbers_source": {
       "2.8.1.-": [
@@ -216228,7 +216228,7 @@
     ],
     "go_terms_evidence": {
       "GO:0004311": "curated",
-      "GO:0009058": "curated",
+      "GO:0009058": "family_inferred",
       "GO:0051996": "curated"
     },
     "go_terms_source": {
@@ -216831,7 +216831,7 @@
     ],
     "go_terms_evidence": {
       "GO:0003677": "curated",
-      "GO:0006355": "curated"
+      "GO:0006355": "family_inferred"
     },
     "go_terms_source": {
       "GO:0001130": [
@@ -218398,7 +218398,7 @@
     ],
     "go_terms_evidence": {
       "GO:0004479": "curated",
-      "GO:0009058": "curated",
+      "GO:0009058": "family_inferred",
       "GO:0071951": "curated"
     },
     "go_terms_source": {
@@ -225985,7 +225985,7 @@
     "go_terms_evidence": {
       "GO:0001522": "curated",
       "GO:0003723": "curated",
-      "GO:0006396": "curated",
+      "GO:0006396": "family_inferred",
       "GO:0009451": "curated",
       "GO:0009982": "curated"
     },
@@ -227859,7 +227859,7 @@
       "GT19"
     ],
     "cazy_ids_evidence": {
-      "GT19": "curated"
+      "GT19": "family_inferred"
     },
     "cazy_ids_source": {
       "GT19": [
@@ -228968,7 +228968,7 @@
       "2.7.1.107"
     ],
     "ec_numbers_evidence": {
-      "2.7.1.107": "curated"
+      "2.7.1.107": "family_inferred"
     },
     "ec_numbers_source": {
       "2.7.1.107": [
@@ -238644,9 +238644,9 @@
       "GO:0051536"
     ],
     "go_terms_evidence": {
-      "GO:0003824": "curated",
-      "GO:0006364": "curated",
-      "GO:0008173": "curated",
+      "GO:0003824": "family_inferred",
+      "GO:0006364": "family_inferred",
+      "GO:0008173": "family_inferred",
       "GO:0030488": "curated",
       "GO:0051536": "domain_inferred",
       "GO:0070475": "curated"
@@ -239199,12 +239199,12 @@
     "go_terms_evidence": {
       "GO:0000166": "curated",
       "GO:0003676": "domain_inferred",
-      "GO:0004812": "curated",
+      "GO:0004812": "family_inferred",
       "GO:0004813": "curated",
       "GO:0005524": "curated",
       "GO:0005737": "curated",
       "GO:0006419": "curated",
-      "GO:0043039": "curated"
+      "GO:0043039": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000049": [
@@ -239655,7 +239655,7 @@
       "GO:1901360"
     ],
     "go_terms_evidence": {
-      "GO:0006139": "curated",
+      "GO:0006139": "family_inferred",
       "GO:0006364": "curated"
     },
     "go_terms_source": {
@@ -245438,11 +245438,11 @@
     ],
     "go_terms_evidence": {
       "GO:0000166": "curated",
-      "GO:0004812": "curated",
+      "GO:0004812": "family_inferred",
       "GO:0004820": "curated",
       "GO:0005524": "curated",
-      "GO:0005737": "curated",
-      "GO:0006418": "curated",
+      "GO:0005737": "family_inferred",
+      "GO:0006418": "family_inferred",
       "GO:0006426": "curated"
     },
     "go_terms_source": {
@@ -253445,7 +253445,7 @@
       "GH13"
     ],
     "cazy_ids_evidence": {
-      "GH13": "curated"
+      "GH13": "family_inferred"
     },
     "cazy_ids_source": {
       "GH13": [
@@ -256407,7 +256407,7 @@
     ],
     "ec_numbers_evidence": {
       "1.2.7.-": "family_inferred",
-      "1.2.7.11": "curated"
+      "1.2.7.11": "family_inferred"
     },
     "ec_numbers_source": {
       "1.2.7.-": [
@@ -257277,7 +257277,7 @@
       "6.3.3.2"
     ],
     "ec_numbers_evidence": {
-      "6.3.3.2": "curated"
+      "6.3.3.2": "family_inferred"
     },
     "ec_numbers_source": {
       "6.3.3.2": [
@@ -257501,7 +257501,7 @@
       "GH77"
     ],
     "cazy_ids_evidence": {
-      "GH77": "curated"
+      "GH77": "family_inferred"
     },
     "cazy_ids_source": {
       "GH77": [
@@ -259018,7 +259018,7 @@
       "GO:0072350"
     ],
     "go_terms_evidence": {
-      "GO:0016491": "curated"
+      "GO:0016491": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -259697,7 +259697,7 @@
       "GO:0005524": "curated",
       "GO:0006270": "curated",
       "GO:0006275": "curated",
-      "GO:0043565": "curated"
+      "GO:0043565": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -260439,9 +260439,9 @@
       "GO:1901360"
     ],
     "go_terms_evidence": {
-      "GO:0005737": "curated",
-      "GO:0006364": "curated",
-      "GO:0008649": "curated"
+      "GO:0005737": "family_inferred",
+      "GO:0006364": "family_inferred",
+      "GO:0008649": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000154": [
@@ -261574,7 +261574,7 @@
       "4.1.2.48"
     ],
     "ec_numbers_evidence": {
-      "4.1.2.48": "curated"
+      "4.1.2.48": "family_inferred"
     },
     "ec_numbers_source": {
       "4.1.2.48": [
@@ -262864,9 +262864,9 @@
     ],
     "go_terms_evidence": {
       "GO:0004370": "curated",
-      "GO:0005975": "curated",
+      "GO:0005975": "family_inferred",
       "GO:0006072": "curated",
-      "GO:0016301": "curated"
+      "GO:0016301": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -263714,7 +263714,7 @@
       "GO:0006298": "curated",
       "GO:0016887": "curated",
       "GO:0030983": "curated",
-      "GO:0032300": "curated",
+      "GO:0032300": "family_inferred",
       "GO:0140664": "family_inferred"
     },
     "go_terms_source": {
@@ -268304,7 +268304,7 @@
       "2.5.1.46"
     ],
     "ec_numbers_evidence": {
-      "2.5.1.46": "curated"
+      "2.5.1.46": "family_inferred"
     },
     "ec_numbers_source": {
       "2.5.1.46": [
@@ -268983,7 +268983,7 @@
       "GO:1901576"
     ],
     "go_terms_evidence": {
-      "GO:0042274": "curated"
+      "GO:0042274": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000028": [
@@ -270082,7 +270082,7 @@
       "GO:0003921": "curated",
       "GO:0003922": "curated",
       "GO:0005524": "curated",
-      "GO:0006164": "curated",
+      "GO:0006164": "family_inferred",
       "GO:0006177": "curated"
     },
     "go_terms_source": {
@@ -271893,7 +271893,7 @@
       "1.4.7.1"
     ],
     "ec_numbers_evidence": {
-      "1.4.7.1": "curated"
+      "1.4.7.1": "family_inferred"
     },
     "ec_numbers_source": {
       "1.4.1.13": [
@@ -274035,7 +274035,7 @@
       "GO:0008299": "curated",
       "GO:0030604": "curated",
       "GO:0046872": "curated",
-      "GO:0070402": "curated"
+      "GO:0070402": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000166": [
@@ -275332,7 +275332,7 @@
     ],
     "go_terms_evidence": {
       "GO:0003735": "curated",
-      "GO:0005840": "curated",
+      "GO:0005840": "family_inferred",
       "GO:0006412": "curated",
       "GO:0015935": "curated"
     },
@@ -283015,7 +283015,7 @@
       "6.2.1.30"
     ],
     "ec_numbers_evidence": {
-      "6.2.1.30": "curated"
+      "6.2.1.30": "family_inferred"
     },
     "ec_numbers_source": {
       "6.2.1.30": [
@@ -283107,8 +283107,8 @@
       "GO:1901575"
     ],
     "go_terms_evidence": {
-      "GO:0010124": "curated",
-      "GO:0047475": "curated"
+      "GO:0010124": "family_inferred",
+      "GO:0047475": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000166": [
@@ -287014,7 +287014,7 @@
       "GO:0000256": "curated",
       "GO:0004038": "curated",
       "GO:0008270": "curated",
-      "GO:0016787": "curated",
+      "GO:0016787": "family_inferred",
       "GO:0050897": "curated"
     },
     "go_terms_source": {
@@ -288665,7 +288665,7 @@
     "go_terms_evidence": {
       "GO:0004852": "curated",
       "GO:0006780": "curated",
-      "GO:0033014": "curated"
+      "GO:0033014": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -291143,7 +291143,7 @@
       "GO:0006207": "curated",
       "GO:0006520": "curated",
       "GO:0016597": "curated",
-      "GO:0016743": "curated"
+      "GO:0016743": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -292823,7 +292823,7 @@
     "go_terms_evidence": {
       "GO:0000105": "curated",
       "GO:0004399": "curated",
-      "GO:0016616": "curated",
+      "GO:0016616": "family_inferred",
       "GO:0046872": "curated",
       "GO:0051287": "curated"
     },
@@ -295321,7 +295321,7 @@
     "go_terms_evidence": {
       "GO:0004413": "curated",
       "GO:0005524": "curated",
-      "GO:0006566": "curated"
+      "GO:0006566": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000096": [
@@ -298713,7 +298713,7 @@
     "go_terms_evidence": {
       "GO:0008299": "curated",
       "GO:0050518": "curated",
-      "GO:0070567": "curated"
+      "GO:0070567": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -299115,7 +299115,7 @@
       "GO:0051188"
     ],
     "go_terms_evidence": {
-      "GO:0003824": "curated"
+      "GO:0003824": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -302252,7 +302252,7 @@
     ],
     "go_terms_evidence": {
       "GO:0004332": "curated",
-      "GO:0016829": "curated"
+      "GO:0016829": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -309624,7 +309624,7 @@
     "go_terms_evidence": {
       "GO:0003991": "curated",
       "GO:0005737": "curated",
-      "GO:0006526": "curated"
+      "GO:0006526": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -309963,7 +309963,7 @@
     "go_terms_evidence": {
       "GO:0000162": "curated",
       "GO:0004048": "curated",
-      "GO:0016757": "curated"
+      "GO:0016757": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000162": [
@@ -311648,10 +311648,10 @@
     ],
     "go_terms_evidence": {
       "GO:0004585": "curated",
-      "GO:0006520": "curated",
-      "GO:0006591": "curated",
+      "GO:0006520": "family_inferred",
+      "GO:0006591": "family_inferred",
       "GO:0016597": "curated",
-      "GO:0016743": "curated"
+      "GO:0016743": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000050": [
@@ -312899,7 +312899,7 @@
       "3.2.2.1"
     ],
     "ec_numbers_evidence": {
-      "3.2.2.1": "curated"
+      "3.2.2.1": "family_inferred"
     },
     "ec_numbers_source": {
       "3.2.2.-": [
@@ -313017,7 +313017,7 @@
       "GO:1901658"
     ],
     "go_terms_evidence": {
-      "GO:0016799": "curated"
+      "GO:0016799": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -316322,11 +316322,11 @@
     ],
     "go_terms_evidence": {
       "GO:0000166": "domain_inferred",
-      "GO:0004812": "curated",
+      "GO:0004812": "family_inferred",
       "GO:0004827": "curated",
       "GO:0005524": "curated",
       "GO:0005737": "curated",
-      "GO:0006418": "curated",
+      "GO:0006418": "family_inferred",
       "GO:0006433": "curated"
     },
     "go_terms_source": {
@@ -317784,7 +317784,7 @@
       "2.3.1.12"
     ],
     "ec_numbers_evidence": {
-      "2.3.1.12": "curated"
+      "2.3.1.12": "family_inferred"
     },
     "ec_numbers_source": {
       "2.3.1.12": [
@@ -318051,7 +318051,7 @@
     ],
     "go_terms_evidence": {
       "GO:0005524": "curated",
-      "GO:0006139": "curated",
+      "GO:0006139": "family_inferred",
       "GO:0036431": "curated"
     },
     "go_terms_source": {
@@ -318482,7 +318482,7 @@
     "go_terms_evidence": {
       "GO:0003866": "curated",
       "GO:0009073": "curated",
-      "GO:0016765": "curated"
+      "GO:0016765": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -324417,7 +324417,7 @@
       "GH31"
     ],
     "cazy_ids_evidence": {
-      "GH13": "curated"
+      "GH13": "family_inferred"
     },
     "cazy_ids_source": {
       "GH13": [
@@ -324591,7 +324591,7 @@
       "GH13"
     ],
     "cazy_ids_evidence": {
-      "GH13": "curated"
+      "GH13": "family_inferred"
     },
     "cazy_ids_source": {
       "GH13": [
@@ -327293,7 +327293,7 @@
       "4.4.1.16"
     ],
     "ec_numbers_evidence": {
-      "2.8.1.7": "curated"
+      "2.8.1.7": "family_inferred"
     },
     "ec_numbers_source": {
       "2.6.1.-": [
@@ -329946,7 +329946,7 @@
       "3.1.13.1"
     ],
     "ec_numbers_evidence": {
-      "3.1.13.1": "curated"
+      "3.1.13.1": "family_inferred"
     },
     "ec_numbers_source": {
       "3.1.13.1": [
@@ -332463,7 +332463,7 @@
       "GO:1901576"
     ],
     "go_terms_evidence": {
-      "GO:0000166": "curated",
+      "GO:0000166": "family_inferred",
       "GO:0004817": "curated",
       "GO:0005524": "curated",
       "GO:0005737": "curated",
@@ -333286,7 +333286,7 @@
     ],
     "go_terms_evidence": {
       "GO:0002943": "curated",
-      "GO:0008033": "curated",
+      "GO:0008033": "family_inferred",
       "GO:0017150": "curated",
       "GO:0050660": "curated"
     },
@@ -333972,7 +333972,7 @@
       "GH31"
     ],
     "cazy_ids_evidence": {
-      "GH31": "curated"
+      "GH31": "family_inferred"
     },
     "cazy_ids_source": {
       "GH31": [
@@ -338294,7 +338294,7 @@
       "4.1.1.39"
     ],
     "ec_numbers_evidence": {
-      "4.1.1.39": "curated"
+      "4.1.1.39": "family_inferred"
     },
     "ec_numbers_source": {
       "4.1.1.39": [
@@ -346266,8 +346266,8 @@
       "GO:1901658"
     ],
     "go_terms_evidence": {
-      "GO:0003824": "curated",
-      "GO:0009116": "curated"
+      "GO:0003824": "family_inferred",
+      "GO:0009116": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -347666,7 +347666,7 @@
       "3.5.1.88"
     ],
     "ec_numbers_evidence": {
-      "3.5.1.88": "curated"
+      "3.5.1.88": "family_inferred"
     },
     "ec_numbers_source": {
       "3.5.1.88": [
@@ -353688,7 +353688,7 @@
       "GO:0043190"
     ],
     "go_terms_evidence": {
-      "GO:0005886": "curated",
+      "GO:0005886": "family_inferred",
       "GO:0043190": "family_inferred",
       "GO:0055085": "curated"
     },
@@ -360812,7 +360812,7 @@
       "GH13"
     ],
     "cazy_ids_evidence": {
-      "GH13": "curated"
+      "GH13": "family_inferred"
     },
     "cazy_ids_source": {
       "GH13": [
@@ -367496,7 +367496,7 @@
       "2.1.1.72"
     ],
     "ec_numbers_evidence": {
-      "2.1.1.72": "curated"
+      "2.1.1.72": "family_inferred"
     },
     "ec_numbers_source": {
       "2.1.1.72": [
@@ -369921,7 +369921,7 @@
       "2.6.1.9"
     ],
     "ec_numbers_evidence": {
-      "2.6.1.9": "curated"
+      "2.6.1.9": "family_inferred"
     },
     "ec_numbers_source": {
       "2.6.1.9": [
@@ -370511,8 +370511,8 @@
     "go_terms_evidence": {
       "GO:0005524": "domain_inferred",
       "GO:0046034": "family_inferred",
-      "GO:0046961": "curated",
-      "GO:1902600": "curated"
+      "GO:0046961": "family_inferred",
+      "GO:1902600": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -373912,7 +373912,7 @@
       "GT2"
     ],
     "cazy_ids_evidence": {
-      "GT2": "curated"
+      "GT2": "family_inferred"
     },
     "cazy_ids_source": {
       "GT2": [
@@ -374232,9 +374232,9 @@
     ],
     "go_terms_evidence": {
       "GO:0004333": "curated",
-      "GO:0006099": "curated",
+      "GO:0006099": "family_inferred",
       "GO:0006106": "curated",
-      "GO:0016829": "curated"
+      "GO:0016829": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -376053,7 +376053,7 @@
       "2.3.1.191"
     ],
     "ec_numbers_evidence": {
-      "2.3.1.191": "curated"
+      "2.3.1.191": "family_inferred"
     },
     "ec_numbers_source": {
       "2.3.1.191": [
@@ -387511,7 +387511,7 @@
       "1.3.1.12"
     ],
     "ec_numbers_evidence": {
-      "1.3.1.12": "curated"
+      "1.3.1.12": "family_inferred"
     },
     "ec_numbers_source": {
       "1.3.1.12": [
@@ -388046,10 +388046,10 @@
       "GO:0017038"
     ],
     "go_terms_evidence": {
-      "GO:0005524": "curated",
+      "GO:0005524": "family_inferred",
       "GO:0006605": "family_inferred",
       "GO:0006886": "family_inferred",
-      "GO:0016020": "curated",
+      "GO:0016020": "family_inferred",
       "GO:0017038": "domain_inferred"
     },
     "go_terms_source": {
@@ -391868,7 +391868,7 @@
     ],
     "go_terms_evidence": {
       "GO:0008137": "curated",
-      "GO:0016651": "curated"
+      "GO:0016651": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -393003,8 +393003,8 @@
     "go_terms_evidence": {
       "GO:0004849": "curated",
       "GO:0005524": "curated",
-      "GO:0016301": "curated",
-      "GO:0016773": "curated"
+      "GO:0016301": "family_inferred",
+      "GO:0016773": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003674": [
@@ -395492,7 +395492,7 @@
       "GT35"
     ],
     "cazy_ids_evidence": {
-      "GT35": "curated"
+      "GT35": "family_inferred"
     },
     "cazy_ids_source": {
       "GT35": [
@@ -397589,7 +397589,7 @@
     "go_terms_evidence": {
       "GO:0004764": "curated",
       "GO:0019632": "curated",
-      "GO:0050661": "curated"
+      "GO:0050661": "family_inferred"
     },
     "go_terms_source": {
       "GO:0000166": [
@@ -400780,7 +400780,7 @@
       "1.6.5.5"
     ],
     "ec_numbers_evidence": {
-      "1.6.5.5": "curated"
+      "1.6.5.5": "family_inferred"
     },
     "ec_numbers_source": {
       "1.1.1.-": [
@@ -401040,9 +401040,9 @@
     ],
     "go_terms_evidence": {
       "GO:0003723": "domain_inferred",
-      "GO:0006396": "curated",
-      "GO:0008168": "curated",
-      "GO:0008173": "curated",
+      "GO:0006396": "family_inferred",
+      "GO:0008168": "family_inferred",
+      "GO:0008173": "family_inferred",
       "GO:0030488": "curated"
     },
     "go_terms_source": {
@@ -402740,7 +402740,7 @@
       "1.6.5.5"
     ],
     "ec_numbers_evidence": {
-      "1.6.5.5": "curated"
+      "1.6.5.5": "family_inferred"
     },
     "ec_numbers_source": {
       "1.-.-.-": [
@@ -403660,7 +403660,7 @@
     ],
     "go_terms_evidence": {
       "GO:0003735": "curated",
-      "GO:0005840": "curated",
+      "GO:0005840": "family_inferred",
       "GO:0006412": "curated",
       "GO:0015935": "curated"
     },
@@ -406086,7 +406086,7 @@
       "GH43"
     ],
     "cazy_ids_evidence": {
-      "GH43": "curated"
+      "GH43": "family_inferred"
     },
     "cazy_ids_source": {
       "GH43": [
@@ -406109,7 +406109,7 @@
       "3.2.1.37"
     ],
     "ec_numbers_evidence": {
-      "3.2.1.37": "curated"
+      "3.2.1.37": "family_inferred"
     },
     "ec_numbers_source": {
       "3.2.1.37": [
@@ -410558,7 +410558,7 @@
       "GH13"
     ],
     "cazy_ids_evidence": {
-      "GH13": "curated"
+      "GH13": "family_inferred"
     },
     "cazy_ids_source": {
       "GH13": [
@@ -411256,7 +411256,7 @@
       "3.2.1.37"
     ],
     "ec_numbers_evidence": {
-      "3.2.1.37": "curated"
+      "3.2.1.37": "family_inferred"
     },
     "ec_numbers_source": {
       "3.2.1.37": [
@@ -413098,7 +413098,7 @@
       "GH9"
     ],
     "cazy_ids_evidence": {
-      "GH5": "curated"
+      "GH5": "family_inferred"
     },
     "cazy_ids_source": {
       "GH5": [
@@ -417181,7 +417181,7 @@
       "3.4.21.88"
     ],
     "ec_numbers_evidence": {
-      "3.4.21.88": "curated"
+      "3.4.21.88": "family_inferred"
     },
     "ec_numbers_source": {
       "3.4.21.88": [
