@@ -71,6 +71,21 @@ up — this file is the index, not the plan.
       breaking for the explorer's `is_uninformative` filter.
       → `docs/kg-changes/two-state-strings.md`, `scripts/post-import.sh` §is_uninformative
 
+- [ ] **MIT9313 carries two locus-tag families as separate gene anchors.** The
+      merged annotation has 703 `PMT_####` genes alongside the 2,245 `PMT####`
+      ones, and they are *different* genes sharing a number (`PMT0040`: no NCBI
+      tag, no protein, "conserved hypothetical"; `PMT_0040`: AKG35_RS00210,
+      chemotaxis protein). Papers keyed on the Cyanorak-era `PMT####` tags and
+      the newer `P9313_#####` / `PMT_####` tags therefore collide — 29 of the 62
+      Tier-1 conflicts left after the 2026-08-28 hygiene pass are
+      `P9313_xxxxx → [PMT_nnnn, PMTnnnn]`. Decide which family is canonical for
+      MIT9313 (the GCF assembly's `old_locus_tag` is `PMT_`), whether the 703
+      `PMT_`-only genes are real (new PGAP calls) or a stale second annotation
+      build in `gene_mapping.csv`, and dedupe in `build_gene_annotations`
+      (step 2), not in the mapping builder.
+      → `cache/data/Prochlorococcus/genomes/MIT9313/gene_id_mapping_report.json`,
+      `plans/gene_id_mapping_hygiene.md`
+
 - [ ] **TigrRole hierarchy normalization.** The 114 `TigrRole` nodes are flat
       (`level = 0` everywhere) with the JCVI mainrole/subrole two-level scheme
       embedded in compound names ("Energy metabolism / Electron transport") —

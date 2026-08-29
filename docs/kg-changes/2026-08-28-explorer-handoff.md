@@ -239,3 +239,20 @@ the explorer backlog no longer lists it. If a use case shows up it is explorer-o
 | R6 | Confirmed fixed on rebuild #2 (8,126 / 3,773); `tests/kg_validity/test_derived_metric.py::test_boolean_dm_flag_counts_match_aggregation` asserts it. |
 
 **Rebuild #3 expectations for the explorer:** vs the 08-28 baseline, `Changes_expression_of` −94 (moreno −31, Domínguez −35, Al-Hosani −8, biller 2022 −6, fadeev −4, Kratzl/Beliaev −3 each, singles; he 2022 +6); Biller 2022 DM rows re-home to accession-backed genes; everything else byte-identical. Hash unchanged.
+
+## Explorer open asks (2026-08-29) — consolidated, non-release
+
+Everything the explorer still wants from the KG that is *not* tied to a release cut (the A1/A2
+`Schema_info` stamp + hash freeze stay parked until a cut is scheduled). Verified against the
+06:22Z build; re-numbered from the explorer backlog §4 so the IDs match there.
+
+| ID | Ask | Why the explorer cares | Prio |
+|---|---|---|---|
+| **B1** | Per-value descriptions on closed vocabularies: a `value_descriptions` map (value → one line) on the `ControlledVocabulary` node, alongside `values`. Live: 0 of 122 vocab nodes carry it. | Unblocks explorer 2.3 — `list_filter_values` can then serve per-row descriptions once and drop the vocab text it currently repeats per row on the trust types (`evidence`, `sources`, `call_class`, …). Nothing else reads it. | P3 |
+| **B2** | Vocab `description` text is user-facing (served verbatim by `list_filter_values` and `docs://ontologies/*`). `ClusteringAnalysis.cluster_type` still says "paperconfig `gene_clusters.cluster_type`, validated by scripts/validate_paperconfig.py VALID_CLUSTER_TYPES … Registered 2026-08-27 (KG-SYNC-006)"; `treatment_type` / `background_factors` on the same label carry "neo4j-admin import drops an empty string[] cell, so post-import re-materializes []". Move build/provenance notes to the yaml comment; keep the node text to what a researcher needs. Hash-neutral (description-only). | The researcher-facing surface quotes the node text. | P3 |
+| **B3** | Stamp `min_size` on the vocab node (it is in `config/controlled_vocabularies.yaml` — `treatment_type` / `background_factors` `min_size: 1` — but 0 of 122 live nodes carry it). **Hash-affecting** per A2 — batch with the next intentional hash change, and tell the explorer so it re-pins. | The explorer's drift test can then assert dense-non-empty from the node instead of hard-coding which properties are `min_size 1`. | P3 |
+| **B5** *(new)* | Rebuild #3 (Biller 2022 accession-backed re-homing, `Changes_expression_of` −94): ping when it is up. Explorer will regen the Biller 2022 goldens (`list_derived_metrics` ×2, `genes_by_numeric_metric` cross-organism) and the four `list_experiments` counts, expects everything else byte-identical and hash unchanged. | Two rebuilds in two days already moved goldens; the explorer wants one regen, not three. | when built |
+| **KG-MET-002** | Docstring-only: a comment in `schema_config.yaml` stating the compartment-in-name convention for metabolite assays (`<metabolite> (<compartment>)` vs the `compartment` property). No graph change. | Lowest stakes; carried over from the metabolites hand-off. | P4 |
+| **MET-DM** | Metabolomics-DM spec (KG-side): whether `MetaboliteAssay` gets non-DE column-level evidence analogous to `DerivedMetric` (rhythmicity / response class per metabolite). Explorer 3.9 (`list_metabolite_measurements`, `metabolite_response_profile`) is gated on it — no explorer work until a spec exists; a "not planned" answer closes 3.9. | Decide, don't build. | question |
+
+Nothing here blocks explorer work; B1 is the only ask with an explorer item waiting on it.
