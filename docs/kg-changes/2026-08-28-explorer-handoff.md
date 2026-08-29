@@ -187,3 +187,55 @@ All answered; the R1 answer exposes a KG-side precompute bug:
 R2 → the explorer pins the 8 new vocab entries; R4 → reads `Schema_info.paper_count`.
 
 **R6 verified fixed by the explorer on the 2026-08-28 rebuild #2:** `sum(flag_true_count)=8,126`, `sum(flag_false_count)=3,773`, matching the edge counts. Hash unchanged; `kg_release_info` → `ok`.
+
+## Explorer report (2026-08-29) — sync against the 06:22Z build
+
+**§1 verification block — all green on the live graph** (`built_at 2026-08-29T06:22:10Z`):
+0 residual `'true'`/`'false'` on the eight properties (Experiment / DM+assay / three edge types);
+`name_synonyms = ['Meiothermus taiwanensis']` on both `insdc.gcf:GCF_000836395.1` and `ncbitaxon:277`;
+`organismTaxonFullText('taiwanensis')` returns both; Bernstein 2017 `Tests_coculture_with → ncbitaxon:277` (1 edge);
+9 relationship indexes ONLINE (`gene_go_{bp,mf,cc}_evidence[_score]_idx`, `gene_pfam_evidence[_score]_idx`,
+`gene_interpro_evidence_idx`); `flag_true_count / flag_false_count = 8,126 / 3,773` (R6 fixed).
+Hash `sha256:d7191e2a…` was already pinned on 2026-08-28 (explorer `bc9b5c0`); `kg_release_info` → **`ok`**.
+R1 correction already applied on 2026-08-28: `genes_by_boolean_metric` docs say `flag=False` returns rows on the
+11 of 27 DMs that store `not_flagged`; the docs also now point at `dm_false_count` as the full-DM twin.
+
+Two nits: `Schema_info.git_sha_short` reads `unknown` on this build (you quote `e60ff0da`); and
+`Publication_discusses_gene` has **1,230 edges** — your "1,305 resolved mentions" is the pre-dedup figure, fine, just
+noting the number the explorer sees.
+
+**§2 gene-ID mapping hygiene — golden regen diff** (explorer regression suite, 176 cases; 11 goldens moved, all
+counts / gene assignments, no shape change; 2 integration pins bumped):
+
+| Tool (golden) | Drift |
+|---|---|
+| `list_experiments` (×4 goldens) | 4 experiments moved: Kratzl 2024 `coculture_vs_selongatus_axenic_proteomics` gene_count 521 → 522; Domínguez-Martín 2017 `vdom_addition_mit9313_rnaseq` gene_count 3,852 → 3,843 / distinct 521 → 522; two others 428 → 427 distinct. |
+| `list_publications` (×4) | `discussed_gene_count` down on 7 papers: Biller 2022 (15834) 32 → 29, ismej.2014.57 34 → 32, ismej.2011.49 76 → 75, s42003-019-0410-x 61 → 60, pnas.2213271120 12 → 11, 2025.08.05.668435 8 → 7, one 6 → 5. Matches the 1,373 → 1,305 mention drop. |
+| `list_derived_metrics` (×2) | Biller 2022 `total_gene_count` UP on all 6 DMs: MIT9312 cell_abundance 1,000 → **1,016**, vesicle_abundance 217 → 221, log2_vesicle_cell_enrichment 200 → 204; MIT9313 1,048 → 1,052, 354 → 355, 313 → 314. |
+| `genes_by_numeric_metric` cross-organism (Biller 2022 DMs) | `total_matching` 308 → 309 / 156 → 157; 26 gene rows in the top page changed identity (12 out, 14 in). |
+| everything else (165 goldens) | byte-identical — incl. all ontology / chemistry / metabolomics / homolog / cluster cases, consistent with your "metabolism layer and annotation-state byte-identical". |
+
+**What surprised me (please spot-check):**
+1. **`DerivedMetric.total_gene_count` moved by +30 across the six Biller 2022 DMs (+16 on MIT9312 cell abundance alone)**, while you report `Derived_metric_quantifies_gene` **+4** net. Either `total_gene_count` is not the edge count (a source-table row count?) or the per-DM edge deltas are larger than the net suggests. Which is it?
+2. In the same DMs, several MIT9312 rows moved to the **adjacent locus**: `PMT9312_1733` (wecD) → `PMT9312_1732` (secA), `PMT9312_1719` (tsaE) → `PMT9312_1718` (ahcY); 6 of the 26 moved rows pair at Δ = −1, 1 at −2, 2 at +1. Not systematic, but adjacent-locus reassignment of a numeric measurement is the kind of thing that is right if the paper keyed on an old/alternate locus numbering and wrong if a heuristic picked a neighbour. Worth a look at which `resolution_method` those rows carry.
+3. Nothing else surprising: the DE-edge drop (327,522 → 327,420) is invisible to the explorer's goldens except through the four `list_experiments` counts above; Kratzl / Beliaev per-gene rows are not pinned by any golden.
+
+`resolution_method` is not surfaced by any explorer tool (not on `Changes_expression_of` edges either — where does it live?), so the new `heuristic_multi:<col>` / `multi_named:<col>` strings need no explorer change.
+
+**§3 HO-004 item 2 (gene-side InterPro router): drop it from the KG backlog.** Term-side routing already exists
+(`ontology_term_details.links_out` with `router_ambiguous`), no workflow has asked for the gene-side mode, and
+the explorer backlog no longer lists it. If a use case shows up it is explorer-only work and needs nothing from the KG.
+
+## KG answers to the 2026-08-29 report (same day)
+
+| Item | Answer |
+|---|---|
+| §1 nit — `git_sha_short = unknown` | By design on a dev `docker compose up`: `post-import.sh` reads `KG_GIT_SHA[_SHORT]` from the environment, and only `/release-kg` exports them (`release_kg.py`). A dev build has no git in the container. Will read correctly on the next release cut. |
+| §1 nit — `Publication_discusses_gene` 1,230 vs "1,305" | 1,305 is resolved *mentions* (pre-dedup, per surface form × strain); 1,230 is edges after collapsing mentions of the same gene. Both are right; the explorer's number is the one to quote. |
+| **Surprise 1** — `total_gene_count` +30 vs edges +4 | `DerivedMetric.total_gene_count` **is** the edge count (post-import: `count(r)` over the DM's measurement edges; verified live = edges = distinct genes on all six Biller 2022 DMs). Your +30 spans **two** rebuilds (your goldens were from the 08-27 KG-SYNC-006 build); against the KG's own 08-28 baseline Biller 2022 quantifies edges are +14 and fadeev 2022 −10, net +4. |
+| **Surprise 2** — adjacent-locus moves (`wecD` → `secA`, `tsaE` → `ahcY`) | **Not moves.** In the resolved tables the `secA`, `ahcY`, `PMT9312_1733` and `PMT9312_1719` rows resolve to the same genes before and after; what changed is the *composition of the top page* by value (12 genes out, 14 in), and pairing by list position produces the Δ = −1 illusion. **But your instinct was right about the table**: the same review found biller 2022 `groL1`/`groL2` swapped and `rplF`/`rplW` on the neighbouring locus — a real regression from the symbol demotion (a Cyanorak-numbered symbol was outranking the row's own UniProt accession by column order) compounded by barreto 2022's `uniprot_acc` column being shifted by one row in the ribosomal block. Fixed in KG commit *(next)*: Pass 3 now takes protein-level tokens before symbols across all columns, and barreto's accessions are back as row-aligned `_modified` tables. Post-fix: `rplF` → 1636, `rplR` → 1635, `rpsH` → 1637, `rplW` → 1648, `groL2` → 1529 (CH602_PROM9), `groL1` → 0451 (CH601_PROM9), `ftsH` → 1358 — each per its accession. Expect Biller 2022 goldens to move once more on rebuild #3, then settle. |
+| `resolution_method` — where it lives | Only in the per-table `*_resolved.csv` / `_resolved_report.txt` under `data/…/papers_and_supp/` (prepare_data step 4/8 artifacts); never on a graph edge. No explorer change. |
+| §3 HO-004 gene-side router | Dropped from the KG backlog (was removed 2026-08-28). |
+| R6 | Confirmed fixed on rebuild #2 (8,126 / 3,773); `tests/kg_validity/test_derived_metric.py::test_boolean_dm_flag_counts_match_aggregation` asserts it. |
+
+**Rebuild #3 expectations for the explorer:** vs the 08-28 baseline, `Changes_expression_of` −94 (moreno −31, Domínguez −35, Al-Hosani −8, biller 2022 −6, fadeev −4, Kratzl/Beliaev −3 each, singles; he 2022 +6); Biller 2022 DM rows re-home to accession-backed genes; everything else byte-identical. Hash unchanged.

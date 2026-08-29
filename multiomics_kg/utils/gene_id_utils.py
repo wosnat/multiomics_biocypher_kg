@@ -247,6 +247,12 @@ class MappingData:
     # merely list it as a synonym, the named gene wins (atpB: the F1 beta
     # subunit, not the Fo a subunit whose synonym list still says atpB).
     named_lookup: dict[str, list[str]] = field(default_factory=dict)
+    # tokens that are Tier-2 (protein-level: uniprot_accession, protein_id_*)
+    # for at least one gene. Pass 3 tries these before Tier-3 symbols so a
+    # row's accession beats its gene symbol whatever the column order —
+    # biller 2022 "groL2" (Cyanorak numbering, -> PMT9312_0451) vs its own
+    # Protein ID Q318V6 (UniProt CH602_PROM9, -> PMT9312_1529).
+    tier2_tokens: set[str] = field(default_factory=set)
     _ci_specific: Optional[dict[str, str]] = field(default=None, repr=False)
     _ci_multi: Optional[dict[str, list[str]]] = field(default=None, repr=False)
     _ci_locus_tags: Optional[dict[str, str]] = field(default=None, repr=False)
@@ -314,6 +320,9 @@ def load_mapping_v2(genome_dir: str | Path) -> Optional["MappingData"]:
         md.locus_tags = set(genes_dict.keys())
         # named_lookup: only tokens that are ambiguous in multi_lookup need it
         for lt, entry in genes_dict.items():
+            for rec in entry.get("tier2_ids", []):
+                if rec.get("id"):
+                    md.tier2_tokens.add(rec["id"])
             for rec in entry.get("tier3_ids", []):
                 if rec.get("type") == "gene_name":
                     tok = rec.get("id")
@@ -628,17 +637,23 @@ def resolve_row(
                     diagnostic.setdefault(col, f"ambiguous:{len(matches)}")
 
     # ── Pass 3: multi_lookup, singletons only ─────────────────────────────────
-    for col in all_cols:
-        raw = row.get(col)
-        for val in _candidate_values(col, raw):
-            if not val:
-                continue
-            matches = ml.get(val)
-            if matches:
-                if len(matches) == 1:
-                    return matches[0], f"multi:{col}"
-                else:
-                    diagnostic[col] = f"ambiguous:{len(matches)}"
+    # Two sweeps: protein-level (Tier-2) tokens first across ALL columns, then
+    # gene symbols (Tier 3) — an accession is the author's identifier, a symbol
+    # is a name whose numbering (groL1/groL2, ftsH1-4) differs between sources.
+    for want_tier2 in (True, False):
+        for col in all_cols:
+            raw = row.get(col)
+            for val in _candidate_values(col, raw):
+                if not val:
+                    continue
+                if (val in mapping_data.tier2_tokens) != want_tier2:
+                    continue
+                matches = ml.get(val)
+                if matches:
+                    if len(matches) == 1:
+                        return matches[0], f"multi:{col}"
+                    else:
+                        diagnostic[col] = f"ambiguous:{len(matches)}"
 
     # ── Pass 3a: ambiguous symbol, but exactly one gene is *named* that way ───
     # (2026-08-28) Before GFF Name= symbols stopped being Tier-1 tokens, this

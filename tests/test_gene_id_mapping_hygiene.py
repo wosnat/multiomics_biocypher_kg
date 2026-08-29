@@ -212,3 +212,31 @@ def test_unknown_token_typed_tier1_still_promoted():
     g.add_anchor("G1")
     g.process_all_rows([([("P9301_05911", "old_locus_tag"), ("G1", "locus_tag")], "paper/table")])
     assert g.specific_lookup["P9301_05911"] == "G1"
+
+
+# ── 7. Pass 3: a Tier-2 accession beats a Tier-3 symbol regardless of column order ─
+
+def test_accession_beats_symbol_in_pass3():
+    from multiomics_kg.utils.gene_id_utils import MappingData, resolve_row
+    md = MappingData(specific_lookup={}, conflicts={}, locus_tags={"PMT9312_0451", "PMT9312_1529"},
+                     multi_lookup={"groL2": ["PMT9312_0451"], "Q318V6": ["PMT9312_1529"]},
+                     tier2_tokens={"Q318V6"})
+    row = {"Gene Number": "groL2", "Protein ID": "Q318V6"}
+    cols = [{"column": "Gene Number", "id_type": "gene_name"}, {"column": "Protein ID", "id_type": "uniprot_accession"}]
+    assert resolve_row(row, "Gene Number", cols, md) == ("PMT9312_1529", "multi:Protein ID")
+
+
+def test_symbol_still_resolves_when_no_accession():
+    from multiomics_kg.utils.gene_id_utils import MappingData, resolve_row
+    md = MappingData(specific_lookup={}, conflicts={}, locus_tags={"A"}, multi_lookup={"groL2": ["A"]})
+    assert resolve_row({"g": "groL2"}, "g", [], md) == ("A", "multi:g")
+
+
+def test_load_mapping_v2_builds_tier2_tokens(tmp_path):
+    import json
+    from multiomics_kg.utils.gene_id_utils import load_mapping_v2
+    (tmp_path / "gene_id_mapping.json").write_text(json.dumps({
+        "version": 2, "specific_lookup": {}, "conflicts": {}, "multi_lookup": {"Q1": ["G1"], "sym": ["G1"]},
+        "genes": {"G1": {"tier1_ids": [], "tier2_ids": [{"id": "Q1", "type": "uniprot_accession"}],
+                         "tier3_ids": [{"id": "sym", "type": "gene_name"}]}}}))
+    assert load_mapping_v2(tmp_path).tier2_tokens == {"Q1"}

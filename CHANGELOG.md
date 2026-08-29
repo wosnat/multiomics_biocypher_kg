@@ -652,9 +652,16 @@ tag with nothing logged.
   → PMT9312_1648, Kratzl `ftsH` → FtsH3, 62 Beliaev rows off a junk "Gene abbreviation" bridge);
   he 2022 MED4 gains 6 rows. Paper columns can no longer promote an annotation-known gene symbol
   to Tier 1 (`known_gene_names` demotion). `plans/gene_id_mapping_hygiene.md`.
-- **barreto 2022 `pro_9312_anot.csv` — `uniprot_acc` is shifted by one row for 95 of 1,304 MIT9312
-  genes** (PMT9312_1637/rpsH carried Q318J8 = rplF); the column is no longer an id column in any
-  of barreto's three tables. biller 2022's mixed "Gene Number" columns retyped `gene_name`.
+- **barreto 2022 `pro_9312_anot.csv` — `uniprot_acc` is shifted by one row in several blocks**
+  (PMT9312_1637/rpsH carried Q318J8 = rplF). `scripts/barreto_align_uniprot.py` now writes
+  `_modified` tables (MIT9312, WH8102) with the accession blanked where it contradicts the KG's
+  UniProt join or fits a neighbouring row's product as well as its own; the kept rows are the only
+  accession anchor for genes UniProt no longer lists for these taxids. biller 2022's mixed
+  "Gene Number" columns retyped `gene_name`.
+- **Gene-ID resolution Pass 3 tries protein-level (Tier-2) tokens across all columns before gene
+  symbols**, so a row's accession beats its symbol regardless of column order — biller 2022
+  `groL1`/`groL2` follow the paper's UniProt accessions (CH601/CH602_PROM9), not Cyanorak's
+  swapped numbering.
 
 - **`Experiment.treatment_type` / `background_factors` are dense again.**
   The adapters emit `[]` for the three characterization experiments

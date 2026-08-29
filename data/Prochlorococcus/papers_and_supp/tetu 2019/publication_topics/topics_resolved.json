@@ -20,7 +20,8 @@
       "gene_methods": {
         "unresolved": 6,
         "tier1:v": 22,
-        "multi:v": 8
+        "tier1_ci:v": 2,
+        "multi:v": 6
       },
       "pathway_records": 3,
       "pathways_resolved": 3,
@@ -212,9 +213,9 @@
       "evidence": "PVC leachate exposure resulted in substantial reduction in transcription of almost all genes encoding photosystem I subunits (psaA,B,C,D,E,F,J,K,L) (p3, Results)",
       "mention_strain": "Prochlorococcus MIT9312",
       "strain": "Prochlorococcus MIT9312",
-      "locus_tag": "PMT9312_1616",
+      "locus_tag": "PMT9312_1700",
       "resolved_from": "psaA, psaB, psaC, psaD, psaE, psaF, psaJ, psaK, psaL",
-      "resolution_method": "multi:v"
+      "resolution_method": "tier1_ci:v"
     },
     {
       "surface_form": "psbB,H,J,M,O,T,Z",
@@ -300,7 +301,7 @@
       "strain": "Prochlorococcus MIT9312",
       "locus_tag": "PMT9312_0874",
       "resolved_from": "psb28",
-      "resolution_method": "multi:v"
+      "resolution_method": "tier1_ci:v"
     },
     {
       "surface_form": "PsbN",

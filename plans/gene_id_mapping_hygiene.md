@@ -48,3 +48,14 @@ retyped `gene_name`. Final numbers vs baseline: tables 210,247 → 210,147 (−1
 (−68), 159 moved rows — every inspected move is a correction (`rplW` → 1648/L23, `som` → PMT1979 per
 UniProt Q7V4H2, Kratzl `ftsH` → FtsH3 per Q31RJ0, Beliaev off a junk bridge). 186 paper-only
 symbols (`rpl9`, `dhsS`) remain Tier 1 within their paper — harmless, not pursued. Needs rebuild #2.
+
+**Third pass (2026-08-29, after the explorer's golden review).** The explorer flagged biller 2022
+`groL1`/`groL2` swapping genes. Cause: with symbols demoted to Tier 3, Pass 3 accepted the symbol from
+the first column (`groL2` = Cyanorak's numbering → PMT9312_0451) before ever reaching the row's own
+UniProt accession (Q318V6 = CH602_PROM9 → PMT9312_1529). Two fixes: Pass 3 now sweeps Tier-2 tokens
+across all columns before Tier-3 (`MappingData.tier2_tokens`), and barreto's accession column is back
+as row-aligned `_modified` tables (`scripts/barreto_align_uniprot.py`; ties with a neighbouring row's
+product count as shifts) because those accessions are the only anchor for genes UniProt has dropped for
+taxid 74546. Verified: rplF → 1636, rplR → 1635, rpsH → 1637, rplW → 1648, groL2 → 1529, groL1 → 0451,
+ftsH → 1358 (each per its accession). Final vs baseline: tables 210,247 → 210,153 (−94), topics
+1,373 → 1,305, 156 moved rows. Needs rebuild #3.
