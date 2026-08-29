@@ -39,6 +39,32 @@ Archive: `TIGRFAMS_ROLE_LINK` (2,963 families → 117 role ids) +
 | Genes whose `annotation_state` would change | **12** — the bridge only reaches genes that already have an NCBIfam edge, which is already an informative bucket |
 | Non-Cyanorak genes whose TIGR-derived category differs from the current COG-derived one | 7,837 of 19,115 (41%) — schemes carve biology differently; NOT an error rate |
 
+**Equivalog gate (2026-08-29).** `family_type` of the 2,963 role-bearing
+families: equivalog 1,931 · subfamily 526 · hypoth_equivalog 185 ·
+equivalog_domain 123 · other 198. Equivalog = "same function in every
+member" — the only type JCVI meant for unconditional role transfer.
+
+| | all types | **equivalog only** |
+|---|---|---|
+| Non-Cyanorak genes gaining a role edge | 20,869 | **13,667** (18%) |
+| genes with >1 informative role / conflicting mainroles | 375 / 308 | **15 / 14** |
+| `Unknown` → category fill (non-Cyanorak + Cyanorak) | 1,032 + 101 | **704 + 17** |
+| Cyanorak genes with curated AND inferred role | 13,484 | 10,369 |
+| … exact agreement / same mainrole / contradiction / junk-only | 83 / 3 / 7 / 7 % | **88 / 3 / 5.4 / 3 %** |
+| Cyanorak-strain genes with no curated role that gain one | 105 | 56 |
+| `annotation_quality` movement (genes gaining a first role edge) | — | **0** — all 13,255 already `informative_multi` |
+
+The 557 contradictions were sampled: they are facet choices on multi-role
+proteins, not errors (FtsH1: Cyanorak *Cell division* vs TIGR *Protein
+degradation*; RsgA: *Thiamine* vs *Translation factors*; MetK; polyphosphate
+kinase 2 where TIGR's *Phosphorus compounds* beats Cyanorak's *Enzymes of
+unknown specificity*; 44 photosynthesis genes TIGR files under *One-carbon
+metabolism*). Both views are kept as separate edges (§3.9).
+
+Coverage per strain with the gate: ~700–860 genes on heterotrophs (KT2440
+860, HOT1A3 700) vs ~1,800 / 1,976 on MED4 — ORA over `TigrRole` needs a
+per-organism background of genes with ≥ 1 role edge.
+
 Dropped sources (checked because the merge discards them): Cyanorak
 `protein_domains` TIGR tokens are 93% already in the gene's InterProScan hits;
 PGAP `inference` HMM ids are 84% `NF*` `domain`/`PfamEq`-type models that
@@ -71,9 +97,10 @@ scope** and recorded in `plans/backlog.md`.
    the archive is a single frozen source; provenance is documented on the
    edge type, not repeated per edge). Verb `has`, same composition semantics
    as `Tcdb_family_has_pfam_domain`: "JCVI assigned this family this role."
-   It is a **router** — read outward from a gene's NCBIfam family it suggests
-   a role; it never asserts a role on a gene. No `Gene_has_tigr_role` edges
-   are created from it.
+   It is the ontology-level record of *why* a gene carries an inferred role
+   (§3.9) and, for the ~7K non-equivalog families, a **router** only — read
+   outward from a gene's NCBIfam family it suggests a role; the graph never
+   asserts a gene role from a non-equivalog family.
 3. **Role `719`** (unnamed in the archive, 43 observed families) is dropped —
    an unnamed role node is noise. Logged at build time.
 4. **New role nodes** (`110` Energy metabolism / Anaerobic, `186` Mobile … /
@@ -81,31 +108,52 @@ scope** and recorded in `plans/backlog.md`.
    only because a bridge edge reaches them (observed-only, TCDB pattern).
 5. **`gene_category` fill-only rule** (build-time, step 2): after the
    existing Cyanorak → TIGR → COG chain, if the result is still `Unknown`,
-   map the gene's `ncbifam_ids` → archive role → mainrole →
-   `TIGR_TO_CATEGORY`; take the most frequent non-`Unknown` category (ties →
-   alphabetical first). It can only turn `Unknown` into a category, never
-   change an existing one — zero churn on the 7,837 disagreements. Expected
-   +~1,130 genes. Priority order becomes Cyanorak role → Cyanorak TIGR role →
+   map the gene's **equivalog** `ncbifam_ids` (same gate as §3.9) → archive
+   role → mainrole → `TIGR_TO_CATEGORY`; take the most frequent non-`Unknown`
+   category (ties → alphabetical first). It can only turn `Unknown` into a
+   category, never change an existing one — zero churn on the 7,837
+   disagreements. Expected +~720 genes. Priority order becomes Cyanorak role → Cyanorak TIGR role →
    COG → **NCBIfam-bridged TIGR role**. (Placed after COG deliberately: COG is
    per-gene orthology; the bridge is family-level inference.)
 6. **Inferred role in gene descriptions** (build-time, step 2, broad): for
-   every gene with ≥1 bridged role (via `ncbifam_ids`), append
+   every gene with ≥1 bridged role via an **equivalog** `ncbifam_ids` hit
+   (same gate as §3.9), append
    `[tigr_role_inferred] <Main> / <Sub>` to `alternate_functional_descriptions`
    — one line per distinct role, deduplicated against the curated
    `[tigr_role]` line so a Cyanorak gene whose archive role matches gets no
    duplicate. The label is deliberately distinct from `[tigr_role]` (curated)
    so curated vs family-inferred stays readable in the text, mirroring the
    `evidence` ladder. Same pattern as the existing `[interpro]` / `[pfam]`
-   family-level lines. Effect: ~19K heterotroph genes become full-text
+   family-level lines. Effect: ~13.7K heterotroph genes become full-text
    searchable by role via `geneFullText`; no graph-structure change.
 7. **Uninformative flags**: the 5 existing subrole flags stay; the mainrole
    nodes for "Hypothetical proteins", "Unknown function", "Unclassified",
    "Not Found" are added to `config/uninformative_terms.yaml` and the
    post-import F1.1 list. `141`/`703` stay unflagged (class known).
-8. **Not done**: `annotation_types` / `informative_annotation_types` /
-   `annotation_quality` are untouched (bridge is ontology→ontology; measured
-   effect 12 genes). Enrichment backgrounds over `TigrRole` for heterotrophs
-   must be documented as coverage-biased (25% vs ~90%).
+8. **Not done**: `annotation_quality` does not move (measured 0 genes — every
+   gene gaining a first role edge is already `informative_multi`); no new
+   quality bucket, no gating. Enrichment backgrounds over `TigrRole` for
+   heterotrophs must be documented as coverage-biased (18% vs ~90%).
+9. **`Gene_has_tigr_role` from equivalog TIGR hits** (2026-08-29, supersedes
+   the 2026-08-18 gene-level rejection on the strength of §2's gated
+   numbers). For every gene, for every `ncbifam_ids` accession with
+   `family_type = 'equivalog'` and an archive role: emit `Gene_has_tigr_role`
+   to that role with `sources: ['interproscan']`, `evidence:
+   'family_inferred'`. Edge id `{locus_tag}-tigrrole-{code}` — the SAME id the
+   curated Cyanorak edge uses, so when both name the same role they merge
+   into ONE edge with `sources: ['cyanorak','interproscan']`, `evidence:
+   'curated'` (curated wins the ladder; TCDB eggNOG+diamond precedent);
+   when they disagree the gene carries two edges and the disagreement is
+   visible. Junk roles (156/157/…) are emitted like any other — the nodes are
+   already flagged uninformative, and dropping them would hide that a family
+   is "hypothetical". Non-equivalog families (`subfamily`, `equivalog_domain`,
+   `hypoth_equivalog`, …) never produce a gene edge — the bridge (§3.2) is the
+   only route for them. `Gene.annotation_types` /
+   `informative_annotation_types` gain `tigr_role` for these genes through the
+   existing post-import rule with no change. Value: heterotroph genes become
+   directly queryable by role through the existing MCP ontology tools and
+   role rollups become meaningful for all 43 strains — findability and
+   cross-genus comparability, explicitly not quality.
 
 ## 4. Components
 
@@ -155,6 +203,24 @@ scope** and recorded in `plans/backlog.md`.
   `tigr_role_node_ids`; edge id `{acc}-tigrrole-{role}`; no properties.
   Logs emitted / skipped-unnamed / skipped-no-node counts.
 
+### 4.3b Gene edges — `functional_annotation_adapter.CogRoleAnnotationAdapter`
+
+- Per-strain `get_edges()` gains a second pass over each gene's
+  `ncbifam_ids`: for accessions with reference `family_type == 'equivalog'`
+  and a `family_role` in `tigr_roles.json`, emit `gene_has_tigr_role` with
+  `_INFERRED_TIGR_EDGE_PROPS = {"sources": ["interproscan"], "evidence":
+  "family_inferred"}`. Merge with the curated edge for the same (gene, role)
+  BEFORE yielding (one edge, `sources` sorted union, `evidence: 'curated'`)
+  — BioCypher dedups by id but would keep the first props, so the merge must
+  happen adapter-side. Needs the NCBIfam reference (`family_type`) and
+  `tigr_roles.json` injected via the Multi adapter constructor.
+- Node-set consequence: `MultiCogRoleAnnotationAdapter.get_nodes()` emits
+  every role reachable by a gene edge OR a bridge edge (union), so no gene
+  edge can dangle; `extra_tigr_roles` (§4.2) is computed over that union.
+- Vocabulary: `Gene_has_tigr_role.sources` becomes `[cyanorak, interproscan]`
+  (closed); `Gene_has_tigr_role.evidence` gains `family_inferred`. Both are
+  R2-joinable (`data_source:interproscan` exists).
+
 ### 4.4 Orchestration — `create_knowledge_graph.py`
 
 Order today: `cog_role_adapter` (line ~256) runs before `ncbifam_adapter`
@@ -170,10 +236,11 @@ Order today: `cog_role_adapter` (line ~256) runs before `ncbifam_adapter`
 4. After `cog_role_adapter.get_nodes()`, pass
    `cog_role_adapter.tigr_role_node_ids()` to the NCBIfam adapter.
 
-### 4.5 `gene_category` fill — `build_gene_annotations.py`
+### 4.5 `gene_category` fill + description lines — `build_gene_annotations.py`
 
-- `_compute_gene_category(result, tigr_roles: dict | None = None)`: new
-  priority 4 as in §3.5. `tigr_roles` is loaded lazily next to `ncbifam_ref`
+- `_compute_gene_category(result, tigr_roles: dict | None = None,
+  ncbifam_ref: dict | None = None)`: new priority 4 as in §3.5, equivalog
+  gate read from `ncbifam_ref[acc]['family_type']`. `tigr_roles` is loaded lazily next to `ncbifam_ref`
   (step 9 artefact; absent → rule is a no-op with one warning).
 - `alternate_functional_descriptions`: after the curated `[tigr_role]`
   lines, add `[tigr_role_inferred] <mainrole> / <sub1role>` for each distinct
@@ -192,7 +259,10 @@ Order today: `cog_role_adapter` (line ~256) runs before `ncbifam_adapter`
   edges; 0 when none).
 - Indexes `tigr_role_level_idx`, `tigr_role_level_kind_idx`;
   `tigrRoleFullText` unchanged.
-- F1.1 uninformative list extended with the 4 mainrole ids (§3.6).
+- F1.1 uninformative list extended with the 4 mainrole ids (§3.7).
+- `annotation_types` / `informative_annotation_types` `tigr_role` rules are
+  unchanged (they key off `Gene_has_tigr_role` existence + `is_uninformative`,
+  so inferred edges join automatically).
 
 ### 4.7 Schema + vocabulary
 
@@ -234,11 +304,17 @@ NCBI FTP archive ──step 9──▶ cache/data/ncbifam/tigr_roles.json (commi
   (added, deduped vs curated, absent when no bridged role).
 - Static: `tests/test_controlled_vocab.py` picks up the new entry;
   `tests/test_annotation_quality_buckets.py` unchanged (no bucket change).
-- KG validity: `test_ontology_level.py` — `TigrRole` leaves the flat list;
+- Unit (gene edges): equivalog gate (subfamily hit → no edge), curated +
+  inferred same role → ONE edge with merged `sources` and `evidence:
+  'curated'`, disagreement → two edges, junk role still emitted.
+- KG validity: `Gene_has_tigr_role` present on ≥ 20 organisms (was 19);
+  ≥ 13K edges with `'interproscan' IN r.sources`; every edge `sources` ⊆
+  {cyanorak, interproscan}; no edge with `evidence = 'family_inferred'` AND
+  `'cyanorak' IN r.sources`. `test_ontology_level.py` — `TigrRole` leaves the flat list;
   new assertions: ≥ 1,600 bridge edges, every bridge source is `TIGR*`, every
   level-1 node has exactly one parent, `direct_gene_count <= gene_count`,
   mainrole `gene_count` = union of children. Regenerate `snapshot_data.json`.
-  `capture_annotation_state.py --save/--compare` (expect ≤ 12 moves).
+  `capture_annotation_state.py --save/--compare` (expect 0 moves).
 - Edge regression: `/omics-edge-snapshot` before/after (no expression change
   expected).
 
@@ -246,8 +322,11 @@ NCBI FTP archive ──step 9──▶ cache/data/ncbifam/tigr_roles.json (commi
 
 - **Breaking**: `TigrRole` count 114 → ~140 (3 new subroles + ~22 mainroles);
   `level` no longer all 0; `gene_count` on subroles unchanged, but the new
-  mainrole nodes carry subtree counts. `gene_category` changes for ~1,130
-  genes (`Unknown` → category only).
+  mainrole nodes carry subtree counts. `gene_category` changes for ~720
+  genes (`Unknown` → category only). `Gene_has_tigr_role` grows ~13.6K →
+  ~27K edges and spans all 43 organisms (was 19); `Gene_has_tigr_role.sources`
+  / `.evidence` value sets widen — consumers filtering `sources = ['cyanorak']`
+  by list equality must switch to `'cyanorak' IN r.sources`.
 - CHANGELOG `### Breaking` + `### Added`; CLAUDE.md (TigrRole bullet, label
   lists, `gene_category` priority chain, step 9 outputs, Data Locations);
   `docs/kg-changes/tigr-role-bridge.md` (router semantics, coverage caveat,
