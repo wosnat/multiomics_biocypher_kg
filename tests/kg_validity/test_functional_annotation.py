@@ -769,3 +769,56 @@ def test_pfam_ids_dropped_from_gene_nodes(run_query):
     assert cnt == 0, (
         f"{cnt} Gene nodes still have pfam_ids property (should be dropped)"
     )
+
+
+# ---------------------------------------------------------------------------
+# TigrRole hierarchy + NCBIfam bridge + inferred gene roles (2026-08-29)
+# ---------------------------------------------------------------------------
+
+def test_tigr_role_every_subrole_has_exactly_one_parent(run_query):
+    bad = run_query("""
+        MATCH (s:TigrRole {level: 1})
+        OPTIONAL MATCH (s)-[r:Tigr_role_is_a_tigr_role]->(m:TigrRole {level: 0})
+        WITH s, count(r) AS k WHERE k <> 1 RETURN count(s) AS bad
+    """)[0]["bad"]
+    assert bad == 0
+
+
+def test_tigr_role_mainrole_gene_count_is_subtree(run_query):
+    rows = run_query("""
+        MATCH (m:TigrRole {level: 0})<-[:Tigr_role_is_a_tigr_role]-(s:TigrRole)
+        WITH m, collect(s) AS subs
+        MATCH (g:Gene)-[:Gene_has_tigr_role]->(x:TigrRole) WHERE x = m OR x IN subs
+        WITH m, count(DISTINCT g) AS expected
+        WHERE m.gene_count <> expected RETURN count(m) AS bad
+    """)
+    assert rows[0]["bad"] == 0
+
+
+def test_ncbifam_tigr_role_bridge(run_query):
+    row = run_query("""
+        MATCH (f:NcbifamFamily)-[r:Ncbifam_family_has_tigr_role]->(t:TigrRole)
+        RETURN count(r) AS n, count(CASE WHEN f.ncbifam_id STARTS WITH 'TIGR' THEN 1 END) AS tigr,
+               count(DISTINCT f) AS fams
+    """)[0]
+    assert row["n"] >= 1600, row
+    assert row["tigr"] == row["n"], "bridge sources must all be TIGR*"
+    assert row["fams"] <= row["n"] <= 3 * row["fams"], "at most three roles per family (13 archive families carry 3)"
+
+
+def test_inferred_tigr_role_edges_span_all_organisms(run_query):
+    row = run_query("""
+        MATCH (g:Gene)-[r:Gene_has_tigr_role]->()
+        RETURN count(DISTINCT g.organism_name) AS orgs,
+               count(CASE WHEN 'interproscan' IN r.sources THEN 1 END) AS inferred,
+               count(CASE WHEN r.evidence = 'family_inferred' AND 'cyanorak' IN r.sources THEN 1 END) AS bad_merge,
+               count(CASE WHEN NOT all(s IN r.sources WHERE s IN ['cyanorak','interproscan']) THEN 1 END) AS bad_src
+    """)[0]
+    assert row["orgs"] >= 40, row
+    assert row["inferred"] >= 13_000, row
+    assert row["bad_merge"] == 0 and row["bad_src"] == 0, row
+
+
+def test_tigr_role_ncbifam_family_count_present(run_query):
+    row = run_query("MATCH (t:TigrRole) RETURN count(t) AS n, count(t.ncbifam_family_count) AS c")[0]
+    assert row["c"] == row["n"]

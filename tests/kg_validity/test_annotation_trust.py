@@ -20,9 +20,9 @@ LADDER = {"curated", "signature", "homology", "family_inferred", "domain_inferre
 HIERARCHICAL = [  # label, hierarchy rel(s) — subtree gene_count + direct_gene_count
     "BiologicalProcess", "MolecularFunction", "CellularComponent", "EcNumber",
     "KeggTerm", "CyanorakRole", "InterproEntry", "TcdbFamily", "CazyFamily",
-    "MeropsFamily",
+    "MeropsFamily", "TigrRole",
 ]
-FLAT = ["Pfam", "PfamClan", "TigrRole", "CogFunctionalCategory", "NcbifamFamily",
+FLAT = ["Pfam", "PfamClan", "CogFunctionalCategory", "NcbifamFamily",
         "SubcellularLocalization", "SignalPeptideType", "BriteCategory"]
 
 
@@ -44,7 +44,7 @@ def test_evidence_rungs_by_edge(run_query):
         "Gene_has_kegg_ko": {"family_inferred"},
         "Gene_in_cog_category": {"family_inferred"},
         "Gene_has_cyanorak_role": {"curated"},
-        "Gene_has_tigr_role": {"curated"},
+        "Gene_has_tigr_role": {"curated", "family_inferred"},
         "Gene_has_interpro_entry": {"signature"},
         "Gene_has_ncbifam_family": {"signature"},
         "Gene_has_merops_family": {"homology"},

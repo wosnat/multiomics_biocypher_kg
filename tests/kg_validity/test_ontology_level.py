@@ -58,13 +58,14 @@ def test_every_ontology_term_has_level(run_query):
 
 
 def test_flat_ontologies_all_level_zero(run_query):
-    """TigrRole and CogFunctionalCategory are flat — all terms at level 0."""
+    """CogFunctionalCategory is flat; TigrRole is two-level since 2026-08-29."""
     rows = run_query(
-        "MATCH (t:TigrRole) RETURN count(t) AS n, min(t.level) AS mn, max(t.level) AS mx"
-    )
-    assert rows[0]["n"] == 114, f"TigrRole count {rows[0]['n']} != 114"
-    assert rows[0]["mn"] == 0, f"TigrRole min level {rows[0]['mn']} != 0"
-    assert rows[0]["mx"] == 0, f"TigrRole max level {rows[0]['mx']} != 0"
+        "MATCH (t:TigrRole) RETURN count(t) AS n, min(t.level) AS mn, max(t.level) AS mx, "
+        "count(CASE WHEN t.level = 1 THEN 1 END) AS subs, count(CASE WHEN t.level = 0 THEN 1 END) AS mains"
+    )[0]
+    assert rows["mn"] == 0 and rows["mx"] == 1, rows
+    assert rows["subs"] >= 110, f"TigrRole subroles {rows['subs']} < 110"
+    assert 15 <= rows["mains"] <= 40, f"TigrRole mainroles/roots {rows['mains']} out of range"
 
     rows = run_query(
         "MATCH (t:CogFunctionalCategory) RETURN count(t) AS n, min(t.level) AS mn, max(t.level) AS mx"
