@@ -148,3 +148,18 @@ def test_schema_info_carries_the_vocabulary_hash(run_query, declared):
     assert rows[0]["h"] == vocabularies_hash(list(declared.values())), (
         "Schema_info hash does not match the shipped config -- the build and the "
         "checkout disagree about the vocabulary set.")
+
+
+def test_value_descriptions_split_back_to_values(run_query, declared):
+    """`value_descriptions` is str[] of '<value>: <one line>' (explorer B1);
+    the value prefixes must equal the node's own `values`, in order."""
+    rows = run_query(
+        "MATCH (v:ControlledVocabulary) WHERE v.value_descriptions IS NOT NULL "
+        "RETURN v.id AS id, v.values AS vals, v.value_descriptions AS vd")
+    if not any(e.value_descriptions for e in declared.values()):
+        pytest.skip("no value_descriptions declared")
+    if not rows:
+        pytest.skip("value_descriptions declared but no live node carries them yet (rebuild pending)")
+    for r in rows:
+        assert [s.split(": ", 1)[0] for s in r["vd"]] == r["vals"], r["id"]
+        assert all(s.split(": ", 1)[1].strip() for s in r["vd"]), r["id"]

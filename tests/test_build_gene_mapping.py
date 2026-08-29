@@ -493,29 +493,219 @@ class TestLoadGffFromNcbiAndCyanorak:
         # Should remain as two separate rows (no fallback merge)
         assert len(result) == 2
 
-    def test_position_fallback_skips_low_overlap(self):
-        """Overlap < 90% → no merge."""
+    def test_position_fallback_skips_different_stop_codon_far(self):
+        """Stop codons 1000 bp apart (and out of frame) → no merge."""
         ncbi_df = _make_ncbi_gff_df(
             old_locus_tag="PMT_0107", start=100, end=1000, strand="+",
         )
         cyan_df = _make_cyan_gff_df(
             cyanorak_id="CK_00107", locus_tag="PMT0107",
-            start=800, end=2000, strand="+",  # only 200bp overlap / 1200bp max = 16%
+            start=800, end=2000, strand="+",  # 3' end 1000 bp past N's, not in frame
         )
         result = self._run(ncbi_df, cyan_df, {"CK_00107": "PMT0107"})
         assert len(result) == 2
 
-    def test_position_fallback_skips_large_coord_diff(self):
-        """End diff > 3bp → no merge even with high overlap."""
+    def test_position_fallback_skips_different_stop_codon_near(self):
+        """Stop codons 10 bp apart (not a multiple of 3) → no merge."""
         ncbi_df = _make_ncbi_gff_df(
             old_locus_tag="PMT_0107", start=100, end=1000, strand="+",
         )
         cyan_df = _make_cyan_gff_df(
             cyanorak_id="CK_00107", locus_tag="PMT0107",
-            start=100, end=1010, strand="+",  # 10bp end diff, ~99% overlap
+            start=100, end=1010, strand="+",  # 3' end 10 bp past N's, out of frame
         )
         result = self._run(ncbi_df, cyan_df, {"CK_00107": "PMT0107"})
         assert len(result) == 2
+
+    def test_position_fallback_merges_start_codon_recall_plus_strand(self):
+        """MIT9313 PMT0040/PMT_0040: same stop codon, NCBI re-called the start
+        93 bp downstream (reciprocal overlap 0.76). Same CDS -> must merge."""
+        ncbi_df = _make_ncbi_gff_df(
+            locus_tag_ncbi="AKG35_RS00210", old_locus_tag="PMT_0040",
+            start=41255, end=41551, strand="+",
+        )
+        cyan_df = _make_cyan_gff_df(
+            cyanorak_id="CK_Pro_MIT9313_00040", locus_tag="PMT0040",
+            start=41162, end=41551, strand="+",
+        )
+        result = self._run(ncbi_df, cyan_df, {"CK_Pro_MIT9313_00040": "PMT0040"})
+        assert len(result) == 1
+        row = result.iloc[0]
+        assert row["locus_tag_cyanorak"] == "CK_Pro_MIT9313_00040"
+        assert "PMT0040" in str(row["old_locus_tags"])
+        assert "position_merge:PMT0040" in str(row["position_merge_note"])
+
+    def test_position_fallback_merges_start_codon_recall_minus_strand(self):
+        """MIT9313 PMT0110/PMT_0110 (- strand): the stop codon is the genomic
+        *start*; the start-codon re-call moves the genomic *end* by 24 bp."""
+        ncbi_df = _make_ncbi_gff_df(
+            locus_tag_ncbi="AKG35_RS00560", old_locus_tag="PMT_0110",
+            start=125340, end=126095, strand="-",
+        )
+        cyan_df = _make_cyan_gff_df(
+            cyanorak_id="CK_Pro_MIT9313_00110", locus_tag="PMT0110",
+            start=125340, end=126119, strand="-",
+        )
+        result = self._run(ncbi_df, cyan_df, {"CK_Pro_MIT9313_00110": "PMT0110"})
+        assert len(result) == 1
+        assert result.iloc[0]["locus_tag_cyanorak"] == "CK_Pro_MIT9313_00110"
+
+    def test_position_fallback_merges_cyanorak_stop_codon_excluded_plus(self):
+        """MED4 PMM1858a/TX50_RS09595: Cyanorak coordinates exclude the stop
+        codon (3' end 3 bp short, in frame). Same ORF -> must merge."""
+        ncbi_df = _make_ncbi_gff_df(
+            locus_tag_ncbi="TX50_RS09595", old_locus_tag="PMM1858",
+            start=627532, end=627696, strand="+",
+        )
+        cyan_df = _make_cyan_gff_df(
+            cyanorak_id="CK_Pro_MED4_01858a", locus_tag="PMM1858a",
+            start=627532, end=627693, strand="+",
+        )
+        result = self._run(ncbi_df, cyan_df, {"CK_Pro_MED4_01858a": "PMM1858a"})
+        assert len(result) == 1
+        assert result.iloc[0]["locus_tag_cyanorak"] == "CK_Pro_MED4_01858a"
+
+    def test_position_fallback_merges_cyanorak_stop_codon_excluded_minus(self):
+        """MED4 PMM1719/TX50_RS09730 (- strand): stop codon at the genomic
+        start; Cyanorak's start is 3 bp inside NCBI's, in frame."""
+        ncbi_df = _make_ncbi_gff_df(
+            locus_tag_ncbi="TX50_RS09730", old_locus_tag="PMM1719x",
+            start=965317, end=965487, strand="-",
+        )
+        cyan_df = _make_cyan_gff_df(
+            cyanorak_id="CK_Pro_MED4_01719", locus_tag="PMM1719",
+            start=965320, end=965487, strand="-",
+        )
+        result = self._run(ncbi_df, cyan_df, {"CK_Pro_MED4_01719": "PMM1719"})
+        assert len(result) == 1
+
+    def test_position_fallback_skips_out_of_frame_3prime_end(self):
+        """3' ends differ by 4 bp: different reading frame -> different gene."""
+        ncbi_df = _make_ncbi_gff_df(
+            old_locus_tag="PMT_0107", start=100, end=1000, strand="+",
+        )
+        cyan_df = _make_cyan_gff_df(
+            cyanorak_id="CK_00107", locus_tag="PMT0107",
+            start=100, end=996, strand="+",
+        )
+        result = self._run(ncbi_df, cyan_df, {"CK_00107": "PMT0107"})
+        assert len(result) == 2
+
+    def test_position_fallback_skips_shared_start_different_stop(self):
+        """Same start coordinate but a different stop codon is a different
+        reading frame / different gene -> no merge, however large the overlap."""
+        ncbi_df = _make_ncbi_gff_df(
+            old_locus_tag="PMT_0107", start=100, end=1000, strand="+",
+        )
+        cyan_df = _make_cyan_gff_df(
+            cyanorak_id="CK_00107", locus_tag="PMT0107",
+            start=100, end=1003, strand="+",
+        )
+        result = self._run(ncbi_df, cyan_df, {"CK_00107": "PMT0107"})
+        assert len(result) == 2
+
+    def test_position_fallback_merges_nested_in_frame_orf(self):
+        """A Cyanorak ORF ending in frame well inside the NCBI span (600 bp
+        short of N's stop) is the same reading frame with no stop codon in
+        between → merged. Pins the deliberate absence of a distance bound."""
+        ncbi_df = _make_ncbi_gff_df(
+            old_locus_tag="PMT_0107", start=100, end=1000, strand="+",
+        )
+        cyan_df = _make_cyan_gff_df(
+            cyanorak_id="CK_00107", locus_tag="PMT0107",
+            start=100, end=400, strand="+",
+        )
+        result = self._run(ncbi_df, cyan_df, {"CK_00107": "PMT0107"})
+        assert len(result) == 1
+        assert result.iloc[0]["position_merge_note"] == "position_merge:PMT0107→PMT_0107"
+
+    def test_position_fallback_note_names_ncbi_locus_tag_without_old_locus_tag(self):
+        """NCBI gene with no old_locus_tag: the note must name locus_tag_ncbi,
+        not the still-unfilled NaN locus_tag."""
+        ncbi_df = _make_ncbi_gff_df(
+            locus_tag_ncbi="TX50_RS09915", include_old_locus_tag=False,
+            start=595314, end=595439, strand="+",
+        )
+        cyan_df = _make_cyan_gff_df(
+            cyanorak_id="CK_Pro_MED4_00624", locus_tag="PMM0624",
+            start=595314, end=595439, strand="+",
+        )
+        result = self._run(ncbi_df, cyan_df, {"CK_Pro_MED4_00624": "PMM0624"})
+        assert len(result) == 1
+        assert result.iloc[0]["position_merge_note"] == "position_merge:PMM0624→TX50_RS09915"
+        assert result.iloc[0]["locus_tag"] == "TX50_RS09915"
+
+    def test_position_fallback_skips_reverse_conflict(self):
+        """One Cyanorak call in frame inside two nested NCBI genes → neither merged.
+        Outer 1–4587 and inner 4432–4584 (+): a Cyanorak ORF ending at 4584 is
+        in frame with both stops (diff 3 and 0) and inside both intervals."""
+        outer = _make_ncbi_gff_df(
+            locus_tag_ncbi="RS_OUTER", old_locus_tag="OUTERx", protein_id="WP_o",
+            start=1, end=4587, strand="+",
+        )
+        inner = _make_ncbi_gff_df(
+            locus_tag_ncbi="RS_INNER", old_locus_tag="INNERx", protein_id="WP_i",
+            start=4432, end=4584, strand="+",
+        )
+        cyan_df = _make_cyan_gff_df(
+            cyanorak_id="CK_X", locus_tag="CY_X", start=4000, end=4584, strand="+",
+        )
+        ncbi_df = pd.concat([outer, inner], ignore_index=True)
+        result = self._run(ncbi_df, cyan_df, {"CK_X": "CY_X"})
+        assert len(result) == 3
+        ncbi_rows = result[result["locus_tag_ncbi"].notna()]
+        assert len(ncbi_rows) == 2 and ncbi_rows["locus_tag_cyanorak"].isna().all()
+        assert (result["locus_tag"] == "CY_X").sum() == 1  # stays Cyanorak-only
+
+    def test_position_fallback_is_contig_aware(self):
+        """Multi-contig assembly (PAC1/SB shape): Cyanorak stores the genome as
+        ONE concatenated record, so NCBI contig-relative coordinates only
+        compare after adding the contig's offset. The offset is derived from
+        genes already matched by locus_tag on that contig. A Cyanorak gene at
+        the raw (un-shifted) coordinates of a contig-2 NCBI gene must NOT
+        merge; one at the shifted coordinates must."""
+        # contig 2, offset 1000: an anchor gene matched by locus_tag ...
+        anchor = _make_ncbi_gff_df(
+            locus_tag_ncbi="EV03_RS00100", old_locus_tag="EV03_0100",
+            protein_id="WP_1", start=100, end=400, strand="+",
+        )
+        anchor["seq_id"] = "contig2"
+        anchor_cy = _make_cyan_gff_df(
+            cyanorak_id="CK_0100", locus_tag="EV03_0100",
+            start=1100, end=1400, strand="+",
+        )
+        # ... and two unmatched NCBI genes on contig 2
+        n1 = _make_ncbi_gff_df(
+            locus_tag_ncbi="EV03_RS00200", old_locus_tag="EV03_0200x",
+            protein_id="WP_2", start=2000, end=2300, strand="+",
+        )
+        n1["seq_id"] = "contig2"
+        n2 = _make_ncbi_gff_df(
+            locus_tag_ncbi="EV03_RS00300", old_locus_tag="EV03_0300x",
+            protein_id="WP_3", start=5000, end=5300, strand="+",
+        )
+        n2["seq_id"] = "contig2"
+        # Cyanorak: one at n1's RAW coords (a coincidence from another contig),
+        # one at n2's SHIFTED coords (the real counterpart)
+        cy_raw = _make_cyan_gff_df(
+            cyanorak_id="CK_0200", locus_tag="EV03_0200",
+            start=2000, end=2300, strand="+",
+        )
+        cy_shift = _make_cyan_gff_df(
+            cyanorak_id="CK_0300", locus_tag="EV03_0300",
+            start=6000, end=6300, strand="+",
+        )
+        ncbi_df = pd.concat([anchor, n1, n2], ignore_index=True)
+        cyan_df = pd.concat([anchor_cy, cy_raw, cy_shift], ignore_index=True)
+        result = self._run(
+            ncbi_df, cyan_df,
+            {"CK_0100": "EV03_0100", "CK_0200": "EV03_0200", "CK_0300": "EV03_0300"},
+        )
+        by_ncbi = result.set_index("locus_tag_ncbi")
+        assert by_ncbi.loc["EV03_RS00300", "locus_tag_cyanorak"] == "CK_0300"
+        assert pd.isna(by_ncbi.loc["EV03_RS00200", "locus_tag_cyanorak"])
+        # the raw-coordinate Cyanorak gene survives as a Cyanorak-only row
+        assert (result["locus_tag"] == "EV03_0200").sum() == 1
 
     def test_position_fallback_skips_conflict(self):
         """Two Cyanorak entries at same position as one NCBI entry → skip both."""

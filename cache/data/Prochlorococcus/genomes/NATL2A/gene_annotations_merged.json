@@ -44627,39 +44627,6 @@
       "Amino acid biosynthesis / Glutamate family"
     ]
   },
-  "PMN2A_0197": {
-    "all_identifiers": [
-      "CK_Pro_NATL2A_00197"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00042840",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 750305,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "PMN2A_0197",
-    "locus_tag_cyanorak": "CK_Pro_NATL2A_00197",
-    "organism_name": "Prochlorococcus NATL2A",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00042840",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 750192,
-    "strand_cyanorak": "-"
-  },
   "PMN2A_0198": {
     "all_identifiers": [
       "CK_Pro_NATL2A_00198",
@@ -94453,75 +94420,6 @@
     "strand": "+",
     "strand_cyanorak": "+",
     "uniprot_accession": "Q46KQ4"
-  },
-  "PMN2A_0433": {
-    "all_identifiers": [
-      "CK_Pro_NATL2A_00433"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] high light inducible protein",
-      "[cyanorak_role] Light",
-      "[cyanorak_role] Photosynthesis and respiration",
-      "[tigr_role] Cellular processes / Adaptations to atypical conditions"
-    ],
-    "cluster_number": "CK_00057173",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "D.1.2",
-      "J"
-    ],
-    "cyanorak_Role_description": [
-      "Light",
-      "Photosynthesis and respiration"
-    ],
-    "end_cyanorak": 966947,
-    "gene_category": "Stress response and adaptation",
-    "gene_name": "hli",
-    "gene_name_source": "cyanorak",
-    "gene_summary": "hli :: high light inducible protein",
-    "go_term_descriptions": [
-      "response to high light intensity",
-      "response to high light intensity",
-      "membrane"
-    ],
-    "go_terms": [
-      "GO:0009644",
-      "GO:0016020"
-    ],
-    "go_terms_source": {
-      "GO:0009644": [
-        "cyanorak"
-      ],
-      "GO:0016020": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "PMN2A_0433",
-    "locus_tag_cyanorak": "CK_Pro_NATL2A_00433",
-    "organism_name": "Prochlorococcus NATL2A",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00057173",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "high light inducible protein",
-    "product_cyanorak": "high light inducible protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 966651,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "149"
-    ],
-    "tIGR_Role_description": [
-      "Cellular processes / Adaptations to atypical conditions"
-    ]
   },
   "PMN2A_0434": {
     "all_identifiers": [
@@ -153479,39 +153377,6 @@
     "strand": "+",
     "strand_cyanorak": "+",
     "uniprot_accession": "Q46JQ7"
-  },
-  "PMN2A_0781": {
-    "all_identifiers": [
-      "CK_Pro_NATL2A_00781"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00055193",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1288571,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "PMN2A_0781",
-    "locus_tag_cyanorak": "CK_Pro_NATL2A_00781",
-    "organism_name": "Prochlorococcus NATL2A",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00055193",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1288230,
-    "strand_cyanorak": "+"
   },
   "PMN2A_0782": {
     "all_identifiers": [
@@ -302258,39 +302123,6 @@
     ],
     "uniprot_accession": "Q46HY5"
   },
-  "PMN2A_1406": {
-    "all_identifiers": [
-      "CK_Pro_NATL2A_01406"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00043506",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 86174,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "PMN2A_1406",
-    "locus_tag_cyanorak": "CK_Pro_NATL2A_01406",
-    "organism_name": "Prochlorococcus NATL2A",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00043506",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 85929,
-    "strand_cyanorak": "+"
-  },
   "PMN2A_1407": {
     "all_identifiers": [
       "CK_Pro_NATL2A_01407",
@@ -437695,17 +437527,23 @@
   },
   "PMN2A_RS10380": {
     "all_identifiers": [
+      "CK_Pro_NATL2A_01406",
+      "PMN2A_1406",
       "WP_187146452.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -"
     ],
     "alternative_locus_tags": [
-      "PMN2A_RS10380"
+      "PMN2A_RS10380",
+      "PMN2A_1406"
     ],
+    "cluster_number": "CK_00043506",
     "contig": "NC_007335.2",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -437718,16 +437556,29 @@
       "1MNYT@1212|Prochloraceae"
     ],
     "end": 86174,
+    "end_cyanorak": 86174,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "PMN2A_RS10380"
+      "PMN2A_RS10380",
+      "PMN2A_1406"
     ],
     "locus_tag": "PMN2A_RS10380",
+    "locus_tag_cyanorak": "CK_Pro_NATL2A_01406",
     "locus_tag_ncbi": "PMN2A_RS10380",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "PMN2A_1406"
+    ],
     "organism_name": "Prochlorococcus NATL2A",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00043506",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:30S1I@2",
         "source": "eggnog",
@@ -437750,8 +437601,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_187146452.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -437760,7 +437612,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 86016,
-    "strand": "+"
+    "start_cyanorak": 85929,
+    "strand": "+",
+    "strand_cyanorak": "+"
   },
   "PMN2A_RS10400": {
     "all_identifiers": [
@@ -437973,23 +437827,40 @@
   },
   "PMN2A_RS10545": {
     "all_identifiers": [
+      "CK_Pro_NATL2A_00433",
+      "PMN2A_0433",
       "WP_187146463.1"
     ],
     "alternate_functional_descriptions": [
-      "[ncbi] high light inducible protein"
+      "[cyanorak] high light inducible protein",
+      "[ncbi] high light inducible protein",
+      "[cyanorak_role] Light",
+      "[cyanorak_role] Photosynthesis and respiration",
+      "[tigr_role] Cellular processes / Adaptations to atypical conditions"
     ],
     "alternative_locus_tags": [
-      "PMN2A_RS10545"
+      "PMN2A_RS10545",
+      "PMN2A_0433"
     ],
+    "cluster_number": "CK_00057173",
     "cog_category": [
       "S"
     ],
     "contig": "NC_007335.2",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
       "signalp"
+    ],
+    "cyanorak_Role": [
+      "D.1.2",
+      "J"
+    ],
+    "cyanorak_Role_description": [
+      "Light",
+      "Photosynthesis and respiration"
     ],
     "eggnog_ogs": [
       "2B88B@1|root",
@@ -437998,16 +437869,48 @@
       "1MMMY@1212|Prochloraceae"
     ],
     "end": 966806,
-    "gene_category": "Unknown",
-    "gene_summary": "high light inducible protein",
+    "end_cyanorak": 966947,
+    "gene_category": "Stress response and adaptation",
+    "gene_name": "hli",
+    "gene_name_source": "cyanorak",
+    "gene_summary": "hli :: high light inducible protein",
     "gene_synonyms": [
-      "PMN2A_RS10545"
+      "PMN2A_RS10545",
+      "PMN2A_0433"
     ],
+    "go_term_descriptions": [
+      "response to high light intensity",
+      "response to high light intensity",
+      "membrane"
+    ],
+    "go_terms": [
+      "GO:0009644",
+      "GO:0016020"
+    ],
+    "go_terms_source": {
+      "GO:0009644": [
+        "cyanorak"
+      ],
+      "GO:0016020": [
+        "cyanorak"
+      ]
+    },
     "locus_tag": "PMN2A_RS10545",
+    "locus_tag_cyanorak": "CK_Pro_NATL2A_00433",
     "locus_tag_ncbi": "PMN2A_RS10545",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "PMN2A_0433"
+    ],
     "organism_name": "Prochlorococcus NATL2A",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00057173",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:321GY@2",
         "source": "eggnog",
@@ -438031,7 +437934,8 @@
       }
     ],
     "product": "high light inducible protein",
-    "product_source": "ncbi",
+    "product_cyanorak": "high light inducible protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_187146463.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -438040,7 +437944,15 @@
     "signalp_probability": 0.999966,
     "signalp_type": "OTHER",
     "start": 966651,
-    "strand": "-"
+    "start_cyanorak": 966651,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "149"
+    ],
+    "tIGR_Role_description": [
+      "Cellular processes / Adaptations to atypical conditions"
+    ]
   },
   "PMN2A_RS10570": {
     "all_identifiers": [
@@ -438672,17 +438584,23 @@
   },
   "PMN2A_RS10940": {
     "all_identifiers": [
+      "CK_Pro_NATL2A_00781",
+      "PMN2A_0781",
       "WP_225866301.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -"
     ],
     "alternative_locus_tags": [
-      "PMN2A_RS10940"
+      "PMN2A_RS10940",
+      "PMN2A_0781"
     ],
+    "cluster_number": "CK_00055193",
     "contig": "NC_007335.2",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -438695,16 +438613,29 @@
       "1MPEN@1212|Prochloraceae"
     ],
     "end": 1288571,
+    "end_cyanorak": 1288571,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "PMN2A_RS10940"
+      "PMN2A_RS10940",
+      "PMN2A_0781"
     ],
     "locus_tag": "PMN2A_RS10940",
+    "locus_tag_cyanorak": "CK_Pro_NATL2A_00781",
     "locus_tag_ncbi": "PMN2A_RS10940",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "PMN2A_0781"
+    ],
     "organism_name": "Prochlorococcus NATL2A",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00055193",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:32IQP@2",
         "source": "eggnog",
@@ -438727,8 +438658,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_225866301.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -438737,7 +438669,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1288362,
-    "strand": "+"
+    "start_cyanorak": 1288230,
+    "strand": "+",
+    "strand_cyanorak": "+"
   },
   "PMN2A_RS10960": {
     "all_identifiers": [
@@ -438916,25 +438850,32 @@
   },
   "PMN2A_RS11085": {
     "all_identifiers": [
+      "CK_Pro_NATL2A_00197",
+      "PMN2A_0197",
       "WP_071813622.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] YqeG family HAD IIIA-type phosphatase",
       "[interpro] HAD-superfamily hydrolase,subfamily IIIA",
       "[interpro] Phosphatidylglycerophosphate phosphatase",
       "[ncbifam] HAD-IIIA family hydrolase",
+      "[ncbifam] YqeG family HAD IIIA-type phosphatase",
       "[pfam] Hydrolase_like: HAD-hyrolase-like",
       "[pfam] PGP_phosphatase: Mitochondrial PGP phosphatase"
     ],
     "alternative_locus_tags": [
-      "PMN2A_RS11085"
+      "PMN2A_RS11085",
+      "PMN2A_0197"
     ],
     "bacteria_cog_og": "COG2179",
+    "cluster_number": "CK_00042840",
     "cog_category": [
       "S"
     ],
     "contig": "NC_007335.2",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
@@ -438959,10 +438900,12 @@
       "1MMQD@1212|Prochloraceae"
     ],
     "end": 750713,
+    "end_cyanorak": 750305,
     "gene_category": "Unknown",
-    "gene_summary": "YqeG family HAD IIIA-type phosphatase",
+    "gene_summary": "conserved hypothetical protein",
     "gene_synonyms": [
-      "PMN2A_RS11085"
+      "PMN2A_RS11085",
+      "PMN2A_0197"
     ],
     "go_terms": [
       "GO:0008962"
@@ -438989,6 +438932,7 @@
       "K07015"
     ],
     "locus_tag": "PMN2A_RS11085",
+    "locus_tag_cyanorak": "CK_Pro_NATL2A_00197",
     "locus_tag_ncbi": "PMN2A_RS11085",
     "max_annot_lvl": "1117|Cyanobacteria",
     "ncbifam_ids": [
@@ -439003,8 +438947,18 @@
         "interproscan"
       ]
     },
+    "old_locus_tags": [
+      "PMN2A_0197"
+    ],
     "organism_name": "Prochlorococcus NATL2A",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00042840",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG2179@2",
         "source": "eggnog",
@@ -439043,8 +438997,9 @@
         "interproscan"
       ]
     },
-    "product": "YqeG family HAD IIIA-type phosphatase",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_071813622.1",
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
@@ -439053,7 +439008,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 750192,
-    "strand": "-"
+    "start_cyanorak": 750192,
+    "strand": "-",
+    "strand_cyanorak": "-"
   },
   "PMN2A_RS11095": {
     "all_identifiers": [

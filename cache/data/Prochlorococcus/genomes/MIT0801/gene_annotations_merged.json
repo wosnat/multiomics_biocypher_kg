@@ -1934,7 +1934,6 @@
       "[interpro] NusB/RsmB/TIM44",
       "[interpro] NusB antitermination factor",
       "[ncbifam] transcription antitermination factor NusB",
-      "[tigr_role_inferred] Transcription / Transcription factors",
       "[pfam] NusB: NusB family"
     ],
     "alternative_locus_tags": [
@@ -4355,7 +4354,6 @@
       "[interpro] Circularly permuted (CP)-type guanine nucleotide-binding (G) domain",
       "[hamap] Small ribosomal subunit biogenesis GTPase RsgA [rsgA].",
       "[ncbifam] ribosome small subunit-dependent GTPase A",
-      "[tigr_role_inferred] Protein synthesis / Translation factors",
       "[pfam] RsgA_GTPase: RsgA GTPase"
     ],
     "alternative_locus_tags": [
@@ -4587,7 +4585,6 @@
       "[interpro] Nucleoid-associated protein YbaB/EbfC",
       "[hamap] Nucleoid-associated protein YbaB [ybaB].",
       "[ncbifam] YbaB/EbfC family nucleoid-associated protein",
-      "[tigr_role_inferred] Unknown function / General",
       "[pfam] YbaB_DNA_bd: YbaB/EbfC DNA-binding family"
     ],
     "alternative_locus_tags": [
@@ -7143,99 +7140,6 @@
     ],
     "tIGR_Role_description": [
       "Hypothetical proteins / Conserved"
-    ]
-  },
-  "EW15_0032": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_00032"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] HNH endonuclease family protein",
-      "[cyanorak_role] DNA replication, recombination, and repair",
-      "[cyanorak_role] 2'-Deoxyribonucleotide metabolism",
-      "[tigr_role] Purines, pyrimidines, nucleosides, and nucleotides / 2'-Deoxyribonucleotide metabolism",
-      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
-      "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
-      "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
-      "[pfam] HNH: HNH endonuclease"
-    ],
-    "bacteria_cog_og": "COG1403",
-    "cluster_number": "CK_00000339",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "F.1",
-      "M.1"
-    ],
-    "cyanorak_Role_description": [
-      "DNA replication, recombination, and repair",
-      "2'-Deoxyribonucleotide metabolism"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
-      "bactNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
-      "cyaNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms"
-    ],
-    "eggnog_ogs": [
-      "NOG86494",
-      "COG1403",
-      "NOG295816",
-      "NOG69674",
-      "bactNOG53806",
-      "cyaNOG04857"
-    ],
-    "end_cyanorak": 31791,
-    "gene_category": "Replication and repair",
-    "gene_summary": "HNH endonuclease family protein",
-    "go_term_descriptions": [
-      "nucleic acid binding",
-      "endonuclease activity"
-    ],
-    "go_terms": [
-      "GO:0003676",
-      "GO:0004519"
-    ],
-    "go_terms_source": {
-      "GO:0003676": [
-        "cyanorak"
-      ],
-      "GO:0004519": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "EW15_0032",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_00032",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00000339",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF01844"
-    ],
-    "pfam_ids_source": {
-      "PF01844": [
-        "cyanorak"
-      ]
-    },
-    "product": "HNH endonuclease family protein",
-    "product_cyanorak": "HNH endonuclease family protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 31561,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "123"
-    ],
-    "tIGR_Role_description": [
-      "Purines, pyrimidines, nucleosides, and nucleotides / 2'-Deoxyribonucleotide metabolism"
     ]
   },
   "EW15_0033": {
@@ -14943,7 +14847,6 @@
       "[interpro] Cyanate hydratase",
       "[hamap] Cyanate hydratase [cynS].",
       "[ncbifam] cyanase",
-      "[tigr_role_inferred] Cellular processes / Detoxification",
       "[pfam] Cyanate_lyase: Cyanate lyase C-terminal domain"
     ],
     "alternative_locus_tags": [
@@ -17151,70 +17054,6 @@
     "start_cyanorak": 88945,
     "strand": "+",
     "strand_cyanorak": "+"
-  },
-  "EW15_0097": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_00097"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein",
-      "[tigr_role] Hypothetical proteins / Conserved",
-      "[cog] COG: POORLY CHARACTERIZED [R] General function prediction only",
-      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[pfam] Cupin_3: EutQ-like cupin domain"
-    ],
-    "bacteria_cog_og": "COG3450",
-    "cluster_number": "CK_00001733",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: POORLY CHARACTERIZED [R] General function prediction only",
-      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "eggnog_ogs": [
-      "COG3450",
-      "bactNOG37017",
-      "cyaNOG03497"
-    ],
-    "end_cyanorak": 89381,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_0097",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_00097",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00001733",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF05899"
-    ],
-    "pfam_ids_source": {
-      "PF05899": [
-        "cyanorak"
-      ]
-    },
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 89232,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
-    ]
   },
   "EW15_0098": {
     "all_identifiers": [
@@ -24493,7 +24332,6 @@
       "[interpro] SUF system FeS cluster assembly, SufD",
       "[interpro] SUF system FeS cluster assembly, SufBD",
       "[ncbifam] Fe-S cluster assembly protein SufD",
-      "[tigr_role_inferred] Biosynthesis of cofactors, prosthetic groups, and carriers / Other",
       "[pfam] SUFBD_core: SUF system FeS cluster assembly, SufBD core domain"
     ],
     "alternative_locus_tags": [
@@ -24676,7 +24514,6 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] FeS cluster assembly SUF system, ATPase SufC",
       "[ncbifam] Fe-S cluster assembly ATPase SufC",
-      "[tigr_role_inferred] Biosynthesis of cofactors, prosthetic groups, and carriers / Other",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -36698,7 +36535,6 @@
       "[interpro] Thymidylate kinase",
       "[interpro] Thymidylate kinase-like domain",
       "[hamap] Thymidylate kinase [tmk].",
-      "[tigr_role_inferred] Purines, pyrimidines, nucleosides, and nucleotides / Nucleotide and nucleoside interconversions",
       "[pfam] Thymidylate_kin: Thymidylate kinase"
     ],
     "alternative_locus_tags": [
@@ -39301,7 +39137,6 @@
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
       "[interpro] tRNA threonylcarbamoyl adenosine modification protein TsaB",
       "[ncbifam] tRNA (adenosine(37)-N6)-threonylcarbamoyltransferase complex dimerization subunit type 1 TsaB",
-      "[tigr_role_inferred] Protein synthesis / tRNA and rRNA base modification",
       "[pfam] TsaD: tRNA N6-adenosine threonylcarbamoyltransferase"
     ],
     "alternative_locus_tags": [
@@ -50530,7 +50365,6 @@
       "[interpro] Endoribonuclease YbeY",
       "[hamap] Endoribonuclease YbeY [ybeY].",
       "[ncbifam] rRNA maturation RNase YbeY",
-      "[tigr_role_inferred] Protein synthesis / Other",
       "[pfam] YbeY: Endoribonuclease YbeY"
     ],
     "alternative_locus_tags": [
@@ -53924,7 +53758,6 @@
       "[interpro] GTPase, MTG1",
       "[interpro] GTP-binding protein, ribosome biogenesis",
       "[ncbifam] ribosome biogenesis GTPase YlqF",
-      "[tigr_role_inferred] Protein synthesis / Other",
       "[pfam] MMR_HSR1: 50S ribosome-binding GTPase"
     ],
     "alternative_locus_tags": [
@@ -59897,7 +59730,6 @@
       "[interpro] MutS2 and Smr-associated SH3 domain",
       "[hamap] Endonuclease MutS2 [mutS2].",
       "[ncbifam] endonuclease MutS2",
-      "[tigr_role_inferred] DNA metabolism / Other",
       "[pfam] Smr: Smr domain",
       "[pfam] MutS_V: MutS domain V",
       "[pfam] MutS_III: MutS domain III",
@@ -62491,7 +62323,6 @@
       "[interpro] AAA ATPase, AAA+ lid domain",
       "[hamap] ATP-dependent zinc metalloprotease FtsH [ftsH].",
       "[ncbifam] ATP-dependent zinc metalloprotease FtsH",
-      "[tigr_role_inferred] Protein fate / Degradation of proteins, peptides, and glycopeptides",
       "[pfam] Peptidase_M41: Peptidase family M41",
       "[pfam] FtsH_ext: FtsH Extracellular",
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
@@ -66517,7 +66348,6 @@
       "[kegg] thymidylate synthase (FAD); Thy1; ThyX",
       "[interpro] Thymidylate synthase ThyX",
       "[ncbifam] FAD-dependent thymidylate synthase",
-      "[tigr_role_inferred] Purines, pyrimidines, nucleosides, and nucleotides / 2'-Deoxyribonucleotide metabolism",
       "[pfam] Thy1: Thymidylate synthase complementing protein"
     ],
     "alternative_locus_tags": [
@@ -67209,7 +67039,6 @@
       "[interpro] Crp-type HTH domain",
       "[interpro] Transcription regulator, NtcA",
       "[ncbifam] global nitrogen regulator NtcA",
-      "[tigr_role_inferred] Regulatory functions / DNA interactions",
       "[pfam] HTH_Crp_2: Crp-like helix-turn-helix domain",
       "[pfam] cNMP_binding: Cyclic nucleotide-binding domain"
     ],
@@ -67907,7 +67736,6 @@
       "[interpro] Peptidyl-tRNA hydrolase",
       "[hamap] Peptidyl-tRNA hydrolase [pth].",
       "[ncbifam] aminoacyl-tRNA hydrolase",
-      "[tigr_role_inferred] Protein synthesis / Other",
       "[pfam] Pept_tRNA_hydro: Peptidyl-tRNA hydrolase"
     ],
     "alternative_locus_tags": [
@@ -73866,7 +73694,6 @@
       "[interpro] dITP/XTP pyrophosphatase",
       "[hamap] dITP/XTP pyrophosphatase.",
       "[ncbifam] RdgB/HAM1 family non-canonical purine NTP pyrophosphatase",
-      "[tigr_role_inferred] DNA metabolism / DNA replication, recombination, and repair",
       "[pfam] Ham1p_like: Ham1 family"
     ],
     "alternative_locus_tags": [
@@ -83068,7 +82895,6 @@
       "[interpro] S-adenosylmethionine synthetase, central domain",
       "[interpro] S-adenosylmethionine synthetase, C-terminal",
       "[hamap] S-adenosylmethionine synthase [metK].",
-      "[tigr_role_inferred] Central intermediary metabolism / Other",
       "[pfam] S-AdoMet_synt_N: S-adenosylmethionine synthetase, N-terminal domain",
       "[pfam] S-AdoMet_synt_C: S-adenosylmethionine synthetase, C-terminal domain",
       "[pfam] S-AdoMet_synt_M: S-adenosylmethionine synthetase, central domain"
@@ -84740,7 +84566,6 @@
       "[interpro] Release factor glutamine methyltransferase, cyanobacteria-type",
       "[ncbifam] HemK family protein methyltransferase",
       "[ncbifam] peptide chain release factor N(5)-glutamine methyltransferase",
-      "[tigr_role_inferred] Protein fate / Protein modification and repair",
       "[pfam] MTS: Methyltransferase small domain",
       "[pfam] Methyltransf_31: Methyltransferase domain"
     ],
@@ -90612,7 +90437,6 @@
       "[hamap] GTPase Der [der].",
       "[ncbifam] GTP-binding protein",
       "[ncbifam] ribosome biogenesis GTPase Der",
-      "[tigr_role_inferred] Protein synthesis / Other",
       "[pfam] MMR_HSR1: 50S ribosome-binding GTPase",
       "[pfam] KH_dom-like: KH-domain-like of EngA bacterial GTPase enzymes, C-terminal"
     ],
@@ -91039,48 +90863,6 @@
       "3.A.1.35",
       "3.A.1"
     ]
-  },
-  "EW15_0460": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_00460"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein",
-      "[pfam] PipX: PII-interacting protein X"
-    ],
-    "cluster_number": "CK_00052121",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 403481,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_0460",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_00460",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00052121",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF12058"
-    ],
-    "pfam_ids_source": {
-      "PF12058": [
-        "cyanorak"
-      ]
-    },
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 403338,
-    "strand_cyanorak": "+"
   },
   "EW15_0461": {
     "all_identifiers": [
@@ -91944,8 +91726,6 @@
       "[interpro] DeoC/FbaB/LacD aldolase",
       "[interpro] Deoxyribose-phosphate aldolase",
       "[ncbifam] deoxyribose-phosphate aldolase",
-      "[tigr_role_inferred] Purines, pyrimidines, nucleosides, and nucleotides / Other",
-      "[tigr_role_inferred] Energy metabolism / Other",
       "[pfam] DeoC: DeoC/LacD family aldolase"
     ],
     "alternative_locus_tags": [
@@ -92615,7 +92395,6 @@
       "[interpro] Biotinyl protein ligase (BPL) and lipoyl protein ligase (LPL), catalytic domain",
       "[hamap] Octanoyltransferase [lipB].",
       "[ncbifam] lipoyl(octanoyl) transferase LipB",
-      "[tigr_role_inferred] Protein fate / Protein modification and repair",
       "[pfam] BPL_LplA_LipB: Biotin/lipoate A/B protein ligase family",
       "[pfam] LplA-B_cat: Lipoyl protein ligase A/B catalytic domain"
     ],
@@ -97399,7 +97178,6 @@
       "[interpro] Membrane protein insertion efficiency factor YidD-like",
       "[hamap] Putative membrane protein insertion efficiency factor [yidD].",
       "[ncbifam] membrane protein insertion efficiency factor YidD",
-      "[tigr_role_inferred] Hypothetical proteins / Conserved",
       "[pfam] YidD: Putative membrane protein insertion efficiency factor"
     ],
     "alternative_locus_tags": [
@@ -110643,70 +110421,6 @@
       "3.E.2"
     ]
   },
-  "EW15_0558": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_00558"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein",
-      "[tigr_role] Hypothetical proteins / Conserved",
-      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[pfam] DUF3067: Domain of unknown function (DUF3067)"
-    ],
-    "cluster_number": "CK_00001413",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: POORLY CHARACTERIZED [S] Function unknown",
-      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "eggnog_ogs": [
-      "NOG86172",
-      "bactNOG74780",
-      "bactNOG30507",
-      "cyaNOG03395"
-    ],
-    "end_cyanorak": 501603,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_0558",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_00558",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00001413",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF11267"
-    ],
-    "pfam_ids_source": {
-      "PF11267": [
-        "cyanorak"
-      ]
-    },
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 501391,
-    "strand_cyanorak": "+",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
-    ]
-  },
   "EW15_0559": {
     "all_identifiers": [
       "CK_Pro_MIT0801_00559",
@@ -110725,7 +110439,6 @@
       "[interpro] Sec-independent periplasmic protein translocase TatC",
       "[hamap] Sec-independent protein translocase protein TatC [tatC].",
       "[ncbifam] twin-arginine translocase subunit TatC",
-      "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
       "[pfam] TatC: Sec-independent protein translocase protein (TatC)"
     ],
     "alternative_locus_tags": [
@@ -116081,7 +115794,6 @@
       "[interpro] Nickel pincer cofactor biosynthesis protein LarC, LarC1 region",
       "[ncbifam] nickel pincer cofactor biosynthesis protein LarC2",
       "[ncbifam] nickel pincer cofactor biosynthesis protein LarC",
-      "[tigr_role_inferred] Hypothetical proteins / Conserved",
       "[pfam] Ni_insertion: Nickel insertion protein"
     ],
     "alternative_locus_tags": [
@@ -126089,7 +125801,6 @@
       "[interpro] Long-chain fatty aldehyde decarbonylase",
       "[hamap] Aldehyde decarbonylase.",
       "[ncbifam] aldehyde oxygenase (deformylating)",
-      "[tigr_role_inferred] Central intermediary metabolism / Other",
       "[pfam] Ald_deCOase: Long-chain fatty aldehyde decarbonylase"
     ],
     "alternative_locus_tags": [
@@ -126284,7 +125995,6 @@
       "[kegg] long-chain acyl-[acyl-carrier-protein] reductase; long-chain acyl-[acp] reductase; fatty acyl-[acyl-carrier-protein] reductase; acyl-[acp] reductase",
       "[interpro] Long-chain acyl-[acyl-carrier-protein] reductase",
       "[ncbifam] long-chain acyl-[acyl-carrier-protein] reductase",
-      "[tigr_role_inferred] Central intermediary metabolism / Other",
       "[pfam] adh_short: short chain dehydrogenase",
       "[pfam] Shikimate_DH: Shikimate / quinate 5-dehydrogenase",
       "[pfam] Semialdhyde_dh: Semialdehyde dehydrogenase, NAD binding domain"
@@ -130973,7 +130683,6 @@
       "[interpro] Ethanolamine utilization protein EutN/carboxysome shell vertex protein CcmL",
       "[interpro] Carboxysome shell vertex protein CsoS4A",
       "[ncbifam] alpha-carboxysome shell vertex protein CsoS4",
-      "[tigr_role_inferred] Central intermediary metabolism / One-carbon metabolism",
       "[pfam] EutN_CcmL: Ethanolamine utilisation protein EutN/carboxysome"
     ],
     "alternative_locus_tags": [
@@ -131173,7 +130882,6 @@
       "[interpro] Ethanolamine utilization protein EutN/carboxysome shell vertex protein CcmL",
       "[interpro] Carboxysome shell vertex protein CsoS4B",
       "[ncbifam] carboxysome peptide B",
-      "[tigr_role_inferred] Central intermediary metabolism / One-carbon metabolism",
       "[pfam] EutN_CcmL: Ethanolamine utilisation protein EutN/carboxysome"
     ],
     "alternative_locus_tags": [
@@ -133089,98 +132797,6 @@
     ],
     "tIGR_Role_description": [
       "Unknown function / Enzymes of unknown specificity"
-    ]
-  },
-  "EW15_0660": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_00660"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] beta-glycosyltransferase, family 2",
-      "[cyanorak_role] Surface polysaccharides and lipopolysaccharides",
-      "[tigr_role] Cell envelope / Biosynthesis and degradation of surface polysaccharides and lipopolysaccharides",
-      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
-      "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
-      "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
-      "[pfam] Glycos_transf_2: Glycosyl transferase family 2"
-    ],
-    "bacteria_cog_og": "COG0463",
-    "cluster_number": "CK_00000952",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "C.3"
-    ],
-    "cyanorak_Role_description": [
-      "Surface polysaccharides and lipopolysaccharides"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
-      "bactNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
-      "cyaNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis"
-    ],
-    "eggnog_ogs": [
-      "COG0463",
-      "NOG292225",
-      "COG1215",
-      "bactNOG08457",
-      "bactNOG34943",
-      "cyaNOG06515",
-      "cyaNOG02394"
-    ],
-    "end_cyanorak": 590665,
-    "gene_category": "Cell wall and membrane",
-    "gene_summary": "beta-glycosyltransferase, family 2",
-    "go_term_descriptions": [
-      "transferase activity",
-      "transferase activity",
-      "peptidoglycan-based cell wall"
-    ],
-    "go_terms": [
-      "GO:0016740",
-      "GO:0009274"
-    ],
-    "go_terms_source": {
-      "GO:0009274": [
-        "cyanorak"
-      ],
-      "GO:0016740": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "EW15_0660",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_00660",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00000952",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF00535"
-    ],
-    "pfam_ids_source": {
-      "PF00535": [
-        "cyanorak"
-      ]
-    },
-    "product": "beta-glycosyltransferase, family 2",
-    "product_cyanorak": "beta-glycosyltransferase, family 2",
-    "product_source": "cyanorak",
-    "start_cyanorak": 590471,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "90"
-    ],
-    "tIGR_Role_description": [
-      "Cell envelope / Biosynthesis and degradation of surface polysaccharides and lipopolysaccharides"
     ]
   },
   "EW15_0661": {
@@ -166038,7 +165654,6 @@
       "[interpro] DevC protein",
       "[interpro] ABC-4 integral membrane protein family, HrtB subfamily",
       "[ncbifam] ABC transporter permease DevC",
-      "[tigr_role_inferred] Transport and binding proteins / Other",
       "[pfam] FtsX: FtsX-like permease C-terminal"
     ],
     "alternative_locus_tags": [
@@ -169667,7 +169282,6 @@
       "[interpro] LPS export ABC transporter, ATP-binding protein LptB",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[ncbifam] LPS export ABC transporter ATP-binding protein",
-      "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of surface polysaccharides and lipopolysaccharides",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -170131,125 +169745,6 @@
       "3.A.1"
     ]
   },
-  "EW15_0852": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_00852"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] cytochrome c-type biogenesis protein",
-      "[cyanorak_role] Photosynthesis and respiration",
-      "[tigr_role] Energy metabolism / Aerobic",
-      "[tigr_role] Energy metabolism / Electron transport",
-      "[tigr_role] Transport and binding proteins / Other",
-      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
-      "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
-      "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
-      "[pfam] Cytochrom_C_asm: Cytochrome C assembly protein"
-    ],
-    "bacteria_cog_og": "COG0755",
-    "cluster_number": "CK_00000880",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "J"
-    ],
-    "cyanorak_Role_description": [
-      "Photosynthesis and respiration"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
-      "bactNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
-      "cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones"
-    ],
-    "eggnog_ogs": [
-      "COG0755",
-      "bactNOG05371",
-      "bactNOG20098",
-      "bactNOG05755",
-      "bactNOG23544",
-      "cyaNOG00758"
-    ],
-    "end_cyanorak": 769318,
-    "gene_category": "Photosynthesis",
-    "gene_name": "ccsA",
-    "gene_name_source": "cyanorak",
-    "gene_summary": "ccsA :: cytochrome c-type biogenesis protein",
-    "go_term_descriptions": [
-      "heme transport",
-      "cytochrome complex assembly",
-      "heme transport",
-      "cytochrome complex assembly",
-      "heme transporter activity",
-      "heme binding",
-      "heme transport",
-      "cytochrome complex assembly",
-      "heme transporter activity",
-      "heme binding",
-      "membrane"
-    ],
-    "go_terms": [
-      "GO:0015886",
-      "GO:0017004",
-      "GO:0015232",
-      "GO:0020037",
-      "GO:0016020"
-    ],
-    "go_terms_source": {
-      "GO:0015232": [
-        "cyanorak"
-      ],
-      "GO:0015886": [
-        "cyanorak"
-      ],
-      "GO:0016020": [
-        "cyanorak"
-      ],
-      "GO:0017004": [
-        "cyanorak"
-      ],
-      "GO:0020037": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "EW15_0852",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_00852",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00000880",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF01578"
-    ],
-    "pfam_ids_source": {
-      "PF01578": [
-        "cyanorak"
-      ]
-    },
-    "product": "cytochrome c-type biogenesis protein",
-    "product_cyanorak": "cytochrome c-type biogenesis protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 768812,
-    "strand_cyanorak": "+",
-    "tIGR_Role": [
-      "108",
-      "112",
-      "147"
-    ],
-    "tIGR_Role_description": [
-      "Energy metabolism / Aerobic",
-      "Energy metabolism / Electron transport",
-      "Transport and binding proteins / Other"
-    ]
-  },
   "EW15_0853": {
     "all_identifiers": [
       "CK_Pro_MIT0801_00853",
@@ -170519,7 +170014,6 @@
       "[kegg] 6-bisphosphate phosphatase",
       "[interpro] Fructose-1,6-bisphosphatase class 2/Sedoheputulose-1,7-bisphosphatase",
       "[ncbifam] class II fructose-bisphosphatase",
-      "[tigr_role_inferred] Energy metabolism / Pentose phosphate pathway",
       "[pfam] FBPase_glpX: Bacterial fructose-1,6-bisphosphatase, glpX-encoded"
     ],
     "alternative_locus_tags": [
@@ -176203,48 +175697,6 @@
       "Amino acid biosynthesis / Glutamate family"
     ]
   },
-  "EW15_0880": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_00880"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein",
-      "[pfam] Hydrolase_like: HAD-hyrolase-like"
-    ],
-    "cluster_number": "CK_00042840",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 791697,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_0880",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_00880",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00042840",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF13242"
-    ],
-    "pfam_ids_source": {
-      "PF13242": [
-        "cyanorak"
-      ]
-    },
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 791533,
-    "strand_cyanorak": "-"
-  },
   "EW15_0881": {
     "all_identifiers": [
       "CK_Pro_MIT0801_00881",
@@ -176410,7 +175862,6 @@
       "[interpro] YqgF/RNase H-like domain",
       "[hamap] Putative pre-16S rRNA nuclease [yqgF].",
       "[ncbifam] Holliday junction resolvase RuvX",
-      "[tigr_role_inferred] Unknown function / General",
       "[pfam] RuvX: Holliday junction resolvase"
     ],
     "alternative_locus_tags": [
@@ -178073,7 +177524,6 @@
       "[interpro] CDP-alcohol phosphatidyltransferase",
       "[interpro] CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase",
       "[interpro] CDP-alcohol phosphatidyltransferase class-I",
-      "[tigr_role_inferred] Fatty acid and phospholipid metabolism / Biosynthesis",
       "[pfam] CDP-OH_P_transf: CDP-alcohol phosphatidyltransferase"
     ],
     "alternative_locus_tags": [
@@ -181357,7 +180807,6 @@
       "[interpro] Protein Iojap/ribosomal silencing factor RsfS",
       "[hamap] Ribosomal silencing factor RsfS [rsfS].",
       "[ncbifam] ribosome silencing factor",
-      "[tigr_role_inferred] Protein synthesis / Translation factors",
       "[pfam] RsfS: Ribosomal silencing factor during starvation"
     ],
     "alternative_locus_tags": [
@@ -194589,8 +194038,6 @@
       "[interpro] AAA ATPase, AAA+ lid domain",
       "[hamap] ATP-dependent zinc metalloprotease FtsH [ftsH].",
       "[ncbifam] ATP-dependent zinc metalloprotease FtsH",
-      "[tigr_role_inferred] Protein fate / Degradation of proteins, peptides, and glycopeptides",
-      "[tigr_role_inferred] Cellular processes / Cell division",
       "[pfam] FtsH_ext: FtsH Extracellular",
       "[pfam] Peptidase_M41: Peptidase family M41",
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
@@ -196269,7 +195716,6 @@
       "[interpro] Deoxyxylulose-5-phosphate synthase",
       "[interpro] Transketolase, C-terminal domain",
       "[hamap] 1-deoxy-D-xylulose-5-phosphate synthase [dxs].",
-      "[tigr_role_inferred] Biosynthesis of cofactors, prosthetic groups, and carriers / Other",
       "[pfam] DXP_synthase_N: 1-deoxy-D-xylulose-5-phosphate synthase",
       "[pfam] Transketolase_C: Transketolase, C-terminal domain",
       "[pfam] Transket_pyr: Transketolase, pyrimidine binding domain"
@@ -197951,7 +197397,6 @@
       "[interpro] Class II Histidinyl-tRNA synthetase (HisRS)-like catalytic core domain",
       "[hamap] ATP phosphoribosyltransferase regulatory subunit [hisZ].",
       "[ncbifam] ATP phosphoribosyltransferase regulatory subunit",
-      "[tigr_role_inferred] Amino acid biosynthesis / Histidine family",
       "[pfam] tRNA-synt_His: Histidyl-tRNA synthetase"
     ],
     "alternative_locus_tags": [
@@ -203864,7 +203309,6 @@
       "[interpro] Protoporphyrinogen oxidase HemJ-like",
       "[hamap] Protoporphyrinogen IX oxidase.",
       "[ncbifam] protoporphyrinogen oxidase HemJ",
-      "[tigr_role_inferred] Hypothetical proteins / Conserved",
       "[pfam] UPF0093: Uncharacterised protein family (UPF0093)"
     ],
     "alternative_locus_tags": [
@@ -207956,7 +207400,6 @@
       "[interpro] Lipopolysaccharide assembly, LptC-related",
       "[interpro] Lipopolysaccharide export system protein LptC",
       "[ncbifam] LPS export ABC transporter periplasmic protein LptC",
-      "[tigr_role_inferred] Transport and binding proteins / Other",
       "[pfam] LptC: Lipopolysaccharide-assembly, LptC-related"
     ],
     "alternative_locus_tags": [
@@ -210054,8 +209497,6 @@
       "[interpro] AAA ATPase, AAA+ lid domain",
       "[hamap] ATP-dependent zinc metalloprotease FtsH [ftsH].",
       "[ncbifam] ATP-dependent zinc metalloprotease FtsH",
-      "[tigr_role_inferred] Protein fate / Degradation of proteins, peptides, and glycopeptides",
-      "[tigr_role_inferred] Cellular processes / Cell division",
       "[pfam] Peptidase_M41: Peptidase family M41",
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
       "[pfam] FtsH_ext: FtsH Extracellular",
@@ -219347,39 +218788,6 @@
     "strand": "+",
     "strand_cyanorak": "+"
   },
-  "EW15_1098": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01098"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00042998",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 979917,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_1098",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01098",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00042998",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 979792,
-    "strand_cyanorak": "+"
-  },
   "EW15_1099": {
     "all_identifiers": [
       "CK_Pro_MIT0801_01099",
@@ -225903,153 +225311,6 @@
     "strand": "+",
     "strand_cyanorak": "+"
   },
-  "EW15_1156": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01156"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] high light inducible protein",
-      "[cyanorak_role] Light",
-      "[cyanorak_role] Photosynthesis and respiration",
-      "[tigr_role] Cellular processes / Adaptations to atypical conditions"
-    ],
-    "cluster_number": "CK_00057173",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "D.1.2",
-      "J"
-    ],
-    "cyanorak_Role_description": [
-      "Light",
-      "Photosynthesis and respiration"
-    ],
-    "end_cyanorak": 1008530,
-    "gene_category": "Stress response and adaptation",
-    "gene_name": "hli",
-    "gene_name_source": "cyanorak",
-    "gene_summary": "hli :: high light inducible protein",
-    "go_term_descriptions": [
-      "response to high light intensity",
-      "response to high light intensity",
-      "membrane"
-    ],
-    "go_terms": [
-      "GO:0009644",
-      "GO:0016020"
-    ],
-    "go_terms_source": {
-      "GO:0009644": [
-        "cyanorak"
-      ],
-      "GO:0016020": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "EW15_1156",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01156",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00057173",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "high light inducible protein",
-    "product_cyanorak": "high light inducible protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1008234,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "149"
-    ],
-    "tIGR_Role_description": [
-      "Cellular processes / Adaptations to atypical conditions"
-    ]
-  },
-  "EW15_1157": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01157"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] high light inducible protein",
-      "[cyanorak_role] Light",
-      "[cyanorak_role] Photosynthesis and respiration",
-      "[tigr_role] Cellular processes / Adaptations to atypical conditions",
-      "[pfam] Chloroa_b-bind: Chlorophyll A-B binding protein"
-    ],
-    "cluster_number": "CK_00002168",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "D.1.2",
-      "J"
-    ],
-    "cyanorak_Role_description": [
-      "Light",
-      "Photosynthesis and respiration"
-    ],
-    "end_cyanorak": 1008709,
-    "gene_category": "Stress response and adaptation",
-    "gene_name": "hli",
-    "gene_name_source": "cyanorak",
-    "gene_summary": "hli :: high light inducible protein",
-    "go_term_descriptions": [
-      "response to high light intensity",
-      "response to high light intensity",
-      "membrane"
-    ],
-    "go_terms": [
-      "GO:0009644",
-      "GO:0016020"
-    ],
-    "go_terms_source": {
-      "GO:0009644": [
-        "cyanorak"
-      ],
-      "GO:0016020": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "EW15_1157",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01157",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00002168",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF00504"
-    ],
-    "pfam_ids_source": {
-      "PF00504": [
-        "cyanorak"
-      ]
-    },
-    "product": "high light inducible protein",
-    "product_cyanorak": "high light inducible protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1008539,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "149"
-    ],
-    "tIGR_Role_description": [
-      "Cellular processes / Adaptations to atypical conditions"
-    ]
-  },
   "EW15_1158": {
     "all_identifiers": [
       "CK_Pro_MIT0801_01158",
@@ -228918,39 +228179,6 @@
     "start_cyanorak": 1019279,
     "strand": "+",
     "strand_cyanorak": "+"
-  },
-  "EW15_1182": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01182"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00042452",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1019653,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_1182",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01182",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00042452",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1019489,
-    "strand_cyanorak": "-"
   },
   "EW15_1183": {
     "all_identifiers": [
@@ -233831,39 +233059,6 @@
     "strand": "-",
     "strand_cyanorak": "-"
   },
-  "EW15_1230": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01230"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00055242",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1045034,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_1230",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01230",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00055242",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1044912,
-    "strand_cyanorak": "-"
-  },
   "EW15_1231": {
     "all_identifiers": [
       "CK_Pro_MIT0801_01231",
@@ -234368,39 +233563,6 @@
     "tIGR_Role_description": [
       "Purines, pyrimidines, nucleosides, and nucleotides / Purine ribonucleotide biosynthesis"
     ]
-  },
-  "EW15_1234": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01234"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00045791",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1047921,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_1234",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01234",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00045791",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1047706,
-    "strand_cyanorak": "+"
   },
   "EW15_1235": {
     "all_identifiers": [
@@ -238606,39 +237768,6 @@
       "Hypothetical proteins / Conserved"
     ]
   },
-  "EW15_1265": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01265"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00055576",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1070630,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_1265",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01265",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00055576",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1070496,
-    "strand_cyanorak": "-"
-  },
   "EW15_1266": {
     "all_identifiers": [
       "CK_Pro_MIT0801_01266"
@@ -239212,39 +238341,6 @@
     "product_source": "cyanorak",
     "start_cyanorak": 1074761,
     "strand_cyanorak": "+"
-  },
-  "EW15_1276": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01276"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] Hypothetical protein"
-    ],
-    "cluster_number": "CK_00049559",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1075242,
-    "gene_category": "Unknown",
-    "gene_summary": "Hypothetical protein",
-    "locus_tag": "EW15_1276",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01276",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00049559",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "Hypothetical protein",
-    "product_cyanorak": "Hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1075117,
-    "strand_cyanorak": "-"
   },
   "EW15_1277": {
     "all_identifiers": [
@@ -246190,39 +245286,6 @@
       "Cell envelope / Other"
     ]
   },
-  "EW15_1346": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01346"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00048742",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1115359,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_1346",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01346",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00048742",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1115198,
-    "strand_cyanorak": "+"
-  },
   "EW15_1347": {
     "all_identifiers": [
       "CK_Pro_MIT0801_01347",
@@ -247449,39 +246512,6 @@
     "strand": "+",
     "strand_cyanorak": "+"
   },
-  "EW15_1360": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01360"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] hypothetical protein"
-    ],
-    "cluster_number": "CK_00049058",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1121147,
-    "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein",
-    "locus_tag": "EW15_1360",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01360",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00049058",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "hypothetical protein",
-    "product_cyanorak": "hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1120992,
-    "strand_cyanorak": "-"
-  },
   "EW15_1361": {
     "all_identifiers": [
       "CK_Pro_MIT0801_01361"
@@ -247652,39 +246682,6 @@
     "product_source": "cyanorak",
     "start_cyanorak": 1122343,
     "strand_cyanorak": "-"
-  },
-  "EW15_1364": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01364"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00046644",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1123340,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_1364",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01364",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00046644",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1123212,
-    "strand_cyanorak": "+"
   },
   "EW15_1365": {
     "all_identifiers": [
@@ -248893,39 +247890,6 @@
     "strand": "-",
     "strand_cyanorak": "-"
   },
-  "EW15_1375": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01375"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00004001",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1130562,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_1375",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01375",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00004001",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1130449,
-    "strand_cyanorak": "-"
-  },
   "EW15_1376": {
     "all_identifiers": [
       "CK_Pro_MIT0801_01376",
@@ -249187,64 +248151,6 @@
     ],
     "tIGR_Role_description": [
       "Unknown function / Enzymes of unknown specificity"
-    ]
-  },
-  "EW15_1378": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01378"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] uncharacterized conserved membrane protein",
-      "[cyanorak_role] Conserved hypothetical proteins",
-      "[tigr_role] Hypothetical proteins / Conserved"
-    ],
-    "cluster_number": "CK_00053712",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "R.2"
-    ],
-    "cyanorak_Role_description": [
-      "Conserved hypothetical proteins"
-    ],
-    "end_cyanorak": 1132351,
-    "gene_category": "Unknown",
-    "gene_summary": "uncharacterized conserved membrane protein",
-    "go_term_descriptions": [
-      "membrane"
-    ],
-    "go_terms": [
-      "GO:0016020"
-    ],
-    "go_terms_source": {
-      "GO:0016020": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "EW15_1378",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01378",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00053712",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "uncharacterized conserved membrane protein",
-    "product_cyanorak": "uncharacterized conserved membrane protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1132175,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
     ]
   },
   "EW15_1379": {
@@ -250349,39 +249255,6 @@
     "start_cyanorak": 1137852,
     "strand": "+",
     "strand_cyanorak": "+"
-  },
-  "EW15_1391": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01391"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00049951",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1138256,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_1391",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01391",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00049951",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1138128,
-    "strand_cyanorak": "-"
   },
   "EW15_1392": {
     "all_identifiers": [
@@ -259550,55 +258423,6 @@
       "Hypothetical proteins / Conserved"
     ]
   },
-  "EW15_1476": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01476"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein",
-      "[tigr_role] Hypothetical proteins / Conserved",
-      "[pfam] DUF3721: Protein of unknown function"
-    ],
-    "cluster_number": "CK_00054661",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1181952,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_1476",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01476",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00054661",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF12518"
-    ],
-    "pfam_ids_source": {
-      "PF12518": [
-        "cyanorak"
-      ]
-    },
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1181716,
-    "strand_cyanorak": "+",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
-    ]
-  },
   "EW15_1477": {
     "all_identifiers": [
       "CK_Pro_MIT0801_01477",
@@ -262371,46 +261195,6 @@
     "start_cyanorak": 1196886,
     "strand": "+",
     "strand_cyanorak": "+"
-  },
-  "EW15_1501": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01501"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein",
-      "[tigr_role] Hypothetical proteins / Conserved"
-    ],
-    "cluster_number": "CK_00048370",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1199264,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_1501",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01501",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00048370",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1199121,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
-    ]
   },
   "EW15_1502": {
     "all_identifiers": [
@@ -265953,7 +264737,6 @@
       "[interpro] Monothiol glutaredoxin",
       "[interpro] Glutaredoxin, PICOT-like",
       "[ncbifam] Grx4 family monothiol glutaredoxin",
-      "[tigr_role_inferred] Energy metabolism / Electron transport",
       "[pfam] Glutaredoxin: Glutaredoxin"
     ],
     "alternative_locus_tags": [
@@ -270453,7 +269236,6 @@
       "[interpro] DNA integrity scanning protein DisA",
       "[hamap] Diadenylate cyclase [dacA].",
       "[ncbifam] diadenylate cyclase CdaA",
-      "[tigr_role_inferred] Hypothetical proteins / Conserved",
       "[pfam] DAC: DisA bacterial checkpoint controller nucleotide-binding"
     ],
     "alternative_locus_tags": [
@@ -278226,7 +277008,6 @@
       "[interpro] Inosine-5'-monophosphate dehydrogenase",
       "[interpro] IMP dehydrogenase-related 2",
       "[ncbifam] GuaB3 family IMP dehydrogenase-related protein",
-      "[tigr_role_inferred] Unknown function / General",
       "[pfam] IMPDH: IMP dehydrogenase / GMP reductase domain"
     ],
     "alternative_locus_tags": [
@@ -287887,7 +286668,6 @@
       "[interpro] YchF, N-terminal",
       "[hamap] Ribosome-binding ATPase YchF [ychF].",
       "[ncbifam] redox-regulated ATPase YchF",
-      "[tigr_role_inferred] Unknown function / General",
       "[pfam] MMR_HSR1: 50S ribosome-binding GTPase",
       "[pfam] YchF-GTPase_C: Protein of unknown function (DUF933)"
     ],
@@ -293160,7 +291940,6 @@
       "[interpro] Photosystem II protein D1/D2",
       "[hamap] Photosystem II D2 protein [psbD].",
       "[ncbifam] photosystem II D2 protein (photosystem q(a) protein)",
-      "[tigr_role_inferred] Energy metabolism / Electron transport",
       "[pfam] Photo_RC: Photosynthetic reaction centre protein"
     ],
     "alternative_locus_tags": [
@@ -293454,7 +292233,6 @@
       "[interpro] Photosystem II CP43 reaction centre protein",
       "[hamap] Photosystem II CP43 reaction center protein [psbC].",
       "[ncbifam] photosystem II reaction center protein CP43",
-      "[tigr_role_inferred] Energy metabolism / Electron transport",
       "[pfam] PSII: Photosystem II protein"
     ],
     "alternative_locus_tags": [
@@ -300629,39 +299407,6 @@
     "start_cyanorak": 1388816,
     "strand_cyanorak": "+"
   },
-  "EW15_1714": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01714"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] hypothetical protein"
-    ],
-    "cluster_number": "CK_00050270",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1389159,
-    "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein",
-    "locus_tag": "EW15_1714",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01714",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00050270",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "hypothetical protein",
-    "product_cyanorak": "hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1389037,
-    "strand_cyanorak": "+"
-  },
   "EW15_1715": {
     "all_identifiers": [
       "CK_Pro_MIT0801_01715",
@@ -306290,39 +305035,6 @@
       "Hypothetical proteins / Conserved"
     ]
   },
-  "EW15_1743": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01743"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein"
-    ],
-    "cluster_number": "CK_00045453",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1416026,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein",
-    "locus_tag": "EW15_1743",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01743",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00045453",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "conserved hypothetical protein",
-    "product_cyanorak": "conserved hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1415841,
-    "strand_cyanorak": "-"
-  },
   "EW15_1744": {
     "all_identifiers": [
       "CK_Pro_MIT0801_01744",
@@ -307111,7 +305823,6 @@
       "[interpro] Survival protein SurE",
       "[hamap] 5'/3'-nucleotidase SurE [surE].",
       "[ncbifam] 5'/3'-nucleotidase SurE",
-      "[tigr_role_inferred] Cellular processes / Adaptations to atypical conditions",
       "[pfam] SurE: Survival protein SurE"
     ],
     "alternative_locus_tags": [
@@ -309260,7 +307971,6 @@
       "[hamap] tRNA (guanine-N(1)-)-methyltransferase [trmD].",
       "[ncbifam] tRNA (guanosine(37)-N1)-methyltransferase TrmD",
       "[ncbifam] 2-C-methyl-D-erythritol 2,4-cyclodiphosphate synthase",
-      "[tigr_role_inferred] Protein synthesis / tRNA and rRNA base modification",
       "[pfam] YgbB: YgbB family",
       "[pfam] tRNA_m1G_MT: tRNA (Guanine-1)-methyltransferase TrmD"
     ],
@@ -309720,7 +308430,6 @@
       "[hamap] GTPase Era [era].",
       "[ncbifam] GTPase Era",
       "[ncbifam] GTP-binding protein",
-      "[tigr_role_inferred] Protein synthesis / Other",
       "[pfam] MMR_HSR1: 50S ribosome-binding GTPase",
       "[pfam] KH_2: KH domain"
     ],
@@ -312657,7 +311366,6 @@
       "[interpro] Peptidase S26A, superoxide dismutase maturation protease, nickel-type",
       "[interpro] Peptidase S26",
       "[interpro] Mitochondrial Inner Membrane Protease Subunit 1",
-      "[tigr_role_inferred] Protein fate / Protein modification and repair",
       "[pfam] Peptidase_S24: Peptidase S24-like",
       "[pfam] Peptidase_S26: Signal peptidase, peptidase S26"
     ],
@@ -349434,92 +348142,6 @@
       "9.B.160"
     ]
   },
-  "EW15_1945": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01945"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] ribosome maturation factor RimP",
-      "[cyanorak_role] Ribosomal proteins: synthesis and modification",
-      "[tigr_role] Protein synthesis / Ribosomal proteins: synthesis and modification",
-      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[pfam] RimP_N: RimP N-terminal domain"
-    ],
-    "bacteria_cog_og": "COG0779",
-    "cluster_number": "CK_00001064",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "K.2"
-    ],
-    "cyanorak_Role_description": [
-      "Ribosomal proteins: synthesis and modification"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: POORLY CHARACTERIZED [S] Function unknown",
-      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "eggnog_ogs": [
-      "COG0779",
-      "bactNOG100082",
-      "bactNOG100157",
-      "bactNOG92539",
-      "cyaNOG03185"
-    ],
-    "end_cyanorak": 1594220,
-    "gene_category": "Translation",
-    "gene_name": "rimP",
-    "gene_name_source": "cyanorak",
-    "gene_summary": "rimP :: ribosome maturation factor RimP",
-    "go_term_descriptions": [
-      "ribosomal small subunit biogenesis"
-    ],
-    "go_terms": [
-      "GO:0042274"
-    ],
-    "go_terms_source": {
-      "GO:0042274": [
-        "cyanorak"
-      ]
-    },
-    "locus_tag": "EW15_1945",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01945",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00001064",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF02576"
-    ],
-    "pfam_ids_source": {
-      "PF02576": [
-        "cyanorak"
-      ]
-    },
-    "product": "ribosome maturation factor RimP",
-    "product_cyanorak": "ribosome maturation factor RimP",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1593921,
-    "strand_cyanorak": "+",
-    "tIGR_Role": [
-      "158"
-    ],
-    "tIGR_Role_description": [
-      "Protein synthesis / Ribosomal proteins: synthesis and modification"
-    ]
-  },
   "EW15_1946": {
     "all_identifiers": [
       "CK_Pro_MIT0801_01946",
@@ -356738,7 +355360,6 @@
       "[interpro] Urease alpha subunit, C-terminal",
       "[hamap] Urease subunit alpha [ureC].",
       "[ncbifam] urease subunit alpha",
-      "[tigr_role_inferred] Central intermediary metabolism / Nitrogen metabolism",
       "[pfam] Urease_alpha: Urease alpha-subunit, N-terminal domain",
       "[pfam] Amidohydro_1: Amidohydrolase family"
     ],
@@ -356992,76 +355613,6 @@
     ],
     "tIGR_Role_description": [
       "Amino acid biosynthesis / Histidine family"
-    ]
-  },
-  "EW15_1988": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_01988"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] conserved hypothetical protein (DUF1830)",
-      "[cyanorak_role] Conserved hypothetical proteins",
-      "[tigr_role] Hypothetical proteins / Conserved",
-      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[pfam] DUF1830: Domain of unknown function (DUF1830)"
-    ],
-    "cluster_number": "CK_00001751",
-    "contributing_sources": [
-      "cyanorak",
-      "eggnog",
-      "ncbi"
-    ],
-    "cyanorak_Role": [
-      "R.2"
-    ],
-    "cyanorak_Role_description": [
-      "Conserved hypothetical proteins"
-    ],
-    "eggnog_og_descriptions": [
-      "COG: POORLY CHARACTERIZED [S] Function unknown",
-      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
-    ],
-    "eggnog_ogs": [
-      "NOG137153",
-      "bactNOG80371",
-      "cyaNOG08697"
-    ],
-    "end_cyanorak": 1628285,
-    "gene_category": "Unknown",
-    "gene_summary": "conserved hypothetical protein (DUF1830)",
-    "locus_tag": "EW15_1988",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_01988",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00001751",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "pfam_ids": [
-      "PF08865"
-    ],
-    "pfam_ids_source": {
-      "PF08865": [
-        "cyanorak"
-      ]
-    },
-    "product": "conserved hypothetical protein (DUF1830)",
-    "product_cyanorak": "conserved hypothetical protein (DUF1830)",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1628172,
-    "strand_cyanorak": "-",
-    "tIGR_Role": [
-      "156"
-    ],
-    "tIGR_Role_description": [
-      "Hypothetical proteins / Conserved"
     ]
   },
   "EW15_1989": {
@@ -367633,7 +366184,6 @@
       "[interpro] Alanine racemase, N-terminal",
       "[interpro] Alanine racemase, C-terminal",
       "[hamap] Alanine racemase.",
-      "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of murein sacculus and peptidoglycan",
       "[pfam] Ala_racemase_N: Alanine racemase, N-terminal domain",
       "[pfam] Ala_racemase_C: Alanine racemase, C-terminal domain"
     ],
@@ -381108,7 +379658,6 @@
       "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase LarE-like",
       "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase-like",
       "[ncbifam] ATP-dependent sacrificial sulfur transferase LarE",
-      "[tigr_role_inferred] Hypothetical proteins / Conserved",
       "[pfam] Asn_synthase: Asparagine synthase",
       "[pfam] NAD_synthase: NAD synthase"
     ],
@@ -383430,7 +381979,6 @@
       "[interpro] Probable peptidoglycan glycosyltransferase RodA/MrdB",
       "[hamap] Peptidoglycan glycosyltransferase MrdB [mrdB].",
       "[ncbifam] rod shape-determining protein RodA",
-      "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of murein sacculus and peptidoglycan",
       "[pfam] FTSW_RODA_SPOVE: Cell cycle protein"
     ],
     "alternative_locus_tags": [
@@ -385807,7 +384355,6 @@
       "[ncbifam] bifunctional pantoate--beta-alanine ligase/(d)CMP kinase",
       "[ncbifam] (d)CMP kinase",
       "[ncbifam] pantoate--beta-alanine ligase",
-      "[tigr_role_inferred] Biosynthesis of cofactors, prosthetic groups, and carriers / Pantothenate and coenzyme A",
       "[pfam] Cytidylate_kin: Cytidylate kinase",
       "[pfam] Pantoate_ligase: Pantoate-beta-alanine ligase"
     ],
@@ -397007,39 +395554,6 @@
     "tIGR_Role_description": [
       "Biosynthesis of cofactors, prosthetic groups, and carriers / Glutathione and analogs"
     ]
-  },
-  "EW15_2156": {
-    "all_identifiers": [
-      "CK_Pro_MIT0801_02156"
-    ],
-    "alternate_functional_descriptions": [
-      "[cyanorak] hypothetical protein"
-    ],
-    "cluster_number": "CK_00050555",
-    "contributing_sources": [
-      "cyanorak",
-      "ncbi"
-    ],
-    "end_cyanorak": 1777455,
-    "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein",
-    "locus_tag": "EW15_2156",
-    "locus_tag_cyanorak": "CK_Pro_MIT0801_02156",
-    "organism_name": "Prochlorococcus MIT0801",
-    "ortholog_groups": [
-      {
-        "og_id": "cyanorak:CK_00050555",
-        "source": "cyanorak",
-        "specificity_rank": 0,
-        "taxon_id": 0,
-        "taxonomic_level": "curated"
-      }
-    ],
-    "product": "hypothetical protein",
-    "product_cyanorak": "hypothetical protein",
-    "product_source": "cyanorak",
-    "start_cyanorak": 1777303,
-    "strand_cyanorak": "-"
   },
   "EW15_2157": {
     "all_identifiers": [
@@ -412444,7 +410958,6 @@
       "[interpro] Glycine cleavage system H-protein/Simiate",
       "[hamap] Glycine cleavage system H protein [gcvH].",
       "[ncbifam] glycine cleavage system protein GcvH",
-      "[tigr_role_inferred] Energy metabolism / Amino acids and amines",
       "[pfam] GCV_H: Glycine cleavage H-protein"
     ],
     "alternative_locus_tags": [
@@ -418592,7 +417105,6 @@
       "[interpro] Queuosine biosynthesis protein QueC",
       "[hamap] 7-cyano-7-deazaguanine synthase [queC].",
       "[ncbifam] 7-cyano-7-deazaguanine synthase QueC",
-      "[tigr_role_inferred] Unknown function / General",
       "[pfam] QueC: Queuosine biosynthesis protein QueC"
     ],
     "alternative_locus_tags": [
@@ -427218,10 +425730,19 @@
   },
   "EW15_RS00155": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_00032",
+      "EW15_0032",
       "WP_038650461.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] HNH endonuclease family protein",
       "[ncbi] HNH endonuclease",
+      "[cyanorak_role] DNA replication, recombination, and repair",
+      "[cyanorak_role] 2'-Deoxyribonucleotide metabolism",
+      "[tigr_role] Purines, pyrimidines, nucleosides, and nucleotides / 2'-Deoxyribonucleotide metabolism",
+      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
+      "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
+      "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
       "[interpro] HNH endonuclease",
       "[interpro] HNH nuclease",
       "[interpro] Nucleic_acid-targeting_endonuclease",
@@ -427229,31 +425750,59 @@
       "[pfam] HNH_5: HNH endonuclease"
     ],
     "alternative_locus_tags": [
-      "EW15_RS00155"
+      "EW15_RS00155",
+      "EW15_0032"
     ],
     "bacteria_cog_og": "COG1403",
+    "cluster_number": "CK_00000339",
     "cog_category": [
       "L"
     ],
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "cyanorak_Role": [
+      "F.1",
+      "M.1"
+    ],
+    "cyanorak_Role_description": [
+      "DNA replication, recombination, and repair",
+      "2'-Deoxyribonucleotide metabolism"
+    ],
+    "eggnog_og_descriptions": [
+      "COG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
+      "bactNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
+      "cyaNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms"
+    ],
     "eggnog_ogs": [
+      "NOG86494",
+      "COG1403",
+      "NOG295816",
+      "NOG69674",
+      "bactNOG53806",
+      "cyaNOG04857",
       "COG1403@1|root",
       "COG1403@2|Bacteria",
       "1GDQQ@1117|Cyanobacteria",
       "1MMAA@1212|Prochloraceae"
     ],
     "end": 31971,
+    "end_cyanorak": 31791,
     "gene_category": "Replication and repair",
-    "gene_summary": "HNH endonuclease",
+    "gene_summary": "HNH endonuclease family protein",
     "gene_synonyms": [
-      "EW15_RS00155"
+      "EW15_RS00155",
+      "EW15_0032"
+    ],
+    "go_term_descriptions": [
+      "nucleic acid binding",
+      "endonuclease activity"
     ],
     "go_terms": [
       "GO:0003676",
@@ -427267,10 +425816,12 @@
     },
     "go_terms_source": {
       "GO:0003676": [
+        "cyanorak",
         "interproscan",
         "ncbi"
       ],
       "GO:0004519": [
+        "cyanorak",
         "interproscan",
         "ncbi"
       ],
@@ -427284,10 +425835,21 @@
       "IPR052892"
     ],
     "locus_tag": "EW15_RS00155",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_00032",
     "locus_tag_ncbi": "EW15_RS00155",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_0032"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00000339",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG1403@2",
         "source": "eggnog",
@@ -427315,10 +425877,11 @@
       "PF14279"
     ],
     "pfam_ids_evidence": {
-      "PF01844": "signature"
+      "PF01844": "curated"
     },
     "pfam_ids_source": {
       "PF01844": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ],
@@ -427326,8 +425889,9 @@
         "eggnog"
       ]
     },
-    "product": "HNH endonuclease",
-    "product_source": "ncbi",
+    "product": "HNH endonuclease family protein",
+    "product_cyanorak": "HNH endonuclease family protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_038650461.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -427336,7 +425900,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 31561,
-    "strand": "-"
+    "start_cyanorak": 31561,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "123"
+    ],
+    "tIGR_Role_description": [
+      "Purines, pyrimidines, nucleosides, and nucleotides / 2'-Deoxyribonucleotide metabolism"
+    ]
   },
   "EW15_RS00320": {
     "all_identifiers": [
@@ -427410,22 +425982,32 @@
   },
   "EW15_RS00400": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_00097",
+      "EW15_0097",
       "WP_038650548.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] cupin domain-containing protein",
+      "[tigr_role] Hypothetical proteins / Conserved",
+      "[cog] COG: POORLY CHARACTERIZED [R] General function prediction only",
+      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] (S)-ureidoglycine aminohydrolase, cupin domain",
       "[pfam] Cupin_3: EutQ-like cupin domain"
     ],
     "alternative_locus_tags": [
-      "EW15_RS00400"
+      "EW15_RS00400",
+      "EW15_0097"
     ],
     "bacteria_cog_og": "COG3450",
+    "cluster_number": "CK_00001733",
     "cog_category": [
       "S"
     ],
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
@@ -427433,17 +426015,27 @@
       "signalp",
       "tcdb_diamond"
     ],
+    "eggnog_og_descriptions": [
+      "COG: POORLY CHARACTERIZED [R] General function prediction only",
+      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+    ],
     "eggnog_ogs": [
+      "COG3450",
+      "bactNOG37017",
+      "cyaNOG03497",
       "COG3450@1|root",
       "COG3450@2|Bacteria",
       "1G7YR@1117|Cyanobacteria",
       "1MMR6@1212|Prochloraceae"
     ],
     "end": 89507,
+    "end_cyanorak": 89381,
     "gene_category": "Unknown",
-    "gene_summary": "cupin domain-containing protein",
+    "gene_summary": "conserved hypothetical protein",
     "gene_synonyms": [
-      "EW15_RS00400"
+      "EW15_RS00400",
+      "EW15_0097"
     ],
     "interpro_entries": [
       "IPR008579",
@@ -427457,10 +426049,21 @@
       "K06995"
     ],
     "locus_tag": "EW15_RS00400",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_00097",
     "locus_tag_ncbi": "EW15_RS00400",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_0097"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00001733",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG3450@2",
         "source": "eggnog",
@@ -427487,16 +426090,18 @@
       "PF05899"
     ],
     "pfam_ids_evidence": {
-      "PF05899": "signature"
+      "PF05899": "curated"
     },
     "pfam_ids_source": {
       "PF05899": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
-    "product": "cupin domain-containing protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_038650548.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -427505,7 +426110,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 89232,
+    "start_cyanorak": 89232,
     "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ],
     "tcdb_diamond_ids": [
       "9.B.75"
     ],
@@ -428079,22 +426692,28 @@
   },
   "EW15_RS02150": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_00460",
+      "EW15_0460",
       "WP_011294361.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] PipX family protein",
       "[interpro] PII-interacting protein X, cyanobacteria",
       "[pfam] PipX: PII-interacting protein X"
     ],
     "alternative_locus_tags": [
-      "EW15_RS02150"
+      "EW15_RS02150",
+      "EW15_0460"
     ],
     "bacteria_cog_og": "COG0457",
+    "cluster_number": "CK_00052121",
     "cog_category": [
       "S"
     ],
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
@@ -428108,10 +426727,12 @@
       "1MMQ6@1212|Prochloraceae"
     ],
     "end": 403481,
+    "end_cyanorak": 403481,
     "gene_category": "Unknown",
-    "gene_summary": "PipX family protein",
+    "gene_summary": "conserved hypothetical protein",
     "gene_synonyms": [
-      "EW15_RS02150"
+      "EW15_RS02150",
+      "EW15_0460"
     ],
     "interpro_entries": [
       "IPR021926"
@@ -428123,10 +426744,21 @@
       "K14518"
     ],
     "locus_tag": "EW15_RS02150",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_00460",
     "locus_tag_ncbi": "EW15_RS02150",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_0460"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00052121",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG0457@2",
         "source": "eggnog",
@@ -428153,16 +426785,18 @@
       "PF12058"
     ],
     "pfam_ids_evidence": {
-      "PF12058": "signature"
+      "PF12058": "curated"
     },
     "pfam_ids_source": {
       "PF12058": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
-    "product": "PipX family protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_011294361.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -428171,7 +426805,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 403215,
-    "strand": "+"
+    "start_cyanorak": 403338,
+    "strand": "+",
+    "strand_cyanorak": "+"
   },
   "EW15_RS02170": {
     "all_identifiers": [
@@ -428318,47 +426954,79 @@
   },
   "EW15_RS02600": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_00558",
+      "EW15_0558",
       "WP_038651542.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] DUF3067 family protein",
+      "[tigr_role] Hypothetical proteins / Conserved",
+      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Protein of unknown function DUF3067",
       "[pfam] DUF3067: Domain of unknown function (DUF3067)"
     ],
     "alternative_locus_tags": [
-      "EW15_RS02600"
+      "EW15_RS02600",
+      "EW15_0558"
     ],
+    "cluster_number": "CK_00001413",
     "cog_category": [
       "S"
     ],
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "eggnog_og_descriptions": [
+      "COG: POORLY CHARACTERIZED [S] Function unknown",
+      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+    ],
     "eggnog_ogs": [
+      "NOG86172",
+      "bactNOG74780",
+      "bactNOG30507",
+      "cyaNOG03395",
       "2AH3C@1|root",
       "34AE8@2|Bacteria",
       "1GFCP@1117|Cyanobacteria",
       "1MN42@1212|Prochloraceae"
     ],
     "end": 501603,
+    "end_cyanorak": 501603,
     "gene_category": "Unknown",
-    "gene_summary": "DUF3067 family protein",
+    "gene_summary": "conserved hypothetical protein",
     "gene_synonyms": [
-      "EW15_RS02600"
+      "EW15_RS02600",
+      "EW15_0558"
     ],
     "interpro_entries": [
       "IPR021420"
     ],
     "locus_tag": "EW15_RS02600",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_00558",
     "locus_tag_ncbi": "EW15_RS02600",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_0558"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00001413",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:34AE8@2",
         "source": "eggnog",
@@ -428385,16 +427053,18 @@
       "PF11267"
     ],
     "pfam_ids_evidence": {
-      "PF11267": "signature"
+      "PF11267": "curated"
     },
     "pfam_ids_source": {
       "PF11267": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
-    "product": "DUF3067 family protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_038651542.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -428403,21 +427073,38 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 501241,
-    "strand": "+"
+    "start_cyanorak": 501391,
+    "strand": "+",
+    "strand_cyanorak": "+",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "EW15_RS03100": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_00660",
+      "EW15_0660",
       "WP_038651801.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] beta-glycosyltransferase, family 2",
       "[ncbi] TIGR04283 family arsenosugar biosynthesis glycosyltransferase",
+      "[cyanorak_role] Surface polysaccharides and lipopolysaccharides",
+      "[tigr_role] Cell envelope / Biosynthesis and degradation of surface polysaccharides and lipopolysaccharides",
+      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
+      "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
+      "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
       "[interpro] Glycosyltransferase 2-like",
       "[interpro] Transferase 2, rSAM/selenodomain-associated",
-      "[tigr_role_inferred] Unknown function / Enzymes of unknown specificity",
+      "[ncbifam] TIGR04283 family arsenosugar biosynthesis glycosyltransferase",
       "[pfam] Glycos_transf_2: Glycosyl transferase family 2"
     ],
     "alternative_locus_tags": [
-      "EW15_RS03100"
+      "EW15_RS03100",
+      "EW15_0660"
     ],
     "bacteria_cog_og": "COG1215",
     "cazy_ids": [
@@ -428431,38 +427118,70 @@
         "interproscan"
       ]
     },
+    "cluster_number": "CK_00000952",
     "cog_category": [
       "M"
     ],
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "cyanorak_Role": [
+      "C.3"
+    ],
+    "cyanorak_Role_description": [
+      "Surface polysaccharides and lipopolysaccharides"
+    ],
+    "eggnog_og_descriptions": [
+      "COG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
+      "bactNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
+      "cyaNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis"
+    ],
     "eggnog_ogs": [
+      "COG0463",
+      "NOG292225",
+      "COG1215",
+      "bactNOG08457",
+      "bactNOG34943",
+      "cyaNOG06515",
+      "cyaNOG02394",
       "COG1215@1|root",
       "COG1215@2|Bacteria",
       "1GDJY@1117|Cyanobacteria",
       "1MKT4@1212|Prochloraceae"
     ],
     "end": 591175,
+    "end_cyanorak": 590665,
     "gene_category": "Cell wall and membrane",
-    "gene_summary": "TIGR04283 family arsenosugar biosynthesis glycosyltransferase",
+    "gene_summary": "beta-glycosyltransferase, family 2",
     "gene_synonyms": [
-      "EW15_RS03100"
+      "EW15_RS03100",
+      "EW15_0660"
+    ],
+    "go_term_descriptions": [
+      "transferase activity",
+      "transferase activity",
+      "peptidoglycan-based cell wall"
     ],
     "go_terms": [
       "GO:0016740",
-      "GO:0009058"
+      "GO:0009058",
+      "GO:0009274"
     ],
     "go_terms_source": {
       "GO:0009058": [
         "ncbi"
       ],
+      "GO:0009274": [
+        "cyanorak"
+      ],
       "GO:0016740": [
+        "cyanorak",
         "ncbi"
       ]
     },
@@ -428472,6 +427191,7 @@
       "IPR029044"
     ],
     "locus_tag": "EW15_RS03100",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_00660",
     "locus_tag_ncbi": "EW15_RS03100",
     "max_annot_lvl": "1117|Cyanobacteria",
     "ncbifam_ids": [
@@ -428482,8 +427202,18 @@
         "interproscan"
       ]
     },
+    "old_locus_tags": [
+      "EW15_0660"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00000952",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG1215@2",
         "source": "eggnog",
@@ -428510,16 +427240,18 @@
       "PF00535"
     ],
     "pfam_ids_evidence": {
-      "PF00535": "signature"
+      "PF00535": "curated"
     },
     "pfam_ids_source": {
       "PF00535": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
-    "product": "TIGR04283 family arsenosugar biosynthesis glycosyltransferase",
-    "product_source": "ncbi",
+    "product": "beta-glycosyltransferase, family 2",
+    "product_cyanorak": "beta-glycosyltransferase, family 2",
+    "product_source": "cyanorak",
     "protein_id": "WP_038651801.1",
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
@@ -428528,7 +427260,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 590471,
-    "strand": "-"
+    "start_cyanorak": 590471,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "90"
+    ],
+    "tIGR_Role_description": [
+      "Cell envelope / Biosynthesis and degradation of surface polysaccharides and lipopolysaccharides"
+    ]
   },
   "EW15_RS03140": {
     "all_identifiers": [
@@ -429217,26 +427957,41 @@
   },
   "EW15_RS03980": {
     "all_identifiers": [
-      "WP_038652206.1"
+      "CK_Pro_MIT0801_00852",
+      "EW15_0852",
+      "WP_038652206.1",
+      "ccsB"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] cytochrome c-type biogenesis protein",
       "[ncbi] c-type cytochrome biogenesis protein CcsB",
       "[eggnog] Required during biogenesis of c-type cytochromes (cytochrome c6 and cytochrome f) at the step of heme attachment",
+      "[cyanorak_role] Photosynthesis and respiration",
+      "[tigr_role] Energy metabolism / Aerobic",
+      "[tigr_role] Energy metabolism / Electron transport",
+      "[tigr_role] Transport and binding proteins / Other",
+      "[cog] COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
+      "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
+      "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
       "[interpro] Cytochrome c assembly protein",
       "[interpro] Cytochrome c-type biogenesis protein CcmC",
       "[interpro] Cytochrome c-type biogenesis protein CcsA",
       "[interpro] Cytochrome c-type biogenesis protein CcsA/CcmC",
       "[hamap] Cytochrome c biogenesis protein CcsA [ccsA].",
-      "[tigr_role_inferred] Energy metabolism / Electron transport",
-      "[tigr_role_inferred] Protein fate / Protein modification and repair",
+      "[ncbifam] c-type cytochrome biogenesis protein CcsB",
       "[pfam] Cytochrom_C_asm: Cytochrome C assembly protein"
     ],
+    "alternative_locus_tags": [
+      "EW15_0852"
+    ],
     "bacteria_cog_og": "COG0755",
+    "cluster_number": "CK_00000880",
     "cog_category": [
       "O"
     ],
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
@@ -429244,40 +427999,78 @@
       "signalp",
       "tcdb_diamond"
     ],
+    "cyanorak_Role": [
+      "J"
+    ],
+    "cyanorak_Role_description": [
+      "Photosynthesis and respiration"
+    ],
+    "eggnog_og_descriptions": [
+      "COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
+      "bactNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
+      "cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones"
+    ],
     "eggnog_ogs": [
+      "COG0755",
+      "bactNOG05371",
+      "bactNOG20098",
+      "bactNOG05755",
+      "bactNOG23544",
+      "cyaNOG00758",
       "COG0755@1|root",
       "COG0755@2|Bacteria",
       "1G0R6@1117|Cyanobacteria",
       "1MM7G@1212|Prochloraceae"
     ],
     "end": 769318,
+    "end_cyanorak": 769318,
     "function_description": "Required during biogenesis of c-type cytochromes (cytochrome c6 and cytochrome f) at the step of heme attachment",
     "function_description_source": "eggnog",
-    "gene_category": "Post-translational modification",
-    "gene_name": "ccsB",
-    "gene_name_source": "ncbi",
-    "gene_summary": "ccsB :: c-type cytochrome biogenesis protein CcsB :: Required during biogenesis of c-type cytochromes (cytochrome c6 and cytochrome f) at the step of heme attachment",
+    "gene_category": "Photosynthesis",
+    "gene_name": "ccsA",
+    "gene_name_source": "cyanorak",
+    "gene_name_synonyms": [
+      "ccsB"
+    ],
+    "gene_summary": "ccsA :: cytochrome c-type biogenesis protein :: Required during biogenesis of c-type cytochromes (cytochrome c6 and cytochrome f) at the step of heme attachment",
+    "gene_synonyms": [
+      "ccsB",
+      "EW15_0852"
+    ],
+    "go_term_descriptions": [
+      "heme transport",
+      "cytochrome complex assembly",
+      "heme transport",
+      "cytochrome complex assembly",
+      "heme transporter activity",
+      "heme binding",
+      "heme transport",
+      "cytochrome complex assembly",
+      "heme transporter activity",
+      "heme binding",
+      "membrane"
+    ],
     "go_terms": [
       "GO:0020037",
       "GO:0017004",
+      "GO:0015886",
+      "GO:0015232",
+      "GO:0016020",
       "GO:0006810",
       "GO:0008150",
       "GO:0008152",
-      "GO:0015886",
       "GO:0051179",
       "GO:0051181",
       "GO:0051234",
       "GO:0055114",
       "GO:0071702",
       "GO:0071705",
-      "GO:1901678",
-      "GO:0015232",
-      "GO:0016020"
+      "GO:1901678"
     ],
     "go_terms_evidence": {
-      "GO:0015232": "family_inferred",
+      "GO:0015232": "curated",
       "GO:0015886": "curated",
-      "GO:0016020": "family_inferred",
+      "GO:0016020": "curated",
       "GO:0017004": "curated",
       "GO:0020037": "curated"
     },
@@ -429292,20 +428085,25 @@
         "eggnog"
       ],
       "GO:0015232": [
+        "cyanorak",
         "interproscan"
       ],
       "GO:0015886": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ],
       "GO:0016020": [
+        "cyanorak",
         "interproscan"
       ],
       "GO:0017004": [
+        "cyanorak",
         "interproscan",
         "ncbi"
       ],
       "GO:0020037": [
+        "cyanorak",
         "interproscan",
         "ncbi"
       ],
@@ -429338,6 +428136,7 @@
       "IPR045062"
     ],
     "locus_tag": "EW15_RS03980",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_00852",
     "locus_tag_ncbi": "EW15_RS03980",
     "max_annot_lvl": "1117|Cyanobacteria",
     "ncbifam_ids": [
@@ -429348,8 +428147,18 @@
         "interproscan"
       ]
     },
+    "old_locus_tags": [
+      "EW15_0852"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00000880",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG0755@2",
         "source": "eggnog",
@@ -429376,16 +428185,18 @@
       "PF01578"
     ],
     "pfam_ids_evidence": {
-      "PF01578": "signature"
+      "PF01578": "curated"
     },
     "pfam_ids_source": {
       "PF01578": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
-    "product": "c-type cytochrome biogenesis protein CcsB",
-    "product_source": "ncbi",
+    "product": "cytochrome c-type biogenesis protein",
+    "product_cyanorak": "cytochrome c-type biogenesis protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_038652206.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
@@ -429394,7 +428205,19 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 768371,
+    "start_cyanorak": 768812,
     "strand": "+",
+    "strand_cyanorak": "+",
+    "tIGR_Role": [
+      "108",
+      "112",
+      "147"
+    ],
+    "tIGR_Role_description": [
+      "Energy metabolism / Aerobic",
+      "Energy metabolism / Electron transport",
+      "Transport and binding proteins / Other"
+    ],
     "tcdb_diamond_ids": [
       "9.B.14"
     ],
@@ -430052,17 +428875,23 @@
   },
   "EW15_RS05100": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01098",
+      "EW15_1098",
       "WP_225866511.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -"
     ],
     "alternative_locus_tags": [
-      "EW15_RS05100"
+      "EW15_RS05100",
+      "EW15_1098"
     ],
+    "cluster_number": "CK_00042998",
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -430075,16 +428904,29 @@
       "1MPH1@1212|Prochloraceae"
     ],
     "end": 979917,
+    "end_cyanorak": 979917,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "EW15_RS05100"
+      "EW15_RS05100",
+      "EW15_1098"
     ],
     "locus_tag": "EW15_RS05100",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01098",
     "locus_tag_ncbi": "EW15_RS05100",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1098"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00042998",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:320NE@2",
         "source": "eggnog",
@@ -430107,8 +428949,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_225866511.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -430117,7 +428960,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 979666,
-    "strand": "+"
+    "start_cyanorak": 979792,
+    "strand": "+",
+    "strand_cyanorak": "+"
   },
   "EW15_RS05120": {
     "all_identifiers": [
@@ -430398,23 +429243,41 @@
   },
   "EW15_RS05340": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01157",
+      "EW15_1157",
       "WP_011294533.1"
     ],
     "alternate_functional_descriptions": [
-      "[ncbi] high light inducible protein"
+      "[cyanorak] high light inducible protein",
+      "[ncbi] high light inducible protein",
+      "[cyanorak_role] Light",
+      "[cyanorak_role] Photosynthesis and respiration",
+      "[tigr_role] Cellular processes / Adaptations to atypical conditions",
+      "[pfam] Chloroa_b-bind: Chlorophyll A-B binding protein"
     ],
     "alternative_locus_tags": [
-      "EW15_RS05340"
+      "EW15_RS05340",
+      "EW15_1157"
     ],
+    "cluster_number": "CK_00002168",
     "cog_category": [
       "S"
     ],
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
       "signalp"
+    ],
+    "cyanorak_Role": [
+      "D.1.2",
+      "J"
+    ],
+    "cyanorak_Role_description": [
+      "Light",
+      "Photosynthesis and respiration"
     ],
     "eggnog_ogs": [
       "2B1JI@1|root",
@@ -430423,16 +429286,48 @@
       "1MN54@1212|Prochloraceae"
     ],
     "end": 1008646,
-    "gene_category": "Unknown",
-    "gene_summary": "high light inducible protein",
+    "end_cyanorak": 1008709,
+    "gene_category": "Stress response and adaptation",
+    "gene_name": "hli",
+    "gene_name_source": "cyanorak",
+    "gene_summary": "hli :: high light inducible protein",
     "gene_synonyms": [
-      "EW15_RS05340"
+      "EW15_RS05340",
+      "EW15_1157"
     ],
+    "go_term_descriptions": [
+      "response to high light intensity",
+      "response to high light intensity",
+      "membrane"
+    ],
+    "go_terms": [
+      "GO:0009644",
+      "GO:0016020"
+    ],
+    "go_terms_source": {
+      "GO:0009644": [
+        "cyanorak"
+      ],
+      "GO:0016020": [
+        "cyanorak"
+      ]
+    },
     "locus_tag": "EW15_RS05340",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01157",
     "locus_tag_ncbi": "EW15_RS05340",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1157"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00002168",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:31U0X@2",
         "source": "eggnog",
@@ -430455,8 +429350,17 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
+    "pfam_ids": [
+      "PF00504"
+    ],
+    "pfam_ids_source": {
+      "PF00504": [
+        "cyanorak"
+      ]
+    },
     "product": "high light inducible protein",
-    "product_source": "ncbi",
+    "product_cyanorak": "high light inducible protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_011294533.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.5,
@@ -430465,21 +429369,35 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1008539,
-    "strand": "-"
+    "start_cyanorak": 1008539,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "149"
+    ],
+    "tIGR_Role_description": [
+      "Cellular processes / Adaptations to atypical conditions"
+    ]
   },
   "EW15_RS05420": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01182",
+      "EW15_1182",
       "WP_038652908.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -"
     ],
     "alternative_locus_tags": [
-      "EW15_RS05420"
+      "EW15_RS05420",
+      "EW15_1182"
     ],
+    "cluster_number": "CK_00042452",
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -430492,16 +429410,29 @@
       "1MP2Y@1212|Prochloraceae"
     ],
     "end": 1019749,
+    "end_cyanorak": 1019653,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "EW15_RS05420"
+      "EW15_RS05420",
+      "EW15_1182"
     ],
     "locus_tag": "EW15_RS05420",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01182",
     "locus_tag_ncbi": "EW15_RS05420",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1182"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00042452",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:30S57@2",
         "source": "eggnog",
@@ -430524,8 +429455,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_038652908.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -430536,21 +429468,29 @@
     "signalp_probability": 0.999143,
     "signalp_type": "SP",
     "start": 1019489,
-    "strand": "-"
+    "start_cyanorak": 1019489,
+    "strand": "-",
+    "strand_cyanorak": "-"
   },
   "EW15_RS05740": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01265",
+      "EW15_1265",
       "WP_038653035.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -"
     ],
     "alternative_locus_tags": [
-      "EW15_RS05740"
+      "EW15_RS05740",
+      "EW15_1265"
     ],
+    "cluster_number": "CK_00055576",
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -430563,16 +429503,29 @@
       "1MPFX@1212|Prochloraceae"
     ],
     "end": 1070726,
+    "end_cyanorak": 1070630,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "EW15_RS05740"
+      "EW15_RS05740",
+      "EW15_1265"
     ],
     "locus_tag": "EW15_RS05740",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01265",
     "locus_tag_ncbi": "EW15_RS05740",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1265"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00055576",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:322WK@2",
         "source": "eggnog",
@@ -430595,8 +429548,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_038653035.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -430605,7 +429559,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1070496,
-    "strand": "-"
+    "start_cyanorak": 1070496,
+    "strand": "-",
+    "strand_cyanorak": "-"
   },
   "EW15_RS05745": {
     "all_identifiers": [
@@ -430644,52 +429600,82 @@
   },
   "EW15_RS05775": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01276",
+      "EW15_1276",
       "WP_038653053.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] Hypothetical protein",
       "[ncbi] hypothetical protein"
     ],
     "alternative_locus_tags": [
-      "EW15_RS05775"
+      "EW15_RS05775",
+      "EW15_1276"
     ],
+    "cluster_number": "CK_00049559",
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "ncbi",
       "psortb",
       "signalp"
     ],
     "end": 1075335,
+    "end_cyanorak": 1075242,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein",
+    "gene_summary": "Hypothetical protein",
     "gene_synonyms": [
-      "EW15_RS05775"
+      "EW15_RS05775",
+      "EW15_1276"
     ],
     "locus_tag": "EW15_RS05775",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01276",
     "locus_tag_ncbi": "EW15_RS05775",
+    "old_locus_tags": [
+      "EW15_1276"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00049559",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      }
+    ],
+    "product": "Hypothetical protein",
+    "product_cyanorak": "Hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_038653053.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 0.999969,
     "signalp_type": "OTHER",
     "start": 1075117,
-    "strand": "-"
+    "start_cyanorak": 1075117,
+    "strand": "-",
+    "strand_cyanorak": "-"
   },
   "EW15_RS06055": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01360",
+      "EW15_1360",
       "WP_038653185.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -"
     ],
     "alternative_locus_tags": [
-      "EW15_RS06055"
+      "EW15_RS06055",
+      "EW15_1360"
     ],
+    "cluster_number": "CK_00049058",
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -430702,16 +429688,29 @@
       "1MNQI@1212|Prochloraceae"
     ],
     "end": 1121276,
+    "end_cyanorak": 1121147,
     "gene_category": "Unknown",
     "gene_summary": "hypothetical protein :: -",
     "gene_synonyms": [
-      "EW15_RS06055"
+      "EW15_RS06055",
+      "EW15_1360"
     ],
     "locus_tag": "EW15_RS06055",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01360",
     "locus_tag_ncbi": "EW15_RS06055",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1360"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00049058",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:30RU7@2",
         "source": "eggnog",
@@ -430735,7 +429734,8 @@
       }
     ],
     "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product_cyanorak": "hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_038653185.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -430744,21 +429744,29 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1120992,
-    "strand": "-"
+    "start_cyanorak": 1120992,
+    "strand": "-",
+    "strand_cyanorak": "-"
   },
   "EW15_RS06060": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01364",
+      "EW15_1364",
       "WP_038653188.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -"
     ],
     "alternative_locus_tags": [
-      "EW15_RS06060"
+      "EW15_RS06060",
+      "EW15_1364"
     ],
+    "cluster_number": "CK_00046644",
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -430771,16 +429779,29 @@
       "1MP5B@1212|Prochloraceae"
     ],
     "end": 1123340,
+    "end_cyanorak": 1123340,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "EW15_RS06060"
+      "EW15_RS06060",
+      "EW15_1364"
     ],
     "locus_tag": "EW15_RS06060",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01364",
     "locus_tag_ncbi": "EW15_RS06060",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1364"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00046644",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:32H5P@2",
         "source": "eggnog",
@@ -430803,8 +429824,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_038653188.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -430813,21 +429835,29 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1123116,
-    "strand": "+"
+    "start_cyanorak": 1123212,
+    "strand": "+",
+    "strand_cyanorak": "+"
   },
   "EW15_RS06115": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01375",
+      "EW15_1375",
       "WP_011294627.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -"
     ],
     "alternative_locus_tags": [
-      "EW15_RS06115"
+      "EW15_RS06115",
+      "EW15_1375"
     ],
+    "cluster_number": "CK_00004001",
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -430840,16 +429870,29 @@
       "1MPBD@1212|Prochloraceae"
     ],
     "end": 1130652,
+    "end_cyanorak": 1130562,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "EW15_RS06115"
+      "EW15_RS06115",
+      "EW15_1375"
     ],
     "locus_tag": "EW15_RS06115",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01375",
     "locus_tag_ncbi": "EW15_RS06115",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1375"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00004001",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:30RNA@2",
         "source": "eggnog",
@@ -430872,8 +429915,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_011294627.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
@@ -430882,27 +429926,43 @@
     "signalp_probability": 0.967128,
     "signalp_type": "OTHER",
     "start": 1130449,
-    "strand": "-"
+    "start_cyanorak": 1130449,
+    "strand": "-",
+    "strand_cyanorak": "-"
   },
   "EW15_RS06125": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01378",
+      "EW15_1378",
       "WP_011294629.1"
     ],
     "alternate_functional_descriptions": [
-      "[ncbi] hypothetical protein"
+      "[cyanorak] uncharacterized conserved membrane protein",
+      "[ncbi] hypothetical protein",
+      "[cyanorak_role] Conserved hypothetical proteins",
+      "[tigr_role] Hypothetical proteins / Conserved"
     ],
     "alternative_locus_tags": [
-      "EW15_RS06125"
+      "EW15_RS06125",
+      "EW15_1378"
     ],
+    "cluster_number": "CK_00053712",
     "cog_category": [
       "S"
     ],
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
       "signalp"
+    ],
+    "cyanorak_Role": [
+      "R.2"
+    ],
+    "cyanorak_Role_description": [
+      "Conserved hypothetical proteins"
     ],
     "eggnog_ogs": [
       "2B7J9@1|root",
@@ -430911,16 +429971,40 @@
       "1MMUA@1212|Prochloraceae"
     ],
     "end": 1132459,
+    "end_cyanorak": 1132351,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein",
+    "gene_summary": "uncharacterized conserved membrane protein",
     "gene_synonyms": [
-      "EW15_RS06125"
+      "EW15_RS06125",
+      "EW15_1378"
     ],
+    "go_term_descriptions": [
+      "membrane"
+    ],
+    "go_terms": [
+      "GO:0016020"
+    ],
+    "go_terms_source": {
+      "GO:0016020": [
+        "cyanorak"
+      ]
+    },
     "locus_tag": "EW15_RS06125",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01378",
     "locus_tag_ncbi": "EW15_RS06125",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1378"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00053712",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:320PW@2",
         "source": "eggnog",
@@ -430943,8 +430027,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "uncharacterized conserved membrane protein",
+    "product_cyanorak": "uncharacterized conserved membrane protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_011294629.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.86,
@@ -430953,7 +430038,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1132175,
-    "strand": "-"
+    "start_cyanorak": 1132175,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "EW15_RS06130": {
     "all_identifiers": [
@@ -431026,17 +430119,23 @@
   },
   "EW15_RS06175": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01391",
+      "EW15_1391",
       "WP_038653229.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -"
     ],
     "alternative_locus_tags": [
-      "EW15_RS06175"
+      "EW15_RS06175",
+      "EW15_1391"
     ],
+    "cluster_number": "CK_00049951",
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -431049,16 +430148,29 @@
       "1MP7H@1212|Prochloraceae"
     ],
     "end": 1138373,
+    "end_cyanorak": 1138256,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "EW15_RS06175"
+      "EW15_RS06175",
+      "EW15_1391"
     ],
     "locus_tag": "EW15_RS06175",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01391",
     "locus_tag_ncbi": "EW15_RS06175",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1391"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00049951",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:307YY@2",
         "source": "eggnog",
@@ -431081,8 +430193,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_038653229.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -431091,7 +430204,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1138128,
-    "strand": "-"
+    "start_cyanorak": 1138128,
+    "strand": "-",
+    "strand_cyanorak": "-"
   },
   "EW15_RS06325": {
     "all_identifiers": [
@@ -431166,21 +430281,28 @@
   },
   "EW15_RS06470": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01476",
+      "EW15_1476",
       "WP_038655297.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] DUF3721 domain-containing protein",
+      "[tigr_role] Hypothetical proteins / Conserved",
       "[interpro] Domain of unknown function DUF3721",
       "[pfam] DUF3721: Protein of unknown function"
     ],
     "alternative_locus_tags": [
-      "EW15_RS06470"
+      "EW15_RS06470",
+      "EW15_1476"
     ],
+    "cluster_number": "CK_00054661",
     "cog_category": [
       "S"
     ],
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
@@ -431194,19 +430316,32 @@
       "1MMYD@1212|Prochloraceae"
     ],
     "end": 1181952,
+    "end_cyanorak": 1181952,
     "gene_category": "Unknown",
-    "gene_summary": "DUF3721 domain-containing protein",
+    "gene_summary": "conserved hypothetical protein",
     "gene_synonyms": [
-      "EW15_RS06470"
+      "EW15_RS06470",
+      "EW15_1476"
     ],
     "interpro_entries": [
       "IPR022196"
     ],
     "locus_tag": "EW15_RS06470",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01476",
     "locus_tag_ncbi": "EW15_RS06470",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1476"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00054661",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:321RE@2",
         "source": "eggnog",
@@ -431233,16 +430368,18 @@
       "PF12518"
     ],
     "pfam_ids_evidence": {
-      "PF12518": "signature"
+      "PF12518": "curated"
     },
     "pfam_ids_source": {
       "PF12518": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
-    "product": "DUF3721 domain-containing protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_038655297.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -431251,42 +430388,81 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1181809,
-    "strand": "+"
+    "start_cyanorak": 1181716,
+    "strand": "+",
+    "strand_cyanorak": "+",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "EW15_RS06560": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01501",
+      "EW15_1501",
       "WP_038653384.1"
     ],
     "alternate_functional_descriptions": [
-      "[ncbi] hypothetical protein"
+      "[cyanorak] conserved hypothetical protein",
+      "[ncbi] hypothetical protein",
+      "[tigr_role] Hypothetical proteins / Conserved"
     ],
     "alternative_locus_tags": [
-      "EW15_RS06560"
+      "EW15_RS06560",
+      "EW15_1501"
     ],
+    "cluster_number": "CK_00048370",
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "ncbi",
       "psortb",
       "signalp"
     ],
     "end": 1199354,
+    "end_cyanorak": 1199264,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein",
+    "gene_summary": "conserved hypothetical protein",
     "gene_synonyms": [
-      "EW15_RS06560"
+      "EW15_RS06560",
+      "EW15_1501"
     ],
     "locus_tag": "EW15_RS06560",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01501",
     "locus_tag_ncbi": "EW15_RS06560",
+    "old_locus_tags": [
+      "EW15_1501"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00048370",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      }
+    ],
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_038653384.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1199121,
-    "strand": "-"
+    "start_cyanorak": 1199121,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "EW15_RS06625": {
     "all_identifiers": [
@@ -431662,22 +430838,30 @@
   },
   "EW15_RS07535": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01714",
+      "EW15_1714",
       "WP_038653811.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] hypothetical protein",
       "[ncbi] ribonuclease P protein component",
       "[eggnog] Ribonuclease P protein component",
       "[interpro] Ribonuclease P",
       "[hamap] Ribonuclease P protein component [rnpA].",
-      "[tigr_role_inferred] Transcription / RNA processing",
+      "[ncbifam] ribonuclease P protein component",
       "[pfam] Ribonuclease_P: Ribonuclease P"
     ],
+    "alternative_locus_tags": [
+      "EW15_1714"
+    ],
     "bacteria_cog_og": "COG0594",
+    "cluster_number": "CK_00050270",
     "cog_category": [
       "J"
     ],
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
@@ -431705,12 +430889,16 @@
       "1MPBA@1212|Prochloraceae"
     ],
     "end": 1389159,
+    "end_cyanorak": 1389159,
     "function_description": "Ribonuclease P protein component",
     "function_description_source": "eggnog",
     "gene_category": "Translation",
     "gene_name": "rnpA",
     "gene_name_source": "ncbi",
-    "gene_summary": "rnpA :: ribonuclease P protein component :: Ribonuclease P protein component",
+    "gene_summary": "rnpA :: hypothetical protein :: Ribonuclease P protein component",
+    "gene_synonyms": [
+      "EW15_1714"
+    ],
     "go_terms": [
       "GO:0000049",
       "GO:0004526",
@@ -431749,6 +430937,7 @@
       "K03536"
     ],
     "locus_tag": "EW15_RS07535",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01714",
     "locus_tag_ncbi": "EW15_RS07535",
     "max_annot_lvl": "1117|Cyanobacteria",
     "ncbifam_ids": [
@@ -431759,8 +430948,18 @@
         "interproscan"
       ]
     },
+    "old_locus_tags": [
+      "EW15_1714"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00050270",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG0594@2",
         "source": "eggnog",
@@ -431794,8 +430993,9 @@
         "interproscan"
       ]
     },
-    "product": "ribonuclease P protein component",
-    "product_source": "ncbi",
+    "product": "hypothetical protein",
+    "product_cyanorak": "hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_038653811.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -431804,22 +431004,30 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1388773,
-    "strand": "+"
+    "start_cyanorak": 1389037,
+    "strand": "+",
+    "strand_cyanorak": "+"
   },
   "EW15_RS07660": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01743",
+      "EW15_1743",
       "WP_038653849.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -",
       "[interpro] Protein of unknown function DUF8678"
     ],
     "alternative_locus_tags": [
-      "EW15_RS07660"
+      "EW15_RS07660",
+      "EW15_1743"
     ],
+    "cluster_number": "CK_00045453",
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
@@ -431833,19 +431041,32 @@
       "1MP0Z@1212|Prochloraceae"
     ],
     "end": 1416128,
+    "end_cyanorak": 1416026,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "EW15_RS07660"
+      "EW15_RS07660",
+      "EW15_1743"
     ],
     "interpro_entries": [
       "IPR061739"
     ],
     "locus_tag": "EW15_RS07660",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01743",
     "locus_tag_ncbi": "EW15_RS07660",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1743"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00045453",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:306II@2",
         "source": "eggnog",
@@ -431879,8 +431100,9 @@
         "interproscan"
       ]
     },
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_038653849.1",
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
@@ -431889,7 +431111,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1415841,
-    "strand": "-"
+    "start_cyanorak": 1415841,
+    "strand": "-",
+    "strand_cyanorak": "-"
   },
   "EW15_RS07745": {
     "all_identifiers": [
@@ -432827,55 +432051,88 @@
   },
   "EW15_RS08625": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01945",
+      "EW15_1945",
       "WP_038655472.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] ribosome maturation factor RimP",
       "[ncbi] ribosome maturation factor RimP",
       "[eggnog] Required for maturation of 30S ribosomal subunits",
+      "[cyanorak_role] Ribosomal proteins: synthesis and modification",
+      "[tigr_role] Protein synthesis / Ribosomal proteins: synthesis and modification",
+      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Ribosome maturation factor RimP",
       "[interpro] Ribosome maturation factor RimP, N-terminal",
       "[hamap] Ribosome maturation factor RimP [rimP].",
       "[pfam] RimP_N: RimP N-terminal domain"
     ],
     "alternative_locus_tags": [
-      "EW15_RS08625"
+      "EW15_RS08625",
+      "EW15_1945"
     ],
     "bacteria_cog_og": "COG0779",
+    "cluster_number": "CK_00001064",
     "cog_category": [
       "J"
     ],
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "cyanorak_Role": [
+      "K.2"
+    ],
+    "cyanorak_Role_description": [
+      "Ribosomal proteins: synthesis and modification"
+    ],
+    "eggnog_og_descriptions": [
+      "COG: POORLY CHARACTERIZED [S] Function unknown",
+      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+    ],
     "eggnog_ogs": [
+      "COG0779",
+      "bactNOG100082",
+      "bactNOG100157",
+      "bactNOG92539",
+      "cyaNOG03185",
       "COG0779@1|root",
       "COG0779@2|Bacteria",
       "1GDTK@1117|Cyanobacteria",
       "1MMPR@1212|Prochloraceae"
     ],
     "end": 1594220,
+    "end_cyanorak": 1594220,
     "function_description": "Required for maturation of 30S ribosomal subunits",
     "function_description_source": "eggnog",
     "gene_category": "Translation",
     "gene_name": "rimP",
-    "gene_name_source": "eggnog",
+    "gene_name_source": "cyanorak",
     "gene_summary": "rimP :: ribosome maturation factor RimP :: Required for maturation of 30S ribosomal subunits",
     "gene_synonyms": [
-      "EW15_RS08625"
+      "EW15_RS08625",
+      "EW15_1945"
+    ],
+    "go_term_descriptions": [
+      "ribosomal small subunit biogenesis"
     ],
     "go_terms": [
       "GO:0042274"
     ],
     "go_terms_evidence": {
-      "GO:0042274": "family_inferred"
+      "GO:0042274": "curated"
     },
     "go_terms_source": {
       "GO:0042274": [
+        "cyanorak",
         "interproscan"
       ]
     },
@@ -432893,10 +432150,21 @@
       "K09748"
     ],
     "locus_tag": "EW15_RS08625",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01945",
     "locus_tag_ncbi": "EW15_RS08625",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1945"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00001064",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG0779@2",
         "source": "eggnog",
@@ -432923,16 +432191,18 @@
       "PF02576"
     ],
     "pfam_ids_evidence": {
-      "PF02576": "signature"
+      "PF02576": "curated"
     },
     "pfam_ids_source": {
       "PF02576": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
     "product": "ribosome maturation factor RimP",
-    "product_source": "ncbi",
+    "product_cyanorak": "ribosome maturation factor RimP",
+    "product_source": "cyanorak",
     "protein_id": "WP_038655472.1",
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
@@ -432941,49 +432211,95 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1593750,
-    "strand": "+"
+    "start_cyanorak": 1593921,
+    "strand": "+",
+    "strand_cyanorak": "+",
+    "tIGR_Role": [
+      "158"
+    ],
+    "tIGR_Role_description": [
+      "Protein synthesis / Ribosomal proteins: synthesis and modification"
+    ]
   },
   "EW15_RS08815": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01988",
+      "EW15_1988",
       "WP_038654228.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein (DUF1830)",
       "[ncbi] DUF1830 domain-containing protein",
       "[eggnog] -",
+      "[cyanorak_role] Conserved hypothetical proteins",
+      "[tigr_role] Hypothetical proteins / Conserved",
+      "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Protein of unknown function DUF1830",
       "[pfam] DUF1830: Domain of unknown function (DUF1830)"
     ],
     "alternative_locus_tags": [
-      "EW15_RS08815"
+      "EW15_RS08815",
+      "EW15_1988"
     ],
+    "cluster_number": "CK_00001751",
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
       "psortb",
       "signalp"
     ],
+    "cyanorak_Role": [
+      "R.2"
+    ],
+    "cyanorak_Role_description": [
+      "Conserved hypothetical proteins"
+    ],
+    "eggnog_og_descriptions": [
+      "COG: POORLY CHARACTERIZED [S] Function unknown",
+      "bactNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+    ],
     "eggnog_ogs": [
+      "NOG137153",
+      "bactNOG80371",
+      "cyaNOG08697",
       "2A32M@1|root",
       "30RHI@2|Bacteria",
       "1GMUT@1117|Cyanobacteria",
       "1MN6P@1212|Prochloraceae"
     ],
     "end": 1628399,
+    "end_cyanorak": 1628285,
     "gene_category": "Unknown",
-    "gene_summary": "DUF1830 domain-containing protein :: -",
+    "gene_summary": "conserved hypothetical protein (DUF1830) :: -",
     "gene_synonyms": [
-      "EW15_RS08815"
+      "EW15_RS08815",
+      "EW15_1988"
     ],
     "interpro_entries": [
       "IPR014964"
     ],
     "locus_tag": "EW15_RS08815",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01988",
     "locus_tag_ncbi": "EW15_RS08815",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1988"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00001751",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:30RHI@2",
         "source": "eggnog",
@@ -433010,15 +432326,17 @@
       "PF08865"
     ],
     "pfam_ids_evidence": {
-      "PF08865": "signature"
+      "PF08865": "curated"
     },
     "pfam_ids_source": {
       "PF08865": [
+        "cyanorak",
         "interproscan"
       ]
     },
-    "product": "DUF1830 domain-containing protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein (DUF1830)",
+    "product_cyanorak": "conserved hypothetical protein (DUF1830)",
+    "product_source": "cyanorak",
     "protein_id": "WP_038654228.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -433027,7 +432345,15 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1628172,
-    "strand": "-"
+    "start_cyanorak": 1628172,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "156"
+    ],
+    "tIGR_Role_description": [
+      "Hypothetical proteins / Conserved"
+    ]
   },
   "EW15_RS08865": {
     "all_identifiers": [
@@ -433586,7 +432912,6 @@
       "[ncbi] tRNA (adenosine(37)-N6)-threonylcarbamoyltransferase complex ATPase subunit type 1 TsaE",
       "[eggnog] to have essential role in cell wall biosynthesis",
       "[interpro] tRNA threonylcarbamoyl adenosine modification protein TsaE",
-      "[tigr_role_inferred] Protein synthesis / tRNA and rRNA base modification",
       "[pfam] TsaE: Threonylcarbamoyl adenosine biosynthesis protein TsaE"
     ],
     "bacteria_cog_og": "COG0802",
@@ -433610,7 +432935,7 @@
     "end": 1771033,
     "function_description": "to have essential role in cell wall biosynthesis",
     "function_description_source": "eggnog",
-    "gene_category": "Translation",
+    "gene_category": "Unknown",
     "gene_name": "tsaE",
     "gene_name_source": "ncbi",
     "gene_summary": "tsaE :: tRNA (adenosine(37)-N6)-threonylcarbamoyltransferase complex ATPase subunit type 1 TsaE :: to have essential role in cell wall biosynthesis",
@@ -433698,9 +433023,12 @@
   },
   "EW15_RS09625": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_02156",
+      "EW15_2156",
       "WP_038654592.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] hypothetical protein",
       "[ncbi] CrcB family protein",
       "[eggnog] Important for reducing fluoride concentration in the cell, thus reducing its toxicity",
       "[interpro] Fluoride-specific ion channel FluC",
@@ -433708,14 +433036,17 @@
       "[pfam] CRCB: CrcB-like protein, Camphor Resistance (CrcB)"
     ],
     "alternative_locus_tags": [
-      "EW15_RS09625"
+      "EW15_RS09625",
+      "EW15_2156"
     ],
     "bacteria_cog_og": "COG0239",
+    "cluster_number": "CK_00050555",
     "cog_category": [
       "D"
     ],
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
@@ -433730,12 +433061,14 @@
       "1MPEQ@1212|Prochloraceae"
     ],
     "end": 1777635,
+    "end_cyanorak": 1777455,
     "function_description": "Important for reducing fluoride concentration in the cell, thus reducing its toxicity",
     "function_description_source": "eggnog",
     "gene_category": "Cell cycle and division",
-    "gene_summary": "CrcB family protein :: Important for reducing fluoride concentration in the cell, thus reducing its toxicity",
+    "gene_summary": "hypothetical protein :: Important for reducing fluoride concentration in the cell, thus reducing its toxicity",
     "gene_synonyms": [
-      "EW15_RS09625"
+      "EW15_RS09625",
+      "EW15_2156"
     ],
     "go_terms": [
       "GO:0016020",
@@ -433768,10 +433101,21 @@
       "K06199"
     ],
     "locus_tag": "EW15_RS09625",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_02156",
     "locus_tag_ncbi": "EW15_RS09625",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_2156"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00050555",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG0239@2",
         "source": "eggnog",
@@ -433805,8 +433149,9 @@
         "interproscan"
       ]
     },
-    "product": "CrcB family protein",
-    "product_source": "ncbi",
+    "product": "hypothetical protein",
+    "product_cyanorak": "hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_038654592.1",
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
@@ -433815,7 +433160,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1777303,
+    "start_cyanorak": 1777303,
     "strand": "-",
+    "strand_cyanorak": "-",
     "tcdb_diamond_ids": [
       "1.A.43"
     ],
@@ -434569,23 +433916,30 @@
   },
   "EW15_RS10470": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_00880",
+      "EW15_0880",
       "WP_081930458.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] YqeG family HAD IIIA-type phosphatase",
       "[interpro] Phosphatidylglycerophosphate phosphatase",
+      "[ncbifam] YqeG family HAD IIIA-type phosphatase",
       "[pfam] Hydrolase_like: HAD-hyrolase-like",
       "[pfam] PGP_phosphatase: Mitochondrial PGP phosphatase"
     ],
     "alternative_locus_tags": [
-      "EW15_RS10470"
+      "EW15_RS10470",
+      "EW15_0880"
     ],
     "bacteria_cog_og": "COG2179",
+    "cluster_number": "CK_00042840",
     "cog_category": [
       "S"
     ],
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "interproscan",
       "ncbi",
@@ -434610,10 +433964,12 @@
       "1MMQD@1212|Prochloraceae"
     ],
     "end": 792054,
+    "end_cyanorak": 791697,
     "gene_category": "Unknown",
-    "gene_summary": "YqeG family HAD IIIA-type phosphatase",
+    "gene_summary": "conserved hypothetical protein",
     "gene_synonyms": [
-      "EW15_RS10470"
+      "EW15_RS10470",
+      "EW15_0880"
     ],
     "go_terms": [
       "GO:0008962"
@@ -434639,6 +433995,7 @@
       "K07015"
     ],
     "locus_tag": "EW15_RS10470",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_00880",
     "locus_tag_ncbi": "EW15_RS10470",
     "max_annot_lvl": "1117|Cyanobacteria",
     "ncbifam_ids": [
@@ -434649,8 +434006,18 @@
         "interproscan"
       ]
     },
+    "old_locus_tags": [
+      "EW15_0880"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00042840",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:COG2179@2",
         "source": "eggnog",
@@ -434678,19 +434045,21 @@
       "PF09419"
     ],
     "pfam_ids_evidence": {
-      "PF13242": "signature"
+      "PF13242": "curated"
     },
     "pfam_ids_source": {
       "PF09419": [
         "eggnog"
       ],
       "PF13242": [
+        "cyanorak",
         "eggnog",
         "interproscan"
       ]
     },
-    "product": "YqeG family HAD IIIA-type phosphatase",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_081930458.1",
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
@@ -434699,7 +434068,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 791533,
-    "strand": "-"
+    "start_cyanorak": 791533,
+    "strand": "-",
+    "strand_cyanorak": "-"
   },
   "EW15_RS10485": {
     "all_identifiers": [
@@ -434830,17 +434201,23 @@
   },
   "EW15_RS10505": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01230",
+      "EW15_1230",
       "WP_225866516.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -"
     ],
     "alternative_locus_tags": [
-      "EW15_RS10505"
+      "EW15_RS10505",
+      "EW15_1230"
     ],
+    "cluster_number": "CK_00055242",
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -434853,16 +434230,29 @@
       "1MP9Z@1212|Prochloraceae"
     ],
     "end": 1045109,
+    "end_cyanorak": 1045034,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "EW15_RS10505"
+      "EW15_RS10505",
+      "EW15_1230"
     ],
     "locus_tag": "EW15_RS10505",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01230",
     "locus_tag_ncbi": "EW15_RS10505",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1230"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00055242",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:30NZE@2",
         "source": "eggnog",
@@ -434885,8 +434275,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_225866516.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -434895,7 +434286,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1044912,
-    "strand": "-"
+    "start_cyanorak": 1044912,
+    "strand": "-",
+    "strand_cyanorak": "-"
   },
   "EW15_RS10570": {
     "all_identifiers": [
@@ -436290,23 +435683,40 @@
   },
   "EW15_RS11125": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01156",
+      "EW15_1156",
       "WP_187152595.1"
     ],
     "alternate_functional_descriptions": [
-      "[ncbi] high light inducible protein"
+      "[cyanorak] high light inducible protein",
+      "[ncbi] high light inducible protein",
+      "[cyanorak_role] Light",
+      "[cyanorak_role] Photosynthesis and respiration",
+      "[tigr_role] Cellular processes / Adaptations to atypical conditions"
     ],
     "alternative_locus_tags": [
-      "EW15_RS11125"
+      "EW15_RS11125",
+      "EW15_1156"
     ],
+    "cluster_number": "CK_00057173",
     "cog_category": [
       "S"
     ],
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
       "signalp"
+    ],
+    "cyanorak_Role": [
+      "D.1.2",
+      "J"
+    ],
+    "cyanorak_Role_description": [
+      "Light",
+      "Photosynthesis and respiration"
     ],
     "eggnog_ogs": [
       "2B88B@1|root",
@@ -436315,16 +435725,48 @@
       "1MMMY@1212|Prochloraceae"
     ],
     "end": 1008389,
-    "gene_category": "Unknown",
-    "gene_summary": "high light inducible protein",
+    "end_cyanorak": 1008530,
+    "gene_category": "Stress response and adaptation",
+    "gene_name": "hli",
+    "gene_name_source": "cyanorak",
+    "gene_summary": "hli :: high light inducible protein",
     "gene_synonyms": [
-      "EW15_RS11125"
+      "EW15_RS11125",
+      "EW15_1156"
     ],
+    "go_term_descriptions": [
+      "response to high light intensity",
+      "response to high light intensity",
+      "membrane"
+    ],
+    "go_terms": [
+      "GO:0009644",
+      "GO:0016020"
+    ],
+    "go_terms_source": {
+      "GO:0009644": [
+        "cyanorak"
+      ],
+      "GO:0016020": [
+        "cyanorak"
+      ]
+    },
     "locus_tag": "EW15_RS11125",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01156",
     "locus_tag_ncbi": "EW15_RS11125",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1156"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00057173",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:321GY@2",
         "source": "eggnog",
@@ -436348,7 +435790,8 @@
       }
     ],
     "product": "high light inducible protein",
-    "product_source": "ncbi",
+    "product_cyanorak": "high light inducible protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_187152595.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -436357,21 +435800,35 @@
     "signalp_probability": 0.999964,
     "signalp_type": "OTHER",
     "start": 1008234,
-    "strand": "-"
+    "start_cyanorak": 1008234,
+    "strand": "-",
+    "strand_cyanorak": "-",
+    "tIGR_Role": [
+      "149"
+    ],
+    "tIGR_Role_description": [
+      "Cellular processes / Adaptations to atypical conditions"
+    ]
   },
   "EW15_RS11240": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01346",
+      "EW15_1346",
       "WP_197049723.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -"
     ],
     "alternative_locus_tags": [
-      "EW15_RS11240"
+      "EW15_RS11240",
+      "EW15_1346"
     ],
+    "cluster_number": "CK_00048742",
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -436384,16 +435841,29 @@
       "1MNZX@1212|Prochloraceae"
     ],
     "end": 1115359,
+    "end_cyanorak": 1115359,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "EW15_RS11240"
+      "EW15_RS11240",
+      "EW15_1346"
     ],
     "locus_tag": "EW15_RS11240",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01346",
     "locus_tag_ncbi": "EW15_RS11240",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1346"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00048742",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:320XU@2",
         "source": "eggnog",
@@ -436416,8 +435886,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_197049723.1",
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
@@ -436426,21 +435897,29 @@
     "signalp_probability": 0.999428,
     "signalp_type": "OTHER",
     "start": 1115051,
-    "strand": "+"
+    "start_cyanorak": 1115198,
+    "strand": "+",
+    "strand_cyanorak": "+"
   },
   "EW15_RS11435": {
     "all_identifiers": [
+      "CK_Pro_MIT0801_01234",
+      "EW15_1234",
       "WP_225866518.1"
     ],
     "alternate_functional_descriptions": [
+      "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -"
     ],
     "alternative_locus_tags": [
-      "EW15_RS11435"
+      "EW15_RS11435",
+      "EW15_1234"
     ],
+    "cluster_number": "CK_00045791",
     "contig": "NZ_CP007754.1",
     "contributing_sources": [
+      "cyanorak",
       "eggnog",
       "ncbi",
       "psortb",
@@ -436453,16 +435932,29 @@
       "1MP6G@1212|Prochloraceae"
     ],
     "end": 1047921,
+    "end_cyanorak": 1047921,
     "gene_category": "Unknown",
-    "gene_summary": "hypothetical protein :: -",
+    "gene_summary": "conserved hypothetical protein :: -",
     "gene_synonyms": [
-      "EW15_RS11435"
+      "EW15_RS11435",
+      "EW15_1234"
     ],
     "locus_tag": "EW15_RS11435",
+    "locus_tag_cyanorak": "CK_Pro_MIT0801_01234",
     "locus_tag_ncbi": "EW15_RS11435",
     "max_annot_lvl": "1117|Cyanobacteria",
+    "old_locus_tags": [
+      "EW15_1234"
+    ],
     "organism_name": "Prochlorococcus MIT0801",
     "ortholog_groups": [
+      {
+        "og_id": "cyanorak:CK_00045791",
+        "source": "cyanorak",
+        "specificity_rank": 0,
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
+      },
       {
         "og_id": "eggnog:30S86@2",
         "source": "eggnog",
@@ -436485,8 +435977,9 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "product": "hypothetical protein",
-    "product_source": "ncbi",
+    "product": "conserved hypothetical protein",
+    "product_cyanorak": "conserved hypothetical protein",
+    "product_source": "cyanorak",
     "protein_id": "WP_225866518.1",
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
@@ -436495,7 +435988,9 @@
     "signalp_probability": 1.0,
     "signalp_type": "OTHER",
     "start": 1047493,
-    "strand": "+"
+    "start_cyanorak": 1047706,
+    "strand": "+",
+    "strand_cyanorak": "+"
   },
   "EW15_RS11465": {
     "all_identifiers": [

@@ -23,8 +23,8 @@
         "unresolved": 6,
         "tier1_ci:v": 1,
         "multi_named:v": 2,
-        "locus_tag:v": 9,
-        "tier1:v": 6
+        "locus_tag:v": 6,
+        "tier1:v": 9
       },
       "pathway_records": 10,
       "pathways_resolved": 8,
@@ -393,9 +393,9 @@
       "evidence": "CCRG-2 genes are found in the genomes of all low-light IV Prochlorococcus strains sequenced to date ... (p11-12, Results; Table 3, p12)",
       "mention_strain": "Prochlorococcus MIT9313",
       "strain": "Prochlorococcus MIT9313",
-      "locus_tag": "PMT0923",
+      "locus_tag": "PMT_0923",
       "resolved_from": "PMT0923",
-      "resolution_method": "locus_tag:v"
+      "resolution_method": "tier1:v"
     },
     {
       "surface_form": "CCRG-2",
@@ -418,9 +418,9 @@
       "evidence": "CCRG-2 genes are found in the genomes of all low-light IV Prochlorococcus strains sequenced to date ... (p11-12, Results; Table 3, p12)",
       "mention_strain": "Prochlorococcus MIT9313",
       "strain": "Prochlorococcus MIT9313",
-      "locus_tag": "PMT0928",
+      "locus_tag": "PMT_0928",
       "resolved_from": "PMT0928",
-      "resolution_method": "locus_tag:v"
+      "resolution_method": "tier1:v"
     },
     {
       "surface_form": "CCRG-2",
@@ -468,9 +468,9 @@
       "evidence": "CCRG-2 genes are found in the genomes of all low-light IV Prochlorococcus strains sequenced to date ... (p11-12, Results; Table 3, p12)",
       "mention_strain": "Prochlorococcus MIT9313",
       "strain": "Prochlorococcus MIT9313",
-      "locus_tag": "PMT2125",
+      "locus_tag": "PMT_2125",
       "resolved_from": "PMT2125",
-      "resolution_method": "locus_tag:v"
+      "resolution_method": "tier1:v"
     },
     {
       "surface_form": "CCRG-2",

@@ -152,6 +152,8 @@ edge presence for recall, `annotation_types` for quality.
 `Gene.tcdb_family_count` and `Gene.catalyzed_metabolite_count` are **not** gated — they
 count all edges, being routing signals rather than quality signals.
 
+> **2026-08-29 amendment.** `Gene.tcdb_family_count` now counts the gene's `attachment_depth = 'most_specific'` edges only (explorer ask `2026-08-29-gene-overview-family-counts-asks.md`): a superseded ancestor beside the gene's own descendant call is the same membership restated, not a second family. Still not tier-gated — depth and tier are different axes.
+
 ---
 
 ## 4. ⚠️ `is_promiscuous` — DELETED (2026-08-18)

@@ -18,9 +18,9 @@
       "gene_records": 47,
       "genes_resolved": 47,
       "gene_methods": {
-        "locus_tag:v": 45,
-        "multi:v": 1,
-        "tier1:v": 1
+        "locus_tag:v": 44,
+        "tier1:v": 2,
+        "multi:v": 1
       },
       "pathway_records": 8,
       "pathways_resolved": 2,
@@ -245,9 +245,9 @@
       "evidence": "SYNW1139 Hypothetical (Table 3, p4)",
       "mention_strain": "Synechococcus WH8102",
       "strain": "Synechococcus WH8102",
-      "locus_tag": "SYNW1139",
+      "locus_tag": "TX72_RS13165",
       "resolved_from": "SYNW1139",
-      "resolution_method": "locus_tag:v"
+      "resolution_method": "tier1:v"
     },
     {
       "surface_form": "SYNW0512",

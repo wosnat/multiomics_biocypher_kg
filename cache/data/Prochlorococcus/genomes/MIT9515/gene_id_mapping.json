@@ -4886,39 +4886,6 @@
         }
       ]
     },
-    "P9515_00701": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9515_00701",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-P9515_00701",
-          "sources": [
-            "genomic_gca/MIT9515"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABM71279.1",
-          "sources": [
-            "genomic_gca/MIT9515"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "cbb3",
-          "type": "gene_name"
-        }
-      ]
-    },
     "P9515_00711": {
       "tier1_ids": [
         {
@@ -73064,39 +73031,6 @@
         }
       ]
     },
-    "P9515_10331": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9515_10331",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-P9515_10331",
-          "sources": [
-            "genomic_gca/MIT9515"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABM72240.1",
-          "sources": [
-            "genomic_gca/MIT9515"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "spoIIAA",
-          "type": "gene_name"
-        }
-      ]
-    },
     "P9515_10341": {
       "tier1_ids": [
         {
@@ -99857,34 +99791,6 @@
           "type": "gene_synonym"
         }
       ]
-    },
-    "P9515_14191": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9515_14191",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-P9515_14191",
-          "sources": [
-            "genomic_gca/MIT9515"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABM72626.1",
-          "sources": [
-            "genomic_gca/MIT9515"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": []
     },
     "P9515_14201": {
       "tier1_ids": [
@@ -134055,19 +133961,6 @@
       "tier2_ids": [],
       "tier3_ids": []
     },
-    "P9515_50008": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9515_50008",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
     "P9515_50010": {
       "tier1_ids": [
         {
@@ -134097,11 +133990,32 @@
     "P9515_RS00340": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9515_00701",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9515_00701",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008817.1_cds_WP_041710532.1_72",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-P9515_00701",
+          "sources": [
+            "genomic_gca/MIT9515"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-P9515_RS00340",
@@ -134118,11 +134032,26 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABM71279.1",
+          "sources": [
+            "genomic_gca/MIT9515"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
+          "id": "cbb3",
+          "type": "gene_name"
+        },
+        {
           "id": "P9515_RS00340",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "P9515_00701",
           "type": "gene_synonym"
         }
       ]
@@ -134378,11 +134307,32 @@
     "P9515_RS05035": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9515_10331",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9515_10331",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008817.1_cds_WP_071818455.1_1031",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-P9515_10331",
+          "sources": [
+            "genomic_gca/MIT9515"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-P9515_RS05035",
@@ -134399,6 +134349,13 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABM72240.1",
+          "sources": [
+            "genomic_gca/MIT9515"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
@@ -134408,6 +134365,10 @@
         },
         {
           "id": "P9515_RS05035",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "P9515_10331",
           "type": "gene_synonym"
         }
       ]
@@ -135354,11 +135315,32 @@
     "P9515_RS10120": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9515_14191",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9515_14191",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008817.1_cds_WP_041710636.1_1402",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-P9515_14191",
+          "sources": [
+            "genomic_gca/MIT9515"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-P9515_RS10120",
@@ -135375,11 +135357,22 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABM72626.1",
+          "sources": [
+            "genomic_gca/MIT9515"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "P9515_RS10120",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "P9515_14191",
           "type": "gene_synonym"
         }
       ]
@@ -135482,6 +135475,20 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "CK_Pro_MIT9515_50008",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "P9515_50008",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008817.1_cds_WP_225867077.1_1126",
           "sources": [
             "cds_from_genomic.fna"
@@ -135512,6 +135519,10 @@
         },
         {
           "id": "P9515_pseudoVIMSS1362542",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "P9515_50008",
           "type": "gene_synonym"
         }
       ]
@@ -139777,7 +139788,7 @@
       "P9515_00691"
     ],
     "ABM71279.1": [
-      "P9515_00701"
+      "P9515_RS00340"
     ],
     "ABM71280.1": [
       "P9515_00711"
@@ -142657,7 +142668,7 @@
       "P9515_10321"
     ],
     "ABM72240.1": [
-      "P9515_10331"
+      "P9515_RS05035"
     ],
     "ABM72241.1": [
       "P9515_10341"
@@ -143815,7 +143826,7 @@
       "P9515_14181"
     ],
     "ABM72626.1": [
-      "P9515_14191"
+      "P9515_RS10120"
     ],
     "ABM72627.1": [
       "P9515_14201"
@@ -145499,6 +145510,9 @@
     ],
     "P9515_00691": [
       "P9515_00691"
+    ],
+    "P9515_00701": [
+      "P9515_RS00340"
     ],
     "P9515_00711": [
       "P9515_00711"
@@ -148318,6 +148332,9 @@
     "P9515_10321": [
       "P9515_10321"
     ],
+    "P9515_10331": [
+      "P9515_RS05035"
+    ],
     "P9515_10341": [
       "P9515_10341"
     ],
@@ -149409,6 +149426,9 @@
     ],
     "P9515_14181": [
       "P9515_14181"
+    ],
+    "P9515_14191": [
+      "P9515_RS10120"
     ],
     "P9515_14211": [
       "P9515_14211"
@@ -150835,6 +150855,9 @@
     ],
     "P9515_50004": [
       "P9515_RS01865"
+    ],
+    "P9515_50008": [
+      "P9515_pseudoVIMSS1362542"
     ],
     "P9515_50012": [
       "P9515_RS08115"
@@ -160850,7 +160873,7 @@
       "P9515_09461"
     ],
     "cbb3": [
-      "P9515_00701"
+      "P9515_RS00340"
     ],
     "cbbA": [
       "P9515_08011"
@@ -163731,7 +163754,6 @@
       "P9515_17591"
     ],
     "spoIIAA": [
-      "P9515_10331",
       "P9515_RS05035"
     ],
     "spoIID": [
@@ -164363,7 +164385,7 @@
     "CK_Pro_MIT9515_00671": "P9515_00671",
     "CK_Pro_MIT9515_00681": "P9515_00681",
     "CK_Pro_MIT9515_00691": "P9515_00691",
-    "CK_Pro_MIT9515_00701": "P9515_00701",
+    "CK_Pro_MIT9515_00701": "P9515_RS00340",
     "CK_Pro_MIT9515_00711": "P9515_00711",
     "CK_Pro_MIT9515_00721": "P9515_00721",
     "CK_Pro_MIT9515_00731": "P9515_00731",
@@ -165323,7 +165345,7 @@
     "CK_Pro_MIT9515_10301": "P9515_10301",
     "CK_Pro_MIT9515_10311": "P9515_10311",
     "CK_Pro_MIT9515_10321": "P9515_10321",
-    "CK_Pro_MIT9515_10331": "P9515_10331",
+    "CK_Pro_MIT9515_10331": "P9515_RS05035",
     "CK_Pro_MIT9515_10341": "P9515_10341",
     "CK_Pro_MIT9515_10351": "P9515_10351",
     "CK_Pro_MIT9515_10361": "P9515_10361",
@@ -165709,7 +165731,7 @@
     "CK_Pro_MIT9515_14161": "P9515_14161",
     "CK_Pro_MIT9515_14171": "P9515_14171",
     "CK_Pro_MIT9515_14181": "P9515_14181",
-    "CK_Pro_MIT9515_14191": "P9515_14191",
+    "CK_Pro_MIT9515_14191": "P9515_RS10120",
     "CK_Pro_MIT9515_14201": "P9515_14201",
     "CK_Pro_MIT9515_14211": "P9515_14211",
     "CK_Pro_MIT9515_14221": "P9515_14221",
@@ -166203,13 +166225,17 @@
     "CK_Pro_MIT9515_50004": "P9515_RS01865",
     "CK_Pro_MIT9515_50006": "P9515_50006",
     "CK_Pro_MIT9515_50007": "P9515_50007",
-    "CK_Pro_MIT9515_50008": "P9515_50008",
+    "CK_Pro_MIT9515_50008": "P9515_pseudoVIMSS1362542",
     "CK_Pro_MIT9515_50010": "P9515_50010",
     "CK_Pro_MIT9515_50012": "P9515_RS08115",
     "CK_Pro_MIT9515_50014": "P9515_50014",
+    "P9515_00701": "P9515_RS00340",
     "P9515_09881": "P9515_RS04810",
+    "P9515_10331": "P9515_RS05035",
+    "P9515_14191": "P9515_RS10120",
     "P9515_50002": "P9515_RS09270",
     "P9515_50004": "P9515_RS01865",
+    "P9515_50008": "P9515_pseudoVIMSS1362542",
     "P9515_50012": "P9515_RS08115",
     "P9515_RS00005": "P9515_00001",
     "P9515_RS00010": "P9515_00011",
@@ -168123,7 +168149,7 @@
     "gene-P9515_00671": "P9515_00671",
     "gene-P9515_00681": "P9515_00681",
     "gene-P9515_00691": "P9515_00691",
-    "gene-P9515_00701": "P9515_00701",
+    "gene-P9515_00701": "P9515_RS00340",
     "gene-P9515_00711": "P9515_00711",
     "gene-P9515_00721": "P9515_00721",
     "gene-P9515_00731": "P9515_00731",
@@ -169083,7 +169109,7 @@
     "gene-P9515_10301": "P9515_10301",
     "gene-P9515_10311": "P9515_10311",
     "gene-P9515_10321": "P9515_10321",
-    "gene-P9515_10331": "P9515_10331",
+    "gene-P9515_10331": "P9515_RS05035",
     "gene-P9515_10341": "P9515_10341",
     "gene-P9515_10351": "P9515_10351",
     "gene-P9515_10361": "P9515_10361",
@@ -169469,7 +169495,7 @@
     "gene-P9515_14161": "P9515_14161",
     "gene-P9515_14171": "P9515_14171",
     "gene-P9515_14181": "P9515_14181",
-    "gene-P9515_14191": "P9515_14191",
+    "gene-P9515_14191": "P9515_RS10120",
     "gene-P9515_14201": "P9515_14201",
     "gene-P9515_14211": "P9515_14211",
     "gene-P9515_14221": "P9515_14221",
@@ -173717,9 +173743,9 @@
   },
   "stats": {
     "n_conflicts": 0,
-    "n_genes": 1949,
-    "n_multi": 9558,
-    "n_specific": 9421,
+    "n_genes": 1945,
+    "n_multi": 9562,
+    "n_specific": 9425,
     "passes": 2
   },
   "strain": "MIT9515",

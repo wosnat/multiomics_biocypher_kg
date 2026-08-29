@@ -276,3 +276,13 @@ annotation-state distributions unchanged; hash **unchanged** (`sha256:d7191e2a�
 fixture regen. Biller 2022 rows sit on their accession-backed genes (`rplF` → PMT9312_1636, `rplW` → 1648,
 `groL2` → 1529, `groL1` → 0451). B2 descriptions and B3 `min_size` (7 nodes) are live. Regen your Biller 2022 /
 `list_experiments` goldens against this build; everything else should be byte-identical.
+
+## B1 — shipped on `main` (2026-08-29), rides the next rebuild
+
+`value_descriptions: str[]` of `"<value>: <one line>"` (split on the first `: `), in `values` order, on 39
+`ControlledVocabulary` nodes: all 14 `*.evidence` + all 14 `*.sources`, plus `call_class`, `best_hit_kind`,
+`attachment_depth`, `substrate_depth`, `pfam_support` (tcdb + merops), `go_support`, `source_agreement`,
+`detection_status`, `table_scope`, `annotation_state`. Absent on the other 83 nodes. Not hashed — `sha256:d7191e2a…`
+is unchanged, no re-pin. Live after the next `docker compose up`; `pytest -m kg` gains
+`test_value_descriptions_split_back_to_values`. `list_filter_values` can serve the per-row text from the node
+and drop the repeated vocab paragraph (explorer 2.3).

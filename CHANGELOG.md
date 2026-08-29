@@ -157,6 +157,24 @@ tag with nothing logged.
   category only, never a category → a different one. `annotation_quality` /
   `annotation_state` are unaffected (measured: 0 genes move).
   See `docs/kg-changes/tigr-role-bridge.md`.
+- **`Gene.tcdb_family_count` now counts most-specific attachments only** (explorer ask
+  `2026-08-29-gene-overview-family-counts-asks.md`). It counted every `Gene_has_tcdb_family` edge,
+  including ancestors carrying `attachment_depth = 'superseded'` because the same gene is attached
+  to a descendant — over-reading 7,045 genes (PMM0392 8 → 7). Now the same deepest-attachment
+  projection as `transported_metabolite_count` / `Metabolite.transporter_gene_count`; still not
+  tier-gated. `cazy_family_count` / `merops_family_count` unchanged. New invariant:
+  `tcdb_family_count > 0 ⟺ transport_substrate_resolution IS NOT NULL`.
+
+- **~423 `ncbigene:` Gene nodes disappear and 359 expression/metric rows move to a different
+  gene id** (position-fallback rewrite in step 0, see *Fixed*). Each vanished node was a
+  Cyanorak-only shadow of an NCBI gene (no coordinates, no protein, no eggNOG/InterPro) — e.g.
+  MIT9313 `PMT0040` → now `PMT_0040`, MED4 `PMM0624` → `TX50_RS09915`, WH7803 `SynWH7803_1285`
+  → `SYNWH7803_RS12825`; the old tag survives in `old_locus_tags` / `all_identifiers`, so
+  `resolve_gene` still finds it. Rows that moved: Aharonovich 2016 MIT9313 (80), Hackl 2023
+  MIT0604 (72), Doron 2016 WH7803/WH8102/WH8109 (59), tolonen 2006 (47), Voigt 2014 (34), 22
+  more papers with ≤ 10 each; 0 rows lost. Cached gene ids from earlier releases for those
+  shadow nodes no longer resolve as node ids.
+
 - **The last eight `"true"`/`"false"` string properties are now named pairs (house rule R5).**
   `Experiment.is_time_course` → `time_course | single_time_point`; `Experiment.reports_fold_change` →
   `fold_change | no_fold_change`; `DerivedMetric.rankable` / `MetaboliteAssay.rankable` →
@@ -506,6 +524,20 @@ tag with nothing logged.
   helpers in `multiomics_kg/utils/tigr_roles.py`. New vocabulary entry
   `TigrRole.level_kind`; `Gene_has_tigr_role.sources` / `.evidence` value sets widened.
   See `docs/kg-changes/tigr-role-bridge.md`.
+- **Per-value descriptions on the trust vocabularies (explorer B1).** 39 of
+  the 122 `ControlledVocabulary` nodes — every `evidence` and `sources` edge
+  vocabulary plus `call_class`, `best_hit_kind`, `attachment_depth`,
+  `substrate_depth`, `pfam_support`, `go_support`, `source_agreement`,
+  `detection_status`, `table_scope`, `annotation_state` — now carry a sparse
+  `value_descriptions: str[]` of `"<value>: <one line>"` elements in `values`
+  order (split on the first `: `). Declared as an optional
+  `value_descriptions` map in `config/controlled_vocabularies.yaml`; the loader
+  rejects a described value that is not declared and a closed vocabulary that
+  describes only some of its values. Not part of `controlled_vocabularies_hash`
+  (wording may improve without a re-pin — hash unchanged, `sha256:d7191e2a…`).
+  A unit test pins every described `sources` value to a `logical_sources` id in
+  `config/gene_annotations_config.yaml` so the two files cannot drift.
+
 - **Annotation-state distribution baseline tool.**
   `tests/kg_validity/capture_annotation_state.py` (`--save` / `--compare`,
   omics-edge-snapshot pattern) captures the Gene `annotation_state` /
@@ -697,6 +729,21 @@ tag with nothing logged.
   references must exist before the step-2 merge that consumes them.
 
 ### Fixed
+
+- **Gene-ID mapping: NCBI↔Cyanorak position fallback now pairs by stop codon and reading
+  frame, per contig** (`_position_fallback_merge`, step 0). The old overlap ≥ 0.9 / start ≤ 50 bp /
+  end ≤ 3 bp gates were strand-blind and start-codon-hostile, so one gene whose start PGAP and
+  Cyanorak call differently stayed two rows — MIT9313's `PMT0040` (Cyanorak) vs `PMT_0040`
+  (NCBI) "two locus-tag families" (49 of its 62 Tier-1 conflicts, `P9313_xxxxx → [PMT_nnnn,
+  PMTnnnn]`) — and, ignoring contigs, merged 2 wrong pairs on the draft genomes PAC1/SB. Now 923
+  merges over 21 Cyanorak strains (was 500), each translation-verified against the
+  NCBI protein (0 false); `gene_mapping.csv` −423 duplicate rows (MIT9313 −42, PAC1 −53,
+  WH8102 −51). MIT9313 Tier-1 conflicts 62 → 33 (the rest are the stale `MIT9313_genbank.tsv`
+  `PMTid` rows, see backlog). Step 4 re-resolution: 359 supp-table rows across 27 papers moved
+  from a coordinate-less Cyanorak-only shadow gene onto the NCBI-backed gene (Aharonovich 2016
+  MIT9313 80, tolonen 2006 47, Doron 2016 59, Hackl 2023 72); 0 rows lost, 0 gained.
+  `docs/methods_position_fallback_merge.md` rewritten. Needs a Docker rebuild to reach the graph
+  (−423 Gene nodes; snapshot refresh expected).
 
 - **Gene-ID mapping: GFF `Name=` symbols are no longer Tier-1 locus tags** (`_gff_name_type`).
   A shared gene symbol had been declared gene-unique, merging KT2440's 12 `tnpB` IS copies into

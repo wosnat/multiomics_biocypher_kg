@@ -24,6 +24,9 @@ Gene_has_pfam.evidence:
     Inference strength for this annotation. 'signature' = a direct Pfam HMM
     hit. Note domain_inferred and family_inferred are NOT possible on this
     edge type.
+  value_descriptions:
+    curated: assigned by a human curator or a curated reference annotation (Cyanorak, UniProt, NCBI); strongest rung
+    signature: direct HMM / profile hit against a member database that pre-applies its own curated threshold (InterProScan, Pfam)
 
 Gene_catalyzes_ec_number.evidence:
   applies_to: Gene_catalyzes_ec_number
@@ -35,6 +38,9 @@ Gene_catalyzes_ec_number.evidence:
   description: >
     Inference strength. InterPro contributes EC only from FAMILY entries with
     a single EC, so domain_inferred is not possible on this edge type.
+  value_descriptions:
+    curated: assigned by a human curator or a curated reference annotation (Cyanorak, UniProt, NCBI); strongest rung
+    family_inferred: transferred from an ortholog family or a single-function protein family (eggNOG orthology transfer, InterPro FAMILY entries)
 
 Gene_involved_in_biological_process.evidence: &go_evidence
   applies_to: Gene_involved_in_biological_process
@@ -47,6 +53,10 @@ Gene_involved_in_biological_process.evidence: &go_evidence
     Inference strength on the shared ladder curated > signature > homology >
     family_inferred > domain_inferred (homology cannot occur on this edge).
     InterPro contributes GO from FAMILY and DOMAIN entries.
+  value_descriptions:
+    curated: assigned by a human curator or a curated reference annotation (Cyanorak, UniProt, NCBI); strongest rung
+    family_inferred: transferred from an ortholog family or a single-function protein family (eggNOG orthology transfer, InterPro FAMILY entries)
+    domain_inferred: transferred from a shared domain (InterPro DOMAIN entry); weakest rung, since a domain can occur outside the annotated function
 
 Gene_enables_molecular_function.evidence:
   <<: *go_evidence
@@ -64,6 +74,10 @@ Gene_has_cazy_family.evidence:
   closed: true
   values: [curated, family_inferred, domain_inferred]
   description: Inference strength for this CAZy assignment.
+  value_descriptions:
+    curated: assigned by a human curator or a curated reference annotation (Cyanorak, UniProt, NCBI); strongest rung
+    family_inferred: transferred from an ortholog family or a single-function protein family (eggNOG orthology transfer, InterPro FAMILY entries)
+    domain_inferred: transferred from a shared domain (InterPro DOMAIN entry); weakest rung, since a domain can occur outside the annotated function
 
 # ── sources: also per edge type (KG-IPT-011); each value joins DataSource.id = 'data_source:'+value ──────
 Gene_has_pfam.sources:
@@ -76,6 +90,11 @@ Gene_has_pfam.sources:
   description: >
     Who asserted this annotation. Each value joins a DataSource node via
     id = 'data_source:' + value.
+  value_descriptions:
+    cyanorak: Cyanorak curated cyanobacterial annotation (Prochlorococcus / Synechococcus strains only)
+    eggnog: eggNOG-mapper orthology transfer from the seed ortholog group
+    interproscan: InterProScan 5 domain / family scan across its member databases
+    uniprot: UniProt entry for the protein (curated and automatic annotation)
 
 Gene_catalyzes_ec_number.sources:
   applies_to: Gene_catalyzes_ec_number
@@ -85,6 +104,11 @@ Gene_catalyzes_ec_number.sources:
   closed: true
   values: [cyanorak, eggnog, interproscan, uniprot]
   description: Who asserted this annotation. Each value joins a DataSource node via id = 'data_source:' + value.
+  value_descriptions:
+    cyanorak: Cyanorak curated cyanobacterial annotation (Prochlorococcus / Synechococcus strains only)
+    eggnog: eggNOG-mapper orthology transfer from the seed ortholog group
+    interproscan: InterProScan 5 domain / family scan across its member databases
+    uniprot: UniProt entry for the protein (curated and automatic annotation)
 
 Gene_involved_in_biological_process.sources: &go_sources
   applies_to: Gene_involved_in_biological_process
@@ -96,6 +120,12 @@ Gene_involved_in_biological_process.sources: &go_sources
   description: >
     Who asserted this annotation. Each value joins a DataSource node via id = 'data_source:' + value. ncbi contributes
     only to the GO edges.
+  value_descriptions:
+    cyanorak: Cyanorak curated cyanobacterial annotation (Prochlorococcus / Synechococcus strains only)
+    eggnog: eggNOG-mapper orthology transfer from the seed ortholog group
+    interproscan: InterProScan 5 domain / family scan across its member databases
+    ncbi: NCBI RefSeq / PGAP genome annotation (GFF); contributes GO terms only
+    uniprot: UniProt entry for the protein (curated and automatic annotation)
 
 Gene_enables_molecular_function.sources:
   <<: *go_sources
@@ -113,6 +143,9 @@ Gene_has_cazy_family.sources:
   closed: true
   values: [eggnog, interproscan]
   description: Who asserted this annotation. Each value joins a DataSource node via id = 'data_source:' + value.
+  value_descriptions:
+    eggnog: eggNOG-mapper orthology transfer from the seed ortholog group
+    interproscan: InterProScan 5 domain / family scan across its member databases
 
 Gene_has_tcdb_family.sources:
   applies_to: Gene_has_tcdb_family
@@ -125,6 +158,9 @@ Gene_has_tcdb_family.sources:
     Evidence sources for this transporter call. Each value joins a DataSource
     node via id = 'data_source:' + value. Both entries present = cross-source
     corroboration.
+  value_descriptions:
+    eggnog: eggNOG-mapper orthology transfer from the seed ortholog group
+    tcdb_diamond: diamond blastp vs. the curated TCDB transporter FASTA
 
 Gene_has_tcdb_family.tier:
   applies_to: Gene_has_tcdb_family
@@ -222,6 +258,9 @@ Gene_has_tcdb_family.source_agreement:
     Whether eggNOG and diamond concur on this TC family. Agreement is
     HIERARCHICAL (ancestor or descendant), not exact-node — the two sources
     usually concur at different depths.
+  value_descriptions:
+    both_sources: eggNOG and diamond both called this family or an ancestor / descendant of it; cross-source corroboration
+    single_source: only one of eggNOG or diamond called this family (no call from the other at any depth)
 
 Gene_has_tcdb_family.pfam_support:
   applies_to: Gene_has_tcdb_family
@@ -233,6 +272,9 @@ Gene_has_tcdb_family.pfam_support:
   description: >
     Whether a Pfam domain on this gene is curated into this TC family via
     Tcdb_family_has_pfam_domain. Read in the sound direction only.
+  value_descriptions:
+    corroborated: the gene carries a Pfam domain that TCDB curates into this transport family
+    uncorroborated: no Pfam domain on the gene is curated into this family; absence of support, not contradiction
 
 Gene_has_tcdb_family.go_support:
   applies_to: Gene_has_tcdb_family
@@ -244,6 +286,9 @@ Gene_has_tcdb_family.go_support:
   description: >
     Whether a GO term on this gene is curated onto this TC family. Not
     redundant with pfam_support — 11,565 edges carry exactly one of the two.
+  value_descriptions:
+    corroborated: the gene carries a GO term that TCDB curates onto this transport family
+    uncorroborated: no GO term on the gene is curated onto this family; absence of support, not contradiction
 
 Tcdb_family_transports_metabolite.substrate_depth:
   applies_to: Tcdb_family_transports_metabolite
@@ -257,6 +302,9 @@ Tcdb_family_transports_metabolite.substrate_depth:
     one substrate and inherited for another. most_specific = no kept child of
     this node carries the same substrate. Use this, NOT
     level_kind = 'tc_specificity', to recover leaf substrate semantics.
+  value_descriptions:
+    most_specific: no kept child of this family carries the same substrate; this is the most specific surviving transporter system for it
+    inherited: rolled up from a descendant that also carries the substrate; count the descendant, not this node
 
 Gene.transport_substrate_resolution:
   applies_to: Gene
@@ -384,6 +432,12 @@ Experiment.table_scope:
     filtered_subset. Absent on experiments with no DE table (metabolomics /
     derived-metric-only). Read it before treating a table as a genome-wide
     background.
+  value_descriptions:
+    all_detected_genes: every gene detected in the experiment, significant or not; a usable genome-wide background
+    significant_any_timepoint: genes significant at one or more time points, reported at every time point; not a background
+    significant_only: only genes passing the significance threshold; not a background
+    top_n: a fixed-size list of the strongest responders; not a background
+    filtered_subset: a subset chosen by the authors on other criteria (see table_scope_detail); not a background
 
 ClusteringAnalysis.cluster_type:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -587,6 +641,10 @@ Assay_quantifies_metabolite.detection_status:
     (non-zero in every replicate), sporadic (non-zero in some), not_detected
     (zero in all). A not_detected row is real data — the metabolite was
     measured and absent.
+  value_descriptions:
+    detected: non-zero in every replicate
+    sporadic: non-zero in some replicates but not all
+    not_detected: zero in every replicate; the metabolite was measured and absent, a real result
 
 Gene.annotation_state:
   applies_to: Gene
@@ -601,6 +659,11 @@ Gene.annotation_state:
     literals appear inline in scripts/post-import.cypher's CASE expression,
     lines ~623-628) — harvested from CLAUDE.md per the controller ruling, and
     confirmed against those same literal strings.
+  value_descriptions:
+    no_evidence: no functional annotation edge of any kind (annotation_quality 0)
+    catch_all_only: only uninformative terms, e.g. hypothetical protein, DUF, general function prediction only (annotation_quality 1)
+    informative_single: an informative term from exactly one source bucket (annotation_quality 2)
+    informative_multi: informative terms from two or more independent source buckets (annotation_quality 3)
 
 # ── KG-SYNC-006 ORG-001: organism annotation-capability rollups ─────────────
 #    Post-import, dense 0, distinct genes scoped by Gene_belongs_to_organism.
@@ -1145,6 +1208,10 @@ Gene_has_merops_family.call_class:
     I-family, 'nonpeptidase_homolog' when the best hit is a catalytically
     dead .9xx entry, else 'peptidase'. Threshold-free, mirrors the
     expression_status pattern.
+  value_descriptions:
+    peptidase: best hit is a characterized or putative active peptidase; protease evidence
+    inhibitor: family is a MEROPS I-family; the product is a peptidase inhibitor, not a protease
+    nonpeptidase_homolog: best hit is a catalytically dead .9xx relative; fold evidence only, NOT protease evidence
 
 Gene_has_merops_family.best_hit_kind:
   applies_to: Gene_has_merops_family
@@ -1161,6 +1228,10 @@ Gene_has_merops_family.best_hit_kind:
     for a letter-prefixed tail; matches config/schema_config.yaml's `gene to
     merops family association` comment
     `best_hit_kind: str  # holotype | putative | nonpeptidase_homolog`.
+  value_descriptions:
+    holotype: characterized MEROPS identifier (numeric tail 001-899)
+    putative: letter-prefixed identifier; sequence-only, uncharacterized member
+    nonpeptidase_homolog: 9xx identifier; catalytically inactive homolog
 
 NcbifamFamily.family_type:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1242,6 +1313,9 @@ Gene_has_merops_family.pfam_support:
   description: >
     Whether a Pfam domain on this gene is curated into this MEROPS family via
     Merops_family_has_pfam_domain. Read in the sound direction only.
+  value_descriptions:
+    corroborated: the gene carries a Pfam domain that MEROPS curates into this peptidase family (fold placement corroborated; says nothing about catalytic activity)
+    uncorroborated: no Pfam domain on the gene is curated into this family; absence of support, not contradiction
 
 MeropsFamily.cleavage_p1_residues:
   applies_to: MeropsFamily
@@ -1302,6 +1376,8 @@ Gene_has_kegg_ko.sources:
     Who asserted this KO annotation; each value joins a DataSource node via id
     = 'data_source:' + value. Always ['eggnog'] — KO assignments come only
     from eggNOG-mapper.
+  value_descriptions:
+    eggnog: eggNOG-mapper orthology transfer from the seed ortholog group
 
 Gene_in_cog_category.sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1316,6 +1392,8 @@ Gene_in_cog_category.sources:
   description: >
     Who asserted this COG category; each value joins a DataSource node via id
     = 'data_source:' + value. Always ['eggnog'].
+  value_descriptions:
+    eggnog: eggNOG-mapper orthology transfer from the seed ortholog group
 
 Gene_has_cyanorak_role.sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1332,6 +1410,8 @@ Gene_has_cyanorak_role.sources:
     Who asserted this role; each value joins a DataSource node via id =
     'data_source:' + value. Always ['cyanorak'] — roles exist only for
     Prochlorococcus / Synechococcus strains with a Cyanorak annotation.
+  value_descriptions:
+    cyanorak: Cyanorak curated cyanobacterial annotation (Prochlorococcus / Synechococcus strains only)
 
 Gene_has_tigr_role.sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1348,11 +1428,15 @@ Gene_has_tigr_role.sources:
   closed: true
   values: [cyanorak, interproscan]
   description: >
-    Who asserted this TIGR role. 'cyanorak' = curated Cyanorak annotation
+    Who asserted this TIGR role; each value joins a DataSource node via id =
+    'data_source:' + value. 'cyanorak' = curated Cyanorak annotation
     (Prochlorococcus / Synechococcus). 'interproscan' = inferred from an
     equivalog NCBIfam TIGR family via the frozen TIGRFAMs 15.0 role archive
     (all strains). Both on one edge = the two agree; filter with
     'cyanorak' IN r.sources.
+  value_descriptions:
+    cyanorak: Cyanorak curated cyanobacterial annotation (Prochlorococcus / Synechococcus strains only)
+    interproscan: equivalog NCBIfam TIGR family hit mapped to its JCVI role via the frozen TIGRFAMs 15.0 archive (all strains)
 
 Gene_has_interpro_entry.sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1369,6 +1453,8 @@ Gene_has_interpro_entry.sources:
     Who asserted this entry; each value joins a DataSource node via id =
     'data_source:' + value. Always ['interproscan']; the member database(s)
     behind the hit are in `libraries`.
+  value_descriptions:
+    interproscan: InterProScan 5 domain / family scan across its member databases
 
 Gene_has_ncbifam_family.sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1385,6 +1471,8 @@ Gene_has_ncbifam_family.sources:
     Who asserted this family; each value joins a DataSource node via id =
     'data_source:' + value. Always ['interproscan'] (its NCBIFAM member
     database).
+  value_descriptions:
+    interproscan: InterProScan 5 domain / family scan across its member databases
 
 Gene_has_merops_family.sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1401,6 +1489,8 @@ Gene_has_merops_family.sources:
     Who asserted this family; each value joins a DataSource node via id =
     'data_source:' + value. Always ['merops_diamond'] (diamond blastp vs. the
     MEROPS scan library).
+  value_descriptions:
+    merops_diamond: diamond blastp vs. the MEROPS peptidase scan library
 
 Gene_has_kegg_ko.evidence:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1417,6 +1507,8 @@ Gene_has_kegg_ko.evidence:
     Inference strength on the shared ladder curated > signature > homology >
     family_inferred > domain_inferred. KO assignments are family_inferred:
     orthology transfer from the eggNOG seed ortholog's group.
+  value_descriptions:
+    family_inferred: transferred from an ortholog family or a single-function protein family (eggNOG orthology transfer, InterPro FAMILY entries)
 
 Gene_in_cog_category.evidence:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1433,6 +1525,8 @@ Gene_in_cog_category.evidence:
     Inference strength on the shared ladder curated > signature > homology >
     family_inferred > domain_inferred. COG categories are family_inferred
     (eggNOG orthology transfer).
+  value_descriptions:
+    family_inferred: transferred from an ortholog family or a single-function protein family (eggNOG orthology transfer, InterPro FAMILY entries)
 
 Gene_has_cyanorak_role.evidence:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1449,6 +1543,8 @@ Gene_has_cyanorak_role.evidence:
     Inference strength on the shared ladder curated > signature > homology >
     family_inferred > domain_inferred. Cyanorak roles are curated
     (curator-assigned).
+  value_descriptions:
+    curated: assigned by a human curator or a curated reference annotation (Cyanorak, UniProt, NCBI); strongest rung
 
 Gene_has_tigr_role.evidence:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1468,6 +1564,9 @@ Gene_has_tigr_role.evidence:
     family_inferred > domain_inferred. 'curated' = Cyanorak-assigned (wins
     when both sources name the role); 'family_inferred' = equivalog-family
     role transfer only.
+  value_descriptions:
+    curated: assigned by a human curator or a curated reference annotation (Cyanorak, UniProt, NCBI); strongest rung
+    family_inferred: transferred from an equivalog NCBIfam TIGR family whose members share one function; no curator saw this gene
 
 Gene_has_interpro_entry.evidence:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1484,6 +1583,8 @@ Gene_has_interpro_entry.evidence:
     Inference strength on the shared ladder curated > signature > homology >
     family_inferred > domain_inferred. InterPro entries are signature: a
     direct HMM / profile hit, pre-thresholded by each member database.
+  value_descriptions:
+    signature: direct HMM / profile hit against a member database that pre-applies its own curated threshold (InterProScan, Pfam)
 
 Gene_has_ncbifam_family.evidence:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1500,6 +1601,8 @@ Gene_has_ncbifam_family.evidence:
     Inference strength on the shared ladder curated > signature > homology >
     family_inferred > domain_inferred. NCBIfam families are signature: a
     direct HMMER hit against one homogeneous library.
+  value_descriptions:
+    signature: direct HMM / profile hit against a member database that pre-applies its own curated threshold (InterProScan, Pfam)
 
 Gene_has_merops_family.evidence:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1519,6 +1622,8 @@ Gene_has_merops_family.evidence:
     blastp hit vs. the curated scan library; strength within homology is read
     from `tier`. Independent of call_class — a nonpeptidase_homolog is still
     homology evidence for the fold placement.
+  value_descriptions:
+    homology: direct sequence hit (diamond blastp) against a curated reference database (TCDB, MEROPS); strength within the rung is read from tier
 
 Gene_has_tcdb_family.evidence:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1537,6 +1642,9 @@ Gene_has_tcdb_family.evidence:
     family_inferred > domain_inferred. homology = diamond blastp called it
     (strength within it from `tier`); family_inferred = eggNOG-only orthology
     transfer. An edge with both sources takes the stronger (homology).
+  value_descriptions:
+    family_inferred: transferred from an ortholog family or a single-function protein family (eggNOG orthology transfer, InterPro FAMILY entries)
+    homology: direct sequence hit (diamond blastp) against a curated reference database (TCDB, MEROPS); strength within the rung is read from tier
 
 Gene_has_merops_family.evidence_score:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1601,6 +1709,9 @@ Gene_has_tcdb_family.attachment_depth:
     Transport-arm counts (Gene.transported_metabolite_count,
     Metabolite.transporter_gene_count, Organism_has_metabolite) read
     most_specific edges only.
+  value_descriptions:
+    most_specific: no other TCDB edge of this gene lands on a descendant of this family; the edge the transport-arm counts read
+    superseded: a sibling edge of the same gene lands on a descendant family; less specific, not wrong
 
 Gene_has_interpro_entry.evalue:
   applies_to: Gene_has_interpro_entry

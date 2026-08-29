@@ -45,6 +45,11 @@ class VocabEntry:
     min_size: int | None = None      # string_array only: minimum list length on every carrier
     signal_count: int | None = None
     signals: list[str] = field(default_factory=list)
+    # Per-value one-liners (explorer B1). Not part of the hash: wording may
+    # improve without a re-pin. Loader-validated: every described value must
+    # be declared, and a closed vocabulary that carries the key must describe
+    # every value.
+    value_descriptions: dict[str, str] = field(default_factory=dict)
 
     @property
     def id(self) -> str:
@@ -76,6 +81,27 @@ def _validate(key: str, raw: dict[str, Any]) -> None:
             f"controlled_vocabularies.yaml entry '{key}' has "
             f"applies_to_kind='{raw['applies_to_kind']}'; expected node|edge."
         )
+    vd = raw.get("value_descriptions") or {}
+    if not isinstance(vd, dict):
+        raise ValueError(
+            f"controlled_vocabularies.yaml entry '{key}' value_descriptions "
+            f"must be a mapping of value -> one-line text."
+        )
+    values = list(raw.get("values") or [])
+    undeclared = sorted(set(vd) - set(values))
+    if undeclared:
+        raise ValueError(
+            f"controlled_vocabularies.yaml entry '{key}' describes value(s) "
+            f"{undeclared} that are not in its values list."
+        )
+    if vd and raw["closed"]:
+        undescribed = [v for v in values if v not in vd]
+        if undescribed:
+            raise ValueError(
+                f"controlled_vocabularies.yaml entry '{key}' carries "
+                f"value_descriptions but leaves {undescribed} undescribed; a "
+                f"closed vocabulary must describe every value or none."
+            )
     expected_id = f"{raw['applies_to']}.{raw['property']}"
     if key != expected_id:
         raise ValueError(
@@ -107,6 +133,10 @@ def load_vocabularies(path: str | Path = DEFAULT_PATH) -> dict[str, VocabEntry]:
             max_value=raw.get("max_value"),
             signal_count=raw.get("signal_count"),
             signals=list(raw.get("signals") or []),
+            value_descriptions={
+                v: " ".join(str(t).split())
+                for v, t in (raw.get("value_descriptions") or {}).items()
+            },
         )
     return out
 

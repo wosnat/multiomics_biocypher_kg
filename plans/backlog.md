@@ -105,20 +105,20 @@ up — this file is the index, not the plan.
       breaking for the explorer's `is_uninformative` filter.
       → `docs/kg-changes/two-state-strings.md`, `scripts/post-import.sh` §is_uninformative
 
-- [ ] **MIT9313 carries two locus-tag families as separate gene anchors.** The
-      merged annotation has 703 `PMT_####` genes alongside the 2,245 `PMT####`
-      ones, and they are *different* genes sharing a number (`PMT0040`: no NCBI
-      tag, no protein, "conserved hypothetical"; `PMT_0040`: AKG35_RS00210,
-      chemotaxis protein). Papers keyed on the Cyanorak-era `PMT####` tags and
-      the newer `P9313_#####` / `PMT_####` tags therefore collide — 29 of the 62
-      Tier-1 conflicts left after the 2026-08-28 hygiene pass are
-      `P9313_xxxxx → [PMT_nnnn, PMTnnnn]`. Decide which family is canonical for
-      MIT9313 (the GCF assembly's `old_locus_tag` is `PMT_`), whether the 703
-      `PMT_`-only genes are real (new PGAP calls) or a stale second annotation
-      build in `gene_mapping.csv`, and dedupe in `build_gene_annotations`
-      (step 2), not in the mapping builder.
-      → `cache/data/Prochlorococcus/genomes/MIT9313/gene_id_mapping_report.json`,
-      `plans/gene_id_mapping_hygiene.md`
+- [ ] **MIT9313 — `MIT9313_genbank.tsv` `PMTid` column is stale for ~13 genes.**
+      The resource table (an older RefSeq build of the same assembly) gives
+      e.g. `PMT_0166 → AKG35_RS12635` and `PMT_0956/0959/0962 → AKG35_RS05225`,
+      where the current GFF has `PMT_0166` on `AKG35_RS13725` and RS05225 as
+      `PMT0983`; typed `old_locus_tag` (Tier 1) these surface as the Tier-1
+      conflicts left on MIT9313 after 2026-08-29. The other 49 conflicts (the
+      `PMT_nnnn`/`PMTnnnn` "two locus-tag families") were one gene each with a
+      re-called start codon and are gone — fixed in `_position_fallback_merge`
+      (stop-codon/reading-frame criterion + per-contig offsets, see
+      `docs/methods_position_fallback_merge.md`). Options: drop `PMTid` from the
+      TSV's `id_columns` (the GFF already carries every `PMT_` tag) or demote it
+      to a lower tier. Low value; the conflict mechanism already refuses them.
+      → `data/Prochlorococcus/papers_and_supp/MIT9313_resources/paperconfig.yaml`,
+      `cache/data/Prochlorococcus/genomes/MIT9313/gene_id_mapping.json` `conflicts`
 
 - [x] **TigrRole hierarchy normalization — DONE 2026-08-29**, folded into the
       TIGRFAM-role bridge above exactly as this bullet anticipated (one
@@ -248,24 +248,6 @@ Section references below are into that plan file, which holds the full designs.
       KEGG-Module / KEGG-Pathway per module). Not independently wired-worthy —
       should feed the §2.1C cluster `functional_description`s when 2.1C lands.
 ## Explorer / MCP coordination
-
-- [ ] **Per-value descriptions on the trust vocabularies (explorer B1, decided
-      2026-08-29: option A).** Add an optional `value_descriptions` key to
-      `config/controlled_vocabularies.yaml` — emitted as `str[]` of
-      `"<value>: <one line>"` (Neo4j has no map property; self-describing, the
-      explorer splits on the first `: `) — for the ~11 vocabularies
-      `list_filter_values` serves on trust filters: `evidence` (all 14 edge
-      types share the ladder text), `sources`, `call_class`, `best_hit_kind`,
-      `attachment_depth`, `substrate_depth`, `pfam_support`, `go_support`,
-      `source_agreement`, `detection_status`, `table_scope`,
-      `annotation_state`. Loader validates every described value is declared
-      and, when the key is present on a closed vocab, that every value is
-      described; NOT part of `controlled_vocabularies_hash` (wording may
-      improve without a re-pin); schema slot `value_descriptions: str[]`
-      (sparse). Unblocks explorer 2.3; nothing else reads it. Hash-neutral —
-      rides any rebuild after #3.
-      → `docs/kg-changes/2026-08-28-explorer-handoff.md` B1,
-      `multiomics_kg/utils/controlled_vocab.py`, `controlled_vocabulary_adapter.py`
 
 - [ ] **File an upstream Bioregistry new-prefix request for `ncbifam`.**
       KG-SYNC-002 (2026-08-19) minted `ncbifam:` as a house colon-CURIE prefix

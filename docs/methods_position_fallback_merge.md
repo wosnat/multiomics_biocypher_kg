@@ -65,65 +65,123 @@ Key observations:
 
 ## Implementation
 
-### Algorithm
+### Identity criterion (revised 2026-08-29)
 
-A position-based fallback merge was added to `load_gff_from_ncbi_and_cyanorak()` in `build_gene_mapping.py`. The fallback runs after the primary locus_tag-based merge and before the final concatenation, operating only on entries that failed the primary merge.
+The first implementation (2026-03) accepted a Cyanorak/NCBI pair only when the
+two intervals had ≥ 90 % reciprocal overlap, start coordinates within 50 bp and
+end coordinates within 3 bp, strand-blind. That encoded the *wrong* invariant.
+A bacterial CDS is identified by its **stop codon and reading frame**, not by
+its start: re-annotation routinely moves the start codon (PGAP vs. Cyanorak
+differ by up to ~250 bp on MIT9313, with reciprocal overlaps down to 0.18), and
+on the − strand the start codon is the genomic *end*, so the ±3 bp end gate
+rejected every − strand start re-call. Cyanorak also sometimes reports a CDS
+without its stop codon (3′ end 3 bp short) or truncated a few codons early,
+still in frame. The thresholds therefore missed 336 same-gene pairs corpus-wide
+(42 on MIT9313 — the `PMT0040` / `PMT_0040` "two locus-tag families" backlog
+item), while accepting, in principle, two genes whose stop codons differ by
+≤ 3 bp (a different frame).
 
-**Function**: `_position_fallback_merge(ncbi_sourced, cyan_only, min_overlap=0.9, max_bp_diff=10)`
+`_position_fallback_merge(ncbi_sourced, cyan_only)` now accepts a Cyanorak
+call **C** for an unmatched NCBI call **N** when:
 
-For each unmatched Cyanorak entry (PMT0### locus tag, no NCBI counterpart):
+1. **Same contig** — NCBI coordinates are shifted by a per-contig offset (see
+   below) before comparison.
+2. **Same strand.**
+3. **In frame** — the 3′ ends (genomic `end` on +, genomic `start` on −)
+   differ by a multiple of 3.
+4. **C's 3′ end lies inside N's interval.** In frame and inside means no stop
+   codon can separate the two 3′ ends, so C is the same ORF as N up to the
+   start-codon choice or a missing stop codon — by construction, not by a
+   tolerance.
+5. **1 : 1 in both directions** — an NCBI gene matching several Cyanorak calls
+   (a fusion/split disagreement, e.g. MIT9313 `AKG35_RS05630` ↔ `PMT2281` +
+   `PMT2283`) or a Cyanorak call landing in frame inside two nested NCBI genes
+   is skipped with a warning.
 
-1. Select all unmatched NCBI entries on the same strand.
-2. Compute reciprocal overlap, start difference, and end difference against each candidate using vectorized NumPy operations.
-3. Accept candidates meeting all three criteria: reciprocal overlap >= 90%, |start difference| <= 10 bp, |end difference| <= 10 bp.
-4. Collect all candidate pairs keyed by NCBI locus tag.
+No overlap ratio, start tolerance or end tolerance remains, and no distance
+bound inside N's interval either: an in-frame Cyanorak ORF ending inside an
+NCBI span is the same locus even when N is a nonsense pseudogene or
+frameshifted CDS that Cyanorak called as its intact upstream ORF.
 
-After scanning all Cyanorak entries:
+### Contig awareness (new 2026-08-29)
 
-5. For each NCBI locus tag with exactly one Cyanorak candidate: merge by copying all Cyanorak annotation columns into the NCBI row in-place.
-6. For NCBI locus tags with multiple Cyanorak candidates (conflicts): skip the merge entirely and emit a warning.
-7. Add a `position_merge_note` column to each merged row recording the Cyanorak-to-NCBI locus tag mapping (e.g., `position_merge:PMT0107->PMT_0107`).
+Cyanorak stores a draft genome as **one concatenated record** (NCBI contigs in
+order), whereas NCBI coordinates are contig-relative. The first implementation
+ignored this and produced cross-contig false merges on the two multi-contig
+Cyanorak strains (PAC1, 20 contigs; SB, 4). `_contig_offsets()` derives, per
+NCBI `seqid`, the constant that maps NCBI to Cyanorak coordinates from the
+genes the locus_tag merge already paired, measured at the 3′ end; the offset is
+used when a strict majority of a contig's matched genes agree on it (contigs backed by fewer than three matched genes are used with a warning) (they agree 100 % in
+practice: PAC1 contig 5 = +229 662, SB contig 2 = +420 116, every closed genome
+= 0). A contig with no matched gene is usable at offset 0 only in a
+single-sequence assembly; otherwise the fallback never compares coordinates on
+it and says so in the step-0 log.
 
-The consumed Cyanorak locus tags are returned so the caller can remove them from the Cyanorak-only set before concatenation, preventing duplicate rows.
+### Traceability and conflict policy
 
-### Traceability
+Unchanged: every merged row carries `position_merge_note`
+(`position_merge:<cyanorak_tag>→<ncbi_locus_tag>`) and the consumed Cyanorak
+locus tag is appended to `old_locus_tags`, so papers keyed on either form
+resolve to one gene. Conflicts (rule 5) are logged and left unmerged.
 
-Every position-merged entry is annotated with a `position_merge_note` value in `gene_mapping.csv`. This column is null for all entries merged by the standard locus_tag-based method, making it straightforward to audit which genes were merged by position and to revert or adjust the merge if needed.
+## Verification
 
-### Conflict policy
-
-When one NCBI gene matches multiple Cyanorak entries by position, neither merge is performed. This conservative policy avoids incorrectly collapsing genes that may represent annotation disagreements (e.g., gene fusions in one annotation, separate genes in the other). Conflicts are logged as warnings for manual review.
+The criterion was validated against sequence, not against thresholds: for
+every candidate pair the Cyanorak interval was translated from the Cyanorak
+GenBank record (table 11) and compared with the NCBI protein (`protein.faa`).
+Over the 21 Cyanorak strains, all **923** position-merged pairs in the rebuilt
+`gene_mapping.csv` files encode the NCBI protein (one is an in-frame suffix of
+the other, no internal stop) — **0 false merges**. The same check on the
+pre-revision output found the 11 stop-codon-excluded pairs the old gates had
+caught correctly and the 2 cross-contig pairs (PAC1 `EV03_0060→EV03_0395`, SB
+`EV02_0773→EV02_1244`) they had merged wrongly.
 
 ## Results
 
-MIT9313 `gene_mapping.csv` after the fix:
+Rebuilt 2026-08-29 (sub-step 5, all strains):
 
-| Category | Before | After | Change |
-|---|---|---|---|
-| Both sources (locus_tag merge) | 2,159 | 2,159 | -- |
-| Position-merged | 0 | 105 | +105 |
-| Both sources (total) | 2,159 | 2,264 | +105 |
-| Cyanorak-only | 674 | 569 | -105 |
-| NCBI-only | 230 | 125 | -105 |
-| Conflicts skipped | -- | 1 | -- |
-| **Total rows** | **3,063** | **2,958** | **-105** |
+| Strain | Rows before → after | Position-merged rows |
+|---|---|---|
+| MIT9313 | 2,948 → 2,906 (−42) | 157 (was 115) |
+| WH8102 | 2,881 → 2,830 (−51) | 174 |
+| PAC1 | 2,370 → 2,317 (−53) | 53 (was 1, and wrong) |
+| MIT9202 | 2,027 → 2,005 (−22) | 80 |
+| BL107 | 2,595 → 2,567 (−28) | 61 |
+| WH7803 | 2,621 → 2,590 (−31) | 55 |
+| 15 other Cyanorak strains | −196 in total | — |
+| **All 21** | **−423** | **923** |
 
-The 105 position-merged entries correspond to genes where the Cyanorak `PMT0###` locus tag had no matching `old_locus_tag` in the NCBI GFF. After the merge, these genes have both NCBI genomic coordinates/cross-references and Cyanorak functional annotations (cluster assignments, ontology terms, pathway data) in a single row, eliminating the downstream duplicate gene node problem.
-
-The remaining 569 Cyanorak-only and 125 NCBI-only entries represent genuine differences between the two annotation sources (genes annotated in one but not the other) and are retained as single-source rows.
+On MIT9313 the 42 collapsed rows were exactly the `PMTnnnn` (Cyanorak-only) /
+`PMT_nnnn` (NCBI-only) twins: NCBI's `old_locus_tag` lists `PMT_0040` but not
+`PMT0040` for `AKG35_RS00210`, and Cyanorak's `PMT0040` starts 93 bp upstream
+with the same stop codon. They are one gene. The remaining `PMT_`-only rows
+(≈ 400) are genuine Cyanorak-only calls with no NCBI counterpart — Cyanorak
+itself names those `PMT_nnnn` — not a stale second annotation build.
 
 ## Test Coverage
 
-Five unit tests validate the position fallback behavior:
+`tests/test_build_gene_mapping.py`:
 
 | Test | Scenario |
 |---|---|
-| `test_position_fallback_merges_unmatched_pair` | NCBI and Cyanorak entries at overlapping coordinates on the same strand are merged into one row |
-| `test_position_fallback_skips_different_strand` | Entries at identical coordinates but on opposite strands are not merged |
-| `test_position_fallback_skips_low_overlap` | Entries with < 90% reciprocal overlap are not merged |
-| `test_position_fallback_skips_large_coord_diff` | Entries with start difference > 10 bp are not merged |
-| `test_position_fallback_skips_conflict` | When one NCBI entry matches two Cyanorak entries, neither is merged |
+| `test_position_fallback_merges_unmatched_pair` | identical coordinates, same strand → merged |
+| `test_position_fallback_merges_start_codon_recall_plus_strand` | MIT9313 `PMT0040`: + strand, start re-called 93 bp downstream, shared stop (overlap 0.76) → merged |
+| `test_position_fallback_merges_start_codon_recall_minus_strand` | MIT9313 `PMT0110`: − strand, genomic `end` moved 24 bp, shared stop → merged |
+| `test_position_fallback_merges_cyanorak_stop_codon_excluded_plus` / `_minus` | MED4 `PMM1858a` / `PMM1719`: Cyanorak 3′ end 3 bp short, in frame → merged |
+| `test_position_fallback_is_contig_aware` | multi-contig: a Cyanorak gene at the *raw* coordinates of a contig-2 NCBI gene is not merged; one at the offset coordinates is |
+| `test_position_fallback_skips_different_strand` | same coordinates, opposite strands → not merged |
+| `test_position_fallback_skips_shared_start_different_stop` | stops differ by 3 bp (passed the old ±3 bp gate) → not merged |
+| `test_position_fallback_skips_out_of_frame_3prime_end` | stops differ by 4 bp → not merged |
+| `test_position_fallback_skips_different_stop_codon_far` / `_near` | stop codons 1000 bp / 10 bp apart → not merged |
+| `test_position_fallback_merges_nested_in_frame_orf` | Cyanorak ORF ending in frame 600 bp inside the NCBI span → merged (pins the absence of a distance bound) |
+| `test_position_fallback_note_names_ncbi_locus_tag_without_old_locus_tag` | NCBI gene with no `old_locus_tag`: note reads `→<locus_tag_ncbi>`, never `→None` |
+| `test_position_fallback_skips_reverse_conflict` | one Cyanorak call in frame inside two nested NCBI genes → neither merged |
+| `test_position_fallback_skips_conflict` | one NCBI gene, two Cyanorak calls at the same stop → neither merged |
 
 ## Applicability to Other Strains
 
-This fix is specific to strains where the NCBI `old_locus_tag` is incomplete relative to the identifiers used by Cyanorak. Among the 13 strains in the knowledge graph, MIT9313 is the only one exhibiting this pattern. For all other strains, the locus_tag-based merge succeeds for the full set of shared genes, and the position fallback produces zero merges (the function exits early when no unmatched NCBI entries exist). The fallback is therefore safe to run unconditionally for all strains without affecting their existing merge results.
+The fallback runs unconditionally. It fires on every strain with a Cyanorak
+annotation (21 as of 2026-08-29; MIT1327's Cyanorak layer is derived from
+NCBI's own GBFF, so nothing is left for it to do) and on none of the
+NCBI-only strains (there is no Cyanorak side). Its output should be re-checked
+with the translation test above whenever a new Cyanorak strain is onboarded.

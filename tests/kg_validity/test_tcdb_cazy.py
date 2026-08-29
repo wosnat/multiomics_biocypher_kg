@@ -100,14 +100,41 @@ def test_annotation_types_tcdb_respects_the_tier_gate(run_query):
 
 
 @pytest.mark.kg
-def test_tcdb_family_count_is_not_tier_gated(run_query):
-    """Routing counts cover ALL edges — only the quality buckets are gated."""
+def test_tcdb_family_count_is_deepest_attachment_only(run_query):
+    """Routing count = most_specific attachments (any tier — not tier-gated);
+    superseded ancestors excluded (explorer ask 2026-08-29-gene-overview-family-counts).
+    Zero-filled on every Gene."""
     n = run_query("""
-        MATCH (g:Gene)-[r:Gene_has_tcdb_family]->()
-        WITH g, count(r) AS actual WHERE g.tcdb_family_count <> actual
+        MATCH (g:Gene)
+        OPTIONAL MATCH (g)-[r:Gene_has_tcdb_family]->() WHERE r.attachment_depth = 'most_specific'
+        WITH g, count(r) AS actual WHERE coalesce(g.tcdb_family_count, -1) <> actual
         RETURN count(g) AS n
     """)[0]["n"]
-    assert n == 0, f"{n} genes whose tcdb_family_count disagrees with their edge count"
+    assert n == 0, f"{n} genes whose tcdb_family_count disagrees with their most_specific edge count"
+
+
+@pytest.mark.kg
+def test_tcdb_family_count_not_tier_gated(run_query):
+    """A gene whose only TCDB evidence is a tier-3 diamond most_specific edge still counts 1."""
+    n = run_query("""
+        MATCH (g:Gene)-[r:Gene_has_tcdb_family]->()
+        WITH g, collect(r) AS rs
+        WHERE all(x IN rs WHERE x.tier = 3 AND x.attachment_depth = 'most_specific')
+          AND g.tcdb_family_count <> size(rs)
+        RETURN count(g) AS n
+    """)[0]["n"]
+    assert n == 0
+
+
+@pytest.mark.kg
+def test_tcdb_family_count_matches_substrate_resolution_presence(run_query):
+    """tcdb_family_count > 0  <=>  transport_substrate_resolution IS NOT NULL."""
+    n = run_query("""
+        MATCH (g:Gene)
+        WHERE (g.tcdb_family_count > 0) <> (g.transport_substrate_resolution IS NOT NULL)
+        RETURN count(g) AS n
+    """)[0]["n"]
+    assert n == 0
 
 
 @pytest.mark.kg

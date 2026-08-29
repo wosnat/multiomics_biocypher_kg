@@ -32722,57 +32722,6 @@
         }
       ]
     },
-    "PMT9312_0382": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9312_00382",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-PMT9312_0382",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "P9312_04071",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABB49443.1",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
-          "id": "Q31CF2",
-          "sources": [
-            "Barreto 2022/id_translation_pro_9312"
-          ],
-          "type": "uniprot_accession"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "PMT9312_0382",
-          "type": "gene_name"
-        },
-        {
-          "id": "lcl|CP000111.1_cds_Pmt9312_0382_408",
-          "type": "annotation_specific"
-        }
-      ]
-    },
     "PMT9312_0383": {
       "tier1_ids": [
         {
@@ -53631,71 +53580,6 @@
         },
         {
           "id": "lcl|CP000111.1_cds_Pmt9312_0623_650",
-          "type": "annotation_specific"
-        }
-      ]
-    },
-    "PMT9312_0624": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9312_00624",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-PMT9312_0624",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "P9312_06501",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
-          "id": "PMT9312_RS03200",
-          "sources": [
-            "Tetu 2019/supp_dataset_3_mit9312"
-          ],
-          "type": "locus_tag_ncbi"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABB49685.1",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
-          "id": "Q31BR0",
-          "sources": [
-            "Barreto 2022/id_translation_pro_9312"
-          ],
-          "type": "uniprot_accession"
-        },
-        {
-          "id": "WP_036924605.1",
-          "sources": [
-            "Tetu 2019/supp_dataset_3_mit9312"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "PMT9312_0624",
-          "type": "gene_name"
-        },
-        {
-          "id": "lcl|CP000111.1_cds_Pmt9312_0624_651",
           "type": "annotation_specific"
         }
       ]
@@ -100199,57 +100083,6 @@
         }
       ]
     },
-    "PMT9312_1174": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9312_01174",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-PMT9312_1174",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "P9312_12721",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABB50233.1",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
-          "id": "Q31A62",
-          "sources": [
-            "Barreto 2022/id_translation_pro_9312"
-          ],
-          "type": "uniprot_accession"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "PMT9312_1174",
-          "type": "gene_name"
-        },
-        {
-          "id": "lcl|CP000111.1_cds_Pmt9312_1174_1273",
-          "type": "annotation_specific"
-        }
-      ]
-    },
     "PMT9312_1175": {
       "tier1_ids": [
         {
@@ -111603,57 +111436,6 @@
         },
         {
           "id": "lcl|CP000111.1_cds_Pmt9312_1307_1427",
-          "type": "annotation_specific"
-        }
-      ]
-    },
-    "PMT9312_1308": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9312_01308",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-PMT9312_1308",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "P9312_14271",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABB50367.1",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
-          "id": "Q319S8",
-          "sources": [
-            "Barreto 2022/id_translation_pro_9312"
-          ],
-          "type": "uniprot_accession"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "PMT9312_1308",
-          "type": "gene_name"
-        },
-        {
-          "id": "lcl|CP000111.1_cds_Pmt9312_1308_1428",
           "type": "annotation_specific"
         }
       ]
@@ -128709,54 +128491,6 @@
         }
       ]
     },
-    "PMT9312_1508": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9312_01508",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-PMT9312_1508",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "P9312_16561",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABB50568.1",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "hli",
-          "type": "gene_name"
-        },
-        {
-          "id": "PMT9312_1508",
-          "type": "gene_name"
-        },
-        {
-          "id": "lcl|CP000111.1_cds_Pmt9312_1508_1657",
-          "type": "annotation_specific"
-        }
-      ]
-    },
     "PMT9312_1509": {
       "tier1_ids": [
         {
@@ -128927,61 +128661,6 @@
         },
         {
           "id": "lcl|CP000111.1_cds_Pmt9312_1510_1659",
-          "type": "annotation_specific"
-        }
-      ]
-    },
-    "PMT9312_1511": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9312_01511",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-PMT9312_1511",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "P9312_16591",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABB50571.1",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
-          "id": "Q318X4",
-          "sources": [
-            "Barreto 2022/id_translation_pro_9312"
-          ],
-          "type": "uniprot_accession"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "hli",
-          "type": "gene_name"
-        },
-        {
-          "id": "PMT9312_1511",
-          "type": "gene_name"
-        },
-        {
-          "id": "lcl|CP000111.1_cds_Pmt9312_1511_1660",
           "type": "annotation_specific"
         }
       ]
@@ -154261,61 +153940,6 @@
         }
       ]
     },
-    "PMT9312_1812": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9312_01812",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-PMT9312_1812",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "P9312_09061",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABB49909.1",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
-          "id": "Q31B36",
-          "sources": [
-            "Barreto 2022/id_translation_pro_9312"
-          ],
-          "type": "uniprot_accession"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "spoIIAA",
-          "type": "gene_name"
-        },
-        {
-          "id": "PMT9312_1812",
-          "type": "gene_name"
-        },
-        {
-          "id": "lcl|CP000111.1_cds_Pmt9312_1812_907",
-          "type": "annotation_specific"
-        }
-      ]
-    },
     "PMT9312_1813": {
       "tier1_ids": [
         {
@@ -161242,46 +160866,6 @@
         }
       ]
     },
-    "PMT9312_1926": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MIT9312_01926",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-PMT9312_1926",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "P9312_13281",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABS83197.1",
-          "sources": [
-            "genomic_gca/MIT9312"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "lcl|CP000111.1_cds_ABS83197.1_1329",
-          "type": "annotation_specific"
-        }
-      ]
-    },
     "PMT9312_1927": {
       "tier1_ids": [
         {
@@ -164299,11 +163883,39 @@
     "PMT9312_RS01975": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9312_00382",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "PMT9312_0382",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_007577.1_cds_WP_036924218.1_395",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT9312_0382",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "P9312_04071",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-PMT9312_RS01975",
@@ -164320,23 +163932,73 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABB49443.1",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q31CF2",
+          "sources": [
+            "Barreto 2022/id_translation_pro_9312"
+          ],
+          "type": "uniprot_accession"
         }
       ],
       "tier3_ids": [
         {
           "id": "PMT9312_RS01975",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMT9312_0382",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "lcl|CP000111.1_cds_Pmt9312_0382_408",
+          "type": "annotation_specific"
         }
       ]
     },
     "PMT9312_RS07805": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9312_01511",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "PMT9312_1511",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_007577.1_cds_WP_011132751.1_1576",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT9312_1511",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "P9312_16591",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-PMT9312_RS07805",
@@ -164360,16 +164022,42 @@
             "annotation"
           ],
           "type": "uniprot_accession"
+        },
+        {
+          "id": "ABB50571.1",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q318X4",
+          "sources": [
+            "Barreto 2022/id_translation_pro_9312"
+          ],
+          "type": "uniprot_accession"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "hli",
+          "type": "gene_name"
+        },
         {
           "id": "PMT9312_RS07805",
           "type": "gene_synonym"
         },
         {
+          "id": "PMT9312_1511",
+          "type": "gene_synonym"
+        },
+        {
           "id": "PMT9312_1479",
           "type": "gene_synonym"
+        },
+        {
+          "id": "lcl|CP000111.1_cds_Pmt9312_1511_1660",
+          "type": "annotation_specific"
         }
       ]
     },
@@ -164409,11 +164097,39 @@
     "PMT9312_RS09450": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9312_01812",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "PMT9312_1812",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_007577.1_cds_WP_071813309.1_878",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT9312_1812",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "P9312_09061",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-PMT9312_RS09450",
@@ -164430,6 +164146,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABB49909.1",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q31B36",
+          "sources": [
+            "Barreto 2022/id_translation_pro_9312"
+          ],
+          "type": "uniprot_accession"
         }
       ],
       "tier3_ids": [
@@ -164440,6 +164170,14 @@
         {
           "id": "PMT9312_RS09450",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMT9312_1812",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "lcl|CP000111.1_cds_Pmt9312_1812_907",
+          "type": "annotation_specific"
         }
       ]
     },
@@ -164566,11 +164304,39 @@
     "PMT9312_RS09820": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9312_01174",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "PMT9312_1174",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_007577.1_cds_WP_193741806.1_1216",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT9312_1174",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "P9312_12721",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-PMT9312_RS09820",
@@ -164587,23 +164353,73 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABB50233.1",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q31A62",
+          "sources": [
+            "Barreto 2022/id_translation_pro_9312"
+          ],
+          "type": "uniprot_accession"
         }
       ],
       "tier3_ids": [
         {
           "id": "PMT9312_RS09820",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMT9312_1174",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "lcl|CP000111.1_cds_Pmt9312_1174_1273",
+          "type": "annotation_specific"
         }
       ]
     },
     "PMT9312_RS09860": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9312_01308",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "PMT9312_1308",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_007577.1_cds_WP_193741836.1_1359",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT9312_1308",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "P9312_14271",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-PMT9312_RS09860",
@@ -164620,12 +164436,34 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABB50367.1",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q319S8",
+          "sources": [
+            "Barreto 2022/id_translation_pro_9312"
+          ],
+          "type": "uniprot_accession"
         }
       ],
       "tier3_ids": [
         {
           "id": "PMT9312_RS09860",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMT9312_1308",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "lcl|CP000111.1_cds_Pmt9312_1308_1428",
+          "type": "annotation_specific"
         }
       ]
     },
@@ -164665,6 +164503,20 @@
     "PMT9312_RS09980": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9312_00624",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "PMT9312_0624",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_007577.1_cds_WP_225866673.1_637",
           "sources": [
             "cds_from_genomic.fna"
@@ -164672,11 +164524,32 @@
           "type": "cds_fna_id"
         },
         {
+          "id": "gene-PMT9312_0624",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "P9312_06501",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
           "id": "gene-PMT9312_RS09980",
           "sources": [
             "genomic_gcf/MIT9312"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "PMT9312_RS03200",
+          "sources": [
+            "Tetu 2019/supp_dataset_3_mit9312"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
       "tier2_ids": [
@@ -164686,12 +164559,41 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABB49685.1",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q31BR0",
+          "sources": [
+            "Barreto 2022/id_translation_pro_9312"
+          ],
+          "type": "uniprot_accession"
+        },
+        {
+          "id": "WP_036924605.1",
+          "sources": [
+            "Tetu 2019/supp_dataset_3_mit9312"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "PMT9312_RS09980",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMT9312_0624",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "lcl|CP000111.1_cds_Pmt9312_0624_651",
+          "type": "annotation_specific"
         }
       ]
     },
@@ -164764,11 +164666,39 @@
     "PMT9312_RS10055": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9312_01926",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "PMT9312_1926",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_007577.1_cds_WP_263890814.1_1267",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT9312_1926",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "P9312_13281",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-PMT9312_RS10055",
@@ -164785,23 +164715,66 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABS83197.1",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "PMT9312_RS10055",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMT9312_1926",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "lcl|CP000111.1_cds_ABS83197.1_1329",
+          "type": "annotation_specific"
         }
       ]
     },
     "PMT9312_RS10090": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MIT9312_01508",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "PMT9312_1508",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_007577.1_cds_WP_263891584.1_1573",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMT9312_1508",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "P9312_16561",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-PMT9312_RS10090",
@@ -164818,12 +164791,31 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABB50568.1",
+          "sources": [
+            "genomic_gca/MIT9312"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
+          "id": "hli",
+          "type": "gene_name"
+        },
+        {
           "id": "PMT9312_RS10090",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMT9312_1508",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "lcl|CP000111.1_cds_Pmt9312_1508_1657",
+          "type": "annotation_specific"
         }
       ]
     },
@@ -166357,7 +166349,7 @@
       "PMT9312_0381"
     ],
     "ABB49443.1": [
-      "PMT9312_0382"
+      "PMT9312_RS01975"
     ],
     "ABB49444.1": [
       "PMT9312_0383"
@@ -167083,7 +167075,7 @@
       "PMT9312_0623"
     ],
     "ABB49685.1": [
-      "PMT9312_0624"
+      "PMT9312_RS09980"
     ],
     "ABB49686.1": [
       "PMT9312_0625"
@@ -167755,7 +167747,7 @@
       "PMT9312_0848"
     ],
     "ABB49909.1": [
-      "PMT9312_1812"
+      "PMT9312_RS09450"
     ],
     "ABB49910.1": [
       "PMT9312_0850"
@@ -168727,7 +168719,7 @@
       "PMT9312_1173"
     ],
     "ABB50233.1": [
-      "PMT9312_1174"
+      "PMT9312_RS09820"
     ],
     "ABB50234.1": [
       "PMT9312_1175"
@@ -169129,7 +169121,7 @@
       "PMT9312_1307"
     ],
     "ABB50367.1": [
-      "PMT9312_1308"
+      "PMT9312_RS09860"
     ],
     "ABB50368.1": [
       "PMT9312_1309"
@@ -169732,7 +169724,7 @@
       "PMT9312_1507"
     ],
     "ABB50568.1": [
-      "PMT9312_1508"
+      "PMT9312_RS10090"
     ],
     "ABB50569.1": [
       "PMT9312_1509"
@@ -169741,7 +169733,7 @@
       "PMT9312_1510"
     ],
     "ABB50571.1": [
-      "PMT9312_1511"
+      "PMT9312_RS07805"
     ],
     "ABB50572.1": [
       "PMT9312_1512"
@@ -170971,7 +170963,7 @@
       "PMT9312_1925"
     ],
     "ABS83197.1": [
-      "PMT9312_1926"
+      "PMT9312_RS10055"
     ],
     "ABS83198.1": [
       "PMT9312_1927"
@@ -172354,7 +172346,7 @@
       "PMT9312_0381"
     ],
     "PMT9312_0382": [
-      "PMT9312_0382"
+      "PMT9312_RS01975"
     ],
     "PMT9312_0383": [
       "PMT9312_0383"
@@ -173080,7 +173072,7 @@
       "PMT9312_0623"
     ],
     "PMT9312_0624": [
-      "PMT9312_0624"
+      "PMT9312_RS09980"
     ],
     "PMT9312_0625": [
       "PMT9312_0625"
@@ -174719,7 +174711,7 @@
       "PMT9312_1173"
     ],
     "PMT9312_1174": [
-      "PMT9312_1174"
+      "PMT9312_RS09820"
     ],
     "PMT9312_1175": [
       "PMT9312_1175"
@@ -175119,7 +175111,7 @@
       "PMT9312_1307"
     ],
     "PMT9312_1308": [
-      "PMT9312_1308"
+      "PMT9312_RS09860"
     ],
     "PMT9312_1309": [
       "PMT9312_1309"
@@ -175721,7 +175713,7 @@
       "PMT9312_1507"
     ],
     "PMT9312_1508": [
-      "PMT9312_1508"
+      "PMT9312_RS10090"
     ],
     "PMT9312_1509": [
       "PMT9312_1509"
@@ -175730,7 +175722,7 @@
       "PMT9312_1510"
     ],
     "PMT9312_1511": [
-      "PMT9312_1511"
+      "PMT9312_RS07805"
     ],
     "PMT9312_1512": [
       "PMT9312_1512"
@@ -176633,7 +176625,7 @@
       "PMT9312_1811"
     ],
     "PMT9312_1812": [
-      "PMT9312_1812"
+      "PMT9312_RS09450"
     ],
     "PMT9312_1813": [
       "PMT9312_1813"
@@ -176823,6 +176815,9 @@
     ],
     "PMT9312_1924": [
       "PMT9312_1924"
+    ],
+    "PMT9312_1926": [
+      "PMT9312_RS10055"
     ],
     "PMT9312_1929": [
       "PMT9312_1929"
@@ -181691,7 +181686,7 @@
       "PMT9312_1512"
     ],
     "Q318X4": [
-      "PMT9312_1511"
+      "PMT9312_RS07805"
     ],
     "Q318X5": [
       "PMT9312_1510"
@@ -182296,7 +182291,7 @@
       "PMT9312_1309"
     ],
     "Q319S8": [
-      "PMT9312_1308"
+      "PMT9312_RS09860"
     ],
     "Q319S9": [
       "PMT9312_1307"
@@ -182696,7 +182691,7 @@
       "PMT9312_1175"
     ],
     "Q31A62": [
-      "PMT9312_1174"
+      "PMT9312_RS09820"
     ],
     "Q31A63": [
       "PMT9312_1173"
@@ -183660,7 +183655,7 @@
       "PMT9312_0850"
     ],
     "Q31B36": [
-      "PMT9312_1812"
+      "PMT9312_RS09450"
     ],
     "Q31B37": [
       "PMT9312_0848"
@@ -184323,7 +184318,7 @@
       "PMT9312_0625"
     ],
     "Q31BR0": [
-      "PMT9312_0624"
+      "PMT9312_RS09980"
     ],
     "Q31BR1": [
       "PMT9312_0623"
@@ -185037,7 +185032,7 @@
       "PMT9312_0383"
     ],
     "Q31CF2": [
-      "PMT9312_0382"
+      "PMT9312_RS01975"
     ],
     "Q31CF3": [
       "PMT9312_0381"
@@ -191569,7 +191564,7 @@
       "PMT9312_1840"
     ],
     "WP_036924605.1": [
-      "PMT9312_0624"
+      "PMT9312_RS09980"
     ],
     "WP_036924609.1": [
       "PMT9312_0614"
@@ -193259,12 +193254,12 @@
       "PMT9312_1480",
       "PMT9312_1481",
       "PMT9312_1491",
-      "PMT9312_1508",
       "PMT9312_1509",
       "PMT9312_1510",
-      "PMT9312_1511",
       "PMT9312_1575",
-      "PMT9312_1887"
+      "PMT9312_1887",
+      "PMT9312_RS07805",
+      "PMT9312_RS10090"
     ],
     "hli15": [
       "PMT9312_1173"
@@ -193732,7 +193727,7 @@
       "PMT9312_1925"
     ],
     "lcl|CP000111.1_cds_ABS83197.1_1329": [
-      "PMT9312_1926"
+      "PMT9312_RS10055"
     ],
     "lcl|CP000111.1_cds_ABS83198.1_1331": [
       "PMT9312_1927"
@@ -194995,7 +194990,7 @@
       "PMT9312_0381"
     ],
     "lcl|CP000111.1_cds_Pmt9312_0382_408": [
-      "PMT9312_0382"
+      "PMT9312_RS01975"
     ],
     "lcl|CP000111.1_cds_Pmt9312_0383_409": [
       "PMT9312_0383"
@@ -195721,7 +195716,7 @@
       "PMT9312_0623"
     ],
     "lcl|CP000111.1_cds_Pmt9312_0624_651": [
-      "PMT9312_0624"
+      "PMT9312_RS09980"
     ],
     "lcl|CP000111.1_cds_Pmt9312_0625_652": [
       "PMT9312_0625"
@@ -197359,7 +197354,7 @@
       "PMT9312_1173"
     ],
     "lcl|CP000111.1_cds_Pmt9312_1174_1273": [
-      "PMT9312_1174"
+      "PMT9312_RS09820"
     ],
     "lcl|CP000111.1_cds_Pmt9312_1175_1274": [
       "PMT9312_1175"
@@ -197758,7 +197753,7 @@
       "PMT9312_1307"
     ],
     "lcl|CP000111.1_cds_Pmt9312_1308_1428": [
-      "PMT9312_1308"
+      "PMT9312_RS09860"
     ],
     "lcl|CP000111.1_cds_Pmt9312_1309_1429": [
       "PMT9312_1309"
@@ -198358,7 +198353,7 @@
       "PMT9312_1507"
     ],
     "lcl|CP000111.1_cds_Pmt9312_1508_1657": [
-      "PMT9312_1508"
+      "PMT9312_RS10090"
     ],
     "lcl|CP000111.1_cds_Pmt9312_1509_1658": [
       "PMT9312_1509"
@@ -198367,7 +198362,7 @@
       "PMT9312_1510"
     ],
     "lcl|CP000111.1_cds_Pmt9312_1511_1660": [
-      "PMT9312_1511"
+      "PMT9312_RS07805"
     ],
     "lcl|CP000111.1_cds_Pmt9312_1512_1661": [
       "PMT9312_1512"
@@ -199267,7 +199262,7 @@
       "PMT9312_1811"
     ],
     "lcl|CP000111.1_cds_Pmt9312_1812_907": [
-      "PMT9312_1812"
+      "PMT9312_RS09450"
     ],
     "lcl|CP000111.1_cds_Pmt9312_1813_1316": [
       "PMT9312_1813"
@@ -200876,7 +200871,6 @@
       "PMT9312_1664"
     ],
     "spoIIAA": [
-      "PMT9312_1812",
       "PMT9312_RS09450"
     ],
     "spoIID": [
@@ -201825,7 +201819,7 @@
     "CK_Pro_MIT9312_00379": "PMT9312_0379",
     "CK_Pro_MIT9312_00380": "PMT9312_0380",
     "CK_Pro_MIT9312_00381": "PMT9312_0381",
-    "CK_Pro_MIT9312_00382": "PMT9312_0382",
+    "CK_Pro_MIT9312_00382": "PMT9312_RS01975",
     "CK_Pro_MIT9312_00383": "PMT9312_0383",
     "CK_Pro_MIT9312_00384": "PMT9312_0384",
     "CK_Pro_MIT9312_00385": "PMT9312_0385",
@@ -202067,7 +202061,7 @@
     "CK_Pro_MIT9312_00621": "PMT9312_0621",
     "CK_Pro_MIT9312_00622": "PMT9312_0622",
     "CK_Pro_MIT9312_00623": "PMT9312_0623",
-    "CK_Pro_MIT9312_00624": "PMT9312_0624",
+    "CK_Pro_MIT9312_00624": "PMT9312_RS09980",
     "CK_Pro_MIT9312_00625": "PMT9312_0625",
     "CK_Pro_MIT9312_00626": "PMT9312_0626",
     "CK_Pro_MIT9312_00627": "PMT9312_0627",
@@ -202613,7 +202607,7 @@
     "CK_Pro_MIT9312_01171": "PMT9312_1171",
     "CK_Pro_MIT9312_01172": "PMT9312_1172",
     "CK_Pro_MIT9312_01173": "PMT9312_1173",
-    "CK_Pro_MIT9312_01174": "PMT9312_1174",
+    "CK_Pro_MIT9312_01174": "PMT9312_RS09820",
     "CK_Pro_MIT9312_01175": "PMT9312_1175",
     "CK_Pro_MIT9312_01176": "PMT9312_1176",
     "CK_Pro_MIT9312_01177": "PMT9312_1177",
@@ -202746,7 +202740,7 @@
     "CK_Pro_MIT9312_01305": "PMT9312_1305",
     "CK_Pro_MIT9312_01306": "PMT9312_1306",
     "CK_Pro_MIT9312_01307": "PMT9312_1307",
-    "CK_Pro_MIT9312_01308": "PMT9312_1308",
+    "CK_Pro_MIT9312_01308": "PMT9312_RS09860",
     "CK_Pro_MIT9312_01309": "PMT9312_1309",
     "CK_Pro_MIT9312_01310": "PMT9312_1310",
     "CK_Pro_MIT9312_01311": "PMT9312_1311",
@@ -202946,10 +202940,10 @@
     "CK_Pro_MIT9312_01505": "PMT9312_1505",
     "CK_Pro_MIT9312_01506": "PMT9312_1506",
     "CK_Pro_MIT9312_01507": "PMT9312_1507",
-    "CK_Pro_MIT9312_01508": "PMT9312_1508",
+    "CK_Pro_MIT9312_01508": "PMT9312_RS10090",
     "CK_Pro_MIT9312_01509": "PMT9312_1509",
     "CK_Pro_MIT9312_01510": "PMT9312_1510",
-    "CK_Pro_MIT9312_01511": "PMT9312_1511",
+    "CK_Pro_MIT9312_01511": "PMT9312_RS07805",
     "CK_Pro_MIT9312_01512": "PMT9312_1512",
     "CK_Pro_MIT9312_01513": "PMT9312_1513",
     "CK_Pro_MIT9312_01514": "PMT9312_1514",
@@ -203249,7 +203243,7 @@
     "CK_Pro_MIT9312_01808": "PMT9312_1808",
     "CK_Pro_MIT9312_01809": "PMT9312_1809",
     "CK_Pro_MIT9312_01811": "PMT9312_1811",
-    "CK_Pro_MIT9312_01812": "PMT9312_1812",
+    "CK_Pro_MIT9312_01812": "PMT9312_RS09450",
     "CK_Pro_MIT9312_01813": "PMT9312_1813",
     "CK_Pro_MIT9312_01814": "PMT9312_1814",
     "CK_Pro_MIT9312_01815": "PMT9312_1815",
@@ -203357,7 +203351,7 @@
     "CK_Pro_MIT9312_01923": "PMT9312_1923",
     "CK_Pro_MIT9312_01924": "PMT9312_1924",
     "CK_Pro_MIT9312_01925": "PMT9312_1925",
-    "CK_Pro_MIT9312_01926": "PMT9312_1926",
+    "CK_Pro_MIT9312_01926": "PMT9312_RS10055",
     "CK_Pro_MIT9312_01927": "PMT9312_1927",
     "CK_Pro_MIT9312_01928": "PMT9312_1928",
     "CK_Pro_MIT9312_01929": "PMT9312_1929",
@@ -203821,7 +203815,7 @@
     "P9312_04041": "PMT9312_0379",
     "P9312_04051": "PMT9312_0380",
     "P9312_04061": "PMT9312_0381",
-    "P9312_04071": "PMT9312_0382",
+    "P9312_04071": "PMT9312_RS01975",
     "P9312_04081": "PMT9312_0383",
     "P9312_04091": "PMT9312_0384",
     "P9312_04101": "PMT9312_0385",
@@ -204064,7 +204058,7 @@
     "P9312_06471": "PMT9312_0621",
     "P9312_06481": "PMT9312_0622",
     "P9312_06491": "PMT9312_0623",
-    "P9312_06501": "PMT9312_0624",
+    "P9312_06501": "PMT9312_RS09980",
     "P9312_06511": "PMT9312_0625",
     "P9312_06521": "PMT9312_0626",
     "P9312_06531": "PMT9312_1836",
@@ -204319,7 +204313,7 @@
     "P9312_09031": "PMT9312_0846",
     "P9312_09041": "PMT9312_0847",
     "P9312_09051": "PMT9312_0848",
-    "P9312_09061": "PMT9312_1812",
+    "P9312_09061": "PMT9312_RS09450",
     "P9312_09071": "PMT9312_0850",
     "P9312_09081": "PMT9312_0851",
     "P9312_09091": "PMT9312_0852",
@@ -204685,7 +204679,7 @@
     "P9312_12691": "PMT9312_1172",
     "P9312_12701": "PMT9312_1173",
     "P9312_12711": "PMT9312_1911",
-    "P9312_12721": "PMT9312_1174",
+    "P9312_12721": "PMT9312_RS09820",
     "P9312_12731": "PMT9312_1175",
     "P9312_12741": "PMT9312_1912",
     "P9312_12751": "PMT9312_1176",
@@ -204741,7 +204735,7 @@
     "P9312_13251": "PMT9312_1924",
     "P9312_13261": "PMT9312_1218",
     "P9312_13271": "PMT9312_1925",
-    "P9312_13281": "PMT9312_1926",
+    "P9312_13281": "PMT9312_RS10055",
     "P9312_13291": "PMT9312_1219",
     "P9312_13301": "PMT9312_1927",
     "P9312_13311": "PMT9312_1928",
@@ -204840,7 +204834,7 @@
     "P9312_14241": "PMT9312_1305",
     "P9312_14251": "PMT9312_1306",
     "P9312_14261": "PMT9312_1307",
-    "P9312_14271": "PMT9312_1308",
+    "P9312_14271": "PMT9312_RS09860",
     "P9312_14281": "PMT9312_1309",
     "P9312_14291": "PMT9312_1310",
     "P9312_14301": "PMT9312_1311",
@@ -205069,10 +205063,10 @@
     "P9312_16531": "PMT9312_1505",
     "P9312_16541": "PMT9312_1506",
     "P9312_16551": "PMT9312_1507",
-    "P9312_16561": "PMT9312_1508",
+    "P9312_16561": "PMT9312_RS10090",
     "P9312_16571": "PMT9312_1509",
     "P9312_16581": "PMT9312_1510",
-    "P9312_16591": "PMT9312_1511",
+    "P9312_16591": "PMT9312_RS07805",
     "P9312_16601": "PMT9312_1512",
     "P9312_16611": "PMT9312_1513",
     "P9312_16621": "PMT9312_1514",
@@ -205377,7 +205371,15 @@
     "PGK": "PMT9312_0197",
     "PGK_PROM9": "PMT9312_0197",
     "PMT9312_0106a,PMT9312_1975": "PMT9312_0106a",
+    "PMT9312_0382": "PMT9312_RS01975",
+    "PMT9312_0624": "PMT9312_RS09980",
+    "PMT9312_1174": "PMT9312_RS09820",
+    "PMT9312_1308": "PMT9312_RS09860",
+    "PMT9312_1508": "PMT9312_RS10090",
+    "PMT9312_1511": "PMT9312_RS07805",
     "PMT9312_1612": "PMT9312_RS09520",
+    "PMT9312_1812": "PMT9312_RS09450",
+    "PMT9312_1926": "PMT9312_RS10055",
     "PMT9312_1975": "PMT9312_0106a",
     "PMT9312_50024": "PMT9312_pseudoVIMSS1362710",
     "PMT9312_RS00005": "PMT9312_0001",
@@ -205991,7 +205993,7 @@
     "PMT9312_RS03185": "PMT9312_0621",
     "PMT9312_RS03190": "PMT9312_0622",
     "PMT9312_RS03195": "PMT9312_0623",
-    "PMT9312_RS03200": "PMT9312_0624",
+    "PMT9312_RS03200": "PMT9312_RS09980",
     "PMT9312_RS03205": "PMT9312_0625",
     "PMT9312_RS03210": "PMT9312_0626",
     "PMT9312_RS03215": "PMT9312_0627",
@@ -207981,7 +207983,7 @@
     "gene-PMT9312_0379": "PMT9312_0379",
     "gene-PMT9312_0380": "PMT9312_0380",
     "gene-PMT9312_0381": "PMT9312_0381",
-    "gene-PMT9312_0382": "PMT9312_0382",
+    "gene-PMT9312_0382": "PMT9312_RS01975",
     "gene-PMT9312_0383": "PMT9312_0383",
     "gene-PMT9312_0384": "PMT9312_0384",
     "gene-PMT9312_0385": "PMT9312_0385",
@@ -208223,7 +208225,7 @@
     "gene-PMT9312_0621": "PMT9312_0621",
     "gene-PMT9312_0622": "PMT9312_0622",
     "gene-PMT9312_0623": "PMT9312_0623",
-    "gene-PMT9312_0624": "PMT9312_0624",
+    "gene-PMT9312_0624": "PMT9312_RS09980",
     "gene-PMT9312_0625": "PMT9312_0625",
     "gene-PMT9312_0626": "PMT9312_0626",
     "gene-PMT9312_0627": "PMT9312_0627",
@@ -208769,7 +208771,7 @@
     "gene-PMT9312_1171": "PMT9312_1171",
     "gene-PMT9312_1172": "PMT9312_1172",
     "gene-PMT9312_1173": "PMT9312_1173",
-    "gene-PMT9312_1174": "PMT9312_1174",
+    "gene-PMT9312_1174": "PMT9312_RS09820",
     "gene-PMT9312_1175": "PMT9312_1175",
     "gene-PMT9312_1176": "PMT9312_1176",
     "gene-PMT9312_1177": "PMT9312_1177",
@@ -208902,7 +208904,7 @@
     "gene-PMT9312_1305": "PMT9312_1305",
     "gene-PMT9312_1306": "PMT9312_1306",
     "gene-PMT9312_1307": "PMT9312_1307",
-    "gene-PMT9312_1308": "PMT9312_1308",
+    "gene-PMT9312_1308": "PMT9312_RS09860",
     "gene-PMT9312_1309": "PMT9312_1309",
     "gene-PMT9312_1310": "PMT9312_1310",
     "gene-PMT9312_1311": "PMT9312_1311",
@@ -209102,10 +209104,10 @@
     "gene-PMT9312_1505": "PMT9312_1505",
     "gene-PMT9312_1506": "PMT9312_1506",
     "gene-PMT9312_1507": "PMT9312_1507",
-    "gene-PMT9312_1508": "PMT9312_1508",
+    "gene-PMT9312_1508": "PMT9312_RS10090",
     "gene-PMT9312_1509": "PMT9312_1509",
     "gene-PMT9312_1510": "PMT9312_1510",
-    "gene-PMT9312_1511": "PMT9312_1511",
+    "gene-PMT9312_1511": "PMT9312_RS07805",
     "gene-PMT9312_1512": "PMT9312_1512",
     "gene-PMT9312_1513": "PMT9312_1513",
     "gene-PMT9312_1514": "PMT9312_1514",
@@ -209405,7 +209407,7 @@
     "gene-PMT9312_1808": "PMT9312_1808",
     "gene-PMT9312_1809": "PMT9312_1809",
     "gene-PMT9312_1811": "PMT9312_1811",
-    "gene-PMT9312_1812": "PMT9312_1812",
+    "gene-PMT9312_1812": "PMT9312_RS09450",
     "gene-PMT9312_1813": "PMT9312_1813",
     "gene-PMT9312_1814": "PMT9312_1814",
     "gene-PMT9312_1815": "PMT9312_1815",
@@ -209513,7 +209515,7 @@
     "gene-PMT9312_1923": "PMT9312_1923",
     "gene-PMT9312_1924": "PMT9312_1924",
     "gene-PMT9312_1925": "PMT9312_1925",
-    "gene-PMT9312_1926": "PMT9312_1926",
+    "gene-PMT9312_1926": "PMT9312_RS10055",
     "gene-PMT9312_1927": "PMT9312_1927",
     "gene-PMT9312_1928": "PMT9312_1928",
     "gene-PMT9312_1929": "PMT9312_1929",
@@ -213317,9 +213319,9 @@
   },
   "stats": {
     "n_conflicts": 0,
-    "n_genes": 1978,
-    "n_multi": 12121,
-    "n_specific": 11873,
+    "n_genes": 1970,
+    "n_multi": 12122,
+    "n_specific": 11881,
     "passes": 3
   },
   "strain": "MIT9312",

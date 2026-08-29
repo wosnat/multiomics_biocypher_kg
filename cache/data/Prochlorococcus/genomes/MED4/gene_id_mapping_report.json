@@ -12,13 +12,13 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 347,
-      "unique": 1368
+      "multi": 345,
+      "unique": 1369
     },
     "gene_synonym": {
       "conflict": 0,
       "multi": 84,
-      "unique": 3384
+      "unique": 3386
     },
     "gff_gene_id": {
       "conflict": 0,
@@ -43,7 +43,7 @@
     "old_locus_tag": {
       "conflict": 0,
       "multi": 0,
-      "unique": 206
+      "unique": 209
     },
     "other": {
       "conflict": 0,
@@ -68,7 +68,7 @@
   },
   "runaway_genes": [],
   "strain": "MED4",
-  "tier1_count_max": 9,
+  "tier1_count_max": 11,
   "tier1_count_median": 6.0,
   "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {

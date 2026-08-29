@@ -19126,7 +19126,21 @@
           "type": "locus_tag_ncbi"
         },
         {
+          "id": "CK_Pro_MED4_01723",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
           "id": "PMM1806",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
+          "id": "PMM1723",
           "sources": [
             "annotation"
           ],
@@ -19213,6 +19227,10 @@
         },
         {
           "id": "PMM1806",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "PMM1723",
           "type": "gene_synonym"
         },
         {
@@ -50635,46 +50653,6 @@
         },
         {
           "id": "PMM0623",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "PMM0624": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MED4_00624",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-PMM0624",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PMED4_06731",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "alternative_locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAE19083.1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "PMM0624",
           "type": "gene_synonym"
         }
       ]
@@ -139768,24 +139746,6 @@
         }
       ]
     },
-    "PMM1723": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MED4_01723",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "crtR",
-          "type": "gene_name"
-        }
-      ]
-    },
     "PMM1800": {
       "tier1_ids": [
         {
@@ -146039,53 +145999,6 @@
           "id": "PMM1877",
           "type": "gene_synonym"
         },
-        {
-          "id": "Protein-coding gene",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "PMM1878": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MED4_01878",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-PMM1878",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "gff_gene_id"
-        },
-        {
-          "id": "PMED4_07891",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
-          "id": "HyPMM89",
-          "sources": [
-            "Wang 2014/med4_expression_level"
-          ],
-          "type": "locus_tag"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAP16382.1",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
         {
           "id": "Protein-coding gene",
           "type": "gene_name"
@@ -158672,6 +158585,20 @@
     "TX50_RS03815": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MED4_01878",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "PMM1878",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_005072.1_cds_WP_225866773.1_775",
           "sources": [
             "cds_from_genomic.fna"
@@ -158679,11 +158606,32 @@
           "type": "cds_fna_id"
         },
         {
+          "id": "gene-PMM1878",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PMED4_07891",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "alternative_locus_tag"
+        },
+        {
           "id": "gene-TX50_RS03815",
           "sources": [
             "genomic_gcf/MED4"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "HyPMM89",
+          "sources": [
+            "Wang 2014/med4_expression_level"
+          ],
+          "type": "locus_tag"
         }
       ],
       "tier2_ids": [
@@ -158693,12 +158641,27 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAP16382.1",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "TX50_RS03815",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMM1878",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "Protein-coding gene",
+          "type": "gene_name"
         }
       ]
     },
@@ -159075,11 +159038,39 @@
     "TX50_RS09915": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MED4_00624",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "PMM0624",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_005072.1_cds_WP_268741263.1_661",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-PMM0624",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "gff_gene_id"
+        },
+        {
+          "id": "PMED4_06731",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "alternative_locus_tag"
         },
         {
           "id": "gene-TX50_RS09915",
@@ -159096,9 +159087,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAE19083.1",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "PMM0624",
+          "type": "gene_synonym"
+        },
         {
           "id": "TX50_RS09915",
           "type": "gene_synonym"
@@ -161591,7 +161593,7 @@
       "PMM0623"
     ],
     "CAE19083.1": [
-      "PMM0624"
+      "TX50_RS09915"
     ],
     "CAE19084.1": [
       "PMM0625"
@@ -165098,7 +165100,7 @@
       "PMM1877"
     ],
     "CAP16382.1": [
-      "PMM1878"
+      "TX50_RS03815"
     ],
     "CAP16384.1": [
       "PMM1880"
@@ -168896,7 +168898,7 @@
       "PMM0623"
     ],
     "PMM0624": [
-      "PMM0624"
+      "TX50_RS09915"
     ],
     "PMM0625": [
       "PMM0625"
@@ -172191,6 +172193,9 @@
     "PMM1722": [
       "PMM1883"
     ],
+    "PMM1723": [
+      "PMM0236"
+    ],
     "PMM1724": [
       "PMM1841"
     ],
@@ -172367,6 +172372,9 @@
     ],
     "PMM1877": [
       "PMM1877"
+    ],
+    "PMM1878": [
+      "TX50_RS03815"
     ],
     "PMM1879a": [
       "TX50_RS09860"
@@ -172786,7 +172794,7 @@
       "PMM1875",
       "PMM1876",
       "PMM1877",
-      "PMM1878",
+      "TX50_RS03815",
       "PMM1880",
       "PMM1881",
       "PMM1882",
@@ -187307,8 +187315,7 @@
       "PMM0115"
     ],
     "crtR": [
-      "PMM0236",
-      "PMM1723"
+      "PMM0236"
     ],
     "cscK": [
       "PMM1627"
@@ -192046,7 +192053,7 @@
     "CK_Pro_MED4_00621": "PMM0621",
     "CK_Pro_MED4_00622": "PMM0622",
     "CK_Pro_MED4_00623": "PMM0623",
-    "CK_Pro_MED4_00624": "PMM0624",
+    "CK_Pro_MED4_00624": "TX50_RS09915",
     "CK_Pro_MED4_00625": "PMM0625",
     "CK_Pro_MED4_00626": "PMM0626",
     "CK_Pro_MED4_00627": "PMM0627",
@@ -193145,7 +193152,7 @@
     "CK_Pro_MED4_01720": "PMM1720",
     "CK_Pro_MED4_01721": "PMM1887",
     "CK_Pro_MED4_01722": "PMM1883",
-    "CK_Pro_MED4_01723": "PMM1723",
+    "CK_Pro_MED4_01723": "PMM0236",
     "CK_Pro_MED4_01724": "PMM1841",
     "CK_Pro_MED4_01800": "PMM1800",
     "CK_Pro_MED4_01801": "PMM1801",
@@ -193222,7 +193229,7 @@
     "CK_Pro_MED4_01875": "PMM1875",
     "CK_Pro_MED4_01876": "PMM1876",
     "CK_Pro_MED4_01877": "PMM1877",
-    "CK_Pro_MED4_01878": "PMM1878",
+    "CK_Pro_MED4_01878": "TX50_RS03815",
     "CK_Pro_MED4_01880": "PMM1880",
     "CK_Pro_MED4_01881": "PMM1881",
     "CK_Pro_MED4_01884": "PMM1884",
@@ -193612,7 +193619,7 @@
     "HyPMM86": "PMM1875",
     "HyPMM87": "PMM1876",
     "HyPMM88": "PMM1877",
-    "HyPMM89": "PMM1878",
+    "HyPMM89": "TX50_RS03815",
     "HyPMM9": "PMM1807",
     "HyPMM91": "PMM1880",
     "HyPMM92": "PMM1881",
@@ -194327,7 +194334,7 @@
     "PMED4_06701": "PMM0621",
     "PMED4_06711": "PMM0622",
     "PMED4_06721": "PMM0623",
-    "PMED4_06731": "PMM0624",
+    "PMED4_06731": "TX50_RS09915",
     "PMED4_06741": "PMM0625",
     "PMED4_06751": "PMM0626",
     "PMED4_06761": "PMM1852",
@@ -194457,7 +194464,7 @@
     "PMED4_07861": "PMM0712",
     "PMED4_07871": "PMM0713",
     "PMED4_07881": "PMM0714",
-    "PMED4_07891": "PMM1878",
+    "PMED4_07891": "TX50_RS03815",
     "PMED4_07901": "PMM0715",
     "PMED4_07911": "PMM0716",
     "PMED4_07921": "PMM0717",
@@ -195692,6 +195699,7 @@
     "PMM0373*": "PMM0373",
     "PMM0385": "PMM1841",
     "PMM0597*": "PMM0597",
+    "PMM0624": "TX50_RS09915",
     "PMM0644*": "PMM0644",
     "PMM0713*": "PMM0713",
     "PMM0766*": "PMM0766",
@@ -195716,6 +195724,7 @@
     "PMM1719": "TX50_RS09730",
     "PMM1721": "PMM1887",
     "PMM1722": "PMM1883",
+    "PMM1723": "PMM0236",
     "PMM1724": "PMM1841",
     "PMM1801*": "PMM1801",
     "PMM1802*": "PMM1802",
@@ -195735,6 +195744,7 @@
     "PMM1857*": "PMM1857",
     "PMM1858a": "PMM1858",
     "PMM1869*": "PMM1869",
+    "PMM1878": "TX50_RS03815",
     "PMM1879a": "TX50_RS09860",
     "PMM1880*": "PMM1880",
     "PMM1889*": "PMM1889",
@@ -198267,7 +198277,7 @@
     "gene-PMM0621": "PMM0621",
     "gene-PMM0622": "PMM0622",
     "gene-PMM0623": "PMM0623",
-    "gene-PMM0624": "PMM0624",
+    "gene-PMM0624": "TX50_RS09915",
     "gene-PMM0625": "PMM0625",
     "gene-PMM0626": "PMM0626",
     "gene-PMM0627": "PMM0627",
@@ -199436,7 +199446,7 @@
     "gene-PMM1875": "PMM1875",
     "gene-PMM1876": "PMM1876",
     "gene-PMM1877": "PMM1877",
-    "gene-PMM1878": "PMM1878",
+    "gene-PMM1878": "TX50_RS03815",
     "gene-PMM1880": "PMM1880",
     "gene-PMM1881": "PMM1881",
     "gene-PMM1882": "PMM1882",
@@ -203351,9 +203361,9 @@
   },
   "stats": {
     "n_conflicts": 2,
-    "n_genes": 1976,
-    "n_multi": 10631,
-    "n_specific": 11923,
+    "n_genes": 1973,
+    "n_multi": 10633,
+    "n_specific": 11926,
     "passes": 2
   },
   "strain": "MED4",

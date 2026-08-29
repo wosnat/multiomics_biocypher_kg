@@ -518,6 +518,7 @@ controlled vocabulary:
     max_value: float       # sparse
     signal_count: int      # sparse: evidence_score only
     signals: str[]         # sparse: evidence_score component names
+    value_descriptions: str[]  # sparse: '<value>: <one line>' per declared value, values order; explorer B1, 2026-08-29. Not hashed.
 
 #####################################
 

@@ -73,3 +73,14 @@ Experiment.treatment_type:
     bad.write_text(good.read_text().replace("string_array", "string"))
     with _pytest.raises(ValueError, match="min_size"):
         load_vocabularies(bad)
+
+
+def test_value_descriptions_are_emitted_as_value_colon_text_in_values_order():
+    props = _nodes()["Gene_has_merops_family.call_class"]
+    vd = props["value_descriptions"]
+    assert [s.split(": ", 1)[0] for s in vd] == props["values"]
+    assert all(": " in s and s.split(": ", 1)[1] for s in vd)
+
+
+def test_value_descriptions_are_absent_when_undescribed():
+    assert "value_descriptions" not in _nodes()["InterproEntry.interpro_type"]

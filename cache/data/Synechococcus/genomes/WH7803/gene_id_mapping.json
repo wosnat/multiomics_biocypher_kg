@@ -315,11 +315,32 @@
     "SYNWH7803_RS02235": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_00451",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_0451",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428345.1_439",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_0451",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS02235",
@@ -336,16 +357,31 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK22877.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
-          "id": "speH",
+          "id": "speD",
           "type": "gene_name"
         },
         {
           "id": "SYNWH7803_RS02235",
           "type": "gene_synonym"
+        },
+        {
+          "id": "SynWH7803_0451",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "speH",
+          "type": "gene_name"
         }
       ]
     },
@@ -436,11 +472,32 @@
     "SYNWH7803_RS02810": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_00554",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_0554",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428379.1_542",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_0554",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS02810",
@@ -457,9 +514,34 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK22980.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "A5GJ65",
+          "sources": [
+            "Moreno 2023/supp_table_s2_wh7803"
+          ],
+          "type": "uniprot_accession"
+        },
+        {
+          "id": "YP_001224277.1",
+          "sources": [
+            "Christie-Oleza 2017/supp_table_s2a"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_0554",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS02810",
           "type": "gene_synonym"
@@ -469,11 +551,32 @@
     "SYNWH7803_RS03115": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_00616",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_0616",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428390.1_603",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_0616",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS03115",
@@ -490,9 +593,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK23042.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_0616",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS03115",
           "type": "gene_synonym"
@@ -646,11 +760,32 @@
     "SYNWH7803_RS03965": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_00786",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_0786",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428420.1_772",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_0786",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS03965",
@@ -667,9 +802,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK23212.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_0786",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS03965",
           "type": "gene_synonym"
@@ -813,11 +959,32 @@
     "SYNWH7803_RS04220": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_00842",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_0842",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_050815876.1_823",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_0842",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS04220",
@@ -834,9 +1001,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK23268.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_0842",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS04220",
           "type": "gene_synonym"
@@ -951,11 +1129,32 @@
     "SYNWH7803_RS04415": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_00889",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_0889",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428433.1_863",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_0889",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS04415",
@@ -972,9 +1171,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK23315.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_0889",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS04415",
           "type": "gene_synonym"
@@ -1082,11 +1292,32 @@
     "SYNWH7803_RS04540": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_00919",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_0919",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_083833670.1_888",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_0919",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS04540",
@@ -1103,9 +1334,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK23345.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_0919",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS04540",
           "type": "gene_synonym"
@@ -1115,11 +1357,32 @@
     "SYNWH7803_RS04570": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_00925",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_0925",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428442.1_894",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_0925",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS04570",
@@ -1136,9 +1399,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK23351.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_0925",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS04570",
           "type": "gene_synonym"
@@ -1148,11 +1422,32 @@
     "SYNWH7803_RS04610": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_00933",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_0933",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428443.1_902",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_0933",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS04610",
@@ -1169,9 +1464,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK23359.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_0933",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS04610",
           "type": "gene_synonym"
@@ -1181,11 +1487,32 @@
     "SYNWH7803_RS04650": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_00942",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_0942",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428446.1_910",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_0942",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS04650",
@@ -1202,9 +1529,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK23368.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_0942",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS04650",
           "type": "gene_synonym"
@@ -1283,11 +1621,32 @@
     "SYNWH7803_RS05035": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_01025",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_1025",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428460.1_987",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_1025",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS05035",
@@ -1304,9 +1663,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK23451.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_1025",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS05035",
           "type": "gene_synonym"
@@ -1538,6 +1908,20 @@
     "SYNWH7803_RS06625": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_02538",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_2538",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_050815927.1_1308",
           "sources": [
             "cds_from_genomic.fna"
@@ -1565,11 +1949,29 @@
         {
           "id": "SYNWH7803_RS06625",
           "type": "gene_synonym"
+        },
+        {
+          "id": "SynWH7803_2538",
+          "type": "gene_synonym"
         }
       ]
     },
     "SYNWH7803_RS06715": {
       "tier1_ids": [
+        {
+          "id": "CK_Syn_WH7803_02559",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_2559",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NC_009481.1_cds_WP_041428510.1_1326",
           "sources": [
@@ -1598,17 +2000,42 @@
         {
           "id": "SYNWH7803_RS06715",
           "type": "gene_synonym"
+        },
+        {
+          "id": "SynWH7803_2559",
+          "type": "gene_synonym"
         }
       ]
     },
     "SYNWH7803_RS07115": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_01443",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_1443",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428529.1_1402",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_1443",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS07115",
@@ -1625,9 +2052,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK23869.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_1443",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS07115",
           "type": "gene_synonym"
@@ -1637,11 +2075,32 @@
     "SYNWH7803_RS07140": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_01447",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_1447",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_011933351.1_1407",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_1447",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS07140",
@@ -1658,9 +2117,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK23873.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_1447",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS07140",
           "type": "gene_synonym"
@@ -1670,11 +2140,32 @@
     "SYNWH7803_RS07900": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_01603",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_1603",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428579.1_1558",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_1603",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS07900",
@@ -1691,9 +2182,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK24029.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_1603",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS07900",
           "type": "gene_synonym"
@@ -1736,11 +2238,32 @@
     "SYNWH7803_RS08005": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_01624",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_1624",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428591.1_1579",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_1624",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS08005",
@@ -1757,9 +2280,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK24050.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_1624",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS08005",
           "type": "gene_synonym"
@@ -2016,11 +2550,32 @@
     "SYNWH7803_RS09340": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_01893",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_1893",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428916.1_1839",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_1893",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS09340",
@@ -2037,9 +2592,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK24319.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_1893",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS09340",
           "type": "gene_synonym"
@@ -2100,11 +2666,32 @@
     "SYNWH7803_RS09810": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_01987",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_1987",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_083833679.1_1932",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_1987",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS09810",
@@ -2121,9 +2708,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK24413.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_1987",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS09810",
           "type": "gene_synonym"
@@ -2133,11 +2731,32 @@
     "SYNWH7803_RS09930": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_02011",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_2011",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428668.1_1956",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_2011",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS09930",
@@ -2154,11 +2773,26 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK24437.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
+          "id": "ychJ",
+          "type": "gene_name"
+        },
+        {
           "id": "SYNWH7803_RS09930",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "SynWH7803_2011",
           "type": "gene_synonym"
         }
       ]
@@ -2166,11 +2800,32 @@
     "SYNWH7803_RS10025": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_02030",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_2030",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428941.1_1975",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_2030",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS10025",
@@ -2187,16 +2842,31 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK24456.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
-          "id": "ccdA",
+          "id": "ccsC1",
           "type": "gene_name"
         },
         {
           "id": "SYNWH7803_RS10025",
           "type": "gene_synonym"
+        },
+        {
+          "id": "SynWH7803_2030",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "ccdA",
+          "type": "gene_name"
         }
       ]
     },
@@ -2326,11 +2996,32 @@
     "SYNWH7803_RS10230": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_02071",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_2071",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428675.1_2016",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_2071",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS10230",
@@ -2347,9 +3038,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK24497.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_2071",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS10230",
           "type": "gene_synonym"
@@ -2443,11 +3145,32 @@
     "SYNWH7803_RS10425": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_02110",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_2110",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428679.1_2054",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_2110",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS10425",
@@ -2464,9 +3187,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK24536.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_2110",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS10425",
           "type": "gene_synonym"
@@ -2476,11 +3210,32 @@
     "SYNWH7803_RS10430": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_02116",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_2116",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428680.1_2057",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_2116",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS10430",
@@ -2497,9 +3252,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK24542.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_2116",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS10430",
           "type": "gene_synonym"
@@ -2542,6 +3308,20 @@
     "SYNWH7803_RS10910": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_02534",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_2534",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428689.1_2147",
           "sources": [
             "cds_from_genomic.fna"
@@ -2573,17 +3353,42 @@
         {
           "id": "SYNWH7803_RS10910",
           "type": "gene_synonym"
+        },
+        {
+          "id": "SynWH7803_2534",
+          "type": "gene_synonym"
         }
       ]
     },
     "SYNWH7803_RS11760": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_02378",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_2378",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428980.1_2318",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_2378",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS11760",
@@ -2600,16 +3405,38 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK24804.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "A5GPD9",
+          "sources": [
+            "Moreno 2023/supp_table_s2_wh7803"
+          ],
+          "type": "uniprot_accession"
         }
       ],
       "tier3_ids": [
         {
-          "id": "gloA",
+          "id": "glx1",
           "type": "gene_name"
         },
         {
           "id": "SYNWH7803_RS11760",
           "type": "gene_synonym"
+        },
+        {
+          "id": "SynWH7803_2378",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "gloA",
+          "type": "gene_name"
         }
       ]
     },
@@ -2649,11 +3476,32 @@
     "SYNWH7803_RS11835": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_02393",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_2393",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_083833663.1_2333",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_2393",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS11835",
@@ -2670,9 +3518,27 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK24819.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "YP_001226116.1",
+          "sources": [
+            "Kaur 2018/supp_table_s4a"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_2393",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS11835",
           "type": "gene_synonym"
@@ -2681,6 +3547,20 @@
     },
     "SYNWH7803_RS12280": {
       "tier1_ids": [
+        {
+          "id": "CK_Syn_WH7803_02573",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_2573",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NC_009481.1_cds_WP_041428711.1_2422",
           "sources": [
@@ -2709,17 +3589,42 @@
         {
           "id": "SYNWH7803_RS12280",
           "type": "gene_synonym"
+        },
+        {
+          "id": "SynWH7803_2573",
+          "type": "gene_synonym"
         }
       ]
     },
     "SYNWH7803_RS12325": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_02491",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_2491",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_041428997.1_2431",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_2491",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS12325",
@@ -2736,9 +3641,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK24917.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_2491",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS12325",
           "type": "gene_synonym"
@@ -2915,11 +3831,32 @@
     "SYNWH7803_RS12825": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_01285",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_1285",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_083833634.1_1248",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_1285",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS12825",
@@ -2936,9 +3873,27 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK23711.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "YP_001225008.1",
+          "sources": [
+            "Christie-Oleza 2017/supp_table_s2a"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_1285",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS12825",
           "type": "gene_synonym"
@@ -2948,11 +3903,32 @@
     "SYNWH7803_RS12860": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_WH7803_01702",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "SynWH7803_1702",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_009481.1_cds_WP_083833647.1_1652",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-SynWH7803_1702",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNWH7803_RS12860",
@@ -2969,9 +3945,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "CAK24128.1",
+          "sources": [
+            "genomic_gca/WH7803"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "SynWH7803_1702",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNWH7803_RS12860",
           "type": "gene_synonym"
@@ -34893,43 +35880,6 @@
         }
       ]
     },
-    "SynWH7803_0451": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_00451",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_0451",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK22877.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "speD",
-          "type": "gene_name"
-        },
-        {
-          "id": "speH",
-          "type": "gene_name"
-        }
-      ]
-    },
     "SynWH7803_0452": {
       "tier1_ids": [
         {
@@ -42380,53 +43330,6 @@
         }
       ]
     },
-    "SynWH7803_0554": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_00554",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_0554",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK22980.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
-          "id": "A5GJ65",
-          "sources": [
-            "Moreno 2023/supp_table_s2_wh7803"
-          ],
-          "type": "uniprot_accession"
-        },
-        {
-          "id": "YP_001224277.1",
-          "sources": [
-            "Christie-Oleza 2017/supp_table_s2a"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_0554",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "SynWH7803_0555": {
       "tier1_ids": [
         {
@@ -46731,39 +47634,6 @@
         },
         {
           "id": "SynWH7803_0615",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "SynWH7803_0616": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_00616",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_0616",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK23042.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_0616",
           "type": "gene_synonym"
         }
       ]
@@ -58924,39 +59794,6 @@
         }
       ]
     },
-    "SynWH7803_0786": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_00786",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_0786",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK23212.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_0786",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "SynWH7803_0788": {
       "tier1_ids": [
         {
@@ -62496,39 +63333,6 @@
         }
       ]
     },
-    "SynWH7803_0842": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_00842",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_0842",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK23268.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_0842",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "SynWH7803_0843": {
       "tier1_ids": [
         {
@@ -65380,39 +66184,6 @@
         }
       ]
     },
-    "SynWH7803_0889": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_00889",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_0889",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK23315.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_0889",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "SynWH7803_0890": {
       "tier1_ids": [
         {
@@ -67063,39 +67834,6 @@
         }
       ]
     },
-    "SynWH7803_0919": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_00919",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_0919",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK23345.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_0919",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "SynWH7803_0920": {
       "tier1_ids": [
         {
@@ -67424,39 +68162,6 @@
         },
         {
           "id": "SYNWH7803_RS04565",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "SynWH7803_0925": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_00925",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_0925",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK23351.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_0925",
           "type": "gene_synonym"
         }
       ]
@@ -67935,39 +68640,6 @@
         },
         {
           "id": "SYNWH7803_RS04605",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "SynWH7803_0933": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_00933",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_0933",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK23359.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_0933",
           "type": "gene_synonym"
         }
       ]
@@ -68467,39 +69139,6 @@
         },
         {
           "id": "SYNWH7803_RS04645",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "SynWH7803_0942": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_00942",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_0942",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK23368.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_0942",
           "type": "gene_synonym"
         }
       ]
@@ -73710,39 +74349,6 @@
         },
         {
           "id": "SYNWH7803_RS05030",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "SynWH7803_1025": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_01025",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_1025",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK23451.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_1025",
           "type": "gene_synonym"
         }
       ]
@@ -92100,46 +92706,6 @@
         }
       ]
     },
-    "SynWH7803_1285": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_01285",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_1285",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK23711.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
-          "id": "YP_001225008.1",
-          "sources": [
-            "Christie-Oleza 2017/supp_table_s2a"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_1285",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "SynWH7803_1286": {
       "tier1_ids": [
         {
@@ -103185,39 +103751,6 @@
         }
       ]
     },
-    "SynWH7803_1443": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_01443",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_1443",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK23869.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_1443",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "SynWH7803_1444": {
       "tier1_ids": [
         {
@@ -103434,39 +103967,6 @@
         },
         {
           "id": "SYNWH7803_RS07130",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "SynWH7803_1447": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_01447",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_1447",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK23873.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_1447",
           "type": "gene_synonym"
         }
       ]
@@ -114268,39 +114768,6 @@
         }
       ]
     },
-    "SynWH7803_1603": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_01603",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_1603",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK24029.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_1603",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "SynWH7803_1604": {
       "tier1_ids": [
         {
@@ -115641,39 +116108,6 @@
         },
         {
           "id": "SynWH7803_1622",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "SynWH7803_1624": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_01624",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_1624",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK24050.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_1624",
           "type": "gene_synonym"
         }
       ]
@@ -120667,39 +121101,6 @@
       "tier3_ids": [
         {
           "id": "SynWH7803_1701",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "SynWH7803_1702": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_01702",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_1702",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK24128.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_1702",
           "type": "gene_synonym"
         }
       ]
@@ -134103,39 +134504,6 @@
         }
       ]
     },
-    "SynWH7803_1893": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_01893",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_1893",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK24319.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_1893",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "SynWH7803_1894": {
       "tier1_ids": [
         {
@@ -140613,39 +140981,6 @@
         }
       ]
     },
-    "SynWH7803_1987": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_01987",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_1987",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK24413.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_1987",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "SynWH7803_1988": {
       "tier1_ids": [
         {
@@ -142365,39 +142700,6 @@
         }
       ]
     },
-    "SynWH7803_2011": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_02011",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_2011",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK24437.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "ychJ",
-          "type": "gene_name"
-        }
-      ]
-    },
     "SynWH7803_2012": {
       "tier1_ids": [
         {
@@ -143763,43 +144065,6 @@
         {
           "id": "SynWH7803_2029",
           "type": "gene_synonym"
-        }
-      ]
-    },
-    "SynWH7803_2030": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_02030",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_2030",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK24456.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "ccsC1",
-          "type": "gene_name"
-        },
-        {
-          "id": "ccdA",
-          "type": "gene_name"
         }
       ]
     },
@@ -146621,39 +146886,6 @@
         }
       ]
     },
-    "SynWH7803_2071": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_02071",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_2071",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK24497.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_2071",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "SynWH7803_2072": {
       "tier1_ids": [
         {
@@ -149294,39 +149526,6 @@
         }
       ]
     },
-    "SynWH7803_2110": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_02110",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_2110",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK24536.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_2110",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "SynWH7803_2111": {
       "tier1_ids": [
         {
@@ -149487,39 +149686,6 @@
       "tier3_ids": [
         {
           "id": "SynWH7803_2115",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "SynWH7803_2116": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_02116",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_2116",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK24542.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_2116",
           "type": "gene_synonym"
         }
       ]
@@ -168235,50 +168401,6 @@
         }
       ]
     },
-    "SynWH7803_2378": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_02378",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_2378",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK24804.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
-          "id": "A5GPD9",
-          "sources": [
-            "Moreno 2023/supp_table_s2_wh7803"
-          ],
-          "type": "uniprot_accession"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "glx1",
-          "type": "gene_name"
-        },
-        {
-          "id": "gloA",
-          "type": "gene_name"
-        }
-      ]
-    },
     "SynWH7803_2379": {
       "tier1_ids": [
         {
@@ -169273,46 +169395,6 @@
       "tier3_ids": [
         {
           "id": "SynWH7803_2392",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "SynWH7803_2393": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_02393",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_2393",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK24819.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        },
-        {
-          "id": "YP_001226116.1",
-          "sources": [
-            "Kaur 2018/supp_table_s4a"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_2393",
           "type": "gene_synonym"
         }
       ]
@@ -176190,39 +176272,6 @@
         }
       ]
     },
-    "SynWH7803_2491": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_02491",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-SynWH7803_2491",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "CAK24917.1",
-          "sources": [
-            "genomic_gca/WH7803"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "SynWH7803_2491",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "SynWH7803_2492": {
       "tier1_ids": [
         {
@@ -179245,24 +179294,6 @@
         }
       ]
     },
-    "SynWH7803_2534": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_02534",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "petL",
-          "type": "gene_name"
-        }
-      ]
-    },
     "SynWH7803_2535": {
       "tier1_ids": [
         {
@@ -179285,19 +179316,6 @@
       "tier1_ids": [
         {
           "id": "CK_Syn_WH7803_02536",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "SynWH7803_2538": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_02538",
           "sources": [
             "annotation"
           ],
@@ -179546,19 +179564,6 @@
       "tier2_ids": [],
       "tier3_ids": []
     },
-    "SynWH7803_2559": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_02559",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
     "SynWH7803_2560": {
       "tier1_ids": [
         {
@@ -179693,19 +179698,6 @@
       "tier1_ids": [
         {
           "id": "CK_Syn_WH7803_02571",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "SynWH7803_2573": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_WH7803_02573",
           "sources": [
             "annotation"
           ],
@@ -180106,7 +180098,7 @@
       "SynWH7803_0552"
     ],
     "A5GJ65": [
-      "SynWH7803_0554"
+      "SYNWH7803_RS02810"
     ],
     "A5GJ81": [
       "SynWH7803_0570"
@@ -180838,7 +180830,7 @@
       "SynWH7803_2375"
     ],
     "A5GPD9": [
-      "SynWH7803_2378"
+      "SYNWH7803_RS11760"
     ],
     "A5GPE4": [
       "SynWH7803_2383"
@@ -182257,7 +182249,7 @@
       "SynWH7803_0450"
     ],
     "CAK22877.1": [
-      "SynWH7803_0451"
+      "SYNWH7803_RS02235"
     ],
     "CAK22878.1": [
       "SynWH7803_0452"
@@ -182566,7 +182558,7 @@
       "SynWH7803_0553"
     ],
     "CAK22980.1": [
-      "SynWH7803_0554"
+      "SYNWH7803_RS02810"
     ],
     "CAK22981.1": [
       "SynWH7803_0555"
@@ -182752,7 +182744,7 @@
       "SynWH7803_0615"
     ],
     "CAK23042.1": [
-      "SynWH7803_0616"
+      "SYNWH7803_RS03115"
     ],
     "CAK23043.1": [
       "SynWH7803_0617"
@@ -183262,7 +183254,7 @@
       "SYNWH7803_RS03960"
     ],
     "CAK23212.1": [
-      "SynWH7803_0786"
+      "SYNWH7803_RS03965"
     ],
     "CAK23213.1": [
       "SYNWH7803_RS03970"
@@ -183430,7 +183422,7 @@
       "SynWH7803_0841"
     ],
     "CAK23268.1": [
-      "SynWH7803_0842"
+      "SYNWH7803_RS04220"
     ],
     "CAK23269.1": [
       "SynWH7803_0843"
@@ -183571,7 +183563,7 @@
       "SynWH7803_0888"
     ],
     "CAK23315.1": [
-      "SynWH7803_0889"
+      "SYNWH7803_RS04415"
     ],
     "CAK23316.1": [
       "SynWH7803_0890"
@@ -183661,7 +183653,7 @@
       "SynWH7803_0918"
     ],
     "CAK23345.1": [
-      "SynWH7803_0919"
+      "SYNWH7803_RS04540"
     ],
     "CAK23346.1": [
       "SynWH7803_0920"
@@ -183679,7 +183671,7 @@
       "SynWH7803_0924"
     ],
     "CAK23351.1": [
-      "SynWH7803_0925"
+      "SYNWH7803_RS04570"
     ],
     "CAK23352.1": [
       "SynWH7803_0926"
@@ -183703,7 +183695,7 @@
       "SynWH7803_0932"
     ],
     "CAK23359.1": [
-      "SynWH7803_0933"
+      "SYNWH7803_RS04610"
     ],
     "CAK23360.1": [
       "SynWH7803_0934"
@@ -183730,7 +183722,7 @@
       "SynWH7803_0941"
     ],
     "CAK23368.1": [
-      "SynWH7803_0942"
+      "SYNWH7803_RS04650"
     ],
     "CAK23369.1": [
       "SynWH7803_0943"
@@ -183976,7 +183968,7 @@
       "SynWH7803_1024"
     ],
     "CAK23451.1": [
-      "SynWH7803_1025"
+      "SYNWH7803_RS05035"
     ],
     "CAK23452.1": [
       "SynWH7803_1026"
@@ -184753,7 +184745,7 @@
       "SynWH7803_1284"
     ],
     "CAK23711.1": [
-      "SynWH7803_1285"
+      "SYNWH7803_RS12825"
     ],
     "CAK23712.1": [
       "SynWH7803_1286"
@@ -185227,7 +185219,7 @@
       "SynWH7803_1442"
     ],
     "CAK23869.1": [
-      "SynWH7803_1443"
+      "SYNWH7803_RS07115"
     ],
     "CAK23870.1": [
       "SynWH7803_1444"
@@ -185239,7 +185231,7 @@
       "SynWH7803_1446"
     ],
     "CAK23873.1": [
-      "SynWH7803_1447"
+      "SYNWH7803_RS07140"
     ],
     "CAK23874.1": [
       "SynWH7803_1448"
@@ -185707,7 +185699,7 @@
       "SynWH7803_1602"
     ],
     "CAK24029.1": [
-      "SynWH7803_1603"
+      "SYNWH7803_RS07900"
     ],
     "CAK24030.1": [
       "SynWH7803_1604"
@@ -185767,7 +185759,7 @@
       "SynWH7803_1622"
     ],
     "CAK24050.1": [
-      "SynWH7803_1624"
+      "SYNWH7803_RS08005"
     ],
     "CAK24051.1": [
       "SynWH7803_1625"
@@ -186001,7 +185993,7 @@
       "SynWH7803_1701"
     ],
     "CAK24128.1": [
-      "SynWH7803_1702"
+      "SYNWH7803_RS12860"
     ],
     "CAK24129.1": [
       "SynWH7803_1703"
@@ -186574,7 +186566,7 @@
       "SynWH7803_1892"
     ],
     "CAK24319.1": [
-      "SynWH7803_1893"
+      "SYNWH7803_RS09340"
     ],
     "CAK24320.1": [
       "SynWH7803_1894"
@@ -186856,7 +186848,7 @@
       "SynWH7803_1986"
     ],
     "CAK24413.1": [
-      "SynWH7803_1987"
+      "SYNWH7803_RS09810"
     ],
     "CAK24414.1": [
       "SynWH7803_1988"
@@ -186928,7 +186920,7 @@
       "SynWH7803_2010"
     ],
     "CAK24437.1": [
-      "SynWH7803_2011"
+      "SYNWH7803_RS09930"
     ],
     "CAK24438.1": [
       "SynWH7803_2012"
@@ -186985,7 +186977,7 @@
       "SynWH7803_2029"
     ],
     "CAK24456.1": [
-      "SynWH7803_2030"
+      "SYNWH7803_RS10025"
     ],
     "CAK24457.1": [
       "SynWH7803_2031"
@@ -187108,7 +187100,7 @@
       "SynWH7803_2070"
     ],
     "CAK24497.1": [
-      "SynWH7803_2071"
+      "SYNWH7803_RS10230"
     ],
     "CAK24498.1": [
       "SynWH7803_2072"
@@ -187225,7 +187217,7 @@
       "SynWH7803_2109"
     ],
     "CAK24536.1": [
-      "SynWH7803_2110"
+      "SYNWH7803_RS10425"
     ],
     "CAK24537.1": [
       "SynWH7803_2111"
@@ -187240,7 +187232,7 @@
       "SynWH7803_2115"
     ],
     "CAK24542.1": [
-      "SynWH7803_2116"
+      "SYNWH7803_RS10430"
     ],
     "CAK24543.1": [
       "SynWH7803_2117"
@@ -188023,7 +188015,7 @@
       "SynWH7803_2377"
     ],
     "CAK24804.1": [
-      "SynWH7803_2378"
+      "SYNWH7803_RS11760"
     ],
     "CAK24805.1": [
       "SynWH7803_2379"
@@ -188068,7 +188060,7 @@
       "SynWH7803_2392"
     ],
     "CAK24819.1": [
-      "SynWH7803_2393"
+      "SYNWH7803_RS11835"
     ],
     "CAK24820.1": [
       "SynWH7803_2394"
@@ -188359,7 +188351,7 @@
       "SynWH7803_2490"
     ],
     "CAK24917.1": [
-      "SynWH7803_2491"
+      "SYNWH7803_RS12325"
     ],
     "CAK24918.1": [
       "SynWH7803_2492"
@@ -197199,6 +197191,9 @@
     "SynWH7803_0450": [
       "SynWH7803_0450"
     ],
+    "SynWH7803_0451": [
+      "SYNWH7803_RS02235"
+    ],
     "SynWH7803_0452": [
       "SynWH7803_0452"
     ],
@@ -197503,7 +197498,7 @@
       "SynWH7803_0553"
     ],
     "SynWH7803_0554": [
-      "SynWH7803_0554"
+      "SYNWH7803_RS02810"
     ],
     "SynWH7803_0555": [
       "SynWH7803_0555"
@@ -197689,7 +197684,7 @@
       "SynWH7803_0615"
     ],
     "SynWH7803_0616": [
-      "SynWH7803_0616"
+      "SYNWH7803_RS03115"
     ],
     "SynWH7803_0617": [
       "SynWH7803_0617"
@@ -198193,7 +198188,7 @@
       "SYNWH7803_RS03960"
     ],
     "SynWH7803_0786": [
-      "SynWH7803_0786"
+      "SYNWH7803_RS03965"
     ],
     "SynWH7803_0787": [
       "SYNWH7803_RS03970"
@@ -198361,7 +198356,7 @@
       "SynWH7803_0841"
     ],
     "SynWH7803_0842": [
-      "SynWH7803_0842"
+      "SYNWH7803_RS04220"
     ],
     "SynWH7803_0843": [
       "SynWH7803_0843"
@@ -198502,7 +198497,7 @@
       "SynWH7803_0888"
     ],
     "SynWH7803_0889": [
-      "SynWH7803_0889"
+      "SYNWH7803_RS04415"
     ],
     "SynWH7803_0890": [
       "SynWH7803_0890"
@@ -198592,7 +198587,7 @@
       "SynWH7803_0918"
     ],
     "SynWH7803_0919": [
-      "SynWH7803_0919"
+      "SYNWH7803_RS04540"
     ],
     "SynWH7803_0920": [
       "SynWH7803_0920"
@@ -198610,7 +198605,7 @@
       "SynWH7803_0924"
     ],
     "SynWH7803_0925": [
-      "SynWH7803_0925"
+      "SYNWH7803_RS04570"
     ],
     "SynWH7803_0926": [
       "SynWH7803_0926"
@@ -198634,7 +198629,7 @@
       "SynWH7803_0932"
     ],
     "SynWH7803_0933": [
-      "SynWH7803_0933"
+      "SYNWH7803_RS04610"
     ],
     "SynWH7803_0934": [
       "SynWH7803_0934"
@@ -198661,7 +198656,7 @@
       "SynWH7803_0941"
     ],
     "SynWH7803_0942": [
-      "SynWH7803_0942"
+      "SYNWH7803_RS04650"
     ],
     "SynWH7803_0943": [
       "SynWH7803_0943"
@@ -198907,7 +198902,7 @@
       "SynWH7803_1024"
     ],
     "SynWH7803_1025": [
-      "SynWH7803_1025"
+      "SYNWH7803_RS05035"
     ],
     "SynWH7803_1026": [
       "SynWH7803_1026"
@@ -199681,7 +199676,7 @@
       "SynWH7803_1284"
     ],
     "SynWH7803_1285": [
-      "SynWH7803_1285"
+      "SYNWH7803_RS12825"
     ],
     "SynWH7803_1286": [
       "SynWH7803_1286"
@@ -200149,7 +200144,7 @@
       "SynWH7803_1442"
     ],
     "SynWH7803_1443": [
-      "SynWH7803_1443"
+      "SYNWH7803_RS07115"
     ],
     "SynWH7803_1444": [
       "SynWH7803_1444"
@@ -200161,7 +200156,7 @@
       "SynWH7803_1446"
     ],
     "SynWH7803_1447": [
-      "SynWH7803_1447"
+      "SYNWH7803_RS07140"
     ],
     "SynWH7803_1448": [
       "SynWH7803_1448"
@@ -200629,7 +200624,7 @@
       "SynWH7803_1602"
     ],
     "SynWH7803_1603": [
-      "SynWH7803_1603"
+      "SYNWH7803_RS07900"
     ],
     "SynWH7803_1604": [
       "SynWH7803_1604"
@@ -200689,7 +200684,7 @@
       "SynWH7803_1622"
     ],
     "SynWH7803_1624": [
-      "SynWH7803_1624"
+      "SYNWH7803_RS08005"
     ],
     "SynWH7803_1625": [
       "SynWH7803_1625"
@@ -200920,7 +200915,7 @@
       "SynWH7803_1701"
     ],
     "SynWH7803_1702": [
-      "SynWH7803_1702"
+      "SYNWH7803_RS12860"
     ],
     "SynWH7803_1703": [
       "SynWH7803_1703"
@@ -201484,7 +201479,7 @@
       "SynWH7803_1892"
     ],
     "SynWH7803_1893": [
-      "SynWH7803_1893"
+      "SYNWH7803_RS09340"
     ],
     "SynWH7803_1894": [
       "SynWH7803_1894"
@@ -201766,7 +201761,7 @@
       "SynWH7803_1986"
     ],
     "SynWH7803_1987": [
-      "SynWH7803_1987"
+      "SYNWH7803_RS09810"
     ],
     "SynWH7803_1988": [
       "SynWH7803_1988"
@@ -201837,6 +201832,9 @@
     "SynWH7803_2010": [
       "SynWH7803_2010"
     ],
+    "SynWH7803_2011": [
+      "SYNWH7803_RS09930"
+    ],
     "SynWH7803_2012": [
       "SynWH7803_2012"
     ],
@@ -201890,6 +201888,9 @@
     ],
     "SynWH7803_2029": [
       "SynWH7803_2029"
+    ],
+    "SynWH7803_2030": [
+      "SYNWH7803_RS10025"
     ],
     "SynWH7803_2031": [
       "SynWH7803_2031"
@@ -202012,7 +202013,7 @@
       "SynWH7803_2070"
     ],
     "SynWH7803_2071": [
-      "SynWH7803_2071"
+      "SYNWH7803_RS10230"
     ],
     "SynWH7803_2072": [
       "SynWH7803_2072"
@@ -202129,7 +202130,7 @@
       "SynWH7803_2109"
     ],
     "SynWH7803_2110": [
-      "SynWH7803_2110"
+      "SYNWH7803_RS10425"
     ],
     "SynWH7803_2111": [
       "SynWH7803_2111"
@@ -202144,7 +202145,7 @@
       "SynWH7803_2115"
     ],
     "SynWH7803_2116": [
-      "SynWH7803_2116"
+      "SYNWH7803_RS10430"
     ],
     "SynWH7803_2117": [
       "SynWH7803_2117"
@@ -202926,6 +202927,9 @@
     "SynWH7803_2377": [
       "SynWH7803_2377"
     ],
+    "SynWH7803_2378": [
+      "SYNWH7803_RS11760"
+    ],
     "SynWH7803_2379": [
       "SynWH7803_2379"
     ],
@@ -202969,7 +202973,7 @@
       "SynWH7803_2392"
     ],
     "SynWH7803_2393": [
-      "SynWH7803_2393"
+      "SYNWH7803_RS11835"
     ],
     "SynWH7803_2394": [
       "SynWH7803_2394"
@@ -203260,7 +203264,7 @@
       "SynWH7803_2490"
     ],
     "SynWH7803_2491": [
-      "SynWH7803_2491"
+      "SYNWH7803_RS12325"
     ],
     "SynWH7803_2492": [
       "SynWH7803_2492"
@@ -203388,8 +203392,14 @@
     "SynWH7803_2533": [
       "SynWH7803_2533"
     ],
+    "SynWH7803_2534": [
+      "SYNWH7803_RS10910"
+    ],
     "SynWH7803_2537": [
       "SYNWH7803_RS09465"
+    ],
+    "SynWH7803_2538": [
+      "SYNWH7803_RS06625"
     ],
     "SynWH7803_2540": [
       "SYNWH7803_RS05465"
@@ -203397,11 +203407,17 @@
     "SynWH7803_2553": [
       "SYNWH7803_RS10070"
     ],
+    "SynWH7803_2559": [
+      "SYNWH7803_RS06715"
+    ],
     "SynWH7803_2570": [
       "SYNWH7803_RS02785"
     ],
     "SynWH7803_2572": [
       "SYNWH7803_RS12335"
+    ],
+    "SynWH7803_2573": [
+      "SYNWH7803_RS12280"
     ],
     "SynWH7803_2576": [
       "SYNWH7803_RS10395"
@@ -211669,7 +211685,7 @@
       "SynWH7803_0553"
     ],
     "YP_001224277.1": [
-      "SynWH7803_0554"
+      "SYNWH7803_RS02810"
     ],
     "YP_001224278.1": [
       "SynWH7803_0555"
@@ -212548,7 +212564,7 @@
       "SynWH7803_1278"
     ],
     "YP_001225008.1": [
-      "SynWH7803_1285"
+      "SYNWH7803_RS12825"
     ],
     "YP_001225011.1": [
       "SynWH7803_1288"
@@ -214075,7 +214091,7 @@
       "SynWH7803_2392"
     ],
     "YP_001226116.1": [
-      "SynWH7803_2393"
+      "SYNWH7803_RS11835"
     ],
     "YP_001226117.1": [
       "SynWH7803_2394"
@@ -214642,8 +214658,7 @@
       "SynWH7803_1422"
     ],
     "ccdA": [
-      "SYNWH7803_RS10025",
-      "SynWH7803_2030"
+      "SYNWH7803_RS10025"
     ],
     "ccmA": [
       "SynWH7803_1868"
@@ -214664,7 +214679,7 @@
       "SynWH7803_2031"
     ],
     "ccsC1": [
-      "SynWH7803_2030"
+      "SYNWH7803_RS10025"
     ],
     "cdo": [
       "SynWH7803_1053"
@@ -215761,8 +215776,7 @@
       "SynWH7803_2387"
     ],
     "gloA": [
-      "SYNWH7803_RS11760",
-      "SynWH7803_2378"
+      "SYNWH7803_RS11760"
     ],
     "gloB": [
       "SynWH7803_0694"
@@ -215797,7 +215811,7 @@
       "SynWH7803_1836"
     ],
     "glx1": [
-      "SynWH7803_2378"
+      "SYNWH7803_RS11760"
     ],
     "glx2": [
       "SynWH7803_0694"
@@ -217017,8 +217031,7 @@
       "SynWH7803_0735"
     ],
     "petL": [
-      "SYNWH7803_RS10910",
-      "SynWH7803_2534"
+      "SYNWH7803_RS10910"
     ],
     "petM": [
       "SynWH7803_1641"
@@ -218245,15 +218258,14 @@
       "SynWH7803_2454"
     ],
     "speD": [
-      "SynWH7803_0451"
+      "SYNWH7803_RS02235"
     ],
     "speE": [
       "SynWH7803_1192",
       "SynWH7803_2453"
     ],
     "speH": [
-      "SYNWH7803_RS02235",
-      "SynWH7803_0451"
+      "SYNWH7803_RS02235"
     ],
     "sphX": [
       "SynWH7803_1228"
@@ -218838,7 +218850,7 @@
       "SynWH7803_2131"
     ],
     "ychJ": [
-      "SynWH7803_2011"
+      "SYNWH7803_RS09930"
     ],
     "ychf": [
       "SynWH7803_1615"
@@ -219364,7 +219376,7 @@
     "CK_Syn_WH7803_00448": "SynWH7803_0448",
     "CK_Syn_WH7803_00449": "SynWH7803_0449",
     "CK_Syn_WH7803_00450": "SynWH7803_0450",
-    "CK_Syn_WH7803_00451": "SynWH7803_0451",
+    "CK_Syn_WH7803_00451": "SYNWH7803_RS02235",
     "CK_Syn_WH7803_00452": "SynWH7803_0452",
     "CK_Syn_WH7803_00453": "SynWH7803_0453",
     "CK_Syn_WH7803_00454": "SynWH7803_0454",
@@ -219467,7 +219479,7 @@
     "CK_Syn_WH7803_00551": "SynWH7803_0551",
     "CK_Syn_WH7803_00552": "SynWH7803_0552",
     "CK_Syn_WH7803_00553": "SynWH7803_0553",
-    "CK_Syn_WH7803_00554": "SynWH7803_0554",
+    "CK_Syn_WH7803_00554": "SYNWH7803_RS02810",
     "CK_Syn_WH7803_00555": "SynWH7803_0555",
     "CK_Syn_WH7803_00556": "SynWH7803_0556",
     "CK_Syn_WH7803_00557": "SynWH7803_0557",
@@ -219529,7 +219541,7 @@
     "CK_Syn_WH7803_00613": "SynWH7803_0613",
     "CK_Syn_WH7803_00614": "SynWH7803_0614",
     "CK_Syn_WH7803_00615": "SynWH7803_0615",
-    "CK_Syn_WH7803_00616": "SynWH7803_0616",
+    "CK_Syn_WH7803_00616": "SYNWH7803_RS03115",
     "CK_Syn_WH7803_00617": "SynWH7803_0617",
     "CK_Syn_WH7803_00618": "SynWH7803_0618",
     "CK_Syn_WH7803_00619": "SynWH7803_0619",
@@ -219699,7 +219711,7 @@
     "CK_Syn_WH7803_00783": "SynWH7803_0783",
     "CK_Syn_WH7803_00784": "SynWH7803_0784",
     "CK_Syn_WH7803_00785": "SYNWH7803_RS03960",
-    "CK_Syn_WH7803_00786": "SynWH7803_0786",
+    "CK_Syn_WH7803_00786": "SYNWH7803_RS03965",
     "CK_Syn_WH7803_00787": "SYNWH7803_RS03970",
     "CK_Syn_WH7803_00788": "SynWH7803_0788",
     "CK_Syn_WH7803_00789": "SynWH7803_0789",
@@ -219755,7 +219767,7 @@
     "CK_Syn_WH7803_00839": "SynWH7803_0839",
     "CK_Syn_WH7803_00840": "SynWH7803_0840",
     "CK_Syn_WH7803_00841": "SynWH7803_0841",
-    "CK_Syn_WH7803_00842": "SynWH7803_0842",
+    "CK_Syn_WH7803_00842": "SYNWH7803_RS04220",
     "CK_Syn_WH7803_00843": "SynWH7803_0843",
     "CK_Syn_WH7803_00844": "SynWH7803_0844",
     "CK_Syn_WH7803_00845": "SynWH7803_0845",
@@ -219802,7 +219814,7 @@
     "CK_Syn_WH7803_00886": "SynWH7803_0886",
     "CK_Syn_WH7803_00887": "SynWH7803_0887",
     "CK_Syn_WH7803_00888": "SynWH7803_0888",
-    "CK_Syn_WH7803_00889": "SynWH7803_0889",
+    "CK_Syn_WH7803_00889": "SYNWH7803_RS04415",
     "CK_Syn_WH7803_00890": "SynWH7803_0890",
     "CK_Syn_WH7803_00891": "SynWH7803_0891",
     "CK_Syn_WH7803_00892": "SynWH7803_0892",
@@ -219832,13 +219844,13 @@
     "CK_Syn_WH7803_00916": "SynWH7803_0916",
     "CK_Syn_WH7803_00917": "SynWH7803_0917",
     "CK_Syn_WH7803_00918": "SynWH7803_0918",
-    "CK_Syn_WH7803_00919": "SynWH7803_0919",
+    "CK_Syn_WH7803_00919": "SYNWH7803_RS04540",
     "CK_Syn_WH7803_00920": "SynWH7803_0920",
     "CK_Syn_WH7803_00921": "SynWH7803_0921",
     "CK_Syn_WH7803_00922": "SynWH7803_0922",
     "CK_Syn_WH7803_00923": "SynWH7803_0923",
     "CK_Syn_WH7803_00924": "SynWH7803_0924",
-    "CK_Syn_WH7803_00925": "SynWH7803_0925",
+    "CK_Syn_WH7803_00925": "SYNWH7803_RS04570",
     "CK_Syn_WH7803_00926": "SynWH7803_0926",
     "CK_Syn_WH7803_00927": "SynWH7803_0927",
     "CK_Syn_WH7803_00928": "SynWH7803_0928",
@@ -219846,7 +219858,7 @@
     "CK_Syn_WH7803_00930": "SynWH7803_0930",
     "CK_Syn_WH7803_00931": "SynWH7803_0931",
     "CK_Syn_WH7803_00932": "SynWH7803_0932",
-    "CK_Syn_WH7803_00933": "SynWH7803_0933",
+    "CK_Syn_WH7803_00933": "SYNWH7803_RS04610",
     "CK_Syn_WH7803_00934": "SynWH7803_0934",
     "CK_Syn_WH7803_00935": "SynWH7803_0935",
     "CK_Syn_WH7803_00936": "SynWH7803_0936",
@@ -219855,7 +219867,7 @@
     "CK_Syn_WH7803_00939": "SynWH7803_0939",
     "CK_Syn_WH7803_00940": "SynWH7803_0940",
     "CK_Syn_WH7803_00941": "SynWH7803_0941",
-    "CK_Syn_WH7803_00942": "SynWH7803_0942",
+    "CK_Syn_WH7803_00942": "SYNWH7803_RS04650",
     "CK_Syn_WH7803_00943": "SynWH7803_0943",
     "CK_Syn_WH7803_00944": "SynWH7803_0944",
     "CK_Syn_WH7803_00945": "SynWH7803_0945",
@@ -219937,7 +219949,7 @@
     "CK_Syn_WH7803_01022": "SynWH7803_1022",
     "CK_Syn_WH7803_01023": "SynWH7803_1023",
     "CK_Syn_WH7803_01024": "SynWH7803_1024",
-    "CK_Syn_WH7803_01025": "SynWH7803_1025",
+    "CK_Syn_WH7803_01025": "SYNWH7803_RS05035",
     "CK_Syn_WH7803_01026": "SynWH7803_1026",
     "CK_Syn_WH7803_01027": "SynWH7803_1027",
     "CK_Syn_WH7803_01028": "SynWH7803_1028",
@@ -220196,7 +220208,7 @@
     "CK_Syn_WH7803_01282": "SynWH7803_1282",
     "CK_Syn_WH7803_01283": "SynWH7803_1283",
     "CK_Syn_WH7803_01284": "SynWH7803_1284",
-    "CK_Syn_WH7803_01285": "SynWH7803_1285",
+    "CK_Syn_WH7803_01285": "SYNWH7803_RS12825",
     "CK_Syn_WH7803_01286": "SynWH7803_1286",
     "CK_Syn_WH7803_01287": "SynWH7803_1287",
     "CK_Syn_WH7803_01288": "SynWH7803_1288",
@@ -220354,11 +220366,11 @@
     "CK_Syn_WH7803_01440": "SynWH7803_1440",
     "CK_Syn_WH7803_01441": "SynWH7803_1441",
     "CK_Syn_WH7803_01442": "SynWH7803_1442",
-    "CK_Syn_WH7803_01443": "SynWH7803_1443",
+    "CK_Syn_WH7803_01443": "SYNWH7803_RS07115",
     "CK_Syn_WH7803_01444": "SynWH7803_1444",
     "CK_Syn_WH7803_01445": "SynWH7803_1445",
     "CK_Syn_WH7803_01446": "SynWH7803_1446",
-    "CK_Syn_WH7803_01447": "SynWH7803_1447",
+    "CK_Syn_WH7803_01447": "SYNWH7803_RS07140",
     "CK_Syn_WH7803_01448": "SynWH7803_1448",
     "CK_Syn_WH7803_01449": "SynWH7803_1449",
     "CK_Syn_WH7803_01450": "SynWH7803_1450",
@@ -220514,7 +220526,7 @@
     "CK_Syn_WH7803_01600": "SynWH7803_1600",
     "CK_Syn_WH7803_01601": "SynWH7803_1601",
     "CK_Syn_WH7803_01602": "SynWH7803_1602",
-    "CK_Syn_WH7803_01603": "SynWH7803_1603",
+    "CK_Syn_WH7803_01603": "SYNWH7803_RS07900",
     "CK_Syn_WH7803_01604": "SynWH7803_1604",
     "CK_Syn_WH7803_01605": "SynWH7803_1605",
     "CK_Syn_WH7803_01606": "SynWH7803_1606",
@@ -220534,7 +220546,7 @@
     "CK_Syn_WH7803_01620": "SynWH7803_1620",
     "CK_Syn_WH7803_01621": "SynWH7803_1621",
     "CK_Syn_WH7803_01622": "SynWH7803_1622",
-    "CK_Syn_WH7803_01624": "SynWH7803_1624",
+    "CK_Syn_WH7803_01624": "SYNWH7803_RS08005",
     "CK_Syn_WH7803_01625": "SynWH7803_1625",
     "CK_Syn_WH7803_01626": "SynWH7803_1626",
     "CK_Syn_WH7803_01627": "SynWH7803_1627",
@@ -220612,7 +220624,7 @@
     "CK_Syn_WH7803_01699": "SynWH7803_1699",
     "CK_Syn_WH7803_01700": "SynWH7803_1700",
     "CK_Syn_WH7803_01701": "SynWH7803_1701",
-    "CK_Syn_WH7803_01702": "SynWH7803_1702",
+    "CK_Syn_WH7803_01702": "SYNWH7803_RS12860",
     "CK_Syn_WH7803_01703": "SynWH7803_1703",
     "CK_Syn_WH7803_01704": "SynWH7803_1704",
     "CK_Syn_WH7803_01705": "SynWH7803_1705",
@@ -220803,7 +220815,7 @@
     "CK_Syn_WH7803_01890": "SynWH7803_1890",
     "CK_Syn_WH7803_01891": "SynWH7803_1891",
     "CK_Syn_WH7803_01892": "SynWH7803_1892",
-    "CK_Syn_WH7803_01893": "SynWH7803_1893",
+    "CK_Syn_WH7803_01893": "SYNWH7803_RS09340",
     "CK_Syn_WH7803_01894": "SynWH7803_1894",
     "CK_Syn_WH7803_01895": "SynWH7803_1895",
     "CK_Syn_WH7803_01896": "SynWH7803_1896",
@@ -220897,7 +220909,7 @@
     "CK_Syn_WH7803_01984": "SynWH7803_1984",
     "CK_Syn_WH7803_01985": "SynWH7803_1985",
     "CK_Syn_WH7803_01986": "SynWH7803_1986",
-    "CK_Syn_WH7803_01987": "SynWH7803_1987",
+    "CK_Syn_WH7803_01987": "SYNWH7803_RS09810",
     "CK_Syn_WH7803_01988": "SynWH7803_1988",
     "CK_Syn_WH7803_01989": "SynWH7803_1989",
     "CK_Syn_WH7803_01990": "SynWH7803_1990",
@@ -220921,7 +220933,7 @@
     "CK_Syn_WH7803_02008": "SynWH7803_2008",
     "CK_Syn_WH7803_02009": "SynWH7803_2009",
     "CK_Syn_WH7803_02010": "SynWH7803_2010",
-    "CK_Syn_WH7803_02011": "SynWH7803_2011",
+    "CK_Syn_WH7803_02011": "SYNWH7803_RS09930",
     "CK_Syn_WH7803_02012": "SynWH7803_2012",
     "CK_Syn_WH7803_02013": "SynWH7803_2013",
     "CK_Syn_WH7803_02014": "SynWH7803_2014",
@@ -220940,7 +220952,7 @@
     "CK_Syn_WH7803_02027": "SynWH7803_2027",
     "CK_Syn_WH7803_02028": "SynWH7803_2028",
     "CK_Syn_WH7803_02029": "SynWH7803_2029",
-    "CK_Syn_WH7803_02030": "SynWH7803_2030",
+    "CK_Syn_WH7803_02030": "SYNWH7803_RS10025",
     "CK_Syn_WH7803_02031": "SynWH7803_2031",
     "CK_Syn_WH7803_02032": "SynWH7803_2032",
     "CK_Syn_WH7803_02033": "SynWH7803_2033",
@@ -220981,7 +220993,7 @@
     "CK_Syn_WH7803_02068": "SynWH7803_2068",
     "CK_Syn_WH7803_02069": "SYNWH7803_RS10220",
     "CK_Syn_WH7803_02070": "SynWH7803_2070",
-    "CK_Syn_WH7803_02071": "SynWH7803_2071",
+    "CK_Syn_WH7803_02071": "SYNWH7803_RS10230",
     "CK_Syn_WH7803_02072": "SynWH7803_2072",
     "CK_Syn_WH7803_02073": "SynWH7803_2073",
     "CK_Syn_WH7803_02074": "SynWH7803_2074",
@@ -221020,12 +221032,12 @@
     "CK_Syn_WH7803_02107": "SynWH7803_2107",
     "CK_Syn_WH7803_02108": "SynWH7803_2108",
     "CK_Syn_WH7803_02109": "SynWH7803_2109",
-    "CK_Syn_WH7803_02110": "SynWH7803_2110",
+    "CK_Syn_WH7803_02110": "SYNWH7803_RS10425",
     "CK_Syn_WH7803_02111": "SynWH7803_2111",
     "CK_Syn_WH7803_02112": "SynWH7803_2112",
     "CK_Syn_WH7803_02114": "SynWH7803_2114",
     "CK_Syn_WH7803_02115": "SynWH7803_2115",
-    "CK_Syn_WH7803_02116": "SynWH7803_2116",
+    "CK_Syn_WH7803_02116": "SYNWH7803_RS10430",
     "CK_Syn_WH7803_02117": "SynWH7803_2117",
     "CK_Syn_WH7803_02118": "SynWH7803_2118",
     "CK_Syn_WH7803_02120": "SynWH7803_2120",
@@ -221286,7 +221298,7 @@
     "CK_Syn_WH7803_02375": "SynWH7803_2375",
     "CK_Syn_WH7803_02376": "SynWH7803_2376",
     "CK_Syn_WH7803_02377": "SynWH7803_2377",
-    "CK_Syn_WH7803_02378": "SynWH7803_2378",
+    "CK_Syn_WH7803_02378": "SYNWH7803_RS11760",
     "CK_Syn_WH7803_02379": "SynWH7803_2379",
     "CK_Syn_WH7803_02380": "SynWH7803_2380",
     "CK_Syn_WH7803_02381": "SynWH7803_2381",
@@ -221301,7 +221313,7 @@
     "CK_Syn_WH7803_02390": "SynWH7803_2390",
     "CK_Syn_WH7803_02391": "SynWH7803_2391",
     "CK_Syn_WH7803_02392": "SynWH7803_2392",
-    "CK_Syn_WH7803_02393": "SynWH7803_2393",
+    "CK_Syn_WH7803_02393": "SYNWH7803_RS11835",
     "CK_Syn_WH7803_02394": "SynWH7803_2394",
     "CK_Syn_WH7803_02395": "SynWH7803_2395",
     "CK_Syn_WH7803_02396": "SynWH7803_2396",
@@ -221398,7 +221410,7 @@
     "CK_Syn_WH7803_02488": "SynWH7803_2488",
     "CK_Syn_WH7803_02489": "SynWH7803_2489",
     "CK_Syn_WH7803_02490": "SynWH7803_2490",
-    "CK_Syn_WH7803_02491": "SynWH7803_2491",
+    "CK_Syn_WH7803_02491": "SYNWH7803_RS12325",
     "CK_Syn_WH7803_02492": "SynWH7803_2492",
     "CK_Syn_WH7803_02493": "SynWH7803_2493",
     "CK_Syn_WH7803_02494": "SynWH7803_2494",
@@ -221441,11 +221453,11 @@
     "CK_Syn_WH7803_02531": "SynWH7803_2531",
     "CK_Syn_WH7803_02532": "SynWH7803_2532",
     "CK_Syn_WH7803_02533": "SynWH7803_2533",
-    "CK_Syn_WH7803_02534": "SynWH7803_2534",
+    "CK_Syn_WH7803_02534": "SYNWH7803_RS10910",
     "CK_Syn_WH7803_02535": "SynWH7803_2535",
     "CK_Syn_WH7803_02536": "SynWH7803_2536",
     "CK_Syn_WH7803_02537": "SYNWH7803_RS09465",
-    "CK_Syn_WH7803_02538": "SynWH7803_2538",
+    "CK_Syn_WH7803_02538": "SYNWH7803_RS06625",
     "CK_Syn_WH7803_02539": "SynWH7803_2539",
     "CK_Syn_WH7803_02540": "SYNWH7803_RS05465",
     "CK_Syn_WH7803_02541": "SynWH7803_2541",
@@ -221466,7 +221478,7 @@
     "CK_Syn_WH7803_02556": "SynWH7803_2556",
     "CK_Syn_WH7803_02557": "SynWH7803_2557",
     "CK_Syn_WH7803_02558": "SynWH7803_2558",
-    "CK_Syn_WH7803_02559": "SynWH7803_2559",
+    "CK_Syn_WH7803_02559": "SYNWH7803_RS06715",
     "CK_Syn_WH7803_02560": "SynWH7803_2560",
     "CK_Syn_WH7803_02561": "SynWH7803_2561",
     "CK_Syn_WH7803_02562": "SynWH7803_2562",
@@ -221480,7 +221492,7 @@
     "CK_Syn_WH7803_02570": "SYNWH7803_RS02785",
     "CK_Syn_WH7803_02571": "SynWH7803_2571",
     "CK_Syn_WH7803_02572": "SYNWH7803_RS12335",
-    "CK_Syn_WH7803_02573": "SynWH7803_2573",
+    "CK_Syn_WH7803_02573": "SYNWH7803_RS12280",
     "CK_Syn_WH7803_02575": "SynWH7803_2575",
     "CK_Syn_WH7803_02576": "SYNWH7803_RS10395",
     "CK_Syn_WH7803_02577": "SynWH7803_2577",
@@ -223885,24 +223897,55 @@
     "SynWH7803_0132": "SYNWH7803_RS00630",
     "SynWH7803_0342": "SYNWH7803_RS01685",
     "SynWH7803_0447": "SYNWH7803_RS02215",
+    "SynWH7803_0451": "SYNWH7803_RS02235",
+    "SynWH7803_0554": "SYNWH7803_RS02810",
+    "SynWH7803_0616": "SYNWH7803_RS03115",
     "SynWH7803_0665": "SYNWH7803_RS03360",
     "SynWH7803_0785": "SYNWH7803_RS03960",
+    "SynWH7803_0786": "SYNWH7803_RS03965",
     "SynWH7803_0787": "SYNWH7803_RS03970",
     "SynWH7803_0791": "SYNWH7803_RS03985",
+    "SynWH7803_0842": "SYNWH7803_RS04220",
     "SynWH7803_0874": "SYNWH7803_RS04355",
+    "SynWH7803_0889": "SYNWH7803_RS04415",
     "SynWH7803_0912": "SYNWH7803_RS04500",
+    "SynWH7803_0919": "SYNWH7803_RS04540",
+    "SynWH7803_0925": "SYNWH7803_RS04570",
+    "SynWH7803_0933": "SYNWH7803_RS04610",
+    "SynWH7803_0942": "SYNWH7803_RS04650",
     "SynWH7803_0992": "SYNWH7803_RS12785",
     "SynWH7803_0994": "SYNWH7803_RS04890",
+    "SynWH7803_1025": "SYNWH7803_RS05035",
     "SynWH7803_1230": "SYNWH7803_RS06065",
+    "SynWH7803_1285": "SYNWH7803_RS12825",
     "SynWH7803_1305": "SYNWH7803_RS06425",
+    "SynWH7803_1443": "SYNWH7803_RS07115",
+    "SynWH7803_1447": "SYNWH7803_RS07140",
+    "SynWH7803_1603": "SYNWH7803_RS07900",
+    "SynWH7803_1624": "SYNWH7803_RS08005",
+    "SynWH7803_1702": "SYNWH7803_RS12860",
     "SynWH7803_1752": "SYNWH7803_RS08635",
     "SynWH7803_1802": "SYNWH7803_RS08880",
+    "SynWH7803_1893": "SYNWH7803_RS09340",
+    "SynWH7803_1987": "SYNWH7803_RS09810",
+    "SynWH7803_2011": "SYNWH7803_RS09930",
+    "SynWH7803_2030": "SYNWH7803_RS10025",
     "SynWH7803_2069": "SYNWH7803_RS10220",
+    "SynWH7803_2071": "SYNWH7803_RS10230",
+    "SynWH7803_2110": "SYNWH7803_RS10425",
+    "SynWH7803_2116": "SYNWH7803_RS10430",
+    "SynWH7803_2378": "SYNWH7803_RS11760",
+    "SynWH7803_2393": "SYNWH7803_RS11835",
+    "SynWH7803_2491": "SYNWH7803_RS12325",
+    "SynWH7803_2534": "SYNWH7803_RS10910",
     "SynWH7803_2537": "SYNWH7803_RS09465",
+    "SynWH7803_2538": "SYNWH7803_RS06625",
     "SynWH7803_2540": "SYNWH7803_RS05465",
     "SynWH7803_2553": "SYNWH7803_RS10070",
+    "SynWH7803_2559": "SYNWH7803_RS06715",
     "SynWH7803_2570": "SYNWH7803_RS02785",
     "SynWH7803_2572": "SYNWH7803_RS12335",
+    "SynWH7803_2573": "SYNWH7803_RS12280",
     "SynWH7803_2576": "SYNWH7803_RS10395",
     "SynWH7803_50008": "SYNWH7803_RS12695",
     "gene-SYNWH7803_RS00020": "SynWH7803_0001",
@@ -226809,7 +226852,7 @@
     "gene-SynWH7803_0448": "SynWH7803_0448",
     "gene-SynWH7803_0449": "SynWH7803_0449",
     "gene-SynWH7803_0450": "SynWH7803_0450",
-    "gene-SynWH7803_0451": "SynWH7803_0451",
+    "gene-SynWH7803_0451": "SYNWH7803_RS02235",
     "gene-SynWH7803_0452": "SynWH7803_0452",
     "gene-SynWH7803_0453": "SynWH7803_0453",
     "gene-SynWH7803_0454": "SynWH7803_0454",
@@ -226912,7 +226955,7 @@
     "gene-SynWH7803_0551": "SynWH7803_0551",
     "gene-SynWH7803_0552": "SynWH7803_0552",
     "gene-SynWH7803_0553": "SynWH7803_0553",
-    "gene-SynWH7803_0554": "SynWH7803_0554",
+    "gene-SynWH7803_0554": "SYNWH7803_RS02810",
     "gene-SynWH7803_0555": "SynWH7803_0555",
     "gene-SynWH7803_0556": "SynWH7803_0556",
     "gene-SynWH7803_0557": "SynWH7803_0557",
@@ -226974,7 +227017,7 @@
     "gene-SynWH7803_0613": "SynWH7803_0613",
     "gene-SynWH7803_0614": "SynWH7803_0614",
     "gene-SynWH7803_0615": "SynWH7803_0615",
-    "gene-SynWH7803_0616": "SynWH7803_0616",
+    "gene-SynWH7803_0616": "SYNWH7803_RS03115",
     "gene-SynWH7803_0617": "SynWH7803_0617",
     "gene-SynWH7803_0618": "SynWH7803_0618",
     "gene-SynWH7803_0619": "SynWH7803_0619",
@@ -227144,7 +227187,7 @@
     "gene-SynWH7803_0783": "SynWH7803_0783",
     "gene-SynWH7803_0784": "SynWH7803_0784",
     "gene-SynWH7803_0785": "SYNWH7803_RS03960",
-    "gene-SynWH7803_0786": "SynWH7803_0786",
+    "gene-SynWH7803_0786": "SYNWH7803_RS03965",
     "gene-SynWH7803_0787": "SYNWH7803_RS03970",
     "gene-SynWH7803_0788": "SynWH7803_0788",
     "gene-SynWH7803_0789": "SynWH7803_0789",
@@ -227200,7 +227243,7 @@
     "gene-SynWH7803_0839": "SynWH7803_0839",
     "gene-SynWH7803_0840": "SynWH7803_0840",
     "gene-SynWH7803_0841": "SynWH7803_0841",
-    "gene-SynWH7803_0842": "SynWH7803_0842",
+    "gene-SynWH7803_0842": "SYNWH7803_RS04220",
     "gene-SynWH7803_0843": "SynWH7803_0843",
     "gene-SynWH7803_0844": "SynWH7803_0844",
     "gene-SynWH7803_0845": "SynWH7803_0845",
@@ -227247,7 +227290,7 @@
     "gene-SynWH7803_0886": "SynWH7803_0886",
     "gene-SynWH7803_0887": "SynWH7803_0887",
     "gene-SynWH7803_0888": "SynWH7803_0888",
-    "gene-SynWH7803_0889": "SynWH7803_0889",
+    "gene-SynWH7803_0889": "SYNWH7803_RS04415",
     "gene-SynWH7803_0890": "SynWH7803_0890",
     "gene-SynWH7803_0891": "SynWH7803_0891",
     "gene-SynWH7803_0892": "SynWH7803_0892",
@@ -227277,13 +227320,13 @@
     "gene-SynWH7803_0916": "SynWH7803_0916",
     "gene-SynWH7803_0917": "SynWH7803_0917",
     "gene-SynWH7803_0918": "SynWH7803_0918",
-    "gene-SynWH7803_0919": "SynWH7803_0919",
+    "gene-SynWH7803_0919": "SYNWH7803_RS04540",
     "gene-SynWH7803_0920": "SynWH7803_0920",
     "gene-SynWH7803_0921": "SynWH7803_0921",
     "gene-SynWH7803_0922": "SynWH7803_0922",
     "gene-SynWH7803_0923": "SynWH7803_0923",
     "gene-SynWH7803_0924": "SynWH7803_0924",
-    "gene-SynWH7803_0925": "SynWH7803_0925",
+    "gene-SynWH7803_0925": "SYNWH7803_RS04570",
     "gene-SynWH7803_0926": "SynWH7803_0926",
     "gene-SynWH7803_0927": "SynWH7803_0927",
     "gene-SynWH7803_0928": "SynWH7803_0928",
@@ -227291,7 +227334,7 @@
     "gene-SynWH7803_0930": "SynWH7803_0930",
     "gene-SynWH7803_0931": "SynWH7803_0931",
     "gene-SynWH7803_0932": "SynWH7803_0932",
-    "gene-SynWH7803_0933": "SynWH7803_0933",
+    "gene-SynWH7803_0933": "SYNWH7803_RS04610",
     "gene-SynWH7803_0934": "SynWH7803_0934",
     "gene-SynWH7803_0935": "SynWH7803_0935",
     "gene-SynWH7803_0936": "SynWH7803_0936",
@@ -227300,7 +227343,7 @@
     "gene-SynWH7803_0939": "SynWH7803_0939",
     "gene-SynWH7803_0940": "SynWH7803_0940",
     "gene-SynWH7803_0941": "SynWH7803_0941",
-    "gene-SynWH7803_0942": "SynWH7803_0942",
+    "gene-SynWH7803_0942": "SYNWH7803_RS04650",
     "gene-SynWH7803_0943": "SynWH7803_0943",
     "gene-SynWH7803_0944": "SynWH7803_0944",
     "gene-SynWH7803_0945": "SynWH7803_0945",
@@ -227382,7 +227425,7 @@
     "gene-SynWH7803_1022": "SynWH7803_1022",
     "gene-SynWH7803_1023": "SynWH7803_1023",
     "gene-SynWH7803_1024": "SynWH7803_1024",
-    "gene-SynWH7803_1025": "SynWH7803_1025",
+    "gene-SynWH7803_1025": "SYNWH7803_RS05035",
     "gene-SynWH7803_1026": "SynWH7803_1026",
     "gene-SynWH7803_1027": "SynWH7803_1027",
     "gene-SynWH7803_1028": "SynWH7803_1028",
@@ -227641,7 +227684,7 @@
     "gene-SynWH7803_1282": "SynWH7803_1282",
     "gene-SynWH7803_1283": "SynWH7803_1283",
     "gene-SynWH7803_1284": "SynWH7803_1284",
-    "gene-SynWH7803_1285": "SynWH7803_1285",
+    "gene-SynWH7803_1285": "SYNWH7803_RS12825",
     "gene-SynWH7803_1286": "SynWH7803_1286",
     "gene-SynWH7803_1287": "SynWH7803_1287",
     "gene-SynWH7803_1288": "SynWH7803_1288",
@@ -227799,11 +227842,11 @@
     "gene-SynWH7803_1440": "SynWH7803_1440",
     "gene-SynWH7803_1441": "SynWH7803_1441",
     "gene-SynWH7803_1442": "SynWH7803_1442",
-    "gene-SynWH7803_1443": "SynWH7803_1443",
+    "gene-SynWH7803_1443": "SYNWH7803_RS07115",
     "gene-SynWH7803_1444": "SynWH7803_1444",
     "gene-SynWH7803_1445": "SynWH7803_1445",
     "gene-SynWH7803_1446": "SynWH7803_1446",
-    "gene-SynWH7803_1447": "SynWH7803_1447",
+    "gene-SynWH7803_1447": "SYNWH7803_RS07140",
     "gene-SynWH7803_1448": "SynWH7803_1448",
     "gene-SynWH7803_1449": "SynWH7803_1449",
     "gene-SynWH7803_1450": "SynWH7803_1450",
@@ -227959,7 +228002,7 @@
     "gene-SynWH7803_1600": "SynWH7803_1600",
     "gene-SynWH7803_1601": "SynWH7803_1601",
     "gene-SynWH7803_1602": "SynWH7803_1602",
-    "gene-SynWH7803_1603": "SynWH7803_1603",
+    "gene-SynWH7803_1603": "SYNWH7803_RS07900",
     "gene-SynWH7803_1604": "SynWH7803_1604",
     "gene-SynWH7803_1605": "SynWH7803_1605",
     "gene-SynWH7803_1606": "SynWH7803_1606",
@@ -227979,7 +228022,7 @@
     "gene-SynWH7803_1620": "SynWH7803_1620",
     "gene-SynWH7803_1621": "SynWH7803_1621",
     "gene-SynWH7803_1622": "SynWH7803_1622",
-    "gene-SynWH7803_1624": "SynWH7803_1624",
+    "gene-SynWH7803_1624": "SYNWH7803_RS08005",
     "gene-SynWH7803_1625": "SynWH7803_1625",
     "gene-SynWH7803_1626": "SynWH7803_1626",
     "gene-SynWH7803_1627": "SynWH7803_1627",
@@ -228057,7 +228100,7 @@
     "gene-SynWH7803_1699": "SynWH7803_1699",
     "gene-SynWH7803_1700": "SynWH7803_1700",
     "gene-SynWH7803_1701": "SynWH7803_1701",
-    "gene-SynWH7803_1702": "SynWH7803_1702",
+    "gene-SynWH7803_1702": "SYNWH7803_RS12860",
     "gene-SynWH7803_1703": "SynWH7803_1703",
     "gene-SynWH7803_1704": "SynWH7803_1704",
     "gene-SynWH7803_1705": "SynWH7803_1705",
@@ -228248,7 +228291,7 @@
     "gene-SynWH7803_1890": "SynWH7803_1890",
     "gene-SynWH7803_1891": "SynWH7803_1891",
     "gene-SynWH7803_1892": "SynWH7803_1892",
-    "gene-SynWH7803_1893": "SynWH7803_1893",
+    "gene-SynWH7803_1893": "SYNWH7803_RS09340",
     "gene-SynWH7803_1894": "SynWH7803_1894",
     "gene-SynWH7803_1895": "SynWH7803_1895",
     "gene-SynWH7803_1896": "SynWH7803_1896",
@@ -228342,7 +228385,7 @@
     "gene-SynWH7803_1984": "SynWH7803_1984",
     "gene-SynWH7803_1985": "SynWH7803_1985",
     "gene-SynWH7803_1986": "SynWH7803_1986",
-    "gene-SynWH7803_1987": "SynWH7803_1987",
+    "gene-SynWH7803_1987": "SYNWH7803_RS09810",
     "gene-SynWH7803_1988": "SynWH7803_1988",
     "gene-SynWH7803_1989": "SynWH7803_1989",
     "gene-SynWH7803_1990": "SynWH7803_1990",
@@ -228366,7 +228409,7 @@
     "gene-SynWH7803_2008": "SynWH7803_2008",
     "gene-SynWH7803_2009": "SynWH7803_2009",
     "gene-SynWH7803_2010": "SynWH7803_2010",
-    "gene-SynWH7803_2011": "SynWH7803_2011",
+    "gene-SynWH7803_2011": "SYNWH7803_RS09930",
     "gene-SynWH7803_2012": "SynWH7803_2012",
     "gene-SynWH7803_2013": "SynWH7803_2013",
     "gene-SynWH7803_2014": "SynWH7803_2014",
@@ -228385,7 +228428,7 @@
     "gene-SynWH7803_2027": "SynWH7803_2027",
     "gene-SynWH7803_2028": "SynWH7803_2028",
     "gene-SynWH7803_2029": "SynWH7803_2029",
-    "gene-SynWH7803_2030": "SynWH7803_2030",
+    "gene-SynWH7803_2030": "SYNWH7803_RS10025",
     "gene-SynWH7803_2031": "SynWH7803_2031",
     "gene-SynWH7803_2032": "SynWH7803_2032",
     "gene-SynWH7803_2033": "SynWH7803_2033",
@@ -228426,7 +228469,7 @@
     "gene-SynWH7803_2068": "SynWH7803_2068",
     "gene-SynWH7803_2069": "SYNWH7803_RS10220",
     "gene-SynWH7803_2070": "SynWH7803_2070",
-    "gene-SynWH7803_2071": "SynWH7803_2071",
+    "gene-SynWH7803_2071": "SYNWH7803_RS10230",
     "gene-SynWH7803_2072": "SynWH7803_2072",
     "gene-SynWH7803_2073": "SynWH7803_2073",
     "gene-SynWH7803_2074": "SynWH7803_2074",
@@ -228465,12 +228508,12 @@
     "gene-SynWH7803_2107": "SynWH7803_2107",
     "gene-SynWH7803_2108": "SynWH7803_2108",
     "gene-SynWH7803_2109": "SynWH7803_2109",
-    "gene-SynWH7803_2110": "SynWH7803_2110",
+    "gene-SynWH7803_2110": "SYNWH7803_RS10425",
     "gene-SynWH7803_2111": "SynWH7803_2111",
     "gene-SynWH7803_2112": "SynWH7803_2112",
     "gene-SynWH7803_2114": "SynWH7803_2114",
     "gene-SynWH7803_2115": "SynWH7803_2115",
-    "gene-SynWH7803_2116": "SynWH7803_2116",
+    "gene-SynWH7803_2116": "SYNWH7803_RS10430",
     "gene-SynWH7803_2117": "SynWH7803_2117",
     "gene-SynWH7803_2118": "SynWH7803_2118",
     "gene-SynWH7803_2120": "SynWH7803_2120",
@@ -228731,7 +228774,7 @@
     "gene-SynWH7803_2375": "SynWH7803_2375",
     "gene-SynWH7803_2376": "SynWH7803_2376",
     "gene-SynWH7803_2377": "SynWH7803_2377",
-    "gene-SynWH7803_2378": "SynWH7803_2378",
+    "gene-SynWH7803_2378": "SYNWH7803_RS11760",
     "gene-SynWH7803_2379": "SynWH7803_2379",
     "gene-SynWH7803_2380": "SynWH7803_2380",
     "gene-SynWH7803_2381": "SynWH7803_2381",
@@ -228746,7 +228789,7 @@
     "gene-SynWH7803_2390": "SynWH7803_2390",
     "gene-SynWH7803_2391": "SynWH7803_2391",
     "gene-SynWH7803_2392": "SynWH7803_2392",
-    "gene-SynWH7803_2393": "SynWH7803_2393",
+    "gene-SynWH7803_2393": "SYNWH7803_RS11835",
     "gene-SynWH7803_2394": "SynWH7803_2394",
     "gene-SynWH7803_2395": "SynWH7803_2395",
     "gene-SynWH7803_2396": "SynWH7803_2396",
@@ -228843,7 +228886,7 @@
     "gene-SynWH7803_2488": "SynWH7803_2488",
     "gene-SynWH7803_2489": "SynWH7803_2489",
     "gene-SynWH7803_2490": "SynWH7803_2490",
-    "gene-SynWH7803_2491": "SynWH7803_2491",
+    "gene-SynWH7803_2491": "SYNWH7803_RS12325",
     "gene-SynWH7803_2492": "SynWH7803_2492",
     "gene-SynWH7803_2493": "SynWH7803_2493",
     "gene-SynWH7803_2494": "SynWH7803_2494",
@@ -231345,9 +231388,9 @@
   },
   "stats": {
     "n_conflicts": 0,
-    "n_genes": 2621,
-    "n_multi": 12974,
-    "n_specific": 12426,
+    "n_genes": 2590,
+    "n_multi": 12982,
+    "n_specific": 12457,
     "passes": 2
   },
   "strain": "WH7803",

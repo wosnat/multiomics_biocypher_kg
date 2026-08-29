@@ -37,6 +37,20 @@
     "SYNC_RS00210": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_CC9311_02945",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "sync_2945",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008319.1_cds_WP_237699237.1_40",
           "sources": [
             "cds_from_genomic.fna"
@@ -61,6 +75,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "sync_2945",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNC_RS00210",
           "type": "gene_synonym"
@@ -985,11 +1003,32 @@
     "SYNC_RS05100": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_CC9311_01100",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "sync_1100",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008319.1_cds_WP_041426460.1_1027",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-sync_1100",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNC_RS05100",
@@ -1006,9 +1045,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABI47576.1",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "sync_1100",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNC_RS05100",
           "type": "gene_synonym"
@@ -1051,6 +1101,20 @@
     "SYNC_RS05120": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_CC9311_50028",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "sync_50028",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008319.1_cds_WP_041426462.1_1031",
           "sources": [
             "cds_from_genomic.fna"
@@ -1077,6 +1141,10 @@
       "tier3_ids": [
         {
           "id": "SYNC_RS05120",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "sync_50028",
           "type": "gene_synonym"
         }
       ]
@@ -1868,11 +1936,32 @@
     "SYNC_RS08060": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_CC9311_01737",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "sync_1737",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008319.1_cds_WP_041427037.1_1618",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-sync_1737",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNC_RS08060",
@@ -1889,9 +1978,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABI45136.1",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "sync_1737",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNC_RS08060",
           "type": "gene_synonym"
@@ -2032,11 +2132,32 @@
     "SYNC_RS09725": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_CC9311_02116",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "sync_2116",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008319.1_cds_WP_049750352.1_1959",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-sync_2116",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNC_RS09725",
@@ -2053,9 +2174,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABI45534.1",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "sync_2116",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNC_RS09725",
           "type": "gene_synonym"
@@ -2098,6 +2230,20 @@
     "SYNC_RS10335": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_CC9311_50045",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "sync_50045",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008319.1_cds_WP_041427087.1_2078",
           "sources": [
             "cds_from_genomic.fna"
@@ -2124,6 +2270,10 @@
       "tier3_ids": [
         {
           "id": "SYNC_RS10335",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "sync_50045",
           "type": "gene_synonym"
         }
       ]
@@ -2347,11 +2497,32 @@
     "SYNC_RS11530": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_CC9311_02519",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "sync_2519",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008319.1_cds_WP_041426729.1_2322",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-sync_2519",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNC_RS11530",
@@ -2368,9 +2539,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABI45918.1",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "sync_2519",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNC_RS11530",
           "type": "gene_synonym"
@@ -2599,11 +2781,32 @@
     "SYNC_RS13265": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_CC9311_02895",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "sync_2895",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008319.1_cds_WP_041426808.1_2672",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-sync_2895",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNC_RS13265",
@@ -2620,12 +2823,23 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABI47059.1",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
         {
           "id": "moaB",
           "type": "gene_name"
+        },
+        {
+          "id": "sync_2895",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -2943,6 +3157,20 @@
     "SYNC_RS13975": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_CC9311_50064",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "sync_50064",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008319.1_cds_WP_148201923.1_2628",
           "sources": [
             "cds_from_genomic.fna"
@@ -2970,11 +3198,29 @@
         {
           "id": "SYNC_RS13975",
           "type": "gene_synonym"
+        },
+        {
+          "id": "sync_50064",
+          "type": "gene_synonym"
         }
       ]
     },
     "SYNC_RS13980": {
       "tier1_ids": [
+        {
+          "id": "CK_Syn_CC9311_02977",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "sync_2977",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NC_008319.1_cds_WP_237699235.1_2675",
           "sources": [
@@ -3000,6 +3246,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "sync_2977",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNC_RS13980",
           "type": "gene_synonym"
@@ -4555,11 +4805,32 @@
     "SYNC_RS14810": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_CC9311_02414",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "sync_2414",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008319.1_cds_WP_041426707.1_2228",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-sync_2414",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNC_RS14810",
@@ -4576,9 +4847,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABI46933.1",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "sync_2414",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNC_RS14810",
           "type": "gene_synonym"
@@ -4840,11 +5122,32 @@
     "SYNC_RS14915": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_CC9311_00235",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "sync_0235",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008319.1_cds_WP_237699244.1_231",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-sync_0235",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNC_RS14915",
@@ -4861,9 +5164,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABI46776.1",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "sync_0235",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNC_RS14915",
           "type": "gene_synonym"
@@ -4872,6 +5186,20 @@
     },
     "SYNC_RS14945": {
       "tier1_ids": [
+        {
+          "id": "CK_Syn_CC9311_02950",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "sync_2950",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
         {
           "id": "lcl|NC_008319.1_cds_WP_237699264.1_640",
           "sources": [
@@ -4897,6 +5225,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "sync_2950",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNC_RS14945",
           "type": "gene_synonym"
@@ -5518,11 +5850,32 @@
     "SYNC_RS15270": {
       "tier1_ids": [
         {
+          "id": "CK_Syn_CC9311_01838",
+          "sources": [
+            "annotation"
+          ],
+          "type": "locus_tag_cyanorak"
+        },
+        {
+          "id": "sync_1838",
+          "sources": [
+            "annotation"
+          ],
+          "type": "old_locus_tag"
+        },
+        {
           "id": "lcl|NC_008319.1_cds_WP_369791610.1_1703",
           "sources": [
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
+        },
+        {
+          "id": "gene-sync_1838",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "gff_gene_id"
         },
         {
           "id": "gene-SYNC_RS15270",
@@ -5539,9 +5892,20 @@
             "annotation"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "ABI46231.1",
+          "sources": [
+            "genomic_gca/CC9311"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
+        {
+          "id": "sync_1838",
+          "type": "gene_synonym"
+        },
         {
           "id": "SYNC_RS15270",
           "type": "gene_synonym"
@@ -20515,39 +20879,6 @@
         },
         {
           "id": "sync_0234",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "sync_0235": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_CC9311_00235",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-sync_0235",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABI46776.1",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "sync_0235",
           "type": "gene_synonym"
         }
       ]
@@ -73155,39 +73486,6 @@
         }
       ]
     },
-    "sync_1100": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_CC9311_01100",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-sync_1100",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABI47576.1",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "sync_1100",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "sync_1101": {
       "tier1_ids": [
         {
@@ -112169,39 +112467,6 @@
         }
       ]
     },
-    "sync_1737": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_CC9311_01737",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-sync_1737",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABI45136.1",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "sync_1737",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "sync_1738": {
       "tier1_ids": [
         {
@@ -118170,39 +118435,6 @@
         },
         {
           "id": "SYNC_RS08455",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "sync_1838": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_CC9311_01838",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-sync_1838",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABI46231.1",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "sync_1838",
           "type": "gene_synonym"
         }
       ]
@@ -135618,39 +135850,6 @@
       "tier3_ids": [
         {
           "id": "sync_2115",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "sync_2116": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_CC9311_02116",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-sync_2116",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABI45534.1",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "sync_2116",
           "type": "gene_synonym"
         }
       ]
@@ -153663,39 +153862,6 @@
         }
       ]
     },
-    "sync_2414": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_CC9311_02414",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-sync_2414",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABI46933.1",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "sync_2414",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "sync_2415": {
       "tier1_ids": [
         {
@@ -159853,39 +160019,6 @@
       "tier3_ids": [
         {
           "id": "sync_2518",
-          "type": "gene_synonym"
-        }
-      ]
-    },
-    "sync_2519": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_CC9311_02519",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-sync_2519",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABI45918.1",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "sync_2519",
           "type": "gene_synonym"
         }
       ]
@@ -183055,39 +183188,6 @@
         }
       ]
     },
-    "sync_2895": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_CC9311_02895",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "gene-sync_2895",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "gff_gene_id"
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABI47059.1",
-          "sources": [
-            "genomic_gca/CC9311"
-          ],
-          "type": "protein_id_refseq"
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "moaB",
-          "type": "gene_name"
-        }
-      ]
-    },
     "sync_2896": {
       "tier1_ids": [
         {
@@ -186141,24 +186241,6 @@
         }
       ]
     },
-    "sync_2945": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_CC9311_02945",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "sync_2945",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "sync_2949": {
       "tier1_ids": [
         {
@@ -186174,24 +186256,6 @@
         {
           "id": "unk6",
           "type": "gene_name"
-        }
-      ]
-    },
-    "sync_2950": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_CC9311_02950",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "sync_2950",
-          "type": "gene_synonym"
         }
       ]
     },
@@ -186393,24 +186457,6 @@
         }
       ]
     },
-    "sync_2977": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_CC9311_02977",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "sync_2977",
-          "type": "gene_synonym"
-        }
-      ]
-    },
     "sync_2978": {
       "tier1_ids": [
         {
@@ -186507,19 +186553,6 @@
       "tier2_ids": [],
       "tier3_ids": []
     },
-    "sync_50028": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_CC9311_50028",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
     "sync_50038": {
       "tier1_ids": [
         {
@@ -186537,32 +186570,6 @@
       "tier1_ids": [
         {
           "id": "CK_Syn_CC9311_50043",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "sync_50045": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_CC9311_50045",
-          "sources": [
-            "annotation"
-          ],
-          "type": "locus_tag_cyanorak"
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "sync_50064": {
-      "tier1_ids": [
-        {
-          "id": "CK_Syn_CC9311_50064",
           "sources": [
             "annotation"
           ],
@@ -186935,7 +186942,7 @@
       "sync_2395"
     ],
     "ABI45136.1": [
-      "sync_1737"
+      "SYNC_RS08060"
     ],
     "ABI45137.1": [
       "sync_0156"
@@ -188120,7 +188127,7 @@
       "sync_1802"
     ],
     "ABI45534.1": [
-      "sync_2116"
+      "SYNC_RS09725"
     ],
     "ABI45535.1": [
       "sync_1903"
@@ -189269,7 +189276,7 @@
       "sync_1885"
     ],
     "ABI45918.1": [
-      "sync_2519"
+      "SYNC_RS11530"
     ],
     "ABI45919.1": [
       "sync_2104"
@@ -190208,7 +190215,7 @@
       "sync_1855"
     ],
     "ABI46231.1": [
-      "sync_1838"
+      "SYNC_RS15270"
     ],
     "ABI46232.1": [
       "sync_1431"
@@ -191837,7 +191844,7 @@
       "sync_0841"
     ],
     "ABI46776.1": [
-      "sync_0235"
+      "SYNC_RS14915"
     ],
     "ABI46777.1": [
       "sync_2132"
@@ -192308,7 +192315,7 @@
       "sync_1459"
     ],
     "ABI46933.1": [
-      "sync_2414"
+      "SYNC_RS14810"
     ],
     "ABI46934.1": [
       "sync_1440"
@@ -192683,7 +192690,7 @@
       "sync_0345"
     ],
     "ABI47059.1": [
-      "sync_2895"
+      "SYNC_RS13265"
     ],
     "ABI47060.1": [
       "sync_1491"
@@ -194231,7 +194238,7 @@
       "sync_1978"
     ],
     "ABI47576.1": [
-      "sync_1100"
+      "SYNC_RS05100"
     ],
     "ABI47577.1": [
       "sync_1559"
@@ -211940,8 +211947,7 @@
       "sync_2885"
     ],
     "moaB": [
-      "SYNC_RS13265",
-      "sync_2895"
+      "SYNC_RS13265"
     ],
     "moaC": [
       "sync_2891"
@@ -214429,7 +214435,7 @@
       "sync_0234"
     ],
     "sync_0235": [
-      "sync_0235"
+      "SYNC_RS14915"
     ],
     "sync_0236": [
       "sync_0236"
@@ -216928,7 +216934,7 @@
       "sync_1099"
     ],
     "sync_1100": [
-      "sync_1100"
+      "SYNC_RS05100"
     ],
     "sync_1101": [
       "sync_1101"
@@ -218812,7 +218818,7 @@
       "sync_1736"
     ],
     "sync_1737": [
-      "sync_1737"
+      "SYNC_RS08060"
     ],
     "sync_1738": [
       "sync_1738"
@@ -219115,7 +219121,7 @@
       "sync_1837"
     ],
     "sync_1838": [
-      "sync_1838"
+      "SYNC_RS15270"
     ],
     "sync_1839": [
       "sync_1839"
@@ -219934,7 +219940,7 @@
       "sync_2115"
     ],
     "sync_2116": [
-      "sync_2116"
+      "SYNC_RS09725"
     ],
     "sync_2117": [
       "sync_2117"
@@ -220792,7 +220798,7 @@
       "sync_2413"
     ],
     "sync_2414": [
-      "sync_2414"
+      "SYNC_RS14810"
     ],
     "sync_2415": [
       "sync_2415"
@@ -221098,7 +221104,7 @@
       "sync_2518"
     ],
     "sync_2519": [
-      "sync_2519"
+      "SYNC_RS11530"
     ],
     "sync_2520": [
       "sync_2520"
@@ -222198,6 +222204,9 @@
     "sync_2894": [
       "sync_2894"
     ],
+    "sync_2895": [
+      "SYNC_RS13265"
+    ],
     "sync_2896": [
       "sync_2896"
     ],
@@ -222343,7 +222352,7 @@
       "sync_2944"
     ],
     "sync_2945": [
-      "sync_2945"
+      "SYNC_RS00210"
     ],
     "sync_2946": [
       "SYNC_RS14125"
@@ -222355,7 +222364,7 @@
       "SYNC_RS13690"
     ],
     "sync_2950": [
-      "sync_2950"
+      "SYNC_RS14945"
     ],
     "sync_2951": [
       "sync_2951"
@@ -222433,7 +222442,7 @@
       "SYNC_RS12855"
     ],
     "sync_2977": [
-      "sync_2977"
+      "SYNC_RS13980"
     ],
     "sync_2983": [
       "SYNC_RS13535"
@@ -222447,8 +222456,14 @@
     "sync_50025": [
       "SYNC_RS14590"
     ],
+    "sync_50028": [
+      "SYNC_RS05120"
+    ],
     "sync_50035": [
       "SYNC_RS06900"
+    ],
+    "sync_50045": [
+      "SYNC_RS10335"
     ],
     "sync_50047": [
       "SYNC_RS14390"
@@ -222458,6 +222473,9 @@
     ],
     "sync_50057": [
       "SYNC_RS13945"
+    ],
+    "sync_50064": [
+      "SYNC_RS13975"
     ],
     "tadA": [
       "sync_1565"
@@ -223310,7 +223328,7 @@
     "CK_Syn_CC9311_00232": "sync_0232",
     "CK_Syn_CC9311_00233": "sync_0233",
     "CK_Syn_CC9311_00234": "sync_0234",
-    "CK_Syn_CC9311_00235": "sync_0235",
+    "CK_Syn_CC9311_00235": "SYNC_RS14915",
     "CK_Syn_CC9311_00236": "sync_0236",
     "CK_Syn_CC9311_00237": "sync_0237",
     "CK_Syn_CC9311_00238": "sync_0238",
@@ -224147,7 +224165,7 @@
     "CK_Syn_CC9311_01097": "sync_1097",
     "CK_Syn_CC9311_01098": "sync_1098",
     "CK_Syn_CC9311_01099": "sync_1099",
-    "CK_Syn_CC9311_01100": "sync_1100",
+    "CK_Syn_CC9311_01100": "SYNC_RS05100",
     "CK_Syn_CC9311_01101": "sync_1101",
     "CK_Syn_CC9311_01102": "sync_1102",
     "CK_Syn_CC9311_01103": "sync_1103",
@@ -224774,7 +224792,7 @@
     "CK_Syn_CC9311_01734": "sync_1734",
     "CK_Syn_CC9311_01735": "sync_1735",
     "CK_Syn_CC9311_01736": "sync_1736",
-    "CK_Syn_CC9311_01737": "sync_1737",
+    "CK_Syn_CC9311_01737": "SYNC_RS08060",
     "CK_Syn_CC9311_01738": "sync_1738",
     "CK_Syn_CC9311_01739": "sync_1739",
     "CK_Syn_CC9311_01740": "sync_1740",
@@ -224875,7 +224893,7 @@
     "CK_Syn_CC9311_01835": "sync_1835",
     "CK_Syn_CC9311_01836": "sync_1836",
     "CK_Syn_CC9311_01837": "sync_1837",
-    "CK_Syn_CC9311_01838": "sync_1838",
+    "CK_Syn_CC9311_01838": "SYNC_RS15270",
     "CK_Syn_CC9311_01839": "sync_1839",
     "CK_Syn_CC9311_01840": "sync_1840",
     "CK_Syn_CC9311_01841": "sync_1841",
@@ -225148,7 +225166,7 @@
     "CK_Syn_CC9311_02113": "sync_2113",
     "CK_Syn_CC9311_02114": "sync_2114",
     "CK_Syn_CC9311_02115": "sync_2115",
-    "CK_Syn_CC9311_02116": "sync_2116",
+    "CK_Syn_CC9311_02116": "SYNC_RS09725",
     "CK_Syn_CC9311_02117": "sync_2117",
     "CK_Syn_CC9311_02118": "sync_2118",
     "CK_Syn_CC9311_02119": "sync_2119",
@@ -225437,7 +225455,7 @@
     "CK_Syn_CC9311_02411": "sync_2411",
     "CK_Syn_CC9311_02412": "sync_2412",
     "CK_Syn_CC9311_02413": "sync_2413",
-    "CK_Syn_CC9311_02414": "sync_2414",
+    "CK_Syn_CC9311_02414": "SYNC_RS14810",
     "CK_Syn_CC9311_02415": "sync_2415",
     "CK_Syn_CC9311_02416": "sync_2416",
     "CK_Syn_CC9311_02417": "sync_2417",
@@ -225539,7 +225557,7 @@
     "CK_Syn_CC9311_02516": "sync_2516",
     "CK_Syn_CC9311_02517": "sync_2517",
     "CK_Syn_CC9311_02518": "sync_2518",
-    "CK_Syn_CC9311_02519": "sync_2519",
+    "CK_Syn_CC9311_02519": "SYNC_RS11530",
     "CK_Syn_CC9311_02520": "sync_2520",
     "CK_Syn_CC9311_02521": "sync_2521",
     "CK_Syn_CC9311_02522": "sync_2522",
@@ -225907,7 +225925,7 @@
     "CK_Syn_CC9311_02892": "sync_2892",
     "CK_Syn_CC9311_02893": "sync_2893",
     "CK_Syn_CC9311_02894": "sync_2894",
-    "CK_Syn_CC9311_02895": "sync_2895",
+    "CK_Syn_CC9311_02895": "SYNC_RS13265",
     "CK_Syn_CC9311_02896": "sync_2896",
     "CK_Syn_CC9311_02897": "sync_2897",
     "CK_Syn_CC9311_02898": "sync_2898",
@@ -225957,12 +225975,12 @@
     "CK_Syn_CC9311_02942": "sync_2942",
     "CK_Syn_CC9311_02943": "sync_2943",
     "CK_Syn_CC9311_02944": "sync_2944",
-    "CK_Syn_CC9311_02945": "sync_2945",
+    "CK_Syn_CC9311_02945": "SYNC_RS00210",
     "CK_Syn_CC9311_02946": "SYNC_RS14125",
     "CK_Syn_CC9311_02947": "SYNC_RS02450",
     "CK_Syn_CC9311_02948": "SYNC_RS13690",
     "CK_Syn_CC9311_02949": "sync_2949",
-    "CK_Syn_CC9311_02950": "sync_2950",
+    "CK_Syn_CC9311_02950": "SYNC_RS14945",
     "CK_Syn_CC9311_02951": "sync_2951",
     "CK_Syn_CC9311_02952": "sync_2952",
     "CK_Syn_CC9311_02953": "SYNC_RS15130",
@@ -225988,7 +226006,7 @@
     "CK_Syn_CC9311_02974": "SYNC_RS14850",
     "CK_Syn_CC9311_02975": "sync_2975",
     "CK_Syn_CC9311_02976": "SYNC_RS12855",
-    "CK_Syn_CC9311_02977": "sync_2977",
+    "CK_Syn_CC9311_02977": "SYNC_RS13980",
     "CK_Syn_CC9311_02978": "sync_2978",
     "CK_Syn_CC9311_02979": "sync_2979",
     "CK_Syn_CC9311_02980": "sync_2980",
@@ -226000,15 +226018,15 @@
     "CK_Syn_CC9311_50011": "sync_50011",
     "CK_Syn_CC9311_50025": "SYNC_RS14590",
     "CK_Syn_CC9311_50026": "sync_50026",
-    "CK_Syn_CC9311_50028": "sync_50028",
+    "CK_Syn_CC9311_50028": "SYNC_RS05120",
     "CK_Syn_CC9311_50035": "SYNC_RS06900",
     "CK_Syn_CC9311_50038": "sync_50038",
     "CK_Syn_CC9311_50043": "sync_50043",
-    "CK_Syn_CC9311_50045": "sync_50045",
+    "CK_Syn_CC9311_50045": "SYNC_RS10335",
     "CK_Syn_CC9311_50047": "SYNC_RS14390",
     "CK_Syn_CC9311_50050": "SYNC_RS11550",
     "CK_Syn_CC9311_50057": "SYNC_RS13945",
-    "CK_Syn_CC9311_50064": "sync_50064",
+    "CK_Syn_CC9311_50064": "SYNC_RS13975",
     "CK_Syn_CC9311_50065": "sync_50065",
     "SYNC_RS00015": "sync_0001",
     "SYNC_RS00020": "sync_0002",
@@ -231490,7 +231508,7 @@
     "gene-sync_0232": "sync_0232",
     "gene-sync_0233": "sync_0233",
     "gene-sync_0234": "sync_0234",
-    "gene-sync_0235": "sync_0235",
+    "gene-sync_0235": "SYNC_RS14915",
     "gene-sync_0236": "sync_0236",
     "gene-sync_0237": "sync_0237",
     "gene-sync_0238": "sync_0238",
@@ -232327,7 +232345,7 @@
     "gene-sync_1097": "sync_1097",
     "gene-sync_1098": "sync_1098",
     "gene-sync_1099": "sync_1099",
-    "gene-sync_1100": "sync_1100",
+    "gene-sync_1100": "SYNC_RS05100",
     "gene-sync_1101": "sync_1101",
     "gene-sync_1102": "sync_1102",
     "gene-sync_1103": "sync_1103",
@@ -232955,7 +232973,7 @@
     "gene-sync_1734": "sync_1734",
     "gene-sync_1735": "sync_1735",
     "gene-sync_1736": "sync_1736",
-    "gene-sync_1737": "sync_1737",
+    "gene-sync_1737": "SYNC_RS08060",
     "gene-sync_1738": "sync_1738",
     "gene-sync_1739": "sync_1739",
     "gene-sync_1740": "sync_1740",
@@ -233056,7 +233074,7 @@
     "gene-sync_1835": "sync_1835",
     "gene-sync_1836": "sync_1836",
     "gene-sync_1837": "sync_1837",
-    "gene-sync_1838": "sync_1838",
+    "gene-sync_1838": "SYNC_RS15270",
     "gene-sync_1839": "sync_1839",
     "gene-sync_1840": "sync_1840",
     "gene-sync_1841": "sync_1841",
@@ -233329,7 +233347,7 @@
     "gene-sync_2113": "sync_2113",
     "gene-sync_2114": "sync_2114",
     "gene-sync_2115": "sync_2115",
-    "gene-sync_2116": "sync_2116",
+    "gene-sync_2116": "SYNC_RS09725",
     "gene-sync_2117": "sync_2117",
     "gene-sync_2118": "sync_2118",
     "gene-sync_2119": "sync_2119",
@@ -233618,7 +233636,7 @@
     "gene-sync_2411": "sync_2411",
     "gene-sync_2412": "sync_2412",
     "gene-sync_2413": "sync_2413",
-    "gene-sync_2414": "sync_2414",
+    "gene-sync_2414": "SYNC_RS14810",
     "gene-sync_2415": "sync_2415",
     "gene-sync_2416": "sync_2416",
     "gene-sync_2417": "sync_2417",
@@ -233720,7 +233738,7 @@
     "gene-sync_2516": "sync_2516",
     "gene-sync_2517": "sync_2517",
     "gene-sync_2518": "sync_2518",
-    "gene-sync_2519": "sync_2519",
+    "gene-sync_2519": "SYNC_RS11530",
     "gene-sync_2520": "sync_2520",
     "gene-sync_2521": "sync_2521",
     "gene-sync_2522": "sync_2522",
@@ -234089,7 +234107,7 @@
     "gene-sync_2892": "sync_2892",
     "gene-sync_2893": "sync_2893",
     "gene-sync_2894": "sync_2894",
-    "gene-sync_2895": "sync_2895",
+    "gene-sync_2895": "SYNC_RS13265",
     "gene-sync_2896": "sync_2896",
     "gene-sync_2897": "sync_2897",
     "gene-sync_2898": "sync_2898",
@@ -236838,14 +236856,24 @@
     "lcl|NC_008319.1_cds_WP_369791620.1_2564": "sync_2782",
     "lcl|NC_008319.1_cds_WP_369791621.1_2573": "sync_2791",
     "lcl|NC_008319.1_cds_WP_369791622.1_2581": "sync_2801",
+    "sync_0235": "SYNC_RS14915",
     "sync_0839": "SYNC_RS03960",
+    "sync_1100": "SYNC_RS05100",
     "sync_1130": "SYNC_RS05220",
     "sync_1305": "SYNC_RS06055",
     "sync_1313": "SYNC_RS06090",
+    "sync_1737": "SYNC_RS08060",
+    "sync_1838": "SYNC_RS15270",
     "sync_1876": "SYNC_RS08630",
+    "sync_2116": "SYNC_RS09725",
+    "sync_2414": "SYNC_RS14810",
+    "sync_2519": "SYNC_RS11530",
+    "sync_2895": "SYNC_RS13265",
+    "sync_2945": "SYNC_RS00210",
     "sync_2946": "SYNC_RS14125",
     "sync_2947": "SYNC_RS02450",
     "sync_2948": "SYNC_RS13690",
+    "sync_2950": "SYNC_RS14945",
     "sync_2953": "SYNC_RS15130",
     "sync_2956": "SYNC_RS05140",
     "sync_2957": "SYNC_RS05210",
@@ -236860,20 +236888,24 @@
     "sync_2973": "SYNC_RS14845",
     "sync_2974": "SYNC_RS14850",
     "sync_2976": "SYNC_RS12855",
+    "sync_2977": "SYNC_RS13980",
     "sync_2983": "SYNC_RS13535",
     "sync_50008": "SYNC_RS02510",
     "sync_50009": "SYNC_RS02520",
     "sync_50025": "SYNC_RS14590",
+    "sync_50028": "SYNC_RS05120",
     "sync_50035": "SYNC_RS06900",
+    "sync_50045": "SYNC_RS10335",
     "sync_50047": "SYNC_RS14390",
     "sync_50050": "SYNC_RS11550",
-    "sync_50057": "SYNC_RS13945"
+    "sync_50057": "SYNC_RS13945",
+    "sync_50064": "SYNC_RS13975"
   },
   "stats": {
     "n_conflicts": 0,
-    "n_genes": 3052,
-    "n_multi": 12123,
-    "n_specific": 13789,
+    "n_genes": 3038,
+    "n_multi": 12127,
+    "n_specific": 13803,
     "passes": 2
   },
   "strain": "CC9311",

@@ -74,6 +74,29 @@ RETURN v.values
 //     'ACTIVE_SITE', 'BINDING_SITE', 'PTM']
 ```
 
+**Per-value descriptions (explorer B1, 2026-08-29).** The trust vocabularies
+the explorer filters on — every `*.evidence` and `*.sources` edge vocabulary,
+plus `call_class`, `best_hit_kind`, `attachment_depth`, `substrate_depth`,
+`pfam_support`, `go_support`, `source_agreement`, `detection_status`,
+`table_scope` and `annotation_state` (39 nodes) — additionally carry a sparse
+`value_descriptions: str[]`, one `'<value>: <one line>'` element per declared
+value in `values` order (Neo4j has no map property; split on the first `': '`):
+
+```cypher
+MATCH (v:ControlledVocabulary {id: 'Gene_has_merops_family.call_class'})
+UNWIND v.value_descriptions AS d
+RETURN split(d, ': ')[0] AS value, substring(d, size(split(d, ': ')[0]) + 2) AS meaning
+```
+
+Declared as an optional `value_descriptions` map in the YAML. The loader
+rejects a described value that is not in `values`, and a closed vocabulary that
+describes some but not all of its values. The key is **not** in
+`controlled_vocabularies_hash` — wording can improve without a re-pin. A unit
+test (`test_sources_descriptions_do_not_drift_from_gene_annotations_config`)
+requires every described `sources` value to be a `logical_sources` id in
+`config/gene_annotations_config.yaml`, so the vocabulary text and the
+`DataSource` nodes derive from the same source list.
+
 ### How to query it
 
 - **"What values can property X take on label/edge Y?"**

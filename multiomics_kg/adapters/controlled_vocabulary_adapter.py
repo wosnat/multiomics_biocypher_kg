@@ -66,6 +66,13 @@ class ControlledVocabularyAdapter:
                 props["signal_count"] = int(e.signal_count)
             if e.signals:
                 props["signals"] = [_clean_str(s) for s in e.signals]
+            # Explorer B1: '<value>: <one line>' per declared value, in
+            # values order (Neo4j has no map property; split on first ': ').
+            if e.value_descriptions:
+                props["value_descriptions"] = [
+                    _clean_str(f"{v}: {e.value_descriptions[v]}")
+                    for v in e.values if v in e.value_descriptions
+                ]
             yield e.id, "controlled_vocabulary", props
 
     def get_edges(self) -> Iterator[tuple]:

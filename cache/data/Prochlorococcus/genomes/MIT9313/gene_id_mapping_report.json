@@ -1,9 +1,9 @@
 {
   "per_id_type": {
     "alternative_locus_tag": {
-      "conflict": 42,
+      "conflict": 16,
       "multi": 0,
-      "unique": 2750
+      "unique": 2776
     },
     "cds_fna_id": {
       "conflict": 0,
@@ -12,13 +12,13 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 225,
-      "unique": 1463
+      "multi": 218,
+      "unique": 1466
     },
     "gene_synonym": {
       "conflict": 0,
-      "multi": 88,
-      "unique": 8700
+      "multi": 89,
+      "unique": 8707
     },
     "gff_gene_id": {
       "conflict": 0,
@@ -41,9 +41,9 @@
       "unique": 2407
     },
     "old_locus_tag": {
-      "conflict": 13,
+      "conflict": 10,
       "multi": 0,
-      "unique": 6481
+      "unique": 6526
     },
     "other": {
       "conflict": 0,
@@ -90,8 +90,8 @@
     "genomic_gcf/MIT9313": 60
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 13 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 3 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 42 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 10 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 16 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 3 data conflicts \u2014 check annotation quality."
   ]
 }
