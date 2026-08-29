@@ -2352,3 +2352,100 @@ def test_gene_name_fill_if_empty_never_overwrites():
     g2 = _mk_gene(gene_name="psbI_existing", gene_name_source="uniprot")
     enrich_interpro_fields(g2, {}, IPR_REF, NCBIFAM_REF)
     assert g2["gene_name"] == "psbI_existing" and g2["gene_name_source"] == "uniprot"
+
+
+# ─── TIGR role inference from equivalog NCBIfam hits (step-2, spec §3.5/§3.6) ──
+
+from multiomics_kg.download.build_gene_annotations import (
+    apply_tigr_role_inference,
+    _check_tigr_roles_mapped,
+)
+
+_TIGR_ROLES = {
+    "release": "t",
+    "roles": {
+        "120": {"mainrole": "Energy metabolism", "sub1role": "TCA cycle"},
+        "132": {"mainrole": "DNA metabolism", "sub1role": "DNA replication, recombination, and repair"},
+        "157": {"mainrole": "Unknown function", "sub1role": "General"},
+    },
+    "family_role": {"TIGR00001": ["120"], "TIGR00002": ["132"], "TIGR00003": ["157"], "TIGR00005": ["120"]},
+}
+_NCBIFAM_REF = {
+    "TIGR00001": {"name": "a", "family_type": "equivalog"},
+    "TIGR00002": {"name": "b", "family_type": "equivalog"},
+    "TIGR00003": {"name": "c", "family_type": "equivalog"},
+    "TIGR00004": {"name": "d", "family_type": "subfamily"},
+    "TIGR00005": {"name": "e", "family_type": "equivalog"},
+}
+
+
+class TestApplyTigrRoleInference:
+    def test_fills_unknown_category(self):
+        g = {"gene_category": "Unknown", "ncbifam_ids": ["TIGR00001"]}
+        apply_tigr_role_inference(g, _TIGR_ROLES, _NCBIFAM_REF)
+        assert g["gene_category"] == "Energy production"
+
+    def test_never_overwrites_existing_category(self):
+        g = {"gene_category": "Translation", "ncbifam_ids": ["TIGR00001"]}
+        apply_tigr_role_inference(g, _TIGR_ROLES, _NCBIFAM_REF)
+        assert g["gene_category"] == "Translation"
+
+    def test_most_frequent_category_wins_then_alphabetical(self):
+        # 120 twice (Energy production) vs 132 once (Replication and repair)
+        g = {"gene_category": "Unknown", "ncbifam_ids": ["TIGR00001", "TIGR00005", "TIGR00002"]}
+        apply_tigr_role_inference(g, _TIGR_ROLES, _NCBIFAM_REF)
+        assert g["gene_category"] == "Energy production"
+        # tie: Energy production vs Replication and repair → alphabetical
+        g = {"gene_category": "Unknown", "ncbifam_ids": ["TIGR00001", "TIGR00002"]}
+        apply_tigr_role_inference(g, _TIGR_ROLES, _NCBIFAM_REF)
+        assert g["gene_category"] == "Energy production"
+
+    def test_junk_role_does_not_fill_category_but_adds_description(self):
+        g = {"gene_category": "Unknown", "ncbifam_ids": ["TIGR00003"]}
+        apply_tigr_role_inference(g, _TIGR_ROLES, _NCBIFAM_REF)
+        assert g["gene_category"] == "Unknown"
+        assert g["alternate_functional_descriptions"] == ["[tigr_role_inferred] Unknown function / General"]
+
+    def test_non_equivalog_hit_is_ignored(self):
+        g = {"gene_category": "Unknown", "ncbifam_ids": ["TIGR00004"]}
+        apply_tigr_role_inference(g, _TIGR_ROLES, _NCBIFAM_REF)
+        assert g["gene_category"] == "Unknown"
+        assert "alternate_functional_descriptions" not in g
+
+    def test_description_lines_deduped_against_curated(self):
+        g = {
+            "gene_category": "Energy production",
+            "ncbifam_ids": ["TIGR00001", "TIGR00002"],
+            "alternate_functional_descriptions": ["[tigr_role] Energy metabolism / TCA cycle"],
+        }
+        apply_tigr_role_inference(g, _TIGR_ROLES, _NCBIFAM_REF)
+        assert g["alternate_functional_descriptions"] == [
+            "[tigr_role] Energy metabolism / TCA cycle",
+            "[tigr_role_inferred] DNA metabolism / DNA replication, recombination, and repair",
+        ]
+
+    def test_noop_when_reference_missing(self):
+        g = {"gene_category": "Unknown", "ncbifam_ids": ["TIGR00001"]}
+        apply_tigr_role_inference(g, None, _NCBIFAM_REF)
+        apply_tigr_role_inference(g, _TIGR_ROLES, None)
+        assert g == {"gene_category": "Unknown", "ncbifam_ids": ["TIGR00001"]}
+
+
+def test_check_tigr_roles_mapped_passes_for_known_mainroles():
+    _check_tigr_roles_mapped(_TIGR_ROLES)
+
+
+def test_check_tigr_roles_mapped_raises_on_unknown_mainrole():
+    bad = {"roles": {"1": {"mainrole": "Quantum metabolism", "sub1role": "x"}}, "family_role": {}}
+    with pytest.raises(AssertionError, match="Quantum metabolism"):
+        _check_tigr_roles_mapped(bad)
+
+
+def test_committed_tigr_roles_all_mapped():
+    """Every mainrole in the committed archive JSON has a TIGR_TO_CATEGORY entry."""
+    import json
+    from pathlib import Path
+    p = Path("cache/data/ncbifam/tigr_roles.json")
+    if not p.exists():
+        pytest.skip("tigr_roles.json not built")
+    _check_tigr_roles_mapped(json.loads(p.read_text()))

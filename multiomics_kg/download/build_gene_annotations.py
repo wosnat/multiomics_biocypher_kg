@@ -55,6 +55,7 @@ from multiomics_kg.download.utils.ortholog_group_utils import (
     organism_group_from_path,
 )
 from multiomics_kg.utils.pfam_utils import PfamData, load_pfam_data
+from multiomics_kg.utils.tigr_roles import inferred_roles, load_tigr_roles, role_name
 from multiomics_kg.download import build_interpro_reference
 from multiomics_kg.download.utils.paths import PROJECT_ROOT, infer_organism_group
 
@@ -281,6 +282,59 @@ def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
         gene["alternate_functional_descriptions"] = alt_descs
 
     return unresolved
+
+
+# ─── TIGR role inference from equivalog NCBIfam hits (spec §3.5 / §3.6) ──────
+
+_TIGR_INFERRED_LABEL = "[tigr_role_inferred]"
+_TIGR_CURATED_LABEL = "[tigr_role]"
+
+
+def _check_tigr_roles_mapped(tigr_roles: dict) -> None:
+    """Fail loud if the archive names a mainrole TIGR_TO_CATEGORY cannot map
+    (an archive refresh must never silently produce 'Unknown')."""
+    missing = sorted({r["mainrole"] for r in (tigr_roles.get("roles") or {}).values()}
+                     - set(TIGR_TO_CATEGORY))
+    assert not missing, f"tigr_roles.json mainroles missing from TIGR_TO_CATEGORY: {missing}"
+
+
+def apply_tigr_role_inference(gene: dict, tigr_roles: dict | None,
+                              ncbifam_ref: dict | None) -> None:
+    """Post-merge: fill ``gene_category`` (only when 'Unknown') and append
+    ``[tigr_role_inferred] <Main> / <Sub>`` description lines from the gene's
+    equivalog TIGR* hits. Priority 4 in the category chain (after COG):
+    Cyanorak role → Cyanorak TIGR role → COG → NCBIfam-bridged TIGR role.
+    """
+    if not tigr_roles or not ncbifam_ref:
+        return
+    roles = inferred_roles(gene.get("ncbifam_ids"), tigr_roles, ncbifam_ref)
+    if not roles:
+        return
+
+    # 1. gene_category fill-only: most frequent non-Unknown category, ties → alphabetical.
+    if gene.get("gene_category", "Unknown") == "Unknown":
+        votes: dict[str, int] = {}
+        for role_id, accs in roles.items():
+            cat = TIGR_TO_CATEGORY.get(tigr_roles["roles"][role_id]["mainrole"])
+            if cat and cat != "Unknown":
+                votes[cat] = votes.get(cat, 0) + len(accs)
+        if votes:
+            gene["gene_category"] = sorted(votes.items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
+
+    # 2. [tigr_role_inferred] lines, deduped against the curated [tigr_role] text.
+    afd = list(gene.get("alternate_functional_descriptions") or [])
+    curated_texts = {s[len(_TIGR_CURATED_LABEL):].strip() for s in afd
+                     if s.startswith(_TIGR_CURATED_LABEL + " ")}
+    present = set(afd)
+    for role_id in roles:
+        text = role_name(role_id, tigr_roles)
+        line = f"{_TIGR_INFERRED_LABEL} {text}"
+        if text in curated_texts or line in present:
+            continue
+        afd.append(line)
+        present.add(line)
+    if afd:
+        gene["alternate_functional_descriptions"] = afd
 
 
 # ─── InterPro entry-xref propagation (Layer B) ────────────────────────────────
@@ -1365,6 +1419,7 @@ def process_strain(
     pfam_data: PfamData | None = None,
     interpro_ref: dict | None = None,
     ncbifam_ref: dict | None = None,
+    tigr_roles: dict | None = None,
 ) -> None:
     strain_name = row["strain_name"]
     preferred_name = (row.get("preferred_name") or "").strip() or strain_name
@@ -1446,6 +1501,7 @@ def process_strain(
         # PF* hits get re-keyed too).
         if interpro_ref is not None:
             enrich_interpro_fields(merged, ipr_row, interpro_ref, ncbifam_ref)
+        apply_tigr_role_inference(merged, tigr_roles, ncbifam_ref)
         merged_out[locus_tag] = merged
 
         if merged.get("product"):
@@ -1586,10 +1642,20 @@ def main() -> None:
         ncbifam_ref = {}
     print(f"NCBIfam reference: {len(ncbifam_ref)} entries")
 
+    tigr_roles = load_tigr_roles(cache_root)
+    if tigr_roles is None:
+        print("WARNING: cache/data/ncbifam/tigr_roles.json missing — TIGR-role inference "
+              "(gene_category fill, [tigr_role_inferred]) disabled. Run prepare_data.sh --steps 9.")
+    else:
+        _check_tigr_roles_mapped(tigr_roles)
+        print(f"TIGR roles archive: {len(tigr_roles['roles'])} roles, "
+              f"{len(tigr_roles['family_role'])} family links")
+
     print(f"Processing {len(rows)} strain(s) with config: {args.config}")
     for row in rows:
         process_strain(row, config, force=args.force, pfam_data=pfam_data,
-                       interpro_ref=interpro_ref, ncbifam_ref=ncbifam_ref)
+                       interpro_ref=interpro_ref, ncbifam_ref=ncbifam_ref,
+                       tigr_roles=tigr_roles)
 
     if args.llm_summary:
         print("\nLLM summary generation (Step 1C) not yet implemented.")
