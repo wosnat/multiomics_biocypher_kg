@@ -130,6 +130,16 @@ tag with nothing logged.
 
 ### Breaking
 
+- **~423 `ncbigene:` Gene nodes disappear and 359 expression/metric rows move to a different
+  gene id** (position-fallback rewrite in step 0, see *Fixed*). Each vanished node was a
+  Cyanorak-only shadow of an NCBI gene (no coordinates, no protein, no eggNOG/InterPro) — e.g.
+  MIT9313 `PMT0040` → now `PMT_0040`, MED4 `PMM0624` → `TX50_RS09915`, WH7803 `SynWH7803_1285`
+  → `SYNWH7803_RS12825`; the old tag survives in `old_locus_tags` / `all_identifiers`, so
+  `resolve_gene` still finds it. Rows that moved: Aharonovich 2016 MIT9313 (80), Hackl 2023
+  MIT0604 (72), Doron 2016 WH7803/WH8102/WH8109 (59), tolonen 2006 (47), Voigt 2014 (34), 22
+  more papers with ≤ 10 each; 0 rows lost. Cached gene ids from earlier releases for those
+  shadow nodes no longer resolve as node ids.
+
 - **The last eight `"true"`/`"false"` string properties are now named pairs (house rule R5).**
   `Experiment.is_time_course` → `time_course | single_time_point`; `Experiment.reports_fold_change` →
   `fold_change | no_fold_change`; `DerivedMetric.rankable` / `MetaboliteAssay.rankable` →

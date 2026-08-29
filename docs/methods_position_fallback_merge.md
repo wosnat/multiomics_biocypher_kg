@@ -93,11 +93,15 @@ call **C** for an unmatched NCBI call **N** when:
    codon can separate the two 3′ ends, so C is the same ORF as N up to the
    start-codon choice or a missing stop codon — by construction, not by a
    tolerance.
-5. **1 : 1** — an NCBI gene matching several Cyanorak calls (a fusion/split
-   disagreement, e.g. MIT9313 `AKG35_RS05630` ↔ `PMT2281` + `PMT2283`) is
-   skipped with a warning.
+5. **1 : 1 in both directions** — an NCBI gene matching several Cyanorak calls
+   (a fusion/split disagreement, e.g. MIT9313 `AKG35_RS05630` ↔ `PMT2281` +
+   `PMT2283`) or a Cyanorak call landing in frame inside two nested NCBI genes
+   is skipped with a warning.
 
-No overlap ratio, start tolerance or end tolerance remains.
+No overlap ratio, start tolerance or end tolerance remains, and no distance
+bound inside N's interval either: an in-frame Cyanorak ORF ending inside an
+NCBI span is the same locus even when N is a nonsense pseudogene or
+frameshifted CDS that Cyanorak called as its intact upstream ORF.
 
 ### Contig awareness (new 2026-08-29)
 
@@ -107,11 +111,11 @@ ignored this and produced cross-contig false merges on the two multi-contig
 Cyanorak strains (PAC1, 20 contigs; SB, 4). `_contig_offsets()` derives, per
 NCBI `seqid`, the constant that maps NCBI to Cyanorak coordinates from the
 genes the locus_tag merge already paired, measured at the 3′ end; the offset is
-used when ≥ 50 % of a contig's matched genes agree on it (they agree 100 % in
+used when a strict majority of a contig's matched genes agree on it (contigs backed by fewer than three matched genes are used with a warning) (they agree 100 % in
 practice: PAC1 contig 5 = +229 662, SB contig 2 = +420 116, every closed genome
 = 0). A contig with no matched gene is usable at offset 0 only in a
 single-sequence assembly; otherwise the fallback never compares coordinates on
-it.
+it and says so in the step-0 log.
 
 ### Traceability and conflict policy
 
@@ -168,7 +172,10 @@ itself names those `PMT_nnnn` — not a stale second annotation build.
 | `test_position_fallback_skips_different_strand` | same coordinates, opposite strands → not merged |
 | `test_position_fallback_skips_shared_start_different_stop` | stops differ by 3 bp (passed the old ±3 bp gate) → not merged |
 | `test_position_fallback_skips_out_of_frame_3prime_end` | stops differ by 4 bp → not merged |
-| `test_position_fallback_skips_low_overlap` / `_skips_large_coord_diff` | different stop codons → not merged |
+| `test_position_fallback_skips_different_stop_codon_far` / `_near` | stop codons 1000 bp / 10 bp apart → not merged |
+| `test_position_fallback_merges_nested_in_frame_orf` | Cyanorak ORF ending in frame 600 bp inside the NCBI span → merged (pins the absence of a distance bound) |
+| `test_position_fallback_note_names_ncbi_locus_tag_without_old_locus_tag` | NCBI gene with no `old_locus_tag`: note reads `→<locus_tag_ncbi>`, never `→None` |
+| `test_position_fallback_skips_reverse_conflict` | one Cyanorak call in frame inside two nested NCBI genes → neither merged |
 | `test_position_fallback_skips_conflict` | one NCBI gene, two Cyanorak calls at the same stop → neither merged |
 
 ## Applicability to Other Strains
