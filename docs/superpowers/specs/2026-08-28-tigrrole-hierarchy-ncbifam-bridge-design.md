@@ -93,7 +93,7 @@ scope** and recorded in `plans/backlog.md`.
    than minting a second one. No collision: subrole local ids are all-numeric,
    mainrole slugs alphabetic; `level_kind` is the authoritative discriminator.
 2. **Bridge edge** `Ncbifam_family_has_tigr_role` (NcbifamFamily → TigrRole),
-   ~1,720 edges, `TIGR*` only, **no properties** (vocabulary-contract R3/R5:
+   ~1,9K edges (one per (family, role); 296 families carry two), `TIGR*` only, **no properties** (vocabulary-contract R3/R5:
    the archive is a single frozen source; provenance is documented on the
    edge type, not repeated per edge). Verb `has`, same composition semantics
    as `Tcdb_family_has_pfam_domain`: "JCVI assigned this family this role."
@@ -169,9 +169,14 @@ scope** and recorded in `plans/backlog.md`.
   {"release": "TIGRFAMs 15.0 (frozen 2018)",
    "roles": {"132": {"mainrole": "DNA metabolism",
                      "sub1role": "DNA replication, recombination, and repair"}},
-   "family_role": {"TIGR00001": "158", ...}}
+   "family_role": {"TIGR00001": ["158"], "TIGR00202": ["141", "271"], ...}}
   ```
-  Roles with no `mainrole` name (`719`) are excluded from both maps.
+  `family_role` values are **lists**: 296 of the 2,963 archive families carry
+  two roles (3,272 link lines; e.g. CsrA = *Glycolysis* + *RNA interactions*;
+  205 of the 296 are equivalog) and both are honoured everywhere — one bridge
+  edge per (family, role), gene inference fans out (measured 2026-08-29:
+  1,751 of 24,052 equivalog-role genes get >1 role, 1,429 >1 mainrole).
+  Roles with no `mainrole` name (`719`, 102 link lines) are excluded from both maps.
 - Pure parser in `multiomics_kg/utils/ncbifam.py` (`parse_tigr_role_link`,
   `parse_tigr_role_names`), fail-loud on zero rows.
 - Outage tolerance: if the FTP download fails and `tigr_roles.json` exists,
@@ -311,7 +316,7 @@ NCBI FTP archive ──step 9──▶ cache/data/ncbifam/tigr_roles.json (commi
   ≥ 13K edges with `'interproscan' IN r.sources`; every edge `sources` ⊆
   {cyanorak, interproscan}; no edge with `evidence = 'family_inferred'` AND
   `'cyanorak' IN r.sources`. `test_ontology_level.py` — `TigrRole` leaves the flat list;
-  new assertions: ≥ 1,600 bridge edges, every bridge source is `TIGR*`, every
+  new assertions: ≥ 1,600 bridge edges, every bridge source is `TIGR*`, at most 2 roles per family, every
   level-1 node has exactly one parent, `direct_gene_count <= gene_count`,
   mainrole `gene_count` = union of children. Regenerate `snapshot_data.json`.
   `capture_annotation_state.py --save/--compare` (expect 0 moves).

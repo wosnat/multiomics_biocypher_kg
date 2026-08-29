@@ -16,6 +16,7 @@
 - Vocabulary rules R1–R5 (`docs/kg-changes/vocabulary-contract.md`): values the KG mints are lowercase `snake_case`; every `sources` value must be a `DataSource` id (`data_source:<value>`); no native `bool`; new closed value sets are declared in `config/controlled_vocabularies.yaml`.
 - Equivalog gate: a `Gene_has_tigr_role` edge, a `gene_category` fill, or a `[tigr_role_inferred]` line is produced ONLY from `ncbifam_ids` accessions whose reference `family_type == "equivalog"` (exact string) AND which have a role in `tigr_roles.json["family_role"]`.
 - Edge id for gene→TigrRole is `{locus_tag}-tigrrole-{code}` for BOTH curated and inferred edges; the adapter merges them before yielding (one edge per (gene, role)).
+- `tigr_roles.json["family_role"]` values are LISTS of role ids (296 archive families carry two roles; both are honoured: one bridge edge per (family, role), gene inference fans out).
 - Node ids: subroles `tigr.role:<numeric code>` (unchanged); mainroles `tigr.role:<slug>` where slug = lowercase, runs of non-`[a-z0-9]` → `_`, stripped of leading/trailing `_`. One prefix only — never `tigr.mainrole:`.
 - Role `719` (unnamed in the archive) never appears anywhere.
 - `scripts/post-import.sh` and `scripts/post-import.cypher` must carry identical Cypher logic.
@@ -32,7 +33,7 @@
 
 **Interfaces:**
 - Produces: `parse_tigr_role_names(lines: Iterable[str]) -> dict[str, dict]` → `{role_id: {"mainrole": str, "sub1role": str}}`, only roles with a non-empty mainrole.
-- Produces: `parse_tigr_role_link(lines: Iterable[str], roles: dict[str, dict]) -> dict[str, str]` → `{"TIGR00001": "158"}`, dropping links whose role is not in `roles`.
+- Produces: `parse_tigr_role_link(lines: Iterable[str], roles: dict[str, dict]) -> dict[str, list[str]]` → `{"TIGR00001": ["158"], "TIGR00202": ["141", "271"]}` (sorted, deduplicated; 296 archive families carry two roles — keep both), dropping links whose role is not in `roles`.
 - Both raise `ValueError` when given non-empty input that yields zero entries (fail-loud, `_require_parsed` precedent in `kegg_utils`).
 
 - [ ] **Step 1: Write the failing tests**
@@ -75,12 +76,18 @@ def test_parse_tigr_role_names_drops_roles_without_mainrole():
 def test_parse_tigr_role_link_keeps_only_named_roles():
     roles = parse_tigr_role_names(ROLE_NAMES)
     link = parse_tigr_role_link(ROLE_LINK, roles)
-    assert link == {"TIGR00001": "132", "TIGR00002": "100"}
+    assert link == {"TIGR00001": ["132"], "TIGR00002": ["100"]}
+
+
+def test_parse_tigr_role_link_keeps_multiple_roles_per_family():
+    roles = parse_tigr_role_names(ROLE_NAMES)
+    link = parse_tigr_role_link(["TIGR00009\t132", "TIGR00009\t100", "TIGR00009\t132"], roles)
+    assert link == {"TIGR00009": ["100", "132"]}
 
 
 def test_parse_tigr_role_link_strips_version_suffix():
     roles = parse_tigr_role_names(ROLE_NAMES)
-    assert parse_tigr_role_link(["TIGR00005.1\t132"], roles) == {"TIGR00005": "132"}
+    assert parse_tigr_role_link(["TIGR00005.1\t132"], roles) == {"TIGR00005": ["132"]}
 
 
 def test_parsers_fail_loud_on_nonempty_garbage():
@@ -148,14 +155,16 @@ def parse_tigr_role_names(lines: Iterable[str]) -> dict[str, dict]:
     }
 
 
-def parse_tigr_role_link(lines: Iterable[str], roles: dict[str, dict]) -> dict[str, str]:
-    """Parse ``TIGRFAMS_ROLE_LINK`` → ``{unversioned_TIGR_acc: role_id}``.
+def parse_tigr_role_link(lines: Iterable[str], roles: dict[str, dict]) -> dict[str, list[str]]:
+    """Parse ``TIGRFAMS_ROLE_LINK`` → ``{unversioned_TIGR_acc: [role_id, ...]}``.
 
+    A family may carry more than one role (296 of 2,963 in release 15.0, e.g.
+    CsrA = Glycolysis + RNA interactions); all are kept, sorted, deduplicated.
     Links to roles absent from *roles* (unnamed or unknown) are dropped so the
     result is closed over the named-role set. Raises ``ValueError`` when
     non-empty input yields no parseable pair.
     """
-    out: dict[str, str] = {}
+    out: dict[str, set[str]] = {}
     n_lines = n_parsed = 0
     for line in lines:
         line = line.rstrip("\n")
@@ -171,10 +180,10 @@ def parse_tigr_role_link(lines: Iterable[str], roles: dict[str, dict]) -> dict[s
             continue
         n_parsed += 1
         if role_id in roles:
-            out[acc] = role_id
+            out.setdefault(acc, set()).add(role_id)
     if n_lines and not n_parsed:
         raise ValueError("TIGRFAMS_ROLE_LINK: non-empty input parsed to zero links — format drift?")
-    return out
+    return {acc: sorted(rs) for acc, rs in out.items()}
 ```
 
 - [ ] **Step 4: Run tests to verify they pass**
@@ -246,7 +255,7 @@ def test_build_tigr_roles_writes_expected_shape(cache):
     assert out["release"].startswith("TIGRFAMs 15.0")
     assert out["roles"] == {"132": {"mainrole": "DNA metabolism",
                                     "sub1role": "DNA replication, recombination, and repair"}}
-    assert out["family_role"] == {"TIGR00001": "132"}
+    assert out["family_role"] == {"TIGR00001": ["132"]}
     on_disk = json.loads((cache / "tigr_roles.json").read_text())
     assert on_disk == out
 
@@ -387,7 +396,7 @@ assert d["roles"]["132"]["mainrole"] == "DNA metabolism"
 print(sorted({r["mainrole"] for r in d["roles"].values()}))
 EOF
 ```
-Expected: `116 2920` (116 named roles; 2,963 links minus the 43 that pointed at `719`), and 21 distinct mainrole strings, every one present as a key in `TIGR_TO_CATEGORY` in `multiomics_kg/download/build_gene_annotations.py:135` (check by eye; Task 4 asserts it in code).
+Expected: `116 2862` (116 named roles; 2,963 families minus the 101 whose only role was `719`), and 19 distinct mainrole strings, every one present as a key in `TIGR_TO_CATEGORY` in `multiomics_kg/download/build_gene_annotations.py:135` (check by eye; Task 4 asserts it in code).
 
 - [ ] **Step 6: Update the prepare_data.sh step-9 comment**
 
@@ -444,13 +453,15 @@ TIGR_ROLES = {
         "120": {"mainrole": "Energy metabolism", "sub1role": "TCA cycle"},
         "156": {"mainrole": "Hypothetical proteins", "sub1role": "Conserved"},
     },
-    "family_role": {"TIGR00001": "132", "TIGR00002": "120", "TIGR00003": "156", "TIGR00004": "120"},
+    "family_role": {"TIGR00001": ["132"], "TIGR00002": ["120"], "TIGR00003": ["156"],
+                    "TIGR00004": ["120"], "TIGR00005": ["120", "132"]},
 }
 NCBIFAM_REF = {
     "TIGR00001": {"name": "a", "family_type": "equivalog"},
     "TIGR00002": {"name": "b", "family_type": "subfamily"},
     "TIGR00003": {"name": "c", "family_type": "equivalog"},
     "TIGR00004": {"name": "d", "family_type": "equivalog"},
+    "TIGR00005": {"name": "e", "family_type": "equivalog"},
 }
 
 
@@ -480,6 +491,10 @@ def test_inferred_roles_equivalog_gate():
 def test_inferred_roles_groups_supporting_accessions():
     out = inferred_roles(["TIGR00004", "TIGR00002"], TIGR_ROLES, NCBIFAM_REF)
     assert out == {"120": ["TIGR00004"]}
+
+
+def test_inferred_roles_fans_out_multi_role_family():
+    assert inferred_roles(["TIGR00005"], TIGR_ROLES, NCBIFAM_REF) == {"120": ["TIGR00005"], "132": ["TIGR00005"]}
 
 
 def test_inferred_roles_keeps_junk_roles():
@@ -587,7 +602,8 @@ def inferred_roles(
             continue
         if (ncbifam_ref.get(acc) or {}).get("family_type") not in EQUIVALOG_TYPES:
             continue
-        out.setdefault(family_role[acc], []).append(acc)
+        for role_id in family_role[acc]:
+            out.setdefault(role_id, []).append(acc)
     return {k: sorted(v) for k, v in sorted(out.items())}
 ```
 
@@ -636,7 +652,7 @@ _TIGR_ROLES = {
         "132": {"mainrole": "DNA metabolism", "sub1role": "DNA replication, recombination, and repair"},
         "157": {"mainrole": "Unknown function", "sub1role": "General"},
     },
-    "family_role": {"TIGR00001": "120", "TIGR00002": "132", "TIGR00003": "157", "TIGR00005": "120"},
+    "family_role": {"TIGR00001": ["120"], "TIGR00002": ["132"], "TIGR00003": ["157"], "TIGR00005": ["120"]},
 }
 _NCBIFAM_REF = {
     "TIGR00001": {"name": "a", "family_type": "equivalog"},
@@ -1082,7 +1098,7 @@ _TR = {
         "132": {"mainrole": "DNA metabolism", "sub1role": "DNA replication, recombination, and repair"},
         "156": {"mainrole": "Hypothetical proteins", "sub1role": "Conserved"},
     },
-    "family_role": {"TIGR00001": "120", "TIGR00002": "132", "TIGR00003": "156", "TIGR00004": "120"},
+    "family_role": {"TIGR00001": ["120"], "TIGR00002": ["132"], "TIGR00003": ["156"], "TIGR00004": ["120"]},
 }
 _NR = {
     "TIGR00001": {"name": "a", "family_type": "equivalog"},
@@ -1310,7 +1326,7 @@ def _multi(tmp_path, genes, calls, **kwargs):
         "release": "t",
         "roles": {"120": {"mainrole": "Energy metabolism", "sub1role": "TCA cycle"},
                   "132": {"mainrole": "DNA metabolism", "sub1role": "x"}},
-        "family_role": {"TIGR00001": "120", "TIGR00002": "132"},
+        "family_role": {"TIGR00001": ["120"], "TIGR00002": ["132", "120"]},
     }))
     a = MultiNcbifamAdapter(genome_config_file=str(cfg), cache_root=cache_root, **kwargs)
     a.download_data()
@@ -1334,12 +1350,13 @@ def test_tigr_role_bridge_ungated_and_dangling_proof(tmp_path):
     assert _bridge(a) == {
         ("ncbifam:TIGR00001", "tigr.role:120"): {},
         ("ncbifam:TIGR00002", "tigr.role:132"): {},   # subfamily still bridges (ontology-level)
+        ("ncbifam:TIGR00002", "tigr.role:120"): {},   # second role of a multi-role family
     }
 
 
 def test_tigr_role_bridge_skips_missing_target_node(tmp_path):
     a = _multi(tmp_path, _GENES, _CALLS, tigr_role_node_ids={"tigr.role:120"})
-    assert set(_bridge(a)) == {("ncbifam:TIGR00001", "tigr.role:120")}
+    assert set(_bridge(a)) == {("ncbifam:TIGR00001", "tigr.role:120"), ("ncbifam:TIGR00002", "tigr.role:120")}
 
 
 def test_tigr_role_bridge_none_means_no_edges(tmp_path):
@@ -1399,21 +1416,19 @@ In `get_edges`, after the InterPro bridge loop (before `# 2. Gene → NcbifamFam
         family_role = (self._tigr_roles or {}).get("family_role") or {}
         if self.tigr_role_node_ids is not None and family_role:
             for acc in sorted(observed):
-                code = family_role.get(acc)
-                if not code:
-                    continue
-                target = _tigr_role_node_id(code)
-                if target not in self.tigr_role_node_ids:
-                    skipped += 1
-                    continue
-                yield (
-                    f"{acc}-has_tigr_role-{code}",
-                    _ncbifam_node_id(acc),
-                    target,
-                    "ncbifam_family_has_tigr_role",
-                    {},
-                )
-                role_bridge += 1
+                for code in family_role.get(acc) or []:
+                    target = _tigr_role_node_id(code)
+                    if target not in self.tigr_role_node_ids:
+                        skipped += 1
+                        continue
+                    yield (
+                        f"{acc}-has_tigr_role-{code}",
+                        _ncbifam_node_id(acc),
+                        target,
+                        "ncbifam_family_has_tigr_role",
+                        {},
+                    )
+                    role_bridge += 1
 ```
 and extend the final log line to `f"MultiNcbifamAdapter.get_edges: {bridge} interpro-bridge, {role_bridge} tigr-role-bridge ({skipped} skipped: no TigrRole node), {gene} gene edges"`.
 
@@ -1485,7 +1500,7 @@ Replace the COG/role block (lines 255–262) with:
     bridge_codes: set[str] = set()
     if tigr_roles is not None:
         family_role = tigr_roles["family_role"]
-        bridge_codes = {family_role[a] for a in ncbifam_adapter.observed_ids() if a in family_role}
+        bridge_codes = {c for a in ncbifam_adapter.observed_ids() for c in family_role.get(a, [])}
     cog_role_adapter = MultiCogRoleAnnotationAdapter(
         genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
         role_tree_file=Path("data/cyanorak_roles.csv"),
@@ -1701,11 +1716,11 @@ def test_ncbifam_tigr_role_bridge(run_query):
     row = run_query("""
         MATCH (f:NcbifamFamily)-[r:Ncbifam_family_has_tigr_role]->(t:TigrRole)
         RETURN count(r) AS n, count(CASE WHEN f.ncbifam_id STARTS WITH 'TIGR' THEN 1 END) AS tigr,
-               count(DISTINCT f) AS fams, size(keys(r)) AS props
+               count(DISTINCT f) AS fams
     """)[0]
     assert row["n"] >= 1600, row
     assert row["tigr"] == row["n"], "bridge sources must all be TIGR*"
-    assert row["fams"] == row["n"], "one role per family"
+    assert row["fams"] <= row["n"] <= 2 * row["fams"], "at most two roles per family"
 
 
 def test_inferred_tigr_role_edges_span_all_organisms(run_query):
