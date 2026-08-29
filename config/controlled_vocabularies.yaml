@@ -891,6 +891,25 @@ CazyFamily.level_kind:
     Position in the CAZy hierarchy: cazy_class (level 0), cazy_family (1),
     cazy_subfamily (2). Genes attach at the most specific observed level.
 
+TigrRole.level_kind:
+  # provenance (2026-08-29 TigrRole hierarchy):
+  #   Harvested from the literal strings assigned in _tigr_nodes() in
+  #   multiomics_kg/adapters/functional_annotation_adapter.py. tigr_mainrole = level 0
+  #   (node id tigr.role:<slug>, or a Cyanorak-only code whose name has no ' / ');
+  #   tigr_subrole = level 1 (tigr.role:<numeric code>, compound name '<Main> / <Sub>').
+  #   Hierarchy edge Tigr_role_is_a_tigr_role (sub → main).
+  applies_to: TigrRole
+  applies_to_kind: node
+  property: level_kind
+  value_type: string
+  closed: true
+  values: [tigr_mainrole, tigr_subrole]
+  description: >
+    Position in the JCVI two-level role scheme: tigr_mainrole (level 0, the
+    broad functional category) and tigr_subrole (level 1, named
+    '<Mainrole> / <Subrole>'). Subroles point at their mainrole via
+    Tigr_role_is_a_tigr_role.
+
 BriteCategory.level_kind:
   applies_to: BriteCategory
   applies_to_kind: node
@@ -1317,18 +1336,23 @@ Gene_has_cyanorak_role.sources:
 Gene_has_tigr_role.sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007). Each value joins a
-  #   DataSource node via id = 'data_source:' + value. Constant: TIGR roles are carried by the
-  #   Cyanorak GFF (Pro/Syn strains).
+  #   DataSource node via id = 'data_source:' + value. Two sources as of 2026-08-29:
+  #   'cyanorak' = curated TIGR role carried by the Cyanorak GFF (Pro/Syn strains);
+  #   'interproscan' = equivalog NCBIfam TIGR* hit → JCVI role via the frozen TIGRFAMs 15.0
+  #   archive (all strains). Both on one edge = the two agree. Prefer `'cyanorak' IN r.sources`
+  #   over list equality.
   applies_to: Gene_has_tigr_role
   applies_to_kind: edge
   property: sources
   value_type: string_array
   closed: true
-  values: [cyanorak]
+  values: [cyanorak, interproscan]
   description: >
-    Who asserted this TIGR role; each value joins a DataSource node via id =
-    'data_source:' + value. Always ['cyanorak'] — TIGR roles are carried by
-    the Cyanorak annotation.
+    Who asserted this TIGR role. 'cyanorak' = curated Cyanorak annotation
+    (Prochlorococcus / Synechococcus). 'interproscan' = inferred from an
+    equivalog NCBIfam TIGR family via the frozen TIGRFAMs 15.0 role archive
+    (all strains). Both on one edge = the two agree; filter with
+    'cyanorak' IN r.sources.
 
 Gene_has_interpro_entry.sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1429,18 +1453,21 @@ Gene_has_cyanorak_role.evidence:
 Gene_has_tigr_role.evidence:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   Rung of the shared inference-strength ladder curated > signature > homology >
-  #   family_inferred > domain_inferred (KG-SYNC-005 / ONT-008). TIGR roles as carried by the
-  #   curated Cyanorak annotation.
+  #   family_inferred > domain_inferred (KG-SYNC-005 / ONT-008). Two rungs as of 2026-08-29:
+  #   'curated' = TIGR role carried by the Cyanorak annotation; 'family_inferred' =
+  #   equivalog-family role transfer (no Cyanorak curation). Curated wins when both sources
+  #   name the role.
   applies_to: Gene_has_tigr_role
   applies_to_kind: edge
   property: evidence
   value_type: string
   closed: true
-  values: [curated]
+  values: [curated, family_inferred]
   description: >
     Inference strength on the shared ladder curated > signature > homology >
-    family_inferred > domain_inferred. TIGR roles are curated, as carried by
-    the Cyanorak annotation.
+    family_inferred > domain_inferred. 'curated' = Cyanorak-assigned (wins
+    when both sources name the role); 'family_inferred' = equivalog-family
+    role transfer only.
 
 Gene_has_interpro_entry.evidence:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
