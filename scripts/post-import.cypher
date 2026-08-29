@@ -67,6 +67,8 @@ CREATE INDEX tcdb_family_tcdb_id_idx IF NOT EXISTS FOR (t:TcdbFamily) ON (t.tcdb
 CREATE INDEX tcdb_family_tc_class_id_idx IF NOT EXISTS FOR (t:TcdbFamily) ON (t.tc_class_id);
 CREATE INDEX cazy_family_level_idx IF NOT EXISTS FOR (c:CazyFamily) ON (c.level);
 CREATE INDEX cazy_family_level_kind_idx IF NOT EXISTS FOR (c:CazyFamily) ON (c.level_kind);
+CREATE INDEX tigr_role_level_idx IF NOT EXISTS FOR (t:TigrRole) ON (t.level);
+CREATE INDEX tigr_role_level_kind_idx IF NOT EXISTS FOR (t:TigrRole) ON (t.level_kind);
 CREATE INDEX cazy_family_cazy_id_idx IF NOT EXISTS FOR (c:CazyFamily) ON (c.cazy_id);
 
 // TCDB / CAZy full-text indexes
@@ -612,7 +614,9 @@ SET t.is_uninformative = 'true';
 
 MATCH (t:TigrRole)
 WHERE t.id IN ['tigr.role:156','tigr.role:704','tigr.role:856',
-               'tigr.role:185','tigr.role:157']
+               'tigr.role:185','tigr.role:157',
+               'tigr.role:hypothetical_proteins','tigr.role:unknown_function',
+               'tigr.role:unclassified']
 SET t.is_uninformative = 'true';
 
 // Pattern-based flag for KEGG (uncharacterized protein KOs, ~210 nodes)
@@ -1278,14 +1282,27 @@ CALL {
       n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
 } IN TRANSACTIONS OF 1000 ROWS;
 
+// TigrRole — two-level since 2026-08-29: subtree gene_count over
+// Tigr_role_is_a_tigr_role (CyanorakRole pattern) + direct_gene_count +
+// ncbifam_family_count (incoming Ncbifam_family_has_tigr_role, subtree).
 MATCH (n:TigrRole)
 CALL {
   WITH n
-  OPTIONAL MATCH (n)<-[:Gene_has_tigr_role]-(g:Gene)
-  WITH n, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  OPTIONAL MATCH (n)<-[:Tigr_role_is_a_tigr_role*0..]-(desc:TigrRole)
+  WITH n, collect(DISTINCT desc) AS descs
+  UNWIND descs AS d
+  OPTIONAL MATCH (d)<-[:Gene_has_tigr_role]-(g:Gene)
+  WITH n, descs, count(DISTINCT g) AS gc,
+       count(DISTINCT CASE WHEN d = n THEN g END) AS dgc,
+       collect(DISTINCT g.organism_name) AS orgs
+  UNWIND descs AS d2
+  OPTIONAL MATCH (d2)<-[:Ncbifam_family_has_tigr_role]-(f:NcbifamFamily)
+  WITH n, gc, dgc, orgs, count(DISTINCT f) AS fc
   SET n.gene_count = gc,
-      n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
-} IN TRANSACTIONS OF 1000 ROWS;
+      n.direct_gene_count = dgc,
+      n.organism_count = size([x IN orgs WHERE x IS NOT NULL]),
+      n.ncbifam_family_count = fc
+} IN TRANSACTIONS OF 100 ROWS;
 
 MATCH (n:CogFunctionalCategory)
 CALL {
