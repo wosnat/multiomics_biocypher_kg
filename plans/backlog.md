@@ -24,9 +24,27 @@ up — this file is the index, not the plan.
       filtering design (e.g. >= N supporting identifiers) before it can land.
       → `docs/superpowers/specs/2026-08-18-merops-pfam-bridge-cleavage-design.md`
 
-- [ ] **TIGRFAM→TigrRole bridge — rejected on measurement (2026-08-18), revisit
-      only with a concrete cross-genus use case AND a coverage-correction
-      design.** The archived JCVI role links (NCBI FTP
+- [x] **TIGRFAM→TigrRole — SHIPPED 2026-08-29 as (a) an ontology bridge +
+      (b) equivalog-gated gene edges.** The 2026-08-18 measurement below stands
+      and is kept for the record; the gene-level rejection was **superseded**
+      once the transfer was gated on `family_type = 'equivalog'` (JCVI's "same
+      function in every member" type, the only one meant for unconditional role
+      transfer): multi-role genes 375 → 15, conflicting mainroles 308 → 14,
+      Cyanorak contradictions 7% → 5.4% (sampled — facet choices on multi-role
+      proteins, not errors, so both views ship as two edges), and
+      `annotation_quality` movement **0**. The coverage-correction requirement
+      is met by documentation rather than by a correction factor: ORA over
+      `TigrRole` must use a per-organism background of genes with ≥ 1
+      `Gene_has_tigr_role` edge (~700–860 genes/heterotroph genome vs
+      ~1,800–1,976 on MED4). Shipped: two-level `TigrRole` +
+      `Tigr_role_is_a_tigr_role`, `Ncbifam_family_has_tigr_role` (~1.9K, router
+      only for the non-equivalog families), inferred `Gene_has_tigr_role` on all
+      43 organisms, `gene_category` fill-only priority 4, `[tigr_role_inferred]`
+      description lines.
+      → `docs/superpowers/specs/2026-08-28-tigrrole-hierarchy-ncbifam-bridge-design.md`,
+      `docs/kg-changes/tigr-role-bridge.md`
+
+      *Original 2026-08-18 rejection, for the record.* The archived JCVI role links (NCBI FTP
       `hmm/TIGRFAMs/release_15.0/{TIGRFAMS_ROLE_LINK,TIGR_ROLE_NAMES}`, frozen
       2018) would let `NcbifamFamily` TIGR* nodes bridge to the existing
       `TigrRole` nodes — role_id spaces are identical, 1,579 of our 2,204 TIGR
@@ -41,6 +59,22 @@ up — this file is the index, not the plan.
       a shared cross-genus role axis, would be ~4× coverage-biased against the
       heterotroph side and misleading without corrected backgrounds. COG /
       KEGG / BRITE / GO already provide uniform cross-genus category layers.
+
+- [ ] **Multi-source `Gene_has_ncbifam_family` — measured 2026-08-28, deferred.**
+      The edge is `interproscan`-only; two other sources name NCBIfam/TIGRFAM
+      families and were checked because the TIGR-role merge discards them.
+      Cyanorak `protein_domains` `TIGR*` tokens are **93% already in** the
+      gene's InterProScan hits (1,244 extra ids over 903 genes, Pro/Syn only).
+      PGAP `inference` HMM ids are **84% `NF*` `domain` / `PfamEq` models that
+      InterPro's NCBIfam member DB excludes by design** — 0 of 1,860 `PfamEq`
+      and 108 of 14,234 `domain` families are ever observed across 43 genomes,
+      and the ids interleave numerically with observed ones, so this is a
+      deliberate member-DB scope difference, **not a version gap**. Adding both
+      would buy corroboration only (~480 TIGR + ~205 `NF*` PGAP confirmations)
+      and no new families of consequence. If ever done, gate on `for_naming` /
+      family-grade `family_type`s rather than ingesting every token.
+      → `docs/superpowers/specs/2026-08-28-tigrrole-hierarchy-ncbifam-bridge-design.md` §2
+      ("Dropped sources"), `docs/kg-changes/tigr-role-bridge.md`
 
 - [ ] **NCBIfam→GO bridge — rejected on measurement (2026-08-18), revisit only
       with a GO-corroboration design that discounts same-scan sources.**
@@ -86,7 +120,15 @@ up — this file is the index, not the plan.
       → `data/Prochlorococcus/papers_and_supp/MIT9313_resources/paperconfig.yaml`,
       `cache/data/Prochlorococcus/genomes/MIT9313/gene_id_mapping.json` `conflicts`
 
-- [ ] **TigrRole hierarchy normalization.** The 114 `TigrRole` nodes are flat
+- [x] **TigrRole hierarchy normalization — DONE 2026-08-29**, folded into the
+      TIGRFAM-role bridge above exactly as this bullet anticipated (one
+      `functional_annotation_adapter` touch that already forced a rebuild).
+      Subroles are `level 1` / `level_kind = 'tigr_subrole'`, new mainrole nodes
+      are `level 0` / `tigr_mainrole`, joined by `Tigr_role_is_a_tigr_role`; the
+      5 junk subroles keep their flags and the 3 junk mainroles gained them.
+      → `docs/kg-changes/tigr-role-bridge.md`
+
+      *Original bullet.* The 114 `TigrRole` nodes are flat
       (`level = 0` everywhere) with the JCVI mainrole/subrole two-level scheme
       embedded in compound names ("Energy metabolism / Electron transport") —
       the only hierarchical ontology in the KG with no `is_a` edges, contra the

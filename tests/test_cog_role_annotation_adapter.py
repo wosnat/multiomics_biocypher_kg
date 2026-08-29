@@ -139,6 +139,18 @@ def multi_adapter(genome_config_csv, roles_csv_file):
     )
 
 
+@pytest.fixture
+def multi_adapter_factory(genome_config_csv, roles_csv_file):
+    """Same inputs as `multi_adapter`, forwarding kwargs (extra_tigr_roles, tigr_roles, …)."""
+    def _make(**kwargs):
+        return MultiCogRoleAnnotationAdapter(
+            genome_config_file=genome_config_csv,
+            role_tree_file=roles_csv_file,
+            **kwargs,
+        )
+    return _make
+
+
 # ===========================================================================
 # Tests for parse_cyanorak_role_tree
 # ===========================================================================
@@ -754,3 +766,135 @@ def test_cog_and_role_edges_carry_constant_provenance():
     assert _KO_EDGE_PROPS == {"sources": ["eggnog"], "evidence": "family_inferred"}
     assert _COG_EDGE_PROPS == {"sources": ["eggnog"], "evidence": "family_inferred"}
     assert _CYANORAK_EDGE_PROPS == {"sources": ["cyanorak"], "evidence": "curated"}
+
+
+# ── Task 5: two-level TigrRole nodes + Tigr_role_is_a_tigr_role hierarchy ─────
+
+from multiomics_kg.adapters.functional_annotation_adapter import _tigr_mainrole_node_id
+
+
+class TestTigrRoleHierarchy:
+    @pytest.fixture
+    def adapter_with_extra(self, multi_adapter_factory):
+        return multi_adapter_factory(extra_tigr_roles={
+            "120": "Energy metabolism / TCA cycle",
+            "108": "Energy metabolism / Aerobic",
+            "132": "DNA metabolism / DNA replication, recombination, and repair",
+        })
+
+    def test_mainrole_node_id(self):
+        assert _tigr_mainrole_node_id("Energy metabolism") == "tigr.role:energy_metabolism"
+
+    def test_subroles_level_one_and_mainroles_level_zero(self, adapter_with_extra):
+        nodes = {n[0]: n[2] for n in adapter_with_extra.get_nodes() if n[1] == "tigr role"}
+        assert nodes["tigr.role:120"] == {"code": "120", "name": "Energy metabolism / TCA cycle",
+                                          "level": 1, "level_kind": "tigr_subrole"}
+        assert nodes["tigr.role:energy_metabolism"] == {"code": "energy_metabolism",
+                                                        "name": "Energy metabolism",
+                                                        "level": 0, "level_kind": "tigr_mainrole"}
+        # mainrole emitted ONCE although two subroles share it
+        assert sum(1 for k in nodes if k == "tigr.role:energy_metabolism") == 1
+        assert "tigr.role:dna_metabolism" in nodes
+
+    def test_code_without_separator_is_a_root(self, adapter_with_extra):
+        nodes = {n[0]: n[2] for n in adapter_with_extra.get_nodes() if n[1] == "tigr role"}
+        # "12345" → "Some tIGR role" (fixture) has no " / "
+        assert nodes["tigr.role:12345"]["level"] == 0
+        assert nodes["tigr.role:12345"]["level_kind"] == "tigr_mainrole"
+
+    def test_is_a_edges(self, adapter_with_extra):
+        edges = [e for e in adapter_with_extra.get_edges() if e[3] == "tigr_role_is_a_tigr_role"]
+        pairs = {(e[1], e[2]) for e in edges}
+        assert ("tigr.role:120", "tigr.role:energy_metabolism") in pairs
+        assert ("tigr.role:108", "tigr.role:energy_metabolism") in pairs
+        assert ("tigr.role:132", "tigr.role:dna_metabolism") in pairs
+        assert not any(src == "tigr.role:12345" for src, _ in pairs)
+        assert all(e[4] == {} for e in edges)
+
+    def test_tigr_role_node_ids_matches_emitted_nodes(self, adapter_with_extra):
+        emitted = {n[0] for n in adapter_with_extra.get_nodes() if n[1] == "tigr role"}
+        assert adapter_with_extra.tigr_role_node_ids() == emitted
+
+
+import json as _json
+
+_TR = {
+    "release": "t",
+    "roles": {
+        "120": {"mainrole": "Energy metabolism", "sub1role": "TCA cycle"},
+        "132": {"mainrole": "DNA metabolism", "sub1role": "DNA replication, recombination, and repair"},
+        "156": {"mainrole": "Hypothetical proteins", "sub1role": "Conserved"},
+    },
+    "family_role": {"TIGR00001": ["120"], "TIGR00002": ["132"], "TIGR00003": ["156"], "TIGR00004": ["120"]},
+}
+_NR = {
+    "TIGR00001": {"name": "a", "family_type": "equivalog"},
+    "TIGR00002": {"name": "b", "family_type": "equivalog"},
+    "TIGR00003": {"name": "c", "family_type": "equivalog"},
+    "TIGR00004": {"name": "d", "family_type": "subfamily"},
+}
+
+
+def _strain_dir(tmp_path, genes: dict):
+    d = tmp_path / "STRAIN"
+    d.mkdir()
+    (d / "gene_annotations_merged.json").write_text(_json.dumps(genes))
+    return d
+
+
+def _tigr_edges(adapter, locus_tag):
+    return {e[2]: e[4] for e in adapter.get_edges()
+            if e[3] == "gene_has_tigr_role" and e[1].endswith(locus_tag)}
+
+
+class TestInferredTigrRoleEdges:
+    def test_inferred_edge_props(self, tmp_path):
+        a = CogRoleAnnotationAdapter(_strain_dir(tmp_path, {
+            "G1": {"locus_tag": "G1", "ncbifam_ids": ["TIGR00001"]}}), tigr_roles=_TR, ncbifam_ref=_NR)
+        edges = _tigr_edges(a, "G1")
+        assert edges == {"tigr.role:120": {"sources": ["interproscan"], "evidence": "family_inferred"}}
+
+    def test_subfamily_hit_gives_no_edge(self, tmp_path):
+        a = CogRoleAnnotationAdapter(_strain_dir(tmp_path, {
+            "G1": {"locus_tag": "G1", "ncbifam_ids": ["TIGR00004"]}}), tigr_roles=_TR, ncbifam_ref=_NR)
+        assert _tigr_edges(a, "G1") == {}
+
+    def test_curated_and_inferred_same_role_merge_into_one_edge(self, tmp_path):
+        a = CogRoleAnnotationAdapter(_strain_dir(tmp_path, {
+            "G1": {"locus_tag": "G1", "tIGR_Role": ["120"],
+                   "tIGR_Role_description": ["Energy metabolism / TCA cycle"],
+                   "ncbifam_ids": ["TIGR00001"]}}), tigr_roles=_TR, ncbifam_ref=_NR)
+        all_edges = [e for e in a.get_edges() if e[3] == "gene_has_tigr_role"]
+        assert len(all_edges) == 1
+        eid, src, tgt, _, props = all_edges[0]
+        assert eid == "G1-tigrrole-120"
+        assert props == {"sources": ["cyanorak", "interproscan"], "evidence": "curated"}
+
+    def test_disagreement_yields_two_edges(self, tmp_path):
+        a = CogRoleAnnotationAdapter(_strain_dir(tmp_path, {
+            "G1": {"locus_tag": "G1", "tIGR_Role": ["120"],
+                   "tIGR_Role_description": ["Energy metabolism / TCA cycle"],
+                   "ncbifam_ids": ["TIGR00002"]}}), tigr_roles=_TR, ncbifam_ref=_NR)
+        edges = _tigr_edges(a, "G1")
+        assert edges == {
+            "tigr.role:120": {"sources": ["cyanorak"], "evidence": "curated"},
+            "tigr.role:132": {"sources": ["interproscan"], "evidence": "family_inferred"},
+        }
+
+    def test_junk_role_still_emitted(self, tmp_path):
+        a = CogRoleAnnotationAdapter(_strain_dir(tmp_path, {
+            "G1": {"locus_tag": "G1", "ncbifam_ids": ["TIGR00003"]}}), tigr_roles=_TR, ncbifam_ref=_NR)
+        assert "tigr.role:156" in _tigr_edges(a, "G1")
+
+    def test_no_reference_means_curated_only(self, tmp_path):
+        a = CogRoleAnnotationAdapter(_strain_dir(tmp_path, {
+            "G1": {"locus_tag": "G1", "tIGR_Role": ["120"],
+                   "tIGR_Role_description": ["Energy metabolism / TCA cycle"],
+                   "ncbifam_ids": ["TIGR00001"]}}))
+        assert _tigr_edges(a, "G1") == {"tigr.role:120": {"sources": ["cyanorak"], "evidence": "curated"}}
+
+    def test_get_inferred_tigr_codes(self, tmp_path):
+        a = CogRoleAnnotationAdapter(_strain_dir(tmp_path, {
+            "G1": {"locus_tag": "G1", "ncbifam_ids": ["TIGR00001", "TIGR00004"]},
+            "G2": {"locus_tag": "G2", "ncbifam_ids": ["TIGR00003"]}}), tigr_roles=_TR, ncbifam_ref=_NR)
+        assert a.get_inferred_tigr_codes() == {"120", "156"}

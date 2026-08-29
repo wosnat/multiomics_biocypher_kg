@@ -28,11 +28,13 @@ KEGG section (MultiKeggAnnotationAdapter):
 COG/Role section (MultiCogRoleAnnotationAdapter):
 - CogFunctionalCategory nodes (25 standard letters, hardcoded).
 - CyanorakRole nodes (full ~172-node tree from data/cyanorak_roles.csv).
-- TigrRole nodes (only codes present in data, Pro/Syn strains only).
+- TigrRole nodes: two-level hierarchy (mainrole → subrole) for codes present in
+  data ∪ codes reached only through NCBIfam inference.
 - gene_in_cog_category edges (all 13 strains, from cog_category field).
 - gene_has_cyanorak_role edges (Pro/Syn 6 strains only).
 - cyanorak_role_is_a_cyanorak_role hierarchy edges (full tree).
-- gene_has_tigr_role edges (Pro/Syn 6 strains only).
+- gene_has_tigr_role edges: Cyanorak curation (Pro/Syn strains) ∪ equivalog
+  NCBIfam inference (all strains), merged per (gene, role).
 
 Pfam section (MultiPfamAnnotationAdapter):
 - Pfam domain nodes (~2K referenced by genes) with name and short_name.
@@ -52,6 +54,7 @@ from multiomics_kg.utils.annotation_provenance import annotation_edge_props
 from multiomics_kg.adapters.ec_adapter import EC
 from multiomics_kg.utils.kegg_utils import load_kegg_data
 from multiomics_kg.utils.cyanorak_role_utils import parse_cyanorak_role_tree, full_role_description
+from multiomics_kg.utils.tigr_roles import inferred_roles, mainrole_slug, split_role_name
 from multiomics_kg.utils.go_utils import (
     NAMESPACE_TO_LABEL,
     compute_ancestry_closure,
@@ -75,6 +78,13 @@ logger = logging.getLogger(__name__)
 _KO_EDGE_PROPS = {"sources": ["eggnog"], "evidence": "family_inferred"}
 _COG_EDGE_PROPS = {"sources": ["eggnog"], "evidence": "family_inferred"}
 _CYANORAK_EDGE_PROPS = {"sources": ["cyanorak"], "evidence": "curated"}
+
+# Inferred TIGR role: an equivalog NCBIfam family (InterProScan NCBIFAM facet)
+# whose JCVI role is known from the frozen TIGRFAMs 15.0 archive. Merged with
+# the curated Cyanorak edge for the same (gene, role): sources = union,
+# evidence = 'curated' when Cyanorak agrees (curated outranks family_inferred
+# on the ladder; TCDB eggNOG+diamond precedent).
+_INFERRED_TIGR_EDGE_PROPS = {"sources": ["interproscan"], "evidence": "family_inferred"}
 
 
 # Maps GO namespace string → gene→GO edge label_in_input value
@@ -851,6 +861,13 @@ def _tigr_role_node_id(code: str) -> str:
     return f"tigr.role:{code}"
 
 
+def _tigr_mainrole_node_id(mainrole: str) -> str:
+    """Node ID for a TIGR mainrole — same house-minted prefix as subroles
+    (one prefix per ontology, CyanorakRole precedent); local id is a slug,
+    never numeric, so it cannot collide with subrole codes."""
+    return f"tigr.role:{mainrole_slug(mainrole)}"
+
+
 def _role_depth(code: str, role_tree: dict[str, dict]) -> int:
     """
     Compute hierarchy depth for a CyanorakRole code by walking ``parent`` pointers.
@@ -877,9 +894,12 @@ class CogRoleAnnotationAdapter:
         test_mode: if True, stop after 100 edges per edge type
     """
 
-    def __init__(self, genome_dir: Path, test_mode: bool = False) -> None:
+    def __init__(self, genome_dir: Path, test_mode: bool = False,
+                 tigr_roles: dict | None = None, ncbifam_ref: dict | None = None) -> None:
         self.genome_dir = Path(genome_dir)
         self.test_mode = test_mode
+        self.tigr_roles = tigr_roles
+        self.ncbifam_ref = ncbifam_ref
         self._genes: dict = {}
         self._load()
 
@@ -908,6 +928,33 @@ class CogRoleAnnotationAdapter:
                 if code:
                     codes.add((code, desc or ""))
         return codes
+
+    def _gene_tigr_roles(self, gene: dict) -> dict[str, dict]:
+        """{role_code: edge_props} for one gene — curated (tIGR_Role) merged with
+        equivalog-inferred (ncbifam_ids); one entry per role."""
+        roles: dict[str, dict] = {}
+        for code in gene.get("tIGR_Role") or []:
+            if code:
+                roles[code] = dict(_CYANORAK_EDGE_PROPS)
+        if self.tigr_roles and self.ncbifam_ref:
+            for code in inferred_roles(gene.get("ncbifam_ids"), self.tigr_roles, self.ncbifam_ref):
+                if code in roles:
+                    roles[code] = {
+                        "sources": sorted(set(roles[code]["sources"]) | set(_INFERRED_TIGR_EDGE_PROPS["sources"])),
+                        "evidence": "curated",
+                    }
+                else:
+                    roles[code] = dict(_INFERRED_TIGR_EDGE_PROPS)
+        return roles
+
+    def get_inferred_tigr_codes(self) -> set[str]:
+        """Role codes reached by any gene of this strain through the equivalog gate."""
+        if not (self.tigr_roles and self.ncbifam_ref):
+            return set()
+        out: set[str] = set()
+        for gene in self._genes.values():
+            out.update(inferred_roles(gene.get("ncbifam_ids"), self.tigr_roles, self.ncbifam_ref))
+        return out
 
     def get_edges(self):
         """
@@ -954,16 +1001,14 @@ class CogRoleAnnotationAdapter:
                     )
                     return
 
-            # gene → tIGR role
-            for code in gene.get("tIGR_Role") or []:
-                if not code:
-                    continue
+            # gene → tIGR role (curated ∪ equivalog-inferred, merged per role)
+            for code, props in sorted(self._gene_tigr_roles(gene).items()):
                 yield (
                     f"{locus_tag}-tigrrole-{code}",
                     _gene_node_id(locus_tag),
                     _tigr_role_node_id(code),
                     "gene_has_tigr_role",
-                    dict(_CYANORAK_EDGE_PROPS),
+                    props,
                 )
                 tigr_count += 1
                 if self.test_mode and tigr_count >= 100:
@@ -986,11 +1031,16 @@ class MultiCogRoleAnnotationAdapter:
     Creates:
     - ``CogFunctionalCategory`` nodes (25 standard letters, hardcoded).
     - ``CyanorakRole`` nodes (full tree from ``role_tree_file``; all ~172 nodes).
-    - ``TigrRole`` nodes (only codes present in at least one strain's gene annotations).
+    - ``TigrRole`` nodes: two levels — subroles (level 1) from codes present in at
+      least one strain's gene annotations ∪ ``extra_tigr_roles``, plus their
+      deduped mainroles (level 0).
     - ``gene_in_cog_category`` edges from per-strain adapters (all strains).
     - ``gene_has_cyanorak_role`` edges from per-strain adapters (Pro/Syn only).
     - ``cyanorak_role_is_a_cyanorak_role`` hierarchy edges (full tree).
-    - ``gene_has_tigr_role`` edges from per-strain adapters (Pro/Syn only).
+    - ``gene_has_tigr_role`` edges from per-strain adapters: Cyanorak-curated
+      (Pro/Syn strains) ∪ equivalog-NCBIfam-inferred (all strains), merged
+      per (gene, role).
+    - ``tigr_role_is_a_tigr_role`` hierarchy edges (subrole → mainrole).
 
     Args:
         genome_config_file: path to ``cyanobacteria_genomes.csv``
@@ -1003,10 +1053,19 @@ class MultiCogRoleAnnotationAdapter:
         genome_config_file: str,
         role_tree_file: Path,
         test_mode: bool = False,
+        extra_tigr_roles: dict[str, str] | None = None,
+        tigr_roles: dict | None = None,
+        ncbifam_ref: dict | None = None,
     ) -> None:
         self.test_mode = test_mode
         self.role_tree = parse_cyanorak_role_tree(Path(role_tree_file))
         logger.info(f"MultiCogRoleAnnotationAdapter: loaded {len(self.role_tree)} Cyanorak role nodes")
+        # {code: "Main / Sub"} for TIGR roles reached only by NCBIfam inference
+        # (bridge or equivalog gene edge) and absent from every strain's Cyanorak data.
+        self.extra_tigr_roles: dict[str, str] = dict(extra_tigr_roles or {})
+        # Task 6: archive + NCBIfam reference for inferred gene edges.
+        self.tigr_roles = tigr_roles
+        self.ncbifam_ref = ncbifam_ref
         self._strain_adapters: list[CogRoleAnnotationAdapter] = []
         self._build_strain_adapters(genome_config_file)
 
@@ -1019,20 +1078,63 @@ class MultiCogRoleAnnotationAdapter:
             if not data_dir:
                 continue
             self._strain_adapters.append(
-                CogRoleAnnotationAdapter(genome_dir=Path(data_dir), test_mode=self.test_mode)
+                CogRoleAnnotationAdapter(genome_dir=Path(data_dir), test_mode=self.test_mode,
+                                         tigr_roles=self.tigr_roles, ncbifam_ref=self.ncbifam_ref)
             )
         logger.info(
             f"MultiCogRoleAnnotationAdapter: loaded {len(self._strain_adapters)} strain adapters"
         )
 
     def _all_tigr_codes(self) -> dict[str, str]:
-        """Collect all unique tIGR (code → description) pairs across all strains."""
+        """All (code → compound description) pairs: Cyanorak-observed ∪ extra_tigr_roles.
+        Cyanorak's text wins when both name a code (they are identical in practice —
+        110/110 measured)."""
         codes: dict[str, str] = {}
         for adapter in self._strain_adapters:
             for code, desc in adapter.get_all_tigr_codes():
                 if code not in codes:
                     codes[code] = desc
+        for code, desc in self.extra_tigr_roles.items():
+            codes.setdefault(code, desc)
         return codes
+
+    def _tigr_nodes(self) -> tuple[list[tuple[str, dict]], list[tuple[str, str]]]:
+        """Compute (nodes, is_a pairs) for the TigrRole ontology.
+
+        nodes: [(node_id, props)] — subroles (level 1) then mainroles (level 0, deduped).
+        pairs: [(subrole_id, mainrole_id)].
+        """
+        nodes: list[tuple[str, dict]] = []
+        pairs: list[tuple[str, str]] = []
+        mainroles: dict[str, str] = {}  # node_id -> mainrole text
+        for code, desc in sorted(self._all_tigr_codes().items()):
+            main, sub = split_role_name(desc)
+            if sub is None or not main:
+                nodes.append((_tigr_role_node_id(code),
+                              {"code": code, "name": _clean_str(desc),
+                               "level": 0, "level_kind": "tigr_mainrole"}))
+                continue
+            nodes.append((_tigr_role_node_id(code),
+                          {"code": code, "name": _clean_str(desc),
+                           "level": 1, "level_kind": "tigr_subrole"}))
+            mid = _tigr_mainrole_node_id(main)
+            mainroles.setdefault(mid, main)
+            pairs.append((_tigr_role_node_id(code), mid))
+        for mid, main in sorted(mainroles.items()):
+            nodes.append((mid, {"code": mainrole_slug(main), "name": _clean_str(main),
+                                "level": 0, "level_kind": "tigr_mainrole"}))
+        return nodes, pairs
+
+    def tigr_role_node_ids(self) -> set[str]:
+        """Every TigrRole node id get_nodes() emits (for bridge dangling guards)."""
+        return {nid for nid, _ in self._tigr_nodes()[0]}
+
+    def inferred_tigr_codes(self) -> set[str]:
+        """Union of every strain's equivalog-reached role codes."""
+        out: set[str] = set()
+        for adapter in self._strain_adapters:
+            out |= adapter.get_inferred_tigr_codes()
+        return out
 
     def get_nodes(self):
         """
@@ -1040,7 +1142,9 @@ class MultiCogRoleAnnotationAdapter:
 
         1. 25 COG functional category nodes (always, hardcoded).
         2. All CyanorakRole nodes from the full parsed tree (always all ~172).
-        3. TigrRole nodes: only codes present in at least one strain's gene annotations.
+        3. TigrRole nodes: two levels — subroles (level 1) from codes present in at
+           least one strain's gene annotations ∪ extra_tigr_roles, plus their
+           deduped mainroles (level 0); codes with no compound name are roots (level 0).
         """
         # 1. COG functional category nodes
         cog_count = 0
@@ -1068,25 +1172,23 @@ class MultiCogRoleAnnotationAdapter:
             cyr_count += 1
         logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {cyr_count} CyanorakRole nodes")
 
-        # 3. TigrRole nodes — only codes present in data
-        tigr_codes = self._all_tigr_codes()
-        tigr_count = 0
-        for code, desc in sorted(tigr_codes.items()):
-            yield (
-                _tigr_role_node_id(code),
-                "tigr role",
-                {"code": code, "name": _clean_str(desc), "level": 0},
-            )
-            tigr_count += 1
-        logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {tigr_count} TigrRole nodes")
+        # 3. TigrRole nodes — Cyanorak-observed ∪ inference-reached codes, two levels
+        tigr_nodes, _ = self._tigr_nodes()
+        for node_id, props in tigr_nodes:
+            yield (node_id, "tigr role", props)
+        logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {len(tigr_nodes)} TigrRole nodes "
+                    f"({sum(1 for _, p in tigr_nodes if p['level'] == 1)} subroles, "
+                    f"{sum(1 for _, p in tigr_nodes if p['level'] == 0)} mainroles/roots)")
 
     def get_edges(self):
         """
         Yield all COG/role edges:
         1. gene→COG category (all strains)
         2. gene→CyanorakRole (Pro/Syn strains; Alteromonas silently yields nothing)
-        3. gene→TigrRole (Pro/Syn strains)
+        3. gene→TigrRole: Cyanorak-curated (Pro/Syn strains) ∪ equivalog-NCBIfam-
+           inferred (all strains), merged per (gene, role)
         4. CyanorakRole→parent (full hierarchy tree)
+        5. TigrRole→mainrole (subrole → mainrole hierarchy)
         """
         # 1–3. Per-strain gene→* edges
         cog_count = cyr_count = tigr_count = 0
@@ -1125,6 +1227,18 @@ class MultiCogRoleAnnotationAdapter:
         logger.info(
             f"MultiCogRoleAnnotationAdapter.get_edges: {hier_count} CyanorakRole hierarchy edges"
         )
+
+        # 5. TigrRole hierarchy: subrole → mainrole
+        _, pairs = self._tigr_nodes()
+        for sub_id, main_id in pairs:
+            yield (
+                f"{sub_id.split(':', 1)[1]}-tigr_is_a-{main_id.split(':', 1)[1]}",
+                sub_id,
+                main_id,
+                "tigr_role_is_a_tigr_role",
+                {},
+            )
+        logger.info(f"MultiCogRoleAnnotationAdapter.get_edges: {len(pairs)} TigrRole is_a edges")
 
 
 # ---------------------------------------------------------------------------

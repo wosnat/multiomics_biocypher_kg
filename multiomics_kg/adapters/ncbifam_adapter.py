@@ -43,6 +43,7 @@ from typing import Iterator
 
 from multiomics_kg.utils.curie_utils import normalize_curie
 from multiomics_kg.adapters.interpro_adapter import _interpro_node_id
+from multiomics_kg.utils.tigr_roles import load_tigr_roles
 
 logger = logging.getLogger(__name__)
 
@@ -70,6 +71,11 @@ def _ncbifam_node_id(acc: str) -> str:
     # follow-up (plans/backlog.md). The underscore convention remains for flat
     # structural vocabularies (psortb_/signalp_).
     return f"ncbifam:{acc}"
+
+
+def _tigr_role_node_id(code: str) -> str:
+    """Must match functional_annotation_adapter._tigr_role_node_id (bridge target)."""
+    return f"tigr.role:{code}"
 
 
 def _best_facet_row(rows: list[dict]) -> dict:
@@ -192,6 +198,7 @@ class MultiNcbifamAdapter:
         genome_config_file: str,
         cache_root: str | Path = "cache/data",
         interpro_kept_ids: set[str] | None = None,
+        tigr_role_node_ids: set[str] | None = None,
         test_mode: bool = False,
     ) -> None:
         self.test_mode = test_mode
@@ -200,6 +207,9 @@ class MultiNcbifamAdapter:
         # guarantee the InterproEntry endpoints exist). A provided set (even
         # empty) prunes to it.
         self.interpro_kept_ids = interpro_kept_ids
+        # None = TigrRole node-id set not provided → emit NO TigrRole bridge edges.
+        self.tigr_role_node_ids = tigr_role_node_ids
+        self._tigr_roles: dict | None = None
         self._reference: dict[str, dict] = {}
         self._strain_adapters: list[NcbifamAnnotationAdapter] = []
         self._build_strain_adapters(genome_config_file)
@@ -231,11 +241,20 @@ class MultiNcbifamAdapter:
             self._reference = json.load(fh)
         logger.info(f"MultiNcbifamAdapter: loaded {len(self._reference)} reference entries")
 
+        self._tigr_roles = load_tigr_roles(self.cache_root)
+        if self._tigr_roles is None:
+            logger.warning("tigr_roles.json missing under %s — no Ncbifam_family_has_tigr_role edges",
+                           self.cache_root / "ncbifam")
+
     def _observed_ids(self) -> set[str]:
         ids: set[str] = set()
         for adapter in self._strain_adapters:
             ids |= adapter.get_all_ncbifam_ids()
         return ids
+
+    def observed_ids(self) -> set[str]:
+        """Public: distinct NCBIfam accessions observed across all strains."""
+        return self._observed_ids()
 
     def get_nodes(self) -> Iterator[tuple[str, str, dict]]:
         if not self._reference:
@@ -314,6 +333,27 @@ class MultiNcbifamAdapter:
             )
             bridge += 1
 
+        # 1b. NcbifamFamily → TigrRole bridge (TIGRFAMs 15.0 archive; TIGR* only,
+        # UNGATED by family_type — ontology→ontology record of JCVI's assignment;
+        # the equivalog gate applies only to gene-level inference elsewhere).
+        role_bridge = skipped = 0
+        family_role = (self._tigr_roles or {}).get("family_role") or {}
+        if self.tigr_role_node_ids is not None and family_role:
+            for acc in sorted(observed):
+                for code in family_role.get(acc) or []:
+                    target = _tigr_role_node_id(code)
+                    if target not in self.tigr_role_node_ids:
+                        skipped += 1
+                        continue
+                    yield (
+                        f"{acc}-has_tigr_role-{code}",
+                        _ncbifam_node_id(acc),
+                        target,
+                        "ncbifam_family_has_tigr_role",
+                        {},
+                    )
+                    role_bridge += 1
+
         # 2. Gene → NcbifamFamily edges via per-strain delegation
         gene = 0
         for adapter in self._strain_adapters:
@@ -321,5 +361,6 @@ class MultiNcbifamAdapter:
                 yield edge
                 gene += 1
         logger.info(
-            f"MultiNcbifamAdapter.get_edges: {bridge} interpro-bridge, {gene} gene edges"
+            f"MultiNcbifamAdapter.get_edges: {bridge} interpro-bridge, "
+            f"{role_bridge} tigr-role-bridge ({skipped} skipped: no TigrRole node), {gene} gene edges"
         )

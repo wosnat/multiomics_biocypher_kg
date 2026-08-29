@@ -1,33 +1,33 @@
 {
-  "captured_at": "2026-08-29T08:43:33.875966+00:00",
+  "captured_at": "2026-08-29T09:04:34.840172+00:00",
   "neo4j_url": "bolt://localhost:7687",
-  "total_genes": 127458,
+  "total_genes": 127035,
   "annotation_state": {
-    "no_evidence": 12268,
-    "catch_all_only": 6425,
-    "informative_single": 12969,
-    "informative_multi": 95796
+    "no_evidence": 12076,
+    "catch_all_only": 6368,
+    "informative_single": 12894,
+    "informative_multi": 95697
   },
   "annotation_quality": {
-    "0": 12268,
-    "1": 6425,
-    "2": 12969,
-    "3": 95796
+    "0": 12076,
+    "1": 6368,
+    "2": 12894,
+    "3": 95697
   },
   "annotation_types": {
     "brite": 53998,
     "cazy": 1953,
     "cog_category": 107940,
     "cyanorak_role": 35590,
-    "ec": 50261,
-    "go_bp": 67747,
-    "go_cc": 46245,
-    "go_mf": 77466,
+    "ec": 50230,
+    "go_bp": 67696,
+    "go_cc": 46219,
+    "go_mf": 77403,
     "interpro": 104764,
     "kegg": 68593,
     "merops": 343,
     "ncbifam": 48182,
-    "pfam": 105664,
+    "pfam": 105506,
     "tcdb": 14745,
     "tigr_role": 43778
   },
@@ -36,32 +36,32 @@
     "cazy": 1953,
     "cog_category": 79163,
     "cyanorak_role": 28603,
-    "ec": 50261,
-    "go_bp": 67661,
-    "go_cc": 46147,
-    "go_mf": 77379,
+    "ec": 50230,
+    "go_bp": 67610,
+    "go_cc": 46121,
+    "go_mf": 77316,
     "kegg": 66148,
     "merops": 343,
     "ncbifam": 46992,
-    "pfam": 105664,
+    "pfam": 105506,
     "reaction": 27965,
     "tigr_role": 30772,
     "transporter": 14745
   },
   "informative_annotation_types_size_histogram": {
-    "0": 18637,
-    "1": 12640,
-    "2": 8021,
-    "3": 6067,
-    "4": 8401,
-    "5": 8192,
-    "6": 8297,
-    "7": 9232,
-    "8": 11681,
-    "9": 12145,
-    "10": 12203,
-    "11": 6450,
-    "12": 5209,
+    "0": 18388,
+    "1": 12570,
+    "2": 8004,
+    "3": 6045,
+    "4": 8375,
+    "5": 8161,
+    "6": 8266,
+    "7": 9218,
+    "8": 11682,
+    "9": 12151,
+    "10": 12218,
+    "11": 6458,
+    "12": 5216,
     "13": 262,
     "14": 21
   },
@@ -139,28 +139,28 @@
       "no_evidence": 317
     },
     "Prochlorococcus AS9601": {
-      "catch_all_only": 220,
+      "catch_all_only": 218,
       "informative_multi": 1391,
-      "informative_single": 232,
-      "no_evidence": 108
+      "informative_single": 230,
+      "no_evidence": 106
     },
     "Prochlorococcus MED4": {
       "catch_all_only": 229,
-      "informative_multi": 1396,
+      "informative_multi": 1395,
       "informative_single": 230,
-      "no_evidence": 121
+      "no_evidence": 119
     },
     "Prochlorococcus MIT0604": {
-      "catch_all_only": 271,
-      "informative_multi": 1431,
-      "informative_single": 252,
-      "no_evidence": 183
+      "catch_all_only": 266,
+      "informative_multi": 1426,
+      "informative_single": 246,
+      "no_evidence": 173
     },
     "Prochlorococcus MIT0801": {
-      "catch_all_only": 190,
-      "informative_multi": 1491,
-      "informative_single": 242,
-      "no_evidence": 435
+      "catch_all_only": 187,
+      "informative_multi": 1487,
+      "informative_single": 236,
+      "no_evidence": 420
     },
     "Prochlorococcus MIT1314": {
       "catch_all_only": 201,
@@ -175,64 +175,64 @@
       "no_evidence": 220
     },
     "Prochlorococcus MIT9202": {
-      "catch_all_only": 239,
-      "informative_multi": 1398,
-      "informative_single": 239,
-      "no_evidence": 151
+      "catch_all_only": 235,
+      "informative_multi": 1390,
+      "informative_single": 235,
+      "no_evidence": 145
     },
     "Prochlorococcus MIT9215": {
-      "catch_all_only": 228,
-      "informative_multi": 1424,
-      "informative_single": 237,
-      "no_evidence": 141
+      "catch_all_only": 227,
+      "informative_multi": 1421,
+      "informative_single": 235,
+      "no_evidence": 139
     },
     "Prochlorococcus MIT9301": {
-      "catch_all_only": 216,
-      "informative_multi": 1393,
+      "catch_all_only": 213,
+      "informative_multi": 1391,
       "informative_single": 219,
-      "no_evidence": 107
+      "no_evidence": 103
     },
     "Prochlorococcus MIT9303": {
-      "catch_all_only": 220,
-      "informative_multi": 1907,
-      "informative_single": 287,
-      "no_evidence": 700
+      "catch_all_only": 217,
+      "informative_multi": 1903,
+      "informative_single": 286,
+      "no_evidence": 685
     },
     "Prochlorococcus MIT9312": {
-      "catch_all_only": 235,
-      "informative_multi": 1408,
-      "informative_single": 226,
-      "no_evidence": 109
+      "catch_all_only": 234,
+      "informative_multi": 1406,
+      "informative_single": 225,
+      "no_evidence": 105
     },
     "Prochlorococcus MIT9313": {
-      "catch_all_only": 190,
-      "informative_multi": 1799,
-      "informative_single": 303,
-      "no_evidence": 656
+      "catch_all_only": 186,
+      "informative_multi": 1789,
+      "informative_single": 292,
+      "no_evidence": 639
     },
     "Prochlorococcus MIT9515": {
       "catch_all_only": 205,
-      "informative_multi": 1416,
+      "informative_multi": 1413,
       "informative_single": 206,
-      "no_evidence": 122
+      "no_evidence": 121
     },
     "Prochlorococcus NATL1A": {
-      "catch_all_only": 181,
-      "informative_multi": 1450,
-      "informative_single": 243,
-      "no_evidence": 352
+      "catch_all_only": 180,
+      "informative_multi": 1449,
+      "informative_single": 242,
+      "no_evidence": 350
     },
     "Prochlorococcus NATL2A": {
-      "catch_all_only": 183,
+      "catch_all_only": 182,
       "informative_multi": 1435,
       "informative_single": 230,
-      "no_evidence": 366
+      "no_evidence": 363
     },
     "Prochlorococcus PAC1": {
-      "catch_all_only": 208,
-      "informative_multi": 1451,
-      "informative_single": 238,
-      "no_evidence": 473
+      "catch_all_only": 200,
+      "informative_multi": 1427,
+      "informative_single": 233,
+      "no_evidence": 457
     },
     "Prochlorococcus RSP50": {
       "catch_all_only": 200,
@@ -241,16 +241,16 @@
       "no_evidence": 97
     },
     "Prochlorococcus SB": {
-      "catch_all_only": 228,
-      "informative_multi": 1389,
-      "informative_single": 230,
-      "no_evidence": 130
+      "catch_all_only": 220,
+      "informative_multi": 1377,
+      "informative_single": 225,
+      "no_evidence": 128
     },
     "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)": {
       "catch_all_only": 159,
       "informative_multi": 1408,
       "informative_single": 195,
-      "no_evidence": 202
+      "no_evidence": 197
     },
     "Pseudomonas putida KT2440": {
       "catch_all_only": 45,
@@ -271,10 +271,10 @@
       "no_evidence": 337
     },
     "Synechococcus CC9311": {
-      "catch_all_only": 340,
-      "informative_multi": 1985,
-      "informative_single": 344,
-      "no_evidence": 383
+      "catch_all_only": 336,
+      "informative_multi": 1984,
+      "informative_single": 343,
+      "no_evidence": 375
     },
     "Synechococcus PCC 7002": {
       "catch_all_only": 35,
@@ -283,22 +283,22 @@
       "no_evidence": 362
     },
     "Synechococcus WH7803": {
-      "catch_all_only": 358,
-      "informative_multi": 1839,
-      "informative_single": 368,
-      "no_evidence": 56
+      "catch_all_only": 353,
+      "informative_multi": 1835,
+      "informative_single": 360,
+      "no_evidence": 42
     },
     "Synechococcus WH8102": {
-      "catch_all_only": 450,
-      "informative_multi": 1958,
-      "informative_single": 341,
-      "no_evidence": 132
+      "catch_all_only": 449,
+      "informative_multi": 1959,
+      "informative_single": 335,
+      "no_evidence": 87
     },
     "Synechococcus WH8109": {
-      "catch_all_only": 437,
-      "informative_multi": 1736,
-      "informative_single": 327,
-      "no_evidence": 207
+      "catch_all_only": 436,
+      "informative_multi": 1728,
+      "informative_single": 318,
+      "no_evidence": 199
     },
     "Synechococcus elongatus PCC 7942": {
       "catch_all_only": 29,
@@ -313,10 +313,10 @@
       "no_evidence": 306
     },
     "Synechococcus sp. BL107": {
-      "catch_all_only": 272,
-      "informative_multi": 1835,
-      "informative_single": 336,
-      "no_evidence": 152
+      "catch_all_only": 270,
+      "informative_multi": 1827,
+      "informative_single": 329,
+      "no_evidence": 141
     },
     "Thermosynechococcus vestitus BP-1": {
       "catch_all_only": 23,

@@ -34,11 +34,18 @@ version-bump re-scan.
 - [ ] **antiSMASH BGC detection** — `/add-a-tool` candidate; siderophore /
   vitamin cross-feeding currency; per-genome region calls (new calls.json
   shape per the add-a-tool table).
-- [ ] **`Ncbifam_family_has_tigr_role` bridge** — TIGR\* families → existing
-  `TigrRole` nodes via JCVI's frozen `TIGRFAMS_ROLE_LINK` archive. Gives
-  non-Cyanorak strains (all Alteromonas) role-category access via 2-hop
-  `gene → NcbifamFamily → TigrRole`, plus a Cyanorak-role QC cross-check.
-  Partial by nature (NF* families have no roles).
+- [x] **`Ncbifam_family_has_tigr_role` bridge — DONE 2026-08-29.** Shipped with
+  more than the 2-hop this bullet asked for: the bridge exists (~1.9K edges,
+  `TIGR*` only, no properties), *and* the equivalog subset of it is materialized
+  as direct `Gene_has_tigr_role` edges, so non-Cyanorak strains get role access
+  in one hop through the existing MCP ontology tools. The Cyanorak QC
+  cross-check is queryable via `evidence` (`curated` vs `family_inferred`) —
+  557 disagreements, sampled as facet choices rather than errors. `TigrRole`
+  also became two-level in the same pass. Still partial by nature (2,753 `NF*`
+  families post-date the frozen role system), so role ORA needs a per-organism
+  background of genes with ≥ 1 role edge.
+  → `docs/kg-changes/tigr-role-bridge.md`,
+  `docs/superpowers/specs/2026-08-28-tigrrole-hierarchy-ncbifam-bridge-design.md`
 - [ ] **NCBIfam EC/GO xref propagation to genes** — `ncbifam_reference.json`
   already carries them; add as another gated enrichment source in the
   step-2 merge (same pattern as InterPro's).

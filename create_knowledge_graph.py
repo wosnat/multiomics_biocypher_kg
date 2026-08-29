@@ -1,4 +1,5 @@
 import argparse
+import json
 import logging
 import os
 import sys
@@ -29,6 +30,12 @@ from multiomics_kg.adapters.data_source_adapter import DataSourceAdapter
 from multiomics_kg.adapters.controlled_vocabulary_adapter import (
     ControlledVocabularyAdapter,
 )
+
+
+# Child of the "multiomics_kg" package logger that configure_logging() attaches
+# its stdout handler to, so orchestration-level diagnostics land in the build log
+# alongside the adapters' own INFO lines.
+logger = logging.getLogger("multiomics_kg.create_knowledge_graph")
 
 
 def configure_logging() -> None:
@@ -252,14 +259,44 @@ def main():
     bc.write_nodes(brite_adapter.get_nodes())
     bc.write_edges(brite_adapter.get_edges())
 
-    # COG functional categories + Cyanorak roles + tIGR roles
+    # COG functional categories + Cyanorak roles + tIGR roles.
+    # TIGR roles: Cyanorak-curated (Pro/Syn) ∪ equivalog-inferred from NCBIfam
+    # TIGR* hits via the frozen TIGRFAMs 15.0 archive (all strains). Roles that
+    # only inference reaches (bridge or gene edge) get nodes through
+    # extra_tigr_roles so nothing dangles. See
+    # docs/kg-changes/tigr-role-bridge.md.
+    from multiomics_kg.utils.tigr_roles import load_tigr_roles, role_name
+    tigr_roles = load_tigr_roles(Path("cache/data"))
+    ncbifam_ref_path = Path("cache/data/ncbifam/ncbifam_reference.json")
+    ncbifam_ref = json.loads(ncbifam_ref_path.read_text(encoding="utf-8")) if ncbifam_ref_path.exists() else {}
+    if tigr_roles is None:
+        logger.warning("cache/data/ncbifam/tigr_roles.json missing — TigrRole inference + bridge disabled "
+                       "(run prepare_data.sh --steps 9)")
+    # Roles reachable by the ontology bridge = every observed TIGR* accession's archive role.
+    from multiomics_kg.adapters.ncbifam_adapter import MultiNcbifamAdapter
+    ncbifam_adapter = MultiNcbifamAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        cache_root="cache/data",
+        interpro_kept_ids=None,  # set below once interpro_adapter exists
+        test_mode=TEST_MODE,
+    )
+    bridge_codes: set[str] = set()
+    if tigr_roles is not None:
+        family_role = tigr_roles["family_role"]
+        bridge_codes = {c for a in ncbifam_adapter.observed_ids() for c in family_role.get(a, [])}
     cog_role_adapter = MultiCogRoleAnnotationAdapter(
         genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
         role_tree_file=Path("data/cyanorak_roles.csv"),
         test_mode=TEST_MODE,
+        tigr_roles=tigr_roles,
+        ncbifam_ref=ncbifam_ref,
     )
+    if tigr_roles is not None:
+        reached = bridge_codes | cog_role_adapter.inferred_tigr_codes()
+        cog_role_adapter.extra_tigr_roles = {c: role_name(c, tigr_roles) for c in reached}
     bc.write_nodes(cog_role_adapter.get_nodes())
     bc.write_edges(cog_role_adapter.get_edges())
+    tigr_role_node_ids = cog_role_adapter.tigr_role_node_ids()
 
     # Pfam domain families + PfamClan superfamilies + gene→Pfam edges (always runs, cached)
     pfam_adapter = MultiPfamAnnotationAdapter(
@@ -341,13 +378,11 @@ def main():
     # (prepare_data step 9) for node names/family_type. InterPro kept-id set
     # injected for dangling-proof Ncbifam_family_in_interpro_entry bridge
     # edges (Pfam-bridge precedent) — must run after interpro_adapter.download_data().
-    from multiomics_kg.adapters.ncbifam_adapter import MultiNcbifamAdapter
-    ncbifam_adapter = MultiNcbifamAdapter(
-        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
-        cache_root="cache/data",
-        interpro_kept_ids=interpro_adapter.kept_node_accessions(),
-        test_mode=TEST_MODE,
-    )
+    # The adapter itself is constructed up in the COG/role block, because the
+    # TigrRole node set needs its observed_ids() (merged-JSON only, no reference
+    # load) to know which roles the ontology bridge can reach.
+    ncbifam_adapter.interpro_kept_ids = interpro_adapter.kept_node_accessions()
+    ncbifam_adapter.tigr_role_node_ids = tigr_role_node_ids
     ncbifam_adapter.download_data(cache=CACHE)
     # Materialize + guard (metabolite_assay_adapter precedent): the node/edge
     # sets are observed-only from merged `ncbifam_ids` seeds, which can be
