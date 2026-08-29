@@ -207,6 +207,24 @@ Section references below are into that plan file, which holds the full designs.
       should feed the §2.1C cluster `functional_description`s when 2.1C lands.
 ## Explorer / MCP coordination
 
+- [ ] **Per-value descriptions on the trust vocabularies (explorer B1, decided
+      2026-08-29: option A).** Add an optional `value_descriptions` key to
+      `config/controlled_vocabularies.yaml` — emitted as `str[]` of
+      `"<value>: <one line>"` (Neo4j has no map property; self-describing, the
+      explorer splits on the first `: `) — for the ~11 vocabularies
+      `list_filter_values` serves on trust filters: `evidence` (all 14 edge
+      types share the ladder text), `sources`, `call_class`, `best_hit_kind`,
+      `attachment_depth`, `substrate_depth`, `pfam_support`, `go_support`,
+      `source_agreement`, `detection_status`, `table_scope`,
+      `annotation_state`. Loader validates every described value is declared
+      and, when the key is present on a closed vocab, that every value is
+      described; NOT part of `controlled_vocabularies_hash` (wording may
+      improve without a re-pin); schema slot `value_descriptions: str[]`
+      (sparse). Unblocks explorer 2.3; nothing else reads it. Hash-neutral —
+      rides any rebuild after #3.
+      → `docs/kg-changes/2026-08-28-explorer-handoff.md` B1,
+      `multiomics_kg/utils/controlled_vocab.py`, `controlled_vocabulary_adapter.py`
+
 - [ ] **File an upstream Bioregistry new-prefix request for `ncbifam`.**
       KG-SYNC-002 (2026-08-19) minted `ncbifam:` as a house colon-CURIE prefix
       for `NcbifamFamily` node ids — `ncbifam` is registered nowhere today
