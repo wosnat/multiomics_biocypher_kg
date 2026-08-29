@@ -94,9 +94,11 @@ def build_tigr_roles(force: bool = False, refetch_raw: bool = False) -> dict:
     """Build (and cache) ``tigr_roles.json`` from the frozen TIGRFAMs 15.0 archive.
 
     ``{"release", "roles": {role_id: {mainrole, sub1role}}, "family_role":
-    {TIGR_acc: role_id}}``. Unnamed roles (``719``) are excluded from both maps.
-    On a download failure the committed file is reused with a warning (TCDB
-    outage precedent); only a missing file is fatal.
+    {TIGR_acc: [role_id, ...]}}`` — a family may carry more than one role (296
+    of 2,963 in release 15.0), so ``family_role`` values are sorted,
+    deduplicated lists, not a single id. Unnamed roles (``719``) are excluded
+    from both maps. On a download failure the committed file is reused with a
+    warning (TCDB outage precedent); only a missing file is fatal.
     """
     existing = _load_tigr_roles_json()
     if existing is not None and not force and not refetch_raw:
@@ -124,8 +126,9 @@ def build_tigr_roles(force: bool = False, refetch_raw: bool = False) -> dict:
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     with open(TIGR_ROLES_JSON, "w", encoding="utf-8") as fh:
         json.dump(out, fh, indent=1, sort_keys=True)
-    logger.info("Wrote %s: %d named roles, %d family→role links",
-                TIGR_ROLES_JSON, len(roles), len(family_role))
+    logger.info("Wrote %s: %d named roles, %d families with a role (%d role assignments)",
+                TIGR_ROLES_JSON, len(roles), len(family_role),
+                sum(len(rs) for rs in family_role.values()))
     return out
 
 

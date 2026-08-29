@@ -34,7 +34,7 @@ def test_build_tigr_roles_writes_expected_shape(cache):
     assert out["release"].startswith("TIGRFAMs 15.0")
     assert out["roles"] == {"132": {"mainrole": "DNA metabolism",
                                     "sub1role": "DNA replication, recombination, and repair"}}
-    assert out["family_role"] == {"TIGR00001": "132"}
+    assert out["family_role"] == {"TIGR00001": ["132"]}
     on_disk = json.loads((cache / "tigr_roles.json").read_text())
     assert on_disk == out
 

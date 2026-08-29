@@ -84,12 +84,18 @@ def test_parse_tigr_role_names_drops_roles_without_mainrole():
 def test_parse_tigr_role_link_keeps_only_named_roles():
     roles = parse_tigr_role_names(ROLE_NAMES)
     link = parse_tigr_role_link(ROLE_LINK, roles)
-    assert link == {"TIGR00001": "132", "TIGR00002": "100"}
+    assert link == {"TIGR00001": ["132"], "TIGR00002": ["100"]}
+
+
+def test_parse_tigr_role_link_keeps_multiple_roles_per_family():
+    roles = parse_tigr_role_names(ROLE_NAMES)
+    link = parse_tigr_role_link(["TIGR00009\t132", "TIGR00009\t100", "TIGR00009\t132"], roles)
+    assert link == {"TIGR00009": ["100", "132"]}
 
 
 def test_parse_tigr_role_link_strips_version_suffix():
     roles = parse_tigr_role_names(ROLE_NAMES)
-    assert parse_tigr_role_link(["TIGR00005.1\t132"], roles) == {"TIGR00005": "132"}
+    assert parse_tigr_role_link(["TIGR00005.1\t132"], roles) == {"TIGR00005": ["132"]}
 
 
 def test_parsers_fail_loud_on_nonempty_garbage():

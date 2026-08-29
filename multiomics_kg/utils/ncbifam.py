@@ -144,14 +144,16 @@ def parse_tigr_role_names(lines: Iterable[str]) -> dict[str, dict]:
     }
 
 
-def parse_tigr_role_link(lines: Iterable[str], roles: dict[str, dict]) -> dict[str, str]:
-    """Parse ``TIGRFAMS_ROLE_LINK`` → ``{unversioned_TIGR_acc: role_id}``.
+def parse_tigr_role_link(lines: Iterable[str], roles: dict[str, dict]) -> dict[str, list[str]]:
+    """Parse ``TIGRFAMS_ROLE_LINK`` → ``{unversioned_TIGR_acc: [role_id, ...]}``.
 
+    A family may carry more than one role (296 of 2,963 in release 15.0, e.g.
+    CsrA = Glycolysis + RNA interactions); all are kept, sorted, deduplicated.
     Links to roles absent from *roles* (unnamed or unknown) are dropped so the
     result is closed over the named-role set. Raises ``ValueError`` when
     non-empty input yields no parseable pair.
     """
-    out: dict[str, str] = {}
+    out: dict[str, set[str]] = {}
     n_lines = n_parsed = 0
     for line in lines:
         line = line.rstrip("\n")
@@ -167,7 +169,7 @@ def parse_tigr_role_link(lines: Iterable[str], roles: dict[str, dict]) -> dict[s
             continue
         n_parsed += 1
         if role_id in roles:
-            out[acc] = role_id
+            out.setdefault(acc, set()).add(role_id)
     if n_lines and not n_parsed:
         raise ValueError("TIGRFAMS_ROLE_LINK: non-empty input parsed to zero links — format drift?")
-    return out
+    return {acc: sorted(rs) for acc, rs in out.items()}
