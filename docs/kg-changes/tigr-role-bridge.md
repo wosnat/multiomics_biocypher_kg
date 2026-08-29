@@ -10,8 +10,8 @@ Until now `TigrRole` was the KG's only hierarchical ontology with no `is_a`
 edges — 114 flat nodes (`level = 0` everywhere) whose two-level JCVI
 mainrole/subrole scheme was buried inside compound names
 (`"Energy metabolism / TCA cycle"`). And its only source was the Cyanorak GFF
-`tIGR_Role` field, so only the 19 Cyanorak-annotated *Prochlorococcus* /
-*Synechococcus* strains carried `Gene_has_tigr_role` edges at all; the other 24
+`tIGR_Role` field, so only the 22 Cyanorak-annotated *Prochlorococcus* /
+*Synechococcus* strains carried `Gene_has_tigr_role` edges at all; the other 21
 strains (every *Alteromonas*, every heterotroph, PCC/UTEX/BP1, MIT1314, RSP50)
 had none.
 
@@ -35,8 +35,9 @@ Mainroles reuse the single existing `tigr.role` prefix rather than minting a
 second one (the CyanorakRole precedent — `cyanorak.role:R` / `R.1`). `tigr.role`
 is house-minted: it is not a bioregistry prefix, and the registered `tigrfam`
 prefix is the *family* namespace (`^TIGR\d+$`), not roles. No id collision is
-possible — subrole local ids are all-numeric, mainrole slugs alphabetic — and
-`level_kind` is the authoritative discriminator either way.
+possible (subrole ids are numeric, slug ids alphabetic), but two Cyanorak-only
+level-0 roots keep numeric ids (`856`, `270`) — `level_kind` is the only
+reliable level discriminator.
 
 ### 2. `Ncbifam_family_has_tigr_role` — the ontology bridge
 
@@ -80,7 +81,7 @@ emits `Gene_has_tigr_role` with `sources: ['interproscan']`,
   the nodes are already flagged `is_uninformative`, and dropping the edges would
   hide the fact that a family *is* "hypothetical".
 
-Result: `Gene_has_tigr_role` now spans **all 43 organisms**, not 19.
+Result: `Gene_has_tigr_role` now spans **all 43 organisms**, not just the 22 Cyanorak-curated ones.
 
 ### 4. `gene_category` fill-only + `[tigr_role_inferred]` description lines
 
@@ -346,14 +347,14 @@ hypoth_equivalog 185 · equivalog_domain 123 · other 198) — the difference is
 | `annotation_state` / `annotation_quality` movement | **0** |
 | Non-Cyanorak genes whose TIGR category differs from the COG one | 7,837 of 19,115 (41%) — schemes carve biology differently, **not** an error rate; fill-only means zero churn |
 
-**Graph shape** (`--test` smoke build; a full build lands close to these):
+**Graph shape** (measured full build, 2026-08-29):
 
-| Object | `--test` | full-build expectation |
-|---|---|---|
-| `TigrRole` nodes | 136 (115 subrole / 21 mainrole-or-root) | ~140 (was 114, all flat) |
-| `Tigr_role_is_a_tigr_role` | 115 | ~115 |
-| `Ncbifam_family_has_tigr_role` | 1,847 (0 skipped as dangling) | ~1.9K |
-| `Gene_has_tigr_role` | — | ~13.6K → ~27K, across 43 organisms (was 19) |
+| Object | Value |
+|---|---|
+| `TigrRole` nodes | 136 (115 subroles, 21 level-0: 19 mainroles + 2 Cyanorak-only numeric roots `tigr.role:856` / `tigr.role:270`) — was 114, all flat |
+| `Tigr_role_is_a_tigr_role` | 115 |
+| `Ncbifam_family_has_tigr_role` | 1,847 (0 skipped as dangling) |
+| `Gene_has_tigr_role` | 49,213 → 65,542 (16,329 inferred-only + 9,640 corroborated merges), across 43 organisms (was 22 Cyanorak-curated only) |
 
 ## Dropped sources (checked, not shipped)
 

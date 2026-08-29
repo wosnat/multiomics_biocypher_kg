@@ -262,7 +262,7 @@ WHERE t.id IN ['cyanorak.role:R','cyanorak.role:R.1','cyanorak.role:R.2',
 SET t.is_uninformative = 'true';
 
 MATCH (t:TigrRole)
-WHERE t.id IN ['tigr.role:156','tigr.role:704','tigr.role:856',
+WHERE t.id IN ['tigr.role:156','tigr.role:704','tigr.role:856','tigr.role:270',
                'tigr.role:185','tigr.role:157',
                'tigr.role:hypothetical_proteins','tigr.role:unknown_function',
                'tigr.role:unclassified']

@@ -61,10 +61,13 @@ from multiomics_kg.download.utils.paths import PROJECT_ROOT, infer_organism_grou
 
 # ─── gene_category mapping tables ─────────────────────────────────────────────
 # Map functional role annotations to ~26 controlled gene_category values.
-# Three independent classification systems are used in priority order:
+# Four independent classification systems are used in priority order:
 #   1. Cyanorak Role (cyanobacteria only, highest specificity)
-#   2. TIGR Role (cyanobacteria only)
+#   2. Cyanorak TIGR Role (cyanobacteria only)
 #   3. COG category (universal, from eggNOG)
+#   4. NCBIfam-bridged TIGR role (fill-only, all strains; see
+#      apply_tigr_role_inference — can only turn 'Unknown' into a category,
+#      never override priorities 1-3)
 #
 # WARNING: COG and Cyanorak use the SAME single-letter codes for DIFFERENT
 # functions. E.g., COG "E" = Amino acid metabolism, Cyanorak "E" = Central
@@ -168,7 +171,9 @@ VALID_CATEGORIES = frozenset(
 
 
 def _compute_gene_category(result: dict) -> str:
-    """Compute gene_category from Cyanorak Role → TIGR Role → COG category."""
+    """Compute gene_category from Cyanorak Role → Cyanorak TIGR Role → COG
+    category. Priority 4 (NCBIfam-bridged TIGR role, fill-only, all strains)
+    is applied afterward by apply_tigr_role_inference."""
     gene_category = None
 
     # Priority 1: Cyanorak Role (cyanobacteria only)
@@ -187,7 +192,7 @@ def _compute_gene_category(result: dict) -> str:
     if not gene_category or gene_category == "Unknown":
         tigr_descs = result.get("tIGR_Role_description", [])
         if tigr_descs:
-            main_role = tigr_descs[0].split(" / ")[0].strip()
+            main_role = tigr_descs[0].split(" / ")[0].strip().rstrip(" /")
             cat = TIGR_TO_CATEGORY.get(main_role)
             if cat and cat != "Unknown":
                 gene_category = cat

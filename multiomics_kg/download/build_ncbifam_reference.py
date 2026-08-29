@@ -94,8 +94,9 @@ def build_tigr_roles(force: bool = False, refetch_raw: bool = False) -> dict:
     """Build (and cache) ``tigr_roles.json`` from the frozen TIGRFAMs 15.0 archive.
 
     ``{"release", "roles": {role_id: {mainrole, sub1role}}, "family_role":
-    {TIGR_acc: [role_id, ...]}}`` — a family may carry more than one role (296
-    of 2,963 in release 15.0), so ``family_role`` values are sorted,
+    {TIGR_acc: [role_id, ...]}}`` — a family may carry more than one role (294
+    of the 2,862 role-bearing families in release 15.0 — 281 with two roles,
+    13 with three), so ``family_role`` values are sorted,
     deduplicated lists, not a single id. Unnamed roles (``719``) are excluded
     from both maps. On a download failure the committed file is reused with a
     warning (TCDB outage precedent); only a missing file is fatal.

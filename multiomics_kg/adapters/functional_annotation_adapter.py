@@ -1037,7 +1037,9 @@ class MultiCogRoleAnnotationAdapter:
     - ``gene_in_cog_category`` edges from per-strain adapters (all strains).
     - ``gene_has_cyanorak_role`` edges from per-strain adapters (Pro/Syn only).
     - ``cyanorak_role_is_a_cyanorak_role`` hierarchy edges (full tree).
-    - ``gene_has_tigr_role`` edges from per-strain adapters (Pro/Syn only).
+    - ``gene_has_tigr_role`` edges from per-strain adapters: Cyanorak-curated
+      (Pro/Syn strains) ∪ equivalog-NCBIfam-inferred (all strains), merged
+      per (gene, role).
     - ``tigr_role_is_a_tigr_role`` hierarchy edges (subrole → mainrole).
 
     Args:
@@ -1183,7 +1185,8 @@ class MultiCogRoleAnnotationAdapter:
         Yield all COG/role edges:
         1. gene→COG category (all strains)
         2. gene→CyanorakRole (Pro/Syn strains; Alteromonas silently yields nothing)
-        3. gene→TigrRole (Pro/Syn strains)
+        3. gene→TigrRole: Cyanorak-curated (Pro/Syn strains) ∪ equivalog-NCBIfam-
+           inferred (all strains), merged per (gene, role)
         4. CyanorakRole→parent (full hierarchy tree)
         5. TigrRole→mainrole (subrole → mainrole hierarchy)
         """

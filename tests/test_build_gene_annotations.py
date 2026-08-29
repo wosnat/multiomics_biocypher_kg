@@ -27,6 +27,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from multiomics_kg.download.build_gene_annotations import (
     VALID_CATEGORIES,
     AnnotationBuilder,
+    _compute_gene_category,
     load_eggnog,
     load_gene_mapping,
     load_uniprot,
@@ -1290,6 +1291,22 @@ class TestGeneCategory:
         eg = dict(EG, COG_category="L")
         merged = self.builder.build_merged(gm, eg, {})
         assert merged["gene_category"] == "Replication and repair"
+
+    def test_tigr_disrupted_reading_frame_trailing_slash_hits_lookup(self):
+        # Cyanorak tIGR_Role 270's description is "Disrupted reading frame /"
+        # (trailing " /" with no subrole) -- split(" / ")[0] alone leaves the
+        # trailing "/" attached, which used to miss TIGR_TO_CATEGORY's
+        # "Disrupted reading frame" key entirely. rstrip(" /") normalizes it so
+        # the lookup hits (mapping to "Unknown", same as a miss would fall
+        # through to) and COG still wins when present.
+        result = {"tIGR_Role_description": ["Disrupted reading frame /"]}
+        assert _compute_gene_category(result) == "Unknown"
+
+        result_with_cog = {
+            "tIGR_Role_description": ["Disrupted reading frame /"],
+            "cog_category": ["L"],
+        }
+        assert _compute_gene_category(result_with_cog) == "Replication and repair"
 
     # ── Validity check ───────────────────────────────────────────────────────
 

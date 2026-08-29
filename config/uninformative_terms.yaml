@@ -40,6 +40,7 @@ tigr_role:
     - tigr.role:156       # Hypothetical proteins / Conserved
     - tigr.role:704       # Hypothetical proteins / Domain
     - tigr.role:856       # Not Found
+    - tigr.role:270       # Disrupted reading frame / (Cyanorak-only root)
     - tigr.role:185       # Unclassified / Role category not yet assigned
     - tigr.role:157       # Unknown function / General
     - tigr.role:hypothetical_proteins   # mainrole (level 0) — 2026-08-29 hierarchy
@@ -47,7 +48,8 @@ tigr_role:
     - tigr.role:unclassified            # mainrole
   # 141 (Transport / Unknown substrate) and 703 (Unknown function / Enzymes
   # of unknown specificity) intentionally NOT flagged — class is known.
-  # 856 "Not Found" is itself a root (no ' / '), already listed above.
+  # 856 "Not Found" and 270 "Disrupted reading frame /" are themselves roots
+  # (no ' / '-separated subrole), already listed above.
 
 kegg_term:
   # ~210 KOs match this pattern; ID list omitted (too many; pattern stable).

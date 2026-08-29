@@ -562,7 +562,7 @@ gene:
     # Quality
     annotation_quality: int           # 0=no_evidence, 1=catch_all_only, 2=informative_single, 3=informative_multi (numeric encoding of annotation_state)
     annotation_state: str          # post-import enum: no_evidence | catch_all_only | informative_single | informative_multi
-    gene_category: str                # high-level functional classification (26 controlled values, from Cyanorak/TIGR/COG)
+    gene_category: str                # high-level functional classification (26 controlled values, from Cyanorak/TIGR/COG/NCBIfam-bridged TIGR)
     # Routing signals (pre-computed by post-import Cypher, not by adapter)
     annotation_types: str[]           # ontology edge types with >0 edges, e.g. ["go_bp", "go_mf", "pfam"]
     informative_annotation_types: str[]   # parallel of annotation_types with informativeness filter
@@ -1735,7 +1735,6 @@ ncbifam family to tigr role association:
   source: ncbifam family
   target: tigr role
   label_in_input: ncbifam_family_has_tigr_role
-
 
 protein to ec number association:
   is_a: ReactionToParticipantAssociation

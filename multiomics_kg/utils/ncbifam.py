@@ -147,7 +147,8 @@ def parse_tigr_role_names(lines: Iterable[str]) -> dict[str, dict]:
 def parse_tigr_role_link(lines: Iterable[str], roles: dict[str, dict]) -> dict[str, list[str]]:
     """Parse ``TIGRFAMS_ROLE_LINK`` → ``{unversioned_TIGR_acc: [role_id, ...]}``.
 
-    A family may carry more than one role (296 of 2,963 in release 15.0, e.g.
+    A family may carry more than one role (294 of the 2,862 role-bearing
+    families in release 15.0 — 281 with two roles, 13 with three — e.g.
     CsrA = Glycolysis + RNA interactions); all are kept, sorted, deduplicated.
     Links to roles absent from *roles* (unnamed or unknown) are dropped so the
     result is closed over the named-role set. Raises ``ValueError`` when

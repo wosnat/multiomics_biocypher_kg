@@ -9,8 +9,8 @@
 `TigrRole` is the KG's only hierarchical ontology with no `is_a` edges: 114
 flat nodes (`level = 0` everywhere) whose two-level JCVI mainrole/subrole
 scheme is embedded in compound names (`"Energy metabolism / TCA cycle"`).
-Its only source is the Cyanorak GFF `tIGR_Role` field, so only the 19
-Cyanorak-annotated Pro/Syn strains carry `Gene_has_tigr_role` edges; the 24
+Its only source is the Cyanorak GFF `tIGR_Role` field, so only the 22
+Cyanorak-annotated Pro/Syn strains carry `Gene_has_tigr_role` edges; the 21
 other strains (all Alteromonas, heterotrophs, PCC/UTEX/BP1, MIT1314, RSP50)
 have none.
 
@@ -90,10 +90,14 @@ scope** and recorded in `plans/backlog.md`.
    (`^TIGR\d+$`), not roles; and the archive gives mainroles no id of their
    own. So mainroles reuse the single existing prefix — one prefix per
    ontology, the CyanorakRole precedent (`cyanorak.role:R` / `R.1`) — rather
-   than minting a second one. No collision: subrole local ids are all-numeric,
-   mainrole slugs alphabetic; `level_kind` is the authoritative discriminator.
+   than minting a second one. No id collision is possible (subrole ids are
+   numeric, slug ids alphabetic), but two Cyanorak-only level-0 roots keep
+   numeric ids (`856`, `270`) — `level_kind` is the only reliable level
+   discriminator.
 2. **Bridge edge** `Ncbifam_family_has_tigr_role` (NcbifamFamily → TigrRole),
-   ~1,9K edges (one per (family, role); 296 families carry two), `TIGR*` only, **no properties** (vocabulary-contract R3/R5:
+   ~1,9K edges (one per (family, role); 294 of the 2,862 role-bearing
+   families carry more than one — 281 with two roles, 13 with three),
+   `TIGR*` only, **no properties** (vocabulary-contract R3/R5:
    the archive is a single frozen source; provenance is documented on the
    edge type, not repeated per edge). Verb `has`, same composition semantics
    as `Tcdb_family_has_pfam_domain`: "JCVI assigned this family this role."
@@ -328,8 +332,9 @@ NCBI FTP archive ──step 9──▶ cache/data/ncbifam/tigr_roles.json (commi
 - **Breaking**: `TigrRole` count 114 → ~140 (3 new subroles + ~22 mainroles);
   `level` no longer all 0; `gene_count` on subroles unchanged, but the new
   mainrole nodes carry subtree counts. `gene_category` changes for ~720
-  genes (`Unknown` → category only). `Gene_has_tigr_role` grows ~13.6K →
-  ~27K edges and spans all 43 organisms (was 19); `Gene_has_tigr_role.sources`
+  genes (`Unknown` → category only). `Gene_has_tigr_role` grows 49,213 →
+  65,542 edges (16,329 inferred-only + 9,640 corroborated merges) and spans
+  all 43 organisms (was 19); `Gene_has_tigr_role.sources`
   / `.evidence` value sets widen — consumers filtering `sources = ['cyanorak']`
   by list equality must switch to `'cyanorak' IN r.sources`.
 - CHANGELOG `### Breaking` + `### Added`; CLAUDE.md (TigrRole bullet, label

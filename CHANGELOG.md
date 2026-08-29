@@ -141,15 +141,17 @@ tag with nothing logged.
 
 ### Breaking
 
-- **`TigrRole` is now two-level (114 → ~140 nodes), and `Gene_has_tigr_role`
-  spans all 43 organisms instead of 19.** `level` is no longer `0` everywhere:
+- **`TigrRole` is now two-level (114 → 136 nodes), and `Gene_has_tigr_role`
+  spans all 43 organisms instead of 22.** `level` is no longer `0` everywhere:
   existing role nodes keep their ids and compound names but become `level = 1`
-  with the new `level_kind = 'tigr_subrole'`, and ~22 new mainrole nodes
-  (`tigr.role:<slug>`, `level = 0`, `level_kind = 'tigr_mainrole'`) sit above
+  with the new `level_kind = 'tigr_subrole'` (115 subroles, 3 of them new from
+  inference), and 19 new mainrole nodes (`tigr.role:<slug>`, `level = 0`,
+  `level_kind = 'tigr_mainrole'`) sit above
   them via the new `Tigr_role_is_a_tigr_role`. **`gene_count` on the new
   mainrole nodes is a subtree count** (subrole counts are unchanged in
   meaning) — do not mix levels in one over-representation analysis.
-  `Gene_has_tigr_role` grows ~13.6K → ~27K edges as equivalog-family-inferred
+  `Gene_has_tigr_role` grows 49,213 → 65,542 edges (16,329 inferred-only +
+  9,640 corroborated merges) as equivalog-family-inferred
   edges join the curated Cyanorak ones: **`sources` may now be
   `['cyanorak', 'interproscan']`, so filter with `'cyanorak' IN r.sources`,
   never list equality**, and `evidence` gains `family_inferred` alongside

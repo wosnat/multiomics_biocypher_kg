@@ -624,7 +624,8 @@ def test_gene_cyanorak_role_edges_connect_correct_types(run_query):
 # ---------------------------------------------------------------------------
 
 def test_tigr_role_node_count(run_query):
-    """TigrRole nodes (only codes present in data) must exceed 50."""
+    """TigrRole nodes (two-level since 2026-08-29: subroles present in data
+    ∪ NCBIfam-inference-only roles, plus their mainroles) must exceed 50."""
     result = run_query("MATCH (n:TigrRole) RETURN count(n) AS cnt")
     cnt = result[0]["cnt"]
     assert cnt >= 50, (
@@ -645,7 +646,8 @@ def test_tigr_role_nodes_have_properties(run_query):
 
 
 def test_gene_tigr_role_edge_count(run_query):
-    """Gene_has_tigr_role edges must exceed 10,000 (Pro/Syn strains only)."""
+    """Gene_has_tigr_role edges must exceed 10,000 (Cyanorak-curated Pro/Syn
+    strains ∪ equivalog-NCBIfam-inferred edges spanning all 43 organisms)."""
     result = run_query(
         "MATCH ()-[r:Gene_has_tigr_role]->() RETURN count(r) AS cnt"
     )
