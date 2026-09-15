@@ -49,6 +49,14 @@ tag with nothing logged.
 
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Fixed
+
+## [0.1.0-alpha.7] - 2026-09-15
+
 ### Highlights
 
 - **Seven papers from the GEO drop: RNA lifetimes, promoter architecture,
