@@ -740,6 +740,11 @@ tag with nothing logged.
 
 ### Changed
 
+- **`Schema_info.mcp_min_version` bumped `0.1.0a1` → `0.1.0a5`** (PEP 440 for explorer
+  `v0.1.0-alpha.5`, released 2026-09-15). Explorer MCP builds older than alpha.5 now get an
+  incompatible verdict from `kg_release_info` against this release; update the explorer
+  (`uvx` picks up the latest tag) before connecting.
+
 - **`ControlledVocabulary.description` is researcher-facing text** (DOC-003): the explorer's
   `list_filter_values` prints it verbatim, so 17 entries whose description was build provenance
   ("Harvested from COMPARTMENTS in …", "matches CLAUDE.md once its Phase-2 addendum …") were
