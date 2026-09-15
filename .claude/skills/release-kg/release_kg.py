@@ -476,6 +476,17 @@ def phase_commit_tag_push(ctx: Context) -> None:
     run_or_dry(ctx, "push branch + tag",
                ["git", "push", "origin", ctx.git_branch, "--follow-tags"])
 
+    # The stamp must name the TAG's commit, not the pre-cut HEAD preflight saw:
+    # the `chore(release)` commit above moves HEAD, and `--bringup` compares the
+    # tag clone's `rev-parse HEAD` against metadata.json's git_sha (alpha.7
+    # shipped 6bf6e513 in Schema_info / metadata.json while the tag is 9a2c9610).
+    if not ctx.dry_run:
+        tag_sha = git_out("rev-list", "-n", "1", tag_name)
+        if tag_sha and tag_sha != ctx.git_sha:
+            tag_short = git_out("rev-parse", "--short", tag_sha) or tag_sha[:8]
+            log(f"  stamp SHA: {ctx.git_sha_short} → {tag_short} (the tag's commit)")
+            ctx.git_sha, ctx.git_sha_short = tag_sha, tag_short
+
 
 # ─── Phase 4: Clean clone of the tag ────────────────────────────────────────
 def phase_clean_clone(ctx: Context) -> None:

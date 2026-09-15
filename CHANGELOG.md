@@ -55,6 +55,15 @@ tag with nothing logged.
 
 ### Fixed
 
+- **`/release-kg` stamped the pre-cut HEAD, not the tag's commit.** Preflight captured
+  `git rev-parse HEAD` before Phase 3's `chore(release)` commit, so `Schema_info.git_sha` and
+  `metadata.json.git_sha` named the commit *before* the tag (alpha.7: `6bf6e513` vs tag
+  `9a2c9610`; the two trees differ only in `CHANGELOG.md`). `--bringup` compares the tag clone's
+  SHA against `metadata.json` and would have refused to reproduce the release. Phase 3 now
+  re-reads the SHA from the tag after committing. The published alpha.7 `metadata.json` was
+  re-uploaded with the tag's SHA; the live alpha.7 graph's `Schema_info.git_sha` still reads
+  `6bf6e513`.
+
 ## [0.1.0-alpha.7] - 2026-09-15
 
 ### Highlights
