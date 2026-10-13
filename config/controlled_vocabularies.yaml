@@ -323,6 +323,39 @@ Gene.transport_substrate_resolution:
     reachability, not capability. SPARSE — absent when the gene has no TCDB
     edge, so "no evidence" stays distinguishable from a weak claim.
 
+Gene.coordinate_source:
+  # provenance: set in build_gene_mapping.py (step 0 sub-step 5). 'cyanorak' = PGAP
+  #   never called the gene; its contig + contig-relative coordinates were recovered
+  #   by inverting Cyanorak's contig tiling (NCBI contigs in accession order, 50 bp
+  #   spacer). 3,837 genes over 21 strains on 2026-10-13.
+  applies_to: Gene
+  applies_to_kind: node
+  property: coordinate_source
+  value_type: string
+  closed: true
+  values: [ncbi, cyanorak]
+  description: >
+    Which annotation placed this gene's contig, start, end and strand. ncbi =
+    the RefSeq/PGAP call. cyanorak = NCBI never annotated this gene; the
+    coordinates are Cyanorak's own call, mapped onto the NCBI contig. Dense on
+    every gene with coordinates.
+
+Gene.sequence_source:
+  # provenance: set in cyanorak_ncbi_adapter._get_gene_nodes. 'cyanorak' = no RefSeq
+  #   protein_id to join protein.faa on; the Cyanorak GFF translation attribute is
+  #   used instead (stop glyph stripped, first residue normalised to M as NCBI does).
+  applies_to: Gene
+  applies_to_kind: node
+  property: sequence_source
+  value_type: string
+  closed: true
+  sparse: true
+  values: [ncbi, cyanorak]
+  description: >
+    Where the amino-acid sequence came from. ncbi = the RefSeq protein record.
+    cyanorak = NCBI has no protein for this gene; the sequence is Cyanorak's
+    translation of its own gene call. SPARSE — present exactly when sequence is.
+
 # ── InterPro ────────────────────────────────────────────────────────────────
 InterproEntry.interpro_type:
   # provenance (moved out of the researcher-facing description, 2026-08-29):

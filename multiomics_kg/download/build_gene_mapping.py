@@ -7,6 +7,7 @@ Used by both CyanorakNcbi adapter and the download pipeline (download_genome_dat
 from __future__ import annotations
 
 import os
+import re
 
 import numpy as np
 import pandas as pd
@@ -407,6 +408,99 @@ def _position_fallback_merge(
     return n_merged, consumed_cyan
 
 
+# ── Cyanorak-only coordinate fallback ────────────────────────────────────────
+
+def _ncbi_contig_lengths(ncbi_gff_file: str | None) -> dict[str, int]:
+    """Contig lengths from the NCBI GFF ``##sequence-region <seqid> 1 <end>``
+    directives. ``{}`` when the file is absent (unit tests patch the GFF loader
+    and pass a placeholder path)."""
+    lengths: dict[str, int] = {}
+    if not ncbi_gff_file or not os.path.exists(ncbi_gff_file):
+        return lengths
+    pattern = re.compile(r'##sequence-region\s+(\S+)\s+(\d+)\s+(\d+)')
+    with open(ncbi_gff_file) as fh:
+        for line in fh:
+            if not line.startswith('#'):
+                continue
+            m = pattern.match(line)
+            if m:
+                lengths[m.group(1)] = int(m.group(3))
+    return lengths
+
+
+def _cyanorak_tiles(offsets: dict, lengths: dict[str, int]) -> list[tuple]:
+    """Where each NCBI contig sits inside Cyanorak's single concatenated record.
+
+    Cyanorak lays a draft genome out as the NCBI contigs in accession order with
+    a 50 bp spacer between neighbours (verified on PAC1 and SB: the per-contig
+    ``_contig_offsets`` plus the GFF contig lengths tile the record with a
+    50 bp gap at every boundary, and the last tile ends exactly at the record
+    length). Returns ``[(first_base, last_base, seqid), ...]`` in Cyanorak's
+    1-based coordinates, sorted by offset. A single contig whose length is
+    unknown gets an open-ended tile; a multi-contig assembly with a missing
+    length skips that contig with a warning.
+    """
+    tiles: list[tuple] = []
+    for sid, offset in sorted(offsets.items(), key=lambda kv: kv[1]):
+        length = lengths.get(sid)
+        if length is None:
+            if len(offsets) == 1:
+                tiles.append((offset + 1, float('inf'), sid))
+            else:
+                logger.warning(
+                    f"Coordinate fallback: no ##sequence-region length for contig "
+                    f"{sid!r} — Cyanorak-only genes on it stay unplaced"
+                )
+            continue
+        tiles.append((offset + 1, offset + length, sid))
+    return tiles
+
+
+def _fill_cyanorak_only_coordinates(cyan_only: pd.DataFrame, tiles: list[tuple]) -> int:
+    """Give Cyanorak-only genes NCBI-space coordinates by inverting the tiling.
+
+    For each row with Cyanorak coordinates but no NCBI call, find the tile that
+    contains BOTH ends; set ``seqid`` to that contig, shift ``start``/``end``
+    into contig-relative coordinates, copy the strand, and mark
+    ``coordinate_source = 'cyanorak'``. A gene whose interval crosses a tile
+    boundary spans the inter-contig spacer — an assembly artefact — and is
+    left unplaced with a warning naming it. Modifies ``cyan_only`` in place and
+    returns the number of rows placed.
+    """
+    if cyan_only.empty or not tiles:
+        return 0
+    for col in ('seqid', 'strand_ncbi', 'coordinate_source'):
+        if col not in cyan_only.columns or cyan_only[col].isna().all():
+            cyan_only[col] = pd.Series(pd.NA, index=cyan_only.index, dtype=object)
+    for col in ('start_ncbi', 'end_ncbi'):
+        if col not in cyan_only.columns:
+            cyan_only[col] = np.nan
+    unplaced: list[str] = []
+    n_placed = 0
+    for idx, row in cyan_only.iterrows():
+        c_start, c_end = row.get('start_cyanorak'), row.get('end_cyanorak')
+        if pd.isna(c_start) or pd.isna(c_end):
+            continue
+        tile = next((t for t in tiles if t[0] <= c_start and c_end <= t[1]), None)
+        if tile is None:
+            unplaced.append(str(row.get('locus_tag')))
+            continue
+        first_base, _last_base, sid = tile
+        cyan_only.at[idx, 'seqid'] = sid
+        cyan_only.at[idx, 'start_ncbi'] = float(c_start) - (first_base - 1)
+        cyan_only.at[idx, 'end_ncbi'] = float(c_end) - (first_base - 1)
+        cyan_only.at[idx, 'strand_ncbi'] = row.get('strand_cyanorak')
+        cyan_only.at[idx, 'coordinate_source'] = 'cyanorak'
+        n_placed += 1
+    if unplaced:
+        logger.warning(
+            f"Coordinate fallback: {len(unplaced)} Cyanorak-only gene(s) cross a "
+            f"contig boundary or fall outside every contig — left unplaced: "
+            f"{unplaced[:10]}{' …' if len(unplaced) > 10 else ''}"
+        )
+    return n_placed
+
+
 # ── high-level loaders ────────────────────────────────────────────────────────
 
 def load_gff_from_ncbi_only(ncbi_gff_file: str) -> pd.DataFrame:
@@ -421,6 +515,7 @@ def load_gff_from_ncbi_only(ncbi_gff_file: str) -> pd.DataFrame:
         ncbi_df['locus_tag'] = ncbi_df['locus_tag_ncbi']
 
     ncbi_df = ncbi_df.rename(columns={'Name': 'gene_names'})
+    ncbi_df['coordinate_source'] = 'ncbi'
 
     n_before = len(ncbi_df)
     ncbi_df = ncbi_df.dropna(subset=['locus_tag'])
@@ -515,6 +610,19 @@ def load_gff_from_ncbi_and_cyanorak(
     n_ncbi_only = len(ncbi_sourced) - n_ncbi_matched - n_pos_merged
     n_cyan_only = len(cyan_only)
 
+    # --- Coordinates for Cyanorak-only genes ---
+    # PGAP never called these, so their NCBI coordinate columns are blank even
+    # though Cyanorak places every one. Invert Cyanorak's contig tiling to give
+    # them a contig + contig-relative coordinates (identity on closed genomes).
+    n_coord_placed = 0
+    if not ncbi_sourced.empty:
+        ncbi_sourced['coordinate_source'] = 'ncbi'
+        if not cyan_only.empty:
+            tiles = _cyanorak_tiles(
+                _contig_offsets(ncbi_sourced), _ncbi_contig_lengths(ncbi_gff_file),
+            )
+            n_coord_placed = _fill_cyanorak_only_coordinates(cyan_only, tiles)
+
     merge_df = pd.concat([ncbi_sourced, cyan_only], ignore_index=True)
 
     # For NCBI genes without old_locus_tag, locus_tag is NaN — use locus_tag_ncbi.
@@ -533,7 +641,8 @@ def load_gff_from_ncbi_and_cyanorak(
     logger.info(
         f"Gene merge: {n_ncbi_matched} matched both sources, "
         f"{n_pos_merged} position-fallback, "
-        f"{n_ncbi_only} NCBI-only, {n_cyan_only} Cyanorak-only, "
+        f"{n_ncbi_only} NCBI-only, {n_cyan_only} Cyanorak-only "
+        f"({n_coord_placed} placed on NCBI contigs via the Cyanorak tiling), "
         f"{len(merge_df)} total"
     )
 

@@ -235,6 +235,11 @@ fields:
     field: strand_cyanorak
     allow_dash: true   # '-' is the minus strand, not the eggNOG "no value" sentinel
 
+  coordinate_source:
+    type: passthrough
+    source: gene_mapping
+    field: coordinate_source   # ncbi | cyanorak — which caller placed contig/start/end/strand
+
   # ── Gene naming (Cyanorak > UniProt > NCBI > EggNOG) ────────────────────────
 
   gene_name:

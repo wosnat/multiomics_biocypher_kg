@@ -937,3 +937,133 @@ class TestStep5GeneMapping:
         out = capsys.readouterr().out
         assert "OK" in out
         assert "2" in out
+
+
+# ─── Cyanorak-only coordinate fallback ───────────────────────────────────────
+
+from multiomics_kg.download.build_gene_mapping import (  # noqa: E402
+    _cyanorak_tiles,
+    _ncbi_contig_lengths,
+)
+
+
+def _ncbi_genes(*specs: dict) -> pd.DataFrame:
+    """Concatenate several ``_make_ncbi_gff_df`` genes; each spec may set ``seq_id``."""
+    frames = []
+    for spec in specs:
+        seq_id = spec.pop("seq_id", "NC_005072.1")
+        df = _make_ncbi_gff_df(**spec)
+        df["seq_id"] = seq_id
+        frames.append(df)
+    return pd.concat(frames, ignore_index=True)
+
+
+def _cyan_genes(*specs: dict) -> pd.DataFrame:
+    return pd.concat([_make_cyan_gff_df(**s) for s in specs], ignore_index=True)
+
+
+def _write_ncbi_gff_header(path, lengths: dict[str, int]) -> str:
+    lines = ["##gff-version 3"] + [
+        f"##sequence-region {sid} 1 {length}" for sid, length in lengths.items()
+    ]
+    path.write_text("\n".join(lines) + "\n")
+    return str(path)
+
+
+class TestCyanorakOnlyCoordinates:
+    def _run(self, ncbi_gff_path, ncbi_df, cyan_df, cyan_id_map):
+        with (
+            patch(_LOAD_GFF, side_effect=[cyan_df, ncbi_df]),
+            patch(_GET_CYAN_MAP, return_value=cyan_id_map),
+        ):
+            return load_gff_from_ncbi_and_cyanorak(ncbi_gff_path, "cyan.gff", "cyan.gbk")
+
+    def test_ncbi_contig_lengths_parses_sequence_region_directives(self, tmp_path):
+        gff = _write_ncbi_gff_header(
+            tmp_path / "genomic.gff",
+            {"NZ_JNAX01000001.1": 32549, "NZ_JNAX01000002.1": 30478},
+        )
+        assert _ncbi_contig_lengths(gff) == {
+            "NZ_JNAX01000001.1": 32549,
+            "NZ_JNAX01000002.1": 30478,
+        }
+
+    def test_ncbi_contig_lengths_missing_file_is_empty(self, tmp_path):
+        assert _ncbi_contig_lengths(str(tmp_path / "nope.gff")) == {}
+
+    def test_cyanorak_tiles_are_one_based_sorted_by_offset(self):
+        # Cyanorak record = contig c1 (50,000 bp) + 50 bp spacer + contig c2 (30,000 bp)
+        tiles = _cyanorak_tiles({"c2": 50050, "c1": 0}, {"c1": 50000, "c2": 30000})
+        assert tiles == [(1, 50000, "c1"), (50051, 80050, "c2")]
+
+    def test_cyanorak_tiles_unknown_length_single_contig_is_open_ended(self):
+        tiles = _cyanorak_tiles({"NC_005072.1": 0}, {})
+        assert tiles == [(1, float("inf"), "NC_005072.1")]
+
+    def test_closed_genome_cyanorak_only_gene_gets_ncbi_contig_and_coordinates(self, tmp_path):
+        gff = _write_ncbi_gff_header(tmp_path / "genomic.gff", {"NC_005072.1": 10000})
+        ncbi_df = _make_ncbi_gff_df(old_locus_tag="PMM0001", start=174, end=1331)
+        cyan_df = _cyan_genes(
+            dict(cyanorak_id="CK_01", locus_tag="PMM0001", start=174, end=1331),
+            dict(cyanorak_id="CK_99", locus_tag="PMM0099", start=5000, end=5300, strand="-"),
+        )
+        result = self._run(gff, ncbi_df, cyan_df, {"CK_01": "PMM0001", "CK_99": "PMM0099"})
+        row = result.set_index("locus_tag").loc["PMM0099"]
+        assert row["seqid"] == "NC_005072.1"
+        assert row["start"] == 5000
+        assert row["end"] == 5300
+        assert row["strand"] == "-"
+        assert row["coordinate_source"] == "cyanorak"
+        assert result.set_index("locus_tag").loc["PMM0001", "coordinate_source"] == "ncbi"
+
+    def test_draft_genome_cyanorak_only_gene_lands_on_second_contig(self, tmp_path):
+        # Two 1,000 bp contigs; Cyanorak concatenates them with a 50 bp spacer,
+        # so contig 2 sits at offset 1,050 in Cyanorak's coordinate space.
+        gff = _write_ncbi_gff_header(tmp_path / "genomic.gff", {"c1": 1000, "c2": 1000})
+        ncbi_df = _ncbi_genes(
+            dict(seq_id="c1", locus_tag_ncbi="RS_1", old_locus_tag="PMM0001", start=100, end=400),
+            dict(seq_id="c2", locus_tag_ncbi="RS_2", old_locus_tag="PMM0002", start=100, end=400),
+        )
+        cyan_df = _cyan_genes(
+            dict(cyanorak_id="CK_01", locus_tag="PMM0001", start=100, end=400),
+            dict(cyanorak_id="CK_02", locus_tag="PMM0002", start=1150, end=1450),
+            dict(cyanorak_id="CK_03", locus_tag="PMM0003", start=1600, end=1900, strand="-"),
+        )
+        result = self._run(
+            gff, ncbi_df, cyan_df,
+            {"CK_01": "PMM0001", "CK_02": "PMM0002", "CK_03": "PMM0003"},
+        )
+        row = result.set_index("locus_tag").loc["PMM0003"]
+        assert row["seqid"] == "c2"
+        assert row["start"] == 550
+        assert row["end"] == 850
+        assert row["strand"] == "-"
+        assert row["coordinate_source"] == "cyanorak"
+
+    def test_cyanorak_only_gene_crossing_contig_boundary_is_left_unplaced(self, tmp_path):
+        gff = _write_ncbi_gff_header(tmp_path / "genomic.gff", {"c1": 1000, "c2": 1000})
+        ncbi_df = _ncbi_genes(
+            dict(seq_id="c1", locus_tag_ncbi="RS_1", old_locus_tag="PMM0001", start=100, end=400),
+            dict(seq_id="c2", locus_tag_ncbi="RS_2", old_locus_tag="PMM0002", start=100, end=400),
+        )
+        cyan_df = _cyan_genes(
+            dict(cyanorak_id="CK_01", locus_tag="PMM0001", start=100, end=400),
+            dict(cyanorak_id="CK_02", locus_tag="PMM0002", start=1150, end=1450),
+            dict(cyanorak_id="CK_03", locus_tag="PMM0003", start=900, end=1200),  # spans the spacer
+        )
+        result = self._run(
+            gff, ncbi_df, cyan_df,
+            {"CK_01": "PMM0001", "CK_02": "PMM0002", "CK_03": "PMM0003"},
+        )
+        row = result.set_index("locus_tag").loc["PMM0003"]
+        assert pd.isna(row["seqid"])
+        assert pd.isna(row["start"])
+        assert pd.isna(row["coordinate_source"])
+        # the Cyanorak coordinates themselves are untouched
+        assert row["start_cyanorak"] == 900
+
+    def test_ncbi_only_mode_marks_every_gene_ncbi(self):
+        ncbi_df = _make_ncbi_gff_df(old_locus_tag="PMM0001")
+        with patch(_LOAD_GFF, return_value=ncbi_df):
+            result = load_gff_from_ncbi_only("ncbi.gff")
+        assert (result["coordinate_source"] == "ncbi").all()

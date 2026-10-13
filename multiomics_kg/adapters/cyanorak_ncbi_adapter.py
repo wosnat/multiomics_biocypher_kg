@@ -126,6 +126,48 @@ def _load_protein_sequences(faa_path: str) -> dict[str, str]:
     return sequences
 
 
+# Cyanorak terminates each translation with one glyph per stop codon
+# ('#', '+' or '*'); none of them is an amino acid.
+_CYANORAK_STOP_GLYPHS = "*#+"
+
+
+def _load_cyanorak_translations(gff_path: str) -> dict[str, str]:
+    """Read a Cyanorak GFF → ``{cyanorak ORF id: AA sequence}``.
+
+    Each CDS row carries its protein in a URL-encoded ``translation=``
+    attribute. The trailing stop glyph is stripped and the first residue is
+    normalised to ``M`` (Cyanorak writes the literal start-codon residue —
+    V/L/I — where RefSeq writes Met; initiator tRNA inserts Met either way),
+    so the result follows the same convention as ``protein.faa``. Returns an
+    empty dict if the file does not exist. Rows without a translation are
+    skipped.
+    """
+    translations: dict[str, str] = {}
+    if not os.path.exists(gff_path):
+        return translations
+    with open(gff_path) as f:
+        for line in f:
+            if line.startswith("#"):
+                continue
+            fields = line.rstrip("\n").split("\t")
+            if len(fields) < 9 or fields[2] != "CDS":
+                continue
+            attrs = dict(
+                kv.split("=", 1) for kv in fields[8].split(";") if "=" in kv
+            )
+            orf_id = attrs.get("ID")
+            raw = attrs.get("translation")
+            if not orf_id or not raw:
+                continue
+            seq = unquote(raw).strip().rstrip(_CYANORAK_STOP_GLYPHS)
+            if not seq:
+                continue
+            if seq[0] != "M":
+                seq = "M" + seq[1:]
+            translations.setdefault(orf_id, seq)
+    return translations
+
+
 class GeneEnumMeta(EnumMeta):
     def __contains__(cls, item):
         return item in cls.__members__.keys()
@@ -138,6 +180,7 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     END = 'end'
     STRAND = 'strand'
     CONTIG = 'contig'                # chromosome / contig name from GFF seqid
+    COORDINATE_SOURCE = 'coordinate_source'  # ncbi | cyanorak — who placed the gene
     PRODUCT = 'product'
     PROTEIN_ID = 'protein_id'
     FUNCTION_DESCRIPTION = 'function_description'
@@ -247,6 +290,9 @@ class CyanorakNcbi:
         # {RefSeq WP_ accession → AA sequence} populated by download_data() from
         # cache/data/<organism>/genomes/<strain>/protein.faa
         self._protein_id_to_sequence: dict[str, str] = {}
+        # {Cyanorak ORF id → AA sequence} from the Cyanorak GFF translation
+        # attribute; the fallback for genes NCBI never called (no protein_id)
+        self._cyanorak_id_to_sequence: dict[str, str] = {}
 
         # no need becuase we are not creating protein to ec edges here
         # if model["organism"] in ("*", None):
@@ -309,6 +355,20 @@ class CyanorakNcbi:
                 f"for {self.strain_name} from protein.faa"
             )
 
+        # Cyanorak translations, keyed by ORF id — only Cyanorak-annotated
+        # strains have a cyanorak/ directory; absence just disables the fallback
+        cyan_dir = os.path.join(self.data_dir, "cyanorak")
+        cyan_gffs = sorted(
+            os.path.join(cyan_dir, fn) for fn in os.listdir(cyan_dir)
+        ) if os.path.isdir(cyan_dir) else []
+        cyan_gffs = [p for p in cyan_gffs if p.endswith(".gff")]
+        if cyan_gffs:
+            self._cyanorak_id_to_sequence = _load_cyanorak_translations(cyan_gffs[0])
+            logger.info(
+                f"Loaded {len(self._cyanorak_id_to_sequence)} Cyanorak translations "
+                f"for {self.strain_name} from {os.path.basename(cyan_gffs[0])}"
+            )
+
     def _get_gene_nodes(self) -> list[tuple]:
         """Generate gene nodes from the data.
 
@@ -349,6 +409,15 @@ class CyanorakNcbi:
                 seq = self._protein_id_to_sequence.get(protein_id.strip())
                 if seq:
                     node_properties["sequence"] = seq
+                    node_properties["sequence_source"] = "ncbi"
+            # Fallback: Cyanorak's own translation for genes NCBI never called
+            if "sequence" not in node_properties:
+                cyan_id = row.get("locus_tag_cyanorak")
+                if isinstance(cyan_id, str) and cyan_id:
+                    seq = self._cyanorak_id_to_sequence.get(cyan_id.strip())
+                    if seq:
+                        node_properties["sequence"] = seq
+                        node_properties["sequence_source"] = "cyanorak"
 
             node_id = self.add_prefix_to_id(
                 prefix="ncbigene",

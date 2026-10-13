@@ -361,3 +361,50 @@ def test_publication_doi_or_pmid_present(run_query):
     assert missing == 0, (
         f"{missing} Publication node(s) have neither DOI nor PMID"
     )
+
+
+def test_cyanorak_annotated_genes_have_coordinates(run_query):
+    """Every gene Cyanorak places must carry a contig and start in the graph.
+
+    Genes PGAP never called (3,837 over 21 strains on 2026-10-13) used to have
+    no contig/start/end at all; the step-0 coordinate fallback now places them
+    on the NCBI contig by inverting Cyanorak's contig tiling. A non-zero count
+    here means the fallback was skipped or a gene crossed a contig boundary.
+    """
+    result = run_query("""
+        MATCH (g:Gene)
+        WHERE 'cyanorak' IN g.contributing_sources
+          AND (g.contig IS NULL OR g.start IS NULL)
+        RETURN count(g) AS missing
+    """)
+    missing = result[0]["missing"]
+    assert missing == 0, f"{missing} Cyanorak-annotated Gene node(s) have no contig/start"
+
+
+def test_coordinate_source_dense_and_closed(run_query):
+    """coordinate_source is present on every gene with a start, with values in {ncbi, cyanorak}."""
+    result = run_query("""
+        MATCH (g:Gene) WHERE g.start IS NOT NULL
+        RETURN coalesce(g.coordinate_source, '<absent>') AS src, count(*) AS cnt
+    """)
+    counts = {r["src"]: r["cnt"] for r in result}
+    assert "<absent>" not in counts, f"{counts['<absent>']} gene(s) with start but no coordinate_source"
+    assert set(counts) <= {"ncbi", "cyanorak"}, f"Unexpected coordinate_source values: {set(counts)}"
+    assert counts.get("cyanorak", 0) > 0, "No cyanorak-placed genes — fallback not applied"
+
+
+def test_sequence_source_present_iff_sequence(run_query):
+    """sequence_source is sparse: present exactly when sequence is, values in {ncbi, cyanorak}."""
+    result = run_query("""
+        MATCH (g:Gene)
+        RETURN
+          sum(CASE WHEN g.sequence IS NOT NULL AND g.sequence_source IS NULL THEN 1 ELSE 0 END) AS seq_no_src,
+          sum(CASE WHEN g.sequence IS NULL AND g.sequence_source IS NOT NULL THEN 1 ELSE 0 END) AS src_no_seq,
+          sum(CASE WHEN g.sequence_source = 'cyanorak' THEN 1 ELSE 0 END) AS cyanorak,
+          collect(DISTINCT g.sequence_source) AS values
+    """)
+    row = result[0]
+    assert row["seq_no_src"] == 0, f"{row['seq_no_src']} gene(s) have a sequence but no sequence_source"
+    assert row["src_no_seq"] == 0, f"{row['src_no_seq']} gene(s) have sequence_source but no sequence"
+    assert set(v for v in row["values"] if v) <= {"ncbi", "cyanorak"}
+    assert row["cyanorak"] > 0, "No cyanorak-sourced sequences — fallback not applied"

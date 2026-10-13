@@ -49,12 +49,34 @@ tag with nothing logged.
 
 ## [Unreleased]
 
+### Highlights
+
+- Every gene Cyanorak annotates now has a genome position and a protein sequence, including
+  the 3,837 genes across 21 *Prochlorococcus* / *Synechococcus* strains that NCBI's PGAP
+  never called — neighbourhood and sequence queries no longer skip them.
+
 ### Added
+
+- **`Gene.coordinate_source`** (`ncbi` | `cyanorak`, dense) and **`Gene.sequence_source`**
+  (`ncbi` | `cyanorak`, sparse — present iff `sequence`) say which caller placed and
+  translated a gene. Registered in `config/controlled_vocabularies.yaml`.
 
 ### Changed
 
 ### Fixed
 
+- **3,837 Cyanorak-only genes had no `contig`/`start`/`end`/`strand` and no `sequence`.**
+  Gene coordinates were read from the NCBI GFF columns only, so a gene Cyanorak called and
+  PGAP did not (MIT9313 517, MIT9303 504, WH8109 362, CC9311 339, MED4 96, …) existed with
+  roles and clusters but no position — `gene_neighbors` could not place it — and, lacking a
+  RefSeq `protein_id`, no sequence either. Step 0 sub-step 5 now places them: closed genomes
+  copy Cyanorak's coordinates; the two drafts (PAC1, SB) invert Cyanorak's contig tiling
+  (NCBI contigs in accession order with a 50 bp spacer — verified to tile PAC1's record to
+  the base), with a boundary-crossing guard that fired on none. The adapter falls back to
+  the Cyanorak GFF `translation=` attribute for the sequence (stop glyph stripped, first
+  residue normalised to Met as RefSeq does). 0 unplaced; `sequence` coverage 96.8% → 100% of
+  genes (verified live 2026-10-13). See
+  `docs/kg-changes/cyanorak-coordinate-fallback.md`.
 - **`/release-kg` stamped the pre-cut HEAD, not the tag's commit.** Preflight captured
   `git rev-parse HEAD` before Phase 3's `chore(release)` commit, so `Schema_info.git_sha` and
   `metadata.json.git_sha` named the commit *before* the tag (alpha.7: `6bf6e513` vs tag

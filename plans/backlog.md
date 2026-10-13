@@ -238,6 +238,175 @@ Section references below are into that plan file, which holds the full designs.
 - [ ] **Johnson 2026b — `media-7` per-iModulon enrichment tables** (GO / COG /
       KEGG-Module / KEGG-Pathway per module). Not independently wired-worthy —
       should feed the §2.1C cluster `functional_description`s when 2.1C lands.
+## Analysis-driven asks — pro_n_import_coculture (2026-10-13)
+
+Filed from `multiomics_analysis/analyses/2026-10-06-pro_n_import_coculture/gaps_and_friction.md`
+and `docs/methodology-review-2026-10.md` (round-2 review). Only the KG-side items;
+the explorer tool bugs (non-unique paging sort, `gene_neighbors` window OOM, silent
+`min_gene_set_size` defaults, `metabolite_elements` drop count, flat `list_metabolites`
+reach) are filed in the explorer repo. Sizes below were measured on 2026-10-13 against
+the committed caches, not taken from the log. Ordered by proposed priority.
+
+**P1 — small, mechanical, unblocks the analysis's own workarounds**
+
+- [x] **Fall back to Cyanorak coordinates for genes NCBI does not call — SHIPPED
+      2026-10-13 (+ sequence from the Cyanorak translation), see
+      `docs/kg-changes/cyanorak-coordinate-fallback.md`; awaiting rebuild.**
+      3,837 genes across the 21 Cyanorak strains (MED4 96 / 1,973; MIT9313 517 /
+      2,906; MIT9303 504; WH8109 362; CC9311 339) have no `contig`/`start`/`end`
+      and no `protein_id` — every one is Cyanorak-only (`locus_tag_ncbi` null).
+      `gene_mapping.csv` already carries `start_cyanorak`/`end_cyanorak`/
+      `strand_cyanorak` for them, so this is a merge-time fallback in step 2 (or
+      the adapter), not new data. Caveat: Cyanorak stores drafts as one
+      concatenated record, so PAC1/SB-style assemblies need the per-contig offset
+      remap `_contig_offsets` already uses; closed genomes are a straight copy.
+      Add a `coordinate_source ∈ {ncbi, cyanorak}` property (R5) so consumers can
+      tell. Unblocks `gene_neighbors` and the `gene_org_contig_start_idx` seek for
+      these genes. → friction log 2026-10-07 "91 MED4 genes have no coordinates";
+      `multiomics_kg/download/build_gene_mapping.py`, `cyanorak_ncbi_adapter.py`
+
+- [ ] **Populate `coculture_partner` when coculture is the background, not the
+      treatment.** The adapter sets it only from `treatment_organism`
+      (`omics_adapter.py` ~l.390), so the 8 Weissberg 2025 N-starvation
+      experiments run *in* coculture (`background_factors: [coculture, …]`,
+      MED4 + HOT1A3, RNA-seq + proteomics) and García-Fernández 2022's glucose
+      proteomics have `coculture_partner` null and are invisible to a partner
+      filter — the analysis first concluded "no Prochlorococcus proteomics in
+      coculture", wrongly. Proposal: optional paperconfig `background_organism`
+      (+ `background_taxid`) on an experiment; adapter populates
+      `coculture_partner` from either field and emits `Tests_coculture_with`
+      with `partner_role ∈ {treatment, background}` (new R5 vocab entry). The
+      Publication `organisms` rollup then covers both. → friction log 2026-10-06
+      "`coculture_partner` filter misses…"; `docs/kg-changes/experiment-stats.md`
+
+- [ ] **Metabolite equivalence across namespaces and stereo/charge variants.**
+      The transport arm is ChEBI-keyed and the metabolism arm KEGG-keyed, and
+      they do not always meet on one node, so any transport ↔ catalysis join
+      silently misses. Measured over the 3,356 metabolite entries in
+      `kegg_data.json`: 191 InChIKey-skeleton groups (first 14 chars; 465 nodes —
+      157 all-KEGG stereo/charge variants such as Cysteine C00736 vs L-Cysteine
+      C00097, Glutamate C00302 vs L-/D-, 34 mixed KEGG + chebi/mnx) plus 36
+      exact-name KEGG↔ChEBI pairs the skeleton misses. Nitrate is the hard case:
+      `kegg.compound:C00244` (ChEBI 25545, MNXM732399) and `chebi:14654`
+      (MNXM732398) share neither InChIKey nor MNX id — a ChEBI conjugate pair —
+      so it needs ChEBI's conjugate_acid/base relations, not string matching.
+      Proposal: a `Metabolite_equivalent_to_metabolite` edge (symmetric, emitted
+      once per pair) carrying `basis ∈ {inchikey_skeleton, chebi_conjugate,
+      name}` and a `Metabolite.equivalence_group` id, computed in step 6 where
+      the MNX resolver is open; consumers join on the group, never on the raw
+      id. Prerequisite for the TCDB plausibility item below. → friction log
+      2026-10-07 "Metabolite IDs split across namespaces", "The two nitrate
+      nodes…", 2026-10-11 "Generic vs stereo-specific…";
+      `multiomics_kg/download/build_kegg_metabolism_xrefs.py`
+
+- [ ] **Per-organism most-specific transport reach on `Metabolite`** (explorer
+      ask, 2026-10-13 — KG half of the "flat `list_metabolites` reach" item).
+      Add post-import `transport_most_specific_organism_names: str[]` (+
+      `_count`, size invariant) on `Metabolite`: organisms with ≥ 1 gene →
+      `TcdbFamily` → metabolite path whose `Tcdb_family_transports_metabolite`
+      edge has `substrate_depth = 'most_specific'`. Today `organism_names`
+      unions the inherited superfamily (ABC `3.A.1`) substrates, so transport
+      reach is flat — 1,294–1,304 of 1,462 transported metabolites for every
+      organism; most-specific-only spreads from 639 (MED4) to 1,201
+      (Pseudomonas KT2440). Design note: decide whether the gene hop also
+      restricts to `Gene_has_tcdb_family.attachment_depth = 'most_specific'`
+      (the projection `transported_metabolite_count` uses) and document which;
+      the two filters are on different edges and compose. Sparse/`[]` rule to
+      match `organism_names`. Explorer use: `list_metabolites` `top_organisms`
+      and the organism filter for the transport arm. → `scripts/post-import.sh`
+      + `.cypher` (Metabolite rollup block), `controlled_vocabularies.yaml` if
+      registered; CLAUDE.md Metabolite bullet
+
+**P2 — needs a design pass**
+
+- [ ] **Per-arm sampling day + growth state, and a shared-model identifier for
+      linked contrasts.** A paperconfig analysis carries one `timepoint`, so a
+      contrast whose arms were sampled on different days gets one label:
+      Weissberg 2025 `DE_med4_rnaseq_coculture_vs_axenic_day_18` pairs coculture
+      d18 with axenic d14, and the KG labels that axenic arm `nutrient_limited`
+      while the researcher reports it in full decline. The four MED4 RNA
+      contrasts are also one fitted model over shared samples (coculture d18 −
+      axenic d14 ≡ direct d18 − direct d11 to 1e-15), which no property exposes.
+      Proposal: optional per-analysis `treatment_timepoint` / `control_timepoint`
+      (+ `_hours`, + per-arm `growth_phase`) materialised as edge properties
+      alongside the existing `time_point`, and an Experiment-level
+      `shared_model_id` (free string, same value across experiments fitted
+      together) so "independent contrast" is a queryable claim. → friction log
+      2026-10-11 "Anchor RNA contrasts are algebraically linked", 2026-10-11
+      researcher update under "The Plan phase missed three…"; `omics_adapter.py`
+
+- [ ] **Chemical categories for `Metabolite` (ChEBI is_a / has_role).** The KG
+      has no compound-class layer; KEGG pathway membership and the carrying TCDB
+      family were tried as proxies and ~half the sampled assignments were wrong
+      (thyroxine → "amino acids", GDP-mannose → "xenobiotic"). 3,042 of 3,356
+      metabolites (91%) carry a `chebi_id`, so a GO-pattern pruned closure over
+      `chebi.obo` (`is_a` + `has_role`, seeds = our metabolites, ancestors only)
+      would give `ChemicalClass` nodes + `Metabolite_is_a_chemical_class` /
+      `Metabolite_has_chemical_role` + `Chemical_class_is_a_chemical_class`,
+      answering "Lys-Arg is a dipeptide", "ferrichrome is a siderophore". Depends
+      on the equivalence item so a class attached to the KEGG node reaches its
+      ChEBI twin. Explicitly flagged "revisit the analysis when it lands".
+      → friction log 2026-10-08 "KG has no chemical categories" (OPEN);
+      `docs/kg-changes/metabolomics-extension.md` (LipidMaps note)
+
+- [ ] **TCDB substrate plausibility per gene.** Even at
+      `substrate_depth = most_specific` a gene inherits every substrate its TCDB
+      subfamily lists: MED4 sulfate permeases `sul1`/`sul3` list amino acids and
+      nitrate, `ktrA`/`nhaS` list ammonium, the cyn system (3.A.1.16.1) reads as
+      a nitrate/nitrite porter in a strain with no nitrate assimilation. Not a
+      bug (NitT/TauT is genuinely bispecific; `transport_substrate_resolution`
+      already marks the lumping case) — an annotation-granularity limit. Two
+      candidate signals, both post-import and both cheap once equivalence
+      exists: (a) `catalysis_support ∈ {corroborated, uncorroborated}` on the
+      (gene, substrate) pair = the same organism has a `Gene_catalyzes_reaction`
+      touching an equivalent metabolite; (b) a `substrate_breadth` int on
+      `Gene_has_tcdb_family` (= `metabolite_count` of the attachment, so the
+      explorer can rank "dedicated" vs "broad listing" without keyword rules).
+      Second occurrence after round 1's ABC coarseness. → friction log
+      2026-10-06 "TCDB most-specific substrate for MED4's cyn system",
+      2026-10-08 "TCDB substrate lists describe the subfamily";
+      `docs/kg-changes/tcdb-two-source-upgrade.md`
+
+**P3 — large or blocked on researcher input**
+
+- [ ] **Culture-level measurement node type.** Cell counts, N biomass, DON and
+      fluorescence have no target entity (every measurement edge points at a
+      Gene or a Metabolite). Needs a node off Experiment (organism, condition,
+      culture/bottle id, time, growth phase, value, unit,
+      `value_kind ∈ {measured, derived}`, extraction method + uncertainty since
+      most papers publish growth only in figures) plus a paperconfig entry type,
+      and a sample-level link from omics samples to their culture measurements.
+      Medium NH₄⁺/NO₃⁻ could ride `metabolite_assays_table` today **except** that
+      `compartment: spent_medium` was pruned from the vocabulary on 2026-08-29
+      (DOC-004) and must be re-added in both `controlled_vocabularies.yaml` and
+      `vocab/non_de_evidence.py`. Blocked on the researcher: measured vs derived,
+      the NH₄⁺ rerun reconciliation, fractional days vs omics day labels, and
+      whether the Weissberg CC1A3 data is published or loaded as unpublished.
+      → friction log 2026-10-12 "The anchor study's culture measurements are not
+      in the KG"; `docs/kg-changes/metabolomics-extension.md` (advises a separate
+      type, not an extension of `MetaboliteAssay`)
+
+- [ ] **TCDB name/depth hygiene (minor).** `tcdb:3.A.1.4.4` is named
+      "The high-affinity (" — the only name in `tcdb_names.json` ending in "("
+      (citation-strip bug in `scrape_tcdb_names.py`'s first-sentence cut; fix the
+      regex, re-scrape that family with `--families`). PepT (`dpp`) depth looks
+      inverted (generic "peptide"/"Oligopeptide" only `inherited`, heme/EDTA/
+      bradykinin `most_specific`) — verify against `subtree_substrates` before
+      touching `_compute_substrate_depth`. Not bugs, document only: bare-id names
+      on `4.C.1.1`/`1.A.1.x`/`2.A.88.x` are the designed fallback; `urtE`'s
+      score-0 `1.B.42` is a tier-3 diamond call; inherited rows reporting the
+      gene's own attachment as "family" is the explorer's projection, not the
+      edge. → friction log 2026-10-07 "TCDB annotation oddities"
+
+**Reframed — no KG change**
+
+- KO coverage of transporters: `amt1` (PMM0263) carries K03320 and TC 1.A.11;
+  what it lacks is a KEGG *pathway*, because KEGG files transporters under
+  BRITE (`ko02000`), not pathway maps. Use `Kegg_term_in_brite_category` for the
+  transporter ↔ enzyme link; a doc line in `docs://analysis/metabolites` is the
+  fix. No KEGG reactions on di/tripeptides is upstream KEGG.
+  → friction log 2026-10-08 open items 6–7
+
 ## Explorer / MCP coordination
 
 - [ ] **File an upstream Bioregistry new-prefix request for `ncbifam`.**

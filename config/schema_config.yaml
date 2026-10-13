@@ -541,7 +541,9 @@ gene:
     contig: str                      # chromosome / contig name from GFF seqid
     product: str
     protein_id: str
-    sequence: str                   # AA sequence string from per-strain NCBI protein.faa, joined via protein_id
+    coordinate_source: str          # ncbi | cyanorak — which caller placed contig/start/end/strand (dense)
+    sequence: str                   # AA sequence string: NCBI protein.faa via protein_id, else the Cyanorak GFF translation
+    sequence_source: str            # ncbi | cyanorak — sparse, present iff sequence is
     # Denormalized from linked Protein node during post-import (set via Cypher, not adapter):
     function_description: str      # UniProt functional description; present for all organisms
     # Gene naming (canonical)

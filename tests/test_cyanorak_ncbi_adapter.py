@@ -1205,3 +1205,105 @@ class TestGeneSequence:
         for _, label, props in nodes:
             if label == "gene":
                 assert "sequence" not in props
+
+
+# ─── Test: Cyanorak translation fallback for genes NCBI never called ─────────
+
+from multiomics_kg.adapters.cyanorak_ncbi_adapter import (  # noqa: E402
+    _load_cyanorak_translations,
+)
+
+_FALLBACK_MERGED = {
+    "PMM0001": {
+        "locus_tag": "PMM0001",
+        "protein_id": "WP_011131639.1",
+        "locus_tag_cyanorak": "CK_Pro_MED4_00001",
+        "start": 174, "end": 1331, "strand": "+",
+        "product": "DNA polymerase III subunit beta",
+    },
+    # Cyanorak-only: no protein_id, placed by the coordinate fallback
+    "PMM0573": {
+        "locus_tag": "PMM0573",
+        "locus_tag_cyanorak": "CK_Pro_MED4_00573",
+        "start": 539879, "end": 540154, "strand": "-",
+        "product": "AbrB-like transcriptional regulator",
+    },
+    # Neither a RefSeq protein nor a Cyanorak translation
+    "PMM9999": {
+        "locus_tag": "PMM9999",
+        "locus_tag_cyanorak": "CK_Pro_MED4_09999",
+        "product": "pseudogene",
+    },
+}
+
+
+def _write_fallback_fixture(directory, with_cyanorak_gff=True):
+    with open(os.path.join(directory, "gene_annotations_merged.json"), "w") as f:
+        json.dump(_FALLBACK_MERGED, f)
+    with open(os.path.join(directory, "protein.faa"), "w") as f:
+        f.write(">WP_011131639.1 DNA polymerase III, beta [Prochlorococcus]\n")
+        f.write("MKLAALLLISTVEEPSEQ\n")
+    if with_cyanorak_gff:
+        cdir = os.path.join(directory, "cyanorak")
+        os.makedirs(cdir, exist_ok=True)
+        with open(os.path.join(cdir, "Pro_MED4.gff"), "w") as f:
+            f.write("##gff-version 3\n")
+            f.write("Pro_MED4_chromosome\tcyanorak\tsequence_assembly\t1\t1657990\t.\t+\t0\tID=Pro_MED4_chromosome\n")
+            # matched gene: Cyanorak's translation differs from RefSeq's on purpose
+            f.write("Pro_MED4_chromosome\tcyanorak\tCDS\t174\t1331\t.\t+\t0\t"
+                    "ID=CK_Pro_MED4_00001;product=DNA polymerase III%2C beta subunit;"
+                    "translation=MKLAALLLISTVEEPSEX#\n")
+            # Cyanorak-only gene: literal start-codon residue V, '+' stop glyph
+            f.write("Pro_MED4_chromosome\tcyanorak\tCDS\t539879\t540154\t.\t-\t0\t"
+                    "ID=CK_Pro_MED4_00573;product=AbrB-like;translation=VAAAQQ+\n")
+            # '*' stop glyph, URL-encoded
+            f.write("Pro_MED4_chromosome\tcyanorak\tCDS\t600000\t600300\t.\t+\t0\t"
+                    "ID=CK_Pro_MED4_00600;translation=MSTOP%2A\n")
+            # a CDS with no translation attribute at all
+            f.write("Pro_MED4_chromosome\tcyanorak\tCDS\t700000\t700300\t.\t+\t0\t"
+                    "ID=CK_Pro_MED4_00700;product=no translation here\n")
+
+
+class TestLoadCyanorakTranslations:
+    def test_strips_stop_glyph_and_normalises_first_residue(self, temp_data_dir):
+        _write_fallback_fixture(temp_data_dir)
+        result = _load_cyanorak_translations(
+            os.path.join(temp_data_dir, "cyanorak", "Pro_MED4.gff")
+        )
+        assert result["CK_Pro_MED4_00001"] == "MKLAALLLISTVEEPSEX"   # '#' stripped
+        assert result["CK_Pro_MED4_00573"] == "MAAAQQ"               # '+' stripped, V→M
+        assert result["CK_Pro_MED4_00600"] == "MSTOP"                # '%2A' decoded, '*' stripped
+        assert "CK_Pro_MED4_00700" not in result
+
+    def test_missing_file_is_empty(self, temp_data_dir):
+        assert _load_cyanorak_translations(os.path.join(temp_data_dir, "nope.gff")) == {}
+
+
+class TestCyanorakSequenceFallback:
+    def _gene_nodes(self, temp_data_dir, **kw):
+        _write_fallback_fixture(temp_data_dir, **kw)
+        a = CyanorakNcbi(
+            data_dir=temp_data_dir, strain_name="MED4", ncbi_accession="GCF_000011465.1",
+        )
+        a.download_data()
+        return {props["locus_tag"]: props for _, label, props in a.get_nodes() if label == "gene"}
+
+    def test_gene_without_refseq_protein_gets_cyanorak_translation(self, temp_data_dir):
+        nodes = self._gene_nodes(temp_data_dir)
+        assert nodes["PMM0573"]["sequence"] == "MAAAQQ"
+        assert nodes["PMM0573"]["sequence_source"] == "cyanorak"
+
+    def test_refseq_sequence_wins_over_cyanorak_translation(self, temp_data_dir):
+        nodes = self._gene_nodes(temp_data_dir)
+        assert nodes["PMM0001"]["sequence"] == "MKLAALLLISTVEEPSEQ"
+        assert nodes["PMM0001"]["sequence_source"] == "ncbi"
+
+    def test_gene_with_no_sequence_has_no_source_either(self, temp_data_dir):
+        nodes = self._gene_nodes(temp_data_dir)
+        assert "sequence" not in nodes["PMM9999"]
+        assert "sequence_source" not in nodes["PMM9999"]
+
+    def test_no_cyanorak_directory_means_no_fallback(self, temp_data_dir):
+        nodes = self._gene_nodes(temp_data_dir, with_cyanorak_gff=False)
+        assert "sequence" not in nodes["PMM0573"]
+        assert nodes["PMM0001"]["sequence_source"] == "ncbi"
