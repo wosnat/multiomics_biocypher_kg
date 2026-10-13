@@ -28,6 +28,10 @@ publication:
       test_type: DESeq2
       treatment_type: [nitrogen]
       background_factors: [coculture, light]
+      background_organisms:
+        - organism: "Prochlorococcus MED4"
+          taxid: 59919
+          assembly_accession: "GCF_000011465.1"
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -77,6 +81,10 @@ publication:
       test_type: DESeq2
       treatment_type: [nitrogen]
       background_factors: [coculture, light]
+      background_organisms:
+        - organism: "Prochlorococcus MED4"
+          taxid: 59919
+          assembly_accession: "GCF_000011465.1"
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -108,6 +116,10 @@ publication:
       test_type: DESeq2
       treatment_type: [nitrogen]
       background_factors: [coculture, light]
+      background_organisms:
+        - organism: "Alteromonas macleodii HOT1A3"
+          taxid: 28108
+          assembly_accession: "GCF_001578515.1"
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -157,6 +169,10 @@ publication:
       test_type: DESeq2
       treatment_type: [nitrogen]
       background_factors: [coculture, light]
+      background_organisms:
+        - organism: "Alteromonas macleodii HOT1A3"
+          taxid: 28108
+          assembly_accession: "GCF_001578515.1"
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light

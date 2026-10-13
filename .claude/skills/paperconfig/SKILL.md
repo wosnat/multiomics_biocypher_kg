@@ -76,10 +76,18 @@ The `experiments` block defines experiment-level metadata that is shared across 
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "55 umol photons m-2 s-1"
-      # Coculture-specific (required when treatment_type is 'coculture' or 'viral'):
+      # Partner IS the treatment (required when treatment_type is 'coculture' or 'viral'):
       treatment_organism: "Alteromonas macleodii HOT1A3"
       treatment_taxid: 28108
-      treatment_assembly_accession: GCF_901457835.2  # optional; use for genome-loaded organisms
+      treatment_assembly_accession: GCF_001578515.1  # optional; use for genome-loaded organisms
+      # Partner is the CONTEXT (required when background_factors includes 'coculture'
+      # and the treatment is something else — N starvation, glucose, pCO2, growth phase).
+      # One entry per organism sharing the culture; a non-axenic culture with two
+      # identified heterotrophs lists both (Moreno 2023):
+      background_organisms:
+        - organism: "Alteromonas macleodii HOT1A3"
+          taxid: 28108
+          assembly_accession: GCF_001578515.1
 ```
 
 #### Required Experiment Fields
@@ -116,6 +124,7 @@ The `experiments` block defines experiment-level metadata that is shared across 
 | `treatment_organism` | Name of the organism causing the effect | Required for coculture/viral experiments |
 | `treatment_taxid` | NCBI Taxonomy ID of the treatment organism | Required for coculture/viral experiments |
 | `treatment_assembly_accession` | NCBI RefSeq assembly accession | Use when the treatment organism has a loaded genome in the KG |
+| `background_organisms` | List of `{organism, taxid \| assembly_accession}` — every organism that shared the culture in ALL arms | Required when `background_factors` includes `coculture` and no `treatment_organism` names the partner (validator error otherwise). Each becomes a `Tests_coculture_with` edge with `partner_role = background`; `treatment_organism` becomes `treatment` only when `treatment_type` has `coculture`/`viral`, else it is read as background (warning — prefer `background_organisms`) |
 
 #### Canonical Vocabulary (`treatment_type` and `background_factors`)
 

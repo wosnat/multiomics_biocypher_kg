@@ -28,6 +28,10 @@ publication:
       test_type: DESeq2
       treatment_type: [darkness]
       background_factors: [coculture, diel]
+      background_organisms:
+        - organism: "Alteromonas macleodii MIT1002"
+          taxid: 28108
+          assembly_accession: "GCF_901457835.2"
       medium: Pro99 natural seawater medium
       temperature: 24C
       light_condition: continuous darkness
@@ -44,6 +48,10 @@ publication:
       test_type: DESeq2
       treatment_type: [darkness]
       background_factors: [coculture, diel]
+      background_organisms:
+        - organism: "Prochlorococcus NATL2A"
+          taxid: 59920
+          assembly_accession: "GCF_000012465.1"
       medium: Pro99 natural seawater medium
       temperature: 24C
       light_condition: continuous darkness

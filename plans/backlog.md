@@ -265,8 +265,10 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       these genes. → friction log 2026-10-07 "91 MED4 genes have no coordinates";
       `multiomics_kg/download/build_gene_mapping.py`, `cyanorak_ncbi_adapter.py`
 
-- [ ] **Populate `coculture_partner` when coculture is the background, not the
-      treatment.** The adapter sets it only from `treatment_organism`
+- [x] **Populate `coculture_partner` when coculture is the background, not the
+      treatment — SHIPPED 2026-10-13** as a dense list + `partner_role` on the edge
+      (`docs/kg-changes/coculture-partner-list.md`; explorer dialog
+      `multiomics_explorer/docs/kg-specs/2026-10-13-coculture-partner-list-explorer-asks.md`).** The adapter sets it only from `treatment_organism`
       (`omics_adapter.py` ~l.390), so the 8 Weissberg 2025 N-starvation
       experiments run *in* coculture (`background_factors: [coculture, …]`,
       MED4 + HOT1A3, RNA-seq + proteomics) and García-Fernández 2022's glucose

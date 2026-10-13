@@ -49,7 +49,46 @@ tag with nothing logged.
 
 ## [Unreleased]
 
+### Breaking
+
+- **`Experiment.coculture_partner` is now a dense `str[]`** (was a sparse string set only when the
+  partner was the treatment). It lists every organism sharing the culture — treatment partner,
+  background partners and phage — as sorted `preferred_name`s, `[]` when axenic, and is written
+  post-import from the `Tests_coculture_with` edges so the two never disagree. String operators on
+  it (`CONTAINS`) now raise a Cypher type error; filter with `ANY(p IN e.coculture_partner WHERE …)`.
+  Role moved to the edge: `Tests_coculture_with.partner_role ∈ {treatment, background}` on every
+  edge (one edge per partner: 186 edges, was 87; 60 experiments list two partners, 2 list three). `Publication.organisms` grows for 6 papers.
+  Explorer ≥ 0.1.0-alpha.6 absorbs this (`mcp_min_version` bumped at release);
+  older explorers fail validation in `list_experiments`, `differential_expression_by_gene`
+  (verbose) and `differential_expression_by_ortholog`. See
+  `docs/kg-changes/coculture-partner-list.md`.
+- **`OrganismTaxon` count 48 → 47.** The `ncbitaxon:277` *Meiothermus ruber* treatment node is
+  retired: Bernstein 2017's partner is the sequenced isolate MruberA (`insdc.gcf:GCF_000836395.1`),
+  whose node already carries `preferred_name = 'Meiothermus ruber'`, so the graph no longer has two
+  organisms with one name and the Bernstein edge routes into the gene tools.
+
+### Data
+
+- **Moreno 2023 (10.1128/spectrum.03275-22) — 40 heterotroph-side experiments corrected.** All
+  three sides of every condition compare glucose vs no glucose, yet the 20 Marinobacter-side and 20
+  Alteromonas-side experiments carried `coculture` in `treatment_type`. Before: they answered
+  `treatment_type = ['coculture']` filters as if they were coculture-vs-axenic contrasts. Now:
+  `treatment_type = ['carbon']`, `coculture` in `background_factors`, and every one of the 60
+  Moreno experiments names the other two members of its culture (cyanobacterium + Marinobacter
+  (MarRef v6) + Alteromonas (MarRef v6)) as `background` partners. Curator-confirmed 2026-10-13.
+- **35 background cocultures now name their partner(s)** — Moreno 2023 (20), Barreto 2022 (5,
+  pooled axenic + coculture designs, partners recorded as background), Weissberg 2025 (4: MED4 ↔
+  HOT1A3, RNA-seq + proteomics), Biller 2018 (2) and Coe 2024 (2) (NATL2A ↔ MIT1002), Hennon 2017
+  (2: MIT9312 ↔ EZ55). Biller 2016's two within-coculture growth-phase contrasts and Bernstein
+  2017's light/oxygen steady states move their partner from `treatment_organism` to
+  `background_organisms`, which is what they always were.
+
 ### Highlights
+
+- `list_experiments(coculture_partner="Alteromonas")`-style questions now find every experiment
+  run with that partner, including the 35 where the coculture was the context rather than the
+  treatment (Weissberg 2025 proteomics, Moreno 2023's non-axenic cultures); the edge says whether
+  the partner was the treatment or the background.
 
 - Every gene Cyanorak annotates now has a genome position and a protein sequence, including
   the 3,837 genes across 21 *Prochlorococcus* / *Synechococcus* strains that NCBI's PGAP
@@ -57,6 +96,13 @@ tag with nothing logged.
 
 ### Added
 
+- **`background_organisms`** optional experiment field in paperconfig (list of
+  `{organism, taxid | assembly_accession}`), one `Tests_coculture_with` edge per entry with
+  `partner_role = background`; `scripts/validate_paperconfig.py` errors when `coculture` is in
+  `background_factors` with no partner named and warns when a `treatment_organism` is read as
+  background. `Tests_coculture_with.partner_role` registered as a `ControlledVocabulary` with
+  value descriptions. Structural edges (`Has_experiment`, `Tests_coculture_with`) are now emitted
+  even for a paperconfig with no supplementary tables.
 - **`Gene.coordinate_source`** (`ncbi` | `cyanorak`, dense) and **`Gene.sequence_source`**
   (`ncbi` | `cyanorak`, sparse — present iff `sequence`) say which caller placed and
   translated a gene. Registered in `config/controlled_vocabularies.yaml`.

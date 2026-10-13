@@ -728,40 +728,87 @@ def test_experiment_time_point_count_accurate(run_query):
     )
 
 
-def test_experiment_no_empty_string_coculture_partner(run_query):
-    """No Experiment should have coculture_partner = '' (empty string)."""
+def test_experiment_coculture_partner_is_dense_list(run_query):
+    """coculture_partner is a dense str[] on every Experiment ([] when axenic), no '' entries."""
     result = run_query("""
         MATCH (e:Experiment)
-        WHERE e.coculture_partner = ''
-        RETURN count(e) AS bad
-    """)
-    assert result[0]["bad"] == 0, (
-        f"{result[0]['bad']} experiments have empty-string coculture_partner"
-    )
+        RETURN
+          sum(CASE WHEN e.coculture_partner IS NULL THEN 1 ELSE 0 END) AS missing,
+          sum(CASE WHEN '' IN coalesce(e.coculture_partner, []) THEN 1 ELSE 0 END) AS empties,
+          sum(CASE WHEN size(coalesce(e.coculture_partner, [])) = 0 THEN 1 ELSE 0 END) AS axenic,
+          sum(CASE WHEN size(coalesce(e.coculture_partner, [])) > 1 THEN 1 ELSE 0 END) AS multi
+    """)[0]
+    assert result["missing"] == 0, f"{result['missing']} experiments lack coculture_partner (must be [] when axenic)"
+    assert result["empties"] == 0, f"{result['empties']} experiments carry an empty-string partner"
+    assert result["multi"] > 0, "no multi-partner experiment — Moreno 2023's two-heterotroph cultures should give several"
 
 
-def test_experiment_coculture_partner_null_when_no_partner(run_query):
-    """Experiments without a treatment organism should have null coculture_partner.
+def test_experiment_coculture_partner_equals_edge_partners(run_query):
+    """Invariant the explorer relies on: the list == sorted preferred_name over the
+    experiment's Tests_coculture_with edges. Post-import writes it from the edges."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        OPTIONAL MATCH (e)-[:Tests_coculture_with]->(o:OrganismTaxon)
+        WITH e, apoc.coll.sort([n IN collect(DISTINCT o.preferred_name) WHERE n IS NOT NULL]) AS expected
+        WHERE e.coculture_partner <> expected
+        RETURN count(e) AS bad, collect(e.id)[..5] AS examples
+    """)[0]
+    assert result["bad"] == 0, f"{result['bad']} experiments where coculture_partner != edge partners: {result['examples']}"
 
-    A partner may be the experiment's TREATMENT or merely its BACKGROUND. The
-    Biller 2016 MIT1002 contrasts are 24-vs-12 h and 48-vs-12 h *within* a
-    coculture — both arms are cocultured, so the contrast is `growth_phase` with
-    `coculture` as a background factor, yet `Prochlorococcus NATL2A` is still a
-    real partner of the culture. Checking `treatment_type` alone would demand
-    that a partner be the thing under test, which is not what the field means.
+
+def test_background_coculture_always_names_a_partner(run_query):
+    """Every experiment whose culture was a coculture (background or treatment) lists ≥1 partner.
+
+    35 experiments across 6 papers once carried `coculture` in background_factors
+    with no partner anywhere in the graph (invisible to any partner filter).
     """
+    result = run_query("""
+        MATCH (e:Experiment)
+        WHERE ('coculture' IN e.background_factors OR 'coculture' IN e.treatment_type
+               OR 'viral' IN e.treatment_type)
+          AND size(e.coculture_partner) = 0
+        RETURN count(e) AS bad, collect(e.id)[..5] AS examples
+    """)[0]
+    assert result["bad"] == 0, f"{result['bad']} coculture experiments with no partner: {result['examples']}"
+
+
+def test_experiment_coculture_partner_empty_when_no_partner(run_query):
+    """Experiments with neither a coculture nor a viral context carry [] and no edge."""
     result = run_query("""
         MATCH (e:Experiment)
         WHERE NOT 'coculture' IN e.treatment_type
           AND NOT 'viral' IN e.treatment_type
-          AND NOT 'coculture' IN coalesce(e.background_factors, [])
-          AND NOT 'viral' IN coalesce(e.background_factors, [])
-          AND e.coculture_partner IS NOT NULL
+          AND NOT 'coculture' IN e.background_factors
+          AND NOT 'viral' IN e.background_factors
+          AND (size(e.coculture_partner) > 0 OR EXISTS { (e)-[:Tests_coculture_with]->() })
         RETURN count(e) AS bad, collect(e.id)[..5] AS examples
-    """)
-    assert result[0]["bad"] == 0, (
-        f"{result[0]['bad']} non-partner experiments have coculture_partner set: {result[0]['examples']}"
-    )
+    """)[0]
+    assert result["bad"] == 0, f"{result['bad']} non-coculture experiments have a partner: {result['examples']}"
+
+
+def test_tests_coculture_with_partner_role(run_query):
+    """Every Tests_coculture_with edge carries partner_role ∈ {treatment, background};
+    phage edges are treatment; no experiment mixes roles (post-Moreno correction)."""
+    result = run_query("""
+        MATCH (e:Experiment)-[r:Tests_coculture_with]->(o:OrganismTaxon)
+        RETURN
+          sum(CASE WHEN r.partner_role IS NULL THEN 1 ELSE 0 END) AS missing,
+          collect(DISTINCT r.partner_role) AS roles,
+          sum(CASE WHEN o.preferred_name = 'Phage' AND r.partner_role <> 'treatment' THEN 1 ELSE 0 END) AS phage_not_treatment,
+          sum(CASE WHEN r.partner_role = 'background' THEN 1 ELSE 0 END) AS background_edges,
+          count(r) AS edges
+    """)[0]
+    assert result["missing"] == 0, f"{result['missing']} partner edges lack partner_role"
+    assert set(r for r in result["roles"] if r) <= {"treatment", "background"}, result["roles"]
+    assert result["phage_not_treatment"] == 0
+    assert result["background_edges"] > 0, "no background partner edges — the fill did not land"
+    mixed = run_query("""
+        MATCH (e:Experiment)-[r:Tests_coculture_with]->()
+        WITH e, collect(DISTINCT r.partner_role) AS roles WHERE size(roles) > 1
+        RETURN count(e) AS mixed, collect(e.id)[..5] AS examples
+    """)[0]
+    assert mixed["mixed"] == 0, f"{mixed['mixed']} experiments mix partner roles: {mixed['examples']}"
+
 
 
 def test_experiment_parallel_arrays_aligned(run_query):

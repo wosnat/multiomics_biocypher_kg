@@ -47,7 +47,7 @@ def test_no_non_bacterial_organisms(run_query):
 
 
 def test_organism_count(run_query):
-    """48 OrganismTaxon nodes: 41 genome strains + 2 reference proteome match + 5 treatment organisms.
+    """47 OrganismTaxon nodes: 41 genome strains + 2 reference proteome match + 4 treatment organisms.
 
     Genome strains (41): 19 Pro (MED4, AS9601, MIT9301, MIT9312, MIT9313,
     MIT9303, NATL1A, NATL2A, RSP50, SS120, MIT0801, MIT9515, MIT9202, MIT9215,
@@ -56,12 +56,13 @@ def test_organism_count(run_query):
     (MIT1002, EZ55, HOT1A3, AD45, ATCC27126, BGP6, BS11, AltDE, AltDE1),
     4 heterotrophs (W3-18-1, KT2440, DSS-3, MruberA).
     Reference proteome match (2): Marinobacter (MarRef v6), Alteromonas (MarRef v6).
-    Treatment organisms (5): Phage, Alteromonas (genus), Vibrio
-    parahaemolyticus, Meiothermus ruber, E. coli.
+    Treatment organisms (4): Phage, Alteromonas (genus), Vibrio
+    parahaemolyticus, E. coli. (Meiothermus ruber ncbitaxon:277 retired 2026-10-13:
+    Bernstein 2017's partner is the sequenced isolate MruberA, a genome strain.)
     """
     result = run_query("MATCH (o:OrganismTaxon) RETURN count(o) AS cnt")
-    assert result[0]["cnt"] == 48, (
-        f"Expected 48 OrganismTaxon nodes, got {result[0]['cnt']}"
+    assert result[0]["cnt"] == 47, (
+        f"Expected 47 OrganismTaxon nodes, got {result[0]['cnt']}"
     )
 
 
@@ -120,7 +121,7 @@ def test_organism_type_values(run_query):
         f"Unexpected organism_type values: {counts}"
     )
     assert counts["genome_strain"] == 41
-    assert counts["treatment"] == 5
+    assert counts["treatment"] == 4
     assert counts["reference_proteome_match"] == 2
 
 

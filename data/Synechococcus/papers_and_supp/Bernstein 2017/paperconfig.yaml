@@ -14,15 +14,18 @@ publication:
       # samples across 3 irradiance x 3 pO2 turbidostat steady states, so
       # coculture is the held-constant context and light + oxygen are the
       # manipulated variables. (The paper's axenic-vs-binary comparison is not
-      # in the KG; treatment_organism still drives Tests_coculture_with.)
+      # in the KG.) The partner is therefore a background_organisms entry: the
+      # Tests_coculture_with edge carries partner_role = background and targets
+      # the sequenced isolate MruberA (GCF_000836395.1), not a genus-level node.
       treatment_type: ["light", "oxygen"]
       background_factors: [coculture]
+      background_organisms:
+        - organism: "Meiothermus ruber"
+          assembly_accession: "GCF_000836395.1"
       medium: ""
       temperature: ""
       light_condition: "variable (low/medium/high)"
       light_intensity: ""
-      treatment_organism: "Meiothermus ruber"
-      treatment_taxid: 277   # Meiothermus ruber (was 1299 = Deinococcus radiodurans, a registry error)
 
   supplementary_materials:
     # ── BP-1 gene cluster data (light condition clustering) ────────────

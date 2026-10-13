@@ -1514,3 +1514,94 @@ def test_denormalized_condition_vocabs_match_experiment():
             assert v[f"{label}.{prop}"].values == v[f"Experiment.{prop}"].values, (label, prop)
     assert v["ClusteringAnalysis.background_factors"].min_size is None
     assert v["ClusteringAnalysis.treatment_type"].min_size == 1
+
+
+# ---------------------------------------------------------------------------
+# Unit tests — background_organisms (partners when coculture is the context)
+# ---------------------------------------------------------------------------
+
+class TestBackgroundOrganisms:
+    """`coculture` in background_factors must name its partner(s).
+
+    35 experiments (6 papers) once carried `coculture` as a background factor
+    with no partner recorded anywhere, so the explorer's partner filter could
+    not find them. The partner now goes in `background_organisms`, and an
+    unnamed background coculture is an error, not a warning.
+    """
+
+    def _background_exp(self, **extra) -> dict:
+        exp = {
+            "treatment_type": "nitrogen",
+            "treatment_condition": "N starvation",
+            "control_condition": "Exponential growth",
+            "background_factors": ["coculture", "light"],
+            "treatment_organism": None,
+            "treatment_taxid": None,
+        }
+        exp.update(extra)
+        return exp
+
+    def _config(self, tmp_path, **extra):
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(csv, experiment_overrides=self._background_exp(**extra))
+        exp = config["publication"]["experiments"]["exp_coculture"]
+        for k in [k for k, v in exp.items() if v is None]:
+            exp.pop(k)
+        return _write_config(tmp_path, config)
+
+    def test_background_coculture_without_any_partner_is_an_error(self, tmp_path, monkeypatch, capsys):
+        monkeypatch.chdir(PROJECT_ROOT)
+        cfg_file = self._config(tmp_path)
+        result = validate(str(cfg_file))
+        out = capsys.readouterr().out
+        assert result is False
+        assert "background_organisms" in out
+
+    def test_background_organisms_with_accession_is_accepted(self, tmp_path, monkeypatch, capsys):
+        monkeypatch.chdir(PROJECT_ROOT)
+        cfg_file = self._config(tmp_path, background_organisms=[
+            {"organism": "Alteromonas macleodii HOT1A3", "taxid": 28108,
+             "assembly_accession": "GCF_001578515.1"},
+        ])
+        result = validate(str(cfg_file))
+        out = capsys.readouterr().out
+        assert result is True, out
+
+    def test_background_organism_must_be_canonical(self, tmp_path, monkeypatch, capsys):
+        monkeypatch.chdir(PROJECT_ROOT)
+        cfg_file = self._config(tmp_path, background_organisms=[
+            {"organism": "NonExistentBacterium", "taxid": 1},
+        ])
+        result = validate(str(cfg_file))
+        assert result is False
+
+    def test_background_organism_accession_must_exist(self, tmp_path, monkeypatch, capsys):
+        monkeypatch.chdir(PROJECT_ROOT)
+        cfg_file = self._config(tmp_path, background_organisms=[
+            {"organism": "Alteromonas macleodii HOT1A3", "assembly_accession": "GCF_000000000.9"},
+        ])
+        result = validate(str(cfg_file))
+        out = capsys.readouterr().out
+        assert result is False
+        assert "GCF_000000000.9" in out
+
+    def test_background_organism_needs_taxid_or_accession(self, tmp_path, monkeypatch, capsys):
+        monkeypatch.chdir(PROJECT_ROOT)
+        cfg_file = self._config(tmp_path, background_organisms=[
+            {"organism": "Alteromonas macleodii HOT1A3"},
+        ])
+        result = validate(str(cfg_file))
+        out = capsys.readouterr().out
+        assert result is False
+        assert "taxid" in out and "assembly_accession" in out
+
+    def test_treatment_organism_read_as_background_warns(self, tmp_path, monkeypatch, capsys):
+        """A treatment_organism on a non-coculture/viral treatment becomes a background partner."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        cfg_file = self._config(
+            tmp_path, treatment_organism="Alteromonas macleodii HOT1A3", treatment_taxid=28108,
+        )
+        result = validate(str(cfg_file))
+        out = capsys.readouterr().out
+        assert result is True
+        assert "recorded as a background partner" in out

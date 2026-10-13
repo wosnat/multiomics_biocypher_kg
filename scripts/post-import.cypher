@@ -232,6 +232,16 @@ MATCH (e:Experiment)
 SET e.treatment_type = coalesce(e.treatment_type, []),
     e.background_factors = coalesce(e.background_factors, []);
 
+// coculture_partner is written from the Tests_coculture_with edges, so the
+// list always equals the sorted partner preferred_names — [] when the culture
+// was axenic (dense). Treatment, background and phage partners all appear;
+// the role is on the edge (partner_role), never derivable from treatment_type
+// alone (2026-10-13).
+MATCH (e:Experiment)
+OPTIONAL MATCH (e)-[:Tests_coculture_with]->(o:OrganismTaxon)
+WITH e, [n IN collect(DISTINCT o.preferred_name) WHERE n IS NOT NULL] AS partners
+SET e.coculture_partner = apoc.coll.sort(partners);
+
 MATCH (n)
 WHERE n:ClusteringAnalysis OR n:DerivedMetric OR n:MetaboliteAssay
 SET n.treatment_type = coalesce(n.treatment_type, []),
@@ -255,7 +265,7 @@ WITH p,
      count(e) AS ec,
      [x IN collect(DISTINCT e.omics_type) WHERE x IS NOT NULL] AS ots,
      [x IN collect(DISTINCT e.organism_name) WHERE x IS NOT NULL] AS orgs,
-     [x IN collect(DISTINCT e.coculture_partner) WHERE x IS NOT NULL AND x <> ''] AS coculture_orgs,
+     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.coculture_partner, [])) | s + t)) AS coculture_orgs,
      apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.treatment_type, [])) | s + t)) AS tts,
      apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.background_factors, [])) | s + t)) AS bfs,
      apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.growth_phases, [])) | s + t)) AS gps

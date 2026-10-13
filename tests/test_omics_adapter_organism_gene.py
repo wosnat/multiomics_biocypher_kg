@@ -1600,11 +1600,11 @@ class TestExperimentNodeProperties:
         assert props['temperature'] == '24C'
 
     def test_experiment_has_coculture_partner(self, adapter_with_mock_extracted_data):
-        """coculture_partner is set from treatment_organism."""
+        """coculture_partner is a dense list of partner names (treatment_organism here)."""
         nodes = adapter_with_mock_extracted_data.get_nodes()
         exp_nodes = [n for n in nodes if n[1] == 'experiment']
         assert len(exp_nodes) == 1
-        assert exp_nodes[0][2]['coculture_partner'] == 'Alteromonas macleodii'
+        assert exp_nodes[0][2]['coculture_partner'] == ['Alteromonas macleodii']
 
     def test_experiment_has_table_scope(self, adapter_with_mock_extracted_data):
         """table_scope is set on experiment nodes."""

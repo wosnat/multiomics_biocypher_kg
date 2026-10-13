@@ -154,6 +154,10 @@ CANONICAL_GENOMIC_ORGANISMS = {
     "Alteromonas mediterranea AltDE1",
     "Alteromonas (MarRef v6)",
     "Marinobacter (MarRef v6)",
+    # MruberA genome strain (GCF_000836395.1; NCBI classifies it as M. taiwanensis,
+    # preferred_name keeps the paper name). Was only reachable via the treatment
+    # row ncbitaxon:277 until that duplicate-named node was retired on 2026-10-13.
+    "Meiothermus ruber",
     "Shewanella sp. W3-18-1",
     "Pseudomonas putida KT2440",
     "Ruegeria pomeroyi DSS-3",
@@ -176,7 +180,6 @@ _TREATMENT_ORGANISMS_CSV_DEFAULT = {
     "Phage",
     "Alteromonas",
     "Vibrio parahaemolyticus",
-    "Meiothermus ruber",
     "Escherichia coli",
     # Ziegler 2025 organisms (commented out in treatment_organisms.csv until paper is added):
     # "Marinobacter",
@@ -659,6 +662,61 @@ def _validate_experiments(experiments: dict, config_path: str,
             warnings.append(
                 f"{config_path} | experiments.{exp_key} | "
                 f"treatment_type includes 'coculture' or 'viral' but missing treatment_taxid"
+            )
+
+        # background_organisms: partners present in EVERY arm of the comparison
+        # (the culture was a coculture; the experiment tests something else).
+        # Each entry resolves to an OrganismTaxon node exactly like
+        # treatment_organism does (assembly_accession first, else taxid). A
+        # background coculture with no partner named anywhere is an ERROR:
+        # 35 experiments once carried `coculture` in background_factors with
+        # no partner, invisible to every partner filter (2026-10-13).
+        bg_orgs = exp.get("background_organisms") or []
+        if not isinstance(bg_orgs, list):
+            errors.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"background_organisms must be a list of "
+                f"{{organism, taxid | assembly_accession}} mappings"
+            )
+            bg_orgs = []
+        for i, entry in enumerate(bg_orgs):
+            loc = f"experiments.{exp_key} background_organisms[{i}]"
+            if not isinstance(entry, dict) or not entry.get("organism"):
+                errors.append(
+                    f"{config_path} | {loc} | must be a mapping with an 'organism' name"
+                )
+                continue
+            name = entry["organism"]
+            if name not in all_canonical_organisms:
+                errors.append(
+                    _canonical_organism_error(config_path, loc, name, all_canonical_organisms)
+                )
+            acc = entry.get("assembly_accession", "")
+            if not acc and not entry.get("taxid"):
+                errors.append(
+                    f"{config_path} | {loc} | needs 'taxid' or 'assembly_accession' "
+                    f"to resolve the partner's OrganismTaxon node"
+                )
+            if acc and genome_accessions and acc not in genome_accessions:
+                errors.append(
+                    f"{config_path} | {loc} | assembly_accession '{acc}' is not present in "
+                    f"data/Prochlorococcus/genomes/cyanobacteria_genomes.csv | "
+                    f"the Tests_coculture_with edge would be dropped at import time"
+                )
+            elif acc:
+                print(f"    background_organisms[{i}] '{name}' ({acc}): OK")
+        if "coculture" in bg_list and not t_org and not bg_orgs:
+            errors.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"background_factors includes 'coculture' but no partner is named — "
+                f"add background_organisms: [{{organism, taxid | assembly_accession}}]"
+            )
+        if t_org and not ({"coculture", "viral"} & set(tt_list)):
+            warnings.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"treatment_organism '{t_org}' will be recorded as a background partner "
+                f"(treatment_type {tt_list} has neither 'coculture' nor 'viral') — "
+                f"prefer background_organisms for partners that are context, not treatment"
             )
 
         # treatment_assembly_accession must match an existing OrganismTaxon node id.

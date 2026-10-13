@@ -12,6 +12,10 @@ publication:
       test_type: edgeR
       treatment_type: [carbon]
       background_factors: [axenic, coculture]
+      background_organisms:
+        - organism: "Alteromonas macleodii EZ55"
+          taxid: 28108
+          assembly_accession: "GCF_901457815.2"
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -27,6 +31,10 @@ publication:
       test_type: edgeR
       treatment_type: [carbon]
       background_factors: [axenic, coculture]
+      background_organisms:
+        - organism: "Alteromonas macleodii EZ55"
+          taxid: 28108
+          assembly_accession: "GCF_901457815.2"
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -42,6 +50,10 @@ publication:
       test_type: edgeR
       treatment_type: [carbon]
       background_factors: [axenic, coculture]
+      background_organisms:
+        - organism: "Alteromonas macleodii EZ55"
+          taxid: 28108
+          assembly_accession: "GCF_901457815.2"
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -57,6 +69,16 @@ publication:
       test_type: edgeR
       treatment_type: [carbon]
       background_factors: [axenic, coculture]
+      background_organisms:
+        - organism: "Prochlorococcus MIT9312"
+          taxid: 74546
+          assembly_accession: "GCF_000012645.1"
+        - organism: "Synechococcus CC9311"
+          taxid: 64471
+          assembly_accession: "GCF_000014585.1"
+        - organism: "Synechococcus WH8102"
+          taxid: 84588
+          assembly_accession: "GCF_000195975.1"
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -180,6 +202,16 @@ publication:
       test_type: edgeR
       treatment_type: [carbon]
       background_factors: [axenic, coculture]
+      background_organisms:
+        - organism: "Prochlorococcus MIT9312"
+          taxid: 74546
+          assembly_accession: "GCF_000012645.1"
+        - organism: "Synechococcus CC9311"
+          taxid: 64471
+          assembly_accession: "GCF_000014585.1"
+        - organism: "Synechococcus WH8102"
+          taxid: 84588
+          assembly_accession: "GCF_000195975.1"
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light

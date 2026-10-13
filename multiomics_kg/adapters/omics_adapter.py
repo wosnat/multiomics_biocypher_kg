@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from biocypher._logger import logger
 from pydantic import BaseModel, DirectoryPath, validate_call
-from typing import Literal, Union, Optional
+from typing import Literal, Union, Optional, NamedTuple
 from enum import Enum, EnumMeta, auto
 import math
 import pandas as pd
@@ -131,6 +131,13 @@ def _validate_fc_range(
                 "Consider setting fold_change_type: linear.",
                 analysis_id, min_val, max_val,
             )
+
+
+class _Partner(NamedTuple):
+    """One organism sharing a culture with the profiled organism."""
+    name: str
+    organism_id: str | None
+    role: str  # treatment | background (R5 two-state string)
 
 
 class OMICSAdapter:
@@ -385,9 +392,13 @@ class OMICSAdapter:
             table_scope = self.clean_text(exp.get("table_scope", ""))
             if table_scope:
                 exp_props["table_scope"] = table_scope
-            partner = exp.get("treatment_organism", "")
-            if partner:
-                exp_props["coculture_partner"] = self.clean_text(partner)
+            # Dense list of every partner in the culture (treatment + background +
+            # phage), sorted; [] when axenic. Post-import overwrites it from the
+            # Tests_coculture_with edges (sorted preferred_name), so the list
+            # always equals the edge set — this value is the build-time seed.
+            exp_props["coculture_partner"] = sorted(
+                {p.name for p in self._experiment_partners(exp)}
+            )
             node_list.append((experiment_id, "experiment", exp_props))
             logger.info(f"Created experiment node: {experiment_id}")
 
@@ -422,6 +433,44 @@ class OMICSAdapter:
             logger.warning(f"'supplementary_materials' must be a dict, got {type(supp_materials).__name__}. Skipping all tables.")
             return edge_list
 
+        pub_id_raw = self.get_publication_id()
+        pub_id = self.add_prefix_to_id(prefix="doi", identifier=pub_id_raw)
+        experiments = get_experiments(self.config_data)
+
+        # Structural edges do not depend on any table: an Experiment node
+        # must always have its Has_experiment edge and its partner edges, even
+        # for a paperconfig with no supplementary materials (2026-10-13).
+        # ── Emit structural edges: has_experiment + tests_coculture_with ──
+        for exp_key, exp in experiments.items():
+            if not isinstance(exp, dict):
+                continue
+            experiment_id = f"{pub_id_raw}_{exp_key}"
+
+            # has_experiment edge: Publication → Experiment
+            edge_list.append((
+                f"{pub_id_raw}_has_exp_{exp_key}",
+                pub_id,
+                experiment_id,
+                'has_experiment',
+                self._get_default_properties()
+            ))
+
+            # tests_coculture_with edges: Experiment → OrganismTaxon, one per
+            # partner in the culture, each tagged with its role
+            for partner in self._experiment_partners(exp):
+                if not partner.organism_id:
+                    continue
+                props = self._get_default_properties()
+                props["partner_role"] = partner.role
+                edge_list.append((
+                    f"{pub_id_raw}_coculture_{exp_key}_"
+                    f"{partner.organism_id.replace(':', '_')}",
+                    experiment_id,
+                    partner.organism_id,
+                    'tests_coculture_with',
+                    props,
+                ))
+
         if not supp_materials:
             logger.warning("No supplementary materials found in config")
             return edge_list
@@ -446,9 +495,6 @@ class OMICSAdapter:
                     )
                 seen_analysis_ids.add(analysis_id)
 
-        pub_id_raw = self.get_publication_id()
-        pub_id = self.add_prefix_to_id(prefix="doi", identifier=pub_id_raw)
-        experiments = get_experiments(self.config_data)
 
         # ── Compute time_point_order per experiment ──
         # Collect analyses per experiment, sort by timepoint_hours (null last), then by id
@@ -480,46 +526,6 @@ class OMICSAdapter:
             sorted_analyses = sorted(analyses_list, key=sort_key)
             for order, (sa, _, _) in enumerate(sorted_analyses, start=1):
                 analysis_tp_order[sa.get('id')] = order
-
-        # ── Emit structural edges: has_experiment + tests_coculture_with ──
-        for exp_key, exp in experiments.items():
-            if not isinstance(exp, dict):
-                continue
-            experiment_id = f"{pub_id_raw}_{exp_key}"
-
-            # has_experiment edge: Publication → Experiment
-            edge_list.append((
-                f"{pub_id_raw}_has_exp_{exp_key}",
-                pub_id,
-                experiment_id,
-                'has_experiment',
-                self._get_default_properties()
-            ))
-
-            # tests_coculture_with edge: Experiment → OrganismTaxon (coculture only)
-            treatment_organism = exp.get('treatment_organism')
-            if treatment_organism:
-                treatment_accession = exp.get('treatment_assembly_accession')
-                treatment_taxid = exp.get('treatment_taxid')
-                if treatment_accession:
-                    organism_id = self.add_prefix_to_id(
-                        prefix="insdc.gcf", identifier=treatment_accession
-                    )
-                elif treatment_taxid:
-                    organism_id = self.add_prefix_to_id(
-                        prefix="ncbitaxon", identifier=str(treatment_taxid)
-                    )
-                else:
-                    organism_id = None
-
-                if organism_id:
-                    edge_list.append((
-                        f"{pub_id_raw}_coculture_{exp_key}",
-                        experiment_id,
-                        organism_id,
-                        'tests_coculture_with',
-                        self._get_default_properties()
-                    ))
 
         # ── Emit expression edges: Experiment → Gene ──
         for table_key, table_data in supp_materials.items():
@@ -928,6 +934,49 @@ class OMICSAdapter:
         """Strip BioCypher-special characters; delegates to ``utils.curie_utils.clean_text``."""
         from multiomics_kg.utils.curie_utils import clean_text as _clean_text
         return _clean_text(text)
+
+    def _partner_organism_id(self, accession, taxid) -> str | None:
+        """OrganismTaxon node id for a partner: assembly accession first
+        (``insdc.gcf:``), else NCBI taxid (``ncbitaxon:``), else None."""
+        if accession:
+            return self.add_prefix_to_id(prefix="insdc.gcf", identifier=str(accession))
+        if taxid:
+            return self.add_prefix_to_id(prefix="ncbitaxon", identifier=str(taxid))
+        return None
+
+    def _experiment_partners(self, exp: dict) -> list["_Partner"]:
+        """Every organism sharing the culture with the profiled one, with its role.
+
+        - ``treatment_organism`` is ``treatment`` when the experiment tests the
+          partner itself (``treatment_type`` contains ``coculture`` or ``viral``),
+          else ``background`` (e.g. Biller 2016's within-coculture time contrasts).
+        - every ``background_organisms`` entry is ``background``.
+        An organism named on both sides keeps ``treatment``.
+        """
+        tt = set(self._normalize_list_field(exp, "treatment_type"))
+        partners: dict[str, _Partner] = {}
+        t_org = exp.get("treatment_organism")
+        if t_org:
+            role = "treatment" if tt & {"coculture", "viral"} else "background"
+            partners[self.clean_text(t_org)] = _Partner(
+                self.clean_text(t_org),
+                self._partner_organism_id(
+                    exp.get("treatment_assembly_accession"), exp.get("treatment_taxid")
+                ),
+                role,
+            )
+        for entry in exp.get("background_organisms") or []:
+            if not isinstance(entry, dict) or not entry.get("organism"):
+                continue
+            name = self.clean_text(entry["organism"])
+            if name in partners:
+                continue
+            partners[name] = _Partner(
+                name,
+                self._partner_organism_id(entry.get("assembly_accession"), entry.get("taxid")),
+                "background",
+            )
+        return list(partners.values())
 
     def _get_default_properties(self) -> dict:
         """

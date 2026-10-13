@@ -37,6 +37,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
@@ -52,6 +57,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
@@ -67,6 +77,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous darkness"
@@ -82,6 +97,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous darkness"
@@ -99,6 +119,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
@@ -114,6 +139,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
@@ -129,6 +159,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous darkness"
@@ -144,6 +179,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous darkness"
@@ -161,6 +201,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
@@ -176,6 +221,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
@@ -191,6 +241,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
@@ -206,6 +261,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
@@ -223,6 +283,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
@@ -238,6 +303,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
@@ -253,6 +323,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
@@ -268,6 +343,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
@@ -285,6 +365,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
@@ -300,6 +385,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
@@ -315,6 +405,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
@@ -330,6 +425,11 @@ publication:
       test_type: "t-test"
       treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
@@ -352,15 +452,18 @@ publication:
       experimental_context: "Marinobacter adhaerens HP15 subpopulation in non-axenic MED4 culture (Pro99 medium); LC-MS/MS proteomics of the Marinobacter fraction; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Prochlorococcus MED4"
+          taxid: 59919
+          assembly_accession: "GCF_000011465.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Prochlorococcus MED4"
-      treatment_taxid: 59919
-      treatment_assembly_accession: "GCF_000011465.1"
       table_scope: all_detected_genes
     light_high_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: light +5 mM glucose vs light (control)"
@@ -371,15 +474,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic MED4 in Pro99, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Prochlorococcus MED4"
+          taxid: 59919
+          assembly_accession: "GCF_000011465.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Prochlorococcus MED4"
-      treatment_taxid: 59919
-      treatment_assembly_accession: "GCF_000011465.1"
       table_scope: all_detected_genes
     dark_low_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: darkness +100 nM glucose vs darkness (control)"
@@ -390,15 +496,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic MED4 in Pro99, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Prochlorococcus MED4"
+          taxid: 59919
+          assembly_accession: "GCF_000011465.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Prochlorococcus MED4"
-      treatment_taxid: 59919
-      treatment_assembly_accession: "GCF_000011465.1"
       table_scope: all_detected_genes
     dark_high_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: darkness +5 mM glucose vs darkness (control)"
@@ -409,15 +518,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic MED4 in Pro99, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Prochlorococcus MED4"
+          taxid: 59919
+          assembly_accession: "GCF_000011465.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Prochlorococcus MED4"
-      treatment_taxid: 59919
-      treatment_assembly_accession: "GCF_000011465.1"
       table_scope: all_detected_genes
 
     # ── Marino in SS120 ──
@@ -434,15 +546,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+          taxid: 167539
+          assembly_accession: "GCF_000007925.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
-      treatment_taxid: 167539
-      treatment_assembly_accession: "GCF_000007925.1"
       table_scope: all_detected_genes
     light_high_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: light +5 mM glucose vs light (control)"
@@ -453,15 +568,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+          taxid: 167539
+          assembly_accession: "GCF_000007925.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
-      treatment_taxid: 167539
-      treatment_assembly_accession: "GCF_000007925.1"
       table_scope: all_detected_genes
     dark_low_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: darkness +100 nM glucose vs darkness (control)"
@@ -472,15 +590,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+          taxid: 167539
+          assembly_accession: "GCF_000007925.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
-      treatment_taxid: 167539
-      treatment_assembly_accession: "GCF_000007925.1"
       table_scope: all_detected_genes
     dark_high_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: darkness +5 mM glucose vs darkness (control)"
@@ -491,15 +612,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+          taxid: 167539
+          assembly_accession: "GCF_000007925.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
-      treatment_taxid: 167539
-      treatment_assembly_accession: "GCF_000007925.1"
       table_scope: all_detected_genes
 
     # ── Marino in WH7803 ──
@@ -512,15 +636,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Synechococcus WH7803"
+          taxid: 32051
+          assembly_accession: "GCF_000063505.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Synechococcus WH7803"
-      treatment_taxid: 32051
-      treatment_assembly_accession: "GCF_000063505.1"
       table_scope: all_detected_genes
     light_high_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: light +5 mM glucose vs light (control)"
@@ -531,15 +658,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Synechococcus WH7803"
+          taxid: 32051
+          assembly_accession: "GCF_000063505.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Synechococcus WH7803"
-      treatment_taxid: 32051
-      treatment_assembly_accession: "GCF_000063505.1"
       table_scope: all_detected_genes
     dark_low_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: darkness +100 nM glucose vs darkness (control)"
@@ -550,15 +680,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Synechococcus WH7803"
+          taxid: 32051
+          assembly_accession: "GCF_000063505.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Synechococcus WH7803"
-      treatment_taxid: 32051
-      treatment_assembly_accession: "GCF_000063505.1"
       table_scope: all_detected_genes
     dark_high_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: darkness +5 mM glucose vs darkness (control)"
@@ -569,15 +702,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Synechococcus WH7803"
+          taxid: 32051
+          assembly_accession: "GCF_000063505.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Synechococcus WH7803"
-      treatment_taxid: 32051
-      treatment_assembly_accession: "GCF_000063505.1"
       table_scope: all_detected_genes
 
     # ── Marino in WH8102 ──
@@ -590,15 +726,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Synechococcus WH8102"
+          taxid: 84588
+          assembly_accession: "GCF_000195975.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Synechococcus WH8102"
-      treatment_taxid: 84588
-      treatment_assembly_accession: "GCF_000195975.1"
       table_scope: all_detected_genes
     light_high_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: light +5 mM glucose vs light (control)"
@@ -609,15 +748,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Synechococcus WH8102"
+          taxid: 84588
+          assembly_accession: "GCF_000195975.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Synechococcus WH8102"
-      treatment_taxid: 84588
-      treatment_assembly_accession: "GCF_000195975.1"
       table_scope: all_detected_genes
     dark_low_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: darkness +100 nM glucose vs darkness (control)"
@@ -628,15 +770,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Synechococcus WH8102"
+          taxid: 84588
+          assembly_accession: "GCF_000195975.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Synechococcus WH8102"
-      treatment_taxid: 84588
-      treatment_assembly_accession: "GCF_000195975.1"
       table_scope: all_detected_genes
     dark_high_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: darkness +5 mM glucose vs darkness (control)"
@@ -647,15 +792,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Synechococcus WH8102"
+          taxid: 84588
+          assembly_accession: "GCF_000195975.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Synechococcus WH8102"
-      treatment_taxid: 84588
-      treatment_assembly_accession: "GCF_000195975.1"
       table_scope: all_detected_genes
 
     # ── Marino in BL107 ──
@@ -668,15 +816,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Synechococcus sp. BL107"
+          taxid: 313625
+          assembly_accession: "GCF_000153805.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Synechococcus sp. BL107"
-      treatment_taxid: 313625
-      treatment_assembly_accession: "GCF_000153805.1"
       table_scope: all_detected_genes
     light_high_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: light +5 mM glucose vs light (control)"
@@ -687,15 +838,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "light"]
+      background_organisms:
+        - organism: "Synechococcus sp. BL107"
+          taxid: 313625
+          assembly_accession: "GCF_000153805.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Synechococcus sp. BL107"
-      treatment_taxid: 313625
-      treatment_assembly_accession: "GCF_000153805.1"
       table_scope: all_detected_genes
     dark_low_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: darkness +100 nM glucose vs darkness (control)"
@@ -706,15 +860,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Synechococcus sp. BL107"
+          taxid: 313625
+          assembly_accession: "GCF_000153805.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Synechococcus sp. BL107"
-      treatment_taxid: 313625
-      treatment_assembly_accession: "GCF_000153805.1"
       table_scope: all_detected_genes
     dark_high_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: darkness +5 mM glucose vs darkness (control)"
@@ -725,15 +882,18 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
+      treatment_type: ["carbon"]
       background_factors: ["coculture", "darkness"]
+      background_organisms:
+        - organism: "Synechococcus sp. BL107"
+          taxid: 313625
+          assembly_accession: "GCF_000153805.1"
+        - organism: "Alteromonas (MarRef v6)"
+          assembly_accession: "GCA_003513035.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Synechococcus sp. BL107"
-      treatment_taxid: 313625
-      treatment_assembly_accession: "GCF_000153805.1"
       table_scope: all_detected_genes
 
     # ─────────────────────────────────────────────────────────────────────
@@ -755,15 +915,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous light, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["light"]
+      treatment_type: ["carbon"]
+      background_factors: [light, coculture]
+      background_organisms:
+        - organism: "Prochlorococcus MED4"
+          taxid: 59919
+          assembly_accession: "GCF_000011465.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Prochlorococcus MED4"
-      treatment_taxid: 59919
-      treatment_assembly_accession: "GCF_000011465.1"
       table_scope: all_detected_genes
     light_high_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: light +5 mM glucose vs light (control)"
@@ -774,15 +937,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous light, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["light"]
+      treatment_type: ["carbon"]
+      background_factors: [light, coculture]
+      background_organisms:
+        - organism: "Prochlorococcus MED4"
+          taxid: 59919
+          assembly_accession: "GCF_000011465.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Prochlorococcus MED4"
-      treatment_taxid: 59919
-      treatment_assembly_accession: "GCF_000011465.1"
       table_scope: all_detected_genes
     dark_low_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: darkness +100 nM glucose vs darkness (control)"
@@ -793,15 +959,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous darkness, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["darkness"]
+      treatment_type: ["carbon"]
+      background_factors: [darkness, coculture]
+      background_organisms:
+        - organism: "Prochlorococcus MED4"
+          taxid: 59919
+          assembly_accession: "GCF_000011465.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Prochlorococcus MED4"
-      treatment_taxid: 59919
-      treatment_assembly_accession: "GCF_000011465.1"
       table_scope: all_detected_genes
     dark_high_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: darkness +5 mM glucose vs darkness (control)"
@@ -812,15 +981,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous darkness, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["darkness"]
+      treatment_type: ["carbon"]
+      background_factors: [darkness, coculture]
+      background_organisms:
+        - organism: "Prochlorococcus MED4"
+          taxid: 59919
+          assembly_accession: "GCF_000011465.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Prochlorococcus MED4"
-      treatment_taxid: 59919
-      treatment_assembly_accession: "GCF_000011465.1"
       table_scope: all_detected_genes
 
     # ── Alteromonas in SS120 ──
@@ -833,15 +1005,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous light, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["light"]
+      treatment_type: ["carbon"]
+      background_factors: [light, coculture]
+      background_organisms:
+        - organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+          taxid: 167539
+          assembly_accession: "GCF_000007925.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
-      treatment_taxid: 167539
-      treatment_assembly_accession: "GCF_000007925.1"
       table_scope: all_detected_genes
     light_high_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: light +5 mM glucose vs light (control)"
@@ -852,15 +1027,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous light, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["light"]
+      treatment_type: ["carbon"]
+      background_factors: [light, coculture]
+      background_organisms:
+        - organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+          taxid: 167539
+          assembly_accession: "GCF_000007925.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
-      treatment_taxid: 167539
-      treatment_assembly_accession: "GCF_000007925.1"
       table_scope: all_detected_genes
     dark_low_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: darkness +100 nM glucose vs darkness (control)"
@@ -871,15 +1049,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous darkness, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["darkness"]
+      treatment_type: ["carbon"]
+      background_factors: [darkness, coculture]
+      background_organisms:
+        - organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+          taxid: 167539
+          assembly_accession: "GCF_000007925.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
-      treatment_taxid: 167539
-      treatment_assembly_accession: "GCF_000007925.1"
       table_scope: all_detected_genes
     dark_high_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: darkness +5 mM glucose vs darkness (control)"
@@ -890,15 +1071,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous darkness, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["darkness"]
+      treatment_type: ["carbon"]
+      background_factors: [darkness, coculture]
+      background_organisms:
+        - organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+          taxid: 167539
+          assembly_accession: "GCF_000007925.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
-      treatment_taxid: 167539
-      treatment_assembly_accession: "GCF_000007925.1"
       table_scope: all_detected_genes
 
     # ── Alteromonas in WH7803 ──
@@ -911,15 +1095,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous light, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["light"]
+      treatment_type: ["carbon"]
+      background_factors: [light, coculture]
+      background_organisms:
+        - organism: "Synechococcus WH7803"
+          taxid: 32051
+          assembly_accession: "GCF_000063505.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Synechococcus WH7803"
-      treatment_taxid: 32051
-      treatment_assembly_accession: "GCF_000063505.1"
       table_scope: all_detected_genes
     light_high_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: light +5 mM glucose vs light (control)"
@@ -930,15 +1117,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous light, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["light"]
+      treatment_type: ["carbon"]
+      background_factors: [light, coculture]
+      background_organisms:
+        - organism: "Synechococcus WH7803"
+          taxid: 32051
+          assembly_accession: "GCF_000063505.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Synechococcus WH7803"
-      treatment_taxid: 32051
-      treatment_assembly_accession: "GCF_000063505.1"
       table_scope: all_detected_genes
     dark_low_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: darkness +100 nM glucose vs darkness (control)"
@@ -949,15 +1139,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous darkness, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["darkness"]
+      treatment_type: ["carbon"]
+      background_factors: [darkness, coculture]
+      background_organisms:
+        - organism: "Synechococcus WH7803"
+          taxid: 32051
+          assembly_accession: "GCF_000063505.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Synechococcus WH7803"
-      treatment_taxid: 32051
-      treatment_assembly_accession: "GCF_000063505.1"
       table_scope: all_detected_genes
     dark_high_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: darkness +5 mM glucose vs darkness (control)"
@@ -968,15 +1161,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous darkness, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["darkness"]
+      treatment_type: ["carbon"]
+      background_factors: [darkness, coculture]
+      background_organisms:
+        - organism: "Synechococcus WH7803"
+          taxid: 32051
+          assembly_accession: "GCF_000063505.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Synechococcus WH7803"
-      treatment_taxid: 32051
-      treatment_assembly_accession: "GCF_000063505.1"
       table_scope: all_detected_genes
 
     # ── Alteromonas in WH8102 ──
@@ -989,15 +1185,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous light, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["light"]
+      treatment_type: ["carbon"]
+      background_factors: [light, coculture]
+      background_organisms:
+        - organism: "Synechococcus WH8102"
+          taxid: 84588
+          assembly_accession: "GCF_000195975.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Synechococcus WH8102"
-      treatment_taxid: 84588
-      treatment_assembly_accession: "GCF_000195975.1"
       table_scope: all_detected_genes
     light_high_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: light +5 mM glucose vs light (control)"
@@ -1008,15 +1207,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous light, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["light"]
+      treatment_type: ["carbon"]
+      background_factors: [light, coculture]
+      background_organisms:
+        - organism: "Synechococcus WH8102"
+          taxid: 84588
+          assembly_accession: "GCF_000195975.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Synechococcus WH8102"
-      treatment_taxid: 84588
-      treatment_assembly_accession: "GCF_000195975.1"
       table_scope: all_detected_genes
     dark_low_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: darkness +100 nM glucose vs darkness (control)"
@@ -1027,15 +1229,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous darkness, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["darkness"]
+      treatment_type: ["carbon"]
+      background_factors: [darkness, coculture]
+      background_organisms:
+        - organism: "Synechococcus WH8102"
+          taxid: 84588
+          assembly_accession: "GCF_000195975.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Synechococcus WH8102"
-      treatment_taxid: 84588
-      treatment_assembly_accession: "GCF_000195975.1"
       table_scope: all_detected_genes
     dark_high_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: darkness +5 mM glucose vs darkness (control)"
@@ -1046,15 +1251,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous darkness, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["darkness"]
+      treatment_type: ["carbon"]
+      background_factors: [darkness, coculture]
+      background_organisms:
+        - organism: "Synechococcus WH8102"
+          taxid: 84588
+          assembly_accession: "GCF_000195975.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Synechococcus WH8102"
-      treatment_taxid: 84588
-      treatment_assembly_accession: "GCF_000195975.1"
       table_scope: all_detected_genes
 
     # ── Alteromonas in BL107 ──
@@ -1067,15 +1275,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous light, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["light"]
+      treatment_type: ["carbon"]
+      background_factors: [light, coculture]
+      background_organisms:
+        - organism: "Synechococcus sp. BL107"
+          taxid: 313625
+          assembly_accession: "GCF_000153805.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Synechococcus sp. BL107"
-      treatment_taxid: 313625
-      treatment_assembly_accession: "GCF_000153805.1"
       table_scope: all_detected_genes
     light_high_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: light +5 mM glucose vs light (control)"
@@ -1086,15 +1297,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous light, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["light"]
+      treatment_type: ["carbon"]
+      background_factors: [light, coculture]
+      background_organisms:
+        - organism: "Synechococcus sp. BL107"
+          taxid: 313625
+          assembly_accession: "GCF_000153805.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "15 umol photons m-2 s-1"
-      treatment_organism: "Synechococcus sp. BL107"
-      treatment_taxid: 313625
-      treatment_assembly_accession: "GCF_000153805.1"
       table_scope: all_detected_genes
     dark_low_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: darkness +100 nM glucose vs darkness (control)"
@@ -1105,15 +1319,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous darkness, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["darkness"]
+      treatment_type: ["carbon"]
+      background_factors: [darkness, coculture]
+      background_organisms:
+        - organism: "Synechococcus sp. BL107"
+          taxid: 313625
+          assembly_accession: "GCF_000153805.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Synechococcus sp. BL107"
-      treatment_taxid: 313625
-      treatment_assembly_accession: "GCF_000153805.1"
       table_scope: all_detected_genes
     dark_high_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: darkness +5 mM glucose vs darkness (control)"
@@ -1124,15 +1341,18 @@ publication:
       experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous darkness, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon", "coculture"]
-      background_factors: ["darkness"]
+      treatment_type: ["carbon"]
+      background_factors: [darkness, coculture]
+      background_organisms:
+        - organism: "Synechococcus sp. BL107"
+          taxid: 313625
+          assembly_accession: "GCF_000153805.1"
+        - organism: "Marinobacter (MarRef v6)"
+          assembly_accession: "GCF_000166295.1"
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
-      treatment_organism: "Synechococcus sp. BL107"
-      treatment_taxid: 313625
-      treatment_assembly_accession: "GCF_000153805.1"
       table_scope: all_detected_genes
 
   supplementary_materials:

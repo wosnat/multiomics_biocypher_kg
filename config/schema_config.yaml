@@ -52,7 +52,7 @@ experiment:
     treatment: str
     control: str
     experimental_context: str
-    coculture_partner: str
+    coculture_partner: str[]         # DENSE since 2026-10-13: every partner in the culture (treatment + background + phage), sorted preferred_names; [] when axenic. Post-import writes it from Tests_coculture_with
     omics_type: str
     statistical_test: str
     is_time_course: str              # time_course | single_time_point (R5 two-state string)
@@ -183,6 +183,8 @@ experiment tests coculture:
   label_in_input: tests_coculture_with
   source: experiment
   target: organism taxon
+  properties:
+    partner_role: str                # treatment | background (R5 two-state string); one edge per partner in the culture
 
 # Publication → Gene (narrative "discusses" literature-index edge)
 publication discusses gene:

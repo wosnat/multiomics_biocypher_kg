@@ -630,6 +630,28 @@ Organism_has_metabolite.evidence_sources:
     organism measured it). Note the third value is "measured" here but
     "metabolomics" on Metabolite.evidence_sources — different properties.
 
+Tests_coculture_with.partner_role:
+  # provenance: set by omics_adapter._experiment_partners (2026-10-13). A paperconfig
+  #   treatment_organism is 'treatment' iff treatment_type ∩ {coculture, viral} ≠ ∅,
+  #   else 'background'; every background_organisms entry is 'background'. Set on
+  #   EVERY Tests_coculture_with edge, phage included. Experiment.coculture_partner
+  #   (dense str[]) is rewritten post-import from these edges.
+  applies_to: Tests_coculture_with
+  applies_to_kind: edge
+  property: partner_role
+  value_type: string
+  closed: true
+  values: [treatment, background]
+  value_descriptions:
+    treatment: "the experiment tests this partner's presence (coculture vs axenic, or phage infection vs uninfected)"
+    background: "this partner shared the culture in every arm; the experiment tests something else (a nutrient, glucose, light, growth phase)"
+  description: >
+    Why this organism is linked to the experiment. treatment = the partner's
+    presence is the variable under test. background = the partner was present
+    in every arm of the comparison, i.e. the culture was a coculture and the
+    experiment tests something else. Filter on this edge for role; the
+    Experiment.coculture_partner list names partners of both roles.
+
 Changes_expression_of.expression_status:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   CASE expression in scripts/post-import.sh (expression_status derivation).
@@ -848,6 +870,9 @@ Experiment.background_factors:
   description: >
     Held-constant context of the experiment that is not the manipulated
     variable: axenic, light, diel, coculture, chemical, darkness, viral.
+    A coculture background names its partner(s): Experiment.coculture_partner
+    lists every organism in the culture, and Tests_coculture_with.partner_role =
+    background marks the ones that are context rather than treatment.
     Always non-empty — every experiment has a context.
 
 ClusteringAnalysis.treatment_type:

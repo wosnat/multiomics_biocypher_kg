@@ -30,13 +30,14 @@ publication:
       test_type: DESeq2
       treatment_type: [growth_phase]
       background_factors: [light, coculture]
+      background_organisms:
+        - organism: "Prochlorococcus NATL2A"
+          taxid: 59920
+          assembly_accession: "GCF_000012465.1"
       medium: Pro99 natural seawater medium
       temperature: 21C
       light_condition: continuous light
       light_intensity: 30 umol photons m-2 s-1
-      treatment_organism: Prochlorococcus NATL2A
-      treatment_taxid: 59920
-      treatment_assembly_accession: GCF_000012465.1
       table_scope: significant_any_timepoint
     coculture_48_hours_after_coculturing_mit1002_rnaseq:
       name: MIT1002 48 hours vs 12 hours after co-culturing with Prochlorococcus NATL2A (RNASEQ)
@@ -48,13 +49,14 @@ publication:
       test_type: DESeq2
       treatment_type: [growth_phase]
       background_factors: [light, coculture]
+      background_organisms:
+        - organism: "Prochlorococcus NATL2A"
+          taxid: 59920
+          assembly_accession: "GCF_000012465.1"
       medium: Pro99 natural seawater medium
       temperature: 21C
       light_condition: continuous light
       light_intensity: 30 umol photons m-2 s-1
-      treatment_organism: Prochlorococcus NATL2A
-      treatment_taxid: 59920
-      treatment_assembly_accession: GCF_000012465.1
       table_scope: significant_any_timepoint
   supplementary_materials:
     supp_table_2:

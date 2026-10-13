@@ -13,6 +13,10 @@ publication:
       test_type: edgeR
       treatment_type: [carbon]
       background_factors: [coculture, diel]
+      background_organisms:
+        - organism: "Alteromonas macleodii EZ55"
+          taxid: 28108
+          assembly_accession: "GCF_901457815.2"
       medium: PEv medium (artificial seawater with Pro99 nutrients at 1/25 concentration)
       temperature: 21C
       light_condition: 14:10 light-dark cycle
@@ -29,6 +33,10 @@ publication:
       test_type: edgeR
       treatment_type: [carbon]
       background_factors: [coculture, diel]
+      background_organisms:
+        - organism: "Prochlorococcus MIT9312"
+          taxid: 74546
+          assembly_accession: "GCF_000012645.1"
       medium: PEv medium (artificial seawater with Pro99 nutrients at 1/25 concentration)
       temperature: 21C
       light_condition: 14:10 light-dark cycle
