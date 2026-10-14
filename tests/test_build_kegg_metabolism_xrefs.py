@@ -942,3 +942,109 @@ def test_populated_bridge_passes_the_guard(tmp_path):
         {"PF00005": {"3.A.1.1.1"}}, hierarchy, {"3", "3.A", "3.A.1"})
     assert sum(len(v) for v in rebuilt.values()) == 1
     assert rebuilt["3.A.1"]["PF00005"] == ["3.A.1.1.1"]
+
+
+# ── Task 11: ChEBI secondary→primary + KEGG re-key, rxn_genes ────────────────
+from tests.metabolite_identity_helpers import make_chebi, term  # noqa: E402
+
+
+def _subs_conn_with_chebi_only(tmp_path):
+    """MNX knows CHEBI:17234 (glucose) under MNXM41 but has NO kegg alias for it."""
+    import sqlite3
+    conn = sqlite3.connect(tmp_path / "r.db")
+    conn.executescript("""
+      CREATE TABLE compounds (mnxm_id TEXT, name TEXT, formula TEXT, mass REAL, inchikey TEXT, smiles TEXT);
+      CREATE TABLE compound_aliases (source TEXT, value TEXT, mnxm_id TEXT);
+      CREATE TABLE compound_names (mnxm_id TEXT, name_normalized TEXT);
+      INSERT INTO compounds VALUES ('MNXM41','glucose','C6H12O6',180.0,'WQZGKKKJIJFFOK-UHFFFAOYSA-N',NULL);
+      INSERT INTO compound_aliases VALUES ('chebi','4167','MNXM41');
+      INSERT INTO compound_aliases VALUES ('chebi','10004','MNXM9');
+      INSERT INTO compounds VALUES ('MNXM9','vitamin (role)',NULL,NULL,NULL,NULL);
+    """)
+    return conn
+
+
+def test_resolve_substrate_strings_rekeys_via_chebi_kegg_xref(tmp_path):
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _resolve_substrate_strings
+    chebi = make_chebi(CHEBI_4167=term("D-glucopyranose", alt=["CHEBI:12345"], kegg=["C00031"]))
+    rekeys = {}
+    s2p, props = _resolve_substrate_strings({"CHEBI:12345;glucose"}, _subs_conn_with_chebi_only(tmp_path),
+                                            chebi=chebi, rekeys=rekeys)
+    assert s2p == {"CHEBI:12345;glucose": "kegg.compound:C00031"}
+    assert rekeys == {"chebi:4167": "kegg.compound:C00031"} and props == {}
+
+
+def test_resolve_substrate_strings_without_chebi_is_unchanged(tmp_path):
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _resolve_substrate_strings
+    s2p, _ = _resolve_substrate_strings({"CHEBI:4167;glucose"}, _subs_conn_with_chebi_only(tmp_path))
+    assert s2p == {"CHEBI:4167;glucose": "chebi:4167"}
+
+
+def test_resolve_substrate_strings_secondary_to_primary_chebi_props(tmp_path):
+    """A secondary ChEBI id resolves via its primary; with no KEGG xref the node is the
+    primary chebi id and carries chebi_id = primary number."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _resolve_substrate_strings
+    chebi = make_chebi(CHEBI_4167=term("D-glucopyranose", alt=["CHEBI:12345"]))
+    rekeys = {}
+    s2p, props = _resolve_substrate_strings({"CHEBI:12345;glucose"}, _subs_conn_with_chebi_only(tmp_path),
+                                            chebi=chebi, rekeys=rekeys)
+    assert s2p == {"CHEBI:12345;glucose": "chebi:4167"}
+    assert props["chebi:4167"]["chebi_id"] == "4167" and props["chebi:4167"]["mnxm_id"] == "MNXM41"
+    assert rekeys == {}
+
+
+def test_gene_reachable_sets_returns_rxn_genes(tmp_path, monkeypatch, synthetic_kegg_raw):
+    import multiomics_kg.download.build_kegg_metabolism_xrefs as bx
+    strain = tmp_path / "s"
+    _write_strain_annotations(strain, {"G1": {"kegg_reactions": ["R00200"]},
+                                       "G2": {"kegg_reactions": ["R00200"]}})
+    monkeypatch.setattr(bx, "load_genome_rows", lambda: [{"data_dir": str(strain)}])
+    sets = bx._gene_reachable_sets(synthetic_kegg_raw)
+    assert sets["rxn_genes"]["R00200"] == {f"{strain}:G1", f"{strain}:G2"}
+
+
+def test_normalize_paper_id_and_mnxm_primary(tmp_path):
+    conn = _subs_conn_with_chebi_only(tmp_path)
+    chebi = make_chebi(CHEBI_4167=term("D-glucopyranose", alt=["CHEBI:12345"], kegg=["C00031"]),
+                       CHEBI_10004=term("vitamin"))
+    rekeys = {}
+    assert bx._normalize_paper_id("kegg.compound: c00022 ", conn, chebi, rekeys) == "kegg.compound:C00022"
+    assert bx._normalize_paper_id("chebi:12345", conn, chebi, rekeys) == "kegg.compound:C00031"
+    assert bx._normalize_paper_id("chebi:999", conn, chebi, rekeys) == "chebi:999"
+    assert bx._normalize_paper_id("mnx:MNXM9", conn, chebi, rekeys) == "chebi:10004"
+    assert bx._normalize_paper_id("mnx:MNXM77", conn, chebi, rekeys) == "mnx:MNXM77"
+    assert rekeys == {"chebi:4167": "kegg.compound:C00031"}
+
+
+def test_to_table_add_candidates_and_mnx_chebi_aliases(tmp_path):
+    conn = _subs_conn_with_chebi_only(tmp_path)
+    kegg_data = {"compounds": {"C00031": {"name": "glucose", "mnxm_id": "MNXM41"}},
+                 "additional_compounds": {"chebi:10004": {"name": "v", "mnxm_id": "MNXM9",
+                                                          "evidence_sources": ["transport"]}}}
+    bx._add_paper_candidates(kegg_data, {"chebi:10004": {"name": "x"}, "mnx:MNXM5": {"name": "y"}})
+    assert kegg_data["additional_compounds"]["chebi:10004"]["evidence_sources"] == ["transport"]
+    assert kegg_data["additional_compounds"]["mnx:MNXM5"] == {"name": "y", "evidence_sources": []}
+    table = bx._to_table(kegg_data)
+    assert set(table) == {"kegg.compound:C00031", "chebi:10004", "mnx:MNXM5"}
+    bx._attach_mnx_chebi_aliases(table, conn)
+    assert table["kegg.compound:C00031"]["mnx_chebi_aliases"] == ["4167"]
+    assert table["chebi:10004"]["mnx_chebi_aliases"] == ["10004"]
+    assert "mnx_chebi_aliases" not in kegg_data["compounds"]["C00031"]
+
+
+def test_load_chebi_prefers_raw_and_falls_back_to_committed_cache(tmp_path, monkeypatch):
+    cache_file = tmp_path / "chebi_metabolite_xrefs.json"
+    monkeypatch.setattr(bx, "CHEBI_CACHE_FILE", cache_file)
+    monkeypatch.setattr(bx, "download_chebi_obo", lambda raw_dir, force=False: tmp_path / "x.obo.gz")
+    monkeypatch.setattr(bx, "parse_chebi_obo", lambda p: ("257", {"CHEBI:1": term("a")}))
+    idx, from_raw = bx._load_chebi(tmp_path, refetch_raw=False)
+    assert from_raw is True and idx.release == "257" and idx.term("CHEBI:1")["name"] == "a"
+
+    def boom(raw_dir, force=False):
+        raise OSError("down")
+    monkeypatch.setattr(bx, "download_chebi_obo", boom)
+    with pytest.raises(OSError):
+        bx._load_chebi(tmp_path, refetch_raw=False)          # no committed cache → fatal
+    cache_file.write_text(json.dumps({"release": "256", "terms": {"CHEBI:2": term("b")}}))
+    idx, from_raw = bx._load_chebi(tmp_path, refetch_raw=False)
+    assert from_raw is False and idx.release == "256" and idx.term("2")["name"] == "b"

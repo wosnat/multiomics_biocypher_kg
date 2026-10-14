@@ -63,7 +63,7 @@ def _resolve_row(
         # KEGG column for unidentified compounds). Treating them as real IDs
         # yields edges to bogus nodes like `kegg.compound:0` that neo4j-admin
         # silently drops at import time. Mirrors the same filter in
-        # build_kegg_metabolism_xrefs.py:_harvest_paper_metabolites.
+        # multiomics_kg/utils/metabolite_identity/paper.py:_NO_ID.
         if raw and raw.lower() not in {"0", "-", "na", "n/a", "none"}:
             primary = raw if ":" in raw else f"{id_type}:{raw}"
             method = (

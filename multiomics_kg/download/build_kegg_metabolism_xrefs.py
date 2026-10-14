@@ -61,21 +61,23 @@ import contextlib
 import json
 import logging
 import sqlite3
+from collections import defaultdict
+from dataclasses import dataclass
 from pathlib import Path
-
-import pandas as pd
-import yaml
 
 from multiomics_kg.download.utils.cli import load_genome_rows
 from multiomics_kg.utils import kegg_utils
 from multiomics_kg.utils import metabolite_utils as mu
-from multiomics_kg.utils.gene_id_utils import load_gene_annotations
-from multiomics_kg.utils.metabolite_utils import mnxm_to_primary_id, resolve_metabolite
-from multiomics_kg.download.download_metabolism_reference import download_all
-from multiomics_kg.utils.paperconfig_utils import (
-    iter_metabolite_assays_tables,
-    load_all_paperconfigs,
+from multiomics_kg.utils.chebi_utils import (
+    ChebiIndex,
+    download_chebi_obo,
+    index_from_cache,
+    parse_chebi_obo,
 )
+from multiomics_kg.utils.gene_id_utils import load_gene_annotations
+from multiomics_kg.utils.metabolite_utils import resolve_metabolite_candidates
+from multiomics_kg.utils.metabolite_identity.paper import Override, PaperTable
+from multiomics_kg.download.download_metabolism_reference import download_all
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
@@ -84,7 +86,38 @@ KEGG_CACHE_DIR = PROJECT_ROOT / "cache" / "data" / "kegg"
 KEGG_DATA_FILE = KEGG_CACHE_DIR / "kegg_data.json"
 RESOLVER_DB = mu.get_mnx_data_dir() / "metabolite_resolver.db"
 
+CHEBI_DIR = PROJECT_ROOT / "cache" / "data" / "chebi"
+CHEBI_CACHE_FILE = CHEBI_DIR / "chebi_metabolite_xrefs.json"
+METABOLOMICS_DIR = PROJECT_ROOT / "cache" / "data" / "metabolomics"
+LOCK_FILE = METABOLOMICS_DIR / "dominant_stereo_forms.json"
+IDENTITY_REPORT_FILE = METABOLOMICS_DIR / "metabolite_identity_report.json"
+MAPPING_FILE = METABOLOMICS_DIR / "metabolite_id_mapping.json"
+IDENTITY_OVERRIDES_FILE = PROJECT_ROOT / "config" / "metabolite_identity_overrides.yaml"
+
 log = logging.getLogger(__name__)
+
+
+# ── Stage A: ChEBI ───────────────────────────────────────────────────────────
+
+def _load_chebi(cache_root: Path, refetch_raw: bool) -> tuple[ChebiIndex, bool]:
+    """Stage A (spec §5.1, §6.4): rebuild from the raw obo whenever it is available; reuse the
+    committed derived cache only when the download fails (TCDB outage precedent).
+
+    Returns ``(index, from_raw)``.
+    """
+    raw_dir = cache_root / "chebi" / "raw"
+    try:
+        obo = download_chebi_obo(raw_dir, force=refetch_raw)
+        release, terms = parse_chebi_obo(obo)
+        log.info(f"  ChEBI release {release}: {len(terms)} terms (from raw obo)")
+        return ChebiIndex(terms, release), True
+    except Exception as exc:
+        if not CHEBI_CACHE_FILE.exists():
+            raise
+        log.warning(f"  ChEBI download/parse failed ({exc}); reusing the committed "
+                    f"{CHEBI_CACHE_FILE.name}. Ids it lacks are reported, and step 6 fails "
+                    f"if a canonical node needs one.")
+        return index_from_cache(json.loads(CHEBI_CACHE_FILE.read_text())), False
 
 
 # ── TCDB hierarchy ────────────────────────────────────────────────────────────
@@ -360,26 +393,30 @@ def _build_tcdb_hierarchy(cache_root: Path) -> int:
 
 # ── Reachability ──────────────────────────────────────────────────────────────
 
-def _gene_reachable_sets(raw: dict) -> dict[str, set[str]]:
+def _gene_reachable_sets(raw: dict) -> dict:
     """Walk all strains to compute the gene-reachable {KOs, reactions, pathways, compounds, TCDB IDs}.
 
-    Returns a dict with keys 'kos', 'rxns', 'cpds', 'pws', 'tcdb_ids'.
+    Returns a dict with keys 'kos', 'rxns', 'cpds', 'pws', 'tcdb_ids' (sets) plus
+    'rxn_genes' ({reaction: {"{data_dir}:{locus_tag}", ...}}, the per-reaction gene keys
+    stage-D catalyst counts are taken from).
     Pathway set is KO ∪ Rxn-reachable (Option B).
     """
     kos: set[str] = set()
     rxns: set[str] = set()
     tcdb_ids: set[str] = set()
+    rxn_genes: dict[str, set[str]] = {}
     for row in load_genome_rows():
         genes = load_gene_annotations(row["data_dir"])
         if not genes:
             continue
-        for g in genes.values():
+        for gid, g in genes.items():
             for ko in g.get("kegg_ko") or []:
                 if isinstance(ko, str) and ko.startswith("K"):
                     kos.add(ko)
             for rxn in g.get("kegg_reactions") or []:
                 if isinstance(rxn, str) and rxn.startswith("R"):
                     rxns.add(rxn)
+                    rxn_genes.setdefault(rxn, set()).add(f"{row['data_dir']}:{gid}")
             for tc in g.get("transporter_classification") or []:
                 if isinstance(tc, str) and tc:
                     tcdb_ids.add(tc)
@@ -402,7 +439,8 @@ def _gene_reachable_sets(raw: dict) -> dict[str, set[str]]:
         f"{len(cpds)} compounds, {len(pws)} pathways (KO∪Rxn), "
         f"{len(tcdb_ids)} TCDB IDs"
     )
-    return {"kos": kos, "rxns": rxns, "cpds": cpds, "pws": pws, "tcdb_ids": tcdb_ids}
+    return {"kos": kos, "rxns": rxns, "cpds": cpds, "pws": pws, "tcdb_ids": tcdb_ids,
+            "rxn_genes": rxn_genes}
 
 
 # ── Hierarchy parents ─────────────────────────────────────────────────────────
@@ -741,6 +779,8 @@ def _compute_subtree_substrate_strings(hierarchy: dict) -> dict[str, set[str]]:
 def _resolve_substrate_strings(
     substrate_strings: set[str],
     conn: sqlite3.Connection,
+    chebi: ChebiIndex | None = None,
+    rekeys: dict[str, str] | None = None,
 ) -> tuple[dict[str, str], dict[str, dict]]:
     """Resolve raw 'CHEBI:NNNN;name' substrate strings to Metabolite primary IDs.
 
@@ -753,8 +793,16 @@ def _resolve_substrate_strings(
     Operates on a flat set of substrate strings (post-pruning union). MNX
     queries are batched. Iteration over `parsed` is sorted so the first-seen
     `name_part` wins for non-KEGG primaries (deterministic).
+
+    With ``chebi`` (stage D, spec §5.2): a secondary ChEBI id is mapped to its primary
+    before the MNX lookup (which tries both), and when MNX carries no KEGG alias for the
+    hit, the primary's ChEBI KEGG xref supplies one (lowest C-number) — that re-key is
+    recorded in ``rekeys`` as ``chebi:<primary n>`` → ``kegg.compound:C…``. A non-KEGG
+    primary is then ``chebi:<primary n>``. With ``chebi=None`` the behaviour is unchanged.
     """
     cur = conn.cursor()
+    if rekeys is None:
+        rekeys = {}
 
     # Pass 1: parse strings → (string, chebi_value, name_part). Sort for
     # deterministic name-fallback resolution.
@@ -772,9 +820,19 @@ def _resolve_substrate_strings(
     if not parsed:
         return {}, {}
 
-    # Pass 2: chebi_value → mnxm_id
-    distinct_chebi = sorted({chebi for _, chebi, _ in parsed})
-    chebi_to_mnxm: dict[str, str] = {}
+    # Pass 1b (ChEBI only): original value → primary ChEBI number (None if ChEBI lacks it).
+    primary_num: dict[str, str | None] = {}
+    if chebi is not None:
+        for _, chebi_value, _ in parsed:
+            if chebi_value not in primary_num:
+                p = chebi.primary(chebi_value)
+                primary_num[chebi_value] = p.split(":", 1)[1] if p else None
+
+    # Pass 2: chebi_value → mnxm_id (with ChEBI: query both the original and the primary
+    # number; the lowest mnxm_id hit for either wins).
+    distinct_chebi = sorted({chebi_v for _, chebi_v, _ in parsed}
+                            | {n for n in primary_num.values() if n})
+    value_to_mnxm: dict[str, str] = {}
     for chunk in _batched(distinct_chebi):
         placeholders = ",".join("?" * len(chunk))
         cur.execute(
@@ -784,7 +842,17 @@ def _resolve_substrate_strings(
             chunk,
         )
         for value, mnxm_id in cur.fetchall():
-            chebi_to_mnxm.setdefault(value, mnxm_id)
+            value_to_mnxm.setdefault(value, mnxm_id)
+    if chebi is None:
+        chebi_to_mnxm = value_to_mnxm
+    else:
+        chebi_to_mnxm = {}
+        for _, chebi_value, _ in parsed:
+            hits = [m for m in (value_to_mnxm.get(chebi_value),
+                                value_to_mnxm.get(primary_num.get(chebi_value) or ""))
+                    if m]
+            if hits:
+                chebi_to_mnxm[chebi_value] = min(hits)
 
     # Pass 3: distinct mnxm_ids → kegg.compound + chebi aliases
     mnxm_ids = sorted(set(chebi_to_mnxm.values()))
@@ -809,14 +877,21 @@ def _resolve_substrate_strings(
         for mnxm_id, value in cur.fetchall():
             mnxm_to_chebi.setdefault(mnxm_id, value)
 
-    def _primary_for(mnxm: str) -> str:
+    def _primary_for(mnxm: str, pnum: str | None = None) -> str:
         if mnxm in mnxm_to_kegg:
             return f"kegg.compound:{mnxm_to_kegg[mnxm]}"
+        if pnum is not None:
+            kegg = sorted((chebi.term(pnum) or {}).get("kegg", []))
+            if kegg:
+                rekeys[f"chebi:{pnum}"] = f"kegg.compound:{kegg[0]}"
+                return f"kegg.compound:{kegg[0]}"
+            return f"chebi:{pnum}"
         if mnxm in mnxm_to_chebi:
             return f"chebi:{mnxm_to_chebi[mnxm]}"
         return f"mnx:{mnxm}"
 
-    # Pass 4: bulk-fetch compounds props only for non-KEGG mnxm_ids
+    # Pass 4: bulk-fetch compounds props only for non-KEGG mnxm_ids (a ChEBI re-key may
+    # still turn one of these into a KEGG primary; its props are then simply unused).
     nonkegg_mnxms = [m for m in mnxm_ids if m not in mnxm_to_kegg]
     mnxm_to_props: dict[str, tuple] = {}
     for chunk in _batched(nonkegg_mnxms):
@@ -837,7 +912,8 @@ def _resolve_substrate_strings(
         if mnxm is None:
             log.debug(f"TCDB substrate unresolved: chebi:{chebi_value} ({sub_str!r})")
             continue
-        primary = _primary_for(mnxm)
+        pnum = primary_num.get(chebi_value) if chebi is not None else None
+        primary = _primary_for(mnxm, pnum)
         string_to_primary[sub_str] = primary
 
         if primary.startswith("kegg.compound:") or primary in compound_props:
@@ -849,238 +925,145 @@ def _resolve_substrate_strings(
             "mass": mass,
             "inchikey": inchikey or None,
             "mnxm_id": mnxm,
-            "chebi_id": mnxm_to_chebi.get(mnxm),
+            "chebi_id": pnum if pnum is not None else mnxm_to_chebi.get(mnxm),
         }
 
     return string_to_primary, compound_props
 
 
-def _harvest_paper_metabolites(
-    paperconfigs: list[tuple[Path, dict]],
+# ── Stage D: paper candidates (spec §5.2 D) ──────────────────────────────────
+
+def _mnxm_primary(mnxm: str, conn: sqlite3.Connection, chebi: ChebiIndex,
+                  rekeys: dict[str, str]) -> str:
+    """Node id for an MNXM: its MNX KEGG alias, else the KEGG xref of one of its ChEBI
+    aliases' primaries (neutral first, then lowest number; recorded in ``rekeys``), else
+    that ChEBI primary, else ``mnx:<MNXM>``."""
+    row = conn.execute("SELECT value FROM compound_aliases WHERE mnxm_id=? AND source='kegg.compound' "
+                       "ORDER BY value LIMIT 1", (mnxm,)).fetchone()
+    if row:
+        return f"kegg.compound:{row[0]}"
+    prims = sorted({p for (v,) in conn.execute(
+        "SELECT value FROM compound_aliases WHERE mnxm_id=? AND source='chebi'", (mnxm,))
+        if (p := chebi.primary(v))}, key=lambda c: (chebi.charge(c) != 0, int(c.split(":")[1])))
+    for p in prims:
+        kegg = sorted((chebi.term(p) or {}).get("kegg", []))
+        if kegg:
+            rekeys[f"chebi:{p.split(':')[1]}"] = f"kegg.compound:{kegg[0]}"
+            return f"kegg.compound:{kegg[0]}"
+    if prims:
+        return f"chebi:{prims[0].split(':')[1]}"
+    return f"mnx:{mnxm}"
+
+
+def _normalize_paper_id(curie: str, conn: sqlite3.Connection, chebi: ChebiIndex,
+                        rekeys: dict[str, str]) -> str:
+    """Normalize a paper-supplied CURIE to a node id: upper-case KEGG C-numbers, ChEBI
+    secondary → primary (→ KEGG via its xref, recorded in ``rekeys``), MNX via
+    `_mnxm_primary`. Unknown prefixes pass through."""
+    prefix, _, local = curie.partition(":")
+    if prefix == "kegg.compound":
+        return f"kegg.compound:{local.strip().upper()}"
+    if prefix == "chebi":
+        p = chebi.primary(local)
+        if p is None:
+            return f"chebi:{int(local)}" if local.isdigit() else curie
+        kegg = sorted((chebi.term(p) or {}).get("kegg", []))
+        if kegg:
+            rekeys[f"chebi:{p.split(':')[1]}"] = f"kegg.compound:{kegg[0]}"
+            return f"kegg.compound:{kegg[0]}"
+        return f"chebi:{p.split(':')[1]}"
+    if prefix == "mnx":
+        return _mnxm_primary(local, conn, chebi, rekeys)
+    return curie
+
+
+@dataclass
+class PaperCandidates:
+    name_candidates: dict[str, set[str]]
+    ids: set[str]
+    non_kegg_props: dict[str, dict]
+
+
+def _harvest_paper_candidates(
+    tables: list[PaperTable],
+    overrides: dict[str, dict[str, Override]],
+    lock: dict,
     conn: sqlite3.Connection,
-) -> dict:
-    """Walk all metabolite_assays_table entries; resolve every metabolite name.
-
-    Resolution priority per row:
-      1. id_col (when set + non-empty in the row): parse per id_type → primary ID
-      2. aliases_file (paper-local YAML map): name → primary ID override
-      3. MNX resolver against name_col
-      4. else → unresolved
-
-    Returns a dict:
-      alias_to_primary:    {name_or_alias: primary_id}
-      resolution_methods:  {name_or_alias: method_str}
-      unresolved:          sorted list[str]
-      paper_kegg_cpds:     set[str]   — KEGG-prefix-stripped C-numbers (mirrors substrate_kegg_cpds)
-      paper_non_kegg_compounds: {primary_id: {name, formula, mass, inchikey, mnxm_id, chebi_id}}
-      per_paper:           {paperconfig_path: {resolved, unresolved, total}}
-    """
-    alias_to_primary: dict[str, str] = {}
-    resolution_methods: dict[str, str] = {}
-    unresolved: set[str] = set()
-    paper_kegg_cpds: set[str] = set()
-    paper_non_kegg_compounds: dict[str, dict] = {}
-    per_paper: dict[str, dict[str, int]] = {}
-
-    cur = conn.cursor()
-
-    def _record(name: str, primary: str | None, method: str) -> bool:
-        if primary is None:
-            unresolved.add(name)
-            resolution_methods.setdefault(name, "unresolved")
-            return False
-        alias_to_primary[name] = primary
-        resolution_methods[name] = method
-        if primary.startswith("kegg.compound:"):
-            paper_kegg_cpds.add(primary[len("kegg.compound:"):])
-        elif primary not in paper_non_kegg_compounds:
-            # Pull MNX-side props for the additional_compounds entry
-            mnxm = primary[len("mnx:"):] if primary.startswith("mnx:") else None
-            if mnxm:
-                cur.execute(
-                    "SELECT name, formula, mass, inchikey FROM compounds WHERE mnxm_id = ?",
-                    (mnxm,),
-                )
-                row = cur.fetchone()
-                mnx_name, formula, mass, inchikey = row if row else (None, None, None, None)
-            else:
-                mnx_name, formula, mass, inchikey = None, None, None, None
-            paper_non_kegg_compounds[primary] = {
-                "name": (mnx_name or name).strip(),
-                "formula": formula or None,
-                "mass": mass,
-                "inchikey": inchikey or None,
-                "mnxm_id": mnxm,
-                "chebi_id": primary[len("chebi:"):] if primary.startswith("chebi:") else None,
-            }
-        return True
-
-    for pc_path, cfg in paperconfigs:
-        for entry_key, entry in iter_metabolite_assays_tables(cfg):
-            csv_path = entry.get("filename")
-            if not csv_path:
-                continue
-            csv_full = (PROJECT_ROOT / csv_path) if not Path(csv_path).is_absolute() else Path(csv_path)
-            if not csv_full.exists():
-                log.warning(f"[paper-metabolites] CSV missing: {csv_full}")
-                continue
-
-            name_col = entry.get("name_col") or "compound"
-            id_col = entry.get("id_col") or ""
-            id_type = entry.get("id_type") or ""
-            aliases_file = entry.get("aliases_file") or ""
-
-            aliases: dict[str, str] = {}
-            if aliases_file:
-                aliases_path = pc_path.parent / aliases_file
-                if aliases_path.exists():
-                    try:
-                        loaded = yaml.safe_load(aliases_path.read_text()) or {}
-                        if isinstance(loaded, dict):
-                            aliases = {str(k): str(v) for k, v in loaded.items()}
-                    except yaml.YAMLError as e:
-                        log.warning(f"[paper-metabolites] cannot parse {aliases_path}: {e}")
-
-            try:
-                skip_rows = int(entry.get("skip_rows", 0) or 0)
-                df = pd.read_csv(csv_full, dtype=str, keep_default_na=False, skiprows=skip_rows or None)
-            except Exception as e:
-                log.warning(f"[paper-metabolites] cannot read {csv_full}: {e}")
-                continue
-
-            try:
-                pc_key = str(pc_path.resolve().relative_to(PROJECT_ROOT.resolve()))
-            except ValueError:
-                pc_key = str(pc_path)
-            stats = per_paper.setdefault(pc_key, {"resolved": 0, "unresolved": 0, "total": 0})
-
-            for _, row in df.iterrows():
-                name = (row.get(name_col) or "").strip()
-                if not name:
-                    continue
-                stats["total"] += 1
-                if name in alias_to_primary:
-                    stats["resolved"] += 1
-                    continue
-
-                # 1. id_col direct
-                primary, method = None, None
-                if id_col and id_type:
-                    raw = (row.get(id_col) or "").strip()
-                    # "0", "-", "NA", "N/A", "none" are common placeholders for
-                    # "no ID assigned" in published metabolomics tables (e.g.
-                    # Kujawinski 2023's KEGG column for unidentified compounds).
-                    # Treating them as real IDs creates bogus compound entries
-                    # like `compounds['0']`. Fall through to alias/MNX resolution.
-                    if raw and raw.lower() not in {"0", "-", "na", "n/a", "none"}:
-                        primary = raw if ":" in raw else f"{id_type}:{raw}"
-                        method = (
-                            "kegg_direct" if id_type == "kegg.compound"
-                            else "chebi_direct" if id_type == "chebi"
-                            else "mnx_direct" if id_type == "mnx"
-                            else "id_direct"
-                        )
-
-                # 2. aliases_file override
-                if primary is None and name in aliases:
-                    primary, method = aliases[name], "alias_override"
-
-                # 3. MNX resolver
-                if primary is None:
-                    mnxm, mnx_method = resolve_metabolite(name, conn)
-                    if mnxm is not None:
-                        primary = mnxm_to_primary_id(mnxm, conn)
-                        method = (
-                            "name_match" if mnx_method in ("xref:exact", "name:normalized")
-                            else "ambiguous_multi_id" if mnx_method in ("xref:ambiguous", "ambiguous")
-                            else "name_match"
-                        )
-
-                if _record(name, primary, method or "unresolved"):
-                    stats["resolved"] += 1
-                else:
-                    stats["unresolved"] += 1
-
-    return {
-        "alias_to_primary": alias_to_primary,
-        "resolution_methods": resolution_methods,
-        "unresolved": sorted(unresolved),
-        "paper_kegg_cpds": paper_kegg_cpds,
-        "paper_non_kegg_compounds": paper_non_kegg_compounds,
-        "per_paper": per_paper,
-    }
-
-
-def _fold_paper_metabolites_into_kegg_data(
-    kegg_data: dict,
-    *,
-    paper_kegg_cpds: set[str],
-    paper_non_kegg_compounds: dict[str, dict],
-) -> None:
-    """Add 'metabolomics' to evidence_sources for paper-measured compounds.
-
-    KEGG-flavor paper compounds are already in kegg_data['compounds'] (because
-    main() extended the cpds set before build_pruned_kegg_data ran). We just
-    union 'metabolomics' into their evidence_sources.
-
-    Non-KEGG paper compounds enter kegg_data['additional_compounds'] (or update
-    an existing entry to add 'metabolomics' to its evidence_sources).
-    """
-    compounds = kegg_data.setdefault("compounds", {})
-    additional = kegg_data.setdefault("additional_compounds", {})
-
-    # paper_kegg_cpds elements are bare C-numbers (prefix-stripped by
-    # _harvest_paper_metabolites). compounds is keyed by bare C-numbers too.
-    # Every paper_kegg_cpd is in the extended cpds set passed to
-    # build_pruned_kegg_data, so the entry must exist.
-    for cpd_id in paper_kegg_cpds:
-        entry = compounds[cpd_id]
-        sources = list(entry.get("evidence_sources") or [])
-        if "metabolomics" not in sources:
-            sources.append("metabolomics")
-        entry["evidence_sources"] = sources
-
-    for primary_id, props in paper_non_kegg_compounds.items():
-        if primary_id in additional:
-            sources = list(additional[primary_id].get("evidence_sources") or [])
-            if "metabolomics" not in sources:
-                sources.append("metabolomics")
-            additional[primary_id]["evidence_sources"] = sources
+    chebi: ChebiIndex,
+    rekeys: dict[str, str],
+) -> PaperCandidates:
+    """Stage D, paper side (spec §5.2 D): collect CANDIDATES, never decisions. Every paper
+    row's MNX name candidates, direct id, the paper's override targets and the lock targets
+    are all enriched like any compound; stage J decides, stage K drops the losers."""
+    name_candidates: dict[str, set[str]] = defaultdict(set)
+    ids: set[str] = set()
+    for t in tables:
+        for row in t.rows:
+            for mnxm in resolve_metabolite_candidates(row.name, conn):
+                name_candidates[row.name_key].add(_mnxm_primary(mnxm, conn, chebi, rekeys))
+            if row.direct_id:
+                ids.add(_normalize_paper_id(row.direct_id, conn, chebi, rekeys))
+    for ovs in overrides.values():
+        for ov in ovs.values():
+            ids.add(_normalize_paper_id(ov.id, conn, chebi, rekeys))
+    for section in ("names", "direct_ids"):
+        for key, entry in lock.get(section, {}).items():
+            ids.add(_normalize_paper_id(entry["id"], conn, chebi, rekeys))
+            if section == "direct_ids":
+                ids.add(_normalize_paper_id(key, conn, chebi, rekeys))
+    for cands in name_candidates.values():
+        ids |= cands
+    non_kegg: dict[str, dict] = {}
+    for pid in sorted(i for i in ids if not i.startswith("kegg.compound:")):
+        if pid.startswith("mnx:"):
+            mnxm = pid[4:]
         else:
-            additional[primary_id] = {
-                **props,
-                "evidence_sources": ["metabolomics"],
-            }
+            row = conn.execute("SELECT mnxm_id FROM compound_aliases WHERE source='chebi' AND value=? "
+                               "ORDER BY mnxm_id LIMIT 1", (pid.split(":")[1],)).fetchone()
+            mnxm = row[0] if row else None
+        props = conn.execute("SELECT name, formula, mass, inchikey FROM compounds WHERE mnxm_id=?",
+                             (mnxm,)).fetchone() if mnxm else None
+        name, formula, mass, inchikey = props if props else (None, None, None, None)
+        cterm = chebi.term(pid) if pid.startswith("chebi:") else None
+        non_kegg[pid] = {"name": (cterm or {}).get("name") or name, "formula": formula or None,
+                         "mass": mass, "inchikey": inchikey or None, "mnxm_id": mnxm,
+                         "chebi_id": pid.split(":")[1] if pid.startswith("chebi:") else None}
+    return PaperCandidates(dict(name_candidates), ids, non_kegg)
 
 
-def _write_metabolite_id_mapping(harvest: dict, out_path: Path) -> None:
-    """Write metabolite_id_mapping.json. v1: only name_lookup populated.
+def _add_paper_candidates(kegg_data: dict, non_kegg_props: dict[str, dict]) -> None:
+    """Insert missing non-KEGG paper candidates into ``additional_compounds`` with
+    ``evidence_sources: []``. Never tags ``metabolomics`` — stage K does that for winners."""
+    additional = kegg_data.setdefault("additional_compounds", {})
+    for pid, props in non_kegg_props.items():
+        additional.setdefault(pid, {**props, "evidence_sources": []})
 
-    Schema reserves three tiers (specific_lookup, multi_lookup, name_lookup)
-    + conflicts + compounds; future ID-column harvesting will fill the
-    other tiers. v1 fills name_lookup only.
-    """
-    name_lookup: dict[str, list[str]] = {}
-    compounds: dict[str, dict] = {}
-    methods = harvest.get("resolution_methods") or {}
-    for name, primary in (harvest.get("alias_to_primary") or {}).items():
-        name_lookup.setdefault(name, []).append(primary)
-        compounds.setdefault(primary, {"aliases": [], "first_method": methods.get(name, "")})
-        if name not in compounds[primary]["aliases"]:
-            compounds[primary]["aliases"].append(name)
 
-    data = {
-        "specific_lookup": {},
-        "multi_lookup": {},
-        "name_lookup": name_lookup,
-        "conflicts": {},
-        "compounds": compounds,
-        "schema_version": 1,
-        "per_paper_stats": harvest.get("per_paper") or {},
-        "unresolved": harvest.get("unresolved") or [],
-    }
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(data, indent=2, sort_keys=True))
+def _attach_mnx_chebi_aliases(table: dict[str, dict], conn: sqlite3.Connection) -> None:
+    """Set the transient ``mnx_chebi_aliases`` field (every ChEBI alias MNX lists for the
+    entry's MNXM, shortest-then-lexicographic) on each table entry with an ``mnxm_id``."""
+    by_mnx: dict[str, list[str]] = defaultdict(list)
+    for node, e in table.items():
+        if e.get("mnxm_id"):
+            by_mnx[e["mnxm_id"]].append(node)
+    found: dict[str, set[str]] = defaultdict(set)
+    for chunk in _batched(sorted(by_mnx)):
+        q = ",".join("?" * len(chunk))
+        for mnxm, value in conn.execute(
+                f"SELECT mnxm_id, value FROM compound_aliases WHERE source='chebi' AND mnxm_id IN ({q})",
+                chunk):
+            found[mnxm].add(value)
+    for mnxm, nodes in by_mnx.items():
+        for n in nodes:
+            table[n]["mnx_chebi_aliases"] = sorted(found.get(mnxm, ()), key=lambda v: (len(v), v))
+
+
+def _to_table(kegg_data: dict) -> dict[str, dict]:
+    """Flatten ``compounds`` + ``additional_compounds`` into one dict keyed by full node id
+    (shallow copies — mutating an entry never touches ``kegg_data``)."""
+    table = {f"kegg.compound:{k}": dict(v) for k, v in kegg_data["compounds"].items()}
+    table.update({k: dict(v) for k, v in kegg_data.get("additional_compounds", {}).items()})
+    return table
 
 
 def _fold_substrates_into_kegg_data(
@@ -1347,6 +1330,11 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
                 f"Likely retired TCDB IDs in eggNOG annotations."
             )
 
+        # Stages A/C/D helpers (_load_chebi, _harvest_paper_candidates, ...) exist, but the
+        # pipeline below still predates them; Task 13 rewires main(). Refuse to run rather
+        # than write half-migrated outputs.
+        raise NotImplementedError("step 6 is mid-refactor: wired in Task 13")
+
         # Filter rollup to kept TC IDs; collect distinct substrate strings to resolve
         subtree_strings: dict[str, set[str]] = {tc: full_subtree_strings.get(tc, set()) for tc in kept}
         all_substrate_strings: set[str] = set()
@@ -1388,31 +1376,9 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
             p for cpd in substrate_kegg_cpds for p in cpd_to_pw.get(cpd, [])
         }
 
-        # ── Phase 2 metabolomics: harvest paper-measured metabolites ─────────
-        log.info("Harvesting paper-measured metabolites from paperconfigs ...")
-        paperconfigs = load_all_paperconfigs()
-        paper_harvest = _harvest_paper_metabolites(paperconfigs, conn)
-        paper_kegg_cpds: set[str] = paper_harvest["paper_kegg_cpds"]
-        paper_non_kegg_compounds: dict[str, dict] = paper_harvest["paper_non_kegg_compounds"]
-
-        # Paper-measurement-reachable pathways (KEGG-primary measured compounds only)
-        paper_pws: set[str] = {
-            p for cpd in paper_kegg_cpds for p in cpd_to_pw.get(cpd, [])
-        }
-
-        n_paper_total = sum(s["total"] for s in paper_harvest["per_paper"].values())
-        n_paper_resolved = sum(s["resolved"] for s in paper_harvest["per_paper"].values())
-        n_paper_unresolved = sum(s["unresolved"] for s in paper_harvest["per_paper"].values())
-        log.info(
-            f"  Paper-metabolite harvest: {n_paper_resolved}/{n_paper_total} resolved "
-            f"({n_paper_unresolved} unresolved); "
-            f"{len(paper_kegg_cpds)} kegg.compound, "
-            f"{len(paper_non_kegg_compounds)} non-KEGG primaries"
-        )
-
         extended_sets = dict(catalysis_sets)
-        extended_sets["cpds"] = catalysis_cpds | substrate_kegg_cpds | paper_kegg_cpds
-        extended_sets["pws"] = catalysis_pws | transport_pws | paper_pws
+        extended_sets["cpds"] = catalysis_cpds | substrate_kegg_cpds
+        extended_sets["pws"] = catalysis_pws | transport_pws
 
         log.info(
             f"TCDB substrate primaries: {distinct_substrate_ids} distinct "
@@ -1421,11 +1387,9 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
         )
         log.info(
             f"Extended sets: {len(extended_sets['cpds'])} compounds "
-            f"(+{len(substrate_kegg_cpds - catalysis_cpds)} transport-reachable, "
-            f"+{len(paper_kegg_cpds - catalysis_cpds - substrate_kegg_cpds)} paper-measurement-reachable), "
+            f"(+{len(substrate_kegg_cpds - catalysis_cpds)} transport-reachable), "
             f"{len(extended_sets['pws'])} pathways "
-            f"(+{len(transport_pws - catalysis_pws)} transport-reachable, "
-            f"+{len(paper_pws - catalysis_pws - transport_pws)} paper-measurement-reachable)"
+            f"(+{len(transport_pws - catalysis_pws)} transport-reachable)"
         )
 
         log.info("Building pruned kegg_data ...")
@@ -1440,18 +1404,6 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
             compound_props=compound_props,
         )
 
-        # Phase 2: union "metabolomics" into evidence_sources for paper compounds
-        log.info("Folding paper-measured metabolites into kegg_data ...")
-        _fold_paper_metabolites_into_kegg_data(
-            kegg_data,
-            paper_kegg_cpds=paper_kegg_cpds,
-            paper_non_kegg_compounds=paper_non_kegg_compounds,
-        )
-
-        # Write metabolite_id_mapping.json (consumed by step 7)
-        mapping_out = PROJECT_ROOT / "cache" / "data" / "metabolomics" / "metabolite_id_mapping.json"
-        _write_metabolite_id_mapping(paper_harvest, mapping_out)
-        log.info(f"  metabolite_id_mapping.json written: {mapping_out}")
         n_compounds = len(kegg_data["compounds"])
         n_additional = len(kegg_data["additional_compounds"])
         n_overlap = sum(
