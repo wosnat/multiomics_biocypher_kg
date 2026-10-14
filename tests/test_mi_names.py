@@ -16,7 +16,9 @@ def test_name_key_keeps_formula_case(a, b):
 
 def test_formula_like():
     assert N.is_formula_like("NH4+") and N.is_formula_like("Fe3+") and N.is_formula_like("CO2")
-    assert N.is_formula_like("AMP")          # Am + P: harmless false positive, not folded
+    # 'AMP' is not Am+P under case-exact parsing; the spec calls this case harmless either way
+    assert not N.is_formula_like("AMP")
+    assert not N.is_formula_like("GABA")
     assert not N.is_formula_like("NAD") and not N.is_formula_like("DMSP")
 
 
@@ -65,3 +67,15 @@ def test_normalize_hmdb():
     assert N.normalize_hmdb("HMDB02878") == "HMDB0002878"
     assert N.normalize_hmdb("HMDB0002878") == "HMDB0002878"
     assert N.normalize_hmdb("") is None and N.normalize_hmdb(None) is None
+
+
+@pytest.mark.parametrize("f,els", [("Zn", ["Zn"]), ("Mn", ["Mn"]), ("C4H6O4Zn", ["C", "H", "O", "Zn"]),
+                                   ("Sn", ["Sn"]), ("In", ["In"])])
+def test_parse_elements_keeps_trailing_n_elements(f, els):
+    assert N.parse_elements(f) == els
+
+
+@pytest.mark.parametrize("f", ["Zn", "Mn"])
+def test_zn_mn_not_generic_or_polymer(f):
+    assert N.is_generic_formula(f) is False
+    assert N.is_polymer_formula(f) is False

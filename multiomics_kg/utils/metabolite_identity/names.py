@@ -13,7 +13,7 @@ Bk Cf Es Fm Md No Lr Rf Db Sg Bh Hs Mt Ds Rg Cn Nh Fl Mc Lv Ts Og
 """.split())
 
 # A formula-like name: element symbols with optional counts, optional trailing charge.
-_FORMULA_NAME = re.compile(r"^((?:[A-Za-z]{1,2}\d*)+)(?:\d*[+-]|[+-]\d*)?$")
+_FORMULA_NAME = re.compile(r"^(?:[A-Z][a-z]?\d*)+(?:\d*[+-]|[+-]\d*)?$")
 _SYMBOL = re.compile(r"[A-Z][a-z]?")
 _WS = re.compile(r"\s+")
 # Placeholder R: an R not starting one of Ra Rb Re Rf Rg Rh Ru. 'Rn' reads as R + n (spec §3.3).
@@ -28,45 +28,16 @@ _DESCRIPTOR = re.compile(
 _ANOMER = re.compile(r"(?:^|(?<=[-\s(,]))(?:alpha|beta|α|β)-", re.IGNORECASE)
 
 
-_LOWER_SYMBOLS = frozenset(sym.lower() for sym in PERIODIC_TABLE)
-
-
-def _segments_ok(letters: str) -> bool:
-    """True if the letter run splits into element symbols (case-insensitive; Am+P reads AMP)."""
-    ok = [False] * (len(letters) + 1)
-    ok[0] = True
-    for i in range(1, len(letters) + 1):
-        for k in (1, 2):
-            if i - k >= 0 and ok[i - k] and letters[i - k:i].lower() in _LOWER_SYMBOLS:
-                ok[i] = True
-    return ok[-1]
-
-
 def is_formula_like(name: str) -> bool:
+    """Case-exact: every [A-Z][a-z]? token is an element symbol (so AMP and GABA are not formulas)."""
     s = name.strip()
-    m = _FORMULA_NAME.match(s)
-    if not m:
-        return False
-    return all(_segments_ok(run) for run in re.findall(r"[A-Za-z]+", m.group(1)))
-
-
-_STRICT_FORMULA_NAME = re.compile(r"^(?:[A-Z][a-z]?\d*)+(?:\d*[+-]|[+-]\d*)?$")
-
-
-def _is_case_exact_formula(s: str) -> bool:
-    """Formula whose capitalisation is itself valid element notation (Co, CO, NH4+, HF)."""
-    return bool(_STRICT_FORMULA_NAME.match(s)) and all(
-        sym in PERIODIC_TABLE for sym in _SYMBOL.findall(s))
+    return bool(_FORMULA_NAME.match(s)) and all(sym in PERIODIC_TABLE for sym in _SYMBOL.findall(s))
 
 
 def name_key(name: str) -> str:
-    """Case-fold a name, except case-exact formulas (Co vs CO, NO vs No), where case is meaning.
-
-    The exemption is deliberately stricter than is_formula_like: AMP / GABA only read as formulas
-    case-insensitively (Am+P, Ga+Ba), and exempting them would stop 'GABA' matching 'gaba'.
-    """
+    """Case-fold a name, except formulas (Co vs CO, NO vs No), where case is meaning."""
     s = _WS.sub(" ", name.strip())
-    return s if _is_case_exact_formula(s) else s.casefold()
+    return s if is_formula_like(s) else s.casefold()
 
 
 def is_stereo_qualified(name: str) -> bool:
@@ -94,7 +65,6 @@ def parse_elements(formula: str | None) -> list[str]:
         return []
     cleaned = _PLACEHOLDER_R.sub("", formula).replace("*", "")
     cleaned = re.sub(r"\)[nmx]", ")", cleaned)
-    cleaned = re.sub(r"(?<=[0-9A-Za-z])n$", "", cleaned)
     cleaned = re.sub(r"[+-]\d*$|\d*[+-]$", "", cleaned)
     try:
         found = chemparse.parse_formula(cleaned).keys()
