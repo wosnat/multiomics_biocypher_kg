@@ -197,3 +197,13 @@ def test_controlled_vocabularies_hash_present_and_matches(schema_info):
         "post-process container's glob matched it."
     )
     assert schema_info[key] == vocabularies_hash(VOCAB.entries())
+
+
+def test_chebi_release_stamped(schema_info):
+    """Schema_info.chebi_release equals the committed ChEBI cache's release."""
+    import json
+    import pathlib
+    cache = pathlib.Path("cache/data/chebi/chebi_metabolite_xrefs.json")
+    if not cache.exists():
+        pytest.skip("ChEBI cache not present in this checkout")
+    assert schema_info.get("chebi_release") == json.loads(cache.read_text())["release"]

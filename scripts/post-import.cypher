@@ -214,7 +214,21 @@ CREATE INDEX metabolite_kegg_id_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.kegg_
 CREATE INDEX metabolite_mnxm_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.mnxm_id);
 CREATE INDEX metabolite_chebi_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.chebi_id);
 CREATE INDEX metabolite_hmdb_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.hmdb_id);
-CREATE FULLTEXT INDEX metaboliteFullText IF NOT EXISTS FOR (m:Metabolite) ON EACH [m.name];
+CREATE INDEX metabolite_structure_kind_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.structure_kind);
+DROP INDEX metaboliteFullText IF EXISTS;
+// identifier_tokens = bare local parts of all_identifiers (set in group 3): the standard
+// analyser keeps "kegg.compound:C01353" as ONE token (UAX#29: ':' and '.' between letters /
+// digits don't break), so a bare "C01353" query would miss the CURIE form.
+CREATE FULLTEXT INDEX metaboliteFullText IF NOT EXISTS FOR (m:Metabolite) ON EACH [m.name, m.formula, m.identifier_tokens];
+CREATE INDEX metabolite_class_id_idx IF NOT EXISTS FOR (c:MetaboliteClass) ON (c.id);
+CREATE INDEX metabolite_class_tree_idx IF NOT EXISTS FOR (c:MetaboliteClass) ON (c.tree);
+CREATE INDEX metabolite_class_level_idx IF NOT EXISTS FOR (c:MetaboliteClass) ON (c.level);
+CREATE INDEX metabolite_class_level_kind_idx IF NOT EXISTS FOR (c:MetaboliteClass) ON (c.level_kind);
+CREATE FULLTEXT INDEX metaboliteClassFullText IF NOT EXISTS FOR (c:MetaboliteClass) ON EACH [c.name];
+CREATE INDEX chemical_role_id_idx IF NOT EXISTS FOR (r:ChemicalRole) ON (r.id);
+CREATE INDEX chemical_role_level_idx IF NOT EXISTS FOR (r:ChemicalRole) ON (r.level);
+CREATE INDEX chemical_role_level_kind_idx IF NOT EXISTS FOR (r:ChemicalRole) ON (r.level_kind);
+CREATE FULLTEXT INDEX chemicalRoleFullText IF NOT EXISTS FOR (r:ChemicalRole) ON EACH [r.name];
 
 // -----------------------------------------------------------------------
 // ── GeneCluster member_count verification ──────────────────────────────
@@ -1509,12 +1523,11 @@ CALL {
   WITH g,
        count(DISTINCT m_tr) AS tr_met_count,
        count(DISTINCT t) AS n_deepest,
-       // Breadth threshold inlined (spec §3 R3): the deleted TcdbFamily
-       // promiscuity flag restated a predicate over metabolite_count, which
-       // the node already publishes. Consumers apply their own cutoff to the
-       // count; this is the KG's, and it lives in exactly one place.
-       collect(DISTINCT (coalesce(t.level, 0) >= 2
-                         AND coalesce(t.metabolite_count, 0) >= 50)) AS breadth
+       // transport_substrate_resolution reads the PINNED lumping set (TcdbFamily.substrate_breadth,
+       // spec 2026-10-13 §3.4a) — a documented R3 exception (vocabulary-contract.md): the threshold
+       // level >= 2 AND metabolite_count >= 50 no longer reproduces the set once metabolite identity
+       // merges substrates (3.A.3: 47 molecules, still lumping). Sunset with the deferred TCDB spec.
+       collect(DISTINCT (t.substrate_breadth = 'lumping')) AS breadth
   SET g.tcdb_family_count = n_deepest,
       g.transported_metabolite_count = tr_met_count,
       // null REMOVES the property, keeping it sparse: absent means "no TCDB
@@ -1956,6 +1969,57 @@ CALL {
       m.organism_count = size(orgs)
 } IN TRANSACTIONS OF 1000 ROWS;
 
+// Metabolite.identifier_tokens — search-only bare ids for metaboliteFullText
+MATCH (m:Metabolite) WHERE m.all_identifiers IS NOT NULL
+CALL {
+  WITH m
+  SET m.identifier_tokens = [x IN m.all_identifiers | split(x, ':')[-1]]
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// MetaboliteClass rollups (subtree / direct / organisms)
+MATCH (c:MetaboliteClass)
+CALL {
+  WITH c
+  OPTIONAL MATCH (c)<-[:Metabolite_class_is_a_metabolite_class*0..]-(:MetaboliteClass)
+                   <-[:Metabolite_in_metabolite_class]-(m:Metabolite)
+  WITH c, collect(DISTINCT m) AS ms
+  OPTIONAL MATCH (c)<-[:Metabolite_in_metabolite_class]-(dm:Metabolite)
+  WITH c, ms, count(DISTINCT dm) AS direct
+  UNWIND (CASE WHEN size(ms) = 0 THEN [null] ELSE ms END) AS m
+  OPTIONAL MATCH (o:OrganismTaxon)-[:Organism_has_metabolite]->(m)
+  WITH c, size(ms) AS mc, direct, count(DISTINCT o) AS oc
+  SET c.metabolite_count = mc, c.direct_metabolite_count = direct, c.organism_count = oc
+} IN TRANSACTIONS OF 100 ROWS;
+
+// Metabolite.kegg_compound_categories — br08001 level-0 names, sorted, sparse
+MATCH (m:Metabolite)
+CALL {
+  WITH m
+  OPTIONAL MATCH (m)-[:Metabolite_in_metabolite_class]->(:MetaboliteClass)
+                 -[:Metabolite_class_is_a_metabolite_class*0..]->(top:MetaboliteClass {tree_code: 'br08001', level: 0})
+  WITH m, top.name AS n ORDER BY n
+  WITH m, collect(DISTINCT n) AS cats
+  SET m.kegg_compound_categories = CASE WHEN size(cats) = 0 THEN null ELSE cats END
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// ChemicalRole family counts: subtree over the is_a DAG, DISTINCT families; never propagated
+// to Gene / OrganismTaxon / Metabolite rollups (spec §3.4 "not propagated").
+MATCH (r:ChemicalRole)
+CALL {
+  WITH r
+  OPTIONAL MATCH (r)<-[:Chemical_role_is_a_chemical_role*0..]-(d:ChemicalRole)
+  WITH r, collect(DISTINCT d) AS descs
+  UNWIND descs AS d
+  OPTIONAL MATCH (t:TcdbFamily)-[e:Tcdb_family_transports_chemical_role]->(d)
+  WITH r,
+       count(DISTINCT t) AS any_t,
+       count(DISTINCT CASE WHEN e.substrate_depth = 'most_specific' THEN t END) AS ms_t,
+       count(DISTINCT CASE WHEN d = r THEN t END) AS d_any_t,
+       count(DISTINCT CASE WHEN d = r AND e.substrate_depth = 'most_specific' THEN t END) AS d_ms_t
+  SET r.tcdb_family_count = any_t, r.transporter_count = ms_t,
+      r.direct_tcdb_family_count = d_any_t, r.direct_transporter_count = d_ms_t
+} IN TRANSACTIONS OF 100 ROWS;
+
 // (Note: Organism_has_metabolite measured_* properties are written inline by
 // the catalysis-arm + transport-arm + measurement-arm MERGE blocks above —
 // no separate full-edge augmentation pass.)
@@ -2042,6 +2106,7 @@ CALL {
 :param release_highlights => ''
 :param release_breaking   => ''
 :param vocab_hash         => ''
+:param chebi_release       => ''
 
 MATCH (s:Schema_info {id: 'schema_info'})
 SET s.version           = coalesce($version, '0.0.0-dev'),
@@ -2057,7 +2122,8 @@ SET s.version           = coalesce($version, '0.0.0-dev'),
     s.release_highlights = CASE WHEN coalesce($release_highlights, '') = '' THEN null ELSE $release_highlights END,
     s.release_breaking   = CASE WHEN coalesce($release_breaking, '')   = '' THEN null ELSE $release_breaking   END,
     s.controlled_vocabularies_hash = CASE WHEN coalesce($vocab_hash, '') = ''
-                                          THEN null ELSE $vocab_hash END
+                                          THEN null ELSE $vocab_hash END,
+    s.chebi_release = CASE WHEN coalesce($chebi_release, '') = '' THEN null ELSE $chebi_release END
 WITH s
 SET s.paper_count           = COUNT { (:Publication) },
     s.experiment_count      = COUNT { (:Experiment) },

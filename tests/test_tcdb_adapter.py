@@ -623,16 +623,13 @@ def test_is_promiscuous_is_gone_from_post_import():
         assert "is_promiscuous" not in text, f"{p} still sets or reads is_promiscuous"
 
 
-def test_transport_substrate_resolution_threshold_is_inlined():
+def test_transport_substrate_resolution_reads_the_pinned_set():
     import pathlib
-    # scripts/post-import.sh is authoritative; post-import.cypher is a kept-in-sync
-    # reference copy for non-Docker use. Assert against both so a drift between
-    # them is caught here, not just at rebuild time.
     for p in ("scripts/post-import.cypher", "scripts/post-import.sh"):
         text = pathlib.Path(p).read_text()
-        assert "metabolite_count, 0) >= 50" in text, (
-            f"{p}: the breadth threshold must be inlined into "
-            "transport_substrate_resolution")
+        assert "t.substrate_breadth = 'lumping'" in text, p
+        assert "metabolite_count, 0) >= 50" not in text, f"{p}: threshold must not be re-derived"
+        assert "R3 exception" in text, f"{p}: cite the documented R3 exception"
 
 
 # ── KG-SYNC-005: uniform `evidence` rung derived from `sources` ──────────────
