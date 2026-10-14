@@ -21,7 +21,7 @@ def _entity_rank(chebi: ChebiIndex):
 # Isotopologue names (spec §1.1 B1b): "succinic acid-d4", "UREA C 14", "calcium-43(2+)", "[13C]…", "(15N)…".
 # Deliberately narrow: must NOT match "1H-indole", "Vitamin B12", "(2E)-hexenal", "(3S)-…".
 _ISOTOPE = re.compile(
-    r"-d\d+\b|isotop|deuter|[\[(](?:\d{2,3}[CNOHSP]|[23]H)[\])]|\b(?:C|N|O|H) 1[0-9]\b|-\d{1,3}\(\d", re.I)
+    r"(?-i:-d\d+\b)|isotop|deuter|[\[(]\d{2,3}[CNOHSP][\])]|\[[23]H\]|\b(?:C|N|O|H) 1[0-9]\b|[a-z]+-\d{2,3}\(\d?[+-]\)", re.I)
 
 
 def is_isotopologue_name(name: str | None) -> bool:
@@ -82,10 +82,14 @@ def build_identity_fields(table, identity: IdentityResult, rekeys, chebi, old_en
                     chebi_terms.add(p)
             if m.startswith(_KEGG):
                 chebi_terms |= {c for c in chebi.kegg_terms(m[len(_KEGG):]) if not chebi.is_class(c)}
+            # A secondary MNX ChEBI alias maps onto its primary term: every ChEBI id we publish is primary.
             for a in list(src.get("mnx_chebi_aliases") or []) + ([src["chebi_id"]] if src.get("chebi_id") else []):
                 p = chebi.primary(a)
                 if _usable(p, node, chebi):
                     chebi_terms.add(p)
+        if chebi_id is None and chebi_terms:
+            chebi_id = _bare(sorted(chebi_terms, key=_entity_rank(chebi))[0])
+            e["chebi_id"] = chebi_id
         ids = [chebi_id] if chebi_id else []
         ids += sorted({_bare(c) for c in chebi_terms} - set(ids), key=int)
         e["chebi_ids"] = ids or None
@@ -94,6 +98,9 @@ def build_identity_fields(table, identity: IdentityResult, rekeys, chebi, old_en
         e["mnxm_id"] = mnx[0] if mnx else None
         e["mnxm_ids"] = mnx if len(mnx) > 1 else None
         e["hmdb_id"] = normalize_hmdb(e.get("hmdb_id"))
+        member_hmdb = sorted({h for h in (normalize_hmdb(old_entries.get(m, {}).get("hmdb_id")) for m in olds) if h})
+        if e["hmdb_id"] is None and member_hmdb:
+            e["hmdb_id"] = member_hmdb[0]
         ident = {node} | set(olds)
         ident |= {f"{_KEGG}{k}" for k in kegg}
         for c in chebi_terms | ({f"CHEBI:{chebi_id}"} if chebi_id else set()):
