@@ -125,8 +125,10 @@ class MetabolismAdapter:
         if self._emitted_metabolite_ids:
             return set(self._emitted_metabolite_ids)
         data = self._load()
-        return ({f"kegg.compound:{k}" for k in data["compounds"]}
-                | set(data.get("additional_compounds", {})))
+        cap = 100 if self.test_mode else None
+        ids = [f"kegg.compound:{k}" for k in data["compounds"]][:cap]
+        ids += list(data.get("additional_compounds", {}))[:cap]
+        return set(ids)
 
     def _metabolite_relation_edges(self):
         data = self._load()
@@ -147,7 +149,9 @@ class MetabolismAdapter:
                 if tgt not in known:
                     skipped += 1
                     continue
-                assert src < tgt, f"enantiomer pair stored high->low: {src} {tgt}"
+                if src > tgt:
+                    log.warning(f"metabolism: enantiomer pair stored high->low, skipped: {src} {tgt}")
+                    continue
                 yield (f"m2e:{src}:{tgt}", src, tgt, "metabolite_is_enantiomer_of",
                        {"sources": ["chebi"], "evidence": "curated"})
         if skipped:
@@ -233,3 +237,4 @@ class MultiMetabolismAdapter(MetabolismAdapter):
         yield from self._reaction_metabolite_edges()
         yield from self._reaction_pathway_edges()
         yield from self._metabolite_pathway_edges()
+        yield from self._metabolite_relation_edges()

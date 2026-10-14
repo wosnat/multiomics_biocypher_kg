@@ -361,3 +361,36 @@ def test_stereo_edge_guard_skips_unemitted_targets(tmp_path):
     list(a.get_nodes())
     a._emitted_metabolite_ids.discard("kegg.compound:C01401")
     assert not any(e[2] == "kegg.compound:C01401" for e in a.get_edges() if e[3] == "metabolite_is_stereo_form_of")
+
+
+def test_multi_adapter_emits_relation_edges(tmp_path, monkeypatch):
+    strain_dir = tmp_path / "strain"
+    strain_dir.mkdir()
+    (strain_dir / "gene_annotations_merged.json").write_text(json.dumps({}))
+    monkeypatch.setattr(ma, "load_genome_rows", lambda: [{"data_dir": str(strain_dir)}])
+    a = ma.MultiMetabolismAdapter(genome_config_file="ignored", kegg_data_path=_kd_identity(tmp_path))
+    list(a.get_nodes())
+    labels = {e[3] for e in a.get_edges()}
+    assert {"metabolite_is_stereo_form_of", "metabolite_is_enantiomer_of"} <= labels
+
+
+def test_enantiomer_high_to_low_skipped(tmp_path):
+    p = _kd_identity(tmp_path)
+    kd = json.loads(p.read_text())
+    kd["compounds"]["C00133"]["enantiomer_of"] = ["kegg.compound:C00041"]  # high->low
+    p.write_text(json.dumps(kd))
+    a = ma.MetabolismAdapter(kegg_data_path=p)
+    list(a.get_nodes())
+    assert not any(e[0].startswith("m2e:kegg.compound:C00133") for e in a.get_edges())
+
+
+def test_all_metabolite_ids_test_mode_capped_before_nodes(tmp_path):
+    kd = {"reactions": {}, "kos": {}, "pathways": {}, "subcategories": {}, "categories": {},
+          "compounds": {f"C{i:05d}": {"name": "x"} for i in range(150)},
+          "additional_compounds": {f"chebi:{i}": {"name": "y"} for i in range(120)}}
+    p = tmp_path / "kd.json"
+    p.write_text(json.dumps(kd))
+    a = ma.MetabolismAdapter(kegg_data_path=p, test_mode=True)
+    before = a.all_metabolite_ids()
+    emitted = {n[0] for n in a.get_nodes() if n[1] == "metabolite"}
+    assert before == emitted and len(before) == 200
