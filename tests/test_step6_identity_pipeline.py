@@ -268,3 +268,19 @@ def test_recurated_from_ids_carried_forward_and_unioned(tmp_path):
     kd = run_identity_stages(inp).kegg_data
     assert kd["compounds"]["C00078"]["recurated_from_ids"] == ["kegg.compound:C00525", "kegg.compound:C99001"]
     assert "recurated_from_ids" not in kd["compounds"]["C00041"]
+
+
+def test_chebi_cache_does_not_depend_on_baseline_ids(tmp_path):
+    from multiomics_kg.utils.chebi_utils import ChebiIndex
+    from tests.metabolite_identity_helpers import term
+
+    def run(extra_previous):
+        inp = make_inputs(tmp_path)
+        inp.chebi = ChebiIndex({**inp.chebi.all_terms(),
+                                "CHEBI:99": term("isolated", inchikey="AAAAAAAAAAAAAA-UHFFFAOYSA-N")}, "256")
+        inp.previous_ids |= extra_previous
+        inp.old_resolved[(PAPER, TABLE, 0)] = next(iter(extra_previous), inp.old_resolved[(PAPER, TABLE, 0)])
+        return run_identity_stages(inp).chebi_cache
+
+    base, with_old = run(set()), run({"chebi:99"})
+    assert "CHEBI:99" not in with_old["terms"] and base == with_old

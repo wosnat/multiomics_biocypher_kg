@@ -8,6 +8,7 @@ ChEBI is CC BY 4.0.
 from __future__ import annotations
 
 import gzip
+from contextlib import contextmanager
 import logging
 import re
 from pathlib import Path
@@ -180,6 +181,16 @@ class ChebiIndex:
 
     def all_terms(self) -> dict[str, dict]:
         return self._terms
+
+    @contextmanager
+    def untracked(self):
+        """Lookups inside the block do not count as touched / missing, so the committed ChEBI
+        cache never depends on baseline-only lookups (previous build's ids)."""
+        touched, missing = set(self.touched), set(self.missing)
+        try:
+            yield self
+        finally:
+            self.touched, self.missing = touched, missing
 
 
 def build_chebi_cache(index: ChebiIndex) -> dict:

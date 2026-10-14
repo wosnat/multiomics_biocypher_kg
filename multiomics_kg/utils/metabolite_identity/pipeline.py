@@ -287,7 +287,8 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     res = resolve_paper_rows(inp.tables, overrides=inp.paper_overrides, name_candidates=name_candidates,
                              id_index=id_index, ctx=ctx, lock=inp.lock, today=inp.today)
     # K — measured set; drop measurement-only losers
-    targets, dropped, dropped_unmoved = _measured_set(table, res, inp.old_resolved, norm, id_index,
+    with chebi.untracked():          # old row ids are baseline-only lookups
+        targets, dropped, dropped_unmoved = _measured_set(table, res, inp.old_resolved, norm, id_index,
                                                      inp.previous_entries)
     pathways, subcategories, categories = _reprune_pathways(kegg_rest, table, targets, inp)
     survivors = set(table)
@@ -314,11 +315,12 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         n = norm(x)
         c = id_index.get(n, n)
         return c if c in dropped else n
-    remap, unaccounted = remap_rows(old_ids=inp.previous_ids, table=table, identity=identity,
-                                    rekeys=inp.rekeys, role_of=inp.role_of_old, dropped=dropped,
-                                    normalize=old_norm, id_index=id_index,
-                                    previous_entries=inp.previous_entries,
-                                    is_isotopologue=is_isotopologue_name, is_class=chebi.is_class)
+    with chebi.untracked():          # previous ids are baseline-only lookups
+        remap, unaccounted = remap_rows(old_ids=inp.previous_ids, table=table, identity=identity,
+                                        rekeys=inp.rekeys, role_of=inp.role_of_old, dropped=dropped,
+                                        normalize=old_norm, id_index=id_index,
+                                        previous_entries=inp.previous_entries,
+                                        is_isotopologue=is_isotopologue_name, is_class=chebi.is_class)
     errors += [f"remap {r['old_id']} → {r['new_id']} ({r['basis']}): not a compound step 6 writes"
                for r in remap if r["new_id"] and r["new_id"] not in table]
     if errors:
@@ -349,7 +351,9 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
             d, old = res.decisions.get(key), inp.old_resolved.get(key)
             if d is None:
                 continue
-            reason = repoint_reason(old_id=old and old_norm(old), new=d, row=row, identity=identity,
+            with chebi.untracked():
+                old_n = old and old_norm(old)
+            reason = repoint_reason(old_id=old_n, new=d, row=row, identity=identity,
                                     rekeys=inp.rekeys, dropped=dropped, case_fold_keys=case_fold_keys)
             if reason:
                 repoints.append({"paper": row.paper, "table": row.table, "paper_name": row.name,

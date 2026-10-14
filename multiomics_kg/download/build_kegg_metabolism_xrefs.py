@@ -1507,9 +1507,10 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         chemical_roles = build_role_hierarchy(set(role_map.values()), chebi)
         subtree_roles = build_subtree_roles(subtree_strings, role_map)
         role_of_old = {}
-        for old in prev_kegg.get("additional_compounds", {}):
-            if old.startswith("chebi:") and chebi.is_role(old):
-                role_of_old[old] = role_node_id(chebi.primary(old))
+        with chebi.untracked():          # baseline-only lookups never shape the ChEBI cache
+            for old in prev_kegg.get("additional_compounds", {}):
+                if old.startswith("chebi:") and chebi.is_role(old):
+                    role_of_old[old] = role_node_id(chebi.primary(old))
         log.info(f"  roles: {len(set(role_map.values()))} TCDB roles → {len(chemical_roles)} ChemicalRole nodes")
 
         # D — resolve molecules (secondary→primary, ChEBI KEGG re-key), harvest paper candidates
