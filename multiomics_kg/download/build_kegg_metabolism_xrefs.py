@@ -802,6 +802,7 @@ def _resolve_substrate_strings(
     conn: sqlite3.Connection,
     chebi: ChebiIndex | None = None,
     rekeys: dict[str, str] | None = None,
+    known_kegg: set[str] | None = None,
 ) -> tuple[dict[str, str], dict[str, dict]]:
     """Resolve raw 'CHEBI:NNNN;name' substrate strings to Metabolite primary IDs.
 
@@ -820,7 +821,13 @@ def _resolve_substrate_strings(
     hit, the primary's ChEBI KEGG xref supplies one (lowest C-number) — that re-key is
     recorded in ``rekeys`` as ``chebi:<primary n>`` → ``kegg.compound:C…``. A non-KEGG
     primary is then ``chebi:<primary n>``. With ``chebi=None`` the behaviour is unchanged.
+
+    ``known_kegg`` (the raw KEGG compound list): a KEGG id becomes a node id only if KEGG
+    still lists it; otherwise the next alias / xref is tried (``None`` = no filter).
     """
+    def _listed(kid: str) -> bool:
+        return known_kegg is None or kid in known_kegg
+
     cur = conn.cursor()
     if rekeys is None:
         rekeys = {}
@@ -888,7 +895,8 @@ def _resolve_substrate_strings(
             chunk,
         )
         for mnxm_id, value in cur.fetchall():
-            mnxm_to_kegg.setdefault(mnxm_id, value)
+            if _listed(value):
+                mnxm_to_kegg.setdefault(mnxm_id, value)
         cur.execute(
             f"SELECT mnxm_id, value FROM compound_aliases "
             f"WHERE source='chebi' AND mnxm_id IN ({placeholders}) "
@@ -902,7 +910,7 @@ def _resolve_substrate_strings(
         if mnxm in mnxm_to_kegg:
             return f"kegg.compound:{mnxm_to_kegg[mnxm]}"
         if pnum is not None:
-            kegg = sorted((chebi.term(pnum) or {}).get("kegg", []))
+            kegg = sorted(k for k in (chebi.term(pnum) or {}).get("kegg", []) if _listed(k))
             if kegg:
                 rekeys[f"chebi:{pnum}"] = f"kegg.compound:{kegg[0]}"
                 return f"kegg.compound:{kegg[0]}"
@@ -955,19 +963,21 @@ def _resolve_substrate_strings(
 # ── Stage D: paper candidates (spec §5.2 D) ──────────────────────────────────
 
 def _mnxm_primary(mnxm: str, conn: sqlite3.Connection, chebi: ChebiIndex,
-                  rekeys: dict[str, str]) -> str:
+                  rekeys: dict[str, str], known_kegg: set[str] | None = None) -> str:
     """Node id for an MNXM: its MNX KEGG alias, else the KEGG xref of one of its ChEBI
     aliases' primaries (neutral first, then lowest number; recorded in ``rekeys``), else
-    that ChEBI primary, else ``mnx:<MNXM>``."""
-    row = conn.execute("SELECT value FROM compound_aliases WHERE mnxm_id=? AND source='kegg.compound' "
-                       "ORDER BY value LIMIT 1", (mnxm,)).fetchone()
-    if row:
-        return f"kegg.compound:{row[0]}"
+    that ChEBI primary, else ``mnx:<MNXM>``. With ``known_kegg`` only KEGG ids KEGG still
+    lists qualify (an unlisted one falls through to the next option)."""
+    for (value,) in conn.execute("SELECT value FROM compound_aliases WHERE mnxm_id=? "
+                                 "AND source='kegg.compound' ORDER BY value", (mnxm,)):
+        if known_kegg is None or value in known_kegg:
+            return f"kegg.compound:{value}"
     prims = sorted({p for (v,) in conn.execute(
         "SELECT value FROM compound_aliases WHERE mnxm_id=? AND source='chebi'", (mnxm,))
         if (p := chebi.primary(v))}, key=lambda c: (chebi.charge(c) != 0, int(c.split(":")[1])))
     for p in prims:
-        kegg = sorted((chebi.term(p) or {}).get("kegg", []))
+        kegg = sorted(k for k in (chebi.term(p) or {}).get("kegg", [])
+                      if known_kegg is None or k in known_kegg)
         if kegg:
             rekeys[f"chebi:{p.split(':')[1]}"] = f"kegg.compound:{kegg[0]}"
             return f"kegg.compound:{kegg[0]}"
@@ -977,11 +987,15 @@ def _mnxm_primary(mnxm: str, conn: sqlite3.Connection, chebi: ChebiIndex,
 
 
 def _normalize_paper_id(curie: str, conn: sqlite3.Connection, chebi: ChebiIndex,
-                        rekeys: dict[str, str]) -> str:
+                        rekeys: dict[str, str], known_kegg: set[str] | None = None) -> str:
     """Normalize a paper-supplied CURIE to a node id: upper-case KEGG C-numbers, ChEBI
     secondary → primary (→ KEGG via its xref, recorded in ``rekeys``), MNX via
     `_mnxm_primary`. Prefixes match case-insensitively (``CHEBI:``, ``KEGG:``, ``MNX:`` …) and
-    normalise to the house forms; unknown prefixes pass through unchanged."""
+    normalise to the house forms; unknown prefixes pass through unchanged.
+
+    ``known_kegg`` filters only the ChEBI-xref / MNX routes onto KEGG. A KEGG id the paper,
+    an override or the lock names is kept as-is even when KEGG no longer lists it, so stage P
+    reports it (it is not a compound step 6 writes) instead of it being silently replaced."""
     prefix, _, local = curie.strip().partition(":")
     prefix, local = prefix.strip().lower(), local.strip()
     if prefix in ("kegg", "kegg.compound"):
@@ -990,13 +1004,14 @@ def _normalize_paper_id(curie: str, conn: sqlite3.Connection, chebi: ChebiIndex,
         p = chebi.primary(local)
         if p is None:
             return f"chebi:{int(local)}" if local.isdigit() else curie
-        kegg = sorted((chebi.term(p) or {}).get("kegg", []))
+        kegg = sorted(k for k in (chebi.term(p) or {}).get("kegg", [])
+                      if known_kegg is None or k in known_kegg)
         if kegg:
             rekeys[f"chebi:{p.split(':')[1]}"] = f"kegg.compound:{kegg[0]}"
             return f"kegg.compound:{kegg[0]}"
         return f"chebi:{p.split(':')[1]}"
     if prefix == "mnx":
-        return _mnxm_primary(local, conn, chebi, rekeys)
+        return _mnxm_primary(local, conn, chebi, rekeys, known_kegg)
     return curie
 
 
@@ -1014,6 +1029,7 @@ def _harvest_paper_candidates(
     conn: sqlite3.Connection,
     chebi: ChebiIndex,
     rekeys: dict[str, str],
+    known_kegg: set[str] | None = None,
 ) -> PaperCandidates:
     """Stage D, paper side (spec §5.2 D): collect CANDIDATES, never decisions. Every paper
     row's MNX name candidates, direct id, the paper's override targets and the lock targets
@@ -1023,17 +1039,17 @@ def _harvest_paper_candidates(
     for t in tables:
         for row in t.rows:
             for mnxm in resolve_metabolite_candidates(row.name, conn):
-                name_candidates[row.name_key].add(_mnxm_primary(mnxm, conn, chebi, rekeys))
+                name_candidates[row.name_key].add(_mnxm_primary(mnxm, conn, chebi, rekeys, known_kegg))
             if row.direct_id:
-                ids.add(_normalize_paper_id(row.direct_id, conn, chebi, rekeys))
+                ids.add(_normalize_paper_id(row.direct_id, conn, chebi, rekeys, known_kegg))
     for ovs in overrides.values():
         for ov in ovs.values():
-            ids.add(_normalize_paper_id(ov.id, conn, chebi, rekeys))
+            ids.add(_normalize_paper_id(ov.id, conn, chebi, rekeys, known_kegg))
     for section in ("names", "direct_ids"):
         for key, entry in lock.get(section, {}).items():
-            ids.add(_normalize_paper_id(entry["id"], conn, chebi, rekeys))
+            ids.add(_normalize_paper_id(entry["id"], conn, chebi, rekeys, known_kegg))
             if section == "direct_ids":
-                ids.add(_normalize_paper_id(key, conn, chebi, rekeys))
+                ids.add(_normalize_paper_id(key, conn, chebi, rekeys, known_kegg))
     for cands in name_candidates.values():
         ids |= cands
     non_kegg: dict[str, dict] = {}
@@ -1499,8 +1515,10 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         # D — resolve molecules (secondary→primary, ChEBI KEGG re-key), harvest paper candidates
         log.info(f"Resolving {len(molecule_strings)} distinct TCDB molecule substrate strings via MNX ...")
         rekeys: dict[str, str] = {}
+        # A KEGG id becomes a node id only while KEGG still lists it (no nameless nodes).
+        known_kegg = set(raw.get("compound_names", {}))
         string_to_primary, compound_props = _resolve_substrate_strings(
-            molecule_strings, conn, chebi=chebi, rekeys=rekeys)
+            molecule_strings, conn, chebi=chebi, rekeys=rekeys, known_kegg=known_kegg)
         subtree_substrates: dict[str, list[str]] = {}
         for tc, strings in subtree_strings.items():
             primaries = {string_to_primary[s] for s in strings if s in string_to_primary}
@@ -1513,8 +1531,12 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         transport_pws = {p for cpd in substrate_kegg_cpds for p in cpd_to_pw.get(cpd, [])}
 
         tables, paper_overrides = harvest_paper_tables(load_all_paperconfigs(), PROJECT_ROOT)
-        paper = _harvest_paper_candidates(tables, paper_overrides, lock, conn, chebi, rekeys)
-        paper_kegg_cpds = {i[len("kegg.compound:"):] for i in paper.ids if i.startswith("kegg.compound:")}
+        paper = _harvest_paper_candidates(tables, paper_overrides, lock, conn, chebi, rekeys,
+                                          known_kegg=known_kegg)
+        # A paper / override / lock KEGG id KEGG no longer lists is not built (stage P then
+        # reports its rows' target as not a compound step 6 holds; curate an override).
+        paper_kegg_cpds = {i[len("kegg.compound:"):] for i in paper.ids
+                           if i.startswith("kegg.compound:") and i[len("kegg.compound:"):] in known_kegg}
         paper_pws = {p for cpd in paper_kegg_cpds for p in cpd_to_pw.get(cpd, [])}
 
         extended_sets = dict(catalysis_sets)

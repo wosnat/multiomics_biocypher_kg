@@ -234,3 +234,37 @@ def test_unexplained_old_id_gets_fallback_basis_and_report_lists_shared_terms(tm
                                      "basis": "no_longer_reachable", "role_id": ""}
     assert rep["unaccounted_old_ids"] == []
     assert rep["shared_chebi_terms"] == {}
+
+
+def _rerun_inputs(tmp_path, out1):
+    """Run-2 inputs fed with run 1's outputs, as main() would read them back from disk."""
+    inp2 = make_inputs(tmp_path)
+    kd = out1.kegg_data
+    prev = {**{f"{K}{k}": v for k, v in kd["compounds"].items()}, **kd["additional_compounds"]}
+    inp2.previous_entries = copy.deepcopy(prev)
+    inp2.previous_ids = set(prev)
+    inp2.role_of_old = {}
+    dec = out1.mapping["decisions"][PAPER][TABLE]
+    inp2.old_resolved = {(PAPER, TABLE, r.row_index): dec[r.name_key]["metabolite_id"]
+                         for t in inp2.tables for r in t.rows}
+    inp2.lock, inp2.lumping_pin, inp2.today = out1.lock, out1.tcdb_pruned["lumping_pin"], "2099-01-01"
+    return inp2
+
+
+def test_rerun_over_own_outputs_is_byte_identical_except_report(tmp_path):
+    out1, files1 = _render(tmp_path, make_inputs(tmp_path))
+    out2, files2 = _render(tmp_path, _rerun_inputs(tmp_path, out1))
+    report = _paths(tmp_path).report
+    assert {p: t for p, t in files1.items() if p != report} == {p: t for p, t in files2.items() if p != report}
+    assert out2.kegg_data["compounds"]["C00078"]["recurated_from_ids"] == ["kegg.compound:C00525"]
+    assert out2.report["baseline"] == "previous kegg_data.json"
+    assert out2.report["dropped"] == {}
+
+
+def test_recurated_from_ids_carried_forward_and_unioned(tmp_path):
+    inp = make_inputs(tmp_path)
+    inp.previous_entries = {f"{K}C00078": {"recurated_from_ids": ["kegg.compound:C99001"]},
+                            f"{K}C00041": {"recurated_from_ids": ["kegg.compound:C00244"]}}  # live node: skipped
+    kd = run_identity_stages(inp).kegg_data
+    assert kd["compounds"]["C00078"]["recurated_from_ids"] == ["kegg.compound:C00525", "kegg.compound:C99001"]
+    assert "recurated_from_ids" not in kd["compounds"]["C00041"]

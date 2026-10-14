@@ -117,7 +117,7 @@ def _normalizer(chebi: ChebiIndex):
     return norm
 
 
-def _measured_set(table, res, old_resolved, norm, id_index):
+def _measured_set(table, res, old_resolved, norm, id_index, previous_entries=None):
     """Stage K (spec §3.6a): the metabolomics tag only on final targets; drop candidates with
     no catalysis / transport / measurement reason to exist. A drop whose old paper rows moved
     goes to the target's ``recurated_from_ids`` (never ``all_identifiers``). Old row ids are
@@ -147,6 +147,23 @@ def _measured_set(table, res, old_resolved, norm, id_index):
         else:
             unmoved.append(n)
         del table[n]
+    # Carry forward earlier builds' recurated_from_ids (spec §3.6a): a rerun over its own
+    # outputs sees no moved rows, so the provenance must come from the previous entry of each
+    # surviving node (previous node ids taken through id_index). Ids that are live nodes again
+    # are not recurations any more.
+    carried: dict[str, set[str]] = defaultdict(set)
+    for old_node, prev in sorted((previous_entries or {}).items()):
+        ids = prev.get("recurated_from_ids") or []
+        if not ids:
+            continue
+        n = norm(old_node)
+        tgt = id_index.get(n, n)
+        if tgt in table:
+            carried[tgt] |= {i for i in ids if i not in table}
+    for tgt, ids in sorted(carried.items()):
+        merged = set(table[tgt].get("recurated_from_ids") or []) | ids
+        if merged:
+            table[tgt]["recurated_from_ids"] = sorted(merged)
     return targets, dropped, unmoved
 
 
@@ -270,7 +287,8 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     res = resolve_paper_rows(inp.tables, overrides=inp.paper_overrides, name_candidates=name_candidates,
                              id_index=id_index, ctx=ctx, lock=inp.lock, today=inp.today)
     # K — measured set; drop measurement-only losers
-    targets, dropped, dropped_unmoved = _measured_set(table, res, inp.old_resolved, norm, id_index)
+    targets, dropped, dropped_unmoved = _measured_set(table, res, inp.old_resolved, norm, id_index,
+                                                     inp.previous_entries)
     pathways, subcategories, categories = _reprune_pathways(kegg_rest, table, targets, inp)
     survivors = set(table)
     structure["counts"] = dict(sorted(Counter(e["structure_kind"] for e in table.values()).items()))
@@ -364,6 +382,9 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     # re-run with the committed pin differ byte-wise, so it is left out of the report.
     lumping_report = {k: v for k, v in lumping.items() if k != "seeded"}
     report = build_identity_report(
+        # remap / repoints / dropped are diagnostics against this baseline; a no-change rerun
+        # over the committed outputs may leave them empty.
+        baseline="previous kegg_data.json",
         chebi_release=chebi.release,
         merge_groups={c: {"members": m, "basis": identity.basis.get(c, [])}
                       for c, m in sorted(identity.members.items())},

@@ -1117,7 +1117,7 @@ def _stub_main(tmp_path, monkeypatch):
         "kos": set(), "rxns": set(), "cpds": set(), "pws": {"ko00010"}, "tcdb_ids": {"1.A"},
         "rxn_genes": {}})
     monkeypatch.setattr(bx, "_load_chebi", lambda c, r: (make_chebi(), True))
-    monkeypatch.setattr(bx, "_resolve_substrate_strings", lambda s, conn, chebi=None, rekeys=None: ({}, {}))
+    monkeypatch.setattr(bx, "_resolve_substrate_strings", lambda s, conn, chebi=None, rekeys=None, known_kegg=None: ({}, {}))
     monkeypatch.setattr(bx, "load_all_paperconfigs", lambda: [])
     monkeypatch.setattr(bx, "build_pruned_kegg_data", lambda raw, conn, sets: {
         "compounds": {}, "additional_compounds": {}, "kos": {}, "pathways": {}, "subcategories": {},
@@ -1183,3 +1183,64 @@ def test_load_compound_brite_outage_uses_committed(tmp_path, monkeypatch):
     monkeypatch.setattr(bx, "download_compound_brite", boom)
     raw, committed = bx._load_compound_brite(tmp_path, False)
     assert raw == {} and committed == {code: {"nodes": []}}
+
+
+# ── Round 2: KEGG ids become node ids only when KEGG still lists them ────────
+
+def _conn_with_unlisted_kegg_alias(tmp_path):
+    """MNXM41 (glucose) carries two MNX KEGG aliases: C00293 (no longer listed by KEGG)
+    and C00031; MNXM50 carries only the unlisted C00271."""
+    conn = _subs_conn_with_chebi_only(tmp_path)
+    conn.executescript("""
+      INSERT INTO compound_aliases VALUES ('kegg.compound','C00031','MNXM41');
+      INSERT INTO compound_aliases VALUES ('kegg.compound','C00293','MNXM41');
+      INSERT INTO compound_aliases VALUES ('kegg.compound','C00271','MNXM50');
+      INSERT INTO compound_aliases VALUES ('chebi','9160','MNXM50');
+      INSERT INTO compounds VALUES ('MNXM50','sodium',NULL,NULL,NULL,NULL);
+    """)
+    return conn
+
+
+def test_resolve_substrate_strings_skips_unlisted_kegg_ids(tmp_path):
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _resolve_substrate_strings
+    conn = _conn_with_unlisted_kegg_alias(tmp_path)
+    chebi = make_chebi(CHEBI_4167=term("D-glucopyranose", kegg=["C00293"]),
+                       CHEBI_9160=term("sodium", kegg=["C00271", "C01330"]))
+    rekeys = {}
+    s2p, props = _resolve_substrate_strings({"CHEBI:4167;glucose", "CHEBI:9160;sodium"}, conn,
+                                            chebi=chebi, rekeys=rekeys, known_kegg={"C00293", "C01330"})
+    # MNX alias: the first LISTED alias wins (C00031 skipped); ChEBI xref: the next listed xref
+    assert s2p == {"CHEBI:4167;glucose": "kegg.compound:C00293", "CHEBI:9160;sodium": "kegg.compound:C01330"}
+    assert rekeys == {"chebi:9160": "kegg.compound:C01330"}
+    # nothing listed at all → stays the ChEBI node
+    rekeys = {}
+    s2p, props = _resolve_substrate_strings({"CHEBI:9160;sodium"}, conn, chebi=chebi, rekeys=rekeys,
+                                            known_kegg={"C00031"})
+    assert s2p == {"CHEBI:9160;sodium": "chebi:9160"} and rekeys == {}
+    assert props["chebi:9160"]["mnxm_id"] == "MNXM50"
+
+
+def test_resolve_substrate_strings_known_kegg_none_is_unfiltered(tmp_path):
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _resolve_substrate_strings
+    conn = _conn_with_unlisted_kegg_alias(tmp_path)
+    s2p, _ = _resolve_substrate_strings({"CHEBI:9160;sodium"}, conn,
+                                        chebi=make_chebi(CHEBI_9160=term("sodium")), rekeys={})
+    assert s2p == {"CHEBI:9160;sodium": "kegg.compound:C00271"}
+
+
+def test_mnxm_primary_and_normalize_paper_id_skip_unlisted_kegg(tmp_path):
+    conn = _conn_with_unlisted_kegg_alias(tmp_path)
+    chebi = make_chebi(CHEBI_4167=term("D-glucopyranose", alt=["CHEBI:12345"], kegg=["C00293"]),
+                       CHEBI_9160=term("sodium", charge=0, kegg=["C00271"]))
+    known = {"C00293"}
+    rekeys = {}
+    assert bx._mnxm_primary("MNXM41", conn, chebi, rekeys, known_kegg=known) == "kegg.compound:C00293"
+    assert bx._mnxm_primary("MNXM50", conn, chebi, rekeys, known_kegg=known) == "chebi:9160"
+    assert bx._normalize_paper_id("chebi:9160", conn, chebi, rekeys, known_kegg=known) == "chebi:9160"
+    assert bx._normalize_paper_id("mnx:MNXM50", conn, chebi, rekeys, known_kegg=known) == "chebi:9160"
+    assert bx._normalize_paper_id("chebi:12345", conn, chebi, rekeys, known_kegg=known) == "kegg.compound:C00293"
+    # a KEGG id the paper (or an override / the lock) names is never silently replaced
+    assert bx._normalize_paper_id("kegg:C00271", conn, chebi, rekeys, known_kegg=known) == "kegg.compound:C00271"
+    assert rekeys == {"chebi:4167": "kegg.compound:C00293"}
+    # without the filter, behaviour is unchanged
+    assert bx._mnxm_primary("MNXM50", conn, chebi, {}) == "kegg.compound:C00271"
