@@ -220,10 +220,11 @@ def _groups_by_basis(identity):
     return {b: sorted(v) for b, v in sorted(by.items())}
 
 
-def _identifier_coverage_errors(table, identity, rekeys, dropped):
+def _identifier_coverage_errors(table, identity, rekeys, dropped, dropped_unmoved=()):
     """Spec §2 goal 12: every re-keyed id and every merged-away member id resolves through
     exactly one written node's all_identifiers. Ids whose canonical node was dropped at stage
-    K are handled by the remap (remeasured_elsewhere) instead."""
+    K go with it: a drop with moved rows is remapped (remeasured_elsewhere); a measurement-only
+    candidate no row kept was never a written node."""
     owners: dict[str, list[str]] = defaultdict(list)
     for n, e in table.items():
         for x in e.get("all_identifiers") or []:
@@ -235,7 +236,7 @@ def _identifier_coverage_errors(table, identity, rekeys, dropped):
                 wanted.setdefault(m, canon)
     errs = []
     for x, canon in sorted(wanted.items()):
-        if canon in dropped:
+        if canon in dropped or canon in dropped_unmoved:
             continue
         n = len(owners.get(x, []))
         if n != 1:
@@ -358,7 +359,7 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
                                         is_isotopologue=is_isotopologue_name, is_class=chebi.is_class)
     errors += [f"remap {r['old_id']} → {r['new_id']} ({r['basis']}): not a compound step 6 writes"
                for r in remap if r["new_id"] and r["new_id"] not in table]
-    errors += _identifier_coverage_errors(table, identity, inp.rekeys, dropped)
+    errors += _identifier_coverage_errors(table, identity, inp.rekeys, dropped, set(dropped_unmoved))
     if errors:
         raise Step6ValidationError(errors)
 

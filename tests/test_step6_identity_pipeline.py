@@ -312,3 +312,16 @@ def test_rekeyed_id_resolving_nowhere_fails_validation(tmp_path):
     with pytest.raises(Step6ValidationError) as e:
         run_identity_stages(inp)
     assert any("chebi:77777" in m for m in e.value.errors)
+
+
+def test_identifier_coverage_exempts_dropped_nodes():
+    from multiomics_kg.utils.metabolite_identity.canonical import IdentityResult
+    from multiomics_kg.utils.metabolite_identity.pipeline import _identifier_coverage_errors
+    ident = IdentityResult({"mnx:M1": "chebi:1", "chebi:1": "chebi:1"}, {"chebi:1": ["chebi:1", "mnx:M1"]},
+                           {}, {"mnx:M1": "manual"})
+    table = {"kegg.compound:C1": {"all_identifiers": ["kegg.compound:C1", "chebi:9"]}}
+    rekeys = {"chebi:9": "kegg.compound:C1", "chebi:8": "kegg.compound:C2"}
+    errs = _identifier_coverage_errors(table, ident, rekeys, {}, set())
+    assert sorted(e.split()[1] for e in errs) == ["chebi:8", "mnx:M1"]
+    assert _identifier_coverage_errors(table, ident, rekeys, {"kegg.compound:C2": "kegg.compound:C1"},
+                                       {"chebi:1"}) == []
