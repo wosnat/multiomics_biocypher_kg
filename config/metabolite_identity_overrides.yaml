@@ -4,5 +4,32 @@
 # keep_separate: two node ids that must never merge, whatever the basis (MNX included).
 # Each entry: {a: <node id>, b: <node id>, reason: "<one line>"}. Neither kind adds a node.
 # Candidates to review: metabolite_identity_report.json → heuristic_name_candidates.
-merge: []
-keep_separate: []
+merge:
+  - a: "chebi:33283"
+    b: "mnx:MNXM1565227"
+    reason: "both thiamine(1+) chloride (InChIKey MYVIATVLJGTBFV-UHFFFAOYSA-M); the MNX node is HMDB0302835 'Oryzenin', which MNX never links to the ChEBI term"
+  - a: "chebi:12936"
+    b: "kegg.compound:C00124"
+    reason: "both D-galactose; ChEBI's KEGG xref for C00124 is the D-galactopyranose child term, so no curated link reaches the parent (heuristic_name_candidates review)"
+  - a: "chebi:16024"
+    b: "kegg.compound:C00159"
+    reason: "both D-mannose; ChEBI xrefs C00159 to a ring-form child term only (heuristic_name_candidates review)"
+  - a: "chebi:16988"
+    b: "kegg.compound:C00121"
+    reason: "both D-ribose; ChEBI xrefs C00121 to a ring-form child term only (heuristic_name_candidates review)"
+  - a: "chebi:16443"
+    b: "kegg.compound:C00795"
+    reason: "both D-tagatose; ChEBI xrefs C00795 to a ring-form child term only (heuristic_name_candidates review)"
+  - a: "chebi:17315"
+    b: "kegg.compound:C00329"
+    reason: "both D-glucosamine; ChEBI xrefs C00329 to a ring-form child term only (heuristic_name_candidates review)"
+  - a: "chebi:46502"
+    b: "kegg.compound:C20679"
+    reason: "both tungstate WO4, differing only in protonation/charge representation (heuristic_name_candidates review)"
+keep_separate:
+  - a: "kegg.compound:C00530"
+    b: "kegg.compound:C15603"
+    reason: "C00530 is hydroquinone itself; C15603 is the generic substituted-hydroquinone class (C6H2O2R4)"
+  - a: "kegg.compound:C01728"
+    b: "kegg.compound:C20861"
+    reason: "two different mannobioses: InChIKey connectivity blocks differ (different glycosidic linkage)"

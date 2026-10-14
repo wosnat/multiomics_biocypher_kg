@@ -1,0 +1,94 @@
+{
+  "members": [
+    {
+      "class_id": "kegg.brite:br08006.A1.B6",
+      "metabolite_id": "kegg.compound:C03664"
+    },
+    {
+      "class_id": "kegg.brite:br08006.A1.B3",
+      "metabolite_id": "kegg.compound:C04623"
+    },
+    {
+      "class_id": "kegg.brite:br08006.A1.B7",
+      "metabolite_id": "kegg.compound:C06604"
+    },
+    {
+      "class_id": "kegg.brite:br08006.A2.B4",
+      "metabolite_id": "kegg.compound:C07083"
+    },
+    {
+      "class_id": "kegg.brite:br08006.A1.B1",
+      "metabolite_id": "kegg.compound:C10896"
+    },
+    {
+      "class_id": "kegg.brite:br08006.A1.B7",
+      "metabolite_id": "kegg.compound:C11261"
+    },
+    {
+      "class_id": "kegg.brite:br08006.A2.B1",
+      "metabolite_id": "kegg.compound:C14214"
+    },
+    {
+      "class_id": "kegg.brite:br08006.A1.B4",
+      "metabolite_id": "kegg.compound:C14388"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "kegg.brite:br08006.A1",
+      "level": 0,
+      "name": "Pesticides and herbicides",
+      "parent": null
+    },
+    {
+      "id": "kegg.brite:br08006.A1.B1",
+      "level": 1,
+      "name": "Carbamate pesticides",
+      "parent": "kegg.brite:br08006.A1"
+    },
+    {
+      "id": "kegg.brite:br08006.A1.B3",
+      "level": 1,
+      "name": "Organochlorine pesticides",
+      "parent": "kegg.brite:br08006.A1"
+    },
+    {
+      "id": "kegg.brite:br08006.A1.B4",
+      "level": 1,
+      "name": "Pyrethroid pesticides",
+      "parent": "kegg.brite:br08006.A1"
+    },
+    {
+      "id": "kegg.brite:br08006.A1.B6",
+      "level": 1,
+      "name": "Phenoxy herbicides",
+      "parent": "kegg.brite:br08006.A1"
+    },
+    {
+      "id": "kegg.brite:br08006.A1.B7",
+      "level": 1,
+      "name": "Others",
+      "parent": "kegg.brite:br08006.A1"
+    },
+    {
+      "id": "kegg.brite:br08006.A2",
+      "level": 0,
+      "name": "Plasticizers and plastics",
+      "parent": null
+    },
+    {
+      "id": "kegg.brite:br08006.A2.B1",
+      "level": 1,
+      "name": "Phthalates",
+      "parent": "kegg.brite:br08006.A2"
+    },
+    {
+      "id": "kegg.brite:br08006.A2.B4",
+      "level": 1,
+      "name": "Styrenes",
+      "parent": "kegg.brite:br08006.A2"
+    }
+  ],
+  "tree": "endocrine_disrupting_compounds",
+  "tree_code": "br08006"
+}

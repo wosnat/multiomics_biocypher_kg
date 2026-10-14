@@ -1,34 +1,175 @@
-# Manual ID overrides for compound names that don't resolve cleanly via MNX.
-# Format: "name as it appears in CSV": "primary_id"
-# Reasoning per entry below; verify against KEGG before relying on these.
+# Per-paper metabolite alias overrides for Kujawinski 2023 (spec §3.6, §6.8).
+# Key: the compound name exactly as the paper writes it (quote keys like NO / Yes).
+# Value: {id, stereo_assignment, reason}. Overrides apply to every table of this paper
+# (including the KEGG-export tables that do not reference this file).
 
-# γ-aminobutyric acid (GABA) — non-ASCII γ throws name lookup
-"γ-aminobutyric acid": "kegg.compound:C00334"
+"γ-aminobutyric acid":
+  id: "kegg.compound:C00334"
+  stereo_assignment: as_reported
+  reason: "γ-aminobutyric acid (GABA); non-ASCII γ throws name lookup"
+"4-amino-5-aminomethyl-2-methylpyrimidine":
+  id: "kegg.compound:C20267"
+  stereo_assignment: as_reported
+  reason: "vitamin B1 thiamine pyrimidine moiety; aka AmMP in literature"
+"4-Amino-2-methyl-5-pyrimidinemethanol":
+  id: "kegg.compound:C01279"
+  stereo_assignment: as_reported
+  reason: "vitamin B1 thiamine pyrimidine alcohol (HMP)"
+"dimethylsulfoniopropionate":
+  id: "kegg.compound:C04022"
+  stereo_assignment: as_reported
+  reason: "DMSP, sulfur osmolyte; common cyanobacterial-marine metabolite"
+"threonine / homoserine":
+  id: "kegg.compound:C00188"
+  stereo_assignment: dominant_form_assumed
+  reason: "authors merged threonine + homoserine into one row; pick threonine (canonical)"
+"alanine (isom. sarcosine)":
+  id: "kegg.compound:C00041"
+  stereo_assignment: dominant_form_assumed
+  reason: "authors merged alanine + sarcosine; pick alanine (canonical proteinogenic AA)"
+"glutathione oxidized":
+  id: "kegg.compound:C00127"
+  stereo_assignment: as_reported
+  reason: "GSSG"
+"citrate":
+  id: "kegg.compound:C00158"
+  stereo_assignment: as_reported
+  reason: "authors used citrate rather than citric acid; both = KEGG C00158"
+"2,3-dihydroxypropane-1-sulfonate":
+  id: "kegg.compound:C19675"
+  stereo_assignment: as_reported
+  reason: "DHPS, sulfonate; common in marine osmolyte studies"
+"n-acetyl muramic acid":
+  id: "kegg.compound:C02713"
+  stereo_assignment: as_reported
+  reason: "N-acetylmuramic acid (peptidoglycan building block); author's spacing defeats MNX name lookup; anomer-only variants"
 
-# Vitamin B1 thiamine pyrimidine moiety; aka "AmMP" in literature
-"4-amino-5-aminomethyl-2-methylpyrimidine": "kegg.compound:C20267"
+# --- spec §3.6 curated overrides (2026-10-14) ---
+"glutathione":
+  id: "kegg.compound:C00051"
+  stereo_assignment: as_reported
+  reason: "GSH, reduced"
+"indole 3-acetic acid":
+  id: "kegg.compound:C00954"
+  stereo_assignment: as_reported
+  reason: "indole-3-acetate (IAA); collided on C00954 with another name"
+"cysteine":
+  id: "kegg.compound:C00097"
+  stereo_assignment: dominant_form_assumed
+  reason: "paper gives no stereo; was an mnx: placeholder"
 
-# Vitamin B1 thiamine pyrimidine alcohol (HMP)
-"4-Amino-2-methyl-5-pyrimidinemethanol": "kegg.compound:C01279"
-
-# DMSP — sulfur osmolyte; common cyanobacterial-marine metabolite
-"dimethylsulfoniopropionate": "kegg.compound:C04022"
-
-# Authors merged threonine + homoserine into one row; pick threonine (canonical)
-"threonine / homoserine": "kegg.compound:C00188"
-
-# Authors merged alanine + sarcosine; pick alanine (canonical proteinogenic AA)
-"alanine (isom. sarcosine)": "kegg.compound:C00041"
-
-# Glutathione, oxidized form (GSSG)
-"glutathione oxidized": "kegg.compound:C00127"
-
-# Authors used "citrate" rather than "citric acid"; both = KEGG C00158
-"citrate": "kegg.compound:C00158"
-
-# 2,3-dihydroxypropane-1-sulfonate (DHPS) — sulfonate; common in marine osmolyte studies
-"2,3-dihydroxypropane-1-sulfonate": "kegg.compound:C19675"
-
-# N-acetylmuramic acid (peptidoglycan building block) — author wrote it
-# without the N-acetyl hyphen joining the prefix, so MNX name lookup misses
-"n-acetyl muramic acid": "kegg.compound:C02713"
+# --- ambiguous names (Step6ValidationError, 2026-10-14). Where the paper's own KEGG
+# export (ChisholmPro_cellSpecific_KEGGexport, column KEGG) lists the same compound,
+# its id is used ---
+"3-methyl-2-oxobutanoic acid":
+  id: "kegg.compound:C00141"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C00141; other candidate (methyl 3-methylbutanoate) is MNX noise"
+"4-aminobenzoic acid":
+  id: "kegg.compound:C00568"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C00568 (4-aminobenzoate)"
+"D-glucosamine 6-phosphate":
+  id: "kegg.compound:C00352"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C00352"
+"S-adenosyl-L-methionine":
+  id: "kegg.compound:C00019"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C00019; chebi:33442 is the (S)-sulfonium stereo term of the same SAM"
+"adenosine":
+  id: "kegg.compound:C00212"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C00212"
+"arginine":
+  id: "kegg.compound:C00062"
+  stereo_assignment: dominant_form_assumed
+  reason: "paper's KEGG export lists C00062 (L-arginine)"
+"chitobiose":
+  id: "kegg.compound:C01674"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists chitobiose pos as C01674 (N,N'-diacetylchitobiose)"
+"chitotriose":
+  id: "chebi:143141"
+  stereo_assignment: as_reported
+  reason: "N,N',N''-triacetylchitotriose: no KEGG id (export gives 0); same paper's chitobiose is the N,N'-diacetyl form C01674, so the acetylated trimer, not deacetylated chebi:84373"
+"choline":
+  id: "kegg.compound:C00114"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C00114"
+"cyanocobalamin":
+  id: "kegg.compound:C02823"
+  stereo_assignment: as_reported
+  reason: "the name denotes cyanocobalamin C02823; the paper's KEGG export gives C08230 (hydroxocobalamin), taken as an export error"
+"ectoine":
+  id: "kegg.compound:C06231"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C06231"
+"fosfomycin":
+  id: "kegg.compound:C06454"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C06454"
+"glucose 6-phosphate":
+  id: "kegg.compound:C00092"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists glucose6P as C00092 (D-glucose 6-phosphate)"
+"glyphosate":
+  id: "kegg.compound:C01705"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C01705"
+"hemin":
+  id: "kegg.compound:C06767"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists hemin II as C06767"
+"inosine":
+  id: "kegg.compound:C00294"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C00294"
+"isoleucine":
+  id: "kegg.compound:C00407"
+  stereo_assignment: dominant_form_assumed
+  reason: "paper's KEGG export lists C00407 (L-isoleucine)"
+"muramic acid":
+  id: "kegg.compound:C06470"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C06470"
+"nicotinamide adenine dinucleotide":
+  id: "kegg.compound:C00003"
+  stereo_assignment: as_reported
+  reason: "the name denotes NAD+ (C00003); note the export row NAD pos carries C00004 (NADH)"
+"pyridoxine":
+  id: "kegg.compound:C00314"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C00314"
+"riboflavin":
+  id: "kegg.compound:C00255"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C00255; C00061 is FMN"
+"serine":
+  id: "kegg.compound:C00065"
+  stereo_assignment: dominant_form_assumed
+  reason: "paper's KEGG export lists C00065 (L-serine)"
+"syringic acid":
+  id: "kegg.compound:C10833"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C10833"
+"thiamine":
+  id: "kegg.compound:C00378"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C00378"
+"tryptophan":
+  id: "kegg.compound:C00078"
+  stereo_assignment: dominant_form_assumed
+  reason: "paper's KEGG export lists C00078 (L-tryptophan)"
+"tyrosine":
+  id: "kegg.compound:C00082"
+  stereo_assignment: dominant_form_assumed
+  reason: "paper's KEGG export lists l-tyrosine as C00082"
+"uracil":
+  id: "kegg.compound:C00106"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists uracil pos as C00106"
+"n-acetyl glutamic acid":
+  id: "kegg.compound:C00624"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C00624 (N-acetyl-L-glutamate); MNX name lookup finds nothing for this spelling"

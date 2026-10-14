@@ -1,0 +1,182 @@
+{
+  "members": [
+    {
+      "class_id": "kegg.brite:br08009.A2.B1.C7",
+      "metabolite_id": "kegg.compound:C00745"
+    },
+    {
+      "class_id": "kegg.brite:br08009.A2.B2.C2",
+      "metabolite_id": "kegg.compound:C00844"
+    },
+    {
+      "class_id": "kegg.brite:br08009.A2.B2.C1",
+      "metabolite_id": "kegg.compound:C01443"
+    },
+    {
+      "class_id": "kegg.brite:br08009.A2.B1.C6",
+      "metabolite_id": "kegg.compound:C02046"
+    },
+    {
+      "class_id": "kegg.brite:br08009.A2.B2.C1",
+      "metabolite_id": "kegg.compound:C06956"
+    },
+    {
+      "class_id": "kegg.brite:br08009.A2.B4.C3",
+      "metabolite_id": "kegg.compound:C07090"
+    },
+    {
+      "class_id": "kegg.brite:br08009.A2.B1.C1",
+      "metabolite_id": "kegg.compound:C07201"
+    },
+    {
+      "class_id": "kegg.brite:br08009.A2.B1.C1",
+      "metabolite_id": "kegg.compound:C07204"
+    },
+    {
+      "class_id": "kegg.brite:br08009.A2.B3.C1",
+      "metabolite_id": "kegg.compound:C07394"
+    },
+    {
+      "class_id": "kegg.brite:br08009.A2.B2.C2",
+      "metabolite_id": "kegg.compound:C08325"
+    },
+    {
+      "class_id": "kegg.brite:br08009.A1.B2.C6",
+      "metabolite_id": "kegg.compound:C08511"
+    },
+    {
+      "class_id": "kegg.brite:br08009.A1.B2.C2",
+      "metabolite_id": "kegg.compound:C09747"
+    },
+    {
+      "class_id": "kegg.brite:br08009.A1.B2.C6",
+      "metabolite_id": "kegg.compound:C09955"
+    },
+    {
+      "class_id": "kegg.brite:br08009.A2.B3.C1",
+      "metabolite_id": "kegg.compound:C11700"
+    },
+    {
+      "class_id": "kegg.brite:br08009.A4.B5.C2",
+      "metabolite_id": "kegg.compound:C20021"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "kegg.brite:br08009.A1",
+      "level": 0,
+      "name": "Fungal toxins",
+      "parent": null
+    },
+    {
+      "id": "kegg.brite:br08009.A1.B2",
+      "level": 1,
+      "name": "Mycotoxins",
+      "parent": "kegg.brite:br08009.A1"
+    },
+    {
+      "id": "kegg.brite:br08009.A1.B2.C2",
+      "level": 2,
+      "name": "Trichothecenes",
+      "parent": "kegg.brite:br08009.A1.B2"
+    },
+    {
+      "id": "kegg.brite:br08009.A1.B2.C6",
+      "level": 2,
+      "name": "Others",
+      "parent": "kegg.brite:br08009.A1.B2"
+    },
+    {
+      "id": "kegg.brite:br08009.A2",
+      "level": 0,
+      "name": "Phytotoxins",
+      "parent": null
+    },
+    {
+      "id": "kegg.brite:br08009.A2.B1",
+      "level": 1,
+      "name": "Alkaloids",
+      "parent": "kegg.brite:br08009.A2"
+    },
+    {
+      "id": "kegg.brite:br08009.A2.B1.C1",
+      "level": 2,
+      "name": "Indole alkaloids",
+      "parent": "kegg.brite:br08009.A2.B1"
+    },
+    {
+      "id": "kegg.brite:br08009.A2.B1.C6",
+      "level": 2,
+      "name": "Tropan alkaloids",
+      "parent": "kegg.brite:br08009.A2.B1"
+    },
+    {
+      "id": "kegg.brite:br08009.A2.B1.C7",
+      "level": 2,
+      "name": "Others",
+      "parent": "kegg.brite:br08009.A2.B1"
+    },
+    {
+      "id": "kegg.brite:br08009.A2.B2",
+      "level": 1,
+      "name": "Glycosides",
+      "parent": "kegg.brite:br08009.A2"
+    },
+    {
+      "id": "kegg.brite:br08009.A2.B2.C1",
+      "level": 2,
+      "name": "Cardiac glycosides",
+      "parent": "kegg.brite:br08009.A2.B2"
+    },
+    {
+      "id": "kegg.brite:br08009.A2.B2.C2",
+      "level": 2,
+      "name": "Cyanogenic glycosides",
+      "parent": "kegg.brite:br08009.A2.B2"
+    },
+    {
+      "id": "kegg.brite:br08009.A2.B3",
+      "level": 1,
+      "name": "Terpenoids",
+      "parent": "kegg.brite:br08009.A2"
+    },
+    {
+      "id": "kegg.brite:br08009.A2.B3.C1",
+      "level": 2,
+      "name": "Diterpenoids",
+      "parent": "kegg.brite:br08009.A2.B3"
+    },
+    {
+      "id": "kegg.brite:br08009.A2.B4",
+      "level": 1,
+      "name": "Others",
+      "parent": "kegg.brite:br08009.A2"
+    },
+    {
+      "id": "kegg.brite:br08009.A2.B4.C3",
+      "level": 2,
+      "name": "Others",
+      "parent": "kegg.brite:br08009.A2.B4"
+    },
+    {
+      "id": "kegg.brite:br08009.A4",
+      "level": 0,
+      "name": "Marine biotoxins",
+      "parent": null
+    },
+    {
+      "id": "kegg.brite:br08009.A4.B5",
+      "level": 1,
+      "name": "Paralytic shellfish poisoning; PSP",
+      "parent": "kegg.brite:br08009.A4"
+    },
+    {
+      "id": "kegg.brite:br08009.A4.B5.C2",
+      "level": 2,
+      "name": "Decarbamoyl derivatives",
+      "parent": "kegg.brite:br08009.A4.B5"
+    }
+  ],
+  "tree": "natural_toxins",
+  "tree_code": "br08009"
+}
