@@ -5,7 +5,7 @@ DataSource node per logical source with auto-derived info_types.
 """
 
 import pytest
-from multiomics_kg.adapters.data_source_adapter import DataSourceAdapter
+from multiomics_kg.adapters.data_source_adapter import DataSourceAdapter, data_source_ids
 
 
 @pytest.fixture
@@ -13,13 +13,30 @@ def adapter():
     return DataSourceAdapter(config_path="config/gene_annotations_config.yaml")
 
 
-def test_emits_nine_nodes(adapter):
-    """Nine data sources: ncbi, cyanorak, uniprot, eggnog, psortb, signalp, interproscan, tcdb_diamond, merops_diamond."""
+def test_emits_eleven_nodes(adapter):
+    """Eleven data sources: nine gene-level + the kegg / chebi reference sources."""
     adapter.download_data()
     nodes = list(adapter.get_nodes())
     ids = {props["id"] for _, _, props in nodes}
     assert ids == {"ncbi", "cyanorak", "uniprot", "eggnog", "psortb", "signalp",
-                   "interproscan", "tcdb_diamond", "merops_diamond"}
+                   "interproscan", "tcdb_diamond", "merops_diamond", "kegg", "chebi"}
+
+
+def test_reference_sources_have_info_types_and_chebi_version(adapter):
+    import json
+    from pathlib import Path
+    adapter.download_data()
+    nodes = {props["id"]: props for _, _, props in adapter.get_nodes()}
+    for sid in ("kegg", "chebi"):
+        assert nodes[sid]["info_types"], sid
+        assert nodes[sid]["scope"] == "global"
+        assert nodes[sid]["provenance"] == "download"
+    assert "CC BY 4.0" in nodes["chebi"]["description"]
+    cache = Path("cache/data/chebi/chebi_metabolite_xrefs.json")
+    if not cache.exists():
+        pytest.skip("ChEBI cache not present")
+    assert nodes["chebi"]["version"] == str(json.loads(cache.read_text())["release"]) == "256"
+    assert nodes["kegg"]["version"] == ""
 
 
 def test_merops_diamond_is_tool_run_gene_level(adapter):

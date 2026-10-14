@@ -396,6 +396,7 @@ assay quantifies metabolite:
     n_non_zero: int
     replicate_values: float[]
     detection_status: str            # adapter-set: detected | sporadic | not_detected
+    stereo_assignment: str           # as_reported | dominant_form_assumed (dense on every edge)
     rank_by_metric: int              # post-import (rankable="true" only)
     metric_percentile: float         # post-import (rankable="true" only)
     metric_bucket: str               # post-import (rankable="true" only)
@@ -414,6 +415,7 @@ assay flags metabolite:
     flag_value: str                  # detected | not_detected (R5 two-state string, mirrors detection_status)
     n_replicates: int
     n_positive: int
+    stereo_assignment: str           # as_reported | dominant_form_assumed (dense on every edge)
 
 # GeneCluster → Gene membership edges
 gene in gene cluster:
@@ -885,6 +887,16 @@ metabolite:
     mnxm_id: str                 # nullable
     chebi_id: str                # nullable
     hmdb_id: str                 # nullable
+    kegg_compound_ids: str[]     # bare, scalar value first; present iff kegg_compound_id is
+    chebi_ids: str[]             # bare primary ChEBI numbers, scalar value first; present iff chebi_id is
+    mnxm_ids: str[]              # sparse: only when the node spans > 1 MNX entity
+    all_identifiers: str[]       # dense, CURIE-only (kegg.compound: / chebi: / mnx: / hmdb: / inchikey:), unlike Gene.all_identifiers (bare)
+    identifier_tokens: str[]     # post-import, search-only: bare local parts of all_identifiers (metaboliteFullText)
+    recurated_from_ids: str[]    # sparse, NO identity meaning: dropped nodes whose paper rows now point here
+    identity_basis: str[]        # sparse: merged or re-keyed nodes only
+    structure_kind: str          # dense: defined | generic | polymer
+    kegg_compound_categories: str[]   # post-import, sparse: br08001 level-0 names
+    measured_compartments: str[] # post-import (already set; declared here for completeness)
     evidence_sources: str[]      # 'metabolism' | 'transport' | 'metabolomics' (paper-measured; live since Phase 2)
     # post-import: distinct transporter systems at MAXIMAL DEPTH — TcdbFamily
     # nodes whose substrate edge carries substrate_depth='most_specific', so an ancestor
@@ -1261,6 +1273,97 @@ brite category is a brite category:
   target: brite category
   label_in_input: brite_category_is_a_brite_category
 
+metabolite class:
+  is_a: named thing
+  represented_as: node
+  preferred_id: kegg.brite
+  label_in_input: metabolite class
+  properties:
+    name: str
+    tree: str                    # snake_case KEGG compound tree name
+    tree_code: str               # br08001 … br08021
+    level: int                   # 0 = broadest
+    level_kind: str              # kegg_compound_class | _subclass | _group | _subgroup
+    metabolite_count: int        # post-import: subtree
+    direct_metabolite_count: int # post-import
+    organism_count: int          # post-import
+
+metabolite class is a metabolite class:
+  is_a: association
+  represented_as: edge
+  label_as_edge: metabolite_class_is_a_metabolite_class
+  source: metabolite class
+  target: metabolite class
+  label_in_input: metabolite_class_is_a_metabolite_class
+
+metabolite in metabolite class:
+  is_a: association
+  represented_as: edge
+  label_as_edge: metabolite_in_metabolite_class
+  source: metabolite
+  target: metabolite class
+  label_in_input: metabolite_in_metabolite_class
+  properties:
+    sources: str[]
+    evidence: str
+
+chemical role:
+  is_a: named thing
+  represented_as: node
+  preferred_id: chebi.role       # house-minted prefix; never routed as a chebi: metabolite
+  label_in_input: chemical role
+  properties:
+    name: str
+    level: int                   # shortest is_a distance to a ChEBI role branch (DAG: approximate)
+    level_kind: str              # chebi_role_branch | chebi_role
+    all_identifiers: str[]       # chebi.role:<n> + chebi:<primary and secondary ids>
+    transporter_count: int       # post-import, subtree, most_specific edges, DISTINCT families
+    direct_transporter_count: int
+    tcdb_family_count: int       # post-import, subtree, any depth, DISTINCT families
+    direct_tcdb_family_count: int
+
+chemical role is a chemical role:
+  is_a: association
+  represented_as: edge
+  label_as_edge: chemical_role_is_a_chemical_role
+  source: chemical role
+  target: chemical role
+  label_in_input: chemical_role_is_a_chemical_role
+
+tcdb family transports chemical role:
+  is_a: association
+  represented_as: edge
+  label_as_edge: tcdb_family_transports_chemical_role
+  source: tcdb family
+  target: chemical role
+  label_in_input: tcdb_family_transports_chemical_role
+  properties:
+    # "This family transports something TCDB calls <role>" — NOT a role of the family or
+    # of its metabolites. Same rollup + depth rule as tcdb_family_transports_metabolite.
+    substrate_depth: str
+
+metabolite is stereo form of metabolite:
+  is_a: association
+  represented_as: edge
+  label_as_edge: metabolite_is_stereo_form_of
+  source: metabolite
+  target: metabolite
+  label_in_input: metabolite_is_stereo_form_of
+  properties:
+    sources: str[]
+    evidence: str
+
+metabolite is enantiomer of metabolite:
+  is_a: association
+  represented_as: edge
+  label_as_edge: metabolite_is_enantiomer_of     # symmetric: stored once, lower → higher id
+  source: metabolite
+  target: metabolite
+  label_in_input: metabolite_is_enantiomer_of
+  properties:
+    sources: str[]
+    evidence: str
+
 kegg term in brite category:
   is_a: association
   represented_as: edge
@@ -1288,12 +1391,11 @@ tcdb family:
     organism_count: int     # post-import
     member_count: int       # post-import: direct child count
     metabolite_count: int   # post-import: distinct substrate metabolites in subtree
-    # is_promiscuous (deleted 2026-08-16, spec §3 R3): restated a threshold over a
-    # count the node already publishes. Consumers derive it themselves:
-    # level >= 2 AND metabolite_count >= 50. Level-gated because substrate counts
-    # scale mechanically with hierarchy level (the step-6 rollup materializes every
-    # descendant's substrates onto each ancestor) — see the "Why level-gated" bullet
-    # under TcdbFamily nodes in CLAUDE.md for the full rationale.
+    direct_gene_count: int  # post-import
+    substrate_breadth: str  # dense: lumping | specific | not_assessed (pinned set, spec 2026-10-13 §3.4a; an R3 exception)
+    # is_promiscuous (deleted 2026-08-16, spec §3 R3) is replaced by substrate_breadth:
+    # filter on substrate_breadth; the threshold query (level >= 2 AND
+    # metabolite_count >= 50) no longer reproduces the pinned set.
 
 cazy family:
   is_a: named thing

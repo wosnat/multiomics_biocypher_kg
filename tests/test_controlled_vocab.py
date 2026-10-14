@@ -182,7 +182,8 @@ def test_trust_slice_carries_value_descriptions():
     trust_props = {"evidence", "sources", "call_class", "best_hit_kind",
                    "attachment_depth", "substrate_depth", "pfam_support",
                    "go_support", "source_agreement", "detection_status",
-                   "table_scope", "annotation_state"}
+                   "table_scope", "annotation_state", "identity_basis",
+                   "structure_kind", "substrate_breadth", "stereo_assignment"}
     missing = [e.id for e in entries.values()
                if e.property in trust_props and e.closed and not e.value_descriptions]
     assert not missing, missing
@@ -193,8 +194,8 @@ def test_sources_descriptions_do_not_drift_from_gene_annotations_config():
     source any `sources` vocabulary declares is described somewhere."""
     import yaml
     cfg = yaml.safe_load(open("config/gene_annotations_config.yaml"))
-    logical = {ls["id"] for src in cfg["sources"].values()
-               for ls in src["logical_sources"]}
+    from multiomics_kg.adapters.data_source_adapter import data_source_ids
+    logical = data_source_ids(cfg)
     entries = [e for e in load_vocabularies().values() if e.property == "sources"]
     described = {v for e in entries for v in e.value_descriptions}
     declared = {v for e in entries for v in e.values}
