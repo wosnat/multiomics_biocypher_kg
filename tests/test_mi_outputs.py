@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 import pandas as pd
 
@@ -81,3 +82,116 @@ def test_remap_rows_bases():
     assert by["mnx:MNXM1565340"]["basis"] == "removed_placeholder"
     assert by["chebi:12961"]["basis"] == "chebi_primary_id"
     assert unaccounted == ["chebi:999"]
+
+
+import io  # noqa: E402
+
+import pytest  # noqa: E402
+
+from multiomics_kg.utils.metabolite_identity.outputs import build_identity_report, build_mapping_v2  # noqa: E402
+
+
+def _v(**kw):
+    args = dict(table={}, roles={}, subtree_substrates={}, subtree_roles={}, class_trees={},
+                resolution=ResolutionResult(), chebi_missing_needed=set())
+    args.update(kw)
+    return validate_build(**args)
+
+
+def test_validate_resolution_problems():
+    res = ResolutionResult(ambiguous=["foo"], collisions=["bar"], errors=["boom"])
+    errs = _v(resolution=res)
+    assert any("foo" in e for e in errs) and any("bar" in e for e in errs) and "boom" in errs
+
+
+def test_validate_duplicate_inchikey():
+    t = {"a": dict(_entry(["a"]), inchikey="K"), "b": dict(_entry(["b"]), inchikey="K")}
+    assert any("InChIKey K" in e for e in _v(table=t))
+
+
+def test_validate_class_tree_dangling():
+    tree = {"nodes": [{"id": "n1", "parent": "nX"}],
+            "members": [{"metabolite_id": "zz", "class_id": "n1"}]}
+    errs = _v(class_trees={"br1": tree})
+    assert any("nX" in e for e in errs) and any("zz" in e for e in errs)
+
+
+def test_validate_roles_and_chebi():
+    roles = {"r1": {"parents": ["r9"], "all_identifiers": []}}
+    errs = _v(roles=roles, subtree_roles={"2.A": ["r7"]}, chebi_missing_needed={"chebi:5"})
+    assert any("r9" in e for e in errs) and any("r7" in e for e in errs) and any("chebi:5" in e for e in errs)
+
+
+def test_write_all_atomic_failure(tmp_path, monkeypatch):
+    a, b = tmp_path / "a.json", tmp_path / "b.json"
+    orig = Path.write_text
+    calls = []
+
+    def bad(self, *args, **kw):
+        calls.append(self)
+        if len(calls) == 2:
+            raise OSError("disk")
+        return orig(self, *args, **kw)
+    monkeypatch.setattr(Path, "write_text", bad)
+    with pytest.raises(OSError):
+        write_all_atomic({a: "1", b: "2"})
+    assert not list(tmp_path.glob("*.tmp")) and not a.exists()
+
+
+def test_write_resolved_tables_skip_rows(tmp_path):
+    csv = tmp_path / "m.csv"
+    csv.write_text("preamble one\npreamble two\ncompound,v\nAlanine,1\nGlycine,2\n")
+    t = PaperTable("p", "t", csv, 2, [PaperRow("p", "t", 0, "Alanine", None, None),
+                                      PaperRow("p", "t", 1, "Glycine", None, None)])
+    out = write_resolved_tables([t], {("p", "t", 0): Decision("kegg.compound:C00041", "name_match", "as_reported")})
+    text = out[tmp_path / "m_resolved.csv"]
+    assert "preamble" not in text
+    df = pd.read_csv(io.StringIO(text), dtype=str, keep_default_na=False)
+    assert df.iloc[0]["compound"] == "Alanine" and df.iloc[0]["metabolite_id"] == "kegg.compound:C00041"
+
+
+def test_build_mapping_v2():
+    row_ok, row_bad = PaperRow("p", "t", 0, "Alanine", None, None), PaperRow("p", "t", 1, "Mystery", None, None)
+    t = PaperTable("p", "t", Path("x.csv"), 0, [row_ok, row_bad])
+    res = ResolutionResult(decisions={("p", "t", 0): Decision("kegg.compound:C1", "name_match", "as_reported"),
+                                      ("p", "t", 1): Decision(None, "unresolved", None)},
+                           unresolved=[{"paper": "p", "table": "t", "name": "Mystery"}])
+    m = build_mapping_v2(id_aliases={}, resolution=res, overrides={}, tables=[t],
+                         compounds_summary={}, per_paper_stats={})
+    assert m["schema_version"] == 2 and "specific_lookup" not in m and "multi_lookup" not in m
+    for k in ("id_aliases", "name_lookup", "paper_overrides", "decisions", "unresolved", "conflicts"):
+        assert k in m
+    assert list(m["decisions"]["p"]["t"].values()) == [
+        {"metabolite_id": "kegg.compound:C1", "resolution_method": "name_match", "stereo_assignment": "as_reported"}]
+    assert m["unresolved"]["p"]["t"] == ["Mystery"]
+
+
+def test_build_identity_report_sets():
+    assert build_identity_report(a={"z", "b"}, b=1) == {"a": ["b", "z"], "b": 1}
+
+
+def test_repoint_reasons():
+    ident = IdentityResult({}, {}, {}, {})
+    row = PaperRow("p", "t", 0, "Alanine", None, None)
+
+    def rr(old, method, **kw):
+        a = dict(rekeys={}, dropped={}, case_fold_keys=set())
+        a.update(kw)
+        return repoint_reason(old_id=old, new=Decision("kegg.compound:C2", method, "x"),
+                              row=row, identity=ident, **a)
+    assert rr("kegg.compound:C1", "name_match", case_fold_keys={row.name_key}) == "case_fold_convergence"
+    assert rr("kegg.compound:C1", "kegg_direct") == "direct_id_canonicalised"
+    assert rr("mnx:MNXM1", "name_match") == "placeholder_recurated"
+    assert rr("chebi:5", "name_match", dropped={"chebi:5": "kegg.compound:C2"}) == "remeasured_elsewhere"
+    assert rr("kegg.compound:C1", "name_match") == "merged"
+
+
+def test_remap_rows_rekey_and_remeasured():
+    table = {"kegg.compound:C1": _entry(["kegg.compound:C1"])}
+    ident = IdentityResult({"kegg.compound:C1": "kegg.compound:C1"}, {}, {}, {})
+    rows, un = remap_rows(old_ids={"chebi:7", "chebi:8"}, table=table, identity=ident,
+                          rekeys={"chebi:7": "kegg.compound:C1"}, role_of={},
+                          dropped={"chebi:8": "kegg.compound:C1"}, normalize=lambda x: x)
+    by = {r["old_id"]: r for r in rows}
+    assert by["chebi:7"]["basis"] == "rekey_chebi_kegg_xref" and by["chebi:7"]["new_id"] == "kegg.compound:C1"
+    assert by["chebi:8"]["basis"] == "remeasured_elsewhere" and un == []

@@ -59,12 +59,13 @@ def write_all_atomic(files):
         for path, text in files.items():
             path.parent.mkdir(parents=True, exist_ok=True)
             tmp = path.with_name(path.name + ".tmp")
+            tmps.append((tmp, path))  # registered before writing so a partial .tmp is cleaned
             tmp.write_text(text)
-            tmps.append((tmp, path))
     except BaseException:
         for tmp, _ in tmps:
             tmp.unlink(missing_ok=True)
         raise
+    # A failure inside this loop is not rolled back; all validation happens before.
     for tmp, path in tmps:
         os.replace(tmp, path)
 
@@ -98,7 +99,7 @@ def build_mapping_v2(*, id_aliases, resolution, overrides, tables, compounds_sum
     for t in tables:
         for row in t.rows:
             d = resolution.decisions.get((row.paper, row.table, row.row_index))
-            if d:
+            if d and d.metabolite_id:
                 key = row.direct_id if row.direct_id and d.resolution_method.endswith("_direct") else row.name_key
                 decisions[row.paper][row.table][key] = {"metabolite_id": d.metabolite_id,
                                                         "resolution_method": d.resolution_method,
@@ -122,6 +123,9 @@ def build_mapping_v2(*, id_aliases, resolution, overrides, tables, compounds_sum
 
 
 def repoint_reason(*, old_id, new, row, identity, rekeys, dropped, case_fold_keys):
+    """Why a row's metabolite_id changed. ``old_id`` must already be normalised (as the
+    caller passes it) so it keys ``dropped`` directly. ``identity`` and ``rekeys`` are
+    accepted for call-site compatibility and currently unused."""
     if not old_id or old_id == new.metabolite_id:
         return None
     if new.resolution_method == "alias_override":
@@ -136,8 +140,6 @@ def repoint_reason(*, old_id, new, row, identity, rekeys, dropped, case_fold_key
         return "placeholder_recurated"
     if old_id in dropped:
         return "remeasured_elsewhere"
-    if identity.canonical_of.get(rekeys.get(old_id, old_id)) == new.metabolite_id:
-        return "merged"
     return "merged"
 
 
