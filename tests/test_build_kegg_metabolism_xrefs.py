@@ -1048,3 +1048,138 @@ def test_load_chebi_prefers_raw_and_falls_back_to_committed_cache(tmp_path, monk
     cache_file.write_text(json.dumps({"release": "256", "terms": {"CHEBI:2": term("b")}}))
     idx, from_raw = bx._load_chebi(tmp_path, refetch_raw=False)
     assert from_raw is False and idx.release == "256" and idx.term("2")["name"] == "b"
+
+
+def test_load_chebi_falls_back_to_existing_raw_obo_on_download_failure(tmp_path, monkeypatch):
+    """A failed download with a usable raw obo on disk rebuilds from raw (spec §6.4), not
+    from the committed cache."""
+    cache_file = tmp_path / "chebi_metabolite_xrefs.json"
+    cache_file.write_text(json.dumps({"release": "256", "terms": {"CHEBI:2": term("b")}}))
+    monkeypatch.setattr(bx, "CHEBI_CACHE_FILE", cache_file)
+    raw = tmp_path / "chebi" / "raw" / "chebi.obo.gz"
+    raw.parent.mkdir(parents=True)
+    raw.write_bytes(b"x")
+
+    def boom(raw_dir, force=False):
+        raise OSError("down")
+    monkeypatch.setattr(bx, "download_chebi_obo", boom)
+    seen = []
+    monkeypatch.setattr(bx, "parse_chebi_obo", lambda p: (seen.append(p), ("257", {"CHEBI:1": term("a")}))[1])
+    idx, from_raw = bx._load_chebi(tmp_path, refetch_raw=True)
+    assert from_raw is True and idx.release == "257" and seen == [raw]
+
+    # an unparseable raw obo falls through to the committed cache
+    def bad_parse(p):
+        raise ValueError("corrupt")
+    monkeypatch.setattr(bx, "parse_chebi_obo", bad_parse)
+    idx, from_raw = bx._load_chebi(tmp_path, refetch_raw=True)
+    assert from_raw is False and idx.release == "256"
+
+
+def test_normalize_paper_id_prefixes_case_insensitive(tmp_path):
+    conn = _subs_conn_with_chebi_only(tmp_path)
+    chebi = make_chebi(CHEBI_4167=term("D-glucopyranose", alt=["CHEBI:12345"], kegg=["C00031"]),
+                       CHEBI_10004=term("vitamin"))
+    rekeys = {}
+    for raw in ("KEGG:c00022", "kegg:C00022", "KEGG.Compound:C00022"):
+        assert bx._normalize_paper_id(raw, conn, chebi, rekeys) == "kegg.compound:C00022"
+    assert bx._normalize_paper_id("CHEBI:12345", conn, chebi, rekeys) == "kegg.compound:C00031"
+    assert bx._normalize_paper_id("ChEBI: 999", conn, chebi, rekeys) == "chebi:999"
+    assert bx._normalize_paper_id("MNX:MNXM9", conn, chebi, rekeys) == "chebi:10004"
+    assert bx._normalize_paper_id("hmdb:HMDB0000122", conn, chebi, rekeys) == "hmdb:HMDB0000122"
+
+
+# ── main() wiring (Task 13) ──────────────────────────────────────────────────
+
+def _stub_main(tmp_path, monkeypatch):
+    """Stub every external stage of main() so it runs offline in tmp_path."""
+    import sqlite3 as _sq
+    root = tmp_path / "proj"
+    (root / "cache" / "data" / "tcdb").mkdir(parents=True)
+    (root / "cache" / "data" / "tcdb" / "tcdb_hierarchy.json").write_text(json.dumps(
+        {"1": {"level": 0, "parent": None}, "1.A": {"level": 1, "parent": "1"}}))
+    resolver = tmp_path / "resolver.db"
+    resolver.write_text("")
+    kegg_dir = tmp_path / "kegg"
+    met = tmp_path / "met"
+    for name, val in {"PROJECT_ROOT": root, "RESOLVER_DB": resolver, "KEGG_CACHE_DIR": kegg_dir,
+                      "KEGG_DATA_FILE": kegg_dir / "kegg_data.json",
+                      "CHEBI_CACHE_FILE": tmp_path / "chebi.json", "LOCK_FILE": met / "lock.json",
+                      "IDENTITY_REPORT_FILE": met / "report.json", "MAPPING_FILE": met / "map.json",
+                      "IDENTITY_OVERRIDES_FILE": tmp_path / "none.yaml"}.items():
+        monkeypatch.setattr(bx, name, val)
+    monkeypatch.setattr(bx.kegg_utils, "download_kegg_raw", lambda *a, **k: None)
+    monkeypatch.setattr(bx, "download_all", lambda **k: None)
+    monkeypatch.setattr(bx, "_build_tcdb_hierarchy", lambda c: 0)
+    monkeypatch.setattr(bx, "_parse_raw_into_dict", lambda c: {"compound_to_pathways": {}})
+    monkeypatch.setattr(bx.mu, "open_resolver", lambda p: _sq.connect(":memory:"))
+    monkeypatch.setattr(bx, "_gene_reachable_sets", lambda raw: {
+        "kos": set(), "rxns": set(), "cpds": set(), "pws": {"ko00010"}, "tcdb_ids": {"1.A"},
+        "rxn_genes": {}})
+    monkeypatch.setattr(bx, "_load_chebi", lambda c, r: (make_chebi(), True))
+    monkeypatch.setattr(bx, "_resolve_substrate_strings", lambda s, conn, chebi=None, rekeys=None: ({}, {}))
+    monkeypatch.setattr(bx, "load_all_paperconfigs", lambda: [])
+    monkeypatch.setattr(bx, "build_pruned_kegg_data", lambda raw, conn, sets: {
+        "compounds": {}, "additional_compounds": {}, "kos": {}, "pathways": {}, "subcategories": {},
+        "categories": {}, "reactions": {}})
+    monkeypatch.setattr(bx, "_tcdb_bridges", lambda *a: {"pfam": {}, "go": {}})
+    monkeypatch.setattr(bx, "_load_compound_brite", lambda c, r: ({}, {}))
+    monkeypatch.setattr(bx, "load_identity_overrides", lambda p: None)
+    writes = []
+    monkeypatch.setattr(bx, "write_all_atomic", lambda files: writes.append(files))
+    return writes
+
+
+def test_main_writes_nothing_when_identity_stages_fail(tmp_path, monkeypatch):
+    from multiomics_kg.utils.metabolite_identity.pipeline import Step6ValidationError
+    writes = _stub_main(tmp_path, monkeypatch)
+    seen = {}
+
+    def fail(inp):
+        seen["inp"] = inp
+        raise Step6ValidationError(["boom"])
+    monkeypatch.setattr(bx, "run_identity_stages", fail)
+    with pytest.raises(Step6ValidationError):
+        bx.main(force=True, today="2026-10-14")
+    assert writes == []
+    inp = seen["inp"]
+    assert inp.today == "2026-10-14" and inp.base_pathways == {"ko00010"}
+    assert inp.tcdb_kept == {"1", "1.A"} and inp.tcdb_levels == {"1": 0, "1.A": 1}
+    assert inp.tcdb_static["kept_tcdb_ids"] == ["1", "1.A"]
+    assert not list(tmp_path.rglob("*.json.tmp"))
+
+
+def test_main_writes_rendered_files_once(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    writes = _stub_main(tmp_path, monkeypatch)
+    counts = {"metabolites": 0, "merged_away": 0, "rekeyed": 0, "dropped": 0, "roles": 0, "class_nodes": 0}
+    monkeypatch.setattr(bx, "run_identity_stages", lambda inp: SimpleNamespace(report={"counts": counts}))
+    monkeypatch.setattr(bx, "render_outputs", lambda out, paths: {paths.kegg_data: "{}"})
+    bx.main(force=True, today="2026-10-14")
+    assert writes == [{bx.KEGG_DATA_FILE: "{}"}]
+
+
+def test_read_old_resolved(tmp_path):
+    from multiomics_kg.utils.metabolite_identity.paper import PaperRow, PaperTable
+    src = tmp_path / "m.csv"
+    src.write_text("pre\ncompound\nA\nB\n")
+    (tmp_path / "m_resolved.csv").write_text(
+        "compound,metabolite_id,resolution_method\nA,kegg.compound:C00041,name_match\nB,,unresolved\n")
+    t = PaperTable("p", "t", src, 1, [PaperRow("p", "t", 0, "A", None, None),
+                                      PaperRow("p", "t", 1, "B", None, None)])
+    missing = PaperTable("p", "u", tmp_path / "x.csv", 0, [])
+    assert bx._read_old_resolved([t, missing]) == {("p", "t", 0): "kegg.compound:C00041"}
+
+
+def test_load_compound_brite_outage_uses_committed(tmp_path, monkeypatch):
+    kegg_dir = tmp_path / "kegg"
+    kegg_dir.mkdir()
+    monkeypatch.setattr(bx, "KEGG_CACHE_DIR", kegg_dir)
+    code = next(iter(bx.COMPOUND_BRITE_TREES))
+    (kegg_dir / f"brite_{code}.json").write_text('{"nodes": []}')
+
+    def boom(raw_dir, force=False):
+        raise OSError("down")
+    monkeypatch.setattr(bx, "download_compound_brite", boom)
+    raw, committed = bx._load_compound_brite(tmp_path, False)
+    assert raw == {} and committed == {code: {"nodes": []}}

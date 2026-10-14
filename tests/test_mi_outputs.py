@@ -195,3 +195,16 @@ def test_remap_rows_rekey_and_remeasured():
     by = {r["old_id"]: r for r in rows}
     assert by["chebi:7"]["basis"] == "rekey_chebi_kegg_xref" and by["chebi:7"]["new_id"] == "kegg.compound:C1"
     assert by["chebi:8"]["basis"] == "remeasured_elsewhere" and un == []
+
+
+def test_harvest_id_col_with_prefix(tmp_path):
+    """Ported from step 7: a prefixed id cell keeps its prefix, a bare one gets id_type,
+    and placeholder cells ("0", "NA") are no id."""
+    from multiomics_kg.utils.metabolite_identity.paper import harvest_paper_tables
+    (tmp_path / "m.csv").write_text("compound,KEGG\nX,kegg.compound:C00031\nY,C00031\nZ,0\nW,NA\n")
+    cfg = {"publication": {"supplementary_materials": {"tab": {
+        "type": "metabolite_assays_table", "filename": "m.csv", "name_col": "compound",
+        "id_col": "KEGG", "id_type": "kegg.compound"}}}}
+    tables, _ = harvest_paper_tables([(tmp_path / "paperconfig.yaml", cfg)], tmp_path)
+    assert [(r.name, r.direct_id) for r in tables[0].rows] == [
+        ("X", "kegg.compound:C00031"), ("Y", "kegg.compound:C00031"), ("Z", None), ("W", None)]

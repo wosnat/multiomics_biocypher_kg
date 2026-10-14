@@ -63,7 +63,10 @@ import logging
 import sqlite3
 from collections import defaultdict
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
+
+import pandas as pd
 
 from multiomics_kg.download.utils.cli import load_genome_rows
 from multiomics_kg.utils import kegg_utils
@@ -76,7 +79,15 @@ from multiomics_kg.utils.chebi_utils import (
 )
 from multiomics_kg.utils.gene_id_utils import load_gene_annotations
 from multiomics_kg.utils.metabolite_utils import resolve_metabolite_candidates
-from multiomics_kg.utils.metabolite_identity.paper import Override, PaperTable
+from multiomics_kg.utils.metabolite_identity.canonical import load_identity_overrides
+from multiomics_kg.utils.metabolite_identity.classes import COMPOUND_BRITE_TREES, download_compound_brite
+from multiomics_kg.utils.metabolite_identity.outputs import write_all_atomic
+from multiomics_kg.utils.metabolite_identity.paper import Override, PaperTable, harvest_paper_tables
+from multiomics_kg.utils.metabolite_identity.pipeline import (
+    Step6Inputs, Step6Paths, render_outputs, run_identity_stages)
+from multiomics_kg.utils.metabolite_identity.roles import (
+    build_role_hierarchy, build_subtree_roles, partition_role_strings, role_node_id)
+from multiomics_kg.utils.paperconfig_utils import load_all_paperconfigs
 from multiomics_kg.download.download_metabolism_reference import download_all
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -100,24 +111,34 @@ log = logging.getLogger(__name__)
 # ── Stage A: ChEBI ───────────────────────────────────────────────────────────
 
 def _load_chebi(cache_root: Path, refetch_raw: bool) -> tuple[ChebiIndex, bool]:
-    """Stage A (spec §5.1, §6.4): rebuild from the raw obo whenever it is available; reuse the
-    committed derived cache only when the download fails (TCDB outage precedent).
+    """Stage A (spec §5.1, §6.4): rebuild from the raw obo whenever one is available — freshly
+    downloaded, or already on disk when the download fails; reuse the committed derived cache
+    only when no usable raw obo exists (TCDB outage precedent).
 
     Returns ``(index, from_raw)``.
     """
     raw_dir = cache_root / "chebi" / "raw"
+    failure: Exception | None = None
     try:
         obo = download_chebi_obo(raw_dir, force=refetch_raw)
-        release, terms = parse_chebi_obo(obo)
-        log.info(f"  ChEBI release {release}: {len(terms)} terms (from raw obo)")
-        return ChebiIndex(terms, release), True
     except Exception as exc:
-        if not CHEBI_CACHE_FILE.exists():
-            raise
-        log.warning(f"  ChEBI download/parse failed ({exc}); reusing the committed "
-                    f"{CHEBI_CACHE_FILE.name}. Ids it lacks are reported, and step 6 fails "
-                    f"if a canonical node needs one.")
-        return index_from_cache(json.loads(CHEBI_CACHE_FILE.read_text())), False
+        failure = exc
+        obo = raw_dir / "chebi.obo.gz"
+        log.warning(f"  ChEBI download failed ({exc}); "
+                    f"{'trying the raw obo on disk' if obo.exists() else 'no raw obo on disk'}")
+    if failure is None or obo.exists():
+        try:
+            release, terms = parse_chebi_obo(obo)
+            log.info(f"  ChEBI release {release}: {len(terms)} terms (from raw obo)")
+            return ChebiIndex(terms, release), True
+        except Exception as exc:
+            failure = exc
+    if not CHEBI_CACHE_FILE.exists():
+        raise failure
+    log.warning(f"  no usable raw ChEBI obo ({failure}); reusing the committed "
+                f"{CHEBI_CACHE_FILE.name}. Ids it lacks are reported, and step 6 fails "
+                f"if a canonical node needs one.")
+    return index_from_cache(json.loads(CHEBI_CACHE_FILE.read_text())), False
 
 
 # ── TCDB hierarchy ────────────────────────────────────────────────────────────
@@ -959,9 +980,11 @@ def _normalize_paper_id(curie: str, conn: sqlite3.Connection, chebi: ChebiIndex,
                         rekeys: dict[str, str]) -> str:
     """Normalize a paper-supplied CURIE to a node id: upper-case KEGG C-numbers, ChEBI
     secondary → primary (→ KEGG via its xref, recorded in ``rekeys``), MNX via
-    `_mnxm_primary`. Unknown prefixes pass through."""
-    prefix, _, local = curie.partition(":")
-    if prefix == "kegg.compound":
+    `_mnxm_primary`. Prefixes match case-insensitively (``CHEBI:``, ``KEGG:``, ``MNX:`` …) and
+    normalise to the house forms; unknown prefixes pass through unchanged."""
+    prefix, _, local = curie.strip().partition(":")
+    prefix, local = prefix.strip().lower(), local.strip()
+    if prefix in ("kegg", "kegg.compound"):
         return f"kegg.compound:{local.strip().upper()}"
     if prefix == "chebi":
         p = chebi.primary(local)
@@ -1254,9 +1277,119 @@ def _parse_raw_into_dict(cache_root: Path) -> dict:
     }
 
 
+def _tcdb_bridges(cache_root: Path, hierarchy: dict, kept: set[str], previous: dict,
+                  refetch_raw: bool) -> dict[str, dict]:
+    """Stage N: TCDB Pfam→TC / GO→TC bridges rolled onto the kept nodes. Returns
+    ``{"pfam": {...}, "go": {...}}``; ``previous`` is the committed tcdb_pruned.json (outage
+    fallback). Raises ``RuntimeError`` rather than lose a committed bridge — before any
+    stage-P write, so a failure writes nothing."""
+    # Cross-ontology bridges. TCDB publishes curated Pfam→TC and GO→TC maps at
+    # 5-part specificity depth; roll each onto the nearest surviving node
+    # (same shape as subtree_substrates). Semantics: "this TC family's curated
+    # reference proteins carry this domain / GO annotation" — a composition
+    # statement about the family, NOT a rule for classifying the xref.
+    from multiomics_kg.utils.tcdb_utils import (
+        build_tcdb_bridges,
+        download_tcdb_xref_map,
+        load_tcdb_xref_map,
+    )
+    # tcdb_pruned.json is COMMITTED, so a silent degradation here is durable:
+    # an empty bridge writes cleanly, drops ~8.4K edges from the next build,
+    # and shows up only as a log line nobody reads. tcdb.org is a flaky host,
+    # so fail loudly on both failure modes instead.
+    tcdb_bridges: dict[str, dict] = {}
+    for kind in ("pfam", "go"):
+        dest = cache_root / "tcdb" / "raw" / f"tcdb_{kind}_map.tsv"
+        try:
+            download_tcdb_xref_map(kind, dest=dest, force=refetch_raw)
+        except Exception as exc:
+            # A cached TSV is a fine fallback. With no TSV at all we fall
+            # through to the reuse-or-raise branch below, which can still
+            # recover the bridge from the committed tcdb_pruned.json —
+            # tcdb.org 404s its CGI endpoints during maintenance while the
+            # site root stays up, and that outage must not block step 6.
+            log.warning(
+                f"  TCDB {kind}→TC map download failed ({exc}); "
+                f"{'using cached ' + str(dest) if dest.exists() else 'no cached copy'}"
+            )
+        xref = load_tcdb_xref_map(kind, path=dest)
+        prior = previous.get(f"{kind}_bridge", {})
+        prior_pairs = sum(len(v) for v in prior.values())
+        if xref:
+            tcdb_bridges[kind] = build_tcdb_bridges(xref, hierarchy, kept)
+            n_pairs = sum(len(v) for v in tcdb_bridges[kind].values())
+            # Never trade a populated committed bridge for an empty one.
+            if n_pairs == 0 and prior_pairs > 0:
+                raise RuntimeError(
+                    f"TCDB {kind}→TC bridge came out EMPTY but the committed "
+                    f"tcdb_pruned.json holds {prior_pairs} pairs. That is data loss, not a "
+                    f"rebuild — check {dest} (size "
+                    f"{dest.stat().st_size if dest.exists() else 'missing'}). Delete the "
+                    f"stale TSV and re-run with --refetch-raw if the map genuinely changed."
+                )
+        elif prior_pairs:
+            # No usable map (TCDB down, nothing cached) but the committed
+            # artifact still holds the bridge — reuse it rather than drop
+            # every bridge edge. Filtered to THIS run's kept set, so stale
+            # nodes cannot leak back in.
+            tcdb_bridges[kind] = {k: v for k, v in prior.items() if k in kept}
+            n_pairs = sum(len(v) for v in tcdb_bridges[kind].values())
+            log.warning(
+                f"  TCDB {kind}→TC map unavailable; reused {n_pairs} pairs on "
+                f"{len(tcdb_bridges[kind])} kept node(s) from the committed "
+                f"tcdb_pruned.json. Re-run with --refetch-raw once tcdb.org is back."
+            )
+        else:
+            raise RuntimeError(
+                f"TCDB {kind}→TC map is unavailable at {dest} and the committed "
+                f"tcdb_pruned.json holds no {kind} bridge to fall back on. Refusing to "
+                f"write tcdb_pruned.json without it — it is a committed artifact and the "
+                f"loss would be silent. Retry when tcdb.org is reachable."
+            )
+        log.info(
+            f"  TCDB {kind}→TC bridge: {len(xref)} published {kind} ids -> "
+            f"{n_pairs} pairs on {len(tcdb_bridges[kind])} kept TC nodes"
+        )
+    return tcdb_bridges
+
+
+def _load_compound_brite(cache_root: Path, refetch_raw: bool) -> tuple[dict, dict]:
+    """Stage M inputs: the raw KEGG compound BRITE trees (downloaded, or the raw cache), and the
+    committed pruned ``brite_<code>.json`` files the pipeline falls back on per tree."""
+    try:
+        raw = download_compound_brite(cache_root / "kegg" / "raw", force=refetch_raw)
+    except Exception as exc:
+        log.warning(f"  KEGG compound BRITE download failed ({exc}); "
+                    f"falling back to the committed brite_*.json files")
+        raw = {}
+    committed = {code: json.loads(p.read_text()) for code in COMPOUND_BRITE_TREES
+                 if (p := KEGG_CACHE_DIR / f"brite_{code}.json").exists()}
+    return raw, committed
+
+
+def _read_old_resolved(tables: list[PaperTable]) -> dict[tuple[str, str, int], str]:
+    """The previous run's paper resolutions: ``(paper, table, row_index)`` → ``metabolite_id``
+    from each existing ``<stem>_resolved.csv``. Those files are written without the source's
+    preamble, so they are read with no ``skiprows`` — row ``i`` is source data row ``i``."""
+    out: dict[tuple[str, str, int], str] = {}
+    for t in tables:
+        if t.csv_path is None:
+            continue
+        path = t.csv_path.with_name(t.csv_path.stem + "_resolved.csv")
+        if not path.exists():
+            continue
+        df = pd.read_csv(path, dtype=str, keep_default_na=False)
+        if "metabolite_id" not in df.columns:
+            continue
+        for i, mid in enumerate(df["metabolite_id"]):
+            if mid.strip():
+                out[(t.paper, t.table, i)] = mid.strip()
+    return out
+
+
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
-def main(force: bool = False, refetch_raw: bool = False) -> None:
+def main(force: bool = False, refetch_raw: bool = False, today: str | None = None) -> None:
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     cache_root = PROJECT_ROOT / "cache" / "data"
 
@@ -1330,198 +1463,104 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
                 f"Likely retired TCDB IDs in eggNOG annotations."
             )
 
-        # Stages A/C/D helpers (_load_chebi, _harvest_paper_candidates, ...) exist, but the
-        # pipeline below still predates them; Task 13 rewires main(). Refuse to run rather
-        # than write half-migrated outputs.
-        raise NotImplementedError("step 6 is mid-refactor: wired in Task 13")
-
         # Filter rollup to kept TC IDs; collect distinct substrate strings to resolve
         subtree_strings: dict[str, set[str]] = {tc: full_subtree_strings.get(tc, set()) for tc in kept}
         all_substrate_strings: set[str] = set()
         for s in subtree_strings.values():
             all_substrate_strings |= s
 
-        log.info(
-            f"Resolving {len(all_substrate_strings)} distinct TCDB substrate strings via MNX ..."
-        )
-        string_to_primary, compound_props = _resolve_substrate_strings(
-            all_substrate_strings, conn
-        )
+        # A — ChEBI
+        chebi, chebi_from_raw = _load_chebi(cache_root, refetch_raw)
+        today = today or date.today().isoformat()
 
-        # Map substrate strings → primary IDs per kept TC ID. Empty entries dropped.
+        # previous outputs: old ids for the remap, the frozen lock and pin, old paper resolutions
+        prev_kegg = json.loads(KEGG_DATA_FILE.read_text()) if KEGG_DATA_FILE.exists() else {}
+        previous_ids = ({f"kegg.compound:{k}" for k in prev_kegg.get("compounds", {})}
+                        | set(prev_kegg.get("additional_compounds", {})))
+        prev_pruned_path = cache_root / "tcdb" / "tcdb_pruned.json"
+        prev_pruned: dict = {}
+        if prev_pruned_path.exists():
+            try:
+                prev_pruned = json.loads(prev_pruned_path.read_text())
+            except (OSError, json.JSONDecodeError):
+                prev_pruned = {}
+        lock = json.loads(LOCK_FILE.read_text()) if LOCK_FILE.exists() else {"names": {}, "direct_ids": {}}
+
+        # C — roles out of the substrate strings, before MNX
+        molecule_strings, role_map = partition_role_strings(all_substrate_strings, chebi)
+        chemical_roles = build_role_hierarchy(set(role_map.values()), chebi)
+        subtree_roles = build_subtree_roles(subtree_strings, role_map)
+        role_of_old = {}
+        for old in prev_kegg.get("additional_compounds", {}):
+            if old.startswith("chebi:") and chebi.is_role(old):
+                role_of_old[old] = role_node_id(chebi.primary(old))
+        log.info(f"  roles: {len(set(role_map.values()))} TCDB roles → {len(chemical_roles)} ChemicalRole nodes")
+
+        # D — resolve molecules (secondary→primary, ChEBI KEGG re-key), harvest paper candidates
+        log.info(f"Resolving {len(molecule_strings)} distinct TCDB molecule substrate strings via MNX ...")
+        rekeys: dict[str, str] = {}
+        string_to_primary, compound_props = _resolve_substrate_strings(
+            molecule_strings, conn, chebi=chebi, rekeys=rekeys)
         subtree_substrates: dict[str, list[str]] = {}
         for tc, strings in subtree_strings.items():
             primaries = {string_to_primary[s] for s in strings if s in string_to_primary}
             if primaries:
                 subtree_substrates[tc] = sorted(primaries)
-        total_substrate_ids = sum(len(ids) for ids in subtree_substrates.values())
-        distinct_substrate_primaries: set[str] = {
-            pid for ids in subtree_substrates.values() for pid in ids
-        }
-        distinct_substrate_ids = len(distinct_substrate_primaries)
-
-        # Split substrate primaries: kegg.compound:C* feed back into the regular
-        # _bulk_enrich_compounds pipeline (so they get pathways + MNX cross-refs);
-        # non-KEGG primaries (chebi:*, mnx:*) become additional_compounds entries.
-        substrate_kegg_cpds: set[str] = set()
-        for primary_id in distinct_substrate_primaries:
-            if primary_id.startswith("kegg.compound:"):
-                substrate_kegg_cpds.add(primary_id[len("kegg.compound:"):])
-
-        # Transport-reachable pathways: gene-annotated TCDB → MNX-resolved KEGG
-        # compound → KEGG-curated pathway list. Adds pathways like glycolysis
-        # when sucrose is a substrate even if no gene catalyzes it locally.
+        distinct_substrate_primaries = {p for ids in subtree_substrates.values() for p in ids}
+        substrate_kegg_cpds = {p[len("kegg.compound:"):] for p in distinct_substrate_primaries
+                               if p.startswith("kegg.compound:")}
         cpd_to_pw = raw.get("compound_to_pathways", {})
-        transport_pws: set[str] = {
-            p for cpd in substrate_kegg_cpds for p in cpd_to_pw.get(cpd, [])
-        }
+        transport_pws = {p for cpd in substrate_kegg_cpds for p in cpd_to_pw.get(cpd, [])}
+
+        tables, paper_overrides = harvest_paper_tables(load_all_paperconfigs(), PROJECT_ROOT)
+        paper = _harvest_paper_candidates(tables, paper_overrides, lock, conn, chebi, rekeys)
+        paper_kegg_cpds = {i[len("kegg.compound:"):] for i in paper.ids if i.startswith("kegg.compound:")}
+        paper_pws = {p for cpd in paper_kegg_cpds for p in cpd_to_pw.get(cpd, [])}
 
         extended_sets = dict(catalysis_sets)
-        extended_sets["cpds"] = catalysis_cpds | substrate_kegg_cpds
-        extended_sets["pws"] = catalysis_pws | transport_pws
-
-        log.info(
-            f"TCDB substrate primaries: {distinct_substrate_ids} distinct "
-            f"({len(substrate_kegg_cpds)} kegg.compound, "
-            f"{distinct_substrate_ids - len(substrate_kegg_cpds)} non-KEGG)"
-        )
-        log.info(
-            f"Extended sets: {len(extended_sets['cpds'])} compounds "
-            f"(+{len(substrate_kegg_cpds - catalysis_cpds)} transport-reachable), "
-            f"{len(extended_sets['pws'])} pathways "
-            f"(+{len(transport_pws - catalysis_pws)} transport-reachable)"
-        )
-
+        extended_sets["cpds"] = catalysis_cpds | substrate_kegg_cpds | paper_kegg_cpds
+        extended_sets["pws"] = catalysis_pws | transport_pws | paper_pws
         log.info("Building pruned kegg_data ...")
         kegg_data = build_pruned_kegg_data(raw, conn, sets=extended_sets)
+        _fold_substrates_into_kegg_data(kegg_data, catalysis_cpds=catalysis_cpds,
+                                        substrate_kegg_cpds=substrate_kegg_cpds,
+                                        substrate_primaries=distinct_substrate_primaries,
+                                        compound_props=compound_props)
+        _add_paper_candidates(kegg_data, paper.non_kegg_props)
+        table = _to_table(kegg_data)
+        _attach_mnx_chebi_aliases(table, conn)
 
-        log.info("Tagging evidence_sources + adding non-KEGG transport substrates ...")
-        _fold_substrates_into_kegg_data(
-            kegg_data,
-            catalysis_cpds=catalysis_cpds,
-            substrate_kegg_cpds=substrate_kegg_cpds,
-            substrate_primaries=distinct_substrate_primaries,
-            compound_props=compound_props,
-        )
+        # N — TCDB Pfam / GO bridges (raises before any write rather than lose a bridge)
+        tcdb_bridges = _tcdb_bridges(cache_root, hierarchy, kept, prev_pruned, refetch_raw)
 
-        n_compounds = len(kegg_data["compounds"])
-        n_additional = len(kegg_data["additional_compounds"])
-        n_overlap = sum(
-            1 for c in kegg_data["compounds"].values()
-            if "metabolism" in c["evidence_sources"]
-            and "transport" in c["evidence_sources"]
-        )
-        n_transport_only_kegg = sum(
-            1 for c in kegg_data["compounds"].values()
-            if c["evidence_sources"] == ["transport"]
-        )
-        KEGG_DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
-        KEGG_DATA_FILE.write_text(json.dumps(kegg_data, indent=2, sort_keys=True))
+        # M inputs — KEGG compound BRITE (raw, else committed on outage)
+        brite_raw, brite_committed = _load_compound_brite(cache_root, refetch_raw)
 
-        # Cross-ontology bridges. TCDB publishes curated Pfam→TC and GO→TC maps at
-        # 5-part specificity depth; roll each onto the nearest surviving node
-        # (same shape as subtree_substrates). Semantics: "this TC family's curated
-        # reference proteins carry this domain / GO annotation" — a composition
-        # statement about the family, NOT a rule for classifying the xref.
-        from multiomics_kg.utils.tcdb_utils import (
-            build_tcdb_bridges,
-            download_tcdb_xref_map,
-            load_tcdb_xref_map,
-        )
-        # tcdb_pruned.json is COMMITTED, so a silent degradation here is durable:
-        # an empty bridge writes cleanly, drops ~8.4K edges from the next build,
-        # and shows up only as a log line nobody reads. tcdb.org is a flaky host,
-        # so fail loudly on both failure modes instead.
-        pruned_path = cache_root / "tcdb" / "tcdb_pruned.json"
-        previous: dict = {}
-        if pruned_path.exists():
-            try:
-                previous = json.loads(pruned_path.read_text())
-            except (OSError, json.JSONDecodeError):
-                previous = {}
+        old_resolved = _read_old_resolved(tables)
 
-        tcdb_bridges: dict[str, dict] = {}
-        for kind in ("pfam", "go"):
-            dest = cache_root / "tcdb" / "raw" / f"tcdb_{kind}_map.tsv"
-            try:
-                download_tcdb_xref_map(kind, dest=dest, force=refetch_raw)
-            except Exception as exc:
-                # A cached TSV is a fine fallback. With no TSV at all we fall
-                # through to the reuse-or-raise branch below, which can still
-                # recover the bridge from the committed tcdb_pruned.json —
-                # tcdb.org 404s its CGI endpoints during maintenance while the
-                # site root stays up, and that outage must not block step 6.
-                log.warning(
-                    f"  TCDB {kind}→TC map download failed ({exc}); "
-                    f"{'using cached ' + str(dest) if dest.exists() else 'no cached copy'}"
-                )
-            xref = load_tcdb_xref_map(kind, path=dest)
-            prior = previous.get(f"{kind}_bridge", {})
-            prior_pairs = sum(len(v) for v in prior.values())
-            if xref:
-                tcdb_bridges[kind] = build_tcdb_bridges(xref, hierarchy, kept)
-                n_pairs = sum(len(v) for v in tcdb_bridges[kind].values())
-                # Never trade a populated committed bridge for an empty one.
-                if n_pairs == 0 and prior_pairs > 0:
-                    raise RuntimeError(
-                        f"TCDB {kind}→TC bridge came out EMPTY but the committed "
-                        f"tcdb_pruned.json holds {prior_pairs} pairs. That is data loss, not a "
-                        f"rebuild — check {dest} (size "
-                        f"{dest.stat().st_size if dest.exists() else 'missing'}). Delete the "
-                        f"stale TSV and re-run with --refetch-raw if the map genuinely changed."
-                    )
-            elif prior_pairs:
-                # No usable map (TCDB down, nothing cached) but the committed
-                # artifact still holds the bridge — reuse it rather than drop
-                # every bridge edge. Filtered to THIS run's kept set, so stale
-                # nodes cannot leak back in.
-                tcdb_bridges[kind] = {k: v for k, v in prior.items() if k in kept}
-                n_pairs = sum(len(v) for v in tcdb_bridges[kind].values())
-                log.warning(
-                    f"  TCDB {kind}→TC map unavailable; reused {n_pairs} pairs on "
-                    f"{len(tcdb_bridges[kind])} kept node(s) from the committed "
-                    f"tcdb_pruned.json. Re-run with --refetch-raw once tcdb.org is back."
-                )
-            else:
-                raise RuntimeError(
-                    f"TCDB {kind}→TC map is unavailable at {dest} and the committed "
-                    f"tcdb_pruned.json holds no {kind} bridge to fall back on. Refusing to "
-                    f"write tcdb_pruned.json without it — it is a committed artifact and the "
-                    f"loss would be silent. Retry when tcdb.org is reachable."
-                )
-            log.info(
-                f"  TCDB {kind}→TC bridge: {len(xref)} published {kind} ids -> "
-                f"{n_pairs} pairs on {len(tcdb_bridges[kind])} kept TC nodes"
-            )
-
-        (cache_root / "tcdb" / "tcdb_pruned.json").write_text(json.dumps({
-            "kept_tcdb_ids": sorted(kept),
-            # {tc_id: {PF*: [curated 5-part TCIDs]}} — see build_tcdb_bridges.
-            "pfam_bridge": tcdb_bridges["pfam"],
-            # {tc_id: {GO:*: [curated 5-part TCIDs]}}
-            "go_bridge": tcdb_bridges["go"],
-            # Pre-rolled-up substrate primaries per kept TC ID. Computed from
-            # the FULL hierarchy before pruning, so ancestor nodes capture
-            # substrates from every TCDB descendant — not just gene-annotated
-            # ones. Adapter emits these directly as Tcdb_family_transports_metabolite
-            # edges (no rollup logic needed). Empty entries omitted to save space.
-            "subtree_substrates": dict(sorted(subtree_substrates.items())),
-            # Maps gene-annotated TCIDs not in the hierarchy to the nearest
-            # curated ancestor (e.g. retired ID `3.A.1.35` → family `3.A.1`).
-            # Adapters remap edges through this so no annotation is dropped.
-            "seed_aliases": dict(sorted(upgraded.items())),
-        }, indent=2, sort_keys=True))
-        log.info(
-            f"  TCDB: {len(kept)} kept IDs, "
-            f"{len(subtree_substrates)} kept IDs with substrate rollups "
-            f"({total_substrate_ids} total / {distinct_substrate_ids} distinct primary IDs)"
-        )
-        log.info(
-            f"  kegg_data.json: {n_compounds} compounds "
-            f"({n_overlap} metabolism+transport, "
-            f"{n_transport_only_kegg} transport-only kegg), "
-            f"{n_additional} additional_compounds (transport-only non-KEGG)"
-        )
+    inp = Step6Inputs(
+        table=table,
+        kegg_rest={k: kegg_data[k] for k in ("kos", "pathways", "subcategories", "categories", "reactions")},
+        subtree_substrates=subtree_substrates, chemical_roles=chemical_roles, subtree_roles=subtree_roles,
+        rekeys=rekeys, role_of_old=role_of_old, tables=tables, paper_overrides=paper_overrides,
+        name_candidates=paper.name_candidates, lock=lock, lumping_pin=prev_pruned.get("lumping_pin"),
+        identity_overrides=load_identity_overrides(IDENTITY_OVERRIDES_FILE), chebi=chebi,
+        chebi_from_raw=chebi_from_raw, rxn_genes=catalysis_sets["rxn_genes"],
+        compound_to_pathways=cpd_to_pw, base_pathways=catalysis_pws | transport_pws,
+        brite_raw=brite_raw, brite_committed=brite_committed, tcdb_kept=kept,
+        tcdb_levels={t: int(hierarchy.get(t, {}).get("level", 0)) for t in kept},
+        tcdb_static={"kept_tcdb_ids": sorted(kept), "pfam_bridge": tcdb_bridges["pfam"],
+                     "go_bridge": tcdb_bridges["go"], "seed_aliases": dict(sorted(upgraded.items()))},
+        previous_ids=previous_ids, old_resolved=old_resolved, today=today)
+    out = run_identity_stages(inp)               # raises Step6ValidationError → nothing written
+    files = render_outputs(out, Step6Paths(
+        kegg_data=KEGG_DATA_FILE, tcdb_pruned=prev_pruned_path, brite_dir=KEGG_CACHE_DIR,
+        chebi_cache=CHEBI_CACHE_FILE, mapping=MAPPING_FILE, lock=LOCK_FILE, report=IDENTITY_REPORT_FILE))
+    write_all_atomic(files)
+    c = out.report["counts"]
+    log.info(f"  step 6 wrote {len(files)} files: {c['metabolites']} metabolites "
+             f"({c['merged_away']} merged away, {c['rekeyed']} re-keyed, {c['dropped']} dropped), "
+             f"{c['roles']} ChemicalRole, {c['class_nodes']} MetaboliteClass")
     log.info("Done.")
 
 

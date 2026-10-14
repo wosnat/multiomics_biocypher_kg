@@ -10,8 +10,8 @@ files and emits:
 
 Sibling of observations_adapter.py — follows the same structural pattern.
 
-Phase 2 of the metabolite scaffold. Reads <stem>_resolved.csv (written by step 7,
-resolve_paper_metabolites.py) to get pre-resolved metabolite_id per row. Falls back
+Phase 2 of the metabolite scaffold. Reads <stem>_resolved.csv (written by step 6,
+build_kegg_metabolism_xrefs.py) to get pre-resolved metabolite_id per row. Falls back
 to source CSV if no resolved file is present (in which case all rows resolve to
 empty metabolite_id and emit no measurement edges).
 """
@@ -102,7 +102,7 @@ def _make_metabolite_assay_id(
 
 
 def _resolve_csv_path(csv_path: str) -> tuple[Path, bool]:
-    """Probe for <stem>_resolved.csv (written by step 7).
+    """Probe for <stem>_resolved.csv (written by step 6).
 
     Returns (path_to_use, is_resolved). If no _resolved.csv exists, returns
     the source path with is_resolved=False (caller will see no metabolite_id
@@ -320,7 +320,7 @@ class MetaboliteAssayAdapter:
             if not is_resolved:
                 logger.warning(
                     f"metabolite_assays_table '{entry_key}': no _resolved.csv next to "
-                    f"{csv_path} — run step 7 (prepare_data.sh --steps 7). "
+                    f"{csv_path} — run step 6 (prepare_data.sh --steps 6 --force). "
                     f"Skipping measurement edges."
                 )
                 # Still emit binding edges so MetaboliteAssay nodes aren't orphans
