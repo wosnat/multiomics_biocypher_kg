@@ -82,6 +82,32 @@ def resolve_metabolite(value: str, conn: sqlite3.Connection) -> tuple[str | None
     return None, "unresolved"
 
 
+def resolve_metabolite_candidates(value: str, conn: sqlite3.Connection) -> list[str]:
+    """Every MNXM id a name or id can mean — alias hits plus normalized-name hits.
+
+    Unlike resolve_metabolite (first hit wins), this never picks: the caller decides
+    (spec 2026-10-13 §3.6). Names that parse as formulas (CO, Co, NO) are case-significant,
+    so the lower-cased normalized-name step is skipped for them.
+    """
+    from multiomics_kg.utils.metabolite_identity.names import is_formula_like
+
+    v = value.strip()
+    # Same direct-MNXM rule as resolve_metabolite.
+    if v.startswith("MNXM"):
+        row = conn.execute("SELECT mnxm_id FROM compounds WHERE mnxm_id = ?", (v,)).fetchone()
+        if row:
+            return [row[0]]
+    hits = {r[0] for r in conn.execute(
+        "SELECT DISTINCT mnxm_id FROM compound_aliases WHERE value = ?", (v,))}
+    if not is_formula_like(v):
+        normalized = _normalize_name(v)
+        if normalized:
+            hits |= {r[0] for r in conn.execute(
+                "SELECT DISTINCT mnxm_id FROM compound_names WHERE name_normalized = ?",
+                (normalized,))}
+    return sorted(hits)
+
+
 def resolve_reaction(value: str, conn: sqlite3.Connection) -> tuple[str | None, str]:
     """Resolve a value to an MNXR ID. Alias-only (no name normalization)."""
     value = value.strip()
