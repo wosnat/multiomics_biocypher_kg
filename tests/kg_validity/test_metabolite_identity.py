@@ -17,6 +17,7 @@ REMAP = ROOT / "docs/kg-changes/metabolite-identity/metabolite_id_remap.tsv"
 PRE_ELEMENTS = ROOT / "tests/kg_validity/fixtures/metabolite_elements_pre_identity.json"
 PRE_COUNTS = ROOT / "tests/kg_validity/fixtures/metabolite_identity_pre_counts.json"
 TCDB_PRUNED = ROOT / "cache/data/tcdb/tcdb_pruned.json"
+IDENTITY_REPORT = ROOT / "cache/data/metabolomics/metabolite_identity_report.json"
 
 # all_identifiers CURIE forms (spec §3.2). The mnx local part may be non-MNXM (e.g. mnx:WATER).
 CURIE_RE = (r"kegg\.compound:C\d{5}|chebi:\d+|mnx:\S+|hmdb:HMDB\d{7}"
@@ -25,9 +26,6 @@ CURIE_RE = (r"kegg\.compound:C\d{5}|chebi:\d+|mnx:\S+|hmdb:HMDB\d{7}"
 PLACEHOLDER_FORMULA_RE = r".*(\*|R(?![abefghu])|\)n).*"
 
 IDENTITY_BASES = {"mnx_same_entity", "chebi_kegg_xref", "chebi_conjugate", "chebi_tautomer", "manual"}
-# remap.tsv bases that name a merge / re-key target (the new_id carries identity_basis)
-MERGE_BASES = {"mnx_same_entity", "chebi_conjugate", "chebi_tautomer", "manual"}
-REKEY_BASIS = "rekey_chebi_kegg_xref"
 
 
 def _need(path: pathlib.Path):
@@ -193,48 +191,56 @@ def test_no_node_loses_elements(run_query):
     assert not still, still[:5]
 
 
-# Known, explained divergences between the remap TSV and identity_basis (as built 2026-10-14,
-# checked against cache/data/kegg/kegg_data.json). The remap TSV covers only ids that were on
-# the PRE-change graph, and its fallback rows (outputs._remap_fallback) label a relocation
-# "rekey_chebi_kegg_xref" / "mnx_same_entity" approximately — the old term is now an identifier
-# of that node, not necessarily a re-key or merge. Pinned exactly, so any drift fails.
-#  - remap target, no identity_basis: chebi:176600 -> chebi:49470 is a fallback "mnx_same_entity"
-#    row (the old substrate string now resolves there by MNX id); nothing was merged.
-REMAP_TARGETS_WITHOUT_BASIS = {"chebi:49470"}
-#  - rekey targets whose identity_basis lacks chebi_kegg_xref: the old chebi id is a member of the
-#    node's MNX / conjugate group (or a fallback relocation), so the basis names that instead.
-REKEY_TARGETS_WITHOUT_XREF_BASIS = {
-    "kegg.compound:C00261", "kegg.compound:C01197", "kegg.compound:C05345", "kegg.compound:C05984"}
-#  - identity_basis nodes that are no remap merge/rekey target: everything merged or re-keyed into
-#    them was never a node of the pre-change graph (or, C00197, the pre-change id is remapped as
-#    remeasured_elsewhere).
-BASIS_NODES_NOT_IN_REMAP = {
-    "chebi:104011", "kegg.compound:C00076", "kegg.compound:C00117", "kegg.compound:C00197",
-    "kegg.compound:C00760", "kegg.compound:C01413", "kegg.compound:C01935", "kegg.compound:C06269",
-    "kegg.compound:C10309"}
+def _identity_ground_truth(run_query):
+    """Expected identity_basis carriers from the step-6 identity report (ground truth; the remap
+    TSV's fallback labels are approximate release-file labels, not identity facts).
+
+    Returns (merge_groups, rekey_targets, rekeys_by_target), restricted to WRITTEN nodes: a
+    group / re-key whose canonical node is pruned at stage K (report `dropped_without_rows`,
+    e.g. chebi:33283, kegg.compound:C05776) is not in the graph. A re-key target that was
+    itself merged into another node is followed to that group's canonical id."""
+    report = json.loads(_need(IDENTITY_REPORT).read_text())
+    groups = report["merge_groups"]                       # {canonical: {basis: [...], members: [...]}}
+    canon = {m: c for c, g in groups.items() for m in g["members"]}
+    written = {r["id"] for r in run_query("MATCH (m:Metabolite) RETURN m.id AS id")}
+    groups = {c: g for c, g in groups.items() if c in written}
+    by_target: dict[str, list[str]] = {}
+    for old, new in report["rekeys"].items():             # {chebi:<n>: kegg.compound:C...}
+        t = canon.get(new, new)
+        if t in written:
+            by_target.setdefault(t, []).append(old)
+    return groups, set(by_target), by_target
 
 
 def test_identity_basis_only_on_merged_or_rekeyed(run_query):
-    rows = _remap_rows()
+    groups, rekey_targets, rekeys_by_target = _identity_ground_truth(run_query)
+    assert groups and rekey_targets
     basis = {r["id"]: r["b"] for r in run_query(
         "MATCH (m:Metabolite) WHERE m.identity_basis IS NOT NULL RETURN m.id AS id, m.identity_basis AS b")}
-    assert basis, "no identity_basis anywhere"
     values = {v for b in basis.values() for v in b}
     assert values <= IDENTITY_BASES, values - IDENTITY_BASES
     assert not [i for i, b in basis.items() if not b], "empty identity_basis list"
-
-    rekey_targets = {r["new_id"] for r in rows if r["basis"] == REKEY_BASIS and r["new_id"]}
-    assert rekey_targets
-    no_xref = {t for t in rekey_targets if "chebi_kegg_xref" not in basis.get(t, [])}
-    assert no_xref == REKEY_TARGETS_WITHOUT_XREF_BASIS, sorted(no_xref ^ REKEY_TARGETS_WITHOUT_XREF_BASIS)
-
-    expected = rekey_targets | {r["new_id"] for r in rows if r["basis"] in MERGE_BASES and r["new_id"]}
-    assert expected - set(basis) == REMAP_TARGETS_WITHOUT_BASIS, sorted(expected - set(basis))
-    assert set(basis) - expected == BASIS_NODES_NOT_IN_REMAP, sorted(set(basis) - expected)
+    # exactly the merged and re-keyed nodes carry identity_basis
+    expected = set(groups) | rekey_targets
+    assert set(basis) == expected, (sorted(expected - set(basis))[:10], sorted(set(basis) - expected)[:10])
+    # each merge group's canonical carries that group's bases
+    bad_groups = [(c, g["basis"], basis.get(c)) for c, g in groups.items()
+                  if not set(g["basis"]) <= set(basis.get(c, []))]
+    assert not bad_groups, bad_groups[:10]
+    # each re-key target carries chebi_kegg_xref (spec §3.2)
+    no_xref = sorted(t for t in rekey_targets if "chebi_kegg_xref" not in basis.get(t, []))
+    assert not no_xref, no_xref[:10]
+    # every re-keyed old id is an identifier of its target (spec §3.2 all_identifiers)
+    idents = {r["id"]: set(r["x"]) for r in run_query(
+        "MATCH (m:Metabolite) WHERE m.id IN $ids RETURN m.id AS id, m.all_identifiers AS x",
+        ids=sorted(rekey_targets))}
+    missing = [(o, t) for t, olds in rekeys_by_target.items() for o in olds if o not in idents.get(t, set())]
+    assert not missing, missing[:10]
 
 
 def test_every_rekeyed_node_has_kegg_enrichment(run_query):
-    targets = sorted({r["new_id"] for r in _remap_rows() if r["basis"] == REKEY_BASIS and r["new_id"]})
+    _, rekey_targets, _ = _identity_ground_truth(run_query)
+    targets = sorted(rekey_targets)
     assert targets
     live = {r["id"]: r for r in run_query(
         "MATCH (m:Metabolite) WHERE m.id IN $ids RETURN m.id AS id, m.name AS name, "
