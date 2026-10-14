@@ -1,0 +1,169 @@
+"""Stage P: validation, atomic multi-file write, resolved tables, mapping v2, report rows."""
+from __future__ import annotations
+
+import io
+import json
+import os
+from collections import Counter, defaultdict
+from pathlib import Path
+from typing import Callable
+
+import pandas as pd
+
+REASON_ORDER = ("alias_override", "dominant_stereo_form", "case_fold_convergence",
+                "direct_id_canonicalised", "placeholder_recurated", "remeasured_elsewhere", "merged")
+
+
+def validate_build(*, table, roles, subtree_substrates, subtree_roles, class_trees, resolution,
+                   chebi_missing_needed):
+    errs = []
+    errs += [f"ambiguous paper name (needs an override): {a}" for a in resolution.ambiguous]
+    errs += [f"same-table collision: {c}" for c in resolution.collisions]
+    errs += list(resolution.errors)
+    owner: dict[str, str] = {}
+    for kind, items in (("Metabolite", table), ("ChemicalRole", roles)):
+        for node, e in items.items():
+            for x in e.get("all_identifiers", []):
+                prev = owner.setdefault(x, f"{kind} {node}")
+                if prev != f"{kind} {node}":
+                    errs.append(f"identifier {x} on two nodes: {prev} and {kind} {node}")
+    iks = Counter(e["inchikey"] for e in table.values() if e.get("inchikey"))
+    errs += [f"InChIKey {k} on {n} Metabolite nodes" for k, n in iks.items() if n > 1]
+    for node, e in table.items():
+        for k in ("stereo_form_of", "enantiomer_of"):
+            errs += [f"{node}.{k} → {t} is not a written compound" for t in e.get(k, []) if t not in table]
+    for tc, ids in subtree_substrates.items():
+        errs += [f"subtree_substrates[{tc}] → {i} is not a written compound" for i in ids if i not in table]
+    for tc, ids in subtree_roles.items():
+        errs += [f"subtree_roles[{tc}] → {i} is not a ChemicalRole" for i in ids if i not in roles]
+    for r, e in roles.items():
+        errs += [f"ChemicalRole {r} parent {p} missing" for p in e.get("parents", []) if p not in roles]
+    for code, tree in class_trees.items():
+        ids = {n["id"] for n in tree["nodes"]}
+        errs += [f"{code}: parent {n['parent']} missing" for n in tree["nodes"] if n["parent"] and n["parent"] not in ids]
+        errs += [f"{code}: member {m} dangles" for m in tree["members"]
+                 if m["metabolite_id"] not in table or m["class_id"] not in ids]
+    for key, d in resolution.decisions.items():
+        if d.metabolite_id and d.metabolite_id not in table:
+            errs.append(f"row {key} resolved to {d.metabolite_id}, which step 6 did not write")
+        if d.metabolite_id and not d.stereo_assignment:
+            errs.append(f"row {key} resolved without a stereo_assignment")
+    errs += [f"ChEBI id {c} needed by a canonical node is missing from the committed ChEBI cache"
+             for c in sorted(chebi_missing_needed)]
+    return errs
+
+
+def write_all_atomic(files):
+    tmps = []
+    try:
+        for path, text in files.items():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            tmp = path.with_name(path.name + ".tmp")
+            tmp.write_text(text)
+            tmps.append((tmp, path))
+    except BaseException:
+        for tmp, _ in tmps:
+            tmp.unlink(missing_ok=True)
+        raise
+    for tmp, path in tmps:
+        os.replace(tmp, path)
+
+
+def write_resolved_tables(tables, decisions):
+    out = {}
+    for t in tables:
+        df = pd.read_csv(t.csv_path, dtype=str, keep_default_na=False, skiprows=t.skip_rows or None)
+        mid, meth, sa = [""] * len(df), ["unresolved"] * len(df), [""] * len(df)
+        for row in t.rows:
+            d = decisions.get((row.paper, row.table, row.row_index))
+            if d and d.metabolite_id:
+                mid[row.row_index], meth[row.row_index], sa[row.row_index] = (
+                    d.metabolite_id, d.resolution_method, d.stereo_assignment)
+        df["metabolite_id"], df["resolution_method"], df["stereo_assignment"] = mid, meth, sa
+        resolved_path = t.csv_path.with_name(t.csv_path.stem + "_resolved.csv")
+        buf = io.StringIO()
+        df.to_csv(buf, index=False)
+        out[resolved_path] = buf.getvalue()
+        n_res = sum(1 for m in mid if m)
+        report = {"source_csv": str(t.csv_path), "resolved_csv": str(resolved_path),
+                  "total_rows": len(df), "resolved": n_res, "unresolved": len(df) - n_res,
+                  "match_rate": round(n_res / len(df), 4) if len(df) else 0.0,
+                  "method_counts": dict(sorted(Counter(meth).items()))}
+        out[t.csv_path.with_name(t.csv_path.stem + "_resolution_report.json")] = json.dumps(report, indent=2, sort_keys=True)
+    return out
+
+
+def build_mapping_v2(*, id_aliases, resolution, overrides, tables, compounds_summary, per_paper_stats):
+    decisions = defaultdict(lambda: defaultdict(dict))
+    for t in tables:
+        for row in t.rows:
+            d = resolution.decisions.get((row.paper, row.table, row.row_index))
+            if d:
+                key = row.direct_id if row.direct_id and d.resolution_method.endswith("_direct") else row.name_key
+                decisions[row.paper][row.table][key] = {"metabolite_id": d.metabolite_id,
+                                                        "resolution_method": d.resolution_method,
+                                                        "stereo_assignment": d.stereo_assignment}
+    unresolved = defaultdict(lambda: defaultdict(list))
+    for u in resolution.unresolved:
+        unresolved[u["paper"]][u["table"]].append(u.get("name"))
+    return {
+        "schema_version": 2,
+        "id_aliases": dict(sorted(id_aliases.items())),
+        "name_lookup": dict(sorted(resolution.name_lookup.items())),
+        "paper_overrides": {p: {k: {"id": o.id, "stereo_assignment": o.stereo_assignment, "reason": o.reason}
+                                for k, o in sorted(ovs.items())} for p, ovs in sorted(overrides.items())},
+        "decisions": json.loads(json.dumps(decisions, sort_keys=True)),
+        "unresolved": json.loads(json.dumps(unresolved, sort_keys=True)),
+        "ambiguous": {},
+        "compounds": compounds_summary,
+        "conflicts": {},
+        "per_paper_stats": per_paper_stats,
+    }
+
+
+def repoint_reason(*, old_id, new, row, identity, rekeys, dropped, case_fold_keys):
+    if not old_id or old_id == new.metabolite_id:
+        return None
+    if new.resolution_method == "alias_override":
+        return "alias_override"
+    if new.resolution_method == "dominant_stereo_form":
+        return "dominant_stereo_form"
+    if row.name_key in case_fold_keys and new.resolution_method == "name_match":
+        return "case_fold_convergence"
+    if new.resolution_method.endswith("_direct"):
+        return "direct_id_canonicalised"
+    if old_id.startswith("mnx:"):
+        return "placeholder_recurated"
+    if old_id in dropped:
+        return "remeasured_elsewhere"
+    if identity.canonical_of.get(rekeys.get(old_id, old_id)) == new.metabolite_id:
+        return "merged"
+    return "merged"
+
+
+def remap_rows(*, old_ids, table, identity, rekeys, role_of, dropped, normalize):
+    rows, unaccounted = [], []
+    for old in sorted(old_ids):
+        if old in table:
+            continue
+        norm = normalize(old)
+        if old in role_of:
+            rows.append({"old_id": old, "new_id": "", "basis": "removed_role", "role_id": role_of[old]})
+        elif norm in dropped:
+            basis = "removed_placeholder" if old.startswith("mnx:") else "remeasured_elsewhere"
+            rows.append({"old_id": old, "new_id": dropped[norm], "basis": basis, "role_id": ""})
+        elif norm in rekeys:
+            new = identity.canonical_of.get(rekeys[norm], rekeys[norm])
+            rows.append({"old_id": old, "new_id": new, "basis": "rekey_chebi_kegg_xref", "role_id": ""})
+        elif norm in identity.member_basis:
+            rows.append({"old_id": old, "new_id": identity.canonical_of[norm],
+                         "basis": identity.member_basis[norm], "role_id": ""})
+        elif norm in table and old.startswith("chebi:"):
+            rows.append({"old_id": old, "new_id": norm, "basis": "chebi_primary_id", "role_id": ""})
+        else:
+            unaccounted.append(old)
+    return rows, unaccounted
+
+
+def build_identity_report(**sections):
+    return json.loads(json.dumps(sections, sort_keys=True, default=sorted))
