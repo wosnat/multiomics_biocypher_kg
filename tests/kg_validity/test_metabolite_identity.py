@@ -18,8 +18,22 @@ PRE_ELEMENTS = ROOT / "tests/kg_validity/fixtures/metabolite_elements_pre_identi
 PRE_COUNTS = ROOT / "tests/kg_validity/fixtures/metabolite_identity_pre_counts.json"
 TCDB_PRUNED = ROOT / "cache/data/tcdb/tcdb_pruned.json"
 
-# all_identifiers CURIE forms. The mnx local part may be non-MNXM (e.g. mnx:WATER).
-CURIE_RE = r"(kegg\.compound|chebi|mnx|hmdb|inchikey):.+"
+# all_identifiers CURIE forms (spec §3.2). The mnx local part may be non-MNXM (e.g. mnx:WATER).
+CURIE_RE = (r"kegg\.compound:C\d{5}|chebi:\d+|mnx:\S+|hmdb:HMDB\d{7}"
+            r"|inchikey:[A-Z]{14}-[A-Z]{10}-[A-Z]")
+# Placeholder / generic formula: '*', an R group (R not starting Ra/Rb/Re/Rf/Rg/Rh/Ru), or a ")n" repeat.
+PLACEHOLDER_FORMULA_RE = r".*(\*|R(?![abefghu])|\)n).*"
+
+IDENTITY_BASES = {"mnx_same_entity", "chebi_kegg_xref", "chebi_conjugate", "chebi_tautomer", "manual"}
+# remap.tsv bases that name a merge / re-key target (the new_id carries identity_basis)
+MERGE_BASES = {"mnx_same_entity", "chebi_conjugate", "chebi_tautomer", "manual"}
+REKEY_BASIS = "rekey_chebi_kegg_xref"
+
+
+def _need(path: pathlib.Path):
+    if not path.exists():
+        pytest.skip(f"{path.relative_to(ROOT)} missing; rebuild prepare_data step 6 / restore the fixture")
+    return path
 
 
 def _one(run_query, q, **kw):
@@ -27,7 +41,7 @@ def _one(run_query, q, **kw):
 
 
 def _remap_rows():
-    with REMAP.open() as fh:
+    with _need(REMAP).open() as fh:
         return list(csv.DictReader(fh, delimiter="\t"))
 
 
@@ -61,7 +75,7 @@ def test_all_identifiers_are_curies(run_query):
                         "RETURN m.id LIMIT 5")
     assert not missing, missing
     bad = run_query("MATCH (m:Metabolite) UNWIND m.all_identifiers AS x WITH m, x "
-                    "WHERE NOT x =~ $re RETURN m.id, x LIMIT 5", re=CURIE_RE)
+                    "WHERE NOT x =~ $re RETURN m.id, x LIMIT 5", re=f"(?:{CURIE_RE})")
     assert not bad, bad
     # every node's own id is one of its identifiers
     assert not run_query("MATCH (m:Metabolite) WHERE NOT m.id IN m.all_identifiers RETURN m.id LIMIT 5")
@@ -73,6 +87,9 @@ def test_no_role_metabolites_and_role_ids(run_query):
     role_ids = [r["id"] for r in run_query("MATCH (r:ChemicalRole) RETURN r.id AS id")]
     assert role_ids, "no ChemicalRole nodes"
     assert all(i.startswith("chebi.role:") and i.split(":")[1].isdigit() for i in role_ids)
+    # the role's own ChEBI term is one of its identifiers
+    assert not run_query("MATCH (r:ChemicalRole) WHERE r.all_identifiers IS NULL "
+                         "OR NOT 'chebi:' + split(r.id, ':')[1] IN r.all_identifiers RETURN r.id LIMIT 5")
     secondary_hits = run_query("""MATCH (r:ChemicalRole) UNWIND r.all_identifiers AS x
         WITH x WHERE x STARTS WITH 'chebi:' MATCH (m:Metabolite {id: x}) RETURN m.id LIMIT 5""")
     assert not secondary_hits, secondary_hits
@@ -99,9 +116,18 @@ def test_role_subtree_counts_distinct_and_ge_direct(run_query):
         WITH r, count(DISTINCT t) AS n RETURN collect(coalesce(r.tcdb_family_count = n, false)) AS ok""")
     assert row["ok"], "no level-0 ChemicalRole"
     assert all(row["ok"])
+    # transporter_count = DISTINCT families via most_specific role edges over the subtree
+    row = _one(run_query, """MATCH (r:ChemicalRole) WHERE r.level = 0
+        OPTIONAL MATCH (r)<-[:Chemical_role_is_a_chemical_role*0..]-(d:ChemicalRole)
+                       <-[e:Tcdb_family_transports_chemical_role]-(t:TcdbFamily)
+        WHERE e.substrate_depth = 'most_specific'
+        WITH r, count(DISTINCT t) AS n RETURN collect(coalesce(r.transporter_count = n, false)) AS ok""")
+    assert row["ok"] and all(row["ok"])
 
 
 def test_roles_not_propagated(run_query):
+    """Edge-level proxy for "roles are never propagated": no ChemicalRole node is adjacent to
+    a Gene, OrganismTaxon or Metabolite. Role facts reach those only by traversal."""
     assert not run_query("MATCH (r:ChemicalRole)--(x) WHERE x:Gene OR x:OrganismTaxon OR x:Metabolite "
                          "RETURN x LIMIT 1")
 
@@ -133,6 +159,10 @@ def test_structure_and_elements(run_query):
                          "RETURN m.id LIMIT 5")
     assert not run_query("MATCH (m:Metabolite) WHERE m.structure_kind <> 'defined' AND m.mass IS NOT NULL "
                          "RETURN m.id LIMIT 5")
+    # direct check, independent of structure_kind: a placeholder formula never carries a mass
+    bad = run_query("MATCH (m:Metabolite) WHERE m.formula =~ $re AND m.mass IS NOT NULL "
+                    "RETURN m.id, m.formula LIMIT 5", re=PLACEHOLDER_FORMULA_RE)
+    assert not bad, bad
 
 
 def test_no_node_loses_elements(run_query):
@@ -145,33 +175,75 @@ def test_no_node_loses_elements(run_query):
     2026-10-14) and removed_placeholder (remapped onto the real KEGG compound). The
     remap TSV has no isotopologue_rejected rows at the time of writing.
     """
-    pre = json.loads(PRE_ELEMENTS.read_text())
+    pre = json.loads(_need(PRE_ELEMENTS).read_text())
     remap = {r["old_id"]: r["new_id"] for r in _remap_rows()}
     with_el = {r["id"] for r in run_query(
         "MATCH (m:Metabolite) WHERE m.elements IS NOT NULL AND size(m.elements) > 0 RETURN m.id AS id")}
-    lost = []
+    lost, skipped = [], []
     for old in pre:
         new = remap.get(old, old)
         if not new:          # removed role / no longer reachable: not a metabolite any more
+            skipped.append(old)
             continue
         if new not in with_el:
             lost.append((old, new))
     assert not lost, lost[:10]
+    # ...and the skipped ids really are gone from the Metabolite id set
+    still = run_query("MATCH (m:Metabolite) WHERE m.id IN $ids RETURN m.id AS id", ids=skipped)
+    assert not still, still[:5]
+
+
+# Known, explained divergences between the remap TSV and identity_basis (as built 2026-10-14,
+# checked against cache/data/kegg/kegg_data.json). The remap TSV covers only ids that were on
+# the PRE-change graph, and its fallback rows (outputs._remap_fallback) label a relocation
+# "rekey_chebi_kegg_xref" / "mnx_same_entity" approximately — the old term is now an identifier
+# of that node, not necessarily a re-key or merge. Pinned exactly, so any drift fails.
+#  - remap target, no identity_basis: chebi:176600 -> chebi:49470 is a fallback "mnx_same_entity"
+#    row (the old substrate string now resolves there by MNX id); nothing was merged.
+REMAP_TARGETS_WITHOUT_BASIS = {"chebi:49470"}
+#  - rekey targets whose identity_basis lacks chebi_kegg_xref: the old chebi id is a member of the
+#    node's MNX / conjugate group (or a fallback relocation), so the basis names that instead.
+REKEY_TARGETS_WITHOUT_XREF_BASIS = {
+    "kegg.compound:C00261", "kegg.compound:C01197", "kegg.compound:C05345", "kegg.compound:C05984"}
+#  - identity_basis nodes that are no remap merge/rekey target: everything merged or re-keyed into
+#    them was never a node of the pre-change graph (or, C00197, the pre-change id is remapped as
+#    remeasured_elsewhere).
+BASIS_NODES_NOT_IN_REMAP = {
+    "chebi:104011", "kegg.compound:C00076", "kegg.compound:C00117", "kegg.compound:C00197",
+    "kegg.compound:C00760", "kegg.compound:C01413", "kegg.compound:C01935", "kegg.compound:C06269",
+    "kegg.compound:C10309"}
 
 
 def test_identity_basis_only_on_merged_or_rekeyed(run_query):
-    assert run_query("MATCH (m:Metabolite) WHERE m.identity_basis IS NOT NULL RETURN m.id LIMIT 1"), \
-        "no identity_basis anywhere"
-    bad = run_query("MATCH (m:Metabolite) WHERE m.identity_basis IS NOT NULL AND size(m.all_identifiers) < 2 "
-                    "RETURN m.id LIMIT 5")
-    assert not bad, bad
+    rows = _remap_rows()
+    basis = {r["id"]: r["b"] for r in run_query(
+        "MATCH (m:Metabolite) WHERE m.identity_basis IS NOT NULL RETURN m.id AS id, m.identity_basis AS b")}
+    assert basis, "no identity_basis anywhere"
+    values = {v for b in basis.values() for v in b}
+    assert values <= IDENTITY_BASES, values - IDENTITY_BASES
+    assert not [i for i, b in basis.items() if not b], "empty identity_basis list"
+
+    rekey_targets = {r["new_id"] for r in rows if r["basis"] == REKEY_BASIS and r["new_id"]}
+    assert rekey_targets
+    no_xref = {t for t in rekey_targets if "chebi_kegg_xref" not in basis.get(t, [])}
+    assert no_xref == REKEY_TARGETS_WITHOUT_XREF_BASIS, sorted(no_xref ^ REKEY_TARGETS_WITHOUT_XREF_BASIS)
+
+    expected = rekey_targets | {r["new_id"] for r in rows if r["basis"] in MERGE_BASES and r["new_id"]}
+    assert expected - set(basis) == REMAP_TARGETS_WITHOUT_BASIS, sorted(expected - set(basis))
+    assert set(basis) - expected == BASIS_NODES_NOT_IN_REMAP, sorted(set(basis) - expected)
 
 
 def test_every_rekeyed_node_has_kegg_enrichment(run_query):
-    bad = run_query("""MATCH (m:Metabolite) WHERE 'chebi_kegg_xref' IN coalesce(m.identity_basis, [])
-        AND m.id STARTS WITH 'kegg.compound:' AND m.structure_kind = 'defined' AND m.formula IS NULL
-        RETURN m.id LIMIT 5""")
-    assert not bad, bad
+    targets = sorted({r["new_id"] for r in _remap_rows() if r["basis"] == REKEY_BASIS and r["new_id"]})
+    assert targets
+    live = {r["id"]: r for r in run_query(
+        "MATCH (m:Metabolite) WHERE m.id IN $ids RETURN m.id AS id, m.name AS name, "
+        "m.evidence_sources AS ev, m.structure_kind AS sk, m.formula AS formula", ids=targets)}
+    missing = [t for t in targets if t not in live]
+    assert not missing, missing[:10]
+    bad = [r for r in live.values()
+           if not r["name"] or not r["ev"] or (r["sk"] == "defined" and not r["formula"])]
+    assert not bad, bad[:10]
 
 
 # --- stereo / enantiomer edges -------------------------------------------------------
@@ -181,7 +253,8 @@ def test_stereo_edges(run_query):
                         "RETURN count(e) AS n")["n"]
     assert n > 0, "no stereo/enantiomer edges"
     assert not run_query("MATCH (a)-[e:Metabolite_is_stereo_form_of|Metabolite_is_enantiomer_of]->(b) "
-                         "WHERE a = b OR e.sources <> ['chebi'] OR e.evidence <> 'curated' RETURN a.id LIMIT 5")
+                         "WHERE a = b OR e.sources IS NULL OR e.evidence IS NULL "
+                         "OR e.sources <> ['chebi'] OR e.evidence <> 'curated' RETURN a.id LIMIT 5")
     # symmetric relation stored once, lower -> higher id
     assert not run_query("MATCH (a)-[:Metabolite_is_enantiomer_of]->(b) WHERE a.id > b.id RETURN a.id LIMIT 5")
     assert not run_query("MATCH (a)-[:Metabolite_is_enantiomer_of]->(b)-[:Metabolite_is_enantiomer_of]->(a) "
@@ -226,6 +299,10 @@ def test_new_edge_sources_join_data_sources(run_query):
     n = _one(run_query, "MATCH ()-[e:Metabolite_in_metabolite_class|Metabolite_is_stereo_form_of"
                         "|Metabolite_is_enantiomer_of]->() RETURN count(e) AS n")["n"]
     assert n > 0
+    # UNWIND of a null/empty list emits no rows, so check those explicitly
+    assert not run_query("MATCH ()-[e:Metabolite_in_metabolite_class|Metabolite_is_stereo_form_of"
+                         "|Metabolite_is_enantiomer_of]->() WHERE e.sources IS NULL OR size(e.sources) = 0 "
+                         "RETURN type(e) AS t LIMIT 5")
     bad = run_query("""MATCH ()-[e:Metabolite_in_metabolite_class|Metabolite_is_stereo_form_of|Metabolite_is_enantiomer_of]->()
         UNWIND e.sources AS s WITH DISTINCT s WHERE NOT EXISTS { MATCH (d:DataSource {id: 'data_source:' + s}) }
         RETURN s""")
@@ -259,7 +336,7 @@ def test_fulltext_hits(run_query):
 # --- TCDB substrate_breadth pin -------------------------------------------------------
 
 def test_lumping_pin(run_query):
-    pin = json.loads(TCDB_PRUNED.read_text())
+    pin = json.loads(_need(TCDB_PRUNED).read_text())
     expected = set(pin["lumping_pin"]["lumping_tcdb_ids"]) & set(pin["kept_tcdb_ids"])
     assert expected
     live = {r["id"] for r in run_query("MATCH (t:TcdbFamily {substrate_breadth: 'lumping'}) RETURN t.tcdb_id AS id")}
@@ -271,7 +348,7 @@ def test_lumping_pin(run_query):
 
 
 def test_transport_substrate_resolution_unchanged(run_query):
-    baseline = json.loads(PRE_COUNTS.read_text())["transport_substrate_resolution"]
+    baseline = json.loads(_need(PRE_COUNTS).read_text())["transport_substrate_resolution"]
     expected = {k: v for k, v in baseline.items() if k != "None"}   # null stored as "None"
     dist = {r["v"]: r["n"] for r in run_query("MATCH (g:Gene) WHERE g.transport_substrate_resolution IS NOT NULL "
                                               "RETURN g.transport_substrate_resolution AS v, count(*) AS n")}
