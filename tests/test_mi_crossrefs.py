@@ -123,3 +123,49 @@ def test_secondary_mnx_alias_maps_to_primary():
     e["mnx_chebi_aliases"] = ["14654"]
     assert pick_chebi_id("kegg.compound:C09995", e, make_chebi(
         CHEBI_17632=term("nitrate", charge=-1, alt=["CHEBI:14654"], inchikey="NHNBFGGVMKEFGY-UHFFFAOYSA-N"))) == "17632"
+
+
+SHARED = make_chebi(
+    CHEBI_28061=term("alpha-D-galactose", charge=0, alt=["CHEBI:10231"], kegg=["C00984", "C01582"],
+                     inchikey="WQZGKKKJIJFFOK-PHYPRBDBSA-N"),
+    CHEBI_28260=term("galactose", charge=0, kegg=["C01582"], inchikey="GZCGUPFRVQAUEE-UHFFFAOYSA-N"),
+    CHEBI_4139=term("D-galactopyranose", charge=0, kegg=["C00124"], inchikey="WQZGKKKJIJFFOK-SVZMEOIVSA-N"))
+
+
+def _two_kegg_table():
+    table = {"kegg.compound:C00984": cpd("alpha-D-Galactose"), "kegg.compound:C01582": cpd("Galactose")}
+    ident = IdentityResult(canonical_of={n: n for n in table}, members={}, basis={}, member_basis={})
+    return table, ident
+
+
+def test_shared_chebi_terms_reports_term_on_two_separate_kegg_nodes():
+    from multiomics_kg.utils.metabolite_identity.crossrefs import shared_chebi_terms
+    table, ident = _two_kegg_table()
+    assert shared_chebi_terms(table, ident, SHARED) == {
+        "CHEBI:28061": ["kegg.compound:C00984", "kegg.compound:C01582"]}
+
+
+def test_shared_term_not_shared_when_both_kegg_ids_on_one_canonical_node():
+    from multiomics_kg.utils.metabolite_identity.crossrefs import shared_chebi_terms
+    table = {"kegg.compound:C00984": cpd("alpha-D-Galactose")}
+    ident = IdentityResult(
+        canonical_of={"kegg.compound:C00984": "kegg.compound:C00984", "kegg.compound:C01582": "kegg.compound:C00984"},
+        members={"kegg.compound:C00984": ["kegg.compound:C00984", "kegg.compound:C01582"]},
+        basis={}, member_basis={})
+    assert shared_chebi_terms(table, ident, SHARED) == {}
+
+
+def test_shared_term_on_neither_node_and_chebi_id_falls_back():
+    from multiomics_kg.utils.metabolite_identity.crossrefs import shared_chebi_terms
+    table, ident = _two_kegg_table()
+    shared = shared_chebi_terms(table, ident, SHARED)
+    old = {n: dict(e) for n, e in table.items()}
+    index = build_identity_fields(table, ident, {}, SHARED, old, shared=shared)
+    a, b = table["kegg.compound:C00984"], table["kegg.compound:C01582"]
+    assert a["chebi_id"] is None and a["chebi_ids"] is None
+    assert b["chebi_id"] == "28260" and b["chebi_ids"] == ["28260"]
+    for e in (a, b):
+        assert "chebi:28061" not in e["all_identifiers"] and "chebi:10231" not in e["all_identifiers"]
+    assert "chebi:28061" not in index
+    assert pick_chebi_id("kegg.compound:C01582", cpd("Galactose"), SHARED, shared) == "28260"
+    assert pick_chebi_id("kegg.compound:C00984", cpd("x", chebi_id="10231"), SHARED, shared) is None

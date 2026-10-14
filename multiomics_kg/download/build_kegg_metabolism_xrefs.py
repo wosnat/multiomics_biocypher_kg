@@ -1551,7 +1551,9 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         tcdb_levels={t: int(hierarchy.get(t, {}).get("level", 0)) for t in kept},
         tcdb_static={"kept_tcdb_ids": sorted(kept), "pfam_bridge": tcdb_bridges["pfam"],
                      "go_bridge": tcdb_bridges["go"], "seed_aliases": dict(sorted(upgraded.items()))},
-        previous_ids=previous_ids, old_resolved=old_resolved, today=today)
+        previous_ids=previous_ids, old_resolved=old_resolved, today=today,
+        previous_entries={**{f"kegg.compound:{k}": v for k, v in prev_kegg.get("compounds", {}).items()},
+                          **prev_kegg.get("additional_compounds", {})})
     out = run_identity_stages(inp)               # raises Step6ValidationError → nothing written
     files = render_outputs(out, Step6Paths(
         kegg_data=KEGG_DATA_FILE, tcdb_pruned=prev_pruned_path, brite_dir=KEGG_CACHE_DIR,

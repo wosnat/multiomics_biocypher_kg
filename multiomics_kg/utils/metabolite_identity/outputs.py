@@ -143,7 +143,35 @@ def repoint_reason(*, old_id, new, row, identity, rekeys, dropped, case_fold_key
     return "merged"
 
 
-def remap_rows(*, old_ids, table, identity, rekeys, role_of, dropped, normalize):
+def _remap_fallback(old, norm, *, table, id_index, previous_entries, is_isotopologue, is_class):
+    """Bases for an old id none of the direct rules explain (spec §6.10 remap):
+    (i) the old id (raw or normalised) is an identifier of a written node;
+    (ii) the previous entry's MNX id is an identifier of a written node (the substrate string
+         now resolves there; the basis says why the old term no longer stands on its own);
+    (iii) otherwise the old node is no longer reachable from any source."""
+    for x in (old, norm):
+        node = id_index.get(x)
+        if node in table:
+            basis = ("rekey_chebi_kegg_xref" if node.startswith("kegg.compound:") and old.startswith("chebi:")
+                     else "chebi_primary_id")
+            return node, basis
+    prev = previous_entries.get(old) or previous_entries.get(norm) or {}
+    mnxm = prev.get("mnxm_id")
+    node = id_index.get(f"mnx:{mnxm}") if mnxm else None
+    if node in table:
+        term = old if old.startswith("chebi:") else (f"chebi:{prev['chebi_id']}" if prev.get("chebi_id") else None)
+        if is_isotopologue(prev.get("name")):
+            return node, "isotopologue_rejected"
+        if term and is_class(term):
+            return node, "class_term_rejected"
+        return node, "mnx_same_entity"
+    return "", "no_longer_reachable"
+
+
+def remap_rows(*, old_ids, table, identity, rekeys, role_of, dropped, normalize,
+               id_index=None, previous_entries=None, is_isotopologue=None, is_class=None):
+    """``id_index`` given → the fallback chain (``_remap_fallback``) accounts for every old id;
+    without it, ids the direct rules miss are returned as ``unaccounted``."""
     rows, unaccounted = [], []
     for old in sorted(old_ids):
         if old in table:
@@ -162,6 +190,12 @@ def remap_rows(*, old_ids, table, identity, rekeys, role_of, dropped, normalize)
                          "basis": identity.member_basis[norm], "role_id": ""})
         elif norm in table and old.startswith("chebi:"):
             rows.append({"old_id": old, "new_id": norm, "basis": "chebi_primary_id", "role_id": ""})
+        elif id_index is not None:
+            new, basis = _remap_fallback(old, norm, table=table, id_index=id_index,
+                                         previous_entries=previous_entries or {},
+                                         is_isotopologue=is_isotopologue or (lambda _n: False),
+                                         is_class=is_class or (lambda _c: False))
+            rows.append({"old_id": old, "new_id": new, "basis": basis, "role_id": ""})
         else:
             unaccounted.append(old)
     return rows, unaccounted

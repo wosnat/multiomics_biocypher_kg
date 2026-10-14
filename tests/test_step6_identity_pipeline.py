@@ -222,3 +222,15 @@ def test_report_sections_and_sparse_filter(tmp_path):
     assert rep["structure"]["counts"] == {"defined": 5}               # survivors only
     assert rep["id_aliases"] == out.mapping["id_aliases"]
     assert rep["merge_groups_by_basis"] == {"chebi_conjugate": [f"{K}C00244"]}
+
+
+def test_unexplained_old_id_gets_fallback_basis_and_report_lists_shared_terms(tmp_path):
+    inp = make_inputs(tmp_path)
+    inp.previous_ids.add("chebi:999999")
+    inp.previous_entries = {"chebi:999999": {"name": "gone", "mnxm_id": "MNXM_NOWHERE"}}
+    rep = run_identity_stages(inp).report
+    remap = {r["old_id"]: r for r in rep["remap"]}
+    assert remap["chebi:999999"] == {"old_id": "chebi:999999", "new_id": "",
+                                     "basis": "no_longer_reachable", "role_id": ""}
+    assert rep["unaccounted_old_ids"] == []
+    assert rep["shared_chebi_terms"] == {}

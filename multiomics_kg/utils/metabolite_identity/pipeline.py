@@ -14,7 +14,7 @@ from __future__ import annotations
 import copy
 import json
 from collections import Counter, defaultdict
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from multiomics_kg.utils.chebi_utils import ChebiIndex, build_chebi_cache
@@ -22,7 +22,8 @@ from multiomics_kg.utils.metabolite_identity.canonical import (
     IdentityCollisionError, IdentityOverrides, canonicalise, collect_merge_links, entity_terms, rewrite_to_canonical)
 from multiomics_kg.utils.metabolite_identity.classes import (
     COMPOUND_BRITE_TREES, parse_compound_brite, prune_compound_brite)
-from multiomics_kg.utils.metabolite_identity.crossrefs import build_identity_fields, pick_chebi_id
+from multiomics_kg.utils.metabolite_identity.crossrefs import (
+    build_identity_fields, is_isotopologue_name, pick_chebi_id, shared_chebi_terms)
 from multiomics_kg.utils.metabolite_identity.lumping import update_lumping_pin
 from multiomics_kg.utils.metabolite_identity.outputs import (
     build_identity_report, build_mapping_v2, remap_rows, repoint_reason, validate_build,
@@ -71,6 +72,8 @@ class Step6Inputs:
     previous_ids: set[str]
     old_resolved: dict[tuple[str, str, int], str]
     today: str
+    # Previous kegg_data entries by node id (remap fallback: the old entry's mnx id / name).
+    previous_entries: dict[str, dict] = field(default_factory=dict)
 
 
 @dataclass
@@ -235,15 +238,18 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
                             table_pins=sorted(set(pins)))
     # F — rewrite every id to canonical (reactions and subtree_substrates in place)
     table = rewrite_to_canonical(table, reactions, subs, identity.canonical_of)
+    # ChEBI terms that xref two KEGG nodes the guard kept apart are published on neither.
+    shared = shared_chebi_terms(table, identity, chebi)
     try:
         # G — structure (B2 scrub before any identifier is published)
         chebi_of = {}
         for n, e in table.items():
-            cid = pick_chebi_id(n, e, chebi)
+            cid = pick_chebi_id(n, e, chebi, shared)
             chebi_of[n] = f"CHEBI:{cid}" if cid else None
         structure = apply_structure(table, chebi, chebi_of)
         # H — cross-reference fields
-        identifier_index = build_identity_fields(table, identity, inp.rekeys, chebi, old_entries)
+        identifier_index = build_identity_fields(table, identity, inp.rekeys, chebi, old_entries,
+                                                 shared=shared)
     except IdentityCollisionError as exc:        # identifier / InChIKey on two nodes
         raise Step6ValidationError([str(exc)]) from exc
     id_index = dict(identifier_index)
@@ -292,7 +298,9 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         return c if c in dropped else n
     remap, unaccounted = remap_rows(old_ids=inp.previous_ids, table=table, identity=identity,
                                     rekeys=inp.rekeys, role_of=inp.role_of_old, dropped=dropped,
-                                    normalize=old_norm)
+                                    normalize=old_norm, id_index=id_index,
+                                    previous_entries=inp.previous_entries,
+                                    is_isotopologue=is_isotopologue_name, is_class=chebi.is_class)
     errors += [f"remap {r['old_id']} → {r['new_id']} ({r['basis']}): not a compound step 6 writes"
                for r in remap if r["new_id"] and r["new_id"] not in table]
     if errors:
@@ -361,7 +369,7 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
                       for c, m in sorted(identity.members.items())},
         merge_groups_by_basis=_groups_by_basis(identity),
         id_aliases=id_aliases,
-        rekeys=inp.rekeys, rejected_links=[[l.a, l.b, l.basis] for l in identity.rejected],
+        rekeys=inp.rekeys, shared_chebi_terms=shared, rejected_links=[[l.a, l.b, l.basis] for l in identity.rejected],
         refused_assay_collisions=identity.refused_collisions,
         stale_identity_override=identity.stale_overrides, stale_alias_override=res.stale_overrides,
         stale_lock_entry=res.stale_lock, lock_target_remapped=res.lock_remapped,

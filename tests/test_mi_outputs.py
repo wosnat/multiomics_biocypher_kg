@@ -208,3 +208,47 @@ def test_harvest_id_col_with_prefix(tmp_path):
     tables, _ = harvest_paper_tables([(tmp_path / "paperconfig.yaml", cfg)], tmp_path)
     assert [(r.name, r.direct_id) for r in tables[0].rows] == [
         ("X", "kegg.compound:C00031"), ("Y", "kegg.compound:C00031"), ("Z", None), ("W", None)]
+
+
+def _remap_fallback(old_ids, *, id_index, previous_entries=None, classes=()):
+    table = {"kegg.compound:C1": _entry(["kegg.compound:C1"]), "chebi:20": _entry(["chebi:20"]),
+             "chebi:30": _entry(["chebi:30"])}
+    ident = IdentityResult({n: n for n in table}, {}, {}, {})
+    return remap_rows(old_ids=set(old_ids), table=table, identity=ident, rekeys={}, role_of={},
+                      dropped={}, normalize=lambda x: {"chebi:3": "chebi:4"}.get(x, x),
+                      id_index=id_index, previous_entries=previous_entries or {},
+                      is_isotopologue=lambda n: "-43" in (n or ""), is_class=lambda c: c in classes)
+
+
+def test_remap_fallback_identifier_on_kegg_node_is_rekey():
+    rows, un = _remap_fallback({"chebi:1"}, id_index={"chebi:1": "kegg.compound:C1"})
+    assert rows == [{"old_id": "chebi:1", "new_id": "kegg.compound:C1", "basis": "rekey_chebi_kegg_xref",
+                     "role_id": ""}] and un == []
+
+
+def test_remap_fallback_identifier_via_normalised_id_on_chebi_node():
+    rows, un = _remap_fallback({"chebi:3"}, id_index={"chebi:4": "chebi:20"})
+    assert rows[0]["new_id"] == "chebi:20" and rows[0]["basis"] == "chebi_primary_id" and un == []
+
+
+@pytest.mark.parametrize("prev,classes,basis", [
+    ({"name": "calcium-43 atom", "mnxm_id": "MNXM9"}, (), "isotopologue_rejected"),
+    ({"name": "mycolate", "mnxm_id": "MNXM9"}, ("chebi:5",), "class_term_rejected"),
+    ({"name": "acetyltaurine(1-)", "mnxm_id": "MNXM9"}, (), "mnx_same_entity"),
+])
+def test_remap_fallback_via_previous_mnx_id(prev, classes, basis):
+    rows, un = _remap_fallback({"chebi:5"}, id_index={"mnx:MNXM9": "chebi:30"},
+                               previous_entries={"chebi:5": prev}, classes=classes)
+    assert rows == [{"old_id": "chebi:5", "new_id": "chebi:30", "basis": basis, "role_id": ""}] and un == []
+
+
+def test_remap_fallback_no_longer_reachable():
+    rows, un = _remap_fallback({"chebi:6"}, id_index={"mnx:MNXM1": "chebi:30"},
+                               previous_entries={"chebi:6": {"name": "x", "mnxm_id": "MNXM2"}})
+    assert rows == [{"old_id": "chebi:6", "new_id": "", "basis": "no_longer_reachable", "role_id": ""}]
+    assert un == []
+
+
+def test_remap_fallback_ignores_index_target_not_written():
+    rows, un = _remap_fallback({"chebi:1"}, id_index={"chebi:1": "kegg.compound:C999"})
+    assert rows[0]["basis"] == "no_longer_reachable" and un == []

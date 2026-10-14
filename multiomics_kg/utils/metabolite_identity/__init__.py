@@ -8,7 +8,7 @@ from multiomics_kg.utils.metabolite_identity.canonical import (  # noqa: F401
 from multiomics_kg.utils.metabolite_identity.structure import (  # noqa: F401
     STRUCTURE_KINDS, apply_structure, classify_structure)
 from multiomics_kg.utils.metabolite_identity.crossrefs import (  # noqa: F401
-    build_identity_fields, is_isotopologue_name, pick_chebi_id)
+    build_identity_fields, is_isotopologue_name, pick_chebi_id, shared_chebi_terms)
 from multiomics_kg.utils.metabolite_identity.stereo import (  # noqa: F401
     finalize_stereo, is_anomer_pair, stereo_families, stereo_links, unspecified_members)
 from multiomics_kg.utils.metabolite_identity.paper import (  # noqa: F401

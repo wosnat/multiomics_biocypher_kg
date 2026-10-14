@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import re
+from collections import defaultdict
+from collections.abc import Collection
 
 from multiomics_kg.utils.chebi_utils import ChebiIndex
 from multiomics_kg.utils.metabolite_identity.canonical import IdentityCollisionError, IdentityResult
@@ -28,9 +30,32 @@ def is_isotopologue_name(name: str | None) -> bool:
     return bool(_ISOTOPE.search(name or ""))
 
 
-def _usable(p: str | None, node_id: str, chebi: ChebiIndex) -> bool:
-    """An entity term for this node: not a class, not an isotopologue, not another KEGG compound's term."""
-    if p is None or chebi.is_class(p):
+def shared_chebi_terms(table: dict[str, dict], identity: IdentityResult,
+                       chebi: ChebiIndex) -> dict[str, list[str]]:
+    """Entity terms that cross-reference >= 2 written KEGG nodes that remain separate.
+
+    A KEGG id counts for the canonical node that carries it (the node itself or a merged
+    member), so a term whose KEGG xrefs all landed on one canonical node is not shared.
+    A shared term names neither node: the KEGG<->KEGG guard refused to merge them (stereo or
+    specific-vs-generic pairs), so publishing it on both would put one identifier on two nodes.
+    """
+    node_of: dict[str, str] = {}
+    for node in sorted(table):
+        for m in [node, *identity.members.get(node, [])]:
+            if m.startswith(_KEGG):
+                node_of.setdefault(m[len(_KEGG):], node)
+    by_term: dict[str, set[str]] = defaultdict(set)
+    for kid, node in node_of.items():
+        for t in chebi.kegg_terms(kid):
+            by_term[t].add(node)
+    return {t: sorted(nodes) for t, nodes in sorted(by_term.items())
+            if len(nodes) > 1 and not chebi.is_class(t)}
+
+
+def _usable(p: str | None, node_id: str, chebi: ChebiIndex, shared: Collection[str] = ()) -> bool:
+    """An entity term for this node: not a class, not an isotopologue, not another KEGG
+    compound's term, not a term shared by two separate KEGG nodes."""
+    if p is None or p in shared or chebi.is_class(p):
         return False
     t = chebi.term(p) or {}
     if is_isotopologue_name(t.get("name")):
@@ -39,22 +64,25 @@ def _usable(p: str | None, node_id: str, chebi: ChebiIndex) -> bool:
     return not xref or (node_id.startswith(_KEGG) and node_id[len(_KEGG):] in xref)
 
 
-def pick_chebi_id(node_id, entry, chebi):
+def pick_chebi_id(node_id, entry, chebi, shared: Collection[str] = ()):
     if node_id.startswith("chebi:"):
         p = chebi.primary(node_id)
         return _bare(p) if p else _bare(node_id)
     cands = []
     if node_id.startswith(_KEGG):
-        cands = [c for c in chebi.kegg_terms(node_id[len(_KEGG):]) if not chebi.is_class(c)]
+        cands = [c for c in chebi.kegg_terms(node_id[len(_KEGG):])
+                 if not chebi.is_class(c) and c not in shared]
     if not cands:
         aliases = list(entry.get("mnx_chebi_aliases") or []) + ([entry["chebi_id"]] if entry.get("chebi_id") else [])
-        cands = sorted({p for p in (chebi.primary(a) for a in aliases) if _usable(p, node_id, chebi)})
+        cands = sorted({p for p in (chebi.primary(a) for a in aliases) if _usable(p, node_id, chebi, shared)})
     if not cands:
         return None
     return _bare(sorted(cands, key=_entity_rank(chebi))[0])
 
 
-def build_identity_fields(table, identity: IdentityResult, rekeys, chebi, old_entries):
+def build_identity_fields(table, identity: IdentityResult, rekeys, chebi, old_entries,
+                          shared: Collection[str] = ()):
+    """Stage H. ``shared`` (see ``shared_chebi_terms``) are ChEBI terms published on no node."""
     rekeyed_into: dict[str, list[str]] = {}
     for old, new in rekeys.items():
         rekeyed_into.setdefault(new, []).append(old)
@@ -71,21 +99,22 @@ def build_identity_fields(table, identity: IdentityResult, rekeys, chebi, old_en
         kegg += sorted({m[len(_KEGG):] for m in olds if m.startswith(_KEGG)} - set(kegg))
         e["kegg_compound_id"] = kegg[0] if kegg else None
         e["kegg_compound_ids"] = kegg or None
-        chebi_id = pick_chebi_id(node, e, chebi)
+        chebi_id = pick_chebi_id(node, e, chebi, shared)
         e["chebi_id"] = chebi_id
         chebi_terms = set()
         for m in olds:
             src = old_entries.get(m, {})
             if m.startswith("chebi:"):
                 p = chebi.primary(m)
-                if p:
+                if p and p not in shared:
                     chebi_terms.add(p)
             if m.startswith(_KEGG):
-                chebi_terms |= {c for c in chebi.kegg_terms(m[len(_KEGG):]) if not chebi.is_class(c)}
+                chebi_terms |= {c for c in chebi.kegg_terms(m[len(_KEGG):])
+                                if not chebi.is_class(c) and c not in shared}
             # A secondary MNX ChEBI alias maps onto its primary term: every ChEBI id we publish is primary.
             for a in list(src.get("mnx_chebi_aliases") or []) + ([src["chebi_id"]] if src.get("chebi_id") else []):
                 p = chebi.primary(a)
-                if _usable(p, node, chebi):
+                if _usable(p, node, chebi, shared):
                     chebi_terms.add(p)
         if chebi_id is None and chebi_terms:
             chebi_id = _bare(sorted(chebi_terms, key=_entity_rank(chebi))[0])
