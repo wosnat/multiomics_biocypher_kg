@@ -520,24 +520,35 @@ Per-metabolite measurements (concentrations + presence flags) from a metabolomic
 
 **Compartment vocab** (lives on the parent Experiment; the adapter denormalizes onto each MetaboliteAssay): `whole_cell` (default; intracellular), `extracellular` (general "outside the cell" metabolite pool), `vesicle`, `exoproteome` (proteomics term — TCA-precipitated supernatant). (`spent_medium` / `lysate` were removed 2026-08-29 — never used; re-add to `COMPARTMENTS` + `controlled_vocabularies.yaml` if a paper needs them.) The adapter does NOT accept compartment in the per-assay block — set it on the Experiment.
 
-**ID resolution priority** (per row, decided in step 6):
-1. `id_col` cell parsed per `id_type` (when set + non-empty in the row) → `kegg_direct` / `chebi_direct` / `mnx_direct`
-2. `aliases_file` override on the row's `name_col` value → `alias_override`
-3. MNX resolver against `name_col` → `name_match`
-4. else → `unresolved` (logged in `<stem>_resolution_report.json`)
+**ID resolution priority** (per row, decided in step 6 — identity spec §3.6):
+1. **Paper alias override** (`aliases_file`, matched by `name_key` on the row's `name_col` value) → `alias_override`. Wins over everything, including the row's direct id.
+2. **Direct id** (`id_col` cell parsed per `id_type`), mapped to its canonical id → `kegg_direct` / `chebi_direct` / `mnx_direct`. A stereo-unspecified family member continues through steps 3 and 5.
+3. **Frozen dominant-form lock** (`cache/data/metabolomics/dominant_stereo_forms.json`, hand-edited only).
+4. **Name match** by `name_key` against the global name lookup → `name_match`. One candidate that is a specified form (or has no stereo variant) is taken.
+5. **Dominant-form rule**: a stereo-unspecified match (or several candidates in one stereo family) with a stereo-**unqualified** name goes to the family member with at least 2x the distinct catalysing genes (anomer guard; geometric E/Z and cis/trans isomers are never stereo-linked). `stereo_assignment` records what happened.
+- Several candidates that are not one family: **ambiguous — step 6 fails** and lists the names; add an alias override.
+- No candidate at all: **unresolved** (no `metabolite_id`, no edge; listed in `metabolite_identity_report.json` under `unresolved_paper_names`).
 
-The MNX resolver opens once per build, in step 6 only — step 7 just looks up `metabolite_id_mapping.json` to write `<stem>_resolved.csv`. Performance loop: edit aliases → `bash scripts/prepare_data.sh --steps 6 7 --force` (no network, ~1 min). Use `--refetch-raw` only when KEGG/TCDB upstream releases.
+**Stereo-qualified names.** A name states a form when it has a descriptor token anywhere, bounded by start / `-` / space / `(` / `,`: `L-`, `D-`, `DL-`; parenthesised configurations `(R)-`, `(S)-`, `(R,S)-`, `(2S)-`, `(2R,3S)-`; optical rotation `(+)-`, `(-)-`; `meso-`; `alpha-D-` / `beta-L-` style prefixes. Bare `R-` / `S-` are **not** descriptors (`S-Adenosylmethionine` is unqualified: S is a sulfur locant). Qualified names are never moved by the dominant-form rule.
 
-**`metabolite_aliases.yaml`** (paper-local, optional). Lives next to `paperconfig.yaml`. Free-text key → primary ID:
+**Name keys** are case-insensitive, except formula-like names (`CO2` vs `Co2` stay distinct).
+
+**Step 6 does everything:** it resolves each row and writes `<stem>_resolved.csv` with `metabolite_id`, `resolution_method` and `stereo_assignment` (step 7 is a retired no-op alias). The identity machinery (ChEBI download on the first run, MNX resolver) opens in step 6 only. Performance loop: edit aliases → `bash scripts/prepare_data.sh --steps 6 --force` (a few minutes; first run downloads ChEBI). Use `--refetch-raw` only when KEGG/TCDB upstream releases. Validate first with `uv run python scripts/validate_paperconfig.py <paperconfig.yaml>` — it runs the same alias loader as step 6.
+
+**`metabolite_aliases.yaml`** (paper-local, optional; a paper's overrides are the union over all its alias files). Lives next to `paperconfig.yaml`. Free-text key → structured entry:
 
 ```yaml
 # data/Prochlorococcus/papers_and_supp/Kujawinski 2023/metabolite_aliases.yaml
-"γ-aminobutyric acid": "kegg.compound:C00334"
-"DMSP": "kegg.compound:C04022"
-"4-amino-5-aminomethyl-2-methylpyrimidine": "kegg.compound:C20267"
+"γ-aminobutyric acid":
+  id: "kegg.compound:C00334"
+  reason: "paper spelling of GABA"
+"alanine":
+  id: "kegg.compound:C00041"        # L-alanine
+  stereo_assignment: as_reported    # as_reported | dominant_form_assumed
+  reason: "paper states the L form in its methods"
 ```
 
-Aliases win over MNX hits. Comments capture *why* the override exists (typos, abbreviations, paper-coined shorthand).
+`{id, stereo_assignment, reason}` is the preferred form. The legacy string form (`"DMSP": "kegg.compound:C04022"`) is valid only for a target with no stereo variant (step 6 fails otherwise; the validator warns on every legacy entry). Keys must be strings — quote YAML 1.1 booleans such as `"NO"` / `"Yes"`. Two keys with the same `name_key` but different ids are an error; a missing `aliases_file` is an error. Comments/`reason` capture *why* the override exists.
 
 **Capovilla 2023 example** (numeric, intracellular concentrations from a multi-strain table; one entry per strain, both pointing at the same CSV):
 

@@ -1230,6 +1230,30 @@ METABOLITE_CELL_FORMAT_VOCAB = {"numeric", "embedded_mean_sd_n"}
 METABOLITE_VALUE_KIND_VOCAB = {"numeric", "boolean"}
 
 
+def _validate_alias_file(prefix, key, table, config_path, errors, warnings):
+    """Run the step-6 alias loader (identity spec 3.6) and surface its errors."""
+    import yaml
+    from multiomics_kg.utils.metabolite_identity.paper import load_paper_overrides
+
+    try:
+        load_paper_overrides(Path(config_path), {"supplementary_materials": {key: table}})
+    except (ValueError, FileNotFoundError) as e:
+        errors.append(f"{prefix} aliases_file: {e}")
+        return
+    try:
+        doc = yaml.safe_load(
+            (Path(config_path).parent / table["aliases_file"]).read_text()
+        ) or {}
+    except Exception:
+        return
+    for raw, val in doc.items():
+        if isinstance(val, str):
+            warnings.append(
+                f"{prefix} aliases_file entry {raw!r} uses the legacy string form; "
+                f"prefer {{id, stereo_assignment, reason}}"
+            )
+
+
 def _validate_metabolite_assays_entry(
     key: str, table: dict, config_path: str,
     experiments: dict,
@@ -1305,7 +1329,9 @@ def _validate_metabolite_assays_entry(
         paperconfig_dir = os.path.dirname(os.path.abspath(config_path))
         full = os.path.join(paperconfig_dir, aliases_file)
         if not os.path.exists(full):
-            warnings.append(f"{prefix} aliases_file not found: {full}")
+            errors.append(f"{prefix} aliases_file not found: {full}")
+        else:
+            _validate_alias_file(prefix, key, table, config_path, errors, warnings)
 
     # assays
     assays = table.get("assays") or []

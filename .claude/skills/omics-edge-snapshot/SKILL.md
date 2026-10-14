@@ -47,8 +47,8 @@ For each snapshot:
 | `total_Derived_metric_classifies_gene` | Total categorical-DM classify edges |
 | `total_Derived_metric_quantifies_gene` | Total numeric-DM quantify edges |
 | `dm_edges_per_publication` | Nested dict: `{edge_type: {doi: count}}` per publication |
-| `metabolism.nodes` | `{Reaction: count, Metabolite: count}` |
-| `metabolism.edges` | `{Gene_catalyzes_reaction, Reaction_has_metabolite, Reaction_in_kegg_pathway, Organism_has_metabolite, Metabolite_in_pathway: count}` |
+| `metabolism.nodes` | `{Reaction, Metabolite, MetaboliteClass, ChemicalRole: count}` |
+| `metabolism.edges` | `{Gene_catalyzes_reaction, Reaction_has_metabolite, Reaction_in_kegg_pathway, Organism_has_metabolite, Metabolite_in_pathway, Tcdb_family_transports_metabolite, Tcdb_family_transports_chemical_role, Metabolite_is_stereo_form_of, Metabolite_is_enantiomer_of, Metabolite_in_metabolite_class, Assay_quantifies_metabolite, Assay_flags_metabolite: count}` (keys absent from an older snapshot compare as 0) |
 | `metabolism.kegg_term_by_level_kind` | `{ko, pathway, subcategory, category: count}` |
 
 ## Key Cypher Queries
@@ -117,6 +117,10 @@ When comparing against old snapshots that stored `condition_edges` and `cocultur
 ### DerivedMetric evidence (Plan 3)
 
 Snapshot also captures DerivedMetric edge counts alongside `Changes_expression_of`. Regression detection works the same way: a rebuild that loses DM edges flows into the regressions list + exit code 1. The DerivedMetric totals section is only printed in comparison reports when either snapshot carries DM edges — keeps pre-Plan-3 reports uncluttered.
+
+### Metabolite identity rebuild (2026-10)
+
+The metabolite-identity rebuild legitimately lowers `Metabolite`, `Reaction_has_metabolite`, `Organism_has_metabolite` and `Tcdb_family_transports_metabolite`, so the metabolism block will print regression flags that are expected. Judge them against the expected deltas, not the flags. Approximate figures: `Metabolite` 3,356 -> 3,203; `Tcdb_family_transports_metabolite` 11,263 -> 10,790 (392 edges became role edges, plus merge dedup); new: 111 `ChemicalRole`, 445 `MetaboliteClass`, 392 `Tcdb_family_transports_chemical_role`, 1,151 `Metabolite_in_metabolite_class`, 68 `Metabolite_is_stereo_form_of`, 28 `Metabolite_is_enantiomer_of`. Final numbers: `docs/kg-changes/metabolite-identity-and-classes.md`. Expression-edge regressions are still real regressions.
 
 ### Metabolism layer (Phase 1.2 / 1.2.1)
 
