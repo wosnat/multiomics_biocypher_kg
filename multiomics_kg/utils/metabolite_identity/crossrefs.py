@@ -69,7 +69,8 @@ def _usable(p: str | None, node_id: str, chebi: ChebiIndex, shared: Collection[s
 
 def node_olds(node: str, identity: IdentityResult, rekeys: dict[str, str]) -> list[str]:
     """Every pre-canonical id behind ``node``: its merge group plus ids stage D re-keyed onto it."""
-    rekeyed_into = [old for old, new in rekeys.items() if new == node]
+    # A re-key target may itself have merged into another canonical node: follow it there.
+    rekeyed_into = [old for old, new in rekeys.items() if identity.canonical_of.get(new, new) == node]
     return sorted(set(identity.members.get(node, [node])) | set(rekeyed_into))
 
 
@@ -147,7 +148,9 @@ def build_identity_fields(table, identity: IdentityResult, rekeys, chebi, old_en
     """Stage H. ``shared`` (see ``shared_chebi_terms``) are ChEBI terms published on no node."""
     rekeyed_into: dict[str, list[str]] = {}
     for old, new in rekeys.items():
-        rekeyed_into.setdefault(new, []).append(old)
+        # keyed by the CANONICAL node: a re-key target merged into another node takes its
+        # re-keyed ids (and the chebi_kegg_xref basis) with it (spec §2 goal 12)
+        rekeyed_into.setdefault(identity.canonical_of.get(new, new), []).append(old)
     index: dict[str, str] = {}
     for node in sorted(table):
         e = table[node]

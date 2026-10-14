@@ -292,3 +292,23 @@ def test_keep_separate_pairs_not_repeated_as_heuristic_candidates():
          "kegg.compound:C3": {"name": "Mannobiose"}, "kegg.compound:C4": {"name": "Mannobiose"}}
     assert _exact_name_pairs(t, {frozenset({"kegg.compound:C1", "kegg.compound:C2"})}) == [
         ["kegg.compound:C3", "kegg.compound:C4"]]
+
+
+def test_rekey_onto_merged_away_target_lands_on_canonical_and_remaps(tmp_path):
+    inp = make_inputs(tmp_path)
+    inp.rekeys["chebi:55555"] = "chebi:17632"          # target merges into C00244 (conjugate)
+    inp.previous_ids.add("chebi:55555")
+    out = run_identity_stages(inp)
+    e = out.kegg_data["compounds"]["C00244"]
+    assert "chebi:55555" in e["all_identifiers"] and "chebi_kegg_xref" in e["identity_basis"]
+    remap = {r["old_id"]: r for r in out.report["remap"]}
+    assert remap["chebi:55555"]["new_id"] == f"{K}C00244"
+    assert remap["chebi:55555"]["basis"] == "rekey_chebi_kegg_xref"
+
+
+def test_rekeyed_id_resolving_nowhere_fails_validation(tmp_path):
+    inp = make_inputs(tmp_path)
+    inp.rekeys["chebi:77777"] = "kegg.compound:C99999"   # target is no compound step 6 holds
+    with pytest.raises(Step6ValidationError) as e:
+        run_identity_stages(inp)
+    assert any("chebi:77777" in m for m in e.value.errors)

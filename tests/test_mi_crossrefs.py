@@ -216,3 +216,17 @@ def test_entity_term_beats_class_term_on_one_kegg_node():
     assert pick_chebi_id(node, table[node], CLS) == "1"
     build_identity_fields(table, ident, rekeys, CLS, {n: dict(e) for n, e in table.items()})
     assert table[node]["chebi_id"] == "1" and table[node]["chebi_ids"] == ["1"]
+
+
+def test_rekeyed_id_follows_its_target_into_the_canonical_node():
+    from multiomics_kg.utils.metabolite_identity.crossrefs import node_olds
+    a, b = "kegg.compound:C00193", "kegg.compound:C00261"
+    table = {b: cpd("Benzaldehyde-ish", formula="C7H6O")}
+    ident = IdentityResult(canonical_of={a: b, b: b}, members={b: [a, b]},
+                           basis={b: ["mnx_same_entity"]}, member_basis={a: "mnx_same_entity"})
+    rekeys = {"chebi:33855": a}
+    assert "chebi:33855" in node_olds(b, ident, rekeys)
+    index = build_identity_fields(table, ident, rekeys, make_chebi(),
+                                  {a: cpd("A"), b: dict(table[b])})
+    assert "chebi:33855" in table[b]["all_identifiers"] and index["chebi:33855"] == b
+    assert table[b]["identity_basis"] == ["chebi_kegg_xref", "mnx_same_entity"]

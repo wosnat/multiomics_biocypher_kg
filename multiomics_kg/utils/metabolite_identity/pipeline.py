@@ -220,6 +220,30 @@ def _groups_by_basis(identity):
     return {b: sorted(v) for b, v in sorted(by.items())}
 
 
+def _identifier_coverage_errors(table, identity, rekeys, dropped):
+    """Spec §2 goal 12: every re-keyed id and every merged-away member id resolves through
+    exactly one written node's all_identifiers. Ids whose canonical node was dropped at stage
+    K are handled by the remap (remeasured_elsewhere) instead."""
+    owners: dict[str, list[str]] = defaultdict(list)
+    for n, e in table.items():
+        for x in e.get("all_identifiers") or []:
+            owners[x].append(n)
+    wanted = {old: identity.canonical_of.get(new, new) for old, new in rekeys.items()}
+    for canon, members in identity.members.items():
+        for m in members:
+            if m != canon:
+                wanted.setdefault(m, canon)
+    errs = []
+    for x, canon in sorted(wanted.items()):
+        if canon in dropped:
+            continue
+        n = len(owners.get(x, []))
+        if n != 1:
+            errs.append(f"identifier {x} (re-keyed / merged into {canon}) resolves through {n} "
+                        f"written nodes, expected exactly 1")
+    return errs
+
+
 def _exact_name_pairs(table, keep_separate=frozenset()):
     """Spec §1.2 'exact-name match not covered above': report only, never applied. Pairs a
     human already decided to keep separate are not repeated."""
@@ -334,6 +358,7 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
                                         is_isotopologue=is_isotopologue_name, is_class=chebi.is_class)
     errors += [f"remap {r['old_id']} → {r['new_id']} ({r['basis']}): not a compound step 6 writes"
                for r in remap if r["new_id"] and r["new_id"] not in table]
+    errors += _identifier_coverage_errors(table, identity, inp.rekeys, dropped)
     if errors:
         raise Step6ValidationError(errors)
 
