@@ -76,3 +76,28 @@ def test_finalize_drops_pairs_with_non_survivors():
     assert table["kegg.compound:C00041"]["stereo_form_of"] == ["kegg.compound:C01401"]
     assert table["kegg.compound:C00183"]["enantiomer_of"] == ["kegg.compound:C06417"]
     assert counts["enantiomer_of"] >= 1
+
+
+def test_geometric_isomers_are_never_stereo_linked():
+    chebi = make_chebi(CHEBI_22211=term("aconitate"),
+                       CHEBI_16383=term("cis-aconitate", is_a=["CHEBI:22211"]),
+                       CHEBI_16449=term("alanine"),
+                       CHEBI_16977=term("L-alanine", is_a=["CHEBI:16449"]))
+    t = {"kegg.compound:C02341": _d("Aconitate", "GTZCVFVGUGFEME-UHFFFAOYSA-N"),
+         "kegg.compound:C00417": _d("cis-Aconitate", "GTZCVFVGUGFEME-IWQZZHSRSA-N"),
+         "kegg.compound:C01401": _d("Alanine", "QNAYBMKLOCPYGJ-UHFFFAOYSA-N"),
+         "kegg.compound:C00041": _d("L-Alanine", "QNAYBMKLOCPYGJ-REOHCLBHSA-N")}
+    terms = {"kegg.compound:C02341": {"CHEBI:22211"}, "kegg.compound:C00417": {"CHEBI:16383"},
+             "kegg.compound:C01401": {"CHEBI:16449"}, "kegg.compound:C00041": {"CHEBI:16977"}}
+    s, e = stereo_links(t, terms, chebi)
+    assert not any("kegg.compound:C00417" in p for p in s | e)
+    assert ("kegg.compound:C00041", "kegg.compound:C01401") in s
+
+
+def test_strip_geometric_tokens():
+    from multiomics_kg.utils.metabolite_identity.names import strip_geometric_tokens
+    for name, want in [("cis-Aconitate", "aconitate"), ("trans-Aconitate", "aconitate"),
+                       ("(2E)-hexenal", "hexenal"), ("(2Z,4E)-dienoate", "dienoate"),
+                       ("all-trans-Retinal", "retinal"), ("L-Alanine", "l-alanine"),
+                       ("(3S)-citramalate", "(3s)-citramalate")]:
+        assert strip_geometric_tokens(name) == want

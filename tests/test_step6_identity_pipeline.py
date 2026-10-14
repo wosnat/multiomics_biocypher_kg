@@ -284,3 +284,11 @@ def test_chebi_cache_does_not_depend_on_baseline_ids(tmp_path):
 
     base, with_old = run(set()), run({"chebi:99"})
     assert "CHEBI:99" not in with_old["terms"] and base == with_old
+
+
+def test_keep_separate_pairs_not_repeated_as_heuristic_candidates():
+    from multiomics_kg.utils.metabolite_identity.pipeline import _exact_name_pairs
+    t = {"kegg.compound:C1": {"name": "Hydroquinone"}, "kegg.compound:C2": {"name": "hydroquinone"},
+         "kegg.compound:C3": {"name": "Mannobiose"}, "kegg.compound:C4": {"name": "Mannobiose"}}
+    assert _exact_name_pairs(t, {frozenset({"kegg.compound:C1", "kegg.compound:C2"})}) == [
+        ["kegg.compound:C3", "kegg.compound:C4"]]

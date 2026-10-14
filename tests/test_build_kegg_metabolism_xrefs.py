@@ -1111,7 +1111,8 @@ def _stub_main(tmp_path, monkeypatch):
     monkeypatch.setattr(bx.kegg_utils, "download_kegg_raw", lambda *a, **k: None)
     monkeypatch.setattr(bx, "download_all", lambda **k: None)
     monkeypatch.setattr(bx, "_build_tcdb_hierarchy", lambda c: 0)
-    monkeypatch.setattr(bx, "_parse_raw_into_dict", lambda c: {"compound_to_pathways": {}})
+    monkeypatch.setattr(bx, "_parse_raw_into_dict", lambda c: {"compound_to_pathways": {},
+                                                              "compound_names": {"C00001": "H2O"}})
     monkeypatch.setattr(bx.mu, "open_resolver", lambda p: _sq.connect(":memory:"))
     monkeypatch.setattr(bx, "_gene_reachable_sets", lambda raw: {
         "kos": set(), "rxns": set(), "cpds": set(), "pws": {"ko00010"}, "tcdb_ids": {"1.A"},
@@ -1244,3 +1245,11 @@ def test_mnxm_primary_and_normalize_paper_id_skip_unlisted_kegg(tmp_path):
     assert rekeys == {"chebi:4167": "kegg.compound:C00293"}
     # without the filter, behaviour is unchanged
     assert bx._mnxm_primary("MNXM50", conn, chebi, {}) == "kegg.compound:C00271"
+
+
+def test_main_refuses_empty_kegg_compound_list(tmp_path, monkeypatch):
+    writes = _stub_main(tmp_path, monkeypatch)
+    monkeypatch.setattr(bx, "_parse_raw_into_dict", lambda c: {"compound_to_pathways": {}, "compound_names": {}})
+    with pytest.raises(RuntimeError, match="compound list is empty"):
+        bx.main(force=True, today="2026-10-14")
+    assert writes == []

@@ -11,7 +11,8 @@ from typing import Callable
 import pandas as pd
 
 REASON_ORDER = ("alias_override", "dominant_stereo_form", "case_fold_convergence",
-                "direct_id_canonicalised", "placeholder_recurated", "remeasured_elsewhere", "merged")
+                "direct_id_canonicalised", "placeholder_recurated", "remeasured_elsewhere", "merged",
+                "name_re_resolved")
 
 
 def validate_build(*, table, roles, subtree_substrates, subtree_roles, class_trees, resolution,
@@ -122,10 +123,12 @@ def build_mapping_v2(*, id_aliases, resolution, overrides, tables, compounds_sum
     }
 
 
-def repoint_reason(*, old_id, new, row, identity, rekeys, dropped, case_fold_keys):
+def repoint_reason(*, old_id, new, row, identity, rekeys, dropped, case_fold_keys, written=()):
     """Why a row's metabolite_id changed. ``old_id`` must already be normalised (as the
-    caller passes it) so it keys ``dropped`` directly. ``identity`` and ``rekeys`` are
-    accepted for call-site compatibility and currently unused."""
+    caller passes it) so it keys ``dropped`` directly. ``merged`` only when identity links the
+    old id to the new node (stage E merge or stage D re-key); otherwise the row's name simply
+    resolved somewhere else (``name_re_resolved``) — including when the old target is still
+    a written node (``written``, kept for the caller's record)."""
     if not old_id or old_id == new.metabolite_id:
         return None
     if new.resolution_method == "alias_override":
@@ -140,7 +143,13 @@ def repoint_reason(*, old_id, new, row, identity, rekeys, dropped, case_fold_key
         return "placeholder_recurated"
     if old_id in dropped:
         return "remeasured_elsewhere"
-    return "merged"
+    if old_id not in written:
+        canon = identity.canonical_of.get(old_id)
+        if canon is None and old_id in rekeys:
+            canon = identity.canonical_of.get(rekeys[old_id], rekeys[old_id])
+        if canon == new.metabolite_id:
+            return "merged"
+    return "name_re_resolved"
 
 
 def _remap_fallback(old, norm, *, table, id_index, previous_entries, is_isotopologue, is_class):
@@ -152,6 +161,9 @@ def _remap_fallback(old, norm, *, table, id_index, previous_entries, is_isotopol
     for x in (old, norm):
         node = id_index.get(x)
         if node in table:
+            # The basis label is approximate: besides genuine ChEBI-KEGG re-keys and primary-id
+            # changes, ids relocated as a conjugate acid/base or zwitterion of another node's
+            # term also land here (they are that node's identifiers).
             basis = ("rekey_chebi_kegg_xref" if node.startswith("kegg.compound:") and old.startswith("chebi:")
                      else "chebi_primary_id")
             return node, basis

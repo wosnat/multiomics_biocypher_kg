@@ -4,12 +4,24 @@ from __future__ import annotations
 from collections import defaultdict
 
 from multiomics_kg.utils.chebi_utils import ChebiIndex
-from multiomics_kg.utils.metabolite_identity.names import strip_anomer_tokens
+from multiomics_kg.utils.metabolite_identity.names import strip_anomer_tokens, strip_geometric_tokens
 
 
 def _block(entry: dict) -> str | None:
     ik = entry.get("inchikey")
     return ik.split("-")[0] if ik else None
+
+
+def _names(n, table, terms_of, chebi) -> set[str]:
+    return {x for x in {table[n].get("name") or ""} |
+            {(chebi.term(t) or {}).get("name") or "" for t in terms_of.get(n, ())} if x}
+
+
+def is_geometric_pair(a, b, table, terms_of, chebi) -> bool:
+    """Names (KEGG or ChEBI) that differ only by cis/trans / E/Z descriptors (spec §3.6)."""
+    na, nb = _names(a, table, terms_of, chebi), _names(b, table, terms_of, chebi)
+    return any(x.casefold() != y.casefold() and strip_geometric_tokens(x) == strip_geometric_tokens(y)
+               for x in na for y in nb)
 
 
 def stereo_links(table, terms_of, chebi: ChebiIndex):
@@ -29,6 +41,8 @@ def stereo_links(table, terms_of, chebi: ChebiIndex):
                     for o in by_term.get(chebi.primary(partner) or "", []):
                         if o == n or _block(table[o]) != _block(table[n]):
                             continue
+                        if is_geometric_pair(n, o, table, terms_of, chebi):
+                            continue                       # geometric isomers are never stereo-linked
                         out.add((n, o) if rel == "is_a" else tuple(sorted((n, o))))
     return stereo, enan
 

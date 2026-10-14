@@ -23,7 +23,7 @@ from multiomics_kg.utils.metabolite_identity.canonical import (
 from multiomics_kg.utils.metabolite_identity.classes import (
     COMPOUND_BRITE_TREES, parse_compound_brite, prune_compound_brite)
 from multiomics_kg.utils.metabolite_identity.crossrefs import (
-    build_identity_fields, is_isotopologue_name, pick_chebi_id, shared_chebi_terms)
+    build_identity_fields, is_isotopologue_name, node_olds, pick_chebi_id, shared_chebi_terms)
 from multiomics_kg.utils.metabolite_identity.lumping import update_lumping_pin
 from multiomics_kg.utils.metabolite_identity.outputs import (
     build_identity_report, build_mapping_v2, remap_rows, repoint_reason, validate_build,
@@ -220,13 +220,21 @@ def _groups_by_basis(identity):
     return {b: sorted(v) for b, v in sorted(by.items())}
 
 
-def _exact_name_pairs(table):
-    """Spec §1.2 'exact-name match not covered above': report only, never applied."""
+def _exact_name_pairs(table, keep_separate=frozenset()):
+    """Spec §1.2 'exact-name match not covered above': report only, never applied. Pairs a
+    human already decided to keep separate are not repeated."""
     by_name = defaultdict(list)
     for n, e in table.items():
         if e.get("name"):
             by_name[e["name"].casefold()].append(n)
-    return [sorted(v) for _, v in sorted(by_name.items()) if len(v) > 1]
+    out = []
+    for _, v in sorted(by_name.items()):
+        v = sorted(v)
+        if len(v) == 2 and frozenset(v) in keep_separate:
+            continue
+        if len(v) > 1:
+            out.append(v)
+    return out
 
 
 def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
@@ -259,9 +267,12 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     shared = shared_chebi_terms(table, identity, chebi)
     try:
         # G — structure (B2 scrub before any identifier is published)
+        # The same pick as stage H (members and re-keyed ids included), so a node whose only
+        # ChEBI term is a class is classified generic here and gets that class as chebi_id there.
         chebi_of = {}
         for n, e in table.items():
-            cid = pick_chebi_id(n, e, chebi, shared)
+            cid = pick_chebi_id(n, e, chebi, shared, olds=node_olds(n, identity, inp.rekeys),
+                                old_entries=old_entries)
             chebi_of[n] = f"CHEBI:{cid}" if cid else None
         structure = apply_structure(table, chebi, chebi_of)
         # H — cross-reference fields
@@ -354,7 +365,8 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
             with chebi.untracked():
                 old_n = old and old_norm(old)
             reason = repoint_reason(old_id=old_n, new=d, row=row, identity=identity,
-                                    rekeys=inp.rekeys, dropped=dropped, case_fold_keys=case_fold_keys)
+                                    rekeys=inp.rekeys, dropped=dropped, case_fold_keys=case_fold_keys,
+                                    written=table)
             if reason:
                 repoints.append({"paper": row.paper, "table": row.table, "paper_name": row.name,
                                  "old_id": old, "new_id": d.metabolite_id,
@@ -403,7 +415,8 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
                                      "dropped_name": old_entries.get(d, {}).get("name"),
                                      "target_name": table[t].get("name")}
                                     for d, t in sorted(dropped.items())],
-        heuristic_name_candidates=_exact_name_pairs(table),
+        heuristic_name_candidates=_exact_name_pairs(
+            table, inp.identity_overrides.keep_separate if inp.identity_overrides else frozenset()),
         ambiguous_paper_names=res.ambiguous, unresolved_paper_names=res.unresolved,
         dominant_form_drift=res.drift, lumping=lumping_report, structure=structure,
         stereo_counts=stereo_counts, remap=remap, unaccounted_old_ids=unaccounted, repoints=repoints,

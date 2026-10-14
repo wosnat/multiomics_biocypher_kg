@@ -44,6 +44,17 @@ def is_stereo_qualified(name: str) -> bool:
     return bool(_DESCRIPTOR.search(name))
 
 
+# Geometric (cis/trans, E/Z) descriptors: "cis-", "trans-", "all-trans-", "(E)-", "(2Z,4E)-".
+_GEOMETRIC = re.compile(
+    r"(?:^|(?<=[-\s(,]))(?:(?:all-)?(?:cis|trans)-|\((?:\d*[EZ])(?:,\d*[EZ])*\)-)", re.IGNORECASE)
+
+
+def strip_geometric_tokens(name: str) -> str:
+    """Case-folded name without geometric descriptors (spec §3.6: geometric isomers are
+    separate compounds, never stereo forms of each other)."""
+    return _GEOMETRIC.sub("", name).casefold().strip()
+
+
 def strip_anomer_tokens(name: str) -> str:
     return _ANOMER.sub("", name).casefold().strip()
 

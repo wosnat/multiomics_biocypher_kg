@@ -1518,6 +1518,10 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         rekeys: dict[str, str] = {}
         # A KEGG id becomes a node id only while KEGG still lists it (no nameless nodes).
         known_kegg = set(raw.get("compound_names", {}))
+        if not known_kegg:
+            # An empty list would silently push every KEGG route onto ChEBI / MNX ids.
+            raise RuntimeError("raw KEGG compound list is empty (list/compound parse or download "
+                               "failed) — refusing to build metabolite ids without it")
         string_to_primary, compound_props = _resolve_substrate_strings(
             molecule_strings, conn, chebi=chebi, rekeys=rekeys, known_kegg=known_kegg)
         subtree_substrates: dict[str, list[str]] = {}

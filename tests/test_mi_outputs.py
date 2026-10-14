@@ -183,7 +183,14 @@ def test_repoint_reasons():
     assert rr("kegg.compound:C1", "kegg_direct") == "direct_id_canonicalised"
     assert rr("mnx:MNXM1", "name_match") == "placeholder_recurated"
     assert rr("chebi:5", "name_match", dropped={"chebi:5": "kegg.compound:C2"}) == "remeasured_elsewhere"
-    assert rr("kegg.compound:C1", "name_match") == "merged"
+    # old target gone or still written, no identity link to the new node: the name re-resolved
+    assert rr("kegg.compound:C1", "name_match") == "name_re_resolved"
+    assert rr("kegg.compound:C1", "name_match", written={"kegg.compound:C1", "kegg.compound:C2"}) == "name_re_resolved"
+    # merged only when identity says the old id merged into the new node (or was re-keyed into it)
+    merged = IdentityResult({"kegg.compound:C1": "kegg.compound:C2"}, {}, {}, {"kegg.compound:C1": "mnx_same_entity"})
+    assert repoint_reason(old_id="kegg.compound:C1", new=Decision("kegg.compound:C2", "name_match", "x"),
+                          row=row, identity=merged, rekeys={}, dropped={}, case_fold_keys=set()) == "merged"
+    assert rr("chebi:9", "name_match", rekeys={"chebi:9": "kegg.compound:C2"}) == "merged"
 
 
 def test_remap_rows_rekey_and_remeasured():
@@ -252,3 +259,25 @@ def test_remap_fallback_no_longer_reachable():
 def test_remap_fallback_ignores_index_target_not_written():
     rows, un = _remap_fallback({"chebi:1"}, id_index={"chebi:1": "kegg.compound:C999"})
     assert rows[0]["basis"] == "no_longer_reachable" and un == []
+
+
+def test_metabolite_identity_tsvs(tmp_path):
+    import importlib.util
+    from pathlib import Path
+    spec = importlib.util.spec_from_file_location(
+        "mi_tsvs", Path(__file__).resolve().parents[1] / "scripts" / "metabolite_identity_tsvs.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    report = {"remap": [{"old_id": "chebi:2", "new_id": "kegg.compound:C1", "basis": "manual", "role_id": ""},
+                        {"old_id": "chebi:1", "new_id": "", "basis": "removed_role", "role_id": "chebi.role:9"}],
+              "repoints": [{"paper": "p", "table": "t", "paper_name": "Alanine", "old_id": "kegg.compound:C00133",
+                            "new_id": "kegg.compound:C00041", "stereo_assignment": "dominant_form_assumed",
+                            "reason": "dominant_stereo_form"}]}
+    files = mod.write_tsvs(report, tmp_path / "out")
+    assert (tmp_path / "out" / "metabolite_id_remap.tsv").read_text() == (
+        "old_id\tnew_id\tbasis\trole_id\n"
+        "chebi:1\t\tremoved_role\tchebi.role:9\n"
+        "chebi:2\tkegg.compound:C1\tmanual\t\n")
+    assert files[tmp_path / "out" / "metabolite_assay_repoints.tsv"] == (
+        "paper\ttable\tpaper_name\told_id\tnew_id\tstereo_assignment\treason\n"
+        "p\tt\tAlanine\tkegg.compound:C00133\tkegg.compound:C00041\tdominant_form_assumed\tdominant_stereo_form\n")

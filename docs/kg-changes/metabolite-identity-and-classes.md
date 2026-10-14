@@ -269,11 +269,19 @@ history, kept for the reasoning behind each decision.
 - **Two release TSVs** (with the post-rebuild doc):
   - `metabolite_id_remap.tsv`: old id, new id, basis ∈ merge basis | `rekey_chebi_kegg_xref` |
     `removed_role` (empty new id; a `role_id` column gives the `chebi.role:` id) |
-    `removed_placeholder` / `remeasured_elsewhere` (new id = the node the rows now point to).
+    `removed_placeholder` / `remeasured_elsewhere` (new id = the node the rows now point to) |
+    `chebi_primary_id` | fallback bases for ids none of those explain: the old id is now an
+    identifier of another node (`rekey_chebi_kegg_xref` / `chebi_primary_id`; approximate —
+    conjugate / zwitterion relocations land here too), the old entry's MNX id now sits on another
+    node (`isotopologue_rejected` | `class_term_rejected` | `mnx_same_entity`), or
+    `no_longer_reachable` (empty new id). Written by `scripts/metabolite_identity_tsvs.py`
+    from the identity report (whose `baseline` is the previous `kegg_data.json`).
   - `metabolite_assay_repoints.tsv`: paper, table, paper name, old id, new id,
     `stereo_assignment`, reason. The reason is one of `alias_override` |
     `dominant_stereo_form` | `case_fold_convergence` | `direct_id_canonicalised` |
-    `placeholder_recurated` | `remeasured_elsewhere` | `merged`; the first applicable wins.
+    `placeholder_recurated` | `remeasured_elsewhere` | `merged` (only when stage E merged, or
+    stage D re-keyed, the old id into the new node) | `name_re_resolved` (the row's name now
+    resolves elsewhere; the old node may still exist); the first applicable wins.
 - **The post-rebuild doc also reports:**
   - the per-name stereo table: the 36 B5 names plus the case-fold convergences, with old id,
     new id, `stereo_assignment`, and `catalyst_gene_count` / `transporter_gene_count` on the new

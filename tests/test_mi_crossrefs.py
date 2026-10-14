@@ -82,7 +82,8 @@ def test_chebi_keyed_node_chebi_id_equals_local_part():
 
 
 @pytest.mark.parametrize("name", ["pyridin-2(1H)-one", "furan-2(5H)-one", "4(3H)-quinazolinone",
-                                  "naphthalen-1(2H)-one", "25-hydroxyvitamin-D3"])
+                                  "naphthalen-1(2H)-one", "25-hydroxyvitamin-D3",
+                                  "(25S)-cholest-5-ene", "(12S)-HETE", "(20S)-x", "Vitamin C 12"])
 def test_more_not_isotopologue_names(name):
     assert not is_isotopologue_name(name)
 
@@ -169,3 +170,49 @@ def test_shared_term_on_neither_node_and_chebi_id_falls_back():
     assert "chebi:28061" not in index
     assert pick_chebi_id("kegg.compound:C01582", cpd("Galactose"), SHARED, shared) == "28260"
     assert pick_chebi_id("kegg.compound:C00984", cpd("x", chebi_id="10231"), SHARED, shared) is None
+
+
+
+@pytest.mark.parametrize("name", ["[13C]glucose", "(15N)urea", "[2H]water", "(18O)water", "N 15 ammonium"])
+def test_more_isotopologue_names(name):
+    assert is_isotopologue_name(name)
+
+
+# ── one chebi_id pick for stages G and H (classes only as a last resort) ──────
+
+CLS = make_chebi(
+    CHEBI_15889=term("sterol", kegg=["C00370"]),                       # class (no InChIKey)
+    CHEBI_1=term("thing", charge=0, kegg=["C09001"], inchikey="AAAAAAAAAAAAAA-UHFFFAOYSA-N"),
+    CHEBI_2=term("things", kegg=["C09001"]))                           # class on the same KEGG id
+
+
+def test_class_term_rekeyed_onto_concrete_kegg_node_is_generic_and_scrubbed():
+    from multiomics_kg.utils.metabolite_identity.crossrefs import pick_chebi_id, node_olds
+    from multiomics_kg.utils.metabolite_identity.structure import apply_structure
+    node = "kegg.compound:C00370"
+    table = {node: cpd("Sterol", formula="C27H46O", mass=386.7, inchikey="HVYWMOMLDIMFJA-DPAQBDIFSA-N",
+                       smiles="CC")}
+    ident = IdentityResult(canonical_of={node: node}, members={}, basis={}, member_basis={})
+    rekeys = {"chebi:15889": node}
+    old = {n: dict(e) for n, e in table.items()}
+    olds = node_olds(node, ident, rekeys)
+    cid = pick_chebi_id(node, table[node], CLS, olds=olds, old_entries=old)
+    assert cid == "15889"
+    apply_structure(table, CLS, {node: f"CHEBI:{cid}"})
+    e = table[node]
+    assert e["structure_kind"] == "generic"
+    assert e["inchikey"] is None and e["smiles"] is None and e["formula"] is None and e["mass"] is None
+    assert e["elements"] == ["C", "H", "O"]
+    build_identity_fields(table, ident, rekeys, CLS, old)
+    assert e["chebi_id"] == "15889" and e["chebi_ids"] == ["15889"]
+
+
+def test_entity_term_beats_class_term_on_one_kegg_node():
+    from multiomics_kg.utils.metabolite_identity.crossrefs import pick_chebi_id
+    node = "kegg.compound:C09001"
+    table = {node: cpd("Thing", formula="C2H6", inchikey="AAAAAAAAAAAAAA-UHFFFAOYSA-N")}
+    ident = IdentityResult(canonical_of={node: node}, members={}, basis={}, member_basis={})
+    rekeys = {"chebi:2": node}                                         # the class re-keyed in too
+    assert pick_chebi_id(node, table[node], CLS) == "1"
+    build_identity_fields(table, ident, rekeys, CLS, {n: dict(e) for n, e in table.items()})
+    assert table[node]["chebi_id"] == "1" and table[node]["chebi_ids"] == ["1"]
