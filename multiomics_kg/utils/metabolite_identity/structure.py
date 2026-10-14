@@ -5,6 +5,7 @@ import re
 from collections import defaultdict
 
 from multiomics_kg.utils.chebi_utils import ChebiIndex
+from multiomics_kg.utils.metabolite_identity.canonical import IdentityCollisionError
 from multiomics_kg.utils.metabolite_identity.names import (
     is_generic_formula, is_polymer_formula, parse_elements)
 
@@ -58,7 +59,7 @@ def apply_structure(table, chebi, chebi_of):
             by_key[e["inchikey"]].append(node)
     dup = {k: v for k, v in by_key.items() if len(v) > 1}
     if dup:
-        raise ValueError(f"InChIKey on more than one Metabolite after the B2 scrub: {dup}")
+        raise IdentityCollisionError(f"InChIKey on more than one Metabolite after the B2 scrub: {dup}")
     counts = defaultdict(int)
     for e in table.values():
         keep = e.pop("_elements_keep", None)

@@ -3,7 +3,7 @@ from multiomics_kg.utils.metabolite_identity.names import (  # noqa: F401
     PERIODIC_TABLE, is_formula_like, is_generic_formula, is_polymer_formula,
     is_stereo_qualified, name_key, normalize_hmdb, parse_elements, strip_anomer_tokens)
 from multiomics_kg.utils.metabolite_identity.canonical import (  # noqa: F401
-    MERGE_BASES, IdentityOverrides, IdentityResult, MergeLink, canonicalise, collect_merge_links,
+    MERGE_BASES, IdentityCollisionError, IdentityOverrides, IdentityResult, MergeLink, canonicalise, collect_merge_links,
     entity_terms, load_identity_overrides, rewrite_to_canonical)
 from multiomics_kg.utils.metabolite_identity.structure import (  # noqa: F401
     STRUCTURE_KINDS, apply_structure, classify_structure)

@@ -161,3 +161,64 @@ def test_identifier_collision_becomes_validation_error(tmp_path):
     with pytest.raises(Step6ValidationError) as e:
         run_identity_stages(inp)
     assert any("HMDB0000001" in m for m in e.value.errors)
+
+
+def test_old_chebi_id_rekeyed_onto_dropped_loser_is_linked(tmp_path):
+    # Previous build resolved row 1 to chebi:16296, which stage D now re-keys onto D-Trp C00525.
+    inp = make_inputs(tmp_path)
+    inp.old_resolved[(PAPER, TABLE, 1)] = "chebi:16296"
+    inp.rekeys["chebi:16296"] = f"{K}C00525"
+    inp.previous_ids.add("chebi:16296")
+    out = run_identity_stages(inp)
+    rep = out.report
+    assert rep["dropped"] == {f"{K}C00525": f"{K}C00078"} and rep["dropped_without_rows"] == []
+    assert out.kegg_data["compounds"]["C00078"]["recurated_from_ids"] == [f"{K}C00525"]
+    remap = {r["old_id"]: r for r in rep["remap"]}
+    assert remap["chebi:16296"] == {"old_id": "chebi:16296", "new_id": f"{K}C00078",
+                                    "basis": "remeasured_elsewhere", "role_id": ""}
+    assert rep["unaccounted_old_ids"] == []
+
+
+def test_remap_onto_unwritten_node_fails(tmp_path):
+    # No old row moved off D-Trp, so it is dropped without a target; an old id re-keyed onto it
+    # would remap to a node step 6 does not write.
+    inp = make_inputs(tmp_path)
+    del inp.old_resolved[(PAPER, TABLE, 1)]
+    inp.rekeys["chebi:16296"] = f"{K}C00525"
+    inp.previous_ids.add("chebi:16296")
+    with pytest.raises(Step6ValidationError) as e:
+        run_identity_stages(inp)
+    assert any("chebi:16296" in m and "C00525" in m for m in e.value.errors)
+
+
+def test_measured_set_target_not_written_is_validation_error():
+    from multiomics_kg.utils.metabolite_identity.paper import Decision, ResolutionResult
+    from multiomics_kg.utils.metabolite_identity.pipeline import _measured_set
+    table = {f"{K}C1": {"evidence_sources": []}}
+    res = ResolutionResult(decisions={("p", "t", 0): Decision(f"{K}C9", "name_match", "as_reported")})
+    with pytest.raises(Step6ValidationError) as e:
+        _measured_set(table, res, {("p", "t", 0): f"{K}C1"}, lambda x: x, {})
+    assert any("C9" in m for m in e.value.errors)
+
+
+def test_pathway_reprune(tmp_path):
+    out, _ = _render(tmp_path, make_inputs(tmp_path))
+    kd = out.kegg_data
+    assert set(kd["pathways"]) == {"ko00250", "ko00380"}
+    assert set(kd["subcategories"]) == {"09105"} and set(kd["categories"]) == {"09100"}
+    assert kd["kos"]["K00001"]["pathways"] == ["ko00250"]
+    assert kd["reactions"]["R3"]["pathways"] == ["ko00380"]
+    assert kd["compounds"]["C00078"]["pathways"] == ["ko00380"]
+
+
+def test_report_sections_and_sparse_filter(tmp_path):
+    inp = make_inputs(tmp_path)
+    inp.table[f"{K}C00133"]["smiles"] = ""
+    inp.table[f"{K}C00133"]["extra"] = {}
+    out = run_identity_stages(inp)
+    e = out.kegg_data["compounds"]["C00133"]
+    assert "smiles" not in e and "extra" not in e
+    rep = out.report
+    assert rep["structure"]["counts"] == {"defined": 5}               # survivors only
+    assert rep["id_aliases"] == out.mapping["id_aliases"]
+    assert rep["merge_groups_by_basis"] == {"chebi_conjugate": [f"{K}C00244"]}

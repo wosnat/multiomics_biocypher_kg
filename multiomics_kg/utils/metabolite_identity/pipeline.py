@@ -19,7 +19,7 @@ from pathlib import Path
 
 from multiomics_kg.utils.chebi_utils import ChebiIndex, build_chebi_cache
 from multiomics_kg.utils.metabolite_identity.canonical import (
-    IdentityOverrides, canonicalise, collect_merge_links, entity_terms, rewrite_to_canonical)
+    IdentityCollisionError, IdentityOverrides, canonicalise, collect_merge_links, entity_terms, rewrite_to_canonical)
 from multiomics_kg.utils.metabolite_identity.classes import (
     COMPOUND_BRITE_TREES, parse_compound_brite, prune_compound_brite)
 from multiomics_kg.utils.metabolite_identity.crossrefs import build_identity_fields, pick_chebi_id
@@ -114,11 +114,16 @@ def _normalizer(chebi: ChebiIndex):
     return norm
 
 
-def _measured_set(table, res, old_resolved, norm):
+def _measured_set(table, res, old_resolved, norm, id_index):
     """Stage K (spec §3.6a): the metabolomics tag only on final targets; drop candidates with
     no catalysis / transport / measurement reason to exist. A drop whose old paper rows moved
-    goes to the target's ``recurated_from_ids`` (never ``all_identifiers``)."""
+    goes to the target's ``recurated_from_ids`` (never ``all_identifiers``). Old row ids are
+    taken through ``id_index``, so an old id that stage D re-keyed or stage E merged onto the
+    dropped node still links the drop."""
     targets = {d.metabolite_id for d in res.decisions.values() if d.metabolite_id}
+    missing = sorted(t for t in targets if t not in table)
+    if missing:
+        raise Step6ValidationError([f"paper row target {t} is not a compound step 6 holds" for t in missing])
     for n, e in table.items():
         ev = set(e.get("evidence_sources") or []) - {"metabolomics"}
         if n in targets:
@@ -128,7 +133,8 @@ def _measured_set(table, res, old_resolved, norm):
     for key, old in old_resolved.items():
         d = res.decisions.get(key)
         if old and d and d.metabolite_id:
-            moved[norm(old)][d.metabolite_id] += 1
+            n = norm(old)
+            moved[id_index.get(n, n)][d.metabolite_id] += 1
     dropped, unmoved = {}, []
     for n in sorted(n for n, e in table.items() if not e["evidence_sources"]):
         if moved.get(n):
@@ -142,14 +148,17 @@ def _measured_set(table, res, old_resolved, norm):
 
 
 def _reprune_pathways(kegg_rest, table, targets, inp):
+    """Keep base (catalysis ∪ transport) pathways plus those of the final paper targets, and
+    filter every compound / KO / reaction ``pathways`` list to what is kept."""
     allowed = set(inp.base_pathways)
     for t in targets:
         if t.startswith(_KEGG):
             allowed |= set(inp.compound_to_pathways.get(t[len(_KEGG):], []))
     pathways = {p: v for p, v in kegg_rest["pathways"].items() if p in allowed}
-    for e in table.values():
-        if e.get("pathways"):
-            e["pathways"] = sorted(p for p in e["pathways"] if p in pathways)
+    for entries in (table, kegg_rest.get("kos", {}), kegg_rest.get("reactions", {})):
+        for e in entries.values():
+            if e.get("pathways"):
+                e["pathways"] = sorted(p for p in e["pathways"] if p in pathways)
     subs = {v.get("subcategory") for v in pathways.values() if v.get("subcategory")}
     subcategories = {s: v for s, v in kegg_rest["subcategories"].items() if s in subs}
     cats = {v.get("category") for v in subcategories.values() if v.get("category")}
@@ -181,6 +190,14 @@ def _class_trees(inp, id_index, survivors):
     if errors:
         raise Step6ValidationError(errors)
     return out
+
+
+def _groups_by_basis(identity):
+    by: dict[str, set[str]] = defaultdict(set)
+    for canon, bases in identity.basis.items():
+        for b in bases:
+            by[b].add(canon)
+    return {b: sorted(v) for b, v in sorted(by.items())}
 
 
 def _exact_name_pairs(table):
@@ -227,7 +244,7 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         structure = apply_structure(table, chebi, chebi_of)
         # H — cross-reference fields
         identifier_index = build_identity_fields(table, identity, inp.rekeys, chebi, old_entries)
-    except ValueError as exc:                    # identifier / InChIKey on two nodes
+    except IdentityCollisionError as exc:        # identifier / InChIKey on two nodes
         raise Step6ValidationError([str(exc)]) from exc
     id_index = dict(identifier_index)
     for old, canon in identity.canonical_of.items():
@@ -247,9 +264,12 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     res = resolve_paper_rows(inp.tables, overrides=inp.paper_overrides, name_candidates=name_candidates,
                              id_index=id_index, ctx=ctx, lock=inp.lock, today=inp.today)
     # K — measured set; drop measurement-only losers
-    targets, dropped, dropped_unmoved = _measured_set(table, res, inp.old_resolved, norm)
+    targets, dropped, dropped_unmoved = _measured_set(table, res, inp.old_resolved, norm, id_index)
     pathways, subcategories, categories = _reprune_pathways(kegg_rest, table, targets, inp)
     survivors = set(table)
+    structure["counts"] = dict(sorted(Counter(e["structure_kind"] for e in table.values()).items()))
+    structure["scrubbed"] = [n for n in structure["scrubbed"] if n in survivors]
+    structure["filled"] = [n for n in structure["filled"] if n in survivors]
     # L — stereo lists on survivors only
     stereo_counts = finalize_stereo(table, stereo_pairs, enan_pairs, survivors)
     # M — compound classes
@@ -264,12 +284,23 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     errors = validate_build(table=table, roles=inp.chemical_roles, subtree_substrates=subs,
                             subtree_roles=inp.subtree_roles, class_trees=class_trees, resolution=res,
                             chebi_missing_needed=missing)
+
+    # An old id whose canonical node was dropped at stage K remaps like the dropped node.
+    def old_norm(x: str) -> str:
+        n = norm(x)
+        c = id_index.get(n, n)
+        return c if c in dropped else n
+    remap, unaccounted = remap_rows(old_ids=inp.previous_ids, table=table, identity=identity,
+                                    rekeys=inp.rekeys, role_of=inp.role_of_old, dropped=dropped,
+                                    normalize=old_norm)
+    errors += [f"remap {r['old_id']} → {r['new_id']} ({r['basis']}): not a compound step 6 writes"
+               for r in remap if r["new_id"] and r["new_id"] not in table]
     if errors:
         raise Step6ValidationError(errors)
 
     compounds, additional = {}, {}
     for n in sorted(table):
-        e = {k: v for k, v in table[n].items() if k not in _TRANSIENT and v is not None and v != []}
+        e = {k: v for k, v in table[n].items() if k not in _TRANSIENT and v not in (None, [], "", {})}
         if n.startswith(_KEGG):
             compounds[n[len(_KEGG):]] = e
         else:
@@ -292,15 +323,12 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
             d, old = res.decisions.get(key), inp.old_resolved.get(key)
             if d is None:
                 continue
-            reason = repoint_reason(old_id=old and norm(old), new=d, row=row, identity=identity,
+            reason = repoint_reason(old_id=old and old_norm(old), new=d, row=row, identity=identity,
                                     rekeys=inp.rekeys, dropped=dropped, case_fold_keys=case_fold_keys)
             if reason:
                 repoints.append({"paper": row.paper, "table": row.table, "paper_name": row.name,
                                  "old_id": old, "new_id": d.metabolite_id,
                                  "stereo_assignment": d.stereo_assignment, "reason": reason})
-    remap, unaccounted = remap_rows(old_ids=inp.previous_ids, table=table, identity=identity,
-                                    rekeys=inp.rekeys, role_of=inp.role_of_old, dropped=dropped,
-                                    normalize=norm)
 
     # Mapping v2 (a record of the paper decisions; no step reads it).
     summary: dict[str, dict[str, set]] = defaultdict(lambda: {"aliases": set(), "methods": set()})
@@ -318,7 +346,8 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
                 s["unresolved"] += 1
     compounds_summary = {k: {"aliases": sorted(v["aliases"]), "methods": sorted(v["methods"])}
                          for k, v in sorted(summary.items())}
-    mapping = build_mapping_v2(id_aliases={k: v for k, v in id_index.items() if k != v and v in table},
+    id_aliases = {k: v for k, v in sorted(id_index.items()) if k != v and v in table}
+    mapping = build_mapping_v2(id_aliases=id_aliases,
                                resolution=res, overrides=inp.paper_overrides, tables=inp.tables,
                                compounds_summary=compounds_summary,
                                per_paper_stats=dict(sorted(per_paper.items())))
@@ -330,6 +359,8 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         chebi_release=chebi.release,
         merge_groups={c: {"members": m, "basis": identity.basis.get(c, [])}
                       for c, m in sorted(identity.members.items())},
+        merge_groups_by_basis=_groups_by_basis(identity),
+        id_aliases=id_aliases,
         rekeys=inp.rekeys, rejected_links=[[l.a, l.b, l.basis] for l in identity.rejected],
         refused_assay_collisions=identity.refused_collisions,
         stale_identity_override=identity.stale_overrides, stale_alias_override=res.stale_overrides,

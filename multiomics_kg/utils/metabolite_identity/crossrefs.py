@@ -4,7 +4,7 @@ from __future__ import annotations
 import re
 
 from multiomics_kg.utils.chebi_utils import ChebiIndex
-from multiomics_kg.utils.metabolite_identity.canonical import IdentityResult
+from multiomics_kg.utils.metabolite_identity.canonical import IdentityCollisionError, IdentityResult
 from multiomics_kg.utils.metabolite_identity.names import normalize_hmdb
 
 _KEGG = "kegg.compound:"
@@ -118,5 +118,5 @@ def build_identity_fields(table, identity: IdentityResult, rekeys, chebi, old_en
         e["identity_basis"] = sorted(basis) or None
         for x in e["all_identifiers"]:
             if index.setdefault(x, node) != node:
-                raise ValueError(f"identifier {x} on two Metabolite nodes: {index[x]} and {node}")
+                raise IdentityCollisionError(f"identifier {x} on two Metabolite nodes: {index[x]} and {node}")
     return index

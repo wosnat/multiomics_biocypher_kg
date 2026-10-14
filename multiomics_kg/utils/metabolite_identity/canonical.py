@@ -13,6 +13,10 @@ MERGE_BASES = ("mnx_same_entity", "chebi_kegg_xref", "chebi_conjugate", "chebi_t
 _KEGG = "kegg.compound:"
 
 
+class IdentityCollisionError(ValueError):
+    """An identifier or InChIKey would sit on two Metabolite nodes (stages G/H)."""
+
+
 @dataclass(frozen=True, order=True)
 class MergeLink:
     a: str
