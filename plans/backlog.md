@@ -367,6 +367,25 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       2026-10-08 "TCDB substrate lists describe the subfamily";
       `docs/kg-changes/tcdb-two-source-upgrade.md`
 
+- [ ] **ChEBI roles on `Metabolite` (curated allow-list) — measured 2026-10-14, deferred from
+      the metabolite identity + classes spec.** ChEBI `has_role` is a facet ("what it does / is
+      used for"), not a class, and the step-6 ChEBI cache will already hold it. Raw: 1,562 of
+      2,985 ChEBI-linked metabolites carry ≥ 1 direct role (508 distinct), but 2,269 assignments
+      are organism-observation roles ("mouse / human / *E. coli* / yeast metabolite") and much of
+      the rest is pharmacology. A rule-based filter (biological + chemical role, minus the
+      "metabolite" subtree) still leaves 578 metabolites (19%) / 328 roles, dominated by drug
+      roles that ChEBI files under *biological* role (antibacterial 81, anti-HIV 41, analgesic 38;
+      CO₂ → "analgesic", ammonia → "NMR chemical shift reference compound"). A useful version
+      needs a **curated allow-list of ~15–20 roles** (cofactor 74 rolled up, coenzyme 12,
+      prosthetic group, antioxidant 52, nutrient / micronutrient 33 / 26, toxin 15, signalling
+      molecule 10, siderophore 8, osmolyte 8, xenobiotic, pigment). Shape:
+      `Metabolite_has_chemical_role` edges → the existing `ChemicalRole` nodes (introduced by
+      the identity spec for TCDB role-typed substrates), direct assertions only,
+      `sources: ['chebi']`, `evidence: 'curated'`. This is a different edge type from
+      `Tcdb_family_transports_chemical_role`: "has the role" vs "transports something with the
+      role", joinable on one node.
+      → spec `docs/superpowers/specs/2026-10-13-metabolite-identity-and-classes-design.md` §13
+
 **P3 — large or blocked on researcher input**
 
 - [ ] **Culture-level measurement node type.** Cell counts, N biomass, DON and
