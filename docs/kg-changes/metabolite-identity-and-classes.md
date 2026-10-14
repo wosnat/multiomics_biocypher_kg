@@ -273,8 +273,10 @@ history, kept for the reasoning behind each decision.
     `chebi_primary_id` | fallback bases for ids none of those explain: the old id is now an
     identifier of another node (`rekey_chebi_kegg_xref` / `chebi_primary_id`; approximate —
     conjugate / zwitterion relocations land here too), the old entry's MNX id now sits on another
-    node (`isotopologue_rejected` | `class_term_rejected` | `mnx_same_entity`), or
-    `no_longer_reachable` (empty new id). Written by `scripts/metabolite_identity_tsvs.py`
+    node (`isotopologue_rejected` | `class_term_rejected` | `mnx_same_entity`), the old id's TCDB
+    substrate string now resolves to another node (`isotopologue_rejected` | `class_term_rejected` |
+    `chebi_conjugate` | `chebi_primary_id`, read from the old ChEBI term), or
+    `no_longer_reachable` (empty new id; 0 rows in this build). Written by `scripts/metabolite_identity_tsvs.py`
     from the identity report (whose `baseline` is the previous `kegg_data.json`).
   - `metabolite_assay_repoints.tsv`: paper, table, paper name, old id, new id,
     `stereo_assignment`, reason. The reason is one of `alias_override` |
