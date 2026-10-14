@@ -92,7 +92,7 @@ def main():
     bc = BioCypher()
 
 
-    # DataSource metadata nodes (4 nodes: ncbi, cyanorak, uniprot, eggnog).
+    # DataSource metadata nodes: one per logical / reference source (11).
     # Soft-joined to Gene via Gene.contributing_sources; no materialized edges.
     data_source_adapter = DataSourceAdapter(config_path="config/gene_annotations_config.yaml")
     data_source_adapter.download_data()
@@ -132,6 +132,16 @@ def main():
     )
     bc.write_nodes(metabolism_adapter.get_nodes())
     bc.write_edges(metabolism_adapter.get_edges())
+
+    # MetaboliteClass (KEGG compound BRITE) — after the metabolism adapter, so memberships are
+    # dangling-proofed against the metabolite ids it actually emitted.
+    from multiomics_kg.adapters.metabolite_class_adapter import MetaboliteClassAdapter
+    metabolite_class_adapter = MetaboliteClassAdapter(
+        cache_root=Path("cache/data"), metabolite_node_ids=metabolism_adapter.all_metabolite_ids(),
+        test_mode=TEST_MODE)
+    metabolite_class_adapter.download_data()
+    bc.write_nodes(metabolite_class_adapter.get_nodes())
+    bc.write_edges(metabolite_class_adapter.get_edges())
 
     # MultiUniprot adapter reads pre-built protein_annotations.json files.
     # Requires: prepare_data.sh steps 0 + 2 run beforehand.
@@ -447,6 +457,10 @@ def main():
     vocab_hash_path = Path(bc._output_directory) / "controlled_vocabularies.sha256"
     vocab_hash_path.write_text(vocabularies_hash(controlled_vocab_adapter.entries()))
     print(f"Wrote vocabulary hash to {vocab_hash_path}")
+
+    chebi_cache = Path("cache/data/chebi/chebi_metabolite_xrefs.json")
+    if chebi_cache.exists():
+        (Path(bc._output_directory) / "chebi_release.txt").write_text(json.loads(chebi_cache.read_text())["release"])
 
     # Write import call and other post-processing
     bc.write_schema_info(as_node=True)

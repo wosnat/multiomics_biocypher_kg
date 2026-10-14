@@ -28,6 +28,7 @@ import json
 import pandas as pd
 import yaml
 
+from multiomics_kg.utils.controlled_vocab import VOCAB
 from multiomics_kg.utils.paperconfig_utils import (
     load_paperconfig,
     load_all_paperconfigs,
@@ -349,14 +350,15 @@ class MetaboliteAssayAdapter:
                 if value_kind == "numeric":
                     yield from self._emit_numeric_edges(
                         df, entry, assay, assay_node_id, null_values, missing_values,
+                        csv_path=csv_path,
                     )
                 elif value_kind == "boolean":
-                    yield from self._emit_boolean_edges(df, entry, assay, assay_node_id)
+                    yield from self._emit_boolean_edges(df, entry, assay, assay_node_id, csv_path=csv_path)
 
                 yield from self._emit_binding_edges(assay_node_id, exp_key, entry)
 
     def _emit_numeric_edges(
-        self, df, entry, assay, assay_node_id, null_values, missing_values,
+        self, df, entry, assay, assay_node_id, null_values, missing_values, csv_path=None,
     ):
         sample_cols_block = assay.get("sample_columns", [])
         drop_undetected = bool(entry.get("drop_undetected", False))
@@ -368,6 +370,12 @@ class MetaboliteAssayAdapter:
             primary = str(row.get("metabolite_id", "") or "").strip()
             if not primary:
                 continue
+            sa = str(row.get("stereo_assignment", "") or "").strip()
+            if not sa:
+                raise ValueError(
+                    f"{csv_path}: row {row_idx} resolved to {primary} without "
+                    "stereo_assignment — re-run prepare_data step 6"
+                )
             for sc_idx, sc in enumerate(sample_cols_block):
                 rcols = sc.get("replicate_columns") or []
                 if not rcols:
@@ -402,15 +410,22 @@ class MetaboliteAssayAdapter:
                     # them back to floats per the schema's `float[]` type.
                     "replicate_values": [str(v) for v in vals],
                     "detection_status": det,
+                    "stereo_assignment": VOCAB.check("Assay_quantifies_metabolite", "stereo_assignment", sa),
                 }
                 yield edge_id, assay_node_id, primary, "assay_quantifies_metabolite", props
 
-    def _emit_boolean_edges(self, df, entry, assay, assay_node_id):
+    def _emit_boolean_edges(self, df, entry, assay, assay_node_id, csv_path=None):
         sample_cols_block = assay.get("sample_columns", [])
         for row_idx, row in df.iterrows():
             primary = str(row.get("metabolite_id", "") or "").strip()
             if not primary:
                 continue
+            sa = str(row.get("stereo_assignment", "") or "").strip()
+            if not sa:
+                raise ValueError(
+                    f"{csv_path}: row {row_idx} resolved to {primary} without "
+                    "stereo_assignment — re-run prepare_data step 6"
+                )
             for sc_idx, sc in enumerate(sample_cols_block):
                 flag_col = sc.get("flag_column")
                 if not flag_col:
@@ -426,6 +441,7 @@ class MetaboliteAssayAdapter:
                     "flag_value": FLAG_VALUE["true"] if is_true else FLAG_VALUE["false"],
                     "n_replicates": 1,
                     "n_positive": 1 if is_true else 0,
+                    "stereo_assignment": VOCAB.check("Assay_flags_metabolite", "stereo_assignment", sa),
                 }
                 yield edge_id, assay_node_id, primary, "assay_flags_metabolite", props
 

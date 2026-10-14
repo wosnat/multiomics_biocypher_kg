@@ -95,6 +95,7 @@ def _make_minimal_paperconfig(tmp_path, with_resolved=True, value_kind="numeric"
                 "c2": ["3.0"],
                 "metabolite_id": ["kegg.compound:C00031"],
                 "resolution_method": ["name_match"],
+                "stereo_assignment": ["as_reported"],
             }).to_csv(src.with_name("metab_resolved.csv"), index=False)
         sample_columns = [{"condition_label": "control", "replicate_columns": ["c1", "c2"]}]
     else:  # boolean
@@ -105,6 +106,7 @@ def _make_minimal_paperconfig(tmp_path, with_resolved=True, value_kind="numeric"
                 "intra": ["yes", ""],
                 "metabolite_id": ["kegg.compound:C00334", "kegg.compound:C00031"],
                 "resolution_method": ["alias_override", "kegg_direct"],
+                "stereo_assignment": ["as_reported", "dominant_form_assumed"],
             }).to_csv(src.with_name("metab_resolved.csv"), index=False)
         sample_columns = [{"condition_label": "", "flag_column": "intra", "flag_true_value": "yes"}]
 
@@ -188,6 +190,7 @@ def test_adapter_emits_numeric_quantifies_edges(tmp_path):
     assert props["replicate_values"] == ["1.0", "3.0"]
     assert props["detection_status"] == "detected"
     assert props["condition_label"] == "control"
+    assert props["stereo_assignment"] == "as_reported"
 
 
 def test_adapter_emits_boolean_flag_edges(tmp_path):
@@ -201,6 +204,20 @@ def test_adapter_emits_boolean_flag_edges(tmp_path):
     assert by_dst["kegg.compound:C00334"]["n_positive"] == 1
     assert by_dst["kegg.compound:C00031"]["flag_value"] == "not_detected"
     assert by_dst["kegg.compound:C00031"]["n_positive"] == 0
+    assert by_dst["kegg.compound:C00334"]["stereo_assignment"] == "as_reported"
+    assert by_dst["kegg.compound:C00031"]["stereo_assignment"] == "dominant_form_assumed"
+
+
+def test_resolved_row_without_stereo_assignment_raises(tmp_path):
+    import pytest
+    from multiomics_kg.adapters.metabolite_assay_adapter import MetaboliteAssayAdapter
+    pc = _make_minimal_paperconfig(tmp_path)
+    r = tmp_path / "metab_resolved.csv"
+    df = pd.read_csv(r, dtype=str, keep_default_na=False)
+    df["stereo_assignment"] = ""
+    df.to_csv(r, index=False)
+    with pytest.raises(ValueError, match="stereo_assignment"):
+        list(MetaboliteAssayAdapter(config_file=str(pc)).get_edges())
 
 
 def test_adapter_emits_three_binding_edges(tmp_path):
@@ -256,6 +273,7 @@ def _make_embedded_paperconfig(tmp_path, total_replicates=3, drop_undetected=Fal
             "kegg.compound:C00117",
         ],
         "resolution_method": ["name_match"] * 3,
+        "stereo_assignment": ["as_reported"] * 3,
     }).to_csv(src.with_name("metab_resolved.csv"), index=False)
 
     cfg = {
