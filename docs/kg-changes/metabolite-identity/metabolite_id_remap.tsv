@@ -8,7 +8,7 @@ chebi:10085	kegg.compound:C01394	rekey_chebi_kegg_xref
 chebi:10208	kegg.compound:C00045	rekey_chebi_kegg_xref	
 chebi:10426	kegg.compound:C01866	rekey_chebi_kegg_xref	
 chebi:10800	kegg.compound:C00965	rekey_chebi_kegg_xref	
-chebi:10809		no_longer_reachable	
+chebi:10809	kegg.compound:C01935	chebi_primary_id	
 chebi:108917	chebi:6923	chebi_primary_id	
 chebi:11097	kegg.compound:C01768	rekey_chebi_kegg_xref	
 chebi:11105	kegg.compound:C01810	rekey_chebi_kegg_xref	
@@ -87,7 +87,7 @@ chebi:144635	chebi:64307	chebi_primary_id
 chebi:14520	kegg.compound:C00338	rekey_chebi_kegg_xref	
 chebi:14575	chebi:37684	chebi_primary_id	
 chebi:14582	kegg.compound:C00828	rekey_chebi_kegg_xref	
-chebi:146017		no_longer_reachable	
+chebi:146017	kegg.compound:C10309	chebi_conjugate	
 chebi:14654	kegg.compound:C00244	chebi_conjugate	
 chebi:14739	kegg.compound:C00864	chebi_conjugate	
 chebi:14753	kegg.compound:C00012	rekey_chebi_kegg_xref	
@@ -104,10 +104,10 @@ chebi:15141	kegg.compound:C00087	rekey_chebi_kegg_xref
 chebi:15255	kegg.compound:C00422	rekey_chebi_kegg_xref	
 chebi:16541	kegg.compound:C00017	rekey_chebi_kegg_xref	
 chebi:173245	kegg.compound:C00082	remeasured_elsewhere	
-chebi:176566		no_longer_reachable	
-chebi:176584		no_longer_reachable	
+chebi:176566	kegg.compound:C00076	isotopologue_rejected	
+chebi:176584	kegg.compound:C06269	isotopologue_rejected	
 chebi:176600	chebi:49470	mnx_same_entity	
-chebi:176629		no_longer_reachable	
+chebi:176629	kegg.compound:C01413	isotopologue_rejected	
 chebi:176838	kegg.compound:C00255	remeasured_elsewhere	
 chebi:176840	kegg.compound:C00864	remeasured_elsewhere	
 chebi:177275	chebi:48526	chebi_primary_id	
