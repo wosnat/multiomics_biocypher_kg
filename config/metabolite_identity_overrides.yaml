@@ -1,0 +1,8 @@
+# Curated metabolite identity decisions (spec §3.1, §3.6a). Read by prepare-data step 6.
+# merge:         two node ids that ARE one metabolite but no curated source links them.
+#                Bypasses the KEGG↔KEGG guard; recorded as identity_basis [manual].
+# keep_separate: two node ids that must never merge, whatever the basis (MNX included).
+# Each entry: {a: <node id>, b: <node id>, reason: "<one line>"}. Neither kind adds a node.
+# Candidates to review: metabolite_identity_report.json → heuristic_name_candidates.
+merge: []
+keep_separate: []
