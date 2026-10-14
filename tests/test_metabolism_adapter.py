@@ -306,3 +306,58 @@ def test_get_edges_yields_all_four_types(tmp_path, kegg_data_file, monkeypatch):
         "reaction_in_kegg_pathway",
         "metabolite_in_pathway",
     }
+
+
+def _kd_identity(tmp_path):
+    kd = {"reactions": {}, "kos": {}, "pathways": {}, "subcategories": {}, "categories": {},
+          "compounds": {
+              "C00041": {"name": "L-Alanine", "formula": "C3H7NO2", "elements": ["C", "H", "N", "O"],
+                         "kegg_compound_ids": ["C00041"], "chebi_id": "16977", "chebi_ids": ["16977"],
+                         "all_identifiers": ["chebi:16977", "kegg.compound:C00041"], "structure_kind": "defined",
+                         "evidence_sources": ["metabolism", "metabolomics"],
+                         "stereo_form_of": ["kegg.compound:C01401"], "enantiomer_of": ["kegg.compound:C00133"]},
+              "C00133": {"name": "D-Alanine", "structure_kind": "defined", "evidence_sources": ["metabolism"],
+                         "all_identifiers": ["kegg.compound:C00133"], "stereo_form_of": ["kegg.compound:C01401"]},
+              "C01401": {"name": "Alanine", "structure_kind": "defined", "evidence_sources": ["metabolism"],
+                         "all_identifiers": ["kegg.compound:C01401"]},
+              "C00078": {"name": "L-Tryptophan", "structure_kind": "defined", "evidence_sources": ["metabolomics"],
+                         "all_identifiers": ["kegg.compound:C00078"], "recurated_from_ids": ["kegg.compound:C00525"]}},
+          "additional_compounds": {
+              "chebi:17522": {"name": "alditol", "formula": "C2H6O2(CH2O)n", "elements": ["C", "H", "O"],
+                              "structure_kind": "polymer", "chebi_id": "17522", "chebi_ids": ["17522"],
+                              "all_identifiers": ["chebi:17522"], "evidence_sources": ["transport"]}}}
+    p = tmp_path / "kegg_data.json"
+    p.write_text(json.dumps(kd))
+    return p
+
+
+def test_identity_fields_copied(tmp_path):
+    from multiomics_kg.adapters.metabolism_adapter import MetabolismAdapter
+    a = MetabolismAdapter(kegg_data_path=_kd_identity(tmp_path))
+    nodes = {n[0]: n[2] for n in a.get_nodes() if n[1] == "metabolite"}
+    ala = nodes["kegg.compound:C00041"]
+    assert ala["all_identifiers"] == ["chebi:16977", "kegg.compound:C00041"]
+    assert ala["structure_kind"] == "defined" and ala["chebi_ids"] == ["16977"]
+    assert nodes["kegg.compound:C00078"]["recurated_from_ids"] == ["kegg.compound:C00525"]
+    assert nodes["chebi:17522"]["elements"] == ["C", "H", "O"] and "mass" not in nodes["chebi:17522"]
+    assert "stereo_form_of" not in ala and "enantiomer_of" not in ala
+
+
+def test_stereo_and_enantiomer_edges(tmp_path):
+    from multiomics_kg.adapters.metabolism_adapter import MetabolismAdapter
+    a = MetabolismAdapter(kegg_data_path=_kd_identity(tmp_path))
+    list(a.get_nodes())
+    edges = {e[0]: e for e in a.get_edges()}
+    s = edges["m2s:kegg.compound:C00041:kegg.compound:C01401"]
+    assert s[3] == "metabolite_is_stereo_form_of" and s[4] == {"sources": ["chebi"], "evidence": "curated"}
+    e = edges["m2e:kegg.compound:C00041:kegg.compound:C00133"]
+    assert e[3] == "metabolite_is_enantiomer_of" and e[1] < e[2]
+    assert not any(k.startswith("m2e:kegg.compound:C00133") for k in edges)
+
+
+def test_stereo_edge_guard_skips_unemitted_targets(tmp_path):
+    from multiomics_kg.adapters.metabolism_adapter import MetabolismAdapter
+    a = MetabolismAdapter(kegg_data_path=_kd_identity(tmp_path))
+    list(a.get_nodes())
+    a._emitted_metabolite_ids.discard("kegg.compound:C01401")
+    assert not any(e[2] == "kegg.compound:C01401" for e in a.get_edges() if e[3] == "metabolite_is_stereo_form_of")
