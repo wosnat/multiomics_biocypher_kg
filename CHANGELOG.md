@@ -83,6 +83,7 @@ Figures are measured in the step-6 caches; the post-rebuild doc `docs/kg-changes
 ### Changed
 
 - **prepare_data step 7 folded into step 6** (`resolve_paper_metabolites.py` is a no-op alias; step 6 writes the `_resolved.csv` files). Default `STEPS` is now `0 9 1 2 3 4 5 6 8 10`.
+
 ### Fixed
 
 - **3,837 Cyanorak-only genes had no `contig`/`start`/`end`/`strand` and no `sequence`.**

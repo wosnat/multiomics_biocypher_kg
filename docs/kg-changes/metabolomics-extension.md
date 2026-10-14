@@ -52,7 +52,7 @@ Assay edges carry `stereo_assignment ∈ {as_reported, dominant_form_assumed}`; 
 
 ### Vocabulary
 
-- Compartment vocab adds `extracellular` (was already in `METABOLITE_COMPARTMENT_VOCAB` for the metabolite_assays_table validator; now also in the central `COMPARTMENTS` frozenset used by Experiment validation, fixing a hole). Full set: `whole_cell, vesicle, exoproteome, extracellular, spent_medium, lysate`.
+- Compartment vocab adds `extracellular` (was already in `METABOLITE_COMPARTMENT_VOCAB` for the metabolite_assays_table validator; now also in the central `COMPARTMENTS` frozenset used by Experiment validation, fixing a hole). Full set: `whole_cell, vesicle, exoproteome, extracellular` (`spent_medium` / `lysate` pruned 2026-08-29).
 - `MIT0801` (Prochlorococcus, LLI ecotype) added to validator's `CANONICAL_GENOMIC_ORGANISMS` (was deployed in commit `9e6e183` but never registered with the validator).
 
 ## Validation results
