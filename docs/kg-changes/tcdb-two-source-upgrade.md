@@ -169,6 +169,14 @@ directly:
 MATCH (t:TcdbFamily) WHERE t.level >= 2 AND t.metabolite_count >= 50 RETURN t
 ```
 
+> **Update 2026-10-14 (metabolite identity + classes).** The query above **no longer reproduces the
+> lumping set**: role-typed substrates left `metabolite_count` (they moved to
+> `Tcdb_family_transports_chemical_role`), so the threshold drifts. The 13 lumping nodes are now a
+> **pinned id set**, published as **`TcdbFamily.substrate_breadth`** (`lumping` | `specific` |
+> `not_assessed`). **Filter on `substrate_breadth`; do not re-derive it.** It is the one sanctioned R3
+> exception and sunsets with the deferred TCDB spec (threshold re-tune; see `plans/backlog.md`).
+> `Tcdb_family_transports_metabolite` is 10,790 edges (was 11,263).
+
 The rest of this section is kept as historical record of the level-gating rationale
 (the threshold itself is unchanged by the deletion) — **the property name in the code
 blocks below no longer exists on the graph.**

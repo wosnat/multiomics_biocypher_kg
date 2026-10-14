@@ -279,7 +279,7 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       Publication `organisms` rollup then covers both. → friction log 2026-10-06
       "`coculture_partner` filter misses…"; `docs/kg-changes/experiment-stats.md`
 
-- [ ] **Metabolite equivalence across namespaces and stereo/charge variants.**
+- [x] **Metabolite equivalence across namespaces and stereo/charge variants.** CLOSED 2026-10-14 — canonical identity + stereo/enantiomer edges; see `docs/superpowers/plans/2026-10-14-metabolite-identity-and-classes.md` and `docs/kg-changes/metabolite-identity-and-classes.md`. Original note:
       The transport arm is ChEBI-keyed and the metabolism arm KEGG-keyed, and
       they do not always meet on one node, so any transport ↔ catalysis join
       silently misses. Measured over the 3,356 metabolite entries in
@@ -335,7 +335,7 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       2026-10-11 "Anchor RNA contrasts are algebraically linked", 2026-10-11
       researcher update under "The Plan phase missed three…"; `omics_adapter.py`
 
-- [ ] **Chemical categories for `Metabolite` (ChEBI is_a / has_role).** The KG
+- [x] **Chemical categories for `Metabolite` (ChEBI is_a / has_role).** CLOSED 2026-10-14 — delivered as `MetaboliteClass` (KEGG BRITE compound trees) + `ChemicalRole` for TCDB role substrates; see `docs/superpowers/plans/2026-10-14-metabolite-identity-and-classes.md`. ChEBI `has_role` on `Metabolite` stays deferred (item below). Original note: The KG
       has no compound-class layer; KEGG pathway membership and the carrying TCDB
       family were tried as proxies and ~half the sampled assignments were wrong
       (thyroxine → "amino acids", GDP-mannose → "xenobiotic"). 3,042 of 3,356
@@ -348,6 +348,8 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       ChEBI twin. Explicitly flagged "revisit the analysis when it lands".
       → friction log 2026-10-08 "KG has no chemical categories" (OPEN);
       `docs/kg-changes/metabolomics-extension.md` (LipidMaps note)
+
+- [ ] **Deferred TCDB spec (follow-up to metabolite identity + classes).** Bundle: (a) per-gene substrate plausibility (`catalysis_support`, now feasible on canonical identity) — see item below; (b) re-examine `substrate_depth` semantics after the identity merge; (c) per-organism most-specific transport reach (item above); (d) TCDB name hygiene (bare-id subfamily names, role-typed entries); (e) re-tune the lumping threshold and **retire the R3 exception** (`TcdbFamily.substrate_breadth` is a stored value restating a pinned threshold; sunsets with this spec). → `docs/kg-changes/vocabulary-contract.md`, `docs/kg-changes/tcdb-two-source-upgrade.md` §4
 
 - [ ] **TCDB substrate plausibility per gene.** Even at
       `substrate_depth = most_specific` a gene inherits every substrate its TCDB

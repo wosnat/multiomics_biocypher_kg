@@ -43,8 +43,12 @@ Scalar: `metabolite_assay_organism_idx`, `metabolite_assay_compartment_idx`, `me
 - New entry type `metabolite_assays_table` (mirrors `derived_metrics_table`). See [.claude/skills/paperconfig/SKILL.md](../../.claude/skills/paperconfig/SKILL.md).
 - Per-paper `metabolite_aliases.yaml` for free-text-name → primary-ID overrides (winning over MNX hits).
 - Step 6 ([build_kegg_metabolism_xrefs.py](../../multiomics_kg/download/build_kegg_metabolism_xrefs.py)) extended to harvest paper metabolites: extends `kegg_data.json` (with `evidence_sources` including `"metabolomics"`) and writes a new `cache/data/metabolomics/metabolite_id_mapping.json`.
-- New step 7 ([resolve_paper_metabolites.py](../../multiomics_kg/download/resolve_paper_metabolites.py)): pure CSV rewriter — writes `<stem>_resolved.csv` for each `metabolite_assays_table` source with `metabolite_id` + `resolution_method` columns. Mirrors gene-side step 4. Does not load the MNX resolver.
+- **(2026-10-14: step 7 retired, folded into step 6** — `resolve_paper_metabolites.py` is a no-op alias; step 6 writes the `_resolved.csv` files itself, plus a `_resolution_report.json`, because identity resolution needs the ChEBI/MNX state step 6 holds.) Former step 7 ([resolve_paper_metabolites.py](../../multiomics_kg/download/resolve_paper_metabolites.py)): pure CSV rewriter — writes `<stem>_resolved.csv` for each `metabolite_assays_table` source with `metabolite_id` + `resolution_method` columns. Mirrors gene-side step 4. Does not load the MNX resolver.
 - Step 6 perf split: `--force` rebuilds outputs from cached raw inputs (~1 min, no network); `--refetch-raw` also re-pulls raw KEGG REST + TCDB TSVs (use only on upstream releases). Frees the alias-iteration loop from network round-trips.
+
+### Stereo assignment (2026-10-14)
+
+Assay edges carry `stereo_assignment ∈ {as_reported, dominant_form_assumed}`; per-paper `metabolite_aliases.yaml` entries are `{id, stereo_assignment, reason}` and the lock `cache/data/metabolomics/dominant_stereo_forms.json` (hand-edit only) assigns the dominant form to stereo-unspecified names. See `docs/kg-changes/metabolite-identity-and-classes.md`.
 
 ### Vocabulary
 
