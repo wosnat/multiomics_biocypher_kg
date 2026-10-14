@@ -5574,34 +5574,6 @@
       "name": "pentapeptide",
       "structure_kind": "generic"
     },
-    "chebi:48863": {
-      "all_identifiers": [
-        "chebi:26098",
-        "chebi:41769",
-        "chebi:48863",
-        "inchikey:XAVVMXGLKJSJDU-LMTOHHGKSA-N",
-        "mnx:MNXM1371521"
-      ],
-      "chebi_id": "48863",
-      "chebi_ids": [
-        "48863"
-      ],
-      "elements": [
-        "C",
-        "H",
-        "N",
-        "O"
-      ],
-      "evidence_sources": [
-        "metabolomics"
-      ],
-      "formula": "C33H38N4O6",
-      "inchikey": "XAVVMXGLKJSJDU-LMTOHHGKSA-N",
-      "mass": 586.689,
-      "mnxm_id": "MNXM1371521",
-      "name": "phycocyanobilin",
-      "structure_kind": "defined"
-    },
     "chebi:48958": {
       "all_identifiers": [
         "chebi:48958",
@@ -11035,8 +11007,15 @@
     },
     "C00028": {
       "all_identifiers": [
+        "chebi:13699",
+        "chebi:15339",
+        "chebi:2377",
         "kegg.compound:C00028",
         "mnx:MNXM8975"
+      ],
+      "chebi_id": "15339",
+      "chebi_ids": [
+        "15339"
       ],
       "evidence_sources": [
         "metabolism"
@@ -11047,7 +11026,7 @@
       ],
       "mnxm_id": "MNXM8975",
       "name": "Acceptor",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00029": {
       "all_identifiers": [
@@ -11125,19 +11104,31 @@
     },
     "C00030": {
       "all_identifiers": [
+        "chebi:13233",
+        "chebi:15018",
+        "chebi:17499",
+        "chebi:8785",
         "kegg.compound:C00030",
         "mnx:MNXM1102419"
+      ],
+      "chebi_id": "17499",
+      "chebi_ids": [
+        "17499"
+      ],
+      "elements": [
+        "H"
       ],
       "evidence_sources": [
         "metabolism"
       ],
+      "formula": "H2A",
       "kegg_compound_id": "C00030",
       "kegg_compound_ids": [
         "C00030"
       ],
       "mnxm_id": "MNXM1102419",
       "name": "Reduced acceptor",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00031": {
       "all_identifiers": [
@@ -11212,10 +11203,8 @@
     },
     "C00032": {
       "all_identifiers": [
-        "chebi:14386",
         "chebi:14957",
         "chebi:17627",
-        "chebi:24491",
         "chebi:26355",
         "chebi:30413",
         "chebi:5651",
@@ -11229,7 +11218,6 @@
       "chebi_ids": [
         "17627",
         "26355",
-        "30413",
         "60344"
       ],
       "elements": [
@@ -11584,8 +11572,17 @@
     },
     "C00039": {
       "all_identifiers": [
+        "chebi:13302",
+        "chebi:16991",
+        "chebi:21123",
+        "chebi:33698",
+        "chebi:4291",
         "kegg.compound:C00039",
         "mnx:MNXM634"
+      ],
+      "chebi_id": "16991",
+      "chebi_ids": [
+        "16991"
       ],
       "elements": [
         "C",
@@ -11949,15 +11946,13 @@
         "chebi:2642",
         "chebi:33704",
         "chebi:78608",
-        "chebi:83409",
         "kegg.compound:C00045",
         "mnx:MNXM735844",
         "mnx:MNXM735845"
       ],
       "chebi_id": "33704",
       "chebi_ids": [
-        "33704",
-        "78608"
+        "33704"
       ],
       "elements": [
         "C",
@@ -11988,8 +11983,15 @@
     },
     "C00046": {
       "all_identifiers": [
+        "chebi:11126",
+        "chebi:18273",
+        "chebi:8755",
         "kegg.compound:C00046",
         "mnx:MNXM90337"
+      ],
+      "chebi_id": "18273",
+      "chebi_ids": [
+        "18273"
       ],
       "elements": [
         "C",
@@ -12615,10 +12617,7 @@
     },
     "C00060": {
       "all_identifiers": [
-        "chebi:13657",
-        "chebi:25382",
         "chebi:25384",
-        "chebi:3407",
         "chebi:35757",
         "kegg.compound:C00060",
         "mnx:MNXM739615",
@@ -12626,8 +12625,7 @@
       ],
       "chebi_id": "25384",
       "chebi_ids": [
-        "25384",
-        "35757"
+        "25384"
       ],
       "elements": [
         "C",
@@ -13004,8 +13002,18 @@
     },
     "C00066": {
       "all_identifiers": [
+        "chebi:10652",
+        "chebi:15145",
+        "chebi:15163",
+        "chebi:15164",
+        "chebi:15165",
+        "chebi:17843",
         "kegg.compound:C00066",
         "mnx:MNXM91319"
+      ],
+      "chebi_id": "17843",
+      "chebi_ids": [
+        "17843"
       ],
       "elements": [
         "C",
@@ -13128,8 +13136,16 @@
     },
     "C00069": {
       "all_identifiers": [
+        "chebi:13804",
+        "chebi:22288",
+        "chebi:2553",
+        "chebi:30879",
         "kegg.compound:C00069",
         "mnx:MNXM730842"
+      ],
+      "chebi_id": "30879",
+      "chebi_ids": [
+        "30879"
       ],
       "elements": [
         "H",
@@ -13193,8 +13209,21 @@
     },
     "C00071": {
       "all_identifiers": [
+        "chebi:13432",
+        "chebi:13753",
+        "chebi:13805",
+        "chebi:13806",
+        "chebi:17478",
+        "chebi:17496",
+        "chebi:22291",
+        "chebi:2554",
+        "chebi:8750",
         "kegg.compound:C00071",
         "mnx:MNXM277"
+      ],
+      "chebi_id": "17478",
+      "chebi_ids": [
+        "17478"
       ],
       "elements": [
         "C",
@@ -16287,8 +16316,17 @@
     },
     "C00126": {
       "all_identifiers": [
+        "chebi:14253",
+        "chebi:14256",
+        "chebi:16928",
+        "chebi:5038",
+        "chebi:8789",
         "kegg.compound:C00126",
         "mnx:MNXM731957"
+      ],
+      "chebi_id": "16928",
+      "chebi_ids": [
+        "16928"
       ],
       "elements": [
         "C",
@@ -16917,8 +16955,15 @@
     },
     "C00138": {
       "all_identifiers": [
+        "chebi:15024",
+        "chebi:17513",
+        "chebi:8792",
         "kegg.compound:C00138",
         "mnx:MNXM169"
+      ],
+      "chebi_id": "17513",
+      "chebi_ids": [
+        "17513"
       ],
       "elements": [
         "Fe",
@@ -16938,8 +16983,15 @@
     },
     "C00139": {
       "all_identifiers": [
+        "chebi:14717",
+        "chebi:17908",
+        "chebi:7836",
         "kegg.compound:C00139",
         "mnx:MNXM178"
+      ],
+      "chebi_id": "17908",
+      "chebi_ids": [
+        "17908"
       ],
       "elements": [
         "Fe",
@@ -17411,8 +17463,18 @@
     },
     "C00151": {
       "all_identifiers": [
+        "chebi:13072",
+        "chebi:13243",
+        "chebi:13797",
+        "chebi:15705",
+        "chebi:21224",
+        "chebi:6175",
         "kegg.compound:C00151",
         "mnx:MNXM381"
+      ],
+      "chebi_id": "15705",
+      "chebi_ids": [
+        "15705"
       ],
       "elements": [
         "C",
@@ -18513,8 +18575,15 @@
     },
     "C00173": {
       "all_identifiers": [
+        "chebi:13728",
+        "chebi:16018",
+        "chebi:2457",
         "kegg.compound:C00173",
         "mnx:MNXM729094"
+      ],
+      "chebi_id": "16018",
+      "chebi_ids": [
+        "16018"
       ],
       "elements": [
         "C",
@@ -19728,8 +19797,19 @@
     },
     "C00201": {
       "all_identifiers": [
+        "chebi:13411",
+        "chebi:14677",
+        "chebi:17035",
+        "chebi:17326",
+        "chebi:25610",
+        "chebi:7442",
+        "chebi:7655",
         "kegg.compound:C00201",
         "mnx:MNXM729016"
+      ],
+      "chebi_id": "17326",
+      "chebi_ids": [
+        "17326"
       ],
       "elements": [
         "C",
@@ -19991,8 +20071,13 @@
     },
     "C00211": {
       "all_identifiers": [
+        "chebi:3815",
         "kegg.compound:C00211",
         "mnx:MNXM738903"
+      ],
+      "chebi_id": "3815",
+      "chebi_ids": [
+        "3815"
       ],
       "elements": [
         "C",
@@ -20205,7 +20290,7 @@
       ],
       "mnxm_id": "MNXM735416",
       "name": "Nucleotide",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00217": {
       "all_identifiers": [
@@ -20612,8 +20697,18 @@
     },
     "C00226": {
       "all_identifiers": [
+        "chebi:13676",
+        "chebi:14887",
+        "chebi:15734",
+        "chebi:26262",
+        "chebi:57489",
+        "chebi:8406",
         "kegg.compound:C00226",
         "mnx:MNXM730356"
+      ],
+      "chebi_id": "15734",
+      "chebi_ids": [
+        "15734"
       ],
       "elements": [
         "C",
@@ -20686,8 +20781,15 @@
     },
     "C00229": {
       "all_identifiers": [
+        "chebi:14405",
+        "chebi:18359",
+        "chebi:2458",
         "kegg.compound:C00229",
         "mnx:MNXM740694"
+      ],
+      "chebi_id": "18359",
+      "chebi_ids": [
+        "18359"
       ],
       "elements": [
         "H",
@@ -21270,8 +21372,15 @@
     },
     "C00240": {
       "all_identifiers": [
+        "chebi:10636",
+        "chebi:15010",
+        "chebi:18111",
         "kegg.compound:C00240",
         "mnx:MNXM95734"
+      ],
+      "chebi_id": "18111",
+      "chebi_ids": [
+        "18111"
       ],
       "elements": [
         "C",
@@ -21293,8 +21402,15 @@
     },
     "C00241": {
       "all_identifiers": [
+        "chebi:22473",
+        "chebi:2633",
+        "chebi:32988",
         "kegg.compound:C00241",
         "mnx:MNXM94421"
+      ],
+      "chebi_id": "32988",
+      "chebi_ids": [
+        "32988"
       ],
       "elements": [
         "C",
@@ -22360,8 +22476,17 @@
     },
     "C00264": {
       "all_identifiers": [
+        "chebi:11868",
+        "chebi:13606",
+        "chebi:15489",
+        "chebi:1629",
+        "chebi:20161",
         "kegg.compound:C00264",
         "mnx:MNXM728005"
+      ],
+      "chebi_id": "15489",
+      "chebi_ids": [
+        "15489"
       ],
       "elements": [
         "C",
@@ -22529,8 +22654,17 @@
     },
     "C00269": {
       "all_identifiers": [
+        "chebi:13256",
+        "chebi:13269",
+        "chebi:17962",
+        "chebi:20868",
+        "chebi:3269",
         "kegg.compound:C00269",
         "mnx:MNXM1104246"
+      ],
+      "chebi_id": "17962",
+      "chebi_ids": [
+        "17962"
       ],
       "elements": [
         "C",
@@ -24171,9 +24305,16 @@
     },
     "C00326": {
       "all_identifiers": [
-        "inchikey:LUNCCTMWZWBSKQ-QHFAZAOBSA-N",
+        "chebi:14349",
+        "chebi:17089",
+        "chebi:5481",
+        "chebi:5493",
         "kegg.compound:C00326",
         "mnx:MNXM39799"
+      ],
+      "chebi_id": "17089",
+      "chebi_ids": [
+        "17089"
       ],
       "elements": [
         "C",
@@ -24184,17 +24325,13 @@
       "evidence_sources": [
         "transport"
       ],
-      "formula": "C28H47N5O18",
-      "inchikey": "LUNCCTMWZWBSKQ-QHFAZAOBSA-N",
       "kegg_compound_id": "C00326",
       "kegg_compound_ids": [
         "C00326"
       ],
-      "mass": 741.701,
       "mnxm_id": "MNXM39799",
       "name": "Glycoprotein",
-      "smiles": "CC(O)=N[C@H]1[C@H](O[C@H]2[C@H](O)[C@@H](N=C(C)O)C(N=C(O)C[C@H](N=C(C)O)C(=N)O)O[C@@H]2CO)O[C@H](CO)[C@@H](O[C@@H]2O[C@H](CO)[C@@H](O)[C@H](O)[C@@H]2O)[C@@H]1O",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00327": {
       "all_identifiers": [
@@ -24719,12 +24856,20 @@
         "ko05332",
         "ko05417"
       ],
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00339": {
       "all_identifiers": [
+        "chebi:14527",
+        "chebi:17135",
+        "chebi:6524",
+        "chebi:73312",
         "kegg.compound:C00339",
         "mnx:MNXM731261"
+      ],
+      "chebi_id": "17135",
+      "chebi_ids": [
+        "17135"
       ],
       "elements": [
         "C",
@@ -24819,8 +24964,13 @@
     },
     "C00342": {
       "all_identifiers": [
+        "chebi:15033",
         "kegg.compound:C00342",
         "mnx:MNXM741334"
+      ],
+      "chebi_id": "15033",
+      "chebi_ids": [
+        "15033"
       ],
       "elements": [
         "C",
@@ -24843,8 +24993,16 @@
     },
     "C00343": {
       "all_identifiers": [
+        "chebi:14726",
+        "chebi:15240",
+        "chebi:18191",
+        "chebi:7845",
         "kegg.compound:C00343",
         "mnx:MNXM729077"
+      ],
+      "chebi_id": "18191",
+      "chebi_ids": [
+        "18191"
       ],
       "elements": [
         "C",
@@ -24867,14 +25025,19 @@
     },
     "C00344": {
       "all_identifiers": [
+        "chebi:14804",
+        "chebi:17517",
+        "chebi:26032",
+        "chebi:26033",
         "chebi:60523",
+        "chebi:8130",
         "kegg.compound:C00344",
         "mnx:MNXM1107654",
         "mnx:MNXM1107660"
       ],
-      "chebi_id": "60523",
+      "chebi_id": "17517",
       "chebi_ids": [
-        "60523"
+        "17517"
       ],
       "elements": [
         "C",
@@ -25787,7 +25950,6 @@
         "chebi:26771",
         "chebi:9266",
         "hmdb:HMDB0060512",
-        "inchikey:FPXSXMFOYWRHDX-HZGJFSSPSA-N",
         "kegg.compound:C00370",
         "mnx:MNXM729150"
       ],
@@ -25803,21 +25965,18 @@
       "evidence_sources": [
         "transport"
       ],
-      "formula": "C17H28O",
+      "formula": "C19H31OR",
       "hmdb_id": "HMDB0060512",
       "identity_basis": [
         "chebi_kegg_xref"
       ],
-      "inchikey": "FPXSXMFOYWRHDX-HZGJFSSPSA-N",
       "kegg_compound_id": "C00370",
       "kegg_compound_ids": [
         "C00370"
       ],
-      "mass": 248.41,
       "mnxm_id": "MNXM729150",
       "name": "Sterol",
-      "smiles": "O[C@H]1CCC2C(CCC3C4CCCC4CCC23)C1",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00371": {
       "all_identifiers": [
@@ -25920,9 +26079,14 @@
       "chebi_ids": [
         "35341"
       ],
+      "elements": [
+        "C",
+        "H"
+      ],
       "evidence_sources": [
         "transport"
       ],
+      "formula": "C19H31R",
       "identity_basis": [
         "chebi_kegg_xref"
       ],
@@ -25932,7 +26096,7 @@
       ],
       "mnxm_id": "MNXM739431",
       "name": "Steroid",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00378": {
       "all_identifiers": [
@@ -26442,8 +26606,16 @@
     },
     "C00395": {
       "all_identifiers": [
+        "chebi:14742",
+        "chebi:17334",
+        "chebi:25869",
+        "chebi:7961",
         "kegg.compound:C00395",
         "mnx:MNXM96383"
+      ],
+      "chebi_id": "17334",
+      "chebi_ids": [
+        "17334"
       ],
       "elements": [
         "C",
@@ -26695,8 +26867,17 @@
     },
     "C00405": {
       "all_identifiers": [
+        "chebi:12909",
+        "chebi:13625",
+        "chebi:16733",
+        "chebi:20906",
+        "chebi:4097",
         "kegg.compound:C00405",
         "mnx:MNXM774"
+      ],
+      "chebi_id": "16733",
+      "chebi_ids": [
+        "16733"
       ],
       "elements": [
         "C",
@@ -27488,9 +27669,6 @@
         "ko01220"
       ],
       "smiles": "O=C([O-])/C=C/C1=CC=CC=C1",
-      "stereo_form_of": [
-        "chebi:23248"
-      ],
       "structure_kind": "defined"
     },
     "C00424": {
@@ -28383,8 +28561,20 @@
     },
     "C00454": {
       "all_identifiers": [
+        "chebi:13401",
+        "chebi:13662",
+        "chebi:14675",
+        "chebi:16862",
+        "chebi:18181",
+        "chebi:25606",
+        "chebi:7428",
+        "chebi:7652",
         "kegg.compound:C00454",
         "mnx:MNXM735702"
+      ],
+      "chebi_id": "16862",
+      "chebi_ids": [
+        "16862"
       ],
       "elements": [
         "C",
@@ -28748,7 +28938,7 @@
         "ko01100",
         "ko04613"
       ],
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00466": {
       "all_identifiers": [
@@ -29996,8 +30186,17 @@
     },
     "C00505": {
       "all_identifiers": [
+        "chebi:14293",
+        "chebi:17833",
+        "chebi:24206",
+        "chebi:24212",
+        "chebi:5306",
         "kegg.compound:C00505",
         "mnx:MNXM7374"
+      ],
+      "chebi_id": "17833",
+      "chebi_ids": [
+        "17833"
       ],
       "evidence_sources": [
         "transport"
@@ -30008,7 +30207,7 @@
       ],
       "mnxm_id": "MNXM7374",
       "name": "Gentamicin",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00506": {
       "all_identifiers": [
@@ -30483,20 +30682,14 @@
     "C00518": {
       "all_identifiers": [
         "chebi:132153",
-        "chebi:14412",
         "chebi:16336",
-        "chebi:24622",
-        "chebi:24623",
-        "chebi:30942",
-        "chebi:5772",
         "kegg.compound:C00518",
         "mnx:MNXM731995",
         "mnx:MNXM738287"
       ],
       "chebi_id": "132153",
       "chebi_ids": [
-        "132153",
-        "16336"
+        "132153"
       ],
       "elements": [
         "C",
@@ -31490,20 +31683,16 @@
     },
     "C00550": {
       "all_identifiers": [
-        "chebi:15101",
         "chebi:17636",
         "chebi:184744",
         "chebi:185051",
         "chebi:190464",
-        "chebi:26740",
-        "chebi:9223",
         "kegg.compound:C00550",
         "mnx:MNXM1107929"
       ],
       "chebi_id": "190464",
       "chebi_ids": [
         "190464",
-        "17636",
         "184744",
         "185051"
       ],
@@ -31538,9 +31727,15 @@
     },
     "C00551": {
       "all_identifiers": [
-        "inchikey:FYGDTMLNYKFZSV-URKRLVJHSA-N",
+        "chebi:10394",
+        "chebi:22793",
+        "chebi:28793",
         "kegg.compound:C00551",
         "mnx:MNXM10798"
+      ],
+      "chebi_id": "28793",
+      "chebi_ids": [
+        "28793"
       ],
       "elements": [
         "C",
@@ -31550,20 +31745,17 @@
       "evidence_sources": [
         "transport"
       ],
-      "formula": "C18H32O16",
-      "inchikey": "FYGDTMLNYKFZSV-URKRLVJHSA-N",
+      "formula": "C12H22O11(C6H10O5)n",
       "kegg_compound_id": "C00551",
       "kegg_compound_ids": [
         "C00551"
       ],
-      "mass": 504.438,
       "mnxm_id": "MNXM10798",
       "name": "beta-D-Glucan",
       "pathways": [
         "ko04613"
       ],
-      "smiles": "OC[C@H]1O[C@@H](OC2[C@@H](CO)O[C@H](O)[C@H](O)[C@H]2O)[C@H](O)[C@@H](O)C1O[C@@H]1O[C@H](CO)[C@@H](O)[C@H](O)[C@H]1O",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00552": {
       "all_identifiers": [
@@ -32811,8 +33003,17 @@
     },
     "C00609": {
       "all_identifiers": [
+        "chebi:13651",
+        "chebi:14528",
+        "chebi:17176",
+        "chebi:25074",
+        "chebi:6525",
         "kegg.compound:C00609",
         "mnx:MNXM726972"
+      ],
+      "chebi_id": "17176",
+      "chebi_ids": [
+        "17176"
       ],
       "elements": [
         "C",
@@ -33547,8 +33748,16 @@
     },
     "C00641": {
       "all_identifiers": [
+        "chebi:11150",
+        "chebi:13582",
+        "chebi:17815",
+        "chebi:495",
         "kegg.compound:C00641",
         "mnx:MNXM738570"
+      ],
+      "chebi_id": "17815",
+      "chebi_ids": [
+        "17815"
       ],
       "elements": [
         "C",
@@ -33881,8 +34090,15 @@
     },
     "C00662": {
       "all_identifiers": [
+        "chebi:15019",
+        "chebi:16906",
+        "chebi:8786",
         "kegg.compound:C00662",
         "mnx:MNXM804"
+      ],
+      "chebi_id": "16906",
+      "chebi_ids": [
+        "16906"
       ],
       "elements": [
         "Fe",
@@ -34328,8 +34544,21 @@
     },
     "C00676": {
       "all_identifiers": [
+        "chebi:11395",
+        "chebi:13587",
+        "chebi:14120",
+        "chebi:17951",
+        "chebi:18241",
+        "chebi:19253",
+        "chebi:23637",
+        "chebi:4423",
+        "chebi:4425",
         "kegg.compound:C00676",
         "mnx:MNXM6057"
+      ],
+      "chebi_id": "18241",
+      "chebi_ids": [
+        "18241"
       ],
       "elements": [
         "C",
@@ -34908,9 +35137,6 @@
         "ko04976"
       ],
       "smiles": "C[C@H](CCC(=O)[O-])[C@H]1CC[C@H]2[C@@H]3[C@H](O)C[C@@H]4C[C@H](O)CC[C@]4(C)[C@H]3C[C@H](O)[C@]12C",
-      "stereo_form_of": [
-        "kegg.compound:C01558"
-      ],
       "structure_kind": "defined"
     },
     "C00696": {
@@ -35055,8 +35281,16 @@
     },
     "C00701": {
       "all_identifiers": [
+        "chebi:13873",
+        "chebi:18282",
+        "chebi:25598",
+        "chebi:2995",
         "kegg.compound:C00701",
         "mnx:MNXM65016"
+      ],
+      "chebi_id": "18282",
+      "chebi_ids": [
+        "18282"
       ],
       "evidence_sources": [
         "transport"
@@ -35067,7 +35301,7 @@
       ],
       "mnxm_id": "MNXM65016",
       "name": "Base",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00703": {
       "all_identifiers": [
@@ -35396,8 +35630,16 @@
     },
     "C00714": {
       "all_identifiers": [
+        "chebi:14741",
+        "chebi:17309",
+        "chebi:26180",
+        "chebi:7946",
         "kegg.compound:C00714",
         "mnx:MNXM90646"
+      ],
+      "chebi_id": "17309",
+      "chebi_ids": [
+        "17309"
       ],
       "elements": [
         "C",
@@ -35590,8 +35832,16 @@
     },
     "C00721": {
       "all_identifiers": [
+        "chebi:23651",
+        "chebi:23652",
+        "chebi:28675",
+        "chebi:4468",
         "kegg.compound:C00721",
         "mnx:MNXM725903"
+      ],
+      "chebi_id": "28675",
+      "chebi_ids": [
+        "28675"
       ],
       "elements": [
         "C",
@@ -35617,8 +35867,19 @@
     },
     "C00726": {
       "all_identifiers": [
+        "chebi:13212",
+        "chebi:13426",
+        "chebi:13660",
+        "chebi:18379",
+        "chebi:25547",
+        "chebi:29349",
+        "chebi:7584",
         "kegg.compound:C00726",
         "mnx:MNXM728772"
+      ],
+      "chebi_id": "18379",
+      "chebi_ids": [
+        "18379"
       ],
       "elements": [
         "C",
@@ -35766,12 +36027,9 @@
     },
     "C00738": {
       "all_identifiers": [
-        "chebi:14399",
         "chebi:167473",
         "chebi:18133",
-        "chebi:24590",
         "chebi:4194",
-        "chebi:5709",
         "hmdb:HMDB0250761",
         "inchikey:WQZGKKKJIJFFOK-UHFFFAOYSA-N",
         "kegg.compound:C00738",
@@ -35780,7 +36038,6 @@
       "chebi_id": "4194",
       "chebi_ids": [
         "4194",
-        "18133",
         "167473"
       ],
       "elements": [
@@ -36538,8 +36795,15 @@
     },
     "C00787": {
       "all_identifiers": [
+        "chebi:10692",
+        "chebi:15189",
+        "chebi:29182",
         "kegg.compound:C00787",
         "mnx:MNXM90668"
+      ],
+      "chebi_id": "29182",
+      "chebi_ids": [
+        "29182"
       ],
       "elements": [
         "C",
@@ -37188,7 +37452,7 @@
       ],
       "mnxm_id": "MNXM737858",
       "name": "Xyloglucan",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00808": {
       "all_identifiers": [
@@ -38136,8 +38400,15 @@
     },
     "C00856": {
       "all_identifiers": [
+        "chebi:13311",
+        "chebi:17873",
+        "chebi:4301",
         "kegg.compound:C00856",
         "mnx:MNXM726892"
+      ],
+      "chebi_id": "17873",
+      "chebi_ids": [
+        "17873"
       ],
       "elements": [
         "C",
@@ -38402,8 +38673,15 @@
     },
     "C00868": {
       "all_identifiers": [
+        "chebi:10671",
+        "chebi:15162",
+        "chebi:17554",
         "kegg.compound:C00868",
         "mnx:MNXM96319"
+      ],
+      "chebi_id": "17554",
+      "chebi_ids": [
+        "17554"
       ],
       "elements": [
         "C",
@@ -38850,8 +39128,16 @@
     },
     "C00886": {
       "all_identifiers": [
+        "chebi:13070",
+        "chebi:13071",
+        "chebi:17732",
+        "chebi:6172",
         "kegg.compound:C00886",
         "mnx:MNXM741304"
+      ],
+      "chebi_id": "17732",
+      "chebi_ids": [
+        "17732"
       ],
       "elements": [
         "C",
@@ -39325,8 +39611,15 @@
     },
     "C00923": {
       "all_identifiers": [
+        "chebi:14235",
+        "chebi:15719",
+        "chebi:5021",
         "kegg.compound:C00923",
         "mnx:MNXM731978"
+      ],
+      "chebi_id": "15719",
+      "chebi_ids": [
+        "15719"
       ],
       "evidence_sources": [
         "metabolism"
@@ -39337,14 +39630,20 @@
       ],
       "mnxm_id": "MNXM731978",
       "name": "Ferricytochrome",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00924": {
       "all_identifiers": [
+        "chebi:14248",
+        "chebi:15983",
+        "chebi:5033",
         "hmdb:HMDB0012947",
-        "inchikey:LNEIIVOIUZFFJS-BYQKXEAKSA-L",
         "kegg.compound:C00924",
         "mnx:MNXM5750"
+      ],
+      "chebi_id": "15983",
+      "chebi_ids": [
+        "15983"
       ],
       "elements": [
         "C",
@@ -39356,18 +39655,14 @@
       "evidence_sources": [
         "metabolism"
       ],
-      "formula": "C33H32FeN4O4",
       "hmdb_id": "HMDB0012947",
-      "inchikey": "LNEIIVOIUZFFJS-BYQKXEAKSA-L",
       "kegg_compound_id": "C00924",
       "kegg_compound_ids": [
         "C00924"
       ],
-      "mass": 604.488,
       "mnxm_id": "MNXM5750",
       "name": "Ferrocytochrome",
-      "smiles": "C=CC1=C2C=C3C(C)=C(C)C4=[N+]3[Fe]35N6C(=C4)C(C)=C(CCC(=O)O)C6=CC4=[N+]3C(=CC(=C1C)N25)C(C)=C4CCC(=O)O",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00930": {
       "all_identifiers": [
@@ -39476,7 +39771,7 @@
       ],
       "mnxm_id": "MNXM92665",
       "name": "Sugar phosphate",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00935": {
       "all_identifiers": [
@@ -39971,8 +40266,14 @@
     },
     "C00963": {
       "all_identifiers": [
+        "chebi:10400",
+        "chebi:22798",
         "kegg.compound:C00963",
         "mnx:MNXM729756"
+      ],
+      "chebi_id": "22798",
+      "chebi_ids": [
+        "22798"
       ],
       "elements": [
         "C",
@@ -40500,8 +40801,16 @@
     },
     "C00996": {
       "all_identifiers": [
+        "chebi:14238",
+        "chebi:14243",
+        "chebi:18097",
+        "chebi:5025",
         "kegg.compound:C00996",
         "mnx:MNXM726598"
+      ],
+      "chebi_id": "18097",
+      "chebi_ids": [
+        "18097"
       ],
       "evidence_sources": [
         "metabolism"
@@ -40515,7 +40824,7 @@
       "pathways": [
         "ko00541"
       ],
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C00999": {
       "all_identifiers": [
@@ -42110,8 +42419,16 @@
     },
     "C01086": {
       "all_identifiers": [
+        "chebi:10982",
+        "chebi:15456",
+        "chebi:18559",
+        "chebi:195",
         "kegg.compound:C01086",
         "mnx:MNXM731621"
+      ],
+      "chebi_id": "15456",
+      "chebi_ids": [
+        "15456"
       ],
       "elements": [
         "C",
@@ -42782,8 +43099,16 @@
     },
     "C01117": {
       "all_identifiers": [
+        "chebi:14674",
+        "chebi:16701",
+        "chebi:25603",
+        "chebi:7650",
         "kegg.compound:C01117",
         "mnx:MNXM737910"
+      ],
+      "chebi_id": "16701",
+      "chebi_ids": [
+        "16701"
       ],
       "elements": [
         "C",
@@ -44104,8 +44429,16 @@
     },
     "C01190": {
       "all_identifiers": [
+        "chebi:12971",
+        "chebi:18368",
+        "chebi:24260",
+        "chebi:5422",
         "kegg.compound:C01190",
         "mnx:MNXM1371167"
+      ],
+      "chebi_id": "18368",
+      "chebi_ids": [
+        "18368"
       ],
       "elements": [
         "C",
@@ -44345,8 +44678,15 @@
     },
     "C01209": {
       "all_identifiers": [
+        "chebi:14566",
+        "chebi:17330",
+        "chebi:6662",
         "kegg.compound:C01209",
         "mnx:MNXM731937"
+      ],
+      "chebi_id": "17330",
+      "chebi_ids": [
+        "17330"
       ],
       "elements": [
         "C",
@@ -44971,8 +45311,18 @@
     },
     "C01241": {
       "all_identifiers": [
+        "chebi:14799",
+        "chebi:14800",
+        "chebi:15958",
+        "chebi:26027",
+        "chebi:73160",
+        "chebi:8126",
         "kegg.compound:C01241",
         "mnx:MNXM741386"
+      ],
+      "chebi_id": "15958",
+      "chebi_ids": [
+        "15958"
       ],
       "elements": [
         "C",
@@ -45000,8 +45350,15 @@
     },
     "C01242": {
       "all_identifiers": [
+        "chebi:12744",
+        "chebi:16882",
+        "chebi:8951",
         "kegg.compound:C01242",
         "mnx:MNXM740462"
+      ],
+      "chebi_id": "16882",
+      "chebi_ids": [
+        "16882"
       ],
       "elements": [
         "C",
@@ -45483,8 +45840,22 @@
     },
     "C01290": {
       "all_identifiers": [
+        "chebi:10392",
+        "chebi:12358",
+        "chebi:12363",
+        "chebi:12941",
+        "chebi:14498",
+        "chebi:17950",
+        "chebi:20965",
+        "chebi:22791",
+        "chebi:25006",
+        "chebi:29088",
         "kegg.compound:C01290",
         "mnx:MNXM1108012"
+      ],
+      "chebi_id": "17950",
+      "chebi_ids": [
+        "17950"
       ],
       "elements": [
         "C",
@@ -46197,8 +46568,16 @@
     },
     "C01356": {
       "all_identifiers": [
+        "chebi:14517",
+        "chebi:18059",
+        "chebi:25054",
+        "chebi:6486",
         "kegg.compound:C01356",
         "mnx:MNXM12117"
+      ],
+      "chebi_id": "18059",
+      "chebi_ids": [
+        "18059"
       ],
       "evidence_sources": [
         "transport"
@@ -46209,7 +46588,7 @@
       ],
       "mnxm_id": "MNXM12117",
       "name": "Lipid",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C01359": {
       "all_identifiers": [
@@ -47137,17 +47516,14 @@
     "C01452": {
       "all_identifiers": [
         "chebi:13022",
-        "chebi:26727",
         "chebi:27922",
-        "chebi:9203",
         "inchikey:BJHIKXHVCXFQLS-PYWDMBMJSA-N",
         "kegg.compound:C01452",
         "mnx:MNXM5703"
       ],
       "chebi_id": "13022",
       "chebi_ids": [
-        "13022",
-        "27922"
+        "13022"
       ],
       "elements": [
         "C",
@@ -47545,7 +47921,7 @@
       ],
       "mnxm_id": "MNXM729625",
       "name": "Fructose",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C01508": {
       "all_identifiers": [
@@ -47792,9 +48168,13 @@
     },
     "C01558": {
       "all_identifiers": [
-        "inchikey:BHQCQFFYRZLCQQ-UMZBRFQRSA-N",
+        "chebi:3098",
         "kegg.compound:C01558",
         "mnx:MNXM44289"
+      ],
+      "chebi_id": "3098",
+      "chebi_ids": [
+        "3098"
       ],
       "elements": [
         "C",
@@ -47804,21 +48184,17 @@
       "evidence_sources": [
         "transport"
       ],
-      "formula": "C24H40O5",
-      "inchikey": "BHQCQFFYRZLCQQ-UMZBRFQRSA-N",
       "kegg_compound_id": "C01558",
       "kegg_compound_ids": [
         "C01558"
       ],
-      "mass": 408.579,
       "mnxm_id": "MNXM44289",
       "name": "Bile salt",
       "pathways": [
         "ko04975",
         "ko04977"
       ],
-      "smiles": "CC(CCC(=O)O)C1CCC2C3C(C[C@H](O)C12C)C1(C)CC[C@@H](O)C[C@H]1C[C@H]3O",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C01563": {
       "all_identifiers": [
@@ -47903,8 +48279,16 @@
     },
     "C01579": {
       "all_identifiers": [
+        "chebi:13638",
+        "chebi:24044",
+        "chebi:47916",
+        "chebi:5077",
         "kegg.compound:C01579",
         "mnx:MNXM11588"
+      ],
+      "chebi_id": "47916",
+      "chebi_ids": [
+        "47916"
       ],
       "evidence_sources": [
         "transport"
@@ -47915,7 +48299,7 @@
       ],
       "mnxm_id": "MNXM11588",
       "name": "Flavonoid",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C01582": {
       "all_identifiers": [
@@ -48393,8 +48777,16 @@
     },
     "C01628": {
       "all_identifiers": [
+        "chebi:10009",
+        "chebi:27301",
+        "chebi:27307",
+        "chebi:28384",
         "kegg.compound:C01628",
         "mnx:MNXM4872"
+      ],
+      "chebi_id": "28384",
+      "chebi_ids": [
+        "28384"
       ],
       "elements": [
         "C",
@@ -48415,8 +48807,14 @@
     },
     "C01629": {
       "all_identifiers": [
+        "chebi:10036",
+        "chebi:13221",
         "kegg.compound:C01629",
         "mnx:MNXM10887"
+      ],
+      "chebi_id": "10036",
+      "chebi_ids": [
+        "10036"
       ],
       "elements": [
         "C",
@@ -48476,8 +48874,15 @@
     },
     "C01635": {
       "all_identifiers": [
+        "chebi:10672",
+        "chebi:15166",
+        "chebi:29170",
         "kegg.compound:C01635",
         "mnx:MNXM89576"
+      ],
+      "chebi_id": "29170",
+      "chebi_ids": [
+        "29170"
       ],
       "elements": [
         "C",
@@ -48500,8 +48905,15 @@
     },
     "C01636": {
       "all_identifiers": [
+        "chebi:10673",
+        "chebi:15167",
+        "chebi:29171",
         "kegg.compound:C01636",
         "mnx:MNXM90751"
+      ],
+      "chebi_id": "29171",
+      "chebi_ids": [
+        "29171"
       ],
       "elements": [
         "C",
@@ -48524,8 +48936,15 @@
     },
     "C01637": {
       "all_identifiers": [
+        "chebi:10674",
+        "chebi:15168",
+        "chebi:29172",
         "kegg.compound:C01637",
         "mnx:MNXM90665"
+      ],
+      "chebi_id": "29172",
+      "chebi_ids": [
+        "29172"
       ],
       "elements": [
         "C",
@@ -48548,8 +48967,15 @@
     },
     "C01638": {
       "all_identifiers": [
+        "chebi:10675",
+        "chebi:15169",
+        "chebi:29186",
         "kegg.compound:C01638",
         "mnx:MNXM90752"
+      ],
+      "chebi_id": "29186",
+      "chebi_ids": [
+        "29186"
       ],
       "elements": [
         "C",
@@ -48572,8 +48998,15 @@
     },
     "C01639": {
       "all_identifiers": [
+        "chebi:10678",
+        "chebi:15173",
+        "chebi:29167",
         "kegg.compound:C01639",
         "mnx:MNXM162355"
+      ],
+      "chebi_id": "29167",
+      "chebi_ids": [
+        "29167"
       ],
       "elements": [
         "C",
@@ -48596,8 +49029,15 @@
     },
     "C01640": {
       "all_identifiers": [
+        "chebi:10679",
+        "chebi:15174",
+        "chebi:29168",
         "kegg.compound:C01640",
         "mnx:MNXM71"
+      ],
+      "chebi_id": "29168",
+      "chebi_ids": [
+        "29168"
       ],
       "elements": [
         "C",
@@ -48620,8 +49060,15 @@
     },
     "C01641": {
       "all_identifiers": [
+        "chebi:10680",
+        "chebi:15175",
+        "chebi:29175",
         "kegg.compound:C01641",
         "mnx:MNXM90886"
+      ],
+      "chebi_id": "29175",
+      "chebi_ids": [
+        "29175"
       ],
       "elements": [
         "C",
@@ -48644,8 +49091,15 @@
     },
     "C01642": {
       "all_identifiers": [
+        "chebi:10681",
+        "chebi:15177",
+        "chebi:29176",
         "kegg.compound:C01642",
         "mnx:MNXM90340"
+      ],
+      "chebi_id": "29176",
+      "chebi_ids": [
+        "29176"
       ],
       "elements": [
         "C",
@@ -48668,8 +49122,15 @@
     },
     "C01643": {
       "all_identifiers": [
+        "chebi:10682",
+        "chebi:15178",
+        "chebi:29178",
         "kegg.compound:C01643",
         "mnx:MNXM90878"
+      ],
+      "chebi_id": "29178",
+      "chebi_ids": [
+        "29178"
       ],
       "elements": [
         "C",
@@ -48692,8 +49153,15 @@
     },
     "C01644": {
       "all_identifiers": [
+        "chebi:10683",
+        "chebi:15179",
+        "chebi:29174",
         "kegg.compound:C01644",
         "mnx:MNXM90879"
+      ],
+      "chebi_id": "29174",
+      "chebi_ids": [
+        "29174"
       ],
       "elements": [
         "C",
@@ -48716,8 +49184,15 @@
     },
     "C01645": {
       "all_identifiers": [
+        "chebi:10684",
+        "chebi:15180",
+        "chebi:29169",
         "kegg.compound:C01645",
         "mnx:MNXM90880"
+      ],
+      "chebi_id": "29169",
+      "chebi_ids": [
+        "29169"
       ],
       "elements": [
         "C",
@@ -48740,8 +49215,15 @@
     },
     "C01646": {
       "all_identifiers": [
+        "chebi:10685",
+        "chebi:15181",
+        "chebi:29185",
         "kegg.compound:C01646",
         "mnx:MNXM90881"
+      ],
+      "chebi_id": "29185",
+      "chebi_ids": [
+        "29185"
       ],
       "elements": [
         "C",
@@ -48764,8 +49246,15 @@
     },
     "C01647": {
       "all_identifiers": [
+        "chebi:10686",
+        "chebi:15182",
+        "chebi:29173",
         "kegg.compound:C01647",
         "mnx:MNXM90882"
+      ],
+      "chebi_id": "29173",
+      "chebi_ids": [
+        "29173"
       ],
       "elements": [
         "C",
@@ -48788,8 +49277,15 @@
     },
     "C01648": {
       "all_identifiers": [
+        "chebi:10687",
+        "chebi:15183",
+        "chebi:29184",
         "kegg.compound:C01648",
         "mnx:MNXM90753"
+      ],
+      "chebi_id": "29184",
+      "chebi_ids": [
+        "29184"
       ],
       "elements": [
         "C",
@@ -48812,8 +49308,15 @@
     },
     "C01649": {
       "all_identifiers": [
+        "chebi:10688",
+        "chebi:15184",
+        "chebi:29177",
         "kegg.compound:C01649",
         "mnx:MNXM90667"
+      ],
+      "chebi_id": "29177",
+      "chebi_ids": [
+        "29177"
       ],
       "elements": [
         "C",
@@ -48836,8 +49339,15 @@
     },
     "C01650": {
       "all_identifiers": [
+        "chebi:10689",
+        "chebi:15186",
+        "chebi:29179",
         "kegg.compound:C01650",
         "mnx:MNXM91028"
+      ],
+      "chebi_id": "29179",
+      "chebi_ids": [
+        "29179"
       ],
       "elements": [
         "C",
@@ -48860,8 +49370,15 @@
     },
     "C01651": {
       "all_identifiers": [
+        "chebi:10690",
+        "chebi:15187",
+        "chebi:29180",
         "kegg.compound:C01651",
         "mnx:MNXM90883"
+      ],
+      "chebi_id": "29180",
+      "chebi_ids": [
+        "29180"
       ],
       "elements": [
         "C",
@@ -48884,8 +49401,15 @@
     },
     "C01652": {
       "all_identifiers": [
+        "chebi:10691",
+        "chebi:15188",
+        "chebi:29181",
         "kegg.compound:C01652",
         "mnx:MNXM90755"
+      ],
+      "chebi_id": "29181",
+      "chebi_ids": [
+        "29181"
       ],
       "elements": [
         "C",
@@ -48908,8 +49432,15 @@
     },
     "C01653": {
       "all_identifiers": [
+        "chebi:10694",
+        "chebi:15191",
+        "chebi:29183",
         "kegg.compound:C01653",
         "mnx:MNXM90885"
+      ],
+      "chebi_id": "29183",
+      "chebi_ids": [
+        "29183"
       ],
       "elements": [
         "C",
@@ -49526,8 +50057,13 @@
     },
     "C01708": {
       "all_identifiers": [
+        "chebi:5656",
         "kegg.compound:C01708",
         "mnx:MNXM4007"
+      ],
+      "chebi_id": "5656",
+      "chebi_ids": [
+        "5656"
       ],
       "evidence_sources": [
         "transport"
@@ -49543,7 +50079,7 @@
         "ko01100",
         "ko01110"
       ],
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C01720": {
       "all_identifiers": [
@@ -50169,7 +50705,6 @@
         "chebi:28236",
         "chebi:283",
         "chebi:5410",
-        "inchikey:LUEWUZLMQUOBSB-FSKGGBMCSA-N",
         "kegg.compound:C01810",
         "mnx:MNXM732274"
       ],
@@ -50185,20 +50720,16 @@
       "evidence_sources": [
         "transport"
       ],
-      "formula": "C24H42O21",
       "identity_basis": [
         "chebi_kegg_xref"
       ],
-      "inchikey": "LUEWUZLMQUOBSB-FSKGGBMCSA-N",
       "kegg_compound_id": "C01810",
       "kegg_compound_ids": [
         "C01810"
       ],
-      "mass": 666.579,
       "mnxm_id": "MNXM732274",
       "name": "Glucomannan",
-      "smiles": "OC[C@H]1O[C@@H](O)[C@@H](O)[C@@H](O)C1O[C@@H]1O[C@H](CO)[C@@H](O[C@@H]2O[C@H](CO)[C@@H](O[C@@H]3O[C@H](CO)[C@@H](O)[C@H](O)[C@@H]3O)[C@H](O)[C@H]2O)[C@H](O)[C@@H]1O",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C01817": {
       "all_identifiers": [
@@ -50398,8 +50929,13 @@
     },
     "C01834": {
       "all_identifiers": [
+        "chebi:6495",
         "kegg.compound:C01834",
         "mnx:MNXM7493"
+      ],
+      "chebi_id": "6495",
+      "chebi_ids": [
+        "6495"
       ],
       "elements": [
         "C",
@@ -50567,9 +51103,16 @@
       "chebi_ids": [
         "35627"
       ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O"
+      ],
       "evidence_sources": [
         "transport"
       ],
+      "formula": "C3H2NOR3",
       "identity_basis": [
         "chebi_kegg_xref"
       ],
@@ -50579,7 +51122,7 @@
       ],
       "mnxm_id": "MNXM726581",
       "name": "beta-Lactam",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C01879": {
       "all_identifiers": [
@@ -50679,8 +51222,13 @@
     },
     "C01885": {
       "all_identifiers": [
+        "chebi:35759",
         "kegg.compound:C01885",
         "mnx:MNXM733607"
+      ],
+      "chebi_id": "35759",
+      "chebi_ids": [
+        "35759"
       ],
       "elements": [
         "C",
@@ -51055,8 +51603,16 @@
     },
     "C01918": {
       "all_identifiers": [
+        "chebi:14294",
+        "chebi:24208",
+        "chebi:28417",
+        "chebi:5308",
         "kegg.compound:C01918",
         "mnx:MNXM739922"
+      ],
+      "chebi_id": "28417",
+      "chebi_ids": [
+        "28417"
       ],
       "elements": [
         "C",
@@ -51335,8 +51891,16 @@
     },
     "C01931": {
       "all_identifiers": [
+        "chebi:13137",
+        "chebi:13138",
+        "chebi:16047",
+        "chebi:6267",
         "kegg.compound:C01931",
         "mnx:MNXM741243"
+      ],
+      "chebi_id": "16047",
+      "chebi_ids": [
+        "16047"
       ],
       "elements": [
         "C",
@@ -51706,8 +52270,15 @@
     },
     "C01977": {
       "all_identifiers": [
+        "chebi:10667",
+        "chebi:15159",
+        "chebi:17022",
         "kegg.compound:C01977",
         "mnx:MNXM735035"
+      ],
+      "chebi_id": "17022",
+      "chebi_ids": [
+        "17022"
       ],
       "elements": [
         "C",
@@ -51730,8 +52301,15 @@
     },
     "C01978": {
       "all_identifiers": [
+        "chebi:10670",
+        "chebi:15161",
+        "chebi:16969",
         "kegg.compound:C01978",
         "mnx:MNXM728023"
+      ],
+      "chebi_id": "16969",
+      "chebi_ids": [
+        "16969"
       ],
       "elements": [
         "C",
@@ -52019,8 +52597,16 @@
     },
     "C02047": {
       "all_identifiers": [
+        "chebi:13133",
+        "chebi:13134",
+        "chebi:16624",
+        "chebi:6262",
         "kegg.compound:C02047",
         "mnx:MNXM739504"
+      ],
+      "chebi_id": "16624",
+      "chebi_ids": [
+        "16624"
       ],
       "elements": [
         "C",
@@ -52046,8 +52632,15 @@
     },
     "C02051": {
       "all_identifiers": [
+        "chebi:14523",
+        "chebi:15804",
+        "chebi:6500",
         "kegg.compound:C02051",
         "mnx:MNXM741249"
+      ],
+      "chebi_id": "15804",
+      "chebi_ids": [
+        "15804"
       ],
       "elements": [
         "C",
@@ -52552,8 +53145,15 @@
     },
     "C02103": {
       "all_identifiers": [
+        "chebi:11030",
+        "chebi:15791",
+        "chebi:377",
         "kegg.compound:C02103",
         "mnx:MNXM96149"
+      ],
+      "chebi_id": "15791",
+      "chebi_ids": [
+        "15791"
       ],
       "elements": [
         "C",
@@ -52765,8 +53365,16 @@
     },
     "C02163": {
       "all_identifiers": [
+        "chebi:13079",
+        "chebi:13080",
+        "chebi:18366",
+        "chebi:6189",
         "kegg.compound:C02163",
         "mnx:MNXM741228"
+      ],
+      "chebi_id": "18366",
+      "chebi_ids": [
+        "18366"
       ],
       "elements": [
         "C",
@@ -52968,8 +53576,13 @@
     },
     "C02189": {
       "all_identifiers": [
+        "chebi:8572",
         "kegg.compound:C02189",
         "mnx:MNXM728740"
+      ],
+      "chebi_id": "8572",
+      "chebi_ids": [
+        "8572"
       ],
       "elements": [
         "C",
@@ -53045,8 +53658,13 @@
     },
     "C02211": {
       "all_identifiers": [
+        "chebi:10668",
         "kegg.compound:C02211",
         "mnx:MNXM5965"
+      ],
+      "chebi_id": "10668",
+      "chebi_ids": [
+        "10668"
       ],
       "elements": [
         "C",
@@ -53394,8 +54012,15 @@
     },
     "C02248": {
       "all_identifiers": [
+        "chebi:13849",
+        "chebi:15697",
+        "chebi:2782",
         "kegg.compound:C02248",
         "mnx:MNXM2100"
+      ],
+      "chebi_id": "15697",
+      "chebi_ids": [
+        "15697"
       ],
       "elements": [
         "C",
@@ -53592,8 +54217,21 @@
     },
     "C02269": {
       "all_identifiers": [
+        "chebi:1083",
+        "chebi:11394",
+        "chebi:11567",
+        "chebi:11568",
+        "chebi:18274",
+        "chebi:18352",
+        "chebi:19259",
+        "chebi:19560",
+        "chebi:4421",
         "kegg.compound:C02269",
         "mnx:MNXM734511"
+      ],
+      "chebi_id": "18274",
+      "chebi_ids": [
+        "18274"
       ],
       "elements": [
         "C",
@@ -53662,8 +54300,16 @@
     },
     "C02282": {
       "all_identifiers": [
+        "chebi:13112",
+        "chebi:13344",
+        "chebi:29166",
+        "chebi:5433",
         "kegg.compound:C02282",
         "mnx:MNXM741204"
+      ],
+      "chebi_id": "29166",
+      "chebi_ids": [
+        "29166"
       ],
       "elements": [
         "C",
@@ -53742,8 +54388,16 @@
     },
     "C02320": {
       "all_identifiers": [
+        "chebi:13430",
+        "chebi:17021",
+        "chebi:22005",
+        "chebi:8745",
         "kegg.compound:C02320",
         "mnx:MNXM734335"
+      ],
+      "chebi_id": "17021",
+      "chebi_ids": [
+        "17021"
       ],
       "elements": [
         "C",
@@ -54765,8 +55419,15 @@
     },
     "C02412": {
       "all_identifiers": [
+        "chebi:14363",
+        "chebi:29156",
+        "chebi:5503",
         "kegg.compound:C02412",
         "mnx:MNXM741181"
+      ],
+      "chebi_id": "29156",
+      "chebi_ids": [
+        "29156"
       ],
       "elements": [
         "C",
@@ -54792,8 +55453,15 @@
     },
     "C02429": {
       "all_identifiers": [
+        "chebi:13132",
+        "chebi:16661",
+        "chebi:6261",
         "kegg.compound:C02429",
         "mnx:MNXM738611"
+      ],
+      "chebi_id": "16661",
+      "chebi_ids": [
+        "16661"
       ],
       "elements": [
         "C",
@@ -54815,8 +55483,16 @@
     },
     "C02430": {
       "all_identifiers": [
+        "chebi:13143",
+        "chebi:13144",
+        "chebi:16635",
+        "chebi:6274",
         "kegg.compound:C02430",
         "mnx:MNXM741321"
+      ],
+      "chebi_id": "16635",
+      "chebi_ids": [
+        "16635"
       ],
       "elements": [
         "C",
@@ -54981,8 +55657,13 @@
     },
     "C02474": {
       "all_identifiers": [
+        "chebi:22590",
         "kegg.compound:C02474",
         "mnx:MNXM6179"
+      ],
+      "chebi_id": "22590",
+      "chebi_ids": [
+        "22590"
       ],
       "elements": [
         "C",
@@ -55624,8 +56305,15 @@
     },
     "C02553": {
       "all_identifiers": [
+        "chebi:13171",
+        "chebi:29162",
+        "chebi:6305",
         "kegg.compound:C02553",
         "mnx:MNXM741352"
+      ],
+      "chebi_id": "29162",
+      "chebi_ids": [
+        "29162"
       ],
       "elements": [
         "C",
@@ -55651,8 +56339,15 @@
     },
     "C02554": {
       "all_identifiers": [
+        "chebi:13187",
+        "chebi:29164",
+        "chebi:6322",
         "kegg.compound:C02554",
         "mnx:MNXM741265"
+      ],
+      "chebi_id": "29164",
+      "chebi_ids": [
+        "29164"
       ],
       "elements": [
         "C",
@@ -56420,20 +57115,14 @@
     },
     "C02686": {
       "all_identifiers": [
-        "chebi:12947",
-        "chebi:12949",
         "chebi:176270",
         "chebi:18390",
-        "chebi:20947",
-        "chebi:24141",
-        "chebi:5258",
         "kegg.compound:C02686",
         "mnx:MNXM1105960"
       ],
       "chebi_id": "176270",
       "chebi_ids": [
-        "176270",
-        "18390"
+        "176270"
       ],
       "elements": [
         "C",
@@ -56551,8 +57240,15 @@
     },
     "C02702": {
       "all_identifiers": [
+        "chebi:13155",
+        "chebi:29154",
+        "chebi:6287",
         "kegg.compound:C02702",
         "mnx:MNXM732981"
+      ],
+      "chebi_id": "29154",
+      "chebi_ids": [
+        "29154"
       ],
       "elements": [
         "C",
@@ -56768,8 +57464,7 @@
       ],
       "chebi_id": "18303",
       "chebi_ids": [
-        "18303",
-        "58436"
+        "18303"
       ],
       "elements": [
         "C",
@@ -57159,8 +57854,15 @@
     },
     "C02839": {
       "all_identifiers": [
+        "chebi:13185",
+        "chebi:29161",
+        "chebi:6318",
         "kegg.compound:C02839",
         "mnx:MNXM741213"
+      ],
+      "chebi_id": "29161",
+      "chebi_ids": [
+        "29161"
       ],
       "elements": [
         "C",
@@ -57186,8 +57888,17 @@
     },
     "C02843": {
       "all_identifiers": [
+        "chebi:13649",
+        "chebi:14530",
+        "chebi:25073",
+        "chebi:33184",
+        "chebi:6523",
         "kegg.compound:C02843",
         "mnx:MNXM146118"
+      ],
+      "chebi_id": "33184",
+      "chebi_ids": [
+        "33184"
       ],
       "elements": [
         "C",
@@ -58024,8 +58735,15 @@
     },
     "C02967": {
       "all_identifiers": [
+        "chebi:13306",
+        "chebi:17493",
+        "chebi:4295",
         "kegg.compound:C02967",
         "mnx:MNXM729219"
+      ],
+      "chebi_id": "17493",
+      "chebi_ids": [
+        "17493"
       ],
       "elements": [
         "C",
@@ -58048,8 +58766,15 @@
     },
     "C02972": {
       "all_identifiers": [
+        "chebi:14155",
+        "chebi:16194",
+        "chebi:4570",
         "kegg.compound:C02972",
         "mnx:MNXM731215"
+      ],
+      "chebi_id": "16194",
+      "chebi_ids": [
+        "16194"
       ],
       "elements": [
         "C",
@@ -58122,8 +58847,15 @@
     },
     "C02984": {
       "all_identifiers": [
+        "chebi:13088",
+        "chebi:29158",
+        "chebi:6196",
         "kegg.compound:C02984",
         "mnx:MNXM730166"
+      ],
+      "chebi_id": "29158",
+      "chebi_ids": [
+        "29158"
       ],
       "elements": [
         "C",
@@ -58149,8 +58881,15 @@
     },
     "C02987": {
       "all_identifiers": [
+        "chebi:13114",
+        "chebi:29157",
+        "chebi:6232",
         "kegg.compound:C02987",
         "mnx:MNXM731035"
+      ],
+      "chebi_id": "29157",
+      "chebi_ids": [
+        "29157"
       ],
       "elements": [
         "C",
@@ -58181,8 +58920,15 @@
     },
     "C02988": {
       "all_identifiers": [
+        "chebi:13120",
+        "chebi:29155",
+        "chebi:6243",
         "kegg.compound:C02988",
         "mnx:MNXM741218"
+      ],
+      "chebi_id": "29155",
+      "chebi_ids": [
+        "29155"
       ],
       "elements": [
         "C",
@@ -58252,8 +58998,15 @@
     },
     "C02992": {
       "all_identifiers": [
+        "chebi:13176",
+        "chebi:29163",
+        "chebi:6309",
         "kegg.compound:C02992",
         "mnx:MNXM741233"
+      ],
+      "chebi_id": "29163",
+      "chebi_ids": [
+        "29163"
       ],
       "elements": [
         "C",
@@ -58916,7 +59669,6 @@
         "chebi:22641",
         "chebi:2858",
         "chebi:28749",
-        "inchikey:NEZJDVYDSZTRFS-RMPHRYRLSA-N",
         "kegg.compound:C03097",
         "mnx:MNXM16055"
       ],
@@ -58932,20 +59684,16 @@
       "evidence_sources": [
         "transport"
       ],
-      "formula": "C12H16O6",
       "identity_basis": [
         "chebi_kegg_xref"
       ],
-      "inchikey": "NEZJDVYDSZTRFS-RMPHRYRLSA-N",
       "kegg_compound_id": "C03097",
       "kegg_compound_ids": [
         "C03097"
       ],
-      "mass": 256.254,
       "mnxm_id": "MNXM16055",
       "name": "Aryl beta-D-glucoside",
-      "smiles": "OC[C@H]1O[C@@H](OC2=CC=CC=C2)[C@H](O)[C@@H](O)[C@@H]1O",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C03114": {
       "all_identifiers": [
@@ -59038,8 +59786,15 @@
     },
     "C03125": {
       "all_identifiers": [
+        "chebi:13096",
+        "chebi:29152",
+        "chebi:6208",
         "kegg.compound:C03125",
         "mnx:MNXM729657"
+      ],
+      "chebi_id": "29152",
+      "chebi_ids": [
+        "29152"
       ],
       "elements": [
         "C",
@@ -59066,8 +59821,15 @@
     },
     "C03127": {
       "all_identifiers": [
+        "chebi:13128",
+        "chebi:29160",
+        "chebi:6256",
         "kegg.compound:C03127",
         "mnx:MNXM741223"
+      ],
+      "chebi_id": "29160",
+      "chebi_ids": [
+        "29160"
       ],
       "elements": [
         "C",
@@ -59093,8 +59855,15 @@
     },
     "C03129": {
       "all_identifiers": [
+        "chebi:13648",
+        "chebi:29122",
+        "chebi:6522",
         "kegg.compound:C03129",
         "mnx:MNXM727344"
+      ],
+      "chebi_id": "29122",
+      "chebi_ids": [
+        "29122"
       ],
       "elements": [
         "C",
@@ -59355,18 +60124,15 @@
     },
     "C03169": {
       "all_identifiers": [
-        "chebi:14983",
         "chebi:17124",
         "chebi:177439",
-        "chebi:8678",
         "inchikey:UAGYHIZGHDGMCY-FNCVBFRFSA-N",
         "kegg.compound:C03169",
         "mnx:MNXM730841"
       ],
       "chebi_id": "177439",
       "chebi_ids": [
-        "177439",
-        "17124"
+        "177439"
       ],
       "elements": [
         "C",
@@ -60216,8 +60982,16 @@
     },
     "C03294": {
       "all_identifiers": [
+        "chebi:12510",
+        "chebi:12597",
+        "chebi:17119",
+        "chebi:7283",
         "kegg.compound:C03294",
         "mnx:MNXM741601"
+      ],
+      "chebi_id": "17119",
+      "chebi_ids": [
+        "17119"
       ],
       "elements": [
         "C",
@@ -60523,8 +61297,15 @@
     },
     "C03363": {
       "all_identifiers": [
+        "chebi:12099",
+        "chebi:15857",
+        "chebi:2084",
         "kegg.compound:C03363",
         "mnx:MNXM2091"
+      ],
+      "chebi_id": "15857",
+      "chebi_ids": [
+        "15857"
       ],
       "elements": [
         "C",
@@ -60570,8 +61351,17 @@
     },
     "C03372": {
       "all_identifiers": [
+        "chebi:11229",
+        "chebi:13731",
+        "chebi:15835",
+        "chebi:18995",
+        "chebi:2466",
         "kegg.compound:C03372",
         "mnx:MNXM731566"
+      ],
+      "chebi_id": "15835",
+      "chebi_ids": [
+        "15835"
       ],
       "elements": [
         "C",
@@ -60812,8 +61602,16 @@
     },
     "C03402": {
       "all_identifiers": [
+        "chebi:13084",
+        "chebi:13251",
+        "chebi:29265",
+        "chebi:6192",
         "kegg.compound:C03402",
         "mnx:MNXM741176"
+      ],
+      "chebi_id": "29265",
+      "chebi_ids": [
+        "29265"
       ],
       "elements": [
         "C",
@@ -61100,8 +61898,15 @@
     },
     "C03438": {
       "all_identifiers": [
+        "chebi:10427",
+        "chebi:22844",
+        "chebi:27933",
         "kegg.compound:C03438",
         "mnx:MNXM44141"
+      ],
+      "chebi_id": "27933",
+      "chebi_ids": [
+        "27933"
       ],
       "elements": [
         "C",
@@ -61261,8 +62066,13 @@
     },
     "C03454": {
       "all_identifiers": [
+        "chebi:19000",
         "kegg.compound:C03454",
         "mnx:MNXM730376"
+      ],
+      "chebi_id": "19000",
+      "chebi_ids": [
+        "19000"
       ],
       "elements": [
         "C",
@@ -61685,8 +62495,15 @@
     },
     "C03511": {
       "all_identifiers": [
+        "chebi:13152",
+        "chebi:29153",
+        "chebi:6283",
         "kegg.compound:C03511",
         "mnx:MNXM741194"
+      ],
+      "chebi_id": "29153",
+      "chebi_ids": [
+        "29153"
       ],
       "elements": [
         "C",
@@ -61712,8 +62529,15 @@
     },
     "C03512": {
       "all_identifiers": [
+        "chebi:13179",
+        "chebi:29159",
+        "chebi:6312",
         "kegg.compound:C03512",
         "mnx:MNXM741199"
+      ],
+      "chebi_id": "29159",
+      "chebi_ids": [
+        "29159"
       ],
       "elements": [
         "C",
@@ -61909,9 +62733,13 @@
     },
     "C03547": {
       "all_identifiers": [
-        "inchikey:AEMRFAOFKBGASW-UHFFFAOYSA-N",
+        "chebi:10615",
         "kegg.compound:C03547",
         "mnx:MNXM729097"
+      ],
+      "chebi_id": "10615",
+      "chebi_ids": [
+        "10615"
       ],
       "elements": [
         "C",
@@ -61921,20 +62749,17 @@
       "evidence_sources": [
         "metabolism"
       ],
-      "formula": "C2H4O3",
-      "inchikey": "AEMRFAOFKBGASW-UHFFFAOYSA-N",
+      "formula": "CH2O3(CH2)n",
       "kegg_compound_id": "C03547",
       "kegg_compound_ids": [
         "C03547"
       ],
-      "mass": 76.051,
       "mnxm_id": "MNXM729097",
       "name": "omega-Hydroxy fatty acid",
       "pathways": [
         "ko00071"
       ],
-      "smiles": "O=C(O)CO",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C03557": {
       "all_identifiers": [
@@ -62858,8 +63683,18 @@
     },
     "C03692": {
       "all_identifiers": [
+        "chebi:11144",
+        "chebi:12950",
+        "chebi:16396",
+        "chebi:17615",
+        "chebi:4151",
+        "chebi:493",
         "kegg.compound:C03692",
         "mnx:MNXM741360"
+      ],
+      "chebi_id": "17615",
+      "chebi_ids": [
+        "17615"
       ],
       "elements": [
         "C",
@@ -62884,8 +63719,18 @@
     },
     "C03715": {
       "all_identifiers": [
+        "chebi:12688",
+        "chebi:13813",
+        "chebi:17197",
+        "chebi:21941",
+        "chebi:73385",
+        "chebi:7675",
         "kegg.compound:C03715",
         "mnx:MNXM741068"
+      ],
+      "chebi_id": "17197",
+      "chebi_ids": [
+        "17197"
       ],
       "elements": [
         "C",
@@ -63050,8 +63895,16 @@
     },
     "C03740": {
       "all_identifiers": [
+        "chebi:10904",
+        "chebi:17690",
+        "chebi:18583",
+        "chebi:237",
         "kegg.compound:C03740",
         "mnx:MNXM730664"
+      ],
+      "chebi_id": "17690",
+      "chebi_ids": [
+        "17690"
       ],
       "elements": [
         "C",
@@ -63765,7 +64618,6 @@
         "O"
       ],
       "evidence_sources": [
-        "metabolomics",
         "transport"
       ],
       "formula": "C8H15NO6",
@@ -63829,8 +64681,15 @@
     },
     "C03892": {
       "all_identifiers": [
+        "chebi:11681",
+        "chebi:19930",
+        "chebi:37393",
         "kegg.compound:C03892",
         "mnx:MNXM740941"
+      ],
+      "chebi_id": "37393",
+      "chebi_ids": [
+        "37393"
       ],
       "elements": [
         "C",
@@ -64032,8 +64891,15 @@
     },
     "C03939": {
       "all_identifiers": [
+        "chebi:13713",
+        "chebi:17093",
+        "chebi:2409",
         "kegg.compound:C03939",
         "mnx:MNXM727673"
+      ],
+      "chebi_id": "17093",
+      "chebi_ids": [
+        "17093"
       ],
       "elements": [
         "C",
@@ -64424,8 +65290,13 @@
     },
     "C04046": {
       "all_identifiers": [
+        "chebi:75799",
         "kegg.compound:C04046",
         "mnx:MNXM726129"
+      ],
+      "chebi_id": "75799",
+      "chebi_ids": [
+        "75799"
       ],
       "elements": [
         "C",
@@ -65270,8 +66141,15 @@
     },
     "C04152": {
       "all_identifiers": [
+        "chebi:10637",
+        "chebi:15011",
+        "chebi:18166",
         "kegg.compound:C04152",
         "mnx:MNXM32859"
+      ],
+      "chebi_id": "18166",
+      "chebi_ids": [
+        "18166"
       ],
       "elements": [
         "C",
@@ -65294,8 +66172,15 @@
     },
     "C04153": {
       "all_identifiers": [
+        "chebi:10638",
+        "chebi:15012",
+        "chebi:18143",
         "kegg.compound:C04153",
         "mnx:MNXM148506"
+      ],
+      "chebi_id": "18143",
+      "chebi_ids": [
+        "18143"
       ],
       "elements": [
         "C",
@@ -65318,8 +66203,15 @@
     },
     "C04154": {
       "all_identifiers": [
+        "chebi:10639",
+        "chebi:15013",
+        "chebi:18192",
         "kegg.compound:C04154",
         "mnx:MNXM5920"
+      ],
+      "chebi_id": "18192",
+      "chebi_ids": [
+        "18192"
       ],
       "elements": [
         "C",
@@ -65342,8 +66234,15 @@
     },
     "C04157": {
       "all_identifiers": [
+        "chebi:10661",
+        "chebi:15153",
+        "chebi:17267",
         "kegg.compound:C04157",
         "mnx:MNXM6426"
+      ],
+      "chebi_id": "17267",
+      "chebi_ids": [
+        "17267"
       ],
       "elements": [
         "C",
@@ -65408,8 +66307,13 @@
     },
     "C04180": {
       "all_identifiers": [
+        "chebi:1480",
         "kegg.compound:C04180",
         "mnx:MNXM5086"
+      ],
+      "chebi_id": "1480",
+      "chebi_ids": [
+        "1480"
       ],
       "elements": [
         "C",
@@ -65820,8 +66724,23 @@
     },
     "C04233": {
       "all_identifiers": [
+        "chebi:11499",
+        "chebi:11844",
+        "chebi:1570",
+        "chebi:16728",
+        "chebi:17014",
+        "chebi:17487",
+        "chebi:19437",
+        "chebi:19443",
+        "chebi:20100",
+        "chebi:984",
+        "chebi:989",
         "kegg.compound:C04233",
         "mnx:MNXM1108088"
+      ],
+      "chebi_id": "16728",
+      "chebi_ids": [
+        "16728"
       ],
       "elements": [
         "C",
@@ -66023,8 +66942,16 @@
     },
     "C04260": {
       "all_identifiers": [
+        "chebi:12707",
+        "chebi:16644",
+        "chebi:21935",
+        "chebi:7679",
         "kegg.compound:C04260",
         "mnx:MNXM740067"
+      ],
+      "chebi_id": "16644",
+      "chebi_ids": [
+        "16644"
       ],
       "elements": [
         "C",
@@ -66440,8 +67367,17 @@
     },
     "C04308": {
       "all_identifiers": [
+        "chebi:14798",
+        "chebi:17152",
+        "chebi:26026",
+        "chebi:52332",
+        "chebi:8125",
         "kegg.compound:C04308",
         "mnx:MNXM739987"
+      ],
+      "chebi_id": "17152",
+      "chebi_ids": [
+        "17152"
       ],
       "elements": [
         "C",
@@ -66510,9 +67446,6 @@
         "ko01220"
       ],
       "smiles": "O[C@@H]1C2=C(C=CC=C2)C=C[C@@H]1O",
-      "stereo_form_of": [
-        "kegg.compound:C06205"
-      ],
       "structure_kind": "defined"
     },
     "C04317": {
@@ -67252,8 +68185,15 @@
     },
     "C04432": {
       "all_identifiers": [
+        "chebi:10659",
+        "chebi:15151",
+        "chebi:16847",
         "kegg.compound:C04432",
         "mnx:MNXM741487"
+      ],
+      "chebi_id": "16847",
+      "chebi_ids": [
+        "16847"
       ],
       "elements": [
         "C",
@@ -67323,8 +68263,16 @@
     },
     "C04438": {
       "all_identifiers": [
+        "chebi:18992",
+        "chebi:29017",
+        "chebi:588",
+        "chebi:6266",
         "kegg.compound:C04438",
         "mnx:MNXM1107785"
+      ],
+      "chebi_id": "29017",
+      "chebi_ids": [
+        "29017"
       ],
       "elements": [
         "C",
@@ -68699,8 +69647,18 @@
     },
     "C04635": {
       "all_identifiers": [
+        "chebi:11185",
+        "chebi:11236",
+        "chebi:15785",
+        "chebi:18958",
+        "chebi:37641",
+        "chebi:564",
         "kegg.compound:C04635",
         "mnx:MNXM730299"
+      ],
+      "chebi_id": "15785",
+      "chebi_ids": [
+        "15785"
       ],
       "elements": [
         "C",
@@ -69455,8 +70413,15 @@
     },
     "C04728": {
       "all_identifiers": [
+        "chebi:10657",
+        "chebi:15149",
+        "chebi:16819",
         "kegg.compound:C04728",
         "mnx:MNXM1104921"
+      ],
+      "chebi_id": "16819",
+      "chebi_ids": [
+        "16819"
       ],
       "elements": [
         "C",
@@ -69787,8 +70752,20 @@
     },
     "C04756": {
       "all_identifiers": [
+        "chebi:11234",
+        "chebi:12681",
+        "chebi:17476",
+        "chebi:18998",
+        "chebi:21931",
+        "chebi:26021",
+        "chebi:60259",
+        "chebi:7665",
         "kegg.compound:C04756",
         "mnx:MNXM728258"
+      ],
+      "chebi_id": "17476",
+      "chebi_ids": [
+        "17476"
       ],
       "elements": [
         "C",
@@ -70665,8 +71642,15 @@
     },
     "C05005": {
       "all_identifiers": [
+        "chebi:24393",
+        "chebi:33563",
+        "chebi:5476",
         "kegg.compound:C05005",
         "mnx:MNXM4601"
+      ],
+      "chebi_id": "33563",
+      "chebi_ids": [
+        "33563"
       ],
       "evidence_sources": [
         "transport"
@@ -70680,7 +71664,7 @@
       "pathways": [
         "ko05133"
       ],
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C05052": {
       "all_identifiers": [
@@ -70801,8 +71785,13 @@
     },
     "C05102": {
       "all_identifiers": [
+        "chebi:10283",
         "kegg.compound:C05102",
         "mnx:MNXM728353"
+      ],
+      "chebi_id": "10283",
+      "chebi_ids": [
+        "10283"
       ],
       "elements": [
         "C",
@@ -71380,8 +72369,13 @@
     },
     "C05197": {
       "all_identifiers": [
+        "chebi:10174",
         "kegg.compound:C05197",
         "mnx:MNXM729439"
+      ],
+      "chebi_id": "10174",
+      "chebi_ids": [
+        "10174"
       ],
       "elements": [
         "C",
@@ -71502,8 +72496,17 @@
     },
     "C05212": {
       "all_identifiers": [
+        "chebi:11498",
+        "chebi:19008",
+        "chebi:19436",
+        "chebi:36702",
+        "chebi:58666",
         "kegg.compound:C05212",
         "mnx:MNXM1105954"
+      ],
+      "chebi_id": "36702",
+      "chebi_ids": [
+        "36702"
       ],
       "elements": [
         "C",
@@ -71561,8 +72564,16 @@
     },
     "C05227": {
       "all_identifiers": [
+        "chebi:13500",
+        "chebi:17297",
+        "chebi:22135",
+        "chebi:9840",
         "kegg.compound:C05227",
         "mnx:MNXM5982"
+      ],
+      "chebi_id": "17297",
+      "chebi_ids": [
+        "17297"
       ],
       "elements": [
         "C",
@@ -72706,8 +73717,13 @@
     },
     "C05312": {
       "all_identifiers": [
+        "chebi:10175",
         "kegg.compound:C05312",
         "mnx:MNXM726264"
+      ],
+      "chebi_id": "10175",
+      "chebi_ids": [
+        "10175"
       ],
       "elements": [
         "C",
@@ -72865,8 +73881,13 @@
     },
     "C05336": {
       "all_identifiers": [
+        "chebi:9100",
         "kegg.compound:C05336",
         "mnx:MNXM740531"
+      ],
+      "chebi_id": "9100",
+      "chebi_ids": [
+        "9100"
       ],
       "elements": [
         "C",
@@ -73148,8 +74169,13 @@
     },
     "C05357": {
       "all_identifiers": [
+        "chebi:7833",
         "kegg.compound:C05357",
         "mnx:MNXM731168"
+      ],
+      "chebi_id": "7833",
+      "chebi_ids": [
+        "7833"
       ],
       "evidence_sources": [
         "metabolism"
@@ -73160,12 +74186,17 @@
       ],
       "mnxm_id": "MNXM731168",
       "name": "Oxidized azurin",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C05358": {
       "all_identifiers": [
+        "chebi:8787",
         "kegg.compound:C05358",
         "mnx:MNXM734752"
+      ],
+      "chebi_id": "8787",
+      "chebi_ids": [
+        "8787"
       ],
       "evidence_sources": [
         "metabolism"
@@ -73176,12 +74207,17 @@
       ],
       "mnxm_id": "MNXM734752",
       "name": "Reduced azurin",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C05359": {
       "all_identifiers": [
+        "chebi:10545",
         "kegg.compound:C05359",
         "mnx:MNXM861"
+      ],
+      "chebi_id": "10545",
+      "chebi_ids": [
+        "10545"
       ],
       "evidence_sources": [
         "metabolism",
@@ -73193,7 +74229,7 @@
       ],
       "mnxm_id": "MNXM861",
       "name": "e-",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C05360": {
       "all_identifiers": [
@@ -77080,8 +78116,14 @@
     },
     "C05712": {
       "all_identifiers": [
+        "chebi:23437",
+        "chebi:3981",
         "kegg.compound:C05712",
         "mnx:MNXM728222"
+      ],
+      "chebi_id": "23437",
+      "chebi_ids": [
+        "23437"
       ],
       "elements": [
         "C",
@@ -77103,8 +78145,13 @@
     },
     "C05713": {
       "all_identifiers": [
+        "chebi:3980",
         "kegg.compound:C05713",
         "mnx:MNXM7214"
+      ],
+      "chebi_id": "3980",
+      "chebi_ids": [
+        "3980"
       ],
       "elements": [
         "C",
@@ -77203,8 +78250,15 @@
     },
     "C05726": {
       "all_identifiers": [
+        "chebi:13794",
+        "chebi:47910",
+        "chebi:8969",
         "kegg.compound:C05726",
         "mnx:MNXM726963"
+      ],
+      "chebi_id": "47910",
+      "chebi_ids": [
+        "47910"
       ],
       "elements": [
         "C",
@@ -77231,8 +78285,13 @@
     },
     "C05729": {
       "all_identifiers": [
+        "chebi:8744",
         "kegg.compound:C05729",
         "mnx:MNXM726748"
+      ],
+      "chebi_id": "8744",
+      "chebi_ids": [
+        "8744"
       ],
       "elements": [
         "C",
@@ -77259,8 +78318,13 @@
     },
     "C05744": {
       "all_identifiers": [
+        "chebi:2393",
         "kegg.compound:C05744",
         "mnx:MNXM727386"
+      ],
+      "chebi_id": "2393",
+      "chebi_ids": [
+        "2393"
       ],
       "elements": [
         "C",
@@ -77287,8 +78351,13 @@
     },
     "C05745": {
       "all_identifiers": [
+        "chebi:3247",
         "kegg.compound:C05745",
         "mnx:MNXM728732"
+      ],
+      "chebi_id": "3247",
+      "chebi_ids": [
+        "3247"
       ],
       "elements": [
         "C",
@@ -77315,8 +78384,13 @@
     },
     "C05746": {
       "all_identifiers": [
+        "chebi:1642",
         "kegg.compound:C05746",
         "mnx:MNXM728605"
+      ],
+      "chebi_id": "1642",
+      "chebi_ids": [
+        "1642"
       ],
       "elements": [
         "C",
@@ -77343,8 +78417,13 @@
     },
     "C05747": {
       "all_identifiers": [
+        "chebi:326",
         "kegg.compound:C05747",
         "mnx:MNXM733049"
+      ],
+      "chebi_id": "326",
+      "chebi_ids": [
+        "326"
       ],
       "elements": [
         "C",
@@ -77371,8 +78450,13 @@
     },
     "C05748": {
       "all_identifiers": [
+        "chebi:10727",
         "kegg.compound:C05748",
         "mnx:MNXM728714"
+      ],
+      "chebi_id": "10727",
+      "chebi_ids": [
+        "10727"
       ],
       "elements": [
         "C",
@@ -77399,8 +78483,13 @@
     },
     "C05749": {
       "all_identifiers": [
+        "chebi:5704",
         "kegg.compound:C05749",
         "mnx:MNXM728619"
+      ],
+      "chebi_id": "5704",
+      "chebi_ids": [
+        "5704"
       ],
       "elements": [
         "C",
@@ -77427,8 +78516,13 @@
     },
     "C05750": {
       "all_identifiers": [
+        "chebi:1646",
         "kegg.compound:C05750",
         "mnx:MNXM728609"
+      ],
+      "chebi_id": "1646",
+      "chebi_ids": [
+        "1646"
       ],
       "elements": [
         "C",
@@ -77483,8 +78577,13 @@
     },
     "C05752": {
       "all_identifiers": [
+        "chebi:7725",
         "kegg.compound:C05752",
         "mnx:MNXM728538"
+      ],
+      "chebi_id": "7725",
+      "chebi_ids": [
+        "7725"
       ],
       "elements": [
         "C",
@@ -77513,8 +78612,13 @@
     },
     "C05753": {
       "all_identifiers": [
+        "chebi:1634",
         "kegg.compound:C05753",
         "mnx:MNXM728592"
+      ],
+      "chebi_id": "1634",
+      "chebi_ids": [
+        "1634"
       ],
       "elements": [
         "C",
@@ -77541,8 +78645,13 @@
     },
     "C05754": {
       "all_identifiers": [
+        "chebi:10724",
         "kegg.compound:C05754",
         "mnx:MNXM733433"
+      ],
+      "chebi_id": "10724",
+      "chebi_ids": [
+        "10724"
       ],
       "elements": [
         "C",
@@ -77569,8 +78678,13 @@
     },
     "C05755": {
       "all_identifiers": [
+        "chebi:4349",
         "kegg.compound:C05755",
         "mnx:MNXM728616"
+      ],
+      "chebi_id": "4349",
+      "chebi_ids": [
+        "4349"
       ],
       "elements": [
         "C",
@@ -77597,8 +78711,13 @@
     },
     "C05756": {
       "all_identifiers": [
+        "chebi:1637",
         "kegg.compound:C05756",
         "mnx:MNXM728597"
+      ],
+      "chebi_id": "1637",
+      "chebi_ids": [
+        "1637"
       ],
       "elements": [
         "C",
@@ -77625,8 +78744,13 @@
     },
     "C05757": {
       "all_identifiers": [
+        "chebi:325",
         "kegg.compound:C05757",
         "mnx:MNXM733305"
+      ],
+      "chebi_id": "325",
+      "chebi_ids": [
+        "325"
       ],
       "elements": [
         "C",
@@ -77654,8 +78778,13 @@
     },
     "C05758": {
       "all_identifiers": [
+        "chebi:10725",
         "kegg.compound:C05758",
         "mnx:MNXM728708"
+      ],
+      "chebi_id": "10725",
+      "chebi_ids": [
+        "10725"
       ],
       "elements": [
         "C",
@@ -77682,8 +78811,13 @@
     },
     "C05759": {
       "all_identifiers": [
+        "chebi:1655",
         "kegg.compound:C05759",
         "mnx:MNXM728612"
+      ],
+      "chebi_id": "1655",
+      "chebi_ids": [
+        "1655"
       ],
       "elements": [
         "C",
@@ -77710,8 +78844,13 @@
     },
     "C05760": {
       "all_identifiers": [
+        "chebi:10735",
         "kegg.compound:C05760",
         "mnx:MNXM728722"
+      ],
+      "chebi_id": "10735",
+      "chebi_ids": [
+        "10735"
       ],
       "elements": [
         "C",
@@ -77738,8 +78877,15 @@
     },
     "C05761": {
       "all_identifiers": [
+        "chebi:50651",
+        "chebi:7059",
+        "chebi:9476",
         "kegg.compound:C05761",
         "mnx:MNXM728548"
+      ],
+      "chebi_id": "50651",
+      "chebi_ids": [
+        "50651"
       ],
       "elements": [
         "C",
@@ -77767,8 +78913,13 @@
     },
     "C05762": {
       "all_identifiers": [
+        "chebi:1639",
         "kegg.compound:C05762",
         "mnx:MNXM728601"
+      ],
+      "chebi_id": "1639",
+      "chebi_ids": [
+        "1639"
       ],
       "elements": [
         "C",
@@ -77795,8 +78946,13 @@
     },
     "C05763": {
       "all_identifiers": [
+        "chebi:10729",
         "kegg.compound:C05763",
         "mnx:MNXM728711"
+      ],
+      "chebi_id": "10729",
+      "chebi_ids": [
+        "10729"
       ],
       "elements": [
         "C",
@@ -77823,8 +78979,13 @@
     },
     "C05764": {
       "all_identifiers": [
+        "chebi:5697",
         "kegg.compound:C05764",
         "mnx:MNXM728536"
+      ],
+      "chebi_id": "5697",
+      "chebi_ids": [
+        "5697"
       ],
       "elements": [
         "C",
@@ -78192,8 +79353,13 @@
     },
     "C05779": {
       "all_identifiers": [
+        "chebi:2784",
         "kegg.compound:C05779",
         "mnx:MNXM10729"
+      ],
+      "chebi_id": "2784",
+      "chebi_ids": [
+        "2784"
       ],
       "evidence_sources": [
         "transport"
@@ -78207,12 +79373,17 @@
       "pathways": [
         "ko00860"
       ],
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C05780": {
       "all_identifiers": [
+        "chebi:2786",
         "kegg.compound:C05780",
         "mnx:MNXM8317"
+      ],
+      "chebi_id": "2786",
+      "chebi_ids": [
+        "2786"
       ],
       "evidence_sources": [
         "transport"
@@ -78226,7 +79397,7 @@
       "pathways": [
         "ko00860"
       ],
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C05786": {
       "all_identifiers": [
@@ -78387,8 +79558,15 @@
     },
     "C05799": {
       "all_identifiers": [
+        "chebi:22687",
+        "chebi:2977",
+        "chebi:38201",
         "kegg.compound:C05799",
         "mnx:MNXM43246"
+      ],
+      "chebi_id": "38201",
+      "chebi_ids": [
+        "38201"
       ],
       "evidence_sources": [
         "transport"
@@ -78399,7 +79577,7 @@
       ],
       "mnxm_id": "MNXM43246",
       "name": "Bacteriochlorophylls",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C05807": {
       "all_identifiers": [
@@ -80164,8 +81342,19 @@
     },
     "C05973": {
       "all_identifiers": [
+        "chebi:12702",
+        "chebi:17324",
+        "chebi:19438",
+        "chebi:21934",
+        "chebi:28936",
+        "chebi:6165",
+        "chebi:7662",
         "kegg.compound:C05973",
         "mnx:MNXM101606"
+      ],
+      "chebi_id": "28936",
+      "chebi_ids": [
+        "28936"
       ],
       "elements": [
         "C",
@@ -80191,8 +81380,15 @@
     },
     "C05974": {
       "all_identifiers": [
+        "chebi:19440",
+        "chebi:37646",
+        "chebi:986",
         "kegg.compound:C05974",
         "mnx:MNXM1107731"
+      ],
+      "chebi_id": "37646",
+      "chebi_ids": [
+        "37646"
       ],
       "elements": [
         "C",
@@ -80502,8 +81698,15 @@
     },
     "C05996": {
       "all_identifiers": [
+        "chebi:22919",
+        "chebi:3166",
+        "chebi:35819",
         "kegg.compound:C05996",
         "mnx:MNXM5646"
+      ],
+      "chebi_id": "35819",
+      "chebi_ids": [
+        "35819"
       ],
       "evidence_sources": [
         "transport"
@@ -80518,7 +81721,7 @@
         "ko00280",
         "ko04974"
       ],
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C05998": {
       "all_identifiers": [
@@ -80843,8 +82046,15 @@
     },
     "C06020": {
       "all_identifiers": [
+        "chebi:25292",
+        "chebi:27833",
+        "chebi:6870",
         "kegg.compound:C06020",
         "mnx:MNXM5822"
+      ],
+      "chebi_id": "27833",
+      "chebi_ids": [
+        "27833"
       ],
       "elements": [
         "C",
@@ -80866,8 +82076,15 @@
     },
     "C06021": {
       "all_identifiers": [
+        "chebi:23391",
+        "chebi:33913",
+        "chebi:3890",
         "kegg.compound:C06021",
         "mnx:MNXM5691"
+      ],
+      "chebi_id": "33913",
+      "chebi_ids": [
+        "33913"
       ],
       "elements": [
         "C",
@@ -81236,8 +82453,15 @@
     },
     "C06037": {
       "all_identifiers": [
+        "chebi:23719",
+        "chebi:28396",
+        "chebi:4539",
         "kegg.compound:C06037",
         "mnx:MNXM1888"
+      ],
+      "chebi_id": "28396",
+      "chebi_ids": [
+        "28396"
       ],
       "elements": [
         "C",
@@ -81262,8 +82486,13 @@
     },
     "C06040": {
       "all_identifiers": [
+        "chebi:76264",
         "kegg.compound:C06040",
         "mnx:MNXM732841"
+      ],
+      "chebi_id": "76264",
+      "chebi_ids": [
+        "76264"
       ],
       "elements": [
         "C",
@@ -81538,8 +82767,15 @@
     },
     "C06084": {
       "all_identifiers": [
+        "chebi:24620",
+        "chebi:51963",
+        "chebi:5761",
         "kegg.compound:C06084",
         "mnx:MNXM11831"
+      ],
+      "chebi_id": "51963",
+      "chebi_ids": [
+        "51963"
       ],
       "evidence_sources": [
         "transport"
@@ -81550,7 +82786,7 @@
       ],
       "mnxm_id": "MNXM11831",
       "name": "Hopanoid",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C06098": {
       "all_identifiers": [
@@ -81775,8 +83011,15 @@
     },
     "C06112": {
       "all_identifiers": [
+        "chebi:13345",
+        "chebi:29165",
+        "chebi:6231",
         "kegg.compound:C06112",
         "mnx:MNXM731036"
+      ],
+      "chebi_id": "29165",
+      "chebi_ids": [
+        "29165"
       ],
       "elements": [
         "C",
@@ -81803,8 +83046,15 @@
     },
     "C06113": {
       "all_identifiers": [
+        "chebi:13252",
+        "chebi:29151",
+        "chebi:6195",
         "kegg.compound:C06113",
         "mnx:MNXM730167"
+      ],
+      "chebi_id": "29151",
+      "chebi_ids": [
+        "29151"
       ],
       "elements": [
         "C",
@@ -82035,8 +83285,15 @@
     },
     "C06128": {
       "all_identifiers": [
+        "chebi:21625",
+        "chebi:27499",
+        "chebi:7218",
         "kegg.compound:C06128",
         "mnx:MNXM729037"
+      ],
+      "chebi_id": "27499",
+      "chebi_ids": [
+        "27499"
       ],
       "elements": [
         "C",
@@ -82062,8 +83319,13 @@
     },
     "C06143": {
       "all_identifiers": [
+        "chebi:8295",
         "kegg.compound:C06143",
         "mnx:MNXM739390"
+      ],
+      "chebi_id": "8295",
+      "chebi_ids": [
+        "8295"
       ],
       "elements": [
         "C",
@@ -82879,9 +84141,17 @@
       "chebi_ids": [
         "28163"
       ],
+      "elements": [
+        "C",
+        "Fe",
+        "H",
+        "N",
+        "O"
+      ],
       "evidence_sources": [
         "transport"
       ],
+      "formula": "C3H3FeN3O6R3",
       "identity_basis": [
         "chebi_kegg_xref"
       ],
@@ -82894,7 +84164,7 @@
       "pathways": [
         "ko02010"
       ],
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C06228": {
       "all_identifiers": [
@@ -83193,8 +84463,13 @@
     },
     "C06249": {
       "all_identifiers": [
+        "chebi:2777",
         "kegg.compound:C06249",
         "mnx:MNXM729232"
+      ],
+      "chebi_id": "2777",
+      "chebi_ids": [
+        "2777"
       ],
       "elements": [
         "C",
@@ -84839,8 +86114,13 @@
     },
     "C06481": {
       "all_identifiers": [
+        "chebi:13170",
         "kegg.compound:C06481",
         "mnx:MNXM90476"
+      ],
+      "chebi_id": "13170",
+      "chebi_ids": [
+        "13170"
       ],
       "elements": [
         "C",
@@ -84867,8 +86147,13 @@
     },
     "C06482": {
       "all_identifiers": [
+        "chebi:13166",
         "kegg.compound:C06482",
         "mnx:MNXM741408"
+      ],
+      "chebi_id": "13166",
+      "chebi_ids": [
+        "13166"
       ],
       "elements": [
         "C",
@@ -85922,9 +87207,6 @@
         "ko01120"
       ],
       "smiles": "O=C(O)/C=C\\Cl",
-      "stereo_form_of": [
-        "kegg.compound:C06614"
-      ],
       "structure_kind": "defined"
     },
     "C06624": {
@@ -86578,8 +87860,15 @@
     },
     "C06702": {
       "all_identifiers": [
+        "chebi:26176",
+        "chebi:51349",
+        "chebi:8301",
         "kegg.compound:C06702",
         "mnx:MNXM77597"
+      ],
+      "chebi_id": "51349",
+      "chebi_ids": [
+        "51349"
       ],
       "evidence_sources": [
         "transport"
@@ -86614,7 +87903,7 @@
       ],
       "mnxm_id": "MNXM726783",
       "name": "Iron chelate",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C06706": {
       "all_identifiers": [
@@ -86637,8 +87926,15 @@
     },
     "C06707": {
       "all_identifiers": [
+        "chebi:26866",
+        "chebi:30049",
+        "chebi:9431",
         "kegg.compound:C06707",
         "mnx:MNXM83488"
+      ],
+      "chebi_id": "30049",
+      "chebi_ids": [
+        "30049"
       ],
       "evidence_sources": [
         "transport"
@@ -86652,7 +87948,7 @@
       "pathways": [
         "ko02010"
       ],
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C06711": {
       "all_identifiers": [
@@ -91310,7 +92606,6 @@
         "chebi:63609",
         "chebi:63681",
         "chebi:63687",
-        "chebi:6718",
         "inchikey:XEEQGYMUWCZPDN-DOMZBBRYSA-N",
         "kegg.compound:C07633",
         "mnx:MNXM30210"
@@ -91318,7 +92613,6 @@
       "chebi_id": "63681",
       "chebi_ids": [
         "63681",
-        "63609",
         "63687"
       ],
       "elements": [
@@ -92052,8 +93346,13 @@
     },
     "C08037": {
       "all_identifiers": [
+        "chebi:3020",
         "kegg.compound:C08037",
         "mnx:MNXM43482"
+      ],
+      "chebi_id": "3020",
+      "chebi_ids": [
+        "3020"
       ],
       "elements": [
         "C",
@@ -96782,8 +98081,13 @@
     },
     "C11478": {
       "all_identifiers": [
+        "chebi:10656",
         "kegg.compound:C11478",
         "mnx:MNXM740277"
+      ],
+      "chebi_id": "10656",
+      "chebi_ids": [
+        "10656"
       ],
       "elements": [
         "C",
@@ -98782,8 +100086,13 @@
     },
     "C12030": {
       "all_identifiers": [
+        "chebi:29633",
         "kegg.compound:C12030",
         "mnx:MNXM62734"
+      ],
+      "chebi_id": "29633",
+      "chebi_ids": [
+        "29633"
       ],
       "elements": [
         "C",
@@ -99378,8 +100687,13 @@
     },
     "C12268": {
       "all_identifiers": [
+        "chebi:32174",
         "kegg.compound:C12268",
         "mnx:MNXM83230"
+      ],
+      "chebi_id": "32174",
+      "chebi_ids": [
+        "32174"
       ],
       "elements": [
         "C",
@@ -99641,8 +100955,13 @@
     },
     "C12483": {
       "all_identifiers": [
+        "chebi:32078",
         "kegg.compound:C12483",
         "mnx:MNXM7724"
+      ],
+      "chebi_id": "32078",
+      "chebi_ids": [
+        "32078"
       ],
       "elements": [
         "C",
@@ -103684,8 +105003,13 @@
     },
     "C15521": {
       "all_identifiers": [
+        "chebi:62081",
         "kegg.compound:C15521",
         "mnx:MNXM729199"
+      ],
+      "chebi_id": "62081",
+      "chebi_ids": [
+        "62081"
       ],
       "elements": [
         "C",
@@ -103941,7 +105265,6 @@
       "chebi_id": "17258",
       "chebi_ids": [
         "17258",
-        "26386",
         "35584",
         "35586",
         "35588",
@@ -104540,8 +105863,13 @@
     },
     "C15805": {
       "all_identifiers": [
+        "chebi:64475",
         "kegg.compound:C15805",
         "mnx:MNXM11732"
+      ],
+      "chebi_id": "64475",
+      "chebi_ids": [
+        "64475"
       ],
       "evidence_sources": [
         "metabolism"
@@ -104557,12 +105885,17 @@
         "ko01100",
         "ko01110"
       ],
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C15806": {
       "all_identifiers": [
+        "chebi:64476",
         "kegg.compound:C15806",
         "mnx:MNXM83214"
+      ],
+      "chebi_id": "64476",
+      "chebi_ids": [
+        "64476"
       ],
       "evidence_sources": [
         "metabolism"
@@ -104578,12 +105911,17 @@
         "ko01100",
         "ko01110"
       ],
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C15807": {
       "all_identifiers": [
+        "chebi:80099",
         "kegg.compound:C15807",
         "mnx:MNXM10314"
+      ],
+      "chebi_id": "80099",
+      "chebi_ids": [
+        "80099"
       ],
       "evidence_sources": [
         "metabolism"
@@ -104597,7 +105935,7 @@
       "pathways": [
         "ko00940"
       ],
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C15809": {
       "all_identifiers": [
@@ -104642,8 +105980,13 @@
     },
     "C15810": {
       "all_identifiers": [
+        "chebi:80100",
         "kegg.compound:C15810",
         "mnx:MNXM10846"
+      ],
+      "chebi_id": "80100",
+      "chebi_ids": [
+        "80100"
       ],
       "elements": [
         "C",
@@ -104732,8 +106075,13 @@
     },
     "C15813": {
       "all_identifiers": [
+        "chebi:80101",
         "kegg.compound:C15813",
         "mnx:MNXM7140"
+      ],
+      "chebi_id": "80101",
+      "chebi_ids": [
+        "80101"
       ],
       "elements": [
         "C",
@@ -107016,9 +108364,14 @@
     },
     "C16240": {
       "all_identifiers": [
+        "chebi:13850",
         "kegg.compound:C03688",
         "kegg.compound:C16240",
         "mnx:MNXM91491"
+      ],
+      "chebi_id": "13850",
+      "chebi_ids": [
+        "13850"
       ],
       "elements": [
         "H",
@@ -109296,7 +110649,6 @@
     },
     "C16514": {
       "all_identifiers": [
-        "chebi:53002",
         "chebi:64645",
         "chebi:64646",
         "inchikey:FEWOUVRMGWFWIH-ILZZQXMPSA-N",
@@ -109305,8 +110657,7 @@
       ],
       "chebi_id": "64646",
       "chebi_ids": [
-        "64646",
-        "64645"
+        "64646"
       ],
       "elements": [
         "C",
@@ -110787,8 +112138,15 @@
     },
     "C16739": {
       "all_identifiers": [
+        "chebi:13078",
+        "chebi:17518",
+        "chebi:6188",
         "kegg.compound:C16739",
         "mnx:MNXM73312"
+      ],
+      "chebi_id": "17518",
+      "chebi_ids": [
+        "17518"
       ],
       "elements": [
         "C",
@@ -111036,8 +112394,13 @@
     },
     "C17023": {
       "all_identifiers": [
+        "chebi:80867",
         "kegg.compound:C17023",
         "mnx:MNXM4111"
+      ],
+      "chebi_id": "80867",
+      "chebi_ids": [
+        "80867"
       ],
       "evidence_sources": [
         "metabolism"
@@ -111048,7 +112411,7 @@
       ],
       "mnxm_id": "MNXM4111",
       "name": "Sulfur donor",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C17061": {
       "all_identifiers": [
@@ -111712,6 +113075,8 @@
     },
     "C17343": {
       "all_identifiers": [
+        "chebi:37643",
+        "chebi:77251",
         "chebi:81017",
         "hmdb:HMDB0060307",
         "inchikey:MNYDLIUNNOCPHG-SEGQUPMDSA-J",
@@ -111720,7 +113085,9 @@
       ],
       "chebi_id": "81017",
       "chebi_ids": [
-        "81017"
+        "81017",
+        "37643",
+        "77251"
       ],
       "elements": [
         "C",
@@ -112607,8 +113974,13 @@
     },
     "C18049": {
       "all_identifiers": [
+        "chebi:55474",
         "kegg.compound:C18049",
         "mnx:MNXM4056"
+      ],
+      "chebi_id": "55474",
+      "chebi_ids": [
+        "55474"
       ],
       "elements": [
         "C",
@@ -112823,8 +114195,13 @@
     },
     "C18129": {
       "all_identifiers": [
+        "chebi:60430",
         "kegg.compound:C18129",
         "mnx:MNXM733507"
+      ],
+      "chebi_id": "60430",
+      "chebi_ids": [
+        "60430"
       ],
       "elements": [
         "C",
@@ -114894,9 +116271,13 @@
     },
     "C19709": {
       "all_identifiers": [
-        "inchikey:QCGCETFHYOEVAI-GDVGLLTNSA-N",
+        "chebi:65318",
         "kegg.compound:C19709",
         "mnx:MNXM739684"
+      ],
+      "chebi_id": "65318",
+      "chebi_ids": [
+        "65318"
       ],
       "elements": [
         "C",
@@ -114907,17 +116288,14 @@
       "evidence_sources": [
         "metabolism"
       ],
-      "formula": "C10H19N5O5",
-      "inchikey": "QCGCETFHYOEVAI-GDVGLLTNSA-N",
+      "formula": "(C10H17N5O4)n",
       "kegg_compound_id": "C19709",
       "kegg_compound_ids": [
         "C19709"
       ],
-      "mass": 289.292,
       "mnxm_id": "MNXM739684",
       "name": "[L-Asp(4-L-Arg)]n",
-      "smiles": "N=C(N)NCCC[C@H](NC(=O)CC(N)C(=O)O)C(=O)O",
-      "structure_kind": "defined"
+      "structure_kind": "generic"
     },
     "C19713": {
       "all_identifiers": [

@@ -173,3 +173,11 @@
   id: "kegg.compound:C00624"
   stereo_assignment: as_reported
   reason: "paper's KEGG export lists C00624 (N-acetyl-L-glutamate); MNX name lookup finds nothing for this spelling"
+"n-acetyl glucosamine":
+  id: "kegg.compound:C00140"
+  stereo_assignment: as_reported
+  reason: "unqualified name, anomer-unspecified node (paper's KEGG export also lists C00140); not the beta anomer C03878"
+"phycocyanobilin":
+  id: "kegg.compound:C05786"
+  stereo_assignment: as_reported
+  reason: "paper's KEGG export lists C05786; chebi:48863 is the same compound (same InChIKey connectivity block) with a different stereo-descriptor encoding, not a different molecule"

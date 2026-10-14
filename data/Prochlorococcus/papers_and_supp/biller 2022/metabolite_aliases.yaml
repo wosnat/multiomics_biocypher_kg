@@ -170,3 +170,7 @@
   id: "kegg.compound:C00597"
   stereo_assignment: as_reported
   reason: "Ingalls standard 3-Phosphoglycerate (C00597); name_match gave the generic class term chebi:24346"
+"Aconitic Acid":
+  id: "kegg.compound:C00417"
+  stereo_assignment: as_reported
+  reason: "Ingalls standard cis-Aconitic acid (KEGG C00417); geometric isomers are separate compounds, so not a dominant-form choice"

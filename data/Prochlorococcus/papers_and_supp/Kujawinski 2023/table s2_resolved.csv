@@ -58,7 +58,7 @@ leucine,3.3,yes,,kegg.compound:C00123,name_match,as_reported
 malic acid,0.7,,,kegg.compound:C00149,name_match,dominant_form_assumed
 methionine,0,yes,,kegg.compound:C00073,dominant_stereo_form,dominant_form_assumed
 muramic acid,0,,,kegg.compound:C06470,alias_override,as_reported
-n-acetyl glucosamine,0,,,kegg.compound:C03878,name_match,as_reported
+n-acetyl glucosamine,0,,,kegg.compound:C00140,alias_override,as_reported
 n-acetyl glutamic acid,1.1,yes,,kegg.compound:C00624,alias_override,as_reported
 n-acetyl muramic acid,2.8,,,kegg.compound:C02713,alias_override,as_reported
 ornithine,0,,,kegg.compound:C00077,dominant_stereo_form,dominant_form_assumed
@@ -66,7 +66,7 @@ orotic acid,0,,,kegg.compound:C00295,name_match,as_reported
 pantothenic acid,51.9,yes,yes,kegg.compound:C00864,name_match,as_reported
 phenylalanine,39.7,yes,yes,kegg.compound:C00079,dominant_stereo_form,dominant_form_assumed
 phosphoenolpyruvate,0,,,kegg.compound:C00074,name_match,as_reported
-phycocyanobilin,0,,,chebi:48863,name_match,as_reported
+phycocyanobilin,0,,,kegg.compound:C05786,alias_override,as_reported
 proline,0,yes,,kegg.compound:C00148,dominant_stereo_form,dominant_form_assumed
 pyridoxine,6.8,,,kegg.compound:C00314,alias_override,as_reported
 riboflavin,87.6,,,kegg.compound:C00255,alias_override,as_reported
