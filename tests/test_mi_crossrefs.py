@@ -230,3 +230,48 @@ def test_rekeyed_id_follows_its_target_into_the_canonical_node():
                                   {a: cpd("A"), b: dict(table[b])})
     assert "chebi:33855" in table[b]["all_identifiers"] and index["chebi:33855"] == b
     assert table[b]["identity_basis"] == ["chebi_kegg_xref", "mnx_same_entity"]
+
+
+# Final review items 2 + 7: isotope variants (structural) and ChEBI role terms never reach
+# chebi_id / chebi_ids / all_identifiers.
+ISO_ROLE = make_chebi(
+    CHEBI_24431=term("chemical entity"),
+    CHEBI_33250=term("atom", is_a=["CHEBI:24431"]),
+    CHEBI_26833=term("sulfur atom", charge=0, kegg=["C00087"], is_a=["CHEBI:33250"],
+                     inchikey="NINIDFKCEFEMDL-UHFFFAOYSA-N"),
+    CHEBI_37979=term("sulfur-32 atom", charge=0, kegg=["C00087"], is_a=["CHEBI:26833"],
+                     inchikey="NINIDFKCEFEMDL-AKLPVKDBSA-N"),
+    CHEBI_139358=term("isotopically modified compound", is_a=["CHEBI:24431"]),
+    CHEBI_32285=term("((13)C)urea", charge=0, is_a=["CHEBI:139358"], inchikey="XSQUKJJJFZCRTK-OUBTZVSYSA-N"),
+    CHEBI_16199=term("urea", charge=0, kegg=["C00086"], is_a=["CHEBI:24431"],
+                     inchikey="XSQUKJJJFZCRTK-UHFFFAOYSA-N"),
+    CHEBI_50906=term("role"),
+    CHEBI_51086=term("chemical role", is_a=["CHEBI:50906"]),
+    CHEBI_15339=term("acceptor", kegg=["C00028"], is_a=["CHEBI:51086"]))
+
+
+def _fields(node, entry, olds=None):
+    table = {node: entry}
+    members = {node: sorted(olds)} if olds else {}
+    ident = IdentityResult({n: node for n in (olds or [node])} | {node: node}, members, {}, {})
+    build_identity_fields(table, ident, {}, ISO_ROLE, {node: dict(entry), **{o: cpd(o) for o in olds or []}})
+    return table[node]
+
+
+def test_atom_isotope_xref_not_published():
+    e = _fields("kegg.compound:C00087", cpd("Sulfur"))
+    assert e["chebi_id"] == "26833" and e["chebi_ids"] == ["26833"]
+    assert "chebi:37979" not in e["all_identifiers"]
+
+
+def test_isotopically_modified_alias_and_member_not_published():
+    e = cpd("Urea")
+    e["mnx_chebi_aliases"] = ["32285"]
+    out = _fields("kegg.compound:C00086", e)
+    assert out["chebi_ids"] == ["16199"] and "chebi:32285" not in out["all_identifiers"]
+
+
+def test_role_term_never_chebi_id():
+    e = _fields("kegg.compound:C00028", cpd("Acceptor"))
+    assert e["chebi_id"] is None and e["chebi_ids"] is None
+    assert not any(x.startswith("chebi:") for x in e["all_identifiers"])

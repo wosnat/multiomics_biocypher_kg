@@ -1160,6 +1160,30 @@ def test_main_writes_rendered_files_once(tmp_path, monkeypatch):
     assert writes == [{bx.KEGG_DATA_FILE: "{}"}]
 
 
+def test_main_passes_old_and_new_substrate_maps(tmp_path, monkeypatch):
+    """Final review item 3: the previous build's string → primary map is rebuilt with
+    chebi=None over the substrate strings and handed to the pipeline beside the new map."""
+    from multiomics_kg.utils.metabolite_identity.pipeline import Step6ValidationError
+    _stub_main(tmp_path, monkeypatch)
+    calls = []
+
+    def fake(strings, conn, chebi=None, rekeys=None, known_kegg=None):
+        calls.append(chebi is None)
+        return ({"S": "chebi:1"}, {}) if chebi is None else ({"S": "kegg.compound:C00001"}, {})
+    monkeypatch.setattr(bx, "_resolve_substrate_strings", fake)
+    seen = {}
+
+    def stop(inp):
+        seen["inp"] = inp
+        raise Step6ValidationError(["stop"])
+    monkeypatch.setattr(bx, "run_identity_stages", stop)
+    with pytest.raises(Step6ValidationError):
+        bx.main(force=True, today="2026-10-14")
+    assert sorted(calls) == [False, True]
+    assert seen["inp"].old_string_to_primary == {"S": "chebi:1"}
+    assert seen["inp"].string_to_primary == {"S": "kegg.compound:C00001"}
+
+
 def test_read_old_resolved(tmp_path):
     from multiomics_kg.utils.metabolite_identity.paper import PaperRow, PaperTable
     src = tmp_path / "m.csv"

@@ -33,6 +33,19 @@ def is_isotopologue_name(name: str | None) -> bool:
     return bool(_ISOTOPE.search(name or ""))
 
 
+def is_isotope_term(p: str | None, chebi: ChebiIndex) -> bool:
+    """An isotopologue by name (charged / labelled forms) or structurally (an isotope atom or
+    a term under "isotopically modified compound", ``ChebiIndex.is_isotope_variant``)."""
+    if p is None:
+        return False
+    return is_isotopologue_name((chebi.term(p) or {}).get("name")) or chebi.is_isotope_variant(p)
+
+
+def _excluded(p: str | None, chebi: ChebiIndex) -> bool:
+    """Never a published ChEBI identifier: an isotopologue or a ChEBI role term."""
+    return is_isotope_term(p, chebi) or (p is not None and chebi.is_role(p))
+
+
 def shared_chebi_terms(table: dict[str, dict], identity: IdentityResult,
                        chebi: ChebiIndex) -> dict[str, list[str]]:
     """Entity terms that cross-reference >= 2 written KEGG nodes that remain separate.
@@ -56,13 +69,11 @@ def shared_chebi_terms(table: dict[str, dict], identity: IdentityResult,
 
 
 def _usable(p: str | None, node_id: str, chebi: ChebiIndex, shared: Collection[str] = ()) -> bool:
-    """An entity term for this node: not a class, not an isotopologue, not another KEGG
-    compound's term, not a term shared by two separate KEGG nodes."""
-    if p is None or p in shared or chebi.is_class(p):
+    """An entity term for this node: not a class, not an isotopologue, not a role, not another
+    KEGG compound's term, not a term shared by two separate KEGG nodes."""
+    if p is None or p in shared or chebi.is_class(p) or _excluded(p, chebi):
         return False
     t = chebi.term(p) or {}
-    if is_isotopologue_name(t.get("name")):
-        return False
     xref = t.get("kegg", [])
     return not xref or (node_id.startswith(_KEGG) and node_id[len(_KEGG):] in xref)
 
@@ -78,7 +89,7 @@ def chebi_pick(node_id, entry, chebi, *, shared: Collection[str] = (), olds=None
     """The one ChEBI pick shared by stage G (structure) and stage H (cross-references).
 
     Returns ``(chebi_id, entity_pool)``: ``entity_pool`` is every usable entity term of the node
-    (not a class, not shared, not an isotopologue) from its own KEGG xrefs, its members' /
+    (not a class, not shared, not an isotopologue, not a role) from its own KEGG xrefs, its members' /
     re-keyed ids (their KEGG xrefs and ChEBI terms) and MNX ChEBI aliases (the node's and its
     members'). ``chebi_id`` is the node's own entity term for a ``chebi:`` node; else the best
     entity term, preferring the node's own KEGG xrefs, then its MNX aliases, then the rest of
@@ -91,7 +102,7 @@ def chebi_pick(node_id, entry, chebi, *, shared: Collection[str] = (), olds=None
     def ok(p):
         if p is None or p in shared:
             return False
-        return not is_isotopologue_name((chebi.term(p) or {}).get("name"))
+        return not _excluded(p, chebi)
 
     def entity(p):
         return ok(p) and not chebi.is_class(p)

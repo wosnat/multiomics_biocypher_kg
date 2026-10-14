@@ -132,28 +132,28 @@ def test_gene_transported_metabolite_count_consistent_with_deepest_2hop(run_quer
 # ── KG-A3: Metabolite.elements ────────────────────────────────────────────
 
 def test_metabolite_elements_populated_for_metabolites_with_formula(run_query):
-    """Every metabolite whose formula contains at least one element symbol
-    (any A-Z character) must have an elements list. Formulas like '*2'
-    (charge-only generic placeholders, e.g. KEGG C01322 'RX') parse to no
-    elements and are correctly dropped by the sparse-output convention."""
+    """Every DEFINED metabolite whose formula contains at least one real element symbol has an
+    elements list. A formula that parses to no element symbols (placeholder-only, e.g. 'A' or
+    '*2') may leave elements absent (sparse convention)."""
+    from multiomics_kg.utils.metabolite_identity.names import parse_elements
     rows = run_query("""
-        MATCH (m:Metabolite)
-        WHERE m.formula IS NOT NULL AND m.formula =~ '.*[A-Z].*'
-        RETURN count(m) AS total, count(m.elements) AS with_prop
+        MATCH (m:Metabolite) WHERE m.structure_kind = 'defined' AND m.formula IS NOT NULL
+        RETURN m.id AS id, m.formula AS formula, m.elements AS els
     """)
-    assert rows[0]["with_prop"] == rows[0]["total"], (
-        f"Metabolites with element-bearing formula but no elements: "
-        f"{rows[0]['total'] - rows[0]['with_prop']}"
-    )
+    assert rows
+    missing = [r["id"] for r in rows if parse_elements(r["formula"]) and not r["els"]]
+    assert not missing, f"defined metabolites with element-bearing formula but no elements: {missing[:10]}"
 
 
-def test_metabolite_elements_sparse_when_no_formula(run_query):
-    """Metabolites without formula must NOT carry an elements property (sparse convention)."""
-    n = run_query("""
+def test_metabolite_elements_without_formula_only_on_non_defined(run_query):
+    """elements without a formula is allowed only on generic / polymer nodes: the B2 scrub
+    removes a class node's representative formula but keeps its element set (spec §3.3)."""
+    rows = run_query("""
         MATCH (m:Metabolite) WHERE m.formula IS NULL AND m.elements IS NOT NULL
-        RETURN count(m) AS n
-    """)[0]["n"]
-    assert n == 0, f"Found {n} no-formula metabolites with stale elements property"
+        RETURN m.id AS id, m.structure_kind AS sk
+    """)
+    bad = [r["id"] for r in rows if r["sk"] == "defined"]
+    assert not bad, f"defined metabolites with elements but no formula: {bad[:10]}"
 
 
 def test_metabolite_elements_h2o_correct(run_query):

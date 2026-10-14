@@ -1406,6 +1406,16 @@ def _read_old_resolved(tables: list[PaperTable]) -> dict[tuple[str, str, int], s
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 def main(force: bool = False, refetch_raw: bool = False, today: str | None = None) -> None:
+    """Prepare-data step 6 (spec 2026-10-13 §5.2): stages A-D here, then
+    ``run_identity_stages`` (E-M, O, P) and one atomic write of every output.
+
+    The one write before stage P: ``cache/data/tcdb/tcdb_hierarchy.json`` is rebuilt from the
+    raw TCDB TSVs (``cache/data/tcdb/raw/``) before anything else runs, outside the atomic
+    write. It is deterministic given those TSVs (a run that changes nothing else rewrites it
+    byte-identically); on a TCDB download / rebuild failure the committed file is reused.
+    Everything else is written only after stage P validates, so a failed run writes no other
+    file.
+    """
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     cache_root = PROJECT_ROOT / "cache" / "data"
 
@@ -1524,6 +1534,9 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
                                "failed) — refusing to build metabolite ids without it")
         string_to_primary, compound_props = _resolve_substrate_strings(
             molecule_strings, conn, chebi=chebi, rekeys=rekeys, known_kegg=known_kegg)
+        # The previous build's string → primary map (pre-identity resolution, chebi=None, over
+        # every substrate string), so an old id the other remap rules miss follows its string.
+        old_string_to_primary, _ = _resolve_substrate_strings(all_substrate_strings, conn, chebi=None)
         subtree_substrates: dict[str, list[str]] = {}
         for tc, strings in subtree_strings.items():
             primaries = {string_to_primary[s] for s in strings if s in string_to_primary}
@@ -1580,7 +1593,8 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
                      "go_bridge": tcdb_bridges["go"], "seed_aliases": dict(sorted(upgraded.items()))},
         previous_ids=previous_ids, old_resolved=old_resolved, today=today,
         previous_entries={**{f"kegg.compound:{k}": v for k, v in prev_kegg.get("compounds", {}).items()},
-                          **prev_kegg.get("additional_compounds", {})})
+                          **prev_kegg.get("additional_compounds", {})},
+        old_string_to_primary=old_string_to_primary, string_to_primary=string_to_primary)
     out = run_identity_stages(inp)               # raises Step6ValidationError → nothing written
     files = render_outputs(out, Step6Paths(
         kegg_data=KEGG_DATA_FILE, tcdb_pruned=prev_pruned_path, brite_dir=KEGG_CACHE_DIR,

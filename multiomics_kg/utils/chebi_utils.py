@@ -21,6 +21,9 @@ CHEBI_OBO_URL = "https://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi.obo.gz
 ROLE_ROOT = "CHEBI:50906"
 ROLE_BRANCHES = frozenset({"CHEBI:24432", "CHEBI:51086", "CHEBI:33232"})
 CARBOHYDRATE_ANCESTORS = frozenset({"CHEBI:16646", "CHEBI:63299", "CHEBI:24400", "CHEBI:78616"})
+ISOTOPICALLY_MODIFIED = "CHEBI:139358"       # "isotopically modified compound"
+ATOM = "CHEBI:33250"                          # "atom"
+_MASS_NUMBER = re.compile(r"[A-Za-z]-\d+")   # "sulfur-32 atom", "iron-57 atom"
 
 _REL = {"RO:0018033": "conjugates", "RO:0018034": "conjugates",
         "RO:0018036": "tautomers", "RO:0018039": "enantiomers"}
@@ -166,6 +169,20 @@ class ChebiIndex:
             return t["is_class"]
         return t.get("inchikey") is None and (
             t.get("generalized_formula") is None or _generic(t.get("generalized_formula")))
+
+    def is_isotope_variant(self, cid: str) -> bool:
+        """A stable-/radio-isotope variant of a molecule or atom (e.g. the analytical standards
+        "sulfur-32 atom", "((13)C)urea"): the term is under "isotopically modified compound",
+        or it is an atom whose name carries a mass number. Structural, so it also catches
+        neutral isotopes the isotopologue name pattern misses; "sulfur atom", "precorrin-4"
+        and "plastoquinone-9" are not variants."""
+        p = self.primary(cid)
+        if p is None:
+            return False
+        anc = self.ancestors(p)
+        if ISOTOPICALLY_MODIFIED in anc:
+            return True
+        return ATOM in anc and bool(_MASS_NUMBER.search(self._terms[p].get("name") or ""))
 
     def is_carbohydrate(self, cid: str) -> bool:
         p = self.primary(cid)

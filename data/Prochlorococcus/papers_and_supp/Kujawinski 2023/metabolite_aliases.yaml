@@ -76,7 +76,7 @@
 "S-adenosyl-L-methionine":
   id: "kegg.compound:C00019"
   stereo_assignment: as_reported
-  reason: "paper's KEGG export lists C00019; chebi:33442 is the (S)-sulfonium stereo term of the same SAM"
+  reason: "paper's KEGG export lists C00019; chebi:33442 is the stereo-specified (S)-sulfonium form; KEGG C00019 is the stereo-unspecified SAM; linked, not merged"
 "adenosine":
   id: "kegg.compound:C00212"
   stereo_assignment: as_reported

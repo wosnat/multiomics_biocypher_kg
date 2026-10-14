@@ -325,3 +325,16 @@ def test_identifier_coverage_exempts_dropped_nodes():
     assert sorted(e.split()[1] for e in errs) == ["chebi:8", "mnx:M1"]
     assert _identifier_coverage_errors(table, ident, rekeys, {"kegg.compound:C2": "kegg.compound:C1"},
                                        {"chebi:1"}) == []
+
+
+def test_old_id_follows_its_re_resolved_substrate_string(tmp_path):
+    """Final review item 3: an old id no direct rule or MNX fallback explains remaps to the node
+    its substrate string now resolves to (old string map rebuilt with chebi=None)."""
+    inp = make_inputs(tmp_path)
+    inp.previous_ids.add("chebi:999999")
+    inp.previous_entries = {"chebi:999999": {"name": "gone", "mnxm_id": "MNXM_NOWHERE"}}
+    inp.old_string_to_primary = {"CHEBI:999999;gone": "chebi:999999"}
+    inp.string_to_primary = {"CHEBI:999999;gone": f"{K}C00244"}
+    remap = {r["old_id"]: r for r in run_identity_stages(inp).report["remap"]}
+    assert remap["chebi:999999"]["new_id"] == f"{K}C00244"
+    assert remap["chebi:999999"]["basis"] == "chebi_primary_id"

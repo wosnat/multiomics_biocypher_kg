@@ -36,3 +36,13 @@ def test_prune_ancestors_only_and_alias_lands_on_canonical():
     assert {"metabolite_id": "kegg.compound:C00033", "class_id": "kegg.brite:br08001.A1.B1.C1"} in out["members"]
     assert len(out["members"]) == len({(m["metabolite_id"], m["class_id"]) for m in out["members"]})
     assert out["tree"] == "compounds_with_biological_roles"
+
+
+@pytest.mark.parametrize("raw,clean", [
+    ("Enkephalin [KO:K18832]", "Enkephalin"), ("Bradykinin [KO:K03898]", "Bradykinin"),
+    ("Carboxylic acids [Fig]", "Carboxylic acids"), ("Lipids [BR:br08002]", "Lipids"),
+    ("Glycolysis [PATH:map00010]", "Glycolysis"), ("[2Fe-2S] cluster", "[2Fe-2S] cluster")])
+def test_clean_strips_cross_reference_brackets(raw, clean):
+    """Final review item 6: any ``[XX:…]`` cross-reference bracket is stripped from class names."""
+    from multiomics_kg.utils.metabolite_identity.classes import _clean
+    assert _clean(raw) == clean

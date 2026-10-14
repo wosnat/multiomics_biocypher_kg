@@ -1314,7 +1314,9 @@ chemical role:
   label_in_input: chemical role
   properties:
     name: str
-    level: int                   # shortest is_a distance to a ChEBI role branch (DAG: approximate)
+    level: int                   # SHORTEST is_a distance to a ChEBI role branch (0 = branch); not
+                                 # monotone along every is_a edge (DAG: a child can sit at the same or
+                                 # a lower level than one of its parents)
     level_kind: str              # chebi_role_branch | chebi_role
     all_identifiers: str[]       # chebi.role:<n> + chebi:<primary and secondary ids>
     transporter_count: int       # post-import, subtree, most_specific edges, DISTINCT families

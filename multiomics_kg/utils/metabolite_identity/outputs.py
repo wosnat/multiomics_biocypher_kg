@@ -10,6 +10,8 @@ from typing import Callable
 
 import pandas as pd
 
+from multiomics_kg.utils.paperconfig_utils import PROJECT_ROOT
+
 REASON_ORDER = ("alias_override", "dominant_stereo_form", "case_fold_convergence",
                 "direct_id_canonicalised", "placeholder_recurated", "remeasured_elsewhere", "merged",
                 "name_re_resolved")
@@ -71,6 +73,15 @@ def write_all_atomic(files):
         os.replace(tmp, path)
 
 
+def _repo_relative(path: Path) -> str:
+    """``path`` relative to the project root (machine-independent reports); the raw path when
+    it lies outside the repository."""
+    try:
+        return Path(path).resolve().relative_to(Path(PROJECT_ROOT).resolve()).as_posix()
+    except ValueError:
+        return str(path)
+
+
 def write_resolved_tables(tables, decisions):
     out = {}
     for t in tables:
@@ -87,11 +98,11 @@ def write_resolved_tables(tables, decisions):
         df.to_csv(buf, index=False)
         out[resolved_path] = buf.getvalue()
         n_res = sum(1 for m in mid if m)
-        report = {"source_csv": str(t.csv_path), "resolved_csv": str(resolved_path),
+        report = {"source_csv": _repo_relative(t.csv_path), "resolved_csv": _repo_relative(resolved_path),
                   "total_rows": len(df), "resolved": n_res, "unresolved": len(df) - n_res,
                   "match_rate": round(n_res / len(df), 4) if len(df) else 0.0,
                   "method_counts": dict(sorted(Counter(meth).items()))}
-        out[t.csv_path.with_name(t.csv_path.stem + "_resolution_report.json")] = json.dumps(report, indent=2, sort_keys=True)
+        out[t.csv_path.with_name(t.csv_path.stem + "_resolution_report.json")] = json.dumps(report, indent=2, sort_keys=True) + "\n"
     return out
 
 
@@ -180,11 +191,51 @@ def _remap_fallback(old, norm, *, table, id_index, previous_entries, is_isotopol
     return "", "no_longer_reachable"
 
 
+def _substrate_targets(old_string_to_primary, string_to_primary, id_index, table):
+    """Old substrate primary → the written node its TCDB substrate string(s) now resolve to
+    (through ``id_index``); the node most of its strings reach wins, ties by id."""
+    votes: dict[str, Counter] = defaultdict(Counter)
+    for s, old in (old_string_to_primary or {}).items():
+        new = (string_to_primary or {}).get(s)
+        if new is None:
+            continue
+        node = id_index.get(new, new)
+        if node in table:
+            votes[old][node] += 1
+    return {old: sorted(c.items(), key=lambda kv: (-kv[1], kv[0]))[0][0] for old, c in votes.items()}
+
+
+def _substrate_basis(old, node, *, table, chebi, previous_entries, is_isotopologue):
+    """Why an old substrate id now lives on ``node``, read from its ChEBI term: an isotope
+    variant was rejected, a class term was rejected, it is a conjugate acid/base of the node's
+    term, else the node carries the same entity under another (primary) ChEBI id."""
+    prev = previous_entries.get(old) or {}
+    term = old if old.startswith("chebi:") else (f"chebi:{prev['chebi_id']}" if prev.get("chebi_id") else None)
+    p = chebi.primary(term) if (chebi is not None and term) else None
+    t = (chebi.term(p) or {}) if p else {}
+    if is_isotopologue(prev.get("name")) or is_isotopologue(t.get("name")) or (p and chebi.is_isotope_variant(p)):
+        return "isotopologue_rejected"
+    if p and chebi.is_class(p):
+        return "class_term_rejected"
+    e = table[node]
+    node_terms = {f"CHEBI:{c}" for c in [e.get("chebi_id"), *(e.get("chebi_ids") or [])] if c}
+    if p and (set(t.get("conjugates", [])) & node_terms
+              or any(p in (chebi.term(n) or {}).get("conjugates", []) for n in sorted(node_terms))):
+        return "chebi_conjugate"
+    return "chebi_primary_id"
+
+
 def remap_rows(*, old_ids, table, identity, rekeys, role_of, dropped, normalize,
-               id_index=None, previous_entries=None, is_isotopologue=None, is_class=None):
+               id_index=None, previous_entries=None, is_isotopologue=None, is_class=None,
+               old_string_to_primary=None, string_to_primary=None, chebi=None):
     """``id_index`` given → the fallback chain (``_remap_fallback``) accounts for every old id;
-    without it, ids the direct rules miss are returned as ``unaccounted``."""
+    without it, ids the direct rules miss are returned as ``unaccounted``. An old id the
+    fallback finds unreachable but whose TCDB substrate string (``old_string_to_primary``, the
+    previous build's string → primary map) now resolves to a written node (``string_to_primary``
+    taken through ``id_index``) remaps there, with a basis from its ChEBI term
+    (``_substrate_basis``)."""
     rows, unaccounted = [], []
+    by_string = _substrate_targets(old_string_to_primary, string_to_primary, id_index or {}, table)
     for old in sorted(old_ids):
         if old in table:
             continue
@@ -207,6 +258,11 @@ def remap_rows(*, old_ids, table, identity, rekeys, role_of, dropped, normalize,
                                          previous_entries=previous_entries or {},
                                          is_isotopologue=is_isotopologue or (lambda _n: False),
                                          is_class=is_class or (lambda _c: False))
+            node = by_string.get(old) or by_string.get(norm)
+            if basis == "no_longer_reachable" and node:
+                new, basis = node, _substrate_basis(
+                    old, node, table=table, chebi=chebi, previous_entries=previous_entries or {},
+                    is_isotopologue=is_isotopologue or (lambda _n: False))
             rows.append({"old_id": old, "new_id": new, "basis": basis, "role_id": ""})
         else:
             unaccounted.append(old)

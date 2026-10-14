@@ -1147,8 +1147,9 @@ Two refinements to §22 and the stereo model (spec §3.4 / §3.5).
   `Chemical_role_is_a_chemical_role` (child → parent).
 - **Levels:** the level-0 nodes are ChEBI's three role branches, `biological role`,
   `chemical role` and `application`. The single `role` root isn't emitted. `level` is the
-  shortest distance to a branch (a DAG, so best-effort like GO), with
-  `level_kind ∈ {chebi_role_branch, chebi_role}`.
+  SHORTEST `is_a` distance to a branch (a DAG, so best-effort like GO): it is not monotone
+  along every `is_a` edge — a child can sit at the same or a lower level than one of its
+  parents. `level_kind ∈ {chebi_role_branch, chebi_role}`.
 - **`role_branches` (§22) is dropped:** a role's branch is its level-0 ancestor, and 10 roles
   have several.
 - **Counts:** `transporter_count` / `tcdb_family_count` are **subtree** counts

@@ -17,7 +17,7 @@ LEVEL_KINDS = ("kegg_compound_class", "kegg_compound_subclass", "kegg_compound_g
 BR08001_LEVEL0 = ("Organic acids", "Lipids", "Carbohydrates", "Nucleic acids", "Peptides",
                   "Vitamins and cofactors", "Steroids", "Hormones and transmitters", "Antibiotics")
 _LEAF = re.compile(r"^(C\d{5})\s")
-_SUFFIX = re.compile(r"\s*\[(?:Fig|BR:[^\]]*|PATH:[^\]]*)\]")
+_SUFFIX = re.compile(r"\s*\[(?:Fig|[A-Za-z]+:[^\]]*)\]")   # [Fig], [BR:…], [PATH:…], [KO:…], …
 _TAG = re.compile(r"<[^>]+>")
 _URL = "https://rest.kegg.jp/get/br:{code}/json"
 

@@ -74,6 +74,10 @@ class Step6Inputs:
     today: str
     # Previous kegg_data entries by node id (remap fallback: the old entry's mnx id / name).
     previous_entries: dict[str, dict] = field(default_factory=dict)
+    # TCDB substrate string → primary: the previous build's map (re-resolved with chebi=None)
+    # and this build's. An old id nothing else explains remaps to where its string now goes.
+    old_string_to_primary: dict[str, str] = field(default_factory=dict)
+    string_to_primary: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
@@ -356,7 +360,9 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
                                         rekeys=inp.rekeys, role_of=inp.role_of_old, dropped=dropped,
                                         normalize=old_norm, id_index=id_index,
                                         previous_entries=inp.previous_entries,
-                                        is_isotopologue=is_isotopologue_name, is_class=chebi.is_class)
+                                        is_isotopologue=is_isotopologue_name, is_class=chebi.is_class,
+                                        old_string_to_primary=inp.old_string_to_primary,
+                                        string_to_primary=inp.string_to_primary, chebi=chebi)
     errors += [f"remap {r['old_id']} → {r['new_id']} ({r['basis']}): not a compound step 6 writes"
                for r in remap if r["new_id"] and r["new_id"] not in table]
     errors += _identifier_coverage_errors(table, identity, inp.rekeys, dropped, set(dropped_unmoved))

@@ -281,3 +281,76 @@ def test_metabolite_identity_tsvs(tmp_path):
     assert files[tmp_path / "out" / "metabolite_assay_repoints.tsv"] == (
         "paper\ttable\tpaper_name\told_id\tnew_id\tstereo_assignment\treason\n"
         "p\tt\tAlanine\tkegg.compound:C00133\tkegg.compound:C00041\tdominant_form_assumed\tdominant_stereo_form\n")
+
+
+# Final review item 3: an old id whose TCDB substrate string now resolves to a written node
+# remaps there (old string → primary map rebuilt with chebi=None), with a ChEBI-term basis.
+from tests.metabolite_identity_helpers import make_chebi, term  # noqa: E402
+from multiomics_kg.utils.metabolite_identity.crossrefs import is_isotopologue_name  # noqa: E402
+
+_SUB_CHEBI = make_chebi(
+    CHEBI_24431=term("chemical entity"),
+    CHEBI_33250=term("atom", is_a=["CHEBI:24431"]),
+    CHEBI_22984=term("calcium atom", kegg=["C00076"], is_a=["CHEBI:33250"]),
+    CHEBI_176566=term("calcium-43 atom", is_a=["CHEBI:22984"]),
+    CHEBI_176629=term("cadmium-111(2+)", is_a=["CHEBI:24431"]),
+    CHEBI_3556=term("cercosporin", kegg=["C10309"], conj=["CHEBI:146017"], inchikey="X-Y-N"),
+    CHEBI_146017=term("cercosporin(2-)", conj=["CHEBI:3556"], inchikey="X-Y-L"),
+    CHEBI_15444=term("(1->4)-alpha-D-glucan", alt=["CHEBI:10809"], inchikey="G-H-N"),
+    CHEBI_60524=term("mycolates"))
+
+
+def _substrate_remap(old, string_new, node_entry, *, id_index=None):
+    node = "kegg.compound:C9"
+    table = {node: node_entry}
+    ident = IdentityResult({node: node}, {}, {}, {})
+    s = f"CHEBI:{old.split(':')[1]};x"
+    return remap_rows(old_ids={old}, table=table, identity=ident, rekeys={}, role_of={}, dropped={},
+                      normalize=lambda x: x, id_index=id_index or {node: node}, previous_entries={},
+                      is_isotopologue=is_isotopologue_name, is_class=_SUB_CHEBI.is_class,
+                      old_string_to_primary={s: old}, string_to_primary={s: string_new},
+                      chebi=_SUB_CHEBI)
+
+
+@pytest.mark.parametrize("old,node_chebi,basis", [
+    ("chebi:176566", "22984", "isotopologue_rejected"),     # structural (atom + mass number)
+    ("chebi:176629", None, "isotopologue_rejected"),        # by name (charged isotope)
+    ("chebi:60524", None, "class_term_rejected"),
+    ("chebi:146017", "3556", "chebi_conjugate"),
+    ("chebi:10809", "15444", "chebi_primary_id"),
+])
+def test_remap_via_re_resolved_substrate_string(old, node_chebi, basis):
+    e = _entry(["kegg.compound:C9"])
+    e["chebi_id"] = node_chebi
+    rows, un = _substrate_remap(old, "kegg.compound:C9", e)
+    assert rows == [{"old_id": old, "new_id": "kegg.compound:C9", "basis": basis, "role_id": ""}] and un == []
+
+
+def test_remap_substrate_string_through_id_index():
+    e = _entry(["kegg.compound:C9"])
+    rows, _ = _substrate_remap("chebi:146017", "kegg.compound:C8", dict(e, chebi_id="3556"),
+                               id_index={"kegg.compound:C8": "kegg.compound:C9"})
+    assert rows[0]["new_id"] == "kegg.compound:C9" and rows[0]["basis"] == "chebi_conjugate"
+
+
+def test_remap_substrate_string_unresolved_stays_unreachable():
+    rows, _ = _substrate_remap("chebi:146017", "kegg.compound:C7", _entry(["kegg.compound:C9"]))
+    assert rows[0]["basis"] == "no_longer_reachable" and rows[0]["new_id"] == ""
+
+
+def test_resolution_report_paths_relative_to_project_root(tmp_path, monkeypatch):
+    """Final review item 5: report paths are repo-relative (raw path outside the repo) and the
+    JSON ends with a newline."""
+    import multiomics_kg.utils.metabolite_identity.outputs as outputs_mod
+    (tmp_path / "data").mkdir()
+    csv = tmp_path / "data" / "m.csv"
+    pd.DataFrame({"compound": ["Alanine"]}).to_csv(csv, index=False)
+    t = PaperTable("p", "t", csv, 0, [PaperRow("p", "t", 0, "Alanine", None, None)])
+    monkeypatch.setattr(outputs_mod, "PROJECT_ROOT", tmp_path)
+    text = write_resolved_tables([t], {})[tmp_path / "data" / "m_resolution_report.json"]
+    rep = json.loads(text)
+    assert rep["source_csv"] == "data/m.csv" and rep["resolved_csv"] == "data/m_resolved.csv"
+    assert text.endswith("}\n")
+    monkeypatch.setattr(outputs_mod, "PROJECT_ROOT", tmp_path / "elsewhere")
+    rep = json.loads(write_resolved_tables([t], {})[tmp_path / "data" / "m_resolution_report.json"])
+    assert rep["source_csv"] == str(csv)
