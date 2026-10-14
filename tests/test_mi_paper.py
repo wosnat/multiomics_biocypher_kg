@@ -272,3 +272,73 @@ def test_lock_drift_reported_when_margin_falls_below_2x():
     assert r.decisions[("p", "t", 0)].metabolite_id == ALA
     assert r.drift and r.drift[0]["recomputed"] is None
     assert not _run([_table(("Alanine", None))], cands={"alanine": {ALA, DALA}}, lock=lock).drift
+
+
+# ---- Fix round 1 ----------------------------------------------------------------------------
+
+def _two_runs(tables, cands, ctx=None):
+    r1 = _run(tables, cands=cands, ctx=ctx)
+    r2 = _run(tables, cands=cands, ctx=ctx, lock=r1.lock)
+    return r1, r2
+
+
+@pytest.mark.parametrize("tables,cands,ctx", [
+    ([_table(("Glutamate", None))], {"glutamate": {GLU_U}}, _ctx(dict(COUNTS, **{GLU_U: 9000}))),
+    ([_table(("Alanine", None))], {"alanine": {ALA, DALA}}, None),
+    ([_table(("Alanine", ALA_U))], {}, None),
+], ids=["unspecified_node_wins", "alanine_family", "unspecified_direct_id"])
+def test_decisions_identical_across_builds_with_lock(tables, cands, ctx):
+    r1, r2 = _two_runs(tables, cands, ctx)
+    assert r1.decisions and r1.decisions == r2.decisions
+    assert not r2.drift and r1.lock == r2.lock
+
+
+def test_name_matching_both_anomers_keeps_anomer_unspecified_node():
+    r = _run([_table(("N-Acetylglucosamine", None))], cands={"n-acetylglucosamine": {GLCNAC, BGLCNAC}},
+             ctx=_ctx(dict(COUNTS, **{BGLCNAC: 200})))
+    d = r.decisions[("p", "t", 0)]
+    assert (d.metabolite_id, d.stereo_assignment) == (GLCNAC, "as_reported")
+    assert not r.ambiguous and not r.lock["names"]
+
+
+def test_dominant_form_never_picks_anomer_of_candidate():
+    winner, _ = dominant_form({GLCNAC, BGLCNAC}, _ctx(dict(COUNTS, **{BGLCNAC: 200})))
+    assert winner == GLCNAC
+
+
+def _alias_cfg():
+    return {"publication": {"supplementary_materials": {
+        "t1": {"type": "metabolite_assays_table", "aliases_file": "a.yaml"}}}}
+
+
+@pytest.mark.parametrize("text,needle", [
+    ('NO: "kegg.compound:C00533"\n', "quote the key"),
+    ('- Glutathione\n', "mapping"),
+    ('Glutathione: {stereo_assignment: as_reported}\n', "no 'id'"),
+], ids=["yaml11_bool_key", "non_mapping", "dict_without_id"])
+def test_load_overrides_rejects_bad_alias_files(tmp_path, text, needle):
+    (tmp_path / "a.yaml").write_text(text)
+    with pytest.raises(ValueError, match=needle):
+        load_paper_overrides(tmp_path / "paperconfig.yaml", _alias_cfg())
+
+
+def test_missing_aliases_file_raises(tmp_path):
+    with pytest.raises(FileNotFoundError, match="a.yaml"):
+        load_paper_overrides(tmp_path / "paperconfig.yaml", _alias_cfg())
+
+
+@pytest.mark.parametrize("extra", [{"name_col": "Name"}, {"id_col": "KEGG_ID", "id_type": "kegg.compound"}])
+def test_harvest_rejects_missing_columns(tmp_path, extra):
+    from multiomics_kg.utils.metabolite_identity.paper import harvest_paper_tables
+    (tmp_path / "m.csv").write_text("compound,KEGG\nAlanine,C00041\n")
+    cfg = {"publication": {"supplementary_materials": {"tab": dict(
+        {"type": "metabolite_assays_table", "filename": "m.csv"}, **extra)}}}
+    with pytest.raises(ValueError, match="not in"):
+        harvest_paper_tables([(tmp_path / "paperconfig.yaml", cfg)], tmp_path)
+
+
+def test_name_lookup_excludes_overridden_names():
+    ov = {"p": {"glutathione": Override(GSH, "as_reported", "", "Glutathione")}}
+    r = _run([_table(("Glutathione", None), ("Lysine", None))],
+             cands={"glutathione": {GSSG}, "lysine": {LYS}}, overrides=ov)
+    assert r.name_lookup == {"lysine": LYS}

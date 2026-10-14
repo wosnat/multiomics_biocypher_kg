@@ -60,10 +60,21 @@ def load_paper_overrides(pc_path: Path, cfg: dict) -> dict[str, Override]:
     for f in files:
         path = pc_path.parent / f
         if not path.exists():
-            continue
-        doc = yaml.safe_load(path.read_text()) or {}
+            raise FileNotFoundError(f"{pc_path}: aliases_file {f!r} not found at {path}")
+        doc = yaml.safe_load(path.read_text())
+        if doc is None:
+            doc = {}
+        if not isinstance(doc, dict):
+            raise ValueError(f"{path}: alias file must be a mapping of name -> id, "
+                             f"got {type(doc).__name__}")
         for raw, val in doc.items():
+            if not isinstance(raw, str):
+                # YAML 1.1 reads bare NO / No / Yes / On / Off keys as booleans (and digits as ints).
+                raise ValueError(f"{path}: alias key {raw!r} is not a string; quote the key in the "
+                                 f"yaml (e.g. \"NO\": ...)")
             if isinstance(val, dict):
+                if not val.get("id"):
+                    raise ValueError(f"{path}: alias {raw!r} has no 'id'")
                 ov = Override(str(val["id"]), val.get("stereo_assignment"), str(val.get("reason", "")), str(raw))
             else:
                 ov = Override(str(val), None, "", str(raw))
@@ -95,6 +106,10 @@ def harvest_paper_tables(paperconfigs, project_root: Path):
             df = pd.read_csv(csv_full, dtype=str, keep_default_na=False, skiprows=skip or None)
             name_col = entry.get("name_col") or "compound"
             id_col, id_type = entry.get("id_col") or "", entry.get("id_type") or ""
+            for col in (name_col, id_col):
+                if col and col not in df.columns:
+                    raise ValueError(f"{pc_path} [{entry_key}]: column {col!r} not in {csv_full} "
+                                     f"(columns: {list(df.columns)})")
             rows = []
             for i, row in df.iterrows():
                 name = (row.get(name_col) or "").strip()
@@ -130,6 +145,14 @@ class StereoContext:
         return frozenset(m for m in fam if m == node or not self.is_anomer(m, node))
 
 
+def collapse_anomers(candidates, ctx: StereoContext) -> set[str]:
+    """Anomer guard (spec §3.6): drop a candidate that is only an anomer of another candidate
+    that is the anomer-unspecified (stereo-unspecified) node, e.g. beta-GlcNAc next to GlcNAc."""
+    cands = set(candidates)
+    return {m for m in cands
+            if not any(u != m and u in ctx.unspecified and ctx.is_anomer(m, u) for u in cands)}
+
+
 def dominant_form(candidates, ctx: StereoContext):
     """Dominant-stereo-form rule (spec §3.6): the family member with the most catalysts.
 
@@ -138,6 +161,7 @@ def dominant_form(candidates, ctx: StereoContext):
     winner has 0 catalysts, ties the runner-up, or has < 2x the runner-up's count; the info
     dict is returned either way so drift / ambiguity reports can show the counts.
     """
+    candidates = collapse_anomers(candidates, ctx)
     pool = set()
     for c in candidates:
         pool |= ctx.variants(c)
@@ -226,7 +250,8 @@ def resolve_paper_rows(tables, *, overrides, name_candidates, id_index, ctx, loc
         win, info = dominant_form(candidates, ctx)
         if live(section, key):
             entry = lock[section][key]
-            if win != entry["id"] or info["counts"]["winner"] < 2 * info["counts"]["runner_up"]:
+            # win is None when the margin fell below 2x / tie / no catalysis (dominant_form refuses).
+            if win != entry["id"]:
                 drift = {"section": section, "key": key, "frozen": entry["id"],
                          "recomputed": win, "counts": info["counts"]}
                 if drift not in res.drift:
@@ -276,11 +301,14 @@ def resolve_paper_rows(tables, *, overrides, name_candidates, id_index, ctx, loc
                 else:
                     res.decisions[key3] = Decision(tgt, row.id_method, "as_reported")
                 continue
-            cands = {id_index.get(c, c) for c in name_candidates.get(k, set())}
+            cands = collapse_anomers({id_index.get(c, c) for c in name_candidates.get(k, set())}, ctx)
             qualified = is_stereo_qualified(row.name)
             if live("names", k):
                 chosen = rule("names", k, cands or {lock["names"][k]["id"]})
-                res.decisions[key3] = Decision(chosen, "dominant_stereo_form", "dominant_form_assumed")
+                # Same method rule as the freezing path below, so build 1 and build 2 agree.
+                method = ("name_match" if len(cands) == 1 and chosen in cands
+                          else "dominant_stereo_form")
+                res.decisions[key3] = Decision(chosen, method, "dominant_form_assumed")
                 continue
             if not cands:
                 res.unresolved.append({"paper": row.paper, "table": row.table, "name": row.name})
@@ -334,8 +362,11 @@ def resolve_paper_rows(tables, *, overrides, name_candidates, id_index, ctx, loc
         for k, ov in sorted(ovs.items()):
             if (paper, k) not in used_overrides:
                 res.stale_overrides.append({"paper": paper, "name_key": k, "id": ov.id})
+    overridden = {k for ovs in overrides.values() for k in ovs}
     for k, cands in sorted(name_candidates.items()):
-        canon = {id_index.get(c, c) for c in cands}
+        if k in overridden:
+            continue
+        canon = collapse_anomers({id_index.get(c, c) for c in cands}, ctx)
         if len(canon) == 1:
             res.name_lookup[k] = next(iter(canon))
     res.lock = lock
