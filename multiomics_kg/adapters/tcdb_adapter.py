@@ -29,6 +29,7 @@ from typing import Iterator
 
 from multiomics_kg.utils.controlled_vocab import VOCAB
 from multiomics_kg.utils.curie_utils import normalize_curie
+from multiomics_kg.utils.metabolite_identity.lumping import substrate_breadth
 
 logger = logging.getLogger(__name__)
 
@@ -223,6 +224,9 @@ class MultiTcdbAnnotationAdapter:
         self._hierarchy: dict[str, dict] = {}
         self._kept_ids: set[str] = set()
         self._subtree_substrates: dict[str, list[str]] = {}
+        self._chemical_roles: dict[str, dict] = {}
+        self._subtree_roles: dict[str, list[str]] = {}
+        self._lumping_pin: dict | None = None
         self._seed_aliases: dict[str, str] = {}
         self._pfam_bridge: dict[str, dict[str, list[str]]] = {}
         self._go_bridge: dict[str, dict[str, list[str]]] = {}
@@ -276,8 +280,16 @@ class MultiTcdbAnnotationAdapter:
         # {tc_id: {xref_id: [curated 5-part TCIDs]}}
         self._pfam_bridge = pruned.get("pfam_bridge", {}) or {}
         self._go_bridge = pruned.get("go_bridge", {}) or {}
+        self._chemical_roles = pruned.get("chemical_roles", {}) or {}
+        self._subtree_roles = pruned.get("subtree_roles", {}) or {}
+        self._lumping_pin = pruned.get("lumping_pin")
+        if self._lumping_pin is None:
+            raise RuntimeError(
+                "tcdb_pruned.json has no lumping_pin — re-run prepare_data step 6")
 
-    def _compute_substrate_depth(self) -> dict[str, set[str]]:
+    def _compute_substrate_depth(
+        self, subtree_map: dict[str, list[str]]
+    ) -> dict[str, set[str]]:
         """{tc_id: {primary_id it is the MOST-SPECIFIC kept node for}}.
 
         A kept node is *most_specific* for a substrate when no kept child of it
@@ -294,10 +306,10 @@ class MultiTcdbAnnotationAdapter:
                 children.setdefault(parent, []).append(tc)
 
         depth: dict[str, set[str]] = {}
-        for tc, primaries in self._subtree_substrates.items():
+        for tc, primaries in subtree_map.items():
             covered: set[str] = set()
             for child in children.get(tc, []):
-                covered.update(self._subtree_substrates.get(child, ()))
+                covered.update(subtree_map.get(child, ()))
             depth[tc] = set(primaries) - covered
         return depth
 
@@ -327,6 +339,9 @@ class MultiTcdbAnnotationAdapter:
                 "tcdb_id": tcdb_id,
                 "level": level,
                 "level_kind": level_kind,
+                "substrate_breadth": VOCAB.check(
+                    "TcdbFamily", "substrate_breadth",
+                    substrate_breadth(tcdb_id, level, self._lumping_pin)),
             }
             if entry.get("superfamily"):
                 props["superfamily"] = _clean_str(entry["superfamily"])
@@ -335,6 +350,11 @@ class MultiTcdbAnnotationAdapter:
             yield _tcdb_node_id(tcdb_id), "tcdb family", props
             emit_count += 1
         logger.info(f"MultiTcdbAnnotationAdapter.get_nodes: {emit_count} TcdbFamily nodes")
+        for role_id, r in sorted(self._chemical_roles.items()):
+            yield (role_id, "chemical role", {
+                "name": _clean_str(r["name"]), "level": int(r["level"]),
+                "level_kind": VOCAB.check("ChemicalRole", "level_kind", r["level_kind"]),
+                "all_identifiers": [_clean_str(i) for i in r["all_identifiers"]]})
 
     def get_edges(self):
         if not self._kept_ids:
@@ -442,7 +462,7 @@ class MultiTcdbAnnotationAdapter:
         # their own `substrate_classes` and they are leaves, so curated-vs-inherited
         # is exactly `level_kind = 'tc_specificity'` and needs no new property.
         # Depth is the part that is not derivable without a hierarchy traversal.
-        substrate_depth = self._compute_substrate_depth()
+        substrate_depth = self._compute_substrate_depth(self._subtree_substrates)
         sub_count = 0
         deepest_count = 0
         for tcdb_id, primary_ids in sorted(self._subtree_substrates.items()):
@@ -462,6 +482,23 @@ class MultiTcdbAnnotationAdapter:
                         "most_specific" if is_deepest else "inherited")},
                 )
                 sub_count += 1
+
+        # Chemical-role hierarchy + role-transport edges (same depth rule).
+        # Role ids are used verbatim: normalize_curie returns None for chebi.role:.
+        for role_id, r in sorted(self._chemical_roles.items()):
+            for parent in r["parents"]:
+                yield (f"{role_id}-isa-{parent}", role_id, parent,
+                       "chemical_role_is_a_chemical_role", {})
+        role_depth = self._compute_substrate_depth(self._subtree_roles)
+        for tcdb_id, roles in sorted(self._subtree_roles.items()):
+            for role_id in roles:
+                depth = ("most_specific" if role_id in role_depth.get(tcdb_id, set())
+                         else "inherited")
+                yield (f"t2r:{tcdb_id}:{role_id}", _tcdb_node_id(tcdb_id), role_id,
+                       "tcdb_family_transports_chemical_role",
+                       {"substrate_depth": VOCAB.check(
+                           "Tcdb_family_transports_chemical_role",
+                           "substrate_depth", depth)})
 
         # 4. Cross-ontology bridges (TcdbFamily → Pfam / GO).
         #
