@@ -264,3 +264,19 @@ def test_descriptions_carry_no_build_provenance(entry_id):
     for t in texts:
         m = _PROVENANCE_LEAK.search(t or "")
         assert not m, f"{entry_id}: provenance leak {m.group(0)!r} in {t!r}"
+
+
+@pytest.mark.parametrize("entry_id", sorted(load_vocabularies()))
+def test_descriptions_carry_no_apostrophe_or_pipe(entry_id):
+    """The vocabulary adapter sanitizes every string with the house rule
+    (`'` -> `^`, `|` dropped) because BioCypher wraps cells in single quotes
+    and uses `|` as the array delimiter. Descriptions are researcher-facing
+    and printed verbatim by the explorer, so they must not contain either
+    character in the first place — 64 live nodes read "partner^s" /
+    "eggNOG^s" before 2026-10-14. Quote tokens with backticks, rephrase
+    possessives."""
+    from multiomics_kg.utils.controlled_vocab import load_vocabularies
+    entry = load_vocabularies()[entry_id]
+    texts = [entry.description, *(entry.value_descriptions or {}).values()]
+    for t in texts:
+        assert "'" not in (t or "") and "|" not in (t or ""), f"{entry_id}: {t!r}"

@@ -111,6 +111,15 @@ tag with nothing logged.
 
 ### Fixed
 
+- **`ControlledVocabulary` descriptions showed `^` for every apostrophe** (64 live nodes, e.g.
+  "partner^s", "eggNOG^s"). The sanitizer is correct and unchanged — BioCypher wraps cells in
+  single quotes and `|` is the array delimiter, so `'` -> `^` is the house rule; the texts were
+  wrong to use apostrophes. All 65 affected `description` / `value_descriptions` texts are
+  rephrased (quoted tokens now use backticks, possessives are reworded) and
+  `tests/test_controlled_vocab.py::test_descriptions_carry_no_apostrophe_or_pipe` guards every
+  entry. Also reworded `Tests_coculture_with.partner_role = background` — "present in the culture
+  the measured samples came from", not "present in every arm", which was false for Barreto 2022's
+  pooled designs (explorer review, 2026-10-14).
 - **3,837 Cyanorak-only genes had no `contig`/`start`/`end`/`strand` and no `sequence`.**
   Gene coordinates were read from the NCBI GFF columns only, so a gene Cyanorak called and
   PGAP did not (MIT9313 517, MIT9303 504, WH8109 362, CC9311 339, MED4 96, …) existed with

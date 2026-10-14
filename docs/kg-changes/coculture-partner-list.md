@@ -58,6 +58,8 @@ without tables still links its Experiment nodes.
 - **Barreto 2022, 5 entries** (4 pooled pCO₂ main effects + 1 interaction term over a design that
   spans axenic and coculture arms): partners recorded as `background` so the experiments are
   discoverable; `background_factors = ['axenic','coculture']` already marks the design as pooled.
+  The `background` wording is therefore "present in the culture the measured samples came from",
+  not "present in every arm" (corrected 2026-10-14 after explorer review).
 - **Biller 2016 (2) and Bernstein 2017 (1)**: `treatment_organism` → `background_organisms`.
 - **Bernstein 2017's partner edge retargeted** from `ncbitaxon:277` to the genome node
   `insdc.gcf:GCF_000836395.1` (MruberA *is* "M. ruber strain A"), per explorer ask; the treatment

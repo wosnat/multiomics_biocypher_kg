@@ -22,9 +22,9 @@ Gene_has_pfam.evidence:
   closed: true
   values: [curated, signature, family_inferred]
   description: >
-    Inference strength for this annotation. 'signature' = a direct Pfam HMM
-    hit (InterProScan); 'family_inferred' = the domain is known only from
-    eggNOG's ortholog-group transfer, with no direct hit. domain_inferred is
+    Inference strength for this annotation. `signature` = a direct Pfam HMM
+    hit (InterProScan); `family_inferred` = the domain is known only from
+    ortholog-group transfer by eggNOG, with no direct hit. domain_inferred is
     NOT possible on this edge type.
   value_descriptions:
     curated: assigned by a human curator or a curated reference annotation (Cyanorak, UniProt, NCBI); strongest rung
@@ -82,7 +82,7 @@ Gene_has_cazy_family.evidence:
     family_inferred: transferred from an ortholog family or a single-function protein family (eggNOG orthology transfer, InterPro FAMILY entries)
     domain_inferred: transferred from a shared domain (InterPro DOMAIN entry); weakest rung, since a domain can occur outside the annotated function
 
-# ── sources: also per edge type (KG-IPT-011); each value joins DataSource.id = 'data_source:'+value ──────
+# ── sources: also per edge type (KG-IPT-011); each value joins DataSource.id = `data_source:`+value ──────
 Gene_has_pfam.sources:
   applies_to: Gene_has_pfam
   applies_to_kind: edge
@@ -92,7 +92,7 @@ Gene_has_pfam.sources:
   values: [cyanorak, eggnog, interproscan, uniprot]
   description: >
     Who asserted this annotation. Each value joins a DataSource node via
-    id = 'data_source:' + value.
+    id = `data_source:` + value.
   value_descriptions:
     cyanorak: Cyanorak curated cyanobacterial annotation (Prochlorococcus / Synechococcus strains only)
     eggnog: eggNOG-mapper orthology transfer from the seed ortholog group
@@ -106,7 +106,7 @@ Gene_catalyzes_ec_number.sources:
   value_type: string_array
   closed: true
   values: [cyanorak, eggnog, interproscan, uniprot]
-  description: Who asserted this annotation. Each value joins a DataSource node via id = 'data_source:' + value.
+  description: Who asserted this annotation. Each value joins a DataSource node via id = `data_source:` + value.
   value_descriptions:
     cyanorak: Cyanorak curated cyanobacterial annotation (Prochlorococcus / Synechococcus strains only)
     eggnog: eggNOG-mapper orthology transfer from the seed ortholog group
@@ -121,7 +121,7 @@ Gene_involved_in_biological_process.sources: &go_sources
   closed: true
   values: [cyanorak, eggnog, interproscan, ncbi, uniprot]
   description: >
-    Who asserted this annotation. Each value joins a DataSource node via id = 'data_source:' + value. ncbi contributes
+    Who asserted this annotation. Each value joins a DataSource node via id = `data_source:` + value. ncbi contributes
     only to the GO edges.
   value_descriptions:
     cyanorak: Cyanorak curated cyanobacterial annotation (Prochlorococcus / Synechococcus strains only)
@@ -145,7 +145,7 @@ Gene_has_cazy_family.sources:
   value_type: string_array
   closed: true
   values: [eggnog, interproscan]
-  description: Who asserted this annotation. Each value joins a DataSource node via id = 'data_source:' + value.
+  description: Who asserted this annotation. Each value joins a DataSource node via id = `data_source:` + value.
   value_descriptions:
     eggnog: eggNOG-mapper orthology transfer from the seed ortholog group
     interproscan: InterProScan 5 domain / family scan across its member databases
@@ -159,7 +159,7 @@ Gene_has_tcdb_family.sources:
   values: [eggnog, tcdb_diamond]
   description: >
     Evidence sources for this transporter call. Each value joins a DataSource
-    node via id = 'data_source:' + value. Both entries present = cross-source
+    node via id = `data_source:` + value. Both entries present = cross-source
     corroboration.
   value_descriptions:
     eggnog: eggNOG-mapper orthology transfer from the seed ortholog group
@@ -179,7 +179,7 @@ Gene_has_tcdb_family.tier:
     Both a confidence band and the truncation depth of the diamond call:
     1 = tc_specificity (identity >= 70), 2 = tc_subfamily (identity >= 40),
     3 = tc_family (no identity floor). SPARSE — rides only on diamond-sourced
-    edges ('tcdb_diamond' IN sources); absent on eggNOG-only edges.
+    edges (`tcdb_diamond` IN sources); absent on eggNOG-only edges.
 
 # ── evidence_score: normalized float, signals published (R4, KG-IPT-012) ─────
 Gene_has_pfam.evidence_score: &score3
@@ -304,7 +304,7 @@ Tcdb_family_transports_metabolite.substrate_depth:
     A (node, substrate) fact, not a node fact — 2.A.1 can be most_specific for
     one substrate and inherited for another. most_specific = no kept child of
     this node carries the same substrate. Use this, NOT
-    level_kind = 'tc_specificity', to recover leaf substrate semantics.
+    level_kind = `tc_specificity`, to recover leaf substrate semantics.
   value_descriptions:
     most_specific: no kept child of this family carries the same substrate; this is the most specific surviving transporter system for it
     inherited: rolled up from a descendant that also carries the substrate; count the descendant, not this node
@@ -318,7 +318,7 @@ Gene.transport_substrate_resolution:
   sparse: true
   values: [resolved, family_inferred]
   description: >
-    How specific this gene's transport substrate claim is. family_inferred =
+    How specific the transport substrate claim of this gene is. family_inferred =
     its deepest TC attachment lumps many substrates, so the count is
     reachability, not capability. SPARSE — absent when the gene has no TCDB
     edge, so "no evidence" stays distinguishable from a weak claim.
@@ -335,9 +335,9 @@ Gene.coordinate_source:
   closed: true
   values: [ncbi, cyanorak]
   description: >
-    Which annotation placed this gene's contig, start, end and strand. ncbi =
+    Which annotation placed the contig, start, end and strand of this gene. ncbi =
     the RefSeq/PGAP call. cyanorak = NCBI never annotated this gene; the
-    coordinates are Cyanorak's own call, mapped onto the NCBI contig. Dense on
+    coordinates are a Cyanorak call, mapped onto the NCBI contig. Dense on
     every gene with coordinates.
 
 Gene.sequence_source:
@@ -353,8 +353,7 @@ Gene.sequence_source:
   values: [ncbi, cyanorak]
   description: >
     Where the amino-acid sequence came from. ncbi = the RefSeq protein record.
-    cyanorak = NCBI has no protein for this gene; the sequence is Cyanorak's
-    translation of its own gene call. SPARSE — present exactly when sequence is.
+    cyanorak = NCBI has no protein for this gene; the sequence is the Cyanorak translation of its own gene call. SPARSE — present exactly when sequence is.
 
 # ── InterPro ────────────────────────────────────────────────────────────────
 InterproEntry.interpro_type:
@@ -374,7 +373,7 @@ InterproEntry.interpro_type:
     InterPro entry class (FAMILY, DOMAIN, HOMOLOGOUS_SUPERFAMILY,
     CONSERVED_SITE, ACTIVE_SITE, REPEAT, BINDING_SITE, PTM). The primary
     stratification key for enrichment over InterPro: entry breadth varies far
-    more by type than by hierarchy level. InterPro's own upper-case terms,
+    more by type than by hierarchy level. the upper-case terms of InterPro,
     kept verbatim.
 
 InterproEntry.level_kind:
@@ -406,8 +405,7 @@ Gene_has_interpro_entry.libraries:
   description: >
     InterProScan member databases that matched this entry for this gene (e.g.
     PFAM, PANTHER, GENE3D). More libraries = independent corroboration of the
-    same entry; 'PFAM' means a direct HMM hit. InterProScan's own upper-case
-    names, kept verbatim.
+    same entry; `PFAM` means a direct HMM hit. the upper-case names of InterProScan, kept verbatim.
 
 # ── Released vocabularies (harvested, not designed — spec §5.3 second group) ─
 # These vocabularies were already shipped and are read by the MCP explorer;
@@ -610,8 +608,7 @@ Metabolite.evidence_sources:
   description: >
     Why this metabolite is in the graph: metabolism (reachable through a
     gene-catalyzed Reaction), transport (a TCDB substrate of an annotated
-    transporter family), metabolomics (measured by a paper's metabolite
-    assay). A metabolite may carry any combination.
+    transporter family), metabolomics (measured by a metabolite assay of a paper). A metabolite may carry any combination.
 
 Organism_has_metabolite.evidence_sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -625,8 +622,7 @@ Organism_has_metabolite.evidence_sources:
   values: [metabolism, transport, measured]
   description: >
     Why this organism is linked to this metabolite: metabolism (a gene of the
-    organism catalyzes a reaction involving it), transport (a gene's deepest
-    TCDB attachment transports it), measured (a metabolite assay on this
+    organism catalyzes a reaction involving it), transport (the deepest TCDB attachment of a gene transports it), measured (a metabolite assay on this
     organism measured it). Note the third value is "measured" here but
     "metabolomics" on Metabolite.evidence_sources — different properties.
 
@@ -643,14 +639,16 @@ Tests_coculture_with.partner_role:
   closed: true
   values: [treatment, background]
   value_descriptions:
-    treatment: "the experiment tests this partner's presence (coculture vs axenic, or phage infection vs uninfected)"
-    background: "this partner shared the culture in every arm; the experiment tests something else (a nutrient, glucose, light, growth phase)"
+    treatment: "the experiment tests the presence of this partner (coculture vs axenic, or phage infection vs uninfected)"
+    background: "the partner shared the culture the measured samples came from and the experiment tests something else (a nutrient, glucose, light, growth phase); in a pooled design (background_factors lists both axenic and coculture) only part of the samples were cocultures"
   description: >
-    Why this organism is linked to the experiment. treatment = the partner's
-    presence is the variable under test. background = the partner was present
-    in every arm of the comparison, i.e. the culture was a coculture and the
-    experiment tests something else. Filter on this edge for role; the
-    Experiment.coculture_partner list names partners of both roles.
+    Why this organism is linked to the experiment. treatment = the presence
+    of the partner is the variable under test. background = the partner was
+    present in the culture the measured samples came from and the experiment
+    tests something else; in a pooled design (background_factors lists both
+    axenic and coculture, e.g. Barreto 2022) only part of the samples were
+    cocultures. Filter on this edge for role; the Experiment.coculture_partner
+    list names partners of both roles.
 
 Changes_expression_of.expression_status:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -662,7 +660,7 @@ Changes_expression_of.expression_status:
   closed: true
   values: [significant_up, significant_down, not_significant]
   description: >
-    Post-import significance call combining the edge's significant flag and
+    Post-import significance call combining the significant flag of the edge and
     the sign of log2_fold_change: significant_up, significant_down, or
     not_significant.
 
@@ -677,7 +675,7 @@ Derived_metric_quantifies_gene.metric_bucket:
   closed: true
   values: [top_decile, top_quartile, mid, low]
   description: >
-    Post-import percentile bucket of this gene's value within its metric
+    Post-import percentile bucket of the value of this gene within its metric
     (rankable metrics only): top_decile (percentile >= 90), top_quartile
     (>= 75), mid (>= 25), low (< 25).
 
@@ -692,7 +690,7 @@ Assay_quantifies_metabolite.metric_bucket:
   closed: true
   values: [top_decile, top_quartile, mid, low]
   description: >
-    Post-import percentile bucket of this metabolite's value within its assay
+    Post-import percentile bucket of the value of this metabolite within its assay
     (rankable assays only): top_decile (percentile >= 90), top_quartile
     (>= 75), mid (>= 25), low (< 25). Same thresholds as
     Derived_metric_quantifies_gene.metric_bucket.
@@ -753,7 +751,7 @@ OrganismTaxon.peptidase_gene_count:
   values: []
   min_value: 0
   description: >
-    Genes of this organism with 'peptidase' in Gene.merops_classes (at least
+    Genes of this organism with `peptidase` in Gene.merops_classes (at least
     one Gene_has_merops_family edge whose call_class is peptidase). The
     organism-side complement of MeropsFamily.peptidase_gene_count.
 
@@ -766,7 +764,7 @@ OrganismTaxon.nonpeptidase_homolog_gene_count:
   values: []
   min_value: 0
   description: >
-    Genes with 'nonpeptidase_homolog' in Gene.merops_classes. A gene can be
+    Genes with `nonpeptidase_homolog` in Gene.merops_classes. A gene can be
     counted here AND in peptidase_gene_count (multi-domain proteins) — never
     subtract one from the other.
 
@@ -792,7 +790,7 @@ OrganismTaxon.ncbifam_gene_count:
   min_value: 0
   description: >
     Genes with Gene.ncbifam_family_count > 0. Retired NCBIfam families
-    (family_type = 'retired') still count — they are still calls.
+    (family_type = `retired`) still count — they are still calls.
 
 OrganismTaxon.organism_type:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -929,7 +927,7 @@ DerivedMetric.treatment_type:
            chemical, oxygen, rna_decay, tss_mapping, genomic_analysis]
   min_size: 1
   description: >
-    The parent experiment's treatment_type, copied onto the metric for
+    The treatment_type of the parent experiment, copied onto the metric for
     filtering (same value set as Experiment.treatment_type). Always non-empty.
 
 DerivedMetric.background_factors:
@@ -946,7 +944,7 @@ DerivedMetric.background_factors:
   values: [axenic, light, diel, coculture, chemical, darkness, viral]
   min_size: 1
   description: >
-    The parent experiment's background_factors, copied onto the metric for
+    The background_factors of the parent experiment, copied onto the metric for
     filtering (same value set as Experiment.background_factors). Always
     non-empty.
 
@@ -966,7 +964,7 @@ MetaboliteAssay.treatment_type:
            chemical, oxygen, rna_decay, tss_mapping, genomic_analysis]
   min_size: 1
   description: >
-    The parent experiment's treatment_type, copied onto the assay for
+    The treatment_type of the parent experiment, copied onto the assay for
     filtering (same value set as Experiment.treatment_type). Always non-empty.
 
 MetaboliteAssay.background_factors:
@@ -983,7 +981,7 @@ MetaboliteAssay.background_factors:
   values: [axenic, light, diel, coculture, chemical, darkness, viral]
   min_size: 1
   description: >
-    The parent experiment's background_factors, copied onto the assay for
+    The background_factors of the parent experiment, copied onto the assay for
     filtering (same value set as Experiment.background_factors). Always
     non-empty.
 
@@ -1050,7 +1048,7 @@ TigrRole.level_kind:
   description: >
     Position in the JCVI two-level role scheme: tigr_mainrole (level 0, the
     broad functional category) and tigr_subrole (level 1, named
-    '<Mainrole> / <Subrole>'). Subroles point at their mainrole via
+    `<Mainrole> / <Subrole>`). Subroles point at their mainrole via
     Tigr_role_is_a_tigr_role.
 
 BriteCategory.level_kind:
@@ -1112,7 +1110,7 @@ Experiment.growth_phases:
 # docs/kg-changes/two-state-strings.md.
 Experiment.is_time_course:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
-  #   time_course = the experiment's analyses reference more than one timepoint; single_time_point
+  #   time_course = the analyses of the experiment reference more than one timepoint; single_time_point
   #   otherwise. Adapter-set (omics_adapter).
   applies_to: Experiment
   applies_to_kind: node
@@ -1121,7 +1119,7 @@ Experiment.is_time_course:
   closed: true
   values: [time_course, single_time_point]
   description: >
-    time_course = the experiment's analyses reference more than one timepoint;
+    time_course = the analyses of the experiment reference more than one timepoint;
     single_time_point otherwise.
 
 Experiment.reports_fold_change:
@@ -1157,7 +1155,7 @@ MetaboliteAssay.rankable:
   closed: true
   values: [rankable, not_rankable]
   description: >
-    rankable = the assay's numeric values support ranking, so post-import
+    rankable = the numeric values of the assay support ranking, so post-import
     sets rank_by_metric / metric_percentile / metric_bucket on its
     Assay_quantifies_metabolite edges; not_rankable otherwise.
 
@@ -1182,11 +1180,9 @@ Derived_metric_quantifies_gene.significant:
   sparse: true
   values: [significant, not_significant]
   description: >
-    Post-import: significant iff adjusted_p_value < the parent DerivedMetric's
-    p_value_threshold. Only set when the parent has has_p_value = p_value, a
+    Post-import: significant iff adjusted_p_value < the p_value_threshold of the parent DerivedMetric. Only set when the parent has has_p_value = p_value, a
     threshold is configured and the edge carries a non-null adjusted_p_value;
-    absent otherwise. Same pair as Changes_expression_of.expression_status's
-    not_significant token.
+    absent otherwise. Same pair as the not_significant token of Changes_expression_of.expression_status.
 
 Derived_metric_flags_gene.value:
   applies_to: Derived_metric_flags_gene
@@ -1196,8 +1192,7 @@ Derived_metric_flags_gene.value:
   closed: true
   values: [flagged, not_flagged]
   description: >
-    The boolean metric's outcome for this gene: flagged = the paper's
-    true-token (or blank_policy true) applied; not_flagged = the false-token
+    The outcome of the boolean metric for this gene: flagged = the true-token of the paper (or blank_policy true) applied; not_flagged = the false-token
     applied. Rows the paper skipped produce no edge.
 
 Assay_flags_metabolite.flag_value:
@@ -1209,7 +1204,7 @@ Assay_flags_metabolite.flag_value:
   values: [detected, not_detected]
   description: >
     Presence flag for this metabolite in this sample column: detected iff the
-    cell equals the column's flag_true_value. Same pair as
+    cell equals the flag_true_value of the column. Same pair as
     Assay_quantifies_metabolite.detection_status minus its `sporadic` state
     (a single presence call cannot be sporadic). About 62% of rows are
     not_detected — tested-absent is real data, never noise. Was undeclared
@@ -1272,7 +1267,7 @@ MeropsFamily.catalytic_type:
   values: [serine, cysteine, metallo, aspartic, threonine, glutamic,
            asparagine_lyase, mixed, unknown]
   description: >
-    Catalytic mechanism of a peptidase family, MEROPS's single-letter code
+    Catalytic mechanism of a peptidase family, the MEROPS single-letter code
     spelled out (S = serine, C = cysteine, M = metallo, A = aspartic, T =
     threonine, G = glutamic, N = asparagine_lyase, P = mixed, U = unknown).
     The list is the complete MEROPS code set, so a value may be absent from a
@@ -1308,7 +1303,7 @@ Gene_has_merops_family.best_hit_kind:
   closed: true
   values: [holotype, putative, nonpeptidase_homolog]
   description: >
-    Kind of MEROPS entry the candidate's best (highest-identity) hit is:
+    Kind of MEROPS entry the best (highest-identity) hit of the candidate is:
     holotype (a characterized peptidase, identifier tail 001-899), putative
     (a letter-prefixed identifier, not yet characterized), or
     nonpeptidase_homolog (a 9xx tail — a catalytically dead relative).
@@ -1323,7 +1318,7 @@ NcbifamFamily.family_type:
   #   source), plus ONE KG-minted sentinel: 'retired' marks an accession a strain's InterProScan
   #   run still calls but the current NCBIfam reference release no longer lists (10 nodes, all
   #   NF*; ONT-004) — the node keeps its calls.json name and no other reference field. EXTERNAL —
-  #   preserved verbatim in NCBIfam's own mixed casing (including "PfamEq" / "PfamAutoEq", not
+  #   preserved verbatim in the mixed casing of NCBIfam (including "PfamEq" / "PfamAutoEq", not
   #   lowercased or snake_cased) per house rule R1's external-source exception, so the graph stays
   #   directly comparable to the NCBIfam reference data. Harvested by scanning the distinct
   #   `family_type` values across all 38,394 entries in cache/data/ncbifam/ncbifam_reference.json
@@ -1338,12 +1333,11 @@ NcbifamFamily.family_type:
            hypoth_equivalog, hypoth_equivalog_domain, paralog, paralog_domain,
            repeat, retired, signature, subfamily, subfamily_domain, superfamily]
   description: >
-    NCBIfam / TIGRFAM's own specificity label for the family (equivalog,
+    The NCBIfam / TIGRFAM specificity label for the family (equivalog,
     subfamily, domain, hypoth_equivalog, PfamEq, ...). equivalog-class
     families are near-EC-grade specific; hypoth_* families are flagged
-    uninformative. One KG-minted sentinel, 'retired', marks an accession a
-    strain's InterProScan run still calls but the current NCBIfam release no
-    longer lists. NCBIfam's own mixed casing, kept verbatim.
+    uninformative. One KG-minted sentinel, `retired`, marks an accession the InterProScan run of a strain still calls but the current NCBIfam release no
+    longer lists. the mixed casing of NCBIfam, kept verbatim.
 
 Gene_has_interpro_entry.evalue_library:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1363,8 +1357,7 @@ Gene_has_interpro_entry.evalue_library:
   values: [CDD, GENE3D, HAMAP, NCBIFAM, PANTHER, PFAM, PIRSF, PRINTS,
            PROSITE_PATTERNS, PROSITE_PROFILES, SFLD, SMART, SUPERFAMILY]
   description: >
-    Which InterProScan member database reported the edge's best (minimum)
-    e-value. Same upper-case name set as `libraries`. Absent when no matching
+    Which InterProScan member database reported the best (minimum) e-value of the edge. Same upper-case name set as `libraries`. Absent when no matching
     library reported an e-value (~42% of matches).
 
 # ── MEROPS peptidase layer: 2026-08-18 follow-up entries (tier / pfam_support /
@@ -1426,7 +1419,7 @@ Merops_family_has_pfam_domain.member_id_count:
   min_value: 1
   description: >
     How many distinct curated MEROPS identifiers back this (family, Pfam)
-    pair in MEROPS's interpro.txt. Support size, not a filter.
+    pair in the MEROPS interpro.txt. Support size, not a filter.
 
 Gene.merops_classes:
   applies_to: Gene
@@ -1436,8 +1429,7 @@ Gene.merops_classes:
   closed: true
   values: [peptidase, inhibitor, nonpeptidase_homolog]
   description: >
-    Sorted distinct call_class values across the gene's Gene_has_merops_family
-    edges — the at-a-glance guard so a gene whose only call is a dead homolog
+    Sorted distinct call_class values across the Gene_has_merops_family edges of the gene — the at-a-glance guard so a gene whose only call is a dead homolog
     never reads as "1 protease". Empty when the gene has no merops edge.
 
 # ── KG-SYNC-005 (2026-08-27): uniform annotation-trust surface ──────────────
@@ -1448,7 +1440,7 @@ Gene.merops_classes:
 Gene_has_kegg_ko.sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007). Each value joins a
-  #   DataSource node via id = 'data_source:' + value. Constant: kegg_ko is eggNOG-only in
+  #   DataSource node via id = `data_source:` + value. Constant: kegg_ko is eggNOG-only in
   #   gene_annotations_config.yaml.
   applies_to: Gene_has_kegg_ko
   applies_to_kind: edge
@@ -1458,7 +1450,7 @@ Gene_has_kegg_ko.sources:
   values: [eggnog]
   description: >
     Who asserted this KO annotation; each value joins a DataSource node via id
-    = 'data_source:' + value. Always ['eggnog'] — KO assignments come only
+    = `data_source:` + value. Always [`eggnog`] — KO assignments come only
     from eggNOG-mapper.
   value_descriptions:
     eggnog: eggNOG-mapper orthology transfer from the seed ortholog group
@@ -1466,7 +1458,7 @@ Gene_has_kegg_ko.sources:
 Gene_in_cog_category.sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007). Each value joins a
-  #   DataSource node via id = 'data_source:' + value. Constant: cog_category is eggNOG-only.
+  #   DataSource node via id = `data_source:` + value. Constant: cog_category is eggNOG-only.
   applies_to: Gene_in_cog_category
   applies_to_kind: edge
   property: sources
@@ -1475,14 +1467,14 @@ Gene_in_cog_category.sources:
   values: [eggnog]
   description: >
     Who asserted this COG category; each value joins a DataSource node via id
-    = 'data_source:' + value. Always ['eggnog'].
+    = `data_source:` + value. Always [`eggnog`].
   value_descriptions:
     eggnog: eggNOG-mapper orthology transfer from the seed ortholog group
 
 Gene_has_cyanorak_role.sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007). Each value joins a
-  #   DataSource node via id = 'data_source:' + value. Constant: roles come only from the Cyanorak
+  #   DataSource node via id = `data_source:` + value. Constant: roles come only from the Cyanorak
   #   GFF (Pro/Syn strains).
   applies_to: Gene_has_cyanorak_role
   applies_to_kind: edge
@@ -1492,7 +1484,7 @@ Gene_has_cyanorak_role.sources:
   values: [cyanorak]
   description: >
     Who asserted this role; each value joins a DataSource node via id =
-    'data_source:' + value. Always ['cyanorak'] — roles exist only for
+    `data_source:` + value. Always [`cyanorak`] — roles exist only for
     Prochlorococcus / Synechococcus strains with a Cyanorak annotation.
   value_descriptions:
     cyanorak: Cyanorak curated cyanobacterial annotation (Prochlorococcus / Synechococcus strains only)
@@ -1500,7 +1492,7 @@ Gene_has_cyanorak_role.sources:
 Gene_has_tigr_role.sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007). Each value joins a
-  #   DataSource node via id = 'data_source:' + value. Two sources as of 2026-08-29:
+  #   DataSource node via id = `data_source:` + value. Two sources as of 2026-08-29:
   #   'cyanorak' = curated TIGR role carried by the Cyanorak GFF (Pro/Syn strains);
   #   'interproscan' = equivalog NCBIfam TIGR* hit → JCVI role via the frozen TIGRFAMs 15.0
   #   archive (all strains). Both on one edge = the two agree. Prefer `'cyanorak' IN r.sources`
@@ -1513,11 +1505,11 @@ Gene_has_tigr_role.sources:
   values: [cyanorak, interproscan]
   description: >
     Who asserted this TIGR role; each value joins a DataSource node via id =
-    'data_source:' + value. 'cyanorak' = curated Cyanorak annotation
-    (Prochlorococcus / Synechococcus). 'interproscan' = inferred from an
+    `data_source:` + value. `cyanorak` = curated Cyanorak annotation
+    (Prochlorococcus / Synechococcus). `interproscan` = inferred from an
     equivalog NCBIfam TIGR family via the frozen TIGRFAMs 15.0 role archive
     (all strains). Both on one edge = the two agree; filter with
-    'cyanorak' IN r.sources.
+    `cyanorak` IN r.sources.
   value_descriptions:
     cyanorak: Cyanorak curated cyanobacterial annotation (Prochlorococcus / Synechococcus strains only)
     interproscan: equivalog NCBIfam TIGR family hit mapped to its JCVI role via the frozen TIGRFAMs 15.0 archive (all strains)
@@ -1525,7 +1517,7 @@ Gene_has_tigr_role.sources:
 Gene_has_interpro_entry.sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007). Each value joins a
-  #   DataSource node via id = 'data_source:' + value. Constant: one tool. The member DB(s) behind
+  #   DataSource node via id = `data_source:` + value. Constant: one tool. The member DB(s) behind
   #   the hit are in `libraries`.
   applies_to: Gene_has_interpro_entry
   applies_to_kind: edge
@@ -1535,7 +1527,7 @@ Gene_has_interpro_entry.sources:
   values: [interproscan]
   description: >
     Who asserted this entry; each value joins a DataSource node via id =
-    'data_source:' + value. Always ['interproscan']; the member database(s)
+    `data_source:` + value. Always [`interproscan`]; the member database(s)
     behind the hit are in `libraries`.
   value_descriptions:
     interproscan: InterProScan 5 domain / family scan across its member databases
@@ -1543,7 +1535,7 @@ Gene_has_interpro_entry.sources:
 Gene_has_ncbifam_family.sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007). Each value joins a
-  #   DataSource node via id = 'data_source:' + value. Constant: the NCBIFAM facet of the
+  #   DataSource node via id = `data_source:` + value. Constant: the NCBIFAM facet of the
   #   InterProScan run.
   applies_to: Gene_has_ncbifam_family
   applies_to_kind: edge
@@ -1553,7 +1545,7 @@ Gene_has_ncbifam_family.sources:
   values: [interproscan]
   description: >
     Who asserted this family; each value joins a DataSource node via id =
-    'data_source:' + value. Always ['interproscan'] (its NCBIFAM member
+    `data_source:` + value. Always [`interproscan`] (its NCBIFAM member
     database).
   value_descriptions:
     interproscan: InterProScan 5 domain / family scan across its member databases
@@ -1561,7 +1553,7 @@ Gene_has_ncbifam_family.sources:
 Gene_has_merops_family.sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   Who asserted this annotation (uniform provenance, KG-SYNC-005 / ONT-007). Each value joins a
-  #   DataSource node via id = 'data_source:' + value. Constant: one tool (diamond blastp vs. the
+  #   DataSource node via id = `data_source:` + value. Constant: one tool (diamond blastp vs. the
   #   MEROPS scan library).
   applies_to: Gene_has_merops_family
   applies_to_kind: edge
@@ -1571,7 +1563,7 @@ Gene_has_merops_family.sources:
   values: [merops_diamond]
   description: >
     Who asserted this family; each value joins a DataSource node via id =
-    'data_source:' + value. Always ['merops_diamond'] (diamond blastp vs. the
+    `data_source:` + value. Always [`merops_diamond`] (diamond blastp vs. the
     MEROPS scan library).
   value_descriptions:
     merops_diamond: diamond blastp vs. the MEROPS peptidase scan library
@@ -1590,7 +1582,7 @@ Gene_has_kegg_ko.evidence:
   description: >
     Inference strength on the shared ladder curated > signature > homology >
     family_inferred > domain_inferred. KO assignments are family_inferred:
-    orthology transfer from the eggNOG seed ortholog's group.
+    orthology transfer from the group of the eggNOG seed ortholog.
   value_descriptions:
     family_inferred: transferred from an ortholog family or a single-function protein family (eggNOG orthology transfer, InterPro FAMILY entries)
 
@@ -1645,8 +1637,8 @@ Gene_has_tigr_role.evidence:
   values: [curated, family_inferred]
   description: >
     Inference strength on the shared ladder curated > signature > homology >
-    family_inferred > domain_inferred. 'curated' = Cyanorak-assigned (wins
-    when both sources name the role); 'family_inferred' = equivalog-family
+    family_inferred > domain_inferred. `curated` = Cyanorak-assigned (wins
+    when both sources name the role); `family_inferred` = equivalog-family
     role transfer only.
   value_descriptions:
     curated: assigned by a human curator or a curated reference annotation (Cyanorak, UniProt, NCBI); strongest rung
@@ -1749,7 +1741,7 @@ Gene_has_merops_family.evidence_score:
   signals: [tier_le_2, pfam_support]
   description: >
     Advisory placement confidence in {0, 0.5, 1}, never a filter: one point
-    for tier <= 2 (identity >= 40%), one for pfam_support = 'corroborated';
+    for tier <= 2 (identity >= 40%), one for pfam_support = `corroborated`;
     round(score * 2) recovers the count. call_class (is it an active
     peptidase?) is a separate axis, deliberately not scored. Not comparable to
     Gene_has_tcdb_family.evidence_score (5 signals).
@@ -1765,7 +1757,7 @@ Gene.merops_evidence_score_max:
   min_value: 0.0
   max_value: 1.0
   description: >
-    max(evidence_score) over the gene's Gene_has_merops_family edges (ONT-013,
+    max(evidence_score) over the Gene_has_merops_family edges of the gene (ONT-013,
     mirror of tcdb_evidence_score_max). SPARSE — absent when the gene has no
     MEROPS edge; coalesce(x, -1.0) for a total order. Read alongside
     Gene.merops_classes: this says how well the best call is PLACED,
@@ -1807,7 +1799,7 @@ Gene_has_interpro_entry.evalue:
   sparse: true
   min_value: 0.0
   description: >
-    Best (min) e-value across this gene's matches to the entry; SPARSE —
+    Best (min) e-value across the matches of this gene to the entry; SPARSE —
     omitted when no match reports one (~30% of edges). Libraries that never
     report an e-value (measured over the committed calls.json, 2026-08-27):
     COILS, HAMAP, MOBIDB_LITE, PANTHER, PRINTS, PROSITE_PATTERNS, PROSITE_PROFILES, SUPERFAMILY. Evidence only, NEVER a filter — each member DB pre-applies
@@ -1846,7 +1838,7 @@ Gene_has_ncbifam_family.bit_score:
   min_value: 0.0
   description: >
     HMMER bit score of the best NCBIFAM facet row (ONT-011: renamed from
-    `score`, which is PSORTb's unrelated confidence scale). Single homogeneous
+    `score`, which is the unrelated PSORTb confidence scale). Single homogeneous
     library, so evalue AND bit_score are both meaningful.
 
 Gene_has_ncbifam_family.start:
@@ -1886,7 +1878,7 @@ Gene_has_tcdb_family.confidence_score:
   min_value: 0.0
   max_value: 1.0
   description: >
-    tcdb-diamond's own per-call confidence in [0,1] — a tool-internal scale,
+    the per-call confidence reported by tcdb-diamond in [0,1] — a tool-internal scale,
     not the cross-ontology evidence_score. Present only on diamond-called
     edges (absent on eggNOG-only edges).
 
@@ -1953,7 +1945,7 @@ Gene_has_merops_family.confidence_score:
   min_value: 0.0
   max_value: 1.0
   description: >
-    merops-diamond's own per-call confidence in [0,1] — a tool-internal scale,
+    the per-call confidence reported by merops-diamond in [0,1] — a tool-internal scale,
     not the cross-ontology evidence_score. Present on every edge (all are
     diamond-sourced).
 
@@ -2074,7 +2066,7 @@ BiologicalProcess.is_uninformative:
     catch-all terms that carry no functional information — for BiologicalProcess:
     the GO root term go:0008150 (biological_process). Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
-    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+    the informative_only filter of the explorer is `t.is_uninformative IS NULL`.
   value_descriptions:
     'true': flagged as a catch-all term; absence of the property means the term is informative
 
@@ -2091,7 +2083,7 @@ MolecularFunction.is_uninformative:
     catch-all terms that carry no functional information — for MolecularFunction:
     the GO root term go:0003674 (molecular_function). Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
-    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+    the informative_only filter of the explorer is `t.is_uninformative IS NULL`.
   value_descriptions:
     'true': flagged as a catch-all term; absence of the property means the term is informative
 
@@ -2108,7 +2100,7 @@ CellularComponent.is_uninformative:
     catch-all terms that carry no functional information — for CellularComponent:
     the GO root term go:0005575 (cellular_component). Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
-    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+    the informative_only filter of the explorer is `t.is_uninformative IS NULL`.
   value_descriptions:
     'true': flagged as a catch-all term; absence of the property means the term is informative
 
@@ -2125,7 +2117,7 @@ CogFunctionalCategory.is_uninformative:
     catch-all terms that carry no functional information — for CogFunctionalCategory:
     category S (function unknown). Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
-    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+    the informative_only filter of the explorer is `t.is_uninformative IS NULL`.
   value_descriptions:
     'true': flagged as a catch-all term; absence of the property means the term is informative
 
@@ -2142,7 +2134,7 @@ CyanorakRole.is_uninformative:
     catch-all terms that carry no functional information — for CyanorakRole:
     catch-all roles (Other, conserved hypothetical, hypothetical). Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
-    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+    the informative_only filter of the explorer is `t.is_uninformative IS NULL`.
   value_descriptions:
     'true': flagged as a catch-all term; absence of the property means the term is informative
 
@@ -2159,7 +2151,7 @@ TigrRole.is_uninformative:
     catch-all terms that carry no functional information — for TigrRole:
     the junk mainroles hypothetical_proteins / unknown_function / unclassified and junk subroles (Not Found, Disrupted reading frame, …). Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
-    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+    the informative_only filter of the explorer is `t.is_uninformative IS NULL`.
   value_descriptions:
     'true': flagged as a catch-all term; absence of the property means the term is informative
 
@@ -2179,7 +2171,7 @@ KeggTerm.is_uninformative:
     pathways, the standard KEGG-ORA exclusion). Absent on every informative
     term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
-    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+    the informative_only filter of the explorer is `t.is_uninformative IS NULL`.
   value_descriptions:
     'true': flagged as a catch-all term; absence of the property means the term is informative
 
@@ -2194,9 +2186,9 @@ InterproEntry.is_uninformative:
   description: >
     PRESENCE MARKER set post-import on
     catch-all terms that carry no functional information — for InterproEntry:
-    entries whose name starts 'Protein of unknown function', 'Domain of unknown function' or 'Uncharacteri[sz]ed protein family'. Absent on every informative term. Genes whose only
+    entries whose name starts `Protein of unknown function`, `Domain of unknown function` or `Uncharacteri[sz]ed protein family`. Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
-    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+    the informative_only filter of the explorer is `t.is_uninformative IS NULL`.
   value_descriptions:
     'true': flagged as a catch-all term; absence of the property means the term is informative
 
@@ -2213,7 +2205,7 @@ NcbifamFamily.is_uninformative:
     catch-all terms that carry no functional information — for NcbifamFamily:
     family_type hypoth_equivalog(_domain) plus the hypothetical / uncharacterized / DUF name patterns. Absent on every informative term. Genes whose only
     annotations point at flagged terms are annotation_state = catch_all_only;
-    the explorer's informative_only filter is `t.is_uninformative IS NULL`.
+    the informative_only filter of the explorer is `t.is_uninformative IS NULL`.
   value_descriptions:
     'true': flagged as a catch-all term; absence of the property means the term is informative
 
