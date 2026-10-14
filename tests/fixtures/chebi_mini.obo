@@ -1,0 +1,114 @@
+format-version: 1.2
+data-version: 256
+ontology: chebi
+
+[Term]
+id: CHEBI:17632
+name: nitrate
+alt_id: CHEBI:14654
+relationship: RO:0018033 CHEBI:48107 ! x
+property_value: chemrof:generalized_empirical_formula "NO3" xsd:string
+property_value: chemrof:charge "-1" xsd:integer
+property_value: chemrof:inchi_key_string "NHNBFGGVMKEFGY-UHFFFAOYSA-N" xsd:string
+
+[Term]
+id: CHEBI:48107
+name: nitric acid
+xref: kegg.compound:C00244 {source="kegg.compound"}
+relationship: RO:0018034 CHEBI:17632 ! x
+property_value: chemrof:generalized_empirical_formula "HNO3" xsd:string
+property_value: chemrof:charge "0" xsd:integer
+property_value: chemrof:inchi_key_string "GRYLNZFGIOXLOG-UHFFFAOYSA-N" xsd:string
+
+[Term]
+id: CHEBI:50906
+name: role
+
+[Term]
+id: CHEBI:24432
+name: biological role
+is_a: CHEBI:50906 ! parent
+
+[Term]
+id: CHEBI:51086
+name: chemical role
+is_a: CHEBI:50906 ! parent
+
+[Term]
+id: CHEBI:33232
+name: application
+is_a: CHEBI:50906 ! parent
+
+[Term]
+id: CHEBI:26672
+name: siderophore
+is_a: CHEBI:24432 ! parent
+
+[Term]
+id: CHEBI:38155
+name: phytosiderophore
+is_a: CHEBI:26672 ! parent
+
+[Term]
+id: CHEBI:33229
+name: vitamin
+alt_id: CHEBI:10004
+is_a: CHEBI:24432 ! parent
+is_a: CHEBI:33232 ! parent
+
+[Term]
+id: CHEBI:16977
+name: L-alanine
+is_a: CHEBI:16449 ! parent
+xref: kegg.compound:C00041 {source="kegg.compound"}
+relationship: RO:0018039 CHEBI:15570 ! x
+property_value: chemrof:generalized_empirical_formula "C3H7NO2" xsd:string
+property_value: chemrof:inchi_key_string "QNAYBMKLOCPYGJ-REOHCLBHSA-N" xsd:string
+
+[Term]
+id: CHEBI:15570
+name: D-alanine
+is_a: CHEBI:16449 ! parent
+xref: kegg.compound:C00133 {source="kegg.compound"}
+relationship: RO:0018039 CHEBI:16977 ! x
+property_value: chemrof:generalized_empirical_formula "C3H7NO2" xsd:string
+property_value: chemrof:inchi_key_string "QNAYBMKLOCPYGJ-UWTATZPHSA-N" xsd:string
+
+[Term]
+id: CHEBI:16449
+name: alanine
+xref: kegg.compound:C01401 {source="kegg.compound"}
+property_value: chemrof:generalized_empirical_formula "C3H7NO2" xsd:string
+property_value: chemrof:inchi_key_string "QNAYBMKLOCPYGJ-UHFFFAOYSA-N" xsd:string
+
+[Term]
+id: CHEBI:16646
+name: carbohydrate
+
+[Term]
+id: CHEBI:4167
+name: D-glucopyranose
+is_a: CHEBI:16646 ! parent
+xref: kegg.compound:C00031 {source="kegg.compound"}
+property_value: chemrof:generalized_empirical_formula "C6H12O6" xsd:string
+property_value: chemrof:inchi_key_string "WQZGKKKJIJFFOK-SVZMEOIVSA-N" xsd:string
+
+[Term]
+id: CHEBI:15903
+name: beta-D-glucose
+is_a: CHEBI:4167 ! parent
+xref: kegg.compound:C00221 {source="kegg.compound"}
+property_value: chemrof:generalized_empirical_formula "C6H12O6" xsd:string
+property_value: chemrof:inchi_key_string "WQZGKKKJIJFFOK-VFUOTHLCSA-N" xsd:string
+
+[Term]
+id: CHEBI:17754
+name: glycerol
+xref: kegg.compound:C00116 {source="kegg.compound"}
+property_value: chemrof:generalized_empirical_formula "C3H8O3" xsd:string
+property_value: chemrof:inchi_key_string "PEDCQBHIVMGVHV-UHFFFAOYSA-N" xsd:string
+
+[Term]
+id: CHEBI:17522
+name: alditol
+property_value: chemrof:generalized_empirical_formula "C2H6O2(CH2O)n" xsd:string
