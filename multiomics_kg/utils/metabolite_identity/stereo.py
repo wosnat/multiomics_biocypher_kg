@@ -69,10 +69,9 @@ def unspecified_members(stereo_pairs):
 
 
 def is_anomer_pair(a, b, table, terms_of, chebi):
-    names_a = {table[a].get("name") or ""} | {(chebi.term(t) or {}).get("name") or "" for t in terms_of.get(a, ())}
-    names_b = {table[b].get("name") or ""} | {(chebi.term(t) or {}).get("name") or "" for t in terms_of.get(b, ())}
-    same = any(x and y and x.casefold() != y.casefold() and strip_anomer_tokens(x) == strip_anomer_tokens(y)
-               for x in names_a for y in names_b)
+    na, nb = _names(a, table, terms_of, chebi), _names(b, table, terms_of, chebi)
+    same = any(x.casefold() != y.casefold() and strip_anomer_tokens(x) == strip_anomer_tokens(y)
+               for x in na for y in nb)
     sugar = any(chebi.is_carbohydrate(t) for t in terms_of.get(a, set()) | terms_of.get(b, set()))
     return same and sugar
 

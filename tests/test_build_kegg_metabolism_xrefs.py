@@ -1118,7 +1118,7 @@ def _stub_main(tmp_path, monkeypatch):
         "kos": set(), "rxns": set(), "cpds": set(), "pws": {"ko00010"}, "tcdb_ids": {"1.A"},
         "rxn_genes": {}})
     monkeypatch.setattr(bx, "_load_chebi", lambda c, r: (make_chebi(), True))
-    monkeypatch.setattr(bx, "_resolve_substrate_strings", lambda s, conn, chebi=None, rekeys=None, known_kegg=None: ({}, {}))
+    monkeypatch.setattr(bx, "_resolve_substrate_strings", lambda s, conn, chebi=None, rekeys=None, known_kegg=None, legacy=None: ({}, {}))
     monkeypatch.setattr(bx, "load_all_paperconfigs", lambda: [])
     monkeypatch.setattr(bx, "build_pruned_kegg_data", lambda raw, conn, sets: {
         "compounds": {}, "additional_compounds": {}, "kos": {}, "pathways": {}, "subcategories": {},
@@ -1161,15 +1161,16 @@ def test_main_writes_rendered_files_once(tmp_path, monkeypatch):
 
 
 def test_main_passes_old_and_new_substrate_maps(tmp_path, monkeypatch):
-    """Final review item 3: the previous build's string → primary map is rebuilt with
-    chebi=None over the substrate strings and handed to the pipeline beside the new map."""
+    """Final review item 3: the previous build's string → primary map (filled by the one
+    resolver pass through ``legacy``) is handed to the pipeline beside the new map."""
     from multiomics_kg.utils.metabolite_identity.pipeline import Step6ValidationError
     _stub_main(tmp_path, monkeypatch)
     calls = []
 
-    def fake(strings, conn, chebi=None, rekeys=None, known_kegg=None):
+    def fake(strings, conn, chebi=None, rekeys=None, known_kegg=None, legacy=None):
         calls.append(chebi is None)
-        return ({"S": "chebi:1"}, {}) if chebi is None else ({"S": "kegg.compound:C00001"}, {})
+        legacy["S"] = "chebi:1"
+        return {"S": "kegg.compound:C00001"}, {}
     monkeypatch.setattr(bx, "_resolve_substrate_strings", fake)
     seen = {}
 
@@ -1179,7 +1180,7 @@ def test_main_passes_old_and_new_substrate_maps(tmp_path, monkeypatch):
     monkeypatch.setattr(bx, "run_identity_stages", stop)
     with pytest.raises(Step6ValidationError):
         bx.main(force=True, today="2026-10-14")
-    assert sorted(calls) == [False, True]
+    assert calls == [False]                                   # one MNX pass, not two
     assert seen["inp"].old_string_to_primary == {"S": "chebi:1"}
     assert seen["inp"].string_to_primary == {"S": "kegg.compound:C00001"}
 
@@ -1203,10 +1204,10 @@ def test_load_compound_brite_outage_uses_committed(tmp_path, monkeypatch):
     code = next(iter(bx.COMPOUND_BRITE_TREES))
     (kegg_dir / f"brite_{code}.json").write_text('{"nodes": []}')
 
-    def boom(raw_dir, force=False):
+    def boom(url):
         raise OSError("down")
-    monkeypatch.setattr(bx, "download_compound_brite", boom)
-    raw, committed = bx._load_compound_brite(tmp_path, False)
+    monkeypatch.setattr(bx.kegg_utils, "_fetch_json", boom)
+    raw, committed = bx._load_compound_brite(tmp_path, True)
     assert raw == {} and committed == {code: {"nodes": []}}
 
 
@@ -1277,3 +1278,17 @@ def test_main_refuses_empty_kegg_compound_list(tmp_path, monkeypatch):
     with pytest.raises(RuntimeError, match="compound list is empty"):
         bx.main(force=True, today="2026-10-14")
     assert writes == []
+
+
+def test_resolve_substrate_strings_legacy_matches_a_chebi_none_pass(tmp_path):
+    """``legacy`` reproduces the pre-identity (chebi=None, no KEGG filter) map from the same
+    queries — here a string the ChEBI path re-keys to KEGG keeps its legacy chebi primary."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _resolve_substrate_strings
+    chebi = make_chebi(CHEBI_4167=term("D-glucopyranose", alt=["CHEBI:12345"], kegg=["C00031"]))
+    strings = {"CHEBI:4167;glucose", "CHEBI:12345;glucose", "CHEBI:10004;vitamin"}
+    conn = _subs_conn_with_chebi_only(tmp_path)
+    old, _ = _resolve_substrate_strings(strings, conn)
+    legacy = {}
+    new, _ = _resolve_substrate_strings(strings, conn, chebi=chebi, rekeys={}, legacy=legacy)
+    assert legacy == old == {"CHEBI:4167;glucose": "chebi:4167", "CHEBI:10004;vitamin": "chebi:10004"}
+    assert new["CHEBI:4167;glucose"] == new["CHEBI:12345;glucose"] == "kegg.compound:C00031"

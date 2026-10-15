@@ -3,10 +3,13 @@ from __future__ import annotations
 
 import html
 import json
+import logging
 import re
 from pathlib import Path
 
 from multiomics_kg.utils import kegg_utils
+
+log = logging.getLogger(__name__)
 
 COMPOUND_BRITE_TREES = {
     "br08001": "compounds_with_biological_roles", "br08002": "lipids",
@@ -69,6 +72,8 @@ def prune_compound_brite(tree_code, nodes, members, *, canonical_of, written):
 
 
 def download_compound_brite(raw_dir: Path, force: bool = False) -> dict[str, dict]:
+    """Raw KEGG compound BRITE trees, by code. A tree whose download fails is left out (and
+    logged), so the caller falls back to the committed copy for that tree only."""
     raw_dir.mkdir(parents=True, exist_ok=True)
     out = {}
     for code in COMPOUND_BRITE_TREES:
@@ -76,7 +81,12 @@ def download_compound_brite(raw_dir: Path, force: bool = False) -> dict[str, dic
         if path.exists() and not force:
             out[code] = json.loads(path.read_text())
             continue
-        data = kegg_utils._fetch_json(_URL.format(code=code))
+        try:
+            data = kegg_utils._fetch_json(_URL.format(code=code))
+        except Exception as exc:
+            log.warning(f"  KEGG compound BRITE {code} download failed ({exc}); "
+                        f"falling back to the committed brite_{code}.json")
+            continue
         path.write_text(json.dumps(data))
         out[code] = data
     return out

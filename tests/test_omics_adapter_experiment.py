@@ -152,3 +152,33 @@ class TestCoculturePartners:
         props, edges = _build(tmp_path, background_factors=["axenic"])
         assert props["coculture_partner"] == []
         assert edges == []
+
+    def test_one_organism_under_two_spellings_is_one_treatment_edge(self, tmp_path, stub_pdf_extractor):
+        """Partners dedupe by OrganismTaxon id, not by display name."""
+        props, edges = _build(
+            tmp_path, treatment_type=["coculture"], background_factors=["coculture", "light"],
+            treatment_organism=HOT1A3["organism"],
+            treatment_assembly_accession=HOT1A3["assembly_accession"],
+            background_organisms=[{"organism": "Alteromonas HOT1A3",
+                                   "assembly_accession": HOT1A3["assembly_accession"]}],
+        )
+        assert [(e[2], e[3]["partner_role"]) for e in edges] == [
+            ("insdc.gcf:GCF_001578515.1", "treatment")
+        ]
+        assert props["coculture_partner"] == ["Alteromonas macleodii HOT1A3"]
+
+
+def test_empty_supplementary_materials_key_keeps_structural_edges(tmp_path, stub_pdf_extractor):
+    """`supplementary_materials:` left empty reads as None — the experiment still gets its
+    Has_experiment and partner edges."""
+    config_path = _write_paperconfig(
+        tmp_path, treatment_type=["coculture"], background_factors=["light"],
+        treatment_organism=HOT1A3["organism"],
+        treatment_assembly_accession=HOT1A3["assembly_accession"])
+    cfg = yaml.safe_load(open(config_path))
+    cfg["publication"]["supplementary_materials"] = None
+    open(config_path, "w").write(yaml.dump(cfg))
+    adapter = OMICSAdapter(config_file=config_path)
+    adapter.download_data()
+    labels = sorted(lbl for _, _, _, lbl, _ in adapter.get_edges())
+    assert labels == ["has_experiment", "tests_coculture_with"]

@@ -129,6 +129,24 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
 
 ### Fixed
 
+- **Step 6 follow-ups to the metabolite identity change (review, 2026-10-15).** None of these
+  changes the current build: `kegg_data.json`, the stereo lock, the BRITE trees and every paper
+  `_resolved.csv` are byte-identical on a rerun. (a) A paper metabolite id that wasn't in house
+  form (`CHEBI:17234`, `KEGG:C00031`, `c00031`) was normalised when step 6 collected it but
+  looked up raw when resolving the row, so the row went unresolved (or its alias failed) and
+  the measurement was lost. Ids are now normalised once, in place. (b) A default
+  `prepare_data.sh` run (no `--force`) skipped step 6 whenever `kegg_data.json` existed, so a
+  newly added `metabolite_assays_table` got no `_resolved.csv` and no measurement edges. Step 7
+  used to cover this. Step 6 now rebuilds when any table's `_resolved.csv` is missing.
+  (c) `metabolite_id_mapping.json` `name_lookup` is limited to written nodes, like `id_aliases`.
+  This drops 2 entries that named non-nodes (`ammp`, `sodium taurocholate`). (d) A failed KEGG
+  compound BRITE download now falls back to the committed copy for that tree only, not all 8.
+  (e) Step 6 resolves TCDB substrate strings through MNX once instead of twice: the remap
+  baseline comes from the same pass, and is verified equal on all 1,633 molecule strings.
+- **Coculture partner edges.** A paperconfig with an empty `supplementary_materials:` key lost
+  its experiments' `Has_experiment` and `Tests_coculture_with` edges. Partners now dedupe by
+  `OrganismTaxon` id, not display name, so one organism listed under two spellings gives one
+  edge (the `treatment` role wins).
 - **`ControlledVocabulary` descriptions showed `^` for every apostrophe** (64 live nodes, e.g.
   "partner^s", "eggNOG^s"). The sanitizer is correct and unchanged — BioCypher wraps cells in
   single quotes and `|` is the array delimiter, so `'` -> `^` is the house rule; the texts were

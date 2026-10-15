@@ -428,10 +428,12 @@ class OMICSAdapter:
             logger.warning(f"'publication' must be a dict, got {type(publication).__name__}. Skipping all tables.")
             return edge_list
 
-        supp_materials = publication.get('supplementary_materials', {})
+        # An empty `supplementary_materials:` key reads as None; it, like any non-dict, skips
+        # the tables only — the structural edges below are still emitted.
+        supp_materials = publication.get('supplementary_materials') or {}
         if not isinstance(supp_materials, dict):
             logger.warning(f"'supplementary_materials' must be a dict, got {type(supp_materials).__name__}. Skipping all tables.")
-            return edge_list
+            supp_materials = {}
 
         pub_id_raw = self.get_publication_id()
         pub_id = self.add_prefix_to_id(prefix="doi", identifier=pub_id_raw)
@@ -951,31 +953,32 @@ class OMICSAdapter:
           partner itself (``treatment_type`` contains ``coculture`` or ``viral``),
           else ``background`` (e.g. Biller 2016's within-coculture time contrasts).
         - every ``background_organisms`` entry is ``background``.
-        An organism named on both sides keeps ``treatment``.
+        An organism named on both sides keeps ``treatment``. Partners are one per
+        OrganismTaxon id (by name when there is no id), so two spellings of one
+        organism yield one edge.
         """
         tt = set(self._normalize_list_field(exp, "treatment_type"))
         partners: dict[str, _Partner] = {}
         t_org = exp.get("treatment_organism")
         if t_org:
             role = "treatment" if tt & {"coculture", "viral"} else "background"
-            partners[self.clean_text(t_org)] = _Partner(
+            p = _Partner(
                 self.clean_text(t_org),
                 self._partner_organism_id(
                     exp.get("treatment_assembly_accession"), exp.get("treatment_taxid")
                 ),
                 role,
             )
+            partners[p.organism_id or p.name] = p
         for entry in exp.get("background_organisms") or []:
             if not isinstance(entry, dict) or not entry.get("organism"):
                 continue
-            name = self.clean_text(entry["organism"])
-            if name in partners:
-                continue
-            partners[name] = _Partner(
-                name,
+            p = _Partner(
+                self.clean_text(entry["organism"]),
                 self._partner_organism_id(entry.get("assembly_accession"), entry.get("taxid")),
                 "background",
             )
+            partners.setdefault(p.organism_id or p.name, p)
         return list(partners.values())
 
     def _get_default_properties(self) -> dict:
