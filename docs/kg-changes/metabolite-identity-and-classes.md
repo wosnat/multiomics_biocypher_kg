@@ -42,7 +42,7 @@ history, kept for the reasoning behind each decision.
 
 | | Before | After |
 |---|---|---|
-| Duplicates | One metabolite can be two nodes: nitrate is `chebi:14654` and `kegg.compound:C00244`; HCO₃⁻ is `C00288` and `C01353` | One node per metabolite (40 merge groups) |
+| Duplicates | One metabolite can be two nodes: nitrate is `chebi:14654` and `kegg.compound:C00244`; HCO₃⁻ is `C00288` and `C01353` | One node per metabolite (29 merge groups; stereo forms never merged, §38) |
 | `chebi_id` | 48% are secondary / obsolete ids; 331 more name an isotopologue ("succinic acid-d4") | The primary entity id, from ChEBI's own KEGG cross-reference |
 | `chebi:` node ids | 173 are secondary ids | All primary; 124 re-keyed to KEGG ids (49 onto an existing KEGG node, 75 onto a new one); 79 changed to their primary `chebi:` id or its KEGG node (`chebi_primary_id`) |
 | Role terms | 57 "metabolites" such as `drug`, `xenobiotic`, `acid`, `vitamin (role)` | Removed from `Metabolite`. Now `ChemicalRole` nodes (§2a) |
@@ -58,19 +58,20 @@ history, kept for the reasoning behind each decision.
 - **Never merged automatically:** name-only matches. Two KEGG ids merge only on MNX evidence or a
   curated `merge:` override.
 
-**Scale (measured):** `Metabolite` 3,356 → **3,203** (2,776 `kegg.compound:` + 427 `chebi:` + 0
-`mnx:`). 320 old ids retire (every one is a row of `metabolite_id_remap.tsv`) and 167 new ids
-appear:
+**Scale (measured, amended 2026-10-15 by §38):** `Metabolite` 3,356 → **3,214** (2,787
+`kegg.compound:` + 427 `chebi:` + 0 `mnx:`). 311 old ids retire (every one is a row of
+`metabolite_id_remap.tsv`) and 169 new ids appear:
 - −57 roles (`removed_role`);
 - −13 measurement-only nodes (4 `removed_placeholder` + 9 `remeasured_elsewhere`);
-- −84 old ids collapse into a node that already existed (49 `rekey_chebi_kegg_xref`, 18
+- −74 old ids collapse into a node that already existed (48 `rekey_chebi_kegg_xref`, 9
   `mnx_same_entity`, 8 `chebi_conjugate`, 6 `manual`, 1 each `chebi_tautomer`,
   `chebi_primary_id`, `isotopologue_rejected`);
-- 166 old ids move to a new id (165 new nodes; `chebi:132153` and `chebi:14412` both land on
-  `C00518`): 78 `chebi_primary_id`, 75 `rekey_chebi_kegg_xref`, 8 `class_term_rejected`, 2
+- 167 old ids move to a new id (166 new nodes; `chebi:132153` and `chebi:14412` both land on
+  `C00518`): 78 `chebi_primary_id`, 76 `rekey_chebi_kegg_xref`, 8 `class_term_rejected`, 2
   `chebi_conjugate`, 2 `isotopologue_rejected`, 1 `mnx_same_entity`;
-- 2 nodes are new without an old id: `chebi:26399` purine ribonucleoside (a TCDB substrate string
-  that now resolves) and `C11546` glucosylglycerol (Kujawinski's override target).
+- 3 nodes are new without an old id: `chebi:26399` purine ribonucleoside (a TCDB substrate string
+  that now resolves), `C11546` glucosylglycerol (Kujawinski's override target) and `C00597`
+  3-phosphoglycerate (Biller 2022's alias target, kept apart from 3-phospho-D-glycerate, §38).
 
 ### New / changed Metabolite properties
 
@@ -86,7 +87,8 @@ appear:
 | `structure_kind` | str | **new, dense, controlled**: `defined` \| `generic` \| `polymer` |
 | `formula`, `mass`, `inchikey`, `smiles`, `elements` | — | Concrete representative values are dropped from class / polymer nodes that carried them. Generic formulas and `elements` are kept; 33 formula-less nodes gain both from ChEBI, and 386 nodes have a representative structure scrubbed. `mass` is never present on a generic formula; `elements` ⊆ the periodic table |
 | `name` | str | KEGG name on KEGG-keyed nodes, ChEBI name on `chebi:` nodes |
-| `kegg_compound_categories` | str[] | **new, sparse, post-import**: br08001 top-level names (`Peptides`, `Carbohydrates`, …). Never inferred |
+| `kegg_functional_categories` | str[] | **new, sparse, post-import**: br08001 top-level names (`Peptides`, `Carbohydrates`, …). Never inferred. Named `kegg_compound_categories` until 2026-10-15 (§38) |
+| `kegg_brite_classes` | str[] | **new, sparse, post-import**: top level of the 7 other compound trees as `"<Tree>: <class>"` (`Lipids: Fatty acyls`); closed vocabulary of 28 values (§38) |
 | `evidence_sources` | str[] | `metabolomics` now only on the nodes paper rows finally resolve to: 149 → 134 nodes (9 surviving nodes lose it, 10 gain it, the rest retire) |
 
 ### Migration notes for the explorer
@@ -219,7 +221,7 @@ natural_toxins 19 / 15 · endocrine_disrupting_compounds 9 / 8 · bioactive_pept
 
 ## 2b. Also new
 
-- **`Metabolite_is_stereo_form_of`** (stereo-specified → unspecified, directed, **68**) and
+- **`Metabolite_is_stereo_form_of`** (stereo-specified → unspecified, directed, **76**; 68 before §38) and
   **`Metabolite_is_enantiomer_of`** (symmetric, stored once lower → higher id, query undirected,
   **28**).
   - Both carry `sources: ['chebi']`, `evidence: 'curated'`.
@@ -318,6 +320,9 @@ natural_toxins 19 / 15 · endocrine_disrupting_compounds 9 / 8 · bioactive_pept
   - the number of 0-gene pathway `KeggTerm` nodes added.
 
 ## 2c. Measured on the 2026-10-15 build
+
+**Superseded where §38 differs:** the 2026-10-15 MNX stereo-guard rebuild changes the metabolite
+counts, the merge-group and remap numbers, and the two TSVs (now 311 / 108 rows). §38 has the deltas.
 
 Release TSVs (generated by `scripts/metabolite_identity_tsvs.py` from
 `cache/data/metabolomics/metabolite_identity_report.json`):
@@ -1833,3 +1838,122 @@ On §36:
 - the docs reference `substrate_breadth`, including `not_assessed`.
 
 Next contact: the post-rebuild doc.
+
+## 38. KG change: MNX merges respect stereo forms; canonical margin; BRITE classes (2026-10-15, implemented)
+
+**Origin:** explorer ask `multiomics_explorer/docs/kg-specs/2026-10-15-metabolite-stereo-merge-asks.md`
+(asks 1–4, 3b, 6; ask 5 reported). Measured on the rebuilt live graph, 2026-10-15.
+Spec: §3.1 / §3.2 / overrides table / stages E and P of the design spec.
+
+### What changed
+
+1. **MNX stereo guard.** All 21 metabolites with two KEGG ids came from MNX "same entity" links,
+   which skipped the KEGG guard; 11 broke §1. MNX links are now refused between KEGG ids that are
+   stereo forms of one structure (ChEBI InChIKey connectivity block shared, stereo layer not; cis/
+   trans and E/Z exempt; `manual` exempt). Refused: 9 links (report `stereo_refused_links`).
+   Curated `keep_separate`: `C00193`/`C00261` (class → member) and `C03688`/`C16240`
+   (MNX-conflated protein-bound species).
+2. **MNX fields on a split pair** stay on the side whose ChEBI structure matches MNX's InChIKey,
+   else on the side with more gene-reachable reactions (report `mnx_split`, 11 rows). The other side
+   drops `mnxm_id`, `smiles`, `hmdb_id`, `chebi_id` and takes `inchikey` from its own ChEBI term.
+   E.g. `C05345` β-F6P keeps `MNXM1107898` / `HMDB0003971`; `C00085` carries
+   `inchikey:BGWGXPAPYGQALX-VRPWFDPXSA-N` and its own `chebi:15946`, `chebi:61553` (+ secondaries).
+3. **Canonical-id margin** (spec §3.1): pin → most gene-reachable reactions with ≥ 2× → (0 vs 0
+   only) all KEGG reactions with ≥ 2× → step 6 fails with `canonical_margin_unresolved`.
+   **0 groups needed the fallback or a new pin** in this build.
+   - The failure text (members, KEGG names, both counts, a ready `canonical:` block) is in the
+     step-6 error, i.e. the console and `logs/prepare_data_step6.log`. **Correction to our reply
+     (2):** it is *not* in `metabolite_identity_report.json`, because a failed step 6 writes no
+     file at all (spec stage P), report included.
+4. **Halide pins (3b):** `C00698` Cl⁻, `C01324` Br⁻, `C00742` F⁻ are canonical; `C01327`,
+   `C13645`, `C16487` are merged members and rows of `metabolite_id_remap.tsv`. Report:
+   `canonical_pinned`.
+5. **Shared ChEBI terms get one owner** (not asked, found during the rebuild). A ChEBI term several
+   separate KEGG nodes cross-reference used to be published on none of them. Splitting the MNX
+   groups would have stripped benzaldehyde's and (R)-lipoate's ChEBI ids that way. A shared term now
+   goes to the single node for which it is the only entity xref and that has no class xref:
+   benzaldehyde → `C00261`, (R)-lipoic acid → `C16241`, plus three that were already unpublished
+   before this change: acetoin → `C00466`, D-ribulose → `C00309`, α-D-galactose → `C00984`.
+   Without a single owner a term stays unpublished: 1,4-benzoquinone (`C00472` / `C15602`),
+   hydroquinone (`C00530` / `C15603`). Report: `shared_chebi_terms` is now term → the nodes it is
+   **withheld from**.
+6. **Stage-P check:** the build fails if a written node holds two stereo-distinct KEGG ids outside a
+   `manual` merge.
+7. **Ask 6:** `Metabolite.kegg_brite_classes` (post-import, sparse) and the rename
+   `kegg_compound_categories` → `kegg_functional_categories`. **One deviation:** the
+   `ControlledVocabulary` node for `kegg_brite_classes` carries **no `value_descriptions`**. A
+   published `value_descriptions` entry is the string `"<value>: <text>"` and consumers split it at
+   the first `": "`, but every value here contains `": "` (`"Lipids: Fatty acyls"`), so the split
+   would cut at the wrong place (the vocabulary KG test caught it). The tree codes are named in the
+   node's `description` instead (`Lipids = br08002`, …). The vocabulary loader now rejects
+   described values that contain `": "`.
+
+### Measured (live, before → after)
+
+| | Before | After |
+|---|---|---|
+| `Metabolite` | 3,203 | **3,214** (+9 stereo splits, +2 `keep_separate`) |
+| nodes with > 1 KEGG id | 21 | **10** (the 10 the explorer called fine) |
+| `Metabolite_is_stereo_form_of` | 68 | **76** |
+| `Metabolite_is_enantiomer_of` | 28 | 28 |
+| `Metabolite_in_metabolite_class` | 1,151 | 1,152 |
+| `Organism_has_metabolite` | 88,320 | 88,579 |
+| `OrganismTaxon.catalyzed_metabolite_count` | — | **+5** on most organisms (+4 to +6) |
+| `Reaction_has_metabolite` / `Metabolite_in_pathway` / `Tcdb_family_transports_metabolite` | 10,149 / 9,342 / 10,790 | unchanged |
+| `Assay_quantifies_metabolite` / `Assay_flags_metabolite` | 1,480 / 186 | unchanged (6 rows re-pointed, see below) |
+| `kegg_functional_categories` set | — (was `kegg_compound_categories`, 334) | 334 |
+| `kegg_brite_classes` set | — | **652** (your estimate 651: the split adds one), 28 distinct values |
+| `structure_kind` | 2,554 / 623 / 26 | 2,564 / 624 / 26 |
+| remap / repoint TSV rows | 320 / 114 | **311 / 108** |
+
+Spot checks (live): `C00085` "D-Fructose 6-phosphate", 297 catalysts, `kegg_compound_ids =
+['C00085']`; `C05345` β-F6P 358, `-[:Metabolite_is_stereo_form_of]->` `C00085`; `C00197`
+3-phospho-D-glycerate 290 → stereo form of `C00597` "Glycerate 3-phosphate"; `C00698` "Cl-" 295,
+`['C00698', 'C01327']`; `C00193` "Aromatic aldehyde" `structure_kind = generic`, `chebi:33855`.
+
+**Stereo links re-created** (8): `C05345→C00085`, `C05378→C00354`, `C00197→C00597`,
+`C01102→C05702`, `C03227→C02794`, `C04272→C04039`, `C06010→C00900`, `C16241→C00725`.
+`C17345` / `C04644` are two unlinked nodes (ChEBI has no `is_a` between them).
+
+**Paper rows** (`metabolite_assay_repoints.tsv`): the 6 Capovilla 2023 / Biller 2022 fructose-6P
+rows are no longer repoints, because they stay on `C00085`, the id their alias files name. The 4
+Biller 2022 "Phosphoglyceric Acid" rows now land on `C00597` (was `C00197`), also as their alias
+file says. All are `as_reported`. `recurated_from_ids: ['chebi:24346']` moves to `C00597` with them.
+
+### Ask 5: anomer cross-reference count
+
+Report section `anomer_xref_review`. There are **17 anomer → generic pairs** where both nodes are
+written. **10 anomer nodes carry an HMDB id. In 6 of those pairs the generic sibling carries none:**
+
+| Anomer | HMDB on the anomer | Generic | Generic HMDB |
+|---|---|---|---|
+| `C00221` β-D-glucose | HMDB0000122 | `C00031` D-glucose | HMDB0304632 |
+| `C00267` α-D-glucose | HMDB0003345 | `C00031` | HMDB0304632 |
+| `C00984` α-D-galactose | HMDB0000143 | `C00124` D-galactose | — |
+| `C00962` β-D-galactose | HMDB0003449 | `C00124` | — |
+| `C02336` β-D-fructose | HMDB0000660 | `C00095` D-fructose | — |
+| `C05345` β-D-F6P | HMDB0003971 | `C00085` D-F6P | — |
+| `C05378` β-D-F1,6BP | HMDB0001058 | `C00354` D-F1,6BP | — |
+| `C01172` β-D-G6P | HMDB0003498 | `C00092` D-G6P | HMDB0001401 |
+| `C03878` β-GlcNAc | HMDB0000803 | `C00140` GlcNAc | HMDB0000215 |
+| `C00096` GDP-mannose | HMDB0001163 | `chebi:84880` GDP-D-mannose | — |
+
+- **It's a list, not one move.** HMDB0000122 (D-glucose), HMDB0000143 (D-galactose) and
+  HMDB0000660 (D-fructose) look like the main generic records, but HMDB gives them the anomer's
+  structure. That is why MNX puts them on the anomer.
+- Each candidate move needs the HMDB record name checked, which we can't do offline. So the
+  `xref_move:` override stays a **follow-up**.
+- ChEBI side: every anomer node's ChEBI ids are its own ChEBI cross-references. A generic ChEBI
+  entry with no KEGG cross-reference (`CHEBI:17634` D-glucose) is on no node; that is part of
+  the same follow-up.
+
+### Explorer absorb
+
+- **Goldens:** `mqa_mit9313_top5` and the `metabolites_by_quantifies_assay` example move back to
+  `C00085` "D-Fructose 6-phosphate".
+- **Ids that exist again:** `C00085`, `C00354`, `C00597`, `C00900`, `C05702`, `C03688`, `C04039`,
+  `C04644`, `C00725`, `C02794`, `C00193`, each with its own `kegg_compound_ids`.
+- **Ids now merged members:** `C01327`, `C13645`, `C16487`, under the ions.
+- **Properties:** read `kegg_functional_categories`; `kegg_compound_categories` is gone.
+  `kegg_brite_classes` is live; its vocabulary node has no `value_descriptions` (point 7).
+- **Vocabulary hash:** `Schema_info.controlled_vocabularies_hash` changes; re-pin it.

@@ -618,7 +618,7 @@ RETURN DISTINCT t.tcdb_id, t.name, collect(DISTINCT sub.name) AS roles;
 
 // Carbohydrates an organism has (any arm)
 MATCH (o:OrganismTaxon {preferred_name: $org})-[:Organism_has_metabolite]->(m:Metabolite)
-WHERE 'Carbohydrates' IN coalesce(m.kegg_compound_categories, []) RETURN m.name ORDER BY m.name;
+WHERE 'Carbohydrates' IN coalesce(m.kegg_functional_categories, []) RETURN m.name ORDER BY m.name;
 
 // Stereo hop: the unspecified form and the mirror image of L-Ala
 MATCH (m:Metabolite {id: 'kegg.compound:C00041'})

@@ -153,7 +153,7 @@ TCDB family that carries the compound. Two real options were measured:
 
 | Relationship | Merge? | Rationale |
 |---|---|---|
-| Same MNX entity | **yes** | MNX's own reconciliation |
+| Same MNX entity | **yes**, unless the two KEGG ids are stereo forms of one structure (stereo guard below) | MNX's own reconciliation |
 | ChEBI term ↔ its KEGG cross-reference | **yes** | curated by ChEBI |
 | Conjugate acid / base (`RO:0018033/34`) | **yes** | one physiological species; KEGG is charge-agnostic |
 | Tautomer (`RO:0018036`) | **yes** | same compound |
@@ -166,9 +166,34 @@ curated `merge:` entry in `config/metabolite_identity_overrides.yaml` says so (r
 `identity_basis: [manual]`). A ChEBI-only link joining two KEGG ids is reported, not applied. Likewise, a merge that would put two distinct
 rows of one assay table onto one node is refused and reported (today: 0 such groups).
 
-**Canonical id per group:**
-1. If the group has KEGG ids: the one with the most reaction references, then most pathway
-   references, then the lowest C-number.
+**Stereo guard on MNX links** (explorer ask 2026-10-15). MNX sometimes calls a stereo-unspecified
+compound and its specific form, or a generic sugar and its anomer, one entity. An MNX link between
+two groups with different KEGG ids is refused (reported in `rejected_links` and
+`stereo_refused_links`) when some KEGG pair across them is *stereo-distinct*: a non-class ChEBI
+term of one shares an InChIKey connectivity block with the other's terms but carries a stereo layer
+none of them has, and the two term names are not a cis/trans or E/Z pair (§3.6: geometric isomers
+are separate compounds; KEGG lists generic and trans caffeate as two ids of one compound). It uses
+ChEBI's per-KEGG-id terms, not the node's MNX InChIKey, which every member of an MNX group shares.
+`manual` merges are exempt. Refused pairs are linked by §3.5 instead. A class term MNX joins to one
+member, or two MNX-conflated protein-bound species, can't be seen structurally and are curated
+`keep_separate:` entries.
+
+**MNX fields on a refused pair.** Both sides still carry one `mnxm_id`, and with it the same
+`inchikey`, `smiles`, `hmdb_id`, `chebi_id` (MNX's ChEBI xref) and MNX ChEBI aliases. They stay on
+the side whose own ChEBI structure equals MNX's InChIKey (protonation ignored); with no single
+match, on the side with more gene-reachable reactions. The other side drops them, takes `inchikey`
+from its own ChEBI term and keeps `formula` / `mass` (report: `mnx_split`).
+
+**Canonical id per group** (margin added 2026-10-15, explorer ask; same 2× as the dominant-form
+rule, §6.5):
+1. If the group has KEGG ids:
+   1. a `canonical:` pin in `metabolite_identity_overrides.yaml`, if present;
+   2. else the KEGG id with the most gene-reachable reaction references, **only if** it has
+      ≥ 2× the runner-up's (1 vs 0 passes);
+   3. else, only when that measure is 0 vs 0, the same ≥ 2× test on all KEGG reaction references;
+   4. else step 6 fails with `canonical_margin_unresolved`, naming the members, their KEGG names,
+      both counts and a ready-to-paste `canonical:` entry. A silent tiebreak would rename a hub
+      metabolite unannounced; a close call is the case a human should decide.
 2. Else `chebi:<primary>`, preferring the charge-0 member, then the lowest number.
 3. Else `mnx:<MNXM>`.
 
@@ -190,6 +215,15 @@ recorded in `config/metabolite_identity_overrides.yaml` (`merge:` / `keep_separa
 
 **Merged-node lists.** Step-6 list fields (`pathways`, `evidence_sources`) are unioned. Every
 post-import rollup is recomputed on the merged node, never summed.
+
+**A ChEBI term several separate KEGG nodes cross-reference** (ChEBI xrefs `C00725` lipoate to
+(R)-lipoic acid as well as `C16241` (R)-lipoate; the class `C00193` "Aromatic aldehyde" to
+benzaldehyde) is published on at most one node (report: `shared_chebi_terms`, term → the nodes it
+is withheld from). Its owner is the single node for which it is the only entity term among its
+KEGG ids' xrefs, with no class term among them: (R)-lipoic acid → `C16241`, benzaldehyde →
+`C00261`, α-D-galactose → `C00984`. With no single owner (hydroquinone `C00530` / `C15603`) it is
+withheld from all of them. A ChEBI term that is a written KEGG node's own xref is never published
+on a sibling through MNX aliases. (Until 2026-10-15 every shared term was withheld from all nodes.)
 
 ### 3.3 Structure
 
@@ -580,7 +614,7 @@ account, and none of them can be silently ignored or silently go stale.**
 | File | Effect on what is kept | Applied at | Stale entry |
 |---|---|---|---|
 | `metabolite_aliases.yaml` (per paper) | Every override target is a **paper candidate** at harvest (stage D), so it's included and enriched even if no reaction or transport reaches it. It's **kept** whenever a current row of that paper resolves through the override, and then it's a final target with the `metabolomics` tag. An override always wins over the global lookup and the dominant-form rule for its paper | stage D (candidate), J (resolution), K (kept as a target) | An entry whose name matches no row of its paper's tables is reported as `stale_alias_override`. Its target isn't kept on its account. A target id that can't be resolved at all (no KEGG / ChEBI / MNX entry) **fails** step 6 |
-| `config/metabolite_identity_overrides.yaml` | **`merge:`** joins two nodes before any pruning (stage E): the KEGG-guard exception, `identity_basis: [manual]`, then the normal winner rule. **`keep_separate:`** blocks a merge from **every** basis, MNX included. Neither kind **adds** a node: identity overrides change identity, not reachability | stage E, before stage K and the final write | An entry naming an id that isn't in the pre-prune compound set is reported as `stale_identity_override` and skipped. A `merge:` + `keep_separate:` pair on the same two ids fails step 6 |
+| `config/metabolite_identity_overrides.yaml` | **`merge:`** joins two nodes before any pruning (stage E): the KEGG-guard exception, `identity_basis: [manual]`, then the normal winner rule. **`keep_separate:`** blocks a merge from **every** basis, MNX included. **`canonical:`** (`{id, group, reason}`) names a merge group's canonical id over the margin rule (§3.1); an `id` outside its own `group` fails loading, two pins for one group fail step 6, and a pin whose group no longer forms is reported stale. Neither kind **adds** a node: identity overrides change identity, not reachability | stage E, before stage K and the final write | An entry naming an id that isn't in the pre-prune compound set is reported as `stale_identity_override` and skipped. A `merge:` + `keep_separate:` pair on the same two ids fails step 6 |
 | `dominant_stereo_forms.json` (lock) | A frozen target is a **paper candidate** at stage D, like an alias target, so it's enriched and kept while its name still has rows | stages D, J | An entry whose name / direct id no longer occurs in any paper table is reported as `stale_lock_entry`, not deleted; deleting it is a human edit |
 
 **Precedence when they meet:**
@@ -695,7 +729,7 @@ uses only what earlier stages produced, and **nothing is written to disk until s
 | **B** | Existing TCDB hierarchy, gene-reachable sets, rollup (`_compute_subtree_substrate_strings`), prune | existing | substrate strings per kept TC id |
 | **C** | **Partition role strings out** of the substrate strings (§3.4), before MNX resolution; map each to its `chebi.role:` id; build the pruned role hierarchy (`chemical_roles`, incl. each role's `all_identifiers`) and `subtree_roles`. **Depth isn't computed here**; the adapter does it (§8.2) | new, in `_resolve_substrate_strings` | role blocks |
 | **D** | **Resolve substrate strings and harvest paper candidates.** Secondary ChEBI → primary first. **ChEBI → KEGG re-key for every candidate source**: the TCDB path (`_primary_for` in `_resolve_substrate_strings`) **and** the paper path (`metabolite_utils.mnxm_to_primary_id` / the harvest), alias-override targets and lock targets. When MNX gives no KEGG id, ChEBI's own KEGG xref does. Every KEGG id therefore exists before the existing steps run, **in their current order, unchanged**: transport-reachable pathway extension, KEGG pruning + MNX enrichment (`build_pruned_kegg_data` / `_bulk_enrich_compounds`), `evidence_sources` tagging, the folds. The paper harvest (`_harvest_paper_metabolites`) **collects candidates, not decisions**: per paper row, the direct id, the per-paper override target, the lock target and all MNX / name candidates, all enriched like any compound. Its global cross-paper name dedup is removed (§3.6) | changed | enriched compound entries, plus per-row paper candidates |
-| **E** | **Canonicalise**: union-find over the merge links, the KEGG guard, winner rule, and `metabolite_identity_overrides.yaml` (`merge:` joins, `keep_separate:` blocks every basis; stale entries reported; §3.6a). After this, **no KEGG id is introduced** that stage D didn't enrich; any that would be fails the step | new | groups + alias → canonical map (`id_aliases`) |
+| **E** | **Canonicalise**: union-find over the merge links, the KEGG guard, the MNX stereo guard, the margin winner rule (unresolved → step fails), and `metabolite_identity_overrides.yaml` (`merge:` joins, `keep_separate:` blocks every basis; stale entries reported; §3.6a). After this, **no KEGG id is introduced** that stage D didn't enrich; any that would be fails the step | new | groups + alias → canonical map (`id_aliases`) |
 | **F** | **Rewrite every id to canonical**: `reactions[*].compounds` (deduplicated), compound `pathways` / `evidence_sources` (union), `subtree_substrates`, paper candidates, alias-override and lock keys / targets. Lock remaps are reported (§3.6a). Done **here**, so stages I–K count reactions and transport on canonical nodes | new | canonical graph data |
 | **G** | **Structure**: `structure_kind`, the B2 scrub (both conditions), generalized-formula fill, no `mass` on a generic formula, `elements` kept (§3.3) | new | scrubbed compound entries |
 | **H** | **Cross-reference fields**: `chebi_id` (ChEBI KEGG xref, tie-break), `chebi_ids`, `kegg_compound_ids`, `mnxm_ids`, `identity_basis` (merged **and** re-keyed nodes), `name`, and `all_identifiers`, built **after** the scrub, so a scrubbed class node never advertises its monomer's InChIKey (§3.2) | new; replaces the lowest-alias pick | final identity fields |
@@ -706,7 +740,7 @@ uses only what earlier stages produced, and **nothing is written to disk until s
 | **M** | **Compound classes**: map the 8 BRITE trees' members to canonical ids; prune to written metabolites + ancestors (§3.7) | new | class trees |
 | **N** | TCDB Pfam / GO bridges | existing, unchanged | |
 | **O** | **Lumping pin**: load `lumping_pin` (on the first run, **seed it from the literal 13**, §3.4a); recompute the threshold on canonical `subtree_substrates`; report `lumping_set_drift` for frozen ids; classify and append newly kept ids (`lumping_set_added`) | new | pin |
-| **P** | **Validate, then write everything at once.** Checks that fail the step: an ambiguous paper name with no override; a disallowed same-table collision; an `all_identifiers` entry or InChIKey on two nodes (across `Metabolite` ∪ `ChemicalRole`); a dangling stereo / enantiomer / class / role target; a canonical node that needs a ChEBI entry the cache lacks; a resolved row without `stereo_assignment` (unresolved rows excepted). **Only if every check passes**, write: `kegg_data.json`, `tcdb_pruned.json`, `brite_br08xxx.json`, `chebi_metabolite_xrefs.json`, `metabolite_id_mapping.json`, the lock, the identity report, and every paper `<stem>_resolved.csv` (§5.3). A failed run writes nothing, so the committed lock and pin never hold half a build | changed | files |
+| **P** | **Validate, then write everything at once.** Checks that fail the step: an ambiguous paper name with no override; a disallowed same-table collision; an `all_identifiers` entry or InChIKey on two nodes (across `Metabolite` ∪ `ChemicalRole`); a dangling stereo / enantiomer / class / role target; a canonical node that needs a ChEBI entry the cache lacks; a resolved row without `stereo_assignment` (unresolved rows excepted); a merge group the canonical margin rule can't decide (`canonical_margin_unresolved`); a written node holding two stereo-distinct KEGG ids outside a `manual` merge. **Only if every check passes**, write: `kegg_data.json`, `tcdb_pruned.json`, `brite_br08xxx.json`, `chebi_metabolite_xrefs.json`, `metabolite_id_mapping.json`, the lock, the identity report, and every paper `<stem>_resolved.csv` (§5.3). A failed run writes nothing, so the committed lock and pin never hold half a build | changed | files |
 
 Determinism: the same inputs give byte-identical outputs (sorted keys and lists), apart from
 `frozen_on` dates on newly frozen entries.
@@ -947,7 +981,7 @@ candidates are listed in the report for review.
 
 | Node | Change |
 |---|---|
-| `metabolite` | **add:** `kegg_compound_ids: str[]`, `chebi_ids: str[]`, `mnxm_ids: str[]`, `all_identifiers: str[]` (described as "CURIEs, unlike `Gene.all_identifiers`"), `recurated_from_ids: str[]` (sparse, no identity meaning), `identity_basis: str[]`, `structure_kind: str`, `kegg_compound_categories: str[]` (post-import). Existing properties keep their names and types; their values change per §3.2 / §3.3 |
+| `metabolite` | **add:** `kegg_compound_ids: str[]`, `chebi_ids: str[]`, `mnxm_ids: str[]`, `all_identifiers: str[]` (described as "CURIEs, unlike `Gene.all_identifiers`"), `recurated_from_ids: str[]` (sparse, no identity meaning), `identity_basis: str[]`, `structure_kind: str`, `kegg_functional_categories: str[]` (post-import; named `kegg_compound_categories` until 2026-10-15), `kegg_brite_classes: str[]` (post-import). Existing properties keep their names and types; their values change per §3.2 / §3.3 |
 | `tcdb family` | **add:** `substrate_breadth: str` (dense, `lumping` \| `specific`, §3.4a) |
 | **`chemical role`** (new) | `preferred_id: chebi.role` (house-minted); properties `name`, `level: int`, `level_kind`; post-import `transporter_count` / `direct_transporter_count`, `tcdb_family_count` / `direct_tcdb_family_count` (§9.1) |
 | **`metabolite class`** (new) | `preferred_id: kegg.brite`; properties `name`, `tree`, `tree_code`, `level: int`, `level_kind`; post-import `metabolite_count`, `direct_metabolite_count`, `organism_count` |
@@ -973,7 +1007,8 @@ New entries:
 |---|---|
 | `Metabolite.identity_basis` | closed, sparse |
 | `Metabolite.structure_kind` | closed: `defined`, `generic`, `polymer` |
-| `Metabolite.kegg_compound_categories` | closed: the br08001 level-0 names |
+| `Metabolite.kegg_functional_categories` (renamed from `kegg_compound_categories`, 2026-10-15) | closed: the br08001 level-0 names |
+| `Metabolite.kegg_brite_classes` (2026-10-15) | closed: the 28 `"<Tree>: <class>"` level-0 classes of the 7 other compound trees; `value_descriptions` name the tree code |
 | `MetaboliteClass.level_kind` | closed: `kegg_compound_class`, `_subclass`, `_group`, `_subgroup` |
 | `MetaboliteClass.tree` | closed: the 8 tree names |
 | `ChemicalRole.level_kind` | closed: `chebi_role_branch`, `chebi_role` |
@@ -1082,7 +1117,8 @@ changes.
 | `MetaboliteClass.metabolite_count` | distinct metabolites in the **subtree** (`Metabolite_class_is_a_metabolite_class*0..`) |
 | `MetaboliteClass.direct_metabolite_count` | distinct metabolites with a membership edge to this node |
 | `MetaboliteClass.organism_count` | distinct organisms with `Organism_has_metabolite` to a subtree metabolite |
-| `Metabolite.kegg_compound_categories` | sorted distinct br08001 level-0 names reachable from the metabolite; **sparse** |
+| `Metabolite.kegg_functional_categories` | sorted distinct br08001 level-0 names reachable from the metabolite; **sparse** (renamed from `kegg_compound_categories`, 2026-10-15) |
+| `Metabolite.kegg_brite_classes` | sorted distinct `"<Tree title>: <class>"` over the level-0 classes of every tree except br08001 reachable from the metabolite (tree title = `tree` with `_` → space, first letter upper case; class = KEGG's name without its 2-letter LIPID MAPS code); **sparse** (explorer ask 6, 2026-10-15) |
 | `ChemicalRole.transporter_count` / `direct_transporter_count` | distinct TcdbFamily sources with a `most_specific` role edge, the `Metabolite.transporter_count` rule. Subtree version over `Chemical_role_is_a_chemical_role*0..`, counting **distinct** families (the role hierarchy is a DAG; house convention for hierarchical labels) / direct version on this node only |
 | `ChemicalRole.tcdb_family_count` / `direct_tcdb_family_count` | the same pair, at any depth |
 
@@ -1275,7 +1311,7 @@ network).
 - the `lumping` `TcdbFamily` set equals `lumping_tcdb_ids ∩ kept_tcdb_ids`; every level-< 2
   family is `not_assessed`;
 - `structure_kind` is dense; `identity_basis` appears only on merged or re-keyed nodes;
-  `kegg_compound_categories` values ⊆ the br08001 level-0 names;
+  `kegg_functional_categories` values ⊆ the br08001 level-0 names; `kegg_brite_classes` equals its derivation on every metabolite;
 - no InChIKey on two `Metabolite` nodes (a KG assertion, beyond the step-6 check); every
   `ChemicalRole.all_identifiers` entry is unique across `Metabolite` ∪ `ChemicalRole`;
 - 11 `DataSource` nodes (was 9). Any test or doc pinning 9 is updated;
