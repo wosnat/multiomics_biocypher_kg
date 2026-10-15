@@ -189,16 +189,10 @@ def test_metabolite_pathways_only_kg_evidenced(run_query):
     Three valid evidence paths after the TCDB-substrate refactor:
       - Gene -> KeggTerm KO -> pathway (via Kegg_term_is_a_kegg_term hierarchy)
       - Gene -> Reaction -> pathway
-      - Gene -> TcdbFamily -> Metabolite -> pathway
+      - Gene -> TcdbFamily (or a kept ancestor) -> Metabolite -> pathway
         (the substrate's compound_to_pathways set, intersected with the
          extended pws set in step 6 — drops compound-only meta-classification
          maps with no names like ko010**, ko07***).
-
-    The transport arm attaches DIRECTLY to the gene's TcdbFamily: step 6 rolls
-    each subtree's substrates onto every kept ancestor, so no walk down to a
-    tc_specificity descendant is needed (and since the 2026-08-06 pruning
-    cleanup only gene-annotated specificity nodes survive, such a walk would
-    wrongly report these pathways as unevidenced).
 
     The transport arm walks UP the TCDB hierarchy from the gene-attached
     family (``Tcdb_family_is_a_tcdb_family*0..``), matching step 6's rule:
