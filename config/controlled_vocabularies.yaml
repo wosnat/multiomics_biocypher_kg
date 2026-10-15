@@ -309,6 +309,210 @@ Tcdb_family_transports_metabolite.substrate_depth:
     most_specific: no kept child of this family carries the same substrate; this is the most specific surviving transporter system for it
     inherited: rolled up from a descendant that also carries the substrate; count the descendant, not this node
 
+Metabolite.identity_basis:
+  applies_to: Metabolite
+  applies_to_kind: node
+  property: identity_basis
+  value_type: string_array
+  closed: true
+  sparse: true
+  values: [mnx_same_entity, chebi_kegg_xref, chebi_conjugate, chebi_tautomer, manual]
+  description: >
+    Why the ids on this metabolite were merged into one node. Sparse: absent on
+    metabolites that were never merged or re-keyed.
+  value_descriptions:
+    mnx_same_entity: MetaNetX reconciles the merged ids as one entity
+    chebi_kegg_xref: a ChEBI term and the KEGG compound it cross-references
+    chebi_conjugate: conjugate acid / base forms of one physiological species
+    chebi_tautomer: tautomers of one compound
+    manual: a curated merge with a recorded reason
+
+Metabolite.structure_kind:
+  applies_to: Metabolite
+  applies_to_kind: node
+  property: structure_kind
+  value_type: string
+  closed: true
+  values: [defined, generic, polymer]
+  description: >
+    What kind of chemical structure this metabolite is.
+  value_descriptions:
+    defined: one concrete structure
+    generic: a class or a structure with R groups; no single formula mass
+    polymer: a repeat-unit polymer; formula is the repeat unit
+
+Metabolite.kegg_compound_categories:
+  applies_to: Metabolite
+  applies_to_kind: node
+  property: kegg_compound_categories
+  value_type: string_array
+  closed: true
+  sparse: true
+  values: [Organic acids, Lipids, Carbohydrates, Nucleic acids, Peptides, Vitamins and cofactors, Steroids, Hormones and transmitters, Antibiotics]
+  description: >
+    Level-0 categories of KEGG compound BRITE br08001 (compounds with biological roles)
+    that contain this metabolite. Sparse: absent when the metabolite is in none.
+
+MetaboliteClass.level_kind:
+  applies_to: MetaboliteClass
+  applies_to_kind: node
+  property: level_kind
+  value_type: string
+  closed: true
+  values: [kegg_compound_class, kegg_compound_subclass, kegg_compound_group, kegg_compound_subgroup]
+  description: >
+    Depth tier of a KEGG compound BRITE class node (level 0 to 3).
+
+MetaboliteClass.tree:
+  applies_to: MetaboliteClass
+  applies_to_kind: node
+  property: tree
+  value_type: string
+  closed: true
+  values: [compounds_with_biological_roles, lipids, phytochemical_compounds, bioactive_peptides, endocrine_disrupting_compounds, pesticides, natural_toxins, glycosides]
+  description: >
+    Which KEGG compound BRITE tree this class belongs to.
+
+ChemicalRole.level_kind:
+  applies_to: ChemicalRole
+  applies_to_kind: node
+  property: level_kind
+  value_type: string
+  closed: true
+  values: [chebi_role_branch, chebi_role]
+  description: >
+    chebi_role_branch is a top-level branch of the ChEBI role ontology;
+    chebi_role is any term below it.
+
+Tcdb_family_transports_chemical_role.substrate_depth:
+  applies_to: Tcdb_family_transports_chemical_role
+  applies_to_kind: edge
+  property: substrate_depth
+  value_type: string
+  closed: true
+  values: [most_specific, inherited]
+  description: >
+    A (node, role) fact, not a node fact. most_specific = no kept child of this
+    family carries the same role-typed substrate.
+  value_descriptions:
+    most_specific: no kept child of this family carries the same role-typed substrate; this is the most specific surviving transporter system for it
+    inherited: rolled up from a descendant that also carries the role-typed substrate; count the descendant, not this node
+
+TcdbFamily.substrate_breadth:
+  applies_to: TcdbFamily
+  applies_to_kind: node
+  property: substrate_breadth
+  value_type: string
+  closed: true
+  values: [lumping, specific, not_assessed]
+  description: >
+    How broad the substrate set of this transport family is. Filter on this, not on a
+    metabolite_count threshold: the pinned lumping set is not reproduced by a threshold.
+  value_descriptions:
+    lumping: in the pinned substrate-lumping set; a substrate count here is reachability, not capability
+    specific: level 2 or deeper and not lumping
+    not_assessed: tc_class / tc_subclass, where substrate counts scale with level by construction
+
+Metabolite_in_metabolite_class.sources:
+  applies_to: Metabolite_in_metabolite_class
+  applies_to_kind: edge
+  property: sources
+  value_type: string_array
+  closed: true
+  values: [kegg]
+  description: >
+    Data sources asserting this class membership.
+  value_descriptions:
+    kegg: KEGG compound BRITE trees
+
+Metabolite_in_metabolite_class.evidence:
+  applies_to: Metabolite_in_metabolite_class
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [curated]
+  description: >
+    Evidence rung for this class membership.
+  value_descriptions:
+    curated: assigned by a human curator or a curated reference database
+
+Metabolite_is_stereo_form_of.sources:
+  applies_to: Metabolite_is_stereo_form_of
+  applies_to_kind: edge
+  property: sources
+  value_type: string_array
+  closed: true
+  values: [chebi]
+  description: >
+    Data sources asserting this stereo relation.
+  value_descriptions:
+    chebi: ChEBI is_a between the two terms, with matching InChIKey connectivity
+
+Metabolite_is_stereo_form_of.evidence:
+  applies_to: Metabolite_is_stereo_form_of
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [curated]
+  description: >
+    Evidence rung for this stereo relation.
+  value_descriptions:
+    curated: assigned by a human curator or a curated reference database
+
+Metabolite_is_enantiomer_of.sources:
+  applies_to: Metabolite_is_enantiomer_of
+  applies_to_kind: edge
+  property: sources
+  value_type: string_array
+  closed: true
+  values: [chebi]
+  description: >
+    Data sources asserting this enantiomer relation.
+  value_descriptions:
+    chebi: ChEBI is_enantiomer_of
+
+Metabolite_is_enantiomer_of.evidence:
+  applies_to: Metabolite_is_enantiomer_of
+  applies_to_kind: edge
+  property: evidence
+  value_type: string
+  closed: true
+  values: [curated]
+  description: >
+    Evidence rung for this enantiomer relation.
+  value_descriptions:
+    curated: assigned by a human curator or a curated reference database
+
+Assay_quantifies_metabolite.stereo_assignment:
+  applies_to: Assay_quantifies_metabolite
+  applies_to_kind: edge
+  property: stereo_assignment
+  value_type: string
+  closed: true
+  values: [as_reported, dominant_form_assumed]
+  description: >
+    Whether the stereo form of the measured metabolite was stated by the paper
+    or chosen by the KG.
+  value_descriptions:
+    as_reported: the paper named the form, or the metabolite has no stereo variant other than anomers
+    dominant_form_assumed: the paper gave no stereo; the row was placed on one form of a stereo family (usually the one with the most catalysing genes); treat the form as an assumption
+
+Assay_flags_metabolite.stereo_assignment:
+  applies_to: Assay_flags_metabolite
+  applies_to_kind: edge
+  property: stereo_assignment
+  value_type: string
+  closed: true
+  values: [as_reported, dominant_form_assumed]
+  description: >
+    Whether the stereo form of the measured metabolite was stated by the paper
+    or chosen by the KG.
+  value_descriptions:
+    as_reported: the paper named the form, or the metabolite has no stereo variant other than anomers
+    dominant_form_assumed: the paper gave no stereo; the row was placed on one form of a stereo family (usually the one with the most catalysing genes); treat the form as an assumption
+
 Gene.transport_substrate_resolution:
   applies_to: Gene
   applies_to_kind: node

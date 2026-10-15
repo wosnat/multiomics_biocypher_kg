@@ -76,4 +76,6 @@ def test_metabolism_adapter_against_real_xrefs():
         "reaction_has_metabolite",
         "reaction_in_kegg_pathway",
         "metabolite_in_pathway",
+        "metabolite_is_stereo_form_of",
+        "metabolite_is_enantiomer_of",
     }

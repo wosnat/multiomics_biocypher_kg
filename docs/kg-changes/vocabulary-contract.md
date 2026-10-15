@@ -351,3 +351,9 @@ New R3-exempt structural pair `Gene_has_tcdb_family.attachment_depth: most_speci
 `NcbifamFamily.family_type` gains the single KG-minted sentinel `retired` inside an otherwise
 external-verbatim set (R1 exception, documented on the entry). Full contract:
 `docs/kg-changes/annotation-trust-surface.md`.
+
+## Metabolite identity addendum (2026-10-14) — the R3 exception and four new trust vocabularies
+
+- **`TcdbFamily.substrate_breadth` (`lumping` | `specific` | `not_assessed`) is the one sanctioned R3 exception.** R3 deletes a stored value that only restates a threshold over a published count (`is_promiscuous`). Here the threshold (`level >= 2 AND metabolite_count >= 50`) stopped reproducing the set once role entries left `metabolite_count`, so the 13 lumping nodes are a **pinned id set** and the property materializes it. Scope: this property only. Sunset: the deferred TCDB spec re-tunes the threshold and retires the exception (`plans/backlog.md`). Consumers: **filter on `substrate_breadth`, don't re-derive**.
+- New trust vocabularies (closed, each value described): `identity_basis`, `structure_kind` (`Metabolite`), `substrate_breadth` (`TcdbFamily`), `stereo_assignment` (`Assay_quantifies_metabolite`, `Assay_flags_metabolite`). Trust slice is now 51 nodes.
+- `DataSource` gains `kegg` and `chebi` (R2: `data_source:<value>`); live `scope` values are `gene_level` | `organism_restricted` | `global`, `provenance` `download` | `tool_run`.

@@ -49,6 +49,17 @@ tag with nothing logged.
 
 ## [Unreleased]
 
+### Highlights
+
+- `list_experiments(coculture_partner="Alteromonas")`-style questions now find every experiment
+  run with that partner, including the 35 where the coculture was the context rather than the
+  treatment (Weissberg 2025 proteomics, Moreno 2023's non-axenic cultures); the edge says whether
+  the partner was the treatment or the background.
+- Ask for every carbohydrate or peptide an organism makes, takes up or was measured with: metabolites now have one canonical identity across KEGG, ChEBI and MetaNetX, plus chemical classes (`MetaboliteClass`) and TCDB substrate roles (`ChemicalRole`).
+- Every gene Cyanorak annotates now has a genome position and a protein sequence, including
+  the 3,837 genes across 21 *Prochlorococcus* / *Synechococcus* strains that NCBI's PGAP
+  never called — neighbourhood and sequence queries no longer skip them.
+
 ### Breaking
 
 - **`Experiment.coculture_partner` is now a dense `str[]`** (was a sparse string set only when the
@@ -67,6 +78,15 @@ tag with nothing logged.
   whose node already carries `preferred_name = 'Meiothermus ruber'`, so the graph no longer has two
   organisms with one name and the Bernstein edge routes into the gene tools.
 
+Metabolite figures below are measured in the step-6 caches; the post-rebuild doc `docs/kg-changes/metabolite-identity-and-classes.md` has the final graph counts.
+
+- **Metabolite ids changed.** 40 nodes were merged away and 132 re-keyed (ChEBI → KEGG, secondary → primary id); 13 measurement-only nodes and the 4 `mnx:` placeholders were dropped. Old → new map: `docs/kg-changes/metabolite-identity/metabolite_id_remap.tsv`. Metabolites: 3,203 (2,776 `kegg.compound:` + 427 `chebi:`).
+- **`Metabolite.chebi_id` values changed on most nodes** (now the primary, entity-level ChEBI) and `name` changed on `chebi:` nodes (KEGG name, else ChEBI name).
+- **57 role terms were removed from `Metabolite`**; they now live on `ChemicalRole` via `Tcdb_family_transports_chemical_role`. `Tcdb_family_transports_metabolite` 11,263 → 10,790 and `TcdbFamily.metabolite_count` loses role entries.
+- **Paper metabolite re-resolutions.** Metabolomics assay edges were re-pointed to canonical metabolites; see `docs/kg-changes/metabolite-identity/metabolite_assay_repoints.tsv`.
+- **The lumping threshold no longer reproduces the lumping set.** `level >= 2 AND metabolite_count >= 50` is not equivalent any more; filter on `TcdbFamily.substrate_breadth = 'lumping'` (pinned 13 ids).
+- **`metaboliteFullText` fields** are now name + formula + `identifier_tokens` (the live index was name-only).
+
 ### Data
 
 - **Moreno 2023 (10.1128/spectrum.03275-22) — 40 heterotroph-side experiments corrected.** All
@@ -83,17 +103,6 @@ tag with nothing logged.
   2017's light/oxygen steady states move their partner from `treatment_organism` to
   `background_organisms`, which is what they always were.
 
-### Highlights
-
-- `list_experiments(coculture_partner="Alteromonas")`-style questions now find every experiment
-  run with that partner, including the 35 where the coculture was the context rather than the
-  treatment (Weissberg 2025 proteomics, Moreno 2023's non-axenic cultures); the edge says whether
-  the partner was the treatment or the background.
-
-- Every gene Cyanorak annotates now has a genome position and a protein sequence, including
-  the 3,837 genes across 21 *Prochlorococcus* / *Synechococcus* strains that NCBI's PGAP
-  never called — neighbourhood and sequence queries no longer skip them.
-
 ### Added
 
 - **`background_organisms`** optional experiment field in paperconfig (list of
@@ -103,11 +112,20 @@ tag with nothing logged.
   background. `Tests_coculture_with.partner_role` registered as a `ControlledVocabulary` with
   value descriptions. Structural edges (`Has_experiment`, `Tests_coculture_with`) are now emitted
   even for a paperconfig with no supplementary tables.
+- **`MetaboliteClass`** (445 nodes / 1,151 memberships over 8 BRITE compound trees) with `Metabolite_in_metabolite_class` and `Metabolite_class_is_a_metabolite_class`.
+- **Metabolite identity properties**: `kegg_compound_ids`, `chebi_ids`, `mnxm_ids`, `all_identifiers` (CURIE-only), `identifier_tokens`, `recurated_from_ids`, `identity_basis`, `structure_kind` (defined 2,554 / generic 623 / polymer 26), `kegg_compound_categories`.
+- **`Metabolite_is_stereo_form_of`** (68) and **`Metabolite_is_enantiomer_of`** (28).
+- **`stereo_assignment`** (`as_reported` | `dominant_form_assumed`) on `Assay_quantifies_metabolite` / `Assay_flags_metabolite`.
+- **`ChemicalRole`** (111 nodes, `Chemical_role_is_a_chemical_role` 132) and **`Tcdb_family_transports_chemical_role`** (392).
+- **`TcdbFamily.substrate_breadth`** (`lumping` | `specific` | `not_assessed`; the 13 lumping nodes are pinned, no value change). An R3 exception that sunsets with the deferred TCDB spec.
+- **`data_source:kegg` / `data_source:chebi`** (DataSource 9 → 11) and **`Schema_info.chebi_release`**.
 - **`Gene.coordinate_source`** (`ncbi` | `cyanorak`, dense) and **`Gene.sequence_source`**
   (`ncbi` | `cyanorak`, sparse — present iff `sequence`) say which caller placed and
   translated a gene. Registered in `config/controlled_vocabularies.yaml`.
 
 ### Changed
+
+- **prepare_data step 7 folded into step 6** (`resolve_paper_metabolites.py` is a no-op alias; step 6 writes the `_resolved.csv` files). Default `STEPS` is now `0 9 1 2 3 4 5 6 8 10`.
 
 ### Fixed
 

@@ -33,28 +33,26 @@
 #           Walks every strain's gene_annotations_merged.json to identify gene-reachable
 #           {KOs, reactions, compounds, pathways}; prunes raw KEGG to that subset; enriches
 #           reactions/compounds with MNX xrefs; writes a single cache/data/kegg/kegg_data.json (~3-4 MB, indented).
-#           Also downloads the 3 TCDB reference TSVs and writes cache/data/tcdb/tcdb_hierarchy.json.
+#           Also downloads the 4 TCDB reference TSVs and writes cache/data/tcdb/tcdb_hierarchy.json.
 #           Requires step 2 + scripts/refresh_mnx.sh
 #           (MNX resolver — heavy one-time build, rerun only when MNX releases)
 #           Step 6 also walks all paperconfig metabolite_assays_table entries
-#           (Phase 2 metabolomics): harvests paper-measured metabolites, unions
-#           "metabolomics" into evidence_sources, writes
-#           cache/data/metabolomics/metabolite_id_mapping.json (consumed by step 7).
+#           (metabolomics) and decides every paper-metabolite resolution itself.
+#           It writes, in one atomic step at the end (a failed run writes nothing):
+#           kegg_data.json, tcdb_pruned.json (incl. chemical_roles / lumping_pin),
+#           the 8 KEGG compound BRITE files, the ChEBI cache, metabolite_id_mapping.json,
+#           the dominant-stereo-form lock, the identity report, and every paper
+#           <stem>_resolved.csv.
 #
-# Step 7 — Resolve paper metabolite names → primary IDs
-#           calls: multiomics_kg/download/resolve_paper_metabolites.py
-#           For each metabolite_assays_table entry, opens the source CSV and
-#           writes <stem>_resolved.csv with metabolite_id + resolution_method
-#           columns; mirrors step 4 for genes. Reads only metabolite_id_mapping.json
-#           (no MNX resolver hit — step 6 owns that).
-#           Requires step 6.
+# Step 7 — retired, folded into step 6 (accepted as a no-op)
+#           Paper metabolite tables are resolved by step 6; re-resolve with --steps 6 --force.
 # Step 8 — Resolve paper "discusses" topic mentions → Gene / KEGG-pathway ids
 #           calls: multiomics_kg/download/resolve_paper_topics.py
 #           For each paper with a publication_topics/topics.json (written by the
 #           /extract-discussed-topics skill — the LLM extraction step is NOT in
 #           prepare_data), resolves gene + pathway mentions and writes
 #           topics_resolved.json + resolution_report.txt. Deterministic; mirrors
-#           steps 4/7. Papers without a topics.json are skipped.
+#           step 4. Papers without a topics.json are skipped.
 #           Requires step 3 (gene_id_mapping.json) + step 6 (kegg_data.json).
 # Step 9 — Build the central reference caches (interpro_reference.json + ncbifam_reference.json)
 #           calls: multiomics_kg/download/build_interpro_reference.py
@@ -92,10 +90,10 @@
 #   ./scripts/prepare_data.sh --steps 1 --force         # rebuild protein_annotations.json only
 #   ./scripts/prepare_data.sh --steps 2 --strains MED4 --force
 #   ./scripts/prepare_data.sh --steps 3 --strains MIT9301 --force  # rebuild gene_id_mapping only
-#   ./scripts/prepare_data.sh --steps 6 7 --force                  # rebuild KEGG/TCDB caches from cached raw inputs (fast iteration)
+#   ./scripts/prepare_data.sh --steps 6 --force                    # rebuild KEGG/TCDB/metabolite caches + paper _resolved.csv from cached raw inputs (fast iteration)
 #   ./scripts/prepare_data.sh --steps 6 --refetch-raw              # also re-pull raw KEGG REST + TCDB TSVs (slow; only on upstream releases)
 #   ./scripts/prepare_data.sh --steps 10                           # build MEROPS reference only
-#   ./scripts/prepare_data.sh --rebuild                            # all derived steps (1-10, 9 before 2) with --force; step-0 downloads excluded
+#   ./scripts/prepare_data.sh --rebuild                            # all derived steps (1-10 except retired 7, 9 before 2) with --force; step-0 downloads excluded
 
 set -euo pipefail
 
@@ -111,7 +109,7 @@ FORCE=""
 REFETCH_RAW=""
 # 9 = central references (interpro + ncbifam); runs BEFORE the step-2 merge which consumes them (spec 2026-08-17 §4)
 # 10 = MEROPS reference; no ordering constraint with other steps
-STEPS="0 9 1 2 3 4 5 6 7 8 10"
+STEPS="0 9 1 2 3 4 5 6 8 10"
 STRAINS=()
 SKIP_CYANORAK=0
 USER_STEPS=0
@@ -147,7 +145,7 @@ if [[ $REBUILD -eq 1 ]]; then
     fi
     # All derived steps in DEPENDENCY order (9 before 2 — step 2 consumes the
     # step-9 reference caches). Step 0 (raw downloads) deliberately excluded.
-    STEPS="9 1 2 3 4 5 6 7 8 10"
+    STEPS="9 1 2 3 4 5 6 8 10"
     FORCE="--force"
 fi
 
@@ -196,7 +194,7 @@ cd "$PROJECT_ROOT"
 export PYTHONPATH="$PROJECT_ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
 echo "prepare_data.sh: steps=[${STEPS}]${STRAINS_ARG:+ strains=[${STRAINS[*]}]}${FORCE:+ (force)}${REFETCH_RAW:+ (refetch-raw)}${SKIP_CYANORAK:+ (skip-cyanorak)}"
-echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB hierarchy caches, step 7 = resolve paper metabolite names, step 8 = resolve paper discuss-topics, step 9 = central references: InterPro + NCBIfam reference caches, step 10 = MEROPS reference cache)"
+echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB + metabolite identity caches + paper metabolite _resolved.csv, step 7 = retired (folded into step 6), step 8 = resolve paper discuss-topics, step 9 = central references: InterPro + NCBIfam reference caches, step 10 = MEROPS reference cache)"
 echo "Project root: $PROJECT_ROOT"
 echo "Logs dir:     $LOG_DIR"
 
@@ -265,11 +263,7 @@ for step in $STEPS; do
                     $REFETCH_RAW
             ;;
         7)
-            run_step 7 \
-                "Resolve paper metabolite names → primary IDs (_resolved.csv)" \
-                "$LOG_DIR/prepare_data_step7.log" \
-                uv run python -m multiomics_kg.download.resolve_paper_metabolites \
-                    $FORCE
+            echo "[step 7] folded into step 6 — nothing to do (re-run --steps 6 --force to re-resolve papers)"
             ;;
         8)
             run_step 8 \

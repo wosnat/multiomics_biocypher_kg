@@ -181,3 +181,71 @@ def test_validate_metabolite_assays_embedded_format_with_total_replicates_ok(tmp
         _experiments_with_org(), {"Prochlorococcus MIT9303"}, errors, warnings,
     )
     assert errors == [], f"valid embedded entry should pass; got: {errors}"
+
+
+# --- alias-file validation (metabolite identity, spec 3.6) ---
+
+def _entry_with_aliases(tmp_path, alias_text):
+    csv = tmp_path / "example.csv"
+    csv.write_text("compound,c1\n")
+    (tmp_path / "aliases.yaml").write_text(alias_text)
+    entry = _good_entry(str(csv))
+    entry["aliases_file"] = "aliases.yaml"
+    return entry
+
+
+def _run_aliases(tmp_path, alias_text):
+    entry = _entry_with_aliases(tmp_path, alias_text)
+    errors, warnings = [], []
+    _validate_metabolite_assays_entry(
+        "e", entry, str(tmp_path / "paperconfig.yaml"),
+        _experiments_with_org(), {"Prochlorococcus MIT9303"}, errors, warnings,
+    )
+    return errors, warnings
+
+
+def test_alias_file_structured_form_ok(tmp_path):
+    errors, warnings = _run_aliases(
+        tmp_path,
+        "alanine:\n  id: kegg.compound:C00041\n  stereo_assignment: as_reported\n  reason: paper says L\n",
+    )
+    assert errors == []
+    assert not any("legacy" in w for w in warnings)
+
+
+def test_alias_file_bad_stereo_assignment_errors(tmp_path):
+    errors, _ = _run_aliases(
+        tmp_path, "alanine:\n  id: kegg.compound:C00041\n  stereo_assignment: maybe\n"
+    )
+    assert any("stereo_assignment" in e for e in errors)
+
+
+def test_alias_file_same_name_key_different_ids_errors(tmp_path):
+    errors, _ = _run_aliases(
+        tmp_path, "Glutathione: kegg.compound:C00051\nglutathione: kegg.compound:C00127\n"
+    )
+    assert any("name_key" in e for e in errors)
+
+
+def test_alias_file_formula_case_distinct_ok(tmp_path):
+    errors, _ = _run_aliases(
+        tmp_path, "CO2: kegg.compound:C00011\nCo2: kegg.compound:C00007\n"
+    )
+    assert errors == []
+
+
+def test_alias_file_legacy_string_warns(tmp_path):
+    errors, warnings = _run_aliases(tmp_path, "alanine: kegg.compound:C00041\n")
+    assert errors == []
+    assert any("legacy string form" in w for w in warnings)
+
+
+def test_alias_file_missing_is_error(tmp_path):
+    entry = _entry_with_aliases(tmp_path, "")
+    entry["aliases_file"] = "nope.yaml"
+    errors, warnings = [], []
+    _validate_metabolite_assays_entry(
+        "e", entry, str(tmp_path / "paperconfig.yaml"),
+        _experiments_with_org(), {"Prochlorococcus MIT9303"}, errors, warnings,
+    )
+    assert any("aliases_file not found" in e for e in errors)

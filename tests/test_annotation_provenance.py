@@ -91,9 +91,8 @@ def test_source_values_are_all_data_source_ids():
     import yaml
     from multiomics_kg.utils.controlled_vocab import load_vocabularies
     cfg = yaml.safe_load(open("config/gene_annotations_config.yaml"))
-    ds_ids = {ls["id"]
-              for src in cfg["sources"].values()
-              for ls in src["logical_sources"]}
+    from multiomics_kg.adapters.data_source_adapter import data_source_ids
+    ds_ids = data_source_ids(cfg)
     for entry in load_vocabularies().values():
         if entry.property == "sources":
             undeclared = set(entry.values) - ds_ids

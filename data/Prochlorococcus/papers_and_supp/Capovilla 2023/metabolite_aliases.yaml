@@ -1,23 +1,46 @@
-# Manual ID overrides for compound names that don't resolve via MNX.
-# Format: "name as it appears in CSV": "primary_id"
-# Reasoning per entry below; verify against KEGG before relying on these.
+# Per-paper metabolite alias overrides for Capovilla 2023 (spec §3.6, §6.8).
+# Key: the compound name exactly as the paper writes it (quote keys like NO / Yes).
+# Value: {id, stereo_assignment, reason}. Overrides apply to every table of this paper.
 
-# "chitobiose pos" — chitobiose with positive-ion-mode LC-MS suffix
-"chitobiose pos": "kegg.compound:C01674"   # N,N'-diacetylchitobiose
+"chitobiose pos":
+  id: "kegg.compound:C01674"
+  stereo_assignment: as_reported
+  reason: "N,N'-diacetylchitobiose; chitobiose with positive-ion-mode LC-MS suffix"
+"D-3_and_2-phosphoglyceric":
+  id: "kegg.compound:C00197"
+  stereo_assignment: as_reported
+  reason: "authors merged 3- and 2-phosphoglyceric acid into one row; pick 3PG (glycolysis-canonical, more abundant)"
+"D-ribulose-15-bisphosphate":
+  id: "kegg.compound:C01182"
+  stereo_assignment: as_reported
+  reason: "ribulose 1,5-bisphosphate, Calvin-cycle substrate for RuBisCO"
+"fructose6P":
+  id: "kegg.compound:C00085"
+  stereo_assignment: as_reported
+  reason: "fructose-6-phosphate (glycolysis intermediate)"
+"glucose6P":
+  id: "kegg.compound:C00092"
+  stereo_assignment: as_reported
+  reason: "glucose-6-phosphate (glycolysis intermediate)"
+"NacetylDglucosamine6phosphate":
+  id: "kegg.compound:C00357"
+  stereo_assignment: as_reported
+  reason: "N-acetyl-D-glucosamine-6-phosphate (chitin metabolism intermediate)"
 
-# Authors merged 3-phosphoglyceric + 2-phosphoglyceric acid into one row;
-# pick 3PG (glycolysis-canonical, more abundant)
-"D-3_and_2-phosphoglyceric": "kegg.compound:C00197"   # 3-phospho-D-glyceric acid
-
-# Ribulose 1,5-bisphosphate — Calvin-cycle substrate for RuBisCO
-"D-ribulose-15-bisphosphate": "kegg.compound:C01182"
-
-# Fructose-6-phosphate (glycolysis intermediate)
-"fructose6P": "kegg.compound:C00085"
-
-# Glucose-6-phosphate (glycolysis intermediate)
-"glucose6P": "kegg.compound:C00092"
-
-# N-acetyl-D-glucosamine-6-phosphate (chitin metabolism intermediate;
-# directly relevant to Capovilla 2023 chitin paper)
-"NacetylDglucosamine6phosphate": "kegg.compound:C00357"
+# --- ambiguous names (Step6ValidationError, 2026-10-14) ---
+"D-Ribose 5-phosphate":
+  id: "kegg.compound:C00117"
+  stereo_assignment: as_reported
+  reason: "D-ribose 5-phosphate, KEGG C00117; other candidate the ChEBI duplicate"
+"D-glucosamine":
+  id: "kegg.compound:C00329"
+  stereo_assignment: as_reported
+  reason: "D-glucosamine, KEGG C00329; other candidate the ChEBI duplicate"
+"D-glucosamine 6-phosphate":
+  id: "kegg.compound:C00352"
+  stereo_assignment: as_reported
+  reason: "D-glucosamine 6-phosphate, KEGG C00352; other candidate the ChEBI duplicate"
+"acetyl coenzyme A":
+  id: "kegg.compound:C00024"
+  stereo_assignment: as_reported
+  reason: "acetyl-CoA, KEGG C00024; other candidate an mnx: duplicate"

@@ -157,6 +157,19 @@ sources:
         scope: gene_level
         provenance: download
 
+# Non-gene reference sources: DataSource nodes for provenance joins (R2) on edges that
+# never touch a gene (metabolite identity, stereo relations, compound classes). Not read
+# by the gene-annotation merge (build_gene_annotations reads only `sources` / `fields`).
+reference_sources:
+  - id: kegg
+    scope: global
+    provenance: download
+    info_types_extra: [compound_classes]
+  - id: chebi
+    scope: global
+    provenance: download
+    info_types_extra: [metabolite_identity, stereo_relations, chemical_roles]
+
 
 # ─── Field merge rules ────────────────────────────────────────────────────────
 # Null / empty / "-" values are skipped automatically.

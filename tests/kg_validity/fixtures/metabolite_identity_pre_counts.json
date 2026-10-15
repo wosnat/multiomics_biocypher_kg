@@ -1,0 +1,22 @@
+{
+ "Assay_flags_metabolite": 186,
+ "Assay_quantifies_metabolite": 1480,
+ "Metabolite_in_pathway": 9269,
+ "Organism_has_metabolite": 92081,
+ "Reaction_has_metabolite": 10149,
+ "Tcdb_family_transports_metabolite": 11263,
+ "datasource_count": 9,
+ "keggterm_pathway_gene_count_0": 61,
+ "keggterm_pathway_total": 447,
+ "metabolite_by_prefix": {
+  "chebi": 635,
+  "kegg.compound": 2717,
+  "mnx": 4
+ },
+ "metabolite_total": 3356,
+ "transport_substrate_resolution": {
+  "None": 96488,
+  "family_inferred": 1693,
+  "resolved": 28854
+ }
+}

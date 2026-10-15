@@ -13,9 +13,8 @@ import logging
 from pathlib import Path
 from typing import Iterator
 
-import chemparse
-
 from multiomics_kg.download.utils.cli import load_genome_rows
+from multiomics_kg.utils.metabolite_identity.names import parse_elements
 from multiomics_kg.utils.gene_id_utils import load_gene_annotations
 
 log = logging.getLogger(__name__)
@@ -38,18 +37,21 @@ def _drop_nulls(props: dict) -> dict:
 
 
 def _parse_elements(formula: str | None) -> list[str]:
-    """Sorted unique element symbols present in a Hill-notation formula.
+    """Sorted unique element symbols (allow-list parser; see metabolite_identity.names)."""
+    return parse_elements(formula)
 
-    Empty list when formula is null/empty. Returns empty list (rather than
-    raising) on any parse failure, so a malformed KEGG formula cannot break
-    the build.
-    """
-    if not formula:
-        return []
-    try:
-        return sorted(chemparse.parse_formula(formula).keys())
-    except Exception:
-        return []
+
+_MET_STR = ("name", "formula", "inchikey", "smiles", "mnxm_id", "chebi_id", "hmdb_id", "structure_kind")
+_MET_LIST = ("kegg_compound_ids", "chebi_ids", "mnxm_ids", "all_identifiers", "recurated_from_ids",
+             "identity_basis", "evidence_sources")
+
+
+def _metabolite_props(cpd: dict, kegg_id: str | None) -> dict:
+    props = {"kegg_compound_id": kegg_id, "mass": cpd.get("mass"),
+             "elements": cpd.get("elements") or _parse_elements(cpd.get("formula"))}
+    props.update({k: _clean_str(cpd.get(k)) for k in _MET_STR})
+    props.update({k: [_clean_str(v) for v in (cpd.get(k) or [])] for k in _MET_LIST})
+    return _drop_nulls(props)
 
 
 class MetabolismAdapter:
@@ -59,6 +61,7 @@ class MetabolismAdapter:
         self.kegg_data_path = Path(kegg_data_path) if kegg_data_path else DEFAULT_KEGG_DATA
         self.test_mode = test_mode
         self._kegg_data: dict | None = None
+        self._emitted_metabolite_ids: set[str] = set()
 
     def _load(self) -> dict:
         """Load the pruned kegg_data.json. Strict mode: raises if missing or corrupt."""
@@ -102,19 +105,8 @@ class MetabolismAdapter:
             if self.test_mode and n >= 100:
                 break
             node_id = f"kegg.compound:{cpd_id}"
-            props = _drop_nulls({
-                "kegg_compound_id": cpd_id,
-                "name": _clean_str(cpd.get("name", "")),
-                "formula": _clean_str(cpd.get("formula")),
-                "elements": _parse_elements(cpd.get("formula")),
-                "mass": cpd.get("mass"),
-                "inchikey": _clean_str(cpd.get("inchikey")),
-                "smiles": _clean_str(cpd.get("smiles")),
-                "mnxm_id": cpd.get("mnxm_id"),
-                "chebi_id": cpd.get("chebi_id"),
-                "hmdb_id": cpd.get("hmdb_id"),
-                "evidence_sources": list(cpd.get("evidence_sources", [])),
-            })
+            props = _metabolite_props(cpd, cpd_id)
+            self._emitted_metabolite_ids.add(node_id)
             yield node_id, "metabolite", props
             n += 1
 
@@ -123,21 +115,47 @@ class MetabolismAdapter:
             if self.test_mode and n >= 100:
                 break
             # primary_id is already in canonical form (e.g. 'chebi:9999', 'mnx:MNXM12345')
-            props = _drop_nulls({
-                "kegg_compound_id": None,  # absent for non-KEGG entries
-                "name": _clean_str(cpd.get("name", "")),
-                "formula": _clean_str(cpd.get("formula")),
-                "elements": _parse_elements(cpd.get("formula")),
-                "mass": cpd.get("mass"),
-                "inchikey": _clean_str(cpd.get("inchikey")),
-                "smiles": _clean_str(cpd.get("smiles")),
-                "mnxm_id": cpd.get("mnxm_id"),
-                "chebi_id": cpd.get("chebi_id"),
-                "hmdb_id": cpd.get("hmdb_id"),
-                "evidence_sources": list(cpd.get("evidence_sources", [])),
-            })
+            props = _metabolite_props(cpd, None)
+            self._emitted_metabolite_ids.add(primary_id)
             yield primary_id, "metabolite", props
             n += 1
+
+    def all_metabolite_ids(self) -> set[str]:
+        """Ids emitted by get_nodes (or every compound id if get_nodes hasn't run)."""
+        if self._emitted_metabolite_ids:
+            return set(self._emitted_metabolite_ids)
+        data = self._load()
+        cap = 100 if self.test_mode else None
+        ids = [f"kegg.compound:{k}" for k in data["compounds"]][:cap]
+        ids += list(data.get("additional_compounds", {}))[:cap]
+        return set(ids)
+
+    def _metabolite_relation_edges(self):
+        data = self._load()
+        known = self.all_metabolite_ids()
+        entries = [(f"kegg.compound:{k}", v) for k, v in data["compounds"].items()]
+        entries += list(data.get("additional_compounds", {}).items())
+        skipped = 0
+        for src, cpd in entries:
+            if src not in known:
+                continue
+            for tgt in cpd.get("stereo_form_of") or []:
+                if tgt not in known:
+                    skipped += 1
+                    continue
+                yield (f"m2s:{src}:{tgt}", src, tgt, "metabolite_is_stereo_form_of",
+                       {"sources": ["chebi"], "evidence": "curated"})
+            for tgt in cpd.get("enantiomer_of") or []:
+                if tgt not in known:
+                    skipped += 1
+                    continue
+                if src > tgt:
+                    log.warning(f"metabolism: enantiomer pair stored high->low, skipped: {src} {tgt}")
+                    continue
+                yield (f"m2e:{src}:{tgt}", src, tgt, "metabolite_is_enantiomer_of",
+                       {"sources": ["chebi"], "evidence": "curated"})
+        if skipped:
+            log.info(f"metabolism: skipped {skipped} stereo/enantiomer edges to unemitted metabolites")
 
     def _reaction_metabolite_edges(self) -> Iterator[tuple[str, str, str, str, dict]]:
         data = self._load()
@@ -182,6 +200,7 @@ class MetabolismAdapter:
         yield from self._reaction_metabolite_edges()
         yield from self._reaction_pathway_edges()
         yield from self._metabolite_pathway_edges()
+        yield from self._metabolite_relation_edges()
 
 
 class MultiMetabolismAdapter(MetabolismAdapter):
@@ -218,3 +237,4 @@ class MultiMetabolismAdapter(MetabolismAdapter):
         yield from self._reaction_metabolite_edges()
         yield from self._reaction_pathway_edges()
         yield from self._metabolite_pathway_edges()
+        yield from self._metabolite_relation_edges()

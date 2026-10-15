@@ -61,7 +61,16 @@ together in 2026-04 — see the csv-ready-papers spec linked above.
 | Verify match rates | `/check-gene-ids` (uses Docker import report) | both |
 | Compare snapshot | `omics-edge-snapshot --compare before_<S>` | both |
 | KG validity + tests | `pytest -m kg`, regenerate `snapshot_data.json` | both |
+| Metabolite identity check | read `cache/data/metabolomics/metabolite_identity_report.json` (see "Metabolite identity check" below) | both |
 | Loop back | re-run `prepare_data.sh --strains <S> --steps 1 2 3 4 5 6 7 --force` once tool outputs land | brand-new |
+
+## Step-output notes (metabolomics)
+
+Step 6 (`build_kegg_metabolism_xrefs`) also writes every paper's `<stem>_resolved.csv` (`metabolite_id`, `resolution_method`, `stereo_assignment`) and the identity report. Step 7 is retired: `--steps ... 7` is still accepted and is a no-op, so the commands below keep working.
+
+### Metabolite identity check (post-onboarding)
+
+A new strain adds gene->reaction and transport evidence, which can shift the lumping set, the dominant-form rule and identity merges. After step 6, read `cache/data/metabolomics/metabolite_identity_report.json` and review: `lumping.lumping_set_added`, every `stale_*` list (`stale_alias_override`, `stale_identity_override`, `stale_lock_entry`), `dominant_form_drift`, and `rekeys` added since the last commit (`git diff cache/data/metabolomics/metabolite_identity_report.json`). Hand-edit `config/metabolite_identity_overrides.yaml` or `dominant_stereo_forms.json` only after reading the entry; never auto-accept.
 
 ## Step 0 — Identify the assembly (brand-new only)
 

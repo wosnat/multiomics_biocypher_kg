@@ -119,7 +119,7 @@ Gene nodes carry many denormalized annotation fields beyond the key properties a
 | `Pfam_in_pfam_clan` | Pfam → PfamClan | — |
 | `Gene_has_tcdb_family` | Gene → TcdbFamily | — |
 | `Tcdb_family_is_a_tcdb_family` | TcdbFamily → TcdbFamily (child → parent) | — |
-| `Tcdb_family_transports_metabolite` | TcdbFamily → Metabolite (rolled up to every ancestor; filter `WHERE source.level_kind = 'tc_specificity'` for leaf-only) | — |
+| `Tcdb_family_transports_metabolite` | TcdbFamily → Metabolite (rolled up to every ancestor; filter `substrate_depth = 'most_specific'` for the most specific surviving transporter system per substrate — NOT `level_kind = 'tc_specificity'`, which keeps only ~4% of edges) | — |
 | `Gene_has_cazy_family` | Gene → CazyFamily (most specific observed level) | — |
 | `Cazy_family_is_a_cazy_family` | CazyFamily → CazyFamily (child → parent) | — |
 | `Biological_process_is_a_biological_process` | BiologicalProcess → BiologicalProcess | — |
@@ -601,6 +601,29 @@ WHERE 'transport' IN m.evidence_sources
   AND NOT 'metabolism' IN m.evidence_sources
 RETURN m.name, m.formula, m.evidence_sources
 LIMIT 50;
+```
+
+### Metabolite identity, classes and roles
+
+New labels: `MetaboliteClass`, `ChemicalRole`. New edges: `Metabolite_is_stereo_form_of`, `Metabolite_is_enantiomer_of`, `Metabolite_in_metabolite_class`, `Metabolite_class_is_a_metabolite_class`, `Chemical_role_is_a_chemical_role`, `Tcdb_family_transports_chemical_role`. `Metabolite.identifier_tokens` feeds `metaboliteFullText`. See `docs/kg-changes/metabolite-identity-and-classes.md`.
+
+```cypher
+// Metabolite by any identifier (CURIE form)
+MATCH (m:Metabolite) WHERE m.id = $curie OR $curie IN m.all_identifiers RETURN m.id, m.name;
+
+// Families that transport something TCDB calls a siderophore (incl. sub-roles)
+MATCH (r:ChemicalRole {name: 'siderophore'})<-[:Chemical_role_is_a_chemical_role*0..]-(sub:ChemicalRole)
+      <-[e:Tcdb_family_transports_chemical_role {substrate_depth: 'most_specific'}]-(t:TcdbFamily)
+RETURN DISTINCT t.tcdb_id, t.name, collect(DISTINCT sub.name) AS roles;
+
+// Carbohydrates an organism has (any arm)
+MATCH (o:OrganismTaxon {preferred_name: $org})-[:Organism_has_metabolite]->(m:Metabolite)
+WHERE 'Carbohydrates' IN coalesce(m.kegg_compound_categories, []) RETURN m.name ORDER BY m.name;
+
+// Stereo hop: the unspecified form and the mirror image of L-Ala
+MATCH (m:Metabolite {id: 'kegg.compound:C00041'})
+OPTIONAL MATCH (m)-[:Metabolite_is_stereo_form_of]->(u) OPTIONAL MATCH (m)-[:Metabolite_is_enantiomer_of]-(en)
+RETURN u.name, en.name;
 ```
 
 ### Strain / Organism Queries

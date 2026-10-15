@@ -55,6 +55,17 @@ def cache_root(tmp_path):
             "1.A.1.5": ["chebi:9999", "kegg.compound:C00208"],
             "1.A.1.5.2": ["chebi:9999", "kegg.compound:C00208"],
         },
+        "chemical_roles": {
+            "chebi.role:24432": {"name": "biological role", "parents": [], "level": 0,
+                                 "level_kind": "chebi_role_branch",
+                                 "all_identifiers": ["chebi.role:24432", "chebi:24432"]},
+            "chebi.role:26672": {"name": "siderophore", "parents": ["chebi.role:24432"], "level": 1,
+                                 "level_kind": "chebi_role",
+                                 "all_identifiers": ["chebi.role:26672", "chebi:26672"]}},
+        "subtree_roles": {"1.A.1.5": ["chebi.role:26672"], "1.A.1.5.2": ["chebi.role:26672"]},
+        "lumping_pin": {"frozen_on": "2026-10-15",
+                        "frozen_kept_ids": ["1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2"],
+                        "lumping_tcdb_ids": ["1.A.1"]},
     }))
     return tmp_path
 
@@ -88,7 +99,7 @@ def _make_orchestrator(cache_root, strain_dir):
 
 def test_orchestrator_emits_one_node_per_kept_id(cache_root, strain_dir):
     a = _make_orchestrator(cache_root, strain_dir)
-    node_ids = {n[0] for n in a.get_nodes()}
+    node_ids = {n[0] for n in a.get_nodes() if n[1] == "tcdb family"}
     assert node_ids == {"tcdb:1", "tcdb:1.A", "tcdb:1.A.1", "tcdb:1.A.1.5", "tcdb:1.A.1.5.2"}
 
 
@@ -177,6 +188,7 @@ def test_orchestrator_remaps_gene_edges_via_seed_aliases(tmp_path):
         "kept_tcdb_ids": ["1", "1.A", "1.A.1"],
         "subtree_substrates": {},
         "seed_aliases": {"1.A.1.99.X": "1.A.1"},
+        "lumping_pin": {"frozen_on": "2026-10-15", "frozen_kept_ids": [], "lumping_tcdb_ids": []},
     }))
 
     config_csv = cache_root / "genomes.csv"
@@ -235,7 +247,8 @@ _GO_TERMS = {
 def _bridge_edges(adapter):
     return [e for e in adapter.get_edges() if e[3].startswith("tcdb_family_")
             and e[3] not in ("tcdb_family_is_a_tcdb_family",
-                             "tcdb_family_transports_metabolite")]
+                             "tcdb_family_transports_metabolite",
+                             "tcdb_family_transports_chemical_role")]
 
 
 def test_bridges_absent_when_node_sets_not_injected(bridge_cache, strain_dir):
@@ -473,6 +486,7 @@ def test_seed_alias_collapse_merges_sources_not_duplicates(tmp_path):
         "kept_tcdb_ids": ["3", "3.A", "3.A.1"],
         "subtree_substrates": {},
         "seed_aliases": {"3.A.1.35": "3.A.1"},
+        "lumping_pin": {"frozen_on": "2026-10-15", "frozen_kept_ids": [], "lumping_tcdb_ids": []},
     }))
     a = MultiTcdbAnnotationAdapter(
         genome_config_file=_genome_csv(cache, d), cache_root=cache)
@@ -564,6 +578,7 @@ def test_depth_is_per_substrate_not_per_node(tmp_path):
             "2.A.1":   ["kegg.compound:C1", "kegg.compound:C2"],
             "2.A.1.1": ["kegg.compound:C1"],
         },
+        "lumping_pin": {"frozen_on": "2026-10-15", "frozen_kept_ids": [], "lumping_tcdb_ids": []},
     }))
     strain = tmp_path / "MED4"
     strain.mkdir()
@@ -608,16 +623,13 @@ def test_is_promiscuous_is_gone_from_post_import():
         assert "is_promiscuous" not in text, f"{p} still sets or reads is_promiscuous"
 
 
-def test_transport_substrate_resolution_threshold_is_inlined():
+def test_transport_substrate_resolution_reads_the_pinned_set():
     import pathlib
-    # scripts/post-import.sh is authoritative; post-import.cypher is a kept-in-sync
-    # reference copy for non-Docker use. Assert against both so a drift between
-    # them is caught here, not just at rebuild time.
     for p in ("scripts/post-import.cypher", "scripts/post-import.sh"):
         text = pathlib.Path(p).read_text()
-        assert "metabolite_count, 0) >= 50" in text, (
-            f"{p}: the breadth threshold must be inlined into "
-            "transport_substrate_resolution")
+        assert "t.substrate_breadth = 'lumping'" in text, p
+        assert "metabolite_count, 0) >= 50" not in text, f"{p}: threshold must not be re-derived"
+        assert "R3 exception" in text, f"{p}: cite the documented R3 exception"
 
 
 # ── KG-SYNC-005: uniform `evidence` rung derived from `sources` ──────────────
@@ -628,3 +640,37 @@ def test_tcdb_evidence_rung_from_sources():
     assert _tcdb_evidence(["tcdb_diamond"]) == "homology"
     # both-source edges take the strongest rung
     assert _tcdb_evidence(["eggnog", "tcdb_diamond"]) == "homology"
+
+
+def test_chemical_role_nodes_and_isa(cache_root, strain_dir):
+    a = _make_orchestrator(cache_root, strain_dir)
+    nodes = {n[0]: n for n in a.get_nodes()}
+    r = nodes["chebi.role:26672"]
+    assert r[1] == "chemical role" and r[2]["level_kind"] == "chebi_role" and r[2]["level"] == 1
+    assert all(i.startswith(("chebi.role:", "chebi:")) for i in r[2]["all_identifiers"])
+    assert ("chebi.role:26672-isa-chebi.role:24432", "chebi.role:26672", "chebi.role:24432",
+            "chemical_role_is_a_chemical_role", {}) in list(a.get_edges())
+
+
+def test_role_edges_share_the_substrate_depth_rule(cache_root, strain_dir):
+    a = _make_orchestrator(cache_root, strain_dir)
+    role = {e[1]: e[4]["substrate_depth"] for e in a.get_edges()
+            if e[3] == "tcdb_family_transports_chemical_role"}
+    assert role == {"tcdb:1.A.1.5": "inherited", "tcdb:1.A.1.5.2": "most_specific"}
+
+
+def test_substrate_breadth(cache_root, strain_dir):
+    a = _make_orchestrator(cache_root, strain_dir)
+    props = {n[2]["tcdb_id"]: n[2] for n in a.get_nodes() if n[1] == "tcdb family"}
+    assert props["1.A.1"]["substrate_breadth"] == "lumping"
+    assert props["1.A.1.5"]["substrate_breadth"] == "specific"
+    assert props["1"]["substrate_breadth"] == props["1.A"]["substrate_breadth"] == "not_assessed"
+
+
+def test_missing_lumping_pin_fails(cache_root, strain_dir):
+    path = cache_root / "tcdb" / "tcdb_pruned.json"
+    pruned = json.loads(path.read_text())
+    del pruned["lumping_pin"]
+    path.write_text(json.dumps(pruned))
+    with pytest.raises(RuntimeError, match="lumping_pin"):
+        _make_orchestrator(cache_root, strain_dir)

@@ -10,8 +10,8 @@ files and emits:
 
 Sibling of observations_adapter.py — follows the same structural pattern.
 
-Phase 2 of the metabolite scaffold. Reads <stem>_resolved.csv (written by step 7,
-resolve_paper_metabolites.py) to get pre-resolved metabolite_id per row. Falls back
+Phase 2 of the metabolite scaffold. Reads <stem>_resolved.csv (written by step 6,
+build_kegg_metabolism_xrefs.py) to get pre-resolved metabolite_id per row. Falls back
 to source CSV if no resolved file is present (in which case all rows resolve to
 empty metabolite_id and emit no measurement edges).
 """
@@ -28,6 +28,7 @@ import json
 import pandas as pd
 import yaml
 
+from multiomics_kg.utils.controlled_vocab import VOCAB
 from multiomics_kg.utils.paperconfig_utils import (
     load_paperconfig,
     load_all_paperconfigs,
@@ -102,7 +103,7 @@ def _make_metabolite_assay_id(
 
 
 def _resolve_csv_path(csv_path: str) -> tuple[Path, bool]:
-    """Probe for <stem>_resolved.csv (written by step 7).
+    """Probe for <stem>_resolved.csv (written by step 6).
 
     Returns (path_to_use, is_resolved). If no _resolved.csv exists, returns
     the source path with is_resolved=False (caller will see no metabolite_id
@@ -320,7 +321,7 @@ class MetaboliteAssayAdapter:
             if not is_resolved:
                 logger.warning(
                     f"metabolite_assays_table '{entry_key}': no _resolved.csv next to "
-                    f"{csv_path} — run step 7 (prepare_data.sh --steps 7). "
+                    f"{csv_path} — run step 6 (prepare_data.sh --steps 6 --force). "
                     f"Skipping measurement edges."
                 )
                 # Still emit binding edges so MetaboliteAssay nodes aren't orphans
@@ -349,14 +350,15 @@ class MetaboliteAssayAdapter:
                 if value_kind == "numeric":
                     yield from self._emit_numeric_edges(
                         df, entry, assay, assay_node_id, null_values, missing_values,
+                        csv_path=csv_path,
                     )
                 elif value_kind == "boolean":
-                    yield from self._emit_boolean_edges(df, entry, assay, assay_node_id)
+                    yield from self._emit_boolean_edges(df, entry, assay, assay_node_id, csv_path=csv_path)
 
                 yield from self._emit_binding_edges(assay_node_id, exp_key, entry)
 
     def _emit_numeric_edges(
-        self, df, entry, assay, assay_node_id, null_values, missing_values,
+        self, df, entry, assay, assay_node_id, null_values, missing_values, csv_path=None,
     ):
         sample_cols_block = assay.get("sample_columns", [])
         drop_undetected = bool(entry.get("drop_undetected", False))
@@ -368,6 +370,12 @@ class MetaboliteAssayAdapter:
             primary = str(row.get("metabolite_id", "") or "").strip()
             if not primary:
                 continue
+            sa = str(row.get("stereo_assignment", "") or "").strip()
+            if not sa:
+                raise ValueError(
+                    f"{csv_path}: row {row_idx} resolved to {primary} without "
+                    "stereo_assignment — re-run prepare_data step 6"
+                )
             for sc_idx, sc in enumerate(sample_cols_block):
                 rcols = sc.get("replicate_columns") or []
                 if not rcols:
@@ -402,15 +410,22 @@ class MetaboliteAssayAdapter:
                     # them back to floats per the schema's `float[]` type.
                     "replicate_values": [str(v) for v in vals],
                     "detection_status": det,
+                    "stereo_assignment": VOCAB.check("Assay_quantifies_metabolite", "stereo_assignment", sa),
                 }
                 yield edge_id, assay_node_id, primary, "assay_quantifies_metabolite", props
 
-    def _emit_boolean_edges(self, df, entry, assay, assay_node_id):
+    def _emit_boolean_edges(self, df, entry, assay, assay_node_id, csv_path=None):
         sample_cols_block = assay.get("sample_columns", [])
         for row_idx, row in df.iterrows():
             primary = str(row.get("metabolite_id", "") or "").strip()
             if not primary:
                 continue
+            sa = str(row.get("stereo_assignment", "") or "").strip()
+            if not sa:
+                raise ValueError(
+                    f"{csv_path}: row {row_idx} resolved to {primary} without "
+                    "stereo_assignment — re-run prepare_data step 6"
+                )
             for sc_idx, sc in enumerate(sample_cols_block):
                 flag_col = sc.get("flag_column")
                 if not flag_col:
@@ -426,6 +441,7 @@ class MetaboliteAssayAdapter:
                     "flag_value": FLAG_VALUE["true"] if is_true else FLAG_VALUE["false"],
                     "n_replicates": 1,
                     "n_positive": 1 if is_true else 0,
+                    "stereo_assignment": VOCAB.check("Assay_flags_metabolite", "stereo_assignment", sa),
                 }
                 yield edge_id, assay_node_id, primary, "assay_flags_metabolite", props
 

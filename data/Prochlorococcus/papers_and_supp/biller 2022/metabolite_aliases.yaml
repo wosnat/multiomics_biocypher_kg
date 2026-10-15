@@ -1,14 +1,176 @@
-# Per-paper metabolite alias overrides for Biller 2022 Table S7.
-# Free-text compound name → primary metabolite ID. Aliases win over MNX hits
-# in step 6/7. Names below failed name_match because the paper uses
-# whitespace/parens variants that don't match the canonical KEGG synonyms.
-"Adenosyl Homocysteine": "kegg.compound:C00021"          # S-adenosyl-L-homocysteine (SAH)
-"Adenosyl Methionine": "kegg.compound:C00019"            # S-adenosyl-L-methionine (SAM)
-"Betaine (glycine betaine)": "kegg.compound:C00719"      # parens break name_match
-"Fructose 6 phosphate": "kegg.compound:C00085"           # D-fructose 6-phosphate
-"Glucose 1 phosphate": "kegg.compound:C00103"            # α-D-glucose 1-phosphate
-"Glucose 6 phosphate": "kegg.compound:C00092"            # D-glucose 6-phosphate
-"Glycerol 3 phosphate": "kegg.compound:C00093"           # sn-glycerol 3-phosphate
-"N(e)-Acetyl-Lysine": "kegg.compound:C02727"             # Nε-acetyl-L-lysine
-"trans Hydroxyl proline": "kegg.compound:C01157"         # trans-4-hydroxy-L-proline
-"trans Retinal": "kegg.compound:C00376"                  # all-trans retinal
+# Per-paper metabolite alias overrides for Biller 2022 Table S7 (spec §3.6, §6.8).
+# Key: the compound name exactly as the paper writes it (quote keys like NO / Yes).
+# Value: {id, stereo_assignment, reason}. stereo_assignment is `as_reported` when the
+# name names the stereo form (or the target has no stereo variant), else
+# `dominant_form_assumed`. Overrides apply to every table of this paper.
+# Authority for the measured compound: the Ingalls Lab standards table the paper cites
+# (github.com/IngallsLabUW/Ingalls_Standards, Compound_Name_Original = the S7 name).
+
+"Adenosyl Homocysteine":
+  id: "kegg.compound:C00021"
+  stereo_assignment: as_reported
+  reason: "S-adenosyl-L-homocysteine (SAH)"
+"Adenosyl Methionine":
+  id: "kegg.compound:C00019"
+  stereo_assignment: dominant_form_assumed
+  reason: "S-adenosyl-L-methionine (SAM)"
+"Betaine (glycine betaine)":
+  id: "kegg.compound:C00719"
+  stereo_assignment: as_reported
+  reason: "parens break name_match"
+"Fructose 6 phosphate":
+  id: "kegg.compound:C00085"
+  stereo_assignment: as_reported
+  reason: "D-fructose 6-phosphate"
+"Glucose 1 phosphate":
+  id: "kegg.compound:C00103"
+  stereo_assignment: dominant_form_assumed
+  reason: "α-D-glucose 1-phosphate"
+"Glucose 6 phosphate":
+  id: "kegg.compound:C00092"
+  stereo_assignment: as_reported
+  reason: "D-glucose 6-phosphate"
+"Glycerol 3 phosphate":
+  id: "kegg.compound:C00093"
+  stereo_assignment: dominant_form_assumed
+  reason: "sn-glycerol 3-phosphate"
+"N(e)-Acetyl-Lysine":
+  id: "kegg.compound:C02727"
+  stereo_assignment: as_reported
+  reason: "Nε-acetyl-L-lysine"
+"trans Hydroxyl proline":
+  id: "kegg.compound:C01157"
+  stereo_assignment: as_reported
+  reason: "trans-4-hydroxy-L-proline"
+"trans Retinal":
+  id: "kegg.compound:C00376"
+  stereo_assignment: as_reported
+  reason: "all-trans retinal"
+
+# --- spec §3.6 curated overrides (2026-10-14) ---
+"Glutathione":
+  id: "kegg.compound:C00051"
+  stereo_assignment: as_reported
+  reason: "GSH, reduced"
+"Glutathione Disulfide":
+  id: "kegg.compound:C00127"
+  stereo_assignment: as_reported
+  reason: "GSSG"
+"Cystine":
+  id: "kegg.compound:C00491"
+  stereo_assignment: dominant_form_assumed
+  reason: "L-cystine (Ingalls standard L-Cystine); was mis-landing on C00954"
+"Arginine":
+  id: "kegg.compound:C00062"
+  stereo_assignment: dominant_form_assumed
+  reason: "paper gives no stereo; was an mnx: placeholder (Ingalls standard L-Arginine)"
+"Serine":
+  id: "kegg.compound:C00065"
+  stereo_assignment: dominant_form_assumed
+  reason: "paper gives no stereo; was an mnx: placeholder (Ingalls standard L-Serine)"
+"Ribose 5 phosphate":
+  id: "kegg.compound:C00117"
+  stereo_assignment: as_reported
+  reason: "D-ribose 5-phosphate (Ingalls standard D-Ribose 5-phosphate); was an mnx: placeholder"
+
+# --- ambiguous names (Step6ValidationError, 2026-10-14): the measured standard per the
+# Ingalls Lab standards table (Compound_Name_Original = the S7 name) ---
+"Adenosine":
+  id: "kegg.compound:C00212"
+  stereo_assignment: as_reported
+  reason: "Ingalls standard Adenosine (C00212); other candidate is an MNX-only ChEBI synonym node"
+"ADP":
+  id: "kegg.compound:C00008"
+  stereo_assignment: as_reported
+  reason: "Ingalls standard Adenosine diphosphate (C00008); other candidate (Ala-Asp-Pro) is MNX abbreviation noise"
+"AMP":
+  id: "kegg.compound:C00020"
+  stereo_assignment: as_reported
+  reason: "Ingalls standard Adenosine monophosphate (C00020); other candidates are MNX abbreviation noise"
+"Alanine":
+  id: "kegg.compound:C00041"
+  stereo_assignment: dominant_form_assumed
+  reason: "L-alanine (Ingalls standard L-Alanine); candidates included a ChEBI residue term"
+"Asparagine":
+  id: "kegg.compound:C00152"
+  stereo_assignment: dominant_form_assumed
+  reason: "L-asparagine (Ingalls standard L-Asparagine); candidates included ChEBI residue/group terms"
+"Chitobiose":
+  id: "kegg.compound:C01674"
+  stereo_assignment: as_reported
+  reason: "N,N'-diacetylchitobiose (Ingalls standard Chitobiose, KEGG C01674)"
+"Cytidine":
+  id: "kegg.compound:C00475"
+  stereo_assignment: as_reported
+  reason: "Ingalls standard Cytidine (C00475); other candidate an mnx: duplicate"
+"FAD":
+  id: "kegg.compound:C00016"
+  stereo_assignment: as_reported
+  reason: "Ingalls standard Flavin adenine dinucleotide (C00016); other candidates are MNX abbreviation noise"
+"Glucosylglycerol":
+  id: "kegg.compound:C11546"
+  stereo_assignment: as_reported
+  reason: "Ingalls standard 2-O-alpha-D-Glucosylglycerol (C11546), the cyanobacterial osmolyte; MNX offered only the class term and the 1-O isomer"
+"Lysine":
+  id: "kegg.compound:C00047"
+  stereo_assignment: dominant_form_assumed
+  reason: "L-lysine (Ingalls standard L-Lysine); other candidate an mnx: duplicate"
+"Methionine Sulfoxide":
+  id: "kegg.compound:C02989"
+  stereo_assignment: dominant_form_assumed
+  reason: "L-methionine S-oxide (Ingalls standard, C02989); candidates included sulfone and residue terms"
+"NAD":
+  id: "kegg.compound:C00003"
+  stereo_assignment: as_reported
+  reason: "NAD+ (Ingalls standard NAD, C00003); NADH C00004 is a different compound"
+"NADP":
+  id: "kegg.compound:C00006"
+  stereo_assignment: as_reported
+  reason: "NADP+ (Ingalls standard NADP, C00006); NADPH C00005 is a different compound"
+"Tryptophan":
+  id: "kegg.compound:C00078"
+  stereo_assignment: dominant_form_assumed
+  reason: "L-tryptophan (Ingalls standard L-Tryptophan); candidates included a radical term and D-Trp"
+"Tyrosine":
+  id: "kegg.compound:C00082"
+  stereo_assignment: dominant_form_assumed
+  reason: "L-tyrosine (Ingalls standard L-Tyrosine); candidates included radical/semiquinone terms"
+"UDP-glucosamine":
+  id: "kegg.compound:C00043"
+  stereo_assignment: as_reported
+  reason: "the Ingalls standard behind this name is UDP-N-acetylglucosamine (C00043), not UDP-glucosamine C02200"
+"UDP-glucose":
+  id: "kegg.compound:C00029"
+  stereo_assignment: as_reported
+  reason: "Ingalls standard UDP-glucose (C00029); other candidate an mnx: duplicate"
+"Vitamin B2":
+  id: "kegg.compound:C00255"
+  stereo_assignment: as_reported
+  reason: "riboflavin (Ingalls standard Riboflavin, C00255), canonical vitamer"
+"Vitamin B3":
+  id: "kegg.compound:C00253"
+  stereo_assignment: as_reported
+  reason: "nicotinate: the Ingalls standard named Vitamin B3 is Nicotinic acid (C00253); nicotinamide is not in that standards table"
+"Vitamin B5":
+  id: "kegg.compound:C00864"
+  stereo_assignment: as_reported
+  reason: "pantothenate (Ingalls standard Pantothenic acid, C00864), canonical vitamer"
+"Vitamin K1":
+  id: "kegg.compound:C02059"
+  stereo_assignment: as_reported
+  reason: "phylloquinone (Ingalls standard Phytonadione, C02059)"
+
+# --- names that resolved without error but to a different compound than the measured
+# standard (Ingalls standards table cross-check, 2026-10-14) ---
+"Carotene":
+  id: "kegg.compound:C02094"
+  stereo_assignment: as_reported
+  reason: "Ingalls standard beta-Carotene (C02094); name_match gave the carotene class term chebi:23042"
+"Phosphoglyceric Acid":
+  id: "kegg.compound:C00597"
+  stereo_assignment: as_reported
+  reason: "Ingalls standard 3-Phosphoglycerate (C00597); name_match gave the generic class term chebi:24346"
+"Aconitic Acid":
+  id: "kegg.compound:C00417"
+  stereo_assignment: as_reported
+  reason: "Ingalls standard cis-Aconitic acid (KEGG C00417); geometric isomers are separate compounds, so not a dominant-form choice"

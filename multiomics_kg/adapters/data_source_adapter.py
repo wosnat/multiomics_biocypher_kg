@@ -20,6 +20,17 @@ def _clean_str(value: str) -> str:
     return value.replace("'", "^").replace("|", "")
 
 
+def data_source_ids(config: dict) -> set[str]:
+    """All DataSource ids: gene-level logical sources plus reference sources."""
+    ids = {ls["id"] for src in (config.get("sources") or {}).values()
+           for ls in src.get("logical_sources", [])}
+    ids |= {rs["id"] for rs in (config.get("reference_sources") or [])}
+    return ids
+
+
+_CHEBI_CACHE = Path("cache/data/chebi/chebi_metabolite_xrefs.json")
+
+
 class DataSourceAdapter:
     """Emit one DataSource node per logical source declared in
     gene_annotations_config.yaml.
@@ -105,6 +116,17 @@ class DataSourceAdapter:
                 )
             for ls in src_def["logical_sources"]:
                 yield {"_yaml_source_name": src_name, **ls}
+        for rs in (self._config or {}).get("reference_sources") or []:
+            yield {"_yaml_source_name": rs["id"], **rs}
+
+    @staticmethod
+    def _version_for(source_id: str) -> str:
+        """ChEBI's release comes from the committed cache; other sources are unversioned."""
+        if source_id != "chebi" or not _CHEBI_CACHE.exists():
+            return ""
+        import json
+        with open(_CHEBI_CACHE) as f:
+            return str(json.load(f).get("release", ""))
 
     @staticmethod
     def _name_for(source_id: str) -> str:
@@ -118,6 +140,8 @@ class DataSourceAdapter:
             "interproscan": "InterProScan",
             "tcdb_diamond": "TCDB (diamond)",
             "merops_diamond": "MEROPS (diamond)",
+            "kegg": "KEGG",
+            "chebi": "ChEBI",
         }.get(source_id, source_id.title())
 
     @staticmethod
@@ -132,6 +156,8 @@ class DataSourceAdapter:
             "interproscan": "InterProScan 5 per-protein InterPro-entry domain/family predictions (direct HMM/profile matching across member DBs).",
             "tcdb_diamond": "diamond blastp against the curated TCDB FASTA — per-protein transporter classifications by direct sequence similarity, independent of eggNOG's ortholog-transferred KEGG_TC.",
             "merops_diamond": "diamond blastp against the MEROPS peptidase scan library — per-protein protease/peptidase-inhibitor classifications (clan/family/subfamily) by direct sequence similarity; the KG's only MEROPS evidence source.",
+            "kegg": "KEGG COMPOUND and its compound BRITE classification trees (br08001-br08021), via the KEGG REST API; source of MetaboliteClass memberships.",
+            "chebi": "ChEBI (Chemical Entities of Biological Interest, EMBL-EBI): metabolite identity, stereo relations and the role ontology behind ChemicalRole. Licensed CC BY 4.0; attribution: ChEBI, EMBL-EBI.",
         }.get(source_id, "")
 
     def get_nodes(self) -> Iterator[tuple[str, str, dict[str, Any]]]:
@@ -156,7 +182,7 @@ class DataSourceAdapter:
                 "id": _clean_str(src_id),
                 "name": _clean_str(self._name_for(src_id)),
                 "description": _clean_str(self._description_for(src_id)),
-                "version": "",   # populated case-by-case in v2
+                "version": _clean_str(self._version_for(src_id)),
                 "scope": _clean_str(ls.get("scope", "")),
                 "provenance": _clean_str(ls.get("provenance", "")),
                 "applies_to_organisms": [_clean_str(o) for o in (ls.get("applies_to_organisms") or [])],

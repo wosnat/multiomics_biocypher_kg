@@ -208,14 +208,23 @@ def capture_snapshot() -> dict:
 
 
 # Metabolism layer: node + edge counts captured by capture_snapshot().
-# Reaction/Metabolite are nodes; the rest are edge labels.
-METABOLISM_NODE_COUNTS = ["Reaction", "Metabolite"]
+# Reaction/Metabolite/MetaboliteClass/ChemicalRole are nodes; the rest are edge labels.
+# compare_snapshots reads every key with .get(..., 0), so snapshots saved before a key
+# existed compare as 0 rather than failing.
+METABOLISM_NODE_COUNTS = ["Reaction", "Metabolite", "MetaboliteClass", "ChemicalRole"]
 METABOLISM_EDGE_COUNTS = [
     "Gene_catalyzes_reaction",
     "Reaction_has_metabolite",
     "Reaction_in_kegg_pathway",
     "Organism_has_metabolite",
     "Metabolite_in_pathway",
+    "Tcdb_family_transports_metabolite",
+    "Tcdb_family_transports_chemical_role",
+    "Metabolite_is_stereo_form_of",
+    "Metabolite_is_enantiomer_of",
+    "Metabolite_in_metabolite_class",
+    "Assay_quantifies_metabolite",
+    "Assay_flags_metabolite",
 ]
 KEGG_TERM_LEVEL_KINDS = ["category", "subcategory", "pathway", "ko"]
 

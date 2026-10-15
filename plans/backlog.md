@@ -281,7 +281,7 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       Publication `organisms` rollup then covers both. → friction log 2026-10-06
       "`coculture_partner` filter misses…"; `docs/kg-changes/experiment-stats.md`
 
-- [ ] **Metabolite equivalence across namespaces and stereo/charge variants.**
+- [x] **Metabolite equivalence across namespaces and stereo/charge variants.** CLOSED 2026-10-14 — canonical identity + stereo/enantiomer edges; see `docs/superpowers/plans/2026-10-14-metabolite-identity-and-classes.md` and `docs/kg-changes/metabolite-identity-and-classes.md`. Original note:
       The transport arm is ChEBI-keyed and the metabolism arm KEGG-keyed, and
       they do not always meet on one node, so any transport ↔ catalysis join
       silently misses. Measured over the 3,356 metabolite entries in
@@ -337,7 +337,7 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       2026-10-11 "Anchor RNA contrasts are algebraically linked", 2026-10-11
       researcher update under "The Plan phase missed three…"; `omics_adapter.py`
 
-- [ ] **Chemical categories for `Metabolite` (ChEBI is_a / has_role).** The KG
+- [x] **Chemical categories for `Metabolite` (ChEBI is_a / has_role).** CLOSED 2026-10-14 — delivered as `MetaboliteClass` (KEGG BRITE compound trees) + `ChemicalRole` for TCDB role substrates; see `docs/superpowers/plans/2026-10-14-metabolite-identity-and-classes.md`. ChEBI `has_role` on `Metabolite` stays deferred (item below). Original note: The KG
       has no compound-class layer; KEGG pathway membership and the carrying TCDB
       family were tried as proxies and ~half the sampled assignments were wrong
       (thyroxine → "amino acids", GDP-mannose → "xenobiotic"). 3,042 of 3,356
@@ -350,6 +350,8 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       ChEBI twin. Explicitly flagged "revisit the analysis when it lands".
       → friction log 2026-10-08 "KG has no chemical categories" (OPEN);
       `docs/kg-changes/metabolomics-extension.md` (LipidMaps note)
+
+- [ ] **Deferred TCDB spec (follow-up to metabolite identity + classes).** Bundle: (a) per-gene substrate plausibility (`catalysis_support`, now feasible on canonical identity) — see item below; (b) re-examine `substrate_depth` semantics after the identity merge; (c) per-organism most-specific transport reach (item above); (d) TCDB name hygiene (bare-id subfamily names, role-typed entries); (e) re-tune the lumping threshold and **retire the R3 exception** (`TcdbFamily.substrate_breadth` is a stored value restating a pinned threshold; sunsets with this spec). → `docs/kg-changes/vocabulary-contract.md`, `docs/kg-changes/tcdb-two-source-upgrade.md` §4
 
 - [ ] **TCDB substrate plausibility per gene.** Even at
       `substrate_depth = most_specific` a gene inherits every substrate its TCDB
@@ -368,6 +370,25 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       2026-10-06 "TCDB most-specific substrate for MED4's cyn system",
       2026-10-08 "TCDB substrate lists describe the subfamily";
       `docs/kg-changes/tcdb-two-source-upgrade.md`
+
+- [ ] **ChEBI roles on `Metabolite` (curated allow-list) — measured 2026-10-14, deferred from
+      the metabolite identity + classes spec.** ChEBI `has_role` is a facet ("what it does / is
+      used for"), not a class, and the step-6 ChEBI cache will already hold it. Raw: 1,562 of
+      2,985 ChEBI-linked metabolites carry ≥ 1 direct role (508 distinct), but 2,269 assignments
+      are organism-observation roles ("mouse / human / *E. coli* / yeast metabolite") and much of
+      the rest is pharmacology. A rule-based filter (biological + chemical role, minus the
+      "metabolite" subtree) still leaves 578 metabolites (19%) / 328 roles, dominated by drug
+      roles that ChEBI files under *biological* role (antibacterial 81, anti-HIV 41, analgesic 38;
+      CO₂ → "analgesic", ammonia → "NMR chemical shift reference compound"). A useful version
+      needs a **curated allow-list of ~15–20 roles** (cofactor 74 rolled up, coenzyme 12,
+      prosthetic group, antioxidant 52, nutrient / micronutrient 33 / 26, toxin 15, signalling
+      molecule 10, siderophore 8, osmolyte 8, xenobiotic, pigment). Shape:
+      `Metabolite_has_chemical_role` edges → the existing `ChemicalRole` nodes (introduced by
+      the identity spec for TCDB role-typed substrates), direct assertions only,
+      `sources: ['chebi']`, `evidence: 'curated'`. This is a different edge type from
+      `Tcdb_family_transports_chemical_role`: "has the role" vs "transports something with the
+      role", joinable on one node.
+      → spec `docs/superpowers/specs/2026-10-13-metabolite-identity-and-classes-design.md` §13
 
 **P3 — large or blocked on researcher input**
 

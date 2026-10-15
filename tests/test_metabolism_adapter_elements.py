@@ -85,3 +85,12 @@ def test_metabolite_yielder_emits_elements_when_formula_present(tmp_path):
     generic = next((p for nid, lbl, p in nodes if "C99999" in nid), None)
     assert generic is not None
     assert "elements" not in generic
+
+
+@pytest.mark.parametrize("formula,expected", [
+    ("Rb", ["Rb"]),
+    ("C5H8O2Rn", ["C", "H", "O"]),
+    ("C3H3O6R", ["C", "H", "O"]),
+])
+def test_parse_elements_allow_list(formula, expected):
+    assert _parse_elements(formula) == expected
