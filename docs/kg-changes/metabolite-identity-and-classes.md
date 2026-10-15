@@ -1,9 +1,10 @@
 # KG Change: one node per metabolite, KEGG compound classes, chemical roles
 
 **Date:** 2026-10-13 (proposal) · 2026-10-14 (final design)
-**Status:** **explorer-reviewed and signed off** (§32 / §34). Implementation is pending, and
-the change ships inside a bundled release. Numbers below were measured against the live
-2026-10-13 06:28 build; the post-rebuild version of this doc replaces them with measured values.
+**Status:** implemented; measured on the 2026-10-15 build (commit `9dae8527`). Explorer-reviewed
+and signed off (§32 / §34). "Before" numbers are the 2026-10-13 build; "after" numbers are measured
+on the live 2026-10-15 graph. The change ships inside a bundled release that follows the
+explorer's E1 resolver; `/release-kg` sets `mcp_min_version` and `breaking_changes` then (spec §12).
 **Design spec:** `docs/superpowers/specs/2026-10-13-metabolite-identity-and-classes-design.md`
 **Origin:** `plans/backlog.md`: metabolite equivalence (P1) + chemical categories (P2), from
 the `pro_n_import_coculture` analysis friction log (2026-10-07 / -08 / -11).
@@ -41,12 +42,12 @@ history, kept for the reasoning behind each decision.
 
 | | Before | After |
 |---|---|---|
-| Duplicates | One metabolite can be two nodes: nitrate is `chebi:14654` and `kegg.compound:C00244`; HCO₃⁻ is `C00288` and `C01353` | One node per metabolite (69 merge groups) |
+| Duplicates | One metabolite can be two nodes: nitrate is `chebi:14654` and `kegg.compound:C00244`; HCO₃⁻ is `C00288` and `C01353` | One node per metabolite (40 merge groups) |
 | `chebi_id` | 48% are secondary / obsolete ids; 331 more name an isotopologue ("succinic acid-d4") | The primary entity id, from ChEBI's own KEGG cross-reference |
-| `chebi:` node ids | 173 are secondary ids | All primary; 89 re-keyed to KEGG ids |
+| `chebi:` node ids | 173 are secondary ids | All primary; 124 re-keyed to KEGG ids (49 onto an existing KEGG node, 75 onto a new one); 79 changed to their primary `chebi:` id or its KEGG node (`chebi_primary_id`) |
 | Role terms | 57 "metabolites" such as `drug`, `xenobiotic`, `acid`, `vitamin (role)` | Removed from `Metabolite`. Now `ChemicalRole` nodes (§2a) |
 | Wrong paper picks | Alanine → D-Ala, Glutamic acid → D-Glu, GSH → GSSG, Cystine → indole-3-acetate, …; 4 `mnx:` placeholders | Curated or dominant-form resolution (§2b) |
-| Measurement-only nodes | Nodes that exist only because a wrong pick pulled them in (D-Trp, ChEBI vitamin-B nodes, …) | Dropped when their rows move (≈ 11, incl. the 4 placeholders), listed in the remap and in the target's `recurated_from_ids` |
+| Measurement-only nodes | Nodes that exist only because a wrong pick pulled them in (D-Trp, ChEBI vitamin-B nodes, …) | Dropped when their rows move (13: 4 placeholders + 9 `remeasured_elsewhere`), listed in the remap and in the target's `recurated_from_ids` |
 | Class / polymer nodes | "alditol" carries glycerol's structure, chitosan carries glucosamine's | `structure_kind = generic` / `polymer`. The concrete representative structure is dropped; generic formula and `elements` are kept |
 
 **What "the same metabolite" means:**
@@ -57,11 +58,19 @@ history, kept for the reasoning behind each decision.
 - **Never merged automatically:** name-only matches. Two KEGG ids merge only on MNX evidence or a
   curated `merge:` override.
 
-**Scale (approximate):** `Metabolite` 3,356 → **≈ 3,214**:
-- −74 merged;
-- −57 roles;
-- ≈ −11 measurement-only nodes (incl. 4 placeholders);
-- 89 re-keyed.
+**Scale (measured):** `Metabolite` 3,356 → **3,203** (2,776 `kegg.compound:` + 427 `chebi:` + 0
+`mnx:`). 320 old ids retire (every one is a row of `metabolite_id_remap.tsv`) and 167 new ids
+appear:
+- −57 roles (`removed_role`);
+- −13 measurement-only nodes (4 `removed_placeholder` + 9 `remeasured_elsewhere`);
+- −84 old ids collapse into a node that already existed (49 `rekey_chebi_kegg_xref`, 18
+  `mnx_same_entity`, 8 `chebi_conjugate`, 6 `manual`, 1 each `chebi_tautomer`,
+  `chebi_primary_id`, `isotopologue_rejected`);
+- 166 old ids move to a new id (165 new nodes; `chebi:132153` and `chebi:14412` both land on
+  `C00518`): 78 `chebi_primary_id`, 75 `rekey_chebi_kegg_xref`, 8 `class_term_rejected`, 2
+  `chebi_conjugate`, 2 `isotopologue_rejected`, 1 `mnx_same_entity`;
+- 2 nodes are new without an old id: `chebi:26399` purine ribonucleoside (a TCDB substrate string
+  that now resolves) and `C11546` glucosylglycerol (Kujawinski's override target).
 
 ### New / changed Metabolite properties
 
@@ -75,10 +84,10 @@ history, kept for the reasoning behind each decision.
 | `recurated_from_ids` | str[] | **new, sparse, no identity meaning**: ids of dropped placeholder or measurement-only nodes whose paper rows now point here (e.g. `kegg.compound:C00525` D-Trp on L-Trp). Never in `all_identifiers` |
 | `identity_basis` | str[] | **new, sparse, controlled**: on merged **and re-keyed** nodes (a re-keyed node carries `[chebi_kegg_xref]`); ⊆ `{mnx_same_entity, chebi_kegg_xref, chebi_conjugate, chebi_tautomer, manual}` |
 | `structure_kind` | str | **new, dense, controlled**: `defined` \| `generic` \| `polymer` |
-| `formula`, `mass`, `inchikey`, `smiles`, `elements` | — | Concrete representative values are dropped from class / polymer nodes that carried them. Generic formulas and `elements` are kept; ≈ 49 formula-less class nodes gain both from ChEBI. `mass` is never present on a generic formula; `elements` ⊆ the periodic table |
+| `formula`, `mass`, `inchikey`, `smiles`, `elements` | — | Concrete representative values are dropped from class / polymer nodes that carried them. Generic formulas and `elements` are kept; 33 formula-less nodes gain both from ChEBI, and 386 nodes have a representative structure scrubbed. `mass` is never present on a generic formula; `elements` ⊆ the periodic table |
 | `name` | str | KEGG name on KEGG-keyed nodes, ChEBI name on `chebi:` nodes |
 | `kegg_compound_categories` | str[] | **new, sparse, post-import**: br08001 top-level names (`Peptides`, `Carbohydrates`, …). Never inferred |
-| `evidence_sources` | str[] | `metabolomics` now only on the nodes paper rows finally resolve to; ≈ 7 nodes lose it |
+| `evidence_sources` | str[] | `metabolomics` now only on the nodes paper rows finally resolve to: 149 → 134 nodes (9 surviving nodes lose it, 10 gain it, the rest retire) |
 
 ### Migration notes for the explorer
 
@@ -98,8 +107,8 @@ history, kept for the reasoning behind each decision.
   - `Reaction_has_metabolite`;
   - `Tcdb_family_transports_metabolite` (−392 role edges, moved to the role edge type, plus
     deduplication on merged targets);
-  - `TcdbFamily.metabolite_count`, which loses its roles (e.g. `3.A.1` −33);
-  - `measured_*` → 0 on the ≈ 7 nodes that lose the `metabolomics` tag.
+  - `TcdbFamily.metabolite_count`, which loses its roles (e.g. `3.A.1` 554 → 518);
+  - `measured_*` → 0 on the 9 surviving nodes that lose the `metabolomics` tag.
 - **Merged nodes:** list rollups (`pathway_*`, `evidence_sources`, `organism_names`) are unioned;
   counts are recomputed, never summed.
 - **`name` values change** from MNX's lowercase alias to the KEGG / ChEBI name. Goldens and
@@ -108,11 +117,16 @@ history, kept for the reasoning behind each decision.
 - **Assay values are untouched.** Assay edges point at canonical / re-resolved nodes; every move
   is in `metabolite_assay_repoints.tsv`.
 - **`list_metabolites`:**
-  - the no-formula count drops by ~49;
+  - the no-formula count drops from 373 (316 excluding roles) to 244;
   - `metabolite_elements` filters only gain matches;
   - `metaboliteFullText` covers name + formula + identifiers.
-- **The KEGG pathway set may gain pathway-level `KeggTerm` nodes with no gene**, from re-keyed
-  compounds' pathway links. Gene-anchored tools are unaffected.
+- **The KEGG pathway set gains 5 pathway-level `KeggTerm` nodes with no gene** (447 → 452;
+  zero-gene 61 → 66), from re-keyed compounds' pathway links: `ko01521` EGFR tyrosine kinase
+  inhibitor resistance (`C00165`), `ko04145` Phagosome (`C04549` PI3P), `ko04510` Focal adhesion
+  (`C04637` PIP2), `ko05212` Pancreatic cancer (`C00416`), `ko05332` Graft-versus-host disease
+  (`C00338`, `C00533`). All five reach the KG only as TCDB substrates; the transport-pathway
+  rule is unchanged and tightening it is deferred to the TCDB spec (`plans/backlog.md`).
+  Gene-anchored tools are unaffected.
 - **Answers that change:** transport ↔ catalysis joins (e.g. "does MED4 both take up and reduce
   nitrate?") now work on one node, and measured amino acids sit on their L-forms.
 
@@ -151,9 +165,13 @@ history, kept for the reasoning behind each decision.
 | br08002 Lipids | 517 | 163 |
 | br08003 Phytochemical compounds | 143 | 76 |
 | br08021 Glycosides · br08007 Pesticides · br08009 Natural toxins · br08006 Endocrine disruptors · br08005 Bioactive peptides | 95 | 71 |
-| **Union** | **867 metabolites, about 27% of the ≈ 3,214 nodes** | **≈ 431** |
+| **Union** | **881 metabolites, 27.5% of the 3,203 nodes** | **445** |
 
-≈ 1,130 `Metabolite_in_metabolite_class` and ≈ 420 `Metabolite_class_is_a_metabolite_class` edges.
+1,151 `Metabolite_in_metabolite_class` and 408 `Metabolite_class_is_a_metabolite_class` edges
+(measured). The per-tree metabolite and node counts above are the 2026-10-14 BRITE measurement;
+on the build, by tree (class nodes / distinct metabolites): compounds_with_biological_roles 121 /
+334 · lipids 170 / 524 · phytochemical_compounds 82 / 146 · pesticides 31 / 35 · glycosides 9 / 40 ·
+natural_toxins 19 / 15 · endocrine_disrupting_compounds 9 / 8 · bioactive_peptides 4 / 2.
 - Memberships on an alias KEGG id land on its canonical node.
 - `tree` is a closed vocabulary of the 8 tree names.
 - Ids share the `kegg.brite:` prefix with gene BRITE (see §36, question F).
@@ -174,7 +192,8 @@ history, kept for the reasoning behind each decision.
 - **Meaning:** a TCDB entry like "drug" says **"this family transports something TCDB calls a
   drug"**: an extra substrate given by role, not a role of the family or of its metabolites. The
   edge type carries that meaning.
-- **Node `ChemicalRole`:** a pruned ChEBI role hierarchy, ≈ 111 nodes.
+- **Node `ChemicalRole`:** a pruned ChEBI role hierarchy, 111 nodes (levels 0:3 · 1:28 · 2:33 ·
+  3:29 · 4:12 · 5:5 · 6:1) and 132 `Chemical_role_is_a_chemical_role` edges.
   - The 57 TCDB roles plus ancestors.
   - Level 0 = ChEBI's three branches (`biological role`, `chemical role`, `application`); no
     `role` root.
@@ -190,7 +209,8 @@ history, kept for the reasoning behind each decision.
     and secondary ChEBI ids, which include every removed role-metabolite id.
 - **Edges:**
   - `Chemical_role_is_a_chemical_role` (child → parent);
-  - `Tcdb_family_transports_chemical_role` (TcdbFamily → ChemicalRole, ≈ 392). It mirrors the
+  - `Tcdb_family_transports_chemical_role` (TcdbFamily → ChemicalRole, 392: 156 `most_specific`,
+    236 `inherited`). It mirrors the
     metabolite edge: same rollup, same `substrate_depth`.
 - **Not propagated:** no Gene / OrganismTaxon / Metabolite count reaches a role.
 - **Search and indexes:** `chemicalRoleFullText` on `name`; `chemical_role_id_idx` /
@@ -199,13 +219,12 @@ history, kept for the reasoning behind each decision.
 
 ## 2b. Also new
 
-- **`Metabolite_is_stereo_form_of`** (stereo-specified → unspecified, directed, ≈ 60) and
+- **`Metabolite_is_stereo_form_of`** (stereo-specified → unspecified, directed, **68**) and
   **`Metabolite_is_enantiomer_of`** (symmetric, stored once lower → higher id, query undirected,
-  ≈ 25).
+  **28**).
   - Both carry `sources: ['chebi']`, `evidence: 'curated'`.
-  - Both are emitted only between nodes that survive the measurement-only drop. ≈ 60 / ≈ 25 are
-    counts **before** that drop (L-/D-Trp is lost); the final counts come with the post-rebuild
-    doc.
+  - Both are emitted only between nodes that survive the measurement-only drop (the plan
+    measured 73 / 29 before the B2 scrub and the drop; L-/D-Trp is lost).
   - No anomer pair is an enantiomer edge. No rollup crosses either edge.
 - **`stereo_assignment ∈ {as_reported, dominant_form_assumed}`** on `Assay_quantifies_metabolite`
   and `Assay_flags_metabolite`. It's dense on every assay edge and records **what the paper said**.
@@ -235,7 +254,7 @@ history, kept for the reasoning behind each decision.
   - **Order per row:** paper override → direct id → lock → match → rule. An override beats the
     row's direct id.
   - **Ambiguous names with no override fail the build; unmatched names are unresolved** (no edge,
-    reported). Today 1 unmatched name, 6 rows.
+    reported). Measured: 1 unmatched name (`s-(1-2-dicarboxyethyl)glutathione pos`, Kujawinski), 6 rows.
   - Today **7 paper names move**, all onto L-forms: Asn, Ala, Glu, Gln, Trp, Met, Phe. 2
     stereo-unspecified direct ids qualify; 0 of them move.
 - **Case-insensitive paper-name matching**, except names that parse as formulas (`Co` ≠ `CO`).
@@ -278,12 +297,17 @@ history, kept for the reasoning behind each decision.
     `chebi_conjugate` | `chebi_primary_id`, read from the old ChEBI term), or
     `no_longer_reachable` (empty new id; 0 rows in this build). Written by `scripts/metabolite_identity_tsvs.py`
     from the identity report (whose `baseline` is the previous `kegg_data.json`).
+    → [`metabolite-identity/metabolite_id_remap.tsv`](metabolite-identity/metabolite_id_remap.tsv)
+    (320 rows; basis counts in §2c).
   - `metabolite_assay_repoints.tsv`: paper, table, paper name, old id, new id,
     `stereo_assignment`, reason. The reason is one of `alias_override` |
     `dominant_stereo_form` | `case_fold_convergence` | `direct_id_canonicalised` |
     `placeholder_recurated` | `remeasured_elsewhere` | `merged` (only when stage E merged, or
     stage D re-keyed, the old id into the new node) | `name_re_resolved` (the row's name now
     resolves elsewhere; the old node may still exist); the first applicable wins.
+    → [`metabolite-identity/metabolite_assay_repoints.tsv`](metabolite-identity/metabolite_assay_repoints.tsv)
+    (114 rows: 82 `alias_override`, 25 `dominant_stereo_form`, 7 `name_re_resolved`; 0
+    `case_fold_convergence` rows).
 - **The post-rebuild doc also reports:**
   - the per-name stereo table: the 36 B5 names plus the case-fold convergences, with old id,
     new id, `stereo_assignment`, and `catalyst_gene_count` / `transporter_gene_count` on the new
@@ -292,6 +316,144 @@ history, kept for the reasoning behind each decision.
   - the `structure_kind` counts (and how many carry transport edges);
   - the final stereo / enantiomer edge counts;
   - the number of 0-gene pathway `KeggTerm` nodes added.
+
+## 2c. Measured on the 2026-10-15 build
+
+Release TSVs (generated by `scripts/metabolite_identity_tsvs.py` from
+`cache/data/metabolomics/metabolite_identity_report.json`):
+- [`metabolite-identity/metabolite_id_remap.tsv`](metabolite-identity/metabolite_id_remap.tsv): 320
+  rows, one per retired `Metabolite` id.
+- [`metabolite-identity/metabolite_assay_repoints.tsv`](metabolite-identity/metabolite_assay_repoints.tsv):
+  114 rows, one per moved (paper, table, name).
+
+### Remap basis values used
+
+| `basis` | Rows | Meaning in this build |
+|---|---|---|
+| `rekey_chebi_kegg_xref` | 124 | `chebi:` node re-keyed to the KEGG id ChEBI cross-references (49 onto an existing KEGG node, 75 onto a new one) |
+| `chebi_primary_id` | 79 | old id was a ChEBI **secondary** id (or a conjugate / zwitterion relocation the fallback can't tell apart); new id = the node that now carries it in `all_identifiers`. Plan "Spec gaps" 2: the 60 ids that only changed to their primary id land here, plus fallback relocations |
+| `removed_role` | 57 | role term; empty `new_id`, `role_id` = the `chebi.role:` node |
+| `mnx_same_entity` | 19 | merged on MNX evidence |
+| `chebi_conjugate` | 10 | merged as a conjugate acid / base |
+| `remeasured_elsewhere` | 9 | measurement-only node dropped; new id = where its paper rows now point |
+| `class_term_rejected` | 8 | the old node was a ChEBI **class** term; its MNX entry or TCDB substrate string now resolves to an entity term (e.g. `chebi:2580` → `chebi:27208`) |
+| `manual` | 6 | curated `merge:` override |
+| `removed_placeholder` | 4 | the 4 `mnx:` placeholders → L-Arg `C00062`, L-Cys `C00097`, L-Ser `C00065`, D-ribose 5-phosphate `C00117` |
+| `isotopologue_rejected` | 3 | the old node was an isotope-labelled ChEBI term, now resolved to the unlabelled entity (`chebi:176566` → `C00076`, `chebi:176584` → `C06269`, `chebi:176629` → `C01413`) |
+| `chebi_tautomer` | 1 | merged as a tautomer |
+| `no_longer_reachable` | 0 | |
+
+Note on the remap basis for 4 old ids: it depends on the raw ChEBI obo being present at step 6
+(the committed ChEBI cache lacks `CHEBI:176566/176629/176584/10809`); a cache-only rerun could
+relabel those basis values. The TSVs above are from a run with the raw obo.
+
+**`name_re_resolved` (7 repoint rows):** all are Kujawinski 2023 "acetyltaurine" (6 KEGG-export
+tables + `presence_flags_table_s2`), `chebi:133737` → `chebi:84415`. The old id is now an
+identifier of `chebi:84415` through the `chebi_primary_id` fallback, not through a stage-E merge
+or a stage-D re-key, so the repoint reason is `name_re_resolved` rather than `merged`.
+
+**`mnx:WATER`-style ids:** MNX's own non-`MNXM` identifiers are kept verbatim in
+`all_identifiers`. One occurs today: `mnx:WATER` on `kegg.compound:C00001` (H2O). Resolvers must
+not assume every `mnx:` local part starts with `MNXM`.
+
+### Expected metabolism deltas (`/omics-edge-snapshot --compare`)
+
+These drops are expected. They are not regressions. Expression edges are unchanged (327,420 → 327,420, no gene lost) and so is gene annotation state (`capture_annotation_state.py --compare`: 0 movement over 127,035 genes).
+
+| Count | Before (2026-10-13) | After (2026-10-15) | Δ | Why |
+|---|---|---|---|---|
+| `Metabolite` | 3,356 (2,717 + 635 `chebi:` + 4 `mnx:`) | 3,203 (2,776 + 427 + 0) | −153 | −57 roles, −13 measurement-only, −84 collapsed into existing nodes, +1 net from re-keys / new ids (§1) |
+| `Reaction_has_metabolite` | 10,149 | 10,149 | 0 | the catalysis arm is KEGG-keyed already; no reaction metabolite merged |
+| `Organism_has_metabolite` | 92,081 | 88,320 | −3,761 | role substrates leave the transport arm, and merged / re-keyed targets deduplicate per organism |
+| `Tcdb_family_transports_metabolite` | 11,263 | 10,790 | −473 | −392 role edges move to `Tcdb_family_transports_chemical_role`; −81 net from per-family deduplication when two substrate ids collapse onto one node, and from substrate-string remaps |
+| `Metabolite_in_pathway` | 9,269 | 9,342 | +73 | re-keyed `chebi:` → KEGG nodes gain KEGG compound → pathway links |
+| Pathway-level `KeggTerm` (with `gene_count = 0`) | 447 (61) | 452 (66) | +5 (+5) | `ko01521`, `ko04145`, `ko04510`, `ko05212`, `ko05332`, reached only through re-keyed TCDB substrates (§1) |
+| `Assay_quantifies_metabolite` / `Assay_flags_metabolite` | 1,480 / 186 | 1,480 / 186 | 0 / 0 | rows repoint (114 TSV rows) but the counts don't change. The 6 same-slot `C00127` duplicates split onto GSH `C00051` / GSSG `C00127` |
+| `Gene.transport_substrate_resolution` | resolved 28,854 · family_inferred 1,693 | identical | 0 | pinned lumping set (13 families; `3.A.3` drifted to 47 molecules, held by the pin) |
+| `DataSource` | 9 | 11 | +2 | `data_source:kegg`, `data_source:chebi` |
+| New | — | `MetaboliteClass` 445 · `ChemicalRole` 111 · `Metabolite_in_metabolite_class` 1,151 · `Metabolite_class_is_a_metabolite_class` 408 · `Chemical_role_is_a_chemical_role` 132 · `Tcdb_family_transports_chemical_role` 392 · `Metabolite_is_stereo_form_of` 68 · `Metabolite_is_enantiomer_of` 28 | | |
+
+### `structure_kind`
+
+| `structure_kind` | Nodes | With a `Tcdb_family_transports_metabolite` edge |
+|---|---|---|
+| `defined` | 2,555 | 1,034 |
+| `generic` | 622 | 329 |
+| `polymer` | 26 | 19 |
+
+Also on the build:
+- 244 nodes have no `formula` (237 have no `elements`);
+- 161 carry `identity_basis` (`chebi_kegg_xref` 130 · `mnx_same_entity` 22 · `chebi_conjugate` 10 · `manual` 6 · `chebi_tautomer` 1);
+- 13 carry `recurated_from_ids`;
+- 334 carry `kegg_compound_categories`;
+- `TcdbFamily.substrate_breadth` is `lumping` 13 · `specific` 1,461 · `not_assessed` 41.
+
+### Per-name stereo table (spec §12)
+
+The 36 names step 6 used to resolve by an ambiguous pick (`ambiguous_multi_id`, 46 aliases) are
+listed below. `metabolite_assay_repoints.tsv` has no `case_fold_convergence` rows in this build.
+"Old id" is the pre-change pick. Counts are on the new node. Kujawinski's KEGG-export rows
+carry a direct id, so a direct L-form id reads `as_reported` (the "proline" row is an example).
+
+| Paper name | Old id | New id (name) | `stereo_assignment` | `catalyst_gene_count` | `transporter_gene_count` |
+|---|---|---|---|---|---|
+| S-adenosyl-L-methionine | `chebi:142094` | `C00019` S-Adenosyl-L-methionine | as_reported | 1177 | 1125 |
+| chitotriose | `chebi:143141` | `chebi:143141` N,N^,N^^-triacetylchitotriose | as_reported | 0 | 0 |
+| Tyrosine | `chebi:173245` | `C00082` L-Tyrosine | dominant_form_assumed | 224 | 2244 |
+| tyrosine | `chebi:173245` | `C00082` L-Tyrosine | dominant_form_assumed | 224 | 2244 |
+| Vitamin B2 | `chebi:176838` | `C00255` Riboflavin | as_reported | 111 | 2491 |
+| Vitamin B5 | `chebi:176840` | `C00864` Pantothenate | as_reported | 86 | 2455 |
+| Cysteic Acid | `chebi:21260` | `C00506` L-Cysteate | dominant_form_assumed | 77 | 0 |
+| Glucosylglycerol | `chebi:91033` | `C11546` 2-O-(alpha-D-Glucopyranosyl)glycerol | as_reported | 0 | 0 |
+| acetyl coenzyme A | `C00024` | `C00024` Acetyl-CoA | as_reported | 1158 | 598 |
+| UDP-glucose | `C00029` | `C00029` UDP-glucose | as_reported | 303 | 1708 |
+| Lysine | `C00047` | `C00047` L-Lysine | dominant_form_assumed | 198 | 2786 |
+| D-Ribose 5-phosphate | `C00117` | `C00117` D-Ribose 5-phosphate | as_reported | 355 | 0 |
+| Glutathione | `C00127` | `C00051` Glutathione | as_reported | 517 | 2720 |
+| glutathione | `C00127` | `C00051` Glutathione | as_reported | 517 | 2720 |
+| Glutathione Disulfide | `C00127` | `C00127` Glutathione disulfide | as_reported | 99 | 1430 |
+| glutathione oxidized | `C00127` | `C00127` Glutathione disulfide | as_reported | 99 | 1430 |
+| Alanine | `C00133` | `C00041` L-Alanine | dominant_form_assumed | 520 | 395 |
+| Proline | `C00148` | `C00148` L-Proline | dominant_form_assumed | 170 | 2861 |
+| proline | `C00148` | `C00148` L-Proline | as_reported | 170 | 2861 |
+| proline | `C00148` | `C00148` L-Proline | dominant_form_assumed | 170 | 2861 |
+| Adenosine | `C00212` | `C00212` Adenosine | as_reported | 194 | 2090 |
+| adenosine | `C00212` | `C00212` Adenosine | as_reported | 194 | 2090 |
+| Glutamic acid | `C00217` | `C00025` L-Glutamate | dominant_form_assumed | 1905 | 786 |
+| Homoserine | `C00263` | `C00263` L-Homoserine | dominant_form_assumed | 142 | 64 |
+| D-glucosamine | `C00329` | `C00329` D-Glucosamine | as_reported | 20 | 48 |
+| D-glucosamine 6-phosphate | `C00352` | `C00352` D-Glucosamine 6-phosphate | as_reported | 166 | 0 |
+| Aconitic Acid | `C00417` | `C00417` cis-Aconitate | as_reported | 78 | 30 |
+| Cytidine | `C00475` | `C00475` Cytidine | as_reported | 144 | 603 |
+| Tryptophan | `C00525` | `C00078` L-Tryptophan | dominant_form_assumed | 207 | 1825 |
+| Glutamine | `C00819` | `C00064` L-Glutamine | dominant_form_assumed | 1096 | 2365 |
+| Cystine | `C00954` | `C00491` L-Cystine | dominant_form_assumed | 80 | 1994 |
+| indole 3-acetic acid | `C00954` | `C00954` Indole-3-acetate | as_reported | 122 | 52 |
+| Chitobiose | `C01674` | `C01674` Chitobiose | as_reported | 53 | 1593 |
+| chitobiose | `C01674` | `C01674` Chitobiose | as_reported | 53 | 1593 |
+| chitobiose pos | `C01674` | `C01674` Chitobiose | as_reported | 53 | 1593 |
+| Methionine | `C01733` | `C00073` L-Methionine | dominant_form_assumed | 509 | 1619 |
+| Phenylalanine | `C02057` | `C00079` L-Phenylalanine | dominant_form_assumed | 289 | 583 |
+| Vitamin K1 | `C02059` | `C02059` Phylloquinone | as_reported | 19 | 0 |
+| UDP-glucosamine | `C02200` | `C00043` UDP-N-acetyl-alpha-D-glucosamine | as_reported | 256 | 542 |
+| Methionine Sulfoxide | `C02989` | `C02989` L-Methionine S-oxide | dominant_form_assumed | 13 | 117 |
+| Vitamin B3 | `C03150` | `C00253` Nicotinate | as_reported | 20 | 1046 |
+| Aspartic acid | `C16433` | `C00049` L-Aspartate | dominant_form_assumed | 571 | 27 |
+| aspartic acid | `C16433` | `C00049` L-Aspartate | dominant_form_assumed | 571 | 27 |
+| Asparagine | `C16438` | `C00152` L-Asparagine | dominant_form_assumed | 126 | 48 |
+| Arginine | `mnx:MNXM1565340` | `C00062` L-Arginine | dominant_form_assumed | 166 | 638 |
+| cysteine | `mnx:MNXM1565343` | `C00097` L-Cysteine | dominant_form_assumed | 652 | 2554 |
+| Serine | `mnx:MNXM499385` | `C00065` L-Serine | dominant_form_assumed | 436 | 152 |
+
+### Spot checks (live, 2026-10-15)
+
+- Nitrate is one node: `'chebi:14654' IN m.all_identifiers` matches only `kegg.compound:C00244`,
+  which also carries `chebi:17632`, `mnx:MNXM732398` / `MNXM732399` and its InChIKey.
+- "Alanine" measurements sit on L-Ala `C00041`. There are 4 `Assay_quantifies_metabolite` edges and 2 `Assay_flags_metabolite` edges, all `dominant_form_assumed`.
+- Siderophore route: `chebi.role:26672` is reached by 7 `most_specific` families (`9.A`,
+  `3.A.1.132`, `2.A.6.5`, `2.A.1.3`, `2.A.1.2`, `1.B.17.1`, `1.B.166`) and 11 `inherited` ones.
+- L-Ala `C00041` `-[:Metabolite_is_stereo_form_of]->` Ala `C01401`; L-Ala
+  `-[:Metabolite_is_enantiomer_of]-` D-Ala `C00133`.
 
 ---
 

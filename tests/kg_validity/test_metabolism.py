@@ -189,16 +189,17 @@ def test_metabolite_pathways_only_kg_evidenced(run_query):
     Three valid evidence paths after the TCDB-substrate refactor:
       - Gene -> KeggTerm KO -> pathway (via Kegg_term_is_a_kegg_term hierarchy)
       - Gene -> Reaction -> pathway
-      - Gene -> TcdbFamily -> Metabolite -> pathway
+      - Gene -> TcdbFamily (or a kept ancestor) -> Metabolite -> pathway
         (the substrate's compound_to_pathways set, intersected with the
          extended pws set in step 6 — drops compound-only meta-classification
          maps with no names like ko010**, ko07***).
 
-    The transport arm attaches DIRECTLY to the gene's TcdbFamily: step 6 rolls
-    each subtree's substrates onto every kept ancestor, so no walk down to a
-    tc_specificity descendant is needed (and since the 2026-08-06 pruning
-    cleanup only gene-annotated specificity nodes survive, such a walk would
-    wrongly report these pathways as unevidenced).
+    The transport arm walks UP the TCDB hierarchy from the gene-attached
+    family (``Tcdb_family_is_a_tcdb_family*0..``), matching step 6's rule:
+    transport-reachable pathways come from substrates on ANY kept TC node, and
+    kept ancestors carry their descendants' rolled-up substrates even when no
+    gene attaches to the ancestor directly (e.g. ``tcdb:9.A`` -> PI3P C04549
+    -> ko04145 after the metabolite-identity re-key).
     """
     n_orphan = run_query("""
         MATCH (m:Metabolite)-[:Metabolite_in_pathway]->(p:KeggTerm)
@@ -210,6 +211,7 @@ def test_metabolite_pathways_only_kg_evidenced(run_query):
         }
         AND NOT EXISTS {
             MATCH (g:Gene)-[:Gene_has_tcdb_family]->(:TcdbFamily)
+                  -[:Tcdb_family_is_a_tcdb_family*0..]->(:TcdbFamily)
                   -[:Tcdb_family_transports_metabolite]->(:Metabolite)
                   -[:Metabolite_in_pathway]->(p)
         }

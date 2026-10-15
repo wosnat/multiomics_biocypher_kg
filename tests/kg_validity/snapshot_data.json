@@ -1161,102 +1161,82 @@
     {
       "properties": {},
       "source": "insdc.gcf:GCA_003513035.1",
-      "target": "chebi:10004",
+      "target": "chebi:104011",
       "type": "Organism_has_metabolite"
     },
     {
       "properties": {},
       "source": "insdc.gcf:GCA_003513035.1",
-      "target": "chebi:10022",
+      "target": "chebi:131461",
       "type": "Organism_has_metabolite"
     },
     {
       "properties": {},
       "source": "insdc.gcf:GCA_003513035.1",
-      "target": "chebi:10074",
+      "target": "chebi:132950",
       "type": "Organism_has_metabolite"
     },
     {
       "properties": {},
       "source": "insdc.gcf:GCA_003513035.1",
-      "target": "chebi:10077",
+      "target": "chebi:133008",
       "type": "Organism_has_metabolite"
     },
     {
       "properties": {},
       "source": "insdc.gcf:GCA_003513035.1",
-      "target": "chebi:10081",
+      "target": "chebi:133462",
       "type": "Organism_has_metabolite"
     },
     {
       "properties": {
         "metric_bucket": "mid",
         "n_replicates": 3,
-        "value": 0.0062
+        "value": 0.0023
       },
       "source": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
-      "target": "chebi:173245",
+      "target": "kegg.compound:C00003",
+      "type": "Assay_quantifies_metabolite"
+    },
+    {
+      "properties": {
+        "metric_bucket": "mid",
+        "n_replicates": 3,
+        "value": 0.00022
+      },
+      "source": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
+      "target": "kegg.compound:C00006",
+      "type": "Assay_quantifies_metabolite"
+    },
+    {
+      "properties": {
+        "metric_bucket": "mid",
+        "n_replicates": 3,
+        "value": 0.0043
+      },
+      "source": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
+      "target": "kegg.compound:C00008",
+      "type": "Assay_quantifies_metabolite"
+    },
+    {
+      "properties": {
+        "metric_bucket": "mid",
+        "n_replicates": 3,
+        "value": 0.00022
+      },
+      "source": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
+      "target": "kegg.compound:C00016",
       "type": "Assay_quantifies_metabolite"
     },
     {
       "properties": {
         "metric_bucket": "low",
         "n_replicates": 3,
-        "value": 2.4e-06
+        "value": 0.00013
       },
       "source": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
-      "target": "chebi:176838",
+      "target": "kegg.compound:C00018",
       "type": "Assay_quantifies_metabolite"
-    },
-    {
-      "properties": {
-        "metric_bucket": "low",
-        "n_replicates": 3,
-        "value": 5.6e-05
-      },
-      "source": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
-      "target": "chebi:176840",
-      "type": "Assay_quantifies_metabolite"
-    },
-    {
-      "properties": {
-        "metric_bucket": "mid",
-        "n_replicates": 3,
-        "value": 0.00032
-      },
-      "source": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
-      "target": "chebi:21260",
-      "type": "Assay_quantifies_metabolite"
-    },
-    {
-      "properties": {
-        "metric_bucket": "mid",
-        "n_replicates": 3,
-        "value": 0.0024
-      },
-      "source": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
-      "target": "chebi:23042",
-      "type": "Assay_quantifies_metabolite"
-    },
-    {
-      "properties": {
-        "flag_value": "not_detected",
-        "n_positive": 0,
-        "n_replicates": 1
-      },
-      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
-      "target": "chebi:133737",
-      "type": "Assay_flags_metabolite"
-    },
-    {
-      "properties": {
-        "flag_value": "not_detected",
-        "n_positive": 0,
-        "n_replicates": 1
-      },
-      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
-      "target": "chebi:142094",
-      "type": "Assay_flags_metabolite"
     },
     {
       "properties": {
@@ -1270,12 +1250,12 @@
     },
     {
       "properties": {
-        "flag_value": "detected",
-        "n_positive": 1,
+        "flag_value": "not_detected",
+        "n_positive": 0,
         "n_replicates": 1
       },
       "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
-      "target": "chebi:173245",
+      "target": "chebi:84415",
       "type": "Assay_flags_metabolite"
     },
     {
@@ -1285,7 +1265,27 @@
         "n_replicates": 1
       },
       "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
-      "target": "kegg.compound:C00004",
+      "target": "kegg.compound:C00003",
+      "type": "Assay_flags_metabolite"
+    },
+    {
+      "properties": {
+        "flag_value": "not_detected",
+        "n_positive": 0,
+        "n_replicates": 1
+      },
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
+      "target": "kegg.compound:C00019",
+      "type": "Assay_flags_metabolite"
+    },
+    {
+      "properties": {
+        "flag_value": "not_detected",
+        "n_positive": 0,
+        "n_replicates": 1
+      },
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
+      "target": "kegg.compound:C00020",
       "type": "Assay_flags_metabolite"
     },
     {
@@ -1531,31 +1531,31 @@
     {
       "properties": {},
       "source": "tcdb:1",
-      "target": "chebi:10074",
+      "target": "chebi:16077",
       "type": "Tcdb_family_transports_metabolite"
     },
     {
       "properties": {},
       "source": "tcdb:1",
-      "target": "chebi:10208",
+      "target": "chebi:16646",
       "type": "Tcdb_family_transports_metabolite"
     },
     {
       "properties": {},
       "source": "tcdb:1",
-      "target": "chebi:10426",
+      "target": "chebi:17234",
       "type": "Tcdb_family_transports_metabolite"
     },
     {
       "properties": {},
       "source": "tcdb:1",
-      "target": "chebi:11097",
+      "target": "chebi:17593",
       "type": "Tcdb_family_transports_metabolite"
     },
     {
       "properties": {},
       "source": "tcdb:1",
-      "target": "chebi:11148",
+      "target": "chebi:22563",
       "type": "Tcdb_family_transports_metabolite"
     },
     {
@@ -2266,7 +2266,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-08-29T10:15:17.797704+00:00",
+  "generated_at": "2026-10-15T04:43:40.318785+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -3385,45 +3385,48 @@
     },
     {
       "anchor": false,
-      "id": "chebi:10004",
+      "id": "chebi:104011",
       "label": "Metabolite",
       "properties": {
-        "name": "vitamin (role)"
+        "formula": "C9H9N2O3",
+        "mass": 193.182,
+        "name": "p-aminohippuric acid"
       }
     },
     {
       "anchor": false,
-      "id": "chebi:10022",
+      "id": "chebi:131461",
       "label": "Metabolite",
       "properties": {
-        "formula": "C15H20O6",
-        "mass": 296.319,
-        "name": "deoxynivalenol"
+        "formula": "C3H3BrO3",
+        "mass": 166.958,
+        "name": "3-bromopyruvic acid"
       }
     },
     {
       "anchor": false,
-      "id": "chebi:10074",
+      "id": "chebi:132950",
       "label": "Metabolite",
       "properties": {
-        "name": "xenobiotic"
+        "name": "tartrate"
       }
     },
     {
       "anchor": false,
-      "id": "chebi:10077",
+      "id": "chebi:133008",
       "label": "Metabolite",
       "properties": {
-        "formula": "C10H15O8*5",
-        "name": "Xylan"
+        "name": "Epclusa"
       }
     },
     {
       "anchor": false,
-      "id": "chebi:10081",
+      "id": "chebi:133462",
       "label": "Metabolite",
       "properties": {
-        "name": "xyloglucan"
+        "formula": "C11H6N2O6S3",
+        "mass": 358.378,
+        "name": "firefly sulfoluciferin"
       }
     },
     {
@@ -4020,6 +4023,16 @@
     },
     {
       "anchor": false,
+      "id": "data_source:chebi",
+      "label": "DataSource",
+      "properties": {
+        "description": "ChEBI (Chemical Entities of Biological Interest, EMBL-EBI): metabolite identity, stereo relations and the role ontology behind ChemicalRole. Licensed CC BY 4.0; attribution: ChEBI, EMBL-EBI.",
+        "provenance": "download",
+        "scope": "global"
+      }
+    },
+    {
+      "anchor": false,
       "id": "data_source:interproscan",
       "label": "DataSource",
       "properties": {
@@ -4030,12 +4043,12 @@
     },
     {
       "anchor": false,
-      "id": "data_source:merops_diamond",
+      "id": "data_source:kegg",
       "label": "DataSource",
       "properties": {
-        "description": "diamond blastp against the MEROPS peptidase scan library \u2014 per-protein protease/peptidase-inhibitor classifications (clan/family/subfamily) by direct sequence similarity; the KG^s only MEROPS evidence source.",
-        "provenance": "tool_run",
-        "scope": "gene_level"
+        "description": "KEGG COMPOUND and its compound BRITE classification trees (br08001-br08021), via the KEGG REST API; source of MetaboliteClass memberships.",
+        "provenance": "download",
+        "scope": "global"
       }
     }
   ]
