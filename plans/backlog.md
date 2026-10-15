@@ -391,6 +391,49 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       role", joinable on one node.
       → spec `docs/superpowers/specs/2026-10-13-metabolite-identity-and-classes-design.md` §13
 
+- [ ] **Metabolite identity follow-ups (deferred from the 2026-10-14/15 implementation reviews).**
+      None blocked the merge (final review triaged all as "can wait"); grouped by what they touch.
+      → plan `docs/superpowers/plans/2026-10-14-metabolite-identity-and-classes.md`;
+      `docs/kg-changes/metabolite-identity-and-classes.md`
+      - *Curation to confirm (researcher call).* cyanocobalamin → `C02823` overrides the Kujawinski
+        export's `C08230` (hydroxocobalamin); chitotriose → `chebi:143141` (triacetyl form);
+        "nicotinamide adenine dinucleotide" → NAD⁺ `C00003` while the export's "NAD pos" rows keep
+        NADH `C00004`; Biller "Vitamin B3" → nicotinate `C00253` (Ingalls standard). All in the
+        papers' `metabolite_aliases.yaml` with reasons; re-run step 6 after any change.
+      - *Semantics.*
+        - `names._GEOMETRIC` also strips ring cis/trans (relative configuration, i.e. diastereomers),
+          so e.g. `C04314` cis-1,2-dihydronaphthalene-1,2-diol → `C06205` lost its stereo link;
+          restrict the geometric rule to double-bond descriptors.
+        - ~20 abstract KEGG compounds with no formula and no ChEBI class term (`C00028` Acceptor,
+          Quinone, …) are `structure_kind = defined` by default; consider a curated list or a
+          KEGG-name rule.
+        - Isotope detection misses position-labelled forms (`[1-13C]acetate`, `L-[U-13C]glutamine`,
+          `15N-urea`).
+        - `member_basis` records the first link that touched a member, not the link that attached
+          it to the canonical node (manual-first ordering can misattribute); a manual merge
+          blocked transitively by `keep_separate` is silent (no report entry).
+        - Remap fallback basis labels are approximate (conjugate / zwitterion relocations read
+          `chebi_primary_id` / `rekey_chebi_kegg_xref`); `repoint_reason`'s `identity` / `rekeys`
+          parameters are unused.
+        - Committed ChEBI cache lacks `CHEBI:176566/176629/176584/10809`, so a cache-only rerun
+          (raw obo unavailable) could relabel 3–4 remap rows.
+        - `identifier_tokens` includes bare ChEBI numbers, so digit-only full-text queries match
+          them — document in the explorer contract.
+      - *Robustness.* `prev_kegg` JSON load in step 6 `main()` is unguarded; `data_source_adapter`
+        reads the ChEBI cache via a cwd-relative path (`version` silently `""` elsewhere); classes
+        parser drops a compound leaf at a tree root silently; `finalize_stereo` `KeyError` if a
+        survivor is missing from the table; a substrate equal to the role root `CHEBI:50906` would
+        crash `_level`; `chebi_release.txt` silently skipped when the cache is missing; MNXM lexical
+        tie-break (`MNXM10` < `MNXM9`) in substrate resolution.
+      - *Test gaps.* `download_chebi_obo` / `download_compound_brite` / `metabolite_identity_tsvs.py`
+        edge cases; stale `keep_separate`, 3+-member union, `member_basis`, tie-breaks;
+        first-block-mismatch stereo link; boolean assay-edge `ValueError`; validator non-str key /
+        missing `id` / cross-file `name_key` conflicts; ChemicalRole multi-parent is_a; the
+        `tests/kg_validity/snapshot_data.json` re-sample dropped `data_source:merops_diamond`.
+      - *Docs.* paperconfig SKILL: a single stereo-unspecified match with no ≥ 2× winner is also
+        ambiguous; the direct-id path wording; prepare_data.sh step-6 `run_step` label understates
+        its outputs.
+
 **P3 — large or blocked on researcher input**
 
 - [ ] **Culture-level measurement node type.** Cell counts, N biomass, DON and
@@ -432,6 +475,15 @@ the committed caches, not taken from the log. Ordered by proposed priority.
   → friction log 2026-10-08 open items 6–7
 
 ## Explorer / MCP coordination
+
+- [ ] **Release the metabolite identity + classes change (held, spec §12).** Built and validated
+      on main 2026-10-15 but not released. Order agreed with the explorer: (1) explorer ships
+      the E1 resolver (`Metabolite.id` → `IN all_identifiers` → `recurated_from_ids` →
+      `IN ChemicalRole.all_identifiers`; a no-op on the old KG); (2) `/release-kg` cuts the
+      version with `mcp_min_version` + `breaking_changes` from the CHANGELOG `### Breaking`;
+      (3) explorer absorbs the new KG. Hand the explorer the measured top section of
+      `docs/kg-changes/metabolite-identity-and-classes.md` and the two TSVs in
+      `docs/kg-changes/metabolite-identity/`.
 
 - [ ] **File an upstream Bioregistry new-prefix request for `ncbifam`.**
       KG-SYNC-002 (2026-08-19) minted `ncbifam:` as a house colon-CURIE prefix
