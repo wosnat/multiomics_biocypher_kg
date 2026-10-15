@@ -352,6 +352,7 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       `docs/kg-changes/metabolomics-extension.md` (LipidMaps note)
 
 - [ ] **Deferred TCDB spec (follow-up to metabolite identity + classes).** Bundle: (a) per-gene substrate plausibility (`catalysis_support`, now feasible on canonical identity) — see item below; (b) re-examine `substrate_depth` semantics after the identity merge; (c) per-organism most-specific transport reach (item above); (d) TCDB name hygiene (bare-id subfamily names, role-typed entries); (e) re-tune the lumping threshold and **retire the R3 exception** (`TcdbFamily.substrate_breadth` is a stored value restating a pinned threshold; sunsets with this spec). → `docs/kg-changes/vocabulary-contract.md`, `docs/kg-changes/tcdb-two-source-upgrade.md` §4
+      (f) **Transport-reachable pathways (2026-10-15).** Step 6 adds the KEGG pathways of substrates rolled up onto ANY kept TC node (gene-annotated or ancestor-only), so re-keyed eukaryote lipids (PI3P `C04549`, PIP2 `C04637`, transported only by `tcdb:9.A` / `tcdb:9`, 0 direct genes) pull in `ko04145` Phagosome / `ko04510` Focal adhesion (+ `ko01521`, `ko05212`, `ko05332` via other re-keys; pathway KeggTerms 447 → 452, zero-gene 61 → 66). Consider requiring a gene-attached TC node (option A); `test_metabolite_pathways_only_kg_evidenced` was widened to the current rule. → `docs/kg-changes/metabolite-identity-and-classes.md`
 
 - [ ] **TCDB substrate plausibility per gene.** Even at
       `substrate_depth = most_specific` a gene inherits every substrate its TCDB

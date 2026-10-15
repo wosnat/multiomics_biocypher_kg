@@ -38,39 +38,39 @@
 
 Sources: live KG (`Schema_info.version 0.0.0-dev`, the 2026-10-13 build), committed caches at `54689c7c`, ChEBI release **256** (`chebi.obo.gz`, data-version 256, 219,012 terms), KEGG REST `br:br08001…br08021` fetched 2026-10-14. Scratch scripts were run from the session scratchpad and are not committed. The step-6 identity report is the authoritative number after Task 14; these are the plan's expectations.
 
-| Spec claim | Spec value | Re-measured | Note |
-|---|---|---|---|
-| `Metabolite` nodes | 3,356 (2,717 KEGG + 635 `chebi:` + 4 `mnx:`) | **3,356** (2,717 + 635 + 4) | live |
-| ChEBI ids that are secondary | 1,627 (1,454 on KEGG + 173 node ids) | **1,628** (1,455 + 173) | 0 ids unknown to ChEBI 256 |
-| KEGG nodes whose `chebi_id` disagrees with ChEBI's KEGG xref | 331 | **331** | of 2,427 KEGG nodes ChEBI cross-references |
-| KEGG nodes with > 1 ChEBI entity term | 375 | **375** | |
-| Role `Metabolite` nodes / transport edges / families | 57 / 392 / 116 | **57 / 392 / 116** | 8 of the 57 carry a secondary id |
-| Max roles per TC node | 33 | **33** | |
-| `ChemicalRole` hierarchy (no `role` root) | ≈ 111 | **111** | 3 branches present; 132 `is_a` edges inside the set; levels 0:3 · 1:28 · 2:33 · 3:29 · 4:12 · 5:5 · 6:1 |
-| Multi-branch TCDB roles | 10 | **10** | `siderophore` = `CHEBI:26672`, `phytosiderophore` = `CHEBI:38155` |
-| Generic-formula nodes | 420 (live regex) / 422 (step-6 rule) | **420** | with `R` not followed by `[abefghu]`; the naive regex counts `Rb` as generic |
-| `mass` on a generic formula | 0 | **0** | the 1 naive hit is rubidium `C17061` (`Rb`) |
-| Formula-less non-role nodes | 316 | **316** | |
-| … that gain a formula from ChEBI | ≈ 49 (44 transport) | **52 (44 transport)** | 8 generic (`R` / `*` / `)n`), 44 concrete (e.g. `chebi:12923` D-fructose); most concrete ones are re-keyed or merged first, so the final figure is lower |
-| InChIKey on two nodes | 5 (B2) | **22 pairs** = 17 MNX same-entity pairs + the 5 B2 pairs | the MNX pairs disappear by merge |
-| MNX same-entity pairs | 18 | **18** | |
-| Merge groups / merged away / re-keyed | 69 / 74 / 89 | **71 / 77 / 88** (scratch union-find, approximate) | the scratch run applied conjugate/tautomer links without the secondary-id nuance; Task 14 reports the real numbers |
-| Guard rejections (ChEBI-only KEGG↔KEGG) | 4 | **8 distinct pairs** | conjugate: water/hydroxide `C00001`/`C01328`, cyanide `C00177`/`C01326`; shared ChEBI term: acetoin `C00466`/`C01769`, quinone `C00472`/`C15602`, hydroquinone `C00530`/`C15603`; tautomer: `C04287`/`C06891`, `C05601`/`C06201`, `C15650`/`C15651` |
-| Secondary `chebi:` node ids that only change to their primary id (no role, merge or re-key) | not stated | **60** | needs a remap basis; see "Spec gaps" |
-| Stereo `is_a` links / enantiomer pairs | ≈ 60 / ≈ 25 | **73 / 29** (before the B2 scrub and stage K) | scrub + drop reduce them; Task 14 reports the final counts |
-| Paper metabolites / names / direct ids | 149 / 211 / 64 | **149 / 211 / 64** | methods: `kegg_direct` 64 · `ambiguous_multi_id` 36 · `name_match` 35 · `alias_override` 14 |
-| Ambiguous paper names (B5) | 36 | **36** | list in Task 14 |
-| Unresolved paper names | 1 (6 rows) | **1** (`s-(1-2-dicarboxyethyl)glutathione pos`) | |
-| Dominant-form moves | 7, smallest margin ≈ 5× | **7**, smallest 520 / 103 = 5.0× (L-/D-Ala) | margins use `catalyst_gene_count` (see "Spec gaps") |
-| Same-slot duplicate assay edges | 6 | **6** (all on `C00127`, 4 Biller + 2 Kujawinski) | |
-| BRITE: metabolites / class nodes / memberships | 867 / ≈ 431 / ≈ 1,130 | **867 / 431 / 1,130** | per tree identical to spec §3.7; class `is_a` edges **395** (spec ≈ 420); br08001 level-0 = 9 names; max depth 4 levels |
-| Lumping set | 13 ids | **13**, identical list | live `level >= 2 AND metabolite_count >= 50` |
-| `transport_substrate_resolution` | — | `resolved` **28,854** · `family_inferred` **1,693** | the post-rebuild check must equal this |
-| `DataSource` nodes | 9 | **9** | → 11 |
-| Assay edges | — | `Assay_quantifies_metabolite` **1,480** · `Assay_flags_metabolite` **186** | |
-| `Reaction_has_metabolite` / `Organism_has_metabolite` / `Metabolite_in_pathway` | — | **10,149 / 92,081 / 9,269** | |
-| `Tcdb_family_transports_metabolite` | — | **11,263** | expect −392 roles, minus merge dedup |
-| Pathway-level `KeggTerm` / with `gene_count = 0` | — | **447 / 61** | the post-rebuild doc reports the delta |
+| Spec claim | Spec value | Re-measured | Note | After rebuild (2026-10-15) |
+|---|---|---|---| --- |
+| `Metabolite` nodes | 3,356 (2,717 KEGG + 635 `chebi:` + 4 `mnx:`) | **3,356** (2,717 + 635 + 4) | live | **3,203** (2,776 + 427 + 0) |
+| ChEBI ids that are secondary | 1,627 (1,454 on KEGG + 173 node ids) | **1,628** (1,455 + 173) | 0 ids unknown to ChEBI 256 | all node ids primary; 79 remap rows `chebi_primary_id` |
+| KEGG nodes whose `chebi_id` disagrees with ChEBI's KEGG xref | 331 | **331** | of 2,427 KEGG nodes ChEBI cross-references | `chebi_id` = ChEBI's KEGG xref entity |
+| KEGG nodes with > 1 ChEBI entity term | 375 | **375** | | one `chebi_id` (+ `chebi_ids`) |
+| Role `Metabolite` nodes / transport edges / families | 57 / 392 / 116 | **57 / 392 / 116** | 8 of the 57 carry a secondary id | **0** role metabolites; 392 role edges / 116 families on `Tcdb_family_transports_chemical_role` |
+| Max roles per TC node | 33 | **33** | | **33** (role edges per TC node) |
+| `ChemicalRole` hierarchy (no `role` root) | ≈ 111 | **111** | 3 branches present; 132 `is_a` edges inside the set; levels 0:3 · 1:28 · 2:33 · 3:29 · 4:12 · 5:5 · 6:1 | **111** (levels 0:3 · 1:28 · 2:33 · 3:29 · 4:12 · 5:5 · 6:1), 132 `is_a` |
+| Multi-branch TCDB roles | 10 | **10** | `siderophore` = `CHEBI:26672`, `phytosiderophore` = `CHEBI:38155` | `chebi.role:26672` reached by 7 most_specific + 11 inherited families |
+| Generic-formula nodes | 420 (live regex) / 422 (step-6 rule) | **420** | with `R` not followed by `[abefghu]`; the naive regex counts `Rb` as generic | `structure_kind = generic` **622** |
+| `mass` on a generic formula | 0 | **0** | the 1 naive hit is rubidium `C17061` (`Rb`) | **0** |
+| Formula-less non-role nodes | 316 | **316** | | **244** formula-less (all nodes) |
+| … that gain a formula from ChEBI | ≈ 49 (44 transport) | **52 (44 transport)** | 8 generic (`R` / `*` / `)n`), 44 concrete (e.g. `chebi:12923` D-fructose); most concrete ones are re-keyed or merged first, so the final figure is lower | 33 filled from ChEBI |
+| InChIKey on two nodes | 5 (B2) | **22 pairs** = 17 MNX same-entity pairs + the 5 B2 pairs | the MNX pairs disappear by merge | **0** duplicate InChIKeys |
+| MNX same-entity pairs | 18 | **18** | | merged |
+| Merge groups / merged away / re-keyed | 69 / 74 / 89 | **71 / 77 / 88** (scratch union-find, approximate) | the scratch run applied conjugate/tautomer links without the secondary-id nuance; Task 14 reports the real numbers | 40 merge groups; 84 old ids collapse into existing nodes; 124 `rekey_chebi_kegg_xref` (49 into existing / 75 new) |
+| Guard rejections (ChEBI-only KEGG↔KEGG) | 4 | **8 distinct pairs** | conjugate: water/hydroxide `C00001`/`C01328`, cyanide `C00177`/`C01326`; shared ChEBI term: acetoin `C00466`/`C01769`, quinone `C00472`/`C15602`, hydroquinone `C00530`/`C15603`; tautomer: `C04287`/`C06891`, `C05601`/`C06201`, `C15650`/`C15651` | 10 `rejected_links` in the identity report |
+| Secondary `chebi:` node ids that only change to their primary id (no role, merge or re-key) | not stated | **60** | needs a remap basis; see "Spec gaps" | 79 `chebi_primary_id` remap rows (incl. fallback relocations) |
+| Stereo `is_a` links / enantiomer pairs | ≈ 60 / ≈ 25 | **73 / 29** (before the B2 scrub and stage K) | scrub + drop reduce them; Task 14 reports the final counts | **68 / 28** |
+| Paper metabolites / names / direct ids | 149 / 211 / 64 | **149 / 211 / 64** | methods: `kegg_direct` 64 · `ambiguous_multi_id` 36 · `name_match` 35 · `alias_override` 14 | 134 `metabolomics`-tagged nodes |
+| Ambiguous paper names (B5) | 36 | **36** | list in Task 14 | 0 ambiguous; 114 repoint rows |
+| Unresolved paper names | 1 (6 rows) | **1** (`s-(1-2-dicarboxyethyl)glutathione pos`) | | **1** (6 rows) |
+| Dominant-form moves | 7, smallest margin ≈ 5× | **7**, smallest 520 / 103 = 5.0× (L-/D-Ala) | margins use `catalyst_gene_count` (see "Spec gaps") | **7**, all onto L-forms |
+| Same-slot duplicate assay edges | 6 | **6** (all on `C00127`, 4 Biller + 2 Kujawinski) | | split onto GSH `C00051` / GSSG `C00127` |
+| BRITE: metabolites / class nodes / memberships | 867 / ≈ 431 / ≈ 1,130 | **867 / 431 / 1,130** | per tree identical to spec §3.7; class `is_a` edges **395** (spec ≈ 420); br08001 level-0 = 9 names; max depth 4 levels | **881** classified metabolites / **445** / **1,151**; class `is_a` **408** |
+| Lumping set | 13 ids | **13**, identical list | live `level >= 2 AND metabolite_count >= 50` | **13**, identical (`3.A.3` at 47, held by the pin) |
+| `transport_substrate_resolution` | — | `resolved` **28,854** · `family_inferred` **1,693** | the post-rebuild check must equal this | **identical** (28,854 · 1,693) |
+| `DataSource` nodes | 9 | **9** | → 11 | **11** |
+| Assay edges | — | `Assay_quantifies_metabolite` **1,480** · `Assay_flags_metabolite` **186** | | **1,480 · 186** (unchanged) |
+| `Reaction_has_metabolite` / `Organism_has_metabolite` / `Metabolite_in_pathway` | — | **10,149 / 92,081 / 9,269** | | **10,149 / 88,320 / 9,342** |
+| `Tcdb_family_transports_metabolite` | — | **11,263** | expect −392 roles, minus merge dedup | **10,790** (−392 roles, −81 net dedup) |
+| Pathway-level `KeggTerm` / with `gene_count = 0` | — | **447 / 61** | the post-rebuild doc reports the delta | **452 / 66** (+5: `ko01521`, `ko04145`, `ko04510`, `ko05212`, `ko05332`) |
 
 ## Spec gaps resolved in this plan (no design change; flagged for the user)
 
