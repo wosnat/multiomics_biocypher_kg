@@ -421,6 +421,8 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     compounds_summary = {k: {"aliases": sorted(v["aliases"]), "methods": sorted(v["methods"])}
                          for k, v in sorted(summary.items())}
     id_aliases = {k: v for k, v in sorted(id_index.items()) if k != v and v in table}
+    # Like id_aliases: only names whose node survived stage K.
+    res.name_lookup = {k: v for k, v in res.name_lookup.items() if v in table}
     mapping = build_mapping_v2(id_aliases=id_aliases,
                                resolution=res, overrides=inp.paper_overrides, tables=inp.tables,
                                compounds_summary=compounds_summary,

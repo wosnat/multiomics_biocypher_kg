@@ -62,7 +62,7 @@ import json
 import logging
 import sqlite3
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import date
 from pathlib import Path
 
@@ -87,7 +87,7 @@ from multiomics_kg.utils.metabolite_identity.pipeline import (
     Step6Inputs, Step6Paths, render_outputs, run_identity_stages)
 from multiomics_kg.utils.metabolite_identity.roles import (
     build_role_hierarchy, build_subtree_roles, partition_role_strings, role_node_id)
-from multiomics_kg.utils.paperconfig_utils import load_all_paperconfigs
+from multiomics_kg.utils.paperconfig_utils import iter_metabolite_assays_tables, load_all_paperconfigs
 from multiomics_kg.download.download_metabolism_reference import download_all
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -803,6 +803,7 @@ def _resolve_substrate_strings(
     chebi: ChebiIndex | None = None,
     rekeys: dict[str, str] | None = None,
     known_kegg: set[str] | None = None,
+    legacy: dict[str, str] | None = None,
 ) -> tuple[dict[str, str], dict[str, dict]]:
     """Resolve raw 'CHEBI:NNNN;name' substrate strings to Metabolite primary IDs.
 
@@ -824,6 +825,10 @@ def _resolve_substrate_strings(
 
     ``known_kegg`` (the raw KEGG compound list): a KEGG id becomes a node id only if KEGG
     still lists it; otherwise the next alias / xref is tried (``None`` = no filter).
+
+    ``legacy`` (a dict, filled in place): each resolvable string's primary under the
+    ``chebi=None, known_kegg=None`` rules — what the pre-identity build assigned — computed
+    from the same MNX queries, so the remap baseline costs no second resolution pass.
     """
     def _listed(kid: str) -> bool:
         return known_kegg is None or kid in known_kegg
@@ -882,9 +887,13 @@ def _resolve_substrate_strings(
             if hits:
                 chebi_to_mnxm[chebi_value] = min(hits)
 
-    # Pass 3: distinct mnxm_ids → kegg.compound + chebi aliases
-    mnxm_ids = sorted(set(chebi_to_mnxm.values()))
+    # Pass 3: distinct mnxm_ids → kegg.compound + chebi aliases (legacy: the original value's
+    # own hit, which may differ from the primary-number hit chosen above)
+    legacy_mnxm = {cv: value_to_mnxm[cv] for _, cv, _ in parsed if cv in value_to_mnxm}
+    mnxm_ids = sorted(set(chebi_to_mnxm.values())
+                      | (set(legacy_mnxm.values()) if legacy is not None else set()))
     mnxm_to_kegg: dict[str, str] = {}
+    mnxm_to_kegg_any: dict[str, str] = {}       # unfiltered by known_kegg (legacy rule)
     mnxm_to_chebi: dict[str, str] = {}
     for chunk in _batched(mnxm_ids):
         placeholders = ",".join("?" * len(chunk))
@@ -895,6 +904,7 @@ def _resolve_substrate_strings(
             chunk,
         )
         for mnxm_id, value in cur.fetchall():
+            mnxm_to_kegg_any.setdefault(mnxm_id, value)
             if _listed(value):
                 mnxm_to_kegg.setdefault(mnxm_id, value)
         cur.execute(
@@ -921,7 +931,7 @@ def _resolve_substrate_strings(
 
     # Pass 4: bulk-fetch compounds props only for non-KEGG mnxm_ids (a ChEBI re-key may
     # still turn one of these into a KEGG primary; its props are then simply unused).
-    nonkegg_mnxms = [m for m in mnxm_ids if m not in mnxm_to_kegg]
+    nonkegg_mnxms = sorted({m for m in chebi_to_mnxm.values() if m not in mnxm_to_kegg})
     mnxm_to_props: dict[str, tuple] = {}
     for chunk in _batched(nonkegg_mnxms):
         placeholders = ",".join("?" * len(chunk))
@@ -937,6 +947,11 @@ def _resolve_substrate_strings(
     string_to_primary: dict[str, str] = {}
     compound_props: dict[str, dict] = {}
     for sub_str, chebi_value, name_part in parsed:
+        if legacy is not None and chebi_value in legacy_mnxm:
+            lm = legacy_mnxm[chebi_value]
+            legacy[sub_str] = (f"kegg.compound:{mnxm_to_kegg_any[lm]}" if lm in mnxm_to_kegg_any
+                               else f"chebi:{mnxm_to_chebi[lm]}" if lm in mnxm_to_chebi
+                               else f"mnx:{lm}")
         mnxm = chebi_to_mnxm.get(chebi_value)
         if mnxm is None:
             log.debug(f"TCDB substrate unresolved: chebi:{chebi_value} ({sub_str!r})")
@@ -1033,7 +1048,11 @@ def _harvest_paper_candidates(
 ) -> PaperCandidates:
     """Stage D, paper side (spec §5.2 D): collect CANDIDATES, never decisions. Every paper
     row's MNX name candidates, direct id, the paper's override targets and the lock targets
-    are all enriched like any compound; stage J decides, stage K drops the losers."""
+    are all enriched like any compound; stage J decides, stage K drops the losers.
+
+    Rewrites every row's ``direct_id`` and every override's ``id`` IN PLACE to its normalised
+    form (``_normalize_paper_id``), so stages E and J look up exactly the id harvested here —
+    ``CHEBI:17234`` / ``KEGG:C00031`` / ``c00031`` included."""
     name_candidates: dict[str, set[str]] = defaultdict(set)
     ids: set[str] = set()
     for t in tables:
@@ -1041,10 +1060,12 @@ def _harvest_paper_candidates(
             for mnxm in resolve_metabolite_candidates(row.name, conn):
                 name_candidates[row.name_key].add(_mnxm_primary(mnxm, conn, chebi, rekeys, known_kegg))
             if row.direct_id:
-                ids.add(_normalize_paper_id(row.direct_id, conn, chebi, rekeys, known_kegg))
+                row.direct_id = _normalize_paper_id(row.direct_id, conn, chebi, rekeys, known_kegg)
+                ids.add(row.direct_id)
     for ovs in overrides.values():
-        for ov in ovs.values():
-            ids.add(_normalize_paper_id(ov.id, conn, chebi, rekeys, known_kegg))
+        for k, ov in ovs.items():
+            ovs[k] = replace(ov, id=_normalize_paper_id(ov.id, conn, chebi, rekeys, known_kegg))
+            ids.add(ovs[k].id)
     for section in ("names", "direct_ids"):
         for key, entry in lock.get(section, {}).items():
             ids.add(_normalize_paper_id(entry["id"], conn, chebi, rekeys, known_kegg))
@@ -1372,12 +1393,7 @@ def _tcdb_bridges(cache_root: Path, hierarchy: dict, kept: set[str], previous: d
 def _load_compound_brite(cache_root: Path, refetch_raw: bool) -> tuple[dict, dict]:
     """Stage M inputs: the raw KEGG compound BRITE trees (downloaded, or the raw cache), and the
     committed pruned ``brite_<code>.json`` files the pipeline falls back on per tree."""
-    try:
-        raw = download_compound_brite(cache_root / "kegg" / "raw", force=refetch_raw)
-    except Exception as exc:
-        log.warning(f"  KEGG compound BRITE download failed ({exc}); "
-                    f"falling back to the committed brite_*.json files")
-        raw = {}
+    raw = download_compound_brite(cache_root / "kegg" / "raw", force=refetch_raw)   # per-tree fallback
     committed = {code: json.loads(p.read_text()) for code in COMPOUND_BRITE_TREES
                  if (p := KEGG_CACHE_DIR / f"brite_{code}.json").exists()}
     return raw, committed
@@ -1403,6 +1419,23 @@ def _read_old_resolved(tables: list[PaperTable]) -> dict[tuple[str, str, int], s
     return out
 
 
+def _missing_resolved_tables() -> list[Path]:
+    """``<stem>_resolved.csv`` files step 6 owes but has not written — a newly added
+    ``metabolite_assays_table``. Their presence is what lets a default (no ``--force``) run
+    skip; the retired step 7 used to write them on that basis."""
+    missing = []
+    for _, cfg in load_all_paperconfigs():
+        for _, entry in iter_metabolite_assays_tables(cfg):
+            csv = entry.get("filename")
+            if not csv:
+                continue
+            path = Path(csv) if Path(csv).is_absolute() else PROJECT_ROOT / csv
+            resolved = path.with_name(path.stem + "_resolved.csv")
+            if not resolved.exists():
+                missing.append(resolved)
+    return sorted(missing)
+
+
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 def main(force: bool = False, refetch_raw: bool = False, today: str | None = None) -> None:
@@ -1423,8 +1456,12 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
     force = force or refetch_raw
 
     if KEGG_DATA_FILE.exists() and not force:
-        log.info(f"{KEGG_DATA_FILE} exists; use --force to rebuild.")
-        return
+        missing = _missing_resolved_tables()
+        if not missing:
+            log.info(f"{KEGG_DATA_FILE} exists; use --force to rebuild.")
+            return
+        log.info(f"{len(missing)} metabolite_assays_table(s) have no _resolved.csv "
+                 f"(e.g. {missing[0]}); rebuilding step 6 to write them.")
 
     if not RESOLVER_DB.exists():
         raise FileNotFoundError(
@@ -1532,11 +1569,13 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
             # An empty list would silently push every KEGG route onto ChEBI / MNX ids.
             raise RuntimeError("raw KEGG compound list is empty (list/compound parse or download "
                                "failed) — refusing to build metabolite ids without it")
+        # old_string_to_primary: the previous build's string → primary map (pre-identity rules),
+        # so an old id the other remap rules miss follows its string. Only molecule strings
+        # matter — the remap consults it only where string_to_primary also has the string.
+        old_string_to_primary: dict[str, str] = {}
         string_to_primary, compound_props = _resolve_substrate_strings(
-            molecule_strings, conn, chebi=chebi, rekeys=rekeys, known_kegg=known_kegg)
-        # The previous build's string → primary map (pre-identity resolution, chebi=None, over
-        # every substrate string), so an old id the other remap rules miss follows its string.
-        old_string_to_primary, _ = _resolve_substrate_strings(all_substrate_strings, conn, chebi=None)
+            molecule_strings, conn, chebi=chebi, rekeys=rekeys, known_kegg=known_kegg,
+            legacy=old_string_to_primary)
         subtree_substrates: dict[str, list[str]] = {}
         for tc, strings in subtree_strings.items():
             primaries = {string_to_primary[s] for s in strings if s in string_to_primary}

@@ -46,3 +46,19 @@ def test_clean_strips_cross_reference_brackets(raw, clean):
     """Final review item 6: any ``[XX:…]`` cross-reference bracket is stripped from class names."""
     from multiomics_kg.utils.metabolite_identity.classes import _clean
     assert _clean(raw) == clean
+
+
+def test_download_compound_brite_drops_only_the_failed_tree(tmp_path, monkeypatch):
+    """One tree's download failure leaves that tree out (committed fallback per tree); the
+    trees that downloaded are kept and cached."""
+    from multiomics_kg.utils import kegg_utils
+    from multiomics_kg.utils.metabolite_identity.classes import COMPOUND_BRITE_TREES, download_compound_brite
+
+    def fetch(url):
+        if "br08021" in url:
+            raise RuntimeError("HTTP 500")
+        return {"name": url}
+    monkeypatch.setattr(kegg_utils, "_fetch_json", fetch)
+    out = download_compound_brite(tmp_path, force=True)
+    assert set(out) == set(COMPOUND_BRITE_TREES) - {"br08021"}
+    assert not (tmp_path / "br_br08021.json").exists() and (tmp_path / "br_br08001.json").exists()

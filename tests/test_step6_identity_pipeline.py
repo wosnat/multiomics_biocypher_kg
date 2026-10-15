@@ -338,3 +338,12 @@ def test_old_id_follows_its_re_resolved_substrate_string(tmp_path):
     remap = {r["old_id"]: r for r in run_identity_stages(inp).report["remap"]}
     assert remap["chebi:999999"]["new_id"] == f"{K}C00244"
     assert remap["chebi:999999"]["basis"] == "chebi_primary_id"
+
+
+def test_name_lookup_only_points_at_written_nodes(tmp_path):
+    """Like id_aliases, mapping v2 name_lookup never names a node stage K dropped."""
+    out, _ = _render(tmp_path, make_inputs(tmp_path, extra_candidates={"oldtrp": {f"{K}C00525"}}))
+    assert "C00525" not in out.kegg_data["compounds"]
+    written = set(out.kegg_data["additional_compounds"]) | {K + c for c in out.kegg_data["compounds"]}
+    assert set(out.mapping["name_lookup"].values()) <= written
+    assert "oldtrp" not in out.mapping["name_lookup"]
