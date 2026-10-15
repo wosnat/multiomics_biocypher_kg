@@ -40,6 +40,34 @@ def test_get_paper_strains_dedup_and_order():
     ]
 
 
+def test_get_paper_strains_includes_background_organisms():
+    """A coculture partner named only under background_organisms (Bernstein
+    2017's Meiothermus ruber) is still a candidate strain for the paper."""
+    config = {
+        "publication": {
+            "experiments": {
+                "exp1": {
+                    "organism": "Thermosynechococcus vestitus BP-1",
+                    "background_organisms": [
+                        {"organism": "Meiothermus ruber",
+                         "assembly_accession": "GCF_000836395.1"},
+                        {"organism": ""},           # blank ignored
+                        "not-a-dict",
+                    ],
+                },
+                "exp2": {
+                    "organism": "Thermosynechococcus vestitus BP-1",
+                    "background_organisms": [{"organism": "Meiothermus ruber"}],  # duplicate
+                },
+            }
+        }
+    }
+    assert get_paper_strains(config) == [
+        "Thermosynechococcus vestitus BP-1",
+        "Meiothermus ruber",
+    ]
+
+
 def test_get_paper_strains_empty():
     assert get_paper_strains({}) == []
     assert get_paper_strains({"publication": {}}) == []

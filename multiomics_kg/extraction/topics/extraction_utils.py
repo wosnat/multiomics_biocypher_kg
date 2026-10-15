@@ -30,11 +30,14 @@ LEGACY_RESOLVED_FILENAME = "publication_topics_resolved.json"
 def get_paper_strains(config: dict) -> list[str]:
     """Candidate strain set for a paper = organisms across its experiments.
 
-    Includes each experiment's ``organism`` and any ``treatment_organism``
-    (coculture partners like *Alteromonas* HOT1A3 are real genome strains in the
-    KG and may be discussed). Order-preserving, de-duplicated.
+    Includes each experiment's ``organism``, any ``treatment_organism`` and every
+    ``background_organisms`` entry (coculture partners like *Alteromonas* HOT1A3
+    are real genome strains in the KG and may be discussed, whatever their
+    partner role). Order-preserving, de-duplicated; background partners come
+    after every experiment's own organisms.
     """
     strains: list[str] = []
+    background: list[str] = []
     for exp in get_experiments(config).values():
         if not isinstance(exp, dict):
             continue
@@ -42,6 +45,11 @@ def get_paper_strains(config: dict) -> list[str]:
             org = exp.get(key)
             if org:
                 strains.append(org)
+        for partner in exp.get("background_organisms") or []:
+            org = partner.get("organism") if isinstance(partner, dict) else None
+            if org:
+                background.append(org)
+    strains += background
     return list(dict.fromkeys(strains))
 
 
