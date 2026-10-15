@@ -142,8 +142,8 @@ def _two_kegg_table():
 def test_shared_chebi_terms_reports_term_on_two_separate_kegg_nodes():
     from multiomics_kg.utils.metabolite_identity.crossrefs import shared_chebi_terms
     table, ident = _two_kegg_table()
-    assert shared_chebi_terms(table, ident, SHARED) == {
-        "CHEBI:28061": ["kegg.compound:C00984", "kegg.compound:C01582"]}
+    # C00984 xrefs only alpha-D-galactose; C01582 also xrefs galactose: C00984 owns the term
+    assert shared_chebi_terms(table, ident, SHARED) == {"CHEBI:28061": ["kegg.compound:C01582"]}
 
 
 def test_shared_term_not_shared_when_both_kegg_ids_on_one_canonical_node():
@@ -156,21 +156,37 @@ def test_shared_term_not_shared_when_both_kegg_ids_on_one_canonical_node():
     assert shared_chebi_terms(table, ident, SHARED) == {}
 
 
-def test_shared_term_on_neither_node_and_chebi_id_falls_back():
+def test_shared_term_goes_to_its_single_owner_only():
     from multiomics_kg.utils.metabolite_identity.crossrefs import shared_chebi_terms
     table, ident = _two_kegg_table()
     shared = shared_chebi_terms(table, ident, SHARED)
     old = {n: dict(e) for n, e in table.items()}
     index = build_identity_fields(table, ident, {}, SHARED, old, shared=shared)
     a, b = table["kegg.compound:C00984"], table["kegg.compound:C01582"]
-    assert a["chebi_id"] is None and a["chebi_ids"] is None
+    assert a["chebi_id"] == "28061" and a["chebi_ids"] == ["28061"]
     assert b["chebi_id"] == "28260" and b["chebi_ids"] == ["28260"]
-    for e in (a, b):
-        assert "chebi:28061" not in e["all_identifiers"] and "chebi:10231" not in e["all_identifiers"]
-    assert "chebi:28061" not in index
+    assert "chebi:10231" in a["all_identifiers"]
+    assert "chebi:28061" not in b["all_identifiers"] and "chebi:10231" not in b["all_identifiers"]
+    assert index["chebi:28061"] == "kegg.compound:C00984"
     assert pick_chebi_id("kegg.compound:C01582", cpd("Galactose"), SHARED, shared) == "28260"
-    assert pick_chebi_id("kegg.compound:C00984", cpd("x", chebi_id="10231"), SHARED, shared) is None
+    assert pick_chebi_id("kegg.compound:C00984", cpd("x", chebi_id="10231"), SHARED, shared) == "28061"
 
+
+TIED = make_chebi(
+    CHEBI_17594=term("hydroquinone", kegg=["C00530", "C15603"], inchikey="QIGBRXMKCJKVMJ-UHFFFAOYSA-N"),
+    CHEBI_17169=term("benzaldehyde", kegg=["C00193", "C00261"], inchikey="HUMNYLRZRPPJDN-UHFFFAOYSA-N"),
+    CHEBI_33855=term("arenecarbaldehyde", kegg=["C00193"]))
+
+
+def test_shared_term_without_single_owner_withheld_from_all():
+    from multiomics_kg.utils.metabolite_identity.crossrefs import shared_chebi_terms
+    table = {f"kegg.compound:{k}": cpd(k) for k in ("C00530", "C15603", "C00193", "C00261")}
+    ident = IdentityResult(canonical_of={n: n for n in table}, members={}, basis={}, member_basis={})
+    shared = shared_chebi_terms(table, ident, TIED)
+    # both hydroquinone ids xref only hydroquinone: a tie, so neither publishes it
+    assert shared["CHEBI:17594"] == ["kegg.compound:C00530", "kegg.compound:C15603"]
+    # the class node C00193 also xrefs a class term, so benzaldehyde goes to C00261
+    assert shared["CHEBI:17169"] == ["kegg.compound:C00193"]
 
 
 @pytest.mark.parametrize("name", ["[13C]glucose", "(15N)urea", "[2H]water", "(18O)water", "N 15 ammonium"])

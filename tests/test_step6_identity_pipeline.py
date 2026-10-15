@@ -347,3 +347,17 @@ def test_name_lookup_only_points_at_written_nodes(tmp_path):
     written = set(out.kegg_data["additional_compounds"]) | {K + c for c in out.kegg_data["compounds"]}
     assert set(out.mapping["name_lookup"].values()) <= written
     assert "oldtrp" not in out.mapping["name_lookup"]
+
+
+def test_canonical_margin_error_is_actionable():
+    from multiomics_kg.utils.metabolite_identity.pipeline import _canonical_margin_errors
+    unresolved = [{"members": ["kegg.compound:C00085", "kegg.compound:C05345"],
+                   "gene_reachable_reactions": {"kegg.compound:C00085": 9, "kegg.compound:C05345": 10},
+                   "all_kegg_reactions": {"kegg.compound:C00085": 29, "kegg.compound:C05345": 18}}]
+    table = {"kegg.compound:C00085": {"name": "D-Fructose 6-phosphate"},
+             "kegg.compound:C05345": {"name": "beta-D-Fructose 6-phosphate"}}
+    [msg] = _canonical_margin_errors(unresolved, table)
+    for part in ("canonical_margin_unresolved", "'D-Fructose 6-phosphate'", "9 gene-reachable",
+                 "18 all KEGG", 'group: ["kegg.compound:C00085", "kegg.compound:C05345"]',
+                 "config/metabolite_identity_overrides.yaml", "canonical:\n  - id:"):
+        assert part in msg, part

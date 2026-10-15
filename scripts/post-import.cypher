@@ -2001,7 +2001,8 @@ CALL {
   SET c.metabolite_count = mc, c.direct_metabolite_count = direct, c.organism_count = oc
 } IN TRANSACTIONS OF 100 ROWS;
 
-// Metabolite.kegg_compound_categories — br08001 level-0 names, sorted, sparse
+// Metabolite.kegg_functional_categories — br08001 level-0 names, sorted, sparse
+// (was kegg_compound_categories until 2026-10-15)
 MATCH (m:Metabolite)
 CALL {
   WITH m
@@ -2009,7 +2010,25 @@ CALL {
                  -[:Metabolite_class_is_a_metabolite_class*0..]->(top:MetaboliteClass {tree_code: 'br08001', level: 0})
   WITH m, top.name AS n ORDER BY n
   WITH m, collect(DISTINCT n) AS cats
-  SET m.kegg_compound_categories = CASE WHEN size(cats) = 0 THEN null ELSE cats END
+  SET m.kegg_functional_categories = CASE WHEN size(cats) = 0 THEN null ELSE cats END
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Metabolite.kegg_brite_classes — level-0 classes of the 7 other compound trees, sorted, sparse.
+// "<Tree title>: <class>": tree title = MetaboliteClass.tree with _ -> space, first letter
+// capitalised; class = KEGG's name without its 2-letter LIPID MAPS code ("FA  Fatty acyls").
+MATCH (m:Metabolite)
+CALL {
+  WITH m
+  OPTIONAL MATCH (m)-[:Metabolite_in_metabolite_class]->(:MetaboliteClass)
+                 -[:Metabolite_class_is_a_metabolite_class*0..]->(top:MetaboliteClass {level: 0})
+  WHERE top.tree_code <> 'br08001'
+  WITH m, replace(top.tree, '_', ' ') AS t, top.name AS n
+  WITH m, CASE WHEN t IS NULL THEN null ELSE
+            toUpper(left(t, 1)) + substring(t, 1) + ': ' +
+            CASE WHEN n =~ '[A-Z]{2}  .+' THEN trim(substring(n, 2)) ELSE n END END AS c
+  ORDER BY c
+  WITH m, collect(DISTINCT c) AS cs
+  SET m.kegg_brite_classes = CASE WHEN size(cs) = 0 THEN null ELSE cs END
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // ChemicalRole family counts: subtree over the is_a DAG, DISTINCT families; never propagated

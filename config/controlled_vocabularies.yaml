@@ -341,10 +341,10 @@ Metabolite.structure_kind:
     generic: a class or a structure with R groups; no single formula mass
     polymer: a repeat-unit polymer; formula is the repeat unit
 
-Metabolite.kegg_compound_categories:
+Metabolite.kegg_functional_categories:
   applies_to: Metabolite
   applies_to_kind: node
-  property: kegg_compound_categories
+  property: kegg_functional_categories
   value_type: string_array
   closed: true
   sparse: true
@@ -352,6 +352,51 @@ Metabolite.kegg_compound_categories:
   description: >
     Level-0 categories of KEGG compound BRITE br08001 (compounds with biological roles)
     that contain this metabolite. Sparse: absent when the metabolite is in none.
+
+# No value_descriptions: the values contain ": ", which is the "<value>: <description>"
+# separator of published value_descriptions; the tree codes are in the description instead.
+Metabolite.kegg_brite_classes:
+  applies_to: Metabolite
+  applies_to_kind: node
+  property: kegg_brite_classes
+  value_type: string_array
+  closed: true
+  sparse: true
+  values:
+    - "Bioactive peptides: Cardiovascular peptides"
+    - "Bioactive peptides: Neuropeptides"
+    - "Endocrine disrupting compounds: Pesticides and herbicides"
+    - "Endocrine disrupting compounds: Plasticizers and plastics"
+    - "Glycosides: N-glycosides"
+    - "Glycosides: O-glycosides"
+    - "Glycosides: S-glycosides"
+    - "Lipids: Fatty acyls"
+    - "Lipids: Glycerolipids"
+    - "Lipids: Glycerophospholipids"
+    - "Lipids: Polyketides"
+    - "Lipids: Prenol lipids"
+    - "Lipids: Saccharolipids"
+    - "Lipids: Sphingolipids"
+    - "Lipids: Sterol lipids"
+    - "Natural toxins: Fungal toxins"
+    - "Natural toxins: Marine biotoxins"
+    - "Natural toxins: Phytotoxins"
+    - "Pesticides: Obsolete pesticides"
+    - "Pesticides: Pesticides"
+    - "Phytochemical compounds: Alkaloids"
+    - "Phytochemical compounds: Amino acid related compounds"
+    - "Phytochemical compounds: Fatty acids related compounds"
+    - "Phytochemical compounds: Flavonoids"
+    - "Phytochemical compounds: Others"
+    - "Phytochemical compounds: Phenylpropanoids"
+    - "Phytochemical compounds: Shikimate / acetate-malonate pathway derived compounds"
+    - "Phytochemical compounds: Terpenoids"
+  description: >
+    Top-level classes of the seven KEGG compound BRITE trees other than br08001 that contain
+    this metabolite, as "<Tree>: <class>" (Lipids = br08002, Phytochemical compounds = br08003,
+    Bioactive peptides = br08005, Endocrine disrupting compounds = br08006, Pesticides =
+    br08007, Natural toxins = br08009, Glycosides = br08021). Sparse: absent when the
+    metabolite is in none.
 
 MetaboliteClass.level_kind:
   applies_to: MetaboliteClass

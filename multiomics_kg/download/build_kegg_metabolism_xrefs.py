@@ -61,7 +61,7 @@ import contextlib
 import json
 import logging
 import sqlite3
-from collections import defaultdict
+from collections import Counter, defaultdict
 from dataclasses import dataclass, replace
 from datetime import date
 from pathlib import Path
@@ -1633,7 +1633,9 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         previous_ids=previous_ids, old_resolved=old_resolved, today=today,
         previous_entries={**{f"kegg.compound:{k}": v for k, v in prev_kegg.get("compounds", {}).items()},
                           **prev_kegg.get("additional_compounds", {})},
-        old_string_to_primary=old_string_to_primary, string_to_primary=string_to_primary)
+        old_string_to_primary=old_string_to_primary, string_to_primary=string_to_primary,
+        all_reaction_refs=dict(Counter(c for cpds in raw.get("reaction_to_compounds", {}).values()
+                                       for c in cpds)))
     out = run_identity_stages(inp)               # raises Step6ValidationError → nothing written
     files = render_outputs(out, Step6Paths(
         kegg_data=KEGG_DATA_FILE, tcdb_pruned=prev_pruned_path, brite_dir=KEGG_CACHE_DIR,

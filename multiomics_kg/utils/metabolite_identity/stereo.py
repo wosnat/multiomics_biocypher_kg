@@ -24,6 +24,41 @@ def is_geometric_pair(a, b, table, terms_of, chebi) -> bool:
                for x in na for y in nb)
 
 
+def _kegg_structures(kegg_id: str, chebi: ChebiIndex) -> list[tuple[str, str, str]]:
+    """(connectivity block, stereo layer, name) of each non-class ChEBI term KEGG ``kegg_id``
+    cross-references. The node's own ``inchikey`` can't be used: it comes from MNX, so every
+    member of an MNX group shares it."""
+    out = []
+    for t in chebi.kegg_terms(kegg_id):
+        tt = chebi.term(t) or {}
+        ik = tt.get("inchikey")
+        if ik and not chebi.is_class(t):
+            out.append((ik[:14], ik[15:23], tt.get("name") or ""))
+    return out
+
+
+def stereo_distinct_kegg(a: str, b: str, chebi: ChebiIndex) -> list[tuple[str, str]]:
+    """Why two KEGG ids (bare C numbers) are different stereo forms of one structure, as
+    ``[(name in one, name in the other), …]``; empty when they aren't (explorer ask 2026-10-15).
+
+    A term of one id shares a connectivity block with the other id's terms but carries a stereo
+    layer none of them has (stereo-unspecified vs specific, D vs L, generic sugar vs anomer).
+    Names that differ only by cis/trans / E/Z are exempt: geometric isomers are not stereo forms
+    (spec §3.6), and KEGG lists generic + trans caffeate as two ids of one compound."""
+    sa, sb = _kegg_structures(a, chebi), _kegg_structures(b, chebi)
+    out = []
+    for xs, ys in ((sa, sb), (sb, sa)):
+        for blk, layer, name in xs:
+            same_block = [y for y in ys if y[0] == blk]
+            if not same_block or layer in {y[1] for y in same_block}:
+                continue
+            if all(name.casefold() != y[2].casefold()
+                   and strip_geometric_tokens(name) == strip_geometric_tokens(y[2]) for y in same_block):
+                continue
+            out.extend((name, y[2]) for y in same_block)
+    return sorted(set(out))
+
+
 def stereo_links(table, terms_of, chebi: ChebiIndex):
     by_term: dict[str, list[str]] = defaultdict(list)
     for n, ts in terms_of.items():

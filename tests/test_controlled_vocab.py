@@ -281,3 +281,21 @@ def test_descriptions_carry_no_apostrophe_or_pipe(entry_id):
     texts = [entry.description, *(entry.value_descriptions or {}).values()]
     for t in texts:
         assert "'" not in (t or "") and "|" not in (t or ""), f"{entry_id}: {t!r}"
+
+
+def test_value_descriptions_reject_values_containing_the_separator(tmp_path):
+    p = tmp_path / "v.yaml"
+    p.write_text('''
+Node.cls:
+  applies_to: Node
+  applies_to_kind: node
+  property: cls
+  value_type: string
+  closed: true
+  values: ["Lipids: Fatty acyls"]
+  description: x
+  value_descriptions:
+    "Lipids: Fatty acyls": br08002
+''')
+    with pytest.raises(ValueError, match="separator"):
+        load_vocabularies(p)

@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
-from collections.abc import Collection
 
 from multiomics_kg.utils.chebi_utils import ChebiIndex
 from multiomics_kg.utils.metabolite_identity.canonical import IdentityCollisionError, IdentityResult
@@ -48,12 +47,16 @@ def _excluded(p: str | None, chebi: ChebiIndex) -> bool:
 
 def shared_chebi_terms(table: dict[str, dict], identity: IdentityResult,
                        chebi: ChebiIndex) -> dict[str, list[str]]:
-    """Entity terms that cross-reference >= 2 written KEGG nodes that remain separate.
+    """Entity terms that cross-reference >= 2 written KEGG nodes that remain separate, mapped to
+    the nodes the term is **withheld from**.
 
     A KEGG id counts for the canonical node that carries it (the node itself or a merged
     member), so a term whose KEGG xrefs all landed on one canonical node is not shared.
-    A shared term names neither node: the KEGG<->KEGG guard refused to merge them (stereo or
-    specific-vs-generic pairs), so publishing it on both would put one identifier on two nodes.
+    Publishing a shared term on every node would put one identifier on two nodes, so it goes to
+    at most one owner: the single node for which it is the only entity term among its KEGG ids'
+    xrefs and none of those xrefs is a class term (``(R)-lipoic acid`` → ``C16241`` (R)-lipoate,
+    not ``C00725`` lipoate, which also xrefs lipoic acid; ``benzaldehyde`` → ``C00261``, not the
+    class ``C00193`` "Aromatic aldehyde"). With no single owner it is withheld from all of them.
     """
     node_of: dict[str, str] = {}
     for node in sorted(table):
@@ -61,17 +64,31 @@ def shared_chebi_terms(table: dict[str, dict], identity: IdentityResult,
             if m.startswith(_KEGG):
                 node_of.setdefault(m[len(_KEGG):], node)
     by_term: dict[str, set[str]] = defaultdict(set)
+    xrefs_of: dict[str, set[str]] = defaultdict(set)
     for kid, node in node_of.items():
         for t in chebi.kegg_terms(kid):
             by_term[t].add(node)
-    return {t: sorted(nodes) for t, nodes in sorted(by_term.items())
-            if len(nodes) > 1 and not chebi.is_class(t)}
+            xrefs_of[node].add(t)
+    out = {}
+    for t, nodes in sorted(by_term.items()):
+        if len(nodes) < 2 or chebi.is_class(t):
+            continue
+        owners = [n for n in sorted(nodes)
+                  if not any(chebi.is_class(x) for x in xrefs_of[n])
+                  and {x for x in xrefs_of[n] if not chebi.is_class(x)} == {t}]
+        owner = owners[0] if len(owners) == 1 else None
+        out[t] = [n for n in sorted(nodes) if n != owner]
+    return out
 
 
-def _usable(p: str | None, node_id: str, chebi: ChebiIndex, shared: Collection[str] = ()) -> bool:
+def _withheld(p: str, node_id: str, shared) -> bool:
+    return node_id in (shared.get(p) or ())
+
+
+def _usable(p: str | None, node_id: str, chebi: ChebiIndex, shared=None) -> bool:
     """An entity term for this node: not a class, not an isotopologue, not a role, not another
     KEGG compound's term, not a term shared by two separate KEGG nodes."""
-    if p is None or p in shared or chebi.is_class(p) or _excluded(p, chebi):
+    if p is None or _withheld(p, node_id, shared or {}) or chebi.is_class(p) or _excluded(p, chebi):
         return False
     t = chebi.term(p) or {}
     xref = t.get("kegg", [])
@@ -85,7 +102,7 @@ def node_olds(node: str, identity: IdentityResult, rekeys: dict[str, str]) -> li
     return sorted(set(identity.members.get(node, [node])) | set(rekeyed_into))
 
 
-def chebi_pick(node_id, entry, chebi, *, shared: Collection[str] = (), olds=None, old_entries=None):
+def chebi_pick(node_id, entry, chebi, *, shared=None, olds=None, old_entries=None):
     """The one ChEBI pick shared by stage G (structure) and stage H (cross-references).
 
     Returns ``(chebi_id, entity_pool)``: ``entity_pool`` is every usable entity term of the node
@@ -100,7 +117,7 @@ def chebi_pick(node_id, entry, chebi, *, shared: Collection[str] = (), olds=None
     rank = _entity_rank(chebi)
 
     def ok(p):
-        if p is None or p in shared:
+        if p is None or _withheld(p, node_id, shared or {}):
             return False
         return not _excluded(p, chebi)
 
@@ -150,13 +167,13 @@ def chebi_pick(node_id, entry, chebi, *, shared: Collection[str] = (), olds=None
     return None, pool
 
 
-def pick_chebi_id(node_id, entry, chebi, shared: Collection[str] = (), *, olds=None, old_entries=None):
+def pick_chebi_id(node_id, entry, chebi, shared=None, *, olds=None, old_entries=None):
     return chebi_pick(node_id, entry, chebi, shared=shared, olds=olds, old_entries=old_entries)[0]
 
 
 def build_identity_fields(table, identity: IdentityResult, rekeys, chebi, old_entries,
-                          shared: Collection[str] = ()):
-    """Stage H. ``shared`` (see ``shared_chebi_terms``) are ChEBI terms published on no node."""
+                          shared=None):
+    """Stage H. ``shared`` (see ``shared_chebi_terms``): ChEBI term → the nodes it is withheld from."""
     rekeyed_into: dict[str, list[str]] = {}
     for old, new in rekeys.items():
         # keyed by the CANONICAL node: a re-key target merged into another node takes its

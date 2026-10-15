@@ -3,6 +3,11 @@
 #                Bypasses the KEGG↔KEGG guard; recorded as identity_basis [manual].
 # keep_separate: two node ids that must never merge, whatever the basis (MNX included).
 # Each entry: {a: <node id>, b: <node id>, reason: "<one line>"}. Neither kind adds a node.
+# canonical:     the canonical id of a merge group, overriding the margin rule (spec §3.1: most
+#                gene-reachable reactions with a >= 2x margin). Step 6 fails on a group the rule
+#                can't decide and prints a ready entry. Each entry: {id: <member>, group: [<every
+#                member id>], reason: "<one line>"}; a pin whose group no longer forms is reported
+#                stale (stale_identity_override) and skipped.
 # Candidates to review: metabolite_identity_report.json → heuristic_name_candidates.
 merge:
   - a: "chebi:33283"
@@ -33,3 +38,19 @@ keep_separate:
   - a: "kegg.compound:C01728"
     b: "kegg.compound:C20861"
     reason: "two different mannobioses: InChIKey connectivity blocks differ (different glycosidic linkage)"
+  - a: "kegg.compound:C00193"
+    b: "kegg.compound:C00261"
+    reason: "C00193 is the class 'Aromatic aldehyde'; MNX joins it to benzaldehyde, one member (explorer ask 2026-10-15)"
+  - a: "kegg.compound:C03688"
+    b: "kegg.compound:C16240"
+    reason: "apo-[acyl-carrier protein] and [lipoyl-carrier protein]-L-lysine are different protein-bound species; MNX conflates them (explorer ask 2026-10-15)"
+canonical:
+  - id: "kegg.compound:C00698"
+    group: ["kegg.compound:C00698", "kegg.compound:C01327"]
+    reason: "chloride, the biologically relevant species, over hydrochloric acid (explorer ask 2026-10-15, 3b)"
+  - id: "kegg.compound:C01324"
+    group: ["kegg.compound:C01324", "kegg.compound:C13645"]
+    reason: "bromide over hydrobromic acid (explorer ask 2026-10-15, 3b)"
+  - id: "kegg.compound:C00742"
+    group: ["kegg.compound:C00742", "kegg.compound:C16487"]
+    reason: "fluoride over hydrofluoric acid (explorer ask 2026-10-15, 3b)"
