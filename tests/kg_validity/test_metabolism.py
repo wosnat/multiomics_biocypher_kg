@@ -199,6 +199,13 @@ def test_metabolite_pathways_only_kg_evidenced(run_query):
     tc_specificity descendant is needed (and since the 2026-08-06 pruning
     cleanup only gene-annotated specificity nodes survive, such a walk would
     wrongly report these pathways as unevidenced).
+
+    The transport arm walks UP the TCDB hierarchy from the gene-attached
+    family (``Tcdb_family_is_a_tcdb_family*0..``), matching step 6's rule:
+    transport-reachable pathways come from substrates on ANY kept TC node, and
+    kept ancestors carry their descendants' rolled-up substrates even when no
+    gene attaches to the ancestor directly (e.g. ``tcdb:9.A`` -> PI3P C04549
+    -> ko04145 after the metabolite-identity re-key).
     """
     n_orphan = run_query("""
         MATCH (m:Metabolite)-[:Metabolite_in_pathway]->(p:KeggTerm)
@@ -210,6 +217,7 @@ def test_metabolite_pathways_only_kg_evidenced(run_query):
         }
         AND NOT EXISTS {
             MATCH (g:Gene)-[:Gene_has_tcdb_family]->(:TcdbFamily)
+                  -[:Tcdb_family_is_a_tcdb_family*0..]->(:TcdbFamily)
                   -[:Tcdb_family_transports_metabolite]->(:Metabolite)
                   -[:Metabolite_in_pathway]->(p)
         }
