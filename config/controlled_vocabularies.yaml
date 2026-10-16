@@ -351,7 +351,9 @@ Metabolite.kegg_functional_categories:
   values: [Organic acids, Lipids, Carbohydrates, Nucleic acids, Peptides, Vitamins and cofactors, Steroids, Hormones and transmitters, Antibiotics]
   description: >
     Level-0 categories of KEGG compound BRITE br08001 (compounds with biological roles)
-    that contain this metabolite. Sparse: absent when the metabolite is in none.
+    that list this metabolite. Sparse: absent when KEGG does not list the metabolite in
+    br08001. The list is hand-curated and partial (about 10% of metabolites), so absence is
+    not evidence that a category does not apply.
 
 # No value_descriptions: the values contain ": ", which is the "<value>: <description>"
 # separator of published value_descriptions; the tree codes are in the description instead.
@@ -395,8 +397,9 @@ Metabolite.kegg_brite_classes:
     Top-level classes of the seven KEGG compound BRITE trees other than br08001 that contain
     this metabolite, as "<Tree>: <class>" (Lipids = br08002, Phytochemical compounds = br08003,
     Bioactive peptides = br08005, Endocrine disrupting compounds = br08006, Pesticides =
-    br08007, Natural toxins = br08009, Glycosides = br08021). Sparse: absent when the
-    metabolite is in none.
+    br08007, Natural toxins = br08009, Glycosides = br08021). Sparse: absent when KEGG does
+    not list the metabolite in any of these trees. The lists are hand-curated and partial
+    (about 20% of metabolites), so absence is not evidence that a class does not apply.
 
 MetaboliteClass.level_kind:
   applies_to: MetaboliteClass

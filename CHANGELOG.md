@@ -80,13 +80,12 @@ tag with nothing logged.
 
 Metabolite figures below are measured in the step-6 caches; the post-rebuild doc `docs/kg-changes/metabolite-identity-and-classes.md` has the final graph counts.
 
-- **Metabolite ids changed.** 29 nodes were merged away and 132 re-keyed (ChEBI → KEGG, secondary → primary id); 13 measurement-only nodes and the 4 `mnx:` placeholders were dropped. Old → new map: `docs/kg-changes/metabolite-identity/metabolite_id_remap.tsv`. Metabolites: 3,214 (2,787 `kegg.compound:` + 427 `chebi:`). Stereo forms are never merged, even where MetaNetX calls them one entity (see `### Fixed`), and three conjugate groups are named for the ion: chloride `C00698`, bromide `C01324`, fluoride `C00742` (`C01327` / `C13645` / `C16487` are merged into them).
+- **Metabolite ids changed.** 29 nodes were merged away and 132 re-keyed (ChEBI → KEGG, secondary → primary id); 13 measurement-only nodes and the 4 `mnx:` placeholders were dropped. Old → new map: `docs/kg-changes/metabolite-identity/metabolite_id_remap.tsv`. Metabolites: 3,214 (2,787 `kegg.compound:` + 427 `chebi:`). Stereo forms (including sugar anomers) are never merged, even where MetaNetX calls them one entity, and three conjugate groups are named for the ion: chloride `C00698`, bromide `C01324`, fluoride `C00742` (`C01327` / `C13645` / `C16487` are merged into them).
 - **`Metabolite.chebi_id` values changed on most nodes** (now the primary, entity-level ChEBI) and `name` changed on `chebi:` nodes (KEGG name, else ChEBI name).
 - **57 role terms were removed from `Metabolite`**; they now live on `ChemicalRole` via `Tcdb_family_transports_chemical_role`. `Tcdb_family_transports_metabolite` 11,263 → 10,790 and `TcdbFamily.metabolite_count` loses role entries.
 - **Paper metabolite re-resolutions.** Metabolomics assay edges were re-pointed to canonical metabolites; see `docs/kg-changes/metabolite-identity/metabolite_assay_repoints.tsv`.
 - **The lumping threshold no longer reproduces the lumping set.** `level >= 2 AND metabolite_count >= 50` is not equivalent any more; filter on `TcdbFamily.substrate_breadth = 'lumping'` (pinned 13 ids).
 - **`metaboliteFullText` fields** are now name + formula + `identifier_tokens` (the live index was name-only).
-- **`Metabolite.kegg_compound_categories` is renamed `kegg_functional_categories`** (same values: the br08001 "compounds with biological roles" top level). The old name is not set any more.
 
 ### Data
 
@@ -130,34 +129,6 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
 
 ### Fixed
 
-- **MetaNetX merges no longer cross stereo, anomer or class boundaries** (explorer ask
-  2026-10-15). All 21 metabolites holding two KEGG ids came from MetaNetX "same entity" links,
-  which bypassed the KEGG guard; 11 of them broke the "stereo forms are linked, not merged" rule.
-  D-fructose 6-phosphate `C00085` and D-fructose 1,6-bisphosphate `C00354` had merged into their
-  β-anomers and displayed under the anomer's name and id; 3-phosphoglycerate, 2-acetolactate,
-  O-phosphohomoserine, 2,3-dihydroxy-3-methylbutanoate, lipoate, 3-hydroxykynurenine and
-  3α,7α-dihydroxy-5β-cholestanoyl-CoA had merged into their stereo-specific forms; the class
-  "Aromatic aldehyde" `C00193` into benzaldehyde; apo-[ACP] `C03688` into
-  [lipoyl-carrier protein]-L-lysine. All 11 are separate nodes again. 8 are linked by
-  `Metabolite_is_stereo_form_of` (incl. the two fructose anomer links); the others by nothing.
-  A stereo guard (ChEBI InChIKey connectivity + stereo layer, cis/trans exempt) refuses such
-  links; two curated `keep_separate` entries cover the class and protein cases. MetaNetX's
-  fields (`mnxm_id`, `inchikey`, `smiles`, `hmdb_id`, `chebi_id`) stay on the side whose structure
-  matches MetaNetX's; the other side takes its InChIKey from ChEBI. Capovilla 2023 / Biller 2022
-  fructose-6P now land on `C00085` and Biller 2022 "Phosphoglyceric Acid" on `C00597`, as their
-  alias files say. The canonical id of a merge group now needs a ≥ 2× reaction margin (else a
-  curated `canonical:` pin, else step 6 fails), and a ChEBI term several separate KEGG nodes
-  cross-reference goes to its single unambiguous owner instead of to none (benzaldehyde,
-  (R)-lipoic acid, acetoin, D-ribulose, α-D-galactose regain their ChEBI ids).
-  `docs/kg-changes/metabolite-identity-and-classes.md` §38.
-- **Generic sugar records sit on the generic node** (explorer ask 5, 2026-10-15). HMDB names
-  four records for the generic compound but draws them as one anomer, so MNX filed them under the
-  anomer: `HMDB0000122` D-glucose was on β-D-glucose `C00221`, `HMDB0000143` D-galactose on
-  α-D-galactose, `HMDB0000660` D-fructose on β-D-fructose, `HMDB0001058` fructose
-  1,6-bisphosphate on its β form. They now sit on `C00031`, `C00124`, `C00095`, `C00354`, and the
-  anomers keep only records named for themselves. Also added: `HMDB0000124` fructose 6-phosphate →
-  `C00085` and ChEBI's generic D-glucose `CHEBI:17634` → `C00031` (each was on no node). New
-  curated `xref:` override kind in `config/metabolite_identity_overrides.yaml`. §39.
 - **Step 6 follow-ups to the metabolite identity change (review, 2026-10-15).** None of these
   changes the current build: `kegg_data.json`, the stereo lock, the BRITE trees and every paper
   `_resolved.csv` are byte-identical on a rerun. (a) A paper metabolite id that wasn't in house
