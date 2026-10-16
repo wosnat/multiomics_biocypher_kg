@@ -150,6 +150,14 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
   cross-reference goes to its single unambiguous owner instead of to none (benzaldehyde,
   (R)-lipoic acid, acetoin, D-ribulose, α-D-galactose regain their ChEBI ids).
   `docs/kg-changes/metabolite-identity-and-classes.md` §38.
+- **Generic sugar records sit on the generic node** (explorer ask 5, 2026-10-15). HMDB names
+  four records for the generic compound but draws them as one anomer, so MNX filed them under the
+  anomer: `HMDB0000122` D-glucose was on β-D-glucose `C00221`, `HMDB0000143` D-galactose on
+  α-D-galactose, `HMDB0000660` D-fructose on β-D-fructose, `HMDB0001058` fructose
+  1,6-bisphosphate on its β form. They now sit on `C00031`, `C00124`, `C00095`, `C00354`, and the
+  anomers keep only records named for themselves. Also added: `HMDB0000124` fructose 6-phosphate →
+  `C00085` and ChEBI's generic D-glucose `CHEBI:17634` → `C00031` (each was on no node). New
+  curated `xref:` override kind in `config/metabolite_identity_overrides.yaml`. §39.
 - **Step 6 follow-ups to the metabolite identity change (review, 2026-10-15).** None of these
   changes the current build: `kegg_data.json`, the stereo lock, the BRITE trees and every paper
   `_resolved.csv` are byte-identical on a rerun. (a) A paper metabolite id that wasn't in house

@@ -1941,8 +1941,8 @@ written. **10 anomer nodes carry an HMDB id. In 6 of those pairs the generic sib
 - **It's a list, not one move.** HMDB0000122 (D-glucose), HMDB0000143 (D-galactose) and
   HMDB0000660 (D-fructose) look like the main generic records, but HMDB gives them the anomer's
   structure. That is why MNX puts them on the anomer.
-- Each candidate move needs the HMDB record name checked, which we can't do offline. So the
-  `xref_move:` override stays a **follow-up**.
+- Each candidate move needs the HMDB record name checked. **Done in §39**: the names were in
+  MNX's local `chem_xref.tsv` after all, and the override shipped the same day.
 - ChEBI side: every anomer node's ChEBI ids are its own ChEBI cross-references. A generic ChEBI
   entry with no KEGG cross-reference (`CHEBI:17634` D-glucose) is on no node; that is part of
   the same follow-up.
@@ -1957,3 +1957,50 @@ written. **10 anomer nodes carry an HMDB id. In 6 of those pairs the generic sib
 - **Properties:** read `kegg_functional_categories`; `kegg_compound_categories` is gone.
   `kegg_brite_classes` is live; its vocabulary node has no `value_descriptions` (point 7).
 - **Vocabulary hash:** `Schema_info.controlled_vocabularies_hash` changes; re-pin it.
+
+## 39. KG change: curated `xref:` overrides for generic sugar records (2026-10-15, implemented)
+
+Closes ask 5. **Method:** HMDB's own record names, from the local MNX `chem_xref.tsv` (third
+column, first name). MNX marks every other HMDB id in these entities "secondary/obsolete/fantasy
+identifier", so the records below are all of the live ones. Each of the 17 `anomer_xref_review`
+pairs was checked both ways. On the anomer side: every HMDB id MNX ties to the anomer's ChEBI
+terms. On the generic side: every HMDB id MNX ties to the generic node's own ChEBI terms, which can
+reach records that sit on no node.
+
+| Identifier | Record name (HMDB / ChEBI) | Was on | Now on | Why |
+|---|---|---|---|---|
+| `hmdb:HMDB0000122` | D-Glucose | `C00221` β-D-glucose | `C00031` D-glucose | names the generic; HMDB has no separate β-D-glucose record |
+| `hmdb:HMDB0000143` | D-Galactose | `C00984` α-D-galactose | `C00124` D-galactose | names the generic; β has its own record `HMDB0003449` (stays on `C00962`), α has none |
+| `hmdb:HMDB0000660` | D-Fructose | `C02336` β-D-fructose | `C00095` D-fructose | names the generic |
+| `hmdb:HMDB0001058` | Fructose 1,6-bisphosphate | `C05378` β form | `C00354` | names the generic; MNX files `C00354`'s own ChEBI xref (`CHEBI:37736`) under the same entity |
+| `hmdb:HMDB0000124` | Fructose 6-phosphate | no node | `C00085` | MNX files it with `CHEBI:15946`, ChEBI's KEGG xref of `C00085` (entity `MNXM89629`, which no node carried) |
+| `chebi:17634` (+ 2nd. `12965`, `20999`) | D-glucose | no node | `C00031` | ChEBI's generic term has no KEGG xref (`C00031`'s is the D-glucopyranose child, `CHEBI:4167`), so no rule reaches it |
+
+**Kept as they are:**
+- **Records named for the anomer:** `HMDB0003345` α-D-glucose, `HMDB0003449` β-D-galactose,
+  `HMDB0003498` β-D-glucose 6-phosphate, `HMDB0000803` β-N-acetylglucosamine and `HMDB0003971`
+  β-D-fructose 6-phosphate.
+- **`HMDB0001163` "Guanosine diphosphate mannose"** stays on `C00096`, KEGG's own GDP-mannose hub.
+  The review pairs it with `chebi:84880` only because that ChEBI-only node is the
+  stereo-unspecified form.
+- **`HMDB0000186` "Alpha-Lactose"** is reachable from the `chebi:36219` α-lactose node but sits on
+  no node. It isn't misplaced, so it isn't part of this change.
+
+**Mechanism:** new `xref:` entries in `config/metabolite_identity_overrides.yaml`
+(`{id, to, from?, reason}`), applied right after stage H.
+- **Effect on the identifier index:** paper-id resolution and `all_identifiers` uniqueness both see
+  the moved ids.
+- **HMDB move:** the moved id becomes the target's scalar `hmdb_id`. `C00031` keeps `HMDB0304632`
+  in `all_identifiers`; its scalar is now `HMDB0000122`.
+- **ChEBI add:** a ChEBI id is appended to `chebi_ids` with its secondary ids. The scalar `chebi_id`
+  stays rule-derived: `C00031` keeps `4167`.
+- **Stale entries:** an entry whose identifier isn't where it says is reported in
+  `stale_identity_override` and skipped. This catches an MNX / HMDB release that changes the
+  attachment.
+- **Report:** `xref_overrides_applied` (6).
+
+**Effect:** no node, edge or paper row changes, only cross-references.
+- `list_metabolites(hmdb_ids=['HMDB0000122'])` and `CHEBI:17634` input now resolve to `C00031`.
+- The four anomer nodes (`C00221`, `C00984`, `C02336`, `C05378`) lose the generic record and now
+  carry no HMDB id: HMDB has no live record named for any of them.
+- The release TSVs are unchanged.

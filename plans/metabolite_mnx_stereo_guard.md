@@ -112,4 +112,4 @@ Deviations:
 - a failed margin check reports only in the error and log, not in the report.
 
 Addition: the shared-ChEBI-term owner rule.
-Open follow-up: ask 5 curated `xref_move:` list.
+Ask 5 follow-up: DONE 2026-10-15 — `xref:` override kind + 6 reviewed entries (change doc §39).
