@@ -53,13 +53,14 @@
       "anomer_chebi_ids": [
         "15903"
       ],
-      "anomer_hmdb_id": "HMDB0000122",
+      "anomer_hmdb_id": null,
       "anomer_name": "beta-D-Glucose",
       "generic": "kegg.compound:C00031",
       "generic_chebi_ids": [
-        "4167"
+        "4167",
+        "17634"
       ],
-      "generic_hmdb_id": "HMDB0304632",
+      "generic_hmdb_id": "HMDB0000122",
       "generic_name": "D-Glucose"
     },
     {
@@ -71,9 +72,10 @@
       "anomer_name": "alpha-D-Glucose",
       "generic": "kegg.compound:C00031",
       "generic_chebi_ids": [
-        "4167"
+        "4167",
+        "17634"
       ],
-      "generic_hmdb_id": "HMDB0304632",
+      "generic_hmdb_id": "HMDB0000122",
       "generic_name": "D-Glucose"
     },
     {
@@ -105,7 +107,7 @@
         "4139",
         "12936"
       ],
-      "generic_hmdb_id": null,
+      "generic_hmdb_id": "HMDB0000143",
       "generic_name": "D-Galactose"
     },
     {
@@ -113,14 +115,14 @@
       "anomer_chebi_ids": [
         "28061"
       ],
-      "anomer_hmdb_id": "HMDB0000143",
+      "anomer_hmdb_id": null,
       "anomer_name": "alpha-D-Galactose",
       "generic": "kegg.compound:C00124",
       "generic_chebi_ids": [
         "4139",
         "12936"
       ],
-      "generic_hmdb_id": null,
+      "generic_hmdb_id": "HMDB0000143",
       "generic_name": "D-Galactose"
     },
     {
@@ -161,14 +163,14 @@
       "anomer_chebi_ids": [
         "28645"
       ],
-      "anomer_hmdb_id": "HMDB0000660",
+      "anomer_hmdb_id": null,
       "anomer_name": "beta-D-Fructose",
       "generic": "kegg.compound:C00095",
       "generic_chebi_ids": [
         "15824",
         "37721"
       ],
-      "generic_hmdb_id": null,
+      "generic_hmdb_id": "HMDB0000660",
       "generic_name": "D-Fructose"
     },
     {
@@ -228,7 +230,7 @@
         "15946",
         "61553"
       ],
-      "generic_hmdb_id": null,
+      "generic_hmdb_id": "HMDB0000124",
       "generic_name": "D-Fructose 6-phosphate"
     },
     {
@@ -238,14 +240,14 @@
         "32966",
         "49299"
       ],
-      "anomer_hmdb_id": "HMDB0001058",
+      "anomer_hmdb_id": null,
       "anomer_name": "beta-D-Fructose 1,6-bisphosphate",
       "generic": "kegg.compound:C00354",
       "generic_chebi_ids": [
         "16905",
         "37736"
       ],
-      "generic_hmdb_id": null,
+      "generic_hmdb_id": "HMDB0001058",
       "generic_name": "D-Fructose 1,6-bisphosphate"
     },
     {
@@ -1610,6 +1612,7 @@
     "chebi:12958": "kegg.compound:C01236",
     "chebi:12960": "kegg.compound:C03752",
     "chebi:12961": "kegg.compound:C00329",
+    "chebi:12965": "kegg.compound:C00031",
     "chebi:12967": "chebi:16077",
     "chebi:12970": "kegg.compound:C00103",
     "chebi:12971": "kegg.compound:C01190",
@@ -3807,6 +3810,7 @@
     "chebi:17632": "kegg.compound:C00244",
     "chebi:176327": "kegg.compound:C06125",
     "chebi:17633": "kegg.compound:C01228",
+    "chebi:17634": "kegg.compound:C00031",
     "chebi:17636": "kegg.compound:C00550",
     "chebi:1764": "kegg.compound:C03758",
     "chebi:17640": "kegg.compound:C00331",
@@ -5077,6 +5081,7 @@
     "chebi:20992": "kegg.compound:C03752",
     "chebi:20994": "kegg.compound:C06156",
     "chebi:20996": "kegg.compound:C03752",
+    "chebi:20999": "kegg.compound:C00031",
     "chebi:2100": "kegg.compound:C04582",
     "chebi:21001": "chebi:16077",
     "chebi:21004": "kegg.compound:C00103",
@@ -12256,8 +12261,9 @@
     "hmdb:HMDB0000118": "kegg.compound:C05582",
     "hmdb:HMDB0000119": "kegg.compound:C00048",
     "hmdb:HMDB0000121": "kegg.compound:C00504",
-    "hmdb:HMDB0000122": "kegg.compound:C00221",
+    "hmdb:HMDB0000122": "kegg.compound:C00031",
     "hmdb:HMDB0000123": "kegg.compound:C00037",
+    "hmdb:HMDB0000124": "kegg.compound:C00085",
     "hmdb:HMDB0000125": "kegg.compound:C00051",
     "hmdb:HMDB0000126": "kegg.compound:C00093",
     "hmdb:HMDB0000128": "kegg.compound:C00581",
@@ -12269,7 +12275,7 @@
     "hmdb:HMDB0000138": "kegg.compound:C01921",
     "hmdb:HMDB0000139": "kegg.compound:C00258",
     "hmdb:HMDB0000142": "kegg.compound:C00058",
-    "hmdb:HMDB0000143": "kegg.compound:C00984",
+    "hmdb:HMDB0000143": "kegg.compound:C00124",
     "hmdb:HMDB0000145": "kegg.compound:C00468",
     "hmdb:HMDB0000148": "kegg.compound:C00025",
     "hmdb:HMDB0000149": "kegg.compound:C00189",
@@ -12430,7 +12436,7 @@
     "hmdb:HMDB0000641": "kegg.compound:C00064",
     "hmdb:HMDB0000645": "kegg.compound:C00446",
     "hmdb:HMDB0000657": "kegg.compound:C22424",
-    "hmdb:HMDB0000660": "kegg.compound:C02336",
+    "hmdb:HMDB0000660": "kegg.compound:C00095",
     "hmdb:HMDB0000661": "kegg.compound:C00489",
     "hmdb:HMDB0000662": "kegg.compound:C00742",
     "hmdb:HMDB0000663": "kegg.compound:C00818",
@@ -12533,7 +12539,7 @@
     "hmdb:HMDB0001049": "kegg.compound:C00669",
     "hmdb:HMDB0001056": "kegg.compound:C00415",
     "hmdb:HMDB0001057": "kegg.compound:C03231",
-    "hmdb:HMDB0001058": "kegg.compound:C05378",
+    "hmdb:HMDB0001058": "kegg.compound:C00354",
     "hmdb:HMDB0001062": "kegg.compound:C00357",
     "hmdb:HMDB0001066": "kegg.compound:C03451",
     "hmdb:HMDB0001070": "kegg.compound:C01944",
@@ -23666,6 +23672,44 @@
       "name": "s-(1-2-dicarboxyethyl)glutathione pos",
       "paper": "data/Prochlorococcus/papers_and_supp/Kujawinski 2023/paperconfig.yaml",
       "table": "metabolites_kegg_export_9313_extracellular"
+    }
+  ],
+  "xref_overrides_applied": [
+    {
+      "from": "kegg.compound:C00221",
+      "id": "hmdb:HMDB0000122",
+      "kind": "xref",
+      "to": "kegg.compound:C00031"
+    },
+    {
+      "from": "kegg.compound:C00984",
+      "id": "hmdb:HMDB0000143",
+      "kind": "xref",
+      "to": "kegg.compound:C00124"
+    },
+    {
+      "from": "kegg.compound:C02336",
+      "id": "hmdb:HMDB0000660",
+      "kind": "xref",
+      "to": "kegg.compound:C00095"
+    },
+    {
+      "from": "kegg.compound:C05378",
+      "id": "hmdb:HMDB0001058",
+      "kind": "xref",
+      "to": "kegg.compound:C00354"
+    },
+    {
+      "from": null,
+      "id": "hmdb:HMDB0000124",
+      "kind": "xref",
+      "to": "kegg.compound:C00085"
+    },
+    {
+      "from": null,
+      "id": "chebi:17634",
+      "kind": "xref",
+      "to": "kegg.compound:C00031"
     }
   ]
 }

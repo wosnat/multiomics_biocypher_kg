@@ -11101,7 +11101,11 @@
     },
     "C00031": {
       "all_identifiers": [
+        "chebi:12965",
+        "chebi:17634",
+        "chebi:20999",
         "chebi:4167",
+        "hmdb:HMDB0000122",
         "hmdb:HMDB0304632",
         "inchikey:WQZGKKKJIJFFOK-GASJEMHNSA-N",
         "kegg.compound:C00031",
@@ -11109,7 +11113,8 @@
       ],
       "chebi_id": "4167",
       "chebi_ids": [
-        "4167"
+        "4167",
+        "17634"
       ],
       "elements": [
         "C",
@@ -11121,7 +11126,7 @@
         "transport"
       ],
       "formula": "C6H12O6",
-      "hmdb_id": "HMDB0304632",
+      "hmdb_id": "HMDB0000122",
       "inchikey": "WQZGKKKJIJFFOK-GASJEMHNSA-N",
       "kegg_compound_id": "C00031",
       "kegg_compound_ids": [
@@ -14203,6 +14208,7 @@
         "chebi:4124",
         "chebi:42406",
         "chebi:61553",
+        "hmdb:HMDB0000124",
         "inchikey:BGWGXPAPYGQALX-VRPWFDPXSA-N",
         "kegg.compound:C00085"
       ],
@@ -14223,6 +14229,7 @@
         "transport"
       ],
       "formula": "C6H11O9P",
+      "hmdb_id": "HMDB0000124",
       "identity_basis": [
         "chebi_kegg_xref"
       ],
@@ -14751,6 +14758,7 @@
         "chebi:20929",
         "chebi:37721",
         "chebi:4118",
+        "hmdb:HMDB0000660",
         "inchikey:RFSUNEUAIZKAJO-VRPWFDPXSA-N",
         "kegg.compound:C00095",
         "mnx:MNXM1363862"
@@ -14770,6 +14778,7 @@
         "transport"
       ],
       "formula": "C6H12O6",
+      "hmdb_id": "HMDB0000660",
       "identity_basis": [
         "chebi_kegg_xref"
       ],
@@ -16230,6 +16239,7 @@
       "all_identifiers": [
         "chebi:12936",
         "chebi:4139",
+        "hmdb:HMDB0000143",
         "inchikey:WQZGKKKJIJFFOK-SVZMEOIVSA-N",
         "kegg.compound:C00124",
         "mnx:MNXM1108176",
@@ -16250,6 +16260,7 @@
         "transport"
       ],
       "formula": "C6H12O6",
+      "hmdb_id": "HMDB0000143",
       "identity_basis": [
         "manual"
       ],
@@ -20475,7 +20486,6 @@
         "chebi:15903",
         "chebi:22795",
         "chebi:41140",
-        "hmdb:HMDB0000122",
         "inchikey:WQZGKKKJIJFFOK-VFUOTHLCSA-N",
         "kegg.compound:C00221",
         "mnx:MNXM1364060"
@@ -20493,7 +20503,6 @@
         "metabolism"
       ],
       "formula": "C6H12O6",
-      "hmdb_id": "HMDB0000122",
       "inchikey": "WQZGKKKJIJFFOK-VFUOTHLCSA-N",
       "kegg_compound_id": "C00221",
       "kegg_compound_ids": [
@@ -25367,6 +25376,7 @@
         "chebi:16905",
         "chebi:37736",
         "chebi:4120",
+        "hmdb:HMDB0001058",
         "inchikey:RNBGYGVWRKECFJ-VRPWFDPXSA-N",
         "kegg.compound:C00354"
       ],
@@ -25385,6 +25395,7 @@
         "metabolism"
       ],
       "formula": "C6H10O12P2",
+      "hmdb_id": "HMDB0001058",
       "inchikey": "RNBGYGVWRKECFJ-VRPWFDPXSA-N",
       "kegg_compound_id": "C00354",
       "kegg_compound_ids": [
@@ -40789,7 +40800,6 @@
         "chebi:22373",
         "chebi:28061",
         "chebi:42741",
-        "hmdb:HMDB0000143",
         "inchikey:WQZGKKKJIJFFOK-PHYPRBDBSA-N",
         "kegg.compound:C00984",
         "mnx:MNXM1364486"
@@ -40810,7 +40820,6 @@
         "metabolism"
       ],
       "formula": "C6H12O6",
-      "hmdb_id": "HMDB0000143",
       "inchikey": "WQZGKKKJIJFFOK-PHYPRBDBSA-N",
       "kegg_compound_id": "C00984",
       "kegg_compound_ids": [
@@ -54734,7 +54743,6 @@
         "chebi:22766",
         "chebi:28645",
         "chebi:42560",
-        "hmdb:HMDB0000660",
         "inchikey:RFSUNEUAIZKAJO-ARQDHWQXSA-N",
         "kegg.compound:C02336",
         "mnx:MNXM1364098"
@@ -54752,7 +54760,6 @@
         "metabolism"
       ],
       "formula": "C6H12O6",
-      "hmdb_id": "HMDB0000660",
       "inchikey": "RFSUNEUAIZKAJO-ARQDHWQXSA-N",
       "kegg_compound_id": "C02336",
       "kegg_compound_ids": [
@@ -74622,7 +74629,6 @@
         "chebi:41014",
         "chebi:42553",
         "chebi:49299",
-        "hmdb:HMDB0001058",
         "inchikey:RNBGYGVWRKECFJ-ARQDHWQXSA-J",
         "kegg.compound:C05378",
         "mnx:MNXM1364229"
@@ -74643,7 +74649,6 @@
         "metabolism"
       ],
       "formula": "C6H10O12P2",
-      "hmdb_id": "HMDB0001058",
       "inchikey": "RNBGYGVWRKECFJ-ARQDHWQXSA-J",
       "kegg_compound_id": "C05378",
       "kegg_compound_ids": [
