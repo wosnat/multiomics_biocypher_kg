@@ -8,6 +8,12 @@
 #                can't decide and prints a ready entry. Each entry: {id: <member>, group: [<every
 #                member id>], reason: "<one line>"}; a pin whose group no longer forms is reported
 #                stale (stale_identity_override) and skipped.
+# xref:          an HMDB / ChEBI cross-reference curated onto a node (applied after stage H): for a
+#                record that names the generic compound but MNX / HMDB attach to an anomer, or that
+#                no rule reaches. {id: hmdb:HMDB… | chebi:N, to: <node>, from: <node holding it now,
+#                omit when on no node>, reason}. Stale (reported, skipped) when the id isn't where
+#                the entry says. A moved HMDB id becomes the target's hmdb_id. Review list:
+#                metabolite_identity_report.json → anomer_xref_review.
 # Candidates to review: metabolite_identity_report.json → heuristic_name_candidates.
 merge:
   - a: "chebi:33283"
@@ -54,3 +60,28 @@ canonical:
   - id: "kegg.compound:C00742"
     group: ["kegg.compound:C00742", "kegg.compound:C16487"]
     reason: "fluoride over hydrofluoric acid (explorer ask 2026-10-15, 3b)"
+xref:
+  # HMDB records named for the generic sugar; HMDB draws them as one anomer, so MNX files them
+  # under the anomer's entity (explorer ask 5, 2026-10-15). Names: MNX chem_xref.tsv (HMDB's own).
+  - id: "hmdb:HMDB0000122"
+    from: "kegg.compound:C00221"
+    to: "kegg.compound:C00031"
+    reason: "HMDB0000122 is HMDB's 'D-Glucose' record (beta-pyranose structure); HMDB has no separate beta-D-glucose record"
+  - id: "hmdb:HMDB0000143"
+    from: "kegg.compound:C00984"
+    to: "kegg.compound:C00124"
+    reason: "HMDB0000143 is 'D-Galactose' (alpha structure); HMDB has a beta-D-galactose record (HMDB0003449, stays on C00962) but no alpha one"
+  - id: "hmdb:HMDB0000660"
+    from: "kegg.compound:C02336"
+    to: "kegg.compound:C00095"
+    reason: "HMDB0000660 is 'D-Fructose' (beta structure); C00095 D-fructose carried no HMDB id"
+  - id: "hmdb:HMDB0001058"
+    from: "kegg.compound:C05378"
+    to: "kegg.compound:C00354"
+    reason: "HMDB0001058 is 'Fructose 1,6-bisphosphate'; MNX also files C00354's own ChEBI xref (CHEBI:37736) under the same entity"
+  - id: "hmdb:HMDB0000124"
+    to: "kegg.compound:C00085"
+    reason: "HMDB0000124 is 'Fructose 6-phosphate', on no node: MNX files it with CHEBI:15946, the ChEBI KEGG xref of C00085 (MNXM89629)"
+  - id: "chebi:17634"
+    to: "kegg.compound:C00031"
+    reason: "ChEBI's generic D-glucose; it has no KEGG xref (C00031's is the D-glucopyranose child, CHEBI:4167), so no rule reaches it"

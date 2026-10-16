@@ -24,7 +24,7 @@ from multiomics_kg.utils.metabolite_identity.canonical import (
 from multiomics_kg.utils.metabolite_identity.classes import (
     COMPOUND_BRITE_TREES, parse_compound_brite, prune_compound_brite)
 from multiomics_kg.utils.metabolite_identity.crossrefs import (
-    build_identity_fields, is_isotopologue_name, node_olds, pick_chebi_id, shared_chebi_terms)
+    apply_xref_overrides, build_identity_fields, is_isotopologue_name, node_olds, pick_chebi_id, shared_chebi_terms)
 from multiomics_kg.utils.metabolite_identity.lumping import update_lumping_pin
 from multiomics_kg.utils.metabolite_identity.outputs import (
     build_identity_report, build_mapping_v2, remap_rows, repoint_reason, validate_build,
@@ -371,6 +371,8 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         # H — cross-reference fields
         identifier_index = build_identity_fields(table, identity, inp.rekeys, chebi, old_entries,
                                                  shared=shared)
+        xref_applied, xref_stale = apply_xref_overrides(
+            table, identifier_index, inp.identity_overrides.xrefs if inp.identity_overrides else [], chebi)
     except IdentityCollisionError as exc:        # identifier / InChIKey on two nodes
         raise Step6ValidationError([str(exc)]) from exc
     id_index = dict(identifier_index)
@@ -431,6 +433,8 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     errors += [f"remap {r['old_id']} → {r['new_id']} ({r['basis']}): not a compound step 6 writes"
                for r in remap if r["new_id"] and r["new_id"] not in table]
     errors += _identifier_coverage_errors(table, identity, inp.rekeys, dropped, set(dropped_unmoved))
+    errors += [f"xref override {x['id']} → {x['to']}: target dropped at stage K"
+               for x in xref_applied if x["to"] not in table]
     if errors:
         raise Step6ValidationError(errors)
 
@@ -509,7 +513,7 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         stereo_refused_links=identity.stereo_refused, mnx_split=mnx_split,
         canonical_pinned=identity.canonical_pinned, anomer_xref_review=anomer_xrefs,
         refused_assay_collisions=identity.refused_collisions,
-        stale_identity_override=identity.stale_overrides, stale_alias_override=res.stale_overrides,
+        stale_identity_override=identity.stale_overrides + xref_stale, xref_overrides_applied=xref_applied, stale_alias_override=res.stale_overrides,
         stale_lock_entry=res.stale_lock, lock_target_remapped=res.lock_remapped,
         roles_removed=inp.role_of_old, dropped=dropped, dropped_without_rows=dropped_unmoved,
         dropped_same_entity_review=[{"dropped": d, "target": t,

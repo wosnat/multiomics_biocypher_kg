@@ -1,7 +1,7 @@
 import pytest
 
 from tests.metabolite_identity_helpers import cpd, make_chebi, term
-from multiomics_kg.utils.metabolite_identity.canonical import IdentityResult
+from multiomics_kg.utils.metabolite_identity.canonical import IdentityResult, load_identity_overrides
 from multiomics_kg.utils.metabolite_identity.crossrefs import (
     build_identity_fields, is_isotopologue_name, pick_chebi_id)
 
@@ -291,3 +291,75 @@ def test_role_term_never_chebi_id():
     e = _fields("kegg.compound:C00028", cpd("Acceptor"))
     assert e["chebi_id"] is None and e["chebi_ids"] is None
     assert not any(x.startswith("chebi:") for x in e["all_identifiers"])
+
+
+# ── xref: overrides (explorer ask 5, 2026-10-15) ───────────────────────────────────────────────
+
+def _xref_table():
+    def node(n, hmdb=None, chebi=()):
+        ids = {f"kegg.compound:{n}"} | {f"chebi:{c}" for c in chebi}
+        if hmdb:
+            ids.add(f"hmdb:{hmdb}")
+        return {"hmdb_id": hmdb, "chebi_id": chebi[0] if chebi else None,
+                "chebi_ids": list(chebi) or None, "all_identifiers": sorted(ids)}
+    table = {"kegg.compound:C00221": node("C00221", "HMDB0000122", ["15903"]),
+             "kegg.compound:C00031": node("C00031", "HMDB0304632", ["4167"])}
+    index = {i: n for n, e in table.items() for i in e["all_identifiers"]}
+    return table, index
+
+
+GLC = make_chebi(CHEBI_17634=term("D-glucose", alt=["CHEBI:12965", "CHEBI:20999"]),
+                 CHEBI_4167=term("D-glucopyranose", kegg=["C00031"]),
+                 CHEBI_15903=term("beta-D-glucose", kegg=["C00221"]))
+
+
+def test_xref_override_moves_hmdb_to_generic():
+    from multiomics_kg.utils.metabolite_identity.canonical import XrefOverride
+    from multiomics_kg.utils.metabolite_identity.crossrefs import apply_xref_overrides
+    table, index = _xref_table()
+    applied, stale = apply_xref_overrides(table, index, [XrefOverride(
+        "hmdb:HMDB0000122", "kegg.compound:C00031", "kegg.compound:C00221")], GLC)
+    assert len(applied) == 1 and not stale
+    b, g = table["kegg.compound:C00221"], table["kegg.compound:C00031"]
+    assert b["hmdb_id"] is None and "hmdb:HMDB0000122" not in b["all_identifiers"]
+    assert g["hmdb_id"] == "HMDB0000122"
+    assert {"hmdb:HMDB0000122", "hmdb:HMDB0304632"} <= set(g["all_identifiers"])
+    assert index["hmdb:HMDB0000122"] == "kegg.compound:C00031"
+
+
+def test_xref_override_adds_chebi_with_secondary_ids():
+    from multiomics_kg.utils.metabolite_identity.canonical import XrefOverride
+    from multiomics_kg.utils.metabolite_identity.crossrefs import apply_xref_overrides
+    table, index = _xref_table()
+    applied, stale = apply_xref_overrides(
+        table, index, [XrefOverride("chebi:17634", "kegg.compound:C00031")], GLC)
+    g = table["kegg.compound:C00031"]
+    assert applied and not stale
+    assert g["chebi_id"] == "4167" and g["chebi_ids"] == ["4167", "17634"]
+    assert {"chebi:17634", "chebi:12965", "chebi:20999"} <= set(g["all_identifiers"])
+    assert index["chebi:20999"] == "kegg.compound:C00031"
+
+
+def test_xref_override_stale_when_identifier_elsewhere():
+    from multiomics_kg.utils.metabolite_identity.canonical import XrefOverride
+    from multiomics_kg.utils.metabolite_identity.crossrefs import apply_xref_overrides
+    table, index = _xref_table()
+    before = {n: dict(e) for n, e in table.items()}
+    # wrong `from`, an add of an id another node holds, and an unwritten target
+    applied, stale = apply_xref_overrides(table, index, [
+        XrefOverride("hmdb:HMDB0000122", "kegg.compound:C00031", "kegg.compound:C99999"),
+        XrefOverride("chebi:15903", "kegg.compound:C00031"),
+        XrefOverride("hmdb:HMDB0000122", "kegg.compound:C99998", "kegg.compound:C00221")], GLC)
+    assert not applied and len(stale) == 3
+    assert table == before
+
+
+def test_load_xref_override_validates(tmp_path):
+    p = tmp_path / "o.yaml"
+    p.write_text("xref:\n  - {id: 'mnx:MNXM1', to: kegg.compound:C1, reason: x}\n")
+    with pytest.raises(ValueError):
+        load_identity_overrides(p)
+    p.write_text("xref:\n  - {id: 'hmdb:HMDB0000122', to: kegg.compound:C00031, "
+                 "from: kegg.compound:C00221, reason: x}\n")
+    ov = load_identity_overrides(p)
+    assert ov.xrefs[0].frm == "kegg.compound:C00221"

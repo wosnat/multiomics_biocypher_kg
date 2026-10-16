@@ -423,3 +423,13 @@ def test_transport_substrate_resolution_unchanged(run_query):
     dist = {r["v"]: r["n"] for r in run_query("MATCH (g:Gene) WHERE g.transport_substrate_resolution IS NOT NULL "
                                               "RETURN g.transport_substrate_resolution AS v, count(*) AS n")}
     assert dist == expected
+
+
+# Curated xref: overrides (explorer ask 5): generic HMDB / ChEBI records sit on the generic node.
+@pytest.mark.parametrize("ident,node", [
+    ("hmdb:HMDB0000122", "kegg.compound:C00031"), ("chebi:17634", "kegg.compound:C00031"),
+    ("hmdb:HMDB0000143", "kegg.compound:C00124"), ("hmdb:HMDB0000660", "kegg.compound:C00095"),
+    ("hmdb:HMDB0001058", "kegg.compound:C00354"), ("hmdb:HMDB0000124", "kegg.compound:C00085")])
+def test_generic_xrefs_on_generic_node(run_query, ident, node):
+    rows = run_query("MATCH (m:Metabolite) WHERE $i IN m.all_identifiers RETURN m.id AS id", i=ident)
+    assert [r["id"] for r in rows] == [node]

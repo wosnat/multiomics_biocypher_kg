@@ -224,3 +224,66 @@ def build_identity_fields(table, identity: IdentityResult, rekeys, chebi, old_en
             if index.setdefault(x, node) != node:
                 raise IdentityCollisionError(f"identifier {x} on two Metabolite nodes: {index[x]} and {node}")
     return index
+
+
+def apply_xref_overrides(table, index, xrefs, chebi: ChebiIndex):
+    """Curated ``xref:`` overrides (explorer ask 5, 2026-10-15), applied right after stage H so the
+    identifier index and paper resolution see them. Each moves one HMDB / ChEBI identifier (a
+    ChEBI one with its secondary ids) onto ``to``, off ``frm`` when given; ``index`` (identifier →
+    node) is updated in place. A moved HMDB id becomes ``to``'s scalar ``hmdb_id`` (the previous
+    one stays in ``all_identifiers``); a ChEBI id is appended to ``chebi_ids`` (scalar only when
+    ``to`` had none). Returns ``(applied, stale)``: an entry is stale (reported, skipped) when
+    ``to`` / ``frm`` isn't written, or the identifier isn't where the entry says it is."""
+    applied, stale = [], []
+    for x in xrefs:
+        row = {"kind": "xref", "id": x.id, "to": x.to, "from": x.frm}
+        if x.to not in table or (x.frm and x.frm not in table):
+            stale.append({**row, "why": "node not written"})
+            continue
+        if x.id.startswith("hmdb:"):
+            bare = normalize_hmdb(x.id[len("hmdb:"):])
+            if not bare:
+                stale.append({**row, "why": "not an HMDB id"})
+                continue
+            ids = [f"hmdb:{bare}"]
+        else:
+            p = chebi.primary(x.id)
+            if p is None:
+                stale.append({**row, "why": "not in ChEBI"})
+                continue
+            bare = _bare(p)
+            ids = [f"chebi:{bare}"] + sorted({f"chebi:{_bare(a)}" for a in chebi.secondary_ids(p)})
+        holder = index.get(ids[0])
+        if holder != x.frm:
+            stale.append({**row, "why": f"identifier is on {holder}, not on {x.frm}"})
+            continue
+        if x.frm:
+            e = table[x.frm]
+            e["all_identifiers"] = sorted(set(e["all_identifiers"]) - set(ids))
+            if ids[0].startswith("hmdb:"):
+                if e.get("hmdb_id") == bare:
+                    rest = sorted(i[len("hmdb:"):] for i in e["all_identifiers"] if i.startswith("hmdb:"))
+                    e["hmdb_id"] = rest[0] if rest else None
+            else:
+                e["chebi_ids"] = [c for c in (e.get("chebi_ids") or []) if c != bare] or None
+                if e.get("chebi_id") == bare:
+                    e["chebi_id"] = e["chebi_ids"][0] if e["chebi_ids"] else None
+            for i in ids:
+                if index.get(i) == x.frm:
+                    del index[i]
+        for i in ids:
+            if index.get(i, x.to) != x.to:
+                raise IdentityCollisionError(f"xref override {x.id}: {i} already on {index[i]}")
+        t = table[x.to]
+        if ids[0].startswith("hmdb:"):
+            t["hmdb_id"] = bare
+        else:
+            if bare not in (t.get("chebi_ids") or []):
+                t["chebi_ids"] = (t.get("chebi_ids") or []) + [bare]
+            if not t.get("chebi_id"):
+                t["chebi_id"] = bare
+        t["all_identifiers"] = sorted(set(t["all_identifiers"]) | set(ids))
+        for i in ids:
+            index[i] = x.to
+        applied.append(row)
+    return applied, stale

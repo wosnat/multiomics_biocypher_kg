@@ -42,11 +42,25 @@ class CanonicalPin:
     group: tuple[str, ...]
 
 
+@dataclass(frozen=True)
+class XrefOverride:
+    """An ``xref:`` override: an HMDB / ChEBI cross-reference curated onto ``to`` (and off
+    ``frm`` when given). For a record that names the generic compound but MNX / HMDB attach to
+    an anomer, e.g. HMDB0000122 "D-Glucose" (beta-D-glucopyranose structure) → C00031."""
+    id: str
+    to: str
+    frm: str | None = None
+
+
+_XREF_PREFIXES = ("hmdb:", "chebi:")
+
+
 @dataclass
 class IdentityOverrides:
     merges: list[MergeLink]
     keep_separate: set[frozenset[str]]
     canonical: list[CanonicalPin] = field(default_factory=list)
+    xrefs: list[XrefOverride] = field(default_factory=list)
 
 
 def load_identity_overrides(path: Path) -> IdentityOverrides:
@@ -66,7 +80,16 @@ def load_identity_overrides(path: Path) -> IdentityOverrides:
             raise ValueError(f"metabolite_identity_overrides.yaml: canonical pin {e['id']} is not "
                              f"in its own group {list(group)}")
         pins.append(CanonicalPin(e["id"], group))
-    return IdentityOverrides(merges, keep, pins)
+    xrefs = []
+    for e in doc.get("xref") or []:
+        x = XrefOverride(e["id"], e["to"], e.get("from"))
+        if not x.id.startswith(_XREF_PREFIXES) or x.to == x.frm:
+            raise ValueError(f"metabolite_identity_overrides.yaml: bad xref entry {e} "
+                             f"(id must be hmdb: / chebi:, to != from)")
+        xrefs.append(x)
+    if len({x.id for x in xrefs}) != len(xrefs):
+        raise ValueError("metabolite_identity_overrides.yaml: an xref id is listed twice")
+    return IdentityOverrides(merges, keep, pins, xrefs)
 
 
 def entity_terms(node_id: str, entry: dict, chebi: ChebiIndex) -> set[str]:
