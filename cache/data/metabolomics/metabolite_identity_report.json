@@ -49,6 +49,38 @@
       "generic_name": "GDP-D-mannose"
     },
     {
+      "anomer": "kegg.compound:C00124",
+      "anomer_chebi_ids": [
+        "4139",
+        "12936"
+      ],
+      "anomer_hmdb_id": "HMDB0000143",
+      "anomer_name": "D-Galactose",
+      "generic": "kegg.compound:C01582",
+      "generic_chebi_ids": [
+        "28260",
+        "17118"
+      ],
+      "generic_hmdb_id": null,
+      "generic_name": "Galactose"
+    },
+    {
+      "anomer": "kegg.compound:C00181",
+      "anomer_chebi_ids": [
+        "15936",
+        "53455"
+      ],
+      "anomer_hmdb_id": "HMDB0000098",
+      "anomer_name": "D-Xylose",
+      "generic": "kegg.compound:C01394",
+      "generic_chebi_ids": [
+        "18222",
+        "28518"
+      ],
+      "generic_hmdb_id": null,
+      "generic_name": "Xylose"
+    },
+    {
       "anomer": "kegg.compound:C00221",
       "anomer_chebi_ids": [
         "15903"
@@ -141,22 +173,6 @@
       ],
       "generic_hmdb_id": "HMDB0001401",
       "generic_name": "D-Glucose 6-phosphate"
-    },
-    {
-      "anomer": "kegg.compound:C01394",
-      "anomer_chebi_ids": [
-        "18222",
-        "28518"
-      ],
-      "anomer_hmdb_id": null,
-      "anomer_name": "Xylose",
-      "generic": "kegg.compound:C00181",
-      "generic_chebi_ids": [
-        "15936",
-        "53455"
-      ],
-      "generic_hmdb_id": "HMDB0000098",
-      "generic_name": "D-Xylose"
     },
     {
       "anomer": "kegg.compound:C02336",
@@ -271,6 +287,126 @@
     "kegg.compound:C00698",
     "kegg.compound:C00742",
     "kegg.compound:C01324"
+  ],
+  "chebi_node_structure": [
+    {
+      "inchikey_now": null,
+      "inchikey_was": "WQZGKKKJIJFFOK-UWWPDOAWSA-N",
+      "node": "chebi:17234",
+      "removed_stereo_xrefs": []
+    },
+    {
+      "inchikey_now": "HXEACLLIILLPRG-UHFFFAOYSA-N",
+      "inchikey_was": "HXEACLLIILLPRG-RXMQYKEDSA-M",
+      "node": "chebi:17964",
+      "removed_stereo_xrefs": [
+        "chebi:18703",
+        "chebi:18704",
+        "chebi:41574",
+        "chebi:41582",
+        "inchikey:HXEACLLIILLPRG-RXMQYKEDSA-M"
+      ]
+    },
+    {
+      "inchikey_now": null,
+      "inchikey_was": null,
+      "node": "chebi:24280",
+      "removed_stereo_xrefs": [
+        "chebi:30684"
+      ]
+    },
+    {
+      "inchikey_now": "SXDBWCPKPHAZSM-UHFFFAOYSA-M",
+      "inchikey_was": "KYHSUUVXZLFMQS-UHFFFAOYSA-N",
+      "node": "chebi:29223",
+      "removed_stereo_xrefs": []
+    },
+    {
+      "inchikey_now": "ICIWUVCWSCSTAQ-UHFFFAOYSA-M",
+      "inchikey_was": "PTYWDKBPJYCXDN-UHFFFAOYSA-N",
+      "node": "chebi:29226",
+      "removed_stereo_xrefs": []
+    },
+    {
+      "inchikey_now": "UFIVEPVSAGBUSI-UHFFFAOYSA-M",
+      "inchikey_was": "UFIVEPVSAGBUSI-UWTATZPHSA-N",
+      "node": "chebi:30867",
+      "removed_stereo_xrefs": [
+        "chebi:30866",
+        "inchikey:UFIVEPVSAGBUSI-UWTATZPHSA-N"
+      ]
+    },
+    {
+      "inchikey_now": "ZROHGHOFXNOHSO-BNTLRKBRSA-L",
+      "inchikey_was": "DWAFYCQODLXJNR-BNTLRKBRSA-L",
+      "node": "chebi:31941",
+      "removed_stereo_xrefs": []
+    },
+    {
+      "inchikey_now": "OYIFNHCXNCRBQI-UHFFFAOYSA-N",
+      "inchikey_was": "OYIFNHCXNCRBQI-SCSAIBSYSA-N",
+      "node": "chebi:37024",
+      "removed_stereo_xrefs": [
+        "chebi:37025",
+        "inchikey:OYIFNHCXNCRBQI-SCSAIBSYSA-N"
+      ]
+    },
+    {
+      "inchikey_now": null,
+      "inchikey_was": "WQZGKKKJIJFFOK-HOWGCPQDSA-N",
+      "node": "chebi:37690",
+      "removed_stereo_xrefs": [
+        "chebi:37741",
+        "inchikey:WQZGKKKJIJFFOK-HOWGCPQDSA-N"
+      ]
+    },
+    {
+      "inchikey_now": null,
+      "inchikey_was": null,
+      "node": "chebi:37903",
+      "removed_stereo_xrefs": [
+        "chebi:32559"
+      ]
+    },
+    {
+      "inchikey_now": "HFHDHCJBZVLPGP-RWMJIURBSA-N",
+      "inchikey_was": "HFHDHCJBZVLPGP-LBNUIUJVSA-N",
+      "node": "chebi:40585",
+      "removed_stereo_xrefs": []
+    },
+    {
+      "inchikey_now": "QEFRNWWLZKMPFJ-UHFFFAOYSA-N",
+      "inchikey_was": "QEFRNWWLZKMPFJ-CQIZIWTCSA-N",
+      "node": "chebi:49033",
+      "removed_stereo_xrefs": [
+        "chebi:49034",
+        "inchikey:QEFRNWWLZKMPFJ-CQIZIWTCSA-N"
+      ]
+    },
+    {
+      "inchikey_now": "XTEGARKTQYYJKE-UHFFFAOYSA-M",
+      "inchikey_was": "TYJXBNGPLHOYOB-UHFFFAOYSA-N",
+      "node": "chebi:49709",
+      "removed_stereo_xrefs": []
+    },
+    {
+      "inchikey_now": "JAQGKXUEKGKTKX-UHFFFAOYSA-N",
+      "inchikey_was": "JAQGKXUEKGKTKX-HOTGVXAUSA-N",
+      "node": "chebi:60987",
+      "removed_stereo_xrefs": [
+        "chebi:60989",
+        "inchikey:JAQGKXUEKGKTKX-HOTGVXAUSA-N"
+      ]
+    },
+    {
+      "inchikey_now": "OGNSCSPNOLGXSM-UHFFFAOYSA-N",
+      "inchikey_was": "OGNSCSPNOLGXSM-GSVOUGTGSA-N",
+      "node": "chebi:64307",
+      "removed_stereo_xrefs": [
+        "chebi:144635",
+        "inchikey:OGNSCSPNOLGXSM-GSVOUGTGSA-N"
+      ]
+    }
   ],
   "chebi_release": "256",
   "counts": {
@@ -2411,7 +2547,6 @@
     "chebi:14456": "kegg.compound:C00294",
     "chebi:14457": "kegg.compound:C00130",
     "chebi:14460": "kegg.compound:C00708",
-    "chebi:144635": "chebi:64307",
     "chebi:14464": "kegg.compound:C00885",
     "chebi:14465": "kegg.compound:C00311",
     "chebi:14472": "kegg.compound:C05557",
@@ -4311,9 +4446,7 @@
     "chebi:18700": "kegg.compound:C00864",
     "chebi:18701": "kegg.compound:C00864",
     "chebi:18702": "kegg.compound:C03492",
-    "chebi:18703": "chebi:17964",
     "chebi:187038": "kegg.compound:C01204",
-    "chebi:18704": "chebi:17964",
     "chebi:18706": "kegg.compound:C00844",
     "chebi:18709": "kegg.compound:C03044",
     "chebi:18710": "kegg.compound:C00898",
@@ -7233,7 +7366,6 @@
     "chebi:30656": "kegg.compound:C02926",
     "chebi:3066": "kegg.compound:C00757",
     "chebi:30660": "kegg.compound:C01829",
-    "chebi:30684": "chebi:24280",
     "chebi:3071": "kegg.compound:C06988",
     "chebi:30719": "kegg.compound:C02226",
     "chebi:30725": "kegg.compound:C19586",
@@ -7288,7 +7420,6 @@
     "chebi:30861": "kegg.compound:C02170",
     "chebi:30864": "kegg.compound:C00337",
     "chebi:30865": "chebi:30867",
-    "chebi:30866": "chebi:30867",
     "chebi:30871": "kegg.compound:C00161",
     "chebi:30878": "kegg.compound:C00469",
     "chebi:30879": "kegg.compound:C00069",
@@ -7426,7 +7557,6 @@
     "chebi:32556": "kegg.compound:C00739",
     "chebi:32557": "kegg.compound:C00739",
     "chebi:32558": "kegg.compound:C00739",
-    "chebi:32559": "chebi:37903",
     "chebi:32563": "kegg.compound:C00047",
     "chebi:32564": "kegg.compound:C00047",
     "chebi:32565": "kegg.compound:C00047",
@@ -7905,7 +8035,6 @@
     "chebi:36999": "kegg.compound:C11924",
     "chebi:370": "kegg.compound:C11348",
     "chebi:37023": "kegg.compound:C00956",
-    "chebi:37025": "chebi:37024",
     "chebi:37026": "kegg.compound:C02730",
     "chebi:37050": "kegg.compound:C05116",
     "chebi:37054": "kegg.compound:C01089",
@@ -7966,7 +8095,6 @@
     "chebi:37736": "kegg.compound:C00354",
     "chebi:37737": "kegg.compound:C03090",
     "chebi:37738": "kegg.compound:C04851",
-    "chebi:37741": "chebi:37690",
     "chebi:37755": "kegg.compound:C15987",
     "chebi:3784": "kegg.compound:C00853",
     "chebi:3785": "kegg.compound:C06505",
@@ -8306,8 +8434,6 @@
     "chebi:41566": "kegg.compound:C04121",
     "chebi:41567": "kegg.compound:C00169",
     "chebi:4157": "kegg.compound:C00257",
-    "chebi:41574": "chebi:17964",
-    "chebi:41582": "chebi:17964",
     "chebi:41588": "kegg.compound:C00575",
     "chebi:4159": "kegg.compound:C00198",
     "chebi:41597": "kegg.compound:C00010",
@@ -10536,7 +10662,6 @@
     "chebi:60939": "kegg.compound:C00379",
     "chebi:60942": "kegg.compound:C05356",
     "chebi:609827": "kegg.compound:C00308",
-    "chebi:60989": "chebi:60987",
     "chebi:60996": "kegg.compound:C19675",
     "chebi:60997": "kegg.compound:C19675",
     "chebi:61003": "kegg.compound:C04555",
@@ -14338,6 +14463,7 @@
     "inchikey:HEXMLHKQVUFYME-UHFFFAOYSA-N": "kegg.compound:C03680",
     "inchikey:HFEKDTCAMMOLQP-RRKCRQDMSA-N": "kegg.compound:C04242",
     "inchikey:HFHDHCJBZVLPGP-LBNUIUJVSA-N": "chebi:40585",
+    "inchikey:HFHDHCJBZVLPGP-RWMJIURBSA-N": "chebi:40585",
     "inchikey:HFKQINMYQUXOCH-UHFFFAOYSA-N": "kegg.compound:C03589",
     "inchikey:HFYBTHCYPKEDQQ-RITPCOANSA-L": "kegg.compound:C04666",
     "inchikey:HGINCPLSRVDWNT-UHFFFAOYSA-N": "kegg.compound:C01471",
@@ -14416,7 +14542,7 @@
     "inchikey:HVZGWILTESYJSP-MGLVMYNNSA-N": "kegg.compound:C06210",
     "inchikey:HVZYIHBMRFYBRI-UHFFFAOYSA-M": "kegg.compound:C17018",
     "inchikey:HWDMHJDYMFRXOX-XVFCMESISA-M": "kegg.compound:C02355",
-    "inchikey:HXEACLLIILLPRG-RXMQYKEDSA-M": "chebi:17964",
+    "inchikey:HXEACLLIILLPRG-UHFFFAOYSA-N": "chebi:17964",
     "inchikey:HXEACLLIILLPRG-YFKPBYRVSA-N": "kegg.compound:C00408",
     "inchikey:HXKKHQJGJAFBHI-GSVOUGTGSA-O": "kegg.compound:C03194",
     "inchikey:HXMCERBOSXQYRH-KSVGBCIHSA-N": "kegg.compound:C15686",
@@ -14440,6 +14566,7 @@
     "inchikey:IAPZNWXPUSJMBU-ACUQGRCXSA-G": "kegg.compound:C19877",
     "inchikey:IAVREABSGIHHMO-UHFFFAOYSA-N": "kegg.compound:C03067",
     "inchikey:IBGYNIRCYXIAON-VKHMYHEASA-M": "kegg.compound:C04349",
+    "inchikey:ICIWUVCWSCSTAQ-UHFFFAOYSA-M": "chebi:29226",
     "inchikey:ICLFWLHIBPQMFT-ZETCQYMHSA-P": "kegg.compound:C18172",
     "inchikey:ICMUIFDBEVJCQA-GQQBCVOHSA-N": "kegg.compound:C02999",
     "inchikey:ICMVYBXQDUXEEE-BXTBVDPRSA-L": "kegg.compound:C03585",
@@ -14540,7 +14667,7 @@
     "inchikey:IZTQOLKUZKXIRV-YRVFCXMDSA-N": "chebi:135946",
     "inchikey:IZVMCURFIBVEOJ-VRPWFDPXSA-K": "kegg.compound:C20831",
     "inchikey:JANBBPTXDKFOQR-UHFFFAOYSA-O": "kegg.compound:C05638",
-    "inchikey:JAQGKXUEKGKTKX-HOTGVXAUSA-N": "chebi:60987",
+    "inchikey:JAQGKXUEKGKTKX-UHFFFAOYSA-N": "chebi:60987",
     "inchikey:JARYYMUOCXVXNK-CSLFJTBJSA-O": "kegg.compound:C12112",
     "inchikey:JAZBEHYOTPTENJ-JLNKQSITSA-M": "kegg.compound:C06428",
     "inchikey:JBEBGTMCZIGUTK-HSFFGMMNSA-L": "kegg.compound:C02501",
@@ -15075,7 +15202,7 @@
     "inchikey:OFEZSBMBBKLLBJ-BAJZRUMYSA-N": "kegg.compound:C08431",
     "inchikey:OFVLGDICTFRJMM-WESIUVDSSA-N": "kegg.compound:C06570",
     "inchikey:OGJPXUAPXNRGGI-UHFFFAOYSA-N": "kegg.compound:C06687",
-    "inchikey:OGNSCSPNOLGXSM-GSVOUGTGSA-N": "chebi:64307",
+    "inchikey:OGNSCSPNOLGXSM-UHFFFAOYSA-N": "chebi:64307",
     "inchikey:OGNSCSPNOLGXSM-VKHMYHEASA-O": "kegg.compound:C03283",
     "inchikey:OGWKCGZFUXNPDA-XQKSVPLYSA-N": "kegg.compound:C07204",
     "inchikey:OHIFDLLQIRSMJS-JLHYYAGUSA-N": "kegg.compound:C17551",
@@ -15154,7 +15281,7 @@
     "inchikey:OYEYSZZDZDSDCR-RQOWECAXSA-N": "kegg.compound:C18309",
     "inchikey:OYHQOLUKZRVURQ-HZJYTTRNSA-M": "kegg.compound:C01595",
     "inchikey:OYIFNHCXNCRBQI-BYPYZUCNSA-M": "kegg.compound:C00956",
-    "inchikey:OYIFNHCXNCRBQI-SCSAIBSYSA-N": "chebi:37024",
+    "inchikey:OYIFNHCXNCRBQI-UHFFFAOYSA-N": "chebi:37024",
     "inchikey:OYTJKRAYGYRUJK-FMCCZJBLSA-M": "chebi:8885",
     "inchikey:OYVAGSVQBOHSSS-UAPAGMARSA-O": "kegg.compound:C06854",
     "inchikey:OZAWOYZVNPQFFO-UHFFFAOYSA-O": "kegg.compound:C15974",
@@ -15595,6 +15722,7 @@
     "inchikey:SWGXDLRCJNEEGZ-UHFFFAOYSA-N": "kegg.compound:C11519",
     "inchikey:SWKACZQJGXABCN-JSGWLJPKSA-N": "kegg.compound:C17570",
     "inchikey:SWZTYAVBMYWFGS-UHFFFAOYSA-N": "chebi:63112",
+    "inchikey:SXDBWCPKPHAZSM-UHFFFAOYSA-M": "chebi:29223",
     "inchikey:SXDINBXHOHHTMY-JZIJWOOXSA-H": "kegg.compound:C21284",
     "inchikey:SXDXRJZUAJBNFL-XKSSXDPKSA-M": "kegg.compound:C04332",
     "inchikey:SXFSQZDSUWACKX-UHFFFAOYSA-M": "kegg.compound:C01180",
@@ -15637,7 +15765,7 @@
     "inchikey:UEQANLFPOFICBH-UHFFFAOYSA-N": "kegg.compound:C18902",
     "inchikey:UFHFLCQGNIYNRP-UHFFFAOYSA-N": "kegg.compound:C00282",
     "inchikey:UFIVEPVSAGBUSI-REOHCLBHSA-M": "kegg.compound:C00337",
-    "inchikey:UFIVEPVSAGBUSI-UWTATZPHSA-N": "chebi:30867",
+    "inchikey:UFIVEPVSAGBUSI-UHFFFAOYSA-M": "chebi:30867",
     "inchikey:UFJPAQSLHAGEBL-RRKCRQDMSA-J": "kegg.compound:C01345",
     "inchikey:UFPHFKCTOZIAFY-NTDVEAECSA-N": "kegg.compound:C17556",
     "inchikey:UFPHFKCTOZIAFY-RTRZQXHFSA-N": "kegg.compound:C20420",
@@ -15878,7 +16006,6 @@
     "inchikey:WQZGKKKJIJFFOK-DVKNGEFBSA-N": "kegg.compound:C00267",
     "inchikey:WQZGKKKJIJFFOK-FPRJBGLDSA-N": "kegg.compound:C00962",
     "inchikey:WQZGKKKJIJFFOK-GASJEMHNSA-N": "kegg.compound:C00031",
-    "inchikey:WQZGKKKJIJFFOK-HOWGCPQDSA-N": "chebi:37690",
     "inchikey:WQZGKKKJIJFFOK-IVMDWMLBSA-N": "kegg.compound:C01487",
     "inchikey:WQZGKKKJIJFFOK-PHYPRBDBSA-N": "kegg.compound:C00984",
     "inchikey:WQZGKKKJIJFFOK-QTVWNMPRSA-N": "kegg.compound:C00159",
@@ -15992,6 +16119,7 @@
     "inchikey:XSDQTOBWRPYKKA-UHFFFAOYSA-N": "kegg.compound:C06821",
     "inchikey:XSQUKJJJFZCRTK-UHFFFAOYSA-N": "kegg.compound:C00086",
     "inchikey:XSTXAVWGXDQKEL-UHFFFAOYSA-N": "kegg.compound:C06790",
+    "inchikey:XTEGARKTQYYJKE-UHFFFAOYSA-M": "chebi:49709",
     "inchikey:XTOKIEIBKARFSZ-LURJTMIESA-L": "kegg.compound:C05932",
     "inchikey:XTWYTFMLZFPYCI-KQYNXXCUSA-K": "kegg.compound:C00008",
     "inchikey:XTZJKGIMUFZFBV-QBAABWDMSA-L": "kegg.compound:C20419",
@@ -16200,6 +16328,7 @@
     "inchikey:ZRAQEEAQQLYOBK-OKJGWHJPSA-F": "kegg.compound:C05773",
     "inchikey:ZRCXVNZZDQGBQT-BANQPSJHSA-N": "kegg.compound:C15965",
     "inchikey:ZRHONLCTYUYMIQ-HSFFGMMNSA-N": "kegg.compound:C02220",
+    "inchikey:ZROHGHOFXNOHSO-BNTLRKBRSA-L": "chebi:31941",
     "inchikey:ZSKVGTPCRGIANV-ZXFLCMHBSA-N": "kegg.compound:C06665",
     "inchikey:ZSLZBFCDCINBPY-ZSJPKINUSA-J": "kegg.compound:C00024",
     "inchikey:ZSOPPQGHWJVKJB-OWOJBTEDSA-N": "kegg.compound:C06613",
@@ -20597,7 +20726,7 @@
       "role_id": ""
     },
     {
-      "basis": "chebi_primary_id",
+      "basis": "stereo_form_removed",
       "new_id": "chebi:64307",
       "old_id": "chebi:144635",
       "role_id": ""
@@ -23022,7 +23151,11 @@
   "stale_lock_entry": [],
   "stereo_counts": {
     "enantiomer_of": 28,
-    "stereo_form_of": 76
+    "stereo_form_of": 99
+  },
+  "stereo_link_review": {
+    "mutual_dropped": [],
+    "stale_curated": []
   },
   "stereo_refused_links": [
     {
