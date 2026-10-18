@@ -36,16 +36,21 @@ def test_edge_type_present(run_query, rel):
     assert n > 0, f"no {rel} edges"
 
 
-@pytest.mark.parametrize("rel", ALL_EDGES)
-def test_edge_endpoints_valid(run_query, rel):
+@pytest.mark.parametrize(
+    "rel,target_label",
+    [(r, "Metabolite") for r in METABOLITE_EDGES]
+    + [(r, "ChemicalRole") for r in ROLE_EDGES],
+)
+def test_edge_endpoints_valid(run_query, rel, target_label):
     n = run_query(
         f"""
         MATCH (s)-[r:{rel}]->(t)
-        WHERE NOT (s:MolecularFunction OR s:BiologicalProcess) OR t IS NULL
+        WHERE NOT (s:MolecularFunction OR s:BiologicalProcess)
+           OR NOT t:{target_label}
         RETURN count(r) AS n
         """
     )[0]["n"]
-    assert n == 0, f"{n} {rel} edges with non-GO source"
+    assert n == 0, f"{n} {rel} edges with a non-GO source or non-{target_label} target"
 
 
 @pytest.mark.parametrize("rel", ALL_EDGES)
@@ -91,11 +96,16 @@ def test_excluded_targets_recorded(run_query):
     )
     assert rows and rows[0]["x"], "Schema_info.go_transport_excluded_targets missing"
     excluded = rows[0]["x"]
+    assert len(excluded) >= 13, f"only {len(excluded)} excluded targets (13 measured)"
     assert "kegg.compound:C00080" in excluded, "H+ not in exclusion list"
     assert "kegg.compound:C01330" in excluded, "Na+ not in exclusion list"
 
 
 def test_no_edge_targets_excluded_id(run_query):
+    rows = run_query(
+        "MATCH (s:Schema_info {id: 'schema_info'}) RETURN s.go_transport_excluded_targets AS x"
+    )
+    assert rows and rows[0]["x"] and len(rows[0]["x"]) >= 13, "exclusion list missing/short"
     n = run_query(
         """
         MATCH (s:Schema_info {id: 'schema_info'})
@@ -110,6 +120,14 @@ def test_no_edge_targets_excluded_id(run_query):
 
 
 def test_fadD_not_a_transporter_via_go(run_query):
+    has_go = run_query(
+        """
+        MATCH (:Gene {locus_tag: 'PMM0402'})
+              -[:Gene_enables_molecular_function|Gene_involved_in_biological_process]->(t)
+        RETURN count(t) AS n
+        """
+    )[0]["n"]
+    assert has_go >= 1, "PMM0402 missing or has no GO edges (test would be vacuous)"
     n = run_query(
         """
         MATCH (g:Gene {locus_tag: 'PMM0402'})
@@ -173,6 +191,19 @@ def test_go_transport_organism_props_consistent(run_query):
         """
     )[0]["n"]
     assert off == 0, f"{off} carriers with no incoming GO transport edge"
+    stray = run_query(
+        """
+        MATCH (m:Metabolite)
+        WHERE NOT EXISTS {
+            MATCH (:MolecularFunction|BiologicalProcess)
+                  -[:Molecular_function_transports_metabolite|Biological_process_transports_metabolite]->(m)
+          }
+          AND (m.go_transport_organism_count IS NOT NULL
+               OR m.go_transport_organism_names IS NOT NULL)
+        RETURN count(m) AS n
+        """
+    )[0]["n"]
+    assert stray == 0, f"{stray} metabolites without GO transport edges carry go_transport props"
 
 
 def test_pathway_and_reaction_counts_unchanged(run_query):
