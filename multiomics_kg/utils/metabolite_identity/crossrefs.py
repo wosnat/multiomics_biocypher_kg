@@ -287,3 +287,80 @@ def apply_xref_overrides(table, index, xrefs, chebi: ChebiIndex):
             index[i] = x.to
         applied.append(row)
     return applied, stale
+
+
+def _own_family(own: str, chebi: ChebiIndex) -> set[str]:
+    """A ChEBI term with its conjugate acids / bases: one compound at different protonation.
+    Not tautomers: ChEBI's tautomer relation includes enzyme-catalysed, biologically distinct
+    pairs (L-dopachrome / 5,6-dihydroxyindole-2-carboxylate)."""
+    t = chebi.term(own) or {}
+    return {own} | {p for p in (chebi.primary(x) for x in t.get("conjugates", [])) if p}
+
+
+def chebi_node_structure(table, index, chebi: ChebiIndex):
+    """Narrowed D (explorer ask 8, 2026-10-18), applied after stages G and H. A ``chebi:`` node IS
+    its ChEBI term, so:
+
+    - its ``inchikey`` is its own term's (none when ChEBI gives none), never the MNX entity's, and
+      its ``smiles`` (MNX's) is dropped when the InChIKey is replaced;
+    - an MNX-side ChEBI id or InChIKey that ChEBI places **below** the node's own term (a strict
+      ``is_a`` descendant of the term or of its conjugate acids / bases: a more specific stereo
+      form, e.g. D-pipecolic acid on pipecolic acid) leaves ``chebi_ids`` / ``all_identifiers``
+      and is recorded in ``removed_stereo_xrefs`` (no identity meaning);
+    - any other MNX-side id is a representation of the same compound and stays resolvable.
+
+    KEGG-keyed nodes keep KEGG's drawing (KEGG's own assertion). ``formula`` / ``elements`` /
+    ``mass`` / ``structure_kind`` are not touched. ``index`` is updated in place. Returns one
+    report row per changed node."""
+    by_ik: dict[str, list[str]] = defaultdict(list)
+    for c, t in chebi.all_terms().items():
+        if t.get("inchikey"):
+            by_ik[t["inchikey"][:23]].append(c)
+    rows = []
+    for node in sorted(n for n in table if n.startswith("chebi:")):
+        e = table[node]
+        own = chebi.primary(node)
+        if own is None:
+            continue
+        fam = _own_family(own, chebi)
+
+        def below(term):
+            return term not in fam and bool(chebi.ancestors(term) & fam)
+        removed, kept_ids = [], []
+        for c in e.get("chebi_ids") or []:
+            p = chebi.primary(f"CHEBI:{c}")
+            if p and below(p):
+                removed.append(f"chebi:{_bare(p)}")
+                removed += [f"chebi:{_bare(a)}" for a in chebi.secondary_ids(p)]
+            else:
+                kept_ids.append(c)
+        own_ik = (chebi.term(own) or {}).get("inchikey")
+        ik = e.get("inchikey")
+        new_ik = ik
+        if ik and not (own_ik and own_ik[:23] == ik[:23]):
+            hits = [chebi.term(m) and m for m in by_ik.get(ik[:23], [])]     # touch: keep in cache
+            if any(m and below(m) for m in hits):
+                removed.append(f"inchikey:{ik.upper()}")
+            new_ik = own_ik
+        if not removed and new_ik == ik:
+            continue
+        drop = set(removed)
+        e["all_identifiers"] = sorted(set(e["all_identifiers"]) - drop)
+        for x in drop:
+            if index.get(x) == node:
+                del index[x]
+        e["chebi_ids"] = kept_ids or None
+        if new_ik != ik:
+            e["inchikey"] = new_ik
+            e["smiles"] = None
+            if new_ik:
+                cur = f"inchikey:{new_ik.upper()}"
+                if index.get(cur, node) != node:
+                    raise IdentityCollisionError(f"{node}: own ChEBI InChIKey {cur} already on {index[cur]}")
+                e["all_identifiers"] = sorted(set(e["all_identifiers"]) | {cur})
+                index[cur] = node
+        if removed:
+            e["removed_stereo_xrefs"] = sorted(set(removed))
+        rows.append({"node": node, "inchikey_was": ik, "inchikey_now": new_ik,
+                     "removed_stereo_xrefs": sorted(set(removed))})
+    return rows

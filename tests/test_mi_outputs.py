@@ -354,3 +354,14 @@ def test_resolution_report_paths_relative_to_project_root(tmp_path, monkeypatch)
     monkeypatch.setattr(outputs_mod, "PROJECT_ROOT", tmp_path / "elsewhere")
     rep = json.loads(write_resolved_tables([t], {})[tmp_path / "data" / "m_resolution_report.json"])
     assert rep["source_csv"] == str(csv)
+
+
+def test_remap_old_id_removed_as_stereo_form():
+    from multiomics_kg.utils.metabolite_identity.outputs import remap_rows
+    from multiomics_kg.utils.metabolite_identity.canonical import IdentityResult
+    table = {"chebi:64307": {"removed_stereo_xrefs": ["chebi:144635"]}}
+    ident = IdentityResult(canonical_of={"chebi:64307": "chebi:64307"}, members={}, basis={}, member_basis={})
+    rows, un = remap_rows(old_ids={"chebi:144635", "chebi:64307"}, table=table, identity=ident, rekeys={},
+                          role_of={}, dropped={}, normalize=lambda x: x)
+    assert rows == [{"old_id": "chebi:144635", "new_id": "chebi:64307", "basis": "stereo_form_removed",
+                     "role_id": ""}] and un == []

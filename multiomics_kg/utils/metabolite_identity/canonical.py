@@ -61,6 +61,10 @@ class IdentityOverrides:
     keep_separate: set[frozenset[str]]
     canonical: list[CanonicalPin] = field(default_factory=list)
     xrefs: list[XrefOverride] = field(default_factory=list)
+    # Curated stereo links (specific, generic) for generics ChEBI gives no formula, and nodes that
+    # never take part in a stereo_form_of edge (a class ChEBI gives a concrete formula).
+    stereo_links: list[tuple[str, str]] = field(default_factory=list)
+    no_stereo_link: frozenset[str] = frozenset()
 
 
 def load_identity_overrides(path: Path) -> IdentityOverrides:
@@ -89,7 +93,13 @@ def load_identity_overrides(path: Path) -> IdentityOverrides:
         xrefs.append(x)
     if len({x.id for x in xrefs}) != len(xrefs):
         raise ValueError("metabolite_identity_overrides.yaml: an xref id is listed twice")
-    return IdentityOverrides(merges, keep, pins, xrefs)
+    links = [(e["specific"], e["generic"]) for e in doc.get("stereo_link") or []]
+    if any(a == b for a, b in links):
+        raise ValueError("metabolite_identity_overrides.yaml: a stereo_link with specific == generic")
+    blocked = frozenset(e["id"] for e in doc.get("no_stereo_link") or [])
+    if any(a in blocked or b in blocked for a, b in links):
+        raise ValueError("metabolite_identity_overrides.yaml: a stereo_link names a no_stereo_link node")
+    return IdentityOverrides(merges, keep, pins, xrefs, links, blocked)
 
 
 def entity_terms(node_id: str, entry: dict, chebi: ChebiIndex) -> set[str]:

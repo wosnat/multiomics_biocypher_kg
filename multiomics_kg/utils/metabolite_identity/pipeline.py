@@ -24,7 +24,7 @@ from multiomics_kg.utils.metabolite_identity.canonical import (
 from multiomics_kg.utils.metabolite_identity.classes import (
     COMPOUND_BRITE_TREES, parse_compound_brite, prune_compound_brite)
 from multiomics_kg.utils.metabolite_identity.crossrefs import (
-    apply_xref_overrides, build_identity_fields, is_isotopologue_name, node_olds, pick_chebi_id, shared_chebi_terms)
+    _own_family, apply_xref_overrides, build_identity_fields, chebi_node_structure, is_isotopologue_name, node_olds, pick_chebi_id, shared_chebi_terms)
 from multiomics_kg.utils.metabolite_identity.lumping import update_lumping_pin
 from multiomics_kg.utils.metabolite_identity.outputs import (
     build_identity_report, build_mapping_v2, remap_rows, repoint_reason, validate_build,
@@ -373,6 +373,8 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
                                                  shared=shared)
         xref_applied, xref_stale = apply_xref_overrides(
             table, identifier_index, inp.identity_overrides.xrefs if inp.identity_overrides else [], chebi)
+        # narrowed D: a chebi: node's structure / ChEBI ids are its own term's (after stage G)
+        chebi_structure = chebi_node_structure(table, identifier_index, chebi)
     except IdentityCollisionError as exc:        # identifier / InChIKey on two nodes
         raise Step6ValidationError([str(exc)]) from exc
     id_index = dict(identifier_index)
@@ -382,7 +384,22 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         id_index.setdefault(old, identity.canonical_of.get(new, new))
     # I — stereo families (in memory only)
     terms_of = {n: entity_terms(n, e, chebi) for n, e in table.items()}
-    stereo_pairs, enan_pairs = stereo_links(table, terms_of, chebi)
+    # Stereo links read each node's own ChEBI identity: the KEGG xrefs (or own term) of the node and
+    # its merged members, minus terms the owner rule withholds from it, plus their ChEBI conjugate
+    # acids / bases. Not MNX's ChEBI aliases,
+    # which drag in classes ("N-acetyl-D-hexosamine" on GlcNAc, "cresol" on benzyl alcohol).
+    published = {}
+    for n in table:
+        own = set()
+        for m in node_olds(n, identity, inp.rekeys):
+            own |= entity_terms(m, old_entries.get(m, {}), chebi)
+        own = {t for t in own if n not in (shared.get(t) or ())}
+        # conjugate acids / bases are the same compound (explorer ask 8, condition 1)
+        published[n] = set().union(*(_own_family(t, chebi) for t in own)) if own else set()
+    ov = inp.identity_overrides
+    stereo_pairs, enan_pairs, stereo_report = stereo_links(
+        table, published, chebi, curated=ov.stereo_links if ov else (),
+        blocked=ov.no_stereo_link if ov else frozenset())
     families = stereo_families(set(table), stereo_pairs, enan_pairs)
     # J — resolve every paper row
     ctx = StereoContext(families, unspecified_members(stereo_pairs),
@@ -512,6 +529,7 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         rekeys=inp.rekeys, shared_chebi_terms=shared, rejected_links=[[l.a, l.b, l.basis] for l in identity.rejected],
         stereo_refused_links=identity.stereo_refused, mnx_split=mnx_split,
         canonical_pinned=identity.canonical_pinned, anomer_xref_review=anomer_xrefs,
+        stereo_link_review=stereo_report, chebi_node_structure=chebi_structure,
         refused_assay_collisions=identity.refused_collisions,
         stale_identity_override=identity.stale_overrides + xref_stale, xref_overrides_applied=xref_applied, stale_alias_override=res.stale_overrides,
         stale_lock_entry=res.stale_lock, lock_target_remapped=res.lock_remapped,

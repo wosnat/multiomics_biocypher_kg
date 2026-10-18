@@ -433,3 +433,47 @@ def test_transport_substrate_resolution_unchanged(run_query):
 def test_generic_xrefs_on_generic_node(run_query, ident, node):
     rows = run_query("MATCH (m:Metabolite) WHERE $i IN m.all_identifiers RETURN m.id AS id", i=ident)
     assert [r["id"] for r in rows] == [node]
+
+
+# ── stereo edges and chebi: node structure (explorer ask 8, 2026-10-18) ──────────────────────
+ASK8_LINKED = [("C00031", "chebi:17234"), ("C00159", "chebi:37684"), ("C00259", "chebi:22599"),
+               ("C00124", "kegg.compound:C01582"), ("C01825", "kegg.compound:C01582"),
+               ("C00095", "kegg.compound:C01496"), ("C00507", "chebi:26546"), ("C00407", "chebi:24898"),
+               ("C00329", "chebi:5417"), ("C00309", "kegg.compound:C05052"),
+               ("C00508", "kegg.compound:C05052"), ("C00247", "kegg.compound:C01452"),
+               ("C00764", "kegg.compound:C01452"), ("C00337", "chebi:30867"), ("C00181", "kegg.compound:C01394")]
+
+
+@pytest.mark.parametrize("specific,generic", ASK8_LINKED)
+def test_ask8_stereo_forms_linked(run_query, specific, generic):
+    assert run_query("MATCH (:Metabolite {id: $s})-[:Metabolite_is_stereo_form_of]->(:Metabolite {id: $g}) "
+                     "RETURN 1 AS x", s=f"kegg.compound:{specific}", g=generic)
+
+
+@pytest.mark.parametrize("a,b", [("C00810", "C01769"), ("C00341", "C05847"), ("C15857", "C05430"),
+                                 ("C01394", "C00181")])
+def test_wrong_stereo_edges_gone(run_query, a, b):
+    assert not run_query("MATCH (:Metabolite {id: $a})-[:Metabolite_is_stereo_form_of]->(:Metabolite {id: $b}) "
+                         "RETURN 1 AS x", a=f"kegg.compound:{a}", b=f"kegg.compound:{b}")
+
+
+def test_class_generics_get_no_stereo_edge(run_query):
+    rows = run_query("MATCH (m:Metabolite)<-[:Metabolite_is_stereo_form_of]-() WHERE m.id IN $ids "
+                     "RETURN DISTINCT m.id AS id", ids=["chebi:33709", "chebi:24278", "chebi:24175",
+                                                       "kegg.compound:C00738"])
+    assert not rows, rows
+
+
+def test_removed_stereo_xrefs_not_identifiers(run_query):
+    row = _one(run_query, "MATCH (m:Metabolite {id: 'chebi:17964'}) "
+                          "RETURN m.removed_stereo_xrefs AS r, m.inchikey AS ik")
+    assert "chebi:41582" in row["r"] and row["ik"] == "HXEACLLIILLPRG-UHFFFAOYSA-N"
+    assert not run_query("MATCH (m:Metabolite) WHERE any(x IN coalesce(m.removed_stereo_xrefs, []) "
+                         "WHERE x IN m.all_identifiers) RETURN m.id LIMIT 5")
+    assert not run_query("MATCH (m:Metabolite) WHERE 'chebi:41582' IN m.all_identifiers RETURN m.id")
+
+
+def test_structureless_chebi_generics_keep_formula(run_query):
+    for r in run_query("MATCH (m:Metabolite) WHERE m.id IN ['chebi:17234', 'chebi:37690'] "
+                       "RETURN m.id AS id, m.inchikey AS ik, m.formula AS f, m.structure_kind AS k"):
+        assert r["ik"] is None and r["f"] == "C6H12O6" and r["k"] == "defined", r

@@ -363,3 +363,47 @@ def test_load_xref_override_validates(tmp_path):
                  "from: kegg.compound:C00221, reason: x}\n")
     ov = load_identity_overrides(p)
     assert ov.xrefs[0].frm == "kegg.compound:C00221"
+
+
+# ── narrowed D (explorer ask 8): a chebi: node's structure / ChEBI ids are its own term's ─────
+
+PIP = make_chebi(
+    CHEBI_17964=term("pipecolic acid", inchikey="HXEACLLIILLPRG-UHFFFAOYSA-N"),
+    CHEBI_41582=term("D-pipecolic acid", is_a=["CHEBI:17964"], alt=["CHEBI:41581"],
+                     inchikey="HXEACLLIILLPRG-RXMQYKEDSA-N"),
+    CHEBI_29223=term("bromate", inchikey="SXDBWCPKPHAZSM-UHFFFAOYSA-M", conj=["CHEBI:29222"]),
+    CHEBI_29222=term("bromic acid", inchikey="SXDBWCPKPHAZSM-UHFFFAOYSA-N", conj=["CHEBI:29223"]),
+    CHEBI_30867=term("dihydroorotate", inchikey="UFIVEPVSAGBUSI-UHFFFAOYSA-M", conj=["CHEBI:30865"]),
+    CHEBI_30865=term("dihydroorotic acid", inchikey="UFIVEPVSAGBUSI-UHFFFAOYSA-N", conj=["CHEBI:30867"]),
+    CHEBI_30866=term("(R)-dihydroorotic acid", is_a=["CHEBI:30865"], inchikey="UFIVEPVSAGBUSI-UWTATZPHSA-N"))
+
+
+def _chebi_node(n, ik, chebi_ids, extra=()):
+    ids = {n, f"inchikey:{ik}"} | {f"chebi:{c}" for c in chebi_ids} | set(extra)
+    return {"inchikey": ik, "smiles": "X", "chebi_id": n.split(":")[1], "chebi_ids": list(chebi_ids),
+            "all_identifiers": sorted(ids), "formula": "F", "structure_kind": "defined"}
+
+
+def test_chebi_node_structure_moves_stereo_mismatch_keeps_variants():
+    from multiomics_kg.utils.metabolite_identity.crossrefs import chebi_node_structure
+    table = {"chebi:17964": _chebi_node("chebi:17964", "HXEACLLIILLPRG-RXMQYKEDSA-M", ["17964", "41582"],
+                                        ["chebi:41581"]),
+             "chebi:29223": _chebi_node("chebi:29223", "SXDBWCPKPHAZSM-OTHERREPSA-N", ["29223", "29222"]),
+             "chebi:30867": _chebi_node("chebi:30867", "UFIVEPVSAGBUSI-UWTATZPHSA-N", ["30867", "30865", "30866"])}
+    index = {i: n for n, e in table.items() for i in e["all_identifiers"]}
+    rows = chebi_node_structure(table, index, PIP)
+    p, b, d = table["chebi:17964"], table["chebi:29223"], table["chebi:30867"]
+    # stereo mismatch: id, its secondary and the MNX InChIKey move out; own structure comes in
+    assert p["chebi_ids"] == ["17964"] and p["inchikey"] == "HXEACLLIILLPRG-UHFFFAOYSA-N" and p["smiles"] is None
+    assert p["removed_stereo_xrefs"] == ["chebi:41581", "chebi:41582", "inchikey:HXEACLLIILLPRG-RXMQYKEDSA-M"]
+    assert "chebi:41582" not in p["all_identifiers"] and "chebi:41582" not in index
+    assert index["inchikey:HXEACLLIILLPRG-UHFFFAOYSA-N"] == "chebi:17964"
+    # representation variant: own InChIKey published, the MNX one stays resolvable, nothing removed
+    assert b["inchikey"] == "SXDBWCPKPHAZSM-UHFFFAOYSA-M" and "removed_stereo_xrefs" not in b
+    assert "inchikey:SXDBWCPKPHAZSM-OTHERREPSA-N" in b["all_identifiers"] and b["chebi_ids"] == ["29223", "29222"]
+    # (R)-acid sits below the anion's conjugate acid: removed; the acid itself stays
+    assert d["chebi_ids"] == ["30867", "30865"]
+    assert set(d["removed_stereo_xrefs"]) == {"chebi:30866", "inchikey:UFIVEPVSAGBUSI-UWTATZPHSA-N"}
+    assert len(rows) == 3
+    for e in (p, b, d):
+        assert e["formula"] == "F" and e["structure_kind"] == "defined"

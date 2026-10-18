@@ -236,6 +236,9 @@ def remap_rows(*, old_ids, table, identity, rekeys, role_of, dropped, normalize,
     (``_substrate_basis``)."""
     rows, unaccounted = [], []
     by_string = _substrate_targets(old_string_to_primary, string_to_primary, id_index or {}, table)
+    # An old node id that names a more specific stereo form than any KG metabolite (narrowed D):
+    # the node it was taken off is the stereo-unspecified form, recorded as such, not as a merge.
+    removed_on = {x: n for n, e in table.items() for x in (e.get("removed_stereo_xrefs") or [])}
     for old in sorted(old_ids):
         if old in table:
             continue
@@ -251,6 +254,9 @@ def remap_rows(*, old_ids, table, identity, rekeys, role_of, dropped, normalize,
         elif norm in identity.member_basis:
             rows.append({"old_id": old, "new_id": identity.canonical_of[norm],
                          "basis": identity.member_basis[norm], "role_id": ""})
+        elif old in removed_on or norm in removed_on:
+            rows.append({"old_id": old, "new_id": removed_on.get(old) or removed_on[norm],
+                         "basis": "stereo_form_removed", "role_id": ""})
         elif norm in table and old.startswith("chebi:"):
             rows.append({"old_id": old, "new_id": norm, "basis": "chebi_primary_id", "role_id": ""})
         elif id_index is not None:
