@@ -10,6 +10,7 @@ publication:
   # cutoffs |log2| >= log2(1.25) ≈ 0.322 plus a weighted-error-factor
   # probabilistic p-value < 0.05).
   papermainpdf: "data/Prochlorococcus/papers_and_supp/Pandhal 2007/a-quantitative-proteomic-analysis-of-light-adaptation-in-a-globally-significant-marine-cyanobacterium-prochlorococcus.pdf"
+  control_timing: matched
 
   experiments:
     # ── HL vs LL light response (proteomics) ──

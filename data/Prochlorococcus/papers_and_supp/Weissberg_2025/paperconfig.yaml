@@ -1,12 +1,13 @@
 publication:
   papername: Weissberg 2025
   papermainpdf: data/Prochlorococcus/papers_and_supp/Weissberg_2025/cc1a3_bioax_2025.pdf
+  control_timing: baseline
   experiments:
     growth_state_pro99lown_nutrient_starvation_hot1a3_rnaseq_axenic:
-      name: HOT1A3 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (RNASEQ)
+      name: HOT1A3 PRO99-lowN nutrient starvation vs PRO99-lowN day 11 (RNASEQ)
       organism: Alteromonas macleodii HOT1A3
       treatment_condition: PRO99-lowN nutrient starvation
-      control_condition: PRO99-lowN exponential growth
+      control_condition: PRO99-lowN day 11
       experimental_context: Axenic Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
@@ -17,11 +18,15 @@ publication:
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
       table_scope: all_detected_genes
+      design_notes: >-
+        day 18 and day 31: axenic HOT1A3 vs the same axenic series sampled on day 11 (nutrient_limited,
+        Alteromonas declines from the start and has no exponential phase in this medium). No axenic
+        HOT1A3 RNA exists after day 31.
     growth_state_pro99lown_nutrient_starvation_hot1a3_rnaseq_coculture:
-      name: HOT1A3 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (RNASEQ)
+      name: HOT1A3 PRO99-lowN nutrient starvation vs PRO99-lowN day 11 (RNASEQ)
       organism: Alteromonas macleodii HOT1A3
       treatment_condition: PRO99-lowN nutrient starvation
-      control_condition: PRO99-lowN exponential growth
+      control_condition: PRO99-lowN day 11
       experimental_context: Alteromonas HOT1A3 in coculture with Prochlorococcus MED4 in PRO99-lowN at 24C under continuous
         light
       omics_type: RNASEQ
@@ -37,6 +42,10 @@ publication:
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
       table_scope: all_detected_genes
+      design_notes: >-
+        Each timepoint (day 18, day 31, day 60, day 89) is coculture HOT1A3 vs the same coculture series
+        sampled on day 11 (nutrient_limited, Alteromonas has no exponential phase in this medium). days
+        60+89 pools the day 60 and day 89 samples.
     coculture_prochlorococcus_med4_hot1a3_rnaseq:
       name: HOT1A3 Coculture with Prochlorococcus MED4 vs Axenic (RNASEQ)
       organism: Alteromonas macleodii HOT1A3
@@ -55,14 +64,18 @@ publication:
       treatment_taxid: 59919
       treatment_assembly_accession: GCF_000011465.1
       table_scope: all_detected_genes
+      control_timing: matched
+      design_notes: >-
+        Coculture vs axenic HOT1A3 with both arms sampled on the same day (day 11, day 18, day 31) of
+        the same experiment run.
     growth_state_pro99lown_nutrient_starvation_hot1a3_proteomics_axenic:
-      name: HOT1A3 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (PROTEOMICS)
+      name: HOT1A3 PRO99-lowN nutrient starvation vs PRO99-lowN day 11 (PROTEOMICS)
       organism: Alteromonas macleodii HOT1A3
       treatment_condition: PRO99-lowN nutrient starvation
-      control_condition: PRO99-lowN exponential growth
+      control_condition: PRO99-lowN day 11
       experimental_context: Axenic Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light
       omics_type: PROTEOMICS
-      test_type: DESeq2
+      test_type: DEqMS
       treatment_type: [nitrogen]
       background_factors: [axenic, light]
       medium: PRO99-lowN
@@ -70,15 +83,18 @@ publication:
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
       table_scope: all_detected_genes
+      design_notes: >-
+        day 18, day 31 and day 89: axenic HOT1A3 vs the same axenic series sampled on day 11
+        (nutrient_limited, Alteromonas has no exponential phase in this medium).
     growth_state_pro99lown_nutrient_starvation_hot1a3_proteomics_coculture:
-      name: HOT1A3 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (PROTEOMICS)
+      name: HOT1A3 PRO99-lowN nutrient starvation vs PRO99-lowN day 11 (PROTEOMICS)
       organism: Alteromonas macleodii HOT1A3
       treatment_condition: PRO99-lowN nutrient starvation
-      control_condition: PRO99-lowN exponential growth
+      control_condition: PRO99-lowN day 11
       experimental_context: Alteromonas HOT1A3 in coculture with Prochlorococcus MED4 in PRO99-lowN at 24C under continuous
         light
       omics_type: PROTEOMICS
-      test_type: DESeq2
+      test_type: DEqMS
       treatment_type: [nitrogen]
       background_factors: [coculture, light]
       background_organisms:
@@ -90,6 +106,10 @@ publication:
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
       table_scope: all_detected_genes
+      design_notes: >-
+        Each timepoint (day 18, day 31, day 60, day 89, days 60+89) is coculture HOT1A3 vs the same
+        coculture series sampled on day 11 (nutrient_limited, Alteromonas has no exponential phase in
+        this medium). days 60+89 pools the day 60 and day 89 samples.
     growth_state_pro99lown_nutrient_starvation_med4_rnaseq_axenic:
       name: MED4 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (RNASEQ)
       organism: Prochlorococcus MED4
@@ -105,6 +125,9 @@ publication:
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
       table_scope: all_detected_genes
+      design_notes: >-
+        day 14: axenic MED4 vs the same axenic series sampled on day 7 (exponential); axenic MED4 was a
+        separate repeat experiment sampled on days 7 and 14. No axenic MED4 RNA exists after day 14.
     growth_state_pro99lown_nutrient_starvation_med4_rnaseq_coculture:
       name: MED4 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (RNASEQ)
       organism: Prochlorococcus MED4
@@ -125,6 +148,9 @@ publication:
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
       table_scope: all_detected_genes
+      design_notes: >-
+        Each timepoint (day 18, day 31, day 60, day 89) is coculture MED4 vs the same coculture series
+        sampled on day 11 (exponential). days 60+89 pools the day 60 and day 89 samples.
     coculture_alteromonas_hot1a3_med4_rnaseq:
       name: MED4 Coculture with Alteromonas HOT1A3 vs Axenic (RNASEQ)
       organism: Prochlorococcus MED4
@@ -143,6 +169,12 @@ publication:
       treatment_taxid: 28108
       treatment_assembly_accession: GCF_001578515.1
       table_scope: all_detected_genes
+      control_timing: matched
+      design_notes: >-
+        Matched by growth state, not by sampling day: the axenic MED4 control came from a separate
+        repeat experiment sampled on days 7 and 14 to match axenic MED4 growth dynamics (Methods p. 14).
+        day 11: coculture day 11 vs axenic day 7 (both exponential). day 18: coculture day 18 vs axenic
+        day 14 (death, axenic MED4 lost viability around day 11).
     growth_state_pro99lown_nutrient_starvation_med4_proteomics_axenic:
       name: MED4 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (PROTEOMICS)
       organism: Prochlorococcus MED4
@@ -150,7 +182,7 @@ publication:
       control_condition: PRO99-lowN exponential growth
       experimental_context: Axenic Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light
       omics_type: PROTEOMICS
-      test_type: DESeq2
+      test_type: DEqMS
       treatment_type: [nitrogen]
       background_factors: [axenic, light]
       medium: PRO99-lowN
@@ -158,6 +190,10 @@ publication:
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
       table_scope: all_detected_genes
+      design_notes: >-
+        day 14, day 31 and day 89: axenic MED4 vs axenic MED4 sampled on day 7 (exponential). Day 7 and
+        day 14 come from the axenic repeat experiment; the methods do not say which run day 31 and day
+        89 came from.
     growth_state_pro99lown_nutrient_starvation_med4_proteomics_coculture:
       name: MED4 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (PROTEOMICS)
       organism: Prochlorococcus MED4
@@ -166,7 +202,7 @@ publication:
       experimental_context: Prochlorococcus MED4 in coculture with Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous
         light
       omics_type: PROTEOMICS
-      test_type: DESeq2
+      test_type: DEqMS
       treatment_type: [nitrogen]
       background_factors: [coculture, light]
       background_organisms:
@@ -178,6 +214,10 @@ publication:
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
       table_scope: all_detected_genes
+      design_notes: >-
+        Each timepoint (day 18, day 31, day 60, day 89, days 60+89) is coculture MED4 vs the same
+        coculture series sampled on day 11 (exponential). days 60+89 pools the day 60 and day 89
+        samples.
   supplementary_materials:
     hot1a3_rnaseq_axenic_day_18_vs_day_11:
       type: csv
@@ -208,23 +248,6 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_rnaseq_axenic
         timepoint: day 31
         timepoint_hours: 744.0
-        growth_phase: nutrient_limited
-        name_col: gene_id
-        logfc_col: logFC
-        adjusted_p_value_col: padj
-        pvalue_threshold: 0.05
-    hot1a3_rnaseq_axenic_longterm_vs_day_11:
-      type: csv
-      filename: data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__rnaseq__axenic_HOT1A3__longterm_starvation_days_60_and_89__vs__day_11.csv
-      organism: Alteromonas macleodii HOT1A3
-      id_columns:
-      - column: gene_id
-        id_type: locus_tag_ncbi
-      statistical_analyses:
-      - id: DE_hot1a3_rnaseq_axenic_longterm_vs_day_11
-        experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_rnaseq_axenic
-        timepoint: days 60+89
-        timepoint_hours: null
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
@@ -327,7 +350,7 @@ publication:
         experiment: coculture_prochlorococcus_med4_hot1a3_rnaseq
         timepoint: day 11
         timepoint_hours: 264.0
-        growth_phase: exponential
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -395,6 +418,23 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_proteomics_axenic
         timepoint: day 31
         timepoint_hours: 744.0
+        growth_phase: nutrient_limited
+        name_col: gene_id
+        logfc_col: logFC
+        adjusted_p_value_col: padj
+        pvalue_threshold: 0.05
+    hot1a3_proteome_axenic_day_89_vs_day_11:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__proteome__axenic_HOT1A3__day_89__vs__day_11.csv
+      organism: Alteromonas macleodii HOT1A3
+      id_columns:
+      - column: gene_id
+        id_type: locus_tag_ncbi
+      statistical_analyses:
+      - id: DE_hot1a3_proteome_axenic_day_89_vs_day_11
+        experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_proteomics_axenic
+        timepoint: day 89
+        timepoint_hours: 2136.0
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
@@ -497,24 +537,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_rnaseq_axenic
         timepoint: day 14
         timepoint_hours: 336.0
-        growth_phase: nutrient_limited
-        name_col: gene_id
-        logfc_col: logFC
-        adjusted_p_value_col: padj
-        pvalue_threshold: 0.05
-    med4_rnaseq_axenic_longterm_vs_exp_day_7:
-      type: csv
-      filename: data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__axenic_MED4__longterm_starvation_days_60_and_89__vs__log_expnential_day_7.csv
-      organism: Prochlorococcus MED4
-      id_columns:
-      - column: gene_id
-        id_type: locus_tag_ncbi
-      statistical_analyses:
-      - id: DE_med4_rnaseq_axenic_longterm_vs_exp_day_7
-        experiment: growth_state_pro99lown_nutrient_starvation_med4_rnaseq_axenic
-        timepoint: days 60+89
-        timepoint_hours: null
-        growth_phase: nutrient_limited
+        growth_phase: death
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -606,7 +629,7 @@ publication:
         pvalue_threshold: 0.05
     med4_rnaseq_exp_day_11_coculture_vs_axenic:
       type: csv
-      filename: data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__log_expnential_day_11__coculture_with_HOT1A3__vs__axenic.csv
+      filename: data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__log_expnential_day_11__coculture_with_HOT1A3__vs__axenic_day_7.csv
       organism: Prochlorococcus MED4
       id_columns:
       - column: gene_id
@@ -623,7 +646,7 @@ publication:
         pvalue_threshold: 0.05
     med4_rnaseq_day_18_coculture_vs_axenic:
       type: csv
-      filename: data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__day_18__coculture_with_HOT1A3__vs__axenic.csv
+      filename: data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__day_18__coculture_with_HOT1A3__vs__axenic_day_14.csv
       organism: Prochlorococcus MED4
       id_columns:
       - column: gene_id
@@ -650,7 +673,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_proteomics_axenic
         timepoint: day 14
         timepoint_hours: 336.0
-        growth_phase: nutrient_limited
+        growth_phase: death
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj

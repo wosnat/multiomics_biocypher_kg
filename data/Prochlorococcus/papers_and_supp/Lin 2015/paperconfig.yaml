@@ -1,7 +1,9 @@
 publication:
   papername: Lin 2015
+  doi: "10.1111/1462-2920.13104"
   papermainpdf: data/Prochlorococcus/papers_and_supp/Lin 2015/Environmental Microbiology - 2015 - Lin - Transcriptomic response
     during phage infection of a marine cyanobacterium under.pdf
+  control_timing: matched
   experiments:
     phosphorus_plimited_natl2a_rnaseq_uninfected:
       name: NATL2A P-limited vs P-replete control (RNASEQ)
@@ -12,14 +14,20 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [phosphorus]
-      background_factors: [axenic, diel]
+      background_factors: [axenic, light]
       medium: Pro99
-      temperature: 24C
-      light_condition: 14:10 light:dark cycle
-      light_intensity: 40 umol photons m-2 s-1
+      temperature: 21C
+      light_condition: continuous light
+      light_intensity: 30 umol photons m-2 s-1
       table_scope: significant_only
+      control_timing: mixed
+      design_notes: >-
+        4h, 24h, 46h, 59h and 59h (P added): P-limited (or P re-added at 46h) cultures vs the
+        nutrient-replete control sampled at the same hour (Table S1 lists replete libraries at 4, 24, 46
+        and 59 h). 50h (P added): no replete library exists at 50 h, so the control was sampled at
+        another time (46 h or 59 h, exponential, not stated) - not matched.
     phosphorus_plimited_natl2a_rnaseq_infected:
-      name: NATL2A P-limited vs P-replete control (RNASEQ)
+      name: NATL2A P-limited vs P-replete control, phage-infected (RNASEQ)
       organism: Prochlorococcus NATL2A
       treatment_condition: P-limited
       control_condition: P-replete control
@@ -27,11 +35,11 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [phosphorus]
-      background_factors: [viral, diel]
+      background_factors: [axenic, viral, light]
       medium: Pro99
-      temperature: 24C
-      light_condition: 14:10 light:dark cycle
-      light_intensity: 40 umol photons m-2 s-1
+      temperature: 21C
+      light_condition: continuous light
+      light_intensity: 30 umol photons m-2 s-1
       table_scope: significant_only
   supplementary_materials:
     supp_table_s4a:

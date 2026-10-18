@@ -685,6 +685,35 @@ Experiment.table_scope:
     top_n: a fixed-size list of the strongest responders; not a background
     filtered_subset: a subset chosen by the authors on other criteria (see table_scope_detail); not a background
 
+Experiment.control_timing:
+  # provenance: curated per paperconfig (plans/per_arm_sampling_and_shared_model.md, 2026-10-15;
+  #   curation log plans/control_timing_curation.md). Required on every experiment that has >=1
+  #   statistical_analyses entry: a paper-level default (publication.control_timing) that each
+  #   experiment may override, so every value is a curator claim, never an adapter default
+  #   (explorer T1). Absent on experiments with no DE contrast, like table_scope. baseline and
+  #   mixed require design_notes; mixed requires >=2 timepoints (validator). matched was
+  #   time_matched until 2026-10-18, renamed so it does not imply the same clock time: it covers
+  #   arms matched by sampling time or by growth state (curation review R1).
+  applies_to: Experiment
+  applies_to_kind: node
+  property: control_timing
+  value_type: string
+  closed: true
+  sparse: true
+  values: [matched, baseline, mixed]
+  description: >
+    Whether the control arm of each contrast was matched to the treatment arm,
+    by sampling time or by growth state. time_point and growth_phase always
+    describe the treatment arm, so on a baseline or mixed experiment they say
+    nothing about when or in what state the control was sampled; design_notes
+    does, and on a matched experiment it says how the arms were matched when
+    it was not the same sampling time. Absent on experiments with no
+    differential-expression contrast.
+  value_descriptions:
+    matched: every contrast compares treatment and control arms sampled at the same time or in the same growth state, such as parallel cultures or successive steady states
+    baseline: every contrast compares against a control sampled at another time, typically a single early reference point; read design_notes
+    mixed: some timepoints are matched and others compare against a control sampled at another time; read design_notes for which
+
 ClusteringAnalysis.cluster_type:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   What kind of gene grouping a clustering analysis is (paperconfig

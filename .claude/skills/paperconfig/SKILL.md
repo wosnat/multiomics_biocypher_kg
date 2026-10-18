@@ -45,11 +45,13 @@ publication:
   papername: "Author Year"
   doi: "10.NNNN/xxxxx"  # optional — overrides PDF-extracted DOI
   papermainpdf: "data/Prochlorococcus/papers_and_supp/<folder>/<pdf_filename>.pdf"
+  control_timing: matched  # paper-level default; required when the paper has DE contrasts (see "Control timing" below)
 ```
 
 - `papername`: Short citation label (e.g., "Biller 2016"). Used for display only.
 - `doi`: *(optional)* Explicit DOI override. When present, takes precedence over the PDF-extracted DOI for the Publication node ID and all Experiment node IDs. Must match pattern `10.NNNN/...`. Use this when the PDF extractor fails to find the correct DOI.
 - `papermainpdf`: Relative path to the publication PDF. The adapter extracts metadata (title, DOI, authors, abstract) from this PDF automatically using an LLM-based extractor.
+- `control_timing`: *(required when any experiment has `statistical_analyses`)* Paper-level default for `Experiment.control_timing`; an experiment may override it. See **Control timing, shared models and design notes** below.
 
 ### 2. Experiments Block (Required)
 
@@ -71,6 +73,9 @@ The `experiments` block defines experiment-level metadata that is shared across 
       experimental_context: "in Pro99 medium under continuous light"
       table_scope: all_detected_genes   # all_detected_genes | significant_any_timepoint | significant_only | top_n | filtered_subset
       # table_scope_detail: ""          # free-text clarification (optional, use with filtered_subset)
+      # control_timing: mixed           # overrides publication.control_timing (matched | baseline | mixed)
+      # design_notes: >-                # required when control_timing is baseline or mixed
+      #   day 18: coculture sampled on day 18 vs axenic sampled on day 14 ...
       # Optional fields:
       medium: "Pro99 natural seawater medium"
       temperature: "24C"
@@ -125,6 +130,46 @@ The `experiments` block defines experiment-level metadata that is shared across 
 | `treatment_taxid` | NCBI Taxonomy ID of the treatment organism | Required for coculture/viral experiments |
 | `treatment_assembly_accession` | NCBI RefSeq assembly accession | Use when the treatment organism has a loaded genome in the KG |
 | `background_organisms` | List of `{organism, taxid \| assembly_accession}` — every organism that shared the culture in ALL arms | Required when `background_factors` includes `coculture` and no `treatment_organism` names the partner (validator error otherwise). Each becomes a `Tests_coculture_with` edge with `partner_role = background`; `treatment_organism` becomes `treatment` only when `treatment_type` has `coculture`/`viral`, else it is read as background (warning — prefer `background_organisms`) |
+
+#### Control timing and design notes
+
+`timepoint` and `growth_phase` on an analysis describe the **treatment arm**. Two experiment
+fields record what they cannot: whether the control arm was matched to the treatment, and how.
+**Read the paper's methods** — the `control_condition` text is not enough (Weissberg 2025's
+`"Axenic"` hid a day-11 vs axenic day-7 and a day-18 vs axenic day-14 comparison). Curation
+precedent and per-paper evidence: `plans/control_timing_curation.md`.
+
+| Field | Where | Rule |
+|---|---|---|
+| `control_timing` | `publication` (default) + experiment (override) | **Required** for every experiment with `statistical_analyses`, via the paper default or an override. Absent on experiments with no DE contrast. |
+| `design_notes` | experiment | Free text. **Required** when `control_timing` is `baseline` or `mixed`; on `matched`, add one when the arms were matched by growth state rather than sampling time. |
+
+| `control_timing` | When |
+|---|---|
+| `matched` | Every contrast compares arms sampled at the same time (treated vs untreated at 1 h, coculture vs axenic both on day 11), **or** arms matched to the same growth state (parallel acclimated cultures harvested at the same density, successive chemostat steady states, a control run repeated to match growth dynamics) — say which in `design_notes`. Most papers. |
+| `baseline` | Every contrast compares against a reference sampled at another time — usually one early point of the same series ("vs exponential day 7", "vs time 0 pre-shock", "vs day 1"). |
+| `mixed` | Some timepoints are matched, others are not. Needs ≥ 2 timepoints. |
+
+Paper default = the value most of the paper's DE experiments take; override the rest.
+`matched` is a claim checked in the methods, not a fallback — if the methods do not say
+when the control was sampled, pick the value the design implies and say so in `design_notes`.
+
+There is deliberately **no** field for "these experiments are one fitted model", and
+`design_notes` does not record how DE was fitted either: most papers do not report it, so it
+would be a guess.
+
+`design_notes` rules: exact `timepoint` labels (`"day 18"`); other experiments by paperconfig
+key verbatim (graph id `{doi}_{key}`); the control sampling time and its growth phase in the
+`growth_phase` vocabulary; no `|` or `'`; 1–4 sentences, YAML folded block (`>-`).
+
+```yaml
+    coculture_alteromonas_hot1a3_med4_rnaseq:
+      control_timing: matched
+      design_notes: >-
+        Matched by growth state, not by sampling day: the axenic MED4 control came from a
+        separate repeat experiment sampled on days 7 and 14. day 11: coculture day 11 vs axenic
+        day 7 (both exponential). day 18: coculture day 18 vs axenic day 14 (death).
+```
 
 #### Canonical Vocabulary (`treatment_type` and `background_factors`)
 
@@ -1150,6 +1195,8 @@ Before submitting a paperconfig:
 - [ ] For `annotation_gff` entries: `organism` is declared and `filename` exists
 - [ ] `id_translation` entries are listed **before** `csv` entries for the same organism so alt-IDs are in the lookup when DE data is processed
 - [ ] `id_columns` column names match actual headers in the CSV (check with `head -1` or pandas read)
+- [ ] `publication.control_timing` is set (paper with DE contrasts), checked against the methods; experiments that differ override it
+- [ ] Every `baseline` / `mixed` experiment has `design_notes` naming exact `timepoint` labels and the control arm sampling time + growth phase; `mixed` has ≥ 2 timepoints
 - [ ] The paper is logged in `CHANGELOG.md` under `## [Unreleased]` → `### Data` (+ a `### Highlights` bullet if it adds a user-visible capability)
 
 ## Workflow
@@ -1249,6 +1296,9 @@ This script checks:
 - `id_columns` and `product_columns` column names match CSV headers
 - `id_translation` entries have `organism` and `id_columns`
 - `annotation_gff` entries have `organism` and valid file extension
+- `control_timing` resolves (override or paper default) to `matched | baseline | mixed` on every experiment with `statistical_analyses` (error)
+- `baseline` / `mixed` ⇒ `design_notes` present; `mixed` ⇒ ≥ 2 distinct `timepoint` labels (error)
+- `design_notes` has no `|` or `'` (error); `control_timing` on an experiment with no `statistical_analyses` (warning)
 
 The script exits with code 0 on success, 1 on validation failure.
 

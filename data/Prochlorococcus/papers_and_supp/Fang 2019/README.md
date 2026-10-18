@@ -3,7 +3,7 @@
 **Citation:** Fang X, Liu Y, Zhao Y, Chen Y, Liu R, Qin Q-L, Li G, Zhang Y-Z, Chan W, Hess WR, Zeng Q (2019). Transcriptomic responses of the marine cyanobacterium *Prochlorococcus* to viral lysis products. *Environmental Microbiology* 21(6):2015-2028.
 **DOI:** 10.1111/1462-2920.14513
 **Organism(s):** *Prochlorococcus* MIT9313
-**Topic:** RNA-seq time course of axenic MIT9313 in Pro99 medium amended with viral DOM (vDOM, released from phage-lysed MED4) vs Pro99-only control; samples at 0.5, 1, 2, 4, 8, 12, 24, 48, 72 h. Significance is carried in the source table as asterisks on fold-change cells (adjusted p < 0.1 and |log2FC| > 1).
+**Topic:** RNA-seq time course of axenic MIT9313 in Pro99 medium amended with viral DOM (vDOM: lysate of axenic Synechococcus WH8102 infected with cyanophage S-ShM2, filtered through 0.2 um; S-ShM2 does not infect MIT9313) vs Pro99-only control; samples at 0.5, 1, 2, 4, 8, 12, 24, 48, 72 h. Significance is carried in the source table as asterisks on fold-change cells (adjusted p < 0.1 and |log2FC| > 1).
 
 ## Classification
 
@@ -27,7 +27,7 @@ Auto-generated `*_resolved.csv` / `*_resolved_report.txt` are produced by prepar
 
 ## Current paperconfig summary
 
-- Experiments defined: **1** (`viral_viral_dom_vdom_addition_mit9313_rnaseq`) — viral treatment category, Phage treatment organism (taxid 10239)
+- Experiments defined: **1** (`viral_viral_dom_vdom_addition_mit9313_rnaseq`) — `treatment_type: [carbon]` (dissolved organic matter addition), no treatment organism, `background_factors` include `axenic` (since 2026-10-18; was `viral` with a Phage partner)
 - Statistical analyses (DE edges): **9** (one per timepoint: 0.5h, 1h, 2h, 4h, 8h, 12h, 24h, 48h, 72h)
 - Supplementary materials entry types: `csv` × 1
 - Organisms covered: MIT9313
@@ -45,4 +45,4 @@ Auto-generated `*_resolved.csv` / `*_resolved_report.txt` are produced by prepar
 
 - Significance encoding is unusual: the original Excel highlights `*` inside fold-change cells. The omics adapter parses this via `pvalue_asterisk_in_logfc: true` and extracts `logfc_threshold: 1.0` + implicit `adjusted_p_value < 0.1` semantics.
 - No dedicated adjusted-p column is present in S2; `adjusted_p_value` on edges will be null (permitted — see CLAUDE.md).
-- Treatment is "viral" (vDOM addition, not live phage challenge) but `treatment_organism: Phage` (taxid 10239) is carried on the Experiment for downstream coculture/viral linkage.
+- Treatment is a vDOM addition, not a phage challenge, so since 2026-10-18 the Experiment carries no Phage partner and no coculture edge; the experiment key still says `viral` (keys are stable).

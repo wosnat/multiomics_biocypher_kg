@@ -1,6 +1,7 @@
 publication:
   papername: Kratzl 2024
   papermainpdf: data/Synechococcus/papers_and_supp/Kratzl 2024/Synechococcus elogantus - Pseudomonas putida co-culutre multi omics Franzi Com biol 2024.pdf
+  control_timing: matched
 
   experiments:
     coculture_vs_pputida_axenic_rnaseq:
@@ -8,15 +9,15 @@ publication:
       organism: Pseudomonas putida KT2440
       treatment_condition: Coculture with S. elongatus cscB
       control_condition: Axenic P. putida cscRABY
-      experimental_context: Parallel photobioreactor (CellDEG), BG11+ with 150 mM NaCl, exponential light (120 umol photons m-2 s-2 constant for 24h then exponential rising td=52h), sucrose fed, sampled at ~60h
+      experimental_context: Parallel photobioreactor (CellDEG), BG11+ with 150 mM NaCl, exponential light (120 umol photons m-2 s-1 constant for 24h then exponential rising td=52h), sucrose fed, sampled at ~60h
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [coculture]
       background_factors: ["light"]
       medium: BG11+
-      temperature: 25-32C
+      temperature: 27.0C
       light_condition: exponential light
-      light_intensity: 120 umol photons m-2 s-2
+      light_intensity: 120 umol photons m-2 s-1
       treatment_organism: Synechococcus elongatus PCC 7942
       treatment_taxid: 1140
       treatment_assembly_accession: "GCF_014698905.1"
@@ -27,15 +28,15 @@ publication:
       organism: Synechococcus elongatus PCC 7942
       treatment_condition: Coculture with P. putida cscRABY
       control_condition: Axenic S. elongatus cscB
-      experimental_context: Parallel photobioreactor (CellDEG), BG11+ with 150 mM NaCl, exponential light (120 umol photons m-2 s-2 constant for 24h then exponential rising td=52h), 0.1 mM IPTG for cscB induction, sampled at ~60h
+      experimental_context: Parallel photobioreactor (CellDEG), BG11+ with 150 mM NaCl, exponential light (120 umol photons m-2 s-1 constant for 24h then exponential rising td=52h), 0.1 mM IPTG for cscB induction, sampled at ~60h
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [coculture]
       background_factors: ["light"]
       medium: BG11+
-      temperature: 25-32C
+      temperature: 27.0C
       light_condition: exponential light
-      light_intensity: 120 umol photons m-2 s-2
+      light_intensity: 120 umol photons m-2 s-1
       treatment_organism: Pseudomonas putida KT2440
       treatment_taxid: 160488
       treatment_assembly_accession: "GCF_024662315.1"
@@ -46,15 +47,15 @@ publication:
       organism: Pseudomonas putida KT2440
       treatment_condition: Coculture with S. elongatus cscB
       control_condition: Axenic P. putida cscRABY
-      experimental_context: Parallel photobioreactor (CellDEG), BG11+ with 150 mM NaCl, exponential light (120 umol photons m-2 s-2 constant for 24h then exponential rising td=52h), sucrose fed, sampled at ~60h
+      experimental_context: Parallel photobioreactor (CellDEG), BG11+ with 150 mM NaCl, exponential light (120 umol photons m-2 s-1 constant for 24h then exponential rising td=52h), sucrose fed, sampled at ~60h
       omics_type: PROTEOMICS
       test_type: LC-MS/MS
       treatment_type: [coculture]
       background_factors: ["light"]
       medium: BG11+
-      temperature: 27.0-27.4C
+      temperature: 27.0C
       light_condition: exponential light
-      light_intensity: 120 umol photons m-2 s-2
+      light_intensity: 120 umol photons m-2 s-1
       treatment_organism: Synechococcus elongatus PCC 7942
       treatment_taxid: 1140
       treatment_assembly_accession: "GCF_014698905.1"
@@ -65,15 +66,15 @@ publication:
       organism: Synechococcus elongatus PCC 7942
       treatment_condition: Coculture with P. putida cscRABY
       control_condition: Axenic S. elongatus cscB
-      experimental_context: Parallel photobioreactor (CellDEG), BG11+ with 150 mM NaCl, exponential light (120 umol photons m-2 s-2 constant for 24h then exponential rising td=52h), 0.1 mM IPTG for cscB induction, sampled at ~60h
+      experimental_context: Parallel photobioreactor (CellDEG), BG11+ with 150 mM NaCl, exponential light (120 umol photons m-2 s-1 constant for 24h then exponential rising td=52h), 0.1 mM IPTG for cscB induction, sampled at ~60h
       omics_type: PROTEOMICS
       test_type: LC-MS/MS
       treatment_type: [coculture]
       background_factors: ["light"]
       medium: BG11+
-      temperature: 27.0-27.4C
+      temperature: 27.0C
       light_condition: exponential light
-      light_intensity: 120 umol photons m-2 s-2
+      light_intensity: 120 umol photons m-2 s-1
       treatment_organism: Pseudomonas putida KT2440
       treatment_taxid: 160488
       treatment_assembly_accession: "GCF_024662315.1"

@@ -18,6 +18,7 @@ publication:
   # `Alteromonas (MarRef v6)` reference proteome (GCA_003513035.1, locus
   # prefix DEH24_*).
   papermainpdf: "data/Prochlorococcus/papers_and_supp/moreno 2023/moreno-cabezuelo-et-al-2023-integrated-proteomic-and-metabolomic-analyses-show-differential-effects-of-glucose.pdf"
+  control_timing: matched
 
   experiments:
     # ─────────────────────────────────────────────────────────────────────
@@ -32,7 +33,7 @@ publication:
       organism: "Prochlorococcus MED4"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Non-axenic Prochlorococcus MED4 in Pro99 medium, 24C, continuous light; 100 nM glucose added at start of experiment; harvested at stationary growth; n=3 per condition. Proteomics LC-MS/MS."
+      experimental_context: "Non-axenic Prochlorococcus MED4 in Pro99 medium, 24C, continuous light; 100 nM glucose added at start of experiment; harvested 24 h after the culture was split into treatment aliquots; n=3 per condition. Proteomics LC-MS/MS."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -45,8 +46,11 @@ publication:
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     light_high_glucose_med4_proteomics:
       name: "MED4 proteomics: light +5 mM glucose vs light (control)"
       organism: "Prochlorococcus MED4"
@@ -65,8 +69,11 @@ publication:
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_low_glucose_med4_proteomics:
       name: "MED4 proteomics: darkness +100 nM glucose vs darkness (control)"
       organism: "Prochlorococcus MED4"
@@ -87,6 +94,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_high_glucose_med4_proteomics:
       name: "MED4 proteomics: darkness +5 mM glucose vs darkness (control)"
       organism: "Prochlorococcus MED4"
@@ -107,6 +117,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
 
     # ── SS120 ──
     light_low_glucose_ss120_proteomics:
@@ -127,8 +140,11 @@ publication:
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "4 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     light_high_glucose_ss120_proteomics:
       name: "SS120 proteomics: light +5 mM glucose vs light (control)"
       organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
@@ -147,8 +163,11 @@ publication:
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "4 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_low_glucose_ss120_proteomics:
       name: "SS120 proteomics: darkness +100 nM glucose vs darkness (control)"
       organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
@@ -169,6 +188,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_high_glucose_ss120_proteomics:
       name: "SS120 proteomics: darkness +5 mM glucose vs darkness (control)"
       organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
@@ -189,6 +211,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
 
     # ── WH7803 ──
     light_low_glucose_wh7803_proteomics:
@@ -209,8 +234,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     light_high_glucose_wh7803_proteomics:
       name: "WH7803 proteomics: light +5 mM glucose vs light (control)"
       organism: "Synechococcus WH7803"
@@ -229,8 +257,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_low_glucose_wh7803_proteomics:
       name: "WH7803 proteomics: darkness +100 nM glucose vs darkness (control)"
       organism: "Synechococcus WH7803"
@@ -251,6 +282,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_high_glucose_wh7803_proteomics:
       name: "WH7803 proteomics: darkness +5 mM glucose vs darkness (control)"
       organism: "Synechococcus WH7803"
@@ -271,6 +305,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
 
     # ── WH8102 ──
     light_low_glucose_wh8102_proteomics:
@@ -291,8 +328,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     light_high_glucose_wh8102_proteomics:
       name: "WH8102 proteomics: light +5 mM glucose vs light (control)"
       organism: "Synechococcus WH8102"
@@ -311,8 +351,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_low_glucose_wh8102_proteomics:
       name: "WH8102 proteomics: darkness +100 nM glucose vs darkness (control)"
       organism: "Synechococcus WH8102"
@@ -333,6 +376,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_high_glucose_wh8102_proteomics:
       name: "WH8102 proteomics: darkness +5 mM glucose vs darkness (control)"
       organism: "Synechococcus WH8102"
@@ -353,6 +399,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
 
     # ── BL107 ──
     light_low_glucose_bl107_proteomics:
@@ -373,8 +422,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     light_high_glucose_bl107_proteomics:
       name: "BL107 proteomics: light +5 mM glucose vs light (control)"
       organism: "Synechococcus sp. BL107"
@@ -393,8 +445,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_low_glucose_bl107_proteomics:
       name: "BL107 proteomics: darkness +100 nM glucose vs darkness (control)"
       organism: "Synechococcus sp. BL107"
@@ -415,6 +470,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_high_glucose_bl107_proteomics:
       name: "BL107 proteomics: darkness +5 mM glucose vs darkness (control)"
       organism: "Synechococcus sp. BL107"
@@ -435,6 +493,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
 
     # ─────────────────────────────────────────────────────────────────────
     # Marinobacter S4 — 5 cocultures × 4 comparisons (minus 1 missing col for SS120)
@@ -463,8 +524,11 @@ publication:
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     light_high_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: light +5 mM glucose vs light (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -485,8 +549,11 @@ publication:
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_low_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -509,6 +576,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_high_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -531,6 +601,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
 
     # ── Marino in SS120 ──
     # NOTE: SS120 source CSV has the typo `FC GmM/L` (no space) instead of
@@ -557,8 +630,11 @@ publication:
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "4 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     light_high_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: light +5 mM glucose vs light (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -579,8 +655,11 @@ publication:
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "4 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_low_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -603,6 +682,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_high_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -625,6 +707,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
 
     # ── Marino in WH7803 ──
     light_low_glucose_marino_in_wh7803_proteomics:
@@ -647,8 +732,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     light_high_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: light +5 mM glucose vs light (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -669,8 +757,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_low_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -693,6 +784,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_high_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -715,6 +809,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
 
     # ── Marino in WH8102 ──
     light_low_glucose_marino_in_wh8102_proteomics:
@@ -737,8 +834,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     light_high_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: light +5 mM glucose vs light (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -759,8 +859,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_low_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -783,6 +886,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_high_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -805,6 +911,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
 
     # ── Marino in BL107 ──
     light_low_glucose_marino_in_bl107_proteomics:
@@ -827,8 +936,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     light_high_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: light +5 mM glucose vs light (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -849,8 +961,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_low_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -873,6 +988,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_high_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -895,6 +1013,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
 
     # ─────────────────────────────────────────────────────────────────────
     # Alteromonas S3 — 5 cocultures × 4 comparisons
@@ -926,8 +1047,11 @@ publication:
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     light_high_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: light +5 mM glucose vs light (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -948,8 +1072,11 @@ publication:
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_low_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -972,6 +1099,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_high_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -994,6 +1124,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
 
     # ── Alteromonas in SS120 ──
     light_low_glucose_alt_in_ss120_proteomics:
@@ -1016,8 +1149,11 @@ publication:
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "4 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     light_high_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: light +5 mM glucose vs light (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1038,8 +1174,11 @@ publication:
       medium: "Pro99"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "4 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_low_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1062,6 +1201,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_high_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1084,6 +1226,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
 
     # ── Alteromonas in WH7803 ──
     light_low_glucose_alt_in_wh7803_proteomics:
@@ -1106,8 +1251,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     light_high_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: light +5 mM glucose vs light (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1128,8 +1276,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_low_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1152,6 +1303,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_high_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1174,6 +1328,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
 
     # ── Alteromonas in WH8102 ──
     light_low_glucose_alt_in_wh8102_proteomics:
@@ -1196,8 +1353,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     light_high_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: light +5 mM glucose vs light (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1218,8 +1378,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_low_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1242,6 +1405,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_high_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1264,6 +1430,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
 
     # ── Alteromonas in BL107 ──
     light_low_glucose_alt_in_bl107_proteomics:
@@ -1286,8 +1455,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     light_high_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: light +5 mM glucose vs light (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1308,8 +1480,11 @@ publication:
       medium: "SN"
       temperature: "24C"
       light_condition: "continuous light"
-      light_intensity: "15 umol photons m-2 s-1"
+      light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_low_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1332,6 +1507,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
     dark_high_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1354,6 +1532,9 @@ publication:
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
+      design_notes: >-
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
+        multiple-testing correction).
 
   supplementary_materials:
     # ─────────────────────────────────────────────────────────────────────
@@ -1386,18 +1567,18 @@ publication:
           logfc_col: "log2_FC_light_low_glucose"
           adjusted_p_value_col: "t_test_light_low_glucose"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "alt_med4_light_high_glucose_vs_light"
           experiment: light_high_glucose_alt_in_med4_proteomics
           name_col: "locus_tag_deh24"
           logfc_col: "log2_FC_light_high_glucose"
           adjusted_p_value_col: "t_test_light_high_glucose"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "alt_med4_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_alt_in_med4_proteomics
           name_col: "locus_tag_deh24"
@@ -1405,8 +1586,8 @@ publication:
           adjusted_p_value_col: "t_test_dark_low_glucose"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "alt_med4_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_alt_in_med4_proteomics
           name_col: "locus_tag_deh24"
@@ -1414,8 +1595,8 @@ publication:
           adjusted_p_value_col: "t_test_dark_high_glucose"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
 
     supp_table_s3_alt_in_ss120:
       type: csv
@@ -1436,18 +1617,18 @@ publication:
           logfc_col: "log2_FC_light_low_glucose"
           adjusted_p_value_col: "t_test_light_low_glucose"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "alt_ss120_light_high_glucose_vs_light"
           experiment: light_high_glucose_alt_in_ss120_proteomics
           name_col: "locus_tag_deh24"
           logfc_col: "log2_FC_light_high_glucose"
           adjusted_p_value_col: "t_test_light_high_glucose"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "alt_ss120_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_alt_in_ss120_proteomics
           name_col: "locus_tag_deh24"
@@ -1455,8 +1636,8 @@ publication:
           adjusted_p_value_col: "t_test_dark_low_glucose"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "alt_ss120_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_alt_in_ss120_proteomics
           name_col: "locus_tag_deh24"
@@ -1464,8 +1645,8 @@ publication:
           adjusted_p_value_col: "t_test_dark_high_glucose"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
 
     supp_table_s3_alt_in_wh7803:
       type: csv
@@ -1486,18 +1667,18 @@ publication:
           logfc_col: "log2_FC_light_low_glucose"
           adjusted_p_value_col: "t_test_light_low_glucose"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "alt_wh7803_light_high_glucose_vs_light"
           experiment: light_high_glucose_alt_in_wh7803_proteomics
           name_col: "locus_tag_deh24"
           logfc_col: "log2_FC_light_high_glucose"
           adjusted_p_value_col: "t_test_light_high_glucose"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "alt_wh7803_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_alt_in_wh7803_proteomics
           name_col: "locus_tag_deh24"
@@ -1505,8 +1686,8 @@ publication:
           adjusted_p_value_col: "t_test_dark_low_glucose"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "alt_wh7803_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_alt_in_wh7803_proteomics
           name_col: "locus_tag_deh24"
@@ -1514,8 +1695,8 @@ publication:
           adjusted_p_value_col: "t_test_dark_high_glucose"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
 
     supp_table_s3_alt_in_wh8102:
       type: csv
@@ -1536,18 +1717,18 @@ publication:
           logfc_col: "log2_FC_light_low_glucose"
           adjusted_p_value_col: "t_test_light_low_glucose"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "alt_wh8102_light_high_glucose_vs_light"
           experiment: light_high_glucose_alt_in_wh8102_proteomics
           name_col: "locus_tag_deh24"
           logfc_col: "log2_FC_light_high_glucose"
           adjusted_p_value_col: "t_test_light_high_glucose"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "alt_wh8102_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_alt_in_wh8102_proteomics
           name_col: "locus_tag_deh24"
@@ -1555,8 +1736,8 @@ publication:
           adjusted_p_value_col: "t_test_dark_low_glucose"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "alt_wh8102_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_alt_in_wh8102_proteomics
           name_col: "locus_tag_deh24"
@@ -1564,8 +1745,8 @@ publication:
           adjusted_p_value_col: "t_test_dark_high_glucose"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
 
     supp_table_s3_alt_in_bl107:
       type: csv
@@ -1586,18 +1767,18 @@ publication:
           logfc_col: "log2_FC_light_low_glucose"
           adjusted_p_value_col: "t_test_light_low_glucose"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "alt_bl107_light_high_glucose_vs_light"
           experiment: light_high_glucose_alt_in_bl107_proteomics
           name_col: "locus_tag_deh24"
           logfc_col: "log2_FC_light_high_glucose"
           adjusted_p_value_col: "t_test_light_high_glucose"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "alt_bl107_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_alt_in_bl107_proteomics
           name_col: "locus_tag_deh24"
@@ -1605,8 +1786,8 @@ publication:
           adjusted_p_value_col: "t_test_dark_low_glucose"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "alt_bl107_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_alt_in_bl107_proteomics
           name_col: "locus_tag_deh24"
@@ -1614,8 +1795,8 @@ publication:
           adjusted_p_value_col: "t_test_dark_high_glucose"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
 
     # ── Cyano S2 — 5 strains, each with 4 statistical analyses ──
     # Cells in `*_modified.csv` carry log2FC.* columns computed from linear
@@ -1638,18 +1819,18 @@ publication:
           logfc_col: "log2FC.L.LGnM"
           adjusted_p_value_col: "TTEST.L.LGnM"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "med4_light_high_glucose_vs_light"
           experiment: light_high_glucose_med4_proteomics
           name_col: "KEGG"
           logfc_col: "log2FC.L.LGmM"
           adjusted_p_value_col: "TTEST.L.LGmM"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "med4_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_med4_proteomics
           name_col: "KEGG"
@@ -1657,8 +1838,8 @@ publication:
           adjusted_p_value_col: "TTEST.D.LGnM"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "med4_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_med4_proteomics
           name_col: "KEGG"
@@ -1666,8 +1847,8 @@ publication:
           adjusted_p_value_col: "TTEST.D.LGmM"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
 
     supp_table_s2_ss120:
       type: csv
@@ -1687,18 +1868,18 @@ publication:
           logfc_col: "log2FC.L.LGnM"
           adjusted_p_value_col: "TTEST.L.LGnM"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "ss120_light_high_glucose_vs_light"
           experiment: light_high_glucose_ss120_proteomics
           name_col: "KEGG"
           logfc_col: "log2FC.L.LGmM"
           adjusted_p_value_col: "TTEST.L.LGmM"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "ss120_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_ss120_proteomics
           name_col: "KEGG"
@@ -1706,8 +1887,8 @@ publication:
           adjusted_p_value_col: "TTEST.D.LGnM"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "ss120_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_ss120_proteomics
           name_col: "KEGG"
@@ -1715,8 +1896,8 @@ publication:
           adjusted_p_value_col: "TTEST.D.LGmM"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
 
     supp_table_s2_wh7803:
       type: csv
@@ -1736,18 +1917,18 @@ publication:
           logfc_col: "log2FC.L.LGnM"
           adjusted_p_value_col: "TTEST.L.LGnM"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "wh7803_light_high_glucose_vs_light"
           experiment: light_high_glucose_wh7803_proteomics
           name_col: "KEGG"
           logfc_col: "log2FC.L.LGmM"
           adjusted_p_value_col: "TTEST.L.LGmM"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "wh7803_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_wh7803_proteomics
           name_col: "KEGG"
@@ -1755,8 +1936,8 @@ publication:
           adjusted_p_value_col: "TTEST.D.LGnM"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "wh7803_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_wh7803_proteomics
           name_col: "KEGG"
@@ -1764,8 +1945,8 @@ publication:
           adjusted_p_value_col: "TTEST.D.LGmM"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
 
     supp_table_s2_wh8102:
       type: csv
@@ -1785,18 +1966,18 @@ publication:
           logfc_col: "log2FC.L.LGnM"
           adjusted_p_value_col: "TTEST.L.LGnM"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "wh8102_light_high_glucose_vs_light"
           experiment: light_high_glucose_wh8102_proteomics
           name_col: "KEGG"
           logfc_col: "log2FC.L.LGmM"
           adjusted_p_value_col: "TTEST.L.LGmM"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "wh8102_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_wh8102_proteomics
           name_col: "KEGG"
@@ -1804,8 +1985,8 @@ publication:
           adjusted_p_value_col: "TTEST.D.LGnM"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "wh8102_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_wh8102_proteomics
           name_col: "KEGG"
@@ -1813,8 +1994,8 @@ publication:
           adjusted_p_value_col: "TTEST.D.LGmM"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
 
     # BL107 S2: KEGG column is entirely "NA" in the source CSV; locus tags
     # live only in `Description` as `GN=BL107_NNNNN` embedded in free text.
@@ -1840,18 +2021,18 @@ publication:
           logfc_col: "log2FC.L.LGnM"
           adjusted_p_value_col: "TTEST.L.LGnM"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "bl107_light_high_glucose_vs_light"
           experiment: light_high_glucose_bl107_proteomics
           name_col: "Accession"
           logfc_col: "log2FC.L.LGmM"
           adjusted_p_value_col: "TTEST.L.LGmM"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "bl107_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_bl107_proteomics
           name_col: "Accession"
@@ -1859,8 +2040,8 @@ publication:
           adjusted_p_value_col: "TTEST.D.LGnM"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "bl107_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_bl107_proteomics
           name_col: "Accession"
@@ -1868,8 +2049,8 @@ publication:
           adjusted_p_value_col: "TTEST.D.LGmM"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
 
     # ── Marinobacter S4 — 5 cocultures, each with 3–4 statistical analyses ──
     # Description is free text "... GN=HP15_NNNN PE=... SV=..."; the _modified.csv
@@ -1897,18 +2078,18 @@ publication:
           logfc_col: "log2FC.GnM.L"
           adjusted_p_value_col: "t.test G nM/L"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "marino_med4_light_high_glucose_vs_light"
           experiment: light_high_glucose_marino_in_med4_proteomics
           name_col: "Accession"
           logfc_col: "log2FC.GmM.L"
           adjusted_p_value_col: "t.test G mM/L"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "marino_med4_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_marino_in_med4_proteomics
           name_col: "Accession"
@@ -1916,8 +2097,8 @@ publication:
           adjusted_p_value_col: "t.test G nM/O"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "marino_med4_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_marino_in_med4_proteomics
           name_col: "Accession"
@@ -1925,8 +2106,8 @@ publication:
           adjusted_p_value_col: "t.test G mM/O"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
 
     supp_table_s4_marino_in_ss120:
       type: csv
@@ -1947,18 +2128,18 @@ publication:
           logfc_col: "log2FC.GnM.L"
           adjusted_p_value_col: "t.test G nM/L"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "marino_ss120_light_high_glucose_vs_light"
           experiment: light_high_glucose_marino_in_ss120_proteomics
           name_col: "Accession"
           logfc_col: "log2FC.GmM.L"
           adjusted_p_value_col: "t.test G mM/L"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "marino_ss120_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_marino_in_ss120_proteomics
           name_col: "Accession"
@@ -1966,8 +2147,8 @@ publication:
           adjusted_p_value_col: "t.test G nM/O"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "marino_ss120_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_marino_in_ss120_proteomics
           name_col: "Accession"
@@ -1975,8 +2156,8 @@ publication:
           adjusted_p_value_col: "t.test G mM/O"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
 
     supp_table_s4_marino_in_wh7803:
       type: csv
@@ -1997,18 +2178,18 @@ publication:
           logfc_col: "log2FC.GnM.L"
           adjusted_p_value_col: "t.test G nM/L"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "marino_wh7803_light_high_glucose_vs_light"
           experiment: light_high_glucose_marino_in_wh7803_proteomics
           name_col: "Accession"
           logfc_col: "log2FC.GmM.L"
           adjusted_p_value_col: "t.test G mM/L"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "marino_wh7803_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_marino_in_wh7803_proteomics
           name_col: "Accession"
@@ -2016,8 +2197,8 @@ publication:
           adjusted_p_value_col: "t.test G nM/O"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "marino_wh7803_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_marino_in_wh7803_proteomics
           name_col: "Accession"
@@ -2025,8 +2206,8 @@ publication:
           adjusted_p_value_col: "t.test G mM/O"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
 
     supp_table_s4_marino_in_wh8102:
       type: csv
@@ -2047,18 +2228,18 @@ publication:
           logfc_col: "log2FC.GnM.L"
           adjusted_p_value_col: "t.test G nM/L"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "marino_wh8102_light_high_glucose_vs_light"
           experiment: light_high_glucose_marino_in_wh8102_proteomics
           name_col: "Accession"
           logfc_col: "log2FC.GmM.L"
           adjusted_p_value_col: "t.test G mM/L"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "marino_wh8102_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_marino_in_wh8102_proteomics
           name_col: "Accession"
@@ -2066,8 +2247,8 @@ publication:
           adjusted_p_value_col: "t.test G nM/O"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "marino_wh8102_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_marino_in_wh8102_proteomics
           name_col: "Accession"
@@ -2075,8 +2256,8 @@ publication:
           adjusted_p_value_col: "t.test G mM/O"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
 
     supp_table_s4_marino_in_bl107:
       type: csv
@@ -2097,18 +2278,18 @@ publication:
           logfc_col: "log2FC.GnM.L"
           adjusted_p_value_col: "t.test G nM/L"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "marino_bl107_light_high_glucose_vs_light"
           experiment: light_high_glucose_marino_in_bl107_proteomics
           name_col: "Accession"
           logfc_col: "log2FC.GmM.L"
           adjusted_p_value_col: "t.test G mM/L"
           pvalue_threshold: 0.05
-          growth_phase: stationary
-          timepoint: "stationary"
-          timepoint_hours: null
+          growth_phase: exponential
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "marino_bl107_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_marino_in_bl107_proteomics
           name_col: "Accession"
@@ -2116,8 +2297,8 @@ publication:
           adjusted_p_value_col: "t.test G nM/O"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24
         - id: "marino_bl107_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_marino_in_bl107_proteomics
           name_col: "Accession"
@@ -2125,5 +2306,5 @@ publication:
           adjusted_p_value_col: "t.test G mM/O"
           pvalue_threshold: 0.05
           growth_phase: darkness
-          timepoint: "darkness"
-          timepoint_hours: null
+          timepoint: "24h"
+          timepoint_hours: 24

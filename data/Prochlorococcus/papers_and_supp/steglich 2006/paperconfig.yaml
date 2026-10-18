@@ -1,6 +1,7 @@
 publication:
   papername: Steglich 2006
   papermainpdf: data/Prochlorococcus/papers_and_supp/steglich 2006/steglich-et-al-2006-genome-wide-analysis-of-light-sensing-in-prochlorococcus.pdf
+  control_timing: matched
   experiments:
     light_stress_high_white_light_55_med4_microarray:
       name: MED4 High white light (55 umol photons m-2 s-1) vs Darkness control (MICROARRAY)

@@ -1,11 +1,29 @@
 # Control timing + shared-model identifier on Experiments
 
-**Status:** simplified 2026-10-15 (supersedes the 2026-10-13/14 per-arm edge-property design);
-explorer accepted the simplified contract 2026-10-15 with T1–T5, all adopted (see § Explorer dialog).
-Not started: curation pass, validator, adapter, vocabulary and docs (the exact vocab / skill /
-CLAUDE.md text is drafted in § Vocabulary and documentation, to apply with the implementation).
+**Status:** implemented 2026-10-15, revised 2026-10-18 after the curator review (uncommitted, rebuild
+pending). See **§ Revision 2026-10-18** below; the design text after it is the 2026-10-15 version,
+kept for history.
 **Dialog:** `multiomics_explorer/docs/kg-specs/2026-10-13-per-arm-sampling-shared-model-explorer-asks.md`
 **Origin:** `plans/backlog.md` → "Analysis-driven asks — pro_n_import_coculture", P2 item 3.
+
+## Revision 2026-10-18 (curator review, `plans/control_timing_curation.md`)
+
+- **`statistical_model_id` dropped** — field, adapter emission, schema, validator rule (old rule 4)
+  and tests. Most papers do not report how DE was fitted, so the id was mostly a guess. Model / fit
+  sentences were then removed from every `design_notes` too (Biller 2016/2018, Hackl 2023,
+  Weissberg 2025, Barreto 2022), keeping what each table compares.
+- **`time_matched` renamed `matched`** so the value does not imply the same clock time: it covers
+  arms matched by sampling time **or** by growth state (R1). `design_notes` on growth-state-matched
+  experiments says how (added: Beliaev 2014 ×6, Fuszard 2012 ×3, Barreto 2022 cyanobacteria ×3).
+- **Weissberg 2025 `coculture_alteromonas_hot1a3_med4_rnaseq` → `matched`** (D0, override; the
+  axenic repeat was run to match growth dynamics), with a note naming the day 7 / day 14 controls.
+  D1 accepted (`matched`), D2 confirmed (DEqMS; per the author, the four proteomics experiments are
+  one model — notes updated), D3 confirmed (`death`), D4 accepted (Hennon: two fits).
+- Validator rules are now: 1 required + in vocab · 2 `baseline`/`mixed` ⇒ `design_notes` ·
+  3 `mixed` ⇒ ≥ 2 timepoints · 4 no `|`/`'` in notes · 5 warning on a non-DE experiment.
+- Counts: 174 DE experiments — 150 `matched`, 21 `baseline`, 3 `mixed`.
+- **Explorer contract change:** the accepted contract (T1–T5, SIM-001..004) named `time_matched`
+  and `statistical_model_id`; both changed — the explorer dialog needs a note before release.
 
 ## Problem
 
@@ -135,108 +153,8 @@ default + override), T2 (graph test below), T3 (DOI prefix), T4 (writing rules),
 - `pytest -m "not slow and not kg"` + `pytest -m kg` green; CHANGELOG `### Added` entry; CLAUDE.md
   Experiment key-facts bullet updated on implementation.
 
-## Vocabulary and documentation (drafted 2026-10-15, apply with the implementation)
+## Vocabulary and documentation
 
-### `config/controlled_vocabularies.yaml` — after `Experiment.table_scope`
-
-```yaml
-Experiment.control_timing:
-  # provenance: curated per paperconfig (plans/per_arm_sampling_and_shared_model.md, 2026-10-15).
-  #   Required on every experiment that has >=1 statistical_analyses entry: a paper-level default
-  #   (publication.control_timing) that each experiment may override, so every value is a
-  #   curator's claim, never an adapter default (explorer T1). Absent on experiments with no DE
-  #   contrast (metabolomics / derived-metric-only), like table_scope. baseline and mixed require
-  #   design_notes; mixed requires >=2 timepoints (validator).
-  applies_to: Experiment
-  applies_to_kind: node
-  property: control_timing
-  value_type: string
-  closed: true
-  sparse: true
-  values: [time_matched, baseline, mixed]
-  description: >
-    Whether the control arm of each contrast was sampled at the same time as
-    the treatment arm. time_point and growth_phase always describe the
-    treatment arm, so on a baseline or mixed experiment they say nothing about
-    when or in what state the control was sampled; design_notes does. Absent
-    on experiments with no differential-expression contrast.
-  value_descriptions:
-    time_matched: every contrast compares treatment and control arms sampled at the same time
-    baseline: every contrast compares against a control sampled at another time, typically a single early reference point; read design_notes
-    mixed: some timepoints are time-matched and others compare against a control sampled at another time; read design_notes for which
-```
-
-(Checked 2026-10-15: passes `tests/test_controlled_vocab.py` — no apostrophe / pipe / build
-provenance in descriptions. Adding it makes `pytest -m kg::test_every_vocabulary_has_a_node` fail
-until the next rebuild, as with any vocab addition.)
-
-### `.claude/skills/paperconfig/SKILL.md`
-
-1. § 1 Publication Metadata — add to the YAML block, after `papermainpdf`:
-   `control_timing: time_matched  # paper-level default; required when the paper has DE contrasts (see "Control timing" below)`
-   and a bullet: "`control_timing`: *(required when any experiment has `statistical_analyses`)*
-   Paper-level default for `Experiment.control_timing`; an experiment may override it. See
-   **Control timing, shared models and design notes** below."
-2. § 2 Experiments Block — in the example, after `table_scope_detail`:
-   ```yaml
-      # control_timing: mixed           # overrides publication.control_timing (time_matched | baseline | mixed)
-      # statistical_model_id: med4_rnaseq_deseq2   # only when >=2 experiments come from one fitted model
-      # design_notes: >-                # required when control_timing is baseline or mixed
-      #   Day 18: coculture sampled on day 18 vs axenic sampled on day 14 ...
-   ```
-3. New subsection before "Canonical Vocabulary (`treatment_type` and `background_factors`)":
-
-   > #### Control timing, shared models and design notes
-   >
-   > `timepoint` and `growth_phase` on an analysis describe the **treatment arm**. Three experiment
-   > fields record what they cannot: when the control arm was sampled, and whether several
-   > experiments are contrasts from one fitted model. **Read the paper's methods for both** — the
-   > `control_condition` text is not enough (Weissberg 2025's `"Axenic"` hid a day-18 vs day-14
-   > comparison).
-   >
-   > | Field | Where | Rule |
-   > |---|---|---|
-   > | `control_timing` | `publication` (default) + experiment (override) | **Required** for every experiment with `statistical_analyses`, via the paper default or an override. Absent on experiments with no DE contrast. |
-   > | `statistical_model_id` | experiment | Only when ≥ 2 experiments of this paper are contrasts from **one fitted model** (one DESeq2 / edgeR / limma fit over shared samples). Free key, unique within the paper (`med4_rnaseq_deseq2`); the KG stores it as `{doi}:{key}`. All experiments sharing it must have the same `organism` and `omics_type`. Separate fits get no id. |
-   > | `design_notes` | experiment | Free text. **Required** when `control_timing` is `baseline` or `mixed`; recommended with `statistical_model_id`. |
-   >
-   > | `control_timing` | When |
-   > |---|---|
-   > | `time_matched` | Every contrast compares arms sampled at the same time (treated vs untreated at 1 h, coculture vs axenic both on day 11). Most papers. |
-   > | `baseline` | Every contrast compares against a control sampled at another time — usually one early reference ("vs exponential day 7", "vs time 0 pre-shock", "vs day 1"). |
-   > | `mixed` | Some timepoints are time-matched, others are not. Needs ≥ 2 timepoints. |
-   >
-   > Paper default = the value most of the paper's DE experiments take; override the rest.
-   > `time_matched` is a claim checked in the methods, not a fallback — if the methods do not say
-   > when the control was sampled, pick the value the design implies and say so in `design_notes`.
-   >
-   > `design_notes` rules: exact `timepoint` labels (`"day 18"`); other experiments by paperconfig
-   > key verbatim (graph id `{doi}_{key}`); the control sampling time and its growth phase in the
-   > `growth_phase` vocabulary; for a shared model, what the model is and any exact linear
-   > relation between contrasts; no `|` or `'`.
-   >
-   > ```yaml
-   >     coculture_alteromonas_hot1a3_med4_rnaseq:
-   >       control_timing: mixed
-   >       statistical_model_id: med4_rnaseq_deseq2
-   >       design_notes: >-
-   >         day 11: coculture vs axenic, both sampled on day 11. day 18: coculture sampled on day 18 vs
-   >         axenic sampled on day 14, when the axenic culture was in death phase - not time-matched.
-   >         One DESeq2 model with growth_state_pro99lown_nutrient_starvation_med4_rnaseq_axenic and
-   >         growth_state_pro99lown_nutrient_starvation_med4_rnaseq_coculture; the day 18 contrast is an
-   >         exact linear combination of contrasts in those two experiments.
-   > ```
-4. Validation Checklist — add:
-   - `publication.control_timing` is set (paper with DE contrasts), checked against the methods; experiments that differ override it
-   - Every `baseline` / `mixed` experiment has `design_notes` naming exact `timepoint` labels and the control arm sampling time + growth phase; `mixed` has ≥ 2 timepoints
-   - `statistical_model_id` is set on every experiment from a shared fitted model (≥ 2 per id, same `organism` + `omics_type`), and on no separately fitted experiment
-5. Validation Script list — add validator rules 1–6 once implemented.
-
-### `CLAUDE.md`
-
-- "Adding Omics Data from Publications" template: after `papermainpdf` add
-  `control_timing: time_matched  # REQUIRED with DE contrasts: time_matched | baseline | mixed — paper default, checked in the methods`;
-  after `light_intensity` add commented `control_timing` override, `design_notes`, and
-  `statistical_model_id` lines pointing to the skill section.
-- Key graph facts, Experiment bullet: `control_timing` / `statistical_model_id` / `design_notes`
-  (after the rebuild).
+Applied (2026-10-15, revised 2026-10-18): `config/controlled_vocabularies.yaml`
+(`Experiment.control_timing`), `.claude/skills/paperconfig/SKILL.md` ("Control timing and design
+notes"), `CLAUDE.md` (template + Experiment key-facts bullet), `CHANGELOG.md`.

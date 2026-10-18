@@ -1,9 +1,10 @@
 publication:
   papername: Thompson 2016
   papermainpdf: data/Prochlorococcus/papers_and_supp/Thompson 2016/thompson 2016 file.pdf
+  control_timing: matched
   experiments:
     light_stress_constant_dark_med4_rnaseq_infected:
-      name: MED4 Constant dark vs Constant light (90 µE m-2 s-1) (RNASEQ)
+      name: MED4 Constant dark vs Constant light (90 µE m-2 s-1) in phage P-HM2 infected cultures (RNASEQ)
       organism: Prochlorococcus MED4
       treatment_condition: Constant dark
       control_condition: Constant light (90 µE m-2 s-1)
@@ -18,8 +19,11 @@ publication:
       light_condition: constant darkness
       light_intensity: '0'
       table_scope: significant_only
+      design_notes: >-
+        Dark and light arms come from two experiments run on separate days, each split from its own
+        mid-log (exponential) mother culture; arms are compared at the same hours post-inoculation.
     light_stress_constant_dark_med4_rnaseq_dark:
-      name: MED4 Constant dark vs Constant light (90 µE m-2 s-1) (RNASEQ)
+      name: MED4 Constant dark vs Constant light (90 µE m-2 s-1) in uninfected cultures (spent medium, no phage) (RNASEQ)
       organism: Prochlorococcus MED4
       treatment_condition: Constant dark
       control_condition: Constant light (90 µE m-2 s-1)
@@ -34,6 +38,9 @@ publication:
       light_condition: constant darkness
       light_intensity: '0'
       table_scope: significant_only
+      design_notes: >-
+        Dark and light arms come from two experiments run on separate days, each split from its own
+        mid-log (exponential) mother culture; arms are compared at the same hours post-inoculation.
     viral_phage_phm2_lysate_med4_rnaseq_light:
       name: MED4 Phage (P-HM2) lysate vs Spent medium (uninfected) in light (RNASEQ)
       organism: Prochlorococcus MED4

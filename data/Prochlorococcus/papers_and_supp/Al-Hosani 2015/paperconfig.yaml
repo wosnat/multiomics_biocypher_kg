@@ -2,6 +2,7 @@ publication:
   papername: Al-Hosani 2015
   papermainpdf: data/Prochlorococcus/papers_and_supp/Al-Hosani 2015/Global transcriptome analysis of salt acclimated Prochlorococcus
     AS9601 1-s2.0-S094450131500066X-main.pdf
+  control_timing: matched
   experiments:
     salt_saltacclimated_5_salt_as9601_rnaseq:
       name: AS9601 Salt-acclimated (5% salt) vs Normal seawater control (3.8% salt) (RNASEQ)
@@ -19,6 +20,10 @@ publication:
       light_condition: continuous light
       light_intensity: 46 umol photons m-2 s-1
       table_scope: all_detected_genes
+      design_notes: >-
+        acclimated: both arms harvested in exponential phase but on different days because the 5% salt culture
+        grows about half as fast (Fig. 1) - control on days 2 and 4, salt treatment on days 4 and 6. Matched by
+        growth state, not by calendar time.
   supplementary_materials:
     supp_table_3:
       type: csv

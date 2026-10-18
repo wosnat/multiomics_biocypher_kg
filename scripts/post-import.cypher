@@ -157,7 +157,7 @@ CREATE INDEX experiment_omics_type_idx IF NOT EXISTS FOR (e:Experiment) ON (e.om
 // experimentFullText: same drop+recreate as publicationFullText.
 DROP INDEX experimentFullText IF EXISTS;
 CREATE FULLTEXT INDEX experimentFullText
-  FOR (e:Experiment) ON EACH [e.name, e.treatment, e.control, e.experimental_context, e.light_condition, e.compartment, e.derived_metric_search_text]
+  FOR (e:Experiment) ON EACH [e.name, e.treatment, e.control, e.experimental_context, e.light_condition, e.compartment, e.derived_metric_search_text, e.design_notes]
   OPTIONS {
     indexConfig: {
       `fulltext.analyzer`: 'standard-no-stop-words',

@@ -1,207 +1,279 @@
 publication:
   papername: Barreto 2022
   papermainpdf: data/Prochlorococcus/papers_and_supp/barreto 2022/43705_2022_article_197.pdf
+  control_timing: matched
   experiments:
     carbon_stress_elevated_pco2_800_ppm_mit9312_rnaseq:
       name: MIT9312 Elevated pCO2 (800 ppm) vs Ambient pCO2 (400 ppm) (RNASEQ)
       organism: Prochlorococcus MIT9312
       treatment_condition: Elevated pCO2 (800 ppm)
       control_condition: Ambient pCO2 (400 ppm)
-      experimental_context: In Pro99 medium, axenic and coculture conditions with Alteromonas EZ55
+      experimental_context: In PEv medium (artificial seawater), in coculture with Alteromonas EZ55 (the cyanobacteria were grown only in coculture)
       omics_type: RNASEQ
       test_type: edgeR
       treatment_type: [carbon]
-      background_factors: [axenic, coculture]
+      background_factors: [coculture, diel]
       background_organisms:
         - organism: "Alteromonas macleodii EZ55"
           taxid: 28108
           assembly_accession: "GCF_901457815.2"
-      medium: Pro99 medium
-      temperature: 22C
-      light_condition: continuous light
-      light_intensity: 30 umol photons m-2 s-1
+      medium: PEv medium (artificial seawater with PEv nutrients, as in Hennon 2017)
+      temperature: 21C
+      light_condition: 14:10 light-dark cycle
+      light_intensity: 150 umol photons m-2 s-1
       table_scope: significant_only
+      design_notes: >-
+        Matched by growth state, not by sampling day: both pCO2 arms were acclimated for three transfer
+        cycles and harvested in exponential growth in the final cycle (Methods p. 2). The MIT9312
+        libraries are re-analysed from Hennon 2017. adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
     carbon_stress_elevated_pco2_800_ppm_cc9311_rnaseq:
       name: CC9311 Elevated pCO2 (800 ppm) vs Ambient pCO2 (400 ppm) (RNASEQ)
       organism: Synechococcus CC9311
       treatment_condition: Elevated pCO2 (800 ppm)
       control_condition: Ambient pCO2 (400 ppm)
-      experimental_context: In Pro99 medium, axenic and coculture conditions with Alteromonas EZ55
+      experimental_context: In SEv medium (artificial seawater), in coculture with Alteromonas EZ55 (the cyanobacteria were grown only in coculture)
       omics_type: RNASEQ
       test_type: edgeR
       treatment_type: [carbon]
-      background_factors: [axenic, coculture]
+      background_factors: [coculture, diel]
       background_organisms:
         - organism: "Alteromonas macleodii EZ55"
           taxid: 28108
           assembly_accession: "GCF_901457815.2"
-      medium: Pro99 medium
-      temperature: 22C
-      light_condition: continuous light
-      light_intensity: 30 umol photons m-2 s-1
+      medium: SEv medium (artificial seawater with nitrate, phosphate, SN trace metals and F/2 vitamins)
+      temperature: 21C
+      light_condition: 14:10 light-dark cycle
+      light_intensity: 150 umol photons m-2 s-1
       table_scope: significant_only
+      design_notes: >-
+        Matched by growth state, not by sampling day: both pCO2 arms were acclimated for three transfer
+        cycles and harvested in exponential growth in the final cycle (Methods p. 2). adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
     carbon_stress_elevated_pco2_800_ppm_wh8102_rnaseq:
       name: WH8102 Elevated pCO2 (800 ppm) vs Ambient pCO2 (400 ppm) (RNASEQ)
       organism: Synechococcus WH8102
       treatment_condition: Elevated pCO2 (800 ppm)
       control_condition: Ambient pCO2 (400 ppm)
-      experimental_context: In Pro99 medium, axenic and coculture conditions with Alteromonas EZ55
+      experimental_context: In SEv medium (artificial seawater), in coculture with Alteromonas EZ55 (the cyanobacteria were grown only in coculture)
       omics_type: RNASEQ
       test_type: edgeR
       treatment_type: [carbon]
-      background_factors: [axenic, coculture]
+      background_factors: [coculture, diel]
       background_organisms:
         - organism: "Alteromonas macleodii EZ55"
           taxid: 28108
           assembly_accession: "GCF_901457815.2"
-      medium: Pro99 medium
-      temperature: 22C
-      light_condition: continuous light
-      light_intensity: 30 umol photons m-2 s-1
+      medium: SEv medium (artificial seawater with nitrate, phosphate, SN trace metals and F/2 vitamins)
+      temperature: 21C
+      light_condition: 14:10 light-dark cycle
+      light_intensity: 150 umol photons m-2 s-1
       table_scope: significant_only
+      design_notes: >-
+        Matched by growth state, not by sampling day: both pCO2 arms were acclimated for three transfer
+        cycles and harvested in exponential growth in the final cycle (Methods p. 2). adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
     carbon_stress_elevated_pco2_800_ppm_ez55_rnaseq:
       name: EZ55 Elevated pCO2 (800 ppm) vs Ambient pCO2 (400 ppm) (RNASEQ)
       organism: Alteromonas macleodii EZ55
       treatment_condition: Elevated pCO2 (800 ppm)
       control_condition: Ambient pCO2 (400 ppm)
-      experimental_context: In Pro99 medium, across axenic and coculture conditions
+      experimental_context: Axenic Alteromonas EZ55 in PEv medium (artificial seawater); pCO2 coefficient for the
+        axenic reference level of the shared EZ55 edgeR GLM (Table S2), not an average over coculture conditions
       omics_type: RNASEQ
       test_type: edgeR
       treatment_type: [carbon]
-      background_factors: [axenic, coculture]
-      background_organisms:
-        - organism: "Prochlorococcus MIT9312"
-          taxid: 74546
-          assembly_accession: "GCF_000012645.1"
-        - organism: "Synechococcus CC9311"
-          taxid: 64471
-          assembly_accession: "GCF_000014585.1"
-        - organism: "Synechococcus WH8102"
-          taxid: 84588
-          assembly_accession: "GCF_000195975.1"
-      medium: Pro99 medium
-      temperature: 22C
-      light_condition: continuous light
-      light_intensity: 30 umol photons m-2 s-1
+      background_factors: [axenic, diel]
+      medium: PEv medium (artificial seawater with PEv nutrients, as in Hennon 2017)
+      temperature: 21C
+      light_condition: 14:10 light-dark cycle
+      light_intensity: 150 umol photons m-2 s-1
       table_scope: significant_only
+      design_notes: >-
+        This table is the pCO2 effect in axenic EZ55 only (author script), not an average over coculture
+        conditions. Matched by growth state, not by sampling day: arms are acclimated cultures harvested
+        in exponential growth; the axenic EZ55 and MIT9312 coculture libraries are from Hennon 2017, the
+        Synechococcus cocultures were grown later. adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
     coculture_prochlorococcus_mit9312_at_400_ez55_rnaseq:
-      name: EZ55 Coculture with Prochlorococcus MIT9312 at 400 ppm pCO2 vs Axenic at 400 ppm pCO2 (RNASEQ)
+      name: EZ55 Coculture with Prochlorococcus MIT9312 vs Mean Coculture Response across Three Partners at 400 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
       treatment_condition: Coculture with Prochlorococcus MIT9312 at 400 ppm pCO2
-      control_condition: Axenic at 400 ppm pCO2
-      experimental_context: In Pro99 medium at ambient pCO2 (400 ppm)
+      control_condition: Mean coculture response across the three partners (MIT9312, CC9311, WH8102) at 400 ppm pCO2
+      experimental_context: Partner-specific deviation of EZ55 transcription from the mean coculture response
+        across the three partners at ambient pCO2 (400 ppm), not a comparison with axenic EZ55. Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
       omics_type: RNASEQ
       test_type: edgeR
       treatment_type: [coculture]
-      background_factors: [light]
-      medium: Pro99 medium
-      temperature: 22C
-      light_condition: continuous light
-      light_intensity: 30 umol photons m-2 s-1
+      background_factors: [diel]
+      medium: Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
+      temperature: 21C
+      light_condition: 14:10 light-dark cycle
+      light_intensity: 150 umol photons m-2 s-1
       treatment_organism: Prochlorococcus MIT9312
       treatment_taxid: 74546
       treatment_assembly_accession: GCF_000012645.1
       table_scope: significant_only
+      design_notes: >-
+        logFC is the partner deviation from the partner-averaged coculture response at 400 ppm, not
+        partner vs axenic (adding the general coculture logFC of Table S5 recovers the vs-axenic value);
+        the three partner tables at 400 ppm sum to zero per gene. Matched by growth state, not by
+        sampling day: arms are acclimated cultures harvested in exponential growth; the axenic EZ55 and
+        MIT9312 coculture libraries are from Hennon 2017, the Synechococcus cocultures were grown later.
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
     coculture_synechococcus_cc9311_at_400_ez55_rnaseq:
-      name: EZ55 Coculture with Synechococcus CC9311 at 400 ppm pCO2 vs Axenic at 400 ppm pCO2 (RNASEQ)
+      name: EZ55 Coculture with Synechococcus CC9311 vs Mean Coculture Response across Three Partners at 400 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
       treatment_condition: Coculture with Synechococcus CC9311 at 400 ppm pCO2
-      control_condition: Axenic at 400 ppm pCO2
-      experimental_context: In Pro99 medium at ambient pCO2 (400 ppm)
+      control_condition: Mean coculture response across the three partners (MIT9312, CC9311, WH8102) at 400 ppm pCO2
+      experimental_context: Partner-specific deviation of EZ55 transcription from the mean coculture response
+        across the three partners at ambient pCO2 (400 ppm), not a comparison with axenic EZ55. Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
       omics_type: RNASEQ
       test_type: edgeR
       treatment_type: [coculture]
-      background_factors: [light]
-      medium: Pro99 medium
-      temperature: 22C
-      light_condition: continuous light
-      light_intensity: 30 umol photons m-2 s-1
+      background_factors: [diel]
+      medium: Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
+      temperature: 21C
+      light_condition: 14:10 light-dark cycle
+      light_intensity: 150 umol photons m-2 s-1
       treatment_organism: Synechococcus CC9311
       treatment_taxid: 64471
       treatment_assembly_accession: GCF_000014585.1
       table_scope: significant_only
+      design_notes: >-
+        logFC is the partner deviation from the partner-averaged coculture response at 400 ppm, not
+        partner vs axenic (adding the general coculture logFC of Table S5 recovers the vs-axenic value);
+        the three partner tables at 400 ppm sum to zero per gene. Matched by growth state, not by
+        sampling day: arms are acclimated cultures harvested in exponential growth; the axenic EZ55 and
+        MIT9312 coculture libraries are from Hennon 2017, the Synechococcus cocultures were grown later.
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
     coculture_synechococcus_wh8102_at_400_ez55_rnaseq:
-      name: EZ55 Coculture with Synechococcus WH8102 at 400 ppm pCO2 vs Axenic at 400 ppm pCO2 (RNASEQ)
+      name: EZ55 Coculture with Synechococcus WH8102 vs Mean Coculture Response across Three Partners at 400 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
       treatment_condition: Coculture with Synechococcus WH8102 at 400 ppm pCO2
-      control_condition: Axenic at 400 ppm pCO2
-      experimental_context: In Pro99 medium at ambient pCO2 (400 ppm)
+      control_condition: Mean coculture response across the three partners (MIT9312, CC9311, WH8102) at 400 ppm pCO2
+      experimental_context: Partner-specific deviation of EZ55 transcription from the mean coculture response
+        across the three partners at ambient pCO2 (400 ppm), not a comparison with axenic EZ55. Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
       omics_type: RNASEQ
       test_type: edgeR
       treatment_type: [coculture]
-      background_factors: [light]
-      medium: Pro99 medium
-      temperature: 22C
-      light_condition: continuous light
-      light_intensity: 30 umol photons m-2 s-1
+      background_factors: [diel]
+      medium: Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
+      temperature: 21C
+      light_condition: 14:10 light-dark cycle
+      light_intensity: 150 umol photons m-2 s-1
       treatment_organism: Synechococcus WH8102
       treatment_taxid: 84588
       treatment_assembly_accession: GCF_000195975.1
       table_scope: significant_only
+      design_notes: >-
+        logFC is the partner deviation from the partner-averaged coculture response at 400 ppm, not
+        partner vs axenic (adding the general coculture logFC of Table S5 recovers the vs-axenic value);
+        the three partner tables at 400 ppm sum to zero per gene. Matched by growth state, not by
+        sampling day: arms are acclimated cultures harvested in exponential growth; the axenic EZ55 and
+        MIT9312 coculture libraries are from Hennon 2017, the Synechococcus cocultures were grown later.
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
     coculture_prochlorococcus_mit9312_at_800_ez55_rnaseq:
-      name: EZ55 Coculture with Prochlorococcus MIT9312 at 800 ppm pCO2 vs Axenic at 800 ppm pCO2 (RNASEQ)
+      name: EZ55 Coculture with Prochlorococcus MIT9312 vs Mean Coculture Response across Three Partners at 800 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
       treatment_condition: Coculture with Prochlorococcus MIT9312 at 800 ppm pCO2
-      control_condition: Axenic at 800 ppm pCO2
-      experimental_context: In Pro99 medium at elevated pCO2 (800 ppm)
+      control_condition: Mean coculture response across the three partners (MIT9312, CC9311, WH8102) at 800 ppm pCO2
+      experimental_context: As presented by the paper (Fig. 2, Table S5), partner-specific deviation of EZ55 transcription
+        from the mean coculture response across the three partners at elevated pCO2 (800 ppm), not a comparison with
+        axenic EZ55; see the design_notes caveat. Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
       omics_type: RNASEQ
       test_type: edgeR
       treatment_type: [coculture]
-      background_factors: [light]
-      medium: Pro99 medium
-      temperature: 22C
-      light_condition: continuous light
-      light_intensity: 30 umol photons m-2 s-1
+      background_factors: [diel]
+      medium: Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
+      temperature: 21C
+      light_condition: 14:10 light-dark cycle
+      light_intensity: 150 umol photons m-2 s-1
       treatment_organism: Prochlorococcus MIT9312
       treatment_taxid: 74546
       treatment_assembly_accession: GCF_000012645.1
       table_scope: significant_only
+      design_notes: >-
+        The paper presents logFC as the partner deviation from the partner-averaged coculture response
+        at 800 ppm (Fig. 2, Table S5), not
+        partner vs axenic (adding the general coculture logFC of Table S5 recovers the vs-axenic value);
+        the three partner tables at 800 ppm sum to zero per gene. Matched by growth state, not by
+        sampling day: arms are acclimated cultures harvested in exponential growth; the axenic EZ55 and
+        MIT9312 coculture libraries are from Hennon 2017, the Synechococcus cocultures were grown later. Caveat: the author script has no contrast for that quantity; Tables S12 to S14 more likely are
+        its contrasts 7 to 9 (partner-specific pCO2 interaction minus the mean of the three, Methods item v).
+        Their logFC runs opposite to the matching 400 ppm table on shared genes (r = -0.61, -0.83, -0.97
+        for MIT9312, CC9311, WH8102).
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
     coculture_synechococcus_cc9311_at_800_ez55_rnaseq:
-      name: EZ55 Coculture with Synechococcus CC9311 at 800 ppm pCO2 vs Axenic at 800 ppm pCO2 (RNASEQ)
+      name: EZ55 Coculture with Synechococcus CC9311 vs Mean Coculture Response across Three Partners at 800 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
       treatment_condition: Coculture with Synechococcus CC9311 at 800 ppm pCO2
-      control_condition: Axenic at 800 ppm pCO2
-      experimental_context: In Pro99 medium at elevated pCO2 (800 ppm)
+      control_condition: Mean coculture response across the three partners (MIT9312, CC9311, WH8102) at 800 ppm pCO2
+      experimental_context: As presented by the paper (Fig. 2, Table S5), partner-specific deviation of EZ55 transcription
+        from the mean coculture response across the three partners at elevated pCO2 (800 ppm), not a comparison with
+        axenic EZ55; see the design_notes caveat. Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
       omics_type: RNASEQ
       test_type: edgeR
       treatment_type: [coculture]
-      background_factors: [light]
-      medium: Pro99 medium
-      temperature: 22C
-      light_condition: continuous light
-      light_intensity: 30 umol photons m-2 s-1
+      background_factors: [diel]
+      medium: Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
+      temperature: 21C
+      light_condition: 14:10 light-dark cycle
+      light_intensity: 150 umol photons m-2 s-1
       treatment_organism: Synechococcus CC9311
       treatment_taxid: 64471
       treatment_assembly_accession: GCF_000014585.1
       table_scope: significant_only
+      design_notes: >-
+        The paper presents logFC as the partner deviation from the partner-averaged coculture response
+        at 800 ppm (Fig. 2, Table S5), not
+        partner vs axenic (adding the general coculture logFC of Table S5 recovers the vs-axenic value);
+        the three partner tables at 800 ppm sum to zero per gene. Matched by growth state, not by
+        sampling day: arms are acclimated cultures harvested in exponential growth; the axenic EZ55 and
+        MIT9312 coculture libraries are from Hennon 2017, the Synechococcus cocultures were grown later. Caveat: the author script has no contrast for that quantity; Tables S12 to S14 more likely are
+        its contrasts 7 to 9 (partner-specific pCO2 interaction minus the mean of the three, Methods item v).
+        Their logFC runs opposite to the matching 400 ppm table on shared genes (r = -0.61, -0.83, -0.97
+        for MIT9312, CC9311, WH8102).
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
     coculture_synechococcus_wh8102_at_800_ez55_rnaseq:
-      name: EZ55 Coculture with Synechococcus WH8102 at 800 ppm pCO2 vs Axenic at 800 ppm pCO2 (RNASEQ)
+      name: EZ55 Coculture with Synechococcus WH8102 vs Mean Coculture Response across Three Partners at 800 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
       treatment_condition: Coculture with Synechococcus WH8102 at 800 ppm pCO2
-      control_condition: Axenic at 800 ppm pCO2
-      experimental_context: In Pro99 medium at elevated pCO2 (800 ppm)
+      control_condition: Mean coculture response across the three partners (MIT9312, CC9311, WH8102) at 800 ppm pCO2
+      experimental_context: As presented by the paper (Fig. 2, Table S5), partner-specific deviation of EZ55 transcription
+        from the mean coculture response across the three partners at elevated pCO2 (800 ppm), not a comparison with
+        axenic EZ55; see the design_notes caveat. Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
       omics_type: RNASEQ
       test_type: edgeR
       treatment_type: [coculture]
-      background_factors: [light]
-      medium: Pro99 medium
-      temperature: 22C
-      light_condition: continuous light
-      light_intensity: 30 umol photons m-2 s-1
+      background_factors: [diel]
+      medium: Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
+      temperature: 21C
+      light_condition: 14:10 light-dark cycle
+      light_intensity: 150 umol photons m-2 s-1
       treatment_organism: Synechococcus WH8102
       treatment_taxid: 84588
       treatment_assembly_accession: GCF_000195975.1
       table_scope: significant_only
+      design_notes: >-
+        The paper presents logFC as the partner deviation from the partner-averaged coculture response
+        at 800 ppm (Fig. 2, Table S5), not
+        partner vs axenic (adding the general coculture logFC of Table S5 recovers the vs-axenic value);
+        the three partner tables at 800 ppm sum to zero per gene. Matched by growth state, not by
+        sampling day: arms are acclimated cultures harvested in exponential growth; the axenic EZ55 and
+        MIT9312 coculture libraries are from Hennon 2017, the Synechococcus cocultures were grown later. Caveat: the author script has no contrast for that quantity; Tables S12 to S14 more likely are
+        its contrasts 7 to 9 (partner-specific pCO2 interaction minus the mean of the three, Methods item v).
+        Their logFC runs opposite to the matching 400 ppm table on shared genes (r = -0.61, -0.83, -0.97
+        for MIT9312, CC9311, WH8102).
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
     interaction_pco2_coculture_ez55_rnaseq:
-      name: EZ55 pCO2 x Coculture Interaction Effect (RNASEQ)
+      name: EZ55 Table S4 contrast, labelled pCO2 x coculture interaction by the authors (RNASEQ)
       organism: Alteromonas macleodii EZ55
-      treatment_condition: pCO2 effect modified by coculture context
-      control_condition: pCO2 effect under axenic context
-      experimental_context: pCO2 x coculture interaction term (cyano:treatment coefficient) from edgeR GLM with design ~0+cyano+treatment+cyano:treatment; identifies EZ55 genes whose pCO2 response differs between axenic and coculture contexts, averaged across MIT9312, CC9311, WH8102 partners. In Pro99 medium under continuous light at 22C.
+      treatment_condition: Mean of the three partner-specific pCO2 interaction coefficients (MIT9312, CC9311, WH8102)
+      control_condition: Axenic EZ55 pCO2 coefficient (800 vs 400 ppm)
+      experimental_context: Contrast 6 of the shared EZ55 edgeR GLM (design ~0+cyano+treatment+cyano:treatment), computed
+        by the author script as the mean of the three cyano:treatment coefficients minus the axenic treatment
+        coefficient. The paper labels it the pCO2 by coculture interaction (Table S4 legend). Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
       omics_type: RNASEQ
       test_type: edgeR
       treatment_type: [carbon]
-      background_factors: [axenic, coculture]
+      background_factors: [axenic, coculture, diel]
       background_organisms:
         - organism: "Prochlorococcus MIT9312"
           taxid: 74546
@@ -212,11 +284,21 @@ publication:
         - organism: "Synechococcus WH8102"
           taxid: 84588
           assembly_accession: "GCF_000195975.1"
-      medium: Pro99 medium
-      temperature: 22C
-      light_condition: continuous light
-      light_intensity: 30 umol photons m-2 s-1
+      medium: Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
+      temperature: 21C
+      light_condition: 14:10 light-dark cycle
+      light_intensity: 150 umol photons m-2 s-1
       table_scope: significant_only
+      design_notes: >-
+        The author script defines this table as the mean of the three partner-specific pCO2 interaction
+        coefficients minus the axenic pCO2 coefficient, not a clean interaction term; Table S5 also presents these values as the general
+        coculture response at 800 ppm. Matched by growth state, not by sampling day: arms are acclimated
+        cultures harvested in exponential growth; the axenic EZ55 and MIT9312 coculture libraries are
+        from Hennon 2017, the Synechococcus cocultures were grown later. Because the interaction coefficients already
+        measure the partner pCO2 response relative to axenic, subtracting the axenic coefficient again leaves a
+        quantity the paper does not define; on the 115 genes shared with Table S2 the logFC is opposite in sign
+        (r = -0.98).
+        adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
   supplementary_materials:
     id_translation_pro_9312:
       type: id_translation

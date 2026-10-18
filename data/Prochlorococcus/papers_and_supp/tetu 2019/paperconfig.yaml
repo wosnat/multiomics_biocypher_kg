@@ -1,6 +1,7 @@
 publication:
   papername: Tetu 2019
   papermainpdf: data/Prochlorococcus/papers_and_supp/tetu 2019/s42003-019-0410-x.pdf
+  control_timing: matched
   experiments:
     plastic_hdpe_plastic_leachate_50_mit9312_rnaseq:
       name: MIT9312 HDPE plastic leachate (50% dilution) vs AMP1 media control (no leachate) (RNASEQ)
@@ -34,6 +35,12 @@ publication:
       light_intensity: 20-40 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes significant for HDPE or PVC or both, both in single table
+      design_notes: >-
+        90 min: PVC-exposed cultures were harvested after 90 min and the shared AMP1 no-leachate control
+        after 180 min (GEO GSE118155 protocol; the paper does not state the control harvest time).
+        Treated as matched: treatment and control are parallel exponential cultures and the exposure
+        length is part of the treatment. The same three control libraries serve as control for the
+        HDPE experiment of this strain.
     plastic_hdpe_plastic_leachate_50_natl2a_rnaseq:
       name: NATL2A HDPE plastic leachate (50% dilution) vs AMP1 media control (no leachate) (RNASEQ)
       organism: Prochlorococcus NATL2A
@@ -66,6 +73,12 @@ publication:
       light_intensity: 20-40 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes significant for HDPE or PVC or both, both in single table
+      design_notes: >-
+        90 min: PVC-exposed cultures were harvested after 90 min and the shared AMP1 no-leachate control
+        after 180 min (GEO GSE118155 protocol; the paper does not state the control harvest time).
+        Treated as matched: treatment and control are parallel exponential cultures and the exposure
+        length is part of the treatment. The same three control libraries serve as control for the
+        HDPE experiment of this strain.
   supplementary_materials:
     supp_dataset_3_mit9312:
       type: csv

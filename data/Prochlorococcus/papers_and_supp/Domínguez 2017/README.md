@@ -3,7 +3,7 @@
 **Citation:** Domínguez-Martín et al. 2017, "Quantitative proteomics shows extensive remodeling induced by nitrogen limitation in Prochlorococcus marinus SS120", mSystems 2:e00008-17.
 **DOI:** 10.1128/mSystems.00008-17
 **Organism(s):** *Prochlorococcus marinus* SS120 (CCMP1375)
-**Topic:** Label-free LC-MS/MS proteomics of SS120 exposed to azaserine (10 uM, a ferredoxin-GOGAT inhibitor used as an acute N-limitation proxy) vs untreated control, cells harvested 24 h after addition; Progenesis QI quantitation with n=3 biological replicates per condition. The paper reports only significantly changing proteins (ANOVA p < 0.05).
+**Topic:** Label-free LC-MS/MS proteomics of SS120 exposed to azaserine (100 uM, a ferredoxin-GOGAT inhibitor used as an acute N-limitation proxy) vs untreated control, cells harvested 8 h after addition under continuous blue light (4 uE m-2 s-1; corrected 2026-10-18 from 10 uM / 24 h); Progenesis QI quantitation with n=3 biological replicates per condition. The paper reports only significantly changing proteins (ANOVA p < 0.05).
 
 ## Classification
 

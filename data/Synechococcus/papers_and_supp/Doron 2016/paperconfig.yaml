@@ -2,6 +2,7 @@ publication:
   papername: "Doron 2016"
   doi: "10.1038/ismej.2015.210"
   papermainpdf: "data/Synechococcus/papers_and_supp/Doron 2016/41396_2016_article_bfismej2015210.pdf"
+  control_timing: matched
 
   experiments:
     syn9_infection_wh7803:
@@ -22,6 +23,11 @@ publication:
       light_intensity: "30 umol photons m-2 s-1"
       table_scope: all_detected_genes
       table_scope_detail: "All host probes on the array (WH7803); 232 BSV9_* Syn9 phage probes filtered out at CSV-generation time (no Gene nodes). adjusted_p_value is wired ONLY on the terminal 4 h timepoint and is limma's omnibus series-level FDR ('this gene changed at some point in the series'), not a timepoint-specific test; the other six timepoints carry log-ratios with null adjusted_p_value (decision D7(a))."
+      design_notes: >-
+        Uninfected control cultures were sampled at every timepoint ("2-5 min", "30 min" to "240 min") in
+        triplicate, and the limma log-ratios are infected vs control at the same timepoint. For the
+        2-5 min point the control column is labelled 0 and a figure legend calls it the control
+        prior to infection, so that control may precede the infected sample by a few minutes.
 
     syn9_infection_wh8102:
       name: "WH8102 cyanophage Syn9 infection time course (microarray)"
@@ -41,6 +47,11 @@ publication:
       light_intensity: "30 umol photons m-2 s-1"
       table_scope: all_detected_genes
       table_scope_detail: "All host probes on the array (WH8102); 232 BSV9_* Syn9 phage probes filtered out at CSV-generation time (no Gene nodes). adjusted_p_value is wired ONLY on the terminal 4 h timepoint and is limma's omnibus series-level FDR ('this gene changed at some point in the series'), not a timepoint-specific test; the other six timepoints carry log-ratios with null adjusted_p_value (decision D7(a))."
+      design_notes: >-
+        Uninfected control cultures were sampled at every timepoint ("2-5 min", "0.5 h" to "4 h") in
+        triplicate, and the limma log-ratios are infected vs control at the same timepoint. For the
+        2-5 min point the control column is labelled 0 and a figure legend calls it the control
+        prior to infection, so that control may precede the infected sample by a few minutes.
 
     syn9_infection_wh8109:
       name: "WH8109 cyanophage Syn9 infection time course (microarray)"
@@ -60,6 +71,11 @@ publication:
       light_intensity: "30 umol photons m-2 s-1"
       table_scope: all_detected_genes
       table_scope_detail: "All host probes on the array (WH8109); 232 BSV9_* Syn9 phage probes filtered out at CSV-generation time (no Gene nodes). adjusted_p_value is wired ONLY on the terminal 4 h timepoint and is limma's omnibus series-level FDR ('this gene changed at some point in the series'), not a timepoint-specific test; the other six timepoints carry log-ratios with null adjusted_p_value (decision D7(a))."
+      design_notes: >-
+        Uninfected control cultures were sampled at every timepoint ("2-5 min", "0.5 h" to "4 h") in
+        triplicate, and the limma log-ratios are infected vs control at the same timepoint. For the
+        2-5 min point the control column is labelled 0 and a figure legend calls it the control
+        prior to infection, so that control may precede the infected sample by a few minutes.
 
   supplementary_materials:
     # Derived from GSE63690_Processed_data_WH7803.txt.gz by

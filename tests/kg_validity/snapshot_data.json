@@ -2213,25 +2213,19 @@
     },
     {
       "properties": {},
-      "source": "10.1038/ismej.2011.49_growth_medium_ironreplete_control_med4_med4_microarray",
+      "source": "10.1038/ismej.2011.49_iron_rescue_med4_microarray",
       "target": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
       "type": "ExperimentHasClusteringAnalysis"
     },
     {
       "properties": {},
-      "source": "10.1038/ismej.2011.49_growth_medium_ironreplete_control_mit9313_mit9313_microarray",
+      "source": "10.1038/ismej.2011.49_iron_rescue_mit9313_microarray",
       "target": "clustering_analysis:ismej.2011.49:mit9313_iron_response_clusters",
       "type": "ExperimentHasClusteringAnalysis"
     },
     {
       "properties": {},
       "source": "10.1038/ismej.2011.49_iron_iron_starvation_med4_med4_microarray_light",
-      "target": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
-      "type": "ExperimentHasClusteringAnalysis"
-    },
-    {
-      "properties": {},
-      "source": "10.1038/ismej.2011.49_iron_iron_starvation_med4_med4_microarray_light_2",
       "target": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
       "type": "ExperimentHasClusteringAnalysis"
     },
@@ -2538,7 +2532,7 @@
           "Synechococcus WH7803",
           "Synechococcus WH8102"
         ],
-        "title": "You produce while I clean up, a strategy revealed by exoproteomics during Synechococcus\u2013Roseobacter interactions",
+        "title": "You produce while I clean up, a strategy revealed by exoproteomics during Synechococcus–Roseobacter interactions",
         "treatment_types": [
           "coculture"
         ]
@@ -2671,7 +2665,7 @@
       "id": "10.1016/j.cell.2022.12.006_mmc_vs_uv_mit0604",
       "label": "Experiment",
       "properties": {
-        "control": "UV shock arm (30 s 254 nm + 1 h recovery) \u2014 treatment-vs-treatment contrast, NOT an untreated baseline",
+        "control": "UV shock arm (30 s 254 nm + 1 h recovery) — treatment-vs-treatment contrast, NOT an untreated baseline",
         "is_time_course": "single_time_point",
         "name": "MIT0604 mitomycin C vs UV shock (treatment-vs-treatment contrast, RNA-seq)",
         "omics_type": "RNASEQ",
@@ -3669,7 +3663,7 @@
       "properties": {
         "level": 1,
         "level_kind": "tc_subclass",
-        "name": "\u03b1-Type Channels",
+        "name": "α-Type Channels",
         "tcdb_id": "1.A"
       }
     },

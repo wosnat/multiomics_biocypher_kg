@@ -355,6 +355,9 @@ class OMICSAdapter:
         # Create experiment nodes from the experiments block
         experiments = get_experiments(self.config_data)
         pub_id = self.get_publication_id()
+        de_experiments = {
+            a.get("experiment") for _, _, a in iter_analyses(self.config_data)
+        }
         for exp_key, exp in experiments.items():
             if not isinstance(exp, dict):
                 continue
@@ -392,6 +395,19 @@ class OMICSAdapter:
             table_scope = self.clean_text(exp.get("table_scope", ""))
             if table_scope:
                 exp_props["table_scope"] = table_scope
+            # Control timing (plans/per_arm_sampling_and_shared_model.md).
+            # control_timing is curated (paper default, experiment override) and
+            # emitted only on experiments with a DE contrast — never defaulted by
+            # the adapter. design_notes is sparse.
+            if exp_key in de_experiments:
+                control_timing = self.clean_text(
+                    exp.get("control_timing") or publication.get("control_timing") or ""
+                )
+                if control_timing:
+                    exp_props["control_timing"] = control_timing
+            design_notes = self.clean_text(exp.get("design_notes") or "")
+            if design_notes:
+                exp_props["design_notes"] = design_notes
             # Dense list of every partner in the culture (treatment + background +
             # phage), sorted; [] when axenic. Post-import overwrites it from the
             # Tests_coculture_with edges (sorted preferred_name), so the list
@@ -833,7 +849,10 @@ class OMICSAdapter:
                         pass
 
                 # Check significance and optionally filter
-                significant = self._check_significance(fc_float, pval, asterisk_significant, analysis)
+                # Judge the log2 value: a linear ratio below 1 is a down-regulation.
+                significant = self._check_significance(
+                    edge_properties.get('log2_fold_change'), pval, asterisk_significant, analysis
+                )
                 edge_properties['significant'] = significant
                 if self.significance_mode == "significant_only" and significant == 'not significant':
                     skipped_count += 1

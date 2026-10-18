@@ -1,6 +1,7 @@
 publication:
   papername: Martiny 2006
   papermainpdf: data/Prochlorococcus/papers_and_supp/martiny 2006/martiny-et-al-2006-phosphate-acquisition-genes-in-prochlorococcus-ecotypes-evidence-for-genome-wide-adaptation.pdf
+  control_timing: matched
   experiments:
     phosphorus_phosphate_starvation_med4_microarray:
       name: MED4 Phosphate starvation vs P-replete Pro99 medium (MICROARRAY)
@@ -15,7 +16,7 @@ publication:
       medium: Pro99 with no added PO4
       temperature: 22C
       light_condition: continuous light
-      light_intensity: 30 uE m-2 s-1 (MED4), 12 uE m-2 s-1 (MIT9313)
+      light_intensity: 30 uE m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes with q < 0.05 at t=48h, all timepoints reported
     phosphorus_phosphate_starvation_mit9313_microarray:
@@ -31,9 +32,9 @@ publication:
       medium: Pro99 with no added PO4
       temperature: 22C
       light_condition: continuous light
-      light_intensity: 30 uE m-2 s-1 (MED4), 12 uE m-2 s-1 (MIT9313)
+      light_intensity: 12 uE m-2 s-1
       table_scope: filtered_subset
-      table_scope_detail: Genes with q < 0.05 at t=48h, all timepoints reported
+      table_scope_detail: Genes with q < 0.05 at t=24h, all timepoints reported
   supplementary_materials:
     supp_table_1:
       type: csv

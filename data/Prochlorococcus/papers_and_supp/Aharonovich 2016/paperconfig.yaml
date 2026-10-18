@@ -1,6 +1,7 @@
 publication:
   papername: Aharonovich 2016
   papermainpdf: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/41396_2016_article_bfismej201670.pdf
+  control_timing: matched
   experiments:
     coculture_alteromonas_hot1a3_med4_rnaseq:
       name: MED4 Coculture with Alteromonas HOT1A3 vs Pro99 medium growth conditions (RNASEQ)
@@ -21,12 +22,12 @@ publication:
       treatment_assembly_accession: GCF_001578515.1
       table_scope: all_detected_genes
     coculture_prochlorococcus_mit9313_high_alteromonas_hot1a3_rnaseq:
-      name: HOT1A3 Coculture with Prochlorococcus MIT9313 (high Alteromonas inoculum, 5x10^6 cells/ml) vs Pro99 medium growth
-        conditions (RNASEQ)
+      name: HOT1A3 Coculture with Prochlorococcus MIT9313 (high Alteromonas inoculum, 5x10^6 cells/ml) vs coculture with
+        MIT9313 at low Alteromonas inoculum (0.5x10^6 cells/ml) (RNASEQ)
       organism: Alteromonas macleodii HOT1A3
       treatment_condition: Coculture with Prochlorococcus MIT9313 (high Alteromonas inoculum, 5x10^6 cells/ml)
-      control_condition: Pro99 medium growth conditions
-      experimental_context: in Pro99 medium under continuous light
+      control_condition: Coculture with Prochlorococcus MIT9313 (low Alteromonas inoculum, 0.5x10^6 cells/ml)
+      experimental_context: in Pro99 medium under continuous light; both arms are 20 h cocultures with MIT9313 that differ only in the initial HOT1A3 inoculum (no axenic HOT1A3 arm)
       omics_type: RNASEQ
       test_type: Rockhopper
       treatment_type: [coculture]
@@ -40,11 +41,11 @@ publication:
       treatment_assembly_accession: GCF_000011485.1
       table_scope: all_detected_genes
     coculture_prochlorococcus_mit9313_hot1a3_rnaseq:
-      name: HOT1A3 Coculture with Prochlorococcus MIT9313 vs Pro99 medium growth conditions (RNASEQ)
+      name: HOT1A3 Coculture with Prochlorococcus MIT9313 vs coculture with Prochlorococcus MED4 (RNASEQ)
       organism: Alteromonas macleodii HOT1A3
       treatment_condition: Coculture with Prochlorococcus MIT9313
-      control_condition: Pro99 medium growth conditions
-      experimental_context: in Pro99 medium under continuous light
+      control_condition: Coculture with Prochlorococcus MED4
+      experimental_context: in Pro99 medium under continuous light; both arms are 20 h cocultures with the same high HOT1A3 inoculum (5x10^6 cells/ml) that differ only in the Prochlorococcus partner strain (no axenic HOT1A3 arm)
       omics_type: RNASEQ
       test_type: Rockhopper
       treatment_type: [coculture]
@@ -124,7 +125,7 @@ publication:
         name_col: Synonym
         logfc_col: log 2 fold change coculture/axenic
         adjusted_p_value_col: q Value
-        pvalue_threshold: 0.01
+        pvalue_threshold: 0.05
     supp_table_hot1a3_9313_vs_9313dil:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/HOT1A3 coculture with 9313 ver coculture with 9313 diluted.csv
@@ -142,6 +143,7 @@ publication:
         growth_phase: exponential
         name_col: Synonym
         logfc_col: fold change 9313/9313DIL
+        fold_change_type: linear
         adjusted_p_value_col: qValue 9313+1A3  vs 9313+1A3 dil
         pvalue_threshold: 0.01
     supp_table_hot1a3_9313_vs_med4:
@@ -161,6 +163,7 @@ publication:
         growth_phase: exponential
         name_col: Synonym
         logfc_col: fold change 9313+1A3/med4+1A3
+        fold_change_type: linear
         adjusted_p_value_col: qValue 9313+1A3  vs med 4
         pvalue_threshold: 0.01
     supp_table_2:
@@ -180,7 +183,7 @@ publication:
         name_col: Synonym
         logfc_col: log 2 fold change coculture/axenic
         adjusted_p_value_col: q Value
-        pvalue_threshold: 0.01
+        pvalue_threshold: 0.05
     supp_table_3:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/de_genes_9313_dilute_t20h.csv
@@ -198,4 +201,4 @@ publication:
         name_col: Synonym
         logfc_col: log 2 fold change coculture/axenic
         adjusted_p_value_col: q Value
-        pvalue_threshold: 0.01
+        pvalue_threshold: 0.05

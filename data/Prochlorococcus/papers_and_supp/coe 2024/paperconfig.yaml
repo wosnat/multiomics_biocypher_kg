@@ -1,6 +1,7 @@
 publication:
   papername: Coe 2024
   papermainpdf: data/Prochlorococcus/papers_and_supp/coe 2024/coe_isme_ycae131.pdf
+  control_timing: matched
   experiments:
     darkness_darktolerant_coculture_under_1311_natl2a_rnaseq:
       name: NATL2A Dark-tolerant co-culture under 13:11 diel light:dark cycle vs Parental co-culture under 13:11 diel light:dark
@@ -69,7 +70,7 @@ publication:
         growth_phase: diel
         name_col: NCBI ID_3
         logfc_col: 0 hours
-        pvalue_threshold: 0.1
+        pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_dark_tolerant_vs_parental_NATL2A_4h
         experiment: darkness_darktolerant_coculture_under_1311_natl2a_rnaseq
@@ -78,7 +79,7 @@ publication:
         growth_phase: diel
         name_col: NCBI ID_3
         logfc_col: 4 hours
-        pvalue_threshold: 0.1
+        pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_dark_tolerant_vs_parental_NATL2A_8h
         experiment: darkness_darktolerant_coculture_under_1311_natl2a_rnaseq
@@ -87,7 +88,7 @@ publication:
         growth_phase: diel
         name_col: NCBI ID_3
         logfc_col: 8 hours
-        pvalue_threshold: 0.1
+        pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_dark_tolerant_vs_parental_NATL2A_13h
         experiment: darkness_darktolerant_coculture_under_1311_natl2a_rnaseq
@@ -96,7 +97,7 @@ publication:
         growth_phase: diel
         name_col: NCBI ID_3
         logfc_col: 13 hours
-        pvalue_threshold: 0.1
+        pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_dark_tolerant_vs_parental_NATL2A_16h
         experiment: darkness_darktolerant_coculture_under_1311_natl2a_rnaseq
@@ -105,7 +106,7 @@ publication:
         growth_phase: diel
         name_col: NCBI ID_3
         logfc_col: 16 hours
-        pvalue_threshold: 0.1
+        pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_dark_tolerant_vs_parental_NATL2A_20h
         experiment: darkness_darktolerant_coculture_under_1311_natl2a_rnaseq
@@ -114,7 +115,7 @@ publication:
         growth_phase: diel
         name_col: NCBI ID_3
         logfc_col: 20 hours
-        pvalue_threshold: 0.1
+        pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_dark_tolerant_vs_parental_NATL2A_24h
         experiment: darkness_darktolerant_coculture_under_1311_natl2a_rnaseq
@@ -123,7 +124,7 @@ publication:
         growth_phase: diel
         name_col: NCBI ID_3
         logfc_col: 24 hours
-        pvalue_threshold: 0.1
+        pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
     supp_table_4:
       type: csv
@@ -145,7 +146,7 @@ publication:
         growth_phase: diel
         name_col: NCBI ID
         logfc_col: 0 hours
-        pvalue_threshold: 0.1
+        pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_dark_tolerant_vs_parental_ALT_MIT1002_4h
         experiment: darkness_darktolerant_coculture_under_1311_mit1002_rnaseq
@@ -154,7 +155,7 @@ publication:
         growth_phase: diel
         name_col: NCBI ID
         logfc_col: 4 hours
-        pvalue_threshold: 0.1
+        pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_dark_tolerant_vs_parental_ALT_MIT1002_8h
         experiment: darkness_darktolerant_coculture_under_1311_mit1002_rnaseq
@@ -163,7 +164,7 @@ publication:
         growth_phase: diel
         name_col: NCBI ID
         logfc_col: 8 hours
-        pvalue_threshold: 0.1
+        pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_dark_tolerant_vs_parental_ALT_MIT1002_13h
         experiment: darkness_darktolerant_coculture_under_1311_mit1002_rnaseq
@@ -172,7 +173,7 @@ publication:
         growth_phase: diel
         name_col: NCBI ID
         logfc_col: 13 hours
-        pvalue_threshold: 0.1
+        pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_dark_tolerant_vs_parental_ALT_MIT1002_16h
         experiment: darkness_darktolerant_coculture_under_1311_mit1002_rnaseq
@@ -181,7 +182,7 @@ publication:
         growth_phase: diel
         name_col: NCBI ID
         logfc_col: 16 hours
-        pvalue_threshold: 0.1
+        pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_dark_tolerant_vs_parental_ALT_MIT1002_20h
         experiment: darkness_darktolerant_coculture_under_1311_mit1002_rnaseq
@@ -190,7 +191,7 @@ publication:
         growth_phase: diel
         name_col: NCBI ID
         logfc_col: 20 hours
-        pvalue_threshold: 0.1
+        pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_dark_tolerant_vs_parental_ALT_MIT1002_24h
         experiment: darkness_darktolerant_coculture_under_1311_mit1002_rnaseq
@@ -199,7 +200,7 @@ publication:
         growth_phase: diel
         name_col: NCBI ID
         logfc_col: 24 hours
-        pvalue_threshold: 0.1
+        pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
     supp_table_3_darktolerant_clusters:
       type: gene_clusters

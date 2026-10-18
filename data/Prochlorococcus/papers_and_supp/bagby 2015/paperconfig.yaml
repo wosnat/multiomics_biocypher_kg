@@ -1,6 +1,7 @@
 publication:
   papername: Bagby and Chisholm 2015
   papermainpdf: data/Prochlorococcus/papers_and_supp/bagby 2015/41396_2015_article_bfismej201536.pdf
+  control_timing: matched
   experiments:
     carbon_air_0036_co2_21_med4_microarray:
       name: MED4 Air (0.036% CO2 / 21% O2) vs Time 0 (pre-shock) (MICROARRAY)
@@ -18,13 +19,20 @@ publication:
       light_intensity: 60 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes significant in any of 4 gas conditions, all conditions in single table
+      control_timing: baseline
+      design_notes: >-
+        max across 3-24h: the air-sparged culture at each time is compared with its own t = 0 sample (taken
+        immediately after centrifugation and resuspension, before sparging; exponential). Table S1 reports the
+        maximal log2 fold change versus t = 0 over the time course; significance by betr time-series test against
+        t = 0.
     carbon_ambient_co2_no_o2_med4_microarray:
       name: MED4 Ambient CO2, no O2 (0.036% CO2 / 0% O2) vs Air (0.036% CO2 / 21% O2) (MICROARRAY)
       organism: Prochlorococcus MED4
       treatment_condition: Ambient CO2, no O2 (0.036% CO2 / 0% O2)
       control_condition: Air (0.036% CO2 / 21% O2)
       experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C. Highest FC across
-        timepoints (3h, 6h, 9h, 12h, 18h, 24h).
+        the hybridized timepoints (70 min, 6h, 12h, 24h; t = 0 is the reference). Samples were also
+        taken at 3h, 9h and 18h but were not hybridized.
       omics_type: MICROARRAY
       test_type: microarray
       treatment_type: [carbon]
@@ -35,13 +43,19 @@ publication:
       light_intensity: 60 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes significant in any of 4 gas conditions, all conditions in single table
+      design_notes: >-
+        max across 3-24h: gas-shocked and air-sparged control bottles were split from one pooled culture at t = 0
+        and sampled in parallel at the same times (exponential). The value is the extremum over time of the
+        log2 change versus t = 0 under the gas minus the same change in air; significance by betr against the
+        parallel air time course.
     carbon_low_co2_0004_co2_med4_microarray:
       name: MED4 Low CO2 (0.004% CO2 / 21% O2) vs Air (0.036% CO2 / 21% O2) (MICROARRAY)
       organism: Prochlorococcus MED4
       treatment_condition: Low CO2 (0.004% CO2 / 21% O2)
       control_condition: Air (0.036% CO2 / 21% O2)
       experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C. Highest FC across
-        timepoints (3h, 6h, 9h, 12h, 18h, 24h).
+        the hybridized timepoints (70 min, 6h, 12h, 24h; t = 0 is the reference). Samples were also
+        taken at 3h, 9h and 18h but were not hybridized.
       omics_type: MICROARRAY
       test_type: microarray
       treatment_type: [carbon]
@@ -52,13 +66,19 @@ publication:
       light_intensity: 60 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes significant in any of 4 gas conditions, all conditions in single table
+      design_notes: >-
+        max across 3-24h: gas-shocked and air-sparged control bottles were split from one pooled culture at t = 0
+        and sampled in parallel at the same times (exponential). The value is the extremum over time of the
+        log2 change versus t = 0 under the gas minus the same change in air; significance by betr against the
+        parallel air time course.
     carbon_low_co2_and_no_med4_microarray:
       name: MED4 Low CO2 and no O2 (0.004% CO2 / 0% O2) vs Air (0.036% CO2 / 21% O2) (MICROARRAY)
       organism: Prochlorococcus MED4
       treatment_condition: Low CO2 and no O2 (0.004% CO2 / 0% O2)
       control_condition: Air (0.036% CO2 / 21% O2)
       experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C. Highest FC across
-        timepoints (3h, 6h, 9h, 12h, 18h, 24h).
+        the hybridized timepoints (70 min, 6h, 12h, 24h; t = 0 is the reference). Samples were also
+        taken at 3h, 9h and 18h but were not hybridized.
       omics_type: MICROARRAY
       test_type: microarray
       treatment_type: [carbon]
@@ -69,6 +89,11 @@ publication:
       light_intensity: 60 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes significant in any of 4 gas conditions, all conditions in single table
+      design_notes: >-
+        max across 3-24h: gas-shocked and air-sparged control bottles were split from one pooled culture at t = 0
+        and sampled in parallel at the same times (exponential). The value is the extremum over time of the
+        log2 change versus t = 0 under the gas minus the same change in air; significance by betr against the
+        parallel air time course.
   supplementary_materials:
     supp_table_1_air:
       type: csv

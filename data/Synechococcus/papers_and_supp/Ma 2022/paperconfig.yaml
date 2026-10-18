@@ -1,6 +1,7 @@
 publication:
   papername: "Ma 2022"
   papermainpdf: "data/Synechococcus/papers_and_supp/Ma 2022/Synechococcus-E coli co-culture transcriptome Biotech Biofuels Bioprod 2022.pdf"
+  control_timing: matched
 
   experiments:
     coculture_ecoli_vs_axenic_utex2973_rnaseq:
@@ -22,6 +23,10 @@ publication:
       table_scope: significant_only
       table_scope_detail: "Tables S1 and S2 list only significantly DE genes (fold change > 1.5, padj < 0.05), split by direction"
 
+      design_notes: >-
+        Methods do not state the RNA sampling day; the axenic control was collected "meanwhile" in the
+        same amount (5 OD750), so a matched harvest at 4 days is assumed from the parallel design (the
+        proteomics methods state the same incubation time).
     coculture_ecoli_vs_axenic_utex2973_proteomics:
       name: "S. elongatus UTEX 2973 cscB+ coculture with E. coli ABKm vs axenic (proteomics)"
       organism: "Synechococcus elongatus UTEX 2973"
@@ -61,7 +66,7 @@ publication:
           pvalue_threshold: 0.05
           timepoint: "4 days"
           timepoint_hours: 96
-          growth_phase: acclimated_steady_state
+          growth_phase: exponential
 
     # Table S2: Down-regulated transcripts only (significant_only, no p-values in table)
     supp_table_s2_down:
@@ -80,7 +85,7 @@ publication:
           pvalue_threshold: 0.05
           timepoint: "4 days"
           timepoint_hours: 96
-          growth_phase: acclimated_steady_state
+          growth_phase: exponential
 
     # Table S4: Selected differentially expressed proteins
     # Mean Ratio uses non-standard sign convention: positive values (1.21-1.31) for
@@ -107,4 +112,4 @@ publication:
           table_scope: significant_only
           timepoint: "4 days"
           timepoint_hours: 96
-          growth_phase: acclimated_steady_state
+          growth_phase: exponential

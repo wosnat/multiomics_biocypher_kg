@@ -319,10 +319,15 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       + `.cypher` (Metabolite rollup block), `controlled_vocabularies.yaml` if
       registered; CLAUDE.md Metabolite bullet
 
-**P2 — needs a design pass**
+**P2 — designed, ready to implement**
 
 - [ ] **Per-arm sampling day + growth state, and a shared-model identifier for
-      linked contrasts.** A paperconfig analysis carries one `timepoint`, so a
+      linked contrasts.** HAS A PLAN (2026-10-15): `plans/per_arm_sampling_and_shared_model.md`
+      — simplified to curated Experiment fields `control_timing` (`matched | baseline |
+      mixed`) + `design_notes` (`statistical_model_id` dropped 2026-10-18), superseding the per-arm edge-property
+      proposal below; explorer accepted the contract (T1–T5; needs a note for the 2026-10-18 rename/drop). Implemented, rebuild pending. Dialog:
+      `multiomics_explorer/docs/kg-specs/2026-10-13-per-arm-sampling-shared-model-explorer-asks.md`.
+      Original note: A paperconfig analysis carries one `timepoint`, so a
       contrast whose arms were sampled on different days gets one label:
       Weissberg 2025 `DE_med4_rnaseq_coculture_vs_axenic_day_18` pairs coculture
       d18 with axenic d14, and the KG labels that axenic arm `nutrient_limited`
@@ -336,6 +341,25 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       together) so "independent contrast" is a queryable claim. → friction log
       2026-10-11 "Anchor RNA contrasts are algebraically linked", 2026-10-11
       researcher update under "The Plan phase missed three…"; `omics_adapter.py`
+
+**P2 — needs a design pass**
+
+- [ ] **Signed linear fold changes are stored as log2 (found 2026-10-18, control-timing fix pass).**
+      Four papers publish "+3 = 3-fold up, -3 = 3-fold down" ratios; the paperconfigs pass them
+      through unconverted, so `Changes_expression_of.log2_fold_change` holds linear magnitudes
+      (up to -8,464; no value in (-1, 1)). Affected: Kaur 2018 (all 28 analyses, S4/S5),
+      Oleza 2017 (3; paperconfig comments call them "signed linear ratios"), Martiny 2006 (9;
+      Table 1 "FC, fold change (-P/+P)", max 162), Steglich 2006 (6; legend "expression ratios
+      (>=2-fold) ... positive values indicate induction and negative values reduction", max 61).
+      Ma 2022 proteomics "Mean Ratio" is a different case (10 values in (-1, 1)) — check
+      separately. A prototype `fold_change_type: signed_linear` (sign x log2|x|, (-1, 1) invalid)
+      was written and reverted pending scoping: decide the convention name, whether rank and
+      `logfc_threshold` behaviour change, and run `/omics-edge-snapshot` before/after.
+      Related, fixed in the same pass: significance is now judged on the converted log2 value
+      (`omics_adapter._check_significance` used the raw linear value, so linear ratios < 1 could
+      never be significant — Aharonovich 2016, Beliaev 2014). → `omics_adapter._convert_fold_change`,
+      `scripts/validate_paperconfig.py` (allowed `fold_change_type` values)
+
 
 - [x] **Chemical categories for `Metabolite` (ChEBI is_a / has_role).** CLOSED 2026-10-14 — delivered as `MetaboliteClass` (KEGG BRITE compound trees) + `ChemicalRole` for TCDB role substrates; see `docs/superpowers/plans/2026-10-14-metabolite-identity-and-classes.md`. ChEBI `has_role` on `Metabolite` stays deferred (item below). Original note: The KG
       has no compound-class layer; KEGG pathway membership and the carrying TCDB

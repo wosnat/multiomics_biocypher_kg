@@ -8,6 +8,7 @@ publication:
   # condition. Significance: fold change > 1.6 (up) or < 0.6 (down); no
   # per-protein p-values reported.
   papermainpdf: "data/Prochlorococcus/papers_and_supp/Fuszard 2012/2046-9063-8-7.pdf"
+  control_timing: matched
 
   experiments:
     # ── MIT9312 Pi limitation proteomics ──
@@ -20,7 +21,7 @@ publication:
       omics_type: PROTEOMICS
       test_type: "iTRAQ_t-test"
       treatment_type: ["phosphorus"]
-      background_factors: ["light", "axenic"]
+      background_factors: ["light"]
       medium: "Pro99"
       temperature: "21C (growth) / 23C (experimental)"
       light_condition: "13:11 L:D"
@@ -28,6 +29,10 @@ publication:
       table_scope: significant_only
       table_scope_detail: "Only proteins reaching the paper's fold-change cutoff (>1.6 or <0.6) are reported in S1."
 
+      design_notes: >-
+        Matched by growth state, not by sampling day: Pi-replete and Pi-deplete cultures were grown in
+        parallel and each harvested at the onset of stationary phase (supplementary methods); no common
+        harvest date is stated.
     # ── NATL2A Pi limitation proteomics ──
     pi_limitation_natl2a_itraq:
       name: "NATL2A proteomics: Pi replete vs Pi deplete (iTRAQ)"
@@ -38,14 +43,18 @@ publication:
       omics_type: PROTEOMICS
       test_type: "iTRAQ_t-test"
       treatment_type: ["phosphorus"]
-      background_factors: ["light", "axenic"]
+      background_factors: ["light"]
       medium: "Pro99"
       temperature: "21C (growth) / 23C (experimental)"
       light_condition: "13:11 L:D"
-      light_intensity: "20 umol photons m-2 s-1"
+      light_intensity: "10 umol photons m-2 s-1"
       table_scope: significant_only
       table_scope_detail: "Only proteins reaching the paper's fold-change cutoff (>1.6 or <0.6) are reported in S1."
 
+      design_notes: >-
+        Matched by growth state, not by sampling day: Pi-replete and Pi-deplete cultures were grown in
+        parallel and each harvested in mid-exponential phase (supplementary methods); no common harvest
+        date is stated.
     # ── SS120 Pi limitation proteomics ──
     pi_limitation_ss120_itraq:
       name: "SS120 proteomics: Pi replete vs Pi deplete (iTRAQ)"
@@ -56,14 +65,18 @@ publication:
       omics_type: PROTEOMICS
       test_type: "iTRAQ_t-test"
       treatment_type: ["phosphorus"]
-      background_factors: ["light", "axenic"]
+      background_factors: ["light"]
       medium: "Pro99"
       temperature: "21C (growth) / 23C (experimental)"
       light_condition: "13:11 L:D"
-      light_intensity: "10 umol photons m-2 s-1"
+      light_intensity: "20 umol photons m-2 s-1"
       table_scope: significant_only
       table_scope_detail: "Only proteins reaching the paper's fold-change cutoff (>1.6 or <0.6) are reported in S1."
 
+      design_notes: >-
+        Matched by growth state, not by sampling day: Pi-replete and Pi-deplete cultures were grown in
+        parallel and each harvested at the onset of stationary phase (supplementary methods); no common
+        harvest date is stated.
   supplementary_materials:
     # ── MIT9312 Pi-limitation iTRAQ quantitation (strain-specific CSV) ──
     # `_modified.csv` variant contains a precomputed log2_fold_change column

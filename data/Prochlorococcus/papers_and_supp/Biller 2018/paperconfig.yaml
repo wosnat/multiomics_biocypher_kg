@@ -1,6 +1,7 @@
 publication:
   papername: Biller 2018
   papermainpdf: data/Prochlorococcus/papers_and_supp/Biller 2018/biller-et-al-2018-heterotroph-interactions-alter-prochlorococcus-transcriptome-dynamics-during-extended-periods-of.pdf
+  control_timing: matched
   experiments:
     darkness_extended_darkness_natl2a_rnaseq_axenic:
       name: NATL2A Extended darkness vs 13:11 diel light:dark cycle control (RNASEQ)
@@ -17,6 +18,9 @@ publication:
       light_condition: continuous darkness
       light_intensity: 0 umol photons m-2 s-1
       table_scope: significant_any_timepoint
+      design_notes: >-
+        Dark and diel arms were split from the same bottles at 24 h and sampled at the same times at
+        every timepoint.
     darkness_extended_darkness_natl2a_rnaseq_coculture:
       name: NATL2A Extended darkness vs 13:11 diel light:dark cycle control (RNASEQ)
       organism: Prochlorococcus NATL2A
@@ -37,6 +41,9 @@ publication:
       light_condition: continuous darkness
       light_intensity: 0 umol photons m-2 s-1
       table_scope: significant_any_timepoint
+      design_notes: >-
+        Dark and diel arms were split from the same bottles at 24 h and sampled at the same times at
+        every timepoint.
     darkness_extended_darkness_mit1002_rnaseq:
       name: MIT1002 Extended darkness vs 13:11 diel light:dark cycle control (RNASEQ)
       organism: Alteromonas macleodii MIT1002
@@ -168,8 +175,8 @@ publication:
       statistical_analyses:
       - id: DE_extended_darkness_vs_diel_MIT1002_1h
         experiment: darkness_extended_darkness_mit1002_rnaseq
-        timepoint: 1h extended darkness
-        timepoint_hours: 1.0
+        timepoint: 1h extended darkness (36h)
+        timepoint_hours: 36.0
         growth_phase: darkness
         name_col: RAST_region_ID
         logfc_col: 1hr extended darkness (dark/diel)
@@ -177,8 +184,8 @@ publication:
         prefiltered: true
       - id: DE_extended_darkness_vs_diel_MIT1002_5h
         experiment: darkness_extended_darkness_mit1002_rnaseq
-        timepoint: 5h extended darkness
-        timepoint_hours: 5.0
+        timepoint: 5h extended darkness (40h)
+        timepoint_hours: 40.0
         growth_phase: darkness
         name_col: RAST_region_ID
         logfc_col: 5hr extended darkness (dark/diel)

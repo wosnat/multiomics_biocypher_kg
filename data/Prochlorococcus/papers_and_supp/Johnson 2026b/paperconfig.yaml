@@ -2,6 +2,7 @@ publication:
   papername: "Johnson 2026b"
   doi: "10.64898/2026.04.15.718746"  # bioRxiv post-2025 openRxiv prefix — 10.1101/... 404s
   papermainpdf: "data/Prochlorococcus/papers_and_supp/Johnson 2026b/2026.04.15.718746v1.full.pdf"
+  control_timing: matched
   # NOTE: this is the iModulon preprint (Johnson, Sadler, ..., Bohutskyi; PNNL;
   # GSE314951) — NOT the whole-cell-modeling preprint 2026.01.21.700212 that
   # sits in "Johnson 2026/" and merely cites the same GEO series (plan F8).
@@ -22,6 +23,11 @@ publication:
       light_condition: "12:12 light:dark cycle"
       light_intensity: "~45 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        Control for 2h and 4h is the normal-diel circadian time-course sample at the same ZT (ZT 2
+        and ZT 4, lights on, diel), not ZT 0 as one Methods sentence suggests; the reported log2FC
+        reproduce the same-ZT contrast from the GEO GSE314951 counts (r = 1.00) and not the ZT 0
+        contrast (r below 0.6).
 
     extended_light_med4:
       name: "MED4 extended light past dusk vs normal dark period (RNA-seq)"
@@ -38,6 +44,10 @@ publication:
       light_condition: "12:12 light:dark cycle"
       light_intensity: "~45 umol photons m-2 s-1"
       table_scope: all_detected_genes
+      design_notes: >-
+        Control for 14h and 16h is the normal-diel circadian time-course sample at the same ZT (ZT
+        14 and ZT 16, lights off, diel), not ZT 0 or ZT 12; the reported log2FC reproduce the same-ZT
+        contrast from the GEO GSE314951 counts (r = 1.00) and not the ZT 12 contrast (r below 0.82).
 
   supplementary_materials:
     # Built from media-2.xlsx DESeq2 sheets by

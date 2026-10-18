@@ -1,6 +1,7 @@
 publication:
   papername: "Kaur 2018"
   papermainpdf: "data/Synechococcus/papers_and_supp/kaur 2018/Synechococcus-Ruegeria long term co-culture exoproteome EM 2018.pdf"
+  control_timing: baseline
 
   experiments:
     # ── Synechococcus WH7803 exoproteome in natural seawater (SW) ──
@@ -29,6 +30,12 @@ publication:
       treatment_assembly_accession: "GCF_000011965.2"
       table_scope: all_detected_genes
       table_scope_detail: "All Synechococcus WH7803 proteins detected in SW exoproteome across all timepoints"
+      design_notes: >-
+        Every timepoint (day 3, day 7, day 14, day 21, day 32, day 60, day 100) is compared with
+        day 1 of the same coculture series (separate triplicate flasks harvested per day), so the
+        control is the day 1 coculture exoproteome (exponential, one day after co-inoculation);
+        there is no axenic arm. In SW the coculture reaches its stable state at day 21. Each
+        contrast is a separate two-sample t-test in Perseus.
 
     # ── Synechococcus WH7803 exoproteome in artificial seawater (ASW) ──
     syn_wh7803_exoproteome_asw:
@@ -51,6 +58,12 @@ publication:
       treatment_assembly_accession: "GCF_000011965.2"
       table_scope: all_detected_genes
       table_scope_detail: "All Synechococcus WH7803 proteins detected in ASW exoproteome across all timepoints"
+      design_notes: >-
+        Every timepoint (day 3, day 7, day 14, day 21, day 32, day 60, day 100) is compared with
+        day 1 of the same coculture series (separate triplicate flasks harvested per day), so the
+        control is the day 1 coculture exoproteome (exponential, one day after co-inoculation);
+        there is no axenic arm. In ASW day 21 marks the exponential to stable-state transition.
+        Each contrast is a separate two-sample t-test in Perseus.
 
     # ── R. pomeroyi DSS-3 exoproteome in natural seawater (SW) ──
     rpom_dss3_exoproteome_sw:
@@ -73,6 +86,12 @@ publication:
       treatment_assembly_accession: "GCF_000063505.1"
       table_scope: all_detected_genes
       table_scope_detail: "All R. pomeroyi DSS-3 proteins detected in SW exoproteome across all timepoints"
+      design_notes: >-
+        Every timepoint (day 3, day 7, day 14, day 21, day 32, day 60, day 100) is compared with
+        day 1 of the same coculture series (separate triplicate flasks harvested per day), so the
+        control is the day 1 coculture exoproteome (exponential, one day after co-inoculation);
+        there is no axenic arm. In SW the coculture reaches its stable state at day 21. Each
+        contrast is a separate two-sample t-test in Perseus.
 
     # ── R. pomeroyi DSS-3 exoproteome in artificial seawater (ASW) ──
     rpom_dss3_exoproteome_asw:
@@ -95,6 +114,12 @@ publication:
       treatment_assembly_accession: "GCF_000063505.1"
       table_scope: all_detected_genes
       table_scope_detail: "All R. pomeroyi DSS-3 proteins detected in ASW exoproteome across all timepoints"
+      design_notes: >-
+        Every timepoint (day 3, day 7, day 14, day 21, day 32, day 60, day 100) is compared with
+        day 1 of the same coculture series (separate triplicate flasks harvested per day), so the
+        control is the day 1 coculture exoproteome (exponential, one day after co-inoculation);
+        there is no axenic arm. In ASW day 21 marks the exponential to stable-state transition.
+        Each contrast is a separate two-sample t-test in Perseus.
 
   supplementary_materials:
     # ── Table S4a: Synechococcus WH7803 exoproteome in SW ──
@@ -125,7 +150,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 3 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 3 vs 1"
           pvalue_threshold: 0.05
-          growth_phase: acclimated_steady_state
+          growth_phase: exponential
         - id: "syn_wh7803_sw_tp7_vs_tp1"
           experiment: syn_wh7803_exoproteome_sw
           timepoint: "day 7"
@@ -134,7 +159,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 7 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 7 vs 1"
           pvalue_threshold: 0.05
-          growth_phase: acclimated_steady_state
+          growth_phase: nutrient_limited
         - id: "syn_wh7803_sw_tp14_vs_tp1"
           experiment: syn_wh7803_exoproteome_sw
           timepoint: "day 14"
@@ -143,7 +168,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 14 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 14 vs 1"
           pvalue_threshold: 0.05
-          growth_phase: acclimated_steady_state
+          growth_phase: nutrient_limited
         - id: "syn_wh7803_sw_tp21_vs_tp1"
           experiment: syn_wh7803_exoproteome_sw
           timepoint: "day 21"
@@ -203,7 +228,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 3 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 3 vs 1"
           pvalue_threshold: 0.05
-          growth_phase: acclimated_steady_state
+          growth_phase: exponential
         - id: "syn_wh7803_asw_tp7_vs_tp1"
           experiment: syn_wh7803_exoproteome_asw
           timepoint: "day 7"
@@ -212,7 +237,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 7 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 7 vs 1"
           pvalue_threshold: 0.05
-          growth_phase: acclimated_steady_state
+          growth_phase: exponential
         - id: "syn_wh7803_asw_tp14_vs_tp1"
           experiment: syn_wh7803_exoproteome_asw
           timepoint: "day 14"
@@ -221,7 +246,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 14 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 14 vs 1"
           pvalue_threshold: 0.05
-          growth_phase: acclimated_steady_state
+          growth_phase: exponential
         - id: "syn_wh7803_asw_tp21_vs_tp1"
           experiment: syn_wh7803_exoproteome_asw
           timepoint: "day 21"
@@ -230,7 +255,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 21 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 21 vs 1"
           pvalue_threshold: 0.05
-          growth_phase: acclimated_steady_state
+          growth_phase: nutrient_limited
         - id: "syn_wh7803_asw_tp32_vs_tp1"
           experiment: syn_wh7803_exoproteome_asw
           timepoint: "day 32"
@@ -239,7 +264,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 32 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 32 vs 1"
           pvalue_threshold: 0.05
-          growth_phase: acclimated_steady_state
+          growth_phase: stationary
         - id: "syn_wh7803_asw_tp60_vs_tp1"
           experiment: syn_wh7803_exoproteome_asw
           timepoint: "day 60"
@@ -248,7 +273,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points.  Time point 60 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points.  Time point 60 vs 1"
           pvalue_threshold: 0.05
-          growth_phase: acclimated_steady_state
+          growth_phase: stationary
         - id: "syn_wh7803_asw_tp100_vs_tp1"
           experiment: syn_wh7803_exoproteome_asw
           timepoint: "day 100"
@@ -281,7 +306,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 3 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 3 vs 1"
           pvalue_threshold: 0.05
-          growth_phase: acclimated_steady_state
+          growth_phase: exponential
         - id: "rpom_dss3_sw_tp7_vs_tp1"
           experiment: rpom_dss3_exoproteome_sw
           timepoint: "day 7"
@@ -290,7 +315,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 7 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 7 vs 1"
           pvalue_threshold: 0.05
-          growth_phase: acclimated_steady_state
+          growth_phase: exponential
         - id: "rpom_dss3_sw_tp14_vs_tp1"
           experiment: rpom_dss3_exoproteome_sw
           timepoint: "day 14"
@@ -299,7 +324,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 14 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 14 vs 1"
           pvalue_threshold: 0.05
-          growth_phase: acclimated_steady_state
+          growth_phase: exponential
         - id: "rpom_dss3_sw_tp21_vs_tp1"
           experiment: rpom_dss3_exoproteome_sw
           timepoint: "day 21"
@@ -357,7 +382,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 3 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 3 vs 1"
           pvalue_threshold: 0.05
-          growth_phase: acclimated_steady_state
+          growth_phase: exponential
         - id: "rpom_dss3_asw_tp7_vs_tp1"
           experiment: rpom_dss3_exoproteome_asw
           timepoint: "day 7"
@@ -366,7 +391,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 7 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 7 vs 1"
           pvalue_threshold: 0.05
-          growth_phase: acclimated_steady_state
+          growth_phase: exponential
         - id: "rpom_dss3_asw_tp14_vs_tp1"
           experiment: rpom_dss3_exoproteome_asw
           timepoint: "day 14"
@@ -375,7 +400,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 14 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 14 vs 1"
           pvalue_threshold: 0.05
-          growth_phase: acclimated_steady_state
+          growth_phase: exponential
         - id: "rpom_dss3_asw_tp21_vs_tp1"
           experiment: rpom_dss3_exoproteome_asw
           timepoint: "day 21"

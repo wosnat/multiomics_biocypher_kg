@@ -735,3 +735,78 @@ def test_rank_by_effect_contiguous(run_query):
         f"{result[0]['bad']} experiment x timepoint groups have non-contiguous rank_by_effect: "
         f"{result[0]['examples']}"
     )
+
+
+# ---------------------------------------------------------------------------
+# Control timing (plans/per_arm_sampling_and_shared_model.md)
+# ---------------------------------------------------------------------------
+
+CONTROL_TIMINGS = {"matched", "baseline", "mixed"}
+
+
+def test_control_timing_on_every_de_experiment(run_query):
+    """Every Experiment with expression edges carries a valid control_timing."""
+    rows = run_query("""
+        MATCH (e:Experiment)
+        WHERE EXISTS { (e)-[:Changes_expression_of]->() }
+          AND (e.control_timing IS NULL OR NOT e.control_timing IN $vals)
+        RETURN e.id AS id, e.control_timing AS ct
+    """, vals=sorted(CONTROL_TIMINGS))
+    assert not rows, f"DE experiments without a valid control_timing: {rows[:10]}"
+
+
+def test_control_timing_baseline_mixed_have_design_notes(run_query):
+    rows = run_query("""
+        MATCH (e:Experiment)
+        WHERE e.control_timing IN ['baseline', 'mixed']
+          AND (e.design_notes IS NULL OR e.design_notes = '')
+        RETURN e.id AS id
+    """)
+    assert not rows, f"baseline/mixed experiments without design_notes: {rows}"
+
+
+def test_control_timing_mixed_has_two_timepoints(run_query):
+    rows = run_query("""
+        MATCH (e:Experiment {control_timing: 'mixed'})
+        WHERE coalesce(e.time_point_count, 0) < 2
+        RETURN e.id AS id, e.time_point_count AS n
+    """)
+    assert not rows, f"mixed experiments with < 2 timepoints: {rows}"
+
+
+def test_no_statistical_model_id(run_query):
+    """The shared-model field was dropped on 2026-10-18 (mostly unreported, so a guess)."""
+    rows = run_query("MATCH (e:Experiment) WHERE e.statistical_model_id IS NOT NULL RETURN count(e) AS n")
+    assert rows[0]["n"] == 0
+
+
+def test_control_timing_spot_checks(run_query):
+    """Curated cases (curation log plans/control_timing_curation.md)."""
+    rows = run_query("""
+        MATCH (e:Experiment)
+        RETURN e.id AS id, e.control_timing AS ct
+    """)
+    by_key = {r["id"]: r for r in rows}
+
+    def find(key, doi=""):
+        hits = [r for i, r in by_key.items() if i.endswith("_" + key) and i.startswith(doi)]
+        assert len(hits) == 1, f"expected one Experiment ending in _{key}, got {len(hits)}"
+        return hits[0]
+
+    for key in ["syn_wh7803_exoproteome_sw", "syn_wh7803_exoproteome_asw",
+                "rpom_dss3_exoproteome_sw", "rpom_dss3_exoproteome_asw"]:
+        assert find(key)["ct"] == "baseline", key  # Kaur 2018: vs day 1
+
+    # Weissberg 2025: day 11 vs axenic day 7 and day 18 vs axenic day 14 — matched by
+    # growth state, not sampling day (curation review D0).
+    weissberg = "10.1101/2025.11.24.690089"
+    assert find("coculture_alteromonas_hot1a3_med4_rnaseq", weissberg)["ct"] == "matched"
+    assert find("coculture_prochlorococcus_med4_hot1a3_rnaseq", weissberg)["ct"] == "matched"
+
+
+def test_experiment_fulltext_indexes_design_notes(run_query):
+    rows = run_query("""
+        SHOW FULLTEXT INDEXES YIELD name, properties
+        WHERE name = 'experimentFullText' RETURN properties
+    """)
+    assert rows and "design_notes" in rows[0]["properties"]

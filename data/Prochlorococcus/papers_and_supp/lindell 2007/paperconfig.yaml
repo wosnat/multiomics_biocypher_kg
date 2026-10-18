@@ -1,25 +1,31 @@
 publication:
   papername: Lindell 2007
   papermainpdf: data/Prochlorococcus/papers_and_supp/lindell 2007/nature06130 (1).pdf
+  control_timing: mixed
   experiments:
     viral_phage_infected_med4_microarray:
-      name: MED4 Phage infected vs Pro99 medium phage infection baseline (MICROARRAY)
+      name: MED4 Phage infected vs uninfected spent-medium control (MICROARRAY)
       organism: Prochlorococcus MED4
       treatment_condition: Phage infected
-      control_condition: Pro99 medium phage infection baseline
+      control_condition: Uninfected control amended with filter-sterilized spent medium
       experimental_context: Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)
       omics_type: MICROARRAY
       test_type: microarray
       treatment_type: [viral]
       background_factors: [light]
       medium: Pro99 medium
-      temperature: 24C
+      temperature: 21C
       light_condition: continuous light
-      light_intensity: 10 umol photons m-2 s-1
+      light_intensity: 10-25 umol photons m-2 s-1
       treatment_organism: Phage
       treatment_taxid: 10239
       table_scope: significant_only
       table_scope_detail: Upregulated genes only
+      design_notes: >-
+        Paired uninfected control cultures (amended with filter-sterilized spent medium) were sampled
+        alongside the infected cultures; 1h, 2h, 3h, 4h and 8h compare infected vs control at the same
+        hour. 5h, 6h and 7h: no control arrays at those hours - infected cells were compared with the
+        control arrays from 4 h and 8 h (exponential), which gave the same profiles - not matched.
   supplementary_materials:
     supp_table_3:
       type: csv

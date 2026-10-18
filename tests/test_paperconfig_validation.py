@@ -114,7 +114,7 @@ def _make_valid_config(csv_path: Path, overrides: dict = None,
         analysis.update(overrides)
     config = {
         "publication": {
-            "papername": "Test Paper 2024",
+            "papername": "Test Paper 2024", "control_timing": "matched",
             "experiments": {
                 "exp_coculture": experiment,
             },
@@ -757,7 +757,7 @@ def test_validate_paperconfig_content_accepts_minimal_valid_config(tmp_path):
     pdf.write_bytes(b"%PDF-1.4\n")  # placeholder; validator only checks existence
     config = {
         "publication": {
-            "papername": "Test 2026",
+            "papername": "Test 2026", "control_timing": "matched",
             "papermainpdf": str(pdf),
             "experiments": {
                 "exp1": {
@@ -808,7 +808,7 @@ def test_validate_rejects_unknown_compartment(tmp_path):
     pdf = tmp_path / "p.pdf"; pdf.write_bytes(b"%PDF-1.4\n")
     config = {
         "publication": {
-            "papername": "X",
+            "papername": "X", "control_timing": "matched",
             "papermainpdf": str(pdf),
             "experiments": {
                 "exp1": {
@@ -843,7 +843,7 @@ def test_validate_accepts_whole_cell_compartment(tmp_path):
     pdf = tmp_path / "p.pdf"; pdf.write_bytes(b"%PDF-1.4\n")
     config = {
         "publication": {
-            "papername": "X", "papermainpdf": str(pdf),
+            "papername": "X", "papermainpdf": str(pdf), "control_timing": "matched",
             "experiments": {"exp1": {
                 "name": "e", "organism": "Prochlorococcus MED4",
                 "omics_type": "RNASEQ", "test_type": "DESeq2",
@@ -875,7 +875,7 @@ def test_validate_accepts_paired_rnaseq_proteome_omics_type(tmp_path):
     pdf = tmp_path / "p.pdf"; pdf.write_bytes(b"%PDF-1.4\n")
     config = {
         "publication": {
-            "papername": "X", "papermainpdf": str(pdf),
+            "papername": "X", "papermainpdf": str(pdf), "control_timing": "matched",
             "experiments": {"exp1": {
                 "name": "e", "organism": "Prochlorococcus MED4",
                 "omics_type": "PAIRED_RNASEQ_PROTEOME",
@@ -908,7 +908,7 @@ def test_validate_relaxes_de_fields_for_derived_metrics_only_experiment(tmp_path
     pdf = tmp_path / "p.pdf"; pdf.write_bytes(b"%PDF-1.4\n")
     config = {
         "publication": {
-            "papername": "X", "papermainpdf": str(pdf),
+            "papername": "X", "papermainpdf": str(pdf), "control_timing": "matched",
             "experiments": {"exp_dm_only": {
                 "name": "e", "organism": "Prochlorococcus NATL2A",
                 "omics_type": "RNASEQ",
@@ -960,7 +960,7 @@ def _dm_wrapper_config(tmp_path: Path, dm_entry: dict) -> dict:
     pdf = tmp_path / "p.pdf"; pdf.write_bytes(b"%PDF-1.4\n")
     return {
         "publication": {
-            "papername": "X", "papermainpdf": str(pdf),
+            "papername": "X", "papermainpdf": str(pdf), "control_timing": "matched",
             "experiments": {"exp_dm_only": {
                 "name": "e", "organism": "Prochlorococcus NATL2A",
                 "omics_type": "RNASEQ",

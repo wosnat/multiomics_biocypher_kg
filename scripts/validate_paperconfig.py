@@ -209,6 +209,69 @@ def _load_condition_vocab(entry_id: str) -> set[str]:
 CANONICAL_TREATMENT_TYPES = _load_condition_vocab("Experiment.treatment_type")
 CANONICAL_BACKGROUND_FACTORS = _load_condition_vocab("Experiment.background_factors")
 CANONICAL_CONDITION_TYPES = CANONICAL_TREATMENT_TYPES | CANONICAL_BACKGROUND_FACTORS
+VALID_CONTROL_TIMINGS = _load_condition_vocab("Experiment.control_timing")
+
+
+def validate_control_timing(pub: dict, supp: dict, config_path: str = "") -> tuple[list, list]:
+    """Control timing rules (plans/per_arm_sampling_and_shared_model.md).
+
+    1. Every DE experiment (>=1 statistical_analyses entry) resolves a
+       control_timing (experiment override, else publication default) in the vocab.
+    2. baseline / mixed => design_notes present.
+    3. mixed => the experiment's analyses span >= 2 distinct timepoint labels.
+    4. design_notes contains no | or '.
+    5. Warning: control_timing on a non-DE experiment.
+    """
+    errors: list[str] = []
+    warnings: list[str] = []
+    experiments = (pub or {}).get("experiments") or {}
+    timepoints: dict[str, set] = {}
+    for table in (supp or {}).values():
+        if not isinstance(table, dict):
+            continue
+        for a in table.get("statistical_analyses") or []:
+            if isinstance(a, dict) and a.get("experiment"):
+                tps = timepoints.setdefault(a["experiment"], set())
+                if a.get("timepoint"):
+                    tps.add(str(a["timepoint"]))
+
+    default = (pub or {}).get("control_timing")
+    if default is not None and default not in VALID_CONTROL_TIMINGS:
+        errors.append(
+            _canonical_field_error(config_path, "publication", "control_timing",
+                                   default, VALID_CONTROL_TIMINGS)
+        )
+
+    for key, exp in experiments.items():
+        if not isinstance(exp, dict):
+            continue
+        ctx = f"{config_path} | experiments.{key}"
+        notes = exp.get("design_notes")
+        if notes and ("|" in str(notes) or "'" in str(notes)):
+            errors.append(f"{ctx} | design_notes must not contain '|' or apostrophes")
+        if key not in timepoints:
+            if exp.get("control_timing") is not None:
+                warnings.append(f"{ctx} | control_timing set on an experiment with no statistical_analyses")
+            continue
+        timing = exp.get("control_timing", default)
+        if timing is None:
+            errors.append(
+                f"{ctx} | missing control_timing (set publication.control_timing "
+                f"or an experiment override; one of {sorted(VALID_CONTROL_TIMINGS)})"
+            )
+        elif timing not in VALID_CONTROL_TIMINGS:
+            errors.append(
+                _canonical_field_error(config_path, f"experiments.{key}", "control_timing",
+                                       timing, VALID_CONTROL_TIMINGS)
+            )
+        elif timing in ("baseline", "mixed") and not notes:
+            errors.append(f"{ctx} | control_timing '{timing}' requires design_notes")
+        if timing == "mixed" and len(timepoints[key]) < 2:
+            errors.append(
+                f"{ctx} | control_timing 'mixed' requires >= 2 distinct timepoints, "
+                f"found {sorted(timepoints[key])}"
+            )
+    return errors, warnings
 
 _CONDITION_TERM_NOTES = {
     # Nutrient / environmental variables
@@ -301,6 +364,7 @@ CANONICAL_TEST_TYPES = {
     # Proteomics / generic
     "t-test",
     "t-test_Perseus",        # Student's t-test via Perseus
+    "DEqMS",                 # limma with peptide-count-adjusted variance (proteomics)
     "ANOVA",
     "iTRAQ_t-test",          # iTRAQ quantification + t-test
     "RPKM_fold_change",      # simple RPKM ratio (no formal test)
@@ -1585,6 +1649,9 @@ def validate_paperconfig_content(
             errors, warnings, referenced_exp_keys=_referenced_exp_keys,
             genome_accessions=genome_accessions,
         )
+        _ct_errors, _ct_warnings = validate_control_timing(pub, supp, config_path)
+        errors.extend(_ct_errors)
+        warnings.extend(_ct_warnings)
 
     if not supp:
         errors.append(f"{config_path} | Missing 'supplementary_materials'")

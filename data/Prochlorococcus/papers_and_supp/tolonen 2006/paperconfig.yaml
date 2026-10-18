@@ -1,6 +1,7 @@
 publication:
   papername: Tolonen 2006
   papermainpdf: data/Prochlorococcus/papers_and_supp/tolonen 2006/msb4100087.pdf
+  control_timing: matched
   experiments:
     nitrogen_nitrogen_deprivation_med4_med4_microarray:
       name: MED4 Nitrogen deprivation (MED4) vs N-replete Pro99 medium (MED4) (MICROARRAY)
@@ -33,6 +34,10 @@ publication:
       light_condition: continuous light
       light_intensity: 50 umol quanta m-2 s-1
       table_scope: all_detected_genes
+      design_notes: >-
+        steady state: log-phase cultures acclimated to the alternative N source vs log-phase cultures on
+        ammonium (exponential). Methods do not state that both arms were harvested on the same day;
+        matched by growth state, assumed from the acclimated parallel-culture design.
     growth_medium_growth_on_urea_as_med4_microarray:
       name: MED4 Growth on urea as sole N source (MED4) vs N-replete Pro99 medium (MED4) (MICROARRAY)
       organism: Prochlorococcus MED4
@@ -49,6 +54,10 @@ publication:
       light_condition: continuous light
       light_intensity: 50 umol quanta m-2 s-1
       table_scope: all_detected_genes
+      design_notes: >-
+        steady state: log-phase cultures acclimated to the alternative N source vs log-phase cultures on
+        ammonium (exponential). Methods do not state that both arms were harvested on the same day;
+        matched by growth state, assumed from the acclimated parallel-culture design.
     nitrogen_nitrogen_deprivation_mit9313_mit9313_microarray:
       name: MIT9313 Nitrogen deprivation (MIT9313) vs N-replete Pro99 medium (MIT9313) (MICROARRAY)
       organism: Prochlorococcus MIT9313
@@ -64,6 +73,11 @@ publication:
       light_condition: continuous light
       light_intensity: 10 umol quanta m-2 s-1
       table_scope: all_detected_genes
+      control_timing: mixed
+      design_notes: >-
+        -N vs +NH4 cultures sampled in parallel after resuspension at t=0, matched at 6h, 12h and 48h.
+        24h: -N sampled at 24h vs +NH4 sampled at 12h (exponential), because the 24h +NH4 arrays
+        hybridized poorly. 0h: one of the +NH4 0h arrays was replaced by a +NH4 3h array; 3h is matched.
     growth_medium_growth_on_nitrite_as_mit9313_microarray:
       name: MIT9313 Growth on nitrite as sole N source (MIT9313) vs N-replete Pro99 medium (MIT9313) (MICROARRAY)
       organism: Prochlorococcus MIT9313
@@ -80,6 +94,10 @@ publication:
       light_condition: continuous light
       light_intensity: 10 umol quanta m-2 s-1
       table_scope: all_detected_genes
+      design_notes: >-
+        steady state: log-phase cultures acclimated to the alternative N source vs log-phase cultures on
+        ammonium (exponential). Methods do not state that both arms were harvested on the same day;
+        matched by growth state, assumed from the acclimated parallel-culture design.
     growth_medium_growth_on_urea_as_mit9313_microarray:
       name: MIT9313 Growth on urea as sole N source (MIT9313) vs N-replete Pro99 medium (MIT9313) (MICROARRAY)
       organism: Prochlorococcus MIT9313
@@ -96,6 +114,10 @@ publication:
       light_condition: continuous light
       light_intensity: 10 umol quanta m-2 s-1
       table_scope: all_detected_genes
+      design_notes: >-
+        steady state: log-phase cultures acclimated to the alternative N source vs log-phase cultures on
+        ammonium (exponential). Methods do not state that both arms were harvested on the same day;
+        matched by growth state, assumed from the acclimated parallel-culture design.
   supplementary_materials:
     supp_table_med4:
       type: csv
@@ -146,7 +168,7 @@ publication:
         experiment: nitrogen_nitrogen_deprivation_med4_med4_microarray
         timepoint: 24h
         timepoint_hours: 24.0
-        growth_phase: acute_stress
+        growth_phase: nutrient_limited
         name_col: GENE
         logfc_col: t=24h
         pvalue_threshold: 0.01
@@ -155,7 +177,7 @@ publication:
         experiment: nitrogen_nitrogen_deprivation_med4_med4_microarray
         timepoint: 48h
         timepoint_hours: 48.0
-        growth_phase: acute_stress
+        growth_phase: nutrient_limited
         name_col: GENE
         logfc_col: t=48h
         pvalue_threshold: 0.01
@@ -227,7 +249,7 @@ publication:
         experiment: nitrogen_nitrogen_deprivation_mit9313_mit9313_microarray
         timepoint: 24h
         timepoint_hours: 24.0
-        growth_phase: acute_stress
+        growth_phase: nutrient_limited
         name_col: GENE
         logfc_col: t=24h
         pvalue_threshold: 0.01
@@ -236,7 +258,7 @@ publication:
         experiment: nitrogen_nitrogen_deprivation_mit9313_mit9313_microarray
         timepoint: 48h
         timepoint_hours: 48.0
-        growth_phase: acute_stress
+        growth_phase: nutrient_limited
         name_col: GENE
         logfc_col: t=48h
         pvalue_threshold: 0.01
@@ -278,7 +300,7 @@ publication:
       treatment_type: ["nitrogen"]
       background_factors: [axenic, light]
       treatment: "N-starvation time course (0, 3, 6, 12, 24, 48h)"
-      experimental_context: "Custom Affymetrix microarray MD4-9313; MED4 cells in Pro99 medium under continuous light (27 µmol photons m-2 s-1, 24°C); sampled at 0, 3, 6, 12, 24, 48h post N-deprivation"
+      experimental_context: "Custom Affymetrix microarray MD4-9313; MED4 cells in Pro99 medium at 22C under continuous light (50 umol quanta m-2 s-1); sampled at 0, 3, 6, 12, 24, 48h post N-deprivation"
       experiments:
         - nitrogen_nitrogen_deprivation_med4_med4_microarray
 
@@ -299,7 +321,7 @@ publication:
       treatment_type: ["nitrogen"]
       background_factors: [axenic, light]
       treatment: "N-starvation time course (0, 3, 6, 12, 24, 48h)"
-      experimental_context: "Custom Affymetrix microarray MD4-9313; MIT9313 cells in Pro99 medium under continuous light (27 µmol photons m-2 s-1, 24°C); sampled at 0, 3, 6, 12, 24, 48h post N-deprivation"
+      experimental_context: "Custom Affymetrix microarray MD4-9313; MIT9313 cells in Pro99 medium at 22C under continuous light (10 umol quanta m-2 s-1); sampled at 0, 3, 6, 12, 24, 48h post N-deprivation"
       experiments:
         - nitrogen_nitrogen_deprivation_mit9313_mit9313_microarray
 

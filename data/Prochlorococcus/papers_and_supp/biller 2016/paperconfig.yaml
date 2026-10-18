@@ -1,6 +1,7 @@
 publication:
   papername: Biller 2016
   papermainpdf: data/Prochlorococcus/papers_and_supp/biller 2016/41396_2016_article_bfismej201682.pdf
+  control_timing: baseline
   experiments:
     coculture_alteromonas_macleodii_mit1002_natl2a_rnaseq:
       name: NATL2A Co-culture with Alteromonas macleodii MIT1002 vs Axenic Prochlorococcus NATL2A (RNASEQ)
@@ -20,6 +21,11 @@ publication:
       treatment_taxid: 28108
       treatment_assembly_accession: GCF_901457835.2
       table_scope: significant_any_timepoint
+      control_timing: matched
+      design_notes: >-
+        Each time point compares coculture and axenic bottles split from the same starter cultures
+        and sampled at the same time. At -12h Alteromonas had not yet been added (added at 0 h), so
+        that contrast is a pre-treatment baseline check between two axenic sets of bottles.
     coculture_24_hours_after_coculturing_mit1002_rnaseq:
       name: MIT1002 24 hours vs 12 hours after co-culturing with Prochlorococcus NATL2A (RNASEQ)
       organism: Alteromonas macleodii MIT1002
@@ -39,6 +45,12 @@ publication:
       light_condition: continuous light
       light_intensity: 30 umol photons m-2 s-1
       table_scope: significant_any_timepoint
+      design_notes: >-
+        24h vs 12h: both arms are the same three cocultures; the control was sampled 12 h after
+        Alteromonas addition, when the Alteromonas population had stopped declining but was not yet
+        growing (growth phase unknown, lag-like). coculture_48_hours_after_coculturing_mit1002_rnaseq
+        uses the same 12 h reference samples. At 24 h (the treatment arm) the Alteromonas population was
+        stable, not yet growing (p. 2833, Fig. 1a), so growth_phase is unknown rather than exponential.
     coculture_48_hours_after_coculturing_mit1002_rnaseq:
       name: MIT1002 48 hours vs 12 hours after co-culturing with Prochlorococcus NATL2A (RNASEQ)
       organism: Alteromonas macleodii MIT1002
@@ -58,6 +70,13 @@ publication:
       light_condition: continuous light
       light_intensity: 30 umol photons m-2 s-1
       table_scope: significant_any_timepoint
+      design_notes: >-
+        48h vs 12h: both arms are the same three cocultures; the control was sampled 12 h after
+        Alteromonas addition, when the Alteromonas population had stopped declining but was not yet
+        growing (growth phase unknown, lag-like). coculture_24_hours_after_coculturing_mit1002_rnaseq
+        uses the same 12 h reference samples. At 48 h (the treatment arm) the Alteromonas population was
+        only beginning to grow again after a decline and a stable day (p. 2833, p. 2837 and p. 2839, Fig. 1a),
+        so growth_phase is unknown rather than exponential.
   supplementary_materials:
     supp_table_2:
       type: csv
@@ -155,15 +174,15 @@ publication:
       statistical_analyses:
       - id: DE_alteromonas_MIT1002_coculture_24v12h
         experiment: coculture_24_hours_after_coculturing_mit1002_rnaseq
-        timepoint: 24h vs 12h
+        timepoint: 24h
         timepoint_hours: 24.0
-        growth_phase: exponential
+        growth_phase: unknown
         name_col: Gene ID
         logfc_col: log2FoldChange (24 vs 12 hrs after addition)
       - id: DE_alteromonas_MIT1002_coculture_48v12h
         experiment: coculture_48_hours_after_coculturing_mit1002_rnaseq
-        timepoint: 48h vs 12h
+        timepoint: 48h
         timepoint_hours: 48.0
-        growth_phase: exponential
+        growth_phase: unknown
         name_col: Gene ID
         logfc_col: log2FoldChange (48 vs 12 hrs after addition)

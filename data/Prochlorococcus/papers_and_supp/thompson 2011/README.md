@@ -50,5 +50,5 @@ DE component (8 statistical analyses across MED4 + MIT9313 Fe starvation/rescue 
 
 - Gene ID format: `{PMED4_#####|P9313_#####} (synonym)`; the whitespace and parenthetical synonym are parsed by the v2 mapping pipeline. Both `PMED4_` and `P9313_` are `old_locus_tag` style and are bridged to NCBI RS-style locus tags.
 - Significance encoding: `pvalue_asterisk_in_logfc: true` — asterisks in the log2FC cell encode significance rather than a separate q-value column. `pvalue_threshold: 0.01`, `logfc_threshold: 1.0`.
-- The `iron_iron_starvation_med4_med4_microarray_light_2` experiment exists specifically because the 48h +Fe sample hybridized poorly; 48h -Fe was compared to 24h +Fe instead. Treat as a distinct Experiment node.
+- The MED4 48h contrast compares 48h -Fe with 24h +Fe (the 48h +Fe array hybridized poorly). Since 2026-10-18 it sits in `iron_iron_starvation_med4_med4_microarray_light` with `control_timing: mixed` (it was a separate `_light_2` Experiment). The rescue comparisons (R, after vs before iron re-addition in the same -Fe cultures) are `iron_rescue_med4_microarray` / `iron_rescue_mit9313_microarray` (`baseline`; were `growth_medium_ironreplete_control_*`, whose condition names read as +Fe vs -Fe).
 - "R" (rescue) timepoints have `timepoint_hours: null` — they encode fold change after Fe addition, not a clock time.

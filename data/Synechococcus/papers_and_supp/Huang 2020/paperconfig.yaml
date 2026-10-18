@@ -2,6 +2,7 @@ publication:
   papername: Huang 2021
   doi: "10.1002/mbo3.1150"
   papermainpdf: "data/Synechococcus/papers_and_supp/Huang 2020/MicrobiologyOpen - 2021 - Huang - Temporal transcriptomes of a marine cyanopodovirus and its Synechococcus host during.pdf"
+  control_timing: baseline
 
   # Huang S, Sun Y, Zhang S, Long L (2021). Temporal transcriptomes of a marine
   # cyanopodovirus and its Synechococcus host during infection. MicrobiologyOpen.
@@ -32,6 +33,12 @@ publication:
       table_scope: all_detected_genes
       table_scope_detail: "All 2528 detected host genes reported at every timepoint; not pre-filtered for significance"
 
+      design_notes: >-
+        Every infected timepoint (15 min, 1h, 3h, 5h, 7h) is compared with one parallel uninfected
+        control culture sampled 30 min after the start (exponential), so no contrast is matched. A
+        second uninfected control sampled at 8 h was not used because edgeR found no differences between
+        the 30 min and 8 h controls. adjusted_p_value on these edges is the unadjusted p-value
+        reported by the paper (no multiple-testing correction).
   supplementary_materials:
     geo_de_wh7803:
       type: csv

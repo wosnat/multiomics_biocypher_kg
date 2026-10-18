@@ -1,20 +1,21 @@
 publication:
   papername: "Christie-Oleza 2017"
   papermainpdf: "data/Synechococcus/papers_and_supp/Oleza 2017/Synechococcus-Roseobacter long term stability Nat Micro 2017.pdf"
+  control_timing: matched
 
   experiments:
-    # Table S2A: Synechococcus WH7803 exoproteome — early coculture (ASW medium, 35 days)
+    # Table S2A: Synechococcus WH7803 cellular proteome — coculture in ASW medium (35 days)
     # Axenic vs coculture with R. pomeroyi DSS-3
     # Shotgun proteomics (nanoLC-MS/MS, LTQ-Orbitrap XL), NSAF quantification
     # t-test, 3 biological replicates
     early_coculture_syn_wh7803_proteomics:
-      name: "Synechococcus WH7803 proteome in early coculture with R. pomeroyi DSS-3 (ASW, 35 days)"
+      name: "Synechococcus WH7803 proteome in coculture with R. pomeroyi DSS-3 (ASW, 35 days)"
       organism: "Synechococcus WH7803"
       treatment_condition: "Coculture with Ruegeria pomeroyi DSS-3 in ASW medium"
       control_condition: "Axenic Synechococcus WH7803 in ASW medium"
       experimental_context: "Nutrient-rich ASW medium, 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, 35 days, shotgun proteomics (nanoLC-MS/MS, LTQ-Orbitrap XL), NSAF quantification, n=3"
-      omics_type: EXOPROTEOMICS
-      compartment: exoproteome
+      omics_type: PROTEOMICS
+      compartment: whole_cell
       test_type: "t-test"
       treatment_type: ["coculture"]
       background_factors: ["light"]
@@ -28,18 +29,18 @@ publication:
       table_scope: all_detected_genes
       table_scope_detail: "All 564 Synechococcus proteins detected in ASW axenic and/or co-culture conditions"
 
-    # Table S5A: Synechococcus WH7803 exoproteome — late coculture (natural seawater, 10 days)
+    # Table S5A: Synechococcus WH7803 cellular proteome — coculture in natural seawater (10 days)
     # Axenic vs coculture with R. pomeroyi DSS-3
     # Shotgun proteomics (nanoLC-MS/MS, Orbitrap Fusion), NAF quantification
     # ANOVA, 3 biological replicates
     late_coculture_syn_wh7803_proteomics:
-      name: "Synechococcus WH7803 proteome in late coculture with R. pomeroyi DSS-3 (seawater, 10 days)"
+      name: "Synechococcus WH7803 proteome in coculture with R. pomeroyi DSS-3 (natural seawater, 10 days)"
       organism: "Synechococcus WH7803"
       treatment_condition: "Coculture with Ruegeria pomeroyi DSS-3 in natural seawater"
       control_condition: "Axenic Synechococcus WH7803 in natural seawater"
       experimental_context: "Filter-sterilized natural seawater (Gulf Stream), 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, 10 days, shotgun proteomics (nanoLC-MS/MS, Orbitrap Fusion), NAF quantification, n=3"
-      omics_type: EXOPROTEOMICS
-      compartment: exoproteome
+      omics_type: PROTEOMICS
+      compartment: whole_cell
       test_type: "ANOVA"
       treatment_type: ["coculture"]
       background_factors: ["light"]
@@ -53,18 +54,18 @@ publication:
       table_scope: all_detected_genes
       table_scope_detail: "All 1050 Synechococcus proteins detected in seawater axenic and/or co-culture conditions"
 
-    # Table S7: R. pomeroyi DSS-3 proteome — long-term coculture (natural seawater)
+    # Table S7: R. pomeroyi DSS-3 cellular proteome — coculture in natural seawater (10 days)
     # Mono-culture vs coculture with Synechococcus WH7803
     # Shotgun proteomics (nanoLC-MS/MS, Orbitrap Fusion), NAF quantification
     # Student's t-test (Perseus), q-value, 3 biological replicates
     longterm_coculture_rpom_dss3_proteomics:
-      name: "R. pomeroyi DSS-3 proteome in long-term coculture with Synechococcus WH7803 (seawater)"
+      name: "R. pomeroyi DSS-3 proteome in coculture with Synechococcus WH7803 (natural seawater, 10 days)"
       organism: "Ruegeria pomeroyi DSS-3"
       treatment_condition: "Coculture with Synechococcus WH7803 in natural seawater"
       control_condition: "R. pomeroyi DSS-3 mono-culture in natural seawater"
-      experimental_context: "Filter-sterilized natural seawater, 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, long-term stable coculture, shotgun proteomics (nanoLC-MS/MS, Orbitrap Fusion), NAF quantification, Perseus analysis, n=3"
-      omics_type: EXOPROTEOMICS
-      compartment: exoproteome
+      experimental_context: "Filter-sterilized natural seawater, 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, 10 days, shotgun proteomics (nanoLC-MS/MS, Orbitrap Fusion), NAF quantification, Perseus analysis, n=3"
+      omics_type: PROTEOMICS
+      compartment: whole_cell
       test_type: "t-test_Perseus"
       treatment_type: ["coculture"]
       background_factors: ["light"]
@@ -169,6 +170,6 @@ publication:
           # negative = up in mono-culture). Sign is correct for direction.
           adjusted_p_value_col: "q-value (Student's T-test; Perseus) "
           pvalue_threshold: 0.05
-          timepoint: "long-term"
-          timepoint_hours: null
+          timepoint: "10 days"
+          timepoint_hours: 240
           growth_phase: acclimated_steady_state

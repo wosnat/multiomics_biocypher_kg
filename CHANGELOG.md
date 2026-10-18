@@ -59,6 +59,9 @@ tag with nothing logged.
 - Every gene Cyanorak annotates now has a genome position and a protein sequence, including
   the 3,837 genes across 21 *Prochlorococcus* / *Synechococcus* strains that NCBI's PGAP
   never called — neighbourhood and sequence queries no longer skip them.
+- Each differential-expression experiment now says whether its control was matched to the
+  treatment arm or is an earlier reference sample (`control_timing`), with a note saying how —
+  so "this day-18 coculture contrast is against an axenic day-14 culture" is queryable.
 
 ### Breaking
 
@@ -89,6 +92,54 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
 
 ### Data
 
+- **Paperconfig corrections from the control-timing review (2026-10-18; every item re-checked
+  against the paper — per-paper evidence in `plans/control_timing_curation/fixes_{A..E}.md`).**
+  - Aharonovich 2016: two HOT1A3 tables held linear ratios but were loaded as log2, so every
+    HOT1A3 gene read as up-regulated; now converted (`fold_change_type: linear`), and the controls
+    name the real comparator cocultures (MIT9313 at low HOT1A3 inoculum; MED4). Prochlorococcus
+    significance cutoff is the paper q < 0.05 (was 0.01).
+  - Barreto 2022: the six EZ55 "coculture with X vs axenic" tables are partner deviations from the
+    mean coculture response (Table S5 arithmetic; the 800 ppm set carries an interaction caveat);
+    the S2 pCO2 table is axenic EZ55 only (3 coculture partner edges removed); S4 is described by
+    its formula. All 11 now carry ASW + PEv/SEv, 21 C, 150 umol, 14:10 L:D (was Pro99, 22 C,
+    continuous light, 30 umol); the cyanobacteria experiments are coculture-only.
+  - Fang 2019: vDOM addition was a viral treatment with a Phage partner; now `carbon` on axenic
+    MIT9313, no partner (filtered S-ShM2/WH8102 lysate that cannot infect MIT9313).
+  - Domínguez 2017: 100 uM azaserine, sampled at 8 h, 4 umol blue light (was 10 uM, 24 h, 25 umol).
+  - Oleza 2017: cellular PROTEOMICS / whole_cell (was EXOPROTEOMICS / exoproteome); named by
+    medium; R. pomeroyi comparison at 10 days (was "long-term").
+  - Fuszard 2012: non-axenic (was axenic); NATL2A 10 and SS120 20 uE (were swapped).
+  - Moreno 2023: harvest 24 h after the split, exponential light arms, 4 / 40 uE (was "stationary",
+    undated dark arms, 15 uE). Kaur 2018, Ma 2022, Tolonen 2006: growth phases per timepoint from
+    the papers (were `acclimated_steady_state` / `acute_stress` throughout); Tolonen cluster
+    analyses carry 22 C, 50 / 10 umol.
+  - Biller 2016: MIT1002 timepoints "24h" / "48h", growth phase unknown (were "24h vs 12h",
+    exponential). Biller 2018: MIT1002 on the 36 h / 40 h experiment clock (was 1 h / 5 h).
+    Weissberg 2025: HOT1A3 day-11 controls are "day 11" / nutrient_limited, not exponential.
+  - Lin 2015 (DOI added; 21 C, continuous light, 30 umol), Lindell 2007 (spent-medium control,
+    21 C), Martiny 2006 (per-strain light; MIT9313 scope at t=24h), Capovilla 2023 (tables are
+    day 1, 24 h), Coe 2024 (cutoff p < 0.01), Kratzl 2024 (27.0 C; units), Thompson 2016 and
+    Bagby 2015 (names / context), Tai 2009 (DOI added).
+  - Tetu 2019 PVC experiments `control_timing` `matched` (were `baseline`).
+  - Moreno 2023, Barreto 2022, Hennon 2017, Huang 2020: `design_notes` now state that
+    `adjusted_p_value` holds the paper unadjusted p-value (values unchanged).
+- **Thompson 2011 (10.1038/ismej.2011.49) — experiments restructured to the paper's design.** The
+  KG had the MED4 48h contrast (48h -Fe vs 24h +Fe) as its own Experiment
+  (`..._microarray_light_2`); it is now a timepoint of the MED4 starvation Experiment, which reads
+  `control_timing = mixed`. The iron-rescue comparisons were labelled "Iron-replete control vs Iron
+  starvation" (`growth_medium_ironreplete_control_*`); they compare the same -Fe cultures after vs
+  before iron re-addition and are now `iron_rescue_med4_microarray` / `iron_rescue_mit9313_microarray`
+  with matching names. Experiments 5 → 4; edges unchanged.
+- **Weissberg 2025 (10.1101/2025.11.24.690089) — DE tables corrected from the authors' re-export.**
+  The KG asserted two "axenic long-term" RNA contrasts (MED4 days 60+89 vs day 7, HOT1A3 days 60+89
+  vs day 11); they were coculture samples compared against axenic, so both are removed (no axenic
+  RNA exists after day 14 / day 31). The HOT1A3 axenic proteome "day 31 vs day 11" edges carried the
+  day 89 contrast (an export overwrite); they now carry the real day 31 contrast, and day 89 is added
+  as its own timepoint. The MED4 coculture-vs-axenic tables now name their control days (axenic
+  day 7 / day 14). Net: 34 DE tables (was 35), 10 Experiments unchanged. The axenic MED4 day-14
+  contrasts (RNA-seq + proteome) now read `growth_phase = death` (was `nutrient_limited`; the paper
+  calls these cultures dying), and the 4 proteomics Experiments read `statistical_test = DEqMS`
+  (was DESeq2; `DEqMS` added to the validator's test types).
 - **Moreno 2023 (10.1128/spectrum.03275-22) — 40 heterotroph-side experiments corrected.** All
   three sides of every condition compare glucose vs no glucose, yet the 20 Marinobacter-side and 20
   Alteromonas-side experiments carried `coculture` in `treatment_type`. Before: they answered
@@ -105,6 +156,16 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
 
 ### Added
 
+- **`Experiment.control_timing`** (`matched | baseline | mixed`, curated, sparse — present on
+  every experiment with a DE contrast; `matched` = same sampling time or same growth state) and
+  **`Experiment.design_notes`** (sparse free text; required for `baseline`/`mixed`, and says how
+  the arms were matched when not by sampling time; added to `experimentFullText`). `time_point`
+  and `growth_phase` describe the treatment arm. All 174 DE experiments over 36 papers were curated
+  from the methods (150 `matched`, 21 `baseline`, 3 `mixed`) — log and per-paper evidence in
+  `plans/control_timing_curation.md`. A planned `statistical_model_id` (experiments fitted as one
+  model) was dropped before release: most papers do not report how DE was fitted.
+  Paperconfig: `publication.control_timing` default + experiment override; `validate_paperconfig.py`
+  enforces the rules. `Experiment.control_timing` registered as a `ControlledVocabulary`.
 - **`background_organisms`** optional experiment field in paperconfig (list of
   `{organism, taxid | assembly_accession}`), one `Tests_coculture_with` edge per entry with
   `partner_role = background`; `scripts/validate_paperconfig.py` errors when `coculture` is in
@@ -128,6 +189,11 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
 - **prepare_data step 7 folded into step 6** (`resolve_paper_metabolites.py` is a no-op alias; step 6 writes the `_resolved.csv` files). Default `STEPS` is now `0 9 1 2 3 4 5 6 8 10`.
 
 ### Fixed
+
+- **Linear fold changes below 1 can now be significant.** `omics_adapter` judged significance on
+  the raw linear ratio instead of its log2 value, so with `fold_change_type: linear` a
+  down-regulated gene (ratio < 1) never passed `logfc_threshold`. Affects Aharonovich 2016 and
+  Beliaev 2014.
 
 - **Step 6 follow-ups to the metabolite identity change (review, 2026-10-15).** None of these
   changes the current build: `kegg_data.json`, the stereo lock, the BRITE trees and every paper
