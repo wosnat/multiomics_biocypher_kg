@@ -194,7 +194,8 @@ class MultiGoAnnotationAdapter:
         genome_config_file: path to ``cyanobacteria_genomes.csv``
         cache_root: project-level cache directory (e.g. ``Path("cache/data")``)
         test_mode: passed to each per-strain adapter (stop after 100 genes)
-        cache: if False, force-rebuild the GO namespace cache (re-downloads OBO)
+        cache: unused for GO — GO is refreshed only by
+            ``multiomics_kg.download.refresh_go_release``, never during a KG build
     """
 
     def __init__(
@@ -205,7 +206,7 @@ class MultiGoAnnotationAdapter:
         cache: bool = True,
     ) -> None:
         self.test_mode = test_mode
-        self.go_data = load_go_data(Path(cache_root), force=not cache)
+        self.go_data = load_go_data(Path(cache_root))
         self.go_levels, go_orphans = compute_go_levels(self.go_data)
         if go_orphans:
             logger.warning(

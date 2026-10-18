@@ -7,7 +7,8 @@ this module downloads go-basic.obo once (~7 MB), parses it into a compact namesp
 
 Cache layout:
   cache_root/go_terms/go_namespace_cache.json  — compact {go_id: {name, namespace, parents}}
-  go-basic.obo                                  — downloaded temporarily, deleted after parsing
+  go_terms/raw/go-basic.obo                     — kept (gitignored)
+  go_terms/go_release.txt                       — pinned GO release
 """
 
 import json
@@ -19,6 +20,8 @@ from pathlib import Path
 logger = logging.getLogger(__name__)
 
 GO_OBO_URL = "http://purl.obolibrary.org/obo/go/go-basic.obo"
+GO_RELEASE_FILE = "go_release.txt"
+_DATA_VERSION_RE = re.compile(r"^data-version:\s*(?:releases/)?(\S+)")
 
 # Maps OBO namespace string → BioCypher schema node label
 NAMESPACE_TO_LABEL: dict[str, str] = {
@@ -75,6 +78,26 @@ def _download_obo(obo_path: Path) -> None:
         for chunk in resp.iter_content(chunk_size=65536):
             fh.write(chunk)
     logger.info(f"Downloaded go-basic.obo ({obo_path.stat().st_size // 1024} KB)")
+
+
+def parse_obo_release(obo_path: Path) -> str | None:
+    """Return the OBO header's ``data-version`` (e.g. ``2026-07-26``), or None."""
+    with open(obo_path, encoding="utf-8") as fh:
+        for line in fh:
+            if line.startswith("[Term]"):
+                break
+            m = _DATA_VERSION_RE.match(line)
+            if m:
+                return m.group(1)
+    return None
+
+
+def read_go_release(cache_root: Path) -> str | None:
+    """Return the pinned GO release recorded in ``go_terms/go_release.txt``, or None."""
+    f = Path(cache_root) / "go_terms" / GO_RELEASE_FILE
+    if not f.exists():
+        return None
+    return f.read_text(encoding="utf-8").strip() or None
 
 
 def parse_obo(obo_path: Path) -> dict[str, dict]:
@@ -154,12 +177,21 @@ def _commit_term(current: dict, in_term: bool, result: dict) -> None:
         }
 
 
+def write_namespace_cache(cache_path: Path, go_data: dict[str, dict]) -> None:
+    with open(cache_path, "w", encoding="utf-8") as fh:
+        json.dump(go_data, fh, separators=(",", ":"), sort_keys=True)
+    logger.info(
+        f"Wrote GO namespace cache: {len(go_data)} terms, "
+        f"{cache_path.stat().st_size // 1024} KB -> {cache_path}"
+    )
+
+
 def build_namespace_cache(cache_root: Path, force: bool = False) -> Path:
     """
     Build (or rebuild) the compact namespace cache JSON.
 
-    Downloads go-basic.obo, parses it, writes
-    ``cache_root/go_terms/go_namespace_cache.json``, deletes the OBO file,
+    Downloads go-basic.obo (kept in ``go_terms/raw/``), parses it, writes
+    ``cache_root/go_terms/go_namespace_cache.json`` and ``go_release.txt``,
     and returns the cache path.
     """
     cache_path = _go_cache_dir(cache_root) / "go_namespace_cache.json"
@@ -167,20 +199,15 @@ def build_namespace_cache(cache_root: Path, force: bool = False) -> Path:
         logger.info(f"GO namespace cache already exists at {cache_path}")
         return cache_path
 
-    obo_path = _go_cache_dir(cache_root) / "go-basic.obo"
-    try:
-        _download_obo(obo_path)
-        go_data = parse_obo(obo_path)
-        with open(cache_path, "w", encoding="utf-8") as fh:
-            json.dump(go_data, fh, separators=(",", ":"), sort_keys=True)
-        logger.info(
-            f"Wrote GO namespace cache: {len(go_data)} terms, "
-            f"{cache_path.stat().st_size // 1024} KB → {cache_path}"
-        )
-    finally:
-        if obo_path.exists():
-            obo_path.unlink()
-            logger.debug("Deleted go-basic.obo after parsing")
+    raw_dir = _go_cache_dir(cache_root) / "raw"
+    raw_dir.mkdir(parents=True, exist_ok=True)
+    obo_path = raw_dir / "go-basic.obo"
+    _download_obo(obo_path)
+    go_data = parse_obo(obo_path)
+    write_namespace_cache(cache_path, go_data)
+    release = parse_obo_release(obo_path)
+    if release:
+        (_go_cache_dir(cache_root) / GO_RELEASE_FILE).write_text(release + "\n", encoding="utf-8")
 
     return cache_path
 

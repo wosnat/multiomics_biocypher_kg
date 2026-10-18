@@ -906,3 +906,15 @@ class TestMultiEcCacheBehavior:
             cache=True,
         )
         assert len(adapter._strain_adapters) == 0
+
+
+def test_no_cache_does_not_refetch_go(tmp_path):
+    """cache=False must not force a GO re-download: GO is pinned by refresh_go_release."""
+    with patch(
+        "multiomics_kg.adapters.functional_annotation_adapter.load_go_data",
+        return_value=MINI_GO_DATA,
+    ) as mock_load:
+        cfg = tmp_path / "genomes.csv"
+        cfg.write_text("data_dir\n")
+        MultiGoAnnotationAdapter(genome_config_file=str(cfg), cache_root=tmp_path, cache=False)
+    assert "force" not in mock_load.call_args.kwargs or mock_load.call_args.kwargs["force"] is False
