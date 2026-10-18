@@ -259,6 +259,10 @@ EDGE_PROPERTIES = {
     ],
     "Tcdb_family_is_a_tcdb_family": [],
     "Tcdb_family_transports_metabolite": [],
+    "Molecular_function_transports_metabolite": ["go_chebi_ids"],
+    "Biological_process_transports_metabolite": ["go_chebi_ids"],
+    "Molecular_function_transports_chemical_role": ["go_chebi_ids"],
+    "Biological_process_transports_chemical_role": ["go_chebi_ids"],
     # Cross-ontology bridges: curated_tcids preserves the pre-roll-up TCIDs.
     "Tcdb_family_has_pfam_domain": ["curated_tcids"],
     "Tcdb_family_involved_in_biological_process": ["curated_tcids"],

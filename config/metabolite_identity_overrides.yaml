@@ -65,6 +65,9 @@ canonical:
   - id: "kegg.compound:C00742"
     group: ["kegg.compound:C00742", "kegg.compound:C16487"]
     reason: "fluoride over hydrofluoric acid (explorer ask 2026-10-15, 3b)"
+  - id: "chebi:30297"
+    group: ["chebi:30297", "chebi:49870"]
+    reason: "antimonite (existing TCDB substrate node) over antimonous acid, its conjugate acid that the GO go-plus transport axioms introduced (GO transport slice 1, 2026-10-18)"
 xref:
   # HMDB records named for the generic sugar; HMDB draws them as one anomer, so MNX files them
   # under the anomer's entity (explorer ask 5, 2026-10-15). Names: MNX chem_xref.tsv (HMDB's own).

@@ -960,3 +960,72 @@ def test_adapter_alt_id_remapping(tmp_path):
     assert all("0006260" in v[0] for v in by_gene.values())
     assert ad.get_all_go_ids() == {"GO:0006260"}
     assert ad.dropped_count == 1
+
+
+def test_adapter_all_go_terms_unchanged(multi_adapter):
+    """Literal values recorded before the kg_go_terms refactor (HEAD behaviour)."""
+    assert multi_adapter.all_go_terms() == {
+        "GO:0003677": "molecular function",
+        "GO:0005622": "cellular component",
+        "GO:0005737": "cellular component",
+        "GO:0006260": "biological process",
+        "GO:0071897": "biological process",
+    }
+    assert {n[0] for n in multi_adapter.get_nodes()} == {
+        "go:0003677", "go:0005622", "go:0005737", "go:0006260", "go:0071897",
+    }
+
+
+# ---------------------------------------------------------------------------
+# GO transport substrate edges
+# ---------------------------------------------------------------------------
+
+
+def _write_kegg(tmp_path, release="2026-07-26"):
+    p = tmp_path / "kegg_data.json"
+    p.write_text(json.dumps({
+        "go_transport_release": release,
+        "go_transport_substrates": {
+            "GO:0003677": {"kegg.compound:C00001": ["CHEBI:15377"],
+                           "kegg.compound:C99999": ["CHEBI:1"]},  # not emitted
+            "GO:0006260": {"chebi.role:26672": ["CHEBI:26672"]},
+            "GO:5555555": {"kegg.compound:C00001": ["CHEBI:15377"]},  # not in adapter
+        },
+    }))
+    return p
+
+
+def test_transport_edges(multi_adapter, tmp_path):
+    p = _write_kegg(tmp_path)
+    edges = list(multi_adapter.get_transport_edges(
+        p, {"kegg.compound:C00001"}, {"chebi.role:26672"}))
+    assert sorted((e[1], e[2], e[3]) for e in edges) == [
+        ("go:0003677", "kegg.compound:C00001", "molecular_function_transports_metabolite"),
+        ("go:0006260", "chebi.role:26672", "biological_process_transports_chemical_role"),
+    ]
+    props = {e[1]: e[4] for e in edges}
+    assert props["go:0003677"] == {"go_chebi_ids": ["CHEBI:15377"]}
+    assert all(e[0] is None for e in edges)
+
+
+def test_transport_edges_no_role_set(multi_adapter, tmp_path):
+    p = _write_kegg(tmp_path)
+    edges = list(multi_adapter.get_transport_edges(p, {"kegg.compound:C00001"}, None))
+    assert [e[3] for e in edges] == ["molecular_function_transports_metabolite"]
+
+
+def test_transport_edges_none_metabolites(multi_adapter, tmp_path):
+    p = _write_kegg(tmp_path)
+    edges = list(multi_adapter.get_transport_edges(p, None, {"chebi.role:26672"}))
+    assert [e[3] for e in edges] == ["biological_process_transports_chemical_role"]
+
+
+def test_release_mismatch_warns(multi_adapter, tmp_path, caplog):
+    import logging
+    release_dir = multi_adapter.cache_root / "go_terms"
+    release_dir.mkdir(parents=True, exist_ok=True)
+    (release_dir / "go_release.txt").write_text("2020-01-01\n")
+    p = _write_kegg(tmp_path)
+    with caplog.at_level(logging.WARNING):
+        list(multi_adapter.get_transport_edges(p, set(), set()))
+    assert any("release" in r.message.lower() and "2026-07-26" in r.message for r in caplog.records)

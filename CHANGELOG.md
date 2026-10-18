@@ -51,6 +51,7 @@ tag with nothing logged.
 
 ### Highlights
 
+- Which genes carry a GO term defined as moving compound X (for example siderophores) is now a graph query, on the same metabolite nodes TCDB and KEGG use.
 - `list_experiments(coculture_partner="Alteromonas")`-style questions now find every experiment
   run with that partner, including the 35 where the coculture was the context rather than the
   treatment (Weissberg 2025 proteomics, Moreno 2023's non-axenic cultures); the edge says whether
@@ -172,6 +173,7 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
 
 ### Added
 
+- **GO transport substrates: GO term to Metabolite / ChemicalRole edges** (518 in total, from GO release 2026-07-26): `Molecular_function_transports_metabolite` (257), `Biological_process_transports_metabolite` (246), `Molecular_function_transports_chemical_role` (7), `Biological_process_transports_chemical_role` (8), each with `go_chebi_ids` (ChEBI ids as GO's `has primary input` axiom states them). Term definitions, not gene facts; own axioms only, no `is_a` propagation. 13 ids (11 upper-level ChEBI classes plus H+ and Na+) are excluded as targets and listed in **`Schema_info.go_transport_excluded_targets`**. +29 `Metabolite` nodes (3,214 to 3,243) carrying the new `Metabolite.evidence_sources` value `go_transport`; +6 `Metabolite_in_pathway` into already-kept pathways (no new `KeggTerm`); sparse `Metabolite.go_transport_organism_names` / `go_transport_organism_count` (198 metabolites). Adding the value moves `controlled_vocabularies_hash`. See `docs/kg-changes/go-transport-substrates.md`.
 - **`Experiment.control_timing`** (`matched | baseline | mixed`, curated, sparse — present on
   every experiment with a DE contrast; `matched` = same sampling time or same growth state) and
   **`Experiment.design_notes`** (sparse free text; required for `baseline`/`mixed`, and says how

@@ -18,7 +18,7 @@ REASON_ORDER = ("alias_override", "dominant_stereo_form", "case_fold_convergence
 
 
 def validate_build(*, table, roles, subtree_substrates, subtree_roles, class_trees, resolution,
-                   chebi_missing_needed):
+                   chebi_missing_needed, go_substrates=None, go_roles=None):
     errs = []
     errs += [f"ambiguous paper name (needs an override): {a}" for a in resolution.ambiguous]
     errs += [f"same-table collision: {c}" for c in resolution.collisions]
@@ -39,6 +39,12 @@ def validate_build(*, table, roles, subtree_substrates, subtree_roles, class_tre
         errs += [f"subtree_substrates[{tc}] → {i} is not a written compound" for i in ids if i not in table]
     for tc, ids in subtree_roles.items():
         errs += [f"subtree_roles[{tc}] → {i} is not a ChemicalRole" for i in ids if i not in roles]
+    for go_id, targets in sorted((go_substrates or {}).items()):
+        errs += [f"go_transport_substrates[{go_id}] → {t} is not a written compound"
+                 for t in sorted(targets) if t not in table]
+    for go_id, targets in sorted((go_roles or {}).items()):
+        errs += [f"go_transport_substrates[{go_id}] → {t} is not a ChemicalRole"
+                 for t in sorted(targets) if t not in roles]
     for r, e in roles.items():
         errs += [f"ChemicalRole {r} parent {p} missing" for p in e.get("parents", []) if p not in roles]
     for code, tree in class_trees.items():

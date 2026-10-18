@@ -23,6 +23,7 @@ from multiomics_kg.utils.metabolite_identity.canonical import (
     entity_terms, rewrite_to_canonical, split_shared_mnx)
 from multiomics_kg.utils.metabolite_identity.classes import (
     COMPOUND_BRITE_TREES, parse_compound_brite, prune_compound_brite)
+from multiomics_kg.utils.metabolite_identity.go_transport import rewrite_go_targets, target_distribution
 from multiomics_kg.utils.metabolite_identity.crossrefs import (
     _own_family, apply_xref_overrides, build_identity_fields, chebi_node_structure, is_isotopologue_name, node_olds, pick_chebi_id, shared_chebi_terms)
 from multiomics_kg.utils.metabolite_identity.lumping import update_lumping_pin
@@ -83,6 +84,20 @@ class Step6Inputs:
     # KEGG compound → every KEGG reaction listing it (not only gene-reachable ones): the
     # canonical-id fallback measure when no member has a gene-reachable reaction (spec §3.1).
     all_reaction_refs: dict[str, int] = field(default_factory=dict)
+    # GO transport targets (spec 2026-10-18 §5.4), from stage D: {go_id: {primary: [go_chebi_ids]}}
+    # for metabolite targets (pre-canonical ids) and {go_id: {chebi.role:n: [ids]}} for roles.
+    go_substrates: dict = field(default_factory=dict)
+    go_roles: dict = field(default_factory=dict)
+    # The target filter's ChEBI ids resolved to primaries (plus each entry's own chebi:<n>);
+    # matched again after canonicalisation. go_filter_primaries: {"chebi:<n>": primary | None}.
+    go_excluded_primaries: set = field(default_factory=set)
+    go_filter_primaries: dict = field(default_factory=dict)
+    go_release: str | None = None
+    # {strain: [[GO terms of one gene that carry a GO transport target], ...]} (distribution)
+    go_distribution_input: dict = field(default_factory=dict)
+    go_drops: dict = field(default_factory=dict)          # stage-D drop counts
+    go_axioms_in_corpus: int = 0                          # KG GO terms with a transport axiom
+    go_unresolved_ids: list = field(default_factory=list)  # GO ChEBI ids no node could take
 
 
 @dataclass
@@ -356,6 +371,11 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     apply_mnx_split(old_entries, mnx_strip)
     # F — rewrite every id to canonical (reactions and subtree_substrates in place)
     table = rewrite_to_canonical(table, reactions, subs, identity.canonical_of)
+    # GO transport targets follow the same rewrite; the target filter is matched again on
+    # canonical ids (a kept target merged onto a filtered node is dropped). Roles pass through.
+    go_excluded = {identity.canonical_of.get(p, p) for p in inp.go_excluded_primaries}
+    go_subs, go_filtered_after = rewrite_go_targets(inp.go_substrates, identity.canonical_of, go_excluded)
+    go_roles = {g: {r: sorted(ids) for r, ids in m.items()} for g, m in inp.go_roles.items() if m}
     # ChEBI terms that xref two KEGG nodes the guard kept apart are published on neither.
     shared = shared_chebi_terms(table, identity, chebi)
     try:
@@ -432,7 +452,7 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         missing = {n for n in table if n.startswith("chebi:") and chebi.primary(n) is None}
     errors = validate_build(table=table, roles=inp.chemical_roles, subtree_substrates=subs,
                             subtree_roles=inp.subtree_roles, class_trees=class_trees, resolution=res,
-                            chebi_missing_needed=missing)
+                            chebi_missing_needed=missing, go_substrates=go_subs, go_roles=go_roles)
 
     # An old id whose canonical node was dropped at stage K remaps like the dropped node.
     def old_norm(x: str) -> str:
@@ -462,8 +482,38 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
             compounds[n[len(_KEGG):]] = e
         else:
             additional[n] = e
+    go_targets: dict[str, dict[str, list[str]]] = {}
+    for g in sorted(set(go_subs) | set(go_roles)):
+        go_targets[g] = dict(sorted({**go_subs.get(g, {}), **go_roles.get(g, {})}.items()))
+    go_excluded_targets = sorted({
+        (c if c in table else cid)
+        for cid, p in inp.go_filter_primaries.items()
+        for c in [identity.canonical_of.get(p, p) if p else None]})
     kegg_data = dict(kegg_rest, pathways=pathways, subcategories=subcategories, categories=categories,
-                     compounds=compounds, additional_compounds=additional)
+                     compounds=compounds, additional_compounds=additional,
+                     go_transport_substrates=go_targets,
+                     go_transport_excluded_targets=go_excluded_targets,
+                     go_transport_release=inp.go_release)
+    go_metabolite_targets = {t for m in go_subs.values() for t in m}
+    go_report = {
+        "release": inp.go_release,
+        "axioms_in_corpus": inp.go_axioms_in_corpus,
+        "edges": sum(len(m) for m in go_targets.values()),
+        "metabolite_edges": sum(len(m) for m in go_subs.values()),
+        "role_edges": sum(len(m) for m in go_roles.values()),
+        "terms": len(go_targets),
+        "targets": len({t for m in go_targets.values() for t in m}),
+        "metabolite_targets": len(go_metabolite_targets),
+        "role_targets": len({t for m in go_roles.values() for t in m}),
+        # written only because of GO: no catalysis, TCDB or measurement reason
+        "new_metabolites": sum(1 for n in go_metabolite_targets
+                               if not set(table[n].get("evidence_sources") or [])
+                               & {"metabolism", "transport", "metabolomics"}),
+        "drops": dict(sorted({**inp.go_drops, "filtered_after_canonical": go_filtered_after}.items())),
+        "unresolved_chebi_ids": sorted(inp.go_unresolved_ids),
+        "excluded_targets": go_excluded_targets,
+        "distribution": target_distribution(inp.go_distribution_input, go_targets),
+    }
     tcdb_pruned = dict(inp.tcdb_static, subtree_substrates=dict(sorted(subs.items())),
                        chemical_roles=inp.chemical_roles, subtree_roles=inp.subtree_roles, lumping_pin=pin)
 
@@ -542,6 +592,7 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
             table, inp.identity_overrides.keep_separate if inp.identity_overrides else frozenset()),
         ambiguous_paper_names=res.ambiguous, unresolved_paper_names=res.unresolved,
         dominant_form_drift=res.drift, lumping=lumping_report, structure=structure,
+        go_transport=go_report,
         stereo_counts=stereo_counts, remap=remap, unaccounted_old_ids=unaccounted, repoints=repoints,
         counts={"metabolites": len(table), "kegg": len(compounds), "additional": len(additional),
                 "merged_away": sum(len(m) - 1 for m in identity.members.values()),

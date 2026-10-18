@@ -280,9 +280,9 @@ substrate" — A3). A metabolite that both routes reach carries both values.
 pathways extend the kept pathway set — the mechanism behind backlog item (f),
 Phagosome / Focal adhesion), a compound reached only through GO does **not** add
 KEGG pathways: its `Metabolite_in_pathway` edges are limited to pathways already kept
-by the metabolism and TCDB arms. So this slice adds no `KeggTerm` node and changes no
-`KeggTerm.metabolite_count` / `reaction_count`, and only the new compounds' own
-`pathway_*` properties are new.
+by the metabolism and TCDB arms. So this slice adds no `KeggTerm` node and changes no `reaction_count`;
+`KeggTerm.metabolite_count` on already-kept pathways can rise where a GO-only compound
+is in that pathway (6 such links measured 2026-10-18, ruling during implementation).
 
 ### Post-import
 
@@ -290,8 +290,9 @@ One new, separate rollup (decided 2026-10-18, explorer TPS-002):
 **`Metabolite.go_transport_organism_names`** (str[], sorted distinct
 `OrganismTaxon.preferred_name`) and **`Metabolite.go_transport_organism_count`** (int,
 size invariant), over the path Gene → (MF | BP GO term) → Metabolite, organism via
-`Gene_belongs_to_organism`. Dense on metabolites with a GO transport edge, absent
-otherwise (sparse; the `organism_names` rule for absent vs `[]` decides which —
+`Gene_belongs_to_organism`. Present on metabolites some gene reaches through a DIRECT gene→GO annotation to a term
+with a GO transport edge, absent otherwise (10 of 208 edge-bearing metabolites, reached only via
+undirectly-annotated ancestor terms, carry none; absent ≠ no GO transport edge; sparse; the `organism_names` rule for absent vs `[]` decides which —
 match it). Without it a GO-only metabolite reads `organism_count = 0` although its gene
 path exists, and organism-scoped queries silently miss it.
 

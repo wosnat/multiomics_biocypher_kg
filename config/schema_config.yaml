@@ -916,6 +916,8 @@ metabolite:
     pathway_names: list[str]     # post-import (KG-A6): KeggTerm.name aligned index-for-index with pathway_ids
     pathway_count: int           # post-import (KG-A7): size(pathway_ids)
     organism_names: list[str]    # post-import (KG-A8): distinct sorted OrganismTaxon.preferred_name reachable via Organism_has_metabolite
+    go_transport_organism_names: str[]   # post-import, sparse (absent = no directly annotated gene path, NOT no GO transport edge): GO-route organism reach (Gene → MF|BP GO term → Metabolite)
+    go_transport_organism_count: int     # post-import, sparse (absent = no directly annotated gene path, NOT no GO transport edge): GO-route organism reach (Gene → MF|BP GO term → Metabolite)
     measured_assay_count: int    # post-import (Phase 2 metabolomics)
     measured_organisms: str[]    # post-import (Phase 2 metabolomics)
     measured_paper_count: int    # post-import (Phase 2 metabolomics)
@@ -1487,6 +1489,55 @@ tcdb family transports metabolite:
     # descendant. Categorical str, not bool — BioCypher mishandles boolean
     # properties.
     substrate_depth: str
+
+# ── GO transport substrates (term definition, not gene fact) ─────────────────
+molecular function transports metabolite:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Molecular_function_transports_metabolite
+  source: molecular function
+  target: metabolite
+  label_in_input: molecular_function_transports_metabolite
+  properties:
+    # GO defines this term's primary input as the target -- a term definition,
+    # not a gene fact; BP is broader than MF.
+    go_chebi_ids: str[]
+
+molecular function transports chemical role:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Molecular_function_transports_chemical_role
+  source: molecular function
+  target: chemical role
+  label_in_input: molecular_function_transports_chemical_role
+  properties:
+    # GO defines this term's primary input as the target -- a term definition,
+    # not a gene fact; BP is broader than MF.
+    go_chebi_ids: str[]
+
+biological process transports metabolite:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Biological_process_transports_metabolite
+  source: biological process
+  target: metabolite
+  label_in_input: biological_process_transports_metabolite
+  properties:
+    # GO defines this term's primary input as the target -- a term definition,
+    # not a gene fact; BP is broader than MF.
+    go_chebi_ids: str[]
+
+biological process transports chemical role:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Biological_process_transports_chemical_role
+  source: biological process
+  target: chemical role
+  label_in_input: biological_process_transports_chemical_role
+  properties:
+    # GO defines this term's primary input as the target -- a term definition,
+    # not a gene fact; BP is broader than MF.
+    go_chebi_ids: str[]
 
 # ── TCDB cross-ontology bridges ──────────────────────────────────────────────
 # From TCDB's published Pfam→TC and GO→TC maps, rolled onto the pruned node set

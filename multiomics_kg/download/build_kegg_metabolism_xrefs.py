@@ -78,6 +78,10 @@ from multiomics_kg.utils.chebi_utils import (
     parse_chebi_obo,
 )
 from multiomics_kg.utils.gene_id_utils import load_gene_annotations
+from multiomics_kg.utils.annotations_cache import load_merged_annotations
+from multiomics_kg.utils.go_plus import build_go_transport_cache, load_target_filter
+from multiomics_kg.utils.go_utils import kg_go_terms, load_go_alt_ids, load_go_data, resolve_go_id
+from multiomics_kg.utils.metabolite_identity.go_transport import assemble_go_targets, go_substrate_strings
 from multiomics_kg.utils.metabolite_utils import resolve_metabolite_candidates
 from multiomics_kg.utils.metabolite_identity.canonical import load_identity_overrides
 from multiomics_kg.utils.metabolite_identity.classes import COMPOUND_BRITE_TREES, download_compound_brite
@@ -89,6 +93,8 @@ from multiomics_kg.utils.metabolite_identity.roles import (
     build_role_hierarchy, build_subtree_roles, partition_role_strings, role_node_id)
 from multiomics_kg.utils.paperconfig_utils import iter_metabolite_assays_tables, load_all_paperconfigs
 from multiomics_kg.download.download_metabolism_reference import download_all
+from multiomics_kg.download.refresh_go_release import refresh_go_release
+from multiomics_kg.utils.go_utils import read_go_release
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
@@ -104,6 +110,7 @@ LOCK_FILE = METABOLOMICS_DIR / "dominant_stereo_forms.json"
 IDENTITY_REPORT_FILE = METABOLOMICS_DIR / "metabolite_identity_report.json"
 MAPPING_FILE = METABOLOMICS_DIR / "metabolite_id_mapping.json"
 IDENTITY_OVERRIDES_FILE = PROJECT_ROOT / "config" / "metabolite_identity_overrides.yaml"
+GO_TRANSPORT_FILTER_FILE = PROJECT_ROOT / "config" / "go_transport_target_filter.yaml"
 
 log = logging.getLogger(__name__)
 
@@ -1133,6 +1140,9 @@ def _fold_substrates_into_kegg_data(
     substrate_kegg_cpds: set[str],
     substrate_primaries: set[str],
     compound_props: dict[str, dict],
+    go_kegg_cpds: set[str] = frozenset(),
+    go_primaries: set[str] = frozenset(),
+    go_props: dict[str, dict] | None = None,
 ) -> None:
     """Tag every kegg compound entry with evidence_sources and append non-KEGG
     transport substrates as additional_compounds entries.
@@ -1151,6 +1161,11 @@ def _fold_substrates_into_kegg_data(
 
     `substrate_primaries` is the flat union of every primary ID appearing in
     any kept TC ID's subtree rollup.
+
+    GO transport targets (go-plus 'has primary input', spec 2026-10-18) ride the same way
+    with their own value: compounds in `go_kegg_cpds` get 'go_transport' appended; non-KEGG
+    `go_primaries` are added to additional_compounds with ['go_transport'] (props from
+    `go_props`), or get the value appended when TCDB already put them there.
     """
     for cpd_id, entry in kegg_data.get("compounds", {}).items():
         sources = list(entry.get("evidence_sources") or [])
@@ -1158,6 +1173,8 @@ def _fold_substrates_into_kegg_data(
             sources.append("metabolism")
         if cpd_id in substrate_kegg_cpds and "transport" not in sources:
             sources.append("transport")
+        if cpd_id in go_kegg_cpds and "go_transport" not in sources:
+            sources.append("go_transport")
         entry["evidence_sources"] = sources
 
     additional: dict[str, dict] = {}
@@ -1170,6 +1187,15 @@ def _fold_substrates_into_kegg_data(
             **compound_props[primary_id],
             "evidence_sources": ["transport"],
         }
+    go_props = go_props or {}
+    for primary_id in sorted(go_primaries):
+        if primary_id.startswith("kegg.compound:"):
+            continue
+        if primary_id in additional:
+            if "go_transport" not in additional[primary_id]["evidence_sources"]:
+                additional[primary_id]["evidence_sources"].append("go_transport")
+        elif primary_id in go_props:
+            additional[primary_id] = {**go_props[primary_id], "evidence_sources": ["go_transport"]}
     kegg_data["additional_compounds"] = additional
 
 
@@ -1436,6 +1462,90 @@ def _missing_resolved_tables() -> list[Path]:
     return sorted(missing)
 
 
+# ── Stage D: GO transport targets (spec 2026-10-18 §5.4) ─────────────────────
+
+def _go_transport_targets(
+    axioms: dict[str, list[str]],
+    kg_terms: set[str],
+    chebi: ChebiIndex,
+    conn: sqlite3.Connection,
+    *,
+    rekeys: dict[str, str],
+    known_kegg: set[str],
+    role_ids: set[str],
+    target_filter: dict[str, str],
+) -> dict:
+    """GO transport axioms (KG GO terms only) → targets, resolved like TCDB substrate strings.
+
+    Roles are partitioned with ``partition_role_strings`` and kept only when TCDB created the
+    ChemicalRole (``role_ids``); molecules go through ``_resolve_substrate_strings``. The
+    target filter's own ChEBI ids are resolved the same way, but only to know which primaries
+    to drop — they add no node. GO re-keys enter ``rekeys`` (in place) only for surviving
+    targets, so a filtered target's re-key never asks for a node that is not written.
+    """
+    term_strings, not_in_chebi = go_substrate_strings(axioms, kg_terms, chebi)
+    distinct = {s for pairs in term_strings.values() for _, s in pairs}
+    molecules, role_map = partition_role_strings(distinct, chebi)
+    go_rekeys: dict[str, str] = {}
+    s2p, props = {}, {}
+    if molecules:                    # no GO strings → no MNX pass at all (filter included)
+        s2p, props = _resolve_substrate_strings(molecules, conn, chebi=chebi, rekeys=go_rekeys,
+                                                known_kegg=known_kegg)
+
+    filter_strings: dict[str, str] = {}
+    for cid, name in sorted(target_filter.items()):
+        p = chebi.primary(cid)
+        t = chebi.term(p) if p else None
+        num = (p or cid).split(":", 1)[1]
+        filter_strings[f"chebi:{num}"] = f"{p};{t['name']}" if p and t else f"{cid};{name}"
+    f_s2p: dict[str, str] = {}
+    if molecules:
+        f_s2p, _ = _resolve_substrate_strings(set(filter_strings.values()), conn, chebi=chebi,
+                                              rekeys={}, known_kegg=known_kegg)
+    filter_primaries = {k: f_s2p.get(v) for k, v in sorted(filter_strings.items())}
+    excluded = {v for v in filter_primaries.values() if v} | set(filter_primaries)
+
+    go_subs, go_roles, drops = assemble_go_targets(term_strings, s2p, role_map, role_ids, excluded)
+    filtered_by_target = Counter(s2p[s] for pairs in term_strings.values() for _, s in pairs
+                                 if s not in role_map and s2p.get(s) in excluded)
+    unresolved = {cid for pairs in term_strings.values() for cid, s in pairs
+                  if s not in role_map and s not in s2p}
+    surviving = {p for m in go_subs.values() for p in m}
+    for old, new in sorted(go_rekeys.items()):
+        if new in surviving:
+            rekeys.setdefault(old, new)
+    return {
+        "go_substrates": go_subs,
+        "go_roles": go_roles,
+        "excluded_primaries": excluded,
+        "filter_primaries": filter_primaries,
+        "drops": {**dict(sorted(drops.items())), "not_in_chebi": len(not_in_chebi),
+                  "filtered_by_target": dict(sorted(filtered_by_target.items()))},
+        "unresolved_ids": sorted(set(not_in_chebi) | unresolved),
+        "axioms_in_corpus": sum(1 for g in axioms if g in kg_terms),
+        "kegg_cpds": {p[len("kegg.compound:"):] for p in surviving if p.startswith("kegg.compound:")},
+        "primaries": surviving,
+        "props": {p: props[p] for p in sorted(surviving) if p in props},
+    }
+
+
+def _go_gene_terms_by_strain(go_target_terms: set[str], go_data: dict, alt_ids: dict) -> dict:
+    """{strain: [sorted GO-target terms of one gene, ...]} — genes with ≥1 such term only
+    (input of the identity report's target distribution)."""
+    out: dict[str, list[list[str]]] = {}
+    for row in load_genome_rows():
+        genes = load_merged_annotations(Path(row["data_dir"]))
+        lists = []
+        for g in genes.values():
+            terms = {resolve_go_id(t, go_data, alt_ids) for t in g.get("go_terms") or [] if t}
+            hit = sorted(t for t in terms if t in go_target_terms)
+            if hit:
+                lists.append(hit)
+        if lists:
+            out[row["strain_name"]] = lists
+    return out
+
+
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 def main(force: bool = False, refetch_raw: bool = False, today: str | None = None) -> None:
@@ -1490,6 +1600,20 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
             f"  TCDB reference download/rebuild failed ({exc}); reusing the "
             f"committed {tcdb_hierarchy_path.name} unchanged."
         )
+
+    # GO: one release (go-basic + go-plus together) is refreshed only with --refetch-raw;
+    # otherwise the pinned raw files / committed derived cache are read (spec 2026-10-18 §5.1).
+    if refetch_raw:
+        try:
+            log.info("Refreshing the GO release (go-basic + go-plus) ...")
+            refresh_go_release(cache_root, force=True)
+        except Exception as exc:
+            if read_go_release(cache_root) is None:
+                raise
+            log.warning(f"  GO refresh failed ({exc}); keeping the committed GO release "
+                        f"{read_go_release(cache_root)}.")
+    log.info("Loading GO transport axioms (go-plus 'has primary input') ...")
+    go_cache = build_go_transport_cache(cache_root)
 
     log.info("Parsing raw KEGG into in-memory dict ...")
     raw = _parse_raw_into_dict(cache_root)
@@ -1596,15 +1720,32 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
                            if i.startswith("kegg.compound:") and i[len("kegg.compound:"):] in known_kegg}
         paper_pws = {p for cpd in paper_kegg_cpds for p in cpd_to_pw.get(cpd, [])}
 
+        # D (GO) — transport axioms of KG GO terms, resolved like the TCDB molecule strings.
+        go_data, go_alt_ids = load_go_data(cache_root), load_go_alt_ids(cache_root)
+        kg_terms = set(kg_go_terms(go_data, [Path(r["data_dir"]) for r in load_genome_rows()],
+                                   alt_ids=go_alt_ids))
+        go = _go_transport_targets(go_cache["axioms"], kg_terms, chebi, conn, rekeys=rekeys,
+                                   known_kegg=known_kegg, role_ids=set(chemical_roles),
+                                   target_filter=load_target_filter(GO_TRANSPORT_FILTER_FILE))
+        go_gene_terms = _go_gene_terms_by_strain(set(go["go_substrates"]) | set(go["go_roles"]),
+                                                 go_data, go_alt_ids)
+        log.info(f"  GO transport: {go['axioms_in_corpus']} KG GO terms with an axiom → "
+                 f"{len(go['primaries'])} metabolite targets ({len(go['kegg_cpds'])} KEGG), "
+                 f"{len({r for m in go['go_roles'].values() for r in m})} role targets; drops "
+                 f"{ {k: v for k, v in go['drops'].items() if k != 'filtered_by_target'} }")
+
         extended_sets = dict(catalysis_sets)
-        extended_sets["cpds"] = catalysis_cpds | substrate_kegg_cpds | paper_kegg_cpds
+        # GO-only KEGG compounds join the compound set, never the pathway set (no pull-in).
+        extended_sets["cpds"] = catalysis_cpds | substrate_kegg_cpds | paper_kegg_cpds | go["kegg_cpds"]
         extended_sets["pws"] = catalysis_pws | transport_pws | paper_pws
         log.info("Building pruned kegg_data ...")
         kegg_data = build_pruned_kegg_data(raw, conn, sets=extended_sets)
         _fold_substrates_into_kegg_data(kegg_data, catalysis_cpds=catalysis_cpds,
                                         substrate_kegg_cpds=substrate_kegg_cpds,
                                         substrate_primaries=distinct_substrate_primaries,
-                                        compound_props=compound_props)
+                                        compound_props=compound_props,
+                                        go_kegg_cpds=go["kegg_cpds"], go_primaries=go["primaries"],
+                                        go_props=go["props"])
         _add_paper_candidates(kegg_data, paper.non_kegg_props)
         table = _to_table(kegg_data)
         _attach_mnx_chebi_aliases(table, conn)
@@ -1635,7 +1776,11 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
                           **prev_kegg.get("additional_compounds", {})},
         old_string_to_primary=old_string_to_primary, string_to_primary=string_to_primary,
         all_reaction_refs=dict(Counter(c for cpds in raw.get("reaction_to_compounds", {}).values()
-                                       for c in cpds)))
+                                       for c in cpds)),
+        go_substrates=go["go_substrates"], go_roles=go["go_roles"],
+        go_excluded_primaries=go["excluded_primaries"], go_filter_primaries=go["filter_primaries"],
+        go_release=go_cache["release"], go_distribution_input=go_gene_terms, go_drops=go["drops"],
+        go_axioms_in_corpus=go["axioms_in_corpus"], go_unresolved_ids=go["unresolved_ids"])
     out = run_identity_stages(inp)               # raises Step6ValidationError → nothing written
     files = render_outputs(out, Step6Paths(
         kegg_data=KEGG_DATA_FILE, tcdb_pruned=prev_pruned_path, brite_dir=KEGG_CACHE_DIR,

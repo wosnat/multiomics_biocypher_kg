@@ -319,6 +319,8 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       + `.cypher` (Metabolite rollup block), `controlled_vocabularies.yaml` if
       registered; CLAUDE.md Metabolite bullet
 
+- [ ] **GO transport: warn on stale step 6** (transport programme). The adapter should warn when KG GO terms that have axioms in `cache/data/go_terms/go_transport_substrates.json` are missing from `kegg_data`'s `go_transport_substrates` (step 6 left stale after a strain onboarding without `--steps 6 --force`).
+
 **P2 — designed, ready to implement**
 
 - [x] **Per-arm sampling day + growth state, and a shared-model identifier for
@@ -510,6 +512,18 @@ the committed caches, not taken from the log. Ordered by proposed priority.
   transporter ↔ enzyme link; a doc line in `docs://analysis/metabolites` is the
   fix. No KEGG reactions on di/tripeptides is upstream KEGG.
   → friction log 2026-10-08 open items 6–7
+
+## Transport programme (design `docs/superpowers/specs/2026-10-18-go-transport-substrates-design.md`)
+
+- [x] **Project 1, slice 1: GO transport substrates to Metabolite / ChemicalRole edges** (done 2026-10-18 on `feat/go-transport`, GO release 2026-07-26; 518 edges). → `docs/kg-changes/go-transport-substrates.md`
+- [ ] **Project 2: diamond best-hit details** (each gene's best-hit TCDB systems and their own substrate lists, currently discarded by the tier/consensus collapse; smallest form that survives project 3).
+- [ ] **Project 3: TCDB nodes/edges redesign** (the obvious query is the correct one; likely retires `substrate_depth`, `substrate_breadth`, `transport_substrate_resolution`). A per-gene `Gene` to `Metabolite` transport edge is deferred until after it.
+- [ ] **Project 4: transport-analysis recipe** (`docs://analysis/transport`, explorer-owned).
+- [ ] **Direction gap**: no project answers question 3's "in which direction"; GO target start/end location is too sparse (5 MED4 import annotations, one gene).
+- [ ] **GO taxon-constraint flag**: 1,912 of 1.4M gene to GO annotations violate a GO taxon constraint; flag on the gene to GO edge.
+- [ ] **GO MF to Rhea / EC / KEGG reaction xref bridge** (unmeasured).
+- [ ] **Obsolete gene GO annotations** (pre-existing, found in Task 0): ~330,594 gene `go_terms` in the merged annotations reference ids not live in GO 2026-07-26 (139K obsolete with no replacement, 145K with a single `replaced_by`, 45K `consider`-only); alt-id annotations are remapped (23,462), the rest dropped at build, before and after the refresh. Source annotations (eggNOG, UniProt, Cyanorak) carry old ids; consider a `replaced_by` remap or refreshing the sources.
+- [ ] **Joint release with the explorer**: the KG release carrying slice 1 sets `[tool.release-kg] mcp_min_version` in `pyproject.toml` to the explorer release that surfaces the GO arm (done at `/release-kg` time, not in the implementation plan). Hand the explorer the caveat paragraphs in the kg-changes doc.
 
 ## Explorer / MCP coordination
 

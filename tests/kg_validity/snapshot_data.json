@@ -123,12 +123,12 @@
     },
     {
       "properties": {
-        "adjusted_p_value": 4.62277346559386e-05,
+        "adjusted_p_value": 0.0187745334528315,
         "expression_direction": "down",
-        "log2_fold_change": -2.88375242322746,
-        "time_point": "15 min",
-        "time_point_hours": 0.25,
-        "time_point_order": 1
+        "log2_fold_change": -1.60801963813729,
+        "time_point": "7h",
+        "time_point_hours": 7.0,
+        "time_point_order": 5
       },
       "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
       "target": "ncbigene:SYNWH7803_RS00465",
@@ -136,12 +136,12 @@
     },
     {
       "properties": {
-        "adjusted_p_value": 0.472611726798457,
+        "adjusted_p_value": 4.62277346559386e-05,
         "expression_direction": "down",
-        "log2_fold_change": -0.475447834373154,
-        "time_point": "5h",
-        "time_point_hours": 5.0,
-        "time_point_order": 4
+        "log2_fold_change": -2.88375242322746,
+        "time_point": "15 min",
+        "time_point_hours": 0.25,
+        "time_point_order": 1
       },
       "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
       "target": "ncbigene:SYNWH7803_RS00465",
@@ -162,12 +162,12 @@
     },
     {
       "properties": {
-        "adjusted_p_value": 0.0187745334528315,
+        "adjusted_p_value": 0.472611726798457,
         "expression_direction": "down",
-        "log2_fold_change": -1.60801963813729,
-        "time_point": "7h",
-        "time_point_hours": 7.0,
-        "time_point_order": 5
+        "log2_fold_change": -0.475447834373154,
+        "time_point": "5h",
+        "time_point_hours": 5.0,
+        "time_point_order": 4
       },
       "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
       "target": "ncbigene:SYNWH7803_RS00465",
@@ -1566,6 +1566,206 @@
     },
     {
       "properties": {
+        "go_chebi_ids": [
+          "CHEBI:46911"
+        ]
+      },
+      "source": "go:0000064",
+      "target": "kegg.compound:C00077",
+      "type": "Molecular_function_transports_metabolite"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:26834"
+        ]
+      },
+      "source": "go:0000099",
+      "target": "chebi:26834",
+      "type": "Molecular_function_transports_metabolite"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:58252"
+        ]
+      },
+      "source": "go:0000100",
+      "target": "kegg.compound:C03172",
+      "type": "Molecular_function_transports_metabolite"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:57844"
+        ]
+      },
+      "source": "go:0000102",
+      "target": "kegg.compound:C00073",
+      "type": "Molecular_function_transports_metabolite"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:61293"
+        ]
+      },
+      "source": "go:0000295",
+      "target": "chebi:61293",
+      "type": "Molecular_function_transports_metabolite"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:26834"
+        ]
+      },
+      "source": "go:0000101",
+      "target": "chebi:26834",
+      "type": "Biological_process_transports_metabolite"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:77847"
+        ]
+      },
+      "source": "go:0001407",
+      "target": "chebi:77847",
+      "type": "Biological_process_transports_metabolite"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:57966"
+        ]
+      },
+      "source": "go:0001762",
+      "target": "kegg.compound:C00099",
+      "type": "Biological_process_transports_metabolite"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:60466"
+        ]
+      },
+      "source": "go:0002790",
+      "target": "kegg.compound:C00012",
+      "type": "Biological_process_transports_metabolite"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:35238"
+        ]
+      },
+      "source": "go:0003333",
+      "target": "chebi:35238",
+      "type": "Biological_process_transports_metabolite"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:25512"
+        ]
+      },
+      "source": "go:0005326",
+      "target": "chebi.role:25512",
+      "type": "Molecular_function_transports_chemical_role"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:25512"
+        ]
+      },
+      "source": "go:0005328",
+      "target": "chebi.role:25512",
+      "type": "Molecular_function_transports_chemical_role"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:35703"
+        ]
+      },
+      "source": "go:0008559",
+      "target": "chebi.role:35703",
+      "type": "Molecular_function_transports_chemical_role"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:26672"
+        ]
+      },
+      "source": "go:0015343",
+      "target": "chebi.role:26672",
+      "type": "Molecular_function_transports_chemical_role"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:27026"
+        ]
+      },
+      "source": "go:0019534",
+      "target": "chebi.role:27026",
+      "type": "Molecular_function_transports_chemical_role"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:25512"
+        ]
+      },
+      "source": "go:0006836",
+      "target": "chebi.role:25512",
+      "type": "Biological_process_transports_chemical_role"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:23888"
+        ]
+      },
+      "source": "go:0006855",
+      "target": "chebi.role:23888",
+      "type": "Biological_process_transports_chemical_role"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:26672"
+        ]
+      },
+      "source": "go:0015891",
+      "target": "chebi.role:26672",
+      "type": "Biological_process_transports_chemical_role"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:33229"
+        ]
+      },
+      "source": "go:0035461",
+      "target": "chebi.role:33229",
+      "type": "Biological_process_transports_chemical_role"
+    },
+    {
+      "properties": {
+        "go_chebi_ids": [
+          "CHEBI:35703"
+        ]
+      },
+      "source": "go:0042908",
+      "target": "chebi.role:35703",
+      "type": "Biological_process_transports_chemical_role"
+    },
+    {
+      "properties": {
         "curated_tcids": [
           "1.A.1.4.1",
           "1.A.1.4.10",
@@ -2272,7 +2472,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-10-18T13:48:22.345906+00:00",
+  "generated_at": "2026-10-18T17:11:19.233220+00:00",
   "nodes": [
     {
       "anchor": true,

@@ -1981,6 +1981,21 @@ CALL {
       m.organism_count = size(orgs)
 } IN TRANSACTIONS OF 1000 ROWS;
 
+// GO transport organism rollup
+// Organisms whose genes carry a GO transport term naming the metabolite as its
+// primary input. Sparse: only metabolites with >=1 GO transport edge are written.
+MATCH (m:Metabolite)
+WHERE EXISTS { (:MolecularFunction|BiologicalProcess)-[:Molecular_function_transports_metabolite|Biological_process_transports_metabolite]->(m) }
+CALL {
+  WITH m
+  MATCH (o:OrganismTaxon)<-[:Gene_belongs_to_organism]-(:Gene)
+        -[:Gene_enables_molecular_function|Gene_involved_in_biological_process]->(t)
+        -[:Molecular_function_transports_metabolite|Biological_process_transports_metabolite]->(m)
+  WITH m, collect(DISTINCT o.preferred_name) AS names
+  SET m.go_transport_organism_names = apoc.coll.sort(names),
+      m.go_transport_organism_count = size(names)
+} IN TRANSACTIONS OF 1000 ROWS;
+
 // Metabolite.identifier_tokens — search-only bare ids for metaboliteFullText
 MATCH (m:Metabolite) WHERE m.all_identifiers IS NOT NULL
 CALL {
@@ -2196,6 +2211,19 @@ else
        "(checked flat and one-level-timestamped layouts). Schema_info.chebi_release will be left null."
 fi
 
+KG_GO_EXCLUDED="[]"
+go_excl_file=$(ls -t /data/build2neo/go_transport_excluded_targets.json \
+  /data/build2neo/*/go_transport_excluded_targets.json 2>/dev/null | head -n 1 || true)
+if [ -n "$go_excl_file" ] && [ -r "$go_excl_file" ]; then
+  # ids are [a-z0-9.:_] only, so swapping JSON double quotes for Cypher single quotes is safe
+  # (no python3/jq assumed in the neo4j image).
+  KG_GO_EXCLUDED=$(tr -d '\n' < "$go_excl_file" | tr '"' "'")
+  echo "Found go_transport_excluded_targets.json at $go_excl_file"
+else
+  echo "WARNING: go_transport_excluded_targets.json not found under /data/build2neo" \
+       "(checked flat and one-level-timestamped layouts). Schema_info.go_transport_excluded_targets will be []."
+fi
+
 time cypher-shell \
   -P "version          => '${KG_RELEASE_VERSION:-0.0.0-dev}'" \
   -P "git_sha          => '${KG_GIT_SHA:-unknown}'" \
@@ -2209,6 +2237,7 @@ time cypher-shell \
   -P "release_breaking   => '${KG_RELEASE_BREAKING_ESC}'" \
   -P "vocab_hash => '${KG_VOCAB_HASH}'" \
   -P "chebi_release => '${KG_CHEBI_RELEASE}'" \
+  -P "go_excluded => ${KG_GO_EXCLUDED}" \
   <<'CYPHER'
 MATCH (s:Schema_info {id: 'schema_info'})
 SET s.version           = coalesce($version, '0.0.0-dev'),
@@ -2227,7 +2256,8 @@ SET s.version           = coalesce($version, '0.0.0-dev'),
     s.release_breaking   = CASE WHEN coalesce($release_breaking, '')   = '' THEN null ELSE $release_breaking   END,
     s.controlled_vocabularies_hash = CASE WHEN coalesce($vocab_hash, '') = ''
                                           THEN null ELSE $vocab_hash END,
-    s.chebi_release = CASE WHEN coalesce($chebi_release, '') = '' THEN null ELSE $chebi_release END
+    s.chebi_release = CASE WHEN coalesce($chebi_release, '') = '' THEN null ELSE $chebi_release END,
+    s.go_transport_excluded_targets = coalesce($go_excluded, [])
 WITH s
 SET s.paper_count           = COUNT { (:Publication) },
     s.experiment_count      = COUNT { (:Experiment) },

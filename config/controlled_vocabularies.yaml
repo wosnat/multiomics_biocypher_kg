@@ -889,7 +889,7 @@ Metabolite.evidence_sources:
   description: >
     Why this metabolite is in the graph: metabolism (reachable through a
     gene-catalyzed Reaction), transport (a TCDB substrate of an annotated
-    transporter family), metabolomics (measured by a metabolite assay of a paper). A metabolite may carry any combination.
+    transporter family), metabolomics (measured by a metabolite assay of a paper), go_transport (named as the primary input of a GO transport term a gene carries; a term definition, not a gene fact). A metabolite may carry any combination.
 
 Organism_has_metabolite.evidence_sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
