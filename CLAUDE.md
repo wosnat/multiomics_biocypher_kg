@@ -55,7 +55,7 @@ docker compose up -d
 | Flag | Default | Description |
 |---|---|---|
 | `--test` | off | Test mode: stop each adapter after 100 items |
-| `--go` | off | Download and write GO nodes/edges |
+| `--go` | off | Optional, slow: download the full GO ontology via pypath (all ~30K nodes + GO-GO hierarchy). Separate from the gene-annotation GO set (`MultiGoAnnotationAdapter`, refreshed by `refresh_go_release`); do not combine with the default GO nodes (IDs conflict) |
 | `--ec` | off | Download and write EC nodes/edges |
 | `--no-cache` | off | Re-fetch all data instead of reusing cached files (does **not** refetch GO: GO is refreshed only by `refresh_go_release` / step 6 `--refetch-raw`) |
 | `--output-dir PATH` | `./biocypher-log/example_knowledge_graph/` | Output directory for CSV exports |

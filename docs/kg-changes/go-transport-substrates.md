@@ -218,7 +218,8 @@ MATCH (go)-[:Molecular_function_transports_metabolite]->(m:Metabolite)
 RETURN DISTINCT m.id, m.name;
 
 // Class reach, route 2: walk the chemical class instead
-MATCH (c:MetaboliteClass {id: 'kegg.brite:br08001.A5.B2'})  // Amino acids (br08001); coverage is partial<-[:Metabolite_in_metabolite_class]-(m:Metabolite)
+// Amino acids (br08001); members attach at child classes, so walk the class subtree; coverage is partial
+MATCH (c:MetaboliteClass {id: 'kegg.brite:br08001.A5.B2'})<-[:Metabolite_class_is_a_metabolite_class*0..]-(d)<-[:Metabolite_in_metabolite_class]-(m:Metabolite)
 MATCH (m)<-[:Molecular_function_transports_metabolite|Biological_process_transports_metabolite]-(go)
 RETURN m.id, count(DISTINCT go) AS go_terms;
 
