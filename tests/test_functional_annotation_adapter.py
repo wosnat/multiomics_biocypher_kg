@@ -960,3 +960,17 @@ def test_adapter_alt_id_remapping(tmp_path):
     assert all("0006260" in v[0] for v in by_gene.values())
     assert ad.get_all_go_ids() == {"GO:0006260"}
     assert ad.dropped_count == 1
+
+
+def test_adapter_all_go_terms_unchanged(multi_adapter):
+    """Literal values recorded before the kg_go_terms refactor (HEAD behaviour)."""
+    assert multi_adapter.all_go_terms() == {
+        "GO:0003677": "molecular function",
+        "GO:0005622": "cellular component",
+        "GO:0005737": "cellular component",
+        "GO:0006260": "biological process",
+        "GO:0071897": "biological process",
+    }
+    assert {n[0] for n in multi_adapter.get_nodes()} == {
+        "go:0003677", "go:0005622", "go:0005737", "go:0006260", "go:0071897",
+    }

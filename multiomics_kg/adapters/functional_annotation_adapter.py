@@ -56,9 +56,9 @@ from multiomics_kg.utils.kegg_utils import load_kegg_data
 from multiomics_kg.utils.cyanorak_role_utils import parse_cyanorak_role_tree, full_role_description
 from multiomics_kg.utils.tigr_roles import inferred_roles, mainrole_slug, split_role_name
 from multiomics_kg.utils.go_utils import (
-    NAMESPACE_TO_LABEL,
     compute_ancestry_closure,
     compute_go_levels,
+    kg_go_terms,
     load_go_alt_ids,
     load_go_data,
     make_go_go_edge_label,
@@ -235,6 +235,7 @@ class MultiGoAnnotationAdapter:
                 f"{go_orphans[:10]}{'...' if len(go_orphans) > 10 else ''}"
             )
         self.adapters: list[GoAnnotationAdapter] = []
+        self.genome_dirs: list[Path] = []
         self._build_adapters(genome_config_file)
 
     def _build_adapters(self, genome_config_file: str) -> None:
@@ -252,6 +253,7 @@ class MultiGoAnnotationAdapter:
                 alt_ids=self.alt_ids,
             )
             self.adapters.append(adapter)
+            self.genome_dirs.append(Path(data_dir))
         logger.info(f"MultiGoAnnotationAdapter: loaded {len(self.adapters)} strain adapters")
 
     def _all_seed_go_ids(self) -> set[str]:
@@ -265,19 +267,11 @@ class MultiGoAnnotationAdapter:
         """Public accessor: ``{raw GO id: schema node label}`` for every node emitted.
 
         Consumed by MultiTcdbAnnotationAdapter to prune the TcdbFamily→GO bridge to
-        existing GO nodes and to pick the right per-namespace edge label (mirrors
-        MultiPfamAnnotationAdapter.all_pfam_ids() feeding the InterPro bridge).
-        Applies the same namespace filter as `get_nodes`, so the two cannot drift.
+        existing GO nodes and to pick the right per-namespace edge label. Delegates to
+        :func:`~multiomics_kg.utils.go_utils.kg_go_terms`, shared with prepare_data
+        step 6, so the node set has one definition.
         """
-        terms: dict[str, str] = {}
-        for go_id in compute_ancestry_closure(self._all_seed_go_ids(), self.go_data):
-            entry = self.go_data.get(go_id)
-            if entry is None:
-                continue
-            label = NAMESPACE_TO_LABEL.get(entry["namespace"])
-            if label is not None:
-                terms[go_id] = label
-        return terms
+        return kg_go_terms(self.go_data, self.genome_dirs, self.alt_ids)
 
     def get_nodes(self):
         """
@@ -288,19 +282,12 @@ class MultiGoAnnotationAdapter:
         3. Yield ``(node_id, label, {"name": name})`` for each term in closure
            whose namespace is recognized.
         """
-        seed = self._all_seed_go_ids()
-        logger.info(f"Seed GO terms from gene annotations: {len(seed)}")
-        closure = compute_ancestry_closure(seed, self.go_data)
-        logger.info(f"GO ancestry closure size: {len(closure)} terms")
+        terms = self.all_go_terms()
+        logger.info(f"GO node set (seeds + ancestry closure): {len(terms)} terms")
 
         count = 0
-        for go_id in closure:
-            entry = self.go_data.get(go_id)
-            if entry is None:
-                continue
-            label = NAMESPACE_TO_LABEL.get(entry["namespace"])
-            if label is None:
-                continue
+        for go_id, label in terms.items():
+            entry = self.go_data[go_id]
             props = {"name": _clean_str(entry["name"])}
             if go_id in self.go_levels:
                 depth, is_best_effort = self.go_levels[go_id]

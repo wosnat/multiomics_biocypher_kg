@@ -15,6 +15,7 @@ import json
 import logging
 import re
 import requests
+from collections.abc import Iterable
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
@@ -318,6 +319,37 @@ def compute_ancestry_closure(seed_go_ids: set[str], go_data: dict[str, dict]) ->
                 queue.append(parent_id)
 
     return closure
+
+
+def kg_go_terms(
+    go_data: dict[str, dict],
+    genome_dirs: Iterable[Path],
+    alt_ids: dict[str, str] | None = None,
+) -> dict[str, str]:
+    """The KG's GO node set: ``{raw GO id: schema label}``.
+
+    Seeds = every gene ``go_terms`` entry in each dir's merged annotations
+    (alt ids resolved to live primaries, non-live dropped), closed over all
+    ancestors, filtered to recognised namespaces. Single definition shared by
+    the GO adapter and prepare_data step 6 so the two cannot drift.
+    """
+    from multiomics_kg.utils.annotations_cache import load_merged_annotations
+
+    alt_ids = alt_ids or {}
+    seed: set[str] = set()
+    for gdir in genome_dirs:
+        for gene in load_merged_annotations(gdir).values():
+            for go_id in gene.get("go_terms") or []:
+                if go_id:
+                    primary = resolve_go_id(go_id, go_data, alt_ids)
+                    if primary is not None:
+                        seed.add(primary)
+    terms: dict[str, str] = {}
+    for go_id in compute_ancestry_closure(seed, go_data):
+        label = NAMESPACE_TO_LABEL.get(go_data[go_id]["namespace"])
+        if label is not None:
+            terms[go_id] = label
+    return terms
 
 
 def make_go_go_edge_label(
