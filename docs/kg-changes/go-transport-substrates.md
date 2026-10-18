@@ -145,8 +145,11 @@ as a diff in that file.
   precedent). `tcdb_pruned.json` is byte-identical to before.
 - **`Metabolite.go_transport_organism_names`** (str[], sorted distinct `OrganismTaxon.preferred_name`)
   and **`go_transport_organism_count`** (int, `= size(names)`): organisms with a gene annotated to a
-  GO term that has an edge to this metabolite. Sparse: present on the 198 metabolites with a GO
-  transport edge (count min 1, median 10, max 43), absent otherwise. `Metabolite.organism_count` /
+  GO term that has an edge to this metabolite. Sparse: present on the 198 metabolites that some gene reaches through a
+  DIRECT gene-to-GO annotation (count min 1, median 10, max 43); 10 of the 208 metabolites with a GO
+  transport edge (e.g. fructose, disaccharide, oligosaccharide, alcohol, icosanoid) have edges only from
+  GO terms present as ancestors with no directly annotated gene and carry no organism properties. Absent
+  therefore means "no directly annotated gene path", not "no GO transport edge": to test for an edge, test the edge. `Metabolite.organism_count` /
   `organism_names`, `Organism_has_metabolite`, `transporter_count` and the Gene metabolite counts are
   unchanged (still TCDB / KEGG / assay only: no blending).
 

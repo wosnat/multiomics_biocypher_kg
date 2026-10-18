@@ -20,7 +20,7 @@
 - No pathway pull-in: GO-only KEGG compounds join the compound set, never the pathway set.
 - Target filter (canonical-id match): CHEBI:24870 ion, 24867 monoatomic ion, 23906 monoatomic cation, 23905 monoatomic anion, 25213 metal cation, 33515 transition element cation, 51143 nitrogen molecular entity, 33694 biomacromolecule, 24431 chemical entity, 36080 protein, 24834 inorganic anion, 15378 hydron (H⁺), 29101 sodium(1+). K⁺, Cl⁻, metals, iron, nutrient ions are kept.
 - Edge labels (schema `label_as_edge`): `Molecular_function_transports_metabolite`, `Biological_process_transports_metabolite`, `Molecular_function_transports_chemical_role`, `Biological_process_transports_chemical_role`; one property `go_chebi_ids: str[]` (sorted); one edge per (GO term, canonical target).
-- New post-import properties: `Metabolite.go_transport_organism_names` (str[], sorted `preferred_name`), `Metabolite.go_transport_organism_count` (int, `= size(names)`), sparse — present only on metabolites with ≥ 1 GO transport edge; `Schema_info.go_transport_excluded_targets` (str[]).
+- New post-import properties: `Metabolite.go_transport_organism_names` (str[], sorted `preferred_name`), `Metabolite.go_transport_organism_count` (int, `= size(names)`), sparse — present only on metabolites some gene reaches through a DIRECT gene→GO annotation to a term with a GO transport edge (absent ≠ no GO transport edge; test the edge); `Schema_info.go_transport_excluded_targets` (str[]).
 - All string properties through `_clean_str` (no `'` or `|`, never used as separators).
 - `scripts/post-import.sh` and `scripts/post-import.cypher` carry identical Cypher.
 - Staging: other sessions edit this clone — `git add` explicit paths only, never `-A`.

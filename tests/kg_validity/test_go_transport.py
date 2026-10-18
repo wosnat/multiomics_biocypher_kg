@@ -206,6 +206,21 @@ def test_go_transport_organism_props_consistent(run_query):
     assert stray == 0, f"{stray} metabolites without GO transport edges carry go_transport props"
 
 
+def test_go_transport_evidence_source_has_edge(run_query):
+    bad = run_query(
+        """
+        MATCH (m:Metabolite)
+        WHERE 'go_transport' IN m.evidence_sources
+          AND NOT EXISTS {
+            MATCH (:MolecularFunction|BiologicalProcess)
+                  -[:Molecular_function_transports_metabolite|Biological_process_transports_metabolite]->(m)
+          }
+        RETURN count(m) AS n
+        """
+    )[0]["n"]
+    assert bad == 0, f"{bad} go_transport metabolites with no incoming GO transport edge"
+
+
 def test_pathway_and_reaction_counts_unchanged(run_query):
     n = run_query(
         "MATCH (k:KeggTerm {level_kind: 'pathway'}) RETURN count(k) AS n"

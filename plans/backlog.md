@@ -319,6 +319,8 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       + `.cypher` (Metabolite rollup block), `controlled_vocabularies.yaml` if
       registered; CLAUDE.md Metabolite bullet
 
+- [ ] **GO transport: warn on stale step 6** (transport programme). The adapter should warn when KG GO terms that have axioms in `cache/data/go_terms/go_transport_substrates.json` are missing from `kegg_data`'s `go_transport_substrates` (step 6 left stale after a strain onboarding without `--steps 6 --force`).
+
 **P2 — designed, ready to implement**
 
 - [x] **Per-arm sampling day + growth state, and a shared-model identifier for

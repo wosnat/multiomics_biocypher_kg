@@ -916,8 +916,8 @@ metabolite:
     pathway_names: list[str]     # post-import (KG-A6): KeggTerm.name aligned index-for-index with pathway_ids
     pathway_count: int           # post-import (KG-A7): size(pathway_ids)
     organism_names: list[str]    # post-import (KG-A8): distinct sorted OrganismTaxon.preferred_name reachable via Organism_has_metabolite
-    go_transport_organism_names: str[]   # post-import, sparse: GO-route organism reach (Gene → MF|BP GO term → Metabolite)
-    go_transport_organism_count: int     # post-import, sparse: GO-route organism reach (Gene → MF|BP GO term → Metabolite)
+    go_transport_organism_names: str[]   # post-import, sparse (absent = no directly annotated gene path, NOT no GO transport edge): GO-route organism reach (Gene → MF|BP GO term → Metabolite)
+    go_transport_organism_count: int     # post-import, sparse (absent = no directly annotated gene path, NOT no GO transport edge): GO-route organism reach (Gene → MF|BP GO term → Metabolite)
     measured_assay_count: int    # post-import (Phase 2 metabolomics)
     measured_organisms: str[]    # post-import (Phase 2 metabolomics)
     measured_paper_count: int    # post-import (Phase 2 metabolomics)

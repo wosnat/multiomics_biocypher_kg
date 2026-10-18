@@ -290,8 +290,9 @@ One new, separate rollup (decided 2026-10-18, explorer TPS-002):
 **`Metabolite.go_transport_organism_names`** (str[], sorted distinct
 `OrganismTaxon.preferred_name`) and **`Metabolite.go_transport_organism_count`** (int,
 size invariant), over the path Gene → (MF | BP GO term) → Metabolite, organism via
-`Gene_belongs_to_organism`. Dense on metabolites with a GO transport edge, absent
-otherwise (sparse; the `organism_names` rule for absent vs `[]` decides which —
+`Gene_belongs_to_organism`. Present on metabolites some gene reaches through a DIRECT gene→GO annotation to a term
+with a GO transport edge, absent otherwise (10 of 208 edge-bearing metabolites, reached only via
+undirectly-annotated ancestor terms, carry none; absent ≠ no GO transport edge; sparse; the `organism_names` rule for absent vs `[]` decides which —
 match it). Without it a GO-only metabolite reads `organism_count = 0` although its gene
 path exists, and organism-scoped queries silently miss it.
 
