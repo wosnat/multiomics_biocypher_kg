@@ -1,0 +1,124 @@
+{
+ "graphs": [
+  {
+   "meta": {
+    "basicPropertyValues": [
+     {
+      "pred": "http://www.w3.org/2002/07/owl#versionInfo",
+      "val": "2026-07-26"
+     }
+    ]
+   },
+   "edges": [
+    {
+     "sub": "http://purl.obolibrary.org/obo/GO_0022857",
+     "pred": "is_a",
+     "obj": "http://purl.obolibrary.org/obo/GO_0005215"
+    },
+    {
+     "sub": "http://purl.obolibrary.org/obo/GO_0015110",
+     "pred": "is_a",
+     "obj": "http://purl.obolibrary.org/obo/GO_0022857"
+    },
+    {
+     "sub": "http://purl.obolibrary.org/obo/GO_0015704",
+     "pred": "is_a",
+     "obj": "http://purl.obolibrary.org/obo/GO_0006810"
+    }
+   ],
+   "logicalDefinitionAxioms": [
+    {
+     "definedClassId": "http://purl.obolibrary.org/obo/GO_0015110",
+     "genusIds": [
+      "http://purl.obolibrary.org/obo/GO_0022857"
+     ],
+     "restrictions": [
+      {
+       "propertyId": "http://purl.obolibrary.org/obo/RO_0004009",
+       "fillerId": "http://purl.obolibrary.org/obo/CHEBI_29195"
+      }
+     ]
+    },
+    {
+     "definedClassId": "http://purl.obolibrary.org/obo/GO_0015704",
+     "genusIds": [
+      "http://purl.obolibrary.org/obo/GO_0006810"
+     ],
+     "restrictions": [
+      {
+       "propertyId": "http://purl.obolibrary.org/obo/RO_0004009",
+       "fillerId": "http://purl.obolibrary.org/obo/CHEBI_29195"
+      }
+     ]
+    },
+    {
+     "definedClassId": "http://purl.obolibrary.org/obo/GO_0005274",
+     "genusIds": [
+      "http://purl.obolibrary.org/obo/GO_0022857"
+     ],
+     "restrictions": [
+      {
+       "propertyId": "http://purl.obolibrary.org/obo/RO_0004009",
+       "fillerId": "http://purl.obolibrary.org/obo/CHEBI_15378"
+      },
+      {
+       "propertyId": "http://purl.obolibrary.org/obo/RO_0004009",
+       "fillerId": "http://purl.obolibrary.org/obo/CHEBI_15676"
+      }
+     ]
+    },
+    {
+     "definedClassId": "http://purl.obolibrary.org/obo/GO_0015891",
+     "genusIds": [
+      "http://purl.obolibrary.org/obo/GO_0006810"
+     ],
+     "restrictions": [
+      {
+       "propertyId": "http://purl.obolibrary.org/obo/RO_0004009",
+       "fillerId": "http://purl.obolibrary.org/obo/GOCHE_26672"
+      }
+     ]
+    },
+    {
+     "definedClassId": "http://purl.obolibrary.org/obo/GO_9999901",
+     "genusIds": [
+      "http://purl.obolibrary.org/obo/GO_0022857"
+     ],
+     "restrictions": [
+      {
+       "propertyId": "http://purl.obolibrary.org/obo/RO_0012001",
+       "fillerId": "http://purl.obolibrary.org/obo/CHEBI_29103"
+      }
+     ]
+    },
+    {
+     "definedClassId": "http://purl.obolibrary.org/obo/GO_9999902",
+     "genusIds": [
+      "http://purl.obolibrary.org/obo/GO_0022857"
+     ],
+     "restrictions": [
+      {
+       "propertyId": "http://purl.obolibrary.org/obo/RO_0004009",
+       "fillerId": "http://purl.obolibrary.org/obo/PR_000000001"
+      }
+     ]
+    },
+    {
+     "definedClassId": "http://purl.obolibrary.org/obo/GO_9999903",
+     "genusIds": [
+      "http://purl.obolibrary.org/obo/GO_0003824"
+     ],
+     "restrictions": [
+      {
+       "propertyId": "http://purl.obolibrary.org/obo/RO_0004009",
+       "fillerId": "http://purl.obolibrary.org/obo/CHEBI_15422"
+      }
+     ]
+    },
+    {
+     "definedClassId": "http://purl.obolibrary.org/obo/GO_9999904"
+    }
+   ]
+  }
+ ]
+}
