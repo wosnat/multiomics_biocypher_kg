@@ -62,6 +62,7 @@ from multiomics_kg.utils.go_utils import (
     load_go_alt_ids,
     load_go_data,
     make_go_go_edge_label,
+    read_go_release,
     resolve_go_id,
 )
 from multiomics_kg.utils.pfam_utils import load_pfam_data
@@ -225,6 +226,7 @@ class MultiGoAnnotationAdapter:
         cache: bool = True,
     ) -> None:
         self.test_mode = test_mode
+        self.cache_root = Path(cache_root)
         self.go_data = load_go_data(Path(cache_root))
         self.alt_ids = load_go_alt_ids(Path(cache_root))
         self.go_levels, go_orphans = compute_go_levels(self.go_data)
@@ -355,6 +357,55 @@ class MultiGoAnnotationAdapter:
                 go_go_count += 1
 
         logger.info(f"MultiGoAnnotationAdapter.get_edges: yielded {go_go_count} GO-GO edges")
+
+    def get_transport_edges(
+        self,
+        kegg_data_path: Path,
+        metabolite_node_ids: set[str] | None,
+        chemical_role_node_ids: set[str] | None,
+    ):
+        """Yield GO term -> Metabolite / ChemicalRole "transports" edges.
+
+        Reads ``go_transport_substrates`` from ``kegg_data.json`` (prepare_data
+        step 6). GO defines the term's primary input as the target -- a term
+        definition, not a gene fact; BP is broader than MF. Terms outside
+        :meth:`all_go_terms` and targets outside the injected node-id sets are
+        skipped (dangling-proof); a ``None`` set emits no edges of that kind.
+        """
+        kegg = json.loads(Path(kegg_data_path).read_text(encoding="utf-8"))
+        pinned = kegg.get("go_transport_release")
+        current = read_go_release(self.cache_root)
+        if pinned != current:
+            logger.warning(
+                f"GO transport substrates built against GO release {pinned!r} "
+                f"but the loaded GO cache is release {current!r}; rerun prepare_data step 6"
+            )
+        terms = self.all_go_terms()
+        prefix = {"molecular function": "molecular_function",
+                  "biological process": "biological_process"}
+        count = 0
+        for go_id, targets in sorted(kegg.get("go_transport_substrates", {}).items()):
+            ns = prefix.get(terms.get(go_id, ""))
+            if ns is None:
+                continue
+            for target_id, chebi_ids in sorted(targets.items()):
+                if target_id.startswith("chebi.role:"):
+                    if chemical_role_node_ids is None or target_id not in chemical_role_node_ids:
+                        continue
+                    kind = "chemical_role"
+                else:
+                    if metabolite_node_ids is None or target_id not in metabolite_node_ids:
+                        continue
+                    kind = "metabolite"
+                yield (
+                    None,
+                    _go_node_id(go_id),
+                    target_id,
+                    f"{ns}_transports_{kind}",
+                    {"go_chebi_ids": [_clean_str(c) for c in chebi_ids]},
+                )
+                count += 1
+        logger.info(f"MultiGoAnnotationAdapter.get_transport_edges: yielded {count} edges")
 
 
 # ---------------------------------------------------------------------------

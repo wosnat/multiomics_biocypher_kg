@@ -236,6 +236,12 @@ def main():
     )
     bc.write_nodes(go_anno_adapter.get_nodes())
     bc.write_edges(go_anno_adapter.get_edges())
+    # GO term -> Metabolite / ChemicalRole transport substrates (term definitions)
+    bc.write_edges(go_anno_adapter.get_transport_edges(
+        Path("cache/data/kegg/kegg_data.json"),
+        metabolism_adapter.all_metabolite_ids(),
+        set(json.loads(Path("cache/data/tcdb/tcdb_pruned.json").read_text())["chemical_roles"]),
+    ))
 
     # EC number nodes + hierarchy edges + gene→EC edges (always runs, cached)
     ec_anno_adapter = MultiEcAnnotationAdapter(
@@ -461,6 +467,12 @@ def main():
     chebi_cache = Path("cache/data/chebi/chebi_metabolite_xrefs.json")
     if chebi_cache.exists():
         (Path(bc._output_directory) / "chebi_release.txt").write_text(json.loads(chebi_cache.read_text())["release"])
+
+    kegg_data_path = Path("cache/data/kegg/kegg_data.json")
+    if kegg_data_path.exists():
+        (Path(bc._output_directory) / "go_transport_excluded_targets.json").write_text(
+            json.dumps(json.loads(kegg_data_path.read_text()).get("go_transport_excluded_targets", []))
+        )
 
     # Write import call and other post-processing
     bc.write_schema_info(as_node=True)
