@@ -351,7 +351,7 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       r = -0.61 / -0.83 / -0.97); settle with the authors or a GLM re-run from `ALL_EZ55_2.Rdata`
       (needs R). The experiments carry a caveat in `design_notes`. (b) **Aharonovich 2016**
       temperature / light (config 24 C, 10 uE vs Methods maintenance 20 C, 27 uE) — the
-      Supplementary information is not in the paper directory. (c) **Anjur 2025**
+      Supplementary information is not in the paper directory. (c) **Anjur 2026** (was Anjur 2025)
       planktonic-vs-biofilm needs a new `treatment_type` value (e.g. `lifestyle`), a vocabulary
       change; it stays `growth_phase`. (d) **Lindell 2007** phage is the generic `Phage` (taxid
       10239); naming P-SSP7 needs a `treatment_organisms.csv` row and changes the OrganismTaxon

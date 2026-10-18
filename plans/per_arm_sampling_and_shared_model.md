@@ -21,7 +21,7 @@ kept for history.
   one model — notes updated), D3 confirmed (`death`), D4 accepted (Hennon: two fits).
 - Validator rules are now: 1 required + in vocab · 2 `baseline`/`mixed` ⇒ `design_notes` ·
   3 `mixed` ⇒ ≥ 2 timepoints · 4 no `|`/`'` in notes · 5 warning on a non-DE experiment.
-- Counts: 174 DE experiments — 150 `matched`, 21 `baseline`, 3 `mixed`.
+- Counts (live graph after the 2026-10-18 rebuild): 173 DE experiments — 151 `matched`, 18 `baseline`, 4 `mixed`.
 - **Explorer contract change:** the accepted contract (T1–T5, SIM-001..004) named `time_matched`
   and `statistical_model_id`; both changed — the explorer dialog needs a note before release.
 

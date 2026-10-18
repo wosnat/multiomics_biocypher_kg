@@ -176,8 +176,8 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
   every experiment with a DE contrast; `matched` = same sampling time or same growth state) and
   **`Experiment.design_notes`** (sparse free text; required for `baseline`/`mixed`, and says how
   the arms were matched when not by sampling time; added to `experimentFullText`). `time_point`
-  and `growth_phase` describe the treatment arm. All 174 DE experiments over 36 papers were curated
-  from the methods (150 `matched`, 21 `baseline`, 3 `mixed`) — log and per-paper evidence in
+  and `growth_phase` describe the treatment arm. All 173 DE experiments over 36 papers were curated
+  from the methods (151 `matched`, 18 `baseline`, 4 `mixed`) — log and per-paper evidence in
   `plans/control_timing_curation.md`. A planned `statistical_model_id` (experiments fitted as one
   model) was dropped before release: most papers do not report how DE was fitted.
   Paperconfig: `publication.control_timing` default + experiment override; `validate_paperconfig.py`

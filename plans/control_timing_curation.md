@@ -20,7 +20,7 @@ curated (S2 Hackl: the notes already say the control harvest time is unstated); 
 `matched`. Data errors E1, E2, E4–E7 → fix after re-checking the paper; **E3** raw p-values → keep, with
 a note on each affected experiment; the 21 smaller fixes → re-check and apply. Fix pass run by 5
 agents per `plans/control_timing_curation/FIX_INSTRUCTIONS.md`; results in
-`plans/control_timing_curation/fixes_{A..E}.md`. Counts now: 150 `matched`, 21 `baseline`, 3 `mixed`. In the text
+`plans/control_timing_curation/fixes_{A..E}.md`. Counts after round 3 (live graph 2026-10-18): 173 DE experiments — 151 `matched`, 18 `baseline`, 4 `mixed`. In the text
 below, `time_matched` reads `matched` and the model-id columns are historical.
 
 ## Closure (2026-10-18) — every remaining item
@@ -50,7 +50,7 @@ below, `time_matched` reads `matched` and the model-id columns are historical.
 | Aharonovich 2016 temperature / light vs Methods maintenance values | **backlog** — Supplementary information not in the directory |
 | Tetu 2019 HDPE 120 min (paper) vs 180 min (GEO) | **kept** — timepoint follows the paper; note on both HDPE experiments |
 | Thompson 2016 infected experiment lacks `axenic` | **kept** — paper defers culture details to another reference |
-| Anjur 2025 `treatment_type: growth_phase` | **backlog** — needs a new vocabulary value |
+| Anjur 2026 `treatment_type: growth_phase` | **backlog** — needs a new vocabulary value |
 | Bagby 2015 label "max across 3-24h" | **fixed** — "max across 70min-24h" |
 | Coe 2024 13h timepoint | **kept** — 42 GEO samples = 7 timepoints x 2 phenotypes x 3 replicates |
 | Explorer contract (time_matched, statistical_model_id) | **fixed** — KG update note appended to the explorer dialog |
@@ -154,7 +154,7 @@ tables and MMC−UV = (MMC−ctrl) − (UV−ctrl) exactly.
 | Doron 2016 | all 3 | time_matched | 2–5 min control may predate infection (→ mixed) |
 | Huang 2020 | infection | baseline | single 30-min uninfected control for all times |
 | Tolonen 2006 | 4 `growth_medium_growth_on_*` | time_matched | control harvest time not stated |
-| Steglich 2006, Anjur 2025, He 2022 | all | time_matched | matched harvest implied, day not stated |
+| Steglich 2006, Anjur 2026, He 2022 | all | time_matched | matched harvest implied, day not stated |
 | Biller 2016 | `mit1002_rnaseq_deseq2` | model id | no code; shared 12 h reference |
 | Johnson 2026b | both | no id | one fit vs per-contrast undeterminable |
 | Tetu 2019 | per strain HDPE+PVC | no id | possibly one `~condition` fit; paper silent |
@@ -170,7 +170,7 @@ tables and MMC−UV = (MMC−ctrl) − (UV−ctrl) exactly.
 | Biller 2016 | C | baseline | NATL2A → time_matched | mit1002_rnaseq_deseq2 (2) |
 | Biller 2018 | C | time_matched | — | natl2a_rnaseq_deseq2 (2) |
 | Coe 2024 | C | time_matched | — | — |
-| Aharonovich 2016, Al-Hosani 2015, Anjur 2025, Fang 2019, He 2022 | D | time_matched | — | — |
+| Aharonovich 2016, Al-Hosani 2015, Anjur 2026, Fang 2019, He 2022 | D | time_matched | — | — |
 | Bagby 2015 | D | time_matched | air experiment → baseline | — |
 | Lin 2015 | E | time_matched | uninfected NATL2A → mixed | — |
 | Lindell 2007 | E | mixed | — | — |
