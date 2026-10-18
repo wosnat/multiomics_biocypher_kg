@@ -507,6 +507,31 @@ def test_overlap_compound_gets_both_evidence_sources():
     assert kegg_data["compounds"]["C00089"]["evidence_sources"] == ["metabolism", "transport"]
 
 
+def test_fold_tags_go_transport():
+    """GO transport targets: KEGG compounds get 'go_transport' appended; a GO-only non-KEGG
+    primary becomes an additional_compounds entry; an existing TCDB entry gets the value
+    appended."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import (
+        _fold_substrates_into_kegg_data,
+    )
+    kegg_data = {"compounds": {"C01417": {"name": "Cyanate"}, "C00031": {"name": "Glc"}},
+                 "reactions": {}}
+    props = {"chebi:1": {"name": "tcdb thing", "chebi_id": "1"},
+             "chebi:2": {"name": "go thing", "chebi_id": "2"}}
+    _fold_substrates_into_kegg_data(
+        kegg_data, catalysis_cpds={"C00031"}, substrate_kegg_cpds={"C01417"},
+        substrate_primaries={"kegg.compound:C01417", "chebi:1"}, compound_props=props,
+        go_kegg_cpds={"C01417"}, go_primaries={"kegg.compound:C01417", "chebi:1", "chebi:2"},
+        go_props={"chebi:2": props["chebi:2"]})
+    assert kegg_data["compounds"]["C01417"]["evidence_sources"] == ["transport", "go_transport"]
+    assert kegg_data["compounds"]["C00031"]["evidence_sources"] == ["metabolism"]
+    add = kegg_data["additional_compounds"]
+    assert add["chebi:2"]["evidence_sources"] == ["go_transport"]
+    assert add["chebi:2"]["name"] == "go thing"
+    assert add["chebi:1"]["evidence_sources"] == ["transport", "go_transport"]
+    assert "kegg.compound:C01417" not in add
+
+
 def test_transport_only_kegg_compound_in_compounds_with_pathways(tmp_path, monkeypatch):
     """Refactor invariant: when a kegg.compound primary is in substrate_kegg_cpds
     but NOT in catalysis_cpds, build_pruned_kegg_data (called with the extended
@@ -1126,6 +1151,13 @@ def _stub_main(tmp_path, monkeypatch):
     monkeypatch.setattr(bx, "_tcdb_bridges", lambda *a: {"pfam": {}, "go": {}})
     monkeypatch.setattr(bx, "_load_compound_brite", lambda c, r: ({}, {}))
     monkeypatch.setattr(bx, "load_identity_overrides", lambda p: None)
+    # GO transport inputs (never download GO in a unit test)
+    monkeypatch.setattr(bx, "build_go_transport_cache", lambda c: {"release": "2026-07-26", "axioms": {}})
+    monkeypatch.setattr(bx, "load_go_data", lambda c: {})
+    monkeypatch.setattr(bx, "load_go_alt_ids", lambda c: {})
+    monkeypatch.setattr(bx, "kg_go_terms", lambda d, dirs, alt_ids=None: {})
+    monkeypatch.setattr(bx, "load_genome_rows", lambda: [])
+    monkeypatch.setattr(bx, "load_target_filter", lambda p: {"CHEBI:15378": "hydron"})
     writes = []
     monkeypatch.setattr(bx, "write_all_atomic", lambda files: writes.append(files))
     return writes
@@ -1183,6 +1215,45 @@ def test_main_passes_old_and_new_substrate_maps(tmp_path, monkeypatch):
     assert calls == [False]                                   # one MNX pass, not two
     assert seen["inp"].old_string_to_primary == {"S": "chebi:1"}
     assert seen["inp"].string_to_primary == {"S": "kegg.compound:C00001"}
+
+
+def test_main_threads_go_targets(tmp_path, monkeypatch):
+    """Stage D (GO): KG GO terms' axioms are resolved like TCDB strings; GO KEGG compounds
+    join the compound set (not the pathway set); the filter's id is resolved but adds no
+    compound; the GO fields reach Step6Inputs."""
+    from multiomics_kg.utils.metabolite_identity.pipeline import Step6ValidationError
+    _stub_main(tmp_path, monkeypatch)
+    monkeypatch.setattr(bx, "build_go_transport_cache", lambda c: {
+        "release": "2026-07-26", "axioms": {"GO:1": ["CHEBI:5", "CHEBI:15378"], "GO:2": ["CHEBI:5"]}})
+    monkeypatch.setattr(bx, "kg_go_terms", lambda d, dirs, alt_ids=None: {"GO:1": "molecular function"})
+    monkeypatch.setattr(bx, "_load_chebi", lambda c, r: (make_chebi(
+        CHEBI_5=term("cyanate", kegg=["C01417"]), CHEBI_15378=term("hydron", kegg=["C00080"])), True))
+    resolved = {"CHEBI:5;cyanate": "kegg.compound:C01417", "CHEBI:15378;hydron": "kegg.compound:C00080"}
+    monkeypatch.setattr(bx, "_resolve_substrate_strings",
+                        lambda s, conn, chebi=None, rekeys=None, known_kegg=None, legacy=None:
+                        ({x: resolved[x] for x in s if x in resolved}, {}))
+    seen = {}
+
+    def pruned(raw, conn, sets):
+        seen["sets"] = sets
+        return {"compounds": {}, "additional_compounds": {}, "kos": {}, "pathways": {},
+                "subcategories": {}, "categories": {}, "reactions": {}}
+    monkeypatch.setattr(bx, "build_pruned_kegg_data", pruned)
+
+    def stop(inp):
+        seen["inp"] = inp
+        raise Step6ValidationError(["stop"])
+    monkeypatch.setattr(bx, "run_identity_stages", stop)
+    with pytest.raises(Step6ValidationError):
+        bx.main(force=True, today="2026-10-18")
+    inp = seen["inp"]
+    assert inp.go_substrates == {"GO:1": {"kegg.compound:C01417": ["CHEBI:5"]}}
+    assert inp.go_release == "2026-07-26" and inp.go_axioms_in_corpus == 1
+    assert inp.go_drops["filtered"] == 1
+    assert inp.go_filter_primaries == {"chebi:15378": "kegg.compound:C00080"}
+    assert "kegg.compound:C00080" in inp.go_excluded_primaries
+    assert "C01417" in seen["sets"]["cpds"] and "C00080" not in seen["sets"]["cpds"]
+    assert seen["sets"]["pws"] == {"ko00010"}
 
 
 def test_read_old_resolved(tmp_path):
