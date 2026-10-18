@@ -10,7 +10,7 @@ see whether a similar pattern has already been solved.
 | MIT9312 | Barreto 2022 | `PMT9312_1938` (old 4-digit) | GCA GFF locus_tag | Tier 1 via `locus_tag` set check (100%) |
 | MIT9312 | Barreto 2022 | gene symbols (`rpoA`, etc.) | Annotation CSVs | Tier 3 `gene_name` singleton |
 | MIT9312 | Hennon 2017 | `lcl\|CP000111.1_cds_ABS83097.1_354` | Intermediate RefSeq annotation (~2012–2017); **no longer in NCBI** | Unresolved — defer |
-| MIT9301 | Anjur 2025 | JGI IDs (`2626311821`) | `annotation_genome_9301` via `uniprot_gene_name` (old locus tags) | 97.1% — change `id_type: gene_name` → `id_type: old_locus_tag` for bare locus-tag columns |
+| MIT9301 | Anjur 2026 | JGI IDs (`2626311821`) | `annotation_genome_9301` via `uniprot_gene_name` (old locus tags) | 97.1% — change `id_type: gene_name` → `id_type: old_locus_tag` for bare locus-tag columns |
 | NATL1A | He 2022 | `NATL1_NNNNN` locus tags + gene names (`wza`, `cyoA`, etc.) | Mixed `Gene Name` column | 98.8% — revert paperconfig to original CSV with `name_col: "Gene Name"`, v2 resolves both natively |
 | EZ55 | Barreto 2022 | `EZ55_NNNNN` (5-digit) | GCA_901457815.2 (ENA/NCBI) canonical locus tags | **95%** — already working via `locus_tag:symbol` |
 | EZ55 | Hennon 2017 | `AEZ55_NNNN` (4-digit) | Researcher's own gene-calling on IMG draft genome 2785510739 | **84%** — cross-assembly protein bridging via `map_img_to_ncbi_proteins.py` (3-phase: exact+subsequence+Diamond) |

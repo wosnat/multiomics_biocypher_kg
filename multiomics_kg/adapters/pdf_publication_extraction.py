@@ -344,7 +344,7 @@ if __name__ == "__main__":
 
 
     pdf_fpath = "data/Prochlorococcus/papers_and_supp/Aharonovich 2016/41396_2016_article_bfismej201670.pdf"
-    pdf_fpath = "data/Prochlorococcus/papers_and_supp/Anjur 2025/2025.08.05.668435v1.full.pdf"
+    pdf_fpath = "data/Prochlorococcus/papers_and_supp/Anjur 2026/s41467-026-77598-7_reference.pdf"
     pdf_text = adapter.extract_from_pdf(pdf_fpath)
     
     print(json.dumps(pdf_text, indent=2))

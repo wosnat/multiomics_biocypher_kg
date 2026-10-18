@@ -37,7 +37,7 @@ any current NCBI API. Options:
 ## Annotation table column contains old locus tags but declared as `gene_name`
 
 **Symptom**: id_translation resolution is low even though the annotation table
-has locus-tag-like values in a column. Classic example: MIT9301 Anjur 2025
+has locus-tag-like values in a column. Classic example: MIT9301 Anjur 2026
 `9301_annotated_genome.csv`, column `uniprot_gene_name`.
 
 **Root cause**: `_find_anchor` has three phases:

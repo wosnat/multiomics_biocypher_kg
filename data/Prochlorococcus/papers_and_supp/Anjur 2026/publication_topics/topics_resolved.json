@@ -1,0 +1,181 @@
+{
+  "metadata": {
+    "paper": "Anjur-Dietrich 2026",
+    "doi": "10.1038/s41467-026-77598-7",
+    "strains": [
+      "Prochlorococcus MIT9301"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "none",
+    "uncaptured_identifiers_note": "",
+    "extracted_at": "2026-10-18T10:26:37.936143",
+    "input_tokens": 25034,
+    "output_tokens": 952,
+    "curation_note": "2026-10-18 manual review: removed pilB gene + type IV pilus pathway (the Introduction cites them for the Synechococcus elongatus PCC7942 mutant, not Prochlorococcus; strain unspecified would have resolved them onto MIT9301). Added pstS identifier WP_041484704.1 from Supplementary Information Fig. 5 (PstS alignment), which pins the paralog to the DE copy P9301_12391.",
+    "resolution": {
+      "gene_records": 8,
+      "genes_resolved": 5,
+      "gene_methods": {
+        "multi:v": 5,
+        "unresolved": 3
+      },
+      "pathway_records": 4,
+      "pathways_resolved": 3,
+      "pathway_methods": {
+        "unresolved": 1,
+        "id": 3
+      },
+      "paper_strains": [
+        "Prochlorococcus MIT9301"
+      ],
+      "captured_identifiers": 1,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "descriptive_only": 1,
+        "lookup_miss": 2
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "pstS",
+      "gene_name": "pstS",
+      "identifiers": [
+        "WP_041484704.1"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cthe inorganic phosphate uptake genes pstS, A, B, C were significantly more expressed in biofilm forming cells\u201d (Results, p4-5)",
+      "mention_strain": "Prochlorococcus MIT9301",
+      "strain": "Prochlorococcus MIT9301",
+      "locus_tag": "P9301_12391",
+      "resolved_from": "WP_041484704.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "pstA",
+      "gene_name": "pstA",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "\u201cthe inorganic phosphate uptake genes pstS, A, B, C were significantly more expressed in biofilm forming cells\u201d (Results, p4-5)",
+      "mention_strain": "Prochlorococcus MIT9301",
+      "strain": "Prochlorococcus MIT9301",
+      "locus_tag": "P9301_07761",
+      "resolved_from": "pstA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "pstB",
+      "gene_name": "pstB",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "\u201cthe inorganic phosphate uptake genes pstS, A, B, C were significantly more expressed in biofilm forming cells\u201d (Results, p4-5)",
+      "mention_strain": "Prochlorococcus MIT9301",
+      "strain": "Prochlorococcus MIT9301",
+      "locus_tag": "P9301_07771",
+      "resolved_from": "pstB",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "pstC",
+      "gene_name": "pstC",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "\u201cthe inorganic phosphate uptake genes pstS, A, B, C were significantly more expressed in biofilm forming cells\u201d (Results, p4-5)",
+      "mention_strain": "Prochlorococcus MIT9301",
+      "strain": "Prochlorococcus MIT9301",
+      "locus_tag": "P9301_07751",
+      "resolved_from": "pstC",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "phoR",
+      "gene_name": "phoR",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "\u201cwhile phoR, a negative regulator of the pst genes, was more expressed in planktonic cells\u201d (Results, p4-5)",
+      "mention_strain": "Prochlorococcus MIT9301",
+      "strain": "Prochlorococcus MIT9301",
+      "locus_tag": "P9301_12411",
+      "resolved_from": "phoR",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "rubisco",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "\u201cphotosynthesis-related genes, including those related to rubisco and chlorophyll synthesis, were expressed significantly more in planktonic cells\u201d (Results, p5)",
+      "mention_strain": "Prochlorococcus MIT9301",
+      "strain": "Prochlorococcus MIT9301",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "ebfG",
+      "gene_name": "ebfG",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "\u201cwe identified a homologue of ebfG... that was also expressed significantly more in adherent cells\u201d (Results, p5)",
+      "mention_strain": "Prochlorococcus MIT9301",
+      "strain": "Prochlorococcus MIT9301",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "pteB",
+      "gene_name": "pteB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "\u201cFor identification of pteB, an HMMsearch of all proteins in a given strain...\u201d (Methods, p11)",
+      "mention_strain": "Prochlorococcus MIT9301",
+      "strain": "Prochlorococcus MIT9301",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "inorganic phosphate uptake / phosphate transport",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "\u201cthe inorganic phosphate uptake genes pstS, A, B, C were significantly more expressed in biofilm forming cells\u201d (Results, p4-5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id_raw": "map00195",
+      "prominence": "central",
+      "evidence": "\u201call light-dependent photosystem genes and several additional photosynthesis-related genes... were expressed significantly more in planktonic cells\u201d (Results, p5)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "carbon fixation in photosynthetic organisms",
+      "kegg_pathway_id_raw": "map00710",
+      "prominence": "central",
+      "evidence": "\u201cphotosynthesis-related genes, including those related to rubisco... were expressed significantly more in planktonic cells\u201d (Results, p5)",
+      "pathway_id": "ko00710",
+      "pathway_name": "carbon fixation by calvin cycle",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "chlorophyll synthesis",
+      "kegg_pathway_id_raw": "map00860",
+      "prominence": "central",
+      "evidence": "\u201cphotosynthesis-related genes, including those related to rubisco and chlorophyll synthesis\u201d (Results, p5)",
+      "pathway_id": "ko00860",
+      "pathway_name": "porphyrin metabolism",
+      "resolution_method": "id"
+    }
+  ]
+}

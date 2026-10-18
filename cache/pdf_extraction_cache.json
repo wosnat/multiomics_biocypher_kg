@@ -43,28 +43,33 @@
       "title": "Global transcriptome analysis of salt acclimated Prochlorococcus AS9601"
     }
   },
-  "data/Prochlorococcus/papers_and_supp/Anjur 2025/2025.08.05.668435v1.full.pdf": {
+  "data/Prochlorococcus/papers_and_supp/Anjur 2026/s41467-026-77598-7_reference.pdf": {
     "publication": {
-      "abstract": "The picocyanobacterium Prochlorococcus is responsible for ~10% of annual marine carbon fixation and plays a role in the global carbon budget. While these phototrophs are primarily considered free-living and neutrally buoyant in the euphotic zone, we observe that they can form biofilms on diverse substrates. This trait is conserved across Prochlorococcus ecotypes, and populations continuously transition between planktonic and biofilm states via a non-genetic heritable mechanism. Throughout their growth, cells in biofilms retain a reversible, dynamic attachment state, and measurements of growth, photosynthesis, and respiration rates reveal that cells in biofilms exude more organic carbon than their planktonic counterparts. Estimates of the fraction of Prochlorococcus cells attached to particles in the ocean reveal that a significant adherent population exists throughout the euphotic and mesopelagic zones. This work describes a new dimension of Prochlorococcus\u2019s ecological niche and suggests a role in carbon export to the deep sea.",
+      "abstract": "The picocyanobacterium Prochlorococcus is responsible for ~10% of annual marine carbon fixation and plays a role in the global carbon budget. While these phototrophs are primarily considered free-living and neutrally buoyant in the euphotic zone, we observe that they can form biofilms on diverse substrates. This trait is conserved across Prochlorococcus ecotypes, and populations continuously transition between planktonic and biofilm states via a non-genetic heritable mechanism. Throughout their growth, cells in biofilms retain a reversible, dynamic attachment state, and measurements of growth, photosynthesis, and carbon exudation rates reveal that cells in biofilms exude more organic carbon than their planktonic counterparts. Estimates of the fraction of Prochlorococcus cells attached to particles in the ocean\u2014obtained through metagenomic analysis of serially-fractionated samples\u2014reveal that a significant adherent population exists throughout the euphotic and mesopelagic zones. This work describes a dimension of Prochlorococcus\u2019s ecological niche and suggests a role in carbon export to the deep sea.",
       "authors": [
         "Maya I. Anjur-Dietrich",
         "Katelyn G. Jones",
         "James I. Mullet",
-        "Nhi N. Vo",
+        "Nhi Vo",
         "Kurt G. Castro",
         "Sierra M. Parker",
         "Sallie W. Chisholm"
       ],
-      "description": "This study investigates the capacity of Prochlorococcus to form biofilms on diverse substrates, examines the fraction of cells in adherent vs planktonic states across clades, and assesses how populations shift between states under selection. The authors used axenic strains, created persistent biofilm populations via serial enrichment, and quantified growth, photosynthesis, respiration, and carbon budgets, alongside metagenomic field data to estimate distribution on particles in the global ocean.",
-      "doi": "10.1101/2025.08.05.668435",
-      "journal": "bioRxiv",
+      "description": "Study of biofilm formation in Prochlorococcus across diverse clades, using serial enrichment to select adherent and planktonic populations, coupled with physiological measurements, transcriptomics, and metagenomic field data to quantify prevalence and ecological impact.",
+      "doi": "10.1038/s41467-026-77598-7",
+      "journal": "Nature Communications",
       "organism": [
         "Prochlorococcus"
       ],
       "pmid": null,
-      "publication_id": "10.1101/2025.08.05.668435",
-      "publication_year": "2025",
-      "study_type": "Ecology, Microbiology",
+      "publication_id": "10.1038/s41467-026-77598-7",
+      "publication_year": "2026",
+      "study_type": [
+        "Physiology",
+        "Transcriptomics",
+        "Metagenomics",
+        "Ecology"
+      ],
       "title": "Biofilm formation and dynamics in the marine cyanobacterium Prochlorococcus"
     }
   },

@@ -21,7 +21,7 @@ locus_tag column when present, eliminating dangling edges.
 
 Usage:
   uv run python -m multiomics_kg.download.resolve_paper_ids [--force] [--papers NAME ...]
-  uv run python -m multiomics_kg.download.resolve_paper_ids --papers "Anjur 2025"
+  uv run python -m multiomics_kg.download.resolve_paper_ids --papers "Anjur-Dietrich 2026"
 """
 
 from __future__ import annotations

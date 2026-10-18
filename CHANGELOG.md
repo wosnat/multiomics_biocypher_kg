@@ -92,6 +92,17 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
 
 ### Data
 
+- **Anjur-Dietrich 2026 (was Anjur-Dietrich 2025) — preprint replaced by the published version,
+  *Nature Communications*, DOI `10.1038/s41467-026-77598-7`.** *Prochlorococcus* MIT9301 RNA-seq,
+  planktonic vs biofilm enrichment populations (1 experiment, 242 DE genes, 234 resolved).
+  The KG used to cite the bioRxiv preprint `10.1101/2025.08.05.668435`. It now cites the journal
+  article, so the Publication id (`doi:10.1038/s41467-026-77598-7`), the Experiment id
+  (`10.1038/s41467-026-77598-7_growth_state_freeliving_planktonic_enrichment_mit9301_rnaseq`) and
+  `journal`/`publication_year` change. The expression edges do not: the table is now read from
+  published Supplementary Data 2, which is identical to the preprint table. Discussed-topic edges
+  were re-extracted from the article: 5 genes, pstS/A/B/C + phoR (was pstA/B/C, phoR, rubisco —
+  `pstS` now resolves to P9301_12391 via the accession in Supp. Fig. 5; generic "rubisco" no
+  longer resolves) and 3 pathways, photosynthesis + carbon fixation + chlorophyll synthesis (was 2). Folder `Anjur 2025/` → `Anjur 2026/`.
 - **Paperconfig corrections from the control-timing review (2026-10-18; every item re-checked
   against the paper — per-paper evidence in `plans/control_timing_curation/fixes_{A..E}.md`).**
   - Aharonovich 2016: two HOT1A3 tables held linear ratios but were loaded as log2, so every

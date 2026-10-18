@@ -3,12 +3,12 @@
     "cds_fna_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 1852
+      "unique": 1850
     },
     "gene_name": {
       "conflict": 0,
       "multi": 110,
-      "unique": 1100
+      "unique": 1098
     },
     "gene_synonym": {
       "conflict": 0,
@@ -18,7 +18,7 @@
     "gff_gene_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 3755
+      "unique": 3752
     },
     "jgi_id": {
       "conflict": 0,
@@ -33,7 +33,7 @@
     "locus_tag_ncbi": {
       "conflict": 0,
       "multi": 0,
-      "unique": 1830
+      "unique": 1827
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -43,7 +43,7 @@
     "protein_id_refseq": {
       "conflict": 0,
       "multi": 2,
-      "unique": 3769
+      "unique": 3750
     },
     "uniprot_accession": {
       "conflict": 0,
@@ -62,10 +62,9 @@
   "tier1_count_median": 8.0,
   "tier1_demoted_known_names": 806,
   "unresolved_rows_per_source": {
-    "Anjur-Dietrich 2025/annotation_genome_9301": 52,
-    "Anjur-Dietrich 2025/annotation_gff_mit9301": 49,
-    "Anjur-Dietrich 2025/supp_table_1": 8,
-    "cds_from_genomic.fna": 3,
+    "Anjur-Dietrich 2026/annotation_genome_9301": 52,
+    "Anjur-Dietrich 2026/supp_data_2": 8,
+    "cds_from_genomic.fna": 5,
     "genomic_gca/MIT9301": 58,
     "genomic_gcf/MIT9301": 47
   },

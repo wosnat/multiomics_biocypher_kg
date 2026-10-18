@@ -135,7 +135,7 @@ uv run python scripts/validate_annotations.py --llm-model gpt-4.1-nano
 
 The script auto-detects annotation/product/description/definition columns in each CSV, maps gene IDs to locus tags (same logic as this skill), and reports per-column match rates, e.g. `(963/1794) 54% match`. It also optionally sends a batch of mismatches to an LLM for qualitative analysis (vocabulary differences, specificity, etc.).
 
-Papers with no annotation columns (e.g. Al-Hosani 2015, Anjur 2025) are correctly reported as having no comparable data.
+Papers with no annotation columns (e.g. Al-Hosani 2015, Anjur 2026) are correctly reported as having no comparable data.
 
 ## Refreshing the Gene ID Mapping
 
@@ -146,7 +146,7 @@ This skill detects and uses `_resolved.csv` files (written by `resolve_paper_ids
 uv run python -m multiomics_kg.download.build_gene_id_mapping --strains MIT9301 --force
 
 # Re-resolve paper CSVs for one paper (creates/updates _resolved.csv)
-uv run python -m multiomics_kg.download.resolve_paper_ids --papers "Anjur 2025" --force
+uv run python -m multiomics_kg.download.resolve_paper_ids --papers "Anjur-Dietrich 2026" --force
 
 # Or rebuild all strains + re-resolve all paper CSVs
 bash scripts/prepare_data.sh --steps 3 4 --force
