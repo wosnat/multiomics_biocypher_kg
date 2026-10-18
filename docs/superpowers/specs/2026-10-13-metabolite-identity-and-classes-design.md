@@ -212,6 +212,7 @@ recorded in `config/metabolite_identity_overrides.yaml` (`merge:` / `keep_separa
 | `recurated_from_ids` | **new, sparse** (explorer review §30): the CURIEs of dropped nodes whose paper rows were re-curated onto this node: the `mnx:` placeholders (e.g. `mnx:MNXM1565340` on L-Arg), and measurement-only nodes dropped by stage K (e.g. `kegg.compound:C00525` D-Trp on L-Trp). It **carries no identity meaning**, is kept separate from `all_identifiers`, and exists only so a consumer can say "this old id's measurements now live here" |
 | `identity_basis` | new, sparse: present on merged **and on re-keyed** nodes (a `chebi:` node re-keyed to its KEGG id carries `[chebi_kegg_xref]` even with nothing merged into it). ⊆ `{mnx_same_entity, chebi_kegg_xref, chebi_conjugate, chebi_tautomer, manual}` |
 | `name` | KEGG name on KEGG-keyed nodes; the ChEBI primary name on `chebi:` nodes |
+| `removed_stereo_xrefs` | **new, sparse** (2026-10-18, explorer ask 8): on a `chebi:` node, the MNX-side ChEBI ids / InChIKeys that ChEBI places **below** the node's own term (a strict `is_a` descendant of the term or of its conjugate acids / bases, i.e. a more specific stereo form, e.g. D-pipecolic acid on pipecolic acid). **No identity meaning**, never in `all_identifiers` (the `recurated_from_ids` contract). A `chebi:` node's `inchikey` is its own ChEBI term's (none when ChEBI has none) and MNX's `smiles` is dropped when the InChIKey is replaced; other MNX-side ids are representations of the same compound and stay resolvable. KEGG-keyed nodes keep KEGG's drawing. An old node id that ends up here remaps with basis `stereo_form_removed` |
 
 **Merged-node lists.** Step-6 list fields (`pathways`, `evidence_sources`) are unioned. Every
 post-import rollup is recomputed on the merged node, never summed.
@@ -382,9 +383,33 @@ resolution counts with the pre-change baseline.
 
 ### 3.5 Stereo families and the stereo link
 
-**Stereo family.** Two canonical nodes are linked when **both** hold:
-- their primary ChEBI terms are joined by a direct `is_a` or `is_enantiomer_of`;
-- their InChIKeys share the first (connectivity) block.
+**Stereo family** (rule revised 2026-10-18, explorer ask 8). Two canonical nodes are linked by:
+- **`is_stereo_form_of`** (specific → generic) when some ChEBI term of the specific node reaches a
+  term of the generic node by **≤ 3 `is_a` steps without changing the molecular formula or the
+  charge**. ChEBI never links a specific form to its stereo-unspecified parent directly
+  (`D-glucopyranose > D-glucose > glucose`), and gives that parent no structure, only a formula,
+  so the old "direct `is_a` + shared InChIKey block" test could not fire. A term ChEBI gives no
+  formula may be passed through (`L-rhamnopyranose > L-rhamnose > rhamnose`) but is never the
+  generic. Further conditions:
+  - the generic's term is not a ChEBI class (class membership is not a stereo relation);
+  - both nodes are `structure_kind = defined`;
+  - the pair is not geometric (§3.6; the cis/trans token rule now also covers locant forms such
+    as `9,9'-dicis-`);
+  - neither node is a `no_stereo_link:` override;
+  - pairs found in both directions are dropped (reported in `stereo_link_review`);
+  - the result is transitively reduced (β-D-glucose → D-glucose → glucose stays two edges).
+
+  Curated **`stereo_link:`** overrides add the pairs whose generic ChEBI gives no formula
+  (fructose, fucose, N-acetylglucosamine, GDP-fucose, sorbose) or that KEGG cross-references
+  both ways (xylose). A curated direction wins over a computed reverse.
+- **`is_enantiomer_of`**: ChEBI `is_enantiomer_of` plus a shared InChIKey connectivity block
+  (enantiomers always have structures). An enantiomer pair is never also a stereo-form pair.
+
+A node's ChEBI terms here are its **own identity**: the KEGG cross-references (or own term) of the
+node and its merged members, minus terms the owner rule withholds from it (§3.2), plus their
+ChEBI conjugate acids / bases. MNX's ChEBI aliases are not used: they bring in classes
+("N-acetyl-D-hexosamine" on GlcNAc, "cresol" on benzyl alcohol). Tautomers are not added: ChEBI's
+tautomer relation includes biologically distinct pairs (L-dopachrome / DHICA).
 
 A **stereo family** is a **connected component** of these pairwise links. The family is
 computed **after** the B2 scrub, so a class can't join one. Families are never built between
@@ -614,7 +639,7 @@ account, and none of them can be silently ignored or silently go stale.**
 | File | Effect on what is kept | Applied at | Stale entry |
 |---|---|---|---|
 | `metabolite_aliases.yaml` (per paper) | Every override target is a **paper candidate** at harvest (stage D), so it's included and enriched even if no reaction or transport reaches it. It's **kept** whenever a current row of that paper resolves through the override, and then it's a final target with the `metabolomics` tag. An override always wins over the global lookup and the dominant-form rule for its paper | stage D (candidate), J (resolution), K (kept as a target) | An entry whose name matches no row of its paper's tables is reported as `stale_alias_override`. Its target isn't kept on its account. A target id that can't be resolved at all (no KEGG / ChEBI / MNX entry) **fails** step 6 |
-| `config/metabolite_identity_overrides.yaml` | **`merge:`** joins two nodes before any pruning (stage E): the KEGG-guard exception, `identity_basis: [manual]`, then the normal winner rule. **`keep_separate:`** blocks a merge from **every** basis, MNX included. **`canonical:`** (`{id, group, reason}`) names a merge group's canonical id over the margin rule (§3.1); an `id` outside its own `group` fails loading, two pins for one group fail step 6, and a pin whose group no longer forms is reported stale. **`xref:`** (`{id: hmdb:… | chebi:…, to, from?, reason}`, 2026-10-15) curates one HMDB / ChEBI identifier onto `to` (off `from`) right after stage H: for a record named for the generic compound that MNX / HMDB attach to an anomer, or one no rule reaches; a moved HMDB id becomes `to`'s scalar `hmdb_id`; stale (reported, skipped) when the identifier isn't where the entry says. Neither kind **adds** a node: identity overrides change identity, not reachability | stage E, before stage K and the final write | An entry naming an id that isn't in the pre-prune compound set is reported as `stale_identity_override` and skipped. A `merge:` + `keep_separate:` pair on the same two ids fails step 6 |
+| `config/metabolite_identity_overrides.yaml` | **`merge:`** joins two nodes before any pruning (stage E): the KEGG-guard exception, `identity_basis: [manual]`, then the normal winner rule. **`keep_separate:`** blocks a merge from **every** basis, MNX included. **`canonical:`** (`{id, group, reason}`) names a merge group's canonical id over the margin rule (§3.1); an `id` outside its own `group` fails loading, two pins for one group fail step 6, and a pin whose group no longer forms is reported stale. **`stereo_link:`** (`{specific, generic, reason}`) / **`no_stereo_link:`** (`{id, reason}`) (2026-10-18) add a stereo-form edge the ChEBI rule can't find, or keep a node out of stereo-form edges (§3.5). **`xref:`** (`{id: hmdb:… | chebi:…, to, from?, reason}`, 2026-10-15) curates one HMDB / ChEBI identifier onto `to` (off `from`) right after stage H: for a record named for the generic compound that MNX / HMDB attach to an anomer, or one no rule reaches; a moved HMDB id becomes `to`'s scalar `hmdb_id`; stale (reported, skipped) when the identifier isn't where the entry says. Neither kind **adds** a node: identity overrides change identity, not reachability | stage E, before stage K and the final write | An entry naming an id that isn't in the pre-prune compound set is reported as `stale_identity_override` and skipped. A `merge:` + `keep_separate:` pair on the same two ids fails step 6 |
 | `dominant_stereo_forms.json` (lock) | A frozen target is a **paper candidate** at stage D, like an alias target, so it's enriched and kept while its name still has rows | stages D, J | An entry whose name / direct id no longer occurs in any paper table is reported as `stale_lock_entry`, not deleted; deleting it is a human edit |
 
 **Precedence when they meet:**

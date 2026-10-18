@@ -113,8 +113,8 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
   value descriptions. Structural edges (`Has_experiment`, `Tests_coculture_with`) are now emitted
   even for a paperconfig with no supplementary tables.
 - **`MetaboliteClass`** (445 nodes / 1,152 memberships over 8 BRITE compound trees) with `Metabolite_in_metabolite_class` and `Metabolite_class_is_a_metabolite_class`.
-- **Metabolite identity properties**: `kegg_compound_ids`, `chebi_ids`, `mnxm_ids`, `all_identifiers` (CURIE-only), `identifier_tokens`, `recurated_from_ids`, `identity_basis`, `structure_kind` (defined 2,564 / generic 624 / polymer 26), `kegg_functional_categories` (br08001 top level) and `kegg_brite_classes` (top level of the 7 other compound trees, as `"<Tree>: <class>"`, e.g. `Lipids: Fatty acyls`; 28 values, closed `ControlledVocabulary`).
-- **`Metabolite_is_stereo_form_of`** (76) and **`Metabolite_is_enantiomer_of`** (28).
+- **Metabolite identity properties**: `kegg_compound_ids`, `chebi_ids`, `mnxm_ids`, `all_identifiers` (CURIE-only), `identifier_tokens`, `recurated_from_ids`, `identity_basis`, `structure_kind` (defined 2,564 / generic 624 / polymer 26), `removed_stereo_xrefs` (ids of a more specific stereo form taken off a `chebi:` node; no identity meaning), `kegg_functional_categories` (br08001 top level) and `kegg_brite_classes` (top level of the 7 other compound trees, as `"<Tree>: <class>"`, e.g. `Lipids: Fatty acyls`; 28 values, closed `ControlledVocabulary`).
+- **`Metabolite_is_stereo_form_of`** (99) and **`Metabolite_is_enantiomer_of`** (28).
 - **`stereo_assignment`** (`as_reported` | `dominant_form_assumed`) on `Assay_quantifies_metabolite` / `Assay_flags_metabolite`.
 - **`ChemicalRole`** (111 nodes, `Chemical_role_is_a_chemical_role` 132) and **`Tcdb_family_transports_chemical_role`** (392).
 - **`TcdbFamily.substrate_breadth`** (`lumping` | `specific` | `not_assessed`; the 13 lumping nodes are pinned, no value change). An R3 exception that sunsets with the deferred TCDB spec.

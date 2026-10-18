@@ -221,7 +221,7 @@ natural_toxins 19 / 15 · endocrine_disrupting_compounds 9 / 8 · bioactive_pept
 
 ## 2b. Also new
 
-- **`Metabolite_is_stereo_form_of`** (stereo-specified → unspecified, directed, **76**; 68 before §38) and
+- **`Metabolite_is_stereo_form_of`** (stereo-specified → unspecified, directed, **99** after §40; 76 after §38, 68 before) and
   **`Metabolite_is_enantiomer_of`** (symmetric, stored once lower → higher id, query undirected,
   **28**).
   - Both carry `sources: ['chebi']`, `evidence: 'curated'`.
@@ -2004,3 +2004,103 @@ reach records that sit on no node.
 - The four anomer nodes (`C00221`, `C00984`, `C02336`, `C05378`) lose the generic record and now
   carry no HMDB id: HMDB has no live record named for any of them.
 - The release TSVs are unchanged.
+
+## 40. KG change: stereo-form edges from ChEBI chemistry; `chebi:` node structure (2026-10-18, implemented)
+
+**Origin:** explorer ask 8 (`multiomics_explorer/docs/kg-specs/2026-10-15-metabolite-stereo-merge-asks.md`,
+design closed 2026-10-18). Spec §3.5 / §3.2 / the overrides table. Measured on the rebuilt live
+graph.
+
+### What changed
+
+1. **Stereo-form rule (B).** The old "direct `is_a` + shared InChIKey block" test can't fire on
+   stereo-unspecified compounds: ChEBI links them to the specific form only through 2–3 `is_a`
+   steps and gives them no structure. The new test:
+   - a ChEBI `is_a` path of ≤ 3 steps with an unchanged formula and charge, where formula-less
+     terms may be passed through but are never the generic;
+   - read from each node's **own** ChEBI identity: KEGG xrefs or own term of the node and its
+     merged members, minus owner-withheld terms, plus conjugate acids / bases. Not MNX aliases;
+     not tautomers;
+   - no class generics (E); both nodes `defined`; geometric pairs excluded;
+   - transitively reduced; mutual pairs dropped.
+
+   The geometric-token rule now also covers locant forms (`9,9'-dicis-`, `9,15,9'-tricis-`).
+2. **Overrides.**
+   - 8 curated **`stereo_link:`**:
+     - fructose, fucose ×2, N-acetylglucosamine, GDP-fucose and sorbose ×2: the generic has no
+       ChEBI formula;
+     - xylose: KEGG cross-references the generic `C01394` to α-D-xylose, so the rule found both
+       directions.
+   - 2 **`no_stereo_link:`**:
+     - `C00738` D-Hexose: a class with a concrete ChEBI formula;
+     - `C10906`: KEGG's duplicate "D-Fructose", the keto form; open-chain, not a stereo form (Q2).
+3. **Narrowed D: a `chebi:` node's structure is its own ChEBI term's.**
+   - **`inchikey`** comes from the node's own term (none when ChEBI has none), not from the MNX
+     entity. MNX's `smiles` is dropped when the InChIKey is replaced.
+   - **Stereo mismatches move out.** An MNX-side ChEBI id or InChIKey that ChEBI places *below*
+     the node's own term, or below its conjugate acid / base, leaves `chebi_ids` /
+     `all_identifiers`. It goes to the new sparse **`removed_stereo_xrefs`**: no identity meaning,
+     never an identifier, the `recurated_from_ids` contract.
+   - **Representation variants stay resolvable.** Other MNX-side ids remain in `all_identifiers`.
+   - **KEGG-keyed nodes keep KEGG's drawing.**
+   - **Not touched:** `formula`, `elements`, `mass` and `structure_kind`. D runs after stage G.
+4. **Remap.** An old node id that ends up in `removed_stereo_xrefs` remaps with the new basis
+   **`stereo_form_removed`**. One row: `chebi:144635` D-2,4-diaminobutyric acid →
+   `chebi:64307`, which was `chebi_primary_id`.
+5. **Correction to our reply (3):** `removed_stereo_xrefs` has **no** `ControlledVocabulary`
+   entry. We said it would, but it follows `recurated_from_ids` exactly, which has none: a list of
+   identifiers is not a vocabulary.
+
+### Measured (live)
+
+| | Before | After |
+|---|---|---|
+| `Metabolite_is_stereo_form_of` | 76 | **99** (+27 / −4) |
+| `Metabolite_is_enantiomer_of` | 28 | 28 |
+| `Metabolite`, `structure_kind` (2,564 / 624 / 26), `Organism_has_metabolite` (88,579) | | unchanged |
+| repoint TSV / paper `_resolved.csv` / dominant-form drift | | unchanged (108 rows; none; none) |
+| remap TSV | | 1 row's basis changed (above) |
+
+**Edges added (27):**
+
+| Kind | Edges |
+|---|---|
+| your table | D-glucose → glucose; D-mannose → mannose; L-arabinose → arabinose; D-galactose → Galactose; L-galactose → Galactose; D-fructose → Fructose; L-rhamnose → rhamnose; aldehydo-L-rhamnose → rhamnose; L-isoleucine → isoleucine; D-glucosamine → glucosamine; D-ribulose → Ribulose; L-ribulose → Ribulose; L-sorbose → Sorbose; D-sorbose → Sorbose; (S)-dihydroorotate → dihydroorotate; D-xylose → Xylose |
+| also found | D-sorbitol → glucitol; D-glucarate → glucarate(2-); D-arabitol → arabinitol; D-allose → allose; GalNAc → N-acetylgalactosamine; β-D-ribopyranose → D-ribose; 1D-chiro-inositol → inositol |
+| curated, no ChEBI formula | GlcNAc → N-acetylglucosamine; GDP-L-fucose → GDP-fucose; L-fucose → fucose; 6-deoxy-D-galactose → fucose |
+
+α/β-D-galactose reach Galactose through D-galactose (transitive reduction).
+
+**Edges removed (4):**
+- (R)-acetoin → (S)-acetoin: enantiomers; (R)-acetoin keeps its edge to Acetoin `C00466`;
+- geranyl diphosphate → all-trans-polyprenyl diphosphate: a homolog class;
+- Xylose → D-xylose: the wrong direction, now D-xylose → Xylose;
+- 9,9'-dicis-ζ-carotene → all-trans-ζ-carotene: geometric.
+
+**Your 14 rows:** 11 are linked. The 3 class terms (amino acid, glucoside, galacturonate) are
+unlinked, as agreed (E). D-Hexose has no stereo edge.
+
+**D on `chebi:` nodes:** 14 written nodes change.
+- **2 lose their InChIKey entirely:** `chebi:17234` glucose and `chebi:37690` allose. ChEBI
+  gives them no structure; `formula` stays C6H12O6 and `structure_kind` stays `defined`.
+- **10 have it replaced** by their own ChEBI term's: pipecolic acid, dihydroorotate, 2-aminoadipic
+  acid, Tyr-Tyr and 2,4-diaminobutyric acid (stereo mismatches); bromate, iodate, chlorate,
+  oxaliplatin and α-cyclodextrin (representation variants, whose MNX InChIKey stays in
+  `all_identifiers`).
+- **8 carry `removed_stereo_xrefs`:** pipecolic acid (D-pipecolic + 3 secondary / related ids),
+  dihydroorotate ((R)-acid), 2-aminoadipic acid (D-), allose (L-allopyranose), Tyr-Tyr (L,L),
+  2,4-diaminobutyric acid (D-), D-glucosyl group (α-), lysyl group (D-).
+- A 15th node (`chebi:49033`) was changed and then dropped at stage K as measurement-only.
+
+### Explorer absorb
+
+- **Stereo hint:** `stereo_relatives` / `include_stereo_forms` pick up the 27 new edges.
+  Goldens touching these metabolites move.
+- **Docs:** the paragraph naming mannose / isoleucine / glucose as unlinked can go.
+  "Class terms get no stereo link" stands.
+- **Resolver:**
+  - `removed_stereo_xrefs` drives the "different stereoisomer" warning;
+  - `stereo_form_removed` is a new remap basis value;
+  - the InChIKey path loses 2 keys (glucose, allose) and sees 10 replaced. The old MNX keys of
+    the 5 stereo mismatches are now in `removed_stereo_xrefs`; those of the 5 variants still
+    resolve.

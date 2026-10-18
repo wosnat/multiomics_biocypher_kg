@@ -113,3 +113,11 @@ Deviations:
 
 Addition: the shared-ChEBI-term owner rule.
 Ask 5 follow-up: DONE 2026-10-15 — `xref:` override kind + 6 reviewed entries (change doc §39).
+
+## Ask 8 (2026-10-18): DONE
+
+The stereo-form rule is rebuilt on ChEBI chemistry: an `is_a` path of ≤ 3 steps with unchanged
+formula and charge, read from each node's own identity, plus `stereo_link:` / `no_stereo_link:`
+overrides. Narrowed D (a `chebi:` node's structure is its own ChEBI term's) adds
+`removed_stereo_xrefs` and the remap basis `stereo_form_removed`. Stereo edges 76 → 99.
+Write-up: change doc §40.
