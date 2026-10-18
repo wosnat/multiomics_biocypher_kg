@@ -280,9 +280,9 @@ substrate" — A3). A metabolite that both routes reach carries both values.
 pathways extend the kept pathway set — the mechanism behind backlog item (f),
 Phagosome / Focal adhesion), a compound reached only through GO does **not** add
 KEGG pathways: its `Metabolite_in_pathway` edges are limited to pathways already kept
-by the metabolism and TCDB arms. So this slice adds no `KeggTerm` node and changes no
-`KeggTerm.metabolite_count` / `reaction_count`, and only the new compounds' own
-`pathway_*` properties are new.
+by the metabolism and TCDB arms. So this slice adds no `KeggTerm` node and changes no `reaction_count`;
+`KeggTerm.metabolite_count` on already-kept pathways can rise where a GO-only compound
+is in that pathway (6 such links measured 2026-10-18, ruling during implementation).
 
 ### Post-import
 
