@@ -2,7 +2,10 @@
 set -euo pipefail
 
 cd /usr/app/
-cp -r /src/* .
+# Skip biocypher-out/: local (non-Docker) build outputs, tens of GB, never read
+# here (the Docker build writes to /usr/app/data/build2neo). Copying it filled
+# the disk via the container's writable layer.
+find /src -mindepth 1 -maxdepth 1 ! -name '.*' ! -name biocypher-out -exec cp -r {} . \;
 cp /src/.env .
 cp config/biocypher_docker_config.yaml config/biocypher_config.yaml
 # Use persistent cache volume so pip/uv skip downloads on subsequent builds
