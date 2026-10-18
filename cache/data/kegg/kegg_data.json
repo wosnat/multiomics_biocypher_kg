@@ -334,6 +334,9 @@
       "mass": 164.157,
       "mnxm_id": "MNXM733619",
       "name": "aldehydo-L-rhamnose",
+      "stereo_form_of": [
+        "chebi:26546"
+      ],
       "structure_kind": "defined"
     },
     "chebi:16077": {
@@ -409,7 +412,6 @@
         "transport"
       ],
       "formula": "C6H12O6",
-      "inchikey": "WQZGKKKJIJFFOK-UWWPDOAWSA-N",
       "mass": 180.156,
       "mnxm_id": "MNXM7381",
       "name": "glucose",
@@ -438,23 +440,17 @@
     "chebi:17964": {
       "all_identifiers": [
         "chebi:17964",
-        "chebi:18703",
-        "chebi:18704",
         "chebi:26141",
         "chebi:26142",
         "chebi:30914",
         "chebi:36110",
-        "chebi:41574",
-        "chebi:41582",
-        "inchikey:HXEACLLIILLPRG-RXMQYKEDSA-M",
+        "inchikey:HXEACLLIILLPRG-UHFFFAOYSA-N",
         "mnx:MNXM507500"
       ],
       "chebi_id": "17964",
       "chebi_ids": [
         "17964",
-        "18703",
-        "36110",
-        "41582"
+        "36110"
       ],
       "elements": [
         "C",
@@ -466,10 +462,17 @@
         "transport"
       ],
       "formula": "C6H10NO2",
-      "inchikey": "HXEACLLIILLPRG-RXMQYKEDSA-M",
+      "inchikey": "HXEACLLIILLPRG-UHFFFAOYSA-N",
       "mass": 128.151,
       "mnxm_id": "MNXM507500",
       "name": "pipecolic acid",
+      "removed_stereo_xrefs": [
+        "chebi:18703",
+        "chebi:18704",
+        "chebi:41574",
+        "chebi:41582",
+        "inchikey:HXEACLLIILLPRG-RXMQYKEDSA-M"
+      ],
       "structure_kind": "defined"
     },
     "chebi:18179": {
@@ -1130,13 +1133,11 @@
     "chebi:24280": {
       "all_identifiers": [
         "chebi:24280",
-        "chebi:30684",
         "mnx:MNXM41172"
       ],
       "chebi_id": "24280",
       "chebi_ids": [
-        "24280",
-        "30684"
+        "24280"
       ],
       "elements": [
         "C",
@@ -1149,6 +1150,9 @@
       "formula": "C6H11O5*",
       "mnxm_id": "MNXM41172",
       "name": "D-glucosyl group",
+      "removed_stereo_xrefs": [
+        "chebi:30684"
+      ],
       "structure_kind": "generic"
     },
     "chebi:24335": {
@@ -2343,6 +2347,7 @@
       "all_identifiers": [
         "chebi:29223",
         "inchikey:KYHSUUVXZLFMQS-UHFFFAOYSA-N",
+        "inchikey:SXDBWCPKPHAZSM-UHFFFAOYSA-M",
         "mnx:MNXM1107341"
       ],
       "chebi_id": "29223",
@@ -2357,7 +2362,7 @@
         "transport"
       ],
       "formula": "BrO3",
-      "inchikey": "KYHSUUVXZLFMQS-UHFFFAOYSA-N",
+      "inchikey": "SXDBWCPKPHAZSM-UHFFFAOYSA-M",
       "mass": 127.901,
       "mnxm_id": "MNXM1107341",
       "name": "bromate",
@@ -2366,6 +2371,7 @@
     "chebi:29226": {
       "all_identifiers": [
         "chebi:29226",
+        "inchikey:ICIWUVCWSCSTAQ-UHFFFAOYSA-M",
         "inchikey:PTYWDKBPJYCXDN-UHFFFAOYSA-N",
         "mnx:MNXM1107468"
       ],
@@ -2381,7 +2387,7 @@
         "transport"
       ],
       "formula": "IO3",
-      "inchikey": "PTYWDKBPJYCXDN-UHFFFAOYSA-N",
+      "inchikey": "ICIWUVCWSCSTAQ-UHFFFAOYSA-M",
       "mass": 174.901,
       "mnxm_id": "MNXM1107468",
       "name": "iodate",
@@ -2790,16 +2796,14 @@
     "chebi:30867": {
       "all_identifiers": [
         "chebi:30865",
-        "chebi:30866",
         "chebi:30867",
-        "inchikey:UFIVEPVSAGBUSI-UWTATZPHSA-N",
+        "inchikey:UFIVEPVSAGBUSI-UHFFFAOYSA-M",
         "mnx:MNXM726835"
       ],
       "chebi_id": "30867",
       "chebi_ids": [
         "30867",
-        "30865",
-        "30866"
+        "30865"
       ],
       "elements": [
         "C",
@@ -2811,10 +2815,14 @@
         "transport"
       ],
       "formula": "C5H6N2O4",
-      "inchikey": "UFIVEPVSAGBUSI-UWTATZPHSA-N",
+      "inchikey": "UFIVEPVSAGBUSI-UHFFFAOYSA-M",
       "mass": 158.113,
       "mnxm_id": "MNXM726835",
       "name": "dihydroorotate",
+      "removed_stereo_xrefs": [
+        "chebi:30866",
+        "inchikey:UFIVEPVSAGBUSI-UWTATZPHSA-N"
+      ],
       "structure_kind": "defined"
     },
     "chebi:30911": {
@@ -2982,6 +2990,7 @@
       "all_identifiers": [
         "chebi:31941",
         "inchikey:DWAFYCQODLXJNR-BNTLRKBRSA-L",
+        "inchikey:ZROHGHOFXNOHSO-BNTLRKBRSA-L",
         "mnx:MNXM1108417"
       ],
       "chebi_id": "31941",
@@ -2999,7 +3008,7 @@
         "transport"
       ],
       "formula": "C8H12N2O4Pt",
-      "inchikey": "DWAFYCQODLXJNR-BNTLRKBRSA-L",
+      "inchikey": "ZROHGHOFXNOHSO-BNTLRKBRSA-L",
       "mass": 395.272,
       "mnxm_id": "MNXM1108417",
       "name": "oxaliplatin",
@@ -4114,16 +4123,14 @@
     "chebi:37024": {
       "all_identifiers": [
         "chebi:37024",
-        "chebi:37025",
         "chebi:64698",
         "chebi:84981",
-        "inchikey:OYIFNHCXNCRBQI-SCSAIBSYSA-N",
+        "inchikey:OYIFNHCXNCRBQI-UHFFFAOYSA-N",
         "mnx:MNXM1368893"
       ],
       "chebi_id": "37024",
       "chebi_ids": [
         "37024",
-        "37025",
         "84981"
       ],
       "elements": [
@@ -4136,10 +4143,14 @@
         "transport"
       ],
       "formula": "C6H11NO4",
-      "inchikey": "OYIFNHCXNCRBQI-SCSAIBSYSA-N",
+      "inchikey": "OYIFNHCXNCRBQI-UHFFFAOYSA-N",
       "mass": 161.157,
       "mnxm_id": "MNXM1368893",
       "name": "2-aminoadipic acid",
+      "removed_stereo_xrefs": [
+        "chebi:37025",
+        "inchikey:OYIFNHCXNCRBQI-SCSAIBSYSA-N"
+      ],
       "structure_kind": "defined"
     },
     "chebi:37163": {
@@ -4256,14 +4267,11 @@
         "chebi:33927",
         "chebi:33935",
         "chebi:37690",
-        "chebi:37741",
-        "inchikey:WQZGKKKJIJFFOK-HOWGCPQDSA-N",
         "mnx:MNXM59282"
       ],
       "chebi_id": "37690",
       "chebi_ids": [
-        "37690",
-        "37741"
+        "37690"
       ],
       "elements": [
         "C",
@@ -4274,10 +4282,13 @@
         "transport"
       ],
       "formula": "C6H12O6",
-      "inchikey": "WQZGKKKJIJFFOK-HOWGCPQDSA-N",
       "mass": 180.156,
       "mnxm_id": "MNXM59282",
       "name": "allose",
+      "removed_stereo_xrefs": [
+        "chebi:37741",
+        "inchikey:WQZGKKKJIJFFOK-HOWGCPQDSA-N"
+      ],
       "structure_kind": "defined"
     },
     "chebi:37739": {
@@ -4309,14 +4320,12 @@
       "all_identifiers": [
         "chebi:25096",
         "chebi:30777",
-        "chebi:32559",
         "chebi:37903",
         "mnx:MNXM48547"
       ],
       "chebi_id": "37903",
       "chebi_ids": [
-        "37903",
-        "32559"
+        "37903"
       ],
       "elements": [
         "C",
@@ -4330,6 +4339,9 @@
       "formula": "C6H13N2O*",
       "mnxm_id": "MNXM48547",
       "name": "lysyl group",
+      "removed_stereo_xrefs": [
+        "chebi:32559"
+      ],
       "structure_kind": "generic"
     },
     "chebi:38083": {
@@ -4705,6 +4717,7 @@
         "chebi:40581",
         "chebi:40585",
         "inchikey:HFHDHCJBZVLPGP-LBNUIUJVSA-N",
+        "inchikey:HFHDHCJBZVLPGP-RWMJIURBSA-N",
         "mnx:MNXM740657"
       ],
       "chebi_id": "40585",
@@ -4720,7 +4733,7 @@
         "transport"
       ],
       "formula": "C36H60O30",
-      "inchikey": "HFHDHCJBZVLPGP-LBNUIUJVSA-N",
+      "inchikey": "HFHDHCJBZVLPGP-RWMJIURBSA-N",
       "mass": 972.846,
       "mnxm_id": "MNXM740657",
       "name": "alpha-cyclodextrin",
@@ -5718,6 +5731,7 @@
         "chebi:49708",
         "chebi:49709",
         "inchikey:TYJXBNGPLHOYOB-UHFFFAOYSA-N",
+        "inchikey:XTEGARKTQYYJKE-UHFFFAOYSA-M",
         "mnx:MNXM1108150"
       ],
       "chebi_id": "49709",
@@ -5732,7 +5746,7 @@
         "transport"
       ],
       "formula": "ClO3",
-      "inchikey": "TYJXBNGPLHOYOB-UHFFFAOYSA-N",
+      "inchikey": "XTEGARKTQYYJKE-UHFFFAOYSA-M",
       "mass": 83.45,
       "mnxm_id": "MNXM1108150",
       "name": "chlorate",
@@ -6744,14 +6758,12 @@
     "chebi:60987": {
       "all_identifiers": [
         "chebi:60987",
-        "chebi:60989",
-        "inchikey:JAQGKXUEKGKTKX-HOTGVXAUSA-N",
+        "inchikey:JAQGKXUEKGKTKX-UHFFFAOYSA-N",
         "mnx:MNXM59586"
       ],
       "chebi_id": "60987",
       "chebi_ids": [
-        "60987",
-        "60989"
+        "60987"
       ],
       "elements": [
         "C",
@@ -6763,10 +6775,14 @@
         "transport"
       ],
       "formula": "C18H20N2O5",
-      "inchikey": "JAQGKXUEKGKTKX-HOTGVXAUSA-N",
+      "inchikey": "JAQGKXUEKGKTKX-UHFFFAOYSA-N",
       "mass": 344.367,
       "mnxm_id": "MNXM59586",
       "name": "tyrosyltyrosine",
+      "removed_stereo_xrefs": [
+        "chebi:60989",
+        "inchikey:JAQGKXUEKGKTKX-HOTGVXAUSA-N"
+      ],
       "structure_kind": "defined"
     },
     "chebi:61082": {
@@ -7402,15 +7418,13 @@
     },
     "chebi:64307": {
       "all_identifiers": [
-        "chebi:144635",
         "chebi:64307",
-        "inchikey:OGNSCSPNOLGXSM-GSVOUGTGSA-N",
+        "inchikey:OGNSCSPNOLGXSM-UHFFFAOYSA-N",
         "mnx:MNXM468682"
       ],
       "chebi_id": "64307",
       "chebi_ids": [
-        "64307",
-        "144635"
+        "64307"
       ],
       "elements": [
         "C",
@@ -7422,10 +7436,14 @@
         "transport"
       ],
       "formula": "C4H10N2O2",
-      "inchikey": "OGNSCSPNOLGXSM-GSVOUGTGSA-N",
+      "inchikey": "OGNSCSPNOLGXSM-UHFFFAOYSA-N",
       "mass": 118.136,
       "mnxm_id": "MNXM468682",
       "name": "2,4-diaminobutyric acid",
+      "removed_stereo_xrefs": [
+        "chebi:144635",
+        "inchikey:OGNSCSPNOLGXSM-GSVOUGTGSA-N"
+      ],
       "structure_kind": "defined"
     },
     "chebi:64399": {
@@ -11101,7 +11119,11 @@
     },
     "C00031": {
       "all_identifiers": [
+        "chebi:12965",
+        "chebi:17634",
+        "chebi:20999",
         "chebi:4167",
+        "hmdb:HMDB0000122",
         "hmdb:HMDB0304632",
         "inchikey:WQZGKKKJIJFFOK-GASJEMHNSA-N",
         "kegg.compound:C00031",
@@ -11109,7 +11131,8 @@
       ],
       "chebi_id": "4167",
       "chebi_ids": [
-        "4167"
+        "4167",
+        "17634"
       ],
       "elements": [
         "C",
@@ -11121,7 +11144,7 @@
         "transport"
       ],
       "formula": "C6H12O6",
-      "hmdb_id": "HMDB0304632",
+      "hmdb_id": "HMDB0000122",
       "inchikey": "WQZGKKKJIJFFOK-GASJEMHNSA-N",
       "kegg_compound_id": "C00031",
       "kegg_compound_ids": [
@@ -11168,6 +11191,9 @@
         "ko05415"
       ],
       "smiles": "OC[C@H]1OC(O)[C@H](O)[C@@H](O)[C@@H]1O",
+      "stereo_form_of": [
+        "chebi:17234"
+      ],
       "structure_kind": "defined"
     },
     "C00032": {
@@ -14195,6 +14221,72 @@
       "smiles": "CC=O",
       "structure_kind": "defined"
     },
+    "C00085": {
+      "all_identifiers": [
+        "chebi:12926",
+        "chebi:15946",
+        "chebi:20935",
+        "chebi:4124",
+        "chebi:42406",
+        "chebi:61553",
+        "hmdb:HMDB0000124",
+        "inchikey:BGWGXPAPYGQALX-VRPWFDPXSA-N",
+        "kegg.compound:C00085"
+      ],
+      "chebi_id": "15946",
+      "chebi_ids": [
+        "15946",
+        "61553"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism",
+        "metabolomics",
+        "transport"
+      ],
+      "formula": "C6H11O9P",
+      "hmdb_id": "HMDB0000124",
+      "identity_basis": [
+        "chebi_kegg_xref"
+      ],
+      "inchikey": "BGWGXPAPYGQALX-VRPWFDPXSA-N",
+      "kegg_compound_id": "C00085",
+      "kegg_compound_ids": [
+        "C00085"
+      ],
+      "mass": 258.119,
+      "name": "D-Fructose 6-phosphate",
+      "pathways": [
+        "ko00010",
+        "ko00030",
+        "ko00051",
+        "ko00052",
+        "ko00500",
+        "ko00520",
+        "ko00680",
+        "ko00710",
+        "ko00997",
+        "ko00998",
+        "ko01100",
+        "ko01110",
+        "ko01120",
+        "ko01200",
+        "ko01230",
+        "ko01240",
+        "ko01250",
+        "ko04152",
+        "ko04922",
+        "ko04931",
+        "ko05230",
+        "ko05415"
+      ],
+      "structure_kind": "defined"
+    },
     "C00086": {
       "all_identifiers": [
         "chebi:15292",
@@ -14687,6 +14779,7 @@
         "chebi:20929",
         "chebi:37721",
         "chebi:4118",
+        "hmdb:HMDB0000660",
         "inchikey:RFSUNEUAIZKAJO-VRPWFDPXSA-N",
         "kegg.compound:C00095",
         "mnx:MNXM1363862"
@@ -14706,6 +14799,7 @@
         "transport"
       ],
       "formula": "C6H12O6",
+      "hmdb_id": "HMDB0000660",
       "identity_basis": [
         "chebi_kegg_xref"
       ],
@@ -14734,6 +14828,9 @@
         "ko05415"
       ],
       "smiles": "OC[C@H]1OC(O)(CO)[C@@H](O)[C@@H]1O",
+      "stereo_form_of": [
+        "kegg.compound:C01496"
+      ],
       "structure_kind": "defined"
     },
     "C00096": {
@@ -16166,6 +16263,7 @@
       "all_identifiers": [
         "chebi:12936",
         "chebi:4139",
+        "hmdb:HMDB0000143",
         "inchikey:WQZGKKKJIJFFOK-SVZMEOIVSA-N",
         "kegg.compound:C00124",
         "mnx:MNXM1108176",
@@ -16186,6 +16284,7 @@
         "transport"
       ],
       "formula": "C6H12O6",
+      "hmdb_id": "HMDB0000143",
       "identity_basis": [
         "manual"
       ],
@@ -16210,6 +16309,9 @@
         "ko04978"
       ],
       "smiles": "OC[C@H]1OC(O)[C@H](O)[C@@H](O)[C@H]1O",
+      "stereo_form_of": [
+        "kegg.compound:C01582"
+      ],
       "structure_kind": "defined"
     },
     "C00125": {
@@ -16987,6 +17089,9 @@
         "ko02060"
       ],
       "smiles": "CC(=O)N[C@H]1C(O)O[C@H](CO)[C@@H](O)[C@@H]1O",
+      "stereo_form_of": [
+        "chebi:59640"
+      ],
       "structure_kind": "defined"
     },
     "C00141": {
@@ -17892,6 +17997,9 @@
         "ko04625"
       ],
       "smiles": "OC[C@H]1OC(O)[C@@H](O)[C@@H](O)[C@@H]1O",
+      "stereo_form_of": [
+        "chebi:37684"
+      ],
       "structure_kind": "defined"
     },
     "C00160": {
@@ -18805,6 +18913,9 @@
         "ko02010"
       ],
       "smiles": "OC1OC[C@@H](O)[C@H](O)[C@H]1O",
+      "stereo_form_of": [
+        "kegg.compound:C01394"
+      ],
       "structure_kind": "defined"
     },
     "C00182": {
@@ -19397,6 +19508,38 @@
       "smiles": "[H]ON([H])[H]",
       "structure_kind": "defined"
     },
+    "C00193": {
+      "all_identifiers": [
+        "chebi:13819",
+        "chebi:22621",
+        "chebi:2832",
+        "chebi:33855",
+        "chebi:87908",
+        "kegg.compound:C00193"
+      ],
+      "chebi_id": "33855",
+      "chebi_ids": [
+        "33855"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "CHOR",
+      "identity_basis": [
+        "chebi_kegg_xref"
+      ],
+      "kegg_compound_id": "C00193",
+      "kegg_compound_ids": [
+        "C00193"
+      ],
+      "name": "Aromatic aldehyde",
+      "structure_kind": "generic"
+    },
     "C00194": {
       "all_identifiers": [
         "chebi:13739",
@@ -19543,15 +19686,10 @@
       "all_identifiers": [
         "chebi:11879",
         "chebi:11880",
-        "chebi:11882",
         "chebi:12987",
         "chebi:1657",
-        "chebi:1659",
-        "chebi:17050",
         "chebi:17794",
         "chebi:21029",
-        "chebi:24345",
-        "chebi:40016",
         "chebi:57998",
         "chebi:58272",
         "chebi:88005",
@@ -19559,13 +19697,11 @@
         "hmdb:HMDB0000807",
         "inchikey:OSJPPGNTCRNQQC-UWTATZPHSA-K",
         "kegg.compound:C00197",
-        "kegg.compound:C00597",
         "mnx:MNXM727604"
       ],
       "chebi_id": "17794",
       "chebi_ids": [
         "17794",
-        "17050",
         "57998",
         "58272",
         "88005"
@@ -19583,14 +19719,10 @@
       ],
       "formula": "C3H4O7P",
       "hmdb_id": "HMDB0000807",
-      "identity_basis": [
-        "mnx_same_entity"
-      ],
       "inchikey": "OSJPPGNTCRNQQC-UWTATZPHSA-K",
       "kegg_compound_id": "C00197",
       "kegg_compound_ids": [
-        "C00197",
-        "C00597"
+        "C00197"
       ],
       "mass": 183.032,
       "mnxm_id": "MNXM727604",
@@ -19614,10 +19746,10 @@
         "ko04922",
         "ko05230"
       ],
-      "recurated_from_ids": [
-        "chebi:24346"
-      ],
       "smiles": "O=C([O-])[C@H](O)COP(=O)([O-])[O-]",
+      "stereo_form_of": [
+        "kegg.compound:C00597"
+      ],
       "structure_kind": "defined"
     },
     "C00198": {
@@ -20390,7 +20522,6 @@
         "chebi:15903",
         "chebi:22795",
         "chebi:41140",
-        "hmdb:HMDB0000122",
         "inchikey:WQZGKKKJIJFFOK-VFUOTHLCSA-N",
         "kegg.compound:C00221",
         "mnx:MNXM1364060"
@@ -20408,7 +20539,6 @@
         "metabolism"
       ],
       "formula": "C6H12O6",
-      "hmdb_id": "HMDB0000122",
       "inchikey": "WQZGKKKJIJFFOK-VFUOTHLCSA-N",
       "kegg_compound_id": "C00221",
       "kegg_compound_ids": [
@@ -21647,6 +21777,9 @@
         "ko01100"
       ],
       "smiles": "OC[C@@]1(O)OC[C@H](O)[C@@H](O)[C@@H]1O",
+      "stereo_form_of": [
+        "kegg.compound:C01452"
+      ],
       "structure_kind": "defined"
     },
     "C00248": {
@@ -22249,6 +22382,9 @@
         "ko02010"
       ],
       "smiles": "OC1OC[C@H](O)[C@H](O)[C@H]1O",
+      "stereo_form_of": [
+        "chebi:22599"
+      ],
       "structure_kind": "defined"
     },
     "C00261": {
@@ -22257,10 +22393,8 @@
         "chebi:17169",
         "chebi:22697",
         "chebi:3019",
-        "chebi:33855",
         "hmdb:HMDB0006115",
         "inchikey:HUMNYLRZRPPJDN-UHFFFAOYSA-N",
-        "kegg.compound:C00193",
         "kegg.compound:C00261",
         "mnx:MNXM371"
       ],
@@ -22274,20 +22408,14 @@
         "O"
       ],
       "evidence_sources": [
-        "metabolism",
-        "transport"
+        "metabolism"
       ],
       "formula": "C7H6O",
       "hmdb_id": "HMDB0006115",
-      "identity_basis": [
-        "chebi_kegg_xref",
-        "mnx_same_entity"
-      ],
       "inchikey": "HUMNYLRZRPPJDN-UHFFFAOYSA-N",
       "kegg_compound_id": "C00261",
       "kegg_compound_ids": [
-        "C00261",
-        "C00193"
+        "C00261"
       ],
       "mass": 106.124,
       "mnxm_id": "MNXM371",
@@ -23651,9 +23779,17 @@
     },
     "C00309": {
       "all_identifiers": [
+        "chebi:13016",
+        "chebi:17173",
+        "chebi:21086",
+        "chebi:4241",
         "inchikey:LQXVFWRQNMEDEE-WDCZJNDASA-N",
         "kegg.compound:C00309",
         "mnx:MNXM1371691"
+      ],
+      "chebi_id": "17173",
+      "chebi_ids": [
+        "17173"
       ],
       "elements": [
         "C",
@@ -23677,6 +23813,9 @@
         "ko01100"
       ],
       "smiles": "OC[C@]1(O)OC[C@@H](O)[C@H]1O",
+      "stereo_form_of": [
+        "kegg.compound:C05052"
+      ],
       "structure_kind": "defined"
     },
     "C00310": {
@@ -24218,6 +24357,9 @@
         "ko01250"
       ],
       "smiles": "C[C@@H]1O[C@H](OP(=O)([O-])OP(=O)([O-])OC[C@H]2O[C@@H](N3C=NC4=C3N=C(N)NC4=O)[C@H](O)[C@@H]2O)[C@@H](O)[C@H](O)[C@@H]1O",
+      "stereo_form_of": [
+        "chebi:64608"
+      ],
       "structure_kind": "defined"
     },
     "C00326": {
@@ -24409,6 +24551,9 @@
         "ko02060"
       ],
       "smiles": "N[C@@H]1[C@@H](O)[C@H](O)[C@@H](CO)O[C@H]1O",
+      "stereo_form_of": [
+        "chebi:5417"
+      ],
       "structure_kind": "defined"
     },
     "C00330": {
@@ -24728,6 +24873,9 @@
         "ko01240"
       ],
       "smiles": "O=C1C[C@@H](C(=O)[O-])NC(=O)N1",
+      "stereo_form_of": [
+        "chebi:30867"
+      ],
       "structure_kind": "defined"
     },
     "C00338": {
@@ -24874,9 +25022,6 @@
         "ko01240"
       ],
       "smiles": "CC(C)=CCC/C(C)=C/COP(=O)([O-])OP(=O)([O-])[O-]",
-      "stereo_form_of": [
-        "kegg.compound:C05847"
-      ],
       "structure_kind": "defined"
     },
     "C00342": {
@@ -25274,6 +25419,58 @@
         "ko01110"
       ],
       "smiles": "CC(C)=CCC/C(C)=C/CC/C(C)=C/CC/C(C)=C/COP(=O)([O-])OP(=O)([O-])[O-]",
+      "structure_kind": "defined"
+    },
+    "C00354": {
+      "all_identifiers": [
+        "chebi:12924",
+        "chebi:16905",
+        "chebi:37736",
+        "chebi:4120",
+        "hmdb:HMDB0001058",
+        "inchikey:RNBGYGVWRKECFJ-VRPWFDPXSA-N",
+        "kegg.compound:C00354"
+      ],
+      "chebi_id": "16905",
+      "chebi_ids": [
+        "16905",
+        "37736"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C6H10O12P2",
+      "hmdb_id": "HMDB0001058",
+      "inchikey": "RNBGYGVWRKECFJ-VRPWFDPXSA-N",
+      "kegg_compound_id": "C00354",
+      "kegg_compound_ids": [
+        "C00354"
+      ],
+      "mass": 336.082,
+      "name": "D-Fructose 1,6-bisphosphate",
+      "pathways": [
+        "ko00010",
+        "ko00030",
+        "ko00051",
+        "ko00400",
+        "ko00680",
+        "ko00710",
+        "ko01100",
+        "ko01110",
+        "ko01120",
+        "ko01200",
+        "ko01230",
+        "ko02060",
+        "ko04152",
+        "ko04922",
+        "ko05230"
+      ],
       "structure_kind": "defined"
     },
     "C00355": {
@@ -26924,6 +27121,9 @@
         "ko05230"
       ],
       "smiles": "CC[C@H](C)[C@H]([NH3+])C(=O)[O-]",
+      "stereo_form_of": [
+        "chebi:24898"
+      ],
       "structure_kind": "defined"
     },
     "C00408": {
@@ -28855,10 +29055,19 @@
     },
     "C00466": {
       "all_identifiers": [
+        "chebi:11831",
+        "chebi:13707",
+        "chebi:15688",
+        "chebi:22181",
+        "chebi:2397",
         "hmdb:HMDB0003243",
         "inchikey:ROWKJAVDOGWPAT-UHFFFAOYSA-N",
         "kegg.compound:C00466",
         "mnx:MNXM1092472"
+      ],
+      "chebi_id": "15688",
+      "chebi_ids": [
+        "15688"
       ],
       "elements": [
         "C",
@@ -30212,6 +30421,9 @@
         "ko01120"
       ],
       "smiles": "C[C@@H]1OC(O)[C@H](O)[C@H](O)[C@H]1O",
+      "stereo_form_of": [
+        "chebi:26546"
+      ],
       "structure_kind": "defined"
     },
     "C00508": {
@@ -30252,6 +30464,9 @@
         "ko01100"
       ],
       "smiles": "OC[C@]1(O)OC[C@H](O)[C@@H]1O",
+      "stereo_form_of": [
+        "kegg.compound:C05052"
+      ],
       "structure_kind": "defined"
     },
     "C00509": {
@@ -32770,6 +32985,42 @@
       "smiles": "C=C/C=C(/O)C(=O)[O-]",
       "structure_kind": "defined"
     },
+    "C00597": {
+      "all_identifiers": [
+        "chebi:11882",
+        "chebi:1659",
+        "chebi:17050",
+        "chebi:24345",
+        "chebi:40016",
+        "inchikey:OSJPPGNTCRNQQC-UHFFFAOYSA-N",
+        "kegg.compound:C00597"
+      ],
+      "chebi_id": "17050",
+      "chebi_ids": [
+        "17050"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": "C3H4O7P",
+      "inchikey": "OSJPPGNTCRNQQC-UHFFFAOYSA-N",
+      "kegg_compound_id": "C00597",
+      "kegg_compound_ids": [
+        "C00597"
+      ],
+      "mass": 183.032,
+      "name": "Glycerate 3-phosphate",
+      "recurated_from_ids": [
+        "chebi:24346"
+      ],
+      "structure_kind": "defined"
+    },
     "C00601": {
       "all_identifiers": [
         "chebi:14778",
@@ -35148,6 +35399,76 @@
       "smiles": "N#N",
       "structure_kind": "defined"
     },
+    "C00698": {
+      "all_identifiers": [
+        "chebi:13291",
+        "chebi:13364",
+        "chebi:13970",
+        "chebi:17883",
+        "chebi:17996",
+        "chebi:24635",
+        "chebi:3616",
+        "chebi:3731",
+        "chebi:48804",
+        "chebi:5590",
+        "hmdb:HMDB0000492",
+        "inchikey:VEXZGXHMUGYJMC-UHFFFAOYSA-M",
+        "kegg.compound:C00698",
+        "kegg.compound:C01327",
+        "mnx:MNXM735978"
+      ],
+      "chebi_id": "17996",
+      "chebi_ids": [
+        "17996",
+        "17883"
+      ],
+      "elements": [
+        "Cl"
+      ],
+      "evidence_sources": [
+        "metabolism",
+        "transport"
+      ],
+      "formula": "Cl",
+      "hmdb_id": "HMDB0000492",
+      "identity_basis": [
+        "mnx_same_entity"
+      ],
+      "inchikey": "VEXZGXHMUGYJMC-UHFFFAOYSA-M",
+      "kegg_compound_id": "C00698",
+      "kegg_compound_ids": [
+        "C00698",
+        "C01327"
+      ],
+      "mass": 35.453,
+      "mnxm_id": "MNXM735978",
+      "name": "Cl-",
+      "pathways": [
+        "ko04024",
+        "ko04082",
+        "ko04152",
+        "ko04727",
+        "ko04740",
+        "ko04742",
+        "ko04924",
+        "ko04928",
+        "ko04960",
+        "ko04964",
+        "ko04966",
+        "ko04970",
+        "ko04971",
+        "ko04972",
+        "ko04974",
+        "ko04976",
+        "ko04978",
+        "ko05032",
+        "ko05033",
+        "ko05110",
+        "ko05120"
+      ],
+      "smiles": "[Cl-]",
+      "structure_kind": "defined"
+    },
     "C00700": {
       "all_identifiers": [
         "chebi:10049",
@@ -35778,6 +36099,38 @@
       ],
       "structure_kind": "generic"
     },
+    "C00725": {
+      "all_identifiers": [
+        "chebi:146958",
+        "chebi:16494",
+        "chebi:25058",
+        "chebi:6492",
+        "inchikey:AGBQKNBQESQNJD-UHFFFAOYSA-N",
+        "kegg.compound:C00725"
+      ],
+      "chebi_id": "16494",
+      "chebi_ids": [
+        "16494"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "S"
+      ],
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C8H13O2S2",
+      "inchikey": "AGBQKNBQESQNJD-UHFFFAOYSA-N",
+      "kegg_compound_id": "C00725",
+      "kegg_compound_ids": [
+        "C00725"
+      ],
+      "mass": 205.324,
+      "name": "Lipoate",
+      "structure_kind": "defined"
+    },
     "C00726": {
       "all_identifiers": [
         "chebi:13212",
@@ -36119,6 +36472,48 @@
         "ko01110"
       ],
       "smiles": "CC(=O)C(C)=O",
+      "structure_kind": "defined"
+    },
+    "C00742": {
+      "all_identifiers": [
+        "chebi:14271",
+        "chebi:17051",
+        "chebi:29228",
+        "chebi:49593",
+        "chebi:5113",
+        "hmdb:HMDB0000662",
+        "inchikey:KRHYYFGTRYWZRS-UHFFFAOYSA-M",
+        "kegg.compound:C00742",
+        "kegg.compound:C16487",
+        "mnx:MNXM1092965"
+      ],
+      "chebi_id": "17051",
+      "chebi_ids": [
+        "17051",
+        "29228"
+      ],
+      "elements": [
+        "F"
+      ],
+      "evidence_sources": [
+        "metabolism",
+        "transport"
+      ],
+      "formula": "F",
+      "hmdb_id": "HMDB0000662",
+      "identity_basis": [
+        "mnx_same_entity"
+      ],
+      "inchikey": "KRHYYFGTRYWZRS-UHFFFAOYSA-M",
+      "kegg_compound_id": "C00742",
+      "kegg_compound_ids": [
+        "C00742",
+        "C16487"
+      ],
+      "mass": 18.998,
+      "mnxm_id": "MNXM1092965",
+      "name": "Fluoride",
+      "smiles": "[F-]",
       "structure_kind": "defined"
     },
     "C00745": {
@@ -36518,6 +36913,9 @@
       "mnxm_id": "MNXM90966",
       "name": "D-Sorbose",
       "smiles": "OCC1(O)OC[C@@H](O)[C@H](O)[C@H]1O",
+      "stereo_form_of": [
+        "kegg.compound:C01452"
+      ],
       "structure_kind": "defined"
     },
     "C00770": {
@@ -36983,6 +37381,9 @@
         "ko05415"
       ],
       "smiles": "OC[C@@H](O)[C@@H](O)[C@H](O)[C@@H](O)CO",
+      "stereo_form_of": [
+        "chebi:30911"
+      ],
       "structure_kind": "defined"
     },
     "C00795": {
@@ -37452,8 +37853,7 @@
       ],
       "smiles": "CC(=O)[C@@H](C)O",
       "stereo_form_of": [
-        "kegg.compound:C00466",
-        "kegg.compound:C01769"
+        "kegg.compound:C00466"
       ],
       "structure_kind": "defined"
     },
@@ -37628,6 +38028,9 @@
         "ko01100"
       ],
       "smiles": "O=C([O-])[C@@H](O)[C@@H](O)[C@H](O)[C@@H](O)C(=O)[O-]",
+      "stereo_form_of": [
+        "chebi:30613"
+      ],
       "structure_kind": "defined"
     },
     "C00819": {
@@ -39245,6 +39648,37 @@
       "smiles": "O=C([O-])[C@H](O)[C@@H](O)C(=O)[O-]",
       "structure_kind": "defined"
     },
+    "C00900": {
+      "all_identifiers": [
+        "chebi:11495",
+        "chebi:16444",
+        "chebi:19433",
+        "chebi:983",
+        "inchikey:NMDWGEGFJUBKLB-UHFFFAOYSA-N",
+        "kegg.compound:C00900"
+      ],
+      "chebi_id": "16444",
+      "chebi_ids": [
+        "16444"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C5H7O4",
+      "inchikey": "NMDWGEGFJUBKLB-UHFFFAOYSA-N",
+      "kegg_compound_id": "C00900",
+      "kegg_compound_ids": [
+        "C00900"
+      ],
+      "mass": 131.107,
+      "name": "2-Acetolactate",
+      "structure_kind": "defined"
+    },
     "C00905": {
       "all_identifiers": [
         "chebi:4126",
@@ -40430,10 +40864,17 @@
     },
     "C00984": {
       "all_identifiers": [
-        "hmdb:HMDB0000143",
+        "chebi:10231",
+        "chebi:22373",
+        "chebi:28061",
+        "chebi:42741",
         "inchikey:WQZGKKKJIJFFOK-PHYPRBDBSA-N",
         "kegg.compound:C00984",
         "mnx:MNXM1364486"
+      ],
+      "chebi_id": "28061",
+      "chebi_ids": [
+        "28061"
       ],
       "elements": [
         "C",
@@ -40447,7 +40888,6 @@
         "metabolism"
       ],
       "formula": "C6H12O6",
-      "hmdb_id": "HMDB0000143",
       "inchikey": "WQZGKKKJIJFFOK-PHYPRBDBSA-N",
       "kegg_compound_id": "C00984",
       "kegg_compound_ids": [
@@ -41061,6 +41501,9 @@
       "mnxm_id": "MNXM1364540",
       "name": "6-Deoxy-D-galactose",
       "smiles": "C[C@H]1OC(O)[C@H](O)[C@@H](O)[C@H]1O",
+      "stereo_form_of": [
+        "chebi:33984"
+      ],
       "structure_kind": "defined"
     },
     "C01019": {
@@ -41106,6 +41549,9 @@
         "ko04625"
       ],
       "smiles": "C[C@@H]1O[C@@H](O)[C@@H](O)[C@H](O)[C@@H]1O",
+      "stereo_form_of": [
+        "chebi:33984"
+      ],
       "structure_kind": "defined"
     },
     "C01020": {
@@ -42688,20 +43134,16 @@
         "chebi:12717",
         "chebi:15961",
         "chebi:21965",
-        "chebi:21969",
         "chebi:57590",
         "chebi:7691",
-        "chebi:7697",
         "hmdb:HMDB0003484",
         "inchikey:FXDNYOANAXWZHG-VKHMYHEASA-L",
         "kegg.compound:C01102",
-        "kegg.compound:C05702",
         "mnx:MNXM1334"
       ],
       "chebi_id": "15961",
       "chebi_ids": [
         "15961",
-        "21969",
         "57590"
       ],
       "elements": [
@@ -42716,14 +43158,10 @@
       ],
       "formula": "C4H8NO6P",
       "hmdb_id": "HMDB0003484",
-      "identity_basis": [
-        "mnx_same_entity"
-      ],
       "inchikey": "FXDNYOANAXWZHG-VKHMYHEASA-L",
       "kegg_compound_id": "C01102",
       "kegg_compound_ids": [
-        "C01102",
-        "C05702"
+        "C01102"
       ],
       "mass": 197.083,
       "mnxm_id": "MNXM1334",
@@ -42737,6 +43175,9 @@
         "ko01230"
       ],
       "smiles": "[NH3+][C@@H](CCOP(=O)([O-])[O-])C(=O)[O-]",
+      "stereo_form_of": [
+        "kegg.compound:C05702"
+      ],
       "structure_kind": "defined"
     },
     "C01103": {
@@ -43215,6 +43656,9 @@
         "ko02060"
       ],
       "smiles": "CC(=O)N[C@H]1C(O)O[C@H](CO)[C@H](O)[C@@H]1O",
+      "stereo_form_of": [
+        "kegg.compound:C01074"
+      ],
       "structure_kind": "defined"
     },
     "C01134": {
@@ -46041,6 +46485,50 @@
       ],
       "structure_kind": "generic"
     },
+    "C01324": {
+      "all_identifiers": [
+        "chebi:13918",
+        "chebi:15858",
+        "chebi:29134",
+        "chebi:31673",
+        "chebi:3178",
+        "chebi:47266",
+        "chebi:49515",
+        "hmdb:HMDB0002500",
+        "inchikey:CPELXLSAUQHCOX-UHFFFAOYSA-M",
+        "kegg.compound:C01324",
+        "kegg.compound:C13645",
+        "mnx:MNXM740736"
+      ],
+      "chebi_id": "15858",
+      "chebi_ids": [
+        "15858",
+        "47266"
+      ],
+      "elements": [
+        "Br"
+      ],
+      "evidence_sources": [
+        "metabolism",
+        "transport"
+      ],
+      "formula": "Br",
+      "hmdb_id": "HMDB0002500",
+      "identity_basis": [
+        "mnx_same_entity"
+      ],
+      "inchikey": "CPELXLSAUQHCOX-UHFFFAOYSA-M",
+      "kegg_compound_id": "C01324",
+      "kegg_compound_ids": [
+        "C01324",
+        "C13645"
+      ],
+      "mass": 79.904,
+      "mnxm_id": "MNXM740736",
+      "name": "Bromide",
+      "smiles": "[Br-]",
+      "structure_kind": "defined"
+    },
     "C01326": {
       "all_identifiers": [
         "chebi:13362",
@@ -46079,76 +46567,6 @@
         "ko01110"
       ],
       "smiles": "[H]C#N",
-      "structure_kind": "defined"
-    },
-    "C01327": {
-      "all_identifiers": [
-        "chebi:13291",
-        "chebi:13364",
-        "chebi:13970",
-        "chebi:17883",
-        "chebi:17996",
-        "chebi:24635",
-        "chebi:3616",
-        "chebi:3731",
-        "chebi:48804",
-        "chebi:5590",
-        "hmdb:HMDB0000492",
-        "inchikey:VEXZGXHMUGYJMC-UHFFFAOYSA-M",
-        "kegg.compound:C00698",
-        "kegg.compound:C01327",
-        "mnx:MNXM735978"
-      ],
-      "chebi_id": "17883",
-      "chebi_ids": [
-        "17883",
-        "17996"
-      ],
-      "elements": [
-        "Cl"
-      ],
-      "evidence_sources": [
-        "metabolism",
-        "transport"
-      ],
-      "formula": "Cl",
-      "hmdb_id": "HMDB0000492",
-      "identity_basis": [
-        "mnx_same_entity"
-      ],
-      "inchikey": "VEXZGXHMUGYJMC-UHFFFAOYSA-M",
-      "kegg_compound_id": "C01327",
-      "kegg_compound_ids": [
-        "C01327",
-        "C00698"
-      ],
-      "mass": 35.453,
-      "mnxm_id": "MNXM735978",
-      "name": "Hydrochloric acid",
-      "pathways": [
-        "ko04024",
-        "ko04082",
-        "ko04152",
-        "ko04727",
-        "ko04740",
-        "ko04742",
-        "ko04924",
-        "ko04928",
-        "ko04960",
-        "ko04964",
-        "ko04966",
-        "ko04970",
-        "ko04971",
-        "ko04972",
-        "ko04974",
-        "ko04976",
-        "ko04978",
-        "ko05032",
-        "ko05033",
-        "ko05110",
-        "ko05120"
-      ],
-      "smiles": "[Cl-]",
       "structure_kind": "defined"
     },
     "C01328": {
@@ -46860,9 +47278,6 @@
       "mnxm_id": "MNXM146363",
       "name": "Xylose",
       "smiles": "O[C@@H]1[C@@H](O)[C@@H](O)OC[C@H]1O",
-      "stereo_form_of": [
-        "kegg.compound:C00181"
-      ],
       "structure_kind": "defined"
     },
     "C01401": {
@@ -47748,6 +48163,9 @@
         "ko02010"
       ],
       "smiles": "OC[C@H]1OC(O)[C@H](O)[C@H](O)[C@@H]1O",
+      "stereo_form_of": [
+        "chebi:37690"
+      ],
       "structure_kind": "defined"
     },
     "C01494": {
@@ -50717,6 +51135,9 @@
         "ko01240"
       ],
       "smiles": "OC[C@@H]1OC(O)[C@@H](O)[C@H](O)[C@@H]1O",
+      "stereo_form_of": [
+        "kegg.compound:C01582"
+      ],
       "structure_kind": "defined"
     },
     "C01829": {
@@ -51307,6 +51728,9 @@
         "ko01100"
       ],
       "smiles": "OC[C@@H](O)C(O)[C@H](O)CO",
+      "stereo_form_of": [
+        "chebi:22605"
+      ],
       "structure_kind": "defined"
     },
     "C01905": {
@@ -54402,7 +54826,6 @@
         "chebi:22766",
         "chebi:28645",
         "chebi:42560",
-        "hmdb:HMDB0000660",
         "inchikey:RFSUNEUAIZKAJO-ARQDHWQXSA-N",
         "kegg.compound:C02336",
         "mnx:MNXM1364098"
@@ -54420,7 +54843,6 @@
         "metabolism"
       ],
       "formula": "C6H12O6",
-      "hmdb_id": "HMDB0000660",
       "inchikey": "RFSUNEUAIZKAJO-ARQDHWQXSA-N",
       "kegg_compound_id": "C02336",
       "kegg_compound_ids": [
@@ -57602,6 +58024,35 @@
       "smiles": "OC[C@H]1OC(O)C[C@@H](O)[C@H]1O",
       "structure_kind": "defined"
     },
+    "C02794": {
+      "all_identifiers": [
+        "chebi:1547",
+        "inchikey:VCKPUUFAIGNJHC-UHFFFAOYSA-N",
+        "kegg.compound:C02794"
+      ],
+      "chebi_id": "1547",
+      "chebi_ids": [
+        "1547"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O"
+      ],
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C10H12N2O4",
+      "inchikey": "VCKPUUFAIGNJHC-UHFFFAOYSA-N",
+      "kegg_compound_id": "C02794",
+      "kegg_compound_ids": [
+        "C02794"
+      ],
+      "mass": 224.216,
+      "name": "3-Hydroxykynurenine",
+      "structure_kind": "defined"
+    },
     "C02798": {
       "all_identifiers": [
         "chebi:11885",
@@ -60440,20 +60891,17 @@
       "all_identifiers": [
         "chebi:11823",
         "chebi:1530",
-        "chebi:1547",
         "chebi:17380",
         "chebi:20055",
         "chebi:58125",
         "hmdb:HMDB0000732",
         "inchikey:VCKPUUFAIGNJHC-LURJTMIESA-N",
-        "kegg.compound:C02794",
         "kegg.compound:C03227",
         "mnx:MNXM728564"
       ],
       "chebi_id": "17380",
       "chebi_ids": [
         "17380",
-        "1547",
         "58125"
       ],
       "elements": [
@@ -60463,19 +60911,14 @@
         "O"
       ],
       "evidence_sources": [
-        "metabolism",
-        "transport"
+        "metabolism"
       ],
       "formula": "C10H12N2O4",
       "hmdb_id": "HMDB0000732",
-      "identity_basis": [
-        "mnx_same_entity"
-      ],
       "inchikey": "VCKPUUFAIGNJHC-LURJTMIESA-N",
       "kegg_compound_id": "C03227",
       "kegg_compound_ids": [
-        "C03227",
-        "C02794"
+        "C03227"
       ],
       "mass": 224.216,
       "mnxm_id": "MNXM728564",
@@ -60486,6 +60929,9 @@
         "ko01240"
       ],
       "smiles": "NC1=C(O)C=CC=C1C(=O)C[C@H]([NH3+])C(=O)[O-]",
+      "stereo_form_of": [
+        "kegg.compound:C02794"
+      ],
       "structure_kind": "defined"
     },
     "C03231": {
@@ -63527,6 +63973,38 @@
       "smiles": "CC(=O)C(=O)[C@H]1CNC2=C(N1)C(=O)NC(N)=N2",
       "structure_kind": "defined"
     },
+    "C03688": {
+      "all_identifiers": [
+        "chebi:13845",
+        "chebi:16139",
+        "chebi:2776",
+        "kegg.compound:C03688"
+      ],
+      "chebi_id": "16139",
+      "chebi_ids": [
+        "16139"
+      ],
+      "elements": [
+        "H",
+        "N"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "H5N*",
+      "kegg_compound_id": "C03688",
+      "kegg_compound_ids": [
+        "C03688"
+      ],
+      "name": "Apo-[acyl-carrier protein]",
+      "pathways": [
+        "ko00074",
+        "ko00770",
+        "ko01100",
+        "ko01110"
+      ],
+      "structure_kind": "generic"
+    },
     "C03691": {
       "all_identifiers": [
         "chebi:13278",
@@ -65094,6 +65572,35 @@
         "ko01320"
       ],
       "smiles": "C[S+](C)CCC(=O)[O-]",
+      "structure_kind": "defined"
+    },
+    "C04039": {
+      "all_identifiers": [
+        "chebi:15689",
+        "chebi:881",
+        "inchikey:JTEYKUFKXGDTEU-UHFFFAOYSA-N",
+        "kegg.compound:C04039"
+      ],
+      "chebi_id": "15689",
+      "chebi_ids": [
+        "15689"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C5H9O4",
+      "inchikey": "JTEYKUFKXGDTEU-UHFFFAOYSA-N",
+      "kegg_compound_id": "C04039",
+      "kegg_compound_ids": [
+        "C04039"
+      ],
+      "mass": 133.123,
+      "name": "2,3-Dihydroxy-3-methylbutanoate",
       "structure_kind": "defined"
     },
     "C04043": {
@@ -66949,14 +67456,11 @@
         "chebi:10966",
         "chebi:11424",
         "chebi:15684",
-        "chebi:15689",
         "chebi:18645",
         "chebi:305",
         "chebi:49072",
-        "chebi:881",
         "hmdb:HMDB0012141",
         "inchikey:JTEYKUFKXGDTEU-VKHMYHEASA-M",
-        "kegg.compound:C04039",
         "kegg.compound:C04272",
         "mnx:MNXM734"
       ],
@@ -66964,7 +67468,6 @@
       "chebi_ids": [
         "15684",
         "11424",
-        "15689",
         "49072"
       ],
       "elements": [
@@ -66977,14 +67480,10 @@
       ],
       "formula": "C5H9O4",
       "hmdb_id": "HMDB0012141",
-      "identity_basis": [
-        "mnx_same_entity"
-      ],
       "inchikey": "JTEYKUFKXGDTEU-VKHMYHEASA-M",
       "kegg_compound_id": "C04272",
       "kegg_compound_ids": [
-        "C04272",
-        "C04039"
+        "C04272"
       ],
       "mass": 133.123,
       "mnxm_id": "MNXM734",
@@ -66998,6 +67497,9 @@
         "ko01230"
       ],
       "smiles": "CC(C)(O)[C@@H](O)C(=O)[O-]",
+      "stereo_form_of": [
+        "kegg.compound:C04039"
+      ],
       "structure_kind": "defined"
     },
     "C04281": {
@@ -69762,6 +70264,49 @@
         "ko01220"
       ],
       "smiles": "O=C/C(=C\\C=C(\\O)C(=O)O)CC(=O)O",
+      "structure_kind": "defined"
+    },
+    "C04644": {
+      "all_identifiers": [
+        "chebi:11903",
+        "chebi:15494",
+        "chebi:1709",
+        "chebi:20234",
+        "chebi:48474",
+        "chebi:58752",
+        "hmdb:HMDB0002159",
+        "inchikey:SBYLHTNKEWSLBA-NOMRFMDASA-J",
+        "kegg.compound:C04644",
+        "mnx:MNXM1104095"
+      ],
+      "chebi_id": "15494",
+      "chebi_ids": [
+        "15494",
+        "48474",
+        "58752"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C48H76N7O19P3S",
+      "hmdb_id": "HMDB0002159",
+      "inchikey": "SBYLHTNKEWSLBA-NOMRFMDASA-J",
+      "kegg_compound_id": "C04644",
+      "kegg_compound_ids": [
+        "C04644"
+      ],
+      "mass": 1180.155,
+      "mnxm_id": "MNXM1104095",
+      "name": "3alpha,7alpha-Dihydroxy-5beta-cholestanoyl-CoA",
+      "smiles": "C[C@H](CCC[C@@H](C)[C@H]1CC[C@H]2[C@@H]3[C@H](O)C[C@@H]4C[C@H](O)CC[C@]4(C)[C@H]3CC[C@]12C)C(=O)SCCNC(=O)CCNC(=O)[C@H](O)C(C)(C)COP(=O)([O-])OP(=O)([O-])OC[C@H]1O[C@@H](N2C=NC3=C2N=CN=C3N)[C@H](O)[C@@H]1OP(=O)([O-])[O-]",
       "structure_kind": "defined"
     },
     "C04646": {
@@ -73889,30 +74434,21 @@
       "all_identifiers": [
         "chebi:10375",
         "chebi:12352",
-        "chebi:12926",
-        "chebi:15946",
         "chebi:16084",
-        "chebi:20935",
         "chebi:22768",
-        "chebi:4124",
         "chebi:42378",
-        "chebi:42406",
         "chebi:57634",
         "chebi:61527",
-        "chebi:61553",
         "hmdb:HMDB0003971",
         "inchikey:BGWGXPAPYGQALX-ARQDHWQXSA-L",
-        "kegg.compound:C00085",
         "kegg.compound:C05345",
         "mnx:MNXM1107898"
       ],
       "chebi_id": "16084",
       "chebi_ids": [
         "16084",
-        "15946",
         "57634",
-        "61527",
-        "61553"
+        "61527"
       ],
       "elements": [
         "C",
@@ -73921,50 +74457,22 @@
         "P"
       ],
       "evidence_sources": [
-        "metabolism",
-        "metabolomics",
-        "transport"
+        "metabolism"
       ],
       "formula": "C6H11O9P",
       "hmdb_id": "HMDB0003971",
-      "identity_basis": [
-        "chebi_kegg_xref",
-        "mnx_same_entity"
-      ],
       "inchikey": "BGWGXPAPYGQALX-ARQDHWQXSA-L",
       "kegg_compound_id": "C05345",
       "kegg_compound_ids": [
-        "C05345",
-        "C00085"
+        "C05345"
       ],
       "mass": 258.119,
       "mnxm_id": "MNXM1107898",
       "name": "beta-D-Fructose 6-phosphate",
-      "pathways": [
-        "ko00010",
-        "ko00030",
-        "ko00051",
-        "ko00052",
-        "ko00500",
-        "ko00520",
-        "ko00680",
-        "ko00710",
-        "ko00997",
-        "ko00998",
-        "ko01100",
-        "ko01110",
-        "ko01120",
-        "ko01200",
-        "ko01230",
-        "ko01240",
-        "ko01250",
-        "ko04152",
-        "ko04922",
-        "ko04931",
-        "ko05230",
-        "ko05415"
-      ],
       "smiles": "O=P([O-])([O-])OC[C@H]1O[C@](O)(CO)[C@@H](O)[C@@H]1O",
+      "stereo_form_of": [
+        "kegg.compound:C00085"
+      ],
       "structure_kind": "defined"
     },
     "C05349": {
@@ -74198,28 +74706,20 @@
     "C05378": {
       "all_identifiers": [
         "chebi:10374",
-        "chebi:12924",
-        "chebi:16905",
         "chebi:22767",
         "chebi:28013",
         "chebi:32966",
-        "chebi:37736",
         "chebi:41014",
-        "chebi:4120",
         "chebi:42553",
         "chebi:49299",
-        "hmdb:HMDB0001058",
         "inchikey:RNBGYGVWRKECFJ-ARQDHWQXSA-J",
-        "kegg.compound:C00354",
         "kegg.compound:C05378",
         "mnx:MNXM1364229"
       ],
       "chebi_id": "28013",
       "chebi_ids": [
         "28013",
-        "16905",
         "32966",
-        "37736",
         "49299"
       ],
       "elements": [
@@ -74232,37 +74732,18 @@
         "metabolism"
       ],
       "formula": "C6H10O12P2",
-      "hmdb_id": "HMDB0001058",
-      "identity_basis": [
-        "mnx_same_entity"
-      ],
       "inchikey": "RNBGYGVWRKECFJ-ARQDHWQXSA-J",
       "kegg_compound_id": "C05378",
       "kegg_compound_ids": [
-        "C05378",
-        "C00354"
+        "C05378"
       ],
       "mass": 336.082,
       "mnxm_id": "MNXM1364229",
       "name": "beta-D-Fructose 1,6-bisphosphate",
-      "pathways": [
-        "ko00010",
-        "ko00030",
-        "ko00051",
-        "ko00400",
-        "ko00680",
-        "ko00710",
-        "ko01100",
-        "ko01110",
-        "ko01120",
-        "ko01200",
-        "ko01230",
-        "ko02060",
-        "ko04152",
-        "ko04922",
-        "ko05230"
-      ],
       "smiles": "O=P([O-])([O-])OC[C@H]1O[C@](O)(COP(=O)([O-])[O-])[C@@H](O)[C@@H]1O",
+      "stereo_form_of": [
+        "kegg.compound:C00354"
+      ],
       "structure_kind": "defined"
     },
     "C05379": {
@@ -77893,6 +78374,37 @@
         "ko01100"
       ],
       "smiles": "[NH3+][C@@H](CC[Se]C[C@H]([NH3+])C(=O)[O-])C(=O)[O-]",
+      "structure_kind": "defined"
+    },
+    "C05702": {
+      "all_identifiers": [
+        "chebi:21969",
+        "chebi:7697",
+        "inchikey:FXDNYOANAXWZHG-UHFFFAOYSA-N",
+        "kegg.compound:C05702"
+      ],
+      "chebi_id": "21969",
+      "chebi_ids": [
+        "21969"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C4H8NO6P",
+      "inchikey": "FXDNYOANAXWZHG-UHFFFAOYSA-N",
+      "kegg_compound_id": "C05702",
+      "kegg_compound_ids": [
+        "C05702"
+      ],
+      "mass": 197.083,
+      "name": "O-Phosphorylhomoserine",
       "structure_kind": "defined"
     },
     "C05703": {
@@ -81882,25 +82394,19 @@
     "C06010": {
       "all_identifiers": [
         "chebi:11033",
-        "chebi:11495",
-        "chebi:16444",
         "chebi:18409",
         "chebi:18731",
-        "chebi:19433",
         "chebi:374",
         "chebi:57774",
         "chebi:58476",
-        "chebi:983",
         "hmdb:HMDB0006833",
         "inchikey:NMDWGEGFJUBKLB-YFKPBYRVSA-M",
-        "kegg.compound:C00900",
         "kegg.compound:C06010",
         "mnx:MNXM1103847"
       ],
       "chebi_id": "18409",
       "chebi_ids": [
         "18409",
-        "16444",
         "57774",
         "58476"
       ],
@@ -81914,14 +82420,10 @@
       ],
       "formula": "C5H7O4",
       "hmdb_id": "HMDB0006833",
-      "identity_basis": [
-        "mnx_same_entity"
-      ],
       "inchikey": "NMDWGEGFJUBKLB-YFKPBYRVSA-M",
       "kegg_compound_id": "C06010",
       "kegg_compound_ids": [
-        "C06010",
-        "C00900"
+        "C06010"
       ],
       "mass": 131.107,
       "mnxm_id": "MNXM1103847",
@@ -81937,6 +82439,9 @@
         "ko01230"
       ],
       "smiles": "CC(=O)[C@](C)(O)C(=O)[O-]",
+      "stereo_form_of": [
+        "kegg.compound:C00900"
+      ],
       "structure_kind": "defined"
     },
     "C06020": {
@@ -93820,6 +94325,9 @@
       "mnxm_id": "MNXM732914",
       "name": "beta-D-Ribopyranose",
       "smiles": "O[C@@H]1[C@H](O)[C@H](O)CO[C@H]1O",
+      "stereo_form_of": [
+        "kegg.compound:C00121"
+      ],
       "structure_kind": "defined"
     },
     "C08409": {
@@ -101473,50 +101981,6 @@
       "smiles": "[Cl-].[Na+]",
       "structure_kind": "defined"
     },
-    "C13645": {
-      "all_identifiers": [
-        "chebi:13918",
-        "chebi:15858",
-        "chebi:29134",
-        "chebi:31673",
-        "chebi:3178",
-        "chebi:47266",
-        "chebi:49515",
-        "hmdb:HMDB0002500",
-        "inchikey:CPELXLSAUQHCOX-UHFFFAOYSA-M",
-        "kegg.compound:C01324",
-        "kegg.compound:C13645",
-        "mnx:MNXM740736"
-      ],
-      "chebi_id": "47266",
-      "chebi_ids": [
-        "47266",
-        "15858"
-      ],
-      "elements": [
-        "Br"
-      ],
-      "evidence_sources": [
-        "metabolism",
-        "transport"
-      ],
-      "formula": "Br",
-      "hmdb_id": "HMDB0002500",
-      "identity_basis": [
-        "mnx_same_entity"
-      ],
-      "inchikey": "CPELXLSAUQHCOX-UHFFFAOYSA-M",
-      "kegg_compound_id": "C13645",
-      "kegg_compound_ids": [
-        "C13645",
-        "C01324"
-      ],
-      "mass": 79.904,
-      "mnxm_id": "MNXM740736",
-      "name": "Hydrobromic acid",
-      "smiles": "[Br-]",
-      "structure_kind": "defined"
-    },
     "C13694": {
       "all_identifiers": [
         "chebi:34799",
@@ -106096,9 +106560,6 @@
         "ko01110"
       ],
       "smiles": "CC(C)=CCC/C(C)=C/CC/C(C)=C\\C=C\\C(C)=C\\C=C\\C=C(C)\\C=C\\C=C(\\C)CC/C=C(\\C)CCC=C(C)C",
-      "stereo_form_of": [
-        "kegg.compound:C05430"
-      ],
       "structure_kind": "defined"
     },
     "C15858": {
@@ -108254,7 +108715,6 @@
     "C16240": {
       "all_identifiers": [
         "chebi:13850",
-        "kegg.compound:C03688",
         "kegg.compound:C16240",
         "mnx:MNXM91491"
       ],
@@ -108270,45 +108730,29 @@
         "metabolism"
       ],
       "formula": "H5N*",
-      "identity_basis": [
-        "mnx_same_entity"
-      ],
       "kegg_compound_id": "C16240",
       "kegg_compound_ids": [
-        "C16240",
-        "C03688"
+        "C16240"
       ],
       "mnxm_id": "MNXM91491",
       "name": "[Lipoyl-carrier protein]-L-lysine",
-      "pathways": [
-        "ko00074",
-        "ko00770",
-        "ko01100",
-        "ko01110"
-      ],
       "structure_kind": "generic"
     },
     "C16241": {
       "all_identifiers": [
         "chebi:14519",
-        "chebi:146958",
-        "chebi:16494",
         "chebi:25056",
-        "chebi:25058",
         "chebi:30313",
         "chebi:30314",
-        "chebi:6492",
         "chebi:83088",
         "hmdb:HMDB0001451",
         "inchikey:AGBQKNBQESQNJD-SSDOTTSWSA-M",
-        "kegg.compound:C00725",
         "kegg.compound:C16241",
         "mnx:MNXM1371179"
       ],
       "chebi_id": "30314",
       "chebi_ids": [
         "30314",
-        "16494",
         "30313",
         "83088"
       ],
@@ -108319,19 +108763,14 @@
         "S"
       ],
       "evidence_sources": [
-        "metabolism",
-        "transport"
+        "metabolism"
       ],
       "formula": "C8H13O2S2",
       "hmdb_id": "HMDB0001451",
-      "identity_basis": [
-        "mnx_same_entity"
-      ],
       "inchikey": "AGBQKNBQESQNJD-SSDOTTSWSA-M",
       "kegg_compound_id": "C16241",
       "kegg_compound_ids": [
-        "C16241",
-        "C00725"
+        "C16241"
       ],
       "mass": 205.324,
       "mnxm_id": "MNXM1371179",
@@ -108341,6 +108780,9 @@
         "ko01100"
       ],
       "smiles": "O=C([O-])CCCC[C@@H]1CCSS1",
+      "stereo_form_of": [
+        "kegg.compound:C00725"
+      ],
       "structure_kind": "defined"
     },
     "C16242": {
@@ -110412,48 +110854,6 @@
         "ko01120"
       ],
       "smiles": "O=C(O)[C@@]1(O)C=CC=C[C@@]1(O)F",
-      "structure_kind": "defined"
-    },
-    "C16487": {
-      "all_identifiers": [
-        "chebi:14271",
-        "chebi:17051",
-        "chebi:29228",
-        "chebi:49593",
-        "chebi:5113",
-        "hmdb:HMDB0000662",
-        "inchikey:KRHYYFGTRYWZRS-UHFFFAOYSA-M",
-        "kegg.compound:C00742",
-        "kegg.compound:C16487",
-        "mnx:MNXM1092965"
-      ],
-      "chebi_id": "29228",
-      "chebi_ids": [
-        "29228",
-        "17051"
-      ],
-      "elements": [
-        "F"
-      ],
-      "evidence_sources": [
-        "metabolism",
-        "transport"
-      ],
-      "formula": "F",
-      "hmdb_id": "HMDB0000662",
-      "identity_basis": [
-        "mnx_same_entity"
-      ],
-      "inchikey": "KRHYYFGTRYWZRS-UHFFFAOYSA-M",
-      "kegg_compound_id": "C16487",
-      "kegg_compound_ids": [
-        "C16487",
-        "C00742"
-      ],
-      "mass": 18.998,
-      "mnxm_id": "MNXM1092965",
-      "name": "Hydrofluoric acid",
-      "smiles": "[F-]",
       "structure_kind": "defined"
     },
     "C16488": {
@@ -113006,25 +113406,13 @@
     },
     "C17345": {
       "all_identifiers": [
-        "chebi:11903",
-        "chebi:15494",
-        "chebi:1709",
-        "chebi:20234",
-        "chebi:48474",
-        "chebi:58752",
         "chebi:81018",
-        "hmdb:HMDB0002159",
-        "inchikey:SBYLHTNKEWSLBA-NOMRFMDASA-J",
-        "kegg.compound:C04644",
-        "kegg.compound:C17345",
-        "mnx:MNXM1104095"
+        "inchikey:SBYLHTNKEWSLBA-DBKRGOFUSA-N",
+        "kegg.compound:C17345"
       ],
       "chebi_id": "81018",
       "chebi_ids": [
-        "81018",
-        "15494",
-        "48474",
-        "58752"
+        "81018"
       ],
       "elements": [
         "C",
@@ -113038,24 +113426,17 @@
         "metabolism"
       ],
       "formula": "C48H76N7O19P3S",
-      "hmdb_id": "HMDB0002159",
-      "identity_basis": [
-        "mnx_same_entity"
-      ],
-      "inchikey": "SBYLHTNKEWSLBA-NOMRFMDASA-J",
+      "inchikey": "SBYLHTNKEWSLBA-DBKRGOFUSA-N",
       "kegg_compound_id": "C17345",
       "kegg_compound_ids": [
-        "C17345",
-        "C04644"
+        "C17345"
       ],
       "mass": 1180.155,
-      "mnxm_id": "MNXM1104095",
       "name": "(25R)-3alpha,7alpha-Dihydroxy-5beta-cholestanoyl-CoA",
       "pathways": [
         "ko00120",
         "ko01100"
       ],
-      "smiles": "C[C@H](CCC[C@@H](C)[C@H]1CC[C@H]2[C@@H]3[C@H](O)C[C@@H]4C[C@H](O)CC[C@]4(C)[C@H]3CC[C@]12C)C(=O)SCCNC(=O)CCNC(=O)[C@H](O)C(C)(C)COP(=O)([O-])OP(=O)([O-])OC[C@H]1O[C@@H](N2C=NC3=C2N=CN=C3N)[C@H](O)[C@@H]1OP(=O)([O-])[O-]",
       "structure_kind": "defined"
     },
     "C17346": {
@@ -117418,6 +117799,9 @@
         "ko01120"
       ],
       "smiles": "O[C@H]1[C@H](O)[C@H](O)[C@@H](O)[C@H](O)[C@H]1O",
+      "stereo_form_of": [
+        "chebi:24848"
+      ],
       "structure_kind": "defined"
     },
     "C19907": {
@@ -156133,7 +156517,7 @@
       "compounds": [
         "C00011",
         "C00022",
-        "C06010"
+        "C00900"
       ],
       "ec_numbers": [
         "2.2.1.6",
@@ -163688,8 +164072,8 @@
       "compounds": [
         "C00002",
         "C00008",
-        "C05345",
-        "C05378"
+        "C00085",
+        "C00354"
       ],
       "ec_numbers": [
         "2.7.1.11"
@@ -163720,8 +164104,8 @@
       "compounds": [
         "C00002",
         "C00008",
-        "C00095",
-        "C05345"
+        "C00085",
+        "C00095"
       ],
       "ec_numbers": [
         "2.7.1.1",
@@ -163750,9 +164134,9 @@
       "compounds": [
         "C00001",
         "C00009",
+        "C00085",
         "C00227",
-        "C00279",
-        "C05345"
+        "C00279"
       ],
       "ec_numbers": [
         "4.1.2.22"
@@ -163770,8 +164154,8 @@
       "compounds": [
         "C00001",
         "C00009",
-        "C05345",
-        "C05378"
+        "C00085",
+        "C00354"
       ],
       "ec_numbers": [
         "3.1.3.11"
@@ -163802,8 +164186,8 @@
       "compounds": [
         "C00009",
         "C00013",
-        "C05345",
-        "C05378"
+        "C00085",
+        "C00354"
       ],
       "ec_numbers": [
         "2.7.1.90"
@@ -163831,8 +164215,8 @@
       "compounds": [
         "C00001",
         "C00014",
-        "C00352",
-        "C05345"
+        "C00085",
+        "C00352"
       ],
       "ec_numbers": [
         "3.5.99.6"
@@ -163855,8 +164239,8 @@
       "compounds": [
         "C00015",
         "C00029",
-        "C02591",
-        "C05345"
+        "C00085",
+        "C02591"
       ],
       "ec_numbers": [
         "2.4.1.14"
@@ -163881,8 +164265,8 @@
       "compounds": [
         "C00025",
         "C00064",
-        "C00352",
-        "C05345"
+        "C00085",
+        "C00352"
       ],
       "ec_numbers": [
         "2.6.1.16"
@@ -166806,10 +167190,10 @@
     },
     "R01067": {
       "compounds": [
+        "C00085",
         "C00118",
         "C00231",
-        "C00279",
-        "C05345"
+        "C00279"
       ],
       "ec_numbers": [
         "2.2.1.1"
@@ -166838,7 +167222,7 @@
       "compounds": [
         "C00111",
         "C00118",
-        "C05378"
+        "C00354"
       ],
       "ec_numbers": [
         "4.1.2.13",
@@ -168421,7 +168805,7 @@
       "compounds": [
         "C00001",
         "C00141",
-        "C04272"
+        "C04039"
       ],
       "ec_numbers": [
         "4.2.1.9"
@@ -171916,7 +172300,7 @@
         "C00001",
         "C00229",
         "C01134",
-        "C16240"
+        "C03688"
       ],
       "ec_numbers": [
         "3.1.4.14"
@@ -171936,7 +172320,7 @@
         "C00010",
         "C00054",
         "C00229",
-        "C16240"
+        "C03688"
       ],
       "ec_numbers": [
         "2.7.8.-",
@@ -182122,8 +182506,8 @@
       "compounds": [
         "C00022",
         "C00068",
-        "C05125",
-        "C06010"
+        "C00900",
+        "C05125"
       ],
       "ec_numbers": [
         "2.2.1.6"
@@ -182145,8 +182529,8 @@
         "C00005",
         "C00006",
         "C00080",
-        "C04272",
-        "C06010"
+        "C00900",
+        "C04039"
       ],
       "ec_numbers": [
         "1.1.1.383",
@@ -189173,8 +189557,8 @@
       "compounds": [
         "C00010",
         "C00100",
-        "C05337",
-        "C17345"
+        "C04644",
+        "C05337"
       ],
       "ec_numbers": [],
       "mass_balance": "unbalanced",
@@ -191263,9 +191647,9 @@
     "R04944": {
       "compounds": [
         "C00009",
-        "C01102",
         "C05688",
-        "C05699"
+        "C05699",
+        "C05702"
       ],
       "ec_numbers": [
         "2.5.1",
@@ -193329,7 +193713,7 @@
     "R05284": {
       "compounds": [
         "C00001",
-        "C01327",
+        "C00698",
         "C06752",
         "C06753"
       ],
@@ -193408,7 +193792,7 @@
       "compounds": [
         "C00001",
         "C00160",
-        "C01327",
+        "C00698",
         "C06755"
       ],
       "ec_numbers": [
@@ -194023,7 +194407,7 @@
     "R05367": {
       "compounds": [
         "C00001",
-        "C01327",
+        "C00698",
         "C06609",
         "C06611"
       ],
@@ -194044,7 +194428,7 @@
     "R05368": {
       "compounds": [
         "C00001",
-        "C01327",
+        "C00698",
         "C06610",
         "C06612"
       ],
@@ -194065,7 +194449,7 @@
     "R05369": {
       "compounds": [
         "C00001",
-        "C01327",
+        "C00698",
         "C06597",
         "C06598"
       ],
@@ -194091,7 +194475,7 @@
     "R05370": {
       "compounds": [
         "C00001",
-        "C01327",
+        "C00698",
         "C06598",
         "C06599"
       ],
@@ -194177,7 +194561,7 @@
     "R05390": {
       "compounds": [
         "C00011",
-        "C01327",
+        "C00698",
         "C03585",
         "C07090"
       ],
@@ -198753,7 +199137,7 @@
     "R07092": {
       "compounds": [
         "C00051",
-        "C01327",
+        "C00698",
         "C14857",
         "C14865"
       ],
@@ -198772,7 +199156,7 @@
     "R07093": {
       "compounds": [
         "C00051",
-        "C01327",
+        "C00698",
         "C14859",
         "C14864"
       ],
@@ -198791,7 +199175,7 @@
     "R07094": {
       "compounds": [
         "C00051",
-        "C01327",
+        "C00698",
         "C14863",
         "C14865"
       ],
@@ -198810,7 +199194,7 @@
     "R07100": {
       "compounds": [
         "C00051",
-        "C01327",
+        "C00698",
         "C06790",
         "C14868"
       ],
@@ -198872,8 +199256,8 @@
       "compounds": [
         "C00051",
         "C00080",
+        "C01324",
         "C11088",
-        "C13645",
         "C14874"
       ],
       "ec_numbers": [
@@ -198891,7 +199275,7 @@
     "R07116": {
       "compounds": [
         "C00051",
-        "C13645",
+        "C01324",
         "C14870",
         "C14871"
       ],
@@ -201427,7 +201811,7 @@
     "R07669": {
       "compounds": [
         "C00001",
-        "C01327",
+        "C00698",
         "C06988",
         "C16181"
       ],
@@ -201447,7 +201831,7 @@
     "R07670": {
       "compounds": [
         "C00001",
-        "C01327",
+        "C00698",
         "C16181",
         "C16182"
       ],
@@ -203047,9 +203431,9 @@
     "R08120": {
       "compounds": [
         "C00001",
+        "C00742",
         "C02222",
-        "C16477",
-        "C16487"
+        "C16477"
       ],
       "ec_numbers": [
         "3.1.1.45"
@@ -203067,9 +203451,9 @@
     "R08121": {
       "compounds": [
         "C00001",
+        "C00742",
         "C02222",
-        "C16476",
-        "C16487"
+        "C16476"
       ],
       "ec_numbers": [
         "3.1.1.45"
@@ -206406,7 +206790,7 @@
         "C00016",
         "C00078",
         "C00080",
-        "C01327",
+        "C00698",
         "C01352",
         "C19687"
       ],

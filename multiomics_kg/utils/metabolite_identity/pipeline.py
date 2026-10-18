@@ -19,11 +19,12 @@ from pathlib import Path
 
 from multiomics_kg.utils.chebi_utils import ChebiIndex, build_chebi_cache
 from multiomics_kg.utils.metabolite_identity.canonical import (
-    IdentityCollisionError, IdentityOverrides, canonicalise, collect_merge_links, entity_terms, rewrite_to_canonical)
+    IdentityCollisionError, IdentityOverrides, apply_mnx_split, canonicalise, collect_merge_links,
+    entity_terms, rewrite_to_canonical, split_shared_mnx)
 from multiomics_kg.utils.metabolite_identity.classes import (
     COMPOUND_BRITE_TREES, parse_compound_brite, prune_compound_brite)
 from multiomics_kg.utils.metabolite_identity.crossrefs import (
-    build_identity_fields, is_isotopologue_name, node_olds, pick_chebi_id, shared_chebi_terms)
+    _own_family, apply_xref_overrides, build_identity_fields, chebi_node_structure, is_isotopologue_name, node_olds, pick_chebi_id, shared_chebi_terms)
 from multiomics_kg.utils.metabolite_identity.lumping import update_lumping_pin
 from multiomics_kg.utils.metabolite_identity.outputs import (
     build_identity_report, build_mapping_v2, remap_rows, repoint_reason, validate_build,
@@ -31,7 +32,8 @@ from multiomics_kg.utils.metabolite_identity.outputs import (
 from multiomics_kg.utils.metabolite_identity.paper import (
     Override, PaperTable, StereoContext, resolve_paper_rows)
 from multiomics_kg.utils.metabolite_identity.stereo import (
-    finalize_stereo, is_anomer_pair, stereo_families, stereo_links, unspecified_members)
+    finalize_stereo, is_anomer_pair, stereo_distinct_kegg, stereo_families, stereo_links,
+    unspecified_members)
 from multiomics_kg.utils.metabolite_identity.structure import apply_structure
 
 _KEGG = "kegg.compound:"
@@ -78,6 +80,9 @@ class Step6Inputs:
     # and this build's. An old id nothing else explains remaps to where its string now goes.
     old_string_to_primary: dict[str, str] = field(default_factory=dict)
     string_to_primary: dict[str, str] = field(default_factory=dict)
+    # KEGG compound → every KEGG reaction listing it (not only gene-reachable ones): the
+    # canonical-id fallback measure when no member has a gene-reachable reaction (spec §3.1).
+    all_reaction_refs: dict[str, int] = field(default_factory=dict)
 
 
 @dataclass
@@ -249,6 +254,56 @@ def _identifier_coverage_errors(table, identity, rekeys, dropped, dropped_unmove
     return errs
 
 
+def _canonical_margin_errors(unresolved, table):
+    """Stage P (spec §3.1): a merge group whose canonical id the margin rule can't decide.
+    The message is meant to be pasted from: members, names, both counts, a ready pin."""
+    errs = []
+    for u in unresolved:
+        rows = "; ".join(f"{m} {table.get(m, {}).get('name')!r}: {u['gene_reachable_reactions'][m]} "
+                         f"gene-reachable / {u['all_kegg_reactions'][m]} all KEGG reactions"
+                         for m in u["members"])
+        group = ", ".join(f'"{m}"' for m in u["members"])
+        errs.append(
+            f"canonical_margin_unresolved: no member of merge group [{rows}] has >= 2x the "
+            f"runner-up's reactions. Pick the canonical id and add to "
+            f"config/metabolite_identity_overrides.yaml:\n"
+            f"canonical:\n  - id: \"<one of the members>\"\n    group: [{group}]\n"
+            f"    reason: \"<why this member>\"")
+    return errs
+
+
+def _stereo_group_errors(identity, chebi):
+    """Stage P: no written node holds two KEGG ids that are stereo forms of one structure
+    (explorer ask 2026-10-15, ask 4). A curated ``manual`` merge is the one exception."""
+    errs = []
+    for canon, members in sorted(identity.members.items()):
+        if "manual" in identity.basis.get(canon, []):
+            continue
+        kegg = sorted(m[len(_KEGG):] for m in members if m.startswith(_KEGG))
+        for i, a in enumerate(kegg):
+            for b in kegg[i + 1:]:
+                why = stereo_distinct_kegg(a, b, chebi)
+                if why:
+                    errs.append(f"merge group {canon} holds stereo forms {a} / {b} "
+                                f"({why[0][0]!r} vs {why[0][1]!r}); the stereo guard should have refused it")
+    return errs
+
+
+def _anomer_xref_review(table, stereo_pairs, terms_of, chebi):
+    """Explorer ask 5: anomer nodes whose generic sibling is also written, with the HMDB / ChEBI
+    xrefs each side carries. A review list; nothing is moved automatically."""
+    rows = []
+    for a, b in sorted(stereo_pairs):
+        if a in table and b in table and is_anomer_pair(a, b, table, terms_of, chebi):
+            rows.append({"anomer": a, "anomer_name": table[a].get("name"),
+                         "anomer_hmdb_id": table[a].get("hmdb_id"),
+                         "anomer_chebi_ids": table[a].get("chebi_ids") or [],
+                         "generic": b, "generic_name": table[b].get("name"),
+                         "generic_hmdb_id": table[b].get("hmdb_id"),
+                         "generic_chebi_ids": table[b].get("chebi_ids") or []})
+    return rows
+
+
 def _exact_name_pairs(table, keep_separate=frozenset()):
     """Spec §1.2 'exact-name match not covered above': report only, never applied. Pairs a
     human already decided to keep separate are not repeated."""
@@ -278,7 +333,7 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     # E — canonicalise. Rows pinned by an override or a direct id refuse merges that would put
     # two of one table's names on one node (assay collision).
     reaction_refs = Counter(f"{_KEGG}{c}" for r in reactions.values() for c in r.get("compounds", []))
-    pathway_refs = {n: len(e.get("pathways") or []) for n, e in table.items()}
+    all_reaction_refs = {f"{_KEGG}{c}": n for c, n in inp.all_reaction_refs.items()}
     pins = []
     for t in inp.tables:
         for row in t.rows:
@@ -288,8 +343,17 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
             if fixed and fixed in table:
                 pins.append((t.key, row.name_key, fixed))
     identity = canonicalise(table, collect_merge_links(table, chebi), overrides=inp.identity_overrides,
-                            reaction_refs=reaction_refs, pathway_refs=pathway_refs, chebi=chebi,
+                            reaction_refs=reaction_refs, all_reaction_refs=all_reaction_refs, chebi=chebi,
                             table_pins=sorted(set(pins)))
+    stage_e_errors = (_canonical_margin_errors(identity.canonical_unresolved, table)
+                      + _stereo_group_errors(identity, chebi))
+    if stage_e_errors:
+        raise Step6ValidationError(stage_e_errors)
+    # MNX fields of nodes MNX joins but stage E kept apart go to one node (old_entries too:
+    # stage H reads a node's own pre-merge entry back).
+    mnx_strip, mnx_split = split_shared_mnx(table, identity.canonical_of, chebi, reaction_refs)
+    apply_mnx_split(table, mnx_strip)
+    apply_mnx_split(old_entries, mnx_strip)
     # F — rewrite every id to canonical (reactions and subtree_substrates in place)
     table = rewrite_to_canonical(table, reactions, subs, identity.canonical_of)
     # ChEBI terms that xref two KEGG nodes the guard kept apart are published on neither.
@@ -307,6 +371,10 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         # H — cross-reference fields
         identifier_index = build_identity_fields(table, identity, inp.rekeys, chebi, old_entries,
                                                  shared=shared)
+        xref_applied, xref_stale = apply_xref_overrides(
+            table, identifier_index, inp.identity_overrides.xrefs if inp.identity_overrides else [], chebi)
+        # narrowed D: a chebi: node's structure / ChEBI ids are its own term's (after stage G)
+        chebi_structure = chebi_node_structure(table, identifier_index, chebi)
     except IdentityCollisionError as exc:        # identifier / InChIKey on two nodes
         raise Step6ValidationError([str(exc)]) from exc
     id_index = dict(identifier_index)
@@ -316,7 +384,22 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         id_index.setdefault(old, identity.canonical_of.get(new, new))
     # I — stereo families (in memory only)
     terms_of = {n: entity_terms(n, e, chebi) for n, e in table.items()}
-    stereo_pairs, enan_pairs = stereo_links(table, terms_of, chebi)
+    # Stereo links read each node's own ChEBI identity: the KEGG xrefs (or own term) of the node and
+    # its merged members, minus terms the owner rule withholds from it, plus their ChEBI conjugate
+    # acids / bases. Not MNX's ChEBI aliases,
+    # which drag in classes ("N-acetyl-D-hexosamine" on GlcNAc, "cresol" on benzyl alcohol).
+    published = {}
+    for n in table:
+        own = set()
+        for m in node_olds(n, identity, inp.rekeys):
+            own |= entity_terms(m, old_entries.get(m, {}), chebi)
+        own = {t for t in own if n not in (shared.get(t) or ())}
+        # conjugate acids / bases are the same compound (explorer ask 8, condition 1)
+        published[n] = set().union(*(_own_family(t, chebi) for t in own)) if own else set()
+    ov = inp.identity_overrides
+    stereo_pairs, enan_pairs, stereo_report = stereo_links(
+        table, published, chebi, curated=ov.stereo_links if ov else (),
+        blocked=ov.no_stereo_link if ov else frozenset())
     families = stereo_families(set(table), stereo_pairs, enan_pairs)
     # J — resolve every paper row
     ctx = StereoContext(families, unspecified_members(stereo_pairs),
@@ -335,6 +418,7 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     structure["counts"] = dict(sorted(Counter(e["structure_kind"] for e in table.values()).items()))
     structure["scrubbed"] = [n for n in structure["scrubbed"] if n in survivors]
     structure["filled"] = [n for n in structure["filled"] if n in survivors]
+    anomer_xrefs = _anomer_xref_review(table, stereo_pairs, terms_of, chebi)
     # L — stereo lists on survivors only
     stereo_counts = finalize_stereo(table, stereo_pairs, enan_pairs, survivors)
     # M — compound classes
@@ -366,6 +450,8 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     errors += [f"remap {r['old_id']} → {r['new_id']} ({r['basis']}): not a compound step 6 writes"
                for r in remap if r["new_id"] and r["new_id"] not in table]
     errors += _identifier_coverage_errors(table, identity, inp.rekeys, dropped, set(dropped_unmoved))
+    errors += [f"xref override {x['id']} → {x['to']}: target dropped at stage K"
+               for x in xref_applied if x["to"] not in table]
     if errors:
         raise Step6ValidationError(errors)
 
@@ -441,8 +527,11 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         merge_groups_by_basis=_groups_by_basis(identity),
         id_aliases=id_aliases,
         rekeys=inp.rekeys, shared_chebi_terms=shared, rejected_links=[[l.a, l.b, l.basis] for l in identity.rejected],
+        stereo_refused_links=identity.stereo_refused, mnx_split=mnx_split,
+        canonical_pinned=identity.canonical_pinned, anomer_xref_review=anomer_xrefs,
+        stereo_link_review=stereo_report, chebi_node_structure=chebi_structure,
         refused_assay_collisions=identity.refused_collisions,
-        stale_identity_override=identity.stale_overrides, stale_alias_override=res.stale_overrides,
+        stale_identity_override=identity.stale_overrides + xref_stale, xref_overrides_applied=xref_applied, stale_alias_override=res.stale_overrides,
         stale_lock_entry=res.stale_lock, lock_target_remapped=res.lock_remapped,
         roles_removed=inp.role_of_old, dropped=dropped, dropped_without_rows=dropped_unmoved,
         dropped_same_entity_review=[{"dropped": d, "target": t,

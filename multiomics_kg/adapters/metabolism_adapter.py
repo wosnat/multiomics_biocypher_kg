@@ -43,6 +43,7 @@ def _parse_elements(formula: str | None) -> list[str]:
 
 _MET_STR = ("name", "formula", "inchikey", "smiles", "mnxm_id", "chebi_id", "hmdb_id", "structure_kind")
 _MET_LIST = ("kegg_compound_ids", "chebi_ids", "mnxm_ids", "all_identifiers", "recurated_from_ids",
+             "removed_stereo_xrefs",
              "identity_basis", "evidence_sources")
 
 

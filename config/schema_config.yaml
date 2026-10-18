@@ -897,9 +897,11 @@ metabolite:
     all_identifiers: str[]       # dense, CURIE-only (kegg.compound: / chebi: / mnx: / hmdb: / inchikey:), unlike Gene.all_identifiers (bare)
     identifier_tokens: str[]     # post-import, search-only: bare local parts of all_identifiers (metaboliteFullText)
     recurated_from_ids: str[]    # sparse, NO identity meaning: dropped nodes whose paper rows now point here
+    removed_stereo_xrefs: str[]  # sparse, NO identity meaning: MNX-side ChEBI ids / InChIKeys of a more specific stereo form, taken off this chebi: node
     identity_basis: str[]        # sparse: merged or re-keyed nodes only
     structure_kind: str          # dense: defined | generic | polymer
-    kegg_compound_categories: str[]   # post-import, sparse: br08001 level-0 names
+    kegg_functional_categories: str[] # post-import, sparse: br08001 level-0 names (was kegg_compound_categories)
+    kegg_brite_classes: str[]    # post-import, sparse: "<Tree>: <class>", level 0 of the 7 other compound trees
     measured_compartments: str[] # post-import (already set; declared here for completeness)
     evidence_sources: str[]      # 'metabolism' | 'transport' | 'metabolomics' (paper-measured; live since Phase 2)
     # post-import: distinct transporter systems at MAXIMAL DEPTH — TcdbFamily

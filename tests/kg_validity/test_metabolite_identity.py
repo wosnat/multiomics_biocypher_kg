@@ -295,10 +295,74 @@ def test_metabolite_class(run_query):
     assert not run_query("MATCH (c:MetaboliteClass)-[:Metabolite_class_is_a_metabolite_class]->(p:MetaboliteClass) "
                          "WHERE c.level <= p.level RETURN c.id, p.id LIMIT 5")
     from multiomics_kg.utils.metabolite_identity.classes import BR08001_LEVEL0
-    cats = {x["c"] for x in run_query("MATCH (m:Metabolite) UNWIND m.kegg_compound_categories AS c "
+    cats = {x["c"] for x in run_query("MATCH (m:Metabolite) UNWIND m.kegg_functional_categories AS c "
                                       "RETURN DISTINCT c")}
-    assert cats, "no kegg_compound_categories"
+    assert cats, "no kegg_functional_categories"
     assert cats <= set(BR08001_LEVEL0), cats - set(BR08001_LEVEL0)
+    assert not run_query("MATCH (m:Metabolite) WHERE m.kegg_compound_categories IS NOT NULL "
+                         "RETURN m.id LIMIT 1"), "retired kegg_compound_categories still set"
+
+
+def test_kegg_brite_classes_match_derivation(run_query):
+    """Explorer ask 6 (2026-10-15): the property equals the derivation from MetaboliteClass,
+    for every metabolite (absent when the metabolite is in no non-br08001 tree)."""
+    import re
+    rows = run_query("""
+        MATCH (m:Metabolite)
+        OPTIONAL MATCH (m)-[:Metabolite_in_metabolite_class]->(:MetaboliteClass)
+              -[:Metabolite_class_is_a_metabolite_class*0..]->(top:MetaboliteClass {level: 0})
+        WHERE top.tree_code <> 'br08001'
+        RETURN m.id AS id, m.kegg_brite_classes AS got, collect(DISTINCT [top.tree, top.name]) AS tops""")
+    bad = []
+    for r in rows:
+        want = set()
+        for tree, name in r["tops"]:
+            if tree is None:
+                continue
+            title = tree.replace("_", " ")
+            title = title[0].upper() + title[1:]
+            name = name[2:].strip() if re.fullmatch(r"[A-Z]{2}  .+", name) else name
+            want.add(f"{title}: {name}")
+        got = r["got"]
+        if (sorted(want) or None) != got:
+            bad.append((r["id"], got, sorted(want)))
+    assert not bad, bad[:5]
+    assert sum(1 for r in rows if r["got"]) > 500
+
+
+# --- MNX stereo guard (explorer ask 2026-10-15) ------------------------------------------
+
+# Pairs MNX called one entity that must stay two nodes: stereo-unspecified vs specific,
+# generic sugar vs anomer, class vs member, two protein-bound species.
+SPLIT_PAIRS = [("C00085", "C05345"), ("C00597", "C00197"), ("C00900", "C06010"),
+               ("C05702", "C01102"), ("C00354", "C05378"), ("C03688", "C16240"),
+               ("C04039", "C04272"), ("C04644", "C17345"), ("C00725", "C16241"),
+               ("C02794", "C03227"), ("C00193", "C00261")]
+
+
+@pytest.mark.parametrize("a,b", SPLIT_PAIRS)
+def test_mnx_stereo_pairs_are_separate_nodes(run_query, a, b):
+    rows = run_query("MATCH (m:Metabolite) WHERE m.id IN $ids RETURN m.id AS id, m.kegg_compound_ids AS k",
+                     ids=[f"kegg.compound:{a}", f"kegg.compound:{b}"])
+    assert sorted(r["id"] for r in rows) == sorted([f"kegg.compound:{a}", f"kegg.compound:{b}"])
+    for r in rows:
+        assert r["k"] == [r["id"].split(":")[1]], r
+
+
+@pytest.mark.parametrize("specific,generic", [("C05345", "C00085"), ("C05378", "C00354"),
+                                              ("C00197", "C00597"), ("C06010", "C00900")])
+def test_split_pairs_are_stereo_linked(run_query, specific, generic):
+    assert run_query("MATCH (:Metabolite {id: $s})-[:Metabolite_is_stereo_form_of]->(:Metabolite {id: $g}) "
+                     "RETURN 1 AS x", s=f"kegg.compound:{specific}", g=f"kegg.compound:{generic}")
+
+
+def test_halide_pins_name_the_ion(run_query):
+    rows = {r["id"]: r["k"] for r in run_query(
+        "MATCH (m:Metabolite) WHERE m.id IN $ids RETURN m.id AS id, m.kegg_compound_ids AS k",
+        ids=["kegg.compound:C00698", "kegg.compound:C01324", "kegg.compound:C00742"])}
+    assert rows == {"kegg.compound:C00698": ["C00698", "C01327"],
+                    "kegg.compound:C01324": ["C01324", "C13645"],
+                    "kegg.compound:C00742": ["C00742", "C16487"]}
 
 
 def test_new_edge_sources_join_data_sources(run_query):
@@ -359,3 +423,57 @@ def test_transport_substrate_resolution_unchanged(run_query):
     dist = {r["v"]: r["n"] for r in run_query("MATCH (g:Gene) WHERE g.transport_substrate_resolution IS NOT NULL "
                                               "RETURN g.transport_substrate_resolution AS v, count(*) AS n")}
     assert dist == expected
+
+
+# Curated xref: overrides (explorer ask 5): generic HMDB / ChEBI records sit on the generic node.
+@pytest.mark.parametrize("ident,node", [
+    ("hmdb:HMDB0000122", "kegg.compound:C00031"), ("chebi:17634", "kegg.compound:C00031"),
+    ("hmdb:HMDB0000143", "kegg.compound:C00124"), ("hmdb:HMDB0000660", "kegg.compound:C00095"),
+    ("hmdb:HMDB0001058", "kegg.compound:C00354"), ("hmdb:HMDB0000124", "kegg.compound:C00085")])
+def test_generic_xrefs_on_generic_node(run_query, ident, node):
+    rows = run_query("MATCH (m:Metabolite) WHERE $i IN m.all_identifiers RETURN m.id AS id", i=ident)
+    assert [r["id"] for r in rows] == [node]
+
+
+# ── stereo edges and chebi: node structure (explorer ask 8, 2026-10-18) ──────────────────────
+ASK8_LINKED = [("C00031", "chebi:17234"), ("C00159", "chebi:37684"), ("C00259", "chebi:22599"),
+               ("C00124", "kegg.compound:C01582"), ("C01825", "kegg.compound:C01582"),
+               ("C00095", "kegg.compound:C01496"), ("C00507", "chebi:26546"), ("C00407", "chebi:24898"),
+               ("C00329", "chebi:5417"), ("C00309", "kegg.compound:C05052"),
+               ("C00508", "kegg.compound:C05052"), ("C00247", "kegg.compound:C01452"),
+               ("C00764", "kegg.compound:C01452"), ("C00337", "chebi:30867"), ("C00181", "kegg.compound:C01394")]
+
+
+@pytest.mark.parametrize("specific,generic", ASK8_LINKED)
+def test_ask8_stereo_forms_linked(run_query, specific, generic):
+    assert run_query("MATCH (:Metabolite {id: $s})-[:Metabolite_is_stereo_form_of]->(:Metabolite {id: $g}) "
+                     "RETURN 1 AS x", s=f"kegg.compound:{specific}", g=generic)
+
+
+@pytest.mark.parametrize("a,b", [("C00810", "C01769"), ("C00341", "C05847"), ("C15857", "C05430"),
+                                 ("C01394", "C00181")])
+def test_wrong_stereo_edges_gone(run_query, a, b):
+    assert not run_query("MATCH (:Metabolite {id: $a})-[:Metabolite_is_stereo_form_of]->(:Metabolite {id: $b}) "
+                         "RETURN 1 AS x", a=f"kegg.compound:{a}", b=f"kegg.compound:{b}")
+
+
+def test_class_generics_get_no_stereo_edge(run_query):
+    rows = run_query("MATCH (m:Metabolite)<-[:Metabolite_is_stereo_form_of]-() WHERE m.id IN $ids "
+                     "RETURN DISTINCT m.id AS id", ids=["chebi:33709", "chebi:24278", "chebi:24175",
+                                                       "kegg.compound:C00738"])
+    assert not rows, rows
+
+
+def test_removed_stereo_xrefs_not_identifiers(run_query):
+    row = _one(run_query, "MATCH (m:Metabolite {id: 'chebi:17964'}) "
+                          "RETURN m.removed_stereo_xrefs AS r, m.inchikey AS ik")
+    assert "chebi:41582" in row["r"] and row["ik"] == "HXEACLLIILLPRG-UHFFFAOYSA-N"
+    assert not run_query("MATCH (m:Metabolite) WHERE any(x IN coalesce(m.removed_stereo_xrefs, []) "
+                         "WHERE x IN m.all_identifiers) RETURN m.id LIMIT 5")
+    assert not run_query("MATCH (m:Metabolite) WHERE 'chebi:41582' IN m.all_identifiers RETURN m.id")
+
+
+def test_structureless_chebi_generics_keep_formula(run_query):
+    for r in run_query("MATCH (m:Metabolite) WHERE m.id IN ['chebi:17234', 'chebi:37690'] "
+                       "RETURN m.id AS id, m.inchikey AS ik, m.formula AS f, m.structure_kind AS k"):
+        assert r["ik"] is None and r["f"] == "C6H12O6" and r["k"] == "defined", r

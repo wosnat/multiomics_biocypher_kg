@@ -3,6 +3,22 @@
 #                Bypasses the KEGG↔KEGG guard; recorded as identity_basis [manual].
 # keep_separate: two node ids that must never merge, whatever the basis (MNX included).
 # Each entry: {a: <node id>, b: <node id>, reason: "<one line>"}. Neither kind adds a node.
+# canonical:     the canonical id of a merge group, overriding the margin rule (spec §3.1: most
+#                gene-reachable reactions with a >= 2x margin). Step 6 fails on a group the rule
+#                can't decide and prints a ready entry. Each entry: {id: <member>, group: [<every
+#                member id>], reason: "<one line>"}; a pin whose group no longer forms is reported
+#                stale (stale_identity_override) and skipped.
+# xref:          an HMDB / ChEBI cross-reference curated onto a node (applied after stage H): for a
+#                record that names the generic compound but MNX / HMDB attach to an anomer, or that
+#                no rule reaches. {id: hmdb:HMDB… | chebi:N, to: <node>, from: <node holding it now,
+#                omit when on no node>, reason}. Stale (reported, skipped) when the id isn't where
+#                the entry says. A moved HMDB id becomes the target's hmdb_id. Review list:
+#                metabolite_identity_report.json → anomer_xref_review.
+# stereo_link:   a Metabolite_is_stereo_form_of edge (specific → generic) the ChEBI rule can't find
+#                because ChEBI gives the generic no formula. {specific, generic, reason}.
+# no_stereo_link: a node that never takes part in a stereo_form_of edge: a class ChEBI gives a
+#                concrete formula, so the formula / charge path test can't tell it apart. {id, reason}.
+#                Review list: metabolite_identity_report.json → stereo_link_review.
 # Candidates to review: metabolite_identity_report.json → heuristic_name_candidates.
 merge:
   - a: "chebi:33283"
@@ -33,3 +49,75 @@ keep_separate:
   - a: "kegg.compound:C01728"
     b: "kegg.compound:C20861"
     reason: "two different mannobioses: InChIKey connectivity blocks differ (different glycosidic linkage)"
+  - a: "kegg.compound:C00193"
+    b: "kegg.compound:C00261"
+    reason: "C00193 is the class 'Aromatic aldehyde'; MNX joins it to benzaldehyde, one member (explorer ask 2026-10-15)"
+  - a: "kegg.compound:C03688"
+    b: "kegg.compound:C16240"
+    reason: "apo-[acyl-carrier protein] and [lipoyl-carrier protein]-L-lysine are different protein-bound species; MNX conflates them (explorer ask 2026-10-15)"
+canonical:
+  - id: "kegg.compound:C00698"
+    group: ["kegg.compound:C00698", "kegg.compound:C01327"]
+    reason: "chloride, the biologically relevant species, over hydrochloric acid (explorer ask 2026-10-15, 3b)"
+  - id: "kegg.compound:C01324"
+    group: ["kegg.compound:C01324", "kegg.compound:C13645"]
+    reason: "bromide over hydrobromic acid (explorer ask 2026-10-15, 3b)"
+  - id: "kegg.compound:C00742"
+    group: ["kegg.compound:C00742", "kegg.compound:C16487"]
+    reason: "fluoride over hydrofluoric acid (explorer ask 2026-10-15, 3b)"
+xref:
+  # HMDB records named for the generic sugar; HMDB draws them as one anomer, so MNX files them
+  # under the anomer's entity (explorer ask 5, 2026-10-15). Names: MNX chem_xref.tsv (HMDB's own).
+  - id: "hmdb:HMDB0000122"
+    from: "kegg.compound:C00221"
+    to: "kegg.compound:C00031"
+    reason: "HMDB0000122 is HMDB's 'D-Glucose' record (beta-pyranose structure); HMDB has no separate beta-D-glucose record"
+  - id: "hmdb:HMDB0000143"
+    from: "kegg.compound:C00984"
+    to: "kegg.compound:C00124"
+    reason: "HMDB0000143 is 'D-Galactose' (alpha structure); HMDB has a beta-D-galactose record (HMDB0003449, stays on C00962) but no alpha one"
+  - id: "hmdb:HMDB0000660"
+    from: "kegg.compound:C02336"
+    to: "kegg.compound:C00095"
+    reason: "HMDB0000660 is 'D-Fructose' (beta structure); C00095 D-fructose carried no HMDB id"
+  - id: "hmdb:HMDB0001058"
+    from: "kegg.compound:C05378"
+    to: "kegg.compound:C00354"
+    reason: "HMDB0001058 is 'Fructose 1,6-bisphosphate'; MNX also files C00354's own ChEBI xref (CHEBI:37736) under the same entity"
+  - id: "hmdb:HMDB0000124"
+    to: "kegg.compound:C00085"
+    reason: "HMDB0000124 is 'Fructose 6-phosphate', on no node: MNX files it with CHEBI:15946, the ChEBI KEGG xref of C00085 (MNXM89629)"
+  - id: "chebi:17634"
+    to: "kegg.compound:C00031"
+    reason: "ChEBI's generic D-glucose; it has no KEGG xref (C00031's is the D-glucopyranose child, CHEBI:4167), so no rule reaches it"
+stereo_link:
+  # Generics ChEBI gives no formula, so the formula / charge path can't reach them (explorer ask 8).
+  - specific: "kegg.compound:C00095"
+    generic: "kegg.compound:C01496"
+    reason: "D-fructose → fructose; ChEBI CHEBI:28757 fructose has no formula"
+  - specific: "kegg.compound:C01019"
+    generic: "chebi:33984"
+    reason: "L-fucose → fucose; ChEBI fucose has no formula"
+  - specific: "kegg.compound:C01018"
+    generic: "chebi:33984"
+    reason: "6-deoxy-D-galactose (D-fucose) → fucose; ChEBI fucose has no formula"
+  - specific: "kegg.compound:C00140"
+    generic: "chebi:59640"
+    reason: "N-acetyl-D-glucosamine → N-acetylglucosamine; ChEBI CHEBI:59640 has no formula"
+  - specific: "kegg.compound:C00325"
+    generic: "chebi:64608"
+    reason: "GDP-L-fucose → GDP-fucose; ChEBI CHEBI:64608 has no formula"
+  - specific: "kegg.compound:C00247"
+    generic: "kegg.compound:C01452"
+    reason: "L-sorbose → sorbose; ChEBI CHEBI:27922 sorbose has no formula"
+  - specific: "kegg.compound:C00764"
+    generic: "kegg.compound:C01452"
+    reason: "D-sorbose → sorbose; ChEBI CHEBI:27922 sorbose has no formula"
+  - specific: "kegg.compound:C00181"
+    generic: "kegg.compound:C01394"
+    reason: "D-xylose → xylose; KEGG xrefs the generic C01394 to alpha-D-xylose too, so the rule finds both directions"
+no_stereo_link:
+  - id: "kegg.compound:C00738"
+    reason: "D-Hexose is a class (D-glucose, D-mannose, D-allose, …) that ChEBI gives the concrete formula C6H12O6"
+  - id: "kegg.compound:C10906"
+    reason: "keto-D-fructose, KEGG's duplicate 'D-Fructose': ChEBI's is_a to D-fructose is an open-chain form, not a stereo form (explorer ask 8, Q2)"

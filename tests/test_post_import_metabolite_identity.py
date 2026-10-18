@@ -13,7 +13,8 @@ LITERALS = [
     "[m.name, m.formula, m.identifier_tokens]",
     "c.direct_metabolite_count",
     "r.direct_transporter_count",
-    "m.kegg_compound_categories",
+    "m.kegg_functional_categories",
+    "m.kegg_brite_classes",
     "s.chebi_release",
 ]
 

@@ -1,7 +1,7 @@
 import pytest
 
 from tests.metabolite_identity_helpers import cpd, make_chebi, term
-from multiomics_kg.utils.metabolite_identity.canonical import IdentityResult
+from multiomics_kg.utils.metabolite_identity.canonical import IdentityResult, load_identity_overrides
 from multiomics_kg.utils.metabolite_identity.crossrefs import (
     build_identity_fields, is_isotopologue_name, pick_chebi_id)
 
@@ -142,8 +142,8 @@ def _two_kegg_table():
 def test_shared_chebi_terms_reports_term_on_two_separate_kegg_nodes():
     from multiomics_kg.utils.metabolite_identity.crossrefs import shared_chebi_terms
     table, ident = _two_kegg_table()
-    assert shared_chebi_terms(table, ident, SHARED) == {
-        "CHEBI:28061": ["kegg.compound:C00984", "kegg.compound:C01582"]}
+    # C00984 xrefs only alpha-D-galactose; C01582 also xrefs galactose: C00984 owns the term
+    assert shared_chebi_terms(table, ident, SHARED) == {"CHEBI:28061": ["kegg.compound:C01582"]}
 
 
 def test_shared_term_not_shared_when_both_kegg_ids_on_one_canonical_node():
@@ -156,21 +156,37 @@ def test_shared_term_not_shared_when_both_kegg_ids_on_one_canonical_node():
     assert shared_chebi_terms(table, ident, SHARED) == {}
 
 
-def test_shared_term_on_neither_node_and_chebi_id_falls_back():
+def test_shared_term_goes_to_its_single_owner_only():
     from multiomics_kg.utils.metabolite_identity.crossrefs import shared_chebi_terms
     table, ident = _two_kegg_table()
     shared = shared_chebi_terms(table, ident, SHARED)
     old = {n: dict(e) for n, e in table.items()}
     index = build_identity_fields(table, ident, {}, SHARED, old, shared=shared)
     a, b = table["kegg.compound:C00984"], table["kegg.compound:C01582"]
-    assert a["chebi_id"] is None and a["chebi_ids"] is None
+    assert a["chebi_id"] == "28061" and a["chebi_ids"] == ["28061"]
     assert b["chebi_id"] == "28260" and b["chebi_ids"] == ["28260"]
-    for e in (a, b):
-        assert "chebi:28061" not in e["all_identifiers"] and "chebi:10231" not in e["all_identifiers"]
-    assert "chebi:28061" not in index
+    assert "chebi:10231" in a["all_identifiers"]
+    assert "chebi:28061" not in b["all_identifiers"] and "chebi:10231" not in b["all_identifiers"]
+    assert index["chebi:28061"] == "kegg.compound:C00984"
     assert pick_chebi_id("kegg.compound:C01582", cpd("Galactose"), SHARED, shared) == "28260"
-    assert pick_chebi_id("kegg.compound:C00984", cpd("x", chebi_id="10231"), SHARED, shared) is None
+    assert pick_chebi_id("kegg.compound:C00984", cpd("x", chebi_id="10231"), SHARED, shared) == "28061"
 
+
+TIED = make_chebi(
+    CHEBI_17594=term("hydroquinone", kegg=["C00530", "C15603"], inchikey="QIGBRXMKCJKVMJ-UHFFFAOYSA-N"),
+    CHEBI_17169=term("benzaldehyde", kegg=["C00193", "C00261"], inchikey="HUMNYLRZRPPJDN-UHFFFAOYSA-N"),
+    CHEBI_33855=term("arenecarbaldehyde", kegg=["C00193"]))
+
+
+def test_shared_term_without_single_owner_withheld_from_all():
+    from multiomics_kg.utils.metabolite_identity.crossrefs import shared_chebi_terms
+    table = {f"kegg.compound:{k}": cpd(k) for k in ("C00530", "C15603", "C00193", "C00261")}
+    ident = IdentityResult(canonical_of={n: n for n in table}, members={}, basis={}, member_basis={})
+    shared = shared_chebi_terms(table, ident, TIED)
+    # both hydroquinone ids xref only hydroquinone: a tie, so neither publishes it
+    assert shared["CHEBI:17594"] == ["kegg.compound:C00530", "kegg.compound:C15603"]
+    # the class node C00193 also xrefs a class term, so benzaldehyde goes to C00261
+    assert shared["CHEBI:17169"] == ["kegg.compound:C00193"]
 
 
 @pytest.mark.parametrize("name", ["[13C]glucose", "(15N)urea", "[2H]water", "(18O)water", "N 15 ammonium"])
@@ -275,3 +291,119 @@ def test_role_term_never_chebi_id():
     e = _fields("kegg.compound:C00028", cpd("Acceptor"))
     assert e["chebi_id"] is None and e["chebi_ids"] is None
     assert not any(x.startswith("chebi:") for x in e["all_identifiers"])
+
+
+# ── xref: overrides (explorer ask 5, 2026-10-15) ───────────────────────────────────────────────
+
+def _xref_table():
+    def node(n, hmdb=None, chebi=()):
+        ids = {f"kegg.compound:{n}"} | {f"chebi:{c}" for c in chebi}
+        if hmdb:
+            ids.add(f"hmdb:{hmdb}")
+        return {"hmdb_id": hmdb, "chebi_id": chebi[0] if chebi else None,
+                "chebi_ids": list(chebi) or None, "all_identifiers": sorted(ids)}
+    table = {"kegg.compound:C00221": node("C00221", "HMDB0000122", ["15903"]),
+             "kegg.compound:C00031": node("C00031", "HMDB0304632", ["4167"])}
+    index = {i: n for n, e in table.items() for i in e["all_identifiers"]}
+    return table, index
+
+
+GLC = make_chebi(CHEBI_17634=term("D-glucose", alt=["CHEBI:12965", "CHEBI:20999"]),
+                 CHEBI_4167=term("D-glucopyranose", kegg=["C00031"]),
+                 CHEBI_15903=term("beta-D-glucose", kegg=["C00221"]))
+
+
+def test_xref_override_moves_hmdb_to_generic():
+    from multiomics_kg.utils.metabolite_identity.canonical import XrefOverride
+    from multiomics_kg.utils.metabolite_identity.crossrefs import apply_xref_overrides
+    table, index = _xref_table()
+    applied, stale = apply_xref_overrides(table, index, [XrefOverride(
+        "hmdb:HMDB0000122", "kegg.compound:C00031", "kegg.compound:C00221")], GLC)
+    assert len(applied) == 1 and not stale
+    b, g = table["kegg.compound:C00221"], table["kegg.compound:C00031"]
+    assert b["hmdb_id"] is None and "hmdb:HMDB0000122" not in b["all_identifiers"]
+    assert g["hmdb_id"] == "HMDB0000122"
+    assert {"hmdb:HMDB0000122", "hmdb:HMDB0304632"} <= set(g["all_identifiers"])
+    assert index["hmdb:HMDB0000122"] == "kegg.compound:C00031"
+
+
+def test_xref_override_adds_chebi_with_secondary_ids():
+    from multiomics_kg.utils.metabolite_identity.canonical import XrefOverride
+    from multiomics_kg.utils.metabolite_identity.crossrefs import apply_xref_overrides
+    table, index = _xref_table()
+    applied, stale = apply_xref_overrides(
+        table, index, [XrefOverride("chebi:17634", "kegg.compound:C00031")], GLC)
+    g = table["kegg.compound:C00031"]
+    assert applied and not stale
+    assert g["chebi_id"] == "4167" and g["chebi_ids"] == ["4167", "17634"]
+    assert {"chebi:17634", "chebi:12965", "chebi:20999"} <= set(g["all_identifiers"])
+    assert index["chebi:20999"] == "kegg.compound:C00031"
+
+
+def test_xref_override_stale_when_identifier_elsewhere():
+    from multiomics_kg.utils.metabolite_identity.canonical import XrefOverride
+    from multiomics_kg.utils.metabolite_identity.crossrefs import apply_xref_overrides
+    table, index = _xref_table()
+    before = {n: dict(e) for n, e in table.items()}
+    # wrong `from`, an add of an id another node holds, and an unwritten target
+    applied, stale = apply_xref_overrides(table, index, [
+        XrefOverride("hmdb:HMDB0000122", "kegg.compound:C00031", "kegg.compound:C99999"),
+        XrefOverride("chebi:15903", "kegg.compound:C00031"),
+        XrefOverride("hmdb:HMDB0000122", "kegg.compound:C99998", "kegg.compound:C00221")], GLC)
+    assert not applied and len(stale) == 3
+    assert table == before
+
+
+def test_load_xref_override_validates(tmp_path):
+    p = tmp_path / "o.yaml"
+    p.write_text("xref:\n  - {id: 'mnx:MNXM1', to: kegg.compound:C1, reason: x}\n")
+    with pytest.raises(ValueError):
+        load_identity_overrides(p)
+    p.write_text("xref:\n  - {id: 'hmdb:HMDB0000122', to: kegg.compound:C00031, "
+                 "from: kegg.compound:C00221, reason: x}\n")
+    ov = load_identity_overrides(p)
+    assert ov.xrefs[0].frm == "kegg.compound:C00221"
+
+
+# ── narrowed D (explorer ask 8): a chebi: node's structure / ChEBI ids are its own term's ─────
+
+PIP = make_chebi(
+    CHEBI_17964=term("pipecolic acid", inchikey="HXEACLLIILLPRG-UHFFFAOYSA-N"),
+    CHEBI_41582=term("D-pipecolic acid", is_a=["CHEBI:17964"], alt=["CHEBI:41581"],
+                     inchikey="HXEACLLIILLPRG-RXMQYKEDSA-N"),
+    CHEBI_29223=term("bromate", inchikey="SXDBWCPKPHAZSM-UHFFFAOYSA-M", conj=["CHEBI:29222"]),
+    CHEBI_29222=term("bromic acid", inchikey="SXDBWCPKPHAZSM-UHFFFAOYSA-N", conj=["CHEBI:29223"]),
+    CHEBI_30867=term("dihydroorotate", inchikey="UFIVEPVSAGBUSI-UHFFFAOYSA-M", conj=["CHEBI:30865"]),
+    CHEBI_30865=term("dihydroorotic acid", inchikey="UFIVEPVSAGBUSI-UHFFFAOYSA-N", conj=["CHEBI:30867"]),
+    CHEBI_30866=term("(R)-dihydroorotic acid", is_a=["CHEBI:30865"], inchikey="UFIVEPVSAGBUSI-UWTATZPHSA-N"))
+
+
+def _chebi_node(n, ik, chebi_ids, extra=()):
+    ids = {n, f"inchikey:{ik}"} | {f"chebi:{c}" for c in chebi_ids} | set(extra)
+    return {"inchikey": ik, "smiles": "X", "chebi_id": n.split(":")[1], "chebi_ids": list(chebi_ids),
+            "all_identifiers": sorted(ids), "formula": "F", "structure_kind": "defined"}
+
+
+def test_chebi_node_structure_moves_stereo_mismatch_keeps_variants():
+    from multiomics_kg.utils.metabolite_identity.crossrefs import chebi_node_structure
+    table = {"chebi:17964": _chebi_node("chebi:17964", "HXEACLLIILLPRG-RXMQYKEDSA-M", ["17964", "41582"],
+                                        ["chebi:41581"]),
+             "chebi:29223": _chebi_node("chebi:29223", "SXDBWCPKPHAZSM-OTHERREPSA-N", ["29223", "29222"]),
+             "chebi:30867": _chebi_node("chebi:30867", "UFIVEPVSAGBUSI-UWTATZPHSA-N", ["30867", "30865", "30866"])}
+    index = {i: n for n, e in table.items() for i in e["all_identifiers"]}
+    rows = chebi_node_structure(table, index, PIP)
+    p, b, d = table["chebi:17964"], table["chebi:29223"], table["chebi:30867"]
+    # stereo mismatch: id, its secondary and the MNX InChIKey move out; own structure comes in
+    assert p["chebi_ids"] == ["17964"] and p["inchikey"] == "HXEACLLIILLPRG-UHFFFAOYSA-N" and p["smiles"] is None
+    assert p["removed_stereo_xrefs"] == ["chebi:41581", "chebi:41582", "inchikey:HXEACLLIILLPRG-RXMQYKEDSA-M"]
+    assert "chebi:41582" not in p["all_identifiers"] and "chebi:41582" not in index
+    assert index["inchikey:HXEACLLIILLPRG-UHFFFAOYSA-N"] == "chebi:17964"
+    # representation variant: own InChIKey published, the MNX one stays resolvable, nothing removed
+    assert b["inchikey"] == "SXDBWCPKPHAZSM-UHFFFAOYSA-M" and "removed_stereo_xrefs" not in b
+    assert "inchikey:SXDBWCPKPHAZSM-OTHERREPSA-N" in b["all_identifiers"] and b["chebi_ids"] == ["29223", "29222"]
+    # (R)-acid sits below the anion's conjugate acid: removed; the acid itself stays
+    assert d["chebi_ids"] == ["30867", "30865"]
+    assert set(d["removed_stereo_xrefs"]) == {"chebi:30866", "inchikey:UFIVEPVSAGBUSI-UWTATZPHSA-N"}
+    assert len(rows) == 3
+    for e in (p, b, d):
+        assert e["formula"] == "F" and e["structure_kind"] == "defined"

@@ -105,6 +105,14 @@ def _validate(key: str, raw: dict[str, Any]) -> None:
             f"controlled_vocabularies.yaml entry '{key}' describes value(s) "
             f"{undeclared} that are not in its values list."
         )
+    ambiguous = sorted(v for v in vd if ": " in str(v))
+    if ambiguous:
+        raise ValueError(
+            f"controlled_vocabularies.yaml entry '{key}' describes value(s) "
+            f"{ambiguous} containing ': ', the separator of published "
+            f"value_descriptions ('<value>: <text>'); describe the values in "
+            f"the entry's description instead."
+        )
     if vd and raw["closed"]:
         undescribed = [v for v in values if v not in vd]
         if undescribed:

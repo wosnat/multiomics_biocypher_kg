@@ -45,8 +45,10 @@ def is_stereo_qualified(name: str) -> bool:
 
 
 # Geometric (cis/trans, E/Z) descriptors: "cis-", "trans-", "all-trans-", "(E)-", "(2Z,4E)-".
+# Also locant-prefixed / multiplied forms: "9,9'-dicis-", "9,15,9'-tricis-", "9,9',15-tri-cis-".
 _GEOMETRIC = re.compile(
-    r"(?:^|(?<=[-\s(,]))(?:(?:all-)?(?:cis|trans)-|\((?:\d*[EZ])(?:,\d*[EZ])*\)-)", re.IGNORECASE)
+    r"(?:^|(?<=[-\s(,]))(?:(?:[\d',]+-)?(?:all-|(?:di|tri|tetra|poly)-?)?(?:cis|trans)-"
+    r"|\((?:\d*[EZ])(?:,\d*[EZ])*\)-)", re.IGNORECASE)
 
 
 def strip_geometric_tokens(name: str) -> str:
