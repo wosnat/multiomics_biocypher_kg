@@ -21,7 +21,7 @@ publication:
       table_scope_detail: Genes significant in any of 4 gas conditions, all conditions in single table
       control_timing: baseline
       design_notes: >-
-        max across 3-24h: the air-sparged culture at each time is compared with its own t = 0 sample (taken
+        max across 70min-24h: the air-sparged culture at each time is compared with its own t = 0 sample (taken
         immediately after centrifugation and resuspension, before sparging; exponential). Table S1 reports the
         maximal log2 fold change versus t = 0 over the time course; significance by betr time-series test against
         t = 0.
@@ -44,7 +44,7 @@ publication:
       table_scope: filtered_subset
       table_scope_detail: Genes significant in any of 4 gas conditions, all conditions in single table
       design_notes: >-
-        max across 3-24h: gas-shocked and air-sparged control bottles were split from one pooled culture at t = 0
+        max across 70min-24h: gas-shocked and air-sparged control bottles were split from one pooled culture at t = 0
         and sampled in parallel at the same times (exponential). The value is the extremum over time of the
         log2 change versus t = 0 under the gas minus the same change in air; significance by betr against the
         parallel air time course.
@@ -67,7 +67,7 @@ publication:
       table_scope: filtered_subset
       table_scope_detail: Genes significant in any of 4 gas conditions, all conditions in single table
       design_notes: >-
-        max across 3-24h: gas-shocked and air-sparged control bottles were split from one pooled culture at t = 0
+        max across 70min-24h: gas-shocked and air-sparged control bottles were split from one pooled culture at t = 0
         and sampled in parallel at the same times (exponential). The value is the extremum over time of the
         log2 change versus t = 0 under the gas minus the same change in air; significance by betr against the
         parallel air time course.
@@ -90,7 +90,7 @@ publication:
       table_scope: filtered_subset
       table_scope_detail: Genes significant in any of 4 gas conditions, all conditions in single table
       design_notes: >-
-        max across 3-24h: gas-shocked and air-sparged control bottles were split from one pooled culture at t = 0
+        max across 70min-24h: gas-shocked and air-sparged control bottles were split from one pooled culture at t = 0
         and sampled in parallel at the same times (exponential). The value is the extremum over time of the
         log2 change versus t = 0 under the gas minus the same change in air; significance by betr against the
         parallel air time course.
@@ -110,7 +110,7 @@ publication:
       statistical_analyses:
       - id: gas_shock_air
         experiment: carbon_air_0036_co2_21_med4_microarray
-        timepoint: max across 3-24h
+        timepoint: max across 70min-24h
         timepoint_hours: null
         growth_phase: acute_stress
         name_col: Locus tag2
@@ -131,7 +131,7 @@ publication:
       statistical_analyses:
       - id: gas_shock_no_o2
         experiment: carbon_ambient_co2_no_o2_med4_microarray
-        timepoint: max across 3-24h
+        timepoint: max across 70min-24h
         timepoint_hours: null
         growth_phase: acute_stress
         name_col: Locus tag2
@@ -152,7 +152,7 @@ publication:
       statistical_analyses:
       - id: gas_shock_low_co2
         experiment: carbon_low_co2_0004_co2_med4_microarray
-        timepoint: max across 3-24h
+        timepoint: max across 70min-24h
         timepoint_hours: null
         growth_phase: acute_stress
         name_col: Locus tag2
@@ -173,7 +173,7 @@ publication:
       statistical_analyses:
       - id: gas_shock_low_co2_no_o2
         experiment: carbon_low_co2_and_no_med4_microarray
-        timepoint: max across 3-24h
+        timepoint: max across 70min-24h
         timepoint_hours: null
         growth_phase: acute_stress
         name_col: Locus tag2

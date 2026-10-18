@@ -116,7 +116,7 @@ publication:
         experiment: phosphorus_plimited_natl2a_rnaseq_infected
         timepoint: 47h
         timepoint_hours: 47.0
-        growth_phase: nutrient_limited
+        growth_phase: infected
         name_col: ID
         logfc_col: 47 h (-P/control) log2 fold change
         adjusted_p_value_col: 47 h (-P/control) padj
@@ -124,7 +124,7 @@ publication:
         experiment: phosphorus_plimited_natl2a_rnaseq_infected
         timepoint: 48h
         timepoint_hours: 48.0
-        growth_phase: nutrient_limited
+        growth_phase: infected
         name_col: ID
         logfc_col: 48 h (-P/control) log2 fold change
         adjusted_p_value_col: 48 h (-P/control) padj
@@ -132,7 +132,7 @@ publication:
         experiment: phosphorus_plimited_natl2a_rnaseq_infected
         timepoint: 49h
         timepoint_hours: 49.0
-        growth_phase: nutrient_limited
+        growth_phase: infected
         name_col: ID
         logfc_col: 49 h (-P/control) log2 fold change
         adjusted_p_value_col: 49 h (-P/control) padj
@@ -140,7 +140,7 @@ publication:
         experiment: phosphorus_plimited_natl2a_rnaseq_infected
         timepoint: 51h
         timepoint_hours: 51.0
-        growth_phase: nutrient_limited
+        growth_phase: infected
         name_col: ID
         logfc_col: 51 h (-P/control) log2 fold change
         adjusted_p_value_col: 51 h (-P/control) padj
@@ -148,7 +148,7 @@ publication:
         experiment: phosphorus_plimited_natl2a_rnaseq_infected
         timepoint: 55h
         timepoint_hours: 55.0
-        growth_phase: nutrient_limited
+        growth_phase: infected
         name_col: ID
         logfc_col: 55 h (-P/control) log2 fold change
         adjusted_p_value_col: 55 h (-P/control) padj
@@ -156,7 +156,7 @@ publication:
         experiment: phosphorus_plimited_natl2a_rnaseq_infected
         timepoint: 59h
         timepoint_hours: 59.0
-        growth_phase: nutrient_limited
+        growth_phase: infected
         name_col: ID
         logfc_col: 59 h (-P/control) log2 fold change
         adjusted_p_value_col: 59 h (-P/control) padj

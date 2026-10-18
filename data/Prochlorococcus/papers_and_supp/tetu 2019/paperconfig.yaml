@@ -19,6 +19,9 @@ publication:
       light_intensity: 20-40 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes significant for HDPE or PVC or both, both in single table
+      design_notes: >-
+        HDPE exposure: the paper gives 120 min, while the GEO GSE118155 protocol says the HDPE and
+        control cultures were harvested after 180 min; the timepoint follows the paper.
     plastic_pvc_plastic_leachate_2_mit9312_rnaseq:
       name: MIT9312 PVC plastic leachate (2% dilution) vs AMP1 media control (no leachate) (RNASEQ)
       organism: Prochlorococcus MIT9312
@@ -57,6 +60,9 @@ publication:
       light_intensity: 20-40 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes significant for HDPE or PVC or both, both in single table
+      design_notes: >-
+        HDPE exposure: the paper gives 120 min, while the GEO GSE118155 protocol says the HDPE and
+        control cultures were harvested after 180 min; the timepoint follows the paper.
     plastic_pvc_plastic_leachate_2_natl2a_rnaseq:
       name: NATL2A PVC plastic leachate (2% dilution) vs AMP1 media control (no leachate) (RNASEQ)
       organism: Prochlorococcus NATL2A

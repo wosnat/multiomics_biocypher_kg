@@ -21,14 +21,13 @@ publication:
       light_intensity: 15-20 umol quanta m-2 s-1
       table_scope: significant_any_timepoint
       design_notes: >-
-        The treatment is cell-free viral lysate (vDOM), not a phage infection:
-        vDOM was made by lysing axenic Synechococcus WH8102 with cyanophage
-        S-ShM2 and passing the lysate through a 0.2 um filter to remove cell
-        debris. S-ShM2 does not infect Prochlorococcus MIT9313, so the axenic
-        MIT9313 cells were never infected and no phage is recorded as a
-        treatment organism. treatment_type is carbon because the added
-        variable is dissolved organic matter (the paper also reports high
-        combined amino acids, i.e. organic nitrogen, in the vDOM).
+        The treatment is cell-free viral lysate (vDOM), not a phage infection: vDOM was made by lysing
+        axenic Synechococcus WH8102 with cyanophage S-ShM2 and passing the lysate through a 0.2 um
+        filter to remove cell debris. A 0.2 um filter does not retain phage particles, so S-ShM2 virions
+        were probably present, but S-ShM2 does not infect Prochlorococcus MIT9313; no phage is recorded
+        as a treatment organism. treatment_type is carbon because the added variable is dissolved
+        organic matter (the paper also reports high combined amino acids, i.e. organic nitrogen, in the
+        vDOM).
   supplementary_materials:
     supp_table_2:
       type: csv

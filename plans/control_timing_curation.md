@@ -1,9 +1,10 @@
 # Control-timing curation log (C1–C3)
 
-**Status:** first pass done 2026-10-15 by 8 parallel agents; **awaiting human review** before the
-validator commit (plan `plans/per_arm_sampling_and_shared_model.md`). Nothing committed.
-Agent instructions: `plans/control_timing_curation/INSTRUCTIONS.md`. Per-paper evidence tables
-(experiment · value · confidence · quote + page) are in `plans/control_timing_curation/batch_{A..H}.md`.
+**Status:** **CLOSED 2026-10-18.** Curation, review (rounds 1–3), fix pass (batches A–F) and
+closure are done; every item below has an outcome (fixed, kept with a reason, or moved to
+`plans/backlog.md`). Shipped on KG `main` (rebuild pending). Agent instructions:
+`plans/control_timing_curation/INSTRUCTIONS.md` (curation) and `FIX_INSTRUCTIONS.md` (fixes);
+per-paper evidence in `plans/control_timing_curation/batch_{A..H}.md` and `fixes_{A..F}.md`.
 
 ## Review decisions (2026-10-18, partial)
 
@@ -21,6 +22,38 @@ a note on each affected experiment; the 21 smaller fixes → re-check and apply.
 agents per `plans/control_timing_curation/FIX_INSTRUCTIONS.md`; results in
 `plans/control_timing_curation/fixes_{A..E}.md`. Counts now: 150 `matched`, 21 `baseline`, 3 `mixed`. In the text
 below, `time_matched` reads `matched` and the model-id columns are historical.
+
+## Closure (2026-10-18) — every remaining item
+
+| Item | Outcome |
+|---|---|
+| Barreto 2022 S12–S14 (800 ppm partner tables likely interaction deviations) | **backlog** — needs the authors or an R re-run; caveat in `design_notes` |
+| Barreto partner experiments: control arm contains all three partners | **kept** — `design_notes` says the control is the mean coculture response of the three partners |
+| Barreto cyanobacteria `[axenic, coculture]`; no `diel` on 5 experiments | **fixed** — `[coculture, diel]`, `diel` added, contexts say coculture-only |
+| Fang 2019 note wording (0.2 um does not remove virions) | **fixed** — note says virions were probably present but cannot infect MIT9313 |
+| Fang / Oleza experiment keys still say viral / early / late | **kept** — experiment keys are stable ids |
+| Domínguez 2017 `axenic` not stated | **kept** — note: axenic status not stated in the paper |
+| Oleza 2017 35-day ASW `acclimated_steady_state` | **fixed** — `stationary` (Fig. 1c plateau) |
+| Fuszard 2012 4-plex, MALDI, `light` | **fixed** — 8-plex, SCX + ESI qQ-TOF (QStar XL), `diel` (13:11 L:D) |
+| Moreno 2023 exponential inferred | **kept** — low split density + 24 h harvest |
+| Moreno 2023 one-tailed / paired p-values | **fixed** — notes name the test per experiment (43 paired, 16 unpaired, 1 not reproducible) |
+| Moreno 2023 medium Pro99 / SN | **fixed** — PCR-S11 / ASW on all 60 |
+| Kaur 2018 judgement calls (R. pomeroyi ASW d21–100, Syn SW d7/d14) | **kept** — follow the paper text |
+| Signed linear fold changes (Kaur, Oleza, Martiny, Steglich) | **backlog** — separate scoping (prototype reverted) |
+| Ma 2022 RNA-seq sampling day | **kept** — not stated; `exponential` holds over the whole 0–4 d window |
+| Lin 2015 conditions (medium confidence) | **kept** — maintenance conditions are the only ones the paper gives |
+| Lin 2015 infected contrasts `nutrient_limited` | **fixed** — `infected` (6 analyses; P re-added stay `recovery`) |
+| Biller 2016 MIT1002 `unknown` | **kept** — no canonical value fits a stable, regrowing population |
+| Lindell 2007 generic `Phage` (P-SSP7) | **backlog** — needs a treatment-organism row; organism count is pinned |
+| Weissberg 2025 axenic / coculture experiments share names | **fixed** — names say axenic / in coculture with … |
+| Aharonovich 2016 MED4 in the control arm only | **fixed** — note on the MIT9313-vs-MED4 and high-vs-low inoculum experiments |
+| Aharonovich 2016 temperature / light vs Methods maintenance values | **backlog** — Supplementary information not in the directory |
+| Tetu 2019 HDPE 120 min (paper) vs 180 min (GEO) | **kept** — timepoint follows the paper; note on both HDPE experiments |
+| Thompson 2016 infected experiment lacks `axenic` | **kept** — paper defers culture details to another reference |
+| Anjur 2025 `treatment_type: growth_phase` | **backlog** — needs a new vocabulary value |
+| Bagby 2015 label "max across 3-24h" | **fixed** — "max across 70min-24h" |
+| Coe 2024 13h timepoint | **kept** — 42 GEO samples = 7 timepoints x 2 phenotypes x 3 replicates |
+| Explorer contract (time_matched, statistical_model_id) | **fixed** — KG update note appended to the explorer dialog |
 
 ## Totals
 

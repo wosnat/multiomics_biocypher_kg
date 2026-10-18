@@ -121,6 +121,11 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
     day 1, 24 h), Coe 2024 (cutoff p < 0.01), Kratzl 2024 (27.0 C; units), Thompson 2016 and
     Bagby 2015 (names / context), Tai 2009 (DOI added).
   - Tetu 2019 PVC experiments `control_timing` `matched` (were `baseline`).
+  - Closure pass: Moreno 2023 medium is PCR-S11 / ASW (was Pro99 / SN) and its notes name the
+    one-tailed test per experiment; Fuszard 2012 is 8-plex iTRAQ on an ESI qQ-TOF with a 13:11 L:D
+    cycle (`diel`); Oleza 2017 35-day ASW contrast is `stationary`; Lin 2015 infected contrasts are
+    `infected`; Bagby 2015 label "max across 70min-24h"; Weissberg 2025 axenic and coculture
+    experiments have distinct names.
   - Moreno 2023, Barreto 2022, Hennon 2017, Huang 2020: `design_notes` now state that
     `adjusted_p_value` holds the paper unadjusted p-value (values unchanged).
 - **Thompson 2011 (10.1038/ismej.2011.49) — experiments restructured to the paper's design.** The

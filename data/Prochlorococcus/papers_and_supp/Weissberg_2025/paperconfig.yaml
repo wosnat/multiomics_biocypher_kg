@@ -4,7 +4,7 @@ publication:
   control_timing: baseline
   experiments:
     growth_state_pro99lown_nutrient_starvation_hot1a3_rnaseq_axenic:
-      name: HOT1A3 PRO99-lowN nutrient starvation vs PRO99-lowN day 11 (RNASEQ)
+      name: HOT1A3 axenic, PRO99-lowN nutrient starvation vs PRO99-lowN day 11 (RNASEQ)
       organism: Alteromonas macleodii HOT1A3
       treatment_condition: PRO99-lowN nutrient starvation
       control_condition: PRO99-lowN day 11
@@ -23,7 +23,7 @@ publication:
         Alteromonas declines from the start and has no exponential phase in this medium). No axenic
         HOT1A3 RNA exists after day 31.
     growth_state_pro99lown_nutrient_starvation_hot1a3_rnaseq_coculture:
-      name: HOT1A3 PRO99-lowN nutrient starvation vs PRO99-lowN day 11 (RNASEQ)
+      name: HOT1A3 in coculture with MED4, PRO99-lowN nutrient starvation vs PRO99-lowN day 11 (RNASEQ)
       organism: Alteromonas macleodii HOT1A3
       treatment_condition: PRO99-lowN nutrient starvation
       control_condition: PRO99-lowN day 11
@@ -69,7 +69,7 @@ publication:
         Coculture vs axenic HOT1A3 with both arms sampled on the same day (day 11, day 18, day 31) of
         the same experiment run.
     growth_state_pro99lown_nutrient_starvation_hot1a3_proteomics_axenic:
-      name: HOT1A3 PRO99-lowN nutrient starvation vs PRO99-lowN day 11 (PROTEOMICS)
+      name: HOT1A3 axenic, PRO99-lowN nutrient starvation vs PRO99-lowN day 11 (PROTEOMICS)
       organism: Alteromonas macleodii HOT1A3
       treatment_condition: PRO99-lowN nutrient starvation
       control_condition: PRO99-lowN day 11
@@ -87,7 +87,7 @@ publication:
         day 18, day 31 and day 89: axenic HOT1A3 vs the same axenic series sampled on day 11
         (nutrient_limited, Alteromonas has no exponential phase in this medium).
     growth_state_pro99lown_nutrient_starvation_hot1a3_proteomics_coculture:
-      name: HOT1A3 PRO99-lowN nutrient starvation vs PRO99-lowN day 11 (PROTEOMICS)
+      name: HOT1A3 in coculture with MED4, PRO99-lowN nutrient starvation vs PRO99-lowN day 11 (PROTEOMICS)
       organism: Alteromonas macleodii HOT1A3
       treatment_condition: PRO99-lowN nutrient starvation
       control_condition: PRO99-lowN day 11
@@ -111,7 +111,7 @@ publication:
         coculture series sampled on day 11 (nutrient_limited, Alteromonas has no exponential phase in
         this medium). days 60+89 pools the day 60 and day 89 samples.
     growth_state_pro99lown_nutrient_starvation_med4_rnaseq_axenic:
-      name: MED4 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (RNASEQ)
+      name: MED4 axenic, PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (RNASEQ)
       organism: Prochlorococcus MED4
       treatment_condition: PRO99-lowN nutrient starvation
       control_condition: PRO99-lowN exponential growth
@@ -129,7 +129,7 @@ publication:
         day 14: axenic MED4 vs the same axenic series sampled on day 7 (exponential); axenic MED4 was a
         separate repeat experiment sampled on days 7 and 14. No axenic MED4 RNA exists after day 14.
     growth_state_pro99lown_nutrient_starvation_med4_rnaseq_coculture:
-      name: MED4 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (RNASEQ)
+      name: MED4 in coculture with HOT1A3, PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (RNASEQ)
       organism: Prochlorococcus MED4
       treatment_condition: PRO99-lowN nutrient starvation
       control_condition: PRO99-lowN exponential growth
@@ -176,7 +176,7 @@ publication:
         day 11: coculture day 11 vs axenic day 7 (both exponential). day 18: coculture day 18 vs axenic
         day 14 (death, axenic MED4 lost viability around day 11).
     growth_state_pro99lown_nutrient_starvation_med4_proteomics_axenic:
-      name: MED4 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (PROTEOMICS)
+      name: MED4 axenic, PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (PROTEOMICS)
       organism: Prochlorococcus MED4
       treatment_condition: PRO99-lowN nutrient starvation
       control_condition: PRO99-lowN exponential growth
@@ -195,7 +195,7 @@ publication:
         day 14 come from the axenic repeat experiment; the methods do not say which run day 31 and day
         89 came from.
     growth_state_pro99lown_nutrient_starvation_med4_proteomics_coculture:
-      name: MED4 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (PROTEOMICS)
+      name: MED4 in coculture with HOT1A3, PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (PROTEOMICS)
       organism: Prochlorococcus MED4
       treatment_condition: PRO99-lowN nutrient starvation
       control_condition: PRO99-lowN exponential growth

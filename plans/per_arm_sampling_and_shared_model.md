@@ -1,6 +1,6 @@
 # Control timing + shared-model identifier on Experiments
 
-**Status:** implemented 2026-10-15, revised 2026-10-18 after the curator review (uncommitted, rebuild
+**Status:** DONE — implemented 2026-10-15, revised and curation closed 2026-10-18 (on `main`, rebuild
 pending). See **§ Revision 2026-10-18** below; the design text after it is the 2026-10-15 version,
 kept for history.
 **Dialog:** `multiomics_explorer/docs/kg-specs/2026-10-13-per-arm-sampling-shared-model-explorer-asks.md`

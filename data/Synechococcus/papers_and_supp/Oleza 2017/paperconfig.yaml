@@ -28,6 +28,10 @@ publication:
       treatment_assembly_accession: "GCF_000011965.2"
       table_scope: all_detected_genes
       table_scope_detail: "All 564 Synechococcus proteins detected in ASW axenic and/or co-culture conditions"
+      design_notes: >-
+        Cells were collected at 35 days (arrow in Fig. 1c), when both the
+        co-culture and the axenic cultures were at maximal cell density after
+        exponential growth, before the axenic cultures died (4-6 weeks).
 
     # Table S5A: Synechococcus WH7803 cellular proteome — coculture in natural seawater (10 days)
     # Axenic vs coculture with R. pomeroyi DSS-3
@@ -108,7 +112,7 @@ publication:
           pvalue_threshold: 0.05
           timepoint: "35 days"
           timepoint_hours: 840
-          growth_phase: acclimated_steady_state
+          growth_phase: stationary
 
     # Table S2B: R. pomeroyi in ASW early coculture — SKIPPED (abundance only, no fold change)
 

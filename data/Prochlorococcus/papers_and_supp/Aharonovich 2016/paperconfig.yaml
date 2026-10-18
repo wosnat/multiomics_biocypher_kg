@@ -40,6 +40,9 @@ publication:
       treatment_taxid: 74547
       treatment_assembly_accession: GCF_000011485.1
       table_scope: all_detected_genes
+      design_notes: >-
+        Both arms are 20 h HOT1A3 cocultures with MIT9313, differing only in the HOT1A3 inoculum (high
+        vs 0.5x10^6 cells/ml).
     coculture_prochlorococcus_mit9313_hot1a3_rnaseq:
       name: HOT1A3 Coculture with Prochlorococcus MIT9313 vs coculture with Prochlorococcus MED4 (RNASEQ)
       organism: Alteromonas macleodii HOT1A3
@@ -58,6 +61,9 @@ publication:
       treatment_taxid: 74547
       treatment_assembly_accession: GCF_000011485.1
       table_scope: all_detected_genes
+      design_notes: >-
+        Both arms are 20 h HOT1A3 cocultures: HOT1A3 with MIT9313 (treatment) vs HOT1A3 with MED4
+        (control). MED4 is a partner of the control arm only and is not recorded as a coculture partner.
     coculture_alteromonas_hot1a3_mit9313_rnaseq_inoc_5e6:
       name: MIT9313 Coculture with Alteromonas HOT1A3 vs Pro99 medium growth conditions (RNASEQ)
       organism: Prochlorococcus MIT9313

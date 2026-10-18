@@ -7,7 +7,7 @@ publication:
   # non-axenic cultures. Heterotroph fractions (Alteromonas, Marinobacter)
   # were also proteomically profiled.
   #
-  # Cultures were grown in Pro99 (Prochlorococcus) or SN (Synechococcus) media
+  # Cultures were grown in PCR-S11 (Prochlorococcus) or ASW (Synechococcus) media
   # at 24C; n=3 biological replicates per condition; proteomes acquired with
   # LC-MS/MS and matched against the MarRef v6 reference DB.
   #
@@ -33,7 +33,7 @@ publication:
       organism: "Prochlorococcus MED4"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Non-axenic Prochlorococcus MED4 in Pro99 medium, 24C, continuous light; 100 nM glucose added at start of experiment; harvested 24 h after the culture was split into treatment aliquots; n=3 per condition. Proteomics LC-MS/MS."
+      experimental_context: "Non-axenic Prochlorococcus MED4 in PCR-S11 medium, 24C, continuous light; 100 nM glucose added at start of experiment; harvested 24 h after the culture was split into treatment aliquots; n=3 per condition. Proteomics LC-MS/MS."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -43,20 +43,21 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
     light_high_glucose_med4_proteomics:
       name: "MED4 proteomics: light +5 mM glucose vs light (control)"
       organism: "Prochlorococcus MED4"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Non-axenic MED4 in Pro99, continuous light, 5 mM glucose; n=3."
+      experimental_context: "Non-axenic MED4 in PCR-S11, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -66,20 +67,21 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
     dark_low_glucose_med4_proteomics:
       name: "MED4 proteomics: darkness +100 nM glucose vs darkness (control)"
       organism: "Prochlorococcus MED4"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Non-axenic MED4 in Pro99, continuous darkness, 100 nM glucose; n=3."
+      experimental_context: "Non-axenic MED4 in PCR-S11, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -89,20 +91,21 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
     dark_high_glucose_med4_proteomics:
       name: "MED4 proteomics: darkness +5 mM glucose vs darkness (control)"
       organism: "Prochlorococcus MED4"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Non-axenic MED4 in Pro99, continuous darkness, 5 mM glucose; n=3."
+      experimental_context: "Non-axenic MED4 in PCR-S11, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -112,14 +115,15 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
 
     # ── SS120 ──
     light_low_glucose_ss120_proteomics:
@@ -127,7 +131,7 @@ publication:
       organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Non-axenic Prochlorococcus SS120 in Pro99 medium, 24C, continuous light, 100 nM glucose; n=3."
+      experimental_context: "Non-axenic Prochlorococcus SS120 in PCR-S11 medium, 24C, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -137,20 +141,21 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "4 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
     light_high_glucose_ss120_proteomics:
       name: "SS120 proteomics: light +5 mM glucose vs light (control)"
       organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Non-axenic SS120 in Pro99, continuous light, 5 mM glucose; n=3."
+      experimental_context: "Non-axenic SS120 in PCR-S11, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -160,20 +165,21 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "4 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
     dark_low_glucose_ss120_proteomics:
       name: "SS120 proteomics: darkness +100 nM glucose vs darkness (control)"
       organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Non-axenic SS120 in Pro99, continuous darkness, 100 nM glucose; n=3."
+      experimental_context: "Non-axenic SS120 in PCR-S11, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -183,20 +189,21 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
     dark_high_glucose_ss120_proteomics:
       name: "SS120 proteomics: darkness +5 mM glucose vs darkness (control)"
       organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Non-axenic SS120 in Pro99, continuous darkness, 5 mM glucose; n=3."
+      experimental_context: "Non-axenic SS120 in PCR-S11, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -206,14 +213,15 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
 
     # ── WH7803 ──
     light_low_glucose_wh7803_proteomics:
@@ -221,7 +229,7 @@ publication:
       organism: "Synechococcus WH7803"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Non-axenic Synechococcus WH7803 in SN medium, 24C, continuous light, 100 nM glucose; n=3."
+      experimental_context: "Non-axenic Synechococcus WH7803 in ASW medium, 24C, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -231,20 +239,21 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     light_high_glucose_wh7803_proteomics:
       name: "WH7803 proteomics: light +5 mM glucose vs light (control)"
       organism: "Synechococcus WH7803"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Non-axenic WH7803 in SN, continuous light, 5 mM glucose; n=3."
+      experimental_context: "Non-axenic WH7803 in ASW, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -254,20 +263,21 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_low_glucose_wh7803_proteomics:
       name: "WH7803 proteomics: darkness +100 nM glucose vs darkness (control)"
       organism: "Synechococcus WH7803"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Non-axenic WH7803 in SN, continuous darkness, 100 nM glucose; n=3."
+      experimental_context: "Non-axenic WH7803 in ASW, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -277,20 +287,21 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_high_glucose_wh7803_proteomics:
       name: "WH7803 proteomics: darkness +5 mM glucose vs darkness (control)"
       organism: "Synechococcus WH7803"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Non-axenic WH7803 in SN, continuous darkness, 5 mM glucose; n=3."
+      experimental_context: "Non-axenic WH7803 in ASW, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -300,14 +311,15 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
 
     # ── WH8102 ──
     light_low_glucose_wh8102_proteomics:
@@ -315,7 +327,7 @@ publication:
       organism: "Synechococcus WH8102"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Non-axenic Synechococcus WH8102 in SN medium, 24C, continuous light, 100 nM glucose; n=3."
+      experimental_context: "Non-axenic Synechococcus WH8102 in ASW medium, 24C, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -325,20 +337,21 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     light_high_glucose_wh8102_proteomics:
       name: "WH8102 proteomics: light +5 mM glucose vs light (control)"
       organism: "Synechococcus WH8102"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Non-axenic WH8102 in SN, continuous light, 5 mM glucose; n=3."
+      experimental_context: "Non-axenic WH8102 in ASW, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -348,20 +361,21 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_low_glucose_wh8102_proteomics:
       name: "WH8102 proteomics: darkness +100 nM glucose vs darkness (control)"
       organism: "Synechococcus WH8102"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Non-axenic WH8102 in SN, continuous darkness, 100 nM glucose; n=3."
+      experimental_context: "Non-axenic WH8102 in ASW, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -371,20 +385,21 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_high_glucose_wh8102_proteomics:
       name: "WH8102 proteomics: darkness +5 mM glucose vs darkness (control)"
       organism: "Synechococcus WH8102"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Non-axenic WH8102 in SN, continuous darkness, 5 mM glucose; n=3."
+      experimental_context: "Non-axenic WH8102 in ASW, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -394,14 +409,15 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
 
     # ── BL107 ──
     light_low_glucose_bl107_proteomics:
@@ -409,7 +425,7 @@ publication:
       organism: "Synechococcus sp. BL107"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Non-axenic Synechococcus sp. BL107 in SN medium, 24C, continuous light, 100 nM glucose; n=3."
+      experimental_context: "Non-axenic Synechococcus sp. BL107 in ASW medium, 24C, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -419,20 +435,21 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
     light_high_glucose_bl107_proteomics:
       name: "BL107 proteomics: light +5 mM glucose vs light (control)"
       organism: "Synechococcus sp. BL107"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Non-axenic BL107 in SN, continuous light, 5 mM glucose; n=3."
+      experimental_context: "Non-axenic BL107 in ASW, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -442,20 +459,21 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
     dark_low_glucose_bl107_proteomics:
       name: "BL107 proteomics: darkness +100 nM glucose vs darkness (control)"
       organism: "Synechococcus sp. BL107"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Non-axenic BL107 in SN, continuous darkness, 100 nM glucose; n=3."
+      experimental_context: "Non-axenic BL107 in ASW, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -465,20 +483,21 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
     dark_high_glucose_bl107_proteomics:
       name: "BL107 proteomics: darkness +5 mM glucose vs darkness (control)"
       organism: "Synechococcus sp. BL107"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Non-axenic BL107 in SN, continuous darkness, 5 mM glucose; n=3."
+      experimental_context: "Non-axenic BL107 in ASW, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -488,14 +507,15 @@ publication:
           assembly_accession: "GCF_000166295.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
 
     # ─────────────────────────────────────────────────────────────────────
     # Marinobacter S4 — 5 cocultures × 4 comparisons (minus 1 missing col for SS120)
@@ -510,7 +530,7 @@ publication:
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Marinobacter adhaerens HP15 subpopulation in non-axenic MED4 culture (Pro99 medium); LC-MS/MS proteomics of the Marinobacter fraction; n=3."
+      experimental_context: "Marinobacter adhaerens HP15 subpopulation in non-axenic MED4 culture (PCR-S11 medium); LC-MS/MS proteomics of the Marinobacter fraction; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -521,21 +541,22 @@ publication:
           assembly_accession: "GCF_000011465.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     light_high_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: light +5 mM glucose vs light (control)"
       organism: "Marinobacter (MarRef v6)"
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic MED4 in Pro99, continuous light, 5 mM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic MED4 in PCR-S11, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -546,21 +567,22 @@ publication:
           assembly_accession: "GCF_000011465.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_low_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic MED4 in Pro99, continuous darkness, 100 nM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic MED4 in PCR-S11, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -571,21 +593,22 @@ publication:
           assembly_accession: "GCF_000011465.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_high_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic MED4 in Pro99, continuous darkness, 5 mM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic MED4 in PCR-S11, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -596,14 +619,15 @@ publication:
           assembly_accession: "GCF_000011465.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
 
     # ── Marino in SS120 ──
     # NOTE: SS120 source CSV has the typo `FC GmM/L` (no space) instead of
@@ -616,7 +640,7 @@ publication:
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous light, 100 nM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic SS120 in PCR-S11, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -627,21 +651,22 @@ publication:
           assembly_accession: "GCF_000007925.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "4 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
     light_high_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: light +5 mM glucose vs light (control)"
       organism: "Marinobacter (MarRef v6)"
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous light, 5 mM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic SS120 in PCR-S11, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -652,21 +677,22 @@ publication:
           assembly_accession: "GCF_000007925.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "4 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
     dark_low_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous darkness, 100 nM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic SS120 in PCR-S11, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -677,21 +703,22 @@ publication:
           assembly_accession: "GCF_000007925.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
     dark_high_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous darkness, 5 mM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic SS120 in PCR-S11, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -702,14 +729,15 @@ publication:
           assembly_accession: "GCF_000007925.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from an unpaired Student t-test.
 
     # ── Marino in WH7803 ──
     light_low_glucose_marino_in_wh7803_proteomics:
@@ -718,7 +746,7 @@ publication:
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous light, 100 nM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic WH7803 in ASW, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -729,21 +757,22 @@ publication:
           assembly_accession: "GCF_000063505.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     light_high_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: light +5 mM glucose vs light (control)"
       organism: "Marinobacter (MarRef v6)"
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous light, 5 mM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic WH7803 in ASW, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -754,21 +783,22 @@ publication:
           assembly_accession: "GCF_000063505.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_low_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous darkness, 100 nM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic WH7803 in ASW, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -779,21 +809,22 @@ publication:
           assembly_accession: "GCF_000063505.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_high_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous darkness, 5 mM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic WH7803 in ASW, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -804,14 +835,15 @@ publication:
           assembly_accession: "GCF_000063505.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
 
     # ── Marino in WH8102 ──
     light_low_glucose_marino_in_wh8102_proteomics:
@@ -820,7 +852,7 @@ publication:
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous light, 100 nM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic WH8102 in ASW, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -831,21 +863,22 @@ publication:
           assembly_accession: "GCF_000195975.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     light_high_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: light +5 mM glucose vs light (control)"
       organism: "Marinobacter (MarRef v6)"
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous light, 5 mM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic WH8102 in ASW, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -856,21 +889,22 @@ publication:
           assembly_accession: "GCF_000195975.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_low_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous darkness, 100 nM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic WH8102 in ASW, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -881,21 +915,22 @@ publication:
           assembly_accession: "GCF_000195975.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_high_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous darkness, 5 mM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic WH8102 in ASW, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -906,14 +941,16 @@ publication:
           assembly_accession: "GCF_000195975.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The test behind these p-values could not be reproduced
+        from the per-sample columns; the other three comparisons in this table are one-tailed
+        paired t-tests (half the two-tailed value).
 
     # ── Marino in BL107 ──
     light_low_glucose_marino_in_bl107_proteomics:
@@ -922,7 +959,7 @@ publication:
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous light, 100 nM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic BL107 in ASW, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -933,21 +970,22 @@ publication:
           assembly_accession: "GCF_000153805.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     light_high_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: light +5 mM glucose vs light (control)"
       organism: "Marinobacter (MarRef v6)"
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous light, 5 mM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic BL107 in ASW, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -958,21 +996,22 @@ publication:
           assembly_accession: "GCF_000153805.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_low_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous darkness, 100 nM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic BL107 in ASW, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -983,21 +1022,22 @@ publication:
           assembly_accession: "GCF_000153805.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_high_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
       assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous darkness, 5 mM glucose; n=3."
+      experimental_context: "Marinobacter fraction of non-axenic BL107 in ASW, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1008,14 +1048,15 @@ publication:
           assembly_accession: "GCF_000153805.1"
         - organism: "Alteromonas (MarRef v6)"
           assembly_accession: "GCA_003513035.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
 
     # ─────────────────────────────────────────────────────────────────────
     # Alteromonas S3 — 5 cocultures × 4 comparisons
@@ -1033,7 +1074,7 @@ publication:
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous light, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic MED4 in PCR-S11, continuous light, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1044,21 +1085,22 @@ publication:
           assembly_accession: "GCF_000011465.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     light_high_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: light +5 mM glucose vs light (control)"
       organism: "Alteromonas (MarRef v6)"
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous light, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic MED4 in PCR-S11, continuous light, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1069,21 +1111,22 @@ publication:
           assembly_accession: "GCF_000011465.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_low_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous darkness, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic MED4 in PCR-S11, continuous darkness, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1094,21 +1137,22 @@ publication:
           assembly_accession: "GCF_000011465.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_high_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous darkness, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic MED4 in PCR-S11, continuous darkness, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1119,14 +1163,15 @@ publication:
           assembly_accession: "GCF_000011465.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
 
     # ── Alteromonas in SS120 ──
     light_low_glucose_alt_in_ss120_proteomics:
@@ -1135,7 +1180,7 @@ publication:
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous light, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic SS120 in PCR-S11, continuous light, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1146,21 +1191,22 @@ publication:
           assembly_accession: "GCF_000007925.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "4 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     light_high_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: light +5 mM glucose vs light (control)"
       organism: "Alteromonas (MarRef v6)"
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous light, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic SS120 in PCR-S11, continuous light, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1171,21 +1217,22 @@ publication:
           assembly_accession: "GCF_000007925.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "4 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_low_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous darkness, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic SS120 in PCR-S11, continuous darkness, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1196,21 +1243,22 @@ publication:
           assembly_accession: "GCF_000007925.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_high_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous darkness, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic SS120 in PCR-S11, continuous darkness, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1221,14 +1269,15 @@ publication:
           assembly_accession: "GCF_000007925.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "Pro99"
+      medium: "PCR-S11"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
 
     # ── Alteromonas in WH7803 ──
     light_low_glucose_alt_in_wh7803_proteomics:
@@ -1237,7 +1286,7 @@ publication:
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous light, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic WH7803 in ASW, continuous light, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1248,21 +1297,22 @@ publication:
           assembly_accession: "GCF_000063505.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     light_high_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: light +5 mM glucose vs light (control)"
       organism: "Alteromonas (MarRef v6)"
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous light, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic WH7803 in ASW, continuous light, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1273,21 +1323,22 @@ publication:
           assembly_accession: "GCF_000063505.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_low_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous darkness, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic WH7803 in ASW, continuous darkness, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1298,21 +1349,22 @@ publication:
           assembly_accession: "GCF_000063505.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_high_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous darkness, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic WH7803 in ASW, continuous darkness, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1323,14 +1375,15 @@ publication:
           assembly_accession: "GCF_000063505.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
 
     # ── Alteromonas in WH8102 ──
     light_low_glucose_alt_in_wh8102_proteomics:
@@ -1339,7 +1392,7 @@ publication:
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous light, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic WH8102 in ASW, continuous light, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1350,21 +1403,22 @@ publication:
           assembly_accession: "GCF_000195975.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     light_high_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: light +5 mM glucose vs light (control)"
       organism: "Alteromonas (MarRef v6)"
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous light, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic WH8102 in ASW, continuous light, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1375,21 +1429,22 @@ publication:
           assembly_accession: "GCF_000195975.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_low_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous darkness, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic WH8102 in ASW, continuous darkness, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1400,21 +1455,22 @@ publication:
           assembly_accession: "GCF_000195975.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_high_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous darkness, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic WH8102 in ASW, continuous darkness, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1425,14 +1481,15 @@ publication:
           assembly_accession: "GCF_000195975.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
 
     # ── Alteromonas in BL107 ──
     light_low_glucose_alt_in_bl107_proteomics:
@@ -1441,7 +1498,7 @@ publication:
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous light, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic BL107 in ASW, continuous light, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1452,21 +1509,22 @@ publication:
           assembly_accession: "GCF_000153805.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     light_high_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: light +5 mM glucose vs light (control)"
       organism: "Alteromonas (MarRef v6)"
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous light, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic BL107 in ASW, continuous light, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1477,21 +1535,22 @@ publication:
           assembly_accession: "GCF_000153805.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous light"
       light_intensity: "40 umol photons m-2 s-1"
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_low_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous darkness, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic BL107 in ASW, continuous darkness, 100 nM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1502,21 +1561,22 @@ publication:
           assembly_accession: "GCF_000153805.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
     dark_high_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
       assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
-      experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous darkness, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
+      experimental_context: "Alteromonas fraction of non-axenic BL107 in ASW, continuous darkness, 5 mM glucose; n=3. Proteomics LC-MS/MS, MarRef v6 reference DB."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1527,14 +1587,15 @@ publication:
           assembly_accession: "GCF_000153805.1"
         - organism: "Marinobacter (MarRef v6)"
           assembly_accession: "GCF_000166295.1"
-      medium: "SN"
+      medium: "ASW"
       temperature: "24C"
       light_condition: "continuous darkness"
       light_intensity: ""
       table_scope: all_detected_genes
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
-        multiple-testing correction).
+        multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
+        from a paired t-test.
 
   supplementary_materials:
     # ─────────────────────────────────────────────────────────────────────

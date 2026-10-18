@@ -321,8 +321,8 @@ the committed caches, not taken from the log. Ordered by proposed priority.
 
 **P2 — designed, ready to implement**
 
-- [ ] **Per-arm sampling day + growth state, and a shared-model identifier for
-      linked contrasts.** HAS A PLAN (2026-10-15): `plans/per_arm_sampling_and_shared_model.md`
+- [x] **Per-arm sampling day + growth state, and a shared-model identifier for
+      linked contrasts.** DONE 2026-10-18 (curation closed: `plans/control_timing_curation.md`; rebuild pending). HAD A PLAN (2026-10-15): `plans/per_arm_sampling_and_shared_model.md`
       — simplified to curated Experiment fields `control_timing` (`matched | baseline |
       mixed`) + `design_notes` (`statistical_model_id` dropped 2026-10-18), superseding the per-arm edge-property
       proposal below; explorer accepted the contract (T1–T5; needs a note for the 2026-10-18 rename/drop). Implemented, rebuild pending. Dialog:
@@ -343,6 +343,19 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       researcher update under "The Plan phase missed three…"; `omics_adapter.py`
 
 **P2 — needs a design pass**
+
+- [ ] **Paperconfig items deferred from the control-timing review (2026-10-18).** Each needs
+      something not available in the review: (a) **Barreto 2022 S12–S14 (800 ppm partner tables)**
+      are probably the partner × pCO2 interaction deviations (author-script contrasts 7–9), not the
+      deviation-at-800-ppm the paper describes (logFC anticorrelates with the 400 ppm tables,
+      r = -0.61 / -0.83 / -0.97); settle with the authors or a GLM re-run from `ALL_EZ55_2.Rdata`
+      (needs R). The experiments carry a caveat in `design_notes`. (b) **Aharonovich 2016**
+      temperature / light (config 24 C, 10 uE vs Methods maintenance 20 C, 27 uE) — the
+      Supplementary information is not in the paper directory. (c) **Anjur 2025**
+      planktonic-vs-biofilm needs a new `treatment_type` value (e.g. `lifestyle`), a vocabulary
+      change; it stays `growth_phase`. (d) **Lindell 2007** phage is the generic `Phage` (taxid
+      10239); naming P-SSP7 needs a `treatment_organisms.csv` row and changes the OrganismTaxon
+      count pinned by `tests/kg_validity/test_organism.py`. → `plans/control_timing_curation.md`
 
 - [ ] **Signed linear fold changes are stored as log2 (found 2026-10-18, control-timing fix pass).**
       Four papers publish "+3 = 3-fold up, -3 = 3-fold down" ratios; the paperconfigs pass them

@@ -3,7 +3,7 @@
 **Citation:** Fuszard, Wright & Biggs 2012, "Comparative quantitative proteomics of the marine cyanobacterium *Prochlorococcus* MED4 [three ecotypes] in response to phosphate availability", Aquatic Biosystems 8:7.
 **DOI:** 10.1186/2046-9063-8-7
 **Organism(s):** *Prochlorococcus* MIT9312 (HL-II), NATL2A (LL-I), SS120 (LL-II/III — reference proteome deployment)
-**Topic:** iTRAQ 4-plex quantitative proteomics of three *Prochlorococcus* ecotypes grown in Pro99-based medium, Pi replete (50 uM) vs Pi deplete (10 uM), n=3 biological replicates. Significance: fold-change ratio > 1.6 (up) / < 0.6 (down); paper does not report per-protein p-values. Table S1 lists only significantly changing proteins per strain.
+**Topic:** iTRAQ 8-plex quantitative proteomics of three *Prochlorococcus* ecotypes grown in Pro99-based medium, Pi replete (50 uM) vs Pi deplete (10 uM), n=3 biological replicates. Significance: fold-change ratio > 1.6 (up) / < 0.6 (down); paper does not report per-protein p-values. Table S1 lists only significantly changing proteins per strain.
 
 ## Classification
 
