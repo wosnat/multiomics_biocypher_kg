@@ -202,6 +202,7 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
 
 ### Changed
 
+- **GO refreshed from the March 2026 release to 2026-07-26** (85 terms added, 732 obsoleted). MolecularFunction nodes 2,899 to 2,890, BiologicalProcess 3,433 to 3,322, CellularComponent unchanged at 451; `Gene_enables_molecular_function` 363,298 to 362,439, `Gene_involved_in_biological_process` 546,971 to 533,186, `Gene_located_in_cellular_component` 154,722 to 155,459. GO is now refreshed only as go-basic + go-plus together (release-checked, `refresh_go_release`), never during a KG build. 23,462 gene annotations that used an alt_id of a live term are now recovered onto the live term; annotations to obsolete terms are dropped, not remapped via `replaced_by` (about 18,300 became obsolete in this release).
 - **prepare_data step 7 folded into step 6** (`resolve_paper_metabolites.py` is a no-op alias; step 6 writes the `_resolved.csv` files). Default `STEPS` is now `0 9 1 2 3 4 5 6 8 10`.
 
 ### Fixed

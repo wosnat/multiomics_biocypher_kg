@@ -123,38 +123,25 @@
     },
     {
       "properties": {
-        "adjusted_p_value": 0.472611726798457,
-        "expression_direction": "down",
-        "log2_fold_change": -0.475447834373154,
-        "time_point": "5h",
-        "time_point_hours": 5.0,
-        "time_point_order": 4
-      },
-      "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
-      "target": "ncbigene:SYNWH7803_RS00465",
-      "type": "Changes_expression_of"
-    },
-    {
-      "properties": {
-        "adjusted_p_value": 0.168932371857294,
-        "expression_direction": "down",
-        "log2_fold_change": -0.918582631661619,
-        "time_point": "1h",
-        "time_point_hours": 1.0,
-        "time_point_order": 2
-      },
-      "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
-      "target": "ncbigene:SYNWH7803_RS00465",
-      "type": "Changes_expression_of"
-    },
-    {
-      "properties": {
         "adjusted_p_value": 4.62277346559386e-05,
         "expression_direction": "down",
         "log2_fold_change": -2.88375242322746,
         "time_point": "15 min",
         "time_point_hours": 0.25,
         "time_point_order": 1
+      },
+      "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
+      "target": "ncbigene:SYNWH7803_RS00465",
+      "type": "Changes_expression_of"
+    },
+    {
+      "properties": {
+        "adjusted_p_value": 0.472611726798457,
+        "expression_direction": "down",
+        "log2_fold_change": -0.475447834373154,
+        "time_point": "5h",
+        "time_point_hours": 5.0,
+        "time_point_order": 4
       },
       "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
       "target": "ncbigene:SYNWH7803_RS00465",
@@ -181,6 +168,19 @@
         "time_point": "7h",
         "time_point_hours": 7.0,
         "time_point_order": 5
+      },
+      "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
+      "target": "ncbigene:SYNWH7803_RS00465",
+      "type": "Changes_expression_of"
+    },
+    {
+      "properties": {
+        "adjusted_p_value": 0.168932371857294,
+        "expression_direction": "down",
+        "log2_fold_change": -0.918582631661619,
+        "time_point": "1h",
+        "time_point_hours": 1.0,
+        "time_point_order": 2
       },
       "source": "10.1002/mbo3.1150_viral_s_sbp1_infection_wh7803_rnaseq",
       "target": "ncbigene:SYNWH7803_RS00465",
@@ -550,6 +550,12 @@
       "properties": {},
       "source": "go:0003921",
       "target": "go:0003922",
+      "type": "Molecular_function_part_of_molecular_function"
+    },
+    {
+      "properties": {},
+      "source": "go:0005484",
+      "target": "go:0140522",
       "type": "Molecular_function_part_of_molecular_function"
     },
     {
@@ -2213,6 +2219,18 @@
     },
     {
       "properties": {},
+      "source": "10.1038/ismej.2011.49_iron_iron_starvation_med4_med4_microarray_light",
+      "target": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
+      "type": "ExperimentHasClusteringAnalysis"
+    },
+    {
+      "properties": {},
+      "source": "10.1038/ismej.2011.49_iron_iron_starvation_mit9313_mit9313_microarray",
+      "target": "clustering_analysis:ismej.2011.49:mit9313_iron_response_clusters",
+      "type": "ExperimentHasClusteringAnalysis"
+    },
+    {
+      "properties": {},
       "source": "10.1038/ismej.2011.49_iron_rescue_med4_microarray",
       "target": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
       "type": "ExperimentHasClusteringAnalysis"
@@ -2221,12 +2239,6 @@
       "properties": {},
       "source": "10.1038/ismej.2011.49_iron_rescue_mit9313_microarray",
       "target": "clustering_analysis:ismej.2011.49:mit9313_iron_response_clusters",
-      "type": "ExperimentHasClusteringAnalysis"
-    },
-    {
-      "properties": {},
-      "source": "10.1038/ismej.2011.49_iron_iron_starvation_med4_med4_microarray_light",
-      "target": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
       "type": "ExperimentHasClusteringAnalysis"
     },
     {
@@ -2260,7 +2272,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-10-15T04:43:40.318785+00:00",
+  "generated_at": "2026-10-18T13:48:22.345906+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -2532,7 +2544,7 @@
           "Synechococcus WH7803",
           "Synechococcus WH8102"
         ],
-        "title": "You produce while I clean up, a strategy revealed by exoproteomics during Synechococcus–Roseobacter interactions",
+        "title": "You produce while I clean up, a strategy revealed by exoproteomics during Synechococcus\u2013Roseobacter interactions",
         "treatment_types": [
           "coculture"
         ]
@@ -2665,7 +2677,7 @@
       "id": "10.1016/j.cell.2022.12.006_mmc_vs_uv_mit0604",
       "label": "Experiment",
       "properties": {
-        "control": "UV shock arm (30 s 254 nm + 1 h recovery) — treatment-vs-treatment contrast, NOT an untreated baseline",
+        "control": "UV shock arm (30 s 254 nm + 1 h recovery) \u2014 treatment-vs-treatment contrast, NOT an untreated baseline",
         "is_time_course": "single_time_point",
         "name": "MIT0604 mitomycin C vs UV shock (treatment-vs-treatment contrast, RNA-seq)",
         "omics_type": "RNASEQ",
@@ -2864,7 +2876,7 @@
       "id": "go:0000014",
       "label": "MolecularFunction",
       "properties": {
-        "name": "single-stranded DNA endodeoxyribonuclease activity"
+        "name": "single-stranded DNA endonuclease activity"
       }
     },
     {
@@ -3663,7 +3675,7 @@
       "properties": {
         "level": 1,
         "level_kind": "tc_subclass",
-        "name": "α-Type Channels",
+        "name": "\u03b1-Type Channels",
         "tcdb_id": "1.A"
       }
     },

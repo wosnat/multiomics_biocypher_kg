@@ -26,9 +26,10 @@ ONTOLOGY_LABELS = [
 ]
 
 
+# GO release 2026-07-26 (live distribution; level 0 = the single root, not checked)
 EXPECTED_BP_LEVEL_DIST = {
-    1: 16, 2: 107, 3: 312, 4: 654, 5: 795,
-    6: 700, 7: 501, 8: 205, 9: 42, 10: 11, 11: 2,
+    1: 16, 2: 111, 3: 323, 4: 667, 5: 830,
+    6: 738, 7: 457, 8: 131, 9: 33, 10: 12, 11: 3,
 }
 
 
