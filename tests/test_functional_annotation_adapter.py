@@ -16,6 +16,8 @@ from multiomics_kg.utils.go_utils import (
     load_go_data,
     make_go_go_edge_label,
     parse_obo,
+    parse_obo_alt_ids,
+    resolve_go_id,
 )
 from multiomics_kg.adapters.functional_annotation_adapter import (
     EcAnnotationAdapter,
@@ -918,3 +920,43 @@ def test_no_cache_does_not_refetch_go(tmp_path):
         cfg.write_text("data_dir\n")
         MultiGoAnnotationAdapter(genome_config_file=str(cfg), cache_root=tmp_path, cache=False)
     assert "force" not in mock_load.call_args.kwargs or mock_load.call_args.kwargs["force"] is False
+
+
+ALT_IDS = {"GO:0000099": "GO:0006260", "GO:0000098": "GO:0006260", "GO:0000097": "GO:9999998"}
+
+
+def test_resolve_go_id():
+    assert resolve_go_id("GO:0006260", MINI_GO_DATA, ALT_IDS) == "GO:0006260"  # live
+    assert resolve_go_id("GO:0000099", MINI_GO_DATA, ALT_IDS) == "GO:0006260"  # alt -> live
+    assert resolve_go_id("GO:0000001", MINI_GO_DATA, ALT_IDS) is None  # obsolete
+    assert resolve_go_id("GO:0000097", MINI_GO_DATA, ALT_IDS) is None  # alt of non-live
+    assert resolve_go_id("GO:1234567", MINI_GO_DATA, ALT_IDS) is None  # unknown
+
+
+def test_parse_obo_alt_ids_skips_obsolete(tmp_path):
+    p = tmp_path / "x.obo"
+    p.write_text(
+        "[Term]\nid: GO:1\nname: a\nalt_id: GO:2\nalt_id: GO:3\n\n"
+        "[Term]\nid: GO:4\nname: b\nalt_id: GO:5\nis_obsolete: true\n"
+    )
+    assert parse_obo_alt_ids(p) == {"GO:2": "GO:1", "GO:3": "GO:1"}
+
+
+def test_adapter_alt_id_remapping(tmp_path):
+    genes = {
+        "A": {"locus_tag": "A", "go_terms": ["GO:0000099"]},
+        "B": {"locus_tag": "B", "go_terms": ["GO:0006260", "GO:0000099"]},
+        "C": {"locus_tag": "C", "go_terms": ["GO:0000099", "GO:0000098"]},
+        "D": {"locus_tag": "D", "go_terms": ["GO:0000001"]},
+    }
+    (tmp_path / "gene_annotations_merged.json").write_text(json.dumps(genes))
+    ad = GoAnnotationAdapter(tmp_path, MINI_GO_DATA, alt_ids=ALT_IDS)
+    edges = list(ad.get_edges())
+    by_gene = {}
+    for eid, src, tgt, label, props in edges:
+        by_gene.setdefault(src, []).append(tgt)
+    assert len(by_gene) == 3  # D (obsolete) has no edge
+    assert all(len(v) == 1 for v in by_gene.values())  # exactly one edge each
+    assert all("0006260" in v[0] for v in by_gene.values())
+    assert ad.get_all_go_ids() == {"GO:0006260"}
+    assert ad.dropped_count == 1

@@ -12,6 +12,7 @@ data-version: releases/{rel}
 id: GO:0008150
 name: biological_process
 namespace: biological_process
+alt_id: GO:0000099
 """
 
 
@@ -38,6 +39,7 @@ def test_refresh_writes_all_four_files_and_release(tmp_path, monkeypatch):
     for f in ("raw/go-basic.obo", "raw/go-plus.json", "go_namespace_cache.json", "go_release.txt"):
         assert (g / f).exists()
     assert read_go_release(tmp_path) == "2026-07-26"
+    assert json.loads((g / "go_alt_ids.json").read_text()) == {"GO:0000099": "GO:0008150"}
     assert "GO:0008150" in json.loads((g / "go_namespace_cache.json").read_text())
 
 

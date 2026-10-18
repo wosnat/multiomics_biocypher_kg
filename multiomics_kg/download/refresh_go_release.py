@@ -5,6 +5,7 @@ Usage: uv run python -m multiomics_kg.download.refresh_go_release [--force]
 Writes (under cache/data/go_terms/):
   raw/go-basic.obo, raw/go-plus.json   (gitignored)
   go_namespace_cache.json              (committed; rebuilt from go-basic)
+  go_alt_ids.json                      (committed; {alt_id: primary} of live terms)
   go_release.txt                       (committed; the pinned release)
 GO is refreshed only here, never during a KG build.
 """
@@ -17,16 +18,17 @@ from pathlib import Path
 import requests
 
 from multiomics_kg.utils.go_utils import (
+    GO_BASIC_URL,
     GO_RELEASE_FILE,
     parse_obo,
     parse_obo_release,
     read_go_release,
+    write_alt_ids,
     write_namespace_cache,
 )
 
 logger = logging.getLogger(__name__)
 
-GO_BASIC_URL = "http://purl.obolibrary.org/obo/go/go-basic.obo"
 GO_PLUS_URL = "http://purl.obolibrary.org/obo/go/extensions/go-plus.json"
 DEFAULT_CACHE_ROOT = Path("cache/data")
 
@@ -92,6 +94,7 @@ def refresh_go_release(cache_root: Path = DEFAULT_CACHE_ROOT, force: bool = Fals
                 t.unlink()
 
     write_namespace_cache(cache_json, parse_obo(basic))
+    write_alt_ids(cache_root, basic)
     (gdir / GO_RELEASE_FILE).write_text(r_basic + "\n", encoding="utf-8")
     return r_basic
 

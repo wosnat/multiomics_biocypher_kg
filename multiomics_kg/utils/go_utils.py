@@ -19,8 +19,9 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
-GO_OBO_URL = "http://purl.obolibrary.org/obo/go/go-basic.obo"
+GO_BASIC_URL = "http://purl.obolibrary.org/obo/go/go-basic.obo"
 GO_RELEASE_FILE = "go_release.txt"
+GO_ALT_IDS_FILE = "go_alt_ids.json"
 _DATA_VERSION_RE = re.compile(r"^data-version:\s*(?:releases/)?(\S+)")
 
 # Maps OBO namespace string → BioCypher schema node label
@@ -71,8 +72,8 @@ def _go_cache_dir(cache_root: Path) -> Path:
 
 def _download_obo(obo_path: Path) -> None:
     """Download go-basic.obo to obo_path (streaming, with progress log)."""
-    logger.info(f"Downloading go-basic.obo from {GO_OBO_URL} …")
-    resp = requests.get(GO_OBO_URL, stream=True, timeout=120)
+    logger.info(f"Downloading go-basic.obo from {GO_BASIC_URL} …")
+    resp = requests.get(GO_BASIC_URL, stream=True, timeout=120)
     resp.raise_for_status()
     with open(obo_path, "wb") as fh:
         for chunk in resp.iter_content(chunk_size=65536):
@@ -89,6 +90,61 @@ def parse_obo_release(obo_path: Path) -> str | None:
             m = _DATA_VERSION_RE.match(line)
             if m:
                 return m.group(1)
+    return None
+
+
+def parse_obo_alt_ids(obo_path: Path) -> dict[str, str]:
+    """``{alt_id: primary_id}`` from ``alt_id:`` lines of NON-obsolete [Term] stanzas."""
+    out: dict[str, str] = {}
+    cur_id, alts, obsolete, in_term = None, [], False, False
+
+    def flush():
+        if in_term and cur_id and not obsolete:
+            for a in alts:
+                out[a] = cur_id
+
+    with open(obo_path, encoding="utf-8") as fh:
+        for raw in fh:
+            line = raw.rstrip("\n")
+            if line.startswith("["):
+                flush()
+                in_term = line == "[Term]"
+                cur_id, alts, obsolete = None, [], False
+            elif in_term:
+                if line.startswith("id: "):
+                    cur_id = line[4:]
+                elif line.startswith("alt_id: "):
+                    alts.append(line[8:].split()[0])
+                elif line.startswith("is_obsolete: true"):
+                    obsolete = True
+    flush()
+    return dict(sorted(out.items()))
+
+
+def write_alt_ids(cache_root: Path, obo_path: Path) -> int:
+    """Write ``go_terms/go_alt_ids.json`` from a raw go-basic; return entry count."""
+    alt = parse_obo_alt_ids(obo_path)
+    with open(_go_cache_dir(cache_root) / GO_ALT_IDS_FILE, "w", encoding="utf-8") as fh:
+        json.dump(alt, fh, indent=0, sort_keys=True)
+    return len(alt)
+
+
+def load_go_alt_ids(cache_root: Path) -> dict[str, str]:
+    """Load ``{alt_id: primary_id}``; empty dict if the file is absent."""
+    f = Path(cache_root) / "go_terms" / GO_ALT_IDS_FILE
+    if not f.exists():
+        return {}
+    with open(f, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def resolve_go_id(go_id: str, go_data: dict, alt_ids: dict) -> str | None:
+    """go_id if live; else its live primary via alt_ids; else None (obsolete/unknown)."""
+    if go_id in go_data:
+        return go_id
+    primary = alt_ids.get(go_id)
+    if primary is not None and primary in go_data:
+        return primary
     return None
 
 
@@ -205,6 +261,7 @@ def build_namespace_cache(cache_root: Path, force: bool = False) -> Path:
     _download_obo(obo_path)
     go_data = parse_obo(obo_path)
     write_namespace_cache(cache_path, go_data)
+    write_alt_ids(cache_root, obo_path)
     release = parse_obo_release(obo_path)
     if release:
         (_go_cache_dir(cache_root) / GO_RELEASE_FILE).write_text(release + "\n", encoding="utf-8")

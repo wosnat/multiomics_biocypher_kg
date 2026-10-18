@@ -59,8 +59,10 @@ from multiomics_kg.utils.go_utils import (
     NAMESPACE_TO_LABEL,
     compute_ancestry_closure,
     compute_go_levels,
+    load_go_alt_ids,
     load_go_data,
     make_go_go_edge_label,
+    resolve_go_id,
 )
 from multiomics_kg.utils.pfam_utils import load_pfam_data
 
@@ -123,9 +125,13 @@ class GoAnnotationAdapter:
         test_mode: if True, stop after 100 genes
     """
 
-    def __init__(self, genome_dir: Path, go_data: dict, test_mode: bool = False) -> None:
+    def __init__(self, genome_dir: Path, go_data: dict, test_mode: bool = False,
+                 alt_ids: dict | None = None) -> None:
         self.genome_dir = Path(genome_dir)
         self.go_data = go_data
+        self.alt_ids = alt_ids or {}
+        self.remapped_count = 0
+        self.dropped_count = 0
         self.test_mode = test_mode
         self._genes: dict = {}
         self._load()
@@ -135,12 +141,14 @@ class GoAnnotationAdapter:
         self._genes = load_merged_annotations(self.genome_dir)
 
     def get_all_go_ids(self) -> set[str]:
-        """Return all GO term IDs directly referenced by any gene in this strain."""
+        """Return the live GO term IDs referenced by any gene (alt ids mapped to primary)."""
         ids: set[str] = set()
         for gene in self._genes.values():
             for go_id in gene.get("go_terms") or []:
                 if go_id:
-                    ids.add(go_id)
+                    primary = resolve_go_id(go_id, self.go_data, self.alt_ids)
+                    if primary is not None:
+                        ids.add(primary)
         return ids
 
     def get_edges(self):
@@ -151,17 +159,25 @@ class GoAnnotationAdapter:
 
         Only edges where the GO term is present in *go_data* and has a recognized
         namespace are emitted.  GO terms not found in *go_data* (obsolete/unknown) are
-        silently skipped.
+        skipped (counted in ``dropped_count``).  Alt ids of live terms are mapped to
+        the primary; several ids resolving to one primary yield ONE edge (provenance of
+        the directly-annotated primary if present, else the first alt id sorted).
         """
         count = 0
+        self.remapped_count = self.dropped_count = 0
         for locus_tag, gene in self._genes.items():
-            go_terms = gene.get("go_terms") or []
-            for go_id in go_terms:
-                if not go_id:
+            resolved: dict[str, str] = {}  # primary -> source id used for provenance
+            for raw_id in sorted(set(t for t in (gene.get("go_terms") or []) if t)):
+                primary = resolve_go_id(raw_id, self.go_data, self.alt_ids)
+                if primary is None:
+                    self.dropped_count += 1
                     continue
-                entry = self.go_data.get(go_id)
-                if entry is None:
-                    continue
+                if raw_id != primary:
+                    self.remapped_count += 1
+                if primary not in resolved or raw_id == primary:
+                    resolved[primary] = raw_id
+            for go_id, src_id in resolved.items():
+                entry = self.go_data[go_id]
                 edge_label = _NS_TO_GENE_EDGE_LABEL.get(entry["namespace"])
                 if edge_label is None:
                     continue
@@ -172,14 +188,17 @@ class GoAnnotationAdapter:
                     _gene_node_id(locus_tag),
                     _go_node_id(go_id),
                     edge_label,
-                    annotation_edge_props(gene, "go_terms", go_id),
+                    annotation_edge_props(gene, "go_terms", src_id),
                 )
                 count += 1
 
             if self.test_mode and count >= 100:
                 break
 
-        logger.debug(f"GoAnnotationAdapter({self.genome_dir.name}): yielded {count} gene→GO edges")
+        logger.info(
+            f"GoAnnotationAdapter({self.genome_dir.name}): {count} gene→GO edges, "
+            f"{self.remapped_count} alt ids remapped, {self.dropped_count} non-live ids dropped"
+        )
 
 
 class MultiGoAnnotationAdapter:
@@ -207,6 +226,7 @@ class MultiGoAnnotationAdapter:
     ) -> None:
         self.test_mode = test_mode
         self.go_data = load_go_data(Path(cache_root))
+        self.alt_ids = load_go_alt_ids(Path(cache_root))
         self.go_levels, go_orphans = compute_go_levels(self.go_data)
         if go_orphans:
             logger.warning(
@@ -229,6 +249,7 @@ class MultiGoAnnotationAdapter:
                 genome_dir=Path(data_dir),
                 go_data=self.go_data,
                 test_mode=self.test_mode,
+                alt_ids=self.alt_ids,
             )
             self.adapters.append(adapter)
         logger.info(f"MultiGoAnnotationAdapter: loaded {len(self.adapters)} strain adapters")
