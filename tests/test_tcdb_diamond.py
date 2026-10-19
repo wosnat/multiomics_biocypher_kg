@@ -521,3 +521,102 @@ def test_agreement_weight_is_defined_for_every_returned_depth():
         out = consensus_collapse([{"tcid": t} for t in tcids])
         assert out["agreement"] == expected
         assert confidence_score(80.0, 80.0, out["agreement"]) > 0
+
+
+# ── best-hit rule (best_hit_v1) ─────────────────────────────────────────────
+
+from multiomics_kg.utils.tcdb_diamond import (  # noqa: E402
+    BEST_HIT_RULE_VERSION, attach_tcid, parse_tcdb_subject_id, select_best_hits,
+)
+
+
+def _row(q, tcid, ident, qcov, scov, bits, acc="ACC", length=200, evalue=1e-20):
+    return {"query_id": q, "subject_id": f"lcl|{acc}-{tcid}", "identity": ident,
+            "qcov": qcov, "scov": scov, "length": length, "evalue": evalue,
+            "bitscore": bits}
+
+
+def test_best_hit_rule_version():
+    assert BEST_HIT_RULE_VERSION == "best_hit_v1"
+
+
+def test_parse_subject_truncates_six_part_only_when_asked():
+    assert parse_tcdb_subject_id("lcl|Q39253-1.A.1.9.2.3") is None
+    assert parse_tcdb_subject_id("lcl|Q39253-1.A.1.9.2.3", truncate_to=5) == ("Q39253", "1.A.1.9.2")
+    assert parse_tcdb_subject_id("lcl|O05347-3.A.1.16.2", truncate_to=5) == ("O05347", "3.A.1.16.2")
+
+
+def test_best_hit_gate_requires_both_coverages():
+    assert select_best_hits([_row("P1", "3.A.1.16.2", 60, 80, 70, 300)]) == {}
+    assert select_best_hits([_row("P1", "3.A.1.16.2", 60, 70, 80, 300)]) == {}
+
+
+def test_best_hit_drops_classes_5_to_9():
+    assert select_best_hits([_row("P1", "5.A.1.1.1", 60, 90, 90, 300)]) == {}
+    assert select_best_hits([_row("P1", "8.A.1.1.1", 60, 90, 90, 300)]) == {}
+    assert select_best_hits([_row("P1", "9.B.1.1.1", 60, 90, 90, 300)]) == {}
+
+
+def test_best_hit_reciprocal_fails_for_paralog():
+    rows = [_row("P1", "3.A.1.16.2", 50, 90, 90, 300, acc="S1"),
+            _row("P2", "3.A.1.16.2", 60, 90, 90, 400, acc="S1")]
+    out = select_best_hits(rows)
+    assert "P1" not in out
+    assert out["P2"]["tcids"] == ["3.A.1.16.2"]
+
+
+def test_best_hit_reciprocal_ignores_ungated_competitor():
+    rows = [_row("P1", "3.A.1.16.2", 50, 90, 90, 300, acc="S1"),
+            _row("P2", "3.A.1.16.2", 60, 90, 50, 400, acc="S1")]
+    assert "P1" in select_best_hits(rows)
+
+
+def test_best_hit_window_cross_family_top3():
+    rows = [_row("P1", "3.D.3.1.1", 71, 90, 90, 100, acc="A"),
+            _row("P1", "3.E.2.1.1", 60, 90, 90, 95, acc="B"),
+            _row("P1", "3.D.3.2.1", 55, 90, 90, 92, acc="C"),
+            _row("P1", "3.D.3.3.1", 50, 90, 90, 91, acc="D"),
+            _row("P1", "3.D.3.4.1", 40, 90, 90, 80, acc="E")]
+    out = select_best_hits(rows)["P1"]
+    assert out["tcids"] == ["3.D.3.1.1", "3.E.2.1.1", "3.D.3.2.1"]
+    assert out["top_tcid"] == "3.D.3.1.1"
+    assert out["identity"] == 71
+
+
+def test_best_hit_window_excludes_below_90_percent():
+    rows = [_row("P1", "3.A.1.16.2", 59, 95, 94, 316, acc="A"),
+            _row("P1", "3.A.1.16.1", 50, 79, 82, 246, acc="B")]
+    assert select_best_hits(rows)["P1"]["tcids"] == ["3.A.1.16.2"]
+
+
+def test_best_hit_duplicate_tcid_keeps_best_row():
+    rows = [_row("P1", "3.A.1.16.2", 59, 95, 94, 316, acc="A"),
+            _row("P1", "3.A.1.16.2", 58, 95, 94, 310, acc="B")]
+    out = select_best_hits(rows)["P1"]
+    assert out["tcids"] == ["3.A.1.16.2"]
+    assert out["identity"] == 59
+
+
+def test_best_hit_ties_deterministic():
+    rows = [_row("P1", "3.A.1.16.4", 50, 90, 90, 300, acc="A"),
+            _row("P1", "3.A.1.16.2", 50, 90, 90, 300, acc="B")]
+    out = select_best_hits(rows)["P1"]
+    assert out["tcids"] == ["3.A.1.16.2", "3.A.1.16.4"]
+    assert out["top_tcid"] == "3.A.1.16.2"
+
+
+def test_best_hit_includes_short_hsp_proteins():
+    rows = [_row("P1", "3.D.4.3.2", 80, 95, 95, 60, length=29)]
+    assert select_best_hits(rows)["P1"]["tcids"] == ["3.D.4.3.2"]
+
+
+def test_best_hit_six_part_subject_truncated():
+    rows = [_row("P1", "1.A.1.9.2.3", 80, 95, 95, 300, acc="Q39253")]
+    assert select_best_hits(rows)["P1"]["tcids"] == ["1.A.1.9.2"]
+
+
+def test_attach_prefers_top_family_else_first_call():
+    cands = [{"tcid": "2.A.1"}, {"tcid": "3.A.1.16"}]
+    assert attach_tcid({"top_tcid": "3.A.1.16.2"}, cands) == "3.A.1.16"
+    assert attach_tcid({"top_tcid": "1.A.11.2.5"}, cands) == "2.A.1"
+    assert attach_tcid({"top_tcid": "1.A.11.2.5"}, []) is None
