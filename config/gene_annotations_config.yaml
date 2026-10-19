@@ -601,6 +601,16 @@ fields:
     source: tcdb_diamond
     field: tcdb_ids
 
+  # diamond's best-hit 5-part systems (best_hit_v1; window order, up to 3) — the
+  # protein's actual best-hit TCDB systems, which the tier/consensus collapse
+  # truncates away. A light id list: identity and attach_tcid stay in calls.json
+  # (tcdb_adapter reads them there). Deliberately NOT part of
+  # transporter_classification: it never seeds TCDB pruning or creates edges.
+  tcdb_best_hit_ids:
+    type: passthrough
+    source: tcdb_diamond
+    field: tcdb_best_hit_ids
+
   # ── MEROPS peptidase classification (merops-diamond, single-source) ──────────
   # Called codes at tier-truncated depth (family S14 / subfamily S08A /
   # identifier S26.014). merops_adapter reads the strain calls.json directly

@@ -575,6 +575,9 @@ def _compute_contributing_sources(gene: dict) -> list[str]:
     - 'cyanorak': locus_tag_cyanorak non-null OR any cyanorak-tagged field.
     - 'uniprot': uniprot_accession non-null OR any uniprot-tagged field.
     - 'eggnog': seed_ortholog or eggnog_ogs non-null OR any eggnog-tagged field.
+    - 'tcdb_diamond': a diamond TC call (`tcdb_diamond_ids`). A best hit alone
+      (`tcdb_best_hit_ids` without a call — ~188 genes whose top alignment is
+      < 50 aa) deliberately does not count: it creates no edge.
     """
     sources = {"ncbi"}
     if gene.get("locus_tag_cyanorak") or _has_source_label(gene, "cyanorak"):
@@ -789,8 +792,17 @@ def load_tcdb_diamond(data_dir: str, strain_name: str) -> dict[str, dict]:
             c["tcid"] for c in rec.get("calls", [])
             if isinstance(c, dict) and c.get("tcid")
         })
+        entry: dict = {}
         if tcids:
-            result[str(wp).strip()] = {"tcdb_ids": tcids}
+            entry["tcdb_ids"] = tcids
+        # best_hit_v1: the protein's actual best-hit 5-part systems (window order).
+        # Present even when the protein has no tier call (top HSP < 50 aa).
+        best = rec.get("best_hit") or {}
+        best_ids = [t for t in best.get("tcids", []) if isinstance(t, str) and t]
+        if best_ids:
+            entry["tcdb_best_hit_ids"] = best_ids
+        if entry:
+            result[str(wp).strip()] = entry
     return result
 
 

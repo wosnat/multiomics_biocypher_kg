@@ -429,8 +429,9 @@ def test_calls_carry_only_sequence_derived_fields(tmp_path):
     calls, summary = build_strain_calls(tsv)
 
     rec = calls["WP_A.1"]
-    # Protein-level: nothing but `calls`
-    assert set(rec) == {"calls"}
+    # Protein-level: `calls` plus the sequence-derived `best_hit` block (best_hit_v1)
+    assert set(rec) == {"calls", "best_hit"}
+    assert set(rec["best_hit"]) == {"rule", "tcids", "identity", "attach_tcid"}
     # Candidate-level: no cross-source or filter state
     cand = rec["calls"][0]
     forbidden = {"egn_agreement", "egn_tcids", "pfam_agreement", "pfam_ids",
@@ -521,3 +522,202 @@ def test_agreement_weight_is_defined_for_every_returned_depth():
         out = consensus_collapse([{"tcid": t} for t in tcids])
         assert out["agreement"] == expected
         assert confidence_score(80.0, 80.0, out["agreement"]) > 0
+
+
+# ── best-hit rule (best_hit_v1) ─────────────────────────────────────────────
+
+from multiomics_kg.utils.tcdb_diamond import (  # noqa: E402
+    BEST_HIT_RULE_VERSION, attach_tcid, parse_tcdb_subject_id, select_best_hits,
+)
+
+
+def _row(q, tcid, ident, qcov, scov, bits, acc="ACC", length=200, evalue=1e-20):
+    return {"query_id": q, "subject_id": f"lcl|{acc}-{tcid}", "identity": ident,
+            "qcov": qcov, "scov": scov, "length": length, "evalue": evalue,
+            "bitscore": bits}
+
+
+def test_best_hit_rule_version():
+    assert BEST_HIT_RULE_VERSION == "best_hit_v1"
+
+
+def test_parse_subject_truncates_six_part_only_when_asked():
+    assert parse_tcdb_subject_id("lcl|Q39253-1.A.1.9.2.3") is None
+    assert parse_tcdb_subject_id("lcl|Q39253-1.A.1.9.2.3", truncate_to=5) == ("Q39253", "1.A.1.9.2")
+    assert parse_tcdb_subject_id("lcl|O05347-3.A.1.16.2", truncate_to=5) == ("O05347", "3.A.1.16.2")
+
+
+def test_best_hit_gate_requires_both_coverages():
+    assert select_best_hits([_row("P1", "3.A.1.16.2", 60, 80, 70, 300)]) == {}
+    assert select_best_hits([_row("P1", "3.A.1.16.2", 60, 70, 80, 300)]) == {}
+
+
+def test_best_hit_drops_classes_5_to_9():
+    assert select_best_hits([_row("P1", "5.A.1.1.1", 60, 90, 90, 300)]) == {}
+    assert select_best_hits([_row("P1", "8.A.1.1.1", 60, 90, 90, 300)]) == {}
+    assert select_best_hits([_row("P1", "9.B.1.1.1", 60, 90, 90, 300)]) == {}
+
+
+def test_best_hit_reciprocal_fails_for_paralog():
+    rows = [_row("P1", "3.A.1.16.2", 50, 90, 90, 300, acc="S1"),
+            _row("P2", "3.A.1.16.2", 60, 90, 90, 400, acc="S1")]
+    out = select_best_hits(rows)
+    assert "P1" not in out
+    assert out["P2"]["tcids"] == ["3.A.1.16.2"]
+
+
+def test_best_hit_reciprocal_ignores_ungated_competitor():
+    rows = [_row("P1", "3.A.1.16.2", 50, 90, 90, 300, acc="S1"),
+            _row("P2", "3.A.1.16.2", 60, 90, 50, 400, acc="S1")]
+    assert "P1" in select_best_hits(rows)
+
+
+def test_best_hit_window_cross_family_top3():
+    rows = [_row("P1", "3.D.3.1.1", 71, 90, 90, 100, acc="A"),
+            _row("P1", "3.E.2.1.1", 60, 90, 90, 95, acc="B"),
+            _row("P1", "3.D.3.2.1", 55, 90, 90, 92, acc="C"),
+            _row("P1", "3.D.3.3.1", 50, 90, 90, 91, acc="D"),
+            _row("P1", "3.D.3.4.1", 40, 90, 90, 80, acc="E")]
+    out = select_best_hits(rows)["P1"]
+    assert out["tcids"] == ["3.D.3.1.1", "3.E.2.1.1", "3.D.3.2.1"]
+    assert out["top_tcid"] == "3.D.3.1.1"
+    assert out["identity"] == 71
+
+
+def test_best_hit_window_excludes_below_90_percent():
+    rows = [_row("P1", "3.A.1.16.2", 59, 95, 94, 316, acc="A"),
+            _row("P1", "3.A.1.16.1", 50, 79, 82, 246, acc="B")]
+    assert select_best_hits(rows)["P1"]["tcids"] == ["3.A.1.16.2"]
+
+
+def test_best_hit_duplicate_tcid_keeps_best_row():
+    rows = [_row("P1", "3.A.1.16.2", 59, 95, 94, 316, acc="A"),
+            _row("P1", "3.A.1.16.2", 58, 95, 94, 310, acc="B")]
+    out = select_best_hits(rows)["P1"]
+    assert out["tcids"] == ["3.A.1.16.2"]
+    assert out["identity"] == 59
+
+
+def test_best_hit_ties_deterministic():
+    rows = [_row("P1", "3.A.1.16.4", 50, 90, 90, 300, acc="A"),
+            _row("P1", "3.A.1.16.2", 50, 90, 90, 300, acc="B")]
+    out = select_best_hits(rows)["P1"]
+    assert out["tcids"] == ["3.A.1.16.2", "3.A.1.16.4"]
+    assert out["top_tcid"] == "3.A.1.16.2"
+
+
+def test_best_hit_includes_short_hsp_proteins():
+    rows = [_row("P1", "3.D.4.3.2", 80, 95, 95, 60, length=29)]
+    assert select_best_hits(rows)["P1"]["tcids"] == ["3.D.4.3.2"]
+
+
+def test_best_hit_six_part_subject_truncated():
+    rows = [_row("P1", "1.A.1.9.2.3", 80, 95, 95, 300, acc="Q39253")]
+    assert select_best_hits(rows)["P1"]["tcids"] == ["1.A.1.9.2"]
+
+
+def test_attach_prefers_top_family_else_first_call():
+    cands = [{"tcid": "2.A.1"}, {"tcid": "3.A.1.16"}]
+    assert attach_tcid({"top_tcid": "3.A.1.16.2"}, cands) == "3.A.1.16"
+    assert attach_tcid({"top_tcid": "1.A.11.2.5"}, cands) == "2.A.1"
+    assert attach_tcid({"top_tcid": "1.A.11.2.5"}, []) is None
+
+
+def _tsv_line(q, acc_tcid, ident, qcov, scov, length, evalue, bits):
+    return f"{q}\tlcl|{acc_tcid}\t{ident}\t{qcov}\t{scov}\t{length}\t{evalue}\t{bits}\n"
+
+
+def test_build_strain_calls_adds_best_hit_block(tmp_path):
+    tsv = tmp_path / "s.tcdb.tsv"
+    tsv.write_text(
+        _tsv_line("WP_1", "O05347-3.A.1.16.2", 59.2, 95.4, 94.0, 250, 1e-108, 316)
+        + _tsv_line("WP_1", "P38046-3.A.1.16.1", 50.0, 79.0, 82.0, 240, 1e-81, 246)
+    )
+    calls, summary = build_strain_calls(tsv)
+    rec = calls["WP_1"]
+    assert [(c["tcid"], c["tier"]) for c in rec["calls"]] == [("3.A.1.16", 2)]
+    assert rec["best_hit"] == {"rule": "best_hit_v1", "tcids": ["3.A.1.16.2"],
+                               "identity": 59.2, "attach_tcid": "3.A.1.16"}
+    assert summary["proteins_with_best_hit"] == 1
+    assert summary["best_hit_without_call"] == 0
+    assert summary["best_hit_fallback_attach"] == 0
+
+
+def test_build_strain_calls_best_hit_without_call(tmp_path):
+    tsv = tmp_path / "s.tcdb.tsv"
+    tsv.write_text(_tsv_line("WP_2", "Q1-3.D.4.3.2", 80.0, 95.0, 95.0, 40, 1e-10, 60))
+    calls, summary = build_strain_calls(tsv)
+    assert calls["WP_2"] == {"calls": [], "best_hit": {"rule": "best_hit_v1",
+                                                       "tcids": ["3.D.4.3.2"], "identity": 80.0}}
+    assert summary["proteins_with_call"] == 0
+    assert summary["total_candidates"] == 0
+    assert summary["best_hit_without_call"] == 1
+
+
+def test_build_strain_calls_reciprocal_fail_has_no_best_hit_key(tmp_path):
+    tsv = tmp_path / "s.tcdb.tsv"
+    tsv.write_text(
+        _tsv_line("WP_A", "S1-3.A.1.16.2", 50.0, 90.0, 90.0, 250, 1e-50, 300)
+        + _tsv_line("WP_B", "S1-3.A.1.16.2", 60.0, 90.0, 90.0, 250, 1e-60, 400)
+    )
+    calls, _ = build_strain_calls(tsv)
+    assert calls["WP_A"]["calls"]
+    assert "best_hit" not in calls["WP_A"]
+    assert "best_hit" in calls["WP_B"]
+
+
+def test_best_hit_tie_on_bits_and_tcid_breaks_on_subject_id():
+    # same bitscore + same TCID via two references: the lower subject_id is the top hit,
+    # independent of TSV order; reciprocity is judged on that subject.
+    rows = [_row("P1", "3.A.1.16.2", 50, 90, 90, 300, acc="ZZZ"),
+            _row("P1", "3.A.1.16.2", 50, 90, 90, 300, acc="AAA"),
+            _row("P2", "3.A.1.16.2", 60, 90, 90, 400, acc="ZZZ")]
+    assert "P1" in select_best_hits(rows)          # AAA is P1's top; P2 only claims ZZZ
+    rows.reverse()
+    assert "P1" in select_best_hits(rows)
+
+
+def test_build_strain_calls_counts_fallback_attach(tmp_path):
+    tsv = tmp_path / "s.tcdb.tsv"
+    tsv.write_text(
+        # gated top hit, but HSP 45 aa → no tier call in 3.A.1
+        _tsv_line("WP_9", "A-3.A.1.16.2", 70.0, 95.0, 95.0, 45, 1e-20, 300)
+        # a separate tier call in 2.A.1 (not gated: scov 50)
+        + _tsv_line("WP_9", "B-2.A.1.1.1", 40.0, 80.0, 50.0, 200, 1e-30, 100)
+    )
+    calls, summary = build_strain_calls(tsv)
+    assert [c["tcid"] for c in calls["WP_9"]["calls"]] == ["2.A.1.1"]
+    assert calls["WP_9"]["best_hit"]["attach_tcid"] == "2.A.1.1"
+    assert summary["best_hit_fallback_attach"] == 1
+
+
+def _runner():
+    import importlib.util
+    from pathlib import Path
+    p = Path(__file__).resolve().parents[1] / ".claude/skills/tcdb-diamond/run_tcdb_diamond.py"
+    spec = importlib.util.spec_from_file_location("run_tcdb_diamond", p)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_rebuild_from_tsv_writes_calls_without_diamond(tmp_path):
+    r = _runner()
+    d = tmp_path / "S"
+    (d / "tcdb").mkdir(parents=True)
+    (d / "tcdb" / "S.tcdb.tsv").write_text(
+        _tsv_line("WP_1", "O05347-3.A.1.16.2", 59.2, 95.4, 94.0, 250, 1e-108, 316))
+    strain, status, summary = r.rebuild_from_tsv("S", d)
+    assert status == "OK" and summary["proteins_with_best_hit"] == 1
+    calls = json.loads((d / "tcdb" / "S.tcdb.calls.json").read_text())
+    assert calls["WP_1"]["best_hit"]["tcids"] == ["3.A.1.16.2"]
+    assert (d / "tcdb" / "S.tcdb.skill_summary.json").exists()
+    assert r.rebuild_from_tsv("T", tmp_path / "T")[1] == "SKIP_NO_TSV"
+
+
+def test_from_tsv_rejects_limit(monkeypatch):
+    import pytest as _pytest
+    r = _runner()
+    monkeypatch.setattr("sys.argv", ["run_tcdb_diamond.py", "--from-tsv", "--limit", "5"])
+    with _pytest.raises(SystemExit):
+        r.main()

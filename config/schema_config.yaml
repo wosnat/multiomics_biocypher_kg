@@ -1452,6 +1452,14 @@ gene to tcdb family association:
     qcov: float
     evalue: float
     consensus_n: int
+    # best_hit_v1 (diamond best-hit systems; sparse, one diamond edge per gene). The three
+    # substrate lists are a long-form table aligned index-for-index.
+    best_hit_tcids: str[]
+    best_hit_names: str[]
+    best_hit_identity: float
+    best_hit_substrate_tcids: str[]
+    best_hit_substrate_ids: str[]
+    best_hit_substrate_names: str[]
     # Post-import advisory ranking (float 0-1; 5 signals, see
     # controlled_vocabularies.yaml). ADVISORY ONLY — nothing filters on it,
     # and the three component facts are stored alongside as R5-compliant

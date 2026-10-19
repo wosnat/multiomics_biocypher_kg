@@ -516,7 +516,12 @@ the committed caches, not taken from the log. Ordered by proposed priority.
 ## Transport programme (design `docs/superpowers/specs/2026-10-18-go-transport-substrates-design.md`)
 
 - [x] **Project 1, slice 1: GO transport substrates to Metabolite / ChemicalRole edges** (done 2026-10-18 on `feat/go-transport`, GO release 2026-07-26; 518 edges). → `docs/kg-changes/go-transport-substrates.md`
-- [ ] **Project 2: diamond best-hit details** (each gene's best-hit TCDB systems and their own substrate lists, currently discarded by the tier/consensus collapse; smallest form that survives project 3).
+- [x] **Project 2: diamond best-hit details** (done 2026-10-19 on `feat/tcdb-best-hit`; rule `best_hit_v1`; six `best_hit_*` properties on the diamond `Gene_has_tcdb_family` edge + merge field `tcdb_best_hit_ids`). → `docs/kg-changes/tcdb-diamond-best-hit.md`. Follow-ups:
+  - [ ] Best-hit names / substrates into `alternate_functional_descriptions` (full-text search finds genes by "cyanate"); deliberately out of scope.
+  - [ ] Reciprocal check recall cost: ~2,990 gate-passing proteins fail it corpus-wide, ~1,300 hold-out ones with transporter-like products (paralogous ABC components in heterotrophs). Revisit in project 3 (e.g. family-level reciprocity) — measured, not tuned.
+  - [ ] 188 proteins with a best hit but no tier call (top HSP < 50 aa; small photosystem / complex subunits) carry it only in the merge field — decide in project 3 whether they get an edge.
+  - [ ] 4 best-hit systems unnamed: 1.B.1.12.1, 2.A.49.2.14, 3.A.1.129.1 are not on their (scraped) TCDB family pages — likely retired since the May diamond-FASTA snapshot (a TCDB refresh would drop them); 1.A.77.3.21 is on its page with an EMPTY name cell upstream (only the example column says "AtpI of Synechococcus sp."). All four fall back to the TCID by design.
+  - [ ] `metabolite_identity_report.json` `remap` drifts on any step-6 rerun (a chebi:49870 → chebi:30297 entry from two builds ago empties); pre-existing, left uncommitted on this branch.
 - [ ] **Project 3: TCDB nodes/edges redesign** (the obvious query is the correct one; likely retires `substrate_depth`, `substrate_breadth`, `transport_substrate_resolution`). A per-gene `Gene` to `Metabolite` transport edge is deferred until after it.
 - [ ] **Project 4: transport-analysis recipe** (`docs://analysis/transport`, explorer-owned).
 - [ ] **Direction gap**: no project answers question 3's "in which direction"; GO target start/end location is too sparse (5 MED4 import annotations, one gene).

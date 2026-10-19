@@ -1363,3 +1363,53 @@ def test_resolve_substrate_strings_legacy_matches_a_chebi_none_pass(tmp_path):
     new, _ = _resolve_substrate_strings(strings, conn, chebi=chebi, rekeys={}, legacy=legacy)
     assert legacy == old == {"CHEBI:4167;glucose": "chebi:4167", "CHEBI:10004;vitamin": "chebi:10004"}
     assert new["CHEBI:4167;glucose"] == new["CHEBI:12345;glucose"] == "kegg.compound:C00031"
+
+
+def test_gene_reachable_sets_collects_best_hit_ids(tmp_path, monkeypatch, synthetic_kegg_raw):
+    import multiomics_kg.download.build_kegg_metabolism_xrefs as bx
+    strain = tmp_path / "s"
+    _write_strain_annotations(strain, {
+        "G1": {"transporter_classification": ["3.A.1"], "tcdb_best_hit_ids": ["3.A.1.16.2"]},
+        "G2": {"tcdb_best_hit_ids": ["3.D.4.3.2", "3.E.2.1.1"]},
+    })
+    monkeypatch.setattr(bx, "load_genome_rows", lambda: [{"data_dir": str(strain)}])
+    sets = bx._gene_reachable_sets(synthetic_kegg_raw)
+    assert sets["tcdb_best_hit_ids"] == {"3.A.1.16.2", "3.D.4.3.2", "3.E.2.1.1"}
+    assert sets["tcdb_ids"] == {"3.A.1"}
+
+
+def test_best_hit_substrate_inputs(tmp_path):
+    """best_hit_v1: each best-hit system's OWN substrate strings → (primary, TCDB name)."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _best_hit_substrate_inputs
+    chebi = make_chebi(CHEBI_4167=term("D-glucopyranose", alt=["CHEBI:12345"]),
+                       CHEBI_50505=term("orphan"),
+                       CHEBI_50906=term("role"),
+                       CHEBI_26672=term("siderophore", is_a=["CHEBI:50906"]))
+    strings = {
+        "2.A.1.1.1": {"CHEBI:12345;glucose", "CHEBI:50505;orphan thing", "CHEBI:99999999;unknown",
+                      "CHEBI:26672;siderophore"},
+        "2.A.1.1.2": set(),
+    }
+    rekeys_main = {"chebi:1": "kegg.compound:C00001"}
+    out, bh_rekeys = _best_hit_substrate_inputs(
+        {"2.A.1.1.1", "2.A.1.1.2", "9.Z.9.9.9"}, strings, _subs_conn_with_chebi_only(tmp_path),
+        chebi, known_kegg=set())
+    assert rekeys_main == {"chebi:1": "kegg.compound:C00001"}
+    assert isinstance(bh_rekeys, dict)
+    pairs = dict(out["2.A.1.1.1"])
+    assert pairs["chebi:4167"] == "glucose"
+    assert pairs["chebi:50505"] == "orphan thing"      # no MNX hit → its primary chebi CURIE
+    assert pairs["chebi:99999999"] == "unknown"        # unknown to ChEBI → raw CURIE
+    assert pairs["chebi.role:26672"] == "siderophore"  # role-typed → ChemicalRole id
+    assert "2.A.1.1.2" not in out and "9.Z.9.9.9" not in out
+
+
+def test_warn_unnamed_best_hits_separates_unscraped_from_missing(tmp_path):
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _warn_unnamed_best_hits
+    names = tmp_path / "tcdb_names.json"
+    names.write_text(json.dumps({"meta": {"scraped_families": ["3.A.1"]},
+                                 "names": {"3.A.1.16.2": {"name": "x"}}}))
+    unscraped, not_on_page = _warn_unnamed_best_hits(
+        {"3.A.1.16.2", "3.A.1.129.1", "2.A.130.1.1"}, names)
+    assert unscraped == ["2.A.130.1.1"]
+    assert not_on_page == ["3.A.1.129.1"]

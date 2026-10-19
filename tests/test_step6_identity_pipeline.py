@@ -361,3 +361,28 @@ def test_canonical_margin_error_is_actionable():
                  "18 all KEGG", 'group: ["kegg.compound:C00085", "kegg.compound:C05345"]',
                  "config/metabolite_identity_overrides.yaml", "canonical:\n  - id:"):
         assert part in msg, part
+
+
+def test_identity_stages_writes_best_hit_substrates(tmp_path):
+    """best_hit_v1: per-system substrates rewritten to canonical ids and named from the
+    final table / ChemicalRole; ids without a node keep their TCDB name; nothing else moves."""
+    base = run_identity_stages(make_inputs(tmp_path))
+    inp = make_inputs(tmp_path)
+    inp.best_hit_substrates = {
+        "2.A.1.1.1": [("chebi:17632", "nitrate (tcdb)"), ("chebi.role:33229", "vitamin (tcdb)"),
+                      ("chebi:99999", "unknown thing")],
+        "2.A.1.1.2": [("kegg.compound:C00244", "nitric acid (tcdb)"), ("chebi:17632", "nitrate")],
+    }
+    out = run_identity_stages(inp)
+    bh = out.tcdb_pruned["best_hit_substrates"]
+    assert bh["2.A.1.1.1"] == [["chebi.role:33229", "vitamin (role)"], ["chebi:99999", "unknown thing"],
+                               [f"{K}C00244", "Nitrate"]]
+    assert bh["2.A.1.1.2"] == [[f"{K}C00244", "Nitrate"]]          # both merge onto one node
+    rest = {k: v for k, v in out.tcdb_pruned.items() if k != "best_hit_substrates"}
+    assert rest == {k: v for k, v in base.tcdb_pruned.items() if k != "best_hit_substrates"}
+    assert out.kegg_data == base.kegg_data
+
+
+def test_identity_stages_without_best_hits_has_empty_key(tmp_path):
+    out = run_identity_stages(make_inputs(tmp_path))
+    assert out.tcdb_pruned["best_hit_substrates"] == {}

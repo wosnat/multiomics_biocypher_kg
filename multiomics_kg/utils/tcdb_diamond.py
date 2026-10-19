@@ -144,15 +144,19 @@ def parse_diamond_row(line: str) -> dict | None:
 
 
 _TCID_TAIL_RE = re.compile(r"-(\d+(?:\.[A-Za-z0-9]+){2,4})$")
+# Best-hit path only: TCDB carries a few 6-part ids (e.g. 1.A.1.9.2.3); accept and truncate.
+_TCID_TAIL_LONG_RE = re.compile(r"-(\d+(?:\.[A-Za-z0-9]+){2,})$")
 
 
-def parse_tcdb_subject_id(subject_id: str) -> tuple[str, str] | None:
+def parse_tcdb_subject_id(subject_id: str, *, truncate_to: int | None = None) -> tuple[str, str] | None:
     """Extract (accession, tcid) from a TCDB FASTA-derived subject ID.
 
     Header format: ``[lcl|]<accession>-<TCID>`` where TCID is dot-separated
     with 3-5 parts (e.g. ``lcl|Q9I3F6-1.A.11.1.5``).
 
     Returns None when the subject ID does not contain a parseable TCID tail.
+    With ``truncate_to`` (best-hit path only), tails longer than 5 parts are
+    accepted and truncated; the default keeps tier parsing unchanged.
     Splits on the LAST dash followed by a dotted TCID — handles UniProt
     isoform accessions (e.g. ``P12345-2``) correctly.
     """
@@ -160,14 +164,97 @@ def parse_tcdb_subject_id(subject_id: str) -> tuple[str, str] | None:
         return None
     if subject_id.startswith("lcl|"):
         subject_id = subject_id[4:]
-    match = _TCID_TAIL_RE.search(subject_id)
+    match = (_TCID_TAIL_LONG_RE if truncate_to else _TCID_TAIL_RE).search(subject_id)
     if not match:
         return None
     tcid = match.group(1)
+    if truncate_to:
+        tcid = truncate_tcid(tcid, truncate_to)
     accession = subject_id[: match.start()]
     if not accession:
         return None
     return accession, tcid
+
+
+# ============================================================================
+# Best-hit details (best_hit_v1) — spec 2026-10-18-tcdb-diamond-best-hit-design.md §3
+# ============================================================================
+#
+# Independent of the tier policy: keeps the protein's actual best-hit 5-part
+# system(s), which the tier/consensus collapse truncates away. A raw clue, not a
+# call — the tier edge stays the conservative claim.
+
+BEST_HIT_RULE_VERSION = "best_hit_v1"
+_BEST_HIT_MIN_COV = 75.0
+_BEST_HIT_CLASSES = frozenset("1234")
+_BEST_HIT_WINDOW = 0.9
+_BEST_HIT_MAX = 3
+
+
+def select_best_hits(rows: list[dict]) -> dict[str, dict]:
+    """Best-hit systems per protein for one strain's parsed diamond rows.
+
+    Gate: qcov >= 75 AND scov >= 75, TC class 1-4 (no identity floor, no length
+    floor). Reciprocal: the protein's top gated hit must also be that subject
+    row's top gated hit among this strain's proteins (keyed by raw subject_id).
+    Window: gated hits with bitscore >= 0.9 x top, up to 3 distinct 5-part
+    TCIDs, any family. Ordering: bitscore desc, then TCID asc, then subject_id
+    asc (query id asc for the reverse lookup).
+
+    Returns {query_id: {"tcids": [...], "identity": float, "top_tcid": str}};
+    proteins failing the gate or the reciprocal check are absent.
+    """
+    gated: list[tuple[float, str, str, str, float]] = []
+    for r in rows:
+        if r["qcov"] < _BEST_HIT_MIN_COV or r["scov"] < _BEST_HIT_MIN_COV:
+            continue
+        parsed = parse_tcdb_subject_id(r["subject_id"], truncate_to=5)
+        if parsed is None:
+            continue
+        tcid = parsed[1]
+        if tcid.split(".", 1)[0] not in _BEST_HIT_CLASSES or len(tcid.split(".")) != 5:
+            continue
+        gated.append((r["bitscore"], r["query_id"], r["subject_id"], tcid, r["identity"]))
+
+    by_query: dict[str, list] = defaultdict(list)
+    top_query_of_subject: dict[str, tuple[float, str]] = {}
+    for bits, q, subj, tcid, ident in gated:
+        by_query[q].append((bits, tcid, subj, ident))
+        cur = top_query_of_subject.get(subj)
+        if cur is None or (-bits, q) < (-cur[0], cur[1]):
+            top_query_of_subject[subj] = (bits, q)
+
+    out: dict[str, dict] = {}
+    for q, hits in by_query.items():
+        hits.sort(key=lambda h: (-h[0], h[1], h[2]))     # bits desc, TCID, subject_id
+        top_bits, top_tcid, top_subj, top_ident = hits[0]
+        if top_query_of_subject[top_subj][1] != q:
+            continue
+        tcids: list[str] = []
+        for bits, tcid, _subj, _ident in hits:
+            if bits < _BEST_HIT_WINDOW * top_bits:
+                break
+            if tcid not in tcids:
+                tcids.append(tcid)
+            if len(tcids) == _BEST_HIT_MAX:
+                break
+        out[q] = {"tcids": tcids, "identity": top_ident, "top_tcid": top_tcid}
+    return out
+
+
+def attach_tcid(best: dict, candidates: list[dict]) -> str | None:
+    """Which of the protein's tier calls carries the best-hit record.
+
+    The call in the top hit's 3-part family (calls are one per family); else,
+    defensively (never observed), the highest-confidence call; None without calls.
+    """
+    if not candidates:
+        return None
+    family = truncate_tcid(best["top_tcid"], 3)
+    for cand in candidates:
+        if truncate_tcid(cand["tcid"], 3) == family:
+            return cand["tcid"]
+    return candidates[0]["tcid"]
 
 
 _TIER_TO_LEVEL_KIND = {
@@ -215,6 +302,7 @@ def build_strain_calls(tsv_path: Path) -> tuple[dict, dict]:
     """
     # Group accepted (tier-classified) hits per query
     by_query: dict[str, list[dict]] = defaultdict(list)
+    all_rows: list[dict] = []          # every parsed row, for the best-hit rule
     raw_lines = 0
     with open(tsv_path) as f:
         for line in f:
@@ -225,6 +313,7 @@ def build_strain_calls(tsv_path: Path) -> tuple[dict, dict]:
             row = parse_diamond_row(line)
             if row is None:
                 continue
+            all_rows.append(row)
             tier = classify_hit(row)
             if tier is None:
                 continue
@@ -322,6 +411,31 @@ def build_strain_calls(tsv_path: Path) -> tuple[dict, dict]:
         "tier_distribution": dict(tier_dist),
         "consensus_agreement_distribution": dict(consensus_dist),
     }
+
+    # Best-hit details (best_hit_v1), added after the tier summary so the existing
+    # summary keys keep their meaning. A best-hit protein without a tier call (top
+    # HSP < 50 aa) gets {"calls": [], "best_hit": {...}} with no attach_tcid.
+    best_hits = select_best_hits(all_rows)
+    without_call = fallback = multi = 0
+    for query_id, best in best_hits.items():
+        block = {"rule": BEST_HIT_RULE_VERSION, "tcids": best["tcids"],
+                 "identity": best["identity"]}
+        rec = calls.get(query_id)
+        if rec is None:
+            calls[query_id] = {"calls": [], "best_hit": block}
+            without_call += 1
+        else:
+            block["attach_tcid"] = attach_tcid(best, rec["calls"])
+            if truncate_tcid(block["attach_tcid"], 3) != truncate_tcid(best["top_tcid"], 3):
+                fallback += 1
+            rec["best_hit"] = block
+        multi += len(best["tcids"]) > 1
+    summary.update({
+        "proteins_with_best_hit": len(best_hits),
+        "best_hit_multi_tcid": multi,
+        "best_hit_without_call": without_call,
+        "best_hit_fallback_attach": fallback,
+    })
     return calls, summary
 
 

@@ -2466,3 +2466,47 @@ def test_committed_tigr_roles_all_mapped():
     if not p.exists():
         pytest.skip("tigr_roles.json not built")
     _check_tigr_roles_mapped(json.loads(p.read_text()))
+
+
+# ─── tcdb_diamond best-hit ids (best_hit_v1) ──────────────────────────────────
+
+import yaml  # noqa: E402
+
+from multiomics_kg.download.build_gene_annotations import (  # noqa: E402
+    DEFAULT_CONFIG, load_tcdb_diamond,
+)
+
+
+def _write_tcdb_calls(tmp_path, strain, data):
+    d = tmp_path / "tcdb"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / f"{strain}.tcdb.calls.json").write_text(json.dumps(data))
+    return str(tmp_path)
+
+
+def test_load_tcdb_diamond_reads_best_hit_ids(tmp_path):
+    data_dir = _write_tcdb_calls(tmp_path, "S", {
+        "WP_1": {"calls": [{"tcid": "3.A.1"}],
+                 "best_hit": {"rule": "best_hit_v1", "tcids": ["3.A.1.16.2", "3.A.1.16.1"],
+                              "identity": 59.2, "attach_tcid": "3.A.1"}},
+        "WP_2": {"calls": [], "best_hit": {"rule": "best_hit_v1", "tcids": ["3.D.4.3.2"],
+                                           "identity": 80.0}},
+        "WP_3": {"calls": [{"tcid": "2.A.1"}]},
+    })
+    out = load_tcdb_diamond(data_dir, "S")
+    assert out["WP_1"] == {"tcdb_ids": ["3.A.1"], "tcdb_best_hit_ids": ["3.A.1.16.2", "3.A.1.16.1"]}
+    assert out["WP_2"] == {"tcdb_best_hit_ids": ["3.D.4.3.2"]}
+    assert out["WP_3"] == {"tcdb_ids": ["2.A.1"]}
+
+
+def test_best_hit_only_gene_unchanged_otherwise():
+    config = yaml.safe_load(DEFAULT_CONFIG.read_text())
+    builder = AnnotationBuilder(config)
+    gm = {"locus_tag": "PMM9999", "protein_id": "WP_2"}
+    base = builder.build_merged(gm, {}, {}, tcd={})
+    merged = builder.build_merged(gm, {}, {}, tcd={"tcdb_best_hit_ids": ["3.D.4.3.2"]})
+    assert merged["tcdb_best_hit_ids"] == ["3.D.4.3.2"]
+    assert "tcdb_diamond_ids" not in merged
+    assert not merged.get("transporter_classification")
+    assert merged["contributing_sources"] == base["contributing_sources"]
+    assert {k: v for k, v in merged.items() if k != "tcdb_best_hit_ids"} == base

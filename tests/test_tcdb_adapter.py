@@ -674,3 +674,139 @@ def test_missing_lumping_pin_fails(cache_root, strain_dir):
     path.write_text(json.dumps(pruned))
     with pytest.raises(RuntimeError, match="lumping_pin"):
         _make_orchestrator(cache_root, strain_dir)
+
+
+# ── best-hit details (best_hit_v1) ───────────────────────────────────────────
+
+_PIN = {"frozen_on": "2026-10-15", "frozen_kept_ids": [], "lumping_tcdb_ids": []}
+
+
+@pytest.fixture
+def best_hit_setup(tmp_path):
+    d = tmp_path / "MED4"
+    d.mkdir()
+    (d / "gene_annotations_merged.json").write_text(json.dumps({
+        "PMM_0001": {"locus_tag": "PMM_0001", "protein_id": "WP_1",
+                     "transporter_classification": ["2.A.1", "3.A.1.16"],
+                     "tcdb_diamond_ids": ["2.A.1", "3.A.1.16"],
+                     "tcdb_best_hit_ids": ["3.A.1.16.2", "3.A.1.16.9"]},
+        "PMM_0002": {"locus_tag": "PMM_0002", "protein_id": "WP_2",
+                     "transporter_classification": ["1.A.11"], "tcdb_diamond_ids": ["1.A.11"]},
+        "PMM_0003": {"locus_tag": "PMM_0003", "protein_id": "WP_2",
+                     "transporter_classification": ["1.A.11"], "tcdb_diamond_ids": ["1.A.11"]},
+        "PMM_0004": {"locus_tag": "PMM_0004", "protein_id": "WP_4",
+                     "tcdb_best_hit_ids": ["3.D.4.3.2"]},
+        "PMM_0005": {"locus_tag": "PMM_0005", "protein_id": "WP_5",
+                     "transporter_classification": ["2.A.53"], "tcdb_diamond_ids": ["2.A.53"]},
+    }))
+    (d / "tcdb").mkdir()
+
+    def call(tc, conf):
+        return {"tcid": tc, "tier": 3, "confidence_score": conf, "identity": 40.0,
+                "qcov": 80.0, "evalue": 1e-20, "consensus_n": 2}
+    (d / "tcdb" / "MED4.tcdb.calls.json").write_text(json.dumps({
+        "WP_1": {"calls": [call("2.A.1", 0.9), call("3.A.1.16", 0.5)],
+                 "best_hit": {"rule": "best_hit_v1", "tcids": ["3.A.1.16.2", "3.A.1.16.9"],
+                              "identity": 59.2, "attach_tcid": "3.A.1.16"}},
+        "WP_2": {"calls": [call("1.A.11", 0.7)],
+                 "best_hit": {"rule": "best_hit_v1", "tcids": ["1.A.11.2.5"],
+                              "identity": 81.0, "attach_tcid": "1.A.11"}},
+        "WP_4": {"calls": [], "best_hit": {"rule": "best_hit_v1", "tcids": ["3.D.4.3.2"],
+                                           "identity": 80.0}},
+        "WP_5": {"calls": [call("2.A.53", 0.6)],
+                 "best_hit": {"rule": "best_hit_v1", "tcids": ["2.A.53.9.9"],
+                              "identity": 33.0, "attach_tcid": "2.A.53"}},
+    }))
+    cache = tmp_path / "cache"
+    (cache / "tcdb").mkdir(parents=True)
+    kept = ["1", "1.A", "1.A.11", "2", "2.A", "2.A.1", "2.A.53", "3", "3.A", "3.A.1", "3.A.1.16"]
+    hier = {t: {"level": t.count("."), "level_kind": "x",
+                "parent": t.rsplit(".", 1)[0] if "." in t else None} for t in kept}
+    hier["3.A.1.16.2"] = {"name": "Bispecific cyanate/nitrite transporter.", "level": 4,
+                          "level_kind": "tc_specificity", "parent": "3.A.1.16"}
+    hier["3.A.1.16.9"] = {"name": "", "level": 4, "level_kind": "tc_specificity", "parent": "3.A.1.16"}
+    hier["1.A.11.2.5"] = {"name": "Ammonium transporter with 'quote'|pipe", "level": 4,
+                          "level_kind": "tc_specificity", "parent": "1.A.11.2"}
+    (cache / "tcdb" / "tcdb_hierarchy.json").write_text(json.dumps(hier))
+    (cache / "tcdb" / "tcdb_pruned.json").write_text(json.dumps({
+        "kept_tcdb_ids": kept, "subtree_substrates": {}, "lumping_pin": _PIN,
+        "best_hit_substrates": {
+            "3.A.1.16.2": [["kegg.compound:C00088", "Nitrite"], ["kegg.compound:C01417", "Cyanate"]],
+            "3.A.1.16.9": [["chebi:1", "N,N'-diacetylchitobiose"], ["kegg.compound:C01417", "Cyanate"]],
+            "1.A.11.2.5": [["chebi:28938", "ammonium"]],
+        },
+    }))
+    a = MultiTcdbAnnotationAdapter(genome_config_file=_genome_csv(cache, d), cache_root=cache)
+    a.download_data()
+    return {(e[1], e[2]): e[4] for e in a.get_edges() if e[3] == "gene_has_tcdb_family"}
+
+
+def test_strain_edge_carries_best_hit_on_attach_edge_only(best_hit_setup):
+    e = best_hit_setup
+    assert e[("ncbigene:PMM_0001", "tcdb:3.A.1.16")]["best_hit_tcids"] == ["3.A.1.16.2", "3.A.1.16.9"]
+    assert e[("ncbigene:PMM_0001", "tcdb:3.A.1.16")]["best_hit_identity"] == 59.2
+    assert not any(k.startswith("best_hit") for k in e[("ncbigene:PMM_0001", "tcdb:2.A.1")])
+
+
+def test_shared_wp_both_genes_get_best_hit(best_hit_setup):
+    for lt in ("PMM_0002", "PMM_0003"):
+        assert best_hit_setup[(f"ncbigene:{lt}", "tcdb:1.A.11")]["best_hit_tcids"] == ["1.A.11.2.5"]
+
+
+def test_multi_adds_names_and_substrates(best_hit_setup):
+    p = best_hit_setup[("ncbigene:PMM_0001", "tcdb:3.A.1.16")]
+    assert p["best_hit_names"] == ["Bispecific cyanate/nitrite transporter.", "3.A.1.16.9"]
+    assert p["best_hit_substrate_tcids"] == ["3.A.1.16.2", "3.A.1.16.2", "3.A.1.16.9", "3.A.1.16.9"]
+    assert p["best_hit_substrate_ids"] == ["kegg.compound:C00088", "kegg.compound:C01417",
+                                          "chebi:1", "kegg.compound:C01417"]
+    assert p["best_hit_substrate_names"] == ["Nitrite", "Cyanate", "N,N^-diacetylchitobiose", "Cyanate"]
+
+
+def test_best_hit_strings_sanitized_and_nonempty(best_hit_setup):
+    p = best_hit_setup[("ncbigene:PMM_0002", "tcdb:1.A.11")]
+    assert p["best_hit_names"] == ["Ammonium transporter with ^quote^pipe"]
+    for props in best_hit_setup.values():
+        for k in ("best_hit_names", "best_hit_substrate_names", "best_hit_tcids", "best_hit_substrate_ids"):
+            assert all(v for v in props.get(k, ["x"])), (k, props)
+
+
+def test_best_hit_without_substrates_omits_substrate_props(best_hit_setup):
+    p = best_hit_setup[("ncbigene:PMM_0005", "tcdb:2.A.53")]
+    assert p["best_hit_tcids"] == ["2.A.53.9.9"] and p["best_hit_names"] == ["2.A.53.9.9"]
+    for k in ("best_hit_substrate_tcids", "best_hit_substrate_ids", "best_hit_substrate_names"):
+        assert k not in p
+
+
+def test_best_hit_without_call_emits_nothing(best_hit_setup):
+    assert not [k for k in best_hit_setup if k[0] == "ncbigene:PMM_0004"]
+
+
+def test_alias_merge_keeps_best_hit_from_non_base_side(tmp_path):
+    d = tmp_path / "MED4"
+    d.mkdir()
+    (d / "gene_annotations_merged.json").write_text(json.dumps({
+        "PMM_0001": {"locus_tag": "PMM_0001", "protein_id": "WP_1",
+                     "transporter_classification": ["3.A.1.35", "3.A.1"],
+                     "tcdb_diamond_ids": ["3.A.1.35", "3.A.1"]}}))
+    (d / "tcdb").mkdir()
+    (d / "tcdb" / "MED4.tcdb.calls.json").write_text(json.dumps({"WP_1": {
+        "calls": [{"tcid": "3.A.1", "tier": 3, "confidence_score": 0.9, "identity": 50.0},
+                  {"tcid": "3.A.1.35", "tier": 3, "confidence_score": 0.2, "identity": 30.0}],
+        "best_hit": {"rule": "best_hit_v1", "tcids": ["3.A.1.35.1"], "identity": 30.0,
+                     "attach_tcid": "3.A.1.35"}}}))
+    cache = tmp_path / "cache"
+    (cache / "tcdb").mkdir(parents=True)
+    (cache / "tcdb" / "tcdb_hierarchy.json").write_text(json.dumps({
+        "3": {"level": 0, "level_kind": "tc_class", "parent": None},
+        "3.A": {"level": 1, "level_kind": "tc_subclass", "parent": "3"},
+        "3.A.1": {"level": 2, "level_kind": "tc_family", "parent": "3.A"}}))
+    (cache / "tcdb" / "tcdb_pruned.json").write_text(json.dumps({
+        "kept_tcdb_ids": ["3", "3.A", "3.A.1"], "subtree_substrates": {},
+        "seed_aliases": {"3.A.1.35": "3.A.1"}, "lumping_pin": _PIN}))
+    a = MultiTcdbAnnotationAdapter(genome_config_file=_genome_csv(cache, d), cache_root=cache)
+    a.download_data()
+    edges = [e for e in a.get_edges() if e[3] == "gene_has_tcdb_family"]
+    assert len(edges) == 1
+    assert edges[0][4]["confidence_score"] == 0.9
+    assert edges[0][4]["best_hit_tcids"] == ["3.A.1.35.1"]
+    assert edges[0][4]["best_hit_names"] == ["3.A.1.35.1"]

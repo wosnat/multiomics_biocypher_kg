@@ -2213,6 +2213,98 @@ Gene_has_tcdb_family.consensus_n:
   description: >
     Number of hits agreeing on this call after consensus collapse. SPARSE — present only on diamond-called edges (absent on eggNOG-only).
 
+Gene_has_tcdb_family.best_hit_tcids:
+  # provenance: best_hit_v1 (spec docs/superpowers/specs/2026-10-18-tcdb-diamond-best-hit-design.md),
+  #   from <strain>.tcdb.calls.json best_hit.tcids via tcdb_adapter.
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: best_hit_tcids
+  value_type: string_array
+  closed: false
+  values: []
+  sparse: true
+  description: >
+    The actual best-hit TCDB systems (5-part TC ids, best first, up to 3) from
+    diamond vs. the curated TCDB sequences — the specific system the tier call is truncated
+    away from (e.g. cynD is called 3.A.1 but its best hit is 3.A.1.16.2). Kept when both
+    query and reference are >= 75% covered, TC class 1-4, and the hit is reciprocal-best;
+    near-ties within 90% of the top bitscore are listed and may come from another family.
+    One id = a clean best hit; several = a near-tie — compare their substrates. A raw clue,
+    not a call. Present on one diamond-called edge per gene (the edge in the family of the top hit).
+    These systems are generally not TcdbFamily nodes. Not the same as MEROPS best_hit_id.
+
+Gene_has_tcdb_family.best_hit_names:
+  # provenance: best_hit_v1; TCDB system names from tcdb_names.json (T6 scraper) via tcdb_hierarchy.json.
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: best_hit_names
+  value_type: string_array
+  closed: false
+  values: []
+  sparse: true
+  description: >
+    The TCDB name of each best-hit system, aligned index-for-index with best_hit_tcids
+    (e.g. "Bispecific cyanate/nitrite transporter."). The TC id itself when TCDB gives no name.
+
+Gene_has_tcdb_family.best_hit_identity:
+  # provenance: best_hit_v1; calls.json best_hit.identity.
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: best_hit_identity
+  value_type: float
+  closed: false
+  values: []
+  sparse: true
+  min_value: 0.0
+  max_value: 100.0
+  description: >
+    blastp percent identity of the top best-hit system (0-100). Says how far its substrates
+    can be trusted for this gene: roughly, 50-60% or more fairly safe, below 40% weak.
+    Can differ from `identity`, which belongs to the consensus hit of the tier call.
+
+Gene_has_tcdb_family.best_hit_substrate_tcids:
+  # provenance: best_hit_v1; long form built by tcdb_adapter from tcdb_pruned.json best_hit_substrates.
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: best_hit_substrate_tcids
+  value_type: string_array
+  closed: false
+  values: []
+  sparse: true
+  description: >
+    Long-form table with best_hit_substrate_ids / best_hit_substrate_names: one entry per
+    (best-hit system, substrate), giving the system each substrate belongs to. The three
+    lists are aligned; a substrate two systems share repeats once per system. Absent when
+    TCDB lists no substrate for any best-hit system.
+
+Gene_has_tcdb_family.best_hit_substrate_ids:
+  # provenance: best_hit_v1; step 6 resolves substrates.tsv ChEBI ids (secondary -> primary, MNX,
+  #   canonical identity) for each best-hit system, unfiltered.
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: best_hit_substrate_ids
+  value_type: string_array
+  closed: false
+  values: []
+  sparse: true
+  description: >
+    The own TCDB substrates of each best-hit system as Metabolite / ChemicalRole ids, aligned
+    with best_hit_substrate_tcids. Unfiltered — H+, Na+, generic classes and polymers
+    (protein, DNA) are included — and an id need not be a node in the graph.
+
+Gene_has_tcdb_family.best_hit_substrate_names:
+  # provenance: best_hit_v1; node name when the id is a node, else TCDB's substrate name.
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: best_hit_substrate_names
+  value_type: string_array
+  closed: false
+  values: []
+  sparse: true
+  description: >
+    Substrate names aligned with best_hit_substrate_ids: the name of the graph node when the id
+    is a node, else the name TCDB gives.
+
 Gene_has_merops_family.confidence_score:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   merops-diamond native per-call confidence in [0,1] (NOT the R4 evidence_score; tool-internal

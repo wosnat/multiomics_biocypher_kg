@@ -96,6 +96,8 @@ class TcdbAnnotationAdapter:
         self._genes: dict = {}
         # {protein_id: {tcid: best candidate dict}} from the Phase-1 calls.json
         self._diamond: dict[str, dict[str, dict]] = {}
+        # {protein_id: best_hit block} (best_hit_v1) from the same calls.json
+        self._best_hits: dict[str, dict] = {}
         self._load()
 
     def _load(self) -> None:
@@ -124,6 +126,9 @@ class TcdbAnnotationAdapter:
         for wp, rec in data.items():
             if not isinstance(rec, dict):
                 continue
+            best = rec.get("best_hit")
+            if isinstance(best, dict) and best.get("tcids") and best.get("attach_tcid"):
+                self._best_hits[str(wp).strip()] = best
             per_tc: dict[str, dict] = {}
             for cand in rec.get("calls", []):
                 tcid = cand.get("tcid")
@@ -160,6 +165,7 @@ class TcdbAnnotationAdapter:
             dia = set(gene.get("tcdb_diamond_ids") or [])
             protein_id = (gene.get("protein_id") or "").strip()
             evidence = self._diamond.get(protein_id, {})
+            best = self._best_hits.get(protein_id)
             for tc in gene.get("transporter_classification") or []:
                 if not tc:
                     continue
@@ -189,6 +195,13 @@ class TcdbAnnotationAdapter:
                     for key in ("confidence_score", "identity", "qcov", "evalue"):
                         if cand.get(key) is not None:
                             props[key] = float(cand[key])
+                # best_hit_v1: the protein's actual best-hit 5-part systems ride on the
+                # ONE diamond edge in the top hit's family (attach_tcid). Names and
+                # substrates are added by MultiTcdbAnnotationAdapter.
+                if best and "tcdb_diamond" in sources and tc == best["attach_tcid"]:
+                    props["best_hit_tcids"] = [_clean_str(t) for t in best["tcids"]]
+                    if best.get("identity") is not None:
+                        props["best_hit_identity"] = float(best["identity"])
                 yield (
                     f"{locus_tag}-has_tcdb-{tc}",
                     _gene_node_id(locus_tag),
@@ -230,6 +243,7 @@ class MultiTcdbAnnotationAdapter:
         self._seed_aliases: dict[str, str] = {}
         self._pfam_bridge: dict[str, dict[str, list[str]]] = {}
         self._go_bridge: dict[str, dict[str, list[str]]] = {}
+        self._best_hit_substrates: dict[str, list[list[str]]] = {}
         # None = endpoint node set not provided → emit NO bridge edges of that kind
         # (we cannot guarantee the endpoints exist). A provided set (even empty)
         # prunes to it. Mirrors MultiInterproAnnotationAdapter.pfam_node_ids.
@@ -282,10 +296,32 @@ class MultiTcdbAnnotationAdapter:
         self._go_bridge = pruned.get("go_bridge", {}) or {}
         self._chemical_roles = pruned.get("chemical_roles", {}) or {}
         self._subtree_roles = pruned.get("subtree_roles", {}) or {}
+        # best_hit_v1: {tcid5: [[canonical_id, name], ...]} — each best-hit system's own
+        # substrates (unfiltered; ids need not be nodes). Read only for edge properties.
+        self._best_hit_substrates = pruned.get("best_hit_substrates", {}) or {}
         self._lumping_pin = pruned.get("lumping_pin")
         if self._lumping_pin is None:
             raise RuntimeError(
                 "tcdb_pruned.json has no lumping_pin — re-run prepare_data step 6")
+
+    def _with_best_hit_details(self, props: dict) -> dict:
+        """Add best_hit_names (aligned with best_hit_tcids; TCID when unnamed) and the
+        long-form substrate lists (one entry per (system, substrate), window order then
+        id; the three lists aligned; absent when no window system has substrates)."""
+        tcids = props["best_hit_tcids"]
+        props["best_hit_names"] = [
+            _clean_str((self._hierarchy.get(t) or {}).get("name") or "") or t for t in tcids]
+        sub_tc, sub_id, sub_name = [], [], []
+        for t in tcids:
+            for sid, name in self._best_hit_substrates.get(t, []):
+                sub_tc.append(t)
+                sub_id.append(_clean_str(sid))
+                sub_name.append(_clean_str(name or "") or _clean_str(sid))
+        if sub_id:
+            props["best_hit_substrate_tcids"] = sub_tc
+            props["best_hit_substrate_ids"] = sub_id
+            props["best_hit_substrate_names"] = sub_name
+        return props
 
     def _compute_substrate_depth(
         self, subtree_map: dict[str, list[str]]
@@ -400,6 +436,8 @@ class MultiTcdbAnnotationAdapter:
             order: list[tuple[str, str]] = []
             for edge in adapter.get_edges():
                 edge_id, source, target, _label, props = edge
+                if "best_hit_tcids" in props:
+                    props = self._with_best_hit_details(dict(props))
                 if target not in kept_node_ids:
                     anchor_target = alias_node_ids.get(target)
                     if not (anchor_target and anchor_target in kept_node_ids):
@@ -424,6 +462,11 @@ class MultiTcdbAnnotationAdapter:
                 ):
                     base = props
                 combined = dict(base)
+                # best_hit_* rides on one diamond edge; keep it whichever side won.
+                other = props if base is prev_props else prev_props
+                for k, v in other.items():
+                    if k.startswith("best_hit_") and k not in combined:
+                        combined[k] = v
                 combined["sources"] = sources
                 combined["evidence"] = _tcdb_evidence(sources)
                 # Keep the lexicographically smaller id so the merge is deterministic.
