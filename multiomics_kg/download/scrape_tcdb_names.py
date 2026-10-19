@@ -301,7 +301,8 @@ def assemble_names(
 
     prior = (existing or {}).get("meta", {})
     scraped = set(prior.get("scraped_families", [])) | set(scraped_families)
-    failed = (set(prior.get("failed_families", [])) | set(failed_families)) - set(scraped_families)
+    # a family that has ever been scraped keeps valid names; "failed" = never scraped yet
+    failed = (set(prior.get("failed_families", [])) | set(failed_families)) - scraped
     return {
         "meta": {
             "scraped_at": date.today().isoformat(),

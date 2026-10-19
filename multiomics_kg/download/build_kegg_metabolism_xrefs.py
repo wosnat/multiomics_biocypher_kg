@@ -492,7 +492,7 @@ def _gene_reachable_sets(raw: dict) -> dict:
     log.info(
         f"Gene-reachable: {len(kos)} KOs, {len(rxns)} reactions, "
         f"{len(cpds)} compounds, {len(pws)} pathways (KO∪Rxn), "
-        f"{len(tcdb_ids)} TCDB IDs"
+        f"{len(tcdb_ids)} TCDB IDs, {len(tcdb_best_hit_ids)} diamond best-hit TCDB systems"
     )
     return {"kos": kos, "rxns": rxns, "cpds": cpds, "pws": pws, "tcdb_ids": tcdb_ids,
             "tcdb_best_hit_ids": tcdb_best_hit_ids, "rxn_genes": rxn_genes}

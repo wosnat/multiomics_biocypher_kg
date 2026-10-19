@@ -664,3 +664,60 @@ def test_build_strain_calls_reciprocal_fail_has_no_best_hit_key(tmp_path):
     assert calls["WP_A"]["calls"]
     assert "best_hit" not in calls["WP_A"]
     assert "best_hit" in calls["WP_B"]
+
+
+def test_best_hit_tie_on_bits_and_tcid_breaks_on_subject_id():
+    # same bitscore + same TCID via two references: the lower subject_id is the top hit,
+    # independent of TSV order; reciprocity is judged on that subject.
+    rows = [_row("P1", "3.A.1.16.2", 50, 90, 90, 300, acc="ZZZ"),
+            _row("P1", "3.A.1.16.2", 50, 90, 90, 300, acc="AAA"),
+            _row("P2", "3.A.1.16.2", 60, 90, 90, 400, acc="ZZZ")]
+    assert "P1" in select_best_hits(rows)          # AAA is P1's top; P2 only claims ZZZ
+    rows.reverse()
+    assert "P1" in select_best_hits(rows)
+
+
+def test_build_strain_calls_counts_fallback_attach(tmp_path):
+    tsv = tmp_path / "s.tcdb.tsv"
+    tsv.write_text(
+        # gated top hit, but HSP 45 aa → no tier call in 3.A.1
+        _tsv_line("WP_9", "A-3.A.1.16.2", 70.0, 95.0, 95.0, 45, 1e-20, 300)
+        # a separate tier call in 2.A.1 (not gated: scov 50)
+        + _tsv_line("WP_9", "B-2.A.1.1.1", 40.0, 80.0, 50.0, 200, 1e-30, 100)
+    )
+    calls, summary = build_strain_calls(tsv)
+    assert [c["tcid"] for c in calls["WP_9"]["calls"]] == ["2.A.1.1"]
+    assert calls["WP_9"]["best_hit"]["attach_tcid"] == "2.A.1.1"
+    assert summary["best_hit_fallback_attach"] == 1
+
+
+def _runner():
+    import importlib.util
+    from pathlib import Path
+    p = Path(__file__).resolve().parents[1] / ".claude/skills/tcdb-diamond/run_tcdb_diamond.py"
+    spec = importlib.util.spec_from_file_location("run_tcdb_diamond", p)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_rebuild_from_tsv_writes_calls_without_diamond(tmp_path):
+    r = _runner()
+    d = tmp_path / "S"
+    (d / "tcdb").mkdir(parents=True)
+    (d / "tcdb" / "S.tcdb.tsv").write_text(
+        _tsv_line("WP_1", "O05347-3.A.1.16.2", 59.2, 95.4, 94.0, 250, 1e-108, 316))
+    strain, status, summary = r.rebuild_from_tsv("S", d)
+    assert status == "OK" and summary["proteins_with_best_hit"] == 1
+    calls = json.loads((d / "tcdb" / "S.tcdb.calls.json").read_text())
+    assert calls["WP_1"]["best_hit"]["tcids"] == ["3.A.1.16.2"]
+    assert (d / "tcdb" / "S.tcdb.skill_summary.json").exists()
+    assert r.rebuild_from_tsv("T", tmp_path / "T")[1] == "SKIP_NO_TSV"
+
+
+def test_from_tsv_rejects_limit(monkeypatch):
+    import pytest as _pytest
+    r = _runner()
+    monkeypatch.setattr("sys.argv", ["run_tcdb_diamond.py", "--from-tsv", "--limit", "5"])
+    with _pytest.raises(SystemExit):
+        r.main()

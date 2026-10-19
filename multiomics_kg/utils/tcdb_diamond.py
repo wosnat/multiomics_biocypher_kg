@@ -198,8 +198,8 @@ def select_best_hits(rows: list[dict]) -> dict[str, dict]:
     floor). Reciprocal: the protein's top gated hit must also be that subject
     row's top gated hit among this strain's proteins (keyed by raw subject_id).
     Window: gated hits with bitscore >= 0.9 x top, up to 3 distinct 5-part
-    TCIDs, any family. Ordering: bitscore desc, then TCID asc (query id asc for
-    the reverse lookup).
+    TCIDs, any family. Ordering: bitscore desc, then TCID asc, then subject_id
+    asc (query id asc for the reverse lookup).
 
     Returns {query_id: {"tcids": [...], "identity": float, "top_tcid": str}};
     proteins failing the gate or the reciprocal check are absent.
@@ -226,7 +226,7 @@ def select_best_hits(rows: list[dict]) -> dict[str, dict]:
 
     out: dict[str, dict] = {}
     for q, hits in by_query.items():
-        hits.sort(key=lambda h: (-h[0], h[1]))
+        hits.sort(key=lambda h: (-h[0], h[1], h[2]))     # bits desc, TCID, subject_id
         top_bits, top_tcid, top_subj, top_ident = hits[0]
         if top_query_of_subject[top_subj][1] != q:
             continue

@@ -575,6 +575,9 @@ def _compute_contributing_sources(gene: dict) -> list[str]:
     - 'cyanorak': locus_tag_cyanorak non-null OR any cyanorak-tagged field.
     - 'uniprot': uniprot_accession non-null OR any uniprot-tagged field.
     - 'eggnog': seed_ortholog or eggnog_ogs non-null OR any eggnog-tagged field.
+    - 'tcdb_diamond': a diamond TC call (`tcdb_diamond_ids`). A best hit alone
+      (`tcdb_best_hit_ids` without a call — ~188 genes whose top alignment is
+      < 50 aa) deliberately does not count: it creates no edge.
     """
     sources = {"ncbi"}
     if gene.get("locus_tag_cyanorak") or _has_source_label(gene, "cyanorak"):

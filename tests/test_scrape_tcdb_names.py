@@ -317,3 +317,12 @@ class TestNameHygiene:
 
     def test_make_name_keeps_balanced_text(self):
         assert m.make_name("Urea porter, UrtA-E (5 subunits). More.") == "Urea porter, UrtA-E (5 subunits)."
+
+
+def test_assemble_names_failed_excludes_previously_scraped():
+    existing = {"meta": {"scraped_families": ["2.A.1"], "failed_families": ["9.B.1"]},
+                "names": {}}
+    art = m.assemble_names({}, {}, set(), scraped_families=["9.B.1"],
+                           failed_families=["2.A.1", "3.A.1"], existing=existing)
+    assert art["meta"]["scraped_families"] == ["2.A.1", "9.B.1"]
+    assert art["meta"]["failed_families"] == ["3.A.1"]   # 2.A.1's names are still valid
