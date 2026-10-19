@@ -187,6 +187,13 @@ reports how many stored ids have no node.
   {tcid5: [canonical_id, …]}` into `tcdb_pruned.json` (unfiltered, §4). Canonical ids exist
   only after the step-6 identity pipeline, so the map is written from there, not where
   `subtree_substrates` is first built.
+- **Why a separate key, not added to `kept_tcdb_ids` (user, 2026-10-19):** keeping the
+  ~1,790 best-hit systems as pruned nodes would roughly double TcdbFamily with gene-less
+  nodes, add thousands of `Tcdb_family_transports_metabolite` edges, flip existing edges'
+  `substrate_depth` to `inherited`, shift `Metabolite.transporter_count`, and possibly add
+  Metabolite / pathway nodes — a TCDB-layer redesign that belongs to project 3. The
+  separate `best_hit_substrates` key is read only by the adapter; promoting it to nodes
+  later is mechanical.
 - **TCDB names:** `scrape_tcdb_names.py` keeps the name of **every** 5-part system on each
   family page it parses (today it keeps only systems that are KG nodes: 203 of ~1,990
   best-hit systems named), and is topped up with `--families` for the 251 families the
