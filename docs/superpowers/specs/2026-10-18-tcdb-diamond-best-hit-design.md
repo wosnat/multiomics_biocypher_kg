@@ -230,10 +230,10 @@ reports how many stored ids have no node.
   (`multiomics_biocypher_kg`); copy it over before running so the 198 scraped families
   are re-parsed, not re-fetched — only the 53 new pages hit tcdb.org (~2–3 min).
   `--families` top-ups merge instead of rewriting (pre-existing bug, fixed here).
-  `tcdb_names.json` stays committed. The adapter reads system names from
-  `tcdb_names.json`; step 6 warns on best-hit systems still unnamed.
+  `tcdb_names.json` stays committed. The adapter gets system names via
+  `tcdb_hierarchy.json`; step 6 warns on best-hit systems still unnamed.
 - **Adapter:** `tcdb_adapter` reads `best_hit` from calls.json (already reads calls.json
-  for evidence), system names from `tcdb_names.json` and `best_hit_substrates` from
+  for evidence), system names from `tcdb_hierarchy.json` (step 6 copies them in from `tcdb_names.json`) and `best_hit_substrates` from
   `tcdb_pruned.json`, and attaches the six properties per §3 step 4. The seed-alias edge
   merge must carry `best_hit_*` from whichever side has them.
 - **Schema:** BioCypher writes only declared edge properties — add the six to
@@ -254,9 +254,14 @@ consequence: `Schema_info.controlled_vocabularies_hash` moves and six `Controlle
 nodes are added — allowed by the "nothing existing changes" acceptance.
 
 **Committed files expected to change:** 43 × `.tcdb.calls.json` (+ `skill_summary.json`),
-43 × `gene_annotations_merged.json` (new key only), `tcdb_names.json` (new keys only),
-`tcdb_pruned.json` (new key only), `chebi_metabolite_xrefs.json` (more terms). Not:
-`.tcdb.tsv`, `kegg_data.json`, any other step-6 output.
+43 × `gene_annotations_merged.json` and `gene_annotations_wide.json` (new key only),
+`tcdb_names.json` (new keys only), `tcdb_hierarchy.json` (non-kept specificity entries gain
+the scraped name/description; kept entries unchanged), `tcdb_pruned.json` (new key only),
+`chebi_metabolite_xrefs.json` (more terms). Not: `.tcdb.tsv`, `kegg_data.json`, any other
+step-6 output. KG-side, besides the six properties: the vocabulary hash, six
+`ControlledVocabulary` nodes, and `data_source:tcdb_diamond.info_types` (+`tcdb_best_hit_ids`).
+System names reach the adapter through `tcdb_hierarchy.json`, which step 6 already fills
+from `tcdb_names.json`.
 
 ### Data flow
 
@@ -285,7 +290,7 @@ flowchart TD
 
     CALLS --> ADP["tcdb_adapter"]
     MERGED --> ADP
-    NAMES --> ADP
+    NAMES -->|copied into tcdb_hierarchy.json by step 6| ADP
     PRUNED --> ADP
     ADP --> EDGE["Gene_has_tcdb_family edge (diamond-sourced)<br/>+ 6 best_hit_* properties (new)"]
     EDGE --> KG[("Neo4j KG")]
@@ -297,7 +302,7 @@ flowchart TD
 | Name scraper | merged `tcdb_best_hit_ids`, page cache, tcdb.org (53 new pages) | `tcdb_names.json` | Names for best-hit systems as new keys (≥ 95% target; else the TCID is the name); existing keys verbatim |
 | Step 6 | merged `tcdb_best_hit_ids`, hierarchy substrate strings, ChEBI/MNX, identity pipeline | `tcdb_pruned.json` `best_hit_substrates` | Per system: its own substrates as `[canonical id, name]`, unfiltered, nodes not required. Separate resolve with its own `rekeys`, tracked (ChEBI cache grows); `kegg_data.json` and every existing key byte-identical |
 | Step 2 merge | calls.json | merged annotations | Edge set unchanged (`transporter_classification`); adds per-gene `tcdb_best_hit_ids` |
-| `tcdb_adapter` | calls.json, merged annotations, `tcdb_names.json`, `tcdb_pruned.json` | `Gene_has_tcdb_family` edges | Strain adapter puts `best_hit_tcids` + `best_hit_identity` on the edge whose TC id = `attach_tcid`; Multi adapter adds `best_hit_names` and the three long-form substrate lists, and carries `best_hit_*` through the seed-alias edge merge |
+| `tcdb_adapter` | calls.json, merged annotations, `tcdb_hierarchy.json` (names), `tcdb_pruned.json` | `Gene_has_tcdb_family` edges | Strain adapter puts `best_hit_tcids` + `best_hit_identity` on the edge whose TC id = `attach_tcid`; Multi adapter adds `best_hit_names` and the three long-form substrate lists, and carries `best_hit_*` through the seed-alias edge merge |
 
 Rerun order after a change: diamond runner (`--from-tsv`, or a full run when TCDB itself is
 refreshed) → `prepare_data.sh --steps 2 --force` → name
