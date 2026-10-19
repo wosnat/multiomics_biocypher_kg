@@ -116,5 +116,5 @@ def test_med4_nitrogen_best_hits(run_query, locus_tag, tcid, substrate):
     assert len(rows) == 1, rows
     r = rows[0]
     assert r["tcids"][0] == tcid
-    assert r["names"][0] != tcid                         # a real TCDB name, not the fallback
+    assert substrate in r["names"][0].lower(), r["names"]   # a real, untruncated TCDB name
     assert any(substrate in s.lower() for s in r["subs"] or []), r["subs"]

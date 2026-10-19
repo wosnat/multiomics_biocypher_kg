@@ -211,6 +211,7 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
 
 ### Fixed
 
+- **TCDB system names cut mid-parenthesis.** The T6 scraper's HTML cleaner read a bare `<` in TCDB text (`(<1 μM)`) as a tag and dropped the rest, and first-sentence / length capping could leave a parenthetical open, so 31 existing `TcdbFamily` names were truncated (MED4's urea system `3.A.1.4.4` read "The high-affinity ("; now "The high-affinity (<1 μM) urea porter"). Those 31 names were re-derived from the cached pages; 11 keep stray parentheses that are in TCDB's own text.
 - **Linear fold changes below 1 can now be significant.** `omics_adapter` judged significance on
   the raw linear ratio instead of its log2 value, so with `fold_change_type: linear` a
   down-regulated gene (ratio < 1) never passed `logfc_threshold`. Affects Aharonovich 2016 and

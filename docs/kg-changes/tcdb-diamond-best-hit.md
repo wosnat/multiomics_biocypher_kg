@@ -33,6 +33,10 @@ moved. The vocabulary gained six `ControlledVocabulary` entries (so
 `Schema_info.controlled_vocabularies_hash` moved) and `data_source:tcdb_diamond.info_types` gained
 `tcdb_best_hit_ids`.
 
+One existing property did change, as a bug fix: 31 `TcdbFamily.name` values that the T6 scraper
+had cut mid-parenthesis (a bare `<` in TCDB text was read as an HTML tag) were re-derived — for
+example `3.A.1.4.4` "The high-affinity (" is now "The high-affinity (<1 μM) urea porter".
+
 ## The rule (`best_hit_v1`)
 
 Computed from the committed `<strain>.tcdb.tsv` by `select_best_hits`

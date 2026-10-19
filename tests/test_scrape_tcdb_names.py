@@ -293,3 +293,27 @@ class TestBestHitScope:
         assert art["names"]["3.A.1.5.1"] == {"name": "Dpp.", "description": "Dpp."}
         assert "2.A.1.1.1" in art["names"]
         assert set(art["meta"]["scraped_families"]) >= {"1.A.11", "3.A.1", "2.A.1"}
+
+
+class TestNameHygiene:
+    """Review 2026-10-19: 69 of 1,786 new best-hit system names were cut mid-parenthesis."""
+
+    def test_less_than_sign_is_not_a_tag(self):
+        assert m.clean_html_fragment("The high-affinity (<1 &#956;M) urea porter") == \
+            "The high-affinity (<1 μM) urea porter"
+        assert m.clean_html_fragment("a <i>b</i> c <br /") == "a b c"
+
+    def test_first_sentence_does_not_split_inside_parentheses(self):
+        s = "Cytochrome c, CycS (of 105 aas. See family description). Second sentence."
+        assert m.first_sentence(s) == "Cytochrome c, CycS (of 105 aas. See family description)."
+
+    def test_make_name_drops_unclosed_trailing_parenthetical(self):
+        long = ("Ammonia channel protein, AmtB (forms a ternary complex with the trimeric P II "
+                "protein, GlnZ and the nitrogenous regulatory glycohydrolase enzyme, DraG, under "
+                "conditions of nitrogen excess in the cell).")
+        name = m.make_name(long)
+        assert name.count("(") == name.count(")")
+        assert name.startswith("Ammonia channel protein, AmtB")
+
+    def test_make_name_keeps_balanced_text(self):
+        assert m.make_name("Urea porter, UrtA-E (5 subunits). More.") == "Urea porter, UrtA-E (5 subunits)."

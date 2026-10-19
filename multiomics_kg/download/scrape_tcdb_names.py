@@ -67,8 +67,9 @@ def clean_html_fragment(s: str) -> str:
     Tolerates a malformed dangling tag at the end of the fragment (one live
     cell carries an unclosed "<br /").
     """
-    t = re.sub(r"<[^>]+>", " ", s)
-    t = re.sub(r"<[^>]*$", "", t)          # dangling unclosed tag at end
+    # A tag starts with a letter, '/' or '!' — a bare '<' is text ("(<1 µM)").
+    t = re.sub(r"<[A-Za-z/!][^>]*>", " ", s)
+    t = re.sub(r"<[A-Za-z/!][^>]*$", "", t)  # dangling unclosed tag at end
     t = html_mod.unescape(t)
     t = t.replace("\xa0", " ")
     return re.sub(r"\s+", " ", t).strip()
@@ -101,6 +102,8 @@ def first_sentence(s: str) -> str:
         prefix = s[: match.start() + 1]
         if _ABBREV_AT_END.search(prefix):
             continue
+        if prefix.count("(") > prefix.count(")"):   # inside a parenthetical
+            continue
         return prefix
     return s
 
@@ -112,8 +115,24 @@ def cap_at_word_boundary(s: str, limit: int) -> str:
     return cut + "…"
 
 
+def _drop_unclosed_parenthetical(s: str) -> str:
+    """Cut at the first '(' that is never closed (the cap or a split left it open),
+    unless that would leave almost nothing."""
+    opened: list[int] = []
+    for i, ch in enumerate(s):
+        if ch == "(":
+            opened.append(i)
+        elif ch == ")" and opened:
+            opened.pop()
+    if not opened:
+        return s
+    head = s[: opened[0]].rstrip(" ,;:")
+    return head if len(head) >= 15 else s
+
+
 def make_name(full_text: str) -> str:
-    return cap_at_word_boundary(first_sentence(strip_citations(full_text)), NAME_CAP)
+    return _drop_unclosed_parenthetical(
+        cap_at_word_boundary(first_sentence(strip_citations(full_text)), NAME_CAP))
 
 
 def make_description(full_text: str) -> str:
