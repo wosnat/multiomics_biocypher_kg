@@ -32,7 +32,7 @@ have for nitrogen sources, and what are their substrates or substrate classes"
 **Goals**
 - Publish each diamond call's gated best-hit TCDB system(s) and their own substrates,
   on the existing diamond-sourced `Gene_has_tcdb_family` edge.
-- Smallest form that survives the project-3 TCDB redesign: five edge properties (ids +
+- Smallest form that survives the project-3 TCDB redesign: six edge properties (ids +
   aligned names, so the record reads without joins), no new node or edge types, no new
   Metabolite nodes.
 - Cheap validation against transport evidence already in the KG.
@@ -48,7 +48,7 @@ have for nitrogen sources, and what are their substrates or substrate classes"
 
 **Anti-goals**
 - Storing raw diamond hits (no hit tables, no runner-up scores, no qcov/scov/bitscore per hit).
-  (Within the five properties nothing is dropped or filtered — they are raw material.)
+  (Within the six properties nothing is dropped or filtered — they are raw material.)
 - Hand-picked TC-family exclusion lists derived from the genes we inspected (overfitting).
 - A fused "confidence" flag that hides the evidence (programme rule: routes with caveats).
 - Tuning thresholds on the evaluation strains.
@@ -145,8 +145,14 @@ nothing):
 | `best_hit_tcids` | str[] (1–3) | Window 5-part TCIDs, best bitscore first. Plain TCDB ids (`3.A.1.16.2`), not node ids — these systems are generally not KG nodes. |
 | `best_hit_names` | str[] | Aligned index-for-index with `best_hit_tcids`: TCDB system name from `tcdb_names.json` (e.g. `3.A.1.16.2` → "Bispecific cyanate/nitrite transporter."); falls back to the TCID itself when unnamed (same marker as `TcdbFamily.name = tcdb_id`). |
 | `best_hit_identity` | float | Percent identity of the top hit. |
-| `best_hit_substrate_ids` | str[] | Union of the window systems' own substrates (`substrates.tsv` rows for those TCIDs), resolved like every TCDB substrate in step 6 (secondary → primary ChEBI, KEGG/ChEBI/MNX canonicalisation, role partition) to canonical Metabolite / ChemicalRole ids. **Unfiltered and kept whether or not a node exists** (user, 2026-10-18: raw material for project 3): H⁺, Na⁺, upper-level classes and polymers (protein, DNA) stay in; an id the resolver cannot canonicalise is stored as its primary `chebi:` CURIE. Sorted. Absent only when TCDB lists no substrate for any window system. |
-| `best_hit_substrate_names` | str[] | Aligned index-for-index with `best_hit_substrate_ids`: the canonical node's name when the node exists, else the name TCDB gives with the ChEBI id in `substrates.tsv`. |
+| `best_hit_substrate_tcids` | str[] | Long form, one entry per (window system, substrate) pair: the system the substrate belongs to. Aligned index-for-index with the two lists below; ordered by window rank, then substrate id. A substrate two systems share appears once per system; a system with no substrates has no entries. |
+| `best_hit_substrate_ids` | str[] | Aligned with `best_hit_substrate_tcids`: that system's own substrate (`substrates.tsv` row for the TCID), resolved like every TCDB substrate in step 6 (secondary → primary ChEBI, KEGG/ChEBI/MNX canonicalisation, role partition) to a canonical Metabolite / ChemicalRole id. **Unfiltered and kept whether or not a node exists** (user, 2026-10-18: raw material for project 3): H⁺, Na⁺, upper-level classes and polymers (protein, DNA) stay in; an id the resolver cannot canonicalise is stored as its primary `chebi:` CURIE. |
+| `best_hit_substrate_names` | str[] | Aligned with the two lists above: the canonical node's name when the node exists, else the name TCDB gives with the ChEBI id in `substrates.tsv`. |
+
+Layout (user, 2026-10-19): the substrate lists are a long table, not a union, so the
+reader can tell which system names which substrate — the point of a split call (MED4
+`sul1`: one system → sulfate, the other → fumarate). Neo4j has no nested lists, so this is
+the flat form; it can change when the design matures (project 3).
 
 Read together: one TCID = clean call; several = near-tie, and the reader checks whether
 their substrates agree (e.g. MED4 `sul1`: fumarate vs sulfate → genuinely ambiguous, not
@@ -190,11 +196,11 @@ reports how many stored ids have no node.
   (or the adapter reads `tcdb_names.json` directly — builder's choice) and warns on
   best-hit systems still unnamed.
 - **Adapter:** `tcdb_adapter` reads `best_hit` from calls.json (already reads it for
-  evidence) and `best_hit_substrates` from `tcdb_pruned.json`, attaches the five properties
+  evidence) and `best_hit_substrates` from `tcdb_pruned.json`, attaches the six properties
   per §3 step 4.
 - Merge (`gene_annotations_merged.json`): untouched.
 
-Vocabulary/contract: register the five properties in `config/controlled_vocabularies.yaml`
+Vocabulary/contract: register the six properties in `config/controlled_vocabularies.yaml`
 if numeric/list edge props are registered there (KG-SYNC-005 practice); sanitize strings.
 
 ## 6. Validation (light; existing sources; no tuning)
