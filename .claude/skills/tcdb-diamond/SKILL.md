@@ -207,13 +207,22 @@ scraper — TCDB publishes no bulk file for subclass/subfamily/specificity names
 uv run python -m multiomics_kg.download.scrape_tcdb_names
 
 # Top-up after onboarding a strain that introduced unscraped families
-# (step 6 logs a warning naming the exact families + this command):
+# (step 6 logs a warning naming the exact families + this command). Merges into
+# the existing artifact — other families' names are kept:
 uv run python -m multiomics_kg.download.scrape_tcdb_names --families 2.A.130 9.B.400
 ```
 
+**Merge-preserving (2026-10-19):** every run starts from the committed
+`tcdb_names.json` and only *adds* names for ids not yet named — existing entries
+stay verbatim, so a re-scrape cannot rename an existing `TcdbFamily`. (Before this,
+`--families` rewrote the artifact from the listed families alone, dropping every
+other family's subfamily/system names.) To pick up new upstream wording for
+existing ids, delete those entries first.
+
 **When to run:** (1) step 6 warns `kept TCDB families not covered by
 tcdb_names.json` — a new strain's annotations reached families the scrape
-hasn't seen; (2) a TCDB upstream release worth picking up (`--force` re-fetches
+hasn't seen, or `best-hit TCDB systems have no name` (the diamond best-hit
+systems feed `best_hit_names`); (2) a TCDB upstream release worth picking up (`--force` re-fetches
 cached pages). After a run, rebuild the hierarchy: `bash scripts/prepare_data.sh
 --steps 6 --force`, then commit both `tcdb_names.json` and
 `tcdb_hierarchy.json`.
@@ -221,8 +230,10 @@ cached pages). After a run, rebuild the hierarchy: `bash scripts/prepare_data.sh
 **Hygiene (by design):** single-threaded, 2.5 s/request, exponential backoff,
 aborts after 3 consecutive failures (tcdb.org has multi-day maintenance
 windows — resume later; already-fetched pages under the gitignored
-`cache/data/tcdb/raw/pages/` are skipped). Scope = the ~351 families carrying
-kept 4/5-part IDs in `tcdb_pruned.json`, plus the full browse.php layer
+`cache/data/tcdb/raw/pages/` are skipped — the cache is per clone; copy it from
+another clone before a run to avoid re-fetching). Scope = the families carrying
+kept 4/5-part IDs in `tcdb_pruned.json` **plus** the diamond best-hit systems
+(merged `tcdb_best_hit_ids`; 404 families as of 2026-10-19), plus the full browse.php layer
 (classes/subclasses/families). Subfamilies with no upstream name stay as bare
 TC ids on purpose (`t.name = t.tcdb_id` is the fallback marker). Design:
 `docs/superpowers/specs/2026-08-12-tcdb-node-names-design.md`.

@@ -33,6 +33,10 @@ import sys
 import time
 from datetime import date
 from pathlib import Path
+from typing import Iterable
+
+from multiomics_kg.download.utils.cli import load_genome_rows
+from multiomics_kg.utils.gene_id_utils import load_gene_annotations
 
 log = logging.getLogger(__name__)
 
@@ -233,37 +237,58 @@ def fetch_page(url: str, dest: Path, *, force: bool, delay: float,
 
 # ── artifact assembly ────────────────────────────────────────────────────────
 
+def collect_best_hit_tcids(genome_dirs: Iterable[Path]) -> set[str]:
+    """Union of merged `tcdb_best_hit_ids` (best_hit_v1) over the given strain dirs."""
+    out: set[str] = set()
+    for d in genome_dirs:
+        genes = load_gene_annotations(d) or {}
+        for g in genes.values():
+            out.update(t for t in g.get("tcdb_best_hit_ids") or [] if isinstance(t, str) and t)
+    return out
+
+
 def assemble_names(
     browse_names: dict[str, str],
     per_family_results: dict[str, tuple[dict[str, str], dict[str, str]]],
     kept_ids: set[str],
     scraped_families: list[str],
     failed_families: list[str],
+    existing: dict | None = None,
 ) -> dict:
     """Build the artifact dict. Browse layer (levels 0-2) kept in FULL —
     removes gene-set coupling for those levels at ~150 KB. Deep layer (4/5
-    part) trimmed to kept IDs (spec §4 scoped-scrape decision)."""
-    names: dict[str, dict] = {}
+    part) trimmed to `kept_ids` (the wanted set: kept ∪ best-hit ids; spec §4
+    scoped-scrape decision).
+
+    With `existing` (the current artifact) the build is merge-preserving: every
+    existing entry stays verbatim and only ids not yet named are added, so a
+    re-scrape cannot rename an existing TcdbFamily; scraped/failed family lists
+    are unions. Without it, a fresh build.
+    """
+    names: dict[str, dict] = dict((existing or {}).get("names", {}))
     for tc_id, name in browse_names.items():
-        names[tc_id] = {"name": name}
+        names.setdefault(tc_id, {"name": name})
 
     for _fam, (subfams, systems) in per_family_results.items():
         for tc_id, name in subfams.items():
             if tc_id in kept_ids:
-                names[tc_id] = {"name": name}
+                names.setdefault(tc_id, {"name": name})
         for tc_id, full_text in systems.items():
             if tc_id in kept_ids:
-                names[tc_id] = {
+                names.setdefault(tc_id, {
                     "name": make_name(full_text),
                     "description": make_description(full_text),
-                }
+                })
 
+    prior = (existing or {}).get("meta", {})
+    scraped = set(prior.get("scraped_families", [])) | set(scraped_families)
+    failed = (set(prior.get("failed_families", [])) | set(failed_families)) - set(scraped_families)
     return {
         "meta": {
             "scraped_at": date.today().isoformat(),
             "source": "https://www.tcdb.org (browse.php + search/result.php per family)",
-            "scraped_families": sorted(scraped_families),
-            "failed_families": sorted(failed_families),
+            "scraped_families": sorted(scraped),
+            "failed_families": sorted(failed),
         },
         "names": dict(sorted(names.items())),
     }
@@ -277,10 +302,16 @@ def main(force: bool = False, delay: float = DEFAULT_DELAY_S,
 
     pruned = json.loads(PRUNED_FILE.read_text())
     kept_ids = set(pruned["kept_tcdb_ids"])
-    fams = scoped_families(kept_ids)
+    # best_hit_v1: diamond best-hit 5-part systems are named too (they ride on
+    # Gene_has_tcdb_family edges as best_hit_names; spec 2026-10-18 §5).
+    best_hit_ids = collect_best_hit_tcids(PROJECT_ROOT / r["data_dir"] for r in load_genome_rows())
+    wanted_ids = kept_ids | best_hit_ids
+    fams = scoped_families(wanted_ids)
     if families:
         fams = {f: q for f, q in fams.items() if f in set(families)}
-    log.info(f"scope: {len(fams)} families (from {len(kept_ids)} kept TC ids)")
+    log.info(f"scope: {len(fams)} families (from {len(kept_ids)} kept + "
+             f"{len(best_hit_ids)} best-hit TC ids)")
+    existing = json.loads(NAMES_FILE.read_text()) if NAMES_FILE.exists() else None
 
     browse_html = fetch_page(BROWSE_URL, PAGES_DIR / "browse.html",
                              force=force, delay=delay)
@@ -316,7 +347,8 @@ def main(force: bool = False, delay: float = DEFAULT_DELAY_S,
             log.info(f"[{i}/{len(fams)}] fetched+parsed (last: {fam}, "
                      f"{len(subfams)} subfam names, {len(systems)} systems)")
 
-    artifact = assemble_names(browse_names, per_family, kept_ids, scraped, failed)
+    artifact = assemble_names(browse_names, per_family, wanted_ids, scraped, failed,
+                              existing=existing)
     NAMES_FILE.parent.mkdir(parents=True, exist_ok=True)
     NAMES_FILE.write_text(json.dumps(artifact, indent=1, ensure_ascii=False) + "\n",
                           encoding="utf-8")

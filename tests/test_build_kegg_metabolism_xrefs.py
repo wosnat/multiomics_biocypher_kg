@@ -1376,3 +1376,29 @@ def test_gene_reachable_sets_collects_best_hit_ids(tmp_path, monkeypatch, synthe
     sets = bx._gene_reachable_sets(synthetic_kegg_raw)
     assert sets["tcdb_best_hit_ids"] == {"3.A.1.16.2", "3.D.4.3.2", "3.E.2.1.1"}
     assert sets["tcdb_ids"] == {"3.A.1"}
+
+
+def test_best_hit_substrate_inputs(tmp_path):
+    """best_hit_v1: each best-hit system's OWN substrate strings → (primary, TCDB name)."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _best_hit_substrate_inputs
+    chebi = make_chebi(CHEBI_4167=term("D-glucopyranose", alt=["CHEBI:12345"]),
+                       CHEBI_50505=term("orphan"),
+                       CHEBI_50906=term("role"),
+                       CHEBI_26672=term("siderophore", is_a=["CHEBI:50906"]))
+    strings = {
+        "2.A.1.1.1": {"CHEBI:12345;glucose", "CHEBI:50505;orphan thing", "CHEBI:99999999;unknown",
+                      "CHEBI:26672;siderophore"},
+        "2.A.1.1.2": set(),
+    }
+    rekeys_main = {"chebi:1": "kegg.compound:C00001"}
+    out, bh_rekeys = _best_hit_substrate_inputs(
+        {"2.A.1.1.1", "2.A.1.1.2", "9.Z.9.9.9"}, strings, _subs_conn_with_chebi_only(tmp_path),
+        chebi, known_kegg=set())
+    assert rekeys_main == {"chebi:1": "kegg.compound:C00001"}
+    assert isinstance(bh_rekeys, dict)
+    pairs = dict(out["2.A.1.1.1"])
+    assert pairs["chebi:4167"] == "glucose"
+    assert pairs["chebi:50505"] == "orphan thing"      # no MNX hit → its primary chebi CURIE
+    assert pairs["chebi:99999999"] == "unknown"        # unknown to ChEBI → raw CURIE
+    assert pairs["chebi.role:26672"] == "siderophore"  # role-typed → ChemicalRole id
+    assert "2.A.1.1.2" not in out and "9.Z.9.9.9" not in out

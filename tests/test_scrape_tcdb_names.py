@@ -3,6 +3,8 @@
 Spec: docs/superpowers/specs/2026-08-12-tcdb-node-names-design.md
 Plan: docs/superpowers/plans/2026-08-18-tcdb-node-names.md
 """
+import json
+
 from multiomics_kg.download import scrape_tcdb_names as m
 
 
@@ -225,3 +227,69 @@ class TestFetchResume:
         monkeypatch.setattr(m.time, "sleep", lambda s: None)
         out = m.fetch_page("http://x", dest, force=True, delay=0)
         assert out == "fresh" and dest.read_text() == "fresh"
+
+
+class TestBestHitScope:
+    """best_hit_v1 (spec 2026-10-18-tcdb-diamond-best-hit-design.md §5)."""
+
+    def test_assemble_names_adds_wanted_systems_without_touching_existing(self):
+        existing = {"meta": {"scraped_families": ["3.A.1"], "failed_families": []},
+                    "names": {"3.A.1.16.2": {"name": "Old name.", "description": "Old."}}}
+        per_family = {"3.A.1": ({}, {
+            "3.A.1.16.2": "New wording for the cyanate system.",
+            "3.A.1.16.3": "Nitrate transporter, NrtABCD (Omata 1993).",
+            "3.A.1.16.9": "Not wanted.",
+        })}
+        art = m.assemble_names({}, per_family, {"3.A.1.16.2", "3.A.1.16.3"},
+                               scraped_families=["3.A.1"], failed_families=[],
+                               existing=existing)
+        names = art["names"]
+        assert names["3.A.1.16.2"] == {"name": "Old name.", "description": "Old."}
+        assert names["3.A.1.16.3"]["name"] == "Nitrate transporter, NrtABCD."
+        assert names["3.A.1.16.3"]["description"].startswith("Nitrate transporter")
+        assert "3.A.1.16.9" not in names
+        assert art["meta"]["scraped_families"] == ["3.A.1"]
+
+    def test_assemble_names_existing_browse_name_not_overwritten(self):
+        existing = {"meta": {"scraped_families": [], "failed_families": []},
+                    "names": {"1": {"name": "Channels/Pores"}}}
+        art = m.assemble_names({"1": "Renamed", "2": "Electrochemical"}, {}, set(),
+                               scraped_families=[], failed_families=[], existing=existing)
+        assert art["names"]["1"] == {"name": "Channels/Pores"}
+        assert art["names"]["2"] == {"name": "Electrochemical"}
+
+    def test_collect_best_hit_tcids(self, tmp_path):
+        for strain, genes in {"a": {"G1": {"tcdb_best_hit_ids": ["3.A.1.16.2"]},
+                                    "G2": {}},
+                              "b": {"G3": {"tcdb_best_hit_ids": ["3.D.4.3.2", "3.E.2.1.1"]}}}.items():
+            d = tmp_path / strain
+            d.mkdir()
+            (d / "gene_annotations_merged.json").write_text(json.dumps(genes))
+        assert m.collect_best_hit_tcids([tmp_path / "a", tmp_path / "b", tmp_path / "missing"]) == {
+            "3.A.1.16.2", "3.D.4.3.2", "3.E.2.1.1"}
+
+    def test_families_topup_merges_into_existing_artifact(self, tmp_path, monkeypatch):
+        pages = tmp_path / "pages"
+        pages.mkdir()
+        (pages / "browse.html").write_text("")
+        (pages / "family_2.A.1.html").write_text(FAMILY_PAGE_FIXTURE)
+        names_file = tmp_path / "tcdb_names.json"
+        existing = {"meta": {"scraped_at": "2026-08-18", "scraped_families": ["1.A.11", "3.A.1"],
+                             "failed_families": []},
+                    "names": {"1.A.11.1.1": {"name": "Amt.", "description": "Amt."},
+                              "3.A.1.5.1": {"name": "Dpp.", "description": "Dpp."}}}
+        names_file.write_text(json.dumps(existing))
+        pruned = tmp_path / "tcdb_pruned.json"
+        pruned.write_text(json.dumps({"kept_tcdb_ids": ["1.A.11.1.1", "3.A.1.5.1"]}))
+        monkeypatch.setattr(m, "PAGES_DIR", pages)
+        monkeypatch.setattr(m, "NAMES_FILE", names_file)
+        monkeypatch.setattr(m, "PRUNED_FILE", pruned)
+        monkeypatch.setattr(m, "collect_best_hit_tcids", lambda dirs: {"2.A.1.1.1"})
+        monkeypatch.setattr(m, "load_genome_rows", lambda: [])
+        monkeypatch.setattr(m, "_http_get", lambda url: (_ for _ in ()).throw(AssertionError(url)))
+        m.main(families=["2.A.1"], delay=0)
+        art = json.loads(names_file.read_text())
+        assert art["names"]["1.A.11.1.1"] == {"name": "Amt.", "description": "Amt."}
+        assert art["names"]["3.A.1.5.1"] == {"name": "Dpp.", "description": "Dpp."}
+        assert "2.A.1.1.1" in art["names"]
+        assert set(art["meta"]["scraped_families"]) >= {"1.A.11", "3.A.1", "2.A.1"}

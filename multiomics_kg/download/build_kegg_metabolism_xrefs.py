@@ -189,6 +189,19 @@ def _warn_unscraped_families(kept_ids: set[str], names_path: Path) -> list[str]:
     return missing
 
 
+def _warn_unnamed_best_hits(best_hit_tcids: set[str], names_path: Path) -> list[str]:
+    """Report-only: diamond best-hit systems with no entry in tcdb_names.json (their
+    `best_hit_names` fall back to the TCID). Top up with the T6 scraper."""
+    names, _ = _load_tcdb_names(names_path)
+    missing = sorted(t for t in best_hit_tcids if t not in names)
+    if missing:
+        log.warning(
+            f"  {len(missing)} of {len(best_hit_tcids)} best-hit TCDB systems have no name in "
+            f"tcdb_names.json (e.g. {', '.join(missing[:5])}); best_hit_names falls back to the "
+            f"TCID. Top-up: uv run python -m multiomics_kg.download.scrape_tcdb_names")
+    return missing
+
+
 def _parse_tcdb_families(path: Path) -> dict[str, str]:
     """Parse families.tsv → {tc_family_id: description}."""
     out: dict[str, str] = {}
@@ -988,6 +1001,52 @@ def _resolve_substrate_strings(
 
 # ── Stage D: paper candidates (spec §5.2 D) ──────────────────────────────────
 
+def _best_hit_substrate_inputs(
+    tcids: set[str],
+    full_subtree_strings: dict[str, set[str]],
+    conn: sqlite3.Connection,
+    chebi: ChebiIndex,
+    known_kegg: set[str],
+) -> tuple[dict[str, list[tuple[str, str]]], dict[str, str]]:
+    """best_hit_v1 (spec 2026-10-18-tcdb-diamond-best-hit-design.md §5): each best-hit
+    5-part system's OWN substrate strings → [(primary_or_role_id, TCDB name), ...].
+
+    Resolved like every TCDB substrate (role partition, secondary → primary ChEBI, MNX,
+    KEGG re-key) but with a fresh ``rekeys`` dict, so the main build's rekeys / compound
+    props / kegg_data are untouched. Unfiltered; a ChEBI id MNX cannot resolve keeps its
+    primary ``chebi:`` CURIE (raw CURIE when ChEBI does not know it). ChEBI lookups are
+    tracked, so the touched terms join the committed ChEBI cache. Returns the map (TCs
+    without substrates absent) and the private rekeys (for logging).
+    """
+    per_tc = {tc: full_subtree_strings.get(tc, set()) for tc in sorted(tcids)}
+    all_strings = set().union(*per_tc.values()) if per_tc else set()
+    molecules, role_map = partition_role_strings(all_strings, chebi)
+    bh_rekeys: dict[str, str] = {}
+    s2p: dict[str, str] = {}
+    if molecules:
+        s2p, _props = _resolve_substrate_strings(molecules, conn, chebi=chebi, rekeys=bh_rekeys,
+                                                 known_kegg=known_kegg)
+    out: dict[str, list[tuple[str, str]]] = {}
+    for tc, strings in per_tc.items():
+        pairs: dict[str, str] = {}
+        for sub in sorted(strings):
+            head, _, name = sub.partition(";")
+            prefix, _, local = head.partition(":")
+            if sub in role_map:
+                sid = role_map[sub]
+            elif sub in s2p:
+                sid = s2p[sub]
+            elif prefix.strip().upper() == "CHEBI" and local.strip():
+                p = chebi.primary(local.strip())
+                sid = f"chebi:{(p or local.strip()).split(':')[-1]}"
+            else:
+                continue
+            pairs.setdefault(sid, name.strip() or sid)
+        if pairs:
+            out[tc] = sorted(pairs.items())
+    return out, bh_rekeys
+
+
 def _mnxm_primary(mnxm: str, conn: sqlite3.Connection, chebi: ChebiIndex,
                   rekeys: dict[str, str], known_kegg: set[str] | None = None) -> str:
     """Node id for an MNXM: its MNX KEGG alias, else the KEGG xref of one of its ChEBI
@@ -1710,6 +1769,16 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
             if primaries:
                 subtree_substrates[tc] = sorted(primaries)
         distinct_substrate_primaries = {p for ids in subtree_substrates.values() for p in ids}
+
+        # best_hit_v1 — diamond best-hit systems' own substrates (separate resolve: its own
+        # rekeys, never feeds kegg_data / compound_props / the main rekeys).
+        best_hit_tcids = catalysis_sets.get("tcdb_best_hit_ids", set())
+        best_hit_substrates, bh_rekeys = _best_hit_substrate_inputs(
+            best_hit_tcids, full_subtree_strings, conn, chebi, known_kegg)
+        log.info(f"  best-hit systems: {len(best_hit_tcids)} TCIDs, {len(best_hit_substrates)} with "
+                 f"substrates ({sum(len(v) for v in best_hit_substrates.values())} pairs, "
+                 f"{len(bh_rekeys)} private KEGG re-keys)")
+        _warn_unnamed_best_hits(best_hit_tcids, cache_root / "tcdb" / "tcdb_names.json")
         substrate_kegg_cpds = {p[len("kegg.compound:"):] for p in distinct_substrate_primaries
                                if p.startswith("kegg.compound:")}
         cpd_to_pw = raw.get("compound_to_pathways", {})
@@ -1784,7 +1853,8 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         go_substrates=go["go_substrates"], go_roles=go["go_roles"],
         go_excluded_primaries=go["excluded_primaries"], go_filter_primaries=go["filter_primaries"],
         go_release=go_cache["release"], go_distribution_input=go_gene_terms, go_drops=go["drops"],
-        go_axioms_in_corpus=go["axioms_in_corpus"], go_unresolved_ids=go["unresolved_ids"])
+        go_axioms_in_corpus=go["axioms_in_corpus"], go_unresolved_ids=go["unresolved_ids"],
+        best_hit_substrates=best_hit_substrates)
     out = run_identity_stages(inp)               # raises Step6ValidationError → nothing written
     files = render_outputs(out, Step6Paths(
         kegg_data=KEGG_DATA_FILE, tcdb_pruned=prev_pruned_path, brite_dir=KEGG_CACHE_DIR,

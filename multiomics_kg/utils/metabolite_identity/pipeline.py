@@ -98,6 +98,9 @@ class Step6Inputs:
     go_drops: dict = field(default_factory=dict)          # stage-D drop counts
     go_axioms_in_corpus: int = 0                          # KG GO terms with a transport axiom
     go_unresolved_ids: list = field(default_factory=list)  # GO ChEBI ids no node could take
+    # best_hit_v1 (spec 2026-10-18-tcdb-diamond-best-hit-design.md §5): each diamond best-hit
+    # 5-part system's own substrates, pre-canonical: {tcid5: [(primary_or_role_id, tcdb_name)]}.
+    best_hit_substrates: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -336,6 +339,22 @@ def _exact_name_pairs(table, keep_separate=frozenset()):
     return out
 
 
+def _best_hit_substrates(raw: dict, canonical_of: dict, table: dict, roles: dict) -> dict:
+    """best_hit_v1: {tcid5: [[canonical_id, name], ...]} sorted by id. A merged-away id
+    follows its canonical node; the name is the node's (or ChemicalRole's) when one exists,
+    else the TCDB-given name. Unfiltered; ids need not be nodes. Read only by tcdb_adapter."""
+    out = {}
+    for tc, pairs in sorted(raw.items()):
+        named: dict[str, str] = {}
+        for sid, tname in pairs:
+            cid = canonical_of.get(sid, sid)
+            name = (table.get(cid) or {}).get("name") or (roles.get(cid) or {}).get("name") or tname
+            named.setdefault(cid, name)
+        if named:
+            out[tc] = [[cid, named[cid]] for cid in sorted(named)]
+    return out
+
+
 def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     chebi = inp.chebi
     norm = _normalizer(chebi)
@@ -516,6 +535,8 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     }
     tcdb_pruned = dict(inp.tcdb_static, subtree_substrates=dict(sorted(subs.items())),
                        chemical_roles=inp.chemical_roles, subtree_roles=inp.subtree_roles, lumping_pin=pin)
+    tcdb_pruned["best_hit_substrates"] = _best_hit_substrates(
+        inp.best_hit_substrates, identity.canonical_of, table, inp.chemical_roles)
 
     # Repoints (release TSV) and the old-id remap.
     raw_names: dict[str, set[str]] = defaultdict(set)
