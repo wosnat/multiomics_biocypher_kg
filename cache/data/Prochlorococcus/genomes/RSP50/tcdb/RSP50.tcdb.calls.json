@@ -1,5 +1,23 @@
 {
+  "WP_002805124.1": {
+    "best_hit": {
+      "identity": 71.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.E.2.2.1"
+      ]
+    },
+    "calls": []
+  },
   "WP_002805169.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.2.1",
+      "identity": 85.2,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.2.1.10"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.7242,
@@ -17,7 +35,27 @@
       }
     ]
   },
+  "WP_002805418.1": {
+    "best_hit": {
+      "identity": 73.7,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.E.2.2.1"
+      ]
+    },
+    "calls": []
+  },
   "WP_002805533.1": {
+    "best_hit": {
+      "attach_tcid": "3.E.2",
+      "identity": 86.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.E.2.2.1",
+        "3.E.2.2.2",
+        "3.E.2.2.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.603,
@@ -36,6 +74,14 @@
     ]
   },
   "WP_002805661.1": {
+    "best_hit": {
+      "attach_tcid": "3.E.2.2",
+      "identity": 53.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.E.2.2.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4845,
@@ -54,6 +100,14 @@
     ]
   },
   "WP_002806020.1": {
+    "best_hit": {
+      "attach_tcid": "3.E.2.2",
+      "identity": 67.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.E.2.2.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.6457,
@@ -71,7 +125,25 @@
       }
     ]
   },
+  "WP_002806119.1": {
+    "best_hit": {
+      "identity": 91.2,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.E.2.2.1"
+      ]
+    },
+    "calls": []
+  },
   "WP_002807211.1": {
+    "best_hit": {
+      "attach_tcid": "3.E.2",
+      "identity": 31.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.E.2.2.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2771,
@@ -90,6 +162,16 @@
     ]
   },
   "WP_002807316.1": {
+    "best_hit": {
+      "attach_tcid": "3.E.2",
+      "identity": 83.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.E.2.2.1",
+        "3.E.2.2.2",
+        "3.E.2.2.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5866,
@@ -126,6 +208,16 @@
     ]
   },
   "WP_002807869.1": {
+    "best_hit": {
+      "attach_tcid": "1.S.1.1",
+      "identity": 58.0,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.S.1.1.1",
+        "1.S.1.1.11",
+        "1.S.1.1.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4616,
@@ -194,6 +286,14 @@
     ]
   },
   "WP_011376282.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 64.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.7.6"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4423,
@@ -210,6 +310,27 @@
         "tier": 3
       }
     ]
+  },
+  "WP_011376303.1": {
+    "best_hit": {
+      "identity": 65.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.3.5.6",
+        "3.D.3.5.7"
+      ]
+    },
+    "calls": []
+  },
+  "WP_011376619.1": {
+    "best_hit": {
+      "identity": 72.7,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.3.5.7"
+      ]
+    },
+    "calls": []
   },
   "WP_011376622.1": {
     "calls": [
@@ -308,6 +429,14 @@
     ]
   },
   "WP_011817637.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.1.8",
+      "identity": 52.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.1.8.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4214,
@@ -326,6 +455,16 @@
     ]
   },
   "WP_011817812.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.3",
+      "identity": 87.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.3.5.3",
+        "3.D.3.5.6",
+        "3.D.3.5.7"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.6008,
@@ -390,6 +529,16 @@
     ]
   },
   "WP_011817974.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.3.5",
+      "identity": 69.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.3.5.3",
+        "3.D.3.5.6",
+        "3.D.3.5.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5933,
@@ -454,6 +603,16 @@
     ]
   },
   "WP_011818055.1": {
+    "best_hit": {
+      "attach_tcid": "1.S.3.1",
+      "identity": 47.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.S.3.1.2",
+        "1.S.3.1.1",
+        "1.S.3.1.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3189,
@@ -472,6 +631,14 @@
     ]
   },
   "WP_011818329.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1.4",
+      "identity": 59.0,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.4.4"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4614,
@@ -490,6 +657,16 @@
     ]
   },
   "WP_011818757.1": {
+    "best_hit": {
+      "attach_tcid": "3.E.2.2",
+      "identity": 70.0,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.E.2.2.2",
+        "3.E.2.2.1",
+        "3.E.2.2.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5827,
@@ -508,6 +685,14 @@
     ]
   },
   "WP_011818901.1": {
+    "best_hit": {
+      "attach_tcid": "1.A.14",
+      "identity": 54.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.A.14.3.8"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3771,
@@ -682,6 +867,14 @@
     ]
   },
   "WP_011862125.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.38.4",
+      "identity": 42.7,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.38.4.5"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3383,
@@ -728,6 +921,14 @@
     ]
   },
   "WP_011862304.1": {
+    "best_hit": {
+      "attach_tcid": "1.A.11",
+      "identity": 80.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.A.11.2.5"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5652,
@@ -764,6 +965,14 @@
     ]
   },
   "WP_011863273.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.2",
+      "identity": 44.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.2.2.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2481,
@@ -782,6 +991,14 @@
     ]
   },
   "WP_011863548.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.5.4",
+      "identity": 54.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.5.4.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5332,
@@ -800,6 +1017,14 @@
     ]
   },
   "WP_011863550.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.2",
+      "identity": 82.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.2.1.10"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5678,
@@ -832,6 +1057,14 @@
     ]
   },
   "WP_011863563.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.2",
+      "identity": 75.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.2.1.10"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5281,
@@ -878,6 +1111,14 @@
     ]
   },
   "WP_011863567.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.2.1",
+      "identity": 69.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.2.1.10"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5572,
@@ -896,6 +1137,14 @@
     ]
   },
   "WP_025881879.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.123.2",
+      "identity": 97.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.123.2.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.8296,
@@ -1004,6 +1253,14 @@
     ]
   },
   "WP_025893978.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.1",
+      "identity": 77.5,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.1.8.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5425,
@@ -1086,6 +1343,14 @@
     ]
   },
   "WP_025894221.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.3.5",
+      "identity": 52.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.3.5.6"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4236,
@@ -1122,6 +1387,14 @@
     ]
   },
   "WP_025922676.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.37",
+      "identity": 42.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.37.2.4"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2826,
@@ -1158,6 +1431,15 @@
     ]
   },
   "WP_025923094.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 39.2,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.10.2",
+        "3.A.1.10.6"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2239,
@@ -1176,6 +1458,14 @@
     ]
   },
   "WP_025923095.1": {
+    "best_hit": {
+      "attach_tcid": "1.A.155",
+      "identity": 23.5,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.A.155.1.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1484,
@@ -1230,6 +1520,14 @@
     ]
   },
   "WP_025924233.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.4",
+      "identity": 62.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.4.4.4"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4231,
@@ -1280,6 +1578,14 @@
     ]
   },
   "WP_025929009.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.9.1",
+      "identity": 69.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.9.1.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.6895,
@@ -1354,6 +1660,14 @@
     ]
   },
   "WP_025930545.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 57.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.9.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.369,
@@ -1372,6 +1686,14 @@
     ]
   },
   "WP_025930851.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.2",
+      "identity": 39.0,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.2.1.10"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3169,
@@ -1426,6 +1748,14 @@
     ]
   },
   "WP_025931471.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.4",
+      "identity": 44.5,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.4.4.4"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2898,
@@ -1472,6 +1802,14 @@
     ]
   },
   "WP_025931480.1": {
+    "best_hit": {
+      "attach_tcid": "1.A.115",
+      "identity": 27.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.A.115.1.5"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1884,
@@ -1508,6 +1846,14 @@
     ]
   },
   "WP_025931815.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 47.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.4.4"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3231,
@@ -1526,6 +1872,14 @@
     ]
   },
   "WP_025932858.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.23.6",
+      "identity": 47.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.23.6.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4588,
@@ -1544,6 +1898,15 @@
     ]
   },
   "WP_025932900.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 33.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.203.8",
+        "3.A.1.203.12"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.06,
@@ -1562,6 +1925,14 @@
     ]
   },
   "WP_025933107.1": {
+    "best_hit": {
+      "attach_tcid": "3.E.2.2",
+      "identity": 68.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.E.2.2.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5747,
@@ -1598,6 +1969,14 @@
     ]
   },
   "WP_025933956.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.2.1",
+      "identity": 47.0,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.2.1.10"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3935,
@@ -1634,6 +2013,14 @@
     ]
   },
   "WP_025934031.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.5",
+      "identity": 62.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.5.4.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4403,
@@ -1716,6 +2103,14 @@
     ]
   },
   "WP_025934104.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.7",
+      "identity": 32.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.7.7.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2133,
@@ -1734,6 +2129,14 @@
     ]
   },
   "WP_025937370.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.1",
+      "identity": 48.5,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.1.8.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.33,
@@ -1826,6 +2229,16 @@
     ]
   },
   "WP_025937389.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.3",
+      "identity": 84.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.3.5.3",
+        "3.D.3.5.6",
+        "3.D.3.5.7"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5908,
@@ -1962,6 +2375,15 @@
     ]
   },
   "WP_025970337.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.6",
+      "identity": 24.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.6.2.33",
+        "3.A.1.122.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1614,
@@ -2008,6 +2430,16 @@
     ]
   },
   "WP_025972040.1": {
+    "best_hit": {
+      "attach_tcid": "1.B.42.1",
+      "identity": 50.2,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.B.42.1.2",
+        "3.A.1.152.1",
+        "3.A.1.152.9"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.498,
@@ -2058,6 +2490,15 @@
     ]
   },
   "WP_029968747.1": {
+    "best_hit": {
+      "attach_tcid": "1.C.82.1",
+      "identity": 48.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.C.82.1.1",
+        "1.C.82.1.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3999,
@@ -2076,6 +2517,15 @@
     ]
   },
   "WP_032517670.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.53",
+      "identity": 47.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.53.3.1",
+        "2.A.53.3.13"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3235,
@@ -2094,6 +2544,14 @@
     ]
   },
   "WP_032567656.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.1",
+      "identity": 73.7,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.1.8.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4622,
@@ -2172,6 +2630,14 @@
     ]
   },
   "WP_075537636.1": {
+    "best_hit": {
+      "attach_tcid": "1.A.1",
+      "identity": 40.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.A.1.13.7"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2535,
@@ -2346,6 +2812,14 @@
     ]
   },
   "WP_077141374.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 33.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.122.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2547,
@@ -2400,6 +2874,14 @@
     ]
   },
   "WP_077141385.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.86",
+      "identity": 22.5,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.86.1.11"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1159,
@@ -2418,6 +2900,14 @@
     ]
   },
   "WP_077141386.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.5",
+      "identity": 39.7,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.5.4.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2715,
@@ -2450,6 +2940,14 @@
     ]
   },
   "WP_077141387.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.5",
+      "identity": 46.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.5.4.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3196,
@@ -2482,6 +2980,14 @@
     ]
   },
   "WP_077141397.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.7",
+      "identity": 45.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.7.28.11"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2937,
@@ -2518,6 +3024,15 @@
     ]
   },
   "WP_077141409.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 32.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.106.17",
+        "3.A.1.106.8"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2255,
@@ -2536,6 +3051,14 @@
     ]
   },
   "WP_077141425.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 53.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.4.4"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3669,
@@ -2554,6 +3077,14 @@
     ]
   },
   "WP_077141426.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 54.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.4.4"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3423,
@@ -2572,6 +3103,14 @@
     ]
   },
   "WP_077141427.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 62.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.4.4"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4034,
@@ -2640,6 +3179,14 @@
     ]
   },
   "WP_077141459.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.11",
+      "identity": 39.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.11.1.5"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2281,
@@ -2708,6 +3255,14 @@
     ]
   },
   "WP_077141463.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 55.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.114.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3444,
@@ -2726,6 +3281,14 @@
     ]
   },
   "WP_077141464.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1.114",
+      "identity": 50.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.114.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4924,
@@ -2840,6 +3403,14 @@
     ]
   },
   "WP_077141485.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 73.5,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.7.6"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5047,
@@ -2858,6 +3429,14 @@
     ]
   },
   "WP_077141486.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 72.2,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.7.6"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4816,
@@ -2894,6 +3473,15 @@
     ]
   },
   "WP_077141489.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.1.83",
+      "identity": 55.0,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.1.83.1",
+        "2.A.1.83.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.453,
@@ -2912,6 +3500,16 @@
     ]
   },
   "WP_077141490.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.51",
+      "identity": 27.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.51.1.2",
+        "2.A.51.1.1",
+        "2.A.51.1.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.0939,
@@ -2930,6 +3528,14 @@
     ]
   },
   "WP_077141491.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1.7",
+      "identity": 84.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.7.6"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.6595,
@@ -3048,6 +3654,14 @@
     ]
   },
   "WP_077141503.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1.9",
+      "identity": 52.7,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.9.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4435,
@@ -3066,6 +3680,14 @@
     ]
   },
   "WP_077141504.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 59.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.9.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4093,
@@ -3084,6 +3706,16 @@
     ]
   },
   "WP_077141508.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.59.1",
+      "identity": 47.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.59.1.5",
+        "2.A.59.1.6",
+        "2.A.59.1.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3944,
@@ -3174,6 +3806,14 @@
     ]
   },
   "WP_077141541.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 19.5,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.9.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.0759,
@@ -3210,6 +3850,15 @@
     ]
   },
   "WP_077141564.1": {
+    "best_hit": {
+      "attach_tcid": "1.A.23",
+      "identity": 32.5,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.A.23.4.2",
+        "1.A.23.4.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2223,
@@ -3228,6 +3877,14 @@
     ]
   },
   "WP_077141567.1": {
+    "best_hit": {
+      "attach_tcid": "1.A.115",
+      "identity": 25.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.A.115.1.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2172,
@@ -3246,6 +3903,16 @@
     ]
   },
   "WP_077141570.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.27",
+      "identity": 32.0,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.27.2.1",
+        "2.A.27.1.5",
+        "2.A.27.2.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1978,
@@ -3264,6 +3931,15 @@
     ]
   },
   "WP_077141578.1": {
+    "best_hit": {
+      "attach_tcid": "4.C.1",
+      "identity": 25.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "4.C.1.1.6",
+        "4.C.1.1.7"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1772,
@@ -3364,6 +4040,16 @@
     ]
   },
   "WP_077141592.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 49.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.15.1",
+        "3.A.1.15.4",
+        "3.A.1.15.9"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3321,
@@ -3442,6 +4128,16 @@
     ]
   },
   "WP_077141608.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.23",
+      "identity": 40.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.23.5.1",
+        "3.A.23.1.1",
+        "3.A.23.2.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3808,
@@ -3524,6 +4220,14 @@
     ]
   },
   "WP_077141618.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.19",
+      "identity": 35.7,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.19.5.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2144,
@@ -3560,6 +4264,14 @@
     ]
   },
   "WP_077141624.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 69.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.106.19"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4844,
@@ -3578,6 +4290,14 @@
     ]
   },
   "WP_077141629.1": {
+    "best_hit": {
+      "attach_tcid": "1.S.5",
+      "identity": 38.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.S.5.1.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3625,
@@ -3700,6 +4420,14 @@
     ]
   },
   "WP_077141677.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 34.0,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.10.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2063,
@@ -3768,6 +4496,15 @@
     ]
   },
   "WP_077141691.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.36",
+      "identity": 26.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.36.6.7",
+        "2.A.36.6.10"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1704,
@@ -3818,6 +4555,15 @@
     ]
   },
   "WP_077141694.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.64",
+      "identity": 27.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.64.1.3",
+        "2.A.64.1.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2944,
@@ -3890,6 +4636,14 @@
     ]
   },
   "WP_077141701.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.33",
+      "identity": 21.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.33.1.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1859,
@@ -3908,6 +4662,16 @@
     ]
   },
   "WP_077141703.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 28.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.105.21",
+        "3.A.1.105.13",
+        "3.A.1.105.6"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1799,
@@ -3926,6 +4690,16 @@
     ]
   },
   "WP_077141704.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 37.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.105.13",
+        "3.A.1.105.21",
+        "3.A.1.105.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3098,
@@ -3976,6 +4750,14 @@
     ]
   },
   "WP_077141706.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.4",
+      "identity": 41.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.4.4.4"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.265,
@@ -4012,6 +4794,14 @@
     ]
   },
   "WP_077141714.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.1",
+      "identity": 60.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.1.8.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4072,
@@ -4072,6 +4862,16 @@
     ]
   },
   "WP_077141715.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 56.5,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.122.2",
+        "3.A.1.122.20",
+        "3.A.1.122.14"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3745,
@@ -4126,6 +4926,14 @@
     ]
   },
   "WP_077141736.1": {
+    "best_hit": {
+      "attach_tcid": "4.C.1",
+      "identity": 26.0,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "4.C.1.1.14"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1978,
@@ -4158,6 +4966,14 @@
     ]
   },
   "WP_077141741.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.38.4",
+      "identity": 56.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.38.4.5"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5538,
@@ -4176,6 +4992,14 @@
     ]
   },
   "WP_077141744.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 25.0,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.25.8"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1542,
@@ -4230,6 +5054,14 @@
     ]
   },
   "WP_077141787.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.1",
+      "identity": 75.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.1.8.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4186,
@@ -4276,6 +5108,14 @@
     ]
   },
   "WP_077141789.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 48.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.27.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3226,
@@ -4294,6 +5134,14 @@
     ]
   },
   "WP_077141803.1": {
+    "best_hit": {
+      "attach_tcid": "1.A.112",
+      "identity": 27.2,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.A.112.2.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1455,
@@ -4372,6 +5220,15 @@
     ]
   },
   "WP_077141836.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.29.1",
+      "identity": 51.7,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.29.1.5",
+        "3.A.29.1.7"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4302,
@@ -4436,6 +5293,14 @@
     ]
   },
   "WP_077141843.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.83",
+      "identity": 37.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.83.2.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.251,
@@ -4536,6 +5401,16 @@
     ]
   },
   "WP_077141857.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 32.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.5.49",
+        "3.A.1.5.48",
+        "3.A.1.5.24"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1557,
@@ -4554,6 +5429,14 @@
     ]
   },
   "WP_077141873.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.1",
+      "identity": 75.7,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.1.8.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5299,
@@ -4646,6 +5529,14 @@
     ]
   },
   "WP_077141885.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.1",
+      "identity": 71.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.1.8.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4676,
@@ -4664,6 +5555,14 @@
     ]
   },
   "WP_077141886.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.1",
+      "identity": 55.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.1.8.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3375,
@@ -4696,6 +5595,14 @@
     ]
   },
   "WP_077141890.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.7",
+      "identity": 33.5,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.7.1.8"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3122,
@@ -4728,6 +5635,14 @@
     ]
   },
   "WP_077141892.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.1",
+      "identity": 70.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.1.8.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.463,
@@ -4788,6 +5703,14 @@
     ]
   },
   "WP_077141893.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.1",
+      "identity": 55.5,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.1.8.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3862,
@@ -4894,6 +5817,15 @@
     ]
   },
   "WP_077141906.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.3",
+      "identity": 34.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.3.5.11",
+        "3.A.3.5.12"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2454,
@@ -4944,6 +5876,16 @@
     ]
   },
   "WP_077141911.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 34.7,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.25.5",
+        "3.A.1.26.10",
+        "3.A.1.26.7"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2349,
@@ -4962,6 +5904,14 @@
     ]
   },
   "WP_077141913.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.1.8",
+      "identity": 47.7,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.1.8.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3377,
@@ -5016,6 +5966,14 @@
     ]
   },
   "WP_077141932.1": {
+    "best_hit": {
+      "attach_tcid": "1.B.17",
+      "identity": 22.7,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.B.17.2.10"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1877,
@@ -5048,6 +6006,14 @@
     ]
   },
   "WP_077141936.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 36.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.211.25"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2954,
@@ -5080,6 +6046,14 @@
     ]
   },
   "WP_077141937.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.38",
+      "identity": 38.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.38.4.5"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2497,
@@ -5098,6 +6072,14 @@
     ]
   },
   "WP_077141938.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.47",
+      "identity": 38.0,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.47.4.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2599,
@@ -5256,6 +6238,14 @@
     ]
   },
   "WP_077141989.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.16",
+      "identity": 29.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.16.1.6"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2921,
@@ -5342,6 +6332,15 @@
     ]
   },
   "WP_077142017.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.49",
+      "identity": 29.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.49.5.1",
+        "2.A.49.5.5"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.192,
@@ -5432,6 +6431,14 @@
     ]
   },
   "WP_077142048.1": {
+    "best_hit": {
+      "attach_tcid": "4.D.1",
+      "identity": 26.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "4.D.1.1.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1261,
@@ -5500,6 +6507,14 @@
     ]
   },
   "WP_077142068.1": {
+    "best_hit": {
+      "attach_tcid": "1.A.26.1",
+      "identity": 78.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.A.26.1.6"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.6467,
@@ -5668,6 +6683,14 @@
     ]
   },
   "WP_077142100.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.103",
+      "identity": 33.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.103.1.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2693,
@@ -5718,6 +6741,14 @@
     ]
   },
   "WP_077142117.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.1.8",
+      "identity": 36.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.1.8.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.226,
@@ -5736,6 +6767,14 @@
     ]
   },
   "WP_077142129.1": {
+    "best_hit": {
+      "attach_tcid": "4.D.1",
+      "identity": 32.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "4.D.1.1.13"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2682,
@@ -5864,6 +6903,14 @@
     ]
   },
   "WP_077142156.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.16",
+      "identity": 36.2,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.16.1.5"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3406,
@@ -5970,6 +7017,15 @@
     ]
   },
   "WP_077142172.1": {
+    "best_hit": {
+      "attach_tcid": "1.C.109.1",
+      "identity": 43.2,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.C.109.1.5",
+        "1.C.109.1.4"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.336,
@@ -5988,6 +7044,14 @@
     ]
   },
   "WP_077142175.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.131",
+      "identity": 23.2,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.131.1.7"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3276,
@@ -6020,6 +7084,15 @@
     ]
   },
   "WP_077142176.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.103",
+      "identity": 33.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.103.1.3",
+        "2.A.103.1.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2362,
@@ -6038,6 +7111,14 @@
     ]
   },
   "WP_077142178.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.2.1",
+      "identity": 61.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.2.1.10"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.523,
@@ -6184,6 +7265,14 @@
     ]
   },
   "WP_077142205.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 26.2,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.17.10"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1489,
@@ -6202,6 +7291,16 @@
     ]
   },
   "WP_077142206.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 41.5,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.16.4",
+        "3.A.1.16.2",
+        "3.A.1.17.4"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2997,
@@ -6238,6 +7337,14 @@
     ]
   },
   "WP_077142219.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 22.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.152.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.21,
@@ -6374,6 +7481,14 @@
     ]
   },
   "WP_077142242.1": {
+    "best_hit": {
+      "attach_tcid": "1.B.33",
+      "identity": 27.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.B.33.2.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1686,
@@ -6410,6 +7525,14 @@
     ]
   },
   "WP_077142254.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 29.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.27.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3115,
@@ -6500,6 +7623,15 @@
     ]
   },
   "WP_077142282.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.5",
+      "identity": 49.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.5.1.2",
+        "3.A.5.1.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3862,
@@ -6568,6 +7700,15 @@
     ]
   },
   "WP_077142299.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.29.1",
+      "identity": 48.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.29.1.7",
+        "3.A.29.1.5"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3364,
@@ -6814,6 +7955,14 @@
     ]
   },
   "WP_077142343.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.5.4",
+      "identity": 56.0,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.5.4.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5527,
@@ -6864,6 +8013,15 @@
     ]
   },
   "WP_077142347.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.7",
+      "identity": 26.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.7.3.67",
+        "2.A.7.3.28"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2147,
@@ -6936,6 +8094,14 @@
     ]
   },
   "WP_077142360.1": {
+    "best_hit": {
+      "attach_tcid": "1.B.23",
+      "identity": 24.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.B.23.1.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1897,
@@ -6954,6 +8120,14 @@
     ]
   },
   "WP_077142362.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 40.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.10.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2577,
@@ -6972,6 +8146,15 @@
     ]
   },
   "WP_077142370.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.2",
+      "identity": 47.2,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.2.2.1",
+        "3.D.2.2.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3225,
@@ -6990,6 +8173,15 @@
     ]
   },
   "WP_077142371.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.2",
+      "identity": 45.0,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.2.2.1",
+        "3.D.2.1.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2649,
@@ -7008,6 +8200,14 @@
     ]
   },
   "WP_077142384.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.22",
+      "identity": 37.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.22.5.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2542,
@@ -7026,6 +8226,14 @@
     ]
   },
   "WP_077142388.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.55",
+      "identity": 20.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.55.3.4"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1907,
@@ -7044,6 +8252,14 @@
     ]
   },
   "WP_077142413.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 20.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.109.4"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1394,
@@ -7108,6 +8324,14 @@
     ]
   },
   "WP_077142417.1": {
+    "best_hit": {
+      "attach_tcid": "1.B.54",
+      "identity": 79.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.B.54.1.7"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5586,
@@ -7272,6 +8496,14 @@
     ]
   },
   "WP_077142453.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 55.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.106.14"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3746,
@@ -7290,6 +8522,14 @@
     ]
   },
   "WP_077142462.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.9.1.2",
+      "identity": 75.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.9.1.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.7367,
@@ -7504,6 +8744,16 @@
     ]
   },
   "WP_077142496.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 24.5,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.5.18",
+        "3.A.1.5.27",
+        "3.A.1.5.38"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1704,
@@ -7522,6 +8772,15 @@
     ]
   },
   "WP_077142497.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 35.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.5.39",
+        "3.A.1.5.38"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2888,
@@ -7648,6 +8907,14 @@
     ]
   },
   "WP_077142559.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.102",
+      "identity": 26.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.102.3.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1039,
@@ -7666,6 +8933,14 @@
     ]
   },
   "WP_077142561.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1.141",
+      "identity": 41.7,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.141.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3087,
@@ -7684,6 +8959,14 @@
     ]
   },
   "WP_077142562.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 36.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.141.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3521,
@@ -7702,6 +8985,14 @@
     ]
   },
   "WP_077142563.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 49.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.141.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3302,
@@ -7752,6 +9043,14 @@
     ]
   },
   "WP_077142578.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.109",
+      "identity": 34.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.109.1.3"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2184,
@@ -7788,6 +9087,14 @@
     ]
   },
   "WP_077142587.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.106",
+      "identity": 43.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.106.3.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2332,
@@ -7966,6 +9273,14 @@
     ]
   },
   "WP_077142635.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1.15",
+      "identity": 46.0,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.15.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3597,
@@ -8020,6 +9335,14 @@
     ]
   },
   "WP_077142644.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 35.7,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.5.11"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.295,
@@ -8056,6 +9379,16 @@
     ]
   },
   "WP_077142652.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.66",
+      "identity": 25.7,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.66.4.3",
+        "2.A.66.4.1",
+        "2.A.66.4.7"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1661,
@@ -8106,6 +9439,16 @@
     ]
   },
   "WP_077142657.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.53",
+      "identity": 47.5,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.53.3.14",
+        "2.A.53.3.3",
+        "2.A.53.3.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3205,
@@ -8192,6 +9535,14 @@
     ]
   },
   "WP_077142666.1": {
+    "best_hit": {
+      "attach_tcid": "1.E.34.3",
+      "identity": 57.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "1.E.34.3.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.578,
@@ -8210,6 +9561,14 @@
     ]
   },
   "WP_077142670.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.1",
+      "identity": 51.6,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.1.2.109"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.3399,
@@ -8246,6 +9605,16 @@
     ]
   },
   "WP_077142683.1": {
+    "best_hit": {
+      "attach_tcid": "2.A.2",
+      "identity": 22.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "2.A.2.3.4",
+        "2.A.2.3.6",
+        "2.A.2.3.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.132,
@@ -8382,6 +9751,14 @@
     ]
   },
   "WP_077143816.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1.15",
+      "identity": 53.0,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.15.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4163,
@@ -8436,6 +9813,15 @@
     ]
   },
   "WP_083703284.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 34.1,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.17.1",
+        "3.A.1.17.4"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2141,
@@ -8454,6 +9840,14 @@
     ]
   },
   "WP_156858202.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.1",
+      "identity": 72.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.1.8.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.5096,
@@ -8500,6 +9894,16 @@
     ]
   },
   "WP_156858205.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.10",
+      "identity": 35.9,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.10.1.9",
+        "3.D.10.1.6",
+        "3.D.10.1.4"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2728,
@@ -8536,6 +9940,14 @@
     ]
   },
   "WP_198025637.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 30.3,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.106.15"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.1184,
@@ -8554,6 +9966,14 @@
     ]
   },
   "WP_198025659.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.5",
+      "identity": 69.8,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.5.4.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.4852,
@@ -8572,6 +9992,14 @@
     ]
   },
   "WP_225866689.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.7",
+      "identity": 25.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.7.19.1"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2184,
@@ -8650,6 +10078,16 @@
     ]
   },
   "WP_237071844.1": {
+    "best_hit": {
+      "attach_tcid": "3.A.1",
+      "identity": 35.5,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.A.1.106.2",
+        "3.A.1.117.3",
+        "3.A.1.123.2"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.2189,
@@ -8722,6 +10160,15 @@
     ]
   },
   "WP_423246164.1": {
+    "best_hit": {
+      "attach_tcid": "3.D.3.5",
+      "identity": 63.4,
+      "rule": "best_hit_v1",
+      "tcids": [
+        "3.D.3.5.3",
+        "3.D.3.5.6"
+      ]
+    },
     "calls": [
       {
         "confidence_score": 0.499,

@@ -302,6 +302,7 @@ def build_strain_calls(tsv_path: Path) -> tuple[dict, dict]:
     """
     # Group accepted (tier-classified) hits per query
     by_query: dict[str, list[dict]] = defaultdict(list)
+    all_rows: list[dict] = []          # every parsed row, for the best-hit rule
     raw_lines = 0
     with open(tsv_path) as f:
         for line in f:
@@ -312,6 +313,7 @@ def build_strain_calls(tsv_path: Path) -> tuple[dict, dict]:
             row = parse_diamond_row(line)
             if row is None:
                 continue
+            all_rows.append(row)
             tier = classify_hit(row)
             if tier is None:
                 continue
@@ -409,6 +411,31 @@ def build_strain_calls(tsv_path: Path) -> tuple[dict, dict]:
         "tier_distribution": dict(tier_dist),
         "consensus_agreement_distribution": dict(consensus_dist),
     }
+
+    # Best-hit details (best_hit_v1), added after the tier summary so the existing
+    # summary keys keep their meaning. A best-hit protein without a tier call (top
+    # HSP < 50 aa) gets {"calls": [], "best_hit": {...}} with no attach_tcid.
+    best_hits = select_best_hits(all_rows)
+    without_call = fallback = multi = 0
+    for query_id, best in best_hits.items():
+        block = {"rule": BEST_HIT_RULE_VERSION, "tcids": best["tcids"],
+                 "identity": best["identity"]}
+        rec = calls.get(query_id)
+        if rec is None:
+            calls[query_id] = {"calls": [], "best_hit": block}
+            without_call += 1
+        else:
+            block["attach_tcid"] = attach_tcid(best, rec["calls"])
+            if truncate_tcid(block["attach_tcid"], 3) != truncate_tcid(best["top_tcid"], 3):
+                fallback += 1
+            rec["best_hit"] = block
+        multi += len(best["tcids"]) > 1
+    summary.update({
+        "proteins_with_best_hit": len(best_hits),
+        "best_hit_multi_tcid": multi,
+        "best_hit_without_call": without_call,
+        "best_hit_fallback_attach": fallback,
+    })
     return calls, summary
 
 

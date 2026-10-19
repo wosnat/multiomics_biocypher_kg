@@ -157,6 +157,36 @@ Field semantics:
 - `consensus_n` is how many hits backed this family; `consensus_agreement` is the depth at which they agreed.
 - `incompletely_characterized` flags TCDB class 9. No demotion is applied — downstream consumers decide.
 
+### `best_hit` block (best_hit_v1, 2026-10-19)
+
+Alongside `calls`, a protein may carry a `best_hit` block — its **actual best-hit 5-part
+TCDB system(s)**, which the tier/consensus collapse truncates away (e.g. MED4 cynD is called
+`3.A.1` but its best hit is `3.A.1.16.2`, the cyanate/nitrite system):
+
+```json
+"WP_011132009.1": {
+  "calls": [ ... ],
+  "best_hit": {"rule": "best_hit_v1", "tcids": ["3.A.1.16.2"], "identity": 59.2, "attach_tcid": "3.A.1"}
+}
+```
+
+Rule (`select_best_hits`, independent of the tier policy): qcov ≥ 75 **and** scov ≥ 75
+(scov from gapseq's reference-coverage rule), TC class 1–4, no identity or length floor;
+**reciprocal best hit** (the top hit's subject row must pick this protein as its best gated
+match in the strain); window = gated hits with bitscore ≥ 0.9 × top, up to 3 distinct 5-part
+TCIDs, any family. Subject TCIDs longer than 5 parts are truncated (best-hit path only).
+`attach_tcid` = the call in the top hit's 3-part family (which `Gene_has_tcdb_family` edge
+carries the record). ~188 proteins corpus-wide have a best hit but **no** call (top HSP
+< 50 aa): `{"calls": [], "best_hit": {...}}` with no `attach_tcid`. Summary keys:
+`proteins_with_best_hit`, `best_hit_multi_tcid`, `best_hit_without_call`,
+`best_hit_fallback_attach` (expected 0). Design:
+`docs/superpowers/specs/2026-10-18-tcdb-diamond-best-hit-design.md`.
+
+**Regenerating without diamond:** `uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --from-tsv [--strains ...]`
+rebuilds calls.json + summary from the committed `.tcdb.tsv` (no FASTA, no diamond, always
+rewrites). Use it when only the derivation changed; a real diamond rerun against a newer TCDB
+FASTA changes the existing tier calls.
+
 ## Consuming the artifact
 
 `multiomics_kg/utils/tcdb_diamond.py` exposes: `load_calls_json`, `iter_candidates`,

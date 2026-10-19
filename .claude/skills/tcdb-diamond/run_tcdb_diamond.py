@@ -234,6 +234,26 @@ def process_strain(
     return strain, "OK", summary
 
 
+def rebuild_from_tsv(strain: str, data_dir_genome: Path) -> tuple[str, str, dict | None]:
+    """Rebuild calls.json + summary from the committed `<strain>.tcdb.tsv`.
+
+    Never runs diamond, needs no protein.faa or TCDB FASTA, and always rewrites
+    (no SKIP_EXISTS guard). Used to add derived fields (e.g. the best_hit block)
+    without touching the raw hits: re-running diamond on a different TCDB FASTA
+    would change the existing tier calls. Status: OK / SKIP_NO_TSV.
+    """
+    out_dir = data_dir_genome / "tcdb"
+    tsv = out_dir / f"{strain}.tcdb.tsv"
+    if not tsv.exists():
+        return strain, "SKIP_NO_TSV", None
+    calls, summary = build_strain_calls(tsv)
+    with open(out_dir / f"{strain}.tcdb.calls.json", "w") as f:
+        json.dump(calls, f, indent=2, sort_keys=True)
+    with open(out_dir / f"{strain}.tcdb.skill_summary.json", "w") as f:
+        json.dump(summary, f, indent=2)
+    return strain, "OK", summary
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Run diamond vs. TCDB FASTA per strain (Phase 1)."
@@ -250,7 +270,26 @@ def main():
                         help="Smoke test: run on first N proteins of each strain "
                              "only. Outputs go to <strain>.tcdb.limited_<N>.* "
                              "alongside (not replacing) full-run artifacts.")
+    parser.add_argument("--from-tsv", action="store_true",
+                        help="Rebuild calls.json + summary from each strain's committed "
+                             "<strain>.tcdb.tsv without running diamond (no FASTA, no "
+                             "protein.faa needed; always rewrites).")
     args = parser.parse_args()
+    if args.from_tsv and args.limit:
+        parser.error("--from-tsv cannot be combined with --limit")
+
+    if args.from_tsv:
+        results = [rebuild_from_tsv(g["strain_name"], REPO_ROOT / g["data_dir"].rstrip("/"))
+                   for g in load_genome_rows(args.strains)]
+        for strain, status, summary in results:
+            extra = ""
+            if summary:
+                extra = (f"calls={summary['proteins_with_call']} "
+                         f"best_hit={summary['proteins_with_best_hit']} "
+                         f"no_call={summary['best_hit_without_call']} "
+                         f"fallback={summary['best_hit_fallback_attach']}")
+            print(f"{strain:<12} {status:<12} {extra}")
+        return
 
     data_dir = resolve_tcdb_data_dir()
     print(f"TCDB data dir: {data_dir}")

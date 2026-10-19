@@ -429,8 +429,9 @@ def test_calls_carry_only_sequence_derived_fields(tmp_path):
     calls, summary = build_strain_calls(tsv)
 
     rec = calls["WP_A.1"]
-    # Protein-level: nothing but `calls`
-    assert set(rec) == {"calls"}
+    # Protein-level: `calls` plus the sequence-derived `best_hit` block (best_hit_v1)
+    assert set(rec) == {"calls", "best_hit"}
+    assert set(rec["best_hit"]) == {"rule", "tcids", "identity", "attach_tcid"}
     # Candidate-level: no cross-source or filter state
     cand = rec["calls"][0]
     forbidden = {"egn_agreement", "egn_tcids", "pfam_agreement", "pfam_ids",
@@ -620,3 +621,46 @@ def test_attach_prefers_top_family_else_first_call():
     assert attach_tcid({"top_tcid": "3.A.1.16.2"}, cands) == "3.A.1.16"
     assert attach_tcid({"top_tcid": "1.A.11.2.5"}, cands) == "2.A.1"
     assert attach_tcid({"top_tcid": "1.A.11.2.5"}, []) is None
+
+
+def _tsv_line(q, acc_tcid, ident, qcov, scov, length, evalue, bits):
+    return f"{q}\tlcl|{acc_tcid}\t{ident}\t{qcov}\t{scov}\t{length}\t{evalue}\t{bits}\n"
+
+
+def test_build_strain_calls_adds_best_hit_block(tmp_path):
+    tsv = tmp_path / "s.tcdb.tsv"
+    tsv.write_text(
+        _tsv_line("WP_1", "O05347-3.A.1.16.2", 59.2, 95.4, 94.0, 250, 1e-108, 316)
+        + _tsv_line("WP_1", "P38046-3.A.1.16.1", 50.0, 79.0, 82.0, 240, 1e-81, 246)
+    )
+    calls, summary = build_strain_calls(tsv)
+    rec = calls["WP_1"]
+    assert [(c["tcid"], c["tier"]) for c in rec["calls"]] == [("3.A.1.16", 2)]
+    assert rec["best_hit"] == {"rule": "best_hit_v1", "tcids": ["3.A.1.16.2"],
+                               "identity": 59.2, "attach_tcid": "3.A.1.16"}
+    assert summary["proteins_with_best_hit"] == 1
+    assert summary["best_hit_without_call"] == 0
+    assert summary["best_hit_fallback_attach"] == 0
+
+
+def test_build_strain_calls_best_hit_without_call(tmp_path):
+    tsv = tmp_path / "s.tcdb.tsv"
+    tsv.write_text(_tsv_line("WP_2", "Q1-3.D.4.3.2", 80.0, 95.0, 95.0, 40, 1e-10, 60))
+    calls, summary = build_strain_calls(tsv)
+    assert calls["WP_2"] == {"calls": [], "best_hit": {"rule": "best_hit_v1",
+                                                       "tcids": ["3.D.4.3.2"], "identity": 80.0}}
+    assert summary["proteins_with_call"] == 0
+    assert summary["total_candidates"] == 0
+    assert summary["best_hit_without_call"] == 1
+
+
+def test_build_strain_calls_reciprocal_fail_has_no_best_hit_key(tmp_path):
+    tsv = tmp_path / "s.tcdb.tsv"
+    tsv.write_text(
+        _tsv_line("WP_A", "S1-3.A.1.16.2", 50.0, 90.0, 90.0, 250, 1e-50, 300)
+        + _tsv_line("WP_B", "S1-3.A.1.16.2", 60.0, 90.0, 90.0, 250, 1e-60, 400)
+    )
+    calls, _ = build_strain_calls(tsv)
+    assert calls["WP_A"]["calls"]
+    assert "best_hit" not in calls["WP_A"]
+    assert "best_hit" in calls["WP_B"]
