@@ -48,7 +48,8 @@ have for nitrogen sources, and what are their substrates or substrate classes"
 
 **Anti-goals**
 - Storing raw diamond hits (no hit tables, no runner-up scores, no qcov/scov/bitscore per hit).
-  (Within the six properties nothing is dropped or filtered — they are raw material.)
+  (The substrate lists are unfiltered — raw material. What the rule itself excludes — gate,
+  reciprocal check, window cap of 3 — is the definition of a best hit, not a filter.)
 - Hand-picked TC-family exclusion lists derived from the genes we inspected (overfitting).
 - A fused "confidence" flag that hides the evidence (programme rule: routes with caveats).
 - Tuning thresholds on the evaluation strains.
@@ -57,7 +58,7 @@ have for nitrogen sources, and what are their substrates or substrate classes"
 
 Input: the committed per-strain diamond table
 `cache/data/<org>/genomes/<strain>/tcdb/<strain>.tcdb.tsv` (columns: qid, subject
-`<acc>-<TCID>`, identity, qcov, scov, length, evalue, bitscore; `--max-target-seqs 25`,
+`lcl|<acc>-<TCID>`, identity, qcov, scov, length, evalue, bitscore; `--max-target-seqs 25`,
 `--evalue 0.001`, `--more-sensitive`). No new diamond run.
 
 For each protein:
@@ -68,8 +69,7 @@ For each protein:
      master 2dce3a0: TCDB is the blast *query*, `-qcov_hsp_perc 75`, i.e. coverage of the
      reference). Rejects single-shared-domain hits.
    - Classes 1–4: gapseq's `TC_types` (5, 6, 8, 9 ignored: electron carriers,
-     accessory/incompletely characterized). Excludes our earlier "8/9 only" by also
-     dropping 5 and 6.
+     accessory/incompletely characterized).
    - gapseq's bitscore 200 is **not** adopted (length-biased: on MED4 it drops 26
      proteins with ≥ 50% identity); no identity floor (identity is published instead).
    - Subject format is `lcl|<acc>-<TCID>`; reuse `parse_tcdb_subject_id`. One TCDB
@@ -91,29 +91,35 @@ For each protein:
    b6f/reaction centre 70; 1.B.42 + 3.A.1 Lpt export 63; 3.A.11 + 3.A.15 22) — real
    information, not competing guesses.
 4. **Attach.** The top hit decides the edge: the record goes on the protein's
-   diamond-sourced `Gene_has_tcdb_family` edge in the top hit's 3-part family (if
-   several, the deepest ancestor-or-self of the top hit). If the gene has no diamond edge
-   in that family (188 of 12,379 proteins), the record goes on its highest-confidence
-   diamond edge instead. **Nothing is dropped** (user, 2026-10-18: this is raw material for
-   project 3, not a finished feature). A gene can have several diamond edges (one per
-   called family; 6,752 of 29,642 proteins have more than one); the record sits on exactly
-   one of them. Consequence: window ids — even the top one, in the fallback case — are
-   **not** guaranteed to fall under the edge's TC id; consumers must not assume it.
+   diamond-sourced `Gene_has_tcdb_family` edge in the top hit's 3-part family. Measured
+   2026-10-19: every best-hit protein that has any diamond call has one in the top hit's
+   family (0 exceptions), and exactly one per family (calls are per family). A gene can
+   have several diamond edges (6,752 of 29,642 proteins); the record sits on exactly one.
+   Defensive fallback (expected never to fire; logged): the protein's highest-confidence
+   call. Window ids after the first may fall outside the edge's TC id (cross-family
+   window); consumers must not assume they don't.
+   - **188 best-hit proteins have no diamond call at all** (top-hit HSP < 50 aa, below the
+     tier policy's length floor — small photosystem / complex subunits, e.g. Alteromonas
+     `WP_012519975.1` → `3.D.4.3.2`, 29 aa). They have no `Gene_has_tcdb_family` edge to
+     carry the record, and creating one would change the existing edge set. Their record
+     is kept in calls.json and in the merge field `tcdb_best_hit_ids` (so project 3 has
+     it), but not on a KG edge (my call, 2026-10-19 spec review; flagged to the user).
 
 The rule is frozen; the counts below are re-measured by the plan's first task from a
 committed script implementing exactly this text, and that output becomes the reference.
 
 Effect measured 2026-10-18 (exploratory, gate as above):
 - MED4: 180 proteins pass the gate, 163 pass the reciprocal check, 46 of those carry more
-  than one window TCID. The 17–18 failures are
+  than one window TCID. The 17 failures are
   mostly non-transporters (clpB, dnaK, ftsH, gap3 hitting protein-import/secretion
   systems), photosystem paralogs (pcb, ndhD2) and ABC paralogs borrowing a sibling's
   substrate (sufC, PMM1029/1031, modF). cyn/urt/amt1/dpp/ktrA keep their calls.
-- 43 strains: ~12.4K proteins receive details, naming ~1,990 distinct 5-part systems
-  (~200 of them already TcdbFamily nodes).
-- Builder check found that about a third of gate-passing 5-part systems have no
-  substrates in TCDB (1,533 of 4,594 pre-reciprocal), so many edges will carry
-  `best_hit_tcids` without `best_hit_substrate_ids`.
+- 43 strains: 15,372 proteins pass the gate, 12,379 the reciprocal check (12,191 with a
+  diamond call → edge record; 188 without, see step 4), naming 1,993 distinct 5-part
+  systems (203 already TcdbFamily nodes). Re-implemented independently in the spec
+  review with the same counts.
+- 529 of the 1,993 systems (27%) have no substrates in TCDB, so many edges will carry
+  `best_hit_tcids` without the substrate lists.
 
 ### Relation to the tier policy
 
@@ -159,10 +165,19 @@ their substrates agree (e.g. MED4 `sul1`: fumarate vs sulfate → genuinely ambi
 "transports both"). Identity says how far the substrate transfer can be trusted (rough
 literature guide: ≥ ~50–60% fairly safe, < ~40% weak).
 
-Absent `best_hit_substrate_ids` means TCDB lists no substrate for those systems (about a
-third of gate-passing systems). Because nothing is filtered, consumers must expect H⁺,
+Absent substrate lists mean TCDB lists no substrate for any window system (27% of
+best-hit systems). Because nothing is filtered, consumers must expect H⁺,
 Na⁺, generic classes and polymers among the ids; filtering (e.g. slice 1's
 `go_transport_target_filter.yaml`) is a reading choice, stated in the kg-changes caveat.
+
+Sanitization: every string element of the five list properties passes through the
+adapter's `_clean_str` (`'` → `^`, `|` removed); seven best-hit substrate names contain
+`'` (e.g. `N,N'-diacetylchitobiose`). No list element is ever empty: system names fall back
+to the TCID, substrate names to the id.
+
+Not to be confused with MEROPS: `Gene_has_merops_family.best_hit_id` / `best_hit_kind` are
+a single hit's id and kind; TCDB `best_hit_tcids` is a window of up to three systems. The
+kg-changes caveat says so.
 
 Note: the existing edge `identity` / `qcov` come from the highest-identity hit in the
 consensus family group, pre-gate; `best_hit_identity` is the gated top-bitscore hit. They
@@ -176,17 +191,29 @@ reports how many stored ids have no node.
 
 ## 5. Where it is computed (my call; builder may adjust)
 
-- **Phase-1 artifact:** `run_tcdb_diamond.py` adds a per-protein `best_hit` block to
-  `<strain>.tcdb.calls.json` (`tcids`, `identity`, plus the rule version), derived from the
-  same hit table it already parses. Diamond runs fast, so a plain `--force` rerun of all
-  strains is acceptable (user, 2026-10-18); no normalize mode needed. Diamond parameters
-  stay as they are (`--max-target-seqs 25` etc.): raising them would change the existing
-  tier/consensus calls, which are out of scope. Rule lives in one function with unit tests.
+- **Phase-1 artifact:** the runner adds a per-protein `best_hit` block to
+  `<strain>.tcdb.calls.json` (`rule`, `tcids`, `identity`, `attach_tcid`; `attach_tcid`
+  absent for the 188 call-less proteins, whose record is `{"calls": [], "best_hit": …}`),
+  derived from the hit table `build_strain_calls` already parses. Produced with a new
+  `--from-tsv` mode that rebuilds calls.json from the **committed** `.tcdb.tsv` without
+  running diamond (spec review 2026-10-19: a `--force` rerun overwrites the TSV and, on a
+  machine whose TCDB FASTA differs from the one behind the committed TSVs, changes the
+  existing tier calls). A real diamond rerun stays allowed (user, 2026-10-18) but is not
+  needed. Acceptance: every strain's `calls[]` byte-identical before and after. Diamond
+  parameters unchanged. Rule lives in one function with unit tests.
 - **Step 6:** collects all best-hit TCIDs across strains, resolves their own substrates
   through the existing substrate resolver, and writes `best_hit_substrates:
-  {tcid5: [canonical_id, …]}` into `tcdb_pruned.json` (unfiltered, §4). Canonical ids exist
-  only after the step-6 identity pipeline, so the map is written from there, not where
+  {tcid5: [[canonical_id, name], …]}` into `tcdb_pruned.json` (unfiltered, §4; `name` = the
+  node's name when the id is a node, else the TCDB-given name). Canonical ids exist only
+  after the step-6 identity pipeline, so the map is written from there, not where
   `subtree_substrates` is first built.
+  - The best-hit resolve uses its **own fresh `rekeys` dict**: `_resolve_substrate_strings`
+    mutates the dict passed in, and the main one feeds `Step6Inputs.rekeys` and the remap.
+  - It runs **tracked** (my call): ChEBI terms it touches join the committed
+    `cache/data/chebi/chebi_metabolite_xrefs.json` (~1K more ids), so step 6 stays
+    reproducible from committed files on a machine without raw `chebi.obo`. Expected to
+    change that file; `kegg_data.json` and every existing `tcdb_pruned.json` key must stay
+    byte-identical.
 - **Why a separate key, not added to `kept_tcdb_ids` (user, 2026-10-19):** keeping the
   ~1,790 best-hit systems as pruned nodes would roughly double TcdbFamily with gene-less
   nodes, add thousands of `Tcdb_family_transports_metabolite` edges, flip existing edges'
@@ -194,26 +221,42 @@ reports how many stored ids have no node.
   Metabolite / pathway nodes — a TCDB-layer redesign that belongs to project 3. The
   separate `best_hit_substrates` key is read only by the adapter; promoting it to nodes
   later is mechanical.
-- **TCDB names:** `scrape_tcdb_names.py` keeps the name of **every** 5-part system on each
-  family page it parses (today it keeps only systems that are KG nodes: 203 of ~1,990
-  best-hit systems named), and is topped up with `--families` for the 251 families the
-  best-hit systems fall in (≈ 200 not yet scraped, ~10 min at the 2.5 s cadence; the raw
-  page cache is reused). `tcdb_names.json` stays committed. Step 6 adds the names to
-  `best_hit_substrates`' sibling map `best_hit_names: {tcid5: name}` in `tcdb_pruned.json`
-  (or the adapter reads `tcdb_names.json` directly — builder's choice) and warns on
-  best-hit systems still unnamed.
-- **Adapter:** `tcdb_adapter` reads `best_hit` from calls.json (already reads it for
-  evidence) and `best_hit_substrates` from `tcdb_pruned.json`, attaches the six properties
-  per §3 step 4.
+- **TCDB names:** `scrape_tcdb_names.py` scope becomes kept ids ∪ best-hit TCIDs (251
+  families: 198 already scraped, 53 new). It **adds** names for best-hit 5-part systems
+  and leaves every existing `tcdb_names.json` entry verbatim (merge-preserving
+  `assemble_names`; acceptance: existing keys byte-identical), so current TCDB wording
+  cannot change existing `TcdbFamily.name` / `description`. The raw page cache
+  (`cache/data/tcdb/raw/pages/`, gitignored) lives only in the other clone
+  (`multiomics_biocypher_kg`); copy it over before running so the 198 scraped families
+  are re-parsed, not re-fetched — only the 53 new pages hit tcdb.org (~2–3 min).
+  `--families` top-ups merge instead of rewriting (pre-existing bug, fixed here).
+  `tcdb_names.json` stays committed. The adapter reads system names from
+  `tcdb_names.json`; step 6 warns on best-hit systems still unnamed.
+- **Adapter:** `tcdb_adapter` reads `best_hit` from calls.json (already reads calls.json
+  for evidence), system names from `tcdb_names.json` and `best_hit_substrates` from
+  `tcdb_pruned.json`, and attaches the six properties per §3 step 4. The seed-alias edge
+  merge must carry `best_hit_*` from whichever side has them.
+- **Schema:** BioCypher writes only declared edge properties — add the six to
+  `gene_has_tcdb_family` in `config/schema_config.yaml` (`str[]` ×5, `float` ×1). The merge
+  field `tcdb_best_hit_ids` is **not** declared on Gene (no new Gene property).
 - **Merge (step 2, user 2026-10-19):** one light field, `tcdb_best_hit_ids` (str[], window
-  order), from the `tcdb_diamond` source — the per-gene source of truth for project 3.
+  order), from the `tcdb_diamond` source — the per-gene source of truth for project 3,
+  including the 188 call-less proteins (the loader must not skip proteins with an empty
+  `calls` list).
   Not part of `transporter_classification` (never seeds pruning or creates edges). Identity
   and `attach_tcid` stay in calls.json (per-call evidence, interpro/tcdb pattern). Step 6
   and the name scraper read best-hit TCIDs from this field. Text fields
   (`alternate_functional_descriptions`, full-text search) are not touched — a follow-up.
 
 Vocabulary/contract: register the six properties in `config/controlled_vocabularies.yaml`
-if numeric/list edge props are registered there (KG-SYNC-005 practice); sanitize strings.
+(TCDB edge numerics already are: `identity`, `qcov`, `evalue`, `consensus_n`). Expected
+consequence: `Schema_info.controlled_vocabularies_hash` moves and six `ControlledVocabulary`
+nodes are added — allowed by the "nothing existing changes" acceptance.
+
+**Committed files expected to change:** 43 × `.tcdb.calls.json` (+ `skill_summary.json`),
+43 × `gene_annotations_merged.json` (new key only), `tcdb_names.json` (new keys only),
+`tcdb_pruned.json` (new key only), `chebi_metabolite_xrefs.json` (more terms). Not:
+`.tcdb.tsv`, `kegg_data.json`, any other step-6 output.
 
 ### Data flow
 
@@ -221,8 +264,8 @@ New pieces are marked **(new)**; everything else exists today and is unchanged.
 
 ```mermaid
 flowchart TD
-    FAA["protein.faa<br/>(per strain)"] --> DIA["diamond blastp vs TCDB FASTA<br/>(run_tcdb_diamond.py, params unchanged)"]
-    DIA --> TSV["&lt;strain&gt;.tcdb.tsv<br/>raw hits, committed"]
+    FAA["protein.faa<br/>(per strain)"] --> DIA["diamond blastp vs TCDB FASTA<br/>(run_tcdb_diamond.py, not rerun)"]
+    DIA --> TSV["&lt;strain&gt;.tcdb.tsv<br/>raw hits, committed, unchanged"]
     TSV --> TIER["tier policy + consensus collapse<br/>(unchanged)"]
     TSV --> RULE["best-hit rule best_hit_v1 (new)<br/>gate · reciprocal · window"]
     TIER --> CALLS["&lt;strain&gt;.tcdb.calls.json<br/>calls[] + best_hit {tcids, identity, attach_tcid} (new)"]
@@ -232,8 +275,8 @@ flowchart TD
     S2 --> MERGED["gene_annotations_merged.json"]
 
     MERGED -->|tcdb_best_hit_ids| SCRAPE["scrape_tcdb_names.py<br/>scope += best-hit families,<br/>keep every system name (new)"]
-    TCDBWEB[("tcdb.org family pages")] --> SCRAPE
-    SCRAPE --> NAMES["tcdb_names.json (committed)"]
+    TCDBWEB[("tcdb.org family pages<br/>+ raw page cache")] --> SCRAPE
+    SCRAPE --> NAMES["tcdb_names.json (committed)<br/>+ best-hit system names (new keys only)"]
 
     MERGED -->|tcdb_best_hit_ids| S6["step 6<br/>own substrate strings per TCID →<br/>separate resolve → canonical ids (new)"]
     SUBS[("substrates.tsv<br/>via tcdb_hierarchy.json")] --> S6
@@ -250,13 +293,14 @@ flowchart TD
 
 | Stage | Reads | Writes | What it contributes |
 |---|---|---|---|
-| Diamond runner | `protein.faa`, TCDB FASTA | `.tcdb.tsv`, `.tcdb.calls.json` | Per protein: `best_hit.tcids` (≤ 3), `best_hit.identity`, `best_hit.attach_tcid` (which of its calls carries the record), `best_hit.rule` |
-| Name scraper | merged `tcdb_best_hit_ids`, tcdb.org | `tcdb_names.json` | Names for best-hit systems (≥ 95% target; else the TCID is the name) |
-| Step 6 | merged `tcdb_best_hit_ids`, hierarchy substrate strings, ChEBI/MNX, identity pipeline | `tcdb_pruned.json` `best_hit_substrates` | Per system: its own substrates as `[canonical id, name]`, unfiltered, nodes not required. Uses a separate resolve so `kegg_data.json` and every existing key stay byte-identical |
+| Diamond runner, `--from-tsv` | committed `.tcdb.tsv` | `.tcdb.calls.json` | Per protein: `best_hit.tcids` (≤ 3), `best_hit.identity`, `best_hit.attach_tcid` (which of its calls carries the record; absent when it has no call), `best_hit.rule`; `calls[]` byte-identical |
+| Name scraper | merged `tcdb_best_hit_ids`, page cache, tcdb.org (53 new pages) | `tcdb_names.json` | Names for best-hit systems as new keys (≥ 95% target; else the TCID is the name); existing keys verbatim |
+| Step 6 | merged `tcdb_best_hit_ids`, hierarchy substrate strings, ChEBI/MNX, identity pipeline | `tcdb_pruned.json` `best_hit_substrates` | Per system: its own substrates as `[canonical id, name]`, unfiltered, nodes not required. Separate resolve with its own `rekeys`, tracked (ChEBI cache grows); `kegg_data.json` and every existing key byte-identical |
 | Step 2 merge | calls.json | merged annotations | Edge set unchanged (`transporter_classification`); adds per-gene `tcdb_best_hit_ids` |
 | `tcdb_adapter` | calls.json, merged annotations, `tcdb_names.json`, `tcdb_pruned.json` | `Gene_has_tcdb_family` edges | Strain adapter puts `best_hit_tcids` + `best_hit_identity` on the edge whose TC id = `attach_tcid`; Multi adapter adds `best_hit_names` and the three long-form substrate lists, and carries `best_hit_*` through the seed-alias edge merge |
 
-Rerun order after a change: diamond runner → `prepare_data.sh --steps 2 --force` → name
+Rerun order after a change: diamond runner (`--from-tsv`, or a full run when TCDB itself is
+refreshed) → `prepare_data.sh --steps 2 --force` → name
 scraper (only if new best-hit families) → `prepare_data.sh --steps 6 --force` → KG rebuild. Step 6 warns when
 best-hit systems are unnamed.
 
@@ -286,11 +330,11 @@ random sample (~30), classified rule-wrong / comparator-wrong / unclear. If anyt
 a threshold change, re-evaluate on fresh strains. Comparators are correlated (shared
 homology), so agreement is an upper bound.
 
-**Acceptance:** every best-hit protein's record present on exactly one of its gene's diamond edges in a live rebuild; cynA/cynD →
+**Acceptance:** every best-hit protein *with a diamond call* has its record on exactly one of its gene's diamond edges in a live rebuild; the 188 call-less ones appear in `tcdb_best_hit_ids` only; cynA/cynD →
 cyanate system ("Bispecific cyanate/nitrite transporter."), amt1 → ammonium, urt → urea on
 MED4; ≥ 95% of stored best-hit TCIDs carry a real name (not the id fallback); validation table recorded;
 `pytest -m "not slow and not kg"` and `pytest -m kg` green; no existing edge/property
-changes (`/omics-edge-snapshot` and TCDB edge counts unchanged).
+changes beyond the expected-files list in §5 (`/omics-edge-snapshot`, TCDB node/edge and Metabolite counts unchanged; only the vocabulary hash and six new `ControlledVocabulary` nodes move).
 
 ## 7. Documentation
 
@@ -300,6 +344,6 @@ the explorer; CLAUDE.md TCDB bullet; tcdb-diamond SKILL.md (artifact schema); CH
 
 ## 8. Left to the builder
 
-Exact function boundaries, test fixtures, the normalize-mode flag name, whether the
+Exact function boundaries, test fixtures, the `--from-tsv` flag name, whether the
 `best_hit` block also records the gated top hit's qcov/scov for audit in the artifact
 (artifact only, never the KG), log wording.
