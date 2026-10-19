@@ -107,7 +107,8 @@
 ### Task 4: TCDB system names + step-6 best-hit substrates
 
 **Files:**
-- Modify: `multiomics_kg/download/scrape_tcdb_names.py` (`assemble_names`, `main` scope)
+- Modify: `multiomics_kg/download/scrape_tcdb_names.py` (`assemble_names`, `main` scope, `--families` merge fix)
+- Modify: `.claude/skills/tcdb-diamond/SKILL.md` ("Refreshing TCDB names (T6)": best-hit scope, top-up now merges)
 - Modify: `multiomics_kg/utils/tcdb_diamond.py` (add collector over merged files)
 - Modify: `multiomics_kg/download/build_kegg_metabolism_xrefs.py` (`main`)
 - Modify: `multiomics_kg/utils/metabolite_identity/pipeline.py` (`Step6Inputs`, `run_identity_stages`)
@@ -118,13 +119,15 @@
 - Consumes: Task 3 merged `tcdb_best_hit_ids` (via `_gene_reachable_sets`).
 - Produces:
   - `collect_best_hit_tcids(genome_dirs: Iterable[Path]) -> set[str]` in `tcdb_diamond.py`: union of merged `tcdb_best_hit_ids` over each `gene_annotations_merged.json` (used by the scraper; step 6 uses `_gene_reachable_sets`).
-  - `assemble_names(...)` keeps **every** subfamily/system parsed on scraped family pages (drop the `kept_ids` filter for 4/5-part entries). `main` scope = `scoped_families(kept_ids | collect_best_hit_tcids(...))`. Top-up runs use the full scope; cached pages are not refetched, so only missing families hit the network. (Do **not** use `--families` for this: it rewrites the artifact from the subset.)
+  - `assemble_names(...)` keeps **every** subfamily/system parsed on scraped family pages (drop the `kept_ids` filter for 4/5-part entries). `main` scope = `scoped_families(kept_ids | collect_best_hit_tcids(...))`. Top-up runs use the full scope; cached pages are not refetched, so only missing families hit the network.
+  - Fix (pre-existing bug): `main(families=...)` currently rewrites `tcdb_names.json` from the listed families only, dropping every other family's subfamily/system names. With `--families`, merge into the existing artifact: keep prior `names` entries, overwrite those the listed families re-parse, union `meta.scraped_families`.
   - `Step6Inputs.best_hit_substrates: dict[str, list[tuple[str, str]]] = {}` — `{tcid5: [(primary_or_role_id, tcdb_name), ...]}`, pre-canonical.
   - `tcdb_pruned.json["best_hit_substrates"]: {tcid5: [[canonical_id, name], ...]}` sorted by id; `name` = final table entry's `name` when the id is a node, else `chemical_roles[id]["name"]` for roles, else the TCDB string's name part.
 
 - [ ] **Step 1: Failing tests**
   - `test_assemble_names_keeps_unkept_systems`: a system id absent from `kept_ids` appears in `names` with `name` and `description`.
   - `test_collect_best_hit_tcids` on two tmp strain dirs with merged files.
+  - `test_families_topup_merges_into_existing_artifact`: existing artifact with names for families F1 and F2; run `main(families=["F2"])` against cached tmp pages (monkeypatch `PAGES_DIR`, `NAMES_FILE`, `PRUNED_FILE`, no network) → F1's 5-part names unchanged, F2's refreshed, `scraped_families` ⊇ {F1, F2}.
   - `test_identity_stages_writes_best_hit_substrates` (fixture): an input primary that stage E merges onto another canonical id is rewritten to the canonical id and named from the table; a role id passes through named from `chemical_roles`; an id with no node keeps its id and TCDB name; a TC with no substrates is absent.
 - [ ] **Step 2:** Run → FAIL.
 - [ ] **Step 3:** Implement. In step-6 `main`: take best-hit TCIDs from `catalysis_sets["tcdb_best_hit_ids"]`; take each id's own strings from `full_subtree_strings[tc]` (5-part = own substrates); split with `partition_role_strings`; resolve molecule strings with a **separate** `_resolve_substrate_strings` call using its own `rekeys` dict (never merged into the main `rekeys`, `compound_props` or `kegg_data`); map each to `(rekeys_bh.get(p, p), name)`; strings that resolve to nothing → `chebi:<primary n>` via `chebi.primary`. In `run_identity_stages`, rewrite via `identity.canonical_of` and name as above. Also in step-6 `main`, log a warning with the count and a sample when best-hit TCIDs have no entry in `tcdb_names.json` (`_warn_unscraped_families` pattern; report-only).
