@@ -87,9 +87,52 @@ WHERE any(s IN r.best_hit_substrate_names WHERE toLower(s) = 'urea')
 RETURN g.organism_name, count(g) ORDER BY count(g) DESC
 ```
 
-## Validation
+## Validation (live graph, 2026-10-19)
 
-Pending the live rebuild — `uv run python scripts/tcdb_best_hit_validation.py`.
+`uv run python scripts/tcdb_best_hit_validation.py`. The rule was frozen before this ran; MED4
+(where it was measured) is training, the other 42 strains hold-out. The comparators share
+homology with the TCDB calls, so agreement is an upper bound.
+
+**Build check.** 12,231 edges carry the record (= the count predicted from calls.json + merged
+annotations; 0 dropped by pruning, 0 fallback attachments). All 18,763 (edge, substrate) pairs
+point at an existing Metabolite / ChemicalRole node. `Gene_has_tcdb_family` (54,627),
+`TcdbFamily` (1,515), `Metabolite` (3,243) and `Tcdb_family_transports_metabolite` (10,790)
+are unchanged; `/omics-edge-snapshot` shows no regressions.
+
+**Agreement with existing routes (hold-out, 12,074 edges):**
+
+| Comparator | Result |
+|---|---|
+| eggNOG TC (7,407 edges with one) | 93.7% consistent: same system 853, best hit inside eggNOG's call 5,405, same family other branch 680; different family 469 (6.3%) |
+| Pfam bridge of the best-hit family (8,757 where one exists) | 65% corroborated by the gene's own Pfams |
+| KEGG BRITE transporter KO (`ko02000`) | 45% of edges (many genes carry no KO) |
+| Cyanorak role naming transport (3,481 Pro/Syn edges with a role) | 58% |
+| GO transport substrates (3,137 edges where both name substrates) | 47% share a substrate; disjoint cases are mostly naming granularity and unfiltered H⁺ / Na⁺ |
+
+**Strength profile.** Best-hit identity < 40%: 5,292 edges (44%); 40–70%: 5,438; ≥ 70%: 1,344.
+3,476 edges (29%) carry more than one system (near-tie). 3,466 substrate pairs are ids in
+slice 1's GO target filter (H⁺, Na⁺, upper-level classes) — kept, unfiltered, by design.
+
+**eggNOG different-family sample (30, seed 0, classified by hand):** 18 both valid — mostly one
+protein TCDB curates under two systems in different families (LptB in Lpt export, YidC/ALB3 in
+the Sec translocase, MexE/OprN in MexEF-OprN, CzcC, FlhA, PilQ) or eggNOG's class 8/9 placement
+the rule excludes; 3 eggNOG id stale or malformed (`2.A.1.40` for NCS2 permeases, `9.A.58`);
+**4 best hit wrong** (CcdA ×2 whose true family is class 5, AtpI, a K⁺ channel) — all at
+24–41% identity, which is what the identity caveat is for; 5 unclear.
+
+**Reciprocal check.** 2,993 gate-passing proteins fail it (MED4 17). On hold-out strains about
+1,300 have transporter-like products (paralogous ABC components in heterotrophs) — a recall
+cost, recorded for project 3, not tuned here.
+
+**Nitrogen worked example** (MED4, MIT9313, WH8102, HOT1A3). The family-level calls that read
+as 518 substrates now resolve: cynA/B/D → `3.A.1.16.2` cyanate + nitrite (MED4 59–71%, WH8102
+61–69%); urtA–E → `3.A.1.4.4` urea (MED4, MIT9313, WH8102; 47–62%); amt1 → `1.A.11.2.5`
+ammonia (81–88%); HOT1A3 nrtC / nasD → `3.A.1.16.1` nitrate + nitrite (35–55%); dpp/opp →
+peptide systems (27–36%). Weak or misleading rows are visible by identity: MED4/MIT9313/WH8102
+`clc2`/`eriC` (ClC chloride antiporter, 28–30%) list nitrate among ClC substrates; `acs`
+(26%) hits a carnitine CoA ligase. Gaps that are not the rule's: WH8102's `nrtP` (MFS nitrate
+transporter) has no diamond hit at all, so it has no call to refine; the SYNW1415–1417
+nitrate/sulfonate/bicarbonate ABC resolves to taurine/sulfonate systems (`3.A.1.17`, 34–44%).
 
 ## Pipeline
 
