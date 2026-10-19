@@ -789,8 +789,17 @@ def load_tcdb_diamond(data_dir: str, strain_name: str) -> dict[str, dict]:
             c["tcid"] for c in rec.get("calls", [])
             if isinstance(c, dict) and c.get("tcid")
         })
+        entry: dict = {}
         if tcids:
-            result[str(wp).strip()] = {"tcdb_ids": tcids}
+            entry["tcdb_ids"] = tcids
+        # best_hit_v1: the protein's actual best-hit 5-part systems (window order).
+        # Present even when the protein has no tier call (top HSP < 50 aa).
+        best = rec.get("best_hit") or {}
+        best_ids = [t for t in best.get("tcids", []) if isinstance(t, str) and t]
+        if best_ids:
+            entry["tcdb_best_hit_ids"] = best_ids
+        if entry:
+            result[str(wp).strip()] = entry
     return result
 
 

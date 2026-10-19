@@ -424,7 +424,7 @@ def _build_tcdb_hierarchy(cache_root: Path) -> int:
 def _gene_reachable_sets(raw: dict) -> dict:
     """Walk all strains to compute the gene-reachable {KOs, reactions, pathways, compounds, TCDB IDs}.
 
-    Returns a dict with keys 'kos', 'rxns', 'cpds', 'pws', 'tcdb_ids' (sets) plus
+    Returns a dict with keys 'kos', 'rxns', 'cpds', 'pws', 'tcdb_ids', 'tcdb_best_hit_ids' (sets) plus
     'rxn_genes' ({reaction: {"{data_dir}:{locus_tag}", ...}}, the per-reaction gene keys
     stage-D catalyst counts are taken from).
     Pathway set is KO ∪ Rxn-reachable (Option B).
@@ -432,6 +432,7 @@ def _gene_reachable_sets(raw: dict) -> dict:
     kos: set[str] = set()
     rxns: set[str] = set()
     tcdb_ids: set[str] = set()
+    tcdb_best_hit_ids: set[str] = set()     # best_hit_v1 systems: never seed pruning
     rxn_genes: dict[str, set[str]] = {}
     for row in load_genome_rows():
         genes = load_gene_annotations(row["data_dir"])
@@ -448,6 +449,9 @@ def _gene_reachable_sets(raw: dict) -> dict:
             for tc in g.get("transporter_classification") or []:
                 if isinstance(tc, str) and tc:
                     tcdb_ids.add(tc)
+            for tc in g.get("tcdb_best_hit_ids") or []:
+                if isinstance(tc, str) and tc:
+                    tcdb_best_hit_ids.add(tc)
 
     rxn_to_cpds = raw.get("reaction_to_compounds", {})
     cpds: set[str] = set()
@@ -468,7 +472,7 @@ def _gene_reachable_sets(raw: dict) -> dict:
         f"{len(tcdb_ids)} TCDB IDs"
     )
     return {"kos": kos, "rxns": rxns, "cpds": cpds, "pws": pws, "tcdb_ids": tcdb_ids,
-            "rxn_genes": rxn_genes}
+            "tcdb_best_hit_ids": tcdb_best_hit_ids, "rxn_genes": rxn_genes}
 
 
 # ── Hierarchy parents ─────────────────────────────────────────────────────────

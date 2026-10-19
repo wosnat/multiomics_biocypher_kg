@@ -1363,3 +1363,16 @@ def test_resolve_substrate_strings_legacy_matches_a_chebi_none_pass(tmp_path):
     new, _ = _resolve_substrate_strings(strings, conn, chebi=chebi, rekeys={}, legacy=legacy)
     assert legacy == old == {"CHEBI:4167;glucose": "chebi:4167", "CHEBI:10004;vitamin": "chebi:10004"}
     assert new["CHEBI:4167;glucose"] == new["CHEBI:12345;glucose"] == "kegg.compound:C00031"
+
+
+def test_gene_reachable_sets_collects_best_hit_ids(tmp_path, monkeypatch, synthetic_kegg_raw):
+    import multiomics_kg.download.build_kegg_metabolism_xrefs as bx
+    strain = tmp_path / "s"
+    _write_strain_annotations(strain, {
+        "G1": {"transporter_classification": ["3.A.1"], "tcdb_best_hit_ids": ["3.A.1.16.2"]},
+        "G2": {"tcdb_best_hit_ids": ["3.D.4.3.2", "3.E.2.1.1"]},
+    })
+    monkeypatch.setattr(bx, "load_genome_rows", lambda: [{"data_dir": str(strain)}])
+    sets = bx._gene_reachable_sets(synthetic_kegg_raw)
+    assert sets["tcdb_best_hit_ids"] == {"3.A.1.16.2", "3.D.4.3.2", "3.E.2.1.1"}
+    assert sets["tcdb_ids"] == {"3.A.1"}
