@@ -198,7 +198,12 @@ reports how many stored ids have no node.
 - **Adapter:** `tcdb_adapter` reads `best_hit` from calls.json (already reads it for
   evidence) and `best_hit_substrates` from `tcdb_pruned.json`, attaches the six properties
   per §3 step 4.
-- Merge (`gene_annotations_merged.json`): untouched.
+- **Merge (step 2, user 2026-10-19):** one light field, `tcdb_best_hit_ids` (str[], window
+  order), from the `tcdb_diamond` source — the per-gene source of truth for project 3.
+  Not part of `transporter_classification` (never seeds pruning or creates edges). Identity
+  and `attach_tcid` stay in calls.json (per-call evidence, interpro/tcdb pattern). Step 6
+  and the name scraper read best-hit TCIDs from this field. Text fields
+  (`alternate_functional_descriptions`, full-text search) are not touched — a follow-up.
 
 Vocabulary/contract: register the six properties in `config/controlled_vocabularies.yaml`
 if numeric/list edge props are registered there (KG-SYNC-005 practice); sanitize strings.
@@ -216,18 +221,17 @@ flowchart TD
     TIER --> CALLS["&lt;strain&gt;.tcdb.calls.json<br/>calls[] + best_hit {tcids, identity, attach_tcid} (new)"]
     RULE --> CALLS
 
-    CALLS --> S2["step 2 merge<br/>tcdb_diamond_ids (unchanged)"]
+    CALLS --> S2["step 2 merge<br/>tcdb_diamond_ids (unchanged)<br/>+ tcdb_best_hit_ids (new)"]
     S2 --> MERGED["gene_annotations_merged.json"]
 
-    CALLS -->|best-hit TCIDs| SCRAPE["scrape_tcdb_names.py<br/>scope += best-hit families,<br/>keep every system name (new)"]
+    MERGED -->|tcdb_best_hit_ids| SCRAPE["scrape_tcdb_names.py<br/>scope += best-hit families,<br/>keep every system name (new)"]
     TCDBWEB[("tcdb.org family pages")] --> SCRAPE
     SCRAPE --> NAMES["tcdb_names.json (committed)"]
 
-    CALLS -->|best-hit TCIDs| S6["step 6<br/>own substrate strings per TCID →<br/>separate resolve → canonical ids (new)"]
+    MERGED -->|tcdb_best_hit_ids| S6["step 6<br/>own substrate strings per TCID →<br/>separate resolve → canonical ids (new)"]
     SUBS[("substrates.tsv<br/>via tcdb_hierarchy.json")] --> S6
     IDP["identity pipeline<br/>(ChEBI, MNX, canonical_of)"] --> S6
     S6 --> PRUNED["tcdb_pruned.json<br/>+ best_hit_substrates {tcid: [[id, name]]} (new)"]
-    MERGED --> S6
 
     CALLS --> ADP["tcdb_adapter"]
     MERGED --> ADP
@@ -240,13 +244,13 @@ flowchart TD
 | Stage | Reads | Writes | What it contributes |
 |---|---|---|---|
 | Diamond runner | `protein.faa`, TCDB FASTA | `.tcdb.tsv`, `.tcdb.calls.json` | Per protein: `best_hit.tcids` (≤ 3), `best_hit.identity`, `best_hit.attach_tcid` (which of its calls carries the record), `best_hit.rule` |
-| Name scraper | calls.json best-hit TCIDs, tcdb.org | `tcdb_names.json` | Names for best-hit systems (≥ 95% target; else the TCID is the name) |
-| Step 6 | calls.json best-hit TCIDs, hierarchy substrate strings, ChEBI/MNX, identity pipeline | `tcdb_pruned.json` `best_hit_substrates` | Per system: its own substrates as `[canonical id, name]`, unfiltered, nodes not required. Uses a separate resolve so `kegg_data.json` and every existing key stay byte-identical |
-| Step 2 merge | calls.json | merged annotations | Unchanged — the edge set (which TC ids a gene gets) comes from here as before |
+| Name scraper | merged `tcdb_best_hit_ids`, tcdb.org | `tcdb_names.json` | Names for best-hit systems (≥ 95% target; else the TCID is the name) |
+| Step 6 | merged `tcdb_best_hit_ids`, hierarchy substrate strings, ChEBI/MNX, identity pipeline | `tcdb_pruned.json` `best_hit_substrates` | Per system: its own substrates as `[canonical id, name]`, unfiltered, nodes not required. Uses a separate resolve so `kegg_data.json` and every existing key stay byte-identical |
+| Step 2 merge | calls.json | merged annotations | Edge set unchanged (`transporter_classification`); adds per-gene `tcdb_best_hit_ids` |
 | `tcdb_adapter` | calls.json, merged annotations, `tcdb_names.json`, `tcdb_pruned.json` | `Gene_has_tcdb_family` edges | Strain adapter puts `best_hit_tcids` + `best_hit_identity` on the edge whose TC id = `attach_tcid`; Multi adapter adds `best_hit_names` and the three long-form substrate lists, and carries `best_hit_*` through the seed-alias edge merge |
 
-Rerun order after a change: diamond runner → name scraper (only if new best-hit
-families) → `prepare_data.sh --steps 2 6 --force` → KG rebuild. Step 6 warns when
+Rerun order after a change: diamond runner → `prepare_data.sh --steps 2 --force` → name
+scraper (only if new best-hit families) → `prepare_data.sh --steps 6 --force` → KG rebuild. Step 6 warns when
 best-hit systems are unnamed.
 
 ## 6. Validation (light; existing sources; no tuning)
