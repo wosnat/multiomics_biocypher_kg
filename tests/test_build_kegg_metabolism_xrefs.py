@@ -1402,3 +1402,14 @@ def test_best_hit_substrate_inputs(tmp_path):
     assert pairs["chebi:99999999"] == "unknown"        # unknown to ChEBI → raw CURIE
     assert pairs["chebi.role:26672"] == "siderophore"  # role-typed → ChemicalRole id
     assert "2.A.1.1.2" not in out and "9.Z.9.9.9" not in out
+
+
+def test_warn_unnamed_best_hits_separates_unscraped_from_missing(tmp_path):
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _warn_unnamed_best_hits
+    names = tmp_path / "tcdb_names.json"
+    names.write_text(json.dumps({"meta": {"scraped_families": ["3.A.1"]},
+                                 "names": {"3.A.1.16.2": {"name": "x"}}}))
+    unscraped, not_on_page = _warn_unnamed_best_hits(
+        {"3.A.1.16.2", "3.A.1.129.1", "2.A.130.1.1"}, names)
+    assert unscraped == ["2.A.130.1.1"]
+    assert not_on_page == ["3.A.1.129.1"]

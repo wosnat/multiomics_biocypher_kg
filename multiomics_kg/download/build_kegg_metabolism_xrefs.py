@@ -189,17 +189,27 @@ def _warn_unscraped_families(kept_ids: set[str], names_path: Path) -> list[str]:
     return missing
 
 
-def _warn_unnamed_best_hits(best_hit_tcids: set[str], names_path: Path) -> list[str]:
+def _warn_unnamed_best_hits(best_hit_tcids: set[str], names_path: Path) -> tuple[list[str], list[str]]:
     """Report-only: diamond best-hit systems with no entry in tcdb_names.json (their
-    `best_hit_names` fall back to the TCID). Top up with the T6 scraper."""
-    names, _ = _load_tcdb_names(names_path)
+    `best_hit_names` fall back to the TCID). Returns (ids whose family was never scraped —
+    a scraper top-up fixes these, ids whose family page was scraped but does not name them —
+    usually retired upstream since the diamond FASTA snapshot; a top-up cannot fix these)."""
+    names, scraped = _load_tcdb_names(names_path)
+    scraped = set(scraped)
     missing = sorted(t for t in best_hit_tcids if t not in names)
-    if missing:
+    unscraped = [t for t in missing if ".".join(t.split(".")[:3]) not in scraped]
+    not_on_page = [t for t in missing if ".".join(t.split(".")[:3]) in scraped]
+    if unscraped:
         log.warning(
-            f"  {len(missing)} of {len(best_hit_tcids)} best-hit TCDB systems have no name in "
-            f"tcdb_names.json (e.g. {', '.join(missing[:5])}); best_hit_names falls back to the "
-            f"TCID. Top-up: uv run python -m multiomics_kg.download.scrape_tcdb_names")
-    return missing
+            f"  {len(unscraped)} best-hit TCDB systems sit in families tcdb_names.json has not "
+            f"scraped (e.g. {', '.join(unscraped[:5])}); best_hit_names falls back to the TCID. "
+            f"Top-up: uv run python -m multiomics_kg.download.scrape_tcdb_names")
+    if not_on_page:
+        log.info(
+            f"  {len(not_on_page)} best-hit TCDB systems are not named on their (scraped) family "
+            f"page (e.g. {', '.join(not_on_page[:5])}) — likely retired upstream since the diamond "
+            f"FASTA snapshot; best_hit_names falls back to the TCID (a top-up will not help).")
+    return unscraped, not_on_page
 
 
 def _parse_tcdb_families(path: Path) -> dict[str, str]:
