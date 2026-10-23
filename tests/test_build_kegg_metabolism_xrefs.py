@@ -241,7 +241,7 @@ def test_step6_builds_tcdb_hierarchy(tmp_path):
     assert "1.A.1" in h
     assert "1.A.1.5" in h
     assert "1.A.1.5.2" in h
-    assert h["1.A.1.5.2"]["level_kind"] == "tc_specificity"
+    assert h["1.A.1.5.2"]["level_kind"] == "tc_system"
     # substrate_classes preserves the full 'CHEBI:N;name' string so downstream
     # MNX resolution can map to a canonical Metabolite primary ID.
     assert h["1.A.1.5.2"]["substrate_classes"] == [
@@ -299,7 +299,7 @@ def test_build_tcdb_hierarchy_seeds_5part_from_acc2tcid(tmp_path):
 
     # Full 5-level chain synthesized
     assert {"1", "1.A", "1.A.12", "1.A.12.2", "1.A.12.2.2"} <= set(h.keys())
-    assert h["1.A.12.2.2"]["level_kind"] == "tc_specificity"
+    assert h["1.A.12.2.2"]["level_kind"] == "tc_system"
     assert h["1.A.12.2.2"]["substrate_classes"] == ["CHEBI:3731;chloride"]
     assert h["1.A.12.2"]["level_kind"] == "tc_subfamily"
     assert h["1.A.12"]["name"] == "The Intracellular Chloride Channel"
@@ -330,7 +330,7 @@ def _write_names_file(cache_root, names, scraped_families):
 
 def test_build_tcdb_hierarchy_consumes_names_artifact(tmp_path):
     """Names from the committed tcdb_names.json (T6 scraper) fill every level;
-    tc_specificity entries also gain a sparse description."""
+    tc_system entries also gain a sparse description."""
     from multiomics_kg.download import build_kegg_metabolism_xrefs as mod
 
     cache_root = tmp_path / "cache" / "data"
@@ -598,10 +598,8 @@ def test_prune_tcdb_walks_up_only():
     """_prune_tcdb walks UP to tc_class and does NOT walk down to descendants.
 
     The downward arm used to expand 528 gene-annotated seeds into 12,902 nodes,
-    94.5% of which had gene_count = 0. It existed so leaf substrate data stayed
-    reachable, but `_compute_subtree_substrate_strings` already rolls substrates
-    up over the FULL hierarchy pre-pruning, so every kept ancestor carries its
-    descendants' substrates without the descendant nodes existing.
+    94.5% of which had gene_count = 0. A family's substrate range is now added
+    separately and only where TCDB curates substrates (`_add_range_systems`).
     """
     from multiomics_kg.download.build_kegg_metabolism_xrefs import _prune_tcdb
     hierarchy = {
@@ -609,9 +607,9 @@ def test_prune_tcdb_walks_up_only():
         "1.A": {"name": "", "level": 1, "level_kind": "tc_subclass", "parent": "1"},
         "1.A.1": {"name": "VIC", "level": 2, "level_kind": "tc_family", "parent": "1.A"},
         "1.A.1.5": {"name": "", "level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
-        "1.A.1.5.2": {"name": "", "level": 4, "level_kind": "tc_specificity",
+        "1.A.1.5.2": {"name": "", "level": 4, "level_kind": "tc_system",
                       "parent": "1.A.1.5", "substrate_classes": ["calcium(2+)"]},
-        "1.A.1.5.3": {"name": "", "level": 4, "level_kind": "tc_specificity",
+        "1.A.1.5.3": {"name": "", "level": 4, "level_kind": "tc_system",
                       "parent": "1.A.1.5", "substrate_classes": ["sodium(1+)"]},
         # An unrelated branch that should NOT be kept
         "2": {"name": "ECP", "level": 0, "level_kind": "tc_class", "parent": None},
@@ -642,7 +640,7 @@ def test_prune_tcdb_keeps_only_seeds_and_ancestors():
         "1.A": {"level": 1, "level_kind": "tc_subclass", "parent": "1"},
         "1.A.1": {"level": 2, "level_kind": "tc_family", "parent": "1.A"},
         "1.A.1.5": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
-        "1.A.1.5.2": {"level": 4, "level_kind": "tc_specificity", "parent": "1.A.1.5"},
+        "1.A.1.5.2": {"level": 4, "level_kind": "tc_system", "parent": "1.A.1.5"},
         "1.A.2": {"level": 2, "level_kind": "tc_family", "parent": "1.A"},
         "1.A.2.9": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.2"},
     }
@@ -656,10 +654,8 @@ def test_prune_tcdb_seed_at_leaf():
     """Seeding at a leaf still walks up to root.
 
     Regression: previously, sibling specificities under the same subfamily were
-    NOT in `kept`. Substrate rollup is now decoupled (computed pre-prune in
-    `_compute_subtree_substrate_strings`), so this test only asserts the
-    structural result — siblings still aren't kept (correct: no gene reaches
-    them, so no TcdbFamily node is needed for them).
+    NOT in `kept`. `_prune_tcdb` is structural only — siblings are not kept here
+    (substrate-bearing siblings join later via `_add_range_systems`).
     """
     from multiomics_kg.download.build_kegg_metabolism_xrefs import _prune_tcdb
     hierarchy = {
@@ -667,7 +663,7 @@ def test_prune_tcdb_seed_at_leaf():
         "1.A": {"level": 1, "level_kind": "tc_subclass", "parent": "1"},
         "1.A.1": {"level": 2, "level_kind": "tc_family", "parent": "1.A"},
         "1.A.1.5": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
-        "1.A.1.5.2": {"level": 4, "level_kind": "tc_specificity",
+        "1.A.1.5.2": {"level": 4, "level_kind": "tc_system",
                       "parent": "1.A.1.5", "substrate_classes": ["x"]},
     }
     kept, seed_aliases = _prune_tcdb(hierarchy, {"1.A.1.5.2"})
@@ -700,45 +696,6 @@ def test_prune_tcdb_unknown_seed_with_no_ancestor_marked_dropped():
     kept, seed_aliases = _prune_tcdb(hierarchy, {"99.X.Y.Z.Q"})
     assert kept == set()
     assert seed_aliases == {"99.X.Y.Z.Q": ""}
-
-
-def test_compute_subtree_substrate_strings_rolls_up_through_full_hierarchy():
-    """Bug fix: ancestor nodes capture substrates from EVERY tc_specificity
-    descendant in the FULL hierarchy, not just gene-annotated ones. Done
-    pre-pruning so pruning is a pure structural filter.
-    """
-    from multiomics_kg.download.build_kegg_metabolism_xrefs import (
-        _compute_subtree_substrate_strings,
-    )
-    hierarchy = {
-        "1": {"level": 0, "level_kind": "tc_class", "parent": None},
-        "1.A": {"level": 1, "level_kind": "tc_subclass", "parent": "1"},
-        "1.A.1": {"level": 2, "level_kind": "tc_family", "parent": "1.A"},
-        "1.A.1.5": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
-        "1.A.1.5.2": {"level": 4, "level_kind": "tc_specificity",
-                      "parent": "1.A.1.5",
-                      "substrate_classes": ["CHEBI:1;a", "CHEBI:2;b"]},
-        "1.A.1.5.3": {"level": 4, "level_kind": "tc_specificity",
-                      "parent": "1.A.1.5",
-                      "substrate_classes": ["CHEBI:3;c"]},
-        # A second subfamily under the same family — its substrate must roll up
-        # to 1.A.1 even though no seed touches its leaves.
-        "1.A.1.6": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
-        "1.A.1.6.1": {"level": 4, "level_kind": "tc_specificity",
-                      "parent": "1.A.1.6",
-                      "substrate_classes": ["CHEBI:4;d"]},
-    }
-    rollup = _compute_subtree_substrate_strings(hierarchy)
-    # Family node sees substrates from ALL descendant specificities
-    assert rollup["1.A.1"] == {"CHEBI:1;a", "CHEBI:2;b", "CHEBI:3;c", "CHEBI:4;d"}
-    # Subfamily 1.A.1.5 sees only its own children
-    assert rollup["1.A.1.5"] == {"CHEBI:1;a", "CHEBI:2;b", "CHEBI:3;c"}
-    # Sibling subfamily 1.A.1.6 sees only its own child
-    assert rollup["1.A.1.6"] == {"CHEBI:4;d"}
-    # Specificity node = its own substrate_classes
-    assert rollup["1.A.1.5.2"] == {"CHEBI:1;a", "CHEBI:2;b"}
-    # Class node sees union of everything below
-    assert rollup["1"] == {"CHEBI:1;a", "CHEBI:2;b", "CHEBI:3;c", "CHEBI:4;d"}
 
 
 def test_resolve_substrate_strings_strips_chebi_prefix(tmp_path):
@@ -905,7 +862,7 @@ def _bridge_guard_env(tmp_path, prior_pairs: int):
         "kept_tcdb_ids": ["3", "3.A", "3.A.1"],
         "pfam_bridge": {"3.A.1": prior} if prior_pairs else {},
         "go_bridge": {},
-        "subtree_substrates": {},
+        "system_substrates": {},
         "seed_aliases": {},
     }))
     return tcdb
@@ -961,7 +918,7 @@ def test_populated_bridge_passes_the_guard(tmp_path):
         "3.A": {"level": 1, "level_kind": "tc_subclass", "parent": "3"},
         "3.A.1": {"level": 2, "level_kind": "tc_family", "parent": "3.A"},
         "3.A.1.1": {"level": 3, "level_kind": "tc_subfamily", "parent": "3.A.1"},
-        "3.A.1.1.1": {"level": 4, "level_kind": "tc_specificity", "parent": "3.A.1.1"},
+        "3.A.1.1.1": {"level": 4, "level_kind": "tc_system", "parent": "3.A.1.1"},
     }
     rebuilt = build_tcdb_bridges(
         {"PF00005": {"3.A.1.1.1"}}, hierarchy, {"3", "3.A", "3.A.1"})
@@ -1141,7 +1098,7 @@ def _stub_main(tmp_path, monkeypatch):
     monkeypatch.setattr(bx.mu, "open_resolver", lambda p: _sq.connect(":memory:"))
     monkeypatch.setattr(bx, "_gene_reachable_sets", lambda raw: {
         "kos": set(), "rxns": set(), "cpds": set(), "pws": {"ko00010"}, "tcdb_ids": {"1.A"},
-        "rxn_genes": {}})
+        "tcdb_best_hit_ids": set(), "tcdb_seed_ids": {"1.A"}, "rxn_genes": {}})
     monkeypatch.setattr(bx, "_load_chebi", lambda c, r: (make_chebi(), True))
     monkeypatch.setattr(bx, "_resolve_substrate_strings", lambda s, conn, chebi=None, rekeys=None, known_kegg=None, legacy=None: ({}, {}))
     monkeypatch.setattr(bx, "load_all_paperconfigs", lambda: [])
@@ -1177,7 +1134,7 @@ def test_main_writes_nothing_when_identity_stages_fail(tmp_path, monkeypatch):
     assert writes == []
     inp = seen["inp"]
     assert inp.today == "2026-10-14" and inp.base_pathways == {"ko00010"}
-    assert inp.tcdb_kept == {"1", "1.A"} and inp.tcdb_levels == {"1": 0, "1.A": 1}
+    assert not hasattr(inp, "tcdb_kept") and not hasattr(inp, "tcdb_levels")
     assert inp.tcdb_static["kept_tcdb_ids"] == ["1", "1.A"]
     assert not list(tmp_path.rglob("*.json.tmp"))
 
@@ -1212,7 +1169,8 @@ def test_main_passes_old_and_new_substrate_maps(tmp_path, monkeypatch):
     monkeypatch.setattr(bx, "run_identity_stages", stop)
     with pytest.raises(Step6ValidationError):
         bx.main(force=True, today="2026-10-14")
-    assert calls == [False]                                   # one MNX pass, not two
+    assert calls == [False]                                   # one MNX pass, not two (no
+                                                              # separate best-hit resolve)
     assert seen["inp"].old_string_to_primary == {"S": "chebi:1"}
     assert seen["inp"].string_to_primary == {"S": "kegg.compound:C00001"}
 
@@ -1378,38 +1336,174 @@ def test_gene_reachable_sets_collects_best_hit_ids(tmp_path, monkeypatch, synthe
     assert sets["tcdb_ids"] == {"3.A.1"}
 
 
-def test_best_hit_substrate_inputs(tmp_path):
-    """best_hit_v1: each best-hit system's OWN substrate strings → (primary, TCDB name)."""
-    from multiomics_kg.download.build_kegg_metabolism_xrefs import _best_hit_substrate_inputs
-    chebi = make_chebi(CHEBI_4167=term("D-glucopyranose", alt=["CHEBI:12345"]),
-                       CHEBI_50505=term("orphan"),
-                       CHEBI_50906=term("role"),
-                       CHEBI_26672=term("siderophore", is_a=["CHEBI:50906"]))
-    strings = {
-        "2.A.1.1.1": {"CHEBI:12345;glucose", "CHEBI:50505;orphan thing", "CHEBI:99999999;unknown",
-                      "CHEBI:26672;siderophore"},
-        "2.A.1.1.2": set(),
-    }
-    rekeys_main = {"chebi:1": "kegg.compound:C00001"}
-    out, bh_rekeys = _best_hit_substrate_inputs(
-        {"2.A.1.1.1", "2.A.1.1.2", "9.Z.9.9.9"}, strings, _subs_conn_with_chebi_only(tmp_path),
-        chebi, known_kegg=set())
-    assert rekeys_main == {"chebi:1": "kegg.compound:C00001"}
-    assert isinstance(bh_rekeys, dict)
-    pairs = dict(out["2.A.1.1.1"])
-    assert pairs["chebi:4167"] == "glucose"
-    assert pairs["chebi:50505"] == "orphan thing"      # no MNX hit → its primary chebi CURIE
-    assert pairs["chebi:99999999"] == "unknown"        # unknown to ChEBI → raw CURIE
-    assert pairs["chebi.role:26672"] == "siderophore"  # role-typed → ChemicalRole id
-    assert "2.A.1.1.2" not in out and "9.Z.9.9.9" not in out
+# ── TCDB cleanup (project 3a): seeds, range systems, system substrates ───────
+
+def test_gene_reachable_sets_seeds_include_best_hits(tmp_path, monkeypatch, synthetic_kegg_raw):
+    strain = tmp_path / "s"
+    _write_strain_annotations(strain, {
+        "G1": {"transporter_classification": ["3.A.1"], "tcdb_best_hit_ids": ["3.A.1.16.2"]},
+        "G2": {"tcdb_best_hit_ids": ["3.D.4.3.2"]},
+    })
+    monkeypatch.setattr(bx, "load_genome_rows", lambda: [{"data_dir": str(strain)}])
+    sets = bx._gene_reachable_sets(synthetic_kegg_raw)
+    assert sets["tcdb_seed_ids"] == {"3.A.1", "3.A.1.16.2", "3.D.4.3.2"}
 
 
-def test_warn_unnamed_best_hits_separates_unscraped_from_missing(tmp_path):
-    from multiomics_kg.download.build_kegg_metabolism_xrefs import _warn_unnamed_best_hits
-    names = tmp_path / "tcdb_names.json"
-    names.write_text(json.dumps({"meta": {"scraped_families": ["3.A.1"]},
-                                 "names": {"3.A.1.16.2": {"name": "x"}}}))
-    unscraped, not_on_page = _warn_unnamed_best_hits(
-        {"3.A.1.16.2", "3.A.1.129.1", "2.A.130.1.1"}, names)
-    assert unscraped == ["2.A.130.1.1"]
-    assert not_on_page == ["3.A.1.129.1"]
+_RANGE_H = {
+    "3": {"level": 0, "level_kind": "tc_class", "parent": None},
+    "3.A": {"level": 1, "level_kind": "tc_subclass", "parent": "3"},
+    "3.A.1": {"level": 2, "level_kind": "tc_family", "parent": "3.A"},
+    "3.A.1.1": {"level": 3, "level_kind": "tc_subfamily", "parent": "3.A.1"},
+    "3.A.1.1.1": {"level": 4, "level_kind": "tc_system", "parent": "3.A.1.1",
+                  "substrate_classes": ["CHEBI:17234;glucose"]},
+    "3.A.1.2": {"level": 3, "level_kind": "tc_subfamily", "parent": "3.A.1"},
+    "3.A.1.2.1": {"level": 4, "level_kind": "tc_system", "parent": "3.A.1.2"},   # no substrates
+    "3.A.1.2.2": {"level": 4, "level_kind": "tc_system", "parent": "3.A.1.2",
+                  "substrate_classes": []},
+    "3.A.2": {"level": 2, "level_kind": "tc_family", "parent": "3.A"},       # not kept
+    "3.A.2.1": {"level": 3, "level_kind": "tc_subfamily", "parent": "3.A.2"},
+    "3.A.2.1.1": {"level": 4, "level_kind": "tc_system", "parent": "3.A.2.1",
+                  "substrate_classes": ["CHEBI:1;x"]},
+    "3.D": {"level": 1, "level_kind": "tc_subclass", "parent": "3"},
+    "3.D.4": {"level": 2, "level_kind": "tc_family", "parent": "3.D"},
+    "3.D.4.3": {"level": 3, "level_kind": "tc_subfamily", "parent": "3.D.4"},
+    "3.D.4.3.2": {"level": 4, "level_kind": "tc_system", "parent": "3.D.4.3",
+                  "substrate_classes": ["CHEBI:2;y"]},
+}
+
+
+def test_prune_with_best_hit_seeds_keeps_their_ancestors():
+    kept, aliases = bx._prune_tcdb(_RANGE_H, {"3.A.1", "3.D.4.3.2"})
+    assert kept == {"3", "3.A", "3.A.1", "3.D", "3.D.4", "3.D.4.3", "3.D.4.3.2"}
+    assert aliases == {}
+
+
+def test_add_range_systems_adds_substrate_systems_under_kept_families_only():
+    kept = {"3", "3.A", "3.A.1"}
+    with_range, range_only = bx._add_range_systems(_RANGE_H, kept)
+    assert "3.A.1.1.1" in with_range                     # substrates, kept family
+    assert "3.A.1.1" in with_range                       # its ancestor
+    assert "3.A.2.1.1" not in with_range and "3.A.2" not in with_range   # unkept family
+    assert "3.A.1.2.1" not in with_range and "3.A.1.2.2" not in with_range  # no substrates
+    assert "3.A.1.2" not in with_range
+    assert range_only == {"3.A.1.1", "3.A.1.1.1"}
+    assert with_range == kept | range_only
+    assert kept == {"3", "3.A", "3.A.1"}                 # input not mutated
+
+
+def test_system_substrate_strings_never_on_non_systems():
+    kept = set(_RANGE_H) - {"3.A.2.1.1"}
+    out = bx._system_substrate_strings(_RANGE_H, kept)
+    assert out == {"3.A.1.1.1": {"CHEBI:17234;glucose"}, "3.D.4.3.2": {"CHEBI:2;y"}}
+    assert all(len(tc.split(".")) == 5 for tc in out)
+
+
+def test_warn_unnamed_systems_counts_missing_or_id_names(caplog):
+    h = {"1.A.1.1.1": {"level_kind": "tc_system", "name": ""},
+         "1.A.1.1.2": {"level_kind": "tc_system", "name": "1.A.1.1.2"},
+         "1.A.1.1.3": {"level_kind": "tc_system", "name": "a real name"},
+         "1.A.1.1.4": {"level_kind": "tc_system"},
+         "1.A.1.1": {"level_kind": "tc_subfamily", "name": ""}}
+    with caplog.at_level("WARNING"):
+        n = bx._warn_unnamed_systems(set(h), h)
+    assert n == 3
+    assert "3 kept TCDB systems have no name" in caplog.text
+
+
+def test_bridge_fallback_warns_when_previous_lacks_range_nodes(tmp_path, monkeypatch, caplog):
+    import multiomics_kg.utils.tcdb_utils as tu
+
+    def boom(kind, dest=None, force=False):
+        raise OSError("tcdb.org unreachable")
+    monkeypatch.setattr(tu, "download_tcdb_xref_map", boom)
+    (tmp_path / "tcdb" / "raw").mkdir(parents=True)
+    previous = {"kept_tcdb_ids": ["3", "3.A", "3.A.1"],
+                "pfam_bridge": {"3.A.1": {"PF00005": ["3.A.1.1.1"]}},
+                "go_bridge": {"3.A.1": {"GO:0005215": ["3.A.1.1.1"]}}}
+    kept = {"3", "3.A", "3.A.1", "3.A.1.1", "3.A.1.1.1"}
+    with caplog.at_level("WARNING"):
+        out = bx._tcdb_bridges(tmp_path, _RANGE_H, kept, previous, refetch_raw=False)
+    assert out["pfam"] == {"3.A.1": {"PF00005": ["3.A.1.1.1"]}}
+    msgs = [r.getMessage() for r in caplog.records if "predates" in r.getMessage()]
+    assert len(msgs) == 2 and all("2 kept TCDB node" in m for m in msgs)
+
+
+def test_main_tolerates_previous_pruned_in_old_format(tmp_path, monkeypatch):
+    """Review Focus 1: a previous tcdb_pruned.json in the pre-3a format (subtree_substrates /
+    lumping_pin / best_hit_substrates, no system_substrates) runs, and no legacy key reaches
+    the output's static block or Step6Inputs."""
+    from multiomics_kg.utils.metabolite_identity.pipeline import Step6ValidationError
+    import multiomics_kg.utils.tcdb_utils as tu
+    _stub_main(tmp_path, monkeypatch)
+    tcdb = tmp_path / "proj" / "cache" / "data" / "tcdb"
+    (tcdb / "tcdb_pruned.json").write_text(json.dumps({
+        "kept_tcdb_ids": ["1", "1.A"], "seed_aliases": {},
+        "subtree_substrates": {"1.A": ["kegg.compound:C00001"]}, "subtree_roles": {},
+        "lumping_pin": {"lumping_tcdb_ids": ["1.A"]}, "best_hit_substrates": {"x": []},
+        "chemical_roles": {}, "pfam_bridge": {}, "go_bridge": {}}))
+    monkeypatch.setattr(bx, "_tcdb_bridges",
+                        lambda cache_root, h, kept, previous, refetch: {"pfam": {}, "go": {}})
+    seen = {}
+
+    def stop(inp):
+        seen["inp"] = inp
+        raise Step6ValidationError(["stop"])
+    monkeypatch.setattr(bx, "run_identity_stages", stop)
+    with pytest.raises(Step6ValidationError):
+        bx.main(force=True, today="2026-10-23")
+    inp = seen["inp"]
+    assert set(inp.tcdb_static) == {"kept_tcdb_ids", "seed_aliases", "pfam_bridge", "go_bridge"}
+    for legacy in ("lumping_pin", "best_hit_substrates", "subtree_substrates", "subtree_roles"):
+        assert not hasattr(inp, legacy)
+    assert inp.system_substrates == {} and inp.system_roles == {}
+
+
+def test_main_system_substrates_from_kept_systems(tmp_path, monkeypatch):
+    """Seeds (incl. best hits) → prune → range systems; ONE resolve over every kept system's
+    strings; system_substrates keyed by 5-part ids only; their KEGG compounds extend the
+    compound set and pathway set; kept ids include range-only systems; bridges get the full
+    kept set."""
+    from multiomics_kg.utils.metabolite_identity.pipeline import Step6ValidationError
+    _stub_main(tmp_path, monkeypatch)
+    tcdb = tmp_path / "proj" / "cache" / "data" / "tcdb"
+    (tcdb / "tcdb_hierarchy.json").write_text(json.dumps(_RANGE_H))
+    monkeypatch.setattr(bx, "_gene_reachable_sets", lambda raw: {
+        "kos": set(), "rxns": set(), "cpds": set(), "pws": set(), "tcdb_ids": {"3.A.1"},
+        "tcdb_best_hit_ids": {"3.D.4.3.2"}, "tcdb_seed_ids": {"3.A.1", "3.D.4.3.2"},
+        "rxn_genes": {}})
+    monkeypatch.setattr(bx, "_parse_raw_into_dict", lambda c: {
+        "compound_to_pathways": {"C00031": ["ko00010"]}, "compound_names": {"C00031": "glucose"}})
+    calls = []
+
+    def fake(strings, conn, chebi=None, rekeys=None, known_kegg=None, legacy=None):
+        calls.append(set(strings))
+        return {"CHEBI:17234;glucose": "kegg.compound:C00031", "CHEBI:2;y": "chebi:2"}, {}
+    monkeypatch.setattr(bx, "_resolve_substrate_strings", fake)
+    bridge_kept = {}
+
+    def bridges(cache_root, h, kept, previous, refetch):
+        bridge_kept["k"] = set(kept)
+        return {"pfam": {}, "go": {}}
+    monkeypatch.setattr(bx, "_tcdb_bridges", bridges)
+    seen = {}
+
+    def pruned(raw, conn, sets):
+        seen["sets"] = sets
+        return {"compounds": {}, "additional_compounds": {}, "kos": {}, "pathways": {},
+                "subcategories": {}, "categories": {}, "reactions": {}}
+    monkeypatch.setattr(bx, "build_pruned_kegg_data", pruned)
+
+    def stop(inp):
+        seen["inp"] = inp
+        raise Step6ValidationError(["stop"])
+    monkeypatch.setattr(bx, "run_identity_stages", stop)
+    with pytest.raises(Step6ValidationError):
+        bx.main(force=True, today="2026-10-23")
+    inp = seen["inp"]
+    assert calls == [{"CHEBI:17234;glucose", "CHEBI:2;y"}]          # one pass, all systems
+    assert inp.system_substrates == {"3.A.1.1.1": ["kegg.compound:C00031"],
+                                     "3.D.4.3.2": ["chebi:2"]}
+    kept = set(inp.tcdb_static["kept_tcdb_ids"])
+    assert {"3.A.1.1", "3.A.1.1.1", "3.D.4.3.2"} <= kept and "3.A.2.1.1" not in kept
+    assert bridge_kept["k"] == kept
+    assert "C00031" in seen["sets"]["cpds"] and "ko00010" in seen["sets"]["pws"]

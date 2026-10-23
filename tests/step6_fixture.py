@@ -133,8 +133,6 @@ def make_inputs(tmp_path: Path, extra_rows=(), extra_candidates=None) -> Step6In
         base_pathways={"ko00250", "ko00380"},
         brite_raw=brite_raw,
         brite_committed={},
-        tcdb_kept={"2.A.1", "3.A.3"},
-        tcdb_levels={"2.A.1": 2, "3.A.3": 2},
         tcdb_static={"kept_tcdb_ids": ["2.A.1", "3.A.3"], "pfam_bridge": {}, "go_bridge": {},
                      "seed_aliases": {}},
         previous_ids=set(table) | {"chebi:10004", "chebi:16977"},

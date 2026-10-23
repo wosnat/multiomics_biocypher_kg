@@ -14,7 +14,7 @@ TINY_TCDB = {
     "1.A":       {"name": "", "level": 1, "level_kind": "tc_subclass", "parent": "1"},
     "1.A.1":     {"name": "VIC Family", "level": 2, "level_kind": "tc_family", "parent": "1.A", "abbreviation": "VIC"},
     "1.A.1.1":   {"name": "", "level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
-    "1.A.1.1.1": {"name": "", "level": 4, "level_kind": "tc_specificity", "parent": "1.A.1.1",
+    "1.A.1.1.1": {"name": "", "level": 4, "level_kind": "tc_system", "parent": "1.A.1.1",
                   "substrate_classes": ["potassium(1+)"]},
 }
 
@@ -79,12 +79,12 @@ _H = {
     "1.A": {"level": 1, "level_kind": "tc_subclass", "parent": "1"},
     "1.A.1": {"level": 2, "level_kind": "tc_family", "parent": "1.A"},
     "1.A.1.5": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
-    "1.A.1.5.2": {"level": 4, "level_kind": "tc_specificity", "parent": "1.A.1.5"},
+    "1.A.1.5.2": {"level": 4, "level_kind": "tc_system", "parent": "1.A.1.5"},
     "1.A.1.9": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
-    "1.A.1.9.1": {"level": 4, "level_kind": "tc_specificity", "parent": "1.A.1.9"},
+    "1.A.1.9.1": {"level": 4, "level_kind": "tc_system", "parent": "1.A.1.9"},
     "2": {"level": 0, "level_kind": "tc_class", "parent": None},
     "2.A": {"level": 1, "level_kind": "tc_subclass", "parent": "2"},
-    "2.A.9.1.1": {"level": 4, "level_kind": "tc_specificity", "parent": "2.A"},
+    "2.A.9.1.1": {"level": 4, "level_kind": "tc_system", "parent": "2.A"},
 }
 _KEPT = {"1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2", "2", "2.A"}
 

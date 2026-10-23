@@ -139,10 +139,11 @@ def build_tcdb_bridges(
 ) -> dict[str, dict[str, list[str]]]:
     """Roll a published xref→TCID map onto the pruned node set.
 
-    TCDB publishes these maps at 5-part `tc_specificity` depth, but the pruned
-    hierarchy keeps only gene-annotated TCIDs + ancestors — so most published
-    TCIDs have no node. Each is walked up to its nearest **surviving** ancestor,
-    mirroring how `subtree_substrates` rolls leaf substrates onto kept ancestors.
+    TCDB publishes these maps at 5-part `tc_system` depth, but the pruned
+    hierarchy keeps only gene-anchored TCIDs + ancestors plus the substrate-bearing
+    systems of kept families (range-only) — so some published TCIDs have no node.
+    Each is walked up to its nearest **kept** node (itself when kept); ``kept``
+    is the full kept set, gene-anchored and range-only alike.
     Targets shallower than ``min_level`` are dropped as uninformative.
 
     Returns ``{tc_id: {xref_id: [original_tcids, ...]}}`` — the original

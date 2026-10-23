@@ -67,8 +67,6 @@ class Step6Inputs:
     base_pathways: set[str]                     # catalysis ∪ transport-reachable pathways
     brite_raw: dict[str, dict]
     brite_committed: dict[str, dict]
-    tcdb_kept: set[str]
-    tcdb_levels: dict[str, int]
     tcdb_static: dict                           # kept_tcdb_ids, pfam_bridge, go_bridge, seed_aliases
     previous_ids: set[str]
     old_resolved: dict[tuple[str, str, int], str]
