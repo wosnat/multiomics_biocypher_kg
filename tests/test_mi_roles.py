@@ -1,6 +1,6 @@
 from tests.metabolite_identity_helpers import make_chebi, term
 from multiomics_kg.utils.metabolite_identity.roles import (
-    build_role_hierarchy, build_subtree_roles, partition_role_strings)
+    build_role_hierarchy, build_system_roles, partition_role_strings)
 
 CHEBI = make_chebi(
     CHEBI_50906=term("role"),
@@ -32,7 +32,7 @@ def test_hierarchy_ancestors_no_root_levels_and_identifiers():
     assert all(p in h for v in h.values() for p in v["parents"])
 
 
-def test_subtree_roles_sorted_nonempty_only():
-    sub = build_subtree_roles({"2.A.1": {"CHEBI:10004;vitamin", "CHEBI:17632;nitrate"}, "3.A.1": {"CHEBI:17632;nitrate"}},
+def test_system_roles_sorted_nonempty_only():
+    sub = build_system_roles({"2.A.1.1.1": {"CHEBI:10004;vitamin", "CHEBI:17632;nitrate"}, "3.A.1.1.1": {"CHEBI:17632;nitrate"}},
                               {"CHEBI:10004;vitamin": "chebi.role:33229"})
-    assert sub == {"2.A.1": ["chebi.role:33229"]}
+    assert sub == {"2.A.1.1.1": ["chebi.role:33229"]}

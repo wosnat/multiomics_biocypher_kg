@@ -1,4 +1,4 @@
-"""Stages E-M, O and the stage-P validation of prepare-data step 6 as one pure function.
+"""Stages E-M and the stage-P validation of prepare-data step 6 as one pure function.
 
 Spec 2026-10-13 §5.2. ``run_identity_stages`` takes everything stages A-D produced (in memory)
 and returns every file's content in memory; ``render_outputs`` turns that into
@@ -7,7 +7,7 @@ and returns every file's content in memory; ``render_outputs`` turns that into
 ``write_resolved_tables``.
 
 Determinism: every list is sorted, every JSON is ``indent=2, sort_keys=True``; ``today`` reaches
-only newly frozen lock entries and a newly seeded lumping pin.
+only newly frozen lock entries.
 """
 from __future__ import annotations
 
@@ -26,7 +26,6 @@ from multiomics_kg.utils.metabolite_identity.classes import (
 from multiomics_kg.utils.metabolite_identity.go_transport import rewrite_go_targets, target_distribution
 from multiomics_kg.utils.metabolite_identity.crossrefs import (
     _own_family, apply_xref_overrides, build_identity_fields, chebi_node_structure, is_isotopologue_name, node_olds, pick_chebi_id, shared_chebi_terms)
-from multiomics_kg.utils.metabolite_identity.lumping import update_lumping_pin
 from multiomics_kg.utils.metabolite_identity.outputs import (
     build_identity_report, build_mapping_v2, remap_rows, repoint_reason, validate_build,
     write_resolved_tables)
@@ -51,16 +50,15 @@ class Step6ValidationError(RuntimeError):
 class Step6Inputs:
     table: dict[str, dict]                      # stage D: full node id → entry (+ transient mnx_chebi_aliases)
     kegg_rest: dict                             # kos, pathways, subcategories, categories, reactions
-    subtree_substrates: dict[str, list[str]]
+    system_substrates: dict[str, list[str]]     # {tc_system: [raw-resolved primary ids]}
     chemical_roles: dict[str, dict]
-    subtree_roles: dict[str, list[str]]
+    system_roles: dict[str, list[str]]
     rekeys: dict[str, str]                      # "chebi:<primary n>" → "kegg.compound:C…"
     role_of_old: dict[str, str]                 # old substrate id → chebi.role: id
     tables: list[PaperTable]
     paper_overrides: dict[str, dict[str, Override]]
     name_candidates: dict[str, set[str]]
     lock: dict
-    lumping_pin: dict | None
     identity_overrides: IdentityOverrides
     chebi: ChebiIndex
     chebi_from_raw: bool
@@ -98,9 +96,6 @@ class Step6Inputs:
     go_drops: dict = field(default_factory=dict)          # stage-D drop counts
     go_axioms_in_corpus: int = 0                          # KG GO terms with a transport axiom
     go_unresolved_ids: list = field(default_factory=list)  # GO ChEBI ids no node could take
-    # best_hit_v1 (spec 2026-10-18-tcdb-diamond-best-hit-design.md §5): each diamond best-hit
-    # 5-part system's own substrates, pre-canonical: {tcid5: [(primary_or_role_id, tcdb_name)]}.
-    best_hit_substrates: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -339,22 +334,6 @@ def _exact_name_pairs(table, keep_separate=frozenset()):
     return out
 
 
-def _best_hit_substrates(raw: dict, canonical_of: dict, table: dict, roles: dict) -> dict:
-    """best_hit_v1: {tcid5: [[canonical_id, name], ...]} sorted by id. A merged-away id
-    follows its canonical node; the name is the node's (or ChemicalRole's) when one exists,
-    else the TCDB-given name. Unfiltered; ids need not be nodes. Read only by tcdb_adapter."""
-    out = {}
-    for tc, pairs in sorted(raw.items()):
-        named: dict[str, str] = {}
-        for sid, tname in pairs:
-            cid = canonical_of.get(sid, sid)
-            name = (table.get(cid) or {}).get("name") or (roles.get(cid) or {}).get("name") or tname
-            named.setdefault(cid, name)
-        if named:
-            out[tc] = [[cid, named[cid]] for cid in sorted(named)]
-    return out
-
-
 def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     chebi = inp.chebi
     norm = _normalizer(chebi)
@@ -362,7 +341,7 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     old_entries = copy.deepcopy(table)
     kegg_rest = copy.deepcopy(inp.kegg_rest)
     reactions = kegg_rest["reactions"]
-    subs = {k: list(v) for k, v in inp.subtree_substrates.items()}
+    subs = {k: list(v) for k, v in inp.system_substrates.items()}
 
     # E — canonicalise. Rows pinned by an override or a direct id refuse merges that would put
     # two of one table's names on one node (assay collision).
@@ -388,7 +367,7 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     mnx_strip, mnx_split = split_shared_mnx(table, identity.canonical_of, chebi, reaction_refs)
     apply_mnx_split(table, mnx_strip)
     apply_mnx_split(old_entries, mnx_strip)
-    # F — rewrite every id to canonical (reactions and subtree_substrates in place)
+    # F — rewrite every id to canonical (reactions and system_substrates in place)
     table = rewrite_to_canonical(table, reactions, subs, identity.canonical_of)
     # GO transport targets follow the same rewrite; the target filter is matched again on
     # canonical ids (a kept target merged onto a filtered node is dropped). Roles pass through.
@@ -462,15 +441,12 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     stereo_counts = finalize_stereo(table, stereo_pairs, enan_pairs, survivors)
     # M — compound classes
     class_trees = _class_trees(inp, id_index, survivors)
-    # O — lumping pin, on canonical subtree_substrates
-    pin, lumping = update_lumping_pin(inp.lumping_pin, inp.tcdb_kept, inp.tcdb_levels,
-                                      {tc: len(ids) for tc, ids in subs.items()}, inp.today)
     # P — validate (writing is the caller's job, only after this returns)
     missing = set()
     if not inp.chebi_from_raw:
         missing = {n for n in table if n.startswith("chebi:") and chebi.primary(n) is None}
-    errors = validate_build(table=table, roles=inp.chemical_roles, subtree_substrates=subs,
-                            subtree_roles=inp.subtree_roles, class_trees=class_trees, resolution=res,
+    errors = validate_build(table=table, roles=inp.chemical_roles, system_substrates=subs,
+                            system_roles=inp.system_roles, class_trees=class_trees, resolution=res,
                             chebi_missing_needed=missing, go_substrates=go_subs, go_roles=go_roles)
 
     # An old id whose canonical node was dropped at stage K remaps like the dropped node.
@@ -533,10 +509,8 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         "excluded_targets": go_excluded_targets,
         "distribution": target_distribution(inp.go_distribution_input, go_targets),
     }
-    tcdb_pruned = dict(inp.tcdb_static, subtree_substrates=dict(sorted(subs.items())),
-                       chemical_roles=inp.chemical_roles, subtree_roles=inp.subtree_roles, lumping_pin=pin)
-    tcdb_pruned["best_hit_substrates"] = _best_hit_substrates(
-        inp.best_hit_substrates, identity.canonical_of, table, inp.chemical_roles)
+    tcdb_pruned = dict(inp.tcdb_static, system_substrates=dict(sorted(subs.items())),
+                       chemical_roles=inp.chemical_roles, system_roles=inp.system_roles)
 
     # Repoints (release TSV) and the old-id remap.
     raw_names: dict[str, set[str]] = defaultdict(set)
@@ -585,9 +559,6 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
                                compounds_summary=compounds_summary,
                                per_paper_stats=dict(sorted(per_paper.items())))
 
-    # The pin's frozen_on already records a seeding run; a per-run "seeded" flag would make a
-    # re-run with the committed pin differ byte-wise, so it is left out of the report.
-    lumping_report = {k: v for k, v in lumping.items() if k != "seeded"}
     report = build_identity_report(
         # remap / repoints / dropped are diagnostics against this baseline; a no-change rerun
         # over the committed outputs may leave them empty.
@@ -612,7 +583,7 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         heuristic_name_candidates=_exact_name_pairs(
             table, inp.identity_overrides.keep_separate if inp.identity_overrides else frozenset()),
         ambiguous_paper_names=res.ambiguous, unresolved_paper_names=res.unresolved,
-        dominant_form_drift=res.drift, lumping=lumping_report, structure=structure,
+        dominant_form_drift=res.drift, structure=structure,
         go_transport=go_report,
         stereo_counts=stereo_counts, remap=remap, unaccounted_old_ids=unaccounted, repoints=repoints,
         counts={"metabolites": len(table), "kegg": len(compounds), "additional": len(additional),
