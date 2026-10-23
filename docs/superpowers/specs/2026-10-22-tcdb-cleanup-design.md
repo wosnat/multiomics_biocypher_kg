@@ -3,6 +3,19 @@
 Transport programme, project 3a (of 3a TCDB cleanup → 3b gene transport layer → systems).
 Status: design, approved in conversation 2026-10-19…22. Breaking changes allowed (no backwards compatibility).
 
+> **As built (2026-10-23, `feat/tcdb-cleanup` `a46f83b5..f46c084e`).** Measured on the rebuilt
+> graph: 9,389 `TcdbFamily` nodes (3,527 gene-anchored + 5,862 range-only; 134 systems unnamed
+> upstream); 75,823 `Gene_has_tcdb_family` edges (eggnog 17,069 · diamond_tier 41,242 ·
+> diamond_best_hit 17,512; gate direct 11,158 · annotated 19,866 · below_gate 44,799);
+> substrate edges 10,778 + 367 role edges, all from `tc_system`; `'tcdb'` 14,745 → 15,800;
+> **6,995** genes with a transport arm (the ~8.3K estimate below counted genes with a direct
+> edge — some direct systems have no curated substrates); Metabolite 3,243 → 3,178 (65 removed,
+> **31** lose `'transport'` only, **1** re-keyed: icosanoid `chebi:23899` → `chebi:62937`);
+> ChemicalRole 111 → 102 (5 of the predicted 8 removed + 4 parents left childless; 3 keep their
+> node); MetaboliteClass 445 → 434; pathways 452 → 449. The draft name `call_kind` shipped as
+> `tcdb_call`. Consumer doc: `docs/kg-changes/tcdb-cleanup.md`; measured id list:
+> `docs/kg-changes/tcdb-cleanup/removed_ids.tsv`.
+
 ## 1. Intent
 
 The TCDB part of the KG has grown a layer of rolled-up substrates and workaround
@@ -240,7 +253,8 @@ The predicted ids are listed in `docs/kg-changes/tcdb-cleanup/removed_ids.tsv`
 route. Of the 97, **65 Metabolite nodes disappear** (transport-only; eukaryote
 lipids, prostaglandins, statins, ouabain, vitamin D3, phosphoinositides,
 retinal, propidium iodide, collagen, dsRNA, …) and 32 stay via catalysis /
-metabolomics but lose `'transport'` from `evidence_sources`. Gene-less pathways
+metabolomics but lose `'transport'` from `evidence_sources` (**as built: 31 lose the
+tag and 1 — icosanoid `chebi:23899` — is re-keyed to `chebi:62937`**). Gene-less pathways
 that lose their only support: **Phagosome, Focal adhesion, Glycosaminoglycan
 biosynthesis – chondroitin sulfate / dermatan sulfate** (closes backlog
 Deferred-TCDB item (f)). The pathway extension otherwise works as today (§7).
@@ -343,7 +357,8 @@ compare across kinds); `level_kind` value `tc_specificity` → `tc_system`.
     (range-only included), over the subtree / the role itself — "how many TCDB
     systems are curated with this role". Roles are still never propagated to
     genes. Measured expectation (2026-10-23, with the
-  identity gate): **~8.3K genes** keep a transport arm (was ~30K; ~13.2K without
+  identity gate): **~8.3K genes** keep a transport arm (**as built: 6,995** with
+  `transported_metabolite_count > 0`) (was ~30K; ~13.2K without
   the gate); genes known only at family/subfamily level, or only through a weak
   best hit, read 0 until the systems project. CHANGELOG `### Breaking` must say so.
   Enrichment gene sets (explorer side) use edges with
@@ -442,7 +457,8 @@ compare across kinds); `level_kind` value `tc_specificity` → `tc_system`.
   is unnamed upstream.
 - `kegg_data.json` compound and pathway sets identical before/after **except**
   the measured class-roll-up loss (§5.4): 65 transport-only Metabolite nodes,
-  8 ChemicalRoles, 3 pathways; 32 compounds lose `'transport'` only.
+  8 ChemicalRoles, 3 pathways; 31 compounds lose `'transport'` only and 1 is re-keyed
+  (icosanoid, as built).
 - MED4 spot checks: urtA → `diamond_best_hit` to `3.A.1.4.4` (Urea on the
   system); pstS best hit `3.A.1.7.6`; the ABC superfamily node has 0 own
   substrate edges and `direction` unset at its own level (`unknown`), while
@@ -465,7 +481,8 @@ compare across kinds); `level_kind` value `tc_specificity` → `tc_system`.
   fallback; family-level genes reach compounds by walking the graph (§7).
 - KEGG compound and pathway sets keep today's rule; pathway scope goes to the
   backlog (§7). The class-roll-up-only compounds are accepted as lost (option a,
-  2026-10-23): 65 off-target Metabolite nodes, 8 roles, 3 gene-less pathways.
+  2026-10-23): 65 off-target Metabolite nodes, 8 roles (as built: 9 role nodes removed, 3
+  kept without a transport route), 3 gene-less pathways.
 - `TcdbFamily.gene_count` and the explorer's TERM2GENE both use gate-passing
   edges.
 - Best hits keep TC classes 1–4 only (no 5/8/9).

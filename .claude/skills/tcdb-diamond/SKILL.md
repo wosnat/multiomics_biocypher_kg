@@ -1,6 +1,6 @@
 ---
 name: tcdb-diamond
-description: Run diamond blastp vs. the curated TCDB FASTA per strain to generate per-protein TCDB classifications, with tiered confidence (5-part / 4-part / 3-part) plus per-family consensus collapse. Pure sequence evidence — no eggNOG or gene-annotation inputs. Produces inspectable `<strain>.tcdb.calls.json` artifacts; **Phase 2 KG integration is DONE** — merged as a second evidence source on `Gene_has_tcdb_family` alongside eggNOG (`sources: ['eggnog','diamond']`). Re-running with --force requires `prepare_data.sh --steps 2 6 --force` + a Docker rebuild.
+description: Run diamond blastp vs. the curated TCDB FASTA per strain to generate per-protein TCDB classifications, with tiered confidence (5-part / 4-part / 3-part) plus per-family consensus collapse. Pure sequence evidence — no eggNOG or gene-annotation inputs. Produces inspectable `<strain>.tcdb.calls.json` artifacts; **Phase 2 KG integration is DONE** — emitted as `Gene_has_tcdb_family` edges of their own (`tcdb_call` diamond_tier and diamond_best_hit, alongside eggnog), each stamped with `tcdb_gate`. Re-running with --force requires `prepare_data.sh --steps 2 6 --force` + a Docker rebuild.
 argument-hint: "[--strains <name> ... | --force | --refresh-tcdb | --threads <n>]"
 user-invocable: true
 allowed-tools: Read, Bash(uv *), Bash(diamond *)
@@ -30,8 +30,8 @@ Cross-source reconciliation now happens downstream, where both sources are alrea
 
 | Concern | Where it lives now |
 |---|---|
-| eggNOG agreement (confirms / refines / extends / conflicts) | Derivable from `Gene_has_tcdb_family.sources` + the `Tcdb_family_is_a_tcdb_family` hierarchy |
-| Pfam corroboration | The `Pfam_in_tcdb_family` bridge edge, built from TCDB's curated Pfam→TC map in prepare_data step 6 |
+| eggNOG agreement (confirms / refines / extends / conflicts) | A query: compare a gene's `Gene_has_tcdb_family` edges of different `tcdb_call` (eggnog / diamond_tier / diamond_best_hit) over the `Tcdb_family_is_a_tcdb_family` hierarchy. Nothing is stored (project 3b reconciles) |
+| Pfam corroboration | The `Tcdb_family_has_pfam_domain` bridge edge, built from TCDB's curated Pfam→TC map in prepare_data step 6 |
 
 There is also **no `filter_action`**. The old post-hoc filter chain made a candidate's
 verdict depend on whether the protein happened to have *unrelated* sibling candidates.
@@ -95,7 +95,7 @@ System tool required: `diamond` (already required by other parts of the project)
 
 | Tier | Truncate to | Identity | Coverage rule | Notes |
 |---|---|---|---|---|
-| 1 | 5 parts (`tc_specificity`) | ≥ 70% | qcov ≥ 70% | High-confidence specificity call |
+| 1 | 5 parts (`tc_system`) | ≥ 70% | qcov ≥ 70% | High-confidence system call |
 | 2 | 4 parts (`tc_subfamily`) | ≥ 40% | qcov ≥ 60% | Solid subfamily call |
 | 3 | 3 parts (`tc_family`) | (no floor) | qcov ≥ 40% **OR** scov ≥ 40% | gblast3-style floor |
 
@@ -161,12 +161,23 @@ Field semantics:
 
 Alongside `calls`, a protein may carry a `best_hit` block — its **actual best-hit 5-part
 TCDB system(s)**, which the tier/consensus collapse truncates away (e.g. MED4 cynD is called
-`3.A.1` but its best hit is `3.A.1.16.2`, the cyanate/nitrite system):
+`3.A.1` but its best hit is `3.A.1.16.2`, the cyanate/nitrite system). Since 2026-10-23 the
+block carries **per-system statistics** in `hits` (best first, aligned with `tcids`), each from
+that system's highest-bitscore subject row — no consensus step:
 
 ```json
-"WP_011132009.1": {
+"WP_011131703.1": {
   "calls": [ ... ],
-  "best_hit": {"rule": "best_hit_v1", "tcids": ["3.A.1.16.2"], "identity": 59.2, "attach_tcid": "3.A.1"}
+  "best_hit": {
+    "rule": "best_hit_v1",
+    "tcids": ["3.A.1.203.8", "3.A.1.203.12"],
+    "identity": 34.3,
+    "attach_tcid": "3.A.1",
+    "hits": [
+      {"tcid": "3.A.1.203.8",  "identity": 34.3, "qcov": 80.9, "scov": 85.4, "evalue": 1.09e-100, "bitscore": 322.0},
+      {"tcid": "3.A.1.203.12", "identity": 32.2, "qcov": 79.7, "scov": 91.8, "evalue": 2.05e-90,  "bitscore": 292.0}
+    ]
+  }
 }
 ```
 
@@ -174,18 +185,23 @@ Rule (`select_best_hits`, independent of the tier policy): qcov ≥ 75 **and** s
 (scov from gapseq's reference-coverage rule), TC class 1–4, no identity or length floor;
 **reciprocal best hit** (the top hit's subject row must pick this protein as its best gated
 match in the strain); window = gated hits with bitscore ≥ 0.9 × top, up to 3 distinct 5-part
-TCIDs, any family. Subject TCIDs longer than 5 parts are truncated (best-hit path only).
-`attach_tcid` = the call in the top hit's 3-part family (which `Gene_has_tcdb_family` edge
-carries the record). ~188 proteins corpus-wide have a best hit but **no** call (top HSP
-< 50 aa): `{"calls": [], "best_hit": {...}}` with no `attach_tcid`. Summary keys:
-`proteins_with_best_hit`, `best_hit_multi_tcid`, `best_hit_without_call`,
+TCIDs, any family, ordered bitscore desc → TCID → subject. Subject TCIDs longer than 5 parts
+are truncated (best-hit path only). `identity` = the top system's identity (kept for
+compatibility; `hits[0].identity`). `attach_tcid` = the call in the top hit's 3-part family —
+informational only since the KG gives every best-hit system its **own** edge. ~188 proteins
+corpus-wide have a best hit but **no** call (top HSP < 50 aa): `{"calls": [], "best_hit":
+{...}}` with no `attach_tcid`; they still get best-hit edges. `best_hit_tier(identity)` gives a
+best hit's identity band (≥ 70 → 1, 40–70 → 2, < 40 → 3), the `tier` on its KG edge. Summary
+keys: `proteins_with_best_hit`, `best_hit_multi_tcid`, `best_hit_without_call`,
 `best_hit_fallback_attach` (expected 0). Design:
-`docs/superpowers/specs/2026-10-18-tcdb-diamond-best-hit-design.md`.
+`docs/superpowers/specs/2026-10-18-tcdb-diamond-best-hit-design.md` (rule) and
+`docs/superpowers/specs/2026-10-22-tcdb-cleanup-design.md` §5.3 (per-system stats).
 
 **Regenerating without diamond:** `uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --from-tsv [--strains ...]`
 rebuilds calls.json + summary from the committed `.tcdb.tsv` (no FASTA, no diamond, always
-rewrites). Use it when only the derivation changed; a real diamond rerun against a newer TCDB
-FASTA changes the existing tier calls.
+rewrites). Use it when only the derivation changed — this is how the 2026-10-23 `hits` block and
+the `tc_specificity` → `tc_system` rename were applied to the committed calls.json (0 tier-call
+diffs). A real diamond rerun against a newer TCDB FASTA changes the existing tier calls.
 
 ## Consuming the artifact
 
@@ -221,8 +237,8 @@ existing ids, delete those entries first.
 
 **When to run:** (1) step 6 warns `kept TCDB families not covered by
 tcdb_names.json` — a new strain's annotations reached families the scrape
-hasn't seen, or `best-hit TCDB systems have no name` (the diamond best-hit
-systems feed `best_hit_names`); (2) a TCDB upstream release worth picking up (`--force` re-fetches
+hasn't seen, or `kept TCDB systems have no name` (kept systems — gene-anchored,
+best-hit and range-only — render as the bare TCID until named); (2) a TCDB upstream release worth picking up (`--force` re-fetches
 cached pages). After a run, rebuild the hierarchy: `bash scripts/prepare_data.sh
 --steps 6 --force`, then commit both `tcdb_names.json` and
 `tcdb_hierarchy.json`.
@@ -232,37 +248,48 @@ aborts after 3 consecutive failures (tcdb.org has multi-day maintenance
 windows — resume later; already-fetched pages under the gitignored
 `cache/data/tcdb/raw/pages/` are skipped — the cache is per clone; copy it from
 another clone before a run to avoid re-fetching). Scope = the families carrying
-kept 4/5-part IDs in `tcdb_pruned.json` **plus** the diamond best-hit systems
-(merged `tcdb_best_hit_ids`; 404 families as of 2026-10-19), plus the full browse.php layer
-(classes/subclasses/families). Subfamilies with no upstream name stay as bare
+any kept id in `tcdb_pruned.json` (gene-anchored, best-hit and range-only systems; a
+family-only kept id is fetched via its smallest 4-part child) **plus** the diamond best-hit
+systems (merged `tcdb_best_hit_ids`), plus the full browse.php layer
+(classes/subclasses/families) — 592 family pages, 9,622 names as of 2026-10-23 (134 kept
+systems unnamed upstream). Run order after a kept-set change: step 6 → scraper → step 6
+`--force` (names + `direction`). Subfamilies with no upstream name stay as bare
 TC ids on purpose (`t.name = t.tcdb_id` is the fallback marker). Design:
 `docs/superpowers/specs/2026-08-12-tcdb-node-names-design.md`.
 
 ## Phase 2 — KG integration ✅ DONE
 
-These artifacts are merged into `gene_annotations_merged.json` and the KG as a
-**second evidence source on the existing `TcdbFamily` ontology** — one
-`Gene_has_tcdb_family` edge per (gene, TC ID) carrying `sources: ['eggnog','diamond']`
-provenance plus the diamond evidence fields (`tier`, `confidence_score`, `identity`,
-`qcov`, `evalue`, `consensus_n`).
+These artifacts are merged into `gene_annotations_merged.json` (`tcdb_diamond_ids`, folded
+into `transporter_classification`; best hits as `tcdb_best_hit_ids`) and the KG as evidence on
+the `TcdbFamily` ontology. Since the TCDB cleanup (2026-10-23,
+`docs/kg-changes/tcdb-cleanup.md`) each source is **its own edge**, one per (gene, TC node,
+`tcdb_call`):
 
-Coverage across 42 strains: genes with a TC call went 11,103 → **30,076**
-(10,278 corroborated by both sources, 18,973 diamond-only).
+- `diamond_tier` — the tier-truncated call (`tier`, `identity`, `qcov`, `scov`, `evalue`;
+  `confidence_score` / `consensus_n` stay in the artifact only). 41,242 edges.
+- `diamond_best_hit` — each `best_hit` system with its own `hits` statistics (`rank`, `tier` =
+  identity band, `identity`, `qcov`, `scov`, `evalue`, `bitscore`, `bitscore_ratio`). 17,512 edges.
+- `eggnog` — eggNOG `KEGG_TC`, alongside (17,069).
+
+Every edge carries `tcdb_gate` (`direct` | `annotated` | `below_gate`); best-hit systems also
+seed TCDB pruning in step 6. `qcov` / `scov` / `identity` are percent.
 
 **Re-running this skill changes the KG.** After a `--force` run, rebuild the caches
 and the graph:
 
 ```bash
 bash scripts/prepare_data.sh --steps 2 6 --force   # merge + re-seed TCDB pruning
+# if the kept set gained systems: re-run the name scraper, then --steps 6 --force again
 docker compose down && docker compose up -d --build
 ```
 
 Two consumer-facing notes:
 
-- **No `filter_action`.** All candidates become edges; the tier policy is the quality
-  gate. Post-import folds `'tcdb'` into `annotation_types` / `annotation_quality` only
-  for eggNOG-sourced or **tier ≤ 2** edges, so tier-3 calls are findable without
-  inflating annotation quality. Filter on `r.tier` explicitly if you want a stricter cut.
+- **No `filter_action`.** All candidates become edges, tier 3 included. Downstream reads
+  `tcdb_gate`: `'tcdb'` in `annotation_types` / `annotation_quality` and the TCDB gene counts use
+  `tcdb_gate IN ['direct','annotated']` (eggNOG, tier ≤ 2 calls, rank-1 best hits with tier ≤ 2);
+  the transport-arm metabolite counts use `direct` only. Tier-3 calls and near-tie best hits are
+  `below_gate` — findable, but they feed no count.
 - **`transporter_classification` is a UNION** of both sources; `tcdb_eggnog_ids` /
   `tcdb_diamond_ids` preserve attribution.
 

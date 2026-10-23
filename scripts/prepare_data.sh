@@ -39,7 +39,7 @@
 #           Step 6 also walks all paperconfig metabolite_assays_table entries
 #           (metabolomics) and decides every paper-metabolite resolution itself.
 #           It writes, in one atomic step at the end (a failed run writes nothing):
-#           kegg_data.json, tcdb_pruned.json (incl. chemical_roles / lumping_pin),
+#           kegg_data.json, tcdb_pruned.json (incl. system_substrates / chemical_roles),
 #           the 8 KEGG compound BRITE files, the ChEBI cache, metabolite_id_mapping.json,
 #           the dominant-stereo-form lock, the identity report, and every paper
 #           <stem>_resolved.csv.

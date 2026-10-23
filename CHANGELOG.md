@@ -52,6 +52,7 @@ tag with nothing logged.
 ### Highlights
 
 - Each diamond-called transporter gene now shows the specific TCDB system it best matches, with that system's own substrates, so "is this the cyanate or the nitrate ABC system?" can be read off the gene instead of from a family that lists hundreds of substrates.
+- TCDB now reads as TCDB curates it: substrates sit on the specific transport systems, each source (eggNOG, diamond call, diamond best hit) is its own gene edge, and a gene's substrate count only comes from a system it was placed on directly, so an ABC-superfamily call no longer reads as 550 substrates.
 - Which genes carry a GO term defined as moving compound X (for example siderophores) is now a graph query, on the same metabolite nodes TCDB and KEGG use.
 - `list_experiments(coculture_partner="Alteromonas")`-style questions now find every experiment
   run with that partner, including the 35 where the coculture was the context rather than the
@@ -89,8 +90,31 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
 - **`Metabolite.chebi_id` values changed on most nodes** (now the primary, entity-level ChEBI) and `name` changed on `chebi:` nodes (KEGG name, else ChEBI name).
 - **57 role terms were removed from `Metabolite`**; they now live on `ChemicalRole` via `Tcdb_family_transports_chemical_role`. `Tcdb_family_transports_metabolite` 11,263 → 10,790 and `TcdbFamily.metabolite_count` loses role entries.
 - **Paper metabolite re-resolutions.** Metabolomics assay edges were re-pointed to canonical metabolites; see `docs/kg-changes/metabolite-identity/metabolite_assay_repoints.tsv`.
-- **The lumping threshold no longer reproduces the lumping set.** `level >= 2 AND metabolite_count >= 50` is not equivalent any more; filter on `TcdbFamily.substrate_breadth = 'lumping'` (pinned 13 ids).
 - **`metaboliteFullText` fields** are now name + formula + `identifier_tokens` (the live index was name-only).
+
+TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `docs/kg-changes/tcdb-cleanup.md`). It supersedes the `substrate_breadth` / lumping-set items of the metabolite-identity work above:
+
+- **TCDB substrate edges leave `tc_system` nodes only.** `Tcdb_family_transports_metabolite` (10,778) and `Tcdb_family_transports_chemical_role` (367) no longer roll up onto families, subfamilies, subclasses or classes, and `substrate_depth` is gone. A family's range = walk `Tcdb_family_is_a_tcdb_family` down to its systems, or read the new `TcdbFamily.tcdb_substrate_count`.
+- **`TcdbFamily.level_kind` value `tc_specificity` is renamed `tc_system`.** `TcdbFamily` grows 1,515 → 9,389 nodes: 3,527 gene-anchored + 5,862 range-only substrate-bearing systems with `gene_count = 0`. Filter `gene_count > 0` for listings.
+- **`TcdbFamily.gene_count` / `direct_gene_count` / `organism_count` count gate-passing edges only** (`tcdb_gate IN ['direct','annotated']`). A system reached only by near-tie or tier-3 calls reads 0.
+- **`Gene_has_tcdb_family` is one edge per (gene, TC node, `tcdb_call`)**: 75,823 edges (eggnog 17,069 · diamond_tier 41,242 · diamond_best_hit 17,512). It used to be one merged edge per (gene, TC id) with `sources: ['eggnog','tcdb_diamond']`. `sources` is now always one element, and edge ids include the call kind. `'eggnog' IN r.sources` still works; source agreement is now a query over two edges.
+- **Removed properties:**
+  - `Gene_has_tcdb_family`: `evidence_score`, `source_agreement`, `pfam_support`, `go_support`, `attachment_depth`, `confidence_score`, `consensus_n`, `best_hit_tcids`, `best_hit_names`, `best_hit_identity`, `best_hit_substrate_tcids`, `best_hit_substrate_ids`, `best_hit_substrate_names`.
+  - `Gene`: `tcdb_evidence_score_max`, `transport_substrate_resolution`.
+  - `TcdbFamily`: `metabolite_count`, `substrate_breadth` (its pinned lumping set and R3 exception are retired).
+  - The MEROPS edge keeps its same-named properties.
+- **The transport arm counts direct systems only.** It now covers 6,995 genes (`transported_metabolite_count > 0`), was ~30K. A gene reaches the substrates of the systems it points at through `tcdb_gate = 'direct'` edges, with no family roll-up:
+  - Genes placed only at family/subfamily level, or only through a near-tie / identity < 40 best hit, read 0. They keep their edges, and their family's compounds are reachable by walking down.
+  - The same rule redefines `Metabolite.transporter_gene_count` / `transporter_count`, `OrganismTaxon.transported_metabolite_count`, `ChemicalRole.transporter_count` and the transport arm of `Organism_has_metabolite` (88,579 → 52,648).
+- **`ChemicalRole.tcdb_family_count` / `direct_tcdb_family_count` are renamed `tcdb_system_count` / `direct_tcdb_system_count`.**
+- **`'transport' IN Metabolite.evidence_sources` means "TCDB lists it as a substrate of a kept system"**, not "a gene here reaches it". 825 of 1,285 tagged metabolites have `transporter_gene_count = 0`.
+- **65 Metabolite nodes, 9 ChemicalRoles, 11 MetaboliteClasses and 3 pathways removed.** These were reached only through the class-level TCDB roll-up.
+  - Metabolite 3,243 → 3,178. Ouabain `C01443`, prostaglandins, statins, vitamin D3 and the like are gone; icosanoid `chebi:23899` is re-keyed to `chebi:62937`; 31 compounds lose only the `'transport'` tag.
+  - ChemicalRole 111 → 102; MetaboliteClass 445 → 434.
+  - Pathways 452 → 449: `ko04145` Phagosome, `ko04510` Focal adhesion, `ko00532` chondroitin sulfate GAG biosynthesis.
+  - Full list: `docs/kg-changes/tcdb-cleanup/removed_ids.tsv`.
+- **`'tcdb'` in `annotation_types` (and `transporter`) now also counts a rank-1 diamond best hit with identity ≥ 40.** That adds 1,055 genes (14,745 → 15,800). 8 genes move from `informative_single` to `informative_multi`.
+- **`Gene.tcdb_family_count` is defined over gate-passing edges.** Ancestors of another counted node are dropped, so near-tie best hits never add a family.
 
 ### Data
 
@@ -174,7 +198,17 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
 
 ### Added
 
-- **TCDB diamond best-hit details on `Gene_has_tcdb_family`** (transport programme project 2): the diamond-sourced edge in the top hit's family now carries the gene's actual best-hit TCDB systems, which the tier call truncates away (MED4 cynD is called `3.A.1`; its best hit is `3.A.1.16.2`, "Bispecific cyanate/nitrite transporter."). Six sparse properties: `best_hit_tcids` (up to 3, best first; near-ties within 90% of the top bitscore, any family), `best_hit_names`, `best_hit_identity`, and a long-form, index-aligned table `best_hit_substrate_tcids` / `best_hit_substrate_ids` / `best_hit_substrate_names` (each system's own TCDB substrates, unfiltered; ids need not be nodes). Rule `best_hit_v1`: query and reference coverage ≥ 75%, TC class 1–4, reciprocal best hit. 12,379 proteins over 43 strains (12,231 edges; 188 proteins with no tier call keep the best hit only in the merged annotations' new `tcdb_best_hit_ids`). A raw clue, not a call — tier stays the conservative claim. No node, edge or other property changes; +6 `ControlledVocabulary` entries move `controlled_vocabularies_hash`. Also: `run_tcdb_diamond.py --from-tsv` rebuilds calls.json without diamond, and the TCDB name scraper is now merge-preserving (a `--families` top-up used to drop every other family's names). See `docs/kg-changes/tcdb-diamond-best-hit.md`.
+- **TCDB cleanup (project 3a)** — see `### Breaking` and `docs/kg-changes/tcdb-cleanup.md`:
+  - **`Gene_has_tcdb_family.tcdb_call`** (`eggnog` | `diamond_tier` | `diamond_best_hit`) and **`tcdb_gate`** (`direct` 11,158 · `annotated` 19,866 · `below_gate` 44,799). The gate is dense and ordered, computed in the adapter, and is the one set every TCDB count and enrichment reads.
+  - **`diamond_best_hit` edges** onto each best-hit system (rank-1 + near-ties), each with its own alignment: `rank`, `tier` (identity band ≥ 70 / 40–70 / < 40), `identity`, `qcov`, `scov`, `evalue`, `bitscore`, `bitscore_ratio`. This includes the ~188 proteins with a best hit but no tier call. `qcov` is declared in percent, its real scale.
+  - **`TcdbFamily.direction`** (`uptake` 956 · `export` 1,367 · `unknown` 7,066; TCDB-stated only, from ABC numbering or TCDB names, inherited downward) with sparse **`direction_basis`** (`abc_numbering` | `tcdb_name`).
+  - **`TcdbFamily.tcdb_substrate_count`** (all levels: TCDB's substrate range in the subtree).
+  - **Range-only systems.** 5,862 nodes; every substrate-bearing system under a kept family is kept. Diamond best-hit systems now seed pruning.
+  - **Wider name scrape.** The TCDB name scraper covers every kept system: 592 family pages, 9,622 names; 134 systems unnamed upstream.
+  - **Bridges on all kept nodes.** The Pfam / GO bridges now cover range-only systems: Pfam 5,772, BP 5,780, MF 5,545, CC 3,451.
+  - **Vocabulary.** New `ControlledVocabulary` entries move `controlled_vocabularies_hash`.
+  - **calls.json.** The `best_hit` block gains a per-system `hits` list (`run_tcdb_diamond.py --from-tsv`; no diamond re-run, `best_hit_v1` unchanged).
+- **TCDB diamond best-hit details on `Gene_has_tcdb_family`** (transport programme project 2): the diamond-sourced edge in the top hit's family now carries the gene's actual best-hit TCDB systems, which the tier call truncates away (MED4 cynD is called `3.A.1`; its best hit is `3.A.1.16.2`, "Bispecific cyanate/nitrite transporter."). Six sparse properties: `best_hit_tcids` (up to 3, best first; near-ties within 90% of the top bitscore, any family), `best_hit_names`, `best_hit_identity`, and a long-form, index-aligned table `best_hit_substrate_tcids` / `best_hit_substrate_ids` / `best_hit_substrate_names` (each system's own TCDB substrates, unfiltered; ids need not be nodes). Rule `best_hit_v1`: query and reference coverage ≥ 75%, TC class 1–4, reciprocal best hit. 12,379 proteins over 43 strains (12,231 edges; 188 proteins with no tier call keep the best hit only in the merged annotations' new `tcdb_best_hit_ids`). A raw clue, not a call — tier stays the conservative claim. **Superseded within this release by the TCDB cleanup below:** the six properties ship as `diamond_best_hit` edges instead. No node, edge or other property changes; +6 `ControlledVocabulary` entries move `controlled_vocabularies_hash`. Also: `run_tcdb_diamond.py --from-tsv` rebuilds calls.json without diamond, and the TCDB name scraper is now merge-preserving (a `--families` top-up used to drop every other family's names). See `docs/kg-changes/tcdb-diamond-best-hit.md`.
 - **GO transport substrates: GO term to Metabolite / ChemicalRole edges** (518 in total, from GO release 2026-07-26): `Molecular_function_transports_metabolite` (257), `Biological_process_transports_metabolite` (246), `Molecular_function_transports_chemical_role` (7), `Biological_process_transports_chemical_role` (8), each with `go_chebi_ids` (ChEBI ids as GO's `has primary input` axiom states them). Term definitions, not gene facts; own axioms only, no `is_a` propagation. 13 ids (11 upper-level ChEBI classes plus H+ and Na+) are excluded as targets and listed in **`Schema_info.go_transport_excluded_targets`**. +29 `Metabolite` nodes (3,214 to 3,243) carrying the new `Metabolite.evidence_sources` value `go_transport`; +6 `Metabolite_in_pathway` into already-kept pathways (no new `KeggTerm`); sparse `Metabolite.go_transport_organism_names` / `go_transport_organism_count` (198 metabolites). Adding the value moves `controlled_vocabularies_hash`. See `docs/kg-changes/go-transport-substrates.md`.
 - **`Experiment.control_timing`** (`matched | baseline | mixed`, curated, sparse — present on
   every experiment with a DE contrast; `matched` = same sampling time or same growth state) and
@@ -198,7 +232,6 @@ Metabolite figures below are measured in the step-6 caches; the post-rebuild doc
 - **`Metabolite_is_stereo_form_of`** (99) and **`Metabolite_is_enantiomer_of`** (28).
 - **`stereo_assignment`** (`as_reported` | `dominant_form_assumed`) on `Assay_quantifies_metabolite` / `Assay_flags_metabolite`.
 - **`ChemicalRole`** (111 nodes, `Chemical_role_is_a_chemical_role` 132) and **`Tcdb_family_transports_chemical_role`** (392).
-- **`TcdbFamily.substrate_breadth`** (`lumping` | `specific` | `not_assessed`; the 13 lumping nodes are pinned, no value change). An R3 exception that sunsets with the deferred TCDB spec.
 - **`data_source:kegg` / `data_source:chebi`** (DataSource 9 → 11) and **`Schema_info.chebi_release`**.
 - **`Gene.coordinate_source`** (`ncbi` | `cyanorak`, dense) and **`Gene.sequence_source`**
   (`ncbi` | `cyanorak`, sparse — present iff `sequence`) say which caller placed and

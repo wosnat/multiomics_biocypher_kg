@@ -1168,8 +1168,8 @@ CALL {
 // call_class is deliberately NOT a signal: it is the verdict axis (active
 // peptidase?), orthogonal to placement confidence — a confidently placed dead
 // homolog must not score lower for being honest. Scale is {0, 0.5, 1};
-// round(score * 2) recovers the fired count. Advisory, never a filter, and NOT
-// calibrated against the 5-signal TCDB score.
+// round(score * 2) recovers the fired count. Advisory, never a filter. (TCDB has
+// no counterpart since the 2026-10-23 cleanup: its edges carry no score.)
 CALL {
   MATCH ()-[r:Gene_has_merops_family]->()
   SET r.evidence_score = round(
@@ -1177,7 +1177,7 @@ CALL {
       + (CASE WHEN r.pfam_support = 'corroborated' THEN 1 ELSE 0 END) ) / 2.0, 3)
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Gene.merops_evidence_score_max (ONT-013): mirror of tcdb_evidence_score_max.
+// Gene.merops_evidence_score_max (ONT-013): max of evidence_score over the gene's edges.
 // SPARSE — only on genes with a Gene_has_merops_family edge; coalesce(x, -1.0)
 // for a total order. Read with Gene.merops_classes: the max says how well the
 // best call is PLACED, merops_classes says whether any call is an active peptidase.
