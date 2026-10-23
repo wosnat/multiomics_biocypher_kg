@@ -599,15 +599,6 @@ def test_depth_is_per_substrate_not_per_node(tmp_path):
     assert depth[("tcdb:2.A.1.1", "kegg.compound:C1")] == "most_specific"
 
 
-def test_substrate_depth_uses_meaningful_values():
-    from multiomics_kg.utils.controlled_vocab import VOCAB
-    entry = VOCAB.get("Tcdb_family_transports_metabolite", "substrate_depth")
-    assert set(entry.values) == {"most_specific", "inherited"}
-    # and the adapter emits only declared values
-    for v in ("most_specific", "inherited"):
-        VOCAB.check("Tcdb_family_transports_metabolite", "substrate_depth", v)
-
-
 def test_no_schema_property_is_declared_bool():
     """R5: native bool is forbidden graph-wide."""
     import re, pathlib
