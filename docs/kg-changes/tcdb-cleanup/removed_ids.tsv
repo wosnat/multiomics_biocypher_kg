@@ -1,4 +1,4 @@
-# Predicted from the 2026-10-19 build (tcdb_pruned.json + live graph), measured 2026-10-23. Confirmed or corrected after the 3a rebuild.
+# Measured on the step-6 caches 2026-10-23 (3a branch); confirmed against the rebuilt graph in the docs task.
 change	id	name
 metabolite_removed	chebi:135946	sincalide
 metabolite_removed	chebi:18179	phosphoinositide
@@ -65,7 +65,6 @@ metabolite_removed	kegg.compound:C13694	Isoguvacine
 metabolite_removed	kegg.compound:C14592	N-Methyl-N^-nitro-N-nitrosoguanidine
 metabolite_removed	kegg.compound:C15485	2^-Deoxymugineic acid
 metabolite_removed	kegg.compound:C16588	2-Oxopimelate
-metabolite_loses_transport_tag	chebi:23899	icosanoid
 metabolite_loses_transport_tag	chebi:39447	pyrimidines
 metabolite_loses_transport_tag	kegg.compound:C00006	NADP+
 metabolite_loses_transport_tag	kegg.compound:C00020	AMP
@@ -108,3 +107,4 @@ chemical_role_loses_transport_route	chebi.role:82655	animal growth promotant
 pathway_removed	kegg.pathway:ko00532	Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate
 pathway_removed	kegg.pathway:ko04145	Phagosome
 pathway_removed	kegg.pathway:ko04510	Focal adhesion
+metabolite_rekeyed	chebi:23899	icosanoid -> chebi:62937 (icosanoid anion)
