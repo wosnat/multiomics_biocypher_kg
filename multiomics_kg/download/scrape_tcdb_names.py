@@ -45,6 +45,7 @@ TCDB_DIR = PROJECT_ROOT / "cache" / "data" / "tcdb"
 PAGES_DIR = TCDB_DIR / "raw" / "pages"
 NAMES_FILE = TCDB_DIR / "tcdb_names.json"
 PRUNED_FILE = TCDB_DIR / "tcdb_pruned.json"
+HIERARCHY_FILE = TCDB_DIR / "tcdb_hierarchy.json"
 
 BROWSE_URL = "https://www.tcdb.org/browse.php"
 RESULT_URL = "https://www.tcdb.org/search/result.php?tc={tc}"
@@ -206,11 +207,14 @@ def parse_family_page(
 
 # ── scope ────────────────────────────────────────────────────────────────────
 
-def scoped_families(kept_ids: set[str]) -> dict[str, str]:
+def scoped_families(kept_ids: set[str],
+                    hierarchy_ids: set[str] | None = None) -> dict[str, str]:
     """{family_3part: query_id} for every family carrying a kept 3/4/5-part
     ID. Any 4-part in the family works as the result.php query key — the page
     returns the entire family (spec 3b). A family kept only at 3-part level
-    (no kept 4/5-part id) is queried by the family id itself."""
+    (no kept 4/5-part id) is queried by its smallest (numeric) 4-part child in
+    `hierarchy_ids` (the full TCDB hierarchy keys); the live site returns an
+    EMPTY page for a 3-part query. No such child (or no hierarchy) -> skipped."""
     out: dict[str, str] = {}
     family_only: set[str] = set()
     for tc in kept_ids:
@@ -224,8 +228,14 @@ def scoped_families(kept_ids: set[str]) -> dict[str, str]:
         four = ".".join(parts[:4])
         if fam not in out or four < out[fam]:
             out[fam] = four
-    for fam in family_only:
-        out.setdefault(fam, fam)
+    for fam in sorted(family_only - set(out)):
+        kids = [t for t in (hierarchy_ids or ())
+                if t.startswith(fam + ".") and t.count(".") == 3
+                and t.rsplit(".", 1)[1].isdigit()]
+        if not kids:
+            log.warning(f"  family-only {fam}: no 4-part child in hierarchy; skipped")
+            continue
+        out[fam] = min(kids, key=lambda t: int(t.rsplit(".", 1)[1]))
     return out
 
 
@@ -333,7 +343,8 @@ def main(force: bool = False, delay: float = DEFAULT_DELAY_S,
     # Gene_has_tcdb_family edges as best_hit_names; spec 2026-10-18 §5).
     best_hit_ids = collect_best_hit_tcids(PROJECT_ROOT / r["data_dir"] for r in load_genome_rows())
     wanted_ids = kept_ids | best_hit_ids
-    fams = scoped_families(wanted_ids)
+    hierarchy_ids = set(json.loads(HIERARCHY_FILE.read_text()))
+    fams = scoped_families(wanted_ids, hierarchy_ids)
     if families:
         fams = {f: q for f, q in fams.items() if f in set(families)}
     log.info(f"scope: {len(fams)} families (from {len(kept_ids)} kept + "

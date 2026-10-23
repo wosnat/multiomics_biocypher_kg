@@ -182,13 +182,19 @@ class TestScopedFamilies:
 
 
 class TestScopedFamiliesFamilyOnly:
-    def test_scoped_families_includes_family_only_kept_ids(self):
-        fams = m.scoped_families({"2.A.1", "1.A.11.2.5"})
-        assert fams["2.A.1"] == "2.A.1"
-        assert "1.A.11" in fams
+    H = {"2.A.1.10", "2.A.1.2", "2.A.1.2.3", "1.A.11.1", "1.A.11.1.4"}
+
+    def test_family_only_uses_smallest_numeric_4part_child(self):
+        fams = m.scoped_families({"2.A.1", "1.A.11.2.5"}, self.H)
+        assert fams["2.A.1"] == "2.A.1.2"
+        assert fams["1.A.11"] == "1.A.11.2"
+
+    def test_family_only_without_child_is_skipped(self):
+        assert m.scoped_families({"9.A.9"}, self.H) == {}
+        assert m.scoped_families({"2.A.1"}) == {}
 
     def test_family_only_does_not_override_4part_query(self):
-        assert m.scoped_families({"2.A.1", "2.A.1.3"}) == {"2.A.1": "2.A.1.3"}
+        assert m.scoped_families({"2.A.1", "2.A.1.3"}, self.H) == {"2.A.1": "2.A.1.3"}
 
 
 class TestAssembleNames:
