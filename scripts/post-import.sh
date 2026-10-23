@@ -690,21 +690,21 @@ time cypher-shell <<'CYPHER'
 //
 // SOURCE_BUCKETS:start
 //   live (9): go, kegg, pfam, ec, role, reaction, transporter, cazy, ncbifam
-// TIER GATE on the TCDB buckets below.
-// Gene_has_tcdb_family carries two evidence sources. eggNOG's KEGG_TC is ortholog
-// transfer; diamond is direct sequence similarity, and its tier is BOTH a
-// confidence band and the depth the call was truncated to (1 = tc_specificity,
-// identity>=70; 2 = tc_subfamily, >=40; 3 = tc_family, no identity floor).
+// TCDB GATE on the transporter bucket below (spec 2026-10-22 §5.3 / §7).
+// Gene_has_tcdb_family carries one edge per (gene, TC node, tcdb_call); the
+// adapter stamps each edge with tcdb_gate (direct | annotated | below_gate).
+// The three quality/informativeness checks (annotation_quality 'transporter'
+// bucket, annotation_types 'tcdb', informative_annotation_types 'transporter')
+// count a gene as transporter-annotated only through an edge with
+// tcdb_gate IN ['direct','annotated']: any eggNOG call, a diamond tier call with
+// tier <= 2, or a rank-1 diamond best hit with tier <= 2. Tier-3 calls and
+// near-tie best hits ('below_gate') stay findable as edges but never upgrade
+// annotation_quality, which was calibrated against curated sources and drives
+// genes_by_function routing. has_any_edge still counts every Gene_has_tcdb_family
+// edge (catch_all_only).
 //
-// Tier 3 is conservative-by-design remote homology, not noise (median identity
-// 34%, median e-value 2.3e-30), so those edges ARE emitted and are findable. But
-// ~22K of them must not silently upgrade annotation_quality, which was calibrated
-// against curated sources and drives genes_by_function routing. So the three
-// quality/informativeness buckets count a gene as transporter-annotated only when
-// eggNOG called it, or diamond called it at tier<=2.
-//
-// Gene.tcdb_family_count (most-specific attachments) and Gene.catalyzed_metabolite_count are deliberately NOT tier-gated —
-// they are routing counts, not quality signals.
+// Gene.tcdb_family_count uses the same gate (deepest per lineage);
+// Gene.catalyzed_metabolite_count is a routing count with no gate.
 
 // SOURCE_BUCKETS:end
 //
@@ -725,7 +725,7 @@ CALL {
        EXISTS { (g)-[:Gene_catalyzes_ec_number]->() } AS has_ec,
        (g.gene_category IS NOT NULL AND g.gene_category <> 'Unknown') AS has_role,
        EXISTS { (g)-[:Gene_catalyzes_reaction]->() } AS has_reaction,
-       EXISTS { MATCH (g)-[rt:Gene_has_tcdb_family]->() WHERE 'eggnog' IN rt.sources OR rt.tier <= 2 } AS has_transporter,
+       EXISTS { (g)-[rt:Gene_has_tcdb_family]->() WHERE rt.tcdb_gate IN ['direct','annotated'] } AS has_transporter,
        EXISTS { (g)-[:Gene_has_cazy_family]->() } AS has_cazy,
        EXISTS { (g)-[:Gene_has_ncbifam_family]->(t) WHERE t.is_uninformative IS NULL } AS has_ncbifam,
        EXISTS { (g)-[:Gene_involved_in_biological_process|Gene_enables_molecular_function|Gene_located_in_cellular_component
@@ -775,7 +775,7 @@ CALL {
     CASE WHEN EXISTS { (g)-[:Gene_catalyzes_ec_number]->() } THEN ['ec'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_cyanorak_role]->() } THEN ['cyanorak_role'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_tigr_role]->() } THEN ['tigr_role'] ELSE [] END +
-    CASE WHEN EXISTS { MATCH (g)-[rt:Gene_has_tcdb_family]->() WHERE 'eggnog' IN rt.sources OR rt.tier <= 2 } THEN ['tcdb'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[rt:Gene_has_tcdb_family]->() WHERE rt.tcdb_gate IN ['direct','annotated'] } THEN ['tcdb'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_interpro_entry]->() } THEN ['interpro'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_ncbifam_family]->() } THEN ['ncbifam'] ELSE [] END +
@@ -835,7 +835,7 @@ CALL {
                        WHERE t.is_uninformative IS NULL }
          THEN ['tigr_role'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_catalyzes_reaction]->() } THEN ['reaction'] ELSE [] END +
-    CASE WHEN EXISTS { MATCH (g)-[rt:Gene_has_tcdb_family]->() WHERE 'eggnog' IN rt.sources OR rt.tier <= 2 } THEN ['transporter'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[rt:Gene_has_tcdb_family]->() WHERE rt.tcdb_gate IN ['direct','annotated'] } THEN ['transporter'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_ncbifam_family]->(t)
                        WHERE t.is_uninformative IS NULL }
@@ -1019,8 +1019,8 @@ CALL {
 } IN TRANSACTIONS OF 100 ROWS;
 
 // ── TcdbFamily computed properties ───────────────────────────────────────────
-// Combined single scan: tc_class_id, member_count, gene_count, organism_count,
-// metabolite_count.
+// tc_class_id, then one scan for member_count, gene_count, direct_gene_count,
+// organism_count, tcdb_substrate_count.
 
 // tc_class_id: walk up at most to nearest tc_class ancestor. *0..* lets a
 // tc_class node match itself; non-class nodes walk up (label filter rejects
@@ -1035,47 +1035,34 @@ CALL {
   SET t.tc_class_id = cls.id
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// member_count + gene_count + organism_count + metabolite_count.
-// Substrate edges are rolled up to every ancestor in the adapter (each TcdbFamily
-// has direct edges to all metabolites in its subtree), so metabolite_count is
-// a single-hop count.
+// member_count + gene_count + direct_gene_count + organism_count +
+// tcdb_substrate_count (spec §5.1).
+// gene_count / direct_gene_count / organism_count count only gate-passing edges
+// (tcdb_gate IN ['direct','annotated']) — the same set enrichment TERM2GENE uses —
+// over the subtree (*0..) / the node itself. A system reached only by near-tie
+// or tier-3 calls reads 0.
+// tcdb_substrate_count = distinct targets (Metabolite + ChemicalRole) of the
+// substrate edges leaving tc_system nodes in the subtree (*0..). DENSE on all five
+// levels: 0 is written explicitly when the subtree carries no substrate.
 MATCH (t:TcdbFamily)
 CALL {
   WITH t
   OPTIONAL MATCH (child:TcdbFamily)-[:Tcdb_family_is_a_tcdb_family]->(t)
   WITH t, count(child) AS mc
-  OPTIONAL MATCH (t)<-[:Tcdb_family_is_a_tcdb_family*0..]-(desc:TcdbFamily)<-[:Gene_has_tcdb_family]-(g:Gene)
+  OPTIONAL MATCH (t)<-[:Tcdb_family_is_a_tcdb_family*0..]-(desc:TcdbFamily)<-[rg:Gene_has_tcdb_family]-(g:Gene)
+    WHERE rg.tcdb_gate IN ['direct','annotated']
   WITH t, mc, count(DISTINCT g) AS gc,
        count(DISTINCT CASE WHEN desc = t THEN g END) AS dgc,
        collect(DISTINCT g.organism_name) AS orgs
-  OPTIONAL MATCH (t)-[:Tcdb_family_transports_metabolite]->(m:Metabolite)
-  WITH t, mc, gc, dgc, orgs, count(DISTINCT m) AS metc
+  OPTIONAL MATCH (t)<-[:Tcdb_family_is_a_tcdb_family*0..]-(sys:TcdbFamily {level_kind: 'tc_system'})
+                 -[:Tcdb_family_transports_metabolite|Tcdb_family_transports_chemical_role]->(sub)
+  WITH t, mc, gc, dgc, orgs, count(DISTINCT sub) AS subc
   SET t.member_count = mc,
       t.gene_count = gc,
       t.direct_gene_count = dgc,
       t.organism_count = size([x IN orgs WHERE x IS NOT NULL]),
-      t.metabolite_count = metc
+      t.tcdb_substrate_count = subc
 } IN TRANSACTIONS OF 1000 ROWS;
-
-// The old TcdbFamily promiscuity flag was DELETED (2026-08-16, spec §3 R3 +
-// §9.8): it restated a threshold — level >= 2 AND metabolite_count >= 50 —
-// over metabolite_count, a count the node already publishes. Consumers
-// derive it themselves rather than the KG storing a predicate. History for
-// context: it flagged a family as transporting MANY DISTINCT SUBSTRATES (so
-// inferring what a member gene moves from family membership is weak),
-// consumed by explorer family_inferred-dominance warnings (KG-MET-006).
-// SUBSTRATE BREADTH ONLY — a `gene_count >= 500` arm was briefly added
-// 2026-08-07 and reverted the same day (answers a different question and
-// flagged substrate-poor families like 9.B.34). LEVEL-GATED (level >= 2,
-// tc_family and deeper) because substrate counts scale mechanically with
-// hierarchy level (median metabolite_count is 153 at tc_class vs 1 at
-// tc_family — an unrestricted rule fired on 5 of 7 tc_class and 7 of 34
-// tc_subclass nodes vacuously). Threshold >= 50 sat at ~p99 within the levels
-// it applied to. Formerly flagged 13 families/subfamilies, all textbook
-// multi-substrate transporters: ABC Superfamily 3.A.1 (554 substrates), MFS
-// 2.A.1 (476), DMT 2.A.7, RND 2.A.6, MOP flippase 2.A.66, APC 2.A.3, P-type
-// ATPase 3.A.3. See the one internal read of this threshold, inlined into
-// transport_substrate_resolution below.
 
 // ── CazyFamily computed properties ───────────────────────────────────────────
 
@@ -1432,9 +1419,8 @@ CALL {
 
 // Gene metabolism + ontology counts (combined single Gene scan):
 //   - cazy_family_count  (TCDB-S2)
-//   (tcdb_family_count moved to the transport-arm statement below, where the
-//    most-specific attachment set it now counts is already in hand — explorer
-//    ask 2026-08-29-gene-overview-family-counts-asks)
+//   (tcdb_family_count lives in the transport-arm statement below, with the
+//    gate-passing edge set it counts)
 //   - reaction_count     (KG-A1)
 //   - catalyzed_metabolite_count  (KG-A2 — the catalysis arm; renamed from
 //     metabolite_count for the alpha.7 cut, KG-SYNC-001)
@@ -1478,151 +1464,37 @@ CALL {
       g.catalyzed_metabolite_count = cat_met_count
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// ── Gene_has_tcdb_family.attachment_depth (KG-SYNC-005, ONT-010) ─────────────
-// Materializes the deepest-attachment predicate ONCE. 'most_specific' = no other
-// Gene_has_tcdb_family edge of the SAME gene lands on a descendant of this node;
-// 'superseded' = one does (e.g. an eggNOG 3.A.1 call next to a diamond 3.A.1.14
-// call — a less specific call, NOT a wrong one). A structural fact, not a
-// threshold (R3 does not apply); R5 string pair mirroring substrate_depth.
+// Gene transport arm: tcdb_family_count + transported_metabolite_count
+// (spec 2026-10-22 §5.3 / §7).
 //
-// Checking DIRECT ancestry is not enough — a gene may be annotated at 3.A.1 and
-// 3.A.1.14.2 with no edge to the intervening 3.A.1.14 — hence *1..4 (TCDB is 5
-// levels, so 4 hops is the maximum ancestor distance).
+// tcdb_family_count = the TC nodes targeted by the gene's gate-passing edges
+// (tcdb_gate IN ['direct','annotated']), minus any node that is an ancestor of
+// another node in that set (whatever the call kind), counted distinct. So a
+// diamond tier call on 3.A.1.4 plus a rank-1 best hit on 3.A.1.4.4 = 1; an eggNOG
+// edge onto the sibling system 3.A.1.4.5 on top of that = 2. Near-tie best hits
+// and tier-3 calls (below_gate) never count. TCDB has 5 levels, so *1..4 covers
+// every ancestor distance. No per-edge "counted" marker is stored.
 //
-// The three transport-arm consumers (Gene.transported_metabolite_count,
-// Metabolite.transporter_gene_count, Organism_has_metabolite) read this property
-// instead of re-deriving the predicate, so they cannot drift from each other or
-// from what a consumer sees on the edge.
-CALL {
-  MATCH (g:Gene)-[r:Gene_has_tcdb_family]->(t:TcdbFamily)
-  WITH r, EXISTS {
-    MATCH (g)-[:Gene_has_tcdb_family]->(d:TcdbFamily)
-    WHERE (d)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t)
-  } AS superseded
-  SET r.attachment_depth = CASE WHEN superseded THEN 'superseded' ELSE 'most_specific' END
-} IN TRANSACTIONS OF 1000 ROWS;
-
-// Gene transport arm: tcdb_family_count + transported_metabolite_count +
-// transport_substrate_resolution.
-//
-// tcdb_family_count (TCDB-S1) = the gene's MOST-SPECIFIC attachments only
-// (2026-08-29, explorer ask gene-overview-family-counts; was every edge).
-// A superseded ancestor edge (3.A.1 beside the gene's own 3.A.1.14) is a less
-// specific restatement of the same membership, not a second family — counting
-// it over-read 7,045 genes (PMM0392: 8 → 7). Same projection the two other
-// transport-arm counts already use. Still NOT tier-gated: depth and tier are
-// different axes, an uncorroborated most_specific DIAMOND hit still counts.
-//
-// MOST-SPECIFIC ATTACHMENTS ONLY (attachment_depth above). 6,950 genes are
-// annotated at both an ancestor and its own descendant (e.g. both 3.A.1 and
-// 3.A.1.14); unioning across all of a gene's attachments pulled in the
-// ancestor's full rolled-up substrate set even though a more specific call
-// existed. Restricting to the most specific attachments keeps 26,813 of 26,894
-// genes (99.7%) and cuts p90 from 554 to 97.
-//
-// NOT tier-gated, deliberately. Tier and substrate resolution are orthogonal:
-// 11,871 genes are 'resolved' yet tier-3-only (narrow 2.A.x secondary carriers
-// where remote homology could not justify a subfamily call). A tier gate would
-// discard exactly those while keeping eggNOG's equally-lumping tc_family edges,
-// since eggNOG carries no tier — an artifact of which tool called it. Tier
-// already gates annotation_types/annotation_quality and rolls up as
-// Gene.tcdb_evidence_score_max; that is its home.
+// transported_metabolite_count = distinct Metabolites carried by the tc_system
+// nodes the gene points at through tcdb_gate = 'direct' edges. No ancestor or
+// descendant walk: a gene known only at family/subfamily level reads 0 (its
+// family's compounds stay reachable by walking gene -> family -> systems).
+// Metabolite.transporter_gene_count and Organism_has_metabolite use the same
+// direct (gene, system) set, so the gene-side and metabolite-side counts are two
+// projections of one (gene, metabolite) set.
 MATCH (g:Gene)
 CALL {
   WITH g
-  OPTIONAL MATCH (g)-[:Gene_has_tcdb_family {attachment_depth: 'most_specific'}]->(t:TcdbFamily)
-  OPTIONAL MATCH (t)-[:Tcdb_family_transports_metabolite]->(m_tr:Metabolite)
-  WITH g,
-       count(DISTINCT m_tr) AS tr_met_count,
-       count(DISTINCT t) AS n_deepest,
-       // transport_substrate_resolution reads the PINNED lumping set (TcdbFamily.substrate_breadth,
-       // spec 2026-10-13 §3.4a) — a documented R3 exception (vocabulary-contract.md): the threshold
-       // level >= 2 AND metabolite_count >= 50 no longer reproduces the set once metabolite identity
-       // merges substrates (3.A.3: 47 molecules, still lumping). Sunset with the deferred TCDB spec.
-       collect(DISTINCT (t.substrate_breadth = 'lumping')) AS breadth
-  SET g.tcdb_family_count = n_deepest,
-      g.transported_metabolite_count = tr_met_count,
-      // null REMOVES the property, keeping it sparse: absent means "no TCDB
-      // edge at all", which must stay distinguishable from a weak-but-present
-      // substrate claim.
-      g.transport_substrate_resolution =
-        CASE WHEN n_deepest = 0 THEN null
-             WHEN any(x IN breadth WHERE x = false) THEN 'resolved'
-             ELSE 'family_inferred' END
-} IN TRANSACTIONS OF 1000 ROWS;
-
-// ── TCDB evidence score (per Gene_has_tcdb_family edge) ──────────────────────
-// An ADVISORY ranking aid over five independent supporting signals. It never
-// drops an edge and nothing filters on it silently -- the components are stored
-// alongside the total so a consumer can always see WHY, and re-weight without
-// re-deriving.
-//
-// This is deliberately NOT shaped like the deleted `filter_action` chain: it is
-// additive rather than first-match-wins, every edge is scored on its own
-// evidence (no sibling dependence), and it carries no uncalibrated thresholds --
-// `tier` is the only cut and it is already a principled, sibling-independent gate.
-//
-//   +1  curated                — eggNOG called it (ortholog transfer from a curated DB)
-//   +1  agrees_across_sources  — eggNOG and diamond concur
-//   +1  tier <= 2              — strong direct sequence evidence (identity >= 40%)
-//   +1  pfam_corroborated      — a Pfam on this gene is curated into this TC family
-//   +1  go_corroborated        — a GO term on this gene is curated onto this TC family
-//
-// AGREEMENT IS HIERARCHICAL, not exact-node. eggNOG names subfamilies while
-// diamond's tier-3 truncation names the parent family, so the two usually concur
-// at DIFFERENT depths: exact same-node agreement covers only 3,641 edges, while
-// including ancestor/descendant agreement reaches 21,684 (40.3%). Scoring on
-// `size(sources)=2` alone would miss 83% of the real corroboration.
-//
-// Pfam and GO are kept separate because they are not redundant: 11,565 edges
-// carry exactly one of the two (P(GO|Pfam)=77% vs P(GO|not Pfam)=20%).
-CALL {
-  MATCH (g:Gene)-[r:Gene_has_tcdb_family]->(t:TcdbFamily)
-  WITH r, g, t,
-       ('eggnog' IN r.sources) AS curated,
-       (size(r.sources) = 2 OR EXISTS {
-          MATCH (g)-[r2:Gene_has_tcdb_family]->(t2:TcdbFamily)
-          WHERE t2 <> t AND any(s IN r2.sources WHERE NOT s IN r.sources)
-            AND ( (t)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t2)
-               OR (t2)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t) )
-       }) AS agree,
-       coalesce(r.tier <= 2, false) AS strong_seq,
-       EXISTS {
-         MATCH (g)-[:Gene_has_pfam]->(:Pfam)<-[:Tcdb_family_has_pfam_domain]-(t)
-       } AS pfam_ok,
-       EXISTS {
-         MATCH (g)-[:Gene_involved_in_biological_process|Gene_enables_molecular_function|Gene_located_in_cellular_component]->(o)
-               <-[:Tcdb_family_involved_in_biological_process|Tcdb_family_enables_molecular_function|Tcdb_family_located_in_cellular_component]-(t)
-       } AS go_ok
-  SET r.source_agreement = CASE WHEN agree   THEN 'both_sources' ELSE 'single_source' END,
-      r.pfam_support     = CASE WHEN pfam_ok THEN 'corroborated' ELSE 'uncorroborated' END,
-      r.go_support       = CASE WHEN go_ok   THEN 'corroborated' ELSE 'uncorroborated' END,
-      r.evidence_score   = round(
-          ( (CASE WHEN curated THEN 1 ELSE 0 END)
-          + (CASE WHEN agree THEN 1 ELSE 0 END)
-          + (CASE WHEN strong_seq THEN 1 ELSE 0 END)
-          + (CASE WHEN pfam_ok THEN 1 ELSE 0 END)
-          + (CASE WHEN go_ok THEN 1 ELSE 0 END) ) / 5.0, 3)
-} IN TRANSACTIONS OF 1000 ROWS;
-
-// Gene.tcdb_evidence_score_max: the strongest TCDB claim this gene has (float 0-1).
-// Answers "how confident am I that this gene is a transporter at all", where the
-// edge-level score answers "how confident am I in THIS particular assignment".
-// Worth materializing: 9,792 of 30,076 TCDB-annotated genes (32.6%) carry several
-// calls at DIFFERENT scores, so max() is not just a copy of the single edge.
-//
-// SPARSE BY DESIGN — set only on genes that actually have a Gene_has_tcdb_family
-// edge. A gene with no TCDB evidence must stay distinguishable from one whose
-// evidence is weak: writing 0 for both would collapse "we never found a
-// transporter signal" into "we found a poor one", which is the exact conflation
-// the tier gate and the advisory score exist to avoid. Absent means N/A; use
-// coalesce(g.tcdb_evidence_score_max, -1.0) if a total order is needed.
-//
-// Advisory, like the edge score it aggregates: nothing filters on it.
-CALL {
-  MATCH (g:Gene)-[r:Gene_has_tcdb_family]->()
-  WITH g, max(r.evidence_score) AS best
-  SET g.tcdb_evidence_score_max = best
+  OPTIONAL MATCH (g)-[ra:Gene_has_tcdb_family]->(t:TcdbFamily)
+    WHERE ra.tcdb_gate IN ['direct','annotated']
+  WITH g, collect(DISTINCT t) AS ts
+  WITH g, [x IN ts WHERE NOT any(y IN ts WHERE y <> x
+             AND EXISTS { (y)-[:Tcdb_family_is_a_tcdb_family*1..4]->(x) })] AS deepest
+  OPTIONAL MATCH (g)-[:Gene_has_tcdb_family {tcdb_gate: 'direct'}]->(:TcdbFamily)
+                 -[:Tcdb_family_transports_metabolite]->(m_tr:Metabolite)
+  WITH g, size(deepest) AS n_fam, count(DISTINCT m_tr) AS tr_met_count
+  SET g.tcdb_family_count = n_fam,
+      g.transported_metabolite_count = tr_met_count
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Gene.interpro_entry_count: distinct InterPro entries per gene (routing signal;
@@ -1674,48 +1546,32 @@ CALL {
       r.organisms = organisms
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Metabolite.catalyst_gene_count + transporter_gene_count (per gene-link arm).
-// Substrate edges are rolled up to every ancestor in the adapter, so the
-// transport arm is a 1-hop traversal at any TcdbFamily level the gene is
-// annotated at. organism_count is computed below from the materialized
+// Metabolite.catalyst_gene_count + transporter_gene_count + transporter_count
+// (per gene-link arm). organism_count is computed below from the materialized
 // Organism_has_metabolite edge so size(organism_names) == organism_count
 // is invariant by construction (KG-A8).
 // BREAKING, mirroring Gene.catalyzed_metabolite_count: the CATALYSIS arm is
 // catalyst_gene_count (renamed from the bare gene_count, KG-SYNC-001 — where a
 // node has two gene-link arms, each count names its arm); the transport arm is
-// transporter_gene_count. Both ends of the transport relation use the SAME
-// predicate — the gene's most-specific TC attachments (attachment_depth) — so
-// Gene.transported_metabolite_count and Metabolite.transporter_gene_count are
-// two projections of one (gene, metabolite) set and agree by construction.
+// transporter_gene_count.
+// Transport arm (spec 2026-10-22 §7): DIRECT systems only — substrate edges
+// leave tc_system nodes only, and a gene reaches them through its
+// tcdb_gate = 'direct' edges (no ancestor/descendant walk). The same direct
+// (gene, system) set feeds Gene.transported_metabolite_count, so the two counts
+// are projections of one (gene, metabolite) set and agree by construction.
+//   transporter_gene_count = distinct genes with a direct edge onto a system
+//                            carrying the metabolite.
+//   transporter_count      = distinct such systems (gene-anchored only:
+//                            range-only systems no gene points at never count).
 CALL {
   MATCH (m:Metabolite)
   OPTIONAL MATCH (m)<-[:Reaction_has_metabolite]-(:Reaction)<-[:Gene_catalyzes_reaction]-(g_cat:Gene)
   WITH m, count(DISTINCT g_cat) AS cat_gene_count
-  OPTIONAL MATCH (m)<-[:Tcdb_family_transports_metabolite]-(t:TcdbFamily)<-[:Gene_has_tcdb_family {attachment_depth: 'most_specific'}]-(g_tr:Gene)
-  WITH m, cat_gene_count, count(DISTINCT g_tr) AS tr_gene_count
+  OPTIONAL MATCH (m)<-[:Tcdb_family_transports_metabolite]-(t:TcdbFamily)<-[:Gene_has_tcdb_family {tcdb_gate: 'direct'}]-(g_tr:Gene)
+  WITH m, cat_gene_count, count(DISTINCT g_tr) AS tr_gene_count, count(DISTINCT t) AS tc
   SET m.catalyst_gene_count = cat_gene_count,
-      m.transporter_gene_count = tr_gene_count
-} IN TRANSACTIONS OF 1000 ROWS;
-
-// Metabolite.transporter_count: distinct transporter systems at MAXIMAL DEPTH.
-//
-// Was `level_kind = 'tc_specificity'`, which made the count 0 for 1,218 of the
-// 1,462 transported metabolites (83%). That filter dated from before the
-// ancestor-only prune: only 466 of 11,263 substrate edges now sit on
-// tc_specificity nodes, because genes mostly annotate at family/subfamily depth
-// and the prune keeps no specificity node below them.
-//
-// substrate_depth = 'most_specific' (set by tcdb_adapter) means no kept child of this
-// node also carries the substrate — so counting DISTINCT sources over those
-// edges counts each transporter system once, at the finest resolution the pruned
-// graph retains, without double-counting an ancestor together with its own
-// descendant. All 1,462 transported metabolites now get a non-zero count.
-CALL {
-  MATCH (m:Metabolite)
-  OPTIONAL MATCH (t:TcdbFamily)-[r:Tcdb_family_transports_metabolite]->(m)
-    WHERE r.substrate_depth = 'most_specific'
-  WITH m, count(DISTINCT t) AS tc
-  SET m.transporter_count = tc
+      m.transporter_gene_count = tr_gene_count,
+      m.transporter_count = tc
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Materialize Organism_has_metabolite (catalysis arm) — also tags evidence_sources
@@ -1739,14 +1595,13 @@ CALL {
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Materialize Organism_has_metabolite (transport arm).
-// Uses the SAME most-specific-attachment property (attachment_depth) as
-// Gene.transported_metabolite_count so the organism edge and the gene scalar
-// cannot disagree. Without it, one gene
-// annotated at ABC superfamily 3.A.1 gave its whole organism all 554 ABC
-// substrates, which is how every organism came to "have" 63% of all metabolites.
+// Uses the SAME direct (gene, system) set as Gene.transported_metabolite_count
+// (tcdb_gate = 'direct' edges onto tc_system nodes, spec 2026-10-22 §7), so the
+// organism edge and the gene scalar cannot disagree. OrganismTaxon.
+// transported_metabolite_count below is read off this edge.
 CALL {
   MATCH (o:OrganismTaxon)<-[:Gene_belongs_to_organism]-(g:Gene)
-        -[:Gene_has_tcdb_family {attachment_depth: 'most_specific'}]->(t:TcdbFamily)
+        -[:Gene_has_tcdb_family {tcdb_gate: 'direct'}]->(t:TcdbFamily)
         -[:Tcdb_family_transports_metabolite]->(m:Metabolite)
   WITH DISTINCT o, m
   MERGE (o)-[r:Organism_has_metabolite]->(m)
@@ -1824,11 +1679,10 @@ CALL {
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // KG-A8: organism_names — distinct sorted OrganismTaxon.preferred_name reachable
-// via Organism_has_metabolite (UNION of catalysis + transport, materialized above).
-// organism_count is recomputed from the same edge so size(organism_names) ==
-// organism_count is invariant by construction. The earlier transport-arm rollup
-// missed genes annotated above the tc_specificity leaf; deriving from the
-// materialized edge picks up the descendants walk done in the materialization.
+// via Organism_has_metabolite (UNION of catalysis + transport, materialized above;
+// the transport arm is direct tc_system edges only). organism_count is recomputed
+// from the same edge so size(organism_names) == organism_count is invariant by
+// construction.
 MATCH (m:Metabolite)
 CALL {
   WITH m
@@ -1971,7 +1825,8 @@ CALL {
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Recompute Metabolite.organism_count + organism_names AFTER measurement-arm
-// materialization (so measured-only pairs contribute to the rollup).
+// materialization (so measured-only pairs contribute to the rollup). The
+// edge's transport arm is direct tc_system edges only (spec 2026-10-22 §7).
 MATCH (m:Metabolite)
 CALL {
   WITH m
@@ -2048,22 +1903,30 @@ CALL {
   SET m.kegg_brite_classes = CASE WHEN size(cs) = 0 THEN null ELSE cs END
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// ChemicalRole family counts: subtree over the is_a DAG, DISTINCT families; never propagated
-// to Gene / OrganismTaxon / Metabolite rollups (spec §3.4 "not propagated").
+// ChemicalRole system counts (spec 2026-10-22 §7): over the is_a DAG subtree
+// (*0..) / the role itself, DISTINCT tc_system nodes carrying the role. Roles are
+// never propagated to Gene / OrganismTaxon / Metabolite rollups.
+//   transporter_count / direct_transporter_count = systems that are the target
+//     of >= 1 tcdb_gate = 'direct' gene edge (gene-anchored, Metabolite rule).
+//   tcdb_system_count / direct_tcdb_system_count = every kept system curated with
+//     the role (range-only included) — the TCDB-side count. Renamed from
+//     tcdb_family_count / direct_tcdb_family_count (explorer C4).
 MATCH (r:ChemicalRole)
 CALL {
   WITH r
   OPTIONAL MATCH (r)<-[:Chemical_role_is_a_chemical_role*0..]-(d:ChemicalRole)
   WITH r, collect(DISTINCT d) AS descs
   UNWIND descs AS d
-  OPTIONAL MATCH (t:TcdbFamily)-[e:Tcdb_family_transports_chemical_role]->(d)
+  OPTIONAL MATCH (t:TcdbFamily {level_kind: 'tc_system'})-[:Tcdb_family_transports_chemical_role]->(d)
+  WITH r, d, t,
+       (t IS NOT NULL AND EXISTS { (:Gene)-[:Gene_has_tcdb_family {tcdb_gate: 'direct'}]->(t) }) AS anchored
   WITH r,
-       count(DISTINCT t) AS any_t,
-       count(DISTINCT CASE WHEN e.substrate_depth = 'most_specific' THEN t END) AS ms_t,
-       count(DISTINCT CASE WHEN d = r THEN t END) AS d_any_t,
-       count(DISTINCT CASE WHEN d = r AND e.substrate_depth = 'most_specific' THEN t END) AS d_ms_t
-  SET r.tcdb_family_count = any_t, r.transporter_count = ms_t,
-      r.direct_tcdb_family_count = d_any_t, r.direct_transporter_count = d_ms_t
+       count(DISTINCT t) AS sys_t,
+       count(DISTINCT CASE WHEN anchored THEN t END) AS tr_t,
+       count(DISTINCT CASE WHEN d = r THEN t END) AS d_sys_t,
+       count(DISTINCT CASE WHEN d = r AND anchored THEN t END) AS d_tr_t
+  SET r.tcdb_system_count = sys_t, r.transporter_count = tr_t,
+      r.direct_tcdb_system_count = d_sys_t, r.direct_transporter_count = d_tr_t
 } IN TRANSACTIONS OF 100 ROWS;
 
 // (Note: Organism_has_metabolite measured_* properties are written inline by

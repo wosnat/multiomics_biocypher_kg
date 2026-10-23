@@ -517,3 +517,58 @@ def test_string_props_are_sanitized(tmp_path):
             for s in vals:
                 if isinstance(s, str):
                     assert "'" not in s and "|" not in s, (label, s)
+
+
+# ============================================================================
+# Post-import (TCDB cleanup, spec §5.1 / §5.3 / §7)
+# ============================================================================
+
+_POST_IMPORT_FILES = ("scripts/post-import.sh", "scripts/post-import.cypher")
+
+
+def _cypher_code(text: str) -> str:
+    """Strip `//` comment lines so absence checks ignore history comments."""
+    return "\n".join(
+        line for line in text.splitlines() if not line.lstrip().startswith("//")
+    )
+
+
+def _tcdb_statements(text: str) -> list[str]:
+    """Every Cypher statement that touches TCDB, comments stripped and
+    whitespace-normalised, in file order."""
+    import re
+    if "<<'CYPHER'" in text:  # post-import.sh: keep only the heredoc bodies
+        text = "\n".join(re.findall(r"<<'CYPHER'\n(.*?)\nCYPHER\n", text, re.S))
+    code = _cypher_code(text)
+    stmts = [re.sub(r"\s+", " ", s).strip() for s in code.split(";")]
+    return [s for s in stmts if re.search(r"tcdb|Tcdb", s)]
+
+
+@pytest.mark.parametrize("path", _POST_IMPORT_FILES)
+def test_post_import_uses_tcdb_gate(path):
+    import pathlib
+    text = pathlib.Path(path).read_text()
+    code = _cypher_code(text)
+    # the three annotation gates (annotation_quality, annotation_types,
+    # informative_annotation_types) + the TcdbFamily / Gene family counts
+    assert code.count("tcdb_gate IN ['direct','annotated']") >= 5, path
+    assert "tcdb_gate: 'direct'" in code, path
+    assert "'eggnog' IN rt.sources OR rt.tier <= 2" not in code, path
+    for gone in ("substrate_breadth", "attachment_depth", "substrate_depth",
+                 "tcdb_evidence_score_max", "transport_substrate_resolution",
+                 "source_agreement", "go_support", "t.metabolite_count",
+                 "r.tcdb_family_count", "r.direct_tcdb_family_count"):
+        assert gone not in code, f"{path} still references {gone!r}"
+    for present in ("t.tcdb_substrate_count", "r.tcdb_system_count",
+                    "r.direct_tcdb_system_count", "r.direct_transporter_count",
+                    "g.tcdb_family_count", "g.transported_metabolite_count",
+                    "m.transporter_count", "m.transporter_gene_count"):
+        assert present in code, f"{path} missing {present!r}"
+
+
+def test_post_import_sh_and_cypher_tcdb_blocks_match():
+    import pathlib
+    sh = _tcdb_statements(pathlib.Path("scripts/post-import.sh").read_text())
+    cy = _tcdb_statements(pathlib.Path("scripts/post-import.cypher").read_text())
+    assert len(sh) > 10
+    assert sh == cy
