@@ -259,6 +259,20 @@ def test_within_kind_duplicates_keep_higher_identity(tmp_path):
     assert edges[0][4]["identity"] == 72.0 and edges[0][4]["qcov"] == 99.0
 
 
+def test_within_kind_best_hit_duplicates_keep_rank_one(tmp_path):
+    """Two best-hit systems aliasing to one node collapse to the rank-1 hit, not the
+    higher-identity one; the gate follows rank 1 (rank 2 would read below_gate)."""
+    a = _setup(tmp_path, _gene(), {"WP_1": {"calls": [], "best_hit": _best(
+        _hit("3.A.1.4.77", 50.0, 400.0), _hit("3.A.1.4.78", 85.0, 390.0))}},
+        aliases={"3.A.1.4.77": "3.A.1.4.4", "3.A.1.4.78": "3.A.1.4.4"})
+    edges = [e for e in _gene_edges(a) if e[4]["tcdb_call"] == "diamond_best_hit"]
+    assert len(edges) == 1
+    props = edges[0][4]
+    assert edges[0][2] == "tcdb:3.A.1.4.4"
+    assert props["rank"] == 1 and props["identity"] == 50.0
+    assert props["tcdb_gate"] == "direct"
+
+
 def test_best_hit_without_call_emits_best_hit_edge(tmp_path):
     """Proteins with a best hit but no tier call (top HSP < 50 aa) get an edge."""
     a = _setup(tmp_path, _gene(), {"WP_1": {"calls": [],

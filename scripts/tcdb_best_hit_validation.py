@@ -6,7 +6,9 @@ on it); every other strain is hold-out. Agreement with the comparators is an upp
 bound — they share homology with the TCDB calls.
 
 Part A reads the committed artifacts (calls.json, .tcdb.tsv, merged annotations).
-Part B queries the live graph (bolt://localhost:7687) after a rebuild.
+Part B queries the live graph (bolt://localhost:7687) after a rebuild — on the TCDB cleanup
+model (2026-10-23): rank-1 `diamond_best_hit` edges, names from the target `tc_system` node,
+substrates from that system's own substrate edges.
 
 Run:  uv run python scripts/tcdb_best_hit_validation.py [--artifacts-only] > report.md
 """
@@ -111,25 +113,40 @@ def part_b() -> None:
                      .get("go_transport_excluded_targets", []))
     drv = GraphDatabase.driver("bolt://localhost:7687", auth=None)
     with drv.session() as s:
+        # One row per gene: its rank-1 best-hit edge (TCDB cleanup model, 2026-10-23 — one
+        # Gene_has_tcdb_family edge per best-hit system, each targeting the tc_system node).
+        # Names are the target nodes' names; substrates are the rank-1 system's own
+        # Tcdb_family_transports_metabolite / _chemical_role edges.
         rows = _q(s, """
             MATCH (g:Gene)-[r:Gene_has_tcdb_family]->(t:TcdbFamily)
-            WHERE r.best_hit_tcids IS NOT NULL
-            OPTIONAL MATCH (g)-[e:Gene_has_tcdb_family]->(et:TcdbFamily) WHERE 'eggnog' IN e.sources
-            WITH g, r, t, collect(et.tcdb_id) AS egg
+            WHERE r.tcdb_call = 'diamond_best_hit' AND r.rank = 1
+            OPTIONAL MATCH (g)-[a:Gene_has_tcdb_family]->(at:TcdbFamily)
+            WHERE a.tcdb_call = 'diamond_best_hit'
+            WITH g, r, t, at ORDER BY a.rank
+            WITH g, r, t, collect(at.tcdb_id) AS tcids, collect(coalesce(at.name, at.tcdb_id)) AS names
+            OPTIONAL MATCH (g)-[dt:Gene_has_tcdb_family]->(tt:TcdbFamily) WHERE dt.tcdb_call = 'diamond_tier'
+            WITH g, r, t, tcids, names, collect(tt.tcdb_id) AS tier_tcs
+            OPTIONAL MATCH (g)-[e:Gene_has_tcdb_family]->(et:TcdbFamily) WHERE e.tcdb_call = 'eggnog'
+            WITH g, r, t, tcids, names, tier_tcs, collect(et.tcdb_id) AS egg
+            OPTIONAL MATCH (t)-[:Tcdb_family_transports_metabolite|Tcdb_family_transports_chemical_role]->(sub)
+            WITH g, r, t, tcids, names, tier_tcs, egg,
+                 collect(DISTINCT sub.id) AS sub_ids, collect(DISTINCT sub.name) AS sub_names
             OPTIONAL MATCH (g)-[:Gene_has_kegg_ko]->(:KeggTerm)-[:Kegg_term_in_brite_category]->(b:BriteCategory)
-            WITH g, r, t, egg, count(CASE WHEN b.tree_code = 'ko02000' THEN 1 END) > 0 AS brite_transporter
+            WITH g, r, t, tcids, names, tier_tcs, egg, sub_ids, sub_names,
+                 count(CASE WHEN b.tree_code = 'ko02000' THEN 1 END) > 0 AS brite_transporter
             OPTIONAL MATCH (g)-[:Gene_has_cyanorak_role]->(cr:CyanorakRole)
-            WITH g, r, t, egg, brite_transporter, collect(toLower(cr.name)) AS roles
+            WITH g, r, t, tcids, names, tier_tcs, egg, sub_ids, sub_names, brite_transporter,
+                 collect(toLower(cr.name)) AS roles
             OPTIONAL MATCH (g)-[:Gene_involved_in_biological_process|Gene_enables_molecular_function]->()
                            -[:Molecular_function_transports_metabolite|Biological_process_transports_metabolite]->(m)
             RETURN g.locus_tag AS lt, g.organism_name AS org, g.gene_name AS gene, g.product AS product,
-                   r.best_hit_tcids AS tcids, r.best_hit_names AS names, r.best_hit_identity AS ident,
-                   r.best_hit_substrate_ids AS sub_ids, r.best_hit_substrate_names AS sub_names,
-                   t.tcdb_id AS edge_tc, egg, brite_transporter, roles,
+                   tcids, names, r.identity AS ident, r.tier AS tier, r.tcdb_gate AS gate,
+                   sub_ids, sub_names, tier_tcs, egg, brite_transporter, roles,
                    collect(DISTINCT m.id) AS go_subs""")
         pf = _q(s, """
-            MATCH (g:Gene)-[r:Gene_has_tcdb_family]->() WHERE r.best_hit_tcids IS NOT NULL
-            WITH g, r, split(r.best_hit_tcids[0], '.') AS p
+            MATCH (g:Gene)-[r:Gene_has_tcdb_family]->(t:TcdbFamily)
+            WHERE r.tcdb_call = 'diamond_best_hit' AND r.rank = 1
+            WITH g, split(t.tcdb_id, '.') AS p
             WITH g, p[0] + '.' + p[1] + '.' + p[2] AS fam
             OPTIONAL MATCH (f:TcdbFamily {tcdb_id: fam})-[:Tcdb_family_has_pfam_domain]->(pfam:Pfam)
             WITH g, fam, collect(pfam) AS bridged
@@ -140,8 +157,11 @@ def part_b() -> None:
                         WHEN any(x IN own WHERE x IN bridged) THEN 'corroborated'
                         ELSE 'uncorroborated' END AS pfam""")
         node_ids = {r["id"] for r in _q(s, "MATCH (n) WHERE n:Metabolite OR n:ChemicalRole RETURN n.id AS id")}
+        # substrates of all systems under each diamond-tier call (substrate edges sit on tc_system only)
         rollup = {r["tc"]: r["n"] for r in _q(s, """
-            MATCH (t:TcdbFamily)-[x:Tcdb_family_transports_metabolite]->() RETURN t.tcdb_id AS tc, count(x) AS n""")}
+            MATCH (t:TcdbFamily)<-[:Tcdb_family_is_a_tcdb_family*0..4]-(sys:TcdbFamily {level_kind: 'tc_system'})
+                  -[:Tcdb_family_transports_metabolite|Tcdb_family_transports_chemical_role]->(x)
+            RETURN t.tcdb_id AS tc, count(DISTINCT x) AS n""")}
         orgs = {r["org"]: r["strain"] for r in _q(s, """
             MATCH (o:OrganismTaxon) RETURN o.preferred_name AS org, o.strain_name AS strain""")}
     pfam_of = {r["lt"]: r["pfam"] for r in pf}
@@ -177,14 +197,16 @@ def part_b() -> None:
         go = set(r["go_subs"] or [])
         stats[b]["go:" + ("no_go" if not go else ("no_best_hit_substrates" if not subs
                           else ("overlap" if subs & go else "disjoint")))] += 1
-        stats[b][f"identity:{_ident_bin(r['ident'])}"] += 1
+        stats[b][f"identity:{_ident_bin(r['ident'] or 0)}"] += 1
         stats[b][f"split:{len(r['tcids']) > 1}"] += 1
-        stats[b][f"fallback_attach:{not top.startswith(r['edge_tc'] + '.') and r['edge_tc'] != top}"] += 1
+        stats[b][f"gate:{r['gate']}"] += 1
+        stats[b]["tier_call_contains_top:" + ("no_tier_call" if not r["tier_tcs"] else
+                  str(any(top == x or top.startswith(x + ".") for x in r["tier_tcs"])))] += 1
         for sid in subs:
             total_ids += 1
             no_node += sid not in node_ids
             in_filter += sid in filter_ids
-    print(f"Edges with best-hit details: {len(rows)}\n")
+    print(f"Genes with a rank-1 best-hit edge: {len(rows)}\n")
     keys = sorted({k for c in stats.values() for k in c})
     print("| measure | training (MED4) | hold-out |")
     print("|---|---|---|")
@@ -192,8 +214,9 @@ def part_b() -> None:
         print(f"| {k} | {stats['training'][k]} | {stats['hold-out'][k]} |")
     print(f"\nDistinct (edge, substrate id) pairs: {total_ids}; ids with no Metabolite/ChemicalRole "
           f"node: {no_node}; ids in slice 1's GO target filter: {in_filter}.")
-    print("\n`fallback_attach:True` counts records whose top hit lies outside the edge's TC id "
-          "(cross-family top, expected 0).\n")
+    print("\n`tier_call_contains_top:False` counts genes whose rank-1 system lies outside every "
+          "diamond-tier call of the gene (cross-family top hit); `no_tier_call` = best hit without a "
+          "tier call (top HSP < 50 aa).\n")
     print("KO-name substrate overlap: deferred (no structured KO → substrate source).\n")
 
     print("### Nitrogen sanity table\n")
@@ -207,15 +230,15 @@ def part_b() -> None:
         if not any(k in s.lower() for s in subs for k in N_KEYWORDS):
             continue
         print(f"| {strain} | {r['lt']} {r['gene'] or ''} | {', '.join(r['tcids'])} | "
-              f"{(r['names'][0] or '')[:50]} | {r['ident']:.0f} | {'; '.join(sorted(set(subs)))[:80]} | "
-              f"{rollup.get(r['edge_tc'], 0)} |")
+              f"{(r['names'][0] or '')[:50]} | {r['ident'] or 0:.0f} | {'; '.join(sorted(set(subs)))[:80]} | "
+              f"{max((rollup.get(x, 0) for x in r['tier_tcs']), default=0)} |")
 
     print("\n### eggNOG different-family disagreements — random sample of 30 (seed 0) for manual review\n")
     print("| gene | product | best hit | name | identity | eggNOG TC |")
     print("|---|---|---|---|---|---|")
     for r in random.Random(0).sample(disagreements, min(30, len(disagreements))):
         print(f"| {r['lt']} {r['gene'] or ''} | {(r['product'] or '')[:40]} | {r['tcids'][0]} | "
-              f"{(r['names'][0] or '')[:45]} | {r['ident']:.0f} | {', '.join(r['egg'])} |")
+              f"{(r['names'][0] or '')[:45]} | {r['ident'] or 0:.0f} | {', '.join(r['egg'])} |")
 
 
 if __name__ == "__main__":

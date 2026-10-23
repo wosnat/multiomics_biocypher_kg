@@ -321,7 +321,8 @@ class MultiTcdbAnnotationAdapter:
 
     def _gene_edges(self) -> Iterator[tuple]:
         """Gene_has_tcdb_family: alias remap → drop unkept → within-kind collapse
-        (higher identity wins) → tcdb_gate on the landed node."""
+        (diamond_best_hit: lower rank wins; other kinds: higher identity wins)
+        → tcdb_gate on the landed node."""
         remapped = dropped = collapsed = 0
         by_call: Counter = Counter()
         by_gate: Counter = Counter()
@@ -341,7 +342,11 @@ class MultiTcdbAnnotationAdapter:
                 prev = edges.get(key)
                 if prev is not None:
                     collapsed += 1
-                    if props.get("identity", -1.0) <= prev.get("identity", -1.0):
+                    if tcdb_call == "diamond_best_hit":
+                        # keep the best-ranked system (rank 1 = top bitscore)
+                        if props.get("rank", 99) >= prev.get("rank", 99):
+                            continue
+                    elif props.get("identity", -1.0) <= prev.get("identity", -1.0):
                         continue
                 edges[key] = props
             for (locus_tag, target, tcdb_call), raw in edges.items():

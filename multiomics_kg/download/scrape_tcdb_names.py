@@ -339,8 +339,9 @@ def main(force: bool = False, delay: float = DEFAULT_DELAY_S,
 
     pruned = json.loads(PRUNED_FILE.read_text())
     kept_ids = set(pruned["kept_tcdb_ids"])
-    # best_hit_v1: diamond best-hit 5-part systems are named too (they ride on
-    # Gene_has_tcdb_family edges as best_hit_names; spec 2026-10-18 §5).
+    # best_hit_v1: diamond best-hit 5-part systems are named too — since the TCDB
+    # cleanup (2026-10-23) they are kept tc_system TcdbFamily nodes that the
+    # diamond_best_hit Gene_has_tcdb_family edges target, and need a node name.
     best_hit_ids = collect_best_hit_tcids(PROJECT_ROOT / r["data_dir"] for r in load_genome_rows())
     wanted_ids = kept_ids | best_hit_ids
     hierarchy_ids = set(json.loads(HIERARCHY_FILE.read_text()))

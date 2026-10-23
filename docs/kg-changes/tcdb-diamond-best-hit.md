@@ -6,6 +6,14 @@
 **Track:** transport programme, project 2 (slice 1 = [GO transport substrates](go-transport-substrates.md))
 **Rule version:** `best_hit_v1`
 
+> **Superseded on the edge (2026-10-23, [TCDB cleanup](tcdb-cleanup.md)).** The six `best_hit_*`
+> edge properties described below no longer exist. Each best-hit system is now its own
+> `Gene_has_tcdb_family` edge (`tcdb_call = 'diamond_best_hit'`, carrying `rank`, `tier`,
+> `identity`, `qcov`, `scov`, `evalue`, `bitscore`, `bitscore_ratio`, `tcdb_gate`) onto a
+> `tc_system` `TcdbFamily` node; the name is that node's `name` and the substrates are its own
+> `Tcdb_family_transports_metabolite` / `_chemical_role` edges. The rule itself is unchanged.
+> This page is kept as the record of the 2026-10-19 change.
+
 ## What changed
 
 `/tcdb-diamond` blasts every protein against TCDB, then the tier policy truncates the call to
@@ -89,7 +97,10 @@ RETURN g.organism_name, count(g) ORDER BY count(g) DESC
 
 ## Validation (live graph, 2026-10-19)
 
-`uv run python scripts/tcdb_best_hit_validation.py`. The rule was frozen before this ran; MED4
+`uv run python scripts/tcdb_best_hit_validation.py` (numbers below are from the 2026-10-19
+build; the script's part B now reads the cleanup model — one row per gene's rank-1
+`diamond_best_hit` edge, 12,419 on 2026-10-23 = the 12,231 below + 188 best hits with no tier
+call). The rule was frozen before this ran; MED4
 (where it was measured) is training, the other 42 strains hold-out. The comparators share
 homology with the TCDB calls, so agreement is an upper bound.
 

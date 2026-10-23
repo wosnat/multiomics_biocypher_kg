@@ -1150,7 +1150,7 @@ CALL {
 // Gene_has_merops_family.pfam_support: whether a Pfam on this gene is curated
 // into this MEROPS family via Merops_family_has_pfam_domain (interpro.txt).
 // Sound direction only — corroborates a known family; never assigns peptidase
-// identity backward from a domain. R5 string pair, tcdb pfam_support pattern.
+// identity backward from a domain. R5 string pair (corroborated | uncorroborated).
 // The bridge attaches at family level (level 1); subfamily-attached gene edges
 // check their parent family (single is-a hop).
 CALL {
@@ -1429,14 +1429,12 @@ CALL {
 // count(DISTINCT ...) is required for the count rollups because the chained
 // metabolite OPTIONAL MATCHes would otherwise duplicate the parent edge per metabolite.
 //
-// BREAKING: metabolite_count was the UNION of the catalysis and transport arms.
-// The arms have very different epistemics — catalysis p90 = 11 metabolites,
-// transport p90 = 554 — because the step-6 rollup materialises every descendant's
-// substrates onto each ancestor, so a gene annotated only at ABC superfamily
-// 3.A.1 inherited all 554 substrates ABC transporters have ever been curated for.
-// 23,137 genes had transport evidence ONLY, so for the majority of genes the
-// stored number was entirely the inflated arm with nothing signalling it. The
-// transport arm now lives in transported_metabolite_count (next statement).
+// History (2026-08-12, before the 2026-10-23 TCDB cleanup): metabolite_count was
+// the UNION of the catalysis and transport arms, and the transport arm was then
+// inflated by step 6's substrate roll-up onto every TCDB ancestor (a gene called
+// only at ABC 3.A.1 inherited ~554 substrates). That roll-up is gone — substrate
+// edges now sit on tc_system nodes only — and the transport arm lives in
+// transported_metabolite_count (next statement).
 // The catalysis arm is RENAMED catalyzed_metabolite_count (KG-SYNC-001): keeping
 // the bare name after narrowing its meaning would hand every stale reader the
 // narrowed number silently; the rename makes them fail loudly (null) instead,
