@@ -203,6 +203,26 @@ def test_tcdb_gate_rules(tmp_path, kind, tc, tier_or_rank, identity, gate):
     assert props["tcdb_gate"] == gate
 
 
+@pytest.mark.parametrize("kind, gate", [
+    ("diamond_tier", "annotated"),       # tier-1 call re-anchored onto a subfamily
+    ("diamond_best_hit", "annotated"),   # rank-1 tier-1 best hit re-anchored
+    ("eggnog", "annotated"),
+])
+def test_direct_requires_a_tc_system_target(tmp_path, kind, gate):
+    tc = "3.A.1.4.99"   # not kept, aliased to the subfamily 3.A.1.4
+    calls: dict = {"WP_1": {"calls": []}}
+    eggnog: list = []
+    if kind == "eggnog":
+        eggnog = [tc]
+    elif kind == "diamond_tier":
+        calls["WP_1"]["calls"] = [_call(tc, 1, 85.0)]
+    else:
+        calls["WP_1"]["best_hit"] = _best(_hit(tc, 85.0, 400.0))
+    a = _setup(tmp_path, _gene(eggnog=eggnog), calls, aliases={tc: "3.A.1.4"})
+    props = _by_call(a)[("tcdb:3.A.1.4", kind)]
+    assert props["tcdb_gate"] == gate
+
+
 def test_eggnog_alias_to_ancestor_is_annotated(tmp_path):
     """A retired eggNOG 5-part id re-anchored to its subfamily is NOT direct."""
     a = _setup(tmp_path, _gene(eggnog=["3.A.1.4.99"]), None,

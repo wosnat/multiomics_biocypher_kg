@@ -78,19 +78,25 @@ def tcdb_gate(tcdb_call: str, props: dict, target_level: int) -> str:
     """Which downstream rule a gene edge passes (spec §5.3), computed AFTER the
     seed_aliases remap so ``target_level`` is the level of the node it lands on.
 
-    direct: rank-1 best hit with tier <= 2; eggNOG onto a tc_system; tier-1 call.
-    annotated: any other eggNOG edge; tier-2 call.
+    direct: rank-1 best hit with tier <= 2; eggNOG; tier-1 call — and in every arm
+        the landed node must be a tc_system (direct reaches system substrates).
+    annotated: a direct arm that landed on a non-system ancestor (alias remap);
+        any other eggNOG edge; tier-2 call.
     below_gate: everything else.
     """
-    if tcdb_call == "eggnog":
-        return "direct" if target_level == _TC_SYSTEM_LEVEL else "annotated"
     tier = props.get("tier")
-    if tcdb_call == "diamond_tier":
-        return {1: "direct", 2: "annotated"}.get(tier, "below_gate")
-    if tcdb_call == "diamond_best_hit" and props.get("rank") == 1 and tier is not None \
-            and tier <= 2:
-        return "direct"
-    return "below_gate"
+    if tcdb_call == "eggnog":
+        passes, direct_arm = True, True
+    elif tcdb_call == "diamond_tier":
+        passes, direct_arm = tier in (1, 2), tier == 1
+    elif tcdb_call == "diamond_best_hit":
+        passes = props.get("rank") == 1 and tier is not None and tier <= 2
+        direct_arm = passes
+    else:
+        passes = direct_arm = False
+    if not passes:
+        return "below_gate"
+    return "direct" if direct_arm and target_level == _TC_SYSTEM_LEVEL else "annotated"
 
 
 def _float_props(src: dict, keys: tuple[str, ...]) -> dict:

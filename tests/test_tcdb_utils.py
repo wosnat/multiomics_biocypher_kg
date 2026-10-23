@@ -156,6 +156,14 @@ _DIR_H = {
     "2.A.9":       {"name": "Uptake and export of things", "level": 2, "parent": "2.A"},
     "2.A.9.1.1":   {"name": "", "level": 4, "parent": "2.A.9"},
     "2.A.10":      {"name": "The Importer family", "level": 2, "parent": "2.A"},
+    "2.A.11":      {"name": "The Capsular Polysaccharide Exporter (CPSE) Family",
+                    "level": 2, "parent": "2.A"},
+    "2.A.12":      {"name": "Drug Exporter-1 Family", "level": 2, "parent": "2.A"},
+    "2.A.13":      {"name": "Nucleotide importers", "level": 2, "parent": "2.A"},
+    "2.A.14":      {"name": "The importance of being transported", "level": 2, "parent": "2.A"},
+    "2.A.15":      {"name": "Sugar efflux family", "level": 2, "parent": "2.A"},
+    "2.A.15.1":    {"name": "Uptake and export subfamily", "level": 3, "parent": "2.A.15"},
+    "2.A.15.1.1":  {"name": "", "level": 4, "parent": "2.A.15.1"},
 }
 
 
@@ -168,7 +176,12 @@ _DIR_H = {
     ("2.A.6", ("export", "tcdb_name")),
     ("2.A.6.1.1", ("export", "tcdb_name")),  # inherits the family's name
     ("2.A.9.1.1", ("unknown", None)),        # both word groups in the only usable name
-    ("2.A.10", ("unknown", None)),           # whole word: "Importer" is not "import"
+    ("2.A.10", ("uptake", "tcdb_name")),     # agent noun "Importer"
+    ("2.A.11", ("export", "tcdb_name")),     # "Exporter"
+    ("2.A.12", ("export", "tcdb_name")),     # hyphenated "Exporter-1"
+    ("2.A.13", ("uptake", "tcdb_name")),     # plural "importers"
+    ("2.A.14", ("unknown", None)),           # whole word: "importance" is not "import"
+    ("2.A.15.1.1", ("export", "tcdb_name")), # mixed subfamily name skipped -> family
     ("2.A", ("unknown", None)),              # subclass names are never used
     ("2", ("unknown", None)),
     ("3", ("unknown", None)),

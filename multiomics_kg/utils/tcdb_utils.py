@@ -59,8 +59,12 @@ def tcdb_ancestors(tc_id: str) -> list[str]:
 # Transport direction (spec 2026-10-22 §5.1) — TCDB-stated only
 # ============================================================================
 
-_UPTAKE_RE = re.compile(r"\b(?:uptake|import|influx)\b", re.IGNORECASE)
-_EXPORT_RE = re.compile(r"\b(?:export|efflux|extrusion)\b", re.IGNORECASE)
+# Whole words incl. plural / agent-noun forms; \b also splits hyphenated tokens
+# ("Drug Exporter-1" matches exporter).
+_UPTAKE_RE = re.compile(
+    r"\b(?:uptake|import|imports|importer|importers|influx)\b", re.IGNORECASE)
+_EXPORT_RE = re.compile(
+    r"\b(?:export|exports|exporter|exporters|efflux|extrusion)\b", re.IGNORECASE)
 _ABC = "3.A.1"
 # Names of class (0) and subclass (1) nodes are mechanism classes, never direction.
 _MIN_DIRECTION_LEVEL = 2
@@ -73,8 +77,8 @@ def tcdb_direction(tc_id: str, hierarchy: dict) -> tuple[str, str | None]:
        ``n < 100``, else ``export`` (basis ``abc_numbering``).
     2. Otherwise walk from the node up through its ancestors, stopping at family
        level; the first name that matches exactly one of the word groups
-       {uptake, import, influx} / {export, efflux, extrusion} (whole word, any
-       case) gives the direction (basis ``tcdb_name``). A name matching both or
+       {uptake, import(s), importer(s), influx} / {export(s), exporter(s), efflux,
+       extrusion} (whole word, any case) gives the direction (basis ``tcdb_name``). A name matching both or
        neither group is skipped.
     3. Otherwise ``("unknown", None)``.
 
@@ -93,6 +97,8 @@ def tcdb_direction(tc_id: str, hierarchy: dict) -> tuple[str, str | None]:
             break
         name = entry.get("name") or ""
         up, out = bool(_UPTAKE_RE.search(name)), bool(_EXPORT_RE.search(name))
+        # "exactly one of the two": a name matching both groups is not decisive, so
+        # the walk continues to the parent (as for a name matching neither).
         if up != out:
             return ("uptake" if up else "export"), "tcdb_name"
         node = entry.get("parent")

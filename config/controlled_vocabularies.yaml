@@ -200,8 +200,8 @@ Gene_has_tcdb_family.tcdb_gate:
     Gene.tcdb_family_count, TcdbFamily gene counts and enrichment gene sets
     read direct and annotated edges. Dense.
   value_descriptions:
-    direct: a diamond_best_hit edge with rank 1 and tier at most 2 (identity at least 40), an eggnog edge onto a transport system (a 5-part TC id, after moving retired ids to their ancestor), or a diamond_tier edge with tier 1; the gene reaches the substrates of this system
-    annotated: any other eggnog edge, or a diamond_tier edge with tier 2; counts as TCDB annotation but reaches no substrates
+    direct: a diamond_best_hit edge with rank 1 and tier at most 2 (identity at least 40), an eggnog edge, or a diamond_tier edge with tier 1, in each case onto a transport system (a 5-part TC id, after moving retired ids to their ancestor); the gene reaches the substrates of this system
+    annotated: any other eggnog edge, a diamond_tier edge with tier 2, a diamond_tier edge with tier 1 that is not on a transport system, or a rank-1 diamond_best_hit with tier at most 2 that is not on a transport system; counts as TCDB annotation but reaches no substrates
     below_gate: everything else (diamond_tier tier 3, near-tie best hits with rank above 1, and rank-1 best hits with tier 3); evidence kept for inspection, used by no count
 
 Gene_has_tcdb_family.tier:
