@@ -207,18 +207,25 @@ def parse_family_page(
 # ── scope ────────────────────────────────────────────────────────────────────
 
 def scoped_families(kept_ids: set[str]) -> dict[str, str]:
-    """{family_3part: query_4part} for every family carrying a kept 4/5-part
+    """{family_3part: query_id} for every family carrying a kept 3/4/5-part
     ID. Any 4-part in the family works as the result.php query key — the page
-    returns the entire family (spec 3b)."""
+    returns the entire family (spec 3b). A family kept only at 3-part level
+    (no kept 4/5-part id) is queried by the family id itself."""
     out: dict[str, str] = {}
+    family_only: set[str] = set()
     for tc in kept_ids:
         parts = tc.split(".")
-        if len(parts) < 4:
+        if len(parts) < 3:
             continue
         fam = ".".join(parts[:3])
+        if len(parts) == 3:
+            family_only.add(fam)
+            continue
         four = ".".join(parts[:4])
         if fam not in out or four < out[fam]:
             out[fam] = four
+    for fam in family_only:
+        out.setdefault(fam, fam)
     return out
 
 

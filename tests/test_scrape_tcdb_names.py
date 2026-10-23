@@ -181,7 +181,23 @@ class TestScopedFamilies:
         assert m.scoped_families(kept) == {"2.A.1": "2.A.1.3"}
 
 
+class TestScopedFamiliesFamilyOnly:
+    def test_scoped_families_includes_family_only_kept_ids(self):
+        fams = m.scoped_families({"2.A.1", "1.A.11.2.5"})
+        assert fams["2.A.1"] == "2.A.1"
+        assert "1.A.11" in fams
+
+    def test_family_only_does_not_override_4part_query(self):
+        assert m.scoped_families({"2.A.1", "2.A.1.3"}) == {"2.A.1": "2.A.1.3"}
+
+
 class TestAssembleNames:
+    def test_assemble_names_names_range_only_systems(self):
+        per_family = {"2.A.9": ({}, {"2.A.9.1.7": "Range sys, Foo (X 2000). Tail."})}
+        art = m.assemble_names({}, per_family, {"2.A.9.1.7"},
+                               scraped_families=["2.A.9"], failed_families=[])
+        assert art["names"]["2.A.9.1.7"]["name"] == "Range sys, Foo."
+
     def test_deep_layer_trimmed_to_kept_ids(self):
         browse = {"1": "Channels/Pores", "2.A.1": "MFS"}
         per_family = {
