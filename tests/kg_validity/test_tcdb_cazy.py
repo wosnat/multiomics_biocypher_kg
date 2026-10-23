@@ -8,16 +8,34 @@ used instead of exact values except where the spec demands exactness.
 """
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 import pytest
+
+REPO = Path(__file__).resolve().parents[2]
+TCDB_PRUNED = REPO / "cache/data/tcdb/tcdb_pruned.json"
+TCDB_HIERARCHY = REPO / "cache/data/tcdb/tcdb_hierarchy.json"
 
 GATE_PASSING = ["direct", "annotated"]
 TCDB_CALLS = {"eggnog", "diamond_tier", "diamond_best_hit"}
 TCDB_GATES = {"direct", "annotated", "below_gate"}
 LEVEL_KINDS = ["tc_class", "tc_subclass", "tc_family", "tc_subfamily", "tc_system"]
 
-# Step 6 logged "134 kept TCDB systems have no name" (logs/prepare_data_step6.log,
-# 2026-10-23). Those render as the bare TCID by design (unnamed upstream).
-UNNAMED_SYSTEMS_LOGGED = 134
+
+
+def _unnamed_systems_in_caches() -> int:
+    """Kept tc_system ids whose committed hierarchy name is missing or equals the id —
+    the same count step 6 logs ("134 kept TCDB systems have no name", 2026-10-23).
+    Those render as the bare TCID by design (unnamed upstream)."""
+    for p in (TCDB_PRUNED, TCDB_HIERARCHY):
+        if not p.exists():
+            pytest.skip(f"{p.relative_to(REPO)} missing; run prepare_data step 6")
+    kept = set(json.loads(TCDB_PRUNED.read_text())["kept_tcdb_ids"])
+    hier = json.loads(TCDB_HIERARCHY.read_text())
+    return sum(1 for t in kept
+               if hier.get(t, {}).get("level_kind") == "tc_system"
+               and (not hier[t].get("name") or hier[t]["name"] == t))
 
 # The tcdb_gate rule recomputed from the edge's own call kind / rank / tier and the
 # target's level (spec §5.3). Kept as Cypher fragments so several tests share one
@@ -158,6 +176,8 @@ def test_gene_edge_shape_by_tcdb_call(run_query):
                      OR r.bitscore_ratio IS NOT NULL) THEN 1 ELSE 0 END) AS tier_leak,
           sum(CASE WHEN r.tcdb_call = 'diamond_best_hit' AND (r.rank IS NULL OR r.bitscore IS NULL
                      OR r.bitscore_ratio IS NULL OR r.identity IS NULL) THEN 1 ELSE 0 END) AS bh_missing,
+          sum(CASE WHEN r.tcdb_call <> 'eggnog' AND (r.identity IS NULL OR r.qcov IS NULL
+                     OR r.scov IS NULL OR r.evalue IS NULL) THEN 1 ELSE 0 END) AS diamond_stats_missing,
           sum(CASE WHEN r.tcdb_gate IS NULL OR NOT r.tcdb_gate IN $gates THEN 1 ELSE 0 END) AS bad_gate
     """, calls=sorted(TCDB_CALLS), gates=sorted(TCDB_GATES))[0]
     assert row["n"] > 0
@@ -182,6 +202,11 @@ def test_gene_edge_shape_by_tcdb_call(run_query):
         WITH g, sum(CASE WHEN r.rank = 1 THEN 1 ELSE 0 END) AS k WHERE k <> 1
         RETURN count(g) AS n""")[0]["n"]
     assert n_rank1 == 0, f"{n_rank1} genes with best hits do not have exactly one rank = 1 edge"
+    dup_rank = run_query("""
+        MATCH (g:Gene)-[r:Gene_has_tcdb_family {tcdb_call: 'diamond_best_hit'}]->()
+        WITH g, r.rank AS rk, count(*) AS c WHERE c > 1
+        RETURN count(DISTINCT g) AS n""")[0]["n"]
+    assert dup_rank == 0, f"{dup_rank} genes with two best-hit edges of the same rank"
 
     mismatch = run_query(f"""
         MATCH (:Gene)-[r:Gene_has_tcdb_family]->(t:TcdbFamily)
@@ -275,8 +300,10 @@ def test_transported_metabolite_count_is_direct_systems_only(run_query):
         RETURN sum(CASE WHEN coalesce(g.transported_metabolite_count, -1) <> expected THEN 1 ELSE 0 END) AS bad,
                sum(CASE WHEN expected > 0 THEN 1 ELSE 0 END) AS with_arm""")[0]
     assert row["bad"] == 0, f"{row['bad']} genes whose transported_metabolite_count is not the direct-system count"
-    # ~8.3K genes keep a transport arm (was ~30K before the cleanup, spec §7).
-    assert 7000 <= row["with_arm"] <= 9500, row
+    # Measured 6,995 on the rebuilt graph (2026-10-23; was ~30K before the cleanup).
+    # Fewer than the 8,312 genes with a direct edge, because some direct systems carry
+    # no curated substrate in TCDB. Band ~±15%.
+    assert 5950 <= row["with_arm"] <= 8050, row
 
 
 @pytest.mark.kg
@@ -370,19 +397,6 @@ def test_organism_transport_arm_uses_direct_edges(run_query):
 # ============================================================================
 
 
-def _sample_ids(run_query, per_level: int = 15) -> list[str]:
-    ids: list[str] = []
-    for lk in LEVEL_KINDS:
-        ids += [r["id"] for r in run_query(
-            "MATCH (t:TcdbFamily {level_kind: $lk}) RETURN t.id AS id ORDER BY t.id LIMIT $k",
-            lk=lk, k=per_level)]
-        ids += [r["id"] for r in run_query(
-            "MATCH (t:TcdbFamily {level_kind: $lk}) WHERE t.gene_count > 0 "
-            "RETURN t.id AS id ORDER BY t.gene_count, t.id LIMIT $k", lk=lk, k=per_level)]
-    ids += ["tcdb:3.A.1", "tcdb:3.A.1.4", "tcdb:3.A.1.4.4", "tcdb:2.A.1"]
-    return sorted(set(ids))
-
-
 @pytest.mark.kg
 def test_tcdb_substrate_count_dense_on_every_level(run_query):
     rows = run_query("""
@@ -397,16 +411,14 @@ def test_tcdb_substrate_count_dense_on_every_level(run_query):
 
 @pytest.mark.kg
 def test_tcdb_substrate_count_equals_walk(run_query):
-    """On a sample at every level: distinct Metabolite + ChemicalRole targets of the
-    tc_system nodes in the node's *0.. subtree (a system: its own)."""
-    ids = _sample_ids(run_query)
+    """On EVERY TcdbFamily node (~9.4K): distinct Metabolite + ChemicalRole targets of
+    the tc_system nodes in the node's *0.. subtree (a system: its own)."""
     rows = run_query("""
-        UNWIND $ids AS nid
-        MATCH (t:TcdbFamily {id: nid})
+        MATCH (t:TcdbFamily)
         OPTIONAL MATCH (t)<-[:Tcdb_family_is_a_tcdb_family*0..]-(s:TcdbFamily {level_kind: 'tc_system'})
                        -[:Tcdb_family_transports_metabolite|Tcdb_family_transports_chemical_role]->(x)
         WITH t, count(DISTINCT x) AS walk
-        RETURN t.id AS id, t.level_kind AS lk, t.tcdb_substrate_count AS prop, walk""", ids=ids)
+        RETURN t.id AS id, t.level_kind AS lk, t.tcdb_substrate_count AS prop, walk""")
     assert {r["lk"] for r in rows} == set(LEVEL_KINDS)
     bad = [r for r in rows if r["prop"] != r["walk"]]
     assert not bad, bad[:5]
@@ -415,17 +427,15 @@ def test_tcdb_substrate_count_equals_walk(run_query):
 @pytest.mark.kg
 def test_tcdb_gene_count_uses_gate(run_query):
     """gene_count (subtree) / direct_gene_count (self) / organism_count count only
-    gate-passing edges, recomputed from the rule on a sample at every level."""
-    ids = _sample_ids(run_query)
+    gate-passing edges, recomputed from the rule on EVERY TcdbFamily node."""
     rows = run_query(f"""
-        UNWIND $ids AS nid
-        MATCH (n:TcdbFamily {{id: nid}})
+        MATCH (n:TcdbFamily)
         OPTIONAL MATCH (n)<-[:Tcdb_family_is_a_tcdb_family*0..]-(t:TcdbFamily)<-[r:Gene_has_tcdb_family]-(g:Gene)
           WHERE {_PASSES}
         WITH n, count(DISTINCT g) AS gc, count(DISTINCT CASE WHEN t = n THEN g END) AS dgc,
              count(DISTINCT g.organism_name) AS oc
         RETURN n.id AS id, n.gene_count AS gene_count, gc, n.direct_gene_count AS direct_gene_count, dgc,
-               n.organism_count AS organism_count, oc""", ids=ids)
+               n.organism_count AS organism_count, oc""")
     bad = [r for r in rows if (r["gene_count"], r["direct_gene_count"], r["organism_count"])
            != (r["gc"], r["dgc"], r["oc"])]
     assert not bad, bad[:5]
@@ -511,6 +521,10 @@ def test_direction_inherited_downward(run_query):
     """A node's direction comes from itself or an ancestor, so a stated parent
     direction is never contradicted by a child whose own name states nothing —
     weakest safe check: no child of an ABC-numbered node disagrees with it."""
+    parents = run_query("""
+        MATCH (:TcdbFamily)-[:Tcdb_family_is_a_tcdb_family]->(p:TcdbFamily {direction_basis: 'abc_numbering'})
+        RETURN count(DISTINCT p) AS n""")[0]["n"]
+    assert parents >= 1, "no abc_numbering node with children — check not exercised"
     n = run_query("""
         MATCH (c:TcdbFamily)-[:Tcdb_family_is_a_tcdb_family]->(p:TcdbFamily {direction_basis: 'abc_numbering'})
         WHERE c.direction <> p.direction OR c.direction_basis <> 'abc_numbering'
@@ -526,8 +540,9 @@ def test_systems_are_named(run_query):
                sum(CASE WHEN t.level_kind = 'tc_system' AND t.name = t.tcdb_id THEN 1 ELSE 0 END) AS unnamed,
                sum(CASE WHEN t.level_kind = 'tc_system' THEN 1 ELSE 0 END) AS systems""")[0]
     assert row["missing"] == 0
-    assert row["unnamed"] <= UNNAMED_SYSTEMS_LOGGED, (
-        f"{row['unnamed']} kept systems named by their TCID (step 6 logged {UNNAMED_SYSTEMS_LOGGED})")
+    ceiling = _unnamed_systems_in_caches()
+    assert row["unnamed"] <= ceiling, (
+        f"{row['unnamed']} kept systems named by their TCID (caches leave {ceiling} unnamed)")
     assert row["systems"] > 5000, row
 
 

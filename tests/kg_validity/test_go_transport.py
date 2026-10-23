@@ -18,6 +18,14 @@ BASELINE_SUM_METABOLITE_COUNT = 9342
 # Task 4 measured exactly 6 GO-only compound links into kept pathways
 # (controller ruling: GO-only compounds may link into kept pathways).
 GO_ONLY_PATHWAY_LINKS = 6
+# TCDB cleanup (2026-10-23, spec 2026-10-22 §5.4): losing the TCDB class-level
+# substrate roll-up removed 3 gene-less pathways (ko04145 Phagosome, ko04510
+# Focal adhesion, ko00532 chondroitin/dermatan sulfate GAG biosynthesis — see
+# docs/kg-changes/tcdb-cleanup/removed_ids.tsv) and 107 Metabolite_in_pathway
+# links (diff of cache/data/kegg/kegg_data.json main vs feat/tcdb-cleanup:
+# 9,348 -> 9,241 compound->pathway pairs, 0 added). Reactions are untouched.
+TCDB_CLEANUP_REMOVED_PATHWAYS = 3
+TCDB_CLEANUP_LOST_PATHWAY_LINKS = 107
 
 METABOLITE_EDGES = [
     "Molecular_function_transports_metabolite",
@@ -225,13 +233,16 @@ def test_pathway_and_reaction_counts_unchanged(run_query):
     n = run_query(
         "MATCH (k:KeggTerm {level_kind: 'pathway'}) RETURN count(k) AS n"
     )[0]["n"]
-    assert n == BASELINE_PATHWAY_COUNT, f"pathway count {n} != {BASELINE_PATHWAY_COUNT}"
+    expected_n = BASELINE_PATHWAY_COUNT - TCDB_CLEANUP_REMOVED_PATHWAYS   # 449
+    assert n == expected_n, f"pathway count {n} != {expected_n}"
     s = run_query(
         "MATCH (k:KeggTerm {level_kind: 'pathway'}) "
         "RETURN sum(k.reaction_count) AS r, sum(k.metabolite_count) AS m"
     )[0]
     assert s["r"] == BASELINE_SUM_REACTION_COUNT, f"sum(reaction_count) {s['r']}"
-    assert s["m"] == BASELINE_SUM_METABOLITE_COUNT + GO_ONLY_PATHWAY_LINKS, (
-        f"sum(metabolite_count) {s['m']} != "
-        f"{BASELINE_SUM_METABOLITE_COUNT} + {GO_ONLY_PATHWAY_LINKS}"
+    expected_m = (BASELINE_SUM_METABOLITE_COUNT + GO_ONLY_PATHWAY_LINKS
+                  - TCDB_CLEANUP_LOST_PATHWAY_LINKS)   # 9,241
+    assert s["m"] == expected_m, (
+        f"sum(metabolite_count) {s['m']} != {BASELINE_SUM_METABOLITE_COUNT} + "
+        f"{GO_ONLY_PATHWAY_LINKS} - {TCDB_CLEANUP_LOST_PATHWAY_LINKS}"
     )

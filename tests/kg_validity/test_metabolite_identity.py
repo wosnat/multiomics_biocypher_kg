@@ -42,6 +42,27 @@ def _remap_rows():
         return list(csv.DictReader(fh, delimiter="\t"))
 
 
+TCDB_REMOVED = ROOT / "docs/kg-changes/tcdb-cleanup/removed_ids.tsv"
+
+
+def _tcdb_removed_rows():
+    with _need(TCDB_REMOVED).open() as fh:
+        return list(csv.DictReader((ln for ln in fh if not ln.startswith("#")), delimiter="\t"))
+
+
+def _tcdb_removed_by_change() -> dict:
+    by: dict = {}
+    for r in _tcdb_removed_rows():
+        by.setdefault(r["change"], []).append(r["id"])
+    return by
+
+
+def _tcdb_rekeys() -> dict:
+    """metabolite_rekeyed rows: name column reads '<old name> -> <new id> (<new name>)'."""
+    return {r["id"]: r["name"].split("->", 1)[1].split()[0]
+            for r in _tcdb_removed_rows() if r["change"] == "metabolite_rekeyed"}
+
+
 # --- identity: one node per compound ------------------------------------------
 
 def test_no_duplicate_identifiers(run_query):
@@ -185,14 +206,21 @@ def test_no_node_loses_elements(run_query):
     """
     pre = json.loads(_need(PRE_ELEMENTS).read_text())
     remap = {r["old_id"]: r["new_id"] for r in _remap_rows()}
+    # TCDB cleanup (spec 2026-10-22 §5.4): the class roll-up loss removed 65 transport-only
+    # Metabolites by design and re-keyed chebi:23899 -> chebi:62937. Removed ids are excluded
+    # (and asserted absent below); a re-keyed id is followed to its new node and stays strict.
+    tcdb = _tcdb_removed_by_change()
+    tcdb_removed = set(tcdb.get("metabolite_removed", []))
+    tcdb_rekey = _tcdb_rekeys()
     with_el = {r["id"] for r in run_query(
         "MATCH (m:Metabolite) WHERE m.elements IS NOT NULL AND size(m.elements) > 0 RETURN m.id AS id")}
     lost, skipped = [], []
     for old in pre:
         new = remap.get(old, old)
-        if not new:          # removed role / no longer reachable: not a metabolite any more
-            skipped.append(old)
+        if not new or new in tcdb_removed:   # removed role / unreachable / TCDB-cleanup removal
+            skipped.append(new or old)
             continue
+        new = tcdb_rekey.get(new, new)
         if new not in with_el:
             lost.append((old, new))
     assert not lost, lost[:10]
@@ -415,39 +443,37 @@ def test_fulltext_hits(run_query):
 
 # --- TCDB cleanup: removed compounds / pathways (spec 2026-10-22 §5.4) ------------------
 
-TCDB_REMOVED = ROOT / "docs/kg-changes/tcdb-cleanup/removed_ids.tsv"
-
-
-def _tcdb_removed_rows():
-    with _need(TCDB_REMOVED).open() as fh:
-        return list(csv.DictReader((ln for ln in fh if not ln.startswith("#")), delimiter="\t"))
-
-
 def test_tcdb_cleanup_removed_ids_absent(run_query):
-    """The class roll-up loss: 65 transport-only Metabolites and 3 gene-less pathways
-    are gone; chebi:23899 (icosanoid) is re-keyed to chebi:62937; the 31 lost-tag
-    compounds stay but without 'transport'."""
-    rows = _tcdb_removed_rows()
-    by = {}
-    for r in rows:
-        by.setdefault(r["change"], []).append(r["id"])
-    assert len(by["metabolite_removed"]) == 65 and len(by["pathway_removed"]) == 3, \
-        {k: len(v) for k, v in by.items()}
+    """The class roll-up loss (docs/kg-changes/tcdb-cleanup/removed_ids.tsv, measured on the
+    rebuilt graph): 65 transport-only Metabolites, 9 ChemicalRoles, 11 MetaboliteClasses and
+    3 gene-less pathways are gone; chebi:23899 (icosanoid) is re-keyed to chebi:62937; the 31
+    lost-tag compounds stay without 'transport'; the 3 lost-route roles stay as nodes with
+    no TCDB role edge."""
+    by = _tcdb_removed_by_change()
+    assert {k: len(v) for k, v in by.items()} == {
+        "metabolite_removed": 65, "metabolite_rekeyed": 1, "metabolite_loses_transport_tag": 31,
+        "chemical_role_removed": 9, "chemical_role_loses_transport_route": 3,
+        "metabolite_class_removed": 11, "pathway_removed": 3}
     assert not run_query("MATCH (m:Metabolite) WHERE m.id IN $ids RETURN m.id LIMIT 5",
                          ids=by["metabolite_removed"])
     assert not run_query("MATCH (k:KeggTerm) WHERE k.id IN $ids RETURN k.id LIMIT 5",
                          ids=by["pathway_removed"])
-    assert not run_query("MATCH (m:Metabolite {id: 'chebi:23899'}) RETURN m.id")
-    assert run_query("MATCH (m:Metabolite {id: 'chebi:62937'}) RETURN m.id")
+    assert not run_query("MATCH (r:ChemicalRole) WHERE r.id IN $ids RETURN r.id LIMIT 5",
+                         ids=by["chemical_role_removed"])
+    assert not run_query("MATCH (c:MetaboliteClass) WHERE c.id IN $ids RETURN c.id LIMIT 5",
+                         ids=by["metabolite_class_removed"])
+    for old, new in _tcdb_rekeys().items():
+        assert not run_query("MATCH (m:Metabolite {id: $i}) RETURN m.id", i=old), old
+        assert run_query("MATCH (m:Metabolite {id: $i}) RETURN m.id", i=new), new
     lost = run_query("MATCH (m:Metabolite) WHERE m.id IN $ids "
                      "RETURN m.id AS id, 'transport' IN m.evidence_sources AS tagged",
                      ids=by["metabolite_loses_transport_tag"])
     assert len(lost) == len(by["metabolite_loses_transport_tag"]), "a lost-tag compound disappeared"
     assert not [r["id"] for r in lost if r["tagged"]]
     roles = run_query("MATCH (r:ChemicalRole) WHERE r.id IN $ids "
-                      "AND EXISTS { (r)<-[:Tcdb_family_transports_chemical_role]-() } RETURN r.id LIMIT 5",
+                      "RETURN r.id AS id, EXISTS { (r)<-[:Tcdb_family_transports_chemical_role]-() } AS tr",
                       ids=by["chemical_role_loses_transport_route"])
-    assert not roles, roles
+    assert len(roles) == 3 and not any(r["tr"] for r in roles), roles
 
 
 def test_tcdb_cleanup_metabolite_and_pathway_counts(run_query):
@@ -475,7 +501,10 @@ ASK8_LINKED = [("C00031", "chebi:17234"), ("C00159", "chebi:37684"), ("C00259", 
                ("C00095", "kegg.compound:C01496"), ("C00507", "chebi:26546"), ("C00407", "chebi:24898"),
                ("C00329", "chebi:5417"), ("C00309", "kegg.compound:C05052"),
                ("C00508", "kegg.compound:C05052"), ("C00247", "kegg.compound:C01452"),
-               ("C00764", "kegg.compound:C01452"), ("C00337", "chebi:30867"), ("C00181", "kegg.compound:C01394")]
+               ("C00764", "kegg.compound:C01452"), ("C00181", "kegg.compound:C01394")]
+# ("C00337", "chebi:30867") dropped 2026-10-23: chebi:30867 (dihydroorotate) was a
+# transport-only node reached through the TCDB class roll-up and was removed by design
+# (TCDB cleanup; docs/kg-changes/tcdb-cleanup/removed_ids.tsv).
 
 
 @pytest.mark.parametrize("specific,generic", ASK8_LINKED)
