@@ -2,6 +2,32 @@
   "WP_006169870.1": {
     "best_hit": {
       "attach_tcid": "1.S.1.1",
+      "hits": [
+        {
+          "bitscore": 90.9,
+          "evalue": 1.75e-25,
+          "identity": 58.0,
+          "qcov": 85.4,
+          "scov": 92.6,
+          "tcid": "1.S.1.1.1"
+        },
+        {
+          "bitscore": 88.2,
+          "evalue": 2.03e-24,
+          "identity": 53.3,
+          "qcov": 87.4,
+          "scov": 94.7,
+          "tcid": "1.S.1.1.11"
+        },
+        {
+          "bitscore": 86.7,
+          "evalue": 8.9e-24,
+          "identity": 54.5,
+          "qcov": 85.4,
+          "scov": 89.7,
+          "tcid": "1.S.1.1.2"
+        }
+      ],
       "identity": 58.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -112,6 +138,16 @@
   "WP_011124172.1": {
     "best_hit": {
       "attach_tcid": "3.A.16",
+      "hits": [
+        {
+          "bitscore": 87.4,
+          "evalue": 3.37e-19,
+          "identity": 29.1,
+          "qcov": 91.3,
+          "scov": 97.4,
+          "tcid": "3.A.16.1.6"
+        }
+      ],
       "identity": 29.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -184,6 +220,16 @@
   "WP_011124178.1": {
     "best_hit": {
       "attach_tcid": "3.A.23.6",
+      "hits": [
+        {
+          "bitscore": 273.0,
+          "evalue": 1.52e-90,
+          "identity": 45.6,
+          "qcov": 96.8,
+          "scov": 97.3,
+          "tcid": "3.A.23.6.1"
+        }
+      ],
       "identity": 45.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -210,6 +256,16 @@
   "WP_011124210.1": {
     "best_hit": {
       "attach_tcid": "2.A.99",
+      "hits": [
+        {
+          "bitscore": 61.6,
+          "evalue": 8.47e-12,
+          "identity": 29.1,
+          "qcov": 83.8,
+          "scov": 86.0,
+          "tcid": "2.A.99.1.8"
+        }
+      ],
       "identity": 29.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -322,6 +378,16 @@
   "WP_011124221.1": {
     "best_hit": {
       "attach_tcid": "1.E.34.3",
+      "hits": [
+        {
+          "bitscore": 169.0,
+          "evalue": 1.67e-55,
+          "identity": 65.4,
+          "qcov": 99.2,
+          "scov": 99.2,
+          "tcid": "1.E.34.3.1"
+        }
+      ],
       "identity": 65.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -366,6 +432,16 @@
   "WP_011124234.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 316.0,
+          "evalue": 2.51e-98,
+          "identity": 34.2,
+          "qcov": 78.7,
+          "scov": 82.7,
+          "tcid": "3.A.1.203.8"
+        }
+      ],
       "identity": 34.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -392,6 +468,16 @@
   "WP_011124240.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 80.5,
+          "evalue": 1.17e-17,
+          "identity": 30.7,
+          "qcov": 89.7,
+          "scov": 76.0,
+          "tcid": "3.A.1.5.25"
+        }
+      ],
       "identity": 30.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -450,6 +536,16 @@
   "WP_011124252.1": {
     "best_hit": {
       "attach_tcid": "2.A.47",
+      "hits": [
+        {
+          "bitscore": 397.0,
+          "evalue": 2.22e-131,
+          "identity": 40.0,
+          "qcov": 98.5,
+          "scov": 98.0,
+          "tcid": "2.A.47.4.1"
+        }
+      ],
       "identity": 40.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -490,6 +586,16 @@
   "WP_011124253.1": {
     "best_hit": {
       "attach_tcid": "2.A.38",
+      "hits": [
+        {
+          "bitscore": 243.0,
+          "evalue": 1.49e-75,
+          "identity": 36.8,
+          "qcov": 92.7,
+          "scov": 95.7,
+          "tcid": "2.A.38.4.5"
+        }
+      ],
       "identity": 36.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -516,6 +622,24 @@
   "WP_011124260.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 306.0,
+          "evalue": 2.5e-96,
+          "identity": 37.3,
+          "qcov": 92.6,
+          "scov": 81.7,
+          "tcid": "3.A.1.211.25"
+        },
+        {
+          "bitscore": 278.0,
+          "evalue": 1.82e-86,
+          "identity": 32.5,
+          "qcov": 94.4,
+          "scov": 95.5,
+          "tcid": "3.A.1.120.8"
+        }
+      ],
       "identity": 37.3,
       "rule": "best_hit_v1",
       "tcids": [
@@ -607,6 +731,24 @@
   "WP_011124274.1": {
     "best_hit": {
       "attach_tcid": "3.D.10",
+      "hits": [
+        {
+          "bitscore": 229.0,
+          "evalue": 3.53e-68,
+          "identity": 34.2,
+          "qcov": 93.8,
+          "scov": 92.4,
+          "tcid": "3.D.10.1.4"
+        },
+        {
+          "bitscore": 211.0,
+          "evalue": 4.06e-61,
+          "identity": 29.8,
+          "qcov": 94.6,
+          "scov": 92.5,
+          "tcid": "3.D.10.1.9"
+        }
+      ],
       "identity": 34.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -652,6 +794,16 @@
   "WP_011124296.1": {
     "best_hit": {
       "attach_tcid": "3.D.1.8",
+      "hits": [
+        {
+          "bitscore": 78.6,
+          "evalue": 3.54e-21,
+          "identity": 56.9,
+          "qcov": 75.6,
+          "scov": 92.9,
+          "tcid": "3.D.1.8.2"
+        }
+      ],
       "identity": 56.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -678,6 +830,32 @@
   "WP_011124300.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 103.0,
+          "evalue": 1.54e-26,
+          "identity": 30.8,
+          "qcov": 92.2,
+          "scov": 83.6,
+          "tcid": "3.A.1.25.6"
+        },
+        {
+          "bitscore": 101.0,
+          "evalue": 5.75e-26,
+          "identity": 28.8,
+          "qcov": 87.5,
+          "scov": 77.4,
+          "tcid": "3.A.1.23.2"
+        },
+        {
+          "bitscore": 101.0,
+          "evalue": 5.75e-26,
+          "identity": 32.1,
+          "qcov": 86.6,
+          "scov": 76.7,
+          "tcid": "3.A.1.26.10"
+        }
+      ],
       "identity": 30.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -738,6 +916,24 @@
   "WP_011124308.1": {
     "best_hit": {
       "attach_tcid": "3.A.3",
+      "hits": [
+        {
+          "bitscore": 513.0,
+          "evalue": 8.3e-170,
+          "identity": 39.1,
+          "qcov": 98.7,
+          "scov": 81.2,
+          "tcid": "3.A.3.5.11"
+        },
+        {
+          "bitscore": 474.0,
+          "evalue": 2.76e-155,
+          "identity": 37.4,
+          "qcov": 98.8,
+          "scov": 90.6,
+          "tcid": "3.A.3.5.12"
+        }
+      ],
       "identity": 39.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -797,6 +993,16 @@
   "WP_011124323.1": {
     "best_hit": {
       "attach_tcid": "3.D.1.8",
+      "hits": [
+        {
+          "bitscore": 90.9,
+          "evalue": 4.35e-25,
+          "identity": 42.5,
+          "qcov": 92.2,
+          "scov": 95.5,
+          "tcid": "3.D.1.8.2"
+        }
+      ],
       "identity": 42.5,
       "rule": "best_hit_v1",
       "tcids": [
@@ -823,6 +1029,16 @@
   "WP_011124327.1": {
     "best_hit": {
       "attach_tcid": "3.D.1",
+      "hits": [
+        {
+          "bitscore": 739.0,
+          "evalue": 7.98e-264,
+          "identity": 57.6,
+          "qcov": 98.8,
+          "scov": 99.1,
+          "tcid": "3.D.1.8.2"
+        }
+      ],
       "identity": 57.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -891,6 +1107,16 @@
   "WP_011124331.1": {
     "best_hit": {
       "attach_tcid": "3.D.7",
+      "hits": [
+        {
+          "bitscore": 159.0,
+          "evalue": 5.75e-47,
+          "identity": 31.9,
+          "qcov": 97.0,
+          "scov": 92.5,
+          "tcid": "3.D.7.1.8"
+        }
+      ],
       "identity": 31.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -931,6 +1157,16 @@
   "WP_011124336.1": {
     "best_hit": {
       "attach_tcid": "3.D.1",
+      "hits": [
+        {
+          "bitscore": 142.0,
+          "evalue": 1.5e-45,
+          "identity": 74.7,
+          "qcov": 88.0,
+          "scov": 94.1,
+          "tcid": "3.D.1.8.2"
+        }
+      ],
       "identity": 74.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -985,6 +1221,16 @@
   "WP_011124337.1": {
     "best_hit": {
       "attach_tcid": "3.D.1",
+      "hits": [
+        {
+          "bitscore": 181.0,
+          "evalue": 2.38e-58,
+          "identity": 57.2,
+          "qcov": 90.0,
+          "scov": 89.5,
+          "tcid": "3.D.1.8.2"
+        }
+      ],
       "identity": 57.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1025,6 +1271,16 @@
   "WP_011124338.1": {
     "best_hit": {
       "attach_tcid": "3.D.1",
+      "hits": [
+        {
+          "bitscore": 264.0,
+          "evalue": 1.38e-90,
+          "identity": 71.1,
+          "qcov": 88.6,
+          "scov": 99.0,
+          "tcid": "3.D.1.8.2"
+        }
+      ],
       "identity": 71.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1115,6 +1371,16 @@
   "WP_011124352.1": {
     "best_hit": {
       "attach_tcid": "3.D.1",
+      "hits": [
+        {
+          "bitscore": 655.0,
+          "evalue": 3.44e-239,
+          "identity": 76.4,
+          "qcov": 100.0,
+          "scov": 100.0,
+          "tcid": "3.D.1.8.2"
+        }
+      ],
       "identity": 76.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1187,6 +1453,24 @@
   "WP_011124384.1": {
     "best_hit": {
       "attach_tcid": "1.C.82.1",
+      "hits": [
+        {
+          "bitscore": 219.0,
+          "evalue": 3.44e-72,
+          "identity": 48.1,
+          "qcov": 98.3,
+          "scov": 98.7,
+          "tcid": "1.C.82.1.1"
+        },
+        {
+          "bitscore": 199.0,
+          "evalue": 2.24e-64,
+          "identity": 45.5,
+          "qcov": 98.3,
+          "scov": 100.0,
+          "tcid": "1.C.82.1.2"
+        }
+      ],
       "identity": 48.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1296,6 +1580,16 @@
   "WP_011124396.1": {
     "best_hit": {
       "attach_tcid": "2.A.83.2",
+      "hits": [
+        {
+          "bitscore": 208.0,
+          "evalue": 3.88e-65,
+          "identity": 40.1,
+          "qcov": 94.9,
+          "scov": 95.5,
+          "tcid": "2.A.83.2.1"
+        }
+      ],
       "identity": 40.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1322,6 +1616,32 @@
   "WP_011124397.1": {
     "best_hit": {
       "attach_tcid": "2.A.53",
+      "hits": [
+        {
+          "bitscore": 446.0,
+          "evalue": 7.16e-152,
+          "identity": 46.8,
+          "qcov": 98.9,
+          "scov": 96.3,
+          "tcid": "2.A.53.3.14"
+        },
+        {
+          "bitscore": 436.0,
+          "evalue": 6.28e-148,
+          "identity": 46.3,
+          "qcov": 98.9,
+          "scov": 96.6,
+          "tcid": "2.A.53.3.3"
+        },
+        {
+          "bitscore": 430.0,
+          "evalue": 1.17e-145,
+          "identity": 46.5,
+          "qcov": 95.5,
+          "scov": 93.5,
+          "tcid": "2.A.53.3.2"
+        }
+      ],
       "identity": 46.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1368,6 +1688,32 @@
   "WP_011124407.1": {
     "best_hit": {
       "attach_tcid": "3.E.2.2",
+      "hits": [
+        {
+          "bitscore": 645.0,
+          "evalue": 2.29e-236,
+          "identity": 86.4,
+          "qcov": 99.7,
+          "scov": 99.4,
+          "tcid": "3.E.2.2.1"
+        },
+        {
+          "bitscore": 630.0,
+          "evalue": 1.41e-230,
+          "identity": 83.6,
+          "qcov": 99.7,
+          "scov": 99.4,
+          "tcid": "3.E.2.2.2"
+        },
+        {
+          "bitscore": 593.0,
+          "evalue": 9.23e-216,
+          "identity": 79.2,
+          "qcov": 97.5,
+          "scov": 99.2,
+          "tcid": "3.E.2.2.3"
+        }
+      ],
       "identity": 86.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1468,6 +1814,16 @@
   "WP_011124438.1": {
     "best_hit": {
       "attach_tcid": "3.E.2.2",
+      "hits": [
+        {
+          "bitscore": 54.7,
+          "evalue": 4.95e-12,
+          "identity": 51.7,
+          "qcov": 89.6,
+          "scov": 80.8,
+          "tcid": "3.E.2.2.3"
+        }
+      ],
       "identity": 51.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1493,6 +1849,16 @@
   },
   "WP_011124440.1": {
     "best_hit": {
+      "hits": [
+        {
+          "bitscore": 60.1,
+          "evalue": 6.05e-15,
+          "identity": 73.7,
+          "qcov": 90.5,
+          "scov": 97.4,
+          "tcid": "3.E.2.2.1"
+        }
+      ],
       "identity": 73.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1504,6 +1870,32 @@
   "WP_011124448.1": {
     "best_hit": {
       "attach_tcid": "2.A.66",
+      "hits": [
+        {
+          "bitscore": 136.0,
+          "evalue": 1.05e-34,
+          "identity": 28.4,
+          "qcov": 77.3,
+          "scov": 80.6,
+          "tcid": "2.A.66.4.7"
+        },
+        {
+          "bitscore": 132.0,
+          "evalue": 2.93e-33,
+          "identity": 26.7,
+          "qcov": 97.0,
+          "scov": 98.8,
+          "tcid": "2.A.66.4.3"
+        },
+        {
+          "bitscore": 130.0,
+          "evalue": 1.54e-32,
+          "identity": 26.3,
+          "qcov": 97.0,
+          "scov": 96.4,
+          "tcid": "2.A.66.4.1"
+        }
+      ],
       "identity": 28.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1532,6 +1924,16 @@
   "WP_011124450.1": {
     "best_hit": {
       "attach_tcid": "1.A.11",
+      "hits": [
+        {
+          "bitscore": 738.0,
+          "evalue": 1.09e-268,
+          "identity": 75.8,
+          "qcov": 99.8,
+          "scov": 99.6,
+          "tcid": "1.A.11.2.5"
+        }
+      ],
       "identity": 75.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1575,6 +1977,16 @@
   },
   "WP_011124459.1": {
     "best_hit": {
+      "hits": [
+        {
+          "bitscore": 60.8,
+          "evalue": 4.18e-15,
+          "identity": 75.0,
+          "qcov": 85.1,
+          "scov": 88.9,
+          "tcid": "3.E.2.2.1"
+        }
+      ],
       "identity": 75.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1586,6 +1998,24 @@
   "WP_011124461.1": {
     "best_hit": {
       "attach_tcid": "1.A.112",
+      "hits": [
+        {
+          "bitscore": 155.0,
+          "evalue": 9.54e-43,
+          "identity": 26.9,
+          "qcov": 97.2,
+          "scov": 95.3,
+          "tcid": "1.A.112.2.4"
+        },
+        {
+          "bitscore": 150.0,
+          "evalue": 1.06e-40,
+          "identity": 26.1,
+          "qcov": 95.8,
+          "scov": 91.4,
+          "tcid": "1.A.112.2.3"
+        }
+      ],
       "identity": 26.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1659,6 +2089,16 @@
   "WP_011124476.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 199.0,
+          "evalue": 1.59e-62,
+          "identity": 41.2,
+          "qcov": 95.2,
+          "scov": 77.4,
+          "tcid": "3.A.1.27.2"
+        }
+      ],
       "identity": 41.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1685,6 +2125,16 @@
   "WP_011124478.1": {
     "best_hit": {
       "attach_tcid": "3.D.1",
+      "hits": [
+        {
+          "bitscore": 179.0,
+          "evalue": 3.53e-58,
+          "identity": 52.8,
+          "qcov": 87.8,
+          "scov": 92.9,
+          "tcid": "3.D.1.8.2"
+        }
+      ],
       "identity": 52.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1739,6 +2189,16 @@
   "WP_011124479.1": {
     "best_hit": {
       "attach_tcid": "3.D.1",
+      "hits": [
+        {
+          "bitscore": 322.0,
+          "evalue": 1.47e-112,
+          "identity": 70.7,
+          "qcov": 90.5,
+          "scov": 93.7,
+          "tcid": "3.D.1.8.2"
+        }
+      ],
       "identity": 70.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1793,6 +2253,16 @@
   "WP_011124480.1": {
     "best_hit": {
       "attach_tcid": "3.D.1",
+      "hits": [
+        {
+          "bitscore": 179.0,
+          "evalue": 7.5e-60,
+          "identity": 76.7,
+          "qcov": 100.0,
+          "scov": 90.9,
+          "tcid": "3.D.1.8.2"
+        }
+      ],
       "identity": 76.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1865,6 +2335,16 @@
   "WP_011124483.1": {
     "best_hit": {
       "attach_tcid": "3.E.2.2",
+      "hits": [
+        {
+          "bitscore": 120.0,
+          "evalue": 1.06e-37,
+          "identity": 67.9,
+          "qcov": 95.1,
+          "scov": 94.0,
+          "tcid": "3.E.2.2.1"
+        }
+      ],
       "identity": 67.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1890,6 +2370,16 @@
   },
   "WP_011124484.1": {
     "best_hit": {
+      "hits": [
+        {
+          "bitscore": 64.3,
+          "evalue": 1.81e-16,
+          "identity": 69.6,
+          "qcov": 95.8,
+          "scov": 90.9,
+          "tcid": "3.E.2.2.1"
+        }
+      ],
       "identity": 69.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1900,6 +2390,24 @@
   },
   "WP_011124485.1": {
     "best_hit": {
+      "hits": [
+        {
+          "bitscore": 59.7,
+          "evalue": 7.68e-15,
+          "identity": 91.2,
+          "qcov": 87.2,
+          "scov": 85.0,
+          "tcid": "3.E.2.2.1"
+        },
+        {
+          "bitscore": 55.1,
+          "evalue": 5.04e-13,
+          "identity": 79.4,
+          "qcov": 87.2,
+          "scov": 89.5,
+          "tcid": "3.E.2.2.3"
+        }
+      ],
       "identity": 91.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1912,6 +2420,16 @@
   "WP_011124493.1": {
     "best_hit": {
       "attach_tcid": "2.A.114.1",
+      "hits": [
+        {
+          "bitscore": 167.0,
+          "evalue": 5.99e-54,
+          "identity": 56.7,
+          "qcov": 100.0,
+          "scov": 100.0,
+          "tcid": "2.A.114.1.9"
+        }
+      ],
       "identity": 56.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1938,6 +2456,16 @@
   "WP_011124501.1": {
     "best_hit": {
       "attach_tcid": "2.A.1",
+      "hits": [
+        {
+          "bitscore": 123.0,
+          "evalue": 5.94e-31,
+          "identity": 26.6,
+          "qcov": 86.3,
+          "scov": 75.5,
+          "tcid": "2.A.1.41.1"
+        }
+      ],
       "identity": 26.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1963,6 +2491,16 @@
   },
   "WP_011124508.1": {
     "best_hit": {
+      "hits": [
+        {
+          "bitscore": 33.5,
+          "evalue": 0.000115,
+          "identity": 53.1,
+          "qcov": 96.8,
+          "scov": 90.9,
+          "tcid": "3.E.2.2.3"
+        }
+      ],
       "identity": 53.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -1974,6 +2512,16 @@
   "WP_011124509.1": {
     "best_hit": {
       "attach_tcid": "3.E.2.2",
+      "hits": [
+        {
+          "bitscore": 744.0,
+          "evalue": 2.81e-270,
+          "identity": 66.1,
+          "qcov": 99.0,
+          "scov": 99.4,
+          "tcid": "3.E.2.2.3"
+        }
+      ],
       "identity": 66.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2046,6 +2594,32 @@
   "WP_011124522.1": {
     "best_hit": {
       "attach_tcid": "3.D.3",
+      "hits": [
+        {
+          "bitscore": 394.0,
+          "evalue": 6.11e-142,
+          "identity": 87.9,
+          "qcov": 98.2,
+          "scov": 99.5,
+          "tcid": "3.D.3.5.3"
+        },
+        {
+          "bitscore": 385.0,
+          "evalue": 2.78e-138,
+          "identity": 84.4,
+          "qcov": 100.0,
+          "scov": 100.0,
+          "tcid": "3.D.3.5.6"
+        },
+        {
+          "bitscore": 377.0,
+          "evalue": 4.41e-135,
+          "identity": 83.2,
+          "qcov": 98.2,
+          "scov": 99.5,
+          "tcid": "3.D.3.5.2"
+        }
+      ],
       "identity": 87.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2102,6 +2676,32 @@
   "WP_011124523.1": {
     "best_hit": {
       "attach_tcid": "3.D.3",
+      "hits": [
+        {
+          "bitscore": 277.0,
+          "evalue": 2.65e-97,
+          "identity": 83.1,
+          "qcov": 100.0,
+          "scov": 100.0,
+          "tcid": "3.D.3.5.3"
+        },
+        {
+          "bitscore": 265.0,
+          "evalue": 9.9e-93,
+          "identity": 77.5,
+          "qcov": 100.0,
+          "scov": 100.0,
+          "tcid": "3.D.3.5.6"
+        },
+        {
+          "bitscore": 256.0,
+          "evalue": 4.5e-89,
+          "identity": 75.6,
+          "qcov": 100.0,
+          "scov": 100.0,
+          "tcid": "3.D.3.5.2"
+        }
+      ],
       "identity": 83.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2180,6 +2780,16 @@
   "WP_011124535.1": {
     "best_hit": {
       "attach_tcid": "4.D.1.1",
+      "hits": [
+        {
+          "bitscore": 258.0,
+          "evalue": 3.51e-85,
+          "identity": 44.8,
+          "qcov": 96.2,
+          "scov": 95.6,
+          "tcid": "4.D.1.1.14"
+        }
+      ],
       "identity": 44.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2224,6 +2834,16 @@
   "WP_011124537.1": {
     "best_hit": {
       "attach_tcid": "2.A.129",
+      "hits": [
+        {
+          "bitscore": 42.7,
+          "evalue": 4.47e-06,
+          "identity": 23.4,
+          "qcov": 96.0,
+          "scov": 89.9,
+          "tcid": "2.A.129.1.11"
+        }
+      ],
       "identity": 23.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2268,6 +2888,16 @@
   "WP_011124544.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 54.3,
+          "evalue": 1.5e-08,
+          "identity": 24.5,
+          "qcov": 82.6,
+          "scov": 83.0,
+          "tcid": "3.A.1.25.8"
+        }
+      ],
       "identity": 24.5,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2294,6 +2924,16 @@
   "WP_011124549.1": {
     "best_hit": {
       "attach_tcid": "2.A.38.4",
+      "hits": [
+        {
+          "bitscore": 397.0,
+          "evalue": 1.01e-137,
+          "identity": 54.6,
+          "qcov": 98.7,
+          "scov": 94.6,
+          "tcid": "2.A.38.4.5"
+        }
+      ],
       "identity": 54.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2374,6 +3014,24 @@
   "WP_011124585.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 234.0,
+          "evalue": 1.95e-78,
+          "identity": 54.5,
+          "qcov": 97.3,
+          "scov": 95.7,
+          "tcid": "3.A.1.122.2"
+        },
+        {
+          "bitscore": 229.0,
+          "evalue": 4.05e-76,
+          "identity": 50.5,
+          "qcov": 98.2,
+          "scov": 94.8,
+          "tcid": "3.A.1.122.20"
+        }
+      ],
       "identity": 54.5,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2401,6 +3059,16 @@
   "WP_011124586.1": {
     "best_hit": {
       "attach_tcid": "3.D.1",
+      "hits": [
+        {
+          "bitscore": 578.0,
+          "evalue": 7.08e-205,
+          "identity": 62.4,
+          "qcov": 92.7,
+          "scov": 94.4,
+          "tcid": "3.D.1.8.2"
+        }
+      ],
       "identity": 62.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2469,6 +3137,16 @@
   "WP_011124595.1": {
     "best_hit": {
       "attach_tcid": "3.D.4",
+      "hits": [
+        {
+          "bitscore": 162.0,
+          "evalue": 8.98e-51,
+          "identity": 43.6,
+          "qcov": 90.5,
+          "scov": 89.6,
+          "tcid": "3.D.4.4.4"
+        }
+      ],
       "identity": 43.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2523,6 +3201,16 @@
   "WP_011124596.1": {
     "best_hit": {
       "attach_tcid": "3.D.4",
+      "hits": [
+        {
+          "bitscore": 678.0,
+          "evalue": 5.19e-243,
+          "identity": 59.5,
+          "qcov": 96.2,
+          "scov": 96.0,
+          "tcid": "3.D.4.4.4"
+        }
+      ],
       "identity": 59.5,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2581,6 +3269,32 @@
   "WP_011124600.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 219.0,
+          "evalue": 1.81e-69,
+          "identity": 39.7,
+          "qcov": 91.7,
+          "scov": 90.8,
+          "tcid": "3.A.1.105.13"
+        },
+        {
+          "bitscore": 205.0,
+          "evalue": 3.81e-64,
+          "identity": 37.1,
+          "qcov": 92.0,
+          "scov": 95.0,
+          "tcid": "3.A.1.105.21"
+        },
+        {
+          "bitscore": 200.0,
+          "evalue": 6.41e-62,
+          "identity": 36.4,
+          "qcov": 96.1,
+          "scov": 96.7,
+          "tcid": "3.A.1.105.1"
+        }
+      ],
       "identity": 39.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2623,6 +3337,16 @@
   "WP_011124601.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 68.6,
+          "evalue": 1.63e-13,
+          "identity": 28.5,
+          "qcov": 84.1,
+          "scov": 84.6,
+          "tcid": "3.A.1.105.21"
+        }
+      ],
       "identity": 28.5,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2649,6 +3373,16 @@
   "WP_011124603.1": {
     "best_hit": {
       "attach_tcid": "3.A.33",
+      "hits": [
+        {
+          "bitscore": 61.6,
+          "evalue": 5.22e-10,
+          "identity": 19.6,
+          "qcov": 89.0,
+          "scov": 90.5,
+          "tcid": "3.A.33.1.1"
+        }
+      ],
       "identity": 19.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2729,6 +3463,24 @@
   "WP_011124614.1": {
     "best_hit": {
       "attach_tcid": "3.D.3.5",
+      "hits": [
+        {
+          "bitscore": 342.0,
+          "evalue": 4.79e-118,
+          "identity": 58.8,
+          "qcov": 95.5,
+          "scov": 91.0,
+          "tcid": "3.D.3.5.3"
+        },
+        {
+          "bitscore": 331.0,
+          "evalue": 1.14e-113,
+          "identity": 59.9,
+          "qcov": 92.6,
+          "scov": 87.7,
+          "tcid": "3.D.3.5.6"
+        }
+      ],
       "identity": 58.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2756,6 +3508,32 @@
   "WP_011124615.1": {
     "best_hit": {
       "attach_tcid": "3.D.3",
+      "hits": [
+        {
+          "bitscore": 272.0,
+          "evalue": 7.03e-95,
+          "identity": 71.5,
+          "qcov": 100.0,
+          "scov": 100.0,
+          "tcid": "3.D.3.5.3"
+        },
+        {
+          "bitscore": 264.0,
+          "evalue": 1.11e-91,
+          "identity": 68.7,
+          "qcov": 100.0,
+          "scov": 100.0,
+          "tcid": "3.D.3.5.6"
+        },
+        {
+          "bitscore": 256.0,
+          "evalue": 2.57e-88,
+          "identity": 67.8,
+          "qcov": 100.0,
+          "scov": 100.0,
+          "tcid": "3.D.3.5.1"
+        }
+      ],
       "identity": 71.5,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2784,6 +3562,16 @@
   "WP_011124617.1": {
     "best_hit": {
       "attach_tcid": "2.A.64",
+      "hits": [
+        {
+          "bitscore": 124.0,
+          "evalue": 4.96e-34,
+          "identity": 32.7,
+          "qcov": 96.8,
+          "scov": 82.9,
+          "tcid": "2.A.64.2.2"
+        }
+      ],
       "identity": 32.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -2874,6 +3662,24 @@
   "WP_011124625.1": {
     "best_hit": {
       "attach_tcid": "2.A.36",
+      "hits": [
+        {
+          "bitscore": 75.1,
+          "evalue": 8.13e-15,
+          "identity": 27.0,
+          "qcov": 97.5,
+          "scov": 97.0,
+          "tcid": "2.A.36.6.7"
+        },
+        {
+          "bitscore": 74.3,
+          "evalue": 1.46e-14,
+          "identity": 26.8,
+          "qcov": 97.2,
+          "scov": 96.8,
+          "tcid": "2.A.36.6.10"
+        }
+      ],
       "identity": 27.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3023,6 +3829,16 @@
   "WP_011124674.1": {
     "best_hit": {
       "attach_tcid": "3.D.12",
+      "hits": [
+        {
+          "bitscore": 55.1,
+          "evalue": 2.41e-08,
+          "identity": 22.3,
+          "qcov": 77.3,
+          "scov": 75.5,
+          "tcid": "3.D.12.1.1"
+        }
+      ],
       "identity": 22.3,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3067,6 +3883,16 @@
   "WP_011124693.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 76.6,
+          "evalue": 2.8e-15,
+          "identity": 22.6,
+          "qcov": 90.5,
+          "scov": 98.5,
+          "tcid": "3.A.1.105.12"
+        }
+      ],
       "identity": 22.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3107,6 +3933,32 @@
   "WP_011124702.1": {
     "best_hit": {
       "attach_tcid": "1.S.3.1",
+      "hits": [
+        {
+          "bitscore": 191.0,
+          "evalue": 2.97e-61,
+          "identity": 46.8,
+          "qcov": 78.2,
+          "scov": 94.3,
+          "tcid": "1.S.3.1.2"
+        },
+        {
+          "bitscore": 183.0,
+          "evalue": 6.4e-58,
+          "identity": 47.5,
+          "qcov": 77.8,
+          "scov": 93.4,
+          "tcid": "1.S.3.1.3"
+        },
+        {
+          "bitscore": 181.0,
+          "evalue": 5.14e-57,
+          "identity": 45.3,
+          "qcov": 78.2,
+          "scov": 93.9,
+          "tcid": "1.S.3.1.1"
+        }
+      ],
       "identity": 46.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3153,6 +4005,16 @@
   "WP_011124709.1": {
     "best_hit": {
       "attach_tcid": "1.S.5",
+      "hits": [
+        {
+          "bitscore": 57.4,
+          "evalue": 1.45e-12,
+          "identity": 38.6,
+          "qcov": 92.8,
+          "scov": 83.8,
+          "tcid": "1.S.5.1.2"
+        }
+      ],
       "identity": 38.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3197,6 +4059,16 @@
   "WP_011124716.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 819.0,
+          "evalue": 2.6e-297,
+          "identity": 72.6,
+          "qcov": 99.7,
+          "scov": 99.7,
+          "tcid": "3.A.1.106.19"
+        }
+      ],
       "identity": 72.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3259,6 +4131,24 @@
   "WP_011124723.1": {
     "best_hit": {
       "attach_tcid": "2.A.19",
+      "hits": [
+        {
+          "bitscore": 160.0,
+          "evalue": 2.68e-46,
+          "identity": 32.7,
+          "qcov": 85.2,
+          "scov": 94.2,
+          "tcid": "2.A.19.5.1"
+        },
+        {
+          "bitscore": 160.0,
+          "evalue": 2.31e-46,
+          "identity": 33.2,
+          "qcov": 86.9,
+          "scov": 97.8,
+          "tcid": "2.A.19.5.2"
+        }
+      ],
       "identity": 32.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3286,6 +4176,16 @@
   "WP_011124725.1": {
     "best_hit": {
       "attach_tcid": "3.D.1.8",
+      "hits": [
+        {
+          "bitscore": 57.0,
+          "evalue": 9.89e-13,
+          "identity": 44.6,
+          "qcov": 83.3,
+          "scov": 85.5,
+          "tcid": "3.D.1.8.2"
+        }
+      ],
       "identity": 44.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3312,6 +4212,16 @@
   "WP_011124730.1": {
     "best_hit": {
       "attach_tcid": "3.D.3",
+      "hits": [
+        {
+          "bitscore": 57.8,
+          "evalue": 5.76e-12,
+          "identity": 30.0,
+          "qcov": 85.9,
+          "scov": 97.3,
+          "tcid": "3.D.3.5.6"
+        }
+      ],
       "identity": 30.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3352,6 +4262,16 @@
   "WP_011124749.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 419.0,
+          "evalue": 4.4e-150,
+          "identity": 77.9,
+          "qcov": 94.5,
+          "scov": 96.6,
+          "tcid": "3.A.1.7.6"
+        }
+      ],
       "identity": 77.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3378,6 +4298,16 @@
   "WP_011124750.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 424.0,
+          "evalue": 1.17e-150,
+          "identity": 73.8,
+          "qcov": 98.0,
+          "scov": 98.0,
+          "tcid": "3.A.1.7.6"
+        }
+      ],
       "identity": 73.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3404,6 +4334,16 @@
   "WP_011124751.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 457.0,
+          "evalue": 1.21e-163,
+          "identity": 75.9,
+          "qcov": 98.4,
+          "scov": 98.1,
+          "tcid": "3.A.1.7.6"
+        }
+      ],
       "identity": 75.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3430,6 +4370,32 @@
   "WP_011124825.1": {
     "best_hit": {
       "attach_tcid": "3.A.1.3",
+      "hits": [
+        {
+          "bitscore": 263.0,
+          "evalue": 4.03e-89,
+          "identity": 56.8,
+          "qcov": 94.8,
+          "scov": 96.3,
+          "tcid": "3.A.1.3.9"
+        },
+        {
+          "bitscore": 257.0,
+          "evalue": 1.04e-86,
+          "identity": 54.7,
+          "qcov": 97.6,
+          "scov": 99.2,
+          "tcid": "3.A.1.3.4"
+        },
+        {
+          "bitscore": 250.0,
+          "evalue": 8.02e-84,
+          "identity": 53.5,
+          "qcov": 97.6,
+          "scov": 94.8,
+          "tcid": "3.A.1.3.26"
+        }
+      ],
       "identity": 56.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3458,6 +4424,16 @@
   "WP_011124826.1": {
     "best_hit": {
       "attach_tcid": "3.A.1.3",
+      "hits": [
+        {
+          "bitscore": 241.0,
+          "evalue": 4.06e-77,
+          "identity": 40.3,
+          "qcov": 86.1,
+          "scov": 90.0,
+          "tcid": "3.A.1.3.18"
+        }
+      ],
       "identity": 40.3,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3484,6 +4460,16 @@
   "WP_011124827.1": {
     "best_hit": {
       "attach_tcid": "3.A.1.3",
+      "hits": [
+        {
+          "bitscore": 241.0,
+          "evalue": 5.98e-79,
+          "identity": 48.8,
+          "qcov": 94.0,
+          "scov": 91.6,
+          "tcid": "3.A.1.3.18"
+        }
+      ],
       "identity": 48.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3510,6 +4496,16 @@
   "WP_011124828.1": {
     "best_hit": {
       "attach_tcid": "3.A.1.3",
+      "hits": [
+        {
+          "bitscore": 328.0,
+          "evalue": 1.83e-111,
+          "identity": 48.4,
+          "qcov": 92.0,
+          "scov": 85.4,
+          "tcid": "3.A.1.3.18"
+        }
+      ],
       "identity": 48.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3604,6 +4600,24 @@
   "WP_011124851.1": {
     "best_hit": {
       "attach_tcid": "3.D.10.1",
+      "hits": [
+        {
+          "bitscore": 725.0,
+          "evalue": 6.15e-259,
+          "identity": 55.8,
+          "qcov": 99.5,
+          "scov": 99.8,
+          "tcid": "3.D.10.1.2"
+        },
+        {
+          "bitscore": 713.0,
+          "evalue": 6.03e-254,
+          "identity": 55.7,
+          "qcov": 98.6,
+          "scov": 98.8,
+          "tcid": "3.D.10.1.5"
+        }
+      ],
       "identity": 55.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3631,6 +4645,24 @@
   "WP_011124852.1": {
     "best_hit": {
       "attach_tcid": "3.D.10.1",
+      "hits": [
+        {
+          "bitscore": 288.0,
+          "evalue": 3.54e-99,
+          "identity": 57.9,
+          "qcov": 97.6,
+          "scov": 98.4,
+          "tcid": "3.D.10.1.2"
+        },
+        {
+          "bitscore": 265.0,
+          "evalue": 7.27e-90,
+          "identity": 51.7,
+          "qcov": 98.4,
+          "scov": 93.8,
+          "tcid": "3.D.10.1.5"
+        }
+      ],
       "identity": 57.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3658,6 +4690,16 @@
   "WP_011124862.1": {
     "best_hit": {
       "attach_tcid": "1.A.115",
+      "hits": [
+        {
+          "bitscore": 60.5,
+          "evalue": 4.32e-11,
+          "identity": 27.3,
+          "qcov": 98.2,
+          "scov": 90.4,
+          "tcid": "1.A.115.1.2"
+        }
+      ],
       "identity": 27.3,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3684,6 +4726,24 @@
   "WP_011124872.1": {
     "best_hit": {
       "attach_tcid": "2.A.102",
+      "hits": [
+        {
+          "bitscore": 75.9,
+          "evalue": 2.96e-16,
+          "identity": 24.4,
+          "qcov": 91.9,
+          "scov": 87.0,
+          "tcid": "2.A.102.3.4"
+        },
+        {
+          "bitscore": 69.3,
+          "evalue": 6.42e-14,
+          "identity": 22.5,
+          "qcov": 94.2,
+          "scov": 89.2,
+          "tcid": "2.A.102.3.1"
+        }
+      ],
       "identity": 24.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3729,6 +4789,16 @@
   "WP_011124894.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 335.0,
+          "evalue": 9.53e-108,
+          "identity": 36.3,
+          "qcov": 97.4,
+          "scov": 97.6,
+          "tcid": "3.A.1.106.17"
+        }
+      ],
       "identity": 36.3,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3773,6 +4843,16 @@
   "WP_011124906.1": {
     "best_hit": {
       "attach_tcid": "3.A.11",
+      "hits": [
+        {
+          "bitscore": 78.2,
+          "evalue": 5.73e-18,
+          "identity": 31.9,
+          "qcov": 80.6,
+          "scov": 89.6,
+          "tcid": "3.A.11.1.5"
+        }
+      ],
       "identity": 31.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3799,6 +4879,16 @@
   "WP_011124908.1": {
     "best_hit": {
       "attach_tcid": "2.A.7.28",
+      "hits": [
+        {
+          "bitscore": 329.0,
+          "evalue": 2.01e-113,
+          "identity": 60.9,
+          "qcov": 92.9,
+          "scov": 90.1,
+          "tcid": "2.A.7.28.11"
+        }
+      ],
       "identity": 60.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3825,6 +4915,16 @@
   "WP_011124919.1": {
     "best_hit": {
       "attach_tcid": "3.A.5",
+      "hits": [
+        {
+          "bitscore": 389.0,
+          "evalue": 1.67e-131,
+          "identity": 46.4,
+          "qcov": 97.8,
+          "scov": 98.1,
+          "tcid": "3.A.5.4.1"
+        }
+      ],
       "identity": 46.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3865,6 +4965,16 @@
   "WP_011124920.1": {
     "best_hit": {
       "attach_tcid": "3.A.5",
+      "hits": [
+        {
+          "bitscore": 196.0,
+          "evalue": 7.79e-61,
+          "identity": 40.2,
+          "qcov": 94.4,
+          "scov": 93.9,
+          "tcid": "3.A.5.4.1"
+        }
+      ],
       "identity": 40.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3923,6 +5033,32 @@
   "WP_011124936.1": {
     "best_hit": {
       "attach_tcid": "2.A.27",
+      "hits": [
+        {
+          "bitscore": 207.0,
+          "evalue": 1.3e-61,
+          "identity": 34.0,
+          "qcov": 86.1,
+          "scov": 89.1,
+          "tcid": "2.A.27.1.5"
+        },
+        {
+          "bitscore": 206.0,
+          "evalue": 2.78e-61,
+          "identity": 31.4,
+          "qcov": 89.8,
+          "scov": 92.3,
+          "tcid": "2.A.27.2.1"
+        },
+        {
+          "bitscore": 192.0,
+          "evalue": 5.8e-56,
+          "identity": 30.5,
+          "qcov": 83.7,
+          "scov": 88.6,
+          "tcid": "2.A.27.2.2"
+        }
+      ],
       "identity": 34.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3951,6 +5087,16 @@
   "WP_011124944.1": {
     "best_hit": {
       "attach_tcid": "1.A.23",
+      "hits": [
+        {
+          "bitscore": 145.0,
+          "evalue": 1.41e-40,
+          "identity": 28.7,
+          "qcov": 99.4,
+          "scov": 96.6,
+          "tcid": "1.A.23.4.2"
+        }
+      ],
       "identity": 28.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -3977,6 +5123,24 @@
   "WP_011124956.1": {
     "best_hit": {
       "attach_tcid": "2.A.53",
+      "hits": [
+        {
+          "bitscore": 433.0,
+          "evalue": 6.79e-148,
+          "identity": 47.9,
+          "qcov": 96.4,
+          "scov": 94.0,
+          "tcid": "2.A.53.3.13"
+        },
+        {
+          "bitscore": 404.0,
+          "evalue": 7.74e-137,
+          "identity": 45.8,
+          "qcov": 97.5,
+          "scov": 96.3,
+          "tcid": "2.A.53.3.1"
+        }
+      ],
       "identity": 47.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -4022,6 +5186,16 @@
   "WP_011124972.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 111.0,
+          "evalue": 5.44e-28,
+          "identity": 24.3,
+          "qcov": 90.1,
+          "scov": 86.2,
+          "tcid": "3.A.1.114.2"
+        }
+      ],
       "identity": 24.3,
       "rule": "best_hit_v1",
       "tcids": [
@@ -4062,6 +5236,16 @@
   "WP_011124973.1": {
     "best_hit": {
       "attach_tcid": "3.A.1.114",
+      "hits": [
+        {
+          "bitscore": 358.0,
+          "evalue": 2.92e-122,
+          "identity": 48.4,
+          "qcov": 98.5,
+          "scov": 99.7,
+          "tcid": "3.A.1.114.1"
+        }
+      ],
       "identity": 48.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -4088,6 +5272,16 @@
   "WP_011124974.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 229.0,
+          "evalue": 5.87e-76,
+          "identity": 51.8,
+          "qcov": 93.2,
+          "scov": 90.2,
+          "tcid": "3.A.1.114.1"
+        }
+      ],
       "identity": 51.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -4150,6 +5344,16 @@
   "WP_011124980.1": {
     "best_hit": {
       "attach_tcid": "3.A.11",
+      "hits": [
+        {
+          "bitscore": 440.0,
+          "evalue": 4.48e-144,
+          "identity": 39.0,
+          "qcov": 82.9,
+          "scov": 99.7,
+          "tcid": "3.A.11.1.5"
+        }
+      ],
       "identity": 39.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -4176,6 +5380,32 @@
   "WP_011124988.1": {
     "best_hit": {
       "attach_tcid": "1.B.42.1",
+      "hits": [
+        {
+          "bitscore": 238.0,
+          "evalue": 2.17e-79,
+          "identity": 51.9,
+          "qcov": 95.0,
+          "scov": 94.6,
+          "tcid": "1.B.42.1.2"
+        },
+        {
+          "bitscore": 236.0,
+          "evalue": 1.76e-78,
+          "identity": 51.5,
+          "qcov": 95.0,
+          "scov": 94.6,
+          "tcid": "3.A.1.152.9"
+        },
+        {
+          "bitscore": 215.0,
+          "evalue": 2.64e-70,
+          "identity": 48.5,
+          "qcov": 95.0,
+          "scov": 94.6,
+          "tcid": "3.A.1.152.1"
+        }
+      ],
       "identity": 51.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -4290,6 +5520,24 @@
   "WP_011125033.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 248.0,
+          "evalue": 9.09e-80,
+          "identity": 42.3,
+          "qcov": 88.7,
+          "scov": 90.5,
+          "tcid": "3.A.1.10.2"
+        },
+        {
+          "bitscore": 235.0,
+          "evalue": 4.75e-75,
+          "identity": 43.6,
+          "qcov": 85.9,
+          "scov": 84.3,
+          "tcid": "3.A.1.10.6"
+        }
+      ],
       "identity": 42.3,
       "rule": "best_hit_v1",
       "tcids": [
@@ -4353,6 +5601,16 @@
   "WP_011125051.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 289.0,
+          "evalue": 7.82e-90,
+          "identity": 33.5,
+          "qcov": 88.4,
+          "scov": 83.6,
+          "tcid": "3.A.1.135.10"
+        }
+      ],
       "identity": 33.5,
       "rule": "best_hit_v1",
       "tcids": [
@@ -4429,6 +5687,16 @@
   "WP_011125074.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 183.0,
+          "evalue": 8.89e-54,
+          "identity": 31.3,
+          "qcov": 96.6,
+          "scov": 97.5,
+          "tcid": "3.A.1.122.2"
+        }
+      ],
       "identity": 31.3,
       "rule": "best_hit_v1",
       "tcids": [
@@ -4793,6 +6061,16 @@
   "WP_011125139.1": {
     "best_hit": {
       "attach_tcid": "2.A.106",
+      "hits": [
+        {
+          "bitscore": 62.4,
+          "evalue": 1.77e-14,
+          "identity": 45.1,
+          "qcov": 88.2,
+          "scov": 92.1,
+          "tcid": "2.A.106.3.1"
+        }
+      ],
       "identity": 45.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -4837,6 +6115,16 @@
   "WP_011125150.1": {
     "best_hit": {
       "attach_tcid": "2.A.109",
+      "hits": [
+        {
+          "bitscore": 67.4,
+          "evalue": 2.14e-13,
+          "identity": 28.2,
+          "qcov": 97.1,
+          "scov": 89.0,
+          "tcid": "2.A.109.1.3"
+        }
+      ],
       "identity": 28.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -4917,6 +6205,16 @@
   "WP_011125171.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 85.5,
+          "evalue": 3.01e-19,
+          "identity": 24.1,
+          "qcov": 97.0,
+          "scov": 94.6,
+          "tcid": "3.A.1.9.3"
+        }
+      ],
       "identity": 24.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -4943,6 +6241,24 @@
   "WP_011125172.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 119.0,
+          "evalue": 7.73e-33,
+          "identity": 29.1,
+          "qcov": 99.6,
+          "scov": 95.0,
+          "tcid": "3.A.1.9.1"
+        },
+        {
+          "bitscore": 114.0,
+          "evalue": 9.91e-31,
+          "identity": 34.3,
+          "qcov": 92.7,
+          "scov": 89.3,
+          "tcid": "3.A.1.9.3"
+        }
+      ],
       "identity": 29.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -5056,6 +6372,24 @@
   "WP_011125193.1": {
     "best_hit": {
       "attach_tcid": "4.C.1",
+      "hits": [
+        {
+          "bitscore": 120.0,
+          "evalue": 1.12e-28,
+          "identity": 24.0,
+          "qcov": 80.7,
+          "scov": 96.1,
+          "tcid": "4.C.1.1.6"
+        },
+        {
+          "bitscore": 112.0,
+          "evalue": 3.81e-26,
+          "identity": 25.8,
+          "qcov": 76.0,
+          "scov": 84.7,
+          "tcid": "4.C.1.1.7"
+        }
+      ],
       "identity": 24.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -5133,6 +6467,16 @@
   "WP_011125210.1": {
     "best_hit": {
       "attach_tcid": "3.A.1.15",
+      "hits": [
+        {
+          "bitscore": 323.0,
+          "evalue": 3.49e-111,
+          "identity": 56.3,
+          "qcov": 98.6,
+          "scov": 95.8,
+          "tcid": "3.A.1.15.1"
+        }
+      ],
       "identity": 56.3,
       "rule": "best_hit_v1",
       "tcids": [
@@ -5159,6 +6503,24 @@
   "WP_011125211.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 276.0,
+          "evalue": 7.92e-94,
+          "identity": 56.8,
+          "qcov": 92.0,
+          "scov": 92.7,
+          "tcid": "3.A.1.15.1"
+        },
+        {
+          "bitscore": 252.0,
+          "evalue": 8.94e-84,
+          "identity": 54.2,
+          "qcov": 91.6,
+          "scov": 81.1,
+          "tcid": "3.A.1.15.4"
+        }
+      ],
       "identity": 56.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -5186,6 +6548,16 @@
   "WP_011125212.1": {
     "best_hit": {
       "attach_tcid": "3.A.1.15",
+      "hits": [
+        {
+          "bitscore": 310.0,
+          "evalue": 1.07e-105,
+          "identity": 53.7,
+          "qcov": 93.1,
+          "scov": 81.5,
+          "tcid": "3.A.1.15.1"
+        }
+      ],
       "identity": 53.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -5272,6 +6644,16 @@
   "WP_011125233.1": {
     "best_hit": {
       "attach_tcid": "3.D.3.5",
+      "hits": [
+        {
+          "bitscore": 107.0,
+          "evalue": 3.38e-31,
+          "identity": 47.7,
+          "qcov": 95.0,
+          "scov": 92.1,
+          "tcid": "3.D.3.5.6"
+        }
+      ],
       "identity": 47.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -5426,6 +6808,16 @@
   "WP_011125248.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 649.0,
+          "evalue": 2.46e-230,
+          "identity": 58.0,
+          "qcov": 98.0,
+          "scov": 98.0,
+          "tcid": "3.A.1.106.14"
+        }
+      ],
       "identity": 58.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -5452,6 +6844,16 @@
   "WP_011125259.1": {
     "best_hit": {
       "attach_tcid": "3.A.9.1.2",
+      "hits": [
+        {
+          "bitscore": 1164.0,
+          "evalue": 0.0,
+          "identity": 72.6,
+          "qcov": 98.0,
+          "scov": 87.6,
+          "tcid": "3.A.9.1.2"
+        }
+      ],
       "identity": 72.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -5467,7 +6869,7 @@
         "identity": 72.6,
         "incompletely_characterized": false,
         "length": 839,
-        "level_kind": "tc_specificity",
+        "level_kind": "tc_system",
         "qcov": 98.0,
         "scov": 87.6,
         "tcid": "3.A.9.1.2",
@@ -5693,6 +7095,16 @@
   },
   "WP_011125294.1": {
     "best_hit": {
+      "hits": [
+        {
+          "bitscore": 52.8,
+          "evalue": 4.16e-12,
+          "identity": 75.8,
+          "qcov": 84.6,
+          "scov": 86.8,
+          "tcid": "3.D.3.5.7"
+        }
+      ],
       "identity": 75.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -5722,6 +7134,24 @@
   "WP_011125304.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 82.8,
+          "evalue": 8.94e-17,
+          "identity": 22.3,
+          "qcov": 90.2,
+          "scov": 92.2,
+          "tcid": "3.A.1.5.18"
+        },
+        {
+          "bitscore": 74.7,
+          "evalue": 3.44e-14,
+          "identity": 22.2,
+          "qcov": 91.9,
+          "scov": 93.7,
+          "tcid": "3.A.1.5.39"
+        }
+      ],
       "identity": 22.3,
       "rule": "best_hit_v1",
       "tcids": [
@@ -5749,6 +7179,16 @@
   "WP_011125305.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 221.0,
+          "evalue": 3.43e-70,
+          "identity": 36.1,
+          "qcov": 92.9,
+          "scov": 94.0,
+          "tcid": "3.A.1.5.39"
+        }
+      ],
       "identity": 36.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -5847,6 +7287,16 @@
   "WP_011125345.1": {
     "best_hit": {
       "attach_tcid": "2.A.123.2",
+      "hits": [
+        {
+          "bitscore": 88.6,
+          "evalue": 7.09e-25,
+          "identity": 53.7,
+          "qcov": 90.1,
+          "scov": 96.5,
+          "tcid": "2.A.123.2.2"
+        }
+      ],
       "identity": 53.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -5873,6 +7323,24 @@
   "WP_011125348.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 353.0,
+          "evalue": 1.97e-114,
+          "identity": 37.9,
+          "qcov": 80.9,
+          "scov": 93.5,
+          "tcid": "3.A.1.120.8"
+        },
+        {
+          "bitscore": 347.0,
+          "evalue": 5.75e-111,
+          "identity": 35.6,
+          "qcov": 99.2,
+          "scov": 98.9,
+          "tcid": "3.A.1.120.6"
+        }
+      ],
       "identity": 37.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -5964,6 +7432,16 @@
   "WP_011125355.1": {
     "best_hit": {
       "attach_tcid": "2.A.55",
+      "hits": [
+        {
+          "bitscore": 43.5,
+          "evalue": 0.000153,
+          "identity": 22.0,
+          "qcov": 94.7,
+          "scov": 88.4,
+          "tcid": "2.A.55.3.4"
+        }
+      ],
       "identity": 22.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6090,6 +7568,16 @@
   "WP_011125385.1": {
     "best_hit": {
       "attach_tcid": "2.A.6",
+      "hits": [
+        {
+          "bitscore": 81.3,
+          "evalue": 2.97e-17,
+          "identity": 23.9,
+          "qcov": 95.5,
+          "scov": 95.3,
+          "tcid": "2.A.6.3.14"
+        }
+      ],
       "identity": 23.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6144,6 +7632,24 @@
   "WP_011125391.1": {
     "best_hit": {
       "attach_tcid": "3.D.2",
+      "hits": [
+        {
+          "bitscore": 347.0,
+          "evalue": 1.29e-115,
+          "identity": 45.9,
+          "qcov": 93.9,
+          "scov": 95.9,
+          "tcid": "3.D.2.2.1"
+        },
+        {
+          "bitscore": 322.0,
+          "evalue": 6.92e-106,
+          "identity": 43.9,
+          "qcov": 95.6,
+          "scov": 97.8,
+          "tcid": "3.D.2.1.1"
+        }
+      ],
       "identity": 45.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6171,6 +7677,16 @@
   "WP_011125392.1": {
     "best_hit": {
       "attach_tcid": "3.D.2",
+      "hits": [
+        {
+          "bitscore": 65.9,
+          "evalue": 1.17e-15,
+          "identity": 40.7,
+          "qcov": 93.8,
+          "scov": 90.0,
+          "tcid": "3.D.2.2.2"
+        }
+      ],
       "identity": 40.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6197,6 +7713,24 @@
   "WP_011125393.1": {
     "best_hit": {
       "attach_tcid": "3.D.2",
+      "hits": [
+        {
+          "bitscore": 297.0,
+          "evalue": 2.01e-98,
+          "identity": 46.0,
+          "qcov": 98.7,
+          "scov": 99.5,
+          "tcid": "3.D.2.2.1"
+        },
+        {
+          "bitscore": 284.0,
+          "evalue": 1.99e-93,
+          "identity": 44.6,
+          "qcov": 97.4,
+          "scov": 97.3,
+          "tcid": "3.D.2.2.2"
+        }
+      ],
       "identity": 46.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6260,6 +7794,32 @@
   "WP_011125406.1": {
     "best_hit": {
       "attach_tcid": "3.E.2",
+      "hits": [
+        {
+          "bitscore": 615.0,
+          "evalue": 8.47e-225,
+          "identity": 83.0,
+          "qcov": 100.0,
+          "scov": 100.0,
+          "tcid": "3.E.2.2.1"
+        },
+        {
+          "bitscore": 611.0,
+          "evalue": 4.01e-223,
+          "identity": 81.9,
+          "qcov": 100.0,
+          "scov": 100.0,
+          "tcid": "3.E.2.2.2"
+        },
+        {
+          "bitscore": 587.0,
+          "evalue": 1.16e-213,
+          "identity": 78.6,
+          "qcov": 100.0,
+          "scov": 100.0,
+          "tcid": "3.E.2.2.3"
+        }
+      ],
       "identity": 83.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6288,6 +7848,32 @@
   "WP_011125407.1": {
     "best_hit": {
       "attach_tcid": "3.E.2.2",
+      "hits": [
+        {
+          "bitscore": 679.0,
+          "evalue": 1.98e-246,
+          "identity": 69.4,
+          "qcov": 97.8,
+          "scov": 97.8,
+          "tcid": "3.E.2.2.1"
+        },
+        {
+          "bitscore": 677.0,
+          "evalue": 1.1e-245,
+          "identity": 68.6,
+          "qcov": 98.9,
+          "scov": 99.1,
+          "tcid": "3.E.2.2.2"
+        },
+        {
+          "bitscore": 669.0,
+          "evalue": 2.77e-242,
+          "identity": 68.0,
+          "qcov": 99.8,
+          "scov": 97.3,
+          "tcid": "3.E.2.2.3"
+        }
+      ],
       "identity": 69.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6370,6 +7956,24 @@
   "WP_011125420.1": {
     "best_hit": {
       "attach_tcid": "1.B.23",
+      "hits": [
+        {
+          "bitscore": 170.0,
+          "evalue": 1.1e-46,
+          "identity": 31.8,
+          "qcov": 94.0,
+          "scov": 94.9,
+          "tcid": "1.B.23.1.1"
+        },
+        {
+          "bitscore": 154.0,
+          "evalue": 4.45e-41,
+          "identity": 29.6,
+          "qcov": 91.9,
+          "scov": 90.0,
+          "tcid": "1.B.23.1.9"
+        }
+      ],
       "identity": 31.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6397,6 +8001,16 @@
   "WP_011125423.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 207.0,
+          "evalue": 3.54e-64,
+          "identity": 36.8,
+          "qcov": 97.1,
+          "scov": 94.7,
+          "tcid": "3.A.1.10.2"
+        }
+      ],
       "identity": 36.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6441,6 +8055,16 @@
   "WP_011125442.1": {
     "best_hit": {
       "attach_tcid": "1.B.54",
+      "hits": [
+        {
+          "bitscore": 436.0,
+          "evalue": 9.62e-153,
+          "identity": 62.2,
+          "qcov": 80.5,
+          "scov": 89.0,
+          "tcid": "1.B.54.1.7"
+        }
+      ],
       "identity": 62.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6485,6 +8109,16 @@
   "WP_011125446.1": {
     "best_hit": {
       "attach_tcid": "2.A.7",
+      "hits": [
+        {
+          "bitscore": 83.2,
+          "evalue": 2.58e-18,
+          "identity": 28.3,
+          "qcov": 88.1,
+          "scov": 88.8,
+          "tcid": "2.A.7.3.67"
+        }
+      ],
       "identity": 28.3,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6529,6 +8163,16 @@
   "WP_011125453.1": {
     "best_hit": {
       "attach_tcid": "3.A.5.4",
+      "hits": [
+        {
+          "bitscore": 406.0,
+          "evalue": 4.62e-141,
+          "identity": 55.4,
+          "qcov": 99.5,
+          "scov": 98.0,
+          "tcid": "3.A.5.4.1"
+        }
+      ],
       "identity": 55.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6747,6 +8391,24 @@
   "WP_011125489.1": {
     "best_hit": {
       "attach_tcid": "3.A.29.1",
+      "hits": [
+        {
+          "bitscore": 549.0,
+          "evalue": 1.9e-190,
+          "identity": 49.7,
+          "qcov": 95.0,
+          "scov": 96.1,
+          "tcid": "3.A.29.1.7"
+        },
+        {
+          "bitscore": 510.0,
+          "evalue": 1.41e-174,
+          "identity": 46.6,
+          "qcov": 96.1,
+          "scov": 91.8,
+          "tcid": "3.A.29.1.5"
+        }
+      ],
       "identity": 49.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6838,6 +8500,16 @@
   "WP_011125508.1": {
     "best_hit": {
       "attach_tcid": "1.A.14.3",
+      "hits": [
+        {
+          "bitscore": 216.0,
+          "evalue": 1.07e-70,
+          "identity": 49.4,
+          "qcov": 99.2,
+          "scov": 99.6,
+          "tcid": "1.A.14.3.8"
+        }
+      ],
       "identity": 49.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6864,6 +8536,16 @@
   "WP_011125509.1": {
     "best_hit": {
       "attach_tcid": "3.A.23.6",
+      "hits": [
+        {
+          "bitscore": 242.0,
+          "evalue": 8.14e-79,
+          "identity": 44.4,
+          "qcov": 86.1,
+          "scov": 87.9,
+          "tcid": "3.A.23.6.1"
+        }
+      ],
       "identity": 44.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6890,6 +8572,24 @@
   "WP_011125511.1": {
     "best_hit": {
       "attach_tcid": "3.A.5",
+      "hits": [
+        {
+          "bitscore": 433.0,
+          "evalue": 9.74e-148,
+          "identity": 51.9,
+          "qcov": 90.3,
+          "scov": 78.2,
+          "tcid": "3.A.5.1.2"
+        },
+        {
+          "bitscore": 399.0,
+          "evalue": 1.03e-135,
+          "identity": 48.2,
+          "qcov": 89.3,
+          "scov": 95.8,
+          "tcid": "3.A.5.1.1"
+        }
+      ],
       "identity": 51.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -6949,6 +8649,16 @@
   "WP_011125521.1": {
     "best_hit": {
       "attach_tcid": "2.A.113",
+      "hits": [
+        {
+          "bitscore": 58.2,
+          "evalue": 2.21e-10,
+          "identity": 28.8,
+          "qcov": 94.6,
+          "scov": 94.8,
+          "tcid": "2.A.113.1.9"
+        }
+      ],
       "identity": 28.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7029,6 +8739,32 @@
   "WP_011125555.1": {
     "best_hit": {
       "attach_tcid": "2.A.2",
+      "hits": [
+        {
+          "bitscore": 105.0,
+          "evalue": 1.47e-24,
+          "identity": 21.1,
+          "qcov": 99.1,
+          "scov": 95.9,
+          "tcid": "2.A.2.3.6"
+        },
+        {
+          "bitscore": 104.0,
+          "evalue": 3.07e-24,
+          "identity": 23.2,
+          "qcov": 97.8,
+          "scov": 92.0,
+          "tcid": "2.A.2.3.4"
+        },
+        {
+          "bitscore": 100.0,
+          "evalue": 4.66e-23,
+          "identity": 25.7,
+          "qcov": 98.9,
+          "scov": 92.2,
+          "tcid": "2.A.2.3.2"
+        }
+      ],
       "identity": 21.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7057,6 +8793,16 @@
   "WP_011125556.1": {
     "best_hit": {
       "attach_tcid": "3.A.1.27",
+      "hits": [
+        {
+          "bitscore": 106.0,
+          "evalue": 7.72e-28,
+          "identity": 29.4,
+          "qcov": 97.6,
+          "scov": 93.5,
+          "tcid": "3.A.1.27.3"
+        }
+      ],
       "identity": 29.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7083,6 +8829,16 @@
   "WP_011125570.1": {
     "best_hit": {
       "attach_tcid": "1.B.33",
+      "hits": [
+        {
+          "bitscore": 172.0,
+          "evalue": 8.12e-45,
+          "identity": 23.4,
+          "qcov": 80.4,
+          "scov": 77.6,
+          "tcid": "1.B.33.2.2"
+        }
+      ],
       "identity": 23.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7213,6 +8969,16 @@
   "WP_011125603.1": {
     "best_hit": {
       "attach_tcid": "2.A.22",
+      "hits": [
+        {
+          "bitscore": 245.0,
+          "evalue": 1.23e-76,
+          "identity": 38.1,
+          "qcov": 98.6,
+          "scov": 98.2,
+          "tcid": "2.A.22.5.3"
+        }
+      ],
       "identity": 38.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7329,6 +9095,16 @@
   "WP_011125677.1": {
     "best_hit": {
       "attach_tcid": "1.A.1",
+      "hits": [
+        {
+          "bitscore": 96.7,
+          "evalue": 7.21e-24,
+          "identity": 29.2,
+          "qcov": 88.6,
+          "scov": 80.1,
+          "tcid": "1.A.1.24.6"
+        }
+      ],
       "identity": 29.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7355,6 +9131,16 @@
   "WP_011125679.1": {
     "best_hit": {
       "attach_tcid": "1.B.75.3",
+      "hits": [
+        {
+          "bitscore": 584.0,
+          "evalue": 1.94e-214,
+          "identity": 100.0,
+          "qcov": 100.0,
+          "scov": 100.0,
+          "tcid": "1.B.75.3.2"
+        }
+      ],
       "identity": 100.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7381,6 +9167,16 @@
   "WP_011125683.1": {
     "best_hit": {
       "attach_tcid": "3.A.1.7",
+      "hits": [
+        {
+          "bitscore": 484.0,
+          "evalue": 7.62e-174,
+          "identity": 80.6,
+          "qcov": 90.3,
+          "scov": 93.1,
+          "tcid": "3.A.1.7.6"
+        }
+      ],
       "identity": 80.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7497,6 +9293,24 @@
   "WP_011125726.1": {
     "best_hit": {
       "attach_tcid": "2.A.1.83",
+      "hits": [
+        {
+          "bitscore": 412.0,
+          "evalue": 2.38e-142,
+          "identity": 56.6,
+          "qcov": 96.0,
+          "scov": 94.0,
+          "tcid": "2.A.1.83.1"
+        },
+        {
+          "bitscore": 387.0,
+          "evalue": 1.08e-132,
+          "identity": 53.1,
+          "qcov": 95.7,
+          "scov": 94.2,
+          "tcid": "2.A.1.83.2"
+        }
+      ],
       "identity": 56.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7620,6 +9434,16 @@
   "WP_011125738.1": {
     "best_hit": {
       "attach_tcid": "3.A.5.4",
+      "hits": [
+        {
+          "bitscore": 77.0,
+          "evalue": 1.24e-20,
+          "identity": 55.3,
+          "qcov": 100.0,
+          "scov": 94.9,
+          "tcid": "3.A.5.4.1"
+        }
+      ],
       "identity": 55.3,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7646,6 +9470,16 @@
   "WP_011125741.1": {
     "best_hit": {
       "attach_tcid": "3.A.2",
+      "hits": [
+        {
+          "bitscore": 756.0,
+          "evalue": 3.55e-276,
+          "identity": 82.0,
+          "qcov": 96.9,
+          "scov": 97.7,
+          "tcid": "3.A.2.1.10"
+        }
+      ],
       "identity": 82.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7686,6 +9520,16 @@
   "WP_011125742.1": {
     "best_hit": {
       "attach_tcid": "3.A.2.1",
+      "hits": [
+        {
+          "bitscore": 117.0,
+          "evalue": 4.99e-35,
+          "identity": 50.0,
+          "qcov": 98.5,
+          "scov": 95.7,
+          "tcid": "3.A.2.1.10"
+        }
+      ],
       "identity": 50.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7780,6 +9624,16 @@
   "WP_011125753.1": {
     "best_hit": {
       "attach_tcid": "3.A.2.1",
+      "hits": [
+        {
+          "bitscore": 332.0,
+          "evalue": 5.87e-114,
+          "identity": 58.7,
+          "qcov": 99.4,
+          "scov": 98.7,
+          "tcid": "3.A.2.1.10"
+        }
+      ],
       "identity": 58.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7806,6 +9660,16 @@
   "WP_011125754.1": {
     "best_hit": {
       "attach_tcid": "3.A.2",
+      "hits": [
+        {
+          "bitscore": 726.0,
+          "evalue": 2.23e-263,
+          "identity": 74.0,
+          "qcov": 99.8,
+          "scov": 99.8,
+          "tcid": "3.A.2.1.10"
+        }
+      ],
       "identity": 74.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7860,6 +9724,16 @@
   "WP_011125758.1": {
     "best_hit": {
       "attach_tcid": "3.A.2.1",
+      "hits": [
+        {
+          "bitscore": 82.0,
+          "evalue": 1.73e-22,
+          "identity": 63.0,
+          "qcov": 98.8,
+          "scov": 100.0,
+          "tcid": "3.A.2.1.10"
+        }
+      ],
       "identity": 63.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7886,6 +9760,16 @@
   "WP_011125759.1": {
     "best_hit": {
       "attach_tcid": "3.A.2.1",
+      "hits": [
+        {
+          "bitscore": 338.0,
+          "evalue": 8.11e-119,
+          "identity": 70.9,
+          "qcov": 95.4,
+          "scov": 89.5,
+          "tcid": "3.A.2.1.10"
+        }
+      ],
       "identity": 70.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7912,6 +9796,24 @@
   "WP_011125761.1": {
     "best_hit": {
       "attach_tcid": "2.A.103",
+      "hits": [
+        {
+          "bitscore": 192.0,
+          "evalue": 6.17e-57,
+          "identity": 34.8,
+          "qcov": 85.0,
+          "scov": 86.0,
+          "tcid": "2.A.103.1.1"
+        },
+        {
+          "bitscore": 187.0,
+          "evalue": 7.77e-56,
+          "identity": 33.9,
+          "qcov": 84.0,
+          "scov": 96.2,
+          "tcid": "2.A.103.1.3"
+        }
+      ],
       "identity": 34.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7939,6 +9841,16 @@
   "WP_011125762.1": {
     "best_hit": {
       "attach_tcid": "2.A.131",
+      "hits": [
+        {
+          "bitscore": 59.7,
+          "evalue": 6.4e-11,
+          "identity": 24.9,
+          "qcov": 93.5,
+          "scov": 90.5,
+          "tcid": "2.A.131.1.7"
+        }
+      ],
       "identity": 24.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -7979,6 +9891,32 @@
   "WP_011125767.1": {
     "best_hit": {
       "attach_tcid": "1.C.109.1",
+      "hits": [
+        {
+          "bitscore": 209.0,
+          "evalue": 5.91e-67,
+          "identity": 46.4,
+          "qcov": 92.2,
+          "scov": 87.8,
+          "tcid": "1.C.109.1.5"
+        },
+        {
+          "bitscore": 201.0,
+          "evalue": 6.18e-64,
+          "identity": 47.3,
+          "qcov": 96.7,
+          "scov": 95.5,
+          "tcid": "1.C.109.1.4"
+        },
+        {
+          "bitscore": 190.0,
+          "evalue": 7.79e-60,
+          "identity": 45.8,
+          "qcov": 90.4,
+          "scov": 90.4,
+          "tcid": "1.C.109.1.2"
+        }
+      ],
       "identity": 46.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -8039,6 +9977,16 @@
   "WP_011125785.1": {
     "best_hit": {
       "attach_tcid": "2.A.21",
+      "hits": [
+        {
+          "bitscore": 138.0,
+          "evalue": 8.6e-35,
+          "identity": 26.1,
+          "qcov": 87.1,
+          "scov": 86.6,
+          "tcid": "2.A.21.3.8"
+        }
+      ],
       "identity": 26.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -8079,6 +10027,16 @@
   "WP_011125791.1": {
     "best_hit": {
       "attach_tcid": "3.A.16.1",
+      "hits": [
+        {
+          "bitscore": 162.0,
+          "evalue": 4.01e-49,
+          "identity": 42.0,
+          "qcov": 97.7,
+          "scov": 97.7,
+          "tcid": "3.A.16.1.5"
+        }
+      ],
       "identity": 42.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -8219,6 +10177,16 @@
   "WP_011125825.1": {
     "best_hit": {
       "attach_tcid": "4.D.1",
+      "hits": [
+        {
+          "bitscore": 199.0,
+          "evalue": 7.5e-62,
+          "identity": 37.2,
+          "qcov": 97.8,
+          "scov": 95.0,
+          "tcid": "4.D.1.1.13"
+        }
+      ],
       "identity": 37.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -8305,6 +10273,16 @@
   "WP_011125843.1": {
     "best_hit": {
       "attach_tcid": "3.A.5",
+      "hits": [
+        {
+          "bitscore": 550.0,
+          "evalue": 2.43e-196,
+          "identity": 64.2,
+          "qcov": 99.8,
+          "scov": 99.8,
+          "tcid": "3.A.5.4.1"
+        }
+      ],
       "identity": 64.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -8331,6 +10309,16 @@
   "WP_011125862.1": {
     "best_hit": {
       "attach_tcid": "3.D.1.8",
+      "hits": [
+        {
+          "bitscore": 112.0,
+          "evalue": 2.3e-32,
+          "identity": 39.9,
+          "qcov": 97.4,
+          "scov": 96.7,
+          "tcid": "3.D.1.8.2"
+        }
+      ],
       "identity": 39.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -8425,6 +10413,16 @@
   "WP_011125884.1": {
     "best_hit": {
       "attach_tcid": "2.A.103",
+      "hits": [
+        {
+          "bitscore": 192.0,
+          "evalue": 2.98e-57,
+          "identity": 37.0,
+          "qcov": 78.9,
+          "scov": 78.9,
+          "tcid": "2.A.103.1.2"
+        }
+      ],
       "identity": 37.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -8537,6 +10535,16 @@
   "WP_011125907.1": {
     "best_hit": {
       "attach_tcid": "2.A.37",
+      "hits": [
+        {
+          "bitscore": 325.0,
+          "evalue": 2.08e-107,
+          "identity": 43.5,
+          "qcov": 95.0,
+          "scov": 94.8,
+          "tcid": "2.A.37.2.4"
+        }
+      ],
       "identity": 43.5,
       "rule": "best_hit_v1",
       "tcids": [
@@ -8777,6 +10785,16 @@
   "WP_011125933.1": {
     "best_hit": {
       "attach_tcid": "3.A.7",
+      "hits": [
+        {
+          "bitscore": 77.0,
+          "evalue": 5.07e-19,
+          "identity": 35.9,
+          "qcov": 95.3,
+          "scov": 84.7,
+          "tcid": "3.A.7.19.1"
+        }
+      ],
       "identity": 35.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -8853,6 +10871,16 @@
   "WP_011125941.1": {
     "best_hit": {
       "attach_tcid": "1.A.26.1",
+      "hits": [
+        {
+          "bitscore": 660.0,
+          "evalue": 1.64e-238,
+          "identity": 84.9,
+          "qcov": 98.5,
+          "scov": 98.9,
+          "tcid": "1.A.26.1.6"
+        }
+      ],
       "identity": 84.9,
       "rule": "best_hit_v1",
       "tcids": [
@@ -8893,6 +10921,32 @@
   "WP_011125942.1": {
     "best_hit": {
       "attach_tcid": "1.A.43",
+      "hits": [
+        {
+          "bitscore": 48.9,
+          "evalue": 1.36e-08,
+          "identity": 30.2,
+          "qcov": 79.0,
+          "scov": 93.8,
+          "tcid": "1.A.43.1.9"
+        },
+        {
+          "bitscore": 45.8,
+          "evalue": 2.46e-07,
+          "identity": 27.4,
+          "qcov": 77.4,
+          "scov": 92.7,
+          "tcid": "1.A.43.1.14"
+        },
+        {
+          "bitscore": 44.7,
+          "evalue": 6.51e-07,
+          "identity": 26.1,
+          "qcov": 79.8,
+          "scov": 94.3,
+          "tcid": "1.A.43.1.18"
+        }
+      ],
       "identity": 30.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -8921,6 +10975,16 @@
   "WP_011125950.1": {
     "best_hit": {
       "attach_tcid": "3.A.5",
+      "hits": [
+        {
+          "bitscore": 1287.0,
+          "evalue": 0.0,
+          "identity": 70.6,
+          "qcov": 99.5,
+          "scov": 99.1,
+          "tcid": "3.A.5.4.1"
+        }
+      ],
       "identity": 70.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9051,6 +11115,16 @@
   "WP_011126010.1": {
     "best_hit": {
       "attach_tcid": "2.A.1",
+      "hits": [
+        {
+          "bitscore": 566.0,
+          "evalue": 3.84e-203,
+          "identity": 71.0,
+          "qcov": 98.1,
+          "scov": 99.3,
+          "tcid": "2.A.1.2.109"
+        }
+      ],
       "identity": 71.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9077,6 +11151,16 @@
   "WP_011126016.1": {
     "best_hit": {
       "attach_tcid": "2.A.49",
+      "hits": [
+        {
+          "bitscore": 132.0,
+          "evalue": 1e-33,
+          "identity": 28.1,
+          "qcov": 88.2,
+          "scov": 86.9,
+          "tcid": "2.A.49.5.5"
+        }
+      ],
       "identity": 28.1,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9103,6 +11187,16 @@
   "WP_011126020.1": {
     "best_hit": {
       "attach_tcid": "3.A.9.1",
+      "hits": [
+        {
+          "bitscore": 823.0,
+          "evalue": 2.21e-296,
+          "identity": 69.4,
+          "qcov": 99.7,
+          "scov": 90.4,
+          "tcid": "3.A.9.1.1"
+        }
+      ],
       "identity": 69.4,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9253,6 +11347,16 @@
   "WP_036891701.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 122.0,
+          "evalue": 2.9e-33,
+          "identity": 32.3,
+          "qcov": 96.7,
+          "scov": 94.2,
+          "tcid": "3.A.1.5.3"
+        }
+      ],
       "identity": 32.3,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9297,6 +11401,16 @@
   "WP_036891713.1": {
     "best_hit": {
       "attach_tcid": "3.D.4",
+      "hits": [
+        {
+          "bitscore": 236.0,
+          "evalue": 7.25e-77,
+          "identity": 40.5,
+          "qcov": 96.7,
+          "scov": 84.0,
+          "tcid": "3.D.4.4.4"
+        }
+      ],
       "identity": 40.5,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9441,6 +11555,24 @@
   "WP_036892144.1": {
     "best_hit": {
       "attach_tcid": "3.A.29.1",
+      "hits": [
+        {
+          "bitscore": 566.0,
+          "evalue": 1.59e-196,
+          "identity": 50.7,
+          "qcov": 98.4,
+          "scov": 92.7,
+          "tcid": "3.A.29.1.5"
+        },
+        {
+          "bitscore": 530.0,
+          "evalue": 4e-183,
+          "identity": 48.4,
+          "qcov": 98.2,
+          "scov": 98.7,
+          "tcid": "3.A.29.1.7"
+        }
+      ],
       "identity": 50.7,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9496,6 +11628,16 @@
   "WP_036892153.1": {
     "best_hit": {
       "attach_tcid": "2.A.38.4",
+      "hits": [
+        {
+          "bitscore": 156.0,
+          "evalue": 1.14e-47,
+          "identity": 40.8,
+          "qcov": 93.2,
+          "scov": 94.3,
+          "tcid": "2.A.38.4.5"
+        }
+      ],
       "identity": 40.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9586,6 +11728,16 @@
   "WP_036892505.1": {
     "best_hit": {
       "attach_tcid": "3.A.2",
+      "hits": [
+        {
+          "bitscore": 133.0,
+          "evalue": 6.61e-40,
+          "identity": 39.5,
+          "qcov": 94.5,
+          "scov": 92.0,
+          "tcid": "3.A.2.1.10"
+        }
+      ],
       "identity": 39.5,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9612,6 +11764,16 @@
   "WP_036892595.1": {
     "best_hit": {
       "attach_tcid": "2.A.25.1",
+      "hits": [
+        {
+          "bitscore": 420.0,
+          "evalue": 1.05e-144,
+          "identity": 54.6,
+          "qcov": 96.2,
+          "scov": 96.4,
+          "tcid": "2.A.25.1.9"
+        }
+      ],
       "identity": 54.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9656,6 +11818,16 @@
   "WP_052039695.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 207.0,
+          "evalue": 1.21e-59,
+          "identity": 30.6,
+          "qcov": 79.0,
+          "scov": 81.7,
+          "tcid": "3.A.1.106.15"
+        }
+      ],
       "identity": 30.6,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9700,6 +11872,32 @@
   "WP_052039710.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 359.0,
+          "evalue": 1.96e-118,
+          "identity": 37.2,
+          "qcov": 98.7,
+          "scov": 98.2,
+          "tcid": "3.A.1.5.49"
+        },
+        {
+          "bitscore": 347.0,
+          "evalue": 5.93e-113,
+          "identity": 39.3,
+          "qcov": 95.9,
+          "scov": 87.7,
+          "tcid": "3.A.1.5.23"
+        },
+        {
+          "bitscore": 338.0,
+          "evalue": 3.16e-110,
+          "identity": 37.9,
+          "qcov": 97.4,
+          "scov": 99.2,
+          "tcid": "3.A.1.5.21"
+        }
+      ],
       "identity": 37.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9728,6 +11926,16 @@
   "WP_052039742.1": {
     "best_hit": {
       "attach_tcid": "1.A.77.3",
+      "hits": [
+        {
+          "bitscore": 100.0,
+          "evalue": 4.22e-28,
+          "identity": 48.8,
+          "qcov": 87.9,
+          "scov": 78.8,
+          "tcid": "1.A.77.3.40"
+        }
+      ],
       "identity": 48.8,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9790,6 +11998,16 @@
   "WP_164923195.1": {
     "best_hit": {
       "attach_tcid": "1.B.17",
+      "hits": [
+        {
+          "bitscore": 125.0,
+          "evalue": 5.33e-31,
+          "identity": 29.0,
+          "qcov": 79.8,
+          "scov": 83.4,
+          "tcid": "1.B.17.2.10"
+        }
+      ],
       "identity": 29.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9862,6 +12080,16 @@
   "WP_164923202.1": {
     "best_hit": {
       "attach_tcid": "4.C.1",
+      "hits": [
+        {
+          "bitscore": 169.0,
+          "evalue": 1.59e-44,
+          "identity": 26.5,
+          "qcov": 87.6,
+          "scov": 86.8,
+          "tcid": "4.C.1.1.14"
+        }
+      ],
       "identity": 26.5,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9906,6 +12134,16 @@
   "WP_164923207.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 260.0,
+          "evalue": 3.19e-80,
+          "identity": 35.0,
+          "qcov": 81.6,
+          "scov": 84.0,
+          "tcid": "3.A.1.10.2"
+        }
+      ],
       "identity": 35.0,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9932,6 +12170,16 @@
   "WP_164923226.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 68.6,
+          "evalue": 7.47e-13,
+          "identity": 24.2,
+          "qcov": 97.3,
+          "scov": 97.4,
+          "tcid": "3.A.1.152.3"
+        }
+      ],
       "identity": 24.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -9972,6 +12220,32 @@
   "WP_164923228.1": {
     "best_hit": {
       "attach_tcid": "3.A.1",
+      "hits": [
+        {
+          "bitscore": 109.0,
+          "evalue": 6.9e-29,
+          "identity": 33.2,
+          "qcov": 88.9,
+          "scov": 95.0,
+          "tcid": "3.A.1.23.5"
+        },
+        {
+          "bitscore": 103.0,
+          "evalue": 1.16e-26,
+          "identity": 29.0,
+          "qcov": 91.2,
+          "scov": 95.1,
+          "tcid": "3.A.1.3.20"
+        },
+        {
+          "bitscore": 103.0,
+          "evalue": 1.46e-26,
+          "identity": 33.9,
+          "qcov": 85.8,
+          "scov": 85.2,
+          "tcid": "3.A.1.3.8"
+        }
+      ],
       "identity": 33.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -10072,6 +12346,16 @@
   "WP_193328865.1": {
     "best_hit": {
       "attach_tcid": "3.D.1",
+      "hits": [
+        {
+          "bitscore": 539.0,
+          "evalue": 6.08e-194,
+          "identity": 74.2,
+          "qcov": 100.0,
+          "scov": 100.0,
+          "tcid": "3.D.1.8.2"
+        }
+      ],
       "identity": 74.2,
       "rule": "best_hit_v1",
       "tcids": [
@@ -10180,6 +12464,16 @@
   "WP_413315926.1": {
     "best_hit": {
       "attach_tcid": "3.D.1",
+      "hits": [
+        {
+          "bitscore": 617.0,
+          "evalue": 2.12e-219,
+          "identity": 64.1,
+          "qcov": 90.2,
+          "scov": 94.0,
+          "tcid": "3.D.1.8.2"
+        }
+      ],
       "identity": 64.1,
       "rule": "best_hit_v1",
       "tcids": [
