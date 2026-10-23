@@ -36,6 +36,9 @@ STATE_TO_QUALITY = {
 # sync with scripts/post-import.cypher / .sh (the SOURCE_BUCKETS block);
 # tests/test_annotation_quality_buckets.py gates the two scripts against each
 # other, this list gates the live graph against the checkout.
+# Gene_has_tcdb_family counts here with EVERY tcdb_gate (below_gate included);
+# only the transporter bucket / 'tcdb' annotation type read the gate (TCDB
+# cleanup, spec 2026-10-22 §7).
 HAS_ANY_EDGE_RELS = (
     "Gene_involved_in_biological_process|Gene_enables_molecular_function"
     "|Gene_located_in_cellular_component"
@@ -185,3 +188,25 @@ def test_no_evidence_has_any_edge_contract(run_query):
         f"annotation edges (has_any_edge over-match); "
         f"examples: {empty[0]['examples']}"
     )
+
+
+def test_transporter_bucket_reads_the_tcdb_gate(run_query):
+    """TCDB cleanup (spec 2026-10-22 §7): the 'transporter' bucket fires iff the
+    gene has a Gene_has_tcdb_family edge with tcdb_gate IN ['direct','annotated']
+    (eggNOG, tier <= 2 call, or rank-1 best hit with tier <= 2). A gene whose only
+    TCDB evidence is below_gate keeps has_any_edge but not the bucket."""
+    result = run_query("""
+        MATCH (g:Gene)
+        WITH g, EXISTS { (g)-[r:Gene_has_tcdb_family]->() WHERE r.tcdb_gate IN ['direct', 'annotated'] } AS gate,
+             'transporter' IN coalesce(g.informative_annotation_types, []) AS bucket
+        WHERE gate <> bucket
+        RETURN count(g) AS bad, collect(g.locus_tag)[..5] AS examples
+    """)
+    assert result[0]["bad"] == 0, result[0]
+    below_only = run_query("""
+        MATCH (g:Gene)-[r:Gene_has_tcdb_family]->()
+        WITH g, collect(r.tcdb_gate) AS gates WHERE all(x IN gates WHERE x = 'below_gate')
+        RETURN count(g) AS n,
+               sum(CASE WHEN g.annotation_state = 'no_evidence' THEN 1 ELSE 0 END) AS no_evidence
+    """)[0]
+    assert below_only["n"] > 0 and below_only["no_evidence"] == 0, below_only

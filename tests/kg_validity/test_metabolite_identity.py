@@ -16,7 +16,6 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 REMAP = ROOT / "docs/kg-changes/metabolite-identity/metabolite_id_remap.tsv"
 PRE_ELEMENTS = ROOT / "tests/kg_validity/fixtures/metabolite_elements_pre_identity.json"
 PRE_COUNTS = ROOT / "tests/kg_validity/fixtures/metabolite_identity_pre_counts.json"
-TCDB_PRUNED = ROOT / "cache/data/tcdb/tcdb_pruned.json"
 IDENTITY_REPORT = ROOT / "cache/data/metabolomics/metabolite_identity_report.json"
 
 # all_identifiers CURIE forms (spec §3.2). The mnx local part may be non-MNXM (e.g. mnx:WATER).
@@ -104,23 +103,34 @@ def test_old_secondary_role_id_resolves(run_query):
 
 
 def test_role_subtree_counts_distinct_and_ge_direct(run_query):
-    bad = run_query("MATCH (r:ChemicalRole) WHERE r.tcdb_family_count IS NULL OR r.transporter_count IS NULL "
-                    "OR r.tcdb_family_count < r.direct_tcdb_family_count "
-                    "OR r.transporter_count < r.direct_transporter_count RETURN r.id LIMIT 5")
+    """TCDB cleanup (spec 2026-10-22 §7): role edges leave tc_system nodes only.
+    tcdb_system_count / direct_tcdb_system_count (renamed from tcdb_family_count /
+    direct_tcdb_family_count) = every kept system curated with the role, over the
+    is_a subtree / the role itself; transporter_count / direct_transporter_count =
+    the same restricted to systems that are the target of a tcdb_gate = 'direct'
+    gene edge."""
+    bad = run_query("MATCH (r:ChemicalRole) WHERE r.tcdb_system_count IS NULL OR r.transporter_count IS NULL "
+                    "OR r.direct_tcdb_system_count IS NULL OR r.direct_transporter_count IS NULL "
+                    "OR r.tcdb_system_count < r.direct_tcdb_system_count "
+                    "OR r.transporter_count < r.direct_transporter_count "
+                    "OR r.tcdb_system_count < r.transporter_count RETURN r.id LIMIT 5")
     assert not bad, bad
-    row = _one(run_query, """MATCH (r:ChemicalRole) WHERE r.level = 0
+    assert not run_query("MATCH (r:ChemicalRole) WHERE r.tcdb_family_count IS NOT NULL "
+                         "OR r.direct_tcdb_family_count IS NOT NULL RETURN r.id LIMIT 3"), "old names remain"
+    rows = run_query("""MATCH (r:ChemicalRole)
         OPTIONAL MATCH (r)<-[:Chemical_role_is_a_chemical_role*0..]-(d:ChemicalRole)
-                       <-[:Tcdb_family_transports_chemical_role]-(t:TcdbFamily)
-        WITH r, count(DISTINCT t) AS n RETURN collect(coalesce(r.tcdb_family_count = n, false)) AS ok""")
-    assert row["ok"], "no level-0 ChemicalRole"
-    assert all(row["ok"])
-    # transporter_count = DISTINCT families via most_specific role edges over the subtree
-    row = _one(run_query, """MATCH (r:ChemicalRole) WHERE r.level = 0
-        OPTIONAL MATCH (r)<-[:Chemical_role_is_a_chemical_role*0..]-(d:ChemicalRole)
-                       <-[e:Tcdb_family_transports_chemical_role]-(t:TcdbFamily)
-        WHERE e.substrate_depth = 'most_specific'
-        WITH r, count(DISTINCT t) AS n RETURN collect(coalesce(r.transporter_count = n, false)) AS ok""")
-    assert row["ok"] and all(row["ok"])
+                       <-[:Tcdb_family_transports_chemical_role]-(t:TcdbFamily {level_kind: 'tc_system'})
+        WITH r, d, t, (t IS NOT NULL AND EXISTS { (:Gene)-[:Gene_has_tcdb_family {tcdb_gate: 'direct'}]->(t) }) AS anchored
+        WITH r, count(DISTINCT t) AS sys, count(DISTINCT CASE WHEN anchored THEN t END) AS tr,
+             count(DISTINCT CASE WHEN d = r THEN t END) AS d_sys,
+             count(DISTINCT CASE WHEN d = r AND anchored THEN t END) AS d_tr
+        RETURN r.id AS id, [r.tcdb_system_count, r.transporter_count,
+                            r.direct_tcdb_system_count, r.direct_transporter_count] AS prop,
+               [sys, tr, d_sys, d_tr] AS walk""")
+    assert rows, "no ChemicalRole"
+    wrong = [r for r in rows if r["prop"] != r["walk"]]
+    assert not wrong, wrong[:5]
+    assert any(r["walk"][0] > r["walk"][1] for r in rows), "no role with a range-only system — rule not exercised"
 
 
 def test_roles_not_propagated(run_query):
@@ -403,26 +413,50 @@ def test_fulltext_hits(run_query):
                      "RETURN node.id")
 
 
-# --- TCDB substrate_breadth pin -------------------------------------------------------
+# --- TCDB cleanup: removed compounds / pathways (spec 2026-10-22 §5.4) ------------------
 
-def test_lumping_pin(run_query):
-    pin = json.loads(_need(TCDB_PRUNED).read_text())
-    expected = set(pin["lumping_pin"]["lumping_tcdb_ids"]) & set(pin["kept_tcdb_ids"])
-    assert expected
-    live = {r["id"] for r in run_query("MATCH (t:TcdbFamily {substrate_breadth: 'lumping'}) RETURN t.tcdb_id AS id")}
-    assert live == expected, (sorted(expected - live)[:5], sorted(live - expected)[:5])
-    # dense
-    assert not run_query("MATCH (t:TcdbFamily) WHERE t.substrate_breadth IS NULL RETURN t.tcdb_id LIMIT 3")
-    assert not run_query("MATCH (t:TcdbFamily) WHERE t.level < 2 AND t.substrate_breadth <> 'not_assessed' "
-                         "RETURN t.tcdb_id LIMIT 3")
+TCDB_REMOVED = ROOT / "docs/kg-changes/tcdb-cleanup/removed_ids.tsv"
 
 
-def test_transport_substrate_resolution_unchanged(run_query):
-    baseline = json.loads(_need(PRE_COUNTS).read_text())["transport_substrate_resolution"]
-    expected = {k: v for k, v in baseline.items() if k != "None"}   # null stored as "None"
-    dist = {r["v"]: r["n"] for r in run_query("MATCH (g:Gene) WHERE g.transport_substrate_resolution IS NOT NULL "
-                                              "RETURN g.transport_substrate_resolution AS v, count(*) AS n")}
-    assert dist == expected
+def _tcdb_removed_rows():
+    with _need(TCDB_REMOVED).open() as fh:
+        return list(csv.DictReader((ln for ln in fh if not ln.startswith("#")), delimiter="\t"))
+
+
+def test_tcdb_cleanup_removed_ids_absent(run_query):
+    """The class roll-up loss: 65 transport-only Metabolites and 3 gene-less pathways
+    are gone; chebi:23899 (icosanoid) is re-keyed to chebi:62937; the 31 lost-tag
+    compounds stay but without 'transport'."""
+    rows = _tcdb_removed_rows()
+    by = {}
+    for r in rows:
+        by.setdefault(r["change"], []).append(r["id"])
+    assert len(by["metabolite_removed"]) == 65 and len(by["pathway_removed"]) == 3, \
+        {k: len(v) for k, v in by.items()}
+    assert not run_query("MATCH (m:Metabolite) WHERE m.id IN $ids RETURN m.id LIMIT 5",
+                         ids=by["metabolite_removed"])
+    assert not run_query("MATCH (k:KeggTerm) WHERE k.id IN $ids RETURN k.id LIMIT 5",
+                         ids=by["pathway_removed"])
+    assert not run_query("MATCH (m:Metabolite {id: 'chebi:23899'}) RETURN m.id")
+    assert run_query("MATCH (m:Metabolite {id: 'chebi:62937'}) RETURN m.id")
+    lost = run_query("MATCH (m:Metabolite) WHERE m.id IN $ids "
+                     "RETURN m.id AS id, 'transport' IN m.evidence_sources AS tagged",
+                     ids=by["metabolite_loses_transport_tag"])
+    assert len(lost) == len(by["metabolite_loses_transport_tag"]), "a lost-tag compound disappeared"
+    assert not [r["id"] for r in lost if r["tagged"]]
+    roles = run_query("MATCH (r:ChemicalRole) WHERE r.id IN $ids "
+                      "AND EXISTS { (r)<-[:Tcdb_family_transports_chemical_role]-() } RETURN r.id LIMIT 5",
+                      ids=by["chemical_role_loses_transport_route"])
+    assert not roles, roles
+
+
+def test_tcdb_cleanup_metabolite_and_pathway_counts(run_query):
+    """Counts move by exactly the measured deltas from the pre-cleanup graph."""
+    exp = json.loads(_need(PRE_COUNTS).read_text())["tcdb_cleanup"]
+    n_met = _one(run_query, "MATCH (m:Metabolite) RETURN count(m) AS n")["n"]
+    n_pw = _one(run_query, "MATCH (k:KeggTerm {level_kind: 'pathway'}) RETURN count(k) AS n")["n"]
+    assert n_met == exp["pre_metabolite_total"] + exp["metabolite_delta"] == exp["metabolite_total"], n_met
+    assert n_pw == exp["pre_keggterm_pathway_total"] + exp["pathway_delta"] == exp["keggterm_pathway_total"], n_pw
 
 
 # Curated xref: overrides (explorer ask 5): generic HMDB / ChEBI records sit on the generic node.

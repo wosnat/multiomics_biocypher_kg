@@ -102,22 +102,17 @@ def test_gene_catalyzed_metabolite_count_consistent_with_2hop(run_query):
         )
 
 
-def test_gene_transported_metabolite_count_consistent_with_deepest_2hop(run_query):
-    """The transport arm: 2-hop from the gene's DEEPEST TC attachments only.
-
-    Attaching at every level would let a gene annotated at both 3.A.1 and
-    3.A.1.14 inherit the ABC superfamily's full 554-substrate rollup despite
-    having a more specific call. 6,950 genes are in that position.
+def test_gene_transported_metabolite_count_consistent_with_direct_2hop(run_query):
+    """The transport arm: 2-hop through the gene's DIRECT tc_system edges only
+    (TCDB cleanup, spec 2026-10-22 §7): tcdb_gate = 'direct' — a rank-1 best hit
+    with tier <= 2, an eggNOG 5-part id or a tier-1 call. No ancestor or descendant
+    walk; a gene known only at family level reads 0.
     """
     rows = run_query("""
         MATCH (g:Gene) WHERE g.transported_metabolite_count > 0
-        WITH g LIMIT 10
-        OPTIONAL MATCH (g)-[:Gene_has_tcdb_family]->(t:TcdbFamily)
-        WHERE NOT EXISTS {
-            MATCH (g)-[:Gene_has_tcdb_family]->(d:TcdbFamily)
-            WHERE (d)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t)
-        }
-        OPTIONAL MATCH (t)-[:Tcdb_family_transports_metabolite]->(m_tr:Metabolite)
+        WITH g ORDER BY g.locus_tag LIMIT 10
+        OPTIONAL MATCH (g)-[:Gene_has_tcdb_family {tcdb_gate: 'direct'}]->(t:TcdbFamily {level_kind: 'tc_system'})
+                       -[:Tcdb_family_transports_metabolite]->(m_tr:Metabolite)
         RETURN g.locus_tag AS lt,
                g.transported_metabolite_count AS prop,
                count(DISTINCT m_tr) AS actual
@@ -125,8 +120,18 @@ def test_gene_transported_metabolite_count_consistent_with_deepest_2hop(run_quer
     assert len(rows) > 0
     for r in rows:
         assert r["prop"] == r["actual"], (
-            f"{r['lt']}: transported_metabolite_count={r['prop']} vs deepest 2-hop DISTINCT={r['actual']}"
+            f"{r['lt']}: transported_metabolite_count={r['prop']} vs direct 2-hop DISTINCT={r['actual']}"
         )
+
+
+def test_family_only_genes_have_no_transport_arm(run_query):
+    """A gene whose TCDB edges are all off-system (family / subfamily) reads 0."""
+    n = run_query("""
+        MATCH (g:Gene)-[:Gene_has_tcdb_family]->(t:TcdbFamily)
+        WITH g, collect(t.level_kind) AS lks WHERE NOT 'tc_system' IN lks
+        RETURN count(g) AS n, sum(CASE WHEN g.transported_metabolite_count <> 0 THEN 1 ELSE 0 END) AS bad
+    """)[0]
+    assert n["n"] > 0 and n["bad"] == 0, n
 
 
 # ── KG-A3: Metabolite.elements ────────────────────────────────────────────

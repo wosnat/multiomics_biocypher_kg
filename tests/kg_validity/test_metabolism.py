@@ -186,20 +186,18 @@ def test_metabolite_organism_names_populated(run_query):
 def test_metabolite_pathways_only_kg_evidenced(run_query):
     """Option B: Metabolite_in_pathway targets must be gene-reachable.
 
-    Three valid evidence paths after the TCDB-substrate refactor:
+    Three valid evidence paths:
       - Gene -> KeggTerm KO -> pathway (via Kegg_term_is_a_kegg_term hierarchy)
       - Gene -> Reaction -> pathway
-      - Gene -> TcdbFamily (or a kept ancestor) -> Metabolite -> pathway
-        (the substrate's compound_to_pathways set, intersected with the
-         extended pws set in step 6 — drops compound-only meta-classification
-         maps with no names like ko010**, ko07***).
-
-    The transport arm walks UP the TCDB hierarchy from the gene-attached
-    family (``Tcdb_family_is_a_tcdb_family*0..``), matching step 6's rule:
-    transport-reachable pathways come from substrates on ANY kept TC node, and
-    kept ancestors carry their descendants' rolled-up substrates even when no
-    gene attaches to the ancestor directly (e.g. ``tcdb:9.A`` -> PI3P C04549
-    -> ko04145 after the metabolite-identity re-key).
+      - transport: a substrate of a kept tc_system -> pathway. TCDB cleanup
+        (spec 2026-10-22 §5.4/§7): substrate edges leave tc_system nodes only, and
+        the step-6 compound/pathway extension reads the substrates of every kept
+        system (gene-anchored + range-only). A range-only system is kept because it
+        sits under a kept tc_family, which is kept because some gene edge lands on
+        it or below it — so the walk is gene -> TC node -> up to its tc_family ->
+        down to a system -> substrate. The old class-level roll-up (any kept
+        ancestor, e.g. tcdb:9.A) is gone, and with it Phagosome / Focal adhesion /
+        chondroitin-sulfate GAG biosynthesis (docs/kg-changes/tcdb-cleanup/removed_ids.tsv).
     """
     n_orphan = run_query("""
         MATCH (m:Metabolite)-[:Metabolite_in_pathway]->(p:KeggTerm)
@@ -210,8 +208,9 @@ def test_metabolite_pathways_only_kg_evidenced(run_query):
             MATCH (g:Gene)-[:Gene_catalyzes_reaction]->(:Reaction)-[:Reaction_in_kegg_pathway]->(p)
         }
         AND NOT EXISTS {
-            MATCH (g:Gene)-[:Gene_has_tcdb_family]->(:TcdbFamily)
-                  -[:Tcdb_family_is_a_tcdb_family*0..]->(:TcdbFamily)
+            MATCH (:Gene)-[:Gene_has_tcdb_family]->(:TcdbFamily)
+                  -[:Tcdb_family_is_a_tcdb_family*0..2]->(:TcdbFamily {level_kind: 'tc_family'})
+                  <-[:Tcdb_family_is_a_tcdb_family*0..2]-(:TcdbFamily {level_kind: 'tc_system'})
                   -[:Tcdb_family_transports_metabolite]->(:Metabolite)
                   -[:Metabolite_in_pathway]->(p)
         }

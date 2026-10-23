@@ -46,7 +46,8 @@ def _edge_ids():
     except (FileNotFoundError, json.JSONDecodeError):
         return []
     return [
-        (f"{e['type']}:{e['source']}->{e['target']}", e)
+        (f"{e['type']}:{e['source']}->{e['target']}"
+         + (f"[{e['properties']['tcdb_call']}]" if "tcdb_call" in e.get("properties", {}) else ""), e)
         for e in data.get("edges", [])
     ]
 
@@ -90,6 +91,11 @@ def test_snapshot_edge_exists(run_query, test_id, edge):
     if "time_point_order" in props:
         tp_filter = "AND r.time_point_order = $tpo "
         params["tpo"] = props["time_point_order"]
+    # Gene_has_tcdb_family carries one edge per tcdb_call between the same
+    # (Gene, TcdbFamily) pair (TCDB cleanup, 2026-10-22); pin the call kind.
+    if "tcdb_call" in props:
+        tp_filter += "AND r.tcdb_call = $tcdb_call "
+        params["tcdb_call"] = props["tcdb_call"]
     result = run_query(
         f"MATCH (src)-[r:`{edge['type']}`]->(tgt) "
         f"WHERE src.id = $src AND tgt.id = $tgt {tp_filter}"
