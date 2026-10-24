@@ -93,7 +93,7 @@ possible.
 | `level_kind` | `tc_class` · `tc_subclass` · `tc_family` · `tc_subfamily` · **`tc_system`** (renamed from `tc_specificity`; "system" is TCDB's term for a 5-part TCID) |
 | `superfamily` | sparse, as today |
 | `description` | sparse, `tc_system` only — TCDB's curated system text from the cached family pages (`cache/data/tcdb/raw/pages/`), capped as today |
-| `direction` | `uptake` · `export` · `unknown` (dense, every level; inherited downward from the node where the rule fires, so systems carry it) |
+| `direction` | `uptake` · `export` · `unknown` (dense, every level; ABC numbering applies to the subfamily and everything below it, otherwise the nearest named node — the node itself, then its ancestors up to family level — decides, so systems carry it) |
 | `direction_basis` | sparse: `abc_numbering` · `tcdb_name` |
 | `tcdb_substrate_count` | dense on **all five levels** (explorer R5; on a system = its own substrate count, 0 when none): distinct canonical targets (Metabolite + ChemicalRole nodes) of the `tc_system` substrate edges in this node's subtree. Computed **post-import from the edges**, so it equals the walk by construction; because §5.4 step 3 keeps every substrate-bearing system under kept families, that is TCDB's full range for the node (unresolvable substrate strings excluded, as everywhere) |
 | `gene_count`, `direct_gene_count`, `organism_count` | post-import, subtree semantics as today, but counted over **gate-passing edges only** (`tcdb_gate IN ['direct','annotated']`), so term sizes match the explorer's TERM2GENE; a system reached only by near-tie or tier-3 calls reads 0 |
@@ -494,7 +494,7 @@ Explorer dialog: `multiomics_explorer/docs/kg-specs/2026-10-23-tcdb-cleanup-expl
 (responses R1–R9, F1–F2 and the KG replies). From it: `call_kind` renamed
 `tcdb_call`; `tcdb_gate` marker on edges (direct · annotated · below_gate);
 exact `tcdb_family_count` rule; `tcdb_substrate_count` on all levels;
-`direction` dense and inherited downward.
+`direction` dense; ABC numbering below the subfamily, otherwise the nearest named node wins (a system named as an uptake porter inside an exporter family reads uptake).
 
 ## 11. Calls made by Claude (for the user to check)
 

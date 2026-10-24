@@ -82,6 +82,10 @@ def tcdb_direction(tc_id: str, hierarchy: dict) -> tuple[str, str | None]:
        neither group is skipped.
     3. Otherwise ``("unknown", None)``.
 
+    So the direction is not simply inherited downward: ABC numbering covers the subfamily
+    and everything below it and is never overridden, but otherwise the NEAREST named node
+    wins (a system whose own name says uptake reads uptake even inside an exporter family;
+    known false positive ``2.A.86.1.7``, "may function with a heme uptake transporter").
     Free-text descriptions are never read.
     """
     parts = tc_id.split(".")

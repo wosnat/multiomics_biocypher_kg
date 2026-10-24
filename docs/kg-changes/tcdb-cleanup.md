@@ -44,8 +44,14 @@ project 3b.
   - `tcdb_name` (542 + 857): the nearest node, going up to family level, whose TCDB name says
     import/uptake/influx or export/efflux/extrusion. Only one of the two may appear. Matching is
     whole-word and includes agent nouns ("Exporter").
-  - Both rules are inherited downward. Class/subclass names and free-text descriptions are never
-    used.
+  - ABC numbering applies to the subfamily and everything below it and is never overridden.
+    Otherwise the nearest named node wins: the node's own name first, then its ancestors up to
+    family level. So a system named as an uptake porter inside an exporter family reads uptake;
+    the direction is not simply inherited downward. Class/subclass names and free-text
+    descriptions are never used.
+  - Known false positive: `2.A.86.1.7` reads uptake from its descriptive name ("may function
+    with a heme uptake transporter") although its family is an exporter family. No genes carry
+    it.
   - `3.A.1` itself is `unknown`; `3.A.1.4` is `uptake` / `abc_numbering`.
 - **New `tcdb_substrate_count`** (post-import, dense, all five levels): distinct Metabolite +
   ChemicalRole targets of the system substrate edges in the node's subtree, i.e. TCDB's range for

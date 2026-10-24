@@ -288,11 +288,14 @@ TcdbFamily.direction:
   closed: true
   values: [uptake, export, unknown]
   description: >
-    Transport direction as TCDB states it, on every level. Read from the ABC
-    numbering convention or from the TCDB names of the node and its ancestors
-    down to family level (never from class or subclass names, never from free
-    text descriptions); a node inherits the direction of its nearest ancestor
-    that states one. direction_basis says which rule fired.
+    Transport direction as TCDB states it, on every level. In the ABC
+    superfamily the numbering convention decides, for the subfamily and
+    everything below it, and nothing overrides it. Otherwise the nearest named
+    node decides: the node itself first, then its ancestors up to family level,
+    and the first TCDB name that states exactly one direction wins (never class
+    or subclass names, never free text descriptions). So a system whose own
+    name calls it an uptake porter reads uptake even inside an exporter family.
+    direction_basis says which rule fired.
   value_descriptions:
     uptake: the node is, or lies under, an ABC subfamily numbered 3.A.1.1 to 3.A.1.99; or the nearest TCDB name at family level or deeper says uptake, import or influx (and not export)
     export: the node is, or lies under, an ABC subfamily numbered 3.A.1.100 or higher; or the nearest TCDB name at family level or deeper says export, efflux or extrusion (and not uptake)
