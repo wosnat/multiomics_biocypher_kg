@@ -261,6 +261,20 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 
 ### Fixed
 
+- **Gene annotations on retired TCDB ids now land on the ids TCDB moved them to.** eggNOG and
+  the diamond library still carry numbers TCDB has retired; their family pages list only
+  "<old> has been moved to <new>". Step 6 reads those lines from the cached TCDB pages and
+  re-anchors such seeds (system level; a subfamily or family only when every one of its systems
+  moved to one place). An id TCDB reused for two different moves is ambiguous and is moved only
+  by a curated entry in `config/tcdb_moved_overrides.yaml`, which has one: `9.B.99.1` →
+  `1.B.93.1` (MipA). 30 genes move: 14 CorC genes `9.A.40.1.2` → `1.C.126.1.2` (eggNOG,
+  still `direct`), 15 MipA/OmpV genes `9.B.99.1` → `1.B.93.1` (eggNOG, `annotated`), 1 gene
+  `1.B.166` → `1.B.101` (diamond tier 3, `below_gate`). Retired ids are no longer kept as
+  range-only nodes, so `9.A.40`, `9.B.99` and `1.B.166` and their subtrees leave the graph
+  (20 TcdbFamily nodes out, `1.B.101` in: 9,389 → 9,370); `9.A.40` goes too because no gene
+  anchors it once its one seed moved. Gene-edge totals and gate counts are unchanged;
+  `kegg_data.json` is unchanged.
+
 - **Assay `stereo_assignment` no longer depends on which stereo siblings are KG nodes.** A paper
   name without a stereo descriptor that resolves to one enantiomer (e.g. "Threonine" →
   L-threonine) was flagged `dominant_form_assumed` only while the other form was also a node;

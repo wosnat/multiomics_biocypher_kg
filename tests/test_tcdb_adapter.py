@@ -621,3 +621,12 @@ def test_post_import_sh_and_cypher_tcdb_blocks_match():
     cy = _tcdb_statements(pathlib.Path("scripts/post-import.cypher").read_text())
     assert len(sh) > 10
     assert sh == cy
+
+
+def test_moved_alias_applies_even_when_raw_id_is_kept(tmp_path):
+    """A move alias wins over 'raw id is kept' (post-3a P2)."""
+    a = _setup(tmp_path, _gene(eggnog=["2.A.6.1.9"]), None,
+               aliases={"2.A.6.1.9": "2.A.6.1.1"})
+    edges = _gene_edges(a)
+    assert [e[2] for e in edges] == ["tcdb:2.A.6.1.1"]
+    assert edges[0][4]["tcdb_gate"] == "direct"

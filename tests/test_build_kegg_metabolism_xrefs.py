@@ -9,6 +9,12 @@ import pytest
 from multiomics_kg.download import build_kegg_metabolism_xrefs as bx
 
 
+@pytest.fixture(autouse=True)
+def _no_tcdb_moved_overrides(monkeypatch, tmp_path):
+    """The committed overrides name real TCDB ids the toy hierarchies here lack."""
+    monkeypatch.setattr(bx, "TCDB_MOVED_OVERRIDES_FILE", tmp_path / "no_overrides.yaml")
+
+
 def _write_strain_annotations(strain_dir, genes):
     strain_dir.mkdir(parents=True, exist_ok=True)
     (strain_dir / "gene_annotations_merged.json").write_text(json.dumps(genes))
@@ -1603,3 +1609,50 @@ def test_main_drops_excluded_pathways_and_records_them(tmp_path, monkeypatch):
     assert seen["sets"]["pws"] == {"ko00010", "ko01501"}
     assert seen["inp"].base_pathways == {"ko00010", "ko01501"}
     assert set(seen["inp"].kegg_rest["excluded_pathways"]) == {"ko04910"}
+
+
+# ── Retired TCDB ids → moved-to targets (post-3a P2) ─────────────────────────
+
+_MOVED_H = {
+    "1": {"level": 0, "level_kind": "tc_class", "parent": None},
+    "1.C": {"level": 1, "level_kind": "tc_subclass", "parent": "1"},
+    "1.C.126": {"level": 2, "level_kind": "tc_family", "parent": "1.C"},
+    "1.C.126.1": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.C.126"},
+    "1.C.126.1.2": {"level": 4, "level_kind": "tc_system", "parent": "1.C.126.1"},
+    "9": {"level": 0, "level_kind": "tc_class", "parent": None},
+    "9.A": {"level": 1, "level_kind": "tc_subclass", "parent": "9"},
+    "9.A.40": {"level": 2, "level_kind": "tc_family", "parent": "9.A"},
+    "9.A.40.1": {"level": 3, "level_kind": "tc_subfamily", "parent": "9.A.40"},
+    "9.A.40.1.2": {"level": 4, "level_kind": "tc_system", "parent": "9.A.40.1",
+                   "substrate_classes": ["CHEBI:1;x"]},
+    "9.A.40.3": {"level": 3, "level_kind": "tc_subfamily", "parent": "9.A.40"},
+    "9.A.40.3.1": {"level": 4, "level_kind": "tc_system", "parent": "9.A.40.3"},
+}
+
+
+def test_prune_tcdb_eggnog_seed_lands_on_moved_target():
+    """An eggNOG seed 9.A.40.1.2 (retired; moved to 1.C.126.1.2) is aliased there."""
+    kept, aliases = bx._prune_tcdb(_MOVED_H, {"9.A.40.1.2", "9.A.40.3.1"},
+                                   moved={"9.A.40.1.2": "1.C.126.1.2"})
+    assert aliases == {"9.A.40.1.2": "1.C.126.1.2"}
+    assert {"1", "1.C", "1.C.126", "1.C.126.1", "1.C.126.1.2"} <= kept
+    assert "9.A.40.1.2" not in kept and "9.A.40.1" not in kept
+    assert "9.A.40" in kept                                 # kept by 9.A.40.3.1
+
+
+def test_add_range_systems_never_rekeeps_moved_ids():
+    kept, _ = bx._prune_tcdb(_MOVED_H, {"9.A.40.1.2", "9.A.40.3.1"},
+                             moved={"9.A.40.1.2": "1.C.126.1.2"})
+    with_range, range_only = bx._add_range_systems(_MOVED_H, kept, exclude={"9.A.40.1.2"})
+    assert "9.A.40.1.2" not in with_range and "9.A.40.1" not in with_range
+    with_range, _ = bx._add_range_systems(_MOVED_H, kept)   # default: no exclusion
+    assert "9.A.40.1.2" in with_range
+
+
+def test_load_moved_aliases_without_pages_warns_and_returns_empty(tmp_path, caplog):
+    import logging
+    with caplog.at_level(logging.WARNING):
+        aliases, moved_ids = bx._load_moved_aliases(tmp_path, _MOVED_H,
+                                                    tmp_path / "none.yaml")
+    assert aliases == {} and moved_ids == set()
+    assert "moved" in caplog.text.lower()

@@ -110,6 +110,7 @@ MAPPING_FILE = METABOLOMICS_DIR / "metabolite_id_mapping.json"
 IDENTITY_OVERRIDES_FILE = PROJECT_ROOT / "config" / "metabolite_identity_overrides.yaml"
 GO_TRANSPORT_FILTER_FILE = PROJECT_ROOT / "config" / "go_transport_target_filter.yaml"
 KEGG_PATHWAY_EXCLUSIONS_FILE = PROJECT_ROOT / "config" / "kegg_pathway_exclusions.yaml"
+TCDB_MOVED_OVERRIDES_FILE = PROJECT_ROOT / "config" / "tcdb_moved_overrides.yaml"
 
 log = logging.getLogger(__name__)
 
@@ -725,6 +726,7 @@ def _bulk_enrich_compounds(
 def _prune_tcdb(
     hierarchy: dict,
     seed_ids: set[str],
+    moved: dict[str, str] | None = None,
 ) -> tuple[set[str], dict[str, str]]:
     """Ancestor-only prune of the TCDB hierarchy.
 
@@ -739,6 +741,10 @@ def _prune_tcdb(
 
     Seeds with no resolvable ancestor are dropped and logged as a warning at
     the call site.
+
+    ``moved`` (``{retired id: id TCDB moved it to}``, from `_load_moved_aliases`) is
+    applied FIRST, even when the retired id is still in the hierarchy: the seed is
+    recorded in seed_aliases as ``old → new`` and only the new id is kept.
 
     **No downward walk from seeds.** An earlier version walked down to every leaf under
     each seed (12,902 nodes, 94.5% gene-less). The substrate range of a kept family is now
@@ -765,7 +771,12 @@ def _prune_tcdb(
         return None
 
     seed_aliases: dict[str, str] = {}
+    moved = moved or {}
     for seed in seed_ids:
+        if seed in moved and moved[seed] in hierarchy:
+            seed_aliases[seed] = moved[seed]
+            walk_up(moved[seed])
+            continue
         if seed in hierarchy:
             walk_up(seed)
             continue
@@ -779,24 +790,59 @@ def _prune_tcdb(
     return kept, seed_aliases
 
 
-def _add_range_systems(hierarchy: dict, kept: set[str]) -> tuple[set[str], set[str]]:
+def _add_range_systems(
+    hierarchy: dict, kept: set[str], exclude: set[str] | None = None,
+) -> tuple[set[str], set[str]]:
     """Add the substrate range of every kept family (spec 2026-10-22 §5.4 step 3).
 
     Every tc_system with non-empty ``substrate_classes`` whose 3-part family is in ``kept``
     is added, with its ancestors. Returns ``(kept_with_range, range_only)``; ``range_only``
     is the nodes added here (gene_count = 0 in the KG). ``kept`` is not mutated.
+    ``exclude`` (retired, moved ids) are never added, nor reached as ancestors.
     """
     out = set(kept)
+    exclude = exclude or set()
     for tc, entry in hierarchy.items():
-        if not _is_system(tc) or not entry.get("substrate_classes"):
+        if not _is_system(tc) or not entry.get("substrate_classes") or tc in exclude:
             continue
         if ".".join(tc.split(".")[:3]) not in kept:
             continue
         cur: str | None = tc
-        while cur is not None and cur in hierarchy and cur not in out:
+        while cur is not None and cur in hierarchy and cur not in out and cur not in exclude:
             out.add(cur)
             cur = hierarchy[cur].get("parent")
     return out, out - kept
+
+
+def _load_moved_aliases(
+    cache_root: Path, hierarchy: dict, overrides_path: Path,
+) -> tuple[dict[str, str], set[str]]:
+    """Moved-to aliases for retired TCDB ids, from the cached TCDB pages
+    (``tcdb/raw/pages/*.html``, written by the names scraper) plus the curated
+    ``config/tcdb_moved_overrides.yaml``. Returns ``(aliases, moved_ids)``:
+    ``aliases`` = ``{old: new}`` for `_prune_tcdb`; ``moved_ids`` = every retired id
+    (parsed or overridden), which `_add_range_systems` must not re-keep.
+    No cached pages → warn, no parsed moves (overrides still apply); never fails."""
+    from multiomics_kg.utils.tcdb_utils import (
+        load_moved_overrides, parse_moved_tcids, resolve_moved_aliases)
+    overrides = load_moved_overrides(overrides_path, hierarchy)
+    pages = sorted((Path(cache_root) / "tcdb" / "raw" / "pages").glob("*.html"))
+    if not pages:
+        log.warning("  TCDB: no cached TCDB pages under tcdb/raw/pages/ - retired ids "
+                    "are not re-anchored to the ids TCDB moved them to (overrides only)")
+    raw = parse_moved_tcids(p.read_text(encoding="utf-8", errors="replace") for p in pages)
+    aliases, ambiguous = resolve_moved_aliases(raw, hierarchy, overrides)
+    if ambiguous:
+        unresolved = [a for a in ambiguous
+                      if a not in overrides and not any(a.startswith(o + ".") for o in overrides)]
+        log.warning(f"  TCDB: {len(ambiguous)} retired id(s) with conflicting moved-to "
+                    f"targets (TCDB reused the number) - not re-anchored unless overridden; "
+                    f"{len(unresolved)} not covered by an override "
+                    f"(e.g. {', '.join(ambiguous[:5])})")
+    log.info(f"  TCDB: {len(raw)} moved line(s) parsed from {len(pages)} page(s); "
+             f"{len(aliases)} moved alias(es) ({len(overrides)} curated override(s))")
+    moved_ids = set(raw) | set(aliases)
+    return aliases, moved_ids
 
 
 def _system_substrate_strings(hierarchy: dict, kept: set[str]) -> dict[str, set[str]]:
@@ -1649,8 +1695,11 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         )
 
         log.info("Pruning TCDB hierarchy (seeds: eggNOG ∪ diamond tiers ∪ diamond best hits) ...")
-        anchored, seed_aliases = _prune_tcdb(hierarchy, catalysis_sets["tcdb_seed_ids"])
-        kept, range_only = _add_range_systems(hierarchy, anchored)
+        moved_aliases, moved_ids = _load_moved_aliases(
+            cache_root, hierarchy, TCDB_MOVED_OVERRIDES_FILE)
+        anchored, seed_aliases = _prune_tcdb(hierarchy, catalysis_sets["tcdb_seed_ids"],
+                                             moved=moved_aliases)
+        kept, range_only = _add_range_systems(hierarchy, anchored, exclude=moved_ids)
         log.info(f"  TCDB kept {len(kept)} nodes: {len(anchored)} gene-anchored "
                  f"(seeds + ancestors), {len(range_only)} range-only "
                  f"({sum(1 for t in range_only if _is_system(t))} substrate-bearing systems "

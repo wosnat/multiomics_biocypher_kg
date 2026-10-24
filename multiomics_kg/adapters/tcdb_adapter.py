@@ -333,14 +333,16 @@ class MultiTcdbAnnotationAdapter:
             # {(locus_tag, target, tcdb_call): props}, insertion-ordered
             edges: dict[tuple[str, str, str], dict] = {}
             for locus_tag, tcdb_call, tc, props in adapter.get_edges():
+                # An alias wins even when the raw id is kept: a retired id that TCDB
+                # moved can still sit in the kept set via another route.
                 target = tc
-                if target not in self._kept_ids:
-                    anchor = self._seed_aliases.get(tc) or ""
-                    if not anchor or anchor not in self._kept_ids:
-                        dropped += 1
-                        continue
+                anchor = self._seed_aliases.get(tc) or ""
+                if anchor:
                     target = anchor
                     remapped += 1
+                if target not in self._kept_ids:
+                    dropped += 1
+                    continue
                 key = (locus_tag, target, tcdb_call)
                 prev = edges.get(key)
                 if prev is not None:

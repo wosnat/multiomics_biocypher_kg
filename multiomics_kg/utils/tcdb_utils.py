@@ -227,3 +227,109 @@ def build_tcdb_bridges(
         tc: {x: sorted(set(v)) for x, v in sorted(xrefs.items())}
         for tc, xrefs in sorted(bridges.items())
     }
+
+
+# ============================================================================
+# Retired TCDB ids → the ids TCDB moved them to (post-3a P2)
+# ============================================================================
+#
+# TCDB retires a family by renumbering its systems; the retired family page then
+# only lists lines like "9.A.40.1.2 has been moved to 1.C.126.1.2". eggNOG and the
+# diamond library still carry the old ids, so step 6 re-anchors those seeds onto
+# the current ids. TCDB sometimes reused a number for two different moves; such ids
+# are ambiguous and are only aliased through config/tcdb_moved_overrides.yaml.
+
+_MOVED_RE = re.compile(
+    r"\b(\d+\.[A-Za-z]\.\d+(?:\.\d+)*)\s+has been moved to\s+(\d+\.[A-Za-z]\.\d+(?:\.\d+)*)")
+
+
+def _norm_tcid(tc: str) -> str:
+    """TC ids carry one upper-case letter (``1.a.17.4.1`` → ``1.A.17.4.1``)."""
+    return tc.strip().upper()
+
+
+def parse_moved_tcids(page_texts) -> dict[str, set[str]]:
+    """``{old id: {new ids}}`` from TCDB page HTML/text "<old> has been moved to <new>"
+    lines. Tags are stripped first; ids are upper-cased. An old id with more than one
+    target (TCDB reused the number) keeps every target, so callers can see the conflict."""
+    out: dict[str, set[str]] = defaultdict(set)
+    for text in page_texts:
+        flat = re.sub(r"<[^>]*>", " ", text)
+        for old, new in _MOVED_RE.findall(flat):
+            out[_norm_tcid(old)].add(_norm_tcid(new))
+    return dict(out)
+
+
+def _prefix(tc: str, n_parts: int) -> str:
+    return ".".join(tc.split(".")[:n_parts])
+
+
+def resolve_moved_aliases(
+    raw_moves: dict[str, set[str]],
+    hierarchy: dict,
+    overrides: dict[str, str] | None = None,
+) -> tuple[dict[str, str], list[str]]:
+    """Turn parsed moves into seed aliases ``{old id: new id}``. Returns
+    ``(aliases, ambiguous)`` where ``ambiguous`` lists the ids with conflicting targets.
+
+    * An id with exactly one target that is in ``hierarchy`` is aliased to it.
+    * A coarser id (subfamily / family prefix of moved systems) is aliased to target
+      prefix T at the same depth only when EVERY system the hierarchy holds under it
+      was moved, none ambiguously, and all their targets share T. Otherwise no alias.
+    * ``overrides`` (curated) win over everything parsed.
+    A target missing from ``hierarchy`` gives no alias (the caller falls back to
+    ancestor truncation).
+    """
+    aliases: dict[str, str] = {}
+    ambiguous = sorted(old for old, targets in raw_moves.items() if len(targets) > 1)
+    single = {old: next(iter(t)) for old, t in raw_moves.items() if len(t) == 1}
+    for old, new in single.items():
+        if new in hierarchy:
+            aliases[old] = new
+    coarse: set[str] = set()
+    for old in raw_moves:
+        n = old.count(".") + 1
+        for depth in range(3, n):
+            coarse.add(_prefix(old, depth))
+    for c in sorted(coarse):
+        depth = c.count(".") + 1
+        systems = sorted({t for t in hierarchy if t.startswith(c + ".")
+                          and t.count(".") >= depth} | {o for o in raw_moves
+                                                         if o.startswith(c + ".")})
+        leaves = [s for s in systems if not any(o.startswith(s + ".") for o in systems)]
+        if not leaves or any(s not in single for s in leaves):
+            continue
+        targets = {_prefix(single[s], depth) for s in leaves}
+        if len(targets) != 1:
+            continue
+        target = targets.pop()
+        if target.count(".") + 1 == depth and target in hierarchy:
+            aliases[c] = target
+    for old, new in (overrides or {}).items():
+        aliases[old] = new
+    return dict(sorted(aliases.items())), ambiguous
+
+
+def load_moved_overrides(path: Path, hierarchy: dict) -> dict[str, str]:
+    """``{old id: target}`` from ``config/tcdb_moved_overrides.yaml``
+    (``{old_id: {target, reason}}``). Missing file → ``{}``. Raises ValueError on an
+    entry without exactly a non-empty ``target`` and ``reason``, or a target that is not
+    in ``hierarchy``."""
+    import yaml
+    path = Path(path)
+    if not path.exists():
+        return {}
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    if not isinstance(data, dict):
+        raise ValueError(f"{path}: expected a mapping")
+    out: dict[str, str] = {}
+    for old, e in data.items():
+        if not isinstance(e, dict) or set(e) != {"target", "reason"} \
+                or not e["target"] or not e["reason"]:
+            raise ValueError(f"{path}: entry {old!r} needs exactly a non-empty target "
+                             f"and reason, got {e!r}")
+        target = _norm_tcid(str(e["target"]))
+        if target not in hierarchy:
+            raise ValueError(f"{path}: {old!r} target {target!r} is not in the TCDB hierarchy")
+        out[_norm_tcid(str(old))] = target
+    return out

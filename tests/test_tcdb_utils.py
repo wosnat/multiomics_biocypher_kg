@@ -199,3 +199,104 @@ def test_tcdb_direction_nearest_name_wins():
          "2.A.7.1.1": {"name": "", "level": 4, "parent": "2.A.7.1"}}
     assert tu.tcdb_direction("2.A.7.1.1", h) == ("uptake", "tcdb_name")
     assert tu.tcdb_direction("2.A.7", h) == ("export", "tcdb_name")
+
+
+# ── Retired TCDB ids: moved-to map (post-3a P2) ──────────────────────────────
+
+_MOVED_PAGE = (
+    "<div>The following TC entries have been moved</br>"
+    "9.B.99.1.1 has been moved to <a href='result.php?tc=1.a.17.4.1'>1.a.17.4.1</a></br>"
+    "9.B.99.1.1 has been moved to <a href='result.php?tc=1.B.93.1.1'>1.B.93.1.1</a></br>"
+    "9.B.99.1.2 has been moved to <a href='result.php?tc=1.B.93.1.2'>1.B.93.1.2</a></br>"
+    "</div>"
+)
+
+
+def _h(*ids):
+    return {t: {"name": "", "parent": t.rsplit(".", 1)[0] if "." in t else None} for t in ids}
+
+
+def test_parse_moved_tcids_real_line_format_and_lower_case_target():
+    from multiomics_kg.utils.tcdb_utils import parse_moved_tcids
+    moves = parse_moved_tcids([_MOVED_PAGE, "<p>nothing here</p>"])
+    assert moves == {"9.B.99.1.1": {"1.A.17.4.1", "1.B.93.1.1"},
+                     "9.B.99.1.2": {"1.B.93.1.2"}}
+
+
+def test_resolve_moved_aliases_system_and_coarse_all_agree():
+    from multiomics_kg.utils.tcdb_utils import resolve_moved_aliases
+    h = _h("1", "1.B", "1.B.166", "1.B.166.1", "1.B.166.1.1", "1.B.166.1.2",
+           "1.B.101", "1.B.101.1", "1.B.101.1.1", "1.B.101.1.2")
+    raw = {"1.B.166.1.1": {"1.B.101.1.1"}, "1.B.166.1.2": {"1.B.101.1.2"}}
+    aliases, ambiguous = resolve_moved_aliases(raw, h)
+    assert aliases == {"1.B.166.1.1": "1.B.101.1.1", "1.B.166.1.2": "1.B.101.1.2",
+                       "1.B.166.1": "1.B.101.1", "1.B.166": "1.B.101"}
+    assert ambiguous == []
+
+
+def test_resolve_moved_aliases_disagreeing_targets_give_no_coarse_alias():
+    from multiomics_kg.utils.tcdb_utils import resolve_moved_aliases
+    h = _h("9", "9.A", "9.A.40", "9.A.40.1", "9.A.40.1.1", "9.A.40.1.5", "9.A.40.3",
+           "9.A.40.3.5", "1", "1.C", "1.C.126", "1.C.126.1", "1.C.126.1.1")
+    raw = {"9.A.40.1.1": {"1.C.126.1.1"}, "9.A.40.1.5": {"9.A.40.3.5"}}
+    aliases, ambiguous = resolve_moved_aliases(raw, h)
+    assert aliases == {"9.A.40.1.1": "1.C.126.1.1", "9.A.40.1.5": "9.A.40.3.5"}
+    assert ambiguous == []
+
+
+def test_resolve_moved_aliases_coarse_needs_every_system_moved():
+    """A subfamily with a system that was NOT moved keeps no coarse alias."""
+    from multiomics_kg.utils.tcdb_utils import resolve_moved_aliases
+    h = _h("1", "1.B", "1.B.166", "1.B.166.1", "1.B.166.1.1", "1.B.166.1.7",
+           "1.B.101", "1.B.101.1", "1.B.101.1.1")
+    aliases, _ = resolve_moved_aliases({"1.B.166.1.1": {"1.B.101.1.1"}}, h)
+    assert aliases == {"1.B.166.1.1": "1.B.101.1.1"}
+
+
+def test_resolve_moved_aliases_ambiguous_and_override_wins():
+    from multiomics_kg.utils.tcdb_utils import resolve_moved_aliases
+    h = _h("9", "9.B", "9.B.99", "9.B.99.1", "9.B.99.1.1", "9.B.99.1.2",
+           "1", "1.A", "1.A.17", "1.A.17.4", "1.A.17.4.1",
+           "1.B", "1.B.93", "1.B.93.1", "1.B.93.1.1", "1.B.93.1.2")
+    raw = {"9.B.99.1.1": {"1.A.17.4.1", "1.B.93.1.1"}, "9.B.99.1.2": {"1.B.93.1.2"}}
+    aliases, ambiguous = resolve_moved_aliases(raw, h)
+    assert aliases == {"9.B.99.1.2": "1.B.93.1.2"}       # 1.1 ambiguous, no coarse
+    assert ambiguous == ["9.B.99.1.1"]
+    aliases, _ = resolve_moved_aliases(raw, h, overrides={"9.B.99.1": "1.B.93.1"})
+    assert aliases == {"9.B.99.1.2": "1.B.93.1.2", "9.B.99.1": "1.B.93.1"}
+
+
+def test_resolve_moved_aliases_target_outside_hierarchy_is_skipped():
+    from multiomics_kg.utils.tcdb_utils import resolve_moved_aliases
+    h = _h("1", "1.B", "1.B.166", "1.B.166.1", "1.B.166.1.1")
+    aliases, _ = resolve_moved_aliases({"1.B.166.1.1": {"1.B.101.1.1"}}, h)
+    assert aliases == {}
+
+
+def test_load_moved_overrides_validates(tmp_path):
+    import pytest
+    from multiomics_kg.utils.tcdb_utils import load_moved_overrides
+    h = _h("9", "9.B", "9.B.99", "9.B.99.1", "1", "1.B", "1.B.93", "1.B.93.1")
+    p = tmp_path / "o.yaml"
+    p.write_text('9.B.99.1:\n  target: 1.B.93.1\n  reason: "MipA genes"\n')
+    assert load_moved_overrides(p, h) == {"9.B.99.1": "1.B.93.1"}
+    p.write_text('9.B.99.1:\n  target: 1.B.93.1\n  reason: "x"\n  extra: 1\n')
+    with pytest.raises(ValueError):
+        load_moved_overrides(p, h)
+    p.write_text('9.B.99.1:\n  target: 1.B.93.9\n  reason: "x"\n')
+    with pytest.raises(ValueError):
+        load_moved_overrides(p, h)
+    p.write_text('9.B.99.1:\n  target: 1.B.93.1\n  reason: ""\n')
+    with pytest.raises(ValueError):
+        load_moved_overrides(p, h)
+    assert load_moved_overrides(tmp_path / "missing.yaml", h) == {}
+
+
+def test_committed_moved_overrides_load_against_committed_hierarchy():
+    import json
+    from pathlib import Path
+    from multiomics_kg.utils.tcdb_utils import load_moved_overrides
+    root = Path(__file__).resolve().parents[1]
+    h = json.loads((root / "cache/data/tcdb/tcdb_hierarchy.json").read_text())
+    assert load_moved_overrides(root / "config/tcdb_moved_overrides.yaml", h) == \
+        {"9.B.99.1": "1.B.93.1"}

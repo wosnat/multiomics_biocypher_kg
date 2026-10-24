@@ -1,0 +1,14 @@
+# Curated targets for retired TCDB ids whose moved-to target is ambiguous.
+#
+# When TCDB retires a family it renumbers the systems and the old family page lists
+# "<old id> has been moved to <new id>". Prepare_data step 6 reads those lines from the
+# cached TCDB pages and re-anchors gene annotations on an old id onto its new id. When
+# the page gives one old id two different targets (TCDB reused the number for two
+# separate moves) the id is ambiguous and is NOT re-anchored automatically; an entry
+# here decides it. Entries win over the parsed moves. Page order is never used.
+#
+# Format: <old id>: {target: <id in the TCDB hierarchy>, reason: <why>}
+# Step 6 fails on an unknown key or a target missing from the hierarchy.
+9.B.99.1:
+  target: 1.B.93.1
+  reason: "TCDB reused 9.B.99.1.x for two moves (TMC 1.A.17.4 and MipA 1.B.93.1); the genes annotated here are MipA/OmpV outer-membrane proteins"
