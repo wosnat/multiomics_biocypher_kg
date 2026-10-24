@@ -360,8 +360,7 @@ def test_build_moved_map_from_cached_pages_merges_existing(tmp_path):
     assert art["moved"] == {"1.B.166.1.1": ["1.B.101.1.1"],
                             "9.B.99.1.1": ["1.A.17.4.1", "1.B.93.1.1"]}
     assert art["meta"]["source_pages"] == ["family_9.B.99.html"]
-    assert art["meta"]["pages_scanned"] == 2
-    assert "generated" in art["meta"]
+    assert set(art["meta"]) == {"source", "source_pages"}      # reproducible: no date
 
 
 def test_committed_moved_map_has_the_three_retired_families():

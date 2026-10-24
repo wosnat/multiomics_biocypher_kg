@@ -282,7 +282,8 @@ def fetch_page(url: str, dest: Path, *, force: bool, delay: float,
 def build_moved_map(pages_dir: Path, existing: dict | None = None) -> dict:
     """``{"meta": {...}, "moved": {old id: [targets]}}`` from every cached family page
     under ``pages_dir`` (no network). Merges with ``existing`` (target lists unioned), so a
-    narrower scrape never drops a move. Targets keep every conflicting move: step 6
+    narrower scrape never drops a move. No date or page count is stored, so identical
+    moves give a byte-identical file. Targets keep every conflicting move: step 6
     treats an old id with two targets as ambiguous."""
     from multiomics_kg.utils.tcdb_utils import parse_moved_tcids
     moved: dict[str, set[str]] = {
@@ -300,8 +301,6 @@ def build_moved_map(pages_dir: Path, existing: dict | None = None) -> dict:
             "source": "TCDB family pages (search/result.php), lines "
                       "<old> has been moved to <new>",
             "source_pages": sorted(source_pages),
-            "pages_scanned": len(pages),
-            "generated": date.today().isoformat(),
         },
         "moved": {old: sorted(t) for old, t in sorted(moved.items())},
     }
