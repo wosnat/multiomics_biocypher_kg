@@ -461,8 +461,8 @@ def test_tcdb_family_has_member_count_and_class_id(run_query):
 
 
 @pytest.mark.kg
-def test_tcdb_family_count_rule(run_query):
-    """Gene.tcdb_family_count (spec §5.3): the gate-passing targets, minus any target
+def test_tcdb_assignment_count_rule(run_query):
+    """Gene.tcdb_assignment_count (spec §5.3): the gate-passing targets, minus any target
     that is an ancestor of another target, counted distinct. Recomputed with TCID
     prefixes (independent of the hierarchy edges): a diamond_tier edge on 3.A.1.4 +
     a rank-1 best hit on 3.A.1.4.4 = 1; + eggNOG on 3.A.1.4.5 = 2; eggNOG and a best
@@ -473,21 +473,28 @@ def test_tcdb_family_count_rule(run_query):
         WITH g, collect(DISTINCT t.tcdb_id) AS ts
         WITH g, size(ts) AS targets,
              size([x IN ts WHERE NOT any(y IN ts WHERE y STARTS WITH x + '.')]) AS expected
-        RETURN sum(CASE WHEN coalesce(g.tcdb_family_count, -1) <> expected THEN 1 ELSE 0 END) AS bad,
+        RETURN sum(CASE WHEN coalesce(g.tcdb_assignment_count, -1) <> expected THEN 1 ELSE 0 END) AS bad,
                sum(CASE WHEN targets > expected THEN 1 ELSE 0 END) AS collapsed,
                sum(CASE WHEN expected > 1 THEN 1 ELSE 0 END) AS multi""", gp=GATE_PASSING)[0]
-    assert row["bad"] == 0, f"{row['bad']} genes whose tcdb_family_count breaks the §5.3 rule"
+    assert row["bad"] == 0, f"{row['bad']} genes whose tcdb_assignment_count breaks the §5.3 rule"
     assert row["collapsed"] > 0, "no gene where an ancestor target was dropped — rule not exercised"
-    assert row["multi"] > 0, "no gene with two sibling families — rule not exercised"
+    assert row["multi"] > 0, "no gene with two sibling assignments — rule not exercised"
 
 
 @pytest.mark.kg
-def test_tcdb_family_count_ignores_below_gate_only_genes(run_query):
+def test_tcdb_assignment_count_ignores_below_gate_only_genes(run_query):
     n = run_query("""
         MATCH (g:Gene)-[r:Gene_has_tcdb_family]->()
         WITH g, collect(r.tcdb_gate) AS gates WHERE all(x IN gates WHERE x = 'below_gate')
-        RETURN count(g) AS n, sum(CASE WHEN g.tcdb_family_count <> 0 THEN 1 ELSE 0 END) AS bad""")[0]
+        RETURN count(g) AS n, sum(CASE WHEN coalesce(g.tcdb_assignment_count, -1) <> 0 THEN 1 ELSE 0 END) AS bad""")[0]
     assert n["n"] > 0 and n["bad"] == 0, n
+
+
+@pytest.mark.kg
+def test_gene_tcdb_family_count_renamed(run_query):
+    """Gene.tcdb_family_count was renamed tcdb_assignment_count (same meaning)."""
+    assert not run_query("MATCH (g:Gene) WHERE g.tcdb_family_count IS NOT NULL "
+                         "RETURN g.locus_tag LIMIT 3"), "old name remains"
 
 
 # ============================================================================

@@ -1120,10 +1120,10 @@ def test_cazy_family_has_gene_count_and_organism_count(run_query):
 
 
 @pytest.mark.kg
-def test_gene_tcdb_family_count_populated(run_query):
-    """Every Gene has tcdb_family_count and cazy_family_count populated (default 0)."""
+def test_gene_tcdb_assignment_count_populated(run_query):
+    """Every Gene has tcdb_assignment_count and cazy_family_count populated (default 0)."""
     rows = run_query(
-        "MATCH (g:Gene) WHERE g.tcdb_family_count IS NULL OR g.cazy_family_count IS NULL "
+        "MATCH (g:Gene) WHERE g.tcdb_assignment_count IS NULL OR g.cazy_family_count IS NULL "
         "RETURN count(g) AS n"
     )
     assert rows[0]["n"] == 0

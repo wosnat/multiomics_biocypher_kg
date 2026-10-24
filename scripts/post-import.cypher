@@ -696,7 +696,7 @@ SET t.is_uninformative = 'true';
 // genes_by_function routing. has_any_edge still counts every Gene_has_tcdb_family
 // edge (catch_all_only).
 //
-// Gene.tcdb_family_count uses the same gate (deepest per lineage);
+// Gene.tcdb_assignment_count uses the same gate (deepest per lineage);
 // Gene.catalyzed_metabolite_count is a routing count with no gate.
 
 // SOURCE_BUCKETS:end
@@ -1417,7 +1417,7 @@ CALL {
 
 // Gene metabolism + ontology counts (combined single Gene scan):
 //   - cazy_family_count  (TCDB-S2)
-//   (tcdb_family_count lives in the transport-arm statement below, with the
+//   (tcdb_assignment_count lives in the transport-arm statement below, with the
 //    gate-passing edge set it counts)
 //   - reaction_count     (KG-A1)
 //   - catalyzed_metabolite_count  (KG-A2 — the catalysis arm; renamed from
@@ -1460,10 +1460,10 @@ CALL {
       g.catalyzed_metabolite_count = cat_met_count
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Gene transport arm: tcdb_family_count + transported_metabolite_count
+// Gene transport arm: tcdb_assignment_count + transported_metabolite_count
 // (spec 2026-10-22 §5.3 / §7).
 //
-// tcdb_family_count = the TC nodes targeted by the gene's gate-passing edges
+// tcdb_assignment_count = the TC nodes targeted by the gene's gate-passing edges
 // (tcdb_gate IN ['direct','annotated']), minus any node that is an ancestor of
 // another node in that set (whatever the call kind), counted distinct. So a
 // diamond tier call on 3.A.1.4 plus a rank-1 best hit on 3.A.1.4.4 = 1; an eggNOG
@@ -1489,7 +1489,7 @@ CALL {
   OPTIONAL MATCH (g)-[:Gene_has_tcdb_family {tcdb_gate: 'direct'}]->(:TcdbFamily)
                  -[:Tcdb_family_transports_metabolite]->(m_tr:Metabolite)
   WITH g, size(deepest) AS n_fam, count(DISTINCT m_tr) AS tr_met_count
-  SET g.tcdb_family_count = n_fam,
+  SET g.tcdb_assignment_count = n_fam,
       g.transported_metabolite_count = tr_met_count
 } IN TRANSACTIONS OF 1000 ROWS;
 

@@ -101,7 +101,7 @@ reads rows and counts from one set:
 | `tcdb_gate` | Edges | Rule | Feeds |
 |---|---|---|---|
 | `direct` | 11,158 (best hit 7,059 · eggNOG 3,907 · tier 192) | `diamond_best_hit` with `rank = 1` and `tier <= 2`; `eggnog` onto a `tc_system`; `diamond_tier` with `tier = 1`. Always onto a system, after the alias remap | the transport-arm metabolite rollups, plus everything `annotated` feeds |
-| `annotated` | 19,866 (eggNOG 13,162 · tier 6,704) | other `eggnog` edges; `diamond_tier` with `tier = 2` | the `'tcdb'` / `transporter` annotation gate, `Gene.tcdb_family_count`, `TcdbFamily.gene_count`, TERM2GENE |
+| `annotated` | 19,866 (eggNOG 13,162 · tier 6,704) | other `eggnog` edges; `diamond_tier` with `tier = 2` | the `'tcdb'` / `transporter` annotation gate, `Gene.tcdb_assignment_count`, `TcdbFamily.gene_count`, TERM2GENE |
 | `below_gate` | 44,799 (tier 34,346 · best hit 10,453) | everything else: tier-3 calls, near-tie best hits, rank-1 tier-3 best hits | nothing computed; evidence only |
 
 Filter with `r.tcdb_gate IN ['direct','annotated']`; do not re-derive the rule. `tcdb_gate` is
@@ -120,7 +120,7 @@ same-named properties.
 | `diamond_tier` | `3.A.1` | `below_gate` | tier 3 |
 | `eggnog` | `3.A.1.16.1` "Four component nitrate/nitrite porter." | `direct` | — |
 
-Its counts: `tcdb_family_count = 2` (two sibling systems), `transported_metabolite_count = 3`
+Its counts: `tcdb_assignment_count = 2` (two sibling systems), `transported_metabolite_count = 3`
 (cyanate + nitrite from `3.A.1.16.2`, nitrate + nitrite from `3.A.1.16.1`). MED4 urtA (PMM0970) has a rank-1 best hit
 on `3.A.1.4.4` (`direct`), a tier-2 call on `3.A.1.4` (`annotated`), and eggNOG edges on
 `3.A.1.4.4` / `3.A.1.4.5` (`direct`). MED4 pstS (PMM0710) has its best hit on `3.A.1.7.6`.
@@ -132,10 +132,14 @@ on `3.A.1.4.4` (`direct`), a tier-2 call on `3.A.1.4` (`annotated`), and eggNOG 
   so these go from 14,745 to **15,800 genes (+1,055)**. `annotation_state` moved for 8 genes
   (`informative_single` → `informative_multi`); nothing else moved (`capture_annotation_state.py
   --compare`).
-- **`Gene.tcdb_family_count`** takes the TC nodes targeted by the gate-passing edges, drops any
+- **`Gene.tcdb_assignment_count`** takes the TC nodes targeted by the gate-passing edges, drops any
   node that is an ancestor of another node in that set (whatever the call kind), and counts the
   rest. A tier-2 call on `3.A.1.4` plus a rank-1 best hit on `3.A.1.4.4` = 1; near-tie best hits
-  never add a family. 15,800 genes have it, max 9.
+  never add an assignment. 15,800 genes have it, max 9.
+  - *Renamed after 3a (2026-10-24, `feat/post-3a-fixes`):* this shipped in 3a as
+    `Gene.tcdb_family_count`. The name misled — the counted targets are mostly systems and
+    subfamilies, not families — so it is now `tcdb_assignment_count`. Same meaning, same
+    values; no alias. `ChemicalRole.tcdb_system_count` is unrelated.
 - **Transport arm = direct systems only.** A gene reaches the substrates of the `tc_system` nodes
   it points at through `tcdb_gate = 'direct'` edges, with no ancestor or descendant walk.
   - **6,995 genes** have `transported_metabolite_count > 0` (was ~30K through the family

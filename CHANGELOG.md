@@ -114,7 +114,8 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
   - Pathways 452 → 449: `ko04145` Phagosome, `ko04510` Focal adhesion, `ko00532` chondroitin sulfate GAG biosynthesis.
   - Full list: `docs/kg-changes/tcdb-cleanup/removed_ids.tsv`.
 - **`'tcdb'` in `annotation_types` (and `transporter`) now also counts a rank-1 diamond best hit with identity ≥ 40.** That adds 1,055 genes (14,745 → 15,800). 8 genes move from `informative_single` to `informative_multi`.
-- **`Gene.tcdb_family_count` is defined over gate-passing edges.** Ancestors of another counted node are dropped, so near-tie best hits never add a family.
+- **`Gene.tcdb_assignment_count` is defined over gate-passing edges.** Ancestors of another counted node are dropped, so near-tie best hits never add an assignment.
+- **`Gene.tcdb_family_count` is renamed `Gene.tcdb_assignment_count`.** Same meaning and values; the counted TC nodes are mostly systems and subfamilies, not families. No alias — update queries that read the old name.
 
 ### Data
 

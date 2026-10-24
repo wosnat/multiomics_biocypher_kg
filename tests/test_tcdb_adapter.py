@@ -605,11 +605,12 @@ def test_post_import_uses_tcdb_gate(path):
     for gone in ("substrate_breadth", "attachment_depth", "substrate_depth",
                  "tcdb_evidence_score_max", "transport_substrate_resolution",
                  "source_agreement", "go_support", "t.metabolite_count",
-                 "r.tcdb_family_count", "r.direct_tcdb_family_count"):
+                 "r.tcdb_family_count", "r.direct_tcdb_family_count",
+                 "g.tcdb_family_count"):
         assert gone not in code, f"{path} still references {gone!r}"
     for present in ("t.tcdb_substrate_count", "r.tcdb_system_count",
                     "r.direct_tcdb_system_count", "r.direct_transporter_count",
-                    "g.tcdb_family_count", "g.transported_metabolite_count",
+                    "g.tcdb_assignment_count", "g.transported_metabolite_count",
                     "m.transporter_count", "m.transporter_gene_count"):
         assert present in code, f"{path} missing {present!r}"
 

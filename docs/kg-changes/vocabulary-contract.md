@@ -375,7 +375,7 @@ Design: `docs/superpowers/specs/2026-10-22-tcdb-cleanup-design.md` (§5.3, §6).
   five levels, post-import from the system edges) replaces it and the old
   `metabolite_count`.
 - **`Gene_has_tcdb_family.attachment_depth` (R3-exempt pair): RETIRED.** Deepest per
-  lineage is a query over the gene's gate-passing edges (`Gene.tcdb_family_count`
+  lineage is a query over the gene's gate-passing edges (`Gene.tcdb_assignment_count`
   states the rule); a per-edge "counted" marker would re-create it.
 - **New R3 exception: `Gene_has_tcdb_family.tcdb_gate` (`direct` | `annotated` |
   `below_gate`).** It deliberately restates thresholds over the edge's own
@@ -383,7 +383,7 @@ Design: `docs/superpowers/specs/2026-10-22-tcdb-cleanup-design.md` (§5.3, §6).
   with `rank = 1` and `tier <= 2`, `eggnog` onto a `tc_system` (after the `seed_aliases`
   remap), or `diamond_tier` with `tier = 1`; `annotated` = other `eggnog` edges or
   `diamond_tier` with `tier = 2`; `below_gate` = everything else. **Reason:** every
-  downstream number (the `'tcdb'` annotation gate, `Gene.tcdb_family_count`,
+  downstream number (the `'tcdb'` annotation gate, `Gene.tcdb_assignment_count`,
   `TcdbFamily.gene_count`, the transport-arm metabolite rollups) and the explorer's
   rows / enrichment TERM2GENE must be read from one edge set by construction (explorer
   R2/F1); a recipe re-derived in each consumer drifts. Computed in the adapter. Scope:

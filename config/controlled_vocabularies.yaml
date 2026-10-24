@@ -197,7 +197,7 @@ Gene_has_tcdb_family.tcdb_gate:
     the same set. Ordered and nested: direct edges also pass the annotation
     gate, so the annotated set is tcdb_gate IN [direct, annotated]. Transport
     substrate counts read direct edges only; the tcdb annotation type,
-    Gene.tcdb_family_count, TcdbFamily gene counts and enrichment gene sets
+    Gene.tcdb_assignment_count, TcdbFamily gene counts and enrichment gene sets
     read direct and annotated edges. Dense.
   value_descriptions:
     direct: a diamond_best_hit edge with rank 1 and tier at most 2 (identity at least 40), an eggnog edge, or a diamond_tier edge with tier 1, in each case onto a transport system (a 5-part TC id, after moving retired ids to their ancestor); the gene reaches the substrates of this system
