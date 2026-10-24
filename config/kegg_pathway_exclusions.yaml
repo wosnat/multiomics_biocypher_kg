@@ -1,0 +1,22 @@
+# KEGG pathways excluded from the KG because their BRITE (br:ko00001) category or
+# subcategory describes animal / human / eukaryotic biology, irrelevant to the KG's
+# bacteria. Applied ONCE in prepare_data step 6 (build_kegg_metabolism_xrefs) when the
+# pathway set is formed, so no KeggTerm pathway node, no subcategory/category left
+# empty, and no KO / Reaction / Metabolite edge into an excluded pathway is built.
+# Genes keep their KOs. Excluded ids are recorded in kegg_data.json `excluded_pathways`.
+#
+# Names are KEGG's exact BRITE strings (step 6 fails if one no longer exists upstream).
+# A `kept_subcategories` entry overrides an excluded category for that subcategory.
+# Allowed top-level keys: excluded_categories, excluded_subcategories, kept_subcategories;
+# each entry needs exactly `name` and `reason`.
+excluded_categories:
+  - name: "Organismal Systems"
+    reason: "animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial"
+  - name: "Human Diseases"
+    reason: "human disease maps (cancer, infection from the host side, ...), not bacterial"
+excluded_subcategories:
+  - name: "Cellular community - eukaryotes"
+    reason: "eukaryotic cell junctions and adhesion"
+kept_subcategories:
+  - name: "Drug resistance: antimicrobial"
+    reason: "bacterial antimicrobial resistance (beta-lactam, vancomycin, CAMP)"

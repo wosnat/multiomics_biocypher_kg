@@ -29,10 +29,10 @@
         "unresolved": 10
       },
       "pathway_records": 10,
-      "pathways_resolved": 8,
+      "pathways_resolved": 7,
       "pathway_methods": {
-        "id": 8,
-        "unresolved": 2
+        "id": 7,
+        "unresolved": 3
       },
       "paper_strains": [
         "Prochlorococcus MED4",
@@ -771,9 +771,9 @@
       "kegg_pathway_id_raw": "map04710",
       "prominence": "central",
       "evidence": "KaiB and KaiC proteins were also affected in Synechococcus sp. WH8102, pointing to a direct link between glucose assimilation and circadian rhythms (Abstract, p1)",
-      "pathway_id": "ko04710",
-      "pathway_name": "circadian rhythm",
-      "resolution_method": "id"
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "lactic acid fermentation",

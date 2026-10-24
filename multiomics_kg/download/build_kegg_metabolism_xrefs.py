@@ -109,6 +109,7 @@ IDENTITY_REPORT_FILE = METABOLOMICS_DIR / "metabolite_identity_report.json"
 MAPPING_FILE = METABOLOMICS_DIR / "metabolite_id_mapping.json"
 IDENTITY_OVERRIDES_FILE = PROJECT_ROOT / "config" / "metabolite_identity_overrides.yaml"
 GO_TRANSPORT_FILTER_FILE = PROJECT_ROOT / "config" / "go_transport_target_filter.yaml"
+KEGG_PATHWAY_EXCLUSIONS_FILE = PROJECT_ROOT / "config" / "kegg_pathway_exclusions.yaml"
 
 log = logging.getLogger(__name__)
 
@@ -1761,9 +1762,18 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         extended_sets = dict(catalysis_sets)
         # GO-only KEGG compounds join the compound set, never the pathway set (no pull-in).
         extended_sets["cpds"] = catalysis_cpds | substrate_kegg_cpds | paper_kegg_cpds | go["kegg_cpds"]
-        extended_sets["pws"] = catalysis_pws | transport_pws | paper_pws
+        # Pathways irrelevant to bacteria (BRITE category / subcategory) are dropped here,
+        # once, so no consumer of kegg_data.json sees them (config/kegg_pathway_exclusions.yaml).
+        kept_pws, excluded_pws = kegg_utils.exclude_pathways(
+            catalysis_pws | transport_pws | paper_pws, raw,
+            kegg_utils.load_pathway_exclusions(KEGG_PATHWAY_EXCLUSIONS_FILE))
+        log.info(f"  KEGG pathway exclusions: {len(excluded_pws)} pathways dropped "
+                 f"(Organismal Systems / Human Diseases / eukaryotic categories), "
+                 f"{len(kept_pws)} kept")
+        extended_sets["pws"] = kept_pws
         log.info("Building pruned kegg_data ...")
         kegg_data = build_pruned_kegg_data(raw, conn, sets=extended_sets)
+        kegg_data["excluded_pathways"] = excluded_pws
         _fold_substrates_into_kegg_data(kegg_data, catalysis_cpds=catalysis_cpds,
                                         substrate_kegg_cpds=substrate_kegg_cpds,
                                         substrate_primaries=distinct_substrate_primaries,
@@ -1784,13 +1794,14 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
 
     inp = Step6Inputs(
         table=table,
-        kegg_rest={k: kegg_data[k] for k in ("kos", "pathways", "subcategories", "categories", "reactions")},
+        kegg_rest={k: kegg_data[k] for k in ("kos", "pathways", "subcategories", "categories", "reactions",
+                                             "excluded_pathways")},
         system_substrates=system_substrates, chemical_roles=chemical_roles, system_roles=system_roles,
         rekeys=rekeys, role_of_old=role_of_old, tables=tables, paper_overrides=paper_overrides,
         name_candidates=paper.name_candidates, lock=lock,
         identity_overrides=load_identity_overrides(IDENTITY_OVERRIDES_FILE), chebi=chebi,
         chebi_from_raw=chebi_from_raw, rxn_genes=catalysis_sets["rxn_genes"],
-        compound_to_pathways=cpd_to_pw, base_pathways=catalysis_pws | transport_pws,
+        compound_to_pathways=cpd_to_pw, base_pathways=(catalysis_pws | transport_pws) & kept_pws,
         brite_raw=brite_raw, brite_committed=brite_committed,
         tcdb_static={"kept_tcdb_ids": sorted(kept), "pfam_bridge": tcdb_bridges["pfam"],
                      "go_bridge": tcdb_bridges["go"], "seed_aliases": dict(sorted(upgraded.items()))},

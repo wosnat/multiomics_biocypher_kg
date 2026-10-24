@@ -297,7 +297,7 @@ def test_ec_gene_coverage(run_query):
 @pytest.mark.parametrize("level_kind,min_count", [
     ("ko",          1500),
     ("pathway",      100),
-    ("subcategory",   30),
+    ("subcategory",   20),   # 24 after the bacteria-irrelevant pathway exclusion
     ("category",       5),
 ])
 def test_kegg_node_count_minimum(run_query, level_kind, min_count):
@@ -824,3 +824,29 @@ def test_inferred_tigr_role_edges_span_all_organisms(run_query):
 def test_tigr_role_ncbifam_family_count_present(run_query):
     row = run_query("MATCH (t:TigrRole) RETURN count(t) AS n, count(t.ncbifam_family_count) AS c")[0]
     assert row["c"] == row["n"]
+
+
+def test_no_kegg_pathway_in_excluded_brite_category(run_query):
+    """config/kegg_pathway_exclusions.yaml: no pathway KeggTerm sits in an excluded BRITE
+    category / subcategory, except the kept subcategories (Drug resistance: antimicrobial)."""
+    import pathlib
+    from multiomics_kg.utils.kegg_utils import load_pathway_exclusions
+    rules = load_pathway_exclusions(
+        pathlib.Path(__file__).resolve().parents[2] / "config" / "kegg_pathway_exclusions.yaml")
+    rows = run_query("""
+        MATCH (p:KeggTerm {level_kind: 'pathway'})-[:Kegg_term_is_a_kegg_term]->
+              (s:KeggTerm {level_kind: 'subcategory'})-[:Kegg_term_is_a_kegg_term]->
+              (c:KeggTerm {level_kind: 'category'})
+        WHERE s.name IN $ex_subs
+           OR (c.name IN $ex_cats AND NOT s.name IN $kept_subs)
+        RETURN p.id AS id, c.name AS category, s.name AS subcategory
+    """, ex_subs=list(rules["excluded_subcategories"]),
+        ex_cats=list(rules["excluded_categories"]),
+        kept_subs=list(rules["kept_subcategories"]))
+    assert rows == [], f"{len(rows)} excluded pathways present, e.g. {rows[:5]}"
+    kept = run_query("""
+        MATCH (p:KeggTerm {level_kind: 'pathway'})-[:Kegg_term_is_a_kegg_term]->
+              (s:KeggTerm {level_kind: 'subcategory'})
+        WHERE s.name IN $kept_subs RETURN count(p) AS n
+    """, kept_subs=list(rules["kept_subcategories"]))[0]["n"]
+    assert kept > 0, "the kept antimicrobial-resistance pathways are missing"

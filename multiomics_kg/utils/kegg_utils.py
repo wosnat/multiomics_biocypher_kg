@@ -25,6 +25,7 @@ import re
 from pathlib import Path
 
 import requests
+import yaml
 
 logger = logging.getLogger(__name__)
 
@@ -443,3 +444,75 @@ def load_kegg_data(cache_root: Path) -> dict:
             f"{p} is corrupted ({e}). Rebuild via "
             f"`bash scripts/prepare_data.sh --steps 6 --force`."
         ) from e
+
+
+# ── Pathway exclusions (config/kegg_pathway_exclusions.yaml) ─────────────────
+
+PATHWAY_EXCLUSION_KEYS = ("excluded_categories", "excluded_subcategories", "kept_subcategories")
+
+
+def load_pathway_exclusions(path: Path) -> dict[str, dict[str, str]]:
+    """Load the KEGG pathway exclusion config as ``{key: {BRITE name: reason}}``.
+
+    Raises ValueError on an unknown top-level key, an entry without exactly ``name`` +
+    ``reason`` (both non-empty), or a duplicate name within a key.
+    """
+    data = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
+    if not isinstance(data, dict):
+        raise ValueError(f"{path}: expected a mapping")
+    unknown = set(data) - set(PATHWAY_EXCLUSION_KEYS)
+    if unknown:
+        raise ValueError(f"{path}: unknown key(s) {sorted(unknown)}; "
+                         f"allowed {list(PATHWAY_EXCLUSION_KEYS)}")
+    rules: dict[str, dict[str, str]] = {}
+    for key in PATHWAY_EXCLUSION_KEYS:
+        entries = data.get(key) or []
+        out: dict[str, str] = {}
+        for e in entries:
+            if not isinstance(e, dict) or set(e) != {"name", "reason"} \
+                    or not e["name"] or not e["reason"]:
+                raise ValueError(f"{path}: {key} entry {e!r} needs exactly a non-empty "
+                                 f"name and reason")
+            if e["name"] in out:
+                raise ValueError(f"{path}: duplicate {key} name {e['name']!r}")
+            out[str(e["name"])] = str(e["reason"])
+        rules[key] = out
+    return rules
+
+
+def exclude_pathways(
+    pws: set[str], raw: dict, rules: dict[str, dict[str, str]],
+) -> tuple[set[str], dict[str, str]]:
+    """Split ``pws`` into (kept, ``{excluded id: reason}``) by BRITE category / subcategory.
+
+    A pathway is excluded when its subcategory is in ``excluded_subcategories`` or its
+    category is in ``excluded_categories`` and its subcategory is not in
+    ``kept_subcategories``. Pathways without a subcategory (global maps) are kept.
+    Names match KEGG's exact BRITE strings; a configured name that the parsed hierarchy
+    does not contain raises ValueError (upstream rename or typo — never a silent no-op).
+    """
+    pw_to_sub = raw.get("pathway_to_subcategory", {})
+    sub_names = raw.get("subcategory_names", {})
+    sub_to_cat = raw.get("subcategory_to_category", {})
+    cat_names = raw.get("category_names", {})
+    known_subs, known_cats = set(sub_names.values()), set(cat_names.values())
+    missing = sorted(
+        [n for n in rules["excluded_categories"] if n not in known_cats]
+        + [n for k in ("excluded_subcategories", "kept_subcategories")
+           for n in rules[k] if n not in known_subs])
+    if missing:
+        raise ValueError(f"KEGG pathway exclusions name BRITE categories/subcategories the "
+                         f"parsed br:ko00001 hierarchy does not contain: {missing}")
+    kept: set[str] = set()
+    excluded: dict[str, str] = {}
+    for p in pws:
+        sub = pw_to_sub.get(p)
+        sub_name = sub_names.get(sub, "") if sub else ""
+        cat_name = cat_names.get(sub_to_cat.get(sub, ""), "") if sub else ""
+        if sub_name in rules["excluded_subcategories"]:
+            excluded[p] = f"{cat_name} / {sub_name}: {rules['excluded_subcategories'][sub_name]}"
+        elif cat_name in rules["excluded_categories"] and sub_name not in rules["kept_subcategories"]:
+            excluded[p] = f"{cat_name} / {sub_name}: {rules['excluded_categories'][cat_name]}"
+        else:
+            kept.add(p)
+    return kept, dict(sorted(excluded.items()))

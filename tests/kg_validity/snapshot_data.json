@@ -1160,12 +1160,6 @@
     },
     {
       "properties": {},
-      "source": "kegg.compound:C00001",
-      "target": "kegg.pathway:ko04918",
-      "type": "Metabolite_in_pathway"
-    },
-    {
-      "properties": {},
       "source": "insdc.gcf:GCA_003513035.1",
       "target": "chebi:134400",
       "type": "Organism_has_metabolite"

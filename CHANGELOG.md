@@ -117,6 +117,22 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 - **`Gene.tcdb_assignment_count` is defined over gate-passing edges.** Ancestors of another counted node are dropped, so near-tie best hits never add an assignment.
 - **`Gene.tcdb_family_count` is renamed `Gene.tcdb_assignment_count`.** Same meaning and values; the counted TC nodes are mostly systems and subfamilies, not families. No alias — update queries that read the old name.
 
+- **182 KEGG pathways irrelevant to bacteria are dropped (pathways 449 → 267).** Every pathway under
+  BRITE category Organismal Systems (89) or Human Diseases (90), except Human Diseases → "Drug
+  resistance: antimicrobial" (`ko01501` β-lactam, `ko01502` vancomycin, `ko01503` CAMP resistance,
+  kept), plus Cellular Processes → "Cellular community - eukaryotes" (3: adherens / tight / gap
+  junction). 150 of them had genes, drawn in through ribosomal, ATP synthase, chaperone and oxphos
+  KOs (e.g. `ko04212` Longevity regulating pathway - worm, 557 genes; `ko05415` Diabetic
+  cardiomyopathy). KeggTerm subcategories 46 → 24; category Organismal Systems is gone. Genes keep
+  their KOs, but KO → pathway edges fall 8,449 → 7,907 (34 KOs now reach no pathway),
+  `Metabolite_in_pathway` 9,241 → 7,943 (332 metabolites lose entries in `pathway_ids` /
+  `pathway_names` / `pathway_count`), `Reaction_in_kegg_pathway` is unchanged. **Pathway enrichment
+  backgrounds shrink** (fewer pathways tested, no animal/disease maps among the hits), and pathway
+  `reaction_count` / `metabolite_count` rollups only lose the dropped nodes. Moreno 2023's
+  "circadian rhythm" mention (`map04710`, the animal map, no KOs here) no longer resolves to a
+  pathway. The rule lives in `config/kegg_pathway_exclusions.yaml`, applied once in step 6; the
+  dropped ids and their reasons are listed in `kegg_data.json` `excluded_pathways`.
+
 ### Data
 
 - **Anjur-Dietrich 2026 (was Anjur-Dietrich 2025) — preprint replaced by the published version,

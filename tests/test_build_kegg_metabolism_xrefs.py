@@ -1094,7 +1094,8 @@ def _stub_main(tmp_path, monkeypatch):
     monkeypatch.setattr(bx, "download_all", lambda **k: None)
     monkeypatch.setattr(bx, "_build_tcdb_hierarchy", lambda c: 0)
     monkeypatch.setattr(bx, "_parse_raw_into_dict", lambda c: {"compound_to_pathways": {},
-                                                              "compound_names": {"C00001": "H2O"}})
+                                                              "compound_names": {"C00001": "H2O"},
+                                                              **_hierarchy_raw()})
     monkeypatch.setattr(bx.mu, "open_resolver", lambda p: _sq.connect(":memory:"))
     monkeypatch.setattr(bx, "_gene_reachable_sets", lambda raw: {
         "kos": set(), "rxns": set(), "cpds": set(), "pws": {"ko00010"}, "tcdb_ids": {"1.A"},
@@ -1472,7 +1473,8 @@ def test_main_system_substrates_from_kept_systems(tmp_path, monkeypatch):
         "tcdb_best_hit_ids": {"3.D.4.3.2"}, "tcdb_seed_ids": {"3.A.1", "3.D.4.3.2"},
         "rxn_genes": {}})
     monkeypatch.setattr(bx, "_parse_raw_into_dict", lambda c: {
-        "compound_to_pathways": {"C00031": ["ko00010"]}, "compound_names": {"C00031": "glucose"}})
+        "compound_to_pathways": {"C00031": ["ko00010"]}, "compound_names": {"C00031": "glucose"},
+        **_hierarchy_raw()})
     calls = []
 
     def fake(strings, conn, chebi=None, rekeys=None, known_kegg=None, legacy=None):
@@ -1507,3 +1509,97 @@ def test_main_system_substrates_from_kept_systems(tmp_path, monkeypatch):
     assert {"3.A.1.1", "3.A.1.1.1", "3.D.4.3.2"} <= kept and "3.A.2.1.1" not in kept
     assert bridge_kept["k"] == kept
     assert "C00031" in seen["sets"]["cpds"] and "ko00010" in seen["sets"]["pws"]
+
+
+# ── KEGG pathway exclusions (config/kegg_pathway_exclusions.yaml) ─────────────
+
+from multiomics_kg.utils import kegg_utils as ku  # noqa: E402
+
+
+def _hierarchy_raw():
+    """One pathway per case: excluded category, excluded category's kept subcategory,
+    excluded subcategory, kept sibling subcategory, Metabolism, and a subcategory-less map."""
+    return {
+        "pathway_to_subcategory": {"ko04910": "09152", "ko05200": "09161",
+                                   "ko01501": "09175", "ko04520": "09144",
+                                   "ko04144": "09141", "ko00010": "09101"},
+        "subcategory_names": {"09152": "Endocrine system", "09161": "Cancer: overview",
+                              "09175": "Drug resistance: antimicrobial",
+                              "09144": "Cellular community - eukaryotes",
+                              "09141": "Transport and catabolism",
+                              "09101": "Carbohydrate metabolism"},
+        "subcategory_to_category": {"09152": "09150", "09161": "09160", "09175": "09160",
+                                    "09144": "09140", "09141": "09140", "09101": "09100"},
+        "category_names": {"09150": "Organismal Systems", "09160": "Human Diseases",
+                           "09140": "Cellular Processes", "09100": "Metabolism"},
+    }
+
+
+def test_committed_pathway_exclusions_config_loads():
+    rules = ku.load_pathway_exclusions(bx.KEGG_PATHWAY_EXCLUSIONS_FILE)
+    assert set(rules["excluded_categories"]) == {"Organismal Systems", "Human Diseases"}
+    assert set(rules["excluded_subcategories"]) == {"Cellular community - eukaryotes"}
+    assert set(rules["kept_subcategories"]) == {"Drug resistance: antimicrobial"}
+    assert all(r for v in rules.values() for r in v.values())       # every entry has a reason
+
+
+@pytest.mark.parametrize("text", [
+    "excluded_categories: []\nexcluded_pathways: []\n",                       # unknown key
+    "excluded_categories:\n  - name: X\n",                                    # no reason
+    "excluded_categories:\n  - name: X\n    reason: r\n    extra: 1\n",       # unknown entry key
+    "excluded_categories:\n  - name: X\n    reason: r\n  - name: X\n    reason: r\n",  # duplicate
+])
+def test_pathway_exclusions_config_rejects_malformed(tmp_path, text):
+    p = tmp_path / "x.yaml"
+    p.write_text(text)
+    with pytest.raises(ValueError):
+        ku.load_pathway_exclusions(p)
+
+
+def test_exclude_pathways_by_category_and_subcategory():
+    raw = _hierarchy_raw()
+    rules = ku.load_pathway_exclusions(bx.KEGG_PATHWAY_EXCLUSIONS_FILE)
+    pws = {"ko04910", "ko05200", "ko01501", "ko04520", "ko04144", "ko00010", "ko01100"}
+    kept, excluded = ku.exclude_pathways(pws, raw, rules)
+    assert kept == {"ko01501", "ko04144", "ko00010", "ko01100"}
+    assert set(excluded) == {"ko04910", "ko05200", "ko04520"}
+    assert "Organismal Systems" in excluded["ko04910"]
+    assert "Human Diseases" in excluded["ko05200"]
+    assert "Cellular community - eukaryotes" in excluded["ko04520"]
+
+
+def test_exclude_pathways_fails_on_unknown_upstream_name():
+    raw = _hierarchy_raw()
+    rules = {"excluded_categories": {"Organismal systems": "typo"},
+             "excluded_subcategories": {}, "kept_subcategories": {}}
+    with pytest.raises(ValueError, match="Organismal systems"):
+        ku.exclude_pathways({"ko00010"}, raw, rules)
+
+
+def test_main_drops_excluded_pathways_and_records_them(tmp_path, monkeypatch):
+    """main() applies the exclusion when the pathway set is formed: build_pruned_kegg_data
+    never sees an excluded pathway, base_pathways excludes it, kegg_data records it."""
+    from multiomics_kg.utils.metabolite_identity.pipeline import Step6ValidationError
+    _stub_main(tmp_path, monkeypatch)
+    monkeypatch.setattr(bx, "_parse_raw_into_dict", lambda c: {
+        "compound_to_pathways": {}, "compound_names": {"C00001": "H2O"}, **_hierarchy_raw()})
+    monkeypatch.setattr(bx, "_gene_reachable_sets", lambda raw: {
+        "kos": set(), "rxns": set(), "cpds": set(), "pws": {"ko00010", "ko04910", "ko01501"},
+        "tcdb_ids": {"1.A"}, "tcdb_best_hit_ids": set(), "tcdb_seed_ids": {"1.A"}, "rxn_genes": {}})
+    seen = {}
+
+    def pruned(raw, conn, sets):
+        seen["sets"] = sets
+        return {"compounds": {}, "additional_compounds": {}, "kos": {}, "pathways": {},
+                "subcategories": {}, "categories": {}, "reactions": {}}
+    monkeypatch.setattr(bx, "build_pruned_kegg_data", pruned)
+
+    def stop(inp):
+        seen["inp"] = inp
+        raise Step6ValidationError(["stop"])
+    monkeypatch.setattr(bx, "run_identity_stages", stop)
+    with pytest.raises(Step6ValidationError):
+        bx.main(force=True, today="2026-10-24")
+    assert seen["sets"]["pws"] == {"ko00010", "ko01501"}
+    assert seen["inp"].base_pathways == {"ko00010", "ko01501"}
+    assert set(seen["inp"].kegg_rest["excluded_pathways"]) == {"ko04910"}
