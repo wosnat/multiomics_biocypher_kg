@@ -569,7 +569,7 @@ Assay_quantifies_metabolite.stereo_assignment:
     or chosen by the KG.
   value_descriptions:
     as_reported: the paper named the form, or the metabolite has no stereo variant other than anomers
-    dominant_form_assumed: the paper gave no stereo; the row was placed on one form of a stereo family (usually the one with the most catalysing genes); treat the form as an assumption
+    dominant_form_assumed: the name in the paper gives no stereo form, but the metabolite node is one specific stereo form, chosen either as the dominant form of its stereo family (the one with the most catalysing genes) or by a plain name match; treat the form as an assumption
 
 Assay_flags_metabolite.stereo_assignment:
   applies_to: Assay_flags_metabolite
@@ -583,7 +583,7 @@ Assay_flags_metabolite.stereo_assignment:
     or chosen by the KG.
   value_descriptions:
     as_reported: the paper named the form, or the metabolite has no stereo variant other than anomers
-    dominant_form_assumed: the paper gave no stereo; the row was placed on one form of a stereo family (usually the one with the most catalysing genes); treat the form as an assumption
+    dominant_form_assumed: the name in the paper gives no stereo form, but the metabolite node is one specific stereo form, chosen either as the dominant form of its stereo family (the one with the most catalysing genes) or by a plain name match; treat the form as an assumption
 
 Gene.coordinate_source:
   # provenance: set in build_gene_mapping.py (step 0 sub-step 5). 'cyanorak' = PGAP
