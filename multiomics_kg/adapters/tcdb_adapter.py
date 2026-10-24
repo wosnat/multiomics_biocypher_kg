@@ -311,6 +311,8 @@ class MultiTcdbAnnotationAdapter:
                 props["superfamily"] = _clean_str(entry["superfamily"])
             if entry.get("description"):
                 props["description"] = _clean_str(entry["description"])
+            if entry.get("proteins"):
+                props["proteins"] = _clean_str(entry["proteins"])
             yield _tcdb_node_id(tcdb_id), "tcdb family", props
             emit_count += 1
         logger.info(

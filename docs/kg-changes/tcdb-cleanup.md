@@ -24,7 +24,7 @@ project 3b.
 
 | | Before | After |
 |---|---|---|
-| Nodes | 1,515 | **9,389**: 3,527 gene-anchored + 5,862 range-only |
+| Nodes | 1,515 | **9,389**: 3,527 gene-anchored + 5,862 range-only (9,368 after the 2026-10-25 review: retired 3.A.1.129.1 re-anchored) |
 | By level | class 7 · subclass 34 · family 592 · subfamily 596 · specificity 286 | class 7 · subclass 34 · family 592 · subfamily 1,432 · **system 7,324** |
 | With `gene_count > 0` | all | 2,190 (class 7 · subclass 31 · family 375 · subfamily 687 · system 1,090) |
 
@@ -117,8 +117,8 @@ project 3b.
 
 | | Before | After |
 |---|---|---|
-| `Tcdb_family_transports_metabolite` | 10,790, from every level (subtree roll-up) | **10,778, from `tc_system` only** |
-| `Tcdb_family_transports_chemical_role` | 392 | **367, from `tc_system` only** |
+| `Tcdb_family_transports_metabolite` | 10,790, from every level (subtree roll-up) | **10,778, from `tc_system` only**; 8,216 after the 2026-10-25 substrate target filter |
+| `Tcdb_family_transports_chemical_role` | 392 | **367, from `tc_system` only**; 365 on 2026-10-25 |
 | `substrate_depth` | on both | **removed** |
 
 There is one edge per (system, canonical target), straight from TCDB's `substrates.tsv` through
@@ -290,3 +290,63 @@ than `tc_family` dropped, `curated_tcids` on the edge.
   ambiguous systems by prefix); an id still listed in the raw `families.tsv` /
   `acc2tcid.tsv` / `superfamilies.tsv` is never re-anchored. Retired ids are never range
   nodes. Effect: 30 genes move, 9,389 → 9,370 kept nodes.
+
+## TCDB integration review (2026-10-24/25)
+
+A five-agent review of the scraper and the substrate resolver, after the direction audit above.
+
+**Scraper (`scrape_tcdb_names.py`).** Id ↔ text assignment is correct: every stored entry
+re-parses byte-identically from the 593 cached pages, and a second (lxml) parser agrees. The
+defects were text processing, fixed and rebuilt offline with the new `--reparse`
+(`tcdb_names.json`: 9,741 entries, 1,842 names changed):
+
+- inline tags are removed without a space — "Na + ", "CO 2", "B 12", "Fe 3+ " were in 1,100
+  names and 930 descriptions, and broke search ("CO2" found 2 of ~117 systems);
+- names keep their head noun: a "(" TCDB never closes is dropped instead of cutting there
+  (`3.A.1.5.24` was "The antimicrobial peptide", now "... HBD-2 exporter, YejABEF"); an
+  over-cap name drops whole parentheticals first; a cut never ends on "of"/"and";
+- a standalone year is needed for a citation ("(1911aas)" is not one); browse.php names with
+  markup parse (118 families, e.g. `1.A.2`);
+- **new `proteins` property** on `tc_system` nodes: the row's protein cell (gene symbols,
+  accessions, source organism), in `tcdbFamilyFullText` — "UrtA" now finds the urea porters;
+  it also names a system whose name cell is empty (`1.A.77.3.21` "AtpI of Synechococcus sp.");
+- "This system was originally assigned to TC# X" rows join the moved map: `3.A.1.129.1` →
+  `3.A.1.106.22` (CydDC), so its genes re-anchor and the retired node drops (9,370 → 9,368); a
+  retired system the TSVs still list is named after its single move target;
+- `superfamily` loses TCDB's trailing spaces; its content is TCDB's (every ABC node reads "ArsA
+  ATPase (ArsA) Superfamily" upstream) and is not corrected.
+
+**Substrate resolution.** Keyed on the ChEBI id only; every string resolves and the pipeline
+reproduces `system_substrates` exactly. Changes:
+
+- **ChEBI decides the KEGG id.** Before, MNX's lowest KEGG C-number won, which turned generic
+  names into one stereo form (leucine → L-leucine C00123, also histidine, glutamine, lysine,
+  proline, valine, tyrosine, tryptophan, cystine, homocysteine, malate) and merged ditritium into
+  H₂. Now: the term's own ChEBI KEGG xref (several → the one MNX also files: bromide → C01324,
+  not "RBr" C00720), else its conjugate acids/bases (and zwitterion tautomers), else an MNX
+  alias ChEBI does not contradict, else `chebi:<n>`. Generic and specific forms are separate
+  nodes joined by `Metabolite_is_stereo_form_of` (96 → 112 edges), so transport on "leucine"
+  reaches L-leucine catalysis in one hop.
+- **Contested ChEBI aliases are withheld.** A ChEBI term MNX lists on two nodes the KG keeps
+  apart (tryptophan zwitterion on both L-tryptophan's and tryptophan's MNX entries) goes to the
+  node ChEBI ties it to, else to none — the rule `shared_chebi_terms` already applied to KEGG
+  xrefs (`withhold_contested_terms`).
+- **Substrate target filter** (`config/tcdb_substrate_target_filter.yaml`): GO's 13 targets
+  (upper-level classes, protein, H⁺, Na⁺) plus TCDB placeholders (molecule, cation, anion,
+  inorganic cation, monoatomic monocation, organic anion, protein polypeptide chain) are dropped
+  before any node is built: 2,547 (system, target) pairs; `Tcdb_family_transports_metabolite`
+  10,765 → 8,216 over 4,910 systems. Na⁺/H⁺ antiporters and protein translocases (Sec, Tat)
+  therefore carry no metabolite edge. Published as `Schema_info.tcdb_substrate_excluded_targets`.
+- A ChEBI id with no MNX alias becomes a `chebi:` node with a warning (was silently dropped;
+  none today); 6-part TC ids in the TSVs are warned about, not silently skipped.
+- Metabolites 3,178 → 3,178: 26 out (10 placeholders, Na⁺, and nodes that move onto the exact
+  ChEBI term: thyroxine → `chebi:30660`, arsenic acid → arsenate ion, lipoate → (R)-lipoate …),
+  26 in (the generic forms above, chloric acid, cinnamic acid, …); 26 remap rows, 0 paper
+  repoints.
+
+**Not changed, by decision:** TCDB's own wrong ChEBI ids (PstABCS → triphosphate, DAPI given as
+nifedipine, TPP read as thiamine diphosphate, …), non-transported compounds and missing
+substrates are reported as-is — a curated override file is a backlog item (`plans/backlog.md`,
+"TCDB substrate overrides"). Also ChEBI-defined and kept: "corrinoid" → C06021 (a corrinoid
+protein) via ChEBI's own xref; oxonium → water (ChEBI conjugate acid).
+

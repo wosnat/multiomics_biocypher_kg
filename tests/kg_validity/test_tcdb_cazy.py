@@ -58,7 +58,8 @@ _IS_DIRECT = f"(t.level_kind = 'tc_system' AND {_DIRECT_ARM})"
 def test_tcdb_family_node_count_in_range(run_query):
     """Kept set = gene-anchored seeds (eggNOG + diamond tier calls + best-hit systems)
     + ancestors + every substrate-bearing system under a kept family (§5.4).
-    Measured 9,389 on the 2026-10-23 caches (was 1,515 before the cleanup)."""
+    Measured 9,389 on the 2026-10-23 caches (was 1,515 before the cleanup); 9,368 on the
+    2026-10-25 caches."""
     n = run_query("MATCH (t:TcdbFamily) RETURN count(t) AS n")[0]["n"]
     assert 8500 <= n <= 10500, f"TcdbFamily count {n} outside expected 8,500-10,500"
 
@@ -116,11 +117,37 @@ def test_gene_has_cazy_family_edge_count(run_query):
 
 @pytest.mark.kg
 def test_tcdb_substrate_edge_counts(run_query):
-    """Measured 10,778 metabolite + 367 role edges, all from tc_system nodes."""
+    """Measured 8,216 metabolite + 365 role edges on the 2026-10-25 caches, all from
+    tc_system nodes (10,765 before the substrate target filter dropped placeholders and
+    coupling ions)."""
     met = run_query("MATCH ()-[r:Tcdb_family_transports_metabolite]->() RETURN count(r) AS n")[0]["n"]
     role = run_query("MATCH ()-[r:Tcdb_family_transports_chemical_role]->() RETURN count(r) AS n")[0]["n"]
-    assert 9500 <= met <= 12500, f"Tcdb_family_transports_metabolite {met} outside 9,500-12,500"
+    assert 7000 <= met <= 9500, f"Tcdb_family_transports_metabolite {met} outside 7,000-9,500"
     assert 300 <= role <= 450, f"Tcdb_family_transports_chemical_role {role} outside 300-450"
+
+
+@pytest.mark.kg
+def test_tcdb_substrate_filter_targets_have_no_edges(run_query):
+    """config/tcdb_substrate_target_filter.yaml: placeholders ("molecule", "cation") and
+    coupling ions (H+, Na+) are never substrate targets, and Schema_info publishes them."""
+    row = run_query("""
+        MATCH (s:Schema_info {id: 'schema_info'})
+        WITH s.tcdb_substrate_excluded_targets AS ex
+        OPTIONAL MATCH (:TcdbFamily)-[r:Tcdb_family_transports_metabolite]->(m:Metabolite)
+        WHERE m.id IN ex
+        RETURN ex, count(r) AS n""")[0]
+    assert row["ex"], "Schema_info.tcdb_substrate_excluded_targets missing"
+    assert {"kegg.compound:C00080", "chebi:25367"} <= set(row["ex"]), row["ex"]
+    assert row["n"] == 0, f"{row['n']} substrate edges reach an excluded target"
+
+
+@pytest.mark.kg
+def test_tcdb_proteins_searchable(run_query):
+    """The scraped protein cell (gene symbols) is on systems and in tcdbFamilyFullText."""
+    rows = run_query("""
+        CALL db.index.fulltext.queryNodes('tcdbFamilyFullText', 'UrtA') YIELD node
+        RETURN node.tcdb_id AS tc""")
+    assert {"3.A.1.4.4", "3.A.1.4.5"} <= {r["tc"] for r in rows}, rows
 
 
 # ============================================================================

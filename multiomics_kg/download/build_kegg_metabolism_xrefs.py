@@ -109,6 +109,7 @@ IDENTITY_REPORT_FILE = METABOLOMICS_DIR / "metabolite_identity_report.json"
 MAPPING_FILE = METABOLOMICS_DIR / "metabolite_id_mapping.json"
 IDENTITY_OVERRIDES_FILE = PROJECT_ROOT / "config" / "metabolite_identity_overrides.yaml"
 GO_TRANSPORT_FILTER_FILE = PROJECT_ROOT / "config" / "go_transport_target_filter.yaml"
+TCDB_SUBSTRATE_FILTER_FILE = PROJECT_ROOT / "config" / "tcdb_substrate_target_filter.yaml"
 KEGG_PATHWAY_EXCLUSIONS_FILE = PROJECT_ROOT / "config" / "kegg_pathway_exclusions.yaml"
 TCDB_MOVED_OVERRIDES_FILE = PROJECT_ROOT / "config" / "tcdb_moved_overrides.yaml"
 
@@ -231,7 +232,7 @@ def _parse_tcdb_superfamilies(path: Path) -> list[tuple[str, str, str, str, str]
             line = line.rstrip("\n")
             if not line or line.startswith("#"):
                 continue
-            parts = line.split("\t")
+            parts = [p.strip() for p in line.split("\t")]
             if len(parts) >= 5:
                 rows.append((parts[0], parts[1], parts[2], parts[3], parts[4]))
     return rows
@@ -290,6 +291,7 @@ def build_tcdb_hierarchy(
     substrates_path: Path,
     acc2tcid_path: Path,
     names_path: Path | None = None,
+    moved_path: Path | None = None,
 ) -> int:
     """Build tcdb_hierarchy.json by joining the 4 TCDB sources.
 
@@ -364,11 +366,24 @@ def build_tcdb_hierarchy(
                 "parent": fam,
             }
 
+    moved: dict[str, list[str]] = {}
+    if moved_path is not None and Path(moved_path).exists():
+        moved = json.loads(Path(moved_path).read_text()).get("moved", {})
+
+    def system_name(tcid: str) -> str:
+        """Scraped name; else, for a system TCDB has retired but its TSVs still list,
+        the name of the single system it moved to ("<name> (moved to TC <id>)")."""
+        name = names.get(tcid, {}).get("name", "")
+        targets = moved.get(tcid) or []
+        if not name and len(targets) == 1 and names.get(targets[0], {}).get("name"):
+            name = f"{names[targets[0]]['name'].rstrip('.')} (moved to TC {targets[0]})"
+        return name
+
     def ensure_system(tcid: str, subfam: str) -> None:
         if tcid in h:
             return
         node: dict = {
-            "name": names.get(tcid, {}).get("name", ""),
+            "name": system_name(tcid),
             "level": 4,
             "level_kind": "tc_system",
             "parent": subfam,
@@ -376,6 +391,9 @@ def build_tcdb_hierarchy(
         desc = names.get(tcid, {}).get("description", "")
         if desc:
             node["description"] = desc
+        proteins = names.get(tcid, {}).get("proteins", "")
+        if proteins:
+            node["proteins"] = proteins
         if tcid in substrates:
             node["substrate_classes"] = substrates[tcid]
         superfam = super_by_tcid.get(tcid, ("", ""))[1]
@@ -400,6 +418,10 @@ def build_tcdb_hierarchy(
         | set(substrates.keys())
         | acc_tcids
     )
+    not_five = sorted(t for t in five_part_seeds if len(t.split(".")) != 5)
+    if not_five:
+        log.warning(f"  TCDB hierarchy: {len(not_five)} seed id(s) are not 5-part and are "
+                    f"not modelled: {not_five[:10]}")
     for tcid in five_part_seeds:
         parts = tcid.split(".")
         if len(parts) != 5:
@@ -436,6 +458,7 @@ def _build_tcdb_hierarchy(cache_root: Path) -> int:
         substrates_path=raw_dir / "substrates.tsv",
         acc2tcid_path=raw_dir / "acc2tcid.tsv",
         names_path=tcdb_dir / "tcdb_names.json",
+        moved_path=tcdb_dir / "tcdb_moved.json",
     )
 
 
@@ -991,6 +1014,7 @@ def _resolve_substrate_strings(
     mnxm_ids = sorted(set(chebi_to_mnxm.values())
                       | (set(legacy_mnxm.values()) if legacy is not None else set()))
     mnxm_to_kegg: dict[str, str] = {}
+    mnxm_to_kegg_all: dict[str, list[str]] = {}  # every listed KEGG alias, sorted
     mnxm_to_kegg_any: dict[str, str] = {}       # unfiltered by known_kegg (legacy rule)
     mnxm_to_chebi: dict[str, str] = {}
     for chunk in _batched(mnxm_ids):
@@ -1005,6 +1029,7 @@ def _resolve_substrate_strings(
             mnxm_to_kegg_any.setdefault(mnxm_id, value)
             if _listed(value):
                 mnxm_to_kegg.setdefault(mnxm_id, value)
+                mnxm_to_kegg_all.setdefault(mnxm_id, []).append(value)
         cur.execute(
             f"SELECT mnxm_id, value FROM compound_aliases "
             f"WHERE source='chebi' AND mnxm_id IN ({placeholders}) "
@@ -1014,22 +1039,78 @@ def _resolve_substrate_strings(
         for mnxm_id, value in cur.fetchall():
             mnxm_to_chebi.setdefault(mnxm_id, value)
 
-    def _primary_for(mnxm: str, pnum: str | None = None) -> str:
+    def _chebi_kegg(pnum: str, mnxm: str | None) -> str | None:
+        """KEGG id ChEBI itself gives the term: its own xref, else the single id its
+        conjugate acids / bases agree on, else a single MNX alias that ChEBI maps back
+        to the term (or one of those forms) or that ChEBI says nothing about. ``None`` when
+        ChEBI contradicts or the choice is ambiguous — the node is then ``chebi:<pnum>``,
+        faithful to the substrate's ChEBI id (an unspecified "leucine" is not silently made
+        L-leucine; "ditritium" not H2)."""
+        cid = f"CHEBI:{pnum}"
+        t = chebi.term(cid) or {}
+        aliases = mnxm_to_kegg_all.get(mnxm or "", [])
+
+        def prefer_mnx(cands: list[str]) -> list[str]:
+            # several ChEBI xrefs ("bromide" -> C00720 RBr and C01324 Bromide): the one MNX
+            # also files under this entity wins
+            agreed = [k for k in cands if k in aliases]
+            return agreed or cands
+
+        own = prefer_mnx(sorted(k for k in t.get("kegg", []) if _listed(k)))
+        if own:
+            return own[0]
+        # conjugate acids / bases — the identity stage's notion of "one compound" — and, of
+        # ChEBI's tautomers, only the zwitterion / neutral pairs (other tautomers include
+        # biologically distinct pairs)
+        family = {cid} | {p for p in (chebi.primary(x) for x in t.get("conjugates", [])) if p}
+        for x in t.get("tautomers", []):
+            px = chebi.primary(x)
+            if px and "zwitterion" in " ".join(filter(None, [t.get("name"),
+                                                             (chebi.term(px) or {}).get("name")])):
+                family.add(px)
+        fam_kegg = prefer_mnx(sorted({k for f in family - {cid}
+                                      for k in (chebi.term(f) or {}).get("kegg", []) if _listed(k)}))
+        if len(fam_kegg) == 1:
+            return fam_kegg[0]
+        if fam_kegg:
+            return None
+        backed = sorted({k for k in aliases if family & set(chebi.kegg_terms(k))})
+        silent = sorted({k for k in aliases if not chebi.kegg_terms(k)})
+        pick = backed or silent
+        return pick[0] if len(pick) == 1 else None
+
+    def _primary_for(mnxm: str | None, pnum: str | None = None) -> str:
+        if pnum is not None:
+            kegg = _chebi_kegg(pnum, mnxm)
+            if kegg:
+                if mnxm is None or mnxm_to_kegg.get(mnxm) != kegg:
+                    rekeys[f"chebi:{pnum}"] = f"kegg.compound:{kegg}"
+                return f"kegg.compound:{kegg}"
+            return f"chebi:{pnum}"
         if mnxm in mnxm_to_kegg:
             return f"kegg.compound:{mnxm_to_kegg[mnxm]}"
-        if pnum is not None:
-            kegg = sorted(k for k in (chebi.term(pnum) or {}).get("kegg", []) if _listed(k))
-            if kegg:
-                rekeys[f"chebi:{pnum}"] = f"kegg.compound:{kegg[0]}"
-                return f"kegg.compound:{kegg[0]}"
-            return f"chebi:{pnum}"
         if mnxm in mnxm_to_chebi:
             return f"chebi:{mnxm_to_chebi[mnxm]}"
         return f"mnx:{mnxm}"
 
-    # Pass 4: bulk-fetch compounds props only for non-KEGG mnxm_ids (a ChEBI re-key may
-    # still turn one of these into a KEGG primary; its props are then simply unused).
-    nonkegg_mnxms = sorted({m for m in chebi_to_mnxm.values() if m not in mnxm_to_kegg})
+    # Pass 4: pick each string's primary, then bulk-fetch compound props for the MNX ids of
+    # non-KEGG primaries only.
+    picked: dict[str, tuple[str | None, str | None, str]] = {}
+    unresolved = 0
+    for sub_str, chebi_value, _ in parsed:
+        mnxm = chebi_to_mnxm.get(chebi_value)
+        pnum = primary_num.get(chebi_value) if chebi is not None else None
+        if mnxm is None and pnum is None:
+            unresolved += 1
+            log.warning(f"TCDB substrate unresolved (no MNX alias, not in ChEBI): {sub_str!r}")
+            continue
+        if mnxm is None:
+            log.warning(f"TCDB substrate has no MNX alias; kept as chebi:{pnum}: {sub_str!r}")
+        picked[sub_str] = (mnxm, pnum, _primary_for(mnxm, pnum))
+    if unresolved:
+        log.warning(f"{unresolved} TCDB substrate string(s) resolved to no node")
+    nonkegg_mnxms = sorted({m for m, _, prim in picked.values()
+                            if m and not prim.startswith("kegg.compound:")})
     mnxm_to_props: dict[str, tuple] = {}
     for chunk in _batched(nonkegg_mnxms):
         placeholders = ",".join("?" * len(chunk))
@@ -1050,23 +1131,25 @@ def _resolve_substrate_strings(
             legacy[sub_str] = (f"kegg.compound:{mnxm_to_kegg_any[lm]}" if lm in mnxm_to_kegg_any
                                else f"chebi:{mnxm_to_chebi[lm]}" if lm in mnxm_to_chebi
                                else f"mnx:{lm}")
-        mnxm = chebi_to_mnxm.get(chebi_value)
-        if mnxm is None:
-            log.debug(f"TCDB substrate unresolved: chebi:{chebi_value} ({sub_str!r})")
+        if sub_str not in picked:
             continue
-        pnum = primary_num.get(chebi_value) if chebi is not None else None
-        primary = _primary_for(mnxm, pnum)
+        mnxm, pnum, primary = picked[sub_str]
         string_to_primary[sub_str] = primary
 
         if primary.startswith("kegg.compound:") or primary in compound_props:
             continue
-        mnx_name, formula, mass, inchikey = mnxm_to_props.get(mnxm, (None, None, None, None))
+        # An isotope variant ("ditritium") shares its MNX entry with the plain molecule:
+        # carrying that MNX id / structure would merge it back into H2 downstream.
+        mnx_ok = mnxm is not None and not (pnum is not None and chebi.is_isotope_variant(f"CHEBI:{pnum}"))
+        mnx_name, formula, mass, inchikey = (mnxm_to_props.get(mnxm, (None, None, None, None))
+                                             if mnx_ok else (None, None, None, None))
+        chebi_name = (chebi.term(f"CHEBI:{pnum}") or {}).get("name") if pnum is not None else None
         compound_props[primary] = {
-            "name": (mnx_name or name_part).strip(),
+            "name": (chebi_name or mnx_name or name_part).strip(),
             "formula": formula or None,
             "mass": mass,
             "inchikey": inchikey or None,
-            "mnxm_id": mnxm,
+            "mnxm_id": mnxm if mnx_ok else None,
             "chebi_id": pnum if pnum is not None else mnxm_to_chebi.get(mnxm),
         }
 
@@ -1593,17 +1676,8 @@ def _go_transport_targets(
         s2p, props = _resolve_substrate_strings(molecules, conn, chebi=chebi, rekeys=go_rekeys,
                                                 known_kegg=known_kegg)
 
-    filter_strings: dict[str, str] = {}
-    for cid, name in sorted(target_filter.items()):
-        p = chebi.primary(cid)
-        t = chebi.term(p) if p else None
-        num = (p or cid).split(":", 1)[1]
-        filter_strings[f"chebi:{num}"] = f"{p};{t['name']}" if p and t else f"{cid};{name}"
-    f_s2p: dict[str, str] = {}
-    if molecules:
-        f_s2p, _ = _resolve_substrate_strings(set(filter_strings.values()), conn, chebi=chebi,
-                                              rekeys={}, known_kegg=known_kegg)
-    filter_primaries = {k: f_s2p.get(v) for k, v in sorted(filter_strings.items())}
+    filter_primaries = (_filter_target_primaries(target_filter, conn, chebi, known_kegg)
+                        if molecules else {k: None for k in _filter_strings(target_filter, chebi)})
     excluded = {v for v in filter_primaries.values() if v} | set(filter_primaries)
 
     go_subs, go_roles, drops = assemble_go_targets(term_strings, s2p, role_map, role_ids, excluded)
@@ -1628,6 +1702,27 @@ def _go_transport_targets(
         "primaries": surviving,
         "props": {p: props[p] for p in sorted(surviving) if p in props},
     }
+
+
+def _filter_strings(target_filter: dict[str, str], chebi: ChebiIndex) -> dict[str, str]:
+    """``{"chebi:<primary n>": "CHEBI:<n>;<name>"}`` for each target-filter entry."""
+    out: dict[str, str] = {}
+    for cid, name in sorted(target_filter.items()):
+        p = chebi.primary(cid)
+        t = chebi.term(p) if p else None
+        num = (p or cid).split(":", 1)[1]
+        out[f"chebi:{num}"] = f"{p};{t['name']}" if p and t else f"{cid};{name}"
+    return out
+
+
+def _filter_target_primaries(target_filter: dict[str, str], conn: sqlite3.Connection,
+                             chebi: ChebiIndex, known_kegg: set[str]) -> dict[str, str | None]:
+    """A target filter's ChEBI ids resolved like substrate strings, to know which primaries
+    to drop (they add no node): ``{"chebi:<n>": primary | None}``."""
+    strings = _filter_strings(target_filter, chebi)
+    s2p, _ = _resolve_substrate_strings(set(strings.values()), conn, chebi=chebi, rekeys={},
+                                        known_kegg=known_kegg)
+    return {k: s2p.get(v) for k, v in sorted(strings.items())}
 
 
 def _go_gene_terms_by_strain(go_target_terms: set[str], go_data: dict, alt_ids: dict) -> dict:
@@ -1807,11 +1902,27 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         string_to_primary, compound_props = _resolve_substrate_strings(
             molecule_strings, conn, chebi=chebi, rekeys=rekeys, known_kegg=known_kegg,
             legacy=old_string_to_primary)
+        # Placeholders ("molecule", "cation") and coupling ions (H+, Na+) are not substrates
+        # (config/tcdb_substrate_target_filter.yaml); dropped before any node is built.
+        tcdb_filter_primaries = _filter_target_primaries(
+            load_target_filter(TCDB_SUBSTRATE_FILTER_FILE), conn, chebi, known_kegg)
+        tcdb_excluded = {v for v in tcdb_filter_primaries.values() if v} | set(tcdb_filter_primaries)
+        tcdb_filter_drops: Counter = Counter()
         system_substrates: dict[str, list[str]] = {}
         for tc, strings in sorted(system_strings.items()):
             primaries = {string_to_primary[s] for s in strings if s in string_to_primary}
+            tcdb_filter_drops.update(p for p in primaries if p in tcdb_excluded)
+            primaries -= tcdb_excluded
             if primaries:
                 system_substrates[tc] = sorted(primaries)
+        # A re-key onto a filtered target would point at a node nothing writes (GO does the same).
+        tcdb_written = {p for ps in system_substrates.values() for p in ps}
+        for old, new in list(rekeys.items()):
+            if new in tcdb_excluded and new not in tcdb_written:
+                del rekeys[old]
+        log.info(f"  TCDB substrate filter: {sum(tcdb_filter_drops.values())} (system, target) pairs "
+                 f"dropped over {len(tcdb_filter_drops)} targets "
+                 f"{dict(tcdb_filter_drops.most_common(8))}")
         distinct_substrate_primaries = {p for ids in system_substrates.values() for p in ids}
         log.info(f"  system substrates: {len(system_substrates)} systems, "
                  f"{len(distinct_substrate_primaries)} distinct primaries; "
@@ -1900,7 +2011,9 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         go_substrates=go["go_substrates"], go_roles=go["go_roles"],
         go_excluded_primaries=go["excluded_primaries"], go_filter_primaries=go["filter_primaries"],
         go_release=go_cache["release"], go_distribution_input=go_gene_terms, go_drops=go["drops"],
-        go_axioms_in_corpus=go["axioms_in_corpus"], go_unresolved_ids=go["unresolved_ids"])
+        go_axioms_in_corpus=go["axioms_in_corpus"], go_unresolved_ids=go["unresolved_ids"],
+        tcdb_excluded_primaries=tcdb_excluded, tcdb_filter_primaries=tcdb_filter_primaries,
+        tcdb_filter_drops=dict(sorted(tcdb_filter_drops.items())))
     out = run_identity_stages(inp)               # raises Step6ValidationError → nothing written
     files = render_outputs(out, Step6Paths(
         kegg_data=KEGG_DATA_FILE, tcdb_pruned=prev_pruned_path, brite_dir=KEGG_CACHE_DIR,

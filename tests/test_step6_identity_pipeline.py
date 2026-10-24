@@ -365,7 +365,25 @@ def test_canonical_margin_error_is_actionable():
 def test_pruned_keys_after_cleanup(tmp_path):
     out, _ = _render(tmp_path, make_inputs(tmp_path))
     assert set(out.tcdb_pruned) == {"kept_tcdb_ids", "system_substrates", "system_roles",
-                                    "chemical_roles", "seed_aliases", "pfam_bridge", "go_bridge"}
+                                    "chemical_roles", "seed_aliases", "pfam_bridge", "go_bridge",
+                                    "substrate_filter"}
+
+
+def test_tcdb_substrate_filter_matches_canonical_ids(tmp_path):
+    """A substrate whose canonical node is a filtered target is dropped after stage F;
+    the excluded targets are published on kegg_data and in tcdb_pruned.substrate_filter."""
+    import dataclasses
+    inp = make_inputs(tmp_path)
+    inp = dataclasses.replace(inp, tcdb_excluded_primaries={f"{K}C00244"},
+                              tcdb_filter_primaries={"chebi:17632": f"{K}C00244"},
+                              tcdb_filter_drops={"chebi:1": 3})
+    out, _ = _render(tmp_path, inp)
+    subs = out.tcdb_pruned["system_substrates"]
+    assert all(f"{K}C00244" not in v for v in subs.values())
+    sf = out.tcdb_pruned["substrate_filter"]
+    assert sf["excluded_targets"] == [f"{K}C00244"] and sf["dropped_pairs"] == {"chebi:1": 3}
+    assert sf["dropped_after_canonical"] >= 1
+    assert out.kegg_data["tcdb_substrate_excluded_targets"] == [f"{K}C00244"]
 
 
 def test_system_substrates_canonicalised(tmp_path):

@@ -32,7 +32,8 @@ _HIER = {
     "1.A.1": _node("1.A.1", "VIC family"),
     "1.A.1.5": _node("1.A.1.5"),
     "1.A.1.5.2": _node("1.A.1.5.2", superfamily="VIC Superfamily",
-                       description="Epsilon leaf curated text with 'quote' and |pipe|."),
+                       description="Epsilon leaf curated text with 'quote' and |pipe|.",
+                       proteins="NaChBac of Bacillus; NaChBac (M) 'x'|y"),
     "2": _node("2", "Electrochemical Potential-driven Transporters"),
     "2.A": _node("2.A", "Porters"),
     "2.A.6": _node("2.A.6", "The Resistance-Nodulation-Cell Division (RND) Efflux Family"),
@@ -390,6 +391,8 @@ def test_node_props(tmp_path):
     assert leaf["name"] == "1.A.1.5.2"
     assert leaf["superfamily"] == "VIC Superfamily"
     assert leaf["description"] == "Epsilon leaf curated text with ^quote^ and pipe."
+    assert leaf["proteins"] == "NaChBac of Bacillus; NaChBac (M) ^x^y"
+    assert "proteins" not in nodes["tcdb:1.A.1.5"]
     assert "description" not in nodes["tcdb:1.A.1.5"]
     # ABC numbering; a system's own name; family names never decide
     assert (nodes["tcdb:3.A.1.4.4"]["direction"], nodes["tcdb:3.A.1.4.4"]["direction_basis"]) \
@@ -591,6 +594,9 @@ def _tcdb_statements(text: str) -> list[str]:
     if "<<'CYPHER'" in text:  # post-import.sh: keep only the heredoc bodies
         text = "\n".join(re.findall(r"<<'CYPHER'\n(.*?)\nCYPHER\n", text, re.S))
     code = _cypher_code(text)
+    # the reference .cypher declares parameters with :param lines that the .sh passes
+    # on the command line instead
+    code = re.sub(r"^:param [^\n]*$", "", code, flags=re.M)
     stmts = [re.sub(r"\s+", " ", s).strip() for s in code.split(";")]
     return [s for s in stmts if re.search(r"tcdb|Tcdb", s)]
 

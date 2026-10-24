@@ -1164,6 +1164,8 @@ def test_main_passes_old_and_new_substrate_maps(tmp_path, monkeypatch):
     calls = []
 
     def fake(strings, conn, chebi=None, rekeys=None, known_kegg=None, legacy=None):
+        if legacy is None:          # a target filter's ids, not substrate strings
+            return {}, {}
         calls.append(chebi is None)
         legacy["S"] = "chebi:1"
         return {"S": "kegg.compound:C00001"}, {}
@@ -1286,8 +1288,75 @@ def test_resolve_substrate_strings_known_kegg_none_is_unfiltered(tmp_path):
     from multiomics_kg.download.build_kegg_metabolism_xrefs import _resolve_substrate_strings
     conn = _conn_with_unlisted_kegg_alias(tmp_path)
     s2p, _ = _resolve_substrate_strings({"CHEBI:9160;sodium"}, conn,
-                                        chebi=make_chebi(CHEBI_9160=term("sodium")), rekeys={})
+                                        chebi=make_chebi(CHEBI_9160=term("sodium", kegg=["C00271"])),
+                                        rekeys={})
     assert s2p == {"CHEBI:9160;sodium": "kegg.compound:C00271"}
+
+
+# ── ChEBI decides the KEGG id (2026-10-24 TCDB review) ───────────────────────
+
+def _conn_aliases(tmp_path, rows, compounds=()):
+    import sqlite3
+    conn = sqlite3.connect(tmp_path / "c.db")
+    conn.executescript("""
+      CREATE TABLE compounds (mnxm_id TEXT, name TEXT, formula TEXT, mass REAL, inchikey TEXT, smiles TEXT);
+      CREATE TABLE compound_aliases (source TEXT, value TEXT, mnxm_id TEXT);
+      CREATE TABLE compound_names (mnxm_id TEXT, name_normalized TEXT);""")
+    conn.executemany("INSERT INTO compound_aliases VALUES (?,?,?)", rows)
+    conn.executemany("INSERT INTO compounds VALUES (?,?,NULL,NULL,NULL,NULL)", compounds)
+    return conn
+
+
+def test_chebi_own_kegg_xref_beats_lowest_mnx_alias(tmp_path):
+    """Generic leucine: MNX lists L-leucine C00123 first, ChEBI xrefs the generic C16439."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _resolve_substrate_strings
+    conn = _conn_aliases(tmp_path, [("chebi", "25017", "MNXM1"), ("kegg.compound", "C00123", "MNXM1"),
+                                    ("kegg.compound", "C16439", "MNXM1")])
+    chebi = make_chebi(CHEBI_25017=term("leucine", kegg=["C16439"]),
+                       CHEBI_15603=term("L-leucine", kegg=["C00123"]))
+    rekeys = {}
+    s2p, _ = _resolve_substrate_strings({"CHEBI:25017;leucine"}, conn, chebi=chebi, rekeys=rekeys)
+    assert s2p == {"CHEBI:25017;leucine": "kegg.compound:C16439"}
+    assert rekeys == {"chebi:25017": "kegg.compound:C16439"}
+
+
+def test_mnx_only_kegg_alias_needs_chebi_back_reference(tmp_path):
+    """No ChEBI xref: an MNX KEGG alias is taken only when ChEBI maps it back to the term."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _resolve_substrate_strings
+    conn = _conn_aliases(tmp_path, [
+        ("chebi", "100", "MNXM1"), ("kegg.compound", "C00001", "MNXM1"),    # backed
+        ("chebi", "200", "MNXM2"), ("kegg.compound", "C00282", "MNXM2"),    # not backed (H2 vs D2)
+        ("chebi", "300", "MNXM3"), ("kegg.compound", "C00010", "MNXM3"),
+        ("kegg.compound", "C00011", "MNXM3"),                                 # two backed aliases
+        ("chebi", "500", "MNXM5"), ("kegg.compound", "C07203", "MNXM5"),    # ChEBI silent: kept
+        ("chebi", "600", "MNXM6"), ("kegg.compound", "C09001", "MNXM6"),
+        ("kegg.compound", "C09002", "MNXM6")],                                # two silent: ambiguous
+        compounds=[("MNXM2", "dihydrogen")])
+    chebi = make_chebi(
+        CHEBI_100=term("water", conj=["CHEBI:101"]), CHEBI_101=term("oxidanium", kegg=["C00001"]),
+        CHEBI_200=term("ditritium"), CHEBI_201=term("dihydrogen", kegg=["C00282"]),
+        CHEBI_300=term("x"), CHEBI_301=term("x1", kegg=["C00010"], conj=["CHEBI:300"]),
+        CHEBI_302=term("x2", kegg=["C00011"], conj=["CHEBI:300"]),
+        CHEBI_500=term("metronidazole"), CHEBI_600=term("y"))
+    s2p, props = _resolve_substrate_strings(
+        {"CHEBI:100;water", "CHEBI:200;ditritium", "CHEBI:300;x", "CHEBI:500;metronidazole",
+         "CHEBI:600;y"}, conn, chebi=chebi, rekeys={})
+    assert s2p["CHEBI:100;water"] == "kegg.compound:C00001"     # the conjugate's xref agrees
+    assert s2p["CHEBI:200;ditritium"] == "chebi:200"             # H2 is not ditritium
+    assert s2p["CHEBI:300;x"] == "chebi:300"                     # charge forms disagree
+    assert s2p["CHEBI:500;metronidazole"] == "kegg.compound:C07203"  # ChEBI silent on C07203
+    assert s2p["CHEBI:600;y"] == "chebi:600"                     # two silent aliases
+    assert props["chebi:200"]["name"] == "ditritium"             # ChEBI name, not MNX's
+
+
+def test_chebi_id_without_mnx_alias_becomes_a_chebi_node(tmp_path, caplog):
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _resolve_substrate_strings
+    conn = _conn_aliases(tmp_path, [])
+    chebi = make_chebi(CHEBI_400=term("rare compound"))
+    s2p, props = _resolve_substrate_strings({"CHEBI:400;rare compound"}, conn, chebi=chebi, rekeys={})
+    assert s2p == {"CHEBI:400;rare compound": "chebi:400"}
+    assert props["chebi:400"]["name"] == "rare compound"
+    assert "no MNX alias" in caplog.text
 
 
 def test_mnxm_primary_and_normalize_paper_id_skip_unlisted_kegg(tmp_path):
@@ -1484,6 +1553,8 @@ def test_main_system_substrates_from_kept_systems(tmp_path, monkeypatch):
     calls = []
 
     def fake(strings, conn, chebi=None, rekeys=None, known_kegg=None, legacy=None):
+        if legacy is None:          # a target filter's ids, not substrate strings
+            return {}, {}
         calls.append(set(strings))
         return {"CHEBI:17234;glucose": "kegg.compound:C00031", "CHEBI:2;y": "chebi:2"}, {}
     monkeypatch.setattr(bx, "_resolve_substrate_strings", fake)
@@ -1694,3 +1765,48 @@ def test_add_range_systems_skips_systems_under_an_excluded_ancestor():
     for t in with_range:
         p = _MOVED_H[t]["parent"]
         assert p is None or p in with_range
+
+
+def test_several_chebi_xrefs_prefer_the_mnx_one_and_zwitterion_tautomers_count(tmp_path):
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _resolve_substrate_strings
+    conn = _conn_aliases(tmp_path, [
+        ("chebi", "15858", "MNXM1"), ("kegg.compound", "C01324", "MNXM1"),
+        ("chebi", "57932", "MNXM2"), ("kegg.compound", "C00855", "MNXM2")])
+    chebi = make_chebi(
+        CHEBI_15858=term("bromide", kegg=["C00720", "C01324"]),           # C00720 is "RBr"
+        CHEBI_57932=term("D-methionine zwitterion", taut=["CHEBI:16867"]),
+        CHEBI_16867=term("D-methionine", kegg=["C00855"], taut=["CHEBI:57932"]))
+    s2p, _ = _resolve_substrate_strings({"CHEBI:15858;bromide", "CHEBI:57932;D-methionine zwitterion"},
+                                        conn, chebi=chebi, rekeys={})
+    assert s2p["CHEBI:15858;bromide"] == "kegg.compound:C01324"
+    assert s2p["CHEBI:57932;D-methionine zwitterion"] == "kegg.compound:C00855"
+
+
+def test_build_tcdb_hierarchy_proteins_moved_names_and_clean_superfamily(tmp_path):
+    """2026-10-24 TCDB review: the protein cell rides onto tc_system nodes; a system TCDB
+    retired but still lists is named after the one system it moved to; superfamily
+    values lose TCDB's trailing spaces; non-5-part seeds are warned about, not modelled."""
+    from multiomics_kg.download import build_kegg_metabolism_xrefs as mod
+
+    cache_root = tmp_path / "cache" / "data"
+    raw_dir = cache_root / "tcdb" / "raw"
+    raw_dir.mkdir(parents=True, exist_ok=True)
+    (raw_dir / "families.tsv").write_text("1.A.1\tThe Voltage-gated Ion Channel\n")
+    (raw_dir / "superfamilies.tsv").write_text(
+        "1.A.1.5.2\t1.A.1.5\t1.A.1\tVIC\tVIC Superfamily  \n")
+    (raw_dir / "substrates.tsv").write_text("1.A.1.5.9\tCHEBI:1;x\n1.M.1.4.1.1\tCHEBI:2;y\n")
+    (raw_dir / "acc2tcid.tsv").write_text("P12345\t1.A.1.5.2\nP2\t1.A.1.5.3\n")
+    _write_names_file(cache_root, {
+        "1.A.1.5.2": {"name": "Sodium channel", "proteins": "NaChBac of Bacillus; NaChBac (M)"},
+        "1.A.1.5.3": {"name": "Potassium channel, KcsA."},
+    }, scraped_families=["1.A.1"])
+    (cache_root / "tcdb" / "tcdb_moved.json").write_text(json.dumps(
+        {"meta": {}, "moved": {"1.A.1.5.9": ["1.A.1.5.3"]}}))
+
+    mod._build_tcdb_hierarchy(cache_root=cache_root)
+    h = json.loads((cache_root / "tcdb" / "tcdb_hierarchy.json").read_text())
+    assert h["1.A.1.5.2"]["proteins"] == "NaChBac of Bacillus; NaChBac (M)"
+    assert "proteins" not in h["1.A.1.5.3"]
+    assert h["1.A.1.5.9"]["name"] == "Potassium channel, KcsA (moved to TC 1.A.1.5.3)"
+    assert h["1.A.1.5.2"]["superfamily"] == "VIC Superfamily"
+    assert "1.M.1.4.1.1" not in h
