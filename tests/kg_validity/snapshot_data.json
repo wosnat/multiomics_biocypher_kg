@@ -1160,6 +1160,12 @@
     },
     {
       "properties": {},
+      "source": "kegg.compound:C00002",
+      "target": "kegg.pathway:ko00190",
+      "type": "Metabolite_in_pathway"
+    },
+    {
+      "properties": {},
       "source": "insdc.gcf:GCA_003513035.1",
       "target": "chebi:134400",
       "type": "Organism_has_metabolite"
@@ -2295,7 +2301,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-10-23T18:06:57.812631+00:00",
+  "generated_at": "2026-10-24T17:36:40.677954+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -2997,11 +3003,11 @@
     },
     {
       "anchor": false,
-      "id": "kegg.category:09150",
+      "id": "kegg.category:09160",
       "label": "KeggTerm",
       "properties": {
         "level": 0,
-        "name": "Organismal Systems"
+        "name": "Human Diseases"
       }
     },
     {
