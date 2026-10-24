@@ -60,53 +60,221 @@ def tcdb_ancestors(tc_id: str) -> list[str]:
 # ============================================================================
 
 # Whole words incl. plural / agent-noun forms; \b also splits hyphenated tokens
-# ("Drug Exporter-1" matches exporter).
+# ("Drug Exporter-1" matches exporter). These DECIDE a direction, so they stay narrow.
 _UPTAKE_RE = re.compile(
     r"\b(?:uptake|import|imports|importer|importers|influx)\b", re.IGNORECASE)
 _EXPORT_RE = re.compile(
     r"\b(?:export|exports|exporter|exporters|efflux|extrusion)\b", re.IGNORECASE)
+# Broader verb forms, used only to VETO a direction from a node's description.
+_UPTAKE_ANY_RE = re.compile(
+    r"\b(?:uptake|import|imports|imported|importing|importer|importers|influx)\b",
+    re.IGNORECASE)
+_EXPORT_ANY_RE = re.compile(
+    r"\b(?:export|exports|exported|exporting|exporter|exporters|efflux|effluxes"
+    r"|extrusion|extrudes?|extruded|extruding)\b", re.IGNORECASE)
+# The curator was unsure. Anywhere before the direction word in the name counts
+# ("Putative heavy metal (Me 2+) exporter", "Probable pyruvate:H+ importer"); a
+# hedge AFTER it does not ("uptake permease, AmtB (may need ...)" stays uptake).
+_HEDGE_RE = re.compile(
+    r"\b(?:may|might|could|likely|possibl[ey]|potential(?:ly)?|putative|probabl[ey]"
+    r"|presum\w*|predicted|suggested|proposed|unknown|uncharacteri[sz]ed|hypothetical"
+    r"|fanciful|incorrectly|regulators?)\b|\?", re.IGNORECASE)
+# The node is named by resemblance only. Weak right after the direction word too
+# ("Lipid A exporter homologue"), and a hedged/generic name never inherits.
+_MEMBER_RE = re.compile(
+    r"\b(?:homolog\w*|paralog\w*|\w+-like|like protein|DUF\d+|UPF\d+"
+    r"|family (?:member|protein))\b|\?", re.IGNORECASE)
+# Organelle anywhere in the name: import into a peroxisome, export from the nucleus,
+# loading of vesicles, "uptake into vacuoles" are not uptake/export of a bacterial cell.
+_ORGANELLE_RE = re.compile(
+    r"\b(?:perox[iy]som\w*|mitochondri\w*|chloroplast\w*|plastid\w*|apicoplast\w*"
+    r"|thylakoid\w*|nuclear|nucleus|lysosom\w*|vacuol\w*|tonoplast\w*|golgi"
+    r"|endoplasmic|endosom\w*|vesic\w*|synap\w*|hydrogenosom\w*|glycosom\w*"
+    r"|organell\w*|lamellar bod\w*)\b", re.IGNORECASE)
+_ER_RE = re.compile(r"\bER\b")  # case-sensitive: the endoplasmic reticulum
+# "not involved in the export", "non-exporter", "unable to import".
+_NEGATION_BEFORE_RE = re.compile(
+    r"\b(?:not|no|non|never|unable|lacks?|without)\b(?:\W+\w+){0,3}\W*$", re.IGNORECASE)
+# Clause end after the direction word (for the homologue check only).
+_CLAUSE_END_RE = re.compile(r"[,;(\[]")
+# A description that says the direction is two-way or contested vetoes it, wherever
+# it says so. ("Unknown function" is not here: descriptions use it for accessory
+# proteins; only the node's own name counts for that, see _UNKNOWN_FUNCTION_RE.)
+_DESC_VETO_RE = re.compile(
+    r"\bboth\s+(?:uptake|import|influx)\w*\s+and\s+(?:export|efflux|extrusion)\w*"
+    r"|\bboth\s+(?:export|efflux|extrusion)\w*\s+and\s+(?:uptake|import|influx)\w*"
+    r"|\bbidirectional\w*|\bboth directions\b|\bunder debate\b|\bcontroversial\b"
+    r"|\bdisputed\b|\bhypothes\w*", re.IGNORECASE)
+_UNKNOWN_FUNCTION_RE = re.compile(
+    r"\b(?:unknown function|function unknown|uncharacteri[sz]ed)\b", re.IGNORECASE)
+# The description's first sentence is TCDB's full system name (the stored name is
+# truncated: "The antimicrobial peptide" for "... HBD-2 exporter, YejABEF"). Only it
+# is read for the opposite direction word; later sentences discuss other proteins
+# and assays.
+_FIRST_SENTENCE_RE = re.compile(r"(?<=[A-Za-z0-9\)\]])\.\s+(?=[A-Z(])")
+# Description phrases that use a direction word about something else.
+_DESC_IGNORE_RE = re.compile(r"\bsignal (?:sequence|peptide)s? for export\b", re.IGNORECASE)
 _ABC = "3.A.1"
+# ABC subfamilies 3.A.1.1-99 are importers (binding-protein-dependent + ECF), so
+# the number alone is enough there. 3.A.1.100+ is NOT a reliable export claim:
+# it holds ABC-F ribosome-protection proteins (.120/.121), FtsEX (.140), gliding
+# motility (.132), uncharacterized families, and the eukaryotic ABCA-G groups
+# (.2xx, grouped by fold), some of them importers (BacA .203.4). Those need a name.
+_ABC_UPTAKE_MAX = 99
 # Names of class (0) and subclass (1) nodes are mechanism classes, never direction.
 _MIN_DIRECTION_LEVEL = 2
 
+DIRECTION_OVERRIDES_PATH = Path("config/tcdb_direction_overrides.yaml")
+_OVERRIDE_SCOPES = {"node", "subtree"}
+_OVERRIDES_CACHE: dict[str, dict] | None = None
 
-def tcdb_direction(tc_id: str, hierarchy: dict) -> tuple[str, str | None]:
-    """Transport direction TCDB states for ``tc_id``: ``(direction, basis)``.
 
-    1. ABC numbering: ``3.A.1.<n>`` and everything below it is ``uptake`` when
-       ``n < 100``, else ``export`` (basis ``abc_numbering``).
-    2. Otherwise walk from the node up through its ancestors, stopping at family
-       level; the first name that matches exactly one of the word groups
-       {uptake, import(s), importer(s), influx} / {export(s), exporter(s), efflux,
-       extrusion} (whole word, any case) gives the direction (basis ``tcdb_name``). A name matching both or
-       neither group is skipped.
-    3. Otherwise ``("unknown", None)``.
+def load_direction_overrides(path: Path | str | None = None) -> dict[str, dict]:
+    """``{tc_id: {scope, reason}}`` from ``config/tcdb_direction_overrides.yaml``.
 
-    So the direction is not simply inherited downward: ABC numbering covers the subfamily
-    and everything below it and is never overridden, but otherwise the NEAREST named node
-    wins (a system whose own name says uptake reads uptake even inside an exporter family;
-    known false positive ``2.A.86.1.7``, "may function with a heme uptake transporter").
-    Free-text descriptions are never read.
+    ``scope: subtree`` — the node and every descendant are ``unknown``.
+    ``scope: node`` — the node's own name never decides and the walk stops there,
+    so a descendant gets a direction only from its own name (the family name is
+    about one member and misrepresents the others). Overrides only ever REMOVE a
+    direction; there is no way to assert one.
     """
-    parts = tc_id.split(".")
-    if len(parts) >= 4 and ".".join(parts[:3]) == _ABC and parts[3].isdigit():
-        return ("uptake" if int(parts[3]) < 100 else "export"), "abc_numbering"
-    node = tc_id
-    while node is not None and node in hierarchy:
+    global _OVERRIDES_CACHE
+    if path is None and _OVERRIDES_CACHE is not None:
+        return _OVERRIDES_CACHE
+    import yaml
+
+    p = Path(path) if path is not None else DIRECTION_OVERRIDES_PATH
+    raw = yaml.safe_load(p.read_text(encoding="utf-8")) or {}
+    out: dict[str, dict] = {}
+    for tc_id, entry in raw.items():
+        tc_id = str(tc_id)
+        if not isinstance(entry, dict) or entry.get("scope") not in _OVERRIDE_SCOPES \
+                or not entry.get("reason"):
+            raise ValueError(f"{p}: {tc_id}: need scope in {sorted(_OVERRIDE_SCOPES)} and a reason")
+        out[tc_id] = {"scope": entry["scope"], "reason": str(entry["reason"])}
+    if path is None:
+        _OVERRIDES_CACHE = out
+    return out
+
+
+def _level(node: str, entry: dict) -> int:
+    level = entry.get("level")
+    return node.count(".") if level is None else level
+
+
+def _lineage(tc_id: str, hierarchy: dict) -> list[str]:
+    """``tc_id`` and its ancestors, nearest first."""
+    out, node = [], tc_id
+    while node is not None and node in hierarchy and node not in out:
+        out.append(node)
+        node = hierarchy[node].get("parent")
+    return out
+
+
+def _weak_direction_word(name: str, match: re.Match) -> bool:
+    before, after = name[:match.start()], name[match.end():]
+    after_clause = _CLAUSE_END_RE.split(after, maxsplit=1)[0]
+    return bool(_HEDGE_RE.search(before) or _NEGATION_BEFORE_RE.search(before)
+                or _ORGANELLE_RE.search(name) or _ER_RE.search(name)
+                or _MEMBER_RE.search(after_clause))
+
+
+def _name_direction(tc_id: str, hierarchy: dict, overrides: dict) -> tuple[str, str | None]:
+    """Nearest decisive TCDB name, node up to family level: ``(direction, word_seen)``.
+
+    ``direction`` is ``uptake`` / ``export`` / ``unknown``. ``word_seen`` is the
+    direction a name stated even when it was rejected as weak or conflicting
+    (``"both"`` for a name stating both), so the ABC branch can tell "no name
+    says anything" from "a name says export, tentatively".
+    """
+    for node in _lineage(tc_id, hierarchy):
         entry = hierarchy[node]
-        level = entry.get("level")
-        if level is None:
-            level = node.count(".")
-        if level < _MIN_DIRECTION_LEVEL:
+        if _level(node, entry) < _MIN_DIRECTION_LEVEL:
+            break
+        if node != tc_id and overrides.get(node, {}).get("scope") == "node":
             break
         name = entry.get("name") or ""
-        up, out = bool(_UPTAKE_RE.search(name)), bool(_EXPORT_RE.search(name))
-        # "exactly one of the two": a name matching both groups is not decisive, so
-        # the walk continues to the parent (as for a name matching neither).
-        if up != out:
-            return ("uptake" if up else "export"), "tcdb_name"
-        node = entry.get("parent")
+        up, out = _UPTAKE_RE.search(name), _EXPORT_RE.search(name)
+        if up and out:
+            return "unknown", "both"           # a name stating both stops the walk
+        if up or out:
+            word = "uptake" if up else "export"
+            if (node == tc_id and overrides.get(node, {}).get("scope") == "node") \
+                    or _weak_direction_word(name, up or out):
+                return "unknown", word         # hedged: no fallback to the parent
+            return word, word
+        if node == tc_id and overrides.get(node, {}).get("scope") == "node":
+            break
+        # A hedged, resemblance-only or organellar name never inherits
+        # ("Uncharacterized MFS protein", "CorC homologue", "DUF2899", "Mitochondrial
+        # ABCB8"); an empty or plain one does.
+        if _HEDGE_RE.search(name) or _MEMBER_RE.search(name) \
+                or _ORGANELLE_RE.search(name) or _ER_RE.search(name):
+            break
     return "unknown", None
+
+
+def _description_vetoes(tc_id: str, hierarchy: dict, direction: str) -> bool:
+    """The node's own TCDB description contradicts or doubts ``direction``."""
+    desc = _DESC_IGNORE_RE.sub("", hierarchy.get(tc_id, {}).get("description") or "")
+    if not desc:
+        return False
+    if _DESC_VETO_RE.search(desc):
+        return True
+    opposite = _EXPORT_ANY_RE if direction == "uptake" else _UPTAKE_ANY_RE
+    return bool(opposite.search(_FIRST_SENTENCE_RE.split(desc, maxsplit=1)[0]))
+
+
+def tcdb_direction(tc_id: str, hierarchy: dict,
+                   overrides: dict | None = None) -> tuple[str, str | None]:
+    """Transport direction TCDB states for ``tc_id``: ``(direction, basis)``.
+
+    Conservative: ``unknown`` whenever the evidence is weak, conflicting or
+    contested; a false ``unknown`` is cheap, a wrong direction is not.
+
+    1. Names: walk from the node up through its ancestors, stopping at family level.
+       The first name with a direction word ({uptake, import(s), importer(s),
+       influx} / {export(s), exporter(s), efflux, extrusion}, whole word) decides,
+       unless it is weak, which gives ``unknown`` with no fallback to the parent:
+       a hedge word anywhere before the direction word (putative, probable, may,
+       uncharacterized, ``?``, ...), a negation just before it, an organelle
+       anywhere in the name, or a resemblance word right after it ("exporter
+       homologue"). A name stating both directions gives ``unknown``. A name with
+       no direction word passes the walk on only if it is not itself hedged or
+       resemblance-only ("Uncharacterized MFS protein" does not inherit).
+    2. ABC subfamilies ``3.A.1.<n>``, ``n <= 99``: ``uptake`` by numbering (basis
+       ``abc_numbering``) unless some name in rule 1 said export or both (even
+       tentatively), or the node's own name says its function is unknown. ``n >= 100`` gets only what rule 1 gives.
+    3. The node's own TCDB description vetoes any direction it doubts: both
+       directions, bidirectional, under debate, disputed, hypothesis (anywhere), or
+       the opposite direction word in its first sentence (TCDB's full system name).
+    4. ``config/tcdb_direction_overrides.yaml``: ``subtree`` entries make the node
+       and its descendants ``unknown``; ``node`` entries keep a family name from
+       deciding for its members.
+
+    So the direction is not simply inherited downward: the NEAREST decisive name wins
+    (a system named as an uptake porter inside an exporter family reads uptake).
+    """
+    if overrides is None:
+        overrides = load_direction_overrides()
+    lineage = _lineage(tc_id, hierarchy)
+    if any(overrides.get(n, {}).get("scope") == "subtree" for n in lineage) \
+            or (tc_id not in hierarchy
+                and any(tc_id.startswith(k + ".") for k, v in overrides.items()
+                        if v["scope"] == "subtree")):
+        return "unknown", None
+    by_name, word_seen = _name_direction(tc_id, hierarchy, overrides)
+    parts = tc_id.split(".")
+    if len(parts) >= 4 and ".".join(parts[:3]) == _ABC and parts[3].isdigit() \
+            and int(parts[3]) <= _ABC_UPTAKE_MAX:
+        if word_seen in ("export", "both") \
+                or _UNKNOWN_FUNCTION_RE.search(hierarchy.get(tc_id, {}).get("name") or "") \
+                or _description_vetoes(tc_id, hierarchy, "uptake"):
+            return "unknown", None
+        return "uptake", "abc_numbering"
+    if by_name == "unknown" or _description_vetoes(tc_id, hierarchy, by_name):
+        return "unknown", None
+    return by_name, "tcdb_name"
 
 
 # ============================================================================

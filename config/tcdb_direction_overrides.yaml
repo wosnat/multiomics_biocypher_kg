@@ -1,0 +1,251 @@
+# Curated exceptions to TcdbFamily.direction (multiomics_kg.utils.tcdb_utils.tcdb_direction).
+#
+# The rule reads direction from TCDB names (and ABC numbering 3.A.1.1-99). Some TCDB
+# names overstate what is known about a node or its members; an entry here makes the
+# KG say `unknown` instead. Entries can only REMOVE a direction, never assert one:
+# a false `unknown` is cheap, a wrong direction is not.
+#
+# Format: <TC id>: {scope: subtree | node, reason: <why, with a reference>}
+#   subtree  the node and every descendant read `unknown`.
+#   node     the node's own name never decides and is never inherited: its members
+#            get a direction only from their own names. For families named after one
+#            characterised member whose relatives go the other way or are uncharacterised.
+# A unit test checks every id is in the committed TCDB hierarchy.
+# Source: 2026-10-24 seven-reviewer audit of all directed nodes (docs/kg-changes/tcdb-cleanup.md).
+
+# ── Not transporters, or no transport direction ─────────────────────────────
+3.A.1.27:
+  scope: subtree
+  reason: "MlaFEDB-type phospholipid trafficking; retrograde vs anterograde direction disputed; LinKLMN and Mce members are Mla homologues"
+2.A.50:
+  scope: subtree
+  reason: "named 'Glycerol Uptake ... or Membrane-bound Acyl Transferase'; MBOAT/HHAT members are acyltransferases"
+3.A.1.120:
+  scope: subtree
+  reason: "ABC-F proteins without TMDs (Uup, VgaA, OptrA); resistance by ribosome protection, not efflux"
+3.A.1.121:
+  scope: subtree
+  reason: "ABC-F-type (Putative) Drug Resistance ATPase-2; no transport direction shown"
+3.A.1.134:
+  scope: subtree
+  reason: "BceAB-type systems resist peptide antibiotics by target protection, not efflux (Kobras 2020)"
+3.A.1.140:
+  scope: subtree
+  reason: "FtsEX regulates cell-wall hydrolases in division; not a transporter"
+2.A.103:
+  scope: subtree
+  reason: "SEDS proteins FtsW/RodA are peptidoglycan glycosyltransferases; lipid II flippase role disputed"
+1.C:
+  scope: subtree
+  reason: "pore-forming toxins act on target cells; 'import' is entry into the host, not uptake by the producer"
+9.A.41:
+  scope: subtree
+  reason: "KpsC/KpsS/HcsA are capsule-linker glycosyltransferases; 'export protein' is a mutant-phenotype name (Willis and Whitfield 2013)"
+3.A.1.107:
+  scope: subtree
+  reason: "'Putative' heme exporter family; CcmABCD has not been shown to export heme (Feissner 2006; Richard-Fogal 2008)"
+9.A.4:
+  scope: subtree
+  reason: "YggT 'Fanciful K+ Uptake-B': uptake claim rests on overexpression rescue only; TCDB itself flags it"
+1.E.14:
+  scope: subtree
+  reason: "CidA/LrgA 'murein hydrolase exporter' is the early holin hypothesis; LrgAB mediates pyruvate uptake (van den Esker 2017)"
+9.B.87:
+  scope: subtree
+  reason: "selenoprotein P receptors (megalin/ApoER2) mediate eukaryotic endocytosis"
+1.A.30.4:
+  scope: subtree
+  reason: "SiiAB is a MotAB-like proton channel energizing a separate T1SS; 'exporter' names the other system"
+2.A.128:
+  scope: subtree
+  reason: "VanZ confers teicoplanin resistance by an unknown mechanism; no efflux shown"
+
+# ── Family names that misrepresent their members (scope: node) ──────────────
+2.A.7.3:
+  scope: node
+  reason: "'Drug/Metabolite Exporter' subfamily includes SAM and riboflavin uptake porters (Sam, RibN, ImpX) and many uncharacterised members"
+2.A.102:
+  scope: node
+  reason: "'Toluene Sulfonate Uptake' family also holds TauE/SafE sulfite/sulfoacetate exporters"
+2.A.86:
+  scope: node
+  reason: "AI-2 Exporter family is named after TqsA/YdgG; PerM and most members are uncharacterised permeases"
+2.A.69:
+  scope: node
+  reason: "'Auxin Efflux Carrier' family; bacterial members such as MleP/MdcF import malate (Labarre 1996)"
+2.A.61:
+  scope: node
+  reason: "'DcuC Uptake' family; E. coli DcuC acts mainly in succinate efflux (Zientz 1999)"
+2.A.96:
+  scope: node
+  reason: "'Acetate Uptake' family includes the ATO ammonia exporters (Ricicova 2007)"
+2.A.124:
+  scope: node
+  reason: "'Lysine Exporter' LysO family includes the lysine uptake transporter LysT (Jorth and Whiteley 2010)"
+2.A.1.28:
+  scope: node
+  reason: "'Heme Importer' FLVCR family; FLVCR1 is described as a heme exporter or choline transporter"
+1.A.112:
+  scope: node
+  reason: "CNNM 'Mg2+ Exporter' family; whether CNNM proteins transport Mg2+ is debated (Schaffers 2018)"
+
+# ── Individual systems with contested or two-way direction ──────────────────
+3.A.1.122.2:
+  scope: subtree
+  reason: "YknWXYZ protects against SdpC, but efflux of the toxin was never shown (Butcher and Helmann 2006)"
+3.A.1.201.7:
+  scope: subtree
+  reason: "AtABCB4 transports auxin in both directions (Cho 2007; Kubes 2012)"
+3.A.1.201.33:
+  scope: subtree
+  reason: "AtABCB14 imports malate into guard cells (Lee 2008); the MDR family name says export"
+3.A.1.201.36:
+  scope: subtree
+  reason: "AtABCB21 is a facultative auxin importer/exporter (Kamimoto 2012)"
+3.A.1.5.5:
+  scope: subtree
+  reason: "Sap imports antimicrobial peptides, but SapBCDF also export putrescine (Sugiyama 2016)"
+3.A.1.5.42:
+  scope: subtree
+  reason: "SapABCDF: peptide import and putrescine export (Sugiyama 2016)"
+3.A.1.5.44:
+  scope: subtree
+  reason: "SapABCDF of a plant pathogen; only mutant phenotypes, and Sap has documented export activity"
+1.A.35.4.1:
+  scope: subtree
+  reason: "ZntB was proposed as a Zn2+ efflux system, but mediates proton-coupled Zn2+ uptake (Gati 2017)"
+9.B.20.1.4:
+  scope: subtree
+  reason: "MgtC-family proteins are not established Mg2+ transporters; the description says YhiD 'seems to be' one"
+9.B.97.1.7:
+  scope: subtree
+  reason: "IcaC export role inferred from mutant phenotype; evidence it is an O-succinyltransferase (Prabu 2022)"
+2.A.1.8.8:
+  scope: subtree
+  reason: "NarK1 is a nitrate/nitrite exchanger: nitrate in, nitrite out"
+2.A.1.8.9:
+  scope: subtree
+  reason: "NarK2 is the nitrate/nitrite antiporter; one direction label misrepresents it"
+2.A.22.1.3:
+  scope: subtree
+  reason: "DAT is a dopamine reuptake symporter; 'efflux' in the name refers to amphetamine-induced reverse transport"
+3.A.3.5.1:
+  scope: subtree
+  reason: "E. hirae CopA 'uptake': P1B-1 ATPases are characterised as Cu+ exporters (Raimunda 2011)"
+3.A.3.5.15:
+  scope: subtree
+  reason: "TcrA 'uptake' inferred only from copper-sensitivity phenotype and identity to E. hirae CopA"
+3.A.3.6.9:
+  scope: subtree
+  reason: "ZosA/YkvW Zn2+ uptake proposed from phenotype; uptake by P1B-ATPases is disputed"
+3.A.3.6.15:
+  scope: subtree
+  reason: "HmtA uptake is a minority claim for a P1B-ATPase"
+2.A.66.1.5:
+  scope: subtree
+  reason: "ERC1 ethionine resistance causes SAM accumulation; no efflux shown"
+2.A.124.1.8:
+  scope: subtree
+  reason: "LysT imports lysine (Jorth and Whiteley 2010); the LysO family name says export"
+3.A.1.122.29:
+  scope: subtree
+  reason: "generic ABC3-type system annotated LolC-like; ABC3 (MacB-fold) permeases include LolCDE extractors and FtsEX"
+3.A.1.122.30:
+  scope: subtree
+  reason: "generic ABC3 system with structural description only; no substrate or direction shown"
+3.A.1.122.37:
+  scope: subtree
+  reason: "uncharacterised ABC3 permease; export comes only from the MacB family name"
+3.A.1.152.7:
+  scope: subtree
+  reason: "uncharacterised YjgP/Q (LptF/G) homologue; no transport function shown"
+2.A.3.13.3:
+  scope: subtree
+  reason: "YjeH ortholog 'uptake' rests on mutant fitness only and contradicts E. coli YjeH Met/BCAA export (Liu 2015)"
+3.A.1.106.22:
+  scope: subtree
+  reason: "CydDC 'heme transporter'; the earlier thiol-export model is disputed and no heme direction is established"
+9.A.21.1.2:
+  scope: subtree
+  reason: "PilY1 is a type IV pilus tip adhesin; 'DNA uptake' comes from the ComC family name only"
+2.A.99.1.8:
+  scope: subtree
+  reason: "hydantoin utilization protein A; no Ni2+ transport evidence"
+2.A.45.2.8:
+  scope: subtree
+  reason: "mixed members (melanosomal OCA2, magnetosome MamN, uncharacterised Mb2703); no shared direction"
+2.A.86.1.11:
+  scope: subtree
+  reason: "uncharacterised permease adjacent to a germination receptor gene; AI-2E family name only"
+2.A.119.3:
+  scope: subtree
+  reason: "unnamed subfamily of uncharacterised members; ArsP family name only"
+2.A.85:
+  scope: node
+  reason: "'Aromatic Acid Exporter' (FUSC) family also holds lantibiotic-protection MutG, plant ALMT anion channels (some vacuolar importers) and uncharacterised FUSC proteins"
+3.A.1.201:
+  scope: node
+  reason: "ABCB 'MDR Exporter' family groups eukaryotic and bacterial ABCB proteins by fold: vacuolar PfMDR1, mitochondrial ABCB8/10, auxin importer/exporters"
+3.A.1.208:
+  scope: node
+  reason: "ABCC 'Drug Conjugate Transporter' family: many members load vacuoles or intracellular compartments (MRP4/LPA1, PgpA)"
+3.A.1.201.4:
+  scope: subtree
+  reason: "PfMDR1 sits on the digestive-vacuole membrane: cytosol to vacuole"
+3.A.1.201.39:
+  scope: subtree
+  reason: "PvMDR1, digestive-vacuole membrane like PfMDR1"
+3.A.1.201.42:
+  scope: subtree
+  reason: "PfMDR1-type protein on the digestive-vacuole membrane"
+3.A.1.201.8:
+  scope: subtree
+  reason: "ALS1 is a tonoplast protein: vacuolar sequestration, not export across the plasma membrane"
+3.A.1.208.42:
+  scope: subtree
+  reason: "plant MRP4/LPA1-type ABCC loads anthocyanin and phytate into vacuoles"
+3.A.1.208.44:
+  scope: subtree
+  reason: "plant ABCC5-type phytate transporter; characterised orthologs load the vacuole (Nagy 2009)"
+3.A.1.208.6:
+  scope: subtree
+  reason: "Leishmania PgpA sequesters metal-thiol conjugates in intracellular vesicles (Legare 2001)"
+3.A.1.208.25:
+  scope: subtree
+  reason: "MrpA, 83% identical to PgpA; location and direction equally uncertain"
+3.A.4.3:
+  scope: subtree
+  reason: "unnamed ArsAB subfamily whose only substrate is H+; arsenite efflux comes from the family name"
+3.A.4.5:
+  scope: subtree
+  reason: "unnamed ArsAB subfamily whose only substrate is H+; arsenite efflux comes from the family name"
+2.A.91:
+  scope: subtree
+  reason: "mitochondrial tRNA import complex: import into an organelle"
+2.A.37.1.6:
+  scope: subtree
+  reason: "AtKEA3 is a thylakoid K+/H+ antiporter; 'efflux' is relative to the lumen"
+2.A.55.2.3:
+  scope: subtree
+  reason: "NRAMP1 acts on the phagosome membrane; direction across it is debated"
+2.A.1.1.72:
+  scope: subtree
+  reason: "GLUT9 is a urate uniporter; 'basolateral efflux' is a tissue role, and the apical isoform mediates uptake"
+2.A.66.1.18:
+  scope: subtree
+  reason: "MATE1b 'uptake' is the oocyte assay of an H+ antiporter whose physiological role is efflux"
+2.A.66.1.11:
+  scope: subtree
+  reason: "EDS5 moves isochorismate from the plastid into the cytosol"
+1.A.8.6.1:
+  scope: subtree
+  reason: "aquaporin Aqy1; water channels are passive and bidirectional"
+2.A.1.81.4:
+  scope: subtree
+  reason: "named only 'MFS porter of 350 aas'; uptake comes from the family name"
+2.A.6.8.2:
+  scope: subtree
+  reason: "named only 'RND transporter'; its description says 'may be involved'"
+3.A.1.12.8:
+  scope: subtree
+  reason: "BilE/OpuB: proline/glycine betaine uptake, also reported to export bile compounds"

@@ -506,7 +506,7 @@ def test_gene_tcdb_family_count_renamed(run_query):
 def test_direction_dense_and_basis_sparse(run_query):
     """direction dense on every level; direction_basis present iff direction is
     stated; class/subclass names are mechanism classes, so those levels are unknown.
-    Measured uptake 956 / export 1,367 / unknown 7,066."""
+    Measured uptake 716 / export 696 / unknown 7,958 (conservative rule + overrides, 2026-10-24)."""
     rows = run_query("""
         MATCH (t:TcdbFamily)
         RETURN t.direction AS d, t.direction_basis AS b, t.level_kind AS lk, count(*) AS n""")
@@ -518,7 +518,7 @@ def test_direction_dense_and_basis_sparse(run_query):
         if r["lk"] in ("tc_class", "tc_subclass"):
             assert r["d"] == "unknown", r
         by_dir[r["d"]] = by_dir.get(r["d"], 0) + r["n"]
-    bands = {"uptake": (800, 1150), "export": (1150, 1600), "unknown": (6000, 8200)}
+    bands = {"uptake": (600, 850), "export": (580, 820), "unknown": (7400, 8700)}
     for d, (lo, hi) in bands.items():
         assert lo <= by_dir.get(d, 0) <= hi, (d, by_dir)
 
@@ -527,16 +527,18 @@ def test_direction_dense_and_basis_sparse(run_query):
 def test_direction_inherited_downward(run_query):
     """A node's direction comes from itself or an ancestor, so a stated parent
     direction is never contradicted by a child whose own name states nothing —
-    weakest safe check: no child of an ABC-numbered node disagrees with it."""
+    weakest safe check: a child of an ABC-numbered node either inherits it or is
+    unknown (its name says export, so numbering and name conflict)."""
     parents = run_query("""
         MATCH (:TcdbFamily)-[:Tcdb_family_is_a_tcdb_family]->(p:TcdbFamily {direction_basis: 'abc_numbering'})
         RETURN count(DISTINCT p) AS n""")[0]["n"]
     assert parents >= 1, "no abc_numbering node with children — check not exercised"
     n = run_query("""
         MATCH (c:TcdbFamily)-[:Tcdb_family_is_a_tcdb_family]->(p:TcdbFamily {direction_basis: 'abc_numbering'})
-        WHERE c.direction <> p.direction OR c.direction_basis <> 'abc_numbering'
+        WHERE c.direction <> 'unknown'
+          AND (c.direction <> p.direction OR c.direction_basis <> 'abc_numbering')
         RETURN count(c) AS n""")[0]["n"]
-    assert n == 0, f"{n} children of ABC-numbered nodes do not inherit the direction"
+    assert n == 0, f"{n} children of ABC-numbered nodes contradict the direction"
 
 
 @pytest.mark.kg

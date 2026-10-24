@@ -37,21 +37,69 @@ project 3b.
   `gene_count > 0`.**
 - **Names.** The scraper's scope widened to every kept system: 592 of 592 family pages, 9,622
   names. 134 kept systems have no upstream name and fall back to the TCID (`t.name = t.tcdb_id`).
-- **New `direction`** (dense: `uptake` 956 · `export` 1,367 · `unknown` 7,066) and sparse
-  **`direction_basis`**:
-  - `abc_numbering` (414 uptake + 510 export): in the ABC superfamily, subfamilies `3.A.1.1–99`
-    are uptake and `3.A.1.100+` are export, by TCDB's numbering convention.
-  - `tcdb_name` (542 + 857): the nearest node, going up to family level, whose TCDB name says
-    import/uptake/influx or export/efflux/extrusion. Only one of the two may appear. Matching is
-    whole-word and includes agent nouns ("Exporter").
-  - ABC numbering applies to the subfamily and everything below it and is never overridden.
-    Otherwise the nearest named node wins: the node's own name first, then its ancestors up to
-    family level. So a system named as an uptake porter inside an exporter family reads uptake;
-    the direction is not simply inherited downward. Class/subclass names and free-text
-    descriptions are never used.
-  - Known false positive: `2.A.86.1.7` reads uptake from its descriptive name ("may function
-    with a heme uptake transporter") although its family is an exporter family. No genes carry
-    it.
+- **New `direction`** (dense: `uptake` 716 · `export` 696 · `unknown` 7,958) and sparse
+  **`direction_basis`** (`abc_numbering` 397 uptake; `tcdb_name` 319 uptake + 696 export).
+  Conservative by design: weak, two-way or contested evidence reads `unknown` — a false `unknown`
+  is cheap, a wrong direction is not. `tcdb_utils.tcdb_direction`:
+  - **Names.** The nearest node, from the node itself up to family level (never class/subclass),
+    whose TCDB name contains exactly one of import/uptake/influx vs export/efflux/extrusion
+    (whole word, agent nouns included) decides. So a system named as an uptake porter inside an
+    exporter family reads uptake (RibN riboflavin uptake in the DME family). The name gives
+    `unknown` — with **no** fallback to the parent — when:
+    - a hedge word appears anywhere before the direction word (putative, probable, possible,
+      potential, may, could, likely, predicted, proposed, uncharacterized, hypothetical,
+      fanciful, regulator, a literal `?`): "Putative arabinose efflux porter, AraJ",
+      "Probable pyruvate:H⁺ importer". A hedge *after* it does not count, so "Cu⁺/Ag⁺ efflux
+      pump, CusABCF (may pump ions …)", "AmtB (may need …)" and "DctA … 8–10 putative TMSs"
+      keep their direction;
+    - a negation sits just before it ("not involved in the export of drugs", OptrA);
+    - an organelle is named anywhere in the name (peroxisome/"peroxysome", mitochondria,
+      chloroplast, plastid, thylakoid, nucleus, lysosome, vacuole, tonoplast, Golgi, ER,
+      endosome, vesicle, synaptic, hydrogenosome, …): import into an organelle is not uptake
+      into a bacterial cell;
+    - a resemblance word follows it in the same clause ("Lipid A exporter homologue");
+    - the name states both directions ("Uptake and export subfamily").
+  - **Inheritance.** A name with no direction word passes the walk to its parent only if it is
+    plain or empty. A hedged, resemblance-only (homologue, -like, DUF, UPF, "family member") or
+    organellar own name stops it: "Uncharacterized MFS protein", "CorC homologue", "Mitochondrial
+    ABCB8" no longer inherit their family's direction.
+  - **ABC numbering** (`abc_numbering`): subfamilies `3.A.1.1–99` (binding-protein-dependent and
+    ECF importers) and everything below them are uptake, unless some name on the walk says
+    export or both (even tentatively), the node's own name says its function is unknown, or its
+    description doubts it. `3.A.1.100+` gets no direction from its number, only from a name:
+    that range holds ABC-F ribosome-protection proteins, FtsEX, gliding motility, uncharacterized
+    families and the eukaryotic ABCA–G groups (BacA `3.A.1.203.4` reads uptake from its name).
+  - **Description veto.** The node's own TCDB description can only remove a direction: "both
+    uptake and efflux", bidirectional, under debate, controversial, disputed, hypothesis
+    (anywhere), or the opposite direction word in its **first sentence**, which is TCDB's full
+    system name (the stored name is truncated: `3.A.1.5.24` is stored as "The antimicrobial
+    peptide", the full name ends "… exporter, YejABEF"). Later sentences are not read for the
+    opposite word — they discuss other proteins and assays (GhxQ's "diS-C3 efflux" dye assay).
+  - **Curated overrides** (`config/tcdb_direction_overrides.yaml`, every entry with a reason and
+    reference; can only remove a direction). `subtree` — the node and its descendants read
+    `unknown`: non-transporters or no-direction systems (Mla `3.A.1.27`, MBOAT `2.A.50`, ABC-F
+    `3.A.1.120`/`.121`, BceAB `3.A.1.134`, FtsEX `3.A.1.140`, SEDS FtsW/RodA `2.A.103`, toxins
+    `1.C`, KpsC/KpsS `9.A.41`, Ccm `3.A.1.107`, YggT `9.A.4`, CidA/LrgA `1.E.14`, VanZ `2.A.128`,
+    …) and individual systems whose direction is two-way or disputed (Sap, YknXYZ, ZntB, NarK1/2,
+    P1B-ATPase "uptake" claims, plant ABCB auxin transporters, vacuolar/organellar eukaryotic
+    members, …). `node` — a family name that describes one member no longer decides for the
+    others, which then need their own name: DME `2.A.7.3`, TSUP `2.A.102`, AI-2E `2.A.86`, AEC
+    `2.A.69`, DcuC `2.A.61`, AceTr `2.A.96`, LysO `2.A.124`, FLVCR `2.A.1.28`, CNNM `1.A.112`,
+    ArAE `2.A.85`, ABCB `3.A.1.201`, ABCC `3.A.1.208`.
+  - **Audit (2026-10-24).** Seven parallel reviewers: six read every one of the 1,915 directed
+    nodes (plus `unknown` nodes under a directed ancestor) by TC range, with name, description,
+    substrates and ancestors; one reviewed the rule for edge cases over all 9,370 kept nodes.
+    They proposed 284 changes (247 overclaim, 31 wrong direction, 6 missed); every
+    proposal to remove a direction is applied, either by a rule above or by an override.
+    Proposed flips were applied as `unknown`, and the 6 "missed" directions were not added.
+    Against the graph built with the original rule (numbering never overridden, any decisive
+    name accepted), 3,486 of 4,372 (`direct`-gate gene, directed node) links keep their
+    direction (80%). Two nodes switch from export to uptake (BacA, ABCG39 paraquat uptake),
+    both because their own TCDB names say uptake. Known cost: MbfA `2.A.89.2.2` (1 gene) loses
+    export because its name mentions the "erythrin-vacuolar iron transport" family.
+  - `direction` describes TCDB's characterized reference system; a gene inherits it only by
+    homology — read it through `tcdb_gate = 'direct'` edges for gene-level claims. For
+    outer-membrane proteins (1.B) export means across the outer membrane.
   - `3.A.1` itself is `unknown`; `3.A.1.4` is `uptake` / `abc_numbering`.
 - **New `tcdb_substrate_count`** (post-import, dense, all five levels): distinct Metabolite +
   ChemicalRole targets of the system substrate edges in the node's subtree, i.e. TCDB's range for
