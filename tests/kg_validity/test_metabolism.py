@@ -195,7 +195,9 @@ def test_metabolite_pathways_only_kg_evidenced(run_query):
         system (gene-anchored + range-only). A range-only system is kept because it
         sits under a kept tc_family, which is kept because some gene edge lands on
         it or below it — so the walk is gene -> TC node -> up to its tc_family ->
-        down to a system -> substrate. The old class-level roll-up (any kept
+        down to a system -> substrate. Both hierarchy hops are unbounded (`*0..`),
+        and a gene edge above tc_family (class / subclass) is traced straight down
+        to the systems under it, so a gene edge at any level is followed. The old class-level roll-up (any kept
         ancestor, e.g. tcdb:9.A) is gone, and with it Phagosome / Focal adhesion /
         chondroitin-sulfate GAG biosynthesis (docs/kg-changes/tcdb-cleanup/removed_ids.tsv).
     """
@@ -209,8 +211,14 @@ def test_metabolite_pathways_only_kg_evidenced(run_query):
         }
         AND NOT EXISTS {
             MATCH (:Gene)-[:Gene_has_tcdb_family]->(:TcdbFamily)
-                  -[:Tcdb_family_is_a_tcdb_family*0..2]->(:TcdbFamily {level_kind: 'tc_family'})
-                  <-[:Tcdb_family_is_a_tcdb_family*0..2]-(:TcdbFamily {level_kind: 'tc_system'})
+                  -[:Tcdb_family_is_a_tcdb_family*0..]->(:TcdbFamily {level_kind: 'tc_family'})
+                  <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_system'})
+                  -[:Tcdb_family_transports_metabolite]->(:Metabolite)
+                  -[:Metabolite_in_pathway]->(p)
+        }
+        AND NOT EXISTS {
+            MATCH (:Gene)-[:Gene_has_tcdb_family]->(:TcdbFamily)
+                  <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_system'})
                   -[:Tcdb_family_transports_metabolite]->(:Metabolite)
                   -[:Metabolite_in_pathway]->(p)
         }

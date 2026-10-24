@@ -591,8 +591,9 @@ gene:
     # TCDB cleanup (2026-10-23): distinct TC nodes over the gene's gate-passing edges
     # (tcdb_gate IN ['direct','annotated']), dropping any node that is an ancestor of
     # another node in that set (whatever the call kind), so near-tie best hits never
-    # count as a second family.
-    tcdb_family_count: int
+    # count as a second assignment. Targets are mostly systems / subfamilies, so this
+    # is not a family count (renamed after the cleanup, 2026-10-24).
+    tcdb_assignment_count: int
     cazy_family_count: int                   # per TCDB-S2
     # BREAKING (was: UNION of catalysis + transport). The two arms have very
     # different epistemics — catalysis p90 = 11, transport p90 = 554 — and

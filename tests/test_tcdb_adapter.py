@@ -320,6 +320,40 @@ def test_gene_edge_ids_unique(tmp_path):
     assert len(ids) == len(set(ids)) == 6
 
 
+def _test_mode_genes():
+    """120 genes whose only claim is dropped (unkept), 30 genes each with 5 eggNOG
+    ids that alias onto one node (collapse to 1 edge), then 200 genes with one
+    kept claim each — 230 emittable edges behind 270 non-emitting raw claims."""
+    genes = {}
+    for i in range(120):
+        genes.update(_gene(f"DROP_{i:04d}", f"WP_D{i}", eggnog=["9"]))
+    for i in range(30):
+        genes.update(_gene(f"DUP_{i:04d}", f"WP_U{i}",
+                           eggnog=[f"3.A.1.{n}" for n in range(35, 40)]))
+    for i in range(200):
+        genes.update(_gene(f"KEEP_{i:04d}", f"WP_K{i}", eggnog=["3.A.1.4.4"]))
+    aliases = {f"3.A.1.{n}": "3.A.1" for n in range(35, 40)}
+    return genes, aliases
+
+
+def test_test_mode_caps_emitted_edges_not_raw_claims(tmp_path):
+    genes, aliases = _test_mode_genes()
+    a = _setup(tmp_path, genes, None, aliases=aliases, test_mode=True)
+    ids = [e[0] for e in _gene_edges(a)]
+    assert len(ids) == 100
+    assert ids[0] == "DUP_0000-has_tcdb-3.A.1-eggnog"
+    assert sum(i.startswith("DUP_") for i in ids) == 30
+    assert ids[-1] == "KEEP_0069-has_tcdb-3.A.1.4.4-eggnog"
+    # deterministic across runs
+    assert [e[0] for e in _gene_edges(a)] == ids
+
+
+def test_full_mode_is_uncapped(tmp_path):
+    genes, aliases = _test_mode_genes()
+    a = _setup(tmp_path, genes, None, aliases=aliases)
+    assert len(_gene_edges(a)) == 230
+
+
 def test_per_strain_yields_raw_claims(tmp_path):
     d = tmp_path / "S"
     d.mkdir()
@@ -571,11 +605,12 @@ def test_post_import_uses_tcdb_gate(path):
     for gone in ("substrate_breadth", "attachment_depth", "substrate_depth",
                  "tcdb_evidence_score_max", "transport_substrate_resolution",
                  "source_agreement", "go_support", "t.metabolite_count",
-                 "r.tcdb_family_count", "r.direct_tcdb_family_count"):
+                 "r.tcdb_family_count", "r.direct_tcdb_family_count",
+                 "g.tcdb_family_count"):
         assert gone not in code, f"{path} still references {gone!r}"
     for present in ("t.tcdb_substrate_count", "r.tcdb_system_count",
                     "r.direct_tcdb_system_count", "r.direct_transporter_count",
-                    "g.tcdb_family_count", "g.transported_metabolite_count",
+                    "g.tcdb_assignment_count", "g.transported_metabolite_count",
                     "m.transporter_count", "m.transporter_gene_count"):
         assert present in code, f"{path} missing {present!r}"
 
@@ -586,3 +621,12 @@ def test_post_import_sh_and_cypher_tcdb_blocks_match():
     cy = _tcdb_statements(pathlib.Path("scripts/post-import.cypher").read_text())
     assert len(sh) > 10
     assert sh == cy
+
+
+def test_moved_alias_applies_even_when_raw_id_is_kept(tmp_path):
+    """A move alias wins over 'raw id is kept' (post-3a P2)."""
+    a = _setup(tmp_path, _gene(eggnog=["2.A.6.1.9"]), None,
+               aliases={"2.A.6.1.9": "2.A.6.1.1"})
+    edges = _gene_edges(a)
+    assert [e[2] for e in edges] == ["tcdb:2.A.6.1.1"]
+    assert edges[0][4]["tcdb_gate"] == "direct"

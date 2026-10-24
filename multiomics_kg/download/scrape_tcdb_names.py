@@ -19,8 +19,13 @@ Hygiene (spec 5d): single-threaded, 2.5 s between requests, resumable page
 cache under cache/data/tcdb/raw/pages/ (gitignored), exponential backoff,
 abort after 3 consecutive family failures. Re-parsing never re-fetches.
 
+Every run also refreshes the committed move map cache/data/tcdb/tcdb_moved.json
+({old id: [targets]} from the "<old> has been moved to <new>" lines on retired family
+pages), read from the page cache. Step 6 reads only that committed file, never the
+gitignored pages. `--moved-only` rebuilds it from the cached pages without any network.
+
 Run:  uv run python -m multiomics_kg.download.scrape_tcdb_names
-      [--force] [--delay 2.5] [--families 2.A.1 1.A.11]
+      [--force] [--delay 2.5] [--families 2.A.1 1.A.11] [--moved-only]
 """
 from __future__ import annotations
 
@@ -44,6 +49,7 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 TCDB_DIR = PROJECT_ROOT / "cache" / "data" / "tcdb"
 PAGES_DIR = TCDB_DIR / "raw" / "pages"
 NAMES_FILE = TCDB_DIR / "tcdb_names.json"
+MOVED_FILE = TCDB_DIR / "tcdb_moved.json"
 PRUNED_FILE = TCDB_DIR / "tcdb_pruned.json"
 HIERARCHY_FILE = TCDB_DIR / "tcdb_hierarchy.json"
 
@@ -273,6 +279,42 @@ def fetch_page(url: str, dest: Path, *, force: bool, delay: float,
 
 # ── artifact assembly ────────────────────────────────────────────────────────
 
+def build_moved_map(pages_dir: Path, existing: dict | None = None) -> dict:
+    """``{"meta": {...}, "moved": {old id: [targets]}}`` from every cached family page
+    under ``pages_dir`` (no network). Merges with ``existing`` (target lists unioned), so a
+    narrower scrape never drops a move. No date or page count is stored, so identical
+    moves give a byte-identical file. Targets keep every conflicting move: step 6
+    treats an old id with two targets as ambiguous."""
+    from multiomics_kg.utils.tcdb_utils import parse_moved_tcids
+    moved: dict[str, set[str]] = {
+        old: set(t) for old, t in ((existing or {}).get("moved") or {}).items()}
+    pages = sorted(Path(pages_dir).glob("family_*.html"))
+    source_pages = set((existing or {}).get("meta", {}).get("source_pages") or [])
+    for page in pages:
+        found = parse_moved_tcids([page.read_text(encoding="utf-8", errors="replace")])
+        if found:
+            source_pages.add(page.name)
+        for old, targets in found.items():
+            moved.setdefault(old, set()).update(targets)
+    return {
+        "meta": {
+            "source": "TCDB family pages (search/result.php), lines "
+                      "<old> has been moved to <new>",
+            "source_pages": sorted(source_pages),
+        },
+        "moved": {old: sorted(t) for old, t in sorted(moved.items())},
+    }
+
+
+def write_moved_map(pages_dir: Path = PAGES_DIR, out: Path = MOVED_FILE) -> dict:
+    existing = json.loads(out.read_text()) if out.exists() else None
+    art = build_moved_map(pages_dir, existing=existing)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(art, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    log.info(f"wrote {out} - {len(art['moved'])} moved old ids from "
+             f"{len(art['meta']['source_pages'])} page(s)")
+    return art
+
 def collect_best_hit_tcids(genome_dirs: Iterable[Path]) -> set[str]:
     """Union of merged `tcdb_best_hit_ids` (best_hit_v1) over the given strain dirs."""
     out: set[str] = set()
@@ -394,6 +436,7 @@ def main(force: bool = False, delay: float = DEFAULT_DELAY_S,
     n = len(artifact["names"])
     log.info(f"wrote {NAMES_FILE} — {n} names, "
              f"{len(scraped)} families scraped, {len(failed)} failed")
+    write_moved_map()
     return n
 
 
@@ -406,5 +449,11 @@ if __name__ == "__main__":
                         help="seconds between requests (default 2.5)")
     parser.add_argument("--families", nargs="*", default=None,
                         help="restrict to these 3-part family ids (top-up mode)")
+    parser.add_argument("--moved-only", action="store_true",
+                        help="only rebuild tcdb_moved.json from the cached pages (no network)")
     args = parser.parse_args()
-    main(force=args.force, delay=args.delay, families=args.families)
+    if args.moved_only:
+        logging.basicConfig(level=logging.INFO, format="%(message)s")
+        write_moved_map()
+    else:
+        main(force=args.force, delay=args.delay, families=args.families)

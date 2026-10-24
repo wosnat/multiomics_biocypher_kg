@@ -342,3 +342,31 @@ def test_name_lookup_excludes_overridden_names():
     r = _run([_table(("Glutathione", None), ("Lysine", None))],
              cands={"glutathione": {GSSG}, "lysine": {LYS}}, overrides=ov)
     assert r.name_lookup == {"lysine": LYS}
+
+
+THR, DTHR = "kegg.compound:C00188", "kegg.compound:C00820"
+
+
+def _thr_ctx(with_d: bool):
+    fam = {THR: frozenset({THR, DTHR}), DTHR: frozenset({THR, DTHR})} if with_d else {THR: frozenset({THR})}
+    return StereoContext(families=fam, unspecified=set(), is_anomer=lambda a, b: False,
+                         catalyst_counts={THR: 50}, chebi_stereo=frozenset({THR, DTHR}))
+
+
+@pytest.mark.parametrize("with_d", [True, False])
+def test_unqualified_name_on_specific_form_is_assumed_without_sibling_node(with_d):
+    """Biller 2022 "Threonine" -> L-threonine: dominant_form_assumed whether or not a D-threonine
+    node exists (3a removed it and the flag flipped to as_reported)."""
+    r = resolve_paper_rows([_table(("Threonine", None))], overrides={}, name_candidates={"threonine": {THR}},
+                           id_index={THR: THR, DTHR: DTHR}, ctx=_thr_ctx(with_d),
+                           lock={"names": {}, "direct_ids": {}}, today="2026-10-24")
+    d = r.decisions[("p", "t", 0)]
+    assert (d.metabolite_id, d.resolution_method, d.stereo_assignment) == (THR, "name_match", "dominant_form_assumed")
+
+
+@pytest.mark.parametrize("with_d", [True, False])
+def test_qualified_name_on_specific_form_stays_as_reported(with_d):
+    r = resolve_paper_rows([_table(("L-Threonine", None))], overrides={}, name_candidates={"l-threonine": {THR}},
+                           id_index={THR: THR, DTHR: DTHR}, ctx=_thr_ctx(with_d),
+                           lock={"names": {}, "direct_ids": {}}, today="2026-10-24")
+    assert r.decisions[("p", "t", 0)].stereo_assignment == "as_reported"

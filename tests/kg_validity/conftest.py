@@ -44,3 +44,31 @@ def run_query(neo4j_driver):
         with neo4j_driver.session() as session:
             return session.run(cypher, **params).data()
     return _run
+
+
+@pytest.fixture(scope="session")
+def kegg_cache_counts():
+    """Metabolite / pathway totals the build derives from the committed
+    cache/data/kegg/kegg_data.json, so count tests track the cache instead of
+    pinning literals (adding a paper's compound must not break them).
+
+    - metabolites: compounds + additional_compounds (metabolism_adapter nodes)
+    - pathways: pathway keys (MultiKeggAnnotationAdapter pathway KeggTerm nodes)
+    - compound_pathway_pairs: distinct (compound, pathway) pairs whose pathway is a
+      node — the Metabolite_in_pathway edge set, = sum(KeggTerm.metabolite_count)
+    """
+    import json
+    import pathlib
+
+    path = pathlib.Path(__file__).resolve().parents[2] / "cache/data/kegg/kegg_data.json"
+    if not path.exists():
+        pytest.skip(f"{path} missing; run prepare_data step 6")
+    data = json.loads(path.read_text())
+    pathways = set(data["pathways"])
+    pairs = {(cpd, pw) for cpd, v in data["compounds"].items()
+             for pw in v.get("pathways", []) if pw in pathways}
+    return {
+        "metabolites": len(data["compounds"]) + len(data.get("additional_compounds", {})),
+        "pathways": len(pathways),
+        "compound_pathway_pairs": len(pairs),
+    }

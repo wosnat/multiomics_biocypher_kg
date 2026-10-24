@@ -9,6 +9,12 @@ import pytest
 from multiomics_kg.download import build_kegg_metabolism_xrefs as bx
 
 
+@pytest.fixture(autouse=True)
+def _no_tcdb_moved_overrides(monkeypatch, tmp_path):
+    """The committed overrides name real TCDB ids the toy hierarchies here lack."""
+    monkeypatch.setattr(bx, "TCDB_MOVED_OVERRIDES_FILE", tmp_path / "no_overrides.yaml")
+
+
 def _write_strain_annotations(strain_dir, genes):
     strain_dir.mkdir(parents=True, exist_ok=True)
     (strain_dir / "gene_annotations_merged.json").write_text(json.dumps(genes))
@@ -1094,7 +1100,8 @@ def _stub_main(tmp_path, monkeypatch):
     monkeypatch.setattr(bx, "download_all", lambda **k: None)
     monkeypatch.setattr(bx, "_build_tcdb_hierarchy", lambda c: 0)
     monkeypatch.setattr(bx, "_parse_raw_into_dict", lambda c: {"compound_to_pathways": {},
-                                                              "compound_names": {"C00001": "H2O"}})
+                                                              "compound_names": {"C00001": "H2O"},
+                                                              **_hierarchy_raw()})
     monkeypatch.setattr(bx.mu, "open_resolver", lambda p: _sq.connect(":memory:"))
     monkeypatch.setattr(bx, "_gene_reachable_sets", lambda raw: {
         "kos": set(), "rxns": set(), "cpds": set(), "pws": {"ko00010"}, "tcdb_ids": {"1.A"},
@@ -1472,7 +1479,8 @@ def test_main_system_substrates_from_kept_systems(tmp_path, monkeypatch):
         "tcdb_best_hit_ids": {"3.D.4.3.2"}, "tcdb_seed_ids": {"3.A.1", "3.D.4.3.2"},
         "rxn_genes": {}})
     monkeypatch.setattr(bx, "_parse_raw_into_dict", lambda c: {
-        "compound_to_pathways": {"C00031": ["ko00010"]}, "compound_names": {"C00031": "glucose"}})
+        "compound_to_pathways": {"C00031": ["ko00010"]}, "compound_names": {"C00031": "glucose"},
+        **_hierarchy_raw()})
     calls = []
 
     def fake(strings, conn, chebi=None, rekeys=None, known_kegg=None, legacy=None):
@@ -1507,3 +1515,182 @@ def test_main_system_substrates_from_kept_systems(tmp_path, monkeypatch):
     assert {"3.A.1.1", "3.A.1.1.1", "3.D.4.3.2"} <= kept and "3.A.2.1.1" not in kept
     assert bridge_kept["k"] == kept
     assert "C00031" in seen["sets"]["cpds"] and "ko00010" in seen["sets"]["pws"]
+
+
+# ── KEGG pathway exclusions (config/kegg_pathway_exclusions.yaml) ─────────────
+
+from multiomics_kg.utils import kegg_utils as ku  # noqa: E402
+
+
+def _hierarchy_raw():
+    """One pathway per case: excluded category, excluded category's kept subcategory,
+    excluded subcategory, kept sibling subcategory, Metabolism, and a subcategory-less map."""
+    return {
+        "pathway_to_subcategory": {"ko04910": "09152", "ko05200": "09161",
+                                   "ko01501": "09175", "ko04520": "09144",
+                                   "ko04144": "09141", "ko00010": "09101"},
+        "subcategory_names": {"09152": "Endocrine system", "09161": "Cancer: overview",
+                              "09175": "Drug resistance: antimicrobial",
+                              "09144": "Cellular community - eukaryotes",
+                              "09141": "Transport and catabolism",
+                              "09101": "Carbohydrate metabolism"},
+        "subcategory_to_category": {"09152": "09150", "09161": "09160", "09175": "09160",
+                                    "09144": "09140", "09141": "09140", "09101": "09100"},
+        "category_names": {"09150": "Organismal Systems", "09160": "Human Diseases",
+                           "09140": "Cellular Processes", "09100": "Metabolism"},
+    }
+
+
+def test_committed_pathway_exclusions_config_loads():
+    rules = ku.load_pathway_exclusions(bx.KEGG_PATHWAY_EXCLUSIONS_FILE)
+    assert set(rules["excluded_categories"]) == {"Organismal Systems", "Human Diseases"}
+    assert set(rules["excluded_subcategories"]) == {"Cellular community - eukaryotes"}
+    assert set(rules["kept_subcategories"]) == {"Drug resistance: antimicrobial"}
+    assert all(r for v in rules.values() for r in v.values())       # every entry has a reason
+
+
+@pytest.mark.parametrize("text", [
+    "excluded_categories: []\nexcluded_pathways: []\n",                       # unknown key
+    "excluded_categories:\n  - name: X\n",                                    # no reason
+    "excluded_categories:\n  - name: X\n    reason: r\n    extra: 1\n",       # unknown entry key
+    "excluded_categories:\n  - name: X\n    reason: r\n  - name: X\n    reason: r\n",  # duplicate
+])
+def test_pathway_exclusions_config_rejects_malformed(tmp_path, text):
+    p = tmp_path / "x.yaml"
+    p.write_text(text)
+    with pytest.raises(ValueError):
+        ku.load_pathway_exclusions(p)
+
+
+def test_exclude_pathways_by_category_and_subcategory():
+    raw = _hierarchy_raw()
+    rules = ku.load_pathway_exclusions(bx.KEGG_PATHWAY_EXCLUSIONS_FILE)
+    pws = {"ko04910", "ko05200", "ko01501", "ko04520", "ko04144", "ko00010", "ko01100"}
+    kept, excluded = ku.exclude_pathways(pws, raw, rules)
+    assert kept == {"ko01501", "ko04144", "ko00010", "ko01100"}
+    assert set(excluded) == {"ko04910", "ko05200", "ko04520"}
+    assert "Organismal Systems" in excluded["ko04910"]
+    assert "Human Diseases" in excluded["ko05200"]
+    assert "Cellular community - eukaryotes" in excluded["ko04520"]
+
+
+def test_exclude_pathways_fails_on_unknown_upstream_name():
+    raw = _hierarchy_raw()
+    rules = {"excluded_categories": {"Organismal systems": "typo"},
+             "excluded_subcategories": {}, "kept_subcategories": {}}
+    with pytest.raises(ValueError, match="Organismal systems"):
+        ku.exclude_pathways({"ko00010"}, raw, rules)
+
+
+def test_main_drops_excluded_pathways_and_records_them(tmp_path, monkeypatch):
+    """main() applies the exclusion when the pathway set is formed: build_pruned_kegg_data
+    never sees an excluded pathway, base_pathways excludes it, kegg_data records it."""
+    from multiomics_kg.utils.metabolite_identity.pipeline import Step6ValidationError
+    _stub_main(tmp_path, monkeypatch)
+    monkeypatch.setattr(bx, "_parse_raw_into_dict", lambda c: {
+        "compound_to_pathways": {}, "compound_names": {"C00001": "H2O"}, **_hierarchy_raw()})
+    monkeypatch.setattr(bx, "_gene_reachable_sets", lambda raw: {
+        "kos": set(), "rxns": set(), "cpds": set(), "pws": {"ko00010", "ko04910", "ko01501"},
+        "tcdb_ids": {"1.A"}, "tcdb_best_hit_ids": set(), "tcdb_seed_ids": {"1.A"}, "rxn_genes": {}})
+    seen = {}
+
+    def pruned(raw, conn, sets):
+        seen["sets"] = sets
+        return {"compounds": {}, "additional_compounds": {}, "kos": {}, "pathways": {},
+                "subcategories": {}, "categories": {}, "reactions": {}}
+    monkeypatch.setattr(bx, "build_pruned_kegg_data", pruned)
+
+    def stop(inp):
+        seen["inp"] = inp
+        raise Step6ValidationError(["stop"])
+    monkeypatch.setattr(bx, "run_identity_stages", stop)
+    with pytest.raises(Step6ValidationError):
+        bx.main(force=True, today="2026-10-24")
+    assert seen["sets"]["pws"] == {"ko00010", "ko01501"}
+    assert seen["inp"].base_pathways == {"ko00010", "ko01501"}
+    assert set(seen["inp"].kegg_rest["excluded_pathways"]) == {"ko04910"}
+
+
+# ── Retired TCDB ids → moved-to targets (post-3a P2) ─────────────────────────
+
+_MOVED_H = {
+    "1": {"level": 0, "level_kind": "tc_class", "parent": None},
+    "1.C": {"level": 1, "level_kind": "tc_subclass", "parent": "1"},
+    "1.C.126": {"level": 2, "level_kind": "tc_family", "parent": "1.C"},
+    "1.C.126.1": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.C.126"},
+    "1.C.126.1.2": {"level": 4, "level_kind": "tc_system", "parent": "1.C.126.1"},
+    "9": {"level": 0, "level_kind": "tc_class", "parent": None},
+    "9.A": {"level": 1, "level_kind": "tc_subclass", "parent": "9"},
+    "9.A.40": {"level": 2, "level_kind": "tc_family", "parent": "9.A"},
+    "9.A.40.1": {"level": 3, "level_kind": "tc_subfamily", "parent": "9.A.40"},
+    "9.A.40.1.2": {"level": 4, "level_kind": "tc_system", "parent": "9.A.40.1",
+                   "substrate_classes": ["CHEBI:1;x"]},
+    "9.A.40.3": {"level": 3, "level_kind": "tc_subfamily", "parent": "9.A.40"},
+    "9.A.40.3.1": {"level": 4, "level_kind": "tc_system", "parent": "9.A.40.3"},
+}
+
+
+def test_prune_tcdb_eggnog_seed_lands_on_moved_target():
+    """An eggNOG seed 9.A.40.1.2 (retired; moved to 1.C.126.1.2) is aliased there."""
+    kept, aliases = bx._prune_tcdb(_MOVED_H, {"9.A.40.1.2", "9.A.40.3.1"},
+                                   moved={"9.A.40.1.2": "1.C.126.1.2"})
+    assert aliases == {"9.A.40.1.2": "1.C.126.1.2"}
+    assert {"1", "1.C", "1.C.126", "1.C.126.1", "1.C.126.1.2"} <= kept
+    assert "9.A.40.1.2" not in kept and "9.A.40.1" not in kept
+    assert "9.A.40" in kept                                 # kept by 9.A.40.3.1
+
+
+def test_add_range_systems_never_rekeeps_moved_ids():
+    kept, _ = bx._prune_tcdb(_MOVED_H, {"9.A.40.1.2", "9.A.40.3.1"},
+                             moved={"9.A.40.1.2": "1.C.126.1.2"})
+    with_range, range_only = bx._add_range_systems(_MOVED_H, kept, exclude={"9.A.40.1.2"})
+    assert "9.A.40.1.2" not in with_range and "9.A.40.1" not in with_range
+    with_range, _ = bx._add_range_systems(_MOVED_H, kept)   # default: no exclusion
+    assert "9.A.40.1.2" in with_range
+
+
+def test_load_moved_aliases_without_moved_file_warns_and_returns_empty(tmp_path, caplog):
+    import logging
+    with caplog.at_level(logging.WARNING):
+        aliases, moved_ids = bx._load_moved_aliases(tmp_path, _MOVED_H,
+                                                    tmp_path / "none.yaml")
+    assert aliases == {} and moved_ids == set()
+    assert "tcdb_moved.json" in caplog.text
+
+
+def test_load_moved_aliases_reads_only_committed_moved_file(tmp_path):
+    """Step 6 reads tcdb/tcdb_moved.json, never the page cache."""
+    (tmp_path / "tcdb" / "raw" / "pages").mkdir(parents=True)
+    (tmp_path / "tcdb" / "raw" / "pages" / "family_9.A.40.html").write_text(
+        "9.A.40.3.1 has been moved to <a>1.C.126.1.2</a>")         # ignored
+    (tmp_path / "tcdb" / "tcdb_moved.json").write_text(json.dumps(
+        {"meta": {}, "moved": {"9.A.40.1.2": ["1.C.126.1.2"]}}))
+    aliases, moved_ids = bx._load_moved_aliases(tmp_path, _MOVED_H, tmp_path / "none.yaml")
+    # 9.A.40.1's only system moved to 1.C.126.1.x, so the subfamily is aliased too
+    assert aliases == {"9.A.40.1.2": "1.C.126.1.2", "9.A.40.1": "1.C.126.1"}
+    assert moved_ids == {"9.A.40.1.2", "9.A.40.1"}
+
+
+def test_load_moved_aliases_guard_skips_ids_still_in_raw_tsvs(tmp_path, caplog):
+    import logging
+    raw = tmp_path / "tcdb" / "raw"
+    raw.mkdir(parents=True)
+    (raw / "families.tsv").write_text("1.C.126\tThe HlyC family\n")
+    (raw / "acc2tcid.tsv").write_text("P1\t9.A.40.1.2\nP2\t1.C.126.1.2\n")
+    (tmp_path / "tcdb" / "tcdb_moved.json").write_text(json.dumps(
+        {"meta": {}, "moved": {"9.A.40.1.2": ["1.C.126.1.2"]}}))
+    with caplog.at_level(logging.WARNING):
+        aliases, _ = bx._load_moved_aliases(tmp_path, _MOVED_H, tmp_path / "none.yaml")
+    assert aliases == {}
+    assert "9.A.40.1.2" in caplog.text
+
+
+def test_add_range_systems_skips_systems_under_an_excluded_ancestor():
+    """Keep the kept set ancestor-closed: a system whose subfamily is a moved id is
+    not added even when the system itself is not excluded."""
+    kept = {"9", "9.A", "9.A.40", "9.A.40.3", "9.A.40.3.1"}
+    with_range, _ = bx._add_range_systems(_MOVED_H, kept, exclude={"9.A.40.1"})
+    assert "9.A.40.1.2" not in with_range and "9.A.40.1" not in with_range
+    for t in with_range:
+        p = _MOVED_H[t]["parent"]
+        assert p is None or p in with_range

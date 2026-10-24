@@ -180,3 +180,23 @@ def test_curated_direction_wins_over_computed_reverse():
     t = {"m": _sug("mannose"), "dm": _sug("D-Mannose")}
     s, _, rep = stereo_links(t, {"m": {"CHEBI:37684"}, "dm": {"CHEBI:9"}}, SUG, curated=[("m", "dm")])
     assert s == {("m", "dm")} and rep["mutual_dropped"] == []
+
+
+def test_chebi_stereo_forms_do_not_need_the_sibling_node():
+    """stereo_assignment (post-3a item 2): a node whose ChEBI term has an enantiomer is flagged
+    whether or not the enantiomer is a node in the table — 3a dropped D-threonine and flipped
+    Biller 2022 "Threonine". A formula-preserving is_a parent alone is not enough (geometric
+    isomers / tautomers: fumaric acid is_a butenedioic acid, 9H-xanthine is_a xanthine)."""
+    from multiomics_kg.utils.metabolite_identity.stereo import chebi_stereo_forms
+    full = chebi_stereo_forms(T, TERMS, CHEBI)
+    only_l = {"kegg.compound:C00041": T["kegg.compound:C00041"],
+              "kegg.compound:C00116": T["kegg.compound:C00116"]}
+    alone = chebi_stereo_forms(only_l, TERMS, CHEBI)
+    assert "kegg.compound:C00041" in full and "kegg.compound:C00041" in alone   # L-Ala: D-Ala in ChEBI
+    assert "kegg.compound:C00116" not in alone                                   # glycerol: no stereo forms
+    assert "kegg.compound:C01401" not in full                                    # generic alanine is not a form
+    assert "kegg.compound:C00031" not in full                                    # parent is a class only
+    ch = make_chebi(CHEBI_15318=term("xanthine", gformula="C5H4N4O2", charge=0),
+                    CHEBI_17712=term("9H-xanthine", is_a=["CHEBI:15318"], gformula="C5H4N4O2", charge=0))
+    xan = {"kegg.compound:C00385": _d("Xanthine", "LRFVTYWOQMYALW-UHFFFAOYSA-N")}
+    assert not chebi_stereo_forms(xan, {"kegg.compound:C00385": {"CHEBI:17712"}}, ch)  # tautomer parent

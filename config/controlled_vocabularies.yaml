@@ -197,7 +197,7 @@ Gene_has_tcdb_family.tcdb_gate:
     the same set. Ordered and nested: direct edges also pass the annotation
     gate, so the annotated set is tcdb_gate IN [direct, annotated]. Transport
     substrate counts read direct edges only; the tcdb annotation type,
-    Gene.tcdb_family_count, TcdbFamily gene counts and enrichment gene sets
+    Gene.tcdb_assignment_count, TcdbFamily gene counts and enrichment gene sets
     read direct and annotated edges. Dense.
   value_descriptions:
     direct: a diamond_best_hit edge with rank 1 and tier at most 2 (identity at least 40), an eggnog edge, or a diamond_tier edge with tier 1, in each case onto a transport system (a 5-part TC id, after moving retired ids to their ancestor); the gene reaches the substrates of this system
@@ -288,11 +288,14 @@ TcdbFamily.direction:
   closed: true
   values: [uptake, export, unknown]
   description: >
-    Transport direction as TCDB states it, on every level. Read from the ABC
-    numbering convention or from the TCDB names of the node and its ancestors
-    down to family level (never from class or subclass names, never from free
-    text descriptions); a node inherits the direction of its nearest ancestor
-    that states one. direction_basis says which rule fired.
+    Transport direction as TCDB states it, on every level. In the ABC
+    superfamily the numbering convention decides, for the subfamily and
+    everything below it, and nothing overrides it. Otherwise the nearest named
+    node decides: the node itself first, then its ancestors up to family level,
+    and the first TCDB name that states exactly one direction wins (never class
+    or subclass names, never free text descriptions). So a system whose own
+    name calls it an uptake porter reads uptake even inside an exporter family.
+    direction_basis says which rule fired.
   value_descriptions:
     uptake: the node is, or lies under, an ABC subfamily numbered 3.A.1.1 to 3.A.1.99; or the nearest TCDB name at family level or deeper says uptake, import or influx (and not export)
     export: the node is, or lies under, an ABC subfamily numbered 3.A.1.100 or higher; or the nearest TCDB name at family level or deeper says export, efflux or extrusion (and not uptake)
@@ -569,7 +572,7 @@ Assay_quantifies_metabolite.stereo_assignment:
     or chosen by the KG.
   value_descriptions:
     as_reported: the paper named the form, or the metabolite has no stereo variant other than anomers
-    dominant_form_assumed: the paper gave no stereo; the row was placed on one form of a stereo family (usually the one with the most catalysing genes); treat the form as an assumption
+    dominant_form_assumed: the name in the paper gives no stereo form, but the metabolite node is one specific stereo form, chosen either as the dominant form of its stereo family (the one with the most catalysing genes) or by a plain name match; treat the form as an assumption
 
 Assay_flags_metabolite.stereo_assignment:
   applies_to: Assay_flags_metabolite
@@ -583,7 +586,7 @@ Assay_flags_metabolite.stereo_assignment:
     or chosen by the KG.
   value_descriptions:
     as_reported: the paper named the form, or the metabolite has no stereo variant other than anomers
-    dominant_form_assumed: the paper gave no stereo; the row was placed on one form of a stereo family (usually the one with the most catalysing genes); treat the form as an assumption
+    dominant_form_assumed: the name in the paper gives no stereo form, but the metabolite node is one specific stereo form, chosen either as the dominant form of its stereo family (the one with the most catalysing genes) or by a plain name match; treat the form as an assumption
 
 Gene.coordinate_source:
   # provenance: set in build_gene_mapping.py (step 0 sub-step 5). 'cyanorak' = PGAP
@@ -2215,9 +2218,9 @@ Gene_has_merops_family.qcov:
   closed: false
   values: []
   min_value: 0.0
-  max_value: 1.0
+  max_value: 100.0
   description: >
-    Query coverage of the best hit, fraction in [0,1]. Dense — every edge is diamond-sourced.
+    Query (gene protein) coverage of the consensus best hit, percent 0-100; same hit as identity. Dense — every edge is diamond-sourced.
 
 Gene_has_merops_family.evalue:
   applies_to: Gene_has_merops_family

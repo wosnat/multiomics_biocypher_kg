@@ -114,7 +114,24 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
   - Pathways 452 → 449: `ko04145` Phagosome, `ko04510` Focal adhesion, `ko00532` chondroitin sulfate GAG biosynthesis.
   - Full list: `docs/kg-changes/tcdb-cleanup/removed_ids.tsv`.
 - **`'tcdb'` in `annotation_types` (and `transporter`) now also counts a rank-1 diamond best hit with identity ≥ 40.** That adds 1,055 genes (14,745 → 15,800). 8 genes move from `informative_single` to `informative_multi`.
-- **`Gene.tcdb_family_count` is defined over gate-passing edges.** Ancestors of another counted node are dropped, so near-tie best hits never add a family.
+- **`Gene.tcdb_assignment_count` is defined over gate-passing edges.** Ancestors of another counted node are dropped, so near-tie best hits never add an assignment.
+- **`Gene.tcdb_family_count` is renamed `Gene.tcdb_assignment_count`.** Same meaning and values; the counted TC nodes are mostly systems and subfamilies, not families. No alias — update queries that read the old name.
+
+- **182 KEGG pathways irrelevant to bacteria are dropped (pathways 449 → 267).** Every pathway under
+  BRITE category Organismal Systems (89) or Human Diseases (90), except Human Diseases → "Drug
+  resistance: antimicrobial" (`ko01501` β-lactam, `ko01502` vancomycin, `ko01503` CAMP resistance,
+  kept), plus Cellular Processes → "Cellular community - eukaryotes" (3: adherens / tight / gap
+  junction). 150 of them had genes, drawn in through ribosomal, ATP synthase, chaperone and oxphos
+  KOs (e.g. `ko04212` Longevity regulating pathway - worm, 557 genes; `ko05415` Diabetic
+  cardiomyopathy). KeggTerm subcategories 46 → 24; category Organismal Systems is gone. Genes keep
+  their KOs, but KO → pathway edges fall 8,449 → 7,907 (34 KOs now reach no pathway),
+  `Metabolite_in_pathway` 9,241 → 7,943 (332 metabolites lose entries in `pathway_ids` /
+  `pathway_names` / `pathway_count`), `Reaction_in_kegg_pathway` is unchanged. **Pathway enrichment
+  backgrounds shrink** (fewer pathways tested, no animal/disease maps among the hits), and pathway
+  `reaction_count` / `metabolite_count` rollups only lose the dropped nodes. Moreno 2023's
+  "circadian rhythm" mention (`map04710`, the animal map, no KOs here) no longer resolves to a
+  pathway. The rule lives in `config/kegg_pathway_exclusions.yaml`, applied once in step 6; the
+  dropped ids and their reasons are listed in `kegg_data.json` `excluded_pathways`.
 
 ### Data
 
@@ -244,6 +261,31 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 
 ### Fixed
 
+- **Gene annotations on retired TCDB ids now land on the ids TCDB moved them to.** eggNOG and
+  the diamond library still carry numbers TCDB has retired; their family pages list only
+  "<old> has been moved to <new>". Step 6 reads those lines from the cached TCDB pages and
+  re-anchors such seeds (system level; a subfamily or family only when every one of its systems
+  moved to one place). An id TCDB reused for two different moves is ambiguous and is moved only
+  by a curated entry in `config/tcdb_moved_overrides.yaml`, which has one: `9.B.99.1` →
+  `1.B.93.1` (MipA). 30 genes move: 14 CorC genes `9.A.40.1.2` → `1.C.126.1.2` (eggNOG,
+  still `direct`), 15 MipA/OmpV genes `9.B.99.1` → `1.B.93.1` (eggNOG, `annotated`), 1 gene
+  `1.B.166` → `1.B.101` (diamond tier 3, `below_gate`). Retired ids are no longer kept as
+  range-only nodes, so `9.A.40`, `9.B.99` and `1.B.166` and their subtrees leave the graph
+  (20 TcdbFamily nodes out, `1.B.101` in: 9,389 → 9,370); `9.A.40` goes too because no gene
+  anchors it once its one seed moved. Gene-edge totals and gate counts are unchanged;
+  `kegg_data.json` is unchanged.
+
+- **Assay `stereo_assignment` no longer depends on which stereo siblings are KG nodes.** A paper
+  name without a stereo descriptor that resolves to one enantiomer (e.g. "Threonine" →
+  L-threonine) was flagged `dominant_form_assumed` only while the other form was also a node;
+  3a dropped transport-only D-threonine and Biller 2022 "Threonine" flipped to `as_reported`.
+  Step 6 now also reads ChEBI `is_enantiomer_of` on the node's own ChEBI terms. 4 paper rows
+  move `as_reported` → `dominant_form_assumed`: Biller 2022 Threonine (restored) and Histidine,
+  Kujawinski 2023 kynurenine and leucine (never flagged, same cause). No node or id changes.
+- **`Gene_has_merops_family.qcov` is declared as a percent (0–100).** Its `ControlledVocabulary`
+  entry said "fraction in [0,1]" with `max_value 1.0`, but merops-diamond reports query coverage
+  as a percent (live: 3.8–100 over 4,332 edges). Data unchanged; only the declared range and
+  description, now matching `identity` and TCDB's `qcov`.
 - **TCDB system names cut mid-parenthesis.** The T6 scraper's HTML cleaner read a bare `<` in TCDB text (`(<1 μM)`) as a tag and dropped the rest, and first-sentence / length capping could leave a parenthetical open, so 31 existing `TcdbFamily` names were truncated (MED4's urea system `3.A.1.4.4` read "The high-affinity ("; now "The high-affinity (<1 μM) urea porter"). Those 31 names were re-derived from the cached pages; 11 keep stray parentheses that are in TCDB's own text.
 - **Linear fold changes below 1 can now be significant.** `omics_adapter` judged significance on
   the raw linear ratio instead of its log2 value, so with `fold_change_type: linear` a

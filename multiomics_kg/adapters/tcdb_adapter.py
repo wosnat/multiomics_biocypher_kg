@@ -30,6 +30,9 @@ from multiomics_kg.utils.tcdb_utils import tcdb_direction
 
 logger = logging.getLogger(__name__)
 
+# test mode (--test): cap on emitted Gene_has_tcdb_family edges per strain.
+_TEST_MODE_EDGES_PER_STRAIN = 100
+
 # tcdb_call → (sources, evidence rung). Shared evidence ladder:
 # curated > signature > homology > family_inferred > domain_inferred.
 # eggNOG is orthology transfer; both diamond kinds are direct blastp hits vs. the
@@ -182,13 +185,13 @@ class TcdbAnnotationAdapter:
             yield "diamond_best_hit", tc, props
 
     def get_edges(self) -> Iterator[tuple[str, str, str, dict]]:
+        # Not capped under test_mode: raw claims are pre-alias/prune/collapse, so a
+        # raw cap undercounts. The Multi wrapper caps EMITTED gene edges per strain.
         count = 0
         for locus_tag, gene in self._genes.items():
             for tcdb_call, tc, props in self._claims_for(gene):
                 yield locus_tag, tcdb_call, tc, props
                 count += 1
-                if self.test_mode and count >= 100:
-                    return
         logger.debug(f"TcdbAnnotationAdapter({self.genome_dir.name}): {count} TCDB claims")
 
 
@@ -330,13 +333,13 @@ class MultiTcdbAnnotationAdapter:
             # {(locus_tag, target, tcdb_call): props}, insertion-ordered
             edges: dict[tuple[str, str, str], dict] = {}
             for locus_tag, tcdb_call, tc, props in adapter.get_edges():
-                target = tc
+                # An alias wins even when the raw id is kept: a retired id that TCDB
+                # moved can still sit in the kept set via another route.
+                target = self._seed_aliases.get(tc) or tc
                 if target not in self._kept_ids:
-                    anchor = self._seed_aliases.get(tc) or ""
-                    if not anchor or anchor not in self._kept_ids:
-                        dropped += 1
-                        continue
-                    target = anchor
+                    dropped += 1
+                    continue
+                if target != tc:
                     remapped += 1
                 key = (locus_tag, target, tcdb_call)
                 prev = edges.get(key)
@@ -349,7 +352,12 @@ class MultiTcdbAnnotationAdapter:
                     elif props.get("identity", -1.0) <= prev.get("identity", -1.0):
                         continue
                 edges[key] = props
-            for (locus_tag, target, tcdb_call), raw in edges.items():
+            for n_emitted, ((locus_tag, target, tcdb_call), raw) in enumerate(edges.items()):
+                # test mode: <= _TEST_MODE_EDGES_PER_STRAIN emitted gene edges per
+                # strain, counted after alias drop / unkept drop / collapse;
+                # deterministic (insertion order = first claim per edge key).
+                if self.test_mode and n_emitted >= _TEST_MODE_EDGES_PER_STRAIN:
+                    break
                 sources, evidence = _CALL_PROVENANCE[tcdb_call]
                 gate = tcdb_gate(tcdb_call, raw, self._level(target))
                 props = {

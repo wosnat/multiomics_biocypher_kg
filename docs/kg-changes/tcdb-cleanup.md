@@ -44,8 +44,14 @@ project 3b.
   - `tcdb_name` (542 + 857): the nearest node, going up to family level, whose TCDB name says
     import/uptake/influx or export/efflux/extrusion. Only one of the two may appear. Matching is
     whole-word and includes agent nouns ("Exporter").
-  - Both rules are inherited downward. Class/subclass names and free-text descriptions are never
-    used.
+  - ABC numbering applies to the subfamily and everything below it and is never overridden.
+    Otherwise the nearest named node wins: the node's own name first, then its ancestors up to
+    family level. So a system named as an uptake porter inside an exporter family reads uptake;
+    the direction is not simply inherited downward. Class/subclass names and free-text
+    descriptions are never used.
+  - Known false positive: `2.A.86.1.7` reads uptake from its descriptive name ("may function
+    with a heme uptake transporter") although its family is an exporter family. No genes carry
+    it.
   - `3.A.1` itself is `unknown`; `3.A.1.4` is `uptake` / `abc_numbering`.
 - **New `tcdb_substrate_count`** (post-import, dense, all five levels): distinct Metabolite +
   ChemicalRole targets of the system substrate edges in the node's subtree, i.e. TCDB's range for
@@ -101,7 +107,7 @@ reads rows and counts from one set:
 | `tcdb_gate` | Edges | Rule | Feeds |
 |---|---|---|---|
 | `direct` | 11,158 (best hit 7,059 · eggNOG 3,907 · tier 192) | `diamond_best_hit` with `rank = 1` and `tier <= 2`; `eggnog` onto a `tc_system`; `diamond_tier` with `tier = 1`. Always onto a system, after the alias remap | the transport-arm metabolite rollups, plus everything `annotated` feeds |
-| `annotated` | 19,866 (eggNOG 13,162 · tier 6,704) | other `eggnog` edges; `diamond_tier` with `tier = 2` | the `'tcdb'` / `transporter` annotation gate, `Gene.tcdb_family_count`, `TcdbFamily.gene_count`, TERM2GENE |
+| `annotated` | 19,866 (eggNOG 13,162 · tier 6,704) | other `eggnog` edges; `diamond_tier` with `tier = 2` | the `'tcdb'` / `transporter` annotation gate, `Gene.tcdb_assignment_count`, `TcdbFamily.gene_count`, TERM2GENE |
 | `below_gate` | 44,799 (tier 34,346 · best hit 10,453) | everything else: tier-3 calls, near-tie best hits, rank-1 tier-3 best hits | nothing computed; evidence only |
 
 Filter with `r.tcdb_gate IN ['direct','annotated']`; do not re-derive the rule. `tcdb_gate` is
@@ -120,7 +126,7 @@ same-named properties.
 | `diamond_tier` | `3.A.1` | `below_gate` | tier 3 |
 | `eggnog` | `3.A.1.16.1` "Four component nitrate/nitrite porter." | `direct` | — |
 
-Its counts: `tcdb_family_count = 2` (two sibling systems), `transported_metabolite_count = 3`
+Its counts: `tcdb_assignment_count = 2` (two sibling systems), `transported_metabolite_count = 3`
 (cyanate + nitrite from `3.A.1.16.2`, nitrate + nitrite from `3.A.1.16.1`). MED4 urtA (PMM0970) has a rank-1 best hit
 on `3.A.1.4.4` (`direct`), a tier-2 call on `3.A.1.4` (`annotated`), and eggNOG edges on
 `3.A.1.4.4` / `3.A.1.4.5` (`direct`). MED4 pstS (PMM0710) has its best hit on `3.A.1.7.6`.
@@ -132,10 +138,14 @@ on `3.A.1.4.4` (`direct`), a tier-2 call on `3.A.1.4` (`annotated`), and eggNOG 
   so these go from 14,745 to **15,800 genes (+1,055)**. `annotation_state` moved for 8 genes
   (`informative_single` → `informative_multi`); nothing else moved (`capture_annotation_state.py
   --compare`).
-- **`Gene.tcdb_family_count`** takes the TC nodes targeted by the gate-passing edges, drops any
+- **`Gene.tcdb_assignment_count`** takes the TC nodes targeted by the gate-passing edges, drops any
   node that is an ancestor of another node in that set (whatever the call kind), and counts the
   rest. A tier-2 call on `3.A.1.4` plus a rank-1 best hit on `3.A.1.4.4` = 1; near-tie best hits
-  never add a family. 15,800 genes have it, max 9.
+  never add an assignment. 15,800 genes have it, max 9.
+  - *Renamed after 3a (2026-10-24, `feat/post-3a-fixes`):* this shipped in 3a as
+    `Gene.tcdb_family_count`. The name misled — the counted targets are mostly systems and
+    subfamilies, not families — so it is now `tcdb_assignment_count`. Same meaning, same
+    values; no alias. `ChemicalRole.tcdb_system_count` is unrelated.
 - **Transport arm = direct systems only.** A gene reaches the substrates of the `tc_system` nodes
   it points at through `tcdb_gate = 'direct'` edges, with no ancestor or descendant walk.
   - **6,995 genes** have `transported_metabolite_count > 0` (was ~30K through the family
@@ -219,3 +229,14 @@ than `tc_family` dropped, `curated_tcids` on the edge.
 - **Keys now:** `kept_tcdb_ids`, `system_substrates`, `system_roles`, `chemical_roles`,
   `seed_aliases`, `pfam_bridge`, `go_bridge`.
 - **Retired:** `subtree_substrates`, `subtree_roles`, `lumping_pin`, `best_hit_substrates`.
+- **Retired TCDB ids (post-3a fix).** `seed_aliases` also holds seeds on ids TCDB retired,
+  re-anchored onto the id TCDB moved them to. The move map is the committed
+  `cache/data/tcdb/tcdb_moved.json` (`{meta, moved: {old: [targets]}}`), written by the names
+  scraper from its page cache (`scrape_tcdb_names --moved-only` rebuilds it offline); step 6
+  reads only that file, so it does not depend on the gitignored pages. Rules: one target →
+  alias; a subfamily/family only when all its systems moved to one place; an id with two
+  targets (TCDB reused the number) is ambiguous and moves only through
+  `config/tcdb_moved_overrides.yaml` (`9.B.99.1` → `1.B.93.1`; the override also maps its
+  ambiguous systems by prefix); an id still listed in the raw `families.tsv` /
+  `acc2tcid.tsv` / `superfamilies.tsv` is never re-anchored. Retired ids are never range
+  nodes. Effect: 30 genes move, 9,389 → 9,370 kept nodes.

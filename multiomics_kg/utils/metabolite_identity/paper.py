@@ -139,6 +139,9 @@ class StereoContext:
     unspecified: set[str]
     is_anomer: Callable[[str, str], bool]
     catalyst_counts: dict[str, int]
+    # Nodes ChEBI says are one stereo form among others (stereo.chebi_stereo_forms). Unlike
+    # ``families`` it does not depend on which sibling forms are nodes in this build.
+    chebi_stereo: frozenset[str] = frozenset()
 
     def variants(self, node: str) -> frozenset[str]:
         fam = self.families.get(node, frozenset({node}))
@@ -316,7 +319,10 @@ def resolve_paper_rows(tables, *, overrides, name_candidates, id_index, ctx, loc
             fams = {ctx.families.get(c, frozenset({c})) for c in cands}
             if len(cands) == 1:
                 (c,) = cands
-                if not has_variants(c) or qualified:
+                # The flag reads the paper name + ChEBI stereo knowledge, never only whether a
+                # sibling form is a node in this build (3a dropped D-threonine and flipped
+                # Biller 2022 "Threonine" -> L-threonine to as_reported).
+                if qualified or not (has_variants(c) or c in ctx.chebi_stereo):
                     res.decisions[key3] = Decision(c, "name_match", "as_reported")
                 elif c in ctx.unspecified:
                     chosen = rule("names", k, {c})

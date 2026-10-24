@@ -348,3 +348,26 @@ def test_assemble_names_failed_excludes_previously_scraped():
                            failed_families=["2.A.1", "3.A.1"], existing=existing)
     assert art["meta"]["scraped_families"] == ["2.A.1", "9.B.1"]
     assert art["meta"]["failed_families"] == ["3.A.1"]   # 2.A.1's names are still valid
+
+
+def test_build_moved_map_from_cached_pages_merges_existing(tmp_path):
+    from multiomics_kg.download.scrape_tcdb_names import build_moved_map
+    (tmp_path / "family_9.B.99.html").write_text(
+        "9.B.99.1.1 has been moved to <a href='x'>1.a.17.4.1</a></br>"
+        "9.B.99.1.1 has been moved to <a href='x'>1.B.93.1.1</a></br>")
+    (tmp_path / "family_1.A.1.html").write_text("<p>no moves</p>")
+    art = build_moved_map(tmp_path, existing={"meta": {}, "moved": {"1.B.166.1.1": ["1.B.101.1.1"]}})
+    assert art["moved"] == {"1.B.166.1.1": ["1.B.101.1.1"],
+                            "9.B.99.1.1": ["1.A.17.4.1", "1.B.93.1.1"]}
+    assert art["meta"]["source_pages"] == ["family_9.B.99.html"]
+    assert set(art["meta"]) == {"source", "source_pages"}      # reproducible: no date
+
+
+def test_committed_moved_map_has_the_three_retired_families():
+    import json
+    from pathlib import Path
+    p = Path(__file__).resolve().parents[1] / "cache/data/tcdb/tcdb_moved.json"
+    moved = json.loads(p.read_text())["moved"]
+    assert moved["9.A.40.1.2"] == ["1.C.126.1.2"]
+    assert moved["9.B.99.1.1"] == ["1.A.17.4.1", "1.B.93.1.1"]
+    assert moved["1.B.166.1.1"] == ["1.B.101.1.1"]
