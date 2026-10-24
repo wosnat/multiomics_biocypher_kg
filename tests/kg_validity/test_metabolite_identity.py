@@ -476,13 +476,15 @@ def test_tcdb_cleanup_removed_ids_absent(run_query):
     assert len(roles) == 3 and not any(r["tr"] for r in roles), roles
 
 
-def test_tcdb_cleanup_metabolite_and_pathway_counts(run_query):
-    """Counts move by exactly the measured deltas from the pre-cleanup graph."""
-    exp = json.loads(_need(PRE_COUNTS).read_text())["tcdb_cleanup"]
+def test_tcdb_cleanup_metabolite_and_pathway_counts(run_query, kegg_cache_counts):
+    """Metabolite and pathway totals equal the kegg_data.json-derived totals exactly
+    (conftest.kegg_cache_counts; not pinned literals, so a paper adding a compound does
+    not break this). The cleanup's own deltas are recorded in the fixture's
+    tcdb_cleanup block and checked id-by-id by test_tcdb_cleanup_removed_ids_absent."""
     n_met = _one(run_query, "MATCH (m:Metabolite) RETURN count(m) AS n")["n"]
     n_pw = _one(run_query, "MATCH (k:KeggTerm {level_kind: 'pathway'}) RETURN count(k) AS n")["n"]
-    assert n_met == exp["pre_metabolite_total"] + exp["metabolite_delta"] == exp["metabolite_total"], n_met
-    assert n_pw == exp["pre_keggterm_pathway_total"] + exp["pathway_delta"] == exp["keggterm_pathway_total"], n_pw
+    assert n_met == kegg_cache_counts["metabolites"], (n_met, kegg_cache_counts)
+    assert n_pw == kegg_cache_counts["pathways"], (n_pw, kegg_cache_counts)
 
 
 # Curated xref: overrides (explorer ask 5): generic HMDB / ChEBI records sit on the generic node.
