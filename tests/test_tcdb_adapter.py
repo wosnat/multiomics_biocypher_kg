@@ -320,6 +320,40 @@ def test_gene_edge_ids_unique(tmp_path):
     assert len(ids) == len(set(ids)) == 6
 
 
+def _test_mode_genes():
+    """120 genes whose only claim is dropped (unkept), 30 genes each with 5 eggNOG
+    ids that alias onto one node (collapse to 1 edge), then 200 genes with one
+    kept claim each — 230 emittable edges behind 270 non-emitting raw claims."""
+    genes = {}
+    for i in range(120):
+        genes.update(_gene(f"DROP_{i:04d}", f"WP_D{i}", eggnog=["9"]))
+    for i in range(30):
+        genes.update(_gene(f"DUP_{i:04d}", f"WP_U{i}",
+                           eggnog=[f"3.A.1.{n}" for n in range(35, 40)]))
+    for i in range(200):
+        genes.update(_gene(f"KEEP_{i:04d}", f"WP_K{i}", eggnog=["3.A.1.4.4"]))
+    aliases = {f"3.A.1.{n}": "3.A.1" for n in range(35, 40)}
+    return genes, aliases
+
+
+def test_test_mode_caps_emitted_edges_not_raw_claims(tmp_path):
+    genes, aliases = _test_mode_genes()
+    a = _setup(tmp_path, genes, None, aliases=aliases, test_mode=True)
+    ids = [e[0] for e in _gene_edges(a)]
+    assert len(ids) == 100
+    assert ids[0] == "DUP_0000-has_tcdb-3.A.1-eggnog"
+    assert sum(i.startswith("DUP_") for i in ids) == 30
+    assert ids[-1] == "KEEP_0069-has_tcdb-3.A.1.4.4-eggnog"
+    # deterministic across runs
+    assert [e[0] for e in _gene_edges(a)] == ids
+
+
+def test_full_mode_is_uncapped(tmp_path):
+    genes, aliases = _test_mode_genes()
+    a = _setup(tmp_path, genes, None, aliases=aliases)
+    assert len(_gene_edges(a)) == 230
+
+
 def test_per_strain_yields_raw_claims(tmp_path):
     d = tmp_path / "S"
     d.mkdir()
