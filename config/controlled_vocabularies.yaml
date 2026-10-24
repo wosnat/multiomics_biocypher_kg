@@ -151,6 +151,8 @@ Gene_has_cazy_family.sources:
     interproscan: InterProScan 5 domain / family scan across its member databases
 
 Gene_has_tcdb_family.sources:
+  # provenance: TCDB cleanup (2026-10-23) — the adapter no longer merges the two sources
+  #   onto one edge; one edge per (gene, TC node, tcdb_call), so the list has one element.
   applies_to: Gene_has_tcdb_family
   applies_to_kind: edge
   property: sources
@@ -158,12 +160,49 @@ Gene_has_tcdb_family.sources:
   closed: true
   values: [eggnog, tcdb_diamond]
   description: >
-    Evidence sources for this transporter call. Each value joins a DataSource
-    node via id = `data_source:` + value. Both entries present = cross-source
-    corroboration.
+    Evidence source of this transporter call; a one-element list. Each value
+    joins a DataSource node via id = `data_source:` + value. Both diamond call
+    kinds read tcdb_diamond, so read tcdb_call to tell them apart. Agreement
+    between sources is not stored on the edge: query whether two edges of the
+    gene land on the same node or lineage.
   value_descriptions:
     eggnog: eggNOG-mapper orthology transfer from the seed ortholog group
     tcdb_diamond: diamond blastp vs. the curated TCDB transporter FASTA
+
+Gene_has_tcdb_family.tcdb_call:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: tcdb_call
+  value_type: string
+  closed: true
+  values: [eggnog, diamond_tier, diamond_best_hit]
+  description: >
+    Which kind of call made this edge. One edge per (gene, TC node, call
+    kind): the same gene and node can carry up to three edges, and that
+    overlap is the agreement signal. Dense.
+  value_descriptions:
+    eggnog: a TC id that eggNOG-mapper names for the gene (KEGG_TC orthology transfer), at the depth eggNOG gives it; ids TCDB no longer lists are moved to their nearest listed ancestor
+    diamond_tier: the tiered diamond call, truncated by tier (tier 1 lands on a transport system, tier 2 on a subfamily, tier 3 on a family); identity, qcov, scov and evalue belong to the consensus hit of the call
+    diamond_best_hit: one of the best-hit transport systems of the protein (up to 3, the top hit plus near-ties within 0.9 of its bitscore, each reciprocal-best with both sequences at least 75 percent covered); rank, tier and the alignment statistics belong to that system alone
+
+Gene_has_tcdb_family.tcdb_gate:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: tcdb_gate
+  value_type: string
+  closed: true
+  values: [direct, annotated, below_gate]
+  description: >
+    Which downstream rule this edge passes, so rows and counts are read from
+    the same set. Ordered and nested: direct edges also pass the annotation
+    gate, so the annotated set is tcdb_gate IN [direct, annotated]. Transport
+    substrate counts read direct edges only; the tcdb annotation type,
+    Gene.tcdb_family_count, TcdbFamily gene counts and enrichment gene sets
+    read direct and annotated edges. Dense.
+  value_descriptions:
+    direct: a diamond_best_hit edge with rank 1 and tier at most 2 (identity at least 40), an eggnog edge, or a diamond_tier edge with tier 1, in each case onto a transport system (a 5-part TC id, after moving retired ids to their ancestor); the gene reaches the substrates of this system
+    annotated: any other eggnog edge, a diamond_tier edge with tier 2, a diamond_tier edge with tier 1 that is not on a transport system, or a rank-1 diamond_best_hit with tier at most 2 that is not on a transport system; counts as TCDB annotation but reaches no substrates
+    below_gate: everything else (diamond_tier tier 3, near-tie best hits with rank above 1, and rank-1 best hits with tier 3); evidence kept for inspection, used by no count
 
 Gene_has_tcdb_family.tier:
   applies_to: Gene_has_tcdb_family
@@ -176,10 +215,118 @@ Gene_has_tcdb_family.tier:
   max_value: 3
   sparse: true
   description: >
-    Both a confidence band and the truncation depth of the diamond call:
-    1 = tc_specificity (identity >= 70), 2 = tc_subfamily (identity >= 40),
-    3 = tc_family (no identity floor). SPARSE — rides only on diamond-sourced
-    edges (`tcdb_diamond` IN sources); absent on eggNOG-only edges.
+    Confidence band, derived differently on the two diamond call kinds; never
+    compare tier across kinds. On diamond_tier edges it is the consensus tier
+    and also the truncation depth: 1 = tc_system (identity >= 70), 2 =
+    tc_subfamily (identity >= 40), 3 = tc_family (no identity floor). On
+    diamond_best_hit edges it is the identity band of that system alone, with
+    no consensus step: 1 = identity >= 70, 2 = 40 <= identity < 70, 3 =
+    identity < 40. Present on every diamond edge; absent on eggnog edges.
+
+Gene_has_tcdb_family.rank:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: rank
+  value_type: int
+  closed: false
+  values: []
+  min_value: 1
+  max_value: 3
+  sparse: true
+  description: >
+    Position of this best-hit system among the best hits of the protein:
+    1 = top hit, 2 and 3 = near-ties. Unique per gene; ordered by bitscore,
+    then TC id, then subject. Present on diamond_best_hit edges only.
+
+Gene_has_tcdb_family.bitscore:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: bitscore
+  value_type: float
+  closed: false
+  values: []
+  sparse: true
+  min_value: 0.0
+  description: >
+    blastp bitscore of the highest-scoring alignment of the protein to this
+    best-hit system. Present on diamond_best_hit edges only.
+
+Gene_has_tcdb_family.bitscore_ratio:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: bitscore_ratio
+  value_type: float
+  closed: false
+  values: []
+  sparse: true
+  min_value: 0.9
+  max_value: 1.0
+  description: >
+    bitscore of this best-hit system divided by the bitscore of the top hit:
+    1.0 at rank 1, at least 0.9 for near-ties. Present on diamond_best_hit
+    edges only.
+
+Gene_has_tcdb_family.scov:
+  applies_to: Gene_has_tcdb_family
+  applies_to_kind: edge
+  property: scov
+  value_type: float
+  closed: false
+  values: []
+  sparse: true
+  min_value: 0.0
+  max_value: 100.0
+  description: >
+    Subject (TCDB reference sequence) coverage of the alignment, percent
+    0-100. Present on diamond edges only (absent on eggnog edges).
+
+TcdbFamily.direction:
+  applies_to: TcdbFamily
+  applies_to_kind: node
+  property: direction
+  value_type: string
+  closed: true
+  values: [uptake, export, unknown]
+  description: >
+    Transport direction as TCDB states it, on every level. Read from the ABC
+    numbering convention or from the TCDB names of the node and its ancestors
+    down to family level (never from class or subclass names, never from free
+    text descriptions); a node inherits the direction of its nearest ancestor
+    that states one. direction_basis says which rule fired.
+  value_descriptions:
+    uptake: the node is, or lies under, an ABC subfamily numbered 3.A.1.1 to 3.A.1.99; or the nearest TCDB name at family level or deeper says uptake, import or influx (and not export)
+    export: the node is, or lies under, an ABC subfamily numbered 3.A.1.100 or higher; or the nearest TCDB name at family level or deeper says export, efflux or extrusion (and not uptake)
+    unknown: neither rule fires; TCDB states no direction for this node or its ancestors, which is not evidence of either direction
+
+TcdbFamily.direction_basis:
+  applies_to: TcdbFamily
+  applies_to_kind: node
+  property: direction_basis
+  value_type: string
+  closed: true
+  sparse: true
+  values: [abc_numbering, tcdb_name]
+  description: >
+    Which rule set direction. Sparse: absent when direction is unknown.
+  value_descriptions:
+    abc_numbering: the TCDB numbering convention of the ABC superfamily (subfamilies 3.A.1.1 to 3.A.1.99 are uptake systems, 3.A.1.100 and higher are exporters), applied to the subfamily and everything below it
+    tcdb_name: the TCDB name of this node, or of its nearest ancestor down to family level, contains exactly one of the word groups uptake, import, influx or export, efflux, extrusion (whole word, any case)
+
+TcdbFamily.tcdb_substrate_count:
+  applies_to: TcdbFamily
+  applies_to_kind: node
+  property: tcdb_substrate_count
+  value_type: int
+  closed: false
+  values: []
+  min_value: 0
+  description: >
+    Distinct substrates (Metabolite and ChemicalRole nodes) that TCDB curates
+    for the transport systems in the subtree of this node; on a system, its own
+    substrate count. Dense on every level, 0 when none. This is the full TCDB
+    range of the node, including systems no gene here points at; substrate
+    names TCDB gives that resolve to no compound are not counted. A count of
+    curated substrates, not of what a gene transports.
 
 # ── evidence_score: normalized float, signals published (R4, KG-IPT-012) ─────
 Gene_has_pfam.evidence_score: &score3
@@ -214,100 +361,6 @@ Gene_located_in_cellular_component.evidence_score:
 Gene_has_cazy_family.evidence_score:
   <<: *score3
   applies_to: Gene_has_cazy_family
-
-Gene_has_tcdb_family.evidence_score:
-  applies_to: Gene_has_tcdb_family
-  applies_to_kind: edge
-  property: evidence_score
-  value_type: float
-  closed: false
-  values: []
-  min_value: 0.0
-  max_value: 1.0
-  signal_count: 5
-  signals: [eggnog_called, source_agreement, tier_le_2,
-            pfam_support, go_support]
-  description: >
-    Advisory ranking, never a filter. Fraction of independent corroborating
-    signals that fired; round(score * signal_count) recovers the raw count.
-    NOT calibrated against other edge types. Float: sort and threshold, never
-    test equality.
-
-Gene.tcdb_evidence_score_max:
-  applies_to: Gene
-  applies_to_kind: node
-  property: tcdb_evidence_score_max
-  value_type: float
-  closed: false
-  values: []
-  min_value: 0.0
-  max_value: 1.0
-  sparse: true
-  description: >
-    Strongest TCDB claim this gene has = max(evidence_score) over its
-    Gene_has_tcdb_family edges. SPARSE BY DESIGN — absent when the gene has no
-    TCDB edge, so "no transporter evidence" stays distinguishable from weak
-    evidence. Use coalesce(x, -1.0) for a total order.
-
-# ── R5 conversions: two-state facts as meaningful strings ────────────────────
-Gene_has_tcdb_family.source_agreement:
-  applies_to: Gene_has_tcdb_family
-  applies_to_kind: edge
-  property: source_agreement
-  value_type: string
-  closed: true
-  values: [both_sources, single_source]
-  description: >
-    Whether eggNOG and diamond concur on this TC family. Agreement is
-    HIERARCHICAL (ancestor or descendant), not exact-node — the two sources
-    usually concur at different depths.
-  value_descriptions:
-    both_sources: eggNOG and diamond both called this family or an ancestor / descendant of it; cross-source corroboration
-    single_source: only one of eggNOG or diamond called this family (no call from the other at any depth)
-
-Gene_has_tcdb_family.pfam_support:
-  applies_to: Gene_has_tcdb_family
-  applies_to_kind: edge
-  property: pfam_support
-  value_type: string
-  closed: true
-  values: [corroborated, uncorroborated]
-  description: >
-    Whether a Pfam domain on this gene is curated into this TC family via
-    Tcdb_family_has_pfam_domain. Read in the sound direction only.
-  value_descriptions:
-    corroborated: the gene carries a Pfam domain that TCDB curates into this transport family
-    uncorroborated: no Pfam domain on the gene is curated into this family; absence of support, not contradiction
-
-Gene_has_tcdb_family.go_support:
-  applies_to: Gene_has_tcdb_family
-  applies_to_kind: edge
-  property: go_support
-  value_type: string
-  closed: true
-  values: [corroborated, uncorroborated]
-  description: >
-    Whether a GO term on this gene is curated onto this TC family. Not
-    redundant with pfam_support — 11,565 edges carry exactly one of the two.
-  value_descriptions:
-    corroborated: the gene carries a GO term that TCDB curates onto this transport family
-    uncorroborated: no GO term on the gene is curated onto this family; absence of support, not contradiction
-
-Tcdb_family_transports_metabolite.substrate_depth:
-  applies_to: Tcdb_family_transports_metabolite
-  applies_to_kind: edge
-  property: substrate_depth
-  value_type: string
-  closed: true
-  values: [most_specific, inherited]
-  description: >
-    A (node, substrate) fact, not a node fact — 2.A.1 can be most_specific for
-    one substrate and inherited for another. most_specific = no kept child of
-    this node carries the same substrate. Use this, NOT
-    level_kind = `tc_specificity`, to recover leaf substrate semantics.
-  value_descriptions:
-    most_specific: no kept child of this family carries the same substrate; this is the most specific surviving transporter system for it
-    inherited: rolled up from a descendant that also carries the substrate; count the descendant, not this node
 
 Metabolite.identity_basis:
   applies_to: Metabolite
@@ -432,35 +485,6 @@ ChemicalRole.level_kind:
     chebi_role_branch is a top-level branch of the ChEBI role ontology;
     chebi_role is any term below it.
 
-Tcdb_family_transports_chemical_role.substrate_depth:
-  applies_to: Tcdb_family_transports_chemical_role
-  applies_to_kind: edge
-  property: substrate_depth
-  value_type: string
-  closed: true
-  values: [most_specific, inherited]
-  description: >
-    A (node, role) fact, not a node fact. most_specific = no kept child of this
-    family carries the same role-typed substrate.
-  value_descriptions:
-    most_specific: no kept child of this family carries the same role-typed substrate; this is the most specific surviving transporter system for it
-    inherited: rolled up from a descendant that also carries the role-typed substrate; count the descendant, not this node
-
-TcdbFamily.substrate_breadth:
-  applies_to: TcdbFamily
-  applies_to_kind: node
-  property: substrate_breadth
-  value_type: string
-  closed: true
-  values: [lumping, specific, not_assessed]
-  description: >
-    How broad the substrate set of this transport family is. Filter on this, not on a
-    metabolite_count threshold: the pinned lumping set is not reproduced by a threshold.
-  value_descriptions:
-    lumping: in the pinned substrate-lumping set; a substrate count here is reachability, not capability
-    specific: level 2 or deeper and not lumping
-    not_assessed: tc_class / tc_subclass, where substrate counts scale with level by construction
-
 Metabolite_in_metabolite_class.sources:
   applies_to: Metabolite_in_metabolite_class
   applies_to_kind: edge
@@ -560,20 +584,6 @@ Assay_flags_metabolite.stereo_assignment:
   value_descriptions:
     as_reported: the paper named the form, or the metabolite has no stereo variant other than anomers
     dominant_form_assumed: the paper gave no stereo; the row was placed on one form of a stereo family (usually the one with the most catalysing genes); treat the form as an assumption
-
-Gene.transport_substrate_resolution:
-  applies_to: Gene
-  applies_to_kind: node
-  property: transport_substrate_resolution
-  value_type: string
-  closed: true
-  sparse: true
-  values: [resolved, family_inferred]
-  description: >
-    How specific the transport substrate claim of this gene is. family_inferred =
-    its deepest TC attachment lumps many substrates, so the count is
-    reachability, not capability. SPARSE — absent when the gene has no TCDB
-    edge, so "no evidence" stays distinguishable from a weak claim.
 
 Gene.coordinate_source:
   # provenance: set in build_gene_mapping.py (step 0 sub-step 5). 'cyanorak' = PGAP
@@ -888,8 +898,10 @@ Metabolite.evidence_sources:
   values: []
   description: >
     Why this metabolite is in the graph: metabolism (reachable through a
-    gene-catalyzed Reaction), transport (a TCDB substrate of an annotated
-    transporter family), metabolomics (measured by a metabolite assay of a paper), go_transport (named as the primary input of a GO transport term a gene carries; a term definition, not a gene fact). A metabolite may carry any combination.
+    gene-catalyzed Reaction), transport (TCDB lists it as a substrate of a
+    transport system in the KG; not a claim that a gene here reaches it, so it
+    can carry this tag with transporter_gene_count = 0 — gene reach is
+    transporter_gene_count), metabolomics (measured by a metabolite assay of a paper), go_transport (named as the primary input of a GO transport term a gene carries; a term definition, not a gene fact). A metabolite may carry any combination.
 
 Organism_has_metabolite.evidence_sources:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -903,7 +915,7 @@ Organism_has_metabolite.evidence_sources:
   values: [metabolism, transport, measured]
   description: >
     Why this organism is linked to this metabolite: metabolism (a gene of the
-    organism catalyzes a reaction involving it), transport (the deepest TCDB attachment of a gene transports it), measured (a metabolite assay on this
+    organism catalyzes a reaction involving it), transport (a gene of the organism has a direct TCDB edge, tcdb_gate = `direct`, onto a transport system that TCDB lists with this substrate), measured (a metabolite assay on this
     organism measured it). Note the third value is "measured" here but
     "metabolomics" on Metabolite.evidence_sources — different properties.
 
@@ -1012,7 +1024,10 @@ Gene.annotation_state:
     Post-import qualitative annotation bucket, the string form of the numeric
     annotation_quality (0-3): how many independent informative source buckets
     (GO, KEGG, Pfam, EC, role, reaction, transporter, CAZy, NCBIfam) back
-    this gene, after uninformative terms are discounted.
+    this gene, after uninformative terms are discounted. The transporter
+    bucket counts a gene with a TCDB edge that passes the annotation gate
+    (tcdb_gate = `direct` or `annotated`: any eggnog call, a diamond tier call
+    with tier at most 2, or a rank-1 diamond best hit with tier at most 2).
   value_descriptions:
     no_evidence: no functional annotation edge of any kind (annotation_quality 0)
     catch_all_only: only uninformative terms, e.g. hypothetical protein, DUF, general function prediction only (annotation_quality 1)
@@ -1291,12 +1306,13 @@ TcdbFamily.level_kind:
   property: level_kind
   value_type: string
   closed: true
-  values: [tc_class, tc_subclass, tc_family, tc_subfamily, tc_specificity]
+  values: [tc_class, tc_subclass, tc_family, tc_subfamily, tc_system]
   description: >
     Named depth of this node in the 5-level TCDB hierarchy: tc_class (1.),
     tc_subclass (1.A), tc_family (1.A.1), tc_subfamily (1.A.1.1),
-    tc_specificity (1.A.1.1.1 — an individual transport system). Parallels
-    the integer level 0-4.
+    tc_system (1.A.1.1.1 — an individual transport system, the TCDB term for
+    a 5-part TC id). Parallels the integer level 0-4. Substrate edges leave
+    tc_system nodes only.
 
 CazyFamily.level_kind:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1715,7 +1731,7 @@ Gene.merops_classes:
 
 # ── KG-SYNC-005 (2026-08-27): uniform annotation-trust surface ──────────────
 # sources + evidence on the seven gene→ontology edge types that lacked them,
-# evidence on Gene_has_tcdb_family, MEROPS evidence_score, TCDB attachment_depth,
+# evidence on Gene_has_tcdb_family, MEROPS evidence_score,
 # and the numeric edge props the explorer filters / rolls up on (ONT-002/003/014).
 
 Gene_has_kegg_ko.sources:
@@ -1987,7 +2003,8 @@ Gene_has_tcdb_family.evidence:
   #   Rung of the shared inference-strength ladder curated > signature > homology >
   #   family_inferred > domain_inferred (KG-SYNC-005 / ONT-008). homology = diamond called it
   #   (direct blastp vs. the curated TCDB FASTA; strength within it from `tier`); family_inferred
-  #   = eggNOG-only (orthology transfer). Both-source edges take the strongest (homology).
+  #   = eggNOG (orthology transfer). Since the TCDB cleanup (2026-10-23) every edge has one
+  #   source, so evidence follows tcdb_call: eggnog -> family_inferred, both diamond kinds -> homology.
   applies_to: Gene_has_tcdb_family
   applies_to_kind: edge
   property: evidence
@@ -1996,9 +2013,9 @@ Gene_has_tcdb_family.evidence:
   values: [family_inferred, homology]
   description: >
     Inference strength on the shared ladder curated > signature > homology >
-    family_inferred > domain_inferred. homology = diamond blastp called it
-    (strength within it from `tier`); family_inferred = eggNOG-only orthology
-    transfer. An edge with both sources takes the stronger (homology).
+    family_inferred > domain_inferred. Follows tcdb_call: homology on both
+    diamond call kinds (diamond_tier, diamond_best_hit; strength within it
+    from `tier`), family_inferred on eggnog edges (orthology transfer).
   value_descriptions:
     family_inferred: transferred from an ortholog family or a single-function protein family (eggNOG orthology transfer, InterPro FAMILY entries)
     homology: direct sequence hit (diamond blastp) against a curated reference database (TCDB, MEROPS); strength within the rung is read from tier
@@ -2008,8 +2025,8 @@ Gene_has_merops_family.evidence_score:
   #   Advisory placement-confidence ranking, never a filter (ONT-006, R4). Two independent
   #   signals: tier <= 2 (identity >= 40%) and pfam_support = 'corroborated'. Scale is {0, 0.5,
   #   1}; round(score * 2) recovers the fired count. call_class is deliberately NOT a signal — it
-  #   is the verdict axis (active peptidase?), read separately. NOT calibrated against the
-  #   5-signal Gene_has_tcdb_family.evidence_score.
+  #   is the verdict axis (active peptidase?), read separately. (The former 5-signal
+  #   Gene_has_tcdb_family.evidence_score was removed by the TCDB cleanup, 2026-10-23.)
   applies_to: Gene_has_merops_family
   applies_to_kind: edge
   property: evidence_score
@@ -2024,8 +2041,8 @@ Gene_has_merops_family.evidence_score:
     Advisory placement confidence in {0, 0.5, 1}, never a filter: one point
     for tier <= 2 (identity >= 40%), one for pfam_support = `corroborated`;
     round(score * 2) recovers the count. call_class (is it an active
-    peptidase?) is a separate axis, deliberately not scored. Not comparable to
-    Gene_has_tcdb_family.evidence_score (5 signals).
+    peptidase?) is a separate axis, deliberately not scored. Compare within
+    MEROPS edges only.
 
 Gene.merops_evidence_score_max:
   applies_to: Gene
@@ -2038,37 +2055,11 @@ Gene.merops_evidence_score_max:
   min_value: 0.0
   max_value: 1.0
   description: >
-    max(evidence_score) over the Gene_has_merops_family edges of the gene (ONT-013,
-    mirror of tcdb_evidence_score_max). SPARSE — absent when the gene has no
+    max(evidence_score) over the Gene_has_merops_family edges of the gene
+    (ONT-013). SPARSE — absent when the gene has no
     MEROPS edge; coalesce(x, -1.0) for a total order. Read alongside
     Gene.merops_classes: this says how well the best call is PLACED,
     merops_classes says whether any call is an active peptidase.
-
-Gene_has_tcdb_family.attachment_depth:
-  # provenance (moved out of the researcher-facing description, 2026-08-29):
-  #   Post-import structural fact (ONT-010, not a threshold — R3 does not apply). 'superseded' =
-  #   another Gene_has_tcdb_family edge of the SAME gene lands on a descendant of this node (e.g.
-  #   eggNOG 3.A.1 next to diamond 3.A.1.14) — a less specific call, NOT a wrong one.
-  #   'most_specific' = no such sibling. The transport-arm counts
-  #   (Gene.transported_metabolite_count, Metabolite.transporter_gene_count,
-  #   Organism_has_metabolite) read only most_specific edges. Mirrors substrate_depth's value
-  #   grammar.
-  applies_to: Gene_has_tcdb_family
-  applies_to_kind: edge
-  property: attachment_depth
-  value_type: string
-  closed: true
-  values: [most_specific, superseded]
-  description: >
-    most_specific = no other TCDB edge of the same gene lands on a descendant
-    of this family; superseded = one does (e.g. an eggNOG 3.A.1 call next to a
-    diamond 3.A.1.14 call) — a less specific call, not a wrong one.
-    Transport-arm counts (Gene.transported_metabolite_count,
-    Metabolite.transporter_gene_count, Organism_has_metabolite) read
-    most_specific edges only.
-  value_descriptions:
-    most_specific: no other TCDB edge of this gene lands on a descendant of this family; the edge the transport-arm counts read
-    superseded: a sibling edge of the same gene lands on a descendant family; less specific, not wrong
 
 Gene_has_interpro_entry.evalue:
   applies_to: Gene_has_interpro_entry
@@ -2144,25 +2135,6 @@ Gene_has_ncbifam_family.end:
   description: >
     Alignment end (1-based residue) of the best facet row.
 
-Gene_has_tcdb_family.confidence_score:
-  # provenance (moved out of the researcher-facing description, 2026-08-29):
-  #   tcdb-diamond native per-call confidence in [0,1] (NOT the R4 evidence_score; tool-internal
-  #   scale, never compared across ontologies). SPARSE — present only on diamond-called edges
-  #   (absent on eggNOG-only).
-  applies_to: Gene_has_tcdb_family
-  applies_to_kind: edge
-  property: confidence_score
-  value_type: float
-  closed: false
-  values: []
-  sparse: true
-  min_value: 0.0
-  max_value: 1.0
-  description: >
-    the per-call confidence reported by tcdb-diamond in [0,1] — a tool-internal scale,
-    not the cross-ontology evidence_score. Present only on diamond-called
-    edges (absent on eggNOG-only edges).
-
 Gene_has_tcdb_family.identity:
   applies_to: Gene_has_tcdb_family
   applies_to_kind: edge
@@ -2174,7 +2146,10 @@ Gene_has_tcdb_family.identity:
   min_value: 0.0
   max_value: 100.0
   description: >
-    blastp percent identity of the consensus best hit (0-100). SPARSE — present only on diamond-called edges (absent on eggNOG-only).
+    blastp percent identity (0-100). On diamond_tier edges, of the consensus
+    hit of the call; on diamond_best_hit edges, of the highest-scoring
+    alignment to that system. Present on diamond edges only (absent on eggnog
+    edges).
 
 Gene_has_tcdb_family.qcov:
   applies_to: Gene_has_tcdb_family
@@ -2185,9 +2160,10 @@ Gene_has_tcdb_family.qcov:
   values: []
   sparse: true
   min_value: 0.0
-  max_value: 1.0
+  max_value: 100.0
   description: >
-    Query coverage of the best hit, fraction in [0,1]. SPARSE — present only on diamond-called edges (absent on eggNOG-only).
+    Query (gene protein) coverage of the alignment, percent 0-100; same hit
+    as identity. Present on diamond edges only (absent on eggnog edges).
 
 Gene_has_tcdb_family.evalue:
   applies_to: Gene_has_tcdb_family
@@ -2199,111 +2175,8 @@ Gene_has_tcdb_family.evalue:
   sparse: true
   min_value: 0.0
   description: >
-    blastp e-value of the best hit. SPARSE — present only on diamond-called edges (absent on eggNOG-only).
-
-Gene_has_tcdb_family.consensus_n:
-  applies_to: Gene_has_tcdb_family
-  applies_to_kind: edge
-  property: consensus_n
-  value_type: int
-  closed: false
-  values: []
-  sparse: true
-  min_value: 1
-  description: >
-    Number of hits agreeing on this call after consensus collapse. SPARSE — present only on diamond-called edges (absent on eggNOG-only).
-
-Gene_has_tcdb_family.best_hit_tcids:
-  # provenance: best_hit_v1 (spec docs/superpowers/specs/2026-10-18-tcdb-diamond-best-hit-design.md),
-  #   from <strain>.tcdb.calls.json best_hit.tcids via tcdb_adapter.
-  applies_to: Gene_has_tcdb_family
-  applies_to_kind: edge
-  property: best_hit_tcids
-  value_type: string_array
-  closed: false
-  values: []
-  sparse: true
-  description: >
-    The actual best-hit TCDB systems (5-part TC ids, best first, up to 3) from
-    diamond vs. the curated TCDB sequences — the specific system the tier call is truncated
-    away from (e.g. cynD is called 3.A.1 but its best hit is 3.A.1.16.2). Kept when both
-    query and reference are >= 75% covered, TC class 1-4, and the hit is reciprocal-best;
-    near-ties within 90% of the top bitscore are listed and may come from another family.
-    One id = a clean best hit; several = a near-tie — compare their substrates. A raw clue,
-    not a call. Present on one diamond-called edge per gene (the edge in the family of the top hit).
-    These systems are generally not TcdbFamily nodes. Not the same as MEROPS best_hit_id.
-
-Gene_has_tcdb_family.best_hit_names:
-  # provenance: best_hit_v1; TCDB system names from tcdb_names.json (T6 scraper) via tcdb_hierarchy.json.
-  applies_to: Gene_has_tcdb_family
-  applies_to_kind: edge
-  property: best_hit_names
-  value_type: string_array
-  closed: false
-  values: []
-  sparse: true
-  description: >
-    The TCDB name of each best-hit system, aligned index-for-index with best_hit_tcids
-    (e.g. "Bispecific cyanate/nitrite transporter."). The TC id itself when TCDB gives no name.
-
-Gene_has_tcdb_family.best_hit_identity:
-  # provenance: best_hit_v1; calls.json best_hit.identity.
-  applies_to: Gene_has_tcdb_family
-  applies_to_kind: edge
-  property: best_hit_identity
-  value_type: float
-  closed: false
-  values: []
-  sparse: true
-  min_value: 0.0
-  max_value: 100.0
-  description: >
-    blastp percent identity of the top best-hit system (0-100). Says how far its substrates
-    can be trusted for this gene: roughly, 50-60% or more fairly safe, below 40% weak.
-    Can differ from `identity`, which belongs to the consensus hit of the tier call.
-
-Gene_has_tcdb_family.best_hit_substrate_tcids:
-  # provenance: best_hit_v1; long form built by tcdb_adapter from tcdb_pruned.json best_hit_substrates.
-  applies_to: Gene_has_tcdb_family
-  applies_to_kind: edge
-  property: best_hit_substrate_tcids
-  value_type: string_array
-  closed: false
-  values: []
-  sparse: true
-  description: >
-    Long-form table with best_hit_substrate_ids / best_hit_substrate_names: one entry per
-    (best-hit system, substrate), giving the system each substrate belongs to. The three
-    lists are aligned; a substrate two systems share repeats once per system. Absent when
-    TCDB lists no substrate for any best-hit system.
-
-Gene_has_tcdb_family.best_hit_substrate_ids:
-  # provenance: best_hit_v1; step 6 resolves substrates.tsv ChEBI ids (secondary -> primary, MNX,
-  #   canonical identity) for each best-hit system, unfiltered.
-  applies_to: Gene_has_tcdb_family
-  applies_to_kind: edge
-  property: best_hit_substrate_ids
-  value_type: string_array
-  closed: false
-  values: []
-  sparse: true
-  description: >
-    The own TCDB substrates of each best-hit system as Metabolite / ChemicalRole ids, aligned
-    with best_hit_substrate_tcids. Unfiltered — H+, Na+, generic classes and polymers
-    (protein, DNA) are included — and an id need not be a node in the graph.
-
-Gene_has_tcdb_family.best_hit_substrate_names:
-  # provenance: best_hit_v1; node name when the id is a node, else TCDB's substrate name.
-  applies_to: Gene_has_tcdb_family
-  applies_to_kind: edge
-  property: best_hit_substrate_names
-  value_type: string_array
-  closed: false
-  values: []
-  sparse: true
-  description: >
-    Substrate names aligned with best_hit_substrate_ids: the name of the graph node when the id
-    is a node, else the name TCDB gives.
+    blastp e-value of the alignment; same hit as identity. Present on diamond
+    edges only (absent on eggnog edges).
 
 Gene_has_merops_family.confidence_score:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -2424,7 +2297,7 @@ Gene_has_signal_peptide_type.cleavage_probability:
 # Shape: closed, sparse, single value 'true'. ABSENCE is the negative state —
 # consumers test `IS NULL` / `IS NOT NULL`, never compare against 'false'.
 # Reserved for minority exception flags; a new two-state fact must be a named
-# pair (substrate_depth: most_specific | inherited), not a third marker.
+# pair (e.g. stereo_assignment: as_reported | dominant_form_assumed), not a third marker.
 
 BiologicalProcess.is_uninformative:
   applies_to: BiologicalProcess

@@ -364,7 +364,7 @@ def _union(a, b):
     return sorted(set(a or []) | set(b or []))
 
 
-def rewrite_to_canonical(table, reactions, subtree_substrates, canonical_of):
+def rewrite_to_canonical(table, reactions, system_substrates, canonical_of):
     new: dict[str, dict] = {}
     for node in sorted(table, key=lambda n: (canonical_of[n] != n, n)):
         canon = canonical_of[node]
@@ -383,6 +383,6 @@ def rewrite_to_canonical(table, reactions, subtree_substrates, canonical_of):
             if n.startswith(_KEGG) and c.startswith(_KEGG)}
     for r in reactions.values():
         r["compounds"] = sorted({bare.get(c, c) for c in r.get("compounds", [])})
-    for tc, ids in subtree_substrates.items():
-        subtree_substrates[tc] = sorted({canonical_of.get(i, i) for i in ids})
+    for tc, ids in system_substrates.items():
+        system_substrates[tc] = sorted({canonical_of.get(i, i) for i in ids})
     return new

@@ -769,10 +769,6 @@
       "metabolite_id": "kegg.compound:C00606"
     },
     {
-      "class_id": "kegg.brite:br08001.A2.B5.C1",
-      "metabolite_id": "kegg.compound:C00639"
-    },
-    {
       "class_id": "kegg.brite:br08001.A2.B2.C1",
       "metabolite_id": "kegg.compound:C00641"
     },
@@ -787,10 +783,6 @@
     {
       "class_id": "kegg.brite:br08001.A7.B5.C1",
       "metabolite_id": "kegg.compound:C00695"
-    },
-    {
-      "class_id": "kegg.brite:br08001.A2.B5.C1",
-      "metabolite_id": "kegg.compound:C00696"
     },
     {
       "class_id": "kegg.brite:br08001.A4.B3.C2",
@@ -859,10 +851,6 @@
     {
       "class_id": "kegg.brite:br08001.A5.B2.C2",
       "metabolite_id": "kegg.compound:C00819"
-    },
-    {
-      "class_id": "kegg.brite:br08001.A5.B2.C2",
-      "metabolite_id": "kegg.compound:C00820"
     },
     {
       "class_id": "kegg.brite:br08001.A6.B1.C1",
@@ -969,10 +957,6 @@
       "metabolite_id": "kegg.compound:C01346"
     },
     {
-      "class_id": "kegg.brite:br08001.A7.B4.C1",
-      "metabolite_id": "kegg.compound:C01443"
-    },
-    {
       "class_id": "kegg.brite:br08001.A9.B3.C1",
       "metabolite_id": "kegg.compound:C01457"
     },
@@ -1053,10 +1037,6 @@
       "metabolite_id": "kegg.compound:C01885"
     },
     {
-      "class_id": "kegg.brite:br08001.A5.B2.C2",
-      "metabolite_id": "kegg.compound:C01905"
-    },
-    {
       "class_id": "kegg.brite:br08001.A9.B3.C1",
       "metabolite_id": "kegg.compound:C01912"
     },
@@ -1105,10 +1085,6 @@
       "metabolite_id": "kegg.compound:C02265"
     },
     {
-      "class_id": "kegg.brite:br08001.A1.B1.C3",
-      "metabolite_id": "kegg.compound:C02341"
-    },
-    {
       "class_id": "kegg.brite:br08001.A4.B4.C2",
       "metabolite_id": "kegg.compound:C02353"
     },
@@ -1139,10 +1115,6 @@
     {
       "class_id": "kegg.brite:br08001.A8.B2.C2",
       "metabolite_id": "kegg.compound:C02538"
-    },
-    {
-      "class_id": "kegg.brite:br08001.A1.B1.C2",
-      "metabolite_id": "kegg.compound:C02656"
     },
     {
       "class_id": "kegg.brite:br08001.A2.B1.C1",
@@ -1257,10 +1229,6 @@
       "metabolite_id": "kegg.compound:C05402"
     },
     {
-      "class_id": "kegg.brite:br08001.A6.B1.C1",
-      "metabolite_id": "kegg.compound:C05443"
-    },
-    {
       "class_id": "kegg.brite:br08001.A9.B1.C1",
       "metabolite_id": "kegg.compound:C05551"
     },
@@ -1277,20 +1245,12 @@
       "metabolite_id": "kegg.compound:C05953"
     },
     {
-      "class_id": "kegg.brite:br08001.A2.B5.C3",
-      "metabolite_id": "kegg.compound:C05963"
-    },
-    {
       "class_id": "kegg.brite:br08001.A2.B3.C1",
       "metabolite_id": "kegg.compound:C05980"
     },
     {
       "class_id": "kegg.brite:br08001.A2.B4.C1",
       "metabolite_id": "kegg.compound:C06037"
-    },
-    {
-      "class_id": "kegg.brite:br08001.A1.B1.C2",
-      "metabolite_id": "kegg.compound:C06104"
     },
     {
       "class_id": "kegg.brite:br08001.A2.B4.C2",
@@ -1429,20 +1389,12 @@
       "metabolite_id": "kegg.compound:C11378"
     },
     {
-      "class_id": "kegg.brite:br08001.A8.B1.C19",
-      "metabolite_id": "kegg.compound:C11684"
-    },
-    {
       "class_id": "kegg.brite:br08001.A6.B2.C1",
       "metabolite_id": "kegg.compound:C15670"
     },
     {
       "class_id": "kegg.brite:br08001.A6.B2.C1",
       "metabolite_id": "kegg.compound:C15672"
-    },
-    {
-      "class_id": "kegg.brite:br08001.A1.B1.C4",
-      "metabolite_id": "kegg.compound:C16588"
     },
     {
       "class_id": "kegg.brite:br08001.A6.B2.C1",
@@ -1596,12 +1548,6 @@
       "id": "kegg.brite:br08001.A2.B5.C2",
       "level": 2,
       "name": "Leukotrienes",
-      "parent": "kegg.brite:br08001.A2.B5"
-    },
-    {
-      "id": "kegg.brite:br08001.A2.B5.C3",
-      "level": 2,
-      "name": "Thromboxanes",
       "parent": "kegg.brite:br08001.A2.B5"
     },
     {
@@ -1933,12 +1879,6 @@
       "level": 1,
       "name": "Peptide hormones",
       "parent": "kegg.brite:br08001.A8"
-    },
-    {
-      "id": "kegg.brite:br08001.A8.B1.C19",
-      "level": 2,
-      "name": "Enkephalin",
-      "parent": "kegg.brite:br08001.A8.B1"
     },
     {
       "id": "kegg.brite:br08001.A8.B1.C45",

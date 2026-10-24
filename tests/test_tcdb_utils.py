@@ -14,7 +14,7 @@ TINY_TCDB = {
     "1.A":       {"name": "", "level": 1, "level_kind": "tc_subclass", "parent": "1"},
     "1.A.1":     {"name": "VIC Family", "level": 2, "level_kind": "tc_family", "parent": "1.A", "abbreviation": "VIC"},
     "1.A.1.1":   {"name": "", "level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
-    "1.A.1.1.1": {"name": "", "level": 4, "level_kind": "tc_specificity", "parent": "1.A.1.1",
+    "1.A.1.1.1": {"name": "", "level": 4, "level_kind": "tc_system", "parent": "1.A.1.1",
                   "substrate_classes": ["potassium(1+)"]},
 }
 
@@ -79,12 +79,12 @@ _H = {
     "1.A": {"level": 1, "level_kind": "tc_subclass", "parent": "1"},
     "1.A.1": {"level": 2, "level_kind": "tc_family", "parent": "1.A"},
     "1.A.1.5": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
-    "1.A.1.5.2": {"level": 4, "level_kind": "tc_specificity", "parent": "1.A.1.5"},
+    "1.A.1.5.2": {"level": 4, "level_kind": "tc_system", "parent": "1.A.1.5"},
     "1.A.1.9": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
-    "1.A.1.9.1": {"level": 4, "level_kind": "tc_specificity", "parent": "1.A.1.9"},
+    "1.A.1.9.1": {"level": 4, "level_kind": "tc_system", "parent": "1.A.1.9"},
     "2": {"level": 0, "level_kind": "tc_class", "parent": None},
     "2.A": {"level": 1, "level_kind": "tc_subclass", "parent": "2"},
-    "2.A.9.1.1": {"level": 4, "level_kind": "tc_specificity", "parent": "2.A"},
+    "2.A.9.1.1": {"level": 4, "level_kind": "tc_system", "parent": "2.A"},
 }
 _KEPT = {"1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2", "2", "2.A"}
 
@@ -133,3 +133,69 @@ def test_bridge_handles_go_ids_identically():
 
 def test_bridge_empty_input_returns_empty():
     assert build_tcdb_bridges({}, _H, _KEPT) == {}
+
+
+# ── tcdb_direction (spec §5.1) ───────────────────────────────────────────────
+
+_DIR_H = {
+    "3":           {"name": "Primary Active Transporters", "level": 0, "parent": None},
+    "3.A":         {"name": "P-P-bond-hydrolysis-driven transporters", "level": 1, "parent": "3"},
+    "3.A.1":       {"name": "The ATP-binding Cassette (ABC) Superfamily", "level": 2, "parent": "3.A"},
+    "3.A.1.4":     {"name": "The Hydrophobic Amino Acid Uptake Transporter (HAAT) Family",
+                    "level": 3, "parent": "3.A.1"},
+    "3.A.1.4.4":   {"name": "The high-affinity urea porter", "level": 4, "parent": "3.A.1.4"},
+    "3.A.1.122":   {"name": "The Macrolide Exporter (MacB) Family", "level": 3, "parent": "3.A.1"},
+    "3.A.1.122.2": {"name": "", "level": 4, "parent": "3.A.1.122"},
+    "2":           {"name": "Electrochemical Potential-driven Transporters (export uptake)",
+                    "level": 0, "parent": None},
+    "2.A":         {"name": "Porters (efflux)", "level": 1, "parent": "2"},
+    "2.A.6":       {"name": "The Resistance-Nodulation-Cell Division (RND) Efflux Family",
+                    "level": 2, "parent": "2.A"},
+    "2.A.6.1":     {"name": "", "level": 3, "parent": "2.A.6"},
+    "2.A.6.1.1":   {"name": "", "level": 4, "parent": "2.A.6.1"},
+    "2.A.9":       {"name": "Uptake and export of things", "level": 2, "parent": "2.A"},
+    "2.A.9.1.1":   {"name": "", "level": 4, "parent": "2.A.9"},
+    "2.A.10":      {"name": "The Importer family", "level": 2, "parent": "2.A"},
+    "2.A.11":      {"name": "The Capsular Polysaccharide Exporter (CPSE) Family",
+                    "level": 2, "parent": "2.A"},
+    "2.A.12":      {"name": "Drug Exporter-1 Family", "level": 2, "parent": "2.A"},
+    "2.A.13":      {"name": "Nucleotide importers", "level": 2, "parent": "2.A"},
+    "2.A.14":      {"name": "The importance of being transported", "level": 2, "parent": "2.A"},
+    "2.A.15":      {"name": "Sugar efflux family", "level": 2, "parent": "2.A"},
+    "2.A.15.1":    {"name": "Uptake and export subfamily", "level": 3, "parent": "2.A.15"},
+    "2.A.15.1.1":  {"name": "", "level": 4, "parent": "2.A.15.1"},
+}
+
+
+@pytest.mark.parametrize("tc, expected", [
+    ("3.A.1.4.4", ("uptake", "abc_numbering")),
+    ("3.A.1.4", ("uptake", "abc_numbering")),
+    ("3.A.1.122.2", ("export", "abc_numbering")),
+    ("3.A.1.122", ("export", "abc_numbering")),
+    ("3.A.1", ("unknown", None)),           # superfamily itself: rule 1 starts at subfamilies
+    ("2.A.6", ("export", "tcdb_name")),
+    ("2.A.6.1.1", ("export", "tcdb_name")),  # inherits the family's name
+    ("2.A.9.1.1", ("unknown", None)),        # both word groups in the only usable name
+    ("2.A.10", ("uptake", "tcdb_name")),     # agent noun "Importer"
+    ("2.A.11", ("export", "tcdb_name")),     # "Exporter"
+    ("2.A.12", ("export", "tcdb_name")),     # hyphenated "Exporter-1"
+    ("2.A.13", ("uptake", "tcdb_name")),     # plural "importers"
+    ("2.A.14", ("unknown", None)),           # whole word: "importance" is not "import"
+    ("2.A.15.1.1", ("export", "tcdb_name")), # mixed subfamily name skipped -> family
+    ("2.A", ("unknown", None)),              # subclass names are never used
+    ("2", ("unknown", None)),
+    ("3", ("unknown", None)),
+    ("9.Z.9", ("unknown", None)),            # not in the hierarchy
+])
+def test_tcdb_direction(tc, expected):
+    assert tu.tcdb_direction(tc, _DIR_H) == expected
+
+
+def test_tcdb_direction_nearest_name_wins():
+    h = {"2": {"name": "", "level": 0, "parent": None},
+         "2.A": {"name": "", "level": 1, "parent": "2"},
+         "2.A.7": {"name": "Drug efflux family", "level": 2, "parent": "2.A"},
+         "2.A.7.1": {"name": "Sugar UPTAKE subfamily", "level": 3, "parent": "2.A.7"},
+         "2.A.7.1.1": {"name": "", "level": 4, "parent": "2.A.7.1"}}
+    assert tu.tcdb_direction("2.A.7.1.1", h) == ("uptake", "tcdb_name")
+    assert tu.tcdb_direction("2.A.7", h) == ("export", "tcdb_name")

@@ -27,23 +27,21 @@ cache/data/tcdb/tcdb_names.json, built separately by
 `python -m multiomics_kg.download.scrape_tcdb_names` (T6) — step 6 itself
 never scrapes.
 
-TCDB substrate rollup runs in three phases:
+TCDB pruning + substrates (TCDB cleanup, project 3a):
 
-  rollup → prune → resolve
+  seeds → prune → range systems → system substrates → resolve
 
-  1. `_compute_subtree_substrate_strings` walks the FULL hierarchy bottom-up
-     and unions raw `CHEBI:NNNN;name` strings from every tc_specificity
-     descendant per TC ID. No MNX dependency.
-  2. `_prune_tcdb` filters the hierarchy to the gene-reachable subhierarchy
-     (above + below each gene-annotated seed).
-  3. The rollup is filtered to kept TC IDs, the surviving distinct substrate
-     strings are resolved through MNX once via `_resolve_substrate_strings`,
-     and per-kept primary lists are mapped back. The adapter emits one
-     Tcdb_family_transports_metabolite edge per (kept_tc_id, primary_id) pair.
-
-Doing the rollup pre-prune ensures every kept ancestor carries substrates from
-ALL its TCDB descendants, not just the gene-annotated subset (an earlier
-post-prune rollup undercounted ancestor substrates by ~950 edges).
+  1. Seeds = every TC id a gene edge points at: `transporter_classification`
+     (eggNOG ∪ diamond tiers) ∪ `tcdb_best_hit_ids` (diamond best-hit systems).
+  2. `_prune_tcdb` keeps the seeds + their ancestors (gene-anchored nodes).
+  3. `_add_range_systems` adds every tc_system with curated substrates under a
+     kept family, + its ancestors (range-only nodes, gene_count = 0), so walking
+     a family's hierarchy returns TCDB's full substrate range.
+  4. `_system_substrate_strings` takes each kept tc_system's OWN
+     `substrate_classes` (no roll-up onto ancestors); roles are partitioned out
+     and the molecule strings are resolved through MNX once via
+     `_resolve_substrate_strings`. The result is `system_substrates`
+     ({tc_system: [primary, ...]}) — the transport part of the compound set.
 
 Usage:
     uv run python -m multiomics_kg.download.build_kegg_metabolism_xrefs [--force] [--refetch-raw]
@@ -90,7 +88,7 @@ from multiomics_kg.utils.metabolite_identity.paper import Override, PaperTable, 
 from multiomics_kg.utils.metabolite_identity.pipeline import (
     Step6Inputs, Step6Paths, render_outputs, run_identity_stages)
 from multiomics_kg.utils.metabolite_identity.roles import (
-    build_role_hierarchy, build_subtree_roles, partition_role_strings, role_node_id)
+    build_role_hierarchy, build_system_roles, partition_role_strings, role_node_id)
 from multiomics_kg.utils.paperconfig_utils import iter_metabolite_assays_tables, load_all_paperconfigs
 from multiomics_kg.download.download_metabolism_reference import download_all
 from multiomics_kg.download.refresh_go_release import refresh_go_release
@@ -173,7 +171,7 @@ def _warn_unscraped_families(kept_ids: set[str], names_path: Path) -> list[str]:
         if needed:
             log.warning(
                 f"  cache/data/tcdb/tcdb_names.json is MISSING — {len(needed)} "
-                f"families' subfamily/specificity nodes will render as bare TC "
+                f"families' subfamily/system nodes will render as bare TC "
                 f"ids. Run: uv run python -m multiomics_kg.download.scrape_tcdb_names"
             )
         return sorted(needed)
@@ -189,27 +187,24 @@ def _warn_unscraped_families(kept_ids: set[str], names_path: Path) -> list[str]:
     return missing
 
 
-def _warn_unnamed_best_hits(best_hit_tcids: set[str], names_path: Path) -> tuple[list[str], list[str]]:
-    """Report-only: diamond best-hit systems with no entry in tcdb_names.json (their
-    `best_hit_names` fall back to the TCID). Returns (ids whose family was never scraped —
-    a scraper top-up fixes these, ids whose family page was scraped but does not name them —
-    usually retired upstream since the diamond FASTA snapshot; a top-up cannot fix these)."""
-    names, scraped = _load_tcdb_names(names_path)
-    scraped = set(scraped)
-    missing = sorted(t for t in best_hit_tcids if t not in names)
-    unscraped = [t for t in missing if ".".join(t.split(".")[:3]) not in scraped]
-    not_on_page = [t for t in missing if ".".join(t.split(".")[:3]) in scraped]
-    if unscraped:
+def _is_system(tc_id: str) -> bool:
+    """A TCDB system (level_kind ``tc_system``) is exactly a 5-part TC id. Structural, so a
+    committed hierarchy that predates the level_kind rename is read the same way."""
+    return len(tc_id.split(".")) == 5
+
+
+def _warn_unnamed_systems(kept_ids: set[str], hierarchy: dict) -> int:
+    """Report-only: kept tc_system nodes whose ``name`` is missing or equals the TC id (they
+    render as the bare TCID). Run the name scraper over the new kept scope, then step 6
+    ``--force``, to name them. Returns the count."""
+    unnamed = sorted(tc for tc in kept_ids if _is_system(tc)
+                     and (hierarchy.get(tc, {}).get("name") or tc) == tc)
+    if unnamed:
         log.warning(
-            f"  {len(unscraped)} best-hit TCDB systems sit in families tcdb_names.json has not "
-            f"scraped (e.g. {', '.join(unscraped[:5])}); best_hit_names falls back to the TCID. "
-            f"Top-up: uv run python -m multiomics_kg.download.scrape_tcdb_names")
-    if not_on_page:
-        log.info(
-            f"  {len(not_on_page)} best-hit TCDB systems are not named on their (scraped) family "
-            f"page (e.g. {', '.join(not_on_page[:5])}) — likely retired upstream since the diamond "
-            f"FASTA snapshot; best_hit_names falls back to the TCID (a top-up will not help).")
-    return unscraped, not_on_page
+            f"  {len(unnamed)} kept TCDB systems have no name (e.g. {', '.join(unnamed[:5])}); "
+            f"they render as the bare TCID. Re-scrape: uv run python -m "
+            f"multiomics_kg.download.scrape_tcdb_names, then re-run step 6 with --force.")
+    return len(unnamed)
 
 
 def _parse_tcdb_families(path: Path) -> dict[str, str]:
@@ -241,7 +236,7 @@ def _parse_tcdb_superfamilies(path: Path) -> list[tuple[str, str, str, str, str]
 
 
 def _parse_tcdb_substrates(path: Path) -> dict[str, list[str]]:
-    """Parse substrates.tsv → {tcid_specificity: ['CHEBI:N;name', ...]}.
+    """Parse substrates.tsv → {tc_system: ['CHEBI:N;name', ...]}.
 
     Substrate column is pipe-separated 'CHEBI:N;name|CHEBI:N;name'. The full
     string is preserved (CHEBI: prefix included) so downstream MNX resolution
@@ -300,7 +295,7 @@ def build_tcdb_hierarchy(
       - 3-part family IDs in families.tsv (unconditional — every documented
         family lands in the hierarchy regardless of whether it has a curated
         5-part child).
-      - 5-part specificity IDs in {superfamilies.tsv col0, substrates.tsv,
+      - 5-part system IDs in {superfamilies.tsv col0, substrates.tsv,
         acc2tcid.tsv}. acc2tcid is the broadest catalog and previously dropped
         ~3K TCIDs that genes are annotated against.
 
@@ -367,13 +362,13 @@ def build_tcdb_hierarchy(
                 "parent": fam,
             }
 
-    def ensure_specificity(tcid: str, subfam: str) -> None:
+    def ensure_system(tcid: str, subfam: str) -> None:
         if tcid in h:
             return
         node: dict = {
             "name": names.get(tcid, {}).get("name", ""),
             "level": 4,
-            "level_kind": "tc_specificity",
+            "level_kind": "tc_system",
             "parent": subfam,
         }
         desc = names.get(tcid, {}).get("description", "")
@@ -415,7 +410,7 @@ def build_tcdb_hierarchy(
         ensure_subclass(subcls, cls)
         ensure_family(fam, subcls)
         ensure_subfamily(subfam, fam)
-        ensure_specificity(tcid, subfam)
+        ensure_system(tcid, subfam)
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(h, indent=2, sort_keys=True))
@@ -447,7 +442,8 @@ def _build_tcdb_hierarchy(cache_root: Path) -> int:
 def _gene_reachable_sets(raw: dict) -> dict:
     """Walk all strains to compute the gene-reachable {KOs, reactions, pathways, compounds, TCDB IDs}.
 
-    Returns a dict with keys 'kos', 'rxns', 'cpds', 'pws', 'tcdb_ids', 'tcdb_best_hit_ids' (sets) plus
+    Returns a dict with keys 'kos', 'rxns', 'cpds', 'pws', 'tcdb_ids', 'tcdb_best_hit_ids',
+    'tcdb_seed_ids' (sets; seeds = tcdb_ids ∪ tcdb_best_hit_ids, what TCDB pruning starts from) plus
     'rxn_genes' ({reaction: {"{data_dir}:{locus_tag}", ...}}, the per-reaction gene keys
     stage-D catalyst counts are taken from).
     Pathway set is KO ∪ Rxn-reachable (Option B).
@@ -455,7 +451,7 @@ def _gene_reachable_sets(raw: dict) -> dict:
     kos: set[str] = set()
     rxns: set[str] = set()
     tcdb_ids: set[str] = set()
-    tcdb_best_hit_ids: set[str] = set()     # best_hit_v1 systems: never seed pruning
+    tcdb_best_hit_ids: set[str] = set()     # diamond best-hit systems (seed pruning too)
     rxn_genes: dict[str, set[str]] = {}
     for row in load_genome_rows():
         genes = load_gene_annotations(row["data_dir"])
@@ -495,7 +491,8 @@ def _gene_reachable_sets(raw: dict) -> dict:
         f"{len(tcdb_ids)} TCDB IDs, {len(tcdb_best_hit_ids)} diamond best-hit TCDB systems"
     )
     return {"kos": kos, "rxns": rxns, "cpds": cpds, "pws": pws, "tcdb_ids": tcdb_ids,
-            "tcdb_best_hit_ids": tcdb_best_hit_ids, "rxn_genes": rxn_genes}
+            "tcdb_best_hit_ids": tcdb_best_hit_ids,
+            "tcdb_seed_ids": tcdb_ids | tcdb_best_hit_ids, "rxn_genes": rxn_genes}
 
 
 # ── Hierarchy parents ─────────────────────────────────────────────────────────
@@ -742,23 +739,9 @@ def _prune_tcdb(
     Seeds with no resolvable ancestor are dropped and logged as a warning at
     the call site.
 
-    **No downward walk.** An earlier version also walked *down* to every
-    tc_specificity leaf under each seed, so 528 gene-annotated TC IDs expanded to
-    12,902 nodes — 94.5% of which had `gene_count = 0` (10,292 of them
-    tc_specificity). That arm existed so substrate information on the leaves stayed
-    reachable, but it duplicates work `_compute_subtree_substrate_strings` already
-    does: the rollup is computed over the FULL hierarchy pre-pruning, so every kept
-    ancestor already carries the union of its descendants' substrates. Keeping the
-    leaves as well was a second mechanism for the same goal, and it is what forced
-    the `is_promiscuous` warning flag onto consumers.
-
-    Tradeoff: `level_kind = 'tc_specificity'` now selects the specificity nodes genes
-    actually annotate, rather than every specificity node in a reachable family.
-
-    Substrate rollup is intentionally NOT done here. The full subtree-substrate
-    map is computed pre-pruning (`_compute_subtree_substrate_strings`); the caller
-    filters that map to `kept` and resolves the surviving substrate strings via
-    MNX. This separates structural pruning from semantic enrichment.
+    **No downward walk from seeds.** An earlier version walked down to every leaf under
+    each seed (12,902 nodes, 94.5% gene-less). The substrate range of a kept family is now
+    added explicitly and only where TCDB curates substrates — see `_add_range_systems`.
     """
     kept: set[str] = set()
     parent_of = {tc: data.get("parent") for tc, data in hierarchy.items()}
@@ -795,40 +778,37 @@ def _prune_tcdb(
     return kept, seed_aliases
 
 
-def _compute_subtree_substrate_strings(hierarchy: dict) -> dict[str, set[str]]:
-    """Bottom-up DFS over the FULL hierarchy: for each TC ID, return the union
-    of `substrate_classes` strings (raw 'CHEBI:NNNN;name') from every
-    tc_specificity descendant (including self if the node is itself a leaf).
+def _add_range_systems(hierarchy: dict, kept: set[str]) -> tuple[set[str], set[str]]:
+    """Add the substrate range of every kept family (spec 2026-10-22 §5.4 step 3).
 
-    Pure structural rollup — no MNX dependency. Caller filters the result to
-    kept TC IDs after pruning, then resolves the (smaller) string union via
-    `_resolve_substrate_strings`. Doing the rollup pre-prune ensures ancestor
-    nodes capture substrates from ALL their TCDB descendants, not just the
-    gene-annotated subset.
+    Every tc_system with non-empty ``substrate_classes`` whose 3-part family is in ``kept``
+    is added, with its ancestors. Returns ``(kept_with_range, range_only)``; ``range_only``
+    is the nodes added here (gene_count = 0 in the KG). ``kept`` is not mutated.
     """
-    parent_of = {tc: e.get("parent") for tc, e in hierarchy.items()}
-    children_of: dict[str, list[str]] = {}
-    for tc, parent in parent_of.items():
-        if parent is not None:
-            children_of.setdefault(parent, []).append(tc)
+    out = set(kept)
+    for tc, entry in hierarchy.items():
+        if not _is_system(tc) or not entry.get("substrate_classes"):
+            continue
+        if ".".join(tc.split(".")[:3]) not in kept:
+            continue
+        cur: str | None = tc
+        while cur is not None and cur in hierarchy and cur not in out:
+            out.add(cur)
+            cur = hierarchy[cur].get("parent")
+    return out, out - kept
 
-    cache: dict[str, set[str]] = {}
 
-    def dfs(node: str) -> set[str]:
-        if node in cache:
-            return cache[node]
-        entry = hierarchy.get(node, {})
-        result: set[str] = set()
-        if entry.get("level_kind") == "tc_specificity":
-            subs = entry.get("substrate_classes")
-            if subs:
-                result.update(subs)
-        for child in children_of.get(node, []):
-            result |= dfs(child)
-        cache[node] = result
-        return result
-
-    return {tc: dfs(tc) for tc in hierarchy}
+def _system_substrate_strings(hierarchy: dict, kept: set[str]) -> dict[str, set[str]]:
+    """``{tc_system in kept: set(substrate_classes)}`` — each system's OWN raw
+    ``CHEBI:NNNN;name`` strings, non-empty only. No roll-up onto ancestors."""
+    out: dict[str, set[str]] = {}
+    for tc in kept:
+        if not _is_system(tc):
+            continue
+        subs = hierarchy.get(tc, {}).get("substrate_classes")
+        if subs:
+            out[tc] = set(subs)
+    return out
 
 
 def _resolve_substrate_strings(
@@ -1011,52 +991,6 @@ def _resolve_substrate_strings(
 
 # ── Stage D: paper candidates (spec §5.2 D) ──────────────────────────────────
 
-def _best_hit_substrate_inputs(
-    tcids: set[str],
-    full_subtree_strings: dict[str, set[str]],
-    conn: sqlite3.Connection,
-    chebi: ChebiIndex,
-    known_kegg: set[str],
-) -> tuple[dict[str, list[tuple[str, str]]], dict[str, str]]:
-    """best_hit_v1 (spec 2026-10-18-tcdb-diamond-best-hit-design.md §5): each best-hit
-    5-part system's OWN substrate strings → [(primary_or_role_id, TCDB name), ...].
-
-    Resolved like every TCDB substrate (role partition, secondary → primary ChEBI, MNX,
-    KEGG re-key) but with a fresh ``rekeys`` dict, so the main build's rekeys / compound
-    props / kegg_data are untouched. Unfiltered; a ChEBI id MNX cannot resolve keeps its
-    primary ``chebi:`` CURIE (raw CURIE when ChEBI does not know it). ChEBI lookups are
-    tracked, so the touched terms join the committed ChEBI cache. Returns the map (TCs
-    without substrates absent) and the private rekeys (for logging).
-    """
-    per_tc = {tc: full_subtree_strings.get(tc, set()) for tc in sorted(tcids)}
-    all_strings = set().union(*per_tc.values()) if per_tc else set()
-    molecules, role_map = partition_role_strings(all_strings, chebi)
-    bh_rekeys: dict[str, str] = {}
-    s2p: dict[str, str] = {}
-    if molecules:
-        s2p, _props = _resolve_substrate_strings(molecules, conn, chebi=chebi, rekeys=bh_rekeys,
-                                                 known_kegg=known_kegg)
-    out: dict[str, list[tuple[str, str]]] = {}
-    for tc, strings in per_tc.items():
-        pairs: dict[str, str] = {}
-        for sub in sorted(strings):
-            head, _, name = sub.partition(";")
-            prefix, _, local = head.partition(":")
-            if sub in role_map:
-                sid = role_map[sub]
-            elif sub in s2p:
-                sid = s2p[sub]
-            elif prefix.strip().upper() == "CHEBI" and local.strip():
-                p = chebi.primary(local.strip())
-                sid = f"chebi:{(p or local.strip()).split(':')[-1]}"
-            else:
-                continue
-            pairs.setdefault(sid, name.strip() or sid)
-        if pairs:
-            out[tc] = sorted(pairs.items())
-    return out, bh_rekeys
-
-
 def _mnxm_primary(mnxm: str, conn: sqlite3.Connection, chebi: ChebiIndex,
                   rekeys: dict[str, str], known_kegg: set[str] | None = None) -> str:
     """Node id for an MNXM: its MNX KEGG alias, else the KEGG xref of one of its ChEBI
@@ -1233,7 +1167,7 @@ def _fold_substrates_into_kegg_data(
          kegg_data['additional_compounds'] with evidence_sources=['transport'].
 
     `substrate_primaries` is the flat union of every primary ID appearing in
-    any kept TC ID's subtree rollup.
+    any kept tc_system's own substrates (system_substrates).
 
     GO transport targets (go-plus 'has primary input', spec 2026-10-18) ride the same way
     with their own value: compounds in `go_kegg_cpds` get 'go_transport' appended; non-KEGG
@@ -1420,8 +1354,8 @@ def _tcdb_bridges(cache_root: Path, hierarchy: dict, kept: set[str], previous: d
     fallback). Raises ``RuntimeError`` rather than lose a committed bridge — before any
     stage-P write, so a failure writes nothing."""
     # Cross-ontology bridges. TCDB publishes curated Pfam→TC and GO→TC maps at
-    # 5-part specificity depth; roll each onto the nearest surviving node
-    # (same shape as subtree_substrates). Semantics: "this TC family's curated
+    # 5-part system depth; roll each onto the nearest node kept (gene-anchored
+    # and range-only alike). Semantics: "this TC family's curated
     # reference proteins carry this domain / GO annotation" — a composition
     # statement about the family, NOT a rule for classifying the xref.
     from multiomics_kg.utils.tcdb_utils import (
@@ -1475,6 +1409,16 @@ def _tcdb_bridges(cache_root: Path, hierarchy: dict, kept: set[str], previous: d
                 f"{len(tcdb_bridges[kind])} kept node(s) from the committed "
                 f"tcdb_pruned.json. Re-run with --refetch-raw once tcdb.org is back."
             )
+            # The previous file only bridges the nodes IT kept; nodes kept now but not then
+            # (e.g. range-only systems, when the previous file predates them) get none.
+            prev_kept = set(previous.get("kept_tcdb_ids") or prior)
+            uncovered = kept - prev_kept
+            if uncovered:
+                log.warning(
+                    f"  TCDB {kind}→TC fallback: the committed tcdb_pruned.json predates "
+                    f"{len(uncovered)} kept TCDB node(s) (e.g. {', '.join(sorted(uncovered)[:5])}) "
+                    f"— they get no {kind} bridge (range-only bridges missing) until the map "
+                    f"is available again.")
         else:
             raise RuntimeError(
                 f"TCDB {kind}→TC map is unavailable at {dest} and the committed "
@@ -1698,15 +1642,20 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         catalysis_cpds = catalysis_sets["cpds"]
         catalysis_pws = catalysis_sets["pws"]
 
-        log.info("Loading TCDB hierarchy + computing full subtree-substrate rollup (no MNX) ...")
+        log.info("Loading TCDB hierarchy ...")
         hierarchy = json.loads(
             (cache_root / "tcdb" / "tcdb_hierarchy.json").read_text()
         )
-        full_subtree_strings = _compute_subtree_substrate_strings(hierarchy)
 
-        log.info("Pruning TCDB hierarchy ...")
-        kept, seed_aliases = _prune_tcdb(hierarchy, catalysis_sets["tcdb_ids"])
+        log.info("Pruning TCDB hierarchy (seeds: eggNOG ∪ diamond tiers ∪ diamond best hits) ...")
+        anchored, seed_aliases = _prune_tcdb(hierarchy, catalysis_sets["tcdb_seed_ids"])
+        kept, range_only = _add_range_systems(hierarchy, anchored)
+        log.info(f"  TCDB kept {len(kept)} nodes: {len(anchored)} gene-anchored "
+                 f"(seeds + ancestors), {len(range_only)} range-only "
+                 f"({sum(1 for t in range_only if _is_system(t))} substrate-bearing systems "
+                 f"under kept families, + ancestors)")
         _warn_unscraped_families(kept, cache_root / "tcdb" / "tcdb_names.json")
+        _warn_unnamed_systems(kept, hierarchy)
         upgraded = {s: a for s, a in seed_aliases.items() if a}
         dropped = sorted(s for s, a in seed_aliases.items() if not a)
         if upgraded:
@@ -1723,11 +1672,9 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
                 f"Likely retired TCDB IDs in eggNOG annotations."
             )
 
-        # Filter rollup to kept TC IDs; collect distinct substrate strings to resolve
-        subtree_strings: dict[str, set[str]] = {tc: full_subtree_strings.get(tc, set()) for tc in kept}
-        all_substrate_strings: set[str] = set()
-        for s in subtree_strings.values():
-            all_substrate_strings |= s
+        # Each kept system's OWN substrate strings (no roll-up onto ancestors)
+        system_strings = _system_substrate_strings(hierarchy, kept)
+        all_substrate_strings: set[str] = set().union(*system_strings.values()) if system_strings else set()
 
         # A — ChEBI
         chebi, chebi_from_raw = _load_chebi(cache_root, refetch_raw)
@@ -1749,7 +1696,7 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         # C — roles out of the substrate strings, before MNX
         molecule_strings, role_map = partition_role_strings(all_substrate_strings, chebi)
         chemical_roles = build_role_hierarchy(set(role_map.values()), chebi)
-        subtree_roles = build_subtree_roles(subtree_strings, role_map)
+        system_roles = build_system_roles(system_strings, role_map)
         role_of_old = {}
         with chebi.untracked():          # baseline-only lookups never shape the ChEBI cache
             for old in prev_kegg.get("additional_compounds", {}):
@@ -1773,22 +1720,16 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         string_to_primary, compound_props = _resolve_substrate_strings(
             molecule_strings, conn, chebi=chebi, rekeys=rekeys, known_kegg=known_kegg,
             legacy=old_string_to_primary)
-        subtree_substrates: dict[str, list[str]] = {}
-        for tc, strings in subtree_strings.items():
+        system_substrates: dict[str, list[str]] = {}
+        for tc, strings in sorted(system_strings.items()):
             primaries = {string_to_primary[s] for s in strings if s in string_to_primary}
             if primaries:
-                subtree_substrates[tc] = sorted(primaries)
-        distinct_substrate_primaries = {p for ids in subtree_substrates.values() for p in ids}
+                system_substrates[tc] = sorted(primaries)
+        distinct_substrate_primaries = {p for ids in system_substrates.values() for p in ids}
+        log.info(f"  system substrates: {len(system_substrates)} systems, "
+                 f"{len(distinct_substrate_primaries)} distinct primaries; "
+                 f"{len(system_roles)} systems with role substrates")
 
-        # best_hit_v1 — diamond best-hit systems' own substrates (separate resolve: its own
-        # rekeys, never feeds kegg_data / compound_props / the main rekeys).
-        best_hit_tcids = catalysis_sets.get("tcdb_best_hit_ids", set())
-        best_hit_substrates, bh_rekeys = _best_hit_substrate_inputs(
-            best_hit_tcids, full_subtree_strings, conn, chebi, known_kegg)
-        log.info(f"  best-hit systems: {len(best_hit_tcids)} TCIDs, {len(best_hit_substrates)} with "
-                 f"substrates ({sum(len(v) for v in best_hit_substrates.values())} pairs, "
-                 f"{len(bh_rekeys)} private KEGG re-keys)")
-        _warn_unnamed_best_hits(best_hit_tcids, cache_root / "tcdb" / "tcdb_names.json")
         substrate_kegg_cpds = {p[len("kegg.compound:"):] for p in distinct_substrate_primaries
                                if p.startswith("kegg.compound:")}
         cpd_to_pw = raw.get("compound_to_pathways", {})
@@ -1844,14 +1785,13 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
     inp = Step6Inputs(
         table=table,
         kegg_rest={k: kegg_data[k] for k in ("kos", "pathways", "subcategories", "categories", "reactions")},
-        subtree_substrates=subtree_substrates, chemical_roles=chemical_roles, subtree_roles=subtree_roles,
+        system_substrates=system_substrates, chemical_roles=chemical_roles, system_roles=system_roles,
         rekeys=rekeys, role_of_old=role_of_old, tables=tables, paper_overrides=paper_overrides,
-        name_candidates=paper.name_candidates, lock=lock, lumping_pin=prev_pruned.get("lumping_pin"),
+        name_candidates=paper.name_candidates, lock=lock,
         identity_overrides=load_identity_overrides(IDENTITY_OVERRIDES_FILE), chebi=chebi,
         chebi_from_raw=chebi_from_raw, rxn_genes=catalysis_sets["rxn_genes"],
         compound_to_pathways=cpd_to_pw, base_pathways=catalysis_pws | transport_pws,
-        brite_raw=brite_raw, brite_committed=brite_committed, tcdb_kept=kept,
-        tcdb_levels={t: int(hierarchy.get(t, {}).get("level", 0)) for t in kept},
+        brite_raw=brite_raw, brite_committed=brite_committed,
         tcdb_static={"kept_tcdb_ids": sorted(kept), "pfam_bridge": tcdb_bridges["pfam"],
                      "go_bridge": tcdb_bridges["go"], "seed_aliases": dict(sorted(upgraded.items()))},
         previous_ids=previous_ids, old_resolved=old_resolved, today=today,
@@ -1863,8 +1803,7 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         go_substrates=go["go_substrates"], go_roles=go["go_roles"],
         go_excluded_primaries=go["excluded_primaries"], go_filter_primaries=go["filter_primaries"],
         go_release=go_cache["release"], go_distribution_input=go_gene_terms, go_drops=go["drops"],
-        go_axioms_in_corpus=go["axioms_in_corpus"], go_unresolved_ids=go["unresolved_ids"],
-        best_hit_substrates=best_hit_substrates)
+        go_axioms_in_corpus=go["axioms_in_corpus"], go_unresolved_ids=go["unresolved_ids"])
     out = run_identity_stages(inp)               # raises Step6ValidationError → nothing written
     files = render_outputs(out, Step6Paths(
         kegg_data=KEGG_DATA_FILE, tcdb_pruned=prev_pruned_path, brite_dir=KEGG_CACHE_DIR,

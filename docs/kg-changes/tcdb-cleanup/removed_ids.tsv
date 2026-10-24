@@ -1,0 +1,125 @@
+# Measured on the rebuilt graph 2026-10-23 (feat/tcdb-cleanup c129ffc8).
+change	id	name
+metabolite_removed	chebi:135946	sincalide
+metabolite_removed	chebi:18179	phosphoinositide
+metabolite_removed	chebi:25899	pentitol
+metabolite_removed	chebi:26333	prostaglandin
+metabolite_removed	chebi:26739	sphingolipid
+metabolite_removed	chebi:26995	thromboxane
+metabolite_removed	chebi:30867	dihydroorotate
+metabolite_removed	chebi:31624	fluorescein (lactone form)
+metabolite_removed	chebi:33697	ribonucleic acid
+metabolite_removed	chebi:35741	glycerolipid
+metabolite_removed	chebi:37024	2-aminoadipic acid
+metabolite_removed	chebi:37530	phosphatidylinositol 4-phosphate
+metabolite_removed	chebi:38092	cardenolide glycoside
+metabolite_removed	chebi:45422	propionamide
+metabolite_removed	chebi:48377	imidic acid
+metabolite_removed	chebi:48545	pentapeptide
+metabolite_removed	chebi:51240	propidium iodide
+metabolite_removed	chebi:61417	TDP(3-)
+metabolite_removed	chebi:63827	bromosulfophthalein sodium
+metabolite_removed	chebi:67208	double-stranded RNA
+metabolite_removed	chebi:72695	organic molecule
+metabolite_removed	chebi:74253	mycolate ester
+metabolite_removed	chebi:77845	7-aminocholesterol
+metabolite_removed	chebi:79389	monovalent inorganic anion
+metabolite_removed	chebi:87279	(22E,24S)-24-methylcholesta-5,7,14,22-tetraen-3beta-ol
+metabolite_removed	chebi:8885	rocuronium bromide
+metabolite_removed	chebi:9753	troglitazone
+metabolite_removed	chebi:9927	valsartan
+metabolite_removed	kegg.compound:C00182	Glycogen
+metabolite_removed	kegg.compound:C00211	Collagen
+metabolite_removed	kegg.compound:C00319	Sphingosine
+metabolite_removed	kegg.compound:C00639	Prostaglandin F2alpha
+metabolite_removed	kegg.compound:C00696	Prostaglandin D2
+metabolite_removed	kegg.compound:C00815	Citramalate
+metabolite_removed	kegg.compound:C00820	D-Threonine
+metabolite_removed	kegg.compound:C01443	Ouabain
+metabolite_removed	kegg.compound:C01693	L-Dopachrome
+metabolite_removed	kegg.compound:C01697	Galactitol
+metabolite_removed	kegg.compound:C01905	D-Asparagine
+metabolite_removed	kegg.compound:C01925	Hygromycin B
+metabolite_removed	kegg.compound:C01960	Tetrapeptide
+metabolite_removed	kegg.compound:C02110	11-cis-Retinal
+metabolite_removed	kegg.compound:C02341	trans-Aconitate
+metabolite_removed	kegg.compound:C02656	Pimelate
+metabolite_removed	kegg.compound:C04185	5,6-Dihydroxyindole-2-carboxylate
+metabolite_removed	kegg.compound:C04216	all-trans-Heptaprenyl diphosphate
+metabolite_removed	kegg.compound:C04549	1-Phosphatidyl-1D-myo-inositol 3-phosphate
+metabolite_removed	kegg.compound:C04637	1-Phosphatidyl-D-myo-inositol 4,5-bisphosphate
+metabolite_removed	kegg.compound:C04663	Acadesine
+metabolite_removed	kegg.compound:C05443	Vitamin D3
+metabolite_removed	kegg.compound:C05963	Thromboxane B2
+metabolite_removed	kegg.compound:C06099	(R)-Limonene
+metabolite_removed	kegg.compound:C06104	Adipate
+metabolite_removed	kegg.compound:C06604	Parathion
+metabolite_removed	kegg.compound:C06834	Atorvastatin
+metabolite_removed	kegg.compound:C07966	Cerivastatin
+metabolite_removed	kegg.compound:C10128	Arecaidine
+metabolite_removed	kegg.compound:C10149	Guvacine
+metabolite_removed	kegg.compound:C10164	Picolinic acid
+metabolite_removed	kegg.compound:C11016	Diphenylamine
+metabolite_removed	kegg.compound:C11684	MET-enkephalin
+metabolite_removed	kegg.compound:C13694	Isoguvacine
+metabolite_removed	kegg.compound:C14592	N-Methyl-N^-nitro-N-nitrosoguanidine
+metabolite_removed	kegg.compound:C15485	2^-Deoxymugineic acid
+metabolite_removed	kegg.compound:C16588	2-Oxopimelate
+metabolite_loses_transport_tag	chebi:39447	pyrimidines
+metabolite_loses_transport_tag	kegg.compound:C00006	NADP+
+metabolite_loses_transport_tag	kegg.compound:C00020	AMP
+metabolite_loses_transport_tag	kegg.compound:C00053	3^-Phosphoadenylyl sulfate
+metabolite_loses_transport_tag	kegg.compound:C00054	Adenosine 3^,5^-bisphosphate
+metabolite_loses_transport_tag	kegg.compound:C00081	ITP
+metabolite_loses_transport_tag	kegg.compound:C00104	IDP
+metabolite_loses_transport_tag	kegg.compound:C00125	Ferricytochrome c
+metabolite_loses_transport_tag	kegg.compound:C00144	GMP
+metabolite_loses_transport_tag	kegg.compound:C00169	Carbamoyl phosphate
+metabolite_loses_transport_tag	kegg.compound:C00215	Nucleotide
+metabolite_loses_transport_tag	kegg.compound:C00224	Adenylyl sulfate
+metabolite_loses_transport_tag	kegg.compound:C00322	2-Oxoadipate
+metabolite_loses_transport_tag	kegg.compound:C00369	Starch
+metabolite_loses_transport_tag	kegg.compound:C00399	Ubiquinone
+metabolite_loses_transport_tag	kegg.compound:C00459	dTTP
+metabolite_loses_transport_tag	kegg.compound:C00486	Bilirubin
+metabolite_loses_transport_tag	kegg.compound:C00489	Glutarate
+metabolite_loses_transport_tag	kegg.compound:C00506	L-Cysteate
+metabolite_loses_transport_tag	kegg.compound:C00588	Choline phosphate
+metabolite_loses_transport_tag	kegg.compound:C00606	3-Sulfino-L-alanine
+metabolite_loses_transport_tag	kegg.compound:C00668	alpha-D-Glucose 6-phosphate
+metabolite_loses_transport_tag	kegg.compound:C00882	Dephospho-CoA
+metabolite_loses_transport_tag	kegg.compound:C00965	1,3-beta-D-Glucan
+metabolite_loses_transport_tag	kegg.compound:C01021	Aromatic amino acid
+metabolite_loses_transport_tag	kegg.compound:C01438	Methane
+metabolite_loses_transport_tag	kegg.compound:C01921	Glycocholate
+metabolite_loses_transport_tag	kegg.compound:C02191	Protoporphyrin
+metabolite_loses_transport_tag	kegg.compound:C03284	L-3-Aminoisobutanoate
+metabolite_loses_transport_tag	kegg.compound:C05533	Oxaloglutarate
+metabolite_loses_transport_tag	kegg.compound:C05770	Coproporphyrin III
+chemical_role_removed	chebi.role:25078	luciferin
+chemical_role_removed	chebi.role:33286	agrochemical
+chemical_role_removed	chebi.role:38155	phytosiderophore
+chemical_role_removed	chebi.role:48706	antagonist
+chemical_role_removed	chebi.role:50846	immunomodulator
+chemical_role_removed	chebi.role:52215	photochemical role
+chemical_role_removed	chebi.role:52216	photobiochemical role
+chemical_role_removed	chebi.role:76531	odorant receptor antagonist
+chemical_role_removed	chebi.role:82655	animal growth promotant
+chemical_role_loses_transport_route	chebi.role:24621	hormone
+chemical_role_loses_transport_route	chebi.role:24869	ionophore
+chemical_role_loses_transport_route	chebi.role:33284	nutrient
+metabolite_class_removed	kegg.brite:br08001.A2.B5.C3	Thromboxanes
+metabolite_class_removed	kegg.brite:br08001.A8.B1.C19	Enkephalin
+metabolite_class_removed	kegg.brite:br08002.A1.B3.C3	FA0303 Thromboxanes
+metabolite_class_removed	kegg.brite:br08002.A3.B7	GP07 Glycerophosphoinositol monophosphates
+metabolite_class_removed	kegg.brite:br08002.A3.B7.C1	GP0701 Diacylglycerophosphoinositol monophosphates
+metabolite_class_removed	kegg.brite:br08002.A3.B8	GP08 Glycerophosphoinositol bisphosphates
+metabolite_class_removed	kegg.brite:br08002.A3.B8.C1	GP0801 Diacylglycerophosphoinositol bisphosphates
+metabolite_class_removed	kegg.brite:br08002.A4.B1.C1	SP0101 Sphing-4-enines (Sphingosines)
+metabolite_class_removed	kegg.brite:br08002.A5.B3.C2	ST0302 Vitamin D3 and derivatives
+metabolite_class_removed	kegg.brite:br08005.A1	Neuropeptides
+metabolite_class_removed	kegg.brite:br08005.A1.B4	Endogenous opioid peptide
+pathway_removed	kegg.pathway:ko00532	Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate
+pathway_removed	kegg.pathway:ko04145	Phagosome
+pathway_removed	kegg.pathway:ko04510	Focal adhesion
+metabolite_rekeyed	chebi:23899	icosanoid -> chebi:62937 (icosanoid anion)

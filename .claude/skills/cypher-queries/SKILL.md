@@ -58,7 +58,7 @@ docker exec -i deploy cypher-shell -a bolt://localhost:7687
 | `TigrRole` | `id`, `code`, `name` |
 | `Pfam` | `id` (pfam:PF*), `name` (description), `short_name` (Pfam shortname) |
 | `PfamClan` | `id` (pfam.clan:CL*), `name` (clan name) |
-| `TcdbFamily` | `id` (tcdb:1.A.1, etc.), `name`, `tcdb_id`, `level` (0-4), `level_kind` (`tc_class`/`tc_subclass`/`tc_family`/`tc_subfamily`/`tc_specificity`), `superfamily` (sparse, leaf-only), `tc_class_id` (post-import), `gene_count`, `organism_count`, `member_count`, `metabolite_count` |
+| `TcdbFamily` | `id` (tcdb:1.A.1, etc.), `name`, `tcdb_id`, `level` (0-4), `level_kind` (`tc_class`/`tc_subclass`/`tc_family`/`tc_subfamily`/`tc_system`), `superfamily` (sparse), `description` (sparse, systems), `direction` (`uptake`/`export`/`unknown`), `direction_basis` (sparse), `tc_class_id` (post-import), `gene_count` / `direct_gene_count` / `organism_count` (gate-passing edges only; 0 on range-only systems), `member_count`, `tcdb_substrate_count` |
 | `CazyFamily` | `id` (cazy:GH13, etc.), `name`, `cazy_id`, `level` (0-2), `level_kind` (`cazy_class`/`cazy_family`/`cazy_subfamily`), `gene_count`, `organism_count` |
 
 ### Additional Gene Properties (denormalized annotations)
@@ -117,9 +117,9 @@ Gene nodes carry many denormalized annotation fields beyond the key properties a
 | `Gene_has_tigr_role` | Gene → TigrRole | — |
 | `Gene_has_pfam` | Gene → Pfam | — |
 | `Pfam_in_pfam_clan` | Pfam → PfamClan | — |
-| `Gene_has_tcdb_family` | Gene → TcdbFamily | — |
+| `Gene_has_tcdb_family` | Gene → TcdbFamily, one edge per `tcdb_call` (`eggnog` / `diamond_tier` / `diamond_best_hit`) | `tcdb_call`, `tcdb_gate` (`direct`/`annotated`/`below_gate`), `sources`, `evidence`, diamond: `tier`, `identity`, `qcov`, `scov`, `evalue`, best hit: `rank`, `bitscore`, `bitscore_ratio` |
 | `Tcdb_family_is_a_tcdb_family` | TcdbFamily → TcdbFamily (child → parent) | — |
-| `Tcdb_family_transports_metabolite` | TcdbFamily → Metabolite (rolled up to every ancestor; filter `substrate_depth = 'most_specific'` for the most specific surviving transporter system per substrate — NOT `level_kind = 'tc_specificity'`, which keeps only ~4% of edges) | — |
+| `Tcdb_family_transports_metabolite` | TcdbFamily (`tc_system` only) → Metabolite, as TCDB curates it; a family's range = walk `Tcdb_family_is_a_tcdb_family` down to its systems | — |
 | `Gene_has_cazy_family` | Gene → CazyFamily (most specific observed level) | — |
 | `Cazy_family_is_a_cazy_family` | CazyFamily → CazyFamily (child → parent) | — |
 | `Biological_process_is_a_biological_process` | BiologicalProcess → BiologicalProcess | — |
@@ -572,10 +572,10 @@ RETURN node.short_name, node.name, score
 #### Substrate-driven gene queries
 
 ```cypher
-// Genes whose transporters are annotated to move calcium.
-// Substrate edges are rolled up to every ancestor TcdbFamily, so this is
-// a single-hop traversal at any level the gene is annotated at.
-MATCH (g:Gene)-[:Gene_has_tcdb_family]->(:TcdbFamily)
+// Genes placed directly on a TCDB system that moves calcium.
+// Substrate edges leave tc_system nodes only; tcdb_gate = 'direct' is the set
+// the transport-arm counts use (rank-1 best hit tier<=2, eggNOG system, tier-1 call).
+MATCH (g:Gene)-[:Gene_has_tcdb_family {tcdb_gate: 'direct'}]->(:TcdbFamily)
       -[:Tcdb_family_transports_metabolite]->(m:Metabolite)
 WHERE m.name CONTAINS 'calcium'
 RETURN DISTINCT g.locus_tag, g.product, m.name
@@ -585,17 +585,19 @@ LIMIT 50;
 #### TCDB class hierarchy filtering (using post-import tc_class_id)
 
 ```cypher
-// What does TCDB class 1 ('Channels and Pores') cover in MED4?
+// What does TCDB class 1 ('Channels and Pores') cover in MED4? (gate-passing edges)
 MATCH (g:Gene {organism_name: 'Prochlorococcus MED4'})
-      -[:Gene_has_tcdb_family]->(tf:TcdbFamily {tc_class_id: 'tcdb:1'})
-RETURN tf.tcdb_id, tf.name, tf.level_kind, count(g) AS gene_count
+      -[r:Gene_has_tcdb_family]->(tf:TcdbFamily {tc_class_id: 'tcdb:1'})
+WHERE r.tcdb_gate IN ['direct', 'annotated']
+RETURN tf.tcdb_id, tf.name, tf.level_kind, count(DISTINCT g) AS gene_count
 ORDER BY tf.level, tf.tcdb_id;
 ```
 
 #### Transport vs metabolism distinction
 
 ```cypher
-// Compounds the organism is annotated to TRANSPORT but has no metabolism for
+// Compounds TCDB lists as a substrate of a kept system but with no metabolism route
+// ('transport' does not mean a gene reaches it: use transporter_gene_count > 0 for that)
 MATCH (m:Metabolite)
 WHERE 'transport' IN m.evidence_sources
   AND NOT 'metabolism' IN m.evidence_sources
@@ -611,9 +613,9 @@ New labels: `MetaboliteClass`, `ChemicalRole`. New edges: `Metabolite_is_stereo_
 // Metabolite by any identifier (CURIE form)
 MATCH (m:Metabolite) WHERE m.id = $curie OR $curie IN m.all_identifiers RETURN m.id, m.name;
 
-// Families that transport something TCDB calls a siderophore (incl. sub-roles)
+// Systems that transport something TCDB calls a siderophore (incl. sub-roles)
 MATCH (r:ChemicalRole {name: 'siderophore'})<-[:Chemical_role_is_a_chemical_role*0..]-(sub:ChemicalRole)
-      <-[e:Tcdb_family_transports_chemical_role {substrate_depth: 'most_specific'}]-(t:TcdbFamily)
+      <-[e:Tcdb_family_transports_chemical_role]-(t:TcdbFamily)
 RETURN DISTINCT t.tcdb_id, t.name, collect(DISTINCT sub.name) AS roles;
 
 // Carbohydrates an organism has (any arm)

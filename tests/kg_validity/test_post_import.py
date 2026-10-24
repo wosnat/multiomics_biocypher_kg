@@ -1072,10 +1072,17 @@ def test_tcdb_family_member_count_populated_on_classes(run_query):
 
 
 @pytest.mark.kg
-def test_tcdb_family_metabolite_count_subtree_aggregates(run_query):
-    """At least one tc_class node has metabolite_count > 0 (some descendant has substrates)."""
+def test_tcdb_family_substrate_count_subtree_aggregates(run_query):
+    """tcdb_substrate_count is dense on every level (TCDB cleanup, replaces
+    metabolite_count) and at least one tc_class node reaches substrates through
+    its subtree's systems; a class never carries its own substrate edges."""
     rows = run_query(
-        "MATCH (cls:TcdbFamily {level_kind: 'tc_class'}) WHERE cls.metabolite_count > 0 "
+        "MATCH (t:TcdbFamily) RETURN count(t) AS n, count(t.tcdb_substrate_count) AS set_, "
+        "count(t.metabolite_count) AS old"
+    )
+    assert rows[0]["set_"] == rows[0]["n"] > 0 and rows[0]["old"] == 0
+    rows = run_query(
+        "MATCH (cls:TcdbFamily {level_kind: 'tc_class'}) WHERE cls.tcdb_substrate_count > 0 "
         "RETURN count(cls) AS n"
     )
     assert rows[0]["n"] > 0
@@ -1124,19 +1131,17 @@ def test_gene_tcdb_family_count_populated(run_query):
 
 @pytest.mark.kg
 def test_gene_annotation_types_includes_tcdb_when_qualifying_edge_present(run_query):
-    """'tcdb' appears in annotation_types iff the gene has a QUALIFYING edge.
-
-    Since diamond joined eggNOG as a second source (2026-08-06), a
-    Gene_has_tcdb_family edge alone is no longer sufficient: the tier gate admits
-    only eggNOG-sourced or tier<=2 evidence, so ~15.5K genes whose sole evidence
-    is a conservative tier-3 diamond call carry the edge without the annotation
-    type. Full both-directions coverage lives in
-    test_tcdb_cazy.py::test_annotation_types_tcdb_respects_the_tier_gate.
+    """'tcdb' appears in annotation_types iff the gene has a GATE-PASSING edge
+    (tcdb_gate IN ['direct','annotated']: eggNOG, a tier <= 2 call or a rank-1 best
+    hit with tier <= 2 — TCDB cleanup, spec 2026-10-22 §7). Tier-3 calls and
+    near-tie best hits carry the edge without the annotation type. Full
+    both-directions coverage lives in
+    test_tcdb_cazy.py::test_annotation_types_tcdb_uses_the_gate.
     """
     rows = run_query("""
         MATCH (g:Gene) WHERE EXISTS {
             MATCH (g)-[r:Gene_has_tcdb_family]->()
-            WHERE 'eggnog' IN r.sources OR r.tier <= 2
+            WHERE r.tcdb_gate IN ['direct', 'annotated']
         }
         RETURN g.annotation_types AS at LIMIT 5
     """)
@@ -1166,7 +1171,7 @@ def test_gene_metabolite_count_populated_for_genes_with_chemistry(run_query):
     the union of catalysis and transport; the catalysis arm is now
     `catalyzed_metabolite_count` (KG-SYNC-001 rename), with transport in
     `transported_metabolite_count` — so asserting the union would fail for the
-    23,137 transport-only genes.
+    transport-only genes.
     """
     rows = run_query("""
         MATCH (g:Gene)
@@ -1175,16 +1180,12 @@ def test_gene_metabolite_count_populated_for_genes_with_chemistry(run_query):
     """)
     assert rows[0]["n"] == 0, "genes reaching a metabolite via catalysis with catalyzed_metabolite_count = 0"
 
-    # Transport arm: only the gene's DEEPEST TC attachments count, so a gene whose
-    # substrate-bearing family is an ancestor of another of its attachments is
-    # legitimately 0 here — restrict the check to the deepest attachments.
+    # Transport arm (TCDB cleanup, spec 2026-10-22 §7): only DIRECT edges
+    # (tcdb_gate = 'direct', onto a tc_system) reach substrates, so a gene known
+    # only at family level is legitimately 0 here — restrict to direct systems.
     rows = run_query("""
-        MATCH (g:Gene)-[:Gene_has_tcdb_family]->(t:TcdbFamily)
-        WHERE NOT EXISTS {
-            MATCH (g)-[:Gene_has_tcdb_family]->(d:TcdbFamily)
-            WHERE (d)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t)
-        }
-          AND EXISTS { (t)-[:Tcdb_family_transports_metabolite]->(:Metabolite) }
+        MATCH (g:Gene)-[:Gene_has_tcdb_family {tcdb_gate: 'direct'}]->(t:TcdbFamily)
+        WHERE EXISTS { (t)-[:Tcdb_family_transports_metabolite]->(:Metabolite) }
         WITH DISTINCT g
         RETURN count(CASE WHEN g.transported_metabolite_count IS NULL
                             OR g.transported_metabolite_count = 0 THEN 1 END) AS n
@@ -1206,9 +1207,9 @@ def test_organism_has_metabolite_includes_transport_path(run_query):
     (organism has no Reaction touching that metabolite, but does have a TCDB
     family with substrate edge to it)."""
     rows = run_query("""
-        MATCH (o:OrganismTaxon)-[:Organism_has_metabolite]->(m:Metabolite)
-        WHERE 'transport' IN m.evidence_sources
-          AND NOT 'metabolism' IN m.evidence_sources
+        MATCH (o:OrganismTaxon)-[r:Organism_has_metabolite]->(m:Metabolite)
+        WHERE 'transport' IN r.evidence_sources
+          AND NOT 'metabolism' IN r.evidence_sources
         RETURN count(*) AS n
     """)
     assert rows[0]["n"] > 0

@@ -37,8 +37,8 @@ def test_expected_empty_vocabulary_emits_empty_values():
 
 
 def test_score_vocabulary_publishes_its_signals():
-    props = _nodes()["Gene_has_tcdb_family.evidence_score"]
-    assert props["signal_count"] == 5
+    props = _nodes()["Gene_has_merops_family.evidence_score"]
+    assert props["signal_count"] == 2
     assert "pfam_support" in props["signals"]
     assert props["min_value"] == 0.0 and props["max_value"] == 1.0
 
@@ -84,3 +84,13 @@ def test_value_descriptions_are_emitted_as_value_colon_text_in_values_order():
 
 def test_value_descriptions_are_absent_when_undescribed():
     assert "value_descriptions" not in _nodes()["InterproEntry.interpro_type"]
+
+
+def test_tcdb_trust_vocabularies_are_published():
+    nodes = _nodes()
+    for key in ("Gene_has_tcdb_family.tcdb_call", "Gene_has_tcdb_family.tcdb_gate",
+                "TcdbFamily.direction", "TcdbFamily.direction_basis"):
+        assert key in nodes, key
+        assert nodes[key]["value_descriptions"], key
+    assert "Gene_has_tcdb_family.evidence_score" not in nodes
+    assert "TcdbFamily.substrate_breadth" not in nodes

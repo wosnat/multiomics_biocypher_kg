@@ -578,10 +578,6 @@ gene:
     significant_up_count: int         # expression edges where expression_status = 'significant_up'
     significant_down_count: int       # expression edges where expression_status = 'significant_down'
     reaction_count: int               # post-import: count of Gene_catalyzes_reaction edges (KG-A1)
-    tcdb_evidence_score_max: float     # post-import: max evidence_score across this gene's
-                                      # Gene_has_tcdb_family edges (float 0-1). ADVISORY. SPARSE —
-                                      # set only when the gene has >=1 TCDB edge, so "no transporter
-                                      # evidence" stays distinct from "weak evidence".
     closest_ortholog_group_size: int  # member_count from most specific OG (lowest specificity_rank)
     closest_ortholog_genera: str[]    # genera from most specific OG
     numeric_metric_count: int                # post-import (Plan 3): distinct DMs reaching via quantifies_gene
@@ -592,22 +588,21 @@ gene:
     categorical_metric_types_observed: str[] # post-import (Plan 3): sorted distinct metric_type over classifies
     compartments_observed: str[]             # post-import (Plan 3): sorted distinct compartment over all 3 DM edge types
     # TCDB / CAZy / chemistry rollups (post-import)
-    tcdb_family_count: int                   # per TCDB-S1
+    # TCDB cleanup (2026-10-23): distinct TC nodes over the gene's gate-passing edges
+    # (tcdb_gate IN ['direct','annotated']), dropping any node that is an ancestor of
+    # another node in that set (whatever the call kind), so near-tie best hits never
+    # count as a second family.
+    tcdb_family_count: int
     cazy_family_count: int                   # per TCDB-S2
     # BREAKING (was: UNION of catalysis + transport). The two arms have very
     # different epistemics — catalysis p90 = 11, transport p90 = 554 — and
     # unioning them under one name hid which one a gene's number came from, for
     # the 23,137 genes that had transport evidence only.
     catalyzed_metabolite_count: int          # catalysis ONLY (Gene→Reaction→Metabolite); renamed from metabolite_count (KG-SYNC-001)
-    transported_metabolite_count: int        # transport arm, DEEPEST attachments only
-    # "resolved"       = the gene's deepest TC attachment resolves a substrate
-    # "family_inferred" = it bottoms out on a substrate-lumping node (e.g. ABC
-    #                     superfamily 3.A.1, 554 substrates) — use product / COG /
-    #                     function_description for the substrate instead.
-    # Absent on genes with no TCDB edge. Independent of tier/evidence: 11,871
-    # "resolved" genes are tier-3-only 2.A.x carriers, which a tier gate would
-    # wrongly discard. Categorical str, not bool.
-    transport_substrate_resolution: str
+    # transport arm (TCDB cleanup, 2026-10-23): distinct substrates of the tc_system
+    # nodes the gene points at through tcdb_gate = 'direct' edges only; no ancestor or
+    # descendant walk. (Was: DEEPEST attachments over the subtree roll-up.)
+    transported_metabolite_count: int
     # eggNOG seed ortholog match
     seed_ortholog: str                       # eggNOG seed-ortholog identifier (taxid.id format)
     seed_ortholog_evalue: float              # eggNOG seed-ortholog E-value
@@ -691,7 +686,7 @@ organism taxon:
     # three ways by the edge's evidence_sources, completing the split that
     # measured_metabolite_count already started.
     catalyzed_metabolite_count: int    # 'metabolism' (catalysis) arm; renamed from metabolite_count (KG-SYNC-001)
-    transported_metabolite_count: int  # 'transport' arm, genes' DEEPEST TC attachments only
+    transported_metabolite_count: int  # 'transport' arm: substrates of systems its genes reach via tcdb_gate='direct' edges
     reaction_count: int            # post-import: distinct reactions catalyzed by genes belonging to this organism
     measured_metabolite_count: int # post-import (Phase 2 metabolomics)
     organism_type: str   # genome_strain | treatment | reference_proteome_match
@@ -903,15 +898,17 @@ metabolite:
     kegg_functional_categories: str[] # post-import, sparse: br08001 level-0 names (was kegg_compound_categories)
     kegg_brite_classes: str[]    # post-import, sparse: "<Tree>: <class>", level 0 of the 7 other compound trees
     measured_compartments: str[] # post-import (already set; declared here for completeness)
-    evidence_sources: str[]      # 'metabolism' | 'transport' | 'metabolomics' (paper-measured; live since Phase 2)
-    # post-import: distinct transporter systems at MAXIMAL DEPTH — TcdbFamily
-    # nodes whose substrate edge carries substrate_depth='most_specific', so an ancestor
-    # is never counted alongside its own descendant. (Was tc_specificity-only,
-    # which read 0 for 83% of transported metabolites after the ancestor prune.)
+    # 'metabolism' | 'transport' | 'metabolomics' | 'go_transport'. 'transport' = TCDB
+    # lists it as a substrate of a tc_system in the KG (gene-anchored or range-only) —
+    # NOT gene reach; a metabolite can carry it with transporter_gene_count = 0.
+    evidence_sources: str[]
+    # post-import (TCDB cleanup, 2026-10-23): distinct tc_system nodes that carry the
+    # metabolite AND are the target of >= 1 tcdb_gate='direct' gene edge (gene-anchored
+    # systems only; range-only systems never count).
     transporter_count: int
     organism_count: int          # post-import
     catalyst_gene_count: int     # post-import: CATALYSIS arm only (renamed from bare gene_count, KG-SYNC-001; was catalysis ∪ transport)
-    transporter_gene_count: int  # post-import: transport arm, genes' DEEPEST TC attachments only
+    transporter_gene_count: int  # post-import: transport arm, genes with a tcdb_gate='direct' edge onto a system carrying it
     pathway_ids: list[str]       # post-import (KG-A5): distinct sorted KeggTerm.id reachable via Metabolite_in_pathway
     pathway_names: list[str]     # post-import (KG-A6): KeggTerm.name aligned index-for-index with pathway_ids
     pathway_count: int           # post-import (KG-A7): size(pathway_ids)
@@ -1327,10 +1324,16 @@ chemical role:
                                  # a lower level than one of its parents)
     level_kind: str              # chebi_role_branch | chebi_role
     all_identifiers: str[]       # chebi.role:<n> + chebi:<primary and secondary ids>
-    transporter_count: int       # post-import, subtree, most_specific edges, DISTINCT families
+    # post-import (TCDB cleanup, 2026-10-23): distinct tc_system nodes with a role edge
+    # that are the target of >= 1 tcdb_gate='direct' gene edge, over the role's is_a
+    # subtree / the role itself (gene-anchored systems only).
+    transporter_count: int
     direct_transporter_count: int
-    tcdb_family_count: int       # post-import, subtree, any depth, DISTINCT families
-    direct_tcdb_family_count: int
+    # post-import, TCDB side: distinct kept tc_system nodes with a role edge (range-only
+    # included), over the subtree / the role itself — "how many TCDB systems are curated
+    # with this role". Renamed from tcdb_family_count / direct_tcdb_family_count.
+    tcdb_system_count: int
+    direct_tcdb_system_count: int
 
 chemical role is a chemical role:
   is_a: association
@@ -1347,10 +1350,9 @@ tcdb family transports chemical role:
   source: tcdb family
   target: chemical role
   label_in_input: tcdb_family_transports_chemical_role
-  properties:
-    # "This family transports something TCDB calls <role>" — NOT a role of the family or
-    # of its metabolites. Same rollup + depth rule as tcdb_family_transports_metabolite.
-    substrate_depth: str
+  # "This system transports something TCDB calls <role>" — NOT a role of the system or
+  # of its metabolites. Leaves tc_system nodes only, one per (system, role); no
+  # properties (substrate_depth removed with the subtree roll-up, 2026-10-23).
 
 metabolite is stereo form of metabolite:
   is_a: association
@@ -1390,22 +1392,26 @@ tcdb family:
   preferred_id: tcdb
   label_in_input: tcdb family
   properties:
-    name: str               # TCDB entry name (scraped for subclass/subfamily/specificity since T6); falls back to tcdb_id when upstream has no name
+    name: str               # TCDB entry name (scraped, tcdb_names.json); falls back to tcdb_id when upstream has no name
     tcdb_id: str            # bare hierarchical ID, e.g. "1.A.1.5.2"
-    level: int              # 0=tc_class … 4=tc_specificity
-    level_kind: str
+    level: int              # 0=tc_class … 4=tc_system
+    level_kind: str         # tc_class | tc_subclass | tc_family | tc_subfamily | tc_system (was tc_specificity)
     superfamily: str        # sparse, leaf-only
-    description: str        # sparse, tc_specificity only — scraped TCDB curated text, 400-char capped (T6)
+    description: str        # sparse, tc_system only — scraped TCDB curated text, 400-char capped
+    direction: str          # dense, every level: uptake | export | unknown (TCDB-stated only; inherited downward)
+    direction_basis: str    # sparse (absent when unknown): abc_numbering | tcdb_name
     tc_class_id: str        # post-import: pointer to root tc_class (e.g. "tcdb:3"); self on tc_class
-    gene_count: int         # post-import
-    organism_count: int     # post-import
+    # post-import, subtree semantics, counted over GATE-PASSING edges only
+    # (tcdb_gate IN ['direct','annotated']) so term sizes match enrichment TERM2GENE.
+    gene_count: int
+    direct_gene_count: int
+    organism_count: int
     member_count: int       # post-import: direct child count
-    metabolite_count: int   # post-import: distinct substrate metabolites in subtree
-    direct_gene_count: int  # post-import
-    substrate_breadth: str  # dense: lumping | specific | not_assessed (pinned set, spec 2026-10-13 §3.4a; an R3 exception)
-    # is_promiscuous (deleted 2026-08-16, spec §3 R3) is replaced by substrate_breadth:
-    # filter on substrate_breadth; the threshold query (level >= 2 AND
-    # metabolite_count >= 50) no longer reproduces the pinned set.
+    # post-import, dense on all five levels: distinct canonical targets (Metabolite +
+    # ChemicalRole) of the tc_system substrate edges in this node's subtree (on a system:
+    # its own count, 0 when none). Replaces metabolite_count; substrate_breadth (the
+    # pinned lumping set, an R3 exception) is retired with it.
+    tcdb_substrate_count: int
 
 cazy family:
   is_a: named thing
@@ -1422,19 +1428,19 @@ cazy family:
 
 # ── TCDB / CAZy edges ────────────────────────────────────────────────────────
 
-# Two independent evidence sources feed ONE edge per (gene, TC id):
-#   eggnog  — KEGG_TC from the seed ortholog (transfer)
-#   diamond — direct blastp vs. the curated TCDB FASTA (sequence similarity)
-# When both call the same TC, `sources` has two entries — that IS the cross-source
-# corroboration signal, so they are never split into parallel edges.
-#
-# The diamond evidence block is SPARSE: present only on edges diamond called
-# (mirrors Gene_has_interpro_entry's nullable evalue). `tier` is both a confidence
-# band and the depth the call was truncated to — 1 = tc_specificity (identity>=70),
-# 2 = tc_subfamily (>=40), 3 = tc_family (no identity floor, conservative by
-# design). Post-import folds 'tcdb' into annotation_types only for eggNOG-sourced
-# or tier<=2 edges, so tier-3 calls are findable without inflating annotation
-# quality.
+# One edge per (gene, TC node, call kind) — the adapter no longer merges sources
+# (TCDB cleanup, 2026-10-23). Edge id = {locus_tag}-has_tcdb-{tc_id}-{tcdb_call}.
+#   tcdb_call = eggnog           — KEGG_TC from the seed ortholog (after seed_aliases remap); no diamond props
+#               diamond_tier     — tier-truncated diamond call (tier 1 → system, 2 → subfamily, 3 → family)
+#               diamond_best_hit — each best_hit_v1 system (top + near-ties ≥ 0.9×, ≤ 3), its OWN alignment
+# sources is a one-element list (['eggnog'] or ['tcdb_diamond']); evidence =
+# family_inferred (eggnog) | homology (both diamond kinds).
+# tcdb_gate (dense, ordered; an R3 exception, see vocabulary-contract.md):
+#   direct     — best hit rank 1 and tier <= 2; eggnog onto a tc_system; diamond_tier tier 1
+#   annotated  — other eggnog edges; diamond_tier tier 2
+#   below_gate — everything else (tier-3 calls, near-tie best hits, rank-1 tier-3 best hits)
+# tier: consensus tier on diamond_tier, identity band (>=70 / 40-70 / <40) on
+# diamond_best_hit — never compare across kinds; absent on eggnog.
 gene to tcdb family association:
   is_a: association
   represented_as: edge
@@ -1444,34 +1450,17 @@ gene to tcdb family association:
   label_in_input: gene_has_tcdb_family
   properties:
     sources: str[]
-    evidence: str           # 'homology' (diamond called it) | 'family_inferred' (eggNOG-only); both-source = strongest
-    # attachment_depth: str — post-import: most_specific | superseded (a sibling edge of the same gene lands on a descendant)
-    tier: int
-    confidence_score: float
-    identity: float
-    qcov: float
-    evalue: float
-    consensus_n: int
-    # best_hit_v1 (diamond best-hit systems; sparse, one diamond edge per gene). The three
-    # substrate lists are a long-form table aligned index-for-index.
-    best_hit_tcids: str[]
-    best_hit_names: str[]
-    best_hit_identity: float
-    best_hit_substrate_tcids: str[]
-    best_hit_substrate_ids: str[]
-    best_hit_substrate_names: str[]
-    # Post-import advisory ranking (float 0-1; 5 signals, see
-    # controlled_vocabularies.yaml). ADVISORY ONLY — nothing filters on it,
-    # and the three component facts are stored alongside as R5-compliant
-    # categorical strings (not native bools) so consumers can see why and
-    # re-weight without re-deriving. Agreement is HIERARCHICAL (ancestor or
-    # descendant), not exact-node — the two sources usually concur at different
-    # depths. See the post-import block for the full rationale.
-    evidence_score: float
-    # R5: two-state facts are meaningful strings, never native bool.
-    source_agreement: str    # both_sources | single_source (HIERARCHICAL agreement)
-    pfam_support: str        # corroborated | uncorroborated
-    go_support: str          # corroborated | uncorroborated
+    evidence: str
+    tcdb_call: str          # eggnog | diamond_tier | diamond_best_hit
+    tcdb_gate: str          # direct | annotated | below_gate
+    tier: int               # diamond edges only
+    rank: int               # diamond_best_hit only: 1 = top hit
+    identity: float         # diamond edges only (percent)
+    qcov: float             # diamond edges only (percent)
+    scov: float             # diamond edges only (percent)
+    evalue: float           # diamond edges only
+    bitscore: float         # diamond_best_hit only
+    bitscore_ratio: float   # diamond_best_hit only: bitscore / top bitscore (1.0 at rank 1, >= 0.9)
 
 tcdb family hierarchical association:
   is_a: association
@@ -1488,15 +1477,10 @@ tcdb family transports metabolite:
   source: tcdb family
   target: metabolite
   label_in_input: tcdb_family_transports_metabolite
-  properties:
-    # "most_specific" = no kept child of this node also carries the substrate,
-    # i.e. this is the most specific surviving transporter system for it.
-    # "inherited" = an ancestor of such a node, carrying the substrate only via
-    # the step-6 subtree rollup. Count DISTINCT sources on "most_specific" edges
-    # to get transporter systems without double-counting an ancestor with its
-    # descendant. Categorical str, not bool — BioCypher mishandles boolean
-    # properties.
-    substrate_depth: str
+  # Leaves tc_system nodes only, one per (system, canonical metabolite), from TCDB
+  # substrates.tsv; no properties (the subtree roll-up and its substrate_depth were
+  # removed, 2026-10-23). A family's range = walk Tcdb_family_is_a_tcdb_family down
+  # to its systems.
 
 # ── GO transport substrates (term definition, not gene fact) ─────────────────
 molecular function transports metabolite:

@@ -1,4 +1,9 @@
-"""Tests for TCDB ontology adapter (per-strain + multi-strain)."""
+"""Tests for the TCDB ontology adapter (per-strain + multi-strain).
+
+TCDB cleanup (spec 2026-10-22, §5): one Gene_has_tcdb_family edge per
+(gene, TC node, tcdb_call) stamped with tcdb_gate; substrate / role edges leave
+tc_system nodes only; nodes carry direction instead of substrate_breadth.
+"""
 from __future__ import annotations
 
 import json
@@ -6,236 +11,426 @@ import json
 import pytest
 
 from multiomics_kg.adapters.tcdb_adapter import (
-    TcdbAnnotationAdapter,
     MultiTcdbAnnotationAdapter,
+    TcdbAnnotationAdapter,
 )
 
+_LEVEL_KINDS = ["tc_class", "tc_subclass", "tc_family", "tc_subfamily", "tc_system"]
 
-@pytest.fixture
-def strain_dir(tmp_path):
-    """Stage a minimal gene_annotations_merged.json for one strain."""
+
+def _node(tc: str, name: str = "", **extra) -> dict:
+    level = tc.count(".")
+    return {"name": name, "level": level, "level_kind": _LEVEL_KINDS[level],
+            "parent": tc.rsplit(".", 1)[0] if "." in tc else None, **extra}
+
+
+# A small hierarchy covering an ABC uptake branch, a named efflux family, and a
+# range-only system (kept, no gene points at it, unnamed).
+_HIER = {
+    "1": _node("1", "Channels and Pores"),
+    "1.A": _node("1.A"),
+    "1.A.1": _node("1.A.1", "VIC family"),
+    "1.A.1.5": _node("1.A.1.5"),
+    "1.A.1.5.2": _node("1.A.1.5.2", superfamily="VIC Superfamily",
+                       description="Epsilon leaf curated text with 'quote' and |pipe|."),
+    "2": _node("2", "Electrochemical Potential-driven Transporters"),
+    "2.A": _node("2.A", "Porters"),
+    "2.A.6": _node("2.A.6", "The Resistance-Nodulation-Cell Division (RND) Efflux Family"),
+    "2.A.6.1": _node("2.A.6.1"),
+    "2.A.6.1.1": _node("2.A.6.1.1", "Multidrug pump AcrB"),
+    "2.A.6.1.9": _node("2.A.6.1.9"),   # range-only, unnamed
+    "3": _node("3", "Primary Active Transporters"),
+    "3.A": _node("3.A"),
+    "3.A.1": _node("3.A.1", "The ATP-binding Cassette (ABC) Superfamily"),
+    "3.A.1.4": _node("3.A.1.4", "The HAAT Family"),
+    "3.A.1.4.4": _node("3.A.1.4.4", "The high-affinity urea porter"),
+    "3.A.1.4.5": _node("3.A.1.4.5", "Another urea porter"),
+    "9": _node("9", "Incompletely characterized"),   # in the full tree, NOT kept
+}
+_KEPT = sorted(t for t in _HIER if t != "9")
+
+_ROLES = {
+    "chebi.role:24432": {"name": "biological role", "parents": [], "level": 0,
+                         "level_kind": "chebi_role_branch",
+                         "all_identifiers": ["chebi.role:24432", "chebi:24432"]},
+    "chebi.role:26672": {"name": "siderophore", "parents": ["chebi.role:24432"], "level": 1,
+                         "level_kind": "chebi_role",
+                         "all_identifiers": ["chebi.role:26672", "chebi:26672"]},
+}
+
+
+def _hit(tcid, identity, bitscore, qcov=95.0, scov=90.0, evalue=1e-50):
+    return {"tcid": tcid, "identity": identity, "qcov": qcov, "scov": scov,
+            "evalue": evalue, "bitscore": bitscore}
+
+
+def _call(tcid, tier, identity, qcov=90.0, scov=85.0, evalue=1e-30):
+    return {"tcid": tcid, "tier": tier, "identity": identity, "qcov": qcov, "scov": scov,
+            "evalue": evalue, "confidence_score": 0.5, "consensus_n": 3, "length": 300,
+            "level_kind": _LEVEL_KINDS[tcid.count(".")]}
+
+
+def _best(*hits):
+    return {"rule": "best_hit_v1", "tcids": [h["tcid"] for h in hits],
+            "identity": hits[0]["identity"], "hits": list(hits)}
+
+
+def _setup(tmp_path, genes: dict, calls: dict | None, *, aliases=None, hier=None,
+           kept=None, system_substrates=None, system_roles=None, extra=None,
+           **adapter_kwargs):
+    """Stage strain + cache, return a downloaded MultiTcdbAnnotationAdapter."""
     d = tmp_path / "MED4"
-    d.mkdir()
-    (d / "gene_annotations_merged.json").write_text(json.dumps({
-        "PMM_0001": {"locus_tag": "PMM_0001",
-                     "transporter_classification": ["1.A.1.5.2"]},
-        "PMM_0002": {"locus_tag": "PMM_0002",
-                     "transporter_classification": ["3.A.1"]},
-        "PMM_0003": {"locus_tag": "PMM_0003"},  # no TCDB
-    }))
-    return d
-
-
-@pytest.fixture
-def cache_root(tmp_path):
-    """Stage a minimal cache_root with tcdb_hierarchy.json + tcdb_pruned.json."""
-    tcdb_dir = tmp_path / "tcdb"
-    tcdb_dir.mkdir(parents=True)
-    (tcdb_dir / "tcdb_hierarchy.json").write_text(json.dumps({
-        "1": {"name": "Channels and Pores", "level": 0,
-              "level_kind": "tc_class", "parent": None},
-        "1.A": {"name": "", "level": 1, "level_kind": "tc_subclass", "parent": "1"},
-        "1.A.1": {"name": "VIC family", "level": 2,
-                  "level_kind": "tc_family", "parent": "1.A"},
-        "1.A.1.5": {"name": "", "level": 3, "level_kind": "tc_subfamily",
-                    "parent": "1.A.1"},
-        "1.A.1.5.2": {"name": "", "level": 4, "level_kind": "tc_specificity",
-                      "parent": "1.A.1.5", "superfamily": "VIC Superfamily",
-                      "description": "Epsilon leaf curated text with 'quote' and |pipe|."},
-    }))
-    (tcdb_dir / "tcdb_pruned.json").write_text(json.dumps({
-        "kept_tcdb_ids": ["1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2"],
-        # Pre-rolled-up substrates: every ancestor of the leaf carries the
-        # leaf's primaries. Step 6 emits this map directly; adapter just
-        # iterates and yields edges.
-        "subtree_substrates": {
-            "1": ["chebi:9999", "kegg.compound:C00208"],
-            "1.A": ["chebi:9999", "kegg.compound:C00208"],
-            "1.A.1": ["chebi:9999", "kegg.compound:C00208"],
-            "1.A.1.5": ["chebi:9999", "kegg.compound:C00208"],
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "gene_annotations_merged.json").write_text(json.dumps(genes))
+    if calls is not None:
+        (d / "tcdb").mkdir(exist_ok=True)
+        (d / "tcdb" / "MED4.tcdb.calls.json").write_text(json.dumps(calls))
+    cache = tmp_path / "cache"
+    (cache / "tcdb").mkdir(parents=True, exist_ok=True)
+    (cache / "tcdb" / "tcdb_hierarchy.json").write_text(json.dumps(hier or _HIER))
+    pruned = {
+        "kept_tcdb_ids": kept if kept is not None else _KEPT,
+        "system_substrates": system_substrates if system_substrates is not None else {
             "1.A.1.5.2": ["chebi:9999", "kegg.compound:C00208"],
+            "3.A.1.4.4": ["kegg.compound:C00086"],
+            "2.A.6.1.9": ["kegg.compound:C00001"],
         },
-        "chemical_roles": {
-            "chebi.role:24432": {"name": "biological role", "parents": [], "level": 0,
-                                 "level_kind": "chebi_role_branch",
-                                 "all_identifiers": ["chebi.role:24432", "chebi:24432"]},
-            "chebi.role:26672": {"name": "siderophore", "parents": ["chebi.role:24432"], "level": 1,
-                                 "level_kind": "chebi_role",
-                                 "all_identifiers": ["chebi.role:26672", "chebi:26672"]}},
-        "subtree_roles": {"1.A.1.5": ["chebi.role:26672"], "1.A.1.5.2": ["chebi.role:26672"]},
-        "lumping_pin": {"frozen_on": "2026-10-15",
-                        "frozen_kept_ids": ["1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2"],
-                        "lumping_tcdb_ids": ["1.A.1"]},
-    }))
-    return tmp_path
-
-
-def test_per_strain_get_all_tcdb_ids(strain_dir):
-    a = TcdbAnnotationAdapter(genome_dir=strain_dir)
-    assert a.get_all_tcdb_ids() == {"1.A.1.5.2", "3.A.1"}
-
-
-def test_per_strain_get_edges(strain_dir):
-    a = TcdbAnnotationAdapter(genome_dir=strain_dir)
-    edges = list(a.get_edges())
-    edge_targets = {(e[1], e[2], e[3]) for e in edges}
-    assert ("ncbigene:PMM_0001", "tcdb:1.A.1.5.2", "gene_has_tcdb_family") in edge_targets
-    assert ("ncbigene:PMM_0002", "tcdb:3.A.1", "gene_has_tcdb_family") in edge_targets
-    assert len(edges) == 2  # PMM_0003 has no TCDB → no edge
-
-
-def _make_orchestrator(cache_root, strain_dir):
-    config_csv = cache_root / "genomes.csv"
-    config_csv.write_text(f"strain_name,data_dir\nMED4,{strain_dir}\n")
-    a = MultiTcdbAnnotationAdapter(
-        genome_config_file=str(config_csv),
-        cache_root=cache_root,
-        test_mode=False,
-        cache=True,
-    )
-    a.download_data(cache=True)
+        "system_roles": system_roles if system_roles is not None else {
+            "1.A.1.5.2": ["chebi.role:26672"]},
+        "chemical_roles": _ROLES,
+        "seed_aliases": aliases or {},
+        "pfam_bridge": {},
+        "go_bridge": {},
+    }
+    pruned.update(extra or {})
+    (cache / "tcdb" / "tcdb_pruned.json").write_text(json.dumps(pruned))
+    csv_path = cache / "genomes.csv"
+    csv_path.write_text(f"strain_name,data_dir\nMED4,{d}\n")
+    a = MultiTcdbAnnotationAdapter(genome_config_file=str(csv_path), cache_root=cache,
+                                   **adapter_kwargs)
+    a.download_data()
     return a
 
 
-def test_orchestrator_emits_one_node_per_kept_id(cache_root, strain_dir):
-    a = _make_orchestrator(cache_root, strain_dir)
-    node_ids = {n[0] for n in a.get_nodes() if n[1] == "tcdb family"}
-    assert node_ids == {"tcdb:1", "tcdb:1.A", "tcdb:1.A.1", "tcdb:1.A.1.5", "tcdb:1.A.1.5.2"}
+def _gene_edges(adapter):
+    return [e for e in adapter.get_edges() if e[3] == "gene_has_tcdb_family"]
 
 
-def test_orchestrator_emits_hierarchy_edges(cache_root, strain_dir):
-    a = _make_orchestrator(cache_root, strain_dir)
+def _by_call(adapter, locus_tag="PMM_0001"):
+    """{(target, tcdb_call): props} for one gene."""
+    out = {}
+    for _id, src, tgt, _lbl, props in _gene_edges(adapter):
+        if src == f"ncbigene:{locus_tag}":
+            out[(tgt, props["tcdb_call"])] = props
+    return out
+
+
+def _gene(lt="PMM_0001", wp="WP_1", eggnog=(), **extra):
+    return {lt: {"locus_tag": lt, "protein_id": wp, "tcdb_eggnog_ids": list(eggnog), **extra}}
+
+
+# ============================================================================
+# Gene edges: one per tcdb_call
+# ============================================================================
+
+
+def test_one_edge_per_tcdb_call(tmp_path):
+    a = _setup(tmp_path, _gene(eggnog=["3.A.1.4.4"]), {
+        "WP_1": {"calls": [_call("3.A.1.4.4", 1, 88.0)],
+                 "best_hit": _best(_hit("3.A.1.4.4", 88.0, 400.0))}})
+    edges = _gene_edges(a)
+    ids = sorted(e[0] for e in edges)
+    assert ids == ["PMM_0001-has_tcdb-3.A.1.4.4-diamond_best_hit",
+                   "PMM_0001-has_tcdb-3.A.1.4.4-diamond_tier",
+                   "PMM_0001-has_tcdb-3.A.1.4.4-eggnog"]
+    assert {e[2] for e in edges} == {"tcdb:3.A.1.4.4"}
+    by = {e[4]["tcdb_call"]: e[4] for e in edges}
+    assert by["eggnog"]["sources"] == ["eggnog"]
+    assert by["eggnog"]["evidence"] == "family_inferred"
+    for kind in ("diamond_tier", "diamond_best_hit"):
+        assert by[kind]["sources"] == ["tcdb_diamond"]
+        assert by[kind]["evidence"] == "homology"
+
+
+def test_edge_properties_by_call_kind(tmp_path):
+    a = _setup(tmp_path, _gene(eggnog=["3.A.1.4"]), {
+        "WP_1": {"calls": [_call("3.A.1.4", 2, 55.0)],
+                 "best_hit": _best(_hit("3.A.1.4.4", 58.0, 300.0),
+                                   _hit("3.A.1.4.5", 52.0, 280.0))}})
+    by = _by_call(a)
+    egg = by[("tcdb:3.A.1.4", "eggnog")]
+    assert set(egg) == {"sources", "evidence", "tcdb_call", "tcdb_gate"}
+    tier = by[("tcdb:3.A.1.4", "diamond_tier")]
+    assert set(tier) == {"sources", "evidence", "tcdb_call", "tcdb_gate",
+                         "tier", "identity", "qcov", "scov", "evalue"}
+    assert tier["tier"] == 2 and isinstance(tier["tier"], int)
+    assert tier["identity"] == 55.0 and tier["scov"] == 85.0
+    bh = by[("tcdb:3.A.1.4.5", "diamond_best_hit")]
+    assert set(bh) == {"sources", "evidence", "tcdb_call", "tcdb_gate", "rank", "tier",
+                       "identity", "qcov", "scov", "evalue", "bitscore", "bitscore_ratio"}
+    assert bh["rank"] == 2 and bh["tier"] == 2 and bh["identity"] == 52.0
+    assert bh["bitscore"] == 280.0
+    assert bh["bitscore_ratio"] == pytest.approx(280.0 / 300.0, abs=1e-4)
+    for props in by.values():
+        for k in props:
+            assert k not in ("confidence_score", "consensus_n") and not k.startswith("best_hit")
+
+
+@pytest.mark.parametrize("kind, tc, tier_or_rank, identity, gate", [
+    ("diamond_best_hit", "3.A.1.4.4", 1, 85.0, "direct"),
+    ("diamond_best_hit", "3.A.1.4.4", 1, 39.0, "below_gate"),
+    ("diamond_best_hit", "3.A.1.4.5", 2, 85.0, "below_gate"),
+    ("eggnog", "3.A.1.4.4", None, None, "direct"),
+    ("eggnog", "3.A.1.4", None, None, "annotated"),
+    ("diamond_tier", "3.A.1.4.4", 1, 80.0, "direct"),
+    ("diamond_tier", "3.A.1.4", 2, 50.0, "annotated"),
+    ("diamond_tier", "3.A.1", 3, 30.0, "below_gate"),
+])
+def test_tcdb_gate_rules(tmp_path, kind, tc, tier_or_rank, identity, gate):
+    calls: dict = {"WP_1": {"calls": []}}
+    eggnog: list = []
+    if kind == "eggnog":
+        eggnog = [tc]
+    elif kind == "diamond_tier":
+        calls["WP_1"]["calls"] = [_call(tc, tier_or_rank, identity)]
+    else:
+        hits = [_hit(tc, identity, 400.0)]
+        if tier_or_rank == 2:
+            hits = [_hit("3.A.1.4.4", 30.0, 410.0), _hit(tc, identity, 400.0)]
+        calls["WP_1"]["best_hit"] = _best(*hits)
+    by = _by_call(_setup(tmp_path, _gene(eggnog=eggnog), calls))
+    props = by[(f"tcdb:{tc}", kind)]
+    assert props["tcdb_gate"] == gate
+
+
+@pytest.mark.parametrize("kind, gate", [
+    ("diamond_tier", "annotated"),       # tier-1 call re-anchored onto a subfamily
+    ("diamond_best_hit", "annotated"),   # rank-1 tier-1 best hit re-anchored
+    ("eggnog", "annotated"),
+])
+def test_direct_requires_a_tc_system_target(tmp_path, kind, gate):
+    tc = "3.A.1.4.99"   # not kept, aliased to the subfamily 3.A.1.4
+    calls: dict = {"WP_1": {"calls": []}}
+    eggnog: list = []
+    if kind == "eggnog":
+        eggnog = [tc]
+    elif kind == "diamond_tier":
+        calls["WP_1"]["calls"] = [_call(tc, 1, 85.0)]
+    else:
+        calls["WP_1"]["best_hit"] = _best(_hit(tc, 85.0, 400.0))
+    a = _setup(tmp_path, _gene(eggnog=eggnog), calls, aliases={tc: "3.A.1.4"})
+    props = _by_call(a)[("tcdb:3.A.1.4", kind)]
+    assert props["tcdb_gate"] == gate
+
+
+def test_eggnog_alias_to_ancestor_is_annotated(tmp_path):
+    """A retired eggNOG 5-part id re-anchored to its subfamily is NOT direct."""
+    a = _setup(tmp_path, _gene(eggnog=["3.A.1.4.99"]), None,
+               aliases={"3.A.1.4.99": "3.A.1.4"})
+    edges = _gene_edges(a)
+    assert len(edges) == 1
+    _id, _s, tgt, _l, props = edges[0]
+    assert _id == "PMM_0001-has_tcdb-3.A.1.4-eggnog"
+    assert tgt == "tcdb:3.A.1.4"
+    assert props["tcdb_gate"] == "annotated"
+
+
+def test_eggnog_alias_dropped_emits_nothing(tmp_path):
+    a = _setup(tmp_path, _gene(eggnog=["7.Z.1.1.1", "8.Q.2"]), None,
+               aliases={"7.Z.1.1.1": ""})
+    assert _gene_edges(a) == []
+
+
+def test_two_eggnog_ids_aliasing_to_one_node_give_one_edge(tmp_path):
+    a = _setup(tmp_path, _gene(eggnog=["3.A.1.35", "3.A.1.36"]), None,
+               aliases={"3.A.1.35": "3.A.1", "3.A.1.36": "3.A.1"})
+    edges = _gene_edges(a)
+    assert [e[0] for e in edges] == ["PMM_0001-has_tcdb-3.A.1-eggnog"]
+
+
+def test_within_kind_duplicates_keep_higher_identity(tmp_path):
+    """Two tier calls landing on one node (here via an alias) collapse to one edge
+    carrying the higher-identity call's statistics."""
+    a = _setup(tmp_path, _gene(), {"WP_1": {"calls": [
+        _call("3.A.1.4", 2, 45.0, qcov=70.0), _call("3.A.1.4.77", 1, 72.0, qcov=99.0)]}},
+        aliases={"3.A.1.4.77": "3.A.1.4"})
+    edges = [e for e in _gene_edges(a) if e[4]["tcdb_call"] == "diamond_tier"]
+    assert len(edges) == 1
+    assert edges[0][4]["identity"] == 72.0 and edges[0][4]["qcov"] == 99.0
+
+
+def test_within_kind_best_hit_duplicates_keep_rank_one(tmp_path):
+    """Two best-hit systems aliasing to one node collapse to the rank-1 hit, not the
+    higher-identity one; the gate follows rank 1 (rank 2 would read below_gate)."""
+    a = _setup(tmp_path, _gene(), {"WP_1": {"calls": [], "best_hit": _best(
+        _hit("3.A.1.4.77", 50.0, 400.0), _hit("3.A.1.4.78", 85.0, 390.0))}},
+        aliases={"3.A.1.4.77": "3.A.1.4.4", "3.A.1.4.78": "3.A.1.4.4"})
+    edges = [e for e in _gene_edges(a) if e[4]["tcdb_call"] == "diamond_best_hit"]
+    assert len(edges) == 1
+    props = edges[0][4]
+    assert edges[0][2] == "tcdb:3.A.1.4.4"
+    assert props["rank"] == 1 and props["identity"] == 50.0
+    assert props["tcdb_gate"] == "direct"
+
+
+def test_best_hit_without_call_emits_best_hit_edge(tmp_path):
+    """Proteins with a best hit but no tier call (top HSP < 50 aa) get an edge."""
+    a = _setup(tmp_path, _gene(), {"WP_1": {"calls": [],
+                                            "best_hit": _best(_hit("3.A.1.4.4", 75.0, 90.0))}})
+    edges = _gene_edges(a)
+    assert len(edges) == 1
+    props = edges[0][4]
+    assert props["tcdb_call"] == "diamond_best_hit"
+    assert props["rank"] == 1 and props["tier"] == 1 and props["tcdb_gate"] == "direct"
+
+
+def test_missing_calls_json_yields_eggnog_only(tmp_path):
+    a = _setup(tmp_path, _gene(eggnog=["3.A.1.4.4"],
+                               tcdb_diamond_ids=["3.A.1.4"],
+                               tcdb_best_hit_ids=["3.A.1.4.4"]), None)
+    edges = _gene_edges(a)
+    assert [e[4]["tcdb_call"] for e in edges] == ["eggnog"]
+
+
+def test_bitscore_ratio_is_one_at_rank_one(tmp_path):
+    a = _setup(tmp_path, _gene(), {"WP_1": {"calls": [], "best_hit": _best(
+        _hit("3.A.1.4.4", 60.0, 512.5), _hit("3.A.1.4.5", 58.0, 470.0))}})
+    by = _by_call(a)
+    assert by[("tcdb:3.A.1.4.4", "diamond_best_hit")]["bitscore_ratio"] == 1.0
+    assert by[("tcdb:3.A.1.4.5", "diamond_best_hit")]["bitscore_ratio"] >= 0.9
+
+
+def test_unkept_targets_dropped(tmp_path):
+    a = _setup(tmp_path, _gene(eggnog=["9"]), {"WP_1": {"calls": [_call("9.B.1", 3, 20.0)]}})
+    assert _gene_edges(a) == []
+
+
+def test_shared_protein_id_gives_both_genes_edges(tmp_path):
+    genes = {**_gene("PMM_0002", "WP_2"), **_gene("PMM_0003", "WP_2")}
+    a = _setup(tmp_path, genes, {"WP_2": {"calls": [],
+                                          "best_hit": _best(_hit("3.A.1.4.4", 90.0, 99.0))}})
+    assert {e[1] for e in _gene_edges(a)} == {"ncbigene:PMM_0002", "ncbigene:PMM_0003"}
+
+
+def test_gene_edge_ids_unique(tmp_path):
+    a = _setup(tmp_path, _gene(eggnog=["3.A.1.4.4", "3.A.1.4"]), {"WP_1": {
+        "calls": [_call("3.A.1.4.4", 1, 80.0), _call("3.A.1.4", 2, 50.0)],
+        "best_hit": _best(_hit("3.A.1.4.4", 80.0, 400.0), _hit("3.A.1.4.5", 79.0, 390.0))}})
+    ids = [e[0] for e in _gene_edges(a)]
+    assert len(ids) == len(set(ids)) == 6
+
+
+def test_per_strain_yields_raw_claims(tmp_path):
+    d = tmp_path / "S"
+    d.mkdir()
+    (d / "gene_annotations_merged.json").write_text(json.dumps(_gene(eggnog=["3.A.1.4.4"])))
+    (d / "tcdb").mkdir()
+    (d / "tcdb" / "S.tcdb.calls.json").write_text(json.dumps({"WP_1": {
+        "calls": [_call("3.A.1.4", 2, 50.0)],
+        "best_hit": _best(_hit("3.A.1.4.4", 80.0, 400.0))}}))
+    claims = list(TcdbAnnotationAdapter(genome_dir=d).get_edges())
+    assert [(lt, kind, tc) for lt, kind, tc, _p in claims] == [
+        ("PMM_0001", "eggnog", "3.A.1.4.4"),
+        ("PMM_0001", "diamond_tier", "3.A.1.4"),
+        ("PMM_0001", "diamond_best_hit", "3.A.1.4.4"),
+    ]
+
+
+# ============================================================================
+# Nodes
+# ============================================================================
+
+
+def test_node_props(tmp_path):
+    a = _setup(tmp_path, {}, None)
+    nodes = {n[0]: n[2] for n in a.get_nodes() if n[1] == "tcdb family"}
+    assert set(nodes) == {f"tcdb:{t}" for t in _KEPT}
+    for props in nodes.values():
+        assert props["level_kind"] in _LEVEL_KINDS
+        assert "substrate_breadth" not in props
+        assert props["direction"] in {"uptake", "export", "unknown"}
+        assert ("direction_basis" in props) == (props["direction"] != "unknown")
+    assert nodes["tcdb:1"]["name"] == "Channels and Pores"
+    leaf = nodes["tcdb:1.A.1.5.2"]
+    assert leaf["level"] == 4 and leaf["level_kind"] == "tc_system"
+    assert leaf["name"] == "1.A.1.5.2"
+    assert leaf["superfamily"] == "VIC Superfamily"
+    assert leaf["description"] == "Epsilon leaf curated text with ^quote^ and pipe."
+    assert "description" not in nodes["tcdb:1.A.1.5"]
+    # ABC numbering + named family
+    assert (nodes["tcdb:3.A.1.4.4"]["direction"], nodes["tcdb:3.A.1.4.4"]["direction_basis"]) \
+        == ("uptake", "abc_numbering")
+    assert nodes["tcdb:3.A.1"]["direction"] == "unknown"
+    assert (nodes["tcdb:2.A.6"]["direction"], nodes["tcdb:2.A.6"]["direction_basis"]) \
+        == ("export", "tcdb_name")
+
+
+def test_unnamed_system_falls_back_and_inherits_direction(tmp_path):
+    a = _setup(tmp_path, {}, None)
+    nodes = {n[0]: n[2] for n in a.get_nodes() if n[1] == "tcdb family"}
+    p = nodes["tcdb:2.A.6.1.9"]
+    assert p["name"] == "2.A.6.1.9"
+    assert p["direction"] == "export" and p["direction_basis"] == "tcdb_name"
+
+
+def test_orchestrator_emits_hierarchy_edges(tmp_path):
+    a = _setup(tmp_path, {}, None)
+    parents = {(e[1], e[2]) for e in a.get_edges() if e[3] == "tcdb_family_is_a_tcdb_family"}
+    assert ("tcdb:1.A.1.5.2", "tcdb:1.A.1.5") in parents
+    assert ("tcdb:2.A.6.1.9", "tcdb:2.A.6.1") in parents
+    assert len(parents) == len(_KEPT) - 3   # three kept roots
+
+
+# ============================================================================
+# Substrate / role edges: tc_system only, no properties
+# ============================================================================
+
+
+def test_substrate_edges_only_from_systems(tmp_path):
+    a = _setup(tmp_path, {}, None)
     edges = list(a.get_edges())
-    parent_edges = {(e[1], e[2]) for e in edges if e[3] == "tcdb_family_is_a_tcdb_family"}
-    assert ("tcdb:1.A", "tcdb:1") in parent_edges
-    assert ("tcdb:1.A.1", "tcdb:1.A") in parent_edges
-    assert ("tcdb:1.A.1.5", "tcdb:1.A.1") in parent_edges
-    assert ("tcdb:1.A.1.5.2", "tcdb:1.A.1.5") in parent_edges
-    assert len(parent_edges) == 4
+    sub = [e for e in edges if e[3] in ("tcdb_family_transports_metabolite",
+                                        "tcdb_family_transports_chemical_role")]
+    assert sub
+    for _id, src, _tgt, _lbl, props in sub:
+        assert src.removeprefix("tcdb:").count(".") == 4
+        assert props == {}
+    mets = {(e[0], e[1], e[2]) for e in sub if e[3] == "tcdb_family_transports_metabolite"}
+    assert ("1.A.1.5.2-transports-chebi:9999", "tcdb:1.A.1.5.2", "chebi:9999") in mets
+    assert ("2.A.6.1.9-transports-kegg.compound:C00001", "tcdb:2.A.6.1.9",
+            "kegg.compound:C00001") in mets
+    roles = [(e[0], e[1], e[2]) for e in sub if e[3] == "tcdb_family_transports_chemical_role"]
+    assert roles == [("t2r:1.A.1.5.2:chebi.role:26672", "tcdb:1.A.1.5.2", "chebi.role:26672")]
 
 
-def test_orchestrator_rolls_up_substrate_edges_to_ancestors(cache_root, strain_dir):
-    """Substrate edges are emitted from every ancestor of a leaf with substrates,
-    not just the leaf. Recover leaf-only semantics by filtering on source level_kind."""
-    a = _make_orchestrator(cache_root, strain_dir)
-    edges = list(a.get_edges())
-    sub_edges = {(e[1], e[2]) for e in edges if e[3] == "tcdb_family_transports_metabolite"}
-    expected = set()
-    for ancestor in ("tcdb:1", "tcdb:1.A", "tcdb:1.A.1", "tcdb:1.A.1.5", "tcdb:1.A.1.5.2"):
-        for met in ("kegg.compound:C00208", "chebi:9999"):
-            expected.add((ancestor, met))
-    assert sub_edges == expected
+def test_substrate_edges_skip_unkept_and_non_system_keys(tmp_path):
+    a = _setup(tmp_path, {}, None, system_substrates={
+        "9.A.1.1.1": ["kegg.compound:C1"], "3.A.1.4": ["kegg.compound:C2"]},
+        system_roles={})
+    assert not [e for e in a.get_edges() if e[3] == "tcdb_family_transports_metabolite"]
 
 
-def test_orchestrator_node_props(cache_root, strain_dir):
-    a = _make_orchestrator(cache_root, strain_dir)
+def test_chemical_role_nodes_and_isa(tmp_path):
+    a = _setup(tmp_path, {}, None)
     nodes = {n[0]: n for n in a.get_nodes()}
-
-    # Class node: name from the fixture hierarchy (built from tcdb_names.json since T6), level 0
-    nid, _label, props = nodes["tcdb:1"]
-    assert props["level"] == 0
-    assert props["level_kind"] == "tc_class"
-    assert props["name"] == "Channels and Pores"
-    assert props["tcdb_id"] == "1"
-
-    # Leaf node: name falls back to tcdb_id when source name is empty;
-    # superfamily is set
-    nid, _label, props = nodes["tcdb:1.A.1.5.2"]
-    assert props["level"] == 4
-    assert props["level_kind"] == "tc_specificity"
-    assert props["tcdb_id"] == "1.A.1.5.2"
-    assert props["name"] == "1.A.1.5.2"  # fallback
-    assert props["superfamily"] == "VIC Superfamily"
-    # description: sparse, sanitized (quote → ^, pipe removed)
-    assert props["description"] == "Epsilon leaf curated text with ^quote^ and pipe."
-    # nodes without a description omit the key entirely
-    _nid, _label, props_subfam = nodes["tcdb:1.A.1.5"]
-    assert "description" not in props_subfam
+    r = nodes["chebi.role:26672"]
+    assert r[1] == "chemical role" and r[2]["level_kind"] == "chebi_role" and r[2]["level"] == 1
+    assert ("chebi.role:26672-isa-chebi.role:24432", "chebi.role:26672", "chebi.role:24432",
+            "chemical_role_is_a_chemical_role", {}) in list(a.get_edges())
 
 
-def test_orchestrator_drops_gene_edges_for_unpruned_ids(cache_root, strain_dir):
-    """Gene→TCDB edges to TCIDs absent from BOTH kept_tcdb_ids and seed_aliases
-    are dropped (e.g. retired TCDB IDs with no curated ancestor).
-    """
-    a = _make_orchestrator(cache_root, strain_dir)
-    edges = list(a.get_edges())
-    gene_edges = [(e[1], e[2]) for e in edges if e[3] == "gene_has_tcdb_family"]
-    targets = {t for _, t in gene_edges}
-    assert "tcdb:3.A.1" not in targets
-    assert ("ncbigene:PMM_0001", "tcdb:1.A.1.5.2") in gene_edges
-
-
-def test_orchestrator_remaps_gene_edges_via_seed_aliases(tmp_path):
-    """When seed_aliases is present, gene edges to retired TCIDs are re-anchored
-    onto the nearest curated ancestor instead of being dropped."""
-    # Strain has a gene annotated with retired ID 1.A.1.99.X
-    strain_dir = tmp_path / "MED4"
-    strain_dir.mkdir()
-    (strain_dir / "gene_annotations_merged.json").write_text(json.dumps({
-        "PMM_0001": {"locus_tag": "PMM_0001",
-                     "transporter_classification": ["1.A.1.99.X"]},
-    }))
-
-    cache_root = tmp_path / "cache"
-    tcdb_dir = cache_root / "tcdb"
-    tcdb_dir.mkdir(parents=True)
-    (tcdb_dir / "tcdb_hierarchy.json").write_text(json.dumps({
-        "1": {"name": "Channels", "level": 0, "level_kind": "tc_class", "parent": None},
-        "1.A": {"name": "", "level": 1, "level_kind": "tc_subclass", "parent": "1"},
-        "1.A.1": {"name": "VIC", "level": 2, "level_kind": "tc_family", "parent": "1.A"},
-    }))
-    (tcdb_dir / "tcdb_pruned.json").write_text(json.dumps({
-        "kept_tcdb_ids": ["1", "1.A", "1.A.1"],
-        "subtree_substrates": {},
-        "seed_aliases": {"1.A.1.99.X": "1.A.1"},
-        "lumping_pin": {"frozen_on": "2026-10-15", "frozen_kept_ids": [], "lumping_tcdb_ids": []},
-    }))
-
-    config_csv = cache_root / "genomes.csv"
-    config_csv.write_text(f"strain_name,data_dir\nMED4,{strain_dir}\n")
-    a = MultiTcdbAnnotationAdapter(
-        genome_config_file=str(config_csv), cache_root=cache_root,
-        test_mode=False, cache=True,
-    )
-    a.download_data(cache=True)
-
-    edges = list(a.get_edges())
-    gene_edges = [(e[1], e[2]) for e in edges if e[3] == "gene_has_tcdb_family"]
-    # Edge re-anchored to the family-level ancestor, not dropped.
-    assert ("ncbigene:PMM_0001", "tcdb:1.A.1") in gene_edges
+def test_legacy_pruned_keys_ignored(tmp_path):
+    """A legacy file's roll-up keys never reach the graph."""
+    a = _setup(tmp_path, {}, None, extra={
+        "subtree_substrates": {"3.A.1": ["kegg.compound:C9"]},
+        "lumping_pin": {"lumping_tcdb_ids": ["3.A.1"]}})
+    assert not any(e[1] == "tcdb:3.A.1" and e[3] == "tcdb_family_transports_metabolite"
+                   for e in a.get_edges())
 
 
 # ============================================================================
-# Cross-ontology bridge edges (TcdbFamily -> Pfam / GO)
+# Cross-ontology bridge edges (TcdbFamily -> Pfam / GO), on all kept nodes
 # ============================================================================
-
-
-def _genome_csv(cache_root, strain_dir) -> str:
-    """Write the minimal genomes.csv the orchestrator reads. Returns its path."""
-    csv_path = cache_root / "genomes.csv"
-    csv_path.write_text(f"strain_name,data_dir\nMED4,{strain_dir}\n")
-    return str(csv_path)
-
-
-@pytest.fixture
-def bridge_cache(cache_root):
-    """Add pfam_bridge / go_bridge blocks to the staged tcdb_pruned.json."""
-    p = cache_root / "tcdb" / "tcdb_pruned.json"
-    data = json.loads(p.read_text())
-    data["pfam_bridge"] = {
-        "1.A.1": {"PF00001": ["1.A.1.9.1"], "PF99999": ["1.A.1.9.2"]},
-    }
-    data["go_bridge"] = {
-        "1.A.1": {
-            "GO:0005215": ["1.A.1.9.1"],   # molecular function
-            "GO:0006810": ["1.A.1.9.1"],   # biological process
-            "GO:0016020": ["1.A.1.9.1"],   # cellular component
-            "GO:0000001": ["1.A.1.9.1"],   # absent from the KG -> must be skipped
-        },
-    }
-    p.write_text(json.dumps(data))
-    return cache_root
-
 
 _GO_TERMS = {
     "GO:0005215": "molecular function",
@@ -243,374 +438,79 @@ _GO_TERMS = {
     "GO:0016020": "cellular component",
 }
 
+_BRIDGES = {
+    "pfam_bridge": {
+        "1.A.1": {"PF00001": ["1.A.1.9.1"], "PF99999": ["1.A.1.9.2"]},
+        "2.A.6.1.9": {"PF00873": ["2.A.6.1.9"]},   # range-only system
+        "9.Z.9": {"PF00001": ["9.Z.9.9.9"]},       # not a kept node
+    },
+    "go_bridge": {
+        "1.A.1": {
+            "GO:0005215": ["1.A.1.9.1"],
+            "GO:0006810": ["1.A.1.9.1"],
+            "GO:0016020": ["1.A.1.9.1"],
+            "GO:0000001": ["1.A.1.9.1"],   # absent from the KG -> skipped
+        },
+    },
+}
+
+_NOT_BRIDGE = ("tcdb_family_is_a_tcdb_family", "tcdb_family_transports_metabolite",
+               "tcdb_family_transports_chemical_role")
+
 
 def _bridge_edges(adapter):
-    return [e for e in adapter.get_edges() if e[3].startswith("tcdb_family_")
-            and e[3] not in ("tcdb_family_is_a_tcdb_family",
-                             "tcdb_family_transports_metabolite",
-                             "tcdb_family_transports_chemical_role")]
+    return [e for e in adapter.get_edges()
+            if e[3].startswith("tcdb_family_") and e[3] not in _NOT_BRIDGE]
 
 
-def test_bridges_absent_when_node_sets_not_injected(bridge_cache, strain_dir):
-    """No injected endpoint set -> no bridge edges (they could dangle)."""
-    a = MultiTcdbAnnotationAdapter(
-        genome_config_file=_genome_csv(bridge_cache, strain_dir),
-        cache_root=bridge_cache,
-    )
-    a.download_data()
+def test_bridges_absent_when_node_sets_not_injected(tmp_path):
+    a = _setup(tmp_path, {}, None, extra=_BRIDGES)
     assert _bridge_edges(a) == []
 
 
-def test_pfam_bridge_pruned_to_existing_pfam_nodes(bridge_cache, strain_dir):
-    """PF99999 has no Pfam node, so its edge must not be emitted."""
-    a = MultiTcdbAnnotationAdapter(
-        genome_config_file=_genome_csv(bridge_cache, strain_dir),
-        cache_root=bridge_cache,
-        pfam_node_ids={"PF00001"},
-    )
-    a.download_data()
+def test_pfam_bridge_pruned_to_existing_pfam_nodes(tmp_path):
+    a = _setup(tmp_path, {}, None, extra=_BRIDGES, pfam_node_ids={"PF00001"})
     edges = [e for e in _bridge_edges(a) if e[3] == "tcdb_family_has_pfam_domain"]
     assert len(edges) == 1
-    _id, source, target, label, props = edges[0]
-    assert source == "tcdb:1.A.1"
-    assert target == "pfam:PF00001"
+    _id, source, target, _label, props = edges[0]
+    assert (source, target) == ("tcdb:1.A.1", "pfam:PF00001")
     assert props["curated_tcids"] == ["1.A.1.9.1"]
 
 
-def test_pfam_bridge_direction_is_family_to_pfam(bridge_cache, strain_dir):
-    """Direction is semantic: the family CONTAINS the domain.
-
-    Reading these backwards (has domain -> is a transporter) is only ~31%
-    precise on real data, so TcdbFamily must be the source.
-    """
-    a = MultiTcdbAnnotationAdapter(
-        genome_config_file=_genome_csv(bridge_cache, strain_dir),
-        cache_root=bridge_cache,
-        pfam_node_ids={"PF00001"},
-    )
-    a.download_data()
-    e = next(e for e in _bridge_edges(a) if e[3] == "tcdb_family_has_pfam_domain")
-    assert e[1].startswith("tcdb:") and e[2].startswith("pfam:")
+def test_pfam_bridge_on_range_only_system(tmp_path):
+    """Bridges cover range-only kept nodes too (spec §5.5)."""
+    a = _setup(tmp_path, {}, None, extra=_BRIDGES, pfam_node_ids={"PF00001", "PF00873"})
+    pairs = {(e[1], e[2]) for e in _bridge_edges(a)}
+    assert ("tcdb:2.A.6.1.9", "pfam:PF00873") in pairs
+    assert not any(s == "tcdb:9.Z.9" for s, _t in pairs)
 
 
-def test_go_bridge_routes_each_namespace_to_its_own_edge_label(bridge_cache, strain_dir):
-    a = MultiTcdbAnnotationAdapter(
-        genome_config_file=_genome_csv(bridge_cache, strain_dir),
-        cache_root=bridge_cache,
-        go_terms=_GO_TERMS,
-    )
-    a.download_data()
+def test_go_bridge_routes_each_namespace_to_its_own_edge_label(tmp_path):
+    a = _setup(tmp_path, {}, None, extra=_BRIDGES, go_terms=_GO_TERMS)
     by_label = {e[3]: e for e in _bridge_edges(a)}
     assert by_label["tcdb_family_enables_molecular_function"][2] == "go:0005215"
     assert by_label["tcdb_family_involved_in_biological_process"][2] == "go:0006810"
     assert by_label["tcdb_family_located_in_cellular_component"][2] == "go:0016020"
-
-
-def test_go_bridge_skips_terms_with_no_node(bridge_cache, strain_dir):
-    """GO:0000001 is not in the injected term map -> no edge, no dangle."""
-    a = MultiTcdbAnnotationAdapter(
-        genome_config_file=_genome_csv(bridge_cache, strain_dir),
-        cache_root=bridge_cache,
-        go_terms=_GO_TERMS,
-    )
-    a.download_data()
     assert not any(e[2] == "go:0000001" for e in _bridge_edges(a))
 
 
-def test_bridge_targets_are_always_kept_nodes(bridge_cache, strain_dir):
-    """Bridge sources must exist in kept_tcdb_ids (dangling-proof on both ends)."""
-    p = bridge_cache / "tcdb" / "tcdb_pruned.json"
-    data = json.loads(p.read_text())
-    data["pfam_bridge"]["9.Z.9"] = {"PF00001": ["9.Z.9.9.9"]}  # not a kept node
-    p.write_text(json.dumps(data))
-    a = MultiTcdbAnnotationAdapter(
-        genome_config_file=_genome_csv(bridge_cache, strain_dir),
-        cache_root=bridge_cache,
-        pfam_node_ids={"PF00001"},
-    )
-    a.download_data()
-    assert not any(e[1] == "tcdb:9.Z.9" for e in _bridge_edges(a))
-
-
-def test_bridges_do_not_touch_genes(bridge_cache, strain_dir):
-    """Design invariant: bridges are ontology->ontology ONLY.
-
-    Gene-level transporter identity must keep coming from Gene_has_tcdb_family
-    alone; no bridge edge may introduce a gene endpoint.
-    """
-    a = MultiTcdbAnnotationAdapter(
-        genome_config_file=_genome_csv(bridge_cache, strain_dir),
-        cache_root=bridge_cache,
-        pfam_node_ids={"PF00001"},
-        go_terms=_GO_TERMS,
-    )
-    a.download_data()
+def test_bridges_do_not_touch_genes(tmp_path):
+    a = _setup(tmp_path, _gene(eggnog=["1.A.1"]), None, extra=_BRIDGES,
+               pfam_node_ids={"PF00001"}, go_terms=_GO_TERMS)
     for _id, source, target, _label, _props in _bridge_edges(a):
-        assert not source.startswith("ncbigene:")
+        assert source.startswith("tcdb:")
         assert not target.startswith("ncbigene:")
 
 
 # ============================================================================
-# Two-source provenance on Gene_has_tcdb_family
+# House rules
 # ============================================================================
-
-
-@pytest.fixture
-def dual_source_strain(tmp_path):
-    """A strain whose genes carry eggNOG-only, diamond-only and BOTH TC calls."""
-    d = tmp_path / "MED4"
-    d.mkdir(parents=True, exist_ok=True)
-    (d / "gene_annotations_merged.json").write_text(json.dumps({
-        "PMM_0001": {  # both sources agree on 1.A.1.5.2
-            "locus_tag": "PMM_0001", "protein_id": "WP_001.1",
-            "transporter_classification": ["1.A.1.5.2"],
-            "tcdb_eggnog_ids": ["1.A.1.5.2"],
-            "tcdb_diamond_ids": ["1.A.1.5.2"],
-        },
-        "PMM_0002": {  # eggNOG only
-            "locus_tag": "PMM_0002", "protein_id": "WP_002.1",
-            "transporter_classification": ["1.A.1.5.2"],
-            "tcdb_eggnog_ids": ["1.A.1.5.2"],
-        },
-        "PMM_0003": {  # diamond only, tier 3
-            "locus_tag": "PMM_0003", "protein_id": "WP_003.1",
-            "transporter_classification": ["1.A.1"],
-            "tcdb_diamond_ids": ["1.A.1"],
-        },
-    }))
-    tcdb_dir = d / "tcdb"
-    tcdb_dir.mkdir()
-    (tcdb_dir / "MED4.tcdb.calls.json").write_text(json.dumps({
-        "WP_001.1": {"calls": [{
-            "tcid": "1.A.1.5.2", "tier": 1, "confidence_score": 0.85,
-            "identity": 87.4, "qcov": 92.1, "scov": 89.7, "evalue": 1e-180,
-            "length": 412, "consensus_n": 3, "consensus_agreement": "5_part",
-            "incompletely_characterized": False,
-        }]},
-        "WP_003.1": {"calls": [{
-            "tcid": "1.A.1", "tier": 3, "confidence_score": 0.135,
-            "identity": 30.0, "qcov": 45.0, "scov": 30.0, "evalue": 1e-10,
-            "length": 150, "consensus_n": 1, "consensus_agreement": "3_part",
-            "incompletely_characterized": False,
-        }]},
-    }))
-    return d
-
-
-def _gene_edges(strain_dir):
-    a = TcdbAnnotationAdapter(genome_dir=strain_dir)
-    return {(e[1], e[2]): e[4] for e in a.get_edges()}
-
-
-def test_both_sources_produce_ONE_edge_with_both_in_sources(dual_source_strain):
-    """A TC called by eggNOG AND diamond is a single edge — that agreement is the
-    corroboration signal, and two parallel edges would destroy it."""
-    edges = _gene_edges(dual_source_strain)
-    props = edges[("ncbigene:PMM_0001", "tcdb:1.A.1.5.2")]
-    assert sorted(props["sources"]) == ["eggnog", "tcdb_diamond"]
-    assert len([k for k in edges if k[0] == "ncbigene:PMM_0001"]) == 1
-
-
-def test_eggnog_only_edge_carries_no_diamond_evidence(dual_source_strain):
-    props = _gene_edges(dual_source_strain)[("ncbigene:PMM_0002", "tcdb:1.A.1.5.2")]
-    assert props["sources"] == ["eggnog"]
-    for k in ("tier", "confidence_score", "identity", "qcov", "evalue", "consensus_n"):
-        assert k not in props, f"{k} must be sparse on an eggNOG-only edge"
-
-
-def test_diamond_edge_carries_evidence_from_calls_json(dual_source_strain):
-    props = _gene_edges(dual_source_strain)[("ncbigene:PMM_0001", "tcdb:1.A.1.5.2")]
-    assert props["tier"] == 1
-    assert props["confidence_score"] == 0.85
-    assert props["identity"] == 87.4
-    assert props["qcov"] == 92.1
-    assert props["consensus_n"] == 3
-    assert isinstance(props["tier"], int)
-    assert isinstance(props["identity"], float)
-
-
-def test_tier3_diamond_only_edge_is_still_emitted(dual_source_strain):
-    """Tier 3 is conservative remote homology, not noise — it becomes an edge.
-    Suppression happens downstream in post-import's annotation_types gate."""
-    props = _gene_edges(dual_source_strain)[("ncbigene:PMM_0003", "tcdb:1.A.1")]
-    assert props["sources"] == ["tcdb_diamond"]
-    assert props["tier"] == 3
-
-
-def test_missing_calls_json_degrades_to_sources_only(tmp_path):
-    """A strain not yet tcdb-diamond-run still emits its eggNOG edges."""
-    d = tmp_path / "XX"
-    d.mkdir()
-    (d / "gene_annotations_merged.json").write_text(json.dumps({
-        "X_0001": {"locus_tag": "X_0001", "protein_id": "WP_9.1",
-                   "transporter_classification": ["1.A.1"],
-                   "tcdb_eggnog_ids": ["1.A.1"]},
-    }))
-    props = _gene_edges(d)[("ncbigene:X_0001", "tcdb:1.A.1")]
-    assert props["sources"] == ["eggnog"]
-    assert "tier" not in props
-
-
-def test_seed_alias_collapse_merges_sources_not_duplicates(tmp_path):
-    """A retired eggNOG TCID remapped onto a node diamond already called must
-    yield ONE edge with both sources — not two with split provenance.
-
-    Regression: seed_aliases remaps in the Multi adapter AFTER the per-strain
-    adapter builds props, so `3.A.1.35` (eggNOG, retired) and `3.A.1` (diamond)
-    both landed on tcdb:3.A.1 as parallel edges carrying ['eggnog'] and
-    ['tcdb_diamond'] separately. 82 such pairs existed in the live graph.
-    """
-    d = tmp_path / "MED4"
-    d.mkdir()
-    (d / "gene_annotations_merged.json").write_text(json.dumps({
-        "PMM_0001": {
-            "locus_tag": "PMM_0001", "protein_id": "WP_001.1",
-            "transporter_classification": ["3.A.1.35", "3.A.1"],
-            "tcdb_eggnog_ids": ["3.A.1.35"],
-            "tcdb_diamond_ids": ["3.A.1"],
-        },
-    }))
-    tcdb_dir = d / "tcdb"; tcdb_dir.mkdir()
-    (tcdb_dir / "MED4.tcdb.calls.json").write_text(json.dumps({
-        "WP_001.1": {"calls": [{"tcid": "3.A.1", "tier": 3, "confidence_score": 0.2,
-                                "identity": 30.0, "qcov": 45.0, "evalue": 1e-9,
-                                "consensus_n": 2}]},
-    }))
-    cache = tmp_path / "cache"; (cache / "tcdb").mkdir(parents=True)
-    (cache / "tcdb" / "tcdb_hierarchy.json").write_text(json.dumps({
-        "3": {"level": 0, "level_kind": "tc_class", "parent": None},
-        "3.A": {"level": 1, "level_kind": "tc_subclass", "parent": "3"},
-        "3.A.1": {"level": 2, "level_kind": "tc_family", "parent": "3.A"},
-    }))
-    (cache / "tcdb" / "tcdb_pruned.json").write_text(json.dumps({
-        "kept_tcdb_ids": ["3", "3.A", "3.A.1"],
-        "subtree_substrates": {},
-        "seed_aliases": {"3.A.1.35": "3.A.1"},
-        "lumping_pin": {"frozen_on": "2026-10-15", "frozen_kept_ids": [], "lumping_tcdb_ids": []},
-    }))
-    a = MultiTcdbAnnotationAdapter(
-        genome_config_file=_genome_csv(cache, d), cache_root=cache)
-    a.download_data()
-    gene_edges = [e for e in a.get_edges() if e[3] == "gene_has_tcdb_family"]
-    assert len(gene_edges) == 1, f"expected 1 merged edge, got {len(gene_edges)}"
-    props = gene_edges[0][4]
-    assert sorted(props["sources"]) == ["eggnog", "tcdb_diamond"]
-    # Diamond's evidence survives the merge
-    assert props["tier"] == 3
-    assert props["confidence_score"] == 0.2
-
-
-def test_sources_are_sorted_canonically(dual_source_strain):
-    """`sources` must have ONE spelling per value.
-
-    The seed_alias merge path unions and sorts, so an unsorted build path would
-    leave ['eggnog','tcdb_diamond'] and ['tcdb_diamond','eggnog'] both in the graph
-    for the same meaning — and any consumer doing `r.sources = [...]` equality would
-    silently miss one set. Observed live: 3,559 vs 82 edges before this fix.
-    """
-    for props in _gene_edges(dual_source_strain).values():
-        assert props["sources"] == sorted(props["sources"]), props["sources"]
-
-
-# ── substrate_depth marker ───────────────────────────────────────────────────
-#
-# The step-6 rollup materialises every descendant's substrates onto each
-# ancestor, so a substrate edge alone cannot say whether this node is the actual
-# transporter system or just an ancestor of one. Without that distinction,
-# "how many systems transport X" has no cheap answer: counting all levels
-# double-counts an ancestor with its own descendant, and the old
-# level_kind='tc_specificity' filter selected only 466 of 11,263 real edges,
-# leaving 83% of transported metabolites at transporter_count = 0.
-
-
-def test_substrate_depth_marks_only_the_deepest_kept_node(cache_root, strain_dir):
-    """The leaf owns the substrate; all four ancestors carry it via rollup."""
-    orch = _make_orchestrator(cache_root, strain_dir)
-    by_source = {}
-    for edge_id, src, tgt, label, props in orch.get_edges():
-        if label == "tcdb_family_transports_metabolite":
-            by_source.setdefault(src, {})[tgt] = props["substrate_depth"]
-
-    assert by_source["tcdb:1.A.1.5.2"] == {
-        "chebi:9999": "most_specific", "kegg.compound:C00208": "most_specific"}
-    for ancestor in ("tcdb:1", "tcdb:1.A", "tcdb:1.A.1", "tcdb:1.A.1.5"):
-        assert set(by_source[ancestor].values()) == {"inherited"}, ancestor
-
-
-def test_substrate_depth_is_a_categorical_string_not_a_bool(cache_root, strain_dir):
-    """BioCypher mishandles boolean properties — the KG uses str vocabularies."""
-    for _id, _s, _t, label, props in _make_orchestrator(cache_root, strain_dir).get_edges():
-        if label == "tcdb_family_transports_metabolite":
-            assert isinstance(props["substrate_depth"], str)
-            assert props["substrate_depth"] in {"most_specific", "inherited"}
-
-
-def test_every_substrate_is_deepest_for_exactly_one_node_per_branch(cache_root, strain_dir):
-    """Each metabolite must have >=1 'deepest' edge, else transporter_count is 0
-    again — the exact regression this marker exists to prevent."""
-    deepest_by_metabolite = {}
-    for _id, src, tgt, label, props in _make_orchestrator(cache_root, strain_dir).get_edges():
-        if label == "tcdb_family_transports_metabolite" and props["substrate_depth"] == "most_specific":
-            deepest_by_metabolite.setdefault(tgt, set()).add(src)
-    assert deepest_by_metabolite == {
-        "chebi:9999": {"tcdb:1.A.1.5.2"},
-        "kegg.compound:C00208": {"tcdb:1.A.1.5.2"},
-    }
-
-
-def test_depth_is_per_substrate_not_per_node(tmp_path):
-    """A node can be 'deepest' for one substrate and 'ancestor' for another —
-    the marker is a (node, substrate) fact. Here 2.A.1 has a kept child that
-    carries only C1, so 2.A.1 stays deepest for C2."""
-    tcdb_dir = tmp_path / "cache" / "tcdb"
-    tcdb_dir.mkdir(parents=True)
-    (tcdb_dir / "tcdb_hierarchy.json").write_text(json.dumps({
-        "2":       {"name": "", "level": 0, "level_kind": "tc_class", "parent": None},
-        "2.A":     {"name": "", "level": 1, "level_kind": "tc_subclass", "parent": "2"},
-        "2.A.1":   {"name": "MFS", "level": 2, "level_kind": "tc_family", "parent": "2.A"},
-        "2.A.1.1": {"name": "", "level": 3, "level_kind": "tc_subfamily", "parent": "2.A.1"},
-    }))
-    (tcdb_dir / "tcdb_pruned.json").write_text(json.dumps({
-        "kept_tcdb_ids": ["2", "2.A", "2.A.1", "2.A.1.1"],
-        "subtree_substrates": {
-            "2":       ["kegg.compound:C1", "kegg.compound:C2"],
-            "2.A":     ["kegg.compound:C1", "kegg.compound:C2"],
-            "2.A.1":   ["kegg.compound:C1", "kegg.compound:C2"],
-            "2.A.1.1": ["kegg.compound:C1"],
-        },
-        "lumping_pin": {"frozen_on": "2026-10-15", "frozen_kept_ids": [], "lumping_tcdb_ids": []},
-    }))
-    strain = tmp_path / "MED4"
-    strain.mkdir()
-    (strain / "gene_annotations_merged.json").write_text(json.dumps({}))
-    genomes_csv = tmp_path / "genomes.csv"
-    genomes_csv.write_text(f"ncbi_accession,strain_name,data_dir\nGCF_1,MED4,{strain}\n")
-
-    orch = MultiTcdbAnnotationAdapter(
-        genome_config_file=str(genomes_csv), cache_root=tcdb_dir.parent)
-    orch.download_data()
-    depth = {}
-    for _id, src, tgt, label, props in orch.get_edges():
-        if label == "tcdb_family_transports_metabolite":
-            depth[(src, tgt)] = props["substrate_depth"]
-
-    assert depth[("tcdb:2.A.1", "kegg.compound:C1")] == "inherited"
-    assert depth[("tcdb:2.A.1", "kegg.compound:C2")] == "most_specific"
-    assert depth[("tcdb:2.A.1.1", "kegg.compound:C1")] == "most_specific"
-
-
-def test_substrate_depth_uses_meaningful_values():
-    from multiomics_kg.utils.controlled_vocab import VOCAB
-    entry = VOCAB.get("Tcdb_family_transports_metabolite", "substrate_depth")
-    assert set(entry.values) == {"most_specific", "inherited"}
-    # and the adapter emits only declared values
-    for v in ("most_specific", "inherited"):
-        VOCAB.check("Tcdb_family_transports_metabolite", "substrate_depth", v)
 
 
 def test_no_schema_property_is_declared_bool():
     """R5: native bool is forbidden graph-wide."""
-    import re, pathlib
+    import pathlib
+    import re
     text = pathlib.Path("config/schema_config.yaml").read_text()
     offenders = re.findall(r"^\s+([a-z_]+): bool\s*(?:#.*)?$", text, re.M)
     assert offenders == [], f"native bool properties remain: {offenders}"
@@ -623,190 +523,66 @@ def test_is_promiscuous_is_gone_from_post_import():
         assert "is_promiscuous" not in text, f"{p} still sets or reads is_promiscuous"
 
 
-def test_transport_substrate_resolution_reads_the_pinned_set():
+def test_string_props_are_sanitized(tmp_path):
+    a = _setup(tmp_path, {}, None)
+    for _nid, label, props in a.get_nodes():
+        for v in props.values():
+            vals = v if isinstance(v, list) else [v]
+            for s in vals:
+                if isinstance(s, str):
+                    assert "'" not in s and "|" not in s, (label, s)
+
+
+# ============================================================================
+# Post-import (TCDB cleanup, spec §5.1 / §5.3 / §7)
+# ============================================================================
+
+_POST_IMPORT_FILES = ("scripts/post-import.sh", "scripts/post-import.cypher")
+
+
+def _cypher_code(text: str) -> str:
+    """Strip `//` comment lines so absence checks ignore history comments."""
+    return "\n".join(
+        line for line in text.splitlines() if not line.lstrip().startswith("//")
+    )
+
+
+def _tcdb_statements(text: str) -> list[str]:
+    """Every Cypher statement that touches TCDB, comments stripped and
+    whitespace-normalised, in file order."""
+    import re
+    if "<<'CYPHER'" in text:  # post-import.sh: keep only the heredoc bodies
+        text = "\n".join(re.findall(r"<<'CYPHER'\n(.*?)\nCYPHER\n", text, re.S))
+    code = _cypher_code(text)
+    stmts = [re.sub(r"\s+", " ", s).strip() for s in code.split(";")]
+    return [s for s in stmts if re.search(r"tcdb|Tcdb", s)]
+
+
+@pytest.mark.parametrize("path", _POST_IMPORT_FILES)
+def test_post_import_uses_tcdb_gate(path):
     import pathlib
-    for p in ("scripts/post-import.cypher", "scripts/post-import.sh"):
-        text = pathlib.Path(p).read_text()
-        assert "t.substrate_breadth = 'lumping'" in text, p
-        assert "metabolite_count, 0) >= 50" not in text, f"{p}: threshold must not be re-derived"
-        assert "R3 exception" in text, f"{p}: cite the documented R3 exception"
+    text = pathlib.Path(path).read_text()
+    code = _cypher_code(text)
+    # the three annotation gates (annotation_quality, annotation_types,
+    # informative_annotation_types) + the TcdbFamily / Gene family counts
+    assert code.count("tcdb_gate IN ['direct','annotated']") >= 5, path
+    assert "tcdb_gate: 'direct'" in code, path
+    assert "'eggnog' IN rt.sources OR rt.tier <= 2" not in code, path
+    for gone in ("substrate_breadth", "attachment_depth", "substrate_depth",
+                 "tcdb_evidence_score_max", "transport_substrate_resolution",
+                 "source_agreement", "go_support", "t.metabolite_count",
+                 "r.tcdb_family_count", "r.direct_tcdb_family_count"):
+        assert gone not in code, f"{path} still references {gone!r}"
+    for present in ("t.tcdb_substrate_count", "r.tcdb_system_count",
+                    "r.direct_tcdb_system_count", "r.direct_transporter_count",
+                    "g.tcdb_family_count", "g.transported_metabolite_count",
+                    "m.transporter_count", "m.transporter_gene_count"):
+        assert present in code, f"{path} missing {present!r}"
 
 
-# ── KG-SYNC-005: uniform `evidence` rung derived from `sources` ──────────────
-
-def test_tcdb_evidence_rung_from_sources():
-    from multiomics_kg.adapters.tcdb_adapter import _tcdb_evidence
-    assert _tcdb_evidence(["eggnog"]) == "family_inferred"
-    assert _tcdb_evidence(["tcdb_diamond"]) == "homology"
-    # both-source edges take the strongest rung
-    assert _tcdb_evidence(["eggnog", "tcdb_diamond"]) == "homology"
-
-
-def test_chemical_role_nodes_and_isa(cache_root, strain_dir):
-    a = _make_orchestrator(cache_root, strain_dir)
-    nodes = {n[0]: n for n in a.get_nodes()}
-    r = nodes["chebi.role:26672"]
-    assert r[1] == "chemical role" and r[2]["level_kind"] == "chebi_role" and r[2]["level"] == 1
-    assert all(i.startswith(("chebi.role:", "chebi:")) for i in r[2]["all_identifiers"])
-    assert ("chebi.role:26672-isa-chebi.role:24432", "chebi.role:26672", "chebi.role:24432",
-            "chemical_role_is_a_chemical_role", {}) in list(a.get_edges())
-
-
-def test_role_edges_share_the_substrate_depth_rule(cache_root, strain_dir):
-    a = _make_orchestrator(cache_root, strain_dir)
-    role = {e[1]: e[4]["substrate_depth"] for e in a.get_edges()
-            if e[3] == "tcdb_family_transports_chemical_role"}
-    assert role == {"tcdb:1.A.1.5": "inherited", "tcdb:1.A.1.5.2": "most_specific"}
-
-
-def test_substrate_breadth(cache_root, strain_dir):
-    a = _make_orchestrator(cache_root, strain_dir)
-    props = {n[2]["tcdb_id"]: n[2] for n in a.get_nodes() if n[1] == "tcdb family"}
-    assert props["1.A.1"]["substrate_breadth"] == "lumping"
-    assert props["1.A.1.5"]["substrate_breadth"] == "specific"
-    assert props["1"]["substrate_breadth"] == props["1.A"]["substrate_breadth"] == "not_assessed"
-
-
-def test_missing_lumping_pin_fails(cache_root, strain_dir):
-    path = cache_root / "tcdb" / "tcdb_pruned.json"
-    pruned = json.loads(path.read_text())
-    del pruned["lumping_pin"]
-    path.write_text(json.dumps(pruned))
-    with pytest.raises(RuntimeError, match="lumping_pin"):
-        _make_orchestrator(cache_root, strain_dir)
-
-
-# ── best-hit details (best_hit_v1) ───────────────────────────────────────────
-
-_PIN = {"frozen_on": "2026-10-15", "frozen_kept_ids": [], "lumping_tcdb_ids": []}
-
-
-@pytest.fixture
-def best_hit_setup(tmp_path):
-    d = tmp_path / "MED4"
-    d.mkdir()
-    (d / "gene_annotations_merged.json").write_text(json.dumps({
-        "PMM_0001": {"locus_tag": "PMM_0001", "protein_id": "WP_1",
-                     "transporter_classification": ["2.A.1", "3.A.1.16"],
-                     "tcdb_diamond_ids": ["2.A.1", "3.A.1.16"],
-                     "tcdb_best_hit_ids": ["3.A.1.16.2", "3.A.1.16.9"]},
-        "PMM_0002": {"locus_tag": "PMM_0002", "protein_id": "WP_2",
-                     "transporter_classification": ["1.A.11"], "tcdb_diamond_ids": ["1.A.11"]},
-        "PMM_0003": {"locus_tag": "PMM_0003", "protein_id": "WP_2",
-                     "transporter_classification": ["1.A.11"], "tcdb_diamond_ids": ["1.A.11"]},
-        "PMM_0004": {"locus_tag": "PMM_0004", "protein_id": "WP_4",
-                     "tcdb_best_hit_ids": ["3.D.4.3.2"]},
-        "PMM_0005": {"locus_tag": "PMM_0005", "protein_id": "WP_5",
-                     "transporter_classification": ["2.A.53"], "tcdb_diamond_ids": ["2.A.53"]},
-    }))
-    (d / "tcdb").mkdir()
-
-    def call(tc, conf):
-        return {"tcid": tc, "tier": 3, "confidence_score": conf, "identity": 40.0,
-                "qcov": 80.0, "evalue": 1e-20, "consensus_n": 2}
-    (d / "tcdb" / "MED4.tcdb.calls.json").write_text(json.dumps({
-        "WP_1": {"calls": [call("2.A.1", 0.9), call("3.A.1.16", 0.5)],
-                 "best_hit": {"rule": "best_hit_v1", "tcids": ["3.A.1.16.2", "3.A.1.16.9"],
-                              "identity": 59.2, "attach_tcid": "3.A.1.16"}},
-        "WP_2": {"calls": [call("1.A.11", 0.7)],
-                 "best_hit": {"rule": "best_hit_v1", "tcids": ["1.A.11.2.5"],
-                              "identity": 81.0, "attach_tcid": "1.A.11"}},
-        "WP_4": {"calls": [], "best_hit": {"rule": "best_hit_v1", "tcids": ["3.D.4.3.2"],
-                                           "identity": 80.0}},
-        "WP_5": {"calls": [call("2.A.53", 0.6)],
-                 "best_hit": {"rule": "best_hit_v1", "tcids": ["2.A.53.9.9"],
-                              "identity": 33.0, "attach_tcid": "2.A.53"}},
-    }))
-    cache = tmp_path / "cache"
-    (cache / "tcdb").mkdir(parents=True)
-    kept = ["1", "1.A", "1.A.11", "2", "2.A", "2.A.1", "2.A.53", "3", "3.A", "3.A.1", "3.A.1.16"]
-    hier = {t: {"level": t.count("."), "level_kind": "x",
-                "parent": t.rsplit(".", 1)[0] if "." in t else None} for t in kept}
-    hier["3.A.1.16.2"] = {"name": "Bispecific cyanate/nitrite transporter.", "level": 4,
-                          "level_kind": "tc_specificity", "parent": "3.A.1.16"}
-    hier["3.A.1.16.9"] = {"name": "", "level": 4, "level_kind": "tc_specificity", "parent": "3.A.1.16"}
-    hier["1.A.11.2.5"] = {"name": "Ammonium transporter with 'quote'|pipe", "level": 4,
-                          "level_kind": "tc_specificity", "parent": "1.A.11.2"}
-    (cache / "tcdb" / "tcdb_hierarchy.json").write_text(json.dumps(hier))
-    (cache / "tcdb" / "tcdb_pruned.json").write_text(json.dumps({
-        "kept_tcdb_ids": kept, "subtree_substrates": {}, "lumping_pin": _PIN,
-        "best_hit_substrates": {
-            "3.A.1.16.2": [["kegg.compound:C00088", "Nitrite"], ["kegg.compound:C01417", "Cyanate"]],
-            "3.A.1.16.9": [["chebi:1", "N,N'-diacetylchitobiose"], ["kegg.compound:C01417", "Cyanate"]],
-            "1.A.11.2.5": [["chebi:28938", "ammonium"]],
-        },
-    }))
-    a = MultiTcdbAnnotationAdapter(genome_config_file=_genome_csv(cache, d), cache_root=cache)
-    a.download_data()
-    return {(e[1], e[2]): e[4] for e in a.get_edges() if e[3] == "gene_has_tcdb_family"}
-
-
-def test_strain_edge_carries_best_hit_on_attach_edge_only(best_hit_setup):
-    e = best_hit_setup
-    assert e[("ncbigene:PMM_0001", "tcdb:3.A.1.16")]["best_hit_tcids"] == ["3.A.1.16.2", "3.A.1.16.9"]
-    assert e[("ncbigene:PMM_0001", "tcdb:3.A.1.16")]["best_hit_identity"] == 59.2
-    assert not any(k.startswith("best_hit") for k in e[("ncbigene:PMM_0001", "tcdb:2.A.1")])
-
-
-def test_shared_wp_both_genes_get_best_hit(best_hit_setup):
-    for lt in ("PMM_0002", "PMM_0003"):
-        assert best_hit_setup[(f"ncbigene:{lt}", "tcdb:1.A.11")]["best_hit_tcids"] == ["1.A.11.2.5"]
-
-
-def test_multi_adds_names_and_substrates(best_hit_setup):
-    p = best_hit_setup[("ncbigene:PMM_0001", "tcdb:3.A.1.16")]
-    assert p["best_hit_names"] == ["Bispecific cyanate/nitrite transporter.", "3.A.1.16.9"]
-    assert p["best_hit_substrate_tcids"] == ["3.A.1.16.2", "3.A.1.16.2", "3.A.1.16.9", "3.A.1.16.9"]
-    assert p["best_hit_substrate_ids"] == ["kegg.compound:C00088", "kegg.compound:C01417",
-                                          "chebi:1", "kegg.compound:C01417"]
-    assert p["best_hit_substrate_names"] == ["Nitrite", "Cyanate", "N,N^-diacetylchitobiose", "Cyanate"]
-
-
-def test_best_hit_strings_sanitized_and_nonempty(best_hit_setup):
-    p = best_hit_setup[("ncbigene:PMM_0002", "tcdb:1.A.11")]
-    assert p["best_hit_names"] == ["Ammonium transporter with ^quote^pipe"]
-    for props in best_hit_setup.values():
-        for k in ("best_hit_names", "best_hit_substrate_names", "best_hit_tcids", "best_hit_substrate_ids"):
-            assert all(v for v in props.get(k, ["x"])), (k, props)
-
-
-def test_best_hit_without_substrates_omits_substrate_props(best_hit_setup):
-    p = best_hit_setup[("ncbigene:PMM_0005", "tcdb:2.A.53")]
-    assert p["best_hit_tcids"] == ["2.A.53.9.9"] and p["best_hit_names"] == ["2.A.53.9.9"]
-    for k in ("best_hit_substrate_tcids", "best_hit_substrate_ids", "best_hit_substrate_names"):
-        assert k not in p
-
-
-def test_best_hit_without_call_emits_nothing(best_hit_setup):
-    assert not [k for k in best_hit_setup if k[0] == "ncbigene:PMM_0004"]
-
-
-def test_alias_merge_keeps_best_hit_from_non_base_side(tmp_path):
-    d = tmp_path / "MED4"
-    d.mkdir()
-    (d / "gene_annotations_merged.json").write_text(json.dumps({
-        "PMM_0001": {"locus_tag": "PMM_0001", "protein_id": "WP_1",
-                     "transporter_classification": ["3.A.1.35", "3.A.1"],
-                     "tcdb_diamond_ids": ["3.A.1.35", "3.A.1"]}}))
-    (d / "tcdb").mkdir()
-    (d / "tcdb" / "MED4.tcdb.calls.json").write_text(json.dumps({"WP_1": {
-        "calls": [{"tcid": "3.A.1", "tier": 3, "confidence_score": 0.9, "identity": 50.0},
-                  {"tcid": "3.A.1.35", "tier": 3, "confidence_score": 0.2, "identity": 30.0}],
-        "best_hit": {"rule": "best_hit_v1", "tcids": ["3.A.1.35.1"], "identity": 30.0,
-                     "attach_tcid": "3.A.1.35"}}}))
-    cache = tmp_path / "cache"
-    (cache / "tcdb").mkdir(parents=True)
-    (cache / "tcdb" / "tcdb_hierarchy.json").write_text(json.dumps({
-        "3": {"level": 0, "level_kind": "tc_class", "parent": None},
-        "3.A": {"level": 1, "level_kind": "tc_subclass", "parent": "3"},
-        "3.A.1": {"level": 2, "level_kind": "tc_family", "parent": "3.A"}}))
-    (cache / "tcdb" / "tcdb_pruned.json").write_text(json.dumps({
-        "kept_tcdb_ids": ["3", "3.A", "3.A.1"], "subtree_substrates": {},
-        "seed_aliases": {"3.A.1.35": "3.A.1"}, "lumping_pin": _PIN}))
-    a = MultiTcdbAnnotationAdapter(genome_config_file=_genome_csv(cache, d), cache_root=cache)
-    a.download_data()
-    edges = [e for e in a.get_edges() if e[3] == "gene_has_tcdb_family"]
-    assert len(edges) == 1
-    assert edges[0][4]["confidence_score"] == 0.9
-    assert edges[0][4]["best_hit_tcids"] == ["3.A.1.35.1"]
-    assert edges[0][4]["best_hit_names"] == ["3.A.1.35.1"]
+def test_post_import_sh_and_cypher_tcdb_blocks_match():
+    import pathlib
+    sh = _tcdb_statements(pathlib.Path("scripts/post-import.sh").read_text())
+    cy = _tcdb_statements(pathlib.Path("scripts/post-import.cypher").read_text())
+    assert len(sh) > 10
+    assert sh == cy

@@ -210,10 +210,12 @@ def test_gene_encodes_protein_no_duplicates(run_query):
 def test_no_orphan_tcdb_families(run_query):
     """Every TcdbFamily node must have at least one connecting edge.
 
-    Pruning keeps only nodes within a gene-reachable subhierarchy, so by
-    construction every kept node either has a Gene_has_tcdb_family edge,
-    a parent edge to another kept node, or both. An orphan would indicate
-    a pruning bug or stale index.
+    Kept nodes are gene-anchored seeds + their ancestors, plus range-only
+    substrate-bearing systems under kept families (TCDB cleanup, spec
+    2026-10-22 §5.4), so by construction every kept node has a
+    Gene_has_tcdb_family edge, a parent edge to another kept node, or both
+    (range-only systems always have the parent edge). An orphan would
+    indicate a pruning bug or stale index.
     """
     n_bad = run_query("""
         MATCH (t:TcdbFamily)

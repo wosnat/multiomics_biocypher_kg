@@ -1,21 +1,16 @@
 """TCDB ontology adapter.
 
-Yields:
-- TcdbFamily nodes (only IDs in cache/data/tcdb/tcdb_pruned.json's kept_tcdb_ids).
-- Tcdb_family_is_a_tcdb_family parent edges within the pruned hierarchy.
-- Gene_has_tcdb_family edges from per-strain gene_annotations_merged.json
-  (filtered to pruned IDs to avoid dangling edges).
-- Tcdb_family_transports_metabolite edges from tcdb_pruned.json["subtree_substrates"].
-  Each kept TC ID maps to the union of substrate primary IDs from every
-  tc_specificity descendant in the FULL TCDB hierarchy (rollup computed
-  pre-pruning in step 6). The adapter emits one edge per (tc_id, primary_id)
-  pair without traversing the hierarchy.
-
-  Note: since the 2026-08-06 pruning cleanup the hierarchy keeps only
-  gene-annotated TC IDs + their ancestors, so filtering to
-  source.level_kind = 'tc_specificity' selects the 246 specificity nodes genes
-  actually annotate — not every specificity node in a reachable family. The
-  ancestor rollup still carries the full substrate union either way.
+Yields (TCDB cleanup, spec docs/superpowers/specs/2026-10-22-tcdb-cleanup-design.md §5):
+- TcdbFamily nodes for every id in tcdb_pruned.json's ``kept_tcdb_ids`` (gene-anchored
+  seeds + ancestors, and range-only substrate-bearing systems under kept families),
+  each carrying ``direction`` / ``direction_basis`` (TCDB-stated, ``tcdb_direction``).
+- Tcdb_family_is_a_tcdb_family parent edges within the kept hierarchy.
+- Gene_has_tcdb_family edges: ONE per (gene, TC node, ``tcdb_call``) — eggNOG ids,
+  diamond tier calls and diamond best-hit systems are separate edges (no merge),
+  each stamped with ``tcdb_gate`` (direct | annotated | below_gate).
+- Tcdb_family_transports_metabolite / _chemical_role edges from ``system_substrates`` /
+  ``system_roles``: tc_system sources only, no properties.
+- Pfam / GO bridge edges on all kept nodes.
 
 Two-class shape mirrors functional_annotation_adapter.MultiPfamAnnotationAdapter.
 """
@@ -24,35 +19,27 @@ from __future__ import annotations
 import csv
 import json
 import logging
+from collections import Counter
 from pathlib import Path
 from typing import Iterator
 
 from multiomics_kg.utils.controlled_vocab import VOCAB
 from multiomics_kg.utils.curie_utils import normalize_curie
-from multiomics_kg.utils.metabolite_identity.lumping import substrate_breadth
+from multiomics_kg.utils.tcdb_diamond import best_hit_tier
+from multiomics_kg.utils.tcdb_utils import tcdb_direction
 
 logger = logging.getLogger(__name__)
 
-
-def _tcdb_evidence(sources: list[str]) -> str:
-    """Rung of the shared evidence ladder for a Gene_has_tcdb_family edge.
-
-    curated > signature > homology > family_inferred > domain_inferred.
-    A diamond call is a direct blastp hit vs. the curated TCDB FASTA ->
-    ``homology`` (strength within it is read from ``tier``); an eggNOG-only call
-    is orthology transfer -> ``family_inferred``. Both-source edges take the
-    strongest (KG-SYNC-005 / ONT-008).
-    """
-    return "homology" if "tcdb_diamond" in sources else "family_inferred"
-
-
-# NOTE: this module used to carry its own `_TC_CLASS_NAMES` copy as a fallback for
-# `tc_class` nodes with an empty name. It was dead code, and the hardcoded table
-# itself is gone since T6 (2026-08-18): ALL node names — classes through
-# specificities — now arrive in tcdb_hierarchy.json, filled by step 6 from the
-# committed cache/data/tcdb/tcdb_names.json (built by
-# multiomics_kg/download/scrape_tcdb_names.py). This adapter only falls back to
-# the bare tcdb_id when upstream genuinely has no name (spec 5c).
+# tcdb_call → (sources, evidence rung). Shared evidence ladder:
+# curated > signature > homology > family_inferred > domain_inferred.
+# eggNOG is orthology transfer; both diamond kinds are direct blastp hits vs. the
+# curated TCDB FASTA (strength within `homology` is read from `tier`).
+_CALL_PROVENANCE = {
+    "eggnog": (["eggnog"], "family_inferred"),
+    "diamond_tier": (["tcdb_diamond"], "homology"),
+    "diamond_best_hit": (["tcdb_diamond"], "homology"),
+}
+_TC_SYSTEM_LEVEL = 4
 
 
 def _clean_str(value: str | None) -> str:
@@ -87,33 +74,60 @@ _GO_LABEL_TO_EDGE = {
 }
 
 
+def tcdb_gate(tcdb_call: str, props: dict, target_level: int) -> str:
+    """Which downstream rule a gene edge passes (spec §5.3), computed AFTER the
+    seed_aliases remap so ``target_level`` is the level of the node it lands on.
+
+    direct: rank-1 best hit with tier <= 2; eggNOG; tier-1 call — and in every arm
+        the landed node must be a tc_system (direct reaches system substrates).
+    annotated: a direct arm that landed on a non-system ancestor (alias remap);
+        any other eggNOG edge; tier-2 call.
+    below_gate: everything else.
+    """
+    tier = props.get("tier")
+    if tcdb_call == "eggnog":
+        passes, direct_arm = True, True
+    elif tcdb_call == "diamond_tier":
+        passes, direct_arm = tier in (1, 2), tier == 1
+    elif tcdb_call == "diamond_best_hit":
+        passes = props.get("rank") == 1 and tier is not None and tier <= 2
+        direct_arm = passes
+    else:
+        passes = direct_arm = False
+    if not passes:
+        return "below_gate"
+    return "direct" if direct_arm and target_level == _TC_SYSTEM_LEVEL else "annotated"
+
+
+def _float_props(src: dict, keys: tuple[str, ...]) -> dict:
+    return {k: float(src[k]) for k in keys if src.get(k) is not None}
+
+
 class TcdbAnnotationAdapter:
-    """Per-strain adapter: yields Gene_has_tcdb_family edges from gene_annotations_merged.json."""
+    """Per-strain adapter: yields raw ``(locus_tag, tcdb_call, tc_id, props)`` claims.
+
+    eggNOG claims come from the merged ``tcdb_eggnog_ids``; diamond claims are read
+    from the Phase-1 ``<strain>.tcdb.calls.json`` directly (interpro_adapter pattern):
+    one ``diamond_tier`` claim per entry of ``calls`` and one ``diamond_best_hit``
+    claim per system in ``best_hit.hits`` — for EVERY protein with a best hit,
+    including those with no tier call. A strain without calls.json yields eggNOG
+    claims only. Alias remap, pruning, collapse and gating happen in the Multi wrapper.
+    """
 
     def __init__(self, genome_dir: Path, test_mode: bool = False) -> None:
         self.genome_dir = Path(genome_dir)
         self.test_mode = test_mode
         self._genes: dict = {}
-        # {protein_id: {tcid: best candidate dict}} from the Phase-1 calls.json
-        self._diamond: dict[str, dict[str, dict]] = {}
-        # {protein_id: best_hit block} (best_hit_v1) from the same calls.json
-        self._best_hits: dict[str, dict] = {}
+        # {protein_id: calls.json record}
+        self._diamond: dict[str, dict] = {}
         self._load()
 
     def _load(self) -> None:
         from multiomics_kg.utils.annotations_cache import load_merged_annotations
         self._genes = load_merged_annotations(self.genome_dir)
-        self._diamond = self._load_diamond_evidence()
+        self._diamond = self._load_diamond_records()
 
-    def _load_diamond_evidence(self) -> dict[str, dict[str, dict]]:
-        """Read `<strain>.tcdb.calls.json` for per-call edge evidence.
-
-        Mirrors interpro_adapter: the merge carries only the light id list, while
-        the adapter reads the Phase-1 artifact directly for the rich per-call
-        fields. Keyed by protein_id (WP_), then by tcid. When a protein has
-        several candidates collapsing to the same tcid, the highest
-        confidence_score wins (`calls` is already sorted descending).
-        """
+    def _load_diamond_records(self) -> dict[str, dict]:
         path = self.genome_dir / "tcdb" / f"{self.genome_dir.name}.tcdb.calls.json"
         if not path.exists():
             return {}
@@ -122,103 +136,65 @@ class TcdbAnnotationAdapter:
         except (OSError, json.JSONDecodeError) as exc:
             logger.warning(f"TcdbAnnotationAdapter({self.genome_dir.name}): unreadable {path}: {exc}")
             return {}
-        out: dict[str, dict[str, dict]] = {}
-        for wp, rec in data.items():
-            if not isinstance(rec, dict):
-                continue
-            best = rec.get("best_hit")
-            if isinstance(best, dict) and best.get("tcids") and best.get("attach_tcid"):
-                self._best_hits[str(wp).strip()] = best
-            per_tc: dict[str, dict] = {}
-            for cand in rec.get("calls", []):
-                tcid = cand.get("tcid")
-                if tcid and tcid not in per_tc:
-                    per_tc[tcid] = cand
-            if per_tc:
-                out[str(wp).strip()] = per_tc
+        out = {str(wp).strip(): rec for wp, rec in data.items() if isinstance(rec, dict)}
+        no_hits = sum(1 for rec in out.values()
+                      if isinstance(rec.get("best_hit"), dict) and rec["best_hit"].get("tcids")
+                      and not rec["best_hit"].get("hits"))
+        if no_hits:
+            logger.warning(
+                f"TcdbAnnotationAdapter({self.genome_dir.name}): {no_hits} best_hit block(s) "
+                f"without per-system `hits` — regenerate with run_tcdb_diamond.py --from-tsv; "
+                f"their best-hit edges are skipped")
         return out
 
-    def get_all_tcdb_ids(self) -> set[str]:
-        ids: set[str] = set()
-        for gene in self._genes.values():
-            for tc in gene.get("transporter_classification") or []:
-                if tc:
-                    ids.add(tc)
-        return ids
+    def _claims_for(self, gene: dict) -> Iterator[tuple[str, str, dict]]:
+        for tc in gene.get("tcdb_eggnog_ids") or []:
+            if tc:
+                yield "eggnog", tc, {}
+        rec = self._diamond.get((gene.get("protein_id") or "").strip())
+        if not rec:
+            return
+        for cand in rec.get("calls") or []:
+            tc = cand.get("tcid")
+            if not tc:
+                continue
+            props: dict = {}
+            if cand.get("tier") is not None:
+                props["tier"] = int(cand["tier"])
+            props.update(_float_props(cand, ("identity", "qcov", "scov", "evalue")))
+            yield "diamond_tier", tc, props
+        best = rec.get("best_hit")
+        hits = (best or {}).get("hits") or [] if isinstance(best, dict) else []
+        if not hits:
+            return
+        top = hits[0].get("bitscore")
+        for i, hit in enumerate(hits):
+            tc = hit.get("tcid")
+            if not tc:
+                continue
+            props = {"rank": i + 1}
+            if hit.get("identity") is not None:
+                props["tier"] = best_hit_tier(float(hit["identity"]))
+            props.update(_float_props(hit, ("identity", "qcov", "scov", "evalue", "bitscore")))
+            if hit.get("bitscore") is not None and top:
+                props["bitscore_ratio"] = (
+                    1.0 if i == 0 else round(float(hit["bitscore"]) / float(top), 4))
+            yield "diamond_best_hit", tc, props
 
-    def get_edges(self):
-        """One Gene_has_tcdb_family edge per (gene, TC id), carrying source provenance.
-
-        `transporter_classification` is the UNION of two independent sources, so a
-        TC called by both yields ONE edge with sources=['eggnog','tcdb_diamond'] — that
-        agreement is the cross-source corroboration signal, and materialising it as
-        two parallel edges would destroy it.
-
-        Diamond evidence (tier / confidence_score / identity / qcov / evalue /
-        consensus_n) rides only on edges diamond actually called; eggNOG-only edges
-        carry `sources` alone. Properties are sparse rather than null-filled,
-        matching Gene_has_interpro_entry's treatment of nullable evalue.
-        """
+    def get_edges(self) -> Iterator[tuple[str, str, str, dict]]:
         count = 0
         for locus_tag, gene in self._genes.items():
-            egn = set(gene.get("tcdb_eggnog_ids") or [])
-            dia = set(gene.get("tcdb_diamond_ids") or [])
-            protein_id = (gene.get("protein_id") or "").strip()
-            evidence = self._diamond.get(protein_id, {})
-            best = self._best_hits.get(protein_id)
-            for tc in gene.get("transporter_classification") or []:
-                if not tc:
-                    continue
-                # SORTED so `sources` has one canonical form. The seed_alias merge
-                # in MultiTcdbAnnotationAdapter unions and sorts, so an unsorted
-                # build here would leave two spellings of the same value
-                # (['eggnog','tcdb_diamond'] vs ['tcdb_diamond','eggnog']) and any consumer
-                # doing an equality check would silently miss one of them.
-                sources = sorted(
-                    ({"eggnog"} if tc in egn else set())
-                    | ({"tcdb_diamond"} if tc in dia else set())
-                )
-                if not sources:
-                    # Present in the union but attributable to neither per-source
-                    # field — a stale merged file. Keep the edge (no annotation is
-                    # lost) but leave provenance empty rather than guessing.
-                    logger.debug(
-                        f"TcdbAnnotationAdapter({self.genome_dir.name}): {locus_tag} "
-                        f"TC {tc} has no source attribution; re-run prepare_data step 2"
-                    )
-                props: dict = {"sources": sources, "evidence": _tcdb_evidence(sources)}
-                cand = evidence.get(tc) if "tcdb_diamond" in sources else None
-                if cand:
-                    for key in ("tier", "consensus_n"):
-                        if cand.get(key) is not None:
-                            props[key] = int(cand[key])
-                    for key in ("confidence_score", "identity", "qcov", "evalue"):
-                        if cand.get(key) is not None:
-                            props[key] = float(cand[key])
-                # best_hit_v1: the protein's actual best-hit 5-part systems ride on the
-                # ONE diamond edge in the top hit's family (attach_tcid). Names and
-                # substrates are added by MultiTcdbAnnotationAdapter.
-                if best and "tcdb_diamond" in sources and tc == best["attach_tcid"]:
-                    props["best_hit_tcids"] = [_clean_str(t) for t in best["tcids"]]
-                    if best.get("identity") is not None:
-                        props["best_hit_identity"] = float(best["identity"])
-                yield (
-                    f"{locus_tag}-has_tcdb-{tc}",
-                    _gene_node_id(locus_tag),
-                    _tcdb_node_id(tc),
-                    "gene_has_tcdb_family",
-                    props,
-                )
+            for tcdb_call, tc, props in self._claims_for(gene):
+                yield locus_tag, tcdb_call, tc, props
                 count += 1
                 if self.test_mode and count >= 100:
                     return
-        logger.debug(
-            f"TcdbAnnotationAdapter({self.genome_dir.name}): yielded {count} gene→TCDB edges"
-        )
+        logger.debug(f"TcdbAnnotationAdapter({self.genome_dir.name}): {count} TCDB claims")
 
 
 class MultiTcdbAnnotationAdapter:
-    """Multi-strain orchestrator: owns TcdbFamily nodes + parent edges + substrate edges."""
+    """Multi-strain orchestrator: owns TcdbFamily nodes, hierarchy / gene / substrate /
+    bridge edges."""
 
     def __init__(
         self,
@@ -236,14 +212,12 @@ class MultiTcdbAnnotationAdapter:
         self._build_strain_adapters(genome_config_file)
         self._hierarchy: dict[str, dict] = {}
         self._kept_ids: set[str] = set()
-        self._subtree_substrates: dict[str, list[str]] = {}
+        self._system_substrates: dict[str, list[str]] = {}
+        self._system_roles: dict[str, list[str]] = {}
         self._chemical_roles: dict[str, dict] = {}
-        self._subtree_roles: dict[str, list[str]] = {}
-        self._lumping_pin: dict | None = None
         self._seed_aliases: dict[str, str] = {}
         self._pfam_bridge: dict[str, dict[str, list[str]]] = {}
         self._go_bridge: dict[str, dict[str, list[str]]] = {}
-        self._best_hit_substrates: dict[str, list[list[str]]] = {}
         # None = endpoint node set not provided → emit NO bridge edges of that kind
         # (we cannot guarantee the endpoints exist). A provided set (even empty)
         # prunes to it. Mirrors MultiInterproAnnotationAdapter.pfam_node_ids.
@@ -281,126 +255,136 @@ class MultiTcdbAnnotationAdapter:
         self._hierarchy = json.loads(hierarchy_path.read_text())
         pruned = json.loads(pruned_path.read_text())
         self._kept_ids = set(pruned["kept_tcdb_ids"])
-        # Pre-rolled-up substrate primary IDs per kept TC ID. Step 6 computes
-        # the rollup over the FULL hierarchy (pre-pruning) so ancestor nodes
-        # capture every TCDB descendant's substrates, not just gene-annotated
-        # ones. Empty rollups are omitted from the file.
-        self._subtree_substrates = pruned.get("subtree_substrates", {}) or {}
-        # Remaps gene-annotated TCIDs not in the curated hierarchy to the
-        # nearest curated ancestor (e.g. retired `3.A.1.35` → family `3.A.1`).
-        # Older pruned files may not carry this field.
+        if "system_substrates" not in pruned:
+            logger.warning(
+                "tcdb_pruned.json has no system_substrates (pre-cleanup format) — no TCDB "
+                "substrate edges; re-run prepare_data step 6")
+        # {tc_system: [canonical id, ...]} — each system's OWN TCDB substrates.
+        self._system_substrates = pruned.get("system_substrates", {}) or {}
+        self._system_roles = pruned.get("system_roles", {}) or {}
+        # Remaps gene-annotated TCIDs not in the curated hierarchy to the nearest
+        # curated ancestor (e.g. retired `3.A.1.35` → family `3.A.1`); "" = dropped.
         self._seed_aliases = pruned.get("seed_aliases", {}) or {}
         # Cross-ontology bridges, pre-rolled onto kept nodes by step 6.
         # {tc_id: {xref_id: [curated 5-part TCIDs]}}
         self._pfam_bridge = pruned.get("pfam_bridge", {}) or {}
         self._go_bridge = pruned.get("go_bridge", {}) or {}
         self._chemical_roles = pruned.get("chemical_roles", {}) or {}
-        self._subtree_roles = pruned.get("subtree_roles", {}) or {}
-        # best_hit_v1: {tcid5: [[canonical_id, name], ...]} — each best-hit system's own
-        # substrates (unfiltered; ids need not be nodes). Read only for edge properties.
-        self._best_hit_substrates = pruned.get("best_hit_substrates", {}) or {}
-        self._lumping_pin = pruned.get("lumping_pin")
-        if self._lumping_pin is None:
-            raise RuntimeError(
-                "tcdb_pruned.json has no lumping_pin — re-run prepare_data step 6")
 
-    def _with_best_hit_details(self, props: dict) -> dict:
-        """Add best_hit_names (aligned with best_hit_tcids; TCID when unnamed) and the
-        long-form substrate lists (one entry per (system, substrate), window order then
-        id; the three lists aligned; absent when no window system has substrates)."""
-        tcids = props["best_hit_tcids"]
-        props["best_hit_names"] = [
-            _clean_str((self._hierarchy.get(t) or {}).get("name") or "") or t for t in tcids]
-        sub_tc, sub_id, sub_name = [], [], []
-        for t in tcids:
-            for sid, name in self._best_hit_substrates.get(t, []):
-                sub_tc.append(t)
-                sub_id.append(_clean_str(sid))
-                sub_name.append(_clean_str(name or "") or _clean_str(sid))
-        if sub_id:
-            props["best_hit_substrate_tcids"] = sub_tc
-            props["best_hit_substrate_ids"] = sub_id
-            props["best_hit_substrate_names"] = sub_name
-        return props
+    def _level(self, tcdb_id: str) -> int:
+        level = self._hierarchy.get(tcdb_id, {}).get("level")
+        return int(level) if level is not None else tcdb_id.count(".")
 
-    def _compute_substrate_depth(
-        self, subtree_map: dict[str, list[str]]
-    ) -> dict[str, set[str]]:
-        """{tc_id: {primary_id it is the MOST-SPECIFIC kept node for}}.
-
-        A kept node is *most_specific* for a substrate when no kept child of it
-        also carries that substrate. Checking DIRECT children is sufficient — never
-        the whole subtree — because `_prune_tcdb` only ever walks *up* from a
-        seed, so the kept set is ancestor-closed: any kept descendant of `t` has
-        a kept child-of-`t` on its path to `t`, and the rollup is transitive, so
-        that child necessarily carries the substrate too.
-        """
-        children: dict[str, list[str]] = {}
-        for tc in self._kept_ids:
-            parent = self._hierarchy.get(tc, {}).get("parent")
-            if parent is not None and parent in self._kept_ids:
-                children.setdefault(parent, []).append(tc)
-
-        depth: dict[str, set[str]] = {}
-        for tc, primaries in subtree_map.items():
-            covered: set[str] = set()
-            for child in children.get(tc, []):
-                covered.update(subtree_map.get(child, ()))
-            depth[tc] = set(primaries) - covered
-        return depth
+    def _is_kept_system(self, tcdb_id: str) -> bool:
+        return tcdb_id in self._kept_ids and self._level(tcdb_id) == _TC_SYSTEM_LEVEL
 
     def get_nodes(self) -> Iterator[tuple[str, str, dict]]:
         if not self._kept_ids:
             self.download_data(cache=self.cache)
 
-        # NOT capped under test_mode, matching every sibling ontology adapter
-        # (cazy / interpro / psortb / signalp all cap the per-gene EDGE loop and
-        # emit the full ontology). The ontology is bounded reference data — the
-        # expensive part is the 53K gene edges, which the per-strain adapter caps.
-        # Capping nodes here left gene/parent/substrate/bridge edges pointing at
-        # the ~1,400 unemitted nodes, and `skip_bad_relationships: true` dropped
-        # them silently, so `--test` produced a quietly broken TCDB layer.
+        # NOT capped under test_mode, matching every sibling ontology adapter: the
+        # ontology is bounded reference data, and capping nodes would leave gene /
+        # parent / substrate / bridge edges dangling.
         emit_count = 0
+        directions: Counter = Counter()
         for tcdb_id in sorted(self._kept_ids):
             entry = self._hierarchy.get(tcdb_id, {})
-            level = entry.get("level", 0)
+            level = self._level(tcdb_id)
             level_kind = entry.get("level_kind", "tc_class")
-            # Falls back to the tcdb_id when the source has no name. TCDB ships
-            # descriptions only for classes and families, so subclass /
-            # subfamily / specificity nodes all render as their bare id.
+            # Falls back to the tcdb_id when TCDB has no name for the node.
             display_name = (entry.get("name") or "") or tcdb_id
-
+            direction, basis = tcdb_direction(tcdb_id, self._hierarchy)
+            directions[direction] += 1
             props = {
                 "name": _clean_str(display_name),
                 "tcdb_id": tcdb_id,
                 "level": level,
-                "level_kind": level_kind,
-                "substrate_breadth": VOCAB.check(
-                    "TcdbFamily", "substrate_breadth",
-                    substrate_breadth(tcdb_id, level, self._lumping_pin)),
+                "level_kind": VOCAB.check("TcdbFamily", "level_kind", level_kind),
+                "direction": VOCAB.check("TcdbFamily", "direction", direction),
             }
+            if basis is not None:
+                props["direction_basis"] = VOCAB.check("TcdbFamily", "direction_basis", basis)
             if entry.get("superfamily"):
                 props["superfamily"] = _clean_str(entry["superfamily"])
             if entry.get("description"):
                 props["description"] = _clean_str(entry["description"])
             yield _tcdb_node_id(tcdb_id), "tcdb family", props
             emit_count += 1
-        logger.info(f"MultiTcdbAnnotationAdapter.get_nodes: {emit_count} TcdbFamily nodes")
+        logger.info(
+            f"MultiTcdbAnnotationAdapter.get_nodes: {emit_count} TcdbFamily nodes "
+            f"(direction {dict(sorted(directions.items()))})")
         for role_id, r in sorted(self._chemical_roles.items()):
             yield (role_id, "chemical role", {
                 "name": _clean_str(r["name"]), "level": int(r["level"]),
                 "level_kind": VOCAB.check("ChemicalRole", "level_kind", r["level_kind"]),
                 "all_identifiers": [_clean_str(i) for i in r["all_identifiers"]]})
 
+    def _gene_edges(self) -> Iterator[tuple]:
+        """Gene_has_tcdb_family: alias remap → drop unkept → within-kind collapse
+        (diamond_best_hit: lower rank wins; other kinds: higher identity wins)
+        → tcdb_gate on the landed node."""
+        remapped = dropped = collapsed = 0
+        by_call: Counter = Counter()
+        by_gate: Counter = Counter()
+        for adapter in self._strain_adapters:
+            # {(locus_tag, target, tcdb_call): props}, insertion-ordered
+            edges: dict[tuple[str, str, str], dict] = {}
+            for locus_tag, tcdb_call, tc, props in adapter.get_edges():
+                target = tc
+                if target not in self._kept_ids:
+                    anchor = self._seed_aliases.get(tc) or ""
+                    if not anchor or anchor not in self._kept_ids:
+                        dropped += 1
+                        continue
+                    target = anchor
+                    remapped += 1
+                key = (locus_tag, target, tcdb_call)
+                prev = edges.get(key)
+                if prev is not None:
+                    collapsed += 1
+                    if tcdb_call == "diamond_best_hit":
+                        # keep the best-ranked system (rank 1 = top bitscore)
+                        if props.get("rank", 99) >= prev.get("rank", 99):
+                            continue
+                    elif props.get("identity", -1.0) <= prev.get("identity", -1.0):
+                        continue
+                edges[key] = props
+            for (locus_tag, target, tcdb_call), raw in edges.items():
+                sources, evidence = _CALL_PROVENANCE[tcdb_call]
+                gate = tcdb_gate(tcdb_call, raw, self._level(target))
+                props = {
+                    "sources": list(sources),
+                    "evidence": evidence,
+                    "tcdb_call": VOCAB.check("Gene_has_tcdb_family", "tcdb_call", tcdb_call),
+                    "tcdb_gate": VOCAB.check("Gene_has_tcdb_family", "tcdb_gate", gate),
+                    **raw,
+                }
+                by_call[tcdb_call] += 1
+                by_gate[gate] += 1
+                yield (
+                    f"{locus_tag}-has_tcdb-{target}-{tcdb_call}",
+                    _gene_node_id(locus_tag),
+                    _tcdb_node_id(target),
+                    "gene_has_tcdb_family",
+                    props,
+                )
+        logger.info(
+            f"MultiTcdbAnnotationAdapter: gene→TCDB edges by tcdb_call "
+            f"{dict(sorted(by_call.items()))}, by tcdb_gate {dict(sorted(by_gate.items()))}; "
+            f"{remapped} re-anchored via seed_aliases, {collapsed} within-kind duplicate(s) "
+            f"collapsed, {dropped} dropped (target not kept)")
+        self.last_gene_edge_counts = {"by_call": dict(by_call), "by_gate": dict(by_gate),
+                                      "remapped": remapped, "collapsed": collapsed,
+                                      "dropped": dropped}
+
     def get_edges(self):
         if not self._kept_ids:
             self.download_data(cache=self.cache)
 
-        # 1. Parent edges within the pruned hierarchy
+        # 1. Parent edges within the kept hierarchy
         parent_count = 0
         for tcdb_id in sorted(self._kept_ids):
-            entry = self._hierarchy.get(tcdb_id, {})
-            parent = entry.get("parent")
+            parent = self._hierarchy.get(tcdb_id, {}).get("parent")
             if parent and parent in self._kept_ids:
                 yield (
                     f"{tcdb_id}-parent-{parent}",
@@ -411,151 +395,51 @@ class MultiTcdbAnnotationAdapter:
                 )
                 parent_count += 1
 
-        # 2. Gene→TcdbFamily edges. Remap edges whose target isn't in the
-        # curated hierarchy through `seed_aliases` (built by step 6) so retired
-        # eggNOG TCIDs anchor onto the nearest curated ancestor instead of
-        # being silently dropped.
-        gene_count = 0
-        remapped = 0
-        dropped = 0
-        kept_node_ids = {_tcdb_node_id(tc) for tc in self._kept_ids}
-        alias_node_ids = {
-            _tcdb_node_id(orig): _tcdb_node_id(anchor)
-            for orig, anchor in self._seed_aliases.items()
-        }
-        # Remapping can make two distinct source TCIDs land on the SAME kept node:
-        # e.g. eggNOG's retired `3.A.1.35` re-anchors to `3.A.1`, which diamond
-        # already called directly. Emitting both would produce parallel edges whose
-        # `sources` are split (['eggnog'] on one, ['tcdb_diamond'] on the other) —
-        # destroying exactly the corroboration signal the single-edge model exists
-        # to capture. So collapse per (gene, TC) after remapping: union `sources`
-        # and keep the diamond evidence block from whichever edge carries it.
-        merged_count = 0
-        for adapter in self._strain_adapters:
-            by_pair: dict[tuple[str, str], tuple[str, dict]] = {}
-            order: list[tuple[str, str]] = []
-            for edge in adapter.get_edges():
-                edge_id, source, target, _label, props = edge
-                if "best_hit_tcids" in props:
-                    props = self._with_best_hit_details(dict(props))
-                if target not in kept_node_ids:
-                    anchor_target = alias_node_ids.get(target)
-                    if not (anchor_target and anchor_target in kept_node_ids):
-                        dropped += 1
-                        continue
-                    target = anchor_target
-                    remapped += 1
-                key = (source, target)
-                if key not in by_pair:
-                    by_pair[key] = (edge_id, dict(props))
-                    order.append(key)
-                    continue
-                merged_count += 1
-                prev_id, prev_props = by_pair[key]
-                sources = sorted(set(prev_props.get("sources", [])) | set(props.get("sources", [])))
-                # Prefer whichever side carries diamond evidence; if both do, the
-                # higher-confidence call wins.
-                base = prev_props
-                if "tier" in props and (
-                    "tier" not in prev_props
-                    or props.get("confidence_score", 0.0) > prev_props.get("confidence_score", 0.0)
-                ):
-                    base = props
-                combined = dict(base)
-                # best_hit_* rides on one diamond edge; keep it whichever side won.
-                other = props if base is prev_props else prev_props
-                for k, v in other.items():
-                    if k.startswith("best_hit_") and k not in combined:
-                        combined[k] = v
-                combined["sources"] = sources
-                combined["evidence"] = _tcdb_evidence(sources)
-                # Keep the lexicographically smaller id so the merge is deterministic.
-                by_pair[key] = (min(prev_id, edge_id), combined)
-            for key in order:
-                edge_id, props = by_pair[key]
-                yield (edge_id, key[0], key[1], "gene_has_tcdb_family", props)
-                gene_count += 1
-        if merged_count:
-            logger.info(
-                f"MultiTcdbAnnotationAdapter: merged {merged_count} gene→TCDB edge(s) "
-                f"that collapsed onto the same (gene, TC) after seed_alias remapping"
-            )
-        if remapped:
-            logger.info(
-                f"MultiTcdbAnnotationAdapter: re-anchored {remapped} gene→TCDB edges via seed_aliases"
-            )
-        if dropped:
-            logger.warning(
-                f"MultiTcdbAnnotationAdapter: dropped {dropped} gene→TCDB edges to unpruned IDs"
-            )
+        # 2. Gene→TcdbFamily edges, one per (gene, node, tcdb_call).
+        yield from self._gene_edges()
 
-        # 3. Substrate edges. Pre-rolled-up at step-6 time over the FULL
-        # hierarchy, so ancestors carry substrates from every TCDB descendant
-        # (not just gene-annotated ones).
-        #
-        # `substrate_depth` marks whether this node is the MOST-SPECIFIC kept
-        # node carrying the substrate ('most_specific') or an ancestor of one
-        # ('inherited'). Without it, "how many distinct transporter systems move
-        # X" has no cheap answer: counting every level double-counts an ancestor
-        # with its own descendant, and the old `level_kind = 'tc_specificity'`
-        # filter selects only 466 of 11,263 edges — leaving 83% of transported
-        # metabolites at transporter_count = 0 after the ancestor-only prune.
-        #
-        # NOT the same as "curated vs inherited": only tc_specificity nodes carry
-        # their own `substrate_classes` and they are leaves, so curated-vs-inherited
-        # is exactly `level_kind = 'tc_specificity'` and needs no new property.
-        # Depth is the part that is not derivable without a hierarchy traversal.
-        substrate_depth = self._compute_substrate_depth(self._subtree_substrates)
+        # 3. Substrate edges: tc_system sources only, each system's own TCDB
+        # substrates (no roll-up; a family's range is the walk over its systems).
         sub_count = 0
-        deepest_count = 0
-        for tcdb_id, primary_ids in sorted(self._subtree_substrates.items()):
+        skipped = 0
+        for tcdb_id, primary_ids in sorted(self._system_substrates.items()):
+            if not self._is_kept_system(tcdb_id):
+                skipped += 1
+                continue
             for primary in primary_ids:
-                is_deepest = primary in substrate_depth.get(tcdb_id, ())
-                if is_deepest:
-                    deepest_count += 1
-                yield (
-                    f"{tcdb_id}-transports-{primary}",
-                    _tcdb_node_id(tcdb_id),
-                    primary,
-                    "tcdb_family_transports_metabolite",
-                    # Categorical str, not bool: BioCypher mishandles boolean
-                    # properties, so the KG uses string vocabularies throughout.
-                    {"substrate_depth": VOCAB.check(
-                        "Tcdb_family_transports_metabolite", "substrate_depth",
-                        "most_specific" if is_deepest else "inherited")},
-                )
+                yield (f"{tcdb_id}-transports-{primary}", _tcdb_node_id(tcdb_id), primary,
+                       "tcdb_family_transports_metabolite", {})
                 sub_count += 1
 
-        # Chemical-role hierarchy + role-transport edges (same depth rule).
+        # Chemical-role hierarchy + role-transport edges (same system-only rule).
         # Role ids are used verbatim: normalize_curie returns None for chebi.role:.
         for role_id, r in sorted(self._chemical_roles.items()):
             for parent in r["parents"]:
                 yield (f"{role_id}-isa-{parent}", role_id, parent,
                        "chemical_role_is_a_chemical_role", {})
-        role_depth = self._compute_substrate_depth(self._subtree_roles)
-        for tcdb_id, roles in sorted(self._subtree_roles.items()):
+        role_count = 0
+        for tcdb_id, roles in sorted(self._system_roles.items()):
+            if not self._is_kept_system(tcdb_id):
+                skipped += 1
+                continue
             for role_id in roles:
-                depth = ("most_specific" if role_id in role_depth.get(tcdb_id, set())
-                         else "inherited")
                 yield (f"t2r:{tcdb_id}:{role_id}", _tcdb_node_id(tcdb_id), role_id,
-                       "tcdb_family_transports_chemical_role",
-                       {"substrate_depth": VOCAB.check(
-                           "Tcdb_family_transports_chemical_role",
-                           "substrate_depth", depth)})
+                       "tcdb_family_transports_chemical_role", {})
+                role_count += 1
+        if skipped:
+            logger.warning(
+                f"MultiTcdbAnnotationAdapter: skipped {skipped} system_substrates/system_roles "
+                f"key(s) that are not kept tc_system nodes")
 
-        # 4. Cross-ontology bridges (TcdbFamily → Pfam / GO).
+        # 4. Cross-ontology bridges (TcdbFamily → Pfam / GO), on ALL kept nodes —
+        # gene-anchored and range-only alike (spec §5.5).
         #
         # DIRECTION IS SEMANTIC, not incidental. These edges assert "TCDB's curated
         # reference proteins for this transport family carry this domain / GO
-        # annotation" — a statement about the composition of the TC family.
-        # Measured on 42 strains: read outward from a gene's known TC family, the
-        # Pfam bridge corroborates 85% of calls and contradicts 2%. Read backwards
-        # (xref → therefore a transporter) it is only ~31% precise, because these
-        # domains also occur outside transport contexts. Hence TcdbFamily is the
-        # SOURCE: the sound traversal is the natural one.
-        #
-        # `curated_tcids` preserves the original published 5-part TCIDs so the
-        # roll-up onto surviving ancestors loses no precision.
+        # annotation" — a statement about the composition of the TC family. Read
+        # backwards (xref → therefore a transporter) it is only ~31% precise, because
+        # these domains also occur outside transport contexts. Hence TcdbFamily is
+        # the SOURCE. `curated_tcids` preserves the published 5-part TCIDs.
         pfam_count = 0
         if self.pfam_node_ids is not None:
             for tcdb_id, xrefs in sorted(self._pfam_bridge.items()):
@@ -594,7 +478,6 @@ class MultiTcdbAnnotationAdapter:
 
         logger.info(
             f"MultiTcdbAnnotationAdapter.get_edges: {parent_count} parent, "
-            f"{gene_count} gene, {sub_count} substrate "
-            f"({deepest_count} most_specific / {sub_count - deepest_count} inherited), "
+            f"{sub_count} substrate, {role_count} role, "
             f"{pfam_count} Pfam-bridge, {go_count} GO-bridge edges"
         )

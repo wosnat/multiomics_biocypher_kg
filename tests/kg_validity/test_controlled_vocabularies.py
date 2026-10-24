@@ -1,9 +1,8 @@
 """Live-graph vocabulary contract checks.
 
 The CSV gate (tests/test_create_knowledge_graph.py) is structurally blind to
-post-import-computed properties (transport_substrate_resolution,
-tcdb_evidence_score_max, source_agreement, pfam_support, go_support), so this
-suite is not redundant with it.
+post-import-computed properties (e.g. TcdbFamily.tcdb_substrate_count,
+Gene_has_merops_family.pfam_support), so this suite is not redundant with it.
 
 Query construction note: each `VocabEntry` already declares its own
 `value_type`, so branching is done in Python on `entry.value_type ==
@@ -108,11 +107,15 @@ def test_every_sources_value_joins_a_data_source(run_query):
 
 
 def test_no_native_boolean_properties_remain(run_query):
-    """R5. Checks the two properties this change deleted are gone, and the
-    three properties it converted to R5-compliant strings are actually
-    strings on the live graph, not native bool."""
+    """R5. Deleted properties stay gone, and the two-state / categorical
+    properties are strings on the live graph, not native bool.
+
+    TCDB cleanup (2026-10-23): source_agreement / pfam_support / go_support left
+    Gene_has_tcdb_family (removed by (label, property) — MEROPS keeps
+    pfam_support); tcdb_call / tcdb_gate are the new categorical strings."""
     for label, prop in [("TcdbFamily", "is_promiscuous"),
-                        ("InterproEntry", "is_promiscuous")]:
+                        ("InterproEntry", "is_promiscuous"),
+                        ("TcdbFamily", "substrate_breadth")]:
         rows = run_query(
             f"MATCH (n:{label}) WHERE n.`{prop}` IS NOT NULL RETURN count(n) AS n")
         assert rows[0]["n"] == 0, f"{label}.{prop} should have been deleted"
@@ -120,12 +123,24 @@ def test_no_native_boolean_properties_remain(run_query):
     for prop in ("source_agreement", "pfam_support", "go_support"):
         rows = run_query(
             f"MATCH ()-[r:Gene_has_tcdb_family]->() "
+            f"WHERE r.`{prop}` IS NOT NULL RETURN count(r) AS n")
+        assert rows[0]["n"] == 0, f"Gene_has_tcdb_family.{prop} should have been deleted"
+
+    for rel, prop in (("Gene_has_tcdb_family", "tcdb_call"),
+                      ("Gene_has_tcdb_family", "tcdb_gate"),
+                      ("Gene_has_merops_family", "pfam_support")):
+        rows = run_query(
+            f"MATCH ()-[r:{rel}]->() "
             f"WHERE r.`{prop}` IS NOT NULL RETURN r.`{prop}` AS v LIMIT 5")
-        assert rows, f"no Gene_has_tcdb_family edges carry {prop}"
+        assert rows, f"no {rel} edges carry {prop}"
         for row in rows:
             assert isinstance(row["v"], str), (
-                f"Gene_has_tcdb_family.{prop} is {type(row['v'])!r}, expected str "
+                f"{rel}.{prop} is {type(row['v'])!r}, expected str "
                 f"(R5: no native bool)")
+
+    rows = run_query("MATCH (t:TcdbFamily) WHERE t.direction IS NOT NULL "
+                     "RETURN t.direction AS v LIMIT 5")
+    assert rows and all(isinstance(r["v"], str) for r in rows)
 
 
 def test_layer_a_router_edges_carry_no_properties(run_query):

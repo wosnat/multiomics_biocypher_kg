@@ -99,38 +99,18 @@ def test_merops_evidence_score_max_sparse(run_query):
     assert row["missing"] == 0 and row["spurious"] == 0
 
 
-def test_attachment_depth_materialized(run_query):
-    """AC3 (ONT-010): property on 100% of edges and equal to the inline predicate."""
-    row = run_query(
-        "MATCH (g:Gene)-[r:Gene_has_tcdb_family]->(t:TcdbFamily) "
-        "WITH r, EXISTS { MATCH (g)-[:Gene_has_tcdb_family]->(d:TcdbFamily) "
-        "  WHERE (d)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t) } AS sup "
-        "RETURN count(r) AS n, count(r.attachment_depth) AS set_, "
-        "sum(CASE WHEN r.attachment_depth = (CASE WHEN sup THEN 'superseded' ELSE 'most_specific' END) "
-        "    THEN 1 ELSE 0 END) AS agree, collect(DISTINCT r.attachment_depth) AS vals"
-    )[0]
-    assert row["set_"] == row["n"] == row["agree"] > 0
-    assert set(row["vals"]) == {"most_specific", "superseded"}
-
-
-def test_attachment_depth_med4_spot_check(run_query):
-    row = run_query(
-        "MATCH (g:Gene {organism_name: 'Prochlorococcus MED4'})-[r:Gene_has_tcdb_family]->() "
-        "RETURN count(r) AS rows, sum(CASE WHEN r.attachment_depth = 'superseded' THEN 1 ELSE 0 END) AS sup"
-    )[0]
-    assert row["rows"] == 670 and row["sup"] == 73
-
-
-def test_transport_counts_read_most_specific_only(run_query):
-    """The gene scalar and the metabolite scalar are two projections of one set."""
+def test_transport_counts_are_projections_of_direct_pairs(run_query):
+    """TCDB cleanup (spec 2026-10-22 §7): the gene scalar and the metabolite scalar
+    are two projections of one direct (gene, metabolite) set — tcdb_gate = 'direct'
+    edges onto tc_system nodes (attachment_depth was removed)."""
     a = run_query(
-        "MATCH (g:Gene)-[:Gene_has_tcdb_family {attachment_depth: 'most_specific'}]->(:TcdbFamily)"
+        "MATCH (g:Gene)-[:Gene_has_tcdb_family {tcdb_gate: 'direct'}]->(:TcdbFamily)"
         "-[:Tcdb_family_transports_metabolite]->(m:Metabolite) "
         "RETURN count(DISTINCT [g, m]) AS pairs"
     )[0]["pairs"]
     b = run_query("MATCH (g:Gene) RETURN sum(coalesce(g.transported_metabolite_count, 0)) AS s")[0]["s"]
     c = run_query("MATCH (m:Metabolite) RETURN sum(coalesce(m.transporter_gene_count, 0)) AS s")[0]["s"]
-    assert a == b == c
+    assert a == b == c > 0
 
 
 @pytest.mark.parametrize("label", HIERARCHICAL)
@@ -211,10 +191,14 @@ EXPLORER_VOCAB_PAIRS = [  # §7.3 of the asks doc — every (applies_to, propert
     *[(e, p) for e in GENE_ONTOLOGY_EDGES for p in ("sources", "evidence")],
     *[(e, "evidence_score") for e in GENE_ONTOLOGY_EDGES if e not in (
         "Gene_has_kegg_ko", "Gene_in_cog_category", "Gene_has_cyanorak_role", "Gene_has_tigr_role",
-        "Gene_has_interpro_entry", "Gene_has_ncbifam_family")],
-    *[(e, p) for e in ("Gene_has_tcdb_family", "Gene_has_merops_family")
+        "Gene_has_interpro_entry", "Gene_has_ncbifam_family",
+        "Gene_has_tcdb_family")],   # TCDB evidence_score removed by the TCDB cleanup (2026-10-23)
+    *[("Gene_has_merops_family", p)
       for p in ("tier", "confidence_score", "identity", "qcov", "evalue", "consensus_n", "pfam_support")],
-    *[("Gene_has_tcdb_family", p) for p in ("source_agreement", "go_support", "attachment_depth")],
+    *[("Gene_has_tcdb_family", p)
+      for p in ("tcdb_call", "tcdb_gate", "tier", "rank", "identity", "qcov", "scov", "evalue",
+                "bitscore", "bitscore_ratio")],
+    ("TcdbFamily", "direction"), ("TcdbFamily", "direction_basis"), ("TcdbFamily", "tcdb_substrate_count"),
     *[("Gene_has_merops_family", p) for p in ("call_class", "best_hit_kind")],
     *[("Gene_has_interpro_entry", p) for p in ("libraries", "evalue_library", "evalue", "match_count")],
     *[("Gene_has_ncbifam_family", p) for p in ("evalue", "bit_score")],

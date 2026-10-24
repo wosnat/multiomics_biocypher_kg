@@ -33,7 +33,6 @@ def test_canonical_graph_shape(tmp_path):
     assert kd["compounds"]["C00078"]["recurated_from_ids"] == ["kegg.compound:C00525"]
     assert "kegg.compound:C00525" not in kd["compounds"]["C00078"]["all_identifiers"]
     assert kd["compounds"]["C00041"]["stereo_form_of"] == ["kegg.compound:C01401"]
-    assert out.tcdb_pruned["lumping_pin"]["lumping_tcdb_ids"]                 # seeded
     assert out.class_trees["br08001"]["members"] == [
         {"metabolite_id": "kegg.compound:C00041", "class_id": "kegg.brite:br08001.A1.B1"}]
 
@@ -44,11 +43,11 @@ def test_metabolomics_tag_only_on_final_targets(tmp_path):
     assert tagged == {"C00041", "C00078"}
 
 
-def test_rerun_with_committed_lock_and_pin_is_byte_identical(tmp_path):
+def test_rerun_with_committed_lock_is_byte_identical(tmp_path):
     inp = make_inputs(tmp_path)
     out1, files1 = _render(tmp_path, copy.deepcopy(inp))
     inp2 = make_inputs(tmp_path)
-    inp2.lock, inp2.lumping_pin, inp2.today = out1.lock, out1.tcdb_pruned["lumping_pin"], "2099-01-01"
+    inp2.lock, inp2.today = out1.lock, "2099-01-01"
     _, files2 = _render(tmp_path, inp2)
     assert files1 == files2                                                   # frozen_on unchanged
 
@@ -75,20 +74,20 @@ def test_resolved_csv_targets_are_written_compounds(tmp_path):
 
 def test_inputs_are_not_mutated(tmp_path):
     inp = make_inputs(tmp_path)
-    before = copy.deepcopy((inp.table, inp.kegg_rest, inp.subtree_substrates, inp.lock))
+    before = copy.deepcopy((inp.table, inp.kegg_rest, inp.system_substrates, inp.lock))
     run_identity_stages(inp)
-    assert (inp.table, inp.kegg_rest, inp.subtree_substrates, inp.lock) == before
+    assert (inp.table, inp.kegg_rest, inp.system_substrates, inp.lock) == before
 
 
 def test_rewrite_and_stereo_on_survivors(tmp_path):
     out, _ = _render(tmp_path, make_inputs(tmp_path))
     kd = out.kegg_data
-    assert out.tcdb_pruned["subtree_substrates"]["2.A.1"] == [f"{K}C00244", f"{K}C01401"]
+    assert out.tcdb_pruned["system_substrates"]["2.A.1.1.1"] == [f"{K}C00244", f"{K}C01401"]
     assert kd["compounds"]["C00041"]["enantiomer_of"] == [f"{K}C00133"]
     assert "enantiomer_of" not in kd["compounds"]["C00078"]          # D-Trp dropped (stage L)
     assert kd["compounds"]["C00244"]["evidence_sources"] == ["metabolism", "transport"]
     assert all("mnx_chebi_aliases" not in e for e in kd["compounds"].values())
-    assert out.tcdb_pruned["chemical_roles"] and out.tcdb_pruned["subtree_roles"]
+    assert out.tcdb_pruned["chemical_roles"] and out.tcdb_pruned["system_roles"]
     assert out.tcdb_pruned["kept_tcdb_ids"] == ["2.A.1", "3.A.3"]
     assert all(not t["members"] for c, t in out.class_trees.items() if c != "br08001")
 
@@ -247,7 +246,7 @@ def _rerun_inputs(tmp_path, out1):
     dec = out1.mapping["decisions"][PAPER][TABLE]
     inp2.old_resolved = {(PAPER, TABLE, r.row_index): dec[r.name_key]["metabolite_id"]
                          for t in inp2.tables for r in t.rows}
-    inp2.lock, inp2.lumping_pin, inp2.today = out1.lock, out1.tcdb_pruned["lumping_pin"], "2099-01-01"
+    inp2.lock, inp2.today = out1.lock, "2099-01-01"
     return inp2
 
 
@@ -363,26 +362,20 @@ def test_canonical_margin_error_is_actionable():
         assert part in msg, part
 
 
-def test_identity_stages_writes_best_hit_substrates(tmp_path):
-    """best_hit_v1: per-system substrates rewritten to canonical ids and named from the
-    final table / ChemicalRole; ids without a node keep their TCDB name; nothing else moves."""
-    base = run_identity_stages(make_inputs(tmp_path))
+def test_pruned_keys_after_cleanup(tmp_path):
+    out, _ = _render(tmp_path, make_inputs(tmp_path))
+    assert set(out.tcdb_pruned) == {"kept_tcdb_ids", "system_substrates", "system_roles",
+                                    "chemical_roles", "seed_aliases", "pfam_bridge", "go_bridge"}
+
+
+def test_system_substrates_canonicalised(tmp_path):
     inp = make_inputs(tmp_path)
-    inp.best_hit_substrates = {
-        "2.A.1.1.1": [("chebi:17632", "nitrate (tcdb)"), ("chebi.role:33229", "vitamin (tcdb)"),
-                      ("chebi:99999", "unknown thing")],
-        "2.A.1.1.2": [("kegg.compound:C00244", "nitric acid (tcdb)"), ("chebi:17632", "nitrate")],
-    }
-    out = run_identity_stages(inp)
-    bh = out.tcdb_pruned["best_hit_substrates"]
-    assert bh["2.A.1.1.1"] == [["chebi.role:33229", "vitamin (role)"], ["chebi:99999", "unknown thing"],
-                               [f"{K}C00244", "Nitrate"]]
-    assert bh["2.A.1.1.2"] == [[f"{K}C00244", "Nitrate"]]          # both merge onto one node
-    rest = {k: v for k, v in out.tcdb_pruned.items() if k != "best_hit_substrates"}
-    assert rest == {k: v for k, v in base.tcdb_pruned.items() if k != "best_hit_substrates"}
-    assert out.kegg_data == base.kegg_data
+    assert "chebi:17632" in inp.system_substrates["2.A.1.1.1"]               # non-canonical in
+    out, _ = _render(tmp_path, inp)
+    assert "chebi:17632" not in out.tcdb_pruned["system_substrates"]["2.A.1.1.1"]
+    assert f"{K}C00244" in out.tcdb_pruned["system_substrates"]["2.A.1.1.1"]
 
 
-def test_identity_stages_without_best_hits_has_empty_key(tmp_path):
-    out = run_identity_stages(make_inputs(tmp_path))
-    assert out.tcdb_pruned["best_hit_substrates"] == {}
+def test_identity_report_has_no_lumping(tmp_path):
+    out, _ = _render(tmp_path, make_inputs(tmp_path))
+    assert "lumping" not in out.report

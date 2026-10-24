@@ -217,7 +217,7 @@ def test_build_strain_calls_full_pipeline(tmp_path):
     c = call0("WP_AAA.1")
     assert c["tcid"] == "1.A.11.1.5"
     assert c["tier"] == 1
-    assert c["level_kind"] == "tc_specificity"
+    assert c["level_kind"] == "tc_system"
     assert c["consensus_agreement"] == "5_part"
     assert c["consensus_n"] == 3
     assert c["incompletely_characterized"] is False
@@ -252,7 +252,7 @@ def test_build_strain_calls_full_pipeline(tmp_path):
     assert c["tcid"] == "9.B.82.1.5"
     assert c["incompletely_characterized"] is True
     assert c["tier"] == 1
-    assert c["level_kind"] == "tc_specificity"
+    assert c["level_kind"] == "tc_system"
 
     # WP_FFF.1: floor failure -> not in calls
     assert "WP_FFF.1" not in calls
@@ -431,7 +431,7 @@ def test_calls_carry_only_sequence_derived_fields(tmp_path):
     rec = calls["WP_A.1"]
     # Protein-level: `calls` plus the sequence-derived `best_hit` block (best_hit_v1)
     assert set(rec) == {"calls", "best_hit"}
-    assert set(rec["best_hit"]) == {"rule", "tcids", "identity", "attach_tcid"}
+    assert set(rec["best_hit"]) == {"rule", "tcids", "identity", "attach_tcid", "hits"}
     # Candidate-level: no cross-source or filter state
     cand = rec["calls"][0]
     forbidden = {"egn_agreement", "egn_tcids", "pfam_agreement", "pfam_ids",
@@ -527,7 +527,8 @@ def test_agreement_weight_is_defined_for_every_returned_depth():
 # ── best-hit rule (best_hit_v1) ─────────────────────────────────────────────
 
 from multiomics_kg.utils.tcdb_diamond import (  # noqa: E402
-    BEST_HIT_RULE_VERSION, attach_tcid, parse_tcdb_subject_id, select_best_hits,
+    BEST_HIT_RULE_VERSION, _TIER_TO_LEVEL_KIND, attach_tcid, best_hit_tier,
+    parse_tcdb_subject_id, select_best_hits,
 )
 
 
@@ -637,7 +638,9 @@ def test_build_strain_calls_adds_best_hit_block(tmp_path):
     rec = calls["WP_1"]
     assert [(c["tcid"], c["tier"]) for c in rec["calls"]] == [("3.A.1.16", 2)]
     assert rec["best_hit"] == {"rule": "best_hit_v1", "tcids": ["3.A.1.16.2"],
-                               "identity": 59.2, "attach_tcid": "3.A.1.16"}
+                               "identity": 59.2, "attach_tcid": "3.A.1.16",
+                                "hits": [{"tcid": "3.A.1.16.2", "identity": 59.2, "qcov": 95.4,
+                                          "scov": 94.0, "evalue": 1e-108, "bitscore": 316.0}]}
     assert summary["proteins_with_best_hit"] == 1
     assert summary["best_hit_without_call"] == 0
     assert summary["best_hit_fallback_attach"] == 0
@@ -648,7 +651,9 @@ def test_build_strain_calls_best_hit_without_call(tmp_path):
     tsv.write_text(_tsv_line("WP_2", "Q1-3.D.4.3.2", 80.0, 95.0, 95.0, 40, 1e-10, 60))
     calls, summary = build_strain_calls(tsv)
     assert calls["WP_2"] == {"calls": [], "best_hit": {"rule": "best_hit_v1",
-                                                       "tcids": ["3.D.4.3.2"], "identity": 80.0}}
+                                                       "tcids": ["3.D.4.3.2"], "identity": 80.0,
+                                                           "hits": [{"tcid": "3.D.4.3.2", "identity": 80.0, "qcov": 95.0,
+                                                                     "scov": 95.0, "evalue": 1e-10, "bitscore": 60.0}]}}
     assert summary["proteins_with_call"] == 0
     assert summary["total_candidates"] == 0
     assert summary["best_hit_without_call"] == 1
@@ -721,3 +726,45 @@ def test_from_tsv_rejects_limit(monkeypatch):
     monkeypatch.setattr("sys.argv", ["run_tcdb_diamond.py", "--from-tsv", "--limit", "5"])
     with _pytest.raises(SystemExit):
         r.main()
+
+
+def test_best_hit_hits_aligned_with_tcids():
+    rows = [_row("P1", "3.D.3.1.1", 71, 90, 90, 100, acc="A"),
+            _row("P1", "3.E.2.1.1", 60, 90, 90, 95, acc="B")]
+    best = select_best_hits(rows)["P1"]
+    assert len(best["hits"]) == len(best["tcids"]) == 2
+    for i, t in enumerate(best["tcids"]):
+        assert best["hits"][i]["tcid"] == t
+
+
+def test_best_hit_hits_use_each_systems_own_row():
+    rows = [_row("P1", "3.D.3.1.1", 71, 91, 92, 100, acc="A", evalue=1e-30),
+            _row("P1", "3.D.3.1.1", 50, 80, 80, 98, acc="A2", evalue=1e-10),
+            _row("P1", "3.E.2.1.1", 60, 85, 86, 95, acc="B", evalue=1e-20)]
+    hits = select_best_hits(rows)["P1"]["hits"]
+    assert hits[0] == {"tcid": "3.D.3.1.1", "identity": 71, "qcov": 91,
+                       "scov": 92, "evalue": 1e-30, "bitscore": 100}
+    assert hits[1] == {"tcid": "3.E.2.1.1", "identity": 60, "qcov": 85,
+                       "scov": 86, "evalue": 1e-20, "bitscore": 95}
+
+
+def test_best_hit_selection_unchanged():
+    rows = [_row("P1", "3.D.3.1.1", 71, 90, 90, 100, acc="A"),
+            _row("P1", "3.E.2.1.1", 60, 90, 90, 95, acc="B"),
+            _row("P1", "3.D.3.2.1", 55, 90, 90, 92, acc="C"),
+            _row("P1", "3.D.3.3.1", 50, 90, 90, 91, acc="D")]
+    assert select_best_hits(rows)["P1"]["tcids"] == ["3.D.3.1.1", "3.E.2.1.1", "3.D.3.2.1"]
+    rows = [_row("P1", "3.A.1.16.4", 50, 90, 90, 300, acc="A"),
+            _row("P1", "3.A.1.16.2", 50, 90, 90, 300, acc="B")]
+    assert select_best_hits(rows)["P1"]["tcids"] == ["3.A.1.16.2", "3.A.1.16.4"]
+
+
+def test_best_hit_tier_bands():
+    assert best_hit_tier(70.0) == 1
+    assert best_hit_tier(69.99) == 2
+    assert best_hit_tier(40.0) == 2
+    assert best_hit_tier(39.99) == 3
+
+
+def test_tier_level_kind_uses_tc_system():
+    assert _TIER_TO_LEVEL_KIND[1] == "tc_system"

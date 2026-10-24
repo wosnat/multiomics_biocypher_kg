@@ -19,16 +19,16 @@ def _entry(ids, **kw):
 def test_validate_flags_duplicate_identifier_across_roles():
     table = {"chebi:1": _entry(["chebi:1", "chebi:10004"])}
     roles = {"chebi.role:33229": {"parents": [], "all_identifiers": ["chebi.role:33229", "chebi:10004"]}}
-    errs = validate_build(table=table, roles=roles, subtree_substrates={}, subtree_roles={},
+    errs = validate_build(table=table, roles=roles, system_substrates={}, system_roles={},
                           class_trees={}, resolution=ResolutionResult(), chebi_missing_needed=set())
     assert any("chebi:10004" in e for e in errs)
 
 
-def test_validate_flags_dangling_and_missing_assignment():
+def test_validate_flags_dangling_system_substrate():
     table = {"kegg.compound:C1": dict(_entry(["kegg.compound:C1"]), stereo_form_of=["kegg.compound:C9"])}
     res = ResolutionResult(decisions={("p", "t", 0): Decision("kegg.compound:C1", "name_match", None)})
-    errs = validate_build(table=table, roles={}, subtree_substrates={"2.A.1": ["kegg.compound:C7"]},
-                          subtree_roles={}, class_trees={}, resolution=res, chebi_missing_needed=set())
+    errs = validate_build(table=table, roles={}, system_substrates={"2.A.1": ["kegg.compound:C7"]},
+                          system_roles={}, class_trees={}, resolution=res, chebi_missing_needed=set())
     assert any("C9" in e for e in errs) and any("C7" in e for e in errs)
     assert any("stereo_assignment" in e for e in errs)
 
@@ -92,7 +92,7 @@ from multiomics_kg.utils.metabolite_identity.outputs import build_identity_repor
 
 
 def _v(**kw):
-    args = dict(table={}, roles={}, subtree_substrates={}, subtree_roles={}, class_trees={},
+    args = dict(table={}, roles={}, system_substrates={}, system_roles={}, class_trees={},
                 resolution=ResolutionResult(), chebi_missing_needed=set())
     args.update(kw)
     return validate_build(**args)
@@ -118,7 +118,7 @@ def test_validate_class_tree_dangling():
 
 def test_validate_roles_and_chebi():
     roles = {"r1": {"parents": ["r9"], "all_identifiers": []}}
-    errs = _v(roles=roles, subtree_roles={"2.A": ["r7"]}, chebi_missing_needed={"chebi:5"})
+    errs = _v(roles=roles, system_roles={"2.A": ["r7"]}, chebi_missing_needed={"chebi:5"})
     assert any("r9" in e for e in errs) and any("r7" in e for e in errs) and any("chebi:5" in e for e in errs)
 
 

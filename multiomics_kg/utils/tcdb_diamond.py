@@ -85,12 +85,12 @@ def consensus_collapse(hits: list[dict]) -> dict | None:
     The returned dict has keys: tcid (str), agreement ("5_part" | "4_part" | "3_part"),
     n (number of hits considered).
 
-    TCDB curates at the tc_specificity leaves, so in practice every hit carries a
+    TCDB curates at the tc_system leaves, so in practice every hit carries a
     5-part TCID (verified: 40,520/40,520 candidates across 42 strains). That is
     ENFORCED here rather than assumed: `parse_tcdb_subject_id` accepts 3-5 parts,
     and list slicing does not pad, so a group of 4-part hits would otherwise match
     at depth 5 and be reported as "5_part" — inflating the confidence weight to
-    1.0 and mislabelling a subfamily-depth call as `tc_specificity`. Capping the
+    1.0 and mislabelling a subfamily-depth call as `tc_system`. Capping the
     search at the shallowest hit makes the claimed depth always real.
     """
     if not hits:
@@ -201,10 +201,12 @@ def select_best_hits(rows: list[dict]) -> dict[str, dict]:
     TCIDs, any family. Ordering: bitscore desc, then TCID asc, then subject_id
     asc (query id asc for the reverse lookup).
 
-    Returns {query_id: {"tcids": [...], "identity": float, "top_tcid": str}};
+    Returns {query_id: {"tcids": [...], "identity": float, "top_tcid": str,
+    "hits": [{tcid, identity, qcov, scov, evalue, bitscore}, ...]}} where hits
+    is aligned with tcids and each entry is that TCID's first (top-bitscore) row;
     proteins failing the gate or the reciprocal check are absent.
     """
-    gated: list[tuple[float, str, str, str, float]] = []
+    gated: list[tuple[float, str, str, str, dict]] = []
     for r in rows:
         if r["qcov"] < _BEST_HIT_MIN_COV or r["scov"] < _BEST_HIT_MIN_COV:
             continue
@@ -214,12 +216,12 @@ def select_best_hits(rows: list[dict]) -> dict[str, dict]:
         tcid = parsed[1]
         if tcid.split(".", 1)[0] not in _BEST_HIT_CLASSES or len(tcid.split(".")) != 5:
             continue
-        gated.append((r["bitscore"], r["query_id"], r["subject_id"], tcid, r["identity"]))
+        gated.append((r["bitscore"], r["query_id"], r["subject_id"], tcid, r))
 
     by_query: dict[str, list] = defaultdict(list)
     top_query_of_subject: dict[str, tuple[float, str]] = {}
-    for bits, q, subj, tcid, ident in gated:
-        by_query[q].append((bits, tcid, subj, ident))
+    for bits, q, subj, tcid, row in gated:
+        by_query[q].append((bits, tcid, subj, row))
         cur = top_query_of_subject.get(subj)
         if cur is None or (-bits, q) < (-cur[0], cur[1]):
             top_query_of_subject[subj] = (bits, q)
@@ -227,18 +229,23 @@ def select_best_hits(rows: list[dict]) -> dict[str, dict]:
     out: dict[str, dict] = {}
     for q, hits in by_query.items():
         hits.sort(key=lambda h: (-h[0], h[1], h[2]))     # bits desc, TCID, subject_id
-        top_bits, top_tcid, top_subj, top_ident = hits[0]
+        top_bits, top_tcid, top_subj, top_row = hits[0]
         if top_query_of_subject[top_subj][1] != q:
             continue
         tcids: list[str] = []
-        for bits, tcid, _subj, _ident in hits:
+        stats: list[dict] = []
+        for bits, tcid, _subj, row in hits:
             if bits < _BEST_HIT_WINDOW * top_bits:
                 break
             if tcid not in tcids:
                 tcids.append(tcid)
+                stats.append({"tcid": tcid, "identity": row["identity"],
+                              "qcov": row["qcov"], "scov": row["scov"],
+                              "evalue": row["evalue"], "bitscore": row["bitscore"]})
             if len(tcids) == _BEST_HIT_MAX:
                 break
-        out[q] = {"tcids": tcids, "identity": top_ident, "top_tcid": top_tcid}
+        out[q] = {"tcids": tcids, "identity": top_row["identity"],
+                  "top_tcid": top_tcid, "hits": stats}
     return out
 
 
@@ -258,10 +265,19 @@ def attach_tcid(best: dict, candidates: list[dict]) -> str | None:
 
 
 _TIER_TO_LEVEL_KIND = {
-    1: "tc_specificity",
+    1: "tc_system",
     2: "tc_subfamily",
     3: "tc_family",
 }
+
+
+def best_hit_tier(identity: float) -> int:
+    """Identity band of a best-hit system: 1 (>=70), 2 (>=40), else 3."""
+    if identity >= 70.0:
+        return 1
+    if identity >= 40.0:
+        return 2
+    return 3
 
 _AGREEMENT_TO_PARTS = {"5_part": 5, "4_part": 4, "3_part": 3}
 # Down-weight scores when consensus is shallower — agreement at full depth
@@ -419,7 +435,8 @@ def build_strain_calls(tsv_path: Path) -> tuple[dict, dict]:
     without_call = fallback = multi = 0
     for query_id, best in best_hits.items():
         block = {"rule": BEST_HIT_RULE_VERSION, "tcids": best["tcids"],
-                 "identity": best["identity"]}
+                 "identity": best["identity"],
+                 "hits": best["hits"]}
         rec = calls.get(query_id)
         if rec is None:
             calls[query_id] = {"calls": [], "best_hit": block}

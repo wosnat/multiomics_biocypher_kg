@@ -3,25 +3,9 @@
     {
       "class_id": "kegg.brite:br08005.A2.B2",
       "metabolite_id": "kegg.compound:C00306"
-    },
-    {
-      "class_id": "kegg.brite:br08005.A1.B4",
-      "metabolite_id": "kegg.compound:C11684"
     }
   ],
   "nodes": [
-    {
-      "id": "kegg.brite:br08005.A1",
-      "level": 0,
-      "name": "Neuropeptides",
-      "parent": null
-    },
-    {
-      "id": "kegg.brite:br08005.A1.B4",
-      "level": 1,
-      "name": "Endogenous opioid peptide",
-      "parent": "kegg.brite:br08005.A1"
-    },
     {
       "id": "kegg.brite:br08005.A2",
       "level": 0,

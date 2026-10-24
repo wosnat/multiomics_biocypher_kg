@@ -95,7 +95,11 @@ ANCHOR_NODES = {
         # Tripwires for the acc2tcid hierarchy-seeding fix (May 2026):
         # these were silently dropped before the build seeded from acc2tcid.tsv.
         "tcdb:1.A.11",       # Ammonium Transporter Channel (Amt) Family — 3-part family from families.tsv
-        "tcdb:1.A.12.2.2",   # chloride channel — 5-part specificity exclusive to acc2tcid
+        "tcdb:1.A.12.2.2",   # chloride channel — 5-part system exclusive to acc2tcid
+        # TCDB cleanup (2026-10-22 spec §9): direction tripwires.
+        "tcdb:3.A.1",        # ABC superfamily — no own substrate edges, direction unknown
+        "tcdb:3.A.1.4",      # uptake / abc_numbering
+        "tcdb:3.A.1.7.6",    # PstABCS — MED4 pstS (PMM0710) best hit
     ],
     # CAZy carbohydrate-active enzymes
     "CazyFamily": [
@@ -170,7 +174,7 @@ NODE_PROPERTIES = {
     "Pfam": ["name", "short_name"],
     "PfamClan": ["name"],
     # TCDB / CAZy / BRITE — share the same level/level_kind unified-ontology shape
-    "TcdbFamily": ["name", "tcdb_id", "level", "level_kind"],
+    "TcdbFamily": ["name", "tcdb_id", "level", "level_kind", "direction", "direction_basis"],
     "CazyFamily": ["name", "cazy_id", "level", "level_kind"],
     "BriteCategory": ["name", "tree", "tree_code", "level", "level_kind"],
     # Clustering layer
@@ -249,13 +253,14 @@ EDGE_PROPERTIES = {
     # Pfam edges
     "Gene_has_pfam": [],
     "Pfam_in_pfam_clan": [],
-    # TCDB edges (gene-attach is at the most specific eggNOG-annotated level;
-    # transports rolled up from tc_specificity leaves)
-    # Two evidence sources (eggnog + diamond) ride on this edge; capture the
-    # provenance and the diamond evidence block so a regression that drops them
-    # is caught by the snapshot rather than only by the tcdb kg-validity tests.
+    # TCDB edges: one per (gene, TC node, tcdb_call) (TCDB cleanup, spec
+    # 2026-10-22 §5.3); substrate edges leave tc_system nodes only. Capture the
+    # call kind, the gate and the per-kind diamond numbers so a regression that
+    # drops them is caught by the snapshot rather than only by the tcdb
+    # kg-validity tests. test_snapshot_edge_exists matches on tcdb_call (a
+    # (gene, node) pair can carry up to three edges, one per call kind).
     "Gene_has_tcdb_family": [
-        "sources", "tier", "confidence_score", "identity", "qcov", "consensus_n",
+        "sources", "tcdb_call", "tcdb_gate", "tier", "rank", "identity", "qcov",
     ],
     "Tcdb_family_is_a_tcdb_family": [],
     "Tcdb_family_transports_metabolite": [],
@@ -363,7 +368,7 @@ def sample_edges(session):
             session,
             f"MATCH (src)-[r:`{rel_type}`]->(tgt) "
             f"RETURN src.id AS source, tgt.id AS target, properties(r) AS rprops "
-            f"ORDER BY src.id, tgt.id LIMIT $limit",
+            f"ORDER BY src.id, tgt.id, r.id LIMIT $limit",
             limit=SAMPLE_SIZE,
         )
         for d in _collect_edge_rows(result, props):

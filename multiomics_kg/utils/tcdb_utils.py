@@ -5,6 +5,7 @@ Reads cache/data/tcdb/tcdb_hierarchy.json (built by `multiomics_kg.download.buil
 from __future__ import annotations
 
 import json
+import re
 import urllib.request
 from collections import defaultdict
 from pathlib import Path
@@ -52,6 +53,56 @@ def tcdb_ancestors(tc_id: str) -> list[str]:
         chain.append(parent)
         parent = h.get(parent, {}).get("parent")
     return list(reversed(chain))
+
+
+# ============================================================================
+# Transport direction (spec 2026-10-22 §5.1) — TCDB-stated only
+# ============================================================================
+
+# Whole words incl. plural / agent-noun forms; \b also splits hyphenated tokens
+# ("Drug Exporter-1" matches exporter).
+_UPTAKE_RE = re.compile(
+    r"\b(?:uptake|import|imports|importer|importers|influx)\b", re.IGNORECASE)
+_EXPORT_RE = re.compile(
+    r"\b(?:export|exports|exporter|exporters|efflux|extrusion)\b", re.IGNORECASE)
+_ABC = "3.A.1"
+# Names of class (0) and subclass (1) nodes are mechanism classes, never direction.
+_MIN_DIRECTION_LEVEL = 2
+
+
+def tcdb_direction(tc_id: str, hierarchy: dict) -> tuple[str, str | None]:
+    """Transport direction TCDB states for ``tc_id``: ``(direction, basis)``.
+
+    1. ABC numbering: ``3.A.1.<n>`` and everything below it is ``uptake`` when
+       ``n < 100``, else ``export`` (basis ``abc_numbering``).
+    2. Otherwise walk from the node up through its ancestors, stopping at family
+       level; the first name that matches exactly one of the word groups
+       {uptake, import(s), importer(s), influx} / {export(s), exporter(s), efflux,
+       extrusion} (whole word, any case) gives the direction (basis ``tcdb_name``). A name matching both or
+       neither group is skipped.
+    3. Otherwise ``("unknown", None)``.
+
+    Free-text descriptions are never read.
+    """
+    parts = tc_id.split(".")
+    if len(parts) >= 4 and ".".join(parts[:3]) == _ABC and parts[3].isdigit():
+        return ("uptake" if int(parts[3]) < 100 else "export"), "abc_numbering"
+    node = tc_id
+    while node is not None and node in hierarchy:
+        entry = hierarchy[node]
+        level = entry.get("level")
+        if level is None:
+            level = node.count(".")
+        if level < _MIN_DIRECTION_LEVEL:
+            break
+        name = entry.get("name") or ""
+        up, out = bool(_UPTAKE_RE.search(name)), bool(_EXPORT_RE.search(name))
+        # "exactly one of the two": a name matching both groups is not decisive, so
+        # the walk continues to the parent (as for a name matching neither).
+        if up != out:
+            return ("uptake" if up else "export"), "tcdb_name"
+        node = entry.get("parent")
+    return "unknown", None
 
 
 # ============================================================================
@@ -139,10 +190,11 @@ def build_tcdb_bridges(
 ) -> dict[str, dict[str, list[str]]]:
     """Roll a published xref→TCID map onto the pruned node set.
 
-    TCDB publishes these maps at 5-part `tc_specificity` depth, but the pruned
-    hierarchy keeps only gene-annotated TCIDs + ancestors — so most published
-    TCIDs have no node. Each is walked up to its nearest **surviving** ancestor,
-    mirroring how `subtree_substrates` rolls leaf substrates onto kept ancestors.
+    TCDB publishes these maps at 5-part `tc_system` depth, but the pruned
+    hierarchy keeps only gene-anchored TCIDs + ancestors plus the substrate-bearing
+    systems of kept families (range-only) — so some published TCIDs have no node.
+    Each is walked up to its nearest **kept** node (itself when kept); ``kept``
+    is the full kept set, gene-anchored and range-only alike.
     Targets shallower than ``min_level`` are dropped as uninformative.
 
     Returns ``{tc_id: {xref_id: [original_tcids, ...]}}`` — the original

@@ -15,13 +15,10 @@ from multiomics_kg.utils.metabolite_identity.paper import (  # noqa: F401
     STEREO_ASSIGNMENTS, Decision, Override, PaperRow, PaperTable, ResolutionResult, StereoContext,
     collapse_anomers, dominant_form, harvest_paper_tables, load_paper_overrides, resolve_paper_rows)
 from multiomics_kg.utils.metabolite_identity.roles import (  # noqa: F401
-    build_role_hierarchy, build_subtree_roles, partition_role_strings, role_node_id)
+    build_role_hierarchy, build_system_roles, partition_role_strings, role_node_id)
 from multiomics_kg.utils.metabolite_identity.classes import (  # noqa: F401
     COMPOUND_BRITE_TREES, LEVEL_KINDS, download_compound_brite, parse_compound_brite,
     prune_compound_brite)
-from multiomics_kg.utils.metabolite_identity.lumping import (  # noqa: F401
-    LUMPING_MIN_LEVEL, LUMPING_MIN_METABOLITES, SEED_LUMPING_IDS, substrate_breadth,
-    threshold_lumping, update_lumping_pin)
 from multiomics_kg.utils.metabolite_identity.outputs import (  # noqa: F401
     build_identity_report, build_mapping_v2, remap_rows, repoint_reason, validate_build,
     write_all_atomic, write_resolved_tables)

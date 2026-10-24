@@ -129,10 +129,6 @@
       "metabolite_id": "kegg.compound:C00280"
     },
     {
-      "class_id": "kegg.brite:br08002.A4.B1.C1",
-      "metabolite_id": "kegg.compound:C00319"
-    },
-    {
       "class_id": "kegg.brite:br08002.A1.B1.C17",
       "metabolite_id": "kegg.compound:C00322"
     },
@@ -289,10 +285,6 @@
       "metabolite_id": "kegg.compound:C00630"
     },
     {
-      "class_id": "kegg.brite:br08002.A1.B3.C1",
-      "metabolite_id": "kegg.compound:C00639"
-    },
-    {
       "class_id": "kegg.brite:br08002.A2.B2.C1",
       "metabolite_id": "kegg.compound:C00641"
     },
@@ -319,10 +311,6 @@
     {
       "class_id": "kegg.brite:br08002.A5.B4.C1",
       "metabolite_id": "kegg.compound:C00695"
-    },
-    {
-      "class_id": "kegg.brite:br08002.A1.B3.C1",
-      "metabolite_id": "kegg.compound:C00696"
     },
     {
       "class_id": "kegg.brite:br08002.A1.B1.C3.D1",
@@ -473,10 +461,6 @@
       "metabolite_id": "kegg.compound:C01389"
     },
     {
-      "class_id": "kegg.brite:br08002.A5.B1.C12",
-      "metabolite_id": "kegg.compound:C01443"
-    },
-    {
       "class_id": "kegg.brite:br08002.A8.B4",
       "metabolite_id": "kegg.compound:C01457"
     },
@@ -573,10 +557,6 @@
       "metabolite_id": "kegg.compound:C02094"
     },
     {
-      "class_id": "kegg.brite:br08002.A6.B1.C9",
-      "metabolite_id": "kegg.compound:C02110"
-    },
-    {
       "class_id": "kegg.brite:br08002.A1.B3.C2",
       "metabolite_id": "kegg.compound:C02166"
     },
@@ -663,10 +643,6 @@
     {
       "class_id": "kegg.brite:br08002.A1.B7.C5",
       "metabolite_id": "kegg.compound:C02593"
-    },
-    {
-      "class_id": "kegg.brite:br08002.A1.B1.C17",
-      "metabolite_id": "kegg.compound:C02656"
     },
     {
       "class_id": "kegg.brite:br08002.A1.B1.C1",
@@ -845,10 +821,6 @@
       "metabolite_id": "kegg.compound:C04181"
     },
     {
-      "class_id": "kegg.brite:br08002.A6.B3.C3",
-      "metabolite_id": "kegg.compound:C04216"
-    },
-    {
       "class_id": "kegg.brite:br08002.A3.B1.C5",
       "metabolite_id": "kegg.compound:C04230"
     },
@@ -893,10 +865,6 @@
       "metabolite_id": "kegg.compound:C04483"
     },
     {
-      "class_id": "kegg.brite:br08002.A3.B7.C1",
-      "metabolite_id": "kegg.compound:C04549"
-    },
-    {
       "class_id": "kegg.brite:br08002.A5.B4.C3",
       "metabolite_id": "kegg.compound:C04554"
     },
@@ -939,10 +907,6 @@
     {
       "class_id": "kegg.brite:br08002.A3.B2.C7",
       "metabolite_id": "kegg.compound:C04635"
-    },
-    {
-      "class_id": "kegg.brite:br08002.A3.B8.C1",
-      "metabolite_id": "kegg.compound:C04637"
     },
     {
       "class_id": "kegg.brite:br08002.A7.B1.C2",
@@ -1165,10 +1129,6 @@
       "metabolite_id": "kegg.compound:C05435"
     },
     {
-      "class_id": "kegg.brite:br08002.A5.B3.C2",
-      "metabolite_id": "kegg.compound:C05443"
-    },
-    {
       "class_id": "kegg.brite:br08002.A5.B4.C3",
       "metabolite_id": "kegg.compound:C05444"
     },
@@ -1349,10 +1309,6 @@
       "metabolite_id": "kegg.compound:C05953"
     },
     {
-      "class_id": "kegg.brite:br08002.A1.B3.C3",
-      "metabolite_id": "kegg.compound:C05963"
-    },
-    {
       "class_id": "kegg.brite:br08002.A1.B1.C4",
       "metabolite_id": "kegg.compound:C05966"
     },
@@ -1445,16 +1401,8 @@
       "metabolite_id": "kegg.compound:C06098"
     },
     {
-      "class_id": "kegg.brite:br08002.A6.B1.C2.D9",
-      "metabolite_id": "kegg.compound:C06099"
-    },
-    {
       "class_id": "kegg.brite:br08002.A1.B1.C5",
       "metabolite_id": "kegg.compound:C06103"
-    },
-    {
-      "class_id": "kegg.brite:br08002.A1.B1.C17",
-      "metabolite_id": "kegg.compound:C06104"
     },
     {
       "class_id": "kegg.brite:br08002.A4.B1.C5",
@@ -2311,12 +2259,6 @@
       "parent": "kegg.brite:br08002.A1.B3"
     },
     {
-      "id": "kegg.brite:br08002.A1.B3.C3",
-      "level": 2,
-      "name": "FA0303 Thromboxanes",
-      "parent": "kegg.brite:br08002.A1.B3"
-    },
-    {
       "id": "kegg.brite:br08002.A1.B3.C6",
       "level": 2,
       "name": "FA0306 Hydroxy/hydroperoxyeicosatetraenoic acids",
@@ -2635,30 +2577,6 @@
       "parent": "kegg.brite:br08002.A3.B6"
     },
     {
-      "id": "kegg.brite:br08002.A3.B7",
-      "level": 1,
-      "name": "GP07 Glycerophosphoinositol monophosphates",
-      "parent": "kegg.brite:br08002.A3"
-    },
-    {
-      "id": "kegg.brite:br08002.A3.B7.C1",
-      "level": 2,
-      "name": "GP0701 Diacylglycerophosphoinositol monophosphates",
-      "parent": "kegg.brite:br08002.A3.B7"
-    },
-    {
-      "id": "kegg.brite:br08002.A3.B8",
-      "level": 1,
-      "name": "GP08 Glycerophosphoinositol bisphosphates",
-      "parent": "kegg.brite:br08002.A3"
-    },
-    {
-      "id": "kegg.brite:br08002.A3.B8.C1",
-      "level": 2,
-      "name": "GP0801 Diacylglycerophosphoinositol bisphosphates",
-      "parent": "kegg.brite:br08002.A3.B8"
-    },
-    {
       "id": "kegg.brite:br08002.A4",
       "level": 0,
       "name": "SP  Sphingolipids",
@@ -2669,12 +2587,6 @@
       "level": 1,
       "name": "SP01 Sphingoid bases",
       "parent": "kegg.brite:br08002.A4"
-    },
-    {
-      "id": "kegg.brite:br08002.A4.B1.C1",
-      "level": 2,
-      "name": "SP0101 Sphing-4-enines (Sphingosines)",
-      "parent": "kegg.brite:br08002.A4.B1"
     },
     {
       "id": "kegg.brite:br08002.A4.B1.C2",
@@ -2794,12 +2706,6 @@
       "id": "kegg.brite:br08002.A5.B3.C1",
       "level": 2,
       "name": "ST0301 Vitamin D2 and derivatives",
-      "parent": "kegg.brite:br08002.A5.B3"
-    },
-    {
-      "id": "kegg.brite:br08002.A5.B3.C2",
-      "level": 2,
-      "name": "ST0302 Vitamin D3 and derivatives",
       "parent": "kegg.brite:br08002.A5.B3"
     },
     {

@@ -190,7 +190,10 @@ and binding for anything the KG adds from here on:
   that is only ever `some_count >= N` restates data the node already
   publishes and goes stale silently when the threshold is recalibrated.
   `TcdbFamily.is_promiscuous` and `InterproEntry.is_promiscuous` are deleted
-  under this rule — see the derivation recipes below.
+  under this rule — see the derivation recipes below. The one sanctioned
+  exception today is `Gene_has_tcdb_family.tcdb_gate` (2026-10-23; see the
+  TCDB cleanup addendum); the earlier `TcdbFamily.substrate_breadth`
+  exception is retired.
 - **R4 — one score name per concept, on one scale.** `evidence_score` is now
   a **float in `[0, 1]`** on every annotation edge — fired signals ÷ total
   signals, rounded to 3 decimals — replacing three near-identical names on
@@ -228,6 +231,10 @@ and binding for anything the KG adds from here on:
 | `Gene_has_tcdb_family` | `pfam_corroborated` | native `bool` | renamed to `pfam_support`: `corroborated` \| `uncorroborated` | no |
 | `Gene_has_tcdb_family` | `go_corroborated` | native `bool` | renamed to `go_support`: `corroborated` \| `uncorroborated` | no |
 | `Tcdb_family_transports_metabolite` | `substrate_depth` | `deepest` / `ancestor` | `most_specific` / `inherited` | no |
+| `Gene_has_tcdb_family` | `evidence_score`, `source_agreement`, `pfam_support`, `go_support` | (rows above) | **deleted** 2026-10-23 (TCDB cleanup; to return in the systems project) | yes |
+| `Gene` | `tcdb_evidence_score_max`, `transport_substrate_resolution` | | **deleted** 2026-10-23 (TCDB cleanup) | yes |
+| `Tcdb_family_transports_{metabolite,chemical_role}` | `substrate_depth` | `most_specific` / `inherited` | **deleted** 2026-10-23 — substrate edges leave `tc_system` nodes only | yes |
+| `TcdbFamily` | `level_kind` value `tc_specificity` | `tc_specificity` | `tc_system` (2026-10-23) | yes |
 | `InterproEntry` | `interpro_type` | `FAMILY`, `DOMAIN`, … | **unchanged** — external term, kept verbatim under the R1 rescope | no |
 | `Gene_has_interpro_entry` | `libraries` / `evalue_library` | `PFAM`, `SUPERFAMILY`, … | **unchanged** — external term, kept verbatim | no |
 | `TcdbFamily` | `is_promiscuous` | native `bool` | **deleted** — see derivation below | **yes** (`kg-0.1.0-alpha.6`) |
@@ -345,7 +352,7 @@ gains one rung — **`curated > signature > homology > family_inferred > domain_
 `homology` is a direct sequence-similarity hit vs. a curated reference DB (diamond: TCDB, MEROPS);
 strength *within* `homology` is read from the edge's `tier`, never split into further ladder values.
 Per-edge `ControlledVocabulary` entries keep declaring their own possible **subset** (spec §5.2 stands).
-New R3-exempt structural pair `Gene_has_tcdb_family.attachment_depth: most_specific | superseded`. Renames:
+New R3-exempt structural pair `Gene_has_tcdb_family.attachment_depth: most_specific | superseded` (**retired 2026-10-23** by the TCDB cleanup — deepest-per-lineage is now a query; see the TCDB cleanup addendum below). Renames:
 `Gene_has_ncbifam_family.score` → `bit_score` (R4 spirit — `score` is PSORTb's scale);
 `MeropsFamily.family_type` → `family_class` (R1b collision with `NcbifamFamily.family_type`).
 `NcbifamFamily.family_type` gains the single KG-minted sentinel `retired` inside an otherwise
@@ -354,6 +361,51 @@ external-verbatim set (R1 exception, documented on the entry). Full contract:
 
 ## Metabolite identity addendum (2026-10-14) — the R3 exception and four new trust vocabularies
 
-- **`TcdbFamily.substrate_breadth` (`lumping` | `specific` | `not_assessed`) is the one sanctioned R3 exception.** R3 deletes a stored value that only restates a threshold over a published count (`is_promiscuous`). Here the threshold (`level >= 2 AND metabolite_count >= 50`) stopped reproducing the set once role entries left `metabolite_count`, so the 13 lumping nodes are a **pinned id set** and the property materializes it. Scope: this property only. Sunset: the deferred TCDB spec re-tunes the threshold and retires the exception (`plans/backlog.md`). Consumers: **filter on `substrate_breadth`, don't re-derive**.
+- **(RETIRED 2026-10-23 — see the TCDB cleanup addendum.)** **`TcdbFamily.substrate_breadth` (`lumping` | `specific` | `not_assessed`) was the one sanctioned R3 exception.** R3 deletes a stored value that only restates a threshold over a published count (`is_promiscuous`). Here the threshold (`level >= 2 AND metabolite_count >= 50`) stopped reproducing the set once role entries left `metabolite_count`, so the 13 lumping nodes are a **pinned id set** and the property materializes it. Scope: this property only. Sunset: the deferred TCDB spec re-tunes the threshold and retires the exception (`plans/backlog.md`). Consumers: **filter on `substrate_breadth`, don't re-derive**.
 - New trust vocabularies (closed, each value described): `identity_basis`, `structure_kind` (`Metabolite`), `substrate_breadth` (`TcdbFamily`), `stereo_assignment` (`Assay_quantifies_metabolite`, `Assay_flags_metabolite`). Trust slice is now 51 nodes.
 - `DataSource` gains `kegg` and `chebi` (R2: `data_source:<value>`); live `scope` values are `gene_level` | `organism_restricted` | `global`, `provenance` `download` | `tool_run`.
+
+## TCDB cleanup addendum (2026-10-23) — substrate_breadth retired, tcdb_gate admitted
+
+Design: `docs/superpowers/specs/2026-10-22-tcdb-cleanup-design.md` (§5.3, §6).
+
+- **`TcdbFamily.substrate_breadth` R3 exception: RETIRED.** Substrate edges now leave
+  `tc_system` nodes only, so there is no roll-up for a lumping set to warn about. The
+  property and its pinned set are deleted; `TcdbFamily.tcdb_substrate_count` (dense, all
+  five levels, post-import from the system edges) replaces it and the old
+  `metabolite_count`.
+- **`Gene_has_tcdb_family.attachment_depth` (R3-exempt pair): RETIRED.** Deepest per
+  lineage is a query over the gene's gate-passing edges (`Gene.tcdb_family_count`
+  states the rule); a per-edge "counted" marker would re-create it.
+- **New R3 exception: `Gene_has_tcdb_family.tcdb_gate` (`direct` | `annotated` |
+  `below_gate`).** It deliberately restates thresholds over the edge's own
+  `tcdb_call` / `rank` / `tier` (and the target's level): `direct` = `diamond_best_hit`
+  with `rank = 1` and `tier <= 2`, `eggnog` onto a `tc_system` (after the `seed_aliases`
+  remap), or `diamond_tier` with `tier = 1`; `annotated` = other `eggnog` edges or
+  `diamond_tier` with `tier = 2`; `below_gate` = everything else. **Reason:** every
+  downstream number (the `'tcdb'` annotation gate, `Gene.tcdb_family_count`,
+  `TcdbFamily.gene_count`, the transport-arm metabolite rollups) and the explorer's
+  rows / enrichment TERM2GENE must be read from one edge set by construction (explorer
+  R2/F1); a recipe re-derived in each consumer drifts. Computed in the adapter. Scope:
+  this property only. If the thresholds are re-tuned, the gate is recomputed at build
+  time — consumers never re-derive it.
+- New trust vocabularies (closed, every value described with its exact rule):
+  `Gene_has_tcdb_family.tcdb_call` (`eggnog` | `diamond_tier` | `diamond_best_hit`),
+  `Gene_has_tcdb_family.tcdb_gate`, `TcdbFamily.direction` (`uptake` | `export` |
+  `unknown`), `TcdbFamily.direction_basis` (sparse; `abc_numbering` | `tcdb_name`).
+- Removed vocabulary entries (by (label, property) — MEROPS keeps its same-named ones):
+  `Gene_has_tcdb_family.{evidence_score, source_agreement, pfam_support, go_support,
+  attachment_depth, confidence_score, consensus_n, best_hit_tcids, best_hit_names,
+  best_hit_identity, best_hit_substrate_tcids, best_hit_substrate_ids,
+  best_hit_substrate_names}`, `Gene.tcdb_evidence_score_max`,
+  `Gene.transport_substrate_resolution`, `TcdbFamily.substrate_breadth`,
+  `Tcdb_family_transports_{metabolite,chemical_role}.substrate_depth`.
+- New numeric entries: `Gene_has_tcdb_family.{rank (1-3), bitscore, bitscore_ratio
+  (0.9-1.0), scov}`, `TcdbFamily.tcdb_substrate_count`. `tier` is reworded for its two
+  derivations (consensus tier on `diamond_tier`, identity band on `diamond_best_hit` —
+  never compare across kinds). `TcdbFamily.level_kind`: `tc_specificity` → `tc_system`.
+  `Gene_has_tcdb_family.qcov` is declared on its real scale, percent 0-100 (was
+  mis-declared as a fraction).
+- `ChemicalRole.tcdb_family_count` / `direct_tcdb_family_count` renamed to
+  `tcdb_system_count` / `direct_tcdb_system_count`.
+- `controlled_vocabularies_hash` moves.

@@ -16,7 +16,6 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 REMAP = ROOT / "docs/kg-changes/metabolite-identity/metabolite_id_remap.tsv"
 PRE_ELEMENTS = ROOT / "tests/kg_validity/fixtures/metabolite_elements_pre_identity.json"
 PRE_COUNTS = ROOT / "tests/kg_validity/fixtures/metabolite_identity_pre_counts.json"
-TCDB_PRUNED = ROOT / "cache/data/tcdb/tcdb_pruned.json"
 IDENTITY_REPORT = ROOT / "cache/data/metabolomics/metabolite_identity_report.json"
 
 # all_identifiers CURIE forms (spec §3.2). The mnx local part may be non-MNXM (e.g. mnx:WATER).
@@ -41,6 +40,27 @@ def _one(run_query, q, **kw):
 def _remap_rows():
     with _need(REMAP).open() as fh:
         return list(csv.DictReader(fh, delimiter="\t"))
+
+
+TCDB_REMOVED = ROOT / "docs/kg-changes/tcdb-cleanup/removed_ids.tsv"
+
+
+def _tcdb_removed_rows():
+    with _need(TCDB_REMOVED).open() as fh:
+        return list(csv.DictReader((ln for ln in fh if not ln.startswith("#")), delimiter="\t"))
+
+
+def _tcdb_removed_by_change() -> dict:
+    by: dict = {}
+    for r in _tcdb_removed_rows():
+        by.setdefault(r["change"], []).append(r["id"])
+    return by
+
+
+def _tcdb_rekeys() -> dict:
+    """metabolite_rekeyed rows: name column reads '<old name> -> <new id> (<new name>)'."""
+    return {r["id"]: r["name"].split("->", 1)[1].split()[0]
+            for r in _tcdb_removed_rows() if r["change"] == "metabolite_rekeyed"}
 
 
 # --- identity: one node per compound ------------------------------------------
@@ -104,23 +124,34 @@ def test_old_secondary_role_id_resolves(run_query):
 
 
 def test_role_subtree_counts_distinct_and_ge_direct(run_query):
-    bad = run_query("MATCH (r:ChemicalRole) WHERE r.tcdb_family_count IS NULL OR r.transporter_count IS NULL "
-                    "OR r.tcdb_family_count < r.direct_tcdb_family_count "
-                    "OR r.transporter_count < r.direct_transporter_count RETURN r.id LIMIT 5")
+    """TCDB cleanup (spec 2026-10-22 §7): role edges leave tc_system nodes only.
+    tcdb_system_count / direct_tcdb_system_count (renamed from tcdb_family_count /
+    direct_tcdb_family_count) = every kept system curated with the role, over the
+    is_a subtree / the role itself; transporter_count / direct_transporter_count =
+    the same restricted to systems that are the target of a tcdb_gate = 'direct'
+    gene edge."""
+    bad = run_query("MATCH (r:ChemicalRole) WHERE r.tcdb_system_count IS NULL OR r.transporter_count IS NULL "
+                    "OR r.direct_tcdb_system_count IS NULL OR r.direct_transporter_count IS NULL "
+                    "OR r.tcdb_system_count < r.direct_tcdb_system_count "
+                    "OR r.transporter_count < r.direct_transporter_count "
+                    "OR r.tcdb_system_count < r.transporter_count RETURN r.id LIMIT 5")
     assert not bad, bad
-    row = _one(run_query, """MATCH (r:ChemicalRole) WHERE r.level = 0
+    assert not run_query("MATCH (r:ChemicalRole) WHERE r.tcdb_family_count IS NOT NULL "
+                         "OR r.direct_tcdb_family_count IS NOT NULL RETURN r.id LIMIT 3"), "old names remain"
+    rows = run_query("""MATCH (r:ChemicalRole)
         OPTIONAL MATCH (r)<-[:Chemical_role_is_a_chemical_role*0..]-(d:ChemicalRole)
-                       <-[:Tcdb_family_transports_chemical_role]-(t:TcdbFamily)
-        WITH r, count(DISTINCT t) AS n RETURN collect(coalesce(r.tcdb_family_count = n, false)) AS ok""")
-    assert row["ok"], "no level-0 ChemicalRole"
-    assert all(row["ok"])
-    # transporter_count = DISTINCT families via most_specific role edges over the subtree
-    row = _one(run_query, """MATCH (r:ChemicalRole) WHERE r.level = 0
-        OPTIONAL MATCH (r)<-[:Chemical_role_is_a_chemical_role*0..]-(d:ChemicalRole)
-                       <-[e:Tcdb_family_transports_chemical_role]-(t:TcdbFamily)
-        WHERE e.substrate_depth = 'most_specific'
-        WITH r, count(DISTINCT t) AS n RETURN collect(coalesce(r.transporter_count = n, false)) AS ok""")
-    assert row["ok"] and all(row["ok"])
+                       <-[:Tcdb_family_transports_chemical_role]-(t:TcdbFamily {level_kind: 'tc_system'})
+        WITH r, d, t, (t IS NOT NULL AND EXISTS { (:Gene)-[:Gene_has_tcdb_family {tcdb_gate: 'direct'}]->(t) }) AS anchored
+        WITH r, count(DISTINCT t) AS sys, count(DISTINCT CASE WHEN anchored THEN t END) AS tr,
+             count(DISTINCT CASE WHEN d = r THEN t END) AS d_sys,
+             count(DISTINCT CASE WHEN d = r AND anchored THEN t END) AS d_tr
+        RETURN r.id AS id, [r.tcdb_system_count, r.transporter_count,
+                            r.direct_tcdb_system_count, r.direct_transporter_count] AS prop,
+               [sys, tr, d_sys, d_tr] AS walk""")
+    assert rows, "no ChemicalRole"
+    wrong = [r for r in rows if r["prop"] != r["walk"]]
+    assert not wrong, wrong[:5]
+    assert any(r["walk"][0] > r["walk"][1] for r in rows), "no role with a range-only system — rule not exercised"
 
 
 def test_roles_not_propagated(run_query):
@@ -175,14 +206,21 @@ def test_no_node_loses_elements(run_query):
     """
     pre = json.loads(_need(PRE_ELEMENTS).read_text())
     remap = {r["old_id"]: r["new_id"] for r in _remap_rows()}
+    # TCDB cleanup (spec 2026-10-22 §5.4): the class roll-up loss removed 65 transport-only
+    # Metabolites by design and re-keyed chebi:23899 -> chebi:62937. Removed ids are excluded
+    # (and asserted absent below); a re-keyed id is followed to its new node and stays strict.
+    tcdb = _tcdb_removed_by_change()
+    tcdb_removed = set(tcdb.get("metabolite_removed", []))
+    tcdb_rekey = _tcdb_rekeys()
     with_el = {r["id"] for r in run_query(
         "MATCH (m:Metabolite) WHERE m.elements IS NOT NULL AND size(m.elements) > 0 RETURN m.id AS id")}
     lost, skipped = [], []
     for old in pre:
         new = remap.get(old, old)
-        if not new:          # removed role / no longer reachable: not a metabolite any more
-            skipped.append(old)
+        if not new or new in tcdb_removed:   # removed role / unreachable / TCDB-cleanup removal
+            skipped.append(new or old)
             continue
+        new = tcdb_rekey.get(new, new)
         if new not in with_el:
             lost.append((old, new))
     assert not lost, lost[:10]
@@ -403,26 +441,48 @@ def test_fulltext_hits(run_query):
                      "RETURN node.id")
 
 
-# --- TCDB substrate_breadth pin -------------------------------------------------------
+# --- TCDB cleanup: removed compounds / pathways (spec 2026-10-22 §5.4) ------------------
 
-def test_lumping_pin(run_query):
-    pin = json.loads(_need(TCDB_PRUNED).read_text())
-    expected = set(pin["lumping_pin"]["lumping_tcdb_ids"]) & set(pin["kept_tcdb_ids"])
-    assert expected
-    live = {r["id"] for r in run_query("MATCH (t:TcdbFamily {substrate_breadth: 'lumping'}) RETURN t.tcdb_id AS id")}
-    assert live == expected, (sorted(expected - live)[:5], sorted(live - expected)[:5])
-    # dense
-    assert not run_query("MATCH (t:TcdbFamily) WHERE t.substrate_breadth IS NULL RETURN t.tcdb_id LIMIT 3")
-    assert not run_query("MATCH (t:TcdbFamily) WHERE t.level < 2 AND t.substrate_breadth <> 'not_assessed' "
-                         "RETURN t.tcdb_id LIMIT 3")
+def test_tcdb_cleanup_removed_ids_absent(run_query):
+    """The class roll-up loss (docs/kg-changes/tcdb-cleanup/removed_ids.tsv, measured on the
+    rebuilt graph): 65 transport-only Metabolites, 9 ChemicalRoles, 11 MetaboliteClasses and
+    3 gene-less pathways are gone; chebi:23899 (icosanoid) is re-keyed to chebi:62937; the 31
+    lost-tag compounds stay without 'transport'; the 3 lost-route roles stay as nodes with
+    no TCDB role edge."""
+    by = _tcdb_removed_by_change()
+    assert {k: len(v) for k, v in by.items()} == {
+        "metabolite_removed": 65, "metabolite_rekeyed": 1, "metabolite_loses_transport_tag": 31,
+        "chemical_role_removed": 9, "chemical_role_loses_transport_route": 3,
+        "metabolite_class_removed": 11, "pathway_removed": 3}
+    assert not run_query("MATCH (m:Metabolite) WHERE m.id IN $ids RETURN m.id LIMIT 5",
+                         ids=by["metabolite_removed"])
+    assert not run_query("MATCH (k:KeggTerm) WHERE k.id IN $ids RETURN k.id LIMIT 5",
+                         ids=by["pathway_removed"])
+    assert not run_query("MATCH (r:ChemicalRole) WHERE r.id IN $ids RETURN r.id LIMIT 5",
+                         ids=by["chemical_role_removed"])
+    assert not run_query("MATCH (c:MetaboliteClass) WHERE c.id IN $ids RETURN c.id LIMIT 5",
+                         ids=by["metabolite_class_removed"])
+    for old, new in _tcdb_rekeys().items():
+        assert not run_query("MATCH (m:Metabolite {id: $i}) RETURN m.id", i=old), old
+        assert run_query("MATCH (m:Metabolite {id: $i}) RETURN m.id", i=new), new
+    lost = run_query("MATCH (m:Metabolite) WHERE m.id IN $ids "
+                     "RETURN m.id AS id, 'transport' IN m.evidence_sources AS tagged",
+                     ids=by["metabolite_loses_transport_tag"])
+    assert len(lost) == len(by["metabolite_loses_transport_tag"]), "a lost-tag compound disappeared"
+    assert not [r["id"] for r in lost if r["tagged"]]
+    roles = run_query("MATCH (r:ChemicalRole) WHERE r.id IN $ids "
+                      "RETURN r.id AS id, EXISTS { (r)<-[:Tcdb_family_transports_chemical_role]-() } AS tr",
+                      ids=by["chemical_role_loses_transport_route"])
+    assert len(roles) == 3 and not any(r["tr"] for r in roles), roles
 
 
-def test_transport_substrate_resolution_unchanged(run_query):
-    baseline = json.loads(_need(PRE_COUNTS).read_text())["transport_substrate_resolution"]
-    expected = {k: v for k, v in baseline.items() if k != "None"}   # null stored as "None"
-    dist = {r["v"]: r["n"] for r in run_query("MATCH (g:Gene) WHERE g.transport_substrate_resolution IS NOT NULL "
-                                              "RETURN g.transport_substrate_resolution AS v, count(*) AS n")}
-    assert dist == expected
+def test_tcdb_cleanup_metabolite_and_pathway_counts(run_query):
+    """Counts move by exactly the measured deltas from the pre-cleanup graph."""
+    exp = json.loads(_need(PRE_COUNTS).read_text())["tcdb_cleanup"]
+    n_met = _one(run_query, "MATCH (m:Metabolite) RETURN count(m) AS n")["n"]
+    n_pw = _one(run_query, "MATCH (k:KeggTerm {level_kind: 'pathway'}) RETURN count(k) AS n")["n"]
+    assert n_met == exp["pre_metabolite_total"] + exp["metabolite_delta"] == exp["metabolite_total"], n_met
+    assert n_pw == exp["pre_keggterm_pathway_total"] + exp["pathway_delta"] == exp["keggterm_pathway_total"], n_pw
 
 
 # Curated xref: overrides (explorer ask 5): generic HMDB / ChEBI records sit on the generic node.
@@ -441,7 +501,10 @@ ASK8_LINKED = [("C00031", "chebi:17234"), ("C00159", "chebi:37684"), ("C00259", 
                ("C00095", "kegg.compound:C01496"), ("C00507", "chebi:26546"), ("C00407", "chebi:24898"),
                ("C00329", "chebi:5417"), ("C00309", "kegg.compound:C05052"),
                ("C00508", "kegg.compound:C05052"), ("C00247", "kegg.compound:C01452"),
-               ("C00764", "kegg.compound:C01452"), ("C00337", "chebi:30867"), ("C00181", "kegg.compound:C01394")]
+               ("C00764", "kegg.compound:C01452"), ("C00181", "kegg.compound:C01394")]
+# ("C00337", "chebi:30867") dropped 2026-10-23: chebi:30867 (dihydroorotate) was a
+# transport-only node reached through the TCDB class roll-up and was removed by design
+# (TCDB cleanup; docs/kg-changes/tcdb-cleanup/removed_ids.tsv).
 
 
 @pytest.mark.parametrize("specific,generic", ASK8_LINKED)

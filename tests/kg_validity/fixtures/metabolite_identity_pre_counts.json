@@ -14,9 +14,13 @@
   "mnx": 4
  },
  "metabolite_total": 3356,
- "transport_substrate_resolution": {
-  "None": 96488,
-  "family_inferred": 1693,
-  "resolved": 28854
+ "tcdb_cleanup": {
+  "_note": "TCDB cleanup (spec 2026-10-22 \u00a75.4): pre = live graph before the cleanup (2026-10-23, read-only); deltas from docs/kg-changes/tcdb-cleanup/removed_ids.tsv (65 metabolite_removed; the chebi:23899 -> chebi:62937 re-key is count-neutral; 3 pathway_removed); post totals = cache/data/kegg/kegg_data.json compounds 2,754 + additional_compounds 424, pathways 449.",
+  "keggterm_pathway_total": 449,
+  "metabolite_delta": -65,
+  "metabolite_total": 3178,
+  "pathway_delta": -3,
+  "pre_keggterm_pathway_total": 452,
+  "pre_metabolite_total": 3243
  }
 }

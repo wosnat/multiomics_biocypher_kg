@@ -107,7 +107,10 @@ def test_evidence_ladder_placements():
     assert vocab["Gene_has_kegg_ko.evidence"].values == ["family_inferred"]
     ms = vocab["Gene_has_merops_family.evidence_score"]
     assert ms.signal_count == 2 and sorted(ms.signals) == ["pfam_support", "tier_le_2"]
-    assert vocab["Gene_has_tcdb_family.attachment_depth"].values == ["most_specific", "superseded"]
+    assert vocab["Gene_has_tcdb_family.tcdb_call"].values == [
+        "eggnog", "diamond_tier", "diamond_best_hit"]
+    assert vocab["Gene_has_tcdb_family.tcdb_gate"].values == [
+        "direct", "annotated", "below_gate"]
     assert "retired" in vocab["NcbifamFamily.family_type"].values
     assert "MeropsFamily.family_class" in vocab and "MeropsFamily.family_type" not in vocab
 
@@ -180,13 +183,77 @@ def test_trust_slice_carries_value_descriptions():
     """Every trust vocabulary the explorer filters on is described per value."""
     entries = load_vocabularies()
     trust_props = {"evidence", "sources", "call_class", "best_hit_kind",
-                   "attachment_depth", "substrate_depth", "pfam_support",
-                   "go_support", "source_agreement", "detection_status",
+                   "pfam_support", "detection_status",
                    "table_scope", "annotation_state", "identity_basis",
-                   "structure_kind", "substrate_breadth", "stereo_assignment"}
+                   "structure_kind", "stereo_assignment",
+                   "tcdb_call", "tcdb_gate", "direction", "direction_basis"}
     missing = [e.id for e in entries.values()
                if e.property in trust_props and e.closed and not e.value_descriptions]
     assert not missing, missing
+    # The TCDB trust vocabularies exist and are closed (so the check above bites).
+    for key in ("Gene_has_tcdb_family.tcdb_call", "Gene_has_tcdb_family.tcdb_gate",
+                "TcdbFamily.direction", "TcdbFamily.direction_basis",
+                "Gene_has_merops_family.pfam_support"):
+        assert entries[key].closed, key
+    assert entries["TcdbFamily.direction"].values == ["uptake", "export", "unknown"]
+    assert entries["TcdbFamily.direction_basis"].values == ["abc_numbering", "tcdb_name"]
+    assert entries["TcdbFamily.direction_basis"].sparse
+
+
+# ── TCDB cleanup (project 3a): removed by (label, property), MEROPS kept ─────
+
+_TCDB_REMOVED = [
+    "Gene_has_tcdb_family.evidence_score", "Gene.tcdb_evidence_score_max",
+    "Gene_has_tcdb_family.source_agreement", "Gene_has_tcdb_family.pfam_support",
+    "Gene_has_tcdb_family.go_support",
+    "Tcdb_family_transports_metabolite.substrate_depth",
+    "Tcdb_family_transports_chemical_role.substrate_depth",
+    "TcdbFamily.substrate_breadth", "TcdbFamily.metabolite_count",
+    "Gene.transport_substrate_resolution",
+    "Gene_has_tcdb_family.attachment_depth", "Gene_has_tcdb_family.confidence_score",
+    "Gene_has_tcdb_family.consensus_n",
+    "Gene_has_tcdb_family.best_hit_tcids", "Gene_has_tcdb_family.best_hit_names",
+    "Gene_has_tcdb_family.best_hit_identity",
+    "Gene_has_tcdb_family.best_hit_substrate_tcids",
+    "Gene_has_tcdb_family.best_hit_substrate_ids",
+    "Gene_has_tcdb_family.best_hit_substrate_names",
+]
+_MEROPS_KEPT = [
+    f"Gene_has_merops_family.{p}" for p in (
+        "pfam_support", "confidence_score", "consensus_n", "evidence_score",
+        "identity", "qcov", "evalue", "tier", "best_hit_kind")
+] + ["Gene.merops_evidence_score_max"]
+
+
+def test_tcdb_removed_entries_absent():
+    vocab = load_vocabularies()
+    present = [k for k in _TCDB_REMOVED if k in vocab]
+    assert not present, present
+    missing = [k for k in _MEROPS_KEPT if k not in vocab]
+    assert not missing, missing
+    # no description may point at a removed TCDB property
+    removed_props = {"tcdb_evidence_score_max", "attachment_depth", "substrate_breadth",
+                     "transport_substrate_resolution", "substrate_depth"}
+    for e in vocab.values():
+        for t in [e.description, *e.value_descriptions.values()]:
+            hits = [p for p in removed_props if p in (t or "")]
+            assert not hits, (e.id, hits)
+        assert "tc_specificity" not in e.values and "tc_specificity" not in e.description, e.id
+
+
+def test_tcdb_new_numeric_entries():
+    vocab = load_vocabularies()
+    rank = vocab["Gene_has_tcdb_family.rank"]
+    assert (rank.value_type, rank.min_value, rank.max_value) == ("int", 1, 3)
+    ratio = vocab["Gene_has_tcdb_family.bitscore_ratio"]
+    assert (ratio.min_value, ratio.max_value) == (0.9, 1.0)
+    for p in ("bitscore", "scov"):
+        assert vocab[f"Gene_has_tcdb_family.{p}"].value_type == "float", p
+    sc = vocab["TcdbFamily.tcdb_substrate_count"]
+    assert sc.value_type == "int" and sc.min_value == 0 and not sc.sparse
+    assert "tc_system" in vocab["TcdbFamily.level_kind"].values
+    assert vocab["Gene_has_tcdb_family.sources"].values == ["eggnog", "tcdb_diamond"]
+    assert vocab["Gene_has_tcdb_family.evidence"].values == ["family_inferred", "homology"]
 
 
 def test_sources_descriptions_do_not_drift_from_gene_annotations_config():

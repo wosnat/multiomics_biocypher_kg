@@ -63,9 +63,9 @@ def build_role_hierarchy(role_ids, chebi):
     return out
 
 
-def build_subtree_roles(subtree_strings, role_map):
+def build_system_roles(system_strings, role_map):
     out = {}
-    for tc, strings in sorted(subtree_strings.items()):
+    for tc, strings in sorted(system_strings.items()):
         ids = sorted({role_map[s] for s in strings if s in role_map})
         if ids:
             out[tc] = ids

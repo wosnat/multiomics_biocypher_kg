@@ -17,7 +17,7 @@ REASON_ORDER = ("alias_override", "dominant_stereo_form", "case_fold_convergence
                 "name_re_resolved")
 
 
-def validate_build(*, table, roles, subtree_substrates, subtree_roles, class_trees, resolution,
+def validate_build(*, table, roles, system_substrates, system_roles, class_trees, resolution,
                    chebi_missing_needed, go_substrates=None, go_roles=None):
     errs = []
     errs += [f"ambiguous paper name (needs an override): {a}" for a in resolution.ambiguous]
@@ -35,10 +35,10 @@ def validate_build(*, table, roles, subtree_substrates, subtree_roles, class_tre
     for node, e in table.items():
         for k in ("stereo_form_of", "enantiomer_of"):
             errs += [f"{node}.{k} → {t} is not a written compound" for t in e.get(k, []) if t not in table]
-    for tc, ids in subtree_substrates.items():
-        errs += [f"subtree_substrates[{tc}] → {i} is not a written compound" for i in ids if i not in table]
-    for tc, ids in subtree_roles.items():
-        errs += [f"subtree_roles[{tc}] → {i} is not a ChemicalRole" for i in ids if i not in roles]
+    for tc, ids in system_substrates.items():
+        errs += [f"system_substrates[{tc}] → {i} is not a written compound" for i in ids if i not in table]
+    for tc, ids in system_roles.items():
+        errs += [f"system_roles[{tc}] → {i} is not a ChemicalRole" for i in ids if i not in roles]
     for go_id, targets in sorted((go_substrates or {}).items()):
         errs += [f"go_transport_substrates[{go_id}] → {t} is not a written compound"
                  for t in sorted(targets) if t not in table]
