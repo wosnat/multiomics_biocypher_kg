@@ -2215,9 +2215,9 @@ Gene_has_merops_family.qcov:
   closed: false
   values: []
   min_value: 0.0
-  max_value: 1.0
+  max_value: 100.0
   description: >
-    Query coverage of the best hit, fraction in [0,1]. Dense — every edge is diamond-sourced.
+    Query (gene protein) coverage of the consensus best hit, percent 0-100; same hit as identity. Dense — every edge is diamond-sourced.
 
 Gene_has_merops_family.evalue:
   applies_to: Gene_has_merops_family

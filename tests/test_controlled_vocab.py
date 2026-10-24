@@ -256,6 +256,17 @@ def test_tcdb_new_numeric_entries():
     assert vocab["Gene_has_tcdb_family.evidence"].values == ["family_inferred", "homology"]
 
 
+def test_merops_alignment_ranges_are_percent():
+    """merops-diamond reports identity and qcov as percents (live: qcov 3.8-100)."""
+    vocab = load_vocabularies()
+    for p in ("identity", "qcov"):
+        e = vocab[f"Gene_has_merops_family.{p}"]
+        assert (e.value_type, e.min_value, e.max_value) == ("float", 0.0, 100.0), p
+        assert "fraction" not in e.description, p
+    conf = vocab["Gene_has_merops_family.confidence_score"]
+    assert (conf.min_value, conf.max_value) == (0.0, 1.0)
+
+
 def test_sources_descriptions_do_not_drift_from_gene_annotations_config():
     """Every described `sources` value is a logical_sources id, and every
     source any `sources` vocabulary declares is described somewhere."""
