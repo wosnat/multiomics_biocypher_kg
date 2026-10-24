@@ -32,7 +32,7 @@ from multiomics_kg.utils.metabolite_identity.outputs import (
 from multiomics_kg.utils.metabolite_identity.paper import (
     Override, PaperTable, StereoContext, resolve_paper_rows)
 from multiomics_kg.utils.metabolite_identity.stereo import (
-    finalize_stereo, is_anomer_pair, stereo_distinct_kegg, stereo_families, stereo_links,
+    chebi_stereo_forms, finalize_stereo, is_anomer_pair, stereo_distinct_kegg, stereo_families, stereo_links,
     unspecified_members)
 from multiomics_kg.utils.metabolite_identity.structure import apply_structure
 
@@ -420,7 +420,8 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     # J — resolve every paper row
     ctx = StereoContext(families, unspecified_members(stereo_pairs),
                         lambda a, b: is_anomer_pair(a, b, table, terms_of, chebi),
-                        _catalyst_gene_counts(reactions, inp.rxn_genes))
+                        _catalyst_gene_counts(reactions, inp.rxn_genes),
+                        chebi_stereo=chebi_stereo_forms(table, published, chebi))
     name_candidates = {k: {id_index.get(norm(c), norm(c)) for c in v}
                        for k, v in sorted(inp.name_candidates.items())}
     res = resolve_paper_rows(inp.tables, overrides=inp.paper_overrides, name_candidates=name_candidates,

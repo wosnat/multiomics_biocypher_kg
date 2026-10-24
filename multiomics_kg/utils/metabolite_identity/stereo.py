@@ -165,6 +165,26 @@ def stereo_links(table, terms_of, chebi: ChebiIndex, *, curated=(), blocked=froz
     return stereo, enan, {"mutual_dropped": [list(m) for m in mutual], "stale_curated": stale}
 
 
+def chebi_stereo_forms(table, terms_of, chebi: ChebiIndex) -> frozenset[str]:
+    """Nodes ChEBI says are one of a pair of enantiomers (some published ChEBI term of the node
+    has ``is_enantiomer_of``), independent of whether the other form is a node in this build.
+    Stage J reads it for ``stereo_assignment``: a paper name without a stereo descriptor that
+    lands on such a node had a form assumed for it even when the sibling is not a KG node (3a
+    dropped D-threonine and flipped Biller 2022 "Threonine" -> L-threonine to as_reported).
+
+    Enantiomers only: a formula-preserving ``is_a`` parent alone is not stereo evidence without
+    the sibling node's structure (stage I checks that) — it also links geometric isomers
+    ("fumaric acid" is_a "butenedioic acid") and tautomers ("9H-xanthine" is_a "xanthine")."""
+    # Same scope as stereo_links (defined structures only); reads only terms stage I touched.
+    out = set()
+    for n, ts in terms_of.items():
+        if n not in table or table[n].get("structure_kind", "defined") != "defined":
+            continue
+        if any((chebi.term(t) or {}).get("enantiomers") for t in ts):
+            out.add(n)
+    return frozenset(out)
+
+
 def stereo_families(nodes, stereo_pairs, enantiomer_pairs):
     parent = {n: n for n in nodes}
 

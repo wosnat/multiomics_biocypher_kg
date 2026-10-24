@@ -33,7 +33,7 @@ Glycerol 3 phosphate,HILICNeg,"0.0017 (0.00045), n=3","0.0017 (0.0014), n=3",nd,
 GMP,HILICNeg,"0.0014 (0.00054), n=3","0.00044 (0.00035), n=3",nd,nd,,,,,kegg.compound:C00144,name_match,as_reported
 Guanine,HILICPos,"0.026 (0.0056), n=3","0.0053 (0.0036), n=3",nd,nd,,,,,kegg.compound:C00242,name_match,as_reported
 Guanosine,HILICPos,"0.0019 (0.00081), n=3","0.00023 (0.00028), n=3",nd,nd,,,,,kegg.compound:C00387,name_match,as_reported
-Histidine,HILICPos,"0.012 (0.0014), n=3","0.019 (NA), n=1",nd,nd,,,,,kegg.compound:C00135,name_match,as_reported
+Histidine,HILICPos,"0.012 (0.0014), n=3","0.019 (NA), n=1",nd,nd,,,,,kegg.compound:C00135,name_match,dominant_form_assumed
 Homocystine,HILICPos,"0.00012 (4.2e-05), n=3","0.00014 (0.00011), n=3",nd,nd,,,,,kegg.compound:C01817,name_match,as_reported
 Homoserine,HILICPos,"0.0042 (0.00054), n=3","0.022 (0.017), n=3",nd,nd,,,,,kegg.compound:C00263,dominant_stereo_form,dominant_form_assumed
 Ketoglutaric Acid,HILICNeg,nd,"0.014 (0.0028), n=2",nd,nd,,,,,kegg.compound:C00026,name_match,as_reported
@@ -56,7 +56,7 @@ Serine,HILICPos,"0.0056 (0.0017), n=3","0.0037 (0.003), n=3",nd,nd,,,,,kegg.comp
 Sucrose,HILICNeg,"0.39 (0.0069), n=3","1.7 (1.2), n=3",nd,nd,,,,,kegg.compound:C00089,name_match,as_reported
 Sulfoacetic Acid,HILICNeg,"0.0014 (0.00027), n=3","0.0025 (0.0017), n=3",nd,nd,,,,,kegg.compound:C14179,name_match,as_reported
 Thiamine monophosphate,RPAqPos,"1.8e-05 (6.9e-06), n=2","3.1e-05 (2.2e-05), n=3",nd,nd,,,,,kegg.compound:C01081,name_match,as_reported
-Threonine,HILICPos,"0.0042 (0.00054), n=3","0.022 (0.017), n=3",nd,nd,,,,,kegg.compound:C00188,name_match,as_reported
+Threonine,HILICPos,"0.0042 (0.00054), n=3","0.022 (0.017), n=3",nd,nd,,,,,kegg.compound:C00188,name_match,dominant_form_assumed
 trans Hydroxyl proline,HILICPos,"0.00015 (2.5e-05), n=3","0.0013 (0.001), n=3",nd,nd,,,,,kegg.compound:C01157,alias_override,as_reported
 trans Retinal,RPOrgPos,"0.00013 (1.7e-05), n=3","0.0015 (0.001), n=3","0.0032 (0.00022), n=2","0.0021 (0.00065), n=3",,,,,kegg.compound:C00376,alias_override,as_reported
 Tryptophan,RPAqPos,"0.0043 (0.0014), n=3","0.027 (0.034), n=3","0.012 (NA), n=1",nd,,,,,kegg.compound:C00078,alias_override,dominant_form_assumed

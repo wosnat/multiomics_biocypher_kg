@@ -245,6 +245,13 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 
 ### Fixed
 
+- **Assay `stereo_assignment` no longer depends on which stereo siblings are KG nodes.** A paper
+  name without a stereo descriptor that resolves to one enantiomer (e.g. "Threonine" →
+  L-threonine) was flagged `dominant_form_assumed` only while the other form was also a node;
+  3a dropped transport-only D-threonine and Biller 2022 "Threonine" flipped to `as_reported`.
+  Step 6 now also reads ChEBI `is_enantiomer_of` on the node's own ChEBI terms. 4 paper rows
+  move `as_reported` → `dominant_form_assumed`: Biller 2022 Threonine (restored) and Histidine,
+  Kujawinski 2023 kynurenine and leucine (never flagged, same cause). No node or id changes.
 - **`Gene_has_merops_family.qcov` is declared as a percent (0–100).** Its `ControlledVocabulary`
   entry said "fraction in [0,1]" with `max_value 1.0`, but merops-diamond reports query coverage
   as a percent (live: 3.8–100 over 4,332 edges). Data unchanged; only the declared range and
