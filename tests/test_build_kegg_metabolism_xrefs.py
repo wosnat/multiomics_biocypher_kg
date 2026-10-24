@@ -1649,10 +1649,48 @@ def test_add_range_systems_never_rekeeps_moved_ids():
     assert "9.A.40.1.2" in with_range
 
 
-def test_load_moved_aliases_without_pages_warns_and_returns_empty(tmp_path, caplog):
+def test_load_moved_aliases_without_moved_file_warns_and_returns_empty(tmp_path, caplog):
     import logging
     with caplog.at_level(logging.WARNING):
         aliases, moved_ids = bx._load_moved_aliases(tmp_path, _MOVED_H,
                                                     tmp_path / "none.yaml")
     assert aliases == {} and moved_ids == set()
-    assert "moved" in caplog.text.lower()
+    assert "tcdb_moved.json" in caplog.text
+
+
+def test_load_moved_aliases_reads_only_committed_moved_file(tmp_path):
+    """Step 6 reads tcdb/tcdb_moved.json, never the page cache."""
+    (tmp_path / "tcdb" / "raw" / "pages").mkdir(parents=True)
+    (tmp_path / "tcdb" / "raw" / "pages" / "family_9.A.40.html").write_text(
+        "9.A.40.3.1 has been moved to <a>1.C.126.1.2</a>")         # ignored
+    (tmp_path / "tcdb" / "tcdb_moved.json").write_text(json.dumps(
+        {"meta": {}, "moved": {"9.A.40.1.2": ["1.C.126.1.2"]}}))
+    aliases, moved_ids = bx._load_moved_aliases(tmp_path, _MOVED_H, tmp_path / "none.yaml")
+    # 9.A.40.1's only system moved to 1.C.126.1.x, so the subfamily is aliased too
+    assert aliases == {"9.A.40.1.2": "1.C.126.1.2", "9.A.40.1": "1.C.126.1"}
+    assert moved_ids == {"9.A.40.1.2", "9.A.40.1"}
+
+
+def test_load_moved_aliases_guard_skips_ids_still_in_raw_tsvs(tmp_path, caplog):
+    import logging
+    raw = tmp_path / "tcdb" / "raw"
+    raw.mkdir(parents=True)
+    (raw / "families.tsv").write_text("1.C.126\tThe HlyC family\n")
+    (raw / "acc2tcid.tsv").write_text("P1\t9.A.40.1.2\nP2\t1.C.126.1.2\n")
+    (tmp_path / "tcdb" / "tcdb_moved.json").write_text(json.dumps(
+        {"meta": {}, "moved": {"9.A.40.1.2": ["1.C.126.1.2"]}}))
+    with caplog.at_level(logging.WARNING):
+        aliases, _ = bx._load_moved_aliases(tmp_path, _MOVED_H, tmp_path / "none.yaml")
+    assert aliases == {}
+    assert "9.A.40.1.2" in caplog.text
+
+
+def test_add_range_systems_skips_systems_under_an_excluded_ancestor():
+    """Keep the kept set ancestor-closed: a system whose subfamily is a moved id is
+    not added even when the system itself is not excluded."""
+    kept = {"9", "9.A", "9.A.40", "9.A.40.3", "9.A.40.3.1"}
+    with_range, _ = bx._add_range_systems(_MOVED_H, kept, exclude={"9.A.40.1"})
+    assert "9.A.40.1.2" not in with_range and "9.A.40.1" not in with_range
+    for t in with_range:
+        p = _MOVED_H[t]["parent"]
+        assert p is None or p in with_range

@@ -268,10 +268,26 @@ def _prefix(tc: str, n_parts: int) -> str:
     return ".".join(tc.split(".")[:n_parts])
 
 
+def current_tcids(families: set[str], systems: set[str]) -> set[str]:
+    """Ids TCDB still lists: 3-part families (``families.tsv``), 5-part systems
+    (``acc2tcid.tsv`` / ``superfamilies.tsv``) and the 4-part subfamilies of those systems."""
+    out = set(families) | set(systems)
+    out |= {_prefix(s, 4) for s in systems if s.count(".") >= 4}
+    return out
+
+
+def still_current_moves(raw_moves: dict, current: set[str] | None) -> list[str]:
+    """Parsed old ids that TCDB still lists as current (never aliased)."""
+    if not current:
+        return []
+    return sorted(old for old in raw_moves if old in current)
+
+
 def resolve_moved_aliases(
     raw_moves: dict[str, set[str]],
     hierarchy: dict,
     overrides: dict[str, str] | None = None,
+    current: set[str] | None = None,
 ) -> tuple[dict[str, str], list[str]]:
     """Turn parsed moves into seed aliases ``{old id: new id}``. Returns
     ``(aliases, ambiguous)`` where ``ambiguous`` lists the ids with conflicting targets.
@@ -280,11 +296,18 @@ def resolve_moved_aliases(
     * A coarser id (subfamily / family prefix of moved systems) is aliased to target
       prefix T at the same depth only when EVERY system the hierarchy holds under it
       was moved, none ambiguously, and all their targets share T. Otherwise no alias.
-    * ``overrides`` (curated) win over everything parsed.
+    * ``overrides`` (curated) win over everything parsed. An override on a coarse id
+      also decides its ambiguous descendants by prefix substitution (override
+      ``9.B.99.1 -> 1.B.93.1`` maps ``9.B.99.1.3 -> 1.B.93.1.3``), falling back to the
+      override target itself when the substituted id is not in ``hierarchy``.
+    * ``current`` (ids TCDB still lists, from `current_tcids`): a parsed old id in it is
+      treated as not moved — never aliased, and it blocks coarse aliases above it.
     A target missing from ``hierarchy`` gives no alias (the caller falls back to
     ancestor truncation).
     """
     aliases: dict[str, str] = {}
+    current = current or set()
+    raw_moves = {old: t for old, t in raw_moves.items() if old not in current}
     ambiguous = sorted(old for old, targets in raw_moves.items() if len(targets) > 1)
     single = {old: next(iter(t)) for old, t in raw_moves.items() if len(t) == 1}
     for old, new in single.items():
@@ -295,7 +318,7 @@ def resolve_moved_aliases(
         n = old.count(".") + 1
         for depth in range(3, n):
             coarse.add(_prefix(old, depth))
-    for c in sorted(coarse):
+    for c in sorted(coarse - current):
         depth = c.count(".") + 1
         systems = sorted({t for t in hierarchy if t.startswith(c + ".")
                           and t.count(".") >= depth} | {o for o in raw_moves
@@ -311,6 +334,10 @@ def resolve_moved_aliases(
             aliases[c] = target
     for old, new in (overrides or {}).items():
         aliases[old] = new
+        for amb in ambiguous:
+            if amb.startswith(old + ".") and amb not in (overrides or {}):
+                sub = new + amb[len(old):]
+                aliases[amb] = sub if sub in hierarchy else new
     return dict(sorted(aliases.items())), ambiguous
 
 

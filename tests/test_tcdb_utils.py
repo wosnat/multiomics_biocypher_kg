@@ -263,7 +263,40 @@ def test_resolve_moved_aliases_ambiguous_and_override_wins():
     assert aliases == {"9.B.99.1.2": "1.B.93.1.2"}       # 1.1 ambiguous, no coarse
     assert ambiguous == ["9.B.99.1.1"]
     aliases, _ = resolve_moved_aliases(raw, h, overrides={"9.B.99.1": "1.B.93.1"})
-    assert aliases == {"9.B.99.1.2": "1.B.93.1.2", "9.B.99.1": "1.B.93.1"}
+    # the override also decides its ambiguous descendants, by prefix substitution
+    assert aliases == {"9.B.99.1.1": "1.B.93.1.1", "9.B.99.1.2": "1.B.93.1.2",
+                       "9.B.99.1": "1.B.93.1"}
+
+
+def test_override_ambiguous_descendant_falls_back_to_override_target():
+    """Substituted target missing from the hierarchy -> the override target itself."""
+    from multiomics_kg.utils.tcdb_utils import resolve_moved_aliases
+    h = _h("9", "9.B", "9.B.99", "9.B.99.1", "9.B.99.1.3", "1", "1.A", "1.A.17",
+           "1.A.17.4", "1.A.17.4.2", "1.B", "1.B.93", "1.B.93.1")
+    raw = {"9.B.99.1.3": {"1.A.17.4.2", "1.B.93.1.3"}}
+    aliases, ambiguous = resolve_moved_aliases(raw, h, overrides={"9.B.99.1": "1.B.93.1"})
+    assert aliases == {"9.B.99.1.3": "1.B.93.1", "9.B.99.1": "1.B.93.1"}
+    assert ambiguous == ["9.B.99.1.3"]
+
+
+def test_still_current_old_ids_are_not_aliased():
+    """A parsed old id TCDB still lists (raw TSVs) is never aliased."""
+    from multiomics_kg.utils.tcdb_utils import resolve_moved_aliases, still_current_moves
+    h = _h("1", "1.B", "1.B.166", "1.B.166.1", "1.B.166.1.1", "1.B.166.1.2",
+           "1.B.101", "1.B.101.1", "1.B.101.1.1", "1.B.101.1.2")
+    raw = {"1.B.166.1.1": {"1.B.101.1.1"}, "1.B.166.1.2": {"1.B.101.1.2"}}
+    current = {"1.B.166", "1.B.166.1", "1.B.166.1.2"}
+    assert still_current_moves(raw, current) == ["1.B.166.1.2"]
+    aliases, _ = resolve_moved_aliases(raw, h, current=current)
+    # 1.B.166.1.2 is current -> no alias; coarse ids then have an unmoved system -> none
+    assert aliases == {"1.B.166.1.1": "1.B.101.1.1"}
+    assert resolve_moved_aliases(raw, h, current=None)[0]["1.B.166"] == "1.B.101"
+
+
+def test_current_tcids_from_raw_includes_subfamily_prefixes():
+    from multiomics_kg.utils.tcdb_utils import current_tcids
+    cur = current_tcids(families={"1.B.101"}, systems={"1.B.101.1.1", "2.A.1.3.5"})
+    assert cur == {"1.B.101", "1.B.101.1", "1.B.101.1.1", "2.A.1.3", "2.A.1.3.5"}
 
 
 def test_resolve_moved_aliases_target_outside_hierarchy_is_skipped():

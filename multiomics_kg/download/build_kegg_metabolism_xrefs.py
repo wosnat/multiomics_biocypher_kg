@@ -798,50 +798,87 @@ def _add_range_systems(
     Every tc_system with non-empty ``substrate_classes`` whose 3-part family is in ``kept``
     is added, with its ancestors. Returns ``(kept_with_range, range_only)``; ``range_only``
     is the nodes added here (gene_count = 0 in the KG). ``kept`` is not mutated.
-    ``exclude`` (retired, moved ids) are never added, nor reached as ancestors.
+    ``exclude`` (retired, moved ids): a system that is excluded, or has ANY excluded
+    ancestor, is skipped, so the kept set stays ancestor-closed.
     """
     out = set(kept)
     exclude = exclude or set()
     for tc, entry in hierarchy.items():
-        if not _is_system(tc) or not entry.get("substrate_classes") or tc in exclude:
+        if not _is_system(tc) or not entry.get("substrate_classes"):
             continue
         if ".".join(tc.split(".")[:3]) not in kept:
             continue
+        chain: list[str] = []
         cur: str | None = tc
-        while cur is not None and cur in hierarchy and cur not in out and cur not in exclude:
-            out.add(cur)
+        while cur is not None and cur in hierarchy:
+            chain.append(cur)
             cur = hierarchy[cur].get("parent")
+        if exclude.intersection(chain):
+            continue
+        for node in chain:
+            if node in out:
+                break
+            out.add(node)
     return out, out - kept
+
+
+def _current_tcdb_ids(raw_dir: Path) -> set[str] | None:
+    """Ids TCDB still lists, from the raw TSVs (``families.tsv`` + ``acc2tcid.tsv`` +
+    ``superfamilies.tsv``). ``None`` when the TSVs are absent (gitignored; the
+    still-current guard is then skipped)."""
+    from multiomics_kg.utils.tcdb_utils import current_tcids
+    fam_p, acc_p, sup_p = (raw_dir / "families.tsv", raw_dir / "acc2tcid.tsv",
+                           raw_dir / "superfamilies.tsv")
+    if not fam_p.exists() or not acc_p.exists():
+        return None
+    systems = set(_parse_tcdb_acc2tcid(acc_p))
+    if sup_p.exists():
+        systems |= {row[0] for row in _parse_tcdb_superfamilies(sup_p)}
+    return current_tcids(set(_parse_tcdb_families(fam_p)), systems)
 
 
 def _load_moved_aliases(
     cache_root: Path, hierarchy: dict, overrides_path: Path,
 ) -> tuple[dict[str, str], set[str]]:
-    """Moved-to aliases for retired TCDB ids, from the cached TCDB pages
-    (``tcdb/raw/pages/*.html``, written by the names scraper) plus the curated
+    """Moved-to aliases for retired TCDB ids, from the COMMITTED move map
+    ``tcdb/tcdb_moved.json`` (``{"moved": {old: [targets]}}``, written by the names
+    scraper from its page cache — step 6 never reads the pages) plus the curated
     ``config/tcdb_moved_overrides.yaml``. Returns ``(aliases, moved_ids)``:
     ``aliases`` = ``{old: new}`` for `_prune_tcdb`; ``moved_ids`` = every retired id
-    (parsed or overridden), which `_add_range_systems` must not re-keep.
-    No cached pages → warn, no parsed moves (overrides still apply); never fails."""
+    (parsed and not still current, or overridden), which `_add_range_systems` must not
+    re-keep. Missing move map → warn, overrides only; never fails. A parsed old id
+    TCDB still lists in the raw TSVs is not aliased (warned); without the raw TSVs that
+    guard is skipped with a warning."""
     from multiomics_kg.utils.tcdb_utils import (
-        load_moved_overrides, parse_moved_tcids, resolve_moved_aliases)
+        load_moved_overrides, resolve_moved_aliases, still_current_moves)
     overrides = load_moved_overrides(overrides_path, hierarchy)
-    pages = sorted((Path(cache_root) / "tcdb" / "raw" / "pages").glob("*.html"))
-    if not pages:
-        log.warning("  TCDB: no cached TCDB pages under tcdb/raw/pages/ - retired ids "
-                    "are not re-anchored to the ids TCDB moved them to (overrides only)")
-    raw = parse_moved_tcids(p.read_text(encoding="utf-8", errors="replace") for p in pages)
-    aliases, ambiguous = resolve_moved_aliases(raw, hierarchy, overrides)
+    moved_path = Path(cache_root) / "tcdb" / "tcdb_moved.json"
+    if moved_path.exists():
+        raw = {old: set(t) for old, t in
+               json.loads(moved_path.read_text(encoding="utf-8")).get("moved", {}).items()}
+    else:
+        log.warning("  TCDB: no tcdb/tcdb_moved.json - retired ids are not re-anchored "
+                    "to the ids TCDB moved them to (overrides only); regenerate it with "
+                    "python -m multiomics_kg.download.scrape_tcdb_names --moved-only")
+        raw = {}
+    current = _current_tcdb_ids(Path(cache_root) / "tcdb" / "raw")
+    if current is None:
+        log.warning("  TCDB: raw families.tsv / acc2tcid.tsv absent - skipping the "
+                    "still-current guard on moved ids")
+    still = still_current_moves(raw, current)
+    if still:
+        log.warning(f"  TCDB: {len(still)} moved id(s) are still current in TCDB and are "
+                    f"not re-anchored: {', '.join(still)}")
+    aliases, ambiguous = resolve_moved_aliases(raw, hierarchy, overrides, current=current)
     if ambiguous:
-        unresolved = [a for a in ambiguous
-                      if a not in overrides and not any(a.startswith(o + ".") for o in overrides)]
+        unresolved = [a for a in ambiguous if a not in aliases]
         log.warning(f"  TCDB: {len(ambiguous)} retired id(s) with conflicting moved-to "
                     f"targets (TCDB reused the number) - not re-anchored unless overridden; "
-                    f"{len(unresolved)} not covered by an override "
-                    f"(e.g. {', '.join(ambiguous[:5])})")
-    log.info(f"  TCDB: {len(raw)} moved line(s) parsed from {len(pages)} page(s); "
+                    f"{len(unresolved)} left without an alias"
+                    + (f" (e.g. {', '.join(unresolved[:5])})" if unresolved else ""))
+    log.info(f"  TCDB: {len(raw)} moved old id(s) in {moved_path.name}; "
              f"{len(aliases)} moved alias(es) ({len(overrides)} curated override(s))")
-    moved_ids = set(raw) | set(aliases)
+    moved_ids = (set(raw) - set(still)) | set(aliases)
     return aliases, moved_ids
 
 

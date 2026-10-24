@@ -335,14 +335,12 @@ class MultiTcdbAnnotationAdapter:
             for locus_tag, tcdb_call, tc, props in adapter.get_edges():
                 # An alias wins even when the raw id is kept: a retired id that TCDB
                 # moved can still sit in the kept set via another route.
-                target = tc
-                anchor = self._seed_aliases.get(tc) or ""
-                if anchor:
-                    target = anchor
-                    remapped += 1
+                target = self._seed_aliases.get(tc) or tc
                 if target not in self._kept_ids:
                     dropped += 1
                     continue
+                if target != tc:
+                    remapped += 1
                 key = (locus_tag, target, tcdb_call)
                 prev = edges.get(key)
                 if prev is not None:

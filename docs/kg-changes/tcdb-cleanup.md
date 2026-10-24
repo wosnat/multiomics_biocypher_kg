@@ -229,3 +229,14 @@ than `tc_family` dropped, `curated_tcids` on the edge.
 - **Keys now:** `kept_tcdb_ids`, `system_substrates`, `system_roles`, `chemical_roles`,
   `seed_aliases`, `pfam_bridge`, `go_bridge`.
 - **Retired:** `subtree_substrates`, `subtree_roles`, `lumping_pin`, `best_hit_substrates`.
+- **Retired TCDB ids (post-3a fix).** `seed_aliases` also holds seeds on ids TCDB retired,
+  re-anchored onto the id TCDB moved them to. The move map is the committed
+  `cache/data/tcdb/tcdb_moved.json` (`{meta, moved: {old: [targets]}}`), written by the names
+  scraper from its page cache (`scrape_tcdb_names --moved-only` rebuilds it offline); step 6
+  reads only that file, so it does not depend on the gitignored pages. Rules: one target →
+  alias; a subfamily/family only when all its systems moved to one place; an id with two
+  targets (TCDB reused the number) is ambiguous and moves only through
+  `config/tcdb_moved_overrides.yaml` (`9.B.99.1` → `1.B.93.1`; the override also maps its
+  ambiguous systems by prefix); an id still listed in the raw `families.tsv` /
+  `acc2tcid.tsv` / `superfamilies.tsv` is never re-anchored. Retired ids are never range
+  nodes. Effect: 30 genes move, 9,389 → 9,370 kept nodes.
