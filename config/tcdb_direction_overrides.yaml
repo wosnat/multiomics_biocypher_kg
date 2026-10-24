@@ -1,15 +1,12 @@
 # Curated exceptions to TcdbFamily.direction (multiomics_kg.utils.tcdb_utils.tcdb_direction).
 #
-# The rule reads direction from TCDB names (and ABC numbering 3.A.1.1-99). Some TCDB
-# names overstate what is known about a node or its members; an entry here makes the
-# KG say `unknown` instead. Entries can only REMOVE a direction, never assert one:
-# a false `unknown` is cheap, a wrong direction is not.
+# The rule reads direction from a tc_system's OWN TCDB name and from ABC uptake
+# numbering (3.A.1.1-99); family/subfamily names never give a direction. Some names or
+# numbers still overstate what is known; an entry here makes the node and everything
+# below it `unknown`. Entries can only REMOVE a direction, never assert one: a false
+# `unknown` is cheap, a wrong direction is not.
 #
-# Format: <TC id>: {scope: subtree | node, reason: <why, with a reference>}
-#   subtree  the node and every descendant read `unknown`.
-#   node     the node's own name never decides and is never inherited: its members
-#            get a direction only from their own names. For families named after one
-#            characterised member whose relatives go the other way or are uncharacterised.
+# Format: <TC id>: {scope: subtree, reason: <why, with a reference>}
 # A unit test checks every id is in the committed TCDB hierarchy.
 # Source: 2026-10-24 seven-reviewer audit of all directed nodes (docs/kg-changes/tcdb-cleanup.md).
 
@@ -59,35 +56,6 @@
 2.A.128:
   scope: subtree
   reason: "VanZ confers teicoplanin resistance by an unknown mechanism; no efflux shown"
-
-# ── Family names that misrepresent their members (scope: node) ──────────────
-2.A.7.3:
-  scope: node
-  reason: "'Drug/Metabolite Exporter' subfamily includes SAM and riboflavin uptake porters (Sam, RibN, ImpX) and many uncharacterised members"
-2.A.102:
-  scope: node
-  reason: "'Toluene Sulfonate Uptake' family also holds TauE/SafE sulfite/sulfoacetate exporters"
-2.A.86:
-  scope: node
-  reason: "AI-2 Exporter family is named after TqsA/YdgG; PerM and most members are uncharacterised permeases"
-2.A.69:
-  scope: node
-  reason: "'Auxin Efflux Carrier' family; bacterial members such as MleP/MdcF import malate (Labarre 1996)"
-2.A.61:
-  scope: node
-  reason: "'DcuC Uptake' family; E. coli DcuC acts mainly in succinate efflux (Zientz 1999)"
-2.A.96:
-  scope: node
-  reason: "'Acetate Uptake' family includes the ATO ammonia exporters (Ricicova 2007)"
-2.A.124:
-  scope: node
-  reason: "'Lysine Exporter' LysO family includes the lysine uptake transporter LysT (Jorth and Whiteley 2010)"
-2.A.1.28:
-  scope: node
-  reason: "'Heme Importer' FLVCR family; FLVCR1 is described as a heme exporter or choline transporter"
-1.A.112:
-  scope: node
-  reason: "CNNM 'Mg2+ Exporter' family; whether CNNM proteins transport Mg2+ is debated (Schaffers 2018)"
 
 # ── Individual systems with contested or two-way direction ──────────────────
 3.A.1.122.2:
@@ -180,15 +148,6 @@
 2.A.119.3:
   scope: subtree
   reason: "unnamed subfamily of uncharacterised members; ArsP family name only"
-2.A.85:
-  scope: node
-  reason: "'Aromatic Acid Exporter' (FUSC) family also holds lantibiotic-protection MutG, plant ALMT anion channels (some vacuolar importers) and uncharacterised FUSC proteins"
-3.A.1.201:
-  scope: node
-  reason: "ABCB 'MDR Exporter' family groups eukaryotic and bacterial ABCB proteins by fold: vacuolar PfMDR1, mitochondrial ABCB8/10, auxin importer/exporters"
-3.A.1.208:
-  scope: node
-  reason: "ABCC 'Drug Conjugate Transporter' family: many members load vacuoles or intracellular compartments (MRP4/LPA1, PgpA)"
 3.A.1.201.4:
   scope: subtree
   reason: "PfMDR1 sits on the digestive-vacuole membrane: cytosol to vacuole"

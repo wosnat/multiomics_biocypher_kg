@@ -506,7 +506,9 @@ def test_gene_tcdb_family_count_renamed(run_query):
 def test_direction_dense_and_basis_sparse(run_query):
     """direction dense on every level; direction_basis present iff direction is
     stated; class/subclass names are mechanism classes, so those levels are unknown.
-    Measured uptake 716 / export 696 / unknown 7,958 (conservative rule + overrides, 2026-10-24)."""
+    Measured uptake 647 / export 523 / unknown 8,200 (conservative rule + overrides, 2026-10-24).
+    A name gives a direction only on tc_system nodes (its own name); above systems
+    only ABC uptake numbering does (tc_subfamily)."""
     rows = run_query("""
         MATCH (t:TcdbFamily)
         RETURN t.direction AS d, t.direction_basis AS b, t.level_kind AS lk, count(*) AS n""")
@@ -515,20 +517,24 @@ def test_direction_dense_and_basis_sparse(run_query):
         assert r["d"] in {"uptake", "export", "unknown"}, r
         assert (r["b"] is None) == (r["d"] == "unknown"), r
         assert r["b"] in {None, "abc_numbering", "tcdb_name"}, r
-        if r["lk"] in ("tc_class", "tc_subclass"):
+        if r["lk"] in ("tc_class", "tc_subclass", "tc_family"):
             assert r["d"] == "unknown", r
+        if r["b"] == "tcdb_name":
+            assert r["lk"] == "tc_system", r
+        if r["b"] == "abc_numbering":
+            assert r["lk"] in ("tc_subfamily", "tc_system") and r["d"] == "uptake", r
         by_dir[r["d"]] = by_dir.get(r["d"], 0) + r["n"]
-    bands = {"uptake": (600, 850), "export": (580, 820), "unknown": (7400, 8700)}
+    bands = {"uptake": (550, 750), "export": (430, 620), "unknown": (7700, 8900)}
     for d, (lo, hi) in bands.items():
         assert lo <= by_dir.get(d, 0) <= hi, (d, by_dir)
 
 
 @pytest.mark.kg
 def test_direction_inherited_downward(run_query):
-    """A node's direction comes from itself or an ancestor, so a stated parent
-    direction is never contradicted by a child whose own name states nothing —
-    weakest safe check: a child of an ABC-numbered node either inherits it or is
-    unknown (its name says export, so numbering and name conflict)."""
+    """ABC uptake numbering is the only direction that reaches below a node: a
+    child of an ABC-numbered subfamily is uptake by the same number or unknown
+    (its name says export or unknown function, its description doubts it, or an
+    override removes it) — never export, never another basis."""
     parents = run_query("""
         MATCH (:TcdbFamily)-[:Tcdb_family_is_a_tcdb_family]->(p:TcdbFamily {direction_basis: 'abc_numbering'})
         RETURN count(DISTINCT p) AS n""")[0]["n"]
