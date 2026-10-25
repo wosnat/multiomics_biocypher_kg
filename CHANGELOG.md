@@ -131,7 +131,9 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
   `reaction_count` / `metabolite_count` rollups only lose the dropped nodes. Moreno 2023's
   "circadian rhythm" mention (`map04710`, the animal map, no KOs here) no longer resolves to a
   pathway. The rule lives in `config/kegg_pathway_exclusions.yaml`, applied once in step 6; the
-  dropped ids and their reasons are listed in `kegg_data.json` `excluded_pathways`.
+  dropped ids and their reasons are listed in `kegg_data.json` `excluded_pathways`, and as a
+  fixture-sweep list (182 pathways, 22 subcategories, 1 category, the Moreno edge) in
+  `docs/kg-changes/kegg-pathway-exclusions/removed_ids.tsv`.
 
 ### Data
 
