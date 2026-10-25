@@ -1,0 +1,40 @@
+# Metabolite node changes from the 2026-10-25 TCDB review (KG 53966e3d -> 04608010), measured on the step-6 caches.
+# metabolite_rekeyed: the old id is now on new_id (TCDB edges follow). Explorer sweep list.
+change	id	name	new_id_or_reason
+metabolite_removed	chebi:22563	anion	substrate target filter (placeholder or coupling ion)
+metabolite_rekeyed	chebi:23248	cinnamate	kegg.compound:C10438
+metabolite_rekeyed	chebi:24175	galacturonate	kegg.compound:C08348
+metabolite_removed	chebi:24834	inorganic anion	substrate target filter (placeholder or coupling ion)
+metabolite_removed	chebi:24870	ion	substrate target filter (placeholder or coupling ion)
+metabolite_removed	chebi:25213	metal cation	substrate target filter (placeholder or coupling ion)
+metabolite_removed	chebi:25367	molecule	substrate target filter (placeholder or coupling ion)
+metabolite_removed	chebi:25414	monoatomic monocation	substrate target filter (placeholder or coupling ion)
+metabolite_removed	chebi:25696	organic anion	substrate target filter (placeholder or coupling ion)
+metabolite_rekeyed	chebi:26544	rhamnonate	kegg.compound:C01934
+metabolite_rekeyed	chebi:36080	protein	kegg.compound:C00017
+metabolite_removed	chebi:36916	cation	substrate target filter (placeholder or coupling ion)
+metabolite_rekeyed	chebi:49709	chlorate	kegg.compound:C01485
+metabolite_rekeyed	chebi:58716	red chlorophyll catabolite(2-)	kegg.compound:C18022
+metabolite_rekeyed	kegg.compound:C00528	Glycopeptide	chebi:24396
+metabolite_rekeyed	kegg.compound:C00725	Lipoate	kegg.compound:C16241
+metabolite_removed	kegg.compound:C01330	Sodium cation	substrate target filter (placeholder or coupling ion)
+metabolite_rekeyed	kegg.compound:C01478	Arsenic acid	kegg.compound:C11215
+metabolite_rekeyed	kegg.compound:C01829	Thyroxine	chebi:30660
+metabolite_rekeyed	kegg.compound:C02273	Digalacturonate	chebi:39473
+metabolite_rekeyed	kegg.compound:C02471	[Glu(-Cys)]n-Gly	chebi:60836
+metabolite_rekeyed	kegg.compound:C02781	2-Deoxy-D-galactose	chebi:90759
+metabolite_rekeyed	kegg.compound:C02862	O-Butanoylcarnitine	chebi:21949
+metabolite_rekeyed	kegg.compound:C05422	Dehydroascorbate	chebi:17242
+metabolite_rekeyed	kegg.compound:C06706	Lipo-oligosaccharide	kegg.compound:C19596
+metabolite_rekeyed	kegg.compound:C19315	Acridine orange	chebi:87346
+metabolite_added	kegg.compound:C00303	Glutamine	generic form of an unspecified TCDB substrate (stereo_form_of links the specific form)
+metabolite_added	kegg.compound:C00711	Malate	generic form of an unspecified TCDB substrate (stereo_form_of links the specific form)
+metabolite_added	kegg.compound:C00768	Histidine	generic form of an unspecified TCDB substrate (stereo_form_of links the specific form)
+metabolite_added	kegg.compound:C00806	Tryptophan	generic form of an unspecified TCDB substrate (stereo_form_of links the specific form)
+metabolite_added	kegg.compound:C01420	Cystine	generic form of an unspecified TCDB substrate (stereo_form_of links the specific form)
+metabolite_added	kegg.compound:C01536	Tyrosine	generic form of an unspecified TCDB substrate (stereo_form_of links the specific form)
+metabolite_added	kegg.compound:C05330	Homocysteine	generic form of an unspecified TCDB substrate (stereo_form_of links the specific form)
+metabolite_added	kegg.compound:C16435	Proline	generic form of an unspecified TCDB substrate (stereo_form_of links the specific form)
+metabolite_added	kegg.compound:C16436	Valine	generic form of an unspecified TCDB substrate (stereo_form_of links the specific form)
+metabolite_added	kegg.compound:C16439	Leucine	generic form of an unspecified TCDB substrate (stereo_form_of links the specific form)
+metabolite_added	kegg.compound:C16440	Lysine	generic form of an unspecified TCDB substrate (stereo_form_of links the specific form)
