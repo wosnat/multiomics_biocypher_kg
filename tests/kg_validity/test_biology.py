@@ -60,7 +60,7 @@ EXPECTED_STRAINS = [
     "KT2440",
     "DSS-3",
     "MruberA",
-    # Ford 2021 Cyanorak v2.1 SBP survey: every remaining Cyanorak genome (75; Oct 2026)
+    # Ford 2021 Cyanorak v2.1 SBP survey: every remaining Cyanorak genome but WH8020 (74; Oct 2026)
     "EQPAC1", "GP2", "HNLC1", "HNLC2", "LG", "MIT0601",
     "MIT0602", "MIT0603", "MIT0701", "MIT0702", "MIT0703", "MIT9107",
     "MIT9116", "MIT9123", "MIT9201", "MIT9211", "MIT9302", "MIT9311",
@@ -73,7 +73,7 @@ EXPECTED_STRAINS = [
     "MVIR-18-1", "NOUM97013", "PROS-7-1", "PROS-9-1", "PROS-U-1", "RCC307",
     "ROS8604", "RS9902", "RS9907", "RS9909", "RS9915", "RS9916",
     "RS9917", "SYN20", "TAK9802", "WH5701", "WH7805", "WH8016",
-    "WH8020", "WH8101", "WH8103",
+    "WH8101", "WH8103",
 ]
 
 # Clade assignments per strain. Prochlorococcus uses the HL/LL ecotype scheme
@@ -175,7 +175,6 @@ EXPECTED_CLADES = {
     "WH5701": "5.2",
     "WH7805": "VI",
     "WH8016": "I",
-    "WH8020": "I",
     "WH8101": "VIII",
     "WH8103": "III",
 }

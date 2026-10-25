@@ -16,13 +16,12 @@
     "input_tokens": 30105,
     "output_tokens": 1686,
     "resolution": {
-      "gene_records": 14,
-      "genes_resolved": 6,
+      "gene_records": 17,
+      "genes_resolved": 9,
       "gene_methods": {
         "tier1_ci:v": 3,
-        "multi:v": 3,
-        "unresolved": 7,
-        "no_mapping": 1
+        "multi:v": 6,
+        "unresolved": 8
       },
       "pathway_records": 8,
       "pathways_resolved": 6,
@@ -64,6 +63,18 @@
       "prominence": "peripheral",
       "evidence": "The three strains share several enzymes (SAM synthetase [metK]; SAM:tRNA isomerase [queA], and SAM decarboxylase [speD]) (Results, p6)",
       "mention_strain": "all",
+      "strain": "Prochlorococcus MIT0801",
+      "locus_tag": "EW15_0415",
+      "resolved_from": "metK",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "SAM synthetase (metK)",
+      "gene_name": "metK",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "The three strains share several enzymes (SAM synthetase [metK]; SAM:tRNA isomerase [queA], and SAM decarboxylase [speD]) (Results, p6)",
+      "mention_strain": "all",
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT1670",
       "resolved_from": "metK",
@@ -88,6 +99,18 @@
       "prominence": "peripheral",
       "evidence": "The three strains share several enzymes (SAM synthetase [metK]; SAM:tRNA isomerase [queA], and SAM decarboxylase [speD]) (Results, p6)",
       "mention_strain": "all",
+      "strain": "Prochlorococcus MIT0801",
+      "locus_tag": "EW15_0471",
+      "resolved_from": "queA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "SAM:tRNA isomerase (queA)",
+      "gene_name": "queA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "The three strains share several enzymes (SAM synthetase [metK]; SAM:tRNA isomerase [queA], and SAM decarboxylase [speD]) (Results, p6)",
+      "mention_strain": "all",
       "strain": "Prochlorococcus MIT9313",
       "locus_tag": "PMT0223",
       "resolved_from": "queA",
@@ -102,6 +125,18 @@
       "mention_strain": "all",
       "strain": "Prochlorococcus MIT9301",
       "locus_tag": "P9301_17631",
+      "resolved_from": "speD",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "SAM decarboxylase (speD)",
+      "gene_name": "speD",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "The three strains share several enzymes (SAM synthetase [metK]; SAM:tRNA isomerase [queA], and SAM decarboxylase [speD]) (Results, p6)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MIT0801",
+      "locus_tag": "EW15_2091",
       "resolved_from": "speD",
       "resolution_method": "multi:v"
     },
@@ -141,7 +176,7 @@
       "strain": "Prochlorococcus MIT0801",
       "locus_tag": null,
       "resolved_from": "",
-      "resolution_method": "no_mapping"
+      "resolution_method": "unresolved"
     },
     {
       "surface_form": "arginase",

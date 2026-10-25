@@ -118,7 +118,7 @@ ORGANISM_TO_GENOME_DIR = {
     "prochlorococcus mit1314": "cache/data/Prochlorococcus/genomes/MIT1314",
     "prochlorococcus marinus mit1314": "cache/data/Prochlorococcus/genomes/MIT1314",
     "prochlorococcus sp. mit1314": "cache/data/Prochlorococcus/genomes/MIT1314",
-    # Ford 2021 Cyanorak strain batch (75 strains, 2026-10-25)
+    # Ford 2021 Cyanorak strain batch (74 strains, 2026-10-25)
     "prochlorococcus eqpac 1": "cache/data/Prochlorococcus/genomes/EQPAC1",
     "prochlorococcus eqpac1": "cache/data/Prochlorococcus/genomes/EQPAC1",
     "prochlorococcus marinus eqpac 1": "cache/data/Prochlorococcus/genomes/EQPAC1",
@@ -487,10 +487,6 @@ ORGANISM_TO_GENOME_DIR = {
     "synechococcus sp. wh8016": "cache/data/Synechococcus/genomes/WH8016",
     "synechococcus wh 8016": "cache/data/Synechococcus/genomes/WH8016",
     "synechococcus wh8016": "cache/data/Synechococcus/genomes/WH8016",
-    "synechococcus sp. wh 8020": "cache/data/Synechococcus/genomes/WH8020",
-    "synechococcus sp. wh8020": "cache/data/Synechococcus/genomes/WH8020",
-    "synechococcus wh 8020": "cache/data/Synechococcus/genomes/WH8020",
-    "synechococcus wh8020": "cache/data/Synechococcus/genomes/WH8020",
     "synechococcus sp. wh 8101": "cache/data/Synechococcus/genomes/WH8101",
     "synechococcus sp. wh8101": "cache/data/Synechococcus/genomes/WH8101",
     "synechococcus wh 8101": "cache/data/Synechococcus/genomes/WH8101",

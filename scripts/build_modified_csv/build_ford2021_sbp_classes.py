@@ -22,8 +22,23 @@ one annotation Experiment (`omics_type: BIOINFORMATIC`,
 `treatment_type: [genomic_analysis]`, `background_factors: []` — computed from
 genome annotation, no sample, no culture context, no DE).
 
+Gene resolution is by PROTEIN SEQUENCE, not by the Cyanorak ID: Cyanorak
+renumbered entries in many genomes after the v2.1 snapshot the paper used, so
+the paper's IDs now name other genes (CK_Syn_A15-127_02815 = urtA in the paper,
+the urease subunit next to it today; 378 of 1,216 ID-resolved rows were wrong,
+2026-10-25). Each paper protein is matched with
+scripts/map_img_to_ncbi_proteins.py (exact -> subsequence -> diamond) against
+the strain's genes — the NCBI protein, or Cyanorak's translation for genes NCBI
+never called. QC: `cluster_agrees` says whether the resolved gene's current
+Cyanorak cluster is the paper's; per-strain rates go to
+sbp_classes/resolution_qc.json. Rows whose protein matches no gene, or whose
+match is claimed by another paper row, stay unresolved (no edge).
+Requires prepare_data step 0-2 for every strain (protein.faa, the Cyanorak GFF,
+gene_annotations_merged.json); re-run after re-building a strain's gene table.
+
 Outputs (idempotent):
   sbp_classes/<strain>_sbp_classes.csv      one row per SBP gene of that strain
+  sbp_classes/resolution_qc.json            per-strain resolution / cluster-agreement QC
   paperconfig.yaml                          one experiment + derived_metrics_table per strain
 
 Strains are matched to the KG by Cyanorak organism name
@@ -36,7 +51,11 @@ Run:  uv run python scripts/build_modified_csv/build_ford2021_sbp_classes.py
 from __future__ import annotations
 
 import csv
+import json
 import re
+import subprocess
+import sys
+import tempfile
 from collections import Counter
 from pathlib import Path
 
@@ -47,6 +66,7 @@ PAPER_DIR = ROOT / "data/Synechococcus/papers_and_supp/Ford 2021"
 PAPER_REL = "data/Synechococcus/papers_and_supp/Ford 2021"
 SUPP = PAPER_DIR / "bst-2020-0244c_supp.xlsx"
 GENOMES_CSV = ROOT / "data/Prochlorococcus/genomes/cyanobacteria_genomes.csv"
+MATCH_SCRIPT = ROOT / "scripts/map_img_to_ncbi_proteins.py"
 
 # ── Figure 2: cluster -> major nutrient class ────────────────────────────────
 # Column groups of Figure 2. The "Hypothetical" column is the caption's list
@@ -120,6 +140,92 @@ def _clean(s) -> str:
     return s.replace("_", " ").replace("'", "^").replace("|", "").strip()
 
 
+def _protein(seq) -> str | None:
+    """Comparable protein: stop glyphs stripped, uppercase, first residue M."""
+    if not isinstance(seq, str):
+        return None
+    s = seq.strip().upper().rstrip("*#+")
+    return ("M" + s[1:]) if len(s) > 1 else None
+
+
+def _read_fasta(path: Path) -> dict[str, str]:
+    seqs: dict[str, list[str]] = {}
+    cur = None
+    for line in open(path):
+        if line.startswith(">"):
+            cur = line[1:].split()[0]
+            seqs[cur] = []
+        elif cur is not None:
+            seqs[cur].append(line.strip())
+    return {k: "".join(v) for k, v in seqs.items()}
+
+
+def _cyanorak_translations(gff: Path) -> dict[str, str]:
+    out = {}
+    for line in open(gff):
+        if "\tCDS\t" not in line:
+            continue
+        attrs = dict(a.split("=", 1) for a in line.rstrip("\n").split("\t")[8].split(";") if "=" in a)
+        if "ID" in attrs and "translation" in attrs:
+            out[attrs["ID"]] = attrs["translation"]
+    return out
+
+
+def resolve_by_sequence(g: dict, sub: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
+    """Resolve one strain's paper rows to locus tags by protein sequence."""
+    ddir = ROOT / g["data_dir"]
+    ann = json.load(open(ddir / "gene_annotations_merged.json"))
+    ncbi = _read_fasta(ddir / "protein.faa")
+    cy_gff = ddir / "cyanorak" / f"{g['cyanorak_organism']}.gff"
+    cy = _cyanorak_translations(cy_gff) if cy_gff.exists() else {}
+    targets, cluster = {}, {}
+    for lt, a in ann.items():
+        s = _protein(ncbi.get(a.get("protein_id") or "")) or _protein(cy.get(a.get("locus_tag_cyanorak") or ""))
+        if s:
+            targets[lt] = s
+        c = a.get("cluster_number")
+        cluster[lt] = c if isinstance(c, str) else ",".join(c or [])
+    with tempfile.TemporaryDirectory(prefix="ford_sbp_") as tmp:
+        src, tgt = Path(tmp, "paper.faa"), Path(tmp, "genes.faa")
+        gm, out = Path(tmp, "gm.csv"), Path(tmp, "bridge.csv")
+        with open(src, "w") as fh:
+            for cid, seq in zip(sub["Cyanorak ID"], sub["Sequence"]):
+                s = _protein(seq)
+                if s:
+                    fh.write(f">{cid}\n{s}\n")
+        with open(tgt, "w") as fh, open(gm, "w") as gfh:
+            gfh.write("protein_id,locus_tag\n")
+            for lt, s in targets.items():
+                fh.write(f">{lt}\n{s}\n")
+                gfh.write(f"{lt},{lt}\n")
+        proc = subprocess.run(
+            [sys.executable, str(MATCH_SCRIPT), "--img-faa", str(src), "--ncbi-faa", str(tgt),
+             "--gene-mapping", str(gm), "--output", str(out), "--source-id-col", "paper_id",
+             "--with-method"], capture_output=True, text=True)
+        if proc.returncode not in (0, 2):
+            raise RuntimeError(f"{g['strain_name']}: protein match failed: {proc.stderr[-300:]}")
+        bridge = pd.read_csv(out)
+    hits = bridge.groupby("locus_tag")["paper_id"].transform("size")
+    collisions = int((hits > 1).sum())
+    bridge = bridge[hits == 1].set_index("paper_id")
+    res = pd.DataFrame(index=sub.index)
+    res["locus_tag"] = sub["Cyanorak ID"].map(bridge["locus_tag"])
+    res["resolution_method"] = sub["Cyanorak ID"].map(bridge["match_method"]).fillna("unresolved")
+    res["cluster_agrees"] = [
+        ("agrees" if ck in cluster.get(lt, "") else "differs") if isinstance(lt, str) else ""
+        for lt, ck in zip(res["locus_tag"], sub["Cluster"])
+    ]
+    qc = {
+        "rows": len(sub),
+        "resolved": int(res["locus_tag"].notna().sum()),
+        "by_method": res["resolution_method"].value_counts().to_dict(),
+        "cluster_agrees": int((res["cluster_agrees"] == "agrees").sum()),
+        "cluster_differs": int((res["cluster_agrees"] == "differs").sum()),
+        "dropped_collisions": collisions,
+    }
+    return res, qc
+
+
 def load_genomes() -> dict[str, dict]:
     with open(GENOMES_CSV) as fh:
         rows = csv.DictReader(l for l in fh if l.strip() and not l.startswith("#"))
@@ -138,6 +244,7 @@ def main() -> None:
     out_dir.mkdir(exist_ok=True)
 
     entries: list[tuple[str, dict]] = []
+    resolution_qc: dict[str, dict] = {}
     skipped = Counter()
     for org, sub in sorted(df.groupby("cyanorak_organism"), key=lambda kv: kv[0]):
         g = genomes.get(org)
@@ -146,7 +253,11 @@ def main() -> None:
             continue
         strain = g["strain_name"]
         csv_name = f"{strain}_sbp_classes.csv"
+        res, resolution_qc[strain] = resolve_by_sequence(g, sub)
         rows = pd.DataFrame({
+            "locus_tag": res["locus_tag"],
+            "resolution_method": res["resolution_method"],
+            "cluster_agrees": res["cluster_agrees"],
             "Cyanorak ID": sub["Cyanorak ID"],
             "cyanorak_cluster": sub["Cluster"],
             "gene_name": sub["Gene"].fillna(""),
@@ -161,7 +272,16 @@ def main() -> None:
         }))
 
     write_paperconfig(entries)
+    (out_dir / "resolution_qc.json").write_text(json.dumps(resolution_qc, indent=1, sort_keys=True) + "\n")
+    tot = Counter()
+    for q in resolution_qc.values():
+        tot.update({k: v for k, v in q.items() if isinstance(v, int)})
+        tot.update(q["by_method"])
     print(f"{len(entries)} strains, {sum(e['n'] for _, e in entries)} SBP genes written")
+    print(f"resolution: {dict(tot)}")
+    low = {s: q for s, q in resolution_qc.items() if q["resolved"] < 0.9 * q["rows"] or q["cluster_differs"]}
+    for s, q in sorted(low.items()):
+        print(f"  [QC] {s}: {q}")
     if skipped:
         print("skipped (no registered genome):", dict(skipped))
 
@@ -218,10 +338,10 @@ def write_paperconfig(entries: list[tuple[str, dict]]) -> None:
             f'      filename: "{e["csv"]}"',
             f'      organism: "{e["organism"]}"',
             f"      experiment: {key}_sbp_annotation",
-            '      name_col: "Cyanorak ID"',
+            '      name_col: "locus_tag"   # resolved by protein sequence (Cyanorak IDs are stale)',
             "      id_columns:",
-            '        - column: "Cyanorak ID"',
-            "          id_type: locus_tag_cyanorak",
+            '        - column: "locus_tag"',
+            "          id_type: locus_tag",
             "      product_columns:",
             '        - column: "product"',
             "      metrics:",

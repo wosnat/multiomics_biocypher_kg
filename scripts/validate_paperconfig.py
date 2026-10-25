@@ -171,7 +171,7 @@ CANONICAL_GENOMIC_ORGANISMS = {
     # MIT1327 + MIT1314 (deferred Soussan 2025 strains, now public; June 2026)
     "Prochlorococcus MIT1327",
     "Prochlorococcus MIT1314",
-    # Ford 2021 Cyanorak strain batch (75 strains, 2026-10-25)
+    # Ford 2021 Cyanorak strain batch (74 strains, 2026-10-25)
     "Prochlorococcus EQPAC1",
     "Prochlorococcus GP2",
     "Prochlorococcus HNLC1",
@@ -244,7 +244,6 @@ CANONICAL_GENOMIC_ORGANISMS = {
     "Synechococcus WH5701",
     "Synechococcus WH7805",
     "Synechococcus WH8016",
-    "Synechococcus WH8020",
     "Synechococcus WH8101",
     "Synechococcus WH8103",
 }

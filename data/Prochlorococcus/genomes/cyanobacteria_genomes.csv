@@ -89,7 +89,7 @@ GCF_000760235.1,Pro_PAC1,59924,PAC1,cache/data/Prochlorococcus/genomes/PAC1/,LLI
 # MIT1327 (LLIV; CyanoRak Pro_MIT1327 export staged locally from Soussan 2025 dir) + MIT1314 (HLII; NCBI-only, no CyanoRak) — completed 2026-06, assemblies now public (PRJNA311924 / PRJNA912210)
 GCF_001632125.1,Pro_MIT1327,1801626,MIT1327,cache/data/Prochlorococcus/genomes/MIT1327/,LLIV,Prochlorococcus MIT1327,genome_strain,,,,
 GCF_034093315.1,,3096220,MIT1314,cache/data/Prochlorococcus/genomes/MIT1314/,HLII,Prochlorococcus MIT1314,genome_strain,,,,
-# Ford 2021 (BST, 10.1042/BST20200244) Cyanorak v2.1 SBP survey: every remaining Cyanorak genome (75 strains; GCF resolved from Cyanorak's GenBank/RefSeq accession via NCBI E-utilities; UH18301 skipped - SRA reads only, no assembly). Cyanobium placed under Synechococcus/ (WH8102 precedent).
+# Ford 2021 (BST, 10.1042/BST20200244) Cyanorak v2.1 SBP survey: every remaining Cyanorak genome (74 strains; GCF resolved from Cyanorak's GenBank/RefSeq accession via NCBI E-utilities; UH18301 skipped - SRA reads only, no assembly; WH8020 dropped - Cyanorak annotates a 2.29 Mb assembly NCBI does not have, gene merge QC failed). Cyanobium placed under Synechococcus/ (WH8102 precedent).
 GCF_000759875.1,Pro_EQPAC1,190047,EQPAC1,cache/data/Prochlorococcus/genomes/EQPAC1/,HLI,Prochlorococcus EQPAC1,genome_strain,,,,
 GCF_000759885.1,Pro_GP2,59925,GP2,cache/data/Prochlorococcus/genomes/GP2/,HLII,Prochlorococcus GP2,genome_strain,,,,
 GCF_000218705.1,Pro_HNLC1,1041938,HNLC1,cache/data/Prochlorococcus/genomes/HNLC1/,HLIV,Prochlorococcus HNLC1,genome_strain,,,,
@@ -162,6 +162,5 @@ GCF_014279535.1,Syn_TAK9802,1442558,TAK9802,cache/data/Synechococcus/genomes/TAK
 GCF_000153045.1,Syn_WH5701,69042,WH5701,cache/data/Synechococcus/genomes/WH5701/,5.2,Synechococcus WH5701,genome_strain,,,,
 GCF_000153285.1,Syn_WH7805,59931,WH7805,cache/data/Synechococcus/genomes/WH7805/,VI,Synechococcus WH7805,genome_strain,,,,
 GCF_000230675.1,Syn_WH8016,166318,WH8016,cache/data/Synechococcus/genomes/WH8016/,I,Synechococcus WH8016,genome_strain,,,,
-GCF_001040845.1,Syn_WH8020,32052,WH8020,cache/data/Synechococcus/genomes/WH8020/,I,Synechococcus WH8020,genome_strain,,,,
 GCF_014304795.1,Syn_WH8101,59932,WH8101,cache/data/Synechococcus/genomes/WH8101/,VIII,Synechococcus WH8101,genome_strain,,,,
 GCF_001182765.1,Syn_WH8103,29410,WH8103,cache/data/Synechococcus/genomes/WH8103/,III,Synechococcus WH8103,genome_strain,,,,
