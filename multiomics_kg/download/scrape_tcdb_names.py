@@ -24,8 +24,12 @@ Every run also refreshes the committed move map cache/data/tcdb/tcdb_moved.json
 pages), read from the page cache. Step 6 reads only that committed file, never the
 gitignored pages. `--moved-only` rebuilds it from the cached pages without any network.
 
+Each system entry also carries ``proteins`` (the row's protein cell: gene symbols,
+accessions, source organism), which names a system whose name cell is empty.
+
 Run:  uv run python -m multiomics_kg.download.scrape_tcdb_names
-      [--force] [--delay 2.5] [--families 2.A.1 1.A.11] [--moved-only]
+      [--force] [--delay 2.5] [--families 2.A.1 1.A.11] [--moved-only] [--reparse]
+      (--reparse: offline rebuild of every entry from the cached pages)
 """
 from __future__ import annotations
 
@@ -68,18 +72,28 @@ DESCRIPTION_CAP = 400
 
 # ── text cleaning ────────────────────────────────────────────────────────────
 
+# Inline markup is removed without a space ("Na<sup>+</sup>" -> "Na+", "CO<sub>2</sub>"
+# -> "CO2", "<i>P</i>yrimidine" -> "Pyrimidine"); every other tag (br, div, td, p, ...)
+# is a word break.
+_INLINE_TAG = re.compile(
+    r"</?(?:sup|sub|i|em|b|strong|u|span|font|a|small|big|tt|var|sc)\b[^>]*>", re.IGNORECASE)
+
+
 def clean_html_fragment(s: str) -> str:
-    """Tag-strip + entity-unescape + whitespace-collapse.
+    """Tag-strip + entity-unescape + whitespace-collapse + punctuation tidy.
 
     Tolerates a malformed dangling tag at the end of the fragment (one live
     cell carries an unclosed "<br /").
     """
+    t = _INLINE_TAG.sub("", s)
     # A tag starts with a letter, '/' or '!' — a bare '<' is text ("(<1 µM)").
-    t = re.sub(r"<[A-Za-z/!][^>]*>", " ", s)
+    t = re.sub(r"<[A-Za-z/!][^>]*>", " ", t)
     t = re.sub(r"<[A-Za-z/!][^>]*$", "", t)  # dangling unclosed tag at end
     t = html_mod.unescape(t)
     t = t.replace("\xa0", " ")
-    return re.sub(r"\s+", " ", t).strip()
+    t = re.sub(r"\s+", " ", t).strip()
+    t = re.sub(r"([(\[])\s+", r"\1", t)          # "( βETE )" -> "(βETE)"
+    return re.sub(r"\s+([)\],;.:])", r"\1", t)   # "text ." / "word ," -> attached
 
 
 def strip_citations(s: str) -> str:
@@ -89,7 +103,7 @@ def strip_citations(s: str) -> str:
     t = s
     while prev != t:
         prev = t
-        t = re.sub(r"\s*\(([^()]*\b(?:19|20)\d{2}[^()]*)\)", "", t)
+        t = re.sub(r"\s*\(([^()]*\b(?:19|20)\d{2}\b[^()]*)\)", "", t)
     t = re.sub(r"\s+", " ", t).strip(" ;,")
     # a stripped trailing citation can leave "text ." — reattach the period
     t = re.sub(r"\s+\.", ".", t)
@@ -102,14 +116,27 @@ _ABBREV_AT_END = re.compile(
 )
 
 
+def _paren_pairs(s: str) -> tuple[list[tuple[int, int]], list[int]]:
+    """Matched ``(``/``)`` index pairs, and the indexes of ``(`` that never close."""
+    pairs, opened = [], []
+    for i, ch in enumerate(s):
+        if ch == "(":
+            opened.append(i)
+        elif ch == ")" and opened:
+            pairs.append((opened.pop(), i))
+    return pairs, opened
+
+
 def first_sentence(s: str) -> str:
     """First sentence, not splitting after common abbreviations or
-    single-capital genus initials (E. coli)."""
+    single-capital genus initials (E. coli), nor inside a parenthetical that
+    closes later (a "(" TCDB never closes does not block the split)."""
+    pairs, _ = _paren_pairs(s)
     for match in re.finditer(r"\.\s+(?=[A-Z0-9])", s):
         prefix = s[: match.start() + 1]
         if _ABBREV_AT_END.search(prefix):
             continue
-        if prefix.count("(") > prefix.count(")"):   # inside a parenthetical
+        if any(o < match.start() < c for o, c in pairs):   # inside a parenthetical
             continue
         return prefix
     return s
@@ -122,24 +149,48 @@ def cap_at_word_boundary(s: str, limit: int) -> str:
     return cut + "…"
 
 
+_DANGLING_END = re.compile(
+    r"\b(?:of|and|or|the|a|an|with|for|to|in|from|by|on|at|as|its|their)$", re.IGNORECASE)
+
+
 def _drop_unclosed_parenthetical(s: str) -> str:
-    """Cut at the first '(' that is never closed (the cap or a split left it open),
-    unless that would leave almost nothing."""
-    opened: list[int] = []
-    for i, ch in enumerate(s):
-        if ch == "(":
-            opened.append(i)
-        elif ch == ")" and opened:
-            opened.pop()
+    """Cut at the first '(' that is never closed (the cap left it open), unless that
+    would leave almost nothing or a phrase ending mid-way ("PetABCD of"); then only
+    the '(' itself goes."""
+    _, opened = _paren_pairs(s)
     if not opened:
         return s
     head = s[: opened[0]].rstrip(" ,;:")
-    return head if len(head) >= 15 else s
+    if len(head) >= 15 and not _DANGLING_END.search(head):
+        return head
+    return _remove_chars(s, opened)
+
+
+def _remove_chars(s: str, idxs: list[int]) -> str:
+    drop = set(idxs)
+    out = "".join(ch for i, ch in enumerate(s) if i not in drop)
+    return re.sub(r"\s+", " ", out).strip()
+
+
+def _shorten(s: str, limit: int) -> str:
+    """Drop whole parentheticals, longest first, until ``s`` fits ``limit``; the
+    text after a removed parenthetical is kept ("X (long list) exporter, YejABEF")."""
+    while len(s) > limit:
+        pairs, _ = _paren_pairs(s)
+        if not pairs:
+            break
+        o, c = max(pairs, key=lambda p: p[1] - p[0])
+        s = re.sub(r"\s+", " ", (s[:o].rstrip() + " " + s[c + 1:].lstrip())).strip()
+        s = re.sub(r"\s+([,;.:])", r"\1", s)
+    return s
 
 
 def make_name(full_text: str) -> str:
-    return _drop_unclosed_parenthetical(
-        cap_at_word_boundary(first_sentence(strip_citations(full_text)), NAME_CAP))
+    s = first_sentence(strip_citations(full_text))
+    _, never_closed = _paren_pairs(s)
+    s = _remove_chars(s, never_closed)        # a "(" TCDB never closes is a typo
+    s = _shorten(s, NAME_CAP)
+    return _drop_unclosed_parenthetical(cap_at_word_boundary(s, NAME_CAP))
 
 
 def make_description(full_text: str) -> str:
@@ -150,7 +201,7 @@ def make_description(full_text: str) -> str:
 
 _BROWSE_ENTRY = re.compile(
     r'<div rel="(\d[^"]*)" class="entry"[^>]*>\s*'
-    r'<div class="tcid name"[^>]*>([^<]*)</div>',
+    r'<div class="tcid name"[^>]*>(.*?)</div>', re.S
 )
 _SUBFAMILY_HEADER = re.compile(
     r'<strong><A id="(\d\.[A-Z]\.\d+\.\d+)"></A>(.*?)</strong>', re.S
@@ -161,6 +212,14 @@ _SYSTEM_ROW = re.compile(
     re.S,
 )
 _RESULT_CLUSTER_START = re.compile(r'<table id="result-cluster"')
+# The protein cell ("UrtA-E urea porter of <i>Anabaena</i> sp. PCC7120 <br /> UrtA (R) ...")
+# is the last cell of the same row.
+_PROTEIN_CELL = re.compile(
+    r"""<td id="right-border"[^>]*>\s*<div class='[0-9a-f]+'>(.*?)</div>\s*</td>""", re.S)
+_ORIGINALLY_ASSIGNED = re.compile(
+    r"originally (?:assigned|classified) (?:to|as|under) (?:TC ?#?\s*)?"
+    r"(\d\.[A-Za-z]\.\d+\.\d+\.\d+)")
+PROTEINS_CAP = 300
 
 
 def parse_browse(html: str) -> dict[str, str]:
@@ -209,6 +268,45 @@ def parse_family_page(
         if text:
             systems[tc_id] = text
     return subfams, systems
+
+
+def parse_protein_cells(html: str, family: str | None = None) -> dict[str, str]:
+    """result.php?tc=<4-part> → ``{5-part id: protein cell text}``, lines joined by
+    "; " ("UrtA-E urea porter of Anabaena sp. PCC7120; UrtA (R); UrtB (M); ...").
+    The cell is the last one of the system's row (before the next row's link)."""
+    start = _RESULT_CLUSTER_START.search(html)
+    scope = html[start.start():] if start else html
+    prefix = f"{family}." if family else None
+    out: dict[str, str] = {}
+    rows = list(_SYSTEM_ROW.finditer(scope))
+    for i, m in enumerate(rows):
+        tc_id = m.group(1)
+        if prefix and not tc_id.startswith(prefix):
+            continue
+        end = rows[i + 1].start() if i + 1 < len(rows) else len(scope)
+        row_rest = scope[m.end():end]
+        row_rest = row_rest.split("</tr>", 1)[0] + "</tr>"
+        cell = _PROTEIN_CELL.search(row_rest)
+        if not cell:
+            continue
+        lines = [clean_html_fragment(x) for x in re.split(r"<br\s*/?>", cell.group(1))]
+        text = "; ".join(x for x in lines if x)
+        if text:
+            out[tc_id] = cap_at_word_boundary(text, PROTEINS_CAP)
+    return out
+
+
+def parse_originally_assigned(html: str, family: str | None = None) -> dict[str, set[str]]:
+    """``{old id: {row id}}`` from system rows whose text says "This system was
+    originally assigned to TC# <old>" — the other wording TCDB uses for a move."""
+    _, systems = parse_family_page(html, family=family)
+    out: dict[str, set[str]] = {}
+    for tc_id, text in systems.items():
+        for old in _ORIGINALLY_ASSIGNED.findall(text):
+            old = old.upper()
+            if old != tc_id:
+                out.setdefault(old, set()).add(tc_id)
+    return out
 
 
 # ── scope ────────────────────────────────────────────────────────────────────
@@ -291,7 +389,11 @@ def build_moved_map(pages_dir: Path, existing: dict | None = None) -> dict:
     pages = sorted(Path(pages_dir).glob("family_*.html"))
     source_pages = set((existing or {}).get("meta", {}).get("source_pages") or [])
     for page in pages:
-        found = parse_moved_tcids([page.read_text(encoding="utf-8", errors="replace")])
+        text = page.read_text(encoding="utf-8", errors="replace")
+        found = parse_moved_tcids([text])
+        family = page.stem.removeprefix("family_")
+        for old, targets in parse_originally_assigned(text, family=family).items():
+            found.setdefault(old, set()).update(targets)
         if found:
             source_pages.add(page.name)
         for old, targets in found.items():
@@ -299,7 +401,8 @@ def build_moved_map(pages_dir: Path, existing: dict | None = None) -> dict:
     return {
         "meta": {
             "source": "TCDB family pages (search/result.php), lines "
-                      "<old> has been moved to <new>",
+                      "<old> has been moved to <new>, and system rows saying "
+                      "originally assigned to TC# <old>",
             "source_pages": sorted(source_pages),
         },
         "moved": {old: sorted(t) for old, t in sorted(moved.items())},
@@ -332,6 +435,8 @@ def assemble_names(
     scraped_families: list[str],
     failed_families: list[str],
     existing: dict | None = None,
+    proteins: dict[str, str] | None = None,
+    merge: bool = True,
 ) -> dict:
     """Build the artifact dict. Browse layer (levels 0-2) kept in FULL —
     removes gene-set coupling for those levels at ~150 KB. Deep layer (4/5
@@ -341,9 +446,16 @@ def assemble_names(
     With `existing` (the current artifact) the build is merge-preserving: every
     existing entry stays verbatim and only ids not yet named are added, so a
     re-scrape cannot rename an existing TcdbFamily; scraped/failed family lists
-    are unions. Without it, a fresh build.
+    are unions. Without it, a fresh build (``--reparse``: rebuild every entry from
+    the cached pages, so parser fixes reach existing names).
+
+    ``proteins`` (``{5-part id: protein cell}``) adds a ``proteins`` field to each
+    system entry, and names a system whose name cell is empty after its protein
+    cell's first line (e.g. "UrtA-E urea porter of Anabaena sp. PCC7120").
+    ``meta.scraped_at`` only moves when the names change.
     """
-    names: dict[str, dict] = dict((existing or {}).get("names", {}))
+    proteins = proteins or {}
+    names: dict[str, dict] = dict((existing or {}).get("names", {})) if merge else {}
     for tc_id, name in browse_names.items():
         names.setdefault(tc_id, {"name": name})
 
@@ -357,26 +469,39 @@ def assemble_names(
                     "name": make_name(full_text),
                     "description": make_description(full_text),
                 })
+    for tc_id, cell in proteins.items():
+        if tc_id not in kept_ids:
+            continue
+        entry = names.setdefault(tc_id, {"name": ""})
+        entry.setdefault("proteins", cell)
+        if not entry.get("name"):
+            entry["name"] = make_name(cell.split("; ", 1)[0])
 
     prior = (existing or {}).get("meta", {})
-    scraped = set(prior.get("scraped_families", [])) | set(scraped_families)
+    scraped = (set(prior.get("scraped_families", [])) if merge else set()) | set(scraped_families)
     # a family that has ever been scraped keeps valid names; "failed" = never scraped yet
-    failed = (set(prior.get("failed_families", [])) | set(failed_families)) - scraped
+    failed = ((set(prior.get("failed_families", [])) if merge else set())
+              | set(failed_families)) - scraped
+    names = dict(sorted(names.items()))
+    unchanged = existing is not None and existing.get("names") == names
     return {
         "meta": {
-            "scraped_at": date.today().isoformat(),
+            "scraped_at": prior.get("scraped_at") if unchanged and prior.get("scraped_at")
+            else date.today().isoformat(),
             "source": "https://www.tcdb.org (browse.php + search/result.php per family)",
             "scraped_families": sorted(scraped),
             "failed_families": sorted(failed),
         },
-        "names": dict(sorted(names.items())),
+        "names": names,
     }
 
 
 # ── main ─────────────────────────────────────────────────────────────────────
 
 def main(force: bool = False, delay: float = DEFAULT_DELAY_S,
-         families: list[str] | None = None) -> int:
+         families: list[str] | None = None, reparse: bool = False) -> int:
+    """``reparse``: no network — rebuild every entry from the cached pages (parser
+    fixes reach existing names); an uncached page counts as failed."""
     logging.basicConfig(level=logging.INFO, format="%(message)s")
 
     pruned = json.loads(PRUNED_FILE.read_text())
@@ -394,25 +519,31 @@ def main(force: bool = False, delay: float = DEFAULT_DELAY_S,
              f"{len(best_hit_ids)} best-hit TC ids)")
     existing = json.loads(NAMES_FILE.read_text()) if NAMES_FILE.exists() else None
 
-    browse_html = fetch_page(BROWSE_URL, PAGES_DIR / "browse.html",
-                             force=force, delay=delay)
+    def get(url: str, dest: Path) -> str:
+        if reparse:
+            if not dest.exists():
+                raise FileNotFoundError(f"not cached: {dest.name}")
+            return dest.read_text(encoding="utf-8", errors="replace")
+        return fetch_page(url, dest, force=force, delay=delay)
+
+    browse_html = get(BROWSE_URL, PAGES_DIR / "browse.html")
     browse_names = parse_browse(browse_html)
     log.info(f"browse.php: {len(browse_names)} class/subclass/family names")
 
     per_family: dict[str, tuple[dict[str, str], dict[str, str]]] = {}
+    proteins: dict[str, str] = {}
     scraped: list[str] = []
     failed: list[str] = []
     consecutive = 0
     for i, (fam, query) in enumerate(sorted(fams.items()), 1):
         dest = PAGES_DIR / f"family_{fam}.html"
         try:
-            page = fetch_page(RESULT_URL.format(tc=query), dest,
-                              force=force, delay=delay)
+            page = get(RESULT_URL.format(tc=query), dest)
         except Exception as exc:  # noqa: BLE001 — per-family isolation
             log.warning(f"[{i}/{len(fams)}] {fam}: FAILED ({exc})")
             failed.append(fam)
             consecutive += 1
-            if consecutive >= MAX_CONSECUTIVE_FAILURES:
+            if consecutive >= MAX_CONSECUTIVE_FAILURES and not reparse:
                 log.error(
                     f"{consecutive} consecutive failures — tcdb.org is likely "
                     f"struggling. Aborting; re-run later to resume (cached "
@@ -423,13 +554,14 @@ def main(force: bool = False, delay: float = DEFAULT_DELAY_S,
         consecutive = 0
         subfams, systems = parse_family_page(page, family=fam)
         per_family[fam] = (subfams, systems)
+        proteins.update(parse_protein_cells(page, family=fam))
         scraped.append(fam)
         if i % 25 == 0 or i == len(fams):
             log.info(f"[{i}/{len(fams)}] fetched+parsed (last: {fam}, "
                      f"{len(subfams)} subfam names, {len(systems)} systems)")
 
     artifact = assemble_names(browse_names, per_family, wanted_ids, scraped, failed,
-                              existing=existing)
+                              existing=existing, proteins=proteins, merge=not reparse)
     NAMES_FILE.parent.mkdir(parents=True, exist_ok=True)
     NAMES_FILE.write_text(json.dumps(artifact, indent=1, ensure_ascii=False) + "\n",
                           encoding="utf-8")
@@ -449,6 +581,9 @@ if __name__ == "__main__":
                         help="seconds between requests (default 2.5)")
     parser.add_argument("--families", nargs="*", default=None,
                         help="restrict to these 3-part family ids (top-up mode)")
+    parser.add_argument("--reparse", action="store_true",
+                        help="no network: rebuild every name from the cached pages "
+                             "(parser fixes reach existing names)")
     parser.add_argument("--moved-only", action="store_true",
                         help="only rebuild tcdb_moved.json from the cached pages (no network)")
     args = parser.parse_args()
@@ -456,4 +591,5 @@ if __name__ == "__main__":
         logging.basicConfig(level=logging.INFO, format="%(message)s")
         write_moved_map()
     else:
-        main(force=args.force, delay=args.delay, families=args.families)
+        main(force=args.force, delay=args.delay, families=args.families,
+             reparse=args.reparse)

@@ -96,16 +96,17 @@ def test_excluded_targets_recorded(run_query):
     )
     assert rows and rows[0]["x"], "Schema_info.go_transport_excluded_targets missing"
     excluded = rows[0]["x"]
-    assert len(excluded) >= 13, f"only {len(excluded)} excluded targets (13 measured)"
+    assert len(excluded) >= 12, f"only {len(excluded)} excluded targets (12 measured; protein left the filter 2026-10-25)"
     assert "kegg.compound:C00080" in excluded, "H+ not in exclusion list"
-    assert "kegg.compound:C01330" in excluded, "Na+ not in exclusion list"
+    # Na+ is published as its ChEBI id once no Na+ node is written (TCDB filters it too)
+    assert {"kegg.compound:C01330", "chebi:29101"} & set(excluded), "Na+ not in exclusion list"
 
 
 def test_no_edge_targets_excluded_id(run_query):
     rows = run_query(
         "MATCH (s:Schema_info {id: 'schema_info'}) RETURN s.go_transport_excluded_targets AS x"
     )
-    assert rows and rows[0]["x"] and len(rows[0]["x"]) >= 13, "exclusion list missing/short"
+    assert rows and rows[0]["x"] and len(rows[0]["x"]) >= 12, "exclusion list missing/short"
     n = run_query(
         """
         MATCH (s:Schema_info {id: 'schema_info'})

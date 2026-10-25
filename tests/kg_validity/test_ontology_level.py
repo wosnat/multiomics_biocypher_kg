@@ -107,7 +107,17 @@ def test_tree_ontology_roots(run_query):
     assert rows[0]["n"] == 7, f"EcNumber level-0 count {rows[0]['n']} != 7"
 
     rows = run_query("MATCH (t:KeggTerm {level:0}) RETURN count(t) AS n")
-    assert rows[0]["n"] == 6, f"KeggTerm level-0 count {rows[0]['n']} != 6"
+    # Category nodes are emitted from the committed kegg_data.json `categories`
+    # (already pruned of excluded categories, config/kegg_pathway_exclusions.yaml).
+    import json
+    from pathlib import Path
+    kegg = json.loads(
+        (Path(__file__).resolve().parents[2] / "cache/data/kegg/kegg_data.json").read_text()
+    )
+    expected = len(kegg["categories"])
+    assert rows[0]["n"] == expected, (
+        f"KeggTerm level-0 count {rows[0]['n']} != {expected} (kegg_data.json categories)"
+    )
 
 
 def test_go_exactly_one_level_zero_per_namespace(run_query):

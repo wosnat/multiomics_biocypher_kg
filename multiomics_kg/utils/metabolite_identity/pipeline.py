@@ -25,7 +25,7 @@ from multiomics_kg.utils.metabolite_identity.classes import (
     COMPOUND_BRITE_TREES, parse_compound_brite, prune_compound_brite)
 from multiomics_kg.utils.metabolite_identity.go_transport import rewrite_go_targets, target_distribution
 from multiomics_kg.utils.metabolite_identity.crossrefs import (
-    _own_family, apply_xref_overrides, build_identity_fields, chebi_node_structure, is_isotopologue_name, node_olds, pick_chebi_id, shared_chebi_terms)
+    _own_family, apply_xref_overrides, build_identity_fields, withhold_contested_terms, chebi_node_structure, is_isotopologue_name, node_olds, pick_chebi_id, shared_chebi_terms)
 from multiomics_kg.utils.metabolite_identity.outputs import (
     build_identity_report, build_mapping_v2, remap_rows, repoint_reason, validate_build,
     write_resolved_tables)
@@ -94,6 +94,12 @@ class Step6Inputs:
     go_drops: dict = field(default_factory=dict)          # stage-D drop counts
     go_axioms_in_corpus: int = 0                          # KG GO terms with a transport axiom
     go_unresolved_ids: list = field(default_factory=list)  # GO ChEBI ids no node could take
+    # TCDB substrate target filter (config/tcdb_substrate_target_filter.yaml): applied at stage D
+    # on raw primaries, matched again after canonicalisation (a kept target merged onto a
+    # filtered node is dropped). tcdb_filter_primaries: {"chebi:<n>": primary | None}.
+    tcdb_excluded_primaries: set = field(default_factory=set)
+    tcdb_filter_primaries: dict = field(default_factory=dict)
+    tcdb_filter_drops: dict = field(default_factory=dict)  # stage-D drops per raw primary
 
 
 @dataclass
@@ -369,11 +375,21 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     table = rewrite_to_canonical(table, reactions, subs, identity.canonical_of)
     # GO transport targets follow the same rewrite; the target filter is matched again on
     # canonical ids (a kept target merged onto a filtered node is dropped). Roles pass through.
+    tcdb_excluded = {identity.canonical_of.get(p, p) for p in inp.tcdb_excluded_primaries}
+    tcdb_filtered_after = 0
+    for tc in list(subs):
+        kept_subs = [p for p in subs[tc] if p not in tcdb_excluded]
+        tcdb_filtered_after += len(subs[tc]) - len(kept_subs)
+        if kept_subs:
+            subs[tc] = kept_subs
+        else:
+            del subs[tc]
     go_excluded = {identity.canonical_of.get(p, p) for p in inp.go_excluded_primaries}
     go_subs, go_filtered_after = rewrite_go_targets(inp.go_substrates, identity.canonical_of, go_excluded)
     go_roles = {g: {r: sorted(ids) for r, ids in m.items()} for g, m in inp.go_roles.items() if m}
     # ChEBI terms that xref two KEGG nodes the guard kept apart are published on neither.
     shared = shared_chebi_terms(table, identity, chebi)
+    shared = withhold_contested_terms(table, identity, inp.rekeys, chebi, old_entries, shared)
     try:
         # G — structure (B2 scrub before any identifier is published)
         # The same pick as stage H (members and re-keyed ids included), so a node whose only
@@ -483,11 +499,16 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         (c if c in table else cid)
         for cid, p in inp.go_filter_primaries.items()
         for c in [identity.canonical_of.get(p, p) if p else None]})
+    tcdb_excluded_targets = sorted({
+        (c if c in table else cid)
+        for cid, p in inp.tcdb_filter_primaries.items()
+        for c in [identity.canonical_of.get(p, p) if p else None]})
     kegg_data = dict(kegg_rest, pathways=pathways, subcategories=subcategories, categories=categories,
                      compounds=compounds, additional_compounds=additional,
                      go_transport_substrates=go_targets,
                      go_transport_excluded_targets=go_excluded_targets,
-                     go_transport_release=inp.go_release)
+                     go_transport_release=inp.go_release,
+                     tcdb_substrate_excluded_targets=tcdb_excluded_targets)
     go_metabolite_targets = {t for m in go_subs.values() for t in m}
     go_report = {
         "release": inp.go_release,
@@ -509,7 +530,10 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         "distribution": target_distribution(inp.go_distribution_input, go_targets),
     }
     tcdb_pruned = dict(inp.tcdb_static, system_substrates=dict(sorted(subs.items())),
-                       chemical_roles=inp.chemical_roles, system_roles=inp.system_roles)
+                       chemical_roles=inp.chemical_roles, system_roles=inp.system_roles,
+                       substrate_filter={"excluded_targets": tcdb_excluded_targets,
+                                         "dropped_pairs": inp.tcdb_filter_drops,
+                                         "dropped_after_canonical": tcdb_filtered_after})
 
     # Repoints (release TSV) and the old-id remap.
     raw_names: dict[str, set[str]] = defaultdict(set)

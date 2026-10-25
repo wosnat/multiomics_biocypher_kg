@@ -81,6 +81,46 @@ def shared_chebi_terms(table: dict[str, dict], identity: IdentityResult,
     return out
 
 
+def withhold_contested_terms(table: dict[str, dict], identity: IdentityResult, rekeys: dict[str, str],
+                             chebi: ChebiIndex, old_entries: dict, shared: dict[str, list[str]]
+                             ) -> dict[str, list[str]]:
+    """``shared`` extended with entity terms that would still reach >= 2 separate nodes — through
+    MNX ChEBI aliases, which MNX files once per entity while the KG keeps stereo forms apart (a
+    generic "tryptophan zwitterion" listed on both L-tryptophan's and tryptophan's MNX entries).
+    Such a term goes to the one node ChEBI itself ties it to (one of the node's own KEGG xref terms
+    or its conjugate acids / bases; a ``chebi:`` node's own term), else to none — the policy
+    ``shared_chebi_terms`` applies to KEGG xrefs. Repeated until no term is on two nodes."""
+    shared = {k: list(v) for k, v in shared.items()}
+    own_family: dict[str, set[str]] = {}
+    for n in table:
+        own = ([chebi.primary(n)] if n.startswith("chebi:") else
+               [c for k in {n, *identity.members.get(n, [])} if k.startswith(_KEGG)
+                for c in chebi.kegg_terms(k[len(_KEGG):])])
+        own_family[n] = set().union(*(_own_family(c, chebi) for c in own if c)) if own else set()
+    for _ in range(5):
+        claimants: dict[str, set[str]] = defaultdict(set)
+        for n in sorted(table):
+            _, pool = chebi_pick(n, table[n], chebi, shared=shared,
+                                 olds=node_olds(n, identity, rekeys), old_entries=old_entries)
+            if n.startswith("chebi:") and chebi.primary(n):
+                pool = pool | {chebi.primary(n)}
+            for t in pool:
+                claimants[t].add(n)
+        added = False
+        for t, nodes in sorted(claimants.items()):
+            if len(nodes) < 2:
+                continue
+            owners = [x for x in sorted(nodes) if t in own_family[x]]
+            owner = owners[0] if len(owners) == 1 else None
+            for x in sorted(nodes):
+                if x != owner and x not in shared.setdefault(t, []):
+                    shared[t].append(x)
+                    added = True
+        if not added:
+            break
+    return {k: sorted(v) for k, v in shared.items()}
+
+
 def _withheld(p: str, node_id: str, shared) -> bool:
     return node_id in (shared.get(p) or ())
 

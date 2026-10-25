@@ -24,7 +24,7 @@ project 3b.
 
 | | Before | After |
 |---|---|---|
-| Nodes | 1,515 | **9,389**: 3,527 gene-anchored + 5,862 range-only |
+| Nodes | 1,515 | **9,389**: 3,527 gene-anchored + 5,862 range-only (9,368 after the 2026-10-25 review: retired 3.A.1.129.1 re-anchored) |
 | By level | class 7 · subclass 34 · family 592 · subfamily 596 · specificity 286 | class 7 · subclass 34 · family 592 · subfamily 1,432 · **system 7,324** |
 | With `gene_count > 0` | all | 2,190 (class 7 · subclass 31 · family 375 · subfamily 687 · system 1,090) |
 
@@ -37,22 +37,75 @@ project 3b.
   `gene_count > 0`.**
 - **Names.** The scraper's scope widened to every kept system: 592 of 592 family pages, 9,622
   names. 134 kept systems have no upstream name and fall back to the TCID (`t.name = t.tcdb_id`).
-- **New `direction`** (dense: `uptake` 956 · `export` 1,367 · `unknown` 7,066) and sparse
-  **`direction_basis`**:
-  - `abc_numbering` (414 uptake + 510 export): in the ABC superfamily, subfamilies `3.A.1.1–99`
-    are uptake and `3.A.1.100+` are export, by TCDB's numbering convention.
-  - `tcdb_name` (542 + 857): the nearest node, going up to family level, whose TCDB name says
-    import/uptake/influx or export/efflux/extrusion. Only one of the two may appear. Matching is
-    whole-word and includes agent nouns ("Exporter").
-  - ABC numbering applies to the subfamily and everything below it and is never overridden.
-    Otherwise the nearest named node wins: the node's own name first, then its ancestors up to
-    family level. So a system named as an uptake porter inside an exporter family reads uptake;
-    the direction is not simply inherited downward. Class/subclass names and free-text
-    descriptions are never used.
-  - Known false positive: `2.A.86.1.7` reads uptake from its descriptive name ("may function
-    with a heme uptake transporter") although its family is an exporter family. No genes carry
-    it.
-  - `3.A.1` itself is `unknown`; `3.A.1.4` is `uptake` / `abc_numbering`.
+- **New `direction`** (dense: `uptake` 646 · `export` 566 · `unknown` 8,156) and sparse
+  **`direction_basis`** (`abc_numbering` 397 uptake — 33 subfamilies + 364 systems; `tcdb_name`
+  249 uptake + 566 export, systems only). **Secretion is export** (2026-10-25): "secretion" /
+  "secretory" are export words (Sec, type II–IX secretion systems, Dot/Icm; +45 systems), and a
+  role phrase before the direction word ("involved in", "controls", "affects", "required for")
+  makes it weak (Kir4.2 "involved in bile secretion"; 10 nodes). Conservative by design: weak, two-way or contested
+  evidence reads `unknown` — a false `unknown` is cheap, a wrong direction is not.
+  `tcdb_utils.tcdb_direction` has exactly two sources:
+  - **A system's own name** (`tcdb_name`, `tc_system` nodes only). The name decides when it
+    contains exactly one of import/uptake/influx vs export/efflux/extrusion (whole word, agent
+    nouns included), unless:
+    - a hedge word appears anywhere before the direction word (putative, probable, possible,
+      potential, may, could, likely, predicted, proposed, uncharacterized, hypothetical,
+      fanciful, regulator, a literal `?`): "Putative arabinose efflux porter, AraJ",
+      "Probable pyruvate:H⁺ importer". A hedge *after* it does not count, so "Cu⁺/Ag⁺ efflux
+      pump, CusABCF (may pump ions …)", "AmtB (may need …)" and "DctA … 8–10 putative TMSs"
+      keep their direction;
+    - a negation sits just before it ("not involved in the export of drugs", OptrA);
+    - an organelle is named anywhere in the name (peroxisome/"peroxysome", mitochondria,
+      chloroplast, plastid, thylakoid, nucleus, lysosome, vacuole, tonoplast, Golgi, ER,
+      endosome, vesicle, synaptic, hydrogenosome, …): import into an organelle is not uptake
+      into a bacterial cell;
+    - a resemblance word follows it in the same clause ("Lipid A exporter homologue");
+    - the name states both directions.
+  - **No inheritance from names.** Family and subfamily names never give a direction — not to
+    the family node, and not to its systems. A family is named after its characterised member;
+    its relatives, which our genes reach by homology, may go the other way or have no known
+    function (the DME "Drug/Metabolite Exporter" subfamily holds SAM and riboflavin importers;
+    AEC "Auxin Efflux Carrier" holds malate importers). An unnamed or plainly named system
+    therefore reads `unknown`, and every family/subfamily node outside the ABC uptake range is
+    `unknown`. Read a family's members (`Tcdb_family_is_a_tcdb_family` down to systems) for its
+    direction spread.
+  - **ABC uptake numbering** (`abc_numbering`): subfamilies `3.A.1.1–99` (binding-protein-
+    dependent and ECF importers) and their systems are uptake, unless a name from the node up
+    to its subfamily says export or both (even tentatively), the node's own name says its
+    function is unknown, or its description doubts it. This is the one family-level direction
+    kept: TCDB numbers these as importer subfamilies on purpose, and ~1,420 genes reach TCDB only
+    through such a subfamily. `3.A.1.100+` has no numbering direction (ABC-F, FtsEX, gliding
+    motility, uncharacterized and eukaryotic ABCA–G families live there; BacA `3.A.1.203.4`
+    reads uptake from its own name).
+  - **Description veto.** The node's own TCDB description can only remove a direction: "both
+    uptake and efflux", bidirectional, under debate, controversial, disputed, hypothesis
+    (anywhere), or the opposite direction word in its **first sentence**, which is TCDB's full
+    system name (the stored name is truncated: `3.A.1.5.24` is stored as "The antimicrobial
+    peptide", the full name ends "… exporter, YejABEF"). Later sentences are not read for the
+    opposite word — they discuss other proteins and assays (GhxQ's "diS-C3 efflux" dye assay).
+  - **Curated overrides** (`config/tcdb_direction_overrides.yaml`, 66 `subtree` entries, each
+    with a reason and reference; removal only): the node and its descendants read `unknown`.
+    Non-transporters or no-direction groups (Mla `3.A.1.27`, MBOAT `2.A.50`, ABC-F
+    `3.A.1.120`/`.121`, BceAB `3.A.1.134`, FtsEX `3.A.1.140`, SEDS FtsW/RodA `2.A.103`, toxins
+    `1.C`, KpsC/KpsS `9.A.41`, Ccm `3.A.1.107`, YggT `9.A.4`, CidA/LrgA `1.E.14`, VanZ `2.A.128`,
+    …) and systems whose direction is two-way or disputed (Sap, YknXYZ, ZntB, NarK1/2, P1B-ATPase
+    "uptake" claims, plant ABCB auxin transporters, vacuolar/organellar eukaryotic members, …).
+  - **Audit (2026-10-24).** Seven parallel reviewers: six read every one of the 1,915 directed
+    nodes (plus `unknown` nodes under a directed ancestor) by TC range, with name, description,
+    substrates and ancestors; one reviewed the rule for edge cases over all 9,370 kept nodes.
+    They proposed 284 changes (247 overclaim, 31 wrong direction, 6 missed); every proposal to
+    remove a direction is applied, by a rule above or an override; proposed flips were applied
+    as `unknown`; the 6 "missed" directions were not added. Family-name inheritance was then
+    dropped altogether. Against the graph built with the original rule (numbering never
+    overridden, any decisive name inherited), 3,388 of 4,372 (`direct`-gate gene, directed node)
+    links keep the same direction (77%, after secretion-as-export 2026-10-25). Two nodes switch from export to uptake (BacA, ABCG39 paraquat
+    uptake), both because their own TCDB names say uptake. Known cost: MbfA `2.A.89.2.2` (1 gene)
+    loses export because its name mentions the "erythrin-vacuolar iron transport" family.
+  - `direction` describes TCDB's characterized reference system; a gene inherits it only by
+    homology — read it through `tcdb_gate = 'direct'` edges for gene-level claims. For
+    outer-membrane proteins (1.B) export means across the outer membrane.
+  - `3.A.1` itself is `unknown`; `3.A.1.4` is `uptake` / `abc_numbering`; `2.A.6` (RND) is
+    `unknown`.
 - **New `tcdb_substrate_count`** (post-import, dense, all five levels): distinct Metabolite +
   ChemicalRole targets of the system substrate edges in the node's subtree, i.e. TCDB's range for
   the node. On a system it is the system's own count (0 when none). Medians: class 96, subclass 5,
@@ -67,8 +120,8 @@ project 3b.
 
 | | Before | After |
 |---|---|---|
-| `Tcdb_family_transports_metabolite` | 10,790, from every level (subtree roll-up) | **10,778, from `tc_system` only** |
-| `Tcdb_family_transports_chemical_role` | 392 | **367, from `tc_system` only** |
+| `Tcdb_family_transports_metabolite` | 10,790, from every level (subtree roll-up) | **10,778, from `tc_system` only**; 8,548 after the 2026-10-25 substrate target filter |
+| `Tcdb_family_transports_chemical_role` | 392 | **367, from `tc_system` only**; 365 on 2026-10-25 |
 | `substrate_depth` | on both | **removed** |
 
 There is one edge per (system, canonical target), straight from TCDB's `substrates.tsv` through
@@ -240,3 +293,66 @@ than `tc_family` dropped, `curated_tcids` on the edge.
   ambiguous systems by prefix); an id still listed in the raw `families.tsv` /
   `acc2tcid.tsv` / `superfamilies.tsv` is never re-anchored. Retired ids are never range
   nodes. Effect: 30 genes move, 9,389 → 9,370 kept nodes.
+
+## TCDB integration review (2026-10-24/25)
+
+A five-agent review of the scraper and the substrate resolver, after the direction audit above.
+
+**Scraper (`scrape_tcdb_names.py`).** Id ↔ text assignment is correct: every stored entry
+re-parses byte-identically from the 593 cached pages, and a second (lxml) parser agrees. The
+defects were text processing, fixed and rebuilt offline with the new `--reparse`
+(`tcdb_names.json`: 9,741 entries, 1,842 names changed):
+
+- inline tags are removed without a space — "Na + ", "CO 2", "B 12", "Fe 3+ " were in 1,100
+  names and 930 descriptions, and broke search ("CO2" found 2 of ~117 systems);
+- names keep their head noun: a "(" TCDB never closes is dropped instead of cutting there
+  (`3.A.1.5.24` was "The antimicrobial peptide", now "... HBD-2 exporter, YejABEF"); an
+  over-cap name drops whole parentheticals first; a cut never ends on "of"/"and";
+- a standalone year is needed for a citation ("(1911aas)" is not one); browse.php names with
+  markup parse (118 families, e.g. `1.A.2`);
+- **new `proteins` property** on `tc_system` nodes: the row's protein cell (gene symbols,
+  accessions, source organism), in `tcdbFamilyFullText` — "UrtA" now finds the urea porters;
+  it also names a system whose name cell is empty (`1.A.77.3.21` "AtpI of Synechococcus sp.");
+- "This system was originally assigned to TC# X" rows join the moved map: `3.A.1.129.1` →
+  `3.A.1.106.22` (CydDC), so its genes re-anchor and the retired node drops (9,370 → 9,368); a
+  retired system the TSVs still list is named after its single move target;
+- `superfamily` loses TCDB's trailing spaces; its content is TCDB's (every ABC node reads "ArsA
+  ATPase (ArsA) Superfamily" upstream) and is not corrected.
+
+**Substrate resolution.** Keyed on the ChEBI id only; every string resolves and the pipeline
+reproduces `system_substrates` exactly. Changes:
+
+- **ChEBI decides the KEGG id.** Before, MNX's lowest KEGG C-number won, which turned generic
+  names into one stereo form (leucine → L-leucine C00123, also histidine, glutamine, lysine,
+  proline, valine, tyrosine, tryptophan, cystine, homocysteine, malate) and merged ditritium into
+  H₂. Now: the term's own ChEBI KEGG xref (several → the one MNX also files: bromide → C01324,
+  not "RBr" C00720), else its conjugate acids/bases (and zwitterion tautomers), else an MNX
+  alias ChEBI does not contradict, else `chebi:<n>`. Generic and specific forms are separate
+  nodes joined by `Metabolite_is_stereo_form_of` (96 → 112 edges), so transport on "leucine"
+  reaches L-leucine catalysis in one hop.
+- **Contested ChEBI aliases are withheld.** A ChEBI term MNX lists on two nodes the KG keeps
+  apart (tryptophan zwitterion on both L-tryptophan's and tryptophan's MNX entries) goes to the
+  node ChEBI ties it to, else to none — the rule `shared_chebi_terms` already applied to KEGG
+  xrefs (`withhold_contested_terms`).
+- **Substrate target filter** (`config/tcdb_substrate_target_filter.yaml`): GO's 12 targets
+  (upper-level classes, H⁺, Na⁺) plus TCDB placeholders (molecule, cation, anion,
+  inorganic cation, monoatomic monocation, organic anion) are dropped before any node is built:
+  2,213 (system, target) pairs; `Tcdb_family_transports_metabolite` 10,765 → 8,548 over 5,218
+  systems. Na⁺/H⁺ antiporters therefore carry no metabolite edge. **Protein is kept** in both this
+  and the GO filter: it is the substrate of Sec, Tat and the secretion systems, so "what moves
+  protein" has an answer (332 TCDB systems, 43 of them `export`; GO:0071806). TCDB's two protein
+  ids are one node (`chebi:36080` merged into `kegg.compound:C00017`, identity `merge:`
+  override). Published as `Schema_info.tcdb_substrate_excluded_targets`.
+- A ChEBI id with no MNX alias becomes a `chebi:` node with a warning (was silently dropped;
+  none today); 6-part TC ids in the TSVs are warned about, not silently skipped.
+- Metabolites 3,178 → 3,178: 26 out (10 placeholders, Na⁺, and nodes that move onto the exact
+  ChEBI term: thyroxine → `chebi:30660`, arsenic acid → arsenate ion, lipoate → (R)-lipoate …),
+  26 in (the generic forms above, chloric acid, cinnamic acid, …); 26 remap rows, 0 paper
+  repoints.
+
+**Not changed, by decision:** TCDB's own wrong ChEBI ids (PstABCS → triphosphate, DAPI given as
+nifedipine, TPP read as thiamine diphosphate, …), non-transported compounds and missing
+substrates are reported as-is — a curated override file is a backlog item (`plans/backlog.md`,
+"TCDB substrate overrides"). Also ChEBI-defined and kept: "corrinoid" → C06021 (a corrinoid
+protein) via ChEBI's own xref; oxonium → water (ChEBI conjugate acid).
+

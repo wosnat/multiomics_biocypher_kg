@@ -280,6 +280,8 @@ Gene_has_tcdb_family.scov:
     Subject (TCDB reference sequence) coverage of the alignment, percent
     0-100. Present on diamond edges only (absent on eggnog edges).
 
+# provenance: multiomics_kg.utils.tcdb_utils.tcdb_direction + config/tcdb_direction_overrides.yaml;
+# rule tightened by the 2026-10-24 seven-reviewer audit (docs/kg-changes/tcdb-cleanup.md).
 TcdbFamily.direction:
   applies_to: TcdbFamily
   applies_to_kind: node
@@ -288,18 +290,31 @@ TcdbFamily.direction:
   closed: true
   values: [uptake, export, unknown]
   description: >
-    Transport direction as TCDB states it, on every level. In the ABC
-    superfamily the numbering convention decides, for the subfamily and
-    everything below it, and nothing overrides it. Otherwise the nearest named
-    node decides: the node itself first, then its ancestors up to family level,
-    and the first TCDB name that states exactly one direction wins (never class
-    or subclass names, never free text descriptions). So a system whose own
-    name calls it an uptake porter reads uptake even inside an exporter family.
-    direction_basis says which rule fired.
+    Transport direction as TCDB states it, read conservatively: weak, two-way
+    or contested evidence reads unknown. Two sources only. (1) The own name of a system
+    in TCDB, on tc_system nodes: a name that says uptake, import or influx,
+    or export, efflux, extrusion or secretion (secretion is export), decides
+    unless it states the direction tentatively (putative, probable, may,
+    uncharacterized, a question mark), names a process the protein only takes
+    part in (involved in, controls, affects, required for), negates it, names an organelle (vacuolar, mitochondrial, peroxisomal or
+    vesicle transport is not cell uptake or export), calls the protein a
+    homologue, or states both directions. Family and subfamily names never give
+    a direction, to themselves or to their systems: a family is named after its
+    characterized member, and its relatives may go the other way. (2) ABC
+    uptake numbering: ABC subfamilies 3.A.1.1 to 3.A.1.99 and their systems
+    are uptake unless a name says export or the function is unknown. The TCDB
+    description of the node can only remove a direction (both directions, under
+    debate, or the opposite direction in its first sentence), and a curated list
+    of exceptions, each with a reason and a reference, removes it from systems
+    and families whose direction is disputed or that are not transporters.
+    Family and subfamily nodes outside the ABC uptake range are always unknown.
+    A property of the characterized TCDB reference system: a gene inherits it
+    only by homology. For outer-membrane proteins, export means across the outer
+    membrane. direction_basis says which source set it.
   value_descriptions:
-    uptake: the node is, or lies under, an ABC subfamily numbered 3.A.1.1 to 3.A.1.99; or the nearest TCDB name at family level or deeper says uptake, import or influx (and not export)
-    export: the node is, or lies under, an ABC subfamily numbered 3.A.1.100 or higher; or the nearest TCDB name at family level or deeper says export, efflux or extrusion (and not uptake)
-    unknown: neither rule fires; TCDB states no direction for this node or its ancestors, which is not evidence of either direction
+    uptake: TCDB states transport into the cell, by the unhedged own name of a system, or because the node is or lies under an ABC uptake subfamily (3.A.1.1 to 3.A.1.99) and nothing says otherwise
+    export: TCDB states transport out of the cell (export, efflux, extrusion or secretion), by the unhedged own name of a system
+    unknown: TCDB states no direction for this node itself, or states it tentatively, for an organelle, for both directions, in conflict with the ABC numbering or with its own description, or the direction is disputed; always unknown for family and subfamily nodes outside the ABC uptake range. Not evidence of either direction
 
 TcdbFamily.direction_basis:
   applies_to: TcdbFamily
@@ -310,10 +325,10 @@ TcdbFamily.direction_basis:
   sparse: true
   values: [abc_numbering, tcdb_name]
   description: >
-    Which rule set direction. Sparse: absent when direction is unknown.
+    Which source set direction. Sparse: absent when direction is unknown.
   value_descriptions:
-    abc_numbering: the TCDB numbering convention of the ABC superfamily (subfamilies 3.A.1.1 to 3.A.1.99 are uptake systems, 3.A.1.100 and higher are exporters), applied to the subfamily and everything below it
-    tcdb_name: the TCDB name of this node, or of its nearest ancestor down to family level, contains exactly one of the word groups uptake, import, influx or export, efflux, extrusion (whole word, any case)
+    abc_numbering: the node is, or lies under, an ABC subfamily numbered 3.A.1.1 to 3.A.1.99, which TCDB reserves for uptake systems; applied unless a TCDB name says export, the own name says the function is unknown, or the description doubts it
+    tcdb_name: the own TCDB name of this system (tc_system nodes only) contains exactly one of the word groups uptake, import, influx or export, efflux, extrusion, secretion, secretory (whole word, any case), unhedged, not a process the protein only takes part in, and not organellar
 
 TcdbFamily.tcdb_substrate_count:
   applies_to: TcdbFamily

@@ -58,7 +58,8 @@ _IS_DIRECT = f"(t.level_kind = 'tc_system' AND {_DIRECT_ARM})"
 def test_tcdb_family_node_count_in_range(run_query):
     """Kept set = gene-anchored seeds (eggNOG + diamond tier calls + best-hit systems)
     + ancestors + every substrate-bearing system under a kept family (§5.4).
-    Measured 9,389 on the 2026-10-23 caches (was 1,515 before the cleanup)."""
+    Measured 9,389 on the 2026-10-23 caches (was 1,515 before the cleanup); 9,368 on the
+    2026-10-25 caches."""
     n = run_query("MATCH (t:TcdbFamily) RETURN count(t) AS n")[0]["n"]
     assert 8500 <= n <= 10500, f"TcdbFamily count {n} outside expected 8,500-10,500"
 
@@ -116,11 +117,37 @@ def test_gene_has_cazy_family_edge_count(run_query):
 
 @pytest.mark.kg
 def test_tcdb_substrate_edge_counts(run_query):
-    """Measured 10,778 metabolite + 367 role edges, all from tc_system nodes."""
+    """Measured 8,548 metabolite + 365 role edges on the 2026-10-25 caches, all from
+    tc_system nodes (10,765 before the substrate target filter dropped placeholders and
+    coupling ions)."""
     met = run_query("MATCH ()-[r:Tcdb_family_transports_metabolite]->() RETURN count(r) AS n")[0]["n"]
     role = run_query("MATCH ()-[r:Tcdb_family_transports_chemical_role]->() RETURN count(r) AS n")[0]["n"]
-    assert 9500 <= met <= 12500, f"Tcdb_family_transports_metabolite {met} outside 9,500-12,500"
+    assert 7000 <= met <= 9500, f"Tcdb_family_transports_metabolite {met} outside 7,000-9,500"
     assert 300 <= role <= 450, f"Tcdb_family_transports_chemical_role {role} outside 300-450"
+
+
+@pytest.mark.kg
+def test_tcdb_substrate_filter_targets_have_no_edges(run_query):
+    """config/tcdb_substrate_target_filter.yaml: placeholders ("molecule", "cation") and
+    coupling ions (H+, Na+) are never substrate targets, and Schema_info publishes them."""
+    row = run_query("""
+        MATCH (s:Schema_info {id: 'schema_info'})
+        WITH s.tcdb_substrate_excluded_targets AS ex
+        OPTIONAL MATCH (:TcdbFamily)-[r:Tcdb_family_transports_metabolite]->(m:Metabolite)
+        WHERE m.id IN ex
+        RETURN ex, count(r) AS n""")[0]
+    assert row["ex"], "Schema_info.tcdb_substrate_excluded_targets missing"
+    assert {"kegg.compound:C00080", "chebi:25367"} <= set(row["ex"]), row["ex"]
+    assert row["n"] == 0, f"{row['n']} substrate edges reach an excluded target"
+
+
+@pytest.mark.kg
+def test_tcdb_proteins_searchable(run_query):
+    """The scraped protein cell (gene symbols) is on systems and in tcdbFamilyFullText."""
+    rows = run_query("""
+        CALL db.index.fulltext.queryNodes('tcdbFamilyFullText', 'UrtA') YIELD node
+        RETURN node.tcdb_id AS tc""")
+    assert {"3.A.1.4.4", "3.A.1.4.5"} <= {r["tc"] for r in rows}, rows
 
 
 # ============================================================================
@@ -506,7 +533,10 @@ def test_gene_tcdb_family_count_renamed(run_query):
 def test_direction_dense_and_basis_sparse(run_query):
     """direction dense on every level; direction_basis present iff direction is
     stated; class/subclass names are mechanism classes, so those levels are unknown.
-    Measured uptake 956 / export 1,367 / unknown 7,066."""
+    Measured uptake 646 / export 566 / unknown 8,156 (conservative rule + overrides +
+    secretion as export, 2026-10-25).
+    A name gives a direction only on tc_system nodes (its own name); above systems
+    only ABC uptake numbering does (tc_subfamily)."""
     rows = run_query("""
         MATCH (t:TcdbFamily)
         RETURN t.direction AS d, t.direction_basis AS b, t.level_kind AS lk, count(*) AS n""")
@@ -515,28 +545,34 @@ def test_direction_dense_and_basis_sparse(run_query):
         assert r["d"] in {"uptake", "export", "unknown"}, r
         assert (r["b"] is None) == (r["d"] == "unknown"), r
         assert r["b"] in {None, "abc_numbering", "tcdb_name"}, r
-        if r["lk"] in ("tc_class", "tc_subclass"):
+        if r["lk"] in ("tc_class", "tc_subclass", "tc_family"):
             assert r["d"] == "unknown", r
+        if r["b"] == "tcdb_name":
+            assert r["lk"] == "tc_system", r
+        if r["b"] == "abc_numbering":
+            assert r["lk"] in ("tc_subfamily", "tc_system") and r["d"] == "uptake", r
         by_dir[r["d"]] = by_dir.get(r["d"], 0) + r["n"]
-    bands = {"uptake": (800, 1150), "export": (1150, 1600), "unknown": (6000, 8200)}
+    bands = {"uptake": (550, 750), "export": (430, 620), "unknown": (7700, 8900)}
     for d, (lo, hi) in bands.items():
         assert lo <= by_dir.get(d, 0) <= hi, (d, by_dir)
 
 
 @pytest.mark.kg
 def test_direction_inherited_downward(run_query):
-    """A node's direction comes from itself or an ancestor, so a stated parent
-    direction is never contradicted by a child whose own name states nothing —
-    weakest safe check: no child of an ABC-numbered node disagrees with it."""
+    """ABC uptake numbering is the only direction that reaches below a node: a
+    child of an ABC-numbered subfamily is uptake by the same number or unknown
+    (its name says export or unknown function, its description doubts it, or an
+    override removes it) — never export, never another basis."""
     parents = run_query("""
         MATCH (:TcdbFamily)-[:Tcdb_family_is_a_tcdb_family]->(p:TcdbFamily {direction_basis: 'abc_numbering'})
         RETURN count(DISTINCT p) AS n""")[0]["n"]
     assert parents >= 1, "no abc_numbering node with children — check not exercised"
     n = run_query("""
         MATCH (c:TcdbFamily)-[:Tcdb_family_is_a_tcdb_family]->(p:TcdbFamily {direction_basis: 'abc_numbering'})
-        WHERE c.direction <> p.direction OR c.direction_basis <> 'abc_numbering'
+        WHERE c.direction <> 'unknown'
+          AND (c.direction <> p.direction OR c.direction_basis <> 'abc_numbering')
         RETURN count(c) AS n""")[0]["n"]
-    assert n == 0, f"{n} children of ABC-numbered nodes do not inherit the direction"
+    assert n == 0, f"{n} children of ABC-numbered nodes contradict the direction"
 
 
 @pytest.mark.kg

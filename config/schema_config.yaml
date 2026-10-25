@@ -1399,7 +1399,8 @@ tcdb family:
     level_kind: str         # tc_class | tc_subclass | tc_family | tc_subfamily | tc_system (was tc_specificity)
     superfamily: str        # sparse, leaf-only
     description: str        # sparse, tc_system only — scraped TCDB curated text, 400-char capped
-    direction: str          # dense, every level: uptake | export | unknown (TCDB-stated only; inherited downward)
+    proteins: str           # sparse, tc_system only — scraped protein cell (gene symbols, accessions, source organism; lines joined by '; '), 300-char capped
+    direction: str          # dense, every level: uptake | export | unknown (TCDB-stated only: a system's own name, or ABC uptake numbering)
     direction_basis: str    # sparse (absent when unknown): abc_numbering | tcdb_name
     tc_class_id: str        # post-import: pointer to root tc_class (e.g. "tcdb:3"); self on tc_class
     # post-import, subtree semantics, counted over GATE-PASSING edges only
