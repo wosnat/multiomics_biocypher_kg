@@ -144,7 +144,7 @@ def _protein(seq) -> str | None:
     """Comparable protein: stop glyphs stripped, uppercase, first residue M."""
     if not isinstance(seq, str):
         return None
-    s = seq.strip().upper().rstrip("*#+")
+    s = re.sub(r"[^A-Z]", "X", seq.strip().upper().rstrip("*#+"))  # internal glyphs break diamond
     return ("M" + s[1:]) if len(s) > 1 else None
 
 
@@ -272,6 +272,12 @@ def main() -> None:
         }))
 
     write_paperconfig(entries)
+    # drop outputs of strains no longer in the panel (e.g. WH8020, left out 2026-10-26)
+    written = {Path(e["csv"]).name for _, e in entries}
+    for f in out_dir.glob("*_sbp_classes*"):
+        stem = f.name.replace("_resolved.csv", ".csv").replace("_resolved_report.txt", ".csv")
+        if stem not in written:
+            f.unlink()
     (out_dir / "resolution_qc.json").write_text(json.dumps(resolution_qc, indent=1, sort_keys=True) + "\n")
     tot = Counter()
     for q in resolution_qc.values():
