@@ -46,6 +46,7 @@ EXTENDED_OMICS_TYPES: frozenset[str] = frozenset({
     "PAIRED_RNASEQ_PROTEOME",  # Waldbauer 2012 et al.
     "DNASEQ",                  # whole-cell DNA-seq default
     "VESICLE_DNASEQ",          # compartment baked in: vesicle (Biller 2014 S4)
+    "BIOINFORMATIC",           # computed from genome sequence/annotation, no sample (Ford 2021)
 })
 
 

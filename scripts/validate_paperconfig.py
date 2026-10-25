@@ -564,7 +564,7 @@ def _validate_experiments(experiments: dict, config_path: str,
     """Validate the experiments block in a publication config."""
     if not experiments:
         # experiments block is optional for cluster-only paperconfigs
-        warnings.append(f"{config_path} | missing 'experiments' block in publication (OK for cluster-only and experiment-less derived-metric configs)")
+        warnings.append(f"{config_path} | missing 'experiments' block in publication (OK for cluster-only configs)")
         return
 
     if not isinstance(experiments, dict):
@@ -614,11 +614,16 @@ def _validate_experiments(experiments: dict, config_path: str,
         raw_bg_check = exp.get("background_factors")
         bg_check = raw_bg_check if isinstance(raw_bg_check, list) else (
             [raw_bg_check] if raw_bg_check else [])
-        if not bg_check:
+        raw_tt_bg = exp.get("treatment_type")
+        tt_bg = raw_tt_bg if isinstance(raw_tt_bg, list) else ([raw_tt_bg] if raw_tt_bg else [])
+        # [] is legal only for a genomic_analysis experiment: an analysis of genome
+        # sequence / annotation (Ford 2021) has no culture to hold constant.
+        if not bg_check and "genomic_analysis" not in tt_bg:
             errors.append(
                 f"{config_path} | experiments.{exp_key} | "
                 f"background_factors must be a non-empty list (what is held "
-                f"constant: axenic, light, diel, coculture, chemical, darkness, viral)"
+                f"constant: axenic, light, diel, coculture, chemical, darkness, viral; "
+                f"[] only with treatment_type genomic_analysis)"
             )
         raw_tt_check = exp.get("treatment_type")
         tt_check = raw_tt_check if isinstance(raw_tt_check, list) else (
@@ -1129,8 +1134,8 @@ def _validate_derived_metrics_entry(
     value_kind to catch edge-type drift across papers.
 
     Validation steps per metric:
-      1. required top-level fields present (filename, organism, name_col,
-         metrics); without `experiment`, a canonical non-empty treatment_type
+      1. required top-level fields present (filename, organism, experiment,
+         name_col, metrics)
       2. organism is in canonical list
       3. CSV file readable; name_col + value_col exist as columns
       4. metric_type non-empty; value_kind ∈ VALUE_KINDS
@@ -1167,42 +1172,12 @@ def _validate_derived_metrics_entry(
                          (adapter hard-errors at ingest in Plan 2)
     """
     # ── Required top-level fields ──
-    # `experiment` is optional: a bioinformatic / annotation-derived metric
-    # (Ford 2021 SBP nutrient classes) has no experiment and instead names its
-    # own treatment_type (e.g. [genomic_analysis]); background_factors may be [].
-    for req in ("filename", "organism", "name_col", "metrics"):
+    for req in ("filename", "organism", "experiment", "name_col", "metrics"):
         if req not in table or table.get(req) in (None, "", []):
             errors.append(
                 f"{config_path} | {key} | derived_metrics_table missing required "
                 f"field '{req}'"
             )
-    if table.get("experiment"):
-        for own in ("treatment_type", "background_factors"):
-            if own in table:
-                errors.append(
-                    f"{config_path} | {key} | '{own}' is copied from the experiment — "
-                    f"declare it on the entry only when there is no 'experiment'"
-                )
-    else:
-        tt = table.get("treatment_type")
-        if not isinstance(tt, list) or not tt:
-            errors.append(
-                f"{config_path} | {key} | derived_metrics_table without 'experiment' "
-                f"needs a non-empty treatment_type list (e.g. [genomic_analysis])"
-            )
-        else:
-            for t in tt:
-                if t not in CANONICAL_TREATMENT_TYPES:
-                    errors.append(_canonical_field_error(
-                        config_path, key, "treatment_type", t, CANONICAL_TREATMENT_TYPES))
-        bf = table.get("background_factors") or []
-        if not isinstance(bf, list):
-            errors.append(f"{config_path} | {key} | background_factors must be a list")
-        else:
-            for b in bf:
-                if b not in CANONICAL_BACKGROUND_FACTORS:
-                    errors.append(_canonical_field_error(
-                        config_path, key, "background_factors", b, CANONICAL_BACKGROUND_FACTORS))
 
     # ── organism vocab ──
     organism = table.get("organism", "")

@@ -708,10 +708,13 @@ Experiment.omics_type:
   value_type: string
   closed: true
   values: [RNASEQ, MICROARRAY, PROTEOMICS, EXOPROTEOMICS, VESICLE_PROTEOMICS,
-           METABOLOMICS, PAIRED_RNASEQ_PROTEOME, DNASEQ, VESICLE_DNASEQ]
+           METABOLOMICS, PAIRED_RNASEQ_PROTEOME, DNASEQ, VESICLE_DNASEQ,
+           BIOINFORMATIC]
   description: >
     Omics modality of the experiment (RNASEQ, PROTEOMICS, MICROARRAY,
-    METABOLOMICS, EXOPROTEOMICS, ...). Upper-case snake_case by long-standing
+    METABOLOMICS, EXOPROTEOMICS, ...). BIOINFORMATIC = computed from genome
+    sequence or annotation, with no sample (e.g. Ford 2021 predicted
+    substrate-binding proteins). Upper-case snake_case by long-standing
     convention.
 
 Experiment.compartment:
@@ -1166,8 +1169,11 @@ Experiment.treatment_type:
 
 Experiment.background_factors:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
-  #   DENSE and NON-EMPTY (min_size 1) on every Experiment — an experiment always has a
-  #   held-constant context. neo4j-admin import drops an empty string[] cell, so post-import
+  #   DENSE on every Experiment and NON-EMPTY except on genomic_analysis experiments
+  #   (omics_type BIOINFORMATIC, Ford 2021, 2026-10-25): an analysis of genome sequence or
+  #   annotation has no culture, so [] is the honest value; validate_paperconfig.py enforces
+  #   non-empty everywhere else and post-import re-materializes [] on Experiment too. (Was
+  #   min_size 1 on every Experiment.) neo4j-admin import drops an empty string[] cell, so post-import
   #   re-materializes [] on the denormalized labels (ClusteringAnalysis may legitimately be [] —
   #   Hackl 2023 genomic islands have no experimental context). Harvested from CLAUDE.md's
   #   "background_factors canonical values" bullet. Since 2026-08-27
@@ -1179,14 +1185,14 @@ Experiment.background_factors:
   value_type: string_array
   closed: true
   values: [axenic, light, diel, coculture, chemical, darkness, viral]
-  min_size: 1
   description: >
     Held-constant context of the experiment that is not the manipulated
     variable: axenic, light, diel, coculture, chemical, darkness, viral.
     A coculture background names its partner(s): Experiment.coculture_partner
     lists every organism in the culture, and Tests_coculture_with.partner_role =
     background marks the ones that are context rather than treatment.
-    Always non-empty — every experiment has a context.
+    Non-empty on every experiment with a culture; [] only on a genomic_analysis
+    (BIOINFORMATIC) experiment, which has no sample.
 
 ClusteringAnalysis.treatment_type:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
@@ -1229,10 +1235,9 @@ ClusteringAnalysis.background_factors:
 DerivedMetric.treatment_type:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   Denormalized copy of Experiment.treatment_type (same closed value list; 2026-08-27). Copied
-  #   verbatim from the parent Experiment, so min_size 1 holds by construction. A metric with no
-  #   experiment (bioinformatic / annotation-derived, Ford 2021, 2026-10-25) declares its own on the
-  #   paperconfig entry, non-empty by validator rule. neo4j-admin import drops an empty string[]
-  #   cell, so post-import re-materializes [] — the property is always present.
+  #   verbatim from the parent Experiment, so min_size 1 holds by construction. neo4j-admin import
+  #   drops an empty string[] cell, so post-import re-materializes [] — the property is always
+  #   present.
   applies_to: DerivedMetric
   applies_to_kind: node
   property: treatment_type
@@ -1244,16 +1249,13 @@ DerivedMetric.treatment_type:
   min_size: 1
   description: >
     The treatment_type of the parent experiment, copied onto the metric for
-    filtering (same value set as Experiment.treatment_type). A metric computed
-    from genome sequence or annotation has no experiment and carries
-    genomic_analysis. Always non-empty.
+    filtering (same value set as Experiment.treatment_type). Always non-empty.
 
 DerivedMetric.background_factors:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   Denormalized copy of Experiment.background_factors (same closed value list; 2026-08-27).
-  #   Copied verbatim from the parent Experiment. No min_size since 2026-10-25: a metric with no
-  #   experiment (Ford 2021 genome-annotation metrics) has no culture context, so [] is legal —
-  #   the ClusteringAnalysis.background_factors precedent. neo4j-admin import drops an empty
+  #   Copied verbatim from the parent Experiment. No min_size since 2026-10-25: a metric of a
+  #   genomic_analysis experiment (Ford 2021) copies its [] — no culture context. neo4j-admin import drops an empty
   #   string[] cell, so post-import re-materializes [] — the property is always present.
   applies_to: DerivedMetric
   applies_to_kind: node
@@ -1264,8 +1266,8 @@ DerivedMetric.background_factors:
   description: >
     The background_factors of the parent experiment, copied onto the metric for
     filtering (same value set as Experiment.background_factors). Empty for a
-    metric computed from genome sequence or annotation (no experiment, no
-    culture context).
+    metric of a genomic_analysis experiment (computed from genome sequence or
+    annotation, no culture context).
 
 MetaboliteAssay.treatment_type:
   # provenance (moved out of the researcher-facing description, 2026-08-29):

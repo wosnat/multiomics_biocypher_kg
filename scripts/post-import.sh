@@ -343,6 +343,7 @@ SET e.coculture_partner = apoc.coll.sort(partners);
 
 MATCH (n)
 WHERE n:ClusteringAnalysis OR n:DerivedMetric OR n:MetaboliteAssay
+   OR (n:Experiment AND 'genomic_analysis' IN n.treatment_type)
 SET n.treatment_type = coalesce(n.treatment_type, []),
     n.background_factors = coalesce(n.background_factors, []);
 

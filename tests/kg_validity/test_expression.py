@@ -313,12 +313,14 @@ def test_experiment_list_props_dense(run_query):
 
 
 def test_experiment_background_factors_non_empty(run_query):
-    """Every Experiment has a non-empty background_factors list — an
-    experiment always has a held-constant context (axenic, continuous
-    light, coculture, ...). Enforced upstream by validate_paperconfig.py."""
+    """Every Experiment with a culture has a non-empty background_factors list
+    (axenic, continuous light, coculture, ...). The one exception is a
+    genomic_analysis experiment (BIOINFORMATIC, Ford 2021): no sample, so [].
+    Enforced upstream by validate_paperconfig.py."""
     result = run_query("""
         MATCH (e:Experiment)
         WHERE size(e.background_factors) = 0
+          AND NOT 'genomic_analysis' IN e.treatment_type
         RETURN collect(e.id) AS empty
     """)
     empty = result[0]["empty"]
