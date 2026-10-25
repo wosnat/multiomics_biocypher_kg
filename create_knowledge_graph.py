@@ -470,8 +470,12 @@ def main():
 
     kegg_data_path = Path("cache/data/kegg/kegg_data.json")
     if kegg_data_path.exists():
+        kegg_data_json = json.loads(kegg_data_path.read_text())
         (Path(bc._output_directory) / "go_transport_excluded_targets.json").write_text(
-            json.dumps(json.loads(kegg_data_path.read_text()).get("go_transport_excluded_targets", []))
+            json.dumps(kegg_data_json.get("go_transport_excluded_targets", []))
+        )
+        (Path(bc._output_directory) / "tcdb_substrate_excluded_targets.json").write_text(
+            json.dumps(kegg_data_json.get("tcdb_substrate_excluded_targets", []))
         )
 
     # Write import call and other post-processing

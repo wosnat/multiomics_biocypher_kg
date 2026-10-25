@@ -135,70 +135,142 @@ def test_bridge_empty_input_returns_empty():
     assert build_tcdb_bridges({}, _H, _KEPT) == {}
 
 
-# ── tcdb_direction (spec §5.1) ───────────────────────────────────────────────
+# ── tcdb_direction (spec §5.1; conservative rule after the 2026-10-24 audit) ─
 
-_DIR_H = {
-    "3":           {"name": "Primary Active Transporters", "level": 0, "parent": None},
-    "3.A":         {"name": "P-P-bond-hydrolysis-driven transporters", "level": 1, "parent": "3"},
-    "3.A.1":       {"name": "The ATP-binding Cassette (ABC) Superfamily", "level": 2, "parent": "3.A"},
-    "3.A.1.4":     {"name": "The Hydrophobic Amino Acid Uptake Transporter (HAAT) Family",
-                    "level": 3, "parent": "3.A.1"},
-    "3.A.1.4.4":   {"name": "The high-affinity urea porter", "level": 4, "parent": "3.A.1.4"},
-    "3.A.1.122":   {"name": "The Macrolide Exporter (MacB) Family", "level": 3, "parent": "3.A.1"},
-    "3.A.1.122.2": {"name": "", "level": 4, "parent": "3.A.1.122"},
-    "2":           {"name": "Electrochemical Potential-driven Transporters (export uptake)",
-                    "level": 0, "parent": None},
-    "2.A":         {"name": "Porters (efflux)", "level": 1, "parent": "2"},
-    "2.A.6":       {"name": "The Resistance-Nodulation-Cell Division (RND) Efflux Family",
-                    "level": 2, "parent": "2.A"},
-    "2.A.6.1":     {"name": "", "level": 3, "parent": "2.A.6"},
-    "2.A.6.1.1":   {"name": "", "level": 4, "parent": "2.A.6.1"},
-    "2.A.9":       {"name": "Uptake and export of things", "level": 2, "parent": "2.A"},
-    "2.A.9.1.1":   {"name": "", "level": 4, "parent": "2.A.9"},
-    "2.A.10":      {"name": "The Importer family", "level": 2, "parent": "2.A"},
-    "2.A.11":      {"name": "The Capsular Polysaccharide Exporter (CPSE) Family",
-                    "level": 2, "parent": "2.A"},
-    "2.A.12":      {"name": "Drug Exporter-1 Family", "level": 2, "parent": "2.A"},
-    "2.A.13":      {"name": "Nucleotide importers", "level": 2, "parent": "2.A"},
-    "2.A.14":      {"name": "The importance of being transported", "level": 2, "parent": "2.A"},
-    "2.A.15":      {"name": "Sugar efflux family", "level": 2, "parent": "2.A"},
-    "2.A.15.1":    {"name": "Uptake and export subfamily", "level": 3, "parent": "2.A.15"},
-    "2.A.15.1.1":  {"name": "", "level": 4, "parent": "2.A.15.1"},
-}
+def _dir_h(*nodes):
+    """Hierarchy from (id, name[, description]) tuples; levels/parents from the id."""
+    kinds = ["tc_class", "tc_subclass", "tc_family", "tc_subfamily", "tc_system"]
+    h = {}
+    for node in nodes:
+        tc, name, desc = (node + ("",))[:3]
+        parts = tc.split(".")
+        h[tc] = {"name": name, "description": desc, "level": len(parts) - 1,
+                 "level_kind": kinds[len(parts) - 1],
+                 "parent": ".".join(parts[:-1]) or None}
+    return h
+
+
+_ABC_H = _dir_h(("3", "Primary Active Transporters"), ("3.A", "P-P-bond hydrolysis"),
+            ("3.A.1", "The ATP-binding Cassette (ABC) Superfamily"),
+            ("3.A.1.4", "The Hydrophobic Amino Acid Uptake Transporter (HAAT) Family"),
+            ("3.A.1.4.4", "The high-affinity urea porter"),
+            ("3.A.1.4.5", ""),
+            ("3.A.1.4.6", "ABC transporter of unknown function"),
+            ("3.A.1.4.7", "Putative drug exporter"),
+            ("3.A.1.4.8", "General amino acid porter", "General porter (catalyzes both uptake and efflux)."),
+            ("3.A.1.4.9", "Peptide uptake and export system"),
+            ("3.A.1.22", "The Nickel Uptake Transporter (NiT) Family"),
+            ("3.A.1.22.2", "The ABC exporter, CbiMNQO."),
+            ("3.A.1.122", "The Macrolide Exporter (MacB) Family"),
+            ("3.A.1.122.1", "Macrolide efflux pump, MacAB"),
+            ("3.A.1.122.2", ""),
+            ("3.A.1.203", "The Peroxysomal Fatty Acyl CoA Transporter Family"),
+            ("3.A.1.203.4", "The BacA porter (selective for the uptake of bleomycin)"))
 
 
 @pytest.mark.parametrize("tc, expected", [
-    ("3.A.1.4.4", ("uptake", "abc_numbering")),
-    ("3.A.1.4", ("uptake", "abc_numbering")),
-    ("3.A.1.122.2", ("export", "abc_numbering")),
-    ("3.A.1.122", ("export", "abc_numbering")),
-    ("3.A.1", ("unknown", None)),           # superfamily itself: rule 1 starts at subfamilies
-    ("2.A.6", ("export", "tcdb_name")),
-    ("2.A.6.1.1", ("export", "tcdb_name")),  # inherits the family's name
-    ("2.A.9.1.1", ("unknown", None)),        # both word groups in the only usable name
-    ("2.A.10", ("uptake", "tcdb_name")),     # agent noun "Importer"
-    ("2.A.11", ("export", "tcdb_name")),     # "Exporter"
-    ("2.A.12", ("export", "tcdb_name")),     # hyphenated "Exporter-1"
-    ("2.A.13", ("uptake", "tcdb_name")),     # plural "importers"
-    ("2.A.14", ("unknown", None)),           # whole word: "importance" is not "import"
-    ("2.A.15.1.1", ("export", "tcdb_name")), # mixed subfamily name skipped -> family
-    ("2.A", ("unknown", None)),              # subclass names are never used
-    ("2", ("unknown", None)),
-    ("3", ("unknown", None)),
-    ("9.Z.9", ("unknown", None)),            # not in the hierarchy
+    ("3.A.1.4", ("uptake", "abc_numbering")),       # ABC uptake subfamily, by number
+    ("3.A.1.4.4", ("uptake", "abc_numbering")),     # ... and its systems
+    ("3.A.1.4.5", ("uptake", "abc_numbering")),     # unnamed system: number, not name
+    ("3.A.1.4.6", ("unknown", None)),               # own name: function unknown
+    ("3.A.1.4.7", ("unknown", None)),               # tentative export claim still blocks
+    ("3.A.1.4.8", ("unknown", None)),               # description: both directions
+    ("3.A.1.4.9", ("unknown", None)),               # name states both
+    ("3.A.1.22", ("uptake", "abc_numbering")),
+    ("3.A.1.22.2", ("unknown", None)),              # number says uptake, name says export
+    ("3.A.1", ("unknown", None)),                   # superfamily: numbering starts below
+    ("3.A.1.122", ("unknown", None)),               # 3.A.1.100+: family names never decide
+    ("3.A.1.122.1", ("export", "tcdb_name")),       # ... only a system's own name does
+    ("3.A.1.122.2", ("unknown", None)),             # unnamed: nothing inherited
+    ("3.A.1.203.4", ("uptake", "tcdb_name")),       # BacA: importer numbered among exporters
+    ("3", ("unknown", None)), ("3.A", ("unknown", None)),
+    ("9.Z.9.9.9", ("unknown", None)),               # not in the hierarchy
 ])
-def test_tcdb_direction(tc, expected):
-    assert tu.tcdb_direction(tc, _DIR_H) == expected
+def test_tcdb_direction_abc(tc, expected):
+    assert tu.tcdb_direction(tc, _ABC_H, {}) == expected
 
 
-def test_tcdb_direction_nearest_name_wins():
-    h = {"2": {"name": "", "level": 0, "parent": None},
-         "2.A": {"name": "", "level": 1, "parent": "2"},
-         "2.A.7": {"name": "Drug efflux family", "level": 2, "parent": "2.A"},
-         "2.A.7.1": {"name": "Sugar UPTAKE subfamily", "level": 3, "parent": "2.A.7"},
-         "2.A.7.1.1": {"name": "", "level": 4, "parent": "2.A.7.1"}}
-    assert tu.tcdb_direction("2.A.7.1.1", h) == ("uptake", "tcdb_name")
-    assert tu.tcdb_direction("2.A.7", h) == ("export", "tcdb_name")
+def _sys(name, desc=""):
+    return _dir_h(("2", ""), ("2.A", "Porters"), ("2.A.7", "The Drug Efflux (DE) Family"),
+              ("2.A.7.1", "The Sugar Efflux subfamily"), ("2.A.7.1.1", name, desc))
+
+
+@pytest.mark.parametrize("name, desc, expected", [
+    ("Sugar efflux porter, SetA", "", ("export", "tcdb_name")),
+    ("Glucose uptake porter, GlcP", "", ("uptake", "tcdb_name")),       # own name beats family
+    ("Ammonium uptake permease, AmtB (may need AmtB to concentrate)", "",
+     ("uptake", "tcdb_name")),                                           # hedge AFTER the word
+    ("Drug Exporter-1 protein", "", ("export", "tcdb_name")),            # hyphenated agent noun
+    ("Nucleotide importers", "", ("uptake", "tcdb_name")),               # plural
+    ("The importance of being transported", "", ("unknown", None)),     # whole word only
+    ("Uptake and export of things", "", ("unknown", None)),             # both
+    ("", "", ("unknown", None)),                                        # family name never inherited
+    ("Glucose porter of 400 aas", "", ("unknown", None)),
+    ("Probable sugar:H+ efflux porter", "", ("unknown", None)),         # hedge across a colon
+    ("Putative heavy metal (Me 2+) efflux porter", "", ("unknown", None)),
+    ("Lipid efflux homologue of 593 aas", "", ("unknown", None)),       # resemblance after the word
+    ("It is not involved in the efflux of drugs", "", ("unknown", None)),  # negation
+    ("Heme efflux porter?", "", ("unknown", None)),                     # literal ?
+    ("Rv0205 (may function with a heme uptake transporter)", "", ("unknown", None)),
+    ("Zn uptake (into synaptic vesicles)", "", ("unknown", None)),      # organelle after the word
+    ("Ferrous iron exporter, MbfA, of the erythrin-vacuolar family", "", ("unknown", None)),
+    ("Protein import into the ER", "", ("unknown", None)),
+    ("Sugar efflux porter", "Catalyzes both uptake and efflux of sugars.", ("unknown", None)),
+    ("Sugar efflux porter", "Its role is under debate.", ("unknown", None)),
+    ("Sugar efflux porter", "Sugar uptake porter, SetA. Unrelated detail.", ("unknown", None)),
+    ("Sugar efflux porter", "Sugar efflux porter, SetA. Assay used dye uptake.",
+     ("export", "tcdb_name")),                                          # later sentence ignored
+    ("Sugar efflux porter", "SetA. Its partner, of unknown function, binds it.",
+     ("export", "tcdb_name")),                                          # unknown function in desc
+])
+def test_tcdb_direction_system_name(name, desc, expected):
+    assert tu.tcdb_direction("2.A.7.1.1", _sys(name, desc), {}) == expected
+
+
+def test_family_names_never_decide():
+    h = _sys("Sugar efflux porter, SetA")
+    for tc in ("2", "2.A", "2.A.7", "2.A.7.1"):
+        assert tu.tcdb_direction(tc, h, {}) == ("unknown", None), tc
+
+
+def test_direction_overrides_subtree():
+    h = _sys("Sugar efflux porter, SetA")
+    ov = {"2.A.7.1": {"scope": "subtree", "reason": "t"}}
+    assert tu.tcdb_direction("2.A.7.1.1", h, ov) == ("unknown", None)
+    abc = {"3.A.1.4": {"scope": "subtree", "reason": "t"}}
+    assert tu.tcdb_direction("3.A.1.4.4", _ABC_H, abc) == ("unknown", None)
+    assert tu.tcdb_direction("3.A.1.4.99", _ABC_H, abc) == ("unknown", None)  # not in hierarchy
+
+
+def test_direction_overrides_file_valid():
+    ov = tu.load_direction_overrides()
+    assert len(ov) > 50
+    hierarchy = json.loads(Path("cache/data/tcdb/tcdb_hierarchy.json").read_text())
+    missing = sorted(k for k in ov if k not in hierarchy)
+    assert not missing, f"override ids not in the TCDB hierarchy: {missing}"
+    for k, v in ov.items():
+        assert v["scope"] == "subtree" and v["reason"], k
+
+
+def test_direction_overrides_rejects_bad_entry(tmp_path):
+    p = tmp_path / "o.yaml"
+    p.write_text("2.A.7:\n  scope: node\n  reason: x\n")
+    with pytest.raises(ValueError):
+        tu.load_direction_overrides(p)
+
+
+def test_direction_real_hierarchy_examples():
+    hierarchy = json.loads(Path("cache/data/tcdb/tcdb_hierarchy.json").read_text())
+    d = lambda t: tu.tcdb_direction(t, hierarchy)
+    assert d("3.A.1.4") == ("uptake", "abc_numbering")
+    assert d("3.A.1.4.4") == ("uptake", "abc_numbering")         # urea ABC (MED4 urtA)
+    assert d("3.A.1.27.3") == ("unknown", None)                   # Mla (override)
+    assert d("2.A.103.1.1") == ("unknown", None)                  # FtsW (override)
+    assert d("3.A.1.3.8") == ("unknown", None)                    # Aap: both directions
+    assert d("3.A.1.5.24") == ("unknown", None)                   # YejABEF: exporter in full name
+    assert d("2.A.6.1.4") == ("export", "tcdb_name")              # CusABCF
+    assert d("2.A.6") == ("unknown", None)                        # RND family: names never decide
+    assert d("2.A.86.1.7") == ("unknown", None)                   # old documented false positive
 
 
 # ── Retired TCDB ids: moved-to map (post-3a P2) ──────────────────────────────
@@ -333,3 +405,15 @@ def test_committed_moved_overrides_load_against_committed_hierarchy():
     h = json.loads((root / "cache/data/tcdb/tcdb_hierarchy.json").read_text())
     assert load_moved_overrides(root / "config/tcdb_moved_overrides.yaml", h) == \
         {"9.B.99.1": "1.B.93.1"}
+
+
+@pytest.mark.parametrize("name, expected", [
+    ("Type VI secretion system, TssA - TssM.", ("export", "tcdb_name")),       # secretion is export
+    ("General secretory pathway (Sec-SRP) complex.", ("export", "tcdb_name")),
+    ("K+ channel, Kir4.2, involved in bile secretion.", ("unknown", None)),     # role phrase
+    ("TRPC1 Ca2+ channel controls salivary gland fluid secretion", ("unknown", None)),
+    ("DedA family member involved in selenite uptake", ("unknown", None)),
+    ("Golgi/secretory granule Zn2+ uptake permease", ("unknown", None)),         # organelle
+])
+def test_tcdb_direction_secretion_and_role_phrases(name, expected):
+    assert tu.tcdb_direction("2.A.7.1.1", _sys(name), {}) == expected

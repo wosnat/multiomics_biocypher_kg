@@ -1,0 +1,209 @@
+# KEGG pathway exclusions (config/kegg_pathway_exclusions.yaml), measured on the 2026-10-24 rebuild
+# (KG main d4ea8e9f) against the previous build (daff04d8^). Explorer ask A1.
+change	id	name	reason
+pathway_removed	kegg.pathway:ko01521	EGFR tyrosine kinase inhibitor resistance	Human Diseases / Drug resistance: antineoplastic: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko01522	Endocrine resistance	Human Diseases / Drug resistance: antineoplastic: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko01523	Antifolate resistance	Human Diseases / Drug resistance: antineoplastic: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko01524	Platinum drug resistance	Human Diseases / Drug resistance: antineoplastic: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko03320	PPAR signaling pathway	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04062	Chemokine signaling pathway	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04211	Longevity regulating pathway	Organismal Systems / Aging: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04212	Longevity regulating pathway - worm	Organismal Systems / Aging: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04213	Longevity regulating pathway - multiple species	Organismal Systems / Aging: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04260	Cardiac muscle contraction	Organismal Systems / Circulatory system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04261	Adrenergic signaling in cardiomyocytes	Organismal Systems / Circulatory system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04270	Vascular smooth muscle contraction	Organismal Systems / Circulatory system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04360	Axon guidance	Organismal Systems / Development and regeneration: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04361	Axon regeneration	Organismal Systems / Development and regeneration: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04380	Osteoclast differentiation	Organismal Systems / Development and regeneration: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04382	Cornified envelope formation	Organismal Systems / Development and regeneration: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04520	Adherens junction	Cellular Processes / Cellular community - eukaryotes: eukaryotic cell junctions and adhesion
+pathway_removed	kegg.pathway:ko04530	Tight junction	Cellular Processes / Cellular community - eukaryotes: eukaryotic cell junctions and adhesion
+pathway_removed	kegg.pathway:ko04540	Gap junction	Cellular Processes / Cellular community - eukaryotes: eukaryotic cell junctions and adhesion
+pathway_removed	kegg.pathway:ko04610	Complement and coagulation cascades	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04611	Platelet activation	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04612	Antigen processing and presentation	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04613	Neutrophil extracellular trap formation	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04614	Renin-angiotensin system	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04620	Toll-like receptor signaling pathway	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04621	NOD-like receptor signaling pathway	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04622	RIG-I-like receptor signaling pathway	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04623	Cytosolic DNA-sensing pathway	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04624	Toll and Imd signaling pathway	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04625	C-type lectin receptor signaling pathway	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04626	Plant-pathogen interaction	Organismal Systems / Environmental adaptation: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04650	Natural killer cell mediated cytotoxicity	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04657	IL-17 signaling pathway	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04658	Th1 and Th2 cell differentiation	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04659	Th17 cell differentiation	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04660	T cell receptor signaling pathway	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04662	B cell receptor signaling pathway	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04664	Fc epsilon RI signaling pathway	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04666	Fc gamma R-mediated phagosome formation	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04670	Leukocyte transendothelial migration	Organismal Systems / Immune system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04710	Circadian rhythm	Organismal Systems / Environmental adaptation: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04713	Circadian entrainment	Organismal Systems / Environmental adaptation: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04714	Thermogenesis	Organismal Systems / Environmental adaptation: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04720	Long-term potentiation	Organismal Systems / Nervous system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04721	Synaptic vesicle cycle	Organismal Systems / Nervous system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04722	Neurotrophin signaling pathway	Organismal Systems / Nervous system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04723	Retrograde endocannabinoid signaling	Organismal Systems / Nervous system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04724	Glutamatergic synapse	Organismal Systems / Nervous system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04725	Cholinergic synapse	Organismal Systems / Nervous system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04726	Serotonergic synapse	Organismal Systems / Nervous system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04727	GABAergic synapse	Organismal Systems / Nervous system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04728	Dopaminergic synapse	Organismal Systems / Nervous system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04730	Long-term depression	Organismal Systems / Nervous system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04740	Olfactory transduction	Organismal Systems / Sensory system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04742	Taste transduction	Organismal Systems / Sensory system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04744	Phototransduction	Organismal Systems / Sensory system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04745	Phototransduction - fly	Organismal Systems / Sensory system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04750	Inflammatory mediator regulation of TRP channels	Organismal Systems / Sensory system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04910	Insulin signaling pathway	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04911	Insulin secretion	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04912	GnRH signaling pathway	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04913	Ovarian steroidogenesis	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04914	Progesterone-mediated oocyte maturation	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04915	Estrogen signaling pathway	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04916	Melanogenesis	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04917	Prolactin signaling pathway	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04918	Thyroid hormone synthesis	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04919	Thyroid hormone signaling pathway	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04920	Adipocytokine signaling pathway	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04921	Oxytocin signaling pathway	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04922	Glucagon signaling pathway	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04923	Regulation of lipolysis in adipocytes	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04924	Renin secretion	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04925	Aldosterone synthesis and secretion	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04926	Relaxin signaling pathway	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04927	Cortisol synthesis and secretion	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04928	Parathyroid hormone synthesis, secretion and action	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04929	GnRH secretion	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04930	Type II diabetes mellitus	Human Diseases / Endocrine and metabolic disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko04931	Insulin resistance	Human Diseases / Endocrine and metabolic disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko04932	Non-alcoholic fatty liver disease	Human Diseases / Endocrine and metabolic disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko04933	AGE-RAGE signaling pathway in diabetic complications	Human Diseases / Endocrine and metabolic disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko04934	Cushing syndrome	Human Diseases / Endocrine and metabolic disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko04935	Growth hormone synthesis, secretion and action	Organismal Systems / Endocrine system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04936	Alcoholic liver disease	Human Diseases / Endocrine and metabolic disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko04940	Type I diabetes mellitus	Human Diseases / Endocrine and metabolic disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko04960	Aldosterone-regulated sodium reabsorption	Organismal Systems / Excretory system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04961	Endocrine and other factor-regulated calcium reabsorption	Organismal Systems / Excretory system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04962	Vasopressin-regulated water reabsorption	Organismal Systems / Excretory system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04964	Proximal tubule bicarbonate reclamation	Organismal Systems / Excretory system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04966	Collecting duct acid secretion	Organismal Systems / Excretory system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04970	Salivary secretion	Organismal Systems / Digestive system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04971	Gastric acid secretion	Organismal Systems / Digestive system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04972	Pancreatic secretion	Organismal Systems / Digestive system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04973	Carbohydrate digestion and absorption	Organismal Systems / Digestive system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04974	Protein digestion and absorption	Organismal Systems / Digestive system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04975	Fat digestion and absorption	Organismal Systems / Digestive system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04976	Bile secretion	Organismal Systems / Digestive system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04977	Vitamin digestion and absorption	Organismal Systems / Digestive system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04978	Mineral absorption	Organismal Systems / Digestive system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04979	Cholesterol metabolism	Organismal Systems / Digestive system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04980	Cobalamin transport and metabolism	Organismal Systems / Digestive system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko04981	Folate transport and metabolism	Organismal Systems / Digestive system: animal organ-system physiology (immune, endocrine, nervous, ...), not bacterial
+pathway_removed	kegg.pathway:ko05010	Alzheimer disease	Human Diseases / Neurodegenerative disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05012	Parkinson disease	Human Diseases / Neurodegenerative disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05014	Amyotrophic lateral sclerosis	Human Diseases / Neurodegenerative disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05016	Huntington disease	Human Diseases / Neurodegenerative disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05017	Spinocerebellar ataxia	Human Diseases / Neurodegenerative disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05020	Prion disease	Human Diseases / Neurodegenerative disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05022	Pathways of neurodegeneration - multiple diseases	Human Diseases / Neurodegenerative disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05030	Cocaine addiction	Human Diseases / Substance dependence: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05031	Amphetamine addiction	Human Diseases / Substance dependence: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05032	Morphine addiction	Human Diseases / Substance dependence: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05033	Nicotine addiction	Human Diseases / Substance dependence: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05034	Alcoholism	Human Diseases / Substance dependence: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05100	Bacterial invasion of epithelial cells	Human Diseases / Infectious disease: bacterial: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05110	Vibrio cholerae infection	Human Diseases / Infectious disease: bacterial: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05120	Epithelial cell signaling in Helicobacter pylori infection	Human Diseases / Infectious disease: bacterial: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05130	Pathogenic Escherichia coli infection	Human Diseases / Infectious disease: bacterial: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05131	Shigellosis	Human Diseases / Infectious disease: bacterial: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05132	Salmonella infection	Human Diseases / Infectious disease: bacterial: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05133	Pertussis	Human Diseases / Infectious disease: bacterial: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05134	Legionellosis	Human Diseases / Infectious disease: bacterial: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05135	Yersinia infection	Human Diseases / Infectious disease: bacterial: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05140	Leishmaniasis	Human Diseases / Infectious disease: parasitic: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05142	Chagas disease	Human Diseases / Infectious disease: parasitic: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05143	African trypanosomiasis	Human Diseases / Infectious disease: parasitic: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05145	Toxoplasmosis	Human Diseases / Infectious disease: parasitic: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05146	Amoebiasis	Human Diseases / Infectious disease: parasitic: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05150	Staphylococcus aureus infection	Human Diseases / Infectious disease: bacterial: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05152	Tuberculosis	Human Diseases / Infectious disease: bacterial: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05160	Hepatitis C	Human Diseases / Infectious disease: viral: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05161	Hepatitis B	Human Diseases / Infectious disease: viral: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05162	Measles	Human Diseases / Infectious disease: viral: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05163	Human cytomegalovirus infection	Human Diseases / Infectious disease: viral: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05164	Influenza A	Human Diseases / Infectious disease: viral: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05165	Human papillomavirus infection	Human Diseases / Infectious disease: viral: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05166	Human T-cell leukemia virus 1 infection	Human Diseases / Infectious disease: viral: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05167	Kaposi sarcoma-associated herpesvirus infection	Human Diseases / Infectious disease: viral: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05168	Herpes simplex virus 1 infection	Human Diseases / Infectious disease: viral: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05169	Epstein-Barr virus infection	Human Diseases / Infectious disease: viral: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05170	Human immunodeficiency virus 1 infection	Human Diseases / Infectious disease: viral: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05171	Coronavirus disease - COVID-19	Human Diseases / Infectious disease: viral: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05200	Pathways in cancer	Human Diseases / Cancer: overview: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05203	Viral carcinogenesis	Human Diseases / Cancer: overview: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05204	Chemical carcinogenesis - DNA adducts	Human Diseases / Cancer: overview: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05205	Proteoglycans in cancer	Human Diseases / Cancer: overview: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05206	MicroRNAs in cancer	Human Diseases / Cancer: overview: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05207	Chemical carcinogenesis - receptor activation	Human Diseases / Cancer: overview: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05208	Chemical carcinogenesis - reactive oxygen species	Human Diseases / Cancer: overview: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05210	Colorectal cancer	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05211	Renal cell carcinoma	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05212	Pancreatic cancer	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05213	Endometrial cancer	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05214	Glioma	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05215	Prostate cancer	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05216	Thyroid cancer	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05217	Basal cell carcinoma	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05218	Melanoma	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05219	Bladder cancer	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05220	Chronic myeloid leukemia	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05222	Small cell lung cancer	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05223	Non-small cell lung cancer	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05224	Breast cancer	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05225	Hepatocellular carcinoma	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05226	Gastric cancer	Human Diseases / Cancer: specific types: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05230	Central carbon metabolism in cancer	Human Diseases / Cancer: overview: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05231	Choline metabolism in cancer	Human Diseases / Cancer: overview: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05235	PD-L1 expression and PD-1 checkpoint pathway in cancer	Human Diseases / Cancer: overview: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05310	Asthma	Human Diseases / Immune disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05320	Autoimmune thyroid disease	Human Diseases / Immune disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05322	Systemic lupus erythematosus	Human Diseases / Immune disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05323	Rheumatoid arthritis	Human Diseases / Immune disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05332	Graft-versus-host disease	Human Diseases / Immune disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05340	Primary immunodeficiency	Human Diseases / Immune disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05410	Hypertrophic cardiomyopathy	Human Diseases / Cardiovascular disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05412	Arrhythmogenic right ventricular cardiomyopathy	Human Diseases / Cardiovascular disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05414	Dilated cardiomyopathy	Human Diseases / Cardiovascular disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05415	Diabetic cardiomyopathy	Human Diseases / Cardiovascular disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05416	Viral myocarditis	Human Diseases / Cardiovascular disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05417	Lipid and atherosclerosis	Human Diseases / Cardiovascular disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+pathway_removed	kegg.pathway:ko05418	Fluid shear stress and atherosclerosis	Human Diseases / Cardiovascular disease: human disease maps (cancer, infection from the host side, ...), not bacterial
+subcategory_removed	kegg.subcategory:09144	Cellular community - eukaryotes	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09149	Aging	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09151	Immune system	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09152	Endocrine system	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09153	Circulatory system	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09154	Digestive system	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09155	Excretory system	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09156	Nervous system	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09157	Sensory system	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09158	Development and regeneration	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09159	Environmental adaptation	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09161	Cancer: overview	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09162	Cancer: specific types	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09163	Immune disease	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09164	Neurodegenerative disease	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09165	Substance dependence	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09166	Cardiovascular disease	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09167	Endocrine and metabolic disease	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09171	Infectious disease: bacterial	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09172	Infectious disease: viral	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09174	Infectious disease: parasitic	every pathway under it is excluded
+subcategory_removed	kegg.subcategory:09176	Drug resistance: antineoplastic	every pathway under it is excluded
+category_removed	kegg.category:09150	Organismal Systems	every pathway under it is excluded
+discusses_edge_removed	doi:10.1128/spectrum.03275-22 -> kegg.pathway:ko04710	Publication_discusses_kegg_pathway: Moreno 2023 "circadian rhythm" (map04710, central)	pathway ko04710 excluded (Organismal Systems)

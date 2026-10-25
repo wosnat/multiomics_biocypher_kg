@@ -131,7 +131,9 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
   `reaction_count` / `metabolite_count` rollups only lose the dropped nodes. Moreno 2023's
   "circadian rhythm" mention (`map04710`, the animal map, no KOs here) no longer resolves to a
   pathway. The rule lives in `config/kegg_pathway_exclusions.yaml`, applied once in step 6; the
-  dropped ids and their reasons are listed in `kegg_data.json` `excluded_pathways`.
+  dropped ids and their reasons are listed in `kegg_data.json` `excluded_pathways`, and as a
+  fixture-sweep list (182 pathways, 22 subcategories, 1 category, the Moreno edge) in
+  `docs/kg-changes/kegg-pathway-exclusions/removed_ids.tsv`.
 
 ### Data
 
@@ -218,7 +220,7 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 - **TCDB cleanup (project 3a)** — see `### Breaking` and `docs/kg-changes/tcdb-cleanup.md`:
   - **`Gene_has_tcdb_family.tcdb_call`** (`eggnog` | `diamond_tier` | `diamond_best_hit`) and **`tcdb_gate`** (`direct` 11,158 · `annotated` 19,866 · `below_gate` 44,799). The gate is dense and ordered, computed in the adapter, and is the one set every TCDB count and enrichment reads.
   - **`diamond_best_hit` edges** onto each best-hit system (rank-1 + near-ties), each with its own alignment: `rank`, `tier` (identity band ≥ 70 / 40–70 / < 40), `identity`, `qcov`, `scov`, `evalue`, `bitscore`, `bitscore_ratio`. This includes the ~188 proteins with a best hit but no tier call. `qcov` is declared in percent, its real scale.
-  - **`TcdbFamily.direction`** (`uptake` 956 · `export` 1,367 · `unknown` 7,066; TCDB-stated only, from ABC numbering or TCDB names, inherited downward) with sparse **`direction_basis`** (`abc_numbering` | `tcdb_name`).
+  - **`TcdbFamily.direction`** (`uptake` 646 · `export` 566 · `unknown` 8,156; TCDB-stated only and conservative, from two sources: a system's own unhedged, non-organellar TCDB name (secretion counts as export), or ABC uptake numbering `3.A.1.1–99` unless contradicted. Family and subfamily names never give a direction, to themselves or their systems; the node's description can veto; `config/tcdb_direction_overrides.yaml` removes it from disputed systems and non-transporter groups. Checked against every directed node by a seven-reviewer audit) with sparse **`direction_basis`** (`abc_numbering` | `tcdb_name`).
   - **`TcdbFamily.tcdb_substrate_count`** (all levels: TCDB's substrate range in the subtree).
   - **Range-only systems.** 5,862 nodes; every substrate-bearing system under a kept family is kept. Diamond best-hit systems now seed pruning.
   - **Wider name scrape.** The TCDB name scraper covers every kept system: 592 family pages, 9,622 names; 134 systems unnamed upstream.
@@ -256,11 +258,13 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 
 ### Changed
 
+- **TCDB substrates: ChEBI decides the compound, placeholders and coupling ions dropped.** Substrate resolution is keyed on TCDB's ChEBI id; the KEGG id now comes from ChEBI (its own cross-reference, then charge forms, then an MNX alias ChEBI does not contradict), not MNX's lowest C-number, so an unspecified "leucine", "glutamate", "tryptophan" … is the generic compound (`Metabolite_is_stereo_form_of` links it to the L form) and "ditritium" is no longer H₂. A new target filter (`config/tcdb_substrate_target_filter.yaml`: GO's targets + "molecule", "cation", "anion" and other placeholders) drops 2,213 (system, target) pairs, including H⁺ and Na⁺: `Tcdb_family_transports_metabolite` 10,765 → 8,548. **Protein is kept** as a substrate — and leaves the GO filter too (+1 GO edge) — as one node (`chebi:36080` merged into `kegg.compound:C00017`), so Sec, Tat and secretion systems answer "what moves protein"; excluded ids in **`Schema_info.tcdb_substrate_excluded_targets`**. TCDB's own wrong ChEBI ids are not corrected (backlog). Metabolites unchanged at 3,178 (26 out, 26 in). Direction also reads **secretion as export** (Sec, type II–IX secretion systems), and a role phrase ("involved in bile secretion") is weak.
 - **GO refreshed from the March 2026 release to 2026-07-26** (85 terms added, 732 obsoleted). MolecularFunction nodes 2,899 to 2,890, BiologicalProcess 3,433 to 3,322, CellularComponent unchanged at 451; `Gene_enables_molecular_function` 363,298 to 362,439, `Gene_involved_in_biological_process` 546,971 to 533,186, `Gene_located_in_cellular_component` 154,722 to 155,459. GO is now refreshed only as go-basic + go-plus together (release-checked, `refresh_go_release`), never during a KG build. 23,462 gene annotations that used an alt_id of a live term are now recovered onto the live term; annotations to obsolete terms are dropped, not remapped via `replaced_by` (about 18,300 became obsolete in this release).
 - **prepare_data step 7 folded into step 6** (`resolve_paper_metabolites.py` is a no-op alias; step 6 writes the `_resolved.csv` files). Default `STEPS` is now `0 9 1 2 3 4 5 6 8 10`.
 
 ### Fixed
 
+- **TCDB names: superscripts, truncation, protein cells.** The scraper turned inline markup into spaces ("Na + ", "CO 2", "B 12" in 1,100 names and 930 descriptions, so a search for "CO2" found 2 of ~117 systems) and cut names at a parenthesis TCDB never closes (`3.A.1.5.24` read "The antimicrobial peptide"; it is the YejABEF exporter). Both fixed; names were rebuilt offline from the cached pages (`scrape_tcdb_names --reparse`; 1,842 changed). New sparse **`TcdbFamily.proteins`** (each system's protein cell: gene symbols, accessions, organism) is in `tcdbFamilyFullText`, so "UrtA" finds the urea porters. TCDB's "originally assigned to" moves are honoured (`3.A.1.129.1` → `3.A.1.106.22`, CydDC; 9,370 → 9,368 nodes). Id ↔ text assignment was verified correct on all 593 pages. See `docs/kg-changes/tcdb-cleanup.md` "TCDB integration review".
 - **Gene annotations on retired TCDB ids now land on the ids TCDB moved them to.** eggNOG and
   the diamond library still carry numbers TCDB has retired; their family pages list only
   "<old> has been moved to <new>". Step 6 reads those lines from the cached TCDB pages and

@@ -3,6 +3,7 @@
 Spec: docs/superpowers/specs/2026-08-12-tcdb-node-names-design.md
 Plan: docs/superpowers/plans/2026-08-18-tcdb-node-names.md
 """
+import pytest
 import json
 
 from multiomics_kg.download import scrape_tcdb_names as m
@@ -11,7 +12,7 @@ from multiomics_kg.download import scrape_tcdb_names as m
 class TestCleanHtmlFragment:
     def test_strips_tags_and_entities(self):
         s = "<p>Drug:H<sup>+</sup> Antiporter &alpha; &nbsp;porin</p>"
-        assert m.clean_html_fragment(s) == "Drug:H + Antiporter α porin"
+        assert m.clean_html_fragment(s) == "Drug:H+ Antiporter α porin"
 
     def test_tolerates_dangling_unclosed_tag_at_end(self):
         # observed live: one cell ends with an unclosed "<br /"
@@ -143,11 +144,11 @@ class TestParseFamilyPage:
         subfams, _systems = m.parse_family_page(FAMILY_PAGE_FIXTURE)
         assert subfams["2.A.1.1"] == "The Sugar Porter (SP) Family"
         # inline markup inside the name must survive the capture (spec 6a):
-        assert subfams["2.A.1.2"] == "The Drug:H + Antiporter-1 (12 Spanner) (DHA1) Family"
+        assert subfams["2.A.1.2"] == "The Drug:H+ Antiporter-1 (12 Spanner) (DHA1) Family"
 
     def test_system_full_text(self):
         _, systems = m.parse_family_page(FAMILY_PAGE_FIXTURE)
-        assert systems["2.A.1.1.1"].startswith("Galactose:H + symporter, GalP")
+        assert systems["2.A.1.1.1"].startswith("Galactose:H+ symporter, GalP")
         assert "Long tail text." in systems["2.A.1.1.1"]
         assert "reflink" not in systems["2.A.1.1.1"]
 
@@ -371,3 +372,96 @@ def test_committed_moved_map_has_the_three_retired_families():
     assert moved["9.A.40.1.2"] == ["1.C.126.1.2"]
     assert moved["9.B.99.1.1"] == ["1.A.17.4.1", "1.B.93.1.1"]
     assert moved["1.B.166.1.1"] == ["1.B.101.1.1"]
+
+
+# ── 2026-10-24 TCDB review fixes ─────────────────────────────────────────────
+
+@pytest.mark.parametrize("raw, expected", [
+    ("Na<sup>+</sup>-coupled", "Na+-coupled"),
+    ("CO<sub>2</sub> channel", "CO2 channel"),
+    ("vitamin B<sub>12</sub>", "vitamin B12"),
+    ("<i>P</i>yrimidine porter", "Pyrimidine porter"),
+    ("( <i>&beta;</i>ETE )", "(βETE)"),
+    ("UrtA-E of <i>Anabaena</i> sp.<br />UrtA (R)", "UrtA-E of Anabaena sp. UrtA (R)"),
+    ("Text (Smith <em>et al</em>., 2004) .", "Text (Smith et al., 2004)."),
+])
+def test_clean_html_inline_tags_leave_no_space(raw, expected):
+    assert m.clean_html_fragment(raw) == expected
+
+
+def test_strip_citations_needs_a_standalone_year():
+    assert m.strip_citations("EmaA (1911aas) porter") == "EmaA (1911aas) porter"
+    assert m.strip_citations("EmaA porter (Smith 2011)") == "EmaA porter"
+
+
+@pytest.mark.parametrize("full, expected", [
+    # a "(" TCDB never closes is a typo: dropped, the head noun survives
+    ("The antimicrobial peptide (protamine, melittin, polymyxin B, human defensin (HBD)-1 "
+     "and HBD-2 exporter, YejABEF (Eswarappa et al., 2008)",
+     "The antimicrobial peptide protamine, melittin, polymyxin B, human defensin (HBD)-1 "
+     "and HBD-2 exporter, YejABEF"),
+    # an unclosed "(" does not block the sentence split
+    ("Sugar porter (see 2.A.1. Transports glucose.", "Sugar porter see 2.A.1."),
+    # over the cap: drop the longest parenthetical, keep the text after it
+    ("The VceAB multidrug (" + "drug, " * 30 + "dye) efflux pump, VceAB",
+     "The VceAB multidrug efflux pump, VceAB"),
+])
+def test_make_name_keeps_the_head_noun(full, expected):
+    assert m.make_name(full) == expected
+
+
+def test_drop_unclosed_parenthetical_never_leaves_a_dangling_word():
+    assert m._drop_unclosed_parenthetical("Cytochrome b6/f complex, PetABCD of (Synecho") \
+        == "Cytochrome b6/f complex, PetABCD of Synecho"
+    assert m._drop_unclosed_parenthetical("Glucose uptake porter (cut by cap") \
+        == "Glucose uptake porter"
+
+
+_ROW = ('<table id="result-cluster"><tr><td><A id="3.A.1.4.4"></A>'
+        '<A valign="top" HREF="/search/result.php?tc=3.A.1.4.4">\n3.A.1.4.4</A></td>'
+        "<td><div class='aa'>{name}</div></td><td width=\"110\"><div class='bb'>Bacteria</div></td>"
+        '<td>Cyanobacteriota</td><td id="right-border" width="170">'
+        "<div class='cc'>UrtA-E urea porter of <I>Anabaena</i> sp. PCC7120 <br />\n"
+        "UrtA (R) <br />\nUrtB (M)</div></td></tr></table>")
+
+
+def test_parse_protein_cells():
+    html = _ROW.format(name="The high-affinity urea porter")
+    assert m.parse_protein_cells(html, family="3.A.1") == {
+        "3.A.1.4.4": "UrtA-E urea porter of Anabaena sp. PCC7120; UrtA (R); UrtB (M)"}
+
+
+def test_assemble_names_adds_proteins_and_names_from_them():
+    art = m.assemble_names(
+        {}, {"3.A.1": ({}, {"3.A.1.4.4": "The high-affinity urea porter"})},
+        {"3.A.1.4.4", "3.A.1.4.9"}, ["3.A.1"], [],
+        proteins={"3.A.1.4.4": "UrtA-E of Anabaena; UrtA (R)",
+                  "3.A.1.4.9": "NatA-E of Anabaena; NatA (C)"})
+    assert art["names"]["3.A.1.4.4"]["name"] == "The high-affinity urea porter"
+    assert art["names"]["3.A.1.4.4"]["proteins"] == "UrtA-E of Anabaena; UrtA (R)"
+    assert art["names"]["3.A.1.4.9"]["name"] == "NatA-E of Anabaena"   # empty name cell
+
+
+def test_assemble_names_reparse_replaces_and_keeps_date_when_unchanged():
+    old = {"meta": {"scraped_at": "2020-01-01", "scraped_families": ["9.Z.1"]},
+           "names": {"1.A.1.1.1": {"name": "Old H + name", "description": "d"}}}
+    per = {"1.A.1": ({}, {"1.A.1.1.1": "New H+ name"})}
+    fresh = m.assemble_names({}, per, {"1.A.1.1.1"}, ["1.A.1"], [], existing=old, merge=False)
+    assert fresh["names"]["1.A.1.1.1"]["name"] == "New H+ name"
+    assert fresh["meta"]["scraped_families"] == ["1.A.1"]
+    again = m.assemble_names({}, per, {"1.A.1.1.1"}, ["1.A.1"], [], existing=fresh, merge=False)
+    assert again["meta"]["scraped_at"] == fresh["meta"]["scraped_at"]
+    unchanged = m.assemble_names({}, {}, set(), [], [], existing=old)
+    assert unchanged["meta"]["scraped_at"] == "2020-01-01"
+
+
+def test_parse_browse_names_with_markup():
+    html = ('<div rel="1.A.2" class="entry"><div class="tcid name">1.A.2: The Inward '
+            'Rectifier K<sup>+</sup> Channel (IRK-C) Family</div></div>')
+    assert m.parse_browse(html) == {"1.A.2": "The Inward Rectifier K+ Channel (IRK-C) Family"}
+
+
+def test_originally_assigned_is_a_move():
+    html = _ROW.format(name="CydDC heme transporter. This system was originally "
+                            "assigned to TC# 3.A.1.129.1.").replace("3.A.1.4.4", "3.A.1.106.22")
+    assert m.parse_originally_assigned(html, family="3.A.1") == {"3.A.1.129.1": {"3.A.1.106.22"}}

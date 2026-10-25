@@ -76,7 +76,7 @@ CREATE INDEX cazy_family_cazy_id_idx IF NOT EXISTS FOR (c:CazyFamily) ON (c.cazy
 // even on reruns against an existing graph (T6 node names).
 DROP INDEX tcdbFamilyFullText IF EXISTS;
 CREATE FULLTEXT INDEX tcdbFamilyFullText IF NOT EXISTS
-    FOR (t:TcdbFamily) ON EACH [t.name, t.tcdb_id, t.superfamily, t.description];
+    FOR (t:TcdbFamily) ON EACH [t.name, t.tcdb_id, t.superfamily, t.description, t.proteins];
 CREATE FULLTEXT INDEX cazyFamilyFullText IF NOT EXISTS
     FOR (c:CazyFamily) ON EACH [c.name, c.cazy_id];
 
@@ -2014,6 +2014,8 @@ CALL {
 :param chebi_release       => ''
 // go_excluded is injected by post-import.sh from go_transport_excluded_targets.json
 :param go_excluded         => []
+// tcdb_excluded is injected by post-import.sh from tcdb_substrate_excluded_targets.json
+:param tcdb_excluded       => []
 
 MATCH (s:Schema_info {id: 'schema_info'})
 SET s.version           = coalesce($version, '0.0.0-dev'),
@@ -2031,7 +2033,8 @@ SET s.version           = coalesce($version, '0.0.0-dev'),
     s.controlled_vocabularies_hash = CASE WHEN coalesce($vocab_hash, '') = ''
                                           THEN null ELSE $vocab_hash END,
     s.chebi_release = CASE WHEN coalesce($chebi_release, '') = '' THEN null ELSE $chebi_release END,
-    s.go_transport_excluded_targets = coalesce($go_excluded, [])
+    s.go_transport_excluded_targets = coalesce($go_excluded, []),
+    s.tcdb_substrate_excluded_targets = coalesce($tcdb_excluded, [])
 WITH s
 SET s.paper_count           = COUNT { (:Publication) },
     s.experiment_count      = COUNT { (:Experiment) },

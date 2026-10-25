@@ -95,7 +95,7 @@ CREATE INDEX cazy_family_cazy_id_idx IF NOT EXISTS FOR (c:CazyFamily) ON (c.cazy
 // even on reruns against an existing graph (T6 node names).
 DROP INDEX tcdbFamilyFullText IF EXISTS;
 CREATE FULLTEXT INDEX tcdbFamilyFullText IF NOT EXISTS
-    FOR (t:TcdbFamily) ON EACH [t.name, t.tcdb_id, t.superfamily, t.description];
+    FOR (t:TcdbFamily) ON EACH [t.name, t.tcdb_id, t.superfamily, t.description, t.proteins];
 CREATE FULLTEXT INDEX cazyFamilyFullText IF NOT EXISTS
     FOR (c:CazyFamily) ON EACH [c.name, c.cazy_id];
 
@@ -2085,6 +2085,17 @@ else
        "(checked flat and one-level-timestamped layouts). Schema_info.go_transport_excluded_targets will be []."
 fi
 
+KG_TCDB_EXCLUDED="[]"
+tcdb_excl_file=$(ls -t /data/build2neo/tcdb_substrate_excluded_targets.json \
+  /data/build2neo/*/tcdb_substrate_excluded_targets.json 2>/dev/null | head -n 1 || true)
+if [ -n "$tcdb_excl_file" ] && [ -r "$tcdb_excl_file" ]; then
+  KG_TCDB_EXCLUDED=$(tr -d '\n' < "$tcdb_excl_file" | tr '"' "'")
+  echo "Found tcdb_substrate_excluded_targets.json at $tcdb_excl_file"
+else
+  echo "WARNING: tcdb_substrate_excluded_targets.json not found under /data/build2neo" \
+       "(checked flat and one-level-timestamped layouts). Schema_info.tcdb_substrate_excluded_targets will be []."
+fi
+
 time cypher-shell \
   -P "version          => '${KG_RELEASE_VERSION:-0.0.0-dev}'" \
   -P "git_sha          => '${KG_GIT_SHA:-unknown}'" \
@@ -2099,6 +2110,7 @@ time cypher-shell \
   -P "vocab_hash => '${KG_VOCAB_HASH}'" \
   -P "chebi_release => '${KG_CHEBI_RELEASE}'" \
   -P "go_excluded => ${KG_GO_EXCLUDED}" \
+  -P "tcdb_excluded => ${KG_TCDB_EXCLUDED}" \
   <<'CYPHER'
 MATCH (s:Schema_info {id: 'schema_info'})
 SET s.version           = coalesce($version, '0.0.0-dev'),
@@ -2118,7 +2130,8 @@ SET s.version           = coalesce($version, '0.0.0-dev'),
     s.controlled_vocabularies_hash = CASE WHEN coalesce($vocab_hash, '') = ''
                                           THEN null ELSE $vocab_hash END,
     s.chebi_release = CASE WHEN coalesce($chebi_release, '') = '' THEN null ELSE $chebi_release END,
-    s.go_transport_excluded_targets = coalesce($go_excluded, [])
+    s.go_transport_excluded_targets = coalesce($go_excluded, []),
+    s.tcdb_substrate_excluded_targets = coalesce($tcdb_excluded, [])
 WITH s
 SET s.paper_count           = COUNT { (:Publication) },
     s.experiment_count      = COUNT { (:Experiment) },

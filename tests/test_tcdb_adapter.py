@@ -32,12 +32,13 @@ _HIER = {
     "1.A.1": _node("1.A.1", "VIC family"),
     "1.A.1.5": _node("1.A.1.5"),
     "1.A.1.5.2": _node("1.A.1.5.2", superfamily="VIC Superfamily",
-                       description="Epsilon leaf curated text with 'quote' and |pipe|."),
+                       description="Epsilon leaf curated text with 'quote' and |pipe|.",
+                       proteins="NaChBac of Bacillus; NaChBac (M) 'x'|y"),
     "2": _node("2", "Electrochemical Potential-driven Transporters"),
     "2.A": _node("2.A", "Porters"),
     "2.A.6": _node("2.A.6", "The Resistance-Nodulation-Cell Division (RND) Efflux Family"),
     "2.A.6.1": _node("2.A.6.1"),
-    "2.A.6.1.1": _node("2.A.6.1.1", "Multidrug pump AcrB"),
+    "2.A.6.1.1": _node("2.A.6.1.1", "Multidrug efflux pump AcrB"),
     "2.A.6.1.9": _node("2.A.6.1.9"),   # range-only, unnamed
     "3": _node("3", "Primary Active Transporters"),
     "3.A": _node("3.A"),
@@ -390,21 +391,26 @@ def test_node_props(tmp_path):
     assert leaf["name"] == "1.A.1.5.2"
     assert leaf["superfamily"] == "VIC Superfamily"
     assert leaf["description"] == "Epsilon leaf curated text with ^quote^ and pipe."
+    assert leaf["proteins"] == "NaChBac of Bacillus; NaChBac (M) ^x^y"
+    assert "proteins" not in nodes["tcdb:1.A.1.5"]
     assert "description" not in nodes["tcdb:1.A.1.5"]
-    # ABC numbering + named family
+    # ABC numbering; a system's own name; family names never decide
     assert (nodes["tcdb:3.A.1.4.4"]["direction"], nodes["tcdb:3.A.1.4.4"]["direction_basis"]) \
         == ("uptake", "abc_numbering")
     assert nodes["tcdb:3.A.1"]["direction"] == "unknown"
-    assert (nodes["tcdb:2.A.6"]["direction"], nodes["tcdb:2.A.6"]["direction_basis"]) \
+    assert (nodes["tcdb:2.A.6.1.1"]["direction"], nodes["tcdb:2.A.6.1.1"]["direction_basis"]) \
         == ("export", "tcdb_name")
+    assert nodes["tcdb:2.A.6"]["direction"] == "unknown"
+    assert "direction_basis" not in nodes["tcdb:2.A.6"]
 
 
-def test_unnamed_system_falls_back_and_inherits_direction(tmp_path):
+def test_unnamed_system_falls_back_and_inherits_no_direction(tmp_path):
     a = _setup(tmp_path, {}, None)
     nodes = {n[0]: n[2] for n in a.get_nodes() if n[1] == "tcdb family"}
     p = nodes["tcdb:2.A.6.1.9"]
     assert p["name"] == "2.A.6.1.9"
-    assert p["direction"] == "export" and p["direction_basis"] == "tcdb_name"
+    # the "Efflux Family" name is not inherited: a system needs its own name
+    assert p["direction"] == "unknown" and "direction_basis" not in p
 
 
 def test_orchestrator_emits_hierarchy_edges(tmp_path):
@@ -588,6 +594,9 @@ def _tcdb_statements(text: str) -> list[str]:
     if "<<'CYPHER'" in text:  # post-import.sh: keep only the heredoc bodies
         text = "\n".join(re.findall(r"<<'CYPHER'\n(.*?)\nCYPHER\n", text, re.S))
     code = _cypher_code(text)
+    # the reference .cypher declares parameters with :param lines that the .sh passes
+    # on the command line instead
+    code = re.sub(r"^:param [^\n]*$", "", code, flags=re.M)
     stmts = [re.sub(r"\s+", " ", s).strip() for s in code.split(";")]
     return [s for s in stmts if re.search(r"tcdb|Tcdb", s)]
 

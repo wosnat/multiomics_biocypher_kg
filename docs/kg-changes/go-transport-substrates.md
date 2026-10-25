@@ -60,6 +60,11 @@ substrates: 0 unresolved ChEBI ids, 0 not in ChEBI.
 
 ## Target filter (13 ids, 88 axioms dropped)
 
+> **2026-10-25:** protein (`chebi:36080`) left the filter — it is the real substrate of protein
+> translocation; GO:0071806 → Protein (`kegg.compound:C00017`) is now an edge (518 → 519). The
+> filter has 12 ids; Na⁺ is published as `chebi:29101` once no Na⁺ node is written (TCDB's
+> substrate filter drops it too). Same filter shape as `config/tcdb_substrate_target_filter.yaml`.
+
 `config/go_transport_target_filter.yaml`, applied in step 6 **after** canonicalisation on canonical
 ids (so conjugate and secondary forms of a listed entity are caught). A frequency cut-off cannot
 separate the noise from real substrates (peptide 12.6% of genes, between "monoatomic cation" and
