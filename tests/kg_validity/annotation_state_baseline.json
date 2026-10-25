@@ -1,18 +1,18 @@
 {
-  "captured_at": "2026-10-23T14:07:00.455516+00:00",
+  "captured_at": "2026-10-25T11:15:58.267197+00:00",
   "neo4j_url": "bolt://localhost:7687",
   "total_genes": 127035,
   "annotation_state": {
     "no_evidence": 12076,
     "catch_all_only": 6368,
-    "informative_single": 12870,
-    "informative_multi": 95721
+    "informative_single": 12862,
+    "informative_multi": 95729
   },
   "annotation_quality": {
     "0": 12076,
     "1": 6368,
-    "2": 12870,
-    "3": 95721
+    "2": 12862,
+    "3": 95729
   },
   "annotation_types": {
     "brite": 53998,
@@ -28,7 +28,7 @@
     "merops": 343,
     "ncbifam": 48182,
     "pfam": 105506,
-    "tcdb": 14745,
+    "tcdb": 15800,
     "tigr_role": 57434
   },
   "informative_annotation_types": {
@@ -46,23 +46,23 @@
     "pfam": 105506,
     "reaction": 27965,
     "tigr_role": 44130,
-    "transporter": 14745
+    "transporter": 15800
   },
   "informative_annotation_types_size_histogram": {
     "0": 18388,
-    "1": 12546,
-    "2": 8019,
-    "3": 6053,
-    "4": 8288,
-    "5": 8006,
-    "6": 7827,
-    "7": 8910,
-    "8": 10147,
-    "9": 10846,
-    "10": 11702,
-    "11": 10513,
-    "12": 5488,
-    "13": 281,
+    "1": 12538,
+    "2": 7997,
+    "3": 6009,
+    "4": 8316,
+    "5": 7959,
+    "6": 7795,
+    "7": 8922,
+    "8": 10144,
+    "9": 10891,
+    "10": 11689,
+    "11": 10480,
+    "12": 5427,
+    "13": 459,
     "14": 21
   },
   "per_organism_annotation_state": {
@@ -134,8 +134,8 @@
     },
     "Meiothermus ruber": {
       "catch_all_only": 15,
-      "informative_multi": 2353,
-      "informative_single": 199,
+      "informative_multi": 2354,
+      "informative_single": 198,
       "no_evidence": 317
     },
     "Prochlorococcus AS9601": {
@@ -164,8 +164,8 @@
     },
     "Prochlorococcus MIT1314": {
       "catch_all_only": 201,
-      "informative_multi": 1292,
-      "informative_single": 273,
+      "informative_multi": 1293,
+      "informative_single": 272,
       "no_evidence": 117
     },
     "Prochlorococcus MIT1327": {
@@ -254,14 +254,14 @@
     },
     "Pseudomonas putida KT2440": {
       "catch_all_only": 45,
-      "informative_multi": 4575,
-      "informative_single": 449,
+      "informative_multi": 4576,
+      "informative_single": 448,
       "no_evidence": 418
     },
     "Ruegeria pomeroyi DSS-3": {
       "catch_all_only": 27,
-      "informative_multi": 3676,
-      "informative_single": 338,
+      "informative_multi": 3677,
+      "informative_single": 337,
       "no_evidence": 327
     },
     "Shewanella sp. W3-18-1": {
@@ -278,8 +278,8 @@
     },
     "Synechococcus PCC 7002": {
       "catch_all_only": 35,
-      "informative_multi": 2352,
-      "informative_single": 458,
+      "informative_multi": 2354,
+      "informative_single": 456,
       "no_evidence": 362
     },
     "Synechococcus WH7803": {
@@ -302,14 +302,14 @@
     },
     "Synechococcus elongatus PCC 7942": {
       "catch_all_only": 29,
-      "informative_multi": 2095,
-      "informative_single": 290,
+      "informative_multi": 2096,
+      "informative_single": 289,
       "no_evidence": 303
     },
     "Synechococcus elongatus UTEX 2973": {
       "catch_all_only": 30,
-      "informative_multi": 2057,
-      "informative_single": 321,
+      "informative_multi": 2058,
+      "informative_single": 320,
       "no_evidence": 306
     },
     "Synechococcus sp. BL107": {
