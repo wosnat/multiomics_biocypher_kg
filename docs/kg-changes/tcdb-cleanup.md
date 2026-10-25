@@ -97,8 +97,8 @@ project 3b.
     remove a direction is applied, by a rule above or an override; proposed flips were applied
     as `unknown`; the 6 "missed" directions were not added. Family-name inheritance was then
     dropped altogether. Against the graph built with the original rule (numbering never
-    overridden, any decisive name inherited), 3,391 of 4,372 (`direct`-gate gene, directed node)
-    links keep a direction (78%). Two nodes switch from export to uptake (BacA, ABCG39 paraquat
+    overridden, any decisive name inherited), 3,388 of 4,372 (`direct`-gate gene, directed node)
+    links keep the same direction (77%, after secretion-as-export 2026-10-25). Two nodes switch from export to uptake (BacA, ABCG39 paraquat
     uptake), both because their own TCDB names say uptake. Known cost: MbfA `2.A.89.2.2` (1 gene)
     loses export because its name mentions the "erythrin-vacuolar iron transport" family.
   - `direction` describes TCDB's characterized reference system; a gene inherits it only by
