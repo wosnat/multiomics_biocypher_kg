@@ -36,7 +36,9 @@ def test_release(mini):
 def test_target_filter_contents():
     f = load_target_filter(Path("config/go_transport_target_filter.yaml"))
     assert set(f) == {f"CHEBI:{n}" for n in (24870, 24867, 23906, 23905, 25213, 33515, 51143,
-                                              33694, 24431, 36080, 24834, 15378, 29101)}
+                                              33694, 24431, 24834, 15378, 29101)}
+    # protein left the filter 2026-10-25: it is the substrate of protein translocation
+    assert "CHEBI:36080" not in f
     assert "CHEBI:29103" not in f and "CHEBI:17996" not in f
     assert f["CHEBI:15378"] == "hydron"
 

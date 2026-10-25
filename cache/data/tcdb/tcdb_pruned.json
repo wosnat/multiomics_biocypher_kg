@@ -113767,10 +113767,8 @@
       "chebi:25367": 654,
       "chebi:25414": 13,
       "chebi:25696": 12,
-      "chebi:36080": 154,
       "chebi:36915": 41,
       "chebi:36916": 201,
-      "kegg.compound:C00017": 180,
       "kegg.compound:C00080": 530,
       "kegg.compound:C01330": 488
     },
@@ -113789,11 +113787,9 @@
       "chebi:29101",
       "chebi:33515",
       "chebi:33694",
-      "chebi:36080",
       "chebi:36915",
       "chebi:36916",
       "chebi:51143",
-      "kegg.compound:C00017",
       "kegg.compound:C00080"
     ]
   },
@@ -115769,6 +115765,12 @@
     "1.A.130.1.1": [
       "kegg.compound:C00076"
     ],
+    "1.A.136.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "1.A.136.1.2": [
+      "kegg.compound:C00017"
+    ],
     "1.A.14.2.2": [
       "kegg.compound:C00033"
     ],
@@ -117305,6 +117307,12 @@
     "1.A.87.2.1": [
       "kegg.compound:C00076"
     ],
+    "1.A.87.2.12": [
+      "kegg.compound:C00017"
+    ],
+    "1.A.87.2.16": [
+      "kegg.compound:C00017"
+    ],
     "1.A.87.2.19": [
       "kegg.compound:C00002"
     ],
@@ -117512,9 +117520,18 @@
     "1.B.10.3.1": [
       "kegg.compound:C00801"
     ],
+    "1.B.12.1.10": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.12.4.4": [
+      "kegg.compound:C00017"
+    ],
     "1.B.12.8.2": [
       "kegg.compound:C00012",
       "kegg.compound:C00032"
+    ],
+    "1.B.12.8.4": [
+      "kegg.compound:C00017"
     ],
     "1.B.12.9.1": [
       "kegg.compound:C00001"
@@ -117748,6 +117765,7 @@
       "kegg.compound:C00009"
     ],
     "1.B.17.1.4": [
+      "kegg.compound:C00017",
       "kegg.compound:C00420"
     ],
     "1.B.17.2.1": [
@@ -117846,16 +117864,89 @@
       "chebi:25901",
       "kegg.compound:C00738"
     ],
+    "1.B.20.1.10": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.20.1.11": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.20.1.12": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.20.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.20.1.3": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.20.1.4": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.20.1.5": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.20.1.6": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.20.1.7": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.20.3.1": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.20.3.2": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.20.3.3": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.20.3.6": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.20.4.1": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.22.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.22.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.22.1.3": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.22.3.1": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.22.3.2": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.22.3.3": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.22.4.1": [
+      "kegg.compound:C00017"
+    ],
     "1.B.22.4.2": [
       "chebi:75979"
+    ],
+    "1.B.22.4.3": [
+      "kegg.compound:C00017"
     ],
     "1.B.22.4.4": [
       "kegg.compound:C00039"
     ],
+    "1.B.22.5.1": [
+      "kegg.compound:C00017"
+    ],
     "1.B.22.5.2": [
       "chebi:33839"
     ],
+    "1.B.22.6.1": [
+      "kegg.compound:C00017"
+    ],
     "1.B.22.7.1": [
+      "kegg.compound:C00017",
       "kegg.compound:C06689"
     ],
     "1.B.23.1.11": [
@@ -117974,6 +118065,78 @@
     "1.B.3.1.4": [
       "chebi:17593"
     ],
+    "1.B.33.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.1.3": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.1.4": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.2.1": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.2.2": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.2.3": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.2.4": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.2.5": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.2.8": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.3.1": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.3.10": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.3.12": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.3.2": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.3.3": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.3.4": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.3.5": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.3.6": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.3.7": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.3.8": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.3.9": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.4.1": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.5.1": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.33.6.1": [
+      "kegg.compound:C00017"
+    ],
     "1.B.39.1.2": [
       "chebi:87494"
     ],
@@ -117991,6 +118154,48 @@
     ],
     "1.B.4.2.9": [
       "chebi:16646"
+    ],
+    "1.B.40.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.40.1.3": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.40.1.4": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.40.1.5": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.40.1.6": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.40.1.8": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.40.2.1": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.40.2.2": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.40.2.3": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.40.2.4": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.40.2.5": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.40.2.6": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.40.2.8": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.40.4.1": [
+      "kegg.compound:C00017"
     ],
     "1.B.42.1.1": [
       "kegg.compound:C00338"
@@ -118093,6 +118298,33 @@
     "1.B.5.1.7": [
       "kegg.compound:C00009"
     ],
+    "1.B.54.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.54.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.54.1.3": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.54.1.4": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.54.1.5": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.54.1.6": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.54.1.7": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.54.1.8": [
+      "kegg.compound:C00017"
+    ],
+    "1.B.54.2.1": [
+      "kegg.compound:C00017"
+    ],
     "1.B.55.3.1": [
       "chebi:24280"
     ],
@@ -118180,11 +118412,20 @@
     "1.B.9.4.1": [
       "kegg.compound:C06767"
     ],
+    "1.B.9.4.4": [
+      "kegg.compound:C00017"
+    ],
     "1.B.9.4.5": [
       "chebi:33658"
     ],
     "1.B.9.4.7": [
       "chebi:33658"
+    ],
+    "1.C.1.4.2": [
+      "kegg.compound:C00017"
+    ],
+    "1.C.104.4.5": [
+      "kegg.compound:C00017"
     ],
     "1.C.11.1.3": [
       "chebi:39124"
@@ -118305,6 +118546,9 @@
     "1.C.57.3.4": [
       "kegg.compound:C00012"
     ],
+    "1.C.57.3.5": [
+      "kegg.compound:C00017"
+    ],
     "1.C.57.4.1": [
       "kegg.compound:C00012"
     ],
@@ -118314,10 +118558,16 @@
     "1.C.7.1.1": [
       "kegg.compound:C00012"
     ],
+    "1.C.7.2.1": [
+      "kegg.compound:C00017"
+    ],
     "1.E.1.1.14": [
       "kegg.compound:C00059",
       "kegg.compound:C00462",
       "kegg.compound:C00698"
+    ],
+    "1.E.1.1.8": [
+      "kegg.compound:C00017"
     ],
     "1.E.11.1.11": [
       "kegg.compound:C00039"
@@ -118331,19 +118581,52 @@
     "1.E.14.1.17": [
       "kegg.compound:C00033"
     ],
+    "1.E.2.1.13": [
+      "kegg.compound:C00017"
+    ],
+    "1.E.2.1.14": [
+      "kegg.compound:C00017"
+    ],
+    "1.E.2.1.15": [
+      "kegg.compound:C00017"
+    ],
+    "1.E.25.2.8": [
+      "kegg.compound:C00017"
+    ],
+    "1.E.26.3.3": [
+      "kegg.compound:C00017"
+    ],
+    "1.E.34.1.15": [
+      "kegg.compound:C00017"
+    ],
+    "1.E.34.2.5": [
+      "kegg.compound:C00017"
+    ],
+    "1.E.43.1.14": [
+      "kegg.compound:C00017"
+    ],
     "1.E.43.8.1": [
       "kegg.compound:C00033"
+    ],
+    "1.E.66.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "1.E.9.1.13": [
+      "kegg.compound:C00017"
     ],
     "1.F.1.1.4": [
       "kegg.compound:C00002"
     ],
     "1.I.1.1.2": [
+      "kegg.compound:C00017",
       "kegg.compound:C00046"
     ],
     "1.I.1.1.4": [
+      "kegg.compound:C00017",
       "kegg.compound:C00046"
     ],
     "1.I.1.1.5": [
+      "kegg.compound:C00017",
       "kegg.compound:C00046"
     ],
     "1.I.3.1.1": [
@@ -118358,8 +118641,14 @@
     "1.K.5.1.2": [
       "kegg.compound:C00039"
     ],
+    "1.M.1.1.10": [
+      "kegg.compound:C00017"
+    ],
     "1.R.1.1.1": [
       "kegg.compound:C01356"
+    ],
+    "1.R.1.1.3": [
+      "kegg.compound:C00017"
     ],
     "1.R.1.1.6": [
       "kegg.compound:C00040"
@@ -121476,6 +121765,12 @@
     ],
     "2.A.128.1.20": [
       "kegg.compound:C13781"
+    ],
+    "2.A.130.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.130.1.2": [
+      "kegg.compound:C00017"
     ],
     "2.A.133.1.1": [
       "kegg.compound:C00238"
@@ -126131,6 +126426,15 @@
     "2.A.6.3.9": [
       "kegg.compound:C12043"
     ],
+    "2.A.6.4.1": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.6.4.2": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.6.4.3": [
+      "kegg.compound:C00017"
+    ],
     "2.A.6.5.1": [
       "kegg.compound:C06691"
     ],
@@ -126209,6 +126513,9 @@
     "2.A.6.7.8": [
       "kegg.compound:C06084"
     ],
+    "2.A.6.9.2": [
+      "kegg.compound:C00017"
+    ],
     "2.A.61.1.4": [
       "chebi:28965"
     ],
@@ -126226,6 +126533,39 @@
     ],
     "2.A.63.2.1": [
       "chebi:49713"
+    ],
+    "2.A.64.1.3": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.64.1.5": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.64.1.8": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.64.2.1": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.64.2.2": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.64.3.1": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.64.3.2": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.64.4.1": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.64.5.1": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.64.6.1": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.64.7.1": [
+      "kegg.compound:C00017"
     ],
     "2.A.66.1.1": [
       "chebi:42478",
@@ -127097,6 +127437,9 @@
     "2.A.7.3.87": [
       "kegg.compound:C00074"
     ],
+    "2.A.7.33.4": [
+      "kegg.compound:C00017"
+    ],
     "2.A.7.35.2": [
       "kegg.compound:C00305"
     ],
@@ -127693,6 +128036,48 @@
     "2.A.89.3.9": [
       "kegg.compound:C14818"
     ],
+    "2.A.9.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.9.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.9.1.4": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.9.2.1": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.9.2.2": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.9.3.1": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.9.3.10": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.9.3.11": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.9.3.2": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.9.3.3": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.9.3.4": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.9.3.6": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.9.3.7": [
+      "kegg.compound:C00017"
+    ],
+    "2.A.9.4.1": [
+      "kegg.compound:C00017"
+    ],
     "2.A.91.1.1": [
       "kegg.compound:C00066"
     ],
@@ -128068,6 +128453,12 @@
     "3.A.1.106.10": [
       "chebi:138159"
     ],
+    "3.A.1.106.11": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.1.106.12": [
+      "kegg.compound:C00017"
+    ],
     "3.A.1.106.13": [
       "kegg.compound:C00012"
     ],
@@ -128147,6 +128538,9 @@
       "chebi:37163",
       "kegg.compound:C00551"
     ],
+    "3.A.1.109.1": [
+      "kegg.compound:C00017"
+    ],
     "3.A.1.109.3": [
       "kegg.compound:C11189"
     ],
@@ -128154,6 +128548,9 @@
       "kegg.compound:C00397",
       "kegg.compound:C00505",
       "kegg.compound:C05349"
+    ],
+    "3.A.1.109.6": [
+      "kegg.compound:C00017"
     ],
     "3.A.1.109.8": [
       "kegg.compound:C14828"
@@ -128197,6 +128594,12 @@
     "3.A.1.110.1": [
       "chebi:64627"
     ],
+    "3.A.1.110.13": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.1.110.3": [
+      "kegg.compound:C00017"
+    ],
     "3.A.1.111.2": [
       "kegg.compound:C12030"
     ],
@@ -128210,7 +128613,8 @@
     ],
     "3.A.1.111.7": [
       "chebi:48081",
-      "kegg.compound:C00012"
+      "kegg.compound:C00012",
+      "kegg.compound:C00017"
     ],
     "3.A.1.112.10": [
       "chebi:48081"
@@ -128416,6 +128820,9 @@
     "3.A.1.128.1": [
       "kegg.compound:C00012"
     ],
+    "3.A.1.128.10": [
+      "kegg.compound:C00017"
+    ],
     "3.A.1.13.1": [
       "kegg.compound:C02823"
     ],
@@ -128608,6 +129015,9 @@
     ],
     "3.A.1.142.1": [
       "kegg.compound:C05005"
+    ],
+    "3.A.1.143.1": [
+      "kegg.compound:C00017"
     ],
     "3.A.1.146.1": [
       "kegg.compound:C06691",
@@ -129621,6 +130031,7 @@
       "kegg.compound:C01356"
     ],
     "3.A.1.211.5": [
+      "kegg.compound:C00017",
       "kegg.compound:C00157",
       "kegg.compound:C01356"
     ],
@@ -130267,6 +130678,42 @@
     "3.A.12.3.2": [
       "kegg.compound:C00039"
     ],
+    "3.A.14.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.14.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.15.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.15.2.2": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.15.4.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.15.4.2": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.16.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.16.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.16.1.3": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.16.1.4": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.16.1.5": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.16.1.6": [
+      "kegg.compound:C00017"
+    ],
     "3.A.17.1.1": [
       "kegg.compound:C00039"
     ],
@@ -130275,6 +130722,36 @@
     ],
     "3.A.18.1.1": [
       "chebi:33699"
+    ],
+    "3.A.19.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.19.1.3": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.19.1.4": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.19.1.5": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.20.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.20.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.20.1.3": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.20.1.4": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.20.1.5": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.21.1.1": [
+      "kegg.compound:C00017"
     ],
     "3.A.22.1.1": [
       "kegg.compound:C00046"
@@ -130286,28 +130763,55 @@
       "chebi:33699"
     ],
     "3.A.23.1.1": [
+      "kegg.compound:C00017",
       "kegg.compound:C00039"
     ],
     "3.A.23.2.1": [
+      "kegg.compound:C00017",
       "kegg.compound:C00039"
     ],
     "3.A.23.3.1": [
+      "kegg.compound:C00017",
       "kegg.compound:C00039"
     ],
     "3.A.23.4.1": [
+      "kegg.compound:C00017",
       "kegg.compound:C00039"
     ],
     "3.A.23.5.1": [
+      "kegg.compound:C00017",
       "kegg.compound:C00039"
     ],
+    "3.A.24.2.1": [
+      "kegg.compound:C00017"
+    ],
     "3.A.24.3.1": [
+      "kegg.compound:C00017",
       "kegg.compound:C00038"
+    ],
+    "3.A.24.4.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.24.5.1": [
+      "kegg.compound:C00017"
     ],
     "3.A.25.1.1": [
       "kegg.compound:C00012"
     ],
     "3.A.25.2.1": [
       "kegg.compound:C00012"
+    ],
+    "3.A.26.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.28.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.29.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.29.1.7": [
+      "kegg.compound:C00017"
     ],
     "3.A.3.1.1": [
       "kegg.compound:C00238"
@@ -131007,11 +131511,26 @@
     "3.A.3.9.9": [
       "kegg.compound:C00238"
     ],
+    "3.A.30.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.31.1.1": [
+      "kegg.compound:C00017"
+    ],
     "3.A.31.3.6": [
       "chebi:22908"
     ],
+    "3.A.33.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.33.1.2": [
+      "kegg.compound:C00017"
+    ],
     "3.A.33.1.3": [
       "chebi:33699"
+    ],
+    "3.A.35.1.1": [
+      "kegg.compound:C00017"
     ],
     "3.A.4.1.1": [
       "chebi:75861"
@@ -131019,8 +131538,89 @@
     "3.A.4.1.2": [
       "chebi:75861"
     ],
+    "3.A.5.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.1.3": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.1.4": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.2.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.2.2": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.3.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.4.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.4.2": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.5.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.6.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.7.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.7.2": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.7.4": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.8.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.9.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.9.2": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.5.9.4": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.6.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.6.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.6.1.3": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.6.2.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.6.3.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.7.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.7.10.1": [
+      "kegg.compound:C00017"
+    ],
     "3.A.7.11.1": [
       "kegg.compound:C00039"
+    ],
+    "3.A.7.13.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.7.13.2": [
+      "kegg.compound:C00017"
     ],
     "3.A.7.14.1": [
       "kegg.compound:C00039"
@@ -131029,19 +131629,75 @@
       "kegg.compound:C00039"
     ],
     "3.A.7.14.3": [
+      "kegg.compound:C00017",
       "kegg.compound:C00039"
     ],
+    "3.A.7.15.1": [
+      "kegg.compound:C00017"
+    ],
     "3.A.7.16.1": [
+      "kegg.compound:C00017",
       "kegg.compound:C00039"
+    ],
+    "3.A.7.17.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.7.18.2": [
+      "kegg.compound:C00017"
     ],
     "3.A.7.19.1": [
       "kegg.compound:C00039"
+    ],
+    "3.A.7.2.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.7.4.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.7.4.2": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.7.5.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.7.6.1": [
+      "kegg.compound:C00017"
     ],
     "3.A.7.7.1": [
       "kegg.compound:C00039"
     ],
     "3.A.7.8.1": [
       "kegg.compound:C00039"
+    ],
+    "3.A.7.9.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.8.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.8.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.8.1.3": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.8.1.4": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.8.1.5": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.8.1.6": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.9.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.9.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "3.A.9.1.4": [
+      "kegg.compound:C00017"
     ],
     "3.D.1.9.1": [
       "kegg.compound:C00238"
@@ -131380,6 +132036,9 @@
     "4.A.2.1.27": [
       "kegg.compound:C00392"
     ],
+    "4.A.2.1.28": [
+      "kegg.compound:C00017"
+    ],
     "4.A.2.1.3": [
       "kegg.compound:C11544"
     ],
@@ -131674,6 +132333,9 @@
     ],
     "4.C.3.1.1": [
       "kegg.compound:C00040"
+    ],
+    "4.C.3.1.13": [
+      "kegg.compound:C00017"
     ],
     "4.C.3.1.2": [
       "kegg.compound:C00040"
@@ -132095,8 +132757,20 @@
     "5.B.7.2.1": [
       "kegg.compound:C05359"
     ],
+    "8.A.104.1.11": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.104.1.13": [
+      "kegg.compound:C00017"
+    ],
     "8.A.104.1.14": [
       "kegg.compound:C00002"
+    ],
+    "8.A.104.1.15": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.104.1.16": [
+      "kegg.compound:C00017"
     ],
     "8.A.120.1.1": [
       "kegg.compound:C00157"
@@ -132106,6 +132780,24 @@
     ],
     "8.A.120.3.2": [
       "kegg.compound:C00187"
+    ],
+    "8.A.131.1.12": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.131.1.13": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.131.1.16": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.131.1.5": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.131.1.6": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.131.1.7": [
+      "kegg.compound:C00017"
     ],
     "8.A.139.2.2": [
       "kegg.compound:C00012"
@@ -132120,21 +132812,87 @@
       "chebi:25940",
       "kegg.compound:C00865"
     ],
+    "8.A.159.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.159.1.11": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.159.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.159.1.3": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.159.1.4": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.159.3.2": [
+      "kegg.compound:C00017"
+    ],
     "8.A.161.1.1": [
       "chebi:26959"
+    ],
+    "8.A.163.1.1": [
+      "kegg.compound:C00017"
     ],
     "8.A.164.1.1": [
       "kegg.compound:C00011",
       "kegg.compound:C00288"
     ],
+    "8.A.172.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.172.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.172.2.1": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.172.2.2": [
+      "kegg.compound:C00017"
+    ],
     "8.A.180.1.1": [
       "kegg.compound:C00473"
+    ],
+    "8.A.192.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.192.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.192.1.4": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.192.2.1": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.192.2.2": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.192.2.3": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.192.2.4": [
+      "kegg.compound:C00017"
     ],
     "8.A.21.2.10": [
       "kegg.compound:C01401"
     ],
+    "8.A.21.2.6": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.21.2.7": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.212.1.1": [
+      "kegg.compound:C00017"
+    ],
     "8.A.212.1.2": [
       "chebi:23449"
+    ],
+    "8.A.212.1.3": [
+      "kegg.compound:C00017"
     ],
     "8.A.212.1.4": [
       "kegg.compound:C00875"
@@ -132147,11 +132905,45 @@
     "8.A.23.1.19": [
       "kegg.compound:C00012"
     ],
+    "8.A.23.1.37": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.23.1.40": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.23.1.42": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.23.1.48": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.23.1.50": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.23.1.51": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.23.1.52": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.23.1.54": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.23.1.65": [
+      "kegg.compound:C00017"
+    ],
     "8.A.23.1.66": [
-      "kegg.compound:C00002"
+      "kegg.compound:C00002",
+      "kegg.compound:C00017"
     ],
     "8.A.23.1.69": [
       "kegg.compound:C00002"
+    ],
+    "8.A.23.1.70": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.230.1.1": [
+      "kegg.compound:C00017"
     ],
     "8.A.248.1.1": [
       "kegg.compound:C00044"
@@ -132175,10 +132967,24 @@
       "kegg.compound:C00032"
     ],
     "8.A.32.1.3": [
-      "kegg.compound:C00012"
+      "kegg.compound:C00012",
+      "kegg.compound:C00017"
     ],
     "8.A.32.1.4": [
-      "kegg.compound:C00012"
+      "kegg.compound:C00012",
+      "kegg.compound:C00017"
+    ],
+    "8.A.32.1.5": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.47.1.3": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.47.1.7": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.47.1.8": [
+      "kegg.compound:C00017"
     ],
     "8.A.49.1.5": [
       "chebi:60980"
@@ -132203,6 +133009,12 @@
     ],
     "8.A.88.2.5": [
       "kegg.compound:C05359"
+    ],
+    "8.A.88.2.7": [
+      "kegg.compound:C00017"
+    ],
+    "8.A.92.1.18": [
+      "kegg.compound:C00017"
     ],
     "9.A.14.1.1": [
       "kegg.compound:C00865"
@@ -132258,6 +133070,7 @@
       "kegg.compound:C00039"
     ],
     "9.A.21.1.2": [
+      "kegg.compound:C00017",
       "kegg.compound:C00039"
     ],
     "9.A.22.1.1": [
@@ -132314,6 +133127,9 @@
       "kegg.compound:C00187",
       "kegg.compound:C05113"
     ],
+    "9.A.32.1.1": [
+      "kegg.compound:C00017"
+    ],
     "9.A.4.1.1": [
       "kegg.compound:C00238"
     ],
@@ -132331,6 +133147,15 @@
     ],
     "9.A.41.1.3": [
       "chebi:61650"
+    ],
+    "9.A.47.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "9.A.47.2.1": [
+      "kegg.compound:C00017"
+    ],
+    "9.A.47.2.2": [
+      "kegg.compound:C00017"
     ],
     "9.A.5.1.1": [
       "kegg.compound:C02385"
@@ -132354,6 +133179,12 @@
     ],
     "9.A.61.3.2": [
       "kegg.compound:C00011"
+    ],
+    "9.A.63.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "9.A.63.1.2": [
+      "kegg.compound:C00017"
     ],
     "9.A.69.1.1": [
       "kegg.compound:C00865"
@@ -132470,7 +133301,11 @@
       "kegg.compound:C00370"
     ],
     "9.B.1.1.1": [
-      "kegg.compound:C00012"
+      "kegg.compound:C00012",
+      "kegg.compound:C00017"
+    ],
+    "9.B.1.1.19": [
+      "kegg.compound:C00017"
     ],
     "9.B.1.1.2": [
       "chebi:62896"
@@ -132479,7 +133314,11 @@
       "chebi:62896"
     ],
     "9.B.1.1.4": [
-      "kegg.compound:C00012"
+      "kegg.compound:C00012",
+      "kegg.compound:C00017"
+    ],
+    "9.B.1.1.6": [
+      "kegg.compound:C00017"
     ],
     "9.B.1.2.1": [
       "chebi:62896"
@@ -132517,8 +133356,20 @@
     "9.B.102.7.10": [
       "chebi:37903"
     ],
+    "9.B.104.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.104.1.11": [
+      "kegg.compound:C00017"
+    ],
     "9.B.104.1.4": [
       "kegg.compound:C00716"
+    ],
+    "9.B.104.1.7": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.104.4.4": [
+      "kegg.compound:C00017"
     ],
     "9.B.105.3.2": [
       "kegg.compound:C00416",
@@ -132530,6 +133381,12 @@
     ],
     "9.B.126.1.1": [
       "kegg.compound:C01356"
+    ],
+    "9.B.133.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.133.1.2": [
+      "kegg.compound:C00017"
     ],
     "9.B.14.1.21": [
       "kegg.compound:C00032",
@@ -132566,6 +133423,9 @@
     "9.B.14.3.9": [
       "kegg.compound:C00032"
     ],
+    "9.B.14.6.15": [
+      "kegg.compound:C00017"
+    ],
     "9.B.142.10.2": [
       "chebi:24364"
     ],
@@ -132581,6 +133441,9 @@
     ],
     "9.B.142.3.11": [
       "chebi:53463"
+    ],
+    "9.B.149.2.3": [
+      "kegg.compound:C00017"
     ],
     "9.B.153.3.18": [
       "kegg.compound:C16514"
@@ -132612,11 +133475,32 @@
     "9.B.174.1.3": [
       "kegg.compound:C00012"
     ],
+    "9.B.174.1.4": [
+      "kegg.compound:C00017"
+    ],
     "9.B.18.1.6": [
       "kegg.compound:C00446"
     ],
     "9.B.18.2.4": [
       "kegg.compound:C00842"
+    ],
+    "9.B.191.1.10": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.2.1.29": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.2.13.1": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.2.14.1": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.2.14.2": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.2.14.3": [
+      "kegg.compound:C00017"
     ],
     "9.B.20.1.1": [
       "kegg.compound:C00305"
@@ -132639,12 +133523,19 @@
     "9.B.21.1.6": [
       "kegg.compound:C01356"
     ],
+    "9.B.214.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.229.1.7": [
+      "kegg.compound:C00017"
+    ],
     "9.B.229.1.8": [
       "kegg.compound:C00012",
       "kegg.compound:C00504"
     ],
     "9.B.238.3.5": [
-      "kegg.compound:C00002"
+      "kegg.compound:C00002",
+      "kegg.compound:C00017"
     ],
     "9.B.27.1.1": [
       "kegg.compound:C05684"
@@ -132718,6 +133609,24 @@
     "9.B.28.4.1": [
       "kegg.compound:C00208"
     ],
+    "9.B.297.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.297.14.1": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.297.3.2": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.297.4.3": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.297.4.4": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.297.4.6": [
+      "kegg.compound:C00017"
+    ],
     "9.B.31.1.1": [
       "kegg.compound:C00093"
     ],
@@ -132728,11 +133637,34 @@
     "9.B.334.1.3": [
       "kegg.compound:C05359"
     ],
+    "9.B.355.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.355.2.1": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.391.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.391.1.2": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.391.1.3": [
+      "kegg.compound:C00017"
+    ],
     "9.B.40.1.3": [
+      "kegg.compound:C00017",
       "kegg.compound:C00039"
     ],
     "9.B.40.1.4": [
+      "kegg.compound:C00017",
       "kegg.compound:C00039"
+    ],
+    "9.B.42.1.1": [
+      "kegg.compound:C00017"
+    ],
+    "9.B.42.1.3": [
+      "kegg.compound:C00017"
     ],
     "9.B.43.1.1": [
       "kegg.compound:C05359"
@@ -132740,9 +133672,15 @@
     "9.B.447.1.1": [
       "kegg.compound:C00338"
     ],
+    "9.B.447.1.7": [
+      "kegg.compound:C00017"
+    ],
     "9.B.450.1.1": [
       "kegg.compound:C00162",
       "kegg.compound:C01371"
+    ],
+    "9.B.461.1.1": [
+      "kegg.compound:C00017"
     ],
     "9.B.462.1.1": [
       "chebi:23378"
@@ -132822,12 +133760,18 @@
     "9.B.69.1.1": [
       "kegg.compound:C00175"
     ],
+    "9.B.70.1.1": [
+      "kegg.compound:C00017"
+    ],
     "9.B.73.1.2": [
       "kegg.compound:C00011"
     ],
     "9.B.75.2.1": [
       "kegg.compound:C00045",
       "kegg.compound:C00469"
+    ],
+    "9.B.87.1.1": [
+      "kegg.compound:C00017"
     ],
     "9.B.87.1.26": [
       "kegg.compound:C00518"

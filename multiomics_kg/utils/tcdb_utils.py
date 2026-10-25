@@ -63,15 +63,19 @@ def tcdb_ancestors(tc_id: str) -> list[str]:
 # ("Drug Exporter-1" matches exporter). These DECIDE a direction, so they stay narrow.
 _UPTAKE_RE = re.compile(
     r"\b(?:uptake|import|imports|importer|importers|influx)\b", re.IGNORECASE)
+# Secretion is export by definition ("General secretory pathway", "Type I secretion system");
+# eukaryotic secretory pathways name an organelle and are caught by _ORGANELLE_RE.
 _EXPORT_RE = re.compile(
-    r"\b(?:export|exports|exporter|exporters|efflux|extrusion)\b", re.IGNORECASE)
+    r"\b(?:export|exports|exporter|exporters|efflux|extrusion|secretion|secretions|secretory)\b",
+    re.IGNORECASE)
 # Broader verb forms, used only to VETO a direction from a node's description.
 _UPTAKE_ANY_RE = re.compile(
     r"\b(?:uptake|import|imports|imported|importing|importer|importers|influx)\b",
     re.IGNORECASE)
 _EXPORT_ANY_RE = re.compile(
     r"\b(?:export|exports|exported|exporting|exporter|exporters|efflux|effluxes"
-    r"|extrusion|extrudes?|extruded|extruding)\b", re.IGNORECASE)
+    r"|extrusion|extrudes?|extruded|extruding|secretion|secretions|secretory|secretes?"
+    r"|secreted|secreting)\b", re.IGNORECASE)
 # The curator was unsure. Anywhere before the direction word in the name counts
 # ("Putative heavy metal (Me 2+) exporter", "Probable pyruvate:H+ importer"); a
 # hedge AFTER it does not ("uptake permease, AmtB (may need ...)" stays uptake).
@@ -92,6 +96,12 @@ _ORGANELLE_RE = re.compile(
     r"|endoplasmic|endosom\w*|vesic\w*|synap\w*|hydrogenosom\w*|glycosom\w*"
     r"|organell\w*|lamellar bod\w*)\b", re.IGNORECASE)
 _ER_RE = re.compile(r"\bER\b")  # case-sensitive: the endoplasmic reticulum
+# The protein takes part in a process named by the direction word, rather than moving the
+# substrate itself: "K+ channel, Kir4.2, involved in bile secretion", "controls salivary fluid
+# secretion", "affects secretion of proteins". Anywhere before the direction word.
+_ROLE_BEFORE_RE = re.compile(
+    r"\b(?:involved in|controls?|affects?|required for|contributes? to|participates? in"
+    r"|regulates?)\b", re.IGNORECASE)
 # "not involved in the export", "non-exporter", "unable to import".
 _NEGATION_BEFORE_RE = re.compile(
     r"\b(?:not|no|non|never|unable|lacks?|without)\b(?:\W+\w+){0,3}\W*$", re.IGNORECASE)
@@ -165,6 +175,7 @@ def _weak_direction_word(name: str, match: re.Match) -> bool:
     before, after = name[:match.start()], name[match.end():]
     after_clause = _CLAUSE_END_RE.split(after, maxsplit=1)[0]
     return bool(_HEDGE_RE.search(before) or _NEGATION_BEFORE_RE.search(before)
+                or _ROLE_BEFORE_RE.search(before)
                 or _ORGANELLE_RE.search(name) or _ER_RE.search(name)
                 or _MEMBER_RE.search(after_clause))
 
@@ -218,10 +229,11 @@ def tcdb_direction(tc_id: str, hierarchy: dict,
        families live there).
     2. Own name (basis ``tcdb_name``), ``tc_system`` nodes only: the system's own
        name with exactly one direction word ({uptake, import(s), importer(s),
-       influx} / {export(s), exporter(s), efflux, extrusion}, whole word) decides,
-       unless it is weak: a hedge word anywhere before the direction word
-       (putative, probable, may, uncharacterized, ``?``, ...), a negation just
-       before it, an organelle anywhere in the name, or a resemblance word right
+       influx} / {export(s), exporter(s), efflux, extrusion, secretion, secretory},
+       whole word; secretion is export) decides, unless it is weak: a hedge word
+       anywhere before the direction word (putative, probable, may, uncharacterized,
+       ``?``, ...) or a role phrase ("involved in", "controls", "affects",
+       "required for"), a negation just before it, an organelle anywhere in the name, or a resemblance word right
        after it ("exporter homologue"). Family, subfamily, class and subclass
        names never give a direction, to themselves or to their systems.
     3. The node's own TCDB description can only veto: both directions,

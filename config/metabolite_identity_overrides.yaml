@@ -21,6 +21,9 @@
 #                Review list: metabolite_identity_report.json → stereo_link_review.
 # Candidates to review: metabolite_identity_report.json → heuristic_name_candidates.
 merge:
+  - a: "chebi:36080"
+    b: "kegg.compound:C00017"
+    reason: "both 'protein' (ChEBI protein; KEGG C00017 Protein); TCDB uses both ids and CHEBI:16541 polypeptide chain resolves to C00017 - one node for protein transport (2026-10-25 TCDB review)"
   - a: "chebi:33283"
     b: "mnx:MNXM1565227"
     reason: "both thiamine(1+) chloride (InChIKey MYVIATVLJGTBFV-UHFFFAOYSA-M); the MNX node is HMDB0302835 'Oryzenin', which MNX never links to the ChEBI term"

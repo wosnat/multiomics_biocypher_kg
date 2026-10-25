@@ -117,7 +117,7 @@ def test_gene_has_cazy_family_edge_count(run_query):
 
 @pytest.mark.kg
 def test_tcdb_substrate_edge_counts(run_query):
-    """Measured 8,216 metabolite + 365 role edges on the 2026-10-25 caches, all from
+    """Measured 8,548 metabolite + 365 role edges on the 2026-10-25 caches, all from
     tc_system nodes (10,765 before the substrate target filter dropped placeholders and
     coupling ions)."""
     met = run_query("MATCH ()-[r:Tcdb_family_transports_metabolite]->() RETURN count(r) AS n")[0]["n"]
@@ -533,7 +533,8 @@ def test_gene_tcdb_family_count_renamed(run_query):
 def test_direction_dense_and_basis_sparse(run_query):
     """direction dense on every level; direction_basis present iff direction is
     stated; class/subclass names are mechanism classes, so those levels are unknown.
-    Measured uptake 647 / export 523 / unknown 8,200 (conservative rule + overrides, 2026-10-24).
+    Measured uptake 646 / export 566 / unknown 8,156 (conservative rule + overrides +
+    secretion as export, 2026-10-25).
     A name gives a direction only on tc_system nodes (its own name); above systems
     only ABC uptake numbering does (tc_subfamily)."""
     rows = run_query("""

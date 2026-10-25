@@ -37,9 +37,12 @@ project 3b.
   `gene_count > 0`.**
 - **Names.** The scraper's scope widened to every kept system: 592 of 592 family pages, 9,622
   names. 134 kept systems have no upstream name and fall back to the TCID (`t.name = t.tcdb_id`).
-- **New `direction`** (dense: `uptake` 647 · `export` 523 · `unknown` 8,200) and sparse
+- **New `direction`** (dense: `uptake` 646 · `export` 566 · `unknown` 8,156) and sparse
   **`direction_basis`** (`abc_numbering` 397 uptake — 33 subfamilies + 364 systems; `tcdb_name`
-  250 uptake + 523 export, systems only). Conservative by design: weak, two-way or contested
+  249 uptake + 566 export, systems only). **Secretion is export** (2026-10-25): "secretion" /
+  "secretory" are export words (Sec, type II–IX secretion systems, Dot/Icm; +45 systems), and a
+  role phrase before the direction word ("involved in", "controls", "affects", "required for")
+  makes it weak (Kir4.2 "involved in bile secretion"; 10 nodes). Conservative by design: weak, two-way or contested
   evidence reads `unknown` — a false `unknown` is cheap, a wrong direction is not.
   `tcdb_utils.tcdb_direction` has exactly two sources:
   - **A system's own name** (`tcdb_name`, `tc_system` nodes only). The name decides when it
@@ -117,7 +120,7 @@ project 3b.
 
 | | Before | After |
 |---|---|---|
-| `Tcdb_family_transports_metabolite` | 10,790, from every level (subtree roll-up) | **10,778, from `tc_system` only**; 8,216 after the 2026-10-25 substrate target filter |
+| `Tcdb_family_transports_metabolite` | 10,790, from every level (subtree roll-up) | **10,778, from `tc_system` only**; 8,548 after the 2026-10-25 substrate target filter |
 | `Tcdb_family_transports_chemical_role` | 392 | **367, from `tc_system` only**; 365 on 2026-10-25 |
 | `substrate_depth` | on both | **removed** |
 
@@ -331,12 +334,15 @@ reproduces `system_substrates` exactly. Changes:
   apart (tryptophan zwitterion on both L-tryptophan's and tryptophan's MNX entries) goes to the
   node ChEBI ties it to, else to none — the rule `shared_chebi_terms` already applied to KEGG
   xrefs (`withhold_contested_terms`).
-- **Substrate target filter** (`config/tcdb_substrate_target_filter.yaml`): GO's 13 targets
-  (upper-level classes, protein, H⁺, Na⁺) plus TCDB placeholders (molecule, cation, anion,
-  inorganic cation, monoatomic monocation, organic anion, protein polypeptide chain) are dropped
-  before any node is built: 2,547 (system, target) pairs; `Tcdb_family_transports_metabolite`
-  10,765 → 8,216 over 4,910 systems. Na⁺/H⁺ antiporters and protein translocases (Sec, Tat)
-  therefore carry no metabolite edge. Published as `Schema_info.tcdb_substrate_excluded_targets`.
+- **Substrate target filter** (`config/tcdb_substrate_target_filter.yaml`): GO's 12 targets
+  (upper-level classes, H⁺, Na⁺) plus TCDB placeholders (molecule, cation, anion,
+  inorganic cation, monoatomic monocation, organic anion) are dropped before any node is built:
+  2,213 (system, target) pairs; `Tcdb_family_transports_metabolite` 10,765 → 8,548 over 5,218
+  systems. Na⁺/H⁺ antiporters therefore carry no metabolite edge. **Protein is kept** in both this
+  and the GO filter: it is the substrate of Sec, Tat and the secretion systems, so "what moves
+  protein" has an answer (332 TCDB systems, 43 of them `export`; GO:0071806). TCDB's two protein
+  ids are one node (`chebi:36080` merged into `kegg.compound:C00017`, identity `merge:`
+  override). Published as `Schema_info.tcdb_substrate_excluded_targets`.
 - A ChEBI id with no MNX alias becomes a `chebi:` node with a warning (was silently dropped;
   none today); 6-part TC ids in the TSVs are warned about, not silently skipped.
 - Metabolites 3,178 → 3,178: 26 out (10 placeholders, Na⁺, and nodes that move onto the exact

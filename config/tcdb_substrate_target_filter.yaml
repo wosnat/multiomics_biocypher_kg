@@ -1,11 +1,12 @@
 # TCDB substrate target filter: ChEBI ids dropped from Tcdb_family_transports_metabolite
 # (prepare_data step 6). Same format and meaning as go_transport_target_filter.yaml, whose 13
-# targets are repeated here so TCDB and GO answer "what moves X" on the same terms, plus the
+# targets are repeated here (protein excepted, removed from both) so TCDB and GO answer "what moves X" on the same terms, plus the
 # placeholders TCDB curates that name no substrate. Matched on canonical node ids, after
 # resolution, so any ChEBI id that lands on one of these nodes is dropped too. The canonical ids
 # are published as Schema_info.tcdb_substrate_excluded_targets: an empty TCDB answer for them is
 # curation, not biology.
-# Source: 2026-10-24 TCDB integration review (decisions: coupling ions and placeholders dropped).
+# Source: 2026-10-24 TCDB integration review (decisions: coupling ions and placeholders dropped;
+# protein kept on 2026-10-25 — it is the real substrate of Sec / Tat / secretion systems, in both filters).
 targets:
   # ── shared with the GO transport filter ──────────────────────────────────
   - chebi: "CHEBI:24870"
@@ -35,9 +36,6 @@ targets:
   - chebi: "CHEBI:24431"
     name: "chemical entity"
     reason: "upper-level ChEBI class - transporter-ness, not a substrate"
-  - chebi: "CHEBI:36080"
-    name: "protein"
-    reason: "upper-level ChEBI class - transporter-ness, not a substrate"
   - chebi: "CHEBI:24834"
     name: "inorganic anion"
     reason: "upper-level ChEBI class - transporter-ness, not a substrate"
@@ -66,6 +64,3 @@ targets:
   - chebi: "CHEBI:25696"
     name: "organic anion"
     reason: "placeholder - names no substrate"
-  - chebi: "CHEBI:16541"
-    name: "protein polypeptide chain"
-    reason: "same as protein (excluded above) - transporter-ness, not a substrate"

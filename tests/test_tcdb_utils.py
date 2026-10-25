@@ -405,3 +405,15 @@ def test_committed_moved_overrides_load_against_committed_hierarchy():
     h = json.loads((root / "cache/data/tcdb/tcdb_hierarchy.json").read_text())
     assert load_moved_overrides(root / "config/tcdb_moved_overrides.yaml", h) == \
         {"9.B.99.1": "1.B.93.1"}
+
+
+@pytest.mark.parametrize("name, expected", [
+    ("Type VI secretion system, TssA - TssM.", ("export", "tcdb_name")),       # secretion is export
+    ("General secretory pathway (Sec-SRP) complex.", ("export", "tcdb_name")),
+    ("K+ channel, Kir4.2, involved in bile secretion.", ("unknown", None)),     # role phrase
+    ("TRPC1 Ca2+ channel controls salivary gland fluid secretion", ("unknown", None)),
+    ("DedA family member involved in selenite uptake", ("unknown", None)),
+    ("Golgi/secretory granule Zn2+ uptake permease", ("unknown", None)),         # organelle
+])
+def test_tcdb_direction_secretion_and_role_phrases(name, expected):
+    assert tu.tcdb_direction("2.A.7.1.1", _sys(name), {}) == expected

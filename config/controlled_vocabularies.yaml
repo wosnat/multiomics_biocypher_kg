@@ -293,9 +293,10 @@ TcdbFamily.direction:
     Transport direction as TCDB states it, read conservatively: weak, two-way
     or contested evidence reads unknown. Two sources only. (1) The own name of a system
     in TCDB, on tc_system nodes: a name that says uptake, import or influx,
-    or export, efflux or extrusion, decides unless it states the direction
-    tentatively (putative, probable, may, uncharacterized, a question mark),
-    negates it, names an organelle (vacuolar, mitochondrial, peroxisomal or
+    or export, efflux, extrusion or secretion (secretion is export), decides
+    unless it states the direction tentatively (putative, probable, may,
+    uncharacterized, a question mark), names a process the protein only takes
+    part in (involved in, controls, affects, required for), negates it, names an organelle (vacuolar, mitochondrial, peroxisomal or
     vesicle transport is not cell uptake or export), calls the protein a
     homologue, or states both directions. Family and subfamily names never give
     a direction, to themselves or to their systems: a family is named after its
@@ -312,7 +313,7 @@ TcdbFamily.direction:
     membrane. direction_basis says which source set it.
   value_descriptions:
     uptake: TCDB states transport into the cell, by the unhedged own name of a system, or because the node is or lies under an ABC uptake subfamily (3.A.1.1 to 3.A.1.99) and nothing says otherwise
-    export: TCDB states transport out of the cell, by the unhedged own name of a system
+    export: TCDB states transport out of the cell (export, efflux, extrusion or secretion), by the unhedged own name of a system
     unknown: TCDB states no direction for this node itself, or states it tentatively, for an organelle, for both directions, in conflict with the ABC numbering or with its own description, or the direction is disputed; always unknown for family and subfamily nodes outside the ABC uptake range. Not evidence of either direction
 
 TcdbFamily.direction_basis:
@@ -327,7 +328,7 @@ TcdbFamily.direction_basis:
     Which source set direction. Sparse: absent when direction is unknown.
   value_descriptions:
     abc_numbering: the node is, or lies under, an ABC subfamily numbered 3.A.1.1 to 3.A.1.99, which TCDB reserves for uptake systems; applied unless a TCDB name says export, the own name says the function is unknown, or the description doubts it
-    tcdb_name: the own TCDB name of this system (tc_system nodes only) contains exactly one of the word groups uptake, import, influx or export, efflux, extrusion (whole word, any case), unhedged and not organellar
+    tcdb_name: the own TCDB name of this system (tc_system nodes only) contains exactly one of the word groups uptake, import, influx or export, efflux, extrusion, secretion, secretory (whole word, any case), unhedged, not a process the protein only takes part in, and not organellar
 
 TcdbFamily.tcdb_substrate_count:
   applies_to: TcdbFamily

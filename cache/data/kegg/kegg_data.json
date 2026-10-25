@@ -9959,9 +9959,11 @@
     "C00017": {
       "all_identifiers": [
         "chebi:16541",
+        "chebi:36080",
         "chebi:8526",
         "kegg.compound:C00017",
-        "mnx:MNXM733321"
+        "mnx:MNXM733321",
+        "mnx:MNXM733328"
       ],
       "chebi_id": "16541",
       "chebi_ids": [
@@ -9974,14 +9976,24 @@
         "O"
       ],
       "evidence_sources": [
-        "metabolism"
+        "go_transport",
+        "metabolism",
+        "transport"
       ],
       "formula": "C4H6N2O3*2",
+      "identity_basis": [
+        "chebi_kegg_xref",
+        "manual"
+      ],
       "kegg_compound_id": "C00017",
       "kegg_compound_ids": [
         "C00017"
       ],
       "mnxm_id": "MNXM733321",
+      "mnxm_ids": [
+        "MNXM733321",
+        "MNXM733328"
+      ],
       "name": "Protein",
       "pathways": [
         "ko00450"
@@ -122575,7 +122587,6 @@
     "chebi:29101",
     "chebi:33515",
     "chebi:33694",
-    "chebi:36080",
     "chebi:51143",
     "kegg.compound:C00080"
   ],
@@ -124811,6 +124822,11 @@
     "GO:0071805": {
       "kegg.compound:C00238": [
         "CHEBI:29103"
+      ]
+    },
+    "GO:0071806": {
+      "kegg.compound:C00017": [
+        "CHEBI:36080"
       ]
     },
     "GO:0071916": {
@@ -213061,11 +213077,9 @@
     "chebi:29101",
     "chebi:33515",
     "chebi:33694",
-    "chebi:36080",
     "chebi:36915",
     "chebi:36916",
     "chebi:51143",
-    "kegg.compound:C00017",
     "kegg.compound:C00080"
   ]
 }

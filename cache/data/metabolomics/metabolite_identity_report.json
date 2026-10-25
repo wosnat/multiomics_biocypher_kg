@@ -409,9 +409,9 @@
     "dropped": 0,
     "dropped_without_rows": 88,
     "kegg": 2760,
-    "merged_away": 55,
+    "merged_away": 56,
     "metabolites": 3178,
-    "rekeyed": 162,
+    "rekeyed": 163,
     "roles": 102
   },
   "dominant_form_drift": [],
@@ -589,6 +589,14 @@
         "target": "kegg.compound:C00338",
         "term_share": 0.0078,
         "terms": 4
+      },
+      {
+        "gene_share": 0.036,
+        "genes": 196,
+        "strains": 43,
+        "target": "kegg.compound:C00017",
+        "term_share": 0.0019,
+        "terms": 1
       },
       {
         "gene_share": 0.0309,
@@ -803,7 +811,7 @@
         "genes": 51,
         "strains": 37,
         "target": "kegg.compound:C00076",
-        "term_share": 0.0195,
+        "term_share": 0.0194,
         "terms": 10
       },
       {
@@ -2248,7 +2256,7 @@
       }
     ],
     "drops": {
-      "filtered": 88,
+      "filtered": 87,
       "filtered_after_canonical": 0,
       "filtered_by_target": {
         "chebi:23905": 6,
@@ -2260,14 +2268,13 @@
         "chebi:25213": 4,
         "chebi:33515": 2,
         "chebi:33694": 1,
-        "chebi:36080": 1,
         "chebi:51143": 1,
         "kegg.compound:C00080": 23,
         "kegg.compound:C01330": 22
       },
       "not_in_chebi": 0
     },
-    "edges": 518,
+    "edges": 519,
     "excluded_targets": [
       "chebi:23905",
       "chebi:23906",
@@ -2279,18 +2286,17 @@
       "chebi:29101",
       "chebi:33515",
       "chebi:33694",
-      "chebi:36080",
       "chebi:51143",
       "kegg.compound:C00080"
     ],
-    "metabolite_edges": 503,
-    "metabolite_targets": 211,
+    "metabolite_edges": 504,
+    "metabolite_targets": 212,
     "new_metabolites": 34,
     "release": "2026-07-26",
     "role_edges": 15,
     "role_targets": 6,
-    "targets": 217,
-    "terms": 514,
+    "targets": 218,
+    "terms": 515,
     "unresolved_chebi_ids": []
   },
   "heuristic_name_candidates": [
@@ -9574,6 +9580,7 @@
     "chebi:36041": "kegg.compound:C05966",
     "chebi:36062": "kegg.compound:C00230",
     "chebi:3607": "kegg.compound:C01485",
+    "chebi:36080": "kegg.compound:C00017",
     "chebi:36082": "kegg.compound:C09822",
     "chebi:36083": "kegg.compound:C09822",
     "chebi:36089": "kegg.compound:C01197",
@@ -20406,6 +20413,7 @@
     "mnx:MNXM733314": "kegg.compound:C05382",
     "mnx:MNXM733318": "chebi:47923",
     "mnx:MNXM733321": "kegg.compound:C00017",
+    "mnx:MNXM733328": "kegg.compound:C00017",
     "mnx:MNXM733340": "kegg.compound:C00729",
     "mnx:MNXM733344": "kegg.compound:C01750",
     "mnx:MNXM733415": "kegg.compound:C09627",
@@ -21101,6 +21109,15 @@
         "kegg.compound:C01342"
       ]
     },
+    "kegg.compound:C00017": {
+      "basis": [
+        "manual"
+      ],
+      "members": [
+        "chebi:36080",
+        "kegg.compound:C00017"
+      ]
+    },
     "kegg.compound:C00042": {
       "basis": [
         "mnx_same_entity"
@@ -21528,6 +21545,7 @@
     ],
     "manual": [
       "chebi:33283",
+      "kegg.compound:C00017",
       "kegg.compound:C00121",
       "kegg.compound:C00124",
       "kegg.compound:C00159",
@@ -21961,6 +21979,7 @@
     "chebi:16374": "kegg.compound:C00828",
     "chebi:16412": "kegg.compound:C00338",
     "chebi:16454": "kegg.compound:C00864",
+    "chebi:16541": "kegg.compound:C00017",
     "chebi:16670": "kegg.compound:C00012",
     "chebi:16975": "kegg.compound:C00681",
     "chebi:17002": "kegg.compound:C02530",
@@ -22104,164 +22123,7 @@
     "chebi:8005": "kegg.compound:C00889",
     "chebi:8828": "kegg.compound:C11190"
   },
-  "remap": [
-    {
-      "basis": "no_longer_reachable",
-      "new_id": "",
-      "old_id": "chebi:22563",
-      "role_id": ""
-    },
-    {
-      "basis": "rekey_chebi_kegg_xref",
-      "new_id": "kegg.compound:C10438",
-      "old_id": "chebi:23248",
-      "role_id": ""
-    },
-    {
-      "basis": "rekey_chebi_kegg_xref",
-      "new_id": "kegg.compound:C08348",
-      "old_id": "chebi:24175",
-      "role_id": ""
-    },
-    {
-      "basis": "no_longer_reachable",
-      "new_id": "",
-      "old_id": "chebi:24834",
-      "role_id": ""
-    },
-    {
-      "basis": "no_longer_reachable",
-      "new_id": "",
-      "old_id": "chebi:24870",
-      "role_id": ""
-    },
-    {
-      "basis": "no_longer_reachable",
-      "new_id": "",
-      "old_id": "chebi:25213",
-      "role_id": ""
-    },
-    {
-      "basis": "no_longer_reachable",
-      "new_id": "",
-      "old_id": "chebi:25367",
-      "role_id": ""
-    },
-    {
-      "basis": "no_longer_reachable",
-      "new_id": "",
-      "old_id": "chebi:25414",
-      "role_id": ""
-    },
-    {
-      "basis": "no_longer_reachable",
-      "new_id": "",
-      "old_id": "chebi:25696",
-      "role_id": ""
-    },
-    {
-      "basis": "rekey_chebi_kegg_xref",
-      "new_id": "kegg.compound:C01934",
-      "old_id": "chebi:26544",
-      "role_id": ""
-    },
-    {
-      "basis": "no_longer_reachable",
-      "new_id": "",
-      "old_id": "chebi:36080",
-      "role_id": ""
-    },
-    {
-      "basis": "no_longer_reachable",
-      "new_id": "",
-      "old_id": "chebi:36916",
-      "role_id": ""
-    },
-    {
-      "basis": "rekey_chebi_kegg_xref",
-      "new_id": "kegg.compound:C01485",
-      "old_id": "chebi:49709",
-      "role_id": ""
-    },
-    {
-      "basis": "rekey_chebi_kegg_xref",
-      "new_id": "kegg.compound:C18022",
-      "old_id": "chebi:58716",
-      "role_id": ""
-    },
-    {
-      "basis": "mnx_same_entity",
-      "new_id": "chebi:24396",
-      "old_id": "kegg.compound:C00528",
-      "role_id": ""
-    },
-    {
-      "basis": "chebi_conjugate",
-      "new_id": "kegg.compound:C16241",
-      "old_id": "kegg.compound:C00725",
-      "role_id": ""
-    },
-    {
-      "basis": "no_longer_reachable",
-      "new_id": "",
-      "old_id": "kegg.compound:C01330",
-      "role_id": ""
-    },
-    {
-      "basis": "mnx_same_entity",
-      "new_id": "kegg.compound:C11215",
-      "old_id": "kegg.compound:C01478",
-      "role_id": ""
-    },
-    {
-      "basis": "mnx_same_entity",
-      "new_id": "chebi:30660",
-      "old_id": "kegg.compound:C01829",
-      "role_id": ""
-    },
-    {
-      "basis": "mnx_same_entity",
-      "new_id": "chebi:39473",
-      "old_id": "kegg.compound:C02273",
-      "role_id": ""
-    },
-    {
-      "basis": "mnx_same_entity",
-      "new_id": "chebi:60836",
-      "old_id": "kegg.compound:C02471",
-      "role_id": ""
-    },
-    {
-      "basis": "mnx_same_entity",
-      "new_id": "chebi:90759",
-      "old_id": "kegg.compound:C02781",
-      "role_id": ""
-    },
-    {
-      "basis": "mnx_same_entity",
-      "new_id": "chebi:21949",
-      "old_id": "kegg.compound:C02862",
-      "role_id": ""
-    },
-    {
-      "basis": "mnx_same_entity",
-      "new_id": "chebi:17242",
-      "old_id": "kegg.compound:C05422",
-      "role_id": ""
-    },
-    {
-      "basis": "mnx_same_entity",
-      "new_id": "kegg.compound:C19596",
-      "old_id": "kegg.compound:C06706",
-      "role_id": ""
-    },
-    {
-      "basis": "mnx_same_entity",
-      "new_id": "chebi:87346",
-      "old_id": "kegg.compound:C19315",
-      "role_id": ""
-    }
-  ],
+  "remap": [],
   "repoints": [],
   "roles_removed": {},
   "shared_chebi_terms": {
