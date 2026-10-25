@@ -1,18 +1,18 @@
-Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
-CK_Syn_RS9909_00890,CK_00004819,,"putative ABC transporter, periplasmic substrate-binding protein",unknown,not_stated
-CK_Syn_RS9909_00455,CK_00001944,proX,"ABC-type glycine betaine/proline transporter, substrate binding component",nitrogen,glycine_betaine
-CK_Syn_RS9909_01814,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
-CK_Syn_RS9909_01784,CK_00002462,znuA,"ABC zinc transport system, substrate-binding protein",trace_metals,zinc
-CK_Syn_RS9909_02779,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
-CK_Syn_RS9909_01495,CK_00001455,ggtB,"ABC-type sugar transport system, periplasmic component",carbon,glucose_glycerol_trehalose
-CK_Syn_RS9909_00130,CK_00001342,,"putative ABC transporter, sugar binding component",carbon,sugar
-CK_Syn_RS9909_01353,CK_00001489,natF,"ABC-type uptake transporter for acidic and neutral polar amino acids (N-II), substrate binding protein",nitrogen,amino_acids
-CK_Syn_RS9909_00282,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
-CK_Syn_RS9909_01704,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
-CK_Syn_RS9909_01751,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
-CK_Syn_RS9909_01127,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
-CK_Syn_RS9909_02837,CK_00000023,pstS2,"ABC transporter, substrate binding protein, phosphate",phosphorus,phosphate
-CK_Syn_RS9909_00906,CK_00001014,dppA,,nitrogen,peptide
-CK_Syn_RS9909_01040,CK_00001829,sphX,,phosphorus,phosphate
-CK_Syn_RS9909_01506,CK_00001829,sphX,,phosphorus,phosphate
-CK_Syn_RS9909_02124,CK_00057079,idiA1,,trace_metals,iron
+locus_tag,resolution_method,cluster_agrees,Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
+SynRS9909_00897,subsequence,agrees,CK_Syn_RS9909_00890,CK_00004819,,"putative ABC transporter, periplasmic substrate-binding protein",unknown,not_stated
+SynRS9909_00457,subsequence,agrees,CK_Syn_RS9909_00455,CK_00001944,proX,"ABC-type glycine betaine/proline transporter, substrate binding component",nitrogen,glycine_betaine
+SynRS9909_01814,diamond,agrees,CK_Syn_RS9909_01814,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
+SynRS9909_01784,exact,agrees,CK_Syn_RS9909_01784,CK_00002462,znuA,"ABC zinc transport system, substrate-binding protein",trace_metals,zinc
+SynRS9909_02779,exact,agrees,CK_Syn_RS9909_02779,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
+SynRS9909_01499,exact,agrees,CK_Syn_RS9909_01495,CK_00001455,ggtB,"ABC-type sugar transport system, periplasmic component",carbon,glucose_glycerol_trehalose
+SynRS9909_00129,exact,agrees,CK_Syn_RS9909_00130,CK_00001342,,"putative ABC transporter, sugar binding component",carbon,sugar
+SynRS9909_01357,exact,agrees,CK_Syn_RS9909_01353,CK_00001489,natF,"ABC-type uptake transporter for acidic and neutral polar amino acids (N-II), substrate binding protein",nitrogen,amino_acids
+SynRS9909_00285,exact,agrees,CK_Syn_RS9909_00282,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
+SynRS9909_01708,exact,agrees,CK_Syn_RS9909_01704,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
+SynRS9909_01752,exact,agrees,CK_Syn_RS9909_01751,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
+SynRS9909_01132,diamond,agrees,CK_Syn_RS9909_01127,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
+SynRS9909_02837,diamond,agrees,CK_Syn_RS9909_02837,CK_00000023,pstS2,"ABC transporter, substrate binding protein, phosphate",phosphorus,phosphate
+SynRS9909_00906,diamond,agrees,CK_Syn_RS9909_00906,CK_00001014,dppA,,nitrogen,peptide
+SynRS9909_01040,exact,agrees,CK_Syn_RS9909_01040,CK_00001829,sphX,,phosphorus,phosphate
+SynRS9909_01506,subsequence,agrees,CK_Syn_RS9909_01506,CK_00001829,sphX,,phosphorus,phosphate
+SynRS9909_02124,exact,agrees,CK_Syn_RS9909_02124,CK_00057079,idiA1,,trace_metals,iron

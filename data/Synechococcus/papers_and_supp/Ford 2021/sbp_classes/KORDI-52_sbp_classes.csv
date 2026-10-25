@@ -1,17 +1,17 @@
-Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
-CK_Syn_KORDI-52_11540,CK_00006203,phnD2,"phosphonate ABC transporter, periplasmic component",phosphorus,phosphonate
-CK_Syn_KORDI-52_11980,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
-CK_Syn_KORDI-52_15860,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
-CK_Syn_KORDI-52_10940,CK_00002249,,"putative nitrate ABC transporter, substrate binding protein",unknown,nitrate
-CK_Syn_KORDI-52_17020,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
-CK_Syn_KORDI-52_01130,CK_00001342,,"putative ABC transporter, sugar binding component",carbon,sugar
-CK_Syn_KORDI-52_14790,CK_00001455,ggtB,"ABC-type sugar transport system, periplasmic component",carbon,glucose_glycerol_trehalose
-CK_Syn_KORDI-52_18630,CK_00001489,natF,"ABC-type uptake transporter for acidic and neutral polar amino acids (N-II), substrate binding protein",nitrogen,amino_acids
-CK_Syn_KORDI-52_27470,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
-CK_Syn_KORDI-52_11990,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
-CK_Syn_KORDI-52_11190,CK_00008828,,"ABC transporter, phosphonate, periplasmic substrate-binding family protein",unknown,phosphonate
-CK_Syn_KORDI-52_02120,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
-CK_Syn_KORDI-52_26960,CK_00008828,,"ABC transporter, phosphonate, periplasmic substrate-binding family protein",unknown,phosphonate
-CK_Syn_KORDI-52_13550,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
-CK_Syn_KORDI-52_20460,CK_00001014,dppA,,nitrogen,peptide
-CK_Syn_KORDI-52_16820,CK_00000068,idiA2,,trace_metals,iron
+locus_tag,resolution_method,cluster_agrees,Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
+KR52_11160,exact,agrees,CK_Syn_KORDI-52_11540,CK_00006203,phnD2,"phosphonate ABC transporter, periplasmic component",phosphorus,phosphonate
+KR52_10915,exact,agrees,CK_Syn_KORDI-52_11980,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
+KR52_08860,exact,agrees,CK_Syn_KORDI-52_15860,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
+KR52_11460,exact,agrees,CK_Syn_KORDI-52_10940,CK_00002249,,"putative nitrate ABC transporter, substrate binding protein",unknown,nitrate
+KR52_08215,exact,agrees,CK_Syn_KORDI-52_17020,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
+KR52_01910,exact,agrees,CK_Syn_KORDI-52_01130,CK_00001342,,"putative ABC transporter, sugar binding component",carbon,sugar
+KR52_09450,exact,agrees,CK_Syn_KORDI-52_14790,CK_00001455,ggtB,"ABC-type sugar transport system, periplasmic component",carbon,glucose_glycerol_trehalose
+KR52_07400,exact,agrees,CK_Syn_KORDI-52_18630,CK_00001489,natF,"ABC-type uptake transporter for acidic and neutral polar amino acids (N-II), substrate binding protein",nitrogen,amino_acids
+KR52_02875,exact,agrees,CK_Syn_KORDI-52_27470,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
+KR52_10910,exact,agrees,CK_Syn_KORDI-52_11990,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
+KR52_11340,exact,agrees,CK_Syn_KORDI-52_11190,CK_00008828,,"ABC transporter, phosphonate, periplasmic substrate-binding family protein",unknown,phosphonate
+KR52_01450,exact,agrees,CK_Syn_KORDI-52_02120,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
+KR52_03155,diamond,agrees,CK_Syn_KORDI-52_26960,CK_00008828,,"ABC transporter, phosphonate, periplasmic substrate-binding family protein",unknown,phosphonate
+KR52_10085,subsequence,agrees,CK_Syn_KORDI-52_13550,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
+KR52_06480,diamond,agrees,CK_Syn_KORDI-52_20460,CK_00001014,dppA,,nitrogen,peptide
+KR52_08320,exact,agrees,CK_Syn_KORDI-52_16820,CK_00000068,idiA2,,trace_metals,iron

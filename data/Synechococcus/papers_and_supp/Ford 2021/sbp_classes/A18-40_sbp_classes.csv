@@ -1,22 +1,22 @@
-Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
-CK_Syn_A18-40_01046,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
-CK_Syn_A18-40_02159,CK_00001944,proX,"ABC-type glycine betaine/proline transporter, substrate binding component",nitrogen,glycine_betaine
-CK_Syn_A18-40_00121,CK_00001342,,"putative ABC transporter, sugar binding component",carbon,sugar
-CK_Syn_A18-40_02824,CK_00002165,cynA,"cyanate ABC transporter, substrate-binding protein",nitrogen,cyanate
-CK_Syn_A18-40_02029,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
-CK_Syn_A18-40_01082,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
-CK_Syn_A18-40_02133,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
-CK_Syn_A18-40_01439,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
-CK_Syn_A18-40_02774,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
-CK_Syn_A18-40_00215,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
-CK_Syn_A18-40_01549,CK_00002249,,"putative nitrate ABC transporter, substrate binding protein",unknown,nitrate
-CK_Syn_A18-40_01364,CK_00001455,ggtB,"ABC-type sugar transport system, periplasmic component",carbon,glucose_glycerol_trehalose
-CK_Syn_A18-40_00914,CK_00001489,natF,"ABC-type uptake transporter for acidic and neutral polar amino acids (N-II), substrate binding protein",nitrogen,amino_acids
-CK_Syn_A18-40_02816,CK_00002462,znuA,"ABC zinc transport system, substrate-binding protein",trace_metals,zinc
-CK_Syn_A18-40_01257,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
-CK_Syn_A18-40_02844,CK_00000023,pstS2,"ABC transporter, substrate binding protein, phosphate",phosphorus,phosphate
-CK_Syn_A18-40_02845,CK_00000023,pstS2,"ABC transporter, substrate binding protein, phosphate",phosphorus,phosphate
-CK_Syn_A18-40_00747,CK_00001014,dppA,,nitrogen,peptide
-CK_Syn_A18-40_01356,CK_00001829,sphX,,phosphorus,phosphate
-CK_Syn_A18-40_02387,CK_00000068,idiA2,,trace_metals,iron
-CK_Syn_A18-40_01998,CK_00057079,idiA1,,trace_metals,iron
+locus_tag,resolution_method,cluster_agrees,Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
+SynA1840_01035,exact,agrees,CK_Syn_A18-40_01046,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
+SynA1840_02148,exact,agrees,CK_Syn_A18-40_02159,CK_00001944,proX,"ABC-type glycine betaine/proline transporter, substrate binding component",nitrogen,glycine_betaine
+SynA1840_00120,exact,agrees,CK_Syn_A18-40_00121,CK_00001342,,"putative ABC transporter, sugar binding component",carbon,sugar
+SynA1840_02803,diamond,agrees,CK_Syn_A18-40_02824,CK_00002165,cynA,"cyanate ABC transporter, substrate-binding protein",nitrogen,cyanate
+SynA1840_02017,diamond,agrees,CK_Syn_A18-40_02029,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
+SynA1840_01071,exact,agrees,CK_Syn_A18-40_01082,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
+SynA1840_02123,exact,agrees,CK_Syn_A18-40_02133,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
+SynA1840_01425,exact,agrees,CK_Syn_A18-40_01439,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
+SynA1840_02753,exact,agrees,CK_Syn_A18-40_02774,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
+SynA1840_00213,exact,agrees,CK_Syn_A18-40_00215,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
+SynA1840_01534,exact,agrees,CK_Syn_A18-40_01549,CK_00002249,,"putative nitrate ABC transporter, substrate binding protein",unknown,nitrate
+SynA1840_01352,exact,agrees,CK_Syn_A18-40_01364,CK_00001455,ggtB,"ABC-type sugar transport system, periplasmic component",carbon,glucose_glycerol_trehalose
+SynA1840_00903,exact,agrees,CK_Syn_A18-40_00914,CK_00001489,natF,"ABC-type uptake transporter for acidic and neutral polar amino acids (N-II), substrate binding protein",nitrogen,amino_acids
+SynA1840_02795,diamond,agrees,CK_Syn_A18-40_02816,CK_00002462,znuA,"ABC zinc transport system, substrate-binding protein",trace_metals,zinc
+SynA1840_01244,exact,agrees,CK_Syn_A18-40_01257,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
+SynA18-40_02822,exact,agrees,CK_Syn_A18-40_02844,CK_00000023,pstS2,"ABC transporter, substrate binding protein, phosphate",phosphorus,phosphate
+SynA18-40_02823,exact,agrees,CK_Syn_A18-40_02845,CK_00000023,pstS2,"ABC transporter, substrate binding protein, phosphate",phosphorus,phosphate
+SynA1840_00747,diamond,agrees,CK_Syn_A18-40_00747,CK_00001014,dppA,,nitrogen,peptide
+SynA1840_01356,diamond,agrees,CK_Syn_A18-40_01356,CK_00001829,sphX,,phosphorus,phosphate
+SynA1840_02387,exact,agrees,CK_Syn_A18-40_02387,CK_00000068,idiA2,,trace_metals,iron
+SynA1840_01998,exact,agrees,CK_Syn_A18-40_01998,CK_00057079,idiA1,,trace_metals,iron

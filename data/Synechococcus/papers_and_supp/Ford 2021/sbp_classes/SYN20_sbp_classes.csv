@@ -1,17 +1,17 @@
-Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
-CK_Syn_SYN20_01411,CK_00001489,natF,"ABC-type uptake transporter for acidic and neutral polar amino acids (N-II), substrate binding protein",nitrogen,amino_acids
-CK_Syn_SYN20_01804,CK_00001455,ggtB,"ABC-type sugar transport system, periplasmic component",carbon,glucose_glycerol_trehalose
-CK_Syn_SYN20_01865,CK_00002462,znuA,"ABC zinc transport system, substrate-binding protein",trace_metals,zinc
-CK_Syn_SYN20_02089,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
-CK_Syn_SYN20_01959,CK_00000023,pstS2,"ABC transporter, substrate binding protein, phosphate",phosphorus,phosphate
-CK_Syn_SYN20_03445,CK_00000023,pstS2,"ABC transporter, substrate binding protein, phosphate",phosphorus,phosphate
-CK_Syn_SYN20_00445,CK_00001944,proX,"ABC-type glycine betaine/proline transporter, substrate binding component",nitrogen,glycine_betaine
-CK_Syn_SYN20_00327,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
-CK_Syn_SYN20_01906,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
-CK_Syn_SYN20_03392,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
-CK_Syn_SYN20_02174,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
-CK_Syn_SYN20_03208,CK_00037737,,"putative ABC-type phosphate/phosphonate transport system, periplasmic component",unknown,hypothetical_phosphonate
-CK_Syn_SYN20_00157,CK_00001342,,"putative ABC transporter, sugar binding component",carbon,sugar
-CK_Syn_SYN20_02186,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
-CK_Syn_SYN20_01130,CK_00001014,dppA,,nitrogen,peptide
-CK_Syn_SYN20_01931,CK_00000068,idiA2,,trace_metals,iron
+locus_tag,resolution_method,cluster_agrees,Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
+SynSYN20_01395,exact,agrees,CK_Syn_SYN20_01411,CK_00001489,natF,"ABC-type uptake transporter for acidic and neutral polar amino acids (N-II), substrate binding protein",nitrogen,amino_acids
+SynSYN20_01790,exact,agrees,CK_Syn_SYN20_01804,CK_00001455,ggtB,"ABC-type sugar transport system, periplasmic component",carbon,glucose_glycerol_trehalose
+SynSYN20_01852,subsequence,agrees,CK_Syn_SYN20_01865,CK_00002462,znuA,"ABC zinc transport system, substrate-binding protein",trace_metals,zinc
+SynSYN20_02074,diamond,agrees,CK_Syn_SYN20_02089,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
+SynSYN20_01946,exact,agrees,CK_Syn_SYN20_01959,CK_00000023,pstS2,"ABC transporter, substrate binding protein, phosphate",phosphorus,phosphate
+SynSYN20_03414,exact,agrees,CK_Syn_SYN20_03445,CK_00000023,pstS2,"ABC transporter, substrate binding protein, phosphate",phosphorus,phosphate
+SynSYN20_00441,exact,agrees,CK_Syn_SYN20_00445,CK_00001944,proX,"ABC-type glycine betaine/proline transporter, substrate binding component",nitrogen,glycine_betaine
+SynSYN20_00321,exact,agrees,CK_Syn_SYN20_00327,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
+SynSYN20_01893,exact,agrees,CK_Syn_SYN20_01906,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
+SynSYN20_03361,exact,agrees,CK_Syn_SYN20_03392,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
+SynSYN20_02159,exact,agrees,CK_Syn_SYN20_02174,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
+SynSYN20_03179,exact,agrees,CK_Syn_SYN20_03208,CK_00037737,,"putative ABC-type phosphate/phosphonate transport system, periplasmic component",unknown,hypothetical_phosphonate
+SynSYN20_00154,subsequence,agrees,CK_Syn_SYN20_00157,CK_00001342,,"putative ABC transporter, sugar binding component",carbon,sugar
+SynSYN20_02171,diamond,agrees,CK_Syn_SYN20_02186,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
+SynSYN20_01130,exact,agrees,CK_Syn_SYN20_01130,CK_00001014,dppA,,nitrogen,peptide
+SynSYN20_01931,exact,agrees,CK_Syn_SYN20_01931,CK_00000068,idiA2,,trace_metals,iron

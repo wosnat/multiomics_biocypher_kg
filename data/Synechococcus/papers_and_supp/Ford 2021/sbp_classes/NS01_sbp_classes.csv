@@ -1,16 +1,16 @@
-Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
-CK_Cya_NS01_02740,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
-CK_Cya_NS01_02991,CK_00000023,pstS2,"ABC transporter, substrate binding protein, phosphate",phosphorus,phosphate
-CK_Cya_NS01_01023,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
-CK_Cya_NS01_03020,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
-CK_Cya_NS01_01092,CK_00002249,,"putative nitrate ABC transporter, substrate binding protein",unknown,nitrate
-CK_Cya_NS01_01863,CK_00001489,natF,"ABC-type uptake transporter for acidic and neutral polar amino acids (N-II), substrate binding protein",nitrogen,amino_acids
-CK_Cya_NS01_01434,CK_00053501,cbiN,cobalt transport protein CbiN,trace_metals,cobalt_nickel
-CK_Cya_NS01_00121,CK_00001342,,"putative ABC transporter, sugar binding component",carbon,sugar
-CK_Cya_NS01_01590,CK_00002462,znuA,"ABC zinc transport system, substrate-binding protein",trace_metals,zinc
-CK_Cya_NS01_00146,CK_00001455,ggtB,"ABC-type sugar transport system, periplasmic component",carbon,glucose_glycerol_trehalose
-CK_Cya_NS01_01437,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
-CK_Cya_NS01_01548,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
-CK_Cya_NS01_02175,CK_00001014,dppA,,nitrogen,peptide
-CK_Cya_NS01_01902,CK_00001829,sphX,,phosphorus,phosphate
-CK_Cya_NS01_00929,CK_00057079,idiA1,,trace_metals,iron
+locus_tag,resolution_method,cluster_agrees,Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
+CyaNS01_02734,diamond,agrees,CK_Cya_NS01_02740,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
+CyaNS01_02986,diamond,agrees,CK_Cya_NS01_02991,CK_00000023,pstS2,"ABC transporter, substrate binding protein, phosphate",phosphorus,phosphate
+CyaNS01_01018,exact,agrees,CK_Cya_NS01_01023,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
+CyaNS01_02942,exact,agrees,CK_Cya_NS01_03020,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
+CyaNS01_01088,diamond,agrees,CK_Cya_NS01_01092,CK_00002249,,"putative nitrate ABC transporter, substrate binding protein",unknown,nitrate
+CyaNS01_01855,diamond,agrees,CK_Cya_NS01_01863,CK_00001489,natF,"ABC-type uptake transporter for acidic and neutral polar amino acids (N-II), substrate binding protein",nitrogen,amino_acids
+CyaNS01_01428,exact,agrees,CK_Cya_NS01_01434,CK_00053501,cbiN,cobalt transport protein CbiN,trace_metals,cobalt_nickel
+CyaNS01_00120,diamond,agrees,CK_Cya_NS01_00121,CK_00001342,,"putative ABC transporter, sugar binding component",carbon,sugar
+CyaNS01_01583,exact,agrees,CK_Cya_NS01_01590,CK_00002462,znuA,"ABC zinc transport system, substrate-binding protein",trace_metals,zinc
+CyaNS01_00145,subsequence,agrees,CK_Cya_NS01_00146,CK_00001455,ggtB,"ABC-type sugar transport system, periplasmic component",carbon,glucose_glycerol_trehalose
+CyaNS01_01431,exact,agrees,CK_Cya_NS01_01437,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
+CyaNS01_01541,exact,agrees,CK_Cya_NS01_01548,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
+CyaNS01_02175,exact,agrees,CK_Cya_NS01_02175,CK_00001014,dppA,,nitrogen,peptide
+CyaNS01_01902,exact,agrees,CK_Cya_NS01_01902,CK_00001829,sphX,,phosphorus,phosphate
+CyaNS01_00929,diamond,agrees,CK_Cya_NS01_00929,CK_00057079,idiA1,,trace_metals,iron

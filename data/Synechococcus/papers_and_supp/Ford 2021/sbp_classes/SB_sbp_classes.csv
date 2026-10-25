@@ -1,11 +1,11 @@
-Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
-CK_Pro_SB_00068,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
-CK_Pro_SB_00434,CK_00002165,cynA,"cyanate ABC transporter, substrate-binding protein",nitrogen,cyanate
-CK_Pro_SB_00595,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
-CK_Pro_SB_00179,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
-CK_Pro_SB_00829,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
-CK_Pro_SB_00932,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
-CK_Pro_SB_00429,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
-CK_Pro_SB_00022,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
-CK_Pro_SB_00456,CK_00001014,dppA,,nitrogen,peptide
-CK_Pro_SB_01786,CK_00000068,idiA2,,trace_metals,iron
+locus_tag,resolution_method,cluster_agrees,Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
+EV02_0068,exact,agrees,CK_Pro_SB_00068,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
+EV02_0434,exact,agrees,CK_Pro_SB_00434,CK_00002165,cynA,"cyanate ABC transporter, substrate-binding protein",nitrogen,cyanate
+EV02_0595,subsequence,agrees,CK_Pro_SB_00595,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
+EV02_0179,exact,agrees,CK_Pro_SB_00179,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
+EV02_0829,exact,agrees,CK_Pro_SB_00829,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
+EV02_0932,exact,agrees,CK_Pro_SB_00932,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
+EV02_0429,exact,agrees,CK_Pro_SB_00429,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
+EV02_0022,exact,agrees,CK_Pro_SB_00022,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
+EV02_0456,exact,agrees,CK_Pro_SB_00456,CK_00001014,dppA,,nitrogen,peptide
+EV02_1786,exact,agrees,CK_Pro_SB_01786,CK_00000068,idiA2,,trace_metals,iron

@@ -1,9 +1,9 @@
-Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
-CK_Pro_MIT9401_01713,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
-CK_Pro_MIT9401_01456,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
-CK_Pro_MIT9401_01575,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
-CK_Pro_MIT9401_00543,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
-CK_Pro_MIT9401_00093,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
-CK_Pro_MIT9401_01625,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
-CK_Pro_MIT9401_00074,CK_00001014,dppA,,nitrogen,peptide
-CK_Pro_MIT9401_00214,CK_00000068,idiA2,,trace_metals,iron
+locus_tag,resolution_method,cluster_agrees,Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
+EV01_1713,subsequence,agrees,CK_Pro_MIT9401_01713,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
+EV01_1456,diamond,agrees,CK_Pro_MIT9401_01456,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
+EV01_1575,exact,agrees,CK_Pro_MIT9401_01575,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
+EV01_0543,exact,agrees,CK_Pro_MIT9401_00543,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
+EV01_0093,exact,agrees,CK_Pro_MIT9401_00093,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
+EV01_1625,exact,agrees,CK_Pro_MIT9401_01625,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
+EV01_0074,exact,agrees,CK_Pro_MIT9401_00074,CK_00001014,dppA,,nitrogen,peptide
+EV01_0214,exact,agrees,CK_Pro_MIT9401_00214,CK_00000068,idiA2,,trace_metals,iron

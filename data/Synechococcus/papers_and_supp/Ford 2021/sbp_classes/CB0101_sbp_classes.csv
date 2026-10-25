@@ -1,19 +1,19 @@
-Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
-CK_Syn_CB0101_08784,CK_00002249,,"putative nitrate ABC transporter, substrate binding protein",unknown,nitrate
-CK_Syn_CB0101_00520,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
-CK_Syn_CB0101_05981,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
-CK_Syn_CB0101_09674,CK_00008828,,"ABC transporter, phosphonate, periplasmic substrate-binding family protein",unknown,phosphonate
-CK_Syn_CB0101_09881,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
-CK_Syn_CB0101_08227,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
-CK_Syn_CB0101_00035,CK_00000023,pstS2,"ABC transporter, substrate binding protein, phosphate",phosphorus,phosphate
-CK_Syn_CB0101_09976,CK_00007046,,"putative ABC branched chain amino acid transporter, substrate binding protein",nitrogen,not_stated
-CK_Syn_CB0101_07155,CK_00001455,ggtB,"ABC-type sugar transport system, periplasmic component",carbon,glucose_glycerol_trehalose
-CK_Syn_CB0101_03872,CK_00031409,,"ABC-type uncharacterized transporter, periplasmic component",unknown,not_stated
-CK_Syn_CB0101_13820,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
-CK_Syn_CB0101_03862,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
-CK_Syn_CB0101_08654,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
-CK_Syn_CB0101_14214,CK_00001342,,"putative ABC transporter, sugar binding component",carbon,sugar
-CK_Syn_CB0101_08779,CK_00002249,,"putative nitrate ABC transporter, substrate binding protein",unknown,nitrate
-CK_Syn_CB0101_01337,CK_00001014,dppA,,nitrogen,peptide
-CK_Syn_CB0101_08639,CK_00001829,sphX,,phosphorus,phosphate
-CK_Syn_CB0101_09594,CK_00057079,idiA1,,trace_metals,iron
+locus_tag,resolution_method,cluster_agrees,Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
+CB0101_RS0108815,exact,agrees,CK_Syn_CB0101_08784,CK_00002249,,"putative nitrate ABC transporter, substrate binding protein",unknown,nitrate
+CB0101_RS0100545,exact,agrees,CK_Syn_CB0101_00520,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
+CB0101_RS0106020,exact,agrees,CK_Syn_CB0101_05981,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
+CB0101_RS16180,exact,agrees,CK_Syn_CB0101_09674,CK_00008828,,"ABC transporter, phosphonate, periplasmic substrate-binding family protein",unknown,phosphonate
+CB0101_RS0109905,exact,agrees,CK_Syn_CB0101_09881,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
+CB0101_RS0108250,exact,agrees,CK_Syn_CB0101_08227,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
+CB0101_RS0100030,exact,agrees,CK_Syn_CB0101_00035,CK_00000023,pstS2,"ABC transporter, substrate binding protein, phosphate",phosphorus,phosphate
+CB0101_RS0110000,exact,agrees,CK_Syn_CB0101_09976,CK_00007046,,"putative ABC branched chain amino acid transporter, substrate binding protein",nitrogen,not_stated
+CB0101_RS0107200,exact,agrees,CK_Syn_CB0101_07155,CK_00001455,ggtB,"ABC-type sugar transport system, periplasmic component",carbon,glucose_glycerol_trehalose
+CB0101_RS0103950,exact,agrees,CK_Syn_CB0101_03872,CK_00031409,,"ABC-type uncharacterized transporter, periplasmic component",unknown,not_stated
+CB0101_RS0113905,exact,agrees,CK_Syn_CB0101_13820,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
+CB0101_RS0103940,exact,agrees,CK_Syn_CB0101_03862,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
+CB0101_RS0108685,exact,agrees,CK_Syn_CB0101_08654,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
+CB0101_RS0114305,exact,agrees,CK_Syn_CB0101_14214,CK_00001342,,"putative ABC transporter, sugar binding component",carbon,sugar
+CB0101_RS0108810,diamond,agrees,CK_Syn_CB0101_08779,CK_00002249,,"putative nitrate ABC transporter, substrate binding protein",unknown,nitrate
+CB0101_RS0101375,exact,agrees,CK_Syn_CB0101_01337,CK_00001014,dppA,,nitrogen,peptide
+CB0101_RS0108670,exact,agrees,CK_Syn_CB0101_08639,CK_00001829,sphX,,phosphorus,phosphate
+CB0101_RS0109620,diamond,agrees,CK_Syn_CB0101_09594,CK_00057079,idiA1,,trace_metals,iron

@@ -1,9 +1,9 @@
-Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
-CK_Pro_MIT9116_01735,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
-CK_Pro_MIT9116_01342,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
-CK_Pro_MIT9116_00616,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
-CK_Pro_MIT9116_00068,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
-CK_Pro_MIT9116_00805,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
-CK_Pro_MIT9116_00872,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
-CK_Pro_MIT9116_01361,CK_00001014,dppA,,nitrogen,peptide
-CK_Pro_MIT9116_00169,CK_00000068,idiA2,,trace_metals,iron
+locus_tag,resolution_method,cluster_agrees,Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
+EU93_1735,exact,agrees,CK_Pro_MIT9116_01735,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
+EU93_1342,exact,agrees,CK_Pro_MIT9116_01342,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
+EU93_0616,exact,agrees,CK_Pro_MIT9116_00616,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
+EU93_0068,exact,agrees,CK_Pro_MIT9116_00068,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
+EU93_0805,exact,agrees,CK_Pro_MIT9116_00805,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
+EU93_0872,exact,agrees,CK_Pro_MIT9116_00872,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
+EU93_1361,exact,agrees,CK_Pro_MIT9116_01361,CK_00001014,dppA,,nitrogen,peptide
+EU93_0169,diamond,agrees,CK_Pro_MIT9116_00169,CK_00000068,idiA2,,trace_metals,iron
