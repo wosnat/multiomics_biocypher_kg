@@ -38,6 +38,7 @@ from __future__ import annotations
 import argparse
 import csv
 import logging
+import json
 import os
 import subprocess
 import sys
@@ -426,7 +427,15 @@ def step5_gene_mapping(genomes: list[dict], force: bool) -> None:
             )
             df.to_csv(mapping_path, index=False)
             log.info(f"  Gene mapping table saved to {mapping_path}")
-            results.append((strain, "OK", f"{len(df)} genes"))
+            qc = df.attrs.get("merge_qc")
+            qc_path = os.path.join(data_dir, "gene_mapping_merge_qc.json")
+            if qc is not None:
+                with open(qc_path, "w") as fh:
+                    json.dump(qc, fh, indent=2, default=str)
+            elif os.path.exists(qc_path):
+                os.remove(qc_path)  # NCBI-only strain now: no merge to report
+            flag_txt = f" [QC] {'; '.join(qc['flags'])}" if qc and qc.get("flags") else ""
+            results.append((strain, "OK", f"{len(df)} genes{flag_txt}"))
         except Exception as e:
             # Remove partially written file to avoid treating it as valid cache
             if os.path.exists(mapping_path):

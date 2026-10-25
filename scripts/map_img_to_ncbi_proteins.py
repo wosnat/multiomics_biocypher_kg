@@ -216,6 +216,7 @@ def map_by_diamond(
     used_ncbi: set[str],
     min_identity: float = 80.0,
     min_query_coverage: float = 60.0,
+    stats: dict[str, tuple[float, float]] | None = None,
 ) -> tuple[dict[str, str], list[tuple[str, str, int]]]:
     """Use Diamond blastp to match remaining proteins by sequence similarity.
 
@@ -234,7 +235,8 @@ def map_by_diamond(
 
     Returns (mapping, discarded) where discarded is a list of
     (img_id, locus_tag, query_len) tuples for fragments that lost to a
-    longer sibling.
+    longer sibling. When ``stats`` is given it is filled with
+    ``img_id -> (pident, qcovhsp)`` for every hit (QC input).
     """
     if not shutil.which("diamond"):
         print("  WARNING: diamond not found in PATH — skipping similarity search")
@@ -308,6 +310,8 @@ def map_by_diamond(
                     continue
                 img_id, pid = parts[0], parts[1]
                 lt = protein_to_lt.get(pid)
+                if lt and img_id not in all_hits and stats is not None:
+                    stats[img_id] = (float(parts[2]), float(parts[3]))
                 if lt and img_id not in all_hits:
                     qlen = len(img_seqs.get(img_id, ""))
                     all_hits[img_id] = (lt, qlen)
@@ -459,6 +463,12 @@ def main():
         help="Column name for source IDs in output CSV (default: source_id)",
     )
     parser.add_argument(
+        "--with-method",
+        action="store_true",
+        help="Add match_method (exact|subsequence|diamond), pident and qcov columns "
+             "to the output (QC input; default output keeps the two columns)",
+    )
+    parser.add_argument(
         "--de-csvs",
         type=Path,
         nargs="*",
@@ -504,6 +514,7 @@ def main():
     mapping, unmatched, used_ncbi = map_by_exact_match(
         img_seqs, ncbi_seqs, protein_to_lt
     )
+    method = {k: "exact" for k in mapping}
     print(f"  Exact matches: {len(mapping)}")
     print(f"  Unmatched: {len(unmatched)}")
 
@@ -514,9 +525,12 @@ def main():
             img_seqs, ncbi_seqs, protein_to_lt, unmatched, used_ncbi
         )
         mapping.update(extra)
+        method.update({k: "subsequence" for k in extra})
         unmatched -= set(extra.keys())
         print(f"  Subsequence matches: {len(extra)}")
         print(f"  Still unmatched: {len(unmatched)}")
+
+    diamond_stats: dict[str, tuple[float, float]] = {}
 
     # Step 4b: Diamond similarity search for remaining
     #
@@ -530,9 +544,11 @@ def main():
     if unmatched:
         print("\nPhase 3: Diamond blastp (near-identical proteins)...")
         extra, discarded = map_by_diamond(
-            img_seqs, ncbi_seqs, protein_to_lt, unmatched, used_ncbi
+            img_seqs, ncbi_seqs, protein_to_lt, unmatched, used_ncbi,
+            stats=diamond_stats,
         )
         mapping.update(extra)
+        method.update({k: "diamond" for k in extra})
         unmatched -= set(extra.keys())
         # Also remove discarded fragments from unmatched — they had hits
         # but were superseded by a longer fragment
@@ -564,9 +580,17 @@ def main():
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with open(args.output, "w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow([args.source_id_col, "locus_tag"])
+        header = [args.source_id_col, "locus_tag"]
+        if args.with_method:
+            header += ["match_method", "pident", "qcov"]
+        writer.writerow(header)
         for img_id in sorted(mapping.keys()):
-            writer.writerow([img_id, mapping[img_id]])
+            row = [img_id, mapping[img_id]]
+            if args.with_method:
+                pident, qcov = diamond_stats.get(img_id, (100.0, 100.0)) \
+                    if method.get(img_id) == "diamond" else (100.0, 100.0)
+                row += [method.get(img_id, ""), pident, qcov]
+            writer.writerow(row)
     print(f"\nWrote {len(mapping)} mappings to {args.output}")
 
     # Step 7: DE gene coverage

@@ -305,6 +305,14 @@ class TestNcbiMergeCdsAndGeneEntries:
         result = ncbi_merge_cds_and_gene_entries(df)
         assert result["product"].iloc[0] == "DNA polymerase III subunit beta"
 
+    def test_locus_tag_only_on_gene_row_old_gff_format(self):
+        # Older NCBI annotwriter GFFs (HNLC1, CB0101) put locus_tag on the gene
+        # row only; the CDS row has none. locus_tag_ncbi must still be set.
+        df = _make_ncbi_gff_df()
+        df.loc[df["type"] == "CDS", "locus_tag"] = None
+        result = ncbi_merge_cds_and_gene_entries(df)
+        assert result["locus_tag_ncbi"].iloc[0] == "TX50_RS00020"
+
     def test_missing_old_locus_tag_column_handled_gracefully(self):
         # Alteromonas genomes lack old_locus_tag in their GFF
         df = _make_ncbi_gff_df(include_old_locus_tag=False)
@@ -1067,3 +1075,92 @@ class TestCyanorakOnlyCoordinates:
         with patch(_LOAD_GFF, return_value=ncbi_df):
             result = load_gff_from_ncbi_only("ncbi.gff")
         assert (result["coordinate_source"] == "ncbi").all()
+
+
+# ─── protein-sequence fallback + merge QC (Ford 2021 batch, 2026-10-25) ───────
+
+import numpy as np  # noqa: E402
+from multiomics_kg.download import build_gene_mapping as bgm  # noqa: E402
+
+_PROTS = {
+    "WP_A": "M" + "ACDEFGHIKLMNPQRSTVWY" * 4,
+    "WP_B": "M" + "WYVTSRQPNMLKIHGFEDCA" * 4,
+    "WP_C": "M" + "KLMNPQRSTVACDEFGHIWY" * 4,
+    "WP_P": "M" + "PQRSTVWYACDEFGHIKLMN" * 4,   # paralog-like, matches a far-away call
+}
+
+
+def _seq_frames(offset=100_000):
+    """Three NCBI genes whose Cyanorak calls sit `offset` bp downstream (a
+    re-laid-out record) plus one isolated candidate at an inconsistent offset."""
+    ncbi = pd.DataFrame({
+        "ID": [None, None, None, None],
+        "protein_id": ["WP_A", "WP_B", "WP_C", "WP_P"],
+        "locus_tag_ncbi": ["N1", "N2", "N3", "N4"],
+        "locus_tag": [None, None, None, None],
+        "seqid": ["c1"] * 4,
+        "start_ncbi": [1000.0, 3000.0, 5000.0, 7000.0],
+        "end_ncbi": [1243.0, 3243.0, 5243.0, 7243.0],
+        "strand_ncbi": ["+"] * 4,
+        "start_cyanorak": [np.nan] * 4, "end_cyanorak": [np.nan] * 4,
+        "strand_cyanorak": [None] * 4, "product_cyanorak": [None] * 4,
+    })
+    cyan = pd.DataFrame({
+        "locus_tag": ["C1", "C2", "C3", "C4"],
+        "ID": ["CK_1", "CK_2", "CK_3", "CK_4"],
+        "start_cyanorak": [1000.0 + offset, 3000.0 + offset, 5000.0 + offset, 400_000.0],
+        "end_cyanorak": [1243.0 + offset, 3243.0 + offset, 5243.0 + offset, 400_243.0],
+        "strand_cyanorak": ["+"] * 4,
+        "product_cyanorak": ["a", "b", "c", "p"],
+    })
+    translations = {"C1": _PROTS["WP_A"], "C2": _PROTS["WP_B"], "C3": _PROTS["WP_C"], "C4": _PROTS["WP_P"]}
+    return ncbi, cyan, translations
+
+
+class TestSequenceFallback:
+    def test_clean_translation(self):
+        assert bgm._clean_translation("vkla*") == "MKLA"
+        assert bgm._clean_translation("MKLA#") == "MKLA"
+        assert bgm._clean_translation(None) is None
+
+    def test_syntenic_filter_keeps_consistent_run_rejects_isolated(self):
+        ncbi, cyan, _ = _seq_frames()
+        cands = {i: {"cyanorak_locus_tag": f"C{i + 1}"} for i in range(4)}
+        keep = bgm._syntenic_candidates(ncbi, cyan, cands)
+        assert keep == {0, 1, 2}   # C4 sits at its own offset: a paralog, not this locus
+
+    def test_syntenic_filter_accepts_reverse_complemented_record(self):
+        ncbi, cyan, _ = _seq_frames()
+        L = 1_000_000.0
+        # Cyanorak record reverse-complemented: c = L - n on the opposite strand
+        cyan["start_cyanorak"], cyan["end_cyanorak"] = L - ncbi["end_ncbi"], L - ncbi["start_ncbi"]
+        cyan["strand_cyanorak"] = "-"
+        cands = {i: {"cyanorak_locus_tag": f"C{i + 1}"} for i in range(4)}
+        assert bgm._syntenic_candidates(ncbi, cyan, cands) == {0, 1, 2, 3}
+
+    def test_below_threshold_does_not_run(self, tmp_path):
+        ncbi, cyan, tr = _seq_frames()
+        n, consumed, qc = bgm._sequence_fallback_merge(ncbi, cyan, str(tmp_path / "x.faa"), tr)
+        assert (n, consumed, qc["ran"]) == (0, set(), False)
+
+    def test_end_to_end_merges_1to1_syntenic_only(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(bgm, "_SEQ_FALLBACK_MIN_UNPAIRED", 1)
+        ncbi, cyan, tr = _seq_frames()
+        faa = tmp_path / "protein.faa"
+        faa.write_text("".join(f">{k}\n{v}\n" for k, v in _PROTS.items()))
+        n, consumed, qc = bgm._sequence_fallback_merge(ncbi, cyan, str(faa), tr)
+        assert n == 3 and consumed == {"C1", "C2", "C3"}
+        assert qc["rejected_non_syntenic"] == 1
+        assert qc["merged_by_method"] == {"exact": 3}
+        assert ncbi.loc[0, "ID"] == "CK_1"
+        assert ncbi.loc[0, "position_merge_note"] == "sequence_merge_exact:C1→N1"
+        assert "C1" in str(ncbi.loc[0, "old_locus_tags"])
+        assert pd.isna(ncbi.loc[3, "ID"])
+
+    def test_merge_qc_flags_duplication(self):
+        df = pd.DataFrame({"locus_tag": [f"g{i}" for i in range(180)]})
+        qc = bgm._merge_qc(df, 100, 100, {}, {"ran": False})
+        assert qc["duplication_ratio"] == 1.8
+        assert any("duplication_ratio" in f for f in qc["flags"])
+        ok = bgm._merge_qc(df.iloc[:105], 100, 100, {}, {"ran": False})
+        assert ok["flags"] == []
