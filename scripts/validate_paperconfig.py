@@ -171,6 +171,82 @@ CANONICAL_GENOMIC_ORGANISMS = {
     # MIT1327 + MIT1314 (deferred Soussan 2025 strains, now public; June 2026)
     "Prochlorococcus MIT1327",
     "Prochlorococcus MIT1314",
+    # Ford 2021 Cyanorak strain batch (75 strains, 2026-10-25)
+    "Prochlorococcus EQPAC1",
+    "Prochlorococcus GP2",
+    "Prochlorococcus HNLC1",
+    "Prochlorococcus HNLC2",
+    "Prochlorococcus LG",
+    "Prochlorococcus MIT0601",
+    "Prochlorococcus MIT0602",
+    "Prochlorococcus MIT0603",
+    "Prochlorococcus MIT0701",
+    "Prochlorococcus MIT0702",
+    "Prochlorococcus MIT0703",
+    "Prochlorococcus MIT9107",
+    "Prochlorococcus MIT9116",
+    "Prochlorococcus MIT9123",
+    "Prochlorococcus MIT9201",
+    "Prochlorococcus MIT9211",
+    "Prochlorococcus MIT9302",
+    "Prochlorococcus MIT9311",
+    "Prochlorococcus MIT9314",
+    "Prochlorococcus MIT9321",
+    "Prochlorococcus MIT9322",
+    "Prochlorococcus MIT9401",
+    "Prochlorococcus SS2",
+    "Prochlorococcus SS35",
+    "Prochlorococcus SS51",
+    "Prochlorococcus SS52",
+    "Cyanobium NS01",
+    "Cyanobium PCC6307",
+    "Cyanobium PCC7001",
+    "Synechococcus A15-127",
+    "Synechococcus A15-24",
+    "Synechococcus A15-28",
+    "Synechococcus A15-44",
+    "Synechococcus A15-60",
+    "Synechococcus A15-62",
+    "Synechococcus A18-25c",
+    "Synechococcus A18-40",
+    "Synechococcus A18-46.1",
+    "Synechococcus BIOS-E4-1",
+    "Synechococcus BIOS-U3-1",
+    "Synechococcus BMK-MC-1",
+    "Synechococcus BOUM118",
+    "Synechococcus CB0101",
+    "Synechococcus CB0205",
+    "Synechococcus CC9605",
+    "Synechococcus CC9616",
+    "Synechococcus CC9902",
+    "Synechococcus KORDI-100",
+    "Synechococcus KORDI-49",
+    "Synechococcus KORDI-52",
+    "Synechococcus M16.1",
+    "Synechococcus MEDNS5",
+    "Synechococcus MINOS11",
+    "Synechococcus MITS9220",
+    "Synechococcus MVIR-18-1",
+    "Synechococcus NOUM97013",
+    "Synechococcus PROS-7-1",
+    "Synechococcus PROS-9-1",
+    "Synechococcus PROS-U-1",
+    "Synechococcus RCC307",
+    "Synechococcus ROS8604",
+    "Synechococcus RS9902",
+    "Synechococcus RS9907",
+    "Synechococcus RS9909",
+    "Synechococcus RS9915",
+    "Synechococcus RS9916",
+    "Synechococcus RS9917",
+    "Synechococcus SYN20",
+    "Synechococcus TAK9802",
+    "Synechococcus WH5701",
+    "Synechococcus WH7805",
+    "Synechococcus WH8016",
+    "Synechococcus WH8020",
+    "Synechococcus WH8101",
+    "Synechococcus WH8103",
 }
 
 # Canonical treatment organism names loaded from treatment_organisms.csv
@@ -488,7 +564,7 @@ def _validate_experiments(experiments: dict, config_path: str,
     """Validate the experiments block in a publication config."""
     if not experiments:
         # experiments block is optional for cluster-only paperconfigs
-        warnings.append(f"{config_path} | missing 'experiments' block in publication (OK for cluster-only configs)")
+        warnings.append(f"{config_path} | missing 'experiments' block in publication (OK for cluster-only and experiment-less derived-metric configs)")
         return
 
     if not isinstance(experiments, dict):
@@ -1053,8 +1129,8 @@ def _validate_derived_metrics_entry(
     value_kind to catch edge-type drift across papers.
 
     Validation steps per metric:
-      1. required top-level fields present (filename, organism, experiment,
-         name_col, metrics)
+      1. required top-level fields present (filename, organism, name_col,
+         metrics); without `experiment`, a canonical non-empty treatment_type
       2. organism is in canonical list
       3. CSV file readable; name_col + value_col exist as columns
       4. metric_type non-empty; value_kind ∈ VALUE_KINDS
@@ -1091,12 +1167,42 @@ def _validate_derived_metrics_entry(
                          (adapter hard-errors at ingest in Plan 2)
     """
     # ── Required top-level fields ──
-    for req in ("filename", "organism", "experiment", "name_col", "metrics"):
+    # `experiment` is optional: a bioinformatic / annotation-derived metric
+    # (Ford 2021 SBP nutrient classes) has no experiment and instead names its
+    # own treatment_type (e.g. [genomic_analysis]); background_factors may be [].
+    for req in ("filename", "organism", "name_col", "metrics"):
         if req not in table or table.get(req) in (None, "", []):
             errors.append(
                 f"{config_path} | {key} | derived_metrics_table missing required "
                 f"field '{req}'"
             )
+    if table.get("experiment"):
+        for own in ("treatment_type", "background_factors"):
+            if own in table:
+                errors.append(
+                    f"{config_path} | {key} | '{own}' is copied from the experiment — "
+                    f"declare it on the entry only when there is no 'experiment'"
+                )
+    else:
+        tt = table.get("treatment_type")
+        if not isinstance(tt, list) or not tt:
+            errors.append(
+                f"{config_path} | {key} | derived_metrics_table without 'experiment' "
+                f"needs a non-empty treatment_type list (e.g. [genomic_analysis])"
+            )
+        else:
+            for t in tt:
+                if t not in CANONICAL_TREATMENT_TYPES:
+                    errors.append(_canonical_field_error(
+                        config_path, key, "treatment_type", t, CANONICAL_TREATMENT_TYPES))
+        bf = table.get("background_factors") or []
+        if not isinstance(bf, list):
+            errors.append(f"{config_path} | {key} | background_factors must be a list")
+        else:
+            for b in bf:
+                if b not in CANONICAL_BACKGROUND_FACTORS:
+                    errors.append(_canonical_field_error(
+                        config_path, key, "background_factors", b, CANONICAL_BACKGROUND_FACTORS))
 
     # ── organism vocab ──
     organism = table.get("organism", "")

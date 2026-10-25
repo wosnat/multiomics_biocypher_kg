@@ -1151,6 +1151,34 @@
       "title": "Transcriptome dynamics of a broad host-range cyanophage and its hosts"
     }
   },
+  "data/Synechococcus/papers_and_supp/Ford 2021/bst-2020-0244c.pdf": {
+    "publication": {
+      "abstract": "This review discusses the role of high-affinity ABC transporters in nutrient uptake by marine picocyanobacteria (Prochlorococcus and Synechococcus), emphasizing the substrate-binding proteins (SBPs) that determine ligand specificity. Given low sequence homology among SBPs, functional annotation is challenging; the article reviews structural comparisons, reference SBP structures, and modern structure-prediction tools (AlphaFold, RosettaFold) as approaches to predict SBP substrate specificity, and assesses SBP gene content across Cyanorak genomes to identify conserved and novel SBP clusters and their potential ecological implications.",
+      "authors": [
+        "Benjamin A. Ford",
+        "Geraldine J. Sullivan",
+        "Lisa Moore",
+        "Deepa Varkey",
+        "Hannah Zhu",
+        "Martin Ostrowski",
+        "Bridget C. Mabbutt",
+        "Ian T. Paulsen",
+        "Bhumika S. Shah"
+      ],
+      "description": "Mini-review surveying substrate-binding protein (SBP) diversity in marine picocyanobacteria, discussing structure- and sequence-based function prediction, comparison with known SBP ligands, and analysis of Cyanorak genome data to identify conserved and novel SBP clusters and their potential ecological roles.",
+      "doi": "10.1042/BST20200244",
+      "journal": "Biochemical Society Transactions",
+      "organism": [
+        "Prochlorococcus",
+        "Synechococcus"
+      ],
+      "pmid": null,
+      "publication_id": "10.1042/BST20200244",
+      "publication_year": "2021",
+      "study_type": "Review",
+      "title": "Functional characterisation of substrate-binding proteins to address nutrient uptake in marine picocyanobacteria"
+    }
+  },
   "data/Synechococcus/papers_and_supp/Huang 2020/MicrobiologyOpen - 2021 - Huang - Temporal transcriptomes of a marine cyanopodovirus and its Synechococcus host during.pdf": {
     "publication": {
       "abstract": "Marine picocyanobacteria belonging to genera Synechococcus and Prochlorococcus are genetically diverged and distributed into distinct biogeographical patterns, and both are infected by genetically closely related cyanopodoviruses. Previous studies have not fully explored whether the two virus\u2013host systems share similar gene expression patterns during infection. Whole-genome expression dynamics of T7-like cyanopodovirus P-SSP7 and its host Prochlorococcus strain MED4 have already been reported. Here, we conducted genomic and transcriptomic analyses on T7-like cyanopodovirus S-SBP1 during its infection on Synechococcus strain WH7803. S-SBP1 has a latent period of 8 h and phage DNA production of 30 copies per cell. In terms of whole-genome phylogenetic relationships and average nucleotide identity, S-SBP1 was most similar to cyanopodovirus S-RIP2, which also infects Synechococcus WH7803. Three hyper-variable genomic islands were identified when comparing the genomes of S-SBP1 and S-RIP2. Single nucleotide variants were also observed in three S-SBP1 genes, which were located within the island regions. Based on RNA-seq analysis, S-SBP1 genes clustered into three temporal expression classes, whose gene content was similar to that of P-SSP7. Thirty-two host genes were upregulated during phage infection, including those involved in carbon metabolism, ribosome components, and stress response. These upregulated genes were similar to those upregulated by Prochlorococcus MED4 in response to infection by P-SSP7. Our study demonstrates a programmed temporal expression pattern of cyanopodoviruses and hosts during infection.",

@@ -40,11 +40,8 @@ def test_derived_metric_nodes_exist(run_query):
     "name",
     "metric_type",
     "value_kind",
-    "experiment_id",
     "organism_name",
     "publication_doi",
-    "compartment",
-    "omics_type",
     "rankable",
     "has_p_value",
     "total_gene_count",
@@ -55,6 +52,21 @@ def test_derived_metric_required_properties(run_query, prop):
         f"MATCH (dm:DerivedMetric) WHERE dm.{prop} IS NULL RETURN count(dm) AS cnt"
     )
     assert result[0]["cnt"] == 0, f"Found DerivedMetric nodes with null {prop}"
+
+
+@pytest.mark.parametrize("prop", ["experiment_id", "compartment", "omics_type"])
+def test_experiment_bound_dm_required_properties(run_query, prop):
+    """Sample-describing properties are required on every DM with an Experiment
+    parent and absent on experiment-less (annotation-derived) DMs."""
+    result = run_query(f"""
+        MATCH (dm:DerivedMetric)
+        WITH dm, EXISTS {{ (:Experiment)-[:ExperimentHasDerivedMetric]->(dm) }} AS bound
+        WHERE (bound AND dm.{prop} IS NULL) OR (NOT bound AND dm.{prop} IS NOT NULL)
+        RETURN count(dm) AS cnt, collect(dm.id)[..3] AS examples
+    """)
+    assert result[0]["cnt"] == 0, (
+        f"{prop} present/absent mismatch vs Experiment parent: {result[0]['examples']}"
+    )
 
 
 def test_derived_metric_value_kind_enum(run_query):
@@ -116,16 +128,31 @@ def test_every_dm_has_exactly_one_publication_parent(run_query):
     )
 
 
-def test_every_dm_has_exactly_one_experiment_parent(run_query):
+def test_every_dm_has_at_most_one_experiment_parent(run_query):
     result = run_query("""
         MATCH (dm:DerivedMetric)
         OPTIONAL MATCH (e:Experiment)-[:ExperimentHasDerivedMetric]->(dm)
         WITH dm, count(e) AS ec
-        WHERE ec <> 1
+        WHERE ec > 1
         RETURN count(dm) AS bad, collect(dm.id)[..3] AS examples
     """)
     assert result[0]["bad"] == 0, (
-        f"{result[0]['bad']} DMs have != 1 Experiment parent: {result[0]['examples']}"
+        f"{result[0]['bad']} DMs have > 1 Experiment parent: {result[0]['examples']}"
+    )
+
+
+def test_experimentless_dm_is_genomic_analysis(run_query):
+    """A DM without an Experiment parent is a bioinformatic / annotation-derived
+    metric (Ford 2021): it must say so with treatment_type genomic_analysis.
+    Catches an experiment-bound DM that lost its edge."""
+    result = run_query("""
+        MATCH (dm:DerivedMetric)
+        WHERE NOT EXISTS { (:Experiment)-[:ExperimentHasDerivedMetric]->(dm) }
+          AND NOT 'genomic_analysis' IN dm.treatment_type
+        RETURN count(dm) AS bad, collect(dm.id)[..3] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} experiment-less DMs without genomic_analysis: {result[0]['examples']}"
     )
 
 

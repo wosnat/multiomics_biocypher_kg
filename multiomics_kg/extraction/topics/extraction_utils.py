@@ -11,8 +11,13 @@ from pathlib import Path
 from multiomics_kg.utils.paperconfig_utils import (
     get_experiments,
     get_publication,
+    get_supplementary_materials,
     load_all_paperconfigs,
 )
+
+# Supplementary entry types that measure genes of their own ``organism`` without
+# an experiment (cluster-only papers such as Ford 2021 have no experiments at all).
+_ORGANISM_ENTRY_TYPES = ("gene_clusters", "derived_metrics_table", "metabolite_assays_table")
 
 logger = logging.getLogger(__name__)
 
@@ -33,8 +38,11 @@ def get_paper_strains(config: dict) -> list[str]:
     Includes each experiment's ``organism``, any ``treatment_organism`` and every
     ``background_organisms`` entry (coculture partners like *Alteromonas* HOT1A3
     are real genome strains in the KG and may be discussed, whatever their
-    partner role). Order-preserving, de-duplicated; background partners come
-    after every experiment's own organisms.
+    partner role), then the ``organism`` of every gene_clusters /
+    derived_metrics_table / metabolite_assays_table entry (a review like Ford
+    2021 carries its strains only there). Order-preserving, de-duplicated;
+    background partners and entry organisms come after every experiment's own
+    organisms.
     """
     strains: list[str] = []
     background: list[str] = []
@@ -50,6 +58,11 @@ def get_paper_strains(config: dict) -> list[str]:
             if org:
                 background.append(org)
     strains += background
+    for entry in get_supplementary_materials(config).values():
+        if isinstance(entry, dict) and entry.get("type") in _ORGANISM_ENTRY_TYPES:
+            org = entry.get("organism")
+            if org:
+                strains.append(org)
     return list(dict.fromkeys(strains))
 
 

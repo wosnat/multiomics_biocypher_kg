@@ -1029,3 +1029,73 @@ def test_synthetic_numeric_fixture_emits_three_dms_and_300_edges():
     # No boolean or categorical edges
     assert "derived_metric_flags_gene" not in by_type
     assert "derived_metric_classifies_gene" not in by_type
+
+
+def _write_annotation_dm_paperconfig(tmp_path):
+    """Experiment-less DM entry (Ford 2021 shape): a bioinformatic analysis
+    names its own organism + treatment_type; there is no experiments block."""
+    csv_path = tmp_path / "sbp.csv"
+    csv_path.write_text(
+        "locus_tag,nutrient_class\n"
+        "PMM0970,nitrogen\n"
+        "PMM0710,phosphorus\n"
+    )
+    config = {
+        "publication": {
+            "papername": "Synthetic Review",
+            "doi": "10.9999/review",
+            "papermainpdf": str(tmp_path / "fake.pdf"),
+            "supplementary_materials": {
+                "med4_sbp": {
+                    "type": "derived_metrics_table",
+                    "filename": str(csv_path),
+                    "organism": "Prochlorococcus MED4",
+                    "treatment_type": ["genomic_analysis"],
+                    "treatment": "Genome annotation survey",
+                    "experimental_context": "Cyanorak SBPs",
+                    "name_col": "locus_tag",
+                    "metrics": [{
+                        "metric_type": "sbp_nutrient_class",
+                        "value_kind": "categorical",
+                        "value_col": "nutrient_class",
+                        "allowed_categories": ["nitrogen", "phosphorus"],
+                        "field_description": "Predicted SBP nutrient class",
+                    }],
+                },
+            },
+        },
+    }
+    pc_path = tmp_path / "paperconfig.yaml"
+    pc_path.write_text(yaml.dump(config))
+    return str(pc_path)
+
+
+def test_experimentless_dm_node_carries_entry_fields(tmp_path):
+    adapter = ObservationsAdapter(config_file=_write_annotation_dm_paperconfig(tmp_path))
+    [(dm_id, label, props)] = adapter.get_nodes()
+    assert dm_id == "derived_metric:review:med4_sbp:sbp_nutrient_class"
+    assert props["organism_name"] == "Prochlorococcus MED4"
+    assert props["treatment_type"] == ["genomic_analysis"]
+    assert props["background_factors"] == []
+    assert props["treatment"] == "Genome annotation survey"
+    # no sample, no experiment: these stay off the node
+    for absent in ("experiment_id", "omics_type", "compartment", "light_condition"):
+        assert absent not in props
+
+
+def test_experimentless_dm_edges_skip_experiment_binding(tmp_path):
+    adapter = ObservationsAdapter(config_file=_write_annotation_dm_paperconfig(tmp_path))
+    adapter._organism_lookup = {"Prochlorococcus MED4": "insdc.gcf:GCF_000011465.1"}
+    labels = [e[3] for e in adapter.get_edges()]
+    assert "experiment_has_derived_metric" not in labels
+    assert labels.count("publication_has_derived_metric") == 1
+    assert labels.count("derived_metric_belongs_to_organism") == 1
+    assert labels.count("derived_metric_classifies_gene") == 2
+
+
+def test_experimentless_dm_without_treatment_type_is_skipped(tmp_path):
+    pc = yaml.safe_load(Path(_write_annotation_dm_paperconfig(tmp_path)).read_text())
+    del pc["publication"]["supplementary_materials"]["med4_sbp"]["treatment_type"]
+    p = tmp_path / "paperconfig.yaml"
+    p.write_text(yaml.dump(pc))
+    assert ObservationsAdapter(config_file=str(p)).get_nodes() == []

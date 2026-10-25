@@ -68,6 +68,30 @@ def test_get_paper_strains_includes_background_organisms():
     ]
 
 
+def test_get_paper_strains_includes_entry_organisms():
+    """A cluster-only review (Ford 2021) has no experiments; its strains are the
+    organisms of its gene_clusters entries. id_translation organisms are not
+    strains the paper studies and stay out; experiment organisms come first."""
+    config = {
+        "publication": {
+            "experiments": {"exp1": {"organism": "Prochlorococcus MED4"}},
+            "supplementary_materials": {
+                "c1": {"type": "gene_clusters", "organism": "Synechococcus WH8102"},
+                "c2": {"type": "gene_clusters", "organism": "Prochlorococcus MED4"},
+                "d1": {"type": "derived_metrics_table", "organism": "Cyanobium NS01"},
+                "t1": {"type": "id_translation", "organism": "Prochlorococcus MIT9313"},
+                "x": "not-a-dict",
+            },
+        }
+    }
+    assert get_paper_strains(config) == [
+        "Prochlorococcus MED4", "Synechococcus WH8102", "Cyanobium NS01",
+    ]
+    cluster_only = {"publication": {"supplementary_materials": {
+        "c1": {"type": "gene_clusters", "organism": "Synechococcus WH8102"}}}}
+    assert get_paper_strains(cluster_only) == ["Synechococcus WH8102"]
+
+
 def test_get_paper_strains_empty():
     assert get_paper_strains({}) == []
     assert get_paper_strains({"publication": {}}) == []

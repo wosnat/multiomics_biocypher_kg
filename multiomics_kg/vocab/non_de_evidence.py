@@ -153,6 +153,12 @@ KNOWN_METRIC_TYPES: dict[str, str] = {
     "minus10_element_score":  "numeric",
     "tss_distance_to_cds":    "numeric",
 
+    # ── Categorical, genome-annotation SBP classes (Ford 2021 S1, 96 Cyanorak strains) ──
+    # Experiment-less (bioinformatic) metrics: per-Cyanorak-cluster calls of the
+    # paper (Figure 2 nutrient class, Figure 1/Table 1/text substrate).
+    "sbp_nutrient_class":      "categorical",
+    "sbp_predicted_substrate": "categorical",
+
     # ── Boolean, per-LTPE-strain proteomics detection per compartment (Lu 2026 S1) ──
     # Detected by LC-MS/MS in the named compartment, in the named LTPE strain.
     # The three strains are NOT replicates: LTPE26 is the ancestor, LTPE397 and

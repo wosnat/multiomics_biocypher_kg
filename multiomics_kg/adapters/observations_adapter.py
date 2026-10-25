@@ -1,9 +1,11 @@
 """
 ObservationsAdapter — reads derived_metrics_table entries from paperconfig.yaml
 files and emits:
-  - DerivedMetric nodes (one per Experiment x metric_type)
+  - DerivedMetric nodes (one per entry x metric_type)
   - publication_has_derived_metric edges (Publication -> DerivedMetric)
-  - experiment_has_derived_metric edges (Experiment -> DerivedMetric)
+  - experiment_has_derived_metric edges (Experiment -> DerivedMetric; only for
+    entries with an ``experiment`` — an annotation-derived entry such as
+    Ford 2021 has none and names its own organism / treatment_type)
   - derived_metric_belongs_to_organism edges (DerivedMetric -> OrganismTaxon)
   - derived_metric_quantifies_gene edges (DerivedMetric -> Gene, value_kind=numeric)
   - derived_metric_flags_gene edges (DerivedMetric -> Gene, value_kind=boolean)
@@ -198,6 +200,42 @@ class ObservationsAdapter:
             "experimental_context": _clean_str(experiment.get("experimental_context", "")),
         }
 
+    def _entry_parent(self, entry_key: str, entry: dict, experiments: dict):
+        """Return ``(exp_key | None, denormalized_fields)`` for one entry, or None to skip.
+
+        With ``experiment``: the fields are copied from that Experiment (spec
+        invariant #9). Without it (bioinformatic / annotation-derived metrics,
+        e.g. Ford 2021 SBP nutrient classes): the entry carries ``organism`` +
+        ``treatment_type`` itself, ``background_factors`` defaults to [], and
+        omics_type / compartment / light_condition are left off — there is no
+        sample they could describe.
+        """
+        exp_key = entry.get("experiment")
+        if exp_key:
+            if exp_key not in experiments:
+                logger.warning(
+                    f"derived_metrics_table '{entry_key}' references unknown "
+                    f"experiment '{exp_key}' — skipping"
+                )
+                return None
+            return exp_key, self._denormalized_fields(experiments[exp_key])
+        if not entry.get("organism") or not entry.get("treatment_type"):
+            logger.warning(
+                f"derived_metrics_table '{entry_key}' has no experiment and no "
+                f"organism + treatment_type — skipping"
+            )
+            return None
+        denorm = self._denormalized_fields({
+            "organism": entry["organism"],
+            "treatment_type": entry["treatment_type"],
+            "background_factors": entry.get("background_factors") or [],
+            "treatment_condition": entry.get("treatment", ""),
+            "experimental_context": entry.get("experimental_context", ""),
+        })
+        for k in ("omics_type", "compartment", "light_condition"):
+            denorm.pop(k)
+        return None, denorm
+
     def get_nodes(self) -> list[tuple]:
         """Emit DerivedMetric nodes — one per (entry × metric_type).
 
@@ -208,21 +246,16 @@ class ObservationsAdapter:
         nodes = []
         experiments = get_experiments(self.config)
         for entry_key, entry in self._dm_entries:
-            exp_key = entry.get("experiment")
-            if not exp_key or exp_key not in experiments:
-                logger.warning(
-                    f"derived_metrics_table '{entry_key}' references unknown "
-                    f"experiment '{exp_key}' — skipping"
-                )
+            parent = self._entry_parent(entry_key, entry, experiments)
+            if parent is None:
                 continue
+            exp_key, denorm = parent
             csv_path, _ = _resolve_csv_path(entry["filename"])
             if not csv_path.exists():
                 logger.warning(
                     f"derived_metrics_table CSV not found: {csv_path} — skipping"
                 )
                 continue
-            exp = experiments[exp_key]
-            denorm = self._denormalized_fields(exp)
 
             for metric in entry.get("metrics", []):
                 metric_type = metric.get("metric_type", "")
@@ -236,17 +269,18 @@ class ObservationsAdapter:
                 dm_id = _make_derived_metric_id(
                     self.doi, self.paper_name, entry_key, metric_type
                 )
-                # experiment_id mirrors the omics_adapter's format: raw-doi + "_" + exp_key
-                experiment_id = f"{self.doi}_{exp_key}" if self.doi else f"{self.paper_name}_{exp_key}"
-
                 props = {
                     "name": _clean_str(metric.get("name", metric_type)),
-                    "experiment_id": _clean_str(experiment_id),
                     "metric_type": _clean_str(metric_type),
                     "value_kind": _clean_str(value_kind),
                     "field_description": _clean_str(metric.get("field_description", "")),
                     **denorm,
                 }
+                if exp_key:
+                    # experiment_id mirrors the omics_adapter's format: raw-doi + "_" + exp_key
+                    props["experiment_id"] = _clean_str(
+                        f"{self.doi}_{exp_key}" if self.doi else f"{self.paper_name}_{exp_key}"
+                    )
 
                 if value_kind == "boolean":
                     props["rankable"] = RANKABLE["false"]
@@ -297,11 +331,11 @@ class ObservationsAdapter:
         pub_id = f"doi:{self.doi}" if self.doi else None
 
         for entry_key, entry in self._dm_entries:
-            exp_key = entry.get("experiment")
-            if not exp_key or exp_key not in experiments:
+            parent = self._entry_parent(entry_key, entry, experiments)
+            if parent is None:
                 continue
-            exp = experiments[exp_key]
-            organism = exp.get("organism", "")
+            exp_key = parent[0]
+            organism = (experiments[exp_key] if exp_key else entry).get("organism", "")
 
             csv_path, use_resolved = _resolve_csv_path(entry["filename"])
             if not csv_path.exists():
@@ -332,7 +366,7 @@ class ObservationsAdapter:
 
             experiment_id = (
                 f"{self.doi}_{exp_key}" if self.doi else f"{self.paper_name}_{exp_key}"
-            )
+            ) if exp_key else None
 
             for metric in entry.get("metrics", []):
                 metric_type = metric.get("metric_type", "")
@@ -350,10 +384,11 @@ class ObservationsAdapter:
                         f"pub_dm__{dm_id}",
                         pub_id, dm_id, "publication_has_derived_metric", {},
                     ))
-                edges.append((
-                    f"exp_dm__{dm_id}__{exp_key}",
-                    experiment_id, dm_id, "experiment_has_derived_metric", {},
-                ))
+                if experiment_id:
+                    edges.append((
+                        f"exp_dm__{dm_id}__{exp_key}",
+                        experiment_id, dm_id, "experiment_has_derived_metric", {},
+                    ))
                 if organism and organism in self._organism_lookup:
                     edges.append((
                         f"dm_org__{dm_id}",

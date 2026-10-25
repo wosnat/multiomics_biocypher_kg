@@ -385,7 +385,7 @@ Co-expression cluster membership tables. Processed by `cluster_adapter.py` (NOT 
 | `organism` | str | Target organism (canonical name) |
 | `gene_id_col` | str | CSV column with gene identifiers |
 | `cluster_col` | str | CSV column with cluster assignment |
-| `cluster_type` | str | `diel` \| `time_course` \| `condition_comparison` \| `expression_bin` |
+| `cluster_type` | str | `diel` \| `time_course` \| `condition_comparison` \| `expression_bin` \| `decay_pattern` \| `genomic_island` |
 
 **Optional fields (analysis level):**
 
@@ -437,6 +437,8 @@ med4_kmeans_nstarvation:
 - **`diel`** — clusters reflect diel (circadian) light:dark cycling patterns.
 - **`condition_comparison`** — clusters separate genes by response pattern across discrete conditions (e.g., upregulated vs downregulated in treatment vs control).
 - **`expression_bin`** — clusters group genes by expression metric (e.g., quartile labels VEG/HEG/MEG/LEG/NEG). These analyses do **not** carry per-cluster `functional_description`; cluster `name` is the metric label.
+- **`decay_pattern`** — mRNA-decay profile clusters (Steglich 2010).
+- **`genomic_island`** — predicted genomic islands as gene sets, one analysis per strain, `treatment_type: [genomic_analysis]`, no experiment (Hackl 2023).
 
 **Future ambiguity rule:** If a future cluster type has unclear intent, rename or split the `cluster_type` value rather than adding a parallel intent field.
 

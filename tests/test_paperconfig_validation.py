@@ -1605,3 +1605,58 @@ class TestBackgroundOrganisms:
         out = capsys.readouterr().out
         assert result is True
         assert "recorded as a background partner" in out
+
+
+def _dm_annotation_entry(csv: Path, **extra) -> dict:
+    """Experiment-less categorical DM entry (Ford 2021 shape)."""
+    entry = {
+        "type": "derived_metrics_table",
+        "filename": str(csv),
+        "organism": "Prochlorococcus NATL2A",
+        "name_col": "NCBI ID_2",
+        "id_columns": [{"column": "NCBI ID_2", "id_type": "locus_tag_ncbi"}],
+        "metrics": [{
+            "metric_type": "sbp_nutrient_class",
+            "value_kind": "categorical",
+            "value_col": "Periodic in axenic L D cultures",
+            "allowed_categories": ["Y", "NA"],
+            "field_description": "Predicted SBP nutrient class",
+        }],
+    }
+    entry.update(extra)
+    return entry
+
+
+def test_validate_experimentless_dm_accepts_own_treatment_type(tmp_path):
+    from validate_paperconfig import validate_paperconfig_content
+    entry = _dm_annotation_entry(_dm_boolean_csv(tmp_path), treatment_type=["genomic_analysis"])
+    config = _dm_wrapper_config(tmp_path, entry)
+    errors, _ = validate_paperconfig_content(config, str(_write_config(tmp_path, config)))
+    assert errors == [], errors
+
+
+def test_validate_experimentless_dm_requires_treatment_type(tmp_path):
+    from validate_paperconfig import validate_paperconfig_content
+    config = _dm_wrapper_config(tmp_path, _dm_annotation_entry(_dm_boolean_csv(tmp_path)))
+    errors, _ = validate_paperconfig_content(config, str(_write_config(tmp_path, config)))
+    assert any("needs a non-empty treatment_type" in e for e in errors), errors
+
+
+def test_validate_experimentless_dm_rejects_noncanonical_values(tmp_path):
+    from validate_paperconfig import validate_paperconfig_content
+    entry = _dm_annotation_entry(_dm_boolean_csv(tmp_path), treatment_type=["sequencing"],
+                                 background_factors=["genomic_analysis"])
+    config = _dm_wrapper_config(tmp_path, entry)
+    errors, _ = validate_paperconfig_content(config, str(_write_config(tmp_path, config)))
+    assert any("sequencing" in e for e in errors), errors
+    assert any("background_factors" in e for e in errors), errors
+
+
+def test_validate_dm_with_experiment_rejects_own_treatment_type(tmp_path):
+    """Spec invariant #9: with an experiment, the DM copies its fields."""
+    from validate_paperconfig import validate_paperconfig_content
+    entry = _dm_annotation_entry(_dm_boolean_csv(tmp_path), experiment="exp_dm_only",
+                                 treatment_type=["darkness"])
+    config = _dm_wrapper_config(tmp_path, entry)
+    errors, _ = validate_paperconfig_content(config, str(_write_config(tmp_path, config)))
+    assert any("copied from the experiment" in e for e in errors), errors

@@ -1,0 +1,599 @@
+{
+  "metadata": {
+    "paper": "Ford 2021",
+    "doi": "10.1042/BST20200244",
+    "strains": [
+      "Cyanobium NS01",
+      "Cyanobium PCC6307",
+      "Cyanobium PCC7001",
+      "Prochlorococcus AS9601",
+      "Prochlorococcus EQPAC1",
+      "Prochlorococcus GP2",
+      "Prochlorococcus HNLC1",
+      "Prochlorococcus HNLC2",
+      "Prochlorococcus LG",
+      "Prochlorococcus MED4",
+      "Prochlorococcus MIT0601",
+      "Prochlorococcus MIT0602",
+      "Prochlorococcus MIT0603",
+      "Prochlorococcus MIT0604",
+      "Prochlorococcus MIT0701",
+      "Prochlorococcus MIT0702",
+      "Prochlorococcus MIT0703",
+      "Prochlorococcus MIT0801",
+      "Prochlorococcus MIT9107",
+      "Prochlorococcus MIT9116",
+      "Prochlorococcus MIT9123",
+      "Prochlorococcus MIT9201",
+      "Prochlorococcus MIT9202",
+      "Prochlorococcus MIT9211",
+      "Prochlorococcus MIT9215",
+      "Prochlorococcus MIT9301",
+      "Prochlorococcus MIT9302",
+      "Prochlorococcus MIT9303",
+      "Prochlorococcus MIT9311",
+      "Prochlorococcus MIT9312",
+      "Prochlorococcus MIT9313",
+      "Prochlorococcus MIT9314",
+      "Prochlorococcus MIT9321",
+      "Prochlorococcus MIT9322",
+      "Prochlorococcus MIT9401",
+      "Prochlorococcus MIT9515",
+      "Prochlorococcus NATL1A",
+      "Prochlorococcus NATL2A",
+      "Prochlorococcus PAC1",
+      "Prochlorococcus SB",
+      "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "Prochlorococcus SS2",
+      "Prochlorococcus SS35",
+      "Prochlorococcus SS51",
+      "Prochlorococcus SS52",
+      "Synechococcus A15-127",
+      "Synechococcus A15-24",
+      "Synechococcus A15-28",
+      "Synechococcus A15-44",
+      "Synechococcus A15-60",
+      "Synechococcus A15-62",
+      "Synechococcus A18-25c",
+      "Synechococcus A18-40",
+      "Synechococcus A18-46.1",
+      "Synechococcus BIOS-E4-1",
+      "Synechococcus BIOS-U3-1",
+      "Synechococcus sp. BL107",
+      "Synechococcus BMK-MC-1",
+      "Synechococcus BOUM118",
+      "Synechococcus CB0101",
+      "Synechococcus CB0205",
+      "Synechococcus CC9311",
+      "Synechococcus CC9605",
+      "Synechococcus CC9616",
+      "Synechococcus CC9902",
+      "Synechococcus KORDI-100",
+      "Synechococcus KORDI-49",
+      "Synechococcus KORDI-52",
+      "Synechococcus M16.1",
+      "Synechococcus MEDNS5",
+      "Synechococcus MINOS11",
+      "Synechococcus MITS9220",
+      "Synechococcus MVIR-18-1",
+      "Synechococcus NOUM97013",
+      "Synechococcus PROS-7-1",
+      "Synechococcus PROS-9-1",
+      "Synechococcus PROS-U-1",
+      "Synechococcus RCC307",
+      "Synechococcus ROS8604",
+      "Synechococcus RS9902",
+      "Synechococcus RS9907",
+      "Synechococcus RS9909",
+      "Synechococcus RS9915",
+      "Synechococcus RS9916",
+      "Synechococcus RS9917",
+      "Synechococcus SYN20",
+      "Synechococcus TAK9802",
+      "Synechococcus WH5701",
+      "Synechococcus WH7803",
+      "Synechococcus WH7805",
+      "Synechococcus WH8016",
+      "Synechococcus WH8020",
+      "Synechococcus WH8101",
+      "Synechococcus WH8102",
+      "Synechococcus WH8103",
+      "Synechococcus WH8109"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 2,
+    "chunk_pages": 15,
+    "self_assessment": "low",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Table 1 and figures print additional CK cluster IDs and PDB-linked orthologue IDs; some non-candidate-organism identifiers and duplicate per-cluster IDs may not be exhaustively attached.",
+    "extracted_at": "2026-10-25T08:38:50.340324",
+    "input_tokens": 34220,
+    "output_tokens": 3981
+  },
+  "genes": [
+    {
+      "surface_form": "CmpA",
+      "gene_name": "cmpA",
+      "identifiers": [
+        "CmpA",
+        "CK_00009155",
+        "CK_9155"
+      ],
+      "strain": "Cyanobium PCC6307",
+      "prominence": "central",
+      "evidence": "CmpA orthologs are only found in two sub-cluster 5.2 strains, Synechococcus WH5701 and Cyanobium PCC6307 (Carbon section, p6)"
+    },
+    {
+      "surface_form": "CmpA",
+      "gene_name": "cmpA",
+      "identifiers": [
+        "CmpA",
+        "CK_00009155",
+        "CK_9155"
+      ],
+      "strain": "Synechococcus WH5701",
+      "prominence": "central",
+      "evidence": "CmpA orthologs are only found in two sub-cluster 5.2 strains, Synechococcus WH5701 and Cyanobium PCC6307 (Carbon section, p6)"
+    },
+    {
+      "surface_form": "ChiE",
+      "gene_name": "chiE",
+      "identifiers": [
+        "MITs9220_121",
+        "ChiE",
+        "CK_00001342",
+        "CK_1342"
+      ],
+      "strain": "Synechococcus MITS9220",
+      "prominence": "central",
+      "evidence": "Predicted chitobiose MITs9220_121, ChiE, Synechococcus sp. MITS9220 (Table 1); solved two crystal structures for a CK_1342 protein from... MITS9220 (p6)"
+    },
+    {
+      "surface_form": "NrtA",
+      "gene_name": "nrtA",
+      "identifiers": [
+        "NrtA",
+        "CK_00003072",
+        "CK_00002249",
+        "CK_3072",
+        "CK_2249"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "The SBP component NrtA binds both nitrate and nitrite with comparable affinities (Nitrogen section, p7)"
+    },
+    {
+      "surface_form": "NrtP",
+      "gene_name": "nrtP",
+      "identifiers": [
+        "NrtP"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)"
+    },
+    {
+      "surface_form": "Amt1",
+      "gene_name": "amt1",
+      "identifiers": [
+        "Amt1"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "or ammonium permease Amt1 (Nitrogen section, p7)"
+    },
+    {
+      "surface_form": "NrtABCD",
+      "gene_name": "",
+      "identifiers": [
+        "NrtABCD"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "freshwater cyanobacteria... utilise a high-affinity ABC transporter, NrtABCD (Nitrogen section, p7)"
+    },
+    {
+      "surface_form": "Slr1257",
+      "gene_name": "",
+      "identifiers": [
+        "Slr1257"
+      ],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "Known structurally characterised SBPs from freshwater Synechocystis include a glutamate-binding protein (PDB ID: 1II5...) (Nitrogen section, p7; Table 1)"
+    },
+    {
+      "surface_form": "Ava_0465",
+      "gene_name": "",
+      "identifiers": [
+        "Ava_0465",
+        "CK_00001489",
+        "CK_00001014",
+        "CK_1489",
+        "CK_1014"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "A. variabilis possesses... amino acid-binding protein... Orthologues... occur in cluster CK_1489... Additional... ambiguous peptide or nickel transporter CK_1014 (Nitrogen section, p7)"
+    },
+    {
+      "surface_form": "UrtA",
+      "gene_name": "urtA",
+      "identifiers": [
+        "UrtA",
+        "CK_76",
+        "urtA"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "All sequenced picocyanobacteria, except Prochlorococcus LLII/III strains possess... urea UrtA, CK_76 (Nitrogen section, p7)"
+    },
+    {
+      "surface_form": "urease genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "reinforced by characterisation of urease genes in Prochlorococcus PCC9511 and Synechococcus WH7805 (Nitrogen section, p7)"
+    },
+    {
+      "surface_form": "cyanate transporter",
+      "gene_name": "",
+      "identifiers": [
+        "CK_2165"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "additional organic nitrogen uptake may also occur through predicted cyanate transporters CK_2165 (Nitrogen section, p7)"
+    },
+    {
+      "surface_form": "PstS",
+      "gene_name": "pstS",
+      "identifiers": [
+        "PstS",
+        "CK_43821",
+        "CK_23"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "The SBP in this system, PstS, is highly conserved in picocyanobacteria, with some strains possessing multiple copies... CK_23, CK_43821 (Phosphorus section, p8)"
+    },
+    {
+      "surface_form": "PstS2",
+      "gene_name": "pstS2",
+      "identifiers": [
+        "PstS2",
+        "CK_23"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "Synechococcus WH8102... possesses two copies of PstS CK_43821 and one copy of the additional PstS2 CK_23 (Phosphorus section, p8)"
+    },
+    {
+      "surface_form": "SphX",
+      "gene_name": "sphX",
+      "identifiers": [
+        "SphX"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "the cyanobacterial-specific SphX protein is also known to be up-regulated under phosphorus stress in Synechococcus WH8102 (Phosphorus section, p8)"
+    },
+    {
+      "surface_form": "PhnD1",
+      "gene_name": "phnD1",
+      "identifiers": [
+        "PhnD1",
+        "CK_860",
+        "CK_00000860"
+      ],
+      "strain": "Prochlorococcus MIT9301",
+      "prominence": "central",
+      "evidence": "Prochlorococcus MIT9301 PhnD1 and PhnD2 proteins have been structurally characterised (PDB ID: 5LQ5/5LQ8 and 5LV1) (Phosphorus section, p8)"
+    },
+    {
+      "surface_form": "PhnD2",
+      "gene_name": "phnD2",
+      "identifiers": [
+        "PhnD2",
+        "CK_6203",
+        "CK_00006203"
+      ],
+      "strain": "Prochlorococcus MIT9301",
+      "prominence": "central",
+      "evidence": "Prochlorococcus MIT9301 PhnD1 and PhnD2 proteins have been structurally characterised (PDB ID: 5LQ5/5LQ8 and 5LV1) (Phosphorus section, p8)"
+    },
+    {
+      "surface_form": "PhnD3",
+      "gene_name": "phnD3",
+      "identifiers": [
+        "PhnD3",
+        "CK_56876",
+        "CK_00056876"
+      ],
+      "strain": "Prochlorococcus MIT9314",
+      "prominence": "central",
+      "evidence": "A single Prochlorococcus HLII strain MIT9314 even possesses a third copy PhnD3, CK_56876 (Phosphorus section, p8)"
+    },
+    {
+      "surface_form": "PtxB",
+      "gene_name": "ptxB",
+      "identifiers": [
+        "Tery_0366",
+        "PtxB"
+      ],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "PtxB from Trichodesmium... modulation... stabilise phosphite in highly specialised relatives PtxB (Phosphorus section, p8; Table 1)"
+    },
+    {
+      "surface_form": "HtxB",
+      "gene_name": "htxB",
+      "identifiers": [
+        "HtxB"
+      ],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "provide steric selectivity for hypophosphite in the related HtxB (Phosphorus section, p8)"
+    },
+    {
+      "surface_form": "IdiA",
+      "gene_name": "idiA",
+      "identifiers": [
+        "IdiA",
+        "FutA"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "use similar SBPs for Fe uptake such as the iron-deficiency induced protein A, IdiA also referred as FutA (Iron section, p8)"
+    },
+    {
+      "surface_form": "FutA1",
+      "gene_name": "futA1",
+      "identifiers": [
+        "FutA1",
+        "CK_00000919",
+        "CK_919"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "Two distinct iron-binding proteins FutA1, FutA2 from Synechocystis PCC 6803 have been structurally characterised (Iron section, p9; Table 1)"
+    },
+    {
+      "surface_form": "FutA2",
+      "gene_name": "futA2",
+      "identifiers": [
+        "FutA2",
+        "CK_00002462",
+        "CK_2462"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "FutA2 is exported to the periplasm via the twin-arginine pathway and likely functions as a typical periplasmic SBP for iron uptake (Iron section, p9)"
+    },
+    {
+      "surface_form": "Tery_3377",
+      "gene_name": "",
+      "identifiers": [
+        "Tery_3377",
+        "CK_00057079",
+        "CK_00000068",
+        "CK_57079",
+        "CK_68"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "The orthologous FutA1 protein from marine T. erythraeum has also been structurally characterised... Within the Cyanorak database, three clusters... IdiA1 CK_57079, IdiA2 CK_68 (Iron section, p9-10)"
+    },
+    {
+      "surface_form": "IdiA1",
+      "gene_name": "idiA1",
+      "identifiers": [
+        "IdiA1",
+        "CK_57079"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "three clusters corresponding to Fe-specific SBPs are annotated; IdiA1 CK_57079, IdiA2 CK_68 and IdiA3 CK_57080 (Iron section, p10)"
+    },
+    {
+      "surface_form": "IdiA2",
+      "gene_name": "idiA2",
+      "identifiers": [
+        "IdiA2",
+        "CK_68"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "three clusters corresponding to Fe-specific SBPs are annotated; IdiA1 CK_57079, IdiA2 CK_68 and IdiA3 CK_57080 (Iron section, p10)"
+    },
+    {
+      "surface_form": "IdiA3",
+      "gene_name": "idiA3",
+      "identifiers": [
+        "IdiA3",
+        "CK_57080"
+      ],
+      "strain": "Synechococcus RS9909",
+      "prominence": "central",
+      "evidence": "IdiA3 is found only in two Synechococcus clade VIII strains RS9909 and RS9917 (Iron section, p10)"
+    },
+    {
+      "surface_form": "IdiA3",
+      "gene_name": "idiA3",
+      "identifiers": [
+        "IdiA3",
+        "CK_57080"
+      ],
+      "strain": "Synechococcus RS9917",
+      "prominence": "central",
+      "evidence": "IdiA3 is found only in two Synechococcus clade VIII strains RS9909 and RS9917 (Iron section, p10)"
+    },
+    {
+      "surface_form": "ZnuA",
+      "gene_name": "znuA",
+      "identifiers": [
+        "ZnuA",
+        "ZntC",
+        "CK_00002462",
+        "CK_00057079",
+        "CK_00000068",
+        "CK_2462"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "SBP componentry for zinc, ZnuA formerly called ZntC... In marine picocyanobacteria, the predicted Zn-binding protein is annotated as ZnuA CK_2462 (Zinc and manganese section, p11)"
+    },
+    {
+      "surface_form": "MntC",
+      "gene_name": "mntC",
+      "identifiers": [
+        "MntC",
+        "CK_00057079",
+        "CK_00000068",
+        "CK_919"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "and manganese, MntC... The predicted Mn-binding protein, MntC CK_919, is found in all picocyanobacteria except one subcluster 5.2 strain (Zinc and manganese section, p11)"
+    },
+    {
+      "surface_form": "CK_1600",
+      "gene_name": "",
+      "identifiers": [
+        "CK_1600"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "Another SBP CK_1600 annotated as either a Zn- or Mn-specific SBP is found in all strains except some from subcluster 5.2 and 5.3 (Zinc and manganese section, p11)"
+    },
+    {
+      "surface_form": "cobalt/nickel binding protein",
+      "gene_name": "",
+      "identifiers": [
+        "CK_53501"
+      ],
+      "strain": "Cyanobium NS01",
+      "prominence": "peripheral",
+      "evidence": "currently only one Cyanobium strain NS01 contains a predicted cobalt/nickel binding protein CK_53501 (Additional trace metals, p11)"
+    },
+    {
+      "surface_form": "CK_8059",
+      "gene_name": "",
+      "identifiers": [
+        "CK_8059"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "a predicted SBP CK_8059 annotated to bind either peptides or nickel, widely distributed in all picocyanobacterial strains (Additional trace metals, p11)"
+    },
+    {
+      "surface_form": "CK_40935",
+      "gene_name": "",
+      "identifiers": [
+        "CK_40935"
+      ],
+      "strain": "Synechococcus WH5701",
+      "prominence": "peripheral",
+      "evidence": "a predicted molybdenum-specific protein CK_40935 found in three Synechococcus strains CC9619, KORDI-100, and WH5701 (Additional trace metals, p11)"
+    },
+    {
+      "surface_form": "CK_51448",
+      "gene_name": "",
+      "identifiers": [
+        "CK_51448"
+      ],
+      "strain": "Prochlorococcus MIT9201",
+      "prominence": "peripheral",
+      "evidence": "a predicted Fe siderophore/vitamin B12-binding protein CK_51448 found in two Prochlorococcus MIT9201 and MIT9202 and one Synechococcus A15-127 strains (Additional trace metals, p11)"
+    },
+    {
+      "surface_form": "CK_51448",
+      "gene_name": "",
+      "identifiers": [
+        "CK_51448"
+      ],
+      "strain": "Prochlorococcus MIT9202",
+      "prominence": "peripheral",
+      "evidence": "a predicted Fe siderophore/vitamin B12-binding protein CK_51448 found in two Prochlorococcus MIT9201 and MIT9202 and one Synechococcus A15-127 strains (Additional trace metals, p11)"
+    },
+    {
+      "surface_form": "CK_51448",
+      "gene_name": "",
+      "identifiers": [
+        "CK_51448"
+      ],
+      "strain": "Synechococcus A15-127",
+      "prominence": "peripheral",
+      "evidence": "a predicted Fe siderophore/vitamin B12-binding protein CK_51448 found in two Prochlorococcus MIT9201 and MIT9202 and one Synechococcus A15-127 strains (Additional trace metals, p11)"
+    },
+    {
+      "surface_form": "PII",
+      "gene_name": "glnB",
+      "identifiers": [
+        "PII"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "The signal transduction protein PII controls ammonium, nitrate and urea uptake in cyanobacteria (References cited in narrative, p14)"
+    },
+    {
+      "surface_form": "Pro1404 transporter",
+      "gene_name": "",
+      "identifiers": [
+        "Pro1404"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "Prochlorococcus can use the Pro1404 transporter to take up glucose at nanomolar concentrations (References cited in narrative, p15)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "ATP-binding cassette transporters",
+      "kegg_pathway_id": "map02010",
+      "prominence": "central",
+      "evidence": "use of high-affinity ATP-binding cassette ABC transporters to competitively acquire nutrients (Abstract, p1)"
+    },
+    {
+      "surface_form": "Carbon-concentrating mechanism",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "As part of the carbon-concentrating machinery CCM... CmpA assimilates dissolved Ci (Carbon section, p6)"
+    },
+    {
+      "surface_form": "Nitrogen metabolism",
+      "kegg_pathway_id": "map00910",
+      "prominence": "central",
+      "evidence": "SBPs for nitrogen uptake... Acquisition of inorganic N... nitrate, nitrite, ammonium, urea, cyanate (Nitrogen section, p7)"
+    },
+    {
+      "surface_form": "Phosphonate and phosphinate metabolism",
+      "kegg_pathway_id": "map00440",
+      "prominence": "central",
+      "evidence": "multiple phosphorus acquisition pathways for both inorganic phosphate and phosphite and organic phosphonate P compounds (Phosphorus section, p8)"
+    },
+    {
+      "surface_form": "Porphyrin and chlorophyll metabolism",
+      "kegg_pathway_id": "map00860",
+      "prominence": "peripheral",
+      "evidence": "nickel is... essential as a catalyst in urea metabolism (Additional trace metals section mentions nickel-linked uptake context, p11)"
+    },
+    {
+      "surface_form": "Vitamin B12 transport and uptake",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "predicted Fe siderophore/vitamin B12-binding protein CK_51448 (Additional trace metals, p11)"
+    }
+  ]
+}
