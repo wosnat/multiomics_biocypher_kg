@@ -327,10 +327,12 @@ def test_transported_metabolite_count_is_direct_systems_only(run_query):
         RETURN sum(CASE WHEN coalesce(g.transported_metabolite_count, -1) <> expected THEN 1 ELSE 0 END) AS bad,
                sum(CASE WHEN expected > 0 THEN 1 ELSE 0 END) AS with_arm""")[0]
     assert row["bad"] == 0, f"{row['bad']} genes whose transported_metabolite_count is not the direct-system count"
-    # Measured 6,995 on the rebuilt graph (2026-10-23; was ~30K before the cleanup).
-    # Fewer than the 8,312 genes with a direct edge, because some direct systems carry
-    # no curated substrate in TCDB. Band ~±15%.
-    assert 5950 <= row["with_arm"] <= 8050, row
+    # Measured 6,995 on the rebuilt graph (2026-10-23; was ~30K before the cleanup) and
+    # 5,058 on 2026-10-26, after the substrate target filter dropped H+, Na+ and
+    # placeholders ("molecule", "cation") — genes whose direct systems list only those
+    # reach no metabolite. Fewer than the 8,312 genes with a direct edge, because some
+    # direct systems carry no curated substrate in TCDB. Band ~±15%.
+    assert 4300 <= row["with_arm"] <= 5800, row
 
 
 @pytest.mark.kg
