@@ -1179,12 +1179,6 @@
     {
       "properties": {},
       "source": "insdc.gcf:GCA_003513035.1",
-      "target": "chebi:22563",
-      "type": "Organism_has_metabolite"
-    },
-    {
-      "properties": {},
-      "source": "insdc.gcf:GCA_003513035.1",
       "target": "chebi:22599",
       "type": "Organism_has_metabolite"
     },
@@ -1192,6 +1186,12 @@
       "properties": {},
       "source": "insdc.gcf:GCA_003513035.1",
       "target": "chebi:22601",
+      "type": "Organism_has_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "insdc.gcf:GCA_003513035.1",
+      "target": "chebi:23765",
       "type": "Organism_has_metabolite"
     },
     {
@@ -1554,20 +1554,20 @@
     },
     {
       "properties": {},
-      "source": "tcdb:1.A.1.10.1",
-      "target": "kegg.compound:C01330",
+      "source": "tcdb:1.A.1.10.14",
+      "target": "kegg.compound:C00076",
       "type": "Tcdb_family_transports_metabolite"
     },
     {
       "properties": {},
-      "source": "tcdb:1.A.1.10.10",
-      "target": "kegg.compound:C01330",
+      "source": "tcdb:1.A.1.11.1",
+      "target": "kegg.compound:C00076",
       "type": "Tcdb_family_transports_metabolite"
     },
     {
       "properties": {},
-      "source": "tcdb:1.A.1.10.11",
-      "target": "kegg.compound:C01330",
+      "source": "tcdb:1.A.1.11.1",
+      "target": "kegg.compound:C13881",
       "type": "Tcdb_family_transports_metabolite"
     },
     {
@@ -2301,7 +2301,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-10-24T17:36:40.677954+00:00",
+  "generated_at": "2026-10-26T05:24:29.050496+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -3736,7 +3736,7 @@
         "direction_basis": "abc_numbering",
         "level": 4,
         "level_kind": "tc_system",
-        "name": "High affinity phosphate-specific transporter, PstABCS, where PstA (AAZ57802) = 304 aas with 6 TMSs, PstB (AAZ57801) = 267 aas with 0 TMSs",
+        "name": "High affinity phosphate-specific transporter, PstABCS, where PstA = 304 aas with 6 TMSs, PstB = 267 aas with 0 TMSs, PstC = 317 aas with 6 TMSs, PstS\u2026",
         "tcdb_id": "3.A.1.7.6"
       }
     },
@@ -3784,7 +3784,7 @@
         "direction": "unknown",
         "level": 4,
         "level_kind": "tc_system",
-        "name": "Two TMS K + and water channel (conducts K + (K D = 8 mM); blocked by Na + (190 mM) and tetrabutylammonium).",
+        "name": "Two TMS K+ and water channel (conducts K+ (KD = 8 mM); blocked by Na+ (190 mM) and tetrabutylammonium).",
         "tcdb_id": "1.A.1.1.1"
       }
     },

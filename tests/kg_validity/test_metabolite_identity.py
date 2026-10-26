@@ -63,6 +63,16 @@ def _tcdb_rekeys() -> dict:
             for r in _tcdb_removed_rows() if r["change"] == "metabolite_rekeyed"}
 
 
+TCDB_REVIEW = ROOT / "docs/kg-changes/tcdb-cleanup/review_2026-10-25_metabolite_ids.tsv"
+
+
+def _tcdb_review_rows():
+    """2026-10-25 TCDB review sweep list: metabolite_rekeyed (id -> new_id_or_reason),
+    metabolite_removed (substrate target filter), metabolite_added."""
+    with _need(TCDB_REVIEW).open() as fh:
+        return list(csv.DictReader((ln for ln in fh if not ln.startswith("#")), delimiter="\t"))
+
+
 # --- identity: one node per compound ------------------------------------------
 
 def test_no_duplicate_identifiers(run_query):
@@ -212,6 +222,11 @@ def test_no_node_loses_elements(run_query):
     tcdb = _tcdb_removed_by_change()
     tcdb_removed = set(tcdb.get("metabolite_removed", []))
     tcdb_rekey = _tcdb_rekeys()
+    # 2026-10-25 TCDB review: placeholders / Na+ removed, compounds re-keyed onto the exact
+    # ChEBI term (the review TSV), followed the same way.
+    review = _tcdb_review_rows()
+    tcdb_removed |= {r["id"] for r in review if r["change"] == "metabolite_removed"}
+    review_rekey = {r["id"]: r["new_id_or_reason"] for r in review if r["change"] == "metabolite_rekeyed"}
     with_el = {r["id"] for r in run_query(
         "MATCH (m:Metabolite) WHERE m.elements IS NOT NULL AND size(m.elements) > 0 RETURN m.id AS id")}
     lost, skipped = [], []
@@ -221,6 +236,10 @@ def test_no_node_loses_elements(run_query):
             skipped.append(new or old)
             continue
         new = tcdb_rekey.get(new, new)
+        if new in tcdb_removed:
+            skipped.append(new)
+            continue
+        new = review_rekey.get(new, new)
         if new not in with_el:
             lost.append((old, new))
     assert not lost, lost[:10]
@@ -374,8 +393,11 @@ def test_kegg_brite_classes_match_derivation(run_query):
 # generic sugar vs anomer, class vs member, two protein-bound species.
 SPLIT_PAIRS = [("C00085", "C05345"), ("C00597", "C00197"), ("C00900", "C06010"),
                ("C05702", "C01102"), ("C00354", "C05378"), ("C03688", "C16240"),
-               ("C04039", "C04272"), ("C04644", "C17345"), ("C00725", "C16241"),
+               ("C04039", "C04272"), ("C04644", "C17345"),
                ("C02794", "C03227"), ("C00193", "C00261")]
+# Pairs where one side is no longer written (2026-10-25 TCDB review: TCDB names (R)-lipoate and
+# no gene reaches generic lipoate C00725): the guard still means no node carries both ids.
+UNMERGED_PAIRS = [("C00725", "C16241")]
 
 
 @pytest.mark.parametrize("a,b", SPLIT_PAIRS)
@@ -385,6 +407,14 @@ def test_mnx_stereo_pairs_are_separate_nodes(run_query, a, b):
     assert sorted(r["id"] for r in rows) == sorted([f"kegg.compound:{a}", f"kegg.compound:{b}"])
     for r in rows:
         assert r["k"] == [r["id"].split(":")[1]], r
+
+
+@pytest.mark.parametrize("a,b", UNMERGED_PAIRS)
+def test_mnx_stereo_pairs_never_merged(run_query, a, b):
+    rows = run_query("MATCH (m:Metabolite) WHERE $a IN coalesce(m.kegg_compound_ids, []) "
+                     "AND $b IN coalesce(m.kegg_compound_ids, []) RETURN m.id AS id", a=a, b=b)
+    assert not rows, rows
+    assert run_query("MATCH (m:Metabolite {id: $id}) RETURN m.id", id=f"kegg.compound:{b}")
 
 
 @pytest.mark.parametrize("specific,generic", [("C05345", "C00085"), ("C05378", "C00354"),
@@ -421,12 +451,13 @@ def test_new_edge_sources_join_data_sources(run_query):
 
 # Bare ids checked present in cache/data/kegg/kegg_data.json all_identifiers (2026-10-14):
 #   C01353      -> kegg.compound:C00288 (merged in, mnx_same_entity)
-#   MNXM732398  -> kegg.compound:C00244 (nitrate)
+#   MNXM732399  -> kegg.compound:C00244 (nitrate; MNXM732398 left with the conjugate-form
+#                  chebi node the 2026-10-25 ChEBI-first resolution no longer creates)
 #   HMDB0000148 -> kegg.compound:C00025 (L-glutamate). The brief's HMDB0002878 is on no
 #                  node after the identity change, so an HMDB id that is was substituted.
 FULLTEXT_PROBES = {
     "C01353": "kegg.compound:C00288",
-    "MNXM732398": "kegg.compound:C00244",
+    "MNXM732399": "kegg.compound:C00244",
     "HMDB0000148": "kegg.compound:C00025",
 }
 
