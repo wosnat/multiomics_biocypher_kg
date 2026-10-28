@@ -1,0 +1,56 @@
+{
+  "Q68RM1": {
+    "annotation_score": 1.0,
+    "gene_names": [
+      "psbA"
+    ],
+    "gene_symbol": "psbA",
+    "go_biological_processes": [
+      "GO:0009772"
+    ],
+    "go_cellular_components": [
+      "GO:0009523",
+      "GO:0031676"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0148",
+      "KW-0157",
+      "KW-0460",
+      "KW-0472",
+      "KW-0479",
+      "KW-0560",
+      "KW-0602",
+      "KW-0793",
+      "KW-0812",
+      "KW-1133"
+    ],
+    "keywords": [
+      "Chlorophyll",
+      "Chromophore",
+      "Magnesium",
+      "Membrane",
+      "Metal-binding",
+      "Oxidoreductase",
+      "Photosynthesis",
+      "Thylakoid",
+      "Transmembrane",
+      "Transmembrane helix"
+    ],
+    "molecular_mass": 27127,
+    "organism_id": 167544,
+    "organism_name": "Prochlorococcus marinus str. MIT 9116",
+    "pfam_ids": [
+      "PF00124"
+    ],
+    "protein_family": "Reaction center PufL/M/PsbA/D family",
+    "protein_synonyms": "PsbA",
+    "sequence_length": 244,
+    "transmembrane_regions": [
+      "30..47",
+      "59..82",
+      "110..131",
+      "191..213"
+    ]
+  }
+}

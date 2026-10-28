@@ -17,7 +17,9 @@ pytestmark = [pytest.mark.kg]
 # (conftest.kegg_cache_counts), so a paper adding a compound does not break them.
 # History: 452 pathways / 9,342 + 6 GO-only links before the TCDB cleanup
 # (2026-10-23), which removed 3 gene-less pathways and 107 links -> 449 / 9,241.
-BASELINE_SUM_REACTION_COUNT = 6408
+# sum(reaction_count) 6,408 -> 6,557 with Ford 2021's 74 Cyanorak genomes (2026-10-28):
+# the new genes catalyse 68 more reactions; GO transport still adds none.
+BASELINE_SUM_REACTION_COUNT = 6557
 
 METABOLITE_EDGES = [
     "Molecular_function_transports_metabolite",

@@ -1,0 +1,41 @@
+{
+  "strain": "BIOS-E4-1",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 3484,
+  "wallclock_s": 0.8,
+  "raw_hit_lines": 957,
+  "parse_failures": 0,
+  "proteins_with_hits": 92,
+  "proteins_with_call": 92,
+  "total_candidates": 93,
+  "candidates_per_protein_distribution": {
+    "1": 91,
+    "2": 1
+  },
+  "tier_distribution": {
+    "3": 89,
+    "2": 4
+  },
+  "consensus_agreement_distribution": {
+    "id": 14,
+    "subfamily": 20,
+    "family": 59
+  },
+  "catalytic_type_distribution": {
+    "M": 31,
+    "S": 38,
+    "C": 19,
+    "A": 2,
+    "T": 2,
+    "inhibitor": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 92,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 56,
+    "putative": 21,
+    "nonpeptidase_homolog": 16
+  }
+}

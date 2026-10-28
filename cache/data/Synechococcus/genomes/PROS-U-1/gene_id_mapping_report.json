@@ -1,0 +1,55 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2703
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 118,
+      "unique": 1259
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 34,
+      "unique": 7449
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5324
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3100
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2621
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2656
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 7,
+      "unique": 5317
+    }
+  },
+  "runaway_genes": [],
+  "strain": "PROS-U-1",
+  "tier1_count_max": 6,
+  "tier1_count_median": 6.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 16,
+    "genomic_gca/PROS-U-1": 1008,
+    "genomic_gcf/PROS-U-1": 60
+  },
+  "warnings": []
+}

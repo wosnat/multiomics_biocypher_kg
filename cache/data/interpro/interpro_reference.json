@@ -1647,6 +1647,7 @@
   "type": "FAMILY"
  },
  "IPR000169": {
+  "description": "The sequences around the three active site residues are well conserved. This entry represents the cysteine active site. The catalytic triad consists of this entry, and. This catalytic triad detects mainly proteases of the C1 family, including papain and several cathepsins.",
   "ec_numbers": [
    "3.4.22"
   ],
@@ -4785,6 +4786,7 @@
   "type": "DOMAIN"
  },
  "IPR000488": {
+  "description": "The death domain (DD) is a homotypic protein interaction module composed of a bundle of six \u03b1-helices. DD is related in sequence and structure to the death effector domain (DED, see) and the caspase recruitment domain (CARD, see), which work in similar pathways and show similar interaction properties. DD bind each other forming oligomers. Mammals have numerous and diverse DD-containing proteins. W",
   "go_terms": [
    "GO:0005515",
    "GO:0007165"
@@ -6190,6 +6192,7 @@
   "type": "FAMILY"
  },
  "IPR000626": {
+  "description": "Ubiquitin is expressed as three different precursors: a polymeric head-to-tail concatemer of identical units (polyubiquitin), and two N-terminal ubiquitin moieties, UbL40 and UbS27, that are fused to the ribosomal polypeptides L40 and S27, respectively. Specific endopeptidases cleave these precursor molecules to release ubiquitin moieties that are identical in sequence and contribute to the ubiqui",
   "go_terms": [
    "GO:0005515"
   ],
@@ -13064,6 +13067,7 @@
   "type": "FAMILY"
  },
  "IPR001229": {
+  "description": "The jacalin-like mannose-binding lectin domain has a \u03b2-prism fold consisting of three 4-stranded \u03b2-sheets, with an internal pseudo 3-fold symmetry. Some proteins with this domain stimulate distinct T- and B- cell functions, such as the plant lectin jacalin, which binds to the T-antigen and acts as an agglutinin. The domain can occur in tandem-repeat arrangements with up to six copies, and in archi",
   "level": 0,
   "name": "Jacalin-like lectin domain",
   "parent": null,
@@ -13769,6 +13773,7 @@
   "type": "FAMILY"
  },
  "IPR001287": {
+  "description": "These enzymes are involved in nitrate assimilation in the denitrification pathway. The 3D structure of the copper-containing nitrite reductase (NIR) from Achromobacter cycloclastes has been determined to 2.3A resolution. The enzyme is a trimer, each monomer of which contains two Greek key \u03b2-barrel domains (similar to that of plastocyanin) and houses two copper sites. The two copper atoms in the mo",
   "ec_numbers": [
    "1.7.2.1"
   ],
@@ -13904,6 +13909,7 @@
   "type": "FAMILY"
  },
  "IPR001300": {
+  "description": "This group of cysteine peptidases belong to the MEROPS peptidase family C2 (calpain family, clan CA). A type example is calpain, which is an intracellular protease involved in many important cellular functions that are regulated by calcium. The protein is a complex of 2 polypeptide chains (light and heavy), with eleven known active peptidases in humans and two non-peptidase homologues known as cal",
   "ec_numbers": [
    "3.4.22"
   ],
@@ -14074,6 +14080,7 @@
   "type": "FAMILY"
  },
  "IPR001315": {
+  "description": "The caspase recruitment domain (CARD domain) is a homotypic protein interaction module composed of a bundle of six \u03b1-helices. CARD is related in sequence and structure to the death domain (DD, see) and the death effector domain (DED, see), which work in similar pathways and show similar interaction properties. The CARD domain typically associates with other CARD-containing proteins, forming either",
   "go_terms": [
    "GO:0042981"
   ],
@@ -15754,6 +15761,7 @@
   "type": "CONSERVED_SITE"
  },
  "IPR001480": {
+  "description": "A bulb lectin super-family (Amaryllidaceae, Orchidaceae and Aliaceae) contains a ~115-residue-long domain whose overall three dimensional fold is very similar to that of:",
   "level": 0,
   "name": "Bulb-type lectin domain",
   "parent": null,
@@ -15890,6 +15898,7 @@
   "type": "DOMAIN"
  },
  "IPR001496": {
+  "description": "The SOCS box was first identified in SH2-domain-containing proteins of the suppressor of cytokines signalling (SOCS) family but was later also found in:",
   "level": 0,
   "name": "SOCS box domain",
   "parent": null,
@@ -18243,6 +18252,7 @@
   "type": "FAMILY"
  },
  "IPR001711": {
+  "description": "Phosphatidylinositol-specific phospholipase C (), an eukaryotic intracellular enzyme, plays an important role in signal transduction processes (see). It catalyzes the hydrolysis of 1-phosphatidyl-D-myo-inositol-3,4,5-triphosphate into the second messenger molecules diacylglycerol and inositol-1,4,5-triphosphate. This catalytic process is tightly regulated by reversible phosphorylation and binding ",
   "ec_numbers": [
    "3.1.4.11"
   ],
@@ -19164,6 +19174,7 @@
   "type": "FAMILY"
  },
  "IPR001805": {
+  "description": "Adenosine kinase (ADK) phosphorylates adenosine and other related nucleosides. It is exclusive to eukaryotes and is a key enzyme in the purine salvage pathway. ADK catalyses the reaction:",
   "ec_numbers": [
    "2.7.1.20"
   ],
@@ -19349,6 +19360,7 @@
   "type": "DOMAIN"
  },
  "IPR001827": {
+  "description": "The homeobox is a 60-residue motif first identified in a number of Drosophila homeotic and segmentation proteins, but now known to be well-conserved in many other animals, including vertebrates. Proteins containing homeobox domains are likely to play an important role in development - most are known to be sequence-specific DNA-binding transcription factors. The domain binds DNA through a helix-tur",
   "go_terms": [
    "GO:0003677",
    "GO:0003700",
@@ -19777,6 +19789,7 @@
   "type": "DOMAIN"
  },
  "IPR001869": {
+  "description": "Thiol-activated cytolysins are toxins produced by a variety of Gram-positive bacteria and are characterised by their ability to lyse cholesterol-containing membranes, their reversible inactivation by oxidation and their capacity to bind to cholesterol. All these proteins contain a single cysteine residue, located in their C-terminal section, which has been shown to be essential for the binding to ",
   "go_terms": [
    "GO:0015485"
   ],
@@ -21565,6 +21578,7 @@
   "cazy_ids": [
    "CBM20"
   ],
+  "description": "This entry represents, which binds starch. The crystal structure of CBM20 has been solved. It consists of seven \u03b2-strands forming an open-sided distorted \u03b2-barrel. Several aromatic residues, especially the well-conserved Trp and Tyr residues, participate in granular starch binding.",
   "go_terms": [
    "GO:2001070"
   ],
@@ -21992,6 +22006,7 @@
   "type": "DOMAIN"
  },
  "IPR002088": {
+  "description": "Protein prenylation is the posttranslational attachment of either a farnesyl group or a geranylgeranyl group via a thioether linkage (-C-S-C-) to a cysteine at or near the carboxyl terminus of the protein. Farnesyl and geranylgeranyl groups are polyisoprenes, unsaturated hydrocarbons with a multiple of five carbons; the chain is 15 carbons long in the farnesyl moiety and 20 carbons long in the ger",
   "ec_numbers": [
    "2.5.1"
   ],
@@ -25293,6 +25308,7 @@
   "type": "FAMILY"
  },
  "IPR002395": {
+  "description": "The kininogens are multidomain proteins, belonging to the Type 3 cystatin family. It contains three tandemly repeated type 2-like cystatin domains of which only the second and third (D2 and D3) exhibit cysteine peptidase inhibitory activity, and which belong to MEROPS inhibitor family I25B.",
   "level": 0,
   "name": "HMW kininogen",
   "parent": null,
@@ -27989,6 +28005,7 @@
   "type": "DOMAIN"
  },
  "IPR002642": {
+  "description": "This family consists of lysophospholipase / phospholipase B and cytosolic phospholipase A2 which also has a C2 domain. Phospholipase B enzymes catalyse the release of fatty acids from lysophsopholipids and are capable in vitro of hydrolyzing all phospholipids extractable from yeast cells. Cytosolic phospholipase A2 associates with natural membranes in response to physiological increases in Ca 2+ a",
   "ec_numbers": [
    "3.1.1.5"
   ],
@@ -28191,6 +28208,7 @@
   "cazy_ids": [
    "GH31"
   ],
+  "description": "The biosynthesis of disaccharides, oligosaccharides and polysaccharides involves the action of hundreds of different glycosyltransferases. These enzymes catalyse the transfer of sugar moieties from activated donor molecules to specific acceptor molecules, forming glycosidic bonds. A classification of glycosyltransferases using nucleotide diphospho-sugar, nucleotide monophospho-sugar and sugar phos",
   "ec_numbers": [
    "2.4.1",
    "2.4.1.149",
@@ -28875,6 +28893,7 @@
   "type": "DOMAIN"
  },
  "IPR002710": {
+  "description": "The myosin superfamily consists of at least 15 distinct classes of presumed actin-based molecular motors. All members of the superfamily share a similar motor domain and a tail portion which is diagnostic of the class.",
   "level": 0,
   "name": "Dilute domain",
   "parent": null,
@@ -31261,6 +31280,7 @@
   "type": "DOMAIN"
  },
  "IPR002989": {
+  "description": "These repeats are found in many mycobacterial proteins. The repeats are most common in the PPE family of proteins, where they are found in the MPTR (major polymorphic tandem repeat) subfamily. PPE10, one of the members, is important for capsular integrity and virulence, although the function of these repeats is unknown. The repeat can be approximately described as XNXGX, where X can be any amino a",
   "level": 0,
   "name": "Mycobacterial pentapeptide repeat",
   "parent": null,
@@ -33170,6 +33190,7 @@
   "type": "FAMILY"
  },
  "IPR003163": {
+  "description": "The APSES domain, named after five founding members (ASM-1, Phd1, StuA, EFG1 and Sok2), is a sequence-specific DNA-binding domain of approximately 110 residues found in a family of fungal transcription factors and other DNA-binding proteins. This domain is often found in association with ankyrin repeats (see) and a heterodimerisation domain.",
   "level": 0,
   "name": "Transcription regulator HTH, APSES-type DNA-binding domain",
   "parent": null,
@@ -37377,6 +37398,7 @@
   "type": "DOMAIN"
  },
  "IPR003611": {
+  "description": "NUMOD3 (nuclease associated modular domain 3) is a DNA-binding motif found in homing endonucleases and related proteins. It occurs on its own or in tandem repeats in GIY-YIG and HTH proteins. It constitutes a \u03b2-turn-loop-helix subregion of the the DNA-binding domain of I-TevI homing endonuclease ().",
   "go_terms": [
    "GO:0003677"
   ],
@@ -38985,6 +39007,7 @@
   "type": "FAMILY"
  },
  "IPR003763": {
+  "description": "The CDP-diacylglycerol pyrophosphatases play a role in the regulation of phospholipid metabolism by inositol, as well as regulating the cellular levels of phosphatidylinositol.",
   "ec_numbers": [
    "3.6.1.26"
   ],
@@ -39702,6 +39725,7 @@
   "type": "DOMAIN"
  },
  "IPR003830": {
+  "description": "Methanogenic archaea produce methane via the anaerobic reduction of acetate or single carbon compounds. Coenzyme M (CoM; 2-mercaptoethanesulphonic acid) serves as the terminal methyl carrier for this process. Previously thought to be unique to methanogenic archaea, CoM has also been found in methylotrophic bacteria.",
   "ec_numbers": [
    "1.1.1.272",
    "4.1.1.79",
@@ -40849,6 +40873,7 @@
   "type": "FAMILY"
  },
  "IPR003938": {
+  "description": "The first EAG K+ channel was identified in Drosophila melanogaster (Fruit fly), following a screening for mutations giving rise to behavioural abnormalities. Disruption of the Eag gene caused an ether-induced, leg-shaking behaviour. Subsequent studies have revealed a conserved multi-gene family of EAG-like K+ channels, which are present in human and many other species. Based on the varying functio",
   "go_terms": [
    "GO:0005249",
    "GO:0006813",
@@ -41749,6 +41774,7 @@
   "type": "DOMAIN"
  },
  "IPR004006": {
+  "description": "Dihydroxyacetone (Dha) kinases are a family of sequence-conserved enzymes that phosphorylate dihydroxyacetone, glyceraldehyde and other short-chain ketoses and aldoses. They can be divided into two groups according to the source of high-energy phosphate that they utilise, either ATP or phosphoenolpyruvate (PEP). The ATP-dependent forms are the two-domain Dha kinases (DAK), which occur in animals, ",
   "ec_numbers": [
    "2.7.1"
   ],
@@ -44024,6 +44050,7 @@
   "type": "DOMAIN"
  },
  "IPR004211": {
+  "description": "This family of proteins which includes Bacteriophage T4 endonuclease VII, Mycobacteriophage D29 gene 59, and other as yet uncharacterised proteins. The T4 endonuclease VII (Endo VII) recognises a broad spectrum of DNA substrates ranging from branched DNAs to single base mismatches. The structure of this enzyme has been resolved and it was found that the monomers form an elongated, intertwined mole",
   "level": 0,
   "name": "Recombination endonuclease VII",
   "parent": null,
@@ -44497,6 +44524,7 @@
   "type": "DOMAIN"
  },
  "IPR004256": {
+  "description": "This entry represents a domain of unknown function found in bacterial and archaeal sequences. In some instances it is fused to a prokaryotic putative DEXX-box ATPase domain, found at its C-terminal ().",
   "level": 0,
   "name": "Domain of unknown function DUF234",
   "parent": null,
@@ -44741,6 +44769,7 @@
   "type": "FAMILY"
  },
  "IPR004288": {
+  "description": "Competence is the ability of a cell to take up exogenous DNA from its environment, resulting in transformation. It is widespread among bacteria and is probably an important mechanism for the horizontal transfer of genes. DNA usually becomes available by the death and lysis of other cells. Competent bacteria use components of extracellular filaments called type 4 pili to create pores in their membr",
   "go_terms": [
    "GO:0005186"
   ],
@@ -45039,6 +45068,7 @@
   "type": "FAMILY"
  },
  "IPR004322": {
+  "description": "This is a family of bacterial plasmid DNA replication initiator proteins. These RepA proteins exist as monomers and dimers in equilibrium: monomers bind directly to repeated DNA sequences and thus activate replication; dimers repress repA transcription by binding an inversely repeated DNA operator. Dimer dissociation can occur spontaneously or may be mediated by Hsp70 chaperones. A similar RepA fa",
   "level": 0,
   "name": "Plasmid replicase, bacterial",
   "parent": null,
@@ -49966,6 +49996,7 @@
   "type": "FAMILY"
  },
  "IPR004693": {
+  "description": "Marine diatoms such as Cylindrotheca fusiformis encode at least six silicon transport protein homologues which exhibit similar size and topology. One characterised member of the family (Sit1) functions in the energy-dependent uptake of either silicic acid [Si(OH)4] or silicate [Si(OH)3O-] by a Na + symport mechanism. The system is found in marine diatoms, which make their \"glass houses\" out of sil",
   "go_terms": [
    "GO:0015708"
   ],
@@ -50154,6 +50185,7 @@
   "type": "FAMILY"
  },
  "IPR004709": {
+  "description": "Sodium proton exchangers (NHEs) constitute a large family of integral membrane protein transporters that are responsible for the counter-transport of protons and sodium ions across lipid bilayers. These proteins are found in organisms across all domains of life. In archaea, bacteria, yeast and plants, these exchangers provide increased salt tolerance by removing sodium in exchanger for extracellul",
   "go_terms": [
    "GO:0006814",
    "GO:0006885",
@@ -51474,6 +51506,7 @@
   "type": "DOMAIN"
  },
  "IPR004827": {
+  "description": "The basic-leucine zipper (bZIP) domain transcription factors of eukaryotic are proteins that contain a basic region mediating sequence-specific DNA-binding followed by a leucine zipper region required for dimerisation.",
   "go_terms": [
    "GO:0003700",
    "GO:0006355"
@@ -51855,6 +51888,7 @@
   "type": "FAMILY"
  },
  "IPR004873": {
+  "description": "The BURP domain was named after the proteins in which it was first identified: BNM2, USP, RD22, and PG1beta. It is found in the C terminus of a number of plant cell wall proteins, which are defined not only by the BURP domain, but also by the overall similarity in their modular construction. The BURP domain-containing proteins consists of either three or four modules: (i) an N-terminal hydrophobic",
   "level": 0,
   "name": "BURP domain",
   "parent": null,
@@ -52860,6 +52894,7 @@
   "type": "FAMILY"
  },
  "IPR004951": {
+  "description": "This family consists of proteins of unknown function found in Caenorhabditis species.",
   "level": 0,
   "name": "Protein of unknown function DUF268, Caenorhabditis species",
   "parent": null,
@@ -53991,6 +54026,7 @@
   "cazy_ids": [
    "GT6"
   ],
+  "description": "The biosynthesis of disaccharides, oligosaccharides and polysaccharides involves the action of hundreds of different glycosyltransferases. These enzymes catalyse the transfer of sugar moieties from activated donor molecules to specific acceptor molecules, forming glycosidic bonds. A classification of glycosyltransferases using nucleotide diphospho-sugar, nucleotide monophospho-sugar and sugar phos",
   "ec_numbers": [
    "2.4.1",
    "2.4.1.151",
@@ -55513,6 +55549,7 @@
   "type": "DOMAIN"
  },
  "IPR005212": {
+  "description": "This domain occurs in a range of proteins from antibiotic production pathways. These include the gra-ORF27 product that probably functions at an early step, most likely as a dTDP-4-keto-6- deoxyglucose-2,3-dehydratase. Its homologues include dnmT from the daunorubicin biosynthetic gene cluster in S. peucetius, a similar gene from the daunomycin biosynthetic cluster in Streptomyces sp. (strain 5), ",
   "ec_numbers": [
    "4.2.1.159"
   ],
@@ -59015,6 +59052,7 @@
   "type": "DOMAIN"
  },
  "IPR005491": {
+  "description": "The EMSY N-terminal (ENT) domain is a ~90-residue module, which is unique in the human proteome, although multiple copies are found in Arabidopsis proteins. In the plant proteins, the ENT domains are accompanied by Agenet domains, plant specific homologues of Tudor domains.",
   "level": 0,
   "name": "ENT domain",
   "parent": null,
@@ -67671,6 +67709,7 @@
   "type": "FAMILY"
  },
  "IPR006201": {
+  "description": "The receptors are composed of varying numbers and types of subunit. Each subunit contains a large extracellular N-terminal ligand-binding region; 3 hydrophobic transmembrane domains; a large intracellular region; and a fourth hydrophobic domain. The GABA, acetylcholine, serotonin 5HT3 and glycine receptors share a degree of sequence similarity, but differ from the glutamate receptors - sequences o",
   "go_terms": [
    "GO:0004888",
    "GO:0005216",
@@ -67683,6 +67722,7 @@
   "type": "FAMILY"
  },
  "IPR006202": {
+  "description": "This entry presents the extracellular ligand binding domain of these ion channels. This domain forms a pentameric arrangement in the known structure.",
   "go_terms": [
    "GO:0005230",
    "GO:0006811",
@@ -67731,6 +67771,7 @@
   "type": "DOMAIN"
  },
  "IPR006205": {
+  "description": "Mevalonate kinase is well-characterised among eukaryotes, where it plays a role in the synthesis of isopentanyl pyrophosphate, a common intermediate for a number of pathways including cholesterol biosynthesis. It is also involved in mevalonate catabolism. Close homologues are found in archaea. Related bacterial proteins are also included in this entry.",
   "ec_numbers": [
    "2.7.1.36"
   ],
@@ -69889,6 +69930,7 @@
   "type": "FAMILY"
  },
  "IPR006345": {
+  "description": "These sequences represent a family similar to RecD from the RecBCD enzyme. Members of this family, however, are not found in a context of RecB and RecC and are longer by about 200 amino acids at the amino end. In Deinococcus radiodurans RecD2 is a DNA helicase with 5'-3' polarity and low processivity. Chlamydia muridarum has both a member of this family and a RecD.",
   "go_terms": [
    "GO:0003677",
    "GO:0006310",
@@ -70007,6 +70049,7 @@
   "type": "FAMILY"
  },
  "IPR006355": {
+  "description": "Phospholysine phosphohistidine inorganic pyrophosphate phosphatase (LHPP) hydrolyzes nitrogen-phosphorus bonds in phospholysine, phosphohistidine and imidodiphosphate as well as oxygen-phosphorus bonds in inorganic pyrophosphate in vitro. This family also includes human haloacid dehalogenase like hydrolase domain containing 2 protine (HDHD2) a phosphatase which may be involved in polygenic hyperte",
   "go_terms": [
    "GO:0016311",
    "GO:0016791"
@@ -71826,6 +71869,7 @@
   "type": "FAMILY"
  },
  "IPR006534": {
+  "description": "Transmembrane ATPases are membrane-bound enzyme complexes/ion transporters that use ATP hydrolysis to drive the transport of protons across a membrane. Some transmembrane ATPases also work in reverse, harnessing the energy from a proton gradient, using the flux of ions across the membrane via the ATPase proton channel to drive the synthesis of ATP.",
   "ec_numbers": [
    "7.1.2.1",
    "7.2.2.6"
@@ -72143,6 +72187,7 @@
   "type": "DOMAIN"
  },
  "IPR006573": {
+  "description": "The neuralized homology repeat (NHR) domain is a module of ~160 amino acids, which has been identified as a tandem repeat in drosophila neuralized, a protein involved in development of the central and peripheral nervous system. Several other fly, worm, and mammalian neuralized-like proteins were found to contain between one and six NHR domains associated with other modules, such as RING, SOCS, or ",
   "level": 0,
   "name": "Neuralized homology repeat (NHR) domain",
   "parent": null,
@@ -72546,6 +72591,7 @@
   "type": "DOMAIN"
  },
  "IPR006599": {
+  "description": "This entry represents the CARP motif, which occurs as a tandem repeat in the C-terminal of many cyclase-associated proteins (CAPs), as well as in tubulin binding cofactor C and the X-linked retinitis pigmentosa 2 protein (RP2).",
   "level": 0,
   "name": "CARP motif",
   "parent": null,
@@ -75569,6 +75615,7 @@
   "type": "FAMILY"
  },
  "IPR006946": {
+  "description": "This entry represents a domain found twice in the protein DUF642 L-galactono-1,4-lactone-responsive gene 2 from Arabidopsis thaliana (DGR2) and similar proteins found in plants and bacteria. DGR2 is involved in the regulation of testa rupture during seed germination and in the development of roots and rosettes. This domain was previously known as DUF642.",
   "level": 0,
   "name": "DUF642 L-galactono-1,4-lactone-responsive gene 2-like domain",
   "parent": null,
@@ -75764,6 +75811,7 @@
   "type": "FAMILY"
  },
  "IPR006970": {
+  "description": "This short repeat is composed on the tetrapeptide XPTX. This repeat is found in a variety of proteins, however it is not clear if these repeats are homologous to each other.",
   "level": 0,
   "name": "PT repeat",
   "parent": null,
@@ -76824,6 +76872,7 @@
   "type": "DOMAIN"
  },
  "IPR007096": {
+  "description": "RNA-directed RNA polymerase (RdRp) () is an essential protein encoded in the genomes of all RNA containing viruses with no DNA stage. It catalyses synthesis of the RNA strand complementary to a given RNA template, but the precise molecular mechanism remains unclear. The postulated RNA replication process is a two-step mechanism. First, the initiation step of RNA synthesis begins at or near the 3' ",
   "ec_numbers": [
    "2.7.7.48"
   ],
@@ -78050,6 +78099,7 @@
   "type": "FAMILY"
  },
  "IPR007232": {
+  "description": "The DNA single-strand annealing proteins (SSAPs), such as RecT, Red-beta, ERF and Rad52, function in RecA-dependent and RecA-independent DNA recombination pathways. This family includes proteins related to Rad52. These proteins contain two helix-hairpin-helix motifs.",
   "go_terms": [
    "GO:0006281",
    "GO:0006310"
@@ -78756,6 +78806,7 @@
   "type": "DOMAIN"
  },
  "IPR007315": {
+  "description": "This entry represents GPI mannosyltransferase 2, also known as PIG-V in humans or Gpi18 in fungi. PIG-V is a mannosyltransferase that transfers the second mannose in glycosylphosphatidylinositol (GPI) biosynthesis. GPI is a glycolipid that anchors many proteins to the eukaryotic cell surface. It contains a membrane-embedded domain named BindGPILA, also found in the GPI lipid anchor pathway protein",
   "ec_numbers": [
    "2.4.1.-"
   ],
@@ -88837,6 +88888,7 @@
   "type": "FAMILY"
  },
  "IPR008353": {
+  "description": "This group of serine peptidases belong to MEROPS peptidase family S1, subfamily S1B (clan PA(S)). The type example is glutamyl endopeptidase I of Staphylococcus aureus, a well-characterised and specialised human pathogen expressing a variety of virulence factors to enable successful infection of the host. Symptoms usually manifest in cases of food poisoning, pyrogenic fever and toxic shock syndrom",
   "ec_numbers": [
    "3.4.21.-"
   ],
@@ -91152,6 +91204,7 @@
   "type": "DOMAIN"
  },
  "IPR008630": {
+  "description": "This family represents a group of glycosyltransferases from plants and fungi, including Mnn10/Mnn11 from budding yeasts, Gma12/Gmh1-3 from fission yeasts and xyloglucan 6-xylosyltransferase 1/2 (XXT1/XXT2) from Arabidopsis.",
   "go_terms": [
    "GO:0016020",
    "GO:0016757"
@@ -93362,6 +93415,7 @@
   "type": "FAMILY"
  },
  "IPR008840": {
+  "description": "This family contains both viral and bacterial proteins which are related to the Gp157 protein of the Streptococcus thermophilus SFi bacteriophage. It is thought that bacteria possessing the gene coding for this protein have an increased resistance to the bacteriophage.",
   "level": 0,
   "name": "Siphovirus Gp157",
   "parent": null,
@@ -94566,6 +94620,7 @@
   "type": "DOMAIN"
  },
  "IPR008999": {
+  "description": "This superfamily represents an actin-crosslinking domain with a \u03b2-trefoil structure, consisting of a triplet of \u03b2-hairpins packed against a six-stranded antiparallel \u03b2-barrel. Proteins containing this domain include fascin, which carries a tandem repeat of four copies of this domain, and the histidine-rich actin-binding protein hisactophilin. Actin-crosslinking proteins organise actin filaments in",
   "level": 0,
   "name": "Actin-crosslinking",
   "parent": null,
@@ -101016,6 +101071,7 @@
   "type": "FAMILY"
  },
  "IPR009784": {
+  "description": "This family consists of several hypothetical bacterial proteins but contains one sequence Ree1 () from Saccharomyces cerevisiae. Members of this family are typically around 200 residues in length. The function of this family is unknown.",
   "level": 0,
   "name": "Protein of unknown function DUF1349",
   "parent": null,
@@ -101380,6 +101436,7 @@
   "type": "FAMILY"
  },
  "IPR009834": {
+  "description": "This entry represents Ureide permease 1-5 from Arabidopsis thaliana and similar proteins from plants and bacteria. UPS transports a wide spectrum of oxo derivatives of heterocyclic nitrogen compounds, including allantoin, uric acid and xanthine, but not adenine. Transport is dependent on glucose and a proton gradient. UPS5, which transports allantoin, has been related to salt and stress tolerance ",
   "go_terms": [
    "GO:0016020",
    "GO:0071705"
@@ -108850,6 +108907,7 @@
   "type": "DOMAIN"
  },
  "IPR010617": {
+  "description": "In animals, TMEM175 is an organelle-specific proton channel that catalyses proton efflux from endosomes and lysosomes to maintain a steady-state pH. It may also act as a potassium channel at higher pH, regulating potassium conductance in endosomes and lysosomes, however, this activity in unclear in vivo.",
   "go_terms": [
    "GO:0005267",
    "GO:0015252"
@@ -109258,6 +109316,7 @@
   "type": "DOMAIN"
  },
  "IPR010651": {
+  "description": "This is a family of bacterial sugar transporters approximately 300 residues long. Members include glucose uptake proteins, ribose transport proteins, and several putative and hypothetical membrane proteins probably involved in sugar transport across bacterial membranes.",
   "go_terms": [
    "GO:0015144",
    "GO:0016020",
@@ -110791,6 +110850,7 @@
   "type": "FAMILY"
  },
  "IPR010846": {
+  "description": "This entry represents a family of bacterial proteins, including N-acetylmuramoyl-L-alanine amidase (AmiA) from Bacteroides uniformis (BACUNI_02947,). This highly specific enzyme hydrolyses GlcNAc-1,6-anhydro-MurNAc-peptide into disaccharide and stem peptide. It shows an \u03b1/\u03b2/\u03b1 three-layered sandwich fold with a catalytic core that consists of a central five-stranded \u03b2-sheet and four \u03b1-helices. It i",
   "level": 0,
   "name": "N-acetylmuramoyl-L-alanine amidase-like",
   "parent": null,
@@ -111095,6 +111155,7 @@
   "type": "DOMAIN"
  },
  "IPR010896": {
+  "description": "This helix-turn-helix-containing DNA-binding domain is found associated in homing nucleases.",
   "level": 0,
   "name": "Nuclease-associated modular DNA-binding 1",
   "parent": null,
@@ -113520,6 +113581,7 @@
   "type": "DOMAIN"
  },
  "IPR011122": {
+  "description": "These proteins are encoded by putative wav gene clusters, which are responsible for the synthesis of the core oligosaccharide (OS) region of Vibrio cholerae lipopolysaccharide.",
   "level": 0,
   "name": "WavE lipopolysaccharide synthesis",
   "parent": null,
@@ -114168,6 +114230,7 @@
   "type": "FAMILY"
  },
  "IPR011204": {
+  "description": "There are currently no experimental data for members of this group or their homologues. However, these proteins are implicated in virulence/pathogenicity because RhuM is encoded in the SPI-3 pathogenicity island in Salmonella typhimurium.",
   "level": 0,
   "name": "Virulence protein RhuM-like",
   "parent": null,
@@ -115526,6 +115589,7 @@
   "type": "FAMILY"
  },
  "IPR011304": {
+  "description": "This entry represents the NAD-dependent L-lactate dehydrogenases from bacteria and eukaryotes. This enzyme functions as the final step in anaerobic glycolysis. Although lactate dehydrogenases have in some cases been mistaken for malate dehydrogenases due to the similarity of these two substrates and the apparent ease with which evolution can toggle these activities, critical residues have been ide",
   "ec_numbers": [
    "1.1.1.27"
   ],
@@ -117867,6 +117931,7 @@
   "type": "DOMAIN"
  },
  "IPR011610": {
+  "description": "This family represents a set of probable methyltransferases, including ML2640 from Mycobacterium leprae, which has SAM-methyltransferase activity.",
   "ec_numbers": [
    "2.1.1.-"
   ],
@@ -118955,6 +119020,7 @@
   "type": "FAMILY"
  },
  "IPR011727": {
+  "description": "This conserved hypothetical protein of unknown function is predominantly found in proteobacteria. Its function is unknown and its genome context is not well-conserved. It is found amid urease genes in at least one species.",
   "level": 0,
   "name": "Conserved hypothetical protein CHP02117",
   "parent": null,
@@ -122253,6 +122319,7 @@
   "type": "FAMILY"
  },
  "IPR012004": {
+  "description": "Phosphofructokinase (PFK) catalyses the phosphorylation of fructose-6-phosphate to fructose-1,6-biphosphate, which then enters the Embden-Meyerhof pathway. PFK is a key regulatory enzyme in glycolysis.",
   "ec_numbers": [
    "2.7.1.11"
   ],
@@ -124712,6 +124779,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR012353": {
+  "description": "The proteins in this entry are encoded by genes located in polysaccharide biosynthesis gene clusters, and are therefore believed to be involved in polysaccharide biosynthesis. The ste gene cluster (for St reptomyces e ps) is involved in exopolysaccharide EPS 139A biosynthesis in Streptomyces sp. 139.",
   "level": 0,
   "name": "Uncharacterised conserved protein UCP01524, polysaccharide biosynthesis aminopeptidase-like",
   "parent": null,
@@ -125578,6 +125646,7 @@
   "type": "DOMAIN"
  },
  "IPR012435": {
+  "description": "Members of this family fall in to the drug/metabolite transporter (dmt) superfamily. They carry 10xTM domains arranged as 5+5. Although these two sets may originally have arisen by gene-duplication the divergence now is such that the similarity between the two halves is no longer detectable by sequence.",
   "level": 1,
   "name": "TMEM144",
   "parent": "IPR010651",
@@ -127225,6 +127294,7 @@
   "type": "FAMILY"
  },
  "IPR012640": {
+  "description": "In prokaryotes, membrane lipoproteins are synthesized with a precursor signal peptide, which is cleaved by a specific lipoprotein signal peptidase (signal peptidase II). The peptidase recognises a conserved sequence and cuts upstream of a cysteine residue to which a glyceride-fatty acid lipid is attached.",
   "level": 0,
   "name": "Membrane lipoprotein, lipid attachment site",
   "parent": null,
@@ -128412,6 +128482,7 @@
   "type": "FAMILY"
  },
  "IPR012736": {
+  "description": "In bacteria, dihydroxyacetone is formed by the oxidation of glycerol or the aldol cleavage of fructose-6-phosphate. Dihydroxyacetone kinase converts this compound to the glycolytic intermediate dihydroxyacetone phosphate. Two forms of this enzyme have been shown to exist, using either ATP or a phosphoprotein of the phosphoenolpyruvate: sugar phosphotransferase system (PTS) as phosphate donor. The ",
   "ec_numbers": [
    "2.7.1.121",
    "2.7.1.29"
@@ -128422,6 +128493,7 @@
   "type": "DOMAIN"
  },
  "IPR012737": {
+  "description": "Two types of dihydroxyacetone kinase (glycerone kinase) are described. In yeast and a few bacteria, e.g. Citrobacter freundii, the enzyme is a single chain that uses ATP as phosphoryl donor and is designated. By contrast, Escherichia coli and many other bacterial species have a multisubunit form () with a phosphoprotein donor related to PTS transport proteins. This entry represents the ADP-binding",
   "ec_numbers": [
    "2.7.1",
    "2.7.1.121",
@@ -128582,6 +128654,7 @@
   "type": "DOMAIN"
  },
  "IPR012749": {
+  "description": "This family consists of dTDP-4-keto-6-deoxy-D-glucose transaminases, the WecE (formerly RffA) protein of enterobacterial common antigen (ECA) biosynthesis, from enterobacteria. It also includes closely matching sequence from species not expected to make ECA, but which contain other genes for the biosynthesis of dTDP-4-keto-6-deoxy-D-Glc, an intermediate in the biosynthesis of other compounds as we",
   "level": 0,
   "name": "dTDP-4-amino-4,6-dideoxygalactose transaminase WecE-like",
   "parent": null,
@@ -129065,6 +129138,7 @@
   "type": "FAMILY"
  },
  "IPR012782": {
+  "description": "Acetolactate synthase is a thiamin pyrophosphate-dependent enzyme that combines two molecules of pyruvate to yield 2-acetolactate with the release of CO2. It exists in two distinct forms that have different properties, though they are clearly related. The biosynthetic form, found in plants, fungi and bacteria, is involved in the biosynthesis of branched-chain amino acids and contains non-catalytic",
   "ec_numbers": [
    "2.2.1.6"
   ],
@@ -130270,6 +130344,7 @@
   "type": "FAMILY"
  },
  "IPR012844": {
+  "description": "In Escherichia coli and many other bacteria, unlike the yeasts and a few bacteria such as Citrobacter freundii, the dihydroxyacetone kinase (also called glycerone kinase) transfers a phosphate from a phosphoprotein rather than from ATP. The dihydroxyacetone kinase of Escherichia coli consists of three subunits: DhaK, DhaL and DhaM. DhaM consists of three domains. The N-terminal dimerisation domain",
   "ec_numbers": [
    "2.7.1.121"
   ],
@@ -131131,6 +131206,7 @@
   "type": "DOMAIN"
  },
  "IPR012924": {
+  "description": "This domain consists of a group of sequences that are similar to the core of TfuA protein (). TfuA plays a crucial dual role in peptide backbone thioamidation, functioning as both a hydrolase and a protein interaction mediator. It catalyses the hydrolysis of ThiS-COSH using a Ser/Lys catalytic pair to generate sulfide, while also enhancing YcaO's affinity for peptide substrates by approximately 8-",
   "level": 0,
   "name": "TfuA-like, core",
   "parent": null,
@@ -132820,6 +132896,7 @@
   "type": "DOMAIN"
  },
  "IPR013137": {
+  "description": "This entry represents a zinc finger motif found in transcription factor IIB (TFIIB). In eukaryotes the initiation of transcription of protein encoding genes by the polymerase II complexe (Pol II) is modulated by general and specific transcription factors. The general transcription factors operate through common promoters elements (such as the TATA box). At least seven different proteins associate ",
   "level": 0,
   "name": "Zinc finger, TFIIB-type",
   "parent": null,
@@ -135369,12 +135446,14 @@
   "type": "FAMILY"
  },
  "IPR013435": {
+  "description": "Proteins in this entry are more often encoded within mobilisation-related contexts than not. This includes a CRISPR-associated gene region in Geobacter sulfurreducens PCA, and plasmids in Agrobacterium tumefaciens and Coxiella burnetii. They are found together with mobile mystery protein B, a member of the Fic protein family (). Mobile mystery protein A is encoded by the upstream member of the gen",
   "level": 0,
   "name": "Mobile mystery protein A",
   "parent": null,
   "type": "FAMILY"
  },
  "IPR013436": {
+  "description": "Proteins in this family, designated mobile mystery protein B, are more often encoded within mobilisation-related contexts than not. This includes a CRISPR-associated gene region in Geobacter sulfurreducens PCA, and plasmids in Agrobacterium tumefaciens and Coxiella burnetii. They are always found together with mobile mystery protein A (), a helix-turn-helix putative DNA binding protein. This prote",
   "level": 1,
   "name": "Mobile mystery protein B",
   "parent": "IPR040198",
@@ -135697,6 +135776,7 @@
   "type": "FAMILY"
  },
  "IPR013467": {
+  "description": "This entry represents a bacterial family of proteins that includes several putative HNH endonucleases that form part of antiviral defense systems such as Ec78, Ec83 and Vc95. These proteins confer protection against specific phages.",
   "level": 0,
   "name": "Retron Ec78 putative HNH endonuclease-like",
   "parent": null,
@@ -135745,6 +135825,7 @@
   "type": "FAMILY"
  },
  "IPR013473": {
+  "description": "This family represents the Lon-like protease BrxL, including BrxL from Bacillus cereus, which is part of a type 1 BREX system. BREX systems (bacteriophage exclusion) provide immunity against bacteriophage, a system that allows phage adsorption but prevents phage DNA replication, without degradation of the phage DNA. Methylation of bacterial DNA by PglX probably guides self/non-self discrimination.",
   "level": 1,
   "name": "Lon-like protease BrxL",
   "parent": "IPR014061",
@@ -136188,6 +136269,7 @@
   "type": "REPEAT"
  },
  "IPR013518": {
+  "description": "Potassium channels are the most diverse group of the ion channel family. They are important in shaping the action potential, and in neuronal excitability and plasticity. The potassium channel family is composed of several functionally distinct isoforms, which can be broadly separated into 2 groups: the practically non-inactivating 'delayed' group and the rapidly inactivating 'transient' group.",
   "level": 0,
   "name": "Potassium channel, inwardly rectifying, Kir, cytoplasmic",
   "parent": null,
@@ -138828,6 +138910,7 @@
   "cazy_ids": [
    "GH13"
   ],
+  "description": "O-Glycosyl hydrolases () are a widespread group of enzymes that hydrolyse the glycosidic bond between two or more carbohydrates, or between a carbohydrate and a non-carbohydrate moiety. A classification system for glycosyl hydrolases, based on sequence similarity, has led to the definition of 85 different families. This classification is available on the CAZy (CArbohydrate-Active EnZymes) website.",
   "ec_numbers": [
    "3.2.1.",
    "3.2.1.1"
@@ -140576,6 +140659,7 @@
   "type": "DOMAIN"
  },
  "IPR013969": {
+  "description": "Alg14 is involved dolichol-linked oligosaccharide biosynthesis and anchors the catalytic subunit Alg13 to the ER membrane.",
   "go_terms": [
    "GO:0006488"
   ],
@@ -140647,6 +140731,7 @@
   "type": "DOMAIN"
  },
  "IPR013979": {
+  "description": "This entry contains \u03b2-propeller domains found in eukaryotic translation initiation factors and WD domain-containing proteins.",
   "level": 0,
   "name": "Translation initiation factor, beta propellor-like domain",
   "parent": null,
@@ -142141,6 +142226,7 @@
   "type": "FAMILY"
  },
  "IPR014056": {
+  "description": "Members of this protein family are small, generally only 100 amino acids in length. The gene is almost invariably the upstream member of a gene pair, where the downstream member is a predicted DNA-binding protein. These gene pairs, when found on the bacterial chromosome, are often located within prophage regions, but are also found in integrated plasmid regions and near housekeeping genes. Analysi",
   "level": 1,
   "name": "Type II toxin-antitoxin system RelE/ParE-like toxin, predicted",
   "parent": "IPR009241",
@@ -142171,6 +142257,7 @@
   "type": "DOMAIN"
  },
  "IPR014060": {
+  "description": "This family includes the Alkaline phosphatase-like protein PglZ from Bacillus cereus and Escherichia coli, putative phosphatases and core proteins of a type 1 BREX system. BREX systems (bacteriophage exclusion) provide immunity against bacteriophage. This system allows phage adsorption but prevents phage DNA replication, without degradation of the phage DNA. Methylation of bacterial DNA by PglX pr",
   "level": 0,
   "name": "Alkaline phosphatase-like protein PglZ",
   "parent": null,
@@ -143580,6 +143667,7 @@
   "type": "FAMILY"
  },
  "IPR014187": {
+  "description": "Members of this entry form a distinct subset of the larger family of oxidoreductases that includes zinc-binding alcohol dehydrogenases and NADPH:quinone reductases. The gene neighbourhood of members of this family is not conserved and it appears that no members are characterised. Sequence alignments reveal 6 invariant cysteine residues and one invariant histidine.",
   "level": 0,
   "name": "Alcohol dehydrogenase, zinc-binding type 2",
   "parent": null,
@@ -146731,6 +146819,7 @@
   "type": "FAMILY"
  },
  "IPR014556": {
+  "description": "There is currently no experimental data for members of this group or their homologues, nor do they exhibit features indicative of any function. Members are mainly found in clostridia.",
   "level": 0,
   "name": "Uncharacterised conserved protein UCP029407",
   "parent": null,
@@ -149077,6 +149166,7 @@
   "type": "DOMAIN"
  },
  "IPR014858": {
+  "description": "This family includes BREX protein BrxB from Bacillus cereus, which is part of a type 1 BREX (bacteriophage exclusion) system, a system that provides immunity against bacteriophage, which allows phage adsorption but prevents phage DNA replication, without degradation of the phage DNA. The exact function of BrxB is not clear.",
   "level": 0,
   "name": "BREX protein BrxB",
   "parent": null,
@@ -149727,6 +149817,7 @@
   "type": "FAMILY"
  },
  "IPR014948": {
+  "description": "BrxA is part of the phage resistance system BREX (Bacteriophage Exclusion). It shares structural homology with the RNA-binding antitermination protein NusB.",
   "level": 0,
   "name": "BrxA",
   "parent": null,
@@ -150957,6 +151048,7 @@
   "type": "DOMAIN"
  },
  "IPR015109": {
+  "description": "This entry represents the C-terminal catalytic domain of the type II restriction endonuclease EcoRII, which has a restriction endonuclease-like fold with a central five-stranded mixed \u03b2-sheet surrounded on both sides by \u03b1-helices. EcoRII cleaves DNA specifically at single 5' CCWGG sites.",
   "ec_numbers": [
    "2.1.1.72",
    "3.1.21.3",
@@ -151887,6 +151979,7 @@
   "type": "DOMAIN"
  },
  "IPR015225": {
+  "description": "Pseudouridine synthases catalyse the isomerisation of uridine to pseudouridine (Psi) in a variety of RNA molecules, and may function as RNA chaperones. Pseudouridine is the most abundant modified nucleotide found in all cellular RNAs. There are four distinct families of pseudouridine synthases that share no global sequence similarity, but which do share the same fold of their catalytic domain(s) a",
   "ec_numbers": [
    "5.4.99.25"
   ],
@@ -152678,6 +152771,7 @@
   "type": "FAMILY"
  },
  "IPR015314": {
+  "description": "This entry represents EcoRV prokaryotic restriction endonucleases, which recognise the double-stranded sequence 5'-GATATC-3' and cleave after T-3.",
   "ec_numbers": [
    "2.1.1.72",
    "3.1.21.3",
@@ -153450,6 +153544,7 @@
   "type": "DOMAIN"
  },
  "IPR015392": {
+  "description": "This domain, previously known as DUF1971, is found at the N-terminal end of the probable S-adenosyl-L-methionine-dependent methyltransferase TehB from Haemophilus influenzae and similar bacterial Tellurite resistance proteins and covering almost the whole length of the sequence in YeaR from Escherichia coli and other uncharacterised proteins.",
   "level": 0,
   "name": "TehB/YeaR-like domain",
   "parent": null,
@@ -156281,6 +156376,7 @@
   "type": "FAMILY"
  },
  "IPR015987": {
+  "description": "This family consists of several hypothetical bacterial proteins but contains one sequence Ree1 () from Saccharomyces cerevisiae. Members of this family are typically around 200 residues in length. The function of this family is unknown.",
   "level": 1,
   "name": "Uncharacterised conserved protein UCP022704",
   "parent": "IPR009784",
@@ -160118,6 +160214,7 @@
   "type": "FAMILY"
  },
  "IPR016368": {
+  "description": "This entry represents the virulence-associated protein, VapD type, found in bacteria. These proteins are defined by a conserved region found at the N terminus of the protein. The crystal structure VapD from Helicobacter pylori, which showed endoribonuclease activity, was solved by X-ray chrystallography, showing a modified ferredoxin-like fold, very similar to that of the Cas2 family. It was also ",
   "go_terms": [
    "GO:0003723",
    "GO:0004518"
@@ -160765,6 +160862,7 @@
   "type": "FAMILY"
  },
  "IPR016449": {
+  "description": "Potassium channels are the most diverse group of the ion channel family. They are important in shaping the action potential, and in neuronal excitability and plasticity. The potassium channel family is composed of several functionally distinct isoforms, which can be broadly separated into 2 groups: the practically non-inactivating 'delayed' group and the rapidly inactivating 'transient' group.",
   "go_terms": [
    "GO:0005242",
    "GO:0006813",
@@ -166188,6 +166286,7 @@
   "type": "FAMILY"
  },
  "IPR016984": {
+  "description": "There is currently no experimental data for members of this group or their homologues. Though they contain a version of the type II restriction endonuclease domain, it lacks the signature P[D]-[D/E]-X-K. It is therefore not clear if members of this group are enzymatically active endonucleases.",
   "level": 0,
   "name": "Uncharacterised conserved protein UCP031853",
   "parent": null,
@@ -166510,6 +166609,7 @@
   "type": "FAMILY"
  },
  "IPR017035": {
+  "description": "This group represents an uncharacterised protein with enzyme R HSDR_N domain, All3000 type.",
   "level": 0,
   "name": "Uncharacterised conserved protein UCP035009, HsdR, All3000-type",
   "parent": null,
@@ -167166,6 +167266,7 @@
   "type": "FAMILY"
  },
  "IPR017113": {
+  "description": "This entry represents ArdC family member y4eC and related proteins. ArdC is an antirestriction protein that specifically inhibits type I restriction and modification systems. Although ArdC shares little overall sequence similarity with other known antirestriction proteins (ArdA and ArdB types), it contains a conserved 14-amino-acid \"antirestriction\" motif common to all Ard proteins. ArdC exhibits ",
   "level": 0,
   "name": "ArdC family member y4eC",
   "parent": null,
@@ -170981,6 +171082,7 @@
   "type": "DOMAIN"
  },
  "IPR017452": {
+  "description": "This entry spans the seven transmembrane regions of rhodopsin-like GPCRs. It also identifies some non rhodopsin-like GPCRs, including a number of taste receptors and vomeronasal receptors.",
   "go_terms": [
    "GO:0016020"
   ],
@@ -171442,6 +171544,7 @@
   "type": "FAMILY"
  },
  "IPR017507": {
+  "description": "Members of this family belong to a clade of helix-turn-helix DNA-binding proteins. Members are similar in sequence to the HipB protein of Escherichia coli. Genes for members of the seed alignment for this protein family were found to be closely linked to genes encoding proteins related to HipA. The HibBA operon appears to have some features in common with toxin-antitoxin post-segregational killing",
   "level": 0,
   "name": "Transcription regulator, HipB-like",
   "parent": null,
@@ -175014,6 +175117,7 @@
   "type": "FAMILY"
  },
  "IPR017868": {
+  "description": "The many different actin cross-linking proteins share a common architecture, consisting of a globular actin-binding domain and an extended rod. Whereas their actin-binding domains consist of two calponin homology domains (see), their rods fall into three families.",
   "level": 0,
   "name": "Filamin/ABP280 repeat-like",
   "parent": null,
@@ -175230,6 +175334,7 @@
   "type": "FAMILY"
  },
  "IPR017905": {
+  "description": "The ~100-residue ERV/ALR sulphydryl oxidase domain is a versatile module adapted for catalysis of disulphide bond formation in various organelles and biological settings. The ERV/ALR sulphydryl oxidase domain has a Cys-X-X-Cys dithiol/disulphide motif adjacent to a bound FAD cofactor, enabling transfer of electrons from thiol substrates to non-thiol electron acceptors. ERV/ALR family members diffe",
   "ec_numbers": [
    "1.8.3.2"
   ],
@@ -175245,6 +175350,7 @@
   "type": "DOMAIN"
  },
  "IPR017907": {
+  "description": "A number of eukaryotic and viral proteins contain a conserved cysteine-rich domain of 40 to 60 residues (called C3HC4 zinc-finger or 'RING' finger) that binds two atoms of zinc. There are two different variants, the C3HC4-type and the C3H2C3-type, which is clearly related despite the different cysteine/histidine pattern. The latter type is sometimes referred to as \"RING-H2 finger\". The 3D structur",
   "ec_numbers": [
    "2.3.2",
    "2.3.2.27"
@@ -178882,6 +178988,7 @@
   "type": "CONSERVED_SITE"
  },
  "IPR018297": {
+  "description": "Guanylate cyclases () catalyze the formation of cyclic GMP (cGMP) from GTP. cGMP acts as an intracellular messenger, activating cGMP-dependent kinases and regulating CGMP-sensitive ion channels. The role of cGMP as a second messenger in vascular smooth muscle relaxation and retinal photo-transduction is well established. Guanylate cyclase is found both in the soluble and particular fraction of euk",
   "ec_numbers": [
    "4.6.1.2"
   ],
@@ -179026,6 +179133,7 @@
   "type": "DOMAIN"
  },
  "IPR018309": {
+  "description": "Phenolic acids, also called substituted hydroxycinnamic acids, are abundant in the plant kingdom because they are involved in the structure of plant cell walls and are present in some vacuoles. In plant-soil ecosystems they are released as free acids by hemicellulases produced by several fungi and bacteria. Of these weak acids, the most abundant are p-coumaric, ferulic, and caffeic acids, consider",
   "level": 0,
   "name": "Transcription regulator PadR, C-terminal",
   "parent": null,
@@ -180207,6 +180315,7 @@
   "type": "CONSERVED_SITE"
  },
  "IPR018504": {
+  "description": "This is a hydrophobic pore-forming domain found towards the N-terminal of RTX toxins.",
   "go_terms": [
    "GO:0005576",
    "GO:0015267"
@@ -180568,6 +180677,7 @@
   "type": "CONSERVED_SITE"
  },
  "IPR018530": {
+  "description": "This entry represents a domain in Uncharacterized protein PA14_02130 which is part of the SiaC family regulatory phosphoprotein. They undergo a regulatory phosphorylation at Thr-68. Also, it is part of motif NTSS, so may contain more than one phosphorylation site. Phosphorylation causes regulatory change to protein-protein interaction in a pathway that seems broadly distributed, involves a diguany",
   "level": 0,
   "name": "PA14_02130",
   "parent": null,
@@ -180593,6 +180703,7 @@
   "type": "FAMILY"
  },
  "IPR018535": {
+  "description": "This family of proteins are functionally uncharacterised.",
   "level": 0,
   "name": "Domain of unknown function DUF1996",
   "parent": null,
@@ -182607,6 +182718,7 @@
   "type": "FAMILY"
  },
  "IPR018773": {
+  "description": "This entry represents a sequence region found in various prokaryotic methyltransferases that regulates the activity of the methyltransferase domain.",
   "level": 0,
   "name": "Methyltransferase regulatory domain, predicted",
   "parent": null,
@@ -183233,6 +183345,7 @@
   "type": "FAMILY"
  },
  "IPR018871": {
+  "description": "The GLEYA domain is related to lectin-like binding domains found in the Saccharomyces cerevisiae Flo proteins and the Candida glabrata Epa proteins. It is a carbohydrate-binding domain that is found in fungal adhesins (also referred to as agglutinins or flocculins). Adhesins with a GLEYA domain possess a typical N-terminal signal peptide and a domain of conserved sequence repeats, but lack glycosy",
   "level": 1,
   "name": "GLEYA adhesin domain",
   "parent": "IPR037524",
@@ -183460,6 +183573,7 @@
   "type": "DOMAIN"
  },
  "IPR018908": {
+  "description": "TMEM234 is a family of putative inner membrane proteins. Many bacterial members are annotated as putative L-Ara4N-phosphoundecaprenol flippase subunit ArnE, and as inner membrane proteins. They may be transporters of the multi-drug-resistant superfamily.",
   "level": 0,
   "name": "Putative transmembrane family 234",
   "parent": null,
@@ -183475,6 +183589,7 @@
   "type": "DOMAIN"
  },
  "IPR018910": {
+  "description": "The Gmad1 domain is found associated with in LpqB. It is predicted to have a \u03b2-propeller fold and to have a passive binding role rather than a catalytic function owing to the low number of conserved hydrophilic residues.",
   "level": 0,
   "name": "Lipoprotein LpqB, C-terminal domain",
   "parent": null,
@@ -184598,6 +184713,7 @@
   "type": "DOMAIN"
  },
  "IPR019036": {
+  "description": "There are four classes of restriction endonucleases: types I, II, III and IV. All types of enzymes recognise specific short DNA sequences and carry out the endonucleolytic cleavage of DNA to give specific double-stranded fragments with terminal 5'-phosphates. They differ in their recognition sequence, subunit composition, cleavage position, and cofactor requirements, as summarised below:",
   "ec_numbers": [
    "2.1.1.72",
    "3.1.21.3",
@@ -185429,6 +185545,7 @@
   "type": "FAMILY"
  },
  "IPR019165": {
+  "description": "Mitochondrial inner membrane protease ATP23 has two roles in the assembly of mitochondrial ATPase. Firstly, it acts as a protease that removes the N-terminal 10 residues of mitochondrial ATPase CF(0) subunit 6 (ATP6) at the intermembrane space side. Secondly, it is involved in the correct assembly of the membrane-embedded ATPase CF(0) particle, probably mediating association of ATP6 with the subun",
   "ec_numbers": [
    "3.4.24.-"
   ],
@@ -185630,6 +185747,7 @@
   "type": "FAMILY"
  },
  "IPR019191": {
+  "description": "This entry represents proteins found in the N-terminal region of the essential protein Yae1. Proteins containing this domain include ORAOV1 (Oral cancer-overexpressed protein 1) and YAE1. Their function is not clear. In Saccharomyces cerevisiae, Lto1 (ORAOV1 homologue) forms a complex with Rli1 and Yae1, which relieves the toxic effects of reactive oxygen species (ROS) on biogenesis and function o",
   "level": 0,
   "name": "Essential protein Yae1, N-terminal",
   "parent": null,
@@ -185743,6 +185861,7 @@
   "type": "FAMILY"
  },
  "IPR019207": {
+  "description": "This entry represents various hypothetical prokaryotic proteins of unknown function.",
   "level": 0,
   "name": "Protein of unknown function DUF2092, periplasmic",
   "parent": null,
@@ -185909,6 +186028,7 @@
   "type": "FAMILY"
  },
  "IPR019243": {
+  "description": "This domain is found in Uncharacterized protein MJ0754 from Methanocaldococcus jannaschii and similar proteins from bacteria and archaea. MJ0754 adopts a dimeric assembly, with each monomer consisting of six \u03b1-helices. It is a member of a broad superfamily of ferritin-like diiron-carboxylate proteins whose function is unknown. The conserved residues of a diiron centre are present within the putati",
   "level": 0,
   "name": "Domain of unknown function DUF2202",
   "parent": null,
@@ -186208,6 +186328,7 @@
   "type": "DOMAIN"
  },
  "IPR019302": {
+  "description": "This entry represents a TIR domain found in prokaryotic nucleotide-binding proteins, including CD-NTase-associated protein 12 (CAP12) and Pycsar effector proteins (). Members of this entry are part of anti phage resistance systems that provide immunity against bacteriophage. CAP12 is part of the CBASS (cyclic oligonucleotide-based antiphage signaling system) and binds c-di-GMP and 3'-3'-cGAMP, cyc",
   "ec_numbers": [
    "3.2.2.5"
   ],
@@ -188326,6 +188447,7 @@
   "type": "DOMAIN"
  },
  "IPR019493": {
+  "description": "Bacteriocins are proteinaceous toxins produced by bacteria to inhibit the growth of similar or closely related strains. The producer bacteria are protected from the effects of their own bacteriocins by production of a specific immunity protein which is co-transcribed with the genes encoding the bacteriocins, e.g.. The bacteriocins are structurally more specific than their immunity-protein counterp",
   "go_terms": [
    "GO:0042742"
   ],
@@ -188828,6 +188950,7 @@
   "type": "DOMAIN"
  },
  "IPR019568": {
+  "description": "Neuromuscular junction formation relies upon the clustering of acetylcholine receptors and other proteins in the muscle membrane. Rapsyn (receptor-associated protein of the synapse) is a peripheral membrane protein that is selectively concentrated at the neuromuscular junction (NMJ) and is essential for the formation of synaptic acetylcholine receptor aggregates. It is required for anchoring and s",
   "go_terms": [
    "GO:0007268",
    "GO:0033130",
@@ -189371,6 +189494,7 @@
   "type": "FAMILY"
  },
  "IPR019647": {
+  "description": "This entry represents proteins that are activated by the protein PhoP. PhoP controls the expression of a large number of genes that mediate adaptation to low Mg2+ environments and/or virulence in several bacterial species. YbrL is proposed to be acting in a loop activity with PhoP and PrmA analogous to the multi-component loop in Salmonella sp., where the PhoP-dependent PmrD protein activates the ",
   "level": 0,
   "name": "PhoP regulatory network protein YrbL",
   "parent": null,
@@ -190315,6 +190439,7 @@
   "type": "ACTIVE_SITE"
  },
  "IPR019780": {
+  "description": "Germins and germin-like proteins are a family of hexameric ubiquitous plant glycoproteins. They are not restricted to germinating grains as initially thought and therefore called 'germins', but they exist in all organs and developmental stages. They are all partly associated with the extracellular matrix.",
   "ec_numbers": [
    "1.15.1.1",
    "1.2.3.4"
@@ -190737,6 +190862,7 @@
   "type": "CONSERVED_SITE"
  },
  "IPR019819": {
+  "description": "Higher eukaryotes have many distinct esterases. Among the different types are those which act on carboxylic esters (). Carboxyl-esterases have been classified into three categories (A, B and C) on the basis of differential patterns of inhibition by organophosphates. The sequence of a number of type-B carboxylesterases indicates that the majority are evolutionary related. As is the case for lipases",
   "ec_numbers": [
    "3.1.1"
   ],
@@ -191946,6 +192072,7 @@
   "type": "CONSERVED_SITE"
  },
  "IPR019956": {
+  "description": "Ubiquitinylation is an ATP-dependent process that involves the action of at least three enzymes: a ubiquitin-activating enzyme (E1,), a ubiquitin-conjugating enzyme (E2,), and a ubiquitin ligase (E3,,), which work sequentially in a cascade. There are many different E3 ligases, which are responsible for the type of ubiquitin chain formed, the specificity of the target protein, and the regulation of",
   "level": 0,
   "name": "Ubiquitin domain",
   "parent": null,
@@ -200384,6 +200511,7 @@
   "type": "DOMAIN"
  },
  "IPR021047": {
+  "description": "The capsule of pathogenic fungi is a complex polysaccharide whose formation is determined by a number of enzymes including, most importantly, alpha-1,3-mannosyltransferase 1. It is responsible for addition of mannose residues in an alpha-1,3 linkage to a polymannosly precursor.",
   "level": 0,
   "name": "Mannosyltransferase 1, CMT1",
   "parent": null,
@@ -201964,6 +202092,7 @@
   "type": "FAMILY"
  },
  "IPR021259": {
+  "description": "This family of proteins has no known function.",
   "level": 0,
   "name": "Protein of unknown function DUF2817",
   "parent": null,
@@ -203831,6 +203960,7 @@
   "type": "FAMILY"
  },
  "IPR021513": {
+  "description": "This entry is represented by Ralstonia phage RSL1, Orf186. The characteristics of the protein distribution suggest prophage matches in addition to the phage matches.",
   "level": 0,
   "name": "Ralstonia phage RSL1, Orf186",
   "parent": null,
@@ -204119,6 +204249,7 @@
   "type": "FAMILY"
  },
  "IPR021558": {
+  "description": "This entry includes MazE from Mycobacterium smegmatis. MazE is an antitoxin component of a type II toxin-antitoxin (TA) system.",
   "level": 0,
   "name": "Antitoxin MazE-like",
   "parent": null,
@@ -206046,6 +206177,7 @@
   "type": "FAMILY"
  },
  "IPR021838": {
+  "description": "This family of proteins are functionally uncharacterised. This protein is found in eukaryotes. Proteins in this family are typically between 291 to 390 amino acids in length. This protein has a conserved NLRC sequence motif.",
   "level": 0,
   "name": "Protein of unknown function DUF3431",
   "parent": null,
@@ -208472,6 +208604,7 @@
   "type": "DOMAIN"
  },
  "IPR022148": {
+  "description": "CopG antitoxin is a member of a type II toxin-antitoxin system family found mainly in bacteria. Most antitoxins encoded by the relBE and parDE loci belong to the MetJ/Arc/CopG family of dimeric proteins which bind DNA through N-terminal ribbon-helix-helix (RHH) motifs.",
   "level": 0,
   "name": "CopG antitoxin",
   "parent": null,
@@ -209753,6 +209886,7 @@
   "type": "DOMAIN"
  },
  "IPR022265": {
+  "description": "This entry represents an uncharacterised protein family that occurs only among the roughly 8 percent of prokaryotic species that carry homologues of the integral membrane protein exosortase (see), a proposed protein-sorting system transpeptidase.",
   "level": 0,
   "name": "Conserved hypothetical protein CHP03790",
   "parent": null,
@@ -209823,6 +209957,7 @@
   "type": "DOMAIN"
  },
  "IPR022274": {
+  "description": "This entry contains uncharacterised proteins with no known function including Uncharacterized protein AF_0612, however they are predicted to be aspartic peptidases belonging to MEROPS clan AA being related to family. These proteins resemble retropepsins, pepsin-like proteases of retroviruses such as HIV.",
   "level": 0,
   "name": "AF_0612",
   "parent": null,
@@ -212081,6 +212216,7 @@
   "type": "FAMILY"
  },
  "IPR022518": {
+  "description": "This enzyme, aspartate 4-decarboxylase (), removes the side-chain carboxylate from L-aspartate, converting it to L-alanine plus carbon dioxide. It is a PLP-dependent enzyme, homologous to aspartate aminotransferase ().",
   "ec_numbers": [
    "2.6.1.1",
    "4.1.1.12"
@@ -213484,6 +213620,7 @@
   "type": "DOMAIN"
  },
  "IPR022684": {
+  "description": "This group of cysteine peptidases belong to the MEROPS peptidase family C2 (calpain family, clan CA). A type example is calpain, which is an intracellular protease involved in many important cellular functions that are regulated by calcium. The protein is a complex of 2 polypeptide chains (light and heavy), with eleven known active peptidases in humans and two non-peptidase homologues known as cal",
   "ec_numbers": [
    "3.4.22"
   ],
@@ -214939,6 +215076,7 @@
   "type": "FAMILY"
  },
  "IPR022843": {
+  "description": "This entry represents formamidase. Formamidase is an aliphatic amidase with a restricted substrate specificity, as it only hydrolyzes formamide.",
   "ec_numbers": [
    "3.5.1.49"
   ],
@@ -218285,6 +218423,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR023137": {
+  "description": "BrxA is part of the phage resistance system BREX (Bacteriophage Exclusion). It shares structural homology with the RNA-binding antitermination protein NusB.",
   "level": 0,
   "name": "BrxA superfamily",
   "parent": null,
@@ -221173,6 +221312,7 @@
   "type": "FAMILY"
  },
  "IPR023498": {
+  "description": "This entry is represented by ZupT, which mediates zinc uptake and which may also transport other divalent cations.",
   "level": 1,
   "name": "Zinc transporter ZupT",
   "parent": "IPR003689",
@@ -227153,6 +227293,7 @@
   "type": "FAMILY"
  },
  "IPR023984": {
+  "description": "Members of this family of peptide-modifying radical SAM proteins include BstC, BstF, and BstJ, three enzymes involved in the biosynthesis of the antibiotic bottromycin D from a ribosomally translated peptide precursor that lacks a leader peptide. They appear to perform methylations of carbon atoms. Other members of the family occur in genomic contexts with RiPP family precursors in the Nif11-like ",
   "level": 0,
   "name": "Ribosomal peptide maturation radical SAM protein 1",
   "parent": null,
@@ -227211,6 +227352,7 @@
   "type": "FAMILY"
  },
  "IPR023991": {
+  "description": "Members of this protein family are described variably as bacteriocins per se, one chain of a two-chain bacteriocin, or bacteriocin enhancer proteins. All members of the seed alignment occur in paired gene contexts with another member of the same protein family. This family includes bacteriocins that appear not to undergo post-translational modification, other than cleavage at a Gly-Gly motif coupl",
   "level": 0,
   "name": "Bacteriocin, class IIb, lactobin A/cerein 7B family",
   "parent": null,
@@ -230106,6 +230248,7 @@
   "type": "FAMILY"
  },
  "IPR024282": {
+  "description": "This domain is found in a family of bacterial proteins of unknown function that contain an N-terminal patatin domain.",
   "level": 0,
   "name": "Domain of unknown function DUF3376",
   "parent": null,
@@ -230736,6 +230879,7 @@
   "type": "DOMAIN"
  },
  "IPR024371": {
+  "description": "This entry represents acetyl-coenzyme A transporter 1 and related proteins. Acetyl-coenzyme A transporter 1 is an acetyl-CoA transporter that mediates active acetyl-CoA import through the endoplasmic reticulum (ER) membrane into the ER lumen. Within the ER lumen, specific ER-based acetyl-CoA:lysine acetyltransferases are responsible for the acetylation of ER-based protein substrates, such as BACE1",
   "go_terms": [
    "GO:0008521",
    "GO:0016020",
@@ -231797,6 +231941,7 @@
   "type": "FAMILY"
  },
  "IPR024492": {
+  "description": "This entry includes Uncharacterized protein CT_309, Uncharacterized protein TC_0583 and Uncharacterized protein CPn_0087/CP_0687/CPj0087/CpB0087 mainly found in bacteria. They contain an all helical fold.",
   "level": 0,
   "name": "CT_309/TC_0583-like",
   "parent": null,
@@ -236073,6 +236218,7 @@
   "type": "DOMAIN"
  },
  "IPR024967": {
+  "description": "This entry represents a DNA-binding domain found in a number of putative transposases. This domain can be found in the upstream region of the conjoined ORF AB of insertion element 481 from Bordetella pertusis.",
   "level": 0,
   "name": "DNA-binding domain, IS481-type",
   "parent": null,
@@ -237110,6 +237256,7 @@
   "type": "DOMAIN"
  },
  "IPR025137": {
+  "description": "The function of this domain is unknown, but it is found at the C terminus of bacteriophage N4 adsorption protein A (NfrA) in association with an N-terminal region of Tetratricopeptide (TPR) repeats. NfrA serves as the phage receptor.",
   "level": 0,
   "name": "Bacteriophage N4 adsorption protein A, C-terminal",
   "parent": null,
@@ -237252,6 +237399,7 @@
   "type": "DOMAIN"
  },
  "IPR025159": {
+  "description": "AbiEi is the cognate antitoxin of the type IV toxin-antitoxin 'innate immunity' bacterial abortive infection (Abi) system that protects bacteria from the spread of a phage infection. The Abi system is activated upon infection with phage to abort the cell thus preventing the spread of phage through viral replication. There are some 20 or more Abis, and they are predominantly plasmid-encoded lactoco",
   "level": 0,
   "name": "AbiEi antitoxin, N-terminal domain",
   "parent": null,
@@ -237510,6 +237658,7 @@
   "type": "DOMAIN"
  },
  "IPR025197": {
+  "description": "This entry represents a domain found in proteins from lower eukaryotes and bacteria. The function of this domain is unknown.",
   "level": 0,
   "name": "Domain of unknown function DUF4116",
   "parent": null,
@@ -237850,6 +237999,7 @@
   "type": "DOMAIN"
  },
  "IPR025247": {
+  "description": "Type II methyltransferase M.EcoRI recognises the double-stranded sequence GAATTC, causes specific methylation on A-3 on both strands, and protects the DNA from cleavage by the EcoRI endonuclease. This entry also includes Type II methyltransferases M.MgeORF184P and M.MpnI from the human pathogens Mycoplasma genitalium and Mycoplasma pneumoniae, respectively.",
   "ec_numbers": [
    "2.1.1.72"
   ],
@@ -238615,6 +238765,7 @@
   "type": "FAMILY"
  },
  "IPR025333": {
+  "description": "This family of proteins is functionally uncharacterised. It is distantly related to bestrophin proteins. Structure prediction suggests that these proteins can form homopentamers as Bestrophin proteins do. These proteins may function as chloride channels. This domain is sometimes found at the C terminus in large RHS proteins suggesting that it may function as a toxin.",
   "level": 0,
   "name": "Protein of unknown function DUF4239",
   "parent": null,
@@ -238775,6 +238926,7 @@
   "type": "DOMAIN"
  },
  "IPR025358": {
+  "description": "This family of proteins is functionally uncharacterised.",
   "level": 0,
   "name": "Protein of unknown function DUF4262",
   "parent": null,
@@ -238815,6 +238967,7 @@
   "type": "DOMAIN"
  },
  "IPR025365": {
+  "description": "This family of proteins is functionally uncharacterised. There is a conserved KTE sequence motif.",
   "level": 0,
   "name": "Protein of unknown function DUF4269",
   "parent": null,
@@ -239672,6 +239825,7 @@
   "type": "FAMILY"
  },
  "IPR025503": {
+  "description": "This family of proteins is functionally uncharacterised.",
   "level": 0,
   "name": "Protein of unknown function DUF4391",
   "parent": null,
@@ -241016,6 +241170,7 @@
   "type": "DOMAIN"
  },
  "IPR025671": {
+  "description": "This family of proteins contains an HXXEE motif, another conserved histidine and a YXPG motif. Its function is unknown.",
   "level": 0,
   "name": "Protein of unknown function with HXXEE motif",
   "parent": null,
@@ -242669,6 +242824,7 @@
   "type": "FAMILY"
  },
  "IPR025799": {
+  "description": "Protein arginine methyltransferases (PRMTs) are enzymes that transfer methyl groups to the arginine residues of histones and other proteins. Arginine methylation is an important posttranslational modification process that plays functional roles in transcriptional control, splicing, DNA repair, and signaling.",
   "ec_numbers": [
    "2.1.1"
   ],
@@ -244839,6 +244995,7 @@
   "type": "FAMILY"
  },
  "IPR026071": {
+  "description": "This family contains endomannosidases and endomannosidase-like proteins. Glycoprotein endo-alpha-1,2-mannosidase hydrolyses the terminal alpha-D-glucosyl-(1,3)-D-mannosyl unit from the GlcMan9(GlcNAc)2 oligosaccharide component of the glycoprotein produced in the Golgi membrane.",
   "ec_numbers": [
    "3.2.1.130"
   ],
@@ -246914,6 +247071,7 @@
   "type": "FAMILY"
  },
  "IPR026337": {
+  "description": "Sequences belonging to this entry include C-terminal extension regions shared by members of the FxsB family of radical SAM/SPASM proteins that perform post-translational modifications to FxSxx-COOH family RiPP precursor proteins, but also additional proteins from bacteria that lack an FxSxx-COOH modification system. Members of this entry that are not fused to a radical SAM domain, have a HEXXH mot",
   "level": 0,
   "name": "Alpha-ketoglutarate-HExxH-type peptide, beta-hydroxylase domain",
   "parent": null,
@@ -249615,6 +249773,7 @@
   "type": "FAMILY"
  },
  "IPR026737": {
+  "description": "Golgin are coiled-coil proteins localising in part of the Golgi stack. Some of the golgin members interact with small GTPase. They may have roles in membrane traffic and Golgi structure.",
   "level": 0,
   "name": "Golgin subfamily A member 6-like",
   "parent": null,
@@ -250172,6 +250331,7 @@
   "type": "DOMAIN"
  },
  "IPR026856": {
+  "description": "This entry includes sialidase and sialidase 1/2/3/4/A, which are members of the glycoside hydrolase family 33 that also includes trans-sialidase and 2-keto-3-deoxynononic acid sialidase.",
   "ec_numbers": [
    "3.2.1.18"
   ],
@@ -250345,6 +250505,7 @@
   "type": "DOMAIN"
  },
  "IPR026893": {
+  "description": "This is a family of putative tyrosine/serine-protein phosphatases. A member of this family, IphP, is a cyanobacterial dual-specificity protein phosphatase with MAP kinase phosphatase activity. This entry also includes PtpB from Mycobacterium tuberculosis. PtpB is a phosphatase that possesses triple substrate specificity toward phosphotyrosine, phosphoserine/threonine and phosphoinositides.",
   "ec_numbers": [
    "3.1.3.48"
   ],
@@ -250458,6 +250619,7 @@
   "type": "DOMAIN"
  },
  "IPR026913": {
+  "description": "Methyltransferase-like protein 24 belongs to the methyltransferase superfamily. Its function is not clear.",
   "ec_numbers": [
    "2.1.1.-"
   ],
@@ -254456,6 +254618,7 @@
   "type": "DOMAIN"
  },
  "IPR027599": {
+  "description": "Members of this protein show distant homology to PqqD, and belong to a three-gene cassette that included the HPr kinase related protein family of. The role of the cassette, and of this protein, are unknown.",
   "level": 0,
   "name": "PqqD family protein, HPr-rel-A system",
   "parent": null,
@@ -254544,6 +254707,7 @@
   "type": "FAMILY"
  },
  "IPR027612": {
+  "description": "Members of this family tend to occur next to glycosyltransferases and other characteristic enzymes of O-antigen biosynthetic regions. The founding member is LIC12133 () from Leptospira interrogans serovar Copenhageni. PSI-BLAST reveals distant homology to known SAM-dependent methyltransferases ().",
   "level": 0,
   "name": "Putative methyltransferase, LIC12133 family",
   "parent": null,
@@ -263004,6 +263168,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR029071": {
+  "description": "Ubiquitin (Ub) and Ub-like proteins are typified by a \u03b2-grasp fold. Ub-like proteins (Ubl) such as Nedd8 and SUMO are also covalently linked to target polypeptides, just as Ub itself. This fold is also found in Ub-related domains, such as the UBX domain and Ras-binding domain (RBD).",
   "level": 0,
   "name": "Ubiquitin-like domain superfamily",
   "parent": null,
@@ -265839,6 +266004,7 @@
   "type": "DOMAIN"
  },
  "IPR029463": {
+  "description": "This is the catalytic domain of aspzincins, a group of lysine-specific metallo-endopeptidases in the MEROPS M35 family. They exhibit the following active-site architecture: the active site is composed of two helices and a loop region and includes the HExxH and GTxDxxYG motifs. In protein, His117, His121 and Asp130 coordinate to the catalytic zinc ligands. An electrostatically negative region compo",
   "ec_numbers": [
    "3.4.24.39"
   ],
@@ -265877,6 +266043,7 @@
   "type": "DOMAIN"
  },
  "IPR029468": {
+  "description": "This family includes O-antigen polysaccharide polymerases. These enzymes link O-units via a glycosidic linkage to form a long O-antigen. These enzymes vary in specificity and sequence.",
   "level": 0,
   "name": "O-antigen polysaccharide polymerase Wzy",
   "parent": null,
@@ -268293,6 +268460,7 @@
   "type": "DOMAIN"
  },
  "IPR030400": {
+  "description": "This entry represents the sedolisin domain.",
   "ec_numbers": [
    "3.4.14"
   ],
@@ -269213,6 +269381,7 @@
   "type": "FAMILY"
  },
  "IPR030669": {
+  "description": "Molybdenum storage protein subunits alpha and beta (MosA/MosB) are involved in intracellular storage of molybdenum. Each protein molecule can store at least 90 Mo atoms. The Mo storage protein from the nitrogen-fixing bacterium, Azotobacter vinelandii, is characterised as an alpha4-beta4 octamer containing a polynuclear molybdenum-oxide cluster which is ATP-dependent to bind Mo and pH-dependent to",
   "go_terms": [
    "GO:0005737",
    "GO:0030151"
@@ -270644,6 +270813,7 @@
   "type": "FAMILY"
  },
  "IPR030913": {
+  "description": "This entry represents the copper storage protein (Csp1) and related proteins. Members of this family average about 150 amino acids in length, beginning with a twin-arginine translocation signal sequence, then a His-rich spacer region, followed by a ~105-residue region in which thirteen positions are nearly invariant Cys residues.",
   "level": 0,
   "name": "Copper storage protein 1 family",
   "parent": null,
@@ -270662,6 +270832,7 @@
   "type": "FAMILY"
  },
  "IPR030916": {
+  "description": "This entry represents a protein repeat with a well-conserved motif ELWxxDGT, and a periodicity of about 48. A single protein may have as many as 18 repeats. It may consist nearly entirely of this repeat, or may have other repeats as well (e.g. hyalin repeat). It is most common in the Deltaproteobacteria.",
   "level": 0,
   "name": "ELWxxDGT repeat",
   "parent": null,
@@ -271124,6 +271295,7 @@
   "type": "FAMILY"
  },
  "IPR030950": {
+  "description": "This entry represents PoyD and its homologues. These are divergent putative radical SAM enzymes, with the classical CxxxCxxC motif but not found in. PoyD appears responsible for catalysing a unidirectional L-to-D epimerization of 18 the 48 residues in the core peptide of the first characterised polytheonamide. The RiPP (ribosomally translated natural product) precursor, and peptides encoded near m",
   "level": 0,
   "name": "Radical SAM family RiPP maturation amino acid epimerase",
   "parent": null,
@@ -271773,6 +271945,7 @@
   "type": "FAMILY"
  },
  "IPR031042": {
+  "description": "This entry represents a putative glycotransferase domain related to the glycosyltransferase 2-like domain ().",
   "level": 0,
   "name": "Glycosyltransferase domain",
   "parent": null,
@@ -273772,6 +273945,7 @@
   "type": "FAMILY"
  },
  "IPR031493": {
+  "description": "This zinc-ribbon region is found, among others, in many microsporidia proteins.",
   "level": 0,
   "name": "Zinc-ribbon 15",
   "parent": null,
@@ -277213,6 +277387,7 @@
   "type": "DOMAIN"
  },
  "IPR031948": {
+  "description": "This entry includes the PliI protein from Aeromonas hydrophila (PliI-Ah). PliI is a dimeric periplasmic protein that enables bacteria to resist permeabilisation of the outer membrane by the bactericidal action of lysozyme. PliI achieves its inhibitory action via an insertion of a loop containing the conserved SGxY motif into the active centre of I-type lysozymes.",
   "level": 0,
   "name": "Periplasmic lysozyme inhibitor, I-type",
   "parent": null,
@@ -277645,6 +277820,7 @@
   "type": "DOMAIN"
  },
  "IPR032015": {
+  "description": "This entry represents an Ig-like domain found in plant-specific actin-binding proteins or SCABs. SCAB proteins bind, bundle and stabilise actin filaments and regulate stomatal movement. The Ig-PH fusion domain is at the C terminus. This domain is an Ig \u03b2-sandwich fold consisting of two antiparallel \u03b2-sheets built from strands \u03b21 and \u03b22 and strands \u03b23-\u03b26, respectively.",
   "level": 0,
   "name": "Stomatal closure-related actin-binding protein, Ig domain",
   "parent": null,
@@ -279700,6 +279876,7 @@
   "type": "FAMILY"
  },
  "IPR032341": {
+  "description": "This entry represents the C-terminal domain of the MIT domain-containing proteins. It contains an unanticipated phospholipase d fold (PLD fold) that binds avidly to phosphoinositide-containing membranes.",
   "level": 0,
   "name": "MITD1, C-terminal phospholipase D-like domain",
   "parent": null,
@@ -281228,6 +281405,7 @@
   "type": "FAMILY"
  },
  "IPR032568": {
+  "description": "This family consists of uncharacterised proteins around 70 residues in length and is mainly found in bacteria. The function of this family is unknown.",
   "level": 0,
   "name": "Protein of unknown function DUF4926",
   "parent": null,
@@ -281510,6 +281688,7 @@
   "type": "FAMILY"
  },
  "IPR032610": {
+  "description": "This domain, found in various hypothetical prokaryotic proteins, has no known function. It is an inserted (nested domain) within an amino-peptidase domain. The relevance of the amino-peptidase domain has not been established yet and the function of this small domain is not known.",
   "level": 0,
   "name": "Domain of unknown function DUF2172",
   "parent": null,
@@ -281582,6 +281761,7 @@
   "type": "FAMILY"
  },
  "IPR032622": {
+  "description": "This domain is an example of a circularly permuted winged helix-turn-helix domain. This domain is found at the very C terminus of UCP01524, which is structurally similar to M28-peptidases but lacking one of the key zinc-binding residues.",
   "level": 0,
   "name": "UCP01524, winged helix-turn-helix domain",
   "parent": null,
@@ -281662,6 +281842,7 @@
   "type": "DOMAIN"
  },
  "IPR032633": {
+  "description": "This is a family of fungal and bacterial ThiJ/PfpI-like uncharacterised proteins. Their function is not clear.",
   "level": 0,
   "name": "ThiJ/PfpI family-like",
   "parent": null,
@@ -282505,6 +282686,7 @@
   "type": "DOMAIN"
  },
  "IPR032774": {
+  "description": "This repeat contains an N-terminal WG repeat motif. The extent of the repeat is poorly defined. This repeat may form a \u03b2-solenoid structure (Bateman A pers. obs.).",
   "level": 0,
   "name": "WG containing repeat",
   "parent": null,
@@ -285995,6 +286177,7 @@
   "type": "DOMAIN"
  },
  "IPR033450": {
+  "description": "This entry represents the C-terminal in NlpE protein.",
   "level": 0,
   "name": "NlpE, C-terminal OB domain",
   "parent": null,
@@ -286045,6 +286228,7 @@
   "type": "DOMAIN"
  },
  "IPR033456": {
+  "description": "Proteins in this family are uncharacterised. A members of this family,, has been identified as part of a gene cluster for the synthesis of Ansamitocin.",
   "level": 0,
   "name": "Protein of unknown function DUF5132",
   "parent": null,
@@ -288390,6 +288574,7 @@
   "type": "FAMILY"
  },
  "IPR033786": {
+  "description": "TTHB210 is an uncharacterised protein found in Thermus thermophilus, and is controlled by the sigma(E) /anti-sigma(E) regulatory system. It is one of the five proteins of the extracytoplasmic function (ECF) sigma factor sigma(E)-regulated gene products whose physiological functions have not been determined. Its crystallographic structure reveals a novel homodecamer, although it is a dimer in solut",
   "level": 0,
   "name": "TTHB210-like",
   "parent": null,
@@ -288468,6 +288653,7 @@
   "type": "FAMILY"
  },
  "IPR033798": {
+  "description": "This domain is found in uncharacterised proteins similar to L-lysine epsilon-oxidase from Marinomonas mediterranea (see). However, proteins containing this domain, such as Marme_1655, have been shown to possess glycine oxidase (GO) activity instead of lysine oxidase activity.",
   "level": 0,
   "name": "Uncharacterised protein, LodA-like",
   "parent": null,
@@ -289518,6 +289704,7 @@
   "type": "DOMAIN"
  },
  "IPR033907": {
+  "description": "Endolysins and autolysins are found in viruses and bacteria, respectively. The ds DNA phages of eubacteria use endolysins or muralytic enzymes in conjunction with hollin, a small membrane protein, to degrade the peptidoglycan found in bacterial cell walls. Similarly, bacteria produce autolysins to facilitate the biosynthesis of its cell wall hetropolymer peptidoglycan and cell division. Both endol",
   "ec_numbers": [
    "3.2.1.17"
   ],
@@ -290689,6 +290876,7 @@
   "type": "DOMAIN"
  },
  "IPR034054": {
+  "description": "This entry includes the peptidase domain of the bacterial members of the peptidase subfamily S8B, which also includes dibasic processing peptidases from eukaryotes. The characterised bacterial peptidases have a trypsin-like specificity, cleaving lysyl or arginyl bonds. PrcA peptidase (MEROPS identifier S08.079) is a calcium-dependent peptidase isolated from Anabaena located in the cytoplasm and sy",
   "level": 1,
   "name": "PrcA catalytic domain",
   "parent": "IPR000209",
@@ -291299,6 +291487,7 @@
   "type": "DOMAIN"
  },
  "IPR034136": {
+  "description": "This topoisomerase-primase (TOPRIM) nucleotidyl transferase/hydrolase domain is found in the type II topoisomerase VIA and Spo11. This subgroup contains proteins similar to Sulfolobus shibatae topoisomerase VIA (TopoVIA) and Saccharomyces cerevisiae meiotic recombination factor Spo11. Type II DNA topoisomerases catalyze the ATP-dependent transport of one DNA duplex through another, in the process ",
   "ec_numbers": [
    "5.6.2.2"
   ],
@@ -295381,6 +295570,7 @@
   "type": "FAMILY"
  },
  "IPR034690": {
+  "description": "This family includes endolysin, a lysozyme from bacteriophage T4 and its relatives. Endolysin is required for host cell lysis, and degrades the cross-links in the bacterial cell wall following on from pore formation in the cell membrane by holin and spanin. Endolysin specifically hydrolyses the (1->4)-beta-linkages between N-acetylmuramic acid and N-acetyl-D-glucosamine residues in the peptidoglyc",
   "ec_numbers": [
    "3.2.1.17"
   ],
@@ -297270,6 +297460,7 @@
   "type": "DOMAIN"
  },
  "IPR034968": {
+  "description": "Reelin is an extracellular matrix serine protease that regulates neuronal migration during embryonic development and acts as a modulator of synaptic transmission in the adult brain. Reelin acts on its receptors, VLDLR and ApoER2, acting on cytoskeleton, controlling migration and subsequently positioning and stabilizing the cortical neurons. In the adult brain, reelin stabilizes the actin cytoskele",
   "ec_numbers": [
    "3.4.21.-"
   ],
@@ -298833,6 +299024,7 @@
   "type": "FAMILY"
  },
  "IPR035198": {
+  "description": "This family (previously known as DUF5309) represents the bacteriophage SU10 major capsid protein and related proteins found in phages and bacteriophages. The capsid of SU10 is organised in fivefold symmetry and build from 715 copies of major capsid protein. The major capsid protein of SU10 adopts an HK97 fold, which is common among tailed bacteriophages and herpesviruses. This protein forms capsom",
   "level": 0,
   "name": "SU10 major capsid protein",
   "parent": null,
@@ -299228,6 +299420,7 @@
   "type": "FAMILY"
  },
  "IPR035272": {
+  "description": "This family of unknown function is found in Bacillales.",
   "level": 0,
   "name": "Protein of unknown function DUF5351",
   "parent": null,
@@ -299607,6 +299800,7 @@
   "type": "DOMAIN"
  },
  "IPR035335": {
+  "description": "This is a family of unknown function mostly found in Proteobacteria.",
   "level": 0,
   "name": "Protein of unknown function DUF5397",
   "parent": null,
@@ -300119,6 +300313,7 @@
   "type": "FAMILY"
  },
  "IPR035412": {
+  "description": "This entry represents the N-terminal domain of the large subunit of the terminase protein.",
   "level": 0,
   "name": "Phage terminase large subunit, N-terminal",
   "parent": null,
@@ -303252,6 +303447,7 @@
   "type": "FAMILY"
  },
  "IPR035874": {
+  "description": "Iduronate 2-sulfatase is a sulfatase enzyme that catalyze the hydrolysis of sulfate ester bonds from a wide variety of substrates, including steroids, carbohydrates and proteins. Iduronate 2-sulfatase is required for the lysosomal degradation of heparan sulfate and dermatan sulfate. Mutations in the iduronate 2-sulfatase gene that result in enzymatic deficiency lead to the sex-linked mucopolysacch",
   "ec_numbers": [
    "3.1.6.-"
   ],
@@ -304521,6 +304717,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR036028": {
+  "description": "SH3 (src Homology-3) domains are small protein modules containing approximately 50 amino acid residues. They are found in a great variety of intracellular or membrane-associated proteins for example, in a variety of proteins with enzymatic activity, in adaptor proteins, such as fodrin and yeast actin binding protein ABP-1.",
   "go_terms": [
    "GO:0005515"
   ],
@@ -305325,6 +305522,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR036112": {
+  "description": "Methanogenic archaea produce methane via the anaerobic reduction of acetate or single carbon compounds. Coenzyme M (CoM; 2-mercaptoethanesulphonic acid) serves as the terminal methyl carrier for this process. Previously thought to be unique to methanogenic archaea, CoM has also been found in methylotrophic bacteria.",
   "ec_numbers": [
    "1.1.1.272",
    "4.1.1.79",
@@ -307447,6 +307645,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR036359": {
+  "description": "Thiol-activated cytolysins are toxins produced by a variety of Gram-positive bacteria and are characterised by their ability to lyse cholesterol-containing membranes, their reversible inactivation by oxidation and their capacity to bind to cholesterol. All these proteins contain a single cysteine residue, located in their C-terminal section, which has been shown to be essential for the binding to ",
   "go_terms": [
    "GO:0015485"
   ],
@@ -307562,6 +307761,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR036372": {
+  "description": "BEACH (Beige and Chediak-Higashi) domains, implicated in membrane trafficking, are present in a family of proteins conserved throughout eukaryotes. This group contains human lysosomal trafficking regulator (LYST), LPS-responsive and beige-like anchor (LRBA) and neurobeachin. Disruption of LYST leads to Chediak-Higashi syndrome, characterised by severe immunodeficiency, albinism, poor blood coagula",
   "level": 0,
   "name": "BEACH domain superfamily",
   "parent": null,
@@ -307891,6 +308091,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR036404": {
+  "description": "The jacalin-like mannose-binding lectin domain has a \u03b2-prism fold consisting of three 4-stranded \u03b2-sheets, with an internal pseudo 3-fold symmetry. Some proteins with this domain stimulate distinct T- and B- cell functions, such as the plant lectin jacalin, which binds to the T-antigen and acts as an agglutinin. The domain can occur in tandem-repeat arrangements with up to six copies, and in archi",
   "level": 0,
   "name": "Jacalin-like lectin domain superfamily",
   "parent": null,
@@ -311161,6 +311362,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR036734": {
+  "description": "Neurotransmitter ligand-gated ion channels are transmembrane receptor-ion channel complexes that open transiently upon binding of specific ligands, allowing rapid transmission of signals at chemical synapses. Five of these ion channel receptor families have been shown to form a sequence-related superfamily:",
   "go_terms": [
    "GO:0005230",
    "GO:0006811",
@@ -311509,6 +311711,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR036774": {
+  "description": "The ~100-residue ERV/ALR sulphydryl oxidase domain is a versatile module adapted for catalysis of disulphide bond formation in various organelles and biological settings. The ERV/ALR sulphydryl oxidase domain has a Cys-X-X-Cys dithiol/disulphide motif adjacent to a bound FAD cofactor, enabling transfer of electrons from thiol substrates to non-thiol electron acceptors. ERV/ALR family members diffe",
   "ec_numbers": [
    "1.8.3.2"
   ],
@@ -312196,6 +312399,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR036851": {
+  "description": "Chloroperoxidase (CPO), also known as Heme haloperoxidase, is a ~250 residue heme-containing glycoprotein that is secreted by various fungi. Chloroperoxidase was first identified in Caldariomyces fumago where it catalyses the hydrogen peroxide-dependent chlorination of cyclopentanedione during the biosynthesis of the antibiotic caldarioymcin. Additionally, Heme haloperoxidase catalyses the iodinat",
   "go_terms": [
    "GO:0004601"
   ],
@@ -312591,6 +312795,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR036887": {
+  "description": "The APSES domain, named after five founding members (ASM-1, Phd1, StuA, EFG1 and Sok2), is a sequence-specific DNA-binding domain of approximately 110 residues found in a family of fungal transcription factors and other DNA-binding proteins. This domain is often found in association with ankyrin repeats (see) and a heterodimerisation domain.",
   "go_terms": [
    "GO:0003677"
   ],
@@ -315691,6 +315896,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR037176": {
+  "description": "Thaumatin is an intensely sweet-tasting protein, 100 000 times sweeter than sucrose on a molar basis found in berries from Thaumatococcus daniellii, a tropical flowering plant known as Katemfe. When attacked by viroids, single-stranded unencapsulated RNA molecules that do not code for protein, thaumatin is induced.",
   "level": 0,
   "name": "Osmotin/thaumatin-like superfamily",
   "parent": null,
@@ -322536,6 +322742,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR038113": {
+  "description": "The C-terminal domain of the MIT domain-containing proteins contains an unanticipated phospholipase d fold (PLD fold) that binds avidly to phosphoinositide-containing membranes. MITD1 is a ESCRT-III binding protein involved in cytokinesis.",
   "level": 0,
   "name": "MITD1, C-terminal phospholipase D-like domain superfamily",
   "parent": null,
@@ -322729,6 +322936,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR038139": {
+  "description": "This superfamily represents a domain is found at the C terminus of the NlpE protein.",
   "level": 0,
   "name": "NlpE, C-terminal domain superfamily",
   "parent": null,
@@ -322831,6 +323039,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR038153": {
+  "description": "This domain superfamily occurs in a range of proteins from antibiotic production pathways. These include the gra-ORF27 product that probably functions at an early step, most likely as a dTDP-4-keto-6- deoxyglucose-2,3-dehydratase. Its homologues include dnmT from the daunorubicin biosynthetic gene cluster in S. peucetius, a similar gene from the daunomycin biosynthetic cluster in Streptomyces sp. ",
   "ec_numbers": [
    "4.2.1.159"
   ],
@@ -324350,6 +324559,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR038365": {
+  "description": "This entry represents the C-terminal catalytic domain of the type II restriction endonuclease EcoRII, which has a restriction endonuclease-like fold with a central five-stranded mixed \u03b2-sheet surrounded on both sides by \u03b1-helices. EcoRII cleaves DNA specifically at single 5' CCWGG sites.",
   "level": 0,
   "name": "EcoRII, C-terminal domain superfamily",
   "parent": null,
@@ -326261,6 +326471,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR038563": {
+  "description": "This superfamily includes Bacteriophage T4 endonuclease VII, Mycobacteriophage D29 gene 59, and other as yet uncharacterised proteins. The T4 endonuclease VII (Endo VII) recognises a broad spectrum of DNA substrates ranging from branched DNAs to single base mismatches. The structure of this enzyme has been resolved and it was found that the monomers form an elongated, intertwined molecular dimer t",
   "level": 0,
   "name": "Recombination endonuclease VII superfamily",
   "parent": null,
@@ -327050,6 +327261,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR038643": {
+  "description": "This entry includes the PliI protein from Aeromonas hydrophila (PliI-Ah). PliI is a dimeric periplasmic protein that enables bacteria to resist permeabilisation of the outer membrane by the bactericidal action of lysozyme. PliI achieves its inhibitory action via an insertion of a loop containing the conserved SGxY motif into the active centre of I-type lysozymes.",
   "level": 0,
   "name": "PliI superfamily",
   "parent": null,
@@ -334833,6 +335045,7 @@
   "type": "FAMILY"
  },
  "IPR039643": {
+  "description": "Several bacteria use glycerol dehydrogenase to transform glycerol into dihydroxyacetone (Dha), which is subsequently converted into Dha phosphate (Dha-P) by an ATP- or phosphoenolpyruvate (PEP)-dependent Dha kinase. Listeria innocua possesses two potential PEP-dependent Dha kinases. This entry includes the PEP-dependent dihydroxyacetone kinases 1 and 2, phosphoryl donor subunit DhaM from Listeria ",
   "ec_numbers": [
    "2.7.1.121"
   ],
@@ -334861,6 +335074,7 @@
   "type": "FAMILY"
  },
  "IPR039648": {
+  "description": "This entry represents the N-terminal domain in putative Pyridine nucleotide-disulphide oxidoreductase N-terminal domain-containing proteins and proteins that contain NADH binding domains.",
   "level": 0,
   "name": "Pyridine nucleotide-disulphide oxidoreductase, N-terminal",
   "parent": null,
@@ -336670,6 +336884,7 @@
   "type": "FAMILY"
  },
  "IPR039799": {
+  "description": "This entry contains FAD-dependent sulfhydryl oxidases, including ALR from animals and Erv from plants and fungi. ALR generates the disulfide bonds in CHCHD4/MIA40, which in turn is a chaperone required for disulfide bond formation and protein folding in the mitochondrial intermembrane space. ERV1 from Arabidopsis is required for the import and folding of small cysteine-containing proteins in the m",
   "ec_numbers": [
    "1.8.3.2"
   ],
@@ -339024,6 +339239,7 @@
   "type": "DOMAIN"
  },
  "IPR040132": {
+  "description": "This entry includes Tex1 from budding yeasts and THOC3 from animals and plants. Tex1/THOC is part of the TREX complex involved in mRNA export. TREX complex is thought to couple mRNA transcription, processing and nuclear export. It specifically associates with spliced mRNA and not with unspliced pre-mRNA. The THOC1-THOC2-THOC3 core complex alone is sufficient to bind export factor NXF1-NXT1 and pro",
   "go_terms": [
    "GO:0006406"
   ],
@@ -341068,6 +341284,7 @@
   "type": "FAMILY"
  },
  "IPR040445": {
+  "description": "Inwardly-rectifying potassium channels (Kir) are the principal class of two-TM domain potassium channels. They are characterised by the property of inward-rectification, which is described as the ability to allow large inward currents and smaller outward currents. Inwardly rectifying potassium channels (Kir) are responsible for regulating diverse processes including: cellular excitability, vascula",
   "level": 0,
   "name": "Potassium channel, inwardly rectifying, transmembrane domain",
   "parent": null,
@@ -342277,6 +342494,7 @@
   "type": "DOMAIN"
  },
  "IPR040572": {
+  "description": "TackOD1 (Thaumarchaeal output domain 1) is a predicted metal-binding domain found in archaea and in some bacteria. It contains 11 highly conserved Cys residues, which form 5 CxxC motifs and an HxxC motif. In several instances, it is found in combination with the receiver domain ().",
   "level": 0,
   "name": "Thaumarchaeal output domain 1",
   "parent": null,
@@ -342891,6 +343109,7 @@
   "type": "DOMAIN"
  },
  "IPR040660": {
+  "description": "This is the C-terminal domain of N-formyltransferase from Francisella tularensis. N-formylated sugars are observed on O-antigens of pathogenic Gram-negative bacteria. This C-terminal domain is responsible for dimerisation. In particular, the \u03b2 hairpin motif present in the domain helps create a subunit-subunit interface. The dimeric interface is characterised by a hydrophobic patch formed by Ile 19",
   "ec_numbers": [
    "2.1.2.-"
   ],
@@ -343801,6 +344020,7 @@
   "type": "DOMAIN"
  },
  "IPR040704": {
+  "description": "Abortive infection (Abi) systems are anti-bacteriophage systems that limit the spread of infection. The primary components of 6 Abi systems define distinct groups of HEPN domains, namely the AbiA-C-terminal domain (AbiA-CTD), AbiD (including AbiD1), AbiF, AbiJ, AbiU2 and AbiV. This entry represents the AbiU2-like HEPN domain.",
   "level": 0,
   "name": "HEPN, AbiU2-like",
   "parent": null,
@@ -344712,6 +344932,7 @@
   "type": "DOMAIN"
  },
  "IPR040830": {
+  "description": "This entry represents a domain found in a bacterial family under the archaeo-eukaryotic release factor superfamily. It is likely to play roles in biological conflicts or regulation under stress conditions at the ribosome.",
   "level": 0,
   "name": "Bacterial archaeo-eukaryotic release factor family 8",
   "parent": null,
@@ -344724,6 +344945,7 @@
   "type": "REPEAT"
  },
  "IPR040832": {
+  "description": "This domain is found in TTHB210 protein present in Thermus thermophilus. TTHB210 is a Sigma-E factor regulated gene product that forms a homodecamer. This domain is chain G and can be classified with chains A, C, E and I based on its folds.",
   "level": 0,
   "name": "TTHB210-like domain",
   "parent": null,
@@ -344991,6 +345213,7 @@
   "type": "DOMAIN"
  },
  "IPR040871": {
+  "description": "This family includes the HopA1 effector protein from Pseudomonas syringae. Structurally this protein has an \u03b1 + \u03b2 fold. The effector protein HopA1 was shown to affect the EDS1 complex by binding EDS1 directly and activating the immune response signaling pathway.",
   "level": 0,
   "name": "HopA1 effector protein",
   "parent": null,
@@ -346134,6 +346357,7 @@
   "type": "DOMAIN"
  },
  "IPR041025": {
+  "description": "Homing endonucleases are found in bacteria and viruses and catalyze the hydrolysis of genomic DNA within the cells that synthesize them. This entry represents a 60 residue repeat of unknown function found associated with homing endonuclease domains.",
   "level": 0,
   "name": "Homing endonuclease associated repeat",
   "parent": null,
@@ -346366,6 +346590,7 @@
   "type": "DOMAIN"
  },
  "IPR041058": {
+  "description": "This is the N-terminal domain of the alpha chain found in Helicobacter pylori Fucosyltransferase protein which is involved in the production of Lewis x trisaccharide, a major component of lipopolysaccharide. The N-terminal domain contains the catalyst base, Glu-95 which is equivalent to the Asp-100 of other members of the glycosyltransferases-B family. The domain contains the pocket where LacNAc b",
   "level": 0,
   "name": "Alpha-(1,3)-fucosyltransferase FucT, N-terminal",
   "parent": null,
@@ -347487,6 +347712,7 @@
   "type": "DOMAIN"
  },
  "IPR041168": {
+  "description": "This is the N-terminal domain found in antimicrobial protein (LodA) with lysine-epsilon oxidase activity () which is produced by Gram-negative marine bacteria such as Marinomonas mediterranea. The enzyme, previously named marinocine, catalyzes the oxidative deamination of l-lysine into 6-semialdehyde 2-aminoadipic acid, ammonia, and hydrogen peroxide (H2O2). Orthologous proteins have been detected",
   "ec_numbers": [
    "1.4.3.20"
   ],
@@ -347523,6 +347749,7 @@
   "type": "DOMAIN"
  },
  "IPR041173": {
+  "description": "This is the C-terminal domain found in antimicrobial protein (LodA) with lysine-epsilon oxidase activity () which is produced by Gram-negative marine bacteria such as Marinomonas mediterranea. The enzyme, previously named marinocine, catalyzes the oxidative deamination of l-lysine into 6-semialdehyde 2-aminoadipic acid, ammonia, and hydrogen peroxide (H2O2). Orthologous proteins have been detected",
   "ec_numbers": [
    "1.4.3.20"
   ],
@@ -348065,6 +348292,7 @@
   "type": "FAMILY"
  },
  "IPR041248": {
+  "description": "This presumed domain is found in a wide variety of bacterial cell surface proteins. This domain has a highly conserved YDG motif near its N terminus. This domain is likely related to the MBG domain (PF17883).",
   "level": 0,
   "name": "YDG domain",
   "parent": null,
@@ -348342,6 +348570,7 @@
   "type": "FAMILY"
  },
  "IPR041289": {
+  "description": "This entry represents the middle domain of the ribosome hibernation factor Balon from Psychrobacter urativorans () and similar bacterial sequences. Balon binds to ribosomes in an mRNA-independent manner.",
   "level": 0,
   "name": "Ribosome hibernation factor Balon, middle domain",
   "parent": null,
@@ -348628,6 +348857,7 @@
   "type": "DOMAIN"
  },
  "IPR041329": {
+  "description": "This domain has a ferredoxin like fold. It can be found in the YubB protein from E. coli. Its function is not clear.",
   "level": 0,
   "name": "YubB, ferredoxin-like domain",
   "parent": null,
@@ -350087,6 +350317,7 @@
   "type": "DOMAIN"
  },
  "IPR041451": {
+  "description": "This is an SH3 (SRC homology domain 3) domain found in ATP-dependent RecD2 DNA helicase and related sequences () that belong to the bacterial Superfamily 1B (SF1B). This superfamily of helicases translocate in a 5'-3' direction and are required for a range of cellular activities across all domains of life. Studies of RecD in E. coli revealed that the SH3 domain interacts with the ssDNA tail in a l",
   "ec_numbers": [
    "3.6.4.12"
   ],
@@ -351619,6 +351850,7 @@
   "type": "DOMAIN"
  },
  "IPR041638": {
+  "description": "This entry represents a bacterial family of the archaeo-eukaryotic release factor superfamily. It is likely to play roles in biological conflicts or regulation under stress conditions at the ribosome. It has been classified as family 11 by Pfam.",
   "level": 0,
   "name": "Bacterial archaeo-eukaryotic release factor family 11",
   "parent": null,
@@ -351688,6 +351920,7 @@
   "type": "DOMAIN"
  },
  "IPR041647": {
+  "description": "This entry represents the C-terminal domain of inward rectifier potassium channel. This cytoplasmic domain has an Ig fold.",
   "level": 0,
   "name": "Inward rectifier potassium channel, C-terminal",
   "parent": null,
@@ -351970,6 +352203,7 @@
   "type": "DOMAIN"
  },
  "IPR041695": {
+  "description": "Leishmania major and Trypanosoma cruzi glutathione-S-transferase (GST) has undergone gene duplication, diversification, and gene fusion leading to an four domain enzyme which contains two repeats of a GST N-terminal domain followed by a GST C-terminal domain.",
   "level": 1,
   "name": "Glutathione S-transferase, C-terminal domain",
   "parent": "IPR010987",
@@ -358894,6 +359128,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR042525": {
+  "description": "The DNA single-strand annealing proteins (SSAPs), such as RecT, Red-beta, ERF and Rad52, function in RecA-dependent and RecA-independent DNA recombination pathways. This superfamily includes proteins related to Rad52. These proteins contain two helix-hairpin-helix motifs.",
   "level": 0,
   "name": "DNA repair protein Rad52/59/22 superfamily",
   "parent": null,
@@ -365935,6 +366170,7 @@
   "type": "DOMAIN"
  },
  "IPR043709": {
+  "description": "This entry represents a series of potential \u03b2-helix repeats found in a variety of putative bacterial adhesin proteins.",
   "level": 0,
   "name": "Repeats of unknown function DUF5649",
   "parent": null,
@@ -366045,6 +366281,7 @@
   "type": "DOMAIN"
  },
  "IPR043727": {
+  "description": "Members of this family are very small (about 45 amino acids) and highly hydrophobic, containing two transmembrane helices, and have a broad phylogenetic distribution, mainly found in bacteria and a few archaeal species. There is a single completely conserved residue W that may be functionally important. Lmo0937, from the pathogen Listeria monocytogenes, is described as up-regulated when the bacter",
   "level": 0,
   "name": "Lmo0937-like",
   "parent": null,
@@ -367558,6 +367795,7 @@
   "type": "FAMILY"
  },
  "IPR043992": {
+  "description": "This entry represents a lysozyme like domain found predominantly in bacteria. The domain contains several conserved cysteine and histidine residues suggesting that it may bind to zinc. This domain is related to the SLT domain 1.",
   "level": 0,
   "name": "Transglycosylase SLT domain 3",
   "parent": null,
@@ -367645,6 +367883,7 @@
   "type": "FAMILY"
  },
  "IPR044021": {
+  "description": "This family of proteins is found in certain bacterial lineages. In staphylococcus this protein is known to be Glycosyl-4,4'-diaponeurosporenoate acyltransferase, an enzyme involved in the final step of synthesis of staphyloxanthin, an orange pigment found in most S. aureus strains. Members of the family contain and EXXH motif that may be functionally important.",
   "ec_numbers": [
    "2.3.1.-"
   ],
@@ -369414,6 +369653,7 @@
   "type": "FAMILY"
  },
  "IPR044174": {
+  "description": "This entry represents a group of glycosyltransferases mostly from plants, including BC10 from rice. BC10 is a Golgi-located type II membrane protein required for the regulation of cellulose biosynthesis in the cell wall. It possesses low glycosyltransferase activity.",
   "go_terms": [
    "GO:0016757"
   ],
@@ -374600,6 +374840,7 @@
   "type": "FAMILY"
  },
  "IPR044496": {
+  "description": "This entry represents aldo-keto reductase family 3G, including slr094 from Synechocystis sp. Slr094 is an aldo/keto reductase that catalyses the NADPH-dependent reduction of aldehyde- and ketone-groups of different classes of carbonyl compounds to the corresponding alcohols.",
   "go_terms": [
    "GO:0008106"
   ],
@@ -376472,6 +376713,7 @@
   "type": "FAMILY"
  },
  "IPR044662": {
+  "description": "This entry represents a group of stress-response A/B barrel domain-containing proteins, including HS1 (also known as Protein HEAT STABLE 1 or Pop3 family protein At3g17210) and DABB1 from Arabidopsis thaliana. Proteins in this family have two stress responsive dimeric A/B barrel domains (Dabb) whose function is not yet clear. In general, stress-response A/B barrel domain-containing proteins in pla",
   "level": 0,
   "name": "Stress-response A/B barrel domain-containing protein HS1/DABB1-like",
   "parent": null,
@@ -378235,6 +378477,7 @@
   "type": "DOMAIN"
  },
  "IPR044859": {
+  "description": "This superfamily consists of several plant specific allene oxide cyclase proteins (). The allene oxide cyclase (AOC)-catalysed step in jasmonate (JA) biosynthesis is important in the wound response of tomato.",
   "ec_numbers": [
    "5.3.99.6"
   ],
@@ -379320,6 +379563,7 @@
   "type": "FAMILY"
  },
  "IPR044970": {
+  "description": "Cofactor maturation pathways such as the CCB system (system IV) for cytochrome c-heme attachment are conserved in all organisms performing oxygenic photosynthesis. The CCB system consists of four proteins: CCB1-4. CCB2 and CCB4 are paralogues derived from a unique cyanobacterial ancestor. Orthologues are conserved in higher plants.",
   "go_terms": [
    "GO:0010190"
   ],
@@ -382872,6 +383116,7 @@
   "type": "FAMILY"
  },
  "IPR045319": {
+  "description": "Potassium (K+) is an essential nutrient for plant growth and development. This entry represents a group of potassium channel proteins from plants, including KAT1-3, SKOR, GORK and AKT1/2/5/6 from Arabidopsis. Together with AtHAK5, AKT1 mediates high-affinity K+ uptake into roots during seedling establishment and post-germination growth. KAT1 is required for guard cell K+ uptake during light-induce",
   "go_terms": [
    "GO:0005249",
    "GO:0006813"
@@ -384616,6 +384861,7 @@
   "type": "REPEAT"
  },
  "IPR045572": {
+  "description": "This entry represents the C-terminal endonuclease domain found in a variety of class III restriction endonuclease proteins including Type III restriction-modification system EcoPI/EcoP15I Res subunit from E. coli and Type III restriction-modification enzyme BceSI Res subunit from Bacillus cereus.",
   "ec_numbers": [
    "3.1.21.5"
   ],
@@ -385660,6 +385906,7 @@
   "type": "FAMILY"
  },
  "IPR045725": {
+  "description": "This entry (ex DUF6079) represents the P-loop domain at the N-terminal in Probable ATP-binding protein BrxC and ATPase pglY.",
   "level": 0,
   "name": "BrxC/PglY, N-terminal domain",
   "parent": null,
@@ -388103,6 +388350,7 @@
   "type": "FAMILY"
  },
  "IPR046053": {
+  "description": "This entry represents a member of a biosynthetic gene cluster (BGC). This BGC (BGC0000413) is described by MIBiG as an example of the following biosynthetic class, NRP (non-ribosomal peptide). This family includes a protein encoded by the pyoverdin biosynthetic gene cluster from Pseudomonas protegens Pf-5.",
   "level": 0,
   "name": "Protein of unknown function DUF6011",
   "parent": null,
@@ -389223,6 +389471,7 @@
   "type": "FAMILY"
  },
  "IPR046239": {
+  "description": "This family of proteins predominantly found in bacteria is functionally uncharacterised. Proteins in this family have two conserved sequence motifs, ExxQN and GAGLG.",
   "level": 0,
   "name": "Protein of unknown function DUF6272",
   "parent": null,
@@ -391323,6 +391572,7 @@
   "type": "DOMAIN"
  },
  "IPR046477": {
+  "description": "This presumed domain is functionally uncharacterised. This domain family is mainly found in bacteria and archaea, and is approximately 60 amino acids in length. There is a conserved WxxR sequence motif and a conserved Lys residue. Members of this entry may be transmembrane proteins.",
   "level": 0,
   "name": "Domain of unknown function DUF6798",
   "parent": null,
@@ -391695,6 +391945,7 @@
   "type": "DOMAIN"
  },
  "IPR046538": {
+  "description": "This entry represents a large potential domain found in uncharacterised fungal and bacterial proteins.",
   "level": 0,
   "name": "Domain of unknown function DUF6603",
   "parent": null,
@@ -391898,6 +392149,7 @@
   "type": "FAMILY"
  },
  "IPR046572": {
+  "description": "This entry represents a family of proteins that is functionally uncharacterised. This family of proteins is mainly found in bacteria. Proteins in this family are typically between 127 and 139 amino acids in length.",
   "level": 0,
   "name": "Protein of unknown function DUF6632",
   "parent": null,
@@ -391922,6 +392174,7 @@
   "type": "FAMILY"
  },
  "IPR046576": {
+  "description": "This bacterial family of proteins is functionally uncharacterised.",
   "level": 0,
   "name": "Protein of unknown function DUF6636",
   "parent": null,
@@ -393979,6 +394232,7 @@
   "type": "FAMILY"
  },
  "IPR046876": {
+  "description": "This entry represents a STING (STimulator of INterferon Gene) sensor domain found in certain prokaryotic nucleotide-activated effector conflict systems, like the CBASS (cyclic oligonucleotide-based antiphage signaling system) which provides immunity against bacteriophage. Binding to a nucleotide activates fused effector proteins in conflict response against invasive elements.",
   "ec_numbers": [
    "3.2.2.5"
   ],
@@ -394007,6 +394261,7 @@
   "type": "DOMAIN"
  },
  "IPR046880": {
+  "description": "This entry represents a sensor domain consisting of 7 TPR repeats forming a tightly-wound solenoid structure harbouring a deep central pocket. The TPR-S binding pocket is lined with several conserved aromatic and polar residues predicted to bind a NAD -derived nucleotide in prokaryotic NAD -derived nucleotide-activated effector conflict systems. It has been acquired at the base of the choanoflagel",
   "level": 0,
   "name": "Tetratricopeptide Repeats-Sensor",
   "parent": null,
@@ -394560,6 +394815,7 @@
   "type": "DOMAIN"
  },
  "IPR046951": {
+  "description": "N(5)-(carboxyethyl)ornithine synthase (CEOS) catalyses the NADP-dependent conversion of N5-(L-1-carboxyethyl)-L-ornithine to L-ornithine pyruvate. CEOS is related to the NAD-dependent L-alanine dehydrogenases. Like formate dehydrogenase and related enzymes, CEOS is comprised of 2 domains connected by a long \u03b1-helical stretch, each resembling a Rossmann fold NAD-binding domain. The NAD-binding doma",
   "ec_numbers": [
    "1.5.1.24"
   ],
@@ -402044,12 +402300,14 @@
   "type": "FAMILY"
  },
  "IPR047706": {
+  "description": "This family includes BCAM0308 from Burkholderia cenocepacia () and similar bacterial proteins. BCAM0308 is one of several proteins in the lxa (low oxygen-activated) locus, whose proteins are induced upon low oxygen concentrations. Members of this family are ~170 amino acids long, and contain a conserved pair of CxxC motifs, suggesting metal-binding.",
   "level": 0,
   "name": "BCAM0308-like",
   "parent": null,
   "type": "FAMILY"
  },
  "IPR047707": {
+  "description": "This entry represents a group of bacterial enzymes, including proteins such as VdcD from Streptomyces sp., BsdD from Bacillus subtilis, and EcdD from Escherichia coli, that are involved in the non-oxidative decarboxylation and detoxification of phenolic derivatives under both aerobic and anaerobic conditions. These proteins contribute to the breakdown of phenolic acids, helping bacteria manage phe",
   "level": 0,
   "name": "Phenolic acid decarboxylase VdcD-like",
   "parent": null,
@@ -402069,6 +402327,7 @@
   "type": "FAMILY"
  },
  "IPR047710": {
+  "description": "This entry represents a group of bacterial IS5 transposases. Most members have as an N-terminal domain.",
   "level": 0,
   "name": "IS5-like transposase",
   "parent": null,
@@ -404306,6 +404565,7 @@
   "type": "DOMAIN"
  },
  "IPR047939": {
+  "description": "This entry represents the adenine-specific methyltransferase PglX, which specifically methylates the adenine in the fifth position of the 5'-TAGGAG-3' region in genomic DNA but not in phage DNA upon infection. It is associated with BREX (bacteriophage exclusion) type 1 systems, which provides immunity against bacteriophage. It allows phage adsorption but blocks phage DNA replication. The methylati",
   "ec_numbers": [
    "2.1.1.72"
   ],
@@ -404432,6 +404692,7 @@
   "type": "DOMAIN"
  },
  "IPR047955": {
+  "description": "This entry represents uncharacterised bacterial phospholipase D-like proteins that are probably distantly related to DrmC. The latter is a phospholipase D (PLD) domain-containing protein and a component of DISARM (Defence Island System Associated with Restriction Modification).",
   "level": 0,
   "name": "DrmC-like",
   "parent": null,
@@ -405027,6 +405288,7 @@
   "type": "DOMAIN"
  },
  "IPR048031": {
+  "description": "This bacterial family includes ScyE, a protein involved in scytomenin biosynthesis and export, and its paralogue ScyD. Some members of the family contain a C-terminal PEP-CTERM domain that predicts anchoring to the outer membrane.",
   "level": 0,
   "name": "ScyD/ScyE-like",
   "parent": null,
@@ -407657,6 +407919,7 @@
   "type": "DOMAIN"
  },
  "IPR048354": {
+  "description": "This entry represents a glycosyltransferase-like domain found in alkaline ceramidase TOD1 () and the probable hexosyltransferase MUCI70 from Arabidopsis ().",
   "level": 0,
   "name": "TOD1/MUCI70, glycosyltransferase-like domain",
   "parent": null,
@@ -408826,6 +409089,7 @@
   "type": "DOMAIN"
  },
  "IPR048510": {
+  "description": "This entry represents a domain found N-terminal in WsaF from Geobacillus stearothermophilus () and related bacterial proteins. WsaF catalyses the formation of beta-1-2-linkage of rhamnose sugars in the carbohydrate polymer. It consists of two domains, the N-terminal which binds the acceptor (the growing rhamnan chain), and a C-terminal domain which binds the substrate (dTDP-beta-l-rhamnose) ().",
   "go_terms": [
    "GO:0030247"
   ],
@@ -408929,6 +409193,7 @@
   "type": "DOMAIN"
  },
  "IPR048525": {
+  "description": "Discoidin domain-containing receptor 1/2 (DDR1/2) are receptor tyrosine kinases (RTKs) whose activating ligands are various collagens and consist of extracellular domains comprising the N-terminal discoidin domain (DS,) followed by a DS-like domain and the cytoplasmic kinase domain (). Impairment in signalling by DDR1 and DDR2 is associated with the progression of various human diseases, including",
   "ec_numbers": [
    "2.7.10.1"
   ],
@@ -410639,6 +410904,7 @@
   "type": "DOMAIN"
  },
  "IPR048764": {
+  "description": "This domain is found at the N-terminal of archaeal PylC (3-methyl-D-ornithine--L-lysine ligase) and similar sequences from prokaryotes. PylC, an ATP-grasp enzyme composed of three domains, is required for the biosynthesis of pyrrolysine. This domain is composed of a central four-stranded \u03b2-sheet that is faced on both sides by two helices. It shows an adenine binding pocket that has not been observ",
   "ec_numbers": [
    "6.3.2.59"
   ],
@@ -411176,6 +411442,7 @@
   "type": "DOMAIN"
  },
  "IPR048813": {
+  "description": "This family represents Major capsid protein GP7 from Salmonella phage epsilon15 () and similar proteins found in tailed bacteriophages and bacterial prophages. GP7 adopts a canonical phage structure, showing different structural features (an N-arm, an F-loop, an E-loop, a P-domain, a long \u03b1-helix, an A-domain and the C-terminal end).",
   "level": 0,
   "name": "Major capsid protein GP7-like",
   "parent": null,
@@ -414486,12 +414753,14 @@
   "type": "DOMAIN"
  },
  "IPR049249": {
+  "description": "This family of bacterial proteins is uncharacterised.",
   "level": 0,
   "name": "Family of unknown function DUF6882",
   "parent": null,
   "type": "FAMILY"
  },
  "IPR049250": {
+  "description": "This entry represents a domain found in the DUF6866 family. The function of these proteins remains unknown. This domain can be found in various domain architectures, either alone or in association with other domains.",
   "level": 0,
   "name": "Domain of unknown function DUF6883",
   "parent": null,
@@ -414590,6 +414859,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR049268": {
+  "description": "This domain is found at the N-terminal end of PaaA from Enterobacter agglomerans (), an enzyme involved in post-translational modification and host immunity. PaaA is composed of two domains: an N-terminal domain, represented in this entry, which folds into a globular domain and has similarity to RiPP precursor peptide recognition elements or RREs (PDBe:) and a C-terminal THIF-type NAD/FAD binding ",
   "level": 0,
   "name": "PaaA-like, N-terminal domain",
   "parent": null,
@@ -414677,6 +414947,7 @@
   "type": "HOMOLOGOUS_SUPERFAMILY"
  },
  "IPR049283": {
+  "description": "This domain of unknown function is found in the N-terminal region of a group of bacterial proteins, including Vanadium-dependent haloperoxidases such as NapH1 () and NapH3 (). In some proteins, this domain is found associated to. Its specific function is unknown.",
   "level": 0,
   "name": "Domain of unknown function DUF6851",
   "parent": null,
@@ -415946,6 +416217,7 @@
   "type": "DOMAIN"
  },
  "IPR049419": {
+  "description": "Reelin is an extracellular matrix serine protease that plays a role in layering of neurons in the cerebral cortex and cerebellum. It regulates microtubule function in neurons and neuronal migration. It binds to the extracellular domains of lipoprotein receptors VLDLR and LRP8/APOER2 which induces tyrosine phosphorylation of DAB1 and modulation of TAU phosphorylation. Reelin contains 8 tandemly rep",
   "ec_numbers": [
    "3.4.21.-"
   ],
@@ -418134,6 +418406,7 @@
   "type": "FAMILY"
  },
  "IPR049641": {
+  "description": "This entry represents Thivi_2564 from Thiocystis violascens DSM 198 () and related bacterial proteins. A related ORF located between lpg1798 and lpg1799 can be found in Legionella pneumophila. Members of this family are, in average, about 60 amino acids long and are highly hydrophobic.",
   "level": 0,
   "name": "Thivi_2564 membrane protein",
   "parent": null,
@@ -418602,6 +418875,7 @@
   "type": "FAMILY"
  },
  "IPR049717": {
+  "description": "This entry represents the homologues of CylC and related proteins mainly from cyanobacteria. CylC has been characterised as a halogenase involved in the biosynthesis of cylindrocyclophane. Another member of this family, cyanobacterial NocO, has recently been implicated in the biosynthesis of chlorosphaerolactylates and nocuolactylates. NocO had been suggested to play a role in the synthesis of nat",
   "level": 0,
   "name": "Acyl halogenase CylC-like",
   "parent": null,
@@ -419180,6 +419454,7 @@
   "type": "DOMAIN"
  },
  "IPR049803": {
+  "description": "Members of this family are ribosomally synthesized and post-translationally modified peptide natural product (RiPP) precursors. Nearly all contain at least one Cys residues expected to be involved in thiazolyl peptide modifications, and are expected to behave at least in part as antibiotics. Some species, such as Bacillus atrophaeus, may contain multiple paralogues.",
   "level": 0,
   "name": "Thiocillin RiPP-like",
   "parent": null,
@@ -422993,6 +423268,7 @@
   "type": "FAMILY"
  },
  "IPR050158": {
+  "description": "The ubiquitin family is characterised by its role in post-translational modification, where ubiquitin or ubiquitin-like proteins are covalently attached to target proteins, influencing their stability, localization, or activity. Ubiquitination involves the conjugation of ubiquitin to lysine residues on substrates through an isopeptide bond, often leading to proteasomal degradation. However, ubiqui",
   "level": 0,
   "name": "Ubiquitin and ubiquitin-like",
   "parent": null,
@@ -424041,6 +424317,7 @@
   "type": "FAMILY"
  },
  "IPR050271": {
+  "description": "The UDP-glycosyltransferase family is involved in phase II biotransformation reactions, where they conjugate lipophilic substrates with glucuronic acid to enhance water solubility and facilitate excretion. They play a crucial role in detoxifying xenobiotics and metabolizing endogenous compounds, including steroid hormones and bile acids. Some family members also contribute to the biosynthesis of c",
   "ec_numbers": [
    "2.4.1",
    "2.4.1.17"
@@ -424979,6 +425256,7 @@
   "type": "FAMILY"
  },
  "IPR050349": {
+  "description": "The WD repeat LIS1/nudF family is involved in the regulation of the minus-end directed microtubule motor protein dynein. Family members play a crucial role in cellular processes such as mitotic spindle positioning, nuclear migration, and microtubule-dependent transport. They may enhance dynein-mediated microtubule sliding by targeting dynein to microtubule plus ends and are essential for various d",
   "level": 0,
   "name": "WD repeat LIS1/nudF dynein regulation",
   "parent": null,
@@ -425348,6 +425626,7 @@
   "type": "FAMILY"
  },
  "IPR050401": {
+  "description": "This family of proteins includes receptor-type guanylate cyclases and adenylate cyclases, which are key enzymes in the production of cyclic nucleotide second messengers. These enzymes catalyze the conversion of GTP to cGMP or ATP to cAMP, respectively. The cGMP synthesized by guanylate cyclases is involved in various physiological processes such as phototransduction, chemotaxis, thermotaxis, and r",
   "ec_numbers": [
    "4.6.1.2"
   ],
@@ -427231,6 +427510,7 @@
   "type": "FAMILY"
  },
  "IPR050587": {
+  "description": "The GNT1/glycosyltransferase 8 family encompasses enzymes involved in the modification of glycans and the biosynthesis of oligosaccharides. Members of the GNT1 subfamily are N-acetylglucosaminyltransferases that participate in Golgi-specific N-linked glycan modification. The glycosyltransferase 8 subfamily includes galactinol synthases, which are key in synthesizing raffinose family oligosaccharid",
   "ec_numbers": [
    "2.4.1"
   ],
@@ -427390,6 +427670,7 @@
   "type": "FAMILY"
  },
  "IPR050598": {
+  "description": "The protein family is involved in the transport of amino acids across cellular membranes. Members of the family function as transporters or antiporters, often forming heterodimers with SLC3A2 or other proteins to mediate the exchange of amino acids. They can transport a variety of amino acids, including large neutral amino acids, cationic amino acids, and small neutral L- and D-amino acids. Some m",
   "level": 0,
   "name": "Cellular Amino Acid Transporter",
   "parent": null,
@@ -428000,6 +428281,7 @@
   "type": "FAMILY"
  },
  "IPR050689": {
+  "description": "The FKBP-type PPIase family is characterised by its peptidyl-prolyl cis-trans isomerase activity, which accelerates the folding of proteins by catalysing the cis-trans isomerization of proline imidic peptide bonds in oligopeptides. Members of this family play a role in various cellular processes, including sexual development, TGF-beta receptor regulation, and modulation of calcium channel activity",
   "ec_numbers": [
    "5.2.1.8"
   ],
@@ -429552,6 +429834,7 @@
   "type": "FAMILY"
  },
  "IPR050799": {
+  "description": "The ZIP transporter family mediates the cellular uptake of divalent metal cations such as zinc, manganese, and iron, which are crucial for tissue homeostasis, metabolism, development, and immunity. These transporters function as energy-dependent symporters, often transporting a divalent metal cation alongside bicarbonate anions. Some family members also transport non-essential metals like cadmium,",
   "level": 0,
   "name": "Zinc Iron Protein (ZIP) Transporter",
   "parent": null,
@@ -429700,6 +429983,7 @@
   "type": "FAMILY"
  },
  "IPR050819": {
+  "description": "This family of proteins includes lysosomal serine proteases with tripeptidyl-peptidase I activity, which may act as non-specific lysosomal peptidases generating tripeptides from the breakdown products produced by lysosomal proteinases. These enzymes require substrates with an unsubstituted N-terminus. Additionally, the family encompasses secreted tripeptidyl-peptidases that degrade proteins at aci",
   "ec_numbers": [
    "3.4.14"
   ],
@@ -430030,6 +430314,7 @@
   "type": "FAMILY"
  },
  "IPR050861": {
+  "description": "The Dihydroxyacetone Kinase (DAK) family includes enzymes that catalyze the phosphorylation of dihydroxyacetone and glyceraldehyde. Members of this family are involved in various metabolic pathways, including the degradation of sugars such as L-threitol and erythritol, allowing organisms to utilize these compounds as carbon sources. Some DAK family proteins also have additional functions, such as ",
   "ec_numbers": [
    "2.7.1"
   ],
@@ -430071,6 +430356,7 @@
   "type": "FAMILY"
  },
  "IPR050866": {
+  "description": "The Cyclic Nucleotide-Gated Cation Channel family is involved in various signal transduction pathways, primarily in sensory neurons. Members of the family are activated by cyclic nucleotides (cAMP or cGMP), leading to the opening of nonselective cation channels. In visual systems, they play a crucial role in phototransduction by mediating the depolarization of photoreceptors in response to changes",
   "go_terms": [
    "GO:0005221"
   ],
@@ -430865,6 +431151,7 @@
   "type": "FAMILY"
  },
  "IPR050909": {
+  "description": "The protein family includes autotransporter proteins primarily involved in virulence and host interaction. Autotransporters are characterized by their ability to facilitate their own translocation across the bacterial outer membrane. The family members possess a signal peptide that guides them to the periplasmic space, followed by a C-terminal translocator domain forming a pore in the outer membra",
   "ec_numbers": [
    "3.4.21"
   ],
@@ -430874,6 +431161,7 @@
   "type": "FAMILY"
  },
  "IPR050910": {
+  "description": "The JMJD6 family proteins are multifunctional dioxygenases with roles in RNA splicing, gene expression regulation, and embryonic development. They exhibit bifunctional activity, acting as both arginine demethylases and lysyl-hydroxylases. Members of this family are involved in the hydroxylation of specific lysine residues on target proteins, which is crucial for processes such as RNA splicing and ",
   "ec_numbers": [
    "1.14.11.-"
   ],
@@ -431174,6 +431462,7 @@
   "type": "FAMILY"
  },
  "IPR050952": {
+  "description": "The TRIM/NHL protein family includes E3 ubiquitin-protein ligases that play crucial roles in various cellular processes, including embryonic stem cell proliferation, neuronal functions, and innate immunity. Members of the family mediate ubiquitination of specific substrates, contributing to protein degradation pathways and post-transcriptional gene regulation. They are involved in neuroprotection,",
   "ec_numbers": [
    "2.3.2.27"
   ],
@@ -431871,6 +432160,7 @@
   "type": "FAMILY"
  },
  "IPR051019": {
+  "description": "The protein family includes enzymes that catalyze key reactions in lipid metabolism and steroid hormone biosynthesis. Members are involved in the elongation cycle of long-chain fatty acids, adding two carbons to produce very long-chain fatty acids (VLCFAs), which are precursors for membrane lipids and lipid mediators. Some family members also function in the conversion of 17-oxosteroids to 17beta-",
   "ec_numbers": [
    "1.1.1",
    "1.1.1.62"
@@ -432442,6 +432732,7 @@
   "type": "FAMILY"
  },
  "IPR051058": {
+  "description": "The GDSL lipolytic enzyme family is characterized by a broad range of esterase and lipase activities, acting on various substrates. Members of this family are involved in diverse biological processes, including lipid metabolism, cell signaling, and stress response. Some proteins within the family exhibit specific functions, such as hydrolyzing phospholipids, deacetylating xylo-oligomers, and contr",
   "ec_numbers": [
    "3.1.1.-"
   ],
@@ -439959,6 +440250,7 @@
   "type": "FAMILY"
  },
  "IPR051704": {
+  "description": "This family of proteins includes flavin-dependent monooxygenases involved in various biological processes, including antibiotic resistance and biosynthesis of complex natural products. Members of this family catalyze the hydroxylation of aromatic rings, a reaction that typically requires FAD and NADPH as cofactors. These enzymes play roles in the inactivation of tetracycline antibiotics, contribut",
   "level": 0,
   "name": "Flavin-dependent aromatic-ring hydroxylase",
   "parent": null,
@@ -441765,6 +442057,7 @@
   "type": "FAMILY"
  },
  "IPR051911": {
+  "description": "The Short-chain Dehydrogenases/Reductases (SDR) family comprises enzymes with oxidoreductase activity, involved in various biosynthetic pathways. Members of the family participate in the synthesis of secondary metabolites such as botcinic acid, calbistrin A, and cladofulvin, which have roles in plant virulence, potential anti-leukemia properties, and fungal fitness, respectively. The family includ",
   "level": 0,
   "name": "Short-chain Dehydrogenases/Reductases (SDR)",
   "parent": null,
@@ -442170,6 +442463,7 @@
   "type": "FAMILY"
  },
  "IPR051966": {
+  "description": "The RPAP3 family proteins are implicated in forming an interface between the RNA polymerase II enzyme and chaperone/scaffolding proteins. They appear to play a crucial role in connecting RNA polymerase II to regulators of protein complex formation, which is essential for transcriptional regulation. Additionally, a member of the family in Schizosaccharomyces pombe is involved in meiosis, suggesting",
   "level": 0,
   "name": "RNA polymerase II-associated protein 3",
   "parent": null,
@@ -444195,6 +444489,7 @@
   "type": "FAMILY"
  },
  "IPR052203": {
+  "description": "This family of proteins includes enzymes that are involved in the salvage pathways of various sugars. Members of this family exhibit kinase activity, where they catalyze the phosphorylation of specific sugar substrates using ATP or GTP. Some members are bifunctional, having both kinase and pyrophosphorylase activities, specifically converting L-fucose to GDP-L-fucose. Others are involved in the ph",
   "ec_numbers": [
    "2.7.1.52"
   ],
@@ -445690,6 +445985,7 @@
   "type": "FAMILY"
  },
  "IPR052366": {
+  "description": "This family of proteins functions as (p)ppGpp synthases, enzymes that are integral to the stringent response in eubacteria. Members of this family catalyze the synthesis of ppGpp (guanosine 3'-diphosphate 5'-diphosphate), a molecule that coordinates cellular activities in response to nutritional changes. These proteins can utilize GDP in place of GTP, enhancing (p)ppGpp production. The activity of",
   "level": 0,
   "name": "GTP Pyrophosphokinase",
   "parent": null,
@@ -447573,6 +447869,7 @@
   "type": "FAMILY"
  },
  "IPR052523": {
+  "description": "The acetyltransferase family is involved in various biological processes, including the biosynthesis of secondary metabolites such as satratoxins, which are trichothecene mycotoxins linked to human food poisonings. Members of the family function as acetyltransferases, which are enzymes that transfer acetyl groups to substrates. Some family members are implicated in the detoxification of harmful co",
   "ec_numbers": [
    "2.3.1.-"
   ],
@@ -447963,6 +448260,7 @@
   "type": "FAMILY"
  },
  "IPR052542": {
+  "description": "The Cholesterol Oxidase family comprises enzymes that play a crucial role in the cholesterol degradation pathway. Members of this family are responsible for the oxidation and isomerization of cholesterol to cholestenone, which is a key initial step in breaking down cholesterol. These enzymes are characterized by their ability to catalyze the transformation of the 3-beta-hydroxy group of cholestero",
   "ec_numbers": [
    "1.1.3.6",
    "5.3.3.1"
@@ -447998,6 +448296,7 @@
   "type": "FAMILY"
  },
  "IPR052546": {
+  "description": "This family of proteins includes members that are typically associated with mobile genetic elements, specifically insertion sequences. These proteins are related to transposases, which are enzymes that catalyze the movement of DNA segments within the genome. Members of this family are likely to play a role in the recombination events that lead to the insertion or excision of DNA elements, contribu",
   "level": 0,
   "name": "Transposase_8_domain-containing_protein",
   "parent": null,
@@ -449980,6 +450279,7 @@
   "type": "FAMILY"
  },
  "IPR052777": {
+  "description": "This family of proteins includes enzymes that catalyze the transfer of acetyl groups from acetyl coenzyme A to various acceptor substrates, resulting in the release of CoA and the formation of an acetylated product. Members of this family exhibit substrate specificity, with preferences for amino acids such as L-threonine, L-serine, and L-methionine, among others. They are also capable of acetylati",
   "ec_numbers": [
    "2.3.1.-"
   ],
@@ -451582,6 +451882,7 @@
   "type": "FAMILY"
  },
  "IPR052957": {
+  "description": "This family of proteins is involved in cell fate determination during embryogenesis and plays a crucial role in auxin-dependent cell-fate specification and patterning. Members are essential for proper development of plant structures such as cotyledons, leaves, and roots. They regulate the expression and polarity of PIN-formed (PIN) proteins, which are critical for auxin transport and distribution,",
   "level": 0,
   "name": "Auxin-regulated embryogenesis mediator",
   "parent": null,
@@ -451607,6 +451908,7 @@
   "type": "FAMILY"
  },
  "IPR052961": {
+  "description": "This family of proteins includes enzymes with diverse catalytic activities. One member is an oxidoreductase belonging to the short-chain dehydrogenases/reductases (SDR) family, which typically function in the NAD(P)(H)-dependent metabolism of steroids, alcohols, and lipids. Another member is akin to the choline/ethanolamine kinase family, which is involved in the phosphorylation of choline and eth",
   "level": 0,
   "name": "Oxidoreductase and Kinase-like Enzymes",
   "parent": null,
@@ -452653,6 +452955,7 @@
   "type": "FAMILY"
  },
  "IPR053137": {
+  "description": "This family of proteins includes members with a multi-domain architecture that is involved in nucleotide binding and hydrolysis. Nucleotide-binding leucine-rich repeat (NLR)-like protein from Hyaloscypha variabilis contains a purine nucleoside phosphorylase (PNP) domain at the N-terminal that cleaves the N-glycosidic bond of ATP, and to a lesser extent dATP with very weak activity on adenosine and",
   "level": 0,
   "name": "Nucleotide-binding leucine-rich repeat (NLR)-like",
   "parent": null,
@@ -453042,6 +453345,7 @@
   "type": "FAMILY"
  },
  "IPR053201": {
+  "description": "This family of proteins includes N-methyltransferases involved in the biosynthesis of complex alkaloidal terpenoids. They catalyze the methylation of L-lysine to produce N,N-dimethyl-L-lysine, a precursor for the synthesis of dimethylcadaverine. This reaction is a key step in the formation of flavunoidine, a compound with a tetracyclic terpenoid core. Members of this family are typically part of g",
   "level": 0,
   "name": "Flavunoidine biosynthesis N-methyltransferase",
   "parent": null,
@@ -457373,6 +457677,7 @@
   "type": "FAMILY"
  },
  "IPR053839": {
+  "description": "This domain of unknown function is found in bacterial proteins. It is probably distantly related to dodecin. It is predicted to adopt a simple fold consisting of a core of 3 \u03b2-strands, forming a curved \u03b2-sheet, and two short \u03b1-helices.",
   "level": 0,
   "name": "Domain of unknown function DUF6926",
   "parent": null,
@@ -457540,6 +457845,7 @@
   "type": "DOMAIN"
  },
  "IPR053863": {
+  "description": "This entry represents the N-terminal glyoxalase-like domain found in a group of proteins from bacteria, archaea and fungi, related to glyoxalase and bleomycin resistance proteins.",
   "level": 0,
   "name": "Glyoxalase/Bleomycin resistance-like, N-terminal",
   "parent": null,
@@ -460404,6 +460710,7 @@
   "type": "DOMAIN"
  },
  "IPR054297": {
+  "description": "This uncharacterised domain is found in a group of polysaccharide deacetylases and similar proteins from bacteria.",
   "level": 0,
   "name": "Domain of unknown function DUF7033",
   "parent": null,
@@ -461863,6 +462170,7 @@
   "type": "DOMAIN"
  },
  "IPR054492": {
+  "description": "This family represents a group of prokaryotic proteins, including the putative polysaccharide deacetylase WbmS from Bordetella bronchiseptica (), which is involved in O-antigen biosynthesis. It adopts an \u03b1-\u03b2 barrel configuration.",
   "level": 0,
   "name": "Polysaccharide deacetylase-like",
   "parent": null,
@@ -462626,6 +462934,7 @@
   "type": "DOMAIN"
  },
  "IPR054597": {
+  "description": "This entry represents the catalytic core of the N-acyl amino acid synthase FeeM (,). This domain folds into a central antiparallel \u03b2-sheet packed on both sides with \u03b1-helices and closely resembles the conserved core of members of the GNAT superfamily.",
   "level": 0,
   "name": "N-acyl amino acid synthase FeeM, catalytic core",
   "parent": null,
@@ -462953,6 +463262,7 @@
   "type": "FAMILY"
  },
  "IPR054649": {
+  "description": "This family includes Npun_R2479 () from Nostoc punctiforme and similar sequences found primarily in the group of Cyanobacteria that also contain Cyanoexosortase B (CrtB). Members show the HDIG motif of HD domain proteins.",
   "level": 0,
   "name": "Npun_R2479-like",
   "parent": null,
@@ -463644,6 +463954,7 @@
   "type": "DOMAIN"
  },
  "IPR054715": {
+  "description": "This entry represents the catalytic domain of a group of geranylgeranyl reductases (GGR) mainly found in prokaryotes, including Digeranylgeranylglycerophospholipid reductase from from Sulfolobus acidocaldarius. This domain contains the PxxYxWxFP sequence motif, which defines a specificity pocket in the structure, providing a structural basis for the substrate specificity of GGRs.",
   "level": 0,
   "name": "Digeranylgeranylglycerophospholipid reductase, catalytic domain",
   "parent": null,
@@ -464100,6 +464411,7 @@
   "type": "DOMAIN"
  },
  "IPR054760": {
+  "description": "This domain is found at the C-terminal of transcriptional regulator DIP2311 from Corynebacterium diphtheriae () and similar bacterial sequences. This domain, which shows a winged helix fold, is normally found associated to.",
   "level": 1,
   "name": "Transcriptional regulator DIP2311-like, C-terminal domain",
   "parent": "IPR011991",
@@ -466635,6 +466947,7 @@
   "type": "DOMAIN"
  },
  "IPR055091": {
+  "description": "This entry includes carrier-protein-independent halogenase WelO5, an enzyme that chlorinates C13 of 12-epi-fischerindole U to yield 12-epi-fischerindole G. This enzymatic transformation constitutes the first step in the oxidative maturation to welwitindolinones. WelO5 adopts a cupin-like fold that is also characteristic of Fe/2OG enzymes.",
   "level": 0,
   "name": "Carrier-protein-independent halogenase WelO5-like",
   "parent": null,
@@ -470548,6 +470861,7 @@
   "type": "DOMAIN"
  },
  "IPR055651": {
+  "description": "This domain of unknown function is found in various phage and bacterial proteins. The domain length ranges from approximately 200 to 260 amino acids.",
   "level": 0,
   "name": "Domain of unknown function DUF7227",
   "parent": null,
@@ -470680,6 +470994,7 @@
   "type": "FAMILY"
  },
  "IPR055673": {
+  "description": "This family represents an uncharacterised protein domain found in phage proteins, mostly from Caudovirales. The domain is around 70-120 amino acids in length.",
   "level": 0,
   "name": "Protein of unknown function DUF7249",
   "parent": null,
@@ -471985,6 +472300,7 @@
   "type": "DOMAIN"
  },
  "IPR055891": {
+  "description": "This entry represents a conserved protein family found in cyanophages that infect marine Synechococcus and Prochlorococcus. The function of this protein is unknown. It is typically 70-100 amino acids in length. The protein appears to be specific to cyanophages and is not found in their cyanobacterial hosts.",
   "level": 0,
   "name": "Protein of unknown function DUF7468",
   "parent": null,
@@ -472429,6 +472745,7 @@
   "type": "FAMILY"
  },
  "IPR055966": {
+  "description": "This entry represents a family of uncharacterised prokaryotic proteins. They are likely associated with the membrane and consists of several transmembrane helices.",
   "level": 0,
   "name": "Protein of unknown function DUF7544",
   "parent": null,
@@ -473278,6 +473595,7 @@
   "type": "DOMAIN"
  },
  "IPR056106": {
+  "description": "This entry represents a group of uncharacterised proteins. They are predicted to adopt a fold typical for cysteine proteinases and topology similar to that of NlpC/P60 family proteins. These proteins are likely enzymes as they have similar active site architecture.",
   "level": 0,
   "name": "Domain of unknown function DUF7689",
   "parent": null,
@@ -474409,6 +474727,7 @@
   "type": "DOMAIN"
  },
  "IPR056284": {
+  "description": "This entry represents an Ig-like domain known as the A9 domain that is repeated 10/11 times in AIR9 (187-kDa microtubule-associated protein AIR9) from Arabidopsis thaliana. This domain is also found only once, often associated with in a group of plant and bacterial uncharacterised proteins. AIR9 and TAN1 function redundantly to maintain POK1 at the division site to ensure correct cell wall placeme",
   "level": 0,
   "name": "AIR9-like, A9 domain",
   "parent": null,
@@ -477255,6 +477574,7 @@
   "type": "DOMAIN"
  },
  "IPR056645": {
+  "description": "This is a presumed domain of unknown function found in uncharacterised proteins from Dictyosteliales. It may adopt a Ig-like fold.",
   "level": 0,
   "name": "Domain of unknown function DUF7743",
   "parent": null,
@@ -478881,6 +479201,7 @@
   "type": "DOMAIN"
  },
  "IPR056906": {
+  "description": "This entry represents a domain found in a group of Replication-associated proteins including ORF2 from Spiroplasma virus 4 (SpV4) and G2P from phages such as Xanthomonas phage phiLf and Bdellovibrio phage phiMH2K. These proteins play an essential role in viral DNA replication; they bind the origin of replication and cleaves the dsDNA replicative form I (RFI) and becomes covalently bound to it via ",
   "ec_numbers": [
    "3.1.21.-",
    "6.5.1.1"
@@ -480105,6 +480426,7 @@
   "type": "DOMAIN"
  },
  "IPR057097": {
+  "description": "This entry represents a set of LysM domains found in LysM domain receptor-like kinase family LYRK3, RLK10 () and similar receptors.",
   "ec_numbers": [
    "2.7.11.1"
   ],
@@ -483073,6 +483395,7 @@
   "type": "DOMAIN"
  },
  "IPR057538": {
+  "description": "This domain is found in human Ribitol-5-phosphate xylosyltransferase 1 (RXYLT1) and related proteins. It has a detectable similarity to domains members of Glycosyl transferase clan GT-B and it is predicted to adopt similar structure.",
   "ec_numbers": [
    "2.4.2.61"
   ],
@@ -486310,18 +486633,21 @@
   "type": "DOMAIN"
  },
  "IPR058036": {
+  "description": "This entry represents the 4th domain of the BrxC protein from the BREX (bacteriophage exclusion) system. This \u03b1/\u03b2 domain contains a distinctive six-stranded \u03b2-sheet with \u03b1-helices. It is predicted to be the 4th of 8 domains in the full-length BrxC protein.",
   "level": 0,
   "name": "Probable ATP-binding protein BrxC, 4th six-stranded beta-sheet domain",
   "parent": null,
   "type": "DOMAIN"
  },
  "IPR058037": {
+  "description": "This entry represents the small \u03b1-helical domain of the BrxC protein from the BREX (bacteriophage exclusion) system. This domain is predicted to be the 6th of 8 domains in the full-length BrxC protein. This small \u03b1-helical domain may be involved in protein-protein interactions within the BREX complex or contribute to the structural stability of the BrxC protein.",
   "level": 0,
   "name": "Probable ATP-binding protein BrxC, alpha-helical domain",
   "parent": null,
   "type": "DOMAIN"
  },
  "IPR058038": {
+  "description": "This entry represents the winged helix-turn-helix (wHTH) domain of the BrxC protein from the BREX (bacteriophage exclusion) system. This domain is predicted to be the 5th of 8 domains in the full-length BrxC protein. The winged helix-turn-helix domain likely plays a role in DNA binding.",
   "level": 0,
   "name": "Probable ATP-binding protein BrxC, winged helix-turn-helix domain",
   "parent": null,
@@ -487725,6 +488051,7 @@
   "type": "FAMILY"
  },
  "IPR058226": {
+  "description": "Members of this baterial family, including AZOBR_p60025 from a plasmid of Azospirillum brasilense (), are thought to be membrane proteins of surface polysaccharide biosynthesis. AZOBR_p60025 has been reported to be essential for the decoration of the cell surface with LPSII and CBPS (Calcofluor-binding polysaccharides) and for the single-cell and social motility of A.brasilense.",
   "level": 0,
   "name": "Cell surface glycopolymer formation protein AZOBR_p60025-like",
   "parent": null,
@@ -489920,6 +490247,7 @@
   "type": "DOMAIN"
  },
  "IPR058588": {
+  "description": "E2-CBASS is a subtype of the bacterial CBASS (Cyclic oligonucleotide-Based Anti-Phage Signaling System), which is an innate immune system found in bacteria and archaea that protects against phage infections. CBASS systems work by detecting phage infection and triggering a form of programmed cell death (abortive infection) to prevent phage replication and protect the bacterial population. The E2-CB",
   "level": 0,
   "name": "Type II CBASS E2 protein",
   "parent": null,
@@ -490148,6 +490476,7 @@
   "type": "DOMAIN"
  },
  "IPR058592": {
+  "description": "This domain is found C-terminal is Glucosyltransferase 3 (Gtf3) from from S. pneumoniae, its homologue GtfC from S. agalactiae and related proteins. This domain is also found in the beta-1,6-galactofuranosyltransferase WbbI.",
   "ec_numbers": [
    "2.4.1.-"
   ],
@@ -491101,6 +491430,7 @@
   "type": "FAMILY"
  },
  "IPR058690": {
+  "description": "This entry represents a family that includes the BrxE proteins found in both bacteria and archaea. These proteins range from 166 to 218 amino acids in length. BrxE is a protein of unknown function found in type 6 BREX phage resistance systems.",
   "level": 0,
   "name": "BrxE",
   "parent": null,
@@ -493058,12 +493388,14 @@
   "type": "DOMAIN"
  },
  "IPR058997": {
+  "description": "This entry represents a VOC-like domain found at the C-terminal of a group of uncharacterised sequences from bacteria and fungi, such as YycE from Bacillus subtilis ().",
   "level": 0,
   "name": "YycE-like, C-terminal domain",
   "parent": null,
   "type": "DOMAIN"
  },
  "IPR058998": {
+  "description": "This entry represents a VOC-like domain found at the N-terminal of a group of uncharacterised sequences from bacteria and fungi, such as YycE from Bacillus subtilis ().",
   "level": 0,
   "name": "YycE-like, N-terminal domain",
   "parent": null,
@@ -493874,6 +494206,7 @@
   "type": "DOMAIN"
  },
  "IPR059123": {
+  "description": "This domain is found standalone in Streptomycin biosynthesis protein StrF and in uncharacterised bacterial proteins predicted to adopt a fold typical for Nucleotide-diphospho-sugar transferases.",
   "level": 0,
   "name": "Streptomycin biosynthesis protein StrF domain",
   "parent": null,
@@ -498125,6 +498458,7 @@
   "type": "DOMAIN"
  },
  "IPR059855": {
+  "description": "This entry represents a domain found standalone in the AF_1680 protein and in uncharacterised proteins found in Archaea. AF_1680 is found in Archaeoglobus fulgidus and related archaeal species. The function of this domain remains to be determined.",
   "level": 0,
   "name": "AF_1680-like domain",
   "parent": null,
@@ -499100,6 +499434,7 @@
   "type": "DOMAIN"
  },
  "IPR060009": {
+  "description": "Members of this family are found in within O-antigen biosynthesis clusters in Gram-negative bacteria, where they are predicted to function as glycosyltransferases.",
   "level": 0,
   "name": "Glycosyltransferase WbsX, N-terminal domain",
   "parent": null,
@@ -505989,6 +506324,7 @@
   "type": "DOMAIN"
  },
  "IPR061312": {
+  "description": "Members of this family are DrmA helicases from representative DISARM anti-phage gene clusters, mostly from class I systems, but a few from class II systems. This entry excludes those members of class II systems that both are divergent in sequence from this set and have a characteristic long insert.",
   "level": 0,
   "name": "DISARM system helicase DrmA, short form",
   "parent": null,
@@ -507103,6 +507439,7 @@
   "type": "DOMAIN"
  },
  "IPR061521": {
+  "description": "This entry represents an uncharacterised domain found in bacteriodetes and pseudomonadota bacteria. it is found both on its own and in larger multidomain proteins.",
   "level": 0,
   "name": "Domain of unknown function DUF8451",
   "parent": null,
@@ -507172,6 +507509,7 @@
   "type": "DOMAIN"
  },
  "IPR061532": {
+  "description": "This is a HTH domain found in a group of uncharacterised sequences from bacteria and archaea, including the Uncharacterized HTH-type transcriptional regulator MJ0774 from Methanocaldococcus jannaschii.",
   "level": 0,
   "name": "Domain of unknown function DUF8462",
   "parent": null,
@@ -508791,6 +509129,7 @@
   "type": "DOMAIN"
  },
  "IPR061789": {
+  "description": "This entry represents a C-terminal domain of approximately 110 residues. The domain is found at the C terminus of proteins annotated as RgtA-like glycosyltransferases. This family is found in diverse bacteria including Pseudomonadota (particularly Legionella), Actinomycetota, Myxococcota and Chloroflexota. The function of this domain remains to be determined.",
   "level": 0,
   "name": "Domain of unknown function DUF8728",
   "parent": null,
@@ -515463,6 +515802,7 @@
   "type": "DOMAIN"
  },
  "IPR062921": {
+  "description": "This entry represents the N-terminal domain of VapE proteins, conserved across diverse bacterial species including Clostridium, Bacillus, Staphylococcus, and Enterococcus species. VapE proteins have been detected in biofilm-associated contexts, though the specific function of this N-terminal domain remains to be determined. The designation virulence-associated reflects the original nomenclature, b",
   "level": 0,
   "name": "VapE, N-terminal domain",
   "parent": null,
@@ -519922,12 +520262,14 @@
   "type": "DOMAIN"
  },
  "IPR063550": {
+  "description": "This entry represents the C-terminal domain of approximately 130-150 amino acids found in the DNA damage-inducible protein D (DinD) and related bacterial proteins. This domain is found C-terminal to a Bro-N domain (). The specific function of this C-terminal domain remains to be determined.",
   "level": 0,
   "name": "DinD, C-terminal domain",
   "parent": null,
   "type": "DOMAIN"
  },
  "IPR063551": {
+  "description": "This entry represents the family of the DNA damage-inducible protein D (DinD) and its bacterial homologues.",
   "level": 0,
   "name": "DNA damage-inducible protein D",
   "parent": null,
@@ -520295,6 +520637,7 @@
   "type": "DOMAIN"
  },
  "IPR063603": {
+  "description": "This entry represents the C-terminal domain of 3-(3-hydroxy-phenyl)propionate/3-hydroxycinnamic acid hydroxylase from Escherichia coli (MhpA) and similar proteins found predominantly in Actinomycetes and Proteobacteria. The domain is approximately 120-165 amino acids in length. MhpA () catalyses the insertion of one atom of molecular oxygen into position 2 of the phenyl ring of 3-(3-hydroxyphenyl)",
   "ec_numbers": [
    "1.14.13.127"
   ],

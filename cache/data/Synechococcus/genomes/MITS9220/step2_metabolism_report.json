@@ -1,0 +1,24 @@
+{
+  "strain": "MITS9220",
+  "gene_count": 3080,
+  "kegg_reactions": {
+    "raw_total": 1407,
+    "raw_unique": 1024,
+    "kept_total": 1407,
+    "kept_unique_r_numbers": 1024
+  },
+  "transporter_classification": {
+    "raw_total": 296,
+    "raw_unique": 128,
+    "validated_total": 991,
+    "validated_unique": 378,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 32,
+    "raw_unique": 21,
+    "validated_total": 46,
+    "validated_unique": 22,
+    "invalid_examples": []
+  }
+}

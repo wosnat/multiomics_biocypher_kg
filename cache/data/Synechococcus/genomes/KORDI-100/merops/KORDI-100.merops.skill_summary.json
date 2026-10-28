@@ -1,0 +1,42 @@
+{
+  "strain": "KORDI-100",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2918,
+  "wallclock_s": 0.8,
+  "raw_hit_lines": 926,
+  "parse_failures": 0,
+  "proteins_with_hits": 87,
+  "proteins_with_call": 87,
+  "total_candidates": 90,
+  "candidates_per_protein_distribution": {
+    "2": 3,
+    "1": 84
+  },
+  "tier_distribution": {
+    "3": 85,
+    "2": 5
+  },
+  "consensus_agreement_distribution": {
+    "id": 16,
+    "subfamily": 18,
+    "family": 56
+  },
+  "catalytic_type_distribution": {
+    "S": 34,
+    "M": 35,
+    "C": 15,
+    "inhibitor": 1,
+    "U": 1,
+    "A": 2,
+    "T": 2
+  },
+  "entry_type_distribution": {
+    "peptidase": 89,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 58,
+    "nonpeptidase_homolog": 11,
+    "putative": 21
+  }
+}

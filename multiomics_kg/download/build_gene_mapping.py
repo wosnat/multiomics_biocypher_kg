@@ -6,8 +6,13 @@ Used by both CyanorakNcbi adapter and the download pipeline (download_genome_dat
 
 from __future__ import annotations
 
+import csv
 import os
 import re
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -84,6 +89,16 @@ def ncbi_merge_cds_and_gene_entries(ncbi_gff_df: pd.DataFrame) -> pd.DataFrame:
     gene_df = ncbi_gff_df.loc[ncbi_gff_df.type.isin(['gene'])]
     cds_df = ncbi_gff_df.loc[ncbi_gff_df.type.isin(['CDS'])]
     df = pd.merge(gene_df, cds_df, left_on='ID', right_on='Parent', suffixes=['_gene', '_cds'])
+
+    # Older NCBI GFFs (annotwriter, e.g. GCF_000218705.1 HNLC1, GCF_000179235.1
+    # CB0101: ID=gene0 / ID=cds0) carry locus_tag on the gene row only. Without
+    # this fallback every NCBI gene was dropped for lacking locus_tag_ncbi and
+    # the strain came out Cyanorak-only.
+    if 'locus_tag_gene' in df.columns:
+        if 'locus_tag_cds' in df.columns:
+            df['locus_tag_cds'] = df['locus_tag_cds'].fillna(df['locus_tag_gene'])
+        else:
+            df['locus_tag_cds'] = df['locus_tag_gene']
 
     ncbi_col_rename_map = _get_ncbi_cols_rename_map()
     potential_cols = [
@@ -210,9 +225,8 @@ def _contig_offsets(ncbi_sourced: pd.DataFrame) -> dict:
     0). The shift is measured on genes the locus_tag merge already paired, at
     the 3' end (stop codon), because start codons legitimately differ. A contig
     is usable when a strict majority of its matched genes agree on one offset
-    (a contig backed by fewer than 3 matched genes is used but warned about);
-    an unmatched-only contig is usable at offset 0 only when the assembly is a
-    single sequence. Contigs without a derivable offset are left out — with a
+    (a contig backed by fewer than 3 matched genes is used but warned about).
+    Contigs without a derivable offset are left out — with a
     warning naming them — and the fallback never compares coordinates on them.
     """
     seqids = _seqids(ncbi_sourced)
@@ -225,15 +239,16 @@ def _contig_offsets(ncbi_sourced: pd.DataFrame) -> dict:
     for sid in distinct:
         m = matched[seqids.loc[matched.index] == sid]
         if m.empty:
-            if len(distinct) == 1:
-                offsets[sid] = 0
-            else:
-                n_unmatched = int(((seqids == sid) & ncbi_sourced['ID'].isna()).sum())
-                logger.warning(
-                    f"Position fallback: contig {sid!r} has no locus_tag-matched "
-                    f"gene to derive a Cyanorak offset from — its {n_unmatched} "
-                    f"unmatched NCBI genes are not considered"
-                )
+            # No paired gene on this contig: the offset is unknown. (Assuming 0
+            # on a single-sequence assembly paired ~330-400 genes per strain by
+            # coordinate coincidence when Cyanorak's record is laid out in
+            # another frame — KORDI-49/52/100, CC9616; 2026-10-26.)
+            n_unmatched = int(((seqids == sid) & ncbi_sourced['ID'].isna()).sum())
+            logger.warning(
+                f"Position fallback: contig {sid!r} has no paired gene to derive a "
+                f"Cyanorak offset from — its {n_unmatched} unmatched NCBI genes are "
+                f"not considered"
+            )
             continue
         diff = (
             _three_prime_end(m['start_cyanorak'], m['end_cyanorak'], m['strand_ncbi'])
@@ -375,37 +390,349 @@ def _position_fallback_merge(
             )
             continue
 
-        # Copy Cyanorak columns into the NCBI row
-        cyan_row = cyan_only[cyan_only['locus_tag'] == cyan_lt].iloc[0]
-        for col in _CYAN_COLUMNS_TO_COPY:
-            if col in ncbi_sourced.columns and col in cyan_only.columns:
-                ncbi_sourced.at[ncbi_idx, col] = cyan_row[col]
-
-        # Preserve the Cyanorak locus_tag in old_locus_tags so it remains
-        # discoverable by gene_id_mapping (papers may use this form).
-        if 'old_locus_tags' not in ncbi_sourced.columns:
-            ncbi_sourced['old_locus_tags'] = np.nan  # GFF had no old_locus_tag at all
-        existing_olt = str(ncbi_sourced.at[ncbi_idx, 'old_locus_tags'])
-        if pd.notna(ncbi_sourced.at[ncbi_idx, 'old_locus_tags']):
-            if cyan_lt not in existing_olt:
-                ncbi_sourced.at[ncbi_idx, 'old_locus_tags'] = f"{existing_olt},{cyan_lt}"
-        else:
-            ncbi_sourced.at[ncbi_idx, 'old_locus_tags'] = cyan_lt
-
-        # Add a note flagging this as a position-based merge
-        # locus_tag is still NaN here for NCBI genes without old_locus_tag
-        # (filled from locus_tag_ncbi later), so name the gene the same way
-        target = ncbi_sourced.at[ncbi_idx, 'locus_tag']
-        if pd.isna(target):
-            target = ncbi_sourced.at[ncbi_idx, 'locus_tag_ncbi']
-        ncbi_sourced.at[ncbi_idx, 'position_merge_note'] = (
-            f"position_merge:{cyan_lt}→{target}"
-        )
-
+        _absorb_cyanorak_row(ncbi_sourced, ncbi_idx, cyan_only, cyan_lt, 'position_merge')
         consumed_cyan.add(cyan_lt)
         n_merged += 1
 
     return n_merged, consumed_cyan
+
+
+def _absorb_cyanorak_row(ncbi_sourced: pd.DataFrame, ncbi_idx, cyan_only: pd.DataFrame,
+                         cyan_lt: str, how: str) -> None:
+    """Copy one Cyanorak call's columns into an unmatched NCBI row (in place).
+
+    Shared by the position and sequence fallbacks: copies ``_CYAN_COLUMNS_TO_COPY``,
+    appends the Cyanorak locus_tag to ``old_locus_tags`` (papers may use that
+    form, so it must stay resolvable by gene_id_mapping) and records
+    ``position_merge_note = '<how>:<cyanorak lt>→<target>'``.
+    """
+    cyan_row = cyan_only[cyan_only['locus_tag'] == cyan_lt].iloc[0]
+    for col in _CYAN_COLUMNS_TO_COPY:
+        if col in ncbi_sourced.columns and col in cyan_only.columns:
+            ncbi_sourced.at[ncbi_idx, col] = cyan_row[col]
+
+    if 'old_locus_tags' not in ncbi_sourced.columns:
+        ncbi_sourced['old_locus_tags'] = pd.Series(pd.NA, index=ncbi_sourced.index, dtype=object)
+    elif ncbi_sourced['old_locus_tags'].dtype != object:
+        ncbi_sourced['old_locus_tags'] = ncbi_sourced['old_locus_tags'].astype(object)
+    existing = ncbi_sourced.at[ncbi_idx, 'old_locus_tags']
+    if pd.notna(existing):
+        if cyan_lt not in str(existing):
+            ncbi_sourced.at[ncbi_idx, 'old_locus_tags'] = f"{existing},{cyan_lt}"
+    else:
+        ncbi_sourced.at[ncbi_idx, 'old_locus_tags'] = cyan_lt
+
+    # locus_tag is still NaN here for NCBI genes without old_locus_tag
+    # (filled from locus_tag_ncbi later), so name the gene the same way
+    target = ncbi_sourced.at[ncbi_idx, 'locus_tag']
+    if pd.isna(target):
+        target = ncbi_sourced.at[ncbi_idx, 'locus_tag_ncbi']
+    ncbi_sourced.at[ncbi_idx, 'position_merge_note'] = f"{how}:{cyan_lt}→{target}"
+
+
+# ── protein-sequence fallback (diamond bridge) ───────────────────────────────
+
+_PROTEIN_MATCH_SCRIPT = Path(__file__).resolve().parents[2] / "scripts" / "map_img_to_ncbi_proteins.py"
+_SEQ_FALLBACK_MIN_UNPAIRED = 50   # run only when the earlier stages left this many on both sides
+
+# QC thresholds (report-only, ``[QC]`` warnings — see _merge_qc)
+QC_MAX_DUPLICATION_RATIO = 1.15
+QC_MIN_SYNTENY_RATE = 0.90
+QC_MIN_DIAMOND_PIDENT_P5 = 90.0
+
+
+def _clean_translation(seq) -> str | None:
+    """Cyanorak ``translation=`` → comparable protein: stop glyphs (``*#+``)
+    stripped, uppercase, first residue set to M (Cyanorak writes the start codon
+    as its own residue; NCBI as M) — same normalisation as Gene.sequence; any
+    other non-letter inside the sequence becomes X."""
+    if not isinstance(seq, str):
+        return None
+    # internal stop/ambiguity glyphs (``+``, ``*``) make diamond reject the whole FASTA
+    s = re.sub(r"[^A-Z]", "X", seq.strip().upper().rstrip("*#+"))
+    return ("M" + s[1:]) if len(s) > 1 else None
+
+
+def _read_fasta(path: str) -> dict[str, str]:
+    seqs: dict[str, list[str]] = {}
+    cur = None
+    with open(path) as fh:
+        for line in fh:
+            if line.startswith(">"):
+                cur = line[1:].split()[0]
+                seqs[cur] = []
+            elif cur is not None:
+                seqs[cur].append(line.strip())
+    return {k: "".join(v) for k, v in seqs.items()}
+
+
+def _sequence_fallback_merge(
+    ncbi_sourced: pd.DataFrame,
+    cyan_only: pd.DataFrame,
+    protein_faa: str,
+    cyan_translations: dict[str, str],
+) -> tuple[int, set[str], dict]:
+    """Pair still-unpaired NCBI and Cyanorak calls by protein sequence.
+
+    Both earlier stages assume one assembly in one coordinate frame. For some
+    Cyanorak genomes neither holds (Ford 2021 batch, 2026-10-25: WH8020,
+    KORDI-49/52/100, CC9616, PCC7001, CB0101, CB0205 — 0 locus-tag matches,
+    0-13 % position merges), leaving each gene as an NCBI-only plus a
+    Cyanorak-only row. This stage runs ``scripts/map_img_to_ncbi_proteins.py``
+    (exact → subsequence → diamond blastp; the EZ55 / MIT1002 / MIT1327 bridge)
+    with the unpaired Cyanorak translations as source and the unpaired NCBI
+    proteins as targets, then merges **1:1 only**: an NCBI gene claimed by
+    several Cyanorak calls is skipped, and a WP accession shared by several
+    unpaired NCBI genes (identical paralogs) is never a target.
+
+    Runs only when both sides keep >= ``_SEQ_FALLBACK_MIN_UNPAIRED`` unpaired
+    genes, so normal strains (a few dozen unpaired) are untouched.
+
+    Modifies ncbi_sourced in place. Returns (n_merged, consumed_cyanorak_lts, qc).
+    """
+    qc: dict = {"ran": False}
+    if "protein_id" not in ncbi_sourced.columns or not cyan_translations:
+        qc["reason"] = "no protein_id column or no Cyanorak translations"
+        return 0, set(), qc
+    unmatched = ncbi_sourced[ncbi_sourced["ID"].isna() & ncbi_sourced["protein_id"].notna()]
+    if len(unmatched) < _SEQ_FALLBACK_MIN_UNPAIRED or len(cyan_only) < _SEQ_FALLBACK_MIN_UNPAIRED:
+        qc["reason"] = f"unpaired below threshold ({len(unmatched)} NCBI / {len(cyan_only)} Cyanorak)"
+        return 0, set(), qc
+    if not _PROTEIN_MATCH_SCRIPT.exists():
+        logger.warning(f"Sequence fallback: {_PROTEIN_MATCH_SCRIPT} missing — skipped")
+        qc["reason"] = "protein match script missing"
+        return 0, set(), qc
+
+    pid_counts = unmatched["protein_id"].value_counts()
+    shared = set(pid_counts[pid_counts > 1].index)
+    targets = unmatched[~unmatched["protein_id"].isin(shared)]
+    lt_to_idx = dict(zip(targets["locus_tag_ncbi"], targets.index))
+    ncbi_prot = _read_fasta(protein_faa)
+
+    with tempfile.TemporaryDirectory(prefix="gene_mapping_seq_") as tmp:
+        src, tgt = os.path.join(tmp, "cyanorak.faa"), os.path.join(tmp, "ncbi.faa")
+        gm, out = os.path.join(tmp, "gm.csv"), os.path.join(tmp, "bridge.csv")
+        n_src = 0
+        with open(src, "w") as fh:
+            for lt in cyan_only["locus_tag"]:
+                s = _clean_translation(cyan_translations.get(lt))
+                if s:
+                    fh.write(f">{lt}\n{s}\n")
+                    n_src += 1
+        with open(tgt, "w") as fh, open(gm, "w", newline="") as gfh:
+            w = csv.writer(gfh)
+            w.writerow(["protein_id", "locus_tag"])
+            for lt, pid in zip(targets["locus_tag_ncbi"], targets["protein_id"]):
+                s = ncbi_prot.get(pid)
+                if s:
+                    fh.write(f">{pid}\n{s}\n")
+                    w.writerow([pid, lt])
+        proc = subprocess.run(
+            [sys.executable, str(_PROTEIN_MATCH_SCRIPT), "--img-faa", src, "--ncbi-faa", tgt,
+             "--gene-mapping", gm, "--output", out, "--source-id-col", "cyanorak_locus_tag",
+             "--with-method"],
+            capture_output=True, text=True,
+        )
+        # exit 2 = "<50 % of the source mapped" warning; the CSV is still valid
+        if proc.returncode not in (0, 2) or not os.path.exists(out):
+            logger.warning(f"Sequence fallback: protein match failed (rc={proc.returncode}): "
+                           f"{proc.stderr.strip()[-300:]}")
+            qc["reason"] = f"protein match failed rc={proc.returncode}"
+            return 0, set(), qc
+        with open(out) as fh:
+            bridge = list(csv.DictReader(fh))
+
+    by_ncbi: dict[str, list[dict]] = {}
+    for row in bridge:
+        by_ncbi.setdefault(row["locus_tag"], []).append(row)
+    by_cyan: dict[str, int] = {}
+    for row in bridge:
+        by_cyan[row["cyanorak_locus_tag"]] = by_cyan.get(row["cyanorak_locus_tag"], 0) + 1
+    candidates: dict = {}
+    n_conflict = 0
+    for ncbi_lt, rows in by_ncbi.items():
+        if len(rows) > 1 or ncbi_lt not in lt_to_idx or by_cyan[rows[0]["cyanorak_locus_tag"]] > 1:
+            n_conflict += 1
+            continue
+        candidates[lt_to_idx[ncbi_lt]] = rows[0]
+
+    syntenic = _syntenic_candidates(ncbi_sourced, cyan_only, candidates)
+    n_non_syntenic = len(candidates) - len(syntenic)
+
+    consumed: set[str] = set()
+    methods: dict[str, int] = {}
+    pidents: list[float] = []
+    for idx, row in candidates.items():
+        if idx not in syntenic:
+            continue
+        cyan_lt, how = row["cyanorak_locus_tag"], row["match_method"]
+        _absorb_cyanorak_row(ncbi_sourced, idx, cyan_only, cyan_lt, f"sequence_merge_{how}")
+        consumed.add(cyan_lt)
+        methods[how] = methods.get(how, 0) + 1
+        if how == "diamond":
+            pidents.append(float(row["pident"]))
+    qc.update({
+        "ran": True,
+        "source_cyanorak": n_src,
+        "target_ncbi": len(targets),
+        "excluded_shared_wp": int(len(unmatched) - len(targets)),
+        "merged": len(consumed),
+        "merged_by_method": methods,
+        "skipped_conflicts": n_conflict,
+        "rejected_non_syntenic": n_non_syntenic,
+        "diamond_pident_min": min(pidents) if pidents else None,
+        "diamond_pident_p5": float(np.percentile(pidents, 5)) if pidents else None,
+        "diamond_pident_median": float(np.median(pidents)) if pidents else None,
+    })
+    return len(consumed), consumed, qc
+
+
+def _syntenic_candidates(ncbi_sourced: pd.DataFrame, cyan_only: pd.DataFrame,
+                         candidates: dict) -> set:
+    """Keep only sequence-match candidates that sit where their neighbours say.
+
+    A true pair maps one locus onto one locus, so its 3'-end offset between the
+    NCBI and Cyanorak frames (difference; sum for a reverse-complemented record)
+    equals that of one of the two nearest paired genes on either side on the
+    same NCBI contig — already-paired genes and other candidates both count, so a whole
+    re-laid-out genome (CB0101: 2,749 sequence pairs, all mutually consistent)
+    passes while an isolated hit on a paralog elsewhere in the genome is
+    rejected. Measured 2026-10-25: without this filter the stage made 1-4
+    non-syntenic merges in ~23 normal strains (MIT9313, CC9311, …), every one a
+    paralog with its own locus.
+    """
+    if not candidates:
+        return set()
+    cyan_by_lt = cyan_only.set_index("locus_tag")
+    recs = []   # (seqid, ncbi_start, diff, sum, candidate_idx | None)
+    paired = ncbi_sourced[ncbi_sourced["ID"].notna()]
+    need = ["start_ncbi", "end_ncbi", "strand_ncbi", "start_cyanorak", "end_cyanorak", "strand_cyanorak"]
+    if set(need) <= set(paired.columns):
+        p = paired.dropna(subset=need)
+        n3 = _three_prime_end(p["start_ncbi"], p["end_ncbi"], p["strand_ncbi"])
+        c3 = _three_prime_end(p["start_cyanorak"], p["end_cyanorak"], p["strand_cyanorak"])
+        for sid, st, d, s in zip(_seqids(p), p["start_ncbi"], c3 - n3, c3 + n3):
+            recs.append((sid, float(st), d, s, None))
+    seqids = _seqids(ncbi_sourced)
+    for idx, row in candidates.items():
+        lt = row["cyanorak_locus_tag"]
+        if lt not in cyan_by_lt.index:
+            continue
+        c = cyan_by_lt.loc[lt]
+        if isinstance(c, pd.DataFrame):
+            c = c.iloc[0]
+        n = ncbi_sourced.loc[idx]
+        if pd.isna(n.get("start_ncbi")) or pd.isna(c.get("start_cyanorak")):
+            continue
+        n3 = float(_three_prime_end(n["start_ncbi"], n["end_ncbi"], n["strand_ncbi"]))
+        c3 = float(_three_prime_end(c["start_cyanorak"], c["end_cyanorak"], c["strand_cyanorak"]))
+        recs.append((seqids.loc[idx], float(n["start_ncbi"]), c3 - n3, c3 + n3, idx))
+    keep: set = set()
+    recs.sort(key=lambda r: (r[0], r[1]))
+    for i, (sid, _st, d, s, idx) in enumerate(recs):
+        if idx is None:
+            continue
+        for j in (i - 2, i - 1, i + 1, i + 2):
+            if 0 <= j < len(recs) and recs[j][0] == sid and (recs[j][2] == d or recs[j][3] == s):
+                keep.add(idx)
+                break
+    return keep
+
+
+QC_MAX_PAIR_SEQ_DISAGREE = 0.05
+_PAIR_TAIL_AA = 20
+
+
+def _pair_sequence_check(merge_df: pd.DataFrame, ncbi_proteins: dict, cyan_translations: dict) -> dict:
+    """Do paired NCBI / Cyanorak calls encode the same protein?
+
+    For every paired row with both sequences available, the two proteins agree
+    when their C-terminal 20 aa are identical (starts are legitimately re-called,
+    stops are not). Reported per pairing stage; a position stage that paired
+    genes by coordinate coincidence shows up as a high disagreement rate.
+    """
+    out: dict = {}
+    if not ncbi_proteins or not cyan_translations or "ID" not in merge_df.columns:
+        return out
+    note = merge_df.get("position_merge_note", pd.Series(index=merge_df.index, dtype=object)).astype(str)
+    for idx, row in merge_df[merge_df["ID"].notna() & merge_df.get("protein_id", pd.Series(dtype=object)).notna()].iterrows():
+        n = note.loc[idx]
+        if n.startswith("sequence_merge"):
+            stage, cyan_lt = "sequence", n.split(":", 1)[1].split("→")[0]
+        elif n.startswith("position_merge"):
+            stage, cyan_lt = "position", n.split(":", 1)[1].split("→")[0]
+        else:
+            stage, cyan_lt = "locus_tag", row.get("locus_tag")
+        a = _clean_translation(ncbi_proteins.get(row["protein_id"]))
+        b = _clean_translation(cyan_translations.get(cyan_lt))
+        if not a or not b:
+            continue
+        rec = out.setdefault(stage, {"checked": 0, "disagree": 0})
+        rec["checked"] += 1
+        if a[-_PAIR_TAIL_AA:] != b[-_PAIR_TAIL_AA:]:
+            rec["disagree"] += 1
+    for rec in out.values():
+        rec["disagree_rate"] = round(rec["disagree"] / rec["checked"], 3) if rec["checked"] else None
+    return out
+
+
+def _merge_qc(merge_df: pd.DataFrame, n_ncbi: int, n_cyan: int, stages: dict, seq_qc: dict,
+              ncbi_proteins: dict | None = None, cyan_translations: dict | None = None) -> dict:
+    """Per-strain merge QC (written to ``gene_mapping_merge_qc.json`` by step 0.5).
+
+    - duplication_ratio = genes / max(NCBI genes, Cyanorak genes): ~1.0-1.1 when
+      the two annotations were paired; ~1.8 when every gene is duplicated
+      (WH8020 before the sequence fallback: 5,501 / 3,115).
+    - synteny_rate over sequence-merged pairs: a pair whose 3'-end offset between
+      the two coordinate frames (difference, or sum for a reverse-complemented
+      record) equals that of its nearest paired neighbour on the same contig is
+      syntenic; an isolated offset flags a likely paralog mix-up.
+    Flags breach QC_MAX_DUPLICATION_RATIO / QC_MIN_SYNTENY_RATE /
+    QC_MIN_DIAMOND_PIDENT_P5 and are also logged as ``[QC]`` warnings.
+    """
+    qc = {"genes": int(len(merge_df)), "ncbi_genes": int(n_ncbi), "cyanorak_genes": int(n_cyan),
+          "stages": stages, "sequence_fallback": seq_qc}
+    qc["duplication_ratio"] = round(len(merge_df) / max(n_ncbi, n_cyan, 1), 3)
+
+    cols = ["start_ncbi", "end_ncbi", "start_cyanorak", "end_cyanorak"]
+    paired = merge_df[merge_df[cols].notna().all(axis=1)].copy() if set(cols) <= set(merge_df.columns) else merge_df.iloc[0:0]
+    synteny = None
+    if not paired.empty and "position_merge_note" in paired.columns:
+        n3 = _three_prime_end(paired["start_ncbi"], paired["end_ncbi"], paired["strand_ncbi"])
+        c3 = _three_prime_end(paired["start_cyanorak"], paired["end_cyanorak"], paired["strand_cyanorak"])
+        paired["_diff"], paired["_sum"] = c3 - n3, c3 + n3
+        paired["_seqid"] = _seqids(paired)
+        paired = paired.sort_values(["_seqid", "start_ncbi"])
+        is_seq = paired["position_merge_note"].astype(str).str.startswith("sequence_merge")
+        n_seq = int(is_seq.sum())
+        if n_seq:
+            ok = 0
+            for sid, grp in paired.groupby("_seqid", sort=False):
+                d, s, flag = grp["_diff"].values, grp["_sum"].values, is_seq.loc[grp.index].values
+                for i in np.where(flag)[0]:
+                    nb = [j for j in (i - 1, i + 1) if 0 <= j < len(grp)]
+                    if any(d[j] == d[i] or s[j] == s[i] for j in nb):
+                        ok += 1
+            synteny = round(ok / n_seq, 3)
+    qc["synteny_rate"] = synteny
+    qc["pair_sequence_check"] = _pair_sequence_check(merge_df, ncbi_proteins or {}, cyan_translations or {})
+
+    flags = []
+    for stage, rec in qc["pair_sequence_check"].items():
+        if rec["checked"] >= 20 and rec["disagree_rate"] > QC_MAX_PAIR_SEQ_DISAGREE:
+            flags.append(f"{stage} pairs: {rec['disagree_rate']:.1%} encode different proteins "
+                         f"(> {QC_MAX_PAIR_SEQ_DISAGREE:.0%})")
+    if qc["duplication_ratio"] > QC_MAX_DUPLICATION_RATIO:
+        flags.append(f"duplication_ratio {qc['duplication_ratio']} > {QC_MAX_DUPLICATION_RATIO}")
+    if synteny is not None and synteny < QC_MIN_SYNTENY_RATE:
+        flags.append(f"synteny_rate {synteny} < {QC_MIN_SYNTENY_RATE}")
+    p5 = seq_qc.get("diamond_pident_p5")
+    if p5 is not None and p5 < QC_MIN_DIAMOND_PIDENT_P5:
+        flags.append(f"diamond_pident_p5 {p5:.1f} < {QC_MIN_DIAMOND_PIDENT_P5}")
+    qc["flags"] = flags
+    for f in flags:
+        logger.warning(f"[QC] gene merge: {f}")
+    return qc
 
 
 # ── Cyanorak-only coordinate fallback ────────────────────────────────────────
@@ -456,18 +783,52 @@ def _cyanorak_tiles(offsets: dict, lengths: dict[str, int]) -> list[tuple]:
     return tiles
 
 
-def _fill_cyanorak_only_coordinates(cyan_only: pd.DataFrame, tiles: list[tuple]) -> int:
-    """Give Cyanorak-only genes NCBI-space coordinates by inverting the tiling.
+def _paired_relations(ncbi_sourced: pd.DataFrame) -> pd.DataFrame:
+    """For every gene paired across both sources, the map from Cyanorak to NCBI
+    coordinates its stop codon implies, sorted by Cyanorak 3' end.
 
-    For each row with Cyanorak coordinates but no NCBI call, find the tile that
-    contains BOTH ends; set ``seqid`` to that contig, shift ``start``/``end``
-    into contig-relative coordinates, copy the strand, and mark
-    ``coordinate_source = 'cyanorak'``. A gene whose interval crosses a tile
-    boundary spans the inter-contig spacer — an assembly artefact — and is
-    left unplaced with a warning naming it. Modifies ``cyan_only`` in place and
-    returns the number of rows placed.
+    ``rel`` is ``('d', c3 - n3)`` when both call the gene on the same strand
+    (NCBI = Cyanorak - d) and ``('s', c3 + n3)`` when Cyanorak's record runs the
+    other way (NCBI = s - Cyanorak, strand flipped). Neighbouring pairs share one
+    relation along a stretch of genome laid out the same way in both sources.
     """
-    if cyan_only.empty or not tiles:
+    cols = ['start_ncbi', 'end_ncbi', 'strand_ncbi', 'start_cyanorak', 'end_cyanorak', 'strand_cyanorak']
+    if not set(cols) <= set(ncbi_sourced.columns):
+        return pd.DataFrame(columns=['c3', 'rel', 'seqid'])
+    m = ncbi_sourced.dropna(subset=cols)
+    if m.empty:
+        return pd.DataFrame(columns=['c3', 'rel', 'seqid'])
+    c3 = _three_prime_end(m['start_cyanorak'], m['end_cyanorak'], m['strand_cyanorak'])
+    n3 = _three_prime_end(m['start_ncbi'], m['end_ncbi'], m['strand_ncbi'])
+    same = (m['strand_ncbi'].astype(str).values == m['strand_cyanorak'].astype(str).values)
+    rel = [('d', int(c - n)) if sm else ('s', int(c + n)) for c, n, sm in zip(c3, n3, same)]
+    out = pd.DataFrame({'c3': c3, 'rel': rel, 'seqid': _seqids(m).values})
+    return out.sort_values('c3', kind='stable').reset_index(drop=True)
+
+
+def _fill_cyanorak_only_coordinates(cyan_only: pd.DataFrame, tiles: list[tuple],
+                                    paired: pd.DataFrame | None = None,
+                                    lengths: dict[str, int] | None = None) -> int:
+    """Give Cyanorak-only genes NCBI-space coordinates from their paired neighbours.
+
+    A Cyanorak record is not always the NCBI contigs in order: it can start
+    elsewhere on the circle (KORDI-49, CC9616), run reverse-complemented
+    (KORDI-52), or order and orient scaffolds its own way (WH8016) — one offset
+    per contig then misplaces a fifth to a third of the genes (2026-10-28). So
+    each gene is mapped by the nearest paired gene on either side in Cyanorak
+    coordinates (``paired`` from ``_paired_relations``): when both flanks share
+    one relation on one NCBI contig, that relation places the gene (same-strand
+    shift, or reflection with the strand flipped). A gene past the first or last
+    pair has one flank; it is placed only when that flank agrees with the
+    contig's tile offset (``tiles``, the old constant-shift rule). Flanks that
+    disagree (a draft's contig boundary, a stop codon called a codon apart, a
+    layout break) fall back to the tile only when one flank vouches for it and
+    the gene lies inside that tile; otherwise, or when the result falls outside
+    the contig, the gene is left unplaced with a warning — no guessed
+    coordinates. Without ``paired`` the tiling alone is used. Modifies
+    ``cyan_only`` in place and returns the number of rows placed.
+    """
+    if cyan_only.empty or (not tiles and (paired is None or paired.empty)):
         return 0
     for col in ('seqid', 'strand_ncbi', 'coordinate_source'):
         if col not in cyan_only.columns or cyan_only[col].isna().all():
@@ -475,27 +836,65 @@ def _fill_cyanorak_only_coordinates(cyan_only: pd.DataFrame, tiles: list[tuple])
     for col in ('start_ncbi', 'end_ncbi'):
         if col not in cyan_only.columns:
             cyan_only[col] = np.nan
+    tile_offset = {sid: first_base - 1 for first_base, _last, sid in tiles}
+    lengths = lengths or {}
+    c3s = paired['c3'].values if paired is not None and not paired.empty else np.array([])
     unplaced: list[str] = []
     n_placed = 0
     for idx, row in cyan_only.iterrows():
         c_start, c_end = row.get('start_cyanorak'), row.get('end_cyanorak')
         if pd.isna(c_start) or pd.isna(c_end):
             continue
-        tile = next((t for t in tiles if t[0] <= c_start and c_end <= t[1]), None)
-        if tile is None:
+        placed = None
+        if len(c3s):
+            i = int(np.searchsorted(c3s, c_start))      # first pair at/after the gene start
+            left = paired.iloc[i - 1] if i > 0 else None
+            right = paired.iloc[i] if i < len(c3s) else None
+            flanks = [f for f in (left, right) if f is not None]
+            if len(flanks) == 2 and (left['rel'] != right['rel'] or left['seqid'] != right['seqid']):
+                # The flanks disagree: a draft's contig boundary, a stop codon the two
+                # sources call a codon apart, or a real layout break. Keep the tile
+                # placement only when a flank vouches for it (same contig, tile offset)
+                # and the gene lies inside that tile.
+                flanks = [f for f in flanks if f['rel'] == ('d', tile_offset.get(f['seqid']))
+                          and any(t[2] == f['seqid'] and t[0] <= c_start and c_end <= t[1]
+                                  for t in tiles)][:1]
+            elif len(flanks) == 1:
+                f = flanks[0]
+                if f['rel'] != ('d', tile_offset.get(f['seqid'])):
+                    flanks = []
+            if flanks:
+                (kind, k), sid = flanks[0]['rel'], flanks[0]['seqid']
+                strand = row.get('strand_cyanorak')
+                if kind == 'd':
+                    placed = (sid, float(c_start) - k, float(c_end) - k, strand)
+                else:
+                    flip = {'+': '-', '-': '+'}.get(str(strand), strand)
+                    placed = (sid, float(k) - float(c_end), float(k) - float(c_start), flip)
+        else:
+            tile = next((t for t in tiles if t[0] <= c_start and c_end <= t[1]), None)
+            if tile is not None:
+                k = tile[0] - 1
+                placed = (tile[2], float(c_start) - k, float(c_end) - k, row.get('strand_cyanorak'))
+        if placed is not None:
+            sid, n_start, n_end, strand = placed
+            length = lengths.get(sid)
+            if n_start < 1 or (length is not None and n_end > length):
+                placed = None
+        if placed is None:
             unplaced.append(str(row.get('locus_tag')))
             continue
-        first_base, _last_base, sid = tile
+        sid, n_start, n_end, strand = placed
         cyan_only.at[idx, 'seqid'] = sid
-        cyan_only.at[idx, 'start_ncbi'] = float(c_start) - (first_base - 1)
-        cyan_only.at[idx, 'end_ncbi'] = float(c_end) - (first_base - 1)
-        cyan_only.at[idx, 'strand_ncbi'] = row.get('strand_cyanorak')
+        cyan_only.at[idx, 'start_ncbi'] = n_start
+        cyan_only.at[idx, 'end_ncbi'] = n_end
+        cyan_only.at[idx, 'strand_ncbi'] = strand
         cyan_only.at[idx, 'coordinate_source'] = 'cyanorak'
         n_placed += 1
     if unplaced:
         logger.warning(
-            f"Coordinate fallback: {len(unplaced)} Cyanorak-only gene(s) cross a "
-            f"contig boundary or fall outside every contig — left unplaced: "
+            f"Coordinate fallback: {len(unplaced)} Cyanorak-only gene(s) sit at a layout "
+            f"break between Cyanorak and NCBI or fall outside every contig — left unplaced: "
             f"{unplaced[:10]}{' …' if len(unplaced) > 10 else ''}"
         )
     return n_placed
@@ -539,6 +938,12 @@ def load_gff_from_ncbi_and_cyanorak(
 
     cyanID2locus_tag_map = _get_cyanorak_id_map_from_gbk(cyan_gbk_file)
     cyan_df['locus_tag'] = cyan_df['ID'].map(cyanID2locus_tag_map)
+
+    # Cyanorak protein translations for the sequence fallback (not carried on)
+    cyan_translations = (
+        dict(zip(cyan_df['locus_tag'], cyan_df['translation']))
+        if 'translation' in cyan_df.columns else {}
+    )
 
     # Only keep relevant Cyanorak columns that are present in this GFF
     cols_to_keep = [c for c in _CYANORAK_COLS if c in cyan_df.columns]
@@ -595,33 +1000,58 @@ def load_gff_from_ncbi_and_cyanorak(
         cyan_only = cyan_only[~cyan_only['locus_tag'].isin(matched_locus_tags)]
         cyan_only = cyan_only.drop_duplicates(subset=['locus_tag'], keep='first')
 
-    # --- Position-based fallback for unmatched entries ---
-    # When NCBI old_locus_tag doesn't include the Cyanorak locus_tag form
-    # (e.g., MIT9313 PMT_0107 vs Cyanorak PMT0107), match by shared reading frame.
+    # --- Position + protein-sequence fallbacks ---
+    # Position pairing needs the coordinate offset between the two frames, which
+    # is measured on already-paired genes. With no locus_tag pair at all the
+    # frame is unknown, so the sequence fallback runs first and the position
+    # fallback then measures its offsets on the sequence-proven pairs.
     n_ncbi_matched = int(ncbi_sourced['ID'].notna().sum()) if not ncbi_sourced.empty else 0
-    n_pos_merged = 0
-    if not ncbi_sourced.empty and not cyan_only.empty:
-        n_pos_merged, consumed_cyan_lts = _position_fallback_merge(
-            ncbi_sourced, cyan_only,
-        )
-        if consumed_cyan_lts:
-            cyan_only = cyan_only[~cyan_only['locus_tag'].isin(consumed_cyan_lts)]
+    n_pos_merged = n_seq_merged = 0
+    seq_qc: dict = {"ran": False}
+    protein_faa = os.path.join(os.path.dirname(ncbi_gff_file), "protein.faa")
+    ncbi_proteins = _read_fasta(protein_faa) if os.path.exists(protein_faa) else {}
 
-    n_ncbi_only = len(ncbi_sourced) - n_ncbi_matched - n_pos_merged
+    def _run_position():
+        nonlocal cyan_only, n_pos_merged
+        if not ncbi_sourced.empty and not cyan_only.empty:
+            n, consumed = _position_fallback_merge(ncbi_sourced, cyan_only)
+            n_pos_merged += n
+            if consumed:
+                cyan_only = cyan_only[~cyan_only['locus_tag'].isin(consumed)]
+
+    def _run_sequence():
+        nonlocal cyan_only, n_seq_merged, seq_qc
+        if not ncbi_sourced.empty and not cyan_only.empty and ncbi_proteins:
+            n, consumed, seq_qc = _sequence_fallback_merge(
+                ncbi_sourced, cyan_only, protein_faa, cyan_translations,
+            )
+            n_seq_merged += n
+            if consumed:
+                cyan_only = cyan_only[~cyan_only['locus_tag'].isin(consumed)]
+
+    if n_ncbi_matched == 0:
+        _run_sequence()
+        _run_position()
+    else:
+        _run_position()
+        _run_sequence()
+    seq_qc["order"] = "sequence_first" if n_ncbi_matched == 0 else "position_first"
+
+    n_ncbi_only = len(ncbi_sourced) - n_ncbi_matched - n_pos_merged - n_seq_merged
     n_cyan_only = len(cyan_only)
 
     # --- Coordinates for Cyanorak-only genes ---
     # PGAP never called these, so their NCBI coordinate columns are blank even
     # though Cyanorak places every one. Invert Cyanorak's contig tiling to give
-    # them a contig + contig-relative coordinates (identity on closed genomes).
+    # them a contig + contig-relative coordinates from their paired neighbours.
     n_coord_placed = 0
     if not ncbi_sourced.empty:
         ncbi_sourced['coordinate_source'] = 'ncbi'
         if not cyan_only.empty:
-            tiles = _cyanorak_tiles(
-                _contig_offsets(ncbi_sourced), _ncbi_contig_lengths(ncbi_gff_file),
-            )
-            n_coord_placed = _fill_cyanorak_only_coordinates(cyan_only, tiles)
+            lengths = _ncbi_contig_lengths(ncbi_gff_file)
+            tiles = _cyanorak_tiles(_contig_offsets(ncbi_sourced), lengths)
+            n_coord_placed = _fill_cyanorak_only_coordinates(
+                cyan_only, tiles, _paired_relations(ncbi_sourced), lengths)
 
     merge_df = pd.concat([ncbi_sourced, cyan_only], ignore_index=True)
 
@@ -640,13 +1070,21 @@ def load_gff_from_ncbi_and_cyanorak(
     )
     logger.info(
         f"Gene merge: {n_ncbi_matched} matched both sources, "
-        f"{n_pos_merged} position-fallback, "
+        f"{n_pos_merged} position-fallback, {n_seq_merged} sequence-fallback, "
         f"{n_ncbi_only} NCBI-only, {n_cyan_only} Cyanorak-only "
         f"({n_coord_placed} placed on NCBI contigs via the Cyanorak tiling), "
         f"{len(merge_df)} total"
     )
 
-    return merge_df.rename(columns=_FINAL_MERGE_RENAME)
+    qc = _merge_qc(
+        merge_df, ncbi_df.shape[0], cyan_df.shape[0],
+        {"locus_tag": n_ncbi_matched, "position": n_pos_merged, "sequence": n_seq_merged,
+         "ncbi_only": n_ncbi_only, "cyanorak_only": n_cyan_only},
+        seq_qc, ncbi_proteins, cyan_translations,
+    )
+    out = merge_df.rename(columns=_FINAL_MERGE_RENAME)
+    out.attrs["merge_qc"] = qc
+    return out
 
 
 # ── top-level entry point ─────────────────────────────────────────────────────

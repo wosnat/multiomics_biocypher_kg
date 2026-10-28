@@ -1,0 +1,55 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2659
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 97,
+      "unique": 2495
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 31,
+      "unique": 5963
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5239
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2993
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2580
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2601
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 4,
+      "unique": 5235
+    }
+  },
+  "runaway_genes": [],
+  "strain": "A18-25c",
+  "tier1_count_max": 6,
+  "tier1_count_median": 6.0,
+  "tier1_demoted_known_names": 1346,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 9,
+    "genomic_gca/A18-25c": 877,
+    "genomic_gcf/A18-25c": 61
+  },
+  "warnings": []
+}

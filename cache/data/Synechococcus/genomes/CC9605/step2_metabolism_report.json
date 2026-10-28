@@ -1,0 +1,24 @@
+{
+  "strain": "CC9605",
+  "gene_count": 2919,
+  "kegg_reactions": {
+    "raw_total": 1537,
+    "raw_unique": 1049,
+    "kept_total": 1537,
+    "kept_unique_r_numbers": 1049
+  },
+  "transporter_classification": {
+    "raw_total": 324,
+    "raw_unique": 138,
+    "validated_total": 1017,
+    "validated_unique": 382,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 40,
+    "raw_unique": 20,
+    "validated_total": 47,
+    "validated_unique": 21,
+    "invalid_examples": []
+  }
+}

@@ -171,6 +171,81 @@ CANONICAL_GENOMIC_ORGANISMS = {
     # MIT1327 + MIT1314 (deferred Soussan 2025 strains, now public; June 2026)
     "Prochlorococcus MIT1327",
     "Prochlorococcus MIT1314",
+    # Ford 2021 Cyanorak strain batch (74 strains, 2026-10-25)
+    "Prochlorococcus EQPAC1",
+    "Prochlorococcus GP2",
+    "Prochlorococcus HNLC1",
+    "Prochlorococcus HNLC2",
+    "Prochlorococcus LG",
+    "Prochlorococcus MIT0601",
+    "Prochlorococcus MIT0602",
+    "Prochlorococcus MIT0603",
+    "Prochlorococcus MIT0701",
+    "Prochlorococcus MIT0702",
+    "Prochlorococcus MIT0703",
+    "Prochlorococcus MIT9107",
+    "Prochlorococcus MIT9116",
+    "Prochlorococcus MIT9123",
+    "Prochlorococcus MIT9201",
+    "Prochlorococcus MIT9211",
+    "Prochlorococcus MIT9302",
+    "Prochlorococcus MIT9311",
+    "Prochlorococcus MIT9314",
+    "Prochlorococcus MIT9321",
+    "Prochlorococcus MIT9322",
+    "Prochlorococcus MIT9401",
+    "Prochlorococcus SS2",
+    "Prochlorococcus SS35",
+    "Prochlorococcus SS51",
+    "Prochlorococcus SS52",
+    "Cyanobium NS01",
+    "Cyanobium PCC6307",
+    "Cyanobium PCC7001",
+    "Synechococcus A15-127",
+    "Synechococcus A15-24",
+    "Synechococcus A15-28",
+    "Synechococcus A15-44",
+    "Synechococcus A15-60",
+    "Synechococcus A15-62",
+    "Synechococcus A18-25c",
+    "Synechococcus A18-40",
+    "Synechococcus A18-46.1",
+    "Synechococcus BIOS-E4-1",
+    "Synechococcus BIOS-U3-1",
+    "Synechococcus BMK-MC-1",
+    "Synechococcus BOUM118",
+    "Synechococcus CB0101",
+    "Synechococcus CB0205",
+    "Synechococcus CC9605",
+    "Synechococcus CC9616",
+    "Synechococcus CC9902",
+    "Synechococcus KORDI-100",
+    "Synechococcus KORDI-49",
+    "Synechococcus KORDI-52",
+    "Synechococcus M16.1",
+    "Synechococcus MEDNS5",
+    "Synechococcus MINOS11",
+    "Synechococcus MITS9220",
+    "Synechococcus MVIR-18-1",
+    "Synechococcus NOUM97013",
+    "Synechococcus PROS-7-1",
+    "Synechococcus PROS-9-1",
+    "Synechococcus PROS-U-1",
+    "Synechococcus RCC307",
+    "Synechococcus ROS8604",
+    "Synechococcus RS9902",
+    "Synechococcus RS9907",
+    "Synechococcus RS9909",
+    "Synechococcus RS9915",
+    "Synechococcus RS9916",
+    "Synechococcus RS9917",
+    "Synechococcus SYN20",
+    "Synechococcus TAK9802",
+    "Synechococcus WH5701",
+    "Synechococcus WH7805",
+    "Synechococcus WH8016",
+    "Synechococcus WH8101",
+    "Synechococcus WH8103",
 }
 
 # Canonical treatment organism names loaded from treatment_organisms.csv
@@ -538,11 +613,16 @@ def _validate_experiments(experiments: dict, config_path: str,
         raw_bg_check = exp.get("background_factors")
         bg_check = raw_bg_check if isinstance(raw_bg_check, list) else (
             [raw_bg_check] if raw_bg_check else [])
-        if not bg_check:
+        raw_tt_bg = exp.get("treatment_type")
+        tt_bg = raw_tt_bg if isinstance(raw_tt_bg, list) else ([raw_tt_bg] if raw_tt_bg else [])
+        # [] is legal only for a genomic_analysis experiment: an analysis of genome
+        # sequence / annotation (Ford 2021) has no culture to hold constant.
+        if not bg_check and "genomic_analysis" not in tt_bg:
             errors.append(
                 f"{config_path} | experiments.{exp_key} | "
                 f"background_factors must be a non-empty list (what is held "
-                f"constant: axenic, light, diel, coculture, chemical, darkness, viral)"
+                f"constant: axenic, light, diel, coculture, chemical, darkness, viral; "
+                f"[] only with treatment_type genomic_analysis)"
             )
         raw_tt_check = exp.get("treatment_type")
         tt_check = raw_tt_check if isinstance(raw_tt_check, list) else (

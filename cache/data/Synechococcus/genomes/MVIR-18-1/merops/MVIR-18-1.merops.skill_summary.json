@@ -1,0 +1,40 @@
+{
+  "strain": "MVIR-18-1",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2581,
+  "wallclock_s": 1.6,
+  "raw_hit_lines": 772,
+  "parse_failures": 0,
+  "proteins_with_hits": 79,
+  "proteins_with_call": 79,
+  "total_candidates": 79,
+  "candidates_per_protein_distribution": {
+    "1": 79
+  },
+  "tier_distribution": {
+    "3": 72,
+    "2": 7
+  },
+  "consensus_agreement_distribution": {
+    "id": 16,
+    "subfamily": 17,
+    "family": 46
+  },
+  "catalytic_type_distribution": {
+    "S": 29,
+    "C": 17,
+    "M": 28,
+    "A": 2,
+    "T": 2,
+    "inhibitor": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 78,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "putative": 19,
+    "holotype": 44,
+    "nonpeptidase_homolog": 16
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "strain": "KORDI-49",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2615,
+  "wallclock_s": 0.8,
+  "raw_hit_lines": 809,
+  "parse_failures": 0,
+  "proteins_with_hits": 77,
+  "proteins_with_call": 77,
+  "total_candidates": 77,
+  "candidates_per_protein_distribution": {
+    "1": 77
+  },
+  "tier_distribution": {
+    "3": 72,
+    "2": 5
+  },
+  "consensus_agreement_distribution": {
+    "id": 8,
+    "subfamily": 18,
+    "family": 51
+  },
+  "catalytic_type_distribution": {
+    "M": 27,
+    "S": 29,
+    "T": 2,
+    "U": 1,
+    "A": 2,
+    "C": 16
+  },
+  "entry_type_distribution": {
+    "peptidase": 77
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 42,
+    "putative": 25,
+    "nonpeptidase_homolog": 10
+  }
+}

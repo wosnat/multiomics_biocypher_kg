@@ -1,0 +1,39 @@
+{
+  "strain": "RCC307",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2385,
+  "wallclock_s": 1.6,
+  "raw_hit_lines": 770,
+  "parse_failures": 0,
+  "proteins_with_hits": 76,
+  "proteins_with_call": 76,
+  "total_candidates": 78,
+  "candidates_per_protein_distribution": {
+    "1": 74,
+    "2": 2
+  },
+  "tier_distribution": {
+    "3": 75,
+    "2": 3
+  },
+  "consensus_agreement_distribution": {
+    "id": 13,
+    "subfamily": 16,
+    "family": 49
+  },
+  "catalytic_type_distribution": {
+    "C": 16,
+    "S": 30,
+    "M": 29,
+    "A": 1,
+    "T": 2
+  },
+  "entry_type_distribution": {
+    "peptidase": 78
+  },
+  "best_hit_kind_distribution": {
+    "putative": 20,
+    "holotype": 46,
+    "nonpeptidase_homolog": 12
+  }
+}

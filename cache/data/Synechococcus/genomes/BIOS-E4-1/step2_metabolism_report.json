@@ -1,0 +1,24 @@
+{
+  "strain": "BIOS-E4-1",
+  "gene_count": 4456,
+  "kegg_reactions": {
+    "raw_total": 1434,
+    "raw_unique": 1039,
+    "kept_total": 1434,
+    "kept_unique_r_numbers": 1039
+  },
+  "transporter_classification": {
+    "raw_total": 334,
+    "raw_unique": 143,
+    "validated_total": 1132,
+    "validated_unique": 409,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 41,
+    "raw_unique": 23,
+    "validated_total": 56,
+    "validated_unique": 29,
+    "invalid_examples": []
+  }
+}

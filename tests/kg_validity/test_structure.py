@@ -366,12 +366,18 @@ def test_publication_doi_or_pmid_present(run_query):
 
 
 def test_cyanorak_annotated_genes_have_coordinates(run_query):
-    """Every gene Cyanorak places must carry a contig and start in the graph.
+    """Genes Cyanorak places carry a contig and start in the graph, bar a few at layout breaks.
 
     Genes PGAP never called (3,837 over 21 strains on 2026-10-13) used to have
-    no contig/start/end at all; the step-0 coordinate fallback now places them
-    on the NCBI contig by inverting Cyanorak's contig tiling. A non-zero count
-    here means the fallback was skipped or a gene crossed a contig boundary.
+    no contig/start/end at all; the step-0 coordinate fallback places them on
+    the NCBI contig from their paired neighbours. A gene whose two flanks map
+    differently and neither vouches for the contig's tile offset sits at a
+    layout break (Cyanorak rotated / reverse-complemented / re-ordered the
+    record, KORDI-52, CC9616, WH8016, ...) or across a contig spacer, and is
+    left unplaced on purpose. 43 such genes over 117 strains (2026-10-28; every
+    one of the 23,359 placed genes that translates checks against Cyanorak's
+    own protein — see docs/kg-changes/cyanorak-coordinate-fallback.md). A jump
+    here means the fallback was skipped.
     """
     result = run_query("""
         MATCH (g:Gene)
@@ -380,7 +386,7 @@ def test_cyanorak_annotated_genes_have_coordinates(run_query):
         RETURN count(g) AS missing
     """)
     missing = result[0]["missing"]
-    assert missing == 0, f"{missing} Cyanorak-annotated Gene node(s) have no contig/start"
+    assert missing <= 80, f"{missing} Cyanorak-annotated Gene node(s) have no contig/start (expected ~43)"
 
 
 def test_coordinate_source_dense_and_closed(run_query):

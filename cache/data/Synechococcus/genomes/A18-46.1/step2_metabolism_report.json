@@ -1,0 +1,24 @@
+{
+  "strain": "A18-46.1",
+  "gene_count": 2956,
+  "kegg_reactions": {
+    "raw_total": 1401,
+    "raw_unique": 1033,
+    "kept_total": 1401,
+    "kept_unique_r_numbers": 1033
+  },
+  "transporter_classification": {
+    "raw_total": 329,
+    "raw_unique": 134,
+    "validated_total": 1007,
+    "validated_unique": 379,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 38,
+    "raw_unique": 20,
+    "validated_total": 53,
+    "validated_unique": 24,
+    "invalid_examples": []
+  }
+}

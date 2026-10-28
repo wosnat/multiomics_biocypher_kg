@@ -1,0 +1,28 @@
+{
+  "raw_hit_lines": 4694,
+  "proteins_with_hits": 547,
+  "proteins_with_call": 547,
+  "total_candidates": 776,
+  "candidates_per_protein_distribution": {
+    "1": 418,
+    "3": 37,
+    "2": 67,
+    "4": 15,
+    "5": 7,
+    "6": 3
+  },
+  "tier_distribution": {
+    "2": 135,
+    "3": 637,
+    "1": 4
+  },
+  "consensus_agreement_distribution": {
+    "5_part": 337,
+    "4_part": 258,
+    "3_part": 181
+  },
+  "proteins_with_best_hit": 236,
+  "best_hit_multi_tcid": 67,
+  "best_hit_without_call": 8,
+  "best_hit_fallback_attach": 0
+}

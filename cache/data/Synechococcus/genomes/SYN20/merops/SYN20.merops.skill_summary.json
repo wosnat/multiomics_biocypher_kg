@@ -1,0 +1,40 @@
+{
+  "strain": "SYN20",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2820,
+  "wallclock_s": 1.5,
+  "raw_hit_lines": 778,
+  "parse_failures": 0,
+  "proteins_with_hits": 80,
+  "proteins_with_call": 80,
+  "total_candidates": 80,
+  "candidates_per_protein_distribution": {
+    "1": 80
+  },
+  "tier_distribution": {
+    "3": 75,
+    "2": 5
+  },
+  "consensus_agreement_distribution": {
+    "id": 13,
+    "subfamily": 19,
+    "family": 48
+  },
+  "catalytic_type_distribution": {
+    "S": 33,
+    "M": 28,
+    "C": 15,
+    "A": 2,
+    "T": 1,
+    "inhibitor": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 79,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "putative": 19,
+    "holotype": 46,
+    "nonpeptidase_homolog": 15
+  }
+}

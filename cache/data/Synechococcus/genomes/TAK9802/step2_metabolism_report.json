@@ -1,0 +1,24 @@
+{
+  "strain": "TAK9802",
+  "gene_count": 2700,
+  "kegg_reactions": {
+    "raw_total": 1328,
+    "raw_unique": 993,
+    "kept_total": 1328,
+    "kept_unique_r_numbers": 993
+  },
+  "transporter_classification": {
+    "raw_total": 272,
+    "raw_unique": 117,
+    "validated_total": 930,
+    "validated_unique": 353,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 36,
+    "raw_unique": 22,
+    "validated_total": 47,
+    "validated_unique": 26,
+    "invalid_examples": []
+  }
+}

@@ -1,0 +1,13 @@
+locus_tag,resolution_method,cluster_agrees,Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
+EV14_1209,diamond,agrees,CK_Pro_MIT0703_01209,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
+EV14_2511,exact,agrees,CK_Pro_MIT0703_02511,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
+EV14_0022,subsequence,agrees,CK_Pro_MIT0703_00022,CK_00001489,natF,"ABC-type uptake transporter for acidic and neutral polar amino acids (N-II), substrate binding protein",nitrogen,amino_acids
+EV14_2554,exact,agrees,CK_Pro_MIT0703_02554,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
+EV14_2673,exact,agrees,CK_Pro_MIT0703_02673,CK_00001944,proX,"ABC-type glycine betaine/proline transporter, substrate binding component",nitrogen,glycine_betaine
+EV14_2851,exact,agrees,CK_Pro_MIT0703_02851,CK_00001455,ggtB,"ABC-type sugar transport system, periplasmic component",carbon,glucose_glycerol_trehalose
+EV14_1813,exact,agrees,CK_Pro_MIT0703_01813,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
+EV14_1055,exact,agrees,CK_Pro_MIT0703_01055,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
+EV14_0083,exact,agrees,CK_Pro_MIT0703_00083,CK_00037737,,"putative ABC-type phosphate/phosphonate transport system, periplasmic component",unknown,hypothetical_phosphonate
+EV14_2945,exact,agrees,CK_Pro_MIT0703_02945,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
+EV14_2403,exact,agrees,CK_Pro_MIT0703_02403,CK_00001014,dppA,,nitrogen,peptide
+EV14_0842,exact,agrees,CK_Pro_MIT0703_00842,CK_00000068,idiA2,,trace_metals,iron

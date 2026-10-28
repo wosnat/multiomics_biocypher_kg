@@ -1,0 +1,42 @@
+{
+  "strain": "A18-25c",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2657,
+  "wallclock_s": 0.8,
+  "raw_hit_lines": 829,
+  "parse_failures": 0,
+  "proteins_with_hits": 87,
+  "proteins_with_call": 87,
+  "total_candidates": 88,
+  "candidates_per_protein_distribution": {
+    "1": 86,
+    "2": 1
+  },
+  "tier_distribution": {
+    "3": 83,
+    "2": 5
+  },
+  "consensus_agreement_distribution": {
+    "id": 16,
+    "subfamily": 18,
+    "family": 54
+  },
+  "catalytic_type_distribution": {
+    "A": 2,
+    "S": 35,
+    "M": 30,
+    "C": 18,
+    "T": 1,
+    "U": 1,
+    "inhibitor": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 87,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 55,
+    "putative": 19,
+    "nonpeptidase_homolog": 14
+  }
+}

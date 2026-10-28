@@ -1,0 +1,24 @@
+{
+  "strain": "RS9902",
+  "gene_count": 2983,
+  "kegg_reactions": {
+    "raw_total": 1371,
+    "raw_unique": 1023,
+    "kept_total": 1371,
+    "kept_unique_r_numbers": 1023
+  },
+  "transporter_classification": {
+    "raw_total": 292,
+    "raw_unique": 123,
+    "validated_total": 962,
+    "validated_unique": 368,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 44,
+    "raw_unique": 21,
+    "validated_total": 57,
+    "validated_unique": 24,
+    "invalid_examples": []
+  }
+}

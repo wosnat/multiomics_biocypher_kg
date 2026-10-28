@@ -1,0 +1,24 @@
+{
+  "strain": "MIT0702",
+  "gene_count": 3189,
+  "kegg_reactions": {
+    "raw_total": 1281,
+    "raw_unique": 971,
+    "kept_total": 1281,
+    "kept_unique_r_numbers": 971
+  },
+  "transporter_classification": {
+    "raw_total": 291,
+    "raw_unique": 121,
+    "validated_total": 949,
+    "validated_unique": 364,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 36,
+    "raw_unique": 22,
+    "validated_total": 48,
+    "validated_unique": 26,
+    "invalid_examples": []
+  }
+}

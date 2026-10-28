@@ -1,0 +1,135 @@
+{
+    "annotation_score": {
+        "A0A0A2ACP7": "2.0",
+        "Q68RM3": "1.0"
+    },
+    "cc_catalytic_activity": {
+        "A0A0A2ACP7": "CATALYTIC ACTIVITY: Reaction=ATP + (deoxyribonucleotide)n-3'-hydroxyl + 5'-phospho-(deoxyribonucleotide)m = (deoxyribonucleotide)n+m + AMP + diphosphate.; EC=6.5.1.1; Evidence={ECO:0000256|ARBA:ARBA00034003, ECO:0000256|PROSITE-ProRule:PRU10135}",
+        "Q68RM3": ""
+    },
+    "cc_caution": {
+        "A0A0A2ACP7": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313|EMBL:KGF98289.1}.",
+        "Q68RM3": ""
+    },
+    "cc_cofactor": {
+        "A0A0A2ACP7": "COFACTOR: Name=a divalent metal cation; Xref=ChEBI:CHEBI:60240; Evidence={ECO:0000256|ARBA:ARBA00001968}",
+        "Q68RM3": ""
+    },
+    "cc_domain": {
+        "A0A0A2ACP7": "",
+        "Q68RM3": ""
+    },
+    "cc_function": {
+        "A0A0A2ACP7": "",
+        "Q68RM3": ""
+    },
+    "cc_interaction": {
+        "A0A0A2ACP7": "",
+        "Q68RM3": ""
+    },
+    "cc_pathway": {
+        "A0A0A2ACP7": "",
+        "Q68RM3": ""
+    },
+    "ec": {
+        "A0A0A2ACP7": "6.5.1.1",
+        "Q68RM3": ""
+    },
+    "ft_motif": {
+        "A0A0A2ACP7": "",
+        "Q68RM3": ""
+    },
+    "ft_signal": {
+        "A0A0A2ACP7": "",
+        "Q68RM3": ""
+    },
+    "ft_transmem": {
+        "A0A0A2ACP7": "",
+        "Q68RM3": "TRANSMEM 30..47; /note=\"Helical\"; /evidence=\"ECO:0000256|SAM:Phobius\"; TRANSMEM 59..82; /note=\"Helical\"; /evidence=\"ECO:0000256|SAM:Phobius\"; TRANSMEM 110..131; /note=\"Helical\"; /evidence=\"ECO:0000256|SAM:Phobius\"; TRANSMEM 191..213; /note=\"Helical\"; /evidence=\"ECO:0000256|SAM:Phobius\""
+    },
+    "gene_names": {
+        "A0A0A2ACP7": "EU96_0746",
+        "Q68RM3": "psbA"
+    },
+    "gene_oln": {
+        "A0A0A2ACP7": "",
+        "Q68RM3": ""
+    },
+    "gene_primary": {
+        "A0A0A2ACP7": "",
+        "Q68RM3": "psbA"
+    },
+    "go_c": {
+        "A0A0A2ACP7": "",
+        "Q68RM3": "photosystem II [GO:0009523]; plasma membrane-derived thylakoid membrane [GO:0031676]"
+    },
+    "go_f": {
+        "A0A0A2ACP7": "ATP binding [GO:0005524]; DNA ligase (ATP) activity [GO:0003910]",
+        "Q68RM3": ""
+    },
+    "go_p": {
+        "A0A0A2ACP7": "DNA recombination [GO:0006310]; DNA repair [GO:0006281]",
+        "Q68RM3": "photosynthetic electron transport in photosystem II [GO:0009772]"
+    },
+    "keyword": {
+        "A0A0A2ACP7": "3D-structure;DNA damage;DNA repair;DNA replication;Ligase;Metal-binding;Nucleotide-binding",
+        "Q68RM3": "Chlorophyll;Chromophore;Magnesium;Membrane;Metal-binding;Oxidoreductase;Photosynthesis;Thylakoid;Transmembrane;Transmembrane helix"
+    },
+    "keywordid": {
+        "A0A0A2ACP7": "KW-0002; KW-0227; KW-0234; KW-0235; KW-0436; KW-0479; KW-0547",
+        "Q68RM3": "KW-0148; KW-0157; KW-0460; KW-0472; KW-0479; KW-0560; KW-0602; KW-0793; KW-0812; KW-1133"
+    },
+    "length": {
+        "A0A0A2ACP7": "442",
+        "Q68RM3": "244"
+    },
+    "mass": {
+        "A0A0A2ACP7": "50959",
+        "Q68RM3": "27201"
+    },
+    "organism_id": {
+        "A0A0A2ACP7": "74545",
+        "Q68RM3": "74545"
+    },
+    "organism_name": {
+        "A0A0A2ACP7": "Prochlorococcus marinus str. MIT 9302",
+        "Q68RM3": "Prochlorococcus marinus str. MIT 9302"
+    },
+    "protein_families": {
+        "A0A0A2ACP7": "",
+        "Q68RM3": "Reaction center PufL/M/PsbA/D family"
+    },
+    "protein_name": {
+        "A0A0A2ACP7": "ATP (EC 6.5.1.1) (DNA ligase)",
+        "Q68RM3": "PsbA"
+    },
+    "reviewed": {
+        "A0A0A2ACP7": "unreviewed",
+        "Q68RM3": "unreviewed"
+    },
+    "subcellular_location": {},
+    "xref_eggnog": {
+        "A0A0A2ACP7": "COG1793",
+        "Q68RM3": ""
+    },
+    "xref_kegg": {
+        "A0A0A2ACP7": "",
+        "Q68RM3": ""
+    },
+    "xref_pfam": {
+        "A0A0A2ACP7": "PF01068;PF14743",
+        "Q68RM3": "PF00124"
+    },
+    "xref_proteomes": {
+        "A0A0A2ACP7": "",
+        "Q68RM3": ""
+    },
+    "xref_refseq": {
+        "A0A0A2ACP7": "",
+        "Q68RM3": ""
+    },
+    "xref_string": {
+        "A0A0A2ACP7": "74545.EU96_0746",
+        "Q68RM3": ""
+    }
+}

@@ -1,0 +1,24 @@
+{
+  "strain": "PCC7001",
+  "gene_count": 2929,
+  "kegg_reactions": {
+    "raw_total": 1463,
+    "raw_unique": 1030,
+    "kept_total": 1463,
+    "kept_unique_r_numbers": 1030
+  },
+  "transporter_classification": {
+    "raw_total": 384,
+    "raw_unique": 148,
+    "validated_total": 1192,
+    "validated_unique": 422,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 49,
+    "raw_unique": 23,
+    "validated_total": 67,
+    "validated_unique": 26,
+    "invalid_examples": []
+  }
+}

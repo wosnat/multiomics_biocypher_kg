@@ -1,0 +1,24 @@
+{
+  "strain": "PROS-7-1",
+  "gene_count": 2865,
+  "kegg_reactions": {
+    "raw_total": 1422,
+    "raw_unique": 1065,
+    "kept_total": 1422,
+    "kept_unique_r_numbers": 1065
+  },
+  "transporter_classification": {
+    "raw_total": 366,
+    "raw_unique": 152,
+    "validated_total": 1147,
+    "validated_unique": 404,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 42,
+    "raw_unique": 26,
+    "validated_total": 57,
+    "validated_unique": 30,
+    "invalid_examples": []
+  }
+}

@@ -1,0 +1,10 @@
+locus_tag,resolution_method,cluster_agrees,Cyanorak ID,cyanorak_cluster,gene_name,product,nutrient_class,predicted_substrate
+PMT9312_1168,exact,agrees,CK_Pro_MIT9312_01168,CK_00001489,natF,"ABC-type uptake transporter for acidic and neutral polar amino acids (N-II), substrate binding protein",nitrogen,amino_acids
+PMT9312_0829,exact,agrees,CK_Pro_MIT9312_00829,CK_00000076,urtA,"ABC-type urea transporter, substrate binding component",nitrogen,urea
+PMT9312_0601,exact,agrees,CK_Pro_MIT9312_00601,CK_00000919,,"ABC transporter, substrate binding protein, possibly Mn2+/Zn2+",trace_metals,manganese
+PMT9312_0291,exact,agrees,CK_Pro_MIT9312_00291,CK_00000264,,"ABC-type transport system, periplasmic component",unknown,not_stated
+PMT9312_0722,subsequence,agrees,CK_Pro_MIT9312_00722,CK_00043821,pstS,"phosphate ABC transporter, phosphate-binding protein PstS",phosphorus,phosphate
+PMT9312_1043,exact,agrees,CK_Pro_MIT9312_01043,CK_00001600,iraI,ABC-type Mn2+/Zn2+ transport system periplasmic component,trace_metals,manganese_zinc
+PMT9312_0673,exact,agrees,CK_Pro_MIT9312_00673,CK_00000860,phnD,"phosphonate ABC type transporter, substrate binding component",phosphorus,phosphonate
+PMT9312_1060,exact,agrees,CK_Pro_MIT9312_01060,CK_00001014,dppA,,nitrogen,peptide
+PMT9312_1261,diamond,agrees,CK_Pro_MIT9312_01261,CK_00000068,idiA2,,trace_metals,iron

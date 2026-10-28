@@ -1,0 +1,40 @@
+{
+  "strain": "CB0205",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2615,
+  "wallclock_s": 0.8,
+  "raw_hit_lines": 880,
+  "parse_failures": 0,
+  "proteins_with_hits": 86,
+  "proteins_with_call": 86,
+  "total_candidates": 88,
+  "candidates_per_protein_distribution": {
+    "1": 84,
+    "2": 2
+  },
+  "tier_distribution": {
+    "3": 84,
+    "2": 4
+  },
+  "consensus_agreement_distribution": {
+    "id": 15,
+    "subfamily": 22,
+    "family": 51
+  },
+  "catalytic_type_distribution": {
+    "M": 34,
+    "S": 31,
+    "C": 18,
+    "T": 2,
+    "A": 2,
+    "U": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 88
+  },
+  "best_hit_kind_distribution": {
+    "putative": 18,
+    "holotype": 55,
+    "nonpeptidase_homolog": 15
+  }
+}

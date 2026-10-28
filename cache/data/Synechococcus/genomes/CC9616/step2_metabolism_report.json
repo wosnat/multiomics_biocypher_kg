@@ -1,0 +1,24 @@
+{
+  "strain": "CC9616",
+  "gene_count": 3272,
+  "kegg_reactions": {
+    "raw_total": 1510,
+    "raw_unique": 1060,
+    "kept_total": 1510,
+    "kept_unique_r_numbers": 1060
+  },
+  "transporter_classification": {
+    "raw_total": 357,
+    "raw_unique": 143,
+    "validated_total": 1070,
+    "validated_unique": 387,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 39,
+    "raw_unique": 22,
+    "validated_total": 56,
+    "validated_unique": 28,
+    "invalid_examples": []
+  }
+}

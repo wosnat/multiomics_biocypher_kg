@@ -1,0 +1,39 @@
+{
+  "strain": "NS01",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2769,
+  "wallclock_s": 0.8,
+  "raw_hit_lines": 819,
+  "parse_failures": 0,
+  "proteins_with_hits": 85,
+  "proteins_with_call": 85,
+  "total_candidates": 86,
+  "candidates_per_protein_distribution": {
+    "1": 84,
+    "2": 1
+  },
+  "tier_distribution": {
+    "2": 4,
+    "3": 82
+  },
+  "consensus_agreement_distribution": {
+    "id": 16,
+    "subfamily": 19,
+    "family": 51
+  },
+  "catalytic_type_distribution": {
+    "M": 30,
+    "S": 36,
+    "C": 15,
+    "T": 3,
+    "A": 2
+  },
+  "entry_type_distribution": {
+    "peptidase": 86
+  },
+  "best_hit_kind_distribution": {
+    "putative": 25,
+    "holotype": 50,
+    "nonpeptidase_homolog": 11
+  }
+}

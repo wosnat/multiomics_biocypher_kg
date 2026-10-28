@@ -1,0 +1,24 @@
+{
+  "strain": "PROS-U-1",
+  "gene_count": 3147,
+  "kegg_reactions": {
+    "raw_total": 1431,
+    "raw_unique": 1064,
+    "kept_total": 1431,
+    "kept_unique_r_numbers": 1064
+  },
+  "transporter_classification": {
+    "raw_total": 316,
+    "raw_unique": 137,
+    "validated_total": 1042,
+    "validated_unique": 393,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 46,
+    "raw_unique": 23,
+    "validated_total": 61,
+    "validated_unique": 27,
+    "invalid_examples": []
+  }
+}

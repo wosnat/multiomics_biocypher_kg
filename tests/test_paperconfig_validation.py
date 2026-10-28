@@ -1605,3 +1605,32 @@ class TestBackgroundOrganisms:
         out = capsys.readouterr().out
         assert result is True
         assert "recorded as a background partner" in out
+
+
+
+def _genomic_experiment_config(tmp_path, treatment_type):
+    pdf = tmp_path / "p.pdf"; pdf.write_bytes(b"%PDF-1.4\n")
+    return {"publication": {
+        "papername": "X", "papermainpdf": str(pdf),
+        "experiments": {"sbp_annotation": {
+            "name": "e", "organism": "Prochlorococcus NATL2A",
+            "omics_type": "BIOINFORMATIC",
+            "treatment_type": treatment_type,
+            "background_factors": [],
+            "treatment_condition": "Genome annotation survey",
+        }},
+    }}
+
+
+def test_validate_genomic_analysis_experiment_allows_empty_background(tmp_path):
+    """A BIOINFORMATIC genomic_analysis experiment (Ford 2021) has no culture:
+    background_factors [] is legal there and only there."""
+    from validate_paperconfig import validate_paperconfig_content
+    config = _genomic_experiment_config(tmp_path, ["genomic_analysis"])
+    errors, _ = validate_paperconfig_content(config, str(_write_config(tmp_path, config)))
+    assert not any("background_factors" in e for e in errors), errors
+    assert not any("omics_type" in e for e in errors), errors
+
+    config = _genomic_experiment_config(tmp_path, ["nitrogen"])
+    errors, _ = validate_paperconfig_content(config, str(_write_config(tmp_path, config)))
+    assert any("background_factors must be a non-empty list" in e for e in errors), errors

@@ -1,0 +1,24 @@
+{
+  "strain": "BOUM118",
+  "gene_count": 2789,
+  "kegg_reactions": {
+    "raw_total": 1380,
+    "raw_unique": 1031,
+    "kept_total": 1380,
+    "kept_unique_r_numbers": 1031
+  },
+  "transporter_classification": {
+    "raw_total": 318,
+    "raw_unique": 134,
+    "validated_total": 973,
+    "validated_unique": 372,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 40,
+    "raw_unique": 20,
+    "validated_total": 56,
+    "validated_unique": 24,
+    "invalid_examples": []
+  }
+}

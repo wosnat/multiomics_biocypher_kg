@@ -1,0 +1,24 @@
+{
+  "strain": "PCC6307",
+  "gene_count": 3425,
+  "kegg_reactions": {
+    "raw_total": 1554,
+    "raw_unique": 1043,
+    "kept_total": 1554,
+    "kept_unique_r_numbers": 1043
+  },
+  "transporter_classification": {
+    "raw_total": 442,
+    "raw_unique": 164,
+    "validated_total": 1408,
+    "validated_unique": 453,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 46,
+    "raw_unique": 19,
+    "validated_total": 86,
+    "validated_unique": 25,
+    "invalid_examples": []
+  }
+}

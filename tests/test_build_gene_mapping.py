@@ -305,6 +305,14 @@ class TestNcbiMergeCdsAndGeneEntries:
         result = ncbi_merge_cds_and_gene_entries(df)
         assert result["product"].iloc[0] == "DNA polymerase III subunit beta"
 
+    def test_locus_tag_only_on_gene_row_old_gff_format(self):
+        # Older NCBI annotwriter GFFs (HNLC1, CB0101) put locus_tag on the gene
+        # row only; the CDS row has none. locus_tag_ncbi must still be set.
+        df = _make_ncbi_gff_df()
+        df.loc[df["type"] == "CDS", "locus_tag"] = None
+        result = ncbi_merge_cds_and_gene_entries(df)
+        assert result["locus_tag_ncbi"].iloc[0] == "TX50_RS00020"
+
     def test_missing_old_locus_tag_column_handled_gracefully(self):
         # Alteromonas genomes lack old_locus_tag in their GFF
         df = _make_ncbi_gff_df(include_old_locus_tag=False)
@@ -390,6 +398,26 @@ class TestLoadGffFromNcbiAndCyanorak:
         ):
             return load_gff_from_ncbi_and_cyanorak("ncbi.gff", "cyan.gff", "cyan.gbk")
 
+    def _run_anchored(self, ncbi_df, cyan_df, cyan_id_map):
+        """Like _run, plus one locus_tag-paired anchor gene at offset 0 far away.
+
+        The position fallback measures the NCBI→Cyanorak offset on paired genes
+        and never assumes one (assuming 0 paired genes by coincidence when the
+        frames differ — KORDI-49/52/100, 2026-10-26), so a fixture testing it
+        needs a paired gene to measure from. The anchor is dropped from the
+        result.
+        """
+        seqid = ncbi_df["seq_id"].dropna().iloc[0]
+        anchor_n = _make_ncbi_gff_df(locus_tag_ncbi="RS_ANCHOR", old_locus_tag="ANCHOR",
+                                     protein_id="WP_anchor", start=900_001, end=900_300)
+        anchor_n["seq_id"] = seqid
+        anchor_c = _make_cyan_gff_df(cyanorak_id="CK_ANCHOR", locus_tag="ANCHOR",
+                                     start=900_001, end=900_300)
+        result = self._run(pd.concat([ncbi_df, anchor_n], ignore_index=True),
+                           pd.concat([cyan_df, anchor_c], ignore_index=True),
+                           {**cyan_id_map, "CK_ANCHOR": "ANCHOR"})
+        return result[result["locus_tag"] != "ANCHOR"].reset_index(drop=True)
+
     def test_ncbi_gene_matched_to_cyanorak_carries_data_from_both(self):
         ncbi_df = _make_ncbi_gff_df(old_locus_tag="PMM0001")
         cyan_df = _make_cyan_gff_df(cyanorak_id="CK_Pro_MED4_00001", locus_tag="PMM0001")
@@ -465,7 +493,7 @@ class TestLoadGffFromNcbiAndCyanorak:
             locus_tag="PMT0107",
             start=122194, end=123066, strand="-",
         )
-        result = self._run(
+        result = self._run_anchored(
             ncbi_df, cyan_df,
             {"CK_Pro_MIT9313_00107": "PMT0107"},
         )
@@ -528,7 +556,7 @@ class TestLoadGffFromNcbiAndCyanorak:
             cyanorak_id="CK_Pro_MIT9313_00040", locus_tag="PMT0040",
             start=41162, end=41551, strand="+",
         )
-        result = self._run(ncbi_df, cyan_df, {"CK_Pro_MIT9313_00040": "PMT0040"})
+        result = self._run_anchored(ncbi_df, cyan_df, {"CK_Pro_MIT9313_00040": "PMT0040"})
         assert len(result) == 1
         row = result.iloc[0]
         assert row["locus_tag_cyanorak"] == "CK_Pro_MIT9313_00040"
@@ -546,7 +574,7 @@ class TestLoadGffFromNcbiAndCyanorak:
             cyanorak_id="CK_Pro_MIT9313_00110", locus_tag="PMT0110",
             start=125340, end=126119, strand="-",
         )
-        result = self._run(ncbi_df, cyan_df, {"CK_Pro_MIT9313_00110": "PMT0110"})
+        result = self._run_anchored(ncbi_df, cyan_df, {"CK_Pro_MIT9313_00110": "PMT0110"})
         assert len(result) == 1
         assert result.iloc[0]["locus_tag_cyanorak"] == "CK_Pro_MIT9313_00110"
 
@@ -561,7 +589,7 @@ class TestLoadGffFromNcbiAndCyanorak:
             cyanorak_id="CK_Pro_MED4_01858a", locus_tag="PMM1858a",
             start=627532, end=627693, strand="+",
         )
-        result = self._run(ncbi_df, cyan_df, {"CK_Pro_MED4_01858a": "PMM1858a"})
+        result = self._run_anchored(ncbi_df, cyan_df, {"CK_Pro_MED4_01858a": "PMM1858a"})
         assert len(result) == 1
         assert result.iloc[0]["locus_tag_cyanorak"] == "CK_Pro_MED4_01858a"
 
@@ -576,7 +604,7 @@ class TestLoadGffFromNcbiAndCyanorak:
             cyanorak_id="CK_Pro_MED4_01719", locus_tag="PMM1719",
             start=965320, end=965487, strand="-",
         )
-        result = self._run(ncbi_df, cyan_df, {"CK_Pro_MED4_01719": "PMM1719"})
+        result = self._run_anchored(ncbi_df, cyan_df, {"CK_Pro_MED4_01719": "PMM1719"})
         assert len(result) == 1
 
     def test_position_fallback_skips_out_of_frame_3prime_end(self):
@@ -615,7 +643,7 @@ class TestLoadGffFromNcbiAndCyanorak:
             cyanorak_id="CK_00107", locus_tag="PMT0107",
             start=100, end=400, strand="+",
         )
-        result = self._run(ncbi_df, cyan_df, {"CK_00107": "PMT0107"})
+        result = self._run_anchored(ncbi_df, cyan_df, {"CK_00107": "PMT0107"})
         assert len(result) == 1
         assert result.iloc[0]["position_merge_note"] == "position_merge:PMT0107→PMT_0107"
 
@@ -630,10 +658,20 @@ class TestLoadGffFromNcbiAndCyanorak:
             cyanorak_id="CK_Pro_MED4_00624", locus_tag="PMM0624",
             start=595314, end=595439, strand="+",
         )
-        result = self._run(ncbi_df, cyan_df, {"CK_Pro_MED4_00624": "PMM0624"})
+        result = self._run_anchored(ncbi_df, cyan_df, {"CK_Pro_MED4_00624": "PMM0624"})
         assert len(result) == 1
         assert result.iloc[0]["position_merge_note"] == "position_merge:PMM0624→TX50_RS09915"
         assert result.iloc[0]["locus_tag"] == "TX50_RS09915"
+
+    def test_position_fallback_never_assumes_an_offset(self):
+        """No locus_tag pair → the frame offset is unknown → no position merge,
+        even when coordinates coincide. Assuming offset 0 here paired ~330-400
+        unrelated genes per strain on KORDI-49/52/100 and CC9616 (2026-10-26)."""
+        ncbi_df = _make_ncbi_gff_df(old_locus_tag="PMT_0107", start=100, end=1000, strand="+")
+        cyan_df = _make_cyan_gff_df(cyanorak_id="CK_00107", locus_tag="PMT0107",
+                                    start=100, end=1000, strand="+")
+        result = self._run(ncbi_df, cyan_df, {"CK_00107": "PMT0107"})
+        assert len(result) == 2
 
     def test_position_fallback_skips_reverse_conflict(self):
         """One Cyanorak call in frame inside two nested NCBI genes → neither merged.
@@ -1062,8 +1100,148 @@ class TestCyanorakOnlyCoordinates:
         # the Cyanorak coordinates themselves are untouched
         assert row["start_cyanorak"] == 900
 
+    # Neighbour-based placement (2026-10-28): Cyanorak records laid out unlike NCBI.
+
+    @staticmethod
+    def _paired(*genes):
+        """Paired rows: (ncbi_start, ncbi_end, ncbi_strand, cyan_start, cyan_end, cyan_strand, seqid)."""
+        return bgm._paired_relations(pd.DataFrame(
+            genes, columns=["start_ncbi", "end_ncbi", "strand_ncbi",
+                            "start_cyanorak", "end_cyanorak", "strand_cyanorak", "seqid"]))
+
+    @staticmethod
+    def _orphan(start, end, strand="+"):
+        return pd.DataFrame([{"locus_tag": "CK_X", "start_cyanorak": start,
+                              "end_cyanorak": end, "strand_cyanorak": strand}])
+
+    def test_rotated_record_places_gene_by_its_own_segment(self):
+        # Cyanorak starts the circle 600 bp later: genes before NCBI 600 sit at +400 in
+        # Cyanorak, genes after it at -600. One tile offset would misplace one segment.
+        paired = self._paired(
+            (700, 800, "+", 100, 200, "+", "c1"), (900, 950, "+", 300, 350, "+", "c1"),
+            (100, 200, "+", 500, 600, "+", "c1"), (300, 350, "+", 700, 750, "+", "c1"))
+        cyan = self._orphan(400, 450)         # between pairs 2 and 3: a layout break
+        assert bgm._fill_cyanorak_only_coordinates(cyan, [(1, 1000, "c1")], paired, {"c1": 1000}) == 0
+        cyan = self._orphan(620, 680)         # between pairs 3 and 4: the +400 segment
+        assert bgm._fill_cyanorak_only_coordinates(cyan, [(1, 1000, "c1")], paired, {"c1": 1000}) == 1
+        assert (cyan.loc[0, "start_ncbi"], cyan.loc[0, "end_ncbi"]) == (220, 280)
+        assert cyan.loc[0, "strand_ncbi"] == "+"
+
+    def test_reverse_complemented_record_reflects_and_flips_strand(self):
+        # Cyanorak = reverse complement of a 1,000 bp contig: cyan = 1001 - ncbi.
+        paired = self._paired(
+            (801, 900, "-", 101, 200, "+", "c1"), (601, 700, "+", 301, 400, "-", "c1"))
+        cyan = self._orphan(221, 280, "+")
+        assert bgm._fill_cyanorak_only_coordinates(cyan, [], paired, {"c1": 1000}) == 1
+        assert (cyan.loc[0, "start_ncbi"], cyan.loc[0, "end_ncbi"]) == (721, 780)
+        assert cyan.loc[0, "strand_ncbi"] == "-"
+
+    def test_end_gene_needs_its_single_flank_to_agree_with_the_tile(self):
+        paired = self._paired((100, 200, "+", 500, 600, "+", "c1"))   # shift 400
+        cyan = self._orphan(700, 760)
+        assert bgm._fill_cyanorak_only_coordinates(cyan, [(1, 1000, "c1")], paired) == 0
+        cyan = self._orphan(700, 760)
+        assert bgm._fill_cyanorak_only_coordinates(cyan, [(401, 1400, "c1")], paired) == 1
+        assert cyan.loc[0, "start_ncbi"] == 300
+
+    def test_placement_outside_the_contig_is_refused(self):
+        paired = self._paired((100, 200, "+", 500, 600, "+", "c1"),
+                              (300, 400, "+", 700, 800, "+", "c1"))
+        cyan = self._orphan(650, 690)        # maps to 250-290, past the end of a 280 bp contig
+        assert bgm._fill_cyanorak_only_coordinates(cyan, [], paired, {"c1": 280}) == 0
+
     def test_ncbi_only_mode_marks_every_gene_ncbi(self):
         ncbi_df = _make_ncbi_gff_df(old_locus_tag="PMM0001")
         with patch(_LOAD_GFF, return_value=ncbi_df):
             result = load_gff_from_ncbi_only("ncbi.gff")
         assert (result["coordinate_source"] == "ncbi").all()
+
+
+# ─── protein-sequence fallback + merge QC (Ford 2021 batch, 2026-10-25) ───────
+
+import numpy as np  # noqa: E402
+from multiomics_kg.download import build_gene_mapping as bgm  # noqa: E402
+
+_PROTS = {
+    "WP_A": "M" + "ACDEFGHIKLMNPQRSTVWY" * 4,
+    "WP_B": "M" + "WYVTSRQPNMLKIHGFEDCA" * 4,
+    "WP_C": "M" + "KLMNPQRSTVACDEFGHIWY" * 4,
+    "WP_P": "M" + "PQRSTVWYACDEFGHIKLMN" * 4,   # paralog-like, matches a far-away call
+}
+
+
+def _seq_frames(offset=100_000):
+    """Three NCBI genes whose Cyanorak calls sit `offset` bp downstream (a
+    re-laid-out record) plus one isolated candidate at an inconsistent offset."""
+    ncbi = pd.DataFrame({
+        "ID": [None, None, None, None],
+        "protein_id": ["WP_A", "WP_B", "WP_C", "WP_P"],
+        "locus_tag_ncbi": ["N1", "N2", "N3", "N4"],
+        "locus_tag": [None, None, None, None],
+        "seqid": ["c1"] * 4,
+        "start_ncbi": [1000.0, 3000.0, 5000.0, 7000.0],
+        "end_ncbi": [1243.0, 3243.0, 5243.0, 7243.0],
+        "strand_ncbi": ["+"] * 4,
+        "start_cyanorak": [np.nan] * 4, "end_cyanorak": [np.nan] * 4,
+        "strand_cyanorak": [None] * 4, "product_cyanorak": [None] * 4,
+    })
+    cyan = pd.DataFrame({
+        "locus_tag": ["C1", "C2", "C3", "C4"],
+        "ID": ["CK_1", "CK_2", "CK_3", "CK_4"],
+        "start_cyanorak": [1000.0 + offset, 3000.0 + offset, 5000.0 + offset, 400_000.0],
+        "end_cyanorak": [1243.0 + offset, 3243.0 + offset, 5243.0 + offset, 400_243.0],
+        "strand_cyanorak": ["+"] * 4,
+        "product_cyanorak": ["a", "b", "c", "p"],
+    })
+    translations = {"C1": _PROTS["WP_A"], "C2": _PROTS["WP_B"], "C3": _PROTS["WP_C"], "C4": _PROTS["WP_P"]}
+    return ncbi, cyan, translations
+
+
+class TestSequenceFallback:
+    def test_clean_translation(self):
+        assert bgm._clean_translation("vkla*") == "MKLA"
+        assert bgm._clean_translation("MKLA#") == "MKLA"
+        assert bgm._clean_translation(None) is None
+        assert bgm._clean_translation("MKL+AQ*") == "MKLXAQ"
+
+    def test_syntenic_filter_keeps_consistent_run_rejects_isolated(self):
+        ncbi, cyan, _ = _seq_frames()
+        cands = {i: {"cyanorak_locus_tag": f"C{i + 1}"} for i in range(4)}
+        keep = bgm._syntenic_candidates(ncbi, cyan, cands)
+        assert keep == {0, 1, 2}   # C4 sits at its own offset: a paralog, not this locus
+
+    def test_syntenic_filter_accepts_reverse_complemented_record(self):
+        ncbi, cyan, _ = _seq_frames()
+        L = 1_000_000.0
+        # Cyanorak record reverse-complemented: c = L - n on the opposite strand
+        cyan["start_cyanorak"], cyan["end_cyanorak"] = L - ncbi["end_ncbi"], L - ncbi["start_ncbi"]
+        cyan["strand_cyanorak"] = "-"
+        cands = {i: {"cyanorak_locus_tag": f"C{i + 1}"} for i in range(4)}
+        assert bgm._syntenic_candidates(ncbi, cyan, cands) == {0, 1, 2, 3}
+
+    def test_below_threshold_does_not_run(self, tmp_path):
+        ncbi, cyan, tr = _seq_frames()
+        n, consumed, qc = bgm._sequence_fallback_merge(ncbi, cyan, str(tmp_path / "x.faa"), tr)
+        assert (n, consumed, qc["ran"]) == (0, set(), False)
+
+    def test_end_to_end_merges_1to1_syntenic_only(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(bgm, "_SEQ_FALLBACK_MIN_UNPAIRED", 1)
+        ncbi, cyan, tr = _seq_frames()
+        faa = tmp_path / "protein.faa"
+        faa.write_text("".join(f">{k}\n{v}\n" for k, v in _PROTS.items()))
+        n, consumed, qc = bgm._sequence_fallback_merge(ncbi, cyan, str(faa), tr)
+        assert n == 3 and consumed == {"C1", "C2", "C3"}
+        assert qc["rejected_non_syntenic"] == 1
+        assert qc["merged_by_method"] == {"exact": 3}
+        assert ncbi.loc[0, "ID"] == "CK_1"
+        assert ncbi.loc[0, "position_merge_note"] == "sequence_merge_exact:C1→N1"
+        assert "C1" in str(ncbi.loc[0, "old_locus_tags"])
+        assert pd.isna(ncbi.loc[3, "ID"])
+
+    def test_merge_qc_flags_duplication(self):
+        df = pd.DataFrame({"locus_tag": [f"g{i}" for i in range(180)]})
+        qc = bgm._merge_qc(df, 100, 100, {}, {"ran": False})
+        assert qc["duplication_ratio"] == 1.8
+        assert any("duplication_ratio" in f for f in qc["flags"])
+        ok = bgm._merge_qc(df.iloc[:105], 100, 100, {}, {"ran": False})
+        assert ok["flags"] == []

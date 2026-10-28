@@ -1,0 +1,24 @@
+{
+  "strain": "RS9909",
+  "gene_count": 2849,
+  "kegg_reactions": {
+    "raw_total": 1378,
+    "raw_unique": 1020,
+    "kept_total": 1381,
+    "kept_unique_r_numbers": 1020
+  },
+  "transporter_classification": {
+    "raw_total": 342,
+    "raw_unique": 150,
+    "validated_total": 1077,
+    "validated_unique": 407,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 38,
+    "raw_unique": 24,
+    "validated_total": 55,
+    "validated_unique": 32,
+    "invalid_examples": []
+  }
+}

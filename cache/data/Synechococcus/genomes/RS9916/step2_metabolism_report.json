@@ -1,0 +1,24 @@
+{
+  "strain": "RS9916",
+  "gene_count": 2926,
+  "kegg_reactions": {
+    "raw_total": 1379,
+    "raw_unique": 1039,
+    "kept_total": 1379,
+    "kept_unique_r_numbers": 1039
+  },
+  "transporter_classification": {
+    "raw_total": 314,
+    "raw_unique": 127,
+    "validated_total": 1039,
+    "validated_unique": 376,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 34,
+    "raw_unique": 21,
+    "validated_total": 44,
+    "validated_unique": 22,
+    "invalid_examples": []
+  }
+}

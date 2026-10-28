@@ -1,0 +1,23 @@
+{
+  "protein_count": 2826,
+  "localization_counts": {
+    "Cytoplasmic": 994,
+    "CytoplasmicMembrane": 562,
+    "Extracellular": 12,
+    "OuterMembrane": 19,
+    "Periplasmic": 26,
+    "Unknown": 1213
+  },
+  "unknown_rate": 0.4292285916489738,
+  "multi_localized_rate": 0.0,
+  "strain": "A15-44",
+  "wallclock_seconds": 912.62,
+  "image_digest": "brinkmanlab/psortb_commandline@sha256:5fd2243b7ed4470e2d5ad521c6f32fcd254d1579600bb1537cbe6322a2181040",
+  "psortb_args": [
+    "--negative",
+    "--output",
+    "terse"
+  ],
+  "started_at": "2026-10-27T08:36:01+00:00",
+  "finished_at": "2026-10-27T08:51:13+00:00"
+}

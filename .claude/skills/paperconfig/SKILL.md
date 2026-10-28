@@ -62,7 +62,7 @@ The `experiments` block defines experiment-level metadata that is shared across 
     <experiment_key>:
       name: "<human-readable experiment description>"
       organism: "Prochlorococcus MED4"
-      omics_type: RNASEQ              # RNASEQ | PROTEOMICS | METABOLOMICS | MICROARRAY
+      omics_type: RNASEQ              # RNASEQ | PROTEOMICS | METABOLOMICS | MICROARRAY | BIOINFORMATIC (see below)
       test_type: DESeq2               # statistical method
       treatment_type: [coculture]     # canonical treatment category list (see below)
       background_factors: []          # experimental context factors list (see below, optional)
@@ -101,7 +101,7 @@ The `experiments` block defines experiment-level metadata that is shared across 
 |-------|-------------|----------|
 | `name` | Human-readable description of the experiment | `"DE of Prochlorococcus MED4 coculture vs axenic"` |
 | `organism` | Organism being profiled | `"Prochlorococcus MED4"`, `"Alteromonas MIT1002"` |
-| `omics_type` | Omics data type | `RNASEQ`, `MICROARRAY`, `PROTEOMICS`, `METABOLOMICS` |
+| `omics_type` | Omics data type | `RNASEQ`, `MICROARRAY`, `PROTEOMICS`, `METABOLOMICS`, `BIOINFORMATIC` (computed from genome sequence/annotation, no sample) |
 | `test_type` | Statistical method used | `DESeq2`, `edgeR`, `Rockhopper`, `DESeq`, `microarray`, `microarray_Cyber-T`, `microarray_LPE`, `microarray_Goldenspike` |
 | `treatment_type` | Canonical treatment category (list) | See **Treatment Types** below |
 | `treatment_condition` | Description of the experimental/test condition | `"Coculture with Alteromonas HOT1A3"`, `"Salt-acclimated (5% salt)"` |
@@ -196,6 +196,7 @@ key verbatim (graph id `{doi}_{key}`); the control sampling time and its growth 
 | `axenic` | — (background only) | Pure culture, no other organisms |
 
 **Rules for assigning `background_factors`:**
+- **Bioinformatic analyses:** a `genomic_analysis` experiment (`omics_type: BIOINFORMATIC`) has no culture, so `background_factors: []` — the only experiment allowed an empty list (validator-enforced).
 - **Axenic/coculture status:** Always in `background_factors` unless `coculture` IS the DE comparison (treatment_type). Non-coculture, non-viral experiments: `axenic` if no partner organism.
 - **Viral experiments:** Do NOT add `axenic` or `coculture` to background_factors. Viral experiments infect otherwise-axenic cells by default. Only add `coculture` if the experiment is genuinely in a multi-species community.
 - **Light regime:** Add `light` when under continuous light and treatment_type is not light-related. Add `diel` when under a light:dark cycle. Add `darkness` when in dark regime. Applies to ALL experiment types including coculture and viral.
@@ -385,7 +386,7 @@ Co-expression cluster membership tables. Processed by `cluster_adapter.py` (NOT 
 | `organism` | str | Target organism (canonical name) |
 | `gene_id_col` | str | CSV column with gene identifiers |
 | `cluster_col` | str | CSV column with cluster assignment |
-| `cluster_type` | str | `diel` \| `time_course` \| `condition_comparison` \| `expression_bin` |
+| `cluster_type` | str | `diel` \| `time_course` \| `condition_comparison` \| `expression_bin` \| `decay_pattern` \| `genomic_island` |
 
 **Optional fields (analysis level):**
 
@@ -437,6 +438,8 @@ med4_kmeans_nstarvation:
 - **`diel`** — clusters reflect diel (circadian) light:dark cycling patterns.
 - **`condition_comparison`** — clusters separate genes by response pattern across discrete conditions (e.g., upregulated vs downregulated in treatment vs control).
 - **`expression_bin`** — clusters group genes by expression metric (e.g., quartile labels VEG/HEG/MEG/LEG/NEG). These analyses do **not** carry per-cluster `functional_description`; cluster `name` is the metric label.
+- **`decay_pattern`** — mRNA-decay profile clusters (Steglich 2010).
+- **`genomic_island`** — predicted genomic islands as gene sets, one analysis per strain, `treatment_type: [genomic_analysis]`, no experiment (Hackl 2023).
 
 **Future ambiguity rule:** If a future cluster type has unclear intent, rename or split the `cluster_type` value rather than adding a parallel intent field.
 
@@ -560,6 +563,7 @@ fourier_metrics:
 - Gene IDs go through the same step 4 resolution pipeline as DE tables.
 - `allowed_categories` is mandatory for categorical metrics. Rows with values outside the list are skipped (and logged).
 - For papers with paired-modality metrics (e.g., transcript × protein lag coefficients), link all metrics to a single `PAIRED_RNASEQ_PROTEOME` Experiment rather than to individual source-modality experiments.
+- **Per-gene calls from a bioinformatic analysis** (genome-annotation surveys, sequence predictions in a review): one Experiment per organism with `omics_type: BIOINFORMATIC`, `treatment_type: [genomic_analysis]`, `background_factors: []`, no `test_type` / `control_condition` / `control_timing`, and the metrics (usually `categorical`) bound to it. Example: Ford 2021 (`data/Synechococcus/papers_and_supp/Ford 2021/`) — 96 strains × (`sbp_nutrient_class`, `sbp_predicted_substrate`), paperconfig generated by `scripts/build_modified_csv/build_ford2021_sbp_classes.py`.
 
 ### `type: metabolite_assays_table`
 
@@ -1174,7 +1178,7 @@ Before submitting a paperconfig:
 - [ ] Each experiment has all required fields: `name`, `organism`, `omics_type`, `test_type`, `treatment_type`, `treatment_condition`, `control_condition`
 - [ ] `organism` values are canonical (match `cyanobacteria_genomes.csv` or `treatment_organisms.csv`)
 - [ ] `treatment_type` is a canonical value (see Treatment Types table)
-- [ ] `omics_type` is one of: RNASEQ, MICROARRAY, PROTEOMICS, METABOLOMICS
+- [ ] `omics_type` is one of: RNASEQ, MICROARRAY, PROTEOMICS, METABOLOMICS (+ EXOPROTEOMICS, VESICLE_PROTEOMICS, PAIRED_RNASEQ_PROTEOME, DNASEQ, VESICLE_DNASEQ, BIOINFORMATIC)
 - [ ] `test_type` is a canonical value (DESeq2, DESeq, edgeR, Rockhopper, microarray, etc.)
 - [ ] Each analysis has `id`, `experiment`, `name_col`, `logfc_col`
 - [ ] Each analysis `experiment` reference points to a valid key in `experiments` block

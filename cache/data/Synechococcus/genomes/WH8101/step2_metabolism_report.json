@@ -1,0 +1,24 @@
+{
+  "strain": "WH8101",
+  "gene_count": 2938,
+  "kegg_reactions": {
+    "raw_total": 1427,
+    "raw_unique": 1044,
+    "kept_total": 1430,
+    "kept_unique_r_numbers": 1044
+  },
+  "transporter_classification": {
+    "raw_total": 360,
+    "raw_unique": 157,
+    "validated_total": 1152,
+    "validated_unique": 421,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 31,
+    "raw_unique": 19,
+    "validated_total": 48,
+    "validated_unique": 27,
+    "invalid_examples": []
+  }
+}

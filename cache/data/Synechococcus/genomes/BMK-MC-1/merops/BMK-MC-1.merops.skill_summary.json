@@ -1,0 +1,41 @@
+{
+  "strain": "BMK-MC-1",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2841,
+  "wallclock_s": 0.8,
+  "raw_hit_lines": 740,
+  "parse_failures": 0,
+  "proteins_with_hits": 78,
+  "proteins_with_call": 78,
+  "total_candidates": 78,
+  "candidates_per_protein_distribution": {
+    "1": 78
+  },
+  "tier_distribution": {
+    "2": 6,
+    "3": 72
+  },
+  "consensus_agreement_distribution": {
+    "id": 13,
+    "subfamily": 17,
+    "family": 48
+  },
+  "catalytic_type_distribution": {
+    "S": 28,
+    "C": 15,
+    "M": 29,
+    "U": 1,
+    "A": 2,
+    "T": 2,
+    "inhibitor": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 77,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "putative": 18,
+    "nonpeptidase_homolog": 14,
+    "holotype": 46
+  }
+}

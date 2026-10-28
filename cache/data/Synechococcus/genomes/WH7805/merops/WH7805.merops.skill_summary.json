@@ -1,0 +1,42 @@
+{
+  "strain": "WH7805",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2659,
+  "wallclock_s": 1.6,
+  "raw_hit_lines": 716,
+  "parse_failures": 0,
+  "proteins_with_hits": 76,
+  "proteins_with_call": 76,
+  "total_candidates": 78,
+  "candidates_per_protein_distribution": {
+    "1": 74,
+    "2": 2
+  },
+  "tier_distribution": {
+    "2": 5,
+    "3": 73
+  },
+  "consensus_agreement_distribution": {
+    "id": 14,
+    "subfamily": 16,
+    "family": 48
+  },
+  "catalytic_type_distribution": {
+    "M": 28,
+    "S": 30,
+    "T": 2,
+    "C": 14,
+    "A": 2,
+    "inhibitor": 1,
+    "U": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 77,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "putative": 19,
+    "holotype": 45,
+    "nonpeptidase_homolog": 14
+  }
+}

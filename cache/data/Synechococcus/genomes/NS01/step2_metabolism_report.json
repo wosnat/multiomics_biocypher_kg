@@ -1,0 +1,24 @@
+{
+  "strain": "NS01",
+  "gene_count": 2975,
+  "kegg_reactions": {
+    "raw_total": 1405,
+    "raw_unique": 1037,
+    "kept_total": 1407,
+    "kept_unique_r_numbers": 1037
+  },
+  "transporter_classification": {
+    "raw_total": 338,
+    "raw_unique": 152,
+    "validated_total": 1108,
+    "validated_unique": 415,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 43,
+    "raw_unique": 22,
+    "validated_total": 61,
+    "validated_unique": 24,
+    "invalid_examples": []
+  }
+}

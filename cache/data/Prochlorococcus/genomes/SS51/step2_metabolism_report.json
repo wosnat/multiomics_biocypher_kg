@@ -1,0 +1,24 @@
+{
+  "strain": "SS51",
+  "gene_count": 2030,
+  "kegg_reactions": {
+    "raw_total": 1197,
+    "raw_unique": 919,
+    "kept_total": 1197,
+    "kept_unique_r_numbers": 919
+  },
+  "transporter_classification": {
+    "raw_total": 221,
+    "raw_unique": 101,
+    "validated_total": 712,
+    "validated_unique": 305,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 25,
+    "raw_unique": 15,
+    "validated_total": 31,
+    "validated_unique": 15,
+    "invalid_examples": []
+  }
+}

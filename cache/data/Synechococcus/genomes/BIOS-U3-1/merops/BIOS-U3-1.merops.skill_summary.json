@@ -1,0 +1,41 @@
+{
+  "strain": "BIOS-U3-1",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2866,
+  "wallclock_s": 0.8,
+  "raw_hit_lines": 836,
+  "parse_failures": 0,
+  "proteins_with_hits": 86,
+  "proteins_with_call": 86,
+  "total_candidates": 87,
+  "candidates_per_protein_distribution": {
+    "1": 85,
+    "2": 1
+  },
+  "tier_distribution": {
+    "3": 84,
+    "2": 3
+  },
+  "consensus_agreement_distribution": {
+    "id": 16,
+    "subfamily": 17,
+    "family": 54
+  },
+  "catalytic_type_distribution": {
+    "M": 30,
+    "S": 33,
+    "A": 2,
+    "C": 18,
+    "inhibitor": 2,
+    "T": 2
+  },
+  "entry_type_distribution": {
+    "peptidase": 85,
+    "inhibitor": 2
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 53,
+    "nonpeptidase_homolog": 13,
+    "putative": 21
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "strain": "MINOS11",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2523,
+  "wallclock_s": 1.0,
+  "raw_hit_lines": 780,
+  "parse_failures": 0,
+  "proteins_with_hits": 79,
+  "proteins_with_call": 79,
+  "total_candidates": 81,
+  "candidates_per_protein_distribution": {
+    "1": 77,
+    "2": 2
+  },
+  "tier_distribution": {
+    "3": 78,
+    "2": 3
+  },
+  "consensus_agreement_distribution": {
+    "id": 12,
+    "subfamily": 15,
+    "family": 54
+  },
+  "catalytic_type_distribution": {
+    "S": 32,
+    "C": 19,
+    "M": 27,
+    "T": 2,
+    "A": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 81
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 46,
+    "putative": 21,
+    "nonpeptidase_homolog": 14
+  }
+}

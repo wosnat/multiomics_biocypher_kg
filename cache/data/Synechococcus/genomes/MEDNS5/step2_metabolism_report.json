@@ -1,0 +1,24 @@
+{
+  "strain": "MEDNS5",
+  "gene_count": 2750,
+  "kegg_reactions": {
+    "raw_total": 1380,
+    "raw_unique": 1047,
+    "kept_total": 1380,
+    "kept_unique_r_numbers": 1047
+  },
+  "transporter_classification": {
+    "raw_total": 331,
+    "raw_unique": 144,
+    "validated_total": 1069,
+    "validated_unique": 395,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 35,
+    "raw_unique": 24,
+    "validated_total": 46,
+    "validated_unique": 29,
+    "invalid_examples": []
+  }
+}

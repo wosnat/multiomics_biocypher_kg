@@ -1,0 +1,55 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2362
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 102,
+      "unique": 1212
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 30,
+      "unique": 6454
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4651
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2725
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2289
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2316
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 7,
+      "unique": 4644
+    }
+  },
+  "runaway_genes": [],
+  "strain": "PROS-9-1",
+  "tier1_count_max": 6,
+  "tier1_count_median": 6.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 13,
+    "genomic_gca/PROS-9-1": 922,
+    "genomic_gcf/PROS-9-1": 62
+  },
+  "warnings": []
+}

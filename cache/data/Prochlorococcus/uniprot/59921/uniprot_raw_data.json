@@ -1,0 +1,168 @@
+{
+    "annotation_score": {
+        "O67958": "1.0",
+        "O67967": "1.0",
+        "Q9R7I3": "1.0"
+    },
+    "cc_catalytic_activity": {
+        "O67958": "",
+        "O67967": "",
+        "Q9R7I3": ""
+    },
+    "cc_caution": {
+        "O67958": "",
+        "O67967": "",
+        "Q9R7I3": ""
+    },
+    "cc_cofactor": {
+        "O67958": "COFACTOR: Name=divinyl chlorophyll a; Xref=ChEBI:CHEBI:73095; Evidence={ECO:0000256|ARBA:ARBA00001921}; COFACTOR: Name=divinyl chlorophyll b; Xref=ChEBI:CHEBI:73096; Evidence={ECO:0000256|ARBA:ARBA00001949}",
+        "O67967": "",
+        "Q9R7I3": ""
+    },
+    "cc_domain": {
+        "O67958": "",
+        "O67967": "",
+        "Q9R7I3": ""
+    },
+    "cc_function": {
+        "O67958": "",
+        "O67967": "",
+        "Q9R7I3": ""
+    },
+    "cc_interaction": {
+        "O67958": "",
+        "O67967": "",
+        "Q9R7I3": ""
+    },
+    "cc_pathway": {
+        "O67958": "",
+        "O67967": "",
+        "Q9R7I3": ""
+    },
+    "ec": {
+        "O67958": "",
+        "O67967": "",
+        "Q9R7I3": ""
+    },
+    "ft_motif": {
+        "O67958": "",
+        "O67967": "",
+        "Q9R7I3": ""
+    },
+    "ft_signal": {
+        "O67958": "",
+        "O67967": "",
+        "Q9R7I3": ""
+    },
+    "ft_transmem": {
+        "O67958": "",
+        "O67967": "TRANSMEM 17..37; /note=\"Helical\"; /evidence=\"ECO:0000256|SAM:Phobius\"; TRANSMEM 44..67; /note=\"Helical\"; /evidence=\"ECO:0000256|SAM:Phobius\"; TRANSMEM 87..107; /note=\"Helical\"; /evidence=\"ECO:0000256|SAM:Phobius\"",
+        "Q9R7I3": ""
+    },
+    "gene_names": {
+        "O67958": "psbB",
+        "O67967": "petB",
+        "Q9R7I3": "petD"
+    },
+    "gene_oln": {
+        "O67958": "",
+        "O67967": "",
+        "Q9R7I3": ""
+    },
+    "gene_primary": {
+        "O67958": "psbB",
+        "O67967": "petB",
+        "Q9R7I3": "petD"
+    },
+    "go_c": {
+        "O67958": "photosystem [GO:0009521]; plasma membrane-derived thylakoid membrane [GO:0031676]",
+        "O67967": "membrane [GO:0016020]",
+        "Q9R7I3": ""
+    },
+    "go_f": {
+        "O67958": "chlorophyll binding [GO:0016168]",
+        "O67967": "electron transfer activity [GO:0009055]; oxidoreductase activity [GO:0016491]",
+        "Q9R7I3": ""
+    },
+    "go_p": {
+        "O67958": "photosynthetic electron transport chain [GO:0009767]",
+        "O67967": "respiratory electron transport chain [GO:0022904]",
+        "Q9R7I3": ""
+    },
+    "keyword": {
+        "O67958": "Chlorophyll;Chromophore;Membrane;Photosynthesis;Thylakoid;Transmembrane;Transmembrane helix",
+        "O67967": "Electron transport;Heme;Iron;Membrane;Metal-binding;Photosynthesis;Transmembrane;Transmembrane helix;Transport",
+        "Q9R7I3": ""
+    },
+    "keywordid": {
+        "O67958": "KW-0148; KW-0157; KW-0472; KW-0602; KW-0793; KW-0812; KW-1133",
+        "O67967": "KW-0249; KW-0349; KW-0408; KW-0472; KW-0479; KW-0602; KW-0812; KW-1133; KW-0813",
+        "Q9R7I3": ""
+    },
+    "length": {
+        "O67958": "172",
+        "O67967": "116",
+        "Q9R7I3": "19"
+    },
+    "mass": {
+        "O67958": "19385",
+        "O67967": "12875",
+        "Q9R7I3": "2113"
+    },
+    "organism_id": {
+        "O67958": "59921",
+        "O67967": "59921",
+        "Q9R7I3": "59921"
+    },
+    "organism_name": {
+        "O67958": "Prochlorococcus marinus str. MIT 9107",
+        "O67967": "Prochlorococcus marinus str. MIT 9107",
+        "Q9R7I3": "Prochlorococcus marinus str. MIT 9107"
+    },
+    "protein_families": {
+        "O67958": "PsbB/PsbC family, IsiA/Pcb subfamily",
+        "O67967": "Cytochrome b family",
+        "Q9R7I3": ""
+    },
+    "protein_name": {
+        "O67958": "CP47",
+        "O67967": "Cytochrome b6",
+        "Q9R7I3": "B6/f complex subunit IV"
+    },
+    "reviewed": {
+        "O67958": "unreviewed",
+        "O67967": "unreviewed",
+        "Q9R7I3": "unreviewed"
+    },
+    "subcellular_location": {},
+    "xref_eggnog": {
+        "O67958": "",
+        "O67967": "",
+        "Q9R7I3": ""
+    },
+    "xref_kegg": {
+        "O67958": "",
+        "O67967": "",
+        "Q9R7I3": ""
+    },
+    "xref_pfam": {
+        "O67958": "PF00421",
+        "O67967": "PF00033",
+        "Q9R7I3": ""
+    },
+    "xref_proteomes": {
+        "O67958": "",
+        "O67967": "",
+        "Q9R7I3": ""
+    },
+    "xref_refseq": {
+        "O67958": "",
+        "O67967": "",
+        "Q9R7I3": ""
+    },
+    "xref_string": {
+        "O67958": "",
+        "O67967": "",
+        "Q9R7I3": ""
+    }
+}

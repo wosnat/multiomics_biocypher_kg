@@ -1,0 +1,33 @@
+{
+  "Q2KN42": {
+    "annotation_score": 1.0,
+    "caution_notes": "CAUTION: Lacks conserved residue(s) required for the propagation of feature annotation. {ECO:0000256,PROSITE-ProRule:PRU00387}.",
+    "gene_names": [
+      "ntcA"
+    ],
+    "gene_symbol": "ntcA",
+    "go_molecular_functions": [
+      "GO:0003677",
+      "GO:0003700"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0238",
+      "KW-0804",
+      "KW-0805"
+    ],
+    "keywords": [
+      "DNA-binding",
+      "Transcription",
+      "Transcription regulation"
+    ],
+    "molecular_mass": 15041,
+    "organism_id": 93057,
+    "organism_name": "Prochlorococcus marinus str. MIT 9201",
+    "pfam_ids": [
+      "PF00027"
+    ],
+    "protein_synonyms": "NtcA",
+    "sequence_length": 134
+  }
+}

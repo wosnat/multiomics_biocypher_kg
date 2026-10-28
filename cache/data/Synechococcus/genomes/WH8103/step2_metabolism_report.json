@@ -1,0 +1,24 @@
+{
+  "strain": "WH8103",
+  "gene_count": 2876,
+  "kegg_reactions": {
+    "raw_total": 1375,
+    "raw_unique": 1018,
+    "kept_total": 1375,
+    "kept_unique_r_numbers": 1018
+  },
+  "transporter_classification": {
+    "raw_total": 330,
+    "raw_unique": 136,
+    "validated_total": 1003,
+    "validated_unique": 374,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 41,
+    "raw_unique": 19,
+    "validated_total": 57,
+    "validated_unique": 23,
+    "invalid_examples": []
+  }
+}

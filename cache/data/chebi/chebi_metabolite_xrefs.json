@@ -8573,6 +8573,25 @@
       "name": "guanidinoacetate",
       "tautomers": []
     },
+    "CHEBI:131450": {
+      "alt_ids": [],
+      "charge": -1,
+      "conjugates": [
+        "CHEBI:68465"
+      ],
+      "enantiomers": [],
+      "generalized_formula": "C7H5O4",
+      "inchikey": "AKEUNCKRJATALU-UHFFFAOYSA-M",
+      "is_a": [
+        "CHEBI:35757",
+        "CHEBI:36084"
+      ],
+      "is_class": false,
+      "is_role": false,
+      "kegg": [],
+      "name": "2,6-dihydroxybenzoate",
+      "tautomers": []
+    },
     "CHEBI:131461": {
       "alt_ids": [],
       "charge": 0,
@@ -8608,6 +8627,24 @@
       "is_role": false,
       "kegg": [],
       "name": "1,2-diacyl-3-(alpha-D-6-sulfoquinovosyl)-sn-glycerol(1-)",
+      "tautomers": []
+    },
+    "CHEBI:131522": {
+      "alt_ids": [],
+      "charge": 0,
+      "conjugates": [
+        "CHEBI:90946"
+      ],
+      "enantiomers": [],
+      "generalized_formula": "C17H29N3O12P2",
+      "inchikey": "JRJYBKLGPOKTLS-YXJLRHLOSA-N",
+      "is_a": [
+        "CHEBI:61109"
+      ],
+      "is_class": false,
+      "is_role": false,
+      "kegg": [],
+      "name": "dTDP-4-(methylamino)-2,3,4,6-tetradeoxy-alpha-D-glucose",
       "tautomers": []
     },
     "CHEBI:131525": {
@@ -120426,6 +120463,22 @@
         "C16247"
       ],
       "name": "2,6-dibromophenol",
+      "tautomers": []
+    },
+    "CHEBI:193964": {
+      "alt_ids": [],
+      "charge": -1,
+      "conjugates": [],
+      "enantiomers": [],
+      "generalized_formula": "C6H5O4",
+      "inchikey": "PCSKKIUURRTAEM-UHFFFAOYSA-M",
+      "is_a": [
+        "CHEBI:36055"
+      ],
+      "is_class": false,
+      "is_role": false,
+      "kegg": [],
+      "name": "5-Hydroxymethyl-2-furanoate",
       "tautomers": []
     },
     "CHEBI:193989": {
@@ -394128,6 +394181,24 @@
       "name": "Kigelinone",
       "tautomers": []
     },
+    "CHEBI:61377": {
+      "alt_ids": [],
+      "charge": 0,
+      "conjugates": [
+        "CHEBI:61417"
+      ],
+      "enantiomers": [],
+      "generalized_formula": "C10H16N2O12P2",
+      "inchikey": "CYDYNVMCEGXBEM-JXOAFFINSA-N",
+      "is_a": [
+        "CHEBI:37039"
+      ],
+      "is_class": false,
+      "is_role": false,
+      "kegg": [],
+      "name": "TDP",
+      "tautomers": []
+    },
     "CHEBI:61379": {
       "alt_ids": [],
       "charge": null,
@@ -394651,6 +394722,24 @@
       "is_role": false,
       "kegg": [],
       "name": "ferrichromes",
+      "tautomers": []
+    },
+    "CHEBI:61417": {
+      "alt_ids": [],
+      "charge": -3,
+      "conjugates": [
+        "CHEBI:61377"
+      ],
+      "enantiomers": [],
+      "generalized_formula": "C10H13N2O12P2",
+      "inchikey": "CYDYNVMCEGXBEM-JXOAFFINSA-K",
+      "is_a": [
+        "CHEBI:58945"
+      ],
+      "is_class": false,
+      "is_role": false,
+      "kegg": [],
+      "name": "TDP(3-)",
       "tautomers": []
     },
     "CHEBI:6142": {
@@ -419618,6 +419707,25 @@
         "C06467"
       ],
       "name": "D-talopyranose",
+      "tautomers": []
+    },
+    "CHEBI:68465": {
+      "alt_ids": [],
+      "charge": 0,
+      "conjugates": [
+        "CHEBI:131450"
+      ],
+      "enantiomers": [],
+      "generalized_formula": "C7H6O4",
+      "inchikey": "AKEUNCKRJATALU-UHFFFAOYSA-N",
+      "is_a": [
+        "CHEBI:23778",
+        "CHEBI:25384"
+      ],
+      "is_class": false,
+      "is_role": false,
+      "kegg": [],
+      "name": "2,6-dihydroxybenzoic acid",
       "tautomers": []
     },
     "CHEBI:6847": {
@@ -518813,6 +518921,25 @@
       "name": "D-galactaro-1,5-lactone(1-)",
       "tautomers": []
     },
+    "CHEBI:83389": {
+      "alt_ids": [],
+      "charge": -2,
+      "conjugates": [
+        "CHEBI:84212"
+      ],
+      "enantiomers": [],
+      "generalized_formula": "C6H2O5",
+      "inchikey": "CHTHALBTIRVDBM-UHFFFAOYSA-L",
+      "is_a": [
+        "CHEBI:28965",
+        "CHEBI:36056"
+      ],
+      "is_class": false,
+      "is_role": false,
+      "kegg": [],
+      "name": "furan-2,5-dicarboxylate",
+      "tautomers": []
+    },
     "CHEBI:8339": {
       "alt_ids": [],
       "charge": 0,
@@ -521694,6 +521821,25 @@
         "C11765"
       ],
       "name": "ProPAM",
+      "tautomers": []
+    },
+    "CHEBI:84212": {
+      "alt_ids": [],
+      "charge": 0,
+      "conjugates": [
+        "CHEBI:83389"
+      ],
+      "enantiomers": [],
+      "generalized_formula": "C6H4O5",
+      "inchikey": "CHTHALBTIRVDBM-UHFFFAOYSA-N",
+      "is_a": [
+        "CHEBI:24129",
+        "CHEBI:35692"
+      ],
+      "is_class": false,
+      "is_role": false,
+      "kegg": [],
+      "name": "furan-2,5-dicarboxylic acid",
       "tautomers": []
     },
     "CHEBI:8422": {
@@ -528610,6 +528756,25 @@
       "name": "conazole antifungal drug",
       "tautomers": []
     },
+    "CHEBI:87090": {
+      "alt_ids": [],
+      "charge": -1,
+      "conjugates": [
+        "CHEBI:87306"
+      ],
+      "enantiomers": [],
+      "generalized_formula": "C8H11O8",
+      "inchikey": "RSSDMTJWCNYGHQ-HXUQBWEZSA-M",
+      "is_a": [
+        "CHEBI:33721",
+        "CHEBI:35757"
+      ],
+      "is_class": false,
+      "is_role": false,
+      "kegg": [],
+      "name": "(7R)-6-deoxy-D-manno-oct-7-ulosuronate",
+      "tautomers": []
+    },
     "CHEBI:87091": {
       "alt_ids": [],
       "charge": 0,
@@ -529228,6 +529393,25 @@
       "is_role": false,
       "kegg": [],
       "name": "trans-feruloyl-CoA(4-)",
+      "tautomers": []
+    },
+    "CHEBI:87306": {
+      "alt_ids": [],
+      "charge": 0,
+      "conjugates": [
+        "CHEBI:87090"
+      ],
+      "enantiomers": [],
+      "generalized_formula": "C8H12O8",
+      "inchikey": "RSSDMTJWCNYGHQ-HXUQBWEZSA-N",
+      "is_a": [
+        "CHEBI:17478",
+        "CHEBI:24963"
+      ],
+      "is_class": false,
+      "is_role": false,
+      "kegg": [],
+      "name": "(7R)-6-deoxy-D-manno-oct-7-ulosuronic acid",
       "tautomers": []
     },
     "CHEBI:8731": {
@@ -536183,6 +536367,24 @@
       "is_role": false,
       "kegg": [],
       "name": "dTDP-4-ammonio-2,3,4,6-tetradeoxy-alpha-D-glucose(1-)",
+      "tautomers": []
+    },
+    "CHEBI:90946": {
+      "alt_ids": [],
+      "charge": -1,
+      "conjugates": [
+        "CHEBI:131522"
+      ],
+      "enantiomers": [],
+      "generalized_formula": "C17H28N3O12P2",
+      "inchikey": "JRJYBKLGPOKTLS-YXJLRHLOSA-M",
+      "is_a": [
+        "CHEBI:59737"
+      ],
+      "is_class": false,
+      "is_role": false,
+      "kegg": [],
+      "name": "dTDP-4-(methylammonio)-2,3,4,6-tetradeoxy-alpha-D-glucose(1-)",
       "tautomers": []
     },
     "CHEBI:90947": {

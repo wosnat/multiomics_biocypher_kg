@@ -1,0 +1,41 @@
+{
+  "genes": 2919,
+  "ncbi_genes": 2774,
+  "cyanorak_genes": 2739,
+  "stages": {
+    "locus_tag": 2515,
+    "position": 78,
+    "sequence": 0,
+    "ncbi_only": 180,
+    "cyanorak_only": 146
+  },
+  "sequence_fallback": {
+    "ran": true,
+    "source_cyanorak": 146,
+    "target_ncbi": 180,
+    "excluded_shared_wp": 0,
+    "merged": 0,
+    "merged_by_method": {},
+    "skipped_conflicts": 0,
+    "rejected_non_syntenic": 0,
+    "diamond_pident_min": null,
+    "diamond_pident_p5": null,
+    "diamond_pident_median": null,
+    "order": "position_first"
+  },
+  "duplication_ratio": 1.052,
+  "synteny_rate": null,
+  "pair_sequence_check": {
+    "locus_tag": {
+      "checked": 2515,
+      "disagree": 1,
+      "disagree_rate": 0.0
+    },
+    "position": {
+      "checked": 78,
+      "disagree": 1,
+      "disagree_rate": 0.013
+    }
+  },
+  "flags": []
+}

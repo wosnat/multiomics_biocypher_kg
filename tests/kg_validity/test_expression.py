@@ -313,12 +313,14 @@ def test_experiment_list_props_dense(run_query):
 
 
 def test_experiment_background_factors_non_empty(run_query):
-    """Every Experiment has a non-empty background_factors list — an
-    experiment always has a held-constant context (axenic, continuous
-    light, coculture, ...). Enforced upstream by validate_paperconfig.py."""
+    """Every Experiment with a culture has a non-empty background_factors list
+    (axenic, continuous light, coculture, ...). The one exception is a
+    genomic_analysis experiment (BIOINFORMATIC, Ford 2021): no sample, so [].
+    Enforced upstream by validate_paperconfig.py."""
     result = run_query("""
         MATCH (e:Experiment)
         WHERE size(e.background_factors) = 0
+          AND NOT 'genomic_analysis' IN e.treatment_type
         RETURN collect(e.id) AS empty
     """)
     empty = result[0]["empty"]
@@ -432,9 +434,14 @@ def test_experiment_table_scope_valid(run_query):
 
 
 def test_experiment_table_scope_coverage(run_query):
-    """Most Experiment nodes should have table_scope set."""
+    """Most Experiment nodes with a DE table should have table_scope set.
+
+    table_scope describes the source DE table, so it is sparse by design on
+    experiments without one (metabolomics, derived-metric-only, Ford 2021's
+    BIOINFORMATIC genome annotations); only fold-change experiments are counted.
+    """
     result = run_query("""
-        MATCH (exp:Experiment)
+        MATCH (exp:Experiment {reports_fold_change: 'fold_change'})
         RETURN
           count(exp) AS total,
           count(CASE WHEN exp.table_scope IS NOT NULL AND exp.table_scope <> ''

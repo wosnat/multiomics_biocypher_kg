@@ -1,0 +1,55 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2589
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 125,
+      "unique": 1247
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 34,
+      "unique": 7121
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5101
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3003
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2512
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2545
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 12,
+      "unique": 5089
+    }
+  },
+  "runaway_genes": [],
+  "strain": "MVIR-18-1",
+  "tier1_count_max": 6,
+  "tier1_count_median": 6.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 13,
+    "genomic_gca/MVIR-18-1": 1032,
+    "genomic_gcf/MVIR-18-1": 59
+  },
+  "warnings": []
+}

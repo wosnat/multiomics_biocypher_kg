@@ -1,0 +1,24 @@
+{
+  "strain": "A15-127",
+  "gene_count": 2876,
+  "kegg_reactions": {
+    "raw_total": 1441,
+    "raw_unique": 1064,
+    "kept_total": 1441,
+    "kept_unique_r_numbers": 1064
+  },
+  "transporter_classification": {
+    "raw_total": 302,
+    "raw_unique": 133,
+    "validated_total": 1009,
+    "validated_unique": 377,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 37,
+    "raw_unique": 22,
+    "validated_total": 54,
+    "validated_unique": 27,
+    "invalid_examples": []
+  }
+}
