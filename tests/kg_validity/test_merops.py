@@ -137,7 +137,8 @@ def test_subfamilies_all_have_parents(run_query):
 
 def test_gene_merops_edges_exist(run_query):
     n = run_query("MATCH ()-[r:Gene_has_merops_family]->() RETURN count(r) AS n")[0]["n"]
-    assert 3800 <= n <= 4600, f"expected ~4.3K Gene_has_merops_family edges, got {n}"
+    # ~4.3K over 43 strains; 9,815 over 117 (2026-10-28, Ford 2021's 74 Cyanorak genomes)
+    assert 8800 <= n <= 10800, f"expected ~9.8K Gene_has_merops_family edges, got {n}"
 
 
 def test_no_orphan_gene_merops_edges(run_query):
@@ -360,7 +361,9 @@ def test_cleavage_properties_sparse_and_sane(run_query):
         MATCH (m:MeropsFamily) WHERE m.cleavage_summary IS NOT NULL
         RETURN count(m) AS n
     """)[0]["n"]
-    assert 60 <= covered <= 88
+    # 88 families over 43 strains; 96 over 117 (2026-10-28 — the Ford 2021 genomes
+    # carry peptidase families no earlier strain had)
+    assert 60 <= covered <= 110
 
 
 def test_s01_cleaves_after_basic_residues(run_query):

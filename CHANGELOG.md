@@ -318,6 +318,11 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
   genes when Cyanorak's genome is laid out in another frame, and runs first when no locus tag pairs.
   Every build writes `gene_mapping_merge_qc.json` per strain (stage counts, duplication ratio,
   synteny, protein agreement of each pairing stage) and logs `[QC]` flags.
+  (4) a Cyanorak-only gene's coordinates come from its paired neighbours, not one offset per
+  contig, so genomes Cyanorak rotated, reverse-complemented or re-ordered get placed too: +340 genes
+  (KORDI-52 191, CC9616 59, KORDI-49 47, WH8016 33, KORDI-100 10), 24,195 placements unchanged,
+  43 genes left unplaced at layout breaks; every placement is checked by translating the NCBI genome
+  against Cyanorak's own protein (23,359 match, the same 48 differ before and after).
 
 - **`get_genome_dir` picks an exact organism-name match before substring matches** — "Alteromonas
   mediterranea AltDE1" resolved to AltDE (its key is a substring) whenever dict order put AltDE

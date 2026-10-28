@@ -783,18 +783,52 @@ def _cyanorak_tiles(offsets: dict, lengths: dict[str, int]) -> list[tuple]:
     return tiles
 
 
-def _fill_cyanorak_only_coordinates(cyan_only: pd.DataFrame, tiles: list[tuple]) -> int:
-    """Give Cyanorak-only genes NCBI-space coordinates by inverting the tiling.
+def _paired_relations(ncbi_sourced: pd.DataFrame) -> pd.DataFrame:
+    """For every gene paired across both sources, the map from Cyanorak to NCBI
+    coordinates its stop codon implies, sorted by Cyanorak 3' end.
 
-    For each row with Cyanorak coordinates but no NCBI call, find the tile that
-    contains BOTH ends; set ``seqid`` to that contig, shift ``start``/``end``
-    into contig-relative coordinates, copy the strand, and mark
-    ``coordinate_source = 'cyanorak'``. A gene whose interval crosses a tile
-    boundary spans the inter-contig spacer — an assembly artefact — and is
-    left unplaced with a warning naming it. Modifies ``cyan_only`` in place and
-    returns the number of rows placed.
+    ``rel`` is ``('d', c3 - n3)`` when both call the gene on the same strand
+    (NCBI = Cyanorak - d) and ``('s', c3 + n3)`` when Cyanorak's record runs the
+    other way (NCBI = s - Cyanorak, strand flipped). Neighbouring pairs share one
+    relation along a stretch of genome laid out the same way in both sources.
     """
-    if cyan_only.empty or not tiles:
+    cols = ['start_ncbi', 'end_ncbi', 'strand_ncbi', 'start_cyanorak', 'end_cyanorak', 'strand_cyanorak']
+    if not set(cols) <= set(ncbi_sourced.columns):
+        return pd.DataFrame(columns=['c3', 'rel', 'seqid'])
+    m = ncbi_sourced.dropna(subset=cols)
+    if m.empty:
+        return pd.DataFrame(columns=['c3', 'rel', 'seqid'])
+    c3 = _three_prime_end(m['start_cyanorak'], m['end_cyanorak'], m['strand_cyanorak'])
+    n3 = _three_prime_end(m['start_ncbi'], m['end_ncbi'], m['strand_ncbi'])
+    same = (m['strand_ncbi'].astype(str).values == m['strand_cyanorak'].astype(str).values)
+    rel = [('d', int(c - n)) if sm else ('s', int(c + n)) for c, n, sm in zip(c3, n3, same)]
+    out = pd.DataFrame({'c3': c3, 'rel': rel, 'seqid': _seqids(m).values})
+    return out.sort_values('c3', kind='stable').reset_index(drop=True)
+
+
+def _fill_cyanorak_only_coordinates(cyan_only: pd.DataFrame, tiles: list[tuple],
+                                    paired: pd.DataFrame | None = None,
+                                    lengths: dict[str, int] | None = None) -> int:
+    """Give Cyanorak-only genes NCBI-space coordinates from their paired neighbours.
+
+    A Cyanorak record is not always the NCBI contigs in order: it can start
+    elsewhere on the circle (KORDI-49, CC9616), run reverse-complemented
+    (KORDI-52), or order and orient scaffolds its own way (WH8016) — one offset
+    per contig then misplaces a fifth to a third of the genes (2026-10-28). So
+    each gene is mapped by the nearest paired gene on either side in Cyanorak
+    coordinates (``paired`` from ``_paired_relations``): when both flanks share
+    one relation on one NCBI contig, that relation places the gene (same-strand
+    shift, or reflection with the strand flipped). A gene past the first or last
+    pair has one flank; it is placed only when that flank agrees with the
+    contig's tile offset (``tiles``, the old constant-shift rule). Flanks that
+    disagree (a draft's contig boundary, a stop codon called a codon apart, a
+    layout break) fall back to the tile only when one flank vouches for it and
+    the gene lies inside that tile; otherwise, or when the result falls outside
+    the contig, the gene is left unplaced with a warning — no guessed
+    coordinates. Without ``paired`` the tiling alone is used. Modifies
+    ``cyan_only`` in place and returns the number of rows placed.
+    """
+    if cyan_only.empty or (not tiles and (paired is None or paired.empty)):
         return 0
     for col in ('seqid', 'strand_ncbi', 'coordinate_source'):
         if col not in cyan_only.columns or cyan_only[col].isna().all():
@@ -802,27 +836,65 @@ def _fill_cyanorak_only_coordinates(cyan_only: pd.DataFrame, tiles: list[tuple])
     for col in ('start_ncbi', 'end_ncbi'):
         if col not in cyan_only.columns:
             cyan_only[col] = np.nan
+    tile_offset = {sid: first_base - 1 for first_base, _last, sid in tiles}
+    lengths = lengths or {}
+    c3s = paired['c3'].values if paired is not None and not paired.empty else np.array([])
     unplaced: list[str] = []
     n_placed = 0
     for idx, row in cyan_only.iterrows():
         c_start, c_end = row.get('start_cyanorak'), row.get('end_cyanorak')
         if pd.isna(c_start) or pd.isna(c_end):
             continue
-        tile = next((t for t in tiles if t[0] <= c_start and c_end <= t[1]), None)
-        if tile is None:
+        placed = None
+        if len(c3s):
+            i = int(np.searchsorted(c3s, c_start))      # first pair at/after the gene start
+            left = paired.iloc[i - 1] if i > 0 else None
+            right = paired.iloc[i] if i < len(c3s) else None
+            flanks = [f for f in (left, right) if f is not None]
+            if len(flanks) == 2 and (left['rel'] != right['rel'] or left['seqid'] != right['seqid']):
+                # The flanks disagree: a draft's contig boundary, a stop codon the two
+                # sources call a codon apart, or a real layout break. Keep the tile
+                # placement only when a flank vouches for it (same contig, tile offset)
+                # and the gene lies inside that tile.
+                flanks = [f for f in flanks if f['rel'] == ('d', tile_offset.get(f['seqid']))
+                          and any(t[2] == f['seqid'] and t[0] <= c_start and c_end <= t[1]
+                                  for t in tiles)][:1]
+            elif len(flanks) == 1:
+                f = flanks[0]
+                if f['rel'] != ('d', tile_offset.get(f['seqid'])):
+                    flanks = []
+            if flanks:
+                (kind, k), sid = flanks[0]['rel'], flanks[0]['seqid']
+                strand = row.get('strand_cyanorak')
+                if kind == 'd':
+                    placed = (sid, float(c_start) - k, float(c_end) - k, strand)
+                else:
+                    flip = {'+': '-', '-': '+'}.get(str(strand), strand)
+                    placed = (sid, float(k) - float(c_end), float(k) - float(c_start), flip)
+        else:
+            tile = next((t for t in tiles if t[0] <= c_start and c_end <= t[1]), None)
+            if tile is not None:
+                k = tile[0] - 1
+                placed = (tile[2], float(c_start) - k, float(c_end) - k, row.get('strand_cyanorak'))
+        if placed is not None:
+            sid, n_start, n_end, strand = placed
+            length = lengths.get(sid)
+            if n_start < 1 or (length is not None and n_end > length):
+                placed = None
+        if placed is None:
             unplaced.append(str(row.get('locus_tag')))
             continue
-        first_base, _last_base, sid = tile
+        sid, n_start, n_end, strand = placed
         cyan_only.at[idx, 'seqid'] = sid
-        cyan_only.at[idx, 'start_ncbi'] = float(c_start) - (first_base - 1)
-        cyan_only.at[idx, 'end_ncbi'] = float(c_end) - (first_base - 1)
-        cyan_only.at[idx, 'strand_ncbi'] = row.get('strand_cyanorak')
+        cyan_only.at[idx, 'start_ncbi'] = n_start
+        cyan_only.at[idx, 'end_ncbi'] = n_end
+        cyan_only.at[idx, 'strand_ncbi'] = strand
         cyan_only.at[idx, 'coordinate_source'] = 'cyanorak'
         n_placed += 1
     if unplaced:
         logger.warning(
-            f"Coordinate fallback: {len(unplaced)} Cyanorak-only gene(s) cross a "
-            f"contig boundary or fall outside every contig — left unplaced: "
+            f"Coordinate fallback: {len(unplaced)} Cyanorak-only gene(s) sit at a layout "
+            f"break between Cyanorak and NCBI or fall outside every contig — left unplaced: "
             f"{unplaced[:10]}{' …' if len(unplaced) > 10 else ''}"
         )
     return n_placed
@@ -971,15 +1043,15 @@ def load_gff_from_ncbi_and_cyanorak(
     # --- Coordinates for Cyanorak-only genes ---
     # PGAP never called these, so their NCBI coordinate columns are blank even
     # though Cyanorak places every one. Invert Cyanorak's contig tiling to give
-    # them a contig + contig-relative coordinates (identity on closed genomes).
+    # them a contig + contig-relative coordinates from their paired neighbours.
     n_coord_placed = 0
     if not ncbi_sourced.empty:
         ncbi_sourced['coordinate_source'] = 'ncbi'
         if not cyan_only.empty:
-            tiles = _cyanorak_tiles(
-                _contig_offsets(ncbi_sourced), _ncbi_contig_lengths(ncbi_gff_file),
-            )
-            n_coord_placed = _fill_cyanorak_only_coordinates(cyan_only, tiles)
+            lengths = _ncbi_contig_lengths(ncbi_gff_file)
+            tiles = _cyanorak_tiles(_contig_offsets(ncbi_sourced), lengths)
+            n_coord_placed = _fill_cyanorak_only_coordinates(
+                cyan_only, tiles, _paired_relations(ncbi_sourced), lengths)
 
     merge_df = pd.concat([ncbi_sourced, cyan_only], ignore_index=True)
 

@@ -82,18 +82,19 @@ def test_pfam_and_pfam_clan_fixed_levels(run_query):
     Counts rose from 5827/521 with the InterPro two-layer integration
     (2026-08-10): Layer B propagates InterPro's direct HMM Pfam hits into
     ``pfam_ids``, adding ~776 domains (and their clans) the eggNOG layer missed.
+    6604/533 -> 6874/540 with Ford 2021's 74 Cyanorak genomes (2026-10-28).
     """
     rows = run_query(
         "MATCH (t:Pfam) RETURN count(t) AS n, min(t.level) AS mn, max(t.level) AS mx"
     )
-    assert rows[0]["n"] == 6604, f"Pfam count {rows[0]['n']} != 6604"
+    assert rows[0]["n"] == 6874, f"Pfam count {rows[0]['n']} != 6874"
     assert rows[0]["mn"] == 1, f"Pfam min level {rows[0]['mn']} != 1"
     assert rows[0]["mx"] == 1, f"Pfam max level {rows[0]['mx']} != 1"
 
     rows = run_query(
         "MATCH (t:PfamClan) RETURN count(t) AS n, min(t.level) AS mn, max(t.level) AS mx"
     )
-    assert rows[0]["n"] == 533, f"PfamClan count {rows[0]['n']} != 533"
+    assert rows[0]["n"] == 540, f"PfamClan count {rows[0]['n']} != 540"
     assert rows[0]["mn"] == 0, f"PfamClan min level {rows[0]['mn']} != 0"
     assert rows[0]["mx"] == 0, f"PfamClan max level {rows[0]['mx']} != 0"
 

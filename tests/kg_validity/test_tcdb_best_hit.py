@@ -107,12 +107,13 @@ def test_best_hits_target_systems_of_classes_1_to_4(run_query):
 @pytest.mark.kg
 def test_call_less_proteins_get_best_hit_edges(run_query):
     """The ~188 proteins with a best hit but no tier call (top HSP < 50 aa) now
-    carry a diamond_best_hit edge (they had none)."""
+    carry a diamond_best_hit edge (they had none). 698 over 117 strains
+    (2026-10-28, Ford 2021's 74 Cyanorak genomes)."""
     n = run_query("""
         MATCH (g:Gene) WHERE EXISTS { (g)-[:Gene_has_tcdb_family {tcdb_call: 'diamond_best_hit'}]->() }
           AND NOT EXISTS { (g)-[:Gene_has_tcdb_family {tcdb_call: 'diamond_tier'}]->() }
         RETURN count(g) AS n""")[0]["n"]
-    assert 100 <= n <= 300, f"{n} genes with best hits but no tier call (expected ~188)"
+    assert 550 <= n <= 850, f"{n} genes with best hits but no tier call (expected ~700)"
 
 
 @pytest.mark.kg

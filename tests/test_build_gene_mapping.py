@@ -1100,6 +1100,56 @@ class TestCyanorakOnlyCoordinates:
         # the Cyanorak coordinates themselves are untouched
         assert row["start_cyanorak"] == 900
 
+    # Neighbour-based placement (2026-10-28): Cyanorak records laid out unlike NCBI.
+
+    @staticmethod
+    def _paired(*genes):
+        """Paired rows: (ncbi_start, ncbi_end, ncbi_strand, cyan_start, cyan_end, cyan_strand, seqid)."""
+        return bgm._paired_relations(pd.DataFrame(
+            genes, columns=["start_ncbi", "end_ncbi", "strand_ncbi",
+                            "start_cyanorak", "end_cyanorak", "strand_cyanorak", "seqid"]))
+
+    @staticmethod
+    def _orphan(start, end, strand="+"):
+        return pd.DataFrame([{"locus_tag": "CK_X", "start_cyanorak": start,
+                              "end_cyanorak": end, "strand_cyanorak": strand}])
+
+    def test_rotated_record_places_gene_by_its_own_segment(self):
+        # Cyanorak starts the circle 600 bp later: genes before NCBI 600 sit at +400 in
+        # Cyanorak, genes after it at -600. One tile offset would misplace one segment.
+        paired = self._paired(
+            (700, 800, "+", 100, 200, "+", "c1"), (900, 950, "+", 300, 350, "+", "c1"),
+            (100, 200, "+", 500, 600, "+", "c1"), (300, 350, "+", 700, 750, "+", "c1"))
+        cyan = self._orphan(400, 450)         # between pairs 2 and 3: a layout break
+        assert bgm._fill_cyanorak_only_coordinates(cyan, [(1, 1000, "c1")], paired, {"c1": 1000}) == 0
+        cyan = self._orphan(620, 680)         # between pairs 3 and 4: the +400 segment
+        assert bgm._fill_cyanorak_only_coordinates(cyan, [(1, 1000, "c1")], paired, {"c1": 1000}) == 1
+        assert (cyan.loc[0, "start_ncbi"], cyan.loc[0, "end_ncbi"]) == (220, 280)
+        assert cyan.loc[0, "strand_ncbi"] == "+"
+
+    def test_reverse_complemented_record_reflects_and_flips_strand(self):
+        # Cyanorak = reverse complement of a 1,000 bp contig: cyan = 1001 - ncbi.
+        paired = self._paired(
+            (801, 900, "-", 101, 200, "+", "c1"), (601, 700, "+", 301, 400, "-", "c1"))
+        cyan = self._orphan(221, 280, "+")
+        assert bgm._fill_cyanorak_only_coordinates(cyan, [], paired, {"c1": 1000}) == 1
+        assert (cyan.loc[0, "start_ncbi"], cyan.loc[0, "end_ncbi"]) == (721, 780)
+        assert cyan.loc[0, "strand_ncbi"] == "-"
+
+    def test_end_gene_needs_its_single_flank_to_agree_with_the_tile(self):
+        paired = self._paired((100, 200, "+", 500, 600, "+", "c1"))   # shift 400
+        cyan = self._orphan(700, 760)
+        assert bgm._fill_cyanorak_only_coordinates(cyan, [(1, 1000, "c1")], paired) == 0
+        cyan = self._orphan(700, 760)
+        assert bgm._fill_cyanorak_only_coordinates(cyan, [(401, 1400, "c1")], paired) == 1
+        assert cyan.loc[0, "start_ncbi"] == 300
+
+    def test_placement_outside_the_contig_is_refused(self):
+        paired = self._paired((100, 200, "+", 500, 600, "+", "c1"),
+                              (300, 400, "+", 700, 800, "+", "c1"))
+        cyan = self._orphan(650, 690)        # maps to 250-290, past the end of a 280 bp contig
+        assert bgm._fill_cyanorak_only_coordinates(cyan, [], paired, {"c1": 280}) == 0
+
     def test_ncbi_only_mode_marks_every_gene_ncbi(self):
         ncbi_df = _make_ncbi_gff_df(old_locus_tag="PMM0001")
         with patch(_LOAD_GFF, return_value=ncbi_df):

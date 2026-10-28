@@ -83,15 +83,17 @@ def test_cazy_family_node_count_in_range(run_query):
 
 @pytest.mark.kg
 def test_gene_has_tcdb_family_edge_count(run_query):
-    """One edge per (gene, TC node, tcdb_call) — measured 75,823."""
+    """One edge per (gene, TC node, tcdb_call) — measured 75,823 over 43 strains,
+    171,545 over 117 (2026-10-28, Ford 2021's 74 Cyanorak genomes)."""
     n = run_query("MATCH ()-[r:Gene_has_tcdb_family]->() RETURN count(r) AS n")[0]["n"]
-    assert 68000 <= n <= 84000, f"Gene_has_tcdb_family count {n} outside 68,000-84,000"
+    assert 155000 <= n <= 190000, f"Gene_has_tcdb_family count {n} outside 155,000-190,000"
 
 
 @pytest.mark.kg
 def test_gene_edge_counts_by_tcdb_call_and_gate(run_query):
-    """Measured: eggnog 17,069 / diamond_tier 41,242 / diamond_best_hit 17,512;
-    gate direct 11,158 / annotated 19,866 / below_gate 44,799. The exact per-call
+    """Measured over 117 strains (2026-10-28): eggnog 38,548 / diamond_tier 92,149 /
+    diamond_best_hit 40,848; gate direct 24,650 / annotated 46,811 / below_gate 100,084
+    (43 strains: 17,069 / 41,242 / 17,512; 11,158 / 19,866 / 44,799). The exact per-call
     match against the merge inputs lives in test_tcdb_best_hit.py."""
     calls = {r["k"]: r["n"] for r in run_query(
         "MATCH ()-[r:Gene_has_tcdb_family]->() RETURN r.tcdb_call AS k, count(*) AS n")}
@@ -99,9 +101,9 @@ def test_gene_edge_counts_by_tcdb_call_and_gate(run_query):
         "MATCH ()-[r:Gene_has_tcdb_family]->() RETURN r.tcdb_gate AS k, count(*) AS n")}
     assert set(calls) == TCDB_CALLS, calls
     assert set(gates) == TCDB_GATES, gates
-    bands = {"eggnog": (15000, 20000), "diamond_tier": (37000, 46000),
-             "diamond_best_hit": (15500, 19500),
-             "direct": (10000, 12500), "annotated": (18000, 22000), "below_gate": (40000, 50000)}
+    bands = {"eggnog": (34000, 43000), "diamond_tier": (82000, 102000),
+             "diamond_best_hit": (36000, 45000),
+             "direct": (22000, 27500), "annotated": (42000, 52000), "below_gate": (90000, 110000)}
     for k, n in {**calls, **gates}.items():
         lo, hi = bands[k]
         assert lo <= n <= hi, f"{k}: {n} outside {lo}-{hi}"
@@ -110,9 +112,10 @@ def test_gene_edge_counts_by_tcdb_call_and_gate(run_query):
 @pytest.mark.kg
 def test_gene_has_cazy_family_edge_count(run_query):
     """Upper bound raised from 2000 by the InterPro two-layer integration
-    (2026-08-10): Layer B adds ~642 CAZy ids from FAMILY/DOMAIN entry xrefs."""
+    (2026-08-10): Layer B adds ~642 CAZy ids from FAMILY/DOMAIN entry xrefs; and to
+    7000 by Ford 2021's 74 Cyanorak genomes (5,713 measured 2026-10-28)."""
     n = run_query("MATCH ()-[r:Gene_has_cazy_family]->() RETURN count(r) AS n")[0]["n"]
-    assert 100 <= n <= 5000, f"Gene_has_cazy_family count {n} outside 100-5000"
+    assert 100 <= n <= 7000, f"Gene_has_cazy_family count {n} outside 100-7000"
 
 
 @pytest.mark.kg
@@ -289,21 +292,23 @@ def test_annotation_types_tcdb_uses_the_gate(run_query):
                         THEN 1 ELSE 0 END) AS informative_mismatch,
                sum(CASE WHEN passes THEN 1 ELSE 0 END) AS annotated""", gp=GATE_PASSING)[0]
     assert rows["under"] == 0 and rows["over"] == 0 and rows["informative_mismatch"] == 0, rows
-    # 14,745 -> ~15,800 with the best-hit arm (spec §7).
-    assert 14500 <= rows["annotated"] <= 17500, rows
+    # 14,745 -> ~15,800 with the best-hit arm (spec §7); 35,786 over 117 strains
+    # (2026-10-28, Ford 2021's 74 Cyanorak genomes).
+    assert 32000 <= rows["annotated"] <= 40000, rows
 
 
 @pytest.mark.kg
 def test_best_hit_arm_adds_annotated_genes(run_query):
     """The best-hit arm (rank 1, tier <= 2) reaches genes the old gate missed
-    (~1,055 genes with no eggNOG edge and no diamond_tier edge with tier <= 2)."""
+    (~1,055 genes with no eggNOG edge and no diamond_tier edge with tier <= 2 over
+    43 strains; 3,021 over 117, 2026-10-28)."""
     n = run_query("""
         MATCH (g:Gene) WHERE 'tcdb' IN g.annotation_types
           AND NOT EXISTS { (g)-[r:Gene_has_tcdb_family]->()
                            WHERE r.tcdb_call = 'eggnog'
                               OR (r.tcdb_call = 'diamond_tier' AND r.tier <= 2) }
         RETURN count(g) AS n""")[0]["n"]
-    assert 800 <= n <= 1400, f"{n} genes annotated through the best-hit arm only (expected ~1,055)"
+    assert 2600 <= n <= 3500, f"{n} genes annotated through the best-hit arm only (expected ~3,000)"
 
 
 @pytest.mark.kg
@@ -331,8 +336,9 @@ def test_transported_metabolite_count_is_direct_systems_only(run_query):
     # 5,058 on 2026-10-26, after the substrate target filter dropped H+, Na+ and
     # placeholders ("molecule", "cation") — genes whose direct systems list only those
     # reach no metabolite. Fewer than the 8,312 genes with a direct edge, because some
-    # direct systems carry no curated substrate in TCDB. Band ~±15%.
-    assert 4300 <= row["with_arm"] <= 5800, row
+    # direct systems carry no curated substrate in TCDB. 10,645 over 117 strains
+    # (2026-10-28, Ford 2021's 74 Cyanorak genomes). Band ~±15%.
+    assert 9000 <= row["with_arm"] <= 12300, row
 
 
 @pytest.mark.kg

@@ -434,9 +434,14 @@ def test_experiment_table_scope_valid(run_query):
 
 
 def test_experiment_table_scope_coverage(run_query):
-    """Most Experiment nodes should have table_scope set."""
+    """Most Experiment nodes with a DE table should have table_scope set.
+
+    table_scope describes the source DE table, so it is sparse by design on
+    experiments without one (metabolomics, derived-metric-only, Ford 2021's
+    BIOINFORMATIC genome annotations); only fold-change experiments are counted.
+    """
     result = run_query("""
-        MATCH (exp:Experiment)
+        MATCH (exp:Experiment {reports_fold_change: 'fold_change'})
         RETURN
           count(exp) AS total,
           count(CASE WHEN exp.table_scope IS NOT NULL AND exp.table_scope <> ''

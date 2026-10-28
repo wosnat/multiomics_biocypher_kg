@@ -109,6 +109,31 @@ present exactly when `sequence` is).
   `test_coordinate_source_dense_and_closed`, `test_sequence_source_present_iff_sequence` in
   `tests/kg_validity/test_structure.py`. They fail against a graph built before this change.
 
+## Neighbour-based placement (2026-10-28, Ford 2021 batch)
+
+The tiling assumes a Cyanorak record is the NCBI contigs in order. Four of the Ford 2021
+genomes break that: Cyanorak starts the circle elsewhere (KORDI-49: 64% of paired genes on
+the modal offset; CC9616: 77%; KORDI-100: 95%), runs it reverse-complemented (KORDI-52: 0%,
+two reflected segments), or orders and orients scaffolds its own way (WH8016: 21 segments).
+A single per-contig offset left 382 Cyanorak-only genes on these strains without coordinates.
+
+`_fill_cyanorak_only_coordinates` now maps each gene by the nearest paired gene on either
+side in Cyanorak coordinates (`_paired_relations`: a same-strand shift `NCBI = Cyanorak − d`
+or, on a reversed stretch, a reflection `NCBI = s − Cyanorak` with the strand flipped). Both
+flanks must agree; a gene past the first or last pair, or between flanks that disagree (a
+draft's contig boundary, a stop codon the two callers place a codon apart), keeps the tile
+placement only when a flank vouches for the tile offset and the gene lies inside that tile.
+Otherwise — and when the result falls outside the contig — the gene stays unplaced.
+
+Measured over all 117 strains against the previous `gene_mapping.csv`: 24,195 placements
+unchanged, 340 newly placed (KORDI-52 191, CC9616 59, KORDI-49 47, WH8016 33, KORDI-100 10),
+3 moved (WH7805, a 3-contig draft: genes before the first pair whose contig is ambiguous),
+1 newly unplaced; 43 Cyanorak genes remain unplaced (CB0101 17, CB0205 11, 15 elsewhere).
+Translating the NCBI genome at every `coordinate_source = cyanorak` placement over the 98
+Cyanorak strains: 23,359 reproduce Cyanorak's own protein (23,020 before) and the same 48
+genes fail before and after (Cyanorak's sequence differs from the NCBI assembly there); every
+one of the 340 new placements checks.
+
 ## Consumer notes
 
 - Downstream neighbourhood rules no longer need an "unplaceable genes" bucket for

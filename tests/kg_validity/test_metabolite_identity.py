@@ -243,9 +243,14 @@ def test_no_node_loses_elements(run_query):
         if new not in with_el:
             lost.append((old, new))
     assert not lost, lost[:10]
-    # ...and the skipped ids really are gone from the Metabolite id set
-    still = run_query("MATCH (m:Metabolite) WHERE m.id IN $ids RETURN m.id AS id", ids=skipped)
+    # ...and the skipped ids really are gone from the Metabolite id set, unless a later
+    # genome re-reached one through a route of its own (_RETURN_ROUTE); the 2026-10-25
+    # review removals (placeholders, Na+) are curation, never corpus-dependent: always gone
+    still = _returned_without_route(run_query, "Metabolite", skipped)
     assert not still, still[:5]
+    review_removed = [r["id"] for r in review if r["change"] == "metabolite_removed"]
+    assert not run_query("MATCH (m:Metabolite) WHERE m.id IN $ids RETURN m.id AS id",
+                         ids=review_removed)
 
 
 def _identity_ground_truth(run_query):
@@ -474,37 +479,57 @@ def test_fulltext_hits(run_query):
 
 # --- TCDB cleanup: removed compounds / pathways (spec 2026-10-22 §5.4) ------------------
 
+# A TCDB-cleanup removal is a statement about the corpus it was measured on: the 65
+# metabolites (and their classes / pathways / roles) lost their only route when the class
+# roll-up went. A later genome can re-reach one legitimately — Ford 2021's 74 Cyanorak
+# strains (2026-10-28) hit TCDB families no earlier strain had (2.A.29, 9.B.208, 9.B.423),
+# whose systems list adipate, pimelate, vitamin D3, ... So a removed id may reappear only
+# with a route of its own; one present with none is the roll-up leaking back.
+_RETURN_ROUTE = {
+    "Metabolite": """EXISTS { (n)<-[:Tcdb_family_transports_metabolite|Molecular_function_transports_metabolite
+                                 |Biological_process_transports_metabolite|Reaction_has_metabolite
+                                 |Assay_quantifies_metabolite|Assay_flags_metabolite]-() }""",
+    "KeggTerm": "coalesce(n.reaction_count, 0) > 0 OR coalesce(n.gene_count, 0) > 0",
+    "ChemicalRole": """EXISTS { (n)<-[:Tcdb_family_transports_chemical_role|Molecular_function_transports_chemical_role
+                                   |Biological_process_transports_chemical_role]-() }""",
+    "MetaboliteClass": "EXISTS { (n)<-[:Metabolite_in_metabolite_class|Metabolite_class_is_a_metabolite_class]-() }",
+}
+
+
+def _returned_without_route(run_query, label: str, ids: list) -> list:
+    return [r["id"] for r in run_query(
+        f"MATCH (n:{label}) WHERE n.id IN $ids AND NOT ({_RETURN_ROUTE[label]}) RETURN n.id AS id",
+        ids=ids)]
+
+
 def test_tcdb_cleanup_removed_ids_absent(run_query):
     """The class roll-up loss (docs/kg-changes/tcdb-cleanup/removed_ids.tsv, measured on the
     rebuilt graph): 65 transport-only Metabolites, 9 ChemicalRoles, 11 MetaboliteClasses and
     3 gene-less pathways are gone; chebi:23899 (icosanoid) is re-keyed to chebi:62937; the 31
     lost-tag compounds stay without 'transport'; the 3 lost-route roles stay as nodes with
-    no TCDB role edge."""
+    no TCDB role edge — each unless a later genome re-reaches it (see _RETURN_ROUTE)."""
     by = _tcdb_removed_by_change()
     assert {k: len(v) for k, v in by.items()} == {
         "metabolite_removed": 65, "metabolite_rekeyed": 1, "metabolite_loses_transport_tag": 31,
         "chemical_role_removed": 9, "chemical_role_loses_transport_route": 3,
         "metabolite_class_removed": 11, "pathway_removed": 3}
-    assert not run_query("MATCH (m:Metabolite) WHERE m.id IN $ids RETURN m.id LIMIT 5",
-                         ids=by["metabolite_removed"])
-    assert not run_query("MATCH (k:KeggTerm) WHERE k.id IN $ids RETURN k.id LIMIT 5",
-                         ids=by["pathway_removed"])
-    assert not run_query("MATCH (r:ChemicalRole) WHERE r.id IN $ids RETURN r.id LIMIT 5",
-                         ids=by["chemical_role_removed"])
-    assert not run_query("MATCH (c:MetaboliteClass) WHERE c.id IN $ids RETURN c.id LIMIT 5",
-                         ids=by["metabolite_class_removed"])
+    for label, change in [("Metabolite", "metabolite_removed"), ("KeggTerm", "pathway_removed"),
+                          ("ChemicalRole", "chemical_role_removed"),
+                          ("MetaboliteClass", "metabolite_class_removed")]:
+        assert not _returned_without_route(run_query, label, by[change]), change
     for old, new in _tcdb_rekeys().items():
         assert not run_query("MATCH (m:Metabolite {id: $i}) RETURN m.id", i=old), old
         assert run_query("MATCH (m:Metabolite {id: $i}) RETURN m.id", i=new), new
     lost = run_query("MATCH (m:Metabolite) WHERE m.id IN $ids "
-                     "RETURN m.id AS id, 'transport' IN m.evidence_sources AS tagged",
+                     "RETURN m.id AS id, 'transport' IN m.evidence_sources AS tagged, "
+                     "EXISTS { (m)<-[:Tcdb_family_transports_metabolite]-() } AS has_system",
                      ids=by["metabolite_loses_transport_tag"])
     assert len(lost) == len(by["metabolite_loses_transport_tag"]), "a lost-tag compound disappeared"
-    assert not [r["id"] for r in lost if r["tagged"]]
-    roles = run_query("MATCH (r:ChemicalRole) WHERE r.id IN $ids "
-                      "RETURN r.id AS id, EXISTS { (r)<-[:Tcdb_family_transports_chemical_role]-() } AS tr",
+    # 'transport' may come back only together with a TCDB system that lists the compound
+    assert not [r["id"] for r in lost if r["tagged"] != r["has_system"]]
+    roles = run_query("MATCH (r:ChemicalRole) WHERE r.id IN $ids RETURN r.id AS id",
                       ids=by["chemical_role_loses_transport_route"])
-    assert len(roles) == 3 and not any(r["tr"] for r in roles), roles
+    assert len(roles) == 3, roles
 
 
 def test_tcdb_cleanup_metabolite_and_pathway_counts(run_query, kegg_cache_counts):
