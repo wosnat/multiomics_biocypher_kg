@@ -55,15 +55,17 @@ uv run python .claude/skills/interproscan-run/run_interproscan.py --strains MED4
 nohup uv run python .claude/skills/interproscan-run/run_interproscan.py \
     > logs/interproscan/batch.log 2>&1 &
 
-# Re-parse cached raw.json into the current faceted calls.json — no Docker,
-# no re-scan (e.g. after a parser change). Requires the raw.json to still be
-# on disk (gitignored, kept only on the machine that ran the scan).
+# Re-parse cached raw output into the current faceted calls.json — no Docker,
+# no re-scan (e.g. after a parser change). Requires the raw.json.gz (or a
+# legacy uncompressed raw.json) to still be on disk (gitignored, kept only on
+# the machine that ran the scan).
 uv run python .claude/skills/interproscan-run/run_interproscan.py --normalize
 uv run python .claude/skills/interproscan-run/run_interproscan.py --normalize --strains MED4
 ```
 
-`--normalize` needs `<strain>.interproscan.raw.json` locally — it is never
-committed. A strain missing its raw.json reports `NO_RAW` and is left
+`--normalize` needs `<strain>.interproscan.raw.json.gz` locally (or an
+uncompressed `.raw.json` from before 2026-10-28) — it is never committed. A
+strain missing both reports `NO_RAW` and is left
 untouched; on a machine that never ran the scan (a fresh checkout, CI, a
 teammate's laptop), keep using the committed `<strain>.interproscan.calls.json`
 as-is rather than trying to normalize.
@@ -145,17 +147,23 @@ ls $INTERPROSCAN_DATA_DIR/interproscan-5.78-109.0/data   # verify member-DB subd
    into a WP_-keyed faceted calls dict and writes `<strain>.interproscan.calls.json`
    + `<strain>.interproscan.skill_summary.json` via `tool_calls_io`. There is no
    `entry_xrefs.json` sidecar any more (see Output Schema).
-5. Prints a status table: `strain | n_proteins | n_calls | matches | wallclock_s | status`.
+5. Gzips the raw output to `<strain>.interproscan.raw.json.gz` (~9× smaller:
+   MED4 275 MB → 31 MB; 116 strains 43 GB → 4.9 GB) and removes the plain file.
+   It is kept only for `--normalize`; the KG build reads `calls.json`. Written
+   via a `.tmp` name, so an interrupted compression never replaces the original
+   with a truncated archive.
+6. Prints a status table: `strain | n_proteins | n_calls | matches | wallclock_s | status`.
 
 `--normalize` is a separate, faster mode that skips steps 1–3 entirely: it
-re-parses the strain's already-cached `<strain>.interproscan.raw.json` through
+re-parses the strain's already-cached `<strain>.interproscan.raw.json.gz`
+(falling back to an uncompressed `.raw.json`) through
 the current `parse_interproscan_json` + `summarize` and rewrites `calls.json` +
 `skill_summary.json` in place (deleting any stale `entry_xrefs.json` sidecar on
 success). Use it after a parser change, instead of re-running Docker.
 
 **Stale-output guard.** InterProScan refuses to overwrite an existing output
 file — it silently writes `<base>_1.json`, `<base>_2.json`, … instead. The
-runner therefore deletes the canonical raw JSON *and* any `_N` leftovers before
+runner therefore deletes the canonical raw JSON, its `.gz`, *and* any `_N` leftovers before
 each run. Without that, a `--force` re-run re-parses the **previous** run's raw
 JSON and reports success with unchanged data (this is how the first
 `--goterms` re-run appeared to produce zero GO terms).

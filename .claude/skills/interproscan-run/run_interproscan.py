@@ -19,7 +19,9 @@ See .claude/skills/interproscan-run/SKILL.md.
 from __future__ import annotations
 
 import argparse
+import gzip
 import hashlib
+import shutil
 import os
 import subprocess
 import sys
@@ -187,7 +189,8 @@ def run_strain(strain: str, genome_dir: Path, data_dir: Path, args) -> tuple[str
     # `--force` re-run would re-parse the *stale* raw JSON from the previous run
     # and report success, so e.g. newly-enabled --goterms output would never
     # appear. Clear the canonical file and any suffixed leftovers first.
-    for stale in [raw_json, *out_dir.glob(f"{out_base}_[0-9]*.json")]:
+    for stale in [*_raw_candidates(out_dir, out_base),
+                  *out_dir.glob(f"{out_base}_[0-9]*.json")]:
         stale.unlink(missing_ok=True)
 
     cmd = [
@@ -228,10 +231,7 @@ def run_strain(strain: str, genome_dir: Path, data_dir: Path, args) -> tuple[str
     if not raw_json.exists():
         return "FAILED", f"no raw JSON at {raw_json.name}; see {log_file}"
 
-    import json
-    with raw_json.open() as f:
-        data = json.load(f)
-    calls = parse_interproscan_json(data)
+    calls = parse_interproscan_json(_load_raw(raw_json))
 
     summary = summarize(
         calls, strain=strain, input_proteins=input_proteins,
@@ -241,9 +241,36 @@ def run_strain(strain: str, genome_dir: Path, data_dir: Path, args) -> tuple[str
     )
     tcio.save_calls(genome_dir, TOOL, strain, calls, limited=args.limit)
     tcio.save_skill_summary(genome_dir, TOOL, strain, summary, limited=args.limit)
+    # Kept for --normalize (re-parse without re-scanning), never committed.
+    compress_raw(raw_json)
 
     return "OK", (f"{summary['calls_made']} calls, {summary['total_matches']} matches, "
                   f"{summary['proteins_no_match']} no-match, {wallclock:.0f}s")
+
+
+def _raw_candidates(out_dir: Path, base: str) -> list[Path]:
+    """The raw IPS JSON for `base`, compressed first: `<base>.json.gz`, `<base>.json`."""
+    return [out_dir / f"{base}.json.gz", out_dir / f"{base}.json"]
+
+
+def _load_raw(path: Path) -> dict:
+    import json
+    opener = gzip.open if path.suffix == ".gz" else open
+    with opener(path, "rt") as f:
+        return json.load(f)
+
+
+def compress_raw(raw_json: Path) -> Path:
+    """gzip `<base>.json` → `<base>.json.gz` (~9x smaller; `--normalize` reads
+    either) and remove the plain file. Written to a temp name first, so an
+    interrupted run never leaves a truncated `.gz` in place of the original."""
+    gz = raw_json.with_name(raw_json.name + ".gz")
+    tmp = gz.with_name(gz.name + ".tmp")
+    with raw_json.open("rb") as src, gzip.open(tmp, "wb", compresslevel=6) as dst:
+        shutil.copyfileobj(src, dst, length=1 << 20)
+    tmp.replace(gz)
+    raw_json.unlink()
+    return gz
 
 
 def normalize_strain(strain: str, data_dir: Path) -> tuple[str, str]:
@@ -254,16 +281,14 @@ def normalize_strain(strain: str, data_dir: Path) -> tuple[str, str]:
     failure) yields a FAILED status row instead of aborting the whole batch.
     """
     out_dir = data_dir / TOOL
-    raw_json = out_dir / f"{strain}.{TOOL}.raw.json"
-    if not raw_json.exists():
-        return "NO_RAW", "raw.json missing — re-run the scan or use committed calls.json"
+    raw_json = next((p for p in _raw_candidates(out_dir, f"{strain}.{TOOL}.raw")
+                     if p.exists()), None)
+    if raw_json is None:
+        return "NO_RAW", "raw.json(.gz) missing — re-run the scan or use committed calls.json"
 
-    import json
     try:
         t0 = time.time()
-        with raw_json.open() as f:
-            data = json.load(f)
-        calls = parse_interproscan_json(data)
+        calls = parse_interproscan_json(_load_raw(raw_json))
         # Match scan mode's input_proteins semantics (FASTA header count) so
         # sentinel_rate has the same denominator in both modes; fall back to
         # the fanned-out call count when protein.faa is not on disk.
@@ -306,7 +331,7 @@ def main() -> None:
     p.add_argument("--prepare-image", action="store_true", help="docker pull the image, then exit")
     p.add_argument("--refresh-data", action="store_true", help="download + extract the data tarball, then exit")
     p.add_argument("--normalize", action="store_true",
-                   help="Re-parse cached raw.json into calls.json (new faceted format); no Docker, no scan")
+                   help="Re-parse cached raw.json(.gz) into calls.json (new faceted format); no Docker, no scan")
     args = p.parse_args()
 
     data_root = Path(args.data_dir).expanduser() if args.data_dir else default_data_root()

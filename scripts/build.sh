@@ -2,10 +2,20 @@
 set -euo pipefail
 
 cd /usr/app/
-# Skip biocypher-out/: local (non-Docker) build outputs, tens of GB, never read
-# here (the Docker build writes to /usr/app/data/build2neo). Copying it filled
-# the disk via the container's writable layer.
-find /src -mindepth 1 -maxdepth 1 ! -name '.*' ! -name biocypher-out -exec cp -r {} . \;
+# Copy the checkout into the container's writable layer, minus what the build
+# never reads: top-level dotfiles (.git, .venv; .env is copied below),
+# biocypher-out/ (local non-Docker build outputs, tens of GB — the Docker build
+# writes to /usr/app/data/build2neo), and the InterProScan raw output + temp
+# dirs and multi-strain batch intermediates under cache/data (the KG reads
+# <strain>.interproscan.calls.json only). The raw IPS output alone is ~5 GB
+# gzipped and was 43 GB uncompressed before 2026-10-28; copying it filled the disk.
+tar -C /src -cf - \
+        --exclude='./.*' \
+        --exclude=./biocypher-out \
+        --exclude='./cache/data/*/genomes/*/interproscan/*.raw.json*' \
+        --exclude='./cache/data/*/genomes/*/interproscan/temp' \
+        --exclude='./cache/data/*_batch_*' \
+        . | tar -xf - --no-same-owner
 cp /src/.env .
 cp config/biocypher_docker_config.yaml config/biocypher_config.yaml
 # Use persistent cache volume so pip/uv skip downloads on subsequent builds

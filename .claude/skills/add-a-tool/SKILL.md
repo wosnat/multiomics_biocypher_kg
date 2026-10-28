@@ -597,7 +597,10 @@ docs/superpowers/specs/<YYYY-MM-DD>-<tool>-design.md       # design spec (see "B
 docs/superpowers/plans/<YYYY-MM-DD>-<tool>-skill.md        # checkbox implementation plan
 ~/tools/<TOOL>/                                            # OUTSIDE the repo — installation + reference DBs; host-shared across checkouts; never committed
 cache/data/<org>/genomes/<strain>/<tool>/                  # per-strain outputs (COMMITTED — see "Outputs are committed")
-  <strain>.<tool>.raw.{tsv,gff,json}                       # raw tool output preserved
+  <strain>.<tool>.raw.{tsv,gff,json}                       # raw tool output preserved; if it is large
+                                                           # (InterProScan: ~300 MB/strain), gitignore it
+                                                           # and gzip it after parsing (.raw.json.gz) —
+                                                           # see interproscan-run compress_raw
   <strain>.<tool>.calls.json                               # post-processed; key shape depends on Step 0 Q1 (WP_ for per-protein tools)
   <strain>.<tool>.skill_summary.json                       # per-strain stats
 logs/<tool>/                                               # per-tool log subfolder (gitignored via *.log)

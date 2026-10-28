@@ -211,10 +211,12 @@ cache/data/*/genomes/*/signalp/*.limited_*
 # InterProScan skill: smoke-test artifacts (limited_N runs) are transient.
 # Full-run <strain>.interproscan.{calls.json,entry_xrefs.json,skill_summary.json}
 # are intentionally committed. Raw IPS JSON + temp/ + truncated smoke FASTAs are
-# not committed — note the raw JSON is ~263 MB/strain (~11 GB across 42 strains)
-# now that --goterms/--pathways are on, so it is disk-only by design.
+# not committed — the raw JSON is ~260-430 MB/strain now that --goterms/--pathways
+# are on, so it is disk-only by design, and gzipped (.raw.json.gz, ~9x smaller;
+# --normalize reads either form).
 cache/data/*/genomes/*/interproscan/*.limited_*
 cache/data/*/genomes/*/interproscan/*.raw.json
+cache/data/*/genomes/*/interproscan/*.raw.json.gz
 
 # Multi-strain batch runs (eggNOG / InterProScan over a concatenated FASTA, split
 # back into each strain's folder afterwards) are intermediates; only the per-strain
