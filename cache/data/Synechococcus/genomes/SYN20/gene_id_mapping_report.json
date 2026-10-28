@@ -1,0 +1,55 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2826
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 142,
+      "unique": 1237
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 33,
+      "unique": 5075
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 6189
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3363
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2731
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 42
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 10,
+      "unique": 6179
+    }
+  },
+  "runaway_genes": [],
+  "strain": "SYN20",
+  "tier1_count_max": 5,
+  "tier1_count_median": 5.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 24,
+    "genomic_gca/SYN20": 50,
+    "genomic_gcf/SYN20": 61
+  },
+  "warnings": []
+}

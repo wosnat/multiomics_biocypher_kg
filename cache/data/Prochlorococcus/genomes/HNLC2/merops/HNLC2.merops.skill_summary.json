@@ -1,0 +1,38 @@
+{
+  "strain": "HNLC2",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 1414,
+  "wallclock_s": 0.7,
+  "raw_hit_lines": 549,
+  "parse_failures": 0,
+  "proteins_with_hits": 52,
+  "proteins_with_call": 52,
+  "total_candidates": 53,
+  "candidates_per_protein_distribution": {
+    "1": 51,
+    "2": 1
+  },
+  "tier_distribution": {
+    "3": 49,
+    "2": 4
+  },
+  "consensus_agreement_distribution": {
+    "id": 10,
+    "subfamily": 8,
+    "family": 35
+  },
+  "catalytic_type_distribution": {
+    "S": 24,
+    "M": 19,
+    "C": 9,
+    "A": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 53
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 34,
+    "nonpeptidase_homolog": 7,
+    "putative": 12
+  }
+}

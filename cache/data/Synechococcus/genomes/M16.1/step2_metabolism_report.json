@@ -1,0 +1,24 @@
+{
+  "strain": "M16.1",
+  "gene_count": 2543,
+  "kegg_reactions": {
+    "raw_total": 1331,
+    "raw_unique": 1013,
+    "kept_total": 1331,
+    "kept_unique_r_numbers": 1013
+  },
+  "transporter_classification": {
+    "raw_total": 265,
+    "raw_unique": 118,
+    "validated_total": 877,
+    "validated_unique": 347,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 34,
+    "raw_unique": 19,
+    "validated_total": 44,
+    "validated_unique": 21,
+    "invalid_examples": []
+  }
+}

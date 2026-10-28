@@ -1,0 +1,40 @@
+{
+  "strain": "MIT0701",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2518,
+  "wallclock_s": 0.7,
+  "raw_hit_lines": 818,
+  "parse_failures": 0,
+  "proteins_with_hits": 84,
+  "proteins_with_call": 84,
+  "total_candidates": 84,
+  "candidates_per_protein_distribution": {
+    "1": 84
+  },
+  "tier_distribution": {
+    "3": 79,
+    "2": 5
+  },
+  "consensus_agreement_distribution": {
+    "id": 12,
+    "subfamily": 21,
+    "family": 51
+  },
+  "catalytic_type_distribution": {
+    "S": 35,
+    "M": 30,
+    "C": 15,
+    "A": 2,
+    "T": 1,
+    "inhibitor": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 83,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 53,
+    "putative": 21,
+    "nonpeptidase_homolog": 10
+  }
+}

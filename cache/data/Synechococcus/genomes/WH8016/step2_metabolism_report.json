@@ -1,0 +1,24 @@
+{
+  "strain": "WH8016",
+  "gene_count": 3067,
+  "kegg_reactions": {
+    "raw_total": 1457,
+    "raw_unique": 1062,
+    "kept_total": 1457,
+    "kept_unique_r_numbers": 1062
+  },
+  "transporter_classification": {
+    "raw_total": 341,
+    "raw_unique": 138,
+    "validated_total": 1093,
+    "validated_unique": 393,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 43,
+    "raw_unique": 24,
+    "validated_total": 55,
+    "validated_unique": 26,
+    "invalid_examples": []
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2617
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 111,
+      "unique": 1257
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 26,
+      "unique": 7153
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5102
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2672
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2485
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2567
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 4,
+      "unique": 5098
+    }
+  },
+  "runaway_genes": [],
+  "strain": "KORDI-49",
+  "tier1_count_max": 6,
+  "tier1_count_median": 6.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 15,
+    "genomic_gca/KORDI-49": 547,
+    "genomic_gcf/KORDI-49": 62
+  },
+  "warnings": []
+}

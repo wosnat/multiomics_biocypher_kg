@@ -1,0 +1,42 @@
+{
+  "strain": "MEDNS5",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2560,
+  "wallclock_s": 0.7,
+  "raw_hit_lines": 779,
+  "parse_failures": 0,
+  "proteins_with_hits": 80,
+  "proteins_with_call": 80,
+  "total_candidates": 81,
+  "candidates_per_protein_distribution": {
+    "1": 79,
+    "2": 1
+  },
+  "tier_distribution": {
+    "3": 77,
+    "2": 4
+  },
+  "consensus_agreement_distribution": {
+    "id": 14,
+    "subfamily": 16,
+    "family": 51
+  },
+  "catalytic_type_distribution": {
+    "M": 29,
+    "S": 31,
+    "C": 15,
+    "T": 2,
+    "inhibitor": 1,
+    "A": 2,
+    "U": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 80,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "putative": 21,
+    "holotype": 48,
+    "nonpeptidase_homolog": 12
+  }
+}

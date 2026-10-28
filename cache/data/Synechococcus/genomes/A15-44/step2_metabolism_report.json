@@ -1,0 +1,24 @@
+{
+  "strain": "A15-44",
+  "gene_count": 3209,
+  "kegg_reactions": {
+    "raw_total": 1408,
+    "raw_unique": 1029,
+    "kept_total": 1408,
+    "kept_unique_r_numbers": 1029
+  },
+  "transporter_classification": {
+    "raw_total": 304,
+    "raw_unique": 127,
+    "validated_total": 1016,
+    "validated_unique": 378,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 41,
+    "raw_unique": 19,
+    "validated_total": 53,
+    "validated_unique": 23,
+    "invalid_examples": []
+  }
+}

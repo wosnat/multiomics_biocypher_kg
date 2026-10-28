@@ -1,0 +1,60 @@
+{
+  "per_id_type": {
+    "alternative_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 15
+    },
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2799
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 186,
+      "unique": 1454
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 37,
+      "unique": 4948
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5558
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2809
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2573
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 107
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 11,
+      "unique": 5547
+    }
+  },
+  "runaway_genes": [],
+  "strain": "PCC7001",
+  "tier1_count_max": 6,
+  "tier1_count_median": 5.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 32,
+    "genomic_gca/PCC7001": 70,
+    "genomic_gcf/PCC7001": 69
+  },
+  "warnings": []
+}

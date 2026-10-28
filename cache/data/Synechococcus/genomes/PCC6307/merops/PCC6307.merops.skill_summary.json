@@ -1,0 +1,42 @@
+{
+  "strain": "PCC6307",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 3312,
+  "wallclock_s": 0.8,
+  "raw_hit_lines": 896,
+  "parse_failures": 0,
+  "proteins_with_hits": 96,
+  "proteins_with_call": 96,
+  "total_candidates": 98,
+  "candidates_per_protein_distribution": {
+    "1": 94,
+    "2": 2
+  },
+  "tier_distribution": {
+    "3": 92,
+    "2": 6
+  },
+  "consensus_agreement_distribution": {
+    "id": 26,
+    "subfamily": 16,
+    "family": 56
+  },
+  "catalytic_type_distribution": {
+    "M": 30,
+    "S": 43,
+    "C": 15,
+    "A": 3,
+    "T": 5,
+    "inhibitor": 1,
+    "G": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 97,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 59,
+    "putative": 25,
+    "nonpeptidase_homolog": 14
+  }
+}

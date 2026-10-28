@@ -1,0 +1,55 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2672
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 149,
+      "unique": 1224
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 32,
+      "unique": 4899
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5429
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2781
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2616
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 38
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 27,
+      "unique": 5402
+    }
+  },
+  "runaway_genes": [],
+  "strain": "RS9917",
+  "tier1_count_max": 5,
+  "tier1_count_median": 5.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 34,
+    "genomic_gca/RS9917": 76,
+    "genomic_gcf/RS9917": 59
+  },
+  "warnings": []
+}

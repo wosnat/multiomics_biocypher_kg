@@ -1,0 +1,24 @@
+{
+  "strain": "MVIR-18-1",
+  "gene_count": 3047,
+  "kegg_reactions": {
+    "raw_total": 1436,
+    "raw_unique": 1040,
+    "kept_total": 1436,
+    "kept_unique_r_numbers": 1040
+  },
+  "transporter_classification": {
+    "raw_total": 321,
+    "raw_unique": 132,
+    "validated_total": 1037,
+    "validated_unique": 374,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 36,
+    "raw_unique": 23,
+    "validated_total": 48,
+    "validated_unique": 25,
+    "invalid_examples": []
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "strain": "PROS-9-1",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2358,
+  "wallclock_s": 1.5,
+  "raw_hit_lines": 713,
+  "parse_failures": 0,
+  "proteins_with_hits": 71,
+  "proteins_with_call": 71,
+  "total_candidates": 71,
+  "candidates_per_protein_distribution": {
+    "1": 71
+  },
+  "tier_distribution": {
+    "3": 67,
+    "2": 4
+  },
+  "consensus_agreement_distribution": {
+    "id": 16,
+    "subfamily": 14,
+    "family": 41
+  },
+  "catalytic_type_distribution": {
+    "S": 27,
+    "A": 2,
+    "C": 12,
+    "M": 27,
+    "T": 2,
+    "inhibitor": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 70,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "putative": 16,
+    "holotype": 42,
+    "nonpeptidase_homolog": 13
+  }
+}

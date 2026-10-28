@@ -1,0 +1,118 @@
+{
+  "O67958": {
+    "annotation_score": 1.0,
+    "cofactor_names": [
+      "divinyl chlorophyll a",
+      "divinyl chlorophyll b"
+    ],
+    "gene_names": [
+      "psbB"
+    ],
+    "gene_symbol": "psbB",
+    "go_biological_processes": [
+      "GO:0009767"
+    ],
+    "go_cellular_components": [
+      "GO:0009521",
+      "GO:0031676"
+    ],
+    "go_molecular_functions": [
+      "GO:0016168"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0148",
+      "KW-0157",
+      "KW-0472",
+      "KW-0602",
+      "KW-0793",
+      "KW-0812",
+      "KW-1133"
+    ],
+    "keywords": [
+      "Chlorophyll",
+      "Chromophore",
+      "Membrane",
+      "Photosynthesis",
+      "Thylakoid",
+      "Transmembrane",
+      "Transmembrane helix"
+    ],
+    "molecular_mass": 19385,
+    "organism_id": 59921,
+    "organism_name": "Prochlorococcus marinus str. MIT 9107",
+    "pfam_ids": [
+      "PF00421"
+    ],
+    "protein_family": "PsbB/PsbC family, IsiA/Pcb subfamily",
+    "protein_synonyms": "CP47",
+    "sequence_length": 172
+  },
+  "O67967": {
+    "annotation_score": 1.0,
+    "gene_names": [
+      "petB"
+    ],
+    "gene_symbol": "petB",
+    "go_biological_processes": [
+      "GO:0022904"
+    ],
+    "go_cellular_components": [
+      "GO:0016020"
+    ],
+    "go_molecular_functions": [
+      "GO:0009055",
+      "GO:0016491"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0249",
+      "KW-0349",
+      "KW-0408",
+      "KW-0472",
+      "KW-0479",
+      "KW-0602",
+      "KW-0812",
+      "KW-1133",
+      "KW-0813"
+    ],
+    "keywords": [
+      "Electron transport",
+      "Heme",
+      "Iron",
+      "Membrane",
+      "Metal-binding",
+      "Photosynthesis",
+      "Transmembrane",
+      "Transmembrane helix",
+      "Transport"
+    ],
+    "molecular_mass": 12875,
+    "organism_id": 59921,
+    "organism_name": "Prochlorococcus marinus str. MIT 9107",
+    "pfam_ids": [
+      "PF00033"
+    ],
+    "protein_family": "Cytochrome b family",
+    "protein_synonyms": "Cytochrome b6",
+    "sequence_length": 116,
+    "transmembrane_regions": [
+      "17..37",
+      "44..67",
+      "87..107"
+    ]
+  },
+  "Q9R7I3": {
+    "annotation_score": 1.0,
+    "gene_names": [
+      "petD"
+    ],
+    "gene_symbol": "petD",
+    "is_reviewed": "not reviewed",
+    "molecular_mass": 2113,
+    "organism_id": 59921,
+    "organism_name": "Prochlorococcus marinus str. MIT 9107",
+    "protein_synonyms": "B6/f complex subunit IV",
+    "sequence_length": 19
+  }
+}

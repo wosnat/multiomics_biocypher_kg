@@ -1,0 +1,24 @@
+{
+  "strain": "SYN20",
+  "gene_count": 3416,
+  "kegg_reactions": {
+    "raw_total": 1422,
+    "raw_unique": 1036,
+    "kept_total": 1422,
+    "kept_unique_r_numbers": 1036
+  },
+  "transporter_classification": {
+    "raw_total": 332,
+    "raw_unique": 144,
+    "validated_total": 1085,
+    "validated_unique": 407,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 42,
+    "raw_unique": 25,
+    "validated_total": 59,
+    "validated_unique": 31,
+    "invalid_examples": []
+  }
+}

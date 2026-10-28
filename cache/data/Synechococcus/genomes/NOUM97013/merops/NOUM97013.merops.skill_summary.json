@@ -1,0 +1,42 @@
+{
+  "strain": "NOUM97013",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2671,
+  "wallclock_s": 1.6,
+  "raw_hit_lines": 773,
+  "parse_failures": 0,
+  "proteins_with_hits": 87,
+  "proteins_with_call": 87,
+  "total_candidates": 89,
+  "candidates_per_protein_distribution": {
+    "1": 85,
+    "2": 2
+  },
+  "tier_distribution": {
+    "3": 85,
+    "2": 4
+  },
+  "consensus_agreement_distribution": {
+    "id": 18,
+    "subfamily": 18,
+    "family": 53
+  },
+  "catalytic_type_distribution": {
+    "M": 32,
+    "S": 32,
+    "C": 20,
+    "inhibitor": 1,
+    "A": 2,
+    "U": 1,
+    "T": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 88,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 53,
+    "putative": 22,
+    "nonpeptidase_homolog": 14
+  }
+}

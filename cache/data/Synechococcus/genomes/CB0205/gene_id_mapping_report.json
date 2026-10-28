@@ -1,0 +1,49 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2615
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 195,
+      "unique": 1199
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 34,
+      "unique": 4626
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2615
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2727
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2543
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2615
+    }
+  },
+  "runaway_genes": [],
+  "strain": "CB0205",
+  "tier1_count_max": 4,
+  "tier1_count_median": 4.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 62,
+    "genomic_gcf/CB0205": 63
+  },
+  "warnings": []
+}

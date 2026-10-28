@@ -1,0 +1,24 @@
+{
+  "strain": "WH5701",
+  "gene_count": 3353,
+  "kegg_reactions": {
+    "raw_total": 1631,
+    "raw_unique": 1046,
+    "kept_total": 1631,
+    "kept_unique_r_numbers": 1046
+  },
+  "transporter_classification": {
+    "raw_total": 436,
+    "raw_unique": 155,
+    "validated_total": 1344,
+    "validated_unique": 434,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 55,
+    "raw_unique": 23,
+    "validated_total": 83,
+    "validated_unique": 26,
+    "invalid_examples": []
+  }
+}

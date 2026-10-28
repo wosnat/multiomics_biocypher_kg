@@ -1,0 +1,24 @@
+{
+  "strain": "NOUM97013",
+  "gene_count": 2949,
+  "kegg_reactions": {
+    "raw_total": 1416,
+    "raw_unique": 1055,
+    "kept_total": 1417,
+    "kept_unique_r_numbers": 1055
+  },
+  "transporter_classification": {
+    "raw_total": 341,
+    "raw_unique": 139,
+    "validated_total": 1086,
+    "validated_unique": 387,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 41,
+    "raw_unique": 22,
+    "validated_total": 57,
+    "validated_unique": 26,
+    "invalid_examples": []
+  }
+}

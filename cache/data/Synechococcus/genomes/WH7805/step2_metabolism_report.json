@@ -1,0 +1,24 @@
+{
+  "strain": "WH7805",
+  "gene_count": 2909,
+  "kegg_reactions": {
+    "raw_total": 1387,
+    "raw_unique": 1058,
+    "kept_total": 1387,
+    "kept_unique_r_numbers": 1058
+  },
+  "transporter_classification": {
+    "raw_total": 326,
+    "raw_unique": 142,
+    "validated_total": 1071,
+    "validated_unique": 402,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 45,
+    "raw_unique": 23,
+    "validated_total": 63,
+    "validated_unique": 31,
+    "invalid_examples": []
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "genes": 1990,
+  "ncbi_genes": 1875,
+  "cyanorak_genes": 1951,
+  "stages": {
+    "locus_tag": 1805,
+    "position": 30,
+    "sequence": 0,
+    "ncbi_only": 39,
+    "cyanorak_only": 116
+  },
+  "sequence_fallback": {
+    "ran": false,
+    "reason": "unpaired below threshold (39 NCBI / 116 Cyanorak)",
+    "order": "position_first"
+  },
+  "duplication_ratio": 1.02,
+  "synteny_rate": null,
+  "pair_sequence_check": {
+    "locus_tag": {
+      "checked": 1805,
+      "disagree": 0,
+      "disagree_rate": 0.0
+    },
+    "position": {
+      "checked": 30,
+      "disagree": 0,
+      "disagree_rate": 0.0
+    }
+  },
+  "flags": []
+}

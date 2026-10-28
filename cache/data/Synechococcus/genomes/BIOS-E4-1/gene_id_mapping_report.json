@@ -1,0 +1,55 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3496
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 211,
+      "unique": 1235
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 38,
+      "unique": 9681
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 6831
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4340
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3337
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3380
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 21,
+      "unique": 6810
+    }
+  },
+  "runaway_genes": [],
+  "strain": "BIOS-E4-1",
+  "tier1_count_max": 6,
+  "tier1_count_median": 6.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 48,
+    "genomic_gca/BIOS-E4-1": 2057,
+    "genomic_gcf/BIOS-E4-1": 62
+  },
+  "warnings": []
+}

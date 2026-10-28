@@ -1,0 +1,24 @@
+{
+  "strain": "EQPAC1",
+  "gene_count": 1990,
+  "kegg_reactions": {
+    "raw_total": 1254,
+    "raw_unique": 942,
+    "kept_total": 1254,
+    "kept_unique_r_numbers": 942
+  },
+  "transporter_classification": {
+    "raw_total": 211,
+    "raw_unique": 98,
+    "validated_total": 671,
+    "validated_unique": 288,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 26,
+    "raw_unique": 14,
+    "validated_total": 35,
+    "validated_unique": 15,
+    "invalid_examples": []
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "strain": "CC9616",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2802,
+  "wallclock_s": 0.8,
+  "raw_hit_lines": 881,
+  "parse_failures": 0,
+  "proteins_with_hits": 87,
+  "proteins_with_call": 87,
+  "total_candidates": 90,
+  "candidates_per_protein_distribution": {
+    "1": 84,
+    "2": 3
+  },
+  "tier_distribution": {
+    "3": 86,
+    "2": 4
+  },
+  "consensus_agreement_distribution": {
+    "id": 17,
+    "subfamily": 18,
+    "family": 55
+  },
+  "catalytic_type_distribution": {
+    "M": 34,
+    "S": 34,
+    "C": 16,
+    "A": 2,
+    "U": 1,
+    "inhibitor": 1,
+    "T": 2
+  },
+  "entry_type_distribution": {
+    "peptidase": 89,
+    "inhibitor": 1
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 56,
+    "putative": 23,
+    "nonpeptidase_homolog": 11
+  }
+}

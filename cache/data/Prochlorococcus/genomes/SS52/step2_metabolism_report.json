@@ -1,0 +1,24 @@
+{
+  "strain": "SS52",
+  "gene_count": 2041,
+  "kegg_reactions": {
+    "raw_total": 1202,
+    "raw_unique": 919,
+    "kept_total": 1202,
+    "kept_unique_r_numbers": 919
+  },
+  "transporter_classification": {
+    "raw_total": 222,
+    "raw_unique": 102,
+    "validated_total": 707,
+    "validated_unique": 306,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 26,
+    "raw_unique": 15,
+    "validated_total": 32,
+    "validated_unique": 15,
+    "invalid_examples": []
+  }
+}

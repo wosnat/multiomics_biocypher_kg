@@ -1,0 +1,110 @@
+{
+  "A0A0A2ACP7": {
+    "annotation_score": 2.0,
+    "catalytic_activities": [
+      "Reaction=ATP + (deoxyribonucleotide)n-3^-hydroxyl + 5^-phospho-(deoxyribonucleotide)m = (deoxyribonucleotide)n+m + AMP + diphosphate.; EC=6.5.1.1; Evidence="
+    ],
+    "caution_notes": "CAUTION: The sequence shown here is derived from an EMBL/GenBank/DDBJ whole genome shotgun (WGS) entry which is preliminary data. {ECO:0000313,EMBL:KGF98289.1}.",
+    "cofactor_names": [
+      "a divalent metal cation"
+    ],
+    "ec_numbers": [
+      "6.5.1.1"
+    ],
+    "eggnog_ids": "COG1793",
+    "gene_names": [
+      "EU96_0746"
+    ],
+    "go_biological_processes": [
+      "GO:0006310",
+      "GO:0006281"
+    ],
+    "go_molecular_functions": [
+      "GO:0005524",
+      "GO:0003910"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0002",
+      "KW-0227",
+      "KW-0234",
+      "KW-0235",
+      "KW-0436",
+      "KW-0479",
+      "KW-0547"
+    ],
+    "keywords": [
+      "3D-structure",
+      "DNA damage",
+      "DNA repair",
+      "DNA replication",
+      "Ligase",
+      "Metal-binding",
+      "Nucleotide-binding"
+    ],
+    "molecular_mass": 50959,
+    "organism_id": 74545,
+    "organism_name": "Prochlorococcus marinus str. MIT 9302",
+    "pfam_ids": [
+      "PF01068",
+      "PF14743"
+    ],
+    "protein_synonyms": "ATP (EC 6.5.1.1) (DNA ligase)",
+    "sequence_length": 442,
+    "string_ids": "74545.EU96_0746"
+  },
+  "Q68RM3": {
+    "annotation_score": 1.0,
+    "gene_names": [
+      "psbA"
+    ],
+    "gene_symbol": "psbA",
+    "go_biological_processes": [
+      "GO:0009772"
+    ],
+    "go_cellular_components": [
+      "GO:0009523",
+      "GO:0031676"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0148",
+      "KW-0157",
+      "KW-0460",
+      "KW-0472",
+      "KW-0479",
+      "KW-0560",
+      "KW-0602",
+      "KW-0793",
+      "KW-0812",
+      "KW-1133"
+    ],
+    "keywords": [
+      "Chlorophyll",
+      "Chromophore",
+      "Magnesium",
+      "Membrane",
+      "Metal-binding",
+      "Oxidoreductase",
+      "Photosynthesis",
+      "Thylakoid",
+      "Transmembrane",
+      "Transmembrane helix"
+    ],
+    "molecular_mass": 27201,
+    "organism_id": 74545,
+    "organism_name": "Prochlorococcus marinus str. MIT 9302",
+    "pfam_ids": [
+      "PF00124"
+    ],
+    "protein_family": "Reaction center PufL/M/PsbA/D family",
+    "protein_synonyms": "PsbA",
+    "sequence_length": 244,
+    "transmembrane_regions": [
+      "30..47",
+      "59..82",
+      "110..131",
+      "191..213"
+    ]
+  }
+}

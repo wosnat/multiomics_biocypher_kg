@@ -1,0 +1,38 @@
+{
+  "per_id_type": {
+    "gene_name": {
+      "conflict": 0,
+      "multi": 209,
+      "unique": 900
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3031
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1798
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1491
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 2,
+      "unique": 1413
+    }
+  },
+  "runaway_genes": [],
+  "strain": "HNLC2",
+  "tier1_count_max": 2,
+  "tier1_count_median": 2.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "genomic_gcf/HNLC2": 2
+  },
+  "warnings": []
+}

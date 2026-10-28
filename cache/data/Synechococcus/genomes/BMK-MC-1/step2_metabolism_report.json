@@ -1,0 +1,24 @@
+{
+  "strain": "BMK-MC-1",
+  "gene_count": 3096,
+  "kegg_reactions": {
+    "raw_total": 1422,
+    "raw_unique": 1067,
+    "kept_total": 1422,
+    "kept_unique_r_numbers": 1067
+  },
+  "transporter_classification": {
+    "raw_total": 344,
+    "raw_unique": 148,
+    "validated_total": 1111,
+    "validated_unique": 408,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 45,
+    "raw_unique": 25,
+    "validated_total": 60,
+    "validated_unique": 30,
+    "invalid_examples": []
+  }
+}

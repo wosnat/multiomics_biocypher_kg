@@ -1,0 +1,60 @@
+{
+  "per_id_type": {
+    "alternative_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1861
+    },
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1804
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 63,
+      "unique": 1010
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 25,
+      "unique": 3123
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3665
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1878
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1756
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 31
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3665
+    }
+  },
+  "runaway_genes": [],
+  "strain": "GP2",
+  "tier1_count_max": 6,
+  "tier1_count_median": 6.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 12,
+    "genomic_gca/GP2": 42,
+    "genomic_gcf/GP2": 47
+  },
+  "warnings": []
+}

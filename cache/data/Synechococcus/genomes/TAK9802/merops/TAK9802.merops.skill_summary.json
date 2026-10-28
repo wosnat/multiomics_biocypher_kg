@@ -1,0 +1,42 @@
+{
+  "strain": "TAK9802",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2425,
+  "wallclock_s": 1.5,
+  "raw_hit_lines": 711,
+  "parse_failures": 0,
+  "proteins_with_hits": 75,
+  "proteins_with_call": 75,
+  "total_candidates": 76,
+  "candidates_per_protein_distribution": {
+    "1": 74,
+    "2": 1
+  },
+  "tier_distribution": {
+    "3": 71,
+    "2": 5
+  },
+  "consensus_agreement_distribution": {
+    "id": 13,
+    "subfamily": 17,
+    "family": 46
+  },
+  "catalytic_type_distribution": {
+    "S": 27,
+    "M": 27,
+    "inhibitor": 2,
+    "U": 1,
+    "A": 2,
+    "C": 15,
+    "T": 2
+  },
+  "entry_type_distribution": {
+    "peptidase": 74,
+    "inhibitor": 2
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 45,
+    "putative": 18,
+    "nonpeptidase_homolog": 13
+  }
+}

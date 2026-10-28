@@ -110,10 +110,10 @@
     "input_tokens": 34220,
     "output_tokens": 3981,
     "resolution": {
-      "gene_records": 634,
-      "genes_resolved": 617,
+      "gene_records": 653,
+      "genes_resolved": 636,
       "gene_methods": {
-        "multi_ci:v": 402,
+        "multi_ci:v": 421,
         "unresolved": 17,
         "multi:v": 188,
         "multi_named:v": 24,
@@ -943,6 +943,48 @@
       "prominence": "peripheral",
       "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
       "mention_strain": "all",
+      "strain": "Cyanobium NS01",
+      "locus_tag": "CyaNS01_01970",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
+      "strain": "Cyanobium PCC6307",
+      "locus_tag": "Cyagr_0829",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
+      "strain": "Cyanobium PCC7001",
+      "locus_tag": "CPCC7001_2092",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
       "strain": "Synechococcus A15-127",
       "locus_tag": "SynA15127_01760",
       "resolved_from": "NapA",
@@ -1111,6 +1153,20 @@
       "prominence": "peripheral",
       "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
       "mention_strain": "all",
+      "strain": "Synechococcus BOUM118",
+      "locus_tag": "SynBOUM118_00998",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
       "strain": "Synechococcus CC9311",
       "locus_tag": "sync_1045",
       "resolved_from": "NapA",
@@ -1125,8 +1181,36 @@
       "prominence": "peripheral",
       "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
       "mention_strain": "all",
+      "strain": "Synechococcus CC9605",
+      "locus_tag": "Syncc9605_1642",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
       "strain": "Synechococcus CC9616",
       "locus_tag": "SYN9616_RS0103040",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
+      "strain": "Synechococcus CC9902",
+      "locus_tag": "Syncc9902_1401",
       "resolved_from": "NapA",
       "resolution_method": "multi_ci:v"
     },
@@ -1195,8 +1279,50 @@
       "prominence": "peripheral",
       "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
       "mention_strain": "all",
+      "strain": "Synechococcus MEDNS5",
+      "locus_tag": "SynMEDNS5_01612",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
+      "strain": "Synechococcus MITS9220",
+      "locus_tag": "SynMITS9220_01081",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
       "strain": "Synechococcus MVIR-18-1",
       "locus_tag": "SynMVIR181_01184",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
+      "strain": "Synechococcus NOUM97013",
+      "locus_tag": "SynNOUM97013_01001",
       "resolved_from": "NapA",
       "resolution_method": "multi_ci:v"
     },
@@ -1251,8 +1377,148 @@
       "prominence": "peripheral",
       "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
       "mention_strain": "all",
+      "strain": "Synechococcus ROS8604",
+      "locus_tag": "SynROS8604_01430",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
+      "strain": "Synechococcus RS9902",
+      "locus_tag": "SynRS9902_01259",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
+      "strain": "Synechococcus RS9907",
+      "locus_tag": "SynRS9907_01830",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
+      "strain": "Synechococcus RS9909",
+      "locus_tag": "SynRS9909_00997",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
+      "strain": "Synechococcus RS9915",
+      "locus_tag": "SynRS9915_01068",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
+      "strain": "Synechococcus RS9916",
+      "locus_tag": "RS9916_31287",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
+      "strain": "Synechococcus RS9917",
+      "locus_tag": "RS9917_00882",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
+      "strain": "Synechococcus SYN20",
+      "locus_tag": "SynSYN20_01250",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
+      "strain": "Synechococcus TAK9802",
+      "locus_tag": "SynTAK9802_00842",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
       "strain": "Synechococcus WH7803",
       "locus_tag": "SynWH7803_1517",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
+      "strain": "Synechococcus WH7805",
+      "locus_tag": "WH7805_04386",
       "resolved_from": "NapA",
       "resolution_method": "multi_ci:v"
     },
@@ -1281,6 +1547,20 @@
       "mention_strain": "all",
       "strain": "Synechococcus WH8102",
       "locus_tag": "SYNW0925",
+      "resolved_from": "NapA",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "NapA",
+      "gene_name": "napA",
+      "identifiers": [
+        "NapA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Acquisition of inorganic N by most marine picocyanobacteria is performed by... nitrate permeases NrtP or NapA (Nitrogen section, p7)",
+      "mention_strain": "all",
+      "strain": "Synechococcus WH8103",
+      "locus_tag": "SynWH8103_01057",
       "resolved_from": "NapA",
       "resolution_method": "multi_ci:v"
     },
@@ -3585,22 +3865,6 @@
       "mention_strain": "all",
       "strain": "Synechococcus RCC307",
       "locus_tag": "SynRCC307_2454",
-      "resolved_from": "UrtA",
-      "resolution_method": "multi_ci:v"
-    },
-    {
-      "surface_form": "UrtA",
-      "gene_name": "urtA",
-      "identifiers": [
-        "UrtA",
-        "CK_76",
-        "urtA"
-      ],
-      "prominence": "central",
-      "evidence": "All sequenced picocyanobacteria, except Prochlorococcus LLII/III strains possess... urea UrtA, CK_76 (Nitrogen section, p7)",
-      "mention_strain": "all",
-      "strain": "Synechococcus ROS8604",
-      "locus_tag": "SynROS8604_03704",
       "resolved_from": "UrtA",
       "resolution_method": "multi_ci:v"
     },

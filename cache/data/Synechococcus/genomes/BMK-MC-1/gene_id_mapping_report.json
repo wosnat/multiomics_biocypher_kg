@@ -1,0 +1,55 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2845
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 155,
+      "unique": 1263
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 36,
+      "unique": 7860
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5613
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3042
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2768
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2791
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 7,
+      "unique": 5606
+    }
+  },
+  "runaway_genes": [],
+  "strain": "BMK-MC-1",
+  "tier1_count_max": 6,
+  "tier1_count_median": 6.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 26,
+    "genomic_gca/BMK-MC-1": 598,
+    "genomic_gcf/BMK-MC-1": 60
+  },
+  "warnings": []
+}

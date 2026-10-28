@@ -1,0 +1,24 @@
+{
+  "strain": "KORDI-52",
+  "gene_count": 2896,
+  "kegg_reactions": {
+    "raw_total": 1444,
+    "raw_unique": 1033,
+    "kept_total": 1444,
+    "kept_unique_r_numbers": 1033
+  },
+  "transporter_classification": {
+    "raw_total": 320,
+    "raw_unique": 135,
+    "validated_total": 1061,
+    "validated_unique": 381,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 40,
+    "raw_unique": 21,
+    "validated_total": 53,
+    "validated_unique": 26,
+    "invalid_examples": []
+  }
+}

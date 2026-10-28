@@ -1,0 +1,55 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2748
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 160,
+      "unique": 1250
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 31,
+      "unique": 7585
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5423
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2890
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2675
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2700
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 33,
+      "unique": 5390
+    }
+  },
+  "runaway_genes": [],
+  "strain": "WH8101",
+  "tier1_count_max": 6,
+  "tier1_count_median": 6.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 27,
+    "genomic_gca/WH8101": 480,
+    "genomic_gcf/WH8101": 63
+  },
+  "warnings": []
+}

@@ -1,0 +1,60 @@
+{
+  "per_id_type": {
+    "alternative_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2995
+    },
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2508
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 111,
+      "unique": 1127
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 24,
+      "unique": 4392
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5503
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3032
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2315
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 75
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5503
+    }
+  },
+  "runaway_genes": [],
+  "strain": "MIT0702",
+  "tier1_count_max": 6,
+  "tier1_count_median": 6.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 64,
+    "genomic_gca/MIT0702": 88,
+    "genomic_gcf/MIT0702": 60
+  },
+  "warnings": []
+}

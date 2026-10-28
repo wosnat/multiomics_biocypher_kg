@@ -1,0 +1,55 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3065
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 161,
+      "unique": 1249
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 31,
+      "unique": 5519
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 6770
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3705
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2931
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 52
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 26,
+      "unique": 6744
+    }
+  },
+  "runaway_genes": [],
+  "strain": "ROS8604",
+  "tier1_count_max": 5,
+  "tier1_count_median": 5.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 46,
+    "genomic_gca/ROS8604": 50,
+    "genomic_gcf/ROS8604": 63
+  },
+  "warnings": []
+}

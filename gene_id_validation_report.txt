@@ -50,16 +50,16 @@ Gene ID Validation Report
     Organism: Prochlorococcus AS9601 | name_col: Gene id
     Status: MATCH
     Using pre-resolved CSV: de_genes_salt_acclimated_vs_sea_water_resolved.csv
-    Breakdown: Total rows: 1961 | Matched: 1911 | Pre-unresolved: 50 (no edges)
-    1911/1911 resolved locus tags match gene nodes; 50 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 1961 | Matched: 1903 | Pre-unresolved: 58 (no edges)
+    1903/1903 resolved locus tags match gene nodes; 58 pre-unresolved rows (no edges)
 
-## Anjur-Dietrich 2025
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Anjur 2025/paperconfig.yaml
+## Anjur-Dietrich 2026
+   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Anjur 2026/paperconfig.yaml
 
-  Table: de_genes_freeliving_vs_biofilms.csv (analysis: DE_freeliving_vs_biofilm_MIT9301)
+  Table: supplementary_data_2_rnaseq_planktonic_vs_biofilm.csv (analysis: DE_freeliving_vs_biofilm_MIT9301)
     Organism: Prochlorococcus MIT9301 | name_col: ID
     Status: MATCH
-    Using pre-resolved CSV: de_genes_freeliving_vs_biofilms_resolved.csv
+    Using pre-resolved CSV: supplementary_data_2_rnaseq_planktonic_vs_biofilm_resolved.csv
     Breakdown: Total rows: 242 | Matched: 234 | Pre-unresolved: 8 (no edges)
     234/234 resolved locus tags match gene nodes; 8 pre-unresolved rows (no edges)
 
@@ -413,81 +413,81 @@ Gene ID Validation Report
     Organism: Prochlorococcus MIT9313 | name_col: Gene ID
     Status: MATCH
     Using pre-resolved CSV: de genes emi14513-sup-0002-tables2_resolved.csv
-    Breakdown: Total rows: 665 | Matched: 429 | Pre-unresolved: 236 (no edges)
-    429/429 resolved locus tags match gene nodes; 236 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 665 | Matched: 428 | Pre-unresolved: 237 (no edges)
+    428/428 resolved locus tags match gene nodes; 237 pre-unresolved rows (no edges)
 
   Table: de genes emi14513-sup-0002-tables2.csv (analysis: DE_vdom_vs_control_MIT9313_1h)
     Organism: Prochlorococcus MIT9313 | name_col: Gene ID
     Status: MATCH
     Using pre-resolved CSV: de genes emi14513-sup-0002-tables2_resolved.csv
-    Breakdown: Total rows: 665 | Matched: 429 | Pre-unresolved: 236 (no edges)
-    429/429 resolved locus tags match gene nodes; 236 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 665 | Matched: 428 | Pre-unresolved: 237 (no edges)
+    428/428 resolved locus tags match gene nodes; 237 pre-unresolved rows (no edges)
 
   Table: de genes emi14513-sup-0002-tables2.csv (analysis: DE_vdom_vs_control_MIT9313_2h)
     Organism: Prochlorococcus MIT9313 | name_col: Gene ID
     Status: MATCH
     Using pre-resolved CSV: de genes emi14513-sup-0002-tables2_resolved.csv
-    Breakdown: Total rows: 665 | Matched: 429 | Pre-unresolved: 236 (no edges)
-    429/429 resolved locus tags match gene nodes; 236 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 665 | Matched: 428 | Pre-unresolved: 237 (no edges)
+    428/428 resolved locus tags match gene nodes; 237 pre-unresolved rows (no edges)
 
   Table: de genes emi14513-sup-0002-tables2.csv (analysis: DE_vdom_vs_control_MIT9313_4h)
     Organism: Prochlorococcus MIT9313 | name_col: Gene ID
     Status: MATCH
     Using pre-resolved CSV: de genes emi14513-sup-0002-tables2_resolved.csv
-    Breakdown: Total rows: 665 | Matched: 429 | Pre-unresolved: 236 (no edges)
-    429/429 resolved locus tags match gene nodes; 236 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 665 | Matched: 428 | Pre-unresolved: 237 (no edges)
+    428/428 resolved locus tags match gene nodes; 237 pre-unresolved rows (no edges)
 
   Table: de genes emi14513-sup-0002-tables2.csv (analysis: DE_vdom_vs_control_MIT9313_8h)
     Organism: Prochlorococcus MIT9313 | name_col: Gene ID
     Status: MATCH
     Using pre-resolved CSV: de genes emi14513-sup-0002-tables2_resolved.csv
-    Breakdown: Total rows: 665 | Matched: 429 | Pre-unresolved: 236 (no edges)
-    429/429 resolved locus tags match gene nodes; 236 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 665 | Matched: 428 | Pre-unresolved: 237 (no edges)
+    428/428 resolved locus tags match gene nodes; 237 pre-unresolved rows (no edges)
 
   Table: de genes emi14513-sup-0002-tables2.csv (analysis: DE_vdom_vs_control_MIT9313_12h)
     Organism: Prochlorococcus MIT9313 | name_col: Gene ID
     Status: MATCH
     Using pre-resolved CSV: de genes emi14513-sup-0002-tables2_resolved.csv
-    Breakdown: Total rows: 665 | Matched: 429 | Pre-unresolved: 236 (no edges)
-    429/429 resolved locus tags match gene nodes; 236 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 665 | Matched: 428 | Pre-unresolved: 237 (no edges)
+    428/428 resolved locus tags match gene nodes; 237 pre-unresolved rows (no edges)
 
   Table: de genes emi14513-sup-0002-tables2.csv (analysis: DE_vdom_vs_control_MIT9313_24h)
     Organism: Prochlorococcus MIT9313 | name_col: Gene ID
     Status: MATCH
     Using pre-resolved CSV: de genes emi14513-sup-0002-tables2_resolved.csv
-    Breakdown: Total rows: 665 | Matched: 429 | Pre-unresolved: 236 (no edges)
-    429/429 resolved locus tags match gene nodes; 236 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 665 | Matched: 428 | Pre-unresolved: 237 (no edges)
+    428/428 resolved locus tags match gene nodes; 237 pre-unresolved rows (no edges)
 
   Table: de genes emi14513-sup-0002-tables2.csv (analysis: DE_vdom_vs_control_MIT9313_48h)
     Organism: Prochlorococcus MIT9313 | name_col: Gene ID
     Status: MATCH
     Using pre-resolved CSV: de genes emi14513-sup-0002-tables2_resolved.csv
-    Breakdown: Total rows: 665 | Matched: 429 | Pre-unresolved: 236 (no edges)
-    429/429 resolved locus tags match gene nodes; 236 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 665 | Matched: 428 | Pre-unresolved: 237 (no edges)
+    428/428 resolved locus tags match gene nodes; 237 pre-unresolved rows (no edges)
 
   Table: de genes emi14513-sup-0002-tables2.csv (analysis: DE_vdom_vs_control_MIT9313_72h)
     Organism: Prochlorococcus MIT9313 | name_col: Gene ID
     Status: MATCH
     Using pre-resolved CSV: de genes emi14513-sup-0002-tables2_resolved.csv
-    Breakdown: Total rows: 665 | Matched: 429 | Pre-unresolved: 236 (no edges)
-    429/429 resolved locus tags match gene nodes; 236 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 665 | Matched: 428 | Pre-unresolved: 237 (no edges)
+    428/428 resolved locus tags match gene nodes; 237 pre-unresolved rows (no edges)
 
 ## He 2022
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/he 2022/paperconfig.yaml
 
-  Table: table s1 Highly differentially expressed genes in low salinity acclimated cells of NATL1A .csv (analysis: DE_low_salinity_vs_normal_NATL1A)
-    Organism: Prochlorococcus NATL1A | name_col: Gene Name
+  Table: GSE195946_Group_NATL1A-34-VS-NATL1A-28_DE_anno.txt (analysis: DE_low_salinity_vs_normal_NATL1A)
+    Organism: Prochlorococcus NATL1A | name_col: GeneID
     Status: MATCH
-    Using pre-resolved CSV: table s1 Highly differentially expressed genes in low salinity acclimated cells of NATL1A _resolved.csv
-    Breakdown: Total rows: 82 | Matched: 81 | Pre-unresolved: 1 (no edges)
-    81/81 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
+    Using pre-resolved CSV: GSE195946_Group_NATL1A-34-VS-NATL1A-28_DE_anno_resolved.txt
+    Breakdown: Total rows: 2239 | Matched: 2190 | Pre-unresolved: 49 (no edges)
+    2190/2190 resolved locus tags match gene nodes; 49 pre-unresolved rows (no edges)
 
-  Table: table s2 Highly differentially expressed genes in low salinity acclimated cells of MED4 .csv (analysis: DE_low_salinity_vs_normal_MED4)
-    Organism: Prochlorococcus MED4 | name_col: Gene Name
+  Table: GSE195946_Group_MED4-34-VS-MED4-28_DE_anno.txt (analysis: DE_low_salinity_vs_normal_MED4)
+    Organism: Prochlorococcus MED4 | name_col: GeneID
     Status: MATCH
-    Using pre-resolved CSV: table s2 Highly differentially expressed genes in low salinity acclimated cells of MED4 _resolved.csv
-    Breakdown: Total rows: 31 | Matched: 29 | Pre-unresolved: 2 (no edges)
-    29/29 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Using pre-resolved CSV: GSE195946_Group_MED4-34-VS-MED4-28_DE_anno_resolved.txt
+    Breakdown: Total rows: 2042 | Matched: 1954 | Pre-unresolved: 88 (no edges)
+    1954/1954 resolved locus tags match gene nodes; 88 pre-unresolved rows (no edges)
 
 ## Hennon 2017
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Hennon 2017/paperconfig.yaml
@@ -496,8 +496,8 @@ Gene ID Validation Report
     Organism: Prochlorococcus MIT9312 | name_col: locus_tag
     Status: MATCH
     Using pre-resolved CSV: PRO DE genes 41396_2018_bfismej2017189_moesm28_esm_resolved.csv
-    Breakdown: Total rows: 103 | Matched: 103
-    103/103 resolved locus tags match gene nodes
+    Breakdown: Total rows: 103 | Matched: 102 | Pre-unresolved: 1 (no edges)
+    102/102 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
 
   Table: ALT DE genes 41396_2018_bfismej2017189_moesm29_esm.csv (analysis: DE_elevated_co2_vs_ambient_EZ55_coculture)
     Organism: Alteromonas macleodii EZ55 | name_col: locus tag
@@ -857,29 +857,29 @@ Gene ID Validation Report
     Organism: Prochlorococcus MIT9313 | name_col: Gene
     Status: MATCH
     Using pre-resolved CSV: supp table 2_resolved.csv
-    Breakdown: Total rows: 111 | Matched: 98 | Pre-unresolved: 13 (no edges)
-    98/98 resolved locus tags match gene nodes; 13 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 111 | Matched: 97 | Pre-unresolved: 14 (no edges)
+    97/97 resolved locus tags match gene nodes; 14 pre-unresolved rows (no edges)
 
   Table: supp table 2.csv (analysis: DE_iron_starvation_vs_replete_MIT9313_28h)
     Organism: Prochlorococcus MIT9313 | name_col: Gene
     Status: MATCH
     Using pre-resolved CSV: supp table 2_resolved.csv
-    Breakdown: Total rows: 111 | Matched: 98 | Pre-unresolved: 13 (no edges)
-    98/98 resolved locus tags match gene nodes; 13 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 111 | Matched: 97 | Pre-unresolved: 14 (no edges)
+    97/97 resolved locus tags match gene nodes; 14 pre-unresolved rows (no edges)
 
   Table: supp table 2.csv (analysis: DE_iron_starvation_vs_replete_MIT9313_53h)
     Organism: Prochlorococcus MIT9313 | name_col: Gene
     Status: MATCH
     Using pre-resolved CSV: supp table 2_resolved.csv
-    Breakdown: Total rows: 111 | Matched: 98 | Pre-unresolved: 13 (no edges)
-    98/98 resolved locus tags match gene nodes; 13 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 111 | Matched: 97 | Pre-unresolved: 14 (no edges)
+    97/97 resolved locus tags match gene nodes; 14 pre-unresolved rows (no edges)
 
   Table: supp table 2.csv (analysis: DE_iron_rescue_MIT9313)
     Organism: Prochlorococcus MIT9313 | name_col: Gene
     Status: MATCH
     Using pre-resolved CSV: supp table 2_resolved.csv
-    Breakdown: Total rows: 111 | Matched: 98 | Pre-unresolved: 13 (no edges)
-    98/98 resolved locus tags match gene nodes; 13 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 111 | Matched: 97 | Pre-unresolved: 14 (no edges)
+    97/97 resolved locus tags match gene nodes; 14 pre-unresolved rows (no edges)
 
 ## Tolonen 2006
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/tolonen 2006/paperconfig.yaml
@@ -1055,8 +1055,8 @@ Gene ID Validation Report
     Organism: Prochlorococcus MED4 | name_col: locus_tag
     Status: MATCH
     Using pre-resolved CSV: DE_genes_dark_vs_light_infected_phage_8.5h_resolved.csv
-    Breakdown: Total rows: 31 | Matched: 30 | Pre-unresolved: 1 (no edges)
-    30/30 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 31 | Matched: 29 | Pre-unresolved: 2 (no edges)
+    29/29 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
 
   Table: DE_genes_dark_vs_light_uninfected_spent_medium_1.5h.csv (analysis: DE_dark_vs_light_uninfected_MED4_1.5h)
     Organism: Prochlorococcus MED4 | name_col: locus_tag
@@ -1097,8 +1097,8 @@ Gene ID Validation Report
     Organism: Prochlorococcus MED4 | name_col: locus_tag
     Status: MATCH
     Using pre-resolved CSV: DE_genes_lysate_vs_spent_medium_light_1.5h_resolved.csv
-    Breakdown: Total rows: 6 | Matched: 6
-    6/6 resolved locus tags match gene nodes
+    Breakdown: Total rows: 6 | Matched: 5 | Pre-unresolved: 1 (no edges)
+    5/5 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
 
   Table: DE_genes_lysate_vs_spent_medium_light_2.5h.csv (analysis: DE_lysate_vs_spent_medium_light_MED4_2.5h)
     Organism: Prochlorococcus MED4 | name_col: locus_tag
@@ -1118,29 +1118,29 @@ Gene ID Validation Report
     Organism: Prochlorococcus MED4 | name_col: locus_tag
     Status: MATCH
     Using pre-resolved CSV: DE_genes_lysate_vs_spent_medium_light_8.5h_resolved.csv
-    Breakdown: Total rows: 16 | Matched: 16
-    16/16 resolved locus tags match gene nodes
+    Breakdown: Total rows: 16 | Matched: 14 | Pre-unresolved: 2 (no edges)
+    14/14 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
 
   Table: DE_genes_lysate_vs_spent_medium_dark_2.5h.csv (analysis: DE_lysate_vs_spent_medium_dark_MED4_2.5h)
     Organism: Prochlorococcus MED4 | name_col: locus_tag
     Status: MATCH
     Using pre-resolved CSV: DE_genes_lysate_vs_spent_medium_dark_2.5h_resolved.csv
-    Breakdown: Total rows: 9 | Matched: 9
-    9/9 resolved locus tags match gene nodes
+    Breakdown: Total rows: 9 | Matched: 7 | Pre-unresolved: 2 (no edges)
+    7/7 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
 
   Table: DE_genes_lysate_vs_spent_medium_dark_4.5h.csv (analysis: DE_lysate_vs_spent_medium_dark_MED4_4.5h)
     Organism: Prochlorococcus MED4 | name_col: locus_tag
     Status: MATCH
     Using pre-resolved CSV: DE_genes_lysate_vs_spent_medium_dark_4.5h_resolved.csv
-    Breakdown: Total rows: 19 | Matched: 19
-    19/19 resolved locus tags match gene nodes
+    Breakdown: Total rows: 19 | Matched: 16 | Pre-unresolved: 3 (no edges)
+    16/16 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
 
   Table: DE_genes_lysate_vs_spent_medium_dark_8.5h.csv (analysis: DE_lysate_vs_spent_medium_dark_MED4_8.5h)
     Organism: Prochlorococcus MED4 | name_col: locus_tag
     Status: MATCH
     Using pre-resolved CSV: DE_genes_lysate_vs_spent_medium_dark_8.5h_resolved.csv
-    Breakdown: Total rows: 8 | Matched: 8
-    8/8 resolved locus tags match gene nodes
+    Breakdown: Total rows: 8 | Matched: 6 | Pre-unresolved: 2 (no edges)
+    6/6 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
 
 ## Weissberg 2025
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Weissberg_2025/paperconfig.yaml
@@ -1156,13 +1156,6 @@ Gene ID Validation Report
     Organism: Alteromonas macleodii HOT1A3 | name_col: gene_id
     Status: MATCH
     Using pre-resolved CSV: HOT1A3__rnaseq__axenic_HOT1A3__day_31__vs__day_11_resolved.csv
-    Breakdown: Total rows: 4015 | Matched: 3947 | Pre-unresolved: 68 (no edges)
-    3947/3947 resolved locus tags match gene nodes; 68 pre-unresolved rows (no edges)
-
-  Table: HOT1A3__rnaseq__axenic_HOT1A3__longterm_starvation_days_60_and_89__vs__day_11.csv (analysis: DE_hot1a3_rnaseq_axenic_longterm_vs_day_11)
-    Organism: Alteromonas macleodii HOT1A3 | name_col: gene_id
-    Status: MATCH
-    Using pre-resolved CSV: HOT1A3__rnaseq__axenic_HOT1A3__longterm_starvation_days_60_and_89__vs__day_11_resolved.csv
     Breakdown: Total rows: 4015 | Matched: 3947 | Pre-unresolved: 68 (no edges)
     3947/3947 resolved locus tags match gene nodes; 68 pre-unresolved rows (no edges)
 
@@ -1208,6 +1201,20 @@ Gene ID Validation Report
     Breakdown: Total rows: 4015 | Matched: 3947 | Pre-unresolved: 68 (no edges)
     3947/3947 resolved locus tags match gene nodes; 68 pre-unresolved rows (no edges)
 
+  Table: HOT1A3__rnaseq__day_18__coculture_with_MED4__vs__axenic.csv (analysis: DE_hot1a3_rnaseq_coculture_vs_axenic_day_18)
+    Organism: Alteromonas macleodii HOT1A3 | name_col: gene_id
+    Status: MATCH
+    Using pre-resolved CSV: HOT1A3__rnaseq__day_18__coculture_with_MED4__vs__axenic_resolved.csv
+    Breakdown: Total rows: 4015 | Matched: 3947 | Pre-unresolved: 68 (no edges)
+    3947/3947 resolved locus tags match gene nodes; 68 pre-unresolved rows (no edges)
+
+  Table: HOT1A3__rnaseq__day_31__coculture_with_MED4__vs__axenic.csv (analysis: DE_hot1a3_rnaseq_coculture_vs_axenic_day_31)
+    Organism: Alteromonas macleodii HOT1A3 | name_col: gene_id
+    Status: MATCH
+    Using pre-resolved CSV: HOT1A3__rnaseq__day_31__coculture_with_MED4__vs__axenic_resolved.csv
+    Breakdown: Total rows: 4015 | Matched: 3947 | Pre-unresolved: 68 (no edges)
+    3947/3947 resolved locus tags match gene nodes; 68 pre-unresolved rows (no edges)
+
   Table: HOT1A3__proteome__axenic_HOT1A3__day_18__vs__day_11.csv (analysis: DE_hot1a3_proteome_axenic_day_18_vs_day_11)
     Organism: Alteromonas macleodii HOT1A3 | name_col: gene_id
     Status: MATCH
@@ -1219,6 +1226,13 @@ Gene ID Validation Report
     Organism: Alteromonas macleodii HOT1A3 | name_col: gene_id
     Status: MATCH
     Using pre-resolved CSV: HOT1A3__proteome__axenic_HOT1A3__day_31__vs__day_11_resolved.csv
+    Breakdown: Total rows: 2229 | Matched: 2225 | Pre-unresolved: 4 (no edges)
+    2225/2225 resolved locus tags match gene nodes; 4 pre-unresolved rows (no edges)
+
+  Table: HOT1A3__proteome__axenic_HOT1A3__day_89__vs__day_11.csv (analysis: DE_hot1a3_proteome_axenic_day_89_vs_day_11)
+    Organism: Alteromonas macleodii HOT1A3 | name_col: gene_id
+    Status: MATCH
+    Using pre-resolved CSV: HOT1A3__proteome__axenic_HOT1A3__day_89__vs__day_11_resolved.csv
     Breakdown: Total rows: 2229 | Matched: 2225 | Pre-unresolved: 4 (no edges)
     2225/2225 resolved locus tags match gene nodes; 4 pre-unresolved rows (no edges)
 
@@ -1299,10 +1313,17 @@ Gene ID Validation Report
     Breakdown: Total rows: 1855 | Matched: 1849 | Pre-unresolved: 6 (no edges)
     1849/1849 resolved locus tags match gene nodes; 6 pre-unresolved rows (no edges)
 
-  Table: MED4__rnaseq__log_expnential_day_11__coculture_with_HOT1A3__vs__axenic.csv (analysis: DE_med4_rnaseq_coculture_vs_axenic_exp_day_11)
+  Table: MED4__rnaseq__log_expnential_day_11__coculture_with_HOT1A3__vs__axenic_day_7.csv (analysis: DE_med4_rnaseq_coculture_vs_axenic_exp_day_11)
     Organism: Prochlorococcus MED4 | name_col: gene_id
     Status: MATCH
-    Using pre-resolved CSV: MED4__rnaseq__log_expnential_day_11__coculture_with_HOT1A3__vs__axenic_resolved.csv
+    Using pre-resolved CSV: MED4__rnaseq__log_expnential_day_11__coculture_with_HOT1A3__vs__axenic_day_7_resolved.csv
+    Breakdown: Total rows: 1855 | Matched: 1849 | Pre-unresolved: 6 (no edges)
+    1849/1849 resolved locus tags match gene nodes; 6 pre-unresolved rows (no edges)
+
+  Table: MED4__rnaseq__day_18__coculture_with_HOT1A3__vs__axenic_day_14.csv (analysis: DE_med4_rnaseq_coculture_vs_axenic_day_18)
+    Organism: Prochlorococcus MED4 | name_col: gene_id
+    Status: MATCH
+    Using pre-resolved CSV: MED4__rnaseq__day_18__coculture_with_HOT1A3__vs__axenic_day_14_resolved.csv
     Breakdown: Total rows: 1855 | Matched: 1849 | Pre-unresolved: 6 (no edges)
     1849/1849 resolved locus tags match gene nodes; 6 pre-unresolved rows (no edges)
 
@@ -1395,8 +1416,8 @@ Gene ID Validation Report
     Organism: Prochlorococcus marinus subsp. marinus CCMP1375 (SS120) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s3 Combined_modified_resolved.csv
-    Breakdown: Total rows: 408 | Matched: 402 | Pre-unresolved: 6 (no edges)
-    402/402 resolved locus tags match gene nodes; 6 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 408 | Matched: 367 | Pre-unresolved: 41 (no edges)
+    367/367 resolved locus tags match gene nodes; 41 pre-unresolved rows (no edges)
 
 ## Fuszard 2012
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Fuszard 2012/paperconfig.yaml
@@ -1681,169 +1702,169 @@ Gene ID Validation Report
     Organism: Synechococcus sp. BL107 | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s2 BL107 spectrum.03275-22-s0002_modified_resolved.csv
-    Breakdown: Total rows: 173 | Matched: 168 | Pre-unresolved: 5 (no edges)
-    168/168 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 173 | Matched: 163 | Pre-unresolved: 10 (no edges)
+    163/163 resolved locus tags match gene nodes; 10 pre-unresolved rows (no edges)
 
   Table: table s2 BL107 spectrum.03275-22-s0002_modified.csv (analysis: bl107_light_high_glucose_vs_light)
     Organism: Synechococcus sp. BL107 | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s2 BL107 spectrum.03275-22-s0002_modified_resolved.csv
-    Breakdown: Total rows: 173 | Matched: 168 | Pre-unresolved: 5 (no edges)
-    168/168 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 173 | Matched: 163 | Pre-unresolved: 10 (no edges)
+    163/163 resolved locus tags match gene nodes; 10 pre-unresolved rows (no edges)
 
   Table: table s2 BL107 spectrum.03275-22-s0002_modified.csv (analysis: bl107_dark_low_glucose_vs_dark)
     Organism: Synechococcus sp. BL107 | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s2 BL107 spectrum.03275-22-s0002_modified_resolved.csv
-    Breakdown: Total rows: 173 | Matched: 168 | Pre-unresolved: 5 (no edges)
-    168/168 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 173 | Matched: 163 | Pre-unresolved: 10 (no edges)
+    163/163 resolved locus tags match gene nodes; 10 pre-unresolved rows (no edges)
 
   Table: table s2 BL107 spectrum.03275-22-s0002_modified.csv (analysis: bl107_dark_high_glucose_vs_dark)
     Organism: Synechococcus sp. BL107 | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s2 BL107 spectrum.03275-22-s0002_modified_resolved.csv
-    Breakdown: Total rows: 173 | Matched: 168 | Pre-unresolved: 5 (no edges)
-    168/168 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 173 | Matched: 163 | Pre-unresolved: 10 (no edges)
+    163/163 resolved locus tags match gene nodes; 10 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in MED4 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_med4_light_low_glucose_vs_light)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in MED4 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 359 | Matched: 348 | Pre-unresolved: 11 (no edges)
-    348/348 resolved locus tags match gene nodes; 11 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 359 | Matched: 342 | Pre-unresolved: 17 (no edges)
+    342/342 resolved locus tags match gene nodes; 17 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in MED4 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_med4_light_high_glucose_vs_light)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in MED4 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 359 | Matched: 348 | Pre-unresolved: 11 (no edges)
-    348/348 resolved locus tags match gene nodes; 11 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 359 | Matched: 342 | Pre-unresolved: 17 (no edges)
+    342/342 resolved locus tags match gene nodes; 17 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in MED4 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_med4_dark_low_glucose_vs_dark)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in MED4 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 359 | Matched: 348 | Pre-unresolved: 11 (no edges)
-    348/348 resolved locus tags match gene nodes; 11 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 359 | Matched: 342 | Pre-unresolved: 17 (no edges)
+    342/342 resolved locus tags match gene nodes; 17 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in MED4 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_med4_dark_high_glucose_vs_dark)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in MED4 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 359 | Matched: 348 | Pre-unresolved: 11 (no edges)
-    348/348 resolved locus tags match gene nodes; 11 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 359 | Matched: 342 | Pre-unresolved: 17 (no edges)
+    342/342 resolved locus tags match gene nodes; 17 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in SS120 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_ss120_light_low_glucose_vs_light)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in SS120 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 205 | Matched: 200 | Pre-unresolved: 5 (no edges)
-    200/200 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 205 | Matched: 195 | Pre-unresolved: 10 (no edges)
+    195/195 resolved locus tags match gene nodes; 10 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in SS120 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_ss120_light_high_glucose_vs_light)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in SS120 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 205 | Matched: 200 | Pre-unresolved: 5 (no edges)
-    200/200 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 205 | Matched: 195 | Pre-unresolved: 10 (no edges)
+    195/195 resolved locus tags match gene nodes; 10 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in SS120 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_ss120_dark_low_glucose_vs_dark)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in SS120 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 205 | Matched: 200 | Pre-unresolved: 5 (no edges)
-    200/200 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 205 | Matched: 195 | Pre-unresolved: 10 (no edges)
+    195/195 resolved locus tags match gene nodes; 10 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in SS120 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_ss120_dark_high_glucose_vs_dark)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in SS120 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 205 | Matched: 200 | Pre-unresolved: 5 (no edges)
-    200/200 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 205 | Matched: 195 | Pre-unresolved: 10 (no edges)
+    195/195 resolved locus tags match gene nodes; 10 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in WH7803 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_wh7803_light_low_glucose_vs_light)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in WH7803 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 154 | Matched: 149 | Pre-unresolved: 5 (no edges)
-    149/149 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 154 | Matched: 146 | Pre-unresolved: 8 (no edges)
+    146/146 resolved locus tags match gene nodes; 8 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in WH7803 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_wh7803_light_high_glucose_vs_light)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in WH7803 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 154 | Matched: 149 | Pre-unresolved: 5 (no edges)
-    149/149 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 154 | Matched: 146 | Pre-unresolved: 8 (no edges)
+    146/146 resolved locus tags match gene nodes; 8 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in WH7803 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_wh7803_dark_low_glucose_vs_dark)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in WH7803 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 154 | Matched: 149 | Pre-unresolved: 5 (no edges)
-    149/149 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 154 | Matched: 146 | Pre-unresolved: 8 (no edges)
+    146/146 resolved locus tags match gene nodes; 8 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in WH7803 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_wh7803_dark_high_glucose_vs_dark)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in WH7803 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 154 | Matched: 149 | Pre-unresolved: 5 (no edges)
-    149/149 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 154 | Matched: 146 | Pre-unresolved: 8 (no edges)
+    146/146 resolved locus tags match gene nodes; 8 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in WH8102 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_wh8102_light_low_glucose_vs_light)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in WH8102 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 504 | Matched: 493 | Pre-unresolved: 11 (no edges)
-    493/493 resolved locus tags match gene nodes; 11 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 504 | Matched: 484 | Pre-unresolved: 20 (no edges)
+    484/484 resolved locus tags match gene nodes; 20 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in WH8102 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_wh8102_light_high_glucose_vs_light)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in WH8102 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 504 | Matched: 493 | Pre-unresolved: 11 (no edges)
-    493/493 resolved locus tags match gene nodes; 11 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 504 | Matched: 484 | Pre-unresolved: 20 (no edges)
+    484/484 resolved locus tags match gene nodes; 20 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in WH8102 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_wh8102_dark_low_glucose_vs_dark)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in WH8102 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 504 | Matched: 493 | Pre-unresolved: 11 (no edges)
-    493/493 resolved locus tags match gene nodes; 11 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 504 | Matched: 484 | Pre-unresolved: 20 (no edges)
+    484/484 resolved locus tags match gene nodes; 20 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in WH8102 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_wh8102_dark_high_glucose_vs_dark)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in WH8102 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 504 | Matched: 493 | Pre-unresolved: 11 (no edges)
-    493/493 resolved locus tags match gene nodes; 11 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 504 | Matched: 484 | Pre-unresolved: 20 (no edges)
+    484/484 resolved locus tags match gene nodes; 20 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in BL107 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_bl107_light_low_glucose_vs_light)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in BL107 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 87 | Matched: 85 | Pre-unresolved: 2 (no edges)
-    85/85 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 87 | Matched: 82 | Pre-unresolved: 5 (no edges)
+    82/82 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in BL107 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_bl107_light_high_glucose_vs_light)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in BL107 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 87 | Matched: 85 | Pre-unresolved: 2 (no edges)
-    85/85 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 87 | Matched: 82 | Pre-unresolved: 5 (no edges)
+    82/82 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in BL107 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_bl107_dark_low_glucose_vs_dark)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in BL107 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 87 | Matched: 85 | Pre-unresolved: 2 (no edges)
-    85/85 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 87 | Matched: 82 | Pre-unresolved: 5 (no edges)
+    82/82 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
 
   Table: table s4 Marinobacter in BL107 cultures spectrum.03275-22-s0004_modified.csv (analysis: marino_bl107_dark_high_glucose_vs_dark)
     Organism: Marinobacter (MarRef v6) | name_col: Accession
     Status: MATCH
     Using pre-resolved CSV: table s4 Marinobacter in BL107 cultures spectrum.03275-22-s0004_modified_resolved.csv
-    Breakdown: Total rows: 87 | Matched: 85 | Pre-unresolved: 2 (no edges)
-    85/85 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 87 | Matched: 82 | Pre-unresolved: 5 (no edges)
+    82/82 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
 
 ## Waldbauer 2012
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Waldbauer  2012/paperconfig.yaml
@@ -1851,8 +1872,8 @@ Gene ID Validation Report
 ## Fadeev 2022
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/fadeev 2022/paperconfig.yaml
 
-## Lu 2025
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Lu 2025/paperconfig.yaml
+## Lu 2026
+   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Lu 2026/paperconfig.yaml
 
 ## Kujawinski 2023
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Kujawinski 2023/paperconfig.yaml
@@ -1873,6 +1894,67 @@ Gene ID Validation Report
     Using pre-resolved CSV: pandhal2007_ML_vs_LL_modified_resolved.csv
     Breakdown: Total rows: 178 | Matched: 178
     178/178 resolved locus tags match gene nodes
+
+## Steglich 2010
+   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Steglich 2010/paperconfig.yaml
+
+## Hackl 2023
+   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Hackl 2023/paperconfig.yaml
+
+  Table: GSE171435_MMC_vs_control_sense.csv (analysis: hackl2023_mit0604_mmc_vs_control_sense)
+    Organism: Prochlorococcus MIT0604 | name_col: gene
+    Status: MATCH
+    Using pre-resolved CSV: GSE171435_MMC_vs_control_sense_resolved.csv
+    Breakdown: Total rows: 2047 | Matched: 2003 | Pre-unresolved: 44 (no edges)
+    2003/2003 resolved locus tags match gene nodes; 44 pre-unresolved rows (no edges)
+
+  Table: GSE171435_UV_vs_control_sense.csv (analysis: hackl2023_mit0604_uv_vs_control_sense)
+    Organism: Prochlorococcus MIT0604 | name_col: gene
+    Status: MATCH
+    Using pre-resolved CSV: GSE171435_UV_vs_control_sense_resolved.csv
+    Breakdown: Total rows: 2047 | Matched: 2003 | Pre-unresolved: 44 (no edges)
+    2003/2003 resolved locus tags match gene nodes; 44 pre-unresolved rows (no edges)
+
+  Table: GSE171435_MMC_vs_UV_sense.csv (analysis: hackl2023_mit0604_mmc_vs_uv_sense)
+    Organism: Prochlorococcus MIT0604 | name_col: gene
+    Status: MATCH
+    Using pre-resolved CSV: GSE171435_MMC_vs_UV_sense_resolved.csv
+    Breakdown: Total rows: 2047 | Matched: 2003 | Pre-unresolved: 44 (no edges)
+    2003/2003 resolved locus tags match gene nodes; 44 pre-unresolved rows (no edges)
+
+## Voigt 2014
+   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Voigt 2014/paperconfig.yaml
+
+## Johnson 2026b
+   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Johnson 2026b/paperconfig.yaml
+
+  Table: johnson2026b_dark_vs_light_2_4h.csv (analysis: johnson2026b_med4_dark_vs_light_2h)
+    Organism: Prochlorococcus MED4 | name_col: refseq_locus
+    Status: MATCH
+    Using pre-resolved CSV: johnson2026b_dark_vs_light_2_4h_resolved.csv
+    Breakdown: Total rows: 1920 | Matched: 1876 | Pre-unresolved: 44 (no edges)
+    1876/1876 resolved locus tags match gene nodes; 44 pre-unresolved rows (no edges)
+
+  Table: johnson2026b_dark_vs_light_2_4h.csv (analysis: johnson2026b_med4_dark_vs_light_4h)
+    Organism: Prochlorococcus MED4 | name_col: refseq_locus
+    Status: MATCH
+    Using pre-resolved CSV: johnson2026b_dark_vs_light_2_4h_resolved.csv
+    Breakdown: Total rows: 1920 | Matched: 1876 | Pre-unresolved: 44 (no edges)
+    1876/1876 resolved locus tags match gene nodes; 44 pre-unresolved rows (no edges)
+
+  Table: johnson2026b_light_vs_dark_14_16h.csv (analysis: johnson2026b_med4_light_vs_dark_14h)
+    Organism: Prochlorococcus MED4 | name_col: refseq_locus
+    Status: MATCH
+    Using pre-resolved CSV: johnson2026b_light_vs_dark_14_16h_resolved.csv
+    Breakdown: Total rows: 1920 | Matched: 1876 | Pre-unresolved: 44 (no edges)
+    1876/1876 resolved locus tags match gene nodes; 44 pre-unresolved rows (no edges)
+
+  Table: johnson2026b_light_vs_dark_14_16h.csv (analysis: johnson2026b_med4_light_vs_dark_16h)
+    Organism: Prochlorococcus MED4 | name_col: refseq_locus
+    Status: MATCH
+    Using pre-resolved CSV: johnson2026b_light_vs_dark_14_16h_resolved.csv
+    Breakdown: Total rows: 1920 | Matched: 1876 | Pre-unresolved: 44 (no edges)
+    1876/1876 resolved locus tags match gene nodes; 44 pre-unresolved rows (no edges)
 
 ## Tai 2009
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Tal 2009/paperconfig.yaml
@@ -1898,8 +1980,8 @@ Gene ID Validation Report
     Organism: Synechococcus PCC 7002 | name_col:  Locus tag
     Status: MATCH
     Using pre-resolved CSV: table s3 41396_2014_bfismej201469_moesm40_esm_resolved.csv
-    Breakdown: Total rows: 1186 | Matched: 1159 | Pre-unresolved: 27 (no edges)
-    1159/1159 resolved locus tags match gene nodes; 27 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 1186 | Matched: 1158 | Pre-unresolved: 28 (no edges)
+    1158/1158 resolved locus tags match gene nodes; 28 pre-unresolved rows (no edges)
 
   Table: table s4 41396_2014_bfismej201469_moesm40_esm.csv (analysis: shew_w3181_lactate_vs_axenic)
     Organism: Shewanella sp. W3-18-1 | name_col:  Locus tag
@@ -1912,8 +1994,8 @@ Gene ID Validation Report
     Organism: Synechococcus PCC 7002 | name_col:  Locus tag
     Status: MATCH
     Using pre-resolved CSV: table s5 41396_2014_bfismej201469_moesm40_esm_resolved.csv
-    Breakdown: Total rows: 692 | Matched: 672 | Pre-unresolved: 20 (no edges)
-    672/672 resolved locus tags match gene nodes; 20 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 692 | Matched: 671 | Pre-unresolved: 21 (no edges)
+    671/671 resolved locus tags match gene nodes; 21 pre-unresolved rows (no edges)
 
   Table: table s6 41396_2014_bfismej201469_moesm40_esm.csv (analysis: shew_w3181_hco3_vs_axenic)
     Organism: Shewanella sp. W3-18-1 | name_col:  Locus tag
@@ -1926,8 +2008,8 @@ Gene ID Validation Report
     Organism: Synechococcus PCC 7002 | name_col:  Locus tag
     Status: MATCH
     Using pre-resolved CSV: table s7 41396_2014_bfismej201469_moesm40_esm_resolved.csv
-    Breakdown: Total rows: 702 | Matched: 674 | Pre-unresolved: 28 (no edges)
-    674/674 resolved locus tags match gene nodes; 28 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 702 | Matched: 673 | Pre-unresolved: 29 (no edges)
+    673/673 resolved locus tags match gene nodes; 29 pre-unresolved rows (no edges)
 
   Table: table s8 41396_2014_bfismej201469_moesm40_esm.csv (analysis: shew_w3181_hco3_vs_lactate)
     Organism: Shewanella sp. W3-18-1 | name_col:  Locus tag
@@ -1964,8 +2046,8 @@ Gene ID Validation Report
     Organism: Synechococcus elongatus PCC 7942 | name_col: Protein ID
     Status: MATCH
     Using pre-resolved CSV: data set s1 13_coculture vs Selongatus_all 42003_2024_6098_MOESM3_ESM_resolved.csv
-    Breakdown: Total rows: 567 | Matched: 529 | Pre-unresolved: 38 (no edges)
-    529/529 resolved locus tags match gene nodes; 38 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 567 | Matched: 523 | Pre-unresolved: 44 (no edges)
+    523/523 resolved locus tags match gene nodes; 44 pre-unresolved rows (no edges)
 
 ## Ma 2022
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Ma 2022/paperconfig.yaml
@@ -2220,6 +2302,197 @@ Gene ID Validation Report
 ## Bernstein 2017
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Bernstein 2017/paperconfig.yaml
 
+## Huang 2021
+   Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Huang 2020/paperconfig.yaml
+
+  Table: GSE150732_WH7803_DE.csv (analysis: huang2021_wh7803_sbp1_15min)
+    Organism: Synechococcus WH7803 | name_col: Gene Locus
+    Status: MATCH
+    Using pre-resolved CSV: GSE150732_WH7803_DE_resolved.csv
+    Breakdown: Total rows: 2528 | Matched: 2455 | Pre-unresolved: 73 (no edges)
+    2455/2455 resolved locus tags match gene nodes; 73 pre-unresolved rows (no edges)
+
+  Table: GSE150732_WH7803_DE.csv (analysis: huang2021_wh7803_sbp1_1h)
+    Organism: Synechococcus WH7803 | name_col: Gene Locus
+    Status: MATCH
+    Using pre-resolved CSV: GSE150732_WH7803_DE_resolved.csv
+    Breakdown: Total rows: 2528 | Matched: 2455 | Pre-unresolved: 73 (no edges)
+    2455/2455 resolved locus tags match gene nodes; 73 pre-unresolved rows (no edges)
+
+  Table: GSE150732_WH7803_DE.csv (analysis: huang2021_wh7803_sbp1_3h)
+    Organism: Synechococcus WH7803 | name_col: Gene Locus
+    Status: MATCH
+    Using pre-resolved CSV: GSE150732_WH7803_DE_resolved.csv
+    Breakdown: Total rows: 2528 | Matched: 2455 | Pre-unresolved: 73 (no edges)
+    2455/2455 resolved locus tags match gene nodes; 73 pre-unresolved rows (no edges)
+
+  Table: GSE150732_WH7803_DE.csv (analysis: huang2021_wh7803_sbp1_5h)
+    Organism: Synechococcus WH7803 | name_col: Gene Locus
+    Status: MATCH
+    Using pre-resolved CSV: GSE150732_WH7803_DE_resolved.csv
+    Breakdown: Total rows: 2528 | Matched: 2455 | Pre-unresolved: 73 (no edges)
+    2455/2455 resolved locus tags match gene nodes; 73 pre-unresolved rows (no edges)
+
+  Table: GSE150732_WH7803_DE.csv (analysis: huang2021_wh7803_sbp1_7h)
+    Organism: Synechococcus WH7803 | name_col: Gene Locus
+    Status: MATCH
+    Using pre-resolved CSV: GSE150732_WH7803_DE_resolved.csv
+    Breakdown: Total rows: 2528 | Matched: 2455 | Pre-unresolved: 73 (no edges)
+    2455/2455 resolved locus tags match gene nodes; 73 pre-unresolved rows (no edges)
+
+## Doron 2016
+   Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Doron 2016/paperconfig.yaml
+
+  Table: doron2016_wh7803_host_de.csv (analysis: doron2016_wh7803_syn9_0min)
+    Organism: Synechococcus WH7803 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh7803_host_de_resolved.csv
+    Breakdown: Total rows: 2580 | Matched: 2525 | Pre-unresolved: 55 (no edges)
+    2525/2525 resolved locus tags match gene nodes; 55 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh7803_host_de.csv (analysis: doron2016_wh7803_syn9_30min)
+    Organism: Synechococcus WH7803 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh7803_host_de_resolved.csv
+    Breakdown: Total rows: 2580 | Matched: 2525 | Pre-unresolved: 55 (no edges)
+    2525/2525 resolved locus tags match gene nodes; 55 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh7803_host_de.csv (analysis: doron2016_wh7803_syn9_60min)
+    Organism: Synechococcus WH7803 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh7803_host_de_resolved.csv
+    Breakdown: Total rows: 2580 | Matched: 2525 | Pre-unresolved: 55 (no edges)
+    2525/2525 resolved locus tags match gene nodes; 55 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh7803_host_de.csv (analysis: doron2016_wh7803_syn9_90min)
+    Organism: Synechococcus WH7803 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh7803_host_de_resolved.csv
+    Breakdown: Total rows: 2580 | Matched: 2525 | Pre-unresolved: 55 (no edges)
+    2525/2525 resolved locus tags match gene nodes; 55 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh7803_host_de.csv (analysis: doron2016_wh7803_syn9_120min)
+    Organism: Synechococcus WH7803 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh7803_host_de_resolved.csv
+    Breakdown: Total rows: 2580 | Matched: 2525 | Pre-unresolved: 55 (no edges)
+    2525/2525 resolved locus tags match gene nodes; 55 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh7803_host_de.csv (analysis: doron2016_wh7803_syn9_180min)
+    Organism: Synechococcus WH7803 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh7803_host_de_resolved.csv
+    Breakdown: Total rows: 2580 | Matched: 2525 | Pre-unresolved: 55 (no edges)
+    2525/2525 resolved locus tags match gene nodes; 55 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh7803_host_de.csv (analysis: doron2016_wh7803_syn9_240min)
+    Organism: Synechococcus WH7803 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh7803_host_de_resolved.csv
+    Breakdown: Total rows: 2580 | Matched: 2525 | Pre-unresolved: 55 (no edges)
+    2525/2525 resolved locus tags match gene nodes; 55 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh8102_host_de.csv (analysis: doron2016_wh8102_syn9_0h)
+    Organism: Synechococcus WH8102 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh8102_host_de_resolved.csv
+    Breakdown: Total rows: 2585 | Matched: 2509 | Pre-unresolved: 76 (no edges)
+    2509/2509 resolved locus tags match gene nodes; 76 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh8102_host_de.csv (analysis: doron2016_wh8102_syn9_0_5h)
+    Organism: Synechococcus WH8102 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh8102_host_de_resolved.csv
+    Breakdown: Total rows: 2585 | Matched: 2509 | Pre-unresolved: 76 (no edges)
+    2509/2509 resolved locus tags match gene nodes; 76 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh8102_host_de.csv (analysis: doron2016_wh8102_syn9_1h)
+    Organism: Synechococcus WH8102 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh8102_host_de_resolved.csv
+    Breakdown: Total rows: 2585 | Matched: 2509 | Pre-unresolved: 76 (no edges)
+    2509/2509 resolved locus tags match gene nodes; 76 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh8102_host_de.csv (analysis: doron2016_wh8102_syn9_1_5h)
+    Organism: Synechococcus WH8102 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh8102_host_de_resolved.csv
+    Breakdown: Total rows: 2585 | Matched: 2509 | Pre-unresolved: 76 (no edges)
+    2509/2509 resolved locus tags match gene nodes; 76 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh8102_host_de.csv (analysis: doron2016_wh8102_syn9_2h)
+    Organism: Synechococcus WH8102 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh8102_host_de_resolved.csv
+    Breakdown: Total rows: 2585 | Matched: 2509 | Pre-unresolved: 76 (no edges)
+    2509/2509 resolved locus tags match gene nodes; 76 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh8102_host_de.csv (analysis: doron2016_wh8102_syn9_3h)
+    Organism: Synechococcus WH8102 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh8102_host_de_resolved.csv
+    Breakdown: Total rows: 2585 | Matched: 2509 | Pre-unresolved: 76 (no edges)
+    2509/2509 resolved locus tags match gene nodes; 76 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh8102_host_de.csv (analysis: doron2016_wh8102_syn9_4h)
+    Organism: Synechococcus WH8102 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh8102_host_de_resolved.csv
+    Breakdown: Total rows: 2585 | Matched: 2509 | Pre-unresolved: 76 (no edges)
+    2509/2509 resolved locus tags match gene nodes; 76 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh8109_host_de.csv (analysis: doron2016_wh8109_syn9_0h)
+    Organism: Synechococcus WH8109 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh8109_host_de_resolved.csv
+    Breakdown: Total rows: 2757 | Matched: 2589 | Pre-unresolved: 168 (no edges)
+    2589/2589 resolved locus tags match gene nodes; 168 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh8109_host_de.csv (analysis: doron2016_wh8109_syn9_0_5h)
+    Organism: Synechococcus WH8109 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh8109_host_de_resolved.csv
+    Breakdown: Total rows: 2757 | Matched: 2589 | Pre-unresolved: 168 (no edges)
+    2589/2589 resolved locus tags match gene nodes; 168 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh8109_host_de.csv (analysis: doron2016_wh8109_syn9_1h)
+    Organism: Synechococcus WH8109 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh8109_host_de_resolved.csv
+    Breakdown: Total rows: 2757 | Matched: 2589 | Pre-unresolved: 168 (no edges)
+    2589/2589 resolved locus tags match gene nodes; 168 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh8109_host_de.csv (analysis: doron2016_wh8109_syn9_1_5h)
+    Organism: Synechococcus WH8109 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh8109_host_de_resolved.csv
+    Breakdown: Total rows: 2757 | Matched: 2589 | Pre-unresolved: 168 (no edges)
+    2589/2589 resolved locus tags match gene nodes; 168 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh8109_host_de.csv (analysis: doron2016_wh8109_syn9_2h)
+    Organism: Synechococcus WH8109 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh8109_host_de_resolved.csv
+    Breakdown: Total rows: 2757 | Matched: 2589 | Pre-unresolved: 168 (no edges)
+    2589/2589 resolved locus tags match gene nodes; 168 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh8109_host_de.csv (analysis: doron2016_wh8109_syn9_3h)
+    Organism: Synechococcus WH8109 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh8109_host_de_resolved.csv
+    Breakdown: Total rows: 2757 | Matched: 2589 | Pre-unresolved: 168 (no edges)
+    2589/2589 resolved locus tags match gene nodes; 168 pre-unresolved rows (no edges)
+
+  Table: doron2016_wh8109_host_de.csv (analysis: doron2016_wh8109_syn9_4h)
+    Organism: Synechococcus WH8109 | name_col: locus_tag
+    Status: MATCH
+    Using pre-resolved CSV: doron2016_wh8109_host_de_resolved.csv
+    Breakdown: Total rows: 2757 | Matched: 2589 | Pre-unresolved: 168 (no edges)
+    2589/2589 resolved locus tags match gene nodes; 168 pre-unresolved rows (no edges)
+
+## Ford 2021
+   Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Ford 2021/paperconfig.yaml
+
 
 ================================================================================
 Summary
@@ -2232,8 +2505,8 @@ Aharonovich 2016        | DE_hot1a3_coculture_9313_vs_9313dil | MATCH  |  1879 |
 Aharonovich 2016        | DE_hot1a3_coculture_9313_vs_med4_t2 | MATCH  |  2295 |     |   0 | 3882 |    0 |     |*—
 Aharonovich 2016        | DE_coculture_vs_axenic_9313_t20h    | MATCH  |  2268 |     |   0 |    1 |    0 |     |*—
 Aharonovich 2016        | DE_coculture_vs_axenic_9313_dilute_ | MATCH  |  2267 |     |   0 |    1 |    0 |     |*—
-Al-Hosani 2015          | DE_salt_acclimated_vs_seawater_AS96 | MATCH  |  1911 |     |   0 |   50 |    0 |     |*—
-Anjur-Dietrich 2025     | DE_freeliving_vs_biofilm_MIT9301    | MATCH  |   234 |     |   0 |    8 |    0 |     |*—
+Al-Hosani 2015          | DE_salt_acclimated_vs_seawater_AS96 | MATCH  |  1903 |     |   0 |   58 |    0 |     |*—
+Anjur-Dietrich 2026     | DE_freeliving_vs_biofilm_MIT9301    | MATCH  |   234 |     |   0 |    8 |    0 |     |*—
 Bagby and Chisholm 2015 | gas_shock_air                       | MATCH  |   438 |     |   0 |   30 |    0 |     |*—
 Bagby and Chisholm 2015 | gas_shock_no_o2                     | MATCH  |   438 |     |   0 |   30 |    0 |     |*—
 Bagby and Chisholm 2015 | gas_shock_low_co2                   | MATCH  |   438 |     |   0 |   30 |    0 |     |*—
@@ -2280,18 +2553,18 @@ Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH  |  3857 |
 Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH  |  3857 |     |   0 |  271 |    0 |     |*—
 Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH  |  3857 |     |   0 |  271 |    0 |     |*—
 Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH  |  3857 |     |   0 |  271 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_0.5h     | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_1h       | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_2h       | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_4h       | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_8h       | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_12h      | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_24h      | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_48h      | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_72h      | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
-He 2022                 | DE_low_salinity_vs_normal_NATL1A    | MATCH  |    81 |     |   0 |    1 |    0 |     |*—
-He 2022                 | DE_low_salinity_vs_normal_MED4      | MATCH  |    29 |     |   0 |    2 |    0 |     |*—
-Hennon 2017             | DE_elevated_co2_vs_ambient_MIT9312_ | MATCH  |   103 |     |   0 |      |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_0.5h     | MATCH  |   428 |     |   0 |  237 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_1h       | MATCH  |   428 |     |   0 |  237 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_2h       | MATCH  |   428 |     |   0 |  237 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_4h       | MATCH  |   428 |     |   0 |  237 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_8h       | MATCH  |   428 |     |   0 |  237 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_12h      | MATCH  |   428 |     |   0 |  237 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_24h      | MATCH  |   428 |     |   0 |  237 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_48h      | MATCH  |   428 |     |   0 |  237 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_72h      | MATCH  |   428 |     |   0 |  237 |    0 |     |*—
+He 2022                 | DE_low_salinity_vs_normal_NATL1A    | MATCH  |  2190 |     |   0 |   49 |    0 |     |*—
+He 2022                 | DE_low_salinity_vs_normal_MED4      | MATCH  |  1954 |     |   0 |   88 |    0 |     |*—
+Hennon 2017             | DE_elevated_co2_vs_ambient_MIT9312_ | MATCH  |   102 |     |   0 |    1 |    0 |     |*—
 Hennon 2017             | DE_elevated_co2_vs_ambient_EZ55_coc | MATCH  |   345 |     |   0 |   77 |    0 |     |*—
 Hennon 2017             | DE_elevated_co2_vs_ambient_EZ55_axe | MATCH  |    98 |     |   0 |   27 |    0 |     |*—
 Hennon 2017             | DE_elevated_co2_vs_ambient_EZ55_coc | MATCH  |   423 |     |   0 |   29 |    0 |     |*—
@@ -2340,10 +2613,10 @@ Thompson 2011           | DE_iron_starvation_vs_replete_MED4_ | MATCH  |   112 |
 Thompson 2011           | DE_iron_starvation_vs_replete_MED4_ | MATCH  |   112 |     |   0 |   13 |    0 |     |*—
 Thompson 2011           | DE_iron_starvation_vs_replete_MED4_ | MATCH  |   112 |     |   0 |   13 |    0 |     |*—
 Thompson 2011           | DE_iron_rescue_MED4                 | MATCH  |   112 |     |   0 |   13 |    0 |     |*—
-Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH  |    98 |     |   0 |   13 |    0 |     |*—
-Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH  |    98 |     |   0 |   13 |    0 |     |*—
-Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH  |    98 |     |   0 |   13 |    0 |     |*—
-Thompson 2011           | DE_iron_rescue_MIT9313              | MATCH  |    98 |     |   0 |   13 |    0 |     |*—
+Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH  |    97 |     |   0 |   14 |    0 |     |*—
+Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH  |    97 |     |   0 |   14 |    0 |     |*—
+Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH  |    97 |     |   0 |   14 |    0 |     |*—
+Thompson 2011           | DE_iron_rescue_MIT9313              | MATCH  |    97 |     |   0 |   14 |    0 |     |*—
 Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_0h | MATCH  |  1697 |     |   0 |    1 |    0 |     |*—
 Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_3h | MATCH  |  1697 |     |   0 |    1 |    0 |     |*—
 Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_6h | MATCH  |  1697 |     |   0 |    1 |    0 |     |*—
@@ -2367,30 +2640,32 @@ Thompson 2016           | DE_dark_vs_light_infected_MED4_0.5h | MATCH  |    10 |
 Thompson 2016           | DE_dark_vs_light_infected_MED4_1.5h | MATCH  |     1 |     |   0 |      |    0 |     |*—
 Thompson 2016           | DE_dark_vs_light_infected_MED4_2.5h | MATCH  |     3 |     |   0 |      |    0 |     |*—
 Thompson 2016           | DE_dark_vs_light_infected_MED4_4.5h | MATCH  |    10 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_dark_vs_light_infected_MED4_8.5h | MATCH  |    30 |     |   0 |    1 |    0 |     |*—
+Thompson 2016           | DE_dark_vs_light_infected_MED4_8.5h | MATCH  |    29 |     |   0 |    2 |    0 |     |*—
 Thompson 2016           | DE_dark_vs_light_uninfected_MED4_1. | MATCH  |     1 |     |   0 |      |    0 |     |*—
 Thompson 2016           | DE_dark_vs_light_uninfected_MED4_2. | MATCH  |     3 |     |   0 |      |    0 |     |*—
 Thompson 2016           | DE_dark_vs_light_uninfected_MED4_4. | MATCH  |    14 |     |   0 |      |    0 |     |*—
 Thompson 2016           | DE_dark_vs_light_uninfected_MED4_8. | MATCH  |    31 |     |   0 |    1 |    0 |     |*—
 Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH  |     8 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH  |     6 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH  |     5 |     |   0 |    1 |    0 |     |*—
 Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH  |     3 |     |   0 |      |    0 |     |*—
 Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH  |     3 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH  |    16 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH  |     9 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH  |    19 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH  |     8 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH  |    14 |     |   0 |    2 |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH  |     7 |     |   0 |    2 |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH  |    16 |     |   0 |    3 |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH  |     6 |     |   0 |    2 |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_rnaseq_axenic_day_18_vs_d | MATCH  |  3947 |     |   0 |   68 |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_rnaseq_axenic_day_31_vs_d | MATCH  |  3947 |     |   0 |   68 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_rnaseq_axenic_longterm_vs | MATCH  |  3947 |     |   0 |   68 |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_rnaseq_coculture_day_18_v | MATCH  |  3947 |     |   0 |   68 |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_rnaseq_coculture_day_31_v | MATCH  |  3947 |     |   0 |   68 |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_rnaseq_coculture_day_60_v | MATCH  |  3947 |     |   0 |   68 |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_rnaseq_coculture_day_89_v | MATCH  |  3947 |     |   0 |   68 |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_rnaseq_coculture_longterm | MATCH  |  3947 |     |   0 |   68 |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_rnaseq_coculture_vs_axeni | MATCH  |  3947 |     |   0 |   68 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_rnaseq_coculture_vs_axeni | MATCH  |  3947 |     |   0 |   68 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_rnaseq_coculture_vs_axeni | MATCH  |  3947 |     |   0 |   68 |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_proteome_axenic_day_18_vs | MATCH  |  2225 |     |   0 |    4 |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_proteome_axenic_day_31_vs | MATCH  |  2225 |     |   0 |    4 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_proteome_axenic_day_89_vs | MATCH  |  2225 |     |   0 |    4 |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_proteome_coculture_day_18 | MATCH  |  2225 |     |   0 |    4 |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_proteome_coculture_day_31 | MATCH  |  2225 |     |   0 |    4 |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_proteome_coculture_day_60 | MATCH  |  2225 |     |   0 |    4 |    0 |     |*—
@@ -2403,6 +2678,7 @@ Weissberg 2025          | DE_med4_rnaseq_coculture_day_60_vs_ | MATCH  |  1849 |
 Weissberg 2025          | DE_med4_rnaseq_coculture_day_89_vs_ | MATCH  |  1849 |     |   0 |    6 |    0 |     |*—
 Weissberg 2025          | DE_med4_rnaseq_coculture_longterm_v | MATCH  |  1849 |     |   0 |    6 |    0 |     |*—
 Weissberg 2025          | DE_med4_rnaseq_coculture_vs_axenic_ | MATCH  |  1849 |     |   0 |    6 |    0 |     |*—
+Weissberg 2025          | DE_med4_rnaseq_coculture_vs_axenic_ | MATCH  |  1849 |     |   0 |    6 |    0 |     |*—
 Weissberg 2025          | DE_med4_proteome_axenic_day_14_vs_e | MATCH  |  1424 |     |   0 |      |    0 |     |*—
 Weissberg 2025          | DE_med4_proteome_axenic_day_31_vs_e | MATCH  |  1424 |     |   0 |      |    0 |     |*—
 Weissberg 2025          | DE_med4_proteome_axenic_day_89_vs_e | MATCH  |  1424 |     |   0 |      |    0 |     |*—
@@ -2413,7 +2689,7 @@ Weissberg 2025          | DE_med4_proteome_coculture_day_89_v | MATCH  |  1424 |
 Weissberg 2025          | DE_med4_proteome_coculture_longterm | MATCH  |  1424 |     |   0 |      |    0 |     |*—
 Capovilla 2023          | DE_chitosan_vs_control_MIT9313      | MATCH  |    72 |     |   0 |    9 |    0 |     |*—
 Capovilla 2023          | DE_chitosan_vs_control_MIT9303      | MATCH  |    25 |     |   0 |   11 |    0 |     |*—
-Dominguez-Martin 2017   | ss120_azaserine_vs_control          | MATCH  |   402 |     |   0 |    6 |    0 |     |*—
+Dominguez-Martin 2017   | ss120_azaserine_vs_control          | MATCH  |   367 |     |   0 |   41 |    0 |     |*—
 Fuszard 2012            | mit9312_pi_deplete_vs_replete       | MATCH  |    38 |     |   0 |      |    0 |     |*—
 Fuszard 2012            | natl2a_pi_deplete_vs_replete        | MATCH  |    63 |     |   0 |      |    0 |     |*—
 Fuszard 2012            | ss120_pi_deplete_vs_replete         | MATCH  |    34 |     |   0 |      |    0 |     |*—
@@ -2453,44 +2729,51 @@ Moreno 2023             | wh8102_light_low_glucose_vs_light   | MATCH  |   895 |
 Moreno 2023             | wh8102_light_high_glucose_vs_light  | MATCH  |   895 |     |   0 |    3 |    0 |     |*—
 Moreno 2023             | wh8102_dark_low_glucose_vs_dark     | MATCH  |   895 |     |   0 |    3 |    0 |     |*—
 Moreno 2023             | wh8102_dark_high_glucose_vs_dark    | MATCH  |   895 |     |   0 |    3 |    0 |     |*—
-Moreno 2023             | bl107_light_low_glucose_vs_light    | MATCH  |   168 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | bl107_light_high_glucose_vs_light   | MATCH  |   168 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | bl107_dark_low_glucose_vs_dark      | MATCH  |   168 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | bl107_dark_high_glucose_vs_dark     | MATCH  |   168 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_med4_light_low_glucose_vs_li | MATCH  |   348 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_med4_light_high_glucose_vs_l | MATCH  |   348 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_med4_dark_low_glucose_vs_dar | MATCH  |   348 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_med4_dark_high_glucose_vs_da | MATCH  |   348 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_ss120_light_low_glucose_vs_l | MATCH  |   200 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_ss120_light_high_glucose_vs_ | MATCH  |   200 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_ss120_dark_low_glucose_vs_da | MATCH  |   200 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_ss120_dark_high_glucose_vs_d | MATCH  |   200 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_wh7803_light_low_glucose_vs_ | MATCH  |   149 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_wh7803_light_high_glucose_vs | MATCH  |   149 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_wh7803_dark_low_glucose_vs_d | MATCH  |   149 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_wh7803_dark_high_glucose_vs_ | MATCH  |   149 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_wh8102_light_low_glucose_vs_ | MATCH  |   493 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_wh8102_light_high_glucose_vs | MATCH  |   493 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_wh8102_dark_low_glucose_vs_d | MATCH  |   493 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_wh8102_dark_high_glucose_vs_ | MATCH  |   493 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_bl107_light_low_glucose_vs_l | MATCH  |    85 |     |   0 |    2 |    0 |     |*—
-Moreno 2023             | marino_bl107_light_high_glucose_vs_ | MATCH  |    85 |     |   0 |    2 |    0 |     |*—
-Moreno 2023             | marino_bl107_dark_low_glucose_vs_da | MATCH  |    85 |     |   0 |    2 |    0 |     |*—
-Moreno 2023             | marino_bl107_dark_high_glucose_vs_d | MATCH  |    85 |     |   0 |    2 |    0 |     |*—
+Moreno 2023             | bl107_light_low_glucose_vs_light    | MATCH  |   163 |     |   0 |   10 |    0 |     |*—
+Moreno 2023             | bl107_light_high_glucose_vs_light   | MATCH  |   163 |     |   0 |   10 |    0 |     |*—
+Moreno 2023             | bl107_dark_low_glucose_vs_dark      | MATCH  |   163 |     |   0 |   10 |    0 |     |*—
+Moreno 2023             | bl107_dark_high_glucose_vs_dark     | MATCH  |   163 |     |   0 |   10 |    0 |     |*—
+Moreno 2023             | marino_med4_light_low_glucose_vs_li | MATCH  |   342 |     |   0 |   17 |    0 |     |*—
+Moreno 2023             | marino_med4_light_high_glucose_vs_l | MATCH  |   342 |     |   0 |   17 |    0 |     |*—
+Moreno 2023             | marino_med4_dark_low_glucose_vs_dar | MATCH  |   342 |     |   0 |   17 |    0 |     |*—
+Moreno 2023             | marino_med4_dark_high_glucose_vs_da | MATCH  |   342 |     |   0 |   17 |    0 |     |*—
+Moreno 2023             | marino_ss120_light_low_glucose_vs_l | MATCH  |   195 |     |   0 |   10 |    0 |     |*—
+Moreno 2023             | marino_ss120_light_high_glucose_vs_ | MATCH  |   195 |     |   0 |   10 |    0 |     |*—
+Moreno 2023             | marino_ss120_dark_low_glucose_vs_da | MATCH  |   195 |     |   0 |   10 |    0 |     |*—
+Moreno 2023             | marino_ss120_dark_high_glucose_vs_d | MATCH  |   195 |     |   0 |   10 |    0 |     |*—
+Moreno 2023             | marino_wh7803_light_low_glucose_vs_ | MATCH  |   146 |     |   0 |    8 |    0 |     |*—
+Moreno 2023             | marino_wh7803_light_high_glucose_vs | MATCH  |   146 |     |   0 |    8 |    0 |     |*—
+Moreno 2023             | marino_wh7803_dark_low_glucose_vs_d | MATCH  |   146 |     |   0 |    8 |    0 |     |*—
+Moreno 2023             | marino_wh7803_dark_high_glucose_vs_ | MATCH  |   146 |     |   0 |    8 |    0 |     |*—
+Moreno 2023             | marino_wh8102_light_low_glucose_vs_ | MATCH  |   484 |     |   0 |   20 |    0 |     |*—
+Moreno 2023             | marino_wh8102_light_high_glucose_vs | MATCH  |   484 |     |   0 |   20 |    0 |     |*—
+Moreno 2023             | marino_wh8102_dark_low_glucose_vs_d | MATCH  |   484 |     |   0 |   20 |    0 |     |*—
+Moreno 2023             | marino_wh8102_dark_high_glucose_vs_ | MATCH  |   484 |     |   0 |   20 |    0 |     |*—
+Moreno 2023             | marino_bl107_light_low_glucose_vs_l | MATCH  |    82 |     |   0 |    5 |    0 |     |*—
+Moreno 2023             | marino_bl107_light_high_glucose_vs_ | MATCH  |    82 |     |   0 |    5 |    0 |     |*—
+Moreno 2023             | marino_bl107_dark_low_glucose_vs_da | MATCH  |    82 |     |   0 |    5 |    0 |     |*—
+Moreno 2023             | marino_bl107_dark_high_glucose_vs_d | MATCH  |    82 |     |   0 |    5 |    0 |     |*—
 Pandhal 2007            | med4_proteomics_HL_vs_LL            | MATCH  |   179 |     |   0 |      |    0 |     |*—
 Pandhal 2007            | med4_proteomics_ML_vs_LL            | MATCH  |   178 |     |   0 |      |    0 |     |*—
+Hackl 2023              | hackl2023_mit0604_mmc_vs_control_se | MATCH  |  2003 |     |   0 |   44 |    0 |     |*—
+Hackl 2023              | hackl2023_mit0604_uv_vs_control_sen | MATCH  |  2003 |     |   0 |   44 |    0 |     |*—
+Hackl 2023              | hackl2023_mit0604_mmc_vs_uv_sense   | MATCH  |  2003 |     |   0 |   44 |    0 |     |*—
+Johnson 2026b           | johnson2026b_med4_dark_vs_light_2h  | MATCH  |  1876 |     |   0 |   44 |    0 |     |*—
+Johnson 2026b           | johnson2026b_med4_dark_vs_light_4h  | MATCH  |  1876 |     |   0 |   44 |    0 |     |*—
+Johnson 2026b           | johnson2026b_med4_light_vs_dark_14h | MATCH  |  1876 |     |   0 |   44 |    0 |     |*—
+Johnson 2026b           | johnson2026b_med4_light_vs_dark_16h | MATCH  |  1876 |     |   0 |   44 |    0 |     |*—
 Tai 2009                | vibrio_coculture_wh8102_up          | MATCH  |   280 |     |   0 |    5 |    0 |     |*—
 Tai 2009                | vibrio_coculture_wh8102_down        | MATCH  |   294 |     |   0 |   50 |    0 |     |*—
-Beliaev 2014            | syn7002_lactate_vs_axenic           | MATCH  |  1159 |     |   0 |   27 |    0 |     |*—
+Beliaev 2014            | syn7002_lactate_vs_axenic           | MATCH  |  1158 |     |   0 |   28 |    0 |     |*—
 Beliaev 2014            | shew_w3181_lactate_vs_axenic        | MATCH  |   456 |     |   0 |    2 |    0 |     |*—
-Beliaev 2014            | syn7002_hco3_vs_axenic              | MATCH  |   672 |     |   0 |   20 |    0 |     |*—
+Beliaev 2014            | syn7002_hco3_vs_axenic              | MATCH  |   671 |     |   0 |   21 |    0 |     |*—
 Beliaev 2014            | shew_w3181_hco3_vs_axenic           | MATCH  |  1331 |     |   0 |   12 |    0 |     |*—
-Beliaev 2014            | syn7002_hco3_vs_lactate             | MATCH  |   674 |     |   0 |   28 |    0 |     |*—
+Beliaev 2014            | syn7002_hco3_vs_lactate             | MATCH  |   673 |     |   0 |   29 |    0 |     |*—
 Beliaev 2014            | shew_w3181_hco3_vs_lactate          | MATCH  |  1267 |     |   0 |   11 |    0 |     |*—
 Kratzl 2024             | DE_rnaseq_coculture_vs_pputida      | MATCH  |  5103 |     |   0 |  115 |    0 |     |*—
 Kratzl 2024             | DE_rnaseq_coculture_vs_selongatus   | MATCH  |  2626 |     |   0 |   53 |    0 |     |*—
 Kratzl 2024             | DE_proteomics_coculture_vs_pputida  | MATCH  |   228 |     |   0 |    4 |    0 |     |*—
-Kratzl 2024             | DE_proteomics_coculture_vs_selongat | MATCH  |   529 |     |   0 |   38 |    0 |     |*—
+Kratzl 2024             | DE_proteomics_coculture_vs_selongat | MATCH  |   523 |     |   0 |   44 |    0 |     |*—
 Ma 2022                 | DE_rnaseq_coculture_ecoli_up        | MATCH  |    75 |     |   0 |    3 |    0 |     |*—
 Ma 2022                 | DE_rnaseq_coculture_ecoli_down      | MATCH  |    54 |     |   0 |    2 |    0 |     |*—
 Ma 2022                 | DE_proteomics_coculture_ecoli       | MATCH  |    39 |     |   0 |      |    0 |     |*—
@@ -2525,14 +2808,40 @@ Kaur 2018               | rpom_dss3_asw_tp21_vs_tp1           | MATCH  |   222 |
 Kaur 2018               | rpom_dss3_asw_tp32_vs_tp1           | MATCH  |   222 |     |   0 |      |    0 |     |*—
 Kaur 2018               | rpom_dss3_asw_tp60_vs_tp1           | MATCH  |   222 |     |   0 |      |    0 |     |*—
 Kaur 2018               | rpom_dss3_asw_tp100_vs_tp1          | MATCH  |   222 |     |   0 |      |    0 |     |*—
+Huang 2021              | huang2021_wh7803_sbp1_15min         | MATCH  |  2455 |     |   0 |   73 |    0 |     |*—
+Huang 2021              | huang2021_wh7803_sbp1_1h            | MATCH  |  2455 |     |   0 |   73 |    0 |     |*—
+Huang 2021              | huang2021_wh7803_sbp1_3h            | MATCH  |  2455 |     |   0 |   73 |    0 |     |*—
+Huang 2021              | huang2021_wh7803_sbp1_5h            | MATCH  |  2455 |     |   0 |   73 |    0 |     |*—
+Huang 2021              | huang2021_wh7803_sbp1_7h            | MATCH  |  2455 |     |   0 |   73 |    0 |     |*—
+Doron 2016              | doron2016_wh7803_syn9_0min          | MATCH  |  2525 |     |   0 |   55 |    0 |     |*—
+Doron 2016              | doron2016_wh7803_syn9_30min         | MATCH  |  2525 |     |   0 |   55 |    0 |     |*—
+Doron 2016              | doron2016_wh7803_syn9_60min         | MATCH  |  2525 |     |   0 |   55 |    0 |     |*—
+Doron 2016              | doron2016_wh7803_syn9_90min         | MATCH  |  2525 |     |   0 |   55 |    0 |     |*—
+Doron 2016              | doron2016_wh7803_syn9_120min        | MATCH  |  2525 |     |   0 |   55 |    0 |     |*—
+Doron 2016              | doron2016_wh7803_syn9_180min        | MATCH  |  2525 |     |   0 |   55 |    0 |     |*—
+Doron 2016              | doron2016_wh7803_syn9_240min        | MATCH  |  2525 |     |   0 |   55 |    0 |     |*—
+Doron 2016              | doron2016_wh8102_syn9_0h            | MATCH  |  2509 |     |   0 |   76 |    0 |     |*—
+Doron 2016              | doron2016_wh8102_syn9_0_5h          | MATCH  |  2509 |     |   0 |   76 |    0 |     |*—
+Doron 2016              | doron2016_wh8102_syn9_1h            | MATCH  |  2509 |     |   0 |   76 |    0 |     |*—
+Doron 2016              | doron2016_wh8102_syn9_1_5h          | MATCH  |  2509 |     |   0 |   76 |    0 |     |*—
+Doron 2016              | doron2016_wh8102_syn9_2h            | MATCH  |  2509 |     |   0 |   76 |    0 |     |*—
+Doron 2016              | doron2016_wh8102_syn9_3h            | MATCH  |  2509 |     |   0 |   76 |    0 |     |*—
+Doron 2016              | doron2016_wh8102_syn9_4h            | MATCH  |  2509 |     |   0 |   76 |    0 |     |*—
+Doron 2016              | doron2016_wh8109_syn9_0h            | MATCH  |  2589 |     |   0 |  168 |    0 |     |*—
+Doron 2016              | doron2016_wh8109_syn9_0_5h          | MATCH  |  2589 |     |   0 |  168 |    0 |     |*—
+Doron 2016              | doron2016_wh8109_syn9_1h            | MATCH  |  2589 |     |   0 |  168 |    0 |     |*—
+Doron 2016              | doron2016_wh8109_syn9_1_5h          | MATCH  |  2589 |     |   0 |  168 |    0 |     |*—
+Doron 2016              | doron2016_wh8109_syn9_2h            | MATCH  |  2589 |     |   0 |  168 |    0 |     |*—
+Doron 2016              | doron2016_wh8109_syn9_3h            | MATCH  |  2589 |     |   0 |  168 |    0 |     |*—
+Doron 2016              | doron2016_wh8109_syn9_4h            | MATCH  |  2589 |     |   0 |  168 |    0 |     |*—
   * = using pre-resolved CSV (_resolved.csv); !Res = rows unresolved by resolve_paper_ids.py
 
-Total analyses: 298
-  MATCH: 298
+Total analyses: 334
+  MATCH: 334
 
-Total gene IDs across all analyses: 234683
-  Matched: 234683
+Total gene IDs across all analyses: 325686
+  Matched: 325686
   RNA/tRNA/ncRNA (OK): 0
-  Pre-unresolved (no edges): 12743
+  Pre-unresolved (no edges): 15922
   Mismatched: 0
-  Analyses using pre-resolved CSV: 298
+  Analyses using pre-resolved CSV: 334

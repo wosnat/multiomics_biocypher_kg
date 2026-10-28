@@ -1,0 +1,24 @@
+{
+  "strain": "CC9902",
+  "gene_count": 2463,
+  "kegg_reactions": {
+    "raw_total": 1332,
+    "raw_unique": 1003,
+    "kept_total": 1332,
+    "kept_unique_r_numbers": 1003
+  },
+  "transporter_classification": {
+    "raw_total": 264,
+    "raw_unique": 119,
+    "validated_total": 902,
+    "validated_unique": 354,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 38,
+    "raw_unique": 20,
+    "validated_total": 55,
+    "validated_unique": 27,
+    "invalid_examples": []
+  }
+}

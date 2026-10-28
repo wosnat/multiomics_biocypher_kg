@@ -1,0 +1,42 @@
+{
+  "strain": "RS9907",
+  "tool_version": "diamond version 2.1.9",
+  "input_proteins": 2728,
+  "wallclock_s": 1.6,
+  "raw_hit_lines": 751,
+  "parse_failures": 0,
+  "proteins_with_hits": 80,
+  "proteins_with_call": 80,
+  "total_candidates": 81,
+  "candidates_per_protein_distribution": {
+    "1": 79,
+    "2": 1
+  },
+  "tier_distribution": {
+    "3": 76,
+    "2": 5
+  },
+  "consensus_agreement_distribution": {
+    "id": 14,
+    "subfamily": 18,
+    "family": 49
+  },
+  "catalytic_type_distribution": {
+    "S": 29,
+    "M": 29,
+    "C": 16,
+    "inhibitor": 2,
+    "T": 2,
+    "A": 2,
+    "U": 1
+  },
+  "entry_type_distribution": {
+    "peptidase": 79,
+    "inhibitor": 2
+  },
+  "best_hit_kind_distribution": {
+    "holotype": 51,
+    "putative": 18,
+    "nonpeptidase_homolog": 12
+  }
+}

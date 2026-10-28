@@ -1,0 +1,24 @@
+{
+  "strain": "BIOS-U3-1",
+  "gene_count": 3460,
+  "kegg_reactions": {
+    "raw_total": 1386,
+    "raw_unique": 1035,
+    "kept_total": 1386,
+    "kept_unique_r_numbers": 1035
+  },
+  "transporter_classification": {
+    "raw_total": 311,
+    "raw_unique": 135,
+    "validated_total": 1046,
+    "validated_unique": 389,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 44,
+    "raw_unique": 22,
+    "validated_total": 55,
+    "validated_unique": 24,
+    "invalid_examples": []
+  }
+}

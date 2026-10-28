@@ -1,0 +1,55 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2563
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 124,
+      "unique": 1233
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 34,
+      "unique": 4583
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5286
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2723
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2520
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 16
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 5,
+      "unique": 5281
+    }
+  },
+  "runaway_genes": [],
+  "strain": "MEDNS5",
+  "tier1_count_max": 5,
+  "tier1_count_median": 5.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 14,
+    "genomic_gca/MEDNS5": 51,
+    "genomic_gcf/MEDNS5": 60
+  },
+  "warnings": []
+}

@@ -1,0 +1,24 @@
+{
+  "strain": "HNLC2",
+  "gene_count": 1886,
+  "kegg_reactions": {
+    "raw_total": 996,
+    "raw_unique": 783,
+    "kept_total": 996,
+    "kept_unique_r_numbers": 783
+  },
+  "transporter_classification": {
+    "raw_total": 182,
+    "raw_unique": 87,
+    "validated_total": 565,
+    "validated_unique": 259,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 14,
+    "raw_unique": 11,
+    "validated_total": 19,
+    "validated_unique": 11,
+    "invalid_examples": []
+  }
+}

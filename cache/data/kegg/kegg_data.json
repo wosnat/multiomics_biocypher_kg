@@ -2111,6 +2111,7 @@
         "Si"
       ],
       "evidence_sources": [
+        "go_transport",
         "transport"
       ],
       "formula": "H4O4Si",
@@ -3317,6 +3318,22 @@
       "name": "nucleic acid",
       "structure_kind": "generic"
     },
+    "chebi:33697": {
+      "all_identifiers": [
+        "chebi:33697",
+        "mnx:MNXM1248"
+      ],
+      "chebi_id": "33697",
+      "chebi_ids": [
+        "33697"
+      ],
+      "evidence_sources": [
+        "go_transport"
+      ],
+      "mnxm_id": "MNXM1248",
+      "name": "ribonucleic acid",
+      "structure_kind": "generic"
+    },
     "chebi:33699": {
       "all_identifiers": [
         "chebi:33699",
@@ -3327,6 +3344,7 @@
         "33699"
       ],
       "evidence_sources": [
+        "go_transport",
         "transport"
       ],
       "mnxm_id": "MNXM61508",
@@ -4154,6 +4172,39 @@
       "mnxm_id": "MNXM57411",
       "name": "inorganic cation",
       "structure_kind": "generic"
+    },
+    "chebi:37024": {
+      "all_identifiers": [
+        "chebi:37024",
+        "chebi:64698",
+        "chebi:84981",
+        "inchikey:OYIFNHCXNCRBQI-UHFFFAOYSA-N",
+        "mnx:MNXM1368893"
+      ],
+      "chebi_id": "37024",
+      "chebi_ids": [
+        "37024",
+        "84981"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O"
+      ],
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C6H11NO4",
+      "inchikey": "OYIFNHCXNCRBQI-UHFFFAOYSA-N",
+      "mass": 161.157,
+      "mnxm_id": "MNXM1368893",
+      "name": "2-aminoadipic acid",
+      "removed_stereo_xrefs": [
+        "chebi:37025",
+        "inchikey:OYIFNHCXNCRBQI-SCSAIBSYSA-N"
+      ],
+      "structure_kind": "defined"
     },
     "chebi:37163": {
       "all_identifiers": [
@@ -5881,6 +5932,28 @@
       "name": "flucytosine",
       "structure_kind": "defined"
     },
+    "chebi:51277": {
+      "all_identifiers": [
+        "chebi:51277",
+        "mnx:MNXM87023"
+      ],
+      "chebi_id": "51277",
+      "chebi_ids": [
+        "51277"
+      ],
+      "elements": [
+        "C",
+        "O",
+        "S"
+      ],
+      "evidence_sources": [
+        "go_transport"
+      ],
+      "formula": "COS*2",
+      "mnxm_id": "MNXM87023",
+      "name": "thioester",
+      "structure_kind": "generic"
+    },
     "chebi:51340": {
       "all_identifiers": [
         "chebi:51340",
@@ -6853,6 +6926,35 @@
       "mass": 587.447,
       "mnxm_id": "MNXM735460",
       "name": "achromobactin",
+      "structure_kind": "defined"
+    },
+    "chebi:61417": {
+      "all_identifiers": [
+        "chebi:61377",
+        "chebi:61417",
+        "inchikey:CYDYNVMCEGXBEM-JXOAFFINSA-K",
+        "mnx:MNXM83408"
+      ],
+      "chebi_id": "61417",
+      "chebi_ids": [
+        "61417",
+        "61377"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C10H13N2O12P2",
+      "inchikey": "CYDYNVMCEGXBEM-JXOAFFINSA-K",
+      "mass": 415.164,
+      "mnxm_id": "MNXM83408",
+      "name": "TDP(3-)",
       "structure_kind": "defined"
     },
     "chebi:61448": {
@@ -9382,7 +9484,8 @@
       ],
       "evidence_sources": [
         "metabolism",
-        "metabolomics"
+        "metabolomics",
+        "transport"
       ],
       "formula": "C21H25N7O17P3",
       "hmdb_id": "HMDB0000217",
@@ -10155,7 +10258,8 @@
       ],
       "evidence_sources": [
         "metabolism",
-        "metabolomics"
+        "metabolomics",
+        "transport"
       ],
       "formula": "C10H12N5O7P",
       "hmdb_id": "HMDB0000045",
@@ -10393,6 +10497,7 @@
         "S"
       ],
       "evidence_sources": [
+        "go_transport",
         "metabolism",
         "metabolomics",
         "transport"
@@ -11255,6 +11360,7 @@
         "chebi:17984",
         "chebi:22223",
         "chebi:2455",
+        "chebi:58342",
         "kegg.compound:C00040",
         "mnx:MNXM729259"
       ],
@@ -11271,6 +11377,7 @@
         "S"
       ],
       "evidence_sources": [
+        "go_transport",
         "metabolism",
         "transport"
       ],
@@ -11998,7 +12105,8 @@
       ],
       "evidence_sources": [
         "go_transport",
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C10H11N5O13P2S",
       "hmdb_id": "HMDB0001134",
@@ -12012,6 +12120,7 @@
       "name": "3'-Phosphoadenylyl sulfate",
       "pathways": [
         "ko00230",
+        "ko00532",
         "ko00534",
         "ko00920",
         "ko01100",
@@ -12046,7 +12155,8 @@
         "P"
       ],
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C10H11N5O10P2",
       "hmdb_id": "HMDB0000061",
@@ -12060,6 +12170,7 @@
       "name": "Adenosine 3',5'-bisphosphate",
       "pathways": [
         "ko00230",
+        "ko00532",
         "ko00534",
         "ko00770",
         "ko00920",
@@ -13443,7 +13554,8 @@
         "P"
       ],
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C10H11N4O14P3",
       "hmdb_id": "HMDB0000189",
@@ -14703,7 +14815,8 @@
         "P"
       ],
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C10H11N4O11P2",
       "inchikey": "JPXZQMKKFWMMGK-KQYNXXCUSA-K",
@@ -16647,7 +16760,8 @@
       ],
       "evidence_sources": [
         "metabolism",
-        "metabolomics"
+        "metabolomics",
+        "transport"
       ],
       "formula": "C10H12N5O8P",
       "hmdb_id": "HMDB0001397",
@@ -18472,6 +18586,7 @@
         "O"
       ],
       "evidence_sources": [
+        "metabolism",
         "transport"
       ],
       "formula": "C27H46O",
@@ -19555,7 +19670,8 @@
         "36976"
       ],
       "evidence_sources": [
-        "go_transport"
+        "go_transport",
+        "transport"
       ],
       "identity_basis": [
         "chebi_kegg_xref"
@@ -19898,7 +20014,8 @@
         "S"
       ],
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C10H12N5O10PS",
       "hmdb_id": "HMDB0001003",
@@ -20159,6 +20276,9 @@
         "H",
         "O",
         "P"
+      ],
+      "enantiomer_of": [
+        "kegg.compound:C03291"
       ],
       "evidence_sources": [
         "metabolism",
@@ -23358,7 +23478,8 @@
         "O"
       ],
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C6H6O5",
       "hmdb_id": "HMDB0000225",
@@ -25985,6 +26106,42 @@
       "smiles": "COC1=C(OC)C(=O)C(CC=C(C)C)=C(C)C1=O",
       "structure_kind": "defined"
     },
+    "C00401": {
+      "all_identifiers": [
+        "chebi:13989",
+        "chebi:13992",
+        "chebi:16137",
+        "chebi:23221",
+        "chebi:3673",
+        "kegg.compound:C00401",
+        "mnx:MNXM741364"
+      ],
+      "chebi_id": "16137",
+      "chebi_ids": [
+        "16137"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C14H21NO11*2",
+      "kegg_compound_id": "C00401",
+      "kegg_compound_ids": [
+        "C00401"
+      ],
+      "mnxm_id": "MNXM741364",
+      "name": "Chondroitin",
+      "pathways": [
+        "ko00532",
+        "ko01100"
+      ],
+      "structure_kind": "generic"
+    },
     "C00402": {
       "all_identifiers": [
         "chebi:12918",
@@ -26038,6 +26195,37 @@
         "kegg.compound:C16433"
       ],
       "structure_kind": "defined"
+    },
+    "C00404": {
+      "all_identifiers": [
+        "chebi:14861",
+        "chebi:16838",
+        "chebi:18842",
+        "chebi:63301",
+        "chebi:8315",
+        "kegg.compound:C00404",
+        "mnx:MNXM731401"
+      ],
+      "chebi_id": "16838",
+      "chebi_ids": [
+        "16838"
+      ],
+      "elements": [
+        "H",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "(O3P)n.HO",
+      "kegg_compound_id": "C00404",
+      "kegg_compound_ids": [
+        "C00404"
+      ],
+      "mnxm_id": "MNXM731401",
+      "name": "Polyphosphate",
+      "structure_kind": "polymer"
     },
     "C00405": {
       "all_identifiers": [
@@ -27865,7 +28053,8 @@
         "P"
       ],
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C10H13N2O14P3",
       "hmdb_id": "HMDB0001342",
@@ -28730,10 +28919,14 @@
         "O"
       ],
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C5H6O4",
       "hmdb_id": "HMDB0000661",
+      "identity_basis": [
+        "mnx_same_entity"
+      ],
       "inchikey": "JFCQEDHGNNZCLN-UHFFFAOYSA-L",
       "kegg_compound_id": "C00489",
       "kegg_compound_ids": [
@@ -29381,7 +29574,8 @@
       ],
       "evidence_sources": [
         "metabolism",
-        "metabolomics"
+        "metabolomics",
+        "transport"
       ],
       "formula": "C3H6NO5S",
       "hmdb_id": "HMDB0303991",
@@ -31874,6 +32068,47 @@
       ],
       "structure_kind": "defined"
     },
+    "C00599": {
+      "all_identifiers": [
+        "chebi:13979",
+        "chebi:16175",
+        "chebi:23171",
+        "chebi:3657",
+        "chebi:86563",
+        "hmdb:HMDB0000921",
+        "inchikey:NYOXRYYXRWJDKP-GYKMGIIDSA-N",
+        "kegg.compound:C00599",
+        "mnx:MNXM973"
+      ],
+      "chebi_id": "16175",
+      "chebi_ids": [
+        "16175"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C27H44O",
+      "hmdb_id": "HMDB0000921",
+      "inchikey": "NYOXRYYXRWJDKP-GYKMGIIDSA-N",
+      "kegg_compound_id": "C00599",
+      "kegg_compound_ids": [
+        "C00599"
+      ],
+      "mass": 384.648,
+      "mnxm_id": "MNXM973",
+      "name": "Cholest-4-en-3-one",
+      "pathways": [
+        "ko00984",
+        "ko01120"
+      ],
+      "smiles": "CC(C)CCC[C@@H](C)[C@H]1CC[C@H]2[C@@H]3CCC4=CC(=O)CC[C@]4(C)[C@H]3CC[C@]12C",
+      "structure_kind": "defined"
+    },
     "C00601": {
       "all_identifiers": [
         "chebi:14778",
@@ -31997,7 +32232,8 @@
         "S"
       ],
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C3H6NO4S",
       "hmdb_id": "HMDB0000996",
@@ -32570,6 +32806,42 @@
       ],
       "smiles": "O=CC1=CC=C(O)C=C1",
       "structure_kind": "defined"
+    },
+    "C00634": {
+      "all_identifiers": [
+        "chebi:13990",
+        "chebi:18250",
+        "chebi:23222",
+        "chebi:3674",
+        "kegg.compound:C00634",
+        "mnx:MNXM736601"
+      ],
+      "chebi_id": "18250",
+      "chebi_ids": [
+        "18250"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C14H21NO14S*2",
+      "kegg_compound_id": "C00634",
+      "kegg_compound_ids": [
+        "C00634"
+      ],
+      "mnxm_id": "MNXM736601",
+      "name": "Chondroitin 4-sulfate",
+      "pathways": [
+        "ko00531",
+        "ko01100"
+      ],
+      "structure_kind": "generic"
     },
     "C00636": {
       "all_identifiers": [
@@ -35921,6 +36193,50 @@
       "smiles": "C[NH2+]C[C@H](O)C1=CC=C(O)C(O)=C1",
       "structure_kind": "defined"
     },
+    "C00789": {
+      "all_identifiers": [
+        "chebi:13272",
+        "chebi:16022",
+        "chebi:20872",
+        "chebi:3273",
+        "chebi:57608",
+        "inchikey:DPJKHFICSGCNIR-HRENORGGSA-L",
+        "kegg.compound:C00789",
+        "mnx:MNXM1092685"
+      ],
+      "chebi_id": "16022",
+      "chebi_ids": [
+        "16022",
+        "57608"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C14H23N3O15P2",
+      "inchikey": "DPJKHFICSGCNIR-HRENORGGSA-L",
+      "kegg_compound_id": "C00789",
+      "kegg_compound_ids": [
+        "C00789"
+      ],
+      "mass": 535.292,
+      "mnxm_id": "MNXM1092685",
+      "name": "CDP-ribitol",
+      "pathways": [
+        "ko00040",
+        "ko00515",
+        "ko00552",
+        "ko01100"
+      ],
+      "smiles": "NC1=NC(=O)N([C@@H]2O[C@H](COP(=O)([O-])OP(=O)([O-])OC[C@@H](O)[C@@H](O)[C@@H](O)CO)[C@@H](O)[C@H]2O)C=C1",
+      "structure_kind": "defined"
+    },
     "C00791": {
       "all_identifiers": [
         "chebi:14029",
@@ -36671,6 +36987,43 @@
         "ko01220"
       ],
       "smiles": "O=C([O-])/C=C/C1=CC=C(O)C=C1",
+      "structure_kind": "defined"
+    },
+    "C00815": {
+      "all_identifiers": [
+        "chebi:13997",
+        "chebi:15584",
+        "chebi:23319",
+        "chebi:3725",
+        "hmdb:HMDB0000426",
+        "inchikey:XFTRTWQBIOMVPK-UHFFFAOYSA-L",
+        "kegg.compound:C00815",
+        "mnx:MNXM1364397"
+      ],
+      "chebi_id": "15584",
+      "chebi_ids": [
+        "15584",
+        "13997"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C5H6O5",
+      "hmdb_id": "HMDB0000426",
+      "inchikey": "XFTRTWQBIOMVPK-UHFFFAOYSA-L",
+      "kegg_compound_id": "C00815",
+      "kegg_compound_ids": [
+        "C00815"
+      ],
+      "mass": 146.098,
+      "mnxm_id": "MNXM1364397",
+      "name": "Citramalate",
+      "smiles": "CC(O)(CC(=O)[O-])C(=O)[O-]",
       "structure_kind": "defined"
     },
     "C00817": {
@@ -38099,7 +38452,8 @@
         "S"
       ],
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C21H33N7O13P2S",
       "hmdb_id": "HMDB0001373",
@@ -39219,6 +39573,9 @@
         "ko01230"
       ],
       "smiles": "[NH3+][C@@H](CCCC(=O)[O-])C(=O)[O-]",
+      "stereo_form_of": [
+        "chebi:37024"
+      ],
       "structure_kind": "defined"
     },
     "C00957": {
@@ -39360,9 +39717,13 @@
         "O"
       ],
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C6H10O5*2",
+      "identity_basis": [
+        "chebi_kegg_xref"
+      ],
       "kegg_compound_id": "C00965",
       "kegg_compound_ids": [
         "C00965"
@@ -43751,6 +44112,40 @@
       ],
       "structure_kind": "generic"
     },
+    "C01211": {
+      "all_identifiers": [
+        "chebi:14890",
+        "chebi:51807",
+        "chebi:8441",
+        "kegg.compound:C01211",
+        "mnx:MNXM730025"
+      ],
+      "chebi_id": "51807",
+      "chebi_ids": [
+        "51807"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C7H13N3O3*2",
+      "kegg_compound_id": "C01211",
+      "kegg_compound_ids": [
+        "C01211"
+      ],
+      "mnxm_id": "MNXM730025",
+      "name": "Procollagen 5-hydroxy-L-lysine",
+      "pathways": [
+        "ko00310",
+        "ko01100"
+      ],
+      "structure_kind": "generic"
+    },
     "C01212": {
       "all_identifiers": [
         "chebi:13459",
@@ -47069,6 +47464,51 @@
       "smiles": "CC1=CC=CC=C1O",
       "structure_kind": "defined"
     },
+    "C01546": {
+      "all_identifiers": [
+        "chebi:1101",
+        "chebi:11577",
+        "chebi:16739",
+        "chebi:19582",
+        "chebi:19583",
+        "chebi:30845",
+        "chebi:42470",
+        "hmdb:HMDB0000617",
+        "inchikey:SMNDYUVBFMFKNZ-UHFFFAOYSA-M",
+        "kegg.compound:C01546",
+        "mnx:MNXM4290"
+      ],
+      "chebi_id": "30845",
+      "chebi_ids": [
+        "30845",
+        "16739"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C5H3O3",
+      "hmdb_id": "HMDB0000617",
+      "inchikey": "SMNDYUVBFMFKNZ-UHFFFAOYSA-M",
+      "kegg_compound_id": "C01546",
+      "kegg_compound_ids": [
+        "C01546"
+      ],
+      "mass": 111.076,
+      "mnxm_id": "MNXM4290",
+      "name": "2-Furoate",
+      "pathways": [
+        "ko00365",
+        "ko01100",
+        "ko01120"
+      ],
+      "smiles": "O=C([O-])C1=CC=CO1",
+      "structure_kind": "defined"
+    },
     "C01551": {
       "all_identifiers": [
         "chebi:13761",
@@ -47511,6 +47951,7 @@
         "O"
       ],
       "evidence_sources": [
+        "metabolism",
         "transport"
       ],
       "formula": "C13H16N2O2",
@@ -48780,6 +49221,49 @@
       "smiles": "O=C(O)CC1=CC=CC=C1NC1=C(Cl)C=CC=C1Cl",
       "structure_kind": "defined"
     },
+    "C01693": {
+      "all_identifiers": [
+        "chebi:13099",
+        "chebi:15772",
+        "chebi:21281",
+        "chebi:57509",
+        "chebi:6212",
+        "hmdb:HMDB0001430",
+        "inchikey:VJNCICVKUHKIIV-LURJTMIESA-M",
+        "kegg.compound:C01693",
+        "mnx:MNXM726109"
+      ],
+      "chebi_id": "15772",
+      "chebi_ids": [
+        "15772",
+        "57509"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O"
+      ],
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C9H6NO4",
+      "hmdb_id": "HMDB0001430",
+      "inchikey": "VJNCICVKUHKIIV-LURJTMIESA-M",
+      "kegg_compound_id": "C01693",
+      "kegg_compound_ids": [
+        "C01693"
+      ],
+      "mass": 192.15,
+      "mnxm_id": "MNXM726109",
+      "name": "L-Dopachrome",
+      "pathways": [
+        "ko00350",
+        "ko01100"
+      ],
+      "smiles": "O=C1C=C2C[C@@H](C(=O)[O-])NC2=CC1=O",
+      "structure_kind": "defined"
+    },
     "C01694": {
       "all_identifiers": [
         "chebi:14214",
@@ -49242,6 +49726,7 @@
         "O"
       ],
       "evidence_sources": [
+        "metabolism",
         "transport"
       ],
       "formula": "C6H6O2",
@@ -51126,6 +51611,7 @@
         "O"
       ],
       "evidence_sources": [
+        "metabolism",
         "transport"
       ],
       "formula": "C7H16NO2",
@@ -52273,6 +52759,7 @@
       "name": "[Protein]-L-serine",
       "pathways": [
         "ko00515",
+        "ko00532",
         "ko00534",
         "ko01100"
       ],
@@ -53192,6 +53679,51 @@
       "stereo_form_of": [
         "kegg.compound:C00507"
       ],
+      "structure_kind": "defined"
+    },
+    "C02341": {
+      "all_identifiers": [
+        "chebi:10719",
+        "chebi:12869",
+        "chebi:12878",
+        "chebi:15708",
+        "chebi:27069",
+        "chebi:27070",
+        "chebi:32806",
+        "chebi:46108",
+        "hmdb:HMDB0000958",
+        "inchikey:GTZCVFVGUGFEME-HNQUOIGGSA-K",
+        "kegg.compound:C02341",
+        "mnx:MNXM728255"
+      ],
+      "chebi_id": "32806",
+      "chebi_ids": [
+        "32806",
+        "15708"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C6H3O6",
+      "hmdb_id": "HMDB0000958",
+      "inchikey": "GTZCVFVGUGFEME-HNQUOIGGSA-K",
+      "kegg_compound_id": "C02341",
+      "kegg_compound_ids": [
+        "C02341"
+      ],
+      "mass": 171.084,
+      "mnxm_id": "MNXM728255",
+      "name": "trans-Aconitate",
+      "pathways": [
+        "ko00660",
+        "ko01100"
+      ],
+      "smiles": "O=C([O-])/C=C(\\CC(=O)[O-])C(=O)[O-]",
       "structure_kind": "defined"
     },
     "C02348": {
@@ -55245,6 +55777,9 @@
         "ko01230"
       ],
       "smiles": "C[C@@](O)(CC(=O)[O-])C(=O)[O-]",
+      "stereo_form_of": [
+        "kegg.compound:C00815"
+      ],
       "structure_kind": "defined"
     },
     "C02631": {
@@ -55472,6 +56007,54 @@
         "ko01100"
       ],
       "smiles": "NC(=[NH2+])NCCCC=O",
+      "structure_kind": "defined"
+    },
+    "C02656": {
+      "all_identifiers": [
+        "chebi:12209",
+        "chebi:17774",
+        "chebi:20708",
+        "chebi:20709",
+        "chebi:2175",
+        "chebi:24517",
+        "chebi:30531",
+        "chebi:36165",
+        "chebi:44980",
+        "hmdb:HMDB0000857",
+        "inchikey:WLJVNTCWHIRURA-UHFFFAOYSA-L",
+        "kegg.compound:C02656",
+        "mnx:MNXM2555"
+      ],
+      "chebi_id": "30531",
+      "chebi_ids": [
+        "30531",
+        "17774",
+        "36165"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C7H10O4",
+      "hmdb_id": "HMDB0000857",
+      "inchikey": "WLJVNTCWHIRURA-UHFFFAOYSA-L",
+      "kegg_compound_id": "C02656",
+      "kegg_compound_ids": [
+        "C02656"
+      ],
+      "mass": 158.153,
+      "mnxm_id": "MNXM2555",
+      "name": "Pimelate",
+      "pathways": [
+        "ko00780",
+        "ko01100",
+        "ko01240"
+      ],
+      "smiles": "O=C([O-])CCCCCC(=O)[O-]",
       "structure_kind": "defined"
     },
     "C02659": {
@@ -57590,6 +58173,22 @@
       "smiles": "OC1=C(O)C2=CC=CC=C2C=C1",
       "structure_kind": "defined"
     },
+    "C03024": {
+      "all_identifiers": [
+        "kegg.compound:C03024",
+        "mnx:MNXM728239"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "kegg_compound_id": "C03024",
+      "kegg_compound_ids": [
+        "C03024"
+      ],
+      "mnxm_id": "MNXM728239",
+      "name": "[Reduced NADPH---hemoprotein reductase]",
+      "structure_kind": "defined"
+    },
     "C03025": {
       "all_identifiers": [
         "kegg.compound:C03025",
@@ -58484,6 +59083,22 @@
       "smiles": "CC(C)(COP(=O)([O-])OP(=O)([O-])OC[C@H]1O[C@@H](N2C=NC3=C2N=CN=C3N)[C@H](O)[C@@H]1OP(=O)([O-])[O-])[C@@H](O)C(=O)NCCC(=O)NCCSC(=O)CCC(=O)C1=CC=CC=C1C(=O)[O-]",
       "structure_kind": "defined"
     },
+    "C03161": {
+      "all_identifiers": [
+        "kegg.compound:C03161",
+        "mnx:MNXM729103"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "kegg_compound_id": "C03161",
+      "kegg_compound_ids": [
+        "C03161"
+      ],
+      "mnxm_id": "MNXM729103",
+      "name": "[Oxidized NADPH---hemoprotein reductase]",
+      "structure_kind": "defined"
+    },
     "C03162": {
       "all_identifiers": [
         "kegg.compound:C03162",
@@ -59119,6 +59734,48 @@
       "smiles": "O=C([O-])C(=O)COP(=O)([O-])[O-]",
       "structure_kind": "defined"
     },
+    "C03233": {
+      "all_identifiers": [
+        "chebi:11924",
+        "chebi:17199",
+        "chebi:1746",
+        "chebi:20273",
+        "chebi:58051",
+        "inchikey:YZBCICVNBHNLTK-UHFFFAOYSA-L",
+        "kegg.compound:C03233",
+        "mnx:MNXM1894"
+      ],
+      "chebi_id": "17199",
+      "chebi_ids": [
+        "17199",
+        "58051"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C8H4O6",
+      "inchikey": "YZBCICVNBHNLTK-UHFFFAOYSA-L",
+      "kegg_compound_id": "C03233",
+      "kegg_compound_ids": [
+        "C03233"
+      ],
+      "mass": 196.114,
+      "mnxm_id": "MNXM1894",
+      "name": "4,5-Dihydroxyphthalate",
+      "pathways": [
+        "ko00624",
+        "ko01100",
+        "ko01120",
+        "ko01220"
+      ],
+      "smiles": "O=C([O-])C1=C(C(=O)[O-])C=C(O)C(O)=C1",
+      "structure_kind": "defined"
+    },
     "C03239": {
       "all_identifiers": [
         "chebi:12205",
@@ -59405,6 +60062,49 @@
         "ko01230"
       ],
       "smiles": "[NH3+][C@@H](CCC(=O)OP(=O)([O-])[O-])C(=O)[O-]",
+      "structure_kind": "defined"
+    },
+    "C03291": {
+      "all_identifiers": [
+        "chebi:13191",
+        "chebi:16593",
+        "chebi:21427",
+        "chebi:57829",
+        "chebi:6328",
+        "inchikey:FNZLKVNUWIIPSJ-WHFBIAKZSA-L",
+        "kegg.compound:C03291",
+        "mnx:MNXM1238"
+      ],
+      "chebi_id": "16593",
+      "chebi_ids": [
+        "16593",
+        "57829"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C5H9O8P",
+      "inchikey": "FNZLKVNUWIIPSJ-WHFBIAKZSA-L",
+      "kegg_compound_id": "C03291",
+      "kegg_compound_ids": [
+        "C03291"
+      ],
+      "mass": 228.093,
+      "mnxm_id": "MNXM1238",
+      "name": "L-Xylulose 5-phosphate",
+      "pathways": [
+        "ko00040",
+        "ko00053",
+        "ko01100",
+        "ko01120"
+      ],
+      "smiles": "O=C(CO)[C@H](O)[C@@H](O)COP(=O)([O-])[O-]",
       "structure_kind": "defined"
     },
     "C03294": {
@@ -64845,6 +65545,49 @@
       "smiles": "CC(C)(O)C(=O)C(=O)[O-]",
       "structure_kind": "defined"
     },
+    "C04185": {
+      "all_identifiers": [
+        "chebi:12081",
+        "chebi:16875",
+        "chebi:2003",
+        "chebi:20515",
+        "hmdb:HMDB0001253",
+        "inchikey:YFTGOBNOJKXZJC-UHFFFAOYSA-M",
+        "kegg.compound:C04185",
+        "mnx:MNXM726107"
+      ],
+      "chebi_id": "2003",
+      "chebi_ids": [
+        "2003",
+        "16875",
+        "20515"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O"
+      ],
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C9H6NO4",
+      "hmdb_id": "HMDB0001253",
+      "inchikey": "YFTGOBNOJKXZJC-UHFFFAOYSA-M",
+      "kegg_compound_id": "C04185",
+      "kegg_compound_ids": [
+        "C04185"
+      ],
+      "mass": 192.15,
+      "mnxm_id": "MNXM726107",
+      "name": "5,6-Dihydroxyindole-2-carboxylate",
+      "pathways": [
+        "ko00350",
+        "ko01100"
+      ],
+      "smiles": "O=C([O-])C1=CC2=CC(O)=C(O)C=C2N1",
+      "structure_kind": "defined"
+    },
     "C04186": {
       "all_identifiers": [
         "chebi:10741",
@@ -64937,6 +65680,49 @@
         "ko01100"
       ],
       "smiles": "CSC[C@H]1O[C@H](OP(=O)([O-])[O-])[C@H](O)[C@@H]1O",
+      "structure_kind": "defined"
+    },
+    "C04216": {
+      "all_identifiers": [
+        "chebi:10191",
+        "chebi:12778",
+        "chebi:17613",
+        "chebi:22342",
+        "chebi:58206",
+        "hmdb:HMDB0012187",
+        "inchikey:LSJLEXWXRKTZAJ-YUIIPXGZSA-K",
+        "kegg.compound:C04216",
+        "mnx:MNXM731634"
+      ],
+      "chebi_id": "17613",
+      "chebi_ids": [
+        "17613",
+        "58206"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C35H57O7P2",
+      "hmdb_id": "HMDB0012187",
+      "inchikey": "LSJLEXWXRKTZAJ-YUIIPXGZSA-K",
+      "kegg_compound_id": "C04216",
+      "kegg_compound_ids": [
+        "C04216"
+      ],
+      "mass": 651.782,
+      "mnxm_id": "MNXM731634",
+      "name": "all-trans-Heptaprenyl diphosphate",
+      "pathways": [
+        "ko00900",
+        "ko01110"
+      ],
+      "smiles": "CC(C)=CCC/C(C)=C/CC/C(C)=C/CC/C(C)=C/CC/C(C)=C/CC/C(C)=C/CC/C(C)=C/COP(=O)([O-])OP(=O)([O-])[O-]",
       "structure_kind": "defined"
     },
     "C04225": {
@@ -66977,6 +67763,33 @@
       "smiles": "O=C/C=C(\\C=C(\\O)C(=O)[O-])C(=O)[O-]",
       "structure_kind": "defined"
     },
+    "C04487": {
+      "all_identifiers": [
+        "kegg.compound:C04487",
+        "mnx:MNXM78106"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C13H23N3O8*2",
+      "kegg_compound_id": "C04487",
+      "kegg_compound_ids": [
+        "C04487"
+      ],
+      "mnxm_id": "MNXM78106",
+      "name": "5-(D-Galactosyloxy)-L-lysine-procollagen",
+      "pathways": [
+        "ko00310",
+        "ko01100"
+      ],
+      "structure_kind": "generic"
+    },
     "C04489": {
       "all_identifiers": [
         "chebi:12147",
@@ -67115,6 +67928,41 @@
       ],
       "smiles": "CC(=O)N[C@H]1[C@@H](OP(=O)([O-])[O-])O[C@H](CO)[C@@H](O)[C@@H]1O",
       "structure_kind": "defined"
+    },
+    "C04506": {
+      "all_identifiers": [
+        "chebi:14939",
+        "chebi:17171",
+        "chebi:8528",
+        "kegg.compound:C04506",
+        "mnx:MNXM726293"
+      ],
+      "chebi_id": "17171",
+      "chebi_ids": [
+        "17171"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C22H35N3O4S*2",
+      "kegg_compound_id": "C04506",
+      "kegg_compound_ids": [
+        "C04506"
+      ],
+      "mnxm_id": "MNXM726293",
+      "name": "Protein C-terminal S-farnesyl-L-cysteine",
+      "pathways": [
+        "ko00900",
+        "ko01110"
+      ],
+      "structure_kind": "generic"
     },
     "C04534": {
       "all_identifiers": [
@@ -69102,6 +69950,48 @@
         "ko01240"
       ],
       "smiles": "CC1=C(C)C=C2C(=C1)N=CN2[C@H]1O[C@H](COP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+      "structure_kind": "defined"
+    },
+    "C04783": {
+      "all_identifiers": [
+        "chebi:10476",
+        "chebi:12804",
+        "chebi:17692",
+        "chebi:26091",
+        "chebi:58237",
+        "inchikey:MFSRJRFDIILHFC-OLQVQODUSA-L",
+        "kegg.compound:C04783",
+        "mnx:MNXM1917"
+      ],
+      "chebi_id": "17692",
+      "chebi_ids": [
+        "17692",
+        "58237"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C8H6O6",
+      "inchikey": "MFSRJRFDIILHFC-OLQVQODUSA-L",
+      "kegg_compound_id": "C04783",
+      "kegg_compound_ids": [
+        "C04783"
+      ],
+      "mass": 198.13,
+      "mnxm_id": "MNXM1917",
+      "name": "cis-4,5-Dihydroxycyclohexa-1(6),2-diene-1,2-dicarboxylate",
+      "pathways": [
+        "ko00624",
+        "ko01100",
+        "ko01120",
+        "ko01220"
+      ],
+      "smiles": "O=C([O-])C1=C[C@@H](O)[C@@H](O)C=C1C(=O)[O-]",
       "structure_kind": "defined"
     },
     "C04793": {
@@ -72557,6 +73447,44 @@
       "smiles": "O=C([O-])C/C(=C/C(=O)C(=O)[O-])C(=O)[O-]",
       "structure_kind": "defined"
     },
+    "C05375": {
+      "all_identifiers": [
+        "chebi:61985",
+        "chebi:62011",
+        "inchikey:MLOJGZHQNWCBAC-UHFFFAOYSA-L",
+        "kegg.compound:C05375",
+        "mnx:MNXM2943"
+      ],
+      "chebi_id": "62011",
+      "chebi_ids": [
+        "62011",
+        "61985"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C7H4O6",
+      "inchikey": "MLOJGZHQNWCBAC-UHFFFAOYSA-L",
+      "kegg_compound_id": "C05375",
+      "kegg_compound_ids": [
+        "C05375"
+      ],
+      "mass": 184.103,
+      "mnxm_id": "MNXM2943",
+      "name": "2-Hydroxy-2-hydropyrone-4,6-dicarboxylate",
+      "pathways": [
+        "ko00362",
+        "ko01100",
+        "ko01120"
+      ],
+      "smiles": "O=C([O-])C1=CC(O)OC(C(=O)[O-])=C1",
+      "structure_kind": "defined"
+    },
     "C05378": {
       "all_identifiers": [
         "chebi:10374",
@@ -73436,6 +74364,47 @@
       "smiles": "CC(C)=CCC/C(C)=C/C=C/C(C)=C/C=C/C(C)=C/C=C/C=C(C)/C=C/C=C(C)/C=C/C1=C(C)CCCC1(C)C",
       "structure_kind": "defined"
     },
+    "C05443": {
+      "all_identifiers": [
+        "chebi:10008",
+        "chebi:23170",
+        "chebi:28940",
+        "chebi:46283",
+        "hmdb:HMDB0000876",
+        "inchikey:QYSXJUFSXHHAJI-YRZJJWOYSA-N",
+        "kegg.compound:C05443",
+        "mnx:MNXM1364326"
+      ],
+      "chebi_id": "28940",
+      "chebi_ids": [
+        "28940"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C27H44O",
+      "hmdb_id": "HMDB0000876",
+      "inchikey": "QYSXJUFSXHHAJI-YRZJJWOYSA-N",
+      "kegg_compound_id": "C05443",
+      "kegg_compound_ids": [
+        "C05443"
+      ],
+      "mass": 384.648,
+      "mnxm_id": "MNXM1364326",
+      "name": "Vitamin D3",
+      "pathways": [
+        "ko00100",
+        "ko01100",
+        "ko01110"
+      ],
+      "smiles": "C=C1CC[C@H](O)C/C1=C/C=C1\\CCC[C@]2(C)[C@@H]([C@H](C)CCCC(C)C)CC[C@@H]12",
+      "structure_kind": "defined"
+    },
     "C05444": {
       "all_identifiers": [
         "chebi:1702",
@@ -73876,7 +74845,8 @@
         "O"
       ],
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C7H8O7",
       "inchikey": "PYOHERBGXSPHQI-UHFFFAOYSA-N",
@@ -75282,6 +76252,43 @@
         "ko01100"
       ],
       "smiles": "NC1=C(C(=O)O)C2=NC3=C(C(=O)O)C=CC=C3OC2=CC1=O",
+      "structure_kind": "defined"
+    },
+    "C05643": {
+      "all_identifiers": [
+        "chebi:2198",
+        "hmdb:HMDB0004081",
+        "inchikey:OMYMRCXOJJZYKE-UHFFFAOYSA-N",
+        "kegg.compound:C05643",
+        "mnx:MNXM730977"
+      ],
+      "chebi_id": "2198",
+      "chebi_ids": [
+        "2198"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C13H16N2O3",
+      "hmdb_id": "HMDB0004081",
+      "inchikey": "OMYMRCXOJJZYKE-UHFFFAOYSA-N",
+      "kegg_compound_id": "C05643",
+      "kegg_compound_ids": [
+        "C05643"
+      ],
+      "mass": 248.282,
+      "mnxm_id": "MNXM730977",
+      "name": "6-Hydroxymelatonin",
+      "pathways": [
+        "ko00380"
+      ],
+      "smiles": "COC1=CC2=C(C=C1O)NC=C2CCNC(C)=O",
       "structure_kind": "defined"
     },
     "C05648": {
@@ -77285,7 +78292,8 @@
         "O"
       ],
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C36H34N4O8",
       "hmdb_id": "HMDB0000570",
@@ -81017,6 +82025,53 @@
         "ko01220"
       ],
       "smiles": "O=C([O-])CCCCCO",
+      "structure_kind": "defined"
+    },
+    "C06104": {
+      "all_identifiers": [
+        "chebi:13744",
+        "chebi:17128",
+        "chebi:22264",
+        "chebi:22268",
+        "chebi:2489",
+        "chebi:30832",
+        "chebi:30833",
+        "hmdb:HMDB0000448",
+        "inchikey:WNLRTRBMVRJNCN-UHFFFAOYSA-L",
+        "kegg.compound:C06104",
+        "mnx:MNXM2800"
+      ],
+      "chebi_id": "30832",
+      "chebi_ids": [
+        "30832",
+        "17128",
+        "30833"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C6H8O4",
+      "hmdb_id": "HMDB0000448",
+      "inchikey": "WNLRTRBMVRJNCN-UHFFFAOYSA-L",
+      "kegg_compound_id": "C06104",
+      "kegg_compound_ids": [
+        "C06104"
+      ],
+      "mass": 144.126,
+      "mnxm_id": "MNXM2800",
+      "name": "Adipate",
+      "pathways": [
+        "ko00930",
+        "ko01100",
+        "ko01120",
+        "ko01220"
+      ],
+      "smiles": "O=C([O-])CCCCC(=O)[O-]",
       "structure_kind": "defined"
     },
     "C06112": {
@@ -84881,6 +85936,90 @@
       "smiles": "O[C@H]1C=C(Cl)[C@@H](O)C=C1Cl",
       "structure_kind": "defined"
     },
+    "C06604": {
+      "all_identifiers": [
+        "chebi:25857",
+        "chebi:27928",
+        "chebi:7927",
+        "hmdb:HMDB0001355",
+        "inchikey:LCCNCVORNKJIRZ-UHFFFAOYSA-N",
+        "kegg.compound:C06604",
+        "mnx:MNXM2552"
+      ],
+      "chebi_id": "27928",
+      "chebi_ids": [
+        "27928"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism",
+        "transport"
+      ],
+      "formula": "C10H14NO5PS",
+      "hmdb_id": "HMDB0001355",
+      "inchikey": "LCCNCVORNKJIRZ-UHFFFAOYSA-N",
+      "kegg_compound_id": "C06604",
+      "kegg_compound_ids": [
+        "C06604"
+      ],
+      "mass": 291.265,
+      "mnxm_id": "MNXM2552",
+      "name": "Parathion",
+      "pathways": [
+        "ko00627",
+        "ko01120"
+      ],
+      "smiles": "CCOP(=S)(OCC)OC1=CC=C([N+](=O)[O-])C=C1",
+      "structure_kind": "defined"
+    },
+    "C06606": {
+      "all_identifiers": [
+        "chebi:25855",
+        "chebi:27827",
+        "chebi:7924",
+        "hmdb:HMDB0013035",
+        "inchikey:WYMSBXTXOHUIGT-UHFFFAOYSA-N",
+        "kegg.compound:C06606",
+        "mnx:MNXM4766"
+      ],
+      "chebi_id": "27827",
+      "chebi_ids": [
+        "27827"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C10H14NO6P",
+      "hmdb_id": "HMDB0013035",
+      "inchikey": "WYMSBXTXOHUIGT-UHFFFAOYSA-N",
+      "kegg_compound_id": "C06606",
+      "kegg_compound_ids": [
+        "C06606"
+      ],
+      "mass": 275.197,
+      "mnxm_id": "MNXM4766",
+      "name": "Paraoxon",
+      "pathways": [
+        "ko00627",
+        "ko01120"
+      ],
+      "smiles": "CCOP(=O)(OCC)OC1=CC=C([N+](=O)[O-])C=C1",
+      "structure_kind": "defined"
+    },
     "C06609": {
       "all_identifiers": [
         "chebi:18624",
@@ -85209,6 +86348,42 @@
         "ko01110"
       ],
       "smiles": "C[NH+](C)[C@@H]1C([O-])=C(C(N)=O)C(=O)[C@@]2(O)C(O)=C3C(=O)C4=C(O)C=CC=C4[C@@](C)(O)[C@H]3[C@H](O)[C@@H]12",
+      "structure_kind": "defined"
+    },
+    "C06625": {
+      "all_identifiers": [
+        "chebi:25129",
+        "chebi:28334",
+        "chebi:6659",
+        "inchikey:KRWKKOAUSKOTIG-DVVLENMVSA-N",
+        "kegg.compound:C06625",
+        "mnx:MNXM6324"
+      ],
+      "chebi_id": "28334",
+      "chebi_ids": [
+        "28334"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C24H39N8O18P3S",
+      "inchikey": "KRWKKOAUSKOTIG-DVVLENMVSA-N",
+      "kegg_compound_id": "C06625",
+      "kegg_compound_ids": [
+        "C06625"
+      ],
+      "mass": 852.603,
+      "mnxm_id": "MNXM6324",
+      "name": "Malonamoyl-CoA",
+      "smiles": "CC(C)(COP(=O)(O)OP(=O)(O)OC[C@H]1O[C@@H](N2C=NC3=C2N=CN=C3N)[C@H](O)[C@@H]1OP(=O)(O)O)[C@@H](O)C(=O)NCCC(=O)NCCSC(=O)CC(N)=O",
       "structure_kind": "defined"
     },
     "C06665": {
@@ -92380,6 +93555,46 @@
       "smiles": "O=C1C=CC2=CC(O[C@@H]3O[C@H](CO)[C@@H](O)[C@H](O)[C@H]3O)=C(O)C=C2O1",
       "structure_kind": "defined"
     },
+    "C09306": {
+      "all_identifiers": [
+        "chebi:18422",
+        "chebi:45789",
+        "chebi:8992",
+        "chebi:9351",
+        "hmdb:HMDB0034834",
+        "inchikey:RAHZWNYVWXNFOC-UHFFFAOYSA-N",
+        "kegg.compound:C09306",
+        "mnx:MNXM4835"
+      ],
+      "chebi_id": "18422",
+      "chebi_ids": [
+        "18422"
+      ],
+      "elements": [
+        "O",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "O2S",
+      "hmdb_id": "HMDB0034834",
+      "inchikey": "RAHZWNYVWXNFOC-UHFFFAOYSA-N",
+      "kegg_compound_id": "C09306",
+      "kegg_compound_ids": [
+        "C09306"
+      ],
+      "mass": 64.065,
+      "mnxm_id": "MNXM4835",
+      "name": "Sulfur dioxide",
+      "pathways": [
+        "ko00270",
+        "ko01100",
+        "ko01320"
+      ],
+      "smiles": "O=S=O",
+      "structure_kind": "defined"
+    },
     "C09332": {
       "all_identifiers": [
         "chebi:26909",
@@ -93598,6 +94813,45 @@
         "ko00980"
       ],
       "smiles": "BrCCBr",
+      "structure_kind": "defined"
+    },
+    "C11101": {
+      "all_identifiers": [
+        "chebi:2077",
+        "chebi:412516",
+        "chebi:42598",
+        "hmdb:HMDB0034355",
+        "inchikey:NOEGNKMFWQHSLB-UHFFFAOYSA-N",
+        "kegg.compound:C11101",
+        "mnx:MNXM10320"
+      ],
+      "chebi_id": "412516",
+      "chebi_ids": [
+        "412516"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C6H6O3",
+      "hmdb_id": "HMDB0034355",
+      "inchikey": "NOEGNKMFWQHSLB-UHFFFAOYSA-N",
+      "kegg_compound_id": "C11101",
+      "kegg_compound_ids": [
+        "C11101"
+      ],
+      "mass": 126.111,
+      "mnxm_id": "MNXM10320",
+      "name": "5-Hydroxymethyl-2-furaldehyde",
+      "pathways": [
+        "ko00365",
+        "ko01120"
+      ],
+      "smiles": "O=CC1=CC=C(CO)O1",
       "structure_kind": "defined"
     },
     "C11110": {
@@ -97580,6 +98834,90 @@
       "smiles": "C=C(C)C1CC=C(C(=O)[O-])CC1",
       "structure_kind": "defined"
     },
+    "C11925": {
+      "all_identifiers": [
+        "chebi:63264",
+        "chebi:63265",
+        "inchikey:KVYJLJOGNUNRJK-HALQBZCBSA-M",
+        "kegg.compound:C11925",
+        "mnx:MNXM2224"
+      ],
+      "chebi_id": "63264",
+      "chebi_ids": [
+        "63264",
+        "63265"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C16H26N3O14P2",
+      "inchikey": "KVYJLJOGNUNRJK-HALQBZCBSA-M",
+      "kegg_compound_id": "C11925",
+      "kegg_compound_ids": [
+        "C11925"
+      ],
+      "mass": 546.339,
+      "mnxm_id": "MNXM2224",
+      "name": "dTDP-3-amino-3,6-dideoxy-D-glucose",
+      "pathways": [
+        "ko00523",
+        "ko00541",
+        "ko01100",
+        "ko01110",
+        "ko01250"
+      ],
+      "smiles": "CC1=CN([C@H]2C[C@H](O)[C@@H](COP(=O)([O-])OP(=O)([O-])O[C@H]3O[C@H](C)[C@@H](O)[C@H]([NH3+])[C@H]3O)O2)C(=O)NC1=O",
+      "structure_kind": "defined"
+    },
+    "C11933": {
+      "all_identifiers": [
+        "chebi:29728",
+        "chebi:63268",
+        "inchikey:IJJNPDQFXCRKOA-WHRNYZGVSA-M",
+        "kegg.compound:C11933",
+        "mnx:MNXM3983"
+      ],
+      "chebi_id": "29728",
+      "chebi_ids": [
+        "29728",
+        "63268"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C18H30N3O14P2",
+      "inchikey": "IJJNPDQFXCRKOA-WHRNYZGVSA-M",
+      "kegg_compound_id": "C11933",
+      "kegg_compound_ids": [
+        "C11933"
+      ],
+      "mass": 574.393,
+      "mnxm_id": "MNXM3983",
+      "name": "dTDP-D-mycaminose",
+      "pathways": [
+        "ko00522",
+        "ko00523",
+        "ko01100",
+        "ko01110",
+        "ko01250"
+      ],
+      "smiles": "CC1=CN([C@H]2C[C@H](O)[C@@H](COP(=O)([O-])OP(=O)([O-])O[C@H]3O[C@H](C)[C@@H](O)[C@H]([NH+](C)C)[C@H]3O)O2)C(=O)NC1=O",
+      "structure_kind": "defined"
+    },
     "C11945": {
       "all_identifiers": [
         "chebi:29742",
@@ -98246,6 +99584,87 @@
       "smiles": "COC1=C(O)C(O)=CC(/C=C/CO)=C1",
       "structure_kind": "defined"
     },
+    "C12211": {
+      "all_identifiers": [
+        "chebi:32275",
+        "chebi:71964",
+        "inchikey:KGGAKOCPPBMRSA-SAINOKEESA-M",
+        "kegg.compound:C12211",
+        "mnx:MNXM5979"
+      ],
+      "chebi_id": "32275",
+      "chebi_ids": [
+        "32275",
+        "71964"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C15H24N3O16P2",
+      "inchikey": "KGGAKOCPPBMRSA-SAINOKEESA-M",
+      "kegg_compound_id": "C12211",
+      "kegg_compound_ids": [
+        "C12211"
+      ],
+      "mass": 564.31,
+      "mnxm_id": "MNXM5979",
+      "name": "UDP-kanosamine",
+      "pathways": [
+        "ko00524",
+        "ko01051",
+        "ko01110",
+        "ko01250"
+      ],
+      "smiles": "[NH3+][C@@H]1[C@@H](O)[C@@H](OP(=O)([O-])OP(=O)([O-])OC[C@H]2O[C@@H](N3C=CC(=O)NC3=O)[C@H](O)[C@@H]2O)O[C@H](CO)[C@H]1O",
+      "structure_kind": "defined"
+    },
+    "C12212": {
+      "all_identifiers": [
+        "chebi:72725",
+        "chebi:72732",
+        "inchikey:BQCCAEOLPYCBAE-CBPJZXOFSA-O",
+        "kegg.compound:C12212",
+        "mnx:MNXM1370350"
+      ],
+      "chebi_id": "72725",
+      "chebi_ids": [
+        "72725",
+        "72732"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C6H14NO5",
+      "inchikey": "BQCCAEOLPYCBAE-CBPJZXOFSA-O",
+      "kegg_compound_id": "C12212",
+      "kegg_compound_ids": [
+        "C12212"
+      ],
+      "mass": 180.18,
+      "mnxm_id": "MNXM1370350",
+      "name": "Kanosamine",
+      "pathways": [
+        "ko00998",
+        "ko01051",
+        "ko01100",
+        "ko01110"
+      ],
+      "smiles": "[NH3+][C@H]1[C@H](O)[C@@H](CO)OC(O)[C@@H]1O",
+      "structure_kind": "defined"
+    },
     "C12213": {
       "all_identifiers": [
         "chebi:31748",
@@ -98709,6 +100128,239 @@
       ],
       "smiles": "N[C@H](C(=O)O)C1=CC=C(O)C=C1",
       "structure_kind": "defined"
+    },
+    "C12348": {
+      "all_identifiers": [
+        "chebi:31101",
+        "kegg.compound:C12348",
+        "mnx:MNXM26921"
+      ],
+      "chebi_id": "31101",
+      "chebi_ids": [
+        "31101"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C16H17O8S*",
+      "kegg_compound_id": "C12348",
+      "kegg_compound_ids": [
+        "C12348"
+      ],
+      "mnxm_id": "MNXM26921",
+      "name": "3,5,7,9,11,13,15-Heptaoxo-hexadecanoyl-[acp]",
+      "pathways": [
+        "ko01056",
+        "ko01100",
+        "ko01110"
+      ],
+      "structure_kind": "generic"
+    },
+    "C12350": {
+      "all_identifiers": [
+        "chebi:31102",
+        "kegg.compound:C12350",
+        "mnx:MNXM30021"
+      ],
+      "chebi_id": "31102",
+      "chebi_ids": [
+        "31102"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C18H21O8S*",
+      "kegg_compound_id": "C12350",
+      "kegg_compound_ids": [
+        "C12350"
+      ],
+      "mnxm_id": "MNXM30021",
+      "name": "3,5,7,9,11,13,15-Heptaoxo-octadecanoyl-[acp]",
+      "pathways": [
+        "ko01056"
+      ],
+      "structure_kind": "generic"
+    },
+    "C12354": {
+      "all_identifiers": [
+        "chebi:31095",
+        "kegg.compound:C12354",
+        "mnx:MNXM29237"
+      ],
+      "chebi_id": "31095",
+      "chebi_ids": [
+        "31095"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C20H21O10S*",
+      "kegg_compound_id": "C12354",
+      "kegg_compound_ids": [
+        "C12354"
+      ],
+      "mnxm_id": "MNXM29237",
+      "name": "3,5,7,9,11,13,15,17,19-Nonaoxo-eicosanoyl-[acp]",
+      "pathways": [
+        "ko01056",
+        "ko01100",
+        "ko01110"
+      ],
+      "structure_kind": "generic"
+    },
+    "C12355": {
+      "all_identifiers": [
+        "chebi:31096",
+        "kegg.compound:C12355",
+        "mnx:MNXM733106"
+      ],
+      "chebi_id": "31096",
+      "chebi_ids": [
+        "31096"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C21H23O10S*",
+      "kegg_compound_id": "C12355",
+      "kegg_compound_ids": [
+        "C12355"
+      ],
+      "mnxm_id": "MNXM733106",
+      "name": "3,5,7,9,11,13,15,17,19-Nonaoxo-henicosanoyl-[acp]",
+      "pathways": [
+        "ko01056",
+        "ko01110"
+      ],
+      "structure_kind": "generic"
+    },
+    "C12356": {
+      "all_identifiers": [
+        "chebi:31094",
+        "kegg.compound:C12356",
+        "mnx:MNXM26963"
+      ],
+      "chebi_id": "31094",
+      "chebi_ids": [
+        "31094"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C22H25O10S*",
+      "kegg_compound_id": "C12356",
+      "kegg_compound_ids": [
+        "C12356"
+      ],
+      "mnxm_id": "MNXM26963",
+      "name": "3,5,7,9,11,13,15,17,19-Nonaoxo-docosanoyl-[acp]",
+      "pathways": [
+        "ko01056"
+      ],
+      "structure_kind": "generic"
+    },
+    "C12366": {
+      "all_identifiers": [
+        "chebi:198329",
+        "chebi:32207",
+        "inchikey:DHOSUPJHLBTMAV-YIXHJXPBSA-N",
+        "kegg.compound:C12366",
+        "mnx:MNXM1372099"
+      ],
+      "chebi_id": "32207",
+      "chebi_ids": [
+        "32207",
+        "198329"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C20H16O8",
+      "inchikey": "DHOSUPJHLBTMAV-YIXHJXPBSA-N",
+      "kegg_compound_id": "C12366",
+      "kegg_compound_ids": [
+        "C12366"
+      ],
+      "mass": 384.34,
+      "mnxm_id": "MNXM1372099",
+      "name": "Tetracenomycin F2",
+      "pathways": [
+        "ko01057",
+        "ko01100",
+        "ko01110"
+      ],
+      "smiles": "CC(=O)C1=C(/C=C(/O)CC(=O)O)C=C2C=C3C=C(O)C=C(O)C3=C(O)C2=C1O",
+      "structure_kind": "defined"
+    },
+    "C12441": {
+      "all_identifiers": [
+        "chebi:31060",
+        "kegg.compound:C12441",
+        "mnx:MNXM7594"
+      ],
+      "chebi_id": "31060",
+      "chebi_ids": [
+        "31060"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C19H20NO10S*",
+      "kegg_compound_id": "C12441",
+      "kegg_compound_ids": [
+        "C12441"
+      ],
+      "mnxm_id": "MNXM7594",
+      "name": "18-Carbamoyl-3,5,7,9,11,13,15,17-octaoxooctadecanoyl-[acp]",
+      "pathways": [
+        "ko00253",
+        "ko01056",
+        "ko01100",
+        "ko01110"
+      ],
+      "structure_kind": "generic"
     },
     "C12483": {
       "all_identifiers": [
@@ -100525,6 +102177,7 @@
         "O"
       ],
       "evidence_sources": [
+        "metabolism",
         "transport"
       ],
       "formula": "C5H4O2",
@@ -105423,6 +107076,42 @@
       "smiles": "CC(C)=CCC/C(C)=C/C=C/C(C)=C/C=C/C=C(C)/C=C/C=C(C)/C=C/C=C(\\C)C(=O)O[C@@H]1O[C@H](CO)[C@@H](O)[C@H](O)[C@H]1O",
       "structure_kind": "defined"
     },
+    "C16148": {
+      "all_identifiers": [
+        "chebi:71690",
+        "inchikey:PDOUICUKTQRPHO-MENSNCDRSA-N",
+        "kegg.compound:C16148",
+        "mnx:MNXM5932"
+      ],
+      "chebi_id": "71690",
+      "chebi_ids": [
+        "71690"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C51H78O8",
+      "inchikey": "PDOUICUKTQRPHO-MENSNCDRSA-N",
+      "kegg_compound_id": "C16148",
+      "kegg_compound_ids": [
+        "C16148"
+      ],
+      "mass": 819.177,
+      "mnxm_id": "MNXM5932",
+      "name": "Staphyloxanthin",
+      "pathways": [
+        "ko00906",
+        "ko01100",
+        "ko01110"
+      ],
+      "smiles": "CCC(C)CCCCCCCCCCC(=O)OC[C@H]1O[C@@H](OC(=O)/C(C)=C/C=C/C(C)=C/C=C/C(C)=C/C=C/C=C(C)/C=C/C=C(\\C)CCC=C(C)C)[C@H](O)[C@@H](O)[C@@H]1O",
+      "structure_kind": "defined"
+    },
     "C16152": {
       "all_identifiers": [
         "chebi:64998",
@@ -105462,6 +107151,165 @@
         "ko01120"
       ],
       "smiles": "O=C1N=C([O-])/C(=C2\\C=C(O)C(=O)N=C2[O-])C=C1O",
+      "structure_kind": "defined"
+    },
+    "C16153": {
+      "all_identifiers": [
+        "chebi:47025",
+        "chebi:58708",
+        "inchikey:GWBAKYBSWHQNMQ-IAZOVDBXSA-M",
+        "kegg.compound:C16153",
+        "mnx:MNXM1786"
+      ],
+      "chebi_id": "47025",
+      "chebi_ids": [
+        "47025",
+        "58708"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C14H22N3O15P2",
+      "inchikey": "GWBAKYBSWHQNMQ-IAZOVDBXSA-M",
+      "kegg_compound_id": "C16153",
+      "kegg_compound_ids": [
+        "C16153"
+      ],
+      "mass": 534.284,
+      "mnxm_id": "MNXM1786",
+      "name": "UDP-L-Ara4N",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01250"
+      ],
+      "smiles": "[NH3+][C@H]1CO[C@H](OP(=O)([O-])OP(=O)([O-])OC[C@H]2O[C@@H](N3C=CC(=O)NC3=O)[C@H](O)[C@@H]2O)[C@H](O)[C@H]1O",
+      "structure_kind": "defined"
+    },
+    "C16154": {
+      "all_identifiers": [
+        "chebi:47027",
+        "chebi:58709",
+        "inchikey:QGYFHZBDXXNYAX-RTXATJJPSA-L",
+        "kegg.compound:C16154",
+        "mnx:MNXM728269"
+      ],
+      "chebi_id": "47027",
+      "chebi_ids": [
+        "47027",
+        "58709"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C15H21N3O16P2",
+      "inchikey": "QGYFHZBDXXNYAX-RTXATJJPSA-L",
+      "kegg_compound_id": "C16154",
+      "kegg_compound_ids": [
+        "C16154"
+      ],
+      "mass": 561.286,
+      "mnxm_id": "MNXM728269",
+      "name": "UDP-L-Ara4FN",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01250"
+      ],
+      "smiles": "O=CN[C@H]1CO[C@H](OP(=O)([O-])OP(=O)([O-])OC[C@H]2O[C@@H](N3C=CC(=O)NC3=O)[C@H](O)[C@@H]2O)[C@H](O)[C@H]1O",
+      "structure_kind": "defined"
+    },
+    "C16155": {
+      "all_identifiers": [
+        "chebi:47028",
+        "chebi:58710",
+        "chebi:746945",
+        "inchikey:URJZIQLTPCJVMW-QNSCKLTRSA-L",
+        "kegg.compound:C16155",
+        "mnx:MNXM1505"
+      ],
+      "chebi_id": "47028",
+      "chebi_ids": [
+        "47028",
+        "58710"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C14H18N2O16P2",
+      "inchikey": "URJZIQLTPCJVMW-QNSCKLTRSA-L",
+      "kegg_compound_id": "C16155",
+      "kegg_compound_ids": [
+        "C16155"
+      ],
+      "mass": 532.244,
+      "mnxm_id": "MNXM1505",
+      "name": "UDP-L-Ara4O",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01250"
+      ],
+      "smiles": "O=C1C=CN([C@@H]2O[C@H](COP(=O)([O-])OP(=O)([O-])O[C@H]3OCC(=O)[C@H](O)[C@H]3O)[C@@H](O)[C@H]2O)C(=O)N1",
+      "structure_kind": "defined"
+    },
+    "C16156": {
+      "all_identifiers": [
+        "chebi:53028",
+        "chebi:60469",
+        "inchikey:KDTATMYQJZYGGT-CRHUQJHVSA-N",
+        "kegg.compound:C16156",
+        "mnx:MNXM1364671"
+      ],
+      "chebi_id": "53028",
+      "chebi_ids": [
+        "53028"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C61H100NO8P",
+      "inchikey": "KDTATMYQJZYGGT-CRHUQJHVSA-N",
+      "kegg_compound_id": "C16156",
+      "kegg_compound_ids": [
+        "C16156"
+      ],
+      "mass": 1006.444,
+      "mnxm_id": "MNXM1364671",
+      "name": "Undecaprenyl phosphate alpha-L-Ara4FN",
+      "pathways": [
+        "ko00541",
+        "ko01100"
+      ],
+      "smiles": "CC(C)=CCC/C(C)=C/CC/C(C)=C/CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\COP(=O)(O)O[C@@H]1OC[C@H](NC=O)[C@H](O)[C@H]1O",
       "structure_kind": "defined"
     },
     "C16159": {
@@ -108655,6 +110503,46 @@
       "smiles": "NC(=O)OCC(C=O)C1=CC=CC=C1",
       "structure_kind": "defined"
     },
+    "C16588": {
+      "all_identifiers": [
+        "chebi:72700",
+        "chebi:72701",
+        "inchikey:HABHUTWTLGRDDU-UHFFFAOYSA-L",
+        "kegg.compound:C16588",
+        "mnx:MNXM114286"
+      ],
+      "chebi_id": "72700",
+      "chebi_ids": [
+        "72700",
+        "72701"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C7H8O5",
+      "inchikey": "HABHUTWTLGRDDU-UHFFFAOYSA-L",
+      "kegg_compound_id": "C16588",
+      "kegg_compound_ids": [
+        "C16588"
+      ],
+      "mass": 172.136,
+      "mnxm_id": "MNXM114286",
+      "name": "2-Oxopimelate",
+      "pathways": [
+        "ko00680",
+        "ko01100",
+        "ko01120",
+        "ko01210",
+        "ko01240"
+      ],
+      "smiles": "O=C([O-])CCCCC(=O)C(=O)[O-]",
+      "structure_kind": "defined"
+    },
     "C16591": {
       "all_identifiers": [
         "chebi:80589",
@@ -111579,6 +113467,88 @@
       "smiles": "CC[C@@H](C(=O)[O-])C(=O)SCCNC(=O)CCNC(=O)[C@H](O)C(C)(C)COP(=O)([O-])OP(=O)([O-])OC[C@H]1O[C@@H](N2C=NC3=C2N=CN=C3N)[C@H](O)[C@@H]1OP(=O)([O-])[O-]",
       "structure_kind": "defined"
     },
+    "C18033": {
+      "all_identifiers": [
+        "chebi:81462",
+        "chebi:90945",
+        "inchikey:QBCDCCNQCPTNSU-GSZZWUTPSA-M",
+        "kegg.compound:C18033",
+        "mnx:MNXM7329"
+      ],
+      "chebi_id": "81462",
+      "chebi_ids": [
+        "81462",
+        "90945"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C16H26N3O12P2",
+      "inchikey": "QBCDCCNQCPTNSU-GSZZWUTPSA-M",
+      "kegg_compound_id": "C18033",
+      "kegg_compound_ids": [
+        "C18033"
+      ],
+      "mass": 514.341,
+      "mnxm_id": "MNXM7329",
+      "name": "dTDP-4-amino-2,3,4,6-tetradeoxy-D-glucose",
+      "pathways": [
+        "ko00523",
+        "ko01100",
+        "ko01110",
+        "ko01250"
+      ],
+      "smiles": "CC1=CN([C@H]2C[C@H](O)[C@@H](COP(=O)([O-])OP(=O)([O-])O[C@@H]3CC[C@H]([NH3+])[C@@H](C)O3)O2)C(=O)NC1=O",
+      "structure_kind": "defined"
+    },
+    "C18034": {
+      "all_identifiers": [
+        "chebi:81463",
+        "chebi:90947",
+        "inchikey:XZDZLDKUTVVABQ-HIFUNWJGSA-M",
+        "kegg.compound:C18034",
+        "mnx:MNXM11460"
+      ],
+      "chebi_id": "81463",
+      "chebi_ids": [
+        "81463",
+        "90947"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C18H30N3O12P2",
+      "inchikey": "XZDZLDKUTVVABQ-HIFUNWJGSA-M",
+      "kegg_compound_id": "C18034",
+      "kegg_compound_ids": [
+        "C18034"
+      ],
+      "mass": 542.395,
+      "mnxm_id": "MNXM11460",
+      "name": "dTDP-D-forosamine",
+      "pathways": [
+        "ko00523",
+        "ko01100",
+        "ko01110",
+        "ko01250"
+      ],
+      "smiles": "CC1=CN([C@H]2C[C@H](O)[C@@H](COP(=O)([O-])OP(=O)([O-])O[C@@H]3CC[C@H]([NH+](C)C)[C@@H](C)O3)O2)C(=O)NC1=O",
+      "structure_kind": "defined"
+    },
     "C18044": {
       "all_identifiers": [
         "chebi:133000",
@@ -112636,6 +114606,140 @@
       "smiles": "C[C@@H](CC(=O)[O-])C(=O)SCCNC(=O)CCNC(=O)[C@H](O)C(C)(C)COP(=O)([O-])OP(=O)([O-])OC[C@H]1O[C@@H](N2C=NC3=C2N=CN=C3N)[C@H](O)[C@@H]1OP(=O)([O-])[O-]",
       "structure_kind": "defined"
     },
+    "C18327": {
+      "all_identifiers": [
+        "chebi:81673",
+        "kegg.compound:C18327",
+        "mnx:MNXM10409"
+      ],
+      "chebi_id": "81673",
+      "chebi_ids": [
+        "81673"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C16H17O8S*",
+      "kegg_compound_id": "C18327",
+      "kegg_compound_ids": [
+        "C18327"
+      ],
+      "mnxm_id": "MNXM10409",
+      "name": "7,9,12-Octaketide intermediate 1",
+      "pathways": [
+        "ko01056",
+        "ko01100",
+        "ko01110"
+      ],
+      "structure_kind": "generic"
+    },
+    "C18329": {
+      "all_identifiers": [
+        "chebi:81675",
+        "kegg.compound:C18329",
+        "mnx:MNXM10411"
+      ],
+      "chebi_id": "81675",
+      "chebi_ids": [
+        "81675"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C16H15O6S*",
+      "kegg_compound_id": "C18329",
+      "kegg_compound_ids": [
+        "C18329"
+      ],
+      "mnxm_id": "MNXM10411",
+      "name": "7,9,12-Octaketide intermediate 3",
+      "pathways": [
+        "ko01056",
+        "ko01057",
+        "ko01100",
+        "ko01110"
+      ],
+      "structure_kind": "generic"
+    },
+    "C18338": {
+      "all_identifiers": [
+        "chebi:81684",
+        "inchikey:NLSSJYQPZIQJNC-UHFFFAOYSA-N",
+        "kegg.compound:C18338",
+        "mnx:MNXM6916"
+      ],
+      "chebi_id": "81684",
+      "chebi_ids": [
+        "81684"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C9H8O6",
+      "inchikey": "NLSSJYQPZIQJNC-UHFFFAOYSA-N",
+      "kegg_compound_id": "C18338",
+      "kegg_compound_ids": [
+        "C18338"
+      ],
+      "mass": 212.157,
+      "mnxm_id": "MNXM6916",
+      "name": "5-Carboxyvanillic acid",
+      "pathways": [
+        "ko00627",
+        "ko01120"
+      ],
+      "smiles": "COC1=C(O)C(C(=O)O)=CC(C(=O)O)=C1",
+      "structure_kind": "defined"
+    },
+    "C18353": {
+      "all_identifiers": [
+        "chebi:81699",
+        "kegg.compound:C18353",
+        "mnx:MNXM91671"
+      ],
+      "chebi_id": "81699",
+      "chebi_ids": [
+        "81699"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C16H13O5*",
+      "kegg_compound_id": "C18353",
+      "kegg_compound_ids": [
+        "C18353"
+      ],
+      "mnxm_id": "MNXM91671",
+      "name": "Octaketide bicyclic intermediate",
+      "pathways": [
+        "ko01057",
+        "ko01100",
+        "ko01110"
+      ],
+      "structure_kind": "generic"
+    },
     "C18388": {
       "all_identifiers": [
         "chebi:81724",
@@ -112784,6 +114888,77 @@
         "ko01120"
       ],
       "smiles": "O=C([O-])C1=CC=C([N+](=O)[O-])C=C1",
+      "structure_kind": "defined"
+    },
+    "C18631": {
+      "all_identifiers": [
+        "chebi:81875",
+        "inchikey:WCKNDRCJQZCZLO-SAZGQGMLSA-N",
+        "kegg.compound:C18631",
+        "mnx:MNXM12476"
+      ],
+      "chebi_id": "81875",
+      "chebi_ids": [
+        "81875"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C21H18O8",
+      "inchikey": "WCKNDRCJQZCZLO-SAZGQGMLSA-N",
+      "kegg_compound_id": "C18631",
+      "kegg_compound_ids": [
+        "C18631"
+      ],
+      "mass": 398.367,
+      "mnxm_id": "MNXM12476",
+      "name": "Nogalavinone",
+      "pathways": [
+        "ko01057",
+        "ko01100",
+        "ko01110"
+      ],
+      "smiles": "COC(=O)[C@@H]1C2=CC3=C(C(=O)C4=C(O)C=CC=C4C3=O)C(O)=C2[C@@H](O)C[C@]1(C)O",
+      "structure_kind": "defined"
+    },
+    "C18632": {
+      "all_identifiers": [
+        "chebi:81876",
+        "inchikey:ZBSRQGXAWDQXFX-VQDICGIKSA-N",
+        "kegg.compound:C18632",
+        "mnx:MNXM13926"
+      ],
+      "chebi_id": "81876",
+      "chebi_ids": [
+        "81876"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C21H18O9",
+      "inchikey": "ZBSRQGXAWDQXFX-VQDICGIKSA-N",
+      "kegg_compound_id": "C18632",
+      "kegg_compound_ids": [
+        "C18632"
+      ],
+      "mass": 414.366,
+      "mnxm_id": "MNXM13926",
+      "name": "1-OH-Nogalamycinone",
+      "pathways": [
+        "ko01057",
+        "ko01110"
+      ],
+      "smiles": "COC(=O)[C@@H]1C2=CC3=C(C(=O)C4=C(O)C=CC(O)=C4C3=O)C(O)=C2[C@@H](O)C[C@]1(C)O",
       "structure_kind": "defined"
     },
     "C18796": {
@@ -114215,6 +116390,33 @@
       "smiles": "CC(C)=CCC/C(C)=C/CC/C(C)=C\\C=C\\C(C)=C\\C=C/C=C(\\C)CC/C=C(\\C)CC/C=C(\\C)CCC=C(C)C",
       "structure_kind": "defined"
     },
+    "C19772": {
+      "all_identifiers": [
+        "inchikey:WADQQVAMGZIDFQ-ZMDJJFASSA-N",
+        "kegg.compound:C19772",
+        "mnx:MNXM1370281"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C61H102O12P2",
+      "inchikey": "WADQQVAMGZIDFQ-ZMDJJFASSA-N",
+      "kegg_compound_id": "C19772",
+      "kegg_compound_ids": [
+        "C19772"
+      ],
+      "mass": 1089.423,
+      "mnxm_id": "MNXM1370281",
+      "name": "alpha-D-Glucopyranosyl-diphospho-ditrans,octacis-undecaprenol",
+      "smiles": "CC(C)=CCC/C(C)=C/CC/C(C)=C/CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\COP(=O)(O)OP(=O)(O)O[C@H]1O[C@H](CO)[C@@H](O)[C@H](O)[C@H]1O",
+      "structure_kind": "defined"
+    },
     "C19776": {
       "all_identifiers": [
         "kegg.compound:C19776",
@@ -114389,6 +116591,29 @@
       ],
       "smiles": "O=P([O-])([O-])O[C@H]1[C@@H](O)[C@@H](OP(=O)([O-])O[C@@H]2[C@@H](O)[C@H](O)[C@@H](O)[C@H](O)[C@@H]2O)[C@H](O)[C@@H](O)[C@@H]1O",
       "structure_kind": "defined"
+    },
+    "C19802": {
+      "all_identifiers": [
+        "kegg.compound:C19802",
+        "mnx:MNXM727789"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C12H19N3O8*2",
+      "kegg_compound_id": "C19802",
+      "kegg_compound_ids": [
+        "C19802"
+      ],
+      "mnxm_id": "MNXM727789",
+      "name": "[Protein]-3-O-(N-acetyl-D-glucosaminyl)-L-serine",
+      "structure_kind": "generic"
     },
     "C19803": {
       "all_identifiers": [
@@ -114658,6 +116883,60 @@
         "ko01240"
       ],
       "smiles": "NC1=NC2=C(N[C@H]3C(S)=C([S-])[C@@H](COP(=O)([O-])OP(=O)([O-])OC[C@H]4O[C@@H](N5C=NC6=C5N=CN=C6N)[C@H](O)[C@@H]4O)O[C@H]3N2)C(=O)N1",
+      "structure_kind": "defined"
+    },
+    "C19854": {
+      "all_identifiers": [
+        "inchikey:BZESDHPZHQIIGZ-LNZPCPEVSA-N",
+        "kegg.compound:C19854",
+        "mnx:MNXM1371512"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C79H130O28P2",
+      "inchikey": "BZESDHPZHQIIGZ-LNZPCPEVSA-N",
+      "kegg_compound_id": "C19854",
+      "kegg_compound_ids": [
+        "C19854"
+      ],
+      "mass": 1589.829,
+      "mnxm_id": "MNXM1371512",
+      "name": "D-GlcA-beta-(1->2)-D-Man-alpha-(1->3)-D-Glc-beta-(1->4)-D-Glc-alpha-1-diphospho-ditrans,octacis-undecaprenol",
+      "smiles": "CC(C)=CCC/C(C)=C/CC/C(C)=C/CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\COP(=O)(O)OP(=O)(O)O[C@H]1O[C@H](CO)[C@@H](O[C@@H]2O[C@H](CO)[C@@H](O)[C@H](O[C@H]3O[C@H](CO)[C@@H](O)[C@H](O)[C@@H]3O[C@@H]3O[C@H](C(=O)O)[C@@H](O)[C@H](O)[C@H]3O)[C@H]2O)[C@H](O)[C@H]1O",
+      "structure_kind": "defined"
+    },
+    "C19855": {
+      "all_identifiers": [
+        "inchikey:USQFNTGHPUIHAS-KQIVHAJBSA-N",
+        "kegg.compound:C19855",
+        "mnx:MNXM1371508"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C73H122O22P2",
+      "inchikey": "USQFNTGHPUIHAS-KQIVHAJBSA-N",
+      "kegg_compound_id": "C19855",
+      "kegg_compound_ids": [
+        "C19855"
+      ],
+      "mass": 1413.705,
+      "mnxm_id": "MNXM1371508",
+      "name": "D-Man-alpha-(1->3)-D-Glc-beta-(1->4)-D-Glc-alpha-1-diphospho-ditrans,octacis-undecaprenol",
+      "smiles": "CC(C)=CCC/C(C)=C/CC/C(C)=C/CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\CC/C(C)=C\\COP(=O)(O)OP(=O)(O)O[C@H]1O[C@H](CO)[C@@H](O[C@@H]2O[C@H](CO)[C@@H](O)[C@H](O[C@H]3O[C@H](CO)[C@@H](O)[C@H](O)[C@@H]3O)[C@H]2O)[C@H](O)[C@H]1O",
       "structure_kind": "defined"
     },
     "C19871": {
@@ -115704,6 +117983,34 @@
       ],
       "smiles": "CC(=O)N[C@H]([C@@H]1O[C@](OP(=O)([O-])OC[C@H]2O[C@@H](N3C=CC(N)=NC3=O)[C@H](O)[C@@H]2O)(C(=O)[O-])C[C@H](O)[C@@H]1NC(C)=O)[C@H](C)O",
       "structure_kind": "defined"
+    },
+    "C20120": {
+      "all_identifiers": [
+        "kegg.compound:C20120",
+        "mnx:MNXM732497"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C28H41N6O7S*5",
+      "kegg_compound_id": "C20120",
+      "kegg_compound_ids": [
+        "C20120"
+      ],
+      "mnxm_id": "MNXM732497",
+      "name": "S-Farnesyl protein",
+      "pathways": [
+        "ko00900",
+        "ko01110"
+      ],
+      "structure_kind": "generic"
     },
     "C20141": {
       "all_identifiers": [
@@ -117249,6 +119556,80 @@
       "mnxm_id": "MNXM114731",
       "name": "tRNA 7-aminomethyl-7-carbaguanine",
       "structure_kind": "generic"
+    },
+    "C20448": {
+      "all_identifiers": [
+        "chebi:193964",
+        "chebi:89118",
+        "hmdb:HMDB0002432",
+        "inchikey:PCSKKIUURRTAEM-UHFFFAOYSA-N",
+        "kegg.compound:C20448",
+        "mnx:MNXM83138"
+      ],
+      "chebi_id": "89118",
+      "chebi_ids": [
+        "89118",
+        "193964"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C6H6O4",
+      "hmdb_id": "HMDB0002432",
+      "inchikey": "PCSKKIUURRTAEM-UHFFFAOYSA-N",
+      "kegg_compound_id": "C20448",
+      "kegg_compound_ids": [
+        "C20448"
+      ],
+      "mass": 142.11,
+      "mnxm_id": "MNXM83138",
+      "name": "5-Hydroxymethyl-2-furoate",
+      "smiles": "O=C(O)C1=CC=C(CO)O1",
+      "structure_kind": "defined"
+    },
+    "C20450": {
+      "all_identifiers": [
+        "chebi:83389",
+        "chebi:84212",
+        "hmdb:HMDB0000578",
+        "inchikey:CHTHALBTIRVDBM-UHFFFAOYSA-L",
+        "kegg.compound:C20450",
+        "mnx:MNXM34581"
+      ],
+      "chebi_id": "84212",
+      "chebi_ids": [
+        "84212",
+        "83389"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C6H2O5",
+      "hmdb_id": "HMDB0000578",
+      "inchikey": "CHTHALBTIRVDBM-UHFFFAOYSA-L",
+      "kegg_compound_id": "C20450",
+      "kegg_compound_ids": [
+        "C20450"
+      ],
+      "mass": 154.077,
+      "mnxm_id": "MNXM34581",
+      "name": "2,5-Furandicarboxylate",
+      "pathways": [
+        "ko00365",
+        "ko01120"
+      ],
+      "smiles": "O=C([O-])C1=CC=C(C(=O)[O-])O1",
+      "structure_kind": "defined"
     },
     "C20451": {
       "all_identifiers": [
@@ -120668,6 +123049,45 @@
       "smiles": "CC1=C(CCC(=O)[O-])C2=CC3=[N+]4C(=CC5=C(C)C(CCC(=O)[O-])=C6C=C7C(C)=C(CCC(=O)[O-])C8=[N+]7[Fe-2]4(N2C1=C8)N56)C(C)=C3CCC(=O)[O-]",
       "structure_kind": "defined"
     },
+    "C21298": {
+      "all_identifiers": [
+        "chebi:131450",
+        "chebi:68465",
+        "hmdb:HMDB0013676",
+        "inchikey:AKEUNCKRJATALU-UHFFFAOYSA-M",
+        "kegg.compound:C21298",
+        "mnx:MNXM34610"
+      ],
+      "chebi_id": "68465",
+      "chebi_ids": [
+        "68465",
+        "131450"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C7H5O4",
+      "hmdb_id": "HMDB0013676",
+      "inchikey": "AKEUNCKRJATALU-UHFFFAOYSA-M",
+      "kegg_compound_id": "C21298",
+      "kegg_compound_ids": [
+        "C21298"
+      ],
+      "mass": 153.113,
+      "mnxm_id": "MNXM34610",
+      "name": "2,6-Dihydroxybenzoate",
+      "pathways": [
+        "ko00362",
+        "ko01120"
+      ],
+      "smiles": "O=C([O-])C1=C(O)C=CC=C1O",
+      "structure_kind": "defined"
+    },
     "C21299": {
       "all_identifiers": [
         "kegg.compound:C21299",
@@ -120817,6 +123237,41 @@
         "ko01110"
       ],
       "smiles": "CC1=C(O)C(C(=O)SCCNC(=O)CCNC(=O)[C@H](O)C(C)(C)COP(=O)(O)OP(=O)(O)OC[C@H]2O[C@@H](N3C=NC4=C3N=CN=C4N)[C@H](O)[C@@H]2OP(=O)(O)O)=C(C)C=C1",
+      "structure_kind": "defined"
+    },
+    "C21332": {
+      "all_identifiers": [
+        "chebi:190256",
+        "chebi:87090",
+        "chebi:87306",
+        "inchikey:RSSDMTJWCNYGHQ-HXUQBWEZSA-M",
+        "kegg.compound:C21332",
+        "mnx:MNXM146078"
+      ],
+      "chebi_id": "190256",
+      "chebi_ids": [
+        "190256",
+        "87090",
+        "87306"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "O"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C8H11O8",
+      "inchikey": "RSSDMTJWCNYGHQ-HXUQBWEZSA-M",
+      "kegg_compound_id": "C21332",
+      "kegg_compound_ids": [
+        "C21332"
+      ],
+      "mass": 235.168,
+      "mnxm_id": "MNXM146078",
+      "name": "8-Dehydro-3-deoxy-D-manno-octulosonate",
+      "smiles": "O=C[C@@H](O)[C@H]1O[C@@](O)(C(=O)[O-])C[C@@H](O)[C@H]1O",
       "structure_kind": "defined"
     },
     "C21333": {
@@ -121056,6 +123511,41 @@
       "name": "L-Lysyl-protein",
       "structure_kind": "generic"
     },
+    "C21395": {
+      "all_identifiers": [
+        "chebi:131522",
+        "chebi:90946",
+        "inchikey:JRJYBKLGPOKTLS-YXJLRHLOSA-M",
+        "kegg.compound:C21395",
+        "mnx:MNXM11466"
+      ],
+      "chebi_id": "131522",
+      "chebi_ids": [
+        "131522",
+        "90946"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C17H28N3O12P2",
+      "inchikey": "JRJYBKLGPOKTLS-YXJLRHLOSA-M",
+      "kegg_compound_id": "C21395",
+      "kegg_compound_ids": [
+        "C21395"
+      ],
+      "mass": 528.368,
+      "mnxm_id": "MNXM11466",
+      "name": "dTDP-4-(methylamino)-2,3,4,6-tetradeoxy-D-glucose",
+      "smiles": "C[NH2+][C@H]1CC[C@@H](OP(=O)([O-])OP(=O)([O-])OC[C@H]2O[C@@H](N3C=C(C)C(=O)NC3=O)C[C@@H]2O)O[C@@H]1C",
+      "structure_kind": "defined"
+    },
     "C21403": {
       "all_identifiers": [
         "chebi:142479",
@@ -121093,6 +123583,36 @@
       ],
       "smiles": "CC(=O)NCCP(=O)([O-])O",
       "structure_kind": "defined"
+    },
+    "C21430": {
+      "all_identifiers": [
+        "kegg.compound:C21430",
+        "mnx:MNXM164900"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "S"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C3H4NO2S*",
+      "kegg_compound_id": "C21430",
+      "kegg_compound_ids": [
+        "C21430"
+      ],
+      "mnxm_id": "MNXM164900",
+      "name": "Malonamoyl-[acyl-carrier protein]",
+      "pathways": [
+        "ko00253",
+        "ko01056",
+        "ko01100",
+        "ko01110"
+      ],
+      "structure_kind": "generic"
     },
     "C21435": {
       "all_identifiers": [
@@ -121445,6 +123965,118 @@
         "ko01100"
       ],
       "smiles": "NC1=NC(=O)N([C@@H]2O[C@H](COP(=O)([O-])OP(=O)([O-])OC[C@H]3O[C@H]4NC5=C(N[C@H]4C4=C3S[Mo-](=O)(=O)([O-])S4)C(=O)NC(N)=N5)[C@@H](O)[C@H]2O)C=C1",
+      "structure_kind": "defined"
+    },
+    "C21502": {
+      "all_identifiers": [
+        "inchikey:XTZSKDGCELJMAX-RVJRVLLYSA-N",
+        "kegg.compound:C21502",
+        "mnx:MNXM1368593"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C77H132N2O27P4",
+      "inchikey": "XTZSKDGCELJMAX-RVJRVLLYSA-N",
+      "kegg_compound_id": "C21502",
+      "kegg_compound_ids": [
+        "C21502"
+      ],
+      "mass": 1641.786,
+      "mnxm_id": "MNXM1368593",
+      "name": "4-O-Di[(2R)-1-glycerophospho]-N-acetyl-beta-D-mannosaminyl-(1->4)-N-acetyl-alpha-D-glucosaminyl-diphospho-ditrans,octacis-undecaprenol",
+      "smiles": "CC(=O)N[C@@H]1[C@H](O[C@H]2[C@H](O)[C@@H](NC(C)=O)[C@@H](OP(=O)(O)OP(=O)(O)OC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(\\C)CC/C=C(\\C)CCC=C(C)C)O[C@@H]2CO)O[C@H](CO)[C@@H](OP(=O)(O)OC[C@H](O)COP(=O)(O)OC[C@H](O)CO)[C@@H]1O",
+      "structure_kind": "defined"
+    },
+    "C21503": {
+      "all_identifiers": [
+        "inchikey:KFPAGFLTIOIHLD-XLMJWGDZSA-N",
+        "kegg.compound:C21503",
+        "mnx:MNXM814649"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C79H136N2O29P4",
+      "inchikey": "KFPAGFLTIOIHLD-XLMJWGDZSA-N",
+      "kegg_compound_id": "C21503",
+      "kegg_compound_ids": [
+        "C21503"
+      ],
+      "mass": 1701.838,
+      "mnxm_id": "MNXM814649",
+      "name": "4-O-[1-D-Ribitylphospho-(2R)-1-glycerophospho]-N-acetyl-beta-D-mannosaminyl-(1->4)-N-acetyl-alpha-D-glucosaminyl-diphospho-ditrans,octacis-undecaprenol",
+      "smiles": "CC(=O)N[C@@H]1[C@H](O[C@H]2[C@H](O)[C@@H](NC(C)=O)[C@@H](OP(=O)(O)OP(=O)(O)OC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(\\C)CC/C=C(\\C)CCC=C(C)C)O[C@@H]2CO)O[C@H](CO)[C@@H](OP(=O)(O)OC[C@H](O)COP(=O)(O)OC[C@@H](O)[C@@H](O)[C@@H](O)CO)[C@@H]1O",
+      "structure_kind": "defined"
+    },
+    "C21504": {
+      "all_identifiers": [
+        "inchikey:LSINQFDXOXFDJL-HHRRFLMKSA-N",
+        "kegg.compound:C21504",
+        "mnx:MNXM741870"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C84H147N2O36P5",
+      "inchikey": "LSINQFDXOXFDJL-HHRRFLMKSA-N",
+      "kegg_compound_id": "C21504",
+      "kegg_compound_ids": [
+        "C21504"
+      ],
+      "mass": 1915.948,
+      "mnxm_id": "MNXM741870",
+      "name": "4-O-[(1-D-Ribitylphospho)n-(1-D-ribitylphospho)-(2R)-1-glycerophospho]-N-acetyl-beta-D-mannosaminyl-(1->4)-N-acetyl-alpha-D-glucosaminyl-diphospho-ditrans,octacis-undecaprenol",
+      "smiles": "CC(=O)N[C@@H]1[C@H](O[C@H]2[C@H](O)[C@@H](NC(C)=O)[C@@H](OP(=O)(O)OP(=O)(O)OC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(\\C)CC/C=C(\\C)CCC=C(C)C)O[C@@H]2CO)O[C@H](CO)[C@@H](OP(=O)(O)OC[C@H](O)COP(=O)(O)OC[C@@H](O)[C@@H](O)[C@@H](O)COP(=O)(O)OC[C@@H](O)[C@@H](O)[C@@H](O)CO)[C@@H]1O",
+      "structure_kind": "defined"
+    },
+    "C21508": {
+      "all_identifiers": [
+        "inchikey:WAOFXEGPSUNZBC-OWZWOMBPSA-N",
+        "kegg.compound:C21508",
+        "mnx:MNXM741871"
+      ],
+      "elements": [
+        "C",
+        "H",
+        "N",
+        "O",
+        "P"
+      ],
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C82H143N2O34P5",
+      "inchikey": "WAOFXEGPSUNZBC-OWZWOMBPSA-N",
+      "kegg_compound_id": "C21508",
+      "kegg_compound_ids": [
+        "C21508"
+      ],
+      "mass": 1855.896,
+      "mnxm_id": "MNXM741871",
+      "name": "4-O-(D-Ribitylphospho)n-di[(2R)-1-glycerophospho]-N-acetyl-beta-D-mannosaminyl-(1->4)-N-acetyl-alpha-D-glucosaminyl-diphospho-ditrans,octacis-undecaprenol",
+      "smiles": "CC(=O)N[C@@H]1[C@H](O[C@H]2[C@H](O)[C@@H](NC(C)=O)[C@@H](OP(=O)(O)OP(=O)(O)OC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(/C)CC/C=C(\\C)CC/C=C(\\C)CCC=C(C)C)O[C@@H]2CO)O[C@H](CO)[C@@H](OP(=O)(O)OC[C@H](O)COP(=O)(O)OC[C@H](O)COP(=O)(O)OC[C@@H](O)[C@@H](O)[C@@H](O)CO)[C@@H]1O",
       "structure_kind": "defined"
     },
     "C21543": {
@@ -122847,6 +125479,16 @@
         "CHEBI:43474"
       ]
     },
+    "GO:0006405": {
+      "chebi:33697": [
+        "CHEBI:33697"
+      ]
+    },
+    "GO:0006406": {
+      "chebi:33699": [
+        "CHEBI:33699"
+      ]
+    },
     "GO:0006813": {
       "kegg.compound:C00238": [
         "CHEBI:29103"
@@ -122993,6 +125635,11 @@
     "GO:0008519": {
       "kegg.compound:C00014": [
         "CHEBI:28938"
+      ]
+    },
+    "GO:0008521": {
+      "kegg.compound:C00024": [
+        "CHEBI:57288"
       ]
     },
     "GO:0008556": {
@@ -123445,6 +126092,11 @@
         "CHEBI:17754"
       ]
     },
+    "GO:0015265": {
+      "kegg.compound:C00086": [
+        "CHEBI:16199"
+      ]
+    },
     "GO:0015333": {
       "kegg.compound:C00012": [
         "CHEBI:60466"
@@ -123528,6 +126180,11 @@
         "CHEBI:25516"
       ]
     },
+    "GO:0015414": {
+      "kegg.compound:C00244": [
+        "CHEBI:17632"
+      ]
+    },
     "GO:0015415": {
       "kegg.compound:C00009": [
         "CHEBI:43474"
@@ -123581,6 +126238,11 @@
     "GO:0015430": {
       "kegg.compound:C00093": [
         "CHEBI:57597"
+      ]
+    },
+    "GO:0015434": {
+      "kegg.compound:C01413": [
+        "CHEBI:48775"
       ]
     },
     "GO:0015437": {
@@ -123639,6 +126301,11 @@
     "GO:0015506": {
       "kegg.compound:C00801": [
         "CHEBI:33838"
+      ]
+    },
+    "GO:0015514": {
+      "kegg.compound:C00088": [
+        "CHEBI:16301"
       ]
     },
     "GO:0015519": {
@@ -123844,6 +126511,11 @@
     "GO:0015707": {
       "kegg.compound:C00088": [
         "CHEBI:16301"
+      ]
+    },
+    "GO:0015708": {
+      "chebi:26675": [
+        "CHEBI:26675"
       ]
     },
     "GO:0015709": {
@@ -124186,6 +126858,11 @@
         "CHEBI:15354"
       ]
     },
+    "GO:0015876": {
+      "kegg.compound:C00024": [
+        "CHEBI:57288"
+      ]
+    },
     "GO:0015878": {
       "kegg.compound:C00120": [
         "CHEBI:57586"
@@ -124246,6 +126923,11 @@
         "CHEBI:16247"
       ]
     },
+    "GO:0015916": {
+      "kegg.compound:C00040": [
+        "CHEBI:58342"
+      ]
+    },
     "GO:0015920": {
       "kegg.compound:C00338": [
         "CHEBI:16412"
@@ -124287,6 +126969,11 @@
       ]
     },
     "GO:0022821": {
+      "kegg.compound:C00238": [
+        "CHEBI:29103"
+      ]
+    },
+    "GO:0022841": {
       "kegg.compound:C00238": [
         "CHEBI:29103"
       ]
@@ -124444,6 +127131,11 @@
     "GO:0035344": {
       "kegg.compound:C00262": [
         "CHEBI:17368"
+      ]
+    },
+    "GO:0035348": {
+      "kegg.compound:C00024": [
+        "CHEBI:57288"
       ]
     },
     "GO:0035351": {
@@ -124734,9 +127426,19 @@
         "CHEBI:33696"
       ]
     },
+    "GO:0050658": {
+      "chebi:33697": [
+        "CHEBI:33697"
+      ]
+    },
     "GO:0051027": {
       "kegg.compound:C00039": [
         "CHEBI:16991"
+      ]
+    },
+    "GO:0051028": {
+      "chebi:33699": [
+        "CHEBI:33699"
       ]
     },
     "GO:0051180": {
@@ -124962,6 +127664,11 @@
     "GO:1901264": {
       "chebi:63299": [
         "CHEBI:63299"
+      ]
+    },
+    "GO:1901337": {
+      "chebi:51277": [
+        "CHEBI:51277"
       ]
     },
     "GO:1901474": {
@@ -127391,6 +130098,10 @@
         "ko01220"
       ]
     },
+    "K00493": {
+      "name": "XANG; xanthocillin biosynthesis cytochrome P450 monooxygenase [EC:1.14.-.-]",
+      "pathways": []
+    },
     "K00496": {
       "name": "alkB1_2, alkM; alkane 1-monooxygenase [EC:1.14.15.3]",
       "pathways": [
@@ -128172,6 +130883,12 @@
         "ko00552"
       ]
     },
+    "K00713": {
+      "name": "waaD; UDP-glucose:(glucosyl)LPS alpha-1,2-glucosyltransferase [EC:2.4.1.-]",
+      "pathways": [
+        "ko00540"
+      ]
+    },
     "K00720": {
       "name": "UGCG; ceramide glucosyltransferase [EC:2.4.1.80]",
       "pathways": [
@@ -128194,12 +130911,31 @@
         "ko01100"
       ]
     },
+    "K00734": {
+      "name": "B3GALT6; galactosylxylosylprotein 3-beta-galactosyltransferase [EC:2.4.1.134]",
+      "pathways": [
+        "ko00532",
+        "ko00534",
+        "ko01100"
+      ]
+    },
     "K00737": {
       "name": "MGAT3; beta-1,4-mannosyl-glycoprotein beta-1,4-N-acetylglucosaminyltransferase [EC:2.4.1.144]",
       "pathways": [
         "ko00510",
         "ko01100"
       ]
+    },
+    "K00743": {
+      "name": "GGTA1; N-acetyllactosaminide 3-alpha-galactosyltransferase [EC:2.4.1.87]",
+      "pathways": [
+        "ko00601",
+        "ko01100"
+      ]
+    },
+    "K00745": {
+      "name": "",
+      "pathways": []
     },
     "K00748": {
       "name": "lpxB; lipid-A-disaccharide synthase [EC:2.4.1.182]",
@@ -128474,6 +131210,13 @@
         "ko00565",
         "ko01100",
         "ko04146"
+      ]
+    },
+    "K00805": {
+      "name": "hepS; heptaprenyl diphosphate synthase component 1 [EC:2.5.1.30]",
+      "pathways": [
+        "ko00900",
+        "ko01110"
       ]
     },
     "K00806": {
@@ -128957,6 +131700,18 @@
         "ko01250"
       ]
     },
+    "K00886": {
+      "name": "ppgK; polyphosphate glucokinase [EC:2.7.1.63]",
+      "pathways": [
+        "ko00010",
+        "ko00520",
+        "ko01100",
+        "ko01110",
+        "ko01120",
+        "ko01200",
+        "ko01250"
+      ]
+    },
     "K00891": {
       "name": "aroK, aroL; shikimate kinase [EC:2.7.1.71]",
       "pathways": [
@@ -129153,6 +131908,10 @@
         "ko01100",
         "ko01240"
       ]
+    },
+    "K00947": {
+      "name": "mosAB; molybdenum storage protein",
+      "pathways": []
     },
     "K00948": {
       "name": "PRPS, prsA; ribose-phosphate pyrophosphokinase [EC:2.7.6.1]",
@@ -129540,6 +132299,12 @@
       "name": "SULT1A; aryl sulfotransferase [EC:2.8.2.1]",
       "pathways": []
     },
+    "K01017": {
+      "name": "CHST11; chondroitin 4-sulfotransferase 11 [EC:2.8.2.5]",
+      "pathways": [
+        "ko00532"
+      ]
+    },
     "K01025": {
       "name": "SULT1; sulfotransferase [EC:2.8.2.-]",
       "pathways": []
@@ -129605,6 +132370,17 @@
       "pathways": [
         "ko00564"
       ]
+    },
+    "K01049": {
+      "name": "ACHE; acetylcholinesterase [EC:3.1.1.7]",
+      "pathways": [
+        "ko00564",
+        "ko04082"
+      ]
+    },
+    "K01050": {
+      "name": "BCHE; cholinesterase [EC:3.1.1.8]",
+      "pathways": []
     },
     "K01051": {
       "name": "E3.1.1.11; pectinesterase [EC:3.1.1.11]",
@@ -129857,6 +132633,13 @@
         "ko00564"
       ]
     },
+    "K01127": {
+      "name": "GPLD1; glycosylphosphatidylinositol phospholipase D [EC:3.1.4.50]",
+      "pathways": [
+        "ko00563",
+        "ko01100"
+      ]
+    },
     "K01129": {
       "name": "dgt; dGTPase [EC:3.1.5.1]",
       "pathways": [
@@ -129960,6 +132743,10 @@
       "pathways": [
         "ko04210"
       ]
+    },
+    "K01174": {
+      "name": "nuc; micrococcal nuclease [EC:3.1.31.1]",
+      "pathways": []
     },
     "K01175": {
       "name": "ybfF; esterase [EC:3.1.-.-]",
@@ -130303,6 +133090,12 @@
         "ko03272"
       ]
     },
+    "K01279": {
+      "name": "TPP1, CLN2; tripeptidyl-peptidase I [EC:3.4.14.9]",
+      "pathways": [
+        "ko04142"
+      ]
+    },
     "K01283": {
       "name": "ACE, CD143; peptidyl-dipeptidase A [EC:3.4.15.1]",
       "pathways": []
@@ -130343,6 +133136,10 @@
       "name": "PREP; prolyl oligopeptidase [EC:3.4.21.26]",
       "pathways": []
     },
+    "K01337": {
+      "name": "E3.4.21.50; lysyl endopeptidase [EC:3.4.21.50]",
+      "pathways": []
+    },
     "K01338": {
       "name": "lon; ATP-dependent Lon protease [EC:3.4.21.53]",
       "pathways": [
@@ -130362,6 +133159,10 @@
       "pathways": [
         "ko04112"
       ]
+    },
+    "K01387": {
+      "name": "colA; microbial collagenase [EC:3.4.24.3]",
+      "pathways": []
     },
     "K01406": {
       "name": "prtC; serralysin [EC:3.4.24.40]",
@@ -130881,6 +133682,13 @@
         "ko01232"
       ]
     },
+    "K01521": {
+      "name": "cdh; CDP-diacylglycerol pyrophosphatase [EC:3.6.1.26]",
+      "pathways": [
+        "ko00564",
+        "ko01110"
+      ]
+    },
     "K01523": {
       "name": "hisE; phosphoribosyl-ATP pyrophosphohydrolase [EC:3.6.1.31]",
       "pathways": [
@@ -131000,6 +133808,14 @@
         "ko00625",
         "ko01100",
         "ko01120"
+      ]
+    },
+    "K01568": {
+      "name": "PDC, pdc; pyruvate decarboxylase [EC:4.1.1.1]",
+      "pathways": [
+        "ko00010",
+        "ko01100",
+        "ko01110"
       ]
     },
     "K01569": {
@@ -131254,6 +134070,14 @@
         "ko00330",
         "ko01100",
         "ko01110"
+      ]
+    },
+    "K01612": {
+      "name": "bsdC; vanillate/4-hydroxybenzoate decarboxylase subunit C [EC:4.1.1.- 4.1.1.61]",
+      "pathways": [
+        "ko00627",
+        "ko01120",
+        "ko01220"
       ]
     },
     "K01613": {
@@ -131666,6 +134490,13 @@
         "ko01200",
         "ko01210",
         "ko01230"
+      ]
+    },
+    "K01683": {
+      "name": "araD; D-arabinonate dehydratase [EC:4.2.1.5]",
+      "pathways": [
+        "ko00053",
+        "ko01100"
       ]
     },
     "K01684": {
@@ -136204,6 +139035,14 @@
         "ko02060"
       ]
     },
+    "K02805": {
+      "name": "wecE, rffA; dTDP-4-amino-4,6-dideoxygalactose transaminase [EC:2.6.1.59]",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01250"
+      ]
+    },
     "K02806": {
       "name": "ptsN; nitrogen PTS system EIIA component [EC:2.7.1.-]",
       "pathways": [
@@ -136296,6 +139135,13 @@
     },
     "K02848": {
       "name": "waaP, rfaP; lipopolysaccharide core heptose(I) kinase [EC:2.7.1.235]",
+      "pathways": [
+        "ko00540",
+        "ko01100"
+      ]
+    },
+    "K02849": {
+      "name": "waaQ, rfaQ; lipopolysaccharide heptosyltransferase III [EC:2.4.99.25]",
       "pathways": [
         "ko00540",
         "ko01100"
@@ -136504,6 +139350,15 @@
       "name": "RP-L4, MRPL4, rplD; large subunit ribosomal protein L4",
       "pathways": [
         "ko03010"
+      ]
+    },
+    "K02927": {
+      "name": "RP-L40e, RPL40, UBA52; ubiquitin-large subunit ribosomal protein L40e",
+      "pathways": [
+        "ko03010",
+        "ko04120",
+        "ko04137",
+        "ko04140"
       ]
     },
     "K02931": {
@@ -136743,6 +139598,15 @@
         "ko01120"
       ]
     },
+    "K03079": {
+      "name": "ulaE, sgaU, sgbU; L-ribulose-5-phosphate 3-epimerase [EC:5.1.3.22]",
+      "pathways": [
+        "ko00040",
+        "ko00053",
+        "ko01100",
+        "ko01120"
+      ]
+    },
     "K03086": {
       "name": "rpoD; RNA polymerase primary sigma factor",
       "pathways": [
@@ -136775,6 +139639,10 @@
         "ko02040",
         "ko05111"
       ]
+    },
+    "K03093": {
+      "name": "sigI; RNA polymerase sigma-I factor",
+      "pathways": []
     },
     "K03098": {
       "name": "APOD; apolipoprotein D and lipocalin family protein",
@@ -137243,6 +140111,10 @@
       "name": "TC.SULP; sulfate permease, SulP family",
       "pathways": []
     },
+    "K03322": {
+      "name": "mntH; manganese transport protein",
+      "pathways": []
+    },
     "K03324": {
       "name": "yjbB; phosphate:Na+ symporter",
       "pathways": []
@@ -137258,6 +140130,13 @@
     "K03328": {
       "name": "TC.PST; polysaccharide transporter, PST family",
       "pathways": []
+    },
+    "K03333": {
+      "name": "choD; cholesterol oxidase [EC:1.1.3.6]",
+      "pathways": [
+        "ko00984",
+        "ko01120"
+      ]
     },
     "K03335": {
       "name": "iolE; inosose dehydratase [EC:4.2.1.44]",
@@ -137370,6 +140249,10 @@
         "ko01100",
         "ko01240"
       ]
+    },
+    "K03395": {
+      "name": "aac3-I; aminoglycoside 3-N-acetyltransferase I [EC:2.3.1.60]",
+      "pathways": []
     },
     "K03400": {
       "name": "luxC; long-chain-fatty-acyl-CoA reductase [EC:1.2.1.50]",
@@ -137663,6 +140546,10 @@
     },
     "K03487": {
       "name": "ascG; LacI family transcriptional regulator, asc operon repressor",
+      "pathways": []
+    },
+    "K03490": {
+      "name": "chbR, celD; AraC family transcriptional regulator, dual regulator of chb operon",
       "pathways": []
     },
     "K03495": {
@@ -138329,6 +141216,10 @@
         "ko03430"
       ]
     },
+    "K03658": {
+      "name": "helD; DNA helicase IV [EC:5.6.2.4]",
+      "pathways": []
+    },
     "K03660": {
       "name": "OGG1; N-glycosylase/DNA lyase [EC:3.2.2.- 4.2.99.18]",
       "pathways": [
@@ -138503,6 +141394,13 @@
     "K03712": {
       "name": "marR; MarR family transcriptional regulator, multiple antibiotic resistance protein MarR",
       "pathways": []
+    },
+    "K03714": {
+      "name": "XYLT; glycoprotein 2-beta-D-xylosyltransferase [EC:2.4.2.38]",
+      "pathways": [
+        "ko00513",
+        "ko01100"
+      ]
     },
     "K03715": {
       "name": "MGD; 1,2-diacylglycerol 3-beta-galactosyltransferase [EC:2.4.1.46]",
@@ -138981,6 +141879,13 @@
       "name": "yhbS; putative acetyltransferase [EC:2.3.1.-]",
       "pathways": []
     },
+    "K03825": {
+      "name": "aaaT; L-phenylalanine/L-methionine N-acetyltransferase [EC:2.3.1.53 2.3.1.-]",
+      "pathways": [
+        "ko00360",
+        "ko01100"
+      ]
+    },
     "K03826": {
       "name": "yiaC; putative acetyltransferase [EC:2.3.1.-]",
       "pathways": []
@@ -139286,6 +142191,14 @@
       "name": "eutR; AraC family transcriptional regulator, ethanolamine operon transcriptional activator",
       "pathways": []
     },
+    "K04034": {
+      "name": "bchE; anaerobic magnesium-protoporphyrin IX monomethyl ester cyclase [EC:1.21.98.3]",
+      "pathways": [
+        "ko00860",
+        "ko01100",
+        "ko01110"
+      ]
+    },
     "K04035": {
       "name": "E1.14.13.81, acsF, chlE; magnesium-protoporphyrin IX monomethyl ester (oxidative) cyclase [EC:1.14.13.81]",
       "pathways": [
@@ -139496,8 +142409,21 @@
         "ko01230"
       ]
     },
+    "K04093": {
+      "name": "pheA1; chorismate mutase [EC:5.4.99.5]",
+      "pathways": [
+        "ko00400",
+        "ko01100",
+        "ko01110",
+        "ko01230"
+      ]
+    },
     "K04094": {
       "name": "trmFO, gid; methylenetetrahydrofolate--tRNA-(uracil-5-)-methyltransferase [EC:2.1.1.74]",
+      "pathways": []
+    },
+    "K04095": {
+      "name": "fic, FICD, HYPE; cell filamentation protein, protein adenylyltransferase [EC:2.7.7.108]",
       "pathways": []
     },
     "K04096": {
@@ -139746,6 +142672,10 @@
         "ko04668"
       ]
     },
+    "K04739": {
+      "name": "PRKAR; cAMP-dependent protein kinase regulator",
+      "pathways": []
+    },
     "K04744": {
       "name": "lptD, imp, ostA; LPS-assembly protein",
       "pathways": []
@@ -139894,9 +142824,27 @@
         "ko00071"
       ]
     },
+    "K05299": {
+      "name": "fdhA; formate dehydrogenase (NADP+) alpha subunit [EC:1.17.1.10]",
+      "pathways": [
+        "ko00680",
+        "ko00720",
+        "ko01100",
+        "ko01120",
+        "ko01200"
+      ]
+    },
     "K05303": {
       "name": "K05303; O-methyltransferase [EC:2.1.1.-]",
       "pathways": []
+    },
+    "K05304": {
+      "name": "NANS, SAS; sialic acid synthase [EC:2.5.1.56 2.5.1.57 2.5.1.132]",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01250"
+      ]
     },
     "K05306": {
       "name": "phnX; phosphonoacetaldehyde hydrolase [EC:3.11.1.1]",
@@ -139915,6 +142863,10 @@
       "pathways": [
         "ko02020"
       ]
+    },
+    "K05340": {
+      "name": "glcU; glucose uptake protein",
+      "pathways": []
     },
     "K05341": {
       "name": "ams; amylosucrase [EC:2.4.1.4]",
@@ -140202,6 +143154,23 @@
         "ko01220"
       ]
     },
+    "K05553": {
+      "name": "actI3, oxyC, tcmM, snoa3, aknD, mtmS; minimal PKS acyl carrier protein",
+      "pathways": [
+        "ko00253",
+        "ko01056",
+        "ko01100",
+        "ko01110"
+      ]
+    },
+    "K05555": {
+      "name": "actIV; cyclase [EC:4.-.-.-]",
+      "pathways": [
+        "ko01057",
+        "ko01100",
+        "ko01110"
+      ]
+    },
     "K05559": {
       "name": "phaA; multicomponent K+:H+ antiporter subunit A",
       "pathways": []
@@ -140443,6 +143412,12 @@
         "ko01100",
         "ko01120",
         "ko01200"
+      ]
+    },
+    "K05658": {
+      "name": "ABCB1, CD243; ATP-binding cassette, subfamily B (MDR/TAP), member 1 [EC:7.6.2.2]",
+      "pathways": [
+        "ko02010"
       ]
     },
     "K05685": {
@@ -140839,6 +143814,32 @@
         "ko02030"
       ]
     },
+    "K05878": {
+      "name": "dhaK; phosphoenolpyruvate---glycerone phosphotransferase subunit DhaK [EC:2.7.1.121]",
+      "pathways": [
+        "ko00561",
+        "ko01100",
+        "ko01110"
+      ]
+    },
+    "K05879": {
+      "name": "dhaL; phosphoenolpyruvate---glycerone phosphotransferase subunit DhaL [EC:2.7.1.121]",
+      "pathways": [
+        "ko00561",
+        "ko01100"
+      ]
+    },
+    "K05881": {
+      "name": "dhaM; phosphoenolpyruvate---glycerone phosphotransferase subunit DhaM [EC:2.7.1.121]",
+      "pathways": [
+        "ko00561",
+        "ko01100"
+      ]
+    },
+    "K05882": {
+      "name": "E1.1.1.91; aryl-alcohol dehydrogenase (NADP+) [EC:1.1.1.91]",
+      "pathways": []
+    },
     "K05886": {
       "name": "sdh; serine 3-dehydrogenase (NADP+) [EC:1.1.1.276]",
       "pathways": []
@@ -140980,6 +143981,13 @@
       "name": "cpxP, spy; periplasmic protein CpxP/Spy",
       "pathways": []
     },
+    "K06013": {
+      "name": "STE24; STE24 endopeptidase [EC:3.4.24.84]",
+      "pathways": [
+        "ko00900",
+        "ko01110"
+      ]
+    },
     "K06016": {
       "name": "pydC; beta-ureidopropionase / N-carbamoyl-L-amino-acid hydrolase [EC:3.5.1.6 3.5.1.87]",
       "pathways": [
@@ -140989,8 +143997,18 @@
         "ko01100"
       ]
     },
+    "K06019": {
+      "name": "ppaX; pyrophosphatase PpaX [EC:3.6.1.1]",
+      "pathways": [
+        "ko00190"
+      ]
+    },
     "K06020": {
       "name": "ettA; energy-dependent translational throttle protein EttA",
+      "pathways": []
+    },
+    "K06021": {
+      "name": "",
       "pathways": []
     },
     "K06023": {
@@ -141077,6 +144095,12 @@
     "K06078": {
       "name": "lpp; murein lipoprotein",
       "pathways": []
+    },
+    "K06079": {
+      "name": "cutF, nlpE; copper homeostasis protein (lipoprotein)",
+      "pathways": [
+        "ko01503"
+      ]
     },
     "K06080": {
       "name": "rcsF; RcsF protein",
@@ -141343,6 +144367,10 @@
       "name": "ispZ; intracellular septation protein",
       "pathways": []
     },
+    "K06191": {
+      "name": "nrdH; glutaredoxin-like protein NrdH",
+      "pathways": []
+    },
     "K06192": {
       "name": "pqiB, letB; intermembrane transport protein PqiB/LetB",
       "pathways": []
@@ -141492,6 +144520,10 @@
       "name": "cgeB; spore maturation protein CgeB",
       "pathways": []
     },
+    "K06338": {
+      "name": "cotSA; spore coat protein SA",
+      "pathways": []
+    },
     "K06346": {
       "name": "jag; spoIIIJ-associated protein",
       "pathways": []
@@ -141514,6 +144546,14 @@
       "name": "spoIID; stage II sporulation protein D (peptidoglycan lytic transglycosylase) [EC:4.2.2.29]",
       "pathways": []
     },
+    "K06398": {
+      "name": "spoIVA; stage IV sporulation protein A",
+      "pathways": []
+    },
+    "K06400": {
+      "name": "spoIVCA; site-specific DNA recombinase",
+      "pathways": []
+    },
     "K06402": {
       "name": "spoIVFB; stage IV sporulation protein FB [EC:3.4.24.-]",
       "pathways": []
@@ -141524,6 +144564,10 @@
     },
     "K06416": {
       "name": "spoVS; stage V sporulation protein S",
+      "pathways": []
+    },
+    "K06417": {
+      "name": "spoVID; stage VI sporulation protein D",
       "pathways": []
     },
     "K06442": {
@@ -141798,6 +144842,10 @@
       "name": "FII; Bacteriophage tail tube protein",
       "pathways": []
     },
+    "K06909": {
+      "name": "xtmB; phage terminase large subunit",
+      "pathways": []
+    },
     "K06910": {
       "name": "PEBP, TFS1; phosphatidylethanolamine-binding protein",
       "pathways": []
@@ -141837,6 +144885,10 @@
       "name": "K06921; uncharacterized protein",
       "pathways": []
     },
+    "K06922": {
+      "name": "K06922; uncharacterized protein",
+      "pathways": []
+    },
     "K06923": {
       "name": "K06923; uncharacterized protein",
       "pathways": []
@@ -141847,6 +144899,10 @@
     },
     "K06929": {
       "name": "K06929; uncharacterized protein",
+      "pathways": []
+    },
+    "K06931": {
+      "name": "K06931; uncharacterized protein",
       "pathways": []
     },
     "K06934": {
@@ -142243,6 +145299,10 @@
     },
     "K07054": {
       "name": "K07054; uncharacterized protein",
+      "pathways": []
+    },
+    "K07055": {
+      "name": "TRM12, TYW2; tRNA wybutosine-synthesizing protein 2 [EC:2.5.1.114]",
       "pathways": []
     },
     "K07056": {
@@ -143008,6 +146068,10 @@
       "name": "K07338; uncharacterized protein",
       "pathways": []
     },
+    "K07339": {
+      "name": "hicA; mRNA interferase HicA [EC:3.1.-.-]",
+      "pathways": []
+    },
     "K07340": {
       "name": "ybbJ; inner membrane protein",
       "pathways": []
@@ -143060,6 +146124,10 @@
     },
     "K07387": {
       "name": "K07387; metalloprotease [EC:3.4.24.-]",
+      "pathways": []
+    },
+    "K07389": {
+      "name": "cyaC, hlyC, rtxC; cytolysin-activating lysine-acyltransferase [EC:2.3.1.-]",
       "pathways": []
     },
     "K07390": {
@@ -143248,6 +146316,10 @@
       "name": "K07486; transposase",
       "pathways": []
     },
+    "K07487": {
+      "name": "K07487; transposase",
+      "pathways": []
+    },
     "K07491": {
       "name": "rayT; REP-associated tyrosine transposase",
       "pathways": []
@@ -143274,6 +146346,10 @@
     },
     "K07497": {
       "name": "K07497; putative transposase",
+      "pathways": []
+    },
+    "K07504": {
+      "name": "K07504; predicted type IV restriction endonuclease",
       "pathways": []
     },
     "K07506": {
@@ -143689,6 +146765,12 @@
         "ko02024"
       ]
     },
+    "K07720": {
+      "name": "yesN; two-component system, response regulator YesN",
+      "pathways": [
+        "ko02020"
+      ]
+    },
     "K07722": {
       "name": "nikR; CopG family transcriptional regulator, nickel-responsive regulator",
       "pathways": []
@@ -143808,6 +146890,12 @@
     },
     "K07785": {
       "name": "nrsD, nreB; MFS transporter, NRE family, putaive nickel resistance protein",
+      "pathways": [
+        "ko02020"
+      ]
+    },
+    "K07786": {
+      "name": "emrY; MFS transporter, DHA2 family, multidrug resistance protein",
       "pathways": [
         "ko02020"
       ]
@@ -143999,6 +147087,15 @@
       "name": "fimV; pilus assembly protein FimV",
       "pathways": []
     },
+    "K08097": {
+      "name": "comA; phosphosulfolactate synthase [EC:4.4.1.19]",
+      "pathways": [
+        "ko00680",
+        "ko01100",
+        "ko01120",
+        "ko01240"
+      ]
+    },
     "K08138": {
       "name": "xylE; MFS transporter, SP family, xylose:H+ symportor",
       "pathways": []
@@ -144011,6 +147108,10 @@
     },
     "K08151": {
       "name": "tetA; MFS transporter, DHA1 family, tetracycline resistance protein",
+      "pathways": []
+    },
+    "K08153": {
+      "name": "blt; MFS transporter, DHA1 family, multidrug resistance protein",
       "pathways": []
     },
     "K08154": {
@@ -144048,6 +147149,12 @@
     "K08172": {
       "name": "shiA; MFS transporter, MHS family, shikimate and dehydroshikimate transport protein",
       "pathways": []
+    },
+    "K08177": {
+      "name": "oxlT; MFS transporter, OFA family, oxalate/formate antiporter",
+      "pathways": [
+        "ko02020"
+      ]
     },
     "K08191": {
       "name": "exuT; MFS transporter, ACS family, aldohexuronate transporter",
@@ -144371,6 +147478,10 @@
         "ko01110"
       ]
     },
+    "K08597": {
+      "name": "SENP8, NEDP1, DEN1; sentrin-specific protease 8 [EC:3.4.22.68]",
+      "pathways": []
+    },
     "K08602": {
       "name": "pepF, pepB; oligoendopeptidase F [EC:3.4.24.-]",
       "pathways": []
@@ -144396,6 +147507,10 @@
     },
     "K08676": {
       "name": "tri; tricorn protease [EC:3.4.21.-]",
+      "pathways": []
+    },
+    "K08677": {
+      "name": "kscP, scpA; kumamolisin [EC:3.4.21.123]",
       "pathways": []
     },
     "K08678": {
@@ -144511,6 +147626,10 @@
     },
     "K08714": {
       "name": "VGSC; voltage-gated sodium channel",
+      "pathways": []
+    },
+    "K08715": {
+      "name": "IRPC; inward rectifier potassium channel",
       "pathways": []
     },
     "K08717": {
@@ -144686,6 +147805,10 @@
     },
     "K08976": {
       "name": "K08976; putative membrane protein",
+      "pathways": []
+    },
+    "K08978": {
+      "name": "TC.BAT1; bacterial/archaeal transporter family protein",
       "pathways": []
     },
     "K08981": {
@@ -145045,6 +148168,13 @@
       "name": "ina; immune inhibitor A [EC:3.4.24.-]",
       "pathways": []
     },
+    "K09673": {
+      "name": "CHST9; carbohydrate 4-sulfotransferase 9 [EC:2.8.2.-]",
+      "pathways": [
+        "ko00513",
+        "ko01100"
+      ]
+    },
     "K09680": {
       "name": "PANK1_2_3, CAB1, coaW; type II pantothenate kinase [EC:2.7.1.33]",
       "pathways": [
@@ -145085,6 +148215,12 @@
         "ko02010"
       ]
     },
+    "K09692": {
+      "name": "tagG; teichoic acid transport system permease protein",
+      "pathways": [
+        "ko02010"
+      ]
+    },
     "K09696": {
       "name": "natB; sodium transport system permease protein",
       "pathways": [
@@ -145112,6 +148248,10 @@
     },
     "K09701": {
       "name": "K09701; uncharacterized protein",
+      "pathways": []
+    },
+    "K09702": {
+      "name": "K09702; uncharacterized protein",
       "pathways": []
     },
     "K09704": {
@@ -145158,6 +148298,15 @@
     "K09749": {
       "name": "K09749; uncharacterized protein",
       "pathways": []
+    },
+    "K09758": {
+      "name": "asdA; aspartate 4-decarboxylase [EC:4.1.1.12]",
+      "pathways": [
+        "ko00250",
+        "ko00270",
+        "ko01100",
+        "ko01230"
+      ]
     },
     "K09759": {
       "name": "aspC, aspS; nondiscriminating aspartyl-tRNA synthetase [EC:6.1.1.23]",
@@ -145309,6 +148458,12 @@
       "name": "lolC_E_F; lipoprotein-releasing system permease protein",
       "pathways": [
         "ko02010"
+      ]
+    },
+    "K09809": {
+      "name": "tagF; CDP-glycerol glycerophosphotransferase [EC:2.7.8.12]",
+      "pathways": [
+        "ko00552"
       ]
     },
     "K09810": {
@@ -145751,6 +148906,10 @@
       "name": "K09964; uncharacterized protein",
       "pathways": []
     },
+    "K09965": {
+      "name": "K09965; uncharacterized protein",
+      "pathways": []
+    },
     "K09966": {
       "name": "K09966; uncharacterized protein",
       "pathways": []
@@ -145897,6 +149056,23 @@
       "name": "tcyC, tcyN; L-cystine transport system ATP-binding protein [EC:7.4.2.1]",
       "pathways": [
         "ko02010"
+      ]
+    },
+    "K10011": {
+      "name": "arnA, pmrI; UDP-4-amino-4-deoxy-L-arabinose formyltransferase / UDP-glucuronic acid dehydrogenase (UDP-4-keto-hexauronic acid decarboxylating) [EC:2.1.2.13 1.1.1.305]",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01250",
+        "ko01503"
+      ]
+    },
+    "K10012": {
+      "name": "arnC, pmrF; undecaprenyl-phosphate 4-deoxy-4-formamido-L-arabinose transferase [EC:2.4.2.53]",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01503"
       ]
     },
     "K10014": {
@@ -146073,6 +149249,14 @@
         "ko01110"
       ]
     },
+    "K10212": {
+      "name": "crtO; glycosyl-4,4'-diaponeurosporenoate acyltransferase [EC:2.3.1.-]",
+      "pathways": [
+        "ko00906",
+        "ko01100",
+        "ko01110"
+      ]
+    },
     "K10216": {
       "name": "dmpD, xylF; 2-hydroxymuconate-semialdehyde hydrolase [EC:3.7.1.9]",
       "pathways": [
@@ -146102,6 +149286,17 @@
         "ko00660",
         "ko01100",
         "ko01120"
+      ]
+    },
+    "K10219": {
+      "name": "ligC; 2-hydroxy-4-carboxymuconate semialdehyde hemiacetal dehydrogenase [EC:1.1.1.312]",
+      "pathways": [
+        "ko00350",
+        "ko00362",
+        "ko00627",
+        "ko01100",
+        "ko01120",
+        "ko01220"
       ]
     },
     "K10220": {
@@ -146178,6 +149373,10 @@
     },
     "K10257": {
       "name": "FAD3, FAD7, FAD8, desB; acyl-lipid omega-3 desaturase [EC:1.14.19.25 1.14.19.35 1.14.19.36]",
+      "pathways": []
+    },
+    "K10277": {
+      "name": "KDM8, JMJD5; [protein]-arginine 3-hydroxylase / protease [EC:1.14.11.73 3.4.-.-]",
       "pathways": []
     },
     "K10297": {
@@ -146441,6 +149640,12 @@
       "name": "acxA; acetone carboxylase, beta subunit [EC:6.4.1.6]",
       "pathways": []
     },
+    "K10873": {
+      "name": "RAD52; DNA repair and recombination protein RAD52",
+      "pathways": [
+        "ko03440"
+      ]
+    },
     "K10906": {
       "name": "recE; exodeoxyribonuclease VIII [EC:3.1.11.-]",
       "pathways": []
@@ -146621,6 +149826,12 @@
       "name": "rtxA1, rtxA; structural toxin protein (hemagglutinin/hemolysin) RtxA",
       "pathways": []
     },
+    "K11031": {
+      "name": "slo; thiol-activated cytolysin",
+      "pathways": [
+        "ko02024"
+      ]
+    },
     "K11065": {
       "name": "tpx; thioredoxin-dependent peroxiredoxin [EC:1.11.1.24]",
       "pathways": []
@@ -146719,6 +149930,10 @@
       "name": "mrnC; mini-ribonuclease III [EC:3.1.26.-]",
       "pathways": []
     },
+    "K11159": {
+      "name": "K11159; carotenoid cleavage oxygenase [EC:1.13.11.-]",
+      "pathways": []
+    },
     "K11175": {
       "name": "purN; phosphoribosylglycinamide formyltransferase 1 [EC:2.1.2.2]",
       "pathways": [
@@ -146815,6 +150030,12 @@
     },
     "K11327": {
       "name": "nrsB; membrane fusion protein, cation efflux system",
+      "pathways": [
+        "ko02020"
+      ]
+    },
+    "K11328": {
+      "name": "nrsS, rppB; two-component system, OmpR family, Ni(II)-sensor and/or redox sensor kinase NrsS [EC:2.7.13.3]",
       "pathways": [
         "ko02020"
       ]
@@ -147023,6 +150244,20 @@
         "ko02020"
       ]
     },
+    "K11607": {
+      "name": "sitB; manganese/iron transport system ATP-binding protein",
+      "pathways": [
+        "ko02010"
+      ]
+    },
+    "K11609": {
+      "name": "kasA; meromycolic acid 3-oxoacyl-[acyl-carrier protein] synthase I [EC:2.3.1.293]",
+      "pathways": [
+        "ko00074",
+        "ko01100",
+        "ko01110"
+      ]
+    },
     "K11614": {
       "name": "yufL, malK; two-component system, CitB family, sensor histidine kinase MalK [EC:2.7.13.3]",
       "pathways": [
@@ -147037,6 +150272,12 @@
     },
     "K11617": {
       "name": "liaS; two-component system, NarL family, sensor histidine kinase LiaS [EC:2.7.13.3]",
+      "pathways": [
+        "ko02020"
+      ]
+    },
+    "K11618": {
+      "name": "liaR; two-component system, NarL family, response regulator LiaR",
       "pathways": [
         "ko02020"
       ]
@@ -147076,6 +150317,14 @@
       "name": "dctM, yiaN; TRAP-type transport system large permease protein",
       "pathways": [
         "ko02020"
+      ]
+    },
+    "K11703": {
+      "name": "GLT25D; collagen beta-1,O-galactosyltransferase [EC:2.4.1.50]",
+      "pathways": [
+        "ko00310",
+        "ko00514",
+        "ko01100"
       ]
     },
     "K11707": {
@@ -147140,6 +150389,10 @@
     },
     "K11737": {
       "name": "cycA; D-serine/D-alanine/glycine transporter",
+      "pathways": []
+    },
+    "K11739": {
+      "name": "nfrA; bacteriophage N4 adsorption protein A",
       "pathways": []
     },
     "K11740": {
@@ -147512,6 +150765,10 @@
     },
     "K11991": {
       "name": "tadA; tRNA(adenine34) deaminase [EC:3.5.4.33]",
+      "pathways": []
+    },
+    "K12055": {
+      "name": "K12055, parA; chromosome partitioning related protein ParA",
       "pathways": []
     },
     "K12056": {
@@ -148106,6 +151363,10 @@
         "ko00540"
       ]
     },
+    "K12980": {
+      "name": "lpxQ; lipid A oxidase",
+      "pathways": []
+    },
     "K12981": {
       "name": "waaZ, rfaZ; KDO transferase III [EC:2.4.99.-]",
       "pathways": [
@@ -148132,6 +151393,10 @@
         "ko00540"
       ]
     },
+    "K12988": {
+      "name": "wapR; alpha-1,3-rhamnosyltransferase [EC:2.4.1.-]",
+      "pathways": []
+    },
     "K12989": {
       "name": "lpcC; mannosyltransferase [EC:2.4.1.-]",
       "pathways": []
@@ -148142,6 +151407,10 @@
         "ko02024",
         "ko02025"
       ]
+    },
+    "K12991": {
+      "name": "rfbG; rhamnosyltransferase [EC:2.4.1.-]",
+      "pathways": []
     },
     "K12992": {
       "name": "rfbN, wbaN; O-antigen biosynthesis alpha-1,3-rhamnosyltransferase [EC:2.4.1.377]",
@@ -148161,8 +151430,20 @@
       "name": "wbdC, mtfC; O-antigen biosynthesis alpha-1,3-mannosyltransferase [EC:2.4.1.348 2.4.1.-]",
       "pathways": []
     },
+    "K12997": {
+      "name": "rgpB; rhamnosyltransferase [EC:2.4.1.-]",
+      "pathways": []
+    },
+    "K13001": {
+      "name": "wbyK; mannosyltransferase [EC:2.4.1.-]",
+      "pathways": []
+    },
     "K13002": {
       "name": "wbyL; glycosyltransferase [EC:2.4.1.-]",
+      "pathways": []
+    },
+    "K13003": {
+      "name": "wbtG; glycosyltransferase WbtG [EC:2.4.1.-]",
       "pathways": []
     },
     "K13004": {
@@ -148199,6 +151480,14 @@
     },
     "K13016": {
       "name": "wbpB; UDP-N-acetyl-2-amino-2-deoxyglucuronate dehydrogenase [EC:1.1.1.335]",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01250"
+      ]
+    },
+    "K13017": {
+      "name": "wbpE, wlbC; UDP-2-acetamido-2-deoxy-ribo-hexuluronate aminotransferase [EC:2.6.1.98]",
       "pathways": [
         "ko00541",
         "ko01100",
@@ -148322,6 +151611,15 @@
       "name": "lgt, umpA; phosphatidylglycerol---prolipoprotein diacylglyceryl transferase [EC:2.5.1.145]",
       "pathways": []
     },
+    "K13307": {
+      "name": "tylMI; dTDP-3-amino-3,6-dideoxy-alpha-D-glucopyranose N,N-dimethyltransferase [EC:2.1.1.235]",
+      "pathways": [
+        "ko00523",
+        "ko01100",
+        "ko01110",
+        "ko01250"
+      ]
+    },
     "K13318": {
       "name": "eryBIV, tylCIV, tylC2; dTDP-4-keto-6-deoxy-L-hexose 4-reductase [EC:1.1.1.-]",
       "pathways": [
@@ -148333,6 +151631,15 @@
     },
     "K13322": {
       "name": "megDV; dTDP-4-keto-6-deoxyhexose 4-ketoreductase",
+      "pathways": [
+        "ko00523",
+        "ko01100",
+        "ko01110",
+        "ko01250"
+      ]
+    },
+    "K13330": {
+      "name": "spnS; dTDP-4-amino-2,3,4,6-tetradeoxy-D-glucose N,N-dimethyltransferase [EC:2.1.1.324]",
       "pathways": [
         "ko00523",
         "ko01100",
@@ -148377,6 +151684,10 @@
         "ko01100",
         "ko01240"
       ]
+    },
+    "K13472": {
+      "name": "raxST; sulfotransferase",
+      "pathways": []
     },
     "K13481": {
       "name": "xdhA; xanthine dehydrogenase small subunit [EC:1.17.1.4]",
@@ -148610,6 +151921,10 @@
         "ko01120"
       ]
     },
+    "K13614": {
+      "name": "pksN, baeN; bacillaene biosynthesis, polyketide synthase / nonribosomal peptide synthetase PksN/BaeN",
+      "pathways": []
+    },
     "K13628": {
       "name": "iscA; iron-sulfur cluster assembly protein",
       "pathways": []
@@ -148662,10 +151977,28 @@
       "name": "mqsA; HTH-type transcriptional regulator / antitoxin MqsA",
       "pathways": []
     },
+    "K13656": {
+      "name": "gumD; undecaprenyl-phosphate glucose phosphotransferase [EC:2.7.8.31]",
+      "pathways": [
+        "ko00543"
+      ]
+    },
+    "K13659": {
+      "name": "gumK; 2-beta-glucuronyltransferase [EC:2.4.1.264]",
+      "pathways": [
+        "ko00543"
+      ]
+    },
     "K13665": {
       "name": "gumL; pyruvyltransferase",
       "pathways": [
         "ko00543"
+      ]
+    },
+    "K13667": {
+      "name": "POGLUT1, RUMI, KTELC1; EGF-domain serine glucosyl/xylosyltransferase [EC:2.4.1.376 2.4.2.63]",
+      "pathways": [
+        "ko00514"
       ]
     },
     "K13668": {
@@ -148693,6 +152026,10 @@
     },
     "K13689": {
       "name": "cgtA; beta-1,4-N-acetylgalactosaminyltransferase [EC:2.4.1.-]",
+      "pathways": []
+    },
+    "K13690": {
+      "name": "CMT1; alpha-1,3-mannosyltransferase [EC:2.4.1.-]",
       "pathways": []
     },
     "K13693": {
@@ -148877,6 +152214,10 @@
         "ko01110",
         "ko01230"
       ]
+    },
+    "K13868": {
+      "name": "SLC7A9_15, BAT1; solute carrier family 7 (L-type amino acid transporter), member 9/15",
+      "pathways": []
     },
     "K13874": {
       "name": "araB; L-arabinonolactonase [EC:3.1.1.15]",
@@ -149182,8 +152523,16 @@
         "ko01230"
       ]
     },
+    "K14192": {
+      "name": "clfB; clumping factor B",
+      "pathways": []
+    },
     "K14194": {
       "name": "sdrC_D_E; serine-aspartate repeat-containing protein C/D/E",
+      "pathways": []
+    },
+    "K14201": {
+      "name": "clfA; clumping factor A",
       "pathways": []
     },
     "K14205": {
@@ -149253,6 +152602,10 @@
     },
     "K14287": {
       "name": "ybdL; methionine transaminase [EC:2.6.1.88]",
+      "pathways": []
+    },
+    "K14292": {
+      "name": "TGS1; trimethylguanosine synthase [EC:2.1.1.-]",
       "pathways": []
     },
     "K14330": {
@@ -149469,6 +152822,10 @@
       "name": "nodE; nodulation protein E [EC:2.3.1.-]",
       "pathways": []
     },
+    "K14673": {
+      "name": "whiEII; putative monooxygenase",
+      "pathways": []
+    },
     "K14681": {
       "name": "argHA; argininosuccinate lyase / amino-acid N-acetyltransferase [EC:4.3.2.1 2.3.1.1]",
       "pathways": [
@@ -149605,6 +152962,13 @@
         "ko01120"
       ]
     },
+    "K15063": {
+      "name": "ligW; 5-carboxyvanillate decarboxylase",
+      "pathways": [
+        "ko00627",
+        "ko01120"
+      ]
+    },
     "K15125": {
       "name": "fhaB; filamentous hemagglutinin",
       "pathways": []
@@ -149645,8 +153009,16 @@
       "name": "cas1; CRISP-associated protein Cas1",
       "pathways": []
     },
+    "K15349": {
+      "name": "sseJ; secreted effector protein SseJ",
+      "pathways": []
+    },
     "K15353": {
       "name": "sspH2; E3 ubiquitin-protein ligase SspH2",
+      "pathways": []
+    },
+    "K15354": {
+      "name": "sseI, srfH; secreted effector protein SseI",
       "pathways": []
     },
     "K15357": {
@@ -149704,6 +153076,10 @@
         "ko00190",
         "ko01100"
       ]
+    },
+    "K15450": {
+      "name": "TYW3; tRNA wybutosine-synthesizing protein 3 [EC:2.1.1.282]",
+      "pathways": []
     },
     "K15460": {
       "name": "yfiC, trmX; tRNA1Val (adenine37-N6)-methyltransferase [EC:2.1.1.223]",
@@ -150225,6 +153601,14 @@
         "ko01250"
       ]
     },
+    "K15897": {
+      "name": "pseG; UDP-2,4-diacetamido-2,4,6-trideoxy-beta-L-altropyranose hydrolase [EC:3.6.1.57]",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01250"
+      ]
+    },
     "K15898": {
       "name": "pseI, neuB3; pseudaminic acid synthase [EC:2.5.1.97]",
       "pathways": [
@@ -150245,6 +153629,21 @@
       "name": "pglC; undecaprenyl phosphate N,N'-diacetylbacillosamine 1-phosphate transferase [EC:2.7.8.36]",
       "pathways": []
     },
+    "K15916": {
+      "name": "pgi-pmi; glucose/mannose-6-phosphate isomerase [EC:5.3.1.9 5.3.1.8]",
+      "pathways": [
+        "ko00010",
+        "ko00030",
+        "ko00051",
+        "ko00500",
+        "ko00520",
+        "ko01100",
+        "ko01110",
+        "ko01120",
+        "ko01200",
+        "ko01250"
+      ]
+    },
     "K15918": {
       "name": "GLYK; D-glycerate 3-kinase [EC:2.7.1.31]",
       "pathways": [
@@ -150260,6 +153659,13 @@
       "name": "AXY8, FUC95A, afcA; alpha-L-fucosidase 2 [EC:3.2.1.51]",
       "pathways": [
         "ko00511"
+      ]
+    },
+    "K15945": {
+      "name": "snoaL2; C-1 hydroxylase",
+      "pathways": [
+        "ko01057",
+        "ko01110"
       ]
     },
     "K15975": {
@@ -150302,6 +153708,13 @@
       "name": "cydD; ATP-binding cassette, subfamily C, bacterial CydD",
       "pathways": [
         "ko02010"
+      ]
+    },
+    "K16017": {
+      "name": "rifM, asm45; AHBA synthesis associated protein",
+      "pathways": [
+        "ko01051",
+        "ko01110"
       ]
     },
     "K16044": {
@@ -150400,6 +153813,13 @@
     },
     "K16147": {
       "name": "glgE; starch synthase (maltosyl-transferring) [EC:2.4.99.16]",
+      "pathways": [
+        "ko00500",
+        "ko01100"
+      ]
+    },
+    "K16148": {
+      "name": "glgM; alpha-maltose-1-phosphate synthase [EC:2.4.1.342]",
       "pathways": [
         "ko00500",
         "ko01100"
@@ -150558,6 +153978,10 @@
       "name": "czcD, zitB; cobalt-zinc-cadmium efflux system protein",
       "pathways": []
     },
+    "K16267": {
+      "name": "zipB; zinc and cadmium transporter",
+      "pathways": []
+    },
     "K16291": {
       "name": "",
       "pathways": []
@@ -150615,6 +154039,12 @@
     "K16362": {
       "name": "FLRT; leucine-rich repeat transmembrane protein FLRT",
       "pathways": []
+    },
+    "K16365": {
+      "name": "SGTA; small glutamine-rich tetratricopeptide repeat-containing protein alpha",
+      "pathways": [
+        "ko03060"
+      ]
     },
     "K16370": {
       "name": "pfkB; 6-phosphofructokinase 2 [EC:2.7.1.11]",
@@ -150685,6 +154115,18 @@
       "name": "exoP, vpsO; polysaccharide biosynthesis transport protein [EC:2.7.10.3]",
       "pathways": [
         "ko05111"
+      ]
+    },
+    "K16555": {
+      "name": "exoO; succinoglycan biosynthesis protein ExoO [EC:2.4.-.-]",
+      "pathways": [
+        "ko00543"
+      ]
+    },
+    "K16557": {
+      "name": "exoA; succinoglycan biosynthesis protein ExoA [EC:2.4.-.-]",
+      "pathways": [
+        "ko00543"
       ]
     },
     "K16563": {
@@ -150891,6 +154333,13 @@
       "name": "tehB; tellurite methyltransferase [EC:2.1.1.265]",
       "pathways": []
     },
+    "K16870": {
+      "name": "wbbL; N-acetylglucosaminyl-diphospho-decaprenol L-rhamnosyltransferase [EC:2.4.1.289]",
+      "pathways": [
+        "ko00572",
+        "ko01100"
+      ]
+    },
     "K16871": {
       "name": "POP2; 4-aminobutyrate---pyruvate transaminase [EC:2.6.1.96]",
       "pathways": [
@@ -150903,6 +154352,14 @@
     "K16872": {
       "name": "E2.3.1.207; beta-ketodecanoyl-[acyl-carrier-protein] synthase [EC:2.3.1.207]",
       "pathways": []
+    },
+    "K16873": {
+      "name": "hmfH; 5-(hydroxymethyl)furfural/furfural oxidase [EC:1.1.3.47 1.1.3.-]",
+      "pathways": [
+        "ko00365",
+        "ko01100",
+        "ko01120"
+      ]
     },
     "K16879": {
       "name": "hmfC; 2-furoyl-CoA dehydrogenase 2Fe-2S iron sulfur subunit [EC:1.3.99.8]",
@@ -151157,6 +154614,10 @@
       "name": "pglJ; N-acetylgalactosamine-N,N'-diacetylbacillosaminyl-diphospho-undecaprenol 4-alpha-N-acetylgalactosaminyltransferase [EC:2.4.1.291]",
       "pathways": []
     },
+    "K17250": {
+      "name": "pglI; GalNAc5-diNAcBac-PP-undecaprenol beta-1,3-glucosyltransferase [EC:2.4.1.293]",
+      "pathways": []
+    },
     "K17285": {
       "name": "SELENBP1; methanethiol oxidase [EC:1.8.3.4]",
       "pathways": [
@@ -151377,6 +154838,10 @@
         "ko01200"
       ]
     },
+    "K17882": {
+      "name": "aadD, knt; kanamycin nucleotidyltransferase [EC:2.7.7.-]",
+      "pathways": []
+    },
     "K17884": {
       "name": "E2.7.8.39; archaetidylinositol phosphate synthase [EC:2.7.8.39]",
       "pathways": []
@@ -151464,6 +154929,19 @@
         "ko01120"
       ]
     },
+    "K18055": {
+      "name": "HIF1AN; hypoxia-inducible factor 1-alpha inhibitor (HIF hydroxylase) [EC:1.14.11.30]",
+      "pathways": []
+    },
+    "K18067": {
+      "name": "pht4; phthalate 4,5-cis-dihydrodiol dehydrogenase [EC:1.3.1.64]",
+      "pathways": [
+        "ko00624",
+        "ko01100",
+        "ko01120",
+        "ko01220"
+      ]
+    },
     "K18092": {
       "name": "etbD; 2-hydroxy-6-oxo-octa-2,4-dienoate hydrolase [EC:3.7.1.-]",
       "pathways": [
@@ -151510,6 +154988,12 @@
         "ko01110",
         "ko01120",
         "ko01200"
+      ]
+    },
+    "K18134": {
+      "name": "EOGT; EGF domain-specific O-GlcNAc transferase [EC:2.4.1.255]",
+      "pathways": [
+        "ko00514"
       ]
     },
     "K18135": {
@@ -151587,12 +155071,22 @@
         "ko01120"
       ]
     },
+    "K18217": {
+      "name": "steB, tetB46; ATP-binding cassette, subfamily B, tetracycline resistant protein",
+      "pathways": [
+        "ko02010"
+      ]
+    },
     "K18219": {
       "name": "txr; sigma-54 dependent transcriptional regulator, tetracycline resistant transcriptional regulator",
       "pathways": []
     },
     "K18234": {
       "name": "vat; virginiamycin A acetyltransferase [EC:2.3.1.-]",
+      "pathways": []
+    },
+    "K18235": {
+      "name": "vgb; virginiamycin B lyase [EC:4.2.99.-]",
       "pathways": []
     },
     "K18244": {
@@ -151887,6 +155381,15 @@
       "name": "pbuE; MFS transporter, DHA1 family, purine base/nucleoside efflux pump",
       "pathways": []
     },
+    "K18586": {
+      "name": "COQ4; 4-hydroxy-3-methoxy-5-polyprenylbenzoate decarboxylase [EC:4.1.1.130]",
+      "pathways": [
+        "ko00130",
+        "ko01100",
+        "ko01110",
+        "ko01240"
+      ]
+    },
     "K18587": {
       "name": "COQ9; ubiquinone biosynthesis protein COQ9",
       "pathways": []
@@ -151995,6 +155498,16 @@
       "name": "uctC; CoA:oxalate CoA-transferase [EC:2.8.3.19]",
       "pathways": []
     },
+    "K18704": {
+      "name": "tarL; CDP-ribitol ribitolphosphotransferase / teichoic acid ribitol-phosphate polymerase [EC:2.7.8.14 2.7.8.47]",
+      "pathways": [
+        "ko00552"
+      ]
+    },
+    "K18705": {
+      "name": "B3GNT9; beta-1,3-N-acetylglucosaminyltransferase 9 [EC:2.4.1.-]",
+      "pathways": []
+    },
     "K18707": {
       "name": "",
       "pathways": []
@@ -152036,6 +155549,10 @@
     },
     "K18814": {
       "name": "ictB; putative inorganic carbon (hco3(-)) transporter",
+      "pathways": []
+    },
+    "K18815": {
+      "name": "aac6-I; aminoglycoside 6'-N-acetyltransferase I [EC:2.3.1.82]",
       "pathways": []
     },
     "K18816": {
@@ -152641,6 +156158,12 @@
       "name": "mepM; murein DD-endopeptidase [EC:3.4.24.-]",
       "pathways": []
     },
+    "K19309": {
+      "name": "bcrA; bacitracin transport system ATP-binding protein",
+      "pathways": [
+        "ko02010"
+      ]
+    },
     "K19318": {
       "name": "blaOXA-213; beta-lactamase class D OXA-213 [EC:3.5.2.6]",
       "pathways": [
@@ -152693,12 +156216,24 @@
       "name": "yccA; modulator of FtsH protease",
       "pathways": []
     },
+    "K19423": {
+      "name": "epsE; glycosyltransferase EpsE [EC:2.4.-.-]",
+      "pathways": []
+    },
     "K19429": {
       "name": "epsM; acetyltransferase EpsM [EC:2.3.1.-]",
       "pathways": []
     },
     "K19431": {
       "name": "epsO; pyruvyl transferase EpsO [EC:2.-.-.-]",
+      "pathways": []
+    },
+    "K19465": {
+      "name": "MGME1, DDK1; mitochondrial genome maintenance exonuclease 1 [EC:3.1.-.-]",
+      "pathways": []
+    },
+    "K19511": {
+      "name": "PXDN, VPO1; peroxidase [EC:1.11.1.7]",
       "pathways": []
     },
     "K19519": {
@@ -152840,6 +156375,10 @@
         "ko01120",
         "ko01320"
       ]
+    },
+    "K19715": {
+      "name": "kdnA; 8-amino-3,8-dideoxy-alpha-D-manno-octulosonate transaminase [EC:2.6.1.109]",
+      "pathways": []
     },
     "K19733": {
       "name": "sinR, avsR; LuxR family transcriptional regulator, quorum-sensing system regulator SinR",
@@ -153033,6 +156572,10 @@
         "ko02060"
       ]
     },
+    "K20151": {
+      "name": "fucT; alpha(1,3/1,4) fucosyltransferase [EC:2.4.1.65 2.4.1.152]",
+      "pathways": []
+    },
     "K20207": {
       "name": "gpx; hydroperoxy fatty acid reductase [EC:1.11.1.22]",
       "pathways": []
@@ -153077,6 +156620,10 @@
         "ko02024"
       ]
     },
+    "K20306": {
+      "name": "TRAPPC9, TRS120; trafficking protein particle complex subunit 9",
+      "pathways": []
+    },
     "K20319": {
       "name": "blaADC; beta-lactamase class C ADC [EC:3.5.2.6]",
       "pathways": [
@@ -153087,6 +156634,12 @@
       "name": "blaPDC; beta-lactamase class C PDC [EC:3.5.2.6]",
       "pathways": [
         "ko01501"
+      ]
+    },
+    "K20333": {
+      "name": "toxD; toxoflavin biosynthesis protein ToxD",
+      "pathways": [
+        "ko02024"
       ]
     },
     "K20344": {
@@ -153227,6 +156780,10 @@
       "name": "E3.4.21.121; Lys-Lys/Arg-Xaa endopeptidase [EC:3.4.21.121]",
       "pathways": []
     },
+    "K20756": {
+      "name": "E3.4.21.103; physarolisin [EC:3.4.21.103]",
+      "pathways": []
+    },
     "K20757": {
       "name": "dthadh; threo-3-hydroxy-D-aspartate ammonia-lyase [EC:4.3.1.27]",
       "pathways": []
@@ -153261,6 +156818,10 @@
         "ko01110",
         "ko01240"
       ]
+    },
+    "K20843": {
+      "name": "GALT2S; hydroxyproline O-galactosyltransferase 2/3/4/5/6 [EC:2.4.1.-]",
+      "pathways": []
     },
     "K20862": {
       "name": "yigB; FMN hydrolase / 5-amino-6-(5-phospho-D-ribitylamino)uracil phosphatase [EC:3.1.3.102 3.1.3.104]",
@@ -153304,6 +156865,13 @@
         "ko01110"
       ]
     },
+    "K20941": {
+      "name": "graF; gamma-resorcylate decarboxylase [EC:4.1.1.103]",
+      "pathways": [
+        "ko00362",
+        "ko01120"
+      ]
+    },
     "K20945": {
       "name": "vpsU; tyrosine-protein phosphatase [EC:3.1.3.48]",
       "pathways": [
@@ -153318,6 +156886,18 @@
     },
     "K20949": {
       "name": "vpsP; polysaccharide biosynthesis protein VpsP",
+      "pathways": [
+        "ko05111"
+      ]
+    },
+    "K20951": {
+      "name": "bap1; extracellular matrix protein",
+      "pathways": [
+        "ko05111"
+      ]
+    },
+    "K20952": {
+      "name": "rbmC; rugosity and biofilm structure modulator C",
       "pathways": [
         "ko05111"
       ]
@@ -153444,6 +157024,12 @@
         "ko02025"
       ]
     },
+    "K21007": {
+      "name": "pelB; polysaccharide biosynthesis protein PelB",
+      "pathways": [
+        "ko02025"
+      ]
+    },
     "K21010": {
       "name": "pelE; polysaccharide biosynthesis protein PelE",
       "pathways": [
@@ -153490,6 +157076,12 @@
         "ko02025"
       ]
     },
+    "K21028": {
+      "name": "ynjE; molybdopterin synthase sulfurtransferase [EC:2.8.1.11]",
+      "pathways": [
+        "ko04122"
+      ]
+    },
     "K21029": {
       "name": "moeB; molybdopterin-synthase adenylyltransferase [EC:2.7.7.80]",
       "pathways": [
@@ -153519,6 +157111,13 @@
         "ko01100"
       ]
     },
+    "K21061": {
+      "name": "lhpB; D-hydroxyproline dehydrogenase subunit beta [EC:1.5.99.-]",
+      "pathways": [
+        "ko00470",
+        "ko01100"
+      ]
+    },
     "K21062": {
       "name": "lhpC; 1-pyrroline-4-hydroxy-2-carboxylate deaminase [EC:3.5.4.22]",
       "pathways": [
@@ -153543,6 +157142,18 @@
     },
     "K21084": {
       "name": "yegE; diguanylate cyclase [EC:2.7.7.65]",
+      "pathways": [
+        "ko02026"
+      ]
+    },
+    "K21085": {
+      "name": "yedQ; diguanylate cyclase [EC:2.7.7.65]",
+      "pathways": [
+        "ko02026"
+      ]
+    },
+    "K21086": {
+      "name": "pdeH; c-di-GMP phosphodiesterase [EC:3.1.4.52]",
       "pathways": [
         "ko02026"
       ]
@@ -153699,6 +157310,14 @@
       "name": "wbnJ, wbiP; O86/O127-antigen biosynthesis beta-1,3-galactosyltransferase [EC:2.4.1.122 2.4.1.-]",
       "pathways": [
         "ko00542"
+      ]
+    },
+    "K21379": {
+      "name": "vioB; dTDP-4-amino-4,6-dideoxy-D-glucose acyltransferase [EC:2.3.1.209]",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01250"
       ]
     },
     "K21393": {
@@ -153880,6 +157499,14 @@
       "name": "benM; LysR family transcriptional regulator, benzoate and cis,cis-muconate-responsive activator of ben and cat genes",
       "pathways": []
     },
+    "K21759": {
+      "name": "bsdD; vanillate/4-hydroxybenzoate decarboxylase subunit D [EC:4.1.1.- 4.1.1.61]",
+      "pathways": [
+        "ko00627",
+        "ko01120",
+        "ko01220"
+      ]
+    },
     "K21783": {
       "name": "pigJ, redX; beta-ketoacyl ACP synthase [EC:2.3.1.-]",
       "pathways": [
@@ -153901,6 +157528,10 @@
         "ko00627",
         "ko01120"
       ]
+    },
+    "K21822": {
+      "name": "E1.13.11.82; 8'-apo-carotenoid 13,14-cleaving dioxygenase [EC:1.13.11.82]",
+      "pathways": []
     },
     "K21825": {
       "name": "argR; AraC family transcriptional regulator, L-arginine-responsive activator",
@@ -154156,6 +157787,15 @@
         "ko01100"
       ]
     },
+    "K22227": {
+      "name": "ahbD; AdoMet-dependent heme synthase [EC:1.3.98.6]",
+      "pathways": [
+        "ko00860",
+        "ko01100",
+        "ko01110",
+        "ko01240"
+      ]
+    },
     "K22250": {
       "name": "phaZ; poly(3-hydroxyoctanoate) depolymerase [EC:3.1.1.76]",
       "pathways": []
@@ -154214,6 +157854,13 @@
         "ko01120",
         "ko01200",
         "ko01230"
+      ]
+    },
+    "K22311": {
+      "name": "ptfP1; phosphatidylinositol dimannoside acyltransferase [EC:2.3.1.265]",
+      "pathways": [
+        "ko00571",
+        "ko01100"
       ]
     },
     "K22317": {
@@ -154275,6 +157922,10 @@
       "name": "E2.7.3.13; glutamine kinase [EC:2.7.3.13]",
       "pathways": []
     },
+    "K22441": {
+      "name": "paiA; diamine N-acetyltransferase [EC:2.3.1.57]",
+      "pathways": []
+    },
     "K22443": {
       "name": "cntA; carnitine monooxygenase subunit [EC:1.14.13.239]",
       "pathways": []
@@ -154285,6 +157936,10 @@
         "ko00906",
         "ko01110"
       ]
+    },
+    "K22446": {
+      "name": "K22446; tRNA (cytosine49-C5)-methyltransferase [EC:2.1.1.-]",
+      "pathways": []
     },
     "K22452": {
       "name": "tgpA; protein-glutamine gamma-glutamyltransferase [EC:2.3.2.13]",
@@ -154625,6 +158280,10 @@
       "name": "Glycosaminoglycan degradation",
       "subcategory": "09107"
     },
+    "ko00532": {
+      "name": "Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate",
+      "subcategory": "09107"
+    },
     "ko00534": {
       "name": "Glycosaminoglycan biosynthesis - heparan sulfate / heparin",
       "subcategory": "09107"
@@ -154700,6 +158359,10 @@
     "ko00600": {
       "name": "Sphingolipid metabolism",
       "subcategory": "09103"
+    },
+    "ko00601": {
+      "name": "Glycosphingolipid biosynthesis - lacto and neolacto series",
+      "subcategory": "09107"
     },
     "ko00603": {
       "name": "Glycosphingolipid biosynthesis - globo and isoglobo series",
@@ -155247,6 +158910,10 @@
     "ko04115": {
       "name": "p53 signaling pathway",
       "subcategory": "09143"
+    },
+    "ko04120": {
+      "name": "Ubiquitin mediated proteolysis",
+      "subcategory": "09123"
     },
     "ko04122": {
       "name": "Sulfur relay system",
@@ -156417,6 +160084,36 @@
         "10749",
         "10750",
         "10751"
+      ]
+    },
+    "R00134": {
+      "compounds": [
+        "C00005",
+        "C00006",
+        "C00011",
+        "C00058",
+        "C00080"
+      ],
+      "ec_numbers": [
+        "1.17.1.10",
+        "1.2.1.43"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR106403",
+      "name": "formate:NADP+ oxidoreductase; Formate + NADP+ <=> CO2 + NADPH + H+",
+      "pathways": [
+        "ko00680",
+        "ko00720",
+        "ko01100",
+        "ko01120",
+        "ko01200"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "12000",
+        "12001",
+        "12002",
+        "12003"
       ]
     },
     "R00135": {
@@ -159191,6 +162888,32 @@
         "18406",
         "18407",
         "18408"
+      ]
+    },
+    "R00397": {
+      "compounds": [
+        "C00011",
+        "C00041",
+        "C00049"
+      ],
+      "ec_numbers": [
+        "4.1.1.12",
+        "4.4.1.1"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR96078",
+      "name": "L-aspartate 4-carboxy-lyase (L-alanine-forming); L-Aspartate <=> L-Alanine + CO2",
+      "pathways": [
+        "ko00250",
+        "ko01100",
+        "ko01230"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "12621",
+        "12622",
+        "12623",
+        "12624"
       ]
     },
     "R00401": {
@@ -162973,6 +166696,25 @@
         "25293"
       ]
     },
+    "R00755": {
+      "compounds": [
+        "C00068",
+        "C00084",
+        "C05125"
+      ],
+      "ec_numbers": [
+        "4.1.1.1"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR102421",
+      "name": "Acetaldehyde + Thiamin diphosphate <=> 2-(alpha-Hydroxyethyl)thiamine diphosphate",
+      "pathways": [
+        "ko00010",
+        "ko01100"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
     "R00756": {
       "compounds": [
         "C00002",
@@ -164058,6 +167800,26 @@
         "ko01100",
         "ko01120",
         "ko01320"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R00863": {
+      "compounds": [
+        "C00041",
+        "C00606",
+        "C09306"
+      ],
+      "ec_numbers": [
+        "4.1.1.12",
+        "4.4.1.1"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR97008",
+      "name": "3-sulfino-L-alanine 4-carboxy-lyase; 3-Sulfino-L-alanine <=> L-Alanine + Sulfur dioxide",
+      "pathways": [
+        "ko00270",
+        "ko01100"
       ],
       "reaction_class": "chemical",
       "rhea_ids": []
@@ -165651,6 +169413,32 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
+    "R01012": {
+      "compounds": [
+        "C00022",
+        "C00074",
+        "C00111",
+        "C00184"
+      ],
+      "ec_numbers": [
+        "2.7.1.121"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR97364",
+      "name": "phosphoenolpyruvate:glycerone phosphotransferase; Phosphoenolpyruvate + Glycerone <=> Pyruvate + Glycerone phosphate",
+      "pathways": [
+        "ko00561",
+        "ko01100",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "18381",
+        "18382",
+        "18383",
+        "18384"
+      ]
+    },
     "R01015": {
       "compounds": [
         "C00111",
@@ -165726,6 +169514,31 @@
       ],
       "reaction_class": "chemical",
       "rhea_ids": []
+    },
+    "R01026": {
+      "compounds": [
+        "C00001",
+        "C00033",
+        "C00114",
+        "C01996"
+      ],
+      "ec_numbers": [
+        "3.1.1.7",
+        "3.1.1.8"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR95261",
+      "name": "acetylcholine aectylhydrolase; Acetylcholine + H2O <=> Choline + Acetate",
+      "pathways": [
+        "ko00564"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "17561",
+        "17562",
+        "17563",
+        "17564"
+      ]
     },
     "R01030": {
       "compounds": [
@@ -170021,6 +173834,26 @@
         "14280"
       ]
     },
+    "R01459": {
+      "compounds": [
+        "C00007",
+        "C00027",
+        "C00187",
+        "C00599"
+      ],
+      "ec_numbers": [
+        "1.1.3.6"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR107006",
+      "name": "cholesterol:oxygen oxidoreductase; Cholesterol + Oxygen <=> Cholest-4-en-3-one + Hydrogen peroxide",
+      "pathways": [
+        "ko00984",
+        "ko01120"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
     "R01465": {
       "compounds": [
         "C00003",
@@ -172711,6 +176544,26 @@
         "30789",
         "30790"
       ]
+    },
+    "R01797": {
+      "compounds": [
+        "C00001",
+        "C00055",
+        "C00269",
+        "C00416"
+      ],
+      "ec_numbers": [
+        "3.6.1.26"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR147421",
+      "name": "CDP-diacylglycerol phosphatidylhydrolase; CDP-diacylglycerol + H2O <=> CMP + Phosphatidate",
+      "pathways": [
+        "ko00564",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
     },
     "R01799": {
       "compounds": [
@@ -175800,6 +179653,64 @@
         "59418",
         "59419"
       ]
+    },
+    "R02180": {
+      "compounds": [
+        "C00053",
+        "C00054",
+        "C00401",
+        "C00634"
+      ],
+      "ec_numbers": [
+        "2.8.2.5"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR147544",
+      "name": "3'-phosphoadenylylsulfate:chondroitin 4'-sulfotransferase; 3'-Phosphoadenylyl sulfate + Chondroitin <=> Adenosine 3',5'-bisphosphate + Chondroitin 4-sulfate",
+      "pathways": [],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R02187": {
+      "compounds": [
+        "C00221",
+        "C00404",
+        "C01172"
+      ],
+      "ec_numbers": [],
+      "mass_balance": "unbalanced",
+      "mnxr_id": null,
+      "name": "polyphosphate:D-glucose 6-phosphotransferase; Polyphosphate + beta-D-Glucose <=> Polyphosphate + beta-D-Glucose 6-phosphate",
+      "pathways": [
+        "ko00010",
+        "ko01100",
+        "ko01110",
+        "ko01120"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R02189": {
+      "compounds": [
+        "C00267",
+        "C00404",
+        "C00668"
+      ],
+      "ec_numbers": [],
+      "mass_balance": "unbalanced",
+      "mnxr_id": null,
+      "name": "polyphosphate:D-glucose 6-phosphotransferase; Polyphosphate + alpha-D-Glucose <=> Polyphosphate + alpha-D-Glucose 6-phosphate",
+      "pathways": [
+        "ko00010",
+        "ko00520",
+        "ko01100",
+        "ko01110",
+        "ko01120",
+        "ko01200",
+        "ko01250"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
     },
     "R02194": {
       "compounds": [
@@ -182493,6 +186404,33 @@
         "23747"
       ]
     },
+    "R03244": {
+      "compounds": [
+        "C01101",
+        "C03291"
+      ],
+      "ec_numbers": [
+        "5.-.-.-",
+        "5.1.3.1",
+        "5.1.3.22"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR105224",
+      "name": "L-ribulose-5-phosphate 3-epimerase; L-xylulose 5-phosphate 3-epimerase; L-Ribulose 5-phosphate <=> L-Xylulose 5-phosphate",
+      "pathways": [
+        "ko00040",
+        "ko00053",
+        "ko01100",
+        "ko01120"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "18497",
+        "18498",
+        "18499",
+        "18500"
+      ]
+    },
     "R03254": {
       "compounds": [
         "C00001",
@@ -183156,6 +187094,27 @@
         "16991",
         "16992"
       ]
+    },
+    "R03380": {
+      "compounds": [
+        "C00015",
+        "C00052",
+        "C01211",
+        "C04487"
+      ],
+      "ec_numbers": [
+        "2.4.1.50"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR108131",
+      "name": "UDP-alpha-D-galactose:procollagen-5-hydroxy-L-lysine D-galactosyltransferase; UDP-alpha-D-galactose + Procollagen 5-hydroxy-L-lysine <=> UDP + 5-(D-Galactosyloxy)-L-lysine-procollagen",
+      "pathways": [
+        "ko00310",
+        "ko00514",
+        "ko01100"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
     },
     "R03383": {
       "compounds": [
@@ -184264,6 +188223,27 @@
         "57950",
         "57951"
       ]
+    },
+    "R03629": {
+      "compounds": [
+        "C00001",
+        "C00007",
+        "C01598",
+        "C03024",
+        "C03161",
+        "C05643"
+      ],
+      "ec_numbers": [
+        "1.14.14.1"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR148280",
+      "name": "melatonin,NADPH---hemoprotein reductase:oxygen oxidoreductase; Melatonin + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> 6-Hydroxymelatonin + [Oxidized NADPH---hemoprotein reductase] + H2O",
+      "pathways": [
+        "ko00380"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
     },
     "R03634": {
       "compounds": [
@@ -186264,6 +190244,27 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
+    "R04121": {
+      "compounds": [
+        "C00001",
+        "C00007",
+        "C00162",
+        "C03024",
+        "C03161",
+        "C05102"
+      ],
+      "ec_numbers": [
+        "1.14.14.1"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR148563",
+      "name": "fatty acid,reduced-flaboprotein:oxygen oxidoreductase (RH-hydroxylating or -epoxidizing); [Reduced NADPH---hemoprotein reductase] + Fatty acid + Oxygen <=> alpha-Hydroxy fatty acid + [Oxidized NADPH---hemoprotein reductase] + H2O",
+      "pathways": [
+        "ko00071"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
     "R04125": {
       "compounds": [
         "C00014",
@@ -187106,6 +191107,59 @@
         "21659"
       ]
     },
+    "R04278": {
+      "compounds": [
+        "C00003",
+        "C00004",
+        "C00080",
+        "C03671",
+        "C05375"
+      ],
+      "ec_numbers": [
+        "1.1.1.312",
+        "1.2.1.45"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR108782",
+      "name": "2-hydroxy-2-hydropyrone-4,6-dicarboxylate:NAD+ 6-oxidoreductase; 2-Hydroxy-2-hydropyrone-4,6-dicarboxylate + NAD+ <=> 2-Pyrone-4,6-dicarboxylate + NADH + H+",
+      "pathways": [
+        "ko00362",
+        "ko00627",
+        "ko01100",
+        "ko01120"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R04279": {
+      "compounds": [
+        "C00005",
+        "C00006",
+        "C00080",
+        "C03671",
+        "C05375"
+      ],
+      "ec_numbers": [
+        "1.1.1.312",
+        "1.2.1.45"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR108783",
+      "name": "4-carboxy-2-hydroxymuconate semialdehyde hemiacetal:NADP+ 2-oxidoreductase; 2-Hydroxy-2-hydropyrone-4,6-dicarboxylate + NADP+ <=> 2-Pyrone-4,6-dicarboxylate + NADPH + H+",
+      "pathways": [
+        "ko00362",
+        "ko00627",
+        "ko01100",
+        "ko01120"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "29587",
+        "29588",
+        "29589",
+        "29590"
+      ]
+    },
     "R04280": {
       "compounds": [
         "C00007",
@@ -187673,6 +191727,30 @@
       "mass_balance": "balanced",
       "mnxr_id": "MNXR152686",
       "name": "5-carboxymethyl-2-hydroxymuconic-semialdehyde:NAD+ oxidoreductase; 2-Hydroxy-5-carboxymethylmuconate semialdehyde + NAD+ + H2O <=> 5-Carboxymethyl-2-hydroxymuconate + NADH + H+",
+      "pathways": [
+        "ko00350",
+        "ko01100",
+        "ko01120",
+        "ko01220"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R04419": {
+      "compounds": [
+        "C00001",
+        "C00005",
+        "C00006",
+        "C00080",
+        "C04186",
+        "C04642"
+      ],
+      "ec_numbers": [
+        "1.1.1.312"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR148721",
+      "name": "5-carboxymethyl-2-hydroxymuconic-semialdehyde:NADP+ oxidoreductase; 2-Hydroxy-5-carboxymethylmuconate semialdehyde + NADP+ + H2O <=> 5-Carboxymethyl-2-hydroxymuconate + NADPH + H+",
       "pathways": [
         "ko00350",
         "ko01100",
@@ -192562,6 +196640,29 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
+    "R05259": {
+      "compounds": [
+        "C00001",
+        "C00007",
+        "C00087",
+        "C03024",
+        "C03161",
+        "C06604",
+        "C06606"
+      ],
+      "ec_numbers": [
+        "1.14.14.1"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR109432",
+      "name": "parathion,NADPH---hemoprotein reductase:oxygen oxidoreductase (paraoxon-forming); Parathion + [Reduced NADPH---hemoprotein reductase] + Oxygen <=> Paraoxon + [Oxidized NADPH---hemoprotein reductase] + Sulfur + H2O",
+      "pathways": [
+        "ko00627",
+        "ko01120"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
     "R05274": {
       "compounds": [
         "C00001",
@@ -192589,6 +196690,34 @@
         "13022",
         "13023",
         "13024"
+      ]
+    },
+    "R05275": {
+      "compounds": [
+        "C00003",
+        "C00004",
+        "C00080",
+        "C03233",
+        "C04783"
+      ],
+      "ec_numbers": [
+        "1.3.1.64"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR109447",
+      "name": "cis-4,5-dihydroxycyclohexa-1(6),2-diene-1,2-dicarboxylate:NAD+ oxidoreductase; cis-4,5-Dihydroxycyclohexa-1(6),2-diene-1,2-dicarboxylate + NAD+ <=> 4,5-Dihydroxyphthalate + NADH + H+",
+      "pathways": [
+        "ko00624",
+        "ko01100",
+        "ko01120",
+        "ko01220"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "13837",
+        "13838",
+        "13839",
+        "13840"
       ]
     },
     "R05282": {
@@ -195732,6 +199861,22 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
+    "R05927": {
+      "compounds": [],
+      "ec_numbers": [
+        "2.4.1.134"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR144936",
+      "name": "UDP-D-galactose + G00155 <=> UDP + G00156",
+      "pathways": [
+        "ko00532",
+        "ko00534",
+        "ko01100"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
     "R05961": {
       "compounds": [
         "C00001",
@@ -195768,6 +199913,21 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
+    "R05978": {
+      "compounds": [],
+      "ec_numbers": [
+        "2.4.1.87"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR109969",
+      "name": "UDP-D-galactose + Paragloboside <=> UDP + IV3Gala-nLc4-Cer",
+      "pathways": [
+        "ko00601",
+        "ko01100"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
     "R05986": {
       "compounds": [],
       "ec_numbers": [
@@ -195796,6 +199956,21 @@
       "name": "GM2 + H2O <=> GM3 + N-Acetyl-D-galactosamine",
       "pathways": [
         "ko00604",
+        "ko01100"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R06016": {
+      "compounds": [],
+      "ec_numbers": [
+        "2.4.2.38"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR109985",
+      "name": "UDP-D-xylose + G00015 <=> UDP + G00179",
+      "pathways": [
+        "ko00513",
         "ko01100"
       ],
       "reaction_class": "chemical",
@@ -195895,6 +200070,21 @@
       "mnxr_id": null,
       "name": "",
       "pathways": [],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R06169": {
+      "compounds": [],
+      "ec_numbers": [
+        "2.4.1.87"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR110047",
+      "name": "UDP-D-galactose + Lc4Cer <=> UDP + G00038",
+      "pathways": [
+        "ko00601",
+        "ko01100"
+      ],
       "reaction_class": "chemical",
       "rhea_ids": []
     },
@@ -196088,6 +200278,83 @@
       "name": "magnesium-protoporphyrin-IX 13-monomethyl ester,NADPH:oxygen oxidoreductase (hydroxylating); 13(1)-Oxo-magnesium-protoporphyrin IX 13-monomethyl ester + NADPH + H+ + Oxygen <=> Divinylprotochlorophyllide + NADP+ + 2 H2O",
       "pathways": [
         "ko00860",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R06268": {
+      "compounds": [
+        "C00001",
+        "C00019",
+        "C00073",
+        "C04536",
+        "C05198",
+        "C11829"
+      ],
+      "ec_numbers": [
+        "1.21.98.3"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR149455",
+      "name": "magnesium-protoporphyrin-IX 13-monomethyl ester,S-adenosyl-L-methionine:H2O oxidoreductase (hydroxylating); Magnesium protoporphyrin monomethyl ester + S-Adenosyl-L-methionine + H2O <=> 13(1)-Hydroxy-magnesium-protoporphyrin IX 13-monomethyl ester + 5'-Deoxyadenosine + L-Methionine",
+      "pathways": [
+        "ko00860",
+        "ko01100",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "49100",
+        "49101",
+        "49102",
+        "49103"
+      ]
+    },
+    "R06269": {
+      "compounds": [
+        "C00019",
+        "C00073",
+        "C05198",
+        "C11829",
+        "C11830"
+      ],
+      "ec_numbers": [
+        "1.21.98.3"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR110100",
+      "name": "magnesium-protoporphyrin-IX 13-monomethyl ester,S-adenosyl-L-methionine:H2O oxidoreductase (hydroxylating); 13(1)-Hydroxy-magnesium-protoporphyrin IX 13-monomethyl ester + S-Adenosyl-L-methionine <=> 13(1)-Oxo-magnesium-protoporphyrin IX 13-monomethyl ester + 5'-Deoxyadenosine + L-Methionine",
+      "pathways": [
+        "ko00860",
+        "ko01100",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "49104",
+        "49105",
+        "49106",
+        "49107"
+      ]
+    },
+    "R06270": {
+      "compounds": [
+        "C00019",
+        "C00073",
+        "C05198",
+        "C11830",
+        "C11831"
+      ],
+      "ec_numbers": [
+        "1.21.98.3"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR151336",
+      "name": "magnesium-protoporphyrin-IX 13-monomethyl ester,S-adenosyl-L-methionine:H2O oxidoreductase (hydroxylating); 13(1)-Oxo-magnesium-protoporphyrin IX 13-monomethyl ester + S-Adenosyl-L-methionine <=> Divinylprotochlorophyllide + 5'-Deoxyadenosine + L-Methionine",
+      "pathways": [
+        "ko00860",
+        "ko01100",
         "ko01110"
       ],
       "reaction_class": "chemical",
@@ -196371,6 +200638,34 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
+    "R06439": {
+      "compounds": [
+        "C00019",
+        "C00021",
+        "C00080",
+        "C11925",
+        "C11933"
+      ],
+      "ec_numbers": [
+        "2.1.1.235"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR110248",
+      "name": "S-adenosyl-L-methionine:dTDP-3-amino-3,6-dideoxy-alpha-D-glucopyranose 3-N,N-dimethyltransferase; dTDP-3-amino-3,6-dideoxy-D-glucose + 2 S-Adenosyl-L-methionine <=> dTDP-D-mycaminose + 2 S-Adenosyl-L-homocysteine + 2 H+",
+      "pathways": [
+        "ko00523",
+        "ko01100",
+        "ko01110",
+        "ko01250"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "31671",
+        "31672",
+        "31673",
+        "31674"
+      ]
+    },
     "R06447": {
       "compounds": [
         "C00013",
@@ -196547,6 +200842,22 @@
       "pathways": [
         "ko00940",
         "ko01100",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R06587": {
+      "compounds": [
+        "C12211",
+        "C12212"
+      ],
+      "ec_numbers": [],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR110373",
+      "name": "UDP-kanosamine <=> Kanosamine",
+      "pathways": [
+        "ko01051",
         "ko01110"
       ],
       "reaction_class": "chemical",
@@ -196740,6 +201051,24 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
+    "R06623": {
+      "compounds": [
+        "C00001",
+        "C00416"
+      ],
+      "ec_numbers": [
+        "3.1.4.50"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR110401",
+      "name": "glycoprotein-phosphatidylinositol phosphatidohydrolase; G00144 + H2O <=> 6-(alpha-D-glucosaminyl)-1D-myo-inositol + Phosphatidate",
+      "pathways": [
+        "ko00563",
+        "ko01100"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
     "R06627": {
       "compounds": [
         "C00019",
@@ -196811,6 +201140,133 @@
         "41229",
         "41230"
       ]
+    },
+    "R06635": {
+      "compounds": [
+        "C00010",
+        "C00011",
+        "C00024",
+        "C00083",
+        "C00229",
+        "C12348"
+      ],
+      "ec_numbers": [
+        "2.3.1.-"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR110413",
+      "name": "Acetyl-CoA + 7 Malonyl-CoA + Acyl-carrier protein <=> 3,5,7,9,11,13,15-Heptaoxo-hexadecanoyl-[acp] + 7 CO2 + 7 CoA",
+      "pathways": [
+        "ko01056"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R06637": {
+      "compounds": [
+        "C00010",
+        "C00011",
+        "C00083",
+        "C00136",
+        "C00229",
+        "C12350"
+      ],
+      "ec_numbers": [
+        "2.3.1.-"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR110414",
+      "name": "Butanoyl-CoA + 7 Malonyl-CoA + Acyl-carrier protein <=> 3,5,7,9,11,13,15-Heptaoxo-octadecanoyl-[acp] + 7 CO2 + 7 CoA",
+      "pathways": [
+        "ko01056"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R06641": {
+      "compounds": [
+        "C00010",
+        "C00011",
+        "C00083",
+        "C00229",
+        "C06625",
+        "C12441"
+      ],
+      "ec_numbers": [
+        "2.3.1.-"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR110415",
+      "name": "Malonamoyl-CoA + 8 Malonyl-CoA + Acyl-carrier protein <=> 18-Carbamoyl-3,5,7,9,11,13,15,17-octaoxooctadecanoyl-[acp] + 8 CO2 + 9 CoA",
+      "pathways": [],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R06643": {
+      "compounds": [
+        "C00010",
+        "C00011",
+        "C00083",
+        "C00229",
+        "C12354"
+      ],
+      "ec_numbers": [
+        "2.3.1.-",
+        "2.3.1.235"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR110417",
+      "name": "10 Malonyl-CoA + Acyl-carrier protein <=> 3,5,7,9,11,13,15,17,19-Nonaoxo-eicosanoyl-[acp] + 10 CO2 + 10 CoA",
+      "pathways": [
+        "ko01056",
+        "ko01100",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R06644": {
+      "compounds": [
+        "C00010",
+        "C00011",
+        "C00083",
+        "C00100",
+        "C00229",
+        "C12355"
+      ],
+      "ec_numbers": [
+        "2.3.1.-"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR110418",
+      "name": "Propanoyl-CoA + 9 Malonyl-CoA + Acyl-carrier protein <=> 3,5,7,9,11,13,15,17,19-Nonaoxo-henicosanoyl-[acp] + 9 CO2 + 9 CoA",
+      "pathways": [
+        "ko01056",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R06645": {
+      "compounds": [
+        "C00010",
+        "C00011",
+        "C00083",
+        "C00136",
+        "C00229",
+        "C12356"
+      ],
+      "ec_numbers": [
+        "2.3.1.-"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR110419",
+      "name": "Butanoyl-CoA + 9 Malonyl-CoA + Acyl-carrier protein <=> 3,5,7,9,11,13,15,17,19-Nonaoxo-docosanoyl-[acp] + 9 CO2 + 9 CoA",
+      "pathways": [
+        "ko01056"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
     },
     "R06782": {
       "compounds": [
@@ -199496,6 +203952,32 @@
         "33346"
       ]
     },
+    "R07476": {
+      "compounds": [
+        "C00074",
+        "C00094",
+        "C11536"
+      ],
+      "ec_numbers": [
+        "4.4.1.19"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR111106",
+      "name": "(2R)-O-phospho-3-sulfolactate sulfo-lyase; (2R)-O-Phospho-3-sulfolactate <=> Sulfite + Phosphoenolpyruvate",
+      "pathways": [
+        "ko00680",
+        "ko01100",
+        "ko01120",
+        "ko01240"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "22784",
+        "22785",
+        "22786",
+        "22787"
+      ]
+    },
     "R07500": {
       "compounds": [
         "C00011",
@@ -200664,6 +205146,99 @@
         "ko00906",
         "ko01100",
         "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R07656": {
+      "compounds": [
+        "C16147",
+        "C16148"
+      ],
+      "ec_numbers": [
+        "2.3.1.-"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR111254",
+      "name": "Glucosyl-4,4'-diaponeurosporenoate <=> Staphyloxanthin",
+      "pathways": [
+        "ko00906",
+        "ko01100",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R07658": {
+      "compounds": [
+        "C00003",
+        "C00004",
+        "C00011",
+        "C00080",
+        "C00167",
+        "C16155"
+      ],
+      "ec_numbers": [
+        "1.1.1.305"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR188952",
+      "name": "UDP-glucuronate + NAD+ <=> UDP-L-Ara4O + CO2 + NADH + H+",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01250"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "24702",
+        "24703",
+        "24704",
+        "24705"
+      ]
+    },
+    "R07660": {
+      "compounds": [
+        "C00101",
+        "C00234",
+        "C16153",
+        "C16154"
+      ],
+      "ec_numbers": [
+        "2.1.2.13"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR144604",
+      "name": "10-Formyltetrahydrofolate + UDP-L-Ara4N <=> Tetrahydrofolate + UDP-L-Ara4FN",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01250"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "24706",
+        "24707",
+        "24708",
+        "24709"
+      ]
+    },
+    "R07661": {
+      "compounds": [
+        "C00015",
+        "C16154",
+        "C16156",
+        "C17556"
+      ],
+      "ec_numbers": [
+        "2.4.2.53"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR196019",
+      "name": "UDP-4-deoxy-4-formamido-L-arabinose:undecaprenyl-phosphate 4-deoxy-4-formamido-L-arabinosyltransferase; UDP-L-Ara4FN + di-trans,poly-cis-Undecaprenyl phosphate <=> Undecaprenyl phosphate alpha-L-Ara4FN + UDP",
+      "pathways": [
+        "ko00541",
+        "ko01100"
       ],
       "reaction_class": "chemical",
       "rhea_ids": []
@@ -204130,6 +208705,34 @@
         "35114"
       ]
     },
+    "R08932": {
+      "compounds": [
+        "C00019",
+        "C00021",
+        "C18033",
+        "C18034"
+      ],
+      "ec_numbers": [
+        "2.1.1.-",
+        "2.1.1.324"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR112423",
+      "name": "S-adenosyl-L-methionine:dTDP-4-amino-2,3,4,6-tetradeoxy-D-glucose N,N-dimethyltransferase; dTDP-4-amino-2,3,4,6-tetradeoxy-D-glucose + 2 S-Adenosyl-L-methionine <=> dTDP-D-forosamine + 2 S-Adenosyl-L-homocysteine",
+      "pathways": [
+        "ko00523",
+        "ko01100",
+        "ko01110",
+        "ko01250"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "49148",
+        "49149",
+        "49150",
+        "49151"
+      ]
+    },
     "R08938": {
       "compounds": [
         "C00010",
@@ -204824,6 +209427,31 @@
         "46763"
       ]
     },
+    "R09247": {
+      "compounds": [
+        "C00013",
+        "C00129",
+        "C00448",
+        "C04216"
+      ],
+      "ec_numbers": [
+        "2.5.1.30"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR198028",
+      "name": "(2E,6E)-farnesyl-diphosphate:isopentenyl-diphosphate farnesyltranstransferase (adding 4 isopentenyl units); trans,trans-Farnesyl diphosphate + 4 Isopentenyl diphosphate <=> all-trans-Heptaprenyl diphosphate + 4 Diphosphate",
+      "pathways": [
+        "ko00900",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "27794",
+        "27795",
+        "27796",
+        "27797"
+      ]
+    },
     "R09248": {
       "compounds": [
         "C00013",
@@ -204898,6 +209526,64 @@
         "27596",
         "27597"
       ]
+    },
+    "R09258": {
+      "compounds": [
+        "C00010",
+        "C00011",
+        "C00083",
+        "C00229",
+        "C12348"
+      ],
+      "ec_numbers": [
+        "2.3.1.-"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR112693",
+      "name": "8 Malonyl-CoA + Acyl-carrier protein <=> 3,5,7,9,11,13,15-Heptaoxo-hexadecanoyl-[acp] + 8 CO2 + 8 CoA",
+      "pathways": [
+        "ko01056",
+        "ko01100",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R09259": {
+      "compounds": [
+        "C12348",
+        "C18327"
+      ],
+      "ec_numbers": [],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR112694",
+      "name": "3,5,7,9,11,13,15-Heptaoxo-hexadecanoyl-[acp] <=> 7,9,12-Octaketide intermediate 1",
+      "pathways": [
+        "ko01056",
+        "ko01100",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R09278": {
+      "compounds": [
+        "C00011",
+        "C06672",
+        "C18338"
+      ],
+      "ec_numbers": [
+        "4.1.1"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR112713",
+      "name": "5-carboxyvanillate 5-carboxy-lyase (vanillate-forming); 5-Carboxyvanillic acid <=> Vanillate + CO2",
+      "pathways": [
+        "ko00627",
+        "ko01120"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
     },
     "R09282": {
       "compounds": [
@@ -205029,6 +209715,74 @@
         "ko01100",
         "ko01120",
         "ko01200"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R09304": {
+      "compounds": [
+        "C02189"
+      ],
+      "ec_numbers": [
+        "2.4.1.255"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR112735",
+      "name": "UDP-N-acetyl-D-glucosamine + [Protein]-L-serine <=> UDP + G12573",
+      "pathways": [
+        "ko00514"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R09305": {
+      "compounds": [
+        "C00001",
+        "C18329",
+        "C18353"
+      ],
+      "ec_numbers": [
+        "4.-.-.-"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR112736",
+      "name": "7,9,12-Octaketide intermediate 3 <=> Octaketide bicyclic intermediate + H2O",
+      "pathways": [
+        "ko01057",
+        "ko01100",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R09315": {
+      "compounds": [
+        "C02189"
+      ],
+      "ec_numbers": [
+        "2.4.1.376"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR143668",
+      "name": "UDP-D-glucose + [Protein]-L-serine <=> UDP + G13051",
+      "pathways": [
+        "ko00514"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R09330": {
+      "compounds": [
+        "C18631",
+        "C18632"
+      ],
+      "ec_numbers": [],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR112760",
+      "name": "Nogalavinone <=> 1-OH-Nogalamycinone",
+      "pathways": [
+        "ko01057",
+        "ko01110"
       ],
       "reaction_class": "chemical",
       "rhea_ids": []
@@ -205762,6 +210516,23 @@
         "26388"
       ]
     },
+    "R09641": {
+      "compounds": [
+        "C00029",
+        "C00105",
+        "C17556",
+        "C19772"
+      ],
+      "ec_numbers": [
+        "2.7.8.31"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR197583",
+      "name": "UDP-glucose:ditrans,octacis-undecaprenyl-phosphate glucose phosphotransferase; UDP-glucose + di-trans,poly-cis-Undecaprenyl phosphate <=> UMP + alpha-D-Glucopyranosyl-diphospho-ditrans,octacis-undecaprenol",
+      "pathways": [],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
     "R09652": {
       "compounds": [
         "C02061",
@@ -205938,6 +210709,23 @@
         "31330"
       ]
     },
+    "R09676": {
+      "compounds": [
+        "C00015",
+        "C00043",
+        "C02189",
+        "C19802"
+      ],
+      "ec_numbers": [
+        "2.4.1.255"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR150594",
+      "name": "UDP-N-acetyl-D-glucosamine:protein-O-beta-N-acetyl-D-glucosaminyl transferase; UDP-N-acetyl-alpha-D-glucosamine + [Protein]-L-serine <=> UDP + [Protein]-3-O-(N-acetyl-D-glucosaminyl)-L-serine",
+      "pathways": [],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
     "R09691": {
       "compounds": [
         "C00028",
@@ -206091,6 +210879,23 @@
         "31333",
         "31334"
       ]
+    },
+    "R09732": {
+      "compounds": [
+        "C00015",
+        "C00167",
+        "C19854",
+        "C19855"
+      ],
+      "ec_numbers": [
+        "2.4.1.264"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR198043",
+      "name": "UDP-glucuronate:D-Man-alpha-(1->3)-D-Glc-beta-(1->4)-D-Glc-alpha-1-diphospho-ditrans,octacis-undecaprenol beta-1,2-glucuronyltransferase; UDP-glucuronate + D-Man-alpha-(1->3)-D-Glc-beta-(1->4)-D-Glc-alpha-1-diphospho-ditrans,octacis-undecaprenol <=> UDP + D-GlcA-beta-(1->2)-D-Man-alpha-(1->3)-D-Glc-beta-(1->4)-D-Glc-alpha-1-diphospho-ditrans,octacis-undecaprenol",
+      "pathways": [],
+      "reaction_class": "chemical",
+      "rhea_ids": []
     },
     "R09735": {
       "compounds": [
@@ -206625,6 +211430,32 @@
         "31750"
       ]
     },
+    "R09834": {
+      "compounds": [
+        "C00001",
+        "C00015",
+        "C19971",
+        "C19972"
+      ],
+      "ec_numbers": [
+        "3.6.1.57"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR113236",
+      "name": "UDP-2,4-bis(acetamido)-2,4,6-trideoxy-beta-L-altropyranose hydrolase; UDP-2,4-bis(acetamido)-2,4,6-trideoxy-beta-L-altropyranose + H2O <=> 2,4-Bis(acetamido)-2,4,6-trideoxy-beta-L-altropyranose + UDP",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01250"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "31803",
+        "31804",
+        "31805",
+        "31806"
+      ]
+    },
     "R09836": {
       "compounds": [
         "C00001",
@@ -206832,6 +211663,27 @@
         "32085",
         "32086"
       ]
+    },
+    "R09845": {
+      "compounds": [
+        "C00001",
+        "C00012",
+        "C04506",
+        "C20120"
+      ],
+      "ec_numbers": [
+        "3.4.22.-",
+        "3.4.24.84"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR113246",
+      "name": "CAAX protease; S-Farnesyl protein + H2O <=> Protein C-terminal S-farnesyl-L-cysteine + Peptide",
+      "pathways": [
+        "ko00900",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
     },
     "R09883": {
       "compounds": [
@@ -208012,6 +212864,32 @@
         "33582"
       ]
     },
+    "R10141": {
+      "compounds": [
+        "C00025",
+        "C00026",
+        "C20359",
+        "C20395"
+      ],
+      "ec_numbers": [
+        "2.6.1.98"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR113510",
+      "name": "UDP-2-acetamido-3-amino-2,3-dideoxy-alpha-D-glucuronate:2-oxoglutarate aminotransferase; UDP-2-acetamido-2-deoxy-alpha-D-ribo-hex-3-uluronate + L-Glutamate <=> UDP-2-acetamido-3-amino-2,3-dideoxy-alpha-D-glucuronate + 2-Oxoglutarate",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01250"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "33583",
+        "33584",
+        "33585",
+        "33586"
+      ]
+    },
     "R10147": {
       "compounds": [
         "C00001",
@@ -208498,6 +213376,42 @@
       "mass_balance": "balanced",
       "mnxr_id": "MNXR113572",
       "name": "tRNA-guanosine34:7-aminomethyl-7-carbaguanine tRNA-D-ribosyltransferase; tRNA guanine + 7-Aminomethyl-7-carbaguanine <=> tRNA 7-aminomethyl-7-carbaguanine + Guanine",
+      "pathways": [],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R10212": {
+      "compounds": [
+        "C00001",
+        "C00007",
+        "C00027",
+        "C01546",
+        "C14279"
+      ],
+      "ec_numbers": [],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR113575",
+      "name": "Furfural + H2O + Oxygen <=> 2-Furoate + Hydrogen peroxide",
+      "pathways": [
+        "ko00365",
+        "ko01100",
+        "ko01120"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R10216": {
+      "compounds": [
+        "C00001",
+        "C00007",
+        "C00027",
+        "C11101",
+        "C20448"
+      ],
+      "ec_numbers": [],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR113577",
+      "name": "5-Hydroxymethyl-2-furaldehyde + H2O + Oxygen <=> 5-Hydroxymethyl-2-furoate + Hydrogen peroxide",
       "pathways": [],
       "reaction_class": "chemical",
       "rhea_ids": []
@@ -210374,6 +215288,32 @@
         "43527"
       ]
     },
+    "R10858": {
+      "compounds": [
+        "C00001",
+        "C00007",
+        "C00027",
+        "C11101",
+        "C20450"
+      ],
+      "ec_numbers": [
+        "1.1.3.47"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR114172",
+      "name": "5-(hydroxymethyl)furfural:oxygen oxidoreductase; 5-Hydroxymethyl-2-furaldehyde + 3 Oxygen + 2 H2O <=> 2,5-Furandicarboxylate + 3 Hydrogen peroxide",
+      "pathways": [
+        "ko00365",
+        "ko01120"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "32683",
+        "32684",
+        "32685",
+        "32686"
+      ]
+    },
     "R10859": {
       "compounds": [
         "C00001",
@@ -210691,6 +215631,24 @@
         "46750",
         "46751"
       ]
+    },
+    "R10960": {
+      "compounds": [
+        "C00001",
+        "C00010",
+        "C00011",
+        "C00083",
+        "C12366"
+      ],
+      "ec_numbers": [
+        "2.3.1.235"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR150963",
+      "name": "malonyl-CoA:acetate malonyltransferase (tetracenomycin-F2-forming); 10 Malonyl-CoA <=> Tetracenomycin F2 + 10 CoA + 10 CO2 + 2 H2O",
+      "pathways": [],
+      "reaction_class": "chemical",
+      "rhea_ids": []
     },
     "R10963": {
       "compounds": [
@@ -211891,6 +216849,30 @@
         "36502"
       ]
     },
+    "R11353": {
+      "compounds": [
+        "C00011",
+        "C01751",
+        "C21298"
+      ],
+      "ec_numbers": [
+        "4.1.1.103"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR114650",
+      "name": "2,6-dihydroxybenzoate carboxy-lyase; 2,6-Dihydroxybenzoate <=> Resorcinol + CO2",
+      "pathways": [
+        "ko00362",
+        "ko01120"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "49464",
+        "49465",
+        "49466",
+        "49467"
+      ]
+    },
     "R11354": {
       "compounds": [
         "C00001",
@@ -211951,6 +216933,28 @@
       ],
       "reaction_class": "chemical",
       "rhea_ids": []
+    },
+    "R11395": {
+      "compounds": [
+        "C00025",
+        "C00026",
+        "C21332",
+        "C21333"
+      ],
+      "ec_numbers": [
+        "2.6.1.109"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR114692",
+      "name": "8-amino-3,8-dideoxy-D-manno-octulosonate:2-oxoglutarate aminotransferase; 8-Amino-3,8-dideoxy-D-manno-octulosonate + 2-Oxoglutarate <=> 8-Dehydro-3-deoxy-D-manno-octulosonate + L-Glutamate",
+      "pathways": [],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "46892",
+        "46893",
+        "46894",
+        "46895"
+      ]
     },
     "R11396": {
       "compounds": [
@@ -212040,6 +217044,50 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
+    "R11452": {
+      "compounds": [
+        "C00019",
+        "C00021",
+        "C18033",
+        "C21395"
+      ],
+      "ec_numbers": [
+        "2.1.1.324"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR114747",
+      "name": "S-adenosyl-L-methionine:dTDP-4-amino-2,3,4,6-tetradeoxy-alpha-D-erythro-hexopyranose N-methyltransferase; S-Adenosyl-L-methionine + dTDP-4-amino-2,3,4,6-tetradeoxy-D-glucose <=> S-Adenosyl-L-homocysteine + dTDP-4-(methylamino)-2,3,4,6-tetradeoxy-D-glucose",
+      "pathways": [],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "49152",
+        "49153",
+        "49154",
+        "49155"
+      ]
+    },
+    "R11453": {
+      "compounds": [
+        "C00019",
+        "C00021",
+        "C18034",
+        "C21395"
+      ],
+      "ec_numbers": [
+        "2.1.1.324"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR114748",
+      "name": "S-adenosyl-L-methionine:dTDP-4-(methylamino)-2,3,4,6-tetradeoxy-alpha-D-erythro-hexopyranose N-methyltransferase; S-Adenosyl-L-methionine + dTDP-4-(methylamino)-2,3,4,6-tetradeoxy-D-glucose <=> S-Adenosyl-L-homocysteine + dTDP-D-forosamine",
+      "pathways": [],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "49156",
+        "49157",
+        "49158",
+        "49159"
+      ]
+    },
     "R11466": {
       "compounds": [
         "C21351",
@@ -212120,6 +217168,29 @@
       "name": "geranylgeranyl-diphosphate:bacteriochlorophyllide-a geranylgeranytransferase; Geranylgeranyl diphosphate + Bacteriochlorophyllide a <=> Geranylgeranyl bacteriochlorophyllide a + Diphosphate",
       "pathways": [
         "ko00860",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R11516": {
+      "compounds": [
+        "C00010",
+        "C00011",
+        "C00083",
+        "C12441",
+        "C21430"
+      ],
+      "ec_numbers": [
+        "2.3.1.260"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR114810",
+      "name": "malonyl-CoA:malonamoyl-[acyl-carrier protein] malonyltransferase; Malonamoyl-[acyl-carrier protein] + 8 Malonyl-CoA <=> 18-Carbamoyl-3,5,7,9,11,13,15,17-octaoxooctadecanoyl-[acp] + 8 CO2 + 8 CoA",
+      "pathways": [
+        "ko00253",
+        "ko01056",
+        "ko01100",
         "ko01110"
       ],
       "reaction_class": "chemical",
@@ -212216,6 +217287,31 @@
       "pathways": [],
       "reaction_class": "chemical",
       "rhea_ids": []
+    },
+    "R11530": {
+      "compounds": [
+        "C00008",
+        "C00103",
+        "C00498",
+        "C20237"
+      ],
+      "ec_numbers": [
+        "2.4.1.342"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR114824",
+      "name": "ADP-alpha-D-glucose:alpha-D-glucose-1-phosphate 4-alpha-D-glucosyltransferase (configuration-retaining); ADP-glucose + D-Glucose 1-phosphate <=> ADP + alpha-Maltose 1-phosphate",
+      "pathways": [
+        "ko00500",
+        "ko01100"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "50692",
+        "50693",
+        "50694",
+        "50695"
+      ]
     },
     "R11541": {
       "compounds": [
@@ -212456,6 +217552,21 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
+    "R11614": {
+      "compounds": [
+        "C00055",
+        "C00789",
+        "C21503",
+        "C21504"
+      ],
+      "ec_numbers": [],
+      "mass_balance": "unbalanced",
+      "mnxr_id": null,
+      "name": "CDP-ribitol:4-O-[1-D-ribitylphospho-(2R)-1-glycerophospho]-N-acetyl-beta-D-mannosaminyl-(1->4)-N-acetyl-alpha-D-glucosaminyl-diphospho-ditrans,octacis-undecaprenol ribitolphosphotransferase; n CDP-ribitol + 4-O-[1-D-Ribitylphospho-(2R)-1-glycerophospho]-N-acetyl-beta-D-mannosaminyl-(1->4)-N-acetyl-alpha-D-glucosaminyl-diphospho-ditrans,octacis-undecaprenol <=> n CMP + 4-O-[(1-D-Ribitylphospho)n-(1-D-ribitylphospho)-(2R)-1-glycerophospho]-N-acetyl-beta-D-mannosaminyl-(1->4)-N-acetyl-alpha-D-glucosaminyl-diphospho-ditrans,octacis-undecaprenol",
+      "pathways": [],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
     "R11620": {
       "compounds": [
         "C00007",
@@ -212472,6 +217583,21 @@
       "pathways": [
         "ko00051"
       ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
+    "R11621": {
+      "compounds": [
+        "C00055",
+        "C00789",
+        "C21502",
+        "C21508"
+      ],
+      "ec_numbers": [],
+      "mass_balance": "unbalanced",
+      "mnxr_id": null,
+      "name": "CDP-ribitol:4-O-di[(2R)-1-glycerophospho]-N-acetyl-beta-D-mannosaminyl-(1->4)-N-acetyl-alpha-D-glucosaminyl-diphospho-ditrans,octacis-undecaprenol ribitolphosphotransferase; 4-O-Di[(2R)-1-glycerophospho]-N-acetyl-beta-D-mannosaminyl-(1->4)-N-acetyl-alpha-D-glucosaminyl-diphospho-ditrans,octacis-undecaprenol + n CDP-ribitol <=> 4-O-(D-Ribitylphospho)n-di[(2R)-1-glycerophospho]-N-acetyl-beta-D-mannosaminyl-(1->4)-N-acetyl-alpha-D-glucosaminyl-diphospho-ditrans,octacis-undecaprenol + n CMP",
+      "pathways": [],
       "reaction_class": "chemical",
       "rhea_ids": []
     },

@@ -1,0 +1,55 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2698
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 140,
+      "unique": 1249
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 35,
+      "unique": 7483
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5352
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2832
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2654
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2665
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 7,
+      "unique": 5345
+    }
+  },
+  "runaway_genes": [],
+  "strain": "PROS-7-1",
+  "tier1_count_max": 6,
+  "tier1_count_median": 6.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 23,
+    "genomic_gca/PROS-7-1": 407,
+    "genomic_gcf/PROS-7-1": 61
+  },
+  "warnings": []
+}

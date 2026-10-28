@@ -1,0 +1,24 @@
+{
+  "strain": "ROS8604",
+  "gene_count": 3787,
+  "kegg_reactions": {
+    "raw_total": 1589,
+    "raw_unique": 1090,
+    "kept_total": 1589,
+    "kept_unique_r_numbers": 1090
+  },
+  "transporter_classification": {
+    "raw_total": 375,
+    "raw_unique": 139,
+    "validated_total": 1137,
+    "validated_unique": 391,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 50,
+    "raw_unique": 24,
+    "validated_total": 65,
+    "validated_unique": 28,
+    "invalid_examples": []
+  }
+}

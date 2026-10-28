@@ -1,0 +1,24 @@
+{
+  "strain": "CB0205",
+  "gene_count": 2799,
+  "kegg_reactions": {
+    "raw_total": 1370,
+    "raw_unique": 1002,
+    "kept_total": 1370,
+    "kept_unique_r_numbers": 1002
+  },
+  "transporter_classification": {
+    "raw_total": 303,
+    "raw_unique": 130,
+    "validated_total": 1032,
+    "validated_unique": 388,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 35,
+    "raw_unique": 20,
+    "validated_total": 54,
+    "validated_unique": 26,
+    "invalid_examples": []
+  }
+}
