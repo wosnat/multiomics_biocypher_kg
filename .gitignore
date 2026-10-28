@@ -216,6 +216,11 @@ cache/data/*/genomes/*/signalp/*.limited_*
 cache/data/*/genomes/*/interproscan/*.limited_*
 cache/data/*/genomes/*/interproscan/*.raw.json
 
+# Multi-strain batch runs (eggNOG / InterProScan over a concatenated FASTA, split
+# back into each strain's folder afterwards) are intermediates; only the per-strain
+# outputs are committed. The IPS batch raw JSON runs to several GB per chunk.
+cache/data/*_batch_*/
+
 # MEROPS-diamond skill: smoke-test artifacts (limited_N runs) are transient.
 # Full-run outputs (<strain>.merops.{tsv,calls.json,skill_summary.json}) are
 # intentionally committed alongside tcdb/ outputs.
