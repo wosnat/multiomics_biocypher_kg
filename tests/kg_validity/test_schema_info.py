@@ -11,9 +11,11 @@ stamp it with release identity and live counts on every build:
     paper_count, experiment_count, gene_count, organism_count,
     expression_edge_count
 
-Dev builds stamp `version="0.0.0-dev"` / `git_sha="unknown"` (KG_* env unset →
+Dev builds stamp `version="0.0.0-dev"`. Their git identity comes from the
+`git_provenance.txt` that `scripts/build.sh` writes from the checkout
+(2026-10-28); `git_sha="unknown"` only when that file is missing (KG_* env unset →
 bash :- defaults → coalesce-guarded params). Release builds stamp the tagged
-version + the real git identity.
+version + the real git identity from KG_GIT_*, which take precedence.
 
 See `plans/alpha_release.md` §2.1.
 """

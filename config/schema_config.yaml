@@ -672,11 +672,16 @@ organism taxon:
     species: str         # e.g. Prochlorococcus marinus
     gene_count: int          # pre-computed: count of Gene_belongs_to_organism edges
     publication_count: int   # pre-computed: count of publications mentioning this organism
-    experiment_count: int    # pre-computed: sum of experiment_count across matched publications
-    treatment_types: str[]   # pre-computed: distinct treatment types across matched publications
-    background_factors: str[] # pre-computed: distinct background_factors across matched publications
-    omics_types: str[]       # pre-computed: distinct omics types across matched publications
-    growth_phases: str[]     # pre-computed: distinct growth_phases across matched publications
+    # post-import. BREAKING 2026-10-28 — the four unions below and experiment_count were
+    # rolled up from every publication naming the organism (partner papers and
+    # multi-strain papers included; Ford 2021 added 95 to each of its 95 strains).
+    # Now: the organism's own experiments (Experiment.organism_name).
+    experiment_count: int    # pre-computed: experiments with organism_name = this organism
+    partner_experiment_count: int  # pre-computed: experiments with a Tests_coculture_with edge to it
+    treatment_types: str[]   # pre-computed: distinct treatment types across its own experiments
+    background_factors: str[] # pre-computed: distinct background_factors across its own experiments
+    omics_types: str[]       # pre-computed: distinct omics types across its own experiments
+    growth_phases: str[]     # pre-computed: distinct growth_phases across its own experiments
     derived_metric_count: int        # post-import (Plan 3)
     derived_metric_gene_count: int   # post-import (Plan 3)
     compartments: str[]              # post-import (Plan 3)

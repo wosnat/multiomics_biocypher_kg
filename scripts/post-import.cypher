@@ -380,24 +380,36 @@ OPTIONAL MATCH (g:Gene)-[:Gene_belongs_to_organism]->(o)
 WITH o, count(g) AS gc
 SET o.gene_count = gc;
 
-// publication_count, experiment_count, treatment_types, omics_types, background_factors
+// OrganismTaxon publication_count: papers naming the organism (incl. as a partner)
 // (depends on Publication.organisms being computed first)
 MATCH (o:OrganismTaxon)
 OPTIONAL MATCH (p:Publication)
   WHERE ANY(org IN p.organisms WHERE org = o.preferred_name)
+WITH o, count(DISTINCT p) AS pc
+SET o.publication_count = pc;
+
+// Experiment rollups count the organism's OWN experiments (organism_name), not every
+// experiment of every paper naming it -- a 95-genome paper would add 95 to each strain.
+// Experiments where it is a culture partner are counted separately.
+MATCH (o:OrganismTaxon)
+OPTIONAL MATCH (e:Experiment)
+  WHERE e.organism_name = o.preferred_name
 WITH o,
-     count(DISTINCT p) AS pc,
-     CASE WHEN count(p) > 0 THEN sum(p.experiment_count) ELSE 0 END AS ec,
-     apoc.coll.toSet(reduce(s = [], t IN collect(p.treatment_types) | s + t)) AS tts,
-     apoc.coll.toSet(reduce(s = [], t IN collect(p.omics_types) | s + t)) AS ots,
-     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(p.background_factors, [])) | s + t)) AS bfs,
-     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(p.growth_phases, [])) | s + t)) AS gps
-SET o.publication_count = pc,
-    o.experiment_count = ec,
-    o.treatment_types = tts,
-    o.omics_types = ots,
-    o.background_factors = bfs,
-    o.growth_phases = gps;
+     count(e) AS ec,
+     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.treatment_type, [])) | s + t)) AS tts,
+     [x IN collect(DISTINCT e.omics_type) WHERE x IS NOT NULL] AS ots,
+     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.background_factors, [])) | s + t)) AS bfs,
+     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.growth_phases, [])) | s + t)) AS gps
+SET o.experiment_count = ec,
+    o.treatment_types = apoc.coll.sort(tts),
+    o.omics_types = apoc.coll.sort(ots),
+    o.background_factors = apoc.coll.sort(bfs),
+    o.growth_phases = apoc.coll.sort(gps);
+
+MATCH (o:OrganismTaxon)
+OPTIONAL MATCH (e:Experiment)-[:Tests_coculture_with]->(o)
+WITH o, count(DISTINCT e) AS pec
+SET o.partner_experiment_count = pec;
 
 // ── ClusteringAnalysis summary properties ─────────────────────────────
 

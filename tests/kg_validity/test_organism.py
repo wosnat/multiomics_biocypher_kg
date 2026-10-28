@@ -176,18 +176,64 @@ def test_publication_count_matches_live(run_query):
 
 
 def test_experiment_count_matches_live(run_query):
-    """Precomputed experiment_count must match sum of publication experiment_counts."""
+    """experiment_count counts the organism's OWN experiments (organism_name).
+
+    It used to sum experiment_count over every publication naming the organism,
+    so Ford 2021 (95 organisms x 95 experiments) added 95 to each strain."""
     result = run_query("""
         MATCH (o:OrganismTaxon)
-        OPTIONAL MATCH (p:Publication)
-          WHERE ANY(org IN p.organisms WHERE org = o.preferred_name)
-        WITH o, CASE WHEN count(p) > 0 THEN sum(p.experiment_count) ELSE 0 END AS live_count
-        WHERE o.experiment_count <> live_count
+        OPTIONAL MATCH (e:Experiment) WHERE e.organism_name = o.preferred_name
+        WITH o, count(e) AS live_count
+        WHERE o.experiment_count IS NULL OR o.experiment_count <> live_count
         RETURN o.preferred_name AS name, o.experiment_count AS stored, live_count
     """)
     assert len(result) == 0, (
         f"experiment_count mismatch on: {result}"
     )
+
+
+def test_partner_experiment_count_matches_live(run_query):
+    """partner_experiment_count = experiments with a Tests_coculture_with edge
+    to the organism (either partner_role); dense, 0 when none."""
+    result = run_query("""
+        MATCH (o:OrganismTaxon)
+        OPTIONAL MATCH (e:Experiment)-[:Tests_coculture_with]->(o)
+        WITH o, count(DISTINCT e) AS live_count
+        WHERE o.partner_experiment_count IS NULL
+           OR o.partner_experiment_count <> live_count
+        RETURN o.preferred_name AS name, o.partner_experiment_count AS stored, live_count
+    """)
+    assert len(result) == 0, (
+        f"partner_experiment_count mismatch on: {result}"
+    )
+
+
+def test_experiment_count_spot_checks(run_query):
+    """Explorer A1 (2026-10-28): MED4 reads 45 own experiments, MIT9515 one
+    (its Ford 2021 genome experiment), not +95 from Ford's publication."""
+    rows = run_query("""
+        MATCH (o:OrganismTaxon)
+        WHERE o.preferred_name IN ['Prochlorococcus MED4', 'Prochlorococcus MIT9515']
+        RETURN o.preferred_name AS name, o.experiment_count AS n
+    """)
+    got = {r["name"]: r["n"] for r in rows}
+    assert got.get("Prochlorococcus MIT9515") == 1, got
+    assert 40 <= got.get("Prochlorococcus MED4", 0) <= 60, got
+
+
+def test_organism_treatment_types_from_own_experiments(run_query):
+    """treatment_types / omics_types / background_factors are unions over the
+    organism's own experiments only, so a partner-only organism has none."""
+    result = run_query("""
+        MATCH (o:OrganismTaxon)
+        OPTIONAL MATCH (e:Experiment) WHERE e.organism_name = o.preferred_name
+        WITH o, apoc.coll.sort(apoc.coll.toSet(
+                 reduce(s = [], t IN collect(coalesce(e.treatment_type, [])) | s + t))) AS tts,
+             apoc.coll.sort([x IN collect(DISTINCT e.omics_type) WHERE x IS NOT NULL]) AS ots
+        WHERE o.treatment_types <> tts OR o.omics_types <> ots
+        RETURN o.preferred_name AS name, o.treatment_types, tts, o.omics_types, ots
+    """)
+    assert len(result) == 0, f"organism union drift on: {result}"
 
 
 def test_no_null_precomputed_lists(run_query):
