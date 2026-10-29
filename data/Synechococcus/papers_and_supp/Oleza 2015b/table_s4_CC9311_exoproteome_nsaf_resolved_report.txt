@@ -1,0 +1,16 @@
+Resolution report: Oleza 2015b / table_s4_cc9311_exoproteome
+Source: table_s4_CC9311_exoproteome_nsaf.csv
+name_col: protein_id
+id_columns: ['protein_id']
+
+Total rows with IDs: 340
+Resolved: 338 (99.4%)
+Unresolved: 2
+
+Resolution method breakdown:
+  multi:protein_id: 338
+  unresolved: 2
+
+Unresolved rows (2):
+  row 8: raw_id='YP_730283.1'  reason=unresolved  [protein_id='YP_730283.1']
+  row 140: raw_id='YP_731518.1'  reason=unresolved  [protein_id='YP_731518.1']

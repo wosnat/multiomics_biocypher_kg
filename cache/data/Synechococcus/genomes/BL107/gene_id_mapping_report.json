@@ -1,5 +1,10 @@
 {
   "per_id_type": {
+    "annotation_specific": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 304
+    },
     "cds_fna_id": {
       "conflict": 0,
       "multi": 0,
@@ -48,6 +53,7 @@
   "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
     "Moreno 2023/supp_table_s2_bl107": 173,
+    "Oleza 2015b/table_s4_bl107_exoproteome": 304,
     "cds_from_genomic.fna": 11,
     "genomic_gca/BL107": 110,
     "genomic_gcf/BL107": 58

@@ -1,0 +1,34 @@
+Topics resolution report: Oleza 2015b
+Strains: ['Synechococcus sp. BL107', 'Synechococcus CC9311', 'Synechococcus RS9916', 'Synechococcus RS9917', 'Synechococcus WH5701', 'Synechococcus WH7803', 'Synechococcus WH7805', 'Synechococcus WH8102', 'Ruegeria pomeroyi DSS-3', 'Phage']
+
+Genes:    44/54 resolved (81.5%)
+  methods: heuristic_multi:v=1, multi:v=33, multi_ci:v=10, unresolved=10
+Pathways: 4/11 resolved (36.4%)
+  methods: id=4, unresolved=7
+
+Captured identifiers: 29  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 3, 'descriptive_only': 7}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (10):
+  - sec  [lookup_miss]  strain=all
+  - tat  [lookup_miss]  strain=all
+  - substrate binding protein of the iron ABC transporter  [descriptive_only]  strain=all
+  - phosphonate ABC transport protein  [descriptive_only]  strain=all
+  - C-P lyase  [descriptive_only]  strain=all
+  - sod  [lookup_miss]  strain=all
+  - thioredoxin peroxidase  [descriptive_only]  strain=all
+  - rubrerythrin-like protein  [descriptive_only]  strain=Synechococcus WH8102
+  - protein phosphatase 2C  [descriptive_only]  strain=all
+  - β-N-acetylglucosaminidase  [descriptive_only]  strain=all
+
+Unresolved pathway mentions (7):
+  - Sec pathway  (raw id=—)
+  - Tat pathway  (raw id=—)
+  - type I secretion system  (raw id=—)
+  - type III secretion system  (raw id=—)
+  - type IV secretion system  (raw id=—)
+  - phosphonate transport  (raw id=—)
+  - oxidative stress detoxification  (raw id=—)

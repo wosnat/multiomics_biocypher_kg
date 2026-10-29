@@ -1,0 +1,16 @@
+Resolution report: Oleza 2015b / table_s4_wh5701_exoproteome
+Source: table_s4_WH5701_exoproteome_nsaf.csv
+name_col: protein_id
+id_columns: ['protein_id']
+
+Total rows with IDs: 343
+Resolved: 341 (99.4%)
+Unresolved: 2
+
+Resolution method breakdown:
+  multi:protein_id: 341
+  unresolved: 2
+
+Unresolved rows (2):
+  row 269: raw_id='EAQ73697.1'  reason=unresolved  [protein_id='EAQ73697.1']
+  row 271: raw_id='EAQ73678.1'  reason=unresolved  [protein_id='EAQ73678.1']

@@ -1,0 +1,893 @@
+{
+  "metadata": {
+    "paper": "Oleza 2015b",
+    "doi": "10.1111/1462-2920.12822",
+    "strains": [
+      "Synechococcus sp. BL107",
+      "Synechococcus CC9311",
+      "Synechococcus RS9916",
+      "Synechococcus RS9917",
+      "Synechococcus WH5701",
+      "Synechococcus WH7803",
+      "Synechococcus WH7805",
+      "Synechococcus WH8102",
+      "Ruegeria pomeroyi DSS-3",
+      "Phage"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Additional protein IDs and cluster-linked identifiers are likely in Table S4 and Appendix S1, which are referenced in the prose but not fully reproduced here.",
+    "extracted_at": "2026-10-28T23:52:32.673520",
+    "input_tokens": 23680,
+    "output_tokens": 3288,
+    "resolution": {
+      "gene_records": 54,
+      "genes_resolved": 44,
+      "gene_methods": {
+        "unresolved": 10,
+        "multi:v": 33,
+        "multi_ci:v": 10,
+        "heuristic_multi:v": 1
+      },
+      "pathway_records": 11,
+      "pathways_resolved": 4,
+      "pathway_methods": {
+        "unresolved": 7,
+        "id": 4
+      },
+      "paper_strains": [
+        "Synechococcus sp. BL107",
+        "Synechococcus CC9311",
+        "Synechococcus RS9916",
+        "Synechococcus RS9917",
+        "Synechococcus WH5701",
+        "Synechococcus WH7803",
+        "Synechococcus WH7805",
+        "Synechococcus WH8102",
+        "Ruegeria pomeroyi DSS-3",
+        "Phage"
+      ],
+      "captured_identifiers": 29,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "lookup_miss": 3,
+        "descriptive_only": 7
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "Sec",
+      "gene_name": "sec",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Protein translocation through the cytoplasmic membrane is believed to be mainly driven by the Sec and Tat pathways (Introduction, p1)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Tat",
+      "gene_name": "tat",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Protein translocation through the cytoplasmic membrane is believed to be mainly driven by the Sec and Tat pathways (Introduction, p1)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "SwmA",
+      "gene_name": "swmA",
+      "identifiers": [
+        "NP_896180.1"
+      ],
+      "prominence": "central",
+      "evidence": "the swimming and grazing defence proteins SwmA and SwmB in Synechococcus sp. WH8102 (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0085",
+      "resolved_from": "NP_896180.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "SwmB",
+      "gene_name": "swmB",
+      "identifiers": [
+        "NP_897046.1"
+      ],
+      "prominence": "central",
+      "evidence": "the swimming and grazing defence proteins SwmA and SwmB in Synechococcus sp. WH8102 (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0953",
+      "resolved_from": "NP_897046.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PhoX alkaline phosphatase",
+      "gene_name": "phoX",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "and the PhoX alkaline phosphatase (Introduction, p2)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus RS9917",
+      "locus_tag": "RS9917_09306",
+      "resolved_from": "phoX",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PhoX alkaline phosphatase",
+      "gene_name": "phoX",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "and the PhoX alkaline phosphatase (Introduction, p2)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH5701",
+      "locus_tag": "WH5701_10974",
+      "resolved_from": "phoX",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PhoX alkaline phosphatase",
+      "gene_name": "phoX",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "and the PhoX alkaline phosphatase (Introduction, p2)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1810",
+      "resolved_from": "phoX",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PhoX alkaline phosphatase",
+      "gene_name": "phoX",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "and the PhoX alkaline phosphatase (Introduction, p2)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH7805",
+      "locus_tag": "WH7805_13858",
+      "resolved_from": "phoX",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PhoX alkaline phosphatase",
+      "gene_name": "phoX",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "and the PhoX alkaline phosphatase (Introduction, p2)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1799",
+      "resolved_from": "phoX",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "C-phycoerythrin alpha/beta chains of class I/II",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the four C-phycoerythrin polypeptides alpha beta chains of class I II C-phycoerythrin (Results, p4)",
+      "mention_strain": "all",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1424",
+      "resolved_from": "C-phycoerythrin alpha/beta chains of class I/II",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "C-phycoerythrin alpha/beta chains of class I/II",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the four C-phycoerythrin polypeptides alpha beta chains of class I II C-phycoerythrin (Results, p4)",
+      "mention_strain": "all",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": "SPO1088",
+      "resolved_from": "C-phycoerythrin alpha/beta chains of class I/II",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "substrate binding protein of the iron ABC transporter",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "The substrate binding protein of the iron ABC transporter was, on average, the sixth most abundant detected protein (Results, p4)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "substrate binding protein of the phosphate ABC transporter",
+      "gene_name": "",
+      "identifiers": [
+        "NP_897111.1",
+        "NP_897906.1"
+      ],
+      "prominence": "central",
+      "evidence": "The substrate binding protein of the phosphate ABC transporter was the seventh most abundant protein (Results, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1018",
+      "resolved_from": "NP_897111.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "substrate binding protein of the phosphate ABC transporter",
+      "gene_name": "",
+      "identifiers": [
+        "NP_897111.1",
+        "NP_897906.1"
+      ],
+      "prominence": "central",
+      "evidence": "The substrate binding protein of the phosphate ABC transporter was the seventh most abundant protein (Results, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1815",
+      "resolved_from": "NP_897906.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "phosphonate ABC transport protein",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "A potential component of a phosphonate ABC transport protein was detected (Table S4) in strains RS9917, WH5701 and WH7805 (Results, p5)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "C-P lyase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "despite the fact that C-P lyase, the enzyme required to cleave the recalcitrant C-P bond, has not been identified (Results, p5)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "urea ABC transporter protein",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a potential urea ABC transporter protein was the most abundantly detected nitrogen transporter (Results, p5)",
+      "mention_strain": "all",
+      "strain": "Synechococcus sp. BL107",
+      "locus_tag": "BL107_06964",
+      "resolved_from": "urea ABC transporter protein",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "urea ABC transporter protein",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a potential urea ABC transporter protein was the most abundantly detected nitrogen transporter (Results, p5)",
+      "mention_strain": "all",
+      "strain": "Synechococcus CC9311",
+      "locus_tag": "sync_2877",
+      "resolved_from": "urea ABC transporter protein",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "urea ABC transporter protein",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a potential urea ABC transporter protein was the most abundantly detected nitrogen transporter (Results, p5)",
+      "mention_strain": "all",
+      "strain": "Synechococcus RS9916",
+      "locus_tag": "RS9916_37157",
+      "resolved_from": "urea ABC transporter protein",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "urea ABC transporter protein",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a potential urea ABC transporter protein was the most abundantly detected nitrogen transporter (Results, p5)",
+      "mention_strain": "all",
+      "strain": "Synechococcus RS9917",
+      "locus_tag": "RS9917_06065",
+      "resolved_from": "urea ABC transporter protein",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "urea ABC transporter protein",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a potential urea ABC transporter protein was the most abundantly detected nitrogen transporter (Results, p5)",
+      "mention_strain": "all",
+      "strain": "Synechococcus WH5701",
+      "locus_tag": "WH5701_03574",
+      "resolved_from": "urea ABC transporter protein",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "urea ABC transporter protein",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a potential urea ABC transporter protein was the most abundantly detected nitrogen transporter (Results, p5)",
+      "mention_strain": "all",
+      "strain": "Synechococcus WH7805",
+      "locus_tag": "WH7805_09819",
+      "resolved_from": "urea ABC transporter protein",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "urea ABC transporter protein",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a potential urea ABC transporter protein was the most abundantly detected nitrogen transporter (Results, p5)",
+      "mention_strain": "all",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2447",
+      "resolved_from": "urea ABC transporter protein",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "urea ABC transporter protein",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a potential urea ABC transporter protein was the most abundantly detected nitrogen transporter (Results, p5)",
+      "mention_strain": "all",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": "SPO1712",
+      "resolved_from": "urea ABC transporter protein",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "superoxide dismutase",
+      "gene_name": "sod",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Superoxide dismutase SOD, involved in detoxifying oxygen radicals, was detected in all strains except for BL107 (Results, p5)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "thioredoxin peroxidase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Between one and three different thioredoxin peroxidase isoforms... were detected in all strains except BL107 and CC9311 (Results, p6)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "rubrerythrin-like protein",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "In Synechococcus sp. WH8102 however, we also detected a rubrerythrin-like protein (Results, p6)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "metallo-\u03b2-lactamase",
+      "gene_name": "",
+      "identifiers": [
+        "NP_898405.1"
+      ],
+      "prominence": "central",
+      "evidence": "an abundant metallo-\u03b2-lactamase with 1.3% average detection excluding BL107 with high identity across genomes (Results, p6)",
+      "mention_strain": "all",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2316",
+      "resolved_from": "NP_898405.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "protein phosphatase 2C",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "annotated as a potential protein phosphatase 2C, that may play a key role in signal transduction (Results, p6)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "endo-1,4-\u03b2-glycosyl hydrolase, a type II chitinase",
+      "gene_name": "",
+      "identifiers": [
+        "ZP_01081204.1",
+        "YP_001225792.1",
+        "EAR19694.1"
+      ],
+      "prominence": "central",
+      "evidence": "we abundantly detected a potential endo-1-4-beta-glycosyl hydrolase a type II chitinase (Results, p6)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus RS9917",
+      "locus_tag": "RS9917_08070",
+      "resolved_from": "ZP_01081204.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "endo-1,4-\u03b2-glycosyl hydrolase, a type II chitinase",
+      "gene_name": "",
+      "identifiers": [
+        "ZP_01081204.1",
+        "YP_001225792.1",
+        "EAR19694.1"
+      ],
+      "prominence": "central",
+      "evidence": "we abundantly detected a potential endo-1-4-beta-glycosyl hydrolase a type II chitinase (Results, p6)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SYNWH7803_RS10220",
+      "resolved_from": "YP_001225792.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "endo-1,4-\u03b2-glycosyl hydrolase, a type II chitinase",
+      "gene_name": "",
+      "identifiers": [
+        "ZP_01081204.1",
+        "YP_001225792.1",
+        "EAR19694.1"
+      ],
+      "prominence": "central",
+      "evidence": "we abundantly detected a potential endo-1-4-beta-glycosyl hydrolase a type II chitinase (Results, p6)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH7805",
+      "locus_tag": "WH7805_12278",
+      "resolved_from": "EAR19694.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "\u03b2-N-acetylglucosaminidase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Complete degradation of chitin requires \u03b2-N-acetylglucosaminidase, although this enzyme was not detected (Results, p6)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "pili-like structure proteins",
+      "gene_name": "",
+      "identifiers": [
+        "YP_001225518.1",
+        "YP_001225519.1"
+      ],
+      "prominence": "central",
+      "evidence": "The exoproteome of Synechococcus sp. WH7803 contained an extremely abundant pili-like structure composed of proteins YP_001225518.1 and YP_001225519.1 (Results, p6)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1795",
+      "resolved_from": "YP_001225518.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "pili-like structure proteins",
+      "gene_name": "",
+      "identifiers": [
+        "YP_001225518.1",
+        "YP_001225519.1"
+      ],
+      "prominence": "central",
+      "evidence": "The exoproteome of Synechococcus sp. WH7803 contained an extremely abundant pili-like structure composed of proteins YP_001225518.1 and YP_001225519.1 (Results, p6)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1796",
+      "resolved_from": "YP_001225519.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "EAU73526",
+      "gene_name": "",
+      "identifiers": [
+        "EAU73526"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the MS-detected protein EAU73526 in Synechococcus sp. RS9916, a much smaller protein... contains a conserved flagellar-like domain (Results, p7)",
+      "mention_strain": "Synechococcus RS9916",
+      "strain": "Synechococcus RS9916",
+      "locus_tag": "RS9916_28494",
+      "resolved_from": "EAU73526",
+      "resolution_method": "heuristic_multi:v"
+    },
+    {
+      "surface_form": "EAR17767.1",
+      "gene_name": "",
+      "identifiers": [
+        "EAR17767.1"
+      ],
+      "prominence": "central",
+      "evidence": "The large protein, EAR17767.1 ... from Synechococcus sp. WH7805 contains up to three different peptidase domains (Results, p7)",
+      "mention_strain": "Synechococcus WH7805",
+      "strain": "Synechococcus WH7805",
+      "locus_tag": "WH7805_09564",
+      "resolved_from": "EAR17767.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "EAR19380.1",
+      "gene_name": "",
+      "identifiers": [
+        "EAR19380.1"
+      ],
+      "prominence": "central",
+      "evidence": "Protein EAR19380.1, abundantly detected 2.2% and unique to Synechococcus sp. WH7805, also contained a serralysin peptidase M10 domain (Results, p7)",
+      "mention_strain": "Synechococcus WH7805",
+      "strain": "Synechococcus WH7805",
+      "locus_tag": "WH7805_08481",
+      "resolved_from": "EAR19380.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "alkaline phosphatase",
+      "gene_name": "",
+      "identifiers": [
+        "EAQ75607.1",
+        "NP_898480.1",
+        "NP_898479.1",
+        "NP_896291.1"
+      ],
+      "prominence": "central",
+      "evidence": "Alkaline phosphatase enzymes were only detected in Synechococcus sp. WH5701 and Synechococcus sp. WH8102 (Results, p7)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH5701",
+      "locus_tag": "WH5701_02139",
+      "resolved_from": "EAQ75607.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "alkaline phosphatase",
+      "gene_name": "",
+      "identifiers": [
+        "EAQ75607.1",
+        "NP_898480.1",
+        "NP_898479.1",
+        "NP_896291.1"
+      ],
+      "prominence": "central",
+      "evidence": "Alkaline phosphatase enzymes were only detected in Synechococcus sp. WH5701 and Synechococcus sp. WH8102 (Results, p7)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2391",
+      "resolved_from": "NP_898480.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "alkaline phosphatase",
+      "gene_name": "",
+      "identifiers": [
+        "EAQ75607.1",
+        "NP_898480.1",
+        "NP_898479.1",
+        "NP_896291.1"
+      ],
+      "prominence": "central",
+      "evidence": "Alkaline phosphatase enzymes were only detected in Synechococcus sp. WH5701 and Synechococcus sp. WH8102 (Results, p7)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2390",
+      "resolved_from": "NP_898479.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "alkaline phosphatase",
+      "gene_name": "",
+      "identifiers": [
+        "EAQ75607.1",
+        "NP_898480.1",
+        "NP_898479.1",
+        "NP_896291.1"
+      ],
+      "prominence": "central",
+      "evidence": "Alkaline phosphatase enzymes were only detected in Synechococcus sp. WH5701 and Synechococcus sp. WH8102 (Results, p7)",
+      "mention_strain": "unspecified",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0196",
+      "resolved_from": "NP_896291.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "phytase-like protein",
+      "gene_name": "",
+      "identifiers": [
+        "NP_896855.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "and a phytase-like protein NP_896855.1, 0.3% (Results, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0762",
+      "resolved_from": "NP_896855.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "NP_896260.1",
+      "gene_name": "",
+      "identifiers": [
+        "NP_896260.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Co-culture with R. pomeroyi revealed strong upregulation of four hypothetical proteins... NP_896260.1 with no known function 8.4\u00d7 (Results, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0165",
+      "resolved_from": "NP_896260.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "NP_898392.1",
+      "gene_name": "",
+      "identifiers": [
+        "NP_898392.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "NP_898392.1 5.2\u00d7, NP_896974.1 5.1\u00d7 and NP_898441.1 4.3\u00d7, which contained domains related to virulent factor proteases and adhesion (Results, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2303",
+      "resolved_from": "NP_898392.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "NP_896974.1",
+      "gene_name": "",
+      "identifiers": [
+        "NP_896974.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "NP_898392.1 5.2\u00d7, NP_896974.1 5.1\u00d7 and NP_898441.1 4.3\u00d7, which contained domains related to virulent factor proteases and adhesion (Results, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0881",
+      "resolved_from": "NP_896974.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "NP_898441.1",
+      "gene_name": "",
+      "identifiers": [
+        "NP_898441.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "NP_898392.1 5.2\u00d7, NP_896974.1 5.1\u00d7 and NP_898441.1 4.3\u00d7, which contained domains related to virulent factor proteases and adhesion (Results, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2352",
+      "resolved_from": "NP_898441.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "NP_898382.1",
+      "gene_name": "",
+      "identifiers": [
+        "NP_898382.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "two haemolysin-like proteins... NP_898382.1, 3.3\u00d7; NP_898498.1, 1.8\u00d7 (Results, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2293",
+      "resolved_from": "NP_898382.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "NP_898498.1",
+      "gene_name": "",
+      "identifiers": [
+        "NP_898498.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "two haemolysin-like proteins... NP_898382.1, 3.3\u00d7; NP_898498.1, 1.8\u00d7 (Results, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2409",
+      "resolved_from": "NP_898498.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "NP_897657.1",
+      "gene_name": "",
+      "identifiers": [
+        "NP_897657.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "two other proteins exported under co-culture conditions NP_897657.1, 2.6\u00d7; NP_897658.1, 2.4\u00d7 (Results, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1564",
+      "resolved_from": "NP_897657.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "NP_897658.1",
+      "gene_name": "",
+      "identifiers": [
+        "NP_897658.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "two other proteins exported under co-culture conditions NP_897657.1, 2.6\u00d7; NP_897658.1, 2.4\u00d7 (Results, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1565",
+      "resolved_from": "NP_897658.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "NP_898316.1",
+      "gene_name": "",
+      "identifiers": [
+        "NP_898316.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "two porins were strongly upregulated NP_898316.1, 15.4\u00d7; NP_898315.1, 6.9\u00d7 (Results, p8)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2227",
+      "resolved_from": "NP_898316.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "NP_898315.1",
+      "gene_name": "",
+      "identifiers": [
+        "NP_898315.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "two porins were strongly upregulated NP_898316.1, 15.4\u00d7; NP_898315.1, 6.9\u00d7 (Results, p8)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2224",
+      "resolved_from": "NP_898315.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "type I secretion protein",
+      "gene_name": "",
+      "identifiers": [
+        "EAR18050.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "bands e and f ... containing type I secretion protein EAR18050.1, haemolysin EAR19380.1 and chitinase EAR19694.1 disappeared (Results, p8)",
+      "mention_strain": "Synechococcus WH7805",
+      "strain": "Synechococcus WH7805",
+      "locus_tag": "WH7805_04641",
+      "resolved_from": "EAR18050.1",
+      "resolution_method": "multi:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Sec pathway",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "Protein translocation through the cytoplasmic membrane is believed to be mainly driven by the Sec and Tat pathways (Introduction, p1)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Tat pathway",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "Protein translocation through the cytoplasmic membrane is believed to be mainly driven by the Sec and Tat pathways (Introduction, p1)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "type I secretion system",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "three of which secrete proteins directly though the gram-negative bilayer type I, III and IV (Introduction, p1)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "type III secretion system",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "three of which secrete proteins directly though the gram-negative bilayer type I, III and IV (Introduction, p1)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "type IV secretion system",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "three of which secrete proteins directly though the gram-negative bilayer type I, III and IV (Introduction, p1)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "ABC transporters",
+      "kegg_pathway_id_raw": "map02010",
+      "prominence": "central",
+      "evidence": "Proteins involved in transporting substrates across the cell membrane were commonly found... mainly ABC transporters and porins (Results, p4)",
+      "pathway_id": "ko02010",
+      "pathway_name": "abc transporters",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "phosphonate transport",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "A potential component of a phosphonate ABC transport protein was detected (Results, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "oxidative stress detoxification",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "Proteins involved in oxidative stress were detected... Superoxide dismutase SOD, involved in detoxifying oxygen radicals (Results, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "chitin degradation",
+      "kegg_pathway_id_raw": "map00520",
+      "prominence": "central",
+      "evidence": "Complete degradation of chitin requires \u03b2-N-acetylglucosaminidase (Results, p6)",
+      "pathway_id": "ko00520",
+      "pathway_name": "amino sugar and nucleotide sugar metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id_raw": "map00195",
+      "prominence": "peripheral",
+      "evidence": "Photosynthesis energy production. Despite being proteins targeting the thylakoid membrane (Results, p4)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "carbon fixation",
+      "kegg_pathway_id_raw": "map00710",
+      "prominence": "peripheral",
+      "evidence": "four were directly involved in photosynthesis and carbon fixation (Discussion, p10)",
+      "pathway_id": "ko00710",
+      "pathway_name": "carbon fixation by calvin cycle",
+      "resolution_method": "id"
+    }
+  ]
+}

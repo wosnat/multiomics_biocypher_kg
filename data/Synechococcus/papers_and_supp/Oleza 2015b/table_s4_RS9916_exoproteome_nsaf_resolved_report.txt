@@ -1,0 +1,15 @@
+Resolution report: Oleza 2015b / table_s4_rs9916_exoproteome
+Source: table_s4_RS9916_exoproteome_nsaf.csv
+name_col: protein_id
+id_columns: ['protein_id']
+
+Total rows with IDs: 338
+Resolved: 337 (99.7%)
+Unresolved: 1
+
+Resolution method breakdown:
+  multi:protein_id: 337
+  unresolved: 1
+
+Unresolved rows (1):
+  row 41: raw_id='EAU73487.1'  reason=unresolved  [protein_id='EAU73487.1']
