@@ -1,0 +1,30 @@
+Resolution report: Tetu 2009 / supp_table_1c_phob_knockout
+Source: tetu2009_s1c_synw0947_phob_knockout.csv
+name_col: locus_tag
+id_columns: ['locus_tag']
+
+Total rows with IDs: 1793
+Resolved: 1778 (99.2%)
+Unresolved: 15
+
+Resolution method breakdown:
+  locus_tag:locus_tag: 1769
+  tier1:locus_tag: 9
+  unresolved: 15
+
+Unresolved rows (15):
+  row 33: raw_id='SYNW1398'  reason=unresolved  [locus_tag='SYNW1398']
+  row 58: raw_id='SYNW1465'  reason=unresolved  [locus_tag='SYNW1465']
+  row 64: raw_id='SYNW1106'  reason=unresolved  [locus_tag='SYNW1106']
+  row 123: raw_id='SYNW2018'  reason=unresolved  [locus_tag='SYNW2018']
+  row 194: raw_id='SYNW2225'  reason=unresolved  [locus_tag='SYNW2225']
+  row 292: raw_id='SYNW2491'  reason=unresolved  [locus_tag='SYNW2491']
+  row 366: raw_id='SYNW0916'  reason=unresolved  [locus_tag='SYNW0916']
+  row 393: raw_id='SYNW2226'  reason=unresolved  [locus_tag='SYNW2226']
+  row 397: raw_id='SYNW0584'  reason=unresolved  [locus_tag='SYNW0584']
+  row 459: raw_id='SYNW0021'  reason=unresolved  [locus_tag='SYNW0021']
+  row 471: raw_id='SYNW0020'  reason=unresolved  [locus_tag='SYNW0020']
+  row 515: raw_id='SYNW0585'  reason=unresolved  [locus_tag='SYNW0585']
+  row 780: raw_id='SYNW0019'  reason=unresolved  [locus_tag='SYNW0019']
+  row 1524: raw_id='SYNW0804'  reason=unresolved  [locus_tag='SYNW0804']
+  row 1677: raw_id='SYNW1670'  reason=unresolved  [locus_tag='SYNW1670']

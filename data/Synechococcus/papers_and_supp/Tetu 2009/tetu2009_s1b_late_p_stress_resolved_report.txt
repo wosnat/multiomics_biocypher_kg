@@ -1,0 +1,24 @@
+Resolution report: Tetu 2009 / supp_table_1b_late_p_stress
+Source: tetu2009_s1b_late_p_stress.csv
+name_col: locus_tag
+id_columns: ['locus_tag']
+
+Total rows with IDs: 722
+Resolved: 713 (98.8%)
+Unresolved: 9
+
+Resolution method breakdown:
+  locus_tag:locus_tag: 707
+  tier1:locus_tag: 6
+  unresolved: 9
+
+Unresolved rows (9):
+  row 53: raw_id='SYNW0916'  reason=unresolved  [locus_tag='SYNW0916']
+  row 64: raw_id='SYNW0019'  reason=unresolved  [locus_tag='SYNW0019']
+  row 104: raw_id='SYNW2225'  reason=unresolved  [locus_tag='SYNW2225']
+  row 127: raw_id='SYNW2018'  reason=unresolved  [locus_tag='SYNW2018']
+  row 146: raw_id='SYNW1106'  reason=unresolved  [locus_tag='SYNW1106']
+  row 256: raw_id='SYNW0585'  reason=unresolved  [locus_tag='SYNW0585']
+  row 391: raw_id='SYNW0021'  reason=unresolved  [locus_tag='SYNW0021']
+  row 472: raw_id='SYNW0804'  reason=unresolved  [locus_tag='SYNW0804']
+  row 554: raw_id='SYNW2491'  reason=unresolved  [locus_tag='SYNW2491']

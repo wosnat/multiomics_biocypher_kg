@@ -1,0 +1,152 @@
+publication:
+  papername: "Tetu 2009"
+  doi: "10.1038/ismej.2009.31"
+  papermainpdf: "data/Synechococcus/papers_and_supp/Tetu 2009/41396_2009_article_bfismej200931.pdf"
+  control_timing: matched
+
+  experiments:
+    p_stress_wh8102_microarray:
+      name: "WH8102 early and late phosphate stress vs P-replete (microarray)"
+      organism: "Synechococcus WH8102"
+      omics_type: MICROARRAY
+      test_type: "SAM"
+      treatment_type: [phosphorus]
+      background_factors: [axenic, light]
+      treatment_condition: "P stress: wild type grown in SOW with 5 uM initial phosphate, harvested at early P stress (alkaline phosphatase activity first detected) or late P stress (growth largely ceased)"
+      control_condition: "Wild type grown to mid-log phase in P-replete SOW (87 uM initial phosphate)"
+      experimental_context: "Axenic Synechococcus WH8102 batch cultures in synthetic ocean water (SOW) with 9.0 mM NaNO3, 25C, 30 umol photons m-2 s-1 continuous white light. Harvest points defined by phenotype (alkaline phosphatase induction, growth cessation), not by fixed times. Whole-genome PCR-amplicon + 70-mer oligo microarray (GEO GSE13170), LOWESS-normalised log2 ratios, SAM with FDR < 5 percent; table values are SAM Numerator(r) = mean log2 ratio P-stress / P-replete."
+      medium: "SOW (synthetic ocean water) with 9.0 mM NaNO3, 5 uM phosphate (P-replete control 87 uM)"
+      temperature: "25C"
+      light_condition: "continuous light"
+      light_intensity: "30 umol photons m-2 s-1"
+      table_scope: significant_only
+      table_scope_detail: "Supplementary Table 1A/1B list only the genes SAM called significant at FDR < 5 percent (positive and negative blocks); 2-4 unnamed PSEUDOGENE probe rows per sheet dropped (no gene id)."
+      control_timing: baseline
+      design_notes: >-
+        Both P-stress timepoints are compared with one P-replete wild-type reference harvested in
+        mid-log phase (exponential), not with a culture sampled alongside the stressed one.
+        early P stress is the point where alkaline phosphatase activity is first detected and
+        late P stress is when growth has largely ceased (late log), several days later.
+
+    phob_synw0947_knockout_wh8102_microarray:
+      name: "WH8102 phoB (SYNW0947) knockout vs wild type, P-replete (microarray)"
+      organism: "Synechococcus WH8102"
+      omics_type: MICROARRAY
+      test_type: "SAM"
+      treatment_type: [mutant]
+      background_factors: [axenic, light]
+      treatment_condition: "phoB (SYNW0947, PhoB-like response regulator) insertional knockout mutant (pMUT100, kanamycin selection)"
+      control_condition: "Isogenic wild-type parent WH8102"
+      experimental_context: "Mutant and wild type both grown in P-replete SOW (87 uM phosphate, 9.0 mM NaNO3) to mid-log phase (~1.5e8 cells per ml), 25C, 30 umol photons m-2 s-1 continuous white light; kanamycin 15 ug per ml for the mutant. Whole-genome microarray (GEO GSE13170), SAM with FDR < 5 percent; values are SAM Numerator(r) = mean log2 ratio mutant / wild type."
+      medium: "SOW (synthetic ocean water) with 9.0 mM NaNO3 and 87 uM phosphate"
+      temperature: "25C"
+      light_condition: "continuous light"
+      light_intensity: "30 umol photons m-2 s-1"
+      table_scope: significant_only
+      table_scope_detail: "Supplementary Table 1C lists only the genes SAM called significant at FDR < 5 percent; unnamed PSEUDOGENE probe rows dropped."
+      design_notes: >-
+        Matched by growth state: knockout and wild type were grown in parallel in the same
+        P-replete medium and harvested at mid-log phase (exponential).
+
+    phor_synw0948_knockout_wh8102_microarray:
+      name: "WH8102 phoR (SYNW0948) knockout vs wild type, P-replete (microarray)"
+      organism: "Synechococcus WH8102"
+      omics_type: MICROARRAY
+      test_type: "SAM"
+      treatment_type: [mutant]
+      background_factors: [axenic, light]
+      treatment_condition: "phoR (SYNW0948, PhoR-like sensor histidine kinase) insertional knockout mutant (pMUT100, kanamycin selection)"
+      control_condition: "Isogenic wild-type parent WH8102"
+      experimental_context: "Mutant and wild type both grown in P-replete SOW (87 uM phosphate, 9.0 mM NaNO3) to mid-log phase (~1.5e8 cells per ml), 25C, 30 umol photons m-2 s-1 continuous white light; kanamycin 15 ug per ml for the mutant. Whole-genome microarray (GEO GSE13170), SAM with FDR < 5 percent; values are SAM Numerator(r) = mean log2 ratio mutant / wild type."
+      medium: "SOW (synthetic ocean water) with 9.0 mM NaNO3 and 87 uM phosphate"
+      temperature: "25C"
+      light_condition: "continuous light"
+      light_intensity: "30 umol photons m-2 s-1"
+      table_scope: significant_only
+      table_scope_detail: "Supplementary Table 1D lists only the genes SAM called significant at FDR < 5 percent; unnamed PSEUDOGENE probe rows dropped."
+      design_notes: >-
+        Matched by growth state: knockout and wild type were grown in parallel in the same
+        P-replete medium and harvested at mid-log phase (exponential).
+
+  supplementary_materials:
+    # All four CSVs built by scripts/build_modified_csv/build_tetu2009_sam_tables.py
+    # from 41396_2009_bfismej200931_moesm7_esm.xls (Supplementary Table 1A-D).
+    supp_table_1a_early_p_stress:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Tetu 2009/tetu2009_s1a_early_p_stress.csv"
+      organism: "Synechococcus WH8102"
+      id_columns:
+        - column: "locus_tag"
+          id_type: locus_tag
+      product_columns:
+        - column: "product"
+      statistical_analyses:
+        - id: "tetu2009_early_p_stress_wh8102"
+          experiment: p_stress_wh8102_microarray
+          name_col: "locus_tag"
+          logfc_col: "log2_fold_change"
+          adjusted_p_value_col: "q_value"
+          prefiltered: true
+          timepoint: "early P stress"
+          timepoint_hours: null
+          growth_phase: nutrient_limited
+
+    supp_table_1b_late_p_stress:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Tetu 2009/tetu2009_s1b_late_p_stress.csv"
+      organism: "Synechococcus WH8102"
+      id_columns:
+        - column: "locus_tag"
+          id_type: locus_tag
+      product_columns:
+        - column: "product"
+      statistical_analyses:
+        - id: "tetu2009_late_p_stress_wh8102"
+          experiment: p_stress_wh8102_microarray
+          name_col: "locus_tag"
+          logfc_col: "log2_fold_change"
+          adjusted_p_value_col: "q_value"
+          prefiltered: true
+          timepoint: "late P stress"
+          timepoint_hours: null
+          growth_phase: nutrient_limited
+
+    supp_table_1c_phob_knockout:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Tetu 2009/tetu2009_s1c_synw0947_phob_knockout.csv"
+      organism: "Synechococcus WH8102"
+      id_columns:
+        - column: "locus_tag"
+          id_type: locus_tag
+      product_columns:
+        - column: "product"
+      statistical_analyses:
+        - id: "tetu2009_phob_knockout_vs_wt_wh8102"
+          experiment: phob_synw0947_knockout_wh8102_microarray
+          name_col: "locus_tag"
+          logfc_col: "log2_fold_change"
+          adjusted_p_value_col: "q_value"
+          prefiltered: true
+          timepoint: "mid-log"
+          timepoint_hours: null
+          growth_phase: exponential
+
+    supp_table_1d_phor_knockout:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Tetu 2009/tetu2009_s1d_synw0948_phor_knockout.csv"
+      organism: "Synechococcus WH8102"
+      id_columns:
+        - column: "locus_tag"
+          id_type: locus_tag
+      product_columns:
+        - column: "product"
+      statistical_analyses:
+        - id: "tetu2009_phor_knockout_vs_wt_wh8102"
+          experiment: phor_synw0948_knockout_wh8102_microarray
+          name_col: "locus_tag"
+          logfc_col: "log2_fold_change"
+          adjusted_p_value_col: "q_value"
+          prefiltered: true
+          timepoint: "mid-log"
+          timepoint_hours: null
+          growth_phase: exponential
