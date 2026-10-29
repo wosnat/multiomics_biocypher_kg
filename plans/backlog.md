@@ -542,6 +542,66 @@ the committed caches, not taken from the log. Ordered by proposed priority.
 - [ ] **Obsolete gene GO annotations** (pre-existing, found in Task 0): ~330,594 gene `go_terms` in the merged annotations reference ids not live in GO 2026-07-26 (139K obsolete with no replacement, 145K with a single `replaced_by`, 45K `consider`-only); alt-id annotations are remapped (23,462), the rest dropped at build, before and after the refresh. Source annotations (eggNOG, UniProt, Cyanorak) carry old ids; consider a `replaced_by` remap or refreshing the sources.
 - [ ] **Joint release with the explorer**: the KG release carrying slice 1 sets `[tool.release-kg] mcp_min_version` in `pyproject.toml` to the explorer release that surfaces the GO arm (done at `/release-kg` time, not in the implementation plan). Hand the explorer the caveat paragraphs in the kg-changes doc.
 
+## Paper batch 2026-10-28 — tables that need a new concept
+
+Deferred from the 2026-10-28 paper batch (Manck 2020, Tetu 2009, Barber 2026, Ferrer 2020,
+Durham 2015, Rubin 2015, Oleza 2012, Ostrowski 2010, Oleza 2015b, Koch 2019, Koch 2020,
+Doré 2020/2023, Schroer 2023). Rule applied: wire what fits existing concepts; a table that
+would need a new KG concept waits here instead of being forced.
+
+- [ ] **Cross-strain protein families (multi-organism clusters).** Manck 2020 Data Set S3:
+      1,804 TonB-dependent transporters over 31 *Alteromonas* genomes in 98 sequence-similarity
+      network clusters (user: TBDTs are important). `gene_clusters` / `ClusteringAnalysis` is
+      single-organism, so one cluster spanning strains has no home; options: a multi-organism
+      ClusteringAnalysis, or attaching to OrthologGroup-like family nodes. In-KG strains: ATCC27126,
+      AD45, BS11, AltDE1 resolve today; AltDE (`MADE_00089`, our assembly has only `MADE_RS`) and
+      HOT1A3 (IMG `Ga0125132_`) need diamond `id_translation`s. Would make EC673 + the other 24
+      genomes worth onboarding. Same concept covers Barber 2026's TRAP sequence-similarity-network
+      sheet (Supplementary Data 3). → `data/Prochlorococcus/papers_and_supp/Manck 2020/paperconfig.yaml`
+- [ ] **Curated transporter → substrate tables (Schroer 2023).** Table S1: 128 *R. pomeroyi*
+      DSS-3 organic-carbon influx transporters, each a multi-locus unit (`SPO0050; SPO0051; ...`)
+      with a mutant-confirmed substrate. Needs a transporter-unit concept and a substrate link to
+      `Metabolite` (not a free-text category). Also the natural answer key for transport 3b
+      validation. (Ford 2021's SBP classes shipped as categorical metrics — this is the
+      substrate-linked, experimentally confirmed version.) → `plans/transport_validation_publications.md`
+- [ ] **Unnamed natural-community partner + seawater-origin treatment (Oleza 2012).** DSS-3
+      whole-cell proteome, 20 h in natural seawater from 4 Marseille sites, Table S2 panels A-J
+      (PatternLab AC-test, p < 0.01 and |FC| ≥ 2). A-D = natural community present vs 0.22 um
+      filtered (needs a treatment organism for "natural seawater microbial community"; H-J need it
+      as background); E-J = beach / ferry basin / marina vs cape seawater (anthropogenic nutrients
+      + copper; no `treatment_type` fits, `chemical` is a stretch). Parsed CSV is ready
+      (`oleza2012_table_s2_wide.csv`, builder `build_oleza2012_table_s2.py`; 10 contrasts, log2).
+      Once both concepts exist: 4 experiments, PROTEOMICS, `control_timing: matched`. Tables S3
+      (30 one-shot conditions) and S4 (fractions incl. exoproteome) also unintegrated.
+- [ ] **Ortholog-group-level genomics (Doré 2020, Doré 2023).** Core/accessory genes, genomic
+      islands, phyletic patterns and eCAG modules keyed by Cyanorak CLOG cluster x genome. The KG
+      has no attachment at OrthologGroup level for a paper's classification.
+- [ ] **Formula-level metabolite features (Koch 2019, Koch 2020).** FT-ICR-MS exometabolomes
+      give molecular formulas (thousands of masses per strain/phase) with no compound identity;
+      `metabolite_assays_table` needs a resolvable metabolite. Needs a formula-feature concept.
+- [ ] **Non-gene genomic features (Rubin 2015).** sd04 ncRNA essentiality, sd05 upstream
+      regulatory-region essentiality, sd06 essential intergenic regions: no Gene nodes to attach to.
+- [ ] **Bacteroidetes ortholog level (Ferrer 2020 *Polaribacter* MED152).** Full RNA-seq table in
+      coculture with *T. pseudonana*; MED152 would join only at Bacteria-level COGs (no family
+      level in `ORGANISM_GROUP_LEVELS`). Revisit with a second flavobacterial paper/strain.
+      (*Stenotrophomonas* SKA14: skipped, off-theme.)
+- [ ] **Knocked-out gene link for `mutant` experiments.** Tetu 2009 (phoB SYNW0947, phoR SYNW0948)
+      and Ostrowski 2010 (ptrA SYNW1019) name the deleted gene only in experiment text; an
+      Experiment → Gene "knocks out" edge would make mutants queryable by gene.
+
+Smaller ID follow-ups from the same batch (not concepts, just mapping work):
+
+- [ ] Rubin 2015: ~57 PCC7942 chromosomal genes have no bridge from the old GCF_000012525 tags to
+      the GCF_014698905 (`H6G84_`) assembly — needs a protein-sequence `id_translation`.
+- [ ] Ferrer 2020: 48 DSS-3 SPO tags absent from the current annotation; Oleza 2015b: 14 WH7803
+      YP_ accessions skipped (paralog ambiguity).
+- [ ] IPG legacy-accession bridge gaps: WH8102 NP_ maps only to the GCA `CAE` accession
+      (`find_assembly_match` vs the GCF returns None) and `ZP_` is not matched by
+      `looks_like_legacy_protein_acc` — Oleza 2015b used diamond instead.
+- [ ] Koch 2020 Table S7 rows for EZ55 (`altEZ55_`) and HOT1A3 (IMG `Ga0125132_`) do not resolve.
+- [ ] Oleza 2015b and Oleza 2017: PatternLab TFold raw p-values are mapped to
+      `adjusted_p_value_col` (open policy item).
+
 ## Explorer / MCP coordination
 
 - [ ] **Release the metabolite identity + classes change (held, spec §12).** Built and validated

@@ -68,6 +68,12 @@ tag with nothing logged.
 - Which picocyanobacteria carry a predicted ABC uptake protein for urea, phosphonate, iron or
   sugars is now a per-gene question across 95 *Prochlorococcus*, *Synechococcus* and *Cyanobium*
   genomes — 74 of them new to the graph — from the Ford 2021 survey of substrate-binding proteins.
+- Knockout and gene-essentiality studies are now in the graph: *Synechococcus* WH8102 phoB, phoR
+  and ptrA mutants vs wild type (`treatment_type: mutant`), and a genome-wide essential /
+  beneficial / non-essential call for every *S. elongatus* PCC 7942 gene (`essentiality`).
+- *Alteromonas* TonB-dependent transporters are queryable as a curated set (Manck 2020: 66 in
+  ATCC 27126 with predicted substrates and their iron / carbon-limitation response), and
+  *Ruegeria pomeroyi* DSS-3 gains diatom-coculture and DHPS / cysteine proteome data.
 
 ### Breaking
 
@@ -274,7 +280,97 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
   2017's light/oxygen steady states move their partner from `treatment_organism` to
   `background_organisms`, which is what they always were.
 
+- **83-1** (*Alteromonas macleodii*, GCF_901446755.2, taxid 28108, PacBio complete genome, ICBM) —
+  new genome strain for Koch 2019 / Koch 2020; NCBI + eggNOG + per-strain tools, no Cyanorak.
+  Caution: the submitter's locus prefixes are swapped vs MIT1002 — 83-1 genes carry `MIT1002_RS*`
+  locus tags (old tags `ALT831_*`), our MIT1002 carries `ALT831_RS*`; verified by sequence (our
+  MIT1002 shares 97.0% identical proteins with the independent MIT1002 draft, the 83-1 assembly
+  22.7%).
+- **Manck 2020** — new, mSystems, DOI `10.1128/mSystems.00070-20`
+  (`data/Prochlorococcus/papers_and_supp/Manck 2020/`). *Alteromonas macleodii* ATCC27126 RNA-seq
+  (DESeq2) under iron and carbon (glucose) limitation vs replete, in the dark: 2 DE experiments from
+  Data Set S1 (significant ORFs only, |log2FC| ≥ 1, FDR < 0.05; 742 Fe / 958 C edges). A
+  BIOINFORMATIC `genomic_analysis` experiment carries two DerivedMetrics on the 66 TonB-dependent
+  transporters (TBDTs) of Data Set S2: boolean `tbdt_manck2020` (63 genes resolved; 3 are now RefSeq
+  pseudogenes/retired tags) and categorical `tbdt_predicted_substrate_manck2020` (Table 1
+  gene-neighbourhood substrate predictions for the 26 Fe/C-responsive TBDTs). Data Set S3 (1,804
+  TBDTs across 31 Alteromonas genomes) is not integrated (backlog).
+- **Tetu 2009** — new, ISME J, DOI `10.1038/ismej.2009.31` (`data/Synechococcus/papers_and_supp/Tetu
+  2009/`). *Synechococcus* WH8102 whole-genome microarray (SAM, FDR < 5%; Supplementary Table 1A–D,
+  significant genes only): early and late P stress (5 µM vs 87 µM P; one `phosphorus` experiment,
+  two timepoints, `control_timing: baseline` against a mid-log replete reference) and phoB
+  (SYNW0947) / phoR (SYNW0948) knockouts vs wild type (`mutant`, P-replete, mid-log). ~4,780
+  expression edges, 99% of rows resolved. The KG's first `mutant` experiments.
+- **Ostrowski 2010** — new, ISME J, DOI `10.1038/ismej.2010.24`
+  (`data/Synechococcus/papers_and_supp/Ostrowski 2010/`). *Synechococcus* WH8102 ptrA (SYNW1019,
+  CRP-family regulator) knockout vs wild type, both under P stress (10 µM PO4, ~125–150 h),
+  microarray SAM FDR < 1%: the 161 genes changed > 2-fold that the paper prints (main-text Tables
+  1–2 + Supplementary Table 3; `table_scope: filtered_subset`), 160/161 resolved.
+- **Barber 2026** — new, Chem Sci, DOI `10.1039/d6sc02372j`
+  (`data/Prochlorococcus/papers_and_supp/Barber 2026/`). *Ruegeria pomeroyi* DSS-3 whole-cell LFQ
+  proteomics (MaxQuant + Perseus t-tests, q < 0.05) on L-cysteine, R-DHPS or S-DHPS vs glucose as
+  sole carbon source, plus R- vs S-DHPS; 4 experiments / 4 analyses over 1,837 proteins (1,836
+  resolved). The *Bilophila wadsworthia* proteome and the TRAP sequence-similarity-network tables
+  are not integrated.
+- **Ferrer 2020** — new, ISME J, DOI `10.1038/s41396-020-00811-y`
+  (`data/Prochlorococcus/papers_and_supp/Ferrer 2020/`). *R. pomeroyi* DSS-3 RNA-seq (DESeq2) after
+  8 h in coculture with the diatom *Thalassiosira pseudonana* CCMP1335 vs an axenic glucose control;
+  1 experiment, 4,277 genes (4,229 resolved; 776 at padj < 0.05). *T. pseudonana* joins as a
+  treatment organism (no genome). The *Polaribacter* MED152 and *Stenotrophomonas* SKA14 tables are
+  not integrated (not KG strains).
+- **Durham 2015** — new, PNAS, DOI `10.1073/pnas.1413137112`
+  (`data/Prochlorococcus/papers_and_supp/Durham 2015/`). *R. pomeroyi* DSS-3 RNA-seq (baySeq) after
+  8 h of coculture with B12-limited *T. pseudonana* vs DSS-3 alone; significant-only table of 101
+  genes (linear fold changes converted to log2), led by DHPS catabolism genes. 1 experiment, 101/101
+  resolved.
+- **Rubin 2015** — new, PNAS, DOI `10.1073/pnas.1519220112`
+  (`data/Synechococcus/papers_and_supp/Rubin 2015/`). Genome-wide gene essentiality in
+  *Synechococcus elongatus* PCC 7942 from a barcoded Tn5 library (RB-TnSeq) under standard lab
+  conditions: one experiment (`treatment_type [essentiality]`, new value; `omics_type DNASEQ`)
+  carrying Dataset S3 as the categorical DerivedMetric `gene_essentiality` (essential 718,
+  beneficial 157, non_essential 1,748, ambiguous 75, not_analyzed 25). 2,601 of 2,723 genes resolve
+  (misses: tRNAs, plasmid genes, ~57 genes with no bridge from the old GCF_000012525 tags to the
+  GCF_014698905 assembly).
+- **Oleza 2015b** — new, Environmental Microbiology, DOI `10.1111/1462-2920.12822` (Christie-Oleza
+  et al. 2015, "Functional distinctness in the exoproteomes of marine Synechococcus";
+  `data/Synechococcus/papers_and_supp/Oleza 2015b/`). Exoproteomes (cell-free supernatant, shotgun
+  LC-MS/MS, %NSAF) of 8 *Synechococcus* strains — BL107, CC9311, RS9916, RS9917, WH5701, WH7803,
+  WH7805, WH8102 — each an `EXOPROTEOMICS` characterization experiment with two DerivedMetrics
+  (`exoproteome_avg_pct_nsaf`, `exoproteome_detection_status`; 3,502 gene edges), plus 4 WH8102
+  exoproteome DE experiments (Table S6, PatternLab TFold, p < 0.05 and 2×): 10 h vs 4 d incubation,
+  coculture with *R. pomeroyi* DSS-3 vs axenic, 10 h dark vs light, cyanophage S-RSM4 infection (629
+  expression edges). The 2012 NP_/YP_/ZP_ accessions are bridged to current genes by diamond protein
+  matching for BL107, CC9311, RS9917 and WH8102 (≥ 99% of rows resolved).
+- **Koch 2019** — new, ISME J, DOI `10.1038/s41396-018-0252-4`
+  (`data/Prochlorococcus/papers_and_supp/Koch 2019/`). *Alteromonas macleodii* 83-1 (new strain)
+  degrading a laminarin + alginate + pectin mix vs glucose, Table S1 (all 4,227 genes; 4,021
+  resolved — misses are mostly tRNA/rRNA/hypotheticals the RefSeq annotation does not carry under
+  these tags): 4 DESeq2 RNA-seq experiments (alginate/pectin phase vs laminarin phase; glucose
+  stationary vs exponential; mix vs glucose at 13 h and at 21 h; |log2FC| ≥ 2, padj < 0.001) and
+  four whole-cell %NSAF numeric DerivedMetrics (G1, G2, M1, M2). FT-ICR-MS exometabolome (formulas
+  only) and the exoproteome fractions are not integrated.
+- **Koch 2020** — new, Sci Rep, DOI `10.1038/s41598-020-57526-5`
+  (`data/Prochlorococcus/papers_and_supp/Koch 2020/`). Strain-unique genes among 12 *Alteromonas
+  macleodii* genomes (Table S7) as the boolean DerivedMetric `strain_unique_gene_koch2020` on one
+  BIOINFORMATIC `genomic_analysis` experiment per KG strain: MIT1002 197, 83-1 117, AD45 213,
+  ATCC27126 105 genes (~91% resolved; misses are tags the RefSeq re-annotation dropped). Not
+  integrated: Table S3 (MIT1002 24/48 h vs 12 h in coculture with NATL2A — a filtered re-analysis of
+  the Biller 2016 data already in the KG), the anvio pangenome (no locus tags), FT-ICR-MS formulas
+  (no compound identity), EZ55/HOT1A3 rows (IMG-style ids that do not resolve).
+- **Not integrated from this batch** (backlog, `plans/backlog.md` § Paper batch 2026-10-28): Manck
+  2020 Data Set S3 (cross-strain TBDT families), Schroer 2023 (curated transporter → substrate
+  units), Oleza 2012 (natural-community and seawater-origin designs), Doré 2020 / 2023
+  (ortholog-group-level genomics), FT-ICR-MS formula tables (Koch 2019 / 2020).
+
 ### Added
+
+- **`treatment_type` values `mutant` and `essentiality`.** `mutant` = a knockout or mutant strain
+  compared with its wild type (Tetu 2009, Ostrowski 2010); `essentiality` = a transposon-mutagenesis
+  gene-essentiality characterization (Rubin 2015). Declared on all four `treatment_type`
+  vocabularies (Experiment, ClusteringAnalysis, DerivedMetric, MetaboliteAssay); the validator
+  reads them from `config/controlled_vocabularies.yaml`. `baySeq` joins the validator's test types
+  (Durham 2015). *Thalassiosira pseudonana* (taxid 35128) is a treatment organism — the first
+  eukaryote partner (no genome).
 
 - **Local builds stamp their git identity.** `scripts/build.sh` writes `git_provenance.txt`
   (sha, branch, dirty = modified tracked files) from the checkout into the build output, and
