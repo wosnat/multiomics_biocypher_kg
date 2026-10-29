@@ -1,0 +1,486 @@
+{
+  "metadata": {
+    "paper": "Koch 2020",
+    "doi": "10.1038/s41598-020-57526-5",
+    "strains": [
+      "Alteromonas macleodii MIT1002",
+      "Alteromonas macleodii 83-1",
+      "Alteromonas macleodii AD45",
+      "Alteromonas macleodii ATCC27126"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Figure panels print additional locus tags and ranges, especially for MIT1002 phenol cluster and EC673 benzoate cluster, that are only partially legible in the parsed text/images.",
+    "extracted_at": "2026-10-28T23:53:34.545042",
+    "input_tokens": 21003,
+    "output_tokens": 2600,
+    "resolution": {
+      "gene_records": 26,
+      "genes_resolved": 1,
+      "gene_methods": {
+        "unresolved": 25,
+        "multi_ci:v": 1
+      },
+      "pathway_records": 10,
+      "pathways_resolved": 5,
+      "pathway_methods": {
+        "id": 5,
+        "unresolved": 5
+      },
+      "paper_strains": [
+        "Alteromonas macleodii MIT1002",
+        "Alteromonas macleodii 83-1",
+        "Alteromonas macleodii AD45",
+        "Alteromonas macleodii ATCC27126"
+      ],
+      "captured_identifiers": 16,
+      "truncated_identifiers": 15,
+      "truncated_examples": [
+        "02048",
+        "02065",
+        "02842",
+        "04244",
+        "04264",
+        "04266",
+        "04267",
+        "04270",
+        "04273",
+        "04279"
+      ],
+      "unresolved_reasons": {
+        "descriptive_only": 21,
+        "lookup_miss": 1,
+        "truncated_id_only": 3
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "[NiFe] hydrogenase cassettes",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "[NiFe] hydrogenase cassettes that have been described in Alteromonas before (Results and Discussion, p3)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "chemotaxis-related plasmid",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "In strain MIT1002, hydrogenase and resistance cassettes have been inserted into the chromosome, and a unique chemotaxis-related plasmid has been acquired (p3)",
+      "mention_strain": "Alteromonas macleodii MIT1002",
+      "strain": "Alteromonas macleodii MIT1002",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "catechol meta-cleavage pathway",
+      "gene_name": "",
+      "identifiers": [
+        "04248\u201304260"
+      ],
+      "prominence": "central",
+      "evidence": "the upstream section including the catechol meta-cleavage pathway locus tags 04248\u201304260 (Results, p3)",
+      "mention_strain": "unspecified",
+      "strain": "unspecified",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "transposases and recombinases",
+      "gene_name": "",
+      "identifiers": [
+        "04244",
+        "04264",
+        "04266",
+        "04267",
+        "04270",
+        "04273",
+        "04279",
+        "04291"
+      ],
+      "prominence": "peripheral",
+      "evidence": "multiple adjacent transposases and recombinases locus tags 04244, 04264, 04266, 04267, 04270, 04273, 04279, 04291 (Results, p3)",
+      "mention_strain": "unspecified",
+      "strain": "unspecified",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "phenol hydroxylases",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "only MIT1002 harbors a gene cluster encoding the potential for phenol metabolization... upregulation of phenol hydroxylases (Results, p3)",
+      "mention_strain": "Alteromonas macleodii MIT1002",
+      "strain": "Alteromonas macleodii MIT1002",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "phytase gene",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "upregulation of a phytase gene might enhance phosphorus acquisition (Results, p4)",
+      "mention_strain": "Alteromonas macleodii MIT1002",
+      "strain": "Alteromonas macleodii MIT1002",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "TonB/ExbBD membrane system",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a 91 Kb region harboring a TonB/ExbBD membrane system and vitamin B6 synthesis genes was transposed (Results, p5)",
+      "mention_strain": "unspecified",
+      "strain": "Alteromonas macleodii MIT1002",
+      "locus_tag": "MIT1002_01915",
+      "resolved_from": "TonB/ExbBD membrane system",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "cytochrome bc1 complex",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "The transposed region also harbors the strain\u2019s sole cytochrome bc1 complex (Results, p5)",
+      "mention_strain": "unspecified",
+      "strain": "unspecified",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "vitamin B6 synthesis genes",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a 91 Kb region harboring a TonB/ExbBD membrane system and vitamin B6 synthesis genes (Results, p5)",
+      "mention_strain": "unspecified",
+      "strain": "unspecified",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "PL22 polysaccharide lyase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "only MIT1002 harbors a PUL encoding PL22 and PL26 polysaccharide lyases (Results, p6)",
+      "mention_strain": "Alteromonas macleodii MIT1002",
+      "strain": "Alteromonas macleodii MIT1002",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "PL26 polysaccharide lyase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "only MIT1002 harbors a PUL encoding PL22 and PL26 polysaccharide lyases (Results, p6)",
+      "mention_strain": "Alteromonas macleodii MIT1002",
+      "strain": "Alteromonas macleodii MIT1002",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "GH88 rhamnogalacturonyl hydrolase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "a GH88 rhamnogalacturonyl hydrolase and several rhamnose-processing genes (Results, p6)",
+      "mention_strain": "Alteromonas macleodii MIT1002",
+      "strain": "Alteromonas macleodii MIT1002",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "rhamnose-processing genes",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "a GH88 rhamnogalacturonyl hydrolase and several rhamnose-processing genes (Results, p6)",
+      "mention_strain": "Alteromonas macleodii MIT1002",
+      "strain": "Alteromonas macleodii MIT1002",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "GH85 mannosidases",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Strain AD45 harbors a unique PUL encoding GH85 and GH92 mannosidases (Results, p6)",
+      "mention_strain": "Alteromonas macleodii AD45",
+      "strain": "Alteromonas macleodii AD45",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "GH92 mannosidases",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Strain AD45 harbors a unique PUL encoding GH85 and GH92 mannosidases (Results, p6)",
+      "mention_strain": "Alteromonas macleodii AD45",
+      "strain": "Alteromonas macleodii AD45",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "sulfatases",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "strain AD45 does not encode sulfatases (Results, p6)",
+      "mention_strain": "Alteromonas macleodii AD45",
+      "strain": "Alteromonas macleodii AD45",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "PL1 pectate lyases",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "A. macleodii strains that encode three PL1 pectate lyases grow significantly better on pectin (Results, p6)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "N-acyl amino acid synthase",
+      "gene_name": "",
+      "identifiers": [
+        "02842",
+        "113090",
+        "112830"
+      ],
+      "prominence": "central",
+      "evidence": "Synthase sequences of 27126 T, HOT1A3 and MIT1002 contain different substitutions... synthase locus tags in parentheses (Fig. 5A, p6-7)",
+      "mention_strain": "unspecified",
+      "strain": "unspecified",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "siderophore synthesis gene cluster",
+      "gene_name": "",
+      "identifiers": [
+        "09710",
+        "09730",
+        "02048",
+        "02065"
+      ],
+      "prominence": "central",
+      "evidence": "only strains 27126 T, EC673 and Te101 harbor a gene cluster for siderophore synthesis... locus tags from type strain (Results, p6-7)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "petrobactin operon asbABCDE",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "The gene cluster is homologous to the petrobactin operon of Bacillus spp. (Results, p6)",
+      "mention_strain": "unspecified",
+      "strain": "unspecified",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "3-dehydroshikimate dehydratase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "homology of the siderophore-encoding cluster... with the petrobactin operon asbABCDE plus adjacent dehydroshikimate dehydratase DHS-D (Fig. 3B, p5)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "benzoate dioxygenases",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Gene cluster for benzoate degradation in strain EC673, encoding benzoate dioxygenases (Results, Fig. 3C, p5)",
+      "mention_strain": "unspecified",
+      "strain": "unspecified",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "catechol ortho-cleavage pathway",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Gene cluster for benzoate degradation in strain EC673, encoding... the catechol ortho-cleavage pathway (Fig. 3C, p5)",
+      "mention_strain": "unspecified",
+      "strain": "unspecified",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "transporters/regulators",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Gene cluster for benzoate degradation in strain EC673, encoding... transporters/regulators (Fig. 3C, p5)",
+      "mention_strain": "unspecified",
+      "strain": "unspecified",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "cobalt-zinc-cadmium resistance",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "MIT1002 harbors a nonfunctional cluster after insertion of gene cassettes for cobalt-zinc-cadmium and mercury resistance (Fig. 5B, p7)",
+      "mention_strain": "Alteromonas macleodii MIT1002",
+      "strain": "Alteromonas macleodii MIT1002",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "mercury resistance",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "MIT1002 harbors a nonfunctional cluster after insertion of gene cassettes for cobalt-zinc-cadmium and mercury resistance (Fig. 5B, p7)",
+      "mention_strain": "Alteromonas macleodii MIT1002",
+      "strain": "Alteromonas macleodii MIT1002",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "phenol metabolization",
+      "kegg_pathway_id_raw": "map00362",
+      "prominence": "central",
+      "evidence": "only MIT1002 harbors a gene cluster encoding the potential for phenol metabolization (Results, p3)",
+      "pathway_id": "ko00362",
+      "pathway_name": "benzoate degradation",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "toluene and xylene degradation",
+      "kegg_pathway_id_raw": "map00623",
+      "prominence": "central",
+      "evidence": "The plasmid of strain EZ55 harbors a unique 20 Kb insert, enabling aerobic degradation of the aromatic hydrocarbons toluene and xylene (Results, p3)",
+      "pathway_id": "ko00623",
+      "pathway_name": "toluene degradation",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "catechol meta-cleavage pathway",
+      "kegg_pathway_id_raw": "map00622",
+      "prominence": "central",
+      "evidence": "the upstream section including the catechol meta-cleavage pathway locus tags 04248\u201304260 (Results, p3)",
+      "pathway_id": "ko00622",
+      "pathway_name": "xylene degradation",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "rhamnogalacturonan degradation",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "allowing growth with rhamnogalacturonan as sole carbon source (Results, p6)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "alpha-mannan degradation",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "Strain AD45 harbors a unique PUL encoding GH85 and GH92 mannosidases and grows with alpha-mannan as sole carbon source (Results, p6)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "pectin degradation",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "strains that encode three PL1 pectate lyases grow significantly better on pectin (Results, p6)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "homoserine lactone biosynthesis",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "A. macleodii strains vary in their ability to synthesize homoserine lactones HSL for intraspecific communication (Results, p6)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "siderophore biosynthesis",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "only strains 27126 T, EC673 and Te101 harbor a gene cluster for siderophore synthesis with demonstrated iron-scavenging activity (Results, p6)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "vitamin B6 synthesis",
+      "kegg_pathway_id_raw": "map00750",
+      "prominence": "peripheral",
+      "evidence": "a 91 Kb region harboring a TonB/ExbBD membrane system and vitamin B6 synthesis genes (Results, p5)",
+      "pathway_id": "ko00750",
+      "pathway_name": "vitamin b6 metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "tryptophan biosynthesis",
+      "kegg_pathway_id_raw": "map00400",
+      "prominence": "peripheral",
+      "evidence": "may explain the differential regulation of tryptophan biosynthesis in Prochlorococcus when co-cultured (Results, p4)",
+      "pathway_id": "ko00400",
+      "pathway_name": "phenylalanine, tyrosine and tryptophan biosynthesis",
+      "resolution_method": "id"
+    }
+  ]
+}

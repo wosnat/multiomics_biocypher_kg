@@ -1,0 +1,24 @@
+Resolution report: Koch 2020 / unique_genes_831_table
+Source: 83-1_unique_genes.csv
+name_col: locus_tag
+id_columns: ['locus_tag']
+
+Total rows with IDs: 127
+Resolved: 117 (92.1%)
+Unresolved: 10
+
+Resolution method breakdown:
+  locus_tag_ci:locus_tag: 117
+  unresolved: 10
+
+Unresolved rows (10):
+  row 3: raw_id='Alt831_00085'  reason=unresolved  [locus_tag='Alt831_00085']
+  row 8: raw_id='Alt831_00092'  reason=unresolved  [locus_tag='Alt831_00092']
+  row 39: raw_id='Alt831_00704'  reason=unresolved  [locus_tag='Alt831_00704']
+  row 67: raw_id='Alt831_01930'  reason=unresolved  [locus_tag='Alt831_01930']
+  row 75: raw_id='Alt831_01942'  reason=unresolved  [locus_tag='Alt831_01942']
+  row 89: raw_id='Alt831_02203'  reason=unresolved  [locus_tag='Alt831_02203']
+  row 91: raw_id='Alt831_02237'  reason=unresolved  [locus_tag='Alt831_02237']
+  row 93: raw_id='Alt831_02826'  reason=unresolved  [locus_tag='Alt831_02826']
+  row 125: raw_id='Alt831_04100'  reason=unresolved  [locus_tag='Alt831_04100']
+  row 126: raw_id='Alt831_04227'  reason=unresolved  [locus_tag='Alt831_04227']

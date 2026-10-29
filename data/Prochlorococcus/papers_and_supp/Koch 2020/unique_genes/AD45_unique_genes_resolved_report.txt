@@ -1,0 +1,29 @@
+Resolution report: Koch 2020 / unique_genes_ad45_table
+Source: AD45_unique_genes.csv
+name_col: locus_tag
+id_columns: ['locus_tag']
+
+Total rows with IDs: 228
+Resolved: 213 (93.4%)
+Unresolved: 15
+
+Resolution method breakdown:
+  locus_tag:locus_tag: 213
+  unresolved: 15
+
+Unresolved rows (15):
+  row 0: raw_id='AMBAS45_00025'  reason=unresolved  [locus_tag='AMBAS45_00025']
+  row 34: raw_id='AMBAS45_04455'  reason=unresolved  [locus_tag='AMBAS45_04455']
+  row 55: raw_id='AMBAS45_06380'  reason=unresolved  [locus_tag='AMBAS45_06380']
+  row 68: raw_id='AMBAS45_06955'  reason=unresolved  [locus_tag='AMBAS45_06955']
+  row 70: raw_id='AMBAS45_07175'  reason=unresolved  [locus_tag='AMBAS45_07175']
+  row 72: raw_id='AMBAS45_07410'  reason=unresolved  [locus_tag='AMBAS45_07410']
+  row 92: raw_id='AMBAS45_07530'  reason=unresolved  [locus_tag='AMBAS45_07530']
+  row 100: raw_id='AMBAS45_10250'  reason=unresolved  [locus_tag='AMBAS45_10250']
+  row 103: raw_id='AMBAS45_10265'  reason=unresolved  [locus_tag='AMBAS45_10265']
+  row 108: raw_id='AMBAS45_10795'  reason=unresolved  [locus_tag='AMBAS45_10795']
+  row 112: raw_id='AMBAS45_10825'  reason=unresolved  [locus_tag='AMBAS45_10825']
+  row 117: raw_id='AMBAS45_10880'  reason=unresolved  [locus_tag='AMBAS45_10880']
+  row 155: raw_id='AMBAS45_16995'  reason=unresolved  [locus_tag='AMBAS45_16995']
+  row 163: raw_id='AMBAS45_17270'  reason=unresolved  [locus_tag='AMBAS45_17270']
+  row 179: raw_id='AMBAS45_19921'  reason=unresolved  [locus_tag='AMBAS45_19921']

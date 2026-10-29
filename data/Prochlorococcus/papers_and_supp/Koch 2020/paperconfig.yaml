@@ -1,0 +1,119 @@
+# Koch 2020 (Sci Rep) — pangenome / exometabolome / biogeography of 12 Alteromonas macleodii strains.
+# Integrated: Table S7, genes unique to one strain among the 12 genomes, as a boolean DerivedMetric on a
+# BIOINFORMATIC genomic_analysis experiment per KG strain (Ford 2021 pattern). CSVs are built by
+# scripts/build_modified_csv/build_koch2020_unique_genes.py.
+# Not integrated:
+#   - Table S3 (MIT1002 24 h / 48 h vs 12 h in coculture with Prochlorococcus NATL2A): a filtered
+#     re-analysis of the Biller 2016 transcriptome, which the KG already carries as Biller 2016 edges.
+#   - Table S2 pangenome (anvio gene_callers_id — no locus tags), FT-ICR-MS exometabolome (formulas only,
+#     no compound identity — backlog), qPCR primers, TARA biogeography.
+#   - Table S7 rows for EZ55 (altEZ55_) and HOT1A3 (IMG Ga0125132_): not resolvable in our mappings;
+#     D7, EC673, Te101: not KG strains.
+publication:
+  papername: "Koch 2020"
+  doi: "10.1038/s41598-020-57526-5"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Koch 2020/s41598-020-57526-5.pdf"
+
+  experiments:
+    unique_genes_mit1002:
+      name: "Alteromonas MIT1002 strain-unique genes among 12 A. macleodii genomes (Koch 2020)"
+      organism: "Alteromonas macleodii MIT1002"
+      omics_type: BIOINFORMATIC
+      treatment_type: [genomic_analysis]
+      background_factors: []   # computed from genome comparison: no sample, no culture
+      treatment_condition: "Pangenome comparison of 12 Alteromonas macleodii genomes (anvio); genes present only in this strain (no experimental treatment)"
+      experimental_context: "219 strain-unique genes listed in Koch 2020 Table S7 with their closest non-A. macleodii BLAST relative."
+    unique_genes_831:
+      name: "Alteromonas 83-1 strain-unique genes among 12 A. macleodii genomes (Koch 2020)"
+      organism: "Alteromonas macleodii 83-1"
+      omics_type: BIOINFORMATIC
+      treatment_type: [genomic_analysis]
+      background_factors: []   # computed from genome comparison: no sample, no culture
+      treatment_condition: "Pangenome comparison of 12 Alteromonas macleodii genomes (anvio); genes present only in this strain (no experimental treatment)"
+      experimental_context: "127 strain-unique genes listed in Koch 2020 Table S7 with their closest non-A. macleodii BLAST relative. The paper lists 83-1 and BGP6 together (clonal, 99.99998% ANI); attached to 83-1 by its Alt831_ locus tags."
+    unique_genes_ad45:
+      name: "Alteromonas AD45 strain-unique genes among 12 A. macleodii genomes (Koch 2020)"
+      organism: "Alteromonas macleodii AD45"
+      omics_type: BIOINFORMATIC
+      treatment_type: [genomic_analysis]
+      background_factors: []   # computed from genome comparison: no sample, no culture
+      treatment_condition: "Pangenome comparison of 12 Alteromonas macleodii genomes (anvio); genes present only in this strain (no experimental treatment)"
+      experimental_context: "228 strain-unique genes listed in Koch 2020 Table S7 with their closest non-A. macleodii BLAST relative."
+    unique_genes_atcc27126:
+      name: "Alteromonas ATCC27126 strain-unique genes among 12 A. macleodii genomes (Koch 2020)"
+      organism: "Alteromonas macleodii ATCC27126"
+      omics_type: BIOINFORMATIC
+      treatment_type: [genomic_analysis]
+      background_factors: []   # computed from genome comparison: no sample, no culture
+      treatment_condition: "Pangenome comparison of 12 Alteromonas macleodii genomes (anvio); genes present only in this strain (no experimental treatment)"
+      experimental_context: "115 strain-unique genes listed in Koch 2020 Table S7 with their closest non-A. macleodii BLAST relative."
+
+  supplementary_materials:
+    unique_genes_mit1002_table:
+      type: derived_metrics_table
+      filename: "data/Prochlorococcus/papers_and_supp/Koch 2020/unique_genes/MIT1002_unique_genes.csv"
+      organism: "Alteromonas macleodii MIT1002"
+      experiment: unique_genes_mit1002
+      name_col: "locus_tag"
+      id_columns:
+        - column: "locus_tag"
+          id_type: locus_tag
+      metrics:
+        - metric_type: strain_unique_gene_koch2020
+          name: "Strain-unique gene among 12 A. macleodii genomes (Koch 2020)"
+          value_kind: boolean
+          value_col: strain_unique
+          true_tokens: ["yes"]
+          blank_policy: skip
+          field_description: "Flagged when Koch 2020 Table S7 lists the gene as present in this strain and absent from the other 11 Alteromonas macleodii genomes of its pangenome (anvio). Genes not in the list carry no edge. Uniqueness is relative to those 12 genomes only."
+    unique_genes_831_table:
+      type: derived_metrics_table
+      filename: "data/Prochlorococcus/papers_and_supp/Koch 2020/unique_genes/83-1_unique_genes.csv"
+      organism: "Alteromonas macleodii 83-1"
+      experiment: unique_genes_831
+      name_col: "locus_tag"
+      id_columns:
+        - column: "locus_tag"
+          id_type: old_locus_tag
+      metrics:
+        - metric_type: strain_unique_gene_koch2020
+          name: "Strain-unique gene among 12 A. macleodii genomes (Koch 2020)"
+          value_kind: boolean
+          value_col: strain_unique
+          true_tokens: ["yes"]
+          blank_policy: skip
+          field_description: "Flagged when Koch 2020 Table S7 lists the gene as present in this strain and absent from the other 11 Alteromonas macleodii genomes of its pangenome (anvio). Genes not in the list carry no edge. Uniqueness is relative to those 12 genomes only."
+    unique_genes_ad45_table:
+      type: derived_metrics_table
+      filename: "data/Prochlorococcus/papers_and_supp/Koch 2020/unique_genes/AD45_unique_genes.csv"
+      organism: "Alteromonas macleodii AD45"
+      experiment: unique_genes_ad45
+      name_col: "locus_tag"
+      id_columns:
+        - column: "locus_tag"
+          id_type: old_locus_tag
+      metrics:
+        - metric_type: strain_unique_gene_koch2020
+          name: "Strain-unique gene among 12 A. macleodii genomes (Koch 2020)"
+          value_kind: boolean
+          value_col: strain_unique
+          true_tokens: ["yes"]
+          blank_policy: skip
+          field_description: "Flagged when Koch 2020 Table S7 lists the gene as present in this strain and absent from the other 11 Alteromonas macleodii genomes of its pangenome (anvio). Genes not in the list carry no edge. Uniqueness is relative to those 12 genomes only."
+    unique_genes_atcc27126_table:
+      type: derived_metrics_table
+      filename: "data/Prochlorococcus/papers_and_supp/Koch 2020/unique_genes/ATCC27126_unique_genes.csv"
+      organism: "Alteromonas macleodii ATCC27126"
+      experiment: unique_genes_atcc27126
+      name_col: "locus_tag"
+      id_columns:
+        - column: "locus_tag"
+          id_type: old_locus_tag
+      metrics:
+        - metric_type: strain_unique_gene_koch2020
+          name: "Strain-unique gene among 12 A. macleodii genomes (Koch 2020)"
+          value_kind: boolean
+          value_col: strain_unique
+          true_tokens: ["yes"]
+          blank_policy: skip
+          field_description: "Flagged when Koch 2020 Table S7 lists the gene as present in this strain and absent from the other 11 Alteromonas macleodii genomes of its pangenome (anvio). Genes not in the list carry no edge. Uniqueness is relative to those 12 genomes only."
