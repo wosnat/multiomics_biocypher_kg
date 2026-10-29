@@ -1,0 +1,60 @@
+# Rubin et al. 2015 PNAS — "The essential gene set of a photosynthetic organism".
+# RB-TnSeq library of ~250K barcoded Tn5 mutants in S. elongatus PCC 7942 (AMC06).
+# No DE: one characterization experiment (treatment_type [essentiality]) carrying the
+# paper's per-gene essentiality call (Dataset S3) as a categorical derived metric.
+# CSV built by scripts/build_modified_csv/build_rubin2015_essentiality.py.
+# Deliberately NOT wired: sd01/sd02 (raw insertion positions + barcodes), sd04 (ncRNA
+# essentiality, no gene nodes), sd05 (upstream regulatory-region essentiality, not genes),
+# sd06 (essential intergenic regions). Dataset S3 carries no per-gene numeric fitness.
+publication:
+  papername: "Rubin 2015"
+  doi: "10.1073/pnas.1519220112"
+  papermainpdf: "data/Synechococcus/papers_and_supp/Rubin 2015/rubin-et-al-2015-the-essential-gene-set-of-a-photosynthetic-organism.pdf"
+
+  experiments:
+    rbtnseq_essentiality_pcc7942:
+      name: "S. elongatus PCC 7942 genome-wide gene essentiality by RB-TnSeq (Rubin 2015)"
+      organism: "Synechococcus elongatus PCC 7942"
+      # Tn-seq (insertion mapping) + BarSeq (barcode counting) are DNA-sequencing readouts.
+      omics_type: DNASEQ
+      treatment_type: [essentiality]
+      background_factors: [axenic, light]
+      treatment_condition: "Pooled barcoded Tn5 transposon mutant library (246,913 unique insertions); essentiality from insertion-index HMM, refined by mutant fitness after ~6 generations of outgrowth"
+      experimental_context: "Axenic S. elongatus PCC 7942 (AMC06) in BG-11 + kanamycin at 30C under continuous light; insertion index called essential (log2 likelihood ratio < -2) or nonessential (> 2) on the library right after construction; fitness averaged over four standard lab outgrowths (solid BG-11 116 umol, liquid 199 umol, liquid 60 umol, ePBR photobioreactor 500 umol photons m-2 s-1; 6-8 generations); beneficial = fitness <= -1.32 (P < 0.01, FDR < 0.1, t test)."
+      medium: "BG-11 with kanamycin"
+      temperature: "30C"
+      light_condition: "continuous light"
+      light_intensity: "60-500 umol photons m-2 s-1 (four outgrowth conditions)"
+      table_scope: all_detected_genes
+      table_scope_detail: "All 2,723 annotated protein-coding genes (chromosome + pANS + pANL); 25 paralogs not_analyzed."
+
+  supplementary_materials:
+    sd03_gene_essentiality:
+      type: derived_metrics_table
+      filename: "data/Synechococcus/papers_and_supp/Rubin 2015/rubin2015_essentiality.csv"
+      organism: "Synechococcus elongatus PCC 7942"
+      experiment: rbtnseq_essentiality_pcc7942
+      name_col: locus_tag_7942
+      id_columns:
+        - column: locus_tag_7942
+          id_type: old_locus_tag       # Synpcc7942_NNNN (GCF_000012525 annotation)
+        - column: refseq_locus_tag
+          id_type: locus_tag_ncbi      # SYNPCC7942_RS*
+        - column: jgi_id
+          id_type: jgi_id
+        # gene_name deliberately NOT an id column: sd03 lists chlP on Synpcc7942_0306
+        # ("hypothetical protein") as well as on the real chlP (Synpcc7942_0385).
+      product_columns:
+        - column: description
+      metrics:
+        - metric_type: gene_essentiality
+          name: "Gene essentiality class, RB-TnSeq (Rubin 2015 Dataset S3)"
+          value_kind: categorical
+          value_col: essentiality
+          allowed_categories:
+            - "essential"
+            - "beneficial"
+            - "non_essential"
+            - "ambiguous"
+            - "not_analyzed"
+          field_description: "Per-gene essentiality from a barcoded Tn5 library under standard lab conditions (continuous light, BG-11, 30C). essential = lethal when mutated (insertion-index log2 likelihood ratio < -2); beneficial = viable mutants with a growth defect (mean outgrowth fitness <= -1.32, P < 0.01, FDR < 0.1); non_essential = no defect detected; ambiguous = between likelihood cut-offs or essential call unsupported by outgrowth fitness; not_analyzed = reads not uniquely mappable (psbA, psbD, cpc paralogs). Calls apply to standard laboratory growth only."

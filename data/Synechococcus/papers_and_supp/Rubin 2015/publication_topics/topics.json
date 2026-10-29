@@ -1,0 +1,475 @@
+{
+  "metadata": {
+    "paper": "Rubin 2015",
+    "doi": "10.1073/pnas.1519220112",
+    "strains": [
+      "Synechococcus elongatus PCC 7942"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supplementary datasets and tables are referenced repeatedly Dataset S3-S6, Table S2-S3 and likely print additional locus identifiers not fully visible in the main text.",
+    "extracted_at": "2026-10-28T23:46:51.605496",
+    "input_tokens": 32385,
+    "output_tokens": 4466
+  },
+  "genes": [
+    {
+      "surface_form": "tRNALeu",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "group I intron located in tRNALeu ... was shown here to be essential for the survival of S. elongatus (Abstract, p1)"
+    },
+    {
+      "surface_form": "tal",
+      "gene_name": "tal",
+      "identifiers": [
+        "SynPCC7942_2297"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "transaldolase tal SynPCC7942_2297 acts in the nonoxidative phase ... we regenerated an insertion mutant ... not required (Results, p4)"
+    },
+    {
+      "surface_form": "pgl",
+      "gene_name": "pgl",
+      "identifiers": [
+        "SynPCC7942_0529"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "three disagreements ... 6-phosphogluconolactonase pgl SynPCC7942_0529 (Results, p4)"
+    },
+    {
+      "surface_form": "zwf",
+      "gene_name": "zwf",
+      "identifiers": [
+        "SynPCC7942_2334"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "glucose-6-phosphate 1-dehydrogenase zwf SynPCC7942_2334 ... both zwf and gnd mutants are viable (Results, p4)"
+    },
+    {
+      "surface_form": "gnd",
+      "gene_name": "gnd",
+      "identifiers": [
+        "SynPCC7942_0039"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "6-phosphogluconate dehydrogenase gnd SynPCC7942_0039 ... both zwf and gnd mutants are viable (Results, p4)"
+    },
+    {
+      "surface_form": "fumC",
+      "gene_name": "fumC",
+      "identifiers": [
+        "SynPCC7942_1007"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "The only other nonredundant member ... not essential is fumarate hydratase fumC SynPCC7942_1007 (Results, p4)"
+    },
+    {
+      "surface_form": "sdhB",
+      "gene_name": "sdhB",
+      "identifiers": [
+        "SynPCC7942_1533"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "the nonconserved enzyme directly upstream of fumC, succinate dehydrogenase sdhB SynPCC7942_1533, is also nonessential (Results, p4)"
+    },
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [
+        "SynPCC7942_0424",
+        "SynPCC7942_0893",
+        "SynPCC7942_1389"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "paralogous psbA SynPCC7942_0424, SynPCC7942_0893, and SynPCC7942_1389 genes complicated transposon mapping (Results, p4)"
+    },
+    {
+      "surface_form": "psbD",
+      "gene_name": "psbD",
+      "identifiers": [
+        "SynPCC7942_0655",
+        "SynPCC7942_1637"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "paralogous psbD SynPCC7942_0655 and SynPCC7942_1637 genes complicated transposon mapping (Results, p4)"
+    },
+    {
+      "surface_form": "psbE",
+      "gene_name": "psbE",
+      "identifiers": [
+        "SynPCC7942_1177"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "psbE SynPCC7942_1177 and psbF SynPCC7942_1176 ... were all classified as essential (Results, p5)"
+    },
+    {
+      "surface_form": "psbF",
+      "gene_name": "psbF",
+      "identifiers": [
+        "SynPCC7942_1176"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "psbE SynPCC7942_1177 and psbF SynPCC7942_1176 ... were all classified as essential (Results, p5)"
+    },
+    {
+      "surface_form": "psbB",
+      "gene_name": "psbB",
+      "identifiers": [
+        "SynPCC7942_0697"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "the internal antenna proteins, psbB SynPCC7942_0697 and psbC SynPCC7942_0656 ... were all classified as essential (Results, p5)"
+    },
+    {
+      "surface_form": "psbC",
+      "gene_name": "psbC",
+      "identifiers": [
+        "SynPCC7942_0656"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "the internal antenna proteins, psbB SynPCC7942_0697 and psbC SynPCC7942_0656 ... were all classified as essential (Results, p5)"
+    },
+    {
+      "surface_form": "psbH",
+      "gene_name": "psbH",
+      "identifiers": [
+        "SynPCC7942_0225"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "peripheral",
+      "evidence": "only 4 psbH SynPCC7942_0225, psbM SynPCC7942_0699, psbL SynPCC7942_1175, and psbV SynPCC7942_2010 were classified as essential (Results, p5)"
+    },
+    {
+      "surface_form": "psbM",
+      "gene_name": "psbM",
+      "identifiers": [
+        "synPCC7942_0699"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "peripheral",
+      "evidence": "only 4 psbH SynPCC7942_0225, psbM synPCC7942_0699, psbL SynPCC7942_1175, and psbV SynPCC7942_2010 were classified as essential (Results, p5)"
+    },
+    {
+      "surface_form": "psbL",
+      "gene_name": "psbL",
+      "identifiers": [
+        "SynPCC7942_1175"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "peripheral",
+      "evidence": "only 4 psbH SynPCC7942_0225, psbM synPCC7942_0699, psbL SynPCC7942_1175, and psbV SynPCC7942_2010 were classified as essential (Results, p5)"
+    },
+    {
+      "surface_form": "psbV",
+      "gene_name": "psbV",
+      "identifiers": [
+        "SynPCC7942_2010"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "peripheral",
+      "evidence": "only 4 psbH SynPCC7942_0225, psbM synPCC7942_0699, psbL SynPCC7942_1175, and psbV SynPCC7942_2010 were classified as essential (Results, p5)"
+    },
+    {
+      "surface_form": "petA",
+      "gene_name": "petA",
+      "identifiers": [
+        "SynPCC7942_1231"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "petA SynPCC7942_1231, petB SynPCC7942_2331, petC SynPCC7942_1232, and petD SynPCC7942_2332 were all called as essential (Results, p5)"
+    },
+    {
+      "surface_form": "petB",
+      "gene_name": "petB",
+      "identifiers": [
+        "SynPCC7942_2331"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "petA SynPCC7942_1231, petB SynPCC7942_2331, petC SynPCC7942_1232, and petD SynPCC7942_2332 were all called as essential (Results, p5)"
+    },
+    {
+      "surface_form": "petC",
+      "gene_name": "petC",
+      "identifiers": [
+        "SynPCC7942_1232"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "petA SynPCC7942_1231, petB SynPCC7942_2331, petC SynPCC7942_1232, and petD SynPCC7942_2332 were all called as essential (Results, p5)"
+    },
+    {
+      "surface_form": "petD",
+      "gene_name": "petD",
+      "identifiers": [
+        "SynPCC7942_2332"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "petA SynPCC7942_1231, petB SynPCC7942_2331, petC SynPCC7942_1232, and petD SynPCC7942_2332 were all called as essential (Results, p5)"
+    },
+    {
+      "surface_form": "petG",
+      "gene_name": "petG",
+      "identifiers": [
+        "SynPCC7942_1479"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "peripheral",
+      "evidence": "the smaller subunits petG SynPCC7942_1479 and petN SynPCC7942_0475 were classified as essential (Results, p5)"
+    },
+    {
+      "surface_form": "petN",
+      "gene_name": "petN",
+      "identifiers": [
+        "SynPCC7942_0475"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "peripheral",
+      "evidence": "the smaller subunits petG SynPCC7942_1479 and petN SynPCC7942_0475 were classified as essential (Results, p5)"
+    },
+    {
+      "surface_form": "petM",
+      "gene_name": "petM",
+      "identifiers": [
+        "SynPCC7942_2426"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "peripheral",
+      "evidence": "whereas petM SynPCC7942_2426 was ambiguous (Results, p5)"
+    },
+    {
+      "surface_form": "psaA",
+      "gene_name": "psaA",
+      "identifiers": [
+        "SynPCC7942_2049"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "In photosystem I, the core genes, psaA SynPCC7942_2049 and psaB SynPCC7942_2048, were classified as essential (Results, p5)"
+    },
+    {
+      "surface_form": "psaB",
+      "gene_name": "psaB",
+      "identifiers": [
+        "SynPCC7942_2048"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "In photosystem I, the core genes, psaA SynPCC7942_2049 and psaB SynPCC7942_2048, were classified as essential (Results, p5)"
+    },
+    {
+      "surface_form": "psaC",
+      "gene_name": "psaC",
+      "identifiers": [
+        "SynPCC7942_0535"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "peripheral",
+      "evidence": "two of three proteins that make the docking site for ferredoxin: psaC SynPCC7942_0535 and psaD SynPCC7942_1002 (Results, p5)"
+    },
+    {
+      "surface_form": "psaD",
+      "gene_name": "psaD",
+      "identifiers": [
+        "SynPCC7942_1002"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "peripheral",
+      "evidence": "two of three proteins that make the docking site for ferredoxin: psaC SynPCC7942_0535 and psaD SynPCC7942_1002 (Results, p5)"
+    },
+    {
+      "surface_form": "psaJ",
+      "gene_name": "psaJ",
+      "identifiers": [
+        "SynPCC7942_1249"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "peripheral",
+      "evidence": "Only one of five remaining supporting genes, psaJ SynPCC7942_1249, was called as essential (Results, p5)"
+    },
+    {
+      "surface_form": "ssrA",
+      "gene_name": "ssrA",
+      "identifiers": [
+        "SynPCC7942_R0017"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "widely conserved ncRNAs are ssrA SynPCC7942_R0017 ... We classified all three of these ncRNAs as essential (Results, p5)"
+    },
+    {
+      "surface_form": "rnpB",
+      "gene_name": "rnpB",
+      "identifiers": [
+        "SynPCC7942_R0036"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "rnpB SynPCC7942_R0036 ... We classified all three of these ncRNAs as essential in S. elongatus (Results, p5)"
+    },
+    {
+      "surface_form": "ffs",
+      "gene_name": "ffs",
+      "identifiers": [
+        "SynPCC7942_R0047"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "ffs SynPCC7942_R0047 ... We classified all three of these ncRNAs as essential in S. elongatus (Results, p5)"
+    },
+    {
+      "surface_form": "ncRNA136",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "One of the likely essential ncRNAs, ncRNA136, was identified as a putative group I intron (Results, p6)"
+    },
+    {
+      "surface_form": "SynPCC7942_0413",
+      "gene_name": "",
+      "identifiers": [
+        "SynPCC7942_0413"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "peripheral",
+      "evidence": "successful generation of mutants for both surrounding genes ... SynPCC7942_0413 (Fig. 5C, Results, p6)"
+    },
+    {
+      "surface_form": "SynPCC7942_0414",
+      "gene_name": "",
+      "identifiers": [
+        "SynPCC7942_0414"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "peripheral",
+      "evidence": "successful generation of mutants for both surrounding genes ... SynPCC7942_0414 (Fig. 5C, Results, p6)"
+    },
+    {
+      "surface_form": "acnB",
+      "gene_name": "acnB",
+      "identifiers": [
+        "SynPCC7942_0903"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "For enzymes that are present in S. elongatus, their names are shown: acnB SynPCC7942_0903 (Fig. 4D, Results, p5)"
+    },
+    {
+      "surface_form": "icd",
+      "gene_name": "icd",
+      "identifiers": [
+        "SynPCC7942_1719"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "For enzymes that are present in S. elongatus, their names are shown: ... icd SynPCC7942_1719 (Fig. 4D, Results, p5)"
+    },
+    {
+      "surface_form": "gltA",
+      "gene_name": "gltA",
+      "identifiers": [
+        "SynPCC7942_0612"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "For enzymes that are present in S. elongatus, their names are shown: ... gltA SynPCC7942_0612 (Fig. 4D, Results, p5)"
+    },
+    {
+      "surface_form": "maeA",
+      "gene_name": "maeA",
+      "identifiers": [
+        "SynPCC7942_1297"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "For enzymes that are present in S. elongatus, their names are shown: ... maeA SynPCC7942_1297 (Fig. 4D, Results, p5)"
+    },
+    {
+      "surface_form": "ppc",
+      "gene_name": "ppc",
+      "identifiers": [
+        "SynPCC7942_2252"
+      ],
+      "strain": "Synechococcus elongatus PCC 7942",
+      "prominence": "central",
+      "evidence": "phosphoenolpyruvate carboxylase ppc SynPCC7942_2252, shown here to be essential (Discussion, p7)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "TCA cycle",
+      "kegg_pathway_id": "map00020",
+      "prominence": "central",
+      "evidence": "genes in a large portion of the TCA cycle are dispensable, suggesting that S. elongatus does not require a cyclic TCA process (Abstract, p1)"
+    },
+    {
+      "surface_form": "pentose phosphate pathway",
+      "kegg_pathway_id": "map00030",
+      "prominence": "central",
+      "evidence": "We first examined genes in the following pathways ... the pentose phosphate pathway (Results, p4)"
+    },
+    {
+      "surface_form": "glycolysis",
+      "kegg_pathway_id": "map00010",
+      "prominence": "central",
+      "evidence": "We first examined genes in the following pathways ... glycolysis (Results, p4)"
+    },
+    {
+      "surface_form": "Calvin-Benson cycle",
+      "kegg_pathway_id": "map00710",
+      "prominence": "central",
+      "evidence": "We first examined genes in the following pathways ... the Calvin-Benson cycle (Results, p4)"
+    },
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id": "map00195",
+      "prominence": "central",
+      "evidence": "Because S. elongatus serves as a model for photosynthesis, we examined the essentiality of some of the central components (Results, p4)"
+    },
+    {
+      "surface_form": "2-oxoglutarate decarboxylase pathway",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "More recent research, however, has closed the cyanobacterial TCA cycle with ... the 2-oxoglutarate decarboxylase pathway (Discussion, p7)"
+    },
+    {
+      "surface_form": "GABA shunt",
+      "kegg_pathway_id": "map00410",
+      "prominence": "peripheral",
+      "evidence": "closed the cyanobacterial TCA cycle with ... the GABA shunt (Discussion, p7)"
+    },
+    {
+      "surface_form": "glyoxylate cycle",
+      "kegg_pathway_id": "map00630",
+      "prominence": "peripheral",
+      "evidence": "closed the cyanobacterial TCA cycle with ... the glyoxylate cycle (Discussion, p7)"
+    },
+    {
+      "surface_form": "heme biosynthesis",
+      "kegg_pathway_id": "map00860",
+      "prominence": "peripheral",
+      "evidence": "the succinyl-CoA-independent pathway for heme biosynthesis in photosynthetic organisms (Discussion, p7)"
+    }
+  ]
+}

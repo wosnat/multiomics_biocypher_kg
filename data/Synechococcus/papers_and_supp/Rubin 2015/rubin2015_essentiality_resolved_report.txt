@@ -1,0 +1,37 @@
+Resolution report: Rubin 2015 / sd03_gene_essentiality
+Source: rubin2015_essentiality.csv
+name_col: locus_tag_7942
+id_columns: ['locus_tag_7942', 'refseq_locus_tag', 'jgi_id']
+
+Total rows with IDs: 2723
+Resolved: 2601 (95.5%)
+Unresolved: 122
+
+Resolution method breakdown:
+  multi:locus_tag_7942: 5
+  tier1:locus_tag_7942: 2592
+  tier1:refseq_locus_tag: 4
+  unresolved: 122
+
+Unresolved rows (122):
+  row 33: raw_id='Synpcc7942_0034'  reason=unresolved  [locus_tag_7942='Synpcc7942_0034', jgi_id='637798439.0']
+  row 54: raw_id='Synpcc7942_0055'  reason=unresolved  [locus_tag_7942='Synpcc7942_0055', refseq_locus_tag='SYNPCC7942_RS00275', jgi_id='637798461.0']
+  row 59: raw_id='Synpcc7942_0060'  reason=unresolved  [locus_tag_7942='Synpcc7942_0060', refseq_locus_tag='SYNPCC7942_RS00300', jgi_id='637798466.0']
+  row 102: raw_id='Synpcc7942_0103'  reason=unresolved  [locus_tag_7942='Synpcc7942_0103', refseq_locus_tag='SYNPCC7942_RS00525', jgi_id='637798509.0']
+  row 122: raw_id='Synpcc7942_0123'  reason=unresolved  [locus_tag_7942='Synpcc7942_0123', jgi_id='637798529.0']
+  row 139: raw_id='Synpcc7942_0140'  reason=unresolved  [locus_tag_7942='Synpcc7942_0140', refseq_locus_tag='SYNPCC7942_RS00710', jgi_id='637798546.0']
+  row 305: raw_id='Synpcc7942_0306'  reason=unresolved  [locus_tag_7942='Synpcc7942_0306', jgi_id='637798712.0']
+  row 600: raw_id='Synpcc7942_0601'  reason=unresolved  [locus_tag_7942='Synpcc7942_0601', refseq_locus_tag='SYNPCC7942_RS03085', jgi_id='637799012.0']
+  row 606: raw_id='Synpcc7942_0607'  reason=unresolved  [locus_tag_7942='Synpcc7942_0607', refseq_locus_tag='SYNPCC7942_RS03115', jgi_id='637799018.0']
+  row 654: raw_id='Synpcc7942_0655'  reason=unresolved  [locus_tag_7942='Synpcc7942_0655', refseq_locus_tag='SYNPCC7942_RS03355', jgi_id='637799067.0']
+  row 719: raw_id='Synpcc7942_0720'  reason=unresolved  [locus_tag_7942='Synpcc7942_0720', refseq_locus_tag='SYNPCC7942_RS03715', jgi_id='637799133.0']
+  row 722: raw_id='Synpcc7942_0723'  reason=unresolved  [locus_tag_7942='Synpcc7942_0723', refseq_locus_tag='SYNPCC7942_RS03740', jgi_id='637799136.0']
+  row 753: raw_id='Synpcc7942_0754'  reason=unresolved  [locus_tag_7942='Synpcc7942_0754', refseq_locus_tag='SYNPCC7942_RS03905', jgi_id='637799169.0']
+  row 763: raw_id='Synpcc7942_0764'  reason=unresolved  [locus_tag_7942='Synpcc7942_0764', refseq_locus_tag='SYNPCC7942_RS03960', jgi_id='637799179.0']
+  row 843: raw_id='Synpcc7942_0845'  reason=unresolved  [locus_tag_7942='Synpcc7942_0845', jgi_id='637799261.0']
+  row 860: raw_id='Synpcc7942_0863'  reason=unresolved  [locus_tag_7942='Synpcc7942_0863', refseq_locus_tag='SYNPCC7942_RS04450', jgi_id='637799279.0']
+  row 890: raw_id='Synpcc7942_0893'  reason=unresolved  [locus_tag_7942='Synpcc7942_0893', refseq_locus_tag='SYNPCC7942_RS04600', jgi_id='637799310.0']
+  row 915: raw_id='Synpcc7942_0918'  reason=unresolved  [locus_tag_7942='Synpcc7942_0918', refseq_locus_tag='SYNPCC7942_RS04725', jgi_id='637799335.0']
+  row 970: raw_id='Synpcc7942_0973'  reason=unresolved  [locus_tag_7942='Synpcc7942_0973', jgi_id='637799392.0']
+  row 971: raw_id='Synpcc7942_0974'  reason=unresolved  [locus_tag_7942='Synpcc7942_0974', jgi_id='637799393.0']
+  ... (102 more)
