@@ -1,0 +1,113 @@
+{
+  "metadata": {
+    "paper": "Ferrer 2020",
+    "doi": "10.1038/s41396-020-00811-y",
+    "strains": [
+      "Ruegeria pomeroyi DSS-3",
+      "Thalassiosira pseudonana"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Most printed identifiers appear to be in Supplementary Tables S5-S7 and genome accessions; the prose here gives almost no locus tags or gene IDs.",
+    "extracted_at": "2026-10-28T23:48:06.566697",
+    "input_tokens": 18579,
+    "output_tokens": 1010
+  },
+  "genes": [
+    {
+      "surface_form": "dmdA",
+      "gene_name": "dmdA",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "enrichment of transcripts for functionally verified genes dmdA (DMSP demethylase) and acuI (Results, p5)"
+    },
+    {
+      "surface_form": "acuI",
+      "gene_name": "acuI",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "enrichment of transcripts for functionally verified genes dmdA (DMSP demethylase) and acuI (acrylyl-CoA reductase) (Results, p5)"
+    },
+    {
+      "surface_form": "nagA",
+      "gene_name": "nagA",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "central",
+      "evidence": "several GlcNAc catabolic enzymes (such as nagA) (Stenotrophomonas results, p7)"
+    },
+    {
+      "surface_form": "AgaP",
+      "gene_name": "AgaP",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "an MFS transporter that brings N-acetyl-D-galactosamine through the inner membrane (AgaP) (Stenotrophomonas results, p7)"
+    },
+    {
+      "surface_form": "AgaY",
+      "gene_name": "AgaY",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "a tagatose-biphosphate aldolase (AgaY) that carries out the final step in N-acetyl-D-galactosamine catabolism (Stenotrophomonas results, p7)"
+    },
+    {
+      "surface_form": "NupC",
+      "gene_name": "NupC",
+      "identifiers": [],
+      "strain": "Stenotrophomonas sp. SKA14",
+      "prominence": "peripheral",
+      "evidence": "Transporters for purines (MFS transporter) and nucleosides (NupC) were upregulated in co-culture (Results, p6)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "DMSP demethylation",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "dmdA (DMSP demethylase) and acuI (acrylyl-CoA reductase) suggested uptake of this organic sulfur metabolite (Results, p5)"
+    },
+    {
+      "surface_form": "N-acetyl-D-glucosamine catabolism",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "a likely N-acetyl-D-glucosamine (GlcNAc) PUL containing... several GlcNAc catabolic enzymes (such as nagA) (Results, p7)"
+    },
+    {
+      "surface_form": "N-acetyl-D-galactosamine catabolism",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "homologous to an operon in Stenotrophomonas maltophilia K279a verified experimentally to catabolize N-acetyl-D-galactosamine (Results, p7)"
+    },
+    {
+      "surface_form": "beta-D-glucan degradation",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "a likely 1,3/1,4-beta-D-glucan PUL contains an upregulated exo 1,3/1,4-beta-D-glucan glucohydrolase (Results, p7)"
+    },
+    {
+      "surface_form": "chrysolaminarin degradation",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "PUL2 ... is predicted to degrade chrysolaminarin, a glucose storage glucan synthesized by diatoms (Results, p8)"
+    },
+    {
+      "surface_form": "alginate catabolism",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "we predict they target glycans containing guluronic acid and mannuronic acid, the two primary monomers of alginate (Results, p8)"
+    },
+    {
+      "surface_form": "chitin oligosaccharide utilization",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "we predict it transports and catabolizes GlcNAc in the form of chitin monomers or oligomers (Results, p8)"
+    }
+  ]
+}
