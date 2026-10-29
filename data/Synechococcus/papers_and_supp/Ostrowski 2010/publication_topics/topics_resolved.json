@@ -1,0 +1,787 @@
+{
+  "metadata": {
+    "paper": "Ostrowski 2010",
+    "doi": "10.1038/ismej.2010.24",
+    "strains": [
+      "Synechococcus WH8102"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Many additional printed SYNW locus tags appear in Tables 1 and 2 and figure annotations for genes discussed as clusters; not all were extracted because many were only listed in tables without substantive narrative discussion.",
+    "extracted_at": "2026-10-28T23:48:59.735461",
+    "input_tokens": 26147,
+    "output_tokens": 3408,
+    "resolution": {
+      "gene_records": 49,
+      "genes_resolved": 44,
+      "gene_methods": {
+        "locus_tag:v": 34,
+        "multi:v": 10,
+        "unresolved": 5
+      },
+      "pathway_records": 7,
+      "pathways_resolved": 5,
+      "pathway_methods": {
+        "unresolved": 2,
+        "id": 5
+      },
+      "paper_strains": [
+        "Synechococcus WH8102"
+      ],
+      "captured_identifiers": 34,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "lookup_miss": 5
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "PhoBR",
+      "gene_name": "phoBR",
+      "identifiers": [
+        "SYNW0947",
+        "SYNW0948"
+      ],
+      "prominence": "central",
+      "evidence": "Previous microarray analyses have shown a key role for the two-component system PhoBR (SYNW0947, SYNW0948) (Abstract, p1)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0947",
+      "resolved_from": "SYNW0947",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PhoBR",
+      "gene_name": "phoBR",
+      "identifiers": [
+        "SYNW0947",
+        "SYNW0948"
+      ],
+      "prominence": "central",
+      "evidence": "Previous microarray analyses have shown a key role for the two-component system PhoBR (SYNW0947, SYNW0948) (Abstract, p1)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0948",
+      "resolved_from": "SYNW0948",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PtrA",
+      "gene_name": "ptrA",
+      "identifiers": [
+        "SYNW1019"
+      ],
+      "prominence": "central",
+      "evidence": "another regulator, SYNW1019 (PtrA), probably under the control of PhoBR, is involved in the response to P depletion (Abstract, p1)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1019",
+      "resolved_from": "SYNW1019",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "NtcA",
+      "gene_name": "ntcA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "PtrA is a member of the cAMP receptor protein transcriptional regulator family that shows homology to NtcA (Abstract, p1)",
+      "mention_strain": "all",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0275",
+      "resolved_from": "ntcA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "psip1",
+      "gene_name": "psip1",
+      "identifiers": [
+        "SYNW0165"
+      ],
+      "prominence": "central",
+      "evidence": "including two phosphatases, a predicted phytase and a gene of unknown function psip1 (SYNW0165) (Abstract, p1)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0165",
+      "resolved_from": "SYNW0165",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PstS",
+      "gene_name": "pstS",
+      "identifiers": [
+        "SYNW1018",
+        "SYNW1815",
+        "SYNW2507"
+      ],
+      "prominence": "central",
+      "evidence": "including four genes encoding paralogues of the periplasmic P-binding proteins, PstS (SYNW1018, SYNW1815, SYNW2507) (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1018",
+      "resolved_from": "SYNW1018",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PstS",
+      "gene_name": "pstS",
+      "identifiers": [
+        "SYNW1018",
+        "SYNW1815",
+        "SYNW2507"
+      ],
+      "prominence": "central",
+      "evidence": "including four genes encoding paralogues of the periplasmic P-binding proteins, PstS (SYNW1018, SYNW1815, SYNW2507) (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1815",
+      "resolved_from": "SYNW1815",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PstS",
+      "gene_name": "pstS",
+      "identifiers": [
+        "SYNW1018",
+        "SYNW1815",
+        "SYNW2507"
+      ],
+      "prominence": "central",
+      "evidence": "including four genes encoding paralogues of the periplasmic P-binding proteins, PstS (SYNW1018, SYNW1815, SYNW2507) (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2507",
+      "resolved_from": "SYNW2507",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SphX",
+      "gene_name": "sphX",
+      "identifiers": [
+        "SYNW1286"
+      ],
+      "prominence": "peripheral",
+      "evidence": "and SphX (SYNW1286) (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1286",
+      "resolved_from": "SYNW1286",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "pstC",
+      "gene_name": "pstC",
+      "identifiers": [
+        "SYNW1270"
+      ],
+      "prominence": "peripheral",
+      "evidence": "genes of the ABC transport system for P (SYNW1270, SYNW1271) (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1270",
+      "resolved_from": "SYNW1270",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "pstA",
+      "gene_name": "pstA",
+      "identifiers": [
+        "SYNW1271"
+      ],
+      "prominence": "peripheral",
+      "evidence": "genes of the ABC transport system for P (SYNW1270, SYNW1271) (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1271",
+      "resolved_from": "SYNW1271",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW0196",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0196"
+      ],
+      "prominence": "central",
+      "evidence": "including at least three diverse predicted phosphatases (SYNW0196, SYNW2390 and SYNW2391) (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0196",
+      "resolved_from": "SYNW0196",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2390",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2390"
+      ],
+      "prominence": "central",
+      "evidence": "including at least three diverse predicted phosphatases (SYNW0196, SYNW2390 and SYNW2391) (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2390",
+      "resolved_from": "SYNW2390",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2391",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2391"
+      ],
+      "prominence": "central",
+      "evidence": "including at least three diverse predicted phosphatases (SYNW0196, SYNW2390 and SYNW2391) (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2391",
+      "resolved_from": "SYNW2391",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW0762",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0762"
+      ],
+      "prominence": "central",
+      "evidence": "a predicted phytase and a gene of unknown function psip1 (SYNW0165) (Abstract, p1)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0762",
+      "resolved_from": "SYNW0762",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1333",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1333"
+      ],
+      "prominence": "peripheral",
+      "evidence": "and a number of genes with weakly associated or no functional predictions (SYNW0165, SYNW0762 and SYNW1333) (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1333",
+      "resolved_from": "SYNW1333",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2224",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2224"
+      ],
+      "prominence": "peripheral",
+      "evidence": "porins (SYNW2224, SYNW2223) (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2224",
+      "resolved_from": "SYNW2224",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2223",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2223"
+      ],
+      "prominence": "peripheral",
+      "evidence": "porins (SYNW2224, SYNW2223) (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2223",
+      "resolved_from": "SYNW2223",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SphS",
+      "gene_name": "phoB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "activation of the response regulator, SphS (PhoB), by its cognate sensor histidine kinase, SphR (PhoR) (Introduction, p2)",
+      "mention_strain": "all",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0947",
+      "resolved_from": "phoB",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "SphR",
+      "gene_name": "phoR",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "activation of the response regulator, SphS (PhoB), by its cognate sensor histidine kinase, SphR (PhoR) (Introduction, p2)",
+      "mention_strain": "all",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0948",
+      "resolved_from": "phoR",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "phoB",
+      "gene_name": "phoB",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Comparisons of gene expression in knockout mutants constructed in phoB and phoR confirm a role for P sensing and regulation (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0947",
+      "resolved_from": "phoB",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "phoR",
+      "gene_name": "phoR",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Comparisons of gene expression in knockout mutants constructed in phoB and phoR confirm a role for P sensing and regulation (Introduction, p2)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0948",
+      "resolved_from": "phoR",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "rnpB",
+      "gene_name": "rnpB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "The gene for the class B RNaseP (rnpB) was used as an internal reference (Methods, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "SYNW1799",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1799"
+      ],
+      "prominence": "peripheral",
+      "evidence": "four identified phosphatase genes in Synechococcus sp. WH8102 (SYNW0196, SYNW1799, SYNW2390 and SYNW2391) (Results, p5)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1799",
+      "resolved_from": "SYNW1799",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SwmB",
+      "gene_name": "swmB",
+      "identifiers": [
+        "SYNW0953"
+      ],
+      "prominence": "peripheral",
+      "evidence": "These genes include three that were shown by transposon mutagenesis to have a role in swimming motility, including the 34 kb gene for SwmB (SYNW0953) (Discussion, p8)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0953",
+      "resolved_from": "SYNW0953",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW0958",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0958"
+      ],
+      "prominence": "peripheral",
+      "evidence": "and two associated orfs (SYNW0958 and SYNW0960) (Discussion, p8)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0958",
+      "resolved_from": "SYNW0958",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW0960",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0960"
+      ],
+      "prominence": "peripheral",
+      "evidence": "and two associated orfs (SYNW0958 and SYNW0960) (Discussion, p8)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0960",
+      "resolved_from": "SYNW0960",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SwmA",
+      "gene_name": "swmA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "genes for other integral components of the swimming apparatus, such as SwmA, do not show a similar pattern (Discussion, p8)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0085",
+      "resolved_from": "swmA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "Zur",
+      "gene_name": "zur",
+      "identifiers": [
+        "SYNW2401"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Synechococcus sp. WH8102 possesses Zur (SYNW2401) and SmtA (SYNW0359) orthologues (Discussion, p8)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2401",
+      "resolved_from": "SYNW2401",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SmtA",
+      "gene_name": "smtA",
+      "identifiers": [
+        "SYNW0359"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Synechococcus sp. WH8102 possesses Zur (SYNW2401) and SmtA (SYNW0359) orthologues (Discussion, p8)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0359",
+      "resolved_from": "SYNW0359",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PhoH",
+      "gene_name": "phoH",
+      "identifiers": [
+        "SYNW1946"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Other genes of interest with predicted functions that show lower levels of expression in the mutant include ... a PhoH family protein (SYNW1946) (Discussion, p8)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1946",
+      "resolved_from": "SYNW1946",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PTOX",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0887"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the gene for the plastoquinol terminal oxidase (SYNW0887) (Discussion, p8)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0887",
+      "resolved_from": "SYNW0887",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "GroES",
+      "gene_name": "groES",
+      "identifiers": [
+        "SYNW0513"
+      ],
+      "prominence": "peripheral",
+      "evidence": "including GroES (SYNW0513), two copies of GroEL (SYNW0514 and SYNW1854), DnaK2 (SYNW2508) and the heat shock protein HtpG (SYNW1278) (Discussion, p10)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0513",
+      "resolved_from": "SYNW0513",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "GroEL",
+      "gene_name": "groEL",
+      "identifiers": [
+        "SYNW0514",
+        "SYNW1854"
+      ],
+      "prominence": "peripheral",
+      "evidence": "including GroES (SYNW0513), two copies of GroEL (SYNW0514 and SYNW1854) (Discussion, p10)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0514",
+      "resolved_from": "SYNW0514",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "GroEL",
+      "gene_name": "groEL",
+      "identifiers": [
+        "SYNW0514",
+        "SYNW1854"
+      ],
+      "prominence": "peripheral",
+      "evidence": "including GroES (SYNW0513), two copies of GroEL (SYNW0514 and SYNW1854) (Discussion, p10)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1854",
+      "resolved_from": "SYNW1854",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "DnaK2",
+      "gene_name": "dnaK2",
+      "identifiers": [
+        "SYNW2508"
+      ],
+      "prominence": "peripheral",
+      "evidence": "including GroES (SYNW0513), two copies of GroEL (SYNW0514 and SYNW1854), DnaK2 (SYNW2508) (Discussion, p10)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2508",
+      "resolved_from": "SYNW2508",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "HtpG",
+      "gene_name": "htpG",
+      "identifiers": [
+        "SYNW1278"
+      ],
+      "prominence": "peripheral",
+      "evidence": "including ... DnaK2 (SYNW2508) and the heat shock protein HtpG (SYNW1278) (Discussion, p10)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1278",
+      "resolved_from": "SYNW1278",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [
+        "SYNW0983",
+        "SYNW1470",
+        "SYNW1919",
+        "SYNW2151"
+      ],
+      "prominence": "peripheral",
+      "evidence": "all four D1 forms I and II (SYNW0983, SYNW1470, SYNW1919 and SYNW2151) showed significantly higher levels (Discussion, p10)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0983",
+      "resolved_from": "SYNW0983",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [
+        "SYNW0983",
+        "SYNW1470",
+        "SYNW1919",
+        "SYNW2151"
+      ],
+      "prominence": "peripheral",
+      "evidence": "all four D1 forms I and II (SYNW0983, SYNW1470, SYNW1919 and SYNW2151) showed significantly higher levels (Discussion, p10)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1470",
+      "resolved_from": "SYNW1470",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [
+        "SYNW0983",
+        "SYNW1470",
+        "SYNW1919",
+        "SYNW2151"
+      ],
+      "prominence": "peripheral",
+      "evidence": "all four D1 forms I and II (SYNW0983, SYNW1470, SYNW1919 and SYNW2151) showed significantly higher levels (Discussion, p10)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1919",
+      "resolved_from": "SYNW1919",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [
+        "SYNW0983",
+        "SYNW1470",
+        "SYNW1919",
+        "SYNW2151"
+      ],
+      "prominence": "peripheral",
+      "evidence": "all four D1 forms I and II (SYNW0983, SYNW1470, SYNW1919 and SYNW2151) showed significantly higher levels (Discussion, p10)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2151",
+      "resolved_from": "SYNW2151",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "arsR",
+      "gene_name": "arsR",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "code F arsR possible transcriptional regulator ArsR family (Figure 5, p12)",
+      "mention_strain": "all",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0798",
+      "resolved_from": "arsR",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "arsC",
+      "gene_name": "arsC",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "code G arsC arsenate reductase (Figure 5, p12)",
+      "mention_strain": "all",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1767",
+      "resolved_from": "arsC",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "gap3",
+      "gene_name": "gap3",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "code E gap3 glyceraldehyde-3-phosphate dehydrogenase (Figure 5, p12)",
+      "mention_strain": "all",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0799",
+      "resolved_from": "gap3",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "som",
+      "gene_name": "som",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "code L som porin homolog (Figure 5, p12)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "proP",
+      "gene_name": "proP",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "code M proP permease of the major facilitator superfamily (Figure 5, p12)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "chr1",
+      "gene_name": "chr1",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "code N chr1 chromate transporter, CHR family (Figure 5, p12)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "msrA",
+      "gene_name": "msrA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "code P msrA peptide methionine sulfoxide reductase (Figure 5, p12)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "rpaC",
+      "gene_name": "rpaC",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "code Q rpaC putative regulator (Figure 5, p12)",
+      "mention_strain": "all",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1022",
+      "resolved_from": "rpaC",
+      "resolution_method": "multi:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "phosphate transport and metabolism",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "PhoBR ... in the regulation of P transport and metabolism in the marine cyanobacterium Synechococcus sp. WH8102 (Abstract, p1)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "ABC transport system for phosphate",
+      "kegg_pathway_id_raw": "map02010",
+      "prominence": "central",
+      "evidence": "genes of the ABC transport system for P (SYNW1270, SYNW1271) (Introduction, p2)",
+      "pathway_id": "ko02010",
+      "pathway_name": "abc transporters",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "nitrogen metabolism",
+      "kegg_pathway_id_raw": "map00910",
+      "prominence": "peripheral",
+      "evidence": "NtcA, the global nitrogen regulator in cyanobacteria (Abstract, p1)",
+      "pathway_id": "ko00910",
+      "pathway_name": "nitrogen metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id_raw": "map00195",
+      "prominence": "peripheral",
+      "evidence": "including those involved in ... photosynthesis, stress responses and other metabolic processes (Abstract, p1)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "lipopolysaccharide biosynthesis",
+      "kegg_pathway_id_raw": "map00540",
+      "prominence": "peripheral",
+      "evidence": "marine cyanobacteria have evolved forms of lipopolysaccharide, a major cellular constituent, that lack phosphate (Introduction, p2)",
+      "pathway_id": "ko00540",
+      "pathway_name": "lipopolysaccharide biosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "sulfolipid biosynthesis",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "by substituting phospholipids for sulfolipids (Introduction, p2)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "phycobilisome biosynthesis",
+      "kegg_pathway_id_raw": "map00196",
+      "prominence": "peripheral",
+      "evidence": "A number of genes involved in phycobilisome biosynthesis are also downregulated in the mutant (Discussion, p8)",
+      "pathway_id": "ko00196",
+      "pathway_name": "photosynthesis - antenna proteins",
+      "resolution_method": "id"
+    }
+  ]
+}
