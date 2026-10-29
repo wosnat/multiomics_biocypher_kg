@@ -1,0 +1,28 @@
+Resolution report: Oleza 2015b / table_s4_wh7803_exoproteome
+Source: table_s4_WH7803_exoproteome_nsaf.csv
+name_col: protein_id
+id_columns: ['protein_id']
+
+Total rows with IDs: 343
+Resolved: 329 (95.9%)
+Unresolved: 14
+
+Resolution method breakdown:
+  multi:protein_id: 329
+  unresolved: 14
+
+Unresolved rows (14):
+  row 224: raw_id='YP_001225786.1'  reason=unresolved  [protein_id='YP_001225786.1']
+  row 233: raw_id='YP_001223846.1'  reason=unresolved  [protein_id='YP_001223846.1']
+  row 241: raw_id='YP_001224565.1'  reason=unresolved  [protein_id='YP_001224565.1']
+  row 246: raw_id='YP_001224538.1'  reason=unresolved  [protein_id='YP_001224538.1']
+  row 252: raw_id='YP_001224330.1'  reason=unresolved  [protein_id='YP_001224330.1']
+  row 260: raw_id='YP_001225867.1'  reason=unresolved  [protein_id='YP_001225867.1']
+  row 262: raw_id='YP_001225810.1'  reason=unresolved  [protein_id='YP_001225810.1']
+  row 265: raw_id='YP_001226250.1'  reason=unresolved  [protein_id='YP_001226250.1']
+  row 273: raw_id='YP_001225421.1'  reason=unresolved  [protein_id='YP_001225421.1']
+  row 280: raw_id='YP_001225409.1'  reason=unresolved  [protein_id='YP_001225409.1']
+  row 284: raw_id='YP_001224644.1'  reason=unresolved  [protein_id='YP_001224644.1']
+  row 285: raw_id='YP_001224196.1'  reason=unresolved  [protein_id='YP_001224196.1']
+  row 289: raw_id='YP_001226131.1'  reason=unresolved  [protein_id='YP_001226131.1']
+  row 337: raw_id='YP_001225277.1'  reason=unresolved  [protein_id='YP_001225277.1']

@@ -1,0 +1,27 @@
+Topics resolution report: Ferrer 2020
+Strains: ['Ruegeria pomeroyi DSS-3', 'Thalassiosira pseudonana']
+
+Genes:    3/6 resolved (50.0%)
+  methods: multi:v=3, unresolved=3
+Pathways: 0/7 resolved (0.0%)
+  methods: unresolved=7
+
+Captured identifiers: 0  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 3}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (3):
+  - AgaP  [lookup_miss]  strain=unspecified
+  - AgaY  [lookup_miss]  strain=unspecified
+  - NupC  [lookup_miss]  strain=Stenotrophomonas sp. SKA14
+
+Unresolved pathway mentions (7):
+  - DMSP demethylation  (raw id=—)
+  - N-acetyl-D-glucosamine catabolism  (raw id=—)
+  - N-acetyl-D-galactosamine catabolism  (raw id=—)
+  - beta-D-glucan degradation  (raw id=—)
+  - chrysolaminarin degradation  (raw id=—)
+  - alginate catabolism  (raw id=—)
+  - chitin oligosaccharide utilization  (raw id=—)

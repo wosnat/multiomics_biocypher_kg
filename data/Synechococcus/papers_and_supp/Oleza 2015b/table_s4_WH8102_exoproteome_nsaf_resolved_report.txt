@@ -1,0 +1,17 @@
+Resolution report: Oleza 2015b / table_s4_wh8102_exoproteome
+Source: table_s4_WH8102_exoproteome_nsaf.csv
+name_col: protein_id
+id_columns: ['protein_id']
+
+Total rows with IDs: 322
+Resolved: 319 (99.1%)
+Unresolved: 3
+
+Resolution method breakdown:
+  multi:protein_id: 319
+  unresolved: 3
+
+Unresolved rows (3):
+  row 169: raw_id='NP_897877.1'  reason=unresolved  [protein_id='NP_897877.1']
+  row 195: raw_id='NP_897923.1'  reason=unresolved  [protein_id='NP_897923.1']
+  row 267: raw_id='NP_896473.1'  reason=unresolved  [protein_id='NP_896473.1']

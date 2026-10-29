@@ -55,6 +55,9 @@ ORGANISM_TO_GENOME_DIR = {
     "alteromonas bs11": "cache/data/Alteromonas/genomes/BS11",
     "alteromonas macleodii bgp6": "cache/data/Alteromonas/genomes/BGP6",
     "alteromonas bgp6": "cache/data/Alteromonas/genomes/BGP6",
+    "alteromonas macleodii 83-1": "cache/data/Alteromonas/genomes/83-1",
+    "alteromonas 83-1": "cache/data/Alteromonas/genomes/83-1",
+    "alteromonas macleodii 831": "cache/data/Alteromonas/genomes/83-1",
     # Alteromonas mediterranea "deep ecotype" genome strains (May 2026, genomes only).
     # AltDE is the real A. mediterranea DE genome (GCF_000020585.3); the Alt_MarRef
     # MarRef proxy below keeps only its "(marref v6)" alias.

@@ -229,6 +229,11 @@ cache/data/*_batch_*/
 cache/data/*/genomes/*/merops/*.limited_*
 cache/data/*/genomes/*/interproscan/temp/
 
+# PSORTb raw run output: the runner writes <timestamp>_psortb_gramneg.txt into the strain
+# folder and parses it into psortb/<strain>.psortb.{terse.tsv,calls.json}; an interrupted run
+# leaves it behind. Only the parsed psortb/ outputs are committed.
+cache/data/*/genomes/*/*_psortb_gramneg.txt
+
 
 # worktrees
 .claude/worktrees

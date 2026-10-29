@@ -159,7 +159,8 @@ re-parses the strain's already-cached `<strain>.interproscan.raw.json.gz`
 (falling back to an uncompressed `.raw.json`) through
 the current `parse_interproscan_json` + `summarize` and rewrites `calls.json` +
 `skill_summary.json` in place (deleting any stale `entry_xrefs.json` sidecar on
-success). Use it after a parser change, instead of re-running Docker.
+success, and gzipping an uncompressed `.raw.json` it read — e.g. from a scan that was
+killed before step 5). Use it after a parser change, instead of re-running Docker.
 
 **Stale-output guard.** InterProScan refuses to overwrite an existing output
 file — it silently writes `<base>_1.json`, `<base>_2.json`, … instead. The

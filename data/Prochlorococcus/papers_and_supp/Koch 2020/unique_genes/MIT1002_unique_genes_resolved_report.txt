@@ -1,0 +1,35 @@
+Resolution report: Koch 2020 / unique_genes_mit1002_table
+Source: MIT1002_unique_genes.csv
+name_col: locus_tag
+id_columns: ['locus_tag']
+
+Total rows with IDs: 219
+Resolved: 197 (90.0%)
+Unresolved: 22
+
+Resolution method breakdown:
+  locus_tag:locus_tag: 197
+  unresolved: 22
+
+Unresolved rows (22):
+  row 6: raw_id='MIT1002_00123'  reason=unresolved  [locus_tag='MIT1002_00123']
+  row 8: raw_id='MIT1002_00350'  reason=unresolved  [locus_tag='MIT1002_00350']
+  row 46: raw_id='MIT1002_01069'  reason=unresolved  [locus_tag='MIT1002_01069']
+  row 47: raw_id='MIT1002_01070'  reason=unresolved  [locus_tag='MIT1002_01070']
+  row 48: raw_id='MIT1002_01071'  reason=unresolved  [locus_tag='MIT1002_01071']
+  row 55: raw_id='MIT1002_01099'  reason=unresolved  [locus_tag='MIT1002_01099']
+  row 56: raw_id='MIT1002_01185'  reason=unresolved  [locus_tag='MIT1002_01185']
+  row 67: raw_id='MIT1002_01896'  reason=unresolved  [locus_tag='MIT1002_01896']
+  row 76: raw_id='MIT1002_02078'  reason=unresolved  [locus_tag='MIT1002_02078']
+  row 106: raw_id='MIT1002_02435'  reason=unresolved  [locus_tag='MIT1002_02435']
+  row 121: raw_id='MIT1002_02479'  reason=unresolved  [locus_tag='MIT1002_02479']
+  row 126: raw_id='MIT1002_02510'  reason=unresolved  [locus_tag='MIT1002_02510']
+  row 137: raw_id='MIT1002_02613'  reason=unresolved  [locus_tag='MIT1002_02613']
+  row 141: raw_id='MIT1002_02621'  reason=unresolved  [locus_tag='MIT1002_02621']
+  row 142: raw_id='MIT1002_02628'  reason=unresolved  [locus_tag='MIT1002_02628']
+  row 143: raw_id='MIT1002_02661'  reason=unresolved  [locus_tag='MIT1002_02661']
+  row 149: raw_id='MIT1002_03247'  reason=unresolved  [locus_tag='MIT1002_03247']
+  row 172: raw_id='MIT1002_03398'  reason=unresolved  [locus_tag='MIT1002_03398']
+  row 187: raw_id='MIT1002_04085'  reason=unresolved  [locus_tag='MIT1002_04085']
+  row 195: raw_id='MIT1002_04136'  reason=unresolved  [locus_tag='MIT1002_04136']
+  ... (2 more)

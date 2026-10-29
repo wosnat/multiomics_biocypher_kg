@@ -1,0 +1,47 @@
+Topics resolution report: Koch 2020
+Strains: ['Alteromonas macleodii MIT1002', 'Alteromonas macleodii 83-1', 'Alteromonas macleodii AD45', 'Alteromonas macleodii ATCC27126']
+
+Genes:    1/26 resolved (3.8%)
+  methods: multi_ci:v=1, unresolved=25
+Pathways: 5/10 resolved (50.0%)
+  methods: id=5, unresolved=5
+
+Captured identifiers: 16  (truncated/bare-number: 15, e.g. ['02048', '02065', '02842', '04244', '04264', '04266', '04267', '04270', '04273', '04279'])
+Unresolved gene reasons: {'descriptive_only': 21, 'lookup_miss': 1, 'truncated_id_only': 3}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (25):
+  - [NiFe] hydrogenase cassettes  [descriptive_only]  strain=all
+  - chemotaxis-related plasmid  [descriptive_only]  strain=Alteromonas macleodii MIT1002
+  - catechol meta-cleavage pathway  [lookup_miss]  strain=unspecified  ids=['04248–04260']
+  - transposases and recombinases  [truncated_id_only]  strain=unspecified  ids=['04244', '04264', '04266', '04267', '04270', '04273', '04279', '04291']
+  - phenol hydroxylases  [descriptive_only]  strain=Alteromonas macleodii MIT1002
+  - phytase gene  [descriptive_only]  strain=Alteromonas macleodii MIT1002
+  - cytochrome bc1 complex  [descriptive_only]  strain=unspecified
+  - vitamin B6 synthesis genes  [descriptive_only]  strain=unspecified
+  - PL22 polysaccharide lyase  [descriptive_only]  strain=Alteromonas macleodii MIT1002
+  - PL26 polysaccharide lyase  [descriptive_only]  strain=Alteromonas macleodii MIT1002
+  - GH88 rhamnogalacturonyl hydrolase  [descriptive_only]  strain=Alteromonas macleodii MIT1002
+  - rhamnose-processing genes  [descriptive_only]  strain=Alteromonas macleodii MIT1002
+  - GH85 mannosidases  [descriptive_only]  strain=Alteromonas macleodii AD45
+  - GH92 mannosidases  [descriptive_only]  strain=Alteromonas macleodii AD45
+  - sulfatases  [descriptive_only]  strain=Alteromonas macleodii AD45
+  - PL1 pectate lyases  [descriptive_only]  strain=all
+  - N-acyl amino acid synthase  [truncated_id_only]  strain=unspecified  ids=['02842', '113090', '112830']
+  - siderophore synthesis gene cluster  [truncated_id_only]  strain=Alteromonas macleodii ATCC27126  ids=['09710', '09730', '02048', '02065']
+  - petrobactin operon asbABCDE  [descriptive_only]  strain=unspecified
+  - 3-dehydroshikimate dehydratase  [descriptive_only]  strain=Alteromonas macleodii ATCC27126
+  - benzoate dioxygenases  [descriptive_only]  strain=unspecified
+  - catechol ortho-cleavage pathway  [descriptive_only]  strain=unspecified
+  - transporters/regulators  [descriptive_only]  strain=unspecified
+  - cobalt-zinc-cadmium resistance  [descriptive_only]  strain=Alteromonas macleodii MIT1002
+  - mercury resistance  [descriptive_only]  strain=Alteromonas macleodii MIT1002
+
+Unresolved pathway mentions (5):
+  - rhamnogalacturonan degradation  (raw id=—)
+  - alpha-mannan degradation  (raw id=—)
+  - pectin degradation  (raw id=—)
+  - homoserine lactone biosynthesis  (raw id=—)
+  - siderophore biosynthesis  (raw id=—)

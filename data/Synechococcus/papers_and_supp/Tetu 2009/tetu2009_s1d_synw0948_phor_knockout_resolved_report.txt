@@ -1,0 +1,24 @@
+Resolution report: Tetu 2009 / supp_table_1d_phor_knockout
+Source: tetu2009_s1d_synw0948_phor_knockout.csv
+name_col: locus_tag
+id_columns: ['locus_tag']
+
+Total rows with IDs: 1047
+Resolved: 1038 (99.1%)
+Unresolved: 9
+
+Resolution method breakdown:
+  locus_tag:locus_tag: 1033
+  tier1:locus_tag: 5
+  unresolved: 9
+
+Unresolved rows (9):
+  row 27: raw_id='SYNW1398'  reason=unresolved  [locus_tag='SYNW1398']
+  row 34: raw_id='SYNW2018'  reason=unresolved  [locus_tag='SYNW2018']
+  row 46: raw_id='SYNW1465'  reason=unresolved  [locus_tag='SYNW1465']
+  row 117: raw_id='SYNW1106'  reason=unresolved  [locus_tag='SYNW1106']
+  row 144: raw_id='SYNW2491'  reason=unresolved  [locus_tag='SYNW2491']
+  row 197: raw_id='SYNW0584'  reason=unresolved  [locus_tag='SYNW0584']
+  row 311: raw_id='SYNW0804'  reason=unresolved  [locus_tag='SYNW0804']
+  row 346: raw_id='SYNW0916'  reason=unresolved  [locus_tag='SYNW0916']
+  row 814: raw_id='SYNW1669'  reason=unresolved  [locus_tag='SYNW1669']

@@ -1,0 +1,29 @@
+Topics resolution report: Tetu 2009
+Strains: ['Synechococcus WH8102']
+
+Genes:    60/71 resolved (84.5%)
+  methods: locus_tag:v=53, multi:v=7, unresolved=11
+Pathways: 7/8 resolved (87.5%)
+  methods: id=7, unresolved=1
+
+Captured identifiers: 53  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 11}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (11):
+  - sphS  [lookup_miss]  strain=all
+  - sphR  [lookup_miss]  strain=all
+  - phoA  [lookup_miss]  strain=all
+  - pst1  [lookup_miss]  strain=all
+  - pst2  [lookup_miss]  strain=all
+  - nucH  [lookup_miss]  strain=all
+  - somA  [lookup_miss]  strain=all
+  - somB  [lookup_miss]  strain=all
+  - pstS  [lookup_miss]  strain=Synechococcus WH8102
+  - gap1  [lookup_miss]  strain=all
+  - cysR  [lookup_miss]  strain=all
+
+Unresolved pathway mentions (1):
+  - Pho regulon  (raw id=—)

@@ -25,13 +25,16 @@ see whether a similar pattern has already been solved.
 | MIT1002 | Biller 2016 | `MIT1002_NNNN` (4-digit RAST) | RAST annotation on draft genome GCF_001077695.1 | **96.6%** — cross-assembly protein bridging via `map_img_to_ncbi_proteins.py` + transitive closure through conversion table |
 | MIT1002 | Biller 2018 | `RAST_region_ID` (coordinate format `contig00001_start_stop`) | RAST annotation on draft genome | **97.2%** — resolved via conversion table `assembly_coordinates` → `alternative_locus_tag` (Tier 1) through transitive closure |
 | WH8109 | Doron 2016 | `Syncc8109_####_at` array probes | Strip `_at` → NATIVE locus tags of GCF_000161795.2 (canonical form IS `Syncc8109_####`) | **93.9%** — 168 unresolved are Moore/JCVI-annotation features dropped by RefSeq PGAP re-annotation of the same assembly (2,757 array features vs 2,707 current genes); no bridge work possible or needed |
+| 83-1 | Koch 2019, Koch 2020 | `Alt831_NNNNN` (submitter / IMG annotation) | Matches the GCF_901446755.2 `old_locus_tag` `ALT831_NNNNN` case-insensitively (`locus_tag_ci`). **Trap:** this assembly's own locus tags are `MIT1002_RS*`, and our real MIT1002 (GCF_901457835.2) uses `ALT831_RS*` — the submitter swapped prefixes; sequence identity confirms the strains | **95.1%** (Koch 2019 S1), ~92% (Koch 2020 S7) — misses are tRNA/rRNA/hypotheticals/IS elements the RefSeq re-annotation dropped |
+| MIT1002 | Koch 2020 | `MIT1002_NNNN` (4-digit RAST) + `contigNNNNN_start_stop` | Same RAST draft names Biller 2018 registered as `alternative_locus_tag`; 724/725 agree with a stop-codon coordinate check against the JXRW draft GFF. Do NOT zero-pad to `MIT1002_0NNNN` — that is the complete genome's numbering, a different gene | S3 not integrated (duplicate of Biller 2016) |
+| WH8102, CC9311, BL107, RS9917 | Oleza 2015b | 2012 `NP_` / `YP_` / `ZP_` protein accessions | `id_translation` with `generate: diamond_protein_match` from the sequences in Table S4/S6 (IPG cannot map WH8102 NP_ to the GCF; `ZP_` not recognised as legacy) | ≥ 99% |
 
 Add new rows above as strains are deployed. Keep columns consistent so the
 patterns are pattern-greppable by future deployments.
 
 ## Already-deployed strains (no action needed)
 
-MIT9312, MIT9301, NATL1A, MED4, NATL2A, MIT9313, WH8102, CC9311, EZ55, MIT1002, AS9601, RSP50, HOT1A3, SS120, BL107, HP15 (Marinobacter MarRef v6), Alt_MarRef, WH8109.
+MIT9312, MIT9301, NATL1A, MED4, NATL2A, MIT9313, WH8102, CC9311, EZ55, MIT1002, AS9601, RSP50, HOT1A3, SS120, BL107, HP15 (Marinobacter MarRef v6), Alt_MarRef, WH8109, 83-1.
 
 ## Backlog
 

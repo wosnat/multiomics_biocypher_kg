@@ -33,12 +33,14 @@ def test_no_garbage_taxonomy_nodes(run_query):
 
 
 def test_no_non_bacterial_organisms(run_query):
-    """All organisms with superkingdom must be Bacteria (except Phage)."""
+    """All organisms with superkingdom must be Bacteria (except Phage, and the
+    diatom coculture partner Thalassiosira pseudonana — a treatment organism with
+    no genome, Durham 2015 / Ferrer 2020)."""
     result = run_query("""
         MATCH (o:OrganismTaxon)
         WHERE o.superkingdom IS NOT NULL
           AND o.superkingdom <> 'Bacteria'
-          AND o.preferred_name <> 'Phage'
+          AND NOT o.preferred_name IN ['Phage', 'Thalassiosira pseudonana']
         RETURN o.preferred_name AS name, o.superkingdom AS sk, o.ncbi_taxon_id AS taxid
     """)
     assert len(result) == 0, (
@@ -47,9 +49,9 @@ def test_no_non_bacterial_organisms(run_query):
 
 
 def test_organism_count(run_query):
-    """121 OrganismTaxon nodes: 115 genome strains + 2 reference proteome match + 4 treatment organisms.
+    """123 OrganismTaxon nodes: 116 genome strains + 2 reference proteome match + 5 treatment organisms.
 
-    Genome strains (115): 41 pre-Ford — 19 Pro (MED4, AS9601, MIT9301, MIT9312, MIT9313,
+    Genome strains (116; 83-1 added 2026-10-28 for Koch 2019 / Koch 2020): 41 pre-Ford — 19 Pro (MED4, AS9601, MIT9301, MIT9312, MIT9313,
     MIT9303, NATL1A, NATL2A, RSP50, SS120, MIT0801, MIT9515, MIT9202, MIT9215,
     MIT0604, SB, PAC1, MIT1327, MIT1314), 8 Syn (CC9311, WH7803, WH8102, BL107,
     PCC7002, PCC7942, UTEX2973, WH8109), 1 Thermosynechococcus (BP1), 9 Alteromonas
@@ -57,13 +59,13 @@ def test_organism_count(run_query):
     4 heterotrophs (W3-18-1, KT2440, DSS-3, MruberA), plus 74 Cyanorak genomes added for
     Ford 2021 (26 Pro, 45 Syn, 3 Cyanobium; list in test_biology.EXPECTED_STRAINS).
     Reference proteome match (2): Marinobacter (MarRef v6), Alteromonas (MarRef v6).
-    Treatment organisms (4): Phage, Alteromonas (genus), Vibrio
-    parahaemolyticus, E. coli. (Meiothermus ruber ncbitaxon:277 retired 2026-10-13:
+    Treatment organisms (5): Phage, Alteromonas (genus), Vibrio
+    parahaemolyticus, E. coli, Thalassiosira pseudonana (diatom, 2026-10-28). (Meiothermus ruber ncbitaxon:277 retired 2026-10-13:
     Bernstein 2017's partner is the sequenced isolate MruberA, a genome strain.)
     """
     result = run_query("MATCH (o:OrganismTaxon) RETURN count(o) AS cnt")
-    assert result[0]["cnt"] == 121, (
-        f"Expected 121 OrganismTaxon nodes, got {result[0]['cnt']}"
+    assert result[0]["cnt"] == 123, (
+        f"Expected 123 OrganismTaxon nodes, got {result[0]['cnt']}"
     )
 
 
@@ -74,7 +76,7 @@ def test_organism_count(run_query):
 def test_alteromonas_strains_have_species(run_query):
     """Alteromonas genome_strain nodes must have a species property.
 
-    Seven strains (MIT1002, EZ55, HOT1A3, AD45, ATCC27126, BGP6, BS11) are
+    Eight strains (MIT1002, EZ55, HOT1A3, AD45, ATCC27126, BGP6, BS11, 83-1) are
     A. macleodii; two deep-ecotype strains (AltDE, AltDE1) are A. mediterranea.
     Reference proteome match organisms (Alteromonas MarRef v6) are excluded as
     their species may not be derivable from the preferred_name.
@@ -86,7 +88,7 @@ def test_alteromonas_strains_have_species(run_query):
           AND o.organism_type = 'genome_strain'
         RETURN o.preferred_name AS name, o.species AS species
     """)
-    assert len(result) == 9, f"Expected 9 Alteromonas genome strains, got {len(result)}"
+    assert len(result) == 10, f"Expected 10 Alteromonas genome strains, got {len(result)}"
     VALID_SPECIES = {"Alteromonas macleodii", "Alteromonas mediterranea"}
     for r in result:
         assert r["species"] in VALID_SPECIES, (
@@ -121,8 +123,8 @@ def test_organism_type_values(run_query):
     assert set(counts.keys()) == {"genome_strain", "treatment", "reference_proteome_match"}, (
         f"Unexpected organism_type values: {counts}"
     )
-    assert counts["genome_strain"] == 115
-    assert counts["treatment"] == 4
+    assert counts["genome_strain"] == 116
+    assert counts["treatment"] == 5
     assert counts["reference_proteome_match"] == 2
 
 

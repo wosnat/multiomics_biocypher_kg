@@ -1,0 +1,379 @@
+{
+  "metadata": {
+    "paper": "Koch 2019",
+    "doi": "10.1038/s41396-018-0252-4",
+    "strains": [
+      "Alteromonas macleodii 83-1"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Some identifiers appear only as abbreviated figure labels or locus ranges in Fig. 2-3 and text, and not every member of discussed clusters has an explicit individual tag in prose.",
+    "extracted_at": "2026-10-28T23:52:53.560322",
+    "input_tokens": 24085,
+    "output_tokens": 2711
+  },
+  "genes": [
+    {
+      "surface_form": "CreA",
+      "gene_name": "CreA",
+      "identifiers": [
+        "Alt831_00877"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201ccandidate genes in A. macleodii include CreA Alt831_00877\u201d Results and discussion p95"
+    },
+    {
+      "surface_form": "cAMP receptors",
+      "gene_name": "",
+      "identifiers": [
+        "02509",
+        "03405"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201ctwo putative cAMP receptors 02509/03405\u201d Results and discussion p95"
+    },
+    {
+      "surface_form": "partial phosphoenolpyruvate phosphotransferase system",
+      "gene_name": "",
+      "identifiers": [
+        "01559"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201ca partial phosphoenolpyruvate phosphotransferase system 01559\u201d Results and discussion p95"
+    },
+    {
+      "surface_form": "hybrid two-component system",
+      "gene_name": "",
+      "identifiers": [
+        "02433"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cand one hybrid two-component system 02433\u201d Results and discussion p95"
+    },
+    {
+      "surface_form": "GH16",
+      "gene_name": "",
+      "identifiers": [
+        "Alt831_03772"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cGenes encoding laminarin hydrolases, including GH16, GH1 and GH3 located in LamPUL1 and LamPUL2\u201d p96"
+    },
+    {
+      "surface_form": "GH1",
+      "gene_name": "",
+      "identifiers": [
+        "Alt831_04038",
+        "Alt831_03778"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cincluding GH16, GH1 and GH3 located in LamPUL1 and LamPUL2\u201d and Fig. 3 labels GH1_04038, GH1_03778 p96-97"
+    },
+    {
+      "surface_form": "GH3",
+      "gene_name": "",
+      "identifiers": [
+        "Alt831_03776"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cincluding GH16, GH1 and GH3 located in LamPUL1 and LamPUL2\u201d and Fig. 3 label GH3_03776 p96-97"
+    },
+    {
+      "surface_form": "xylose/glucose isomerases",
+      "gene_name": "",
+      "identifiers": [
+        "Alt831_00338",
+        "Alt831_00339",
+        "Alt831_00340"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "peripheral",
+      "evidence": "\u201cgene cluster Alt831_00338\u23bc47 encoding three xylose/glucose isomerases\u201d p96"
+    },
+    {
+      "surface_form": "glucose oxidoreductases",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "peripheral",
+      "evidence": "\u201cencoding three xylose/glucose isomerases, two glucose oxidoreductases and a gluconate 2-dehydrogenase\u201d p96"
+    },
+    {
+      "surface_form": "gluconate 2-dehydrogenase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "peripheral",
+      "evidence": "\u201ctwo glucose oxidoreductases and a gluconate 2-dehydrogenase\u201d p96"
+    },
+    {
+      "surface_form": "PL1 enzymes",
+      "gene_name": "",
+      "identifiers": [
+        "Alt831_03877",
+        "Alt831_00890"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cthe three PL1 enzymes for initial hydrolysis are encoded separately: two in a second PUL PecPUL2 and one distantly Alt831_00890\u201d p97"
+    },
+    {
+      "surface_form": "GH105",
+      "gene_name": "",
+      "identifiers": [
+        "Alt831_02430"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cAdditional binding motifs... upstream of genes encoding... the GH105 in PecPUL1\u201d p97"
+    },
+    {
+      "surface_form": "GH28",
+      "gene_name": "",
+      "identifiers": [
+        "Alt831_02431",
+        "Alt831_02924"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cupstream of genes encoding KduD, UxaA and GH28 PecPUL1 ... and a distant GH28 Alt831_02924\u201d p97"
+    },
+    {
+      "surface_form": "CE8",
+      "gene_name": "",
+      "identifiers": [
+        "Alt831_02432"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "peripheral",
+      "evidence": "\u201cFig. 3 labels CE8_02432\u201d Fig. 3 p97"
+    },
+    {
+      "surface_form": "CE12",
+      "gene_name": "",
+      "identifiers": [
+        "Alt831_02427"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "peripheral",
+      "evidence": "\u201cFig. 3 labels CE12_02427\u201d Fig. 3 p97"
+    },
+    {
+      "surface_form": "KduD",
+      "gene_name": "kduD",
+      "identifiers": [
+        "Alt831_02416"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cbinding motif ... upstream of genes encoding KduD, UxaA and GH28 PecPUL1\u201d p97"
+    },
+    {
+      "surface_form": "UxaA",
+      "gene_name": "uxaA",
+      "identifiers": [
+        "Alt831_02422"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cbinding motif ... upstream of genes encoding KduD, UxaA and GH28 PecPUL1\u201d p97"
+    },
+    {
+      "surface_form": "UxaC",
+      "gene_name": "uxaC",
+      "identifiers": [
+        "Alt831_02423"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cFig. 3 labels UxaC_02423\u201d Fig. 3 p97"
+    },
+    {
+      "surface_form": "UxuB",
+      "gene_name": "uxuB",
+      "identifiers": [
+        "Alt831_02424"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cFig. 3 labels UxuB_02424\u201d Fig. 3 p97"
+    },
+    {
+      "surface_form": "KdgK",
+      "gene_name": "kdgK",
+      "identifiers": [
+        "Alt831_02426",
+        "Alt831_00948"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cboth pathways possess a dedicated KdgK enzyme\u201d p98 and Fig. 3 labels KdgK_02426, KdgK_00948 p97"
+    },
+    {
+      "surface_form": "KduI",
+      "gene_name": "kduI",
+      "identifiers": [
+        "Alt831_02417"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cFig. 3 labels KduI_02417\u201d Fig. 3 p97"
+    },
+    {
+      "surface_form": "KdgF",
+      "gene_name": "kdgF",
+      "identifiers": [
+        "Alt831_00946"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cThe enzyme KdgF Alt831_00946 essential for both pectin and alginate degradation\u201d p98"
+    },
+    {
+      "surface_form": "PL6 alginate lyases",
+      "gene_name": "",
+      "identifiers": [
+        "Alt831_00944",
+        "Alt831_00953"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cproteomic detection of several AlgPUL1 enzymes in M1 e.g., PL6 but not PL7 alginate lyases\u201d p98 and Fig. 3 labels PL6_00944, PL6_00953"
+    },
+    {
+      "surface_form": "PL7 alginate lyases",
+      "gene_name": "",
+      "identifiers": [
+        "Alt831_00951",
+        "Alt831_00954"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cPL6 but not PL7 alginate lyases\u201d p98 and Fig. 3 labels PL7_00951, PL7_00954"
+    },
+    {
+      "surface_form": "DehR",
+      "gene_name": "dehR",
+      "identifiers": [
+        "Alt831_00943"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cFig. 3 labels DehR_00943\u201d Fig. 3 p97"
+    },
+    {
+      "surface_form": "isocitrate lyase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "peripheral",
+      "evidence": "\u201cupregulation of isocitrate lyase, a central enzyme in the glyoxylate shunt\u201d p98"
+    },
+    {
+      "surface_form": "flagellar synthesis genes",
+      "gene_name": "",
+      "identifiers": [
+        "Alt831_01034",
+        "Alt831_01058",
+        "Alt831_01083",
+        "Alt831_01107"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "peripheral",
+      "evidence": "\u201cMissing upregulation of flagellar synthesis Alt831_01034\u23bc58/01083\u23bc01107\u201d p98"
+    },
+    {
+      "surface_form": "chemotaxis genes",
+      "gene_name": "",
+      "identifiers": [
+        "00310",
+        "00315"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "peripheral",
+      "evidence": "\u201cchemotaxis 00310\u23bc00315\u201d p98"
+    },
+    {
+      "surface_form": "PQQ biosynthetic operon",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cinduction of the PQQ biosynthetic operon\u201d p98"
+    },
+    {
+      "surface_form": "PQQ-dependent ADH",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "central",
+      "evidence": "\u201cupregulation of an adjacent PQQ-dependent ADH and other ADHs\u201d p98"
+    },
+    {
+      "surface_form": "alcohol dehydrogenases",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "peripheral",
+      "evidence": "\u201cupregulation of an adjacent PQQ-dependent ADH and other ADHs\u201d p98"
+    },
+    {
+      "surface_form": "methylenetetrahydrofolate dehydrogenase",
+      "gene_name": "",
+      "identifiers": [
+        "Alt831_02739"
+      ],
+      "strain": "Alteromonas macleodii 83-1",
+      "prominence": "peripheral",
+      "evidence": "\u201cmethylenetetrahydrofolate dehydrogenase Alt831_02739 was not upregulated in M2\u201d p98"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Entner-Doudoroff pathway",
+      "kegg_pathway_id": "map00030",
+      "prominence": "central",
+      "evidence": "\u201cdegradation via central intermediates ... partial ED pathway\u201d Fig. 3 p97"
+    },
+    {
+      "surface_form": "glyoxylate shunt",
+      "kegg_pathway_id": "map00630",
+      "prominence": "peripheral",
+      "evidence": "\u201cupregulation of isocitrate lyase, a central enzyme in the glyoxylate shunt\u201d p98"
+    },
+    {
+      "surface_form": "glycolysis",
+      "kegg_pathway_id": "map00010",
+      "prominence": "peripheral",
+      "evidence": "\u201cED pathway/glycolysis\u201d Fig. 3 p97"
+    },
+    {
+      "surface_form": "phosphoenolpyruvate phosphotransferase system",
+      "kegg_pathway_id": "map02060",
+      "prominence": "central",
+      "evidence": "\u201ca partial phosphoenolpyruvate phosphotransferase system 01559\u201d p95"
+    },
+    {
+      "surface_form": "pyrroloquinoline quinone biosynthesis",
+      "kegg_pathway_id": "map00730",
+      "prominence": "central",
+      "evidence": "\u201cinduction of the PQQ biosynthetic operon\u201d p98"
+    },
+    {
+      "surface_form": "serine cycle",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "\u201cabsence of relevant genes also question potential assimilation via the serine cycle\u201d p98"
+    }
+  ]
+}

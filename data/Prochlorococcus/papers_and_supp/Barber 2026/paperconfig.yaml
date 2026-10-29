@@ -1,0 +1,144 @@
+publication:
+  papername: "Barber 2026"
+  doi: "10.1039/d6sc02372j"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Barber 2026/d6sc02372j.pdf"
+  control_timing: matched
+
+  # R. pomeroyi DSS-3 whole-cell LFQ proteomics on alternative sole carbon (and sulfur) sources.
+  # Only Supplementary Data 1 (R. pomeroyi) is integrated. Skipped: Supplementary Data 2
+  # (Bilophila wadsworthia 3.1.6, gut anaerobe, not a KG organism) and Supplementary Data 3 /
+  # d6sc02372j3_suppl.xlsx (TRAP SBP sequence-similarity-network cluster ids; no KG concept).
+  # DHPS and L-cysteine are both C and S sources; glucose is the C-only control, so the
+  # contrast is a carbon-source swap that also adds an organosulfur substrate (treatment_type carbon).
+  experiments:
+    l_cysteine_vs_glucose_dss3_proteomics:
+      name: "R. pomeroyi DSS-3 proteome on L-cysteine vs glucose (LFQ proteomics)"
+      organism: "Ruegeria pomeroyi DSS-3"
+      omics_type: PROTEOMICS
+      test_type: "t-test_Perseus"
+      treatment_type: ["carbon"]
+      background_factors: ["axenic"]
+      compartment: whole_cell
+      treatment_condition: "Growth on L-cysteine (5 mM) as sole carbon source"
+      control_condition: "Growth on glucose (5 mM) as sole carbon source"
+      experimental_context: "Axenic R. pomeroyi DSS-3 (DSM 15171) in marine basal medium (MBM; 20 g/L sea salt, Tris pH 7.5, 75 mM NH4Cl, 0.26 mM KH2PO4, Fe-EDTA, vitamins) with 5 mM sole carbon substrate, 25C, shaking 200 rpm, five independent cultures per substrate, harvested at mid-log (A600 about 0.3x stationary A600); whole-cell LFQ proteomics (Orbitrap Fusion Lumos, MaxQuant 2.2 LFQ + match between runs, Perseus 1.4 imputation and Student t-tests)"
+      medium: "MBM (marine basal medium) with 5 mM sole carbon substrate"
+      temperature: "25C"
+      table_scope: all_detected_genes
+      table_scope_detail: "All 1,837 R. pomeroyi protein groups quantified (Perseus Imputed sheet); missing LFQ values imputed (width 0.3, downshift 2.0 SD)"
+      design_notes: >-
+        Matched by growth state: every culture was harvested at mid-log phase on its own substrate,
+        so the glucose control and the treatment were sampled at the same growth stage, not the same
+        clock time. Perseus Difference was glucose minus substrate and is negated in the builder.
+
+    r_dhps_vs_glucose_dss3_proteomics:
+      name: "R. pomeroyi DSS-3 proteome on R-DHPS vs glucose (LFQ proteomics)"
+      organism: "Ruegeria pomeroyi DSS-3"
+      omics_type: PROTEOMICS
+      test_type: "t-test_Perseus"
+      treatment_type: ["carbon"]
+      background_factors: ["axenic"]
+      compartment: whole_cell
+      treatment_condition: "Growth on (R)-2,3-dihydroxypropanesulfonate (R-DHPS, 5 mM) as sole carbon source"
+      control_condition: "Growth on glucose (5 mM) as sole carbon source"
+      experimental_context: "Axenic R. pomeroyi DSS-3 (DSM 15171) in marine basal medium (MBM; 20 g/L sea salt, Tris pH 7.5, 75 mM NH4Cl, 0.26 mM KH2PO4, Fe-EDTA, vitamins) with 5 mM sole carbon substrate, 25C, shaking 200 rpm, five independent cultures per substrate, harvested at mid-log (A600 about 0.3x stationary A600); whole-cell LFQ proteomics (Orbitrap Fusion Lumos, MaxQuant 2.2 LFQ + match between runs, Perseus 1.4 imputation and Student t-tests)"
+      medium: "MBM (marine basal medium) with 5 mM sole carbon substrate"
+      temperature: "25C"
+      table_scope: all_detected_genes
+      table_scope_detail: "All 1,837 R. pomeroyi protein groups quantified (Perseus Imputed sheet); missing LFQ values imputed (width 0.3, downshift 2.0 SD)"
+      design_notes: >-
+        Matched by growth state: every culture was harvested at mid-log phase on its own substrate,
+        so the glucose control and the treatment were sampled at the same growth stage, not the same
+        clock time. Perseus Difference was glucose minus substrate and is negated in the builder.
+
+    s_dhps_vs_glucose_dss3_proteomics:
+      name: "R. pomeroyi DSS-3 proteome on S-DHPS vs glucose (LFQ proteomics)"
+      organism: "Ruegeria pomeroyi DSS-3"
+      omics_type: PROTEOMICS
+      test_type: "t-test_Perseus"
+      treatment_type: ["carbon"]
+      background_factors: ["axenic"]
+      compartment: whole_cell
+      treatment_condition: "Growth on (S)-2,3-dihydroxypropanesulfonate (S-DHPS, 5 mM) as sole carbon source"
+      control_condition: "Growth on glucose (5 mM) as sole carbon source"
+      experimental_context: "Axenic R. pomeroyi DSS-3 (DSM 15171) in marine basal medium (MBM; 20 g/L sea salt, Tris pH 7.5, 75 mM NH4Cl, 0.26 mM KH2PO4, Fe-EDTA, vitamins) with 5 mM sole carbon substrate, 25C, shaking 200 rpm, five independent cultures per substrate, harvested at mid-log (A600 about 0.3x stationary A600); whole-cell LFQ proteomics (Orbitrap Fusion Lumos, MaxQuant 2.2 LFQ + match between runs, Perseus 1.4 imputation and Student t-tests)"
+      medium: "MBM (marine basal medium) with 5 mM sole carbon substrate"
+      temperature: "25C"
+      table_scope: all_detected_genes
+      table_scope_detail: "All 1,837 R. pomeroyi protein groups quantified (Perseus Imputed sheet); missing LFQ values imputed (width 0.3, downshift 2.0 SD)"
+      design_notes: >-
+        Matched by growth state: every culture was harvested at mid-log phase on its own substrate,
+        so the glucose control and the treatment were sampled at the same growth stage, not the same
+        clock time. Perseus Difference was glucose minus substrate and is negated in the builder.
+
+    r_dhps_vs_s_dhps_dss3_proteomics:
+      name: "R. pomeroyi DSS-3 proteome on R-DHPS vs S-DHPS (LFQ proteomics)"
+      organism: "Ruegeria pomeroyi DSS-3"
+      omics_type: PROTEOMICS
+      test_type: "t-test_Perseus"
+      treatment_type: ["carbon"]
+      background_factors: ["axenic"]
+      compartment: whole_cell
+      treatment_condition: "Growth on (R)-2,3-dihydroxypropanesulfonate (R-DHPS, 5 mM) as sole carbon source"
+      control_condition: "Growth on (S)-2,3-dihydroxypropanesulfonate (S-DHPS, 5 mM) as sole carbon source"
+      experimental_context: "Axenic R. pomeroyi DSS-3 (DSM 15171) in marine basal medium (MBM; 20 g/L sea salt, Tris pH 7.5, 75 mM NH4Cl, 0.26 mM KH2PO4, Fe-EDTA, vitamins) with 5 mM sole carbon substrate, 25C, shaking 200 rpm, five independent cultures per substrate, harvested at mid-log (A600 about 0.3x stationary A600); whole-cell LFQ proteomics (Orbitrap Fusion Lumos, MaxQuant 2.2 LFQ + match between runs, Perseus 1.4 imputation and Student t-tests)"
+      medium: "MBM (marine basal medium) with 5 mM sole carbon substrate"
+      temperature: "25C"
+      table_scope: all_detected_genes
+      table_scope_detail: "All 1,837 R. pomeroyi protein groups quantified (Perseus Imputed sheet); missing LFQ values imputed (width 0.3, downshift 2.0 SD)"
+      design_notes: >-
+        Matched by growth state: both enantiomer cultures harvested at mid-log phase. Perseus
+        Difference R-DHPS_S_DHPS is R minus S and is used unchanged (Fig. S2).
+
+  supplementary_materials:
+    # Built by scripts/build_modified_csv/build_barber2026_rpom_proteomics.py from
+    # SupplementaryData_1_R_pomeroyi_proteomics.xlsx sheet Imputed. log2fc = -(Perseus Difference) for
+    # the vs-glucose contrasts. Perseus significant flag equals q < 0.05 on every row.
+    supp_data_1_rpom_proteomics:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Barber 2026/barber2026_rpom_proteomics_de.csv"
+      organism: "Ruegeria pomeroyi DSS-3"
+      id_columns:
+        - column: "protein_id"
+          id_type: protein_id_refseq
+        - column: "fasta_locus_tag"
+          id_type: gene_name
+      product_columns:
+        - column: "product"
+      statistical_analyses:
+        - id: "barber2026_rpom_l_cys_vs_glucose"
+          experiment: l_cysteine_vs_glucose_dss3_proteomics
+          timepoint: "mid-log"
+          timepoint_hours: null
+          growth_phase: exponential
+          name_col: "protein_id"
+          logfc_col: "log2fc_L_cys_vs_glucose"
+          adjusted_p_value_col: "qvalue_L_cys_vs_glucose"
+          pvalue_threshold: 0.05
+        - id: "barber2026_rpom_r_dhps_vs_glucose"
+          experiment: r_dhps_vs_glucose_dss3_proteomics
+          timepoint: "mid-log"
+          timepoint_hours: null
+          growth_phase: exponential
+          name_col: "protein_id"
+          logfc_col: "log2fc_R_DHPS_vs_glucose"
+          adjusted_p_value_col: "qvalue_R_DHPS_vs_glucose"
+          pvalue_threshold: 0.05
+        - id: "barber2026_rpom_s_dhps_vs_glucose"
+          experiment: s_dhps_vs_glucose_dss3_proteomics
+          timepoint: "mid-log"
+          timepoint_hours: null
+          growth_phase: exponential
+          name_col: "protein_id"
+          logfc_col: "log2fc_S_DHPS_vs_glucose"
+          adjusted_p_value_col: "qvalue_S_DHPS_vs_glucose"
+          pvalue_threshold: 0.05
+        - id: "barber2026_rpom_r_dhps_vs_s_dhps"
+          experiment: r_dhps_vs_s_dhps_dss3_proteomics
+          timepoint: "mid-log"
+          timepoint_hours: null
+          growth_phase: exponential
+          name_col: "protein_id"
+          logfc_col: "log2fc_R_DHPS_vs_S_DHPS"
+          adjusted_p_value_col: "qvalue_R_DHPS_vs_S_DHPS"
+          pvalue_threshold: 0.05

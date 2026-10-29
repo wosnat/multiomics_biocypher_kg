@@ -73,6 +73,33 @@
       "title": "Biofilm formation and dynamics in the marine cyanobacterium Prochlorococcus"
     }
   },
+  "data/Prochlorococcus/papers_and_supp/Barber 2026/d6sc02372j.pdf": {
+    "publication": {
+      "abstract": "2,3-dihydroxypropanesulfonate (DHPS) is encountered as a mixed-chiral pool in seawater and predominantly as S-DHPS in the gut. Uptake occurs via tripartite ATP-independent periplasmic (TRAP) transporters employing periplasmic binding proteins (HpsK). Here, HpsK proteins from Ruegeria pomeroyi and Bilophila wadsworthia were compared using proteomics, biophysical analysis, X-ray crystallography, and bioinformatics. RpHpsK binds both R- and S-DHPS with low-nanomolar affinity (KD ~5\u20139 nM), while BwHpsK binds selectively to S-DHPS (KD ~530 nM). Crystal structures reveal two distinct strategies for chiral recognition: RpHpsK accommodates both enantiomers via side-chain toggling within a conserved pocket; BwHpsK achieves stereoselectivity through a hydrogen-bonding network and a binding site that sterically excludes R-DHPS. Sequence similarity and genome neighborhood analyses place these proteins in separate clusters tied to oxidative (HpsNOP) or glycyl radical enzyme\u2013linked (HpsGH/HpfGH) pathways. This work illustrates how subtle changes in binding-site architecture tune ligand stereoselectivity and the adaptive divergence of TRAP-associated substrate-binding proteins to different ecological and metabolic niches.",
+      "authors": [
+        "Helen Barber",
+        "Sabrina Borusak",
+        "Adam W. E. Stewart",
+        "Hamza Tahir",
+        "Nichollas E. Scott",
+        "David Schleheck",
+        "Mihwa Lee",
+        "Spencer J. Williams"
+      ],
+      "description": "Comparative analysis of DHPS-binding proteins HpsK from Ruegeria pomeroyi and Bilophila wadsworthia to understand enantioselective transport of 2,3-dihydroxypropanesulfonate (DHPS) via TRAP transporters, using proteomics, biophysical assays, X-ray crystallography, and bioinformatics.",
+      "doi": "10.1039/d6sc02372j",
+      "journal": "Chemical Science",
+      "organism": [
+        "Ruegeria pomeroyi",
+        "Bilophila wadsworthia"
+      ],
+      "pmid": null,
+      "publication_id": "10.1039/d6sc02372j",
+      "publication_year": "2026",
+      "study_type": "Proteomics; Biophysical analysis; X-ray crystallography; Bioinformatics",
+      "title": "Chiral recognition of 2,3-dihydroxypropanesulfonate by bacterial transport proteins adapted to distinct ecological niches"
+    }
+  },
   "data/Prochlorococcus/papers_and_supp/Biller 2018/biller-et-al-2018-heterotroph-interactions-alter-prochlorococcus-transcriptome-dynamics-during-extended-periods-of.pdf": {
     "publication": {
       "abstract": "Microbes evolve within complex ecological communities where biotic interactions impact both individual cells and the environment as a whole. Here we examine how cellular regulation in the marine cyanobacterium Prochlorococcus is influenced by a heterotrophic bacterium, Alteromonas macleodii, under different light conditions. We monitored the transcriptome of Prochlorococcus, grown either alone or in coculture, across a diel light:dark cycle and under the stress of extended darkness\u2014a condition that cells would experience when mixed below the ocean\u2019s euphotic zone. More Prochlorococcus transcripts exhibited 24-h periodic oscillations in coculture than in pure culture, both over the normal diel cycle and after the shift to extended darkness. This demonstrates that biotic interactions, and not just light, can affect timing mechanisms in Prochlorococcus, which lacks a self-sustaining circadian oscillator. The transcriptomes of replicate pure cultures of Prochlorococcus lost their synchrony within 5 h of extended darkness and reflected changes in stress responses and metabolic functions consistent with growth cessation. In contrast, when grown with Alteromonas, replicate Prochlorococcus transcriptomes tracked each other for at least 13 h in the dark and showed signs of continued biosynthetic and metabolic activity. The transcriptome patterns suggest that the heterotroph may be providing energy or essential biosynthetic substrates to Prochlorococcus in the form of organic compounds, sustaining this autotroph when it is deprived of solar energy. Our findings reveal conditions where mixotrophic metabolism may benefit marine cyanobacteria and highlight new impacts of community interactions on basic Prochlorococcus cellular processes.",
@@ -157,6 +184,37 @@
       "title": "Quantitative Proteomics Shows Extensive Remodeling Induced by Nitrogen Limitation in Prochlorococcus marinus SS120"
     }
   },
+  "data/Prochlorococcus/papers_and_supp/Durham 2015/durham-et-al-2014-cryptic-carbon-and-sulfur-cycling-between-surface-ocean-plankton.pdf": {
+    "publication": {
+      "abstract": "About half the carbon fixed by phytoplankton in the ocean is taken up and metabolized by marine bacteria, a transfer that is mediated through the seawater dissolved organic carbon (DOC) pool. The chemical complexity of marine DOC, along with a poor understanding of which compounds form the basis of trophic interactions between bacteria and phytoplankton, have impeded efforts to identify key currencies of this carbon cycle link. Here, we used transcriptional patterns in a bacterial-diatom model system based on vitamin B12 auxotrophy as a sensitive assay for metabolite exchange between marine plankton. The most highly up-regulated genes (up to 374-fold) by a marine Roseobacter clade bacterium when cocultured with the diatom Thalassiosira pseudonana were those encoding the transport and catabolism of 2,3-dihydroxypropane-1-sulfonate (DHPS). This compound has no currently recognized role in the marine microbial food web. As the genes for DHPS catabolism have limited distribution among bacterial taxa, T. pseudonana may use this sulfonate for targeted feeding of beneficial associates. Indeed, DHPS was both a major component of the T. pseudonana cytosol and an abundant microbial metabolite in a diatom bloom in the eastern North Pacific Ocean. Moreover, transcript analysis of the North Pacific samples provided evidence of DHPS catabolism by Roseobacter populations. Other such biogeochemically important metabolites may be common in the ocean but difficult to discriminate against the complex chemical background of seawater. Bacterial transformation of this diatom-derived sulfonate represents a previously unidentified and likely sizeable link in both the marine carbon and sulfur cycles.",
+      "authors": [
+        "Bryndan P. Durham",
+        "Shalabh Sharma",
+        "Haiwei Luo",
+        "Christa B. Smith",
+        "Shady A. Amin",
+        "Sara J. Bender",
+        "Stephen P. Dearth",
+        "Benjamin A. S. Van Mooy",
+        "Shawn R. Campagna",
+        "Elizabeth B. Kujawinski",
+        "E. Virginia Armbrust",
+        "Mary Ann Moran"
+      ],
+      "description": "A model microbial system linking a Roseobacter clade bacterium Ruegeria pomeroyi DSS-3 with the diatom Thalassiosira pseudonana CCMP1335 to study metabolite exchange in the marine microbial loop, using vitamin B12 auxotrophy and transcriptional responses to identify diatom-derived metabolites that fuel carbon and sulfur cycling.",
+      "doi": "10.1073/pnas.1413137112",
+      "journal": "PNAS",
+      "organism": [
+        "Ruegeria pomeroyi DSS-3",
+        "Thalassiosira pseudonana CCMP1335"
+      ],
+      "pmid": null,
+      "publication_id": "10.1073/pnas.1413137112",
+      "publication_year": "2015",
+      "study_type": "Transcriptomics (RNA-Seq)",
+      "title": "Cryptic carbon and sulfur cycling between surface ocean plankton"
+    }
+  },
   "data/Prochlorococcus/papers_and_supp/Fang 2019/Fang 2015 Prochlorococcus mit9313 Transcriptomic responses to viral lysis products.pdf": {
     "publication": {
       "abstract": "We conducted transcriptomic analyses to study the effects of viral DOM (vDOM) on the cyanobacterium Prochlorococcus MIT9313. Growth was unaffected by vDOM, but tRNAs increased in abundance; tRNA-Gly increased with glycine. Decreased transcript abundances of nitrogen metabolism genes suggested uptake of organic nitrogen from vDOM. vDOM reduced maximum photochemical efficiency of photosystem II and CO2 fixation while increasing respiration, with transcriptomic changes linked to photosynthesis and respiration. The 6S RNA showed high fold-change, indicating a regulatory role in response to viral lysis products. These results suggest transcriptional regulation and metabolic potential of Prochlorococcus to utilize organic nitrogen from viral lysis products.",
@@ -185,6 +243,37 @@
       "publication_year": "2019",
       "study_type": "RNA-seq, Transcriptomics",
       "title": "Transcriptomic responses of the marine cyanobacterium Prochlorococcus to viral lysis products"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Ferrer 2020/41396_2020_article_811.pdf": {
+    "publication": {
+      "abstract": "The communities of bacteria that assemble around marine microphytoplankton are predictably dominated by Rhodobacterales, Flavobacteriales, and families within the Gammaproteobacteria. Yet whether this consistent ecological pattern reflects the result of resource-based niche partitioning or resource competition requires better knowledge of the metabolites linking microbial autotrophs and heterotrophs in the surface ocean. We characterized molecules targeted for uptake by three heterotrophic bacteria individually co-cultured with a marine diatom using two strategies that vetted the exometabolite pool for biological relevance by means of bacterial activity assays: expression of diagnostic genes and net drawdown of exometabolites, the latter detected with mass spectrometry and nuclear magnetic resonance using novel sample preparation approaches. Of the more than 36 organic molecules with evidence of bacterial uptake, 53% contained nitrogen (including nucleosides and amino acids), 11% were organic sulfur compounds (including dihydroxypropanesulfonate and dimethysulfoniopropionate), and 28% were components of polysaccharides (including chrysolaminarin, chitin, and alginate). Overlap in phytoplankton-derived metabolite use by bacteria in the absence of competition was low, and only guanosine, proline, and N-acetyl-D-glucosamine were predicted to be used by all three. Exometabolite uptake pattern points to a key role for ecological resource partitioning in the assembly marine bacterial communities transforming recent photosynthate.",
+      "authors": [
+        "Frank Xavier Ferrer-Gonz\u00e1lez",
+        "Brittany Widner",
+        "Nicole R. Holderman",
+        "John Glushka",
+        "Arthur S. Edison",
+        "Elizabeth B. Kujawinski",
+        "Mary Ann Moran"
+      ],
+      "description": "Pairwise co-culture experiments pairing Thalassiosira pseudonana with three heterotrophic bacteria (Ruegeria pomeroyi DSS-3, Stenotrophomonas sp. SKA14, Polaribacter dokdonensis MED152) to investigate resource-based niche partitioning of diatom-derived metabolites. Two vetting strategies were used: bacterial gene expression of transporters and catabolic genes to identify uptake machinery, and exometabolite drawdown measured by LC-MS and HSQC NMR after 8, 24, and 48 hours. The study aims to identify metabolites linking autotrophs and heterotrophs and to assess ecological partitioning of metabolite usage among the bacteria.",
+      "doi": "10.1038/s41396-020-00811-y",
+      "journal": "The ISME Journal",
+      "organism": [
+        "Thalassiosira pseudonana",
+        "Ruegeria pomeroyi DSS-3",
+        "Stenotrophomonas sp. SKA14",
+        "Polaribacter dokdonensis MED152"
+      ],
+      "pmid": null,
+      "publication_id": "10.1038/s41396-020-00811-y",
+      "publication_year": "2020",
+      "study_type": [
+        "Transcriptomics",
+        "Metabolomics"
+      ],
+      "title": "Resource partitioning of phytoplankton metabolites that support bacterial heterotrophy"
     }
   },
   "data/Prochlorococcus/papers_and_supp/Fuszard 2012/2046-9063-8-7.pdf": {
@@ -301,6 +390,73 @@
       "publication_year": "2026",
       "study_type": "RNA-seq, Transcriptomics",
       "title": "Extreme genome reduction selectively retains modular regulatory architecture in Prochlorococcus MED4: conserved transcriptional modules reveal core physiological regulatory programs"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Koch 2019/41396_2018_article_252.pdf": {
+    "publication": {
+      "abstract": "Algal polysaccharides are a key carbon source in marine ecosystems. This study uses transcriptomics, proteomics and exometabolomics to examine how Alteromonas macleodii strain 83-1 adapts to degrading a mixture of laminarin, alginate and pectin. The bacterium shows biphasic substrate utilization with initial laminarin consumption followed by simultaneous alginate/pectin use, accompanied by major shifts in gene/protein expression and metabolite secretion, including polysaccharide utilization loci and related enzymes. Exometabolome changes include alginate/pectin-specific secretion of pyrroloquinoline quinone, suggesting substrate-dependent interactions within microbial communities. Environmental relevance is supported by evidence that macroalgae release alginate and pectin-like materials, and the genetic diversity of CAZymes among Alteromonas spp. indicates ecophysiological strategies linked to polysaccharide utilization types.",
+      "authors": [
+        "Hanna Koch",
+        "Alexandra D\u00fcrwald",
+        "Thomas Schweder",
+        "Beatriz Noriega-Ortega",
+        "Silvia Vidal-Melgosa",
+        "Jan-Hendrik Hehemann",
+        "Thorsten Dittmar",
+        "Heike M. Freese",
+        "D\u00f6rte Becher",
+        "Meinhard Simon",
+        "Matthias Wietz"
+      ],
+      "description": "Three complementary perspectives on marine polysaccharide mixtures and bacterial utilization: cellular adaptations in Alteromonas macleodii 83-1 to laminarin, alginate, and pectin; evidence that macroalgae release alginate/pectin-like mixtures; and microdiversity of hydrolytic capacities among Alteromonas spp., highlighting ecophysiological strategies for polysaccharide utilization.",
+      "doi": "10.1038/s41396-018-0252-4",
+      "journal": "The ISME Journal",
+      "organism": [
+        "Alteromonas macleodii 83-1"
+      ],
+      "pmid": null,
+      "publication_id": "10.1038/s41396-018-0252-4",
+      "publication_year": "2019",
+      "study_type": "Transcriptomics, Proteomics, Exometabolomics",
+      "title": "Biphasic cellular adaptations and ecological implications of Alteromonas macleodii degrading a mixture of algal polysaccharides"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Koch 2020/s41598-020-57526-5.pdf": {
+    "publication": {
+      "abstract": "Metabolic variability is a major driver of ecological differentiation within bacterial taxa, shaping adaptive strategies and hence the niche space of related strains. With the increasing number of sequenced genomes, substantial functional diversity is being discovered among closely related strains, with implications for bacterial species concepts. This diversity can be investigated by interrogating the pangenome of a taxonomic group (i.e. their entire repertoire of core and variable genes) for genotypic variants with ecological implications. Ecological differentiation within a taxon mainly relates to two flexible genomic categories: the accessory genome (shared by several strains) and the unique genome (restricted to individual strains). This variable repertoire is often encoded in genomic islands, hotspots of genetic exchange known to influence niche specialization in cyanobacteria, actinobacteria and roseobacters. Flexible genomic islands, located at equivalent loci in different strains of the same taxon, can provide or replace genetic information and are important factors for intraspecific heterogeneity, for instance governing carbon utilization, siderophore production and pilus assembly. These adaptive-evolutionary processes are often amplified by plasmids and other mobile genetic elements, driving horizontal gene transfer (HGT) and diversification on short time scales. Bacterial adaptations can also relate to single-nucleotide exchanges via homologous recombination or mutations. Current approaches to species delineation, such as 16S rRNA or core-genome phylogenies, do not always reflect the diversity of strain-specific ecological strategies. For instance, the analysis of ~400 Vibrio cholerae strains has revealed distinct intraspecific variability in genes mediating bioluminescence and colonization of zooplankton. Closely related vibrios also show substantial divergence in polysaccharide degradation and particle colonization. Comparable diversity has been observed for biosynthetic capacities within marine Salinispora species, with implications for strain-specific competitive abilities. Also the degree of carbohydrate utilization can vary between strains of the same species. Recently, these aspects have been extended to the metapangenomic dimension, revealing linkages of genomic and geographic variability among Prochlorococcus strains. The marine gammaproteobacterium Alteromonas macleodii is an excellent model to study the ecological consequences of strain-level variability, as multiple genome-sequenced isolates from diverse habitats and locations are available. The occupation of different niches, varied interactions with other organisms and utilization of diverse substrates suggests the existence of functionally distinct entities within the A. macleodii species boundary, despite being >99% identical on 16S rRNA gene level. This notion is supported by the diverse flexible genome and a high degree of genetic exchange between A. macleodii and the \u201csister species\u201d A. mediterranea. Consequently, genomic islands and mobile genetic elements are major drivers of genetic and metabolic variability within Alteromonas, influencing surface-associated vs. free-living lifestyles, exopolysaccharide production and polysaccharide utilization. Notably, co-occurring Alteromonas strains have been postulated to colonize distinct microniches based on specific genomic features and competitive abilities. For instance, A. mediterranea strains differ in motility and glucose utilization, potentially influencing patterns of co-occurrence or mutual exclusion. Despite these ecological implications of genome plasticity, phenotypic and genomic variability have not been comprehensively linked in Alteromonas to date, largely because few putative traits have been experimentally verified. The present study investigated strain-level phenotypic and genomic variability in twelve strains of A. macleodii with completely sequenced genomes, including three novel isolates from a Pacific Ocean transect. Supported by exometabolomic evidence and targeted physiological assays, we show how accessory and unique features shape ecological differentiation and result in \u201cmicrodiversity\u201d of phenotypic traits. Co-culturing experiments linked these observations to strain-specific competitiveness, a factor that may influence ecophysiological roles and biogeographic distribution. The finding of diverse metabolic potentials within a narrow taxonomic range, whose members may co-occur or compete depending on prevailing conditions, contributes to the functional interpretation of bacterial species and populations. The shown intraspecific diversity in adaptive strategies helps understanding the widespread occurrence of A. macleodii in the oceans, with broader implications for bacterial population ecology and niche specialization.",
+      "authors": [
+        "Hanna Koch",
+        "Nora Germscheid",
+        "Heike M. Freese",
+        "Beatriz Noriega-Ortega",
+        "Dominik L\u00fccking",
+        "Martine Berger",
+        "Galaxy Qiu",
+        "Ezequiel M. Marzinelli",
+        "Alexandra H. Campbell",
+        "Peter D. Steinberg",
+        "J\u00f6rg Overmann",
+        "Thorsten Dittmar",
+        "Meinhard Simon",
+        "Matthias Wietz"
+      ],
+      "description": "A genomics- and metabolomics-driven study linking strain-level genomic and phenotypic variability to ecological differentiation in twelve Alteromonas macleodii strains, including exometabolomic profiling and physiological assays, with co-culture experiments to assess competitive interactions and niche differentiation.",
+      "doi": "10.1038/s41598-020-57526-5",
+      "journal": "Scientific Reports",
+      "organism": [
+        "Alteromonas macleodii"
+      ],
+      "pmid": null,
+      "publication_id": "10.1038/s41598-020-57526-5",
+      "publication_year": "2020",
+      "study_type": [
+        "Genomics",
+        "Metabolomics",
+        "Phenotypic assays",
+        "Exometabolomics",
+        "Co-culture experiments"
+      ],
+      "title": "Genomic, metabolic and phenotypic variability shapes ecological differentiation and intraspecies interactions of Alteromonas macleodii"
     }
   },
   "data/Prochlorococcus/papers_and_supp/Kujawinski 2023/kujawinski-et-al-2023-metabolite-diversity-among-representatives-of-divergent-prochlorococcus-ecotypes.pdf": {
@@ -423,6 +579,28 @@
       "publication_year": "2026",
       "study_type": "co-culture experiments with experimental evolution",
       "title": "Vesicle-associated exudates from Alteromonas enhance growth and survival of Prochlorococcus in batch culture"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Manck 2020/manck-et-al-2020-transcriptomic-study-of-substrate-specific-transport-mechanisms-for-iron-and-carbon-in-the-marine.pdf": {
+    "publication": {
+      "abstract": "This study presents iron- and carbon-regulated transcriptomes of Alteromonas macleodii ATCC 27126, focusing on TonB-dependent transporters and the regulation of central metabolic processes. It reveals distinct sets of TonB-dependent transporters for the acquisition of iron and carbon, identifies six inner membrane permeases for siderophore transport via an ATPase-independent mechanism, and shows a distribution pattern of TBDTs across 31 Alteromonas genomes suggesting niche specialization in transport capacity. The results imply substrate-specific bioavailability of iron and carbon shapes microbial processing of organic matter in the marine environment.",
+      "authors": [
+        "Lauren E. Manck",
+        "Josh L. Espinoza",
+        "Christopher L. Dupont",
+        "Katherine A. Barbeau"
+      ],
+      "description": "Transcriptomic analysis of iron- and carbon-limited conditions in Alteromonas macleodii ATCC 27126 to characterize substrate-specific transport mechanisms, including distinct TonB-dependent transporter sets for iron and carbon uptake and the identification of six inner membrane permeases for siderophore transport, with a cross-genome distribution analysis across Alteromonas spp.",
+      "doi": "10.1128/mSystems.00070-20",
+      "journal": "mSystems",
+      "organism": [
+        "Alteromonas macleodii ATCC 27126"
+      ],
+      "pmid": null,
+      "publication_id": "10.1128/mSystems.00070-20",
+      "publication_year": "2020",
+      "study_type": "Transcriptomics",
+      "title": "Transcriptomic Study of Substrate-Specific Transport Mechanisms for Iron and Carbon in the Marine Copiotroph Alteromonas macleodii"
     }
   },
   "data/Prochlorococcus/papers_and_supp/Pandhal 2007/a-quantitative-proteomic-analysis-of-light-adaptation-in-a-globally-significant-marine-cyanobacterium-prochlorococcus.pdf": {
@@ -1283,6 +1461,30 @@
       "title": "You produce while I clean up, a strategy revealed by exoproteomics during Synechococcus\u2013Roseobacter interactions"
     }
   },
+  "data/Synechococcus/papers_and_supp/Oleza 2015b/Environmental Microbiology - 2015 - Christie\u2010Oleza - Functional distinctness in the exoproteomes of marine Synechococcus.pdf": {
+    "publication": {
+      "abstract": "The exported protein fraction of an organism may reflect its life strategy and, ultimately, the way it is perceived by the outside world. Bioinformatic prediction of the exported pan-proteome of Prochlorococcus and Synechococcus lineages demonstrated that (i) this fraction of the encoded proteome had a much higher incidence of lineage-specific proteins than the cytosolic fraction (57% and 73% homologous incidence respectively) and (ii) exported proteins are largely uncharacterized to date (54%) compared with proteins from the cytosolic fraction (35%). This suggests that the genomic and functional diversity of these organisms lies largely in the diverse pool of novel functions these organisms export to/through their membranes playing a key role in community diversification, e.g. for niche partitioning or evading predation. Experimental exoproteome analysis of marine Synechococcus showed transport systems for inorganic nutrients, an interesting array of strain-specific exoproteins involved in mutualistic or hostile interactions (i.e. hemolysins, pilins, adhesins), and exoenzymes with a potential mixotrophic goal (i.e. exoproteases and chitinases). We also show how these organisms can remodel their exoproteome, i.e. by increasing the repertoire of interaction proteins when grown in the presence of a heterotroph or decrease exposure to prey when grown in the dark. Finally, our data indicate that heterotrophic bacteria can feed on the exoproteome of Synechococcus.",
+      "authors": [
+        "Joseph A. Christie-Oleza",
+        "Jean Armengaud",
+        "Philippe Guerin",
+        "David J. Scanlan"
+      ],
+      "description": "Bioinformatic prediction of theoretical exoproteomes for eight Synechococcus strains, four Prochlorococcus strains, and SAR11, followed by experimental exoproteome analysis of eight Synechococcus strains to characterize exported proteins, transport systems, exoenzymes and interactions; analysis of how exoproteome remodeling occurs under different growth conditions and implications for microbial interactions.",
+      "doi": "10.1111/1462-2920.12822",
+      "journal": "Environmental Microbiology",
+      "organism": [
+        "Synechococcus",
+        "Prochlorococcus",
+        "Candidatus Pelagibacter ubique (SAR11)"
+      ],
+      "pmid": null,
+      "publication_id": "10.1111/1462-2920.12822",
+      "publication_year": "2015",
+      "study_type": "Proteomics",
+      "title": "Functional distinctness in the exoproteomes of marine Synechococcus"
+    }
+  },
   "data/Synechococcus/papers_and_supp/Oleza 2017/Synechococcus-Roseobacter long term stability Nat Micro 2017.pdf": {
     "publication": {
       "abstract": "This study demonstrates that long-term mutualistic interactions between marine phototrophs and heterotrophs are driven by nutrient cycling rather than mere nutrient supply. Synechococcus sp. WH7803 persists for more than 10 months in co-culture with heterotrophs in artificial seawater, whereas axenic cultures fail within weeks. Heterotrophs remineralize leaked organic matter, enabling continued phototrophic CO2 fixation. Proteomics reveals that ~45% of Synechococcus WH7803 proteins are involved in photosynthesis or CO2 fixation, with few proteomic differences between axenic and co-cultured states, supporting a robust mutualism. Ruegeria pomeroyi DSS-3 and Tropicibacter sp. were among the heterotrophs tested, with remineralization preventing toxic accumulation of organic matter.",
@@ -1312,6 +1514,60 @@
       "title": "Nutrient recycling facilitates long-term stability of marine microbial phototroph \u2013heterotroph interactions"
     }
   },
+  "data/Synechococcus/papers_and_supp/Ostrowski 2010/41396_2010_article_bfismej201024.pdf": {
+    "publication": {
+      "abstract": "PtrA, a CRP-family transcriptional regulator likely regulated by PhoBR, is required for the full phosphate-stress response in Synechococcus sp. WH8102. A ptrA insertional mutant fails to upregulate phosphatase activity under phosphate limitation. Microarray and quantitative RT-PCR analyses show PtrA controls a subset of the Pho regulon, including two phosphatases, a predicted phytase, and psip1 (SYNW0165), all highly induced during phosphate scarcity. Electrophoretic mobility shift assays indicate PtrA binds promoter regions of induced genes. The data support a two-tiered response to phosphate depletion: a PhoB-dependent induction of high-affinity phosphate transporters, and a PtrA-dependent induction of phosphatases to scavenge organic phosphorus. PtrA also influences expression of transcripts related to cell-surface modification, metal uptake, photosynthesis, stress responses and other metabolism, suggesting a broader regulatory role for PtrA in marine picocyanobacteria.",
+      "authors": [
+        "Martin Ostrowski",
+        "Sophie Mazard",
+        "Sasha G Tetu",
+        "Katherine Phillippy",
+        "Aaron Johnson",
+        "Brian Palenik",
+        "Ian T Paulsen",
+        "Dave J Scanlan"
+      ],
+      "description": "Insertional inactivation of ptrA in Synechococcus sp. WH8102 and comparison to wild type under phosphate-replete and phosphate-stress conditions; microarray and qRT-PCR analyses to identify PtrA-regulated genes; electrophoretic mobility shift assays to test PtrA DNA binding.",
+      "doi": "10.1038/ismej.2010.24",
+      "journal": "The ISME Journal",
+      "organism": [
+        "Synechococcus sp. WH8102"
+      ],
+      "pmid": null,
+      "publication_id": "10.1038/ismej.2010.24",
+      "publication_year": "2010",
+      "study_type": "Microarray, RT-qPCR, EMSA",
+      "title": "PtrA is required for coordinate regulation of gene expression during phosphate stress in a marine Synechococcus"
+    }
+  },
+  "data/Synechococcus/papers_and_supp/Rubin 2015/rubin-et-al-2015-the-essential-gene-set-of-a-photosynthetic-organism.pdf": {
+    "publication": {
+      "abstract": "Synechococcus elongatus PCC 7942 is a model organism used for studying photosynthesis and the circadian clock, and it is being developed for the production of fuel, industrial chemicals, and pharmaceuticals. To identify a comprehensive set of genes and intergenic regions that impacts fitness in S. elongatus, we created a pooled library of ~250,000 transposon mutants and used sequencing to identify the insertion locations. By analyzing the distribution and survival of these mutants, we identified 718 of the organism\u2019s 2,723 genes as essential for survival under laboratory conditions. The validity of the essential gene set is supported by its tight overlap with well-conserved genes and its enrichment for core biological processes. The differences noted between our dataset and these predictors of essentiality, however, have led to surprising biological insights. One such finding is that genes in a large portion of the TCA cycle are dispensable, suggesting that S. elongatus does not require a cyclic TCA process. Furthermore, the density of the transposon mutant library enabled individual and global statements about the essentiality of noncoding RNAs, regulatory elements, and other intergenic regions. In this way, a group I intron located in tRNA Leu, which has been used extensively for phylogenetic studies, was shown here to be essential for the survival of S. elongatus. Our survey of essentiality for every locus in the S. elongatus genome serves as a powerful resource for understanding the organism's physiology and defines the essential gene set required for the growth of a photosynthetic organism.",
+      "authors": [
+        "Benjamin E. Rubin",
+        "Kelly M. Wetmore",
+        "Morgan N. Price",
+        "Spencer Diamond",
+        "Ryan K. Shultzaberger",
+        "Laura C. Lowe",
+        "Genevieve Curtin",
+        "Adam P. Arkin",
+        "Adam Deutschbauer",
+        "Susan S. Golden"
+      ],
+      "description": "RB-TnSeq analysis to identify essential genes and noncoding regions in Synechococcus elongatus PCC 7942. A high-density transposon mutant library (~375,000 mutants) and BarSeq were used to map insertions and barcodes, identifying 718 of 2,723 genes as essential under standard laboratory conditions and enabling genome-wide assessment of noncoding regions.",
+      "doi": "10.1073/pnas.1519220112",
+      "journal": "PNAS",
+      "organism": [
+        "Synechococcus elongatus PCC 7942"
+      ],
+      "pmid": null,
+      "publication_id": "10.1073/pnas.1519220112",
+      "publication_year": "2015",
+      "study_type": "RB-TnSeq / Transposon sequencing",
+      "title": "The essential gene set of a photosynthetic organism"
+    }
+  },
   "data/Synechococcus/papers_and_supp/Tal 2009/Synechococcus Vibrio coculture microarray 2009.pdf": {
     "publication": {
       "abstract": "Microbes live in diverse communities yet their physiologies are typically studied in axenic culture. To begin to address this dichotomy, whole-genome microarray analyses were used and revealed that several major metabolic pathways were affected in Synechococcus sp. WH8102, a model phototroph, when grown with Vibrio parahaemolyticus, a model heterotroph. In co-cultures with V. parahaemolyticus, although phosphate was not depleted, Synechococcus sp. WH8102 may have experienced phosphate stress since the expression of phosphate acquisition genes increased and alkaline phosphatase activity was higher than in monocultures. Expression of cell wall synthesis genes and the components of a zinc transporter were also upregulated. In contrast, a ferric uptake regulation (Fur) family gene was downregulated as were genes that encode proteins rich in iron or involved in detoxifying oxygen radicals. Nitrogen use may also have been affected in co-cultures as the gene expression changes share similarities with ammonia-grown Synechococcus. This study demonstrates the multiple impacts that interspecific microbial interactions can have on the physiology of a major primary producer and the importance of investigating microbial physiology from a community perspective.",
@@ -1334,6 +1590,31 @@
       "publication_year": "2009",
       "study_type": "Microarray",
       "title": "Whole-genome microarray analyses of Synechococcus\u2013Vibrio interaction"
+    }
+  },
+  "data/Synechococcus/papers_and_supp/Tetu 2009/41396_2009_article_bfismej200931.pdf": {
+    "publication": {
+      "abstract": "This study reports the construction of a full genome microarray for Synechococcus sp. WH8102 and compares gene expression under phosphate-replete and phosphate-limited growth, identifying 36 genes upregulated and 23 downregulated at early time points, with persistence of changes for only a subset during late P stress. Knockout mutants SYNW0947 and SYNW0948 support a two-component regulatory system governing phosphate metabolism. The Pho regulon in this marine cyanobacterium largely comprises alkaline phosphatases, phosphate transporters, and related metabolism genes, with a variable composition across marine cyanobacteria.",
+      "authors": [
+        "Sasha G Tetu",
+        "Bianca Brahamsha",
+        "Daniel A Johnson",
+        "Vera Tai",
+        "Katherine Phillippy",
+        "Brian Palenik",
+        "Ian T Paulsen"
+      ],
+      "description": "Genome-wide microarray analysis of gene expression in Synechococcus sp. WH8102 under phosphate-replete versus phosphate-limited conditions, including early P stress with alkaline phosphatase induction and late P stress, plus knockout analysis of putative PhoB/PhoR homologs SYNW0947 and SYNW0948 to characterize the Pho regulon in this marine cyanobacterium.",
+      "doi": "10.1038/ismej.2009.31",
+      "journal": "The ISME Journal",
+      "organism": [
+        "Synechococcus sp. WH8102"
+      ],
+      "pmid": null,
+      "publication_id": "10.1038/ismej.2009.31",
+      "publication_year": "2009",
+      "study_type": "Microarray",
+      "title": "Microarray analysis of phosphate regulation in the marine cyanobacterium Synechococcus sp. WH8102"
     }
   },
   "data/Synechococcus/papers_and_supp/kaur 2018/Synechococcus-Ruegeria long term co-culture exoproteome EM 2018.pdf": {

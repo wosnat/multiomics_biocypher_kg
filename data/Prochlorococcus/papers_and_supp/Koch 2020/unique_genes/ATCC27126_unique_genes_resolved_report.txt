@@ -1,0 +1,24 @@
+Resolution report: Koch 2020 / unique_genes_atcc27126_table
+Source: ATCC27126_unique_genes.csv
+name_col: locus_tag
+id_columns: ['locus_tag']
+
+Total rows with IDs: 115
+Resolved: 105 (91.3%)
+Unresolved: 10
+
+Resolution method breakdown:
+  locus_tag:locus_tag: 105
+  unresolved: 10
+
+Unresolved rows (10):
+  row 0: raw_id='MASE_01955'  reason=unresolved  [locus_tag='MASE_01955']
+  row 18: raw_id='MASE_03965'  reason=unresolved  [locus_tag='MASE_03965']
+  row 32: raw_id='MASE_08790'  reason=unresolved  [locus_tag='MASE_08790']
+  row 47: raw_id='MASE_10350'  reason=unresolved  [locus_tag='MASE_10350']
+  row 54: raw_id='MASE_11335'  reason=unresolved  [locus_tag='MASE_11335']
+  row 55: raw_id='MASE_11350'  reason=unresolved  [locus_tag='MASE_11350']
+  row 56: raw_id='MASE_11755'  reason=unresolved  [locus_tag='MASE_11755']
+  row 86: raw_id='MASE_15460'  reason=unresolved  [locus_tag='MASE_15460']
+  row 102: raw_id='MASE_18465'  reason=unresolved  [locus_tag='MASE_18465']
+  row 114: raw_id='MASE_19685'  reason=unresolved  [locus_tag='MASE_19685']

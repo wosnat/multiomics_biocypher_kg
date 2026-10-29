@@ -1,0 +1,66 @@
+publication:
+  papername: "Ferrer 2020"
+  doi: "10.1038/s41396-020-00811-y"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Ferrer 2020/41396_2020_article_811.pdf"
+  control_timing: matched
+
+  # Ferrer-Gonzalez et al. 2020 (ISME J 15:762). Three heterotrophs were each inoculated into
+  # 7-day axenic Thalassiosira pseudonana CCMP1335 cultures (diatom exometabolites = sole carbon)
+  # and sampled at 8 h; controls were the same bacteria in L1+Si with 2.5 mM glucose, 8 h.
+  # Only R. pomeroyi DSS-3 is a KG genome. Skipped: moesm2 (Polaribacter dokdonensis MED152) and
+  # moesm3 (Stenotrophomonas sp. SKA14) DE tables. Spent-medium metabolite drawdown (MS / NMR,
+  # MetaboLights MTBLS1751 / MTBLS1544) is not in the supplements as per-metabolite tables.
+  experiments:
+    coculture_tpseudonana_dss3_rnaseq:
+      name: "R. pomeroyi DSS-3 transcriptome in co-culture with Thalassiosira pseudonana vs glucose control (8 h)"
+      organism: "Ruegeria pomeroyi DSS-3"
+      omics_type: RNASEQ
+      test_type: DESeq2
+      treatment_type: ["coculture"]
+      background_factors: ["diel"]
+      treatment_condition: "Co-culture with axenic T. pseudonana CCMP1335 (7-day culture; diatom exometabolites as sole carbon source), 8 h after inoculation"
+      control_condition: "Axenic R. pomeroyi DSS-3 in L1+Si medium with 2.5 mM glucose, 8 h after inoculation"
+      experimental_context: "L1+Si medium (organic-carbon-free) at 18C, 16:8 h light:dark at 160 umol photons m-2 s-1; bacteria pre-grown in YTSS, washed and inoculated at about 1e6 cells/mL into triplicate diatom cultures; duplicate libraries per treatment; bacteria collected on 0.2 um filters after 2 um pre-filtration"
+      medium: "L1+Si (diatom culture) vs L1+Si with 2.5 mM glucose (control)"
+      temperature: "18C"
+      light_condition: "16:8 light:dark cycle"
+      light_intensity: "160 umol photons m-2 s-1"
+      treatment_organism: "Thalassiosira pseudonana"
+      treatment_taxid: 35128
+      table_scope: all_detected_genes
+      table_scope_detail: "All 4,277 DSS-3 genes in Table S5 (DESeq2 output)"
+      design_notes: >-
+        Both arms sampled 8 h after bacterial inoculation, during the light period. The control is
+        axenic DSS-3 on glucose rather than DSS-3 alone without carbon, so the contrast also
+        includes the carbon-source difference (diatom exometabolites vs glucose); the authors chose
+        it to give a baseline of actively growing cells. Table sign was control minus co-culture and
+        is negated in the builder.
+
+  supplementary_materials:
+    # Built by scripts/build_modified_csv/build_ferrer2020_dss3_rnaseq.py from
+    # 41396_2020_811_moesm4_esm.xlsx (sheet "DSS3 DESeq"); log2fc = -(log2 Fold-difference).
+    table_s5_dss3:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Ferrer 2020/ferrer2020_dss3_coculture_vs_glucose.csv"
+      organism: "Ruegeria pomeroyi DSS-3"
+      id_columns:
+        - column: "locus_tag"
+          id_type: locus_tag
+        - column: "new_locus_tag"
+          id_type: locus_tag_ncbi
+        - column: "protein_id"
+          id_type: protein_id_refseq
+        - column: "gene_symbol"
+          id_type: gene_name
+      product_columns:
+        - column: "product"
+      statistical_analyses:
+        - id: "ferrer2020_dss3_coculture_tpseudonana_vs_glucose_8h"
+          experiment: coculture_tpseudonana_dss3_rnaseq
+          timepoint: "8h"
+          timepoint_hours: 8
+          growth_phase: exponential
+          name_col: "locus_tag"
+          logfc_col: "log2fc_coculture_vs_glucose"
+          adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05

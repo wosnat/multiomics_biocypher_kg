@@ -1,0 +1,744 @@
+{
+  "metadata": {
+    "paper": "Tetu 2009",
+    "doi": "10.1038/ismej.2009.31",
+    "strains": [
+      "Synechococcus WH8102"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "high",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Table 1 and Table 2 print many additional SYNW locus tags for genes mentioned only in tables/figures or supplementary lists; not all were attached unless discussed in prose.",
+    "extracted_at": "2026-10-28T23:48:20.641777",
+    "input_tokens": 21124,
+    "output_tokens": 5965
+  },
+  "genes": [
+    {
+      "surface_form": "SYNW0947",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0947"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cKnockout mutants were constructed for genes SYNW0947 and SYNW0948\u201d (Abstract, p1)"
+    },
+    {
+      "surface_form": "SYNW0948",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0948"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cKnockout mutants were constructed for genes SYNW0947 and SYNW0948\u201d (Abstract, p1)"
+    },
+    {
+      "surface_form": "phoB",
+      "gene_name": "phoB",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "\u201cputative homologues of phoB and phoR\u201d (Introduction, p2)"
+    },
+    {
+      "surface_form": "phoR",
+      "gene_name": "phoR",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "\u201cputative homologues of phoB and phoR\u201d (Introduction, p2)"
+    },
+    {
+      "surface_form": "sphS",
+      "gene_name": "sphS",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "\u201cnamed sphS homologous to E. coli phoR and sphR homologous to phoB\u201d (Introduction, p2)"
+    },
+    {
+      "surface_form": "sphR",
+      "gene_name": "sphR",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "\u201cnamed sphS homologous to E. coli phoR and sphR homologous to phoB\u201d (Introduction, p2)"
+    },
+    {
+      "surface_form": "sphX",
+      "gene_name": "sphX",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "\u201cwith genes sphX ... and phoA ... constituting members of the Pho regulon\u201d (Introduction, p2)"
+    },
+    {
+      "surface_form": "phoA",
+      "gene_name": "phoA",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "\u201cwith genes sphX ... and phoA alkaline phosphatase constituting members of the Pho regulon\u201d (Introduction, p2)"
+    },
+    {
+      "surface_form": "pst1",
+      "gene_name": "pst1",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "\u201cThe 12 upregulated genes were included in three clusters: pst1 and pst2\u201d (Introduction, p2)"
+    },
+    {
+      "surface_form": "pst2",
+      "gene_name": "pst2",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "\u201cThe 12 upregulated genes were included in three clusters: pst1 and pst2\u201d (Introduction, p2)"
+    },
+    {
+      "surface_form": "nucH",
+      "gene_name": "nucH",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "\u201ca third containing phoA and nucH extracellular nuclease\u201d (Introduction, p2)"
+    },
+    {
+      "surface_form": "SYNW1018",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1018"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cmultiple putative solute-binding proteins for P SYNW1018, SYNW1286, SYNW1815 and SYNW2507\u201d (Results, p4)"
+    },
+    {
+      "surface_form": "SYNW1286",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1286"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cmultiple putative solute-binding proteins for P SYNW1018, SYNW1286, SYNW1815 and SYNW2507\u201d (Results, p4)"
+    },
+    {
+      "surface_form": "SYNW1815",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1815"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cmultiple putative solute-binding proteins for P SYNW1018, SYNW1286, SYNW1815 and SYNW2507\u201d (Results, p4)"
+    },
+    {
+      "surface_form": "SYNW2507",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2507"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cmultiple putative solute-binding proteins for P SYNW1018, SYNW1286, SYNW1815 and SYNW2507\u201d (Results, p4)"
+    },
+    {
+      "surface_form": "pstC",
+      "gene_name": "pstC",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201can ABC transporter consisting of pstC, pstA, pstB homologues SYNW1270, SYNW1271 and SYNW1272\u201d (Results, p4)"
+    },
+    {
+      "surface_form": "pstA",
+      "gene_name": "pstA",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201can ABC transporter consisting of pstC, pstA, pstB homologues SYNW1270, SYNW1271 and SYNW1272\u201d (Results, p4)"
+    },
+    {
+      "surface_form": "pstB",
+      "gene_name": "pstB",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201can ABC transporter consisting of pstC, pstA, pstB homologues SYNW1270, SYNW1271 and SYNW1272\u201d (Results, p4)"
+    },
+    {
+      "surface_form": "SYNW1270",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1270"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cSYNW1270, SYNW1271 and SYNW1272 were significantly upregulated\u201d (Results, p5)"
+    },
+    {
+      "surface_form": "SYNW1271",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1271"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cSYNW1270, SYNW1271 and SYNW1272 were significantly upregulated\u201d (Results, p5)"
+    },
+    {
+      "surface_form": "SYNW1272",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1272"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cSYNW1270, SYNW1271 and SYNW1272 were significantly upregulated\u201d (Results, p5)"
+    },
+    {
+      "surface_form": "SYNW1169",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1169"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cputative genes for the transport of phosphonates SYNW1169, SYNW1168 and SYNW1170\u201d (Results, p4)"
+    },
+    {
+      "surface_form": "SYNW1168",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1168"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cputative genes for the transport of phosphonates SYNW1169, SYNW1168 and SYNW1170\u201d (Results, p4)"
+    },
+    {
+      "surface_form": "SYNW1170",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1170"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cputative genes for the transport of phosphonates SYNW1169, SYNW1168 and SYNW1170\u201d (Results, p4)"
+    },
+    {
+      "surface_form": "SYNW0120",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0120"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cMultiple putative alkaline phosphatase genes SYNW0120, SYNW0196, SYNW2391 and SYNW2390\u201d (Results, p4)"
+    },
+    {
+      "surface_form": "SYNW0196",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0196"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cMultiple putative alkaline phosphatase genes SYNW0120, SYNW0196, SYNW2391 and SYNW2390\u201d (Results, p4)"
+    },
+    {
+      "surface_form": "SYNW2391",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2391"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cMultiple putative alkaline phosphatase genes SYNW0120, SYNW0196, SYNW2391 and SYNW2390\u201d (Results, p4)"
+    },
+    {
+      "surface_form": "SYNW2390",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2390"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cMultiple putative alkaline phosphatase genes SYNW0120, SYNW0196, SYNW2391 and SYNW2390\u201d (Results, p4)"
+    },
+    {
+      "surface_form": "SYNW2223",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2223"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cTwo of these, SYNW2223 and SYNW2224, encode putative outer membrane porins\u201d (Results, p5)"
+    },
+    {
+      "surface_form": "SYNW2224",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2224"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cTwo of these, SYNW2223 and SYNW2224, encode putative outer membrane porins\u201d (Results, p5)"
+    },
+    {
+      "surface_form": "somA",
+      "gene_name": "somA",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "\u201csimilarity to ... outer membrane porins somA and somB\u201d (Results, p5)"
+    },
+    {
+      "surface_form": "somB",
+      "gene_name": "somB",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "\u201csimilarity to ... outer membrane porins somA and somB\u201d (Results, p5)"
+    },
+    {
+      "surface_form": "SYNW0762",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0762"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cConserved hypothetical protein SYNW0762 also contained a region with similarity to putative alkaline phosphatase genes\u201d (Results, p5)"
+    },
+    {
+      "surface_form": "SYNW1019",
+      "gene_name": "ptrA",
+      "identifiers": [
+        "SYNW1019"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cSYNW1019 ... was previously designated ptrA\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "pstS",
+      "gene_name": "pstS",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cSYNW1019, which lies directly downstream of the P-binding protein SYNW1018 pstS\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "mutT",
+      "gene_name": "mutT",
+      "identifiers": [
+        "SYNW1334"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW1334 mutT belongs to the Nudix family\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "SYNW0806",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0806"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW0806, contains a conserved domain for polyphosphate kinase 2\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "SYNW1119",
+      "gene_name": "gnd",
+      "identifiers": [
+        "SYNW1119"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cThese include SYNW1119 gnd and SYNW1120 pgl\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "SYNW1120",
+      "gene_name": "pgl",
+      "identifiers": [
+        "SYNW1120"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cThese include SYNW1119 gnd and SYNW1120 pgl\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "SYNW0799",
+      "gene_name": "gap3",
+      "identifiers": [
+        "SYNW0799"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW0799 gap3, which catalyzes the conversion of D-glycerate 1,3-bisphosphate\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "SYNW0156",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0156"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW0156, which encodes a putative starch phosphorylase\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "SYNW0160",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0160"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW0160, contains a conserved domain, GalM\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "gap1",
+      "gene_name": "gap1",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "\u201cgap1 was observed to be one of only two genes upregulated in both MED4 and MIT9313\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "SYNW1213",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1213"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW1213, encoding a thioredoxin peroxidase was also significantly upregulated\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "SYNW2028",
+      "gene_name": "rlpA",
+      "identifiers": [
+        "SYNW2028"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cThe upregulation of SYNW2028 possible rare lipoprotein A, rlpA\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "SYNW2508",
+      "gene_name": "dnaK2",
+      "identifiers": [
+        "SYNW2508"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW2508 dnaK2 may constitute part of a general stress response\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "hsp70-2",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2508"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cDnaK2, also known as heat-shock protein hsp70-2\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "SYNW0953",
+      "gene_name": "swmB",
+      "identifiers": [
+        "SYNW0953"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cSYNW0953 swmB and SYNW0085 swmA encode polypeptides involved in ... swimming motility\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "SYNW0085",
+      "gene_name": "swmA",
+      "identifiers": [
+        "SYNW0085"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "\u201cSYNW0953 swmB and SYNW0085 swmA encode polypeptides involved in ... swimming motility\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "SYNW0406",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0406"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW0406 encodes the heavily glycosylated 70 kDa integral outer membrane polypeptide\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "SYNW1333",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1333"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cswmB SYNW1333, SYNW1453, SYNW1454, SYNW1562, all encode conserved hypothetical proteins\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW1453",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1453"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW1333, SYNW1453, SYNW1454, SYNW1562, all encode conserved hypothetical proteins\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW1454",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1454"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW1333, SYNW1453, SYNW1454, SYNW1562, all encode conserved hypothetical proteins\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW1562",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1562"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW1333, SYNW1453, SYNW1454, SYNW1562, all encode conserved hypothetical proteins\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW0519",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0519"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cOne exception is phosphoglycerate mutase SYNW0519\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW2037",
+      "gene_name": "pex",
+      "identifiers": [
+        "SYNW2037"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cincluding SYNW2037, encoding a possible pex period extender gene\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW1660",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1660"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cand SYNW1660, also a putative transcriptional regulator\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW1149",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1149"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW1149, peptide chain release factor RF-3, involved in termination of protein synthesis\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW2340",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2340"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW2340, SYNW2341 and SYNW2082 encoding 50S ribosomal proteins\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW2341",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2341"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW2340, SYNW2341 and SYNW2082 encoding 50S ribosomal proteins\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW2082",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2082"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW2340, SYNW2341 and SYNW2082 encoding 50S ribosomal proteins\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW2520",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2520"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cOther genes negatively affected by low P include a putative sucrose P synthase SYNW2520\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW2453",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2453"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cputative asparagine synthetase SYNW2453\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW2454",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2454"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cputative aspartate carbamoyltransferase SYNW2454\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW0432",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0432"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cand a putative dehydrogenase SYNW0432\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW1717",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1717"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cgenes SYNW1717 and SYNW1718, encoding ribulose bisphosphate carboxylase\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW1718",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1718"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cgenes SYNW1717 and SYNW1718, encoding ribulose bisphosphate carboxylase\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "SYNW1946",
+      "gene_name": "phoH",
+      "identifiers": [
+        "SYNW1946"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW1946, annotated as a phoH phosphate starvation inducible family protein\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "rsuA",
+      "gene_name": "rsuA",
+      "identifiers": [
+        "SYNW0949"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "\u201cdownstream of SYNW0948 is a gene, rsuA SYNW0949\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "cysR",
+      "gene_name": "cysR",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "\u201cTwo members of this family have previously been characterized in cyanobacteria: cysR\u201d (Discussion, p13)"
+    },
+    {
+      "surface_form": "ntcA",
+      "gene_name": "ntcA",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "\u201cand ntcA involved in regulating genes subjected to nitrogen control\u201d (Discussion, p13)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Pho regulon",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "\u201cthe Pho regulon of this strain is comprised largely of genes for alkaline phosphatases, P transport or P metabolism\u201d (Abstract, p1)"
+    },
+    {
+      "surface_form": "phosphate transport",
+      "kegg_pathway_id": "map02060",
+      "prominence": "central",
+      "evidence": "\u201can ABC transporter consisting of pstC, pstA, pstB homologues\u201d (Results, p4)"
+    },
+    {
+      "surface_form": "ABC transporters",
+      "kegg_pathway_id": "map02010",
+      "prominence": "central",
+      "evidence": "\u201cencode components of P-specific ABC transporters\u201d (Results, p5)"
+    },
+    {
+      "surface_form": "pentose phosphate pathway",
+      "kegg_pathway_id": "map00030",
+      "prominence": "peripheral",
+      "evidence": "\u201cmembers of the pentose phosphate pathway\u201d and \u201cSYNW1119 gnd and SYNW1120 pgl\u201d (Results, p8 and p12)"
+    },
+    {
+      "surface_form": "glycolysis or gluconeogenesis",
+      "kegg_pathway_id": "map00010",
+      "prominence": "peripheral",
+      "evidence": "\u201cSYNW0799 gap3 ... during glycolysis/glyconeogenesis\u201d (Results, p8)"
+    },
+    {
+      "surface_form": "oxidative phosphorylation",
+      "kegg_pathway_id": "map00190",
+      "prominence": "peripheral",
+      "evidence": "\u201cgenes found in this cluster also encode key enzymes in oxidative phosphorylation\u201d (Results, p12)"
+    },
+    {
+      "surface_form": "photosystem I",
+      "kegg_pathway_id": "map00195",
+      "prominence": "peripheral",
+      "evidence": "\u201cSeveral photosystem I genes were upregulated\u201d (Results, p9)"
+    },
+    {
+      "surface_form": "carbon fixation",
+      "kegg_pathway_id": "map00710",
+      "prominence": "peripheral",
+      "evidence": "\u201cribulose bisphosphate carboxylase ... detrimental to fundamental carbon fixation processes\u201d (Results, p9)"
+    }
+  ]
+}

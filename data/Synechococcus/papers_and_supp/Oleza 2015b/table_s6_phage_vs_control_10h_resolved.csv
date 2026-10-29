@@ -1,0 +1,131 @@
+protein_id,annotated_function,fold_change,log2_fold_change,p_value,section,resolved_locus_tag,resolution_method
+NP_896818.1,inosine 5-monophosphate dehydrogenase,5.88092983410294,2.5560442776796437,0.0030047326216835,Significantly upregulated in presence of phage,SYNW0725,multi:protein_id
+NP_896162.1,dihydrodipicolinate synthase,3.80679776276873,1.928577928344989,0.0109002146981132,Significantly upregulated in presence of phage,SYNW0067,multi:protein_id
+NP_896557.1,nitrogen regulatory protein P-II,3.72934483646801,1.898922203081264,0.0052209493291046,Significantly upregulated in presence of phage,SYNW0462,multi:protein_id
+NP_896907.1,adenine phosphoribosyltransferase,2.14019328014813,1.097741091822526,0.0142892713368819,Significantly upregulated in presence of phage,SYNW0814,multi:protein_id
+NP_896608.1,co-chaperonin GroES,-2.12488391080616,-1.087384024366015,0.0268696463716928,Significantly downregulated in presence of phage,SYNW0513,multi:protein_id
+NP_897046.1,swimming motility protein,-2.17775852794768,-1.122843995448062,0.0300396553771167,Significantly downregulated in presence of phage,SYNW0953,multi:protein_id
+NP_897334.1,hypothetical protein SYNW1241,-2.18913357818841,-1.1303599886487494,0.0019204436817272,Significantly downregulated in presence of phage,SYNW1241,multi:protein_id
+NP_896160.1,trigger factor,-2.27298408289855,-1.184587581382452,0.0358680373095118,Significantly downregulated in presence of phage,SYNW0065,multi:protein_id
+NP_898597.1,molecular chaperone DnaK,-2.27298408289855,-1.184587581382452,0.0358680373095118,Significantly downregulated in presence of phage,SYNW2508,multi:protein_id
+NP_898467.1,50S ribosomal protein L9,-2.58177738938953,-1.3683646113851666,0.0472511354170373,Significantly downregulated in presence of phage,SYNW2378,multi:protein_id
+NP_896609.1,chaperonin GroEL,-3.681466624042,-1.880280622182151,0.0252853739096628,Significantly downregulated in presence of phage,SYNW0514,multi:protein_id
+NP_897906.1,"ABC transporter, substrate binding protein, phosphate",1.96006774078578,0.9709035153644162,0.0201235906460453,p-value < 0.05 but fold change < 2x,SYNW1815,multi:protein_id
+NP_896140.1,soluble hydrogenase small subunit,1.86893688488821,0.902217849234878,0.0449773402132009,p-value < 0.05 but fold change < 2x,SYNW0045,multi:protein_id
+NP_897723.1,dihydrolipoamide dehydrogenase,1.67567379741283,0.7447413276418862,0.0489170733653264,p-value < 0.05 but fold change < 2x,SYNW1630,multi:protein_id
+NP_898405.1,hypothetical protein SYNW2316,1.44546249845796,0.5315311795582642,0.0337998011462366,p-value < 0.05 but fold change < 2x,SYNW2316,multi:protein_id
+NP_896878.1,phosphoribulokinase,1.35152998617615,0.4345935210681031,0.0328830060430889,p-value < 0.05 but fold change < 2x,SYNW0785,multi:protein_id
+NP_897111.1,"ABC transporter, substrate binding protein, phosphate",1.28525500316202,0.3620546281341344,0.0291798561665048,p-value < 0.05 but fold change < 2x,SYNW1018,multi:protein_id
+NP_898418.1,phosphoglycerate kinase,1.10233797306596,0.1405666171137359,0.0466788332180847,p-value < 0.05 but fold change < 2x,SYNW2329,multi:protein_id
+NP_898480.1,putative alkaline phosphatase,-1.15635216896698,-0.2095808399209561,0.015314723002599,p-value < 0.05 but fold change < 2x,SYNW2391,multi:protein_id
+NP_896580.1,allophycocyanin alpha chain,-1.19851557925424,-0.2612486624011059,0.0077660176690136,p-value < 0.05 but fold change < 2x,SYNW0485,multi:protein_id
+NP_897988.1,polynucleotide phosphorylase/polyadenylase,-1.23443135810733,-0.3038466160907253,0.0200979177689138,p-value < 0.05 but fold change < 2x,SYNW1897,multi:protein_id
+NP_897657.1,hypothetical protein SYNW1564,-1.55599321486147,-0.6378357692527347,0.0204471822787495,p-value < 0.05 but fold change < 2x,SYNW1564,multi:protein_id
+NP_896501.1,hypothetical protein SYNW0406,-1.58020093441709,-0.6601080195768327,0.01789714658474,p-value < 0.05 but fold change < 2x,SYNW0406,multi:protein_id
+NP_898479.1,putative alkaline phosphatase/5^ nucleotidase,-1.59394677136903,-0.6726034524374589,0.0008177272666238,p-value < 0.05 but fold change < 2x,SYNW2390,multi:protein_id
+NP_896180.1,SwmA-cell surface protein required for swimming motility,-1.99136649782607,-0.9937587639701236,0.0008121275494126,p-value < 0.05 but fold change < 2x,SYNW0085,multi:protein_id
+NP_897743.1,ketol-acid reductoisomerase,2.1452203665852,1.1011258553937795,0.0525462070681714,p-value > 0.05,SYNW1650,multi:protein_id
+NP_898447.1,nucleoside diphosphate kinase,1.31162245481441,0.3913525058159267,0.0526940509422576,p-value > 0.05,SYNW2358,multi:protein_id
+NP_896409.1,phycobilisome rod-core linker polypeptide CpcG,3.09212663405265,1.6285994041847234,0.0556415370318412,p-value > 0.05,SYNW0314,multi:protein_id
+NP_896125.1,glyceraldehyde 3-phosphate dehydrogenase (NADP+),-1.64442043948102,-0.7175792092418315,0.0569107937104011,p-value > 0.05,SYNW0030,multi:protein_id
+NP_896855.1,hypothetical protein SYNW0762,-2.95588995601361,-1.5635925608004977,0.0596799418297308,p-value > 0.05,SYNW0762,multi:protein_id
+NP_896239.1,photosystem I subunit VII,-2.78056181351426,-1.4753764094530706,0.0632014473055817,p-value > 0.05,SYNW0144,multi:protein_id
+NP_896469.1,putative urea binding protein,9.47505065701689,3.244133656469132,0.0645938755167169,p-value > 0.05,SYNW0374,multi:protein_id
+NP_897168.1,serine:pyruvate/alanine:glyoxylate aminotransferase,1.41175963951581,0.4974944820960237,0.0647235154339152,p-value > 0.05,SYNW1075,multi:protein_id
+NP_896540.1,putative nucleotide sugar epimerase,3.67149780504327,1.876368737476765,0.0656461530095873,p-value > 0.05,SYNW0445,multi:protein_id
+NP_896251.1,phosphorylase,3.31208572275187,1.7277400128700209,0.0661712511464058,p-value > 0.05,SYNW0156,multi:protein_id
+NP_898253.1,putative bacterioferritin comigratory (BCP) protein,3.31208572275187,1.7277400128700209,0.0661712511464058,p-value > 0.05,SYNW2162,multi:protein_id
+NP_898080.1,phycobilisome linker polypeptide,1.14159659040438,0.191052931049266,0.066921092968506,p-value > 0.05,SYNW1989,multi:protein_id
+NP_897379.1,ABC transporter substrate-binding protein,2.99592036960091,1.5829992780327713,0.0681314162778993,p-value > 0.05,SYNW1286,multi:protein_id
+NP_897211.1,glucose-1-phosphate adenylyltransferase,1.71399230507724,0.7773606325240269,0.0694156425517255,p-value > 0.05,SYNW1118,multi:protein_id
+NP_896916.1,triosephosphate isomerase,3.62825107590283,1.8592742941868723,0.0703305717170113,p-value > 0.05,SYNW0823,multi:protein_id
+NP_897166.1,"glutamine synthetase, glutamate--ammonia ligase",1.11396586153141,0.1557050206905059,0.0748421594141293,p-value > 0.05,SYNW1073,multi:protein_id
+NP_897907.1,putative nucleotide-binding protein,1.45172932397547,0.5377724868317355,0.0754331949269139,p-value > 0.05,SYNW1816,multi:protein_id
+NP_896421.1,hypothetical protein SYNW0326,1.74908998327444,0.8066045117206497,0.0759012180458981,p-value > 0.05,SYNW0326,multi:protein_id
+NP_897809.1,ribulose bisophosphate carboxylase,1.32813857737397,0.4094056846816805,0.0834686927056506,p-value > 0.05,SYNW1718,multi:protein_id
+NP_896780.1,putative thioredoxin reductase,-2.88898306962607,-1.5305617492683714,0.0892757415799258,p-value > 0.05,SYNW0687,multi:protein_id
+NP_898228.1,elongation factor G,1.36630972508736,0.4502845613713385,0.0935689043251984,p-value > 0.05,SYNW2137,multi:protein_id
+NP_897106.1,acetyl-coenzyme A synthetase,1.49510853619138,0.5802502195012108,0.0949005901301341,p-value > 0.05,SYNW1013,multi:protein_id
+NP_897001.1,hypothetical protein SYNW0908,1.18957692157766,0.2504485637265478,0.101011747047337,p-value > 0.05,SYNW0908,multi:protein_id
+NP_897264.1,aminotransferase class-I,1.68272603385016,0.7508003093003797,0.102430511239861,p-value > 0.05,SYNW1171,multi:protein_id
+NP_898113.1,R-phycocyanin II beta chain,-1.20402161836555,-0.267861296108222,0.12113593848288,p-value > 0.05,SYNW2022,multi:protein_id
+NP_898229.1,elongation factor Tu,-1.28586662144488,-0.3627410045947405,0.122203209826768,p-value > 0.05,SYNW2138,multi:protein_id
+NP_898498.1,putative hemolysin-type calcium-binding protein; HlyA,-1.4331641647987,-0.5192038755985249,0.131876101897089,p-value > 0.05,SYNW2409,multi:protein_id
+NP_898531.1,"putative urea ABC transporter, urea binding protein",-1.7768168529568,-0.8292949819022436,0.131924028467484,p-value > 0.05,SYNW2442,multi:protein_id
+NP_898114.1,R-phycocyanin II alpha chain,-1.13202025217179,-0.1788997686348574,0.13928235601948,p-value > 0.05,SYNW2023,multi:protein_id
+NP_898101.1,"C-phycoerythrin class II gamma chain, linker polypeptide",1.19943849238416,0.2623591776334021,0.140335129837328,p-value > 0.05,SYNW2010,multi:protein_id
+NP_897658.1,hypothetical protein SYNW1565,-1.33322177080404,-0.4149167811975975,0.142397679615254,p-value > 0.05,SYNW1565,multi:protein_id
+NP_896291.1,putative alkaline phosphatase,-1.76351611316372,-0.8184547576610692,0.144715588844341,p-value > 0.05,SYNW0196,multi:protein_id
+NP_896680.1,DNA binding protein HU,1.26941896064839,0.3441682966770155,0.146516953633074,p-value > 0.05,SYNW0587,multi:protein_id
+NP_897590.1,plastocyanin,1.32796600342905,0.4092182134678792,0.146792805130543,p-value > 0.05,SYNW1497,multi:protein_id
+NP_898092.1,phycobilisome linker polypeptide,-1.09252806626068,-0.1276703420004749,0.15031601604789,p-value > 0.05,SYNW2001,multi:protein_id
+NP_896852.1,hypothetical protein SYNW0759,-1.22986534054187,-0.2985003617696914,0.155487060703714,p-value > 0.05,SYNW0759,multi:protein_id
+NP_896579.1,allophycocyanin beta chain,1.16012547855919,0.214280854925968,0.156456774708502,p-value > 0.05,SYNW0484,multi:protein_id
+NP_896884.1,"fructose-1,6-bisphosphate aldolase",1.10139727469613,0.1393349437927831,0.158078803319746,p-value > 0.05,SYNW0791,multi:protein_id
+NP_898576.1,putative cyanate ABC transporter,1.3525825310071,0.4357166261718761,0.167265436220476,p-value > 0.05,SYNW2487,multi:protein_id
+NP_896118.1,heat shock protein GrpE,-1.95817141370793,-0.9695070605913148,0.168702184885718,p-value > 0.05,SYNW0023,multi:protein_id
+NP_897209.1,"fructose 1,6-bisphosphatase II",-1.95817141370793,-0.9695070605913148,0.168702184885718,p-value > 0.05,SYNW1116,multi:protein_id
+NP_897649.1,hypothetical protein SYNW1556,-1.95817141370793,-0.9695070605913148,0.168702184885718,p-value > 0.05,SYNW1556,multi:protein_id
+NP_896630.1,ferredoxin,1.19658034508704,0.2589172707309934,0.169429929625872,p-value > 0.05,SYNW0535,multi:protein_id
+NP_896578.1,"linker polypeptide, allophycocyanin-associated",-2.26696472019892,-1.1807619392083364,0.172989979399444,p-value > 0.05,SYNW0483,multi:protein_id
+NP_896696.1,hypothetical protein SYNW0603,1.85001994676828,0.8875408258489078,0.185217489154923,p-value > 0.05,SYNW0603,multi:protein_id
+NP_896323.1,hypothetical protein SYNW0228,2.14363057459976,1.100056298465856,0.185344733085947,p-value > 0.05,SYNW0228,multi:protein_id
+NP_897901.1,hypothetical protein SYNW1810,2.14363057459976,1.100056298465856,0.185344733085947,p-value > 0.05,SYNW1810,multi:protein_id
+NP_898138.1,phosphoenolpyruvate carboxylase,2.14363057459976,1.100056298465856,0.185344733085947,p-value > 0.05,SYNW2047,multi:protein_id
+NP_898215.1,photosystem I P700 chlorophyll a apoprotein A1,2.14363057459976,1.100056298465856,0.185344733085947,p-value > 0.05,SYNW2124,multi:protein_id
+NP_898379.1,hypothetical protein SYNW2290,2.14363057459976,1.100056298465856,0.185344733085947,p-value > 0.05,SYNW2290,multi:protein_id
+NP_897617.1,bicarbonate transporter,2.73085183026272,1.44935103891307,0.185684851466785,p-value > 0.05,SYNW1524,multi:protein_id
+NP_896255.1,hypothetical protein SYNW0160,2.55001482902865,1.350505636771933,0.190322338750694,p-value > 0.05,SYNW0160,multi:protein_id
+NP_896498.1,hypothetical protein SYNW0403,2.23384947587769,1.1595319755611035,0.191352192502961,p-value > 0.05,SYNW0403,multi:protein_id
+NP_896128.1,elongation factor P,1.91768412272672,0.9393651019484066,0.193235475224267,p-value > 0.05,SYNW0033,multi:protein_id
+NP_896161.1,aspartate-semialdehyde dehydrogenase,1.91768412272672,0.9393651019484066,0.193235475224267,p-value > 0.05,SYNW0066,multi:protein_id
+NP_898322.1,hypothetical protein SYNW2233,1.91768412272672,0.9393651019484066,0.193235475224267,p-value > 0.05,SYNW2233,multi:protein_id
+NP_897290.1,putative modulator of DNA gyrase; TldD,1.36552923013837,0.4494601963619514,0.195926072260917,p-value > 0.05,SYNW1197,multi:protein_id
+NP_896354.1,serine hydroxymethyltransferase,1.60151876957576,0.6794407063955739,0.197623774222674,p-value > 0.05,SYNW0259,multi:protein_id
+NP_898325.1,two-component response regulator,1.60151876957576,0.6794407063955739,0.197623774222674,p-value > 0.05,SYNW2236,multi:protein_id
+NP_896581.1,anchor polypeptide LCM,-2.26537709394446,-1.1797512208151968,0.198571317422663,p-value > 0.05,SYNW0486,multi:protein_id
+NP_897810.1,carbon dioxide concentrating mechanism protein CcmK,-1.28461303352432,-0.3613338390362081,0.203285059937236,p-value > 0.05,SYNW1719,multi:protein_id
+NP_897004.1,hypothetical protein SYNW0911,-1.8541818940413,-0.8907827783536433,0.20407155855855,p-value > 0.05,SYNW0911,multi:protein_id
+NP_897332.1,branched-chain amino acid aminotransferase,2.04742431014802,1.033810118829657,0.204561731960194,p-value > 0.05,SYNW1239,multi:protein_id
+NP_897916.1,hypothetical protein SYNW1825,2.04742431014802,1.033810118829657,0.204561731960194,p-value > 0.05,SYNW1825,multi:protein_id
+NP_897679.1,ornithine carbamoyltransferase,-1.15115584819945,-0.2030831646637263,0.209019393058932,p-value > 0.05,SYNW1586,multi:protein_id
+NP_896877.1,3-isopropylmalate dehydrogenase,1.85202635565836,0.8891046293255066,0.211972145443611,p-value > 0.05,SYNW0784,multi:protein_id
+NP_897876.1,porphobilinogen deaminase,1.57135239704216,0.6520067608058402,0.236113764024412,p-value > 0.05,SYNW1785,multi:protein_id
+NP_898135.1,photosystem I reaction center subunit II (PsaD),-1.2848690772842,-0.3616213623953304,0.245939593030037,p-value > 0.05,SYNW2044,multi:protein_id
+NP_896766.1,O-acetylserine (thiol)-lyase A,1.23155700015973,0.300483401645017,0.252778737756653,p-value > 0.05,SYNW0673,multi:protein_id
+NP_897188.1,sulfite reductase subunit beta,1.46781432482542,0.5536694820806427,0.252913805186873,p-value > 0.05,SYNW1095,multi:protein_id
+NP_896261.1,isocitrate dehydrogenase,-1.57265342321866,-0.6532007688499385,0.269519179459836,p-value > 0.05,SYNW0166,multi:protein_id
+NP_897989.1,3^-phosphoadenosine-5^-phosphosulfate (PAPS) 3^-phosphatase,1.65468160534175,0.7265536396394419,0.271956411249321,p-value > 0.05,SYNW1898,multi:protein_id
+NP_898372.1,adenylylsulfate kinase,1.38284170004065,0.4676360143065006,0.294206681019409,p-value > 0.05,SYNW2283,multi:protein_id
+NP_897900.1,glutamate-1-semialdehyde aminotransferase,1.10907665528986,0.1493590827085114,0.295331705681395,p-value > 0.05,SYNW1809,multi:protein_id
+NP_898437.1,phosphopyruvate hydratase,1.41762317923075,0.5034740983734187,0.295730993666656,p-value > 0.05,SYNW2348,multi:protein_id
+NP_897719.1,putative nickel-containing superoxide dismutase precursor (NISOD),-1.08566624324971,-0.1185806563522399,0.296570356631063,p-value > 0.05,SYNW1626,multi:protein_id
+NP_897977.1,hypothetical protein SYNW1886,1.31295493127188,0.3928173948701779,0.307022023684207,p-value > 0.05,SYNW1886,multi:protein_id
+NP_896454.1,metallothionein,1.36357003142433,0.4473887973518537,0.318715935672502,p-value > 0.05,SYNW0359,multi:protein_id
+NP_898316.1,porin,-1.14170636115317,-0.1911916473899318,0.331622870774924,p-value > 0.05,SYNW2227,multi:protein_id
+NP_898100.1,C-phycoerythrin class II alpha chain,1.02777044950848,0.0395180774342919,0.338433552145222,p-value > 0.05,SYNW2009,multi:protein_id
+NP_896944.1,putative O-Acetyl homoserine sulfhydrylase,1.0612246474733,0.0857300883823767,0.338635311767434,p-value > 0.05,SYNW0851,multi:protein_id
+NP_898245.1,phosphoglucomutase,1.1167999431566,0.1593707732292453,0.352293311585256,p-value > 0.05,SYNW2154,multi:protein_id
+NP_898238.1,"L,L-diaminopimelate aminotransferase",1.08707213619974,0.1204476782535274,0.352537831907117,p-value > 0.05,SYNW2147,multi:protein_id
+NP_897588.1,uroporphyrinogen decarboxylase,1.22336966474511,0.2908604078808058,0.353957277913563,p-value > 0.05,SYNW1495,multi:protein_id
+NP_898214.1,photosystem I P700 chlorophyll a apoprotein A2,-1.39605556692855,-0.4813563660008723,0.369489975013675,p-value > 0.05,SYNW2123,multi:protein_id
+NP_898107.1,C-phycoerythrin class I alpha chain,-1.03978661526479,-0.0562874892457101,0.372654997872824,p-value > 0.05,SYNW2016,multi:protein_id
+NP_898091.1,phycobilisome linker polypeptide,-1.12444913380629,-0.1692184000528416,0.373006050125263,p-value > 0.05,SYNW2000,multi:protein_id
+NP_897638.1,putative translation initiation inhibitor,-1.18446566875617,-0.2442363832695666,0.382124082075983,p-value > 0.05,SYNW1545,multi:protein_id
+NP_897306.1,thioredoxin peroxidase,1.02137864427572,0.0305177995657392,0.382686032355991,p-value > 0.05,SYNW1213,multi:protein_id
+NP_897888.1,"putative iron ABC transporter, substrate binding protein",1.11154880390521,0.1525712930399366,0.393041034769104,p-value > 0.05,SYNW1797,multi:protein_id
+NP_897118.1,anthranilate phosphoribosyltransferase,1.16958726133295,0.2259995032430504,0.394355031118665,p-value > 0.05,SYNW1025,multi:protein_id
+NP_898078.1,S-adenosylmethionine synthetase,-1.19048695397452,-0.2515518108313542,0.394499052748081,p-value > 0.05,SYNW1987,multi:protein_id
+NP_898458.1,rubrerythrin,1.03011540261957,0.0428059698946366,0.400525439414177,p-value > 0.05,SYNW2369,multi:protein_id
+NP_898099.1,C-phycoerythrin class II beta chain,1.02375411436786,0.0338692499284868,0.423153010399361,p-value > 0.05,SYNW2008,multi:protein_id
+NP_898378.1,two-component response regulator,-1.15179706055712,-0.2038865453224925,0.427651005102657,p-value > 0.05,SYNW2289,multi:protein_id
+NP_897167.1,phycobilisome core component-allophycocyanin beta-18 subunit,1.10728822132967,0.1470307969713171,0.432038635599007,p-value > 0.05,SYNW1074,multi:protein_id
+NP_896236.1,transketolase,-1.01387966879681,-0.019886437813112,0.44248198480683,p-value > 0.05,SYNW0141,multi:protein_id
+NP_898108.1,C-phycoerythrin class I beta chain,-1.01597144514047,-0.0228598543412226,0.44836303820607,p-value > 0.05,SYNW2017,multi:protein_id
+NP_896817.1,thioredoxin,-1.04128259239892,-0.0583616530039342,0.450878595835761,p-value > 0.05,SYNW0724,multi:protein_id
+NP_898570.1,putative zinc transport system substrate-binding protein,1.06344895388835,0.0887507848363562,0.467798094600272,p-value > 0.05,SYNW2481,multi:protein_id
+NP_898315.1,porin,1.00784769573725,0.0112776376411532,0.478459529267698,p-value > 0.05,SYNW2224,multi:protein_id
+NP_897611.1,hypothetical protein SYNW1518,-1.02584643118309,-0.0368147762149853,0.484985767002711,p-value > 0.05,SYNW1518,multi:protein_id
+NP_896657.1,leucyl aminopeptidase,-1.00220548936454,-0.003178344952879,0.490353437069248,p-value > 0.05,SYNW0562,multi:protein_id
+NP_897844.1,ribosome recycling factor,1.00679649439965,0.0097720982493475,0.491042426526736,p-value > 0.05,SYNW1753,multi:protein_id
+NP_896223.1,hypothetical protein SYNW0128,1.0174318857434,0.0249322132733145,0.492038682117802,p-value > 0.05,SYNW0128,multi:protein_id

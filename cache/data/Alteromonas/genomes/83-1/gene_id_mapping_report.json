@@ -1,0 +1,53 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4060
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 264,
+      "unique": 1822
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 8,
+      "unique": 9077
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 8081
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4021
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 13,
+      "unique": 8068
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 2,
+      "unique": 1457
+    }
+  },
+  "runaway_genes": [],
+  "strain": "83-1",
+  "tier1_count_max": 4,
+  "tier1_count_median": 4.0,
+  "tier1_demoted_known_names": 0,
+  "unresolved_rows_per_source": {
+    "Koch 2019/proteome_nsaf": 4227,
+    "Koch 2019/table_s1": 4227,
+    "Koch 2020/unique_genes_831_table": 127,
+    "cds_from_genomic.fna": 30,
+    "genomic_gca/83-1": 296,
+    "genomic_gcf/83-1": 103
+  },
+  "warnings": []
+}

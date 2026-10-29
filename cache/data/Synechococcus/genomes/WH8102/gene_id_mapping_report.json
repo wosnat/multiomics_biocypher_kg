@@ -1,5 +1,10 @@
 {
   "per_id_type": {
+    "annotation_specific": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 352
+    },
     "cds_fna_id": {
       "conflict": 0,
       "multi": 0,
@@ -55,8 +60,18 @@
     "Barreto 2022/id_translation_syn_8102": 72,
     "Barreto 2022/supp_table_S1_WH8102": 7,
     "Doron 2016/host_de_wh8102": 76,
+    "Oleza 2015b/table_s4_wh8102_exoproteome": 322,
+    "Oleza 2015b/table_s6_10h_vs_4d": 157,
+    "Oleza 2015b/table_s6_coculture_vs_axenic_4d": 151,
+    "Oleza 2015b/table_s6_dark_vs_light_10h": 191,
+    "Oleza 2015b/table_s6_phage_vs_control_10h": 130,
+    "Ostrowski 2010/ptra_vs_wt_gt2fold": 1,
     "Tai 2009/table_s1_upregulated": 5,
     "Tai 2009/table_s2_downregulated": 2,
+    "Tetu 2009/supp_table_1a_early_p_stress": 13,
+    "Tetu 2009/supp_table_1b_late_p_stress": 9,
+    "Tetu 2009/supp_table_1c_phob_knockout": 15,
+    "Tetu 2009/supp_table_1d_phor_knockout": 9,
     "cds_from_genomic.fna": 25,
     "genomic_gca/WH8102": 83,
     "genomic_gcf/WH8102": 61

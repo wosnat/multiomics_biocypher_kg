@@ -1,0 +1,37 @@
+Resolution report: Manck 2020 / sd001_carbon_limitation
+Source: manck2020_sd001_carbon_limitation.csv
+name_col: orf_id
+id_columns: ['orf_id', 'orf_id_old']
+
+Total rows with IDs: 989
+Resolved: 958 (96.9%)
+Unresolved: 31
+
+Resolution method breakdown:
+  locus_tag:orf_id: 1
+  locus_tag:orf_id_old: 5
+  tier1:orf_id: 952
+  unresolved: 31
+
+Unresolved rows (31):
+  row 47: raw_id='MASE_RS01165'  reason=unresolved  [orf_id='MASE_RS01165', orf_id_old='MASE_01165']
+  row 136: raw_id='MASE_RS02900'  reason=unresolved  [orf_id='MASE_RS02900', orf_id_old='MASE_02925']
+  row 170: raw_id='MASE_RS03585'  reason=unresolved  [orf_id='MASE_RS03585']
+  row 173: raw_id='MASE_RS03685'  reason=unresolved  [orf_id='MASE_RS03685', orf_id_old='MASE_03730']
+  row 175: raw_id='MASE_RS03720'  reason=unresolved  [orf_id='MASE_RS03720', orf_id_old='MASE_03765']
+  row 265: raw_id='MASE_RS05535'  reason=unresolved  [orf_id='MASE_RS05535']
+  row 271: raw_id='MASE_RS05695'  reason=unresolved  [orf_id='MASE_RS05695']
+  row 332: raw_id='MASE_RS07265'  reason=unresolved  [orf_id='MASE_RS07265']
+  row 395: raw_id='MASE_RS08450'  reason=unresolved  [orf_id='MASE_RS08450', orf_id_old='MASE_08440']
+  row 415: raw_id='MASE_RS08900'  reason=unresolved  [orf_id='MASE_RS08900', orf_id_old='MASE_08890']
+  row 466: raw_id='MASE_RS09845'  reason=unresolved  [orf_id='MASE_RS09845']
+  row 549: raw_id='MASE_RS11690'  reason=unresolved  [orf_id='MASE_RS11690']
+  row 609: raw_id='MASE_RS12825'  reason=unresolved  [orf_id='MASE_RS12825']
+  row 644: raw_id='MASE_RS13805'  reason=unresolved  [orf_id='MASE_RS13805', orf_id_old='MASE_13845']
+  row 685: raw_id='MASE_RS14460'  reason=unresolved  [orf_id='MASE_RS14460', orf_id_old='MASE_14505']
+  row 687: raw_id='MASE_RS14470'  reason=unresolved  [orf_id='MASE_RS14470']
+  row 726: raw_id='MASE_RS15300'  reason=unresolved  [orf_id='MASE_RS15300', orf_id_old='MASE_15355']
+  row 730: raw_id='MASE_RS15400'  reason=unresolved  [orf_id='MASE_RS15400', orf_id_old='MASE_15460']
+  row 797: raw_id='MASE_RS16290'  reason=unresolved  [orf_id='MASE_RS16290']
+  row 806: raw_id='MASE_RS16375'  reason=unresolved  [orf_id='MASE_RS16375']
+  ... (11 more)

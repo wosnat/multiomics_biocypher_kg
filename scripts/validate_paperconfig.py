@@ -150,6 +150,7 @@ CANONICAL_GENOMIC_ORGANISMS = {
     "Alteromonas macleodii AD45",
     "Alteromonas macleodii BS11",
     "Alteromonas macleodii BGP6",
+    "Alteromonas macleodii 83-1",
     "Alteromonas mediterranea AltDE",
     "Alteromonas mediterranea AltDE1",
     "Alteromonas (MarRef v6)",
@@ -368,6 +369,7 @@ _CONDITION_TERM_NOTES = {
     "plastic",          # Plastic leachate exposure
     # Growth / baseline
     "growth_phase",     # Growth state / multi-condition comparison
+    "mutant",           # Knockout / mutant strain vs wild type (Tetu 2009, Ostrowski 2010)
     # Subcellular fractionation comparisons (vesicle/exoproteome/secretome vs whole cell)
     "compartment",      # Subcellular fraction comparison; specific fraction lives in `compartment` field
     # Background-only (typically not used as treatment_type)
@@ -376,6 +378,7 @@ _CONDITION_TERM_NOTES = {
     "rna_decay",        # Steglich 2010 rifampicin half-lives
     "tss_mapping",      # Voigt 2014 TSS maps
     "genomic_analysis", # Hackl 2023 genomic islands (gene_clusters entries)
+    "essentiality",     # Rubin 2015 RB-TnSeq gene essentiality
 }
 _undocumented = CANONICAL_CONDITION_TYPES - set(_CONDITION_TERM_NOTES)
 if _undocumented:  # keep the comment table honest without making it authoritative
@@ -430,6 +433,7 @@ CANONICAL_TEST_TYPES = {
     "DESeq",
     "edgeR",
     "Rockhopper",
+    "baySeq",                # empirical-Bayes RNA-seq DE (Durham 2015)
     # Microarray
     "microarray",
     "microarray_Cyber-T",

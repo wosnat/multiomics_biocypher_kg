@@ -1,0 +1,25 @@
+Topics resolution report: Rubin 2015
+Strains: ['Synechococcus elongatus PCC 7942']
+
+Genes:    33/40 resolved (82.5%)
+  methods: tier1_ci:v=33, unresolved=7
+Pathways: 8/9 resolved (88.9%)
+  methods: id=8, unresolved=1
+
+Captured identifiers: 41  (truncated/bare-number: 0)
+Unresolved gene reasons: {'descriptive_only': 2, 'lookup_miss': 5}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (7):
+  - tRNALeu  [descriptive_only]  strain=Synechococcus elongatus PCC 7942
+  - psbD  [lookup_miss]  strain=Synechococcus elongatus PCC 7942  ids=['SynPCC7942_0655', 'SynPCC7942_1637']
+  - ssrA  [lookup_miss]  strain=Synechococcus elongatus PCC 7942  ids=['SynPCC7942_R0017']
+  - rnpB  [lookup_miss]  strain=Synechococcus elongatus PCC 7942  ids=['SynPCC7942_R0036']
+  - ffs  [lookup_miss]  strain=Synechococcus elongatus PCC 7942  ids=['SynPCC7942_R0047']
+  - ncRNA136  [descriptive_only]  strain=Synechococcus elongatus PCC 7942
+  - SynPCC7942_0413  [lookup_miss]  strain=Synechococcus elongatus PCC 7942  ids=['SynPCC7942_0413']
+
+Unresolved pathway mentions (1):
+  - 2-oxoglutarate decarboxylase pathway  (raw id=—)

@@ -1,5 +1,10 @@
 {
   "per_id_type": {
+    "annotation_specific": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 338
+    },
     "cds_fna_id": {
       "conflict": 0,
       "multi": 0,
@@ -49,6 +54,7 @@
   "unresolved_rows_per_source": {
     "Barreto 2022/id_translation_syn_9311": 64,
     "Barreto 2022/supp_table_S1_CC9311": 6,
+    "Oleza 2015b/table_s4_cc9311_exoproteome": 340,
     "cds_from_genomic.fna": 19,
     "genomic_gca/CC9311": 81,
     "genomic_gcf/CC9311": 60

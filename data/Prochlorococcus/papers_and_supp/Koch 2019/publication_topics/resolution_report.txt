@@ -1,0 +1,28 @@
+Topics resolution report: Koch 2019
+Strains: ['Alteromonas macleodii 83-1']
+
+Genes:    33/43 resolved (76.7%)
+  methods: locus_tag_ci:v=33, unresolved=10
+Pathways: 5/6 resolved (83.3%)
+  methods: id=5, unresolved=1
+
+Captured identifiers: 39  (truncated/bare-number: 6, e.g. ['00310', '00315', '01559', '02433', '02509', '03405'])
+Unresolved gene reasons: {'truncated_id_only': 4, 'descriptive_only': 6}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (10):
+  - cAMP receptors  [truncated_id_only]  strain=Alteromonas macleodii 83-1  ids=['02509', '03405']
+  - partial phosphoenolpyruvate phosphotransferase system  [truncated_id_only]  strain=Alteromonas macleodii 83-1  ids=['01559']
+  - hybrid two-component system  [truncated_id_only]  strain=Alteromonas macleodii 83-1  ids=['02433']
+  - glucose oxidoreductases  [descriptive_only]  strain=Alteromonas macleodii 83-1
+  - gluconate 2-dehydrogenase  [descriptive_only]  strain=Alteromonas macleodii 83-1
+  - isocitrate lyase  [descriptive_only]  strain=Alteromonas macleodii 83-1
+  - chemotaxis genes  [truncated_id_only]  strain=Alteromonas macleodii 83-1  ids=['00310', '00315']
+  - PQQ biosynthetic operon  [descriptive_only]  strain=Alteromonas macleodii 83-1
+  - PQQ-dependent ADH  [descriptive_only]  strain=Alteromonas macleodii 83-1
+  - alcohol dehydrogenases  [descriptive_only]  strain=Alteromonas macleodii 83-1
+
+Unresolved pathway mentions (1):
+  - serine cycle  (raw id=—)

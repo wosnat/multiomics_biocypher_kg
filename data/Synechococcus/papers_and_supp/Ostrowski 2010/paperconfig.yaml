@@ -1,0 +1,49 @@
+publication:
+  papername: "Ostrowski 2010"
+  doi: "10.1038/ismej.2010.24"
+  papermainpdf: "data/Synechococcus/papers_and_supp/Ostrowski 2010/41396_2010_article_bfismej201024.pdf"
+  control_timing: matched
+
+  experiments:
+    ptra_synw1019_knockout_p_stress_wh8102_microarray:
+      name: "WH8102 ptrA (SYNW1019) knockout vs wild type under P stress (microarray)"
+      organism: "Synechococcus WH8102"
+      omics_type: MICROARRAY
+      test_type: "SAM"
+      treatment_type: [mutant]
+      background_factors: [axenic, light]
+      treatment_condition: "ptrA (SYNW1019, CRP-family transcriptional regulator) insertional knockout mutant (pMUT100, kanamycin selection)"
+      control_condition: "Isogenic wild-type parent WH8102 under the same P stress"
+      experimental_context: "Both strains P-stressed in Aquil-salts synthetic seawater with 10 uM PO4 (N:P 450:1), acclimated for at least three serial transfers, 25C, 40 umol photons m-2 s-1; RNA harvested ~125-150 h after inoculation, just after the onset of phosphatase induction in the wild type (early P stress). Two biological replicates per strain, six hybridisations, whole-genome microarray (GEO GSE18511), SAM with FDR < 1 percent; values are log2 mutant / wild type."
+      medium: "Aquil-salts synthetic seawater, 4.5 mM NaNO3, 10 uM PO4"
+      temperature: "25C"
+      light_condition: "continuous light"
+      light_intensity: "40 umol photons m-2 s-1"
+      table_scope: filtered_subset
+      table_scope_detail: "Only genes significant by SAM (FDR < 1 percent) AND changed more than 2-fold: main-text Table 1 (68 down), Table 2 (64 up) and Supplementary Table 3 (29 further down, unknown function). The paper reports 516 down and 645 up significant genes in total; the rest are only in GEO GSE18511. The wild-type early-P-stress column of these tables is Tetu 2009 data and is not included."
+      design_notes: >-
+        Matched: ptrA mutant and wild-type cultures were grown in parallel under the same low-P
+        regime and both harvested ~125-150 h after inoculation, at early P stress
+        (nutrient_limited) as defined by phosphatase induction in the wild type.
+
+  supplementary_materials:
+    # Built by scripts/build_modified_csv/build_ostrowski2010_ptra_tables.py from the article
+    # PDF (Tables 1 and 2) and 41396_2010_bfismej201024_moesm21_esm.doc (Supplementary Table 3).
+    ptra_vs_wt_gt2fold:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Ostrowski 2010/ostrowski2010_ptra_vs_wt_gt2fold.csv"
+      organism: "Synechococcus WH8102"
+      id_columns:
+        - column: "locus_tag"
+          id_type: locus_tag
+      product_columns:
+        - column: "product"
+      statistical_analyses:
+        - id: "ostrowski2010_ptra_knockout_vs_wt_p_stress_wh8102"
+          experiment: ptra_synw1019_knockout_p_stress_wh8102_microarray
+          name_col: "locus_tag"
+          logfc_col: "log2_fold_change"
+          prefiltered: true
+          timepoint: "early P stress (~125-150h)"
+          timepoint_hours: null
+          growth_phase: nutrient_limited

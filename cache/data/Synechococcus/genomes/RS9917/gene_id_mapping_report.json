@@ -1,5 +1,10 @@
 {
   "per_id_type": {
+    "annotation_specific": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 336
+    },
     "cds_fna_id": {
       "conflict": 0,
       "multi": 0,
@@ -47,6 +52,7 @@
   "tier1_count_median": 5.0,
   "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
+    "Oleza 2015b/table_s4_rs9917_exoproteome": 335,
     "cds_from_genomic.fna": 34,
     "genomic_gca/RS9917": 76,
     "genomic_gcf/RS9917": 59

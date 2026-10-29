@@ -55,6 +55,8 @@ EXPECTED_STRAINS = [
     # Alteromonas mediterranea deep-ecotype genome strains (May 2026, genomes only)
     "AltDE",
     "AltDE1",
+    # Alteromonas macleodii 83-1 (Oct 2026, Koch 2019 / Koch 2020)
+    "83-1",
     # Heterotrophic coculture partners
     "W3-18-1",
     "KT2440",

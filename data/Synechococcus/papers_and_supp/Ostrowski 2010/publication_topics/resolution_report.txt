@@ -1,0 +1,24 @@
+Topics resolution report: Ostrowski 2010
+Strains: ['Synechococcus WH8102']
+
+Genes:    44/49 resolved (89.8%)
+  methods: locus_tag:v=34, multi:v=10, unresolved=5
+Pathways: 5/7 resolved (71.4%)
+  methods: id=5, unresolved=2
+
+Captured identifiers: 34  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 5}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (5):
+  - rnpB  [lookup_miss]  strain=Synechococcus WH8102
+  - som  [lookup_miss]  strain=all
+  - proP  [lookup_miss]  strain=all
+  - chr1  [lookup_miss]  strain=all
+  - msrA  [lookup_miss]  strain=all
+
+Unresolved pathway mentions (2):
+  - phosphate transport and metabolism  (raw id=—)
+  - sulfolipid biosynthesis  (raw id=—)

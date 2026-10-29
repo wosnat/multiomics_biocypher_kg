@@ -1135,7 +1135,9 @@ Experiment.treatment_type:
   #   1) on every Experiment — a non-empty list is the explorer's indicator that the node is a
   #   real experiment, so characterization studies get a short categorical value naming what was
   #   measured instead of []: rna_decay (Steglich 2010 rifampicin half-lives), tss_mapping (Voigt
-  #   2014 TSS maps), genomic_analysis (Hackl 2023 genomic islands, on ClusteringAnalysis). Add a
+  #   2014 TSS maps), genomic_analysis (Hackl 2023 genomic islands, on ClusteringAnalysis),
+  #   essentiality (Rubin 2015 PCC7942 RB-TnSeq, 2026-10-28). "mutant" (knockout / mutant strain
+  #   vs wild type) added 2026-10-28 — Tetu 2009 phoB/phoR, Ostrowski 2010 ptrA. Add a
   #   new value when a new paper fits nothing here. "oxygen" added 2026-08-27 — first emitted by
   #   Bernstein 2017's BP-1 / M. ruber turbidostat pO2 steady states. neo4j-admin import drops an
   #   empty string[] cell, so post-import re-materializes [] on the denormalized labels
@@ -1157,14 +1159,17 @@ Experiment.treatment_type:
   closed: true
   values: [nitrogen, phosphorus, iron, carbon, salt, light, temperature,
            plastic, darkness, diel, viral, coculture, growth_phase, compartment,
-           chemical, oxygen, rna_decay, tss_mapping, genomic_analysis]
+           chemical, oxygen, mutant, rna_decay, tss_mapping, genomic_analysis,
+           essentiality]
   min_size: 1
   description: >
     The manipulated variable(s) of the experiment — nitrogen, phosphorus,
     iron, carbon, salt, light, temperature, plastic, darkness, diel, viral,
-    coculture, growth_phase, compartment, chemical, oxygen — or, for a
+    coculture, growth_phase, compartment, chemical, oxygen, mutant (a
+    knockout or mutant strain compared with its wild type) — or, for a
     characterization study with no perturbation, what was measured: rna_decay,
-    tss_mapping, genomic_analysis. Always non-empty: a non-empty list is the
+    tss_mapping, genomic_analysis, essentiality (transposon-mutagenesis
+    fitness / gene essentiality). Always non-empty: a non-empty list is the
     sign that the node is a real experiment.
 
 Experiment.background_factors:
@@ -1208,7 +1213,8 @@ ClusteringAnalysis.treatment_type:
   closed: true
   values: [nitrogen, phosphorus, iron, carbon, salt, light, temperature,
            plastic, darkness, diel, viral, coculture, growth_phase, compartment,
-           chemical, oxygen, rna_decay, tss_mapping, genomic_analysis]
+           chemical, oxygen, mutant, rna_decay, tss_mapping, genomic_analysis,
+           essentiality]
   min_size: 1
   description: >
     The manipulated variable(s) behind the clustering (same value set as
@@ -1245,7 +1251,8 @@ DerivedMetric.treatment_type:
   closed: true
   values: [nitrogen, phosphorus, iron, carbon, salt, light, temperature,
            plastic, darkness, diel, viral, coculture, growth_phase, compartment,
-           chemical, oxygen, rna_decay, tss_mapping, genomic_analysis]
+           chemical, oxygen, mutant, rna_decay, tss_mapping, genomic_analysis,
+           essentiality]
   min_size: 1
   description: >
     The treatment_type of the parent experiment, copied onto the metric for
@@ -1282,7 +1289,8 @@ MetaboliteAssay.treatment_type:
   closed: true
   values: [nitrogen, phosphorus, iron, carbon, salt, light, temperature,
            plastic, darkness, diel, viral, coculture, growth_phase, compartment,
-           chemical, oxygen, rna_decay, tss_mapping, genomic_analysis]
+           chemical, oxygen, mutant, rna_decay, tss_mapping, genomic_analysis,
+           essentiality]
   min_size: 1
   description: >
     The treatment_type of the parent experiment, copied onto the assay for

@@ -1,0 +1,36 @@
+Resolution report: Ferrer 2020 / table_s5_dss3
+Source: ferrer2020_dss3_coculture_vs_glucose.csv
+name_col: locus_tag
+id_columns: ['locus_tag', 'new_locus_tag', 'protein_id', 'gene_symbol']
+
+Total rows with IDs: 4277
+Resolved: 4229 (98.9%)
+Unresolved: 48
+
+Resolution method breakdown:
+  locus_tag:locus_tag: 4225
+  tier1:new_locus_tag: 4
+  unresolved: 48
+
+Unresolved rows (48):
+  row 257: raw_id='SPO0268'  reason=unresolved  [locus_tag='SPO0268', gene_symbol='ribH-1']
+  row 263: raw_id='SPO0274'  reason=unresolved  [locus_tag='SPO0274', gene_symbol='SPO0274']
+  row 268: raw_id='SPO0280'  reason=unresolved  [locus_tag='SPO0280', gene_symbol='SPO0280']
+  row 448: raw_id='SPO0458'  reason=unresolved  [locus_tag='SPO0458', gene_symbol='SPO0458']
+  row 495: raw_id='SPO0504a'  reason=unresolved  [locus_tag='SPO0504a', gene_symbol='SPO0504a']
+  row 614: raw_id='SPO0628'  reason=unresolved  [locus_tag='SPO0628', gene_symbol='SPO0628']
+  row 623: raw_id='SPO0637'  reason=unresolved  [locus_tag='SPO0637', gene_symbol='SPO0637']
+  row 791: raw_id='SPO0807'  reason=unresolved  [locus_tag='SPO0807', gene_symbol='SPO0807']
+  row 912: raw_id='SPO0927'  reason=unresolved  [locus_tag='SPO0927', gene_symbol='SPO0927']
+  row 915: raw_id='SPO0930'  reason=unresolved  [locus_tag='SPO0930', gene_symbol='SPO0930']
+  row 937: raw_id='SPO0952'  reason=unresolved  [locus_tag='SPO0952', gene_symbol='SPO0952']
+  row 1015: raw_id='SPO1031'  reason=unresolved  [locus_tag='SPO1031', gene_symbol='SPO1031']
+  row 1084: raw_id='SPO1099'  reason=unresolved  [locus_tag='SPO1099', gene_symbol='SPO1099']
+  row 1224: raw_id='SPO1243'  reason=unresolved  [locus_tag='SPO1243', gene_symbol='SPO1243']
+  row 1330: raw_id='SPO1350'  reason=unresolved  [locus_tag='SPO1350', gene_symbol='SPO1350']
+  row 1401: raw_id='SPO1418'  reason=unresolved  [locus_tag='SPO1418', new_locus_tag='SPO_RS07235', protein_id='WP_011047155.1', gene_symbol='SPO1418']
+  row 1458: raw_id='SPO1476'  reason=unresolved  [locus_tag='SPO1476', new_locus_tag='SPO_RS07520', protein_id='WP_011047213.1', gene_symbol='leuC-2']
+  row 1632: raw_id='SPO1650'  reason=unresolved  [locus_tag='SPO1650', gene_symbol='SPO1650']
+  row 1635: raw_id='SPO1655'  reason=unresolved  [locus_tag='SPO1655', gene_symbol='SPO1655']
+  row 1735: raw_id='SPO1758'  reason=unresolved  [locus_tag='SPO1758', gene_symbol='SPO1758']
+  ... (28 more)

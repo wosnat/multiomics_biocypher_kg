@@ -306,6 +306,10 @@ def normalize_strain(strain: str, data_dir: Path) -> tuple[str, str]:
         stale = out_dir / f"{strain}.{TOOL}.entry_xrefs.json"
         if stale.exists():
             stale.unlink()
+        # A plain raw.json (scan interrupted before compression) is gzipped
+        # here too, so the disk-only cache ends in one form either way.
+        if raw_json.suffix != ".gz":
+            compress_raw(raw_json)
     except Exception as exc:  # noqa: BLE001 — one bad strain must not kill the batch
         return "FAILED", f"{type(exc).__name__}: {exc}"
 

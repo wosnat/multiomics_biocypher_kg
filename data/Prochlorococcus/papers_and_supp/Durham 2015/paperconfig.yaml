@@ -1,0 +1,57 @@
+publication:
+  papername: "Durham 2015"
+  doi: "10.1073/pnas.1413137112"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Durham 2015/durham-et-al-2014-cryptic-carbon-and-sulfur-cycling-between-surface-ocean-plankton.pdf"
+  control_timing: matched
+
+  # Durham et al. 2015 (PNAS 112:453), cryptic DHPS cycling between T. pseudonana and R. pomeroyi.
+  # Only ST01 (DSS-3 genes, significant only) is integrated. Skipped: ST02 (T. pseudonana genes;
+  # diatom is not a KG genome), ST03 (ortholog / gene-context table, no DE contrast), ST04.
+  experiments:
+    coculture_tpseudonana_dss3_rnaseq:
+      name: "R. pomeroyi DSS-3 transcriptome in co-culture with B12-limited Thalassiosira pseudonana vs DSS-3 alone (8 h)"
+      organism: "Ruegeria pomeroyi DSS-3"
+      omics_type: RNASEQ
+      test_type: baySeq
+      treatment_type: ["coculture"]
+      background_factors: ["diel"]
+      treatment_condition: "Co-culture with B12-limited T. pseudonana CCMP1335 in f/2 (+Si, -B12), 8 h after bacterial inoculation"
+      control_condition: "R. pomeroyi DSS-3 alone in f/2 (+Si, -B12), 8 h after inoculation"
+      experimental_context: "f/2 (+Si, -B12) at 18C, 16:8 h light:dark at about 160 umol photons m-2 s-1; DSS-3 pre-grown in 1/2 YTSS to exponential phase, washed and inoculated 1:100; cells collected at the midpoint of the light cycle; co-culture n = 4, bacterium-alone n = 2; Illumina MiSeq / SOLiD 4 sequencing"
+      medium: "f/2 (+Si, -B12)"
+      temperature: "18C"
+      light_condition: "16:8 light:dark cycle"
+      light_intensity: "160 umol photons m-2 s-1"
+      treatment_organism: "Thalassiosira pseudonana"
+      treatment_taxid: 35128
+      table_scope: significant_only
+      table_scope_detail: "101 DSS-3 genes with baySeq FDR < 0.05 in at least two of three independent subsampled analyses"
+      design_notes: >-
+        Both arms sampled 8 h after bacterial inoculation at the midpoint of the light cycle. The
+        control is DSS-3 alone in the same carbon-free f/2 medium, so the only carbon source in the
+        co-culture is diatom-derived. Fold changes in ST01 are linear and are converted to log2 in the
+        builder.
+
+  supplementary_materials:
+    # Built by scripts/build_modified_csv/build_durham2015_dss3_coculture.py from
+    # pnas.1413137112.st01.docx. log2fc = sign(FC) * log2(|FC|); fdr_median = median of FDR.1-3
+    # (always < 0.05 because each listed gene passes FDR < 0.05 in >= 2 of 3 analyses).
+    st01_dss3_coculture:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Durham 2015/durham2015_st01_dss3_coculture.csv"
+      organism: "Ruegeria pomeroyi DSS-3"
+      id_columns:
+        - column: "locus_tag"
+          id_type: locus_tag
+      product_columns:
+        - column: "product"
+      statistical_analyses:
+        - id: "durham2015_dss3_coculture_tpseudonana_vs_alone_8h"
+          experiment: coculture_tpseudonana_dss3_rnaseq
+          timepoint: "8h"
+          timepoint_hours: 8
+          growth_phase: unknown
+          name_col: "locus_tag"
+          logfc_col: "log2fc_coculture_vs_alone"
+          adjusted_p_value_col: "fdr_median"
+          prefiltered: true
