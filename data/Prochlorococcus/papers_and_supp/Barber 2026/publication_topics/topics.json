@@ -1,0 +1,368 @@
+{
+  "metadata": {
+    "paper": "Barber 2026",
+    "doi": "10.1039/d6sc02372j",
+    "strains": [
+      "Ruegeria pomeroyi DSS-3"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Figure 2c and Figure 5b print abbreviated locus numbers and partial locus-tag ranges such as SPO: 0590-0598, 3557-3561, and HMPREF0179_0 2149-2143 that were not fully attached to every gene.",
+    "extracted_at": "2026-10-28T23:48:20.969776",
+    "input_tokens": 25661,
+    "output_tokens": 2803
+  },
+  "genes": [
+    {
+      "surface_form": "HpsK",
+      "gene_name": "hpsK",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "HpsK proteins from the marine bacterium Ruegeria pomeroyi and the gut anaerobe Bilophila wadsworthia (Abstract, p1)"
+    },
+    {
+      "surface_form": "HpsK",
+      "gene_name": "hpsK",
+      "identifiers": [
+        "2146"
+      ],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "Locus tag HMPREF0179_0 2149 hpsG 2148 hpsH 2147 2146 hpsK hpsL hpsM 2144 2143 (Fig. 5b, p6)"
+    },
+    {
+      "surface_form": "HpsL",
+      "gene_name": "hpsL",
+      "identifiers": [
+        "SPO0596"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "the HpsK-binding protein and TRAP transporter HpsLM (Results, p4)"
+    },
+    {
+      "surface_form": "HpsM",
+      "gene_name": "hpsM",
+      "identifiers": [
+        "SPO0597"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "the HpsK-binding protein and TRAP transporter HpsLM (Results, p4)"
+    },
+    {
+      "surface_form": "HpsN",
+      "gene_name": "hpsN",
+      "identifiers": [
+        "SPO0598"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "subsequent oxidation by a DHPS-3-dehydrogenase HpsN to generate sulfolactate (SL) (Results, p4)"
+    },
+    {
+      "surface_form": "HpsO-HpsP",
+      "gene_name": "hpsO-hpsP",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "facilitated by the two-component racemase HpsO-HpsP (Introduction, p2)"
+    },
+    {
+      "surface_form": "HpsO",
+      "gene_name": "hpsO",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "racemisation by the NAD(P)-dependent DHPS-2-oxidoreductases HpsOP (Results, p4)"
+    },
+    {
+      "surface_form": "HpsP",
+      "gene_name": "hpsP",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "racemisation by the NAD(P)-dependent DHPS-2-oxidoreductases HpsOP (Results, p4)"
+    },
+    {
+      "surface_form": "HpsR",
+      "gene_name": "hpsR",
+      "identifiers": [
+        "SPO0590"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "peripheral",
+      "evidence": "HpsR is the likely transcriptional regulator governing the early steps of DHPS degradation (Results, p4)"
+    },
+    {
+      "surface_form": "slcD",
+      "gene_name": "slcD",
+      "identifiers": [
+        "3187"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "peripheral",
+      "evidence": "proteins encoded within the hpsKLMNOPQR-slcD ... loci were significantly increased (Results, p4)"
+    },
+    {
+      "surface_form": "CuyA",
+      "gene_name": "cuyA",
+      "identifiers": [
+        "SPOA0158"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "The elevated abundance of CuyA during growth on both R- and S-DHPS supports preferential flux through the cysteate-dependent branch (Results, p4)"
+    },
+    {
+      "surface_form": "cuyB",
+      "gene_name": "cuyB",
+      "identifiers": [
+        "SPOA0157"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "peripheral",
+      "evidence": "Locus tag: SPOA 0157 0158 ... cuyB cuyZ cuyA (Fig. 2c, p3)"
+    },
+    {
+      "surface_form": "cuyZ",
+      "gene_name": "cuyZ",
+      "identifiers": [
+        "SPOA0062"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "peripheral",
+      "evidence": "Locus tag: SPOA 0062 0157 0158 ... cuyB cuyZ cuyA (Fig. 2c, p3)"
+    },
+    {
+      "surface_form": "Xsc",
+      "gene_name": "xsc",
+      "identifiers": [
+        "3561"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "peripheral",
+      "evidence": "cleaved by the thiamine diphosphate-dependent enzyme Xsc to generate acetyl phosphate and sulfite (Results, p4)"
+    },
+    {
+      "surface_form": "SoeA",
+      "gene_name": "soeA",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "peripheral",
+      "evidence": "SoeA was also enriched under DHPS growth conditions. SoeA forms part of the SoeABC sulfite dehydrogenase complex (Results, p4)"
+    },
+    {
+      "surface_form": "SoeABC",
+      "gene_name": "soeABC",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "peripheral",
+      "evidence": "SoeA forms part of the SoeABC sulfite dehydrogenase complex (Results, p4)"
+    },
+    {
+      "surface_form": "NaaA",
+      "gene_name": "naaA",
+      "identifiers": [
+        "SPO0660"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "peripheral",
+      "evidence": "increased abundance of SPO0660 only under S-DHPS condition ... annotated as an N-acetyltaurine-binding protein NaaA (Results, p5)"
+    },
+    {
+      "surface_form": "NaaS",
+      "gene_name": "naaS",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "peripheral",
+      "evidence": "a cluster encoding an ABC transporter and an N-acetyltaurine amidohydrolase NaaS (Results, p5)"
+    },
+    {
+      "surface_form": "HpsG",
+      "gene_name": "hpsG",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "central",
+      "evidence": "the glycyl radical enzyme DHPS sulfo-lyase HpsG, together with its activating protein HpsH (Introduction, p3)"
+    },
+    {
+      "surface_form": "HpsH",
+      "gene_name": "hpsH",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "central",
+      "evidence": "the glycyl radical enzyme DHPS sulfo-lyase HpsG, together with its activating protein HpsH (Introduction, p3)"
+    },
+    {
+      "surface_form": "hpsOP",
+      "gene_name": "hpsOP",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "the B. wadsworthia genome lacks the hpsOP epimerase genes (Introduction, p3)"
+    },
+    {
+      "surface_form": "HpfGH",
+      "gene_name": "hpfGH",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "an alternative GRE-dependent pathway involving HpfGH dehydrates DHPS to sulfopropanaldehyde (Introduction, p3)"
+    },
+    {
+      "surface_form": "HpfD",
+      "gene_name": "hpfD",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "through reduction by HpfD to hydroxypropanesulfonate (Introduction, p3)"
+    },
+    {
+      "surface_form": "HpfXYZ",
+      "gene_name": "hpfXYZ",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "or can be oxidized by HpfXYZ to produce sulfopropanoate and ATP (Introduction, p3)"
+    },
+    {
+      "surface_form": "DsrABC",
+      "gene_name": "dsrABC",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "the liberated sulfite is subsequently reduced to H2S during anaerobic respiration by the cytosolic DsrABC proteins (Results, p9)"
+    },
+    {
+      "surface_form": "DsrMKJOP",
+      "gene_name": "dsrMKJOP",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "and the DsrMKJOP transmembrane complex (Results, p9)"
+    },
+    {
+      "surface_form": "HMPREF0179_00063",
+      "gene_name": "",
+      "identifiers": [
+        "HMPREF0179_00063"
+      ],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "HMPREF0179_00063 and HMPREF0179_00064 annotated as associated with TRAP transporters (Fig. 5b, p6)"
+    },
+    {
+      "surface_form": "HMPREF0179_00064",
+      "gene_name": "",
+      "identifiers": [
+        "HMPREF0179_00064"
+      ],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "HMPREF0179_00063 and HMPREF0179_00064 annotated as associated with TRAP transporters (Fig. 5b, p6)"
+    },
+    {
+      "surface_form": "HMPREF0179_02569",
+      "gene_name": "",
+      "identifiers": [
+        "HMPREF0179_02569"
+      ],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "HMPREF0179_02569 annotated as associated with an ABC transporter (Fig. 5b, p6)"
+    },
+    {
+      "surface_form": "IseP",
+      "gene_name": "iseP",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "characterised isethionate-binding proteins IseP from Desulfovibrio piger and Oleidesulfovibrio alaskensis (Results, p10)"
+    },
+    {
+      "surface_form": "IslAB",
+      "gene_name": "islAB",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "the isethionate-specific IslAB pathway (Results, p10)"
+    },
+    {
+      "surface_form": "SAR11_0864",
+      "gene_name": "",
+      "identifiers": [
+        "SAR11_0864"
+      ],
+      "strain": "unspecified",
+      "prominence": "peripheral",
+      "evidence": "the SAR11 Candidatus Pelagibacter ubique isethionate and R- and S-DHPS binding protein SAR11_0864 (Results, p10)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "DHPS utilisation",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "Aerobic DHPS utilisation in the marine bacterium Ruegeria pomeroyi DSS-3 (Fig. 1a, p2)"
+    },
+    {
+      "surface_form": "DHPS catabolic pathway",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "previously proposed DHPS catabolic pathway in R. pomeroyi (Results, p4)"
+    },
+    {
+      "surface_form": "sulfoglycolysis",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "S-DHPS through bacterial sulfoglycolysis pathways (Abstract, p1)"
+    },
+    {
+      "surface_form": "sulfoglycolytic Embden-Meyerhof-Parnas pathway",
+      "kegg_pathway_id": "map00010",
+      "prominence": "peripheral",
+      "evidence": "use sulfoglycolytic Embden-Meyerhof-Parnas pathways ... to generate S-DHPS (Introduction, p2)"
+    },
+    {
+      "surface_form": "sulfofructose transaldolase pathway",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "and sulfofructose transaldolase pathways, respectively, to generate S-DHPS (Introduction, p2)"
+    },
+    {
+      "surface_form": "dissimilatory respiration",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "DHPS functions as a terminal electron acceptor in dissimilatory respiration (Results, p8)"
+    },
+    {
+      "surface_form": "oxidative phosphorylation",
+      "kegg_pathway_id": "map00190",
+      "prominence": "peripheral",
+      "evidence": "thereby supporting ATP generation via oxidative phosphorylation (Results, p5)"
+    },
+    {
+      "surface_form": "sulfite oxidation to sulfate",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "SoeABC sulfite dehydrogenase complex, which oxidizes sulfite to sulfate (Results, p4)"
+    },
+    {
+      "surface_form": "cysteate-dependent branch",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "supports preferential flux through the cysteate-dependent branch (Results, p4)"
+    },
+    {
+      "surface_form": "isethionate-specific IslAB pathway",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "corresponding to the isethionate-specific IslAB pathway (Results, p10)"
+    }
+  ]
+}

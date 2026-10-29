@@ -1,0 +1,16 @@
+Resolution report: Barber 2026 / supp_data_1_rpom_proteomics
+Source: barber2026_rpom_proteomics_de.csv
+name_col: protein_id
+id_columns: ['protein_id', 'fasta_locus_tag']
+
+Total rows with IDs: 1837
+Resolved: 1836 (99.9%)
+Unresolved: 1
+
+Resolution method breakdown:
+  locus_tag:fasta_locus_tag: 280
+  multi:protein_id: 1556
+  unresolved: 1
+
+Unresolved rows (1):
+  row 1816: raw_id='AHB86009.1'  reason=unresolved  [protein_id='AHB86009.1', fasta_locus_tag='SPO0504a']

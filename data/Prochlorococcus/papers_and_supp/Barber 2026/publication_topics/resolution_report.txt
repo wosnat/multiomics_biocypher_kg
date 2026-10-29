@@ -1,0 +1,41 @@
+Topics resolution report: Barber 2026
+Strains: ['Ruegeria pomeroyi DSS-3']
+
+Genes:    16/32 resolved (50.0%)
+  methods: locus_tag:v=8, multi:v=8, unresolved=16
+Pathways: 2/10 resolved (20.0%)
+  methods: id=2, unresolved=8
+
+Captured identifiers: 15  (truncated/bare-number: 3, e.g. ['2146', '3187', '3561'])
+Unresolved gene reasons: {'lookup_miss': 16}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (16):
+  - hpsO-hpsP  [lookup_miss]  strain=Ruegeria pomeroyi DSS-3
+  - soeABC  [lookup_miss]  strain=Ruegeria pomeroyi DSS-3
+  - hpsG  [lookup_miss]  strain=unspecified
+  - hpsH  [lookup_miss]  strain=unspecified
+  - hpsOP  [lookup_miss]  strain=unspecified
+  - hpfGH  [lookup_miss]  strain=unspecified
+  - hpfD  [lookup_miss]  strain=unspecified
+  - hpfXYZ  [lookup_miss]  strain=unspecified
+  - dsrABC  [lookup_miss]  strain=unspecified
+  - dsrMKJOP  [lookup_miss]  strain=unspecified
+  - HMPREF0179_00063  [lookup_miss]  strain=unspecified  ids=['HMPREF0179_00063']
+  - HMPREF0179_00064  [lookup_miss]  strain=unspecified  ids=['HMPREF0179_00064']
+  - HMPREF0179_02569  [lookup_miss]  strain=unspecified  ids=['HMPREF0179_02569']
+  - iseP  [lookup_miss]  strain=unspecified
+  - islAB  [lookup_miss]  strain=unspecified
+  - SAR11_0864  [lookup_miss]  strain=unspecified  ids=['SAR11_0864']
+
+Unresolved pathway mentions (8):
+  - DHPS utilisation  (raw id=—)
+  - DHPS catabolic pathway  (raw id=—)
+  - sulfoglycolysis  (raw id=—)
+  - sulfofructose transaldolase pathway  (raw id=—)
+  - dissimilatory respiration  (raw id=—)
+  - sulfite oxidation to sulfate  (raw id=—)
+  - cysteate-dependent branch  (raw id=—)
+  - isethionate-specific IslAB pathway  (raw id=—)
