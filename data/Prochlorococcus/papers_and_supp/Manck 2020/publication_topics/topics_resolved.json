@@ -1,0 +1,1064 @@
+{
+  "metadata": {
+    "paper": "Manck 2020",
+    "doi": "10.1128/mSystems.00070-20",
+    "strains": [
+      "Alteromonas macleodii ATCC27126"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Figure 4 and text mention locus ranges and unnamed genes within siderophore biosynthetic and PepSY-associated neighborhoods; some individual IDs for those discussed classes are not fully printed in prose.",
+    "extracted_at": "2026-10-28T23:47:04.748020",
+    "input_tokens": 22912,
+    "output_tokens": 5140,
+    "resolution": {
+      "gene_records": 62,
+      "genes_resolved": 55,
+      "gene_methods": {
+        "unresolved": 7,
+        "locus_tag:v": 53,
+        "multi:v": 2
+      },
+      "pathway_records": 17,
+      "pathways_resolved": 14,
+      "pathway_methods": {
+        "unresolved": 3,
+        "id": 14
+      },
+      "paper_strains": [
+        "Alteromonas macleodii ATCC27126"
+      ],
+      "captured_identifiers": 55,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "lookup_miss": 5,
+        "descriptive_only": 2
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "TonB",
+      "gene_name": "tonB",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "\u201cuses distinct sets of TonB-dependent transporters for the acquisition of iron and carbon\u201d (Abstract, p1)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "ExbB",
+      "gene_name": "exbB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "\u201cthe TonB complex (TonB, ExbB, and ExbD)\u201d (Introduction, p2)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "ExbD",
+      "gene_name": "exbD",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "\u201cthe TonB complex (TonB, ExbB, and ExbD)\u201d (Introduction, p2)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "MASE_02825",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_02825"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201cThe remaining 2 protein-coding genes (MASE_02825 and MASE_13640)\u201d (Results, p3)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_02825",
+      "resolved_from": "MASE_02825",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_13640",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_13640"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201cThe remaining 2 protein-coding genes (MASE_02825 and MASE_13640)\u201d (Results, p3)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_13640",
+      "resolved_from": "MASE_13640",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_18235",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_18235"
+      ],
+      "prominence": "central",
+      "evidence": "\u201ccytoplasmic siderophore-interacting protein (MASE_18235) was enriched 18-fold\u201d (Results, p4)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_18235",
+      "resolved_from": "MASE_18235",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SUF Fe-S cluster assembly system",
+      "gene_name": "suf",
+      "identifiers": [
+        "MASE_12855",
+        "MASE_12895"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cA sulfur mobilization (SUF) Fe-S cluster assembly system (MASE_12855 to MASE_12895)\u201d (Results, p4)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_12855",
+      "resolved_from": "MASE_12855",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SUF Fe-S cluster assembly system",
+      "gene_name": "suf",
+      "identifiers": [
+        "MASE_12855",
+        "MASE_12895"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cA sulfur mobilization (SUF) Fe-S cluster assembly system (MASE_12855 to MASE_12895)\u201d (Results, p4)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_12895",
+      "resolved_from": "MASE_12895",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "Fur",
+      "gene_name": "fur",
+      "identifiers": [
+        "MASE_08050"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cferric uptake repressor protein (Fur) (MASE_08050)\u201d (Results, p4)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_08050",
+      "resolved_from": "MASE_08050",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "bacterioferritin homolog",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_09805",
+        "MASE_09810"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201ctwo subunits of a bacterioferritin homolog (MASE_09805 and MASE_09810)\u201d (Results, p4)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_09805",
+      "resolved_from": "MASE_09805",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "bacterioferritin homolog",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_09805",
+        "MASE_09810"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201ctwo subunits of a bacterioferritin homolog (MASE_09805 and MASE_09810)\u201d (Results, p4)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_09810",
+      "resolved_from": "MASE_09810",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "isocitrate lyase",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_13040"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cenrichment in transcripts for isocitrate lyase (MASE_13040)\u201d (Results, p4)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_13040",
+      "resolved_from": "MASE_13040",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "malate synthase",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_13050"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cand malate synthase (MASE_13050)\u201d (Results, p4)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_13050",
+      "resolved_from": "MASE_13050",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "fumarase C",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_14985"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cmarked 20-fold increase in the expression of fumarase C (MASE_14985)\u201d (Results, p4)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_14985",
+      "resolved_from": "MASE_14985",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "NADH-ubiquinone reductase",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_16205",
+        "MASE_16230"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201cfor NADH-ubiquinone reductase, MASE_16205 to MASE_16230\u201d (Results, p4-5)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_16205",
+      "resolved_from": "MASE_16205",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "NADH-ubiquinone reductase",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_16205",
+        "MASE_16230"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201cfor NADH-ubiquinone reductase, MASE_16205 to MASE_16230\u201d (Results, p4-5)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_16230",
+      "resolved_from": "MASE_16230",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "ubiquinol-cytochrome c reductase",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_03300",
+        "MASE_03310"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201cfor ubiquinol-cytochrome c reductase, MASE_03300 to MASE_03310\u201d (Results, p4-5)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_03300",
+      "resolved_from": "MASE_03300",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "ubiquinol-cytochrome c reductase",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_03300",
+        "MASE_03310"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201cfor ubiquinol-cytochrome c reductase, MASE_03300 to MASE_03310\u201d (Results, p4-5)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_03310",
+      "resolved_from": "MASE_03310",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "Entner-Doudoroff glycolysis pathway",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_11170",
+        "MASE_11190"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cEntner-Doudoroff (ED) glycolysis pathway (MASE_11170 to MASE_11190)\u201d (Results, p5)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_11170",
+      "resolved_from": "MASE_11170",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "Entner-Doudoroff glycolysis pathway",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_11170",
+        "MASE_11190"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cEntner-Doudoroff (ED) glycolysis pathway (MASE_11170 to MASE_11190)\u201d (Results, p5)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_11190",
+      "resolved_from": "MASE_11190",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "6-phosphogluconate dehydratase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "\u201c6-phosphogluconate dehydratase of the ED pathway is an iron-containing metalloprotein\u201d (Results, p5)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "nickel-containing superoxide dismutase",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_02360"
+      ],
+      "prominence": "central",
+      "evidence": "\u201ca nickel-containing superoxide dismutase (MASE_02360) was significantly enriched\u201d (Results, p5)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_02360",
+      "resolved_from": "MASE_02360",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_02310",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_02310"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201cfatty acid oxidation (MASE_02310, MASE_02315, MASE_03100, and MASE_10260)\u201d (Results, p5)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_02310",
+      "resolved_from": "MASE_02310",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_02315",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_02315"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201cfatty acid oxidation (MASE_02310, MASE_02315, MASE_03100, and MASE_10260)\u201d (Results, p5)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_02315",
+      "resolved_from": "MASE_02315",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_03100",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_03100"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201cfatty acid oxidation (MASE_02310, MASE_02315, MASE_03100, and MASE_10260)\u201d (Results, p5)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_03100",
+      "resolved_from": "MASE_03100",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_10260",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_10260"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201cfatty acid oxidation (MASE_02310, MASE_02315, MASE_03100, and MASE_10260)\u201d (Results, p5)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_10260",
+      "resolved_from": "MASE_10260",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_09745",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_09745"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cAn additional gene with this conserved domain... (MASE_09745) is found within the siderophore biosynthetic gene cluster\u201d (Results, p7)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_09745",
+      "resolved_from": "MASE_09745",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_18660",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_18660"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_18660 and MASE_18665 show homology to the FecIR regulatory system\u201d (Results, p8)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_18660",
+      "resolved_from": "MASE_18660",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_18665",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_18665"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_18660 and MASE_18665 show homology to the FecIR regulatory system\u201d (Results, p8)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_18665",
+      "resolved_from": "MASE_18665",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_18655",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_18655"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cthe associated TBDT (MASE_18655) is responsible for the transport of ferric citrate\u201d (Results, p8)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_18655",
+      "resolved_from": "MASE_18655",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_17915",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_17915"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_17915 and MASE_17920 show homology to the pfeRS regulatory system\u201d (Results, p8)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_17915",
+      "resolved_from": "MASE_17915",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_17920",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_17920"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_17915 and MASE_17920 show homology to the pfeRS regulatory system\u201d (Results, p8)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_17920",
+      "resolved_from": "MASE_17920",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_17930",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_17930"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_17930 may be responsible for the transport of the endogenous siderophore\u201d (Results, p8)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_17930",
+      "resolved_from": "MASE_17930",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_17430",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_17430"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201cenriched under iron limitation (MASE_17430, MASE_17435, MASE_18630, and MASE_18640)\u201d (Results, p8)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_17430",
+      "resolved_from": "MASE_17430",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_17435",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_17435"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201cenriched under iron limitation (MASE_17430, MASE_17435, MASE_18630, and MASE_18640)\u201d (Results, p8)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_17435",
+      "resolved_from": "MASE_17435",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_18630",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_18630"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201cenriched under iron limitation (MASE_17430, MASE_17435, MASE_18630, and MASE_18640)\u201d (Results, p8)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_18630",
+      "resolved_from": "MASE_18630",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_18640",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_18640"
+      ],
+      "prominence": "peripheral",
+      "evidence": "\u201cenriched under iron limitation (MASE_17430, MASE_17435, MASE_18630, and MASE_18640)\u201d (Results, p8)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_18640",
+      "resolved_from": "MASE_18640",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_00400",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_00400"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_00400 ... fall within the core group of TBDTs\u201d (Results, p9-10)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_00400",
+      "resolved_from": "MASE_00400",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_03260",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_03260"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_03260 ... Predicted substrate: Exogenous siderophore\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_03260",
+      "resolved_from": "MASE_03260",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_08200",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_08200"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_08200 ... Predicted substrate: Exogenous siderophore\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_08200",
+      "resolved_from": "MASE_08200",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_15245",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_15245"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_15245 ... Predicted substrate: Exogenous siderophore\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_15245",
+      "resolved_from": "MASE_15245",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_17080",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_17080"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_17080 ... Predicted substrate: Exogenous siderophore\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_17080",
+      "resolved_from": "MASE_17080",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_17485",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_17485"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_17485 ... Predicted substrate: Exogenous siderophore\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_17485",
+      "resolved_from": "MASE_17485",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_17500",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_17500"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_17500 ... Predicted substrate: Exogenous siderophore\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_17500",
+      "resolved_from": "MASE_17500",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_00935",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_00935"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_00935 ... Predicted substrate: Galactolipids\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_00935",
+      "resolved_from": "MASE_00935",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_03530",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_03530"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_03530 ... Predicted substrate: Peptide\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_03530",
+      "resolved_from": "MASE_03530",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_04115",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_04115"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_04115\u201d listed among C-responsive TBDTs (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "MASE_05185",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_05185"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_05185\u201d listed among C-responsive TBDTs (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_05185",
+      "resolved_from": "MASE_05185",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_05565",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_05565"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_05565\u201d listed among C-responsive TBDTs (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "MASE_06600",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_06600"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_06600 ... Predicted substrate: Polyhydroxybutyrate\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_06600",
+      "resolved_from": "MASE_06600",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_08095",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_08095"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_08095\u201d listed among C-responsive TBDTs (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_08095",
+      "resolved_from": "MASE_08095",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_10030",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_10030"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_10030 ... Predicted substrate: Peptide\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_10030",
+      "resolved_from": "MASE_10030",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_12160",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_12160"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_12160 ... Predicted substrate: Peptide\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_12160",
+      "resolved_from": "MASE_12160",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_13325",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_13325"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_13325 ... Predicted substrate: \u03b1-Glucans\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_13325",
+      "resolved_from": "MASE_13325",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_13870",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_13870"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_13870 ... Predicted substrate: N-Acetyl-\u03b2-D-glucosaminides\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_13870",
+      "resolved_from": "MASE_13870",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_15330",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_15330"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_15330\u201d listed among C-responsive TBDTs (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_15330",
+      "resolved_from": "MASE_15330",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_18035",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_18035"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_18035 ... Predicted substrate: Xyloglucans\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_18035",
+      "resolved_from": "MASE_18035",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_19120",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_19120"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_19120 ... Predicted substrate: \u03b1-Arabinosides\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_19120",
+      "resolved_from": "MASE_19120",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MASE_19670",
+      "gene_name": "",
+      "identifiers": [
+        "MASE_19670"
+      ],
+      "prominence": "central",
+      "evidence": "\u201cMASE_19670 ... Predicted substrate: \u03b2-Glucans\u201d (Table 1, p9)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_19670",
+      "resolved_from": "MASE_19670",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "csrA",
+      "gene_name": "csrA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "\u201cwe did not observe differential expression of either csrA or fliA\u201d (Discussion, p11)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_05065",
+      "resolved_from": "csrA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "fliA",
+      "gene_name": "fliA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "\u201cwe did not observe differential expression of either csrA or fliA\u201d (Discussion, p11)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": "MASE_04935",
+      "resolved_from": "fliA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "Ni-SOD",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "\u201cupregulation of Fe-lacking metabolic replacements (nickel superoxide dismutase [Ni-SOD] and fumarase C)\u201d (Discussion, p10)",
+      "mention_strain": "Alteromonas macleodii ATCC27126",
+      "strain": "Alteromonas macleodii ATCC27126",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "TonB-dependent transport",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "\u201cuses distinct sets of TonB-dependent transporters for the acquisition of iron and carbon\u201d (Abstract, p1)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "ABC transporters",
+      "kegg_pathway_id_raw": "map02010",
+      "prominence": "peripheral",
+      "evidence": "\u201cSubsequent transport across the inner membrane is often accomplished via an associated ATP-binding cassette transporter\u201d (Introduction, p2)",
+      "pathway_id": "ko02010",
+      "pathway_name": "abc transporters",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "carbon metabolism",
+      "kegg_pathway_id_raw": "map01200",
+      "prominence": "central",
+      "evidence": "\u201cCarbon metabolism... were significantly affected by iron limitation\u201d (Results, p4)",
+      "pathway_id": "ko01200",
+      "pathway_name": "carbon metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "oxidative phosphorylation",
+      "kegg_pathway_id_raw": "map00190",
+      "prominence": "central",
+      "evidence": "\u201coxidative phosphorylation... were significantly affected by iron limitation\u201d (Results, p4)",
+      "pathway_id": "ko00190",
+      "pathway_name": "oxidative phosphorylation",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "citric acid cycle",
+      "kegg_pathway_id_raw": "map00020",
+      "prominence": "central",
+      "evidence": "\u201cthe citric acid cycle were significantly affected by iron limitation\u201d (Results, p4)",
+      "pathway_id": "ko00020",
+      "pathway_name": "citrate cycle (tca cycle)",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "glyoxylate cycle",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "\u201ca distinct shift toward the glyoxylate cycle as an alternative pathway to the citric acid cycle\u201d (Results, p4)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Entner-Doudoroff glycolysis pathway",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "\u201cA decrease in the transcript abundance of the Entner-Doudoroff (ED) glycolysis pathway\u201d (Results, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "tryptophan biosynthetic pathway",
+      "kegg_pathway_id_raw": "map00400",
+      "prominence": "peripheral",
+      "evidence": "\u201cenrichment of the tryptophan... biosynthetic pathways\u201d (Results, p5)",
+      "pathway_id": "ko00400",
+      "pathway_name": "phenylalanine, tyrosine and tryptophan biosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "biotin metabolism",
+      "kegg_pathway_id_raw": "map00780",
+      "prominence": "peripheral",
+      "evidence": "\u201cenrichment of the... biotin... biosynthetic pathways\u201d (Results, p5)",
+      "pathway_id": "ko00780",
+      "pathway_name": "biotin metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "thiamine metabolism",
+      "kegg_pathway_id_raw": "map00730",
+      "prominence": "peripheral",
+      "evidence": "\u201cenrichment of the... thiamine biosynthetic pathways\u201d (Results, p5)",
+      "pathway_id": "ko00730",
+      "pathway_name": "thiamine metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "fatty acid degradation",
+      "kegg_pathway_id_raw": "map00071",
+      "prominence": "central",
+      "evidence": "\u201cFatty acid degradation was uniquely affected by carbon limitation\u201d (Results, p5)",
+      "pathway_id": "ko00071",
+      "pathway_name": "fatty acid degradation",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "chemotaxis",
+      "kegg_pathway_id_raw": "map02030",
+      "prominence": "central",
+      "evidence": "\u201csignificant enrichment of chemotactic response systems\u201d (Results, p5)",
+      "pathway_id": "ko02030",
+      "pathway_name": "bacterial chemotaxis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "flagellar biosynthesis",
+      "kegg_pathway_id_raw": "map02040",
+      "prominence": "central",
+      "evidence": "\u201csignificant enrichment of... flagellar biosynthesis\u201d (Results, p5)",
+      "pathway_id": "ko02040",
+      "pathway_name": "flagellar assembly",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "fatty acid biosynthesis",
+      "kegg_pathway_id_raw": "map00061",
+      "prominence": "peripheral",
+      "evidence": "\u201ctranscripts involved in fatty acid biosynthesis... were all significantly depleted\u201d (Results, p5)",
+      "pathway_id": "ko00061",
+      "pathway_name": "fatty acid biosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "nitrogen metabolism",
+      "kegg_pathway_id_raw": "map00910",
+      "prominence": "peripheral",
+      "evidence": "\u201cnitrogen metabolism... were all significantly depleted under both iron and carbon limitation\u201d (Results, p5)",
+      "pathway_id": "ko00910",
+      "pathway_name": "nitrogen metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "ribosome",
+      "kegg_pathway_id_raw": "map03010",
+      "prominence": "peripheral",
+      "evidence": "\u201cribosome production were all significantly depleted under both iron and carbon limitation\u201d (Results, p5)",
+      "pathway_id": "ko03010",
+      "pathway_name": "ribosome",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "amino acid biosynthesis",
+      "kegg_pathway_id_raw": "map01230",
+      "prominence": "peripheral",
+      "evidence": "\u201cAmino Acid Biosynthesis\u201d shown among selected KEGG pathways (Fig. 2, p5)",
+      "pathway_id": "ko01230",
+      "pathway_name": "biosynthesis of amino acids",
+      "resolution_method": "id"
+    }
+  ]
+}

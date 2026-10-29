@@ -1,0 +1,27 @@
+Topics resolution report: Manck 2020
+Strains: ['Alteromonas macleodii ATCC27126']
+
+Genes:    55/62 resolved (88.7%)
+  methods: locus_tag:v=53, multi:v=2, unresolved=7
+Pathways: 14/17 resolved (82.4%)
+  methods: id=14, unresolved=3
+
+Captured identifiers: 55  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 5, 'descriptive_only': 2}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (7):
+  - tonB  [lookup_miss]  strain=Alteromonas macleodii ATCC27126
+  - exbB  [lookup_miss]  strain=Alteromonas macleodii ATCC27126
+  - exbD  [lookup_miss]  strain=Alteromonas macleodii ATCC27126
+  - 6-phosphogluconate dehydratase  [descriptive_only]  strain=Alteromonas macleodii ATCC27126
+  - MASE_04115  [lookup_miss]  strain=Alteromonas macleodii ATCC27126  ids=['MASE_04115']
+  - MASE_05565  [lookup_miss]  strain=Alteromonas macleodii ATCC27126  ids=['MASE_05565']
+  - Ni-SOD  [descriptive_only]  strain=Alteromonas macleodii ATCC27126
+
+Unresolved pathway mentions (3):
+  - TonB-dependent transport  (raw id=—)
+  - glyoxylate cycle  (raw id=—)
+  - Entner-Doudoroff glycolysis pathway  (raw id=—)

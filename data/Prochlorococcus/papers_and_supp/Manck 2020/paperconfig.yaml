@@ -1,0 +1,143 @@
+# Manck 2020, mSystems 5:e00070-20. Alteromonas macleodii ATCC 27126 RNA-seq under iron and
+# carbon limitation (DESeq2, n = 3 per arm), with a focus on TonB-dependent transporters (TBDTs).
+# CSVs are built from the supplementary xlsx by
+#   scripts/build_modified_csv/build_manck2020_modified_csv.py
+# Data Set S3 (1,804 TBDTs over 31 Alteromonas genomes, sequence-similarity network clusters)
+# is NOT integrated: it needs a multi-organism cluster concept (backlog).
+publication:
+  papername: "Manck 2020"
+  doi: "10.1128/mSystems.00070-20"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Manck 2020/manck-et-al-2020-transcriptomic-study-of-substrate-specific-transport-mechanisms-for-iron-and-carbon-in-the-marine.pdf"
+  control_timing: matched
+
+  experiments:
+    iron_limitation_atcc27126_rnaseq:
+      name: "Alteromonas ATCC27126 iron limitation vs iron replete RNA-seq (Manck 2020)"
+      organism: "Alteromonas macleodii ATCC27126"
+      omics_type: RNASEQ
+      test_type: DESeq2
+      treatment_type: [iron]
+      background_factors: [axenic, darkness]
+      treatment_condition: "Iron depleted: PC+ (peptone-casein + glucose) medium with no added iron, 50 uM EDTA, after 12 h iron-free preconditioning"
+      control_condition: "Iron replete: PC+ medium with 5 uM FeCl3 and 50 uM EDTA (calculated free Fe 6.5 nM)"
+      experimental_context: "Axenic batch cultures in Chelex-cleaned seawater peptone-casein medium with glucose as carbon source, trace metal mix, in the dark at room temperature with shaking; biological triplicates"
+      medium: "PC+ (peptone-casein seawater medium with 1.8 g glucose per 500 ml), no added iron"
+      temperature: "room temperature"
+      light_condition: "dark"
+      light_intensity: "0 umol photons m-2 s-1"
+      table_scope: significant_only
+      table_scope_detail: "Data Set S1 lists only differentially expressed ORFs (|log2FC| >= 1, FDR < 0.05)"
+      design_notes: >-
+        Both arms were inoculated from the same iron-preconditioned culture and harvested together
+        after 6.5 h, when the iron-replete cultures reached mid-exponential phase (OD600 0.68).
+    carbon_limitation_atcc27126_rnaseq:
+      name: "Alteromonas ATCC27126 carbon limitation vs carbon replete RNA-seq (Manck 2020)"
+      organism: "Alteromonas macleodii ATCC27126"
+      omics_type: RNASEQ
+      test_type: DESeq2
+      treatment_type: [carbon]
+      background_factors: [axenic, darkness]
+      treatment_condition: "Carbon depleted: PC medium (peptone-casein, no added glucose), after carbon-limited preconditioning"
+      control_condition: "Carbon replete: PC+ medium with glucose (1.8 g per 500 ml)"
+      experimental_context: "Axenic batch cultures in Chelex-cleaned seawater peptone-casein medium, iron replete (5 uM FeCl3, 50 uM EDTA), trace metal mix, in the dark at room temperature with shaking; biological triplicates"
+      medium: "PC (peptone-casein seawater medium without glucose), 5 uM FeCl3"
+      temperature: "room temperature"
+      light_condition: "dark"
+      light_intensity: "0 umol photons m-2 s-1"
+      table_scope: significant_only
+      table_scope_detail: "Data Set S1 lists only differentially expressed ORFs (|log2FC| >= 1, FDR < 0.05)"
+      design_notes: >-
+        Both arms were inoculated from the same carbon-limited preculture and harvested together
+        when the carbon-replete cultures reached mid-exponential phase.
+    tbdt_survey_atcc27126:
+      name: "Alteromonas ATCC27126 TonB-dependent transporter inventory and substrate prediction (Manck 2020)"
+      organism: "Alteromonas macleodii ATCC27126"
+      omics_type: BIOINFORMATIC
+      treatment_type: [genomic_analysis]
+      background_factors: []   # computed from the genome: no sample, no culture
+      treatment_condition: "Genome survey of putative TonB-dependent transporters (TBDT barrel domain pfam00593) and gene-neighborhood substrate prediction (no experimental treatment)"
+      experimental_context: "66 putative TBDTs in the ATCC 27126 genome (Data Set S2); substrates predicted from gene neighborhoods for the 26 TBDTs responsive to iron or carbon limitation (Table 1), not experimentally validated."
+
+  supplementary_materials:
+    sd001_iron_limitation:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Manck 2020/manck2020_sd001_iron_limitation.csv"
+      organism: "Alteromonas macleodii ATCC27126"
+      id_columns:
+        - column: "orf_id"
+          id_type: locus_tag_ncbi
+        - column: "orf_id_old"
+          id_type: old_locus_tag
+      product_columns:
+        - column: "product"
+      statistical_analyses:
+        - id: "manck2020_fe_limitation_vs_replete"
+          experiment: iron_limitation_atcc27126_rnaseq
+          name_col: "orf_id"
+          logfc_col: "log2_fold_change"
+          adjusted_p_value_col: "fdr"
+          prefiltered: true   # Data Set S1: |log2FC| >= 1 and FDR < 0.05 only
+          timepoint: "6.5h"
+          timepoint_hours: 6.5
+          growth_phase: nutrient_limited
+
+    sd001_carbon_limitation:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Manck 2020/manck2020_sd001_carbon_limitation.csv"
+      organism: "Alteromonas macleodii ATCC27126"
+      id_columns:
+        - column: "orf_id"
+          id_type: locus_tag_ncbi
+        - column: "orf_id_old"
+          id_type: old_locus_tag
+      product_columns:
+        - column: "product"
+      statistical_analyses:
+        - id: "manck2020_c_limitation_vs_replete"
+          experiment: carbon_limitation_atcc27126_rnaseq
+          name_col: "orf_id"
+          logfc_col: "log2_fold_change"
+          adjusted_p_value_col: "fdr"
+          prefiltered: true   # Data Set S1: |log2FC| >= 1 and FDR < 0.05 only
+          timepoint: "mid-exponential (replete)"
+          timepoint_hours: null
+          growth_phase: nutrient_limited
+
+    tbdt_inventory:
+      type: derived_metrics_table
+      filename: "data/Prochlorococcus/papers_and_supp/Manck 2020/manck2020_tbdts.csv"
+      organism: "Alteromonas macleodii ATCC27126"
+      experiment: tbdt_survey_atcc27126
+      name_col: "orf_id"
+      id_columns:
+        - column: "orf_id"
+          id_type: locus_tag_ncbi
+        - column: "orf_id_old"
+          id_type: old_locus_tag
+      metrics:
+        - metric_type: tbdt_manck2020
+          name: "TonB-dependent transporter (Manck 2020 curated set)"
+          value_kind: boolean
+          value_col: is_tbdt
+          true_tokens: ["yes"]
+          blank_policy: skip
+          field_description: "Flagged when the gene is one of the 66 putative TonB-dependent transporters (TBDTs, outer-membrane transporters for siderophores, carbohydrates, peptides and other large substrates) that Manck 2020 Data Set S2 lists for A. macleodii ATCC 27126. Genes not in the set carry no edge. Their iron- and carbon-limitation fold changes are the Manck 2020 expression edges."
+        - metric_type: tbdt_predicted_substrate_manck2020
+          name: "Predicted TBDT substrate (Manck 2020 Table 1)"
+          value_kind: categorical
+          value_col: predicted_substrate
+          allowed_categories:
+            - "exogenous_siderophore"
+            - "endogenous_siderophore"
+            - "ferric_citrate"
+            - "galactolipids"
+            - "peptide"
+            - "polyhydroxybutyrate"
+            - "alpha_glucans"
+            - "n_acetyl_beta_d_glucosaminides"
+            - "xyloglucans"
+            - "alpha_arabinosides"
+            - "beta_glucans"
+            - "not_predicted"
+            - "not_assessed"
+          field_description: "Substrate Manck 2020 predicts from gene-neighborhood analysis (Table 1) for the 26 TBDTs responsive to iron limitation (11) or carbon limitation (15). not_predicted = in Table 1 but no substrate could be inferred; not_assessed = one of the other 40 TBDTs, not analysed. MASE_17485 and MASE_17500 share one PepSY permease, so which of the two is the siderophore transporter is ambiguous. Prediction, not experimentally validated."
