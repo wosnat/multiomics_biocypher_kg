@@ -1,0 +1,32 @@
+Topics resolution report: Durham 2015
+Strains: ['Ruegeria pomeroyi DSS-3', 'Thalassiosira pseudonana']
+
+Genes:    6/18 resolved (33.3%)
+  methods: multi:v=6, no_mapping=6, unresolved=6
+Pathways: 2/5 resolved (40.0%)
+  methods: id=2, unresolved=3
+
+Captured identifiers: 4  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 12}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (12):
+  - metH  [lookup_miss]  strain=Thalassiosira pseudonana
+  - hpsKLM  [lookup_miss]  strain=Ruegeria pomeroyi DSS-3
+  - hpsNOP  [lookup_miss]  strain=Ruegeria pomeroyi DSS-3
+  - cuyA  [lookup_miss]  strain=Ruegeria pomeroyi DSS-3
+  - CBA1  [lookup_miss]  strain=Thalassiosira pseudonana
+  - sqdB  [lookup_miss]  strain=Thalassiosira pseudonana  ids=['Tp269393']
+  - Tp7093  [lookup_miss]  strain=Thalassiosira pseudonana  ids=['Tp7093']
+  - Tp263660  [lookup_miss]  strain=Thalassiosira pseudonana  ids=['Tp263660']
+  - Tp261147  [lookup_miss]  strain=Thalassiosira pseudonana  ids=['Tp261147']
+  - coa  [lookup_miss]  strain=Ruegeria pomeroyi DSS-3
+  - gdh  [lookup_miss]  strain=Ruegeria pomeroyi DSS-3
+  - suyAB  [lookup_miss]  strain=all
+
+Unresolved pathway mentions (3):
+  - DHPS transport and catabolism  (raw id=—)
+  - N-acetyltaurine transport and catabolism  (raw id=—)
+  - sulfoquinovosyl diacylglycerol biosynthesis  (raw id=—)

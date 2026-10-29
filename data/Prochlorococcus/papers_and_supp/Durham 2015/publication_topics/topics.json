@@ -1,0 +1,205 @@
+{
+  "metadata": {
+    "paper": "Durham 2015",
+    "doi": "10.1073/pnas.1413137112",
+    "strains": [
+      "Ruegeria pomeroyi DSS-3",
+      "Thalassiosira pseudonana"
+    ],
+    "model": "gpt-5.4",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "medium",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Figure 3 prints multiple locus tags, including R. pomeroyi identifiers such as SPO0981 and SPO0594, but these are discussed mainly in phylogeny/figure context and were not all attached above.",
+    "extracted_at": "2026-10-28T23:48:12.903630",
+    "input_tokens": 15953,
+    "output_tokens": 1631
+  },
+  "genes": [
+    {
+      "surface_form": "metH",
+      "gene_name": "metH",
+      "identifiers": [],
+      "strain": "Thalassiosira pseudonana",
+      "prominence": "peripheral",
+      "evidence": "T. pseudonana harbors the B12-requiring version of the methionine synthase gene metH (Introduction, p1)"
+    },
+    {
+      "surface_form": "hpsKLM",
+      "gene_name": "hpsKLM",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "included DHPS TRAP transporter components hpsKLM (Results, p1-2)"
+    },
+    {
+      "surface_form": "hpsNOP",
+      "gene_name": "hpsNOP",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "dehydrogenases hpsNOP for converting DHPS to R-sulfolactate (Results, p1-2)"
+    },
+    {
+      "surface_form": "slcD",
+      "gene_name": "slcD",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "and slcD for converting sulfolactate to sulfopyruvate (Results, p1-2)"
+    },
+    {
+      "surface_form": "cuyA",
+      "gene_name": "cuyA",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "including cuyA, which mediates conversion of cysteate to pyruvate and ammonium (Results, p2)"
+    },
+    {
+      "surface_form": "cuyZ",
+      "gene_name": "cuyZ",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "peripheral",
+      "evidence": "and the bisulfite exporter cuyZ (Results, p2)"
+    },
+    {
+      "surface_form": "hpsN",
+      "gene_name": "hpsN",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "RT-qPCR of hpsN, the gene encoding dihydroxypropanesulfonate-3-dehydrogenase (Results, p2)"
+    },
+    {
+      "surface_form": "CBA1",
+      "gene_name": "CBA1",
+      "identifiers": [],
+      "strain": "Thalassiosira pseudonana",
+      "prominence": "central",
+      "evidence": "the gene encoding the B12-binding cobalamin acquisition protein 1 CBA1 was one of the most highly up-regulated diatom genes (Results, p2)"
+    },
+    {
+      "surface_form": "sqdB",
+      "gene_name": "sqdB",
+      "identifiers": [
+        "Tp269393"
+      ],
+      "strain": "Thalassiosira pseudonana",
+      "prominence": "central",
+      "evidence": "including sqdB, which mediates the first committed step in biosynthesis of the sulfolipid SQDG Tp269393 sixfold (Results, p2)"
+    },
+    {
+      "surface_form": "Tp7093",
+      "gene_name": "",
+      "identifiers": [
+        "Tp7093"
+      ],
+      "strain": "Thalassiosira pseudonana",
+      "prominence": "peripheral",
+      "evidence": "two genes involved in the synthesis of diacylglycerol precursors for SQDG biosynthesis Tp7093 and Tp263660 fourfold (Results, p2)"
+    },
+    {
+      "surface_form": "Tp263660",
+      "gene_name": "",
+      "identifiers": [
+        "Tp263660"
+      ],
+      "strain": "Thalassiosira pseudonana",
+      "prominence": "peripheral",
+      "evidence": "two genes involved in the synthesis of diacylglycerol precursors for SQDG biosynthesis Tp7093 and Tp263660 fourfold (Results, p2)"
+    },
+    {
+      "surface_form": "Tp261147",
+      "gene_name": "",
+      "identifiers": [
+        "Tp261147"
+      ],
+      "strain": "Thalassiosira pseudonana",
+      "prominence": "peripheral",
+      "evidence": "and a gene annotated as a sulfate transporter Tp261147 fourfold (Results, p2)"
+    },
+    {
+      "surface_form": "coa",
+      "gene_name": "coa",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "peripheral",
+      "evidence": "Genes mediating metabolism of sulfopyruvate to cysteate coa and gdh were not differentially expressed (Fig. 2 legend, p2)"
+    },
+    {
+      "surface_form": "gdh",
+      "gene_name": "gdh",
+      "identifiers": [],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "peripheral",
+      "evidence": "Genes mediating metabolism of sulfopyruvate to cysteate coa and gdh were not differentially expressed (Fig. 2 legend, p2)"
+    },
+    {
+      "surface_form": "suyAB",
+      "gene_name": "suyAB",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "carry out desulfonation via different enzymes CuyA, SuyAB, or Xsc (Results, p3)"
+    },
+    {
+      "surface_form": "xsc",
+      "gene_name": "xsc",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "carry out desulfonation via different enzymes CuyA, SuyAB, or Xsc (Results, p3)"
+    },
+    {
+      "surface_form": "hpsO",
+      "gene_name": "hpsO",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "the SAR11 genomes lack orthologs to metabolically upstream genes hpsO and hpsP (Results, p3)"
+    },
+    {
+      "surface_form": "hpsP",
+      "gene_name": "hpsP",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "the SAR11 genomes lack orthologs to metabolically upstream genes hpsO and hpsP (Results, p3)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "vitamin B12 biosynthesis",
+      "kegg_pathway_id": "map00860",
+      "prominence": "central",
+      "evidence": "The >50 sequenced members of the Roseobacter lineage all carry genes for B12 biosynthesis (Introduction, p1)"
+    },
+    {
+      "surface_form": "DHPS transport and catabolism",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "the most highly up-regulated genes encoded proteins for the transport and catabolism of 2,3-dihydroxypropane-1-sulfonate DHPS (Abstract and Results, p1-2)"
+    },
+    {
+      "surface_form": "N-acetyltaurine transport and catabolism",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "six colocated genes involved in transport and catabolism of C2-sulfonate N-acetyltaurine were also up-regulated (Results, p2)"
+    },
+    {
+      "surface_form": "sulfoquinovosyl diacylglycerol biosynthesis",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "sqdB mediates the first committed step in biosynthesis of the sulfolipid sulfoquinovosyl diacylglycercol SQDG (Results, p2)"
+    },
+    {
+      "surface_form": "sulfur metabolism",
+      "kegg_pathway_id": "map00920",
+      "prominence": "central",
+      "evidence": "These changes in gene expression suggest shifts in sulfur metabolism by the diatom (Results, p2)"
+    }
+  ]
+}
