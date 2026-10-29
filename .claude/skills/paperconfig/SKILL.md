@@ -191,7 +191,8 @@ key verbatim (graph id `{doi}_{key}`); the control sampling time and its growth 
 | `chemical` | Chemical treatment (e.g., DCMU) | Chemical inhibitor present |
 | `plastic` | Plastic leachate exposure | — |
 | `growth_phase` | Growth state / multi-condition comparison | — |
-| `mutant` | Mutant or evolved strain comparison | Mutant background |
+| `mutant` | Knockout / mutant strain vs wild type (Tetu 2009, Ostrowski 2010) | — (treatment only) |
+| `essentiality` | Transposon-mutagenesis gene essentiality / fitness (characterization, Rubin 2015) | — |
 | `compartment` | Subcellular fraction comparison (vesicle / exoproteome / secretome vs whole cell) | — |
 | `axenic` | — (background only) | Pure culture, no other organisms |
 

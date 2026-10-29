@@ -1472,7 +1472,7 @@ def test_validate_rejects_empty_treatment_type_even_without_de_analyses(tmp_path
 
 
 def test_validate_accepts_characterization_treatment_types(tmp_path):
-    for v in ("rna_decay", "tss_mapping", "genomic_analysis"):
+    for v in ("rna_decay", "tss_mapping", "genomic_analysis", "essentiality"):
         errors, _ = _run_validation(
             tmp_path, {"treatment_type": [v], "background_factors": ["axenic"],
                        "treatment_organism": None, "treatment_taxid": None},
@@ -1489,7 +1489,8 @@ def test_validator_vocab_split_matches_yaml():
     assert CANONICAL_BACKGROUND_FACTORS == set(vocab["Experiment.background_factors"].values)
     assert "nitrogen" in CANONICAL_TREATMENT_TYPES and "nitrogen" not in CANONICAL_BACKGROUND_FACTORS
     assert "axenic" in CANONICAL_BACKGROUND_FACTORS and "axenic" not in CANONICAL_TREATMENT_TYPES
-    assert "mutant" not in CANONICAL_CONDITION_TYPES
+    # "mutant" re-entered 2026-10-28 as a treatment-only value (Tetu 2009, Ostrowski 2010)
+    assert "mutant" in CANONICAL_TREATMENT_TYPES and "mutant" not in CANONICAL_BACKGROUND_FACTORS
 
 
 def test_validate_rejects_treatment_only_value_as_background_factor(tmp_path):
