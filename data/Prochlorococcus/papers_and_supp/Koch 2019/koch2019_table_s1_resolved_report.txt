@@ -1,0 +1,35 @@
+Resolution report: Koch 2019 / proteome_nsaf
+Source: koch2019_table_s1.csv
+name_col: locus_tag
+id_columns: ['locus_tag']
+
+Total rows with IDs: 4227
+Resolved: 4021 (95.1%)
+Unresolved: 206
+
+Resolution method breakdown:
+  locus_tag_ci:locus_tag: 4021
+  unresolved: 206
+
+Unresolved rows (206):
+  row 33: raw_id='Alt831_00034'  reason=unresolved  [locus_tag='Alt831_00034']
+  row 34: raw_id='Alt831_00035'  reason=unresolved  [locus_tag='Alt831_00035']
+  row 35: raw_id='Alt831_00036'  reason=unresolved  [locus_tag='Alt831_00036']
+  row 36: raw_id='Alt831_00037'  reason=unresolved  [locus_tag='Alt831_00037']
+  row 74: raw_id='Alt831_00075'  reason=unresolved  [locus_tag='Alt831_00075']
+  row 75: raw_id='Alt831_00076'  reason=unresolved  [locus_tag='Alt831_00076']
+  row 84: raw_id='Alt831_00085'  reason=unresolved  [locus_tag='Alt831_00085']
+  row 91: raw_id='Alt831_00092'  reason=unresolved  [locus_tag='Alt831_00092']
+  row 92: raw_id='Alt831_00093'  reason=unresolved  [locus_tag='Alt831_00093']
+  row 93: raw_id='Alt831_00094'  reason=unresolved  [locus_tag='Alt831_00094']
+  row 94: raw_id='Alt831_00095'  reason=unresolved  [locus_tag='Alt831_00095']
+  row 103: raw_id='Alt831_00104'  reason=unresolved  [locus_tag='Alt831_00104']
+  row 106: raw_id='Alt831_00107'  reason=unresolved  [locus_tag='Alt831_00107']
+  row 128: raw_id='Alt831_00129'  reason=unresolved  [locus_tag='Alt831_00129']
+  row 150: raw_id='Alt831_00151'  reason=unresolved  [locus_tag='Alt831_00151']
+  row 230: raw_id='Alt831_00231'  reason=unresolved  [locus_tag='Alt831_00231']
+  row 285: raw_id='Alt831_00286'  reason=unresolved  [locus_tag='Alt831_00286']
+  row 309: raw_id='Alt831_00310'  reason=unresolved  [locus_tag='Alt831_00310']
+  row 348: raw_id='Alt831_00349'  reason=unresolved  [locus_tag='Alt831_00349']
+  row 349: raw_id='Alt831_00350'  reason=unresolved  [locus_tag='Alt831_00350']
+  ... (186 more)

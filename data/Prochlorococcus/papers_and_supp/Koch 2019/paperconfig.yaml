@@ -1,0 +1,188 @@
+# Koch 2019 (ISME J) — Alteromonas macleodii 83-1 degrading a laminarin + alginate + pectin mix vs glucose.
+# Table S1 (all 4,227 genes) is flattened by scripts/build_modified_csv/build_koch2019_de_nsaf.py, which
+# negates the paper's "X vs Y" log2 fold changes so every contrast reads treatment vs control.
+# Design: triplicate 400 mL SWM cultures with 0.06% glucose (G) or 0.02% of each polysaccharide (M), 20C,
+# sampled at 13 h (phase 1) and 21 h (phase 2). M1 = exponential growth on laminarin; M2 = simultaneous
+# alginate + pectin use without net growth (the paper shows it is not a stationary phase). G2 = stationary.
+# Not integrated: exoproteome intra- vs extracellular NSAF (Table S5), FT-ICR-MS exometabolome (formulas
+# only, no compound identity — backlog), PUL summary (Table S3, a subset of S1), metatranscriptome hits (S4),
+# PQQ homolog identities across strains (S6), genome list (S7).
+publication:
+  papername: "Koch 2019"
+  doi: "10.1038/s41396-018-0252-4"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Koch 2019/41396_2018_article_252.pdf"
+  control_timing: matched
+
+  experiments:
+    mix_alginate_pectin_phase_vs_laminarin_phase_831_rnaseq:
+      name: "Alteromonas 83-1 alginate/pectin phase (M2, 21 h) vs laminarin phase (M1, 13 h) on a polysaccharide mix (RNASEQ)"
+      organism: "Alteromonas macleodii 83-1"
+      omics_type: RNASEQ
+      test_type: DESeq2
+      treatment_type: [carbon, growth_phase]
+      background_factors: [axenic]
+      treatment_condition: "Polysaccharide mix, phase M2 (21 h): laminarin exhausted, alginate and pectin used without net growth"
+      control_condition: "Polysaccharide mix, phase M1 (13 h): exponential growth on laminarin"
+      experimental_context: "Axenic batch cultures in seawater medium (SWM) with 0.02% each of laminarin, alginate and pectin, 20C, 140 rpm, triplicate"
+      medium: "SWM with 0.02% laminarin, 0.02% alginate, 0.02% pectin"
+      temperature: "20C"
+      table_scope: all_detected_genes
+      control_timing: baseline
+      design_notes: >-
+        Two sampling times of the same cultures: phase M2 at 21 h (alginate and pectin use, no net growth)
+        against phase M1 at 13 h (exponential growth on laminarin) as reference.
+    glucose_stationary_vs_exponential_831_rnaseq:
+      name: "Alteromonas 83-1 on glucose, stationary (G2, 21 h) vs exponential (G1, 13 h) (RNASEQ)"
+      organism: "Alteromonas macleodii 83-1"
+      omics_type: RNASEQ
+      test_type: DESeq2
+      treatment_type: [growth_phase]
+      background_factors: [axenic]
+      treatment_condition: "Glucose, phase G2 (21 h, stationary)"
+      control_condition: "Glucose, phase G1 (13 h, exponential)"
+      experimental_context: "Axenic batch cultures in SWM with 0.06% glucose as sole carbon source, 20C, 140 rpm, triplicate"
+      medium: "SWM with 0.06% glucose"
+      temperature: "20C"
+      table_scope: all_detected_genes
+      control_timing: baseline
+      design_notes: >-
+        Two sampling times of the same glucose cultures: stationary phase at 21 h against exponential
+        phase at 13 h as reference.
+    polysaccharide_mix_vs_glucose_phase1_831_rnaseq:
+      name: "Alteromonas 83-1 on a polysaccharide mix vs glucose at 13 h (M1 vs G1) (RNASEQ)"
+      organism: "Alteromonas macleodii 83-1"
+      omics_type: RNASEQ
+      test_type: DESeq2
+      treatment_type: [carbon]
+      background_factors: [axenic]
+      treatment_condition: "Laminarin + alginate + pectin mix (0.02% each), phase M1 (13 h, growth on laminarin)"
+      control_condition: "Glucose (0.06%), phase G1 (13 h, exponential)"
+      experimental_context: "Axenic batch cultures in SWM, equal carbon per treatment, 20C, 140 rpm, triplicate"
+      medium: "SWM with 0.02% laminarin, alginate and pectin"
+      temperature: "20C"
+      table_scope: all_detected_genes
+    polysaccharide_mix_vs_glucose_phase2_831_rnaseq:
+      name: "Alteromonas 83-1 on a polysaccharide mix vs glucose at 21 h (M2 vs G2) (RNASEQ)"
+      organism: "Alteromonas macleodii 83-1"
+      omics_type: RNASEQ
+      test_type: DESeq2
+      treatment_type: [carbon]
+      background_factors: [axenic]
+      treatment_condition: "Laminarin + alginate + pectin mix, phase M2 (21 h, alginate and pectin use without net growth)"
+      control_condition: "Glucose, phase G2 (21 h, stationary)"
+      experimental_context: "Axenic batch cultures in SWM, equal carbon per treatment, 20C, 140 rpm, triplicate"
+      medium: "SWM with 0.02% laminarin, alginate and pectin"
+      temperature: "20C"
+      table_scope: all_detected_genes
+      design_notes: >-
+        Same sampling time (21 h) in both arms, but different physiological states: no net growth on
+        alginate and pectin vs stationary phase on glucose.
+    proteome_nsaf_831_proteomics:
+      name: "Alteromonas 83-1 whole-cell proteome on glucose and on a polysaccharide mix at 13 h and 21 h (%NSAF)"
+      organism: "Alteromonas macleodii 83-1"
+      omics_type: PROTEOMICS
+      test_type: "LC-MS/MS"
+      treatment_type: [carbon]
+      background_factors: [axenic]
+      treatment_condition: "Laminarin + alginate + pectin mix (M1 13 h, M2 21 h)"
+      control_condition: "Glucose (G1 13 h, G2 21 h)"
+      experimental_context: "Cell-pellet proteomes, SDS-PAGE + LC-MS/MS, semi-quantified as %NSAF (mean of three biological replicates); no statistical test"
+      medium: "SWM with 0.06% glucose or 0.02% each of laminarin, alginate and pectin"
+      temperature: "20C"
+
+  supplementary_materials:
+    table_s1:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Koch 2019/koch2019_table_s1.csv"
+      organism: "Alteromonas macleodii 83-1"
+      id_columns:
+        - column: "locus_tag"
+          id_type: old_locus_tag
+        - column: "img_gene_id"
+          id_type: jgi_id
+      product_columns:
+        - column: "product"
+      statistical_analyses:
+        - id: koch2019_m2_vs_m1
+          experiment: mix_alginate_pectin_phase_vs_laminarin_phase_831_rnaseq
+          name_col: "locus_tag"
+          logfc_col: "log2fc_m2_vs_m1"
+          adjusted_p_value_col: "padj_m2_vs_m1"
+          pvalue_threshold: 0.001
+          logfc_threshold: 2
+          timepoint: "21h (M2)"
+          timepoint_hours: 21
+          growth_phase: "other:no_net_growth"
+        - id: koch2019_g2_vs_g1
+          experiment: glucose_stationary_vs_exponential_831_rnaseq
+          name_col: "locus_tag"
+          logfc_col: "log2fc_g2_vs_g1"
+          adjusted_p_value_col: "padj_g2_vs_g1"
+          pvalue_threshold: 0.001
+          logfc_threshold: 2
+          timepoint: "21h (G2)"
+          timepoint_hours: 21
+          growth_phase: stationary
+        - id: koch2019_m1_vs_g1
+          experiment: polysaccharide_mix_vs_glucose_phase1_831_rnaseq
+          name_col: "locus_tag"
+          logfc_col: "log2fc_m1_vs_g1"
+          adjusted_p_value_col: "padj_m1_vs_g1"
+          pvalue_threshold: 0.001
+          logfc_threshold: 2
+          timepoint: "13h"
+          timepoint_hours: 13
+          growth_phase: exponential
+        - id: koch2019_m2_vs_g2
+          experiment: polysaccharide_mix_vs_glucose_phase2_831_rnaseq
+          name_col: "locus_tag"
+          logfc_col: "log2fc_m2_vs_g2"
+          adjusted_p_value_col: "padj_m2_vs_g2"
+          pvalue_threshold: 0.001
+          logfc_threshold: 2
+          timepoint: "21h"
+          timepoint_hours: 21
+          growth_phase: "other:no_net_growth"
+
+    proteome_nsaf:
+      type: derived_metrics_table
+      filename: "data/Prochlorococcus/papers_and_supp/Koch 2019/koch2019_table_s1.csv"
+      organism: "Alteromonas macleodii 83-1"
+      experiment: proteome_nsaf_831_proteomics
+      name_col: "locus_tag"
+      id_columns:
+        - column: "locus_tag"
+          id_type: old_locus_tag
+      metrics:
+        - metric_type: nsaf_glucose_13h
+          name: "Protein abundance on glucose, 13 h (G1, %NSAF)"
+          value_kind: numeric
+          value_col: nsaf_g1
+          unit: "%NSAF"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Whole-cell protein abundance as %NSAF (mean of three replicates), glucose phase G1 (13 h, exponential); proteins not detected carry no edge."
+        - metric_type: nsaf_glucose_21h
+          name: "Protein abundance on glucose, 21 h (G2, %NSAF)"
+          value_kind: numeric
+          value_col: nsaf_g2
+          unit: "%NSAF"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Whole-cell protein abundance as %NSAF (mean of three replicates), glucose phase G2 (21 h, stationary); proteins not detected carry no edge."
+        - metric_type: nsaf_polysaccharide_mix_13h
+          name: "Protein abundance on the polysaccharide mix, 13 h (M1, %NSAF)"
+          value_kind: numeric
+          value_col: nsaf_m1
+          unit: "%NSAF"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Whole-cell protein abundance as %NSAF (mean of three replicates), polysaccharide mix phase M1 (13 h, growth on laminarin); proteins not detected carry no edge."
+        - metric_type: nsaf_polysaccharide_mix_21h
+          name: "Protein abundance on the polysaccharide mix, 21 h (M2, %NSAF)"
+          value_kind: numeric
+          value_col: nsaf_m2
+          unit: "%NSAF"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Whole-cell protein abundance as %NSAF (mean of three replicates), polysaccharide mix phase M2 (21 h, alginate and pectin use without net growth); proteins not detected carry no edge."
