@@ -72,6 +72,11 @@ GCF_000300175.1,,1004787,AD45,cache/data/Alteromonas/genomes/AD45/,,Alteromonas 
 GCF_000299995.1,,1004785,BS11,cache/data/Alteromonas/genomes/BS11/,,Alteromonas macleodii BS11,genome_strain,,,,
 # BGP6 (Pacific surface; uses species-level taxid 28108)
 GCF_901446615.2,,28108,BGP6,cache/data/Alteromonas/genomes/BGP6/,,Alteromonas macleodii BGP6,genome_strain,,,,
+# 83-1 (Koch 2019 polysaccharide degradation; Koch 2020; PacBio complete genome, ICBM, species-level taxid 28108).
+# CAUTION: the submitter's locus prefixes are swapped vs MIT1002 — this assembly's locus_tag is MIT1002_RS*
+# (old_locus_tag ALT831_*), while our MIT1002 (GCF_901457835.2) carries ALT831_RS*. Verified 2026-10-28:
+# our MIT1002 shares 97.0% identical proteins with the independent MIT1002 draft (JXRW), this one 22.7%.
+GCF_901446755.2,,28108,83-1,cache/data/Alteromonas/genomes/83-1/,,Alteromonas macleodii 83-1,genome_strain,,,,
 
 # Alteromonas mediterranea "deep ecotype" genome strains (genomes only, no DE paper yet; reclassified from A. macleodii)
 # AltDE (strain DE; deep-ecotype reference, Urania Basin 3500 m, Ivars-Martinez 2008) — distinct assembly from the Alt_MarRef MarRef proxy above
