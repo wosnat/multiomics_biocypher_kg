@@ -388,7 +388,12 @@ def test_node_props(tmp_path):
     assert nodes["tcdb:1"]["name"] == "Channels and Pores"
     leaf = nodes["tcdb:1.A.1.5.2"]
     assert leaf["level"] == 4 and leaf["level_kind"] == "tc_system"
-    assert leaf["name"] == "1.A.1.5.2"
+    assert leaf["name"] == "1.A.1.5.2"   # the `name = tcdb_id` unnamed marker stays
+    # display_name: dense; an unnamed system / subfamily borrows the nearest named ancestor
+    assert nodes["tcdb:1"]["display_name"] == "Channels and Pores"
+    assert leaf["display_name"] == "VIC family — system 1.A.1.5.2"
+    assert nodes["tcdb:1.A.1.5"]["display_name"] == "VIC family — subfamily 1.A.1.5"
+    assert nodes["tcdb:1.A"]["display_name"] == "1.A"   # unnamed subclass keeps the TCID
     assert leaf["superfamily"] == "VIC Superfamily"
     assert leaf["description"] == "Epsilon leaf curated text with ^quote^ and pipe."
     assert leaf["proteins"] == "NaChBac of Bacillus; NaChBac (M) ^x^y"
@@ -409,6 +414,8 @@ def test_unnamed_system_falls_back_and_inherits_no_direction(tmp_path):
     nodes = {n[0]: n[2] for n in a.get_nodes() if n[1] == "tcdb family"}
     p = nodes["tcdb:2.A.6.1.9"]
     assert p["name"] == "2.A.6.1.9"
+    assert p["display_name"] == ("The Resistance-Nodulation-Cell Division (RND) Efflux Family"
+                                 " — system 2.A.6.1.9")
     # the "Efflux Family" name is not inherited: a system needs its own name
     assert p["direction"] == "unknown" and "direction_basis" not in p
 

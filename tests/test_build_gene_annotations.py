@@ -2510,3 +2510,104 @@ def test_best_hit_only_gene_unchanged_otherwise():
     assert not merged.get("transporter_classification")
     assert merged["contributing_sources"] == base["contributing_sources"]
     assert {k: v for k, v in merged.items() if k != "tcdb_best_hit_ids"} == base
+
+
+# ─── [tcdb_best_hit] description lines ────────────────────────────────────────
+
+from multiomics_kg.download.build_gene_annotations import (  # noqa: E402
+    apply_tcdb_best_hit_line,
+    load_tcdb_best_hit_reference,
+    load_tcdb_best_hit_tops,
+    tcdb_best_hit_line,
+)
+
+
+def _write_tcdb_line_caches(root: Path) -> Path:
+    (root / "tcdb").mkdir(parents=True)
+    (root / "kegg").mkdir(parents=True)
+    hier = {
+        "3.A.1": {"name": "The ABC Superfamily", "level_kind": "tc_family", "parent": None},
+        "3.A.1.16": {"name": "", "level_kind": "tc_subfamily", "parent": "3.A.1"},
+        "3.A.1.16.2": {"name": "Bispecific cyanate/nitrite transporter.",
+                       "level_kind": "tc_system", "parent": "3.A.1.16"},
+        "3.A.1.16.9": {"name": "", "level_kind": "tc_system", "parent": "3.A.1.16"},
+        "3.A.1.106.22": {"name": "Heme transporter CydDC", "level_kind": "tc_system",
+                         "parent": "3.A.1"},
+    }
+    pruned = {
+        "kept_tcdb_ids": list(hier),
+        "seed_aliases": {"3.A.1.129.1": "3.A.1.106.22", "3.A.1.35": "3.A.1"},
+        "system_substrates": {"3.A.1.16.2": ["kegg.compound:C01417", "kegg.compound:C00088"],
+                              "3.A.1.106.22": ["chebi:30413"]},
+        "system_roles": {"3.A.1.16.2": ["chebi.role:26672"]},
+        "chemical_roles": {"chebi.role:26672": {"name": "siderophore"}},
+    }
+    kegg = {"compounds": {"C01417": {"name": "Cyanate"}, "C00088": {"name": "Nitrite"}},
+            "additional_compounds": {"chebi:30413": {"name": "heme"}}}
+    (root / "tcdb" / "tcdb_hierarchy.json").write_text(json.dumps(hier))
+    (root / "tcdb" / "tcdb_pruned.json").write_text(json.dumps(pruned))
+    (root / "kegg" / "kegg_data.json").write_text(json.dumps(kegg))
+    return root
+
+
+def test_tcdb_best_hit_line_mirrors_the_direct_edge(tmp_path):
+    ref = load_tcdb_best_hit_reference(_write_tcdb_line_caches(tmp_path))
+    line, why = tcdb_best_hit_line("3.A.1.16.2", 59.2, ref)
+    assert why == "ok"
+    assert line == ("[tcdb_best_hit] Bispecific cyanate/nitrite transporter. [3.A.1.16.2]"
+                    " :: [tcdb_substrates] Cyanate, Nitrite, siderophore")
+    # identity < 40 → tier 3 → below the gate, no line
+    assert tcdb_best_hit_line("3.A.1.16.2", 39.9, ref) == (None, "below_gate")
+    # retired id re-anchored through seed_aliases, as the adapter does
+    assert tcdb_best_hit_line("3.A.1.129.1", 80.0, ref)[0] == (
+        "[tcdb_best_hit] Heme transporter CydDC [3.A.1.106.22] :: [tcdb_substrates] heme")
+    # alias onto a non-system ancestor: the edge is `annotated`, not `direct`
+    assert tcdb_best_hit_line("3.A.1.35", 80.0, ref) == (None, "not_system")
+    assert tcdb_best_hit_line("9.Z.1.1.1", 80.0, ref) == (None, "not_kept")
+    # unnamed system, no substrates: borrowed display name, no substrate clause
+    assert tcdb_best_hit_line("3.A.1.16.9", 45.0, ref)[0] == (
+        "[tcdb_best_hit] The ABC Superfamily — system 3.A.1.16.9 [3.A.1.16.9]")
+
+
+def test_tcdb_best_hit_line_caps_substrates(tmp_path):
+    ref = load_tcdb_best_hit_reference(_write_tcdb_line_caches(tmp_path))
+    many = [f"kegg.compound:C9{i:04d}" for i in range(20)]
+    ref["targets"]["3.A.1.16.2"] = many
+    ref["target_names"].update({c: f"cpd{i:02d}" for i, c in enumerate(many)})
+    line, _ = tcdb_best_hit_line("3.A.1.16.2", 90.0, ref)
+    assert line.endswith("cpd06, cpd07 and 12 more")
+
+
+def test_load_tcdb_best_hit_tops_takes_rank_one_hit(tmp_path):
+    data_dir = _write_tcdb_calls(tmp_path, "S", {
+        "WP_1": {"best_hit": {"tcids": ["3.A.1.16.2", "3.A.1.16.1"],
+                              "hits": [{"tcid": "3.A.1.16.2", "identity": 59.2},
+                                       {"tcid": "3.A.1.16.1", "identity": 70.0}]}},
+        "WP_2": {"best_hit": {"tcids": ["3.D.4.3.2"]}},   # no per-system hits → skipped
+        "WP_3": {"calls": [{"tcid": "2.A.1"}]},
+    })
+    assert load_tcdb_best_hit_tops(data_dir, "S") == {"WP_1": ("3.A.1.16.2", 59.2)}
+    assert load_tcdb_best_hit_tops(str(tmp_path / "missing"), "S") == {}
+
+
+def test_apply_tcdb_best_hit_line_appends_once_and_counts(tmp_path):
+    from collections import Counter
+    ref = load_tcdb_best_hit_reference(_write_tcdb_line_caches(tmp_path))
+    g = {"alternate_functional_descriptions": ["[pfam] ABC_tran: ABC transporter"]}
+    stats = Counter()
+    apply_tcdb_best_hit_line(g, ("3.A.1.16.2", 59.2), ref, stats)
+    apply_tcdb_best_hit_line(g, ("3.A.1.16.2", 59.2), ref, stats)
+    apply_tcdb_best_hit_line(g, ("3.A.1.16.2", 20.0), ref, stats)
+    afd = g["alternate_functional_descriptions"]
+    assert afd[0] == "[pfam] ABC_tran: ABC transporter"
+    assert sum(s.startswith("[tcdb_best_hit]") for s in afd) == 1
+    assert stats == Counter(ok=2, below_gate=1)
+    # no best hit / no reference → untouched
+    g2 = {}
+    apply_tcdb_best_hit_line(g2, None, ref)
+    apply_tcdb_best_hit_line(g2, ("3.A.1.16.2", 90.0), None)
+    assert g2 == {}
+
+
+def test_load_tcdb_best_hit_reference_none_when_step6_missing(tmp_path):
+    assert load_tcdb_best_hit_reference(tmp_path) is None

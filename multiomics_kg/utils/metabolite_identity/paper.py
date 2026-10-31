@@ -139,7 +139,9 @@ class StereoContext:
     unspecified: set[str]
     is_anomer: Callable[[str, str], bool]
     catalyst_counts: dict[str, int]
-    # Nodes ChEBI says are one stereo form among others (stereo.chebi_stereo_forms). Unlike
+    # Nodes ChEBI says are one stereo form among others (stereo.chebi_stereo_forms: an
+    # enantiomer exists; stereo.kegg_stereo_forms: the KEGG entry is filed under a specific
+    # and a stereo-unspecified form of one structure). Unlike
     # ``families`` it does not depend on which sibling forms are nodes in this build.
     chebi_stereo: frozenset[str] = frozenset()
 
@@ -193,15 +195,19 @@ class ResolutionResult:
     stale_lock: list = field(default_factory=list)
     lock_remapped: list = field(default_factory=list)
     name_lookup: dict = field(default_factory=dict)
+    # Aliases whose explicit stereo_assignment differs from the name rule (kept: curated wins).
+    alias_stereo_review: list = field(default_factory=list)
 
 
 def resolve_paper_rows(tables, *, overrides, name_candidates, id_index, ctx, lock, today):
     """Stage J: resolve every paper row in the spec §3.6 order.
 
     Per row: (1) the paper's alias override, (2) the direct id (through ``id_index``),
-    (3) the frozen lock, (4) the name match / dominant-form rule. Nothing here raises:
-    ambiguous names, unresolvable override targets and legacy overrides on stereo targets are
-    collected in ``ambiguous`` / ``errors`` for stage P to fail on. Stale lock entries stay in
+    (3) the frozen lock, (4) the name match / dominant-form rule. An override without a
+    ``stereo_assignment`` takes the name-match rule's value; one whose explicit value differs
+    from it keeps the curated value and is listed in ``alias_stereo_review``. Nothing here
+    raises: ambiguous names and unresolvable override targets are collected in
+    ``ambiguous`` / ``errors`` for stage P to fail on. Stale lock entries stay in
     the returned lock (a human deletes them); new freezes are added with ``frozen_on=today``.
     """
     res = ResolutionResult()
@@ -278,13 +284,18 @@ def resolve_paper_rows(tables, *, overrides, name_candidates, id_index, ctx, loc
                 if tgt is None:
                     error(f"{row.paper}: alias {ov.raw_name!r} → {ov.id} resolves to no compound")
                     continue
-                sa = ov.stereo_assignment
-                if sa is None:
-                    if has_variants(tgt):
-                        error(f"{row.paper}: alias {ov.raw_name!r} → {tgt} has stereo variants; "
-                              f"add an explicit stereo_assignment")
-                        continue
-                    sa = "as_reported"
+                # The same rule as a name match: a name without a stereo descriptor on a
+                # specific form (not the stereo-unspecified node itself) assumed the form.
+                rule_sa = ("dominant_form_assumed"
+                           if not is_stereo_qualified(ov.raw_name) and tgt not in ctx.unspecified
+                           and (has_variants(tgt) or tgt in ctx.chebi_stereo)
+                           else "as_reported")
+                sa = ov.stereo_assignment or rule_sa
+                if sa != rule_sa:
+                    review = {"paper": row.paper, "alias": ov.raw_name, "id": tgt,
+                              "curated": sa, "rule": rule_sa}
+                    if review not in res.alias_stereo_review:
+                        res.alias_stereo_review.append(review)
                 res.decisions[key3] = Decision(tgt, "alias_override", sa)
                 continue
             if row.direct_id:

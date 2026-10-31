@@ -26,7 +26,7 @@ from typing import Iterator
 from multiomics_kg.utils.controlled_vocab import VOCAB
 from multiomics_kg.utils.curie_utils import normalize_curie
 from multiomics_kg.utils.tcdb_diamond import best_hit_tier
-from multiomics_kg.utils.tcdb_utils import tcdb_direction
+from multiomics_kg.utils.tcdb_utils import tcdb_direction, tcdb_display_name
 
 logger = logging.getLogger(__name__)
 
@@ -294,12 +294,15 @@ class MultiTcdbAnnotationAdapter:
             entry = self._hierarchy.get(tcdb_id, {})
             level = self._level(tcdb_id)
             level_kind = entry.get("level_kind", "tc_class")
-            # Falls back to the tcdb_id when TCDB has no name for the node.
-            display_name = (entry.get("name") or "") or tcdb_id
+            # Falls back to the tcdb_id when TCDB has no name for the node
+            # (`t.name = t.tcdb_id` is the documented "unnamed" marker).
+            name = (entry.get("name") or "") or tcdb_id
             direction, basis = tcdb_direction(tcdb_id, self._hierarchy)
             directions[direction] += 1
             props = {
-                "name": _clean_str(display_name),
+                "name": _clean_str(name),
+                # Dense; an unnamed subfamily / system borrows its nearest named ancestor's.
+                "display_name": _clean_str(tcdb_display_name(tcdb_id, self._hierarchy)),
                 "tcdb_id": tcdb_id,
                 "level": level,
                 "level_kind": VOCAB.check("TcdbFamily", "level_kind", level_kind),

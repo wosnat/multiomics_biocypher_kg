@@ -417,3 +417,21 @@ def test_committed_moved_overrides_load_against_committed_hierarchy():
 ])
 def test_tcdb_direction_secretion_and_role_phrases(name, expected):
     assert tu.tcdb_direction("2.A.7.1.1", _sys(name), {}) == expected
+
+
+def test_tcdb_display_name_names_unnamed_members_after_nearest_named_ancestor():
+    h = {
+        "3": {"name": "Primary Active Transporters", "level_kind": "tc_class", "parent": None},
+        "3.A": {"name": "", "level_kind": "tc_subclass", "parent": "3"},
+        "3.A.1": {"name": "The ABC Superfamily", "level_kind": "tc_family", "parent": "3.A"},
+        "3.A.1.17": {"name": "", "level_kind": "tc_subfamily", "parent": "3.A.1"},
+        "3.A.1.17.1": {"name": "", "level_kind": "tc_system", "parent": "3.A.1.17"},
+        "3.A.1.17.2": {"name": "Taurine porter", "level_kind": "tc_system", "parent": "3.A.1.17"},
+    }
+    assert tu.tcdb_display_name("3.A.1.17.2", h) == "Taurine porter"
+    assert tu.tcdb_display_name("3.A.1.17", h) == "The ABC Superfamily — subfamily 3.A.1.17"
+    # skips the unnamed subfamily, lands on the family
+    assert tu.tcdb_display_name("3.A.1.17.1", h) == "The ABC Superfamily — system 3.A.1.17.1"
+    # only subfamilies / systems borrow a name
+    assert tu.tcdb_display_name("3.A", h) == "3.A"
+    assert tu.tcdb_display_name("9.Z.9", h) == "9.Z.9"

@@ -200,3 +200,29 @@ def test_chebi_stereo_forms_do_not_need_the_sibling_node():
                     CHEBI_17712=term("9H-xanthine", is_a=["CHEBI:15318"], gformula="C5H4N4O2", charge=0))
     xan = {"kegg.compound:C00385": _d("Xanthine", "LRFVTYWOQMYALW-UHFFFAOYSA-N")}
     assert not chebi_stereo_forms(xan, {"kegg.compound:C00385": {"CHEBI:17712"}}, ch)  # tautomer parent
+
+
+def test_kegg_stereo_forms_specific_form_without_enantiomer():
+    """Backlog post-3a: diastereomers / meso partners have no is_enantiomer_of, so
+    chebi_stereo_forms misses them. kegg_stereo_forms reads the KEGG entry's own ChEBI
+    xrefs: a specific + a stereo-unspecified term of one structure → a stereo form."""
+    from multiomics_kg.utils.metabolite_identity.stereo import kegg_stereo_forms
+    ch = make_chebi(
+        # homocystine: KEGG C01817 filed under L,L- and unspecified (no enantiomer listed)
+        CHEBI_141698=term("L,L-homocystine", kegg=["C01817"],
+                          inchikey="ZTVZLYBCZNMWCF-WDSKDSINSA-N"),
+        CHEBI_17485=term("homocystine", kegg=["C01817"], inchikey="ZTVZLYBCZNMWCF-UHFFFAOYSA-N"),
+        # fumarate: only E forms under C00122 → geometric, never a stereo form
+        CHEBI_18012=term("fumaric acid", kegg=["C00122"], inchikey="VZCYOOQTPOCHFL-OWOJBTEDSA-N"),
+        # xanthine: two tautomers, both stereo-unspecified
+        CHEBI_17712=term("9H-xanthine", kegg=["C00385"], inchikey="LRFVTYWOQMYALW-UHFFFAOYSA-N"),
+        CHEBI_48517=term("7H-xanthine", kegg=["C00385"], inchikey="LRFVTYWOQMYALW-UHFFFAOYSA-N"),
+        # cinnamate: trans- + unspecified differ only by a geometric descriptor
+        CHEBI_35697=term("trans-cinnamic acid", kegg=["C10438"],
+                         inchikey="WBYWAXJHAXSJNI-VOTSOKGWSA-N"),
+        CHEBI_27386=term("cinnamic acid", kegg=["C10438"], inchikey="WBYWAXJHAXSJNI-UHFFFAOYSA-N"))
+    t = {f"kegg.compound:{k}": dict(_d(n, None), kegg_compound_ids=[k])
+         for k, n in [("C01817", "L-Homocystine"), ("C00122", "Fumarate"),
+                      ("C00385", "Xanthine"), ("C10438", "Cinnamic acid")]}
+    t["chebi:1"] = dict(cpd("amino acid"), structure_kind="generic", kegg_compound_ids=["C01817"])
+    assert kegg_stereo_forms(t, ch) == {"kegg.compound:C01817"}

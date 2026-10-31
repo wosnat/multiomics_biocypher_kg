@@ -23,6 +23,7 @@ import json
 import logging
 import os
 import re
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
@@ -55,6 +56,8 @@ from multiomics_kg.download.utils.ortholog_group_utils import (
     organism_group_from_path,
 )
 from multiomics_kg.utils.pfam_utils import PfamData, load_pfam_data
+from multiomics_kg.utils.tcdb_diamond import best_hit_tier
+from multiomics_kg.utils.tcdb_utils import tcdb_display_name
 from multiomics_kg.utils.tigr_roles import inferred_roles, load_tigr_roles, role_name
 from multiomics_kg.download import build_interpro_reference
 from multiomics_kg.download.utils.paths import PROJECT_ROOT, infer_organism_group
@@ -340,6 +343,116 @@ def apply_tigr_role_inference(gene: dict, tigr_roles: dict | None,
         present.add(line)
     if afd:
         gene["alternate_functional_descriptions"] = afd
+
+
+# ─── TCDB best-hit description lines ──────────────────────────────────────────
+
+_TCDB_BEST_HIT_LABEL = "[tcdb_best_hit]"
+_TCDB_MAX_SUBSTRATES = 8
+
+
+def load_tcdb_best_hit_reference(cache_root: Path) -> dict | None:
+    """Name/substrate lookups for ``[tcdb_best_hit]`` lines, from step 6's committed
+    outputs (``tcdb_hierarchy.json``, ``tcdb_pruned.json``, ``kegg_data.json``).
+
+    Step 2 runs before step 6, so these are the previous step-6 run's files: a system
+    a newly onboarded strain's best hit points at gets its line on the next step-2
+    pass after step 6 (``apply_tcdb_best_hit_line`` counts the misses). ``None`` when
+    a file is missing — the lines are then disabled.
+    """
+    paths = {"hierarchy": cache_root / "tcdb" / "tcdb_hierarchy.json",
+             "pruned": cache_root / "tcdb" / "tcdb_pruned.json",
+             "kegg": cache_root / "kegg" / "kegg_data.json"}
+    if not all(p.exists() for p in paths.values()):
+        return None
+    loaded = {k: json.loads(p.read_text(encoding="utf-8")) for k, p in paths.items()}
+    pruned, kegg = loaded["pruned"], loaded["kegg"]
+    # `compounds` is keyed by bare C number, `additional_compounds` by node id;
+    # `system_substrates` holds node ids (`kegg.compound:C…` / `chebi:…`).
+    target_names: dict[str, str] = {}
+    for cid, c in (kegg.get("compounds") or {}).items():
+        if c.get("name"):
+            target_names[f"kegg.compound:{cid}"] = c["name"]
+    for cid, c in (kegg.get("additional_compounds") or {}).items():
+        if c.get("name"):
+            target_names[cid] = c["name"]
+    for rid, r in (pruned.get("chemical_roles") or {}).items():
+        if r.get("name"):
+            target_names[rid] = r["name"]
+    return {
+        "hierarchy": loaded["hierarchy"],
+        "kept": set(pruned.get("kept_tcdb_ids") or []),
+        "aliases": pruned.get("seed_aliases") or {},
+        "targets": {s: list(pruned.get("system_substrates", {}).get(s, []))
+                    + list(pruned.get("system_roles", {}).get(s, []))
+                    for s in set(pruned.get("system_substrates") or {})
+                    | set(pruned.get("system_roles") or {})},
+        "target_names": target_names,
+    }
+
+
+def load_tcdb_best_hit_tops(data_dir: str, strain_name: str) -> dict[str, tuple[str, float]]:
+    """``{protein_id: (tcid, identity)}`` of each protein's rank-1 best-hit system
+    (``best_hit.hits[0]`` of the tcdb-diamond calls.json — the hit the adapter emits
+    as the ``rank = 1`` ``diamond_best_hit`` edge). Missing file → ``{}``."""
+    path = os.path.join(data_dir, "tcdb", f"{strain_name}.tcdb.calls.json")
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    out: dict[str, tuple[str, float]] = {}
+    for wp, rec in data.items():
+        hits = ((rec or {}).get("best_hit") or {}).get("hits") or [] if isinstance(rec, dict) else []
+        if hits and hits[0].get("tcid") and hits[0].get("identity") is not None:
+            out[str(wp).strip()] = (hits[0]["tcid"], float(hits[0]["identity"]))
+    return out
+
+
+def tcdb_best_hit_line(tcid: str, identity: float, ref: dict) -> tuple[str | None, str]:
+    """``([tcdb_best_hit] <name> [<id>] :: [tcdb_substrates] <a>, <b>, …, why)``.
+
+    The fixed words are bracketed underscore tokens (``tcdb_substrates``), which the
+    full-text analyzer keeps whole, so a search for "substrates" or "TC" does not
+    match every gene that carries a line.
+
+    A line only for what the KG asserts as a ``tcdb_gate = 'direct'`` best-hit edge:
+    rank 1 (the caller passes ``hits[0]``), identity tier <= 2 (identity >= 40), and
+    the alias-remapped target is a kept ``tc_system``. ``why`` names the rule that
+    refused (``below_gate`` / ``not_kept`` / ``not_system``) or is ``"ok"``.
+    """
+    if best_hit_tier(identity) > 2:
+        return None, "below_gate"
+    target = ref["aliases"].get(tcid) or tcid
+    if target not in ref["kept"]:
+        return None, "not_kept"
+    if ref["hierarchy"].get(target, {}).get("level_kind") != "tc_system":
+        return None, "not_system"
+    line = f"{_TCDB_BEST_HIT_LABEL} {tcdb_display_name(target, ref['hierarchy'])} [{target}]"
+    names = sorted({ref["target_names"][t] for t in ref["targets"].get(target, [])
+                    if t in ref["target_names"]}, key=str.casefold)
+    if names:
+        shown = names[:_TCDB_MAX_SUBSTRATES]
+        more = len(names) - len(shown)
+        line += " :: [tcdb_substrates] " + ", ".join(shown) + (f" and {more} more" if more else "")
+    return line, "ok"
+
+
+def apply_tcdb_best_hit_line(gene: dict, top: tuple[str, float] | None,
+                             ref: dict | None, stats: Counter | None = None) -> None:
+    """Post-merge: append the gene's ``[tcdb_best_hit]`` line (at most one) to
+    ``alternate_functional_descriptions``, so full-text search finds a gene by the
+    name and substrates of the system it is a direct best hit of."""
+    if not top or not ref:
+        return
+    line, why = tcdb_best_hit_line(top[0], top[1], ref)
+    if stats is not None:
+        stats[why] += 1
+    if line is None:
+        return
+    afd = list(gene.get("alternate_functional_descriptions") or [])
+    if line not in afd:
+        afd.append(line)
+    gene["alternate_functional_descriptions"] = afd
 
 
 # ─── InterPro entry-xref propagation (Layer B) ────────────────────────────────
@@ -1442,6 +1555,7 @@ def process_strain(
     interpro_ref: dict | None = None,
     ncbifam_ref: dict | None = None,
     tigr_roles: dict | None = None,
+    tcdb_ref: dict | None = None,
 ) -> None:
     strain_name = row["strain_name"]
     preferred_name = (row.get("preferred_name") or "").strip() or strain_name
@@ -1480,6 +1594,8 @@ def process_strain(
     ipr_data = load_interproscan(data_dir, strain_name)
     tcd_data = load_tcdb_diamond(data_dir, strain_name)
     mer_data = load_merops(data_dir, strain_name)
+    tcdb_tops = load_tcdb_best_hit_tops(data_dir, strain_name) if tcdb_ref else {}
+    tcdb_line_stats: Counter = Counter()
 
     print(f"  gene_mapping : {len(gm_data):>5} genes")
     print(f"  eggnog       : {len(eg_data):>5} entries")
@@ -1524,6 +1640,7 @@ def process_strain(
         if interpro_ref is not None:
             enrich_interpro_fields(merged, ipr_row, interpro_ref, ncbifam_ref)
         apply_tigr_role_inference(merged, tigr_roles, ncbifam_ref)
+        apply_tcdb_best_hit_line(merged, tcdb_tops.get(protein_id), tcdb_ref, tcdb_line_stats)
         merged_out[locus_tag] = merged
 
         if merged.get("product"):
@@ -1537,6 +1654,15 @@ def process_strain(
         cat = merged.get("gene_category", "Unknown")
         stats.setdefault(f"cat_{cat}", 0)
         stats[f"cat_{cat}"] += 1
+
+    if tcdb_line_stats:
+        print(f"  [tcdb_best_hit] lines: {tcdb_line_stats['ok']} written; refused "
+              f"{dict(sorted((k, v) for k, v in tcdb_line_stats.items() if k != 'ok'))}")
+        if tcdb_line_stats["not_kept"]:
+            logger.warning(
+                f"[{strain_name}] {tcdb_line_stats['not_kept']} best-hit system(s) not in "
+                f"tcdb_pruned.json - step 6 predates this strain's calls; re-run "
+                f"prepare_data.sh --steps 6 --force, then --steps 2 --force")
 
     # Compute ortholog_groups for each gene (post-merge enrichment)
     og_organism_group = organism_group_from_path(data_dir)
@@ -1673,11 +1799,16 @@ def main() -> None:
         print(f"TIGR roles archive: {len(tigr_roles['roles'])} roles, "
               f"{len(tigr_roles['family_role'])} family links")
 
+    tcdb_ref = load_tcdb_best_hit_reference(cache_root)
+    if tcdb_ref is None:
+        print("WARNING: TCDB/KEGG step-6 caches missing - [tcdb_best_hit] description "
+              "lines disabled. Run prepare_data.sh --steps 6, then --steps 2 --force.")
+
     print(f"Processing {len(rows)} strain(s) with config: {args.config}")
     for row in rows:
         process_strain(row, config, force=args.force, pfam_data=pfam_data,
                        interpro_ref=interpro_ref, ncbifam_ref=ncbifam_ref,
-                       tigr_roles=tigr_roles)
+                       tigr_roles=tigr_roles, tcdb_ref=tcdb_ref)
 
     if args.llm_summary:
         print("\nLLM summary generation (Step 1C) not yet implemented.")

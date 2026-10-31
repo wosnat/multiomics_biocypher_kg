@@ -1399,6 +1399,7 @@ tcdb family:
   label_in_input: tcdb family
   properties:
     name: str               # TCDB entry name (scraped, tcdb_names.json); falls back to tcdb_id when upstream has no name
+    display_name: str       # dense: name, or for an unnamed subfamily/system "<nearest named ancestor> — subfamily|system <tcdb_id>" (tcdb_utils.tcdb_display_name)
     tcdb_id: str            # bare hierarchical ID, e.g. "1.A.1.5.2"
     level: int              # 0=tc_class … 4=tc_system
     level_kind: str         # tc_class | tc_subclass | tc_family | tc_subfamily | tc_system (was tc_specificity)

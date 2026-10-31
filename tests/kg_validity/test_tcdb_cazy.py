@@ -597,6 +597,17 @@ def test_systems_are_named(run_query):
     assert row["systems"] > 5000, row
 
 
+@pytest.mark.kg
+def test_tcdb_display_name_dense_and_borrowed_only_when_unnamed(run_query):
+    row = run_query("""
+        MATCH (t:TcdbFamily)
+        RETURN sum(CASE WHEN t.display_name IS NULL OR t.display_name = '' THEN 1 ELSE 0 END) AS missing,
+               sum(CASE WHEN t.name <> t.tcdb_id AND t.display_name <> t.name THEN 1 ELSE 0 END) AS named_changed,
+               sum(CASE WHEN t.name = t.tcdb_id AND t.level_kind IN ['tc_subfamily', 'tc_system']
+                         AND NOT t.display_name ENDS WITH (' ' + t.tcdb_id) THEN 1 ELSE 0 END) AS bad_borrow""")[0]
+    assert row == {"missing": 0, "named_changed": 0, "bad_borrow": 0}, row
+
+
 # ============================================================================
 # MED4 spot checks (spec §9)
 # ============================================================================
@@ -612,6 +623,16 @@ def test_med4_spot_checks(run_query):
         RETURN t.id AS tc, [(t)-[:Tcdb_family_transports_metabolite]->(m) | m.id] AS subs""")
     assert [r["tc"] for r in rows] == ["tcdb:3.A.1.4.4"], rows
     assert "kegg.compound:C00086" in rows[0]["subs"], rows   # urea
+    # ... and the [tcdb_best_hit] line makes it findable by the system's name / substrate.
+    afd = run_query("""
+        MATCH (g:Gene {locus_tag: 'PMM0970', organism_name: 'Prochlorococcus MED4'})
+        RETURN [s IN g.alternate_functional_descriptions WHERE s STARTS WITH '[tcdb_best_hit]'] AS l""")
+    assert afd[0]["l"] == ["[tcdb_best_hit] The high-affinity (<1 μM) urea porter [3.A.1.4.4]"
+                           " :: [tcdb_substrates] Urea"], afd
+    hits = run_query("""
+        CALL db.index.fulltext.queryNodes('geneFullText', '"urea porter"') YIELD node
+        WHERE node.organism_name = 'Prochlorococcus MED4' RETURN collect(node.locus_tag) AS lts""")
+    assert "PMM0970" in hits[0]["lts"], hits
 
     # pstS best hit.
     rows = run_query("""
