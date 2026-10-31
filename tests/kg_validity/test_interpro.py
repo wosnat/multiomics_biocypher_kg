@@ -16,7 +16,7 @@ VALID_TYPES = {
     # this is InterPro's own controlled vocabulary, not KG-minted, so house
     # rule R1 (lowercase snake_case) does not apply.
     "FAMILY", "DOMAIN", "HOMOLOGOUS_SUPERFAMILY", "REPEAT",
-    "CONSERVED_SITE", "ACTIVE_SITE", "BINDING_SITE", "PTM", "",
+    "CONSERVED_SITE", "ACTIVE_SITE", "BINDING_SITE", "PTM",
 }
 
 
@@ -28,10 +28,15 @@ def test_interpro_entry_nodes_exist(run_query):
 
 
 def test_interpro_entry_required_properties(run_query):
-    """Every node has interpro_id + a valid type + a non-negative level."""
+    """Every node has interpro_id + a name + a valid type + a non-negative level.
+
+    An accession retired by InterPro (absent from the reference, still in an older
+    scan's calls) must be dropped by the adapter, never emitted with name = '' or
+    interpro_type = ''."""
     bad = run_query("""
         MATCH (e:InterproEntry)
         WHERE e.interpro_id IS NULL OR NOT e.interpro_id STARTS WITH 'IPR'
+           OR e.name IS NULL OR trim(e.name) = ''
            OR e.level IS NULL OR e.level < 0
            OR NOT e.interpro_type IN $types
         RETURN e.id AS id, e.interpro_type AS t LIMIT 5

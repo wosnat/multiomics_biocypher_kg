@@ -17,6 +17,15 @@ up — this file is the index, not the plan.
 
 ## KG semantics
 
+- [ ] **Re-scan all strains with InterProScan 110 (2026-10-31).** The calls.json
+      artifacts come from InterProScan 5.78-109.0, but the reference was refreshed
+      to InterPro 110.0. The adapter now drops the 38 accessions 110.0 retired
+      (1,665 gene edges, 35 auto-named PANTHER families), and accessions 110.0
+      added (+854) are never called. Re-scanning (new image + data under
+      `~/tools/InterProScan/`, `/interproscan-run --force` per strain, then
+      `prepare_data.sh --steps 9 2 --force`) restores both. Heavy: many hours
+      over 118 strains — run one strain at a time (OOM).
+
 - [ ] **MEROPS GO bridge — rejected on measurement (2026-08-18), revisit only
       with a concrete use case.** All-kingdom member rollup yields median 19 /
       max 389 GO terms per family incl. eukaryote-only terms; completeness win
