@@ -695,6 +695,25 @@ Gene_has_interpro_entry.libraries:
 # in this environment — see task-10-report.md for the harvest method and every
 # code-vs-CLAUDE.md mismatch found).
 
+ClusteringAnalysis.omics_type:
+  # provenance: registered 2026-10-31 (explorer K3) -- Hackl 2023's 11 genomic_island analyses
+  #   shipped omics_type '' because their gene_clusters entries omitted it and cluster_adapter
+  #   defaulted to the empty string. Same value set as Experiment.omics_type (validator
+  #   VALID_TYPES); cluster_adapter passes the value through VOCAB.check, so an absent value
+  #   now fails the build.
+  applies_to: ClusteringAnalysis
+  applies_to_kind: node
+  property: omics_type
+  value_type: string
+  closed: true
+  values: [RNASEQ, MICROARRAY, PROTEOMICS, EXOPROTEOMICS, VESICLE_PROTEOMICS,
+           METABOLOMICS, PAIRED_RNASEQ_PROTEOME, DNASEQ, VESICLE_DNASEQ,
+           BIOINFORMATIC]
+  description: >
+    Omics modality of the data the clusters were built from, as on Experiment.
+    BIOINFORMATIC = computed from genome sequence, with no sample (Hackl 2023
+    predicted genomic islands).
+
 Experiment.omics_type:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   Omics modality of this experiment. Harvested from EXTENDED_OMICS_TYPES in

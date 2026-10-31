@@ -96,6 +96,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      omics_type: BIOINFORMATIC   # computed from genome sequence, no sample (as genomic_analysis experiments)
       treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
@@ -112,6 +113,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      omics_type: BIOINFORMATIC   # computed from genome sequence, no sample (as genomic_analysis experiments)
       treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
@@ -128,6 +130,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      omics_type: BIOINFORMATIC   # computed from genome sequence, no sample (as genomic_analysis experiments)
       treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
@@ -144,6 +147,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      omics_type: BIOINFORMATIC   # computed from genome sequence, no sample (as genomic_analysis experiments)
       treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
@@ -160,6 +164,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      omics_type: BIOINFORMATIC   # computed from genome sequence, no sample (as genomic_analysis experiments)
       treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
@@ -176,6 +181,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      omics_type: BIOINFORMATIC   # computed from genome sequence, no sample (as genomic_analysis experiments)
       treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
@@ -192,6 +198,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      omics_type: BIOINFORMATIC   # computed from genome sequence, no sample (as genomic_analysis experiments)
       treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
@@ -208,6 +215,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      omics_type: BIOINFORMATIC   # computed from genome sequence, no sample (as genomic_analysis experiments)
       treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
@@ -224,6 +232,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      omics_type: BIOINFORMATIC   # computed from genome sequence, no sample (as genomic_analysis experiments)
       treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
@@ -240,6 +249,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      omics_type: BIOINFORMATIC   # computed from genome sequence, no sample (as genomic_analysis experiments)
       treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"
@@ -256,6 +266,7 @@ publication:
         - column: locus_tag
           id_type: locus_tag
       cluster_type: "genomic_island"
+      omics_type: BIOINFORMATIC   # computed from genome sequence, no sample (as genomic_analysis experiments)
       treatment_type: [genomic_analysis]   # sequence-predicted, no experiment / no background context
       cluster_method: "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)"
       treatment: "Genomic island prediction from genome sequence (no experimental treatment)"

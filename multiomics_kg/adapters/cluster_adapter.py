@@ -18,6 +18,7 @@ from pathlib import Path
 import pandas as pd
 
 from multiomics_kg.download.resolve_paper_ids import get_resolved_path
+from multiomics_kg.utils.controlled_vocab import VOCAB
 from multiomics_kg.extraction.cluster.extraction_utils import load_extraction, get_cluster_data
 from multiomics_kg.utils.paperconfig_utils import (
     load_paperconfig,
@@ -207,7 +208,9 @@ class ClusterAdapter:
                 "cluster_method": _clean_str(table.get("cluster_method", "")),
                 "cluster_count": len(unique_clusters),
                 "total_gene_count": len(df),
-                "omics_type": _clean_str(table.get("omics_type", "")),
+                # Closed vocabulary: an absent omics_type fails here rather than shipping ''.
+                "omics_type": VOCAB.check("ClusteringAnalysis", "omics_type",
+                                          _clean_str(table.get("omics_type", ""))),
                 "treatment_type": treatment_type,
                 "background_factors": background_factors,
                 "treatment": _clean_str(table.get("treatment", "")),

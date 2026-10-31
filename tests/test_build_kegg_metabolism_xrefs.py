@@ -1810,3 +1810,32 @@ def test_build_tcdb_hierarchy_proteins_moved_names_and_clean_superfamily(tmp_pat
     assert h["1.A.1.5.9"]["name"] == "Potassium channel, KcsA (moved to TC 1.A.1.5.3)"
     assert h["1.A.1.5.2"]["superfamily"] == "VIC Superfamily"
     assert "1.M.1.4.1.1" not in h
+
+
+def test_build_tcdb_hierarchy_superfamily_is_family_level_and_inherited(tmp_path):
+    """Explorer K1 (2026-10-31): superfamilies.tsv names one superfamily per family, but
+    only the family and the systems listed in that TSV carried it -- subfamilies never did
+    and acc2tcid-only systems were null (tcdb:3.A.1.7 null under a set 3.A.1 and 3.A.1.7.1).
+    The family's value now reaches every subfamily and system under it; class / subclass
+    never carry one; a family the TSV does not list stays null all the way down."""
+    from multiomics_kg.download import build_kegg_metabolism_xrefs as mod
+
+    cache_root = tmp_path / "cache" / "data"
+    raw_dir = cache_root / "tcdb" / "raw"
+    raw_dir.mkdir(parents=True, exist_ok=True)
+    (raw_dir / "families.tsv").write_text(
+        "3.A.1\tThe ATP-binding Cassette (ABC) Superfamily\n3.A.2\tThe F-ATPase\n")
+    (raw_dir / "superfamilies.tsv").write_text(
+        "#TCID\tSubfamily\tFamily\tFam_abbreviation\tSuperfamily\n"
+        "3.A.1.1.1\t3.A.1.1\t3.A.1\tABC\tArsA ATPase  (ArsA) Superfamily \n")
+    (raw_dir / "substrates.tsv").write_text("")
+    (raw_dir / "acc2tcid.tsv").write_text("P1\t3.A.1.1.1\nP2\t3.A.1.7.1\nP3\t3.A.2.1.1\n")
+    _write_names_file(cache_root, {}, scraped_families=["3.A.1"])
+
+    mod._build_tcdb_hierarchy(cache_root=cache_root)
+    h = json.loads((cache_root / "tcdb" / "tcdb_hierarchy.json").read_text())
+    sf = "ArsA ATPase (ArsA) Superfamily"
+    for tcid in ("3.A.1", "3.A.1.1", "3.A.1.1.1", "3.A.1.7", "3.A.1.7.1"):
+        assert h[tcid]["superfamily"] == sf, tcid
+    for tcid in ("3", "3.A", "3.A.2", "3.A.2.1", "3.A.2.1.1"):
+        assert "superfamily" not in h[tcid], tcid

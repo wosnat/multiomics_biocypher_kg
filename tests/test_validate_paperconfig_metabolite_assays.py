@@ -249,3 +249,28 @@ def test_alias_file_missing_is_error(tmp_path):
         _experiments_with_org(), {"Prochlorococcus MIT9303"}, errors, warnings,
     )
     assert any("aliases_file not found" in e for e in errors)
+
+
+def test_validate_metabolite_assays_metric_pool_must_match_experiment_compartment(tmp_path):
+    """Explorer K2 (2026-10-31): an assay inherits compartment from its Experiment, so a
+    metric_type naming a pool under an Experiment of another pool is an error. Kujawinski
+    2023 Table S2 bound presence_flag_extracellular to the whole-cell Experiment."""
+    csv = tmp_path / "example.csv"
+    csv.write_text("compound,c1,c2\n")
+
+    def run(metric_type, comp):
+        entry = _good_entry(str(csv))
+        entry["assays"][0]["metric_type"] = metric_type
+        errors, warnings = [], []
+        _validate_metabolite_assays_entry(
+            "e", entry, "/tmp/cfg.yaml", _experiments_with_org(comp=comp),
+            {"Prochlorococcus MIT9303"}, errors, warnings,
+        )
+        return [e for e in errors if "pool" in e]
+
+    assert run("presence_flag_extracellular", "whole_cell")
+    assert run("presence_flag_intracellular", "extracellular")
+    assert run("extracellular_concentration", "extracellular") == []
+    assert run("presence_flag_intracellular", "whole_cell") == []
+    # "cellular_concentration" names no pool: never flagged.
+    assert run("cellular_concentration", "extracellular") == []

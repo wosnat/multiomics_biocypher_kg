@@ -318,6 +318,13 @@ defects were text processing, fixed and rebuilt offline with the new `--reparse`
   retired system the TSVs still list is named after its single move target;
 - `superfamily` loses TCDB's trailing spaces; its content is TCDB's (every ABC node reads "ArsA
   ATPase (ArsA) Superfamily" upstream) and is not corrected.
+- 2026-10-31 (explorer docs review K1): `superfamily` is a family-level value and now reaches
+  every subfamily and system under the family (was the family plus only the systems
+  `superfamilies.tsv` lists; subfamilies never). Checked against TCDB's superfamily page
+  (`tcdb.org/superfamily.php`): it structurally lists 3.A.1 in the ArsA section ("the ATPases
+  of the ABC superfamily may also be distantly related") and 3.A.3 / 1.A.72 / 5.A.1 / 9.B.462
+  in "Heavy Metal Binding Domain"; 437 of the TSV's 472 family values agree with the page, the
+  rest are TCDB placing a family differently in its two outputs. Kept verbatim.
 
 **Substrate resolution.** Keyed on the ChEBI id only; every string resolves and the pipeline
 reproduces `system_substrates` exactly. Changes:

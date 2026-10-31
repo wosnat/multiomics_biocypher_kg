@@ -1403,7 +1403,7 @@ tcdb family:
     tcdb_id: str            # bare hierarchical ID, e.g. "1.A.1.5.2"
     level: int              # 0=tc_class … 4=tc_system
     level_kind: str         # tc_class | tc_subclass | tc_family | tc_subfamily | tc_system (was tc_specificity)
-    superfamily: str        # sparse, leaf-only
+    superfamily: str        # sparse; TCDB superfamilies.tsv value for the 3-part family, verbatim (TCDB homology grouping: ABC 3.A.1 -> "ArsA ATPase (ArsA) Superfamily"), on the family and every subfamily/system under it; never on class/subclass
     description: str        # sparse, tc_system only — scraped TCDB curated text, 400-char capped
     proteins: str           # sparse, tc_system only — scraped protein cell (gene symbols, accessions, source organism; lines joined by '; '), 300-char capped
     direction: str          # dense, every level: uptake | export | unknown (TCDB-stated only: a system's own name, or ABC uptake numbering)

@@ -172,7 +172,7 @@ def test_gene_cluster_node_id_includes_analysis_key(tmp_path):
                 "organism": "Prochlorococcus MED4",
                 "gene_id_col": "gene_id",
                 "cluster_col": "cluster",
-                "cluster_type": "response_pattern",
+                "cluster_type": "response_pattern", "omics_type": "RNASEQ",
             }
         }
     }
@@ -218,7 +218,7 @@ def test_get_nodes_reads_extraction_json(tmp_path):
                 "organism": "Prochlorococcus MED4",
                 "gene_id_col": "gene_id",
                 "cluster_col": "cluster",
-                "cluster_type": "response_pattern",
+                "cluster_type": "response_pattern", "omics_type": "RNASEQ",
             }
         }
     }
@@ -280,7 +280,7 @@ def test_get_nodes_omits_na_extraction_fields(tmp_path):
                 "organism": "Prochlorococcus MED4",
                 "gene_id_col": "gene_id",
                 "cluster_col": "cluster",
-                "cluster_type": "response_pattern",
+                "cluster_type": "response_pattern", "omics_type": "RNASEQ",
             }
         }
     }
@@ -327,7 +327,7 @@ def test_get_nodes_uses_all_extraction_data(tmp_path):
             "test_analysis": {
                 "type": "gene_clusters", "name": "Test",
                 "filename": str(csv_path), "organism": "Prochlorococcus MED4",
-                "gene_id_col": "gene_id", "cluster_col": "cluster", "cluster_type": "response_pattern",
+                "gene_id_col": "gene_id", "cluster_col": "cluster", "cluster_type": "response_pattern", "omics_type": "RNASEQ",
             }
         }
     }
@@ -362,7 +362,7 @@ def test_get_edges_new_structure(tmp_path):
                 "type": "gene_clusters", "name": "Test",
                 "filename": str(csv_path), "organism": "Prochlorococcus MED4",
                 "gene_id_col": "gene_id", "cluster_col": "cluster",
-                "cluster_type": "response_pattern", "experiments": ["exp1"],
+                "cluster_type": "response_pattern", "omics_type": "RNASEQ", "experiments": ["exp1"],
             }
         }
     }
@@ -724,3 +724,13 @@ def test_adapter_loads_new_extraction_format(tmp_path):
     assert ext["functional_description"] == "Transport genes upregulated"
     assert ext["name"] == "Test cluster 1 (up, transport)"
     assert ext["temporal_pattern"] == "Rapid upregulation"
+
+
+def test_clustering_analysis_without_omics_type_fails_the_build(tmp_path):
+    """Explorer K3 (2026-10-31): ClusteringAnalysis.omics_type is a closed vocabulary;
+    an entry that omits it raises instead of shipping omics_type ''."""
+    import pytest
+    from multiomics_kg.utils.controlled_vocab import VOCAB
+    with pytest.raises(ValueError, match="ClusteringAnalysis.omics_type"):
+        VOCAB.check("ClusteringAnalysis", "omics_type", "")
+    assert VOCAB.check("ClusteringAnalysis", "omics_type", "BIOINFORMATIC") == "BIOINFORMATIC"

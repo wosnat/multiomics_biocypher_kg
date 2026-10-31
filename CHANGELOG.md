@@ -88,6 +88,15 @@ tag with nothing logged.
   numbers are under `### Data`.
 - `Changes_expression_of.expression_direction` is absent when `log2_fold_change` is exactly 0 (1,510
   edges, e.g. signed-linear "1" = no change); it was `down`. Such edges read `not_significant`.
+- **`TcdbFamily.superfamily` is set on every subfamily and system under a family TCDB
+  groups** (was: families plus only the systems `superfamilies.tsv` lists, never subfamilies, so
+  `tcdb:3.A.1.7` was null between a set `3.A.1` and `3.A.1.7.1`). The value is TCDB's
+  per-family superfamily, verbatim with internal whitespace collapsed; class / subclass never
+  carry one. Carriers: 257 families · 986 subfamilies · 6,025 systems (was 257 · 0 · 5,931).
+  The value itself is unchanged and is TCDB's own grouping, not a parse error: TCDB's
+  superfamily page lists ABC (3.A.1) under "ArsA ATPase (ArsA) Superfamily" (its ATPases "may
+  also be distantly related") and P-ATPase (3.A.3) under "Heavy Metal Binding Domain"
+  (explorer docs review K1).
 
 - **`Experiment.background_factors` may now be `[]` — on `genomic_analysis` experiments only**
   (new `omics_type: BIOINFORMATIC`: computed from genome sequence or annotation, no sample, no
@@ -223,6 +232,13 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
     vs 0 read 101-fold, and zero-count genes held every one of the top-100 effects. Now log2((a + 1) / (b + 1))
     from the expression columns: max |log2FC| 18.1 → 11.5 and 12.2 → 5.6. The 31 resolved rows with zero
     reads in both arms are dropped (no measurement); significant calls are unchanged (367 and 112).
+- **Kujawinski 2023 — correction (Table S2 extracellular presence flag).** The KG asserted
+  that `presence_flag_extracellular` was a `whole_cell` assay bound to the MIT9301 intracellular
+  Experiment, because both Table S2 flags sat in one table entry. It is now its own entry under
+  the MIT9301 extracellular Experiment, so `compartment = 'extracellular'`. **The node id changes**
+  to `metabolite_assay:msystems.01261-22:presence_flags_table_s2_extracellular:presence_flag_extracellular`;
+  the intracellular flag keeps its id. The validator now errors when a metabolite assay's
+  `metric_type` names a pool its Experiment's compartment contradicts (explorer docs review K2).
 
 - **Ford 2021 — new, Biochemical Society Transactions, DOI `10.1042/BST20200244`** (review;
   `data/Synechococcus/papers_and_supp/Ford 2021/`). Supplementary Data S1 lists the 1,257
@@ -536,6 +552,12 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 - An explicit `logfc_threshold: 0` or `pvalue_threshold: 0` in a paperconfig was silently replaced by the
   adapter default (1.0 / 0.05), because the threshold was read with `or`. "No fold cutoff" can now be
   declared.
+- **`ClusteringAnalysis.omics_type` is never `''`.** Hackl 2023's 11 `genomic_island` analyses
+  omitted it and the cluster adapter defaulted to the empty string; they now read
+  `BIOINFORMATIC` (as the `genomic_analysis` experiments do). `omics_type` is required on
+  `gene_clusters` entries (validator error), `ClusteringAnalysis.omics_type` is a new closed
+  `ControlledVocabulary` entry checked by the adapter, and a KG validity test fails on `''` in
+  any closed string vocabulary (explorer docs review K3, 2026-10-31).
 
 - **NCBI ↔ Cyanorak gene merge (`build_gene_mapping`, prepare_data step 0.5).** Three fixes,
   none of which changes the 43 strains already in the KG (regression gate over all strains):

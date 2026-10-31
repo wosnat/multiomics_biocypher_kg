@@ -232,7 +232,8 @@ def _parse_tcdb_superfamilies(path: Path) -> list[tuple[str, str, str, str, str]
             line = line.rstrip("\n")
             if not line or line.startswith("#"):
                 continue
-            parts = [p.strip() for p in line.split("\t")]
+            # Collapse internal runs too: TCDB writes "Cation Diffusion Facilitator  (CDF)".
+            parts = [" ".join(p.split()) for p in line.split("\t")]
             if len(parts) >= 5:
                 rows.append((parts[0], parts[1], parts[2], parts[3], parts[4]))
     return rows
@@ -304,9 +305,13 @@ def build_tcdb_hierarchy(
         ~3K TCIDs that genes are annotated against.
 
     Class/subclass/family/subfamily ancestors are synthesized for every 5-part
-    seed. When a TCID is also present in superfamilies.tsv, the family
-    abbreviation and superfamily-name are pulled from there; otherwise those
-    fields are blank.
+    seed. The family abbreviation and superfamily name come from
+    superfamilies.tsv, which assigns each family exactly one superfamily; the
+    superfamily is a family-level fact, so the family and every subfamily and
+    system under it carry the family's value (class / subclass never do).
+    TCDB's superfamilies are its own homology groupings and can be distant or
+    domain-based (ABC 3.A.1 sits in "ArsA ATPase (ArsA) Superfamily", P-ATPase
+    3.A.3 in "Heavy Metal Binding Domain"); the value is kept verbatim.
     """
     fam_descs = _parse_tcdb_families(families_path)
     names, _scraped = _load_tcdb_names(names_path)
@@ -315,12 +320,13 @@ def build_tcdb_hierarchy(
     acc_tcids = _parse_tcdb_acc2tcid(acc2tcid_path)
 
     # Index superfamily metadata for lookup when synthesizing from other sources
-    super_by_tcid: dict[str, tuple[str, str]] = {}      # 5-part → (abbr, superfam)
     fam_meta_by_id: dict[str, tuple[str, str]] = {}     # 3-part → (abbr, superfam)
     for row in super_rows:
-        tcid, fam, abbr, superfam = row[0], row[2], row[3], row[4]
-        super_by_tcid[tcid] = (abbr, superfam)
+        fam, abbr, superfam = row[2], row[3], row[4]
         fam_meta_by_id.setdefault(fam, (abbr, superfam))
+
+    def family_superfamily(tcid: str) -> str:
+        return fam_meta_by_id.get(".".join(tcid.split(".")[:3]), ("", ""))[1]
 
     h: dict[str, dict] = {}
 
@@ -365,6 +371,9 @@ def build_tcdb_hierarchy(
                 "level_kind": "tc_subfamily",
                 "parent": fam,
             }
+            superfam = family_superfamily(subfam)
+            if superfam:
+                h[subfam]["superfamily"] = superfam
 
     moved: dict[str, list[str]] = {}
     if moved_path is not None and Path(moved_path).exists():
@@ -396,7 +405,7 @@ def build_tcdb_hierarchy(
             node["proteins"] = proteins
         if tcid in substrates:
             node["substrate_classes"] = substrates[tcid]
-        superfam = super_by_tcid.get(tcid, ("", ""))[1]
+        superfam = family_superfamily(tcid)
         if superfam:
             node["superfamily"] = superfam
         h[tcid] = node

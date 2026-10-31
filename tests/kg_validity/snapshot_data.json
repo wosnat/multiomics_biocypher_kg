@@ -1250,7 +1250,7 @@
         "n_positive": 0,
         "n_replicates": 1
       },
-      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2_extracellular:presence_flag_extracellular",
       "target": "chebi:143141",
       "type": "Assay_flags_metabolite"
     },
@@ -1260,7 +1260,7 @@
         "n_positive": 0,
         "n_replicates": 1
       },
-      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2_extracellular:presence_flag_extracellular",
       "target": "chebi:84415",
       "type": "Assay_flags_metabolite"
     },
@@ -1270,7 +1270,7 @@
         "n_positive": 0,
         "n_replicates": 1
       },
-      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2_extracellular:presence_flag_extracellular",
       "target": "kegg.compound:C00003",
       "type": "Assay_flags_metabolite"
     },
@@ -1280,7 +1280,7 @@
         "n_positive": 0,
         "n_replicates": 1
       },
-      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2_extracellular:presence_flag_extracellular",
       "target": "kegg.compound:C00019",
       "type": "Assay_flags_metabolite"
     },
@@ -1290,7 +1290,7 @@
         "n_positive": 0,
         "n_replicates": 1
       },
-      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2_extracellular:presence_flag_extracellular",
       "target": "kegg.compound:C00020",
       "type": "Assay_flags_metabolite"
     },
@@ -3986,7 +3986,7 @@
         "cluster_method": "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)",
         "cluster_type": "genomic_island",
         "name": "AS9601 predicted genomic islands (Hackl 2023)",
-        "omics_type": "",
+        "omics_type": "BIOINFORMATIC",
         "organism_name": "Prochlorococcus AS9601"
       }
     },
@@ -3999,7 +3999,7 @@
         "cluster_method": "Tycheposon-pipeline genomic island prediction (Hackl 2023 Table S2)",
         "cluster_type": "genomic_island",
         "name": "MED4 predicted genomic islands (Hackl 2023)",
-        "omics_type": "",
+        "omics_type": "BIOINFORMATIC",
         "organism_name": "Prochlorococcus MED4"
       }
     },

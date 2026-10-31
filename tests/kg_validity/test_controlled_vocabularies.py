@@ -72,6 +72,25 @@ def test_observed_values_are_declared(run_query, declared):
     assert not problems, "\n".join(problems)
 
 
+def test_closed_vocabularies_hold_no_empty_string(run_query, declared):
+    """`_seen_values` drops '' (BioCypher's unset-string encoding), so an emitter that
+    writes '' for a missing closed value went unseen -- ClusteringAnalysis.omics_type
+    shipped '' on 11 nodes (explorer K3, 2026-10-31). Absent is fine; '' is not."""
+    problems = []
+    for e in declared.values():
+        if not e.closed or e.value_type not in ("string", "string_array"):
+            continue
+        var = "n" if e.applies_to_kind == "node" else "r"
+        match = (f"MATCH (n:{e.applies_to})" if var == "n"
+                 else f"MATCH ()-[r:{e.applies_to}]->()")
+        cond = (f"'' IN {var}.`{e.property}`" if e.value_type == "string_array"
+                else f"{var}.`{e.property}` = ''")
+        n = run_query(f"{match} WHERE {cond} RETURN count(*) AS n")[0]["n"]
+        if n:
+            problems.append(f"{e.id}: {n} carriers hold ''")
+    assert not problems, "\n".join(problems)
+
+
 def test_min_size_lists_are_dense_and_long_enough(run_query, declared):
     """A vocabulary with min_size N asserts the string_array property is
     present on EVERY carrier with at least N elements — no null, no []."""

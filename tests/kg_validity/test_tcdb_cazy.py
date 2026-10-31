@@ -608,6 +608,27 @@ def test_tcdb_display_name_dense_and_borrowed_only_when_unnamed(run_query):
     assert row == {"missing": 0, "named_changed": 0, "bad_borrow": 0}, row
 
 
+@pytest.mark.kg
+def test_superfamily_is_family_level_and_inherited(run_query):
+    """Explorer K1 (2026-10-31): `superfamily` is a family-level TCDB value. Every
+    subfamily / system carries exactly its family's value (null under a family TCDB
+    groups into no superfamily); class / subclass never carry one; no doubled spaces."""
+    row = run_query("""
+        MATCH (t:TcdbFamily)
+        OPTIONAL MATCH (t)-[:Tcdb_family_is_a_tcdb_family*1..2]->(f:TcdbFamily {level_kind: 'tc_family'})
+        RETURN
+          sum(CASE WHEN t.level <= 1 AND t.superfamily IS NOT NULL THEN 1 ELSE 0 END) AS above_family,
+          sum(CASE WHEN t.level >= 3 AND f IS NULL THEN 1 ELSE 0 END) AS no_family,
+          sum(CASE WHEN t.level >= 3 AND f IS NOT NULL
+                    AND coalesce(t.superfamily, '') <> coalesce(f.superfamily, '') THEN 1 ELSE 0 END) AS disagree,
+          sum(CASE WHEN t.superfamily CONTAINS '  ' OR t.superfamily = '' THEN 1 ELSE 0 END) AS unclean""")[0]
+    assert row == {"above_family": 0, "no_family": 0, "disagree": 0, "unclean": 0}, row
+    abc = run_query("""
+        MATCH (t:TcdbFamily) WHERE t.tcdb_id IN ['3.A.1', '3.A.1.7', '3.A.1.7.1']
+        RETURN collect(DISTINCT t.superfamily) AS sf, count(t) AS n""")[0]
+    assert abc == {"sf": ["ArsA ATPase (ArsA) Superfamily"], "n": 3}, abc
+
+
 # ============================================================================
 # MED4 spot checks (spec §9)
 # ============================================================================

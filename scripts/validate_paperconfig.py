@@ -398,12 +398,15 @@ VALID_CLUSTER_TYPES = {
 }
 
 # Required fields on gene_clusters supplementary entries.
+# omics_type is required (2026-10-31, explorer K3): Hackl 2023's 11 genomic-island entries
+# omitted it and ClusteringAnalysis.omics_type shipped as ''.
 REQUIRED_CLUSTER_TABLE_FIELDS = [
     "name", "filename", "organism", "gene_id_col", "cluster_col", "cluster_type",
+    "omics_type",
 ]
 
 OPTIONAL_CLUSTER_TABLE_FIELDS = {
-    "cluster_method", "omics_type", "light_condition", "treatment_type",
+    "cluster_method", "light_condition", "treatment_type",
     "background_factors", "treatment", "experimental_context", "experiments",
     "id_columns", "time_points", "skip_rows", "figure_hint", "extraction_notes",
     "score_col", "p_value_col",
@@ -1007,8 +1010,8 @@ def _validate_gene_clusters_entry(key, table, config, paperconfig_dir,
 
     # omics_type
     ot = table.get("omics_type", "")
-    if ot and ot not in VALID_TYPES:
-        warnings.append(f"  [{key}] omics_type '{ot}' not in {VALID_TYPES}")
+    if ot not in VALID_TYPES:
+        errors.append(f"  [{key}] omics_type '{ot}' not in {sorted(VALID_TYPES)}")
 
     # treatment_type must be a NON-EMPTY list (2026-08-27): a non-empty list is
     # the explorer's indicator of a real analysis; sequence-only analyses use
@@ -1461,6 +1464,15 @@ def _validate_alias_file(prefix, key, table, config_path, errors, warnings):
             )
 
 
+# metric_type token -> the Experiment.compartment it implies (see _validate_metabolite_assays_entry).
+_POOL_WORD_COMPARTMENT = {
+    "extracellular": "extracellular",
+    "intracellular": "whole_cell",
+    "vesicle": "vesicle",
+    "exoproteome": "exoproteome",
+}
+
+
 def _validate_metabolite_assays_entry(
     key: str, table: dict, config_path: str,
     experiments: dict,
@@ -1507,6 +1519,19 @@ def _validate_metabolite_assays_entry(
                 f"{prefix} organism '{table['organism']}' does not match "
                 f"experiment '{exp_key}' organism '{exp['organism']}'"
             )
+        # An assay inherits its compartment from the Experiment, so a metric_type that
+        # names a pool must sit under an Experiment of that pool (Kujawinski 2023 Table S2
+        # once bound its extracellular flag to the whole-cell Experiment, explorer K2).
+        for assay in table.get("assays") or []:
+            mt = str((assay or {}).get("metric_type", ""))
+            implied = {_POOL_WORD_COMPARTMENT[t] for t in mt.lower().split("_")
+                       if t in _POOL_WORD_COMPARTMENT}
+            if exp_key in experiments and implied and comp not in implied:
+                errors.append(
+                    f"{prefix} assay '{mt}' names the {sorted(implied)} pool but experiment "
+                    f"'{exp_key}' has compartment '{comp}' -- bind it to an Experiment of "
+                    f"that compartment (assays take compartment from their Experiment)"
+                )
 
     # organism vocab
     organism = table.get("organism", "")

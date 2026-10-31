@@ -277,6 +277,19 @@ publication:
             - condition_label: ""
               flag_column: "intracellular"
               flag_true_value: "yes"
+
+    # Same Table S2, extracellular column. A separate entry so the assay binds to the
+    # extracellular Experiment and inherits compartment: extracellular (an assay takes its
+    # compartment from its Experiment; both flags under one entry made this one whole_cell).
+    presence_flags_table_s2_extracellular:
+      type: metabolite_assays_table
+      filename: "data/Prochlorococcus/papers_and_supp/Kujawinski 2023/table s2.csv"
+      experiment: kujawinski_metabolomics_9301_extracellular
+      organism: "Prochlorococcus MIT9301"
+      name_col: "metabolite"
+      cell_format: numeric
+      aliases_file: "metabolite_aliases.yaml"
+      assays:
         - metric_type: presence_flag_extracellular
           name: "Detected in extracellular pool (Kujawinski 2023 Table S2)"
           value_kind: boolean
@@ -284,7 +297,8 @@ publication:
           rankable: "false"
           field_description: >-
             Boolean flag: metabolite detected in extracellular pool of any sampled
-            Prochlorococcus strain (Kujawinski 2023 Table S2). Paper-level flag.
+            Prochlorococcus strain (Kujawinski 2023 Table S2). Paper-level flag,
+            anchored to the MIT9301 extracellular Experiment for binding only.
           sample_columns:
             - condition_label: ""
               flag_column: "extracellular"

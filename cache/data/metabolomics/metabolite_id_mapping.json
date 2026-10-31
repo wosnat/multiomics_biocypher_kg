@@ -4635,6 +4635,473 @@
           "resolution_method": "alias_override",
           "stereo_assignment": "as_reported"
         }
+      },
+      "presence_flags_table_s2_extracellular": {
+        "2,3-dihydroxybenzoic acid": {
+          "metabolite_id": "kegg.compound:C00196",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "2,3-dihydroxypropane-1-sulfonate": {
+          "metabolite_id": "kegg.compound:C19675",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "3-mercaptopropionic acid": {
+          "metabolite_id": "kegg.compound:C22312",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "3-methyl-2-oxobutanoic acid": {
+          "metabolite_id": "kegg.compound:C00141",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "3-methyl-2-oxopentanoic acid": {
+          "metabolite_id": "kegg.compound:C00671",
+          "resolution_method": "dominant_stereo_form",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "4-amino-2-methyl-5-pyrimidinemethanol": {
+          "metabolite_id": "kegg.compound:C01279",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "4-amino-5-aminomethyl-2-methylpyrimidine": {
+          "metabolite_id": "kegg.compound:C20267",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "4-aminobenzoic acid": {
+          "metabolite_id": "kegg.compound:C00568",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "4-hydroxybenzoic acid": {
+          "metabolite_id": "kegg.compound:C00156",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "4-methyl-2-oxopentanoic acid": {
+          "metabolite_id": "kegg.compound:C00233",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "5'-methylthioadenosine": {
+          "metabolite_id": "kegg.compound:C00170",
+          "resolution_method": "name_match",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "acetyltaurine": {
+          "metabolite_id": "chebi:84415",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "adenine": {
+          "metabolite_id": "kegg.compound:C00147",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "adenosine": {
+          "metabolite_id": "kegg.compound:C00212",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "adenosine 5'-monophosphate": {
+          "metabolite_id": "kegg.compound:C00020",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "alanine (isom. sarcosine)": {
+          "metabolite_id": "kegg.compound:C00041",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "alpha-ketoglutaric acid": {
+          "metabolite_id": "kegg.compound:C00026",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "arginine": {
+          "metabolite_id": "kegg.compound:C00062",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "aspartic acid": {
+          "metabolite_id": "kegg.compound:C00049",
+          "resolution_method": "dominant_stereo_form",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "biotin": {
+          "metabolite_id": "kegg.compound:C00120",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "caffeine": {
+          "metabolite_id": "kegg.compound:C07481",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "chitobiose": {
+          "metabolite_id": "kegg.compound:C01674",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "chitotriose": {
+          "metabolite_id": "chebi:143141",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "choline": {
+          "metabolite_id": "kegg.compound:C00114",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "ciliatine": {
+          "metabolite_id": "kegg.compound:C03557",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "citrate": {
+          "metabolite_id": "kegg.compound:C00158",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "citrulline": {
+          "metabolite_id": "kegg.compound:C00327",
+          "resolution_method": "dominant_stereo_form",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "cyanocobalamin": {
+          "metabolite_id": "kegg.compound:C02823",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "cysteine": {
+          "metabolite_id": "kegg.compound:C00097",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "cytosine": {
+          "metabolite_id": "kegg.compound:C00380",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "d-glucosamine 6-phosphate": {
+          "metabolite_id": "kegg.compound:C00352",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "desthiobiotin": {
+          "metabolite_id": "kegg.compound:C01909",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "dihydroxyacetone phosphate": {
+          "metabolite_id": "kegg.compound:C00111",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "dimethylsulfoniopropionate": {
+          "metabolite_id": "kegg.compound:C04022",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "ectoine": {
+          "metabolite_id": "kegg.compound:C06231",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "folic acid": {
+          "metabolite_id": "kegg.compound:C00504",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "fosfomycin": {
+          "metabolite_id": "kegg.compound:C06454",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "fumaric acid": {
+          "metabolite_id": "kegg.compound:C00122",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "glucose 6-phosphate": {
+          "metabolite_id": "kegg.compound:C00092",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "glutamic acid": {
+          "metabolite_id": "kegg.compound:C00025",
+          "resolution_method": "dominant_stereo_form",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "glutamine": {
+          "metabolite_id": "kegg.compound:C00064",
+          "resolution_method": "dominant_stereo_form",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "glutathione": {
+          "metabolite_id": "kegg.compound:C00051",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "glutathione oxidized": {
+          "metabolite_id": "kegg.compound:C00127",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "glycine betaine": {
+          "metabolite_id": "kegg.compound:C00719",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "glyphosate": {
+          "metabolite_id": "kegg.compound:C01705",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "guanine": {
+          "metabolite_id": "kegg.compound:C00242",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "guanosine": {
+          "metabolite_id": "kegg.compound:C00387",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "hemin": {
+          "metabolite_id": "kegg.compound:C06767",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "indole 3-acetic acid": {
+          "metabolite_id": "kegg.compound:C00954",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "inosine": {
+          "metabolite_id": "kegg.compound:C00294",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "inosine 5'-monophosphate": {
+          "metabolite_id": "kegg.compound:C00130",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "isoleucine": {
+          "metabolite_id": "kegg.compound:C00407",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "kynurenine": {
+          "metabolite_id": "kegg.compound:C00328",
+          "resolution_method": "name_match",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "leucine": {
+          "metabolite_id": "kegg.compound:C00123",
+          "resolution_method": "name_match",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "malic acid": {
+          "metabolite_id": "kegg.compound:C00149",
+          "resolution_method": "name_match",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "methionine": {
+          "metabolite_id": "kegg.compound:C00073",
+          "resolution_method": "dominant_stereo_form",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "muramic acid": {
+          "metabolite_id": "kegg.compound:C06470",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "n-acetyl glucosamine": {
+          "metabolite_id": "kegg.compound:C00140",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "n-acetyl glutamic acid": {
+          "metabolite_id": "kegg.compound:C00624",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "n-acetyl muramic acid": {
+          "metabolite_id": "kegg.compound:C02713",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "nicotinamide adenine dinucleotide": {
+          "metabolite_id": "kegg.compound:C00003",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "ornithine": {
+          "metabolite_id": "kegg.compound:C00077",
+          "resolution_method": "dominant_stereo_form",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "orotic acid": {
+          "metabolite_id": "kegg.compound:C00295",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "pantothenic acid": {
+          "metabolite_id": "kegg.compound:C00864",
+          "resolution_method": "name_match",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "phenylalanine": {
+          "metabolite_id": "kegg.compound:C00079",
+          "resolution_method": "dominant_stereo_form",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "phosphoenolpyruvate": {
+          "metabolite_id": "kegg.compound:C00074",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "phycocyanobilin": {
+          "metabolite_id": "kegg.compound:C05786",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "proline": {
+          "metabolite_id": "kegg.compound:C00148",
+          "resolution_method": "dominant_stereo_form",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "putrescine": {
+          "metabolite_id": "kegg.compound:C00134",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "pyridoxine": {
+          "metabolite_id": "kegg.compound:C00314",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "riboflavin": {
+          "metabolite_id": "kegg.compound:C00255",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "s-(5'-adenosyl)-l-homocysteine": {
+          "metabolite_id": "kegg.compound:C00021",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "s-adenosyl-l-methionine": {
+          "metabolite_id": "kegg.compound:C00019",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "serine": {
+          "metabolite_id": "kegg.compound:C00065",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "sn-glycerol 3-phosphate": {
+          "metabolite_id": "kegg.compound:C00093",
+          "resolution_method": "name_match",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "spermidine": {
+          "metabolite_id": "kegg.compound:C00315",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "succinic acid": {
+          "metabolite_id": "kegg.compound:C00042",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "syringic acid": {
+          "metabolite_id": "kegg.compound:C10833",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "taurine": {
+          "metabolite_id": "kegg.compound:C00245",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "taurocholic acid": {
+          "metabolite_id": "kegg.compound:C05122",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "thiamine": {
+          "metabolite_id": "kegg.compound:C00378",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "thiamine monophosphate": {
+          "metabolite_id": "kegg.compound:C01081",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "threonine / homoserine": {
+          "metabolite_id": "kegg.compound:C00188",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "thymidine": {
+          "metabolite_id": "kegg.compound:C00214",
+          "resolution_method": "name_match",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "tryptamine": {
+          "metabolite_id": "kegg.compound:C00398",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "tryptophan": {
+          "metabolite_id": "kegg.compound:C00078",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "tyrosine": {
+          "metabolite_id": "kegg.compound:C00082",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "uracil": {
+          "metabolite_id": "kegg.compound:C00106",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        },
+        "uridine 5'-monophosphate": {
+          "metabolite_id": "kegg.compound:C00105",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "valine": {
+          "metabolite_id": "kegg.compound:C00183",
+          "resolution_method": "name_match",
+          "stereo_assignment": "dominant_form_assumed"
+        },
+        "xanthine": {
+          "metabolite_id": "kegg.compound:C00385",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "xanthosine": {
+          "metabolite_id": "kegg.compound:C01762",
+          "resolution_method": "name_match",
+          "stereo_assignment": "as_reported"
+        },
+        "\u03b3-aminobutyric acid": {
+          "metabolite_id": "kegg.compound:C00334",
+          "resolution_method": "alias_override",
+          "stereo_assignment": "as_reported"
+        }
       }
     },
     "data/Prochlorococcus/papers_and_supp/biller 2022/paperconfig.yaml": {
@@ -25674,8 +26141,8 @@
       "unresolved": 0
     },
     "data/Prochlorococcus/papers_and_supp/Kujawinski 2023/paperconfig.yaml": {
-      "resolved": 645,
-      "total": 651,
+      "resolved": 738,
+      "total": 744,
       "unresolved": 6
     },
     "data/Prochlorococcus/papers_and_supp/biller 2022/paperconfig.yaml": {
