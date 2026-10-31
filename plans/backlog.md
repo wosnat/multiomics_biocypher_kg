@@ -379,6 +379,7 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       separately. A prototype `fold_change_type: signed_linear` (sign x log2|x|, (-1, 1) invalid)
       was written and reverted pending scoping: decide the convention name, whether rank and
       `logfc_threshold` behaviour change, and run `/omics-edge-snapshot` before/after.
+      SCOPED 2026-10-31 → `plans/signed_linear_fold_change.md`.
       Related, fixed in the same pass: significance is now judged on the converted log2 value
       (`omics_adapter._check_significance` used the raw linear value, so linear ratios < 1 could
       never be significant — Aharonovich 2016, Beliaev 2014). → `omics_adapter._convert_fold_change`,

@@ -87,7 +87,7 @@ publication:
     # Table S2A: Synechococcus WH7803 in ASW — early coculture proteomics
     # FC uses signed linear convention: positive = higher in coculture, negative = higher in axenic
     # (despite column name "Axenic vs Co-culture"). No values between 0 and 1.
-    # Treated as signed ratios (no fold_change_type conversion), sign correct for KG convention.
+    # Converted with fold_change_type: signed_linear (sign(x) * log2|x|); sign correct for KG convention.
     # 564 proteins, 4 header rows (skip_rows: 3), gene IDs in "Other reference" col (SynWH7803_NNNN)
     supp_table_s2a:
       type: csv
@@ -106,8 +106,8 @@ publication:
           experiment: early_coculture_syn_wh7803_proteomics
           name_col: "Other reference"
           logfc_col: "Fold change Axenic vs Co-culture"
-          # No fold_change_type — values are signed linear ratios (positive = up in coculture,
-          # negative = up in axenic). No values between 0 and 1. Sign is correct for direction.
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # p/q only: t-test P<0.05 (Fig. 2 legend), no fold cutoff
           adjusted_p_value_col: "p-value"
           pvalue_threshold: 0.05
           timepoint: "35 days"
@@ -136,7 +136,8 @@ publication:
           experiment: late_coculture_syn_wh7803_proteomics
           name_col: "Other reference"
           logfc_col: "Fold change Axenic vs Co-culture"
-          # No fold_change_type — signed linear ratios, same convention as S2A
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # p/q only: t-test P<0.05 (Fig. 2 legend), no fold cutoff
           adjusted_p_value_col: "Anova (p)"
           pvalue_threshold: 0.05
           timepoint: "10 days"
@@ -170,8 +171,10 @@ publication:
           experiment: longterm_coculture_rpom_dss3_proteomics
           name_col: "Annotation reference"
           logfc_col: "Fold change"
-          # No fold_change_type — signed linear ratios (positive = up in coculture,
-          # negative = up in mono-culture). Sign is correct for direction.
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # p/q only: t-test P<0.05 (Fig. 2 legend), no fold cutoff
+          # The table's own "Significant" (+) column is Perseus's combined FDR + fold (s0) call:
+          # 263 rows, a strict subset of the 295 with q <= 0.05 used here (32 differ, |FC| <= 3.8).
           adjusted_p_value_col: "q-value (Student's T-test; Perseus) "
           pvalue_threshold: 0.05
           timepoint: "10 days"

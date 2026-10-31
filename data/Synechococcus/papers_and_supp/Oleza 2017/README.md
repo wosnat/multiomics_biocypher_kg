@@ -57,7 +57,7 @@ All tables use a **signed linear ratio** convention (not standard linear FC):
 - **Negative values** = higher abundance in axenic/mono-culture (downregulated in treatment)
 - No values between 0 and 1 (unlike standard linear FC where downregulation = 0 < FC < 1)
 
-The sign convention is correct for the KG (positive = up in treatment), so values are passed through as-is without `fold_change_type` conversion. This matches the Ma 2022 precedent for non-standard signed ratios.
+The sign convention is correct for the KG (positive = up in treatment). Since 2026-10-31 the paperconfig declares `fold_change_type: signed_linear`, so values are stored as sign(x) · log2|x|; before that they were stored unconverted as if log2 (max 337.3). Significance is p/q only (`logfc_threshold: 0`, Fig. 2 legend: t-test P < 0.05).
 
 ## Gene ID Format
 

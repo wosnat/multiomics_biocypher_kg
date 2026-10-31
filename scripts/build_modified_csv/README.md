@@ -33,6 +33,8 @@ The transformation is reproducible from a single script, so a fresh checkout of 
 | Ostrowski 2010 | `build_ostrowski2010_ptra_tables.py` | ptrA vs WT >2-fold genes: main-text Tables 1/2 from the PDF (pdftotext) + Supp. Table 3 .doc (antiword) |
 | Koch 2019 | `build_koch2019_de_nsaf.py` | Table S1 -> koch2019_table_s1.csv; paper "X vs Y" log2FC negated to treatment-vs-control; NSAF "nd" -> blank |
 | Oleza 2015b | `build_oleza2015b_exoproteomes.py` | Table S4 -> per-strain NSAF + detection_status CSVs (8 strains, identical-sequence paralogs collapsed); Table S6 -> 4 WH8102 contrast CSVs (signed linear TFold FC -> log2); per-strain protein_seqs_<strain>.faa for diamond id_translations |
+| Ma 2022 | `build_ma2022_modified_csv.py` | Table S4 iTRAQ "Mean Ratio" (minus sign marks a ratio < 1) -> `log2_fold_change = log2(\|x\|)` |
+| Aharonovich 2016 (HOT1A3) | `build_aharonovich2016_hot1a3_modified_csv.py` | the two HOT1A3 tables: published (a+0.01)/(b+0.01) ratio -> log2((a+1)/(b+1)) from the expression columns; both-zero rows blanked |
 
 ## Run
 

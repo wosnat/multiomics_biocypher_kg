@@ -9,6 +9,7 @@ import pandas as pd
 import os
 from pathlib import Path
 from multiomics_kg.utils.curie_utils import normalize_curie
+from multiomics_kg.utils.fold_change import signed_linear_violations
 
 from multiomics_kg.download.resolve_paper_ids import get_resolved_path
 from multiomics_kg.utils.paperconfig_utils import (
@@ -78,10 +79,13 @@ def _convert_fold_change(fc_float: float, fold_change_type: str | None) -> float
 
     Args:
         fc_float: The raw fold-change value from the CSV.
-        fold_change_type: 'log2' (default), 'linear', or None (treated as log2).
+        fold_change_type: 'log2' (default), 'linear', 'signed_linear', or None
+            (treated as log2). 'signed_linear' is the "+3 = 3-fold up, -3 = 3-fold
+            down" convention: log2 = sign(x) * log2|x|.
 
     Returns:
-        log2-scale fold-change, or None if conversion is invalid (e.g., linear FC <= 0).
+        log2-scale fold-change, or None if conversion is invalid (linear FC <= 0;
+        signed linear FC in (-1, 1)).
     """
     if fold_change_type is None or fold_change_type == "log2":
         return fc_float
@@ -89,7 +93,18 @@ def _convert_fold_change(fc_float: float, fold_change_type: str | None) -> float
         if fc_float <= 0:
             return None
         return math.log2(fc_float)
+    if fold_change_type == "signed_linear":
+        # Values in (-1, 1) cannot occur in this convention; the whole analysis is
+        # refused up front (signed_linear_violations), so this is only a guard.
+        if abs(fc_float) < 1:
+            return None
+        return math.copysign(math.log2(abs(fc_float)), fc_float)
     return fc_float
+
+
+# A log2 table with no value in (-1, 1) and |value| above this is almost certainly
+# signed linear (log2 20 = a million-fold change).
+SIGNED_LINEAR_SUSPECT_MAX = 20.0
 
 
 def _validate_fc_range(
@@ -113,6 +128,17 @@ def _validate_fc_range(
     min_val = min(fc_values)
     max_val = max(fc_values)
 
+    if fc_type == "signed_linear":
+        return  # values in (-1, 1) refuse the analysis before edges are built
+    if fc_type == "log2" and not any(-1 < v < 1 for v in fc_values) \
+            and max(abs(v) for v in fc_values) > SIGNED_LINEAR_SUSPECT_MAX:
+        logger.warning(
+            "%s: fold_change_type is 'log2' but no value lies in (-1, 1) and "
+            "max |value| = %.1f. These look like signed linear ratios "
+            "(+3 = 3-fold up, -3 = 3-fold down). Consider fold_change_type: signed_linear.",
+            analysis_id, max(abs(v) for v in fc_values),
+        )
+        return
     if fc_type == "linear" and has_negative:
         logger.warning(
             "%s: fold_change_type is 'linear' but data contains negative values "
@@ -648,8 +674,13 @@ class OMICSAdapter:
         if asterisk_significant is not None:
             return 'significant' if asterisk_significant else 'not significant'
 
-        pval_thresh = analysis.get('pvalue_threshold') or self.default_pvalue_threshold
-        logfc_thresh = analysis.get('logfc_threshold') or self.default_logfc_threshold
+        # `is not None`, not `or`: an explicit threshold of 0 must not fall back to the default.
+        pval_thresh = analysis.get('pvalue_threshold')
+        if pval_thresh is None:
+            pval_thresh = self.default_pvalue_threshold
+        logfc_thresh = analysis.get('logfc_threshold')
+        if logfc_thresh is None:
+            logfc_thresh = self.default_logfc_threshold
 
         if pval_thresh is None and logfc_thresh is None:
             return 'unknown'
@@ -753,6 +784,17 @@ class OMICSAdapter:
                 elif p_value_col not in df.columns:
                     logger.warning(f"Column '{p_value_col}' not found in {filename}. P-value will not be included in edges.")
 
+
+            if analysis.get('fold_change_type') == 'signed_linear':
+                bad = signed_linear_violations(df[logfc_col].dropna().tolist())
+                if bad:
+                    logger.error(
+                        "%s: fold_change_type is 'signed_linear' but %d values in '%s' lie "
+                        "in (-1, 1) (e.g. %s), which that convention cannot hold. The table "
+                        "is mis-declared; no edges are built for this analysis.",
+                        analysis.get('id', ''), len(bad), logfc_col, bad[:5],
+                    )
+                    return edges
 
             # Track skipped rows for logging
             skipped_count = 0

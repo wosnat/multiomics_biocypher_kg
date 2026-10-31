@@ -122,6 +122,7 @@ publication:
         growth_phase: acute_stress
         name_col: gene ID
         logfc_col: HL/dark
+        fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
         pvalue_threshold: 0.05
         logfc_threshold: 1.0
         pvalue_asterisk_in_logfc: true
@@ -132,6 +133,7 @@ publication:
         growth_phase: acute_stress
         name_col: gene ID
         logfc_col: WL/dark
+        fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
         pvalue_threshold: 0.05
         logfc_threshold: 1.0
         pvalue_asterisk_in_logfc: true
@@ -142,6 +144,7 @@ publication:
         growth_phase: acute_stress
         name_col: gene ID
         logfc_col: BL/dark
+        fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
         pvalue_threshold: 0.05
         logfc_threshold: 1.0
         pvalue_asterisk_in_logfc: true
@@ -152,6 +155,7 @@ publication:
         growth_phase: acute_stress
         name_col: gene ID
         logfc_col: RL/dark
+        fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
         pvalue_threshold: 0.05
         logfc_threshold: 1.0
         pvalue_asterisk_in_logfc: true
@@ -162,6 +166,7 @@ publication:
         growth_phase: acute_stress
         name_col: gene ID
         logfc_col: GL/dark
+        fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
         pvalue_threshold: 0.05
         logfc_threshold: 1.0
         pvalue_asterisk_in_logfc: true
@@ -172,6 +177,7 @@ publication:
         growth_phase: acute_stress
         name_col: gene ID
         logfc_col: DCMU/WL
+        fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
         pvalue_threshold: 0.05
         logfc_threshold: 1.0
         pvalue_asterisk_in_logfc: true

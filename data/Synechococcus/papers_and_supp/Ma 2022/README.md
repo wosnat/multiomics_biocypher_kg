@@ -12,7 +12,7 @@
 
 **Bucket D -- defer / nothing to do (already integrated)**
 
-S. elongatus UTEX 2973 cscB+ vs axenic, separated from E. coli ABKm by dialysis bag. UTEX 2973 is now deployed in the KG; the paperconfig.yaml is registered and Tables S1 (up), S2 (down), S4 (selected proteomics) are all resolved. Two experiments are produced (RNA-seq + proteomics), with the documented signed-ratio sign convention preserved. The E. coli side has no DE table in this paper, so there is no further gene-level work to do. Secondary note: the metabolomics-related plots referenced in the paper are not provided as machine-readable tables; if extracellular metabolite quantifications are recovered later they would belong to bucket A.
+S. elongatus UTEX 2973 cscB+ vs axenic, separated from E. coli ABKm by dialysis bag. UTEX 2973 is now deployed in the KG; the paperconfig.yaml is registered and Tables S1 (up), S2 (down), S4 (selected proteomics) are all resolved. Two experiments are produced (RNA-seq + proteomics); Table S4's sign-marked ratios are converted to log2 by `build_ma2022_modified_csv.py`. The E. coli side has no DE table in this paper, so there is no further gene-level work to do. Secondary note: the metabolomics-related plots referenced in the paper are not provided as machine-readable tables; if extracellular metabolite quantifications are recovered later they would belong to bucket A.
 
 ## Organism
 
@@ -51,12 +51,12 @@ Coculture of sucrose-secreting *S. elongatus* cscB+ and *E. coli* ABKm in CoBG-1
 - Method: iTRAQ quantitative proteomics via LC-MS/MS (BGI, Shenzhen)
 - Cutoff: fold change > 1.2 AND P-value < 0.05 (t-test of 9 pairwise comparison groups)
 - No p-values in table (pre-filtered)
-- **WARNING:** Mean Ratio uses non-standard sign convention for down-regulated proteins (negative values like -0.75 instead of 0.75 or log2-transformed values). Up-regulated values are standard linear ratios (>1). This ambiguity should be resolved before integration.
+- **Resolved 2026-10-31:** Mean Ratio marks a ratio below 1 with a minus sign (-0.75 = ratio 0.75). The Methods cutoff is "fold change > 1.2" and 1/1.2 = 0.83 is the edge of the down values. `scripts/build_modified_csv/build_ma2022_modified_csv.py` writes `log2_fold_change = log2(|Mean Ratio|)`; the table is `prefiltered: true` (no p-value column, selected DE proteins only).
 
 ## Data Limitations
 
 1. **No p-values in any table** — all tables are pre-filtered for significance
 2. **Split direction tables (S1/S2)** — RNA-seq results split into up and down tables, both referencing the same experiment
-3. **Proteomics fold change ambiguity** — Table S4 Mean Ratio has negative values for down-regulated proteins, which is not standard for linear fold changes
+3. ~~**Proteomics fold change ambiguity**~~ — resolved 2026-10-31, see above
 4. **Organism not in KG** — *S. elongatus* UTEX 2973 needs to be added to `cyanobacteria_genomes.csv` with its NCBI assembly accession before this data can be loaded
 5. **Only S. elongatus DE data** — no differential expression data for the *E. coli* side

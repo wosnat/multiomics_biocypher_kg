@@ -125,7 +125,7 @@ publication:
     # ── Table S4a: Synechococcus WH7803 exoproteome in SW ──
     # Fold change values are signed ratios (positive = up vs day 1, negative = down vs day 1).
     # No values between 0 and 1 in downregulated direction — uses -X notation.
-    # No fold_change_type — values pass through as-is (same convention as Oleza 2017).
+    # Converted with fold_change_type: signed_linear (sign(x) * log2|x|), same as Oleza 2017.
     # Gene IDs are RefSeq protein accessions (YP_001223###.1) — will need protein-level
     # resolution in Phase 4. Neither organism is in KG yet.
     # CSV has 2 header rows before data header (title + blank line), skip_rows: 2.
@@ -148,6 +148,8 @@ publication:
           timepoint_hours: 72
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 3 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 3 vs 1"
           pvalue_threshold: 0.05
           growth_phase: exponential
@@ -157,6 +159,8 @@ publication:
           timepoint_hours: 168
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 7 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 7 vs 1"
           pvalue_threshold: 0.05
           growth_phase: nutrient_limited
@@ -166,6 +170,8 @@ publication:
           timepoint_hours: 336
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 14 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 14 vs 1"
           pvalue_threshold: 0.05
           growth_phase: nutrient_limited
@@ -175,6 +181,8 @@ publication:
           timepoint_hours: 504
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 21 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 21 vs 1"
           pvalue_threshold: 0.05
           growth_phase: acclimated_steady_state
@@ -184,6 +192,8 @@ publication:
           timepoint_hours: 768
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 32 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 32 vs 1"
           pvalue_threshold: 0.05
           growth_phase: acclimated_steady_state
@@ -193,6 +203,8 @@ publication:
           timepoint_hours: 1440
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points.  Time point 60 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points.  Time point 60 vs 1"
           pvalue_threshold: 0.05
           growth_phase: acclimated_steady_state
@@ -202,6 +214,8 @@ publication:
           timepoint_hours: 2400
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 100 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 100 vs 1"
           pvalue_threshold: 0.05
           growth_phase: acclimated_steady_state
@@ -226,6 +240,8 @@ publication:
           timepoint_hours: 72
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 3 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 3 vs 1"
           pvalue_threshold: 0.05
           growth_phase: exponential
@@ -235,6 +251,8 @@ publication:
           timepoint_hours: 168
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 7 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 7 vs 1"
           pvalue_threshold: 0.05
           growth_phase: exponential
@@ -244,6 +262,8 @@ publication:
           timepoint_hours: 336
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 14 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 14 vs 1"
           pvalue_threshold: 0.05
           growth_phase: exponential
@@ -253,6 +273,8 @@ publication:
           timepoint_hours: 504
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 21 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 21 vs 1"
           pvalue_threshold: 0.05
           growth_phase: nutrient_limited
@@ -262,6 +284,8 @@ publication:
           timepoint_hours: 768
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 32 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 32 vs 1"
           pvalue_threshold: 0.05
           growth_phase: stationary
@@ -271,6 +295,8 @@ publication:
           timepoint_hours: 1440
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points.  Time point 60 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points.  Time point 60 vs 1"
           pvalue_threshold: 0.05
           growth_phase: stationary
@@ -280,6 +306,8 @@ publication:
           timepoint_hours: 2400
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 100 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 100 vs 1"
           pvalue_threshold: 0.05
           growth_phase: acclimated_steady_state
@@ -304,6 +332,8 @@ publication:
           timepoint_hours: 72
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 3 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 3 vs 1"
           pvalue_threshold: 0.05
           growth_phase: exponential
@@ -313,6 +343,8 @@ publication:
           timepoint_hours: 168
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 7 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 7 vs 1"
           pvalue_threshold: 0.05
           growth_phase: exponential
@@ -322,6 +354,8 @@ publication:
           timepoint_hours: 336
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 14 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 14 vs 1"
           pvalue_threshold: 0.05
           growth_phase: exponential
@@ -331,6 +365,8 @@ publication:
           timepoint_hours: 504
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 21 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 21 vs 1"
           pvalue_threshold: 0.05
           growth_phase: acclimated_steady_state
@@ -340,6 +376,8 @@ publication:
           timepoint_hours: 768
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 32 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 32 vs 1"
           pvalue_threshold: 0.05
           growth_phase: acclimated_steady_state
@@ -349,6 +387,8 @@ publication:
           timepoint_hours: 1440
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points .  Time point 60 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points .  Time point 60 vs 1"
           pvalue_threshold: 0.05
           growth_phase: acclimated_steady_state
@@ -358,6 +398,8 @@ publication:
           timepoint_hours: 2400
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 100 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 100 vs 1"
           pvalue_threshold: 0.05
           growth_phase: acclimated_steady_state
@@ -380,6 +422,8 @@ publication:
           timepoint_hours: 72
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 3 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 3 vs 1"
           pvalue_threshold: 0.05
           growth_phase: exponential
@@ -389,6 +433,8 @@ publication:
           timepoint_hours: 168
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 7 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 7 vs 1"
           pvalue_threshold: 0.05
           growth_phase: exponential
@@ -398,6 +444,8 @@ publication:
           timepoint_hours: 336
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 14 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 14 vs 1"
           pvalue_threshold: 0.05
           growth_phase: exponential
@@ -407,6 +455,8 @@ publication:
           timepoint_hours: 504
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 21 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 21 vs 1"
           pvalue_threshold: 0.05
           growth_phase: acclimated_steady_state
@@ -416,6 +466,8 @@ publication:
           timepoint_hours: 768
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 32 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 32 vs 1"
           pvalue_threshold: 0.05
           growth_phase: acclimated_steady_state
@@ -425,6 +477,8 @@ publication:
           timepoint_hours: 1440
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points.  Time point 60 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points.  Time point 60 vs 1"
           pvalue_threshold: 0.05
           growth_phase: acclimated_steady_state
@@ -434,6 +488,8 @@ publication:
           timepoint_hours: 2400
           name_col: "NCBI reference"
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 100 vs 1"
+          fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+          logfc_threshold: 0   # q-value only: t-test P=0.05 with permutation FDR q=0.05, no fold cutoff (Methods)
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 100 vs 1"
           pvalue_threshold: 0.05
           growth_phase: acclimated_steady_state

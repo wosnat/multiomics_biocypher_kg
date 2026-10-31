@@ -88,14 +88,14 @@ publication:
           growth_phase: exponential
 
     # Table S4: Selected differentially expressed proteins
-    # Mean Ratio uses non-standard sign convention: positive values (1.21-1.31) for
-    # upregulated, negative values (-0.55 to -0.83) for downregulated.
-    # NOT true linear FC (would be 0.55-0.83 for downregulated) — treat as signed
-    # values and pass through as-is (no fold_change_type conversion).
-    # The sign is consistent for expression_direction and rank-based analysis.
+    # "Mean Ratio" marks a ratio below 1 with a minus sign (-0.55 = coculture/axenic 0.55);
+    # up values are the plain ratio. The proteomics cutoff is "fold change > 1.2" (Methods)
+    # and 1/1.2 = 0.83 is the edge of the down values. The _modified.csv adds
+    # log2_fold_change = log2(|Mean Ratio|): scripts/build_modified_csv/build_ma2022_modified_csv.py
+    # No p-value column: the table lists only the selected DE proteins, so prefiltered: true.
     supp_table_s4_proteomics:
       type: csv
-      filename: "data/Synechococcus/papers_and_supp/Ma 2022/Supplementary Table S4 Selected differentially expressed proteins.csv"
+      filename: "data/Synechococcus/papers_and_supp/Ma 2022/Supplementary Table S4 Selected differentially expressed proteins_modified.csv"
       skip_rows: 2
       organism: "Synechococcus elongatus UTEX 2973"
       id_columns:
@@ -105,10 +105,8 @@ publication:
         - id: "DE_proteomics_coculture_ecoli"
           experiment: coculture_ecoli_vs_axenic_utex2973_proteomics
           name_col: "Protein"
-          logfc_col: "Mean Ratio"
-          # No fold_change_type — values are non-standard signed ratios, passed through as-is
-          # Positive = upregulated, negative = downregulated (correct for direction/ranking)
-          pvalue_threshold: 0.05
+          logfc_col: "log2_fold_change"
+          prefiltered: true
           table_scope: significant_only
           timepoint: "4 days"
           timepoint_hours: 96

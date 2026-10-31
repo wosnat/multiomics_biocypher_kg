@@ -43,6 +43,7 @@ from multiomics_kg.utils.paperconfig_utils import (
     get_paper_name,
     get_supplementary_materials,
 )
+from multiomics_kg.utils.fold_change import signed_linear_violations
 from multiomics_kg.vocab.non_de_evidence import (
     COMPARTMENTS,
     EXTENDED_OMICS_TYPES,
@@ -2002,8 +2003,23 @@ def validate_paperconfig_content(
 
             # Validate fold_change_type
             fold_change_type = analysis.get("fold_change_type")
-            if fold_change_type is not None and fold_change_type not in ("log2", "linear"):
-                errors.append(f"{aid}: 'fold_change_type' must be 'log2' or 'linear', got '{fold_change_type}'")
+            if fold_change_type is not None and fold_change_type not in ("log2", "linear", "signed_linear"):
+                errors.append(f"{aid}: 'fold_change_type' must be 'log2', 'linear' or 'signed_linear', got '{fold_change_type}'")
+            elif fold_change_type == "signed_linear" and logfc_col and logfc_col in cols:
+                # The 5-row sample is not enough here: one value in (-1, 1) anywhere
+                # means the table is mis-declared, so read the whole column.
+                try:
+                    full = pd.read_csv(fn, sep=sep, skiprows=skip if skip else None,
+                                       usecols=[logfc_col], dtype=str)[logfc_col]
+                    bad = signed_linear_violations(full.dropna().tolist())
+                    if bad:
+                        errors.append(
+                            f"{aid}: fold_change_type 'signed_linear' but {len(bad)} values in "
+                            f"'{logfc_col}' lie in (-1, 1) (e.g. {bad[:5]}); a signed linear "
+                            f"ratio cannot take them — check whether the table is log2 or linear"
+                        )
+                except Exception as e:
+                    warnings.append(f"{aid}: could not read '{logfc_col}' to check signed_linear values: {e}")
 
             # --- Timepoint / growth_phase backfill checks (2026-04-12) ---
             if "timepoint" not in analysis:

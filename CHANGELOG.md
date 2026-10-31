@@ -164,6 +164,26 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 
 ### Data
 
+- **Fold-change scale corrections (2026-10-31).** Six papers' fold changes were stored on the wrong
+  scale in `Changes_expression_of.log2_fold_change`. Edge counts and significance calls are unchanged
+  except where noted; only magnitudes (and therefore `rank_by_effect` ties and any |log2FC|
+  filter) change. Corpus audit and evidence: `plans/signed_linear_fold_change.md`.
+  - **Kaur 2018, Christie-Oleza 2017, Martiny 2006, Steglich 2006, Lindell 2007** publish signed linear
+    ratios ("+3 = 3-fold up, -3 = 3-fold down"). The KG stored the linear number as if it were log2: values
+    up to -8,463.9 (Kaur), -337.3 (Christie-Oleza), 162.3 (Martiny), 61.2 (Steglich), 14.0 (Lindell's clpS
+    at 4 h, i.e. a 16,384-fold change instead of 14-fold). Now stored as sign(x) · log2|x|: maxima 13.05 /
+    8.40 / 7.34 / 5.94 / 3.81. Kaur, Christie-Oleza and Martiny call significance on q/p alone (no fold
+    cutoff), now declared explicitly as `logfc_threshold: 0`, which keeps the significant set the KG
+    already had.
+  - **Ma 2022** Table S4 (iTRAQ proteomics) writes a ratio below 1 with a minus sign ("-0.55" = 0.55). The
+    KG stored -0.55 as log2, and the 2-fold default made all 10 down-regulated proteins not significant.
+    Now log2(0.55 … 0.83) = -0.86 … -0.27, and the table is `prefiltered` (it lists only the paper's
+    selected DE proteins): significant 158 → 168.
+  - **Aharonovich 2016** HOT1A3 tables: the published ratio is (a + 0.01) / (b + 0.01), so a gene with 1 read
+    vs 0 read 101-fold, and zero-count genes held every one of the top-100 effects. Now log2((a + 1) / (b + 1))
+    from the expression columns: max |log2FC| 18.1 → 11.5 and 12.2 → 5.6. The 31 resolved rows with zero
+    reads in both arms are dropped (no measurement); significant calls are unchanged (367 and 112).
+
 - **Ford 2021 — new, Biochemical Society Transactions, DOI `10.1042/BST20200244`** (review;
   `data/Synechococcus/papers_and_supp/Ford 2021/`). Supplementary Data S1 lists the 1,257
   ABC-transporter substrate-binding proteins (SBPs) Cyanorak v2.1 annotates across 97
@@ -371,6 +391,14 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 
 ### Added
 
+- `fold_change_type: signed_linear` for DE tables that publish signed linear ratios (+3 = 3-fold up,
+  -3 = 3-fold down): stored as sign(x) · log2|x|. A value in (-1, 1), which that convention cannot
+  hold, is an error in `validate_paperconfig.py` (whole column checked) and makes the adapter build no
+  edges for the analysis (shared check `multiomics_kg/utils/fold_change.py`). The adapter also warns
+  when a table declared log2 has no value in (-1, 1) and |value| > 20, the signature of an undeclared
+  signed linear table.
+- `_modified.csv` builders `build_ma2022_modified_csv.py` and `build_aharonovich2016_hot1a3_modified_csv.py`.
+
 - **`treatment_type` values `mutant` and `essentiality`.** `mutant` = a knockout or mutant strain
   compared with its wild type (Tetu 2009, Ostrowski 2010); `essentiality` = a transposon-mutagenesis
   gene-essentiality characterization (Rubin 2015). Declared on all four `treatment_type`
@@ -451,6 +479,10 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 - **prepare_data step 7 folded into step 6** (`resolve_paper_metabolites.py` is a no-op alias; step 6 writes the `_resolved.csv` files). Default `STEPS` is now `0 9 1 2 3 4 5 6 8 10`.
 
 ### Fixed
+
+- An explicit `logfc_threshold: 0` or `pvalue_threshold: 0` in a paperconfig was silently replaced by the
+  adapter default (1.0 / 0.05), because the threshold was read with `or`. "No fold cutoff" can now be
+  declared.
 
 - **NCBI ↔ Cyanorak gene merge (`build_gene_mapping`, prepare_data step 0.5).** Three fixes,
   none of which changes the 43 strains already in the KG (regression gate over all strains):

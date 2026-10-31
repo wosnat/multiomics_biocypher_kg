@@ -132,9 +132,12 @@ publication:
         logfc_col: log 2 fold change coculture/axenic
         adjusted_p_value_col: q Value
         pvalue_threshold: 0.05
+    # HOT1A3 tables: the published fold change is (a+0.01)/(b+0.01), so a 1-vs-0 read gene
+    # reads 101-fold. The _modified.csv re-derives log2((a+1)/(b+1)) (treatment/control) and
+    # blanks both-zero rows: scripts/build_modified_csv/build_aharonovich2016_hot1a3_modified_csv.py
     supp_table_hot1a3_9313_vs_9313dil:
       type: csv
-      filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/HOT1A3 coculture with 9313 ver coculture with 9313 diluted.csv
+      filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/HOT1A3 coculture with 9313 ver coculture with 9313 diluted_modified.csv
       organism: Alteromonas macleodii HOT1A3
       id_columns:
       - column: Synonym
@@ -148,13 +151,12 @@ publication:
         timepoint_hours: 20.0
         growth_phase: exponential
         name_col: Synonym
-        logfc_col: fold change 9313/9313DIL
-        fold_change_type: linear
+        logfc_col: log2_fold_change
         adjusted_p_value_col: qValue 9313+1A3  vs 9313+1A3 dil
         pvalue_threshold: 0.01
     supp_table_hot1a3_9313_vs_med4:
       type: csv
-      filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/HOT1A3 coculture with MED4 vs coculture with MIT9313.csv
+      filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/HOT1A3 coculture with MED4 vs coculture with MIT9313_modified.csv
       organism: Alteromonas macleodii HOT1A3
       id_columns:
       - column: Synonym
@@ -168,8 +170,7 @@ publication:
         timepoint_hours: 20.0
         growth_phase: exponential
         name_col: Synonym
-        logfc_col: fold change 9313+1A3/med4+1A3
-        fold_change_type: linear
+        logfc_col: log2_fold_change
         adjusted_p_value_col: qValue 9313+1A3  vs med 4
         pvalue_threshold: 0.01
     supp_table_2:

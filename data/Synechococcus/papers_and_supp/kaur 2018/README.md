@@ -51,7 +51,7 @@ Fold change values are **signed ratios** comparing each timepoint to timepoint 1
 - Negative values (e.g., -1.6) = lower abundance at later timepoint vs day 1
 - Value of 1 or -1 = no change or not detected at one timepoint
 
-This is the same signed-ratio convention used in Oleza 2017 and Ma 2022. No `fold_change_type` conversion is needed -- values pass through as-is.
+This is the same signed-ratio convention used in Oleza 2017. Since 2026-10-31 the paperconfig declares `fold_change_type: signed_linear` (stored as sign(x) · log2|x|; before that the linear values were stored as if log2, up to -8,463.9) and `logfc_threshold: 0` (Methods: t-test P = 0.05 with permutation FDR q = 0.05, no fold cutoff).
 
 ## Gene ID Types
 

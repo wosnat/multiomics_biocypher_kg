@@ -53,6 +53,8 @@ publication:
         growth_phase: exponential
         name_col: ORF
         logfc_col: FC t=0
+        fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+        logfc_threshold: 0   # q<0.05 only (Fig. 2 / Table 1 legends), no fold cutoff
         adjusted_p_value_col: q-value t=0
         pvalue_threshold: 0.05
       - id: DE_p_starvation_vs_replete_MED4_4h
@@ -62,6 +64,8 @@ publication:
         growth_phase: acute_stress
         name_col: ORF
         logfc_col: FC t=4
+        fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+        logfc_threshold: 0   # q<0.05 only (Fig. 2 / Table 1 legends), no fold cutoff
         adjusted_p_value_col: q-value t=4
         pvalue_threshold: 0.05
       - id: DE_p_starvation_vs_replete_MED4_12h
@@ -71,6 +75,8 @@ publication:
         growth_phase: acute_stress
         name_col: ORF
         logfc_col: FC t=12
+        fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+        logfc_threshold: 0   # q<0.05 only (Fig. 2 / Table 1 legends), no fold cutoff
         adjusted_p_value_col: q-value t=12
         pvalue_threshold: 0.05
       - id: DE_p_starvation_vs_replete_MED4_24h
@@ -80,6 +86,8 @@ publication:
         growth_phase: acute_stress
         name_col: ORF
         logfc_col: FC t=24
+        fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+        logfc_threshold: 0   # q<0.05 only (Fig. 2 / Table 1 legends), no fold cutoff
         adjusted_p_value_col: q-value t=24
         pvalue_threshold: 0.05
       - id: DE_p_starvation_vs_replete_MED4_48h
@@ -89,6 +97,8 @@ publication:
         growth_phase: nutrient_limited
         name_col: ORF
         logfc_col: FC t=48
+        fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+        logfc_threshold: 0   # q<0.05 only (Fig. 2 / Table 1 legends), no fold cutoff
         adjusted_p_value_col: q-value t=48
         pvalue_threshold: 0.05
     supp_table_2:
@@ -108,6 +118,8 @@ publication:
         growth_phase: exponential
         name_col: ORF
         logfc_col: FC t=0
+        fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+        logfc_threshold: 0   # q<0.05 only (Fig. 2 / Table 1 legends), no fold cutoff
         adjusted_p_value_col: q-value t=0
         pvalue_threshold: 0.05
       - id: DE_p_starvation_vs_replete_MIT9313_4h
@@ -117,6 +129,8 @@ publication:
         growth_phase: acute_stress
         name_col: ORF
         logfc_col: FC t=4
+        fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+        logfc_threshold: 0   # q<0.05 only (Fig. 2 / Table 1 legends), no fold cutoff
         adjusted_p_value_col: q-value t=4
         pvalue_threshold: 0.05
       - id: DE_p_starvation_vs_replete_MIT9313_12h
@@ -126,6 +140,8 @@ publication:
         growth_phase: acute_stress
         name_col: ORF
         logfc_col: FC t=12
+        fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+        logfc_threshold: 0   # q<0.05 only (Fig. 2 / Table 1 legends), no fold cutoff
         adjusted_p_value_col: q-value t=12
         pvalue_threshold: 0.05
       - id: DE_p_starvation_vs_replete_MIT9313_24h
@@ -135,5 +151,7 @@ publication:
         growth_phase: acute_stress
         name_col: ORF
         logfc_col: FC t=24
+        fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
+        logfc_threshold: 0   # q<0.05 only (Fig. 2 / Table 1 legends), no fold cutoff
         adjusted_p_value_col: q-value t=24
         pvalue_threshold: 0.05
