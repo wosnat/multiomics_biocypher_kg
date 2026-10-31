@@ -5,10 +5,11 @@ Source: 41598_2020_57526_MOESM8_ESM.xlsx, sheet "TableS7_uniques_NCBI": genes pr
 one Alteromonas macleodii genome and absent from the other 11 of the paper's pangenome, with
 the top NCBI BLAST hit outside A. macleodii and its taxonomy.
 
-Kept strains: those in the KG whose locus tags resolve — MIT1002 (MIT1002_0xxxx), 83-1
-(Alt831_xxxxx; the paper's "83-1/BGP" row, BGP6 is a clonal twin), AD45 (AMBAS45_), ATCC27126
-(MASE_). EZ55 (altEZ55_ IMG-style) and HOT1A3 (Ga0125132_ IMG) do not resolve in our
-mappings; D7, EC673, Te101 are not KG strains.
+Kept strains: the KG strains — MIT1002 (MIT1002_0xxxx), 83-1 (Alt831_xxxxx; the paper's
+"83-1/BGP" row, BGP6 is a clonal twin), AD45 (AMBAS45_), ATCC27126 (MASE_), EZ55 (altEZ55_) and
+HOT1A3 (Ga0125132_). The last two are JGI IMG locus tags (genomes 2785510739 / 2687453488),
+bridged to the NCBI genes by the paperconfig's `id_translation` entries (diamond protein match
+over `img_annotation/*.faa` + `.gff`). D7, EC673, Te101 are not KG strains.
 
 Output: `unique_genes/<strain>_unique_genes.csv` with `locus_tag` (paper's tag),
 `strain_unique` = "yes", and the closest-relative columns for reference.
@@ -25,7 +26,14 @@ import pandas as pd
 PAPER_DIR = Path("data/Prochlorococcus/papers_and_supp/Koch 2020")
 SRC = PAPER_DIR / "41598_2020_57526_MOESM8_ESM.xlsx"
 OUT_DIR = PAPER_DIR / "unique_genes"
-STRAINS = {"MIT1002": "MIT1002", "83-1/BGP": "83-1", "AD45": "AD45", "ATCC27126": "ATCC27126"}
+STRAINS = {
+    "MIT1002": "MIT1002",
+    "83-1/BGP": "83-1",
+    "AD45": "AD45",
+    "ATCC27126": "ATCC27126",
+    "EZ55": "EZ55",
+    "HOT1A3": "HOT1A3",
+}
 
 
 def main() -> None:

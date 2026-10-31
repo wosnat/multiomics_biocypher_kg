@@ -28,7 +28,7 @@
     "old_locus_tag": {
       "conflict": 0,
       "multi": 0,
-      "unique": 4053
+      "unique": 8152
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -43,8 +43,8 @@
   },
   "runaway_genes": [],
   "strain": "EZ55",
-  "tier1_count_max": 8,
-  "tier1_count_median": 5.0,
+  "tier1_count_max": 14,
+  "tier1_count_median": 6.0,
   "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
     "Barreto 2022/supp_table_S10": 20,
@@ -59,6 +59,7 @@
     "Hennon 2017/supp_table_4": 27,
     "Hennon 2017/supp_table_5_categories": 29,
     "Hennon 2017/supp_table_5_de": 29,
+    "Koch 2020/unique_genes_ez55_table": 16,
     "Lu 2026/table_s1_exudate_detection": 368,
     "Lu 2026/table_s1_whole_cell_detection": 368,
     "cds_from_genomic.fna": 44,
