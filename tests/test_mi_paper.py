@@ -155,10 +155,26 @@ def test_two_papers_map_one_name_differently():
     assert r.decisions[("a", "t", 0)].metabolite_id == GSH and r.decisions[("b", "t", 0)].metabolite_id == GSSG
 
 
-def test_legacy_override_on_stereo_target_needs_assignment():
-    ov = {"p": {"alanine": Override(ALA, None, "", "Alanine")}}
-    r = _run([_table(("Alanine", None))], overrides=ov)
-    assert r.errors and "stereo_assignment" in r.errors[0]
+@pytest.mark.parametrize("raw, target, want", [
+    ("Alanine", ALA, "dominant_form_assumed"),    # unqualified name, specific form
+    ("L-Alanine", ALA, "as_reported"),            # the name names the form
+    ("Alanine", ALA_U, "as_reported"),            # the alias chose the stereo-unspecified node
+    ("Glutathione Disulfide", GSSG, "as_reported"),   # no stereo variants
+])
+def test_override_without_assignment_takes_the_name_rule(raw, target, want):
+    ov = {"p": {raw.casefold(): Override(target, None, "", raw)}}
+    r = _run([_table((raw, None))], overrides=ov)
+    assert not r.errors
+    assert r.decisions[("p", "t", 0)].stereo_assignment == want
+    assert r.alias_stereo_review == []
+
+
+def test_override_assignment_differing_from_rule_is_kept_and_listed():
+    ov = {"p": {"alanine": Override(ALA, "as_reported", "", "Alanine")}}
+    r = _run([_table(("Alanine", None)), _table(("Alanine", None), table="t2")], overrides=ov)
+    assert r.decisions[("p", "t", 0)].stereo_assignment == "as_reported"     # curated wins
+    assert r.alias_stereo_review == [{"paper": "p", "alias": "Alanine", "id": ALA,
+                                      "curated": "as_reported", "rule": "dominant_form_assumed"}]
 
 
 def test_stale_alias_override_reported():

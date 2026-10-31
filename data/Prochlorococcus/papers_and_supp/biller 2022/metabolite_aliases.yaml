@@ -2,13 +2,15 @@
 # Key: the compound name exactly as the paper writes it (quote keys like NO / Yes).
 # Value: {id, stereo_assignment, reason}. stereo_assignment is `as_reported` when the
 # name names the stereo form (or the target has no stereo variant), else
-# `dominant_form_assumed`. Overrides apply to every table of this paper.
+# `dominant_form_assumed`. Optional: omitted, step 6 applies the name-match rule; an
+# explicit value that differs from the rule is kept and listed in the identity report's
+# `alias_stereo_review`. Overrides apply to every table of this paper.
 # Authority for the measured compound: the Ingalls Lab standards table the paper cites
 # (github.com/IngallsLabUW/Ingalls_Standards, Compound_Name_Original = the S7 name).
 
 "Adenosyl Homocysteine":
   id: "kegg.compound:C00021"
-  stereo_assignment: as_reported
+  stereo_assignment: dominant_form_assumed
   reason: "S-adenosyl-L-homocysteine (SAH)"
 "Adenosyl Methionine":
   id: "kegg.compound:C00019"
@@ -54,7 +56,7 @@
   reason: "GSH, reduced"
 "Glutathione Disulfide":
   id: "kegg.compound:C00127"
-  stereo_assignment: as_reported
+  stereo_assignment: dominant_form_assumed
   reason: "GSSG"
 "Cystine":
   id: "kegg.compound:C00491"
@@ -153,7 +155,7 @@
   reason: "nicotinate: the Ingalls standard named Vitamin B3 is Nicotinic acid (C00253); nicotinamide is not in that standards table"
 "Vitamin B5":
   id: "kegg.compound:C00864"
-  stereo_assignment: as_reported
+  stereo_assignment: dominant_form_assumed
   reason: "pantothenate (Ingalls standard Pantothenic acid, C00864), canonical vitamer"
 "Vitamin K1":
   id: "kegg.compound:C02059"

@@ -185,6 +185,41 @@ def chebi_stereo_forms(table, terms_of, chebi: ChebiIndex) -> frozenset[str]:
     return frozenset(out)
 
 
+_NO_STEREO_LAYER = "UHFFFAOY"   # InChIKey block 2 of a structure with no stereo layer
+
+
+def kegg_stereo_forms(table, chebi: ChebiIndex) -> frozenset[str]:
+    """Nodes whose own KEGG entry ChEBI files as one stereo form of a structure it also
+    files stereo-unspecified: one of the node's KEGG ids cross-references a non-class
+    ChEBI term with a stereo layer AND a term with the same connectivity block and none
+    (KEGG C01817 "L-Homocystine" ← L,L-homocystine + homocystine; C00864 "Pantothenate"
+    ← (R)-pantothenic acid + pantothenic acid). Stage J reads it with
+    ``chebi_stereo_forms`` for ``stereo_assignment``: it covers the specific forms with
+    no ``is_enantiomer_of`` (diastereomers, meso partners) that rule misses.
+
+    Read from the KEGG entry's own ChEBI xrefs, never ``is_a`` (that links geometric
+    isomers and tautomers): a KEGG entry filed only under E/Z forms (fumarate) or under
+    tautomers (xanthine) never qualifies, and a specific term whose name differs from a
+    stereo-unspecified one only by cis/trans / E/Z (trans-cinnamic acid vs cinnamic
+    acid) is a geometric isomer, not a stereo form."""
+    out = set()
+    for n, entry in table.items():
+        if entry.get("structure_kind", "defined") != "defined":
+            continue
+        for kegg_id in entry.get("kegg_compound_ids") or ():
+            structures = _kegg_structures(kegg_id, chebi)
+            unspecified: dict[str, set[str]] = defaultdict(set)
+            for block, layer, name in structures:
+                if layer == _NO_STEREO_LAYER:
+                    unspecified[block].add(strip_geometric_tokens(name))
+            if any(layer != _NO_STEREO_LAYER and block in unspecified
+                   and strip_geometric_tokens(name) not in unspecified[block]
+                   for block, layer, name in structures):
+                out.add(n)
+                break
+    return frozenset(out)
+
+
 def stereo_families(nodes, stereo_pairs, enantiomer_pairs):
     parent = {n: n for n in nodes}
 

@@ -449,6 +449,15 @@ for every background tool from step 3 to finish, then re-run steps 1–7:
 bash scripts/prepare_data.sh --strains <NEW_STRAIN> --steps 1 2 3 4 5 6 7 --force
 ```
 
+Step 2 writes the `[tcdb_best_hit]` description lines from step 6's committed
+TCDB/KEGG caches, so in that pass it still sees the caches from *before* this
+strain. If step 2 logged `best-hit system(s) not in tcdb_pruned.json`, run step 2
+once more now that step 6 has kept them:
+
+```bash
+bash scripts/prepare_data.sh --strains <NEW_STRAIN> --steps 2 --force
+```
+
 Then redo step 7 (Docker rebuild), step 8 (post-Docker check + KG validity),
 step 9 (snapshot compare) so the KG picks up the enriched annotations.
 

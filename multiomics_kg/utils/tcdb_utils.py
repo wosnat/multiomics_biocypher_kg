@@ -171,6 +171,31 @@ def _lineage(tc_id: str, hierarchy: dict) -> list[str]:
     return out
 
 
+_UNNAMED_KIND_WORD = {"tc_subfamily": "subfamily", "tc_system": "system"}
+
+
+def tcdb_display_name(tc_id: str, hierarchy: dict) -> str:
+    """The name a TcdbFamily node is published under.
+
+    TCDB's own name when it has one. An unnamed subfamily or system (no upstream
+    header, empty name cell, no protein cell) is named after its nearest named
+    ancestor — ``"<ancestor name> — subfamily 3.A.1.17"`` — so it reads as a
+    member of that group rather than a bare number. Anything else unnamed keeps
+    the bare TCID. Display only: direction and every other rule read the
+    hierarchy's own ``name``, never this string.
+    """
+    entry = hierarchy.get(tc_id, {})
+    if entry.get("name"):
+        return entry["name"]
+    word = _UNNAMED_KIND_WORD.get(entry.get("level_kind"))
+    if word:
+        for anc in _lineage(tc_id, hierarchy)[1:]:
+            name = hierarchy[anc].get("name")
+            if name:
+                return f"{name} — {word} {tc_id}"
+    return tc_id
+
+
 def _weak_direction_word(name: str, match: re.Match) -> bool:
     before, after = name[:match.start()], name[match.end():]
     after_clause = _CLAUSE_END_RE.split(after, maxsplit=1)[0]

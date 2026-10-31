@@ -256,7 +256,7 @@ def test_rerun_over_own_outputs_is_byte_identical_except_report(tmp_path):
     report = _paths(tmp_path).report
     assert {p: t for p, t in files1.items() if p != report} == {p: t for p, t in files2.items() if p != report}
     assert out2.kegg_data["compounds"]["C00078"]["recurated_from_ids"] == ["kegg.compound:C00525"]
-    assert out2.report["baseline"] == "previous kegg_data.json"
+    assert out2.report["baseline"].startswith("previous kegg_data.json (the last step-6 run")
     assert out2.report["dropped"] == {}
 
 

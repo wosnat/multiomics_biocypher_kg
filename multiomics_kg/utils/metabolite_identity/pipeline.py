@@ -32,12 +32,15 @@ from multiomics_kg.utils.metabolite_identity.outputs import (
 from multiomics_kg.utils.metabolite_identity.paper import (
     Override, PaperTable, StereoContext, resolve_paper_rows)
 from multiomics_kg.utils.metabolite_identity.stereo import (
-    chebi_stereo_forms, finalize_stereo, is_anomer_pair, stereo_distinct_kegg, stereo_families, stereo_links,
-    unspecified_members)
+    chebi_stereo_forms, finalize_stereo, is_anomer_pair, kegg_stereo_forms, stereo_distinct_kegg,
+    stereo_families, stereo_links, unspecified_members)
 from multiomics_kg.utils.metabolite_identity.structure import apply_structure
 
 _KEGG = "kegg.compound:"
 _TRANSIENT = ("mnx_chebi_aliases",)
+_REPORT_BASELINE = ("previous kegg_data.json (the last step-6 run, not a release; the "
+                    "release-to-release record is docs/kg-changes/metabolite-identity/"
+                    "metabolite_id_remap.tsv)")
 
 
 class Step6ValidationError(RuntimeError):
@@ -437,7 +440,8 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
     ctx = StereoContext(families, unspecified_members(stereo_pairs),
                         lambda a, b: is_anomer_pair(a, b, table, terms_of, chebi),
                         _catalyst_gene_counts(reactions, inp.rxn_genes),
-                        chebi_stereo=chebi_stereo_forms(table, published, chebi))
+                        chebi_stereo=chebi_stereo_forms(table, published, chebi)
+                        | kegg_stereo_forms(table, chebi))
     name_candidates = {k: {id_index.get(norm(c), norm(c)) for c in v}
                        for k, v in sorted(inp.name_candidates.items())}
     res = resolve_paper_rows(inp.tables, overrides=inp.paper_overrides, name_candidates=name_candidates,
@@ -584,8 +588,9 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
 
     report = build_identity_report(
         # remap / repoints / dropped are diagnostics against this baseline; a no-change rerun
-        # over the committed outputs may leave them empty.
-        baseline="previous kegg_data.json",
+        # over the committed outputs may leave them empty. The baseline string says so, so a
+        # reader of the committed report does not take an emptied remap for lost data.
+        baseline=_REPORT_BASELINE,
         chebi_release=chebi.release,
         merge_groups={c: {"members": m, "basis": identity.basis.get(c, [])}
                       for c, m in sorted(identity.members.items())},
@@ -597,6 +602,7 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
         stereo_link_review=stereo_report, chebi_node_structure=chebi_structure,
         refused_assay_collisions=identity.refused_collisions,
         stale_identity_override=identity.stale_overrides + xref_stale, xref_overrides_applied=xref_applied, stale_alias_override=res.stale_overrides,
+        alias_stereo_review=res.alias_stereo_review,
         stale_lock_entry=res.stale_lock, lock_target_remapped=res.lock_remapped,
         roles_removed=inp.role_of_old, dropped=dropped, dropped_without_rows=dropped_unmoved,
         dropped_same_entity_review=[{"dropped": d, "target": t,
