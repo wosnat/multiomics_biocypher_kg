@@ -51385,6 +51385,10 @@
         {
           "id": "naaB'",
           "type": "gene_name"
+        },
+        {
+          "id": "naaB^",
+          "type": "gene_name"
         }
       ]
     },
@@ -51530,6 +51534,10 @@
         },
         {
           "id": "naaC'",
+          "type": "gene_name"
+        },
+        {
+          "id": "naaC^",
           "type": "gene_name"
         }
       ]
@@ -52693,6 +52701,10 @@
         {
           "id": "HW564_00070",
           "type": "gene_synonym"
+        },
+        {
+          "id": "dmdB1",
+          "type": "gene_name"
         }
       ]
     },
@@ -88047,6 +88059,10 @@
         {
           "id": "doeD",
           "type": "gene_name"
+        },
+        {
+          "id": "atf",
+          "type": "gene_name"
         }
       ]
     },
@@ -88124,6 +88140,10 @@
         {
           "id": "doeC",
           "type": "gene_name"
+        },
+        {
+          "id": "ssd",
+          "type": "gene_name"
         }
       ]
     },
@@ -88197,6 +88217,10 @@
         {
           "id": "doeX",
           "type": "gene_name"
+        },
+        {
+          "id": "asnC",
+          "type": "gene_name"
         }
       ]
     },
@@ -88266,6 +88290,10 @@
         {
           "id": "HW564_21160",
           "type": "gene_synonym"
+        },
+        {
+          "id": "eutE",
+          "type": "gene_name"
         }
       ]
     },
@@ -88356,6 +88384,10 @@
         {
           "id": "HW564_21165",
           "type": "gene_synonym"
+        },
+        {
+          "id": "eutD",
+          "type": "gene_name"
         }
       ]
     },
@@ -88920,6 +88952,10 @@
         },
         {
           "id": "gntR",
+          "type": "gene_name"
+        },
+        {
+          "id": "enuR",
           "type": "gene_name"
         }
       ]
@@ -121659,6 +121695,10 @@
         {
           "id": "HW564_05100",
           "type": "gene_synonym"
+        },
+        {
+          "id": "gmaS",
+          "type": "gene_name"
         }
       ]
     },
@@ -131568,6 +131608,10 @@
         {
           "id": "HW564_20130",
           "type": "gene_synonym"
+        },
+        {
+          "id": "urtD",
+          "type": "gene_name"
         }
       ]
     },
@@ -137278,6 +137322,10 @@
         {
           "id": "SPO1783",
           "type": "gene_synonym"
+        },
+        {
+          "id": "allB",
+          "type": "gene_name"
         }
       ]
     },
@@ -153147,6 +153195,10 @@
         {
           "id": "HW564_10720",
           "type": "gene_synonym"
+        },
+        {
+          "id": "olsA",
+          "type": "gene_name"
         }
       ]
     },
@@ -158122,6 +158174,10 @@
         {
           "id": "HW564_00320",
           "type": "gene_synonym"
+        },
+        {
+          "id": "dmdB2",
+          "type": "gene_name"
         }
       ]
     },
@@ -204771,6 +204827,10 @@
         {
           "id": "SPO2657",
           "type": "gene_synonym"
+        },
+        {
+          "id": "cuyA2",
+          "type": "gene_name"
         }
       ]
     },
@@ -219506,6 +219566,10 @@
         {
           "id": "HW564_10200",
           "type": "gene_synonym"
+        },
+        {
+          "id": "glsB",
+          "type": "gene_name"
         }
       ]
     },
@@ -319749,6 +319813,10 @@
         {
           "id": "pdxA-2",
           "type": "gene_name"
+        },
+        {
+          "id": "pdxA",
+          "type": "gene_name"
         }
       ]
     },
@@ -327458,6 +327526,20 @@
             "genomic_gcf/DSS-3"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "SPOA0351",
+          "sources": [
+            "Ferrer 2020/table_s5_dss3"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "gene-SPOA0351",
+          "sources": [
+            "genomic_gca/DSS-3"
+          ],
+          "type": "gff_gene_id"
         }
       ],
       "tier2_ids": [
@@ -327481,6 +327563,13 @@
             "genomic_gca/DSS-3"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "AAV97483.1",
+          "sources": [
+            "genomic_gca/DSS-3"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
@@ -327495,6 +327584,10 @@
         {
           "id": "HW564_12870",
           "type": "gene_synonym"
+        },
+        {
+          "id": "SPOA0351",
+          "type": "gene_name"
         }
       ]
     },
@@ -330386,6 +330479,20 @@
             "genomic_gcf/DSS-3"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "SPOA0394",
+          "sources": [
+            "Ferrer 2020/table_s5_dss3"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "gene-SPOA0394",
+          "sources": [
+            "genomic_gca/DSS-3"
+          ],
+          "type": "gff_gene_id"
         }
       ],
       "tier2_ids": [
@@ -330407,6 +330514,13 @@
           "id": "AAV97527.2",
           "sources": [
             "genomic_gca/DSS-3"
+          ],
+          "type": "protein_id_refseq"
+        },
+        {
+          "id": "WP_011242172.1",
+          "sources": [
+            "Ferrer 2020/table_s5_dss3"
           ],
           "type": "protein_id_refseq"
         },
@@ -330437,6 +330551,13 @@
             "ncbi_ipg_xref"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "AAV97526.1",
+          "sources": [
+            "genomic_gca/DSS-3"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
@@ -330451,6 +330572,10 @@
         {
           "id": "HW564_13090",
           "type": "gene_synonym"
+        },
+        {
+          "id": "SPOA0394",
+          "type": "gene_name"
         }
       ]
     },
@@ -331763,6 +331888,13 @@
             "genomic_gcf/DSS-3"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "SPOA0411",
+          "sources": [
+            "Ferrer 2020/table_s5_dss3"
+          ],
+          "type": "locus_tag"
         }
       ],
       "tier2_ids": [
@@ -331832,6 +331964,10 @@
         {
           "id": "HW564_07955",
           "type": "gene_synonym"
+        },
+        {
+          "id": "SPOA0411",
+          "type": "gene_name"
         }
       ]
     },
@@ -334301,6 +334437,20 @@
             "genomic_gcf/DSS-3"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "SPOA0442",
+          "sources": [
+            "Ferrer 2020/table_s5_dss3"
+          ],
+          "type": "locus_tag"
+        },
+        {
+          "id": "gene-SPOA0442",
+          "sources": [
+            "genomic_gca/DSS-3"
+          ],
+          "type": "gff_gene_id"
         }
       ],
       "tier2_ids": [
@@ -334324,6 +334474,13 @@
             "genomic_gca/DSS-3"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "AAV97573.1",
+          "sources": [
+            "genomic_gca/DSS-3"
+          ],
+          "type": "protein_id_refseq"
         }
       ],
       "tier3_ids": [
@@ -334338,6 +334495,10 @@
         {
           "id": "HW564_01270",
           "type": "gene_synonym"
+        },
+        {
+          "id": "SPOA0442",
+          "type": "gene_name"
         }
       ]
     },
@@ -365194,6 +365355,9 @@
     "AAV97481.1": [
       "SPOA0349"
     ],
+    "AAV97483.1": [
+      "SPOA0352"
+    ],
     "AAV97484.1": [
       "SPOA0352"
     ],
@@ -365322,6 +365486,9 @@
     ],
     "AAV97525.1": [
       "SPOA0393"
+    ],
+    "AAV97526.1": [
+      "SPOA0395"
     ],
     "AAV97527": [
       "SPOA0428"
@@ -365466,6 +365633,9 @@
     ],
     "AAV97572.1": [
       "SPOA0441"
+    ],
+    "AAV97573.1": [
+      "SPOA0443"
     ],
     "AAV97574.1": [
       "SPOA0443"
@@ -395081,6 +395251,9 @@
     "SPOA0349": [
       "SPOA0349"
     ],
+    "SPOA0351": [
+      "SPOA0352"
+    ],
     "SPOA0352": [
       "SPOA0352"
     ],
@@ -395207,6 +395380,9 @@
     "SPOA0393": [
       "SPOA0393"
     ],
+    "SPOA0394": [
+      "SPOA0395"
+    ],
     "SPOA0395": [
       "SPOA0395"
     ],
@@ -395254,6 +395430,9 @@
     ],
     "SPOA0410": [
       "SPOA0410"
+    ],
+    "SPOA0411": [
+      "SPOA0412"
     ],
     "SPOA0412": [
       "SPOA0412"
@@ -395344,6 +395523,9 @@
     ],
     "SPOA0441": [
       "SPOA0441"
+    ],
+    "SPOA0442": [
+      "SPOA0443"
     ],
     "SPOA0443": [
       "SPOA0443"
@@ -418286,6 +418468,9 @@
     "WP_011242170.1": [
       "SPOA0393"
     ],
+    "WP_011242172.1": [
+      "SPOA0395"
+    ],
     "WP_011242173.1": [
       "SPOA0396",
       "SPOA0324",
@@ -426970,6 +427155,9 @@
     "allA": [
       "SPO0873"
     ],
+    "allB": [
+      "SPO1783"
+    ],
     "allE": [
       "SPO0876"
     ],
@@ -427134,6 +427322,9 @@
     "asd": [
       "SPO3712"
     ],
+    "asnC": [
+      "SPO1138"
+    ],
     "aspA": [
       "SPO2663"
     ],
@@ -427163,6 +427354,9 @@
     ],
     "ate": [
       "SPO2569"
+    ],
+    "atf": [
+      "SPO1136"
     ],
     "atm1": [
       "SPO2335"
@@ -427784,6 +427978,9 @@
       "SPO2657",
       "SPOA0158"
     ],
+    "cuyA2": [
+      "SPO2657"
+    ],
     "cuyB": [
       "SPO2662",
       "SPOA0062"
@@ -428087,6 +428284,12 @@
     "dmdB": [
       "SPO2045"
     ],
+    "dmdB1": [
+      "SPO0677"
+    ],
+    "dmdB2": [
+      "SPO2045"
+    ],
     "dmdC": [
       "SPO3804"
     ],
@@ -428235,6 +428438,9 @@
     "eno": [
       "SPO2474"
     ],
+    "enuR": [
+      "SPO1148"
+    ],
     "envZ": [
       "SPO2173"
     ],
@@ -428267,6 +428473,12 @@
     ],
     "eutC": [
       "SPO1141"
+    ],
+    "eutD": [
+      "SPO1140"
+    ],
+    "eutE": [
+      "SPO1139"
     ],
     "exaA": [
       "SPO1508"
@@ -428796,6 +429008,9 @@
     "glpX": [
       "SPO1733"
     ],
+    "glsB": [
+      "SPO2849"
+    ],
     "gltA": [
       "SPO2157"
     ],
@@ -428867,6 +429082,9 @@
     ],
     "glyS": [
       "SPO1358"
+    ],
+    "gmaS": [
+      "SPO1573"
     ],
     "gmk": [
       "SPO1945"
@@ -430120,10 +430338,16 @@
     "naaB'": [
       "SPO0662"
     ],
+    "naaB^": [
+      "SPO0662"
+    ],
     "naaC": [
       "SPO0663"
     ],
     "naaC'": [
+      "SPO0664"
+    ],
+    "naaC^": [
       "SPO0664"
     ],
     "naaR": [
@@ -430434,6 +430658,9 @@
     "ohr": [
       "SPO0254"
     ],
+    "olsA": [
+      "SPO1979"
+    ],
     "olsB": [
       "SPO1980"
     ],
@@ -430638,7 +430865,8 @@
       "SPO3231"
     ],
     "pdxA": [
-      "SPO2457"
+      "SPO2457",
+      "SPOA0246"
     ],
     "pdxA-1": [
       "SPO2457"
@@ -432018,6 +432246,9 @@
     "ssb": [
       "SPO1637"
     ],
+    "ssd": [
+      "SPO1137"
+    ],
     "ssdA": [
       "SPO2608"
     ],
@@ -432511,7 +432742,8 @@
       "SPO1708"
     ],
     "urtD": [
-      "SPO1707a"
+      "SPO1707a",
+      "SPO1707"
     ],
     "urtE": [
       "SPO1707"
@@ -432835,6 +433067,10 @@
   },
   "organism": "DSS-3",
   "specific_lookup": {
+    "SPOA0351": "SPOA0352",
+    "SPOA0394": "SPOA0395",
+    "SPOA0411": "SPOA0412",
+    "SPOA0442": "SPOA0443",
     "SPO_RS00005": "SPO0001",
     "SPO_RS00015": "SPO0003",
     "SPO_RS00020": "SPO0004",
@@ -441194,6 +441430,7 @@
     "gene-SPOA0347": "SPOA0347",
     "gene-SPOA0348": "SPOA0348",
     "gene-SPOA0349": "SPOA0349",
+    "gene-SPOA0351": "SPOA0352",
     "gene-SPOA0352": "SPOA0352",
     "gene-SPOA0353": "SPOA0353",
     "gene-SPOA0354": "SPOA0354",
@@ -441236,6 +441473,7 @@
     "gene-SPOA0391": "SPOA0391",
     "gene-SPOA0392": "SPOA0392",
     "gene-SPOA0393": "SPOA0393",
+    "gene-SPOA0394": "SPOA0395",
     "gene-SPOA0395": "SPOA0395",
     "gene-SPOA0396": "SPOA0396",
     "gene-SPOA0397": "SPOA0397",
@@ -441282,6 +441520,7 @@
     "gene-SPOA0439": "SPOA0439",
     "gene-SPOA0440": "SPOA0440",
     "gene-SPOA0441": "SPOA0441",
+    "gene-SPOA0442": "SPOA0443",
     "gene-SPOA0443": "SPOA0443",
     "gene-SPOA0444": "SPOA0444",
     "gene-SPOA0445": "SPOA0445",
@@ -450030,9 +450269,9 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 4368,
-    "n_multi": 29831,
-    "n_specific": 17191,
-    "passes": 2
+    "n_multi": 29854,
+    "n_specific": 17198,
+    "passes": 3
   },
   "strain": "DSS-3",
   "version": 2

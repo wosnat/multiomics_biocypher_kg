@@ -989,7 +989,6 @@
       "[interpro] Aconitase A/isopropylmalate dehydratase small subunit, swivel domain",
       "[interpro] Hydrolyase LeuD/HacB/DmdB",
       "[interpro] 3-isopropylmalate dehydratase, swivel domain",
-      "[interpro] 3-isopropylmalate dehydratase small subunit",
       "[hamap] Methanogen homoaconitase small subunit [hacB].",
       "[ncbifam] homoaconitate hydratase small subunit",
       "[pfam] Aconitase_C: Aconitase C-terminal domain"
@@ -1019,15 +1018,11 @@
       "4.2.1.33",
       "4.2.1.114"
     ],
-    "ec_numbers_evidence": {
-      "4.2.1.33": "curated"
-    },
     "ec_numbers_source": {
       "4.2.1.114": [
         "eggnog"
       ],
       "4.2.1.33": [
-        "interproscan",
         "uniprot"
       ]
     },
@@ -6160,7 +6155,7 @@
       "[eggnog] alpha beta hydrolase superfamily",
       "[interpro] Alpha/beta hydrolase fold-1",
       "[interpro] 3-oxoadipate enol-lactonase 1/2",
-      "[interpro] AB hydrolase superfamily",
+      "[interpro] AB hydrolase RutD-like",
       "[tigr_role_inferred] Energy metabolism / Other",
       "[pfam] Abhydrolase_1: alpha/beta hydrolase fold"
     ],
@@ -7370,7 +7365,7 @@
       "[ncbi] 4-hydroxybenzoate 3-monooxygenase",
       "[eggnog] FAD binding domain",
       "[interpro] FAD-binding domain",
-      "[interpro] PheA/TfdB FAD monooxygenase",
+      "[interpro] 3-(3-hydroxy-phenyl)propionate/3-hydroxycinnamic acid hydroxylase-like",
       "[pfam] FAD_binding_3: FAD binding domain"
     ],
     "alternative_locus_tags": [
@@ -7512,7 +7507,6 @@
       "[interpro] Glyoxalase/fosfomycin resistance/dioxygenase domain",
       "[interpro] Catechol 2,3 dioxygenase",
       "[interpro] Vicinal oxygen chelate (VOC), core domain",
-      "[interpro] Glyoxalase I/Fosfomycin Resistance Protein Families",
       "[tigr_role_inferred] Energy metabolism / Other",
       "[pfam] Glyoxalase: Glyoxalase/Bleomycin resistance protein/Dioxygenase superfamily"
     ],
@@ -11081,7 +11075,7 @@
       "[ncbi] cupin domain-containing protein",
       "[eggnog] Cupin domain",
       "[interpro] Cupin 2, conserved barrel",
-      "[interpro] Bacilysin biosynthesis H2HPP isomerase",
+      "[interpro] H2HPP isomerase-like",
       "[pfam] Cupin_2: Cupin domain"
     ],
     "alternative_locus_tags": [
@@ -23900,7 +23894,7 @@
       "[ncbi] single-stranded-DNA-specific exonuclease RecJ",
       "[eggnog] single-stranded-DNA-specific exonuclease RecJ",
       "[protein_family] RecJ family",
-      "[interpro] DDH domain",
+      "[interpro] DHH domain",
       "[interpro] DHHA1 domain",
       "[interpro] RecJ, OB domain",
       "[interpro] Single-stranded-DNA-specific exonuclease RecJ",
@@ -24461,7 +24455,6 @@
       "[eggnog] transcriptional regulator",
       "[interpro] HTH ArsR-type DNA-binding domain",
       "[interpro] ArsR-like helix-turn-helix domain",
-      "[interpro] HTH-type Metal-responsive Transcriptional Regulators",
       "[pfam] HTH_11: HTH domain",
       "[pfam] HTH_20: Helix-turn-helix domain",
       "[pfam] HTH_5: Bacterial regulatory protein, arsR family",
@@ -30726,7 +30719,6 @@
       "[ncbi] ATP-binding protein",
       "[eggnog] AAA domain",
       "[interpro] ORC1/DEAH AAA+ ATPase domain",
-      "[interpro] ExeA/AAA ATPase DNA-binding & secretion",
       "[pfam] AAA_22: AAA domain"
     ],
     "alternative_locus_tags": [
@@ -32564,13 +32556,9 @@
     "ec_numbers": [
       "3.4.16.4"
     ],
-    "ec_numbers_evidence": {
-      "3.4.16.4": "curated"
-    },
     "ec_numbers_source": {
       "3.4.16.4": [
         "eggnog",
-        "interproscan",
         "uniprot"
       ]
     },
@@ -42172,12 +42160,8 @@
       "6.3.5.6",
       "6.3.5.7"
     ],
-    "ec_numbers_evidence": {
-      "6.3.5.-": "curated"
-    },
     "ec_numbers_source": {
       "6.3.5.-": [
-        "interproscan",
         "uniprot"
       ],
       "6.3.5.6": [
@@ -43680,7 +43664,6 @@
       "[ncbi] zinc ribbon domain-containing protein",
       "[eggnog] Zn-ribbon protein, possibly nucleic acid-binding",
       "[interpro] C4-type zinc ribbon domain",
-      "[interpro] Oxidative Scavengers and Glycosyltransferases",
       "[interpro] CT398-like coiled coil hairpin domain",
       "[pfam] Zn_ribbon_9: C4-type zinc ribbon domain",
       "[pfam] CT398_CC: CT398-like coiled coil hairpin domain"
@@ -59884,7 +59867,6 @@
       "[ncbi] NosD domain-containing protein",
       "[eggnog] Periplasmic copper-binding protein (NosD)",
       "[interpro] Periplasmic copper-binding protein NosD-like, beta helix domain",
-      "[interpro] SCF Complex Subunits and Alginate Epimerases",
       "[pfam] Beta_helix: Right handed beta helix region",
       "[pfam] NosD: Periplasmic copper-binding protein (NosD)"
     ],
@@ -65799,21 +65781,14 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "1.-.-.-",
-      "1.14.13.-",
-      "1.14.13.168"
+      "1.14.13.-"
     ],
-    "ec_numbers_evidence": {
-      "1.14.13.168": "family_inferred"
-    },
     "ec_numbers_source": {
       "1.-.-.-": [
         "uniprot"
       ],
       "1.14.13.-": [
         "uniprot"
-      ],
-      "1.14.13.168": [
-        "interproscan"
       ]
     },
     "eggnog_ogs": [
@@ -67388,7 +67363,6 @@
       "[ncbi] S-layer homology domain-containing protein",
       "[eggnog] S-layer homology domain",
       "[interpro] S-layer homology domain",
-      "[interpro] Cell Envelope Structural Component",
       "[pfam] SLH: S-layer homology domain"
     ],
     "alternative_locus_tags": [
@@ -75881,7 +75855,6 @@
       "[ncbi] nucleotidyltransferase domain-containing protein",
       "[eggnog] Nucleotidyltransferase domain",
       "[interpro] Polymerase, nucleotidyl transferase domain",
-      "[interpro] Type VII toxin-antitoxin system antitoxin",
       "[pfam] NTP_transf_2: Nucleotidyltransferase domain"
     ],
     "alternative_locus_tags": [
@@ -75903,18 +75876,11 @@
     ],
     "coordinate_source": "ncbi",
     "ec_numbers": [
-      "2.7.7.-",
-      "2.7.7.108"
+      "2.7.7.-"
     ],
-    "ec_numbers_evidence": {
-      "2.7.7.108": "family_inferred"
-    },
     "ec_numbers_source": {
       "2.7.7.-": [
         "uniprot"
-      ],
-      "2.7.7.108": [
-        "interproscan"
       ]
     },
     "eggnog_ogs": [
@@ -78171,8 +78137,12 @@
     "ec_numbers": [
       "3.1.1.-"
     ],
+    "ec_numbers_evidence": {
+      "3.1.1.-": "curated"
+    },
     "ec_numbers_source": {
       "3.1.1.-": [
+        "interproscan",
         "uniprot"
       ]
     },
@@ -78383,7 +78353,7 @@
       "[eggnog] carboxylic ester hydrolase activity",
       "[interpro] Alpha/beta hydrolase fold-1",
       "[interpro] Epoxide hydrolase-like",
-      "[interpro] AB hydrolase superfamily",
+      "[interpro] AB hydrolase RutD-like",
       "[pfam] Abhydrolase_1: alpha/beta hydrolase fold",
       "[pfam] Abhydrolase_6: Alpha/beta hydrolase family"
     ],
@@ -85533,7 +85503,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] TerC family protein",
       "[eggnog] Membrane protein TerC",
-      "[interpro] Integral membrane protein TerC",
+      "[interpro] Integral membrane protein Alx/MgpA/TerC-like",
       "[interpro] Integral membrane YkoY",
       "[ncbifam] integral membrane protein, YkoY family",
       "[pfam] TerC: Integral membrane protein TerC family"
@@ -85769,7 +85739,7 @@
       "[ncbi] TerC family protein",
       "[eggnog] Integral membrane protein TerC",
       "[protein_family] TerC family",
-      "[interpro] Integral membrane protein TerC",
+      "[interpro] Integral membrane protein Alx/MgpA/TerC-like",
       "[interpro] Integral membrane YkoY",
       "[ncbifam] integral membrane protein, YkoY family",
       "[pfam] TerC: Integral membrane protein TerC family"
@@ -90076,6 +90046,17 @@
       "signalp"
     ],
     "coordinate_source": "ncbi",
+    "ec_numbers": [
+      "5.6.2.4"
+    ],
+    "ec_numbers_evidence": {
+      "5.6.2.4": "family_inferred"
+    },
+    "ec_numbers_source": {
+      "5.6.2.4": [
+        "interproscan"
+      ]
+    },
     "eggnog_ogs": [
       "COG1201@1|root",
       "COG1205@1|root",
@@ -105823,7 +105804,7 @@
       "[ncbi] LptA/OstA family protein",
       "[eggnog] PFAM OstA-like protein",
       "[interpro] Organic solvent tolerance-like, N-terminal",
-      "[interpro] Lipopolysaccharide export system LptA",
+      "[interpro] Lipopolysaccharide export system LptA-like",
       "[pfam] LptD_N: LptA/(LptD N-terminal domain) LPS transport protein"
     ],
     "alternative_locus_tags": [
@@ -107017,7 +106998,7 @@
       "[eggnog] Alpha beta hydrolase",
       "[interpro] Alpha/beta hydrolase fold-1",
       "[interpro] Epoxide hydrolase-like",
-      "[interpro] AB hydrolase superfamily",
+      "[interpro] AB hydrolase RutD-like",
       "[pfam] Abhydrolase_1: alpha/beta hydrolase fold",
       "[pfam] CMD: Carboxymuconolactone decarboxylase family"
     ],
@@ -110283,7 +110264,6 @@
       "[eggnog] IrrE N-terminal-like domain",
       "[interpro] Cro/C1-type, helix-turn-helix domain",
       "[interpro] IrrE N-terminal-like domain",
-      "[interpro] Radiation response metalloprotease",
       "[pfam] HTH_3: Helix-turn-helix",
       "[pfam] Peptidase_M78: IrrE N-terminal-like domain"
     ],
@@ -126739,7 +126719,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] cold-shock protein",
       "[eggnog] 'Cold-shock' DNA-binding domain",
-      "[interpro] Cold-shock protein Csp, DNA-binding",
+      "[interpro] Cold-shock domain, DNA-binding",
       "[interpro] Cold-shock domain",
       "[interpro] Cold shock, CspA",
       "[interpro] Cold shock domain-containing protein",
@@ -139507,7 +139487,6 @@
       "[interpro] Serine O-acetyltransferase",
       "[interpro] Serine acetyltransferase, N-terminal",
       "[interpro] Serine acetyltransferase, LbH domain",
-      "[interpro] Serine acetyltransferase",
       "[ncbifam] serine O-acetyltransferase EpsC",
       "[tigr_role_inferred] Amino acid biosynthesis / Serine family",
       "[pfam] Hexapep: Bacterial transferase hexapeptide (six repeats)",
@@ -141287,7 +141266,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] cold-shock protein",
       "[eggnog] PFAM Cold-shock protein, DNA-binding",
-      "[interpro] Cold-shock protein Csp, DNA-binding",
+      "[interpro] Cold-shock domain, DNA-binding",
       "[interpro] Cold-shock domain",
       "[interpro] Cold shock, CspA",
       "[interpro] Cold shock domain-containing protein",
@@ -145035,7 +145014,6 @@
       "[ncbi] MOSC domain-containing protein",
       "[eggnog] MOSC domain",
       "[interpro] Molybdenum cofactor sulfurase, C-terminal",
-      "[interpro] Benzoxazolinone Detoxification Enzymes",
       "[pfam] MOSC: MOSC domain"
     ],
     "alternative_locus_tags": [
@@ -160147,16 +160125,9 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "6.3.5.6",
-      "6.3.5.7",
-      "6.3.5.-"
+      "6.3.5.7"
     ],
-    "ec_numbers_evidence": {
-      "6.3.5.-": "family_inferred"
-    },
     "ec_numbers_source": {
-      "6.3.5.-": [
-        "interproscan"
-      ],
       "6.3.5.6": [
         "eggnog"
       ],
@@ -168795,13 +168766,9 @@
     "ec_numbers": [
       "3.4.16.4"
     ],
-    "ec_numbers_evidence": {
-      "3.4.16.4": "curated"
-    },
     "ec_numbers_source": {
       "3.4.16.4": [
         "eggnog",
-        "interproscan",
         "uniprot"
       ]
     },
@@ -174523,16 +174490,12 @@
       "6.3.5.7",
       "6.3.5.6"
     ],
-    "ec_numbers_evidence": {
-      "6.3.5.7": "curated"
-    },
     "ec_numbers_source": {
       "6.3.5.6": [
         "eggnog"
       ],
       "6.3.5.7": [
         "eggnog",
-        "interproscan",
         "uniprot"
       ]
     },
@@ -181548,7 +181511,7 @@
       "[protein_family] Peptidase S33 family",
       "[interpro] Alpha/beta hydrolase fold-1",
       "[interpro] Peptidase S33",
-      "[interpro] AB hydrolase superfamily",
+      "[interpro] AB hydrolase RutD-like",
       "[pfam] Abhydrolase_1: alpha/beta hydrolase fold"
     ],
     "alternative_locus_tags": [
@@ -212553,7 +212516,7 @@
       "[ncbi] alpha/beta hydrolase",
       "[eggnog] alpha/beta hydrolase fold",
       "[interpro] Alpha/beta hydrolase fold-1",
-      "[interpro] AB hydrolase superfamily",
+      "[interpro] AB hydrolase RutD-like",
       "[pfam] Abhydrolase_1: alpha/beta hydrolase fold",
       "[pfam] Abhydrolase_6: Alpha/beta hydrolase family"
     ],
@@ -213556,7 +213519,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] DUF4388 domain-containing protein",
       "[eggnog] Domain of unknown function (DUF4388)",
-      "[interpro] PatA-like, N-terminal",
+      "[interpro] PATAN domain",
       "[pfam] PatA_N: Protein PatA, N-terminal domain"
     ],
     "alternative_locus_tags": [
@@ -217826,7 +217789,7 @@
       "[ncbi] type II toxin-antitoxin system RelE family toxin",
       "[eggnog] ParE toxin of type II toxin-antitoxin system, parDE",
       "[protein_family] RelE toxin family",
-      "[interpro] Toxin-antitoxin system, RelE/ParE toxin family",
+      "[interpro] Toxin-antitoxin system, RelE/ParE toxin-like",
       "[ncbifam] type II toxin-antitoxin system mRNA interferase toxin, RelE/StbE family",
       "[pfam] ParE_toxin: ParE toxin of type II toxin-antitoxin system, parDE"
     ],
@@ -219538,7 +219501,7 @@
       "[ncbi] galactose oxidase-like domain-containing protein",
       "[eggnog] cellulase activity",
       "[interpro] Fibronectin type III",
-      "[interpro] Glyoxal oxidase, N-terminal",
+      "[interpro] Glyoxal oxidase-like, N-terminal domain",
       "[interpro] PA14 domain",
       "[interpro] Galactose oxidase-like, Early set domain",
       "[interpro] PA14/GLEYA domain",
@@ -223080,7 +223043,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] response regulator",
       "[eggnog] Domain of unknown function (DUF4388)",
-      "[interpro] PatA-like, N-terminal",
+      "[interpro] PATAN domain",
       "[pfam] PatA_N: Protein PatA, N-terminal domain"
     ],
     "alternative_locus_tags": [
@@ -227447,8 +227410,6 @@
       "[ncbi] 3-dehydroquinate synthase",
       "[eggnog] Catalyzes the conversion of 3-deoxy-D-arabino- heptulosonate 7-phosphate (DAHP) to dehydroquinate (DHQ)",
       "[interpro] 3-dehydroquinate synthase, N-terminal domain",
-      "[interpro] 3-dehydroquinate synthase family",
-      "[interpro] Dehydroquinate Synthase",
       "[interpro] 3-dehydroquinate synthase, C-terminal domain",
       "[pfam] DHQ_synthase: 3-dehydroquinate synthase N-terminal",
       "[pfam] DHQS_C: 3-dehydroquinate synthase C-terminal"
@@ -227474,13 +227435,9 @@
     "ec_numbers": [
       "4.2.3.4"
     ],
-    "ec_numbers_evidence": {
-      "4.2.3.4": "curated"
-    },
     "ec_numbers_source": {
       "4.2.3.4": [
         "eggnog",
-        "interproscan",
         "uniprot"
       ]
     },
@@ -227505,13 +227462,8 @@
       "GO:0003856",
       "GO:0046872",
       "GO:0008652",
-      "GO:0009073",
-      "GO:0016838"
+      "GO:0009073"
     ],
-    "go_terms_evidence": {
-      "GO:0009073": "curated",
-      "GO:0016838": "family_inferred"
-    },
     "go_terms_source": {
       "GO:0000166": [
         "ncbi"
@@ -227523,11 +227475,7 @@
         "ncbi"
       ],
       "GO:0009073": [
-        "interproscan",
         "ncbi"
-      ],
-      "GO:0016838": [
-        "interproscan"
       ],
       "GO:0046872": [
         "ncbi"
@@ -229497,7 +229445,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] alpha/beta hydrolase",
       "[eggnog] Serine aminopeptidase, S33",
-      "[interpro] Esterase/lipase",
+      "[interpro] Carboxylesterase-like",
       "[interpro] Alpha/beta hydrolase domain-containing protein 17C-like",
       "[interpro] Monoacylglycerol and Diacylglycerol Lipase",
       "[pfam] Hydrolase_4: Serine aminopeptidase, S33"
@@ -233281,7 +233229,6 @@
       "[interpro] Aconitase A/isopropylmalate dehydratase small subunit, swivel domain",
       "[interpro] 3-isopropylmalate dehydratase, small subunit",
       "[interpro] 3-isopropylmalate dehydratase, swivel domain",
-      "[interpro] 3-isopropylmalate dehydratase small subunit",
       "[pfam] Aconitase_C: Aconitase C-terminal domain"
     ],
     "alternative_locus_tags": [
@@ -233305,13 +233252,9 @@
       "4.2.1.33",
       "4.2.1.35"
     ],
-    "ec_numbers_evidence": {
-      "4.2.1.33": "curated"
-    },
     "ec_numbers_source": {
       "4.2.1.33": [
         "eggnog",
-        "interproscan",
         "uniprot"
       ],
       "4.2.1.35": [
@@ -242320,7 +242263,7 @@
       "[ncbi] MMPL family transporter",
       "[eggnog] COGs COG2409 drug exporter of the RND superfamily",
       "[interpro] Sterol-sensing-like domain",
-      "[interpro] Membrane transport protein MMPL domain",
+      "[interpro] RND-like transporter, transmembrane domain",
       "[interpro] HpnN/MmpL-like transporters",
       "[pfam] MMPL: MMPL family"
     ],
@@ -242863,7 +242806,6 @@
       "[eggnog] PFAM HNH endonuclease",
       "[interpro] HNH nuclease",
       "[interpro] HNH endonuclease 5",
-      "[interpro] Nucleic_acid-targeting_endonuclease",
       "[interpro] HNH endonuclease-associated, N-terminal domain",
       "[pfam] HNH_5: HNH endonuclease"
     ],
@@ -250179,7 +250121,6 @@
       "[eggnog] S-layer homology domain",
       "[interpro] S-layer homology domain",
       "[interpro] S-layer protein SlpA, beta-barrel",
-      "[interpro] Cell Envelope Structural Component",
       "[pfam] SLH: S-layer homology domain",
       "[pfam] SlpA_C: S-layer protein SlpA, beta-barrel domain"
     ],
@@ -251886,7 +251827,6 @@
       "[eggnog] PFAM Peptidase family M20 M25 M40",
       "[interpro] Peptidase M20",
       "[interpro] Peptidase M20, dimerisation domain",
-      "[interpro] Cytosolic and Metallo Dipeptidase",
       "[ncbifam] hypothetical protein",
       "[pfam] M20_dimer: Peptidase dimerisation domain",
       "[pfam] Peptidase_M20: Peptidase family M20/M25/M40"
@@ -251911,16 +251851,9 @@
     ],
     "coordinate_source": "ncbi",
     "ec_numbers": [
-      "3.5.1.18",
-      "3.4.13.-"
+      "3.5.1.18"
     ],
-    "ec_numbers_evidence": {
-      "3.4.13.-": "family_inferred"
-    },
     "ec_numbers_source": {
-      "3.4.13.-": [
-        "interproscan"
-      ],
       "3.5.1.18": [
         "uniprot"
       ]
@@ -259748,7 +259681,6 @@
       "[eggnog] glyoxalase bleomycin resistance protein dioxygenase",
       "[interpro] Glyoxalase/fosfomycin resistance/dioxygenase domain",
       "[interpro] Vicinal oxygen chelate (VOC), core domain",
-      "[interpro] Glyoxalase I/Fosfomycin Resistance Protein Families",
       "[pfam] Glyoxalase: Glyoxalase/Bleomycin resistance protein/Dioxygenase superfamily"
     ],
     "alternative_locus_tags": [
@@ -275476,7 +275408,7 @@
       "[ncbi] cupin domain-containing protein",
       "[eggnog] Cupin domain",
       "[interpro] Cupin 2, conserved barrel",
-      "[interpro] Bacilysin biosynthesis H2HPP isomerase",
+      "[interpro] H2HPP isomerase-like",
       "[pfam] Cupin_2: Cupin domain"
     ],
     "alternative_locus_tags": [
@@ -282112,7 +282044,6 @@
       "[ncbi] vWA domain-containing protein",
       "[eggnog] von Willebrand factor, type A",
       "[interpro] von Willebrand factor, type A",
-      "[interpro] Calcium-activated chloride channel regulator",
       "[pfam] VWA: von Willebrand factor type A domain"
     ],
     "alternative_locus_tags": [
@@ -282220,7 +282151,6 @@
       "[ncbi] vWA domain-containing protein",
       "[eggnog] von Willebrand factor, type A",
       "[interpro] von Willebrand factor, type A",
-      "[interpro] Calcium-activated chloride channel regulator",
       "[pfam] VWA: von Willebrand factor type A domain"
     ],
     "alternative_locus_tags": [
@@ -284092,7 +284022,6 @@
       "[interpro] Glyoxalase/fosfomycin resistance/dioxygenase domain",
       "[interpro] 3,4-dihydroxyphenylacetate 2,3-dioxygenase, Mn/Fe-type",
       "[interpro] Vicinal oxygen chelate (VOC), core domain",
-      "[interpro] Glyoxalase I/Fosfomycin Resistance Protein Families",
       "[pfam] Glyoxalase: Glyoxalase/Bleomycin resistance protein/Dioxygenase superfamily"
     ],
     "alternative_locus_tags": [
@@ -289154,7 +289083,7 @@
       "[eggnog] Cupin domain",
       "[interpro] Cupin 2, conserved barrel",
       "[interpro] Pectin degradation protein KdgF",
-      "[interpro] Bacilysin biosynthesis H2HPP isomerase",
+      "[interpro] H2HPP isomerase-like",
       "[pfam] Cupin_2: Cupin domain"
     ],
     "alternative_locus_tags": [
@@ -298273,7 +298202,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] DUF4388 domain-containing protein",
       "[eggnog] Domain of unknown function (DUF4388)",
-      "[interpro] PatA-like, N-terminal",
+      "[interpro] PATAN domain",
       "[pfam] PatA_N: Protein PatA, N-terminal domain"
     ],
     "alternative_locus_tags": [
@@ -302166,7 +302095,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] DUF4388 domain-containing protein",
       "[eggnog] Domain of unknown function (DUF4388)",
-      "[interpro] PatA-like, N-terminal",
+      "[interpro] PATAN domain",
       "[pfam] PatA_N: Protein PatA, N-terminal domain"
     ],
     "alternative_locus_tags": [
@@ -302562,7 +302491,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] DUF4388 domain-containing protein",
       "[eggnog] Domain of unknown function (DUF4388)",
-      "[interpro] PatA-like, N-terminal",
+      "[interpro] PATAN domain",
       "[pfam] PatA_N: Protein PatA, N-terminal domain"
     ],
     "alternative_locus_tags": [
@@ -306986,7 +306915,6 @@
       "[eggnog] Peptidase dimerisation domain",
       "[interpro] Peptidase M20",
       "[interpro] Peptidase M20, dimerisation domain",
-      "[interpro] Cytosolic and Metallo Dipeptidase",
       "[ncbifam] hypothetical protein",
       "[pfam] M20_dimer: Peptidase dimerisation domain",
       "[pfam] Peptidase_M20: Peptidase family M20/M25/M40"
@@ -307014,12 +306942,8 @@
       "3.4.13.-",
       "3.5.1.18"
     ],
-    "ec_numbers_evidence": {
-      "3.4.13.-": "curated"
-    },
     "ec_numbers_source": {
       "3.4.13.-": [
-        "interproscan",
         "uniprot"
       ],
       "3.5.1.18": [
@@ -311425,13 +311349,9 @@
     "ec_numbers": [
       "5.1.3.14"
     ],
-    "ec_numbers_evidence": {
-      "5.1.3.14": "curated"
-    },
     "ec_numbers_source": {
       "5.1.3.14": [
         "eggnog",
-        "interproscan",
         "uniprot"
       ]
     },
@@ -311456,12 +311376,19 @@
       "Mcate_02507"
     ],
     "go_terms": [
-      "GO:0008761"
+      "GO:0008761",
+      "GO:0016857"
     ],
+    "go_terms_evidence": {
+      "GO:0016857": "family_inferred"
+    },
     "go_terms_source": {
       "GO:0008761": [
         "ncbi",
         "uniprot"
+      ],
+      "GO:0016857": [
+        "interproscan"
       ]
     },
     "interpro_entries": [
@@ -321587,7 +321514,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] DHH family phosphoesterase",
       "[eggnog] phosphoesterase RecJ domain protein",
-      "[interpro] DDH domain",
+      "[interpro] DHH domain",
       "[interpro] DHHA1 domain",
       "[interpro] Bifunctional oligoribonuclease/pAp-phosphatase and c-di-AMP PDE",
       "[pfam] DHH: DHH family, N-terminal domain",
@@ -323682,7 +323609,6 @@
       "[protein_family] CRISPR-associated exonuclease Cas4 family",
       "[interpro] CRISPR-associated protein Cas4",
       "[interpro] Dna2/Cas4, domain of unknown function DUF83",
-      "[interpro] CRISPR-associated exonuclease Cas4",
       "[pfam] Cas_Cas4: Domain of unknown function DUF83"
     ],
     "alternative_locus_tags": [
@@ -329586,7 +329512,6 @@
       "[ncbi] ImmA/IrrE family metallo-endopeptidase",
       "[eggnog] Zn peptidase",
       "[interpro] IrrE N-terminal-like domain",
-      "[interpro] Radiation response metalloprotease",
       "[pfam] Peptidase_M78: IrrE N-terminal-like domain"
     ],
     "alternative_locus_tags": [
@@ -347382,7 +347307,7 @@
       "[ncbi] alpha/beta fold hydrolase",
       "[eggnog] TAP-like protein",
       "[interpro] Alpha/beta hydrolase fold-1",
-      "[interpro] AB hydrolase superfamily",
+      "[interpro] AB hydrolase RutD-like",
       "[pfam] Abhydrolase_1: alpha/beta hydrolase fold",
       "[pfam] Abhydrolase_6: Alpha/beta hydrolase family"
     ],
@@ -371612,7 +371537,7 @@
       "[ncbi] hypothetical protein",
       "[eggnog] Fimbrial assembly family protein",
       "[interpro] PilN biogenesis protein dimerization domain",
-      "[interpro] Extracellular DNA Utilization and Secretion System Component",
+      "[interpro] DNA utilization protein-like",
       "[pfam] PilN_bio_d: PilN biogenesis protein dimerization domain"
     ],
     "alternative_locus_tags": [
@@ -377285,7 +377210,7 @@
       "[ncbi] type II toxin-antitoxin system VapC family toxin",
       "[eggnog] PIN domain",
       "[interpro] PIN domain",
-      "[interpro] Endonuclease VapC20-like",
+      "[interpro] 23S rRNA-specific endonuclease VapC20",
       "[pfam] PIN: PIN domain"
     ],
     "alternative_locus_tags": [
@@ -381469,7 +381394,7 @@
       "[ncbi] winged helix-turn-helix domain-containing protein",
       "[eggnog] Bacterial regulatory helix-turn-helix protein, lysR family",
       "[interpro] LysR, HTH, N-terminal domain",
-      "[interpro] Molybdate-responsive transcriptional regulator",
+      "[interpro] Molybdenum transport protein ModE-like",
       "[pfam] HTH_1: Bacterial regulatory helix-turn-helix protein, lysR family"
     ],
     "alternative_locus_tags": [
@@ -388275,7 +388200,7 @@
       "[eggnog] Amidohydrolase family",
       "[protein_family] Metallo-dependent hydrolases superfamily, Hydantoinase/dihydropyrimidinase family",
       "[interpro] Amidohydrolase-related",
-      "[interpro] Hydantoinase/dihydropyrimidinase",
+      "[interpro] D-phenylhydantoinase/dihydropyrimidinase",
       "[interpro] Metallo-dependent Hydrolases Superfamily",
       "[pfam] Amidohydro_1: Amidohydrolase family"
     ],
@@ -391389,7 +391314,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] DUF1648 domain-containing protein",
       "[eggnog] SdpI/YhfL protein family",
-      "[interpro] Domain of unknown function DUF1648",
+      "[interpro] Immunity protein SdpI-like, N-terminal",
       "[pfam] DUF1648: Domain of unknown function (DUF1648)"
     ],
     "alternative_locus_tags": [
@@ -392583,7 +392508,6 @@
       "[ncbi] S-layer homology domain-containing protein",
       "[eggnog] PFAM S-layer homology domain",
       "[interpro] S-layer homology domain",
-      "[interpro] Cell Envelope Structural Component",
       "[pfam] SLH: S-layer homology domain"
     ],
     "alternative_locus_tags": [

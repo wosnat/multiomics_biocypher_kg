@@ -4059,7 +4059,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] translocation/assembly module TamB domain-containing protein",
       "[interpro] Translocation and assembly module TamB, C-terminal domain",
-      "[interpro] Chloroplast envelope translocon component",
+      "[interpro] Chloroplast inner translocon TIC236/SSG4",
       "[pfam] YhdP: YhdP protein",
       "[pfam] DUF748: Domain of Unknown Function (DUF748)",
       "[pfam] TamB: TamB C-terminal domain"
@@ -18891,10 +18891,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] 3-dehydroquinate synthase",
       "[eggnog] Catalyzes the conversion of 3-deoxy-D-arabino- heptulosonate 7-phosphate (DAHP) to dehydroquinate (DHQ)",
-      "[interpro] 3-dehydroquinate synthase AroB",
+      "[interpro] 3-dehydroquinate synthase AroB-like",
       "[interpro] 3-dehydroquinate synthase, N-terminal domain",
-      "[interpro] 3-dehydroquinate synthase family",
-      "[interpro] Dehydroquinate Synthase",
       "[interpro] 3-dehydroquinate synthase, C-terminal domain",
       "[hamap] 3-dehydroquinate synthase [aroB].",
       "[tigr_role_inferred] Amino acid biosynthesis / Aromatic amino acid family",
@@ -18918,13 +18916,9 @@
     "ec_numbers": [
       "4.2.3.4"
     ],
-    "ec_numbers_evidence": {
-      "4.2.3.4": "curated"
-    },
     "ec_numbers_source": {
       "4.2.3.4": [
         "eggnog",
-        "interproscan",
         "uniprot"
       ]
     },
@@ -18945,14 +18939,12 @@
       "GO:0005737",
       "GO:0003856",
       "GO:0009073",
-      "GO:0009423",
-      "GO:0016838"
+      "GO:0009423"
     ],
     "go_terms_evidence": {
       "GO:0003856": "curated",
       "GO:0005737": "curated",
-      "GO:0009073": "curated",
-      "GO:0016838": "family_inferred"
+      "GO:0009073": "curated"
     },
     "go_terms_source": {
       "GO:0003856": [
@@ -18969,9 +18961,6 @@
       ],
       "GO:0009423": [
         "ncbi"
-      ],
-      "GO:0016838": [
-        "interproscan"
       ]
     },
     "interpro_entries": [
@@ -37322,7 +37311,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] urease accessory protein UreF",
       "[eggnog] Required for maturation of urease via the functional incorporation of the urease nickel metallocenter",
-      "[interpro] Urease accessory protein UreF",
+      "[interpro] Urease accessory protein UreF-like",
       "[hamap] Urease accessory protein UreF [ureF].",
       "[pfam] UreF: UreF"
     ],
@@ -41123,16 +41112,12 @@
       "6.3.5.6",
       "6.3.5.7"
     ],
-    "ec_numbers_evidence": {
-      "6.3.5.7": "family_inferred"
-    },
     "ec_numbers_source": {
       "6.3.5.6": [
         "eggnog"
       ],
       "6.3.5.7": [
-        "eggnog",
-        "interproscan"
+        "eggnog"
       ]
     },
     "eggnog_ogs": [
@@ -50569,7 +50554,7 @@
       "[ncbi] phosphoribosylglycinamide formyltransferase",
       "[eggnog] Catalyzes the transfer of a formyl group from 10- formyltetrahydrofolate to 5-phospho-ribosyl-glycinamide (GAR), producing 5-phospho-ribosyl-N-formylglycinamide (FGAR) and tetrahydrofolate",
       "[interpro] Formyl transferase, N-terminal",
-      "[interpro] Phosphoribosylglycinamide formyltransferase",
+      "[interpro] Phosphoribosylglycinamide formyltransferase-like",
       "[hamap] Phosphoribosylglycinamide formyltransferase [purN].",
       "[tigr_role_inferred] Purines, pyrimidines, nucleosides, and nucleotides / Purine ribonucleotide biosynthesis",
       "[pfam] Formyl_trans_N: Formyl transferase"
@@ -59736,7 +59721,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] TerC family protein",
       "[eggnog] COG861 Membrane protein TerC, possibly involved in tellurium resistance Inorganic ion transport and metabolism",
-      "[interpro] Integral membrane protein TerC",
+      "[interpro] Integral membrane protein Alx/MgpA/TerC-like",
       "[interpro] Integral membrane YkoY",
       "[ncbifam] integral membrane protein, YkoY family",
       "[pfam] TerC: Integral membrane protein TerC family"
@@ -64977,7 +64962,6 @@
       "[ncbi] HNH endonuclease",
       "[interpro] HNH endonuclease",
       "[interpro] HNH nuclease",
-      "[interpro] Nucleic_acid-targeting_endonuclease",
       "[pfam] HNH_5: HNH endonuclease",
       "[pfam] HNH: HNH endonuclease"
     ],
@@ -79364,7 +79348,6 @@
       "[ncbi] GNAT family N-acetyltransferase",
       "[eggnog] This enzyme acetylates the N-terminal alanine of ribosomal protein S18",
       "[interpro] GNAT domain",
-      "[interpro] YpeA/RimI acetyltransferase",
       "[pfam] Acetyltransf_1: Acetyltransferase (GNAT) family",
       "[pfam] Acetyltransf_10: Acetyltransferase (GNAT) domain"
     ],
@@ -84861,7 +84844,6 @@
       "[ncbi] ArsR/SmtB family transcription factor",
       "[interpro] HTH ArsR-type DNA-binding domain",
       "[interpro] ArsR-like helix-turn-helix domain",
-      "[interpro] HTH-type Metal-responsive Transcriptional Regulators",
       "[ncbifam] metalloregulator ArsR/SmtB family transcription factor",
       "[pfam] HTH_5: Bacterial regulatory protein, arsR family"
     ],
@@ -96731,7 +96713,6 @@
       "[ncbi] iron uptake porin",
       "[eggnog] Belongs to the OprB family",
       "[interpro] Iron uptake porin Som-like",
-      "[interpro] Cell Envelope Structural Component",
       "[pfam] OprB: Carbohydrate-selective porin, OprB family",
       "[pfam] SLH: S-layer homology domain"
     ],
@@ -99581,7 +99562,7 @@
       "[eggnog] of the AAA",
       "[interpro] AAA+ ATPase domain",
       "[interpro] ATPase, AAA-type, core",
-      "[interpro] AAA domain-containing protein",
+      "[interpro] AAA domain-containing protein Ycf46",
       "[interpro] SpoVK-like AAA ATPase, second domain",
       "[interpro] SpoVK-like AAA ATPase, N-terminal",
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)"
@@ -106343,8 +106324,7 @@
       "5.1.3.14"
     ],
     "ec_numbers_evidence": {
-      "3.2.1.183": "curated",
-      "5.1.3.14": "family_inferred"
+      "3.2.1.183": "curated"
     },
     "ec_numbers_source": {
       "3.2.1.183": [
@@ -106356,8 +106336,7 @@
         "eggnog"
       ],
       "5.1.3.14": [
-        "eggnog",
-        "interproscan"
+        "eggnog"
       ]
     },
     "eggnog_ogs": [
@@ -139016,7 +138995,6 @@
       "[eggnog] F(1)F(0) ATP synthase produces ATP from ADP in the presence of a proton or sodium gradient. F-type ATPases consist of two structural domains, F(1) containing the extramembraneous catalytic core and F(0) containing the membrane proton channel, linked together by a central stalk and a peripheral stalk. During catalysis, ATP synthesis in the catalytic domain of F(1) is coupled via a rotary mechanism of the central stalk subunits to proton translocation",
       "[interpro] ATP synthase, F0 complex, subunit b/b', bacterial/chloroplast",
       "[interpro] ATP synthase, F0 complex, subunit b'",
-      "[interpro] ATP synthase B chain",
       "[hamap] ATP synthase subunit b [atpF].",
       "[hamap] ATP synthase subunit b' [atpF2].",
       "[pfam] ATP-synt_B: ATP synthase B/B' CF(0)"
@@ -153151,7 +153129,6 @@
       "[eggnog] HNH endonuclease family protein",
       "[interpro] HNH nuclease",
       "[interpro] HNH endonuclease 5",
-      "[interpro] Nucleic_acid-targeting_endonuclease",
       "[interpro] HNH endonuclease-associated, N-terminal domain",
       "[pfam] HNH: HNH endonuclease",
       "[pfam] HNH_5: HNH endonuclease"
@@ -175158,7 +175135,6 @@
       "[eggnog] Serine acetyltransferase",
       "[interpro] Serine O-acetyltransferase",
       "[interpro] Serine acetyltransferase, LbH domain",
-      "[interpro] Serine acetyltransferase",
       "[ncbifam] serine O-acetyltransferase EpsC",
       "[tigr_role_inferred] Amino acid biosynthesis / Serine family",
       "[pfam] Hexapep: Bacterial transferase hexapeptide (six repeats)",
@@ -195159,7 +195135,6 @@
       "[ncbi] HNH endonuclease signature motif containing protein",
       "[interpro] HNH endonuclease",
       "[interpro] HNH nuclease",
-      "[interpro] Nucleic_acid-targeting_endonuclease",
       "[pfam] HNH: HNH endonuclease",
       "[pfam] HNH_5: HNH endonuclease"
     ],
@@ -198348,16 +198323,9 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "6.3.5.6",
-      "6.3.5.7",
-      "6.3.5.-"
+      "6.3.5.7"
     ],
-    "ec_numbers_evidence": {
-      "6.3.5.-": "family_inferred"
-    },
     "ec_numbers_source": {
-      "6.3.5.-": [
-        "interproscan"
-      ],
       "6.3.5.6": [
         "eggnog"
       ],
@@ -209260,7 +209228,7 @@
       "[eggnog] Cell division inhibitor",
       "[interpro] NAD-dependent epimerase/dehydratase",
       "[interpro] Epimerase family protein SDR39U1",
-      "[interpro] Domain of unknown function DUF1731",
+      "[interpro] Epimerase-like, C-terminal domain",
       "[pfam] DUF1731: Domain of unknown function (DUF1731)",
       "[pfam] Epimerase: NAD dependent epimerase/dehydratase family"
     ],
@@ -230906,16 +230874,9 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "6.3.5.6",
-      "6.3.5.7",
-      "6.3.5.-"
+      "6.3.5.7"
     ],
-    "ec_numbers_evidence": {
-      "6.3.5.-": "family_inferred"
-    },
     "ec_numbers_source": {
-      "6.3.5.-": [
-        "interproscan"
-      ],
       "6.3.5.6": [
         "eggnog"
       ],
@@ -234043,7 +234004,6 @@
       "[interpro] Aconitase A/isopropylmalate dehydratase small subunit, swivel domain",
       "[interpro] 3-isopropylmalate dehydratase, small subunit",
       "[interpro] 3-isopropylmalate dehydratase, swivel domain",
-      "[interpro] 3-isopropylmalate dehydratase small subunit",
       "[pfam] Aconitase_C: Aconitase C-terminal domain"
     ],
     "bacteria_cog_og": "COG0066",
@@ -234064,13 +234024,9 @@
       "4.2.1.33",
       "4.2.1.35"
     ],
-    "ec_numbers_evidence": {
-      "4.2.1.33": "curated"
-    },
     "ec_numbers_source": {
       "4.2.1.33": [
         "eggnog",
-        "interproscan",
         "uniprot"
       ],
       "4.2.1.35": [
@@ -276019,13 +275975,9 @@
     "ec_numbers": [
       "3.4.16.4"
     ],
-    "ec_numbers_evidence": {
-      "3.4.16.4": "family_inferred"
-    },
     "ec_numbers_source": {
       "3.4.16.4": [
-        "eggnog",
-        "interproscan"
+        "eggnog"
       ]
     },
     "eggnog_ogs": [

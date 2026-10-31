@@ -42339,7 +42339,7 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [R] General function prediction only",
       "[cog] cyaNOG: POORLY CHARACTERIZED [R] General function prediction only",
       "[interpro] Alpha/beta hydrolase fold-1",
-      "[interpro] AB hydrolase superfamily",
+      "[interpro] AB hydrolase RutD-like",
       "[pfam] Abhydrolase_6: Alpha/beta hydrolase family",
       "[pfam] Abhydrolase_1: alpha/beta hydrolase fold"
     ],
@@ -42870,7 +42870,6 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [R] General function prediction only",
       "[kegg] Transferred to 2.3.1.266 and 2.3.1.267",
       "[interpro] GNAT domain",
-      "[interpro] YpeA/RimI acetyltransferase",
       "[pfam] Acetyltransf_1: Acetyltransferase (GNAT) family",
       "[pfam] Acetyltransf_10: Acetyltransferase (GNAT) domain"
     ],
@@ -65466,10 +65465,8 @@
       "[cog] bactNOG: METABOLISM [E] Amino acid transport and metabolism",
       "[cog] cyaNOG: METABOLISM [E] Amino acid transport and metabolism",
       "[kegg] 3-dehydroquinate synthase; 5-dehydroquinate synthase; 5-dehydroquinic acid synthetase; dehydroquinate synthase; 3-dehydroquinate synthetase; 3-deoxy-arabino-heptulosonate-7-phosphate phosphate-lyase (cyclizing); 3-deoxy-arabino-heptulonate-7-phosphate phosphate-lyase (cyclizing); 3-deoxy-arabino-heptulonate-7-phosphate phosphate-lyase (cyclizing; 3-dehydroquinate-forming)",
-      "[interpro] 3-dehydroquinate synthase AroB",
+      "[interpro] 3-dehydroquinate synthase AroB-like",
       "[interpro] 3-dehydroquinate synthase, N-terminal domain",
-      "[interpro] 3-dehydroquinate synthase family",
-      "[interpro] Dehydroquinate Synthase",
       "[interpro] 3-dehydroquinate synthase, C-terminal domain",
       "[hamap] 3-dehydroquinate synthase [aroB].",
       "[pfam] DHQ_synthase: 3-dehydroquinate synthase N-terminal",
@@ -65503,14 +65500,10 @@
     "ec_numbers": [
       "4.2.3.4"
     ],
-    "ec_numbers_evidence": {
-      "4.2.3.4": "curated"
-    },
     "ec_numbers_source": {
       "4.2.3.4": [
         "cyanorak",
-        "eggnog",
-        "interproscan"
+        "eggnog"
       ]
     },
     "eggnog_og_descriptions": [
@@ -65553,14 +65546,12 @@
     "go_terms": [
       "GO:0003856",
       "GO:0005737",
-      "GO:0009073",
-      "GO:0016838"
+      "GO:0009073"
     ],
     "go_terms_evidence": {
       "GO:0003856": "family_inferred",
       "GO:0005737": "family_inferred",
-      "GO:0009073": "family_inferred",
-      "GO:0016838": "family_inferred"
+      "GO:0009073": "family_inferred"
     },
     "go_terms_source": {
       "GO:0003856": [
@@ -65570,9 +65561,6 @@
         "interproscan"
       ],
       "GO:0009073": [
-        "interproscan"
-      ],
-      "GO:0016838": [
         "interproscan"
       ]
     },
@@ -67503,7 +67491,6 @@
       "[interpro] Aconitase A/isopropylmalate dehydratase small subunit, swivel domain",
       "[interpro] 3-isopropylmalate dehydratase, small subunit",
       "[interpro] 3-isopropylmalate dehydratase, swivel domain",
-      "[interpro] 3-isopropylmalate dehydratase small subunit",
       "[pfam] Aconitase_C: Aconitase C-terminal domain"
     ],
     "alternative_locus_tags": [
@@ -67535,14 +67522,10 @@
       "4.2.1.33",
       "4.2.1.35"
     ],
-    "ec_numbers_evidence": {
-      "4.2.1.33": "curated"
-    },
     "ec_numbers_source": {
       "4.2.1.33": [
         "cyanorak",
-        "eggnog",
-        "interproscan"
+        "eggnog"
       ],
       "4.2.1.35": [
         "eggnog"
@@ -85100,7 +85083,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ATPase, AAA-type, core",
       "[interpro] AAA ATPase, AAA+ lid domain",
-      "[interpro] AAA domain-containing protein",
+      "[interpro] AAA domain-containing protein Ycf46",
       "[interpro] SpoVK-like AAA ATPase, second domain",
       "[interpro] SpoVK-like AAA ATPase, N-terminal",
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
@@ -112592,7 +112575,7 @@
       "[cog] COG: METABOLISM [P] Inorganic ion transport and metabolism",
       "[cog] bactNOG: METABOLISM [P] Inorganic ion transport and metabolism",
       "[cog] cyaNOG: METABOLISM [P] Inorganic ion transport and metabolism",
-      "[interpro] Integral membrane protein TerC",
+      "[interpro] Integral membrane protein Alx/MgpA/TerC-like",
       "[interpro] Integral membrane YkoY",
       "[ncbifam] integral membrane protein, YkoY family",
       "[pfam] TerC: Integral membrane protein TerC family"
@@ -133561,9 +133544,6 @@
       "6.3.5.6",
       "6.3.5.7"
     ],
-    "ec_numbers_evidence": {
-      "6.3.5.7": "curated"
-    },
     "ec_numbers_source": {
       "6.3.5.-": [
         "uniprot"
@@ -133574,8 +133554,7 @@
       ],
       "6.3.5.7": [
         "cyanorak",
-        "eggnog",
-        "interproscan"
+        "eggnog"
       ]
     },
     "eggnog_og_descriptions": [
@@ -137621,7 +137600,6 @@
       "[cog] COG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
       "[interpro] HNH endonuclease",
       "[interpro] HNH nuclease",
-      "[interpro] Nucleic_acid-targeting_endonuclease",
       "[pfam] HNH: HNH endonuclease",
       "[pfam] HNH_5: HNH endonuclease"
     ],
@@ -190314,16 +190292,12 @@
       "2.4.99.28",
       "3.4.16.4"
     ],
-    "ec_numbers_evidence": {
-      "3.4.16.4": "family_inferred"
-    },
     "ec_numbers_source": {
       "2.4.99.28": [
         "cyanorak"
       ],
       "3.4.16.4": [
-        "eggnog",
-        "interproscan"
+        "eggnog"
       ]
     },
     "eggnog_og_descriptions": [
@@ -229869,16 +229843,9 @@
     ],
     "ec_numbers": [
       "6.3.5.6",
-      "6.3.5.7",
-      "6.3.5.-"
+      "6.3.5.7"
     ],
-    "ec_numbers_evidence": {
-      "6.3.5.-": "family_inferred"
-    },
     "ec_numbers_source": {
-      "6.3.5.-": [
-        "interproscan"
-      ],
       "6.3.5.6": [
         "cyanorak",
         "eggnog"
@@ -235593,16 +235560,9 @@
     ],
     "ec_numbers": [
       "6.3.5.6",
-      "6.3.5.7",
-      "6.3.5.-"
+      "6.3.5.7"
     ],
-    "ec_numbers_evidence": {
-      "6.3.5.-": "family_inferred"
-    },
     "ec_numbers_source": {
-      "6.3.5.-": [
-        "interproscan"
-      ],
       "6.3.5.6": [
         "cyanorak",
         "eggnog"
@@ -247888,7 +247848,7 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [R] General function prediction only",
       "[interpro] NAD-dependent epimerase/dehydratase",
       "[interpro] Epimerase family protein SDR39U1",
-      "[interpro] Domain of unknown function DUF1731",
+      "[interpro] Epimerase-like, C-terminal domain",
       "[ncbifam] TIGR01777 family oxidoreductase",
       "[pfam] NAD_binding_10: NAD(P)H-binding",
       "[pfam] DUF1731: Domain of unknown function (DUF1731)",
@@ -249099,7 +249059,6 @@
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
       "[interpro] HNH nuclease",
       "[interpro] HNH endonuclease 5",
-      "[interpro] Nucleic_acid-targeting_endonuclease",
       "[interpro] HNH endonuclease-associated, N-terminal domain",
       "[pfam] HNH: HNH endonuclease",
       "[pfam] HNH_5: HNH endonuclease"
@@ -275509,7 +275468,6 @@
       "[interpro] Serine O-acetyltransferase",
       "[interpro] Serine acetyltransferase, N-terminal",
       "[interpro] Serine acetyltransferase, LbH domain",
-      "[interpro] Serine acetyltransferase",
       "[ncbifam] serine O-acetyltransferase EpsC",
       "[pfam] SATase_N: Serine acetyltransferase, N-terminal",
       "[pfam] Hexapep: Bacterial transferase hexapeptide (six repeats)"
@@ -300081,7 +300039,6 @@
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
       "[interpro] HNH endonuclease",
       "[interpro] HNH nuclease",
-      "[interpro] Nucleic_acid-targeting_endonuclease",
       "[pfam] HNH: HNH endonuclease",
       "[pfam] HNH_5: HNH endonuclease"
     ],
@@ -317681,7 +317638,6 @@
       "[kegg] Transferred to 3.6.3.14",
       "[interpro] ATP synthase, F0 complex, subunit b/b', bacterial/chloroplast",
       "[interpro] ATP synthase, F0 complex, subunit b'",
-      "[interpro] ATP synthase B chain",
       "[hamap] ATP synthase subunit b [atpF].",
       "[hamap] ATP synthase subunit b' [atpF2].",
       "[ncbifam] F0F1 ATP synthase subunit B'",

@@ -7517,7 +7517,6 @@
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
       "[interpro] HNH endonuclease",
       "[interpro] HNH nuclease",
-      "[interpro] Nucleic_acid-targeting_endonuclease",
       "[pfam] HNH: HNH endonuclease",
       "[pfam] HNH_5: HNH endonuclease"
     ],
@@ -13512,16 +13511,9 @@
     ],
     "ec_numbers": [
       "6.3.5.6",
-      "6.3.5.7",
-      "6.3.5.-"
+      "6.3.5.7"
     ],
-    "ec_numbers_evidence": {
-      "6.3.5.-": "family_inferred"
-    },
     "ec_numbers_source": {
-      "6.3.5.-": [
-        "interproscan"
-      ],
       "6.3.5.6": [
         "cyanorak",
         "eggnog"
@@ -29769,7 +29761,7 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [R] General function prediction only",
       "[interpro] NAD-dependent epimerase/dehydratase",
       "[interpro] Epimerase family protein SDR39U1",
-      "[interpro] Domain of unknown function DUF1731",
+      "[interpro] Epimerase-like, C-terminal domain",
       "[ncbifam] TIGR01777 family oxidoreductase",
       "[pfam] NAD_binding_10: NAD(P)H-binding",
       "[pfam] DUF1731: Domain of unknown function (DUF1731)",
@@ -60124,16 +60116,9 @@
     ],
     "ec_numbers": [
       "6.3.5.6",
-      "6.3.5.7",
-      "6.3.5.-"
+      "6.3.5.7"
     ],
-    "ec_numbers_evidence": {
-      "6.3.5.-": "family_inferred"
-    },
     "ec_numbers_source": {
-      "6.3.5.-": [
-        "interproscan"
-      ],
       "6.3.5.6": [
         "cyanorak",
         "eggnog"
@@ -64876,7 +64861,6 @@
       "[interpro] Aconitase A/isopropylmalate dehydratase small subunit, swivel domain",
       "[interpro] 3-isopropylmalate dehydratase, small subunit",
       "[interpro] 3-isopropylmalate dehydratase, swivel domain",
-      "[interpro] 3-isopropylmalate dehydratase small subunit",
       "[pfam] Aconitase_C: Aconitase C-terminal domain"
     ],
     "alternative_locus_tags": [
@@ -64908,14 +64892,10 @@
       "4.2.1.33",
       "4.2.1.35"
     ],
-    "ec_numbers_evidence": {
-      "4.2.1.33": "curated"
-    },
     "ec_numbers_source": {
       "4.2.1.33": [
         "cyanorak",
         "eggnog",
-        "interproscan",
         "uniprot"
       ],
       "4.2.1.35": [
@@ -129007,9 +128987,6 @@
       "3.4.16.4",
       "2.4.99.28"
     ],
-    "ec_numbers_evidence": {
-      "3.4.16.4": "curated"
-    },
     "ec_numbers_source": {
       "2.4.99.28": [
         "cyanorak",
@@ -129017,7 +128994,6 @@
       ],
       "3.4.16.4": [
         "eggnog",
-        "interproscan",
         "uniprot"
       ]
     },
@@ -146180,7 +146156,7 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [R] General function prediction only",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Translocation and assembly module TamB, C-terminal domain",
-      "[interpro] Chloroplast envelope translocon component",
+      "[interpro] Chloroplast inner translocon TIC236/SSG4",
       "[pfam] DUF748: Domain of Unknown Function (DUF748)",
       "[pfam] TamB: TamB C-terminal domain",
       "[pfam] YhdP: YhdP protein"
@@ -167474,10 +167450,8 @@
       "[cog] bactNOG: METABOLISM [E] Amino acid transport and metabolism",
       "[cog] cyaNOG: METABOLISM [E] Amino acid transport and metabolism",
       "[kegg] 3-dehydroquinate synthase; 5-dehydroquinate synthase; 5-dehydroquinic acid synthetase; dehydroquinate synthase; 3-dehydroquinate synthetase; 3-deoxy-arabino-heptulosonate-7-phosphate phosphate-lyase (cyclizing); 3-deoxy-arabino-heptulonate-7-phosphate phosphate-lyase (cyclizing); 3-deoxy-arabino-heptulonate-7-phosphate phosphate-lyase (cyclizing; 3-dehydroquinate-forming)",
-      "[interpro] 3-dehydroquinate synthase AroB",
+      "[interpro] 3-dehydroquinate synthase AroB-like",
       "[interpro] 3-dehydroquinate synthase, N-terminal domain",
-      "[interpro] 3-dehydroquinate synthase family",
-      "[interpro] Dehydroquinate Synthase",
       "[interpro] 3-dehydroquinate synthase, C-terminal domain",
       "[hamap] 3-dehydroquinate synthase [aroB].",
       "[pfam] DHQ_synthase: 3-dehydroquinate synthase N-terminal",
@@ -167511,14 +167485,10 @@
     "ec_numbers": [
       "4.2.3.4"
     ],
-    "ec_numbers_evidence": {
-      "4.2.3.4": "curated"
-    },
     "ec_numbers_source": {
       "4.2.3.4": [
         "cyanorak",
         "eggnog",
-        "interproscan",
         "uniprot"
       ]
     },
@@ -167562,14 +167532,12 @@
       "GO:0005737",
       "GO:0003856",
       "GO:0009073",
-      "GO:0009423",
-      "GO:0016838"
+      "GO:0009423"
     ],
     "go_terms_evidence": {
       "GO:0003856": "curated",
       "GO:0005737": "curated",
-      "GO:0009073": "curated",
-      "GO:0016838": "family_inferred"
+      "GO:0009073": "curated"
     },
     "go_terms_source": {
       "GO:0003856": [
@@ -167590,9 +167558,6 @@
       "GO:0009423": [
         "cyanorak",
         "ncbi"
-      ],
-      "GO:0016838": [
-        "interproscan"
       ]
     },
     "interpro_entries": [
@@ -195939,7 +195904,7 @@
       "[cog] COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
       "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
-      "[interpro] Urease accessory protein UreF",
+      "[interpro] Urease accessory protein UreF-like",
       "[hamap] Urease accessory protein UreF [ureF].",
       "[pfam] UreF: UreF"
     ],
@@ -201467,9 +201432,6 @@
       "6.3.5.6",
       "6.3.5.7"
     ],
-    "ec_numbers_evidence": {
-      "6.3.5.7": "curated"
-    },
     "ec_numbers_source": {
       "6.3.5.6": [
         "cyanorak",
@@ -201477,8 +201439,7 @@
       ],
       "6.3.5.7": [
         "cyanorak",
-        "eggnog",
-        "interproscan"
+        "eggnog"
       ]
     },
     "eggnog_og_descriptions": [
@@ -215258,7 +215219,7 @@
       "[kegg] phosphoribosylglycinamide formyltransferase; 2-amino-N-ribosylacetamide 5'-phosphate transformylase; GAR formyltransferase; GAR transformylase; glycinamide ribonucleotide transformylase; GAR TFase; 5",
       "[kegg] 10-methenyltetrahydrofolate:2-amino-N-ribosylacetamide ribonucleotide transformylase",
       "[interpro] Formyl transferase, N-terminal",
-      "[interpro] Phosphoribosylglycinamide formyltransferase",
+      "[interpro] Phosphoribosylglycinamide formyltransferase-like",
       "[hamap] Phosphoribosylglycinamide formyltransferase [purN].",
       "[pfam] Formyl_trans_N: Formyl transferase"
     ],
@@ -228948,7 +228909,7 @@
       "[cog] COG: METABOLISM [P] Inorganic ion transport and metabolism",
       "[cog] bactNOG: METABOLISM [P] Inorganic ion transport and metabolism",
       "[cog] cyaNOG: METABOLISM [P] Inorganic ion transport and metabolism",
-      "[interpro] Integral membrane protein TerC",
+      "[interpro] Integral membrane protein Alx/MgpA/TerC-like",
       "[interpro] Integral membrane YkoY",
       "[ncbifam] integral membrane protein, YkoY family",
       "[pfam] TerC: Integral membrane protein TerC family"
@@ -235179,7 +235140,6 @@
       "[cog] COG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
       "[interpro] HNH endonuclease",
       "[interpro] HNH nuclease",
-      "[interpro] Nucleic_acid-targeting_endonuclease",
       "[pfam] HNH: HNH endonuclease",
       "[pfam] HNH_5: HNH endonuclease"
     ],
@@ -258239,7 +258199,6 @@
       "[kegg] Transferred to 2.3.1.266 and 2.3.1.267",
       "[interpro] GNAT domain",
       "[interpro] N-acetyltransferase RimI/Ard1",
-      "[interpro] YpeA/RimI acetyltransferase",
       "[ncbifam] ribosomal protein S18-alanine N-acetyltransferase",
       "[pfam] Acetyltransf_1: Acetyltransferase (GNAT) family",
       "[pfam] Acetyltransf_10: Acetyltransferase (GNAT) domain"
@@ -289125,7 +289084,7 @@
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
       "[interpro] AAA+ ATPase domain",
       "[interpro] ATPase, AAA-type, core",
-      "[interpro] AAA domain-containing protein",
+      "[interpro] AAA domain-containing protein Ycf46",
       "[interpro] SpoVK-like AAA ATPase, second domain",
       "[interpro] SpoVK-like AAA ATPase, N-terminal",
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)"
@@ -298848,8 +298807,7 @@
       "5.1.3.14"
     ],
     "ec_numbers_evidence": {
-      "3.2.1.183": "curated",
-      "5.1.3.14": "family_inferred"
+      "3.2.1.183": "curated"
     },
     "ec_numbers_source": {
       "3.2.1.183": [
@@ -298862,8 +298820,7 @@
         "eggnog"
       ],
       "5.1.3.14": [
-        "eggnog",
-        "interproscan"
+        "eggnog"
       ]
     },
     "eggnog_og_descriptions": [
@@ -350931,7 +350888,6 @@
       "[kegg] Transferred to 3.6.3.14",
       "[interpro] ATP synthase, F0 complex, subunit b/b', bacterial/chloroplast",
       "[interpro] ATP synthase, F0 complex, subunit b'",
-      "[interpro] ATP synthase B chain",
       "[hamap] ATP synthase subunit b [atpF].",
       "[hamap] ATP synthase subunit b' [atpF2].",
       "[ncbifam] F0F1 ATP synthase subunit B'",
@@ -371544,7 +371500,6 @@
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
       "[interpro] HNH nuclease",
       "[interpro] HNH endonuclease 5",
-      "[interpro] Nucleic_acid-targeting_endonuclease",
       "[interpro] HNH endonuclease-associated, N-terminal domain",
       "[pfam] HNH: HNH endonuclease",
       "[pfam] HNH_5: HNH endonuclease"
@@ -402054,7 +402009,6 @@
       "[kegg] serine O-acetyltransferase; SATase; L-serine acetyltransferase; serine acetyltransferase; serine transacetylase",
       "[interpro] Serine O-acetyltransferase",
       "[interpro] Serine acetyltransferase, LbH domain",
-      "[interpro] Serine acetyltransferase",
       "[ncbifam] serine O-acetyltransferase EpsC",
       "[pfam] SATase_N: Serine acetyltransferase, N-terminal",
       "[pfam] Hexapep: Bacterial transferase hexapeptide (six repeats)"

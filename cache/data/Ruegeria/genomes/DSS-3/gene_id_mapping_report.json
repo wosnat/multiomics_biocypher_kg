@@ -7,8 +7,8 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 333,
-      "unique": 1770
+      "multi": 337,
+      "unique": 1787
     },
     "gene_synonym": {
       "conflict": 0,
@@ -18,7 +18,12 @@
     "gff_gene_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 8595
+      "unique": 8598
+    },
+    "locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4
     },
     "locus_tag_ncbi": {
       "conflict": 0,
@@ -28,7 +33,7 @@
     "protein_id_refseq": {
       "conflict": 0,
       "multi": 3870,
-      "unique": 9059
+      "unique": 9063
     },
     "uniprot_accession": {
       "conflict": 0,
@@ -38,16 +43,18 @@
   },
   "runaway_genes": [],
   "strain": "DSS-3",
-  "tier1_count_max": 4,
+  "tier1_count_max": 6,
   "tier1_count_median": 4.0,
   "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
+    "Barber 2026/supp_data_1_rpom_proteomics": 1,
+    "Ferrer 2020/table_s5_dss3": 48,
     "Kaur 2018/supp_table_s5a": 41,
     "Kaur 2018/supp_table_s5b": 51,
     "Oleza 2015/table_s3_dss3_with_wh7803": 7,
     "Oleza 2015/table_s3_dss3_with_wh8102": 7,
     "cds_from_genomic.fna": 48,
-    "genomic_gca/DSS-3": 176,
+    "genomic_gca/DSS-3": 170,
     "genomic_gcf/DSS-3": 72,
     "ncbi_ipg_xref": 10
   },

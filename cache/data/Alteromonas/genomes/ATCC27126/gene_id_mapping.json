@@ -13462,6 +13462,13 @@
             "genomic_gcf/ATCC27126"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "MASE_RS01185",
+          "sources": [
+            "Manck 2020/sd001_carbon_limitation"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
       "tier2_ids": [
@@ -14012,6 +14019,13 @@
             "genomic_gcf/ATCC27126"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "MASE_RS01230",
+          "sources": [
+            "Manck 2020/sd001_carbon_limitation"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
       "tier2_ids": [
@@ -73374,6 +73388,13 @@
             "genomic_gcf/ATCC27126"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "MASE_RS06510",
+          "sources": [
+            "Manck 2020/sd001_carbon_limitation"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
       "tier2_ids": [
@@ -107532,6 +107553,13 @@
             "genomic_gcf/ATCC27126"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "MASE_RS09530",
+          "sources": [
+            "Manck 2020/sd001_iron_limitation"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
       "tier2_ids": [
@@ -108554,6 +108582,13 @@
             "genomic_gcf/ATCC27126"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "MASE_RS09615",
+          "sources": [
+            "Manck 2020/sd001_iron_limitation"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
       "tier2_ids": [
@@ -215934,6 +215969,13 @@
             "genomic_gcf/ATCC27126"
           ],
           "type": "gff_gene_id"
+        },
+        {
+          "id": "MASE_RS19130",
+          "sources": [
+            "Manck 2020/sd001_carbon_limitation"
+          ],
+          "type": "locus_tag_ncbi"
         }
       ],
       "tier2_ids": [
@@ -273841,6 +273883,7 @@
     "MASE_RS01170": "MASE_01170",
     "MASE_RS01175": "MASE_01175",
     "MASE_RS01180": "MASE_01180",
+    "MASE_RS01185": "MASE_01185",
     "MASE_RS01190": "MASE_01190",
     "MASE_RS01195": "MASE_01195",
     "MASE_RS01200": "MASE_01200",
@@ -273849,6 +273892,7 @@
     "MASE_RS01215": "MASE_01215",
     "MASE_RS01220": "MASE_01220",
     "MASE_RS01225": "MASE_01225",
+    "MASE_RS01230": "MASE_01230",
     "MASE_RS01235": "MASE_01235",
     "MASE_RS01240": "MASE_01240",
     "MASE_RS01245": "MASE_01245",
@@ -274839,6 +274883,7 @@
     "MASE_RS06495": "MASE_06510",
     "MASE_RS06500": "MASE_06515",
     "MASE_RS06505": "MASE_06520",
+    "MASE_RS06510": "MASE_06525",
     "MASE_RS06515": "MASE_06535",
     "MASE_RS06520": "MASE_06540",
     "MASE_RS06525": "MASE_06545",
@@ -275412,6 +275457,7 @@
     "MASE_RS09515": "MASE_09510",
     "MASE_RS09520": "MASE_09515",
     "MASE_RS09525": "MASE_09520",
+    "MASE_RS09530": "MASE_09525",
     "MASE_RS09535": "MASE_09530",
     "MASE_RS09540": "MASE_09535",
     "MASE_RS09545": "MASE_09540",
@@ -275428,6 +275474,7 @@
     "MASE_RS09600": "MASE_09595",
     "MASE_RS09605": "MASE_09600",
     "MASE_RS09610": "MASE_09605",
+    "MASE_RS09615": "MASE_09610",
     "MASE_RS09620": "MASE_09615",
     "MASE_RS09625": "MASE_09620",
     "MASE_RS09630": "MASE_09625",
@@ -277223,6 +277270,7 @@
     "MASE_RS19110": "MASE_19135",
     "MASE_RS19120": "MASE_19145",
     "MASE_RS19125": "MASE_19150",
+    "MASE_RS19130": "MASE_19155",
     "MASE_RS19135": "MASE_19160",
     "MASE_RS19140": "MASE_19165",
     "MASE_RS19145": "MASE_19170",
@@ -288863,7 +288911,7 @@
     "n_conflicts": 0,
     "n_genes": 3834,
     "n_multi": 16068,
-    "n_specific": 15242,
+    "n_specific": 15248,
     "passes": 2
   },
   "strain": "ATCC27126",

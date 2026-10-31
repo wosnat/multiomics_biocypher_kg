@@ -23,7 +23,7 @@
     "locus_tag_ncbi": {
       "conflict": 0,
       "multi": 0,
-      "unique": 3787
+      "unique": 3793
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -33,11 +33,15 @@
   },
   "runaway_genes": [],
   "strain": "ATCC27126",
-  "tier1_count_max": 4,
+  "tier1_count_max": 5,
   "tier1_count_median": 4.0,
   "tier1_demoted_known_names": 0,
   "unresolved_rows_per_source": {
     "Fadeev 2022/s1_atcc27126": 1,
+    "Koch 2020/unique_genes_atcc27126_table": 10,
+    "Manck 2020/sd001_carbon_limitation": 31,
+    "Manck 2020/sd001_iron_limitation": 21,
+    "Manck 2020/tbdt_inventory": 3,
     "cds_from_genomic.fna": 57,
     "genomic_gca/ATCC27126": 239,
     "genomic_gcf/ATCC27126": 97

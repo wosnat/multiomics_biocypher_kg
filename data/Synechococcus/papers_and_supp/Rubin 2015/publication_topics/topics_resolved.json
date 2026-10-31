@@ -16,10 +16,10 @@
     "output_tokens": 4466,
     "resolution": {
       "gene_records": 40,
-      "genes_resolved": 33,
+      "genes_resolved": 34,
       "gene_methods": {
-        "unresolved": 7,
-        "tier1_ci:v": 33
+        "unresolved": 6,
+        "tier1_ci:v": 34
       },
       "pathway_records": 9,
       "pathways_resolved": 8,
@@ -35,7 +35,7 @@
       "truncated_examples": [],
       "unresolved_reasons": {
         "descriptive_only": 2,
-        "lookup_miss": 5
+        "lookup_miss": 4
       }
     }
   },
@@ -511,9 +511,9 @@
       "evidence": "successful generation of mutants for both surrounding genes ... SynPCC7942_0413 (Fig. 5C, Results, p6)",
       "mention_strain": "Synechococcus elongatus PCC 7942",
       "strain": "Synechococcus elongatus PCC 7942",
-      "locus_tag": null,
-      "resolved_from": "",
-      "resolution_method": "unresolved"
+      "locus_tag": "H6G84_05705",
+      "resolved_from": "SynPCC7942_0413",
+      "resolution_method": "tier1_ci:v"
     },
     {
       "surface_form": "SynPCC7942_0414",

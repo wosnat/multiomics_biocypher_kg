@@ -8024,7 +8024,7 @@
       "[ncbi] N-acetylmuramoyl-L-alanine amidase",
       "[eggnog] Negative regulator of beta-lactamase expression",
       "[interpro] N-acetylmuramoyl-L-alanine amidase domain",
-      "[interpro] N-acetylmuramoyl-L-alanine amidase 2",
+      "[interpro] N-acetylmuramoyl-L-alanine amidase AmpD-like",
       "[pfam] Amidase_2: N-acetylmuramoyl-L-alanine amidase"
     ],
     "alternative_locus_tags": [
@@ -15137,7 +15137,7 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [R] General function prediction only",
       "[interpro] NAD-dependent epimerase/dehydratase",
       "[interpro] Epimerase family protein SDR39U1",
-      "[interpro] Domain of unknown function DUF1731",
+      "[interpro] Epimerase-like, C-terminal domain",
       "[ncbifam] TIGR01777 family oxidoreductase",
       "[pfam] NAD_binding_10: NAD(P)H-binding",
       "[pfam] DUF1731: Domain of unknown function (DUF1731)",
@@ -15763,7 +15763,6 @@
       "[interpro] S-layer homology domain",
       "[interpro] Carbohydrate-selective porin OprB",
       "[interpro] Iron uptake porin Som-like",
-      "[interpro] Cell Envelope Structural Component",
       "[ncbifam] iron uptake porin",
       "[pfam] SLH: S-layer homology domain",
       "[pfam] OprB: Carbohydrate-selective porin, OprB family"
@@ -16009,7 +16008,6 @@
       "[interpro] S-layer homology domain",
       "[interpro] Carbohydrate-selective porin OprB",
       "[interpro] Iron uptake porin Som-like",
-      "[interpro] Cell Envelope Structural Component",
       "[ncbifam] iron uptake porin",
       "[pfam] OprB: Carbohydrate-selective porin, OprB family",
       "[pfam] SLH: S-layer homology domain"
@@ -39978,16 +39976,9 @@
     ],
     "ec_numbers": [
       "6.3.5.6",
-      "6.3.5.7",
-      "6.3.5.-"
+      "6.3.5.7"
     ],
-    "ec_numbers_evidence": {
-      "6.3.5.-": "family_inferred"
-    },
     "ec_numbers_source": {
-      "6.3.5.-": [
-        "interproscan"
-      ],
       "6.3.5.6": [
         "cyanorak",
         "eggnog"
@@ -49393,7 +49384,6 @@
       "[interpro] Aconitase A/isopropylmalate dehydratase small subunit, swivel domain",
       "[interpro] 3-isopropylmalate dehydratase, small subunit",
       "[interpro] 3-isopropylmalate dehydratase, swivel domain",
-      "[interpro] 3-isopropylmalate dehydratase small subunit",
       "[pfam] Aconitase_C: Aconitase C-terminal domain"
     ],
     "alternative_locus_tags": [
@@ -49426,14 +49416,10 @@
       "4.2.1.33",
       "4.2.1.35"
     ],
-    "ec_numbers_evidence": {
-      "4.2.1.33": "curated"
-    },
     "ec_numbers_source": {
       "4.2.1.33": [
         "cyanorak",
         "eggnog",
-        "interproscan",
         "uniprot"
       ],
       "4.2.1.35": [
@@ -76782,7 +76768,7 @@
       "[cyanorak_role] Sulfur metabolism",
       "[tigr_role] Central intermediary metabolism / Sulfur metabolism",
       "[cog] COG: METABOLISM [P] Inorganic ion transport and metabolism",
-      "[interpro] Sulfatase, N-terminal",
+      "[interpro] Sulfatase domain",
       "[interpro] Glycosaminoglycan & Ulvan Degrading Sulfatases",
       "[pfam] Sulfatase: Sulfatase",
       "[pfam] Sulfatase_C: C-terminal region of aryl-sulfatase"
@@ -76948,7 +76934,7 @@
       "[cyanorak_role] Sulfur metabolism",
       "[tigr_role] Central intermediary metabolism / Sulfur metabolism",
       "[cog] COG: METABOLISM [P] Inorganic ion transport and metabolism",
-      "[interpro] Sulfatase, N-terminal",
+      "[interpro] Sulfatase domain",
       "[interpro] Glycosaminoglycan & Ulvan Degrading Sulfatases",
       "[pfam] Sulfatase: Sulfatase",
       "[pfam] Sulfatase_C: C-terminal region of aryl-sulfatase"
@@ -77573,7 +77559,7 @@
       "[cyanorak_role] Sphingolipid and glycosphingolipid metabolism",
       "[tigr_role] Energy metabolism / Biosynthesis and degradation of polysaccharides",
       "[cog] COG: METABOLISM [P] Inorganic ion transport and metabolism",
-      "[interpro] Sulfatase, N-terminal",
+      "[interpro] Sulfatase domain",
       "[interpro] Sulfatase enzyme",
       "[pfam] Sulfatase_C: C-terminal region of aryl-sulfatase",
       "[pfam] Sulfatase: Sulfatase"
@@ -81634,17 +81620,6 @@
     "cyanorak_Role_description": [
       "Cations and iron carrying compounds"
     ],
-    "ec_numbers": [
-      "1.14.13.168"
-    ],
-    "ec_numbers_evidence": {
-      "1.14.13.168": "family_inferred"
-    },
-    "ec_numbers_source": {
-      "1.14.13.168": [
-        "interproscan"
-      ]
-    },
     "eggnog_og_descriptions": [
       "COG: METABOLISM [P] Inorganic ion transport and metabolism",
       "bactNOG: METABOLISM [P] Inorganic ion transport and metabolism",
@@ -103637,7 +103612,6 @@
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
       "[interpro] HNH endonuclease",
       "[interpro] HNH nuclease",
-      "[interpro] Nucleic_acid-targeting_endonuclease",
       "[pfam] HNH: HNH endonuclease",
       "[pfam] HNH_5: HNH endonuclease"
     ],
@@ -119223,7 +119197,6 @@
       "[interpro] Serine O-acetyltransferase",
       "[interpro] Serine acetyltransferase, N-terminal",
       "[interpro] Serine acetyltransferase, LbH domain",
-      "[interpro] Serine acetyltransferase",
       "[ncbifam] serine O-acetyltransferase EpsC",
       "[pfam] SATase_N: Serine acetyltransferase, N-terminal",
       "[pfam] Hexapep: Bacterial transferase hexapeptide (six repeats)"
@@ -121963,7 +121936,6 @@
       "[cyanorak] conserved hypothetical protein",
       "[ncbi] glycosyltransferase family 32 protein",
       "[eggnog] pathogenesis",
-      "[interpro] Glycosyltransferase domain-containing protein",
       "[pfam] Gly_transf_sug: Glycosyltransferase sugar-binding region containing DXD motif",
       "[pfam] Gb3_synth: Alpha 1,4-glycosyltransferase conserved region"
     ],
@@ -129266,7 +129238,7 @@
       "[cog] COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
       "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
-      "[interpro] Urease accessory protein UreF",
+      "[interpro] Urease accessory protein UreF-like",
       "[hamap] Urease accessory protein UreF [ureF].",
       "[pfam] UreF: UreF"
     ],
@@ -151750,6 +151722,17 @@
       "Restriction/modification",
       "Enzymes of unknown specificity"
     ],
+    "ec_numbers": [
+      "5.6.2.4"
+    ],
+    "ec_numbers_evidence": {
+      "5.6.2.4": "family_inferred"
+    },
+    "ec_numbers_source": {
+      "5.6.2.4": [
+        "interproscan"
+      ]
+    },
     "eggnog_og_descriptions": [
       "COG: KL"
     ],
@@ -156973,7 +156956,6 @@
       "[interpro] PIN domain",
       "[interpro] VapC family",
       "[interpro] VapC3-like, PIN domain",
-      "[interpro] Type II TA system ribonuclease PINc/VapC",
       "[hamap] tRNA(fMet)-specific endonuclease VapC [vapC].",
       "[pfam] PIN: PIN domain"
     ],
@@ -165969,7 +165951,7 @@
       "[cyanorak_role] Enzymes of unknown specificity",
       "[tigr_role] Unknown function / Enzymes of unknown specificity",
       "[cog] COG: METABOLISM [P] Inorganic ion transport and metabolism",
-      "[interpro] Sulfatase, N-terminal",
+      "[interpro] Sulfatase domain",
       "[interpro] Glycosaminoglycan & Ulvan Degrading Sulfatases",
       "[pfam] Sulfatase: Sulfatase",
       "[pfam] Sulfatase_C: C-terminal region of aryl-sulfatase"
@@ -171238,9 +171220,9 @@
       "[tigr_role] Cellular processes / Toxin production and resistance",
       "[tigr_role] Cellular processes / Detoxification",
       "[kegg] carboxylesterase; ali-esterase; B-esterase; monobutyrase; cocaine esterase; procaine esterase; methylbutyrase; vitamin A esterase; butyryl esterase; carboxyesterase; carboxylate esterase; carboxylic esterase; methylbutyrate esterase; triacetin esterase; carboxyl ester hydrolase; butyrate esterase; methylbutyrase; alpha-carboxylesterase; propionyl esterase; nonspecific carboxylesterase; esterase D; esterase B; esterase A; serine esterase; carboxylic acid esterase; cocaine esterase",
-      "[interpro] Esterase/lipase",
+      "[interpro] Carboxylesterase-like",
       "[interpro] Alpha/beta hydrolase domain-containing protein 17C-like",
-      "[interpro] AB hydrolase superfamily",
+      "[interpro] AB hydrolase RutD-like",
       "[pfam] Abhydrolase_6: Alpha/beta hydrolase family",
       "[pfam] Hydrolase_4: Serine aminopeptidase, S33"
     ],
@@ -178500,16 +178482,9 @@
     ],
     "ec_numbers": [
       "6.3.5.6",
-      "6.3.5.7",
-      "6.3.5.-"
+      "6.3.5.7"
     ],
-    "ec_numbers_evidence": {
-      "6.3.5.-": "family_inferred"
-    },
     "ec_numbers_source": {
-      "6.3.5.-": [
-        "interproscan"
-      ],
       "6.3.5.6": [
         "cyanorak",
         "eggnog"
@@ -180716,7 +180691,7 @@
       "[tigr_role] Central intermediary metabolism / Sulfur metabolism",
       "[cog] COG: METABOLISM [P] Inorganic ion transport and metabolism",
       "[kegg] arylsulfatase; sulfatase; nitrocatechol sulfatase; phenolsulfatase; phenylsulfatase; p-nitrophenyl sulfatase; arylsulfohydrolase; 4-methylumbelliferyl sulfatase; estrogen sulfatase",
-      "[interpro] Sulfatase, N-terminal",
+      "[interpro] Sulfatase domain",
       "[interpro] Sulfatase enzyme",
       "[pfam] Sulfatase: Sulfatase"
     ],
@@ -203665,7 +203640,6 @@
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [V] Defense mechanisms",
       "[interpro] HNH endonuclease",
       "[interpro] HNH nuclease",
-      "[interpro] Nucleic_acid-targeting_endonuclease",
       "[interpro] HNH endonuclease-associated, N-terminal domain",
       "[pfam] HNH: HNH endonuclease",
       "[pfam] HNH_5: HNH endonuclease"
@@ -239788,7 +239762,7 @@
       "[cyanorak] putative relE protein",
       "[ncbi] type II toxin-antitoxin system RelE/ParE family toxin",
       "[eggnog] nuclease activity",
-      "[interpro] Toxin-antitoxin system, RelE/ParE toxin family",
+      "[interpro] Toxin-antitoxin system, RelE/ParE toxin-like",
       "[ncbifam] type II toxin-antitoxin system mRNA interferase toxin, RelE/StbE family",
       "[pfam] ParE_toxin: ParE toxin of type II toxin-antitoxin system, parDE"
     ],
@@ -282087,7 +282061,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ATPase, AAA-type, core",
       "[interpro] AAA ATPase, AAA+ lid domain",
-      "[interpro] AAA domain-containing protein",
+      "[interpro] AAA domain-containing protein Ycf46",
       "[interpro] SpoVK-like AAA ATPase, second domain",
       "[interpro] SpoVK-like AAA ATPase, N-terminal",
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
@@ -296037,14 +296011,10 @@
     "ec_numbers": [
       "5.1.3.14"
     ],
-    "ec_numbers_evidence": {
-      "5.1.3.14": "curated"
-    },
     "ec_numbers_source": {
       "5.1.3.14": [
         "cyanorak",
         "eggnog",
-        "interproscan",
         "uniprot"
       ]
     },
@@ -296087,8 +296057,12 @@
     "go_terms": [
       "GO:0008761",
       "GO:0009103",
-      "GO:0006047"
+      "GO:0006047",
+      "GO:0016857"
     ],
+    "go_terms_evidence": {
+      "GO:0016857": "family_inferred"
+    },
     "go_terms_source": {
       "GO:0006047": [
         "cyanorak"
@@ -296099,6 +296073,9 @@
       ],
       "GO:0009103": [
         "cyanorak"
+      ],
+      "GO:0016857": [
+        "interproscan"
       ]
     },
     "interpro_entries": [
@@ -304563,7 +304540,7 @@
       "[cog] COG: METABOLISM [P] Inorganic ion transport and metabolism",
       "[cog] bactNOG: METABOLISM [P] Inorganic ion transport and metabolism",
       "[cog] cyaNOG: METABOLISM [P] Inorganic ion transport and metabolism",
-      "[interpro] Integral membrane protein TerC",
+      "[interpro] Integral membrane protein Alx/MgpA/TerC-like",
       "[interpro] Integral membrane YkoY",
       "[ncbifam] integral membrane protein, YkoY family",
       "[pfam] TerC: Integral membrane protein TerC family"
@@ -321304,7 +321281,7 @@
       "[tigr_role] Unknown function / Enzymes of unknown specificity",
       "[cog] COG: POORLY CHARACTERIZED [R] General function prediction only",
       "[interpro] Alpha/beta hydrolase fold-1",
-      "[interpro] AB hydrolase superfamily",
+      "[interpro] AB hydrolase RutD-like",
       "[pfam] Abhydrolase_6: Alpha/beta hydrolase family",
       "[pfam] Abhydrolase_1: alpha/beta hydrolase fold",
       "[pfam] Abhydrolase_4: TAP-like protein",
@@ -344210,7 +344187,7 @@
       "[cog] COG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
       "[cog] bactNOG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
       "[cog] cyaNOG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
-      "[interpro] DDH domain",
+      "[interpro] DHH domain",
       "[interpro] DHHA1 domain",
       "[interpro] Bacterial RecJ exonuclease",
       "[interpro] RecJ, OB domain",
@@ -350345,7 +350322,7 @@
       "[cog] bactNOG: METABOLISM [P] Inorganic ion transport and metabolism",
       "[cog] cyaNOG: METABOLISM [P] Inorganic ion transport and metabolism",
       "[kegg] arylsulfatase; sulfatase; nitrocatechol sulfatase; phenolsulfatase; phenylsulfatase; p-nitrophenyl sulfatase; arylsulfohydrolase; 4-methylumbelliferyl sulfatase; estrogen sulfatase",
-      "[interpro] Sulfatase, N-terminal",
+      "[interpro] Sulfatase domain",
       "[interpro] Sulfatase enzyme",
       "[pfam] Sulfatase: Sulfatase"
     ],
@@ -354120,7 +354097,7 @@
       "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
       "[interpro] Glycosyltransferase 2-like",
-      "[interpro] Ceramide glucosyltransferase",
+      "[interpro] Ceramide glucosyltransferase/diacylglycerol beta-galactosyltransferase",
       "[pfam] Glyco_tranf_2_3: Glycosyltransferase like family 2",
       "[pfam] Glycos_transf_2: Glycosyl transferase family 2",
       "[pfam] Glyco_transf_21: Glycosyl transferase family 21"
@@ -371046,7 +371023,7 @@
       "[tigr_role] Unknown function / Enzymes of unknown specificity",
       "[cog] COG: POORLY CHARACTERIZED [R] General function prediction only",
       "[interpro] Carbon-nitrogen hydrolase",
-      "[interpro] (R)-stereoselective amidase RamA-like",
+      "[interpro] (R)-stereoselective amidase RamA-like domain",
       "[interpro] Aliphatic Amidase/Beta-Ureidopropionase",
       "[pfam] CN_hydrolase: Carbon-nitrogen hydrolase"
     ],
@@ -379335,7 +379312,6 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [R] General function prediction only",
       "[kegg] Transferred to 2.3.1.266 and 2.3.1.267",
       "[interpro] GNAT domain",
-      "[interpro] YpeA/RimI acetyltransferase",
       "[pfam] Acetyltransf_1: Acetyltransferase (GNAT) family",
       "[pfam] Acetyltransf_10: Acetyltransferase (GNAT) domain"
     ],
@@ -380842,7 +380818,6 @@
       "[ncbi] cupin domain-containing protein",
       "[eggnog] Cupin domain",
       "[interpro] Cupin 2, conserved barrel",
-      "[interpro] Glucose-6-phosphate isomerase/Oxalate decarboxylase",
       "[pfam] Cupin_2: Cupin domain"
     ],
     "alternative_locus_tags": [
@@ -398713,7 +398688,7 @@
       "[eggnog] hydrolases or acyltransferases (alpha beta hydrolase superfamily)",
       "[tigr_role] Unknown function / Enzymes of unknown specificity",
       "[interpro] Alpha/beta hydrolase fold-1",
-      "[interpro] AB hydrolase superfamily",
+      "[interpro] AB hydrolase RutD-like",
       "[pfam] Abhydrolase_6: Alpha/beta hydrolase family"
     ],
     "alternative_locus_tags": [
@@ -418582,7 +418557,6 @@
       "[interpro] S-layer homology domain",
       "[interpro] Carbohydrate-selective porin OprB",
       "[interpro] Iron uptake porin Som-like",
-      "[interpro] Cell Envelope Structural Component",
       "[ncbifam] iron uptake porin",
       "[pfam] OprB: Carbohydrate-selective porin, OprB family",
       "[pfam] SLH: S-layer homology domain"
@@ -433987,16 +433961,12 @@
       "2.4.99.28",
       "3.4.16.4"
     ],
-    "ec_numbers_evidence": {
-      "3.4.16.4": "family_inferred"
-    },
     "ec_numbers_source": {
       "2.4.99.28": [
         "cyanorak"
       ],
       "3.4.16.4": [
-        "eggnog",
-        "interproscan"
+        "eggnog"
       ]
     },
     "eggnog_og_descriptions": [
@@ -449098,7 +449068,6 @@
       "[cyanorak] conserved hypothetical protein",
       "[ncbi] tetratricopeptide repeat protein",
       "[eggnog] Glycosyltransferase sugar-binding region containing DXD motif",
-      "[interpro] Glycosyltransferase domain-containing protein",
       "[pfam] TPR_6: Tetratricopeptide repeat",
       "[pfam] TPR_9: Tetratricopeptide repeat",
       "[pfam] Gly_transf_sug: Glycosyltransferase sugar-binding region containing DXD motif",
@@ -454825,7 +454794,7 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [R] General function prediction only",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Translocation and assembly module TamB, C-terminal domain",
-      "[interpro] Chloroplast envelope translocon component",
+      "[interpro] Chloroplast inner translocon TIC236/SSG4",
       "[pfam] DUF748: Domain of Unknown Function (DUF748)",
       "[pfam] TamB: TamB C-terminal domain",
       "[pfam] YhdP: YhdP protein"
@@ -479893,7 +479862,7 @@
       "[eggnog] Negative regulator of beta-lactamase expression",
       "[tigr_role] Cell envelope / Biosynthesis and degradation of surface polysaccharides and lipopolysaccharides",
       "[interpro] N-acetylmuramoyl-L-alanine amidase domain",
-      "[interpro] N-acetylmuramoyl-L-alanine amidase 2",
+      "[interpro] N-acetylmuramoyl-L-alanine amidase AmpD-like",
       "[pfam] Amidase_2: N-acetylmuramoyl-L-alanine amidase"
     ],
     "alternative_locus_tags": [
@@ -480396,7 +480365,7 @@
       "[kegg] phosphoribosylglycinamide formyltransferase; 2-amino-N-ribosylacetamide 5'-phosphate transformylase; GAR formyltransferase; GAR transformylase; glycinamide ribonucleotide transformylase; GAR TFase; 5",
       "[kegg] 10-methenyltetrahydrofolate:2-amino-N-ribosylacetamide ribonucleotide transformylase",
       "[interpro] Formyl transferase, N-terminal",
-      "[interpro] Phosphoribosylglycinamide formyltransferase",
+      "[interpro] Phosphoribosylglycinamide formyltransferase-like",
       "[hamap] Phosphoribosylglycinamide formyltransferase [purN].",
       "[pfam] Formyl_trans_N: Formyl transferase"
     ],
@@ -491627,10 +491596,8 @@
       "[cog] bactNOG: METABOLISM [E] Amino acid transport and metabolism",
       "[cog] cyaNOG: METABOLISM [E] Amino acid transport and metabolism",
       "[kegg] 3-dehydroquinate synthase; 5-dehydroquinate synthase; 5-dehydroquinic acid synthetase; dehydroquinate synthase; 3-dehydroquinate synthetase; 3-deoxy-arabino-heptulosonate-7-phosphate phosphate-lyase (cyclizing); 3-deoxy-arabino-heptulonate-7-phosphate phosphate-lyase (cyclizing); 3-deoxy-arabino-heptulonate-7-phosphate phosphate-lyase (cyclizing; 3-dehydroquinate-forming)",
-      "[interpro] 3-dehydroquinate synthase AroB",
+      "[interpro] 3-dehydroquinate synthase AroB-like",
       "[interpro] 3-dehydroquinate synthase, N-terminal domain",
-      "[interpro] 3-dehydroquinate synthase family",
-      "[interpro] Dehydroquinate Synthase",
       "[interpro] 3-dehydroquinate synthase, C-terminal domain",
       "[hamap] 3-dehydroquinate synthase [aroB].",
       "[pfam] DHQ_synthase: 3-dehydroquinate synthase N-terminal",
@@ -491664,14 +491631,10 @@
     "ec_numbers": [
       "4.2.3.4"
     ],
-    "ec_numbers_evidence": {
-      "4.2.3.4": "curated"
-    },
     "ec_numbers_source": {
       "4.2.3.4": [
         "cyanorak",
         "eggnog",
-        "interproscan",
         "uniprot"
       ]
     },
@@ -491715,14 +491678,12 @@
       "GO:0005737",
       "GO:0003856",
       "GO:0009073",
-      "GO:0009423",
-      "GO:0016838"
+      "GO:0009423"
     ],
     "go_terms_evidence": {
       "GO:0003856": "curated",
       "GO:0005737": "curated",
-      "GO:0009073": "curated",
-      "GO:0016838": "family_inferred"
+      "GO:0009073": "curated"
     },
     "go_terms_source": {
       "GO:0003856": [
@@ -491743,9 +491704,6 @@
       "GO:0009423": [
         "cyanorak",
         "ncbi"
-      ],
-      "GO:0016838": [
-        "interproscan"
       ]
     },
     "interpro_entries": [
@@ -510408,10 +510366,14 @@
     "ec_numbers": [
       "3.5.2.9"
     ],
+    "ec_numbers_evidence": {
+      "3.5.2.9": "curated"
+    },
     "ec_numbers_source": {
       "3.5.2.9": [
         "cyanorak",
-        "eggnog"
+        "eggnog",
+        "interproscan"
       ]
     },
     "eggnog_og_descriptions": [
@@ -565536,7 +565498,6 @@
       "[kegg] Transferred to 3.6.3.14",
       "[interpro] ATP synthase, F0 complex, subunit b/b', bacterial/chloroplast",
       "[interpro] ATP synthase, F0 complex, subunit b'",
-      "[interpro] ATP synthase B chain",
       "[hamap] ATP synthase subunit b [atpF].",
       "[hamap] ATP synthase subunit b' [atpF2].",
       "[ncbifam] F0F1 ATP synthase subunit B'",
@@ -582110,17 +582071,6 @@
       "signalp"
     ],
     "coordinate_source": "ncbi",
-    "ec_numbers": [
-      "5.1.99.1"
-    ],
-    "ec_numbers_evidence": {
-      "5.1.99.1": "family_inferred"
-    },
-    "ec_numbers_source": {
-      "5.1.99.1": [
-        "interproscan"
-      ]
-    },
     "eggnog_og_descriptions": [
       "COG: METABOLISM [E] Amino acid transport and metabolism",
       "COG: POORLY CHARACTERIZED [R] General function prediction only",
@@ -588967,7 +588917,7 @@
       "[eggnog] Glyoxalase-like domain",
       "[tigr_role] Unknown function / General",
       "[cog] COG: POORLY CHARACTERIZED [R] General function prediction only",
-      "[interpro] Anthracycline and Secondary Metabolite Biosynthesis Protein",
+      "[interpro] Putative glyoxylase CFP32-like",
       "[interpro] Glyoxalase/Bleomycin resistance-like, N-terminal",
       "[pfam] Glyoxalase_2: Glyoxalase-like domain",
       "[pfam] Glyoxalase: Glyoxalase/Bleomycin resistance protein/Dioxygenase superfamily",
@@ -593147,7 +593097,7 @@
       "[cog] bactNOG: H",
       "[cog] cyaNOG: H",
       "[interpro] FAD-binding domain",
-      "[interpro] PheA/TfdB FAD monooxygenase",
+      "[interpro] 3-(3-hydroxy-phenyl)propionate/3-hydroxycinnamic acid hydroxylase-like",
       "[pfam] FAD_binding_3: FAD binding domain"
     ],
     "alternative_locus_tags": [
@@ -622784,7 +622734,7 @@
       "[ncbi] GNAT family N-acetyltransferase",
       "[eggnog] Acetyltransferase (GNAT) domain",
       "[interpro] GNAT domain",
-      "[interpro] Trichothecene Biosynthesis Acetyltransferases",
+      "[interpro] Acetyltransferase SAT19-like",
       "[pfam] Acetyltransf_1: Acetyltransferase (GNAT) family",
       "[pfam] Acetyltransf_7: Acetyltransferase (GNAT) domain"
     ],
@@ -624713,7 +624663,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] sulfatase-like hydrolase/transferase",
       "[eggnog] arylsulfatase activity",
-      "[interpro] Sulfatase, N-terminal",
+      "[interpro] Sulfatase domain",
       "[pfam] SGSH_C: N-sulphoglucosamine sulphohydrolase, C-terminal",
       "[pfam] Sulfatase: Sulfatase"
     ],
