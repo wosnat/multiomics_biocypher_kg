@@ -315,7 +315,11 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 - **Ferrer 2020** — new, ISME J, DOI `10.1038/s41396-020-00811-y`
   (`data/Prochlorococcus/papers_and_supp/Ferrer 2020/`). *R. pomeroyi* DSS-3 RNA-seq (DESeq2) after
   8 h in coculture with the diatom *Thalassiosira pseudonana* CCMP1335 vs an axenic glucose control;
-  1 experiment, 4,277 genes (4,229 resolved; 776 at padj < 0.05). *T. pseudonana* joins as a
+  1 experiment, 4,277 genes (4,229 resolved; 776 at padj < 0.05). The table's "New Locus Tag" and
+  "Protein Tag" columns are shifted one row against "Original Locus Tag" in the megaplasmid block
+  (and ~370 accessions are from an older RefSeq annotation); the builder blanks the 100 tags and 467
+  accessions that contradict NCBI's own pairing, which had merged neighbouring DSS-3 genes (90
+  gene-ID conflicts → 0; no resolved row changes gene). *T. pseudonana* joins as a
   treatment organism (no genome). The *Polaribacter* MED152 and *Stenotrophomonas* SKA14 tables are
   not integrated (not KG strains).
 - **Durham 2015** — new, PNAS, DOI `10.1073/pnas.1413137112`
@@ -427,6 +431,15 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 
 ### Changed
 
+- **InterPro reference refreshed to release 110.0** (3 Sep 2026; was 109.0): 54,922 entries
+  (+854 / −122). Entry names, GO and EC cross-references follow the new release: over the merged
+  gene annotations, EC tokens −352 / +43 (mostly the vague `6.3.5.-` dropped from 201 genes), GO
+  changed on 175 genes, 3,459 `[interpro]` description lines renamed; 3 genes move from
+  `informative_multi` to `informative_single`. **Retired accessions are dropped**: 38 accessions our
+  InterProScan 109.0 calls still carry are gone from release 110.0 (35 auto-named PANTHER families,
+  e.g. `IPR050059` "ATP synthase B chain"), so their nodes and 1,665 gene edges are no longer emitted
+  (they had shipped with `name = ''` / `interpro_type = ''`) — `InterproEntry` 13,352 → 13,314,
+  `Gene_has_interpro_entry` 945,741 → 944,076. Re-scanning with InterProScan 110 is in the backlog.
 - **TCDB substrates: ChEBI decides the compound, placeholders and coupling ions dropped.** Substrate resolution is keyed on TCDB's ChEBI id; the KEGG id now comes from ChEBI (its own cross-reference, then charge forms, then an MNX alias ChEBI does not contradict), not MNX's lowest C-number, so an unspecified "leucine", "glutamate", "tryptophan" … is the generic compound (`Metabolite_is_stereo_form_of` links it to the L form) and "ditritium" is no longer H₂. A new target filter (`config/tcdb_substrate_target_filter.yaml`: GO's targets + "molecule", "cation", "anion" and other placeholders) drops 2,213 (system, target) pairs, including H⁺ and Na⁺: `Tcdb_family_transports_metabolite` 10,765 → 8,548. **Protein is kept** as a substrate — and leaves the GO filter too (+1 GO edge) — as one node (`chebi:36080` merged into `kegg.compound:C00017`), so Sec, Tat and secretion systems answer "what moves protein"; excluded ids in **`Schema_info.tcdb_substrate_excluded_targets`**. TCDB's own wrong ChEBI ids are not corrected (backlog). Metabolites unchanged at 3,178 (26 out, 26 in). Direction also reads **secretion as export** (Sec, type II–IX secretion systems), and a role phrase ("involved in bile secretion") is weak.
 - **GO refreshed from the March 2026 release to 2026-07-26** (85 terms added, 732 obsoleted). MolecularFunction nodes 2,899 to 2,890, BiologicalProcess 3,433 to 3,322, CellularComponent unchanged at 451; `Gene_enables_molecular_function` 363,298 to 362,439, `Gene_involved_in_biological_process` 546,971 to 533,186, `Gene_located_in_cellular_component` 154,722 to 155,459. GO is now refreshed only as go-basic + go-plus together (release-checked, `refresh_go_release`), never during a KG build. 23,462 gene annotations that used an alt_id of a live term are now recovered onto the live term; annotations to obsolete terms are dropped, not remapped via `replaced_by` (about 18,300 became obsolete in this release).
 - **prepare_data step 7 folded into step 6** (`resolve_paper_metabolites.py` is a no-op alias; step 6 writes the `_resolved.csv` files). Default `STEPS` is now `0 9 1 2 3 4 5 6 8 10`.

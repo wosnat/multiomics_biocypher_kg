@@ -55,6 +55,7 @@ import csv
 import json
 import logging
 import re
+from collections import Counter
 from pathlib import Path
 from typing import Iterator
 
@@ -106,17 +107,18 @@ def _normalize_ec_token(raw: str) -> list[str]:
 def kept_ids(observed: set[str], reference: dict[str, dict]) -> set[str]:
     """Observed entries + every is-a ancestor (walk the reference parent chain).
 
-    Cycle-safe. Ensures hierarchy edges never dangle (TCDB/BRITE pruning pattern). Pure.
+    Cycle-safe. Ensures hierarchy edges never dangle (TCDB/BRITE pruning pattern).
+    Accessions the reference does not list (retired by InterPro) are never kept, so
+    no node is emitted without a name and type. Pure.
     """
     kept: set[str] = set()
     for acc in observed:
         cur: str | None = acc
         seen: set[str] = set()
-        while cur and cur not in seen:
+        while cur and cur not in seen and cur in reference:
             seen.add(cur)
             kept.add(cur)
-            ref = reference.get(cur)
-            cur = ref.get("parent") if ref else None
+            cur = reference[cur].get("parent")
     return kept
 
 
@@ -133,6 +135,11 @@ class InterproAnnotationAdapter:
     def __init__(self, genome_dir: Path, test_mode: bool = False) -> None:
         self.genome_dir = Path(genome_dir)
         self.test_mode = test_mode
+        # Accessions the current InterPro reference lists, set by the Multi adapter.
+        # None = no filter (standalone use). Calls on retired accessions are skipped
+        # and counted in `retired_edge_counts`.
+        self.known_ids: set[str] | None = None
+        self.retired_edge_counts: Counter[str] = Counter()
         from multiomics_kg.utils.annotations_cache import load_merged_annotations
         self._genes = load_merged_annotations(self.genome_dir)
         self._calls = self._load_calls()
@@ -151,7 +158,7 @@ class InterproAnnotationAdapter:
         ids: set[str] = set()
         for gene in self._genes.values():
             for acc in gene.get("interpro_entries") or []:
-                if acc:
+                if acc and (self.known_ids is None or acc in self.known_ids):
                     ids.add(acc)
         return ids
 
@@ -188,6 +195,7 @@ class InterproAnnotationAdapter:
 
     def get_edges(self):
         count = 0
+        self.retired_edge_counts = Counter()
         for locus_tag, gene in self._genes.items():
             protein_id = (gene.get("protein_id") or "").strip()
             entries = gene.get("interpro_entries") or []      # merged = authority
@@ -195,6 +203,9 @@ class InterproAnnotationAdapter:
                 continue
             rollups = (self._calls.get(protein_id) or {}).get("interpro_entries") or {}
             for acc in entries:
+                if self.known_ids is not None and acc not in self.known_ids:
+                    self.retired_edge_counts[acc] += 1
+                    continue
                 ent = rollups.get(acc)
                 # sources/evidence: uniform provenance (KG-SYNC-005). One tool, direct
                 # HMM/profile signature hits -> `signature` on the shared ladder.
@@ -280,6 +291,12 @@ class MultiInterproAnnotationAdapter:
             )
         with open(path, encoding="utf-8") as fh:
             self._reference = json.load(fh)
+        # InterProScan calls carry the accessions of the release the scan ran against;
+        # an accession a newer reference no longer lists was retired by InterPro and
+        # has no name or type, so its gene edges are dropped (logged in get_edges).
+        known = set(self._reference)
+        for adapter in self._strain_adapters:
+            adapter.known_ids = known
         logger.info(f"MultiInterproAnnotationAdapter: loaded {len(self._reference)} reference entries")
 
     def _observed_ids(self) -> set[str]:
@@ -308,22 +325,16 @@ class MultiInterproAnnotationAdapter:
         observed = self._observed_ids()
         kept = self._kept_ids(observed)
         for acc in sorted(kept):
-            ref = self._reference.get(acc)
-            if ref is None:
-                # Defensive: observed entry absent from reference (retired ID?).
-                # Emit a minimal node so its gene edge never dangles.
-                logger.warning(f"InterPro entry {acc} not in reference; emitting minimal node")
-                props = {"name": "", "interpro_id": acc, "interpro_type": "", "level": 0}
-            else:
-                props = {
-                    "name": _clean_str(ref.get("name")),
-                    "interpro_id": acc,
-                    "interpro_type": _clean_str(ref.get("type")),
-                    "level": int(ref.get("level") or 0),
-                }
-                description = _clean_str(ref.get("description"))
-                if description:
-                    props["description"] = description
+            ref = self._reference[acc]   # kept_ids only keeps reference accessions
+            props = {
+                "name": _clean_str(ref.get("name")),
+                "interpro_id": acc,
+                "interpro_type": _clean_str(ref.get("type")),
+                "level": int(ref.get("level") or 0),
+            }
+            description = _clean_str(ref.get("description"))
+            if description:
+                props["description"] = description
             yield _interpro_node_id(acc), "interpro entry", props
         logger.info(
             f"MultiInterproAnnotationAdapter.get_nodes: {len(kept)} InterproEntry nodes "
@@ -431,10 +442,18 @@ class MultiInterproAnnotationAdapter:
 
         # 4. Gene → InterproEntry edges via per-strain delegation
         gene = 0
+        retired: Counter[str] = Counter()
         for adapter in self._strain_adapters:
             for edge in adapter.get_edges():
                 yield edge
                 gene += 1
+            retired.update(adapter.retired_edge_counts)
+        if retired:
+            logger.warning(
+                f"MultiInterproAnnotationAdapter: dropped {sum(retired.values())} gene edges to "
+                f"{len(retired)} InterPro accessions the reference no longer lists (retired): "
+                + ", ".join(f"{acc} ({n})" for acc, n in retired.most_common())
+            )
         logger.info(
             f"MultiInterproAnnotationAdapter.get_edges: {hier} hierarchy, {bridge} pfam-bridge, "
             f"{la_ec} related-EC, {la_cazy} related-CAZy, {gene} gene edges"

@@ -107,9 +107,32 @@ def test_kept_ids_pulls_full_ancestor_chain():
     assert kept == {"IPR000004", "IPR000002", "IPR000001"}  # + ancestors
 
 
-def test_kept_ids_entry_absent_from_reference_kept_as_is():
-    kept = kept_ids({"IPR999999"}, REF)
-    assert kept == {"IPR999999"}  # no ancestors, but itself kept (node still emitted)
+def test_kept_ids_entry_absent_from_reference_not_kept():
+    # A retired accession has no name or type, so it never becomes a node.
+    assert kept_ids({"IPR999999", "IPR000004"}, REF) == {"IPR000004", "IPR000002", "IPR000001"}
+
+
+def test_retired_accession_dropped_from_nodes_and_gene_edges(tmp_path, caplog):
+    """An accession the InterPro reference no longer lists (retired upstream, still in
+    an older scan's calls) yields no node and no gene edge, and the drop is logged."""
+    genes = {"LT001": {"protein_id": "WP_000000001.1",
+                       "interpro_entries": ["IPR000001", "IPR999999"]}}
+    genome_dir = _write_strain(tmp_path, genes, {})
+    cfg = tmp_path / "genomes.csv"
+    cfg.write_text("data_dir\n" + str(genome_dir) + "\n")
+    cache_root = tmp_path / "cache"
+    (cache_root / "interpro").mkdir(parents=True)
+    (cache_root / "interpro" / "interpro_reference.json").write_text(json.dumps(
+        {"IPR000001": {"parent": None, "level": 0, "type": "FAMILY", "name": "fam"}}))
+    m = MultiInterproAnnotationAdapter(str(cfg), cache_root=cache_root, pfam_node_ids=set())
+    nodes = {nid: props for nid, _label, props in m.get_nodes()}
+    assert set(nodes) == {"interpro:IPR000001"}
+    assert all(p["name"] and p["interpro_type"] for p in nodes.values())
+    with caplog.at_level("WARNING"):
+        edges = list(m.get_edges())
+    targets = {t for _id, _s, t, label, _p in edges if label == "gene_has_interpro_entry"}
+    assert targets == {"interpro:IPR000001"}
+    assert "IPR999999 (1)" in caplog.text
 
 
 def test_kept_ids_cycle_safe():
