@@ -73,3 +73,20 @@ def test_asterisk_min_level_validated(tmp_path):
     assert any("needs 'pvalue_asterisk_in_logfc: true'" in e for e in errs)
     errs = _analysis_errors(tmp_path, {"pvalue_asterisk_in_logfc": True, "asterisk_min_level": 0})
     assert any("must be a positive integer" in e for e in errs)
+
+
+def _suspect_warnings(warnings):
+    return [w for w in warnings if "look like signed linear" in w]
+
+
+def test_log2_table_that_looks_signed_linear_warns(tmp_path):
+    # no value in (-1, 1) and max |x| 120: a signed linear table declared log2 (Kaur 2018 shape)
+    ratios = [-3.0, 2.0, 5.0, -4.0, 6.0, 120.0]
+    _, warnings = validate_paperconfig_content(*_config(tmp_path, ratios, None))
+    assert len(_suspect_warnings(warnings)) == 1
+
+
+def test_ordinary_log2_table_does_not_warn(tmp_path):
+    for ratios in ([-3.0, 0.2, 25.0], [-3.0, 2.0, 14.0]):  # a near-zero value / small effects
+        _, warnings = validate_paperconfig_content(*_config(tmp_path, ratios, "log2"))
+        assert _suspect_warnings(warnings) == []

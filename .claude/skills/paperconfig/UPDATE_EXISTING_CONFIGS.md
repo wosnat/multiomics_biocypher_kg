@@ -1,129 +1,70 @@
-# Updating Existing paperconfig.yaml Files with Significance Fields
+# Auditing the Fold-Change and Significance Fields of an Existing paperconfig
 
-## New Optional Fields
+Use this when re-checking an existing paperconfig, for example after a corpus audit or when a
+paper's significant count looks wrong. The 2026-10-31 audit of all DE papers
+(`plans/signed_linear_fold_change.md`) found every class of error listed below at least once.
 
-Three new fields can be added to each `statistical_analyses` entry to describe how significance is determined in the publication data:
+## The fields
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `prefiltered` | boolean | `true` if the table only contains rows the authors deemed significant |
-| `pvalue_threshold` | float (0, 1] | Adjusted p-value cutoff stated in the paper (e.g., `0.05`) |
-| `logfc_threshold` | float >= 0 | Absolute log2 fold-change cutoff stated in the paper (e.g., `1.0`) |
+| Field | Type | Meaning |
+|-------|------|---------|
+| `fold_change_type` | `log2` (default) · `linear` · `signed_linear` | How the `logfc_col` values are written. `linear` = unsigned ratio (0.5 = 2-fold down); `signed_linear` = +3 is 3-fold up, -3 is 3-fold down. Under `signed_linear` a value in (-1, 1) is an error |
+| `prefiltered` | boolean | The table lists only the genes the authors called DE; every row is significant |
+| `pvalue_asterisk_in_logfc` | boolean | Significance is marked by `*` in the fold-change cell |
+| `asterisk_min_level` | positive int (default 1) | Minimum stars that count as significant; requires `pvalue_asterisk_in_logfc` |
+| `pvalue_threshold` | float in (0, 1] (default 0.05) | The paper's p / q cutoff |
+| `logfc_threshold` | float >= 0, **no default** | The paper's \|log2FC\| cutoff; `0` = no fold cutoff. Required unless `prefiltered` or `pvalue_asterisk_in_logfc` is set |
 
-These fields describe what the **publication** says about significance. They do not change existing behavior unless the adapter is constructed with `significance_mode="significant_only"`.
+The adapter calls significance in this order: `prefiltered` → asterisks → an empty p-value cell
+(not significant) → `pvalue_threshold` and `logfc_threshold`. A table with no p-value column at
+all is judged on the fold change alone.
 
-## How to Decide Which Fields to Add
+## Checklist, per analysis
 
-For each statistical analysis entry, determine which category it falls into:
+1. **Scale.** Read the table legend and look at the values.
+   - Values never between -1 and 1, legend "positive and negative values indicate increase and
+     decline" → `fold_change_type: signed_linear`. The adapter warns when a `log2` table has no value
+     in (-1, 1) and max |x| > 20, but a signed table with small effects (Lindell 2007, max 14) slips
+     under that, so read the legend.
+   - Only positive values with 1 in the middle → `linear`.
+   - Any other convention needs a `scripts/build_modified_csv/` builder that writes a `_modified.csv`
+     with a true log2 column (see that directory's README):
+     - minus-sign-marked ratios (Ma 2022: -0.55 = ratio 0.55)
+     - ratios inflated by a tiny pseudocount (Aharonovich HOT1A3: 1 read vs 0 = 101-fold)
+     - a zero-read floor (Beliaev 2014)
+     - a corrupt ratio column (Fuszard 2012 NATL2A)
 
-### Category 1: Pre-filtered tables
-The supplementary table only lists genes that passed significance criteria. The authors already filtered out non-significant rows before publishing.
-
-**How to identify:** The paper or table legend says something like "Table contains only significantly differentially expressed genes" or "Genes with adjusted p-value < 0.05 and |log2FC| > 1".
-
-**Action:** Add `prefiltered: true`. Optionally also record the thresholds used for documentation:
-```yaml
-prefiltered: true
-pvalue_threshold: 0.05    # optional, for documentation
-logfc_threshold: 1.0      # optional, for documentation
-```
-
-### Category 2: Asterisk-marked significance (`pvalue_asterisk_in_logfc: true`)
-The table contains all genes, with asterisks in the fold-change column marking significant ones.
-
-**How to identify:** Already has `pvalue_asterisk_in_logfc: true` in the config.
-
-**Action:** No changes required. The adapter already uses asterisks to determine significance. Optionally add thresholds if the paper states them:
-```yaml
-pvalue_asterisk_in_logfc: true
-pvalue_threshold: 0.1     # if the paper states the asterisk threshold
-```
-
-### Category 3: Tables with p-value columns
-The table includes a column with adjusted p-values. The adapter stores the p-value but currently does not filter.
-
-**How to identify:** Already has `adjusted_p_value_col` in the config.
-
-**Action:** Add `pvalue_threshold` and/or `logfc_threshold` if the paper states significance criteria:
-```yaml
-adjusted_p_value_col: padj
-pvalue_threshold: 0.05
-logfc_threshold: 1.0
-```
-
-### Category 4: No significance information
-The table has fold-change values but no p-values, no asterisks, and is not stated as pre-filtered.
-
-**How to identify:** No `adjusted_p_value_col`, no `pvalue_asterisk_in_logfc`, and the paper doesn't say the table is pre-filtered.
-
-**Action:** Leave as-is. The adapter will not assign a `significant` property to edges from this analysis. Alternatively, if you believe the table is implicitly pre-filtered (common for microarray papers), add `prefiltered: true`.
-
-## Existing Config Assessment
-
-Below is each existing paperconfig with recommended updates. **Read the actual paper** to confirm the thresholds before adding them.
-
-### Al-Hosani 2015 (1 analysis)
-- Has `adjusted_p_value_col: padj`
-- **Check paper for:** stated p-value and FC thresholds
-- **Likely update:** Add `pvalue_threshold` and optionally `logfc_threshold`, or `prefiltered: true` if the table only lists DE genes
-
-### Aharonovich 2016 (3 analyses)
-- Has `adjusted_p_value_col: q Value`
-- **Check paper for:** Rockhopper default significance criteria
-- **Likely update:** Add `pvalue_threshold` (Rockhopper default is typically q < 0.01)
-
-### Anjur-Dietrich 2025 (1 analysis)
-- Has `adjusted_p_value_col: FDR`
-- Already mentions thresholds in `experimental_context`: "log2FC threshold 0.8 and q-value threshold 0.05"
-- **Update:** Add `pvalue_threshold: 0.05` and `logfc_threshold: 0.8`, and likely `prefiltered: true`
-
-### Bagby and Chisholm 2015 (4 analyses)
-- No p-value column, no asterisks
-- Microarray data
-- **Check paper for:** whether tables are pre-filtered
-- **Likely update:** `prefiltered: true` if the paper states only significant genes are listed
-
-### Barreto 2022 (9 analyses)
-- Has `adjusted_p_value_col: PValue`
-- **Check paper for:** edgeR significance thresholds
-- **Likely update:** Add `pvalue_threshold` and `logfc_threshold`
-
-### Biller 2016 (9 analyses)
-- Has `pvalue_asterisk_in_logfc: true`
-- **Check paper for:** what the asterisk threshold is (likely adjusted p < 0.1)
-- **Optional update:** Add `pvalue_threshold: 0.1` for documentation
-
-### Biller 2018 (8 analyses)
-- Has `pvalue_asterisk_in_logfc: true`
-- Same as Biller 2016
-- **Optional update:** Add `pvalue_threshold` for documentation
-
-### Coe 2024 (16 analyses)
-- Has `pvalue_asterisk_in_logfc: true`
-- **Check paper for:** asterisk threshold
-- **Optional update:** Add `pvalue_threshold` for documentation
-
-### Fang 2019 (9 analyses)
-- Has `pvalue_asterisk_in_logfc: true`
-- **Check paper for:** asterisk threshold
-- **Optional update:** Add `pvalue_threshold` for documentation
-
-### He 2022 (2 analyses)
-- Has `adjusted_p_value_col: p-value`
-- **Check paper for:** stated significance criteria
-- **Likely update:** Add `pvalue_threshold` and optionally `logfc_threshold`
-
-## Validation
-
-After updating any paperconfig, run the validation script:
+     Then point `filename` at the new file and rerun
+     `uv run python -m multiomics_kg.download.resolve_paper_ids --papers "<Paper>" --force`.
+2. **Is the table prefiltered?** Count its rows against the genome size and the paper's reported
+   DE count. A whole-genome table, or one filtered only at P < 0.05 when the paper's criterion is
+   stricter, is *not* `prefiltered`.
+3. **Criterion.** Copy the methods' criterion exactly:
+   - q/p only → `logfc_threshold: 0`
+   - "fold change > 2" → `1.0`
+   - "|log2FC| > 0.8" → `0.8`
+   - a p column rounded to 2 decimals with "p < 0.05" → `pvalue_threshold: 0.049`
+4. **Asterisks.** If the legend grades the stars and the paper's DE call is the stricter band, set
+   `asterisk_min_level: 2`.
+5. **Zero-count rows.** If a table publishes fold changes against zero counts that cannot be
+   recomputed (VST-transformed values, no raw counts), leave a comment in the paperconfig saying so,
+   as Capovilla 2023, Anjur-Dietrich 2026 and Huang 2021 do.
+6. **Verify.** Run the validator. Then build the paper's edges offline and compare the significant
+   count with the number the paper reports. A gap of more than a few percent means one of the
+   choices above is wrong.
 
 ```bash
-uv run python scripts/validate_paperconfig.py "data/Prochlorococcus/papers_and_supp/<Author Year>/paperconfig.yaml"
+uv run python scripts/validate_paperconfig.py "data/<Genus>/papers_and_supp/<Author Year>/paperconfig.yaml"
 ```
 
-The validator checks that:
-- `prefiltered` is a boolean
-- `pvalue_threshold` is a number in (0, 1]
-- `logfc_threshold` is a non-negative number
-- `prefiltered: true` is not redundantly combined with thresholds (warning)
-- `prefiltered: true` is not combined with `pvalue_asterisk_in_logfc: true` (warning)
+The validator errors on:
+- a missing `logfc_threshold` where one is required
+- an unknown `fold_change_type`
+- a `signed_linear` column holding a value in (-1, 1)
+- an `asterisk_min_level` that is not a positive int, or is set without `pvalue_asterisk_in_logfc`
+- a `pvalue_threshold` outside (0, 1], or a negative `logfc_threshold`
+
+It warns when `prefiltered` is combined with thresholds or asterisks.
+
+Log every change to an existing paper in `CHANGELOG.md` → `### Data`: what the KG asserted before
+and what it asserts now.

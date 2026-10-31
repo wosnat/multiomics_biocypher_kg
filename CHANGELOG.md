@@ -439,9 +439,10 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 - `fold_change_type: signed_linear` for DE tables that publish signed linear ratios (+3 = 3-fold up,
   -3 = 3-fold down): stored as sign(x) · log2|x|. A value in (-1, 1), which that convention cannot
   hold, is an error in `validate_paperconfig.py` (whole column checked) and makes the adapter build no
-  edges for the analysis (shared check `multiomics_kg/utils/fold_change.py`). The adapter also warns
-  when a table declared log2 has no value in (-1, 1) and |value| > 20, the signature of an undeclared
-  signed linear table.
+  edges for the analysis (shared check `multiomics_kg/utils/fold_change.py`). The validator and the
+  adapter both warn when a table declared log2 has no value in (-1, 1) and |value| > 20, the signature
+  of an undeclared signed linear table. `/paperconfig`'s `UPDATE_EXISTING_CONFIGS.md` is now the
+  checklist for auditing an existing paperconfig's scale and significance fields.
 - `_modified.csv` builders `build_ma2022_modified_csv.py` and `build_aharonovich2016_hot1a3_modified_csv.py`.
 
 - **`treatment_type` values `mutant` and `essentiality`.** `mutant` = a knockout or mutant strain

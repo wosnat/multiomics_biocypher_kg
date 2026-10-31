@@ -319,3 +319,11 @@ def test_zero_fold_change_has_no_direction(tmp_path):
     assert "expression_direction" not in by_gene["PMM0001"]
     assert by_gene["PMM0002"]["expression_direction"] == "up"
     assert by_gene["PMM0003"]["expression_direction"] == "down"
+
+
+def test_signed_linear_suspect():
+    from multiomics_kg.utils.fold_change import signed_linear_suspect
+    assert signed_linear_suspect([-3, 2, "120*", "NA"]) == 120.0
+    assert signed_linear_suspect([-3, 2, 14]) is None       # small effects: under the cutoff
+    assert signed_linear_suspect([-3, 0.4, 120]) is None    # a value in (-1, 1): ordinary log2
+    assert signed_linear_suspect([]) is None

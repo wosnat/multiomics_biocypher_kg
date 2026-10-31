@@ -84,9 +84,9 @@ Each `Condition_changes_expression_of` and `Coculture_changes_expression_of` edg
 
 | Property | Type | Source | Required |
 |----------|------|--------|----------|
-| `log2_fold_change` | float | Data CSV column (`logfc_col`) | Yes |
+| `log2_fold_change` | float | Data CSV column (`logfc_col`), converted to log2 per `fold_change_type` | Yes |
 | `adjusted_p_value` | float | Data CSV column (`adjusted_p_value_col`) or inferred from asterisk convention | No |
-| `expression_direction` | string | Derived: `"up"` if log2FC > 0, `"down"` otherwise | Yes |
+| `expression_direction` | string | Derived: `"up"` if log2FC > 0, `"down"` if < 0; absent when log2FC is exactly 0 | No |
 | `significant` | string | `"significant"`, `"not significant"`, or `"unknown"` — computed from thresholds or asterisk convention | Yes |
 | `control_condition` | string | Paperconfig analysis field | When available |
 | `experimental_context` | string | Paperconfig analysis field | When available |
@@ -97,17 +97,23 @@ The `log2_fold_change` value is the only strictly required numeric property; row
 
 ### Expression direction
 
-The `expression_direction` property is derived deterministically from the sign of `log2_fold_change`: positive values indicate upregulation (`"up"`), negative values indicate downregulation (`"down"`). This derived field simplifies downstream queries by allowing agents to filter by direction without interpreting numeric signs.
+The `expression_direction` property is derived deterministically from the sign of `log2_fold_change`: positive values indicate upregulation (`"up"`), negative values indicate downregulation (`"down"`). A fold change of exactly 0 has no direction and the property is omitted (post-import it then reads `expression_status = "not_significant"`). This derived field simplifies downstream queries by allowing agents to filter by direction without interpreting numeric signs.
+
+### Fold-change scale
+
+The `logfc_col` value is stored as log2 after conversion by the analysis's `fold_change_type`: `log2` (default, stored as is), `linear` (an unsigned ratio, stored as log2(x); 0.5 = 2-fold down) or `signed_linear` (a signed fold change, +3 = 3-fold up and -3 = 3-fold down, stored as sign(x)·log2|x|). Under `signed_linear` a value in (-1, 1) has no meaning, so the validator and the adapter refuse the whole analysis rather than drop rows. The adapter also warns when a `log2` table has no value in (-1, 1) and a maximum |x| above 20 — the signature of an undeclared signed-linear table. Tables on any other convention (minus-sign-marked ratios, pseudocount-inflated ratios, corrupt ratio columns) are converted to log2 by a `scripts/build_modified_csv/` builder that writes a `_modified.csv`, which the paperconfig then points at.
 
 ## Significance Determination
 
-Statistical significance is determined through a three-priority cascade, evaluated per row:
+Statistical significance follows each paper's own criterion, through a four-priority cascade evaluated per row:
 
 **Priority 1 — Prefiltered tables.** When the analysis declares `prefiltered: true`, all rows are considered significant. This applies to publications that report only genes passing their own significance thresholds.
 
-**Priority 2 — Asterisk convention.** Some publications encode significance as asterisks appended to fold-change values (e.g., `"1.23 *"` for significant, `"0.45"` for non-significant). When `pvalue_asterisk_in_logfc: true` is set, the adapter strips asterisks from the fold-change string and records their presence as a boolean significance flag. A synthetic `adjusted_p_value` is assigned: the configured `pvalue_threshold` (default 0.05) when significant, or 1.0 when not. This convention is used by several time-course studies in the dataset (e.g., Biller 2016, Coe 2024) where per-gene p-values were computed but only the binary significance outcome was reported in supplementary tables.
+**Priority 2 — Asterisk convention.** Some publications encode significance as asterisks appended to fold-change values (e.g., `"1.23 *"` for significant, `"0.45"` for non-significant). When `pvalue_asterisk_in_logfc: true` is set, the adapter strips asterisks from the fold-change string and counts them; a row is significant when it carries at least `asterisk_min_level` stars (default 1 — set 2 when the legend grades stars, e.g. `*` q < 0.05 / `**` q < 0.01, and the paper's DE criterion is the stricter band, as in Tolonen 2006 and Thompson 2011). A synthetic `adjusted_p_value` is assigned: the configured `pvalue_threshold` (default 0.05) when significant, or 1.0 when not. This convention is used by several time-course studies in the dataset (e.g., Biller 2016, Coe 2024) where per-gene p-values were computed but only the binary significance outcome was reported in supplementary tables.
 
-**Priority 3 — Threshold-based classification.** When neither prefiltering nor asterisk conventions apply, significance is computed by comparing the row's `adjusted_p_value` against a threshold (default 0.05, overridable per analysis via `pvalue_threshold`) and the absolute `log2_fold_change` against a threshold (default 1.0, overridable via `logfc_threshold`). A row is significant only when both criteria are met. When neither p-value nor fold-change threshold can be evaluated (both values absent), significance is recorded as `"unknown"`.
+**Priority 3 — Empty p-value cell.** When the table has a p-value column but the row's cell is empty (e.g. a DESeq2 `NA` padj for a gene that was not tested), the row is not significant: untested is not significant.
+
+**Priority 4 — Threshold-based classification.** Otherwise significance is computed by comparing the row's `adjusted_p_value` against `pvalue_threshold` (default 0.05) and the absolute `log2_fold_change` against `logfc_threshold`. A row is significant only when both criteria are met. `logfc_threshold` has **no default** (until 2026-10-31 it defaulted to 1.0, which silently imposed a 2-fold cutoff on papers whose criterion is q or p alone): every analysis that is neither `prefiltered` nor asterisk-based must state it, `0` meaning the paper used no fold cutoff, and the adapter refuses an analysis that does not. A table with no p-value column at all is judged on the fold change alone. When neither threshold can be evaluated, significance is recorded as `"unknown"`.
 
 The `significant` property is a string with three possible values: `"significant"`, `"not significant"`, or `"unknown"`. This avoids boolean serialization issues with neo4j-admin import and provides a self-documenting value in Cypher queries (e.g., `WHERE r.significant = 'significant'`).
 

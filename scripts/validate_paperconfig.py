@@ -43,7 +43,7 @@ from multiomics_kg.utils.paperconfig_utils import (
     get_paper_name,
     get_supplementary_materials,
 )
-from multiomics_kg.utils.fold_change import signed_linear_violations
+from multiomics_kg.utils.fold_change import signed_linear_suspect, signed_linear_violations
 from multiomics_kg.vocab.non_de_evidence import (
     COMPARTMENTS,
     EXTENDED_OMICS_TYPES,
@@ -2033,6 +2033,19 @@ def validate_paperconfig_content(
                         )
                 except Exception as e:
                     warnings.append(f"{aid}: could not read '{logfc_col}' to check signed_linear values: {e}")
+            elif fold_change_type in (None, "log2") and logfc_col and logfc_col in cols:
+                try:
+                    full = pd.read_csv(fn, sep=sep, skiprows=skip if skip else None,
+                                       usecols=[logfc_col], dtype=str)[logfc_col]
+                    suspect = signed_linear_suspect(full.dropna().tolist())
+                    if suspect is not None:
+                        warnings.append(
+                            f"{aid}: fold_change_type is log2 but no value in '{logfc_col}' lies in "
+                            f"(-1, 1) and max |value| = {suspect:.1f} — these look like signed linear "
+                            f"ratios (+3 = 3-fold up, -3 = 3-fold down); check the table legend"
+                        )
+                except Exception:
+                    pass  # unreadable column: the sample-based checks above already report it
 
             # --- Timepoint / growth_phase backfill checks (2026-04-12) ---
             if "timepoint" not in analysis:

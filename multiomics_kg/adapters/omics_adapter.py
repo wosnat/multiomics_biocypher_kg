@@ -9,7 +9,7 @@ import pandas as pd
 import os
 from pathlib import Path
 from multiomics_kg.utils.curie_utils import normalize_curie
-from multiomics_kg.utils.fold_change import signed_linear_violations
+from multiomics_kg.utils.fold_change import signed_linear_suspect, signed_linear_violations
 
 from multiomics_kg.download.resolve_paper_ids import get_resolved_path
 from multiomics_kg.utils.paperconfig_utils import (
@@ -102,11 +102,6 @@ def _convert_fold_change(fc_float: float, fold_change_type: str | None) -> float
     return fc_float
 
 
-# A log2 table with no value in (-1, 1) and |value| above this is almost certainly
-# signed linear (log2 20 = a million-fold change).
-SIGNED_LINEAR_SUSPECT_MAX = 20.0
-
-
 def _validate_fc_range(
     fc_values: list[float],
     fold_change_type: str | None,
@@ -130,13 +125,13 @@ def _validate_fc_range(
 
     if fc_type == "signed_linear":
         return  # values in (-1, 1) refuse the analysis before edges are built
-    if fc_type == "log2" and not any(-1 < v < 1 for v in fc_values) \
-            and max(abs(v) for v in fc_values) > SIGNED_LINEAR_SUSPECT_MAX:
+    suspect = signed_linear_suspect(fc_values) if fc_type == "log2" else None
+    if suspect is not None:
         logger.warning(
             "%s: fold_change_type is 'log2' but no value lies in (-1, 1) and "
             "max |value| = %.1f. These look like signed linear ratios "
             "(+3 = 3-fold up, -3 = 3-fold down). Consider fold_change_type: signed_linear.",
-            analysis_id, max(abs(v) for v in fc_values),
+            analysis_id, suspect,
         )
         return
     if fc_type == "linear" and has_negative:
