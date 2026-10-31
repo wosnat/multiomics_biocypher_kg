@@ -1,0 +1,30 @@
+Resolution report: Koch 2020 / unique_genes_ez55_table
+Source: EZ55_unique_genes.csv
+name_col: locus_tag
+id_columns: ['locus_tag']
+
+Total rows with IDs: 174
+Resolved: 158 (90.8%)
+Unresolved: 16
+
+Resolution method breakdown:
+  tier1:locus_tag: 158
+  unresolved: 16
+
+Unresolved rows (16):
+  row 37: raw_id='altEZ55_00559'  reason=unresolved  [locus_tag='altEZ55_00559']
+  row 39: raw_id='altEZ55_00565'  reason=unresolved  [locus_tag='altEZ55_00565']
+  row 50: raw_id='altEZ55_00582'  reason=unresolved  [locus_tag='altEZ55_00582']
+  row 61: raw_id='altEZ55_00926'  reason=unresolved  [locus_tag='altEZ55_00926']
+  row 66: raw_id='altEZ55_01381'  reason=unresolved  [locus_tag='altEZ55_01381']
+  row 73: raw_id='altEZ55_01746'  reason=unresolved  [locus_tag='altEZ55_01746']
+  row 93: raw_id='altEZ55_02917'  reason=unresolved  [locus_tag='altEZ55_02917']
+  row 109: raw_id='altEZ55_03262'  reason=unresolved  [locus_tag='altEZ55_03262']
+  row 125: raw_id='altEZ55_03518'  reason=unresolved  [locus_tag='altEZ55_03518']
+  row 137: raw_id='altEZ55_04234'  reason=unresolved  [locus_tag='altEZ55_04234']
+  row 139: raw_id='altEZ55_04239'  reason=unresolved  [locus_tag='altEZ55_04239']
+  row 142: raw_id='altEZ55_04244'  reason=unresolved  [locus_tag='altEZ55_04244']
+  row 154: raw_id='altEZ55_04266'  reason=unresolved  [locus_tag='altEZ55_04266']
+  row 155: raw_id='altEZ55_04267'  reason=unresolved  [locus_tag='altEZ55_04267']
+  row 159: raw_id='altEZ55_04281'  reason=unresolved  [locus_tag='altEZ55_04281']
+  row 162: raw_id='altEZ55_04284'  reason=unresolved  [locus_tag='altEZ55_04284']

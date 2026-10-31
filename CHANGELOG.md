@@ -357,10 +357,12 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
   (`data/Prochlorococcus/papers_and_supp/Koch 2020/`). Strain-unique genes among 12 *Alteromonas
   macleodii* genomes (Table S7) as the boolean DerivedMetric `strain_unique_gene_koch2020` on one
   BIOINFORMATIC `genomic_analysis` experiment per KG strain: MIT1002 197, 83-1 117, AD45 213,
-  ATCC27126 105 genes (~91% resolved; misses are tags the RefSeq re-annotation dropped). Not
-  integrated: Table S3 (MIT1002 24/48 h vs 12 h in coculture with NATL2A — a filtered re-analysis of
-  the Biller 2016 data already in the KG), the anvio pangenome (no locus tags), FT-ICR-MS formulas
-  (no compound identity), EZ55/HOT1A3 rows (IMG-style ids that do not resolve).
+  ATCC27126 105, EZ55 158, HOT1A3 63 genes (~90% resolved; misses are tags the RefSeq
+  re-annotation dropped). EZ55 and HOT1A3 rows carry JGI IMG locus tags (genomes 2785510739 /
+  2687453488), bridged to the NCBI genes by protein-sequence match against the IMG protein FASTA
+  + GFF (`img_annotation/`). Not integrated: Table S3 (MIT1002 24/48 h vs 12 h in coculture with
+  NATL2A — a filtered re-analysis of the Biller 2016 data already in the KG), the anvio pangenome
+  (no locus tags), FT-ICR-MS formulas (no compound identity).
 - **Not integrated from this batch** (backlog, `plans/backlog.md` § Paper batch 2026-10-28): Manck
   2020 Data Set S3 (cross-strain TBDT families), Schroer 2023 (curated transporter → substrate
   units), Oleza 2012 (natural-community and seawater-origin designs), Doré 2020 / 2023

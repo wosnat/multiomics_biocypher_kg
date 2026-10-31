@@ -246,3 +246,7 @@ logs/
 .claude/skills/omics-edge-snapshot/snapshots/
 .superpowers/
 cache/data/go_terms/raw/
+
+# Koch 2020: raw JGI IMG download (genomes 2785510739 EZ55, 2687453488 HOT1A3).
+# The protein FASTA + GFF needed for ID bridging are extracted to Koch 2020/img_annotation/.
+data/Prochlorococcus/papers_and_supp/Koch 2020/img downloads/
