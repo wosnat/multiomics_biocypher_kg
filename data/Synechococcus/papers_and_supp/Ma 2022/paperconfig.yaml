@@ -63,6 +63,7 @@ publication:
           experiment: coculture_ecoli_vs_axenic_utex2973_rnaseq
           name_col: "Gene ID"
           logfc_col: "log2FoldChange"
+          logfc_threshold: 1.0   # log2 > 1 and p < 0.05
           pvalue_threshold: 0.05
           timepoint: "4 days"
           timepoint_hours: 96
@@ -82,6 +83,7 @@ publication:
           experiment: coculture_ecoli_vs_axenic_utex2973_rnaseq
           name_col: "Gene ID"
           logfc_col: "log2FoldChange"
+          logfc_threshold: 1.0   # log2 > 1 and p < 0.05
           pvalue_threshold: 0.05
           timepoint: "4 days"
           timepoint_hours: 96

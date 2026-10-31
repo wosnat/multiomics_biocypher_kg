@@ -19,7 +19,7 @@ The transformation is reproducible from a single script, so a fresh checkout of 
 | Paper | Builder | Notes |
 |---|---|---|
 | Domínguez 2017 | `build_dominguez2017_modified_csv.py` | merges S3 up + S3 down → signed `log2_fold_change` |
-| Fuszard 2012 | `build_fuszard2012_modified_csv.py` | adds `log2_fold_change = log2(Ratio of means)` per strain CSV |
+| Fuszard 2012 | `build_fuszard2012_modified_csv.py` | adds `log2_fold_change = log2(Deplete Mean / Control Mean)` per strain CSV (the published NATL2A ratio divides by `# peptides`) |
 | Moreno 2023 (cyano S2 + Marinobacter S4) | `build_moreno2023_modified_csv.py` | adds `log2FC.*` columns; per-strain override for SS120 `FC GmM/L` typo |
 | Moreno 2023 (Alteromonas S3) | `build_moreno2023_s3_modified_csv.py` | extracts `DEH24_*` from `Description`, normalizes per-strain column quirks |
 | Manck 2020 | `build_manck2020_modified_csv.py` | flattens Data Set S1 (Fe / C sheets) to CSVs; builds the 66-TBDT inventory from Data Set S2 + main-text Table 1 substrates |
@@ -35,6 +35,8 @@ The transformation is reproducible from a single script, so a fresh checkout of 
 | Oleza 2015b | `build_oleza2015b_exoproteomes.py` | Table S4 -> per-strain NSAF + detection_status CSVs (8 strains, identical-sequence paralogs collapsed); Table S6 -> 4 WH8102 contrast CSVs (signed linear TFold FC -> log2); per-strain protein_seqs_<strain>.faa for diamond id_translations |
 | Ma 2022 | `build_ma2022_modified_csv.py` | Table S4 iTRAQ "Mean Ratio" (minus sign marks a ratio < 1) -> `log2_fold_change = log2(\|x\|)` |
 | Aharonovich 2016 (HOT1A3) | `build_aharonovich2016_hot1a3_modified_csv.py` | the two HOT1A3 tables: published (a+0.01)/(b+0.01) ratio -> log2((a+1)/(b+1)) from the expression columns; both-zero rows blanked |
+| Beliaev 2014 | `build_beliaev2014_modified_csv.py` | Tables S3–S8: log2((num + one-read RPKM) / (den + one-read RPKM)), zero-read floor read as 0, both-floor rows blanked |
+| Tolonen 2006 | `build_tolonen2006_modified_csv.py` | MED4 expression table minus the garbled PMM1118 row (two probesets interleaved) |
 
 ## Run
 

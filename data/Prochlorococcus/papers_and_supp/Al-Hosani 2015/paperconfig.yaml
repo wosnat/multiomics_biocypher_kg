@@ -40,6 +40,9 @@ publication:
         growth_phase: acclimated_steady_state
         name_col: Gene id
         logfc_col: log2FoldChange
-        adjusted_p_value_col: padj
-        pvalue_threshold: 0.05
-        prefiltered: true
+        # Whole-genome table (1,935 genes), not a DE list. The paper calls DE on the raw DESeq
+        # p-value < 0.05 with no fold cutoff (627 genes); p is rounded to 2 decimals, so the
+        # strict "< 0.05" is p <= 0.049. Raw p is stored in adjusted_p_value (Barreto 2022 precedent).
+        adjusted_p_value_col: pval
+        pvalue_threshold: 0.049
+        logfc_threshold: 0

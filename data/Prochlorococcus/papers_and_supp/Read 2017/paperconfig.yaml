@@ -38,8 +38,9 @@ publication:
         growth_phase: acute_stress
         name_col: locus_tag
         logfc_col: log2_fold_change
+        logfc_threshold: 0   # BH q < 0.05, no fold cutoff; q is rounded to 2 decimals, so "< 0.05" is <= 0.049
         adjusted_p_value_col: p_value
-        pvalue_threshold: 0.05
+        pvalue_threshold: 0.049
     supp_12h_post_starvation:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Read 2017/DE_genes_12h_post_starvation.csv
@@ -56,8 +57,9 @@ publication:
         growth_phase: acute_stress
         name_col: locus_tag
         logfc_col: log2_fold_change
+        logfc_threshold: 0   # BH q < 0.05, no fold cutoff; q is rounded to 2 decimals, so "< 0.05" is <= 0.049
         adjusted_p_value_col: p_value
-        pvalue_threshold: 0.05
+        pvalue_threshold: 0.049
     supp_24h_post_starvation:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Read 2017/DE_genes_24h_post_starvation.csv
@@ -74,5 +76,6 @@ publication:
         growth_phase: nutrient_limited
         name_col: locus_tag
         logfc_col: log2_fold_change
+        logfc_threshold: 0   # BH q < 0.05, no fold cutoff; q is rounded to 2 decimals, so "< 0.05" is <= 0.049
         adjusted_p_value_col: p_value
-        pvalue_threshold: 0.05
+        pvalue_threshold: 0.049

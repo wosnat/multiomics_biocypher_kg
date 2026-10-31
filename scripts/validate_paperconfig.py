@@ -2000,6 +2000,19 @@ def validate_paperconfig_content(
                 warnings.append(f"{aid}: 'prefiltered: true' makes 'pvalue_threshold'/'logfc_threshold' redundant (prefiltered takes priority)")
             if prefiltered and pvalue_asterisk:
                 warnings.append(f"{aid}: 'prefiltered: true' conflicts with 'pvalue_asterisk_in_logfc: true' (prefiltered takes priority)")
+            # No default fold cutoff: a threshold-judged analysis states the paper's own
+            # (0 = none). The adapter refuses one that doesn't.
+            if not prefiltered and not pvalue_asterisk and logfc_threshold is None:
+                errors.append(
+                    f"{aid}: 'logfc_threshold' is required (the paper's |log2FC| cutoff; 0 if it "
+                    f"used none) unless 'prefiltered' or 'pvalue_asterisk_in_logfc' decides significance"
+                )
+            asterisk_min_level = analysis.get("asterisk_min_level")
+            if asterisk_min_level is not None:
+                if not isinstance(asterisk_min_level, int) or isinstance(asterisk_min_level, bool) or asterisk_min_level < 1:
+                    errors.append(f"{aid}: 'asterisk_min_level' must be a positive integer, got {asterisk_min_level}")
+                if not pvalue_asterisk:
+                    errors.append(f"{aid}: 'asterisk_min_level' needs 'pvalue_asterisk_in_logfc: true'")
 
             # Validate fold_change_type
             fold_change_type = analysis.get("fold_change_type")

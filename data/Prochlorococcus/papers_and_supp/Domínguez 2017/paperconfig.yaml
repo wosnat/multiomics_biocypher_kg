@@ -66,6 +66,7 @@ publication:
           experiment: azaserine_ss120_proteomics
           name_col: "Accession"
           logfc_col: "log2_fold_change"
+          prefiltered: true   # all 408 rows are the paper's DE set (P and q < 0.05, no fold cutoff)
           adjusted_p_value_col: "Anova (p)"
           pvalue_threshold: 0.05
           table_scope: significant_only

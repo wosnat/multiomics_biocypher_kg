@@ -39,6 +39,7 @@ publication:
           experiment: vibrio_coculture_wh8102_microarray
           name_col: "Gene Name"
           logfc_col: "Log2 fold change"
+          prefiltered: true   # significant-only SAM tables (score > 3.11 / < -3.09), no fold cutoff
           table_scope: significant_only
           timepoint: "mid-log phase"
           timepoint_hours: null
@@ -58,6 +59,7 @@ publication:
           experiment: vibrio_coculture_wh8102_microarray
           name_col: "Gene Name"
           logfc_col: "Log2 fold change"
+          prefiltered: true   # significant-only SAM tables (score > 3.11 / < -3.09), no fold cutoff
           table_scope: significant_only
           timepoint: "mid-log phase"
           timepoint_hours: null

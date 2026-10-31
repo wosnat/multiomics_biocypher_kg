@@ -367,6 +367,7 @@ publication:
         growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
+        logfc_threshold: 1.0   # edgeR p < 0.05 and logFC > 1
         adjusted_p_value_col: PValue
         pvalue_threshold: 0.05
     supp_table_S1_CC9311:
@@ -386,6 +387,7 @@ publication:
         growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
+        logfc_threshold: 1.0   # edgeR p < 0.05 and logFC > 1
         adjusted_p_value_col: PValue
         pvalue_threshold: 0.05
     supp_table_S1_WH8102:
@@ -405,6 +407,7 @@ publication:
         growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
+        logfc_threshold: 1.0   # edgeR p < 0.05 and logFC > 1
         adjusted_p_value_col: PValue
         pvalue_threshold: 0.05
     supp_table_S2:
@@ -424,6 +427,7 @@ publication:
         growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
+        logfc_threshold: 1.0   # edgeR p < 0.05 and logFC > 1
         adjusted_p_value_col: PValue
         pvalue_threshold: 0.05
     supp_table_S9:
@@ -443,6 +447,7 @@ publication:
         growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
+        logfc_threshold: 1.0   # edgeR p < 0.05 and logFC > 1
         adjusted_p_value_col: PValue
         pvalue_threshold: 0.05
     supp_table_S10:
@@ -462,6 +467,7 @@ publication:
         growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
+        logfc_threshold: 1.0   # edgeR p < 0.05 and logFC > 1
         adjusted_p_value_col: PValue
         pvalue_threshold: 0.05
     supp_table_S11:
@@ -481,6 +487,7 @@ publication:
         growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
+        logfc_threshold: 1.0   # edgeR p < 0.05 and logFC > 1
         adjusted_p_value_col: PValue
         pvalue_threshold: 0.05
     supp_table_S12:
@@ -500,6 +507,7 @@ publication:
         growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
+        logfc_threshold: 1.0   # edgeR p < 0.05 and logFC > 1
         adjusted_p_value_col: PValue
         pvalue_threshold: 0.05
     supp_table_S13:
@@ -519,6 +527,7 @@ publication:
         growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
+        logfc_threshold: 1.0   # edgeR p < 0.05 and logFC > 1
         adjusted_p_value_col: PValue
         pvalue_threshold: 0.05
     supp_table_S14:
@@ -538,6 +547,7 @@ publication:
         growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
+        logfc_threshold: 1.0   # edgeR p < 0.05 and logFC > 1
         adjusted_p_value_col: PValue
         pvalue_threshold: 0.05
     supp_table_S4:
@@ -557,5 +567,6 @@ publication:
         growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
+        logfc_threshold: 1.0   # edgeR p < 0.05 and logFC > 1
         adjusted_p_value_col: PValue
         pvalue_threshold: 0.05

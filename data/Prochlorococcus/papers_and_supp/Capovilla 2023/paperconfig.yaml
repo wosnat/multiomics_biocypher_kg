@@ -101,6 +101,11 @@ publication:
           id_type: other
       product_columns:
         - column: geneFunction
+      # Zero-count magnitudes (2026-10-31 audit): genes with every replicate of one arm at zero reads
+      # carry unshrunk DESeq2 estimates (MIT9303 up to +/-21.5, all 14 genes with |log2FC| > 6.5 sit
+      # within 0.25 of the count floor; MIT9313 4.4-6.65 have control at the floor). Not recomputed:
+      # Datasets S4/S5 hold VST-like normalized counts (zero = 9.85 / 5.84), not raw counts.
+      # Read the top of rank_by_effect for these experiments as "on / off", not as effect size.
       statistical_analyses:
         - id: DE_chitosan_vs_control_MIT9313
           experiment: chitosan_addition_mit9313_rnaseq
@@ -109,6 +114,7 @@ publication:
           growth_phase: exponential
           name_col: ncbi_gene_locus_tag
           logfc_col: "log2 fold change (+ means upregulated in chitosan)"
+          prefiltered: true   # DESeq2 padj < 0.1, no fold cutoff; table lists only the DE genes
           pvalue_threshold: 0.1
           table_scope: significant_only
 
@@ -128,6 +134,11 @@ publication:
           id_type: other
       product_columns:
         - column: geneFunction
+      # Zero-count magnitudes (2026-10-31 audit): genes with every replicate of one arm at zero reads
+      # carry unshrunk DESeq2 estimates (MIT9303 up to +/-21.5, all 14 genes with |log2FC| > 6.5 sit
+      # within 0.25 of the count floor; MIT9313 4.4-6.65 have control at the floor). Not recomputed:
+      # Datasets S4/S5 hold VST-like normalized counts (zero = 9.85 / 5.84), not raw counts.
+      # Read the top of rank_by_effect for these experiments as "on / off", not as effect size.
       statistical_analyses:
         - id: DE_chitosan_vs_control_MIT9303
           experiment: chitosan_addition_mit9303_rnaseq
@@ -136,6 +147,7 @@ publication:
           growth_phase: exponential
           name_col: ncbi_gene_locus_tag
           logfc_col: "log2 fold change (+ means upregulated in chitosan)"
+          prefiltered: true   # DESeq2 padj < 0.1, no fold cutoff; table lists only the DE genes
           pvalue_threshold: 0.1
           table_scope: significant_only
 

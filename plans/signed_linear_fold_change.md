@@ -1,7 +1,9 @@
 # Signed linear fold changes stored as log2 — scope
 
 Backlog item: "Signed linear fold changes are stored as log2" (found 2026-10-18).
-Status: IN PROGRESS 2026-10-31 — items 1–4, 6, 7 implemented (uncommitted, see Progress); item 5 = corpus audit running.
+Status: DONE 2026-10-31 on branch `fix/fold-change-conventions` — commit 1 (cd3b7d43) scale fixes; commit 2
+significance overhaul (all Class P / D / Z decisions below implemented, see "Commit 2"). Docker rebuild +
+`/omics-edge-snapshot` + `pytest -m kg` pending in the other clone.
 
 ## Problem
 
@@ -222,3 +224,17 @@ OK: Ostrowski 2010, Barreto 2022, Durham 2015, Manck 2020 (A); Bagby 2015, Thomp
 (caveat already documented, D7(a)), Biller 2018, Tetu 2009, Tetu 2019 (E); Coe 2024 (minor: S4 table_scope,
 README P<0.1), Oleza 2015b, Fang 2019 (D); Barber 2026, He 2022, Koch 2019 (3 NA-padj edges), Kratzl 2024 (F).
 Reports: scratchpad `fc_audit/batch_{A..F}.md`. All 38 papers audited.
+
+## Commit 2 — significance overhaul (2026-10-31, user-approved)
+
+Implemented: (1) adapter no default `logfc_threshold` (validator error / analysis refused); 180 analyses
+migrated to the paper's value; (2) empty p-value cell → not significant; (3) `asterisk_min_level`
+(Tolonen, Thompson 2011 = 2); (4) per-paper `prefiltered` / threshold / scope fixes (Hennon S2, Al-Hosani,
+Read, Lin, Biller MIT1002, Tai, Capovilla, Domínguez, Coe S4 scope); (5) Fuszard builder recomputes
+Deplete / Control; Tolonen PMM1118 dropped; (6) Beliaev re-derived from RPKM with a one-read pseudocount;
+(7) log2FC = 0 → no `expression_direction`. Capovilla / Anjur / Huang zero-count magnitudes documented
+only: Capovilla's S4/S5 counts are VST-transformed (zero = 9.85), so there are no raw counts to recompute.
+
+Corpus-wide offline adapter run, commit 1 vs commit 2: edges 358,915 → 358,998 (Beliaev +91, Tolonen −8);
+significant 102,557 → 113,725 (up 33,971 → 39,689, down 68,586 → 74,036); 1,510 edges without direction.
+Per-paper numbers are in CHANGELOG `### Data`. All 61 paperconfigs pass `validate_paperconfig.py`.

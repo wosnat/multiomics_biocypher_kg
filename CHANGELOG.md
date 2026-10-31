@@ -78,6 +78,17 @@ tag with nothing logged.
 
 ### Breaking
 
+- **Expression significance now follows each paper's own criterion** (2026-10-31 corpus audit,
+  `plans/signed_linear_fold_change.md`). `Changes_expression_of.significant` / `expression_status`
+  change on 22 papers; corpus-wide (offline adapter run) significant edges 102,557 → 113,725. The
+  adapter no longer has a default 2-fold cutoff: every threshold-judged analysis states its own
+  `logfc_threshold` (0 = none), and at least 12 papers had called DE on p/q alone. A row whose
+  p-value cell is empty (DESeq2 NA padj, single-peptide proteins) is now `not_significant` instead
+  of significant on fold change alone. Graded asterisks honour `asterisk_min_level`. Per-paper
+  numbers are under `### Data`.
+- `Changes_expression_of.expression_direction` is absent when `log2_fold_change` is exactly 0 (1,510
+  edges, e.g. signed-linear "1" = no change); it was `down`. Such edges read `not_significant`.
+
 - **`Experiment.background_factors` may now be `[]` — on `genomic_analysis` experiments only**
   (new `omics_type: BIOINFORMATIC`: computed from genome sequence or annotation, no sample, no
   culture). Every other experiment keeps a non-empty list. These 95 annotation experiments (Ford
@@ -163,6 +174,35 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
   `docs/kg-changes/kegg-pathway-exclusions/removed_ids.tsv`.
 
 ### Data
+
+- **Significance corrections from the 2026-10-31 audit** (significant edges before → after, offline
+  adapter run; edge counts unchanged unless stated):
+  - **No fold cutoff in the paper, 2-fold applied by the KG**, now `logfc_threshold: 0`: Weissberg 2025
+    15,175 → 22,398 (the authors' `is_de = padj < 0.05`; 200 NA-padj rows also stop being significant),
+    Hackl 2023 2,365 → 4,311, Johnson 2026b 1,795 → 3,515, Moreno 2023 1,461 → 2,498 (P ≤ 0.05, no fold
+    cutoff), Lin 2015 163 → 217 (also padj < 0.1, the paper's cutoff), Ferrer 2020 735 → 768, Read 2017
+    597 → 581 (BH q < 0.05 on q rounded to 2 decimals, so ≤ 0.049).
+  - **Tables listing only the paper's DE genes, now `prefiltered`**: Tai 2009 99 → 574, Domínguez-Martin
+    2017 138 → 367, Capovilla 2023 58 → 97, Biller 2016 MIT1002 1,486 → 2,053 (Table S3 has only genes up
+    at both 24 h and 48 h; scope now `filtered_subset`, the down genes were never published), Beliaev 2014.
+  - **Tables that are not DE lists, previously `prefiltered`**: Al-Hosani 2015 1,881 → 599 (whole-genome
+    table; the paper's raw p < 0.05 with no fold cutoff), Hennon 2017 Table S2 103 → 26 (the 103
+    P < 0.05 rows; the paper requires fold change > 2).
+  - **Graded asterisks**: Tolonen 2006 1,982 → 1,325 and Thompson 2011 482 → 342. A single `*` is
+    below the paper's DE criterion (Tolonen 0.01 < q < 0.05 vs q < 0.01; Thompson fold < 2), now
+    `asterisk_min_level: 2`. Tolonen also drops the garbled PMM1118 (hli4) row, where two probesets
+    were interleaved (−8 edges).
+  - **Empty p-values**: Pandhal 2007 34 → 16 (single-peptide proteins without a p-value; the paper
+    requires > 1 peptide), Koch 2019 −3.
+- **Fuszard 2012 NATL2A** — data correction. The supplement's "Ratio of means" is Deplete Mean / `# peptides`
+  on all 63 rows, so the KG asserted 61 down-regulated proteins. Now log2(Deplete / Control): 6 up and
+  1 down past the paper's 1.6 / 0.6 cutoff, which matches the paper. All three Fuszard tables are
+  `all_detected_genes` (they list every quantified protein). Fuszard significant 74 → 20.
+- **Beliaev 2014** Tables S3–S8: fold changes re-derived from RPKM with a one-read pseudocount. The
+  authors' zero-read floor (RPKM 0.12) drove every top-50 effect (up to 498-fold), and 97 genes that
+  drop to zero printed as 0.00 and were lost (+91 edges, max |log2FC| 8.96 → 8.08).
+- Documented, not changed: zero-count magnitudes in Capovilla 2023 (to ±21.5; VST counts only),
+  Anjur-Dietrich 2026 (two genes at +24 / +26; no count table) and Huang 2021 (unreplicated).
 
 - **Fold-change scale corrections (2026-10-31).** Six papers' fold changes were stored on the wrong
   scale in `Changes_expression_of.log2_fold_change`. Edge counts and significance calls are unchanged
@@ -391,6 +431,11 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 
 ### Added
 
+- `asterisk_min_level` (paperconfig): the minimum number of `*` that counts as significant, for
+  legends that grade stars below the paper's DE criterion.
+- `_modified.csv` builders `build_beliaev2014_modified_csv.py` and `build_tolonen2006_modified_csv.py`;
+  `build_fuszard2012_modified_csv.py` now always recomputes Deplete / Control.
+
 - `fold_change_type: signed_linear` for DE tables that publish signed linear ratios (+3 = 3-fold up,
   -3 = 3-fold down): stored as sign(x) · log2|x|. A value in (-1, 1), which that convention cannot
   hold, is an error in `validate_paperconfig.py` (whole column checked) and makes the adapter build no
@@ -464,6 +509,10 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 
 ### Changed
 
+- `omics_adapter` has no default `logfc_threshold`. `validate_paperconfig.py` errors when a
+  threshold-judged analysis (not `prefiltered`, no asterisks) has none, and the adapter builds no
+  edges for it. All 180 analyses that relied on the old 2-fold default now state the paper's value.
+
 - **InterPro reference refreshed to release 110.0** (3 Sep 2026; was 109.0): 54,922 entries
   (+854 / −122). Entry names, GO and EC cross-references follow the new release: over the merged
   gene annotations, EC tokens −352 / +43 (mostly the vague `6.3.5.-` dropped from 201 genes), GO
@@ -479,6 +528,9 @@ TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `do
 - **prepare_data step 7 folded into step 6** (`resolve_paper_metabolites.py` is a no-op alias; step 6 writes the `_resolved.csv` files). Default `STEPS` is now `0 9 1 2 3 4 5 6 8 10`.
 
 ### Fixed
+
+- A declared p-value column with an empty cell no longer makes a row significant on fold change
+  alone; the row is `not significant`.
 
 - An explicit `logfc_threshold: 0` or `pvalue_threshold: 0` in a paperconfig was silently replaced by the
   adapter default (1.0 / 0.05), because the threshold was read with `or`. "No fold cutoff" can now be

@@ -44,7 +44,8 @@ publication:
       temperature: 24C
       light_condition: 13:11 light:dark cycle with simulated dawn and dusk
       light_intensity: 37 umol photons m-2 s-1
-      table_scope: significant_any_timepoint
+      table_scope: all_detected_genes
+      table_scope_detail: "Table S4 lists all 4,128 MIT1002 genes; 364 are starred (BH padj < 0.01) at >= 1 time point"
   supplementary_materials:
     supp_table_2:
       type: csv

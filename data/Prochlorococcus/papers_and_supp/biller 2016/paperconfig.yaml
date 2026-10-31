@@ -44,7 +44,8 @@ publication:
       temperature: 21C
       light_condition: continuous light
       light_intensity: 30 umol photons m-2 s-1
-      table_scope: significant_any_timepoint
+      table_scope: filtered_subset
+      table_scope_detail: "Only MIT1002 genes significantly UP (padj < 0.1) at both 24 h and 48 h vs 12 h; the down-regulated genes (711 at 24 h, 792 at 48 h, Table 3) were not published"
       design_notes: >-
         24h vs 12h: both arms are the same three cocultures; the control was sampled 12 h after
         Alteromonas addition, when the Alteromonas population had stopped declining but was not yet
@@ -69,7 +70,8 @@ publication:
       temperature: 21C
       light_condition: continuous light
       light_intensity: 30 umol photons m-2 s-1
-      table_scope: significant_any_timepoint
+      table_scope: filtered_subset
+      table_scope_detail: "Only MIT1002 genes significantly UP (padj < 0.1) at both 24 h and 48 h vs 12 h; the down-regulated genes (711 at 24 h, 792 at 48 h, Table 3) were not published"
       design_notes: >-
         48h vs 12h: both arms are the same three cocultures; the control was sampled 12 h after
         Alteromonas addition, when the Alteromonas population had stopped declining but was not yet
@@ -179,6 +181,7 @@ publication:
         growth_phase: unknown
         name_col: Gene ID
         logfc_col: log2FoldChange (24 vs 12 hrs after addition)
+        prefiltered: true   # Table S3 lists only genes up (padj < 0.1) at both 24 h and 48 h
       - id: DE_alteromonas_MIT1002_coculture_48v12h
         experiment: coculture_48_hours_after_coculturing_mit1002_rnaseq
         timepoint: 48h
@@ -186,3 +189,4 @@ publication:
         growth_phase: unknown
         name_col: Gene ID
         logfc_col: log2FoldChange (48 vs 12 hrs after addition)
+        prefiltered: true   # Table S3 lists only genes up (padj < 0.1) at both 24 h and 48 h

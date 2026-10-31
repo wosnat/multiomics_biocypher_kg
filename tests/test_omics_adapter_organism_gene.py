@@ -83,7 +83,7 @@ def sample_config(temp_data_dir, sample_de_data):
                             'timepoint': '24h',
                             'timepoint_hours': 24.0,
                             'name_col': 'Synonym',
-                            'logfc_col': 'log2_fold_change',
+                            'logfc_col': 'log2_fold_change', 'logfc_threshold': 1.0,
                             'adjusted_p_value_col': 'adjusted_p_value',
                         }
                     ]
@@ -172,7 +172,7 @@ class TestOrganismNodeCreation:
                                 'test_type': 'DESeq2',
                                 'organism': 'Prochlorococcus MED4',
                                 'name_col': 'Synonym',
-                                'logfc_col': 'log2_fold_change',
+                                'logfc_col': 'log2_fold_change', 'logfc_threshold': 1.0,
                                 'adjusted_p_value_col': 'adjusted_p_value',
                             }
                         ]
@@ -244,7 +244,7 @@ class TestExperimentNodeCreation:
                             {
                                 'id': 'test_de_analysis',
                                 'name_col': 'Synonym',
-                                'logfc_col': 'log2_fold_change',
+                                'logfc_col': 'log2_fold_change', 'logfc_threshold': 1.0,
                                 'adjusted_p_value_col': 'adjusted_p_value',
                             }
                         ]
@@ -464,7 +464,7 @@ class TestNonCocultureExperimentEdges:
                                 'id': 'gas_shock_air_analysis',
                                 'experiment': 'gas_shock_air',
                                 'name_col': 'Synonym',
-                                'logfc_col': 'log2_fold_change',
+                                'logfc_col': 'log2_fold_change', 'logfc_threshold': 1.0,
                                 'adjusted_p_value_col': 'adjusted_p_value',
                             }
                         ]
@@ -572,7 +572,7 @@ class TestSkipRowsWithMissingFoldChange:
                                 'id': 'test_missing_fc',
                                 'experiment': 'test_exp',
                                 'name_col': 'Synonym',
-                                'logfc_col': 'log2_fold_change',
+                                'logfc_col': 'log2_fold_change', 'logfc_threshold': 1.0,
                                 'adjusted_p_value_col': 'adjusted_p_value',
                             }
                         ]
@@ -662,7 +662,7 @@ class TestSkipRows:
                                 'id': 'test_skip_rows',
                                 'experiment': 'skip_rows_exp',
                                 'name_col': 'Gene_ID',
-                                'logfc_col': 'log2FC',
+                                'logfc_col': 'log2FC', 'logfc_threshold': 1.0,
                                 'adjusted_p_value_col': None,
                                 'skip_rows': 3,
                             }
@@ -737,7 +737,7 @@ class TestSkipRows:
                                 'id': 'test_no_skip_rows',
                                 'experiment': 'no_skip_exp',
                                 'name_col': 'Gene_ID',
-                                'logfc_col': 'log2FC',
+                                'logfc_col': 'log2FC', 'logfc_threshold': 1.0,
                                 'adjusted_p_value_col': None,
                                 # No skip_rows — should not find Gene_ID column
                             }
@@ -812,7 +812,7 @@ class TestPvalueAsteriskInLogfc:
                                 'id': 'test_asterisk',
                                 'experiment': 'asterisk_exp',
                                 'name_col': 'Gene_ID',
-                                'logfc_col': 'log2FC',
+                                'logfc_col': 'log2FC', 'logfc_threshold': 1.0,
                                 'adjusted_p_value_col': None,
                                 'pvalue_asterisk_in_logfc': True,
                             }
@@ -917,7 +917,7 @@ class TestPvalueAsteriskInLogfc:
                                 'id': 'test_no_asterisk',
                                 'experiment': 'no_ast_exp',
                                 'name_col': 'Gene_ID',
-                                'logfc_col': 'log2FC',
+                                'logfc_col': 'log2FC', 'logfc_threshold': 1.0,
                                 'adjusted_p_value_col': None,
                                 # No pvalue_asterisk_in_logfc — stars are stripped but not
                                 # used for significance
@@ -986,7 +986,7 @@ class TestPvalueAsteriskInLogfc:
                                 'id': 'test_leading_asterisk',
                                 'experiment': 'lead_ast_exp',
                                 'name_col': 'Gene_ID',
-                                'logfc_col': 'log2FC',
+                                'logfc_col': 'log2FC', 'logfc_threshold': 1.0,
                                 'adjusted_p_value_col': None,
                                 'pvalue_asterisk_in_logfc': True,
                             }
@@ -1080,7 +1080,7 @@ class TestSkipRowsWithAsterisk:
                                 'id': 'de_biller_style',
                                 'experiment': 'biller_coculture_exp',
                                 'name_col': 'Gene_ID',
-                                'logfc_col': '24 hours',
+                                'logfc_col': '24 hours', 'logfc_threshold': 1.0,
                                 'adjusted_p_value_col': None,
                                 'skip_rows': 3,
                                 'pvalue_asterisk_in_logfc': True,
@@ -1264,7 +1264,7 @@ class TestMultiOMICSAdapter:
                                     'id': f'test_multi_adapter_{organism.replace(" ", "_")}',
                                     'experiment': exp_key,
                                     'name_col': 'Synonym',
-                                    'logfc_col': 'log2_fold_change',
+                                    'logfc_col': 'log2_fold_change', 'logfc_threshold': 1.0,
                                     'adjusted_p_value_col': 'adjusted_p_value',
                                 }
                             ]
@@ -1367,7 +1367,7 @@ class TestMultiOMICSAdapter:
                         'statistical_analyses': [{
                             'id': 'test_list_adapter',
                             'experiment': 'test_exp',
-                            'name_col': 'Synonym', 'logfc_col': 'log2_fold_change',
+                            'name_col': 'Synonym', 'logfc_col': 'log2_fold_change', 'logfc_threshold': 1.0,
                             'adjusted_p_value_col': 'adjusted_p_value',
                         }]
                     }
@@ -1413,7 +1413,7 @@ class TestGeneIdCleaning:
             'id': 'test_gene_id_clean',
             'experiment': 'gene_clean_exp',
             'name_col': 'Gene_ID',
-            'logfc_col': 'log2FC',
+            'logfc_col': 'log2FC', 'logfc_threshold': 1.0,
             'adjusted_p_value_col': None,
         }
         if analysis_extra:
@@ -1548,7 +1548,7 @@ class TestUnifiedEdgeLabel:
                             'id': 'unified_label_test',
                             'experiment': 'light_exp',
                             'name_col': 'Gene',
-                            'logfc_col': 'log2FC',
+                            'logfc_col': 'log2FC', 'logfc_threshold': 1.0,
                             'adjusted_p_value_col': 'padj',
                         }],
                     }
@@ -1639,7 +1639,7 @@ class TestExperimentNodeProperties:
                             'id': 'a1',
                             'experiment': 'test_exp',
                             'name_col': 'Synonym',
-                            'logfc_col': 'log2_fold_change',
+                            'logfc_col': 'log2_fold_change', 'logfc_threshold': 1.0,
                             'adjusted_p_value_col': 'adjusted_p_value',
                         }]
                     }

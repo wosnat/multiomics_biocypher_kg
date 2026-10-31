@@ -19,7 +19,8 @@ publication:
       temperature: 21C
       light_condition: continuous light
       light_intensity: 30 umol photons m-2 s-1
-      table_scope: significant_only
+      table_scope: filtered_subset
+      table_scope_detail: "34 P-acquisition / P-related NATL2A genes (Fig. 2 set) at all time points, including non-significant rows"
       control_timing: mixed
       design_notes: >-
         4h, 24h, 46h, 59h and 59h (P added): P-limited (or P re-added at 46h) cultures vs the
@@ -40,7 +41,8 @@ publication:
       temperature: 21C
       light_condition: continuous light
       light_intensity: 30 umol photons m-2 s-1
-      table_scope: significant_only
+      table_scope: filtered_subset
+      table_scope_detail: "34 P-acquisition / P-related NATL2A genes (Fig. 2 set) at all time points, including non-significant rows"
   supplementary_materials:
     supp_table_s4a:
       type: csv
@@ -60,6 +62,8 @@ publication:
         growth_phase: nutrient_limited
         name_col: ID
         logfc_col: 4 h (-P/control) log2 fold change
+        logfc_threshold: 0   # DESeq padj < 0.1, no fold cutoff (Methods p. 457)
+        pvalue_threshold: 0.1
         adjusted_p_value_col: 4 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_uninfected_24h
         experiment: phosphorus_plimited_natl2a_rnaseq_uninfected
@@ -68,6 +72,8 @@ publication:
         growth_phase: nutrient_limited
         name_col: ID
         logfc_col: 24 h (-P/control) log2 fold change
+        logfc_threshold: 0   # DESeq padj < 0.1, no fold cutoff (Methods p. 457)
+        pvalue_threshold: 0.1
         adjusted_p_value_col: 24 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_uninfected_46h
         experiment: phosphorus_plimited_natl2a_rnaseq_uninfected
@@ -76,6 +82,8 @@ publication:
         growth_phase: nutrient_limited
         name_col: ID
         logfc_col: 46 h (-P/control) log2 fold change
+        logfc_threshold: 0   # DESeq padj < 0.1, no fold cutoff (Methods p. 457)
+        pvalue_threshold: 0.1
         adjusted_p_value_col: 46 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_uninfected_59h
         experiment: phosphorus_plimited_natl2a_rnaseq_uninfected
@@ -84,6 +92,8 @@ publication:
         growth_phase: nutrient_limited
         name_col: ID
         logfc_col: 59 h (-P/control) log2 fold change
+        logfc_threshold: 0   # DESeq padj < 0.1, no fold cutoff (Methods p. 457)
+        pvalue_threshold: 0.1
         adjusted_p_value_col: 59 h (-P/control) padj
       - id: DE_P_readded_vs_control_NATL2A_uninfected_50h
         experiment: phosphorus_plimited_natl2a_rnaseq_uninfected
@@ -92,6 +102,8 @@ publication:
         growth_phase: recovery
         name_col: ID
         logfc_col: 50 h (P added/control) log2 fold change
+        logfc_threshold: 0   # DESeq padj < 0.1, no fold cutoff (Methods p. 457)
+        pvalue_threshold: 0.1
         adjusted_p_value_col: 50 h (P added/control) padj
       - id: DE_P_readded_vs_control_NATL2A_uninfected_59h
         experiment: phosphorus_plimited_natl2a_rnaseq_uninfected
@@ -100,6 +112,8 @@ publication:
         growth_phase: recovery
         name_col: ID
         logfc_col: 59 h (P added/control) log2 fold change
+        logfc_threshold: 0   # DESeq padj < 0.1, no fold cutoff (Methods p. 457)
+        pvalue_threshold: 0.1
         adjusted_p_value_col: 59 h (P added/control) padj
     supp_table_s4b:
       type: csv
@@ -119,6 +133,8 @@ publication:
         growth_phase: infected
         name_col: ID
         logfc_col: 47 h (-P/control) log2 fold change
+        logfc_threshold: 0   # DESeq padj < 0.1, no fold cutoff (Methods p. 457)
+        pvalue_threshold: 0.1
         adjusted_p_value_col: 47 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_infected_48h
         experiment: phosphorus_plimited_natl2a_rnaseq_infected
@@ -127,6 +143,8 @@ publication:
         growth_phase: infected
         name_col: ID
         logfc_col: 48 h (-P/control) log2 fold change
+        logfc_threshold: 0   # DESeq padj < 0.1, no fold cutoff (Methods p. 457)
+        pvalue_threshold: 0.1
         adjusted_p_value_col: 48 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_infected_49h
         experiment: phosphorus_plimited_natl2a_rnaseq_infected
@@ -135,6 +153,8 @@ publication:
         growth_phase: infected
         name_col: ID
         logfc_col: 49 h (-P/control) log2 fold change
+        logfc_threshold: 0   # DESeq padj < 0.1, no fold cutoff (Methods p. 457)
+        pvalue_threshold: 0.1
         adjusted_p_value_col: 49 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_infected_51h
         experiment: phosphorus_plimited_natl2a_rnaseq_infected
@@ -143,6 +163,8 @@ publication:
         growth_phase: infected
         name_col: ID
         logfc_col: 51 h (-P/control) log2 fold change
+        logfc_threshold: 0   # DESeq padj < 0.1, no fold cutoff (Methods p. 457)
+        pvalue_threshold: 0.1
         adjusted_p_value_col: 51 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_infected_55h
         experiment: phosphorus_plimited_natl2a_rnaseq_infected
@@ -151,6 +173,8 @@ publication:
         growth_phase: infected
         name_col: ID
         logfc_col: 55 h (-P/control) log2 fold change
+        logfc_threshold: 0   # DESeq padj < 0.1, no fold cutoff (Methods p. 457)
+        pvalue_threshold: 0.1
         adjusted_p_value_col: 55 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_infected_59h
         experiment: phosphorus_plimited_natl2a_rnaseq_infected
@@ -159,6 +183,8 @@ publication:
         growth_phase: infected
         name_col: ID
         logfc_col: 59 h (-P/control) log2 fold change
+        logfc_threshold: 0   # DESeq padj < 0.1, no fold cutoff (Methods p. 457)
+        pvalue_threshold: 0.1
         adjusted_p_value_col: 59 h (-P/control) padj
       - id: DE_P_readded_vs_control_NATL2A_infected_55h
         experiment: phosphorus_plimited_natl2a_rnaseq_infected
@@ -167,6 +193,8 @@ publication:
         growth_phase: recovery
         name_col: ID
         logfc_col: 55 h (P added/control) log2 fold change
+        logfc_threshold: 0   # DESeq padj < 0.1, no fold cutoff (Methods p. 457)
+        pvalue_threshold: 0.1
         adjusted_p_value_col: 55 h (P added/control) padj
       - id: DE_P_readded_vs_control_NATL2A_infected_59h
         experiment: phosphorus_plimited_natl2a_rnaseq_infected
@@ -175,4 +203,6 @@ publication:
         growth_phase: recovery
         name_col: ID
         logfc_col: 59 h (P added/control) log2 fold change
+        logfc_threshold: 0   # DESeq padj < 0.1, no fold cutoff (Methods p. 457)
+        pvalue_threshold: 0.1
         adjusted_p_value_col: 59 h (P added/control) padj

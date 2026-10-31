@@ -130,6 +130,7 @@ publication:
         growth_phase: exponential
         name_col: Synonym
         logfc_col: log 2 fold change coculture/axenic
+        logfc_threshold: 1.0   # Methods: fold change > 2, q < 0.05, expression > 10
         adjusted_p_value_col: q Value
         pvalue_threshold: 0.05
     # HOT1A3 tables: the published fold change is (a+0.01)/(b+0.01), so a 1-vs-0 read gene
@@ -152,6 +153,7 @@ publication:
         growth_phase: exponential
         name_col: Synonym
         logfc_col: log2_fold_change
+        logfc_threshold: 1.0   # Methods: fold change > 2, q < 0.05, expression > 10
         adjusted_p_value_col: qValue 9313+1A3  vs 9313+1A3 dil
         pvalue_threshold: 0.01
     supp_table_hot1a3_9313_vs_med4:
@@ -171,6 +173,7 @@ publication:
         growth_phase: exponential
         name_col: Synonym
         logfc_col: log2_fold_change
+        logfc_threshold: 1.0   # Methods: fold change > 2, q < 0.05, expression > 10
         adjusted_p_value_col: qValue 9313+1A3  vs med 4
         pvalue_threshold: 0.01
     supp_table_2:
@@ -189,6 +192,7 @@ publication:
         growth_phase: exponential
         name_col: Synonym
         logfc_col: log 2 fold change coculture/axenic
+        logfc_threshold: 1.0   # Methods: fold change > 2, q < 0.05, expression > 10
         adjusted_p_value_col: q Value
         pvalue_threshold: 0.05
     supp_table_3:
@@ -207,5 +211,6 @@ publication:
         growth_phase: exponential
         name_col: Synonym
         logfc_col: log 2 fold change coculture/axenic
+        logfc_threshold: 1.0   # Methods: fold change > 2, q < 0.05, expression > 10
         adjusted_p_value_col: q Value
         pvalue_threshold: 0.05

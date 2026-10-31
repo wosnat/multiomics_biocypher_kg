@@ -26,8 +26,8 @@ publication:
       temperature: "21C (growth) / 23C (experimental)"
       light_condition: "13:11 L:D"
       light_intensity: "30 umol photons m-2 s-1"
-      table_scope: significant_only
-      table_scope_detail: "Only proteins reaching the paper's fold-change cutoff (>1.6 or <0.6) are reported in S1."
+      table_scope: all_detected_genes
+      table_scope_detail: "Every protein quantified with >= 2 peptides; the paper's fold-change cutoff (>1.6 or <0.6) is applied as logfc_threshold."
 
       design_notes: >-
         Matched by growth state, not by sampling day: Pi-replete and Pi-deplete cultures were grown in
@@ -48,8 +48,8 @@ publication:
       temperature: "21C (growth) / 23C (experimental)"
       light_condition: "13:11 L:D"
       light_intensity: "10 umol photons m-2 s-1"
-      table_scope: significant_only
-      table_scope_detail: "Only proteins reaching the paper's fold-change cutoff (>1.6 or <0.6) are reported in S1."
+      table_scope: all_detected_genes
+      table_scope_detail: "Every protein quantified with >= 2 peptides; the paper's fold-change cutoff (>1.6 or <0.6) is applied as logfc_threshold."
 
       design_notes: >-
         Matched by growth state, not by sampling day: Pi-replete and Pi-deplete cultures were grown in
@@ -70,8 +70,8 @@ publication:
       temperature: "21C (growth) / 23C (experimental)"
       light_condition: "13:11 L:D"
       light_intensity: "20 umol photons m-2 s-1"
-      table_scope: significant_only
-      table_scope_detail: "Only proteins reaching the paper's fold-change cutoff (>1.6 or <0.6) are reported in S1."
+      table_scope: all_detected_genes
+      table_scope_detail: "Every protein quantified with >= 2 peptides; the paper's fold-change cutoff (>1.6 or <0.6) is applied as logfc_threshold."
 
       design_notes: >-
         Matched by growth state, not by sampling day: Pi-replete and Pi-deplete cultures were grown in
@@ -103,7 +103,7 @@ publication:
           logfc_col: "log2_fold_change"
           adjusted_p_value_col: null
           logfc_threshold: 0.678
-          table_scope: significant_only
+          table_scope: all_detected_genes
           timepoint: "stationary"
           timepoint_hours: null
           growth_phase: stationary
@@ -127,7 +127,7 @@ publication:
           logfc_col: "log2_fold_change"
           adjusted_p_value_col: null
           logfc_threshold: 0.678
-          table_scope: significant_only
+          table_scope: all_detected_genes
           timepoint: "mid-exponential"
           timepoint_hours: null
           growth_phase: exponential
@@ -151,7 +151,7 @@ publication:
           logfc_col: "log2_fold_change"
           adjusted_p_value_col: null
           logfc_threshold: 0.678
-          table_scope: significant_only
+          table_scope: all_detected_genes
           timepoint: "stationary"
           timepoint_hours: null
           growth_phase: stationary

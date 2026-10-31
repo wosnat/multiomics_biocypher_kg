@@ -47,6 +47,9 @@ publication:
       id_columns:
       - column: ID
         id_type: jgi_id
+      # Zero-count magnitudes (2026-10-31 audit): IMG 2626312218 (+24.45) and 2626313376 (+26.13) are
+      # almost certainly zero in the biofilm arm (edgeR estimate against no reads); they rank 1-2 by
+      # effect. Not recomputed: no count table here (reads in SRA only).
       statistical_analyses:
       - id: DE_freeliving_vs_biofilm_MIT9301
         experiment: growth_state_freeliving_planktonic_enrichment_mit9301_rnaseq

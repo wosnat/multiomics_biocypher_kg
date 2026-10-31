@@ -71,6 +71,7 @@ publication:
           growth_phase: diel
           name_col: "refseq_locus"
           logfc_col: "log2fc_2h"
+          logfc_threshold: 0   # DESeq2 padj < 0.05, no fold cutoff (reproduces 897 / 121)
           adjusted_p_value_col: "padj_2h"
           pvalue_threshold: 0.05
           prefiltered: false
@@ -81,6 +82,7 @@ publication:
           growth_phase: diel
           name_col: "refseq_locus"
           logfc_col: "log2fc_4h"
+          logfc_threshold: 0   # DESeq2 padj < 0.05, no fold cutoff (reproduces 897 / 121)
           adjusted_p_value_col: "padj_4h"
           pvalue_threshold: 0.05
           prefiltered: false
@@ -100,6 +102,7 @@ publication:
           growth_phase: diel
           name_col: "refseq_locus"
           logfc_col: "log2fc_14h"
+          logfc_threshold: 0   # DESeq2 padj < 0.05, no fold cutoff (reproduces 897 / 121)
           adjusted_p_value_col: "padj_14h"
           pvalue_threshold: 0.05
           prefiltered: false
@@ -110,6 +113,7 @@ publication:
           growth_phase: diel
           name_col: "refseq_locus"
           logfc_col: "log2fc_16h"
+          logfc_threshold: 0   # DESeq2 padj < 0.05, no fold cutoff (reproduces 897 / 121)
           adjusted_p_value_col: "padj_16h"
           pvalue_threshold: 0.05
           prefiltered: false

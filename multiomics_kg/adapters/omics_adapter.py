@@ -186,7 +186,7 @@ class OMICSAdapter:
         organism: int | Literal["*"] | None = None,
         significance_mode: Literal["all", "significant_only"] = "all",
         default_pvalue_threshold: float | None = 0.05,
-        default_logfc_threshold: float | None = 1.0,
+        default_logfc_threshold: float | None = None,
     ):
         """
         Initialize the OMICS adapter.
@@ -202,7 +202,9 @@ class OMICSAdapter:
             significance_mode: "all" to create all edges with significant flag,
                 "significant_only" to skip non-significant edges
             default_pvalue_threshold: Default adjusted p-value threshold for significance
-            default_logfc_threshold: Default |log2FC| threshold for significance
+            default_logfc_threshold: Default |log2FC| threshold for significance. None
+                (the default) means every threshold-judged analysis must state its own
+                `logfc_threshold` (0 = no fold cutoff); one that doesn't is refused.
         """
         model = OMICSModel(
             edge_types=edge_types,
@@ -655,6 +657,7 @@ class OMICSAdapter:
         pvalue: float | None,
         asterisk_significant: bool | None,
         analysis: dict,
+        p_missing: bool = False,
     ) -> str:
         """
         Determine whether a row is statistically significant.
@@ -662,8 +665,10 @@ class OMICSAdapter:
         Priority order:
         1. prefiltered: true → always "significant"
         2. pvalue_asterisk_in_logfc → use asterisk_significant
-        3. Thresholds (config overrides constructor defaults)
-        4. "unknown" if no info available
+        3. p_missing (the table has a p-value column but this row's cell is empty,
+           e.g. a DESeq2 NA padj) → "not significant": untested is not significant
+        4. Thresholds (config overrides constructor defaults)
+        5. "unknown" if no info available
 
         Returns:
             "significant", "not significant", or "unknown".
@@ -673,6 +678,9 @@ class OMICSAdapter:
 
         if asterisk_significant is not None:
             return 'significant' if asterisk_significant else 'not significant'
+
+        if p_missing:
+            return 'not significant'
 
         # `is not None`, not `or`: an explicit threshold of 0 must not fall back to the default.
         pval_thresh = analysis.get('pvalue_threshold')
@@ -760,6 +768,7 @@ class OMICSAdapter:
             logfc_col = analysis.get('logfc_col', None)
             p_value_col = analysis.get('adjusted_p_value_col', None)
             pvalue_asterisk = analysis.get('pvalue_asterisk_in_logfc', False)
+            asterisk_min_level = int(analysis.get('asterisk_min_level', 1))
 
             # Validate columns exist
             missing_cols = []
@@ -784,6 +793,15 @@ class OMICSAdapter:
                 elif p_value_col not in df.columns:
                     logger.warning(f"Column '{p_value_col}' not found in {filename}. P-value will not be included in edges.")
 
+
+            if (analysis.get('logfc_threshold') is None and self.default_logfc_threshold is None
+                    and not analysis.get('prefiltered') and not pvalue_asterisk):
+                logger.error(
+                    "%s: no logfc_threshold. Every threshold-judged analysis states its fold "
+                    "cutoff (0 = none, as the paper's criterion says); no edges are built for "
+                    "this analysis.", analysis.get('id', ''),
+                )
+                return edges
 
             if analysis.get('fold_change_type') == 'signed_linear':
                 bad = signed_linear_violations(df[logfc_col].dropna().tolist())
@@ -843,8 +861,11 @@ class OMICSAdapter:
                     # Handle asterisk-based significance markers in logFC column
                     # Supports trailing "1.1 *", leading "* 1.1", or bare "1.1*"
                     if pvalue_asterisk:
-                        has_asterisk = fc_str.startswith('*') or fc_str.endswith('*')
-                        asterisk_significant = has_asterisk
+                        # Count the marker: "**1.1", "1.1 **". A paper whose "*" is a
+                        # weaker band than its DE criterion sets asterisk_min_level: 2.
+                        n_stars = max(len(fc_str) - len(fc_str.lstrip('*')),
+                                      len(fc_str) - len(fc_str.rstrip('*')))
+                        asterisk_significant = n_stars >= asterisk_min_level
                         fc_str = fc_str.strip('*').strip()
                     else:
                         # Always strip stray whitespace and stars from logFC values
@@ -892,8 +913,13 @@ class OMICSAdapter:
 
                 # Check significance and optionally filter
                 # Judge the log2 value: a linear ratio below 1 is a down-regulation.
+                # A declared p-value column with an empty / non-numeric cell (DESeq2 NA padj,
+                # single-peptide proteins) means "not tested", never "significant on fold alone".
+                p_missing = (asterisk_significant is None and pval is None
+                             and bool(p_value_col) and p_value_col in df.columns)
                 significant = self._check_significance(
-                    edge_properties.get('log2_fold_change'), pval, asterisk_significant, analysis
+                    edge_properties.get('log2_fold_change'), pval, asterisk_significant, analysis,
+                    p_missing=p_missing,
                 )
                 edge_properties['significant'] = significant
                 if self.significance_mode == "significant_only" and significant == 'not significant':
@@ -903,7 +929,10 @@ class OMICSAdapter:
                 # Determine expression direction from fold change
                 if 'log2_fold_change' in edge_properties:
                     fc = edge_properties['log2_fold_change']
-                    edge_properties['expression_direction'] = 'up' if fc > 0 else 'down'
+                    # A log2FC of exactly 0 has no direction: the property is omitted
+                    # (post-import then reads the edge as not_significant).
+                    if fc != 0:
+                        edge_properties['expression_direction'] = 'up' if fc > 0 else 'down'
 
                 # Timepoint properties
                 if time_point:

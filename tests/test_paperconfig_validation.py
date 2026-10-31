@@ -107,7 +107,7 @@ def _make_valid_config(csv_path: Path, overrides: dict = None,
         "experiment": "exp_coculture",
         "timepoint_hours": None,
         "name_col": "Gene",
-        "logfc_col": "log2FC",
+        "logfc_col": "log2FC", "logfc_threshold": 1.0,
         "adjusted_p_value_col": "padj",
     }
     if overrides:
@@ -780,7 +780,7 @@ def test_validate_paperconfig_content_accepts_minimal_valid_config(tmp_path):
                             "id": "an1",
                             "experiment": "exp1",
                             "name_col": "Gene",
-                            "logfc_col": "log2FC",
+                            "logfc_col": "log2FC", "logfc_threshold": 1.0,
                             "adjusted_p_value_col": "padj",
                             "timepoint": "unknown",
                             "timepoint_hours": None,
@@ -823,7 +823,7 @@ def test_validate_rejects_unknown_compartment(tmp_path):
             "supplementary_materials": {
                 "t1": {"type": "csv", "filename": str(csv_file),
                        "statistical_analyses": [{"id": "a", "experiment": "exp1",
-                                                 "name_col": "Gene", "logfc_col": "log2FC",
+                                                 "name_col": "Gene", "logfc_col": "log2FC", "logfc_threshold": 1.0,
                                                  "adjusted_p_value_col": "padj",
                                                  "timepoint": "unknown", "timepoint_hours": None,
                                                  "growth_phase": "exponential"}]},
@@ -855,7 +855,7 @@ def test_validate_accepts_whole_cell_compartment(tmp_path):
             "supplementary_materials": {"t1": {
                 "type": "csv", "filename": str(csv_file),
                 "statistical_analyses": [{"id": "a", "experiment": "exp1",
-                                          "name_col": "Gene", "logfc_col": "log2FC",
+                                          "name_col": "Gene", "logfc_col": "log2FC", "logfc_threshold": 1.0,
                                           "adjusted_p_value_col": "padj",
                                           "timepoint": "unknown", "timepoint_hours": None,
                                           "growth_phase": "exponential"}],
@@ -885,7 +885,7 @@ def test_validate_accepts_paired_rnaseq_proteome_omics_type(tmp_path):
             "supplementary_materials": {"t1": {
                 "type": "csv", "filename": str(csv_file),
                 "statistical_analyses": [{"id": "a", "experiment": "exp1",
-                                          "name_col": "Gene", "logfc_col": "log2FC",
+                                          "name_col": "Gene", "logfc_col": "log2FC", "logfc_threshold": 1.0,
                                           "adjusted_p_value_col": "padj",
                                           "timepoint": "unknown", "timepoint_hours": None,
                                           "growth_phase": "exponential"}],

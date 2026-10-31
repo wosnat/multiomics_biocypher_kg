@@ -100,6 +100,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S0.C0"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh7803_syn9_30min
           experiment: syn9_infection_wh7803
@@ -108,6 +109,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S30.C30"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh7803_syn9_60min
           experiment: syn9_infection_wh7803
@@ -116,6 +118,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S60.C60"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh7803_syn9_90min
           experiment: syn9_infection_wh7803
@@ -124,6 +127,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S90.C90"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh7803_syn9_120min
           experiment: syn9_infection_wh7803
@@ -132,6 +136,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S120.C120"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh7803_syn9_180min
           experiment: syn9_infection_wh7803
@@ -140,6 +145,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S180.C180"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh7803_syn9_240min
           experiment: syn9_infection_wh7803
@@ -148,6 +154,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S240.C240"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           # limma omnibus series-level BH-adjusted F-test p — see table_scope_detail
           adjusted_p_value_col: "adj.P.Val"
           pvalue_threshold: 0.05
@@ -175,6 +182,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "SYN9.0.C0"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh8102_syn9_0_5h
           experiment: syn9_infection_wh8102
@@ -183,6 +191,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "SYN9.0.5.C0.5"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh8102_syn9_1h
           experiment: syn9_infection_wh8102
@@ -191,6 +200,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "SYN9.1.C1"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh8102_syn9_1_5h
           experiment: syn9_infection_wh8102
@@ -199,6 +209,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "SYN9.1.5.C1.5"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh8102_syn9_2h
           experiment: syn9_infection_wh8102
@@ -207,6 +218,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "SYN9.2.C2"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh8102_syn9_3h
           experiment: syn9_infection_wh8102
@@ -215,6 +227,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "SYN9.3.C3"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh8102_syn9_4h
           experiment: syn9_infection_wh8102
@@ -223,6 +236,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "SYN9.4.C4"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           # limma omnibus series-level BH-adjusted F-test p — see table_scope_detail
           adjusted_p_value_col: "adj.P.Val"
           pvalue_threshold: 0.05
@@ -250,6 +264,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S0.C0"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh8109_syn9_0_5h
           experiment: syn9_infection_wh8109
@@ -258,6 +273,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S0.5.C0.5"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh8109_syn9_1h
           experiment: syn9_infection_wh8109
@@ -266,6 +282,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S1.C1"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh8109_syn9_1_5h
           experiment: syn9_infection_wh8109
@@ -274,6 +291,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S1.5.C1.5"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh8109_syn9_2h
           experiment: syn9_infection_wh8109
@@ -282,6 +300,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S2.C2"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh8109_syn9_3h
           experiment: syn9_infection_wh8109
@@ -290,6 +309,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S3.C3"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           prefiltered: false
         - id: doron2016_wh8109_syn9_4h
           experiment: syn9_infection_wh8109
@@ -298,6 +318,7 @@ publication:
           growth_phase: infected
           name_col: "locus_tag"
           logfc_col: "S4.C4"
+          logfc_threshold: 1.0   # decision D7(a): per-timepoint calls not published; 2-fold kept
           # limma omnibus series-level BH-adjusted F-test p — see table_scope_detail
           adjusted_p_value_col: "adj.P.Val"
           pvalue_threshold: 0.05

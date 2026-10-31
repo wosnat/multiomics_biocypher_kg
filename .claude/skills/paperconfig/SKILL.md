@@ -853,11 +853,13 @@ Every analysis must have `timepoint`, `timepoint_hours`, and `growth_phase`. Loo
 | `pvalue_asterisk_in_logfc` | Boolean, `true` if significance is marked by `*` appended to fold-change values | When there is no separate p-value column and the fold-change column has asterisks (e.g., `"2.5*"`) |
 | `prefiltered` | Boolean, `true` if the table only contains significant results | When authors pre-filtered the table to significant genes only |
 | `pvalue_threshold` | Adjusted p-value threshold used/stated in the publication (e.g., `0.05`) | When the paper states a specific significance cutoff |
-| `logfc_threshold` | Absolute log2 fold-change threshold used/stated in the publication (e.g., `0.8`, `1.0`) | When the paper states a specific fold-change cutoff |
+| `logfc_threshold` | Absolute log2 fold-change threshold the publication used (e.g., `0.8`, `1.0`); `0` = the paper used no fold cutoff | **Required** unless `prefiltered` or `pvalue_asterisk_in_logfc` decides significance — there is no default (validator error, adapter refuses the analysis) |
+| `fold_change_type` | `log2` (default) · `linear` (unsigned ratio, 0.5 = 2-fold down) · `signed_linear` (+3 = 3-fold up, -3 = 3-fold down; a value in (-1, 1) is an error) | Read the table legend: "positive and negative values indicate increase and decline" on values that are never between -1 and 1 = `signed_linear`. Any other convention (minus-sign-marked ratios, pseudocount ratios) → a `_modified.csv` builder |
+| `asterisk_min_level` | Minimum number of `*` that counts as significant (default 1) | When the legend grades stars (`*` q < 0.05, `**` q < 0.01) and the paper's DE criterion is the stricter band |
 
 **Note on tables where all values are significant:** Some supplementary tables only list genes that are already significantly differentially expressed (pre-filtered by the authors). In these cases, set `prefiltered: true` on the analysis. This tells the adapter that all rows are significant. You may also omit `adjusted_p_value_col` and `pvalue_asterisk_in_logfc` if not applicable.
 
-**Note on significance thresholds:** If the paper or table legend states specific significance criteria (e.g., "adjusted p-value < 0.05 and |log2FC| >= 1"), record these as `pvalue_threshold` and `logfc_threshold`. The adapter uses these to mark edges as significant or not. If the paper does not state thresholds, omit these fields -- the adapter can apply default thresholds from its constructor settings.
+**Note on significance thresholds:** Record the paper's own criterion as `pvalue_threshold` and `logfc_threshold` (e.g., "adjusted p-value < 0.05 and |log2FC| >= 1"). `logfc_threshold` has **no default**: a q/p-only paper gets `logfc_threshold: 0`, not an omitted field (until 2026-10-31 an omitted field silently meant 2-fold, which removed up to two-thirds of some papers' DE genes). Check `prefiltered` against the data: a table that lists only DE genes is `prefiltered: true`; a whole-genome or P < 0.05-only table is not. When p is rounded to 2 decimals and the paper says "< 0.05", use `0.049`. A row whose p-value cell is empty is not significant. Before committing, compare the significant count with the number the paper reports.
 
 ## Edge Label Routing
 
@@ -1191,7 +1193,8 @@ Before submitting a paperconfig:
 - [ ] `skip_rows` is set correctly if the CSV has extra header rows
 - [ ] Gene/protein identifiers in `name_col` use locus tags or IDs that can match existing gene nodes
 - [ ] `prefiltered` is set to `true` if the table only contains significant results
-- [ ] `pvalue_threshold` and `logfc_threshold` are set if the paper states specific significance criteria
+- [ ] `logfc_threshold` is set (the paper's fold cutoff, `0` if none) unless `prefiltered` / asterisks decide significance; `pvalue_threshold` matches the paper
+- [ ] `fold_change_type` matches the table legend (log2 / linear / signed_linear); the significant count matches the paper's
 - [ ] For coculture/viral experiments: `treatment_organism` and `treatment_taxid` are set on the experiment
 - [ ] `treatment_taxid` matches `ncbi_taxon_id` in `cyanobacteria_genomes.csv` or `treatment_organisms.csv`
 - [ ] `treatment_assembly_accession` (if present) matches `ncbi_accession` in `cyanobacteria_genomes.csv` -- omit for genus-level organisms

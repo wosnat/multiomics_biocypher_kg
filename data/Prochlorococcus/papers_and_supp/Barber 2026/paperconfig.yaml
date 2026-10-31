@@ -113,6 +113,7 @@ publication:
           growth_phase: exponential
           name_col: "protein_id"
           logfc_col: "log2fc_L_cys_vs_glucose"
+          logfc_threshold: 0   # Perseus t-test q < 0.05, no fold cutoff (flagged proteins all |diff| >= 1.36)
           adjusted_p_value_col: "qvalue_L_cys_vs_glucose"
           pvalue_threshold: 0.05
         - id: "barber2026_rpom_r_dhps_vs_glucose"
@@ -122,6 +123,7 @@ publication:
           growth_phase: exponential
           name_col: "protein_id"
           logfc_col: "log2fc_R_DHPS_vs_glucose"
+          logfc_threshold: 0   # Perseus t-test q < 0.05, no fold cutoff (flagged proteins all |diff| >= 1.36)
           adjusted_p_value_col: "qvalue_R_DHPS_vs_glucose"
           pvalue_threshold: 0.05
         - id: "barber2026_rpom_s_dhps_vs_glucose"
@@ -131,6 +133,7 @@ publication:
           growth_phase: exponential
           name_col: "protein_id"
           logfc_col: "log2fc_S_DHPS_vs_glucose"
+          logfc_threshold: 0   # Perseus t-test q < 0.05, no fold cutoff (flagged proteins all |diff| >= 1.36)
           adjusted_p_value_col: "qvalue_S_DHPS_vs_glucose"
           pvalue_threshold: 0.05
         - id: "barber2026_rpom_r_dhps_vs_s_dhps"
@@ -140,5 +143,6 @@ publication:
           growth_phase: exponential
           name_col: "protein_id"
           logfc_col: "log2fc_R_DHPS_vs_S_DHPS"
+          logfc_threshold: 0   # Perseus t-test q < 0.05, no fold cutoff (flagged proteins all |diff| >= 1.36)
           adjusted_p_value_col: "qvalue_R_DHPS_vs_S_DHPS"
           pvalue_threshold: 0.05

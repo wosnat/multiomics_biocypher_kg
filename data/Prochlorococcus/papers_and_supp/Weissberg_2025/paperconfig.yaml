@@ -234,6 +234,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_rnaseq_axenic_day_31_vs_day_11:
@@ -251,6 +252,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_rnaseq_coculture_day_18_vs_day_11:
@@ -268,6 +270,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_rnaseq_coculture_day_31_vs_day_11:
@@ -285,6 +288,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_rnaseq_coculture_day_60_vs_day_11:
@@ -302,6 +306,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_rnaseq_coculture_day_89_vs_day_11:
@@ -319,6 +324,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_rnaseq_coculture_longterm_vs_day_11:
@@ -336,6 +342,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_rnaseq_day_11_coculture_vs_axenic:
@@ -353,6 +360,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_rnaseq_day_18_coculture_vs_axenic:
@@ -370,6 +378,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_rnaseq_day_31_coculture_vs_axenic:
@@ -387,6 +396,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_proteome_axenic_day_18_vs_day_11:
@@ -404,6 +414,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_proteome_axenic_day_31_vs_day_11:
@@ -421,6 +432,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_proteome_axenic_day_89_vs_day_11:
@@ -438,6 +450,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_proteome_coculture_day_18_vs_day_11:
@@ -455,6 +468,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_proteome_coculture_day_31_vs_day_11:
@@ -472,6 +486,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_proteome_coculture_day_60_vs_day_11:
@@ -489,6 +504,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_proteome_coculture_day_89_vs_day_11:
@@ -506,6 +522,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     hot1a3_proteome_coculture_longterm_vs_day_11:
@@ -523,6 +540,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_rnaseq_axenic_day_14_vs_exp_day_7:
@@ -540,6 +558,7 @@ publication:
         growth_phase: death
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_rnaseq_coculture_day_18_vs_exp_day_11:
@@ -557,6 +576,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_rnaseq_coculture_day_31_vs_exp_day_11:
@@ -574,6 +594,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_rnaseq_coculture_day_60_vs_exp_day_11:
@@ -591,6 +612,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_rnaseq_coculture_day_89_vs_exp_day_11:
@@ -608,6 +630,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_rnaseq_coculture_longterm_vs_exp_day_11:
@@ -625,6 +648,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_rnaseq_exp_day_11_coculture_vs_axenic:
@@ -642,6 +666,7 @@ publication:
         growth_phase: exponential
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_rnaseq_day_18_coculture_vs_axenic:
@@ -659,6 +684,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_proteome_axenic_day_14_vs_exp_day_7:
@@ -676,6 +702,7 @@ publication:
         growth_phase: death
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_proteome_axenic_day_31_vs_exp_day_7:
@@ -693,6 +720,7 @@ publication:
         growth_phase: death
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_proteome_axenic_day_89_vs_exp_day_7:
@@ -710,6 +738,7 @@ publication:
         growth_phase: death
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_proteome_coculture_day_18_vs_exp_day_11:
@@ -727,6 +756,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_proteome_coculture_day_31_vs_exp_day_11:
@@ -744,6 +774,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_proteome_coculture_day_60_vs_exp_day_11:
@@ -761,6 +792,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_proteome_coculture_day_89_vs_exp_day_11:
@@ -778,6 +810,7 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
     med4_proteome_coculture_longterm_vs_exp_day_11:
@@ -795,5 +828,6 @@ publication:
         growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
+        logfc_threshold: 0   # authors' code: is_de = padj < 0.05, no fold cutoff
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05

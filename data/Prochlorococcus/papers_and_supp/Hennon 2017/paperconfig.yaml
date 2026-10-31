@@ -113,7 +113,11 @@ publication:
         name_col: locus_tag
         logfc_col: logFC
         adjusted_p_value_col: PValue
-        prefiltered: true
+        # The table is the 103 P < 0.05 rows, not the paper's DE set: "only 35 genes were
+        # differentially expressed (P < 0.05, fold change > 2)" (p. 6). Applying both gives 26;
+        # the paper's 35 is not reproducible from this table.
+        pvalue_threshold: 0.05
+        logfc_threshold: 1.0
     supp_table_3:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Hennon 2017/ALT DE genes 41396_2018_bfismej2017189_moesm29_esm.csv
@@ -179,6 +183,7 @@ publication:
         growth_phase: acclimated_steady_state
         name_col: geneID
         logfc_col: logFC
+        logfc_threshold: 1.0   # P < 0.05 and fold change > 2 (p. 6)
         adjusted_p_value_col: PValue
         prefiltered: false
         pvalue_threshold: 0.05

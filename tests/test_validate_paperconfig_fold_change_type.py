@@ -52,3 +52,24 @@ def test_signed_linear_value_in_unit_interval_is_error(tmp_path):
 def test_unknown_fold_change_type_is_error(tmp_path):
     errors, _ = validate_paperconfig_content(*_config(tmp_path, [2.0], "ratio"))
     assert any("must be 'log2', 'linear' or 'signed_linear'" in e for e in errors)
+
+
+def _analysis_errors(tmp_path, extra):
+    config, path = _config(tmp_path, [-3.0, 2.0], "log2")
+    a = config["publication"]["supplementary_materials"]["s1"]["statistical_analyses"][0]
+    a.update(extra)
+    errors, _ = validate_paperconfig_content(config, path)
+    return errors
+
+
+def test_logfc_threshold_required(tmp_path):
+    assert any("'logfc_threshold' is required" in e for e in _analysis_errors(tmp_path, {}))
+    assert not any("'logfc_threshold' is required" in e for e in _analysis_errors(tmp_path, {"logfc_threshold": 0}))
+    assert not any("'logfc_threshold' is required" in e for e in _analysis_errors(tmp_path, {"prefiltered": True}))
+
+
+def test_asterisk_min_level_validated(tmp_path):
+    errs = _analysis_errors(tmp_path, {"logfc_threshold": 1.0, "asterisk_min_level": 2})
+    assert any("needs 'pvalue_asterisk_in_logfc: true'" in e for e in errs)
+    errs = _analysis_errors(tmp_path, {"pvalue_asterisk_in_logfc": True, "asterisk_min_level": 0})
+    assert any("must be a positive integer" in e for e in errs)

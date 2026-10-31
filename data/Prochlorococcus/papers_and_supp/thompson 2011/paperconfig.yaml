@@ -144,6 +144,7 @@ publication:
         pvalue_threshold: 0.01
         logfc_threshold: 1.0
         pvalue_asterisk_in_logfc: true
+        asterisk_min_level: 2   # single * = q < 0.01 with fold < 2; the paper requires q < 0.01 and |log2FC| > 1 (**)
       - id: DE_iron_starvation_vs_replete_MED4_24h
         experiment: iron_iron_starvation_med4_med4_microarray_light
         timepoint: 24h
@@ -154,6 +155,7 @@ publication:
         pvalue_threshold: 0.01
         logfc_threshold: 1.0
         pvalue_asterisk_in_logfc: true
+        asterisk_min_level: 2   # single * = q < 0.01 with fold < 2; the paper requires q < 0.01 and |log2FC| > 1 (**)
       - id: DE_iron_starvation_vs_replete_MED4_48h
         experiment: iron_iron_starvation_med4_med4_microarray_light
         timepoint: 48h
@@ -164,6 +166,7 @@ publication:
         pvalue_threshold: 0.01
         logfc_threshold: 1.0
         pvalue_asterisk_in_logfc: true
+        asterisk_min_level: 2   # single * = q < 0.01 with fold < 2; the paper requires q < 0.01 and |log2FC| > 1 (**)
       - id: DE_iron_rescue_MED4
         experiment: iron_rescue_med4_microarray
         timepoint: 'R (rescue: 70h vs 48h)'
@@ -174,6 +177,7 @@ publication:
         pvalue_threshold: 0.01
         logfc_threshold: 1.0
         pvalue_asterisk_in_logfc: true
+        asterisk_min_level: 2   # single * = q < 0.01 with fold < 2; the paper requires q < 0.01 and |log2FC| > 1 (**)
     supp_table_2:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/thompson 2011/supp table 2.csv
@@ -193,6 +197,7 @@ publication:
         pvalue_threshold: 0.01
         logfc_threshold: 1.0
         pvalue_asterisk_in_logfc: true
+        asterisk_min_level: 2   # single * = q < 0.01 with fold < 2; the paper requires q < 0.01 and |log2FC| > 1 (**)
       - id: DE_iron_starvation_vs_replete_MIT9313_28h
         experiment: iron_iron_starvation_mit9313_mit9313_microarray
         timepoint: 28h
@@ -203,6 +208,7 @@ publication:
         pvalue_threshold: 0.01
         logfc_threshold: 1.0
         pvalue_asterisk_in_logfc: true
+        asterisk_min_level: 2   # single * = q < 0.01 with fold < 2; the paper requires q < 0.01 and |log2FC| > 1 (**)
       - id: DE_iron_starvation_vs_replete_MIT9313_53h
         experiment: iron_iron_starvation_mit9313_mit9313_microarray
         timepoint: 53h
@@ -213,6 +219,7 @@ publication:
         pvalue_threshold: 0.01
         logfc_threshold: 1.0
         pvalue_asterisk_in_logfc: true
+        asterisk_min_level: 2   # single * = q < 0.01 with fold < 2; the paper requires q < 0.01 and |log2FC| > 1 (**)
       - id: DE_iron_rescue_MIT9313
         experiment: iron_rescue_mit9313_microarray
         timepoint: 'R (rescue: 72h vs 53h)'
@@ -223,3 +230,4 @@ publication:
         pvalue_threshold: 0.01
         logfc_threshold: 1.0
         pvalue_asterisk_in_logfc: true
+        asterisk_min_level: 2   # single * = q < 0.01 with fold < 2; the paper requires q < 0.01 and |log2FC| > 1 (**)

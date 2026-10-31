@@ -62,5 +62,6 @@ publication:
           growth_phase: exponential
           name_col: "locus_tag"
           logfc_col: "log2fc_coculture_vs_glucose"
+          logfc_threshold: 0   # DESeq2 padj < 0.05, no fold cutoff
           adjusted_p_value_col: "padj"
           pvalue_threshold: 0.05

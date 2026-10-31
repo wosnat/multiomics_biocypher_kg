@@ -53,6 +53,10 @@ publication:
           id_type: gene_name
       product_columns:
         - column: "Gene Function"
+      # 2026-10-31 audit: libraries are unreplicated, and genes with zero control reads take many of the
+      # top rank_by_effect places. The paper's rule (up only, log2FC >= 2, raw p < 0.05) gives 47 up
+      # genes across time points, not its 32 (an extra rule we could not identify); the mirrored down
+      # rule applied here is the KG's, not the paper's.
       statistical_analyses:
         # Thresholds are the authors' own (Methods): "Host genes with log2FC >= 2
         # as well as p < 0.05 were considered to be upregulated." Hence

@@ -190,7 +190,7 @@ def _run_adapter(tmp_path, ratios, analysis_extra):
         "padj": [0.001] * len(ratios),
     }).to_csv(data_file, index=False)
     analysis = {"id": "a1", "experiment": "e1", "name_col": "Synonym", "logfc_col": "ratio",
-                "adjusted_p_value_col": "padj", "pvalue_threshold": 0.05}
+                "adjusted_p_value_col": "padj", "pvalue_threshold": 0.05, "logfc_threshold": 1.0}
     analysis.update(analysis_extra)
     config = {"publication": {
         "papername": "Signed FC", "doi": "10.1234/signed.fc", "control_timing": "matched",
@@ -235,3 +235,87 @@ def test_explicit_zero_logfc_threshold_is_honoured(tmp_path):
                            {"fold_change_type": "signed_linear", "logfc_threshold": 0})
     assert by_gene["PMM0001"]["significant"] == "significant"
     assert by_gene["PMM0002"]["significant"] == "significant"
+
+
+# --- significance rules (2026-10-31 audit) ---
+
+def _run_raw(tmp_path, rows, analysis_extra):
+    """rows: list of (fc cell, p cell) strings; cells may be '' (empty)."""
+    import pandas as pd
+    import yaml
+    from multiomics_kg.adapters.omics_adapter import OMICSAdapter
+
+    data_file = tmp_path / "de.csv"
+    pd.DataFrame({
+        "Synonym": [f"PMM000{i + 1}" for i in range(len(rows))],
+        "fc": [r[0] for r in rows],
+        "padj": [r[1] for r in rows],
+    }).to_csv(data_file, index=False)
+    analysis = {"id": "a1", "experiment": "e1", "name_col": "Synonym", "logfc_col": "fc"}
+    analysis.update(analysis_extra)
+    config = {"publication": {
+        "papername": "Sig rules", "doi": "10.1234/sig.rules", "control_timing": "matched",
+        "experiments": {"e1": {
+            "name": "T", "organism": "Prochlorococcus MED4", "treatment_condition": "T",
+            "control_condition": "C", "omics_type": "RNASEQ", "test_type": "DESeq2",
+            "treatment_type": ["nitrogen"], "background_factors": ["axenic"]}},
+        "supplementary_materials": {"s1": {
+            "type": "csv", "filename": str(data_file), "statistical_analyses": [analysis]}},
+    }}
+    config_file = tmp_path / "paperconfig.yaml"
+    config_file.write_text(yaml.dump(config))
+    adapter = OMICSAdapter(config_file=str(config_file))
+    adapter.extracted_data = {"title": "T", "authors": [], "journal": "", "year": 2024,
+                              "abstract": "", "description": ""}
+    edges = [e for e in adapter.get_edges() if "log2_fold_change" in e[4]]
+    return {e[2].split(":")[-1]: e[4] for e in edges}
+
+
+def test_empty_p_value_cell_is_not_significant(tmp_path):
+    """A declared p column with an empty cell (DESeq2 NA padj) is untested, not significant."""
+    by_gene = _run_raw(tmp_path, [("3.0", "0.001"), ("3.0", "")],
+                       {"adjusted_p_value_col": "padj", "pvalue_threshold": 0.05, "logfc_threshold": 0})
+    assert by_gene["PMM0001"]["significant"] == "significant"
+    assert by_gene["PMM0002"]["significant"] == "not significant"
+    assert "adjusted_p_value" not in by_gene["PMM0002"]
+
+
+def test_no_p_column_keeps_fold_only_rule(tmp_path):
+    """A table with no p-value column at all is still judged on fold change alone."""
+    by_gene = _run_raw(tmp_path, [("3.0", ""), ("0.5", "")], {"logfc_threshold": 1.0})
+    assert by_gene["PMM0001"]["significant"] == "significant"
+    assert by_gene["PMM0002"]["significant"] == "not significant"
+
+
+def test_missing_logfc_threshold_refuses_analysis(tmp_path, caplog):
+    with caplog.at_level("ERROR"):
+        by_gene = _run_raw(tmp_path, [("3.0", "0.001")],
+                           {"adjusted_p_value_col": "padj", "pvalue_threshold": 0.05})
+    assert by_gene == {}
+    assert "no logfc_threshold" in caplog.text
+
+
+def test_prefiltered_and_asterisk_need_no_logfc_threshold(tmp_path):
+    assert _run_raw(tmp_path, [("3.0", "")], {"prefiltered": True})["PMM0001"]["significant"] == "significant"
+    by_gene = _run_raw(tmp_path, [("3.0*", ""), ("0.2", "")], {"pvalue_asterisk_in_logfc": True})
+    assert by_gene["PMM0001"]["significant"] == "significant"
+    assert by_gene["PMM0002"]["significant"] == "not significant"
+
+
+def test_asterisk_min_level(tmp_path):
+    rows = [("*2.0", ""), ("**2.0", ""), ("1.5 *", ""), ("1.5 **", ""), ("1.5", "")]
+    default = _run_raw(tmp_path, rows, {"pvalue_asterisk_in_logfc": True})
+    assert [default[f"PMM000{i}"]["significant"] for i in range(1, 6)] == \
+        ["significant", "significant", "significant", "significant", "not significant"]
+    strict = _run_raw(tmp_path, rows, {"pvalue_asterisk_in_logfc": True, "asterisk_min_level": 2})
+    assert [strict[f"PMM000{i}"]["significant"] for i in range(1, 6)] == \
+        ["not significant", "significant", "not significant", "significant", "not significant"]
+    assert strict["PMM0001"]["log2_fold_change"] == pytest.approx(2.0)
+
+
+def test_zero_fold_change_has_no_direction(tmp_path):
+    by_gene = _run_raw(tmp_path, [("0", "0.5"), ("0.4", "0.5"), ("-0.4", "0.5")],
+                       {"adjusted_p_value_col": "padj", "pvalue_threshold": 0.05, "logfc_threshold": 0})
+    assert "expression_direction" not in by_gene["PMM0001"]
+    assert by_gene["PMM0002"]["expression_direction"] == "up"
+    assert by_gene["PMM0003"]["expression_direction"] == "down"

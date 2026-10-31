@@ -1,14 +1,14 @@
 Resolution report: Tolonen 2006 / supp_table_med4
-Source: medExpression.1.csv
+Source: medExpression.1_modified.csv
 name_col: GENE
 id_columns: ['GENE']
 
-Total rows with IDs: 1698
-Resolved: 1697 (99.9%)
+Total rows with IDs: 1697
+Resolved: 1696 (99.9%)
 Unresolved: 1
 
 Resolution method breakdown:
-  locus_tag:GENE: 1695
+  locus_tag:GENE: 1694
   tier1:GENE: 2
   unresolved: 1
 
