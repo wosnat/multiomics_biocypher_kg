@@ -8,7 +8,7 @@ Bad data types or invalid values would silently break downstream LLM analysis.
 Checks:
 - log2_fold_change and adjusted_p_value are stored as floats (not strings)
 - adjusted_p_value is in [0, 1]
-- expression_direction is only 'up' or 'down'
+- expression_direction is only 'up' or 'down', and absent exactly when log2_fold_change = 0
 - Experiment nodes have required properties (control, name)
 - Every Experiment is linked to a Publication via Has_experiment
 - All expression edges source from Experiment nodes and target Gene nodes
@@ -186,15 +186,28 @@ def test_experiments_have_control(run_query):
 
 
 def test_expression_edges_have_direction(run_query):
-    """Every expression edge must have expression_direction set."""
+    """expression_direction is set exactly when log2_fold_change is non-zero.
+
+    A fold change of exactly 0 has no direction, so the property is absent there
+    (2026-10-31); every other edge must carry one.
+    """
     result = run_query("""
         MATCH ()-[e:Changes_expression_of]->()
-        WHERE e.expression_direction IS NULL OR e.expression_direction = ''
-        RETURN count(e) AS missing
+        RETURN sum(CASE WHEN e.log2_fold_change <> 0
+                         AND (e.expression_direction IS NULL OR e.expression_direction = '')
+                        THEN 1 ELSE 0 END) AS missing,
+               sum(CASE WHEN e.log2_fold_change = 0 AND e.expression_direction IS NOT NULL
+                        THEN 1 ELSE 0 END) AS zero_with_direction,
+               sum(CASE WHEN e.log2_fold_change = 0 AND e.expression_status <> 'not_significant'
+                        THEN 1 ELSE 0 END) AS zero_not_ns
     """)
-    missing = result[0]["missing"]
-    assert missing == 0, (
-        f"{missing} expression edges are missing expression_direction"
+    r = result[0]
+    assert r["missing"] == 0, f"{r['missing']} non-zero expression edges are missing expression_direction"
+    assert r["zero_with_direction"] == 0, (
+        f"{r['zero_with_direction']} edges with log2_fold_change = 0 carry an expression_direction"
+    )
+    assert r["zero_not_ns"] == 0, (
+        f"{r['zero_not_ns']} edges with log2_fold_change = 0 are not expression_status 'not_significant'"
     )
 
 

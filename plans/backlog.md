@@ -601,7 +601,7 @@ Smaller ID follow-ups from the same batch (not concepts, just mapping work):
 - [ ] IPG legacy-accession bridge gaps: WH8102 NP_ maps only to the GCA `CAE` accession
       (`find_assembly_match` vs the GCF returns None) and `ZP_` is not matched by
       `looks_like_legacy_protein_acc` — Oleza 2015b used diamond instead.
-- [ ] Koch 2020 Table S7 rows for EZ55 (`altEZ55_`) and HOT1A3 (IMG `Ga0125132_`) do not resolve.
+- [x] Koch 2020 Table S7 rows for EZ55 (`altEZ55_`) and HOT1A3 (IMG `Ga0125132_`) do not resolve. Fixed 2026-10-31 (03752272): bridged to the NCBI genes by protein-sequence match against the IMG protein FASTA + GFF (`img_annotation/`).
 - [ ] Oleza 2015b and Oleza 2017: PatternLab TFold raw p-values are mapped to
       `adjusted_p_value_col` (open policy item).
 
