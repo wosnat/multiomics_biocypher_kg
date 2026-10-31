@@ -1,13 +1,13 @@
 metabolite,extraction efficiency (%),intracellular,extracellular,metabolite_id,resolution_method,stereo_assignment
 "2,3-dihydroxybenzoic acid",100.9,,,kegg.compound:C00196,name_match,as_reported
-"2,3-dihydroxypropane-1-sulfonate",0.6,,yes,kegg.compound:C19675,alias_override,as_reported
+"2,3-dihydroxypropane-1-sulfonate",0.6,,yes,kegg.compound:C19675,alias_override,dominant_form_assumed
 3-mercaptopropionic acid,88.6,,,kegg.compound:C22312,name_match,as_reported
 3-methyl-2-oxobutanoic acid,10.1,,yes,kegg.compound:C00141,alias_override,as_reported
 3-methyl-2-oxopentanoic acid,50.1,yes,yes,kegg.compound:C00671,dominant_stereo_form,dominant_form_assumed
 4-aminobenzoic acid,18.5,yes,yes,kegg.compound:C00568,alias_override,as_reported
 4-hydroxybenzoic acid,88,,yes,kegg.compound:C00156,name_match,as_reported
 4-methyl-2-oxopentanoic acid,43.4,yes,yes,kegg.compound:C00233,name_match,as_reported
-5'-methylthioadenosine,80.9,yes,yes,kegg.compound:C00170,name_match,as_reported
+5'-methylthioadenosine,80.9,yes,yes,kegg.compound:C00170,name_match,dominant_form_assumed
 4-amino-5-aminomethyl-2-methylpyrimidine,0,,,kegg.compound:C20267,alias_override,as_reported
 D-glucosamine 6-phosphate,0,,,kegg.compound:C00352,alias_override,as_reported
 dimethylsulfoniopropionate,0,,,kegg.compound:C04022,alias_override,as_reported
@@ -45,7 +45,7 @@ glutamic acid,0,yes,,kegg.compound:C00025,dominant_stereo_form,dominant_form_ass
 glutamine,0,yes,,kegg.compound:C00064,dominant_stereo_form,dominant_form_assumed
 glyphosate,15.1,,,kegg.compound:C01705,alias_override,as_reported
 glutathione,1.1,yes,yes,kegg.compound:C00051,alias_override,as_reported
-glutathione oxidized,1.5,not available,yes,kegg.compound:C00127,alias_override,as_reported
+glutathione oxidized,1.5,not available,yes,kegg.compound:C00127,alias_override,dominant_form_assumed
 guanine,0,,,kegg.compound:C00242,name_match,as_reported
 guanosine,7.7,yes,yes,kegg.compound:C00387,name_match,as_reported
 hemin,0,yes,,kegg.compound:C06767,alias_override,as_reported
@@ -59,11 +59,11 @@ malic acid,0.7,,,kegg.compound:C00149,name_match,dominant_form_assumed
 methionine,0,yes,,kegg.compound:C00073,dominant_stereo_form,dominant_form_assumed
 muramic acid,0,,,kegg.compound:C06470,alias_override,as_reported
 n-acetyl glucosamine,0,,,kegg.compound:C00140,alias_override,as_reported
-n-acetyl glutamic acid,1.1,yes,,kegg.compound:C00624,alias_override,as_reported
-n-acetyl muramic acid,2.8,,,kegg.compound:C02713,alias_override,as_reported
+n-acetyl glutamic acid,1.1,yes,,kegg.compound:C00624,alias_override,dominant_form_assumed
+n-acetyl muramic acid,2.8,,,kegg.compound:C02713,alias_override,dominant_form_assumed
 ornithine,0,,,kegg.compound:C00077,dominant_stereo_form,dominant_form_assumed
 orotic acid,0,,,kegg.compound:C00295,name_match,as_reported
-pantothenic acid,51.9,yes,yes,kegg.compound:C00864,name_match,as_reported
+pantothenic acid,51.9,yes,yes,kegg.compound:C00864,name_match,dominant_form_assumed
 phenylalanine,39.7,yes,yes,kegg.compound:C00079,dominant_stereo_form,dominant_form_assumed
 phosphoenolpyruvate,0,,,kegg.compound:C00074,name_match,as_reported
 phycocyanobilin,0,,,kegg.compound:C05786,alias_override,as_reported

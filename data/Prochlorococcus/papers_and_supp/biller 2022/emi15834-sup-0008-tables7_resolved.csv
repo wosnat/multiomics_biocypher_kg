@@ -2,7 +2,7 @@ Compound Name,Analytical Fraction,MIT9312 cells,MIT9313 cells,MIT9312 vesicles,M
 Aconitic Acid,HILICNeg,"0.00054 (8.8e-05), n=2","0.0016 (NA), n=1",nd,nd,,,,,kegg.compound:C00417,alias_override,as_reported
 Adenine,HILICPos,"0.18 (0.049), n=3","0.5 (0.37), n=3",nd,nd,,,,,kegg.compound:C00147,name_match,as_reported
 Adenosine,HILICPos,"0.059 (0.012), n=2",nd,nd,nd,,,,,kegg.compound:C00212,alias_override,as_reported
-Adenosyl Homocysteine,RPAqPos,"0.00029 (2e-05), n=3","0.00065 (0.00079), n=3",nd,nd,,,,,kegg.compound:C00021,alias_override,as_reported
+Adenosyl Homocysteine,RPAqPos,"0.00029 (2e-05), n=3","0.00065 (0.00079), n=3",nd,nd,,,,,kegg.compound:C00021,alias_override,dominant_form_assumed
 Adenosyl Methionine,RPAqPos,"0.0017 (0.00058), n=3","0.02 (0.024), n=3",nd,nd,,,,,kegg.compound:C00019,alias_override,dominant_form_assumed
 ADP,HILICNeg,"0.0043 (NA), n=1","0.016 (0.0016), n=2",nd,nd,,,,,kegg.compound:C00008,alias_override,as_reported
 Alanine,HILICPos,"0.02 (0.0054), n=3","0.032 (0.026), n=3",nd,nd,,,,,kegg.compound:C00041,alias_override,dominant_form_assumed
@@ -28,20 +28,20 @@ Glucosylglycerol,HILICPos,"0.00014 (6.3e-06), n=3","0.0074 (0.0058), n=3",nd,nd,
 Glutamic acid,HILICPos,"1.5 (0.22), n=3","1.7 (1.3), n=3",nd,nd,,,,,kegg.compound:C00025,dominant_stereo_form,dominant_form_assumed
 Glutamine,HILICPos,"0.0084 (0.0046), n=3","1.2 (0.87), n=3",nd,nd,,,,,kegg.compound:C00064,dominant_stereo_form,dominant_form_assumed
 Glutathione,RPAqPos,"0.0011 (6.5e-05), n=3","0.0043 (0.0052), n=3",nd,nd,,,,,kegg.compound:C00051,alias_override,as_reported
-Glutathione Disulfide,HILICPos,"0.025 (0.0014), n=3","0.048 (0.0026), n=2",nd,nd,,,,,kegg.compound:C00127,alias_override,as_reported
+Glutathione Disulfide,HILICPos,"0.025 (0.0014), n=3","0.048 (0.0026), n=2",nd,nd,,,,,kegg.compound:C00127,alias_override,dominant_form_assumed
 Glycerol 3 phosphate,HILICNeg,"0.0017 (0.00045), n=3","0.0017 (0.0014), n=3",nd,nd,,,,,kegg.compound:C00093,alias_override,dominant_form_assumed
 GMP,HILICNeg,"0.0014 (0.00054), n=3","0.00044 (0.00035), n=3",nd,nd,,,,,kegg.compound:C00144,name_match,as_reported
 Guanine,HILICPos,"0.026 (0.0056), n=3","0.0053 (0.0036), n=3",nd,nd,,,,,kegg.compound:C00242,name_match,as_reported
 Guanosine,HILICPos,"0.0019 (0.00081), n=3","0.00023 (0.00028), n=3",nd,nd,,,,,kegg.compound:C00387,name_match,as_reported
 Histidine,HILICPos,"0.012 (0.0014), n=3","0.019 (NA), n=1",nd,nd,,,,,kegg.compound:C00135,name_match,dominant_form_assumed
-Homocystine,HILICPos,"0.00012 (4.2e-05), n=3","0.00014 (0.00011), n=3",nd,nd,,,,,kegg.compound:C01817,name_match,as_reported
+Homocystine,HILICPos,"0.00012 (4.2e-05), n=3","0.00014 (0.00011), n=3",nd,nd,,,,,kegg.compound:C01817,name_match,dominant_form_assumed
 Homoserine,HILICPos,"0.0042 (0.00054), n=3","0.022 (0.017), n=3",nd,nd,,,,,kegg.compound:C00263,dominant_stereo_form,dominant_form_assumed
 Ketoglutaric Acid,HILICNeg,nd,"0.014 (0.0028), n=2",nd,nd,,,,,kegg.compound:C00026,name_match,as_reported
 L-Pyroglutamic acid,HILICNeg,"0.028 (0.0024), n=3",nd,nd,nd,,,,,kegg.compound:C01879,name_match,as_reported
 Lysine,HILICPos,"0.0033 (0.0011), n=2","0.0092 (NA), n=1",nd,nd,,,,,kegg.compound:C00047,alias_override,dominant_form_assumed
 Methionine,HILICPos,"0.0021 (0.00037), n=3","6e-04 (0.00053), n=3",nd,nd,,,,,kegg.compound:C00073,dominant_stereo_form,dominant_form_assumed
 Methionine Sulfoxide,HILICPos,"0.0024 (0.00029), n=3","0.00094 (0.0012), n=3",nd,nd,,,,,kegg.compound:C02989,alias_override,dominant_form_assumed
-Methylthioadenosine,RPAqPos,"0.0025 (0.00083), n=3","0.03 (0.036), n=3",nd,nd,,,,,kegg.compound:C00170,name_match,as_reported
+Methylthioadenosine,RPAqPos,"0.0025 (0.00083), n=3","0.03 (0.036), n=3",nd,nd,,,,,kegg.compound:C00170,name_match,dominant_form_assumed
 N(e)-Acetyl-Lysine,HILICPos,"0.002 (8.1e-05), n=3","0.0035 (0.0026), n=3",nd,nd,,,,,kegg.compound:C02727,alias_override,as_reported
 NAD,HILICNeg,"0.0023 (0.00026), n=3","0.0037 (0.0028), n=3",nd,nd,,,,,kegg.compound:C00003,alias_override,as_reported
 NADP,HILICNeg,"0.00022 (NA), n=1","0.0018 (NA), n=1",nd,nd,,,,,kegg.compound:C00006,alias_override,as_reported
@@ -66,6 +66,6 @@ UDP-glucose,HILICNeg,"0.00014 (7.4e-05), n=3","0.00093 (0.00082), n=3",nd,nd,,,,
 Uridine,HILICNeg,"0.0025 (0.00081), n=3",nd,nd,nd,,,,,kegg.compound:C00299,name_match,as_reported
 Vitamin B2,RPAqPos,"2.4e-06 (4.5e-08), n=2","2.8e-05 (1.5e-05), n=2",nd,nd,,,,,kegg.compound:C00255,alias_override,as_reported
 Vitamin B3,RPAqPos,"0.0014 (6e-04), n=3",nd,nd,nd,,,,,kegg.compound:C00253,alias_override,as_reported
-Vitamin B5,RPAqPos,"5.6e-05 (1.7e-05), n=3","0.00079 (0.00089), n=3",nd,nd,,,,,kegg.compound:C00864,alias_override,as_reported
+Vitamin B5,RPAqPos,"5.6e-05 (1.7e-05), n=3","0.00079 (0.00089), n=3",nd,nd,,,,,kegg.compound:C00864,alias_override,dominant_form_assumed
 Vitamin K1,RPOrgPos,"2.5e-05 (1.7e-05), n=3","5.8e-05 (4.9e-05), n=3","0.0033 (0.0014), n=3","0.032 (0.01), n=3",,,,,kegg.compound:C02059,alias_override,as_reported
 Xanthine,RPAqPos,"4.6e-05 (2.2e-05), n=3","2.4e-05 (NA), n=1",nd,nd,,,,,kegg.compound:C00385,name_match,as_reported

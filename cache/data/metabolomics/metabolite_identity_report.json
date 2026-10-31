@@ -1,4 +1,27 @@
 {
+  "alias_stereo_review": [
+    {
+      "alias": "Adenosyl Methionine",
+      "curated": "dominant_form_assumed",
+      "id": "kegg.compound:C00019",
+      "paper": "data/Prochlorococcus/papers_and_supp/biller 2022/paperconfig.yaml",
+      "rule": "as_reported"
+    },
+    {
+      "alias": "2,3-dihydroxypropane-1-sulfonate",
+      "curated": "dominant_form_assumed",
+      "id": "kegg.compound:C19675",
+      "paper": "data/Prochlorococcus/papers_and_supp/Kujawinski 2023/paperconfig.yaml",
+      "rule": "as_reported"
+    },
+    {
+      "alias": "n-acetyl muramic acid",
+      "curated": "dominant_form_assumed",
+      "id": "kegg.compound:C02713",
+      "paper": "data/Prochlorococcus/papers_and_supp/Kujawinski 2023/paperconfig.yaml",
+      "rule": "as_reported"
+    }
+  ],
   "ambiguous_paper_names": [],
   "anomer_xref_review": [
     {
@@ -282,7 +305,7 @@
       "generic_name": "D-Ribose"
     }
   ],
-  "baseline": "previous kegg_data.json",
+  "baseline": "previous kegg_data.json (the last step-6 run, not a release; the release-to-release record is docs/kg-changes/metabolite-identity/metabolite_id_remap.tsv)",
   "canonical_pinned": [
     "chebi:30297",
     "kegg.compound:C00698",

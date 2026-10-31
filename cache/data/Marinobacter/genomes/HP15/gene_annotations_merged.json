@@ -2455,6 +2455,7 @@
       "[protein_family] CmpA/NrtA family; Bacterial solute-binding protein SsuA/TauA family",
       "[interpro] Nitrate/bicarbonate ABC transporter substrate-binding domain",
       "[ncbifam] twin-arginine translocation signal domain-containing protein",
+      "[tcdb_best_hit] Bispecific cyanate/nitrite transporter. [3.A.1.16.2] :: [tcdb_substrates] Cyanate, Nitrite",
       "[pfam] NMT1_2: NMT1-like family"
     ],
     "alternative_locus_tags": [
@@ -2607,6 +2608,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] Nitrate transport permease",
       "[tigr_role_inferred] Transport and binding proteins / Anions",
+      "[tcdb_best_hit] Nitrate uptake system, NrtABCD. [3.A.1.16.4]",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -2801,6 +2803,7 @@
       "[interpro] Nitrate transport ATP-binding subunit C/D-like",
       "[interpro] ABC transporter ATP-binding protein",
       "[ncbifam] nitrate ABC transporter ATP-binding protein",
+      "[tcdb_best_hit] Four component nitrate/nitrite porter. [3.A.1.16.1] :: [tcdb_substrates] Nitrate, Nitrite",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -3727,6 +3730,7 @@
       "[ncbi] efflux RND transporter permease subunit",
       "[eggnog] Belongs to the resistance-nodulation-cell division (RND) (TC 2.A.6) family",
       "[interpro] Acriflavin resistance protein",
+      "[tcdb_best_hit] VexEF-TolC mediates resistance to various antimicrobials; ethidium efflux is Na+-dependent [2.A.6.2.30] :: [tcdb_substrates] drug, ethidium",
       "[pfam] ACR_tran: AcrB/AcrD/AcrF family"
     ],
     "alternative_locus_tags": [
@@ -5807,6 +5811,7 @@
       "[interpro] STAS domain",
       "[interpro] SLC26A/SulP transporter domain",
       "[interpro] Membrane-associated Transporter-like",
+      "[tcdb_best_hit] Sulfate permease [2.A.53.3.1] :: [tcdb_substrates] Sulfate",
       "[pfam] STAS: STAS domain",
       "[pfam] Sulfate_transp: Sulfate permease family"
     ],
@@ -7500,6 +7505,7 @@
       "[ncbi] solute carrier family 23 protein",
       "[eggnog] Xanthine uracil vitamin C permease",
       "[interpro] Nucleobase cation symporter 2 family",
+      "[tcdb_best_hit] BenE homologue of 458 aas [2.A.46.1.8] :: [tcdb_substrates] Benzoate",
       "[pfam] Xan_ur_permease: Permease family"
     ],
     "alternative_locus_tags": [
@@ -8059,6 +8065,7 @@
       "[interpro] Ferredoxin, C-terminal",
       "[interpro] Ion-translocating oxidoreductase complex subunit B",
       "[interpro] Ferredoxin-1",
+      "[tcdb_best_hit] Putative hydrogenase 4, HyfA-I. [3.D.1.9.3]",
       "[pfam] DUF3470: Domain of unknown function (DUF3470)",
       "[pfam] Fer4: 4Fe-4S binding domain",
       "[pfam] Fer4_9: 4Fe-4S dicluster domain"
@@ -17784,6 +17791,7 @@
       "[ncbi] benzoate/H(+) symporter BenE family transporter",
       "[eggnog] protein involved in benzoate metabolism",
       "[interpro] Benzoate transporter",
+      "[tcdb_best_hit] BenE homologue of 410 aas and 13 - 14 TMSs. [2.A.46.1.7] :: [tcdb_substrates] Benzoate",
       "[pfam] BenE: Benzoate membrane transport protein"
     ],
     "alternative_locus_tags": [
@@ -18022,6 +18030,7 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] Branched-Chain Amino Acid Transport ATP-binding Protein LivF",
+      "[tcdb_best_hit] ABC transporter for benzoate and phenyl proponoids with 6 subunits, one receptor for benzoate and one receptor for phenyl proponoids derived from\u2026 [3.A.1.4.15] :: [tcdb_substrates] Benzoate, hydratropic acid",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -18188,6 +18197,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
+      "[tcdb_best_hit] ABC transporter for benzoate and phenyl proponoids with 6 subunits, one receptor for benzoate and one receptor for phenyl proponoids derived from\u2026 [3.A.1.4.15] :: [tcdb_substrates] Benzoate, hydratropic acid",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
     ],
@@ -18352,6 +18362,7 @@
       "[eggnog] Belongs to the binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter, permease",
       "[interpro] High-affinity branched-chain amino acid transport system permease protein LivM-like",
+      "[tcdb_best_hit] ABC transporter for benzoate and phenyl proponoids with 6 subunits, one receptor for benzoate and one receptor for phenyl proponoids derived from\u2026 [3.A.1.4.15] :: [tcdb_substrates] Benzoate, hydratropic acid",
       "[pfam] BPD_transp_2: Branched-chain amino acid transport system / permease component"
     ],
     "alternative_locus_tags": [
@@ -18527,6 +18538,7 @@
       "[protein_family] Binding-protein-dependent transport system permease family, LivHM subfamily",
       "[interpro] ABC transporter, permease",
       "[interpro] Branched-chain amino acid transport system permease",
+      "[tcdb_best_hit] ABC transporter for benzoate and phenyl proponoids with 6 subunits, one receptor for benzoate and one receptor for phenyl proponoids derived from\u2026 [3.A.1.4.15] :: [tcdb_substrates] Benzoate, hydratropic acid",
       "[pfam] BPD_transp_2: Branched-chain amino acid transport system / permease component"
     ],
     "alternative_locus_tags": [
@@ -18782,6 +18794,7 @@
       "[interpro] Acriflavin resistance protein",
       "[interpro] Cation efflux system CusA-like",
       "[ncbifam] CusA/CzcA family heavy metal efflux RND transporter",
+      "[tcdb_best_hit] Heavy metal (Co2+, Zn2+, Cd2+) efflux pump, CzcAB. [2.A.6.1.2] :: [tcdb_substrates] Cadmium, Cobalt ion, Zinc cation",
       "[pfam] ACR_tran: AcrB/AcrD/AcrF family"
     ],
     "alternative_locus_tags": [
@@ -18965,6 +18978,7 @@
       "[eggnog] COG0683 ABC-type branched-chain amino acid transport systems, periplasmic component",
       "[interpro] Leucine-binding protein domain",
       "[interpro] Branched-chain amino acid transport protein",
+      "[tcdb_best_hit] ABC transporter for benzoate and phenyl proponoids with 6 subunits, one receptor for benzoate and one receptor for phenyl proponoids derived from\u2026 [3.A.1.4.15] :: [tcdb_substrates] Benzoate, hydratropic acid",
       "[pfam] Peripla_BP_6: Periplasmic binding protein"
     ],
     "alternative_locus_tags": [
@@ -21850,6 +21864,7 @@
       "[ncbi] efflux RND transporter permease subunit",
       "[eggnog] Belongs to the resistance-nodulation-cell division (RND) (TC 2.A.6) family",
       "[interpro] Acriflavin resistance protein",
+      "[tcdb_best_hit] Multidrug efflux pump, MexK. [2.A.6.2.17] :: [tcdb_substrates] Acrolein, Chloramphenicol, Erythromycin, fluoroquinolone antibiotic, macrolide, Tetracycline, Triclosan",
       "[pfam] ACR_tran: AcrB/AcrD/AcrF family"
     ],
     "alternative_locus_tags": [
@@ -47021,6 +47036,7 @@
       "[interpro] Signal transduction histidine kinase-related protein, C-terminal",
       "[interpro] Histidine kinase domain",
       "[ncbifam] NahK/ErcS family hybrid sensor histidine kinase/response regulator",
+      "[tcdb_best_hit] The proline sensor-receptor domain of the PrlS sensor kinase [2.A.21.9.2] :: [tcdb_substrates] Proline",
       "[pfam] HATPase_c: Histidine kinase-, DNA gyrase B-, and HSP90-like ATPase",
       "[pfam] HisKA: His Kinase A (phospho-acceptor) domain",
       "[pfam] PAS_7: PAS fold",
@@ -56750,6 +56766,7 @@
       "[hamap] Ion-translocating oxidoreductase complex subunit E [rsxE].",
       "[ncbifam] electron transport complex subunit RsxE",
       "[ncbifam] RnfABCDGE type electron transport complex subunit E",
+      "[tcdb_best_hit] NADH:ferredoxin oxidoreductase [3.D.6.1.1]",
       "[pfam] Rnf-Nqr: Rnf-Nqr subunit, membrane protein"
     ],
     "alternative_locus_tags": [
@@ -56984,6 +57001,7 @@
       "[interpro] RnfG, N-terminal helix",
       "[hamap] Ion-translocating oxidoreductase complex subunit G [rsxG].",
       "[ncbifam] RnfABCDGE type electron transport complex subunit G",
+      "[tcdb_best_hit] Rnf-type NADH dehydrogenase, RsxA, RsxD, RsxE, RsxG, RsxB, RsxC of 6, 10, 5, 1, 1 and 1 TMSs, respectively. [3.D.6.1.4]",
       "[pfam] FMN_bind: FMN-binding domain"
     ],
     "alternative_locus_tags": [
@@ -57165,6 +57183,7 @@
       "[interpro] Ion-translocating oxidoreductase complex subunit RnfD, bacterial",
       "[hamap] Ion-translocating oxidoreductase complex subunit D [rsxD].",
       "[ncbifam] RnfABCDGE type electron transport complex subunit D",
+      "[tcdb_best_hit] Rnf-type NADH dehydrogenase, RsxA, RsxD, RsxE, RsxG, RsxB, RsxC of 6, 10, 5, 1, 1 and 1 TMSs, respectively. [3.D.6.1.4]",
       "[pfam] NQR2_RnfD_RnfE: NQR2, RnfD, RnfE family"
     ],
     "alternative_locus_tags": [
@@ -57923,6 +57942,7 @@
       "[interpro] Ion-translocating oxidoreductase complex subunit A/E",
       "[hamap] Ion-translocating oxidoreductase complex subunit A [rsxA].",
       "[ncbifam] RnfABCDGE type electron transport complex subunit A",
+      "[tcdb_best_hit] Rnf-type NADH dehydrogenase, RsxA, RsxD, RsxE, RsxG, RsxB, RsxC of 6, 10, 5, 1, 1 and 1 TMSs, respectively. [3.D.6.1.4]",
       "[pfam] Rnf-Nqr: Rnf-Nqr subunit, membrane protein"
     ],
     "alternative_locus_tags": [
@@ -64824,6 +64844,7 @@
       "[interpro] LPS export ABC transporter permease LptF",
       "[tigr_role_inferred] Transport and binding proteins / Other",
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of surface polysaccharides and lipopolysaccharides",
+      "[tcdb_best_hit] LPS export system, LptF (M), LptG (M) and LptB (C). [3.A.1.152.1] :: [tcdb_substrates] Lipopolysaccharide",
       "[pfam] LptF_LptG: Lipopolysaccharide export system permease LptF/LptG"
     ],
     "alternative_locus_tags": [
@@ -65007,6 +65028,7 @@
       "[interpro] LPS export ABC transporter permease LptG",
       "[tigr_role_inferred] Transport and binding proteins / Other",
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of surface polysaccharides and lipopolysaccharides",
+      "[tcdb_best_hit] LPS export system, LptF (M), LptG (M) and LptB (C). [3.A.1.152.1] :: [tcdb_substrates] Lipopolysaccharide",
       "[pfam] LptF_LptG: Lipopolysaccharide export system permease LptF/LptG"
     ],
     "alternative_locus_tags": [
@@ -68493,6 +68515,7 @@
       "[ncbifam] oxaloacetate decarboxylase subunit alpha",
       "[tigr_role_inferred] Transport and binding proteins / Cations and iron carrying compounds",
       "[tigr_role_inferred] Energy metabolism / Other",
+      "[tcdb_best_hit] Na+-transporting oxalo-acetate decarboxylase. [3.B.1.1.1]",
       "[pfam] Biotin_lipoyl: Biotin-requiring enzyme",
       "[pfam] HMGL-like: HMGL-like",
       "[pfam] PYC_OADA: Conserved carboxylase domain"
@@ -68725,6 +68748,7 @@
       "[ncbi] sodium ion-translocating decarboxylase subunit beta",
       "[eggnog] Na transporting methylmalonyl-CoA oxaloacetate decarboxylase beta subunit",
       "[interpro] Na+-transporting methylmalonyl-CoA/oxaloacetate decarboxylase, beta subunit",
+      "[tcdb_best_hit] Na+-exporting oxaloacetate decarboxylase with three subunits, OadA, OadB and OadG of 599 aas and 0 TMSs, 433 aas and 11 TMSs, and 90 aas and 1 TMS\u2026 [3.B.1.1.6]",
       "[pfam] OAD_beta: Na+-transporting oxaloacetate decarboxylase beta subunit"
     ],
     "alternative_locus_tags": [
@@ -70672,6 +70696,7 @@
       "[protein_family] Prokaryotic sulfate-binding protein family",
       "[interpro] Thiosulphate/Sulfate-binding protein",
       "[ncbifam] sulfate ABC transporter substrate-binding protein",
+      "[tcdb_best_hit] Sulfate/thiosulfate porter [3.A.1.6.1] :: [tcdb_substrates] Sulfate, Thiosulfate",
       "[pfam] SBP_bac_11: Bacterial extracellular solute-binding protein"
     ],
     "alternative_locus_tags": [
@@ -70962,6 +70987,7 @@
       "[ncbifam] sulfate ABC transporter permease subunit",
       "[ncbifam] sulfate ABC transporter permease subunit CysT",
       "[tigr_role_inferred] Transport and binding proteins / Anions",
+      "[tcdb_best_hit] Sulfate/thiosulfate porter [3.A.1.6.1] :: [tcdb_substrates] Sulfate, Thiosulfate",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -71234,6 +71260,7 @@
       "[interpro] Sulphate ABC transporter, permease protein CysW",
       "[ncbifam] sulfate ABC transporter permease subunit",
       "[tigr_role_inferred] Transport and binding proteins / Anions",
+      "[tcdb_best_hit] Sulfate/thiosulfate porter [3.A.1.6.1] :: [tcdb_substrates] Sulfate, Thiosulfate",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -71447,6 +71474,7 @@
       "[interpro] TOBE-like domain",
       "[interpro] ABC Transporter, Small Molecule Importer",
       "[ncbifam] sulfate ABC transporter ATP-binding protein",
+      "[tcdb_best_hit] Sulfate/thiosulfate porter [3.A.1.6.1] :: [tcdb_substrates] Sulfate, Thiosulfate",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] TOBE_3: TOBE-like domain"
     ],
@@ -81158,6 +81186,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter, lipoprotein release, LolD-like",
       "[interpro] MacB-like, ATP-binding domain",
+      "[tcdb_best_hit] Putative heavy metal ion exporter, YbbAB. [3.A.1.122.15]",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -86999,6 +87028,7 @@
       "[protein_family] Bacterial solute-binding protein 3 family",
       "[interpro] Solute-binding protein family 3/N-terminal domain of MltF",
       "[interpro] Bacterial solute-binding protein 3",
+      "[tcdb_best_hit] Hydroxy L-proline uptake porter, HprABC. [3.A.1.3.21] :: [tcdb_substrates] Hydroxyproline",
       "[pfam] SBP_bac_3: Bacterial extracellular solute-binding proteins, family 3"
     ],
     "alternative_locus_tags": [
@@ -87383,6 +87413,7 @@
       "[interpro] Amino acid ABC transporter, permease protein, 3-TM domain",
       "[interpro] ABC transporter membrane protein permease protein ArtM/GltK/GlnP/TcyL/YhdX-like",
       "[ncbifam] ABC transporter permease subunit",
+      "[tcdb_best_hit] Hydroxy L-proline uptake porter, HprABC. [3.A.1.3.21] :: [tcdb_substrates] Hydroxyproline",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -87568,6 +87599,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC-type amino acid transport system, ATPase component, HisP-type",
       "[interpro] Methionine import ATP-binding protein MetN-like",
+      "[tcdb_best_hit] Hydroxy L-proline uptake porter, HprABC. [3.A.1.3.21] :: [tcdb_substrates] Hydroxyproline",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -88162,6 +88194,7 @@
       "[protein_family] UPF0060 family",
       "[interpro] Uncharacterised protein family UPF0060",
       "[hamap] UPF0060 membrane protein YnfA [ynfA].",
+      "[tcdb_best_hit] YnfA of 108 aas and 4 TMSs. [2.A.7.26.1]",
       "[pfam] UPF0060: Uncharacterised BCR, YnfA/UPF0060 family"
     ],
     "alternative_locus_tags": [
@@ -90419,6 +90452,7 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter ATP-binding protein",
+      "[tcdb_best_hit] The putative tryptophan uptake transporter, TrpXYZ. [3.A.1.34.1] :: [tcdb_substrates] Tryptophan",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -90622,6 +90656,7 @@
       "[eggnog] Belongs to the binding-protein-dependent transport system permease family",
       "[protein_family] Binding-protein-dependent transport system permease family, AraH/RbsC subfamily",
       "[interpro] ABC transporter, permease",
+      "[tcdb_best_hit] The putative tryptophan uptake transporter, TrpXYZ. [3.A.1.34.1] :: [tcdb_substrates] Tryptophan",
       "[pfam] BPD_transp_2: Branched-chain amino acid transport system / permease component"
     ],
     "alternative_locus_tags": [
@@ -91785,6 +91820,7 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter ATP-binding component",
+      "[tcdb_best_hit] The putative polyketide drug exporter, YadGH. [3.A.1.105.17] :: [tcdb_substrates] Phospholipid, polyketide",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -91994,6 +92030,7 @@
       "[interpro] ABC-2 type transporter, transmembrane domain",
       "[interpro] ABC-2 type transporter, transmembrane domain, bacterial-type",
       "[interpro] ABC-2 integral membrane transport permease",
+      "[tcdb_best_hit] The putative polyketide drug exporter, YadGH. [3.A.1.105.17] :: [tcdb_substrates] Phospholipid, polyketide",
       "[pfam] ABC2_membrane: ABC-2 type transporter"
     ],
     "alternative_locus_tags": [
@@ -95837,6 +95874,7 @@
       "[protein_family] YajC family",
       "[interpro] Preprotein translocase YajC",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] General secretory pathway (Sec-SRP) complex. [3.A.5.1.1] :: [tcdb_substrates] Protein",
       "[pfam] YajC: Preprotein translocase subunit"
     ],
     "alternative_locus_tags": [
@@ -96061,6 +96099,7 @@
       "[interpro] Protein-export membrane protein SecD/SecF, C-terminal, bacterial",
       "[hamap] Protein translocase subunit SecD [secD].",
       "[ncbifam] SecD/SecF family protein translocase subunit",
+      "[tcdb_best_hit] The secretory accessory proteins, SecDF. [2.A.6.4.1] :: [tcdb_substrates] Protein",
       "[pfam] SecD-TM1: SecD export protein N-terminal TM region",
       "[pfam] SecD_SecF_C: Protein export membrane protein SecD/SecF, C-terminal",
       "[pfam] Sec_GG: SecD/SecF GG Motif",
@@ -96399,6 +96438,7 @@
       "[interpro] Protein-export membrane protein SecD/SecF, C-terminal, bacterial",
       "[hamap] Protein-export membrane protein SecF [secF].",
       "[ncbifam] SecD/SecF family protein translocase subunit",
+      "[tcdb_best_hit] The secretory accessory proteins, SecDF. [2.A.6.4.1] :: [tcdb_substrates] Protein",
       "[pfam] SecD_SecF_C: Protein export membrane protein SecD/SecF, C-terminal",
       "[pfam] Sec_GG: SecD/SecF GG Motif"
     ],
@@ -103204,6 +103244,7 @@
       "[interpro] ATP-binding protein Uup",
       "[interpro] ABC transporter ABCF subfamily ATPase",
       "[hamap] ATP-binding protein Uup [uup].",
+      "[tcdb_best_hit] The Uup protein (required for bacterial competitiveness; 39% identical to 3.A.1.120.5). [3.A.1.120.6]",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] ABC_tran_CTD: ABC transporter C-terminal domain",
       "[pfam] ABC_tran_Xtn: ABC transporter"
@@ -106293,6 +106334,7 @@
       "[interpro] FAD-dependent oxidoreductase SdhA/FrdA/AprA",
       "[ncbifam] succinate dehydrogenase or fumarate reductase, flavoprotein subunit",
       "[tigr_role_inferred] Energy metabolism / TCA cycle",
+      "[tcdb_best_hit] Succinate dehydrogenase complex, SdhABCD. [3.D.10.1.6]",
       "[pfam] FAD_binding_2: FAD binding domain",
       "[pfam] Succ_DH_flav_C: Fumarate reductase flavoprotein C-term"
     ],
@@ -106823,6 +106865,7 @@
       "[interpro] Succinate dehydogenase/fumarate reductase N-terminal",
       "[interpro] Succinate Dehydrogenase/Fumarate Reductase Iron-Sulfur",
       "[ncbifam] succinate dehydrogenase and fumarate reductase iron-sulfur protein",
+      "[tcdb_best_hit] Succinate dehydrogenase complex, SdhABCD. [3.D.10.1.6]",
       "[pfam] Fer2_3: 2Fe-2S iron-sulfur cluster binding domain",
       "[pfam] Fer4_17: 4Fe-4S dicluster domain",
       "[pfam] Fer4_8: 4Fe-4S dicluster domain"
@@ -114959,6 +115002,7 @@
       "[ncbi] branched-chain amino acid transporter permease",
       "[eggnog] branched-chain amino acid",
       "[interpro] Branched-chain amino acid transport, AzlD",
+      "[tcdb_best_hit] Branched chain amino acid efflux pump, AzlCD (extrudes azaleucine) [2.A.78.1.1] :: [tcdb_substrates] branched-chain amino acid",
       "[pfam] AzlD: Branched-chain amino acid transport protein (AzlD)"
     ],
     "alternative_locus_tags": [
@@ -115998,6 +116042,7 @@
       "[interpro] CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase",
       "[interpro] CDP-alcohol phosphatidyltransferase class-I",
       "[tigr_role_inferred] Fatty acid and phospholipid metabolism / Biosynthesis",
+      "[tcdb_best_hit] CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase, PgsA, of 186 aas and 6 TMSs [4.F.1.1.8] :: [tcdb_substrates] Orthophosphate",
       "[pfam] CDP-OH_P_transf: CDP-alcohol phosphatidyltransferase"
     ],
     "alternative_locus_tags": [
@@ -116515,6 +116560,7 @@
       "[eggnog] COG1127 ABC-type transport system involved in resistance to organic solvents, ATPase component",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
+      "[tcdb_best_hit] The \u03b3-hexachlorocyclohexane (\u03b3HCH) uptake permease, LinKLMN (most similar to 3.A.1.12.4, the QAT family) [3.A.1.27.1] :: [tcdb_substrates] Lindane",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -120668,6 +120714,7 @@
       "[interpro] Type II secretion system protein E, N1E domain",
       "[tigr_role_inferred] Cellular processes / Pathogenesis",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] The Legionella secretion pathway (Lsp)/fimbrial assembly system, LspC-M [3.A.15.3.1]",
       "[pfam] T2SSE: Type II/IV secretion system protein",
       "[pfam] MshEN: MshEN domain",
       "[pfam] GSPE_N1E: GSPII protein E, N1E domain"
@@ -120888,6 +120935,7 @@
       "[interpro] Type II secretion system protein GspF domain",
       "[interpro] GspF/PilC, N-terminal domain",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] The pullulanase secretion system [3.A.15.1.1] :: [tcdb_substrates] Protein",
       "[pfam] T2SSF: Type II secretion system (T2SS), protein F",
       "[pfam] T2SSF_N: Type II secretion system protein F, N-terminal domain"
     ],
@@ -121066,6 +121114,7 @@
       "[ncbifam] prepilin-type N-terminal cleavage/methylation domain-containing protein",
       "[tigr_role_inferred] Cellular processes / Pathogenesis",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] The Legionella secretion pathway (Lsp)/fimbrial assembly system, LspC-M [3.A.15.3.1]",
       "[pfam] N_methyl: Prokaryotic N-terminal methylation motif",
       "[pfam] T2SSG: Type II secretion system (T2SS), protein G"
     ],
@@ -134310,6 +134359,7 @@
       "[eggnog] Low-affinity potassium transport system. Interacts with Trk system potassium uptake protein TrkA",
       "[interpro] Cation transporter",
       "[interpro] TrkH potassium transport family",
+      "[tcdb_best_hit] K+ uptake transporter, TrkIA (Km=1 mM) [2.A.38.1.2] :: [tcdb_substrates] Potassium cation",
       "[pfam] TrkH: Cation transport protein"
     ],
     "alternative_locus_tags": [
@@ -139608,6 +139658,7 @@
       "[protein_family] Cytochrome ubiquinol oxidase subunit 2 family",
       "[interpro] Cytochrome ubiquinol oxidase subunit 2",
       "[tigr_role_inferred] Energy metabolism / Electron transport",
+      "[tcdb_best_hit] Cytochrome oxidase subunit I (CydA) of 481 aas and 9 or 10 TMSs, and subunit II (CydB) of 337 aas and 9 TMSs. [3.D.4.3.4]",
       "[pfam] Cyt_bd_oxida_II: Cytochrome bd terminal oxidase subunit II"
     ],
     "alternative_locus_tags": [
@@ -144585,6 +144636,7 @@
       "[ncbifam] HAD-IC family P-type ATPase",
       "[ncbifam] copper-translocating P-type ATPase",
       "[ncbifam] cadmium family heavy metal-translocating P-type ATPase",
+      "[tcdb_best_hit] Cu+, Zn2+, Cd2+ exporting ATPase of 815 aas and 8 TMSs, CueA. [3.A.3.5.39] :: [tcdb_substrates] Cadmium, Cu+, zinc ion",
       "[pfam] E1-E2_ATPase: P-type ATPase actuator domain",
       "[pfam] Hydrolase: haloacid dehalogenase-like hydrolase",
       "[pfam] YHS: YHS domain",
@@ -145437,6 +145489,7 @@
       "[eggnog] Belongs to the BI1 family",
       "[protein_family] BI1 family",
       "[interpro] Bax inhibitor 1-related",
+      "[tcdb_best_hit] The YccA protein, an inhibitor of FtsH. [1.A.14.2.1]",
       "[pfam] Bax1-I: Inhibitor of apoptosis-promoting Bax1"
     ],
     "alternative_locus_tags": [
@@ -150690,6 +150743,7 @@
       "[interpro] Solute-binding protein family 5 domain",
       "[interpro] Peptide/nickel binding protein, MppA-type",
       "[interpro] Solute-binding protein family 5",
+      "[tcdb_best_hit] YejABEF with four subunits as indicated with YejA, a periplasmic peptide binding protein of 610 aas and 1 N-terminal TMS, YejB, a membrane protein\u2026 [3.A.1.5.49] :: [tcdb_substrates] Peptide",
       "[pfam] SBP_bac_5: Bacterial extracellular solute-binding proteins, family 5 Middle"
     ],
     "alternative_locus_tags": [
@@ -150942,6 +150996,7 @@
       "[uniprot] Probably part of a binding-protein-dependent transport system. Probably responsible for the translocation of the substrate across the membrane",
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
+      "[tcdb_best_hit] The antimicrobial peptide protamine, melittin, polymyxin B, human defensin (HBD)-1 and HBD-2 exporter, YejABEF. [3.A.1.5.24] :: [tcdb_substrates] Peptide",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -151220,6 +151275,7 @@
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[ncbifam] microcin C ABC transporter permease",
+      "[tcdb_best_hit] YejABEF with four subunits as indicated with YejA, a periplasmic peptide binding protein of 610 aas and 1 N-terminal TMS, YejB, a membrane protein\u2026 [3.A.1.5.49] :: [tcdb_substrates] Peptide",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
     ],
@@ -151548,6 +151604,7 @@
       "[interpro] ABC Transporter ATP-Binding",
       "[ncbifam] nickel ABC transporter ATP-binding protein NikE",
       "[ncbifam] dipeptide ABC transporter ATP-binding protein",
+      "[tcdb_best_hit] YejABEF with four subunits as indicated with YejA, a periplasmic peptide binding protein of 610 aas and 1 N-terminal TMS, YejB, a membrane protein\u2026 [3.A.1.5.49] :: [tcdb_substrates] Peptide",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] oligo_HPY: Oligopeptide/dipeptide transporter, C-terminal region"
     ],
@@ -164287,6 +164344,7 @@
       "[interpro] AMP-binding enzyme, C-terminal domain",
       "[interpro] ATP-dependent AMP-binding enzyme",
       "[ncbifam] long-chain-fatty-acid--CoA ligase",
+      "[tcdb_best_hit] Long chain fatty acyl CoA synthase (ligase), (EC 6.2.1.3) [4.C.1.1.4] :: [tcdb_substrates] Fatty acid",
       "[pfam] AMP-binding: AMP-binding enzyme",
       "[pfam] AMP-binding_C: AMP-binding enzyme C-terminal domain"
     ],
@@ -174024,6 +174082,7 @@
       "[ncbi] mercury resistance system transport protein MerF",
       "[eggnog] Membrane transport protein MerF",
       "[interpro] Mercury ion transport, MerF",
+      "[tcdb_best_hit] The MerF mercuric ion uptake transporter of 81 aas and 2 TMSs. [1.A.72.1.1] :: [tcdb_substrates] Mercury(2+)",
       "[pfam] Transport_MerF: Membrane transport protein MerF"
     ],
     "alternative_locus_tags": [
@@ -176855,6 +176914,7 @@
       "[ncbi] CDP-alcohol phosphatidyltransferase family protein",
       "[eggnog] Belongs to the CDP-alcohol phosphatidyltransferase class-I family",
       "[interpro] CDP-alcohol phosphatidyltransferase",
+      "[tcdb_best_hit] CDP-alcohol phosphatidyltransferase, CAPT, of 244 aas and 8 TMSs in a 2 + 2 + 2+ 2 arrangement. [4.F.1.1.5]",
       "[pfam] CDP-OH_P_transf: CDP-alcohol phosphatidyltransferase"
     ],
     "alternative_locus_tags": [
@@ -178826,6 +178886,7 @@
       "[interpro] Phage portal protein, lambda family",
       "[hamap] Portal protein B [B].",
       "[tigr_role_inferred] Mobile and extrachromosomal element functions / Prophage functions",
+      "[tcdb_best_hit] The E. coli phage lambda portal protein (PPP) of 533 aas. [1.W.5.1.1] :: [tcdb_substrates] DNA",
       "[pfam] Phage_portal_2: Phage portal protein, lambda family"
     ],
     "alternative_locus_tags": [
@@ -186885,6 +186946,7 @@
       "[interpro] Oligopeptide/dipeptide ABC transporter, C-terminal",
       "[interpro] ABC Transporter, Nickel and Peptide Import",
       "[ncbifam] oligopeptide/dipeptide ABC transporter ATP-binding protein",
+      "[tcdb_best_hit] Putative peptide transporter encoded adjacent to the putative transport system with TC#3.A.1.5.36. [3.A.1.5.35] :: [tcdb_substrates] Peptide",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] oligo_HPY: Oligopeptide/dipeptide transporter, C-terminal region"
     ],
@@ -187972,6 +188034,7 @@
       "[interpro] Peptidoglycan-associated lipoprotein",
       "[interpro] Bacterial Outer Membrane Structural/Functional",
       "[hamap] Peptidoglycan-associated lipoprotein [pal].",
+      "[tcdb_best_hit] The TolA energy-transducing system. [2.C.1.2.1] :: [tcdb_substrates] Phospholipid",
       "[pfam] OmpA: OmpA family"
     ],
     "alternative_locus_tags": [
@@ -188136,6 +188199,7 @@
       "[hamap] Tol-Pal system protein TolB [tolB].",
       "[tigr_role_inferred] Transport and binding proteins / Other",
       "[tigr_role_inferred] Cellular processes / Pathogenesis",
+      "[tcdb_best_hit] The TolA energy-transducing system. [2.C.1.2.1] :: [tcdb_substrates] Phospholipid",
       "[pfam] PD40: WD40-like Beta Propeller Repeat",
       "[pfam] TolB_N: TolB amino-terminal domain"
     ],
@@ -188667,6 +188731,7 @@
       "[hamap] Tol-Pal system protein TolR [tolR].",
       "[tigr_role_inferred] Transport and binding proteins / Other",
       "[tigr_role_inferred] Cellular processes / Pathogenesis",
+      "[tcdb_best_hit] Putative TolA-dependent Energizer, TolQ5/TolR5 or AglX/AglV. [1.A.30.2.7]",
       "[pfam] ExbD: Biopolymer transport protein ExbD/TolR"
     ],
     "alternative_locus_tags": [
@@ -188954,6 +189019,7 @@
       "[hamap] Tol-Pal system protein TolQ [tolQ].",
       "[tigr_role_inferred] Transport and binding proteins / Other",
       "[tigr_role_inferred] Cellular processes / Pathogenesis",
+      "[tcdb_best_hit] The TolA energy-transducing system. [1.A.30.2.2]",
       "[pfam] MotA_ExbB: MotA/TolQ/ExbB proton channel family"
     ],
     "alternative_locus_tags": [
@@ -189429,6 +189495,7 @@
       "[interpro] Oligopeptide/dipeptide ABC transporter, C-terminal",
       "[interpro] ABC Transporter ATP-Binding",
       "[ncbifam] oligopeptide/dipeptide ABC transporter ATP-binding protein",
+      "[tcdb_best_hit] Peptide transporter encoded adjacent to the putative transport system with TC#3.A.1.5.35. [3.A.1.5.36] :: [tcdb_substrates] Peptide",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] oligo_HPY: Oligopeptide/dipeptide transporter, C-terminal region"
     ],
@@ -197449,6 +197516,7 @@
       "[interpro] Type 1 protein exporter",
       "[tigr_role_inferred] Transport and binding proteins / Other",
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of surface polysaccharides and lipopolysaccharides",
+      "[tcdb_best_hit] MsbA of 582 aas and 6 TMSs in an M-C arrangement. [3.A.1.106.20] :: [tcdb_substrates] drug, lipid As, Lipopolysaccharide, Phospholipid",
       "[pfam] ABC_membrane: ABC transporter transmembrane region",
       "[pfam] ABC_tran: ABC transporter"
     ],
@@ -198622,6 +198690,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter, lipoprotein release, LolD-like",
       "[interpro] MacB-like, ATP-binding domain",
+      "[tcdb_best_hit] Lipoprotein translocation system. [3.A.1.125.1] :: [tcdb_substrates] Lipoprotein",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -199154,6 +199223,7 @@
       "[interpro] MacB-like periplasmic core domain",
       "[interpro] Lipoprotein-releasing system transmembrane protein",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] Lipoprotein translocation system. [3.A.1.125.1] :: [tcdb_substrates] Lipoprotein",
       "[pfam] FtsX: FtsX-like permease C-terminal",
       "[pfam] MacB_PCD: MacB-like periplasmic core domain"
     ],
@@ -208644,6 +208714,7 @@
       "[interpro] Cytochrome c oxidase cbb3-type, subunit I",
       "[interpro] Cytochrome c oxidase-like, subunit I domain",
       "[tigr_role_inferred] Energy metabolism / Electron transport",
+      "[tcdb_best_hit] Cbb3 cytochrome c oxidase (COX; Cbb3; CcoNOP). [3.D.4.3.3]",
       "[pfam] COX1: Cytochrome C and Quinol oxidase polypeptide I"
     ],
     "alternative_locus_tags": [
@@ -209280,6 +209351,7 @@
       "[interpro] Cytochrome c-like domain",
       "[ncbifam] cbb3-type cytochrome c oxidase subunit II",
       "[tigr_role_inferred] Energy metabolism / Electron transport",
+      "[tcdb_best_hit] Cbb3 cytochrome c oxidase (COX; Cbb3; CcoNOP). [3.D.4.3.3]",
       "[pfam] FixO: Cytochrome C oxidase, mono-heme subunit/FixO"
     ],
     "alternative_locus_tags": [
@@ -209452,6 +209524,7 @@
       "[ncbi] CcoQ/FixQ family Cbb3-type cytochrome c oxidase assembly chaperone",
       "[eggnog] COG4736 Cbb3-type cytochrome oxidase, subunit 3",
       "[interpro] Cbb3-type cytochrome oxidase component",
+      "[tcdb_best_hit] Cbb3 cytochrome c oxidase (COX; Cbb3; CcoNOP). [3.D.4.3.3]",
       "[pfam] FixQ: Cbb3-type cytochrome oxidase component FixQ"
     ],
     "alternative_locus_tags": [
@@ -209654,6 +209727,7 @@
       "[interpro] Cbb3-type cytochrome c oxidase subunit CcoP, N-terminal",
       "[interpro] Cytochrome c Oxidase Subunit",
       "[tigr_role_inferred] Energy metabolism / Electron transport",
+      "[tcdb_best_hit] Cbb3 cytochrome c oxidase (COX; Cbb3; CcoNOP). [3.D.4.3.3]",
       "[pfam] Cytochrome_CBB3: Cytochrome C oxidase, cbb3-type, subunit III",
       "[pfam] FixP_N: N-terminal domain of cytochrome oxidase-cbb3, FixP"
     ],
@@ -210129,6 +210203,7 @@
       "[ncbifam] HAD-IC family P-type ATPase",
       "[ncbifam] copper-translocating P-type ATPase",
       "[ncbifam] cadmium family heavy metal-translocating P-type ATPase",
+      "[tcdb_best_hit] Cu+ export ATPase, CopA2; provides copper for cytochrome oxidase assembly. [3.A.3.27.5] :: [tcdb_substrates] Cu+",
       "[pfam] ATPase-cat_bd: Putative metal-binding domain of cation transport ATPase",
       "[pfam] E1-E2_ATPase: P-type ATPase actuator domain",
       "[pfam] HMA: Heavy-metal-associated domain",
@@ -211426,6 +211501,7 @@
       "[ncbi] OmpP1/FadL family transporter",
       "[eggnog] COG2067 Long-chain fatty acid transport protein",
       "[interpro] Outer membrane protein transport protein (OMPP1/FadL/TodX)",
+      "[tcdb_best_hit] Long alkane hydrocarbon chain (~C28) transporting outer membrane porin, FadL of 546 aas. [1.B.9.1.6] :: [tcdb_substrates] long-chain alkane",
       "[pfam] Toluene_X: Outer membrane protein transport protein (OMPP1/FadL/TodX)"
     ],
     "alternative_locus_tags": [
@@ -211777,6 +211853,7 @@
       "[eggnog] COG0471 Di- and tricarboxylate transporters",
       "[interpro] Solute carrier family 13",
       "[ncbifam] DASS family sodium-coupled anion symporter",
+      "[tcdb_best_hit] The aerobic dicarboxylate (succinate (Km, 30 \u03bcM), fumarate (Km, 79 \u03bcM), malate (Km, 360 \u03bcM)) transporter, DcsT or DccT. [2.A.47.1.12] :: [tcdb_substrates] dicarboxylic acid dianion, Fumarate, Malate, Succinate",
       "[pfam] Na_sulph_symp: Sodium:sulfate symporter transmembrane region"
     ],
     "alternative_locus_tags": [
@@ -212481,6 +212558,7 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] MacB-like, ATP-binding domain",
+      "[tcdb_best_hit] ABC-type antimicrobial peptide transporter of 786 aas and 8 TMSs [3.A.1.137.2]",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -213671,6 +213749,7 @@
       "[protein_family] ExbB/tolQ family",
       "[interpro] MotA/TolQ/ExbB proton channel",
       "[interpro] ExbB/TolQ Biopolymer Transport",
+      "[tcdb_best_hit] TolQ (DUF2149)/TolR [1.A.30.3.1]",
       "[pfam] MotA_ExbB: MotA/TolQ/ExbB proton channel family"
     ],
     "alternative_locus_tags": [
@@ -216998,6 +217077,7 @@
       "[interpro] Bacterial-type extracellular solute-binding protein",
       "[interpro] ABC transporter, periplasmic substrate-binding protein, predicted",
       "[interpro] Bacterial solute-binding protein 1",
+      "[tcdb_best_hit] Glycerol uptake porter, GlpSTPQV. [3.A.1.1.35] :: [tcdb_substrates] Glycerol",
       "[pfam] SBP_bac_1: Bacterial extracellular solute-binding protein",
       "[pfam] SBP_bac_8: Bacterial extracellular solute-binding protein"
     ],
@@ -217496,6 +217576,7 @@
       "[eggnog] COG0395 ABC-type sugar transport system, permease component",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] Binding-protein-dependent ABC transporter permease",
+      "[tcdb_best_hit] Glycerol uptake porter, GlpSTPQV. [3.A.1.1.35] :: [tcdb_substrates] Glycerol",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -217641,6 +217722,7 @@
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] Sugar-specific ABC transporter permease",
+      "[tcdb_best_hit] Glycerol uptake porter, GlpSTPQV. [3.A.1.1.35] :: [tcdb_substrates] Glycerol",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -217813,6 +217895,7 @@
       "[interpro] Transport-associated OB, type 2",
       "[interpro] ABC transporter, ferric cation import, FbpC",
       "[interpro] ABC transporter, ATP-binding protein MalK/UgpC-like",
+      "[tcdb_best_hit] Glycerol uptake porter, GlpSTPQV. [3.A.1.1.35] :: [tcdb_substrates] Glycerol",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] TOBE_2: TOBE domain"
     ],
@@ -218017,6 +218100,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter, ferric cation import, FbpC",
       "[interpro] ABC transporter, ATP-binding protein MalK/UgpC-like",
+      "[tcdb_best_hit] Glycerol uptake porter, GlpSTPQV. [3.A.1.1.35] :: [tcdb_substrates] Glycerol",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] TOBE_2: TOBE domain"
     ],
@@ -220942,6 +221026,7 @@
       "[interpro] Glyceraldehyde 3-phosphate dehydrogenase, catalytic domain",
       "[interpro] Glyceraldehyde/Erythrose phosphate dehydrogenase family",
       "[tigr_role_inferred] Energy metabolism / Glycolysis/gluconeogenesis",
+      "[tcdb_best_hit] To interact with other cells, bacteria use contractile machines that function similarly to membrane-puncturing bacteriophages. [3.A.23.6.1]",
       "[pfam] Gp_dh_C: Glyceraldehyde 3-phosphate dehydrogenase, C-terminal domain",
       "[pfam] Gp_dh_N: Glyceraldehyde 3-phosphate dehydrogenase, NAD binding domain"
     ],
@@ -227431,6 +227516,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC-type amino acid transport system, ATPase component, HisP-type",
       "[interpro] Methionine import ATP-binding protein MetN-like",
+      "[tcdb_best_hit] Glutamate/glutamine/aspartate/asparagine porter [3.A.1.3.7] :: [tcdb_substrates] Asparagine, Aspartate, Glutamate, Glutamine",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -227703,6 +227789,7 @@
       "[interpro] Amino acid ABC transporter, permease protein, 3-TM domain",
       "[interpro] ABC transporter membrane protein permease protein ArtM/GltK/GlnP/TcyL/YhdX-like",
       "[ncbifam] ABC transporter permease subunit",
+      "[tcdb_best_hit] The putative polar amino acid uptake porter, YhdWXYZ. [3.A.1.3.26] :: [tcdb_substrates] Asparagine, Glutamine, Histidine, L-Threonine, Serine, Tyrosine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -227944,6 +228031,7 @@
       "[interpro] Amino acid ABC transporter, permease protein, 3-TM domain",
       "[interpro] ABC transporter membrane protein permease protein ArtM/GltK/GlnP/TcyL/YhdX-like",
       "[ncbifam] ABC transporter permease subunit",
+      "[tcdb_best_hit] The putative polar amino acid uptake porter, YhdWXYZ. [3.A.1.3.26] :: [tcdb_substrates] Asparagine, Glutamine, Histidine, L-Threonine, Serine, Tyrosine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -228162,6 +228250,7 @@
       "[eggnog] COG0834 ABC-type amino acid transport signal transduction systems, periplasmic component domain",
       "[interpro] Solute-binding protein family 3/N-terminal domain of MltF",
       "[interpro] Bacterial solute-binding protein 3",
+      "[tcdb_best_hit] General L-amino acid porter; transports basic and acidic amino acids preferentially, but also transports aliphatic amino acids. [3.A.1.3.8] :: [tcdb_substrates] Amino acid",
       "[pfam] SBP_bac_3: Bacterial extracellular solute-binding proteins, family 3"
     ],
     "alternative_locus_tags": [
@@ -229480,6 +229569,7 @@
       "[interpro] Sodium:Solute Symporter",
       "[ncbifam] sodium/solute symporter",
       "[tigr_role_inferred] Transport and binding proteins / Amino acids, peptides and amines",
+      "[tcdb_best_hit] Proline uptake porter, OpuE (YerK). [2.A.21.2.5] :: [tcdb_substrates] Proline",
       "[pfam] SSF: Sodium:solute symporter family"
     ],
     "alternative_locus_tags": [
@@ -239643,6 +239733,7 @@
       "[interpro] FAD-binding domain, ferredoxin reductase-type",
       "[hamap] Na(+)-translocating NADH-quinone reductase subunit F [nqrF].",
       "[tigr_role_inferred] Transport and binding proteins / Cations and iron carrying compounds",
+      "[tcdb_best_hit] Na+-translocating NADH-quinone oxidoreductase, NqrABCDEF. [3.D.5.1.1]",
       "[pfam] FAD_binding_6: Oxidoreductase FAD-binding domain",
       "[pfam] Fer2: 2Fe-2S iron-sulfur cluster binding domain",
       "[pfam] NAD_binding_1: Oxidoreductase NAD-binding domain"
@@ -240013,6 +240104,7 @@
       "[interpro] Ion-translocating oxidoreductase complex subunit A/E",
       "[hamap] Na(+)-translocating NADH-quinone reductase subunit E [nqrE].",
       "[tigr_role_inferred] Transport and binding proteins / Cations and iron carrying compounds",
+      "[tcdb_best_hit] Na+-translocating NADH-quinone oxidoreductase, NqrABCDEF. [3.D.5.1.1]",
       "[pfam] Rnf-Nqr: Rnf-Nqr subunit, membrane protein"
     ],
     "alternative_locus_tags": [
@@ -240403,6 +240495,7 @@
       "[hamap] Na(+)-translocating NADH-quinone reductase subunit D [nqrD].",
       "[ncbifam] electron transport complex subunit RsxE",
       "[tigr_role_inferred] Transport and binding proteins / Cations and iron carrying compounds",
+      "[tcdb_best_hit] Na+-translocating NADH-quinone oxidoreductase, NqrABCDEF. [3.D.5.1.1]",
       "[pfam] Rnf-Nqr: Rnf-Nqr subunit, membrane protein"
     ],
     "alternative_locus_tags": [
@@ -240878,6 +240971,7 @@
       "[hamap] Na(+)-translocating NADH-quinone reductase subunit C [nqrC].",
       "[ncbifam] NADH:ubiquinone reductase (Na(+)-transporting) subunit C",
       "[tigr_role_inferred] Transport and binding proteins / Cations and iron carrying compounds",
+      "[tcdb_best_hit] Na+-translocating NADH-quinone oxidoreductase, NqrABCDEF. [3.D.5.1.1]",
       "[pfam] FMN_bind: FMN-binding domain"
     ],
     "alternative_locus_tags": [
@@ -241064,6 +241158,7 @@
       "[interpro] Na(+)-translocating NADH-quinone reductase subunit B",
       "[hamap] Na(+)-translocating NADH-quinone reductase subunit B [nqrB].",
       "[tigr_role_inferred] Transport and binding proteins / Cations and iron carrying compounds",
+      "[tcdb_best_hit] Na+-translocating NADH-quinone oxidoreductase, NqrABCDEF. [3.D.5.1.1]",
       "[pfam] NQR2_RnfD_RnfE: NQR2, RnfD, RnfE family"
     ],
     "alternative_locus_tags": [
@@ -241442,6 +241537,7 @@
       "[hamap] Na(+)-translocating NADH-quinone reductase subunit A [nqrA].",
       "[ncbifam] NADH:ubiquinone reductase (Na(+)-transporting) subunit A",
       "[tigr_role_inferred] Transport and binding proteins / Cations and iron carrying compounds",
+      "[tcdb_best_hit] Na+-translocating NADH-quinone oxidoreductase, NqrABCDEF. [3.D.5.1.1]",
       "[pfam] NQRA_N: NqrA N-terminal barrel-sandwich hybrid domain",
       "[pfam] NQRA_SLBB: NQRA C-terminal domain",
       "[pfam] NQRA_2nd: NqrA second alpha/beta domain"
@@ -248204,6 +248300,7 @@
       "[interpro] Cytochrome c-type biogenesis protein CcmB, bacteria",
       "[tigr_role_inferred] Transport and binding proteins / Other",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] Cytochrome c maturation system (heme exporter?), CcmA/B [3.A.1.107.4] :: [tcdb_substrates] Apocytochrome c, Heme",
       "[pfam] CcmB: CcmB protein"
     ],
     "alternative_locus_tags": [
@@ -248493,6 +248590,7 @@
       "[ncbifam] heme ABC exporter ATP-binding protein CcmA",
       "[tigr_role_inferred] Transport and binding proteins / Other",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] Cytochrome c maturation system (heme exporter?), CcmA/B [3.A.1.107.4] :: [tcdb_substrates] Apocytochrome c, Heme",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -250366,6 +250464,7 @@
       "[interpro] MotA/TolQ/ExbB proton channel",
       "[interpro] Motility protein A, N-terminal",
       "[interpro] Motility protein A-like",
+      "[tcdb_best_hit] The H+-driven flagellar motor complex, MotABXY. [1.A.30.1.5]",
       "[pfam] MotA_ExbB: MotA/TolQ/ExbB proton channel family",
       "[pfam] MotA_N: Motility protein A N-terminal"
     ],
@@ -251930,6 +252029,7 @@
       "[interpro] Type III secretion system FHIPEP",
       "[interpro] Flagellar biosynthesis protein FlhA",
       "[tigr_role_inferred] Cellular processes / Chemotaxis and motility",
+      "[tcdb_best_hit] Flagellar biosynthesis protein FlhA of 729 aas and 8 TMSs in a 4 + 4 TMS arrangement. [1.A.104.1.4]",
       "[pfam] FHIPEP: FHIPEP family"
     ],
     "alternative_locus_tags": [
@@ -252703,6 +252803,7 @@
       "[interpro] Xanthine/uracil permease",
       "[interpro] Nucleobase cation symporter 2 family",
       "[ncbifam] NCS2 family nucleobase:cation symporter",
+      "[tcdb_best_hit] Uracil permease [2.A.40.1.4] :: [tcdb_substrates] Uracil",
       "[pfam] Xan_ur_permease: Permease family"
     ],
     "alternative_locus_tags": [
@@ -253734,6 +253835,7 @@
       "[interpro] Bacterial export protein family 3",
       "[interpro] Flagellar biosynthesis protein FliQ",
       "[tigr_role_inferred] Cellular processes / Chemotaxis and motility",
+      "[tcdb_best_hit] Flagellar protein export system. [3.A.6.2.1] :: [tcdb_substrates] Protein",
       "[pfam] Bac_export_3: Bacterial export proteins, family 3"
     ],
     "alternative_locus_tags": [
@@ -253904,6 +254006,7 @@
       "[interpro] Type III secretion system inner membrane P protein",
       "[ncbifam] EscR/YscR/HrcR family type III secretion system export apparatus protein",
       "[tigr_role_inferred] Cellular processes / Chemotaxis and motility",
+      "[tcdb_best_hit] Flagellar protein export system. [3.A.6.2.1] :: [tcdb_substrates] Protein",
       "[pfam] FliP: FliP family"
     ],
     "alternative_locus_tags": [
@@ -255789,6 +255892,7 @@
       "[interpro] ATPase alpha/beta chains",
       "[ncbifam] FliI/YscN family ATPase",
       "[tigr_role_inferred] Cellular processes / Chemotaxis and motility",
+      "[tcdb_best_hit] Flagellar protein export system. [3.A.6.2.1] :: [tcdb_substrates] Protein",
       "[pfam] ATP-synt_ab: ATP synthase alpha/beta family, nucleotide-binding domain",
       "[pfam] ATP-synt_ab_N: ATP synthase alpha/beta family, beta-barrel domain",
       "[pfam] T3SS_ATPase_C: T3SS EscN ATPase C-terminal domain"
@@ -262983,6 +263087,7 @@
       "[interpro] GspD-like, N0 domain",
       "[interpro] Bacterial Secretion System Channel Protein",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] XcpQ secretin protein [1.B.22.1.2] :: [tcdb_substrates] Protein",
       "[pfam] SPOR: SPOR domain",
       "[pfam] Secretin: Bacterial type II and III secretion system protein",
       "[pfam] Secretin_N: Bacterial type II/III secretion system short domain",
@@ -273315,6 +273420,7 @@
       "[interpro] ATPase, type IV, pilus assembly, PilB",
       "[tigr_role_inferred] Cell envelope / Surface structures",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] The pilin secretion/fimbrial assembly system. [3.A.15.2.1]",
       "[pfam] T2SSE: Type II/IV secretion system protein",
       "[pfam] MshEN: MshEN domain"
     ],
@@ -273651,6 +273757,7 @@
       "[interpro] GspF/PilC family",
       "[interpro] Type II secretion system protein GspF domain",
       "[interpro] GspF/PilC, N-terminal domain",
+      "[tcdb_best_hit] The pilin secretion/fimbrial assembly system. [3.A.15.2.1]",
       "[pfam] T2SSF: Type II secretion system (T2SS), protein F",
       "[pfam] T2SSF_N: Type II secretion system protein F, N-terminal domain"
     ],
@@ -273941,6 +274048,7 @@
       "[interpro] Prepilin peptidase A24, N-terminal",
       "[interpro] Peptidase A24A, prepilin type IV, bacterial",
       "[interpro] Prepilin leader peptidase/N-methyltransferase",
+      "[tcdb_best_hit] The pilin secretion/fimbrial assembly system. [3.A.15.2.1]",
       "[pfam] A24_N_bact: Bacterial Peptidase A24 N-terminal domain",
       "[pfam] Peptidase_A24: Type IV leader peptidase family"
     ],
@@ -278573,6 +278681,7 @@
       "[interpro] Mce/MlaD",
       "[interpro] Probable phospholipid ABC transporter-binding protein MlaD",
       "[interpro] MlaD Inter-membrane Phospholipid Transporter",
+      "[tcdb_best_hit] ABC transporter maintaining outer membrane (OM) lipid asymmetry, MlaABCDEF (YrbABCDEF). [3.A.1.27.3] :: [tcdb_substrates] drug, Phospholipid, Tetracycline",
       "[pfam] MlaD: MlaD protein"
     ],
     "alternative_locus_tags": [
@@ -278815,6 +278924,7 @@
       "[interpro] ABC transporter permease MalE",
       "[interpro] MlaE Permease",
       "[ncbifam] MlaE family lipid ABC transporter permease subunit",
+      "[tcdb_best_hit] ABC transporter maintaining outer membrane (OM) lipid asymmetry, MlaABCDEF (YrbABCDEF). [3.A.1.27.3] :: [tcdb_substrates] drug, Phospholipid, Tetracycline",
       "[pfam] MlaE: Permease MlaE"
     ],
     "alternative_locus_tags": [
@@ -279000,6 +279110,7 @@
       "[eggnog] ABC-type transport system involved in resistance to organic solvents, ATPase component",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
+      "[tcdb_best_hit] ABC transporter maintaining outer membrane (OM) lipid asymmetry, MlaABCDEF (YrbABCDEF). [3.A.1.27.3] :: [tcdb_substrates] drug, Phospholipid, Tetracycline",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -280230,6 +280341,7 @@
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tigr_role_inferred] Transport and binding proteins / Other",
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of surface polysaccharides and lipopolysaccharides",
+      "[tcdb_best_hit] LPS export system, LptF (M), LptG (M) and LptB (C). [3.A.1.152.1] :: [tcdb_substrates] Lipopolysaccharide",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
     ],
@@ -281409,6 +281521,7 @@
       "[interpro] Phosphotransferase system, IIA-like nitrogen-regulatory protein PtsN",
       "[interpro] PTS System Sugar Transport and Nitrogen Regulation",
       "[tigr_role_inferred] Signal transduction / PTS",
+      "[tcdb_best_hit] Nitrogen regulatory phosphoryl transfer chain, E1Ntr - NPr - IIANtr consisting of three cytolasmic phosphoryl transfer proteins as indicated: E1Ntr\u2026 [4.A.2.1.28] :: [tcdb_substrates] Protein",
       "[pfam] PTS_EIIA_2: Phosphoenolpyruvate-dependent sugar phosphotransferase system, EIIA 2"
     ],
     "alternative_locus_tags": [
@@ -282155,6 +282268,7 @@
       "[protein_family] HPr family",
       "[interpro] Phosphocarrier protein HPr-like",
       "[interpro] Phosphocarrier protein HPr",
+      "[tcdb_best_hit] Nitrogen regulatory phosphoryl transfer chain, E1Ntr - NPr - IIANtr consisting of three cytolasmic phosphoryl transfer proteins as indicated: E1Ntr\u2026 [4.A.2.1.28] :: [tcdb_substrates] Protein",
       "[pfam] PTS-HPr: PTS HPr component phosphorylation site"
     ],
     "alternative_locus_tags": [
@@ -282458,6 +282572,7 @@
       "[interpro] Magnesium transporter, MgtE intracellular domain",
       "[interpro] Magnesium transporter MgtE",
       "[tigr_role_inferred] Transport and binding proteins / Cations and iron carrying compounds",
+      "[tcdb_best_hit] Ferrous iron and cobalt importer, FicI, of 454 aas and 5 C-termnal TMSs. [1.A.26.1.7] :: [tcdb_substrates] Cobalt ion, Fe2+",
       "[pfam] CBS: CBS domain",
       "[pfam] MgtE: Divalent cation transporter",
       "[pfam] MgtE_N: MgtE intracellular N domain"
@@ -287764,6 +287879,7 @@
       "[protein_family] PhoH family",
       "[interpro] PhoH-like protein",
       "[interpro] PhoH2-like",
+      "[tcdb_best_hit] To interact with other cells, bacteria use contractile machines that function similarly to membrane-puncturing bacteriophages. [3.A.23.6.1]",
       "[pfam] PhoH: PhoH-like protein"
     ],
     "alternative_locus_tags": [
@@ -288261,6 +288377,7 @@
       "[interpro] Transporter-associated domain",
       "[interpro] Ion transporter-like, CBS domain",
       "[interpro] Magnesium and cobalt efflux protein CorC, N-terminal domain",
+      "[tcdb_best_hit] Co2+-resistance protein, CorC, of 292 aas and 0 TMSs. [1.C.126.1.2]",
       "[pfam] CBS: CBS domain",
       "[pfam] CorC_HlyC: Transporter associated domain",
       "[pfam] NMB0537_N: N-terminal region of NMB0537"
@@ -298522,6 +298639,7 @@
       "[interpro] Flagellar motor stator, MotA",
       "[interpro] Motility protein A, N-terminal",
       "[interpro] Motility protein A-like",
+      "[tcdb_best_hit] The motor complex of the bacterial flagellum, MotAB. [1.A.30.1.7]",
       "[pfam] MotA_ExbB: MotA/TolQ/ExbB proton channel family",
       "[pfam] MotA_N: Motility protein A N-terminal"
     ],
@@ -304700,6 +304818,7 @@
       "[interpro] Nucleobase cation symporter 2 family",
       "[interpro] Azaguanine-like transporters, bacteria and archaea type",
       "[interpro] Azaguanine-like transporters",
+      "[tcdb_best_hit] Adenine permease, PurP. [2.A.40.7.6] :: [tcdb_substrates] Adenine",
       "[pfam] Xan_ur_permease: Permease family"
     ],
     "alternative_locus_tags": [
@@ -306156,6 +306275,7 @@
       "[interpro] OmpA-like domain",
       "[interpro] YMGG-like Gly-zipper",
       "[interpro] Bacterial Outer Membrane Structural/Functional",
+      "[tcdb_best_hit] Putative lipoprotein, YiaD, of 219 aas with 3 N-terminal TMSs and a C-terminla OmpA peptidoglycan binding domain. [1.B.6.13.1]",
       "[pfam] Gly-zipper_Omp: Glycine zipper",
       "[pfam] Gly-zipper_YMGG: YMGG-like Gly-zipper",
       "[pfam] OmpA: OmpA family"
@@ -309928,6 +310048,7 @@
       "[interpro] MrpA C-terminal/MbhD",
       "[interpro] MrpA C-terminal/MbhE",
       "[interpro] CPA3 Na+/H+ Antiporter Subunit A",
+      "[tcdb_best_hit] Multicomponent K+:H+ antiporter, PhaABCDEFG. [2.A.63.1.1] :: [tcdb_substrates] Potassium cation",
       "[pfam] MbhD: MBH, subunit D",
       "[pfam] MnhB: Domain related to MnhB subunit of Na+/H+ antiporter",
       "[pfam] Proton_antipo_M: NADH:quinone oxidoreductase/Mrp antiporter, TM",
@@ -310169,6 +310290,7 @@
       "[protein_family] CPA3 antiporters (TC 2.A.63) subunit C family",
       "[interpro] NADH-ubiquinone oxidoreductase chain 4L/Mnh complex subunit C1-like",
       "[interpro] CPA3 antiporter subunit C",
+      "[tcdb_best_hit] Multicomponent K+:H+ antiporter, PhaABCDEFG. [2.A.63.1.1] :: [tcdb_substrates] Potassium cation",
       "[pfam] Oxidored_q2: NADH-ubiquinone/plastoquinone oxidoreductase chain 4L"
     ],
     "alternative_locus_tags": [
@@ -310314,6 +310436,7 @@
       "[interpro] NADH:quinone oxidoreductase/Mrp antiporter, transmembrane domain",
       "[interpro] NADH:ubiquinone oxidoreductase",
       "[interpro] CPA3 Na+/H+ Antiporter Subunit D",
+      "[tcdb_best_hit] Multicomponent K+:H+ antiporter, PhaABCDEFG. [2.A.63.1.1] :: [tcdb_substrates] Potassium cation",
       "[pfam] Proton_antipo_M: NADH:quinone oxidoreductase/Mrp antiporter, TM"
     ],
     "alternative_locus_tags": [
@@ -310679,6 +310802,7 @@
       "[eggnog] Multiple resistance and pH regulation protein F",
       "[protein_family] CPA3 antiporters (TC 2.A.63) subunit F family",
       "[interpro] Na(+)/H(+) antiporter subunit F-like",
+      "[tcdb_best_hit] Multicomponent K+:H+ antiporter, PhaABCDEFG. [2.A.63.1.1] :: [tcdb_substrates] Potassium cation",
       "[pfam] MrpF_PhaF: Multiple resistance and pH regulation protein F (MrpF / PhaF)"
     ],
     "alternative_locus_tags": [
@@ -311337,6 +311461,7 @@
       "[protein_family] CPA3 antiporters (TC 2.A.63) subunit C family",
       "[interpro] NADH-ubiquinone oxidoreductase chain 4L/Mnh complex subunit C1-like",
       "[interpro] CPA3 antiporter subunit C",
+      "[tcdb_best_hit] Multicomponent Na+:H+ antiporter, NhaA-G. Nha1,2,3,(4) [2.A.63.1.2]",
       "[pfam] Oxidored_q2: NADH-ubiquinone/plastoquinone oxidoreductase chain 4L"
     ],
     "alternative_locus_tags": [
@@ -311633,6 +311758,7 @@
       "[interpro] NADH:quinone oxidoreductase/Mrp antiporter, transmembrane domain",
       "[interpro] NADH:ubiquinone oxidoreductase",
       "[interpro] CPA3 Na+/H+ Antiporter Subunit D",
+      "[tcdb_best_hit] Multicomponent Na+:H+ antiporter, NhaA-G. Nha1,2,3,(4) [2.A.63.1.2]",
       "[pfam] Proton_antipo_M: NADH:quinone oxidoreductase/Mrp antiporter, TM"
     ],
     "alternative_locus_tags": [
@@ -321656,6 +321782,7 @@
       "[ncbi] tripartite tricarboxylate transporter permease",
       "[eggnog] protein conserved in bacteria",
       "[interpro] Protein of unknown function DUF112, transmembrane",
+      "[tcdb_best_hit] The tricarboxylate transporter, TctABC. [2.A.80.1.1] :: [tcdb_substrates] tricarboxylic acid trianion",
       "[pfam] TctA: Tripartite tricarboxylate transporter TctA family"
     ],
     "alternative_locus_tags": [
@@ -324237,6 +324364,7 @@
       "[interpro] EamA domain",
       "[interpro] RarD protein",
       "[tigr_role_inferred] Transport and binding proteins / Unknown substrate",
+      "[tcdb_best_hit] Protein RarD. [2.A.7.7.2] :: [tcdb_substrates] Chloramphenicol",
       "[pfam] EamA: EamA-like transporter family"
     ],
     "alternative_locus_tags": [
@@ -334961,6 +335089,7 @@
       "[interpro] Major facilitator superfamily",
       "[interpro] Major facilitator superfamily domain",
       "[interpro] Major Facilitator Superfamily Efflux Transporters",
+      "[tcdb_best_hit] Inner membrane transport protein YdhP [2.A.1.2.65]",
       "[pfam] MFS_1: Major Facilitator Superfamily",
       "[pfam] Sugar_tr: Sugar (and other) transporter"
     ],
@@ -338755,6 +338884,7 @@
       "[interpro] Ammonium transporter, marine subtype",
       "[interpro] Ammonium transporter AmtB-like domain",
       "[ncbifam] probable ammonium transporter, marine subtype",
+      "[tcdb_best_hit] Ammonium/methyl ammonium uptake permease, AmtB (may need AmtB to concentrate [14C]methyl ammonium) [1.A.11.2.5] :: [tcdb_substrates] Ammonia, Tetramethylammonium",
       "[pfam] Ammonium_transp: Ammonium Transporter Family"
     ],
     "alternative_locus_tags": [
@@ -340592,6 +340722,7 @@
       "[interpro] K+/H+ exchanger",
       "[interpro] Cation/H+ exchanger, transmembrane domain",
       "[interpro] Potassium efflux system KefB/KefC-like, C-terminal domain",
+      "[tcdb_best_hit] CPA2 family member of 627 aas and 12 TMSs [2.A.37.1.10]",
       "[pfam] Na_H_Exchanger: Sodium/hydrogen exchanger, transmembrane",
       "[pfam] TrkA_N: TrkA-N domain",
       "[pfam] KefB_C: Potassium efflux system KefB C-terminal domain"
@@ -346863,6 +346994,7 @@
       "[eggnog] Belongs to the BCCT transporter (TC 2.A.15) family",
       "[protein_family] BCCT transporter (TC 2.A.15) family",
       "[interpro] BCCT transporter family",
+      "[tcdb_best_hit] Trimethylamine uptake transporter of 529 aas and 12 TMSs. [2.A.15.1.14] :: [tcdb_substrates] Trimethylamine",
       "[pfam] BCCT: BCCT, betaine/carnitine/choline family transporter"
     ],
     "alternative_locus_tags": [
@@ -348565,6 +348697,7 @@
       "[ncbifam] nickel ABC transporter ATP-binding protein NikE",
       "[ncbifam] dipeptide ABC transporter ATP-binding protein",
       "[ncbifam] oligopeptide/dipeptide ABC transporter ATP-binding protein",
+      "[tcdb_best_hit] The glutathione transporter, OppA. [3.A.1.5.26] :: [tcdb_substrates] Bradykinin, Glutathione",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] oligo_HPY: Oligopeptide/dipeptide transporter, C-terminal region"
     ],
@@ -351119,6 +351252,7 @@
       "[eggnog] COG1283 Na phosphate symporter",
       "[interpro] Sodium-dependent phosphate transport protein",
       "[ncbifam] Na/Pi symporter",
+      "[tcdb_best_hit] Na+/Pi cotransporter of 616 aas. [2.A.58.2.4] :: [tcdb_substrates] Orthophosphate",
       "[pfam] Na_Pi_cotrans: Na+/Pi-cotransporter"
     ],
     "alternative_locus_tags": [
@@ -357078,6 +357212,7 @@
       "[ncbi] HupE/UreJ family protein",
       "[eggnog] COG2370 Hydrogenase urease accessory protein",
       "[interpro] Hydrogenase/Urease accessory protein HupE/UreJ protein",
+      "[tcdb_best_hit] The 6TMS Ni2+ uptake porter, HupE2. [2.A.99.1.2] :: [tcdb_substrates] Nickel(2+)",
       "[pfam] HupE_UreJ: HupE / UreJ protein"
     ],
     "alternative_locus_tags": [
@@ -358711,6 +358846,7 @@
       "[interpro] ABC transporter, urea, ATP-binding protein, UrtE",
       "[interpro] Branched-Chain Amino Acid Transport ATP-binding Protein LivF",
       "[tigr_role_inferred] Transport and binding proteins / Amino acids, peptides and amines",
+      "[tcdb_best_hit] The high-affinity (<1 \u03bcM) urea porter [3.A.1.4.4] :: [tcdb_substrates] Urea",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -358895,6 +359031,7 @@
       "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tigr_role_inferred] Transport and binding proteins / Amino acids, peptides and amines",
+      "[tcdb_best_hit] The high-affinity (<1 \u03bcM) urea porter [3.A.1.4.4] :: [tcdb_substrates] Urea",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
     ],
@@ -360799,6 +360936,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] Pilus retraction protein PilT/PilU",
       "[ncbifam] PilT/PilU family type 4a pilus ATPase",
+      "[tcdb_best_hit] The pilin secretion/fimbrial assembly system. [3.A.15.2.1]",
       "[pfam] T2SSE: Type II/IV secretion system protein"
     ],
     "alternative_locus_tags": [
@@ -362380,6 +362518,7 @@
       "[interpro] Type II/IV secretion system domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] Pilus retraction protein PilT/PilU",
+      "[tcdb_best_hit] The pilin secretion/fimbrial assembly system. [3.A.15.2.1]",
       "[pfam] T2SSE: Type II/IV secretion system protein"
     ],
     "alternative_locus_tags": [
@@ -367577,6 +367716,7 @@
       "[protein_family] Bacterial solute-binding protein 3 family",
       "[interpro] Ionotropic glutamate receptor, C-terminal",
       "[interpro] Solute-binding protein family 3/N-terminal domain of MltF",
+      "[tcdb_best_hit] Three component ABC L-glutamine porter. [3.A.1.3.2] :: [tcdb_substrates] Glutamine",
       "[pfam] SBP_bac_3: Bacterial extracellular solute-binding proteins, family 3"
     ],
     "alternative_locus_tags": [
@@ -367764,6 +367904,7 @@
       "[interpro] Amino acid ABC transporter, permease protein, 3-TM domain",
       "[interpro] ABC transporter membrane protein permease protein ArtM/GltK/GlnP/TcyL/YhdX-like",
       "[ncbifam] ABC transporter permease subunit",
+      "[tcdb_best_hit] Three component ABC L-glutamine porter. [3.A.1.3.2] :: [tcdb_substrates] Glutamine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -368016,6 +368157,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC-type amino acid transport system, ATPase component, HisP-type",
       "[interpro] Methionine import ATP-binding protein MetN-like",
+      "[tcdb_best_hit] Glutamate porter [3.A.1.3.9] :: [tcdb_substrates] Glutamate",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -371714,6 +371856,7 @@
       "[ncbi] LrgB family protein",
       "[eggnog] effector of murein hydrolase",
       "[interpro] CidB/LrgB family",
+      "[tcdb_best_hit] LrgB (YohK) protein (putative murein hydrolase export regulator; LrgA-associated protein). [2.A.122.1.1] :: [tcdb_substrates] 3-Hydroxypropanoate",
       "[pfam] LrgB: LrgB-like family"
     ],
     "alternative_locus_tags": [
@@ -371856,6 +371999,7 @@
       "[ncbi] CidA/LrgA family protein",
       "[eggnog] LrgA family",
       "[interpro] LrgA/CidA family",
+      "[tcdb_best_hit] 4 TMS LrgA-like protein [1.E.14.1.7]",
       "[pfam] LrgA: LrgA family"
     ],
     "alternative_locus_tags": [
@@ -373813,6 +373957,7 @@
       "[interpro] MalK-like, OB fold domain",
       "[interpro] ABC transporter, ATP-binding protein MalK/UgpC-like",
       "[ncbifam] sn-glycerol-3-phosphate ABC transporter ATP-binding protein UgpC",
+      "[tcdb_best_hit] Glucose porter, GtsABCD. [3.A.1.1.30] :: [tcdb_substrates] glucose",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] TOBE: TOBE domain",
       "[pfam] TOBE_2: TOBE domain",
@@ -374028,6 +374173,7 @@
       "[eggnog] Binding-protein-dependent transport system inner membrane component",
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
+      "[tcdb_best_hit] Glucose porter, GtsABCD. [3.A.1.1.30] :: [tcdb_substrates] glucose",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -374194,6 +374340,7 @@
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter permease component",
+      "[tcdb_best_hit] Glucose porter, GtsABCD. [3.A.1.1.30] :: [tcdb_substrates] glucose",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -374364,6 +374511,7 @@
       "[eggnog] ABC-type sugar transport system periplasmic component",
       "[interpro] Bacterial-type extracellular solute-binding protein",
       "[interpro] Bacterial solute-binding protein 1",
+      "[tcdb_best_hit] Glucose porter, GtsABCD. [3.A.1.1.30] :: [tcdb_substrates] glucose",
       "[pfam] SBP_bac_1: Bacterial extracellular solute-binding protein",
       "[pfam] SBP_bac_8: Bacterial extracellular solute-binding protein"
     ],
@@ -374509,6 +374657,7 @@
       "[eggnog] LamB porin",
       "[protein_family] Porin LamB (TC 1.B.3) family",
       "[interpro] Porin, LamB-type",
+      "[tcdb_best_hit] sucrose porin, ScrY, of 521 aas. [1.B.3.1.13] :: [tcdb_substrates] Sucrose",
       "[pfam] LamB: LamB porin",
       "[pfam] Sugarporin_N: Maltoporin periplasmic N-terminal extension"
     ],
@@ -376827,6 +376976,7 @@
       "[interpro] AdipoR/Haemolysin-III-related",
       "[interpro] Hly-III",
       "[ncbifam] hemolysin III family protein",
+      "[tcdb_best_hit] The Hly III protein [1.C.113.1.1]",
       "[pfam] HlyIII: Haemolysin-III related"
     ],
     "alternative_locus_tags": [
@@ -381101,6 +381251,7 @@
       "[uniprot] Part of the ABC transporter complex HmuTUV involved in hemin import. Responsible for energy coupling to the transport system",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
+      "[tcdb_best_hit] The heme-specific uptake porter, HemTUV. [3.A.1.14.16] :: [tcdb_substrates] Heme",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -381266,6 +381417,7 @@
       "[eggnog] Belongs to the binding-protein-dependent transport system permease family. FecCD subfamily",
       "[protein_family] Binding-protein-dependent transport system permease family, FecCD subfamily",
       "[interpro] ABC transporter, permease protein, BtuC-like",
+      "[tcdb_best_hit] The heme uptake porter, PhuTUV (transports one heme per reaction cycle). [3.A.1.14.21] :: [tcdb_substrates] Heme",
       "[pfam] FecCD: FecCD transport family"
     ],
     "alternative_locus_tags": [
@@ -386234,6 +386386,7 @@
       "[eggnog] COG0530 Ca2 Na antiporter",
       "[interpro] Sodium/potassium/calcium exchanger",
       "[interpro] Sodium/calcium exchanger membrane region",
+      "[tcdb_best_hit] Cation (Ca2+/Na+):proton antiporter, ChaA or CaxA (confers both Na+ and Ca2+ resistance) [2.A.19.5.2] :: [tcdb_substrates] Calcium cation",
       "[pfam] Na_Ca_ex: Sodium/calcium exchanger protein"
     ],
     "alternative_locus_tags": [
@@ -386537,6 +386690,7 @@
       "[eggnog] Lysine exporter protein LysE YggA",
       "[protein_family] Rht family",
       "[interpro] Amino acid exporter protein, LeuE-type",
+      "[tcdb_best_hit] Homoserine/homoserine lactone/\u03b2-hydroxynorvaline efflux permease (probable substrate:H+ antiporter), RhtB (YigK). [2.A.76.1.1] :: [tcdb_substrates] homoserine, Homoserine lactone",
       "[pfam] LysE: LysE type translocator"
     ],
     "alternative_locus_tags": [
@@ -388781,6 +388935,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC-type amino acid transport system, ATPase component, HisP-type",
       "[interpro] Methionine import ATP-binding protein MetN-like",
+      "[tcdb_best_hit] Arginine/ornithine (but not lysine) porter. [3.A.1.3.11] :: [tcdb_substrates] Amino acid(Arg-), Ornithine",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -389134,6 +389289,7 @@
       "[interpro] Amino acid ABC transporter, permease protein, 3-TM domain",
       "[interpro] ABC transporter permease HisMQ subfamily",
       "[ncbifam] ABC transporter permease subunit",
+      "[tcdb_best_hit] Histidine/arginine/lysine/ornithine porter. [3.A.1.3.1] :: [tcdb_substrates] Amino acid(Arg-), Histidine, Lysine, Ornithine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -389547,6 +389703,7 @@
       "[interpro] Amino acid ABC transporter, permease protein, 3-TM domain",
       "[interpro] ABC transporter membrane protein permease protein ArtM/GltK/GlnP/TcyL/YhdX-like",
       "[ncbifam] ABC transporter permease subunit",
+      "[tcdb_best_hit] Arginine/ornithine (but not lysine) porter. [3.A.1.3.11] :: [tcdb_substrates] Amino acid(Arg-), Ornithine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -394502,6 +394659,7 @@
       "[interpro] Leu/Ile/Val-binding protein",
       "[interpro] Leucine-binding protein domain",
       "[ncbifam] high-affinity branched-chain amino acid ABC transporter substrate-binding protein",
+      "[tcdb_best_hit] Branched chain amino acid uptake transporter. [3.A.1.4.8] :: [tcdb_substrates] Alanine, L-Isoleucine, L-Threonine, Leucine, Serine, Valine",
       "[pfam] Peripla_BP_6: Periplasmic binding protein"
     ],
     "alternative_locus_tags": [
@@ -394673,6 +394831,7 @@
       "[protein_family] Binding-protein-dependent transport system permease family, LivHM subfamily",
       "[interpro] ABC transporter, permease",
       "[interpro] Branched-chain amino acid transport system permease",
+      "[tcdb_best_hit] Branched chain amino acid uptake transporter. [3.A.1.4.8] :: [tcdb_substrates] Alanine, L-Isoleucine, L-Threonine, Leucine, Serine, Valine",
       "[pfam] BPD_transp_2: Branched-chain amino acid transport system / permease component"
     ],
     "alternative_locus_tags": [
@@ -395154,6 +395313,7 @@
       "[interpro] ABC transporter, permease",
       "[interpro] High-affinity branched-chain amino acid transport system permease, LivHM, N-terminal",
       "[interpro] High-affinity branched-chain amino acid transport system permease protein LivM-like",
+      "[tcdb_best_hit] Branched chain amino acid uptake transporter. [3.A.1.4.8] :: [tcdb_substrates] Alanine, L-Isoleucine, L-Threonine, Leucine, Serine, Valine",
       "[pfam] BPD_transp_2: Branched-chain amino acid transport system / permease component",
       "[pfam] DUF3382: Domain of unknown function (DUF3382)"
     ],
@@ -395606,6 +395766,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
+      "[tcdb_best_hit] Leucine; leucine/isoleucine/valine porter [3.A.1.4.1] :: [tcdb_substrates] L-Isoleucine, Leucine, Phenylalanine, Tyrosine, Valine",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
     ],
@@ -396091,6 +396252,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] High-affinity branched-chain amino acid transport ATP-binding protein",
       "[interpro] Branched-Chain Amino Acid Transport ATP-binding Protein LivF",
+      "[tcdb_best_hit] Branched chain amino acid uptake transporter. [3.A.1.4.8] :: [tcdb_substrates] Alanine, L-Isoleucine, L-Threonine, Leucine, Serine, Valine",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
     ],
@@ -401492,6 +401654,7 @@
       "[hamap] ATP-dependent zinc metalloprotease FtsH [ftsH].",
       "[tigr_role_inferred] Protein fate / Degradation of proteins, peptides, and glycopeptides",
       "[tigr_role_inferred] Cellular processes / Cell division",
+      "[tcdb_best_hit] ATP-dependent zinc metaloprotease, FtsH of 644 aas and 2 TMSs. [3.A.29.1.5]",
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
       "[pfam] FtsH_ext: FtsH Extracellular",
       "[pfam] Peptidase_M41: Peptidase family M41",
@@ -404702,6 +404865,7 @@
       "[hamap] Chaperone protein DnaK [dnaK].",
       "[ncbifam] Fe-S protein assembly chaperone HscA",
       "[tigr_role_inferred] Protein fate / Protein folding and stabilization",
+      "[tcdb_best_hit] Heat shock protein-70 homologue, DnaK. [1.A.33.1.2]",
       "[pfam] HSP70: Hsp70 protein"
     ],
     "alternative_locus_tags": [
@@ -411831,6 +411995,7 @@
       "[protein_family] Chromate ion transporter (CHR) (TC 2.A.51) family",
       "[interpro] Chromate transporter",
       "[interpro] Chromate transporter, long chain",
+      "[tcdb_best_hit] Chromate resistance protein, ChrA, of 389 aas and 11 TMSs. [2.A.51.1.7] :: [tcdb_substrates] chromate(2-)",
       "[pfam] Chromate_transp: Chromate transporter"
     ],
     "alternative_locus_tags": [
@@ -424419,6 +424584,7 @@
       "[interpro] Sec-independent periplasmic protein translocase TatC",
       "[hamap] Sec-independent protein translocase protein TatC [tatC].",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] TatABCE translocase. [2.A.64.1.1]",
       "[pfam] TatC: Sec-independent protein translocase protein (TatC)"
     ],
     "alternative_locus_tags": [
@@ -426506,6 +426672,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter, lipoprotein release, LolD-like",
       "[interpro] MacB-like, ATP-binding domain",
+      "[tcdb_best_hit] ABC-type antimicrobial peptide transporter with a membrane protein of 421 aas and 4 TMSs and an ATPase of encoded by a gene adjacent to the membrane\u2026 [3.A.1.136.2]",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -427698,7 +427865,8 @@
       "WP_008170953.1"
     ],
     "alternate_functional_descriptions": [
-      "[ncbi] hypothetical protein"
+      "[ncbi] hypothetical protein",
+      "[tcdb_best_hit] Uncharacterized protein of 48 aas and 1 TMS. [1.E.11.3.4]"
     ],
     "alternative_locus_tags": [
       "HP15_RS22395",
@@ -434705,6 +434873,7 @@
       "[interpro] STAS domain",
       "[interpro] SLC26A/SulP transporter domain",
       "[ncbifam] sulfate permease",
+      "[tcdb_best_hit] SulP homologue. [2.A.53.3.9] :: [tcdb_substrates] Sulfate",
       "[pfam] STAS: STAS domain",
       "[pfam] Sulfate_transp: Sulfate permease family"
     ],
@@ -436250,6 +436419,7 @@
       "[interpro] TRAP transporter large membrane protein DctM",
       "[interpro] TRAP C4-dicarboxylate transport system permease DctM subunit",
       "[ncbifam] TRAP transporter large permease subunit",
+      "[tcdb_best_hit] The 2-oxo monocarboxylate transporter. [2.A.56.3.3] :: [tcdb_substrates] Carboxylate, Pyruvate",
       "[pfam] DctM: Tripartite ATP-independent periplasmic transporter, DctM component"
     ],
     "alternative_locus_tags": [
@@ -438308,6 +438478,7 @@
       "[ncbi] efflux RND transporter permease subunit",
       "[eggnog] Belongs to the resistance-nodulation-cell division (RND) (TC 2.A.6) family",
       "[interpro] Acriflavin resistance protein",
+      "[tcdb_best_hit] Multidrug efflux pump, MexVW-OprM exports fluoroquinolones, macrolides, chloramphenicol, tetracycline, erythromycin, ethidium bromide and\u2026 [2.A.6.2.33] :: [tcdb_substrates] 3,6-diamino-10-methylacridinium chloride, Chloramphenicol, Erythromycin, Ethidium bromide, fluoroquinolone antibiotic, macrolide, Tetracycline",
       "[pfam] ACR_tran: AcrB/AcrD/AcrF family"
     ],
     "alternative_locus_tags": [
@@ -445714,6 +445885,7 @@
       "[interpro] Histidine kinase domain",
       "[interpro] PAS fold",
       "[ncbifam] PAS domain S-box protein",
+      "[tcdb_best_hit] The nitrogen sensor-receptor domain of the CbrA sensor kinase [2.A.21.9.1]",
       "[pfam] HATPase_c: Histidine kinase-, DNA gyrase B-, and HSP90-like ATPase",
       "[pfam] HisKA: His Kinase A (phospho-acceptor) domain",
       "[pfam] PAS: PAS fold"
@@ -447334,6 +447506,7 @@
       "[interpro] Glycine betaine/proline betaine transport system ATP-binding protein ProV-like",
       "[interpro] ABC transporter osmolyte uptake ATP-binding protein",
       "[ncbifam] betaine/proline/choline family ABC transporter ATP-binding protein",
+      "[tcdb_best_hit] Glycine betaine OpuAA/AB/AC porter (also transports dimethylsulfonioacetate and dimethylsulfoniopropionate). [3.A.1.12.2] :: [tcdb_substrates] Betaine, Dimethylsulfonioacetate, S,S-Dimethyl-beta-propiothetin",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] CBS: CBS domain"
     ],
@@ -448625,6 +448798,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] Molybdenum transport system permease protein ModB",
       "[tigr_role_inferred] Transport and binding proteins / Anions",
+      "[tcdb_best_hit] Molybdate uptake porter with three components, R, M and C. [3.A.1.8.3] :: [tcdb_substrates] Molybdate",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -459244,6 +459418,7 @@
       "[eggnog] COG0306 Phosphate sulphate permeases",
       "[protein_family] Inorganic phosphate transporter (PiT) (TC 2.A.20) family",
       "[interpro] Phosphate transporter",
+      "[tcdb_best_hit] Putative phosphate permease HP_1491 [2.A.20.2.9] :: [tcdb_substrates] Orthophosphate",
       "[pfam] PHO4: Phosphate transporter family"
     ],
     "alternative_locus_tags": [
@@ -464207,6 +464382,7 @@
       "[interpro] Cation transport ATPase (P-type)",
       "[interpro] P-type ATPase, A domain",
       "[ncbifam] HAD-IC family P-type ATPase",
+      "[tcdb_best_hit] The putative Ca+ ATPase with an extra C-terminal TMS followed by a lysin (LysM) domain of ~210aas. [3.A.3.2.29] :: [tcdb_substrates] Calcium cation",
       "[pfam] Cation_ATPase_C: Cation transporting ATPase, C-terminus",
       "[pfam] Cation_ATPase_N: Cation transporter/ATPase, N-terminus",
       "[pfam] E1-E2_ATPase: P-type ATPase actuator domain",
@@ -465549,6 +465725,7 @@
       "[interpro] Fluoride-specific ion channel FluC",
       "[hamap] Fluoride-specific ion channel FluC [fluC].",
       "[tigr_role_inferred] Unknown function / General",
+      "[tcdb_best_hit] The camphor resistance protein, CrcB or FluC. [1.A.43.1.1] :: [tcdb_substrates] Cl-, Fluoride",
       "[pfam] CRCB: CrcB-like protein, Camphor Resistance (CrcB)"
     ],
     "alternative_locus_tags": [
@@ -466678,6 +466855,7 @@
       "[interpro] Sulfate transporter CysZ-like",
       "[interpro] Sulfate transporter CysZ/Etoposide-induced protein 2.4",
       "[hamap] Sulfate transporter CysZ [cysZ].",
+      "[tcdb_best_hit] Sulfate transporter, CysZ. [2.A.121.1.1] :: [tcdb_substrates] Sulfate",
       "[pfam] EI24: Sulfate transporter CysZ/Etoposide-induced protein 2.4"
     ],
     "alternative_locus_tags": [
@@ -469400,6 +469578,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] Phosphate import ATP-binding protein PstB-like",
       "[tigr_role_inferred] Transport and binding proteins / Anions",
+      "[tcdb_best_hit] The phosphate transporter, PstABCS. [3.A.1.7.5] :: [tcdb_substrates] Orthophosphate",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -471794,6 +471973,7 @@
       "[eggnog] COG0477 Permeases of the major facilitator superfamily",
       "[interpro] Major facilitator superfamily",
       "[interpro] Organoarsenical effux MFS transporter ArsJ",
+      "[tcdb_best_hit] Putative 1-arseno-3-phosphoglycerate exporter, MFS-83. [2.A.1.83.2]",
       "[pfam] MFS_1: Major Facilitator Superfamily"
     ],
     "alternative_locus_tags": [
@@ -472776,6 +472956,7 @@
       "[interpro] Arsenical-resistance protein Acr3",
       "[tigr_role_inferred] Transport and binding proteins / Anions",
       "[tigr_role_inferred] Cellular processes / Detoxification",
+      "[tcdb_best_hit] The arsenite-specific exporter, Acr3'/ArsA1'/ArsA2'. [2.A.59.1.6] :: [tcdb_substrates] Arsenite",
       "[pfam] SBF: Sodium Bile acid symporter family"
     ],
     "alternative_locus_tags": [
@@ -480671,6 +480852,7 @@
       "[eggnog] Transglycosylase associated protein",
       "[protein_family] UPF0410 family",
       "[interpro] Transglycosylase-associated protein",
+      "[tcdb_best_hit] Putative holin of 83 aas and 3 TMSs [1.E.43.1.10]",
       "[pfam] Transgly_assoc: Transglycosylase associated protein"
     ],
     "alternative_locus_tags": [
@@ -484245,6 +484427,7 @@
       "[ncbi] toxin VasX",
       "[eggnog] LysM domain",
       "[interpro] Toxin VasX, N-terminal region",
+      "[tcdb_best_hit] Uncharacterized protein of 955 aas. [1.C.131.1.3]",
       "[pfam] eCIS_core: eCIS core domain",
       "[pfam] IAT_beta: Inverse autotransporter, beta-domain",
       "[pfam] LysM: LysM domain",
@@ -484933,6 +485116,7 @@
       "[interpro] Type VI secretion system component TssM1, N-terminal domain",
       "[interpro] Type VI secretion system TssM-like",
       "[tigr_role_inferred] Cellular processes / Pathogenesis",
+      "[tcdb_best_hit] Type VI secretion system (T6SS) VasA-L + Vca0107-09; + Vca0123 + Vc1416. [3.A.23.1.1] :: [tcdb_substrates] DNA, Protein",
       "[pfam] IcmF-related: Intracellular multiplication and human macrophage-killing",
       "[pfam] IcmF_C: Type VI secretion protein IcmF C2-like domain",
       "[pfam] IcmF-related_N: IcmF-related N-terminal domain"
@@ -485355,6 +485539,7 @@
       "[interpro] GAF domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] NorR-like, AAA+ ATPase lid domain",
+      "[tcdb_best_hit] Type VI secretion system (T6SS) VasA-L + Vca0107-09; + Vca0123 + Vc1416. [3.A.23.1.1] :: [tcdb_substrates] DNA, Protein",
       "[pfam] HTH_8: Bacterial regulatory protein, Fis family",
       "[pfam] Sigma54_activat: Sigma-54 interaction domain",
       "[pfam] AAA_lid_14: AAA+ ATPase lid domain",
@@ -485554,6 +485739,7 @@
       "[interpro] ATP-dependent Clp protease/Chaperone ClpA/ClpB",
       "[tigr_role_inferred] Cellular processes / Pathogenesis",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] Type VI secretion system (T6SS) VasA-L + Vca0107-09; + Vca0123 + Vc1416. [3.A.23.1.1] :: [tcdb_substrates] DNA, Protein",
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
       "[pfam] AAA_2: AAA domain (Cdc48 subfamily)",
       "[pfam] ClpB_D2-small: C-terminal, D2-small domain, of ClpB protein",
@@ -485771,6 +485957,7 @@
       "[eggnog] protein conserved in bacteria",
       "[interpro] Type IV / VI secretion system, DotU",
       "[ncbifam] DotU/TssL family secretion system protein",
+      "[tcdb_best_hit] Type VI secretion system (T6SS) VasA-L + Vca0107-09; + Vca0123 + Vc1416. [3.A.23.1.1] :: [tcdb_substrates] DNA, Protein",
       "[pfam] DotU: Type VI secretion system protein DotU"
     ],
     "alternative_locus_tags": [
@@ -485910,6 +486097,7 @@
       "[interpro] Type VI secretion system TssK",
       "[tigr_role_inferred] Cellular processes / Pathogenesis",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] Type VI secretion system (T6SS) VasA-L + Vca0107-09; + Vca0123 + Vc1416. [3.A.23.1.1] :: [tcdb_substrates] DNA, Protein",
       "[pfam] T6SS_VasE: Bacterial Type VI secretion, VC_A0110, EvfL, ImpJ, VasE"
     ],
     "alternative_locus_tags": [
@@ -486678,6 +486866,7 @@
       "[interpro] Type VI secretion, TssG-like",
       "[tigr_role_inferred] Cellular processes / Pathogenesis",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] Type VI secretion system (T6SS) VasA-L + Vca0107-09; + Vca0123 + Vc1416. [3.A.23.1.1] :: [tcdb_substrates] DNA, Protein",
       "[pfam] T6SS_TssG: Type VI secretion, TssG"
     ],
     "alternative_locus_tags": [
@@ -486812,6 +487001,7 @@
       "[ncbi] type VI secretion system baseplate subunit TssF",
       "[eggnog] protein conserved in bacteria",
       "[interpro] Type VI secretion system TssF",
+      "[tcdb_best_hit] Type VI secretion system (T6SS) VasA-L + Vca0107-09; + Vca0123 + Vc1416. [3.A.23.1.1] :: [tcdb_substrates] DNA, Protein",
       "[pfam] T6SS_TssF: Type VI secretion system, TssF"
     ],
     "alternative_locus_tags": [
@@ -487082,6 +487272,7 @@
       "[interpro] TssC1, C-terminal",
       "[tigr_role_inferred] Cellular processes / Pathogenesis",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] Type VI secretion system TssA - TssG plus TssI - TssM. [3.A.23.3.1] :: [tcdb_substrates] DNA, Protein",
       "[pfam] VipB: EvpB/VC_A0108, tail sheath N-terminal domain",
       "[pfam] VipB_2: EvpB/VC_A0108, tail sheath gpW/gp25-like domain"
     ],
@@ -487235,6 +487426,7 @@
       "[interpro] Type VI secretion system sheath protein TssB1",
       "[tigr_role_inferred] Cellular processes / Pathogenesis",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] Type VI secretion system, TssB - TssM. [3.A.23.5.1] :: [tcdb_substrates] DNA, Protein",
       "[pfam] T6SS_VipA: Type VI secretion system, VipA, VC_A0107 or Hcp2"
     ],
     "alternative_locus_tags": [
@@ -489836,6 +490028,7 @@
       "[interpro] Cell division protein FtsE",
       "[interpro] ABC transporter, lipoprotein release, LolD-like",
       "[tigr_role_inferred] Cellular processes / Cell division",
+      "[tcdb_best_hit] The FtsX/FtsE ABC transporter (FtsX is of the type III topology). [3.A.1.140.1]",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -490351,6 +490544,7 @@
       "[interpro] Signal recognition particle SRP54, helical bundle",
       "[hamap] Signal recognition particle receptor FtsY [ftsY].",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] SRP52/SRP43/FtsY of chloroplasts SRP43 provides specificity to SRP52; crystal structures are known. [3.A.5.1.2] :: [tcdb_substrates] Protein",
       "[pfam] SRP54: SRP54-type protein, GTPase domain",
       "[pfam] SRP54_N: SRP54-type protein, helical bundle domain"
     ],
@@ -497177,6 +497371,7 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] Metal Ion Import ATP-binding",
+      "[tcdb_best_hit] Zinc (Zn2+) porter of E. coli, ZnuABC. [3.A.1.15.5] :: [tcdb_substrates] Zinc cation",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -497588,6 +497783,7 @@
       "[uniprot] Involved in the high-affinity zinc uptake transport system",
       "[protein_family] ABC-3 integral membrane protein family",
       "[interpro] ABC transporter, TroCD-like",
+      "[tcdb_best_hit] Zinc (Zn2+) porter of E. coli, ZnuABC. [3.A.1.15.5] :: [tcdb_substrates] Zinc cation",
       "[pfam] ABC-3: ABC 3 transport family"
     ],
     "alternative_locus_tags": [
@@ -500432,6 +500628,7 @@
       "[eggnog] Permease for cytosine/purines, uracil, thiamine, allantoin",
       "[interpro] Purine-cytosine permease",
       "[interpro] Cytosine permease",
+      "[tcdb_best_hit] Cytosine permease [2.A.39.1.1] :: [tcdb_substrates] Cytosine",
       "[pfam] Transp_cyt_pur: Permease for cytosine/purines, uracil, thiamine, allantoin"
     ],
     "alternative_locus_tags": [
@@ -501293,6 +501490,7 @@
       "[interpro] P-type ATPase, A domain",
       "[ncbifam] HAD-IC family P-type ATPase",
       "[ncbifam] copper-translocating P-type ATPase",
+      "[tcdb_best_hit] Cu+, Ag+-ATPase (efflux). [3.A.3.5.5] :: [tcdb_substrates] Cu+, silver(1+)",
       "[pfam] E1-E2_ATPase: P-type ATPase actuator domain",
       "[pfam] HMA: Heavy-metal-associated domain",
       "[pfam] Hydrolase: haloacid dehalogenase-like hydrolase"
@@ -506762,6 +506960,7 @@
       "[ncbi] FecCD family ABC transporter permease",
       "[eggnog] Belongs to the binding-protein-dependent transport system permease family. FecCD subfamily",
       "[interpro] ABC transporter, permease protein, BtuC-like",
+      "[tcdb_best_hit] The molybdate/tungstate ABC transporter, MolABC. [3.A.1.14.11] :: [tcdb_substrates] Molybdate, Tungstate",
       "[pfam] FecCD: FecCD transport family"
     ],
     "alternative_locus_tags": [
@@ -506910,6 +507109,7 @@
       "[protein_family] ABC transporter superfamily",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
+      "[tcdb_best_hit] The molybdate/tungstate ABC transporter, MolABC. [3.A.1.14.11] :: [tcdb_substrates] Molybdate, Tungstate",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] NTPase_1: NTPase"
     ],
@@ -508844,6 +509044,7 @@
       "[interpro] NAD(P) transhydrogenase, alpha subunit, C-terminal",
       "[interpro] NAD(P) transhydrogenase, alpha subunit",
       "[tigr_role_inferred] Energy metabolism / Electron transport",
+      "[tcdb_best_hit] H+-translocating transhydrogenase, \u03b12\u03b22 heterotetrameric PTH. [3.D.2.1.1]",
       "[pfam] AlaDh_PNT_C: Alanine dehydrogenase/PNT, C-terminal domain",
       "[pfam] AlaDh_PNT_N: Alanine dehydrogenase/PNT, N-terminal domain",
       "[pfam] PNTB_4TM: 4TM region of pyridine nucleotide transhydrogenase, mitoch"
@@ -509452,6 +509653,7 @@
       "[ncbi] OmpW/AlkL family protein",
       "[eggnog] Outer membrane protein W",
       "[interpro] Outer membrane protein, OmpW",
+      "[tcdb_best_hit] The anaerobically induced outer membrance porin, OprG. [1.B.39.1.3] :: [tcdb_substrates] Amino acid",
       "[pfam] OmpW: OmpW family"
     ],
     "alternative_locus_tags": [
@@ -517401,6 +517603,7 @@
       "[interpro] ABC transporter, urea, ATP-binding protein, UrtE",
       "[interpro] Branched-Chain Amino Acid Transport ATP-binding Protein LivF",
       "[tigr_role_inferred] Transport and binding proteins / Amino acids, peptides and amines",
+      "[tcdb_best_hit] The high affinity urea/thiourea/hydroxyurea porter [3.A.1.4.5] :: [tcdb_substrates] Hydroxyurea, Thiourea, Urea",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -517588,6 +517791,7 @@
       "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tigr_role_inferred] Transport and binding proteins / Amino acids, peptides and amines",
+      "[tcdb_best_hit] The high affinity urea/thiourea/hydroxyurea porter [3.A.1.4.5] :: [tcdb_substrates] Hydroxyurea, Thiourea, Urea",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
     ],
@@ -517765,6 +517969,7 @@
       "[interpro] ABC transporter, urea, permease protein, UrtC",
       "[interpro] High-affinity branched-chain amino acid transport system permease protein LivM-like",
       "[tigr_role_inferred] Transport and binding proteins / Amino acids, peptides and amines",
+      "[tcdb_best_hit] The high-affinity (<1 \u03bcM) urea porter [3.A.1.4.4] :: [tcdb_substrates] Urea",
       "[pfam] BPD_transp_2: Branched-chain amino acid transport system / permease component"
     ],
     "alternative_locus_tags": [
@@ -517962,6 +518167,7 @@
       "[interpro] ABC transporter, urea permease protein UrtB, bacterial-type",
       "[interpro] Branched-chain amino acid transport system permease",
       "[tigr_role_inferred] Transport and binding proteins / Amino acids, peptides and amines",
+      "[tcdb_best_hit] The high affinity urea/thiourea/hydroxyurea porter [3.A.1.4.5] :: [tcdb_substrates] Hydroxyurea, Thiourea, Urea",
       "[pfam] BPD_transp_2: Branched-chain amino acid transport system / permease component"
     ],
     "alternative_locus_tags": [
@@ -518150,6 +518356,7 @@
       "[ncbi] urea ABC transporter substrate-binding protein",
       "[eggnog] COG0683 ABC-type branched-chain amino acid transport systems, periplasmic component",
       "[interpro] Urea ABC transporter, substrate-binding protein UrtA-like",
+      "[tcdb_best_hit] The high affinity urea/thiourea/hydroxyurea porter [3.A.1.4.5] :: [tcdb_substrates] Hydroxyurea, Thiourea, Urea",
       "[pfam] Peripla_BP_5: Periplasmic binding protein domain"
     ],
     "alternative_locus_tags": [
@@ -519427,6 +519634,7 @@
       "[protein_family] NhaB Na(+)/H(+) (TC 2.A.34) antiporter family",
       "[interpro] Na+/H+ antiporter NhaB",
       "[hamap] Na(+)/H(+) antiporter NhaB [nhaB].",
+      "[tcdb_best_hit] Na+/H+ antiporter that extrudes sodium in exchange for external protons, NhaB of 500 aas. [2.A.34.1.3] :: [tcdb_substrates] lithium(1+)",
       "[pfam] NhaB: Bacterial Na+/H+ antiporter B (NhaB)"
     ],
     "alternative_locus_tags": [
@@ -519975,6 +520183,7 @@
       "[interpro] SecE subunit of protein translocation complex, bacterial-like",
       "[hamap] Protein translocase subunit SecE [secE].",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] General secretory pathway (Sec-SRP) complex. [3.A.5.1.1] :: [tcdb_substrates] Protein",
       "[pfam] SecE: SecE/Sec61-gamma subunits of protein translocation complex"
     ],
     "alternative_locus_tags": [
@@ -522229,6 +522438,7 @@
       "[hamap] ATP synthase epsilon chain [atpC].",
       "[ncbifam] ATP synthase F1 subunit epsilon",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] H+-translocating F-type ATPase. [3.A.2.1.1]",
       "[pfam] ATP-synt_DE: ATP synthase, Delta/Epsilon chain, long alpha-helix domain",
       "[pfam] ATP-synt_DE_N: ATP synthase, Delta/Epsilon chain, beta-sandwich domain"
     ],
@@ -522789,6 +522999,7 @@
       "[interpro] ATP synthase A/B type, C-terminal domain",
       "[hamap] ATP synthase subunit beta [atpB].",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] H+-translocating F-type ATPase. [3.A.2.1.1]",
       "[pfam] ATP-synt_ab: ATP synthase alpha/beta family, nucleotide-binding domain",
       "[pfam] ATP-synt_ab_N: ATP synthase alpha/beta family, beta-barrel domain",
       "[pfam] ATP-synt_VA_C: C-terminal domain of V and A type ATP synthase"
@@ -523954,6 +524165,7 @@
       "[hamap] ATP synthase gamma chain [atpG].",
       "[ncbifam] ATP synthase F1 subunit gamma",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] H+-translocating F-type ATPase. [3.A.2.1.1]",
       "[pfam] ATP-synt: ATP synthase"
     ],
     "alternative_locus_tags": [
@@ -524653,6 +524865,7 @@
       "[interpro] ATP synthase, F1 complex, alpha subunit nucleotide-binding domain",
       "[hamap] ATP synthase subunit alpha [atpA].",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] H+-translocating F-type ATPase. [3.A.2.1.1]",
       "[pfam] ATP-synt_ab: ATP synthase alpha/beta family, nucleotide-binding domain",
       "[pfam] ATP-synt_ab_C: ATP synthase alpha/beta chain, C terminal domain",
       "[pfam] ATP-synt_ab_N: ATP synthase alpha/beta family, beta-barrel domain"
@@ -525383,6 +525596,7 @@
       "[hamap] ATP synthase subunit delta [atpD].",
       "[ncbifam] ATP synthase F1 subunit delta",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] H+-translocating F-type ATPase. [3.A.2.1.1]",
       "[pfam] OSCP: ATP synthase delta (OSCP) subunit"
     ],
     "alternative_locus_tags": [
@@ -526816,6 +527030,7 @@
       "[hamap] ATP synthase subunit c [atpH].",
       "[ncbifam] ATP synthase F0 subunit C",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] H+-translocating F-type ATPase. [3.A.2.1.1]",
       "[pfam] ATP-synt_C: ATP synthase subunit C"
     ],
     "alternative_locus_tags": [
@@ -527491,6 +527706,7 @@
       "[interpro] ATP synthase, F0 complex, subunit A, bacterial/chloroplast",
       "[hamap] ATP synthase subunit a [atpB].",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] H+-translocating F-type ATPase. [3.A.2.1.1]",
       "[pfam] ATP-synt_A: ATP synthase A chain"
     ],
     "alternative_locus_tags": [
@@ -528212,6 +528428,7 @@
       "[ncbi] F0F1 ATP synthase subunit I",
       "[eggnog] COG3312 F0F1-type ATP synthase, subunit I",
       "[interpro] ATP synthase protein I",
+      "[tcdb_best_hit] AtpI homologue of 135 aas [1.A.77.3.9]",
       "[pfam] ATP-synt_I: ATP synthase I chain"
     ],
     "alternative_locus_tags": [
@@ -531949,6 +532166,7 @@
       "[interpro] Membrane insertase YidC/Oxa/ALB, C-terminal",
       "[interpro] Membrane insertase YidC/ALB, C-terminal",
       "[hamap] Membrane protein insertase YidC [yidC].",
+      "[tcdb_best_hit] 60 kDa inner membrane protein, YidC involved in insertion of a wide range of membrane proteins, including the c-subunit of the F-type ATPase and the\u2026 [2.A.9.3.1] :: [tcdb_substrates] Protein",
       "[pfam] 60KD_IMP: 60Kd inner membrane protein",
       "[pfam] YidC_periplas: YidC periplasmic domain"
     ],
@@ -532448,6 +532666,7 @@
       "[interpro] Ribosomal protein uL1/ribosomal biogenesis protein",
       "[hamap] Large ribosomal subunit protein uL1 [rplA].",
       "[tigr_role_inferred] Protein synthesis / Ribosomal proteins: synthesis and modification",
+      "[tcdb_best_hit] 50S ribosomal protein L1 of 230 aas [1.C.82.1.2]",
       "[pfam] Ribosomal_L1: Ribosomal protein L1p/L10e family"
     ],
     "alternative_locus_tags": [
@@ -536681,6 +536900,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter type 1, transmembrane domain",
       "[interpro] Type 1 protein exporter",
+      "[tcdb_best_hit] The Ni2+/Co2+ exporter AtmA. [3.A.1.210.9] :: [tcdb_substrates] Cobalt ion, Nickel(2+)",
       "[pfam] ABC_membrane: ABC transporter transmembrane region",
       "[pfam] ABC_tran: ABC transporter"
     ],
@@ -540103,6 +540323,7 @@
       "[interpro] Phosphoenolpyruvate-dependent sugar PTS enzyme",
       "[ncbifam] fused PTS fructose transporter subunit IIA/HPr protein",
       "[ncbifam] HPr family phosphocarrier protein",
+      "[tcdb_best_hit] Fructose-specific PTS permease, FruIIBC/FruI-HPr-IIA. [4.A.2.1.17] :: [tcdb_substrates] Fructose",
       "[pfam] EIIA-man: PTS system fructose IIA component",
       "[pfam] PEP-utilisers_N: PEP-utilising enzyme, N-terminal",
       "[pfam] PEP-utilizers: PEP-utilising enzyme, mobile domain",
@@ -540767,6 +540988,7 @@
       "[interpro] Bacterial PTS System Sugar Transport Components",
       "[ncbifam] fructose PTS transporter subunit IIB",
       "[ncbifam] fructose-specific PTS transporter subunit EIIC",
+      "[tcdb_best_hit] Fructose-specific PTS permease, FruIIBC/FruI-HPr-IIA. [4.A.2.1.17] :: [tcdb_substrates] Fructose",
       "[pfam] PTS_EIIC: Phosphotransferase system, EIIC",
       "[pfam] PTS_IIB: PTS system, Lactose/Cellobiose specific IIB subunit"
     ],
@@ -544639,6 +544861,7 @@
       "[interpro] Potassium uptake protein TrkA",
       "[interpro] Regulator of K+ conductance, C-terminal",
       "[interpro] Trk/Ktr/HKT Potassium Transport",
+      "[tcdb_best_hit] K+ uptake transporter (K+:H+ symporter), TrkHA. [2.A.38.1.1] :: [tcdb_substrates] Potassium cation",
       "[pfam] TrkA_C: TrkA-C domain",
       "[pfam] TrkA_N: TrkA-N domain"
     ],
@@ -549240,6 +549463,7 @@
       "[interpro] Na+/H+ antiporter, NhaC-like, C-terminal",
       "[interpro] Putative Na+/H+ antiporter, N-terminal",
       "[interpro] Amino Acid Transporter-Related",
+      "[tcdb_best_hit] The putative histidine porter, YuiF. [2.A.8.1.12] :: [tcdb_substrates] Histidine",
       "[pfam] Na_H_antiport_2: Na+-H+ antiporter family",
       "[pfam] Na_H_antiporter: Na+/H+ antiporter family"
     ],
@@ -550767,6 +550991,7 @@
       "[protein_family] Multi antimicrobial extrusion (MATE) (TC 2.A.66.1) family",
       "[interpro] Multi antimicrobial extrusion protein",
       "[interpro] Multi antimicrobial extrusion protein DinF-like",
+      "[tcdb_best_hit] DNA damage-inducible protein F, DinF. [2.A.66.1.4] :: [tcdb_substrates] Bile salt",
       "[pfam] MatE: MatE"
     ],
     "alternative_locus_tags": [
@@ -551169,6 +551394,7 @@
       "[interpro] Cytochrome c oxidase-like, subunit I domain",
       "[interpro] Cytochrome c oxidase subunit I domain",
       "[tigr_role_inferred] Energy metabolism / Electron transport",
+      "[tcdb_best_hit] Cytochrome oxidase (CtaBD/CycA) [3.D.4.6.1]",
       "[pfam] COX1: Cytochrome C and Quinol oxidase polypeptide I"
     ],
     "alternative_locus_tags": [
@@ -554268,6 +554494,7 @@
       "[eggnog] COG0657 Esterase lipase",
       "[interpro] BD-FAE-like domain",
       "[interpro] GDXG lipolytic enzyme",
+      "[tcdb_best_hit] Alpha/beta hydrolase fold domain-containing protein of 308 aas [4.C.3.1.11]",
       "[pfam] Abhydrolase_3: alpha/beta hydrolase fold",
       "[pfam] Peptidase_S9: Prolyl oligopeptidase family",
       "[pfam] BD-FAE: BD-FAE"
@@ -560325,6 +560552,7 @@
       "[eggnog] membrane",
       "[protein_family] GDT1 family",
       "[interpro] GDT1-like",
+      "[tcdb_best_hit] Putative DL-lactate uptake porter of 184 aas and 6 - 7 TMSs. [2.A.106.1.8] :: [tcdb_substrates] Lactate",
       "[pfam] GDT1: Divalent cation/proton antiporter GDT1"
     ],
     "alternative_locus_tags": [
@@ -561375,6 +561603,7 @@
       "[interpro] Transporter-associated domain",
       "[interpro] Regulator of K+ conductance, C-terminal",
       "[interpro] Cation/H+ exchanger, transmembrane domain",
+      "[tcdb_best_hit] Na+/H+ antiporter, NhaP2 (YcgO; CvrA) of 578 aas and 13 TMSs. [2.A.36.6.11]",
       "[pfam] CorC_HlyC: Transporter associated domain",
       "[pfam] Na_H_Exchanger: Sodium/hydrogen exchanger, transmembrane",
       "[pfam] TrkA_C: TrkA-C domain"
@@ -564149,6 +564378,7 @@
       "[ncbi] ABC transporter permease",
       "[eggnog] COG1178 ABC-type Fe3 transport system, permease component",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
+      "[tcdb_best_hit] Ferric iron (Fe3+) porter [3.A.1.10.2] :: [tcdb_substrates] Fe3+",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -564299,6 +564529,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter, ferric cation import, FbpC",
       "[interpro] ABC Transporter, Small Molecule Importer",
+      "[tcdb_best_hit] Fe3+ uptake porter consisting of 3 subunits, R, 330 aas, M, 516 aas and 12 TMSs, and C, 350 aas. [3.A.1.10.6] :: [tcdb_substrates] Fe3+",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] TOBE_2: TOBE domain"
     ],
@@ -564503,6 +564734,7 @@
       "[eggnog] COG1840 ABC-type Fe3 transport system, periplasmic component",
       "[protein_family] Bacterial solute-binding protein 1 family",
       "[interpro] Ferric binding protein",
+      "[tcdb_best_hit] Ferric iron (Fe3+) porter [3.A.1.10.2] :: [tcdb_substrates] Fe3+",
       "[pfam] SBP_bac_6: Bacterial extracellular solute-binding protein"
     ],
     "alternative_locus_tags": [
@@ -572814,6 +573046,7 @@
       "[eggnog] COG3157 Hemolysin-coregulated protein",
       "[interpro] Type VI secretion system effector Hcp",
       "[ncbifam] type VI secretion system tube protein TssD",
+      "[tcdb_best_hit] Type VI secretion system TssA - TssG plus TssI - TssM. [3.A.23.3.1] :: [tcdb_substrates] DNA, Protein",
       "[pfam] T6SS_HCP: Type VI secretion system effector, Hcp"
     ],
     "alternative_locus_tags": [
@@ -576201,6 +576434,7 @@
       "[interpro] NIL domain",
       "[interpro] Methionine import ATP-binding protein MetN, ATP-binding domain",
       "[interpro] Methionine import ATP-binding protein MetN-like",
+      "[tcdb_best_hit] L-Histidine uptake porter, MetIQN [3.A.1.24.5] :: [tcdb_substrates] L-Histidine",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] NIL: NIL domain"
     ],
@@ -576455,6 +576689,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] Amino Acid ABC Transporter Permease",
       "[ncbifam] methionine ABC transporter permease MetI",
+      "[tcdb_best_hit] L-Histidine uptake porter, MetIQN [3.A.1.24.5] :: [tcdb_substrates] L-Histidine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -576637,6 +576872,7 @@
       "[eggnog] COG1464 ABC-type metal ion transport system, periplasmic component surface antigen",
       "[protein_family] NlpA lipoprotein family",
       "[interpro] Lipoprotein NlpA family",
+      "[tcdb_best_hit] L-Histidine uptake porter, MetIQN [3.A.1.24.5] :: [tcdb_substrates] L-Histidine",
       "[pfam] Lipoprotein_9: NlpA lipoprotein"
     ],
     "alternative_locus_tags": [
@@ -576962,6 +577198,7 @@
       "[protein_family] Alanine or glycine:cation symporter (AGCS) (TC 2.A.25) family",
       "[interpro] Sodium:alanine symporter",
       "[ncbifam] amino acid carrier protein",
+      "[tcdb_best_hit] Probable Glycine/alanine/asparagine/glutamine uptake porter, AgcS. [2.A.25.1.9] :: [tcdb_substrates] Alanine, Asparagine, Glutamine, Glycine",
       "[pfam] Na_Ala_symp: Sodium:alanine symporter family"
     ],
     "alternative_locus_tags": [
@@ -578123,6 +578360,7 @@
       "[interpro] Multi antimicrobial extrusion protein",
       "[interpro] Multidrug resistance protein MdtK-like",
       "[interpro] Multi Antimicrobial Extrusion (MATE)",
+      "[tcdb_best_hit] Drug:H+ antiporter (benzalkonium chloride, fluoroquinolone, ethidium bromide, acriflavin, tetraphenylphosphonium chloride efflux pump), PmpM [2.A.66.1.12] :: [tcdb_substrates] 3,6-diamino-10-methylacridinium chloride, Benzalkonium chloride, Ethidium bromide, fluoroquinolone antibiotic",
       "[pfam] MatE: MatE"
     ],
     "alternative_locus_tags": [
@@ -578369,6 +578607,7 @@
       "[interpro] Carboxylate/Amino Acid/Amine Transporter",
       "[interpro] Diverse Substrate Transporter",
       "[tigr_role_inferred] Transport and binding proteins / Amino acids, peptides and amines",
+      "[tcdb_best_hit] Putative acetate efflux pump, MadN. [2.A.7.3.1] :: [tcdb_substrates] Acetate",
       "[pfam] EamA: EamA-like transporter family"
     ],
     "alternative_locus_tags": [
@@ -588771,6 +589010,7 @@
       "[interpro] Glycosyltransferase 2-like",
       "[interpro] Glycosyltransferase 2",
       "[interpro] GtrB-like, C-terminal hairpin",
+      "[tcdb_best_hit] GtrB of 318 aas and 2 TMSs. [4.D.1.1.14]",
       "[pfam] Glycos_transf_2: Glycosyl transferase family 2"
     ],
     "alternative_locus_tags": [
@@ -591196,6 +591436,7 @@
       "[eggnog] membrane",
       "[interpro] C4-dicarboxylate anaerobic carrier-like",
       "[interpro] Divalent Anion Sodium Symporter-Related Transporters",
+      "[tcdb_best_hit] Putative C4 dicarboxylate transporter (DcuC) (based only on similarity) [2.A.118.1.2] :: [tcdb_substrates] dicarboxylic acid dianion",
       "[pfam] DcuC: C4-dicarboxylate anaerobic carrier"
     ],
     "alternative_locus_tags": [
@@ -592263,6 +592504,7 @@
       "[interpro] ATP synthase A/B type, C-terminal domain",
       "[hamap] ATP synthase subunit beta [atpB].",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] F-type ATPase lacking a \u03b4-subunit, but having another subunit, AtpR of 104 aas and 3 TMSs that may replace the \u03b4-subunit. [3.A.2.1.12]",
       "[pfam] ATP-synt_ab: ATP synthase alpha/beta family, nucleotide-binding domain",
       "[pfam] ATP-synt_ab_N: ATP synthase alpha/beta family, beta-barrel domain",
       "[pfam] ATP-synt_VA_C: C-terminal domain of V and A type ATP synthase"
@@ -592849,6 +593091,7 @@
       "[interpro] Alternate ATP synthase, F1 complex, subunit epsilon",
       "[hamap] ATP synthase epsilon chain [atpC].",
       "[ncbifam] alternate F1F0 ATPase, F1 subunit epsilon",
+      "[tcdb_best_hit] Sodium (Na+)-pumping F-type ATPase. [3.A.2.1.9]",
       "[pfam] ATP-synt_DE_N: ATP synthase, Delta/Epsilon chain, beta-sandwich domain"
     ],
     "alternative_locus_tags": [
@@ -593033,6 +593276,7 @@
       "[interpro] F0F1-ATPase subunit, putative",
       "[interpro] Putative F0F1-ATPase subunit, Ca2+/Mg2+ transporter",
       "[ncbifam] putative F0F1-ATPase subunit",
+      "[tcdb_best_hit] AtpZ of 112 aas. [1.A.77.2.9]",
       "[pfam] ATPase_gene1: Putative F0F1-ATPase subunit Ca2+/Mg2+ transporter"
     ],
     "alternative_locus_tags": [
@@ -593239,6 +593483,7 @@
       "[interpro] ATP synthase, F0 complex, subunit A, bacterial/chloroplast",
       "[hamap] ATP synthase subunit a [atpB].",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] F-type ATPase lacking a \u03b4-subunit, but having another subunit, AtpR of 104 aas and 3 TMSs that may replace the \u03b4-subunit. [3.A.2.1.12]",
       "[pfam] ATP-synt_A: ATP synthase A chain"
     ],
     "alternative_locus_tags": [
@@ -593442,6 +593687,7 @@
       "[ncbifam] ATP synthase F0 subunit C",
       "[ncbifam] alternate F1F0 ATPase, F0 subunit C",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] F-type ATPase lacking a \u03b4-subunit, but having another subunit, AtpR of 104 aas and 3 TMSs that may replace the \u03b4-subunit. [3.A.2.1.12]",
       "[pfam] ATP-synt_C: ATP synthase subunit C"
     ],
     "alternative_locus_tags": [
@@ -593840,6 +594086,7 @@
       "[interpro] ATP synthase, F1 complex, alpha subunit nucleotide-binding domain",
       "[hamap] ATP synthase subunit alpha [atpA].",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] F-type ATPase lacking a \u03b4-subunit, but having another subunit, AtpR of 104 aas and 3 TMSs that may replace the \u03b4-subunit. [3.A.2.1.12]",
       "[pfam] ATP-synt_ab: ATP synthase alpha/beta family, nucleotide-binding domain",
       "[pfam] ATP-synt_ab_C: ATP synthase alpha/beta chain, C terminal domain",
       "[pfam] ATP-synt_ab_N: ATP synthase alpha/beta family, beta-barrel domain"
@@ -594405,6 +594652,7 @@
       "[ncbi] efflux RND transporter permease subunit",
       "[eggnog] Belongs to the resistance-nodulation-cell division (RND) (TC 2.A.6) family",
       "[interpro] Acriflavin resistance protein",
+      "[tcdb_best_hit] RND exporter of thiophosphate of 1085 aas and 12 TMSs, functioning with an MFP of 337 aas and 1 N-terminal TMS. [2.A.6.3.13] :: [tcdb_substrates] thiophosphate(2-)",
       "[pfam] ACR_tran: AcrB/AcrD/AcrF family"
     ],
     "alternative_locus_tags": [
@@ -594693,6 +594941,7 @@
       "[interpro] Protein translocase subunit SecY",
       "[hamap] Protein translocase subunit SecY [secY].",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] General secretory pathway (Sec-SRP) complex. [3.A.5.1.1] :: [tcdb_substrates] Protein",
       "[pfam] SecY: SecY"
     ],
     "alternative_locus_tags": [
@@ -595301,6 +595550,7 @@
       "[ncbi] potassium channel family protein",
       "[eggnog] Ion transport 2 domain protein",
       "[interpro] Potassium channel domain",
+      "[tcdb_best_hit] Uncharacterized protein of 148 aas and 3 or 4 TMSs [1.A.1.27.4]",
       "[pfam] Ion_trans_2: Ion channel"
     ],
     "alternative_locus_tags": [
@@ -596801,6 +597051,7 @@
       "[protein_family] MotA family",
       "[interpro] MotA/TolQ/ExbB proton channel",
       "[interpro] Motility protein A-like",
+      "[tcdb_best_hit] The Na+-driven flagellar motor complex, PomAB MotXY [1.A.30.1.6]",
       "[pfam] MotA_ExbB: MotA/TolQ/ExbB proton channel family"
     ],
     "alternative_locus_tags": [
@@ -606925,6 +607176,7 @@
       "[interpro] PotA, ATP-binding domain",
       "[interpro] ABC Transporter, Small Molecule Importer",
       "[ncbifam] polyamine ABC transporter ATP-binding protein",
+      "[tcdb_best_hit] Polyamine (putrescine/spermidine) uptake porter. [3.A.1.11.1] :: [tcdb_substrates] Putrescine, Spermidine",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] TOBE_2: TOBE domain"
     ],
@@ -607467,6 +607719,7 @@
       "[ncbi] spermidine/putrescine ABC transporter permease PotB",
       "[eggnog] COG1176 ABC-type spermidine putrescine transport system, permease component I",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
+      "[tcdb_best_hit] Polyamine (putrescine/spermidine) uptake porter. [3.A.1.11.1] :: [tcdb_substrates] Putrescine, Spermidine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -607876,6 +608129,7 @@
       "[eggnog] COG1177 ABC-type spermidine putrescine transport system, permease component II",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] Bacterial Polyamine Transport Permease",
+      "[tcdb_best_hit] Polyamine (putrescine/spermidine) uptake porter. [3.A.1.11.1] :: [tcdb_substrates] Putrescine, Spermidine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -608290,6 +608544,7 @@
       "[protein_family] Bacterial solute-binding protein PotD/PotF family",
       "[interpro] Spermidine/putrescine-binding periplasmic protein",
       "[interpro] Bacterial-type extracellular solute-binding protein",
+      "[tcdb_best_hit] Polyamine (putrescine/spermidine) uptake porter. [3.A.1.11.1] :: [tcdb_substrates] Putrescine, Spermidine",
       "[pfam] SBP_bac_6: Bacterial extracellular solute-binding protein",
       "[pfam] SBP_bac_8: Bacterial extracellular solute-binding protein"
     ],
@@ -609186,6 +609441,7 @@
       "[interpro] Major facilitator superfamily",
       "[interpro] Major facilitator superfamily domain",
       "[interpro] Major Facilitator Superfamily (MFS) Transporters",
+      "[tcdb_best_hit] YajR of 454 aas and 12 TMSs. [2.A.1.2.60]",
       "[pfam] MFS_1: Major Facilitator Superfamily",
       "[pfam] Sugar_tr: Sugar (and other) transporter"
     ],
@@ -609802,6 +610058,7 @@
       "[interpro] TRAP transporter large membrane protein DctM",
       "[interpro] TRAP C4-dicarboxylate transport system permease DctM subunit",
       "[ncbifam] TRAP transporter large permease subunit",
+      "[tcdb_best_hit] Tripartite high affinity ectoine/hydroxyectoine uptake system. [2.A.56.1.11]",
       "[pfam] DctM: Tripartite ATP-independent periplasmic transporter, DctM component"
     ],
     "alternative_locus_tags": [
@@ -609941,6 +610198,7 @@
       "[protein_family] TRAP transporter small permease family",
       "[interpro] TRAP transporter, small membrane protein DctQ",
       "[interpro] Tripartite ATP-independent periplasmic transporters, DctQ component",
+      "[tcdb_best_hit] Tripartite high affinity ectoine/hydroxyectoine uptake system. [2.A.56.1.11]",
       "[pfam] DctQ: Tripartite ATP-independent periplasmic transporters, DctQ component"
     ],
     "alternative_locus_tags": [
@@ -610078,6 +610336,7 @@
       "[eggnog] COG1638 TRAP-type C4-dicarboxylate transport system, periplasmic component",
       "[interpro] TRAP transporter solute receptor DctP",
       "[ncbifam] TRAP transporter substrate-binding protein DctP",
+      "[tcdb_best_hit] Tripartite high affinity ectoine/hydroxyectoine uptake system. [2.A.56.1.11]",
       "[pfam] DctP: Bacterial extracellular solute-binding protein, family 7"
     ],
     "alternative_locus_tags": [
@@ -618976,6 +619235,7 @@
       "[eggnog] COG2998 ABC-type tungstate transport system permease component",
       "[interpro] PBP domain",
       "[interpro] ABC transporter tungstate-binding",
+      "[tcdb_best_hit] Tungstate porter. (TupA, the receptor, exhibits an extremely high affinity for tungstate (Kd <1 nM) and discriminates between tungstate and molybdate) [3.A.1.6.2] :: [tcdb_substrates] Tungstate",
       "[pfam] PBP_like_2: PBP superfamily domain"
     ],
     "alternative_locus_tags": [
@@ -619103,6 +619363,7 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] Methionine import ATP-binding protein MetN-like",
+      "[tcdb_best_hit] Tungstate uptake porter with three subunits, R, M and C. [3.A.1.6.10]",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -619280,6 +619541,7 @@
       "[eggnog] COG4662 ABC-type tungstate transport system, periplasmic component",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter permease TupB-like",
+      "[tcdb_best_hit] Vanadate porter (most similar to TupABC (3.A.1.6.2)) [3.A.1.6.4] :: [tcdb_substrates] vanadium oxoanion",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -632932,6 +633194,7 @@
       "[interpro] Outer membrane efflux protein",
       "[interpro] Type I secretion outer membrane protein, TolC",
       "[interpro] Outer membrane protein TolC-like",
+      "[tcdb_best_hit] The Triclosan resistance efflux pump TriABC-OpmH (the only known RND pump requiring two MFPs). [2.A.6.2.27] :: [tcdb_substrates] Triclosan",
       "[pfam] OEP: Outer membrane efflux protein"
     ],
     "alternative_locus_tags": [
@@ -635392,6 +635655,7 @@
       "[interpro] PEP-utilising enzyme, mobile domain",
       "[interpro] Phosphotransferase system, enzyme I N-terminal",
       "[interpro] Phosphoenolpyruvate-dependent sugar PTS enzyme",
+      "[tcdb_best_hit] Nitrogen regulatory phosphoryl transfer chain, E1Ntr - NPr - IIANtr consisting of three cytolasmic phosphoryl transfer proteins as indicated: E1Ntr\u2026 [4.A.2.1.28] :: [tcdb_substrates] Protein",
       "[pfam] GAF: GAF domain",
       "[pfam] GAF_2: GAF domain",
       "[pfam] PEP-utilisers_N: PEP-utilising enzyme, N-terminal",
@@ -639435,6 +639699,7 @@
       "[interpro] Type IV pilus secretin PilQ",
       "[interpro] AMIN domain",
       "[interpro] Type IV pilus biogenesis and competence protein",
+      "[tcdb_best_hit] PilQ fimbrial subunit secretin [1.B.22.2.1]",
       "[pfam] AMIN: AMIN domain",
       "[pfam] STN: Secretin and TonB N terminus short domain",
       "[pfam] Secretin: Bacterial type II and III secretion system protein",
@@ -642615,6 +642880,7 @@
       "[interpro] Energy-dependent translational throttle protein EttA",
       "[interpro] ABC-transporter extension domain",
       "[hamap] Energy-dependent translational throttle protein EttA [ettA].",
+      "[tcdb_best_hit] ABC protein of 558 aas and 0 TMSs, Rv2477c. [3.A.1.120.8]",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] ABC_tran_Xtn: ABC transporter"
     ],
@@ -649595,6 +649861,7 @@
       "[interpro] Peptidoglycan biosynthesis protein MurJ",
       "[hamap] Probable lipid II flippase MurJ [murJ].",
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of murein sacculus and peptidoglycan",
+      "[tcdb_best_hit] MviN; LuxO regulated for induction during the early logarithmic and stationary phase of growth. [2.A.66.4.5] :: [tcdb_substrates] D-Fructose 6-phosphate",
       "[pfam] MurJ: Lipid II flippase MurJ"
     ],
     "alternative_locus_tags": [
@@ -654124,6 +654391,7 @@
       "[interpro] ClpA/ClpB, AAA lid domain",
       "[interpro] ATP-dependent Clp protease/Chaperone ClpA/ClpB",
       "[tigr_role_inferred] Protein fate / Protein folding and stabilization",
+      "[tcdb_best_hit] The chloroplast envelope TIC translocase (TIC) complex. [3.A.9.1.2] :: [tcdb_substrates] Protein",
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
       "[pfam] AAA_2: AAA domain (Cdc48 subfamily)",
       "[pfam] ClpB_D2-small: C-terminal, D2-small domain, of ClpB protein",
@@ -659509,6 +659777,7 @@
       "[interpro] Rieske [2Fe-2S] iron-sulphur domain",
       "[interpro] Ubiquitinol-cytochrome C reductase, Fe-S subunit, TAT signal",
       "[tigr_role_inferred] Energy metabolism / Electron transport",
+      "[tcdb_best_hit] Ubiquinol:cytochrome c oxidoreductase [3.D.3.1.1]",
       "[pfam] Rieske: Rieske [2Fe-2S] domain",
       "[pfam] UCR_Fe-S_N: Ubiquitinol-cytochrome C reductase Fe-S subunit TAT signal"
     ],
@@ -659739,6 +660008,7 @@
       "[interpro] Cytochrome b/b6, C-terminal",
       "[interpro] Cytochrome b",
       "[interpro] Cytochrome b/b6, N-terminal domain, eukaryotic/bacterial",
+      "[tcdb_best_hit] Ubiquinol:cytochrome c oxidoreductase [3.D.3.1.1]",
       "[pfam] Cytochrom_B_C: Cytochrome b(C-terminal)/b6/petD",
       "[pfam] Cytochrom_C1: Cytochrome C1 family",
       "[pfam] Cytochrome_B: Cytochrome b/b6/petB"
@@ -660122,6 +660392,7 @@
       "[interpro] Stringent starvation protein A, C-terminal",
       "[interpro] Glutathione transferase family",
       "[interpro] Glutathione S-transferase Omega/HSP26",
+      "[tcdb_best_hit] The bacterial CLIC homologue, stringent starvation protein A, SspA [N-terminal Trx domain; C-terminal glutathione S-transferase (GST) domain]. [1.A.12.3.1] :: [tcdb_substrates] Cl-",
       "[pfam] GST_C: Glutathione S-transferase, C-terminal domain",
       "[pfam] GST_N: Glutathione S-transferase, N-terminal domain",
       "[pfam] GST_N_3: Glutathione S-transferase, N-terminal domain"
@@ -664960,6 +665231,7 @@
       "[hamap] Probable peptidoglycan glycosyltransferase FtsW [ftsW].",
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of murein sacculus and peptidoglycan",
       "[tigr_role_inferred] Cellular processes / Cell division",
+      "[tcdb_best_hit] Cell division protein, FtsW. [2.A.103.1.1] :: [tcdb_substrates] alpha-D-FucNAc4-(1->4)-beta-D-ManNAcA-(1->4)-D-GlcNAc-undecaprenyl diphosphate(3-)",
       "[pfam] FTSW_RODA_SPOVE: Cell cycle protein"
     ],
     "alternative_locus_tags": [
@@ -668024,6 +668296,7 @@
       "[interpro] SecA, C-terminal helicase domain",
       "[hamap] Protein translocase subunit SecA [secA].",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] General secretory pathway (Sec-SRP) complex. [3.A.5.1.1] :: [tcdb_substrates] Protein",
       "[pfam] SEC-C: SEC-C motif",
       "[pfam] SecA_DEAD: SecA DEAD-like domain",
       "[pfam] SecA_PP_bind: SecA preprotein cross-linking domain",
@@ -671782,6 +672055,7 @@
       "[ncbi] sulfite exporter TauE/SafE family protein",
       "[eggnog] membrane transporter protein",
       "[interpro] Transmembrane protein TauE-like, transmembrane domain",
+      "[tcdb_best_hit] Acetate transporter of 266 aas and 8 TMSs, SO_1333. [2.A.102.4.13] :: [tcdb_substrates] Acetate",
       "[pfam] TauE: Sulfite exporter TauE/SafE"
     ],
     "alternative_locus_tags": [
@@ -674079,6 +674353,7 @@
       "[interpro] Short-chain dehydrogenase/reductase SDR",
       "[interpro] SDR DHRS6-like",
       "[interpro] Ketoreductase domain",
+      "[tcdb_best_hit] SDR family oxidoreductase of 250 aas and 1 TM [1.A.115.1.5]",
       "[pfam] adh_short_C2: Enoyl-(Acyl carrier protein) reductase"
     ],
     "alternative_locus_tags": [
@@ -678013,6 +678288,7 @@
       "[hamap] Peptidoglycan glycosyltransferase MrdB [mrdB].",
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of murein sacculus and peptidoglycan",
       "[tigr_role_inferred] Cellular processes / Cell division",
+      "[tcdb_best_hit] Rod shape determining protein, RodA. [2.A.103.1.2] :: [tcdb_substrates] alpha-D-FucNAc4-(1->4)-beta-D-ManNAcA-(1->4)-D-GlcNAc-undecaprenyl diphosphate(3-)",
       "[pfam] FTSW_RODA_SPOVE: Cell cycle protein"
     ],
     "alternative_locus_tags": [
@@ -686404,6 +686680,7 @@
       "[eggnog] Chlorhexidine efflux transporter",
       "[interpro] Chlorhexidine efflux transporter",
       "[interpro] PACE efflux transporter",
+      "[tcdb_best_hit] Uncharacterized putative drug exporter of 147 aas and 4 TMSs. [2.A.117.1.7]",
       "[pfam] BTP: Chlorhexidine efflux transporter"
     ],
     "alternative_locus_tags": [
@@ -697417,6 +697694,7 @@
       "[ncbi] TAXI family TRAP transporter solute-binding subunit",
       "[eggnog] transport system, periplasmic component",
       "[interpro] TRAP transporter solute receptor, TAXI family",
+      "[tcdb_best_hit] TRAP transporter with one membrane constituent (743 aas and 22 TMSs) and one receptor (330 aas and 1 N-terminal TMS). [2.A.56.1.18] :: [tcdb_substrates] (S)-Malate, 2-Oxoglutarate, Fumarate, Succinate",
       "[pfam] NMT1_3: NMT1-like family"
     ],
     "alternative_locus_tags": [
@@ -697551,6 +697829,7 @@
       "[interpro] TRAP C4-dicarboxylate transport system permease DctM subunit",
       "[interpro] TRAP C4-dicarboxylate transport system permease, fused DctM-DctQ",
       "[ncbifam] TRAP transporter fused permease subunit",
+      "[tcdb_best_hit] TRAP transporter with one membrane constituent (743 aas and 22 TMSs) and one receptor (330 aas and 1 N-terminal TMS). [2.A.56.1.18] :: [tcdb_substrates] (S)-Malate, 2-Oxoglutarate, Fumarate, Succinate",
       "[pfam] DctM: Tripartite ATP-independent periplasmic transporter, DctM component"
     ],
     "alternative_locus_tags": [
@@ -701843,6 +702122,7 @@
       "[interpro] Transport-associated OB, type 2",
       "[interpro] ABC transporter, ferric cation import, FbpC",
       "[interpro] ABC Transporter, Small Molecule Importer",
+      "[tcdb_best_hit] The Fe-hydroxamate-type siderophore uptake porter (transports Fe+3 bound to ferrioxamine, ferrichrome or pyoverdine siderophores). [3.A.1.10.4] :: [tcdb_substrates] Fe(III)hydroxamate",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] TOBE_2: TOBE domain"
     ],
@@ -702885,6 +703165,7 @@
       "[interpro] Transporter-associated domain",
       "[interpro] Ion transporter-like, CBS domain",
       "[ncbifam] hypothetical protein",
+      "[tcdb_best_hit] Mg2+ and Co2+ transporter, CorB, of 413 aas and 3 TMSs. [1.A.112.2.7] :: [tcdb_substrates] Cobalt ion, Magnesium cation",
       "[pfam] CBS: CBS domain",
       "[pfam] CorC_HlyC: Transporter associated domain",
       "[pfam] CNNM: Cyclin M transmembrane N-terminal domain"
@@ -703213,6 +703494,7 @@
       "[interpro] Signal recognition particle, SRP54 subunit",
       "[hamap] Signal recognition particle 54 kDa protein [srp54].",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] General secretory pathway (Sec-SRP) complex. [3.A.5.1.1] :: [tcdb_substrates] Protein",
       "[pfam] SRP54: SRP54-type protein, GTPase domain",
       "[pfam] SRP54_N: SRP54-type protein, helical bundle domain",
       "[pfam] SRP_SPB: Signal peptide binding domain"
@@ -723684,6 +723966,7 @@
       "[ncbi] Fe(3+)-hydroxamate ABC transporter permease FhuB",
       "[eggnog] Belongs to the binding-protein-dependent transport system permease family. FecCD subfamily",
       "[interpro] ABC transporter, permease protein, BtuC-like",
+      "[tcdb_best_hit] Iron (Fe3+)-hydroxamate (ferrichrome, coprogen, aerobactin, ferrioxamine B, schizakinen, rhodotorulic acid) porter, albomycin porter. [3.A.1.14.3] :: [tcdb_substrates] Elaiophylin, Fe(III)hydroxamate",
       "[pfam] FecCD: FecCD transport family"
     ],
     "alternative_locus_tags": [
@@ -724008,6 +724291,7 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] Bacterial siderophore ABC transporter ATP-binding",
+      "[tcdb_best_hit] Iron (Fe3+)-hydroxamate (ferrichrome, coprogen, aerobactin, ferrioxamine B, schizakinen, rhodotorulic acid) porter, albomycin porter. [3.A.1.14.3] :: [tcdb_substrates] Elaiophylin, Fe(III)hydroxamate",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -724282,6 +724566,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter type 1, transmembrane domain",
       "[interpro] Type 1 protein exporter",
+      "[tcdb_best_hit] Lipid A exporter homologue of 593 aas and 6 TMSs N-terminal with a C-terminal ATPase domain. [3.A.1.106.14] :: [tcdb_substrates] lipid As",
       "[pfam] ABC_membrane: ABC transporter transmembrane region",
       "[pfam] ABC_tran: ABC transporter"
     ],
@@ -726752,6 +727037,7 @@
       "[protein_family] Sodium:neurotransmitter symporter (SNF) (TC 2.A.22) family",
       "[interpro] Sodium:neurotransmitter symporter",
       "[interpro] Uncharacterized sodium-dependent transporter YocR/YhdH-like",
+      "[tcdb_best_hit] Neurotransmitter:sodium symporter of 455 aas, MhsT. [2.A.22.5.3] :: [tcdb_substrates] neurotransmitter",
       "[pfam] SNF: Sodium:neurotransmitter symporter family"
     ],
     "alternative_locus_tags": [
@@ -729231,6 +729517,7 @@
       "[ncbi] LysE/ArgO family amino acid transporter",
       "[eggnog] COG1279 Lysine efflux permease",
       "[interpro] Amino acid exporter protein, LeuE-type",
+      "[tcdb_best_hit] L-arginine exporter (ArgO or YggA). [2.A.75.1.2] :: [tcdb_substrates] Amino acid(Arg-), Histidine, Lysine",
       "[pfam] LysE: LysE type translocator"
     ],
     "alternative_locus_tags": [
@@ -738660,6 +738947,7 @@
       "[interpro] Acriflavin resistance protein",
       "[interpro] Multidrug resistance protein MdtF-like",
       "[ncbifam] multidrug efflux RND transporter permease subunit",
+      "[tcdb_best_hit] Multidrug efflux pump, MexEF-OprN as noted above. [2.A.6.2.16] :: [tcdb_substrates] Acrolein, Chloramphenicol, fluoroquinolone antibiotic",
       "[pfam] ACR_tran: AcrB/AcrD/AcrF family"
     ],
     "alternative_locus_tags": [
@@ -739287,6 +739575,7 @@
       "[protein_family] Binding-protein-dependent transport system permease family, CysTW subfamily",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] Bacterial Polyamine Transport Permease",
+      "[tcdb_best_hit] Putrescine porter. [3.A.1.11.2] :: [tcdb_substrates] Putrescine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -739570,6 +739859,7 @@
       "[ncbi] ABC transporter permease subunit",
       "[eggnog] Putrescine transport system permease",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
+      "[tcdb_best_hit] Putrescine porter. [3.A.1.11.2] :: [tcdb_substrates] Putrescine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -739855,6 +740145,7 @@
       "[interpro] Spermidine/putrescine import ATP-binding protein PotA-like",
       "[interpro] Transport-associated OB, type 2",
       "[interpro] ABC Transporter, Small Molecule Importer",
+      "[tcdb_best_hit] Putrescine porter. [3.A.1.11.2] :: [tcdb_substrates] Putrescine",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] TOBE_2: TOBE domain"
     ],
@@ -740301,6 +740592,7 @@
       "[protein_family] Bacterial solute-binding protein PotD/PotF family",
       "[interpro] Spermidine/putrescine-binding periplasmic protein",
       "[interpro] Bacterial-type extracellular solute-binding protein",
+      "[tcdb_best_hit] Putrescine porter. [3.A.1.11.2] :: [tcdb_substrates] Putrescine",
       "[pfam] SBP_bac_8: Bacterial extracellular solute-binding protein"
     ],
     "alternative_locus_tags": [
@@ -742685,6 +742977,7 @@
       "[protein_family] Drug/metabolite transporter (DMT) superfamily, Small multidrug resistance (SMR) (TC 2.A.7.1) family",
       "[interpro] Small drug/metabolite transporter protein family",
       "[interpro] Small multidrug resistance protein",
+      "[tcdb_best_hit] Small MDR pump, AbeS (53% identical to EmrE of E. coli; TC# 2.A.7.1.3). [2.A.7.1.11] :: [tcdb_substrates] 3,6-diamino-10-methylacridinium chloride, acridine orange free base, Benzalkonium chloride, Chloramphenicol, Deoxycholic acid, Erythromycin, Ethidium bromide, Nifedipine and 3 more",
       "[pfam] Multi_Drug_Res: Small Multidrug Resistance protein"
     ],
     "alternative_locus_tags": [
@@ -744132,6 +744425,7 @@
       "[interpro] Major facilitator superfamily",
       "[interpro] Major facilitator superfamily domain",
       "[interpro] Major Facilitator Superfamily (MFS) Transporters",
+      "[tcdb_best_hit] MFS transporter of 375 aas and 11 TMSs [2.A.1.71.3]",
       "[pfam] MFS_1: Major Facilitator Superfamily"
     ],
     "alternative_locus_tags": [
@@ -745618,6 +745912,7 @@
       "[ncbi] glycine betaine ABC transporter substrate-binding protein OsmF",
       "[eggnog] COG1732 Periplasmic glycine betaine choline-binding (lipo)protein of an ABC-type transport system (osmoprotectant binding protein)",
       "[interpro] ABC-type glycine betaine transport system, substrate-binding domain",
+      "[tcdb_best_hit] Putative osmoprotectant (glycine/betaine/choline) uptake transporter, YehWXYZ. [3.A.1.12.15] :: [tcdb_substrates] Betaine, Choline, Glycine",
       "[pfam] OpuAC: Substrate binding domain of ABC-type glycine betaine transport system"
     ],
     "alternative_locus_tags": [
@@ -745912,6 +746207,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter permease/solute-binding domain-containing protein",
       "[interpro] Glycine betaine uptake system permease protein YehY, N-terminal domain",
+      "[tcdb_best_hit] Putative osmoprotectant (glycine/betaine/choline) uptake transporter, YehWXYZ. [3.A.1.12.15] :: [tcdb_substrates] Betaine, Choline, Glycine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -746176,6 +746472,7 @@
       "[protein_family] ABC transporter superfamily",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
+      "[tcdb_best_hit] Putative osmoprotectant (glycine/betaine/choline) uptake transporter, YehWXYZ. [3.A.1.12.15] :: [tcdb_substrates] Betaine, Choline, Glycine",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] CBS: CBS domain"
     ],
@@ -746410,6 +746707,7 @@
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter permease/solute-binding domain-containing protein",
+      "[tcdb_best_hit] Putative osmoprotectant (glycine/betaine/choline) uptake transporter, YehWXYZ. [3.A.1.12.15] :: [tcdb_substrates] Betaine, Choline, Glycine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -748806,6 +749104,7 @@
       "[ncbi] mercuric ion transporter MerT",
       "[eggnog] MerT mercuric transport protein",
       "[interpro] Mercuric transport protein MerT",
+      "[tcdb_best_hit] MerT/P [1.A.72.3.1] :: [tcdb_substrates] Mercury(2+)",
       "[pfam] MerT: MerT mercuric transport protein"
     ],
     "alteromonadaceae_og": "46DJM@72275|Alteromonadaceae",
@@ -750801,6 +751100,7 @@
       "[ncbi] VIT1/CCC1 transporter family protein",
       "[eggnog] Membrane",
       "[interpro] Ccc1 family",
+      "[tcdb_best_hit] Fe2+/Mn2+ transporter Pcl1 (Pombe ccc1-like protein 1) [2.A.89.3.8] :: [tcdb_substrates] Fe2+, Manganese(2+)",
       "[pfam] VIT1: VIT family"
     ],
     "alternative_locus_tags": [
@@ -756499,6 +756799,7 @@
       "[eggnog] Conjugal transfer protein",
       "[interpro] Type IV secretion system VirB3/TrbD-like",
       "[interpro] Conjugal transfer, TrbD",
+      "[tcdb_best_hit] Trb proteins of Enterobacter aerogenes plasmid IncP [3.A.7.4.1] :: [tcdb_substrates] Protein",
       "[pfam] VirB3: Type IV secretory pathway, VirB3-like protein"
     ],
     "alternative_locus_tags": [
@@ -761136,6 +761437,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] High-affinity branched-chain amino acid transport ATP-binding protein",
       "[interpro] Branched-Chain Amino Acid Transport ATP-binding Protein LivF",
+      "[tcdb_best_hit] The branched chain hydrophobic amino acid transporter, LivJFGHM. [3.A.1.4.10] :: [tcdb_substrates] Alanine, L-Isoleucine, L-Threonine, Leucine, Serine, Valine",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter",
       "[pfam] Hemerythrin: Hemerythrin HHE cation binding domain"
@@ -771647,6 +771949,7 @@
       "[interpro] Outer-membrane lipoprotein Wza, C-terminal domain",
       "[interpro] Polysaccharide export protein",
       "[interpro] SLBB domain",
+      "[tcdb_best_hit] Outer membrane auxillary lipoprotein of 698 aas and 1 N-terminal TMS, GlfD or YmcA. [1.B.18.3.8] :: [tcdb_substrates] [3)-beta-D-galactopyranuronosyl-(1->3)-2-acetamido-4-amino-2,4,6-trideoxy-alpha-D-glucopyranosyl-(1->4)-beta-D-galactopyranurosyl-(1->]n",
       "[pfam] Poly_export: Polysaccharide biosynthesis/export protein",
       "[pfam] SLBB: SLBB domain",
       "[pfam] SLBB_2: SLBB domain",
@@ -777751,6 +778054,7 @@
       "[protein_family] GSP E family",
       "[interpro] Type II/IV secretion system domain",
       "[interpro] AAA+ ATPase domain",
+      "[tcdb_best_hit] The nonspecific tight adherence fibril (pilus) secretion septum (Flp-1, Flp-2, TadV-RcpCAB Tad ZA-G). [3.A.7.15.1] :: [tcdb_substrates] Protein",
       "[pfam] T2SSE: Type II/IV secretion system protein"
     ],
     "alternative_locus_tags": [
@@ -782157,6 +782461,7 @@
       "[interpro] Plasmid conjugal transfer TrbL/VirB6",
       "[interpro] Conjugal transfer, TrbL",
       "[tigr_role_inferred] Cellular processes / Conjugation",
+      "[tcdb_best_hit] Trb proteins of Enterobacter aerogenes plasmid IncP [3.A.7.4.1] :: [tcdb_substrates] Protein",
       "[pfam] TrbL: TrbL/VirB6 plasmid conjugal transfer protein"
     ],
     "alternative_locus_tags": [
@@ -782312,7 +782617,8 @@
       "[ncbi] entry exclusion lipoprotein TrbK",
       "[eggnog] -",
       "[interpro] Entry exclusion lipoprotein TrbK",
-      "[tigr_role_inferred] Mobile and extrachromosomal element functions / Plasmid functions"
+      "[tigr_role_inferred] Mobile and extrachromosomal element functions / Plasmid functions",
+      "[tcdb_best_hit] Trb proteins of Enterobacter aerogenes plasmid IncP [3.A.7.4.1] :: [tcdb_substrates] Protein"
     ],
     "alternative_locus_tags": [
       "HP15_p42g43"
@@ -782415,6 +782721,7 @@
       "[ncbi] P-type conjugative transfer protein TrbJ",
       "[eggnog] Conjugal transfer",
       "[interpro] Type IV conjugative transfer protein TrbJ",
+      "[tcdb_best_hit] Trb proteins of Enterobacter aerogenes plasmid IncP [3.A.7.4.1] :: [tcdb_substrates] Protein",
       "[pfam] T4SS: Type IV secretion system proteins"
     ],
     "alternative_locus_tags": [
@@ -782541,6 +782848,7 @@
       "[eggnog] Bacterial conjugation TrbI-like protein",
       "[protein_family] TrbI/VirB10 family",
       "[interpro] Type IV secretion system, VirB10/TraB/TrbI",
+      "[tcdb_best_hit] Trb proteins of Enterobacter aerogenes plasmid IncP [3.A.7.4.1] :: [tcdb_substrates] Protein",
       "[pfam] TrbI: Bacterial conjugation TrbI-like protein"
     ],
     "alternative_locus_tags": [
@@ -782767,6 +783075,7 @@
       "[interpro] VirB9/CagX/TrbG, C-terminal",
       "[ncbifam] conjugal transfer protein TrbG",
       "[tigr_role_inferred] Cellular processes / Conjugation",
+      "[tcdb_best_hit] Trb proteins of Enterobacter aerogenes plasmid IncP [3.A.7.4.1] :: [tcdb_substrates] Protein",
       "[pfam] CagX: Conjugal transfer protein"
     ],
     "alternative_locus_tags": [
@@ -782910,6 +783219,7 @@
       "[eggnog] Conjugal transfer protein",
       "[interpro] Bacterial virulence protein VirB8-like",
       "[interpro] Conjugal transfer protein TrbF",
+      "[tcdb_best_hit] Trb proteins of Enterobacter aerogenes plasmid IncP [3.A.7.4.1] :: [tcdb_substrates] Protein",
       "[pfam] VirB8: VirB8 protein"
     ],
     "alternative_locus_tags": [
@@ -783052,6 +783362,7 @@
       "[interpro] TraG, P-loop domain",
       "[interpro] Type IV secretion system ATPase VirB4/TrbE, N-terminal",
       "[ncbifam] conjugal transfer protein TrbE",
+      "[tcdb_best_hit] Trb proteins of Enterobacter aerogenes plasmid IncP [3.A.7.4.1] :: [tcdb_substrates] Protein",
       "[pfam] CagE_TrbE_VirB: CagE, TrbE, VirB family, component of type IV transporter system",
       "[pfam] P-loop_TraG: TraG P-loop domain",
       "[pfam] VirB4_TrbE_N: Type IV secretion system ATPase VirB4/TrbE, N-terminal domain"
@@ -783285,6 +783596,7 @@
       "[ncbi] conjugal transfer system pilin TrbC",
       "[eggnog] Conjugal transfer protein",
       "[interpro] Conjugal transfer TrbC/type IV secretion VirB2",
+      "[tcdb_best_hit] Trb proteins of Enterobacter aerogenes plasmid IncP [3.A.7.4.1] :: [tcdb_substrates] Protein",
       "[pfam] TrbC: TrbC/VIRB2 pilin"
     ],
     "alternative_locus_tags": [
@@ -783418,6 +783730,7 @@
       "[interpro] Conjugative transfer, TrbB",
       "[ncbifam] conjugal transfer ATPase TrbB",
       "[tigr_role_inferred] Cellular processes / Conjugation",
+      "[tcdb_best_hit] Trb proteins of Enterobacter aerogenes plasmid IncP [3.A.7.4.1] :: [tcdb_substrates] Protein",
       "[pfam] T2SSE: Type II/IV secretion system protein"
     ],
     "alternative_locus_tags": [

@@ -4328,6 +4328,7 @@
       "[ncbi] photosynthetic/respiratory NAD(P)H-quinone oxidoreductase subunit S",
       "[eggnog] NAD(P)H dehydrogenase subunit S",
       "[interpro] NADH dehydrogenase-like complex, subunit S",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] NdhS: NAD(P)H dehydrogenase subunit S"
     ],
     "cog_category": [
@@ -7142,6 +7143,7 @@
       "[interpro] ABC transporter, maltose/maltodextrin import, MalK-like",
       "[interpro] MalK-like, OB fold domain",
       "[interpro] ABC transporter, ATP-binding protein MalK/UgpC-like",
+      "[tcdb_best_hit] Sugar (sucrose, maltose, glucose, fructose, esculin (coumarin \u03b2-glucoside)) uptake system possibly consisting of 5 or 6 proteins (see below). [3.A.1.1.52] :: [tcdb_substrates] beta-glucoside, Esculin, Fructose, glucose, Maltose, Sucrose",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] TOBE_2: TOBE domain",
       "[pfam] OB_MalK: MalK OB fold domain"
@@ -11817,6 +11819,7 @@
       "[protein_family] Major facilitator superfamily, Folate-biopterin transporter (TC 2.A.71) family",
       "[interpro] Folate-biopterin transporter",
       "[interpro] Biopterin transporter family",
+      "[tcdb_best_hit] Functionally uncharacterized Orf [2.A.71.2.1]",
       "[pfam] BT1: BT1 family"
     ],
     "alternative_locus_tags": [
@@ -13453,6 +13456,7 @@
       "[protein_family] PhoH family",
       "[interpro] PhoH-like protein",
       "[interpro] PhoH2-like",
+      "[tcdb_best_hit] To interact with other cells, bacteria use contractile machines that function similarly to membrane-puncturing bacteriophages. [3.A.23.6.1]",
       "[pfam] PhoH: PhoH-like protein"
     ],
     "alternative_locus_tags": [
@@ -14113,6 +14117,7 @@
       "[interpro] NAD(P)H-quinone oxidoreductase subunit 2, N-terminal",
       "[hamap] NAD(P)H-quinone oxidoreductase subunit 2, chloroplastic [ndhB].",
       "[ncbifam] NADH-quinone oxidoreductase subunit NuoN",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] Proton_antipo_M: NADH:quinone oxidoreductase/Mrp antiporter, TM",
       "[pfam] Ndh2_N: NAD(P)H-quinone oxidoreductase subunit 2 N-terminal"
     ],
@@ -18133,6 +18138,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] Pilus retraction protein PilT/PilU",
       "[ncbifam] PilT/PilU family type 4a pilus ATPase",
+      "[tcdb_best_hit] The pilin secretion/fimbrial assembly system. [3.A.15.2.1]",
       "[pfam] T2SSE: Type II/IV secretion system protein"
     ],
     "alternative_locus_tags": [
@@ -18301,6 +18307,7 @@
       "[interpro] Type II/IV secretion system domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] Type II secretion system protein GspE, N-terminal",
+      "[tcdb_best_hit] The tri-component complex including EbsA of 125 aas, homologs of which are highly conserved and widespread in diverse cyanobacteria but are not found\u2026 [3.A.15.4.2] :: [tcdb_substrates] Protein",
       "[pfam] T2SSE: Type II/IV secretion system protein",
       "[pfam] MshEN: MshEN domain"
     ],
@@ -18881,6 +18888,7 @@
       "[ncbifam] ATP-dependent zinc metalloprotease FtsH",
       "[tigr_role_inferred] Protein fate / Degradation of proteins, peptides, and glycopeptides",
       "[tigr_role_inferred] Cellular processes / Cell division",
+      "[tcdb_best_hit] ATP-dependent zinc metaloprotease, FtsH of 644 aas and 2 TMSs. [3.A.29.1.5]",
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
       "[pfam] FtsH_ext: FtsH Extracellular",
       "[pfam] Peptidase_M41: Peptidase family M41",
@@ -20739,6 +20747,7 @@
       "[interpro] Cation-transporting P-type ATPase, C-terminal",
       "[interpro] P-type ATPase, haloacid dehalogenase domain",
       "[interpro] P-type ATPase, A domain",
+      "[tcdb_best_hit] Functionally uncharacterized P-type ATPase family 23 (FUPA23) (2 proteins from Cyanobacteria (826-831aas; 10+MSs, type 2)) [3.A.3.23.3]",
       "[pfam] E1-E2_ATPase: P-type ATPase actuator domain",
       "[pfam] Hydrolase: haloacid dehalogenase-like hydrolase",
       "[pfam] Cation_ATPase_C: Cation transporting ATPase, C-terminus"
@@ -21323,6 +21332,7 @@
       "[interpro] Transport-associated OB, type 2",
       "[interpro] ABC transporter, maltose/maltodextrin import, MalK-like",
       "[interpro] ABC transporter, ATP-binding protein MalK/UgpC-like",
+      "[tcdb_best_hit] Sugar (sucrose, maltose, glucose, fructose, esculin (coumarin \u03b2-glucoside)) uptake system possibly consisting of 5 or 6 proteins (see below). [3.A.1.1.52] :: [tcdb_substrates] beta-glucoside, Esculin, Fructose, glucose, Maltose, Sucrose",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] TOBE_2: TOBE domain"
     ],
@@ -24722,6 +24732,7 @@
       "[interpro] Protein-export membrane protein SecD/SecF, C-terminal, bacterial",
       "[hamap] Protein-export membrane protein SecF [secF].",
       "[ncbifam] SecD/SecF family protein translocase subunit",
+      "[tcdb_best_hit] Protein translocase with SecY (439 aas and 10 TMSs, P0A4H0), SecE, SecG, SecA (948 aas and 0 TMSs, Q5N2Q7), SecD SecF, YidC. [3.A.5.4.1] :: [tcdb_substrates] Protein",
       "[pfam] SecD_SecF_C: Protein export membrane protein SecD/SecF, C-terminal",
       "[pfam] Sec_GG: SecD/SecF GG Motif"
     ],
@@ -25028,6 +25039,7 @@
       "[interpro] Protein-export membrane protein SecD/SecF, C-terminal, bacterial",
       "[hamap] Protein translocase subunit SecD [secD].",
       "[ncbifam] SecD/SecF family protein translocase subunit",
+      "[tcdb_best_hit] Protein translocase with SecY (439 aas and 10 TMSs, P0A4H0), SecE, SecG, SecA (948 aas and 0 TMSs, Q5N2Q7), SecD SecF, YidC. [3.A.5.4.1] :: [tcdb_substrates] Protein",
       "[pfam] SecD_SecF_C: Protein export membrane protein SecD/SecF, C-terminal",
       "[pfam] Sec_GG: SecD/SecF GG Motif",
       "[pfam] SecD_1st: Protein translocase subunit SecDF, P1 domain, N-terminal",
@@ -27268,6 +27280,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter type 1, transmembrane domain",
       "[interpro] ATP-binding cassette sub-family D",
+      "[tcdb_best_hit] Peroxisomal/chloroplast fatty acyl CoA transporter, ABCD2. [3.A.1.203.8] :: [tcdb_substrates] fatty acyl-CoA",
       "[pfam] ABC_membrane_2: ABC transporter transmembrane region 2",
       "[pfam] ABC_tran: ABC transporter"
     ],
@@ -28618,6 +28631,7 @@
       "[eggnog] PFAM Amino acid permease",
       "[interpro] Amino acid permease/SLC12A domain",
       "[interpro] Amino acid-polyamine-organocation superfamily",
+      "[tcdb_best_hit] Uncharacterized APC-3 family member [2.A.3.3.17]",
       "[pfam] AA_permease: Amino acid permease",
       "[pfam] AA_permease_2: Amino acid permease"
     ],
@@ -31148,6 +31162,7 @@
       "[eggnog] TIGRFAM potassium uptake protein, TrkH family",
       "[interpro] Cation transporter",
       "[interpro] TrkH potassium transport family",
+      "[tcdb_best_hit] The Na+-dependent K+ uptake transporter, KtrABE, required for adaption to salinity stress and high osmolarity. [2.A.38.4.5] :: [tcdb_substrates] Potassium cation",
       "[pfam] TrkH: Cation transport protein"
     ],
     "alternative_locus_tags": [
@@ -31440,6 +31455,7 @@
       "[interpro] Clp ATPase, C-terminal",
       "[interpro] ClpA/ClpB, AAA lid domain",
       "[interpro] ATP-dependent Clp protease/Chaperone ClpA/ClpB",
+      "[tcdb_best_hit] The chloroplast envelope TIC translocase (TIC) complex. [3.A.9.1.2] :: [tcdb_substrates] Protein",
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
       "[pfam] AAA_2: AAA domain (Cdc48 subfamily)",
       "[pfam] ClpB_D2-small: C-terminal, D2-small domain, of ClpB protein",
@@ -32078,6 +32094,7 @@
       "[eggnog] MotA TolQ ExbB proton channel",
       "[interpro] MotA/TolQ/ExbB proton channel",
       "[interpro] ExbB/TolQ Biopolymer Transport",
+      "[tcdb_best_hit] ExbB/ExbD/ExbD' of 254 aas, 150 aas, and 147 aas, respectively, with 3, 1 and 1 TMSs, respectively. [1.A.30.2.11]",
       "[pfam] MotA_ExbB: MotA/TolQ/ExbB proton channel family"
     ],
     "alternative_locus_tags": [
@@ -32815,6 +32832,7 @@
       "[eggnog] glycosyl transferase group 1",
       "[interpro] Glycosyltransferase subfamily 4-like, N-terminal domain",
       "[interpro] Glycosyltransferase group 1",
+      "[tcdb_best_hit] The Na+-dependent K+ uptake transporter, KtrABE, required for adaption to salinity stress and high osmolarity. [2.A.38.4.5] :: [tcdb_substrates] Potassium cation",
       "[pfam] Glyco_trans_1_4: Glycosyl transferases group 1",
       "[pfam] Glyco_transf_4: Glycosyltransferase Family 4",
       "[pfam] Glycos_transf_1: Glycosyl transferases group 1"
@@ -32967,6 +32985,7 @@
       "[eggnog] ABC-type transport system involved in resistance to organic solvents, ATPase component",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
+      "[tcdb_best_hit] The chloroplast lipid (trigalactosyl diacyl glycerol (TDG)) transporter, Tdg1,2,3. [3.A.1.27.2]",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -36772,6 +36791,7 @@
       "[hamap] ATP synthase gamma chain [atpG].",
       "[ncbifam] ATP synthase F1 subunit gamma",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] H+-transporting F-type ATPase. [3.A.2.1.10]",
       "[pfam] ATP-synt: ATP synthase"
     ],
     "alternative_locus_tags": [
@@ -40550,6 +40570,7 @@
       "[eggnog] electron donor, via FMN and iron-sulfur (Fe-S) centers, to quinones in the respiratory and or the photosynthetic chain. The immediate electron acceptor for the enzyme in this species is believed to be plastoquinone. Couples the redox reaction to proton translocation, and thus conserves the redox energy in a proton gradient. Cyanobacterial NDH-1 also plays a role in inorganic carbon- concentration",
       "[interpro] NAD(P)H-quinone oxidoreductase subunit M",
       "[hamap] NAD(P)H-quinone oxidoreductase subunit M [ndhM].",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] NdhM: Cyanobacterial and plastid NDH-1 subunit M"
     ],
     "cog_category": [
@@ -41053,6 +41074,7 @@
       "[interpro] ABC transporter, lipoprotein release, LolD-like",
       "[interpro] MacB-like, ATP-binding domain",
       "[tigr_role_inferred] Cellular processes / Cell division",
+      "[tcdb_best_hit] Cell division ABC system, FtsXE. [3.A.1.140.3]",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "bacteria_cog_og": "COG2884",
@@ -45879,6 +45901,7 @@
       "[ncbi] Fe(3+) ABC transporter substrate-binding protein",
       "[eggnog] ABC-type Fe3 transport system, periplasmic component",
       "[interpro] Ferric binding protein",
+      "[tcdb_best_hit] Ferric iron (Fe3+) porter [3.A.1.10.2] :: [tcdb_substrates] Fe3+",
       "[pfam] SBP_bac_6: Bacterial extracellular solute-binding protein",
       "[pfam] SBP_bac_8: Bacterial extracellular solute-binding protein"
     ],
@@ -49905,6 +49928,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter type 1, transmembrane domain",
       "[interpro] Type 1 protein exporter",
+      "[tcdb_best_hit] ABC exporter. [3.A.1.106.19]",
       "[pfam] ABC_membrane: ABC transporter transmembrane region",
       "[pfam] ABC_tran: ABC transporter"
     ],
@@ -54319,6 +54343,7 @@
       "[interpro] Membrane insertase YidC/ALB3/OXA1/COX18",
       "[interpro] Membrane insertase YidC/Oxa/ALB, C-terminal",
       "[interpro] Membrane insertase YidC/ALB, C-terminal",
+      "[tcdb_best_hit] Protein translocase with SecY (439 aas and 10 TMSs, P0A4H0), SecE, SecG, SecA (948 aas and 0 TMSs, Q5N2Q7), SecD SecF, YidC. [3.A.5.4.1] :: [tcdb_substrates] Protein",
       "[pfam] 60KD_IMP: 60Kd inner membrane protein"
     ],
     "bacteria_cog_og": "COG0706",
@@ -57350,6 +57375,7 @@
       "[interpro] ABC transporter, lipoprotein release, LolD-like",
       "[interpro] MacB-like, ATP-binding domain",
       "[ncbifam] ABC exporter ATP-binding subunit, DevA family",
+      "[tcdb_best_hit] Glycolipid exporter (under nitrogen control in heterocysts), DevABC-HgdD. [3.A.1.114.1] :: [tcdb_substrates] Glycolipid",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -57531,6 +57557,7 @@
       "[interpro] MacB-like periplasmic core domain",
       "[interpro] ABC-4 integral membrane protein family, HrtB subfamily",
       "[tigr_role_inferred] Transport and binding proteins / Other",
+      "[tcdb_best_hit] Glycolipid exporter (under nitrogen control in heterocysts), DevABC-HgdD. [3.A.1.114.1] :: [tcdb_substrates] Glycolipid",
       "[pfam] FtsX: FtsX-like permease C-terminal",
       "[pfam] MacB_PCD: MacB-like periplasmic core domain"
     ],
@@ -58701,6 +58728,7 @@
       "[interpro] Cation Transport ATPase Type IB",
       "[interpro] P-type ATPase, A domain",
       "[ncbifam] HAD-IC family P-type ATPase",
+      "[tcdb_best_hit] Functionally uncharacterized P-type ATP family 32 (FUPA32) (several in cyanobacteria) [3.A.3.32.8]",
       "[pfam] E1-E2_ATPase: P-type ATPase actuator domain",
       "[pfam] Hydrolase: haloacid dehalogenase-like hydrolase"
     ],
@@ -62408,6 +62436,7 @@
       "[hamap] NAD(P)H-quinone oxidoreductase chain 4 [ndhD].",
       "[ncbifam] NAD(P)H-quinone oxidoreductase subunit 4",
       "[ncbifam] NADH-quinone oxidoreductase subunit M",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] Proton_antipo_M: NADH:quinone oxidoreductase/Mrp antiporter, TM"
     ],
     "bacteria_cog_og": "COG1008",
@@ -62595,6 +62624,7 @@
       "[interpro] NADH-quinone oxidoreductase, chain 5-like",
       "[interpro] NADH-plastoquinone oxidoreductase, chain 5 subgroup",
       "[ncbifam] NADH-quinone oxidoreductase subunit L",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] Proton_antipo_C: NADH-dehyrogenase subunit F, TMs, (complex I) C-terminus",
       "[pfam] Proton_antipo_M: NADH:quinone oxidoreductase/Mrp antiporter, TM",
       "[pfam] Proton_antipo_N: NADH-Ubiquinone oxidoreductase (complex I), chain 5 N-terminus"
@@ -63673,6 +63703,7 @@
       "[interpro] ATP-dependent DNA helicase RecG, domain 3, C-terminal",
       "[interpro] ATP-dependent DNA helicase RecG/Transcription-repair-coupling factor",
       "[tigr_role_inferred] DNA metabolism / DNA replication, recombination, and repair",
+      "[tcdb_best_hit] Putative competence system ComE1, ComE3, ComF1, ComFC plus pilin and additional coompetence-related proteins. [3.A.11.1.5]",
       "[pfam] DEAD: DEAD/DEAH box helicase",
       "[pfam] Helicase_C: Helicase conserved C-terminal domain",
       "[pfam] RecG_wedge: RecG wedge domain",
@@ -67633,6 +67664,7 @@
       "[eggnog] 'ABC-type branched-chain amino acid transport",
       "[interpro] Receptor, ligand binding region",
       "[interpro] Branched-chain amino acid transport protein",
+      "[tcdb_best_hit] The neutral amino acid permease, N-1 (transports pro, phe, leu, gly, ala, ser, gln and his, but gln and his are not transported via NatB) [3.A.1.4.6] :: [tcdb_substrates] Amino acid",
       "[pfam] ANF_receptor: Receptor family ligand binding region",
       "[pfam] Peripla_BP_6: Periplasmic binding protein"
     ],
@@ -68865,6 +68897,7 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] Metal Ion Import ATP-binding",
+      "[tcdb_best_hit] Manganese (Mn2+) porter [3.A.1.15.1] :: [tcdb_substrates] Manganese(2+)",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -69031,6 +69064,7 @@
       "[interpro] Periplasmic solute binding protein, ZnuA-like",
       "[interpro] Adhesion lipoprotein PsaA-like",
       "[interpro] Adhesin B",
+      "[tcdb_best_hit] Iron, Manganese (and Zinc) (Fe2+, Mn2+ and Zn2+) porter, YfeABCD. [3.A.1.15.4] :: [tcdb_substrates] Fe2+, Manganese(2+)",
       "[pfam] ZnuA: Zinc-uptake complex component A periplasmic"
     ],
     "alternative_locus_tags": [
@@ -77980,6 +78014,7 @@
       "[interpro] Ethanolamine utilization protein EutN/carboxysome shell vertex protein CcmL",
       "[interpro] Carboxysome shell vertex protein CcmL",
       "[hamap] Carboxysome shell vertex protein CcmL [ccmL].",
+      "[tcdb_best_hit] CcmL shell protein of cyanobacterial carboxysomes, The protein is of 99 aas with two very moderately hydrophobic regions, the larger N-terminal\u2026 [1.S.5.1.1] :: [tcdb_substrates] HCO3-",
       "[pfam] EutN_CcmL: Ethanolamine utilisation protein EutN/carboxysome"
     ],
     "alternative_locus_tags": [
@@ -78112,6 +78147,7 @@
       "[interpro] Carboxysome shell protein CcmK",
       "[interpro] Bacterial microcompartment shell",
       "[hamap] Carboxysome shell protein CcmK [ccmK].",
+      "[tcdb_best_hit] ComK1 of 111 aas, possibly with one N-terminal TMS. [1.S.1.1.7] :: [tcdb_substrates] CO2",
       "[pfam] BMC: BMC domain"
     ],
     "alternative_locus_tags": [
@@ -90981,6 +91017,7 @@
       "[eggnog] SBF-like CPA transporter family (DUF4137)",
       "[interpro] Bile acid:sodium symporter/arsenical resistance protein Acr3",
       "[interpro] Bile acid:sodium symporter",
+      "[tcdb_best_hit] Na+:bile acid symporter (AstB). [2.A.28.2.4] :: [tcdb_substrates] Bile salt",
       "[pfam] SBF: Sodium Bile acid symporter family"
     ],
     "alternative_locus_tags": [
@@ -91585,6 +91622,7 @@
       "[interpro] Bacterial microcompartment domain",
       "[interpro] CcmK/CsoS1, bacterial microcompartment domain",
       "[interpro] Bacterial microcompartment shell",
+      "[tcdb_best_hit] Shell protein of 213 aas, an internal duplication of single domain proteins such as listed under TC#s 1.S.1.1.1 and 1.S.1.1.2, It shows 62 - 65 %\u2026 [1.S.1.1.13]",
       "[pfam] BMC: BMC domain"
     ],
     "alternative_locus_tags": [
@@ -93632,6 +93670,7 @@
       "[interpro] D-aminoacyl-tRNA deacylase DTD3",
       "[hamap] D-aminoacyl-tRNA deacylase [dtd3].",
       "[ncbifam] YchF/TatD family DNA exonuclease",
+      "[tcdb_best_hit] The ER-associated degradation (ERAD) pathway of 47 proteins. [3.A.16.1.5] :: [tcdb_substrates] Protein",
       "[pfam] TatD_DNase: TatD related DNase"
     ],
     "alternative_locus_tags": [
@@ -99035,6 +99074,7 @@
       "[interpro] Cytochrome c-like domain",
       "[interpro] Cytochrome c6",
       "[hamap] Cytochrome c6 [petJ].",
+      "[tcdb_best_hit] Cytochrome b6f complex of 10 subunits, PetA, B, C1-3, D, E, G, J, L, M and N. It transports H+ and electrons across the membrane. [3.D.3.5.6] :: [tcdb_substrates] e-",
       "[pfam] Cytochrome_CBB3: Cytochrome C oxidase, cbb3-type, subunit III"
     ],
     "bacteria_cog_og": "COG2010",
@@ -102729,6 +102769,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
+      "[tcdb_best_hit] Leucine/proline/alanine/serine/glycine (and possibly histidine) porter, NatABCDE. [3.A.1.4.2] :: [tcdb_substrates] Alanine, Glycine, Histidine, Leucine, Proline, Serine",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
     ],
@@ -102914,6 +102955,7 @@
       "[eggnog] Branched-chain amino acid transport system permease",
       "[interpro] ABC transporter, permease",
       "[interpro] High-affinity branched-chain amino acid transport system permease protein LivM-like",
+      "[tcdb_best_hit] The neutral amino acid permease, N-1 (transports pro, phe, leu, gly, ala, ser, gln and his, but gln and his are not transported via NatB) [3.A.1.4.6] :: [tcdb_substrates] Amino acid",
       "[pfam] BPD_transp_2: Branched-chain amino acid transport system / permease component"
     ],
     "alternative_locus_tags": [
@@ -108299,6 +108341,7 @@
       "[eggnog] ABC-type sugar transport system, permease component",
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
+      "[tcdb_best_hit] Sugar (sucrose, maltose, glucose, fructose, esculin (coumarin \u03b2-glucoside)) uptake system possibly consisting of 5 or 6 proteins (see below). [3.A.1.1.52] :: [tcdb_substrates] beta-glucoside, Esculin, Fructose, glucose, Maltose, Sucrose",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -113497,6 +113540,7 @@
       "[interpro] RNA-binding S4 domain",
       "[interpro] Hemolysin A /rRNA methyltransferase TlyA",
       "[interpro] 16S/23S rRNA (cytidine-2'-O)-methyltransferase TlyA",
+      "[tcdb_best_hit] Haemolysin III, TlyA family member of 279 aas. [1.C.109.1.5]",
       "[pfam] FtsJ: FtsJ-like methyltransferase",
       "[pfam] S4: S4 domain"
     ],
@@ -114420,6 +114464,7 @@
       "[interpro] Glyceraldehyde 3-phosphate dehydrogenase, catalytic domain",
       "[interpro] Glyceraldehyde/Erythrose phosphate dehydrogenase family",
       "[tigr_role_inferred] Energy metabolism / Glycolysis/gluconeogenesis",
+      "[tcdb_best_hit] To interact with other cells, bacteria use contractile machines that function similarly to membrane-puncturing bacteriophages. [3.A.23.6.1]",
       "[pfam] Gp_dh_C: Glyceraldehyde 3-phosphate dehydrogenase, C-terminal domain",
       "[pfam] Gp_dh_N: Glyceraldehyde 3-phosphate dehydrogenase, NAD binding domain"
     ],
@@ -115459,6 +115504,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] Transport-associated OB, type 2",
       "[interpro] ABC Transporter, Small Molecule Importer",
+      "[tcdb_best_hit] Ferric iron (Fe3+) porter [3.A.1.10.2] :: [tcdb_substrates] Fe3+",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] TOBE_2: TOBE domain"
     ],
@@ -118678,6 +118724,7 @@
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter permease component",
+      "[tcdb_best_hit] Sugar (sucrose, maltose, glucose, fructose, esculin (coumarin \u03b2-glucoside)) uptake system possibly consisting of 5 or 6 proteins (see below). [3.A.1.1.52] :: [tcdb_substrates] beta-glucoside, Esculin, Fructose, glucose, Maltose, Sucrose",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -121108,6 +121155,7 @@
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tigr_role_inferred] Transport and binding proteins / Other",
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of surface polysaccharides and lipopolysaccharides",
+      "[tcdb_best_hit] LPS export porin complex, LptBCFG-A-DE, consists of LptD (Omp; OmpA; 784 aas)-LptE -LptA -LptB -LptC - LptFG, part of the ABC transporter. [1.B.42.1.2] :: [tcdb_substrates] Lipopolysaccharide",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "bacteria_cog_og": "COG1137",
@@ -122565,6 +122613,7 @@
       "[protein_family] Cytochrome ubiquinol oxidase subunit 2 family",
       "[interpro] Cytochrome ubiquinol oxidase subunit 2",
       "[tigr_role_inferred] Energy metabolism / Electron transport",
+      "[tcdb_best_hit] Cytochrome oxidase subunit I (CydA) of 481 aas and 9 or 10 TMSs, and subunit II (CydB) of 337 aas and 9 TMSs. [3.D.4.3.4]",
       "[pfam] Cyt_bd_oxida_II: Cytochrome bd terminal oxidase subunit II"
     ],
     "bacteria_cog_og": "COG1294",
@@ -122761,6 +122810,7 @@
       "[eggnog] Cytochrome bd-type quinol oxidase subunit 1",
       "[protein_family] Cytochrome ubiquinol oxidase subunit 1 family",
       "[interpro] Cytochrome ubiquinol oxidase subunit 1",
+      "[tcdb_best_hit] Cytochrome oxidase subunit I (CydA) of 481 aas and 9 or 10 TMSs, and subunit II (CydB) of 337 aas and 9 TMSs. [3.D.4.3.4]",
       "[pfam] Cyt_bd_oxida_I: Cytochrome bd terminal oxidase subunit I"
     ],
     "alternative_locus_tags": [
@@ -123873,6 +123923,7 @@
       "[interpro] Acriflavin resistance protein",
       "[interpro] Multidrug resistance protein MdtF-like",
       "[ncbifam] multidrug efflux RND transporter permease subunit",
+      "[tcdb_best_hit] Multidrug efflux pump, MexEF-OprN as noted above. [2.A.6.2.16] :: [tcdb_substrates] Acrolein, Chloramphenicol, fluoroquinolone antibiotic",
       "[pfam] ACR_tran: AcrB/AcrD/AcrF family"
     ],
     "alternative_locus_tags": [
@@ -131466,6 +131517,7 @@
       "[interpro] S-layer homology domain",
       "[interpro] Carbohydrate-selective porin OprB",
       "[interpro] Iron uptake porin Som-like",
+      "[tcdb_best_hit] Putative outer membrane porin [1.B.23.1.9]",
       "[pfam] OprB: Carbohydrate-selective porin, OprB family",
       "[pfam] SLH: S-layer homology domain"
     ],
@@ -131865,6 +131917,7 @@
       "[ncbi] ABC transporter permease",
       "[eggnog] ABC-type Fe3 transport system permease component",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
+      "[tcdb_best_hit] Ferric iron (Fe3+) porter [3.A.1.10.2] :: [tcdb_substrates] Fe3+",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -136952,6 +137005,7 @@
       "[interpro] Calcium/proton exchanger CAX-like",
       "[interpro] Sodium/calcium exchanger membrane region",
       "[tigr_role_inferred] Transport and binding proteins / Cations and iron carrying compounds",
+      "[tcdb_best_hit] Ca2+:H+ antiporter [2.A.19.2.1] :: [tcdb_substrates] Calcium cation",
       "[pfam] Na_Ca_ex: Sodium/calcium exchanger protein"
     ],
     "bacteria_cog_og": "COG0387",
@@ -139100,6 +139154,7 @@
       "[interpro] Na+/H+ antiporter MnhB subunit-related protein",
       "[interpro] CPA3 Na(+)/H(+) Antiporter Subunit B",
       "[ncbifam] putative monovalent cation/H+ antiporter subunit B",
+      "[tcdb_best_hit] The Na+:H+ antiporter, MrpA-G complex. [2.A.63.2.1] :: [tcdb_substrates] lithium(1+)",
       "[pfam] MnhB: Domain related to MnhB subunit of Na+/H+ antiporter"
     ],
     "alternative_locus_tags": [
@@ -139249,6 +139304,7 @@
       "[eggnog] subunit of the multisubunit Na H antiporter",
       "[interpro] MrpA C-terminal/MbhD",
       "[ncbifam] hypothetical protein",
+      "[tcdb_best_hit] The Na+:H+ antiporter, MrpA-G complex. [2.A.63.2.1] :: [tcdb_substrates] lithium(1+)",
       "[pfam] MbhD: MBH, subunit D"
     ],
     "alternative_locus_tags": [
@@ -139392,6 +139448,7 @@
       "[ncbi] Na+/H+ antiporter subunit E",
       "[eggnog] Multisubunit sodium proton antiporter, MrpE subunit",
       "[interpro] Na+/H+ antiporter subunit E",
+      "[tcdb_best_hit] The Na+:H+ antiporter, MrpA-G complex. [2.A.63.2.1] :: [tcdb_substrates] lithium(1+)",
       "[pfam] MNHE: Na+/H+ ion antiporter subunit"
     ],
     "alternative_locus_tags": [
@@ -139542,6 +139599,7 @@
       "[interpro] NADH:quinone oxidoreductase/Mrp antiporter, transmembrane domain",
       "[interpro] CPA3 Na+/H+ Antiporter Subunit D",
       "[ncbifam] putative monovalent cation/H+ antiporter subunit D",
+      "[tcdb_best_hit] The Na+:H+ antiporter, MrpA-G complex. [2.A.63.2.1] :: [tcdb_substrates] lithium(1+)",
       "[pfam] Proton_antipo_M: NADH:quinone oxidoreductase/Mrp antiporter, TM"
     ],
     "alternative_locus_tags": [
@@ -139693,6 +139751,7 @@
       "[interpro] NADH-ubiquinone oxidoreductase chain 4L/Mnh complex subunit C1-like",
       "[interpro] CPA3 antiporter subunit C",
       "[ncbifam] putative monovalent cation/H+ antiporter subunit C",
+      "[tcdb_best_hit] The Na+:H+ antiporter, MrpA-G complex. [2.A.63.2.1] :: [tcdb_substrates] lithium(1+)",
       "[pfam] Oxidored_q2: NADH-ubiquinone/plastoquinone oxidoreductase chain 4L"
     ],
     "alternative_locus_tags": [
@@ -141693,6 +141752,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter, lipoprotein release, LolD-like",
       "[interpro] MacB-like, ATP-binding domain",
+      "[tcdb_best_hit] ABC3-type exporter with 3 components, the permease of 457 aas with 4 TMSs, an ATPase of 236 aas, and a putative auxiliary protein of 805 aas and 2\u2026 [3.A.1.122.29]",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -142438,6 +142498,7 @@
       "[interpro] SecA, C-terminal helicase domain",
       "[hamap] Protein translocase subunit SecA [secA].",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] Protein translocase with SecY (439 aas and 10 TMSs, P0A4H0), SecE, SecG, SecA (948 aas and 0 TMSs, Q5N2Q7), SecD SecF, YidC. [3.A.5.4.1] :: [tcdb_substrates] Protein",
       "[pfam] SecA_DEAD: SecA DEAD-like domain",
       "[pfam] SecA_PP_bind: SecA preprotein cross-linking domain",
       "[pfam] SecA_SW: SecA Wing and Scaffold domain",
@@ -152372,6 +152433,7 @@
       "[eggnog] ammonium transporteR",
       "[interpro] Ammonium transporter",
       "[interpro] Ammonium transporter AmtB-like domain",
+      "[tcdb_best_hit] High-affinity ammonia/methylammonia transporter, Amt1 [1.A.11.2.3] :: [tcdb_substrates] Ammonia, Methylamine",
       "[pfam] Ammonium_transp: Ammonium Transporter Family"
     ],
     "alternative_locus_tags": [
@@ -153035,6 +153097,7 @@
       "[protein_family] Cytochrome c oxidase subunit 3 family",
       "[interpro] Cytochrome c oxidase subunit III-like",
       "[interpro] Cytochrome c oxidase subunit III",
+      "[tcdb_best_hit] Cytochrome c oxidase, subunits CtaC (337 aas) CtaD (552 aas) and CtaE (201 aas). [3.D.4.4.4]",
       "[pfam] COX3: Cytochrome c oxidase subunit III"
     ],
     "alternative_locus_tags": [
@@ -153239,6 +153302,7 @@
       "[interpro] Cytochrome c oxidase, subunit I bacterial type",
       "[interpro] Cytochrome c oxidase-like, subunit I domain",
       "[tigr_role_inferred] Energy metabolism / Electron transport",
+      "[tcdb_best_hit] Cytochrome c oxidase, subunits CtaC (337 aas) CtaD (552 aas) and CtaE (201 aas). [3.D.4.4.4]",
       "[pfam] COX1: Cytochrome C and Quinol oxidase polypeptide I"
     ],
     "bacteria_cog_og": "COG0843",
@@ -153469,6 +153533,7 @@
       "[interpro] Cytochrome c oxidase subunit II-like C-terminal",
       "[interpro] Cytochrome C oxidase subunit II, transmembrane domain",
       "[interpro] Cytochrome c/quinol oxidase subunit II",
+      "[tcdb_best_hit] Cytochrome c oxidase, subunits CtaC (337 aas) CtaD (552 aas) and CtaE (201 aas). [3.D.4.4.4]",
       "[pfam] COX2: Cytochrome C oxidase subunit II, periplasmic domain",
       "[pfam] COX2_TM: Cytochrome C oxidase subunit II, transmembrane domain"
     ],
@@ -155629,6 +155694,7 @@
       "[interpro] K+ potassium transporter, integral membrane domain",
       "[interpro] K+ potassium transporter, C-terminal domain",
       "[hamap] Low affinity potassium transport system protein Kup [kup].",
+      "[tcdb_best_hit] Low affinity K+ uptake permease, KUP or TrkD. [2.A.72.1.1] :: [tcdb_substrates] Potassium cation",
       "[pfam] K_trans: K+ potassium transporter integral membrane domain",
       "[pfam] K_trans_C: K+ potassium transporter C-terminal domain"
     ],
@@ -161011,6 +161077,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
+      "[tcdb_best_hit] ABC-type uptake porter for pyruvate and monocarboxylate 2-oxo acids. [3.A.1.4.12] :: [tcdb_substrates] 2-Oxobutanoate, 2-Oxopentanoic acid, 3-Methyl-2-oxopentanoate, Pyruvate",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
     ],
@@ -164578,6 +164645,7 @@
       "[ncbi] GtrA family protein",
       "[eggnog] GtrA-like protein",
       "[interpro] GtrA/DPMS, transmembrane domain",
+      "[tcdb_best_hit] GtrA family protein of 137 aas and 4 TMSs [2.A.129.2.3]",
       "[pfam] GtrA_DPMS_TM: GtrA/DPMS, transmembrane domain"
     ],
     "alternative_locus_tags": [
@@ -178855,6 +178923,7 @@
       "[eggnog] ABC-type Mn2 Zn2 transport",
       "[protein_family] ABC-3 integral membrane protein family",
       "[interpro] ABC transporter, TroCD-like",
+      "[tcdb_best_hit] Manganese (Mn2+) porter [3.A.1.15.1] :: [tcdb_substrates] Manganese(2+)",
       "[pfam] ABC-3: ABC 3 transport family"
     ],
     "alternative_locus_tags": [
@@ -180044,6 +180113,7 @@
       "[eggnog] PFAM Binding-protein-dependent transport system inner membrane component",
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
+      "[tcdb_best_hit] Uncharacterized membrane protein of 733 aas and 12 TMSs. [3.A.1.17.9]",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "alternative_locus_tags": [
@@ -183515,6 +183585,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter, CbiO/EcfA subunit",
       "[interpro] Energy-coupling factor transporter ATP-binding",
+      "[tcdb_best_hit] Ni2+/Co2+ uptake porter, CbiMNOQ (CbiM, 222 aas, 5 TMSs; CbiN, 103 aas, 2 TMSs; CbiO, 280 aas, 0 TMSs; CbiQ, 244 aas, 5 TMSs). [3.A.1.23.8] :: [tcdb_substrates] Cobalt ion, Nickel(2+)",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -184043,6 +184114,7 @@
       "[hamap] Cobalt transport protein CbiM [cbiM].",
       "[ncbifam] cobalt ECF transporter S component CbiM",
       "[tigr_role_inferred] Biosynthesis of cofactors, prosthetic groups, and carriers / Heme, porphyrin, and cobalamin",
+      "[tcdb_best_hit] Ni2+/Co2+ uptake porter, CbiMNOQ (CbiM, 222 aas, 5 TMSs; CbiN, 103 aas, 2 TMSs; CbiO, 280 aas, 0 TMSs; CbiQ, 244 aas, 5 TMSs). [3.A.1.23.8] :: [tcdb_substrates] Cobalt ion, Nickel(2+)",
       "[pfam] CbiM: Cobalt uptake substrate-specific transmembrane region"
     ],
     "alternative_locus_tags": [
@@ -191089,6 +191161,7 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] Branched-Chain Amino Acid Transport ATP-binding Protein LivF",
+      "[tcdb_best_hit] The neutral amino acid permease, N-1 (transports pro, phe, leu, gly, ala, ser, gln and his, but gln and his are not transported via NatB) [3.A.1.4.6] :: [tcdb_substrates] Amino acid",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -197170,6 +197243,7 @@
       "[interpro] Protein translocase subunit SecY",
       "[hamap] Protein translocase subunit SecY [secY].",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] Protein translocase with SecY (439 aas and 10 TMSs, P0A4H0), SecE, SecG, SecA (948 aas and 0 TMSs, Q5N2Q7), SecD SecF, YidC. [3.A.5.4.1] :: [tcdb_substrates] Protein",
       "[pfam] SecY: SecY"
     ],
     "bacteria_cog_og": "COG0201",
@@ -210604,6 +210678,7 @@
       "[eggnog] TIGRFAM sulfate thiosulfate-binding protein",
       "[protein_family] Prokaryotic sulfate-binding protein family",
       "[interpro] Thiosulphate/Sulfate-binding protein",
+      "[tcdb_best_hit] Sulfate/thiosulfate porter [3.A.1.6.1] :: [tcdb_substrates] Sulfate, Thiosulfate",
       "[pfam] SBP_bac_11: Bacterial extracellular solute-binding protein"
     ],
     "alternative_locus_tags": [
@@ -210784,6 +210859,7 @@
       "[interpro] Sulphate ABC transporter, permease protein CysT",
       "[ncbifam] sulfate ABC transporter permease subunit",
       "[tigr_role_inferred] Transport and binding proteins / Anions",
+      "[tcdb_best_hit] Putative (partial) sulfate/thiosulfate uptake porter. [3.A.1.6.12] :: [tcdb_substrates] Sulfate, Thiosulfate",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "bacteria_cog_og": "COG0555",
@@ -210997,6 +211073,7 @@
       "[interpro] Sulphate ABC transporter, permease protein CysW",
       "[ncbifam] sulfate ABC transporter permease subunit",
       "[tigr_role_inferred] Transport and binding proteins / Anions",
+      "[tcdb_best_hit] Sulfate/thiosulfate porter [3.A.1.6.1] :: [tcdb_substrates] Sulfate, Thiosulfate",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "bacteria_cog_og": "COG4208",
@@ -213130,6 +213207,7 @@
       "[interpro] Ribosomal protein uL1/ribosomal biogenesis protein",
       "[hamap] Large ribosomal subunit protein uL1 [rplA].",
       "[tigr_role_inferred] Protein synthesis / Ribosomal proteins: synthesis and modification",
+      "[tcdb_best_hit] Pore-forming peptide HP(2-20). (derived from the ribosomal protein L1 N-terminus). [1.C.82.1.1]",
       "[pfam] Ribosomal_L1: Ribosomal protein L1p/L10e family"
     ],
     "bacteria_cog_og": "COG0081",
@@ -215048,6 +215126,7 @@
       "[interpro] Bacterial microcompartment domain",
       "[interpro] Bacterial microcompartment (BMC) circularly permuted domain",
       "[interpro] CsoS1D-like, N-terminal domain",
+      "[tcdb_best_hit] Carboxysome shell protein CcmP; of 213 aas and as many as 4 peaks of moderate hydrophobicity, in a 2 + 2 TMS arrangement, that could be TMSs. [1.S.3.1.1] :: [tcdb_substrates] CO2",
       "[pfam] BMC: BMC domain",
       "[pfam] CsoS1D_N: CsoS1D N-terminal domain"
     ],
@@ -216654,6 +216733,7 @@
       "[ncbi] inorganic phosphate transporter",
       "[eggnog] PFAM phosphate transporter",
       "[interpro] Phosphate transporter",
+      "[tcdb_best_hit] Putative low affinity Pi transporter PitH1, Sco4138. [2.A.20.1.5] :: [tcdb_substrates] Orthophosphate",
       "[pfam] PHO4: Phosphate transporter family"
     ],
     "alternative_locus_tags": [
@@ -220603,6 +220683,7 @@
       "[eggnog] membrane",
       "[protein_family] GDT1 family",
       "[interpro] GDT1-like",
+      "[tcdb_best_hit] The Y615 protein [2.A.106.1.1]",
       "[pfam] GDT1: Divalent cation/proton antiporter GDT1"
     ],
     "alternative_locus_tags": [
@@ -222275,6 +222356,7 @@
       "[interpro] Regulator of K+ conductance, N-terminal lobe",
       "[interpro] Regulator of K+ conductance, C-terminal",
       "[interpro] Trk/Ktr/HKT Potassium Transport",
+      "[tcdb_best_hit] The Na+-dependent K+ uptake transporter, KtrABE, required for adaption to salinity stress and high osmolarity. [2.A.38.4.5] :: [tcdb_substrates] Potassium cation",
       "[pfam] TrkA_C: TrkA-C domain",
       "[pfam] TrkA_N: TrkA-N domain"
     ],
@@ -223547,6 +223629,7 @@
       "[ncbi] ATP synthase subunit I",
       "[eggnog] atp synthase",
       "[interpro] CGL160/ATPI domain",
+      "[tcdb_best_hit] AtpI of Synechococcus sp. [1.A.77.3.21]",
       "[pfam] ATP-synt_I: ATP synthase I chain",
       "[pfam] AtpR: N-ATPase, AtpR subunit",
       "[pfam] CGL160_C: CGL160, C-terminal"
@@ -223672,6 +223755,7 @@
       "[interpro] ATP synthase, F0 complex, subunit A, bacterial/chloroplast",
       "[hamap] ATP synthase subunit a [atpB].",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] H+-transporting F-type ATPase. [3.A.2.1.10]",
       "[pfam] ATP-synt_A: ATP synthase A chain"
     ],
     "bacteria_cog_og": "COG0356",
@@ -224348,6 +224432,7 @@
       "[hamap] ATP synthase subunit c [atpH].",
       "[ncbifam] F0F1 ATP synthase subunit C",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] H+-transporting F-type ATPase. [3.A.2.1.10]",
       "[pfam] ATP-synt_C: ATP synthase subunit C"
     ],
     "bacteria_cog_og": "COG0636",
@@ -225450,6 +225535,7 @@
       "[interpro] ATPase, OSCP/delta subunit",
       "[hamap] ATP synthase subunit delta [atpD].",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] H+-transporting F-type ATPase. [3.A.2.1.10]",
       "[pfam] OSCP: ATP synthase delta (OSCP) subunit"
     ],
     "bacteria_cog_og": "COG0712",
@@ -225619,6 +225705,7 @@
       "[interpro] ATP synthase, F1 complex, alpha subunit nucleotide-binding domain",
       "[hamap] ATP synthase subunit alpha [atpA].",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] H+-transporting F-type ATPase. [3.A.2.1.10]",
       "[pfam] ATP-synt_ab: ATP synthase alpha/beta family, nucleotide-binding domain",
       "[pfam] ATP-synt_ab_C: ATP synthase alpha/beta chain, C terminal domain",
       "[pfam] ATP-synt_ab_N: ATP synthase alpha/beta family, beta-barrel domain"
@@ -226865,6 +226952,7 @@
       "[ncbi] cation:proton antiporter",
       "[eggnog] PFAM Sodium hydrogen exchanger family",
       "[interpro] Cation/H+ exchanger, transmembrane domain",
+      "[tcdb_best_hit] The high-affinity Na+:H+ thylakoid membrane antiporter, NhaS3 essential for growth; promotes Na+ resistance; expressed in the presence of high CO2\u2026 [2.A.37.2.4] :: [tcdb_substrates] lithium(1+)",
       "[pfam] Na_H_Exchanger: Sodium/hydrogen exchanger, transmembrane"
     ],
     "alternative_locus_tags": [
@@ -227369,6 +227457,7 @@
       "[hamap] Photosystem II D2 protein [psbD].",
       "[tigr_role_inferred] Energy metabolism / Electron transport",
       "[tigr_role_inferred] Energy metabolism / Photosynthesis",
+      "[tcdb_best_hit] Cyanobacterial photosystem II in thylakoid membranes. [3.E.2.2.1]",
       "[pfam] Photo_RC: Photosynthetic reaction centre protein"
     ],
     "cog_category": [
@@ -228122,6 +228211,7 @@
       "[ncbi] Bax inhibitor-1/YccA family protein",
       "[eggnog] Belongs to the BI1 family",
       "[interpro] Bax inhibitor 1-related",
+      "[tcdb_best_hit] Uncharacterized protein of 242 aas and 7 TMSs. [1.A.14.3.8]",
       "[pfam] Bax1-I: Inhibitor of apoptosis-promoting Bax1"
     ],
     "alternative_locus_tags": [
@@ -231041,6 +231131,7 @@
       "[uniprot] Involved in the high-affinity zinc uptake transport system",
       "[protein_family] ABC-3 integral membrane protein family",
       "[interpro] ABC transporter, TroCD-like",
+      "[tcdb_best_hit] The ZnuA18/ZnuA08/ZnuB/ZnuC zinc (Zn2+) uptake system. [3.A.1.15.13] :: [tcdb_substrates] Zinc cation",
       "[pfam] ABC-3: ABC 3 transport family"
     ],
     "alternative_locus_tags": [
@@ -232802,6 +232893,7 @@
       "[interpro] ATP synthase A/B type, C-terminal domain",
       "[hamap] ATP synthase subunit beta [atpB].",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] H+-transporting F-type ATPase. [3.A.2.1.10]",
       "[pfam] ATP-synt_ab: ATP synthase alpha/beta family, nucleotide-binding domain",
       "[pfam] ATP-synt_ab_N: ATP synthase alpha/beta family, beta-barrel domain",
       "[pfam] ATP-synt_VA_C: C-terminal domain of V and A type ATP synthase"
@@ -233074,6 +233166,7 @@
       "[hamap] ATP synthase epsilon chain [atpC].",
       "[ncbifam] F0F1 ATP synthase subunit epsilon",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
+      "[tcdb_best_hit] H+-transporting F-type ATPase. [3.A.2.1.10]",
       "[pfam] ATP-synt_DE: ATP synthase, Delta/Epsilon chain, long alpha-helix domain",
       "[pfam] ATP-synt_DE_N: ATP synthase, Delta/Epsilon chain, beta-sandwich domain"
     ],
@@ -235017,6 +235110,7 @@
       "[eggnog] Belongs to the binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter, permease",
       "[interpro] High-affinity branched-chain amino acid transport system permease protein LivM-like",
+      "[tcdb_best_hit] ABC-type uptake porter for pyruvate and monocarboxylate 2-oxo acids. [3.A.1.4.12] :: [tcdb_substrates] 2-Oxobutanoate, 2-Oxopentanoic acid, 3-Methyl-2-oxopentanoate, Pyruvate",
       "[pfam] BPD_transp_2: Branched-chain amino acid transport system / permease component"
     ],
     "alternative_locus_tags": [
@@ -235974,6 +236068,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter type 1, transmembrane domain",
       "[interpro] Type 1 protein exporter",
+      "[tcdb_best_hit] Lipid A exporter homologue of 593 aas and 6 TMSs N-terminal with a C-terminal ATPase domain. [3.A.1.106.14] :: [tcdb_substrates] lipid As",
       "[pfam] ABC_membrane: ABC transporter transmembrane region",
       "[pfam] ABC_tran: ABC transporter"
     ],
@@ -243112,6 +243207,7 @@
       "[eggnog] electron donor, via FMN and iron-sulfur (Fe-S) centers, to quinones in the respiratory and or the photosynthetic chain. The immediate electron acceptor for the enzyme in this species is believed to be plastoquinone. Couples the redox reaction to proton translocation, and thus conserves the redox energy in a proton gradient",
       "[interpro] NADH:ubiquinone oxidoreductase, subunit 1/F420H2 oxidoreductase subunit H",
       "[hamap] NAD(P)H-quinone oxidoreductase subunit 1, chloroplastic [ndhA].",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] NADHdh: NADH dehydrogenase"
     ],
     "bacteria_cog_og": "COG1005",
@@ -243284,6 +243380,7 @@
       "[ncbifam] NADH-quinone oxidoreductase subunit NuoI",
       "[ncbifam] NADH-quinone oxidoreductase, chain I",
       "[tigr_role_inferred] Energy metabolism / Electron transport",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] Fer4: 4Fe-4S binding domain",
       "[pfam] Fer4_7: 4Fe-4S dicluster domain"
     ],
@@ -243471,6 +243568,7 @@
       "[uniprot] NDH-1 shuttles electrons from NADH, via FMN and iron-sulfur (Fe-S) centers, to quinones in the respiratory chain. Couples the redox reaction to proton translocation (for every two electrons transferred, four hydrogen ions are translocated across the cytoplasmic membrane), and thus conserves the redox energy in a proton gradient",
       "[protein_family] Complex I subunit 6 family",
       "[interpro] NADH:ubiquinone/plastoquinone oxidoreductase, chain 6",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] Oxidored_q3: NADH-ubiquinone/plastoquinone oxidoreductase chain 6"
     ],
     "alternative_locus_tags": [
@@ -243669,6 +243767,7 @@
       "[interpro] NADH-ubiquinone oxidoreductase chain 4L/K",
       "[interpro] NADH-ubiquinone oxidoreductase chain 4L/Mnh complex subunit C1-like",
       "[hamap] NAD(P)H-quinone oxidoreductase subunit 4L, chloroplastic [ndhE].",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] Oxidored_q2: NADH-ubiquinone/plastoquinone oxidoreductase chain 4L"
     ],
     "bacteria_cog_og": "COG0713",
@@ -246519,6 +246618,7 @@
       "[protein_family] AlaDH/PNT family",
       "[interpro] Alanine dehydrogenase/pyridine nucleotide transhydrogenase, NAD(H)-binding domain",
       "[interpro] Alanine dehydrogenase/pyridine nucleotide transhydrogenase, N-terminal",
+      "[tcdb_best_hit] H+-transporting NADH/NADP Transhydrogenase, PntA1 (\u03b11)/PntA2 (\u03b12)/PntB (\u03b2). [3.D.2.2.2]",
       "[pfam] AlaDh_PNT_C: Alanine dehydrogenase/PNT, C-terminal domain",
       "[pfam] AlaDh_PNT_N: Alanine dehydrogenase/PNT, N-terminal domain"
     ],
@@ -246705,6 +246805,7 @@
       "[protein_family] PNT beta subunit family",
       "[interpro] NADP transhydrogenase, beta subunit",
       "[interpro] NADP transhydrogenase beta-like domain",
+      "[tcdb_best_hit] H+-translocating transhydrogenase [3.D.2.2.1]",
       "[pfam] PNTB: NAD(P) transhydrogenase beta subunit"
     ],
     "alternative_locus_tags": [
@@ -247266,6 +247367,7 @@
       "[hamap] NAD(P)H-quinone oxidoreductase subunit K, chloroplastic [ndhK].",
       "[ncbifam] NADH-quinone oxidoreductase subunit NuoB",
       "[ncbifam] NADH-quinone oxidoreductase subunit B",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] Oxidored_q6: NADH ubiquinone oxidoreductase, 20 Kd subunit"
     ],
     "bacteria_cog_og": "COG0377",
@@ -254017,6 +254119,7 @@
       "[eggnog] PFAM Major Facilitator Superfamily",
       "[interpro] AmpG-like permease/Acetyl-coenzyme A transporter 1",
       "[interpro] Major facilitator superfamily",
+      "[tcdb_best_hit] Cell wall degradation product as well as penicillin derivative uptake porter, AmpG. [2.A.1.25.2] :: [tcdb_substrates] glycopeptide, Peptide",
       "[pfam] Acatn: Acetyl-coenzyme A transporter 1",
       "[pfam] MFS_1: Major Facilitator Superfamily"
     ],
@@ -254441,6 +254544,7 @@
       "[interpro] Cytochrome b6, PetB",
       "[interpro] Cytochrome b/b6, N-terminal domain, eukaryotic/bacterial",
       "[hamap] Cytochrome b6 [petB].",
+      "[tcdb_best_hit] Cytochrome b6/f complex, PetABCD of cyt f; cyt b6, iron sulfur protein, and subunit 4, respectively, of 324, 215, 179, and 160 aas, respectively. [3.D.3.5.3]",
       "[pfam] Cytochrome_B: Cytochrome b/b6/petB"
     ],
     "bacteria_cog_og": "COG1290",
@@ -254649,6 +254753,7 @@
       "[hamap] Cytochrome b6-f complex subunit 4 [petD].",
       "[tigr_role_inferred] Energy metabolism / Electron transport",
       "[tigr_role_inferred] Energy metabolism / Photosynthesis",
+      "[tcdb_best_hit] Cytochrome b6f complex of 10 subunits, PetA, B, C1-3, D, E, G, J, L, M and N. It transports H+ and electrons across the membrane. [3.D.3.5.6] :: [tcdb_substrates] e-",
       "[pfam] Cytochrom_B_C: Cytochrome b(C-terminal)/b6/petD"
     ],
     "bacteria_cog_og": "COG1290",
@@ -263523,6 +263628,7 @@
       "[interpro] ABC Transporter ATP-Binding",
       "[ncbifam] nickel ABC transporter ATP-binding protein NikE",
       "[ncbifam] dipeptide ABC transporter ATP-binding protein",
+      "[tcdb_best_hit] Glutathione porter, YliABCD or GsiABCD. [3.A.1.5.11] :: [tcdb_substrates] Glutathione",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] oligo_HPY: Oligopeptide/dipeptide transporter, C-terminal region"
     ],
@@ -265595,6 +265701,7 @@
       "[interpro] Cytochrome b6-f complex iron-sulfur subunit",
       "[interpro] Cytochrome b6-f complex iron-sulfur subunit-like, transmembrane anchor",
       "[hamap] Cytochrome b6-f complex iron-sulfur subunit [petC].",
+      "[tcdb_best_hit] Plastoquinol:plastocyanine reductase [3.D.3.5.1]",
       "[pfam] Rieske: Rieske [2Fe-2S] domain",
       "[pfam] TM_PetC: Iron-sulfur subunit PetC transmembrane anchor"
     ],
@@ -265791,6 +265898,7 @@
       "[interpro] Cytochrome f",
       "[interpro] Cytochrome f large domain",
       "[hamap] Cytochrome f [petA].",
+      "[tcdb_best_hit] Cytochrome b6f complex of 10 subunits, PetA, B, C1-3, D, E, G, J, L, M and N. It transports H+ and electrons across the membrane. [3.D.3.5.6] :: [tcdb_substrates] e-",
       "[pfam] Apocytochr_F_C: Apocytochrome F, C-terminal",
       "[pfam] Apocytochr_F_N: Apocytochrome F, N-terminal"
     ],
@@ -270990,6 +271098,7 @@
       "[ncbi] sodium/glutamate symporter",
       "[eggnog] sodium solute symporter",
       "[interpro] Sodium/glutamate symport carrier protein GltS",
+      "[tcdb_best_hit] Glutamate:sodium symporter, GltS. [2.A.27.2.1] :: [tcdb_substrates] Glutamate",
       "[pfam] Glt_symporter: Sodium/glutamate symporter"
     ],
     "alternative_locus_tags": [
@@ -275868,6 +275977,7 @@
       "[eggnog] Urea ABC transporter, urea binding protein",
       "[interpro] Leu/Ile/Val-binding protein",
       "[interpro] Urea ABC transporter, substrate-binding protein UrtA-like",
+      "[tcdb_best_hit] The high-affinity (<1 \u03bcM) urea porter [3.A.1.4.4] :: [tcdb_substrates] Urea",
       "[pfam] Peripla_BP_5: Periplasmic binding protein domain"
     ],
     "bacteria_cog_og": "COG0683",
@@ -276044,6 +276154,7 @@
       "[protein_family] Binding-protein-dependent transport system permease family, LivHM subfamily",
       "[interpro] ABC transporter, permease",
       "[interpro] Branched-chain amino acid transport system permease",
+      "[tcdb_best_hit] The high-affinity (<1 \u03bcM) urea porter [3.A.1.4.4] :: [tcdb_substrates] Urea",
       "[pfam] BPD_transp_2: Branched-chain amino acid transport system / permease component"
     ],
     "alternative_locus_tags": [
@@ -276224,6 +276335,7 @@
       "[interpro] ABC transporter, urea, permease protein, UrtC",
       "[interpro] High-affinity branched-chain amino acid transport system permease protein LivM-like",
       "[tigr_role_inferred] Transport and binding proteins / Amino acids, peptides and amines",
+      "[tcdb_best_hit] The high-affinity (<1 \u03bcM) urea porter [3.A.1.4.4] :: [tcdb_substrates] Urea",
       "[pfam] BPD_transp_2: Branched-chain amino acid transport system / permease component"
     ],
     "bacteria_cog_og": "COG4177",
@@ -276419,6 +276531,7 @@
       "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tigr_role_inferred] Transport and binding proteins / Amino acids, peptides and amines",
+      "[tcdb_best_hit] The high-affinity (<1 \u03bcM) urea porter [3.A.1.4.4] :: [tcdb_substrates] Urea",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
     ],
@@ -276608,6 +276721,7 @@
       "[interpro] ABC transporter, urea, ATP-binding protein, UrtE",
       "[interpro] Branched-Chain Amino Acid Transport ATP-binding Protein LivF",
       "[tigr_role_inferred] Transport and binding proteins / Amino acids, peptides and amines",
+      "[tcdb_best_hit] The high-affinity (<1 \u03bcM) urea porter [3.A.1.4.4] :: [tcdb_substrates] Urea",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "bacteria_cog_og": "COG0410",
@@ -277241,6 +277355,7 @@
       "[eggnog] electron donor, via FMN and iron-sulfur (Fe-S) centers, to quinones in the respiratory and or the photosynthetic chain. The immediate electron acceptor for the enzyme in this species is believed to be plastoquinone. Couples the redox reaction to proton translocation, and thus conserves the redox energy in a proton gradient. Cyanobacterial NDH-1 also plays a role in inorganic carbon- concentration",
       "[interpro] NAD(P)H-quinone oxidoreductase, subunit N",
       "[hamap] NAD(P)H-quinone oxidoreductase subunit N [ndhN].",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] NdhN: NADH-quinone oxidoreductase cyanobacterial subunit N"
     ],
     "cog_category": [
@@ -279330,6 +279445,7 @@
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[tcdb_best_hit] Probable rhamnose oligosaccharide porter. [3.A.1.5.12] :: [tcdb_substrates] rhamnose",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
     ],
@@ -283379,6 +283495,7 @@
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter type 1, GsiC-like, N-terminal domain",
+      "[tcdb_best_hit] Di- and tri-peptide transporter, DppBCDF with periplasmic substrate binding receptors, A1, A3, A5, A7 and A9, each with differing specificities for\u2026 [3.A.1.5.39] :: [tcdb_substrates] Dipeptide, tripeptide",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
     ],
@@ -285807,6 +285924,7 @@
       "[interpro] Cation transport ATPase (P-type)",
       "[interpro] P-type ATPase, A domain",
       "[ncbifam] HAD-IC family P-type ATPase",
+      "[tcdb_best_hit] Putative Ca2+ ATPase, Pmo1 [3.A.3.2.21] :: [tcdb_substrates] Calcium cation",
       "[pfam] Cation_ATPase: P-type ATPase, cytoplasmic domain N",
       "[pfam] Cation_ATPase_C: Cation transporting ATPase, C-terminus",
       "[pfam] Cation_ATPase_N: Cation transporter/ATPase, N-terminus",
@@ -290820,6 +290938,7 @@
       "[hamap] NAD(P)H-quinone oxidoreductase subunit H, chloroplastic [ndhH].",
       "[ncbifam] NADH-quinone oxidoreductase subunit D",
       "[ncbifam] NADH dehydrogenase (quinone) subunit D",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] Complex1_49kDa: Respiratory-chain NADH dehydrogenase, 49 Kd subunit"
     ],
     "alternative_locus_tags": [
@@ -292431,6 +292550,7 @@
       "[ncbi] phage holin family protein",
       "[eggnog] PFAM Membrane protein of",
       "[interpro] Mycobacterial 4 TMS phage holin, superfamily IV",
+      "[tcdb_best_hit] Putative holin of 121 aas and 4 TMSs. [1.E.40.2.2]",
       "[pfam] Phage_holin_4_2: Mycobacterial 4 TMS phage holin, superfamily IV"
     ],
     "alternative_locus_tags": [
@@ -295204,6 +295324,7 @@
       "[eggnog] COG0715 ABC-type nitrate sulfonate bicarbonate transport systems periplasmic components",
       "[protein_family] CmpA/NrtA family",
       "[interpro] Nitrate/bicarbonate ABC transporter substrate-binding domain",
+      "[tcdb_best_hit] Nitrate uptake system, NrtABCD. [3.A.1.16.4]",
       "[pfam] NMT1_2: NMT1-like family"
     ],
     "alternative_locus_tags": [
@@ -297100,6 +297221,7 @@
       "[interpro] Fumarate reductase/succinate dehydrogenase flavoprotein-like, C-terminal",
       "[interpro] FAD-dependent oxidoreductase SdhA/FrdA/AprA",
       "[ncbifam] succinate dehydrogenase or fumarate reductase, flavoprotein subunit",
+      "[tcdb_best_hit] Succinate dehydrogenase with 5 subunits, Sdh2, SdhABCDF. [3.D.10.1.9]",
       "[pfam] FAD_binding_2: FAD binding domain",
       "[pfam] Succ_DH_flav_C: Fumarate reductase flavoprotein C-term"
     ],
@@ -299512,6 +299634,7 @@
       "[interpro] NADH:ubiquinone/plastoquinone oxidoreductase, chain 3",
       "[interpro] NAD(P)H-quinone oxidoreductase subunit 3, bacterial/plastid",
       "[hamap] NAD(P)H-quinone oxidoreductase subunit 3, chloroplastic [ndhC].",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] Oxidored_q4: NADH-ubiquinone/plastoquinone oxidoreductase, chain 3"
     ],
     "bacteria_cog_og": "COG0838",
@@ -299736,6 +299859,7 @@
       "[interpro] NADH dehydrogenase, subunit C",
       "[hamap] NAD(P)H-quinone oxidoreductase subunit J, chloroplastic [ndhJ].",
       "[ncbifam] NADH (or F420H2) dehydrogenase, subunit C",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] Complex1_30kDa: Respiratory-chain NADH dehydrogenase, 30 Kd subunit"
     ],
     "alternative_locus_tags": [
@@ -299972,6 +300096,7 @@
       "[interpro] DprA, winged helix domain",
       "[interpro] Smf/DprA, SLOG domain",
       "[tigr_role_inferred] Cellular processes / DNA transformation",
+      "[tcdb_best_hit] The multicomponent DNA uptake competence transporter involving both competence and pilus biogenesis proteins. [3.A.11.1.3] :: [tcdb_substrates] single-stranded DNA polynucleotide",
       "[pfam] DNA_processg_A: DNA recombination-mediator protein A",
       "[pfam] HHH_5: Helix-hairpin-helix domain",
       "[pfam] WHD_DprA: DprA winged helix domain"
@@ -303266,6 +303391,7 @@
       "[hamap] Photosystem II protein D1 [psbA].",
       "[tigr_role_inferred] Energy metabolism / Electron transport",
       "[tigr_role_inferred] Energy metabolism / Photosynthesis",
+      "[tcdb_best_hit] Cyanobacterial photosystem II in thylakoid membranes. [3.E.2.2.1]",
       "[pfam] Photo_RC: Photosynthetic reaction centre protein"
     ],
     "cog_category": [
@@ -307441,6 +307567,7 @@
       "[interpro] Photosystem II CP47 reaction centre protein",
       "[hamap] Photosystem II CP47 reaction center protein [psbB].",
       "[tigr_role_inferred] Energy metabolism / Photosynthesis",
+      "[tcdb_best_hit] Multicomponent Photosystem II of A. thaliana. [3.E.2.2.3] :: [tcdb_substrates] Oxygen, Plastoquinone",
       "[pfam] PSII: Photosystem II protein"
     ],
     "cog_category": [
@@ -311130,6 +311257,7 @@
       "[protein_family] Binding-protein-dependent transport system permease family, LivHM subfamily",
       "[interpro] ABC transporter, permease",
       "[interpro] Branched-chain amino acid transport system permease",
+      "[tcdb_best_hit] The neutral amino acid permease, N-1 (transports pro, phe, leu, gly, ala, ser, gln and his, but gln and his are not transported via NatB) [3.A.1.4.6] :: [tcdb_substrates] Amino acid",
       "[pfam] BPD_transp_2: Branched-chain amino acid transport system / permease component"
     ],
     "alternative_locus_tags": [
@@ -312435,6 +312563,7 @@
       "[interpro] Outer membrane efflux protein",
       "[interpro] Cyclolysin transport protein CyaE",
       "[interpro] Outer membrane protein TolC-like",
+      "[tcdb_best_hit] Putative ABC-type glycolipid export outer membrane factor, HgdD, of 483 aas. [1.B.17.2.10] :: [tcdb_substrates] Glycolipid",
       "[pfam] OEP: Outer membrane efflux protein"
     ],
     "alternative_locus_tags": [
@@ -315369,6 +315498,7 @@
       "[hamap] Photosystem II D2 protein [psbD].",
       "[tigr_role_inferred] Energy metabolism / Electron transport",
       "[tigr_role_inferred] Energy metabolism / Photosynthesis",
+      "[tcdb_best_hit] Cyanobacterial photosystem II in thylakoid membranes. [3.E.2.2.1]",
       "[pfam] Photo_RC: Photosynthetic reaction centre protein"
     ],
     "cog_category": [
@@ -315658,6 +315788,7 @@
       "[ncbifam] chlorophyll a/b binding light-harvesting protein",
       "[tigr_role_inferred] Energy metabolism / Electron transport",
       "[tigr_role_inferred] Energy metabolism / Photosynthesis",
+      "[tcdb_best_hit] Cyanobacterial photosystem II in thylakoid membranes. [3.E.2.2.1]",
       "[pfam] PSII: Photosystem II protein"
     ],
     "cog_category": [
@@ -318895,6 +319026,7 @@
       "[protein_family] Binding-protein-dependent transport system permease family, LivHM subfamily",
       "[interpro] ABC transporter, permease",
       "[interpro] Branched-chain amino acid transport system permease",
+      "[tcdb_best_hit] ABC-type uptake porter for pyruvate and monocarboxylate 2-oxo acids. [3.A.1.4.12] :: [tcdb_substrates] 2-Oxobutanoate, 2-Oxopentanoic acid, 3-Methyl-2-oxopentanoate, Pyruvate",
       "[pfam] BPD_transp_2: Branched-chain amino acid transport system / permease component"
     ],
     "alternative_locus_tags": [
@@ -320047,6 +320179,7 @@
       "[interpro] Sulphate transport system permease protein 1",
       "[interpro] ABC Transporter, Small Molecule Importer",
       "[ncbifam] sulfate ABC transporter ATP-binding protein",
+      "[tcdb_best_hit] Sulfate porter [3.A.1.6.3] :: [tcdb_substrates] Sulfate",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] TOBE: TOBE domain",
       "[pfam] TOBE_2: TOBE domain",
@@ -321823,6 +321956,7 @@
       "[hamap] Chaperone protein DnaK [dnaK].",
       "[ncbifam] Fe-S protein assembly chaperone HscA",
       "[tigr_role_inferred] Protein fate / Protein folding and stabilization",
+      "[tcdb_best_hit] Chloroplast envelope protein translocase (CEPT); outer membrane complex. [3.A.9.1.1] :: [tcdb_substrates] Protein",
       "[pfam] HSP70: Hsp70 protein"
     ],
     "bacteria_cog_og": "COG0443",
@@ -322631,6 +322765,7 @@
       "[interpro] Ferritin/DPS domain",
       "[interpro] Ferritin-like diiron domain",
       "[interpro] Ferritin, prokaryotic-type",
+      "[tcdb_best_hit] Ferritin, FlnA or RsgA, of 165 aas. [1.A.155.1.3] :: [tcdb_substrates] Iron",
       "[pfam] Ferritin: Ferritin-like domain"
     ],
     "bacteria_cog_og": "COG1528",
@@ -327907,6 +328042,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter, lipoprotein release, LolD-like",
       "[interpro] MacB-like, ATP-binding domain",
+      "[tcdb_best_hit] The SpdC antimicrobial peptide resistance efflux pump, YknXYZ. [3.A.1.122.2]",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -336160,6 +336296,7 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC Transporter Superfamily, Various Functions",
+      "[tcdb_best_hit] ABC exporter necessary for social motility, pilus assembly and pilus subunit (PilA) export, PilGHI. [3.A.1.132.12]",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -339455,6 +339592,7 @@
       "[interpro] Phycobilisome, alpha/beta subunit",
       "[ncbifam] C-phycocyanin subunit alpha",
       "[tigr_role_inferred] Energy metabolism / Photosynthesis",
+      "[tcdb_best_hit] High affinity (Km 16 m\u03bcM) pyruvate:H+ symporter, BtsT, also called YjiY of 716 aas and 16 - 18 TMSs. [2.A.114.1.9]",
       "[pfam] Phycobilisome: Phycobilisome protein"
     ],
     "cog_category": [
@@ -340571,6 +340709,7 @@
       "[interpro] Signal recognition particle, SRP54 subunit",
       "[hamap] Signal recognition particle 54 kDa protein [srp54].",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] SRP52/SRP43/FtsY of chloroplasts SRP43 provides specificity to SRP52; crystal structures are known. [3.A.5.1.2] :: [tcdb_substrates] Protein",
       "[pfam] SRP54: SRP54-type protein, GTPase domain",
       "[pfam] SRP54_N: SRP54-type protein, helical bundle domain",
       "[pfam] SRP_SPB: Signal peptide binding domain"
@@ -343000,6 +343139,7 @@
       "[eggnog] 'ABC-type nitrate sulfonate bicarbonate transport",
       "[protein_family] CmpA/NrtA family",
       "[interpro] Nitrate/bicarbonate ABC transporter substrate-binding domain",
+      "[tcdb_best_hit] Bicarbonate porter (activated by low [CO2] mediated by CmpR;) [3.A.1.16.3] :: [tcdb_substrates] HCO3-",
       "[pfam] NMT1_2: NMT1-like family"
     ],
     "alternative_locus_tags": [
@@ -343232,6 +343372,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] Nitrate transport permease",
       "[tigr_role_inferred] Transport and binding proteins / Anions",
+      "[tcdb_best_hit] Bicarbonate porter (activated by low [CO2] mediated by CmpR;) [3.A.1.16.3] :: [tcdb_substrates] HCO3-",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
     ],
     "bacteria_cog_og": "COG0600",
@@ -343428,6 +343569,7 @@
       "[interpro] Nitrate transport ATP-binding subunit C/D-like",
       "[interpro] Nitrate/bicarbonate ABC transporter substrate-binding domain",
       "[interpro] ABC Transporter, Small Molecule Importer",
+      "[tcdb_best_hit] Bicarbonate porter (activated by low [CO2] mediated by CmpR;) [3.A.1.16.3] :: [tcdb_substrates] HCO3-",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] NMT1_2: NMT1-like family"
     ],
@@ -343643,6 +343785,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] Nitrate transport ATP-binding subunit C/D-like",
       "[interpro] ABC transporter ATP-binding protein",
+      "[tcdb_best_hit] Bicarbonate porter (activated by low [CO2] mediated by CmpR;) [3.A.1.16.3] :: [tcdb_substrates] HCO3-",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -343842,6 +343985,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] High-affinity branched-chain amino acid transport ATP-binding protein",
       "[interpro] Branched-Chain Amino Acid Transport ATP-binding Protein LivF",
+      "[tcdb_best_hit] ABC-type uptake porter for pyruvate and monocarboxylate 2-oxo acids. [3.A.1.4.12] :: [tcdb_substrates] 2-Oxobutanoate, 2-Oxopentanoic acid, 3-Methyl-2-oxopentanoate, Pyruvate",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -345412,6 +345556,7 @@
       "[ncbi] type IV pilus biogenesis protein EbsA",
       "[eggnog] -",
       "[interpro] Type IV pilus, essential for biofilm suppression A-like",
+      "[tcdb_best_hit] The tri-component complex including EbsA of 125 aas, homologs of which are highly conserved and widespread in diverse cyanobacteria but are not found\u2026 [3.A.15.4.2] :: [tcdb_substrates] Protein",
       "[pfam] T4P_EbsA: Type IV pilus, essential for biofilm suppression A-like"
     ],
     "contig": "NC_004113.1",
@@ -347796,6 +347941,7 @@
       "[interpro] Adhesion lipoprotein PsaA-like",
       "[interpro] Adhesin B",
       "[interpro] Zinc-binding protein AdcA, N-terminal domain",
+      "[tcdb_best_hit] The ZnuA18/ZnuA08/ZnuB/ZnuC zinc (Zn2+) uptake system. [3.A.1.15.13] :: [tcdb_substrates] Zinc cation",
       "[pfam] ZnuA: Zinc-uptake complex component A periplasmic"
     ],
     "alternative_locus_tags": [
@@ -347952,6 +348098,7 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] Metal Ion Import ATP-binding",
+      "[tcdb_best_hit] The ZnuA18/ZnuA08/ZnuB/ZnuC zinc (Zn2+) uptake system. [3.A.1.15.13] :: [tcdb_substrates] Zinc cation",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -353293,6 +353440,7 @@
       "[interpro] SLC26A/SulP transporter",
       "[interpro] STAS domain",
       "[interpro] SLC26A/SulP transporter domain",
+      "[tcdb_best_hit] 12 TMS Na+:bicarbonate symporter, BicA (low affinity but high efficiency). [2.A.53.3.3] :: [tcdb_substrates] HCO3-",
       "[pfam] STAS: STAS domain",
       "[pfam] Sulfate_transp: Sulfate permease family"
     ],
@@ -355240,6 +355388,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] Phosphate import ATP-binding protein PstB-like",
       "[tigr_role_inferred] Transport and binding proteins / Anions",
+      "[tcdb_best_hit] Phosphate porter, PhoSPstABC. [3.A.1.7.1] :: [tcdb_substrates] Orthophosphate",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "bacteria_cog_og": "COG1117",
@@ -356270,6 +356419,7 @@
       "[eggnog] von Willebrand factor, type A",
       "[interpro] von Willebrand factor, type A",
       "[interpro] Sll0103-like, C-terminal alpha-helical domain",
+      "[tcdb_best_hit] Sll0103 [1.A.13.2.2]",
       "[pfam] VWA: von Willebrand factor type A domain"
     ],
     "alternative_locus_tags": [
@@ -358231,6 +358381,7 @@
       "[eggnog] PFAM Bestrophin",
       "[protein_family] Anion channel-forming bestrophin (TC 1.A.46) family",
       "[interpro] Voltage-dependent anion channel-forming protein YneE/VCCN1/2-like",
+      "[tcdb_best_hit] Bestrophin homologue [1.A.46.2.3]",
       "[pfam] Bestrophin: Bestrophin, RFP-TM, chloride channel",
       "[pfam] Bestrophin_2: Bacterial/Fungal Bestrophin protein"
     ],
@@ -367103,6 +367254,7 @@
       "[interpro] Nucleobase cation symporter 2 family",
       "[interpro] Azaguanine-like transporters, bacteria and archaea type",
       "[interpro] Azaguanine-like transporters",
+      "[tcdb_best_hit] NCS2 family permease of 429 aas and 13 apparent TMSs in a 7 + 6 TMS arrangement. [2.A.40.7.8]",
       "[pfam] Xan_ur_permease: Permease family"
     ],
     "alternative_locus_tags": [
@@ -372656,6 +372808,7 @@
       "[interpro] ChaB",
       "[interpro] General stress protein 17M-like domain",
       "[interpro] Low temperature-induced protein Lti46/All0457",
+      "[tcdb_best_hit] ChaB family protein of 257 aas and 2 TM [1.C.53.2.3]",
       "[pfam] ChaB: ChaB",
       "[pfam] YflT: Heat induced stress protein YflT domain"
     ],
@@ -375975,6 +376128,7 @@
       "[eggnog] electron donor, via FMN and iron-sulfur (Fe-S) centers, to quinones in the respiratory and or the photosynthetic chain. The immediate electron acceptor for the enzyme in this species is believed to be plastoquinone. Couples the redox reaction to proton translocation, and thus conserves the redox energy in a proton gradient. Cyanobacterial NDH-1 also plays a role in inorganic carbon- concentration",
       "[interpro] NAD(P)H-quinone oxidoreductase subunit O",
       "[hamap] NAD(P)H-quinone oxidoreductase subunit O [ndhO].",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] NdhO: Cyanobacterial and plant NDH-1 subunit O"
     ],
     "cog_category": [
@@ -377316,6 +377470,7 @@
       "[eggnog] One of the components of the core complex of photosystem II (PSII). PSII is a light-driven water plastoquinone oxidoreductase that uses light energy to abstract electrons from H(2)O, generating O(2) and a proton gradient subsequently used for ATP formation. It consists of a core antenna complex that captures photons, and an electron transfer chain that converts photonic excitation into a charge separation",
       "[interpro] Photosystem II PsbK",
       "[hamap] Photosystem II reaction center protein K [psbK].",
+      "[tcdb_best_hit] Cyanobacterial photosystem II in thylakoid membranes. [3.E.2.2.1]",
       "[pfam] PsbK: Photosystem II 4 kDa reaction centre component"
     ],
     "alternative_locus_tags": [
@@ -380143,6 +380298,7 @@
       "[protein_family] SecG family",
       "[interpro] Preprotein translocase SecG subunit",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] Protein translocase with SecY (439 aas and 10 TMSs, P0A4H0), SecE, SecG, SecA (948 aas and 0 TMSs, Q5N2Q7), SecD SecF, YidC. [3.A.5.4.1] :: [tcdb_substrates] Protein",
       "[pfam] SecG: Preprotein translocase SecG subunit"
     ],
     "bacteria_cog_og": "COG1314",
@@ -381172,6 +381328,7 @@
       "[eggnog] One of the components of the core complex of photosystem II (PSII), required for its stability and or assembly. PSII is a light-driven water plastoquinone oxidoreductase that uses light energy to abstract electrons from H(2)O, generating O(2) and a proton gradient subsequently used for ATP formation. It consists of a core antenna complex that captures photons, and an electron transfer chain that converts photonic excitation into a charge separation",
       "[interpro] Photosystem II reaction centre protein H",
       "[hamap] Photosystem II reaction center protein H [psbH].",
+      "[tcdb_best_hit] Multicomponent Photosystem II of A. thaliana. [3.E.2.2.3] :: [tcdb_substrates] Oxygen, Plastoquinone",
       "[pfam] PsbH: Photosystem II 10 kDa phosphoprotein"
     ],
     "bigg_reaction": [
@@ -382894,6 +383051,7 @@
       "[ncbi] monovalent cation/H(+) antiporter subunit G",
       "[eggnog] PFAM Na H antiporter subunit",
       "[interpro] Na+/H+ antiporter subunit G",
+      "[tcdb_best_hit] The Na+:H+ antiporter, MrpA-G complex. [2.A.63.2.1] :: [tcdb_substrates] lithium(1+)",
       "[pfam] PhaG_MnhG_YufB: Na+/H+ antiporter subunit"
     ],
     "alternative_locus_tags": [
@@ -383022,7 +383180,8 @@
     ],
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
-      "[eggnog] -"
+      "[eggnog] -",
+      "[tcdb_best_hit] The Na+:H+ antiporter, MrpA-G complex. [2.A.63.2.1] :: [tcdb_substrates] lithium(1+)"
     ],
     "alternative_locus_tags": [
       "TLL_RS09210"
@@ -384724,6 +384883,7 @@
       "[interpro] Photosystem II PsbM",
       "[hamap] Photosystem II reaction center protein M [psbM].",
       "[tigr_role_inferred] Energy metabolism / Photosynthesis",
+      "[tcdb_best_hit] Cyanobacterial photosystem II in thylakoid membranes. [3.E.2.2.1]",
       "[pfam] PsbM: Photosystem II reaction centre M protein (PsbM)"
     ],
     "cog_category": [
@@ -386799,6 +386959,7 @@
       "[eggnog] Component of the cytochrome b6-f complex, which mediates electron transfer between photosystem II (PSII) and photosystem I (PSI), cyclic electron flow around PSI, and state transitions",
       "[interpro] Cytochrome b6-f complex, subunit 8",
       "[hamap] Cytochrome b6-f complex subunit 8 [petN].",
+      "[tcdb_best_hit] Cytochrome b6f complex including 11 subunits, A - K. CryoEM structures are known. [3.D.3.5.7] :: [tcdb_substrates] e-",
       "[pfam] PetN: PetN"
     ],
     "cog_category": [
@@ -389497,6 +389658,7 @@
       "[interpro] SecE subunit of protein translocation complex, bacterial-like",
       "[hamap] Protein translocase subunit SecE [secE].",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
+      "[tcdb_best_hit] Protein translocase with SecY (439 aas and 10 TMSs, P0A4H0), SecE, SecG, SecA (948 aas and 0 TMSs, Q5N2Q7), SecD SecF, YidC. [3.A.5.4.1] :: [tcdb_substrates] Protein",
       "[pfam] SecE: SecE/Sec61-gamma subunits of protein translocation complex"
     ],
     "bacteria_cog_og": "COG0690",
@@ -391134,6 +391296,7 @@
       "[ncbi] NAD(P) transhydrogenase subunit alpha",
       "[eggnog] NAD(P) transhydrogenase, alpha subunit",
       "[interpro] NAD(P) transhydrogenase, alpha subunit, C-terminal",
+      "[tcdb_best_hit] H+-transporting NADH/NADP Transhydrogenase, PntA1 (\u03b11)/PntA2 (\u03b12)/PntB (\u03b2). [3.D.2.2.2]",
       "[pfam] PNTB_4TM: 4TM region of pyridine nucleotide transhydrogenase, mitoch"
     ],
     "alternative_locus_tags": [
@@ -391261,6 +391424,7 @@
       "[eggnog] electron donor, via FMN and iron-sulfur (Fe-S) centers, to quinones in the respiratory and or the photosynthetic chain. The immediate electron acceptor for the enzyme in this species is believed to be plastoquinone. Couples the redox reaction to proton translocation, and thus conserves the redox energy in a proton gradient. Cyanobacterial NDH-1 also plays a role in inorganic carbon- concentration",
       "[interpro] NAD(P)H-quinone oxidoreductase subunit L",
       "[hamap] NAD(P)H-quinone oxidoreductase subunit L [ndhL].",
+      "[tcdb_best_hit] The photosynthetic/respiratory NAD H-quinone oxidoreductase subunits A - Q and S. NdhP and NdhQ are peptides of 42 and 39 aas, identified by cryoEM\u2026 [3.D.1.8.2]",
       "[pfam] NdhL: NADH dehydrogenase transmembrane subunit"
     ],
     "cog_category": [
@@ -391951,6 +392115,7 @@
       "[eggnog] Component of the cytochrome b6-f complex, which mediates electron transfer between photosystem II (PSII) and photosystem I (PSI), cyclic electron flow around PSI, and state transitions. PetG is required for either the stability or assembly of the cytochrome b6-f complex",
       "[interpro] Cytochrome b6/f complex, subunit 5",
       "[hamap] Cytochrome b6-f complex subunit 5 [petG].",
+      "[tcdb_best_hit] Cytochrome b6f complex including 11 subunits, A - K. CryoEM structures are known. [3.D.3.5.7] :: [tcdb_substrates] e-",
       "[pfam] PetG: Cytochrome B6-F complex subunit 5"
     ],
     "cog_category": [
@@ -392490,6 +392655,7 @@
       "[eggnog] One of the components of the core complex of photosystem II (PSII), required for its stability and or assembly. PSII is a light-driven water plastoquinone oxidoreductase that uses light energy to abstract electrons from H(2)O, generating O(2) and a proton gradient subsequently used for ATP formation. It consists of a core antenna complex that captures photons, and an electron transfer chain that converts photonic excitation into a charge separation",
       "[interpro] Photosystem II PsbI",
       "[hamap] Photosystem II reaction center protein I [psbI].",
+      "[tcdb_best_hit] Cyanobacterial photosystem II in thylakoid membranes. [3.E.2.2.1]",
       "[pfam] PsbI: Photosystem II reaction centre I protein (PSII 4.8 kDa protein)"
     ],
     "alternative_locus_tags": [
@@ -394504,6 +394670,7 @@
       "[eggnog] Seems to play a role in the dimerization of PSII",
       "[interpro] Photosystem II PsbT",
       "[hamap] Photosystem II reaction center protein T [psbT].",
+      "[tcdb_best_hit] Multicomponent Photosystem II of A. thaliana. [3.E.2.2.3] :: [tcdb_substrates] Oxygen, Plastoquinone",
       "[pfam] PsbT: Photosystem II reaction centre T protein"
     ],
     "alternative_locus_tags": [
@@ -394745,6 +394912,7 @@
       "[interpro] Photosystem II cytochrome b559, alpha subunit, lumenal region",
       "[hamap] Cytochrome b559 subunit alpha [psbE].",
       "[tigr_role_inferred] Energy metabolism / Photosynthesis",
+      "[tcdb_best_hit] Cyanobacterial photosystem II in thylakoid membranes. [3.E.2.2.1]",
       "[pfam] Cytochrom_B559: Cytochrome b559, alpha (gene psbE) and beta (gene psbF)subunits",
       "[pfam] Cytochrom_B559a: Lumenal portion of Cytochrome b559, alpha (gene psbE) subunit"
     ],
@@ -395032,6 +395200,7 @@
       "[interpro] Photosystem II cytochrome b559, N-terminal",
       "[hamap] Cytochrome b559 subunit beta [psbF].",
       "[tigr_role_inferred] Energy metabolism / Photosynthesis",
+      "[tcdb_best_hit] Cyanobacterial photosystem II in thylakoid membranes. [3.E.2.2.1]",
       "[pfam] Cytochrom_B559: Cytochrome b559, alpha (gene psbE) and beta (gene psbF)subunits"
     ],
     "cog_category": [
@@ -395317,6 +395486,7 @@
       "[interpro] Photosystem II PsbL",
       "[hamap] Photosystem II reaction center protein L [psbL].",
       "[ncbifam] photosystem II reaction center protein PsbL",
+      "[tcdb_best_hit] Cyanobacterial photosystem II in thylakoid membranes. [3.E.2.2.1]",
       "[pfam] PsbL: PsbL protein"
     ],
     "alternative_locus_tags": [
@@ -395563,6 +395733,7 @@
       "[eggnog] One of the components of the core complex of photosystem II (PSII). PSII is a light-driven water plastoquinone oxidoreductase that uses light energy to abstract electrons from H(2)O, generating O(2) and a proton gradient subsequently used for ATP formation. It consists of a core antenna complex that captures photons, and an electron transfer chain that converts photonic excitation into a charge separation",
       "[interpro] Photosystem II PsbJ",
       "[hamap] Photosystem II reaction center protein J [psbJ].",
+      "[tcdb_best_hit] Cyanobacterial photosystem II in thylakoid membranes. [3.E.2.2.1]",
       "[pfam] PsbJ: PsbJ"
     ],
     "alternative_locus_tags": [
@@ -396854,6 +397025,7 @@
       "[interpro] Photosystem II PsbZ, reaction centre",
       "[hamap] Photosystem II reaction center protein Z [psbZ].",
       "[tigr_role_inferred] Energy metabolism / Photosynthesis",
+      "[tcdb_best_hit] Multicomponent Photosystem II of A. thaliana. [3.E.2.2.3] :: [tcdb_substrates] Oxygen, Plastoquinone",
       "[pfam] Ycf9: YCF9"
     ],
     "cog_category": [

@@ -1,68 +1,68 @@
 {
-  "captured_at": "2026-10-28T21:54:10.672367+00:00",
+  "captured_at": "2026-10-31T12:10:06.237054+00:00",
   "neo4j_url": "bolt://localhost:7687",
-  "total_genes": 326471,
+  "total_genes": 330531,
   "annotation_state": {
-    "no_evidence": 23453,
-    "catch_all_only": 37552,
-    "informative_single": 35679,
-    "informative_multi": 229787
+    "no_evidence": 23816,
+    "catch_all_only": 37587,
+    "informative_single": 36016,
+    "informative_multi": 233112
   },
   "annotation_quality": {
-    "0": 23453,
-    "1": 37552,
-    "2": 35679,
-    "3": 229787
+    "0": 23816,
+    "1": 37587,
+    "2": 36016,
+    "3": 233112
   },
   "annotation_types": {
-    "brite": 127567,
-    "cazy": 5044,
-    "cog_category": 255921,
+    "brite": 129356,
+    "cazy": 5121,
+    "cog_category": 259515,
     "cyanorak_role": 167501,
-    "ec": 123171,
-    "go_bp": 162041,
-    "go_cc": 106083,
-    "go_mf": 183205,
-    "interpro": 250091,
-    "kegg": 161056,
-    "merops": 678,
-    "ncbifam": 112751,
-    "pfam": 253477,
-    "tcdb": 35786,
-    "tigr_role": 239960
+    "ec": 124737,
+    "go_bp": 164384,
+    "go_cc": 107748,
+    "go_mf": 185935,
+    "interpro": 253687,
+    "kegg": 163399,
+    "merops": 689,
+    "ncbifam": 114407,
+    "pfam": 257070,
+    "tcdb": 36321,
+    "tigr_role": 240674
   },
   "informative_annotation_types": {
-    "brite": 127567,
-    "cazy": 5044,
-    "cog_category": 184454,
+    "brite": 129356,
+    "cazy": 5121,
+    "cog_category": 187241,
     "cyanorak_role": 135619,
-    "ec": 123171,
-    "go_bp": 161568,
-    "go_cc": 105589,
-    "go_mf": 182717,
-    "kegg": 155985,
-    "merops": 678,
-    "ncbifam": 109690,
-    "pfam": 253477,
-    "reaction": 70210,
-    "tigr_role": 161872,
-    "transporter": 35786
+    "ec": 124737,
+    "go_bp": 163911,
+    "go_cc": 107254,
+    "go_mf": 185447,
+    "kegg": 158227,
+    "merops": 689,
+    "ncbifam": 111309,
+    "pfam": 257070,
+    "reaction": 71030,
+    "tigr_role": 162571,
+    "transporter": 36321
   },
   "informative_annotation_types_size_histogram": {
-    "0": 60720,
-    "1": 34045,
-    "2": 19452,
-    "3": 13172,
-    "4": 16246,
-    "5": 15848,
-    "6": 17585,
-    "7": 18326,
-    "8": 21998,
-    "9": 23462,
-    "10": 30982,
-    "11": 31740,
-    "12": 20881,
-    "13": 1924,
+    "0": 61118,
+    "1": 34374,
+    "2": 19748,
+    "3": 13414,
+    "4": 16648,
+    "5": 16136,
+    "6": 17926,
+    "7": 18665,
+    "8": 22382,
+    "9": 23888,
+    "10": 31311,
+    "11": 32007,
+    "12": 20899,
+    "13": 1925,
     "14": 90
   },
   "per_organism_annotation_state": {
@@ -71,6 +71,12 @@
       "informative_multi": 3423,
       "informative_single": 438,
       "no_evidence": 407
+    },
+    "Alteromonas macleodii 83-1": {
+      "catch_all_only": 35,
+      "informative_multi": 3328,
+      "informative_single": 334,
+      "no_evidence": 363
     },
     "Alteromonas macleodii AD45": {
       "catch_all_only": 31,
@@ -284,8 +290,8 @@
     },
     "Prochlorococcus MIT9202": {
       "catch_all_only": 235,
-      "informative_multi": 1391,
-      "informative_single": 234,
+      "informative_multi": 1390,
+      "informative_single": 235,
       "no_evidence": 145
     },
     "Prochlorococcus MIT9211": {
@@ -302,8 +308,8 @@
     },
     "Prochlorococcus MIT9301": {
       "catch_all_only": 213,
-      "informative_multi": 1392,
-      "informative_single": 218,
+      "informative_multi": 1391,
+      "informative_single": 219,
       "no_evidence": 103
     },
     "Prochlorococcus MIT9302": {
@@ -362,8 +368,8 @@
     },
     "Prochlorococcus MIT9515": {
       "catch_all_only": 205,
-      "informative_multi": 1414,
-      "informative_single": 205,
+      "informative_multi": 1413,
+      "informative_single": 206,
       "no_evidence": 121
     },
     "Prochlorococcus NATL1A": {
