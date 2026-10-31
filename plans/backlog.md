@@ -368,7 +368,11 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       10239); naming P-SSP7 needs a `treatment_organisms.csv` row and changes the OrganismTaxon
       count pinned by `tests/kg_validity/test_organism.py`. → `plans/control_timing_curation.md`
 
-- [ ] **Signed linear fold changes are stored as log2 (found 2026-10-18, control-timing fix pass).**
+- [x] **Signed linear fold changes are stored as log2 (found 2026-10-18, control-timing fix pass).**
+      DONE 2026-10-31, rebuilt and verified live: `fold_change_type: signed_linear` plus a corpus-wide
+      scale + significance audit (no default `logfc_threshold`, empty p → not significant,
+      `asterisk_min_level`, no direction at log2FC 0). → `plans/signed_linear_fold_change.md`,
+      CHANGELOG [Unreleased] `### Breaking` / `### Data`.
       Four papers publish "+3 = 3-fold up, -3 = 3-fold down" ratios; the paperconfigs pass them
       through unconverted, so `Changes_expression_of.log2_fold_change` holds linear magnitudes
       (up to -8,464; no value in (-1, 1)). Affected: Kaur 2018 (all 28 analyses, S4/S5),
@@ -384,6 +388,20 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       (`omics_adapter._check_significance` used the raw linear value, so linear ratios < 1 could
       never be significant — Aharonovich 2016, Beliaev 2014). → `omics_adapter._convert_fold_change`,
       `scripts/validate_paperconfig.py` (allowed `fold_change_type` values)
+
+- [ ] **Two table rows → one gene in one analysis: BioCypher silently keeps one (found 2026-10-31,
+      fold-change audit live check).** The omics adapter yields both edges with the same id
+      (`{doi}_{analysis_id}_{gene}`) and BioCypher dedups them, so the graph holds one of two
+      possibly different measurements, chosen by row order — and with it the edge's
+      `log2_fold_change` and `significant`. 85 edges over 10 papers on the 2026-10-31 build: Coe 2024
+      49 (39 of the dropped copies were significant; whether the pair disagrees is unchecked), Fang 2019 9, Biller 2018 6, Domínguez 2017 5, Ma 2022 5,
+      Ferrer 2020 4, Thompson 2016 3, Al-Hosani 2015 2, He 2022 1, Kratzl 2024 1. Pre-existing (same
+      counts in the 2026-10-28 snapshot). Fix: have the adapter detect duplicate ids per analysis and
+      log them (paper, analysis, gene, the rows' identifiers), then decide per paper — a real duplicate
+      row, two paralogs one ID resolves to both, or two probes per gene (needs an explicit rule, e.g.
+      keep the larger |log2FC| or mark the edge). The validator could warn on duplicate resolved
+      locus tags within an analysis. → `multiomics_kg/adapters/omics_adapter.py`,
+      `<table>_resolved.csv` (`locus_tag`, `resolution_method`)
 
 
 - [x] **Chemical categories for `Metabolite` (ChEBI is_a / has_role).** CLOSED 2026-10-14 — delivered as `MetaboliteClass` (KEGG BRITE compound trees) + `ChemicalRole` for TCDB role substrates; see `docs/superpowers/plans/2026-10-14-metabolite-identity-and-classes.md`. ChEBI `has_role` on `Metabolite` stays deferred (item below). Original note: The KG
