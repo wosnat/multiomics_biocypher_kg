@@ -5,6 +5,8 @@ Source: `plans/backlog.md` → Transport programme, the open sub-bullets under
 Project 2 / 3a / the TCDB integration review. No Docker rebuild and no
 prepare-data run without explicit approval.
 
+## Status (2026-10-31): DONE — merged to main, step 6 + step 2 run, Docker rebuilt (`ef72f299`), `pytest -m kg` 1,431 passed, omics snapshot + annotation-state unchanged; explorer asks doc updated with live counts.
+
 ## Status (2026-10-29)
 
 Code + unit tests + docs DONE in the worktree (unit suite 3,582 passed). Waiting
