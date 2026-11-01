@@ -82,7 +82,7 @@ tag with nothing logged.
 - Fold changes on six papers were on the wrong scale and are corrected.
 - `expression_direction` is absent when `log2_fold_change` is 0 (it read `down`).
 - `Experiment.coculture_partner` is a `str[]` of every partner (`[]` when axenic); the role is on
-  `Tests_coculture_with.partner_role`. Needs explorer 0.1.0-alpha.7 or later.
+  `Tests_coculture_with.partner_role`. Needs explorer 0.1.0-alpha.6 or later.
 - `OrganismTaxon.experiment_count`, `treatment_types`, `omics_types`, `background_factors` and
   `growth_phases` count the organism's own experiments only.
 - `Experiment.background_factors` may be `[]` on `genomic_analysis` (`BIOINFORMATIC`) experiments.
@@ -407,9 +407,9 @@ Counts, removed-property lists and file pointers for each `### Breaking` bullet.
 
 ### Changed
 
-- **`Schema_info.mcp_min_version` `0.1.0a5` → `0.1.0a7`** (alpha.7 stamped `0.1.0a5`): connect
-  with explorer 0.1.0-alpha.7 or later.
-- **Tester guide (`docs/kg_mcp_guide.md`) pins explorer `@v0.1.0-alpha.7`** and says 42 tools
+- **`Schema_info.mcp_min_version` `0.1.0a5` → `0.1.0a6`** (alpha.7 stamped `0.1.0a5`): connect
+  with explorer 0.1.0-alpha.6 or later.
+- **Tester guide (`docs/kg_mcp_guide.md`) pins explorer `@v0.1.0-alpha.6`** and says 42 tools
   (was ~37, an unpinned `main` install, and a KG tag as the explorer pin).
 - **Controlled vocabularies: 135 → 154 entries, so `Schema_info.controlled_vocabularies_hash`
   moves.** Added: `Gene_has_tcdb_family.{tcdb_call, tcdb_gate, rank, scov, bitscore,

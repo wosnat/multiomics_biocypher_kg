@@ -94,7 +94,7 @@ markers = [
 # multiomics-explorer MCP version compatible with this KG build. Bump when
 # the explorer's contract requires it; per-release override via --mcp-min.
 [tool.release-kg]
-mcp_min_version = "0.1.0a7"
+mcp_min_version = "0.1.0a6"
 # Withdrawn releases: {version = superseding version}. Their tags and GitHub pages
 # stay, but /release-kg never compares against them, --bringup refuses them and
 # they can not be re-cut. alpha.8 shipped with Schema_info.release_* null and a
