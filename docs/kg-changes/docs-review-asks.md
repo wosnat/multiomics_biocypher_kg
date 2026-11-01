@@ -79,7 +79,7 @@ feature; prune when KG-minted, describe when external.
 - **DOC-005:** `Gene.ec_numbers`, `cog_category`, `kegg_ko`, `kegg_pathway` (etc.) were Gene properties
   until `285d95a5` (2026-03-16, "remove lots of gene properties") — three months before the first
   tagged release (`kg-0.1.0-alpha.3`, 2026-06-06). `ko_terms` / `kegg_ids` / `cog_categories` never
-  existed under those names. Nothing to log under `breaking_changes`; the explorer's
+  existed under those names. Nothing to log under `release_breaking`; the explorer's
   `schema_baseline.yaml` line 743 `ec_numbers` belongs to `Protein` / `Reaction`, both of which still
   carry it. `Gene.catalytic_activities` (8,084 genes, UniProt) is the only Gene-level chemistry scalar.
 - **DOC-007:** done in `e91f20ce` — `vocabulary-contract.md` R5 names the two presence markers.

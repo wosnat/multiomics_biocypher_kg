@@ -4,7 +4,7 @@
 **Status:** implemented; measured on the 2026-10-15 build (commit `9dae8527`). Explorer-reviewed
 and signed off (§32 / §34). "Before" numbers are the 2026-10-13 build; "after" numbers are measured
 on the live 2026-10-15 graph. The change ships inside a bundled release that follows the
-explorer's E1 resolver; `/release-kg` sets `mcp_min_version` and `breaking_changes` then (spec §12).
+explorer's E1 resolver; `/release-kg` sets `mcp_min_version` and `release_breaking` then (spec §12).
 **Design spec:** `docs/superpowers/specs/2026-10-13-metabolite-identity-and-classes-design.md`
 **Origin:** `plans/backlog.md`: metabolite equivalence (P1) + chemical categories (P2), from
 the `pro_n_import_coculture` analysis friction log (2026-10-07 / -08 / -11).
@@ -514,7 +514,7 @@ at `81f2d3e`.
    - The explorer will add `structure_kind` per row, a `by_structure_kind` envelope breakdown and an opt-in filter.
    - Related: generic nodes losing `elements` means they drop out of `metabolite_elements=['N']` on `metabolites_by_gene` and out of `list_metabolites(elements=…)`. That is correct, but it's a visible behaviour change, and the explorer will document it.
    - Please give counts for `generic` / `polymer` nodes, and how many of them have transport edges.
-5. **Breaking-change timing:** bump `mcp_min_version`, and ship the change as an official release that stamps `breaking_changes`. (The alpha.7 cut stamped none; that is explorer backlog 1.2.) Proposed order:
+5. **Breaking-change timing:** bump `mcp_min_version`, and ship the change as an official release that stamps `release_breaking`. (The alpha.7 cut stamped none; that is explorer backlog 1.2.) Proposed order:
    1. The explorer ships the E1 resolver change first. It reads `coalesce(m.all_identifiers, [])`, so it is a no-op against the current KG.
    2. The KG rebuild sets `mcp_min_version` to that explorer version.
    3. Explorer absorb.
@@ -640,7 +640,7 @@ Fix:
   be tagged on its own. Your proposed order still holds for that release:
   1. Explorer E1 resolver first (a no-op on the current KG).
   2. The KG release bumps `mcp_min_version` to that explorer version and stamps
-     `breaking_changes`.
+     `release_breaking`.
   3. Explorer absorb.
 
 ## 6. Explorer follow-up (2026-10-14)

@@ -211,6 +211,7 @@ calls.json-normalization prerequisite. Copy those when implementing either.
 - [ ] **3B:** Gene property declared in schema **and** added to `GeneNodeField` enum (+ `int_fields`/`float_fields` for numerics); confirmed on a built node
 - [ ] `tests/test_<tool>.py` (pure parsing/vocab) passes
 - [ ] post-import.sh + post-import.cypher edited identically (`diff` clean); `post-import-validate.sh` baseline/after shows additions-only
+- [ ] Every property the new post-import Cypher sets (node rollups, Gene routing signals, edge ranks) is declared in `schema_config.yaml` with a `# post-import:` comment — `tests/kg_validity/test_schema_coverage.py` passes
 - [ ] Scalar indexes (`level`, `level_kind` if hierarchical, id) + full-text (`name`) for the new node
 - [ ] Cross-node rollups: **functional** → Gene `annotation_types`/`informative_annotation_types` folded in (+ `annotation_quality` bucket decision); **structural** → kept out, optional `<tool>_count` only. `OrganismTaxon`/`Publication`: nothing
 - [ ] `/omics-edge-snapshot` before/after: expression edges unchanged, new edges appear

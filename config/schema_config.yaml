@@ -36,6 +36,11 @@ publication:
     metabolite_assay_count: int      # post-import (Phase 2 metabolomics)
     metabolite_compartments: str[]   # post-import (Phase 2 metabolomics)
     metabolite_count: int            # post-import (Phase 2 metabolomics)
+    clustering_analysis_count: int    # post-import: ClusteringAnalysis nodes reached
+    cluster_count: int                # post-import: GeneCluster nodes under those analyses
+    cluster_types: str[]              # post-import: distinct cluster_type of those analyses
+    discussed_gene_count: int         # post-import: Publication_discusses_gene edges
+    discussed_pathway_count: int      # post-import: Publication_discusses_kegg_pathway edges
 
 
 # Experiment node: groups time-series analyses for a single scientific comparison
@@ -87,6 +92,9 @@ experiment:
     metabolite_assay_count: int      # post-import (Phase 2 metabolomics)
     metabolite_compartments: str[]   # post-import (Phase 2 metabolomics)
     metabolite_count: int            # post-import (Phase 2 metabolomics)
+    clustering_analysis_count: int    # post-import: ClusteringAnalysis nodes reached
+    cluster_count: int                # post-import: GeneCluster nodes under those analyses
+    cluster_types: str[]              # post-import: distinct cluster_type of those analyses
 
 # GeneCluster node: groups co-expressed genes from a clustering analysis within a publication
 gene cluster:
@@ -607,6 +615,16 @@ gene:
     # eggNOG seed ortholog match
     seed_ortholog: str                       # eggNOG seed-ortholog identifier (taxid.id format)
     seed_ortholog_evalue: float              # eggNOG seed-ortholog E-value
+    cluster_membership_count: int          # post-import: Gene_in_gene_cluster edges
+    cluster_types: str[]                   # post-import: distinct cluster_type of the clusters it is in
+    discussed_in_publication_count: int    # post-import: Publication_discusses_gene edges
+    interpro_entry_count: int              # post-import: Gene_has_interpro_entry edges
+    ncbifam_family_count: int              # post-import: Gene_has_ncbifam_family edges
+    merops_family_count: int               # post-import: Gene_has_merops_family edges (all, ungated)
+    merops_classes: str[]                  # post-import: sorted distinct call_class of its MEROPS edges
+    merops_evidence_score_max: float       # post-import, sparse: max evidence_score over its MEROPS edges
+    subcellular_localization: str          # post-import, sparse: PSORTb localization name (routing copy of the edge)
+    signal_peptide_type: str               # post-import, sparse: SignalP type name (routing copy of the edge)
 
 # consider adding: Note, exceptions, inference
 
@@ -700,6 +718,13 @@ organism taxon:
     reference_proteome: str   # e.g. "UP000262181" (reference_proteome_match only)
     name_synonyms: str[]  # sparse: other names the organism is known by (e.g. reclassified species); indexed by organismTaxonFullText
     taxonomy_note: str    # sparse: free-text taxonomy caveat (e.g. MruberA is M. taiwanensis in NCBI); indexed by organismTaxonFullText
+    clustering_analysis_count: int          # post-import: ClusteringAnalysis nodes reached
+    cluster_count: int                      # post-import: GeneCluster nodes under those analyses
+    cluster_types: str[]                    # post-import: distinct cluster_type of those analyses
+    peptidase_gene_count: int               # post-import: genes with 'peptidase' in merops_classes
+    nonpeptidase_homolog_gene_count: int    # post-import: genes with 'nonpeptidase_homolog' in merops_classes
+    interpro_gene_count: int                # post-import: genes with >=1 Gene_has_interpro_entry
+    ncbifam_gene_count: int                 # post-import: genes with ncbifam_family_count > 0
 
 
 protein domain:  
@@ -726,6 +751,10 @@ biological process:
     anc2vec_embedding: float[]
     level: int
     level_is_best_effort: str
+    gene_count: int         # post-import: distinct genes (subtree on hierarchical labels)
+    direct_gene_count: int  # post-import: genes with an edge to this exact term
+    organism_count: int     # post-import: distinct organisms of those genes
+    is_uninformative: str   # post-import: presence marker 'true' (sparse), config/uninformative_terms.yaml
   
 cellular component:
   represented_as: node
@@ -736,6 +765,10 @@ cellular component:
     anc2vec_embedding: float[]
     level: int
     level_is_best_effort: str
+    gene_count: int         # post-import: distinct genes (subtree on hierarchical labels)
+    direct_gene_count: int  # post-import: genes with an edge to this exact term
+    organism_count: int     # post-import: distinct organisms of those genes
+    is_uninformative: str   # post-import: presence marker 'true' (sparse), config/uninformative_terms.yaml
 
 molecular function:
   synonym_for: molecular activity
@@ -747,6 +780,10 @@ molecular function:
     anc2vec_embedding: float[]
     level: int
     level_is_best_effort: str
+    gene_count: int         # post-import: distinct genes (subtree on hierarchical labels)
+    direct_gene_count: int  # post-import: genes with an edge to this exact term
+    organism_count: int     # post-import: distinct organisms of those genes
+    is_uninformative: str   # post-import: presence marker 'true' (sparse), config/uninformative_terms.yaml
   
 
 compound:
@@ -784,9 +821,12 @@ kegg term:
     name: str
     level_kind: str
     level: int
-    level_is_best_effort: str
     reaction_count: int          # post-import (sparse, pathway-only): incoming Reaction_in_kegg_pathway edges (KG-A4)
     metabolite_count: int        # post-import (sparse, pathway-only): incoming Metabolite_in_pathway edges (KG-A4)
+    gene_count: int         # post-import: distinct genes (subtree on hierarchical labels)
+    direct_gene_count: int  # post-import: genes with an edge to this exact term
+    organism_count: int     # post-import: distinct organisms of those genes
+    is_uninformative: str   # post-import: presence marker 'true' (sparse), config/uninformative_terms.yaml
 
 
 ec number:
@@ -801,7 +841,9 @@ ec number:
     comments: str[]
     rxnfp_embedding: float[]
     level: int
-    level_is_best_effort: str
+    gene_count: int         # post-import: distinct genes (subtree on hierarchical labels)
+    direct_gene_count: int  # post-import: genes with an edge to this exact term
+    organism_count: int     # post-import: distinct organisms of those genes
 
 cog functional category:
   is_a: named thing
@@ -812,7 +854,9 @@ cog functional category:
     code: str
     name: str
     level: int
-    level_is_best_effort: str
+    gene_count: int        # post-import: distinct genes with a direct edge
+    organism_count: int    # post-import: distinct organisms of those genes
+    is_uninformative: str  # post-import: presence marker 'true' (sparse), config/uninformative_terms.yaml
 
 cyanorak role:
   is_a: named thing
@@ -823,7 +867,10 @@ cyanorak role:
     code: str
     name: str
     level: int
-    level_is_best_effort: str
+    gene_count: int         # post-import: distinct genes (subtree on hierarchical labels)
+    direct_gene_count: int  # post-import: genes with an edge to this exact term
+    organism_count: int     # post-import: distinct organisms of those genes
+    is_uninformative: str   # post-import: presence marker 'true' (sparse), config/uninformative_terms.yaml
 
 tigr role:
   is_a: named thing
@@ -835,7 +882,11 @@ tigr role:
     name: str
     level: int
     level_kind: str
-    level_is_best_effort: str
+    gene_count: int            # post-import: distinct genes (subtree over Tigr_role_is_a_tigr_role)
+    direct_gene_count: int     # post-import: genes with an edge to this exact term
+    organism_count: int        # post-import: distinct organisms of those genes
+    is_uninformative: str      # post-import: presence marker 'true' (sparse), config/uninformative_terms.yaml
+    ncbifam_family_count: int  # post-import: subtree count of incoming Ncbifam_family_has_tigr_role edges
 
 pfam:
   is_a: named thing
@@ -846,7 +897,8 @@ pfam:
     name: str
     short_name: str
     level: int
-    level_is_best_effort: str
+    gene_count: int      # post-import: distinct genes with a direct edge
+    organism_count: int  # post-import: distinct organisms of those genes
 
 pfam clan:
   is_a: named thing
@@ -856,7 +908,8 @@ pfam clan:
   properties:
     name: str
     level: int
-    level_is_best_effort: str
+    gene_count: int      # post-import: distinct genes via member Pfams
+    organism_count: int  # post-import: distinct organisms of those genes
 
 reaction:
   is_a: named thing
@@ -1433,6 +1486,7 @@ cazy family:
     level_kind: str
     gene_count: int         # post-import
     organism_count: int     # post-import
+    direct_gene_count: int  # post-import: genes with an edge to this exact term
 
 # ── TCDB / CAZy edges ────────────────────────────────────────────────────────
 
@@ -1642,6 +1696,8 @@ merops family:
     peptidase_gene_count: int  # post-import (subtree, call_class='peptidase' edges only)
     organism_count: int     # post-import
     member_count: int       # post-import (direct children)
+    direct_gene_count: int         # post-import: genes with an edge to this exact term
+    peptidase_organism_count: int  # post-import: organisms of the peptidase_gene_count genes
 
 # Scored edge, one per calls.json candidate (multi-domain proteins fan out).
 # `call_class` is the read-first verdict — 'peptidase' | 'inhibitor' |
@@ -1672,6 +1728,8 @@ gene to merops family association:
     consensus_n: int
     best_hit_id: str        # matched MEROPS reference, e.g. "S14.008"
     best_hit_kind: str      # holotype | putative | nonpeptidase_homolog
+    evidence_score: float  # post-import: {0,0.5,1} over 2 signals (tier <= 2, pfam_support)
+    pfam_support: str      # post-import: corroborated | uncorroborated (Merops_family_has_pfam_domain bridge)
     # pfam_support: str     # corroborated | uncorroborated — post-import (fold
     #                       # corroboration via Merops_family_has_pfam_domain;
     #                       # orthogonal to call_class, not written by the adapter)
@@ -1726,6 +1784,7 @@ gene to subcellular localization association:
   # the Changes_expression_of properties block). Numeric, not _clean_str'd.
   properties:
     score: float            # PSORTb localization confidence score (kept edges: ~7.5-10.0)
+    rank_by_score: int  # post-import: rank by score per localization (1 = highest)
 
 
 # ── SignalP signal-peptide type (flat ontology + scored edge) ─────────────────
@@ -1756,6 +1815,7 @@ gene to signal peptide type association:
     probability: float            # winning-class likelihood (∈[0,1])
     cleavage_site: int            # residue before the cut (omitted when null)
     cleavage_probability: float   # cleavage-site probability (omitted when null)
+    rank_by_probability: int  # post-import: rank by probability per type (1 = highest)
 
 
 # ── InterProScan InterPro entries (hierarchical ontology + scored edge) ───────
@@ -1774,6 +1834,8 @@ interpro entry:
     gene_count: int         # post-import
     organism_count: int     # post-import
     member_count: int       # post-import (recursive subtree gene count)
+    direct_gene_count: int  # post-import: genes with an edge to this exact term
+    is_uninformative: str   # post-import: presence marker 'true' (sparse), config/uninformative_terms.yaml
     # is_promiscuous (deleted 2026-08-16, spec §3 R3): restated a threshold over
     # a count the node already publishes. Consumers derive it themselves:
     # gene_count >= 1000.
@@ -1861,6 +1923,9 @@ ncbifam family:
     gene_symbol: str         # sparse
     description: str         # sparse — curated comment column
     level: int               # always 0 (flat)
+    gene_count: int        # post-import: distinct genes with a direct edge
+    organism_count: int    # post-import: distinct organisms of those genes
+    is_uninformative: str  # post-import: presence marker 'true' (sparse), config/uninformative_terms.yaml
 
 gene to ncbifam family association:
   is_a: association

@@ -1361,7 +1361,7 @@ network).
 **Held.** This change ships inside a larger, bundled release. The sequence agreed with the
 explorer:
 1. The explorer E1 resolver ships first (a no-op on the current KG).
-2. The KG release sets `mcp_min_version` and `breaking_changes`.
+2. The KG release sets `mcp_min_version` and `release_breaking`.
 3. The explorer absorbs the new KG.
 
 Two files, generated from the identity report, ship with the post-rebuild kg-changes doc:
@@ -1437,7 +1437,7 @@ The post-rebuild doc also lists:
 - `/cypher-queries`: post-rebuild spot checks (nitrate one node, L-Ala measured, siderophore
   route, stereo hop);
 - `/release-kg`: later, for the bundled release. Its per-paper expression-regression check is
-  unaffected; the release cut adds `breaking_changes` and the `mcp_min_version` bump.
+  unaffected; the release cut adds `release_breaking` and the `mcp_min_version` bump.
 
 *Update in the same change:*
 - **`paperconfig/SKILL.md`**:
