@@ -23,7 +23,10 @@ preflight questions:
   bullets. Plain prose, no internal jargon.
 - `### Breaking` — "did anything change meaning under me?" One bullet per
   silently-changed semantics (redefinitions, repurposed fields, default flips).
-  Errors/removals are also fine here. **Omit the subsection entirely when there
+  Errors/removals are also fine here. Keep it to roughly 8–10 one-line bullets
+  (under ~2 KB): it is returned to every client session. Put counts, removed-property
+  lists and file pointers in a following `### Breaking (details)` subsection, which
+  is not extracted. **Omit the subsection entirely when there
   are no breaking items** — do not leave an empty `### Breaking` heading
   (renders as a blank bullet on the client).
 
@@ -51,613 +54,397 @@ tag with nothing logged.
 
 ### Highlights
 
-- Genes can be found by the name or substrate of the TCDB transport system they best match: a full-text search for "urea porter" or "cyanate" now returns the genes whose top diamond hit is that system.
-- Each diamond-called transporter gene now shows the specific TCDB system it best matches, with that system's own substrates, so "is this the cyanate or the nitrate ABC system?" can be read off the gene instead of from a family that lists hundreds of substrates.
-- TCDB now reads as TCDB curates it: substrates sit on the specific transport systems, each source (eggNOG, diamond call, diamond best hit) is its own gene edge, and a gene's substrate count only comes from a system it was placed on directly, so an ABC-superfamily call no longer reads as 550 substrates.
-- Which genes carry a GO term defined as moving compound X (for example siderophores) is now a graph query, on the same metabolite nodes TCDB and KEGG use.
-- `list_experiments(coculture_partner="Alteromonas")`-style questions now find every experiment
-  run with that partner, including the 35 where the coculture was the context rather than the
-  treatment (Weissberg 2025 proteomics, Moreno 2023's non-axenic cultures); the edge says whether
-  the partner was the treatment or the background.
-- Ask for every carbohydrate or peptide an organism makes, takes up or was measured with: metabolites now have one canonical identity across KEGG, ChEBI and MetaNetX, plus chemical classes (`MetaboliteClass`) and TCDB substrate roles (`ChemicalRole`).
-- Every gene Cyanorak annotates now has a genome position and a protein sequence, including
-  the 3,837 genes across 21 *Prochlorococcus* / *Synechococcus* strains that NCBI's PGAP
-  never called — neighbourhood and sequence queries no longer skip them.
-- Each differential-expression experiment now says whether its control was matched to the
-  treatment arm or is an earlier reference sample (`control_timing`), with a note saying how —
-  so "this day-18 coculture contrast is against an axenic day-14 culture" is queryable.
-- Which picocyanobacteria carry a predicted ABC uptake protein for urea, phosphonate, iron or
-  sugars is now a per-gene question across 95 *Prochlorococcus*, *Synechococcus* and *Cyanobium*
-  genomes — 74 of them new to the graph — from the Ford 2021 survey of substrate-binding proteins.
-- Knockout and gene-essentiality studies are now in the graph: *Synechococcus* WH8102 phoB, phoR
-  and ptrA mutants vs wild type (`treatment_type: mutant`), and a genome-wide essential /
-  beneficial / non-essential call for every *S. elongatus* PCC 7942 gene (`essentiality`).
-- *Alteromonas* TonB-dependent transporters are queryable as a curated set (Manck 2020: 66 in
-  ATCC 27126 with predicted substrates and their iron / carbon-limitation response), and
-  *Ruegeria pomeroyi* DSS-3 gains diatom-coculture and DHPS / cysteine proteome data.
+- Transport now reads the way TCDB curates it. Each transporter gene shows the specific TCDB
+  system it best matches and that system's own substrates, so you can read off the gene whether
+  it is the cyanate or the nitrate ABC system. A full-text search for "urea porter" or "cyanate"
+  finds the genes, and systems say whether TCDB states them as uptake or export.
+- Metabolites have one identity across KEGG, ChEBI and MetaNetX, plus chemical classes and
+  substrate roles. You can ask for every carbohydrate or peptide an organism makes, takes up or
+  was measured with, and which genes carry a GO term defined as moving a given compound (for
+  example siderophores).
+- 74 more picocyanobacterial genomes (now 116 genome strains, plus 2 reference-proteome organisms), with the Ford 2021 survey of
+  ABC substrate-binding proteins. Which *Prochlorococcus*, *Synechococcus* or *Cyanobium* genes
+  are predicted to take up urea, phosphonate, iron or sugars is now a per-gene question across
+  95 genomes. Every gene Cyanorak annotates has a genome position and a protein sequence,
+  including the 3,837 genes NCBI never called.
+- Experiments say more about their design. Every organism sharing a culture is listed, with its
+  role (the treatment or the background), so a partner search also finds the 77 experiments
+  where the coculture was the context (35 of them newly named). Each differential-expression experiment says whether its
+  control was matched to the treatment or is an earlier reference sample.
+- New kinds of study: knockouts vs wild type (*Synechococcus* WH8102 phoB, phoR, ptrA), genome-wide
+  gene essentiality (*S. elongatus* PCC 7942), *Alteromonas* TonB-dependent transporters (Manck
+  2020), and *Ruegeria pomeroyi* DSS-3 with a diatom partner and on DHPS / cysteine.
 
 ### Breaking
 
-- **Expression significance now follows each paper's own criterion** (2026-10-31 corpus audit,
-  `plans/signed_linear_fold_change.md`). `Changes_expression_of.significant` / `expression_status`
-  change on 22 papers; corpus-wide (offline adapter run) significant edges 102,557 → 113,725. The
-  adapter no longer has a default 2-fold cutoff: every threshold-judged analysis states its own
-  `logfc_threshold` (0 = none), and at least 12 papers had called DE on p/q alone. A row whose
-  p-value cell is empty (DESeq2 NA padj, single-peptide proteins) is now `not_significant` instead
-  of significant on fold change alone. Graded asterisks honour `asterisk_min_level`. Per-paper
-  numbers are under `### Data`.
-- `Changes_expression_of.expression_direction` is absent when `log2_fold_change` is exactly 0 (1,510
-  edges, e.g. signed-linear "1" = no change); it was `down`. Such edges read `not_significant`.
-- **`TcdbFamily.superfamily` is set on every subfamily and system under a family TCDB
-  groups** (was: families plus only the systems `superfamilies.tsv` lists, never subfamilies, so
-  `tcdb:3.A.1.7` was null between a set `3.A.1` and `3.A.1.7.1`). The value is TCDB's
-  per-family superfamily, verbatim with internal whitespace collapsed; class / subclass never
-  carry one. Carriers: 257 families · 986 subfamilies · 6,025 systems (was 257 · 0 · 5,931).
-  The value itself is unchanged and is TCDB's own grouping, not a parse error: TCDB's
-  superfamily page lists ABC (3.A.1) under "ArsA ATPase (ArsA) Superfamily" (its ATPases "may
-  also be distantly related") and P-ATPase (3.A.3) under "Heavy Metal Binding Domain"
-  (explorer docs review K1).
+- Expression significance follows each paper's own criterion (no default 2-fold cutoff);
+  `significant` / `expression_status` change on 22 papers.
+- Fold changes on six papers were on the wrong scale and are corrected.
+- `expression_direction` is absent when `log2_fold_change` is 0 (it read `down`).
+- `Experiment.coculture_partner` is a `str[]` of every partner (`[]` when axenic); the role is on
+  `Tests_coculture_with.partner_role`. Needs explorer 0.1.0-alpha.6 or later.
+- `OrganismTaxon.experiment_count`, `treatment_types`, `omics_types`, `background_factors` and
+  `growth_phases` count the organism's own experiments only.
+- `Experiment.background_factors` may be `[]` on `genomic_analysis` (`BIOINFORMATIC`) experiments.
+- Metabolite ids are re-keyed to one canonical form and `chebi_id` is the primary ChEBI; role
+  terms moved to `ChemicalRole`.
+- TCDB: one `Gene_has_tcdb_family` edge per call with `tcdb_gate`; substrates sit on systems only;
+  transport metabolite counts use directly placed systems only; several properties renamed or
+  removed.
+- 182 KEGG pathways irrelevant to bacteria are dropped; pathway enrichment backgrounds shrink.
 
-- **`Experiment.background_factors` may now be `[]` — on `genomic_analysis` experiments only**
-  (new `omics_type: BIOINFORMATIC`: computed from genome sequence or annotation, no sample, no
-  culture). Every other experiment keeps a non-empty list. These 95 annotation experiments (Ford
-  2021, one per genome) also count in `OrganismTaxon.experiment_count` / `treatment_types` /
-  `omics_types` and the Publication rollups; filter `e.omics_type <> 'BIOINFORMATIC'` for wet-lab
-  experiments only.
-- **`OrganismTaxon.experiment_count` counts the organism's own experiments** (`Experiment.organism_name`),
-  and `treatment_types` / `omics_types` / `background_factors` / `growth_phases` are unions over
-  those experiments only. All five used to be rolled up from every publication naming the
-  organism, so partner papers and multi-strain papers added other strains' experiments — and
-  Ford 2021 (95 organisms × 95 experiments) added 95 to each of its strains (MED4 read 213; it has
-  45). New **`partner_experiment_count`**: experiments with a `Tests_coculture_with` edge to the
-  organism, either role (MED4 11, the phage 8), so partner-only organisms keep a count —
-  their `experiment_count` and type lists are now 0 / `[]`. `publication_count` unchanged (papers
-  naming the organism, partner included).
-- **121 `OrganismTaxon` nodes (was 47)**: 74 Cyanorak genome strains added (see `### Data`).
+### Breaking (details)
 
-- **`Experiment.coculture_partner` is now a dense `str[]`** (was a sparse string set only when the
-  partner was the treatment). It lists every organism sharing the culture — treatment partner,
-  background partners and phage — as sorted `preferred_name`s, `[]` when axenic, and is written
-  post-import from the `Tests_coculture_with` edges so the two never disagree. String operators on
-  it (`CONTAINS`) now raise a Cypher type error; filter with `ANY(p IN e.coculture_partner WHERE …)`.
-  Role moved to the edge: `Tests_coculture_with.partner_role ∈ {treatment, background}` on every
-  edge (one edge per partner: 186 edges, was 87; 60 experiments list two partners, 2 list three). `Publication.organisms` grows for 6 papers.
-  Explorer ≥ 0.1.0-alpha.6 absorbs this (`mcp_min_version` bumped at release);
-  older explorers fail validation in `list_experiments`, `differential_expression_by_gene`
-  (verbose) and `differential_expression_by_ortholog`. See
+Counts, removed-property lists and file pointers for each `### Breaking` bullet.
+
+**Expression**
+
+- **Significance follows each paper's own criterion.** The KG no longer applies a default 2-fold
+  cutoff: every analysis states the paper's own `logfc_threshold` (0 = none), and at least 12 papers
+  call DE on p/q alone. A row with an empty p-value (DESeq2 NA padj, single-peptide proteins) is
+  `not_significant` instead of significant on fold change alone, and graded asterisks count only
+  from the level the paper uses. `significant` / `expression_status` change on 22 papers;
+  significant edges over the previous corpus go from 102,557 to 113,725 (113,669 in the
+  current build). Per-paper numbers are under
+  `### Data`.
+- **Fold changes for six papers were on the wrong scale** (Kaur 2018, Christie-Oleza 2017, Martiny
+  2006, Steglich 2006, Lindell 2007, Ma 2022, plus Aharonovich 2016's HOT1A3 tables). Magnitudes,
+  `rank_by_effect` and any |log2FC| filter change on these papers; see `### Data`.
+- **`expression_direction` is absent when `log2_fold_change` is exactly 0** (1,509 edges, e.g. a
+  signed-linear "1" = no change). It used to read `down`. These edges are `not_significant`.
+
+**Experiments and organisms**
+
+- **`Experiment.coculture_partner` is a dense `str[]`** (was a sparse string set only when the
+  partner was the treatment). It lists every organism sharing the culture (treatment partner,
+  background partners, phage) as sorted `preferred_name`s, `[]` when axenic, and always equals the
+  `Tests_coculture_with` edges. `CONTAINS` on it now raises a type error: filter with
+  `ANY(p IN e.coculture_partner WHERE …)`. The role is on the edge:
+  `Tests_coculture_with.partner_role ∈ {treatment, background}`, one edge per partner (186 edges,
+  was 87). Explorers older than 0.1.0-alpha.6 fail validation in `list_experiments`,
+  `differential_expression_by_gene` (verbose) and `differential_expression_by_ortholog`. See
   `docs/kg-changes/coculture-partner-list.md`.
-- **`OrganismTaxon` count 48 → 47.** The `ncbitaxon:277` *Meiothermus ruber* treatment node is
-  retired: Bernstein 2017's partner is the sequenced isolate MruberA (`insdc.gcf:GCF_000836395.1`),
-  whose node already carries `preferred_name = 'Meiothermus ruber'`, so the graph no longer has two
-  organisms with one name and the Bernstein edge routes into the gene tools.
+- **`OrganismTaxon.experiment_count` counts the organism's own experiments**
+  (`Experiment.organism_name`), and `treatment_types` / `omics_types` / `background_factors` /
+  `growth_phases` are unions over those experiments only. They used to roll up every publication
+  naming the organism, so partner and multi-strain papers added other strains' experiments.
+  Partner-only organisms now read 0 / `[]`; the new `partner_experiment_count` counts experiments
+  with a `Tests_coculture_with` edge to the organism. `publication_count` is unchanged.
+- **`Experiment.background_factors` may be `[]` on `genomic_analysis` experiments** (new
+  `omics_type: BIOINFORMATIC`: computed from genome sequence or annotation, no culture). Every
+  other experiment keeps a non-empty list. Filter `e.omics_type <> 'BIOINFORMATIC'` for wet-lab
+  experiments only; 95 of these come from Ford 2021 (one per genome).
+- **123 `OrganismTaxon` nodes (was 48).** 75 genome strains added (see `### Data`), the diatom
+  *Thalassiosira pseudonana* added as a coculture partner, and the `ncbitaxon:277` *Meiothermus
+  ruber* treatment node retired: Bernstein 2017's partner is the sequenced isolate MruberA
+  (`insdc.gcf:GCF_000836395.1`), which already carries that name.
 
-Metabolite figures below are measured in the step-6 caches; the post-rebuild doc `docs/kg-changes/metabolite-identity-and-classes.md` has the final graph counts.
+**Metabolites**
 
-- **Metabolite ids changed.** 29 nodes were merged away and 132 re-keyed (ChEBI → KEGG, secondary → primary id); 13 measurement-only nodes and the 4 `mnx:` placeholders were dropped. Old → new map: `docs/kg-changes/metabolite-identity/metabolite_id_remap.tsv`. Metabolites: 3,214 (2,787 `kegg.compound:` + 427 `chebi:`). Stereo forms (including sugar anomers) are never merged, even where MetaNetX calls them one entity, and three conjugate groups are named for the ion: chloride `C00698`, bromide `C01324`, fluoride `C00742` (`C01327` / `C13645` / `C16487` are merged into them).
-- **`Metabolite.chebi_id` values changed on most nodes** (now the primary, entity-level ChEBI) and `name` changed on `chebi:` nodes (KEGG name, else ChEBI name).
-- **57 role terms were removed from `Metabolite`**; they now live on `ChemicalRole` via `Tcdb_family_transports_chemical_role`. `Tcdb_family_transports_metabolite` 11,263 → 10,790 and `TcdbFamily.metabolite_count` loses role entries.
-- **Paper metabolite re-resolutions.** Metabolomics assay edges were re-pointed to canonical metabolites; see `docs/kg-changes/metabolite-identity/metabolite_assay_repoints.tsv`.
-- **`metaboliteFullText` fields** are now name + formula + `identifier_tokens` (the live index was name-only).
+- **Metabolite ids changed.** Cross-namespace duplicates are merged and ids re-keyed to one
+  canonical form (KEGG compound, else primary ChEBI); `mnx:` placeholders and some
+  measurement-only nodes are gone. Stereo forms, including sugar anomers, are never merged, even
+  where MetaNetX calls them one entity. Chloride, bromide and fluoride are named for the ion
+  (`C00698`, `C01324`, `C00742`). Old → new map:
+  `docs/kg-changes/metabolite-identity/metabolite_id_remap.tsv`; re-pointed assay rows:
+  `docs/kg-changes/metabolite-identity/metabolite_assay_repoints.tsv`. 3,251 metabolites.
+- **`Metabolite.chebi_id` is now the primary, entity-level ChEBI** (changed on most nodes), and
+  `name` on `chebi:` nodes is the KEGG name, else the ChEBI name.
+- **Role terms are no longer metabolites.** 57 substrate roles TCDB uses (e.g. "siderophore")
+  moved from `Metabolite` to the new `ChemicalRole` label.
+- **`metaboliteFullText`** indexes name, formula and `identifier_tokens` (it was name only).
 
-TCDB cleanup (transport programme project 3a, measured on the rebuilt graph; `docs/kg-changes/tcdb-cleanup.md`). It supersedes the `substrate_breadth` / lumping-set items of the metabolite-identity work above:
+**TCDB and transport** (`docs/kg-changes/tcdb-cleanup.md`)
 
-- **TCDB substrate edges leave `tc_system` nodes only.** `Tcdb_family_transports_metabolite` (10,778) and `Tcdb_family_transports_chemical_role` (367) no longer roll up onto families, subfamilies, subclasses or classes, and `substrate_depth` is gone. A family's range = walk `Tcdb_family_is_a_tcdb_family` down to its systems, or read the new `TcdbFamily.tcdb_substrate_count`.
-- **`TcdbFamily.level_kind` value `tc_specificity` is renamed `tc_system`.** `TcdbFamily` grows 1,515 → 9,389 nodes: 3,527 gene-anchored + 5,862 range-only substrate-bearing systems with `gene_count = 0`. Filter `gene_count > 0` for listings.
-- **`TcdbFamily.gene_count` / `direct_gene_count` / `organism_count` count gate-passing edges only** (`tcdb_gate IN ['direct','annotated']`). A system reached only by near-tie or tier-3 calls reads 0.
-- **`Gene_has_tcdb_family` is one edge per (gene, TC node, `tcdb_call`)**: 75,823 edges (eggnog 17,069 · diamond_tier 41,242 · diamond_best_hit 17,512). It used to be one merged edge per (gene, TC id) with `sources: ['eggnog','tcdb_diamond']`. `sources` is now always one element, and edge ids include the call kind. `'eggnog' IN r.sources` still works; source agreement is now a query over two edges.
-- **Removed properties:**
-  - `Gene_has_tcdb_family`: `evidence_score`, `source_agreement`, `pfam_support`, `go_support`, `attachment_depth`, `confidence_score`, `consensus_n`, `best_hit_tcids`, `best_hit_names`, `best_hit_identity`, `best_hit_substrate_tcids`, `best_hit_substrate_ids`, `best_hit_substrate_names`.
-  - `Gene`: `tcdb_evidence_score_max`, `transport_substrate_resolution`.
-  - `TcdbFamily`: `metabolite_count`, `substrate_breadth` (its pinned lumping set and R3 exception are retired).
-  - The MEROPS edge keeps its same-named properties.
-- **The transport arm counts direct systems only.** It now covers 6,995 genes (`transported_metabolite_count > 0`), was ~30K. A gene reaches the substrates of the systems it points at through `tcdb_gate = 'direct'` edges, with no family roll-up:
-  - Genes placed only at family/subfamily level, or only through a near-tie / identity < 40 best hit, read 0. They keep their edges, and their family's compounds are reachable by walking down.
-  - The same rule redefines `Metabolite.transporter_gene_count` / `transporter_count`, `OrganismTaxon.transported_metabolite_count`, `ChemicalRole.transporter_count` and the transport arm of `Organism_has_metabolite` (88,579 → 52,648).
-- **`ChemicalRole.tcdb_family_count` / `direct_tcdb_family_count` are renamed `tcdb_system_count` / `direct_tcdb_system_count`.**
-- **`'transport' IN Metabolite.evidence_sources` means "TCDB lists it as a substrate of a kept system"**, not "a gene here reaches it". 825 of 1,285 tagged metabolites have `transporter_gene_count = 0`.
-- **65 Metabolite nodes, 9 ChemicalRoles, 11 MetaboliteClasses and 3 pathways removed.** These were reached only through the class-level TCDB roll-up.
-  - Metabolite 3,243 → 3,178. Ouabain `C01443`, prostaglandins, statins, vitamin D3 and the like are gone; icosanoid `chebi:23899` is re-keyed to `chebi:62937`; 31 compounds lose only the `'transport'` tag.
-  - ChemicalRole 111 → 102; MetaboliteClass 445 → 434.
-  - Pathways 452 → 449: `ko04145` Phagosome, `ko04510` Focal adhesion, `ko00532` chondroitin sulfate GAG biosynthesis.
-  - Full list: `docs/kg-changes/tcdb-cleanup/removed_ids.tsv`.
-- **`'tcdb'` in `annotation_types` (and `transporter`) now also counts a rank-1 diamond best hit with identity ≥ 40.** That adds 1,055 genes (14,745 → 15,800). 8 genes move from `informative_single` to `informative_multi`.
-- **`Gene.tcdb_assignment_count` is defined over gate-passing edges.** Ancestors of another counted node are dropped, so near-tie best hits never add an assignment.
-- **`Gene.tcdb_family_count` is renamed `Gene.tcdb_assignment_count`.** Same meaning and values; the counted TC nodes are mostly systems and subfamilies, not families. No alias — update queries that read the old name.
+- **`Gene_has_tcdb_family` is one edge per (gene, TC node, call).** `tcdb_call` names the source:
+  `eggnog`, `diamond_tier` (the tier-truncated diamond call) or `diamond_best_hit` (the specific
+  systems the protein best matches). It used to be one merged edge per (gene, TC id) with
+  `sources: ['eggnog','tcdb_diamond']`; `sources` now always has one element and edge ids include
+  the call kind. `'eggnog' IN r.sources` still works; agreement between sources is a query over
+  two edges.
+- **`tcdb_gate`** (`direct` | `annotated` | `below_gate`) on every edge decides what counts.
+  `IN ['direct','annotated']` is the set behind `annotation_types` 'tcdb', `Gene.tcdb_assignment_count`,
+  `TcdbFamily.gene_count` and enrichment; `direct` alone feeds the metabolite counts. Read the gate;
+  do not re-derive it. A rank-1 diamond best hit with identity ≥ 40 now counts, which adds 1,055
+  genes to 'tcdb' in `annotation_types` on the previous strain set.
+- **Substrates sit on systems only.** `Tcdb_family_transports_metabolite` and
+  `Tcdb_family_transports_chemical_role` leave `tc_system` nodes only (no roll-up onto families,
+  subfamilies or classes; `substrate_depth` is gone). A family's range is the walk down to its
+  systems, or `TcdbFamily.tcdb_substrate_count`. Placeholder targets ("molecule", "cation",
+  "anion" …) and coupling ions (H⁺, Na⁺) are dropped, listed in
+  `Schema_info.tcdb_substrate_excluded_targets`; protein is kept. The KEGG compound now follows
+  TCDB's ChEBI id, so an unspecified "leucine" is the generic compound, not L-leucine.
+  `Tcdb_family_transports_metabolite` 11,263 → 8,954.
+- **The transport metabolite arm counts directly placed systems only.** A gene reaches the
+  substrates of the systems it points at through `direct` edges, with no family roll-up. On the
+  previous strain set this is ~5,000 genes (was ~30K); genes placed only at family level read 0
+  but keep their edges. The same rule redefines `Gene.transported_metabolite_count`,
+  `Metabolite.transporter_gene_count` / `transporter_count`,
+  `OrganismTaxon.transported_metabolite_count`, `ChemicalRole.transporter_count` and the transport
+  arm of `Organism_has_metabolite`.
+- **`'transport' IN Metabolite.evidence_sources` means "TCDB lists it as a substrate of a kept
+  system"**, not "a gene here reaches it". Route on `transporter_gene_count > 0`.
+- **`TcdbFamily` has 9,725 nodes (was 1,515).** Every substrate-bearing system under a kept family
+  is kept, with `gene_count = 0` when no gene points at it: filter `gene_count > 0` for listings.
+  `TcdbFamily.gene_count` / `direct_gene_count` / `organism_count` count gate-passing edges only.
+  `level_kind` value `tc_specificity` is renamed `tc_system`.
+- **Renamed:** `Gene.tcdb_family_count` → `Gene.tcdb_assignment_count` (gate-passing edges; a node
+  that is an ancestor of another counted node is dropped). No alias.
+- **Removed:** on `Gene_has_tcdb_family`, `evidence_score`, `source_agreement`, `pfam_support`,
+  `go_support`, `attachment_depth`, `confidence_score`, `consensus_n`; on `Gene`,
+  `tcdb_evidence_score_max`, `transport_substrate_resolution`; on `TcdbFamily`, `metabolite_count`.
+  The MEROPS edge keeps its same-named properties.
+- **Metabolites reached only through the old class-level TCDB roll-up are gone** (ouabain,
+  prostaglandins, statins, vitamin D3 and the like), with pathways `ko04145` Phagosome and
+  `ko04510` Focal adhesion. List: `docs/kg-changes/tcdb-cleanup/removed_ids.tsv`.
+- **`TcdbFamily.superfamily` is set on every subfamily and system under a family TCDB groups**
+  (was: families and only some systems, never subfamilies). The value is TCDB's own per-family
+  grouping, sometimes distant: TCDB lists ABC (3.A.1) under "ArsA ATPase (ArsA) Superfamily".
 
-- **182 KEGG pathways irrelevant to bacteria are dropped (pathways 449 → 267).** Every pathway under
-  BRITE category Organismal Systems (89) or Human Diseases (90), except Human Diseases → "Drug
-  resistance: antimicrobial" (`ko01501` β-lactam, `ko01502` vancomycin, `ko01503` CAMP resistance,
-  kept), plus Cellular Processes → "Cellular community - eukaryotes" (3: adherens / tight / gap
-  junction). 150 of them had genes, drawn in through ribosomal, ATP synthase, chaperone and oxphos
-  KOs (e.g. `ko04212` Longevity regulating pathway - worm, 557 genes; `ko05415` Diabetic
-  cardiomyopathy). KeggTerm subcategories 46 → 24; category Organismal Systems is gone. Genes keep
-  their KOs, but KO → pathway edges fall 8,449 → 7,907 (34 KOs now reach no pathway),
-  `Metabolite_in_pathway` 9,241 → 7,943 (332 metabolites lose entries in `pathway_ids` /
-  `pathway_names` / `pathway_count`), `Reaction_in_kegg_pathway` is unchanged. **Pathway enrichment
-  backgrounds shrink** (fewer pathways tested, no animal/disease maps among the hits), and pathway
-  `reaction_count` / `metabolite_count` rollups only lose the dropped nodes. Moreno 2023's
-  "circadian rhythm" mention (`map04710`, the animal map, no KOs here) no longer resolves to a
-  pathway. The rule lives in `config/kegg_pathway_exclusions.yaml`, applied once in step 6; the
-  dropped ids and their reasons are listed in `kegg_data.json` `excluded_pathways`, and as a
-  fixture-sweep list (182 pathways, 22 subcategories, 1 category, the Moreno edge) in
+**KEGG pathways**
+
+- **182 pathways irrelevant to bacteria are dropped (270 pathways remain, was 452).** Every
+  pathway under Organismal Systems or Human Diseases, except "Drug resistance: antimicrobial"
+  (β-lactam, vancomycin, CAMP resistance kept), plus the eukaryotic cell-junction maps. 150 had
+  genes, drawn in through ribosomal, ATP synthase, chaperone and oxphos KOs (e.g. `ko04212`
+  Longevity regulating pathway - worm). Genes keep their KOs; KO → pathway and
+  `Metabolite_in_pathway` edges into these maps go, and **pathway enrichment backgrounds shrink**.
+  Subcategories 46 → 24. Moreno 2023's "circadian rhythm" mention no longer resolves to a pathway.
+  Rule: `config/kegg_pathway_exclusions.yaml`; list:
   `docs/kg-changes/kegg-pathway-exclusions/removed_ids.tsv`.
 
 ### Data
 
-- **Significance corrections from the 2026-10-31 audit** (significant edges before → after, offline
-  adapter run; edge counts unchanged unless stated):
-  - **No fold cutoff in the paper, 2-fold applied by the KG**, now `logfc_threshold: 0`: Weissberg 2025
-    15,175 → 22,398 (the authors' `is_de = padj < 0.05`; 200 NA-padj rows also stop being significant),
-    Hackl 2023 2,365 → 4,311, Johnson 2026b 1,795 → 3,515, Moreno 2023 1,461 → 2,498 (P ≤ 0.05, no fold
-    cutoff), Lin 2015 163 → 217 (also padj < 0.1, the paper's cutoff), Ferrer 2020 735 → 768, Read 2017
-    597 → 581 (BH q < 0.05 on q rounded to 2 decimals, so ≤ 0.049).
-  - **Tables listing only the paper's DE genes, now `prefiltered`**: Tai 2009 99 → 574, Domínguez-Martin
-    2017 138 → 367, Capovilla 2023 58 → 97, Biller 2016 MIT1002 1,486 → 2,053 (Table S3 has only genes up
-    at both 24 h and 48 h; scope now `filtered_subset`, the down genes were never published), Beliaev 2014.
-  - **Tables that are not DE lists, previously `prefiltered`**: Al-Hosani 2015 1,881 → 599 (whole-genome
-    table; the paper's raw p < 0.05 with no fold cutoff), Hennon 2017 Table S2 103 → 26 (the 103
-    P < 0.05 rows; the paper requires fold change > 2).
-  - **Graded asterisks**: Tolonen 2006 1,982 → 1,325 and Thompson 2011 482 → 342. A single `*` is
-    below the paper's DE criterion (Tolonen 0.01 < q < 0.05 vs q < 0.01; Thompson fold < 2), now
-    `asterisk_min_level: 2`. Tolonen also drops the garbled PMM1118 (hli4) row, where two probesets
-    were interleaved (−8 edges).
-  - **Empty p-values**: Pandhal 2007 34 → 16 (single-peptide proteins without a p-value; the paper
-    requires > 1 peptide), Koch 2019 −3.
-- **Fuszard 2012 NATL2A** — data correction. The supplement's "Ratio of means" is Deplete Mean / `# peptides`
-  on all 63 rows, so the KG asserted 61 down-regulated proteins. Now log2(Deplete / Control): 6 up and
-  1 down past the paper's 1.6 / 0.6 cutoff, which matches the paper. All three Fuszard tables are
-  `all_detected_genes` (they list every quantified protein). Fuszard significant 74 → 20.
-- **Beliaev 2014** Tables S3–S8: fold changes re-derived from RPKM with a one-read pseudocount. The
-  authors' zero-read floor (RPKM 0.12) drove every top-50 effect (up to 498-fold), and 97 genes that
-  drop to zero printed as 0.00 and were lost (+91 edges, max |log2FC| 8.96 → 8.08).
-- Documented, not changed: zero-count magnitudes in Capovilla 2023 (to ±21.5; VST counts only),
-  Anjur-Dietrich 2026 (two genes at +24 / +26; no count table) and Huang 2021 (unreplicated).
+**New papers**
 
-- **Fold-change scale corrections (2026-10-31).** Six papers' fold changes were stored on the wrong
-  scale in `Changes_expression_of.log2_fold_change`. Edge counts and significance calls are unchanged
-  except where noted; only magnitudes (and therefore `rank_by_effect` ties and any |log2FC|
-  filter) change. Corpus audit and evidence: `plans/signed_linear_fold_change.md`.
-  - **Kaur 2018, Christie-Oleza 2017, Martiny 2006, Steglich 2006, Lindell 2007** publish signed linear
-    ratios ("+3 = 3-fold up, -3 = 3-fold down"). The KG stored the linear number as if it were log2: values
-    up to -8,463.9 (Kaur), -337.3 (Christie-Oleza), 162.3 (Martiny), 61.2 (Steglich), 14.0 (Lindell's clpS
-    at 4 h, i.e. a 16,384-fold change instead of 14-fold). Now stored as sign(x) · log2|x|: maxima 13.05 /
-    8.40 / 7.34 / 5.94 / 3.81. Kaur, Christie-Oleza and Martiny call significance on q/p alone (no fold
-    cutoff), now declared explicitly as `logfc_threshold: 0`, which keeps the significant set the KG
-    already had.
-  - **Ma 2022** Table S4 (iTRAQ proteomics) writes a ratio below 1 with a minus sign ("-0.55" = 0.55). The
-    KG stored -0.55 as log2, and the 2-fold default made all 10 down-regulated proteins not significant.
-    Now log2(0.55 … 0.83) = -0.86 … -0.27, and the table is `prefiltered` (it lists only the paper's
-    selected DE proteins): significant 158 → 168.
-  - **Aharonovich 2016** HOT1A3 tables: the published ratio is (a + 0.01) / (b + 0.01), so a gene with 1 read
-    vs 0 read 101-fold, and zero-count genes held every one of the top-100 effects. Now log2((a + 1) / (b + 1))
-    from the expression columns: max |log2FC| 18.1 → 11.5 and 12.2 → 5.6. The 31 resolved rows with zero
-    reads in both arms are dropped (no measurement); significant calls are unchanged (367 and 112).
-- **Kujawinski 2023 — correction (Table S2 extracellular presence flag).** The KG asserted
-  that `presence_flag_extracellular` was a `whole_cell` assay bound to the MIT9301 intracellular
-  Experiment, because both Table S2 flags sat in one table entry. It is now its own entry under
-  the MIT9301 extracellular Experiment, so `compartment = 'extracellular'`. **The node id changes**
-  to `metabolite_assay:msystems.01261-22:presence_flags_table_s2_extracellular:presence_flag_extracellular`;
-  the intracellular flag keeps its id. The validator now errors when a metabolite assay's
-  `metric_type` names a pool its Experiment's compartment contradicts (explorer docs review K2).
+- **Ford 2021** — Biochemical Society Transactions, DOI `10.1042/BST20200244` (review). The 1,257
+  ABC-transporter substrate-binding proteins Cyanorak annotates across picocyanobacterial genomes.
+  Each of the 95 genomes in the KG gets one `BIOINFORMATIC` / `genomic_analysis` experiment with
+  two categorical metrics: `sbp_nutrient_class` (carbon / nitrogen / phosphorus / sulfur /
+  trace_metals / unknown) and `sbp_predicted_substrate` (urea, phosphate, phosphonate, iron,
+  glycine_betaine, …, `not_stated`), the paper's per-cluster calls inherited by each member gene.
+  Genes are matched by protein sequence because Cyanorak has renumbered since: 1,230 of 1,231 rows
+  resolved, onto 1,227 genes. Predictions from annotation, not experimentally validated.
+- **Manck 2020** — mSystems, DOI `10.1128/mSystems.00070-20`. *Alteromonas macleodii* ATCC27126
+  RNA-seq under iron and under carbon limitation vs replete, in the dark (2 experiments, 742 Fe /
+  958 C significant genes). Plus the 66 TonB-dependent transporters as a boolean metric (63
+  resolved) and their predicted substrates as a categorical metric.
+- **Tetu 2009** — ISME J, DOI `10.1038/ismej.2009.31`. *Synechococcus* WH8102 microarray: early
+  and late P stress against a replete reference, and phoB / phoR knockouts vs wild type. ~4,780
+  expression edges; the KG's first `mutant` experiments.
+- **Ostrowski 2010** — ISME J, DOI `10.1038/ismej.2010.24`. *Synechococcus* WH8102 ptrA knockout vs
+  wild type under P stress: the 161 genes changed > 2-fold the paper prints (160 resolved).
+- **Rubin 2015** — PNAS, DOI `10.1073/pnas.1519220112`. Genome-wide gene essentiality in
+  *Synechococcus elongatus* PCC 7942 (RB-TnSeq): categorical `gene_essentiality` (essential 718,
+  beneficial 157, non_essential 1,748, ambiguous 75, not_analyzed 25); 2,601 of 2,723 genes resolve.
+- **Oleza 2015b** — Environmental Microbiology, DOI `10.1111/1462-2920.12822`. Exoproteomes of 8
+  *Synechococcus* strains (BL107, CC9311, RS9916, RS9917, WH5701, WH7803, WH7805, WH8102), each with
+  abundance and detection metrics (3,502 gene edges), plus 4 WH8102 exoproteome contrasts: 10 h vs
+  4 d, coculture with *R. pomeroyi* DSS-3, dark vs light, cyanophage S-RSM4 infection (629 edges).
+- **Koch 2019** — ISME J, DOI `10.1038/s41396-018-0252-4`. *Alteromonas macleodii* 83-1 (new
+  strain) degrading a laminarin + alginate + pectin mix vs glucose: 4 RNA-seq experiments over all
+  4,227 genes (4,021 resolved) and four whole-cell protein-abundance metrics.
+- **Koch 2020** — Sci Rep, DOI `10.1038/s41598-020-57526-5`. Strain-unique genes among 12
+  *A. macleodii* genomes as a boolean metric for MIT1002, 83-1, AD45, ATCC27126, EZ55 and HOT1A3
+  (~90% resolved).
+- **Barber 2026** — Chem Sci, DOI `10.1039/d6sc02372j`. *Ruegeria pomeroyi* DSS-3 whole-cell
+  proteomics on L-cysteine, R-DHPS or S-DHPS vs glucose, plus R- vs S-DHPS (4 experiments, 1,836 of
+  1,837 proteins resolved).
+- **Ferrer 2020** — ISME J, DOI `10.1038/s41396-020-00811-y`. *R. pomeroyi* DSS-3 RNA-seq after 8 h
+  with the diatom *Thalassiosira pseudonana* vs an axenic glucose control (4,229 of 4,277 genes
+  resolved). The supplement's locus-tag columns are shifted in the megaplasmid block; the
+  contradicting tags are blanked rather than trusted.
+- **Durham 2015** — PNAS, DOI `10.1073/pnas.1413137112`. *R. pomeroyi* DSS-3 RNA-seq after 8 h with
+  B12-limited *T. pseudonana*: 101 significant genes, led by DHPS catabolism.
 
-- **Ford 2021 — new, Biochemical Society Transactions, DOI `10.1042/BST20200244`** (review;
-  `data/Synechococcus/papers_and_supp/Ford 2021/`). Supplementary Data S1 lists the 1,257
-  ABC-transporter substrate-binding proteins (SBPs) Cyanorak v2.1 annotates across 97
-  picocyanobacterial genomes. Each of the 95 genomes in the KG gets one `BIOINFORMATIC` /
-  `genomic_analysis` Experiment with two categorical DerivedMetrics — `sbp_nutrient_class`
-  (Figure 2: carbon / nitrogen / phosphorus / sulfur / trace_metals / unknown) and
-  `sbp_predicted_substrate` (Figure 1, Table 1 and text: urea, phosphate, phosphonate, iron,
-  glycine_betaine, …, `not_stated`) — both the paper's per-Cyanorak-cluster calls, inherited by
-  each member gene. Genes are matched by **protein sequence**, not by the paper's Cyanorak IDs
-  (Cyanorak renumbered entries after v2.1; 378 of 1,216 IDs now name another gene): 1,230 of 1,231
-  rows resolved, 99.9 % in the paper's Cyanorak cluster (UH18301's 10 rows dropped — no assembly —
-  and WH8020's — left out of the KG). Predictions from annotation,
-  not experimentally validated. Paperconfig generated by
-  `scripts/build_modified_csv/build_ford2021_sbp_classes.py`. The 1,230 rows are 1,227 genes:
-  the table lists MIT9201 `EU95_0724`, MIT9202 `P9202_1560` and PCC6307 `Cyagr_1072` twice, with
-  the same class each time (2,454 classify edges). Discuss edges: 636 of 653 gene mentions
-  resolved, onto 629 distinct genes; 4 of 6 pathways.
-- **74 new Cyanorak genome strains** (Ford 2021's genome panel; every Cyanorak v2.1 genome not
-  already in the KG except UH18301, which has only SRA reads, and WH8020, whose Cyanorak annotation is on a 2.29 Mb assembly NCBI does not carry — the gene-merge QC failed, so it is left out): 26 *Prochlorococcus* (EQPAC1, GP2,
-  HNLC1, HNLC2, LG, MIT0601–0603, MIT0701–0703, MIT9107, MIT9116, MIT9123, MIT9201, MIT9211,
-  MIT9302, MIT9311, MIT9314, MIT9321, MIT9322, MIT9401, SS2, SS35, SS51, SS52), 45 marine
-  *Synechococcus* (sub-clusters 5.1–5.3, e.g. CC9605, CC9902,
-  RCC307, WH5701, WH7805, WH8016, WH8103) and 3 *Cyanobium* (NS01, PCC6307, PCC7001).
-  Assemblies resolved from Cyanorak's GenBank/RefSeq accession through NCBI (21 strains already in
-  the KG matched their registered GCF exactly); all carry Cyanorak annotation (CK clusters, roles).
-  *Cyanobium* is filed under `Synechococcus/` for eggNOG levels (WH8102 precedent). Arrives with
-  Ford 2021 only (no DE paper). 121 OrganismTaxon nodes (115 genome strains).
-  The new genomes also widen the layers derived from genes (counts after the TCDB review →
-  now): `Metabolite` 3,178 → 3,251 (67 reached only by new strains' reactions or transporters,
-  e.g. polyphosphate `C00404`, chondroitin `C00401`, cholesterol `C00187`); KEGG pathways
-  267 → 270 (`ko00532` chondroitin sulfate degradation, listed as removed in the TCDB review's
-  `removed_ids.tsv`, is back through a new strain's KO); `Reaction_in_kegg_pathway` 6,408 → 6,557
-  (glycolysis `ko00010` 40 → 43 reactions); `TcdbFamily` 9,368 → 9,725;
-  `Tcdb_family_transports_metabolite` 8,548 → 8,954; `'transport' IN evidence_sources`
-  1,282 → 1,311, `'go_transport'` 212 → 218; `Gene_has_tcdb_family` by `tcdb_gate` direct
-  11,158 → 24,650, annotated 19,866 → 46,811, below_gate 44,799 → 100,084;
-  `Organism_has_metabolite` 52,567 → 136,678. Per-genome TCDB / MEROPS / CAZy edge rates match
-  the cyanobacteria already in the graph.
+**New strains**
 
-- **Anjur-Dietrich 2026 (was Anjur-Dietrich 2025) — preprint replaced by the published version,
-  *Nature Communications*, DOI `10.1038/s41467-026-77598-7`.** *Prochlorococcus* MIT9301 RNA-seq,
-  planktonic vs biofilm enrichment populations (1 experiment, 242 DE genes, 234 resolved).
-  The KG used to cite the bioRxiv preprint `10.1101/2025.08.05.668435`. It now cites the journal
-  article, so the Publication id (`doi:10.1038/s41467-026-77598-7`), the Experiment id
-  (`10.1038/s41467-026-77598-7_growth_state_freeliving_planktonic_enrichment_mit9301_rnaseq`) and
-  `journal`/`publication_year` change. The expression edges do not: the table is now read from
-  published Supplementary Data 2, which is identical to the preprint table. Discussed-topic edges
-  were re-extracted from the article: 5 genes, pstS/A/B/C + phoR (was pstA/B/C, phoR, rubisco —
-  `pstS` now resolves to P9301_12391 via the accession in Supp. Fig. 5; generic "rubisco" no
-  longer resolves) and 3 pathways, photosynthesis + carbon fixation + chlorophyll synthesis (was 2). Folder `Anjur 2025/` → `Anjur 2026/`.
-- **Paperconfig corrections from the control-timing review (2026-10-18; every item re-checked
-  against the paper — per-paper evidence in `plans/control_timing_curation/fixes_{A..E}.md`).**
-  - Aharonovich 2016: two HOT1A3 tables held linear ratios but were loaded as log2, so every
-    HOT1A3 gene read as up-regulated; now converted (`fold_change_type: linear`), and the controls
-    name the real comparator cocultures (MIT9313 at low HOT1A3 inoculum; MED4). Prochlorococcus
-    significance cutoff is the paper q < 0.05 (was 0.01).
+- **74 Cyanorak genomes** (Ford 2021's panel): 26 *Prochlorococcus*, 45 marine *Synechococcus*
+  (sub-clusters 5.1–5.3) and 3 *Cyanobium*, all with Cyanorak annotation (clusters, roles) and the
+  full per-strain tool set. Every Cyanorak v2.1 genome not already in the KG except UH18301 (no
+  assembly) and WH8020 (Cyanorak annotates an assembly NCBI does not carry). Genome-derived layers
+  grow with them (more metabolites, TCDB systems and organism–metabolite links); three pathways
+  return through new strains' KOs, among them `ko00532`.
+- **83-1** (*Alteromonas macleodii*, GCF_901446755.2), for Koch 2019 / 2020. Caution: the
+  submitter swapped locus prefixes between this assembly and our MIT1002 — 83-1 genes carry
+  `MIT1002_RS*` locus tags (old tags `ALT831_*`), our MIT1002 carries `ALT831_RS*`. Verified by
+  sequence; never infer the strain from these prefixes.
+
+**Corrections to existing papers**
+
+- **Significance per the paper's criterion** (significant edges before → after):
+  - No fold cutoff in the paper, now `logfc_threshold: 0`: Weissberg 2025 15,175 → 22,398, Hackl
+    2023 2,365 → 4,311, Johnson 2026b 1,795 → 3,515, Moreno 2023 1,461 → 2,498, Lin 2015 163 → 217
+    (padj < 0.1, the paper's cutoff), Ferrer 2020 735 → 768, Read 2017 597 → 581.
+  - Tables listing only the paper's DE genes, now all significant: Tai 2009 99 → 574,
+    Domínguez-Martin 2017 138 → 367, Capovilla 2023 58 → 97, Biller 2016 MIT1002 1,486 → 2,053
+    (Table S3 lists only genes up at both 24 h and 48 h), Beliaev 2014.
+  - Tables that are not DE lists, previously all significant: Al-Hosani 2015 1,881 → 599, Hennon
+    2017 Table S2 103 → 26 (the paper requires fold change > 2).
+  - Graded asterisks, where a single `*` is below the paper's criterion: Tolonen 2006 1,982 → 1,325
+    (also drops a garbled hli4 row), Thompson 2011 482 → 342.
+  - Empty p-values: Pandhal 2007 34 → 16, Koch 2019 −3.
+- **Fold-change scale:**
+  - Kaur 2018, Christie-Oleza 2017, Martiny 2006, Steglich 2006 and Lindell 2007 publish signed
+    linear ratios (+3 = 3-fold up, −3 = 3-fold down), which the KG stored as log2: values up to
+    −8,463.9 (Kaur), and Lindell's clpS read 16,384-fold instead of 14-fold. Now sign(x) · log2|x|
+    (maxima 13.05 / 8.40 / 7.34 / 5.94 / 3.81); significant sets unchanged.
+  - Ma 2022 writes a ratio below 1 with a minus sign ("−0.55" = 0.55). Now log2 of the ratio, and
+    the 10 down-regulated proteins are significant (158 → 168).
+  - Aharonovich 2016 HOT1A3: the two tables hold linear ratios with a 0.01 pseudocount but were
+    read as log2, so every HOT1A3 gene read as up-regulated and zero-count genes held every top-100
+    effect. Now log2((a + 1) / (b + 1)) from the expression columns (max |log2FC| 11.5 and 5.6);
+    31 rows with no reads in either arm are dropped.
+  - Beliaev 2014 Tables S3–S8: fold changes re-derived from RPKM with a one-read pseudocount; the
+    authors' zero-read floor drove every top-50 effect, and 97 genes that drop to zero were lost
+    (+91 edges). Down-regulated genes (linear ratio below 1) can now pass the fold cutoff.
+  - Known caveat, unchanged: zero-count magnitudes in Capovilla 2023 (to ±21.5), Anjur-Dietrich 2026
+    (two genes at +24 / +26) and Huang 2021 (unreplicated).
+- **Fuszard 2012** — the supplement's "Ratio of means" is Deplete Mean / number of peptides, so the
+  KG asserted 61 down-regulated NATL2A proteins. Now log2(Deplete / Control): 6 up and 1 down past
+  the paper's cutoffs, matching the paper (Fuszard significant 74 → 20). The cultures are
+  non-axenic (was axenic), and the NATL2A / SS120 light intensities were swapped.
+- **Weissberg 2025** — DE tables from the authors' re-export. The two "axenic long-term" RNA
+  contrasts were coculture samples against axenic and are removed. The HOT1A3 axenic proteome
+  "day 31 vs day 11" edges carried the day 89 contrast; they now carry day 31, and day 89 is its own
+  timepoint. Axenic MED4 day-14 contrasts read `growth_phase = death`; proteomics experiments read
+  `statistical_test = DEqMS`.
+- **Moreno 2023** — the 40 Marinobacter- and Alteromonas-side experiments compare glucose vs no
+  glucose, like the cyanobacterium side, but answered `treatment_type = ['coculture']` filters. Now
+  `treatment_type = ['carbon']` with `coculture` as background, and all 60 experiments name the other
+  two culture members as background partners. Medium PCR-S11 / ASW, harvest 24 h after the split,
+  4 / 40 µE light arms.
+- **Background cocultures name their partners** in 35 experiments: Moreno 2023 (20), Barreto 2022
+  (5), Weissberg 2025 (4), Biller 2018 (2), Coe 2024 (2), Hennon 2017 (2). Biller 2016's two
+  within-coculture growth-phase contrasts and Bernstein 2017's light / oxygen steady states now
+  record their partner as background, which is what it always was.
+- **Thompson 2011** — the MED4 48 h contrast is a timepoint of the MED4 starvation experiment (no
+  longer its own experiment), and the iron-rescue comparisons are named for what they compare
+  (`iron_rescue_med4_microarray` / `iron_rescue_mit9313_microarray`). Experiments 5 → 4.
+- **Anjur-Dietrich 2026** (was Anjur-Dietrich 2025) — the bioRxiv preprint is replaced by the
+  *Nature Communications* article, DOI `10.1038/s41467-026-77598-7`, so the Publication and
+  Experiment ids change; expression edges do not. Discussed genes are now pstS/A/B/C + phoR.
+- **Kujawinski 2023** — the Table S2 extracellular presence flag was a `whole_cell` assay on the
+  intracellular experiment. It is now its own assay with `compartment = 'extracellular'`; its node
+  id changes to
+  `metabolite_assay:msystems.01261-22:presence_flags_table_s2_extracellular:presence_flag_extracellular`.
+- **Experimental conditions re-checked against the papers** while curating control timing:
   - Barreto 2022: the six EZ55 "coculture with X vs axenic" tables are partner deviations from the
-    mean coculture response (Table S5 arithmetic; the 800 ppm set carries an interaction caveat);
-    the S2 pCO2 table is axenic EZ55 only (3 coculture partner edges removed); S4 is described by
-    its formula. All 11 now carry ASW + PEv/SEv, 21 C, 150 umol, 14:10 L:D (was Pro99, 22 C,
-    continuous light, 30 umol); the cyanobacteria experiments are coculture-only.
-  - Fang 2019: vDOM addition was a viral treatment with a Phage partner; now `carbon` on axenic
-    MIT9313, no partner (filtered S-ShM2/WH8102 lysate that cannot infect MIT9313).
-  - Domínguez 2017: 100 uM azaserine, sampled at 8 h, 4 umol blue light (was 10 uM, 24 h, 25 umol).
-  - Oleza 2017: cellular PROTEOMICS / whole_cell (was EXOPROTEOMICS / exoproteome); named by
-    medium; R. pomeroyi comparison at 10 days (was "long-term").
-  - Fuszard 2012: non-axenic (was axenic); NATL2A 10 and SS120 20 uE (were swapped).
-  - Moreno 2023: harvest 24 h after the split, exponential light arms, 4 / 40 uE (was "stationary",
-    undated dark arms, 15 uE). Kaur 2018, Ma 2022, Tolonen 2006: growth phases per timepoint from
-    the papers (were `acclimated_steady_state` / `acute_stress` throughout); Tolonen cluster
-    analyses carry 22 C, 50 / 10 umol.
-  - Biller 2016: MIT1002 timepoints "24h" / "48h", growth phase unknown (were "24h vs 12h",
-    exponential). Biller 2018: MIT1002 on the 36 h / 40 h experiment clock (was 1 h / 5 h).
-    Weissberg 2025: HOT1A3 day-11 controls are "day 11" / nutrient_limited, not exponential.
-  - Lin 2015 (DOI added; 21 C, continuous light, 30 umol), Lindell 2007 (spent-medium control,
-    21 C), Martiny 2006 (per-strain light; MIT9313 scope at t=24h), Capovilla 2023 (tables are
-    day 1, 24 h), Coe 2024 (cutoff p < 0.01), Kratzl 2024 (27.0 C; units), Thompson 2016 and
-    Bagby 2015 (names / context), Tai 2009 (DOI added).
-  - Tetu 2019 PVC experiments `control_timing` `matched` (were `baseline`).
-  - Closure pass: Moreno 2023 medium is PCR-S11 / ASW (was Pro99 / SN) and its notes name the
-    one-tailed test per experiment; Fuszard 2012 is 8-plex iTRAQ on an ESI qQ-TOF with a 13:11 L:D
-    cycle (`diel`); Oleza 2017 35-day ASW contrast is `stationary`; Lin 2015 infected contrasts are
-    `infected`; Bagby 2015 label "max across 70min-24h"; Weissberg 2025 axenic and coculture
-    experiments have distinct names.
-  - Moreno 2023, Barreto 2022, Hennon 2017, Huang 2020: `design_notes` now state that
-    `adjusted_p_value` holds the paper unadjusted p-value (values unchanged).
-- **Thompson 2011 (10.1038/ismej.2011.49) — experiments restructured to the paper's design.** The
-  KG had the MED4 48h contrast (48h -Fe vs 24h +Fe) as its own Experiment
-  (`..._microarray_light_2`); it is now a timepoint of the MED4 starvation Experiment, which reads
-  `control_timing = mixed`. The iron-rescue comparisons were labelled "Iron-replete control vs Iron
-  starvation" (`growth_medium_ironreplete_control_*`); they compare the same -Fe cultures after vs
-  before iron re-addition and are now `iron_rescue_med4_microarray` / `iron_rescue_mit9313_microarray`
-  with matching names. Experiments 5 → 4; edges unchanged.
-- **Weissberg 2025 (10.1101/2025.11.24.690089) — DE tables corrected from the authors' re-export.**
-  The KG asserted two "axenic long-term" RNA contrasts (MED4 days 60+89 vs day 7, HOT1A3 days 60+89
-  vs day 11); they were coculture samples compared against axenic, so both are removed (no axenic
-  RNA exists after day 14 / day 31). The HOT1A3 axenic proteome "day 31 vs day 11" edges carried the
-  day 89 contrast (an export overwrite); they now carry the real day 31 contrast, and day 89 is added
-  as its own timepoint. The MED4 coculture-vs-axenic tables now name their control days (axenic
-  day 7 / day 14). Net: 34 DE tables (was 35), 10 Experiments unchanged. The axenic MED4 day-14
-  contrasts (RNA-seq + proteome) now read `growth_phase = death` (was `nutrient_limited`; the paper
-  calls these cultures dying), and the 4 proteomics Experiments read `statistical_test = DEqMS`
-  (was DESeq2; `DEqMS` added to the validator's test types).
-- **Moreno 2023 (10.1128/spectrum.03275-22) — 40 heterotroph-side experiments corrected.** All
-  three sides of every condition compare glucose vs no glucose, yet the 20 Marinobacter-side and 20
-  Alteromonas-side experiments carried `coculture` in `treatment_type`. Before: they answered
-  `treatment_type = ['coculture']` filters as if they were coculture-vs-axenic contrasts. Now:
-  `treatment_type = ['carbon']`, `coculture` in `background_factors`, and every one of the 60
-  Moreno experiments names the other two members of its culture (cyanobacterium + Marinobacter
-  (MarRef v6) + Alteromonas (MarRef v6)) as `background` partners. Curator-confirmed 2026-10-13.
-- **35 background cocultures now name their partner(s)** — Moreno 2023 (20), Barreto 2022 (5,
-  pooled axenic + coculture designs, partners recorded as background), Weissberg 2025 (4: MED4 ↔
-  HOT1A3, RNA-seq + proteomics), Biller 2018 (2) and Coe 2024 (2) (NATL2A ↔ MIT1002), Hennon 2017
-  (2: MIT9312 ↔ EZ55). Biller 2016's two within-coculture growth-phase contrasts and Bernstein
-  2017's light/oxygen steady states move their partner from `treatment_organism` to
-  `background_organisms`, which is what they always were.
-
-- **83-1** (*Alteromonas macleodii*, GCF_901446755.2, taxid 28108, PacBio complete genome, ICBM) —
-  new genome strain for Koch 2019 / Koch 2020; NCBI + eggNOG + per-strain tools, no Cyanorak.
-  Caution: the submitter's locus prefixes are swapped vs MIT1002 — 83-1 genes carry `MIT1002_RS*`
-  locus tags (old tags `ALT831_*`), our MIT1002 carries `ALT831_RS*`; verified by sequence (our
-  MIT1002 shares 97.0% identical proteins with the independent MIT1002 draft, the 83-1 assembly
-  22.7%).
-- **Manck 2020** — new, mSystems, DOI `10.1128/mSystems.00070-20`
-  (`data/Prochlorococcus/papers_and_supp/Manck 2020/`). *Alteromonas macleodii* ATCC27126 RNA-seq
-  (DESeq2) under iron and carbon (glucose) limitation vs replete, in the dark: 2 DE experiments from
-  Data Set S1 (significant ORFs only, |log2FC| ≥ 1, FDR < 0.05; 742 Fe / 958 C edges). A
-  BIOINFORMATIC `genomic_analysis` experiment carries two DerivedMetrics on the 66 TonB-dependent
-  transporters (TBDTs) of Data Set S2: boolean `tbdt_manck2020` (63 genes resolved; 3 are now RefSeq
-  pseudogenes/retired tags) and categorical `tbdt_predicted_substrate_manck2020` (Table 1
-  gene-neighbourhood substrate predictions for the 26 Fe/C-responsive TBDTs). Data Set S3 (1,804
-  TBDTs across 31 Alteromonas genomes) is not integrated (backlog).
-- **Tetu 2009** — new, ISME J, DOI `10.1038/ismej.2009.31` (`data/Synechococcus/papers_and_supp/Tetu
-  2009/`). *Synechococcus* WH8102 whole-genome microarray (SAM, FDR < 5%; Supplementary Table 1A–D,
-  significant genes only): early and late P stress (5 µM vs 87 µM P; one `phosphorus` experiment,
-  two timepoints, `control_timing: baseline` against a mid-log replete reference) and phoB
-  (SYNW0947) / phoR (SYNW0948) knockouts vs wild type (`mutant`, P-replete, mid-log). ~4,780
-  expression edges, 99% of rows resolved. The KG's first `mutant` experiments.
-- **Ostrowski 2010** — new, ISME J, DOI `10.1038/ismej.2010.24`
-  (`data/Synechococcus/papers_and_supp/Ostrowski 2010/`). *Synechococcus* WH8102 ptrA (SYNW1019,
-  CRP-family regulator) knockout vs wild type, both under P stress (10 µM PO4, ~125–150 h),
-  microarray SAM FDR < 1%: the 161 genes changed > 2-fold that the paper prints (main-text Tables
-  1–2 + Supplementary Table 3; `table_scope: filtered_subset`), 160/161 resolved.
-- **Barber 2026** — new, Chem Sci, DOI `10.1039/d6sc02372j`
-  (`data/Prochlorococcus/papers_and_supp/Barber 2026/`). *Ruegeria pomeroyi* DSS-3 whole-cell LFQ
-  proteomics (MaxQuant + Perseus t-tests, q < 0.05) on L-cysteine, R-DHPS or S-DHPS vs glucose as
-  sole carbon source, plus R- vs S-DHPS; 4 experiments / 4 analyses over 1,837 proteins (1,836
-  resolved). The *Bilophila wadsworthia* proteome and the TRAP sequence-similarity-network tables
-  are not integrated.
-- **Ferrer 2020** — new, ISME J, DOI `10.1038/s41396-020-00811-y`
-  (`data/Prochlorococcus/papers_and_supp/Ferrer 2020/`). *R. pomeroyi* DSS-3 RNA-seq (DESeq2) after
-  8 h in coculture with the diatom *Thalassiosira pseudonana* CCMP1335 vs an axenic glucose control;
-  1 experiment, 4,277 genes (4,229 resolved; 776 at padj < 0.05). The table's "New Locus Tag" and
-  "Protein Tag" columns are shifted one row against "Original Locus Tag" in the megaplasmid block
-  (and ~370 accessions are from an older RefSeq annotation); the builder blanks the 100 tags and 467
-  accessions that contradict NCBI's own pairing, which had merged neighbouring DSS-3 genes (90
-  gene-ID conflicts → 0; no resolved row changes gene). *T. pseudonana* joins as a
-  treatment organism (no genome). The *Polaribacter* MED152 and *Stenotrophomonas* SKA14 tables are
-  not integrated (not KG strains).
-- **Durham 2015** — new, PNAS, DOI `10.1073/pnas.1413137112`
-  (`data/Prochlorococcus/papers_and_supp/Durham 2015/`). *R. pomeroyi* DSS-3 RNA-seq (baySeq) after
-  8 h of coculture with B12-limited *T. pseudonana* vs DSS-3 alone; significant-only table of 101
-  genes (linear fold changes converted to log2), led by DHPS catabolism genes. 1 experiment, 101/101
-  resolved.
-- **Rubin 2015** — new, PNAS, DOI `10.1073/pnas.1519220112`
-  (`data/Synechococcus/papers_and_supp/Rubin 2015/`). Genome-wide gene essentiality in
-  *Synechococcus elongatus* PCC 7942 from a barcoded Tn5 library (RB-TnSeq) under standard lab
-  conditions: one experiment (`treatment_type [essentiality]`, new value; `omics_type DNASEQ`)
-  carrying Dataset S3 as the categorical DerivedMetric `gene_essentiality` (essential 718,
-  beneficial 157, non_essential 1,748, ambiguous 75, not_analyzed 25). 2,601 of 2,723 genes resolve
-  (misses: tRNAs, plasmid genes, ~57 genes with no bridge from the old GCF_000012525 tags to the
-  GCF_014698905 assembly).
-- **Oleza 2015b** — new, Environmental Microbiology, DOI `10.1111/1462-2920.12822` (Christie-Oleza
-  et al. 2015, "Functional distinctness in the exoproteomes of marine Synechococcus";
-  `data/Synechococcus/papers_and_supp/Oleza 2015b/`). Exoproteomes (cell-free supernatant, shotgun
-  LC-MS/MS, %NSAF) of 8 *Synechococcus* strains — BL107, CC9311, RS9916, RS9917, WH5701, WH7803,
-  WH7805, WH8102 — each an `EXOPROTEOMICS` characterization experiment with two DerivedMetrics
-  (`exoproteome_avg_pct_nsaf`, `exoproteome_detection_status`; 3,502 gene edges), plus 4 WH8102
-  exoproteome DE experiments (Table S6, PatternLab TFold, p < 0.05 and 2×): 10 h vs 4 d incubation,
-  coculture with *R. pomeroyi* DSS-3 vs axenic, 10 h dark vs light, cyanophage S-RSM4 infection (629
-  expression edges). The 2012 NP_/YP_/ZP_ accessions are bridged to current genes by diamond protein
-  matching for BL107, CC9311, RS9917 and WH8102 (≥ 99% of rows resolved).
-- **Koch 2019** — new, ISME J, DOI `10.1038/s41396-018-0252-4`
-  (`data/Prochlorococcus/papers_and_supp/Koch 2019/`). *Alteromonas macleodii* 83-1 (new strain)
-  degrading a laminarin + alginate + pectin mix vs glucose, Table S1 (all 4,227 genes; 4,021
-  resolved — misses are mostly tRNA/rRNA/hypotheticals the RefSeq annotation does not carry under
-  these tags): 4 DESeq2 RNA-seq experiments (alginate/pectin phase vs laminarin phase; glucose
-  stationary vs exponential; mix vs glucose at 13 h and at 21 h; |log2FC| ≥ 2, padj < 0.001) and
-  four whole-cell %NSAF numeric DerivedMetrics (G1, G2, M1, M2). FT-ICR-MS exometabolome (formulas
-  only) and the exoproteome fractions are not integrated.
-- **Koch 2020** — new, Sci Rep, DOI `10.1038/s41598-020-57526-5`
-  (`data/Prochlorococcus/papers_and_supp/Koch 2020/`). Strain-unique genes among 12 *Alteromonas
-  macleodii* genomes (Table S7) as the boolean DerivedMetric `strain_unique_gene_koch2020` on one
-  BIOINFORMATIC `genomic_analysis` experiment per KG strain: MIT1002 197, 83-1 117, AD45 213,
-  ATCC27126 105, EZ55 158, HOT1A3 63 genes (~90% resolved; misses are tags the RefSeq
-  re-annotation dropped). EZ55 and HOT1A3 rows carry JGI IMG locus tags (genomes 2785510739 /
-  2687453488), bridged to the NCBI genes by protein-sequence match against the IMG protein FASTA
-  + GFF (`img_annotation/`). Not integrated: Table S3 (MIT1002 24/48 h vs 12 h in coculture with
-  NATL2A — a filtered re-analysis of the Biller 2016 data already in the KG), the anvio pangenome
-  (no locus tags), FT-ICR-MS formulas (no compound identity).
-- **Not integrated from this batch** (backlog, `plans/backlog.md` § Paper batch 2026-10-28): Manck
-  2020 Data Set S3 (cross-strain TBDT families), Schroer 2023 (curated transporter → substrate
-  units), Oleza 2012 (natural-community and seawater-origin designs), Doré 2020 / 2023
-  (ortholog-group-level genomics), FT-ICR-MS formula tables (Koch 2019 / 2020).
+    mean coculture response; the pCO2 table is axenic EZ55 (3 partner edges removed); all 11
+    experiments carry ASW, 21 °C, 150 µmol, 14:10 L:D (was Pro99, 22 °C, continuous light, 30 µmol).
+  - Fang 2019: vDOM addition is `carbon` on axenic MIT9313 (was a viral treatment with a phage
+    partner).
+  - Aharonovich 2016: controls name the real comparator cocultures; *Prochlorococcus* cutoff q <
+    0.05 (was 0.01).
+  - Domínguez 2017: 100 µM azaserine, 8 h, 4 µmol blue light (was 10 µM, 24 h, 25 µmol).
+  - Oleza 2017: cellular proteomics, whole cell (was exoproteome); R. pomeroyi comparison at 10 days.
+  - Fuszard 2012: 8-plex iTRAQ, 13:11 L:D cycle.
+  - Kaur 2018, Ma 2022, Tolonen 2006: growth phase per timepoint from the papers.
+  - Biller 2016: MIT1002 timepoints "24h" / "48h". Biller 2018: MIT1002 on the 36 h / 40 h clock
+    (was 1 h / 5 h).
+  - Smaller fixes to Lin 2015, Lindell 2007, Martiny 2006, Capovilla 2023, Coe 2024, Kratzl 2024,
+    Thompson 2016, Bagby 2015 and Tai 2009. Moreno 2023, Barreto 2022, Hennon 2017 and
+    Huang 2020 note that `adjusted_p_value` holds the paper's unadjusted p-value.
 
 ### Added
 
-- `asterisk_min_level` (paperconfig): the minimum number of `*` that counts as significant, for
-  legends that grade stars below the paper's DE criterion.
-- `_modified.csv` builders `build_beliaev2014_modified_csv.py` and `build_tolonen2006_modified_csv.py`;
-  `build_fuszard2012_modified_csv.py` now always recomputes Deplete / Control.
-
-- `fold_change_type: signed_linear` for DE tables that publish signed linear ratios (+3 = 3-fold up,
-  -3 = 3-fold down): stored as sign(x) · log2|x|. A value in (-1, 1), which that convention cannot
-  hold, is an error in `validate_paperconfig.py` (whole column checked) and makes the adapter build no
-  edges for the analysis (shared check `multiomics_kg/utils/fold_change.py`). The validator and the
-  adapter both warn when a table declared log2 has no value in (-1, 1) and |value| > 20, the signature
-  of an undeclared signed linear table. `/paperconfig`'s `UPDATE_EXISTING_CONFIGS.md` is now the
-  checklist for auditing an existing paperconfig's scale and significance fields.
-- `_modified.csv` builders `build_ma2022_modified_csv.py` and `build_aharonovich2016_hot1a3_modified_csv.py`.
-
-- **`treatment_type` values `mutant` and `essentiality`.** `mutant` = a knockout or mutant strain
-  compared with its wild type (Tetu 2009, Ostrowski 2010); `essentiality` = a transposon-mutagenesis
-  gene-essentiality characterization (Rubin 2015). Declared on all four `treatment_type`
-  vocabularies (Experiment, ClusteringAnalysis, DerivedMetric, MetaboliteAssay); the validator
-  reads them from `config/controlled_vocabularies.yaml`. `baySeq` joins the validator's test types
-  (Durham 2015). *Thalassiosira pseudonana* (taxid 35128) is a treatment organism — the first
-  eukaryote partner (no genome).
-
-- **`[tcdb_best_hit]` description lines on genes.** prepare_data step 2 appends one `alternate_functional_descriptions` line per gene whose rank-1 TCDB diamond best hit passes the `direct` gate (identity >= 40, landing on a kept `tc_system` after the `seed_aliases` remap): `[tcdb_best_hit] <system display_name> [<tcdb_id>] :: [tcdb_substrates] <names>` (at most 8 names, then "and N more"; the fixed words are bracketed underscore tokens, so a full-text search for "substrates" or "TC" does not match every carrier). It states only what the `direct` best-hit edge states (no near-ties, tier-3, eggNOG or `diamond_tier` calls), and `geneFullText` already indexes the field. Live (2026-10-31): 16,423 genes (every rank-1 `direct` best hit, of 28,950 rank-1 best hits), 8,775 with a substrate clause. Step 2 reads step 6's committed TCDB/KEGG caches for the names, so a newly onboarded strain needs `--steps 6 --force` then `--steps 2 --force` (step 2 warns).
-- **`TcdbFamily.display_name`** (dense). Equal to `name`, except that an unnamed subfamily or system (1,248 subfamilies, 573 with genes; 384 systems, 11 with genes) borrows its nearest named ancestor's name: `"The ATP-binding Cassette (ABC) Superfamily — subfamily 3.A.1.118"`. `name` is unchanged, so `t.name = t.tcdb_id` still marks the unnamed nodes.
-- **Local builds stamp their git identity.** `scripts/build.sh` writes `git_provenance.txt`
-  (sha, branch, dirty = modified tracked files) from the checkout into the build output, and
-  `post-import.sh` fills `Schema_info.git_sha` / `git_sha_short` / `git_branch` / `git_dirty` from
-  it when `KG_GIT_*` are unset — so two dev builds are told apart by more than `built_at`.
-  `/release-kg`'s `KG_GIT_*` still take precedence.
-
-- **`omics_type: BIOINFORMATIC`** for experiments computed from genome sequence or annotation,
-  with `treatment_type: [genomic_analysis]` and `background_factors: []` (validator, vocabulary,
-  post-import re-materialization and KG test updated).
-- **Paper strains for discuss-edge extraction now include the `organism` of `gene_clusters` /
-  `derived_metrics_table` / `metabolite_assays_table` entries** (`get_paper_strains`), so a paper
-  whose strains appear only there still gets candidate strains. Hackl 2023 gains its 11
-  genomic-island strains on its next re-resolve.
-
-- **TCDB cleanup (project 3a)** — see `### Breaking` and `docs/kg-changes/tcdb-cleanup.md`:
-  - **`Gene_has_tcdb_family.tcdb_call`** (`eggnog` | `diamond_tier` | `diamond_best_hit`) and **`tcdb_gate`** (`direct` 11,158 · `annotated` 19,866 · `below_gate` 44,799). The gate is dense and ordered, computed in the adapter, and is the one set every TCDB count and enrichment reads.
-  - **`diamond_best_hit` edges** onto each best-hit system (rank-1 + near-ties), each with its own alignment: `rank`, `tier` (identity band ≥ 70 / 40–70 / < 40), `identity`, `qcov`, `scov`, `evalue`, `bitscore`, `bitscore_ratio`. This includes the ~188 proteins with a best hit but no tier call. `qcov` is declared in percent, its real scale.
-  - **`TcdbFamily.direction`** (`uptake` 646 · `export` 566 · `unknown` 8,156; TCDB-stated only and conservative, from two sources: a system's own unhedged, non-organellar TCDB name (secretion counts as export), or ABC uptake numbering `3.A.1.1–99` unless contradicted. Family and subfamily names never give a direction, to themselves or their systems; the node's description can veto; `config/tcdb_direction_overrides.yaml` removes it from disputed systems and non-transporter groups. Checked against every directed node by a seven-reviewer audit) with sparse **`direction_basis`** (`abc_numbering` | `tcdb_name`).
-  - **`TcdbFamily.tcdb_substrate_count`** (all levels: TCDB's substrate range in the subtree).
-  - **Range-only systems.** 5,862 nodes; every substrate-bearing system under a kept family is kept. Diamond best-hit systems now seed pruning.
-  - **Wider name scrape.** The TCDB name scraper covers every kept system: 592 family pages, 9,622 names; 134 systems unnamed upstream.
-  - **Bridges on all kept nodes.** The Pfam / GO bridges now cover range-only systems: Pfam 5,772, BP 5,780, MF 5,545, CC 3,451.
-  - **Vocabulary.** New `ControlledVocabulary` entries move `controlled_vocabularies_hash`.
-  - **calls.json.** The `best_hit` block gains a per-system `hits` list (`run_tcdb_diamond.py --from-tsv`; no diamond re-run, `best_hit_v1` unchanged).
-- **TCDB diamond best-hit details on `Gene_has_tcdb_family`** (transport programme project 2): the diamond-sourced edge in the top hit's family now carries the gene's actual best-hit TCDB systems, which the tier call truncates away (MED4 cynD is called `3.A.1`; its best hit is `3.A.1.16.2`, "Bispecific cyanate/nitrite transporter."). Six sparse properties: `best_hit_tcids` (up to 3, best first; near-ties within 90% of the top bitscore, any family), `best_hit_names`, `best_hit_identity`, and a long-form, index-aligned table `best_hit_substrate_tcids` / `best_hit_substrate_ids` / `best_hit_substrate_names` (each system's own TCDB substrates, unfiltered; ids need not be nodes). Rule `best_hit_v1`: query and reference coverage ≥ 75%, TC class 1–4, reciprocal best hit. 12,379 proteins over 43 strains (12,231 edges; 188 proteins with no tier call keep the best hit only in the merged annotations' new `tcdb_best_hit_ids`). A raw clue, not a call — tier stays the conservative claim. **Superseded within this release by the TCDB cleanup below:** the six properties ship as `diamond_best_hit` edges instead. No node, edge or other property changes; +6 `ControlledVocabulary` entries move `controlled_vocabularies_hash`. Also: `run_tcdb_diamond.py --from-tsv` rebuilds calls.json without diamond, and the TCDB name scraper is now merge-preserving (a `--families` top-up used to drop every other family's names). See `docs/kg-changes/tcdb-diamond-best-hit.md`.
-- **GO transport substrates: GO term to Metabolite / ChemicalRole edges** (518 in total, from GO release 2026-07-26): `Molecular_function_transports_metabolite` (257), `Biological_process_transports_metabolite` (246), `Molecular_function_transports_chemical_role` (7), `Biological_process_transports_chemical_role` (8), each with `go_chebi_ids` (ChEBI ids as GO's `has primary input` axiom states them). Term definitions, not gene facts; own axioms only, no `is_a` propagation. 13 ids (11 upper-level ChEBI classes plus H+ and Na+) are excluded as targets and listed in **`Schema_info.go_transport_excluded_targets`**. +29 `Metabolite` nodes (3,214 to 3,243) carrying the new `Metabolite.evidence_sources` value `go_transport`; +6 `Metabolite_in_pathway` into already-kept pathways (no new `KeggTerm`); sparse `Metabolite.go_transport_organism_names` / `go_transport_organism_count` (198 metabolites). Adding the value moves `controlled_vocabularies_hash`. See `docs/kg-changes/go-transport-substrates.md`.
-- **`Experiment.control_timing`** (`matched | baseline | mixed`, curated, sparse — present on
-  every experiment with a DE contrast; `matched` = same sampling time or same growth state) and
-  **`Experiment.design_notes`** (sparse free text; required for `baseline`/`mixed`, and says how
-  the arms were matched when not by sampling time; added to `experimentFullText`). `time_point`
-  and `growth_phase` describe the treatment arm. All 173 DE experiments over 36 papers were curated
-  from the methods (151 `matched`, 18 `baseline`, 4 `mixed`) — log and per-paper evidence in
-  `plans/control_timing_curation.md`. A planned `statistical_model_id` (experiments fitted as one
-  model) was dropped before release: most papers do not report how DE was fitted.
-  Paperconfig: `publication.control_timing` default + experiment override; `validate_paperconfig.py`
-  enforces the rules. `Experiment.control_timing` registered as a `ControlledVocabulary`.
-- **`background_organisms`** optional experiment field in paperconfig (list of
-  `{organism, taxid | assembly_accession}`), one `Tests_coculture_with` edge per entry with
-  `partner_role = background`; `scripts/validate_paperconfig.py` errors when `coculture` is in
-  `background_factors` with no partner named and warns when a `treatment_organism` is read as
-  background. `Tests_coculture_with.partner_role` registered as a `ControlledVocabulary` with
-  value descriptions. Structural edges (`Has_experiment`, `Tests_coculture_with`) are now emitted
-  even for a paperconfig with no supplementary tables.
-- **`MetaboliteClass`** (434 nodes / 1,117 memberships over 8 BRITE compound trees, after the TCDB cleanup; 445 / 1,152 before it) with `Metabolite_in_metabolite_class` and `Metabolite_class_is_a_metabolite_class`.
-- **Metabolite identity properties**: `kegg_compound_ids`, `chebi_ids`, `mnxm_ids`, `all_identifiers` (CURIE-only), `identifier_tokens`, `recurated_from_ids`, `identity_basis`, `structure_kind` (defined 2,564 / generic 624 / polymer 26), `removed_stereo_xrefs` (ids of a more specific stereo form taken off a `chebi:` node; no identity meaning), `kegg_functional_categories` (br08001 top level) and `kegg_brite_classes` (top level of the 7 other compound trees, as `"<Tree>: <class>"`, e.g. `Lipids: Fatty acyls`; 28 values, closed `ControlledVocabulary`).
-- **`Metabolite_is_stereo_form_of`** (99) and **`Metabolite_is_enantiomer_of`** (28).
-- **`stereo_assignment`** (`as_reported` | `dominant_form_assumed`) on `Assay_quantifies_metabolite` / `Assay_flags_metabolite`.
-- **`ChemicalRole`** (102 nodes, `Chemical_role_is_a_chemical_role` 120) and **`Tcdb_family_transports_chemical_role`** (367, from `tc_system` nodes only) — counts after the TCDB cleanup (111 / 132 / 392 before it, see `### Breaking`).
-- **`data_source:kegg` / `data_source:chebi`** (DataSource 9 → 11) and **`Schema_info.chebi_release`**.
-- **`Gene.coordinate_source`** (`ncbi` | `cyanorak`, dense) and **`Gene.sequence_source`**
-  (`ncbi` | `cyanorak`, sparse — present iff `sequence`) say which caller placed and
-  translated a gene. Registered in `config/controlled_vocabularies.yaml`.
+- **Schema completeness:** every property the post-import step computes is now declared in
+  `config/schema_config.yaml`, so `Schema_info.schema_info` lists the graph's full property set.
+  72 were missing, among them ontology `gene_count` / `direct_gene_count` / `organism_count` /
+  `is_uninformative`, the Gene routing signals (`interpro_entry_count`, `ncbifam_family_count`,
+  `merops_*`, `subcellular_localization`, `signal_peptide_type`, cluster and discussed-in
+  counts), the OrganismTaxon / Publication / Experiment cluster rollups, and
+  `Gene_has_merops_family.{evidence_score, pfam_support}`. Guarded by
+  `tests/kg_validity/test_schema_coverage.py` (every live property declared, types agree).
+- **Transport (TCDB):**
+  - `Gene_has_tcdb_family.tcdb_call` and `tcdb_gate` (see `### Breaking`). `diamond_best_hit` edges
+    carry each system's own alignment: `rank` (1 = top), `tier` (identity band ≥ 70 / 40–70 / < 40;
+    not comparable with the consensus tier on `diamond_tier` edges), `identity`, `qcov`, `scov`,
+    `evalue`, `bitscore`, `bitscore_ratio`.
+  - `TcdbFamily.direction` (`uptake` | `export` | `unknown`) with `direction_basis`
+    (`tcdb_name` | `abc_numbering`). TCDB-stated only and conservative: from a system's own TCDB
+    name (secretion counts as export) or ABC uptake numbering; family names never give a direction.
+  - `TcdbFamily.tcdb_substrate_count`, `display_name` (an unnamed subfamily or system borrows its
+    nearest named ancestor's name, e.g. "The ATP-binding Cassette (ABC) Superfamily — subfamily
+    3.A.1.118"; `name` keeps the bare id as the unnamed marker) and `proteins` (gene symbols,
+    accessions and organism of a system's proteins, searchable: "UrtA" finds the urea porters).
+  - Gene descriptions gain a `[tcdb_best_hit]` line naming the gene's best-matching system and its
+    substrates (16,423 genes), so `geneFullText` finds a gene by its transporter's name or substrate.
+  - The Pfam and GO bridges cover every kept system.
+- **GO transport substrates:** `Molecular_function_transports_metabolite` /
+  `Biological_process_transports_metabolite` and the matching `_chemical_role` edges, from GO's
+  `has primary input` definitions, each with `go_chebi_ids`. These are term definitions, not gene
+  facts, and are not propagated along `is_a`. Excluded targets (upper-level classes, H⁺, Na⁺) are
+  listed in `Schema_info.go_transport_excluded_targets`. New `Metabolite.evidence_sources` value
+  `go_transport`, and sparse `Metabolite.go_transport_organism_names` / `go_transport_organism_count`.
+  See `docs/kg-changes/go-transport-substrates.md`.
+- **Metabolite identity and classes** (`docs/kg-changes/metabolite-identity-and-classes.md`):
+  - `MetaboliteClass` (436 nodes over 8 KEGG BRITE compound trees) with
+    `Metabolite_in_metabolite_class` and `Metabolite_class_is_a_metabolite_class`.
+  - `ChemicalRole` (102 nodes) with `Chemical_role_is_a_chemical_role` and
+    `Tcdb_family_transports_chemical_role`.
+  - `Metabolite_is_stereo_form_of` and `Metabolite_is_enantiomer_of`: stereo relations, not merges.
+  - Metabolite properties `kegg_compound_ids`, `chebi_ids`, `mnxm_ids`, `all_identifiers`
+    (CURIE-only), `identifier_tokens`, `identity_basis`, `structure_kind` (defined / generic /
+    polymer), `kegg_functional_categories`, `kegg_brite_classes`, `recurated_from_ids` and
+    `removed_stereo_xrefs` (the last two carry no identity meaning; never join on them).
+  - `stereo_assignment` (`as_reported` | `dominant_form_assumed`) on assay edges:
+    `dominant_form_assumed` when the paper's name gives no stereo form and the node is a specific
+    one.
+  - DataSource nodes `kegg` and `chebi`, and `Schema_info.chebi_release`.
+- **Experiment design:** `Experiment.control_timing` (`matched` | `baseline` | `mixed`; curated
+  from the methods for every experiment with a DE contrast) and `Experiment.design_notes`
+  (searchable). `Tests_coculture_with.partner_role` and `OrganismTaxon.partner_experiment_count`.
+  `omics_type: BIOINFORMATIC`, and `treatment_type` values `mutant` and `essentiality`.
+- **Genes:** `Gene.coordinate_source` (`ncbi` | `cyanorak`) and `Gene.sequence_source` say which
+  annotation placed and translated a gene.
+- **Build identity:** local builds stamp `Schema_info.git_sha` / `git_sha_short` / `git_branch` /
+  `git_dirty` from the checkout.
+- **Paperconfig:** `background_organisms` (partners present but not under test), `control_timing`
+  / `design_notes`, `fold_change_type: signed_linear`, `asterisk_min_level`, and a required
+  `logfc_threshold` (no default). `validate_paperconfig.py` enforces them and flags tables whose
+  values look like an undeclared signed-linear scale.
 
 ### Changed
 
-- `omics_adapter` has no default `logfc_threshold`. `validate_paperconfig.py` errors when a
-  threshold-judged analysis (not `prefiltered`, no asterisks) has none, and the adapter builds no
-  edges for it. All 180 analyses that relied on the old 2-fold default now state the paper's value.
-
-- **InterPro reference refreshed to release 110.0** (3 Sep 2026; was 109.0): 54,922 entries
-  (+854 / −122). Entry names, GO and EC cross-references follow the new release: over the merged
-  gene annotations, EC tokens −352 / +43 (mostly the vague `6.3.5.-` dropped from 201 genes), GO
-  changed on 175 genes, 3,459 `[interpro]` description lines renamed; 3 genes move from
-  `informative_multi` to `informative_single`. **Retired accessions are dropped**: 38 accessions our
-  InterProScan 109.0 calls still carry are gone from release 110.0 (35 auto-named PANTHER families,
-  e.g. `IPR050059` "ATP synthase B chain"), so their nodes and 1,665 gene edges are no longer emitted
-  (they had shipped with `name = ''` / `interpro_type = ''`) — `InterproEntry` 13,352 → 13,314,
-  `Gene_has_interpro_entry` 945,741 → 944,076. Re-scanning with InterProScan 110 is in the backlog.
-- **`stereo_assignment = 'dominant_form_assumed'` now also covers stereo forms with no ChEBI enantiomer.** A paper name without a stereo descriptor that lands on a node whose KEGG entry ChEBI files under both a specific and a stereo-unspecified form of one structure (cis/trans-only differences exempt) is flagged. Measured on the committed caches: 4 assay rows flip from `as_reported` (biller 2022 "Homocystine" -> L-Homocystine and "Methylthioadenosine"; Kujawinski 2023 "5'-methylthioadenosine" and "pantothenic acid"). Rows that report a KEGG id keep `as_reported`. Paper aliases (`metabolite_aliases.yaml`) now follow the same rule: `stereo_assignment` is optional there (omitted → the name-match rule), and an explicit value that differs from the rule is kept but listed in the identity report's new `alias_stereo_review`. 7 alias values that only restated the old `as_reported` default are corrected to `dominant_form_assumed` (biller 2022 "Adenosyl Homocysteine", "Glutathione Disulfide", "Vitamin B5"; Kujawinski 2023 "glutathione oxidized", "2,3-dihydroxypropane-1-sulfonate", "n-acetyl muramic acid", "n-acetyl glutamic acid"), so **11 assay-row names flip** in all (44 assay edges on the 2026-10-31 build). 3 curated `dominant_form_assumed` values the rule cannot see (biller "Adenosyl Methionine", "Glucose 1 phosphate", "Methionine Sulfoxide") stay and are listed for review.
-- **TCDB substrates: ChEBI decides the compound, placeholders and coupling ions dropped.** Substrate resolution is keyed on TCDB's ChEBI id; the KEGG id now comes from ChEBI (its own cross-reference, then charge forms, then an MNX alias ChEBI does not contradict), not MNX's lowest C-number, so an unspecified "leucine", "glutamate", "tryptophan" … is the generic compound (`Metabolite_is_stereo_form_of` links it to the L form) and "ditritium" is no longer H₂. A new target filter (`config/tcdb_substrate_target_filter.yaml`: GO's targets + "molecule", "cation", "anion" and other placeholders) drops 2,213 (system, target) pairs, including H⁺ and Na⁺: `Tcdb_family_transports_metabolite` 10,765 → 8,548. **Protein is kept** as a substrate — and leaves the GO filter too (+1 GO edge) — as one node (`chebi:36080` merged into `kegg.compound:C00017`), so Sec, Tat and secretion systems answer "what moves protein"; excluded ids in **`Schema_info.tcdb_substrate_excluded_targets`**. TCDB's own wrong ChEBI ids are not corrected (backlog). Metabolites unchanged at 3,178 (26 out, 26 in). Direction also reads **secretion as export** (Sec, type II–IX secretion systems), and a role phrase ("involved in bile secretion") is weak.
-- **GO refreshed from the March 2026 release to 2026-07-26** (85 terms added, 732 obsoleted). MolecularFunction nodes 2,899 to 2,890, BiologicalProcess 3,433 to 3,322, CellularComponent unchanged at 451; `Gene_enables_molecular_function` 363,298 to 362,439, `Gene_involved_in_biological_process` 546,971 to 533,186, `Gene_located_in_cellular_component` 154,722 to 155,459. GO is now refreshed only as go-basic + go-plus together (release-checked, `refresh_go_release`), never during a KG build. 23,462 gene annotations that used an alt_id of a live term are now recovered onto the live term; annotations to obsolete terms are dropped, not remapped via `replaced_by` (about 18,300 became obsolete in this release).
-- **prepare_data step 7 folded into step 6** (`resolve_paper_metabolites.py` is a no-op alias; step 6 writes the `_resolved.csv` files). Default `STEPS` is now `0 9 1 2 3 4 5 6 8 10`.
+- **InterPro reference release 110.0** (was 109.0). Names, GO and EC cross-references follow the
+  new release (e.g. the vague EC `6.3.5.-` is dropped from 201 genes). 38 accessions our scans
+  still call are retired in 110.0 (mostly auto-named PANTHER families); their nodes and 1,665 gene
+  edges are not emitted until the strains are re-scanned.
+- **GO release 2026-07-26** (was March 2026; 85 terms added, 732 obsoleted). Annotations to an
+  alternative id of a live term are now kept on the live term (23,462 recovered); annotations to
+  obsolete terms are dropped, not remapped.
+- **prepare_data:** step 7 is folded into step 6; default steps are `0 9 1 2 3 4 5 6 8 10`. GO is
+  refreshed only by step 6 `--refetch-raw`, never during a KG build.
 
 ### Fixed
 
-- A declared p-value column with an empty cell no longer makes a row significant on fold change
-  alone; the row is `not significant`.
-
-- An explicit `logfc_threshold: 0` or `pvalue_threshold: 0` in a paperconfig was silently replaced by the
-  adapter default (1.0 / 0.05), because the threshold was read with `or`. "No fold cutoff" can now be
-  declared.
-- **`ClusteringAnalysis.omics_type` is never `''`.** Hackl 2023's 11 `genomic_island` analyses
-  omitted it and the cluster adapter defaulted to the empty string; they now read
-  `BIOINFORMATIC` (as the `genomic_analysis` experiments do). `omics_type` is required on
-  `gene_clusters` entries (validator error), `ClusteringAnalysis.omics_type` is a new closed
-  `ControlledVocabulary` entry checked by the adapter, and a KG validity test fails on `''` in
-  any closed string vocabulary (explorer docs review K3, 2026-10-31).
-
-- **NCBI ↔ Cyanorak gene merge (`build_gene_mapping`, prepare_data step 0.5).** Three fixes,
-  none of which changes the 43 strains already in the KG (regression gate over all strains):
-  (1) older NCBI GFFs that carry `locus_tag` on the gene row only (HNLC1, HNLC2, CB0101) no longer
-  lose every NCBI gene; (2) the position fallback never *assumes* a coordinate offset — assuming 0
-  for a genome with no locus-tag pairs had paired ~300-400 unrelated genes per strain by coincidence
-  (KORDI-49/52/100, CC9616: an SBP carried Cyanorak's psbD annotation); (3) a protein-sequence stage
-  (`scripts/map_img_to_ncbi_proteins.py`: exact → subsequence → diamond, 1:1 and syntenic only) pairs
-  genes when Cyanorak's genome is laid out in another frame, and runs first when no locus tag pairs.
-  Every build writes `gene_mapping_merge_qc.json` per strain (stage counts, duplication ratio,
-  synteny, protein agreement of each pairing stage) and logs `[QC]` flags.
-  (4) a Cyanorak-only gene's coordinates come from its paired neighbours, not one offset per
-  contig, so genomes Cyanorak rotated, reverse-complemented or re-ordered get placed too: +340 genes
-  (KORDI-52 191, CC9616 59, KORDI-49 47, WH8016 33, KORDI-100 10), 24,195 placements unchanged,
-  43 genes left unplaced at layout breaks; every placement is checked by translating the NCBI genome
-  against Cyanorak's own protein (23,359 match, the same 48 differ before and after).
-
-- **`get_genome_dir` picks an exact organism-name match before substring matches** — "Alteromonas
-  mediterranea AltDE1" resolved to AltDE (its key is a substring) whenever dict order put AltDE
-  first. Also added the missing "Prochlorococcus MIT0801" aliases.
-
-- **TCDB names: superscripts, truncation, protein cells.** The scraper turned inline markup into spaces ("Na + ", "CO 2", "B 12" in 1,100 names and 930 descriptions, so a search for "CO2" found 2 of ~117 systems) and cut names at a parenthesis TCDB never closes (`3.A.1.5.24` read "The antimicrobial peptide"; it is the YejABEF exporter). Both fixed; names were rebuilt offline from the cached pages (`scrape_tcdb_names --reparse`; 1,842 changed). New sparse **`TcdbFamily.proteins`** (each system's protein cell: gene symbols, accessions, organism) is in `tcdbFamilyFullText`, so "UrtA" finds the urea porters. TCDB's "originally assigned to" moves are honoured (`3.A.1.129.1` → `3.A.1.106.22`, CydDC; 9,370 → 9,368 nodes). Id ↔ text assignment was verified correct on all 593 pages. See `docs/kg-changes/tcdb-cleanup.md` "TCDB integration review".
-- **Gene annotations on retired TCDB ids now land on the ids TCDB moved them to.** eggNOG and
-  the diamond library still carry numbers TCDB has retired; their family pages list only
-  "<old> has been moved to <new>". Step 6 reads those lines from the cached TCDB pages and
-  re-anchors such seeds (system level; a subfamily or family only when every one of its systems
-  moved to one place). An id TCDB reused for two different moves is ambiguous and is moved only
-  by a curated entry in `config/tcdb_moved_overrides.yaml`, which has one: `9.B.99.1` →
-  `1.B.93.1` (MipA). 30 genes move: 14 CorC genes `9.A.40.1.2` → `1.C.126.1.2` (eggNOG,
-  still `direct`), 15 MipA/OmpV genes `9.B.99.1` → `1.B.93.1` (eggNOG, `annotated`), 1 gene
-  `1.B.166` → `1.B.101` (diamond tier 3, `below_gate`). Retired ids are no longer kept as
-  range-only nodes, so `9.A.40`, `9.B.99` and `1.B.166` and their subtrees leave the graph
-  (20 TcdbFamily nodes out, `1.B.101` in: 9,389 → 9,370); `9.A.40` goes too because no gene
-  anchors it once its one seed moved. Gene-edge totals and gate counts are unchanged;
-  `kegg_data.json` is unchanged.
-
-- **Assay `stereo_assignment` no longer depends on which stereo siblings are KG nodes.** A paper
-  name without a stereo descriptor that resolves to one enantiomer (e.g. "Threonine" →
-  L-threonine) was flagged `dominant_form_assumed` only while the other form was also a node;
-  3a dropped transport-only D-threonine and Biller 2022 "Threonine" flipped to `as_reported`.
-  Step 6 now also reads ChEBI `is_enantiomer_of` on the node's own ChEBI terms. 4 paper rows
-  move `as_reported` → `dominant_form_assumed`: Biller 2022 Threonine (restored) and Histidine,
-  Kujawinski 2023 kynurenine and leucine (never flagged, same cause). No node or id changes.
-- **`Gene_has_merops_family.qcov` is declared as a percent (0–100).** Its `ControlledVocabulary`
-  entry said "fraction in [0,1]" with `max_value 1.0`, but merops-diamond reports query coverage
-  as a percent (live: 3.8–100 over 4,332 edges). Data unchanged; only the declared range and
-  description, now matching `identity` and TCDB's `qcov`.
-- **TCDB system names cut mid-parenthesis.** The T6 scraper's HTML cleaner read a bare `<` in TCDB text (`(<1 μM)`) as a tag and dropped the rest, and first-sentence / length capping could leave a parenthetical open, so 31 existing `TcdbFamily` names were truncated (MED4's urea system `3.A.1.4.4` read "The high-affinity ("; now "The high-affinity (<1 μM) urea porter"). Those 31 names were re-derived from the cached pages; 11 keep stray parentheses that are in TCDB's own text.
-- **Linear fold changes below 1 can now be significant.** `omics_adapter` judged significance on
-  the raw linear ratio instead of its log2 value, so with `fold_change_type: linear` a
-  down-regulated gene (ratio < 1) never passed `logfc_threshold`. Affects Aharonovich 2016 and
-  Beliaev 2014.
-
-- **Step 6 follow-ups to the metabolite identity change (review, 2026-10-15).** None of these
-  changes the current build: `kegg_data.json`, the stereo lock, the BRITE trees and every paper
-  `_resolved.csv` are byte-identical on a rerun. (a) A paper metabolite id that wasn't in house
-  form (`CHEBI:17234`, `KEGG:C00031`, `c00031`) was normalised when step 6 collected it but
-  looked up raw when resolving the row, so the row went unresolved (or its alias failed) and
-  the measurement was lost. Ids are now normalised once, in place. (b) A default
-  `prepare_data.sh` run (no `--force`) skipped step 6 whenever `kegg_data.json` existed, so a
-  newly added `metabolite_assays_table` got no `_resolved.csv` and no measurement edges. Step 7
-  used to cover this. Step 6 now rebuilds when any table's `_resolved.csv` is missing.
-  (c) `metabolite_id_mapping.json` `name_lookup` is limited to written nodes, like `id_aliases`.
-  This drops 2 entries that named non-nodes (`ammp`, `sodium taurocholate`). (d) A failed KEGG
-  compound BRITE download now falls back to the committed copy for that tree only, not all 8.
-  (e) Step 6 resolves TCDB substrate strings through MNX once instead of twice: the remap
-  baseline comes from the same pass, and is verified equal on all 1,633 molecule strings.
-- **Coculture partner edges.** A paperconfig with an empty `supplementary_materials:` key lost
-  its experiments' `Has_experiment` and `Tests_coculture_with` edges. Partners now dedupe by
-  `OrganismTaxon` id, not display name, so one organism listed under two spellings gives one
-  edge (the `treatment` role wins).
-- **`ControlledVocabulary` descriptions showed `^` for every apostrophe** (64 live nodes, e.g.
-  "partner^s", "eggNOG^s"). The sanitizer is correct and unchanged — BioCypher wraps cells in
-  single quotes and `|` is the array delimiter, so `'` -> `^` is the house rule; the texts were
-  wrong to use apostrophes. All 65 affected `description` / `value_descriptions` texts are
-  rephrased (quoted tokens now use backticks, possessives are reworded) and
-  `tests/test_controlled_vocab.py::test_descriptions_carry_no_apostrophe_or_pipe` guards every
-  entry. Also reworded `Tests_coculture_with.partner_role = background` — "present in the culture
-  the measured samples came from", not "present in every arm", which was false for Barreto 2022's
-  pooled designs (explorer review, 2026-10-14).
-- **3,837 Cyanorak-only genes had no `contig`/`start`/`end`/`strand` and no `sequence`.**
-  Gene coordinates were read from the NCBI GFF columns only, so a gene Cyanorak called and
-  PGAP did not (MIT9313 517, MIT9303 504, WH8109 362, CC9311 339, MED4 96, …) existed with
-  roles and clusters but no position — `gene_neighbors` could not place it — and, lacking a
-  RefSeq `protein_id`, no sequence either. Step 0 sub-step 5 now places them: closed genomes
-  copy Cyanorak's coordinates; the two drafts (PAC1, SB) invert Cyanorak's contig tiling
-  (NCBI contigs in accession order with a 50 bp spacer — verified to tile PAC1's record to
-  the base), with a boundary-crossing guard that fired on none. The adapter falls back to
-  the Cyanorak GFF `translation=` attribute for the sequence (stop glyph stripped, first
-  residue normalised to Met as RefSeq does). 0 unplaced; `sequence` coverage 96.8% → 100% of
-  genes (verified live 2026-10-13). See
+- **3,837 Cyanorak-only genes had no position or sequence.** Genes Cyanorak called and NCBI did
+  not (MIT9313 517, MIT9303 504, WH8109 362, CC9311 339, MED4 96, …) had roles and clusters but no
+  `contig` / `start` / `end` / `strand` or `sequence`, so `gene_neighbors` could not place them.
+  Positions now come from Cyanorak, mapped onto the NCBI assembly, and the sequence from Cyanorak's
+  translation; sequence coverage is 100% of genes. See
   `docs/kg-changes/cyanorak-coordinate-fallback.md`.
-- **`/release-kg` stamped the pre-cut HEAD, not the tag's commit.** Preflight captured
-  `git rev-parse HEAD` before Phase 3's `chore(release)` commit, so `Schema_info.git_sha` and
-  `metadata.json.git_sha` named the commit *before* the tag (alpha.7: `6bf6e513` vs tag
-  `9a2c9610`; the two trees differ only in `CHANGELOG.md`). `--bringup` compares the tag clone's
-  SHA against `metadata.json` and would have refused to reproduce the release. Phase 3 now
-  re-reads the SHA from the tag after committing. The published alpha.7 `metadata.json` was
-  re-uploaded with the tag's SHA; the live alpha.7 graph's `Schema_info.git_sha` still reads
-  `6bf6e513`.
+- **TCDB names.** Inline markup became spaces ("CO 2", "Na + " in 1,100 names and 930
+  descriptions, so "CO2" found 2 of ~117 systems), and names were cut at an unclosed parenthesis or
+  a bare `<` (MED4's urea system `3.A.1.4.4` read "The high-affinity ("; now "The high-affinity
+  (<1 μM) urea porter"). Names are rebuilt from TCDB's pages.
+- **Genes annotated with retired TCDB ids land on the ids TCDB moved them to** (e.g. 14 CorC genes
+  `9.A.40.1.2` → `1.C.126.1.2`, 15 MipA / OmpV genes `9.B.99.1` → `1.B.93.1`), and the retired
+  subtrees leave the graph.
+- **`ClusteringAnalysis.omics_type` is never `''`.** Hackl 2023's 11 genomic-island analyses read
+  `BIOINFORMATIC`.
+- **`ControlledVocabulary` descriptions showed `^` for every apostrophe** (64 nodes); the texts are
+  reworded.
+- **`Gene_has_merops_family.qcov` is declared as a percent (0–100)**, its real scale; data
+  unchanged.
+- **A paperconfig with no supplementary tables lost its `Has_experiment` and
+  `Tests_coculture_with` edges**; one organism listed under two spellings now gives one partner
+  edge.
+- **"Alteromonas mediterranea AltDE1" could resolve to AltDE** in organism-name lookups.
+- **alpha.7's `Schema_info.git_sha` names the commit before the tag** (`6bf6e513`; tag `9a2c9610`,
+  the trees differ only in `CHANGELOG.md`). `/release-kg` now stamps the tag's commit, and the
+  published alpha.7 `metadata.json` carries the tag's SHA.
 
 ## [0.1.0-alpha.7] - 2026-09-15
 

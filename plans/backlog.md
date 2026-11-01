@@ -26,6 +26,35 @@ up — this file is the index, not the plan.
       `prepare_data.sh --steps 9 2 --force`) restores both. Heavy: many hours
       over 118 strains — run one strain at a time (OOM).
 
+- [ ] **Metabolite identity review lists (2026-10-31).** Two lists in
+      `cache/data/metabolomics/metabolite_identity_report.json` are written every step-6
+      run but nobody has worked through them. `alias_stereo_review` (3): curated
+      `metabolite_aliases.yaml` `stereo_assignment` values that differ from the name rule —
+      biller 2022 "Adenosyl Methionine", Kujawinski 2023 "2,3-dihydroxypropane-1-sulfonate"
+      and "n-acetyl muramic acid" (curated `dominant_form_assumed`, rule `as_reported`);
+      keep or drop each override. `anomer_xref_review` (18): HMDB / ChEBI ids MNX files
+      under one anomer of a generic sugar; curate with `xref:` overrides in
+      `config/metabolite_identity_overrides.yaml` where wrong. Then `--steps 6 --force`.
+
+- [ ] **43 Cyanorak-only genes still have no position (2026-10-28).** The neighbour-based
+      coordinate mapping leaves genes that sit at a layout break (where Cyanorak's genome is
+      rotated, reverse-complemented or re-ordered against NCBI's) unplaced: CB0101 17, CB0205 11 and
+      15 elsewhere. They have `sequence` but no
+      `contig`/`start`/`end`/`strand`, so `gene_neighbors` skips them. Could be placed by
+      translating Cyanorak's protein against the NCBI genome. → `docs/kg-changes/cyanorak-coordinate-fallback.md`
+
+- [ ] **Zero-count fold-change magnitudes (2026-10-31, documented, not changed).** Capovilla
+      2023 (to ±21.5; only VST counts published), Anjur-Dietrich 2026 (two genes at +24 / +26;
+      no count table) and Huang 2021 (unreplicated) keep extreme |log2FC| from zero-count genes,
+      which dominate `rank_by_effect`. Fix needs raw count tables from the authors (then
+      recompute with a one-read pseudocount, as for Beliaev 2014 / Aharonovich 2016).
+      → `plans/signed_linear_fold_change.md`
+
+- [ ] **WH8020 left out of the Ford 2021 strain batch (2026-10-28).** Cyanorak annotates a
+      2.29 Mb assembly NCBI does not carry, so the NCBI ↔ Cyanorak gene-merge QC failed; its
+      Ford 2021 rows are dropped. Revisit if NCBI gains that assembly or a Cyanorak-only genome
+      path is added. (UH18301 has only SRA reads, no assembly: not actionable.)
+
 - [ ] **MEROPS GO bridge — rejected on measurement (2026-08-18), revisit only
       with a concrete use case.** All-kingdom member rollup yields median 19 /
       max 389 GO terms per family incl. eukaryote-only terms; completeness win
@@ -333,10 +362,10 @@ the committed caches, not taken from the log. Ordered by proposed priority.
 **P2 — designed, ready to implement**
 
 - [x] **Per-arm sampling day + growth state, and a shared-model identifier for
-      linked contrasts.** DONE 2026-10-18 (curation closed: `plans/control_timing_curation.md`; rebuild pending). HAD A PLAN (2026-10-15): `plans/per_arm_sampling_and_shared_model.md`
+      linked contrasts.** DONE 2026-10-18 (curation closed: `plans/control_timing_curation.md`); live in the dev graph, ships in the next KG release. HAD A PLAN (2026-10-15): `plans/per_arm_sampling_and_shared_model.md`
       — simplified to curated Experiment fields `control_timing` (`matched | baseline |
       mixed`) + `design_notes` (`statistical_model_id` dropped 2026-10-18), superseding the per-arm edge-property
-      proposal below; explorer accepted the contract (T1–T5; needs a note for the 2026-10-18 rename/drop). Implemented, rebuild pending. Dialog:
+      proposal below; explorer accepted the contract (T1–T5; needs a note for the 2026-10-18 rename/drop). Dialog:
       `multiomics_explorer/docs/kg-specs/2026-10-13-per-arm-sampling-shared-model-explorer-asks.md`.
       Original note: A paperconfig analysis carries one `timepoint`, so a
       contrast whose arms were sampled on different days gets one label:
@@ -561,7 +590,7 @@ the committed caches, not taken from the log. Ordered by proposed priority.
 - [ ] **GO taxon-constraint flag**: 1,912 of 1.4M gene to GO annotations violate a GO taxon constraint; flag on the gene to GO edge.
 - [ ] **GO MF to Rhea / EC / KEGG reaction xref bridge** (unmeasured).
 - [ ] **Obsolete gene GO annotations** (pre-existing, found in Task 0): ~330,594 gene `go_terms` in the merged annotations reference ids not live in GO 2026-07-26 (139K obsolete with no replacement, 145K with a single `replaced_by`, 45K `consider`-only); alt-id annotations are remapped (23,462), the rest dropped at build, before and after the refresh. Source annotations (eggNOG, UniProt, Cyanorak) carry old ids; consider a `replaced_by` remap or refreshing the sources.
-- [ ] **Joint release with the explorer**: the KG release carrying slice 1 sets `[tool.release-kg] mcp_min_version` in `pyproject.toml` to the explorer release that surfaces the GO arm (done at `/release-kg` time, not in the implementation plan). Hand the explorer the caveat paragraphs in the kg-changes doc.
+- [ ] **Joint release with the explorer**: `[tool.release-kg] mcp_min_version` is set to `0.1.0a6` (2026-10-31) — the explorer release that absorbs the dense `coculture_partner` list + `partner_role` and surfaces the GO arm. Explorer 0.1.0-alpha.6 must ship with (or before) the next KG release; older explorers get a `warn` verdict and fail validation in `list_experiments` / `differential_expression_by_*`. Hand the explorer the caveat paragraphs in the kg-changes docs.
 
 ## Paper batch 2026-10-28 — tables that need a new concept
 
@@ -629,7 +658,7 @@ Smaller ID follow-ups from the same batch (not concepts, just mapping work):
       on main 2026-10-15 but not released. Order agreed with the explorer: (1) explorer ships
       the E1 resolver (`Metabolite.id` → `IN all_identifiers` → `recurated_from_ids` →
       `IN ChemicalRole.all_identifiers`; a no-op on the old KG); (2) `/release-kg` cuts the
-      version with `mcp_min_version` + `breaking_changes` from the CHANGELOG `### Breaking`;
+      version with `mcp_min_version` + `release_breaking` from the CHANGELOG `### Breaking`;
       (3) explorer absorbs the new KG. Hand the explorer the measured top section of
       `docs/kg-changes/metabolite-identity-and-classes.md` and the two TSVs in
       `docs/kg-changes/metabolite-identity/`.
