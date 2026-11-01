@@ -16,6 +16,7 @@ The integration paths (subprocess to git/docker/gh/cypher-shell) are covered by
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 from pathlib import Path
 
@@ -1017,3 +1018,48 @@ def test_restamp_cypher_str_matches_post_import_escaping():
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     assert mod.cypher_str("- it's\n- a\\b") == "- it\\'s\\n- a\\\\b"
+
+
+# ─── withdrawn releases ──────────────────────────────────────────────────────
+def test_load_withdrawn_reads_table(rkg, tmp_path):
+    p = tmp_path / "pyproject.toml"
+    p.write_text('[tool.release-kg]\nmcp_min_version = "0.1.0a7"\n'
+                 '[tool.release-kg.withdrawn]\n"0.1.0-alpha.8" = "0.1.0-alpha.9"\n')
+    assert rkg.load_withdrawn(p) == {"0.1.0-alpha.8": "0.1.0-alpha.9"}
+    assert rkg._load_default_mcp_min(p) == "0.1.0a7"
+
+
+def test_load_withdrawn_missing_is_empty(rkg, tmp_path):
+    p = tmp_path / "pyproject.toml"
+    p.write_text('[tool.release-kg]\nmcp_min_version = "0.1.0a7"\n')
+    assert rkg.load_withdrawn(p) == {}
+
+
+def test_repo_withdraws_alpha8(rkg):
+    assert rkg.load_withdrawn().get("0.1.0-alpha.8") == "0.1.0-alpha.9"
+
+
+def test_prior_release_skips_withdrawn(rkg, monkeypatch):
+    listing = json.dumps([
+        {"tagName": "kg-0.1.0-alpha.8", "createdAt": "2026-11-01T10:00:00Z", "isDraft": False},
+        {"tagName": "kg-0.1.0-alpha.7", "createdAt": "2026-09-15T12:54:41Z", "isDraft": False},
+    ])
+    calls = []
+
+    class R:
+        def __init__(self, rc, out=""):
+            self.returncode, self.stdout, self.stderr = rc, out, ""
+
+    def fake_run(cmd, **kw):
+        calls.append(cmd)
+        if cmd[:3] == ["gh", "release", "list"]:
+            return R(0, listing)
+        if cmd[:3] == ["gh", "release", "download"]:
+            Path(cmd[cmd.index("--output") + 1]).write_text(json.dumps({"tag": cmd[3], "counts": {}}))
+            return R(0)
+        raise AssertionError(cmd)
+
+    monkeypatch.setattr(rkg, "load_withdrawn", lambda: {"0.1.0-alpha.8": "0.1.0-alpha.9"})
+    monkeypatch.setattr(rkg.subprocess, "run", fake_run)
+    prior = rkg.fetch_prior_release_metadata("0.1.0-alpha.9")
+    assert prior["tag"] == "kg-0.1.0-alpha.7"

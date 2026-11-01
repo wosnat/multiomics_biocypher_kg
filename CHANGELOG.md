@@ -52,26 +52,6 @@ tag with nothing logged.
 
 ## [Unreleased]
 
-### Added
-
-### Changed
-
-- **Tester guide (`docs/kg_mcp_guide.md`) pins explorer `@v0.1.0-alpha.6`** and says 42 tools
-  (was ~37, an unpinned `main` install, and a KG tag as the explorer pin).
-
-### Fixed
-
-- **`Schema_info.release_highlights` / `release_breaking` were null on every release** (alpha.7,
-  alpha.8), so `kg_release_info` showed no highlights or breaking changes. No compose file forwarded
-  the CHANGELOG sections into the post-process container; once forwarded, cypher-shell would also
-  have rejected the multi-line value and mis-decoded non-ASCII. The three compose files now forward
-  `KG_RELEASE_HIGHLIGHTS` / `KG_RELEASE_BREAKING` / `KG_RELEASE_NOTES_URL`, `post-import.sh` runs
-  cypher-shell under UTF-8 and escapes newlines, `/release-kg` sets the release URL and fails when
-  a stamped section's length differs from the tagged CHANGELOG, and
-  `.claude/skills/release-kg/restamp_release_notes.py` stamps an already-deployed release.
-
-## [0.1.0-alpha.8] - 2026-11-01
-
 ### Highlights
 
 - Transport now reads the way TCDB curates it. Each transporter gene shows the specific TCDB
@@ -102,7 +82,7 @@ tag with nothing logged.
 - Fold changes on six papers were on the wrong scale and are corrected.
 - `expression_direction` is absent when `log2_fold_change` is 0 (it read `down`).
 - `Experiment.coculture_partner` is a `str[]` of every partner (`[]` when axenic); the role is on
-  `Tests_coculture_with.partner_role`. Needs explorer 0.1.0-alpha.6 or later.
+  `Tests_coculture_with.partner_role`. Needs explorer 0.1.0-alpha.7 or later.
 - `OrganismTaxon.experiment_count`, `treatment_types`, `omics_types`, `background_factors` and
   `growth_phases` count the organism's own experiments only.
 - `Experiment.background_factors` may be `[]` on `genomic_analysis` (`BIOINFORMATIC`) experiments.
@@ -427,6 +407,10 @@ Counts, removed-property lists and file pointers for each `### Breaking` bullet.
 
 ### Changed
 
+- **`Schema_info.mcp_min_version` `0.1.0a5` → `0.1.0a7`** (alpha.7 stamped `0.1.0a5`): connect
+  with explorer 0.1.0-alpha.7 or later.
+- **Tester guide (`docs/kg_mcp_guide.md`) pins explorer `@v0.1.0-alpha.7`** and says 42 tools
+  (was ~37, an unpinned `main` install, and a KG tag as the explorer pin).
 - **Controlled vocabularies: 135 → 154 entries, so `Schema_info.controlled_vocabularies_hash`
   moves.** Added: `Gene_has_tcdb_family.{tcdb_call, tcdb_gate, rank, scov, bitscore,
   bitscore_ratio}`, `TcdbFamily.{direction, direction_basis, tcdb_substrate_count}`,
@@ -464,6 +448,14 @@ Counts, removed-property lists and file pointers for each `### Breaking` bullet.
 
 ### Fixed
 
+- **`Schema_info.release_highlights` / `release_breaking` were null on every release** (alpha.7,
+  alpha.8), so `kg_release_info` showed no highlights or breaking changes. No compose file forwarded
+  the CHANGELOG sections into the post-process container; once forwarded, cypher-shell would also
+  have rejected the multi-line value and mis-decoded non-ASCII. The three compose files now forward
+  `KG_RELEASE_HIGHLIGHTS` / `KG_RELEASE_BREAKING` / `KG_RELEASE_NOTES_URL`, `post-import.sh` runs
+  cypher-shell under UTF-8 and escapes newlines, `/release-kg` sets the release URL and fails when
+  a stamped section's length differs from the tagged CHANGELOG, and
+  `.claude/skills/release-kg/restamp_release_notes.py` stamps an already-deployed release.
 - **3,837 Cyanorak-only genes had no position or sequence.** Genes Cyanorak called and NCBI did
   not (MIT9313 517, MIT9303 504, WH8109 362, CC9311 339, MED4 96, …) had roles and clusters but no
   `contig` / `start` / `end` / `strand` or `sequence`, so `gene_neighbors` could not place them.
@@ -490,6 +482,13 @@ Counts, removed-property lists and file pointers for each `### Breaking` bullet.
 - **alpha.7's `Schema_info.git_sha` names the commit before the tag** (`6bf6e513`; tag `9a2c9610`,
   the trees differ only in `CHANGELOG.md`). `/release-kg` now stamps the tag's commit, and the
   published alpha.7 `metadata.json` carries the tag's SHA.
+
+## [0.1.0-alpha.8] - 2026-11-01 [WITHDRAWN]
+
+Withdrawn the same day and superseded by **0.1.0-alpha.9**, whose section carries every change
+alpha.8 shipped (alpha.9 is described against alpha.7). alpha.8 shipped with
+`Schema_info.release_highlights` / `release_breaking` null and its tag rebuilds that way; `/release-kg` skips it (`[tool.release-kg.withdrawn]` in `pyproject.toml`)
+and `--bringup` refuses it. Do not deploy it.
 
 ## [0.1.0-alpha.7] - 2026-09-15
 

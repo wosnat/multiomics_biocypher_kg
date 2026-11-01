@@ -61,6 +61,26 @@ def _load_default_mcp_min(pyproject_path: Optional[Path] = None) -> str:
 
 DEFAULT_MCP_MIN = _load_default_mcp_min()
 
+
+def load_withdrawn(pyproject_path: Optional[Path] = None) -> dict[str, str]:
+    """[tool.release-kg].withdrawn: {version: superseding version}.
+
+    A withdrawn release keeps its tag and GitHub page (history), but this
+    script never treats it as a release again: it is skipped as the prior
+    release a new cut is compared against, `--bringup` refuses it, and it can
+    not be cut. Read from the checkout the script runs in, so a withdrawal
+    recorded on main applies to every machine that pulls it.
+    """
+    if pyproject_path is None:
+        pyproject_path = Path(__file__).resolve().parents[3] / "pyproject.toml"
+    try:
+        import tomllib
+        data = tomllib.loads(pyproject_path.read_text())
+    except (ImportError, OSError, ValueError):
+        return {}
+    raw = data.get("tool", {}).get("release-kg", {}).get("withdrawn", {}) or {}
+    return {str(k): str(v) for k, v in raw.items()}
+
 STAGING_PROJECT = "kg-release-staging"
 STAGING_HTTP_BIND = "127.0.0.1:27474"
 STAGING_BOLT_BIND = "127.0.0.1:27687"
@@ -304,6 +324,10 @@ def phase_preflight(ctx: Context) -> None:
 
     if not VERSION_RE.match(ctx.version):
         die(f"version {ctx.version!r} does not match X.Y.Z[-(alpha|beta|rc).N]")
+    withdrawn = load_withdrawn()
+    if ctx.version in withdrawn:
+        die(f"{TAG_PREFIX}{ctx.version} is withdrawn (superseded by "
+            f"{TAG_PREFIX}{withdrawn[ctx.version]}); cut a new version")
     log(f"  version: {ctx.version} ✓")
 
     # `git` is needed even in --dry-run (we capture SHA/branch via subprocess).
@@ -1245,12 +1269,18 @@ def fetch_prior_release_metadata(current_version: str) -> Optional[dict]:
         log(f"  prior-release lookup: gh release list returned non-JSON; skipping diff")
         return None
 
+    withdrawn_tags = {f"{TAG_PREFIX}{v}" for v in load_withdrawn()}
     kg_releases = [
         r for r in releases
         if r.get("tagName", "").startswith(TAG_PREFIX)
         and not r.get("isDraft", False)
         and r.get("tagName") != current_tag
+        and r.get("tagName") not in withdrawn_tags
     ]
+    skipped = sorted(t for t in withdrawn_tags
+                     if any(r.get("tagName") == t for r in releases))
+    if skipped:
+        log(f"  prior-release lookup: skipping withdrawn {', '.join(skipped)}")
     if not kg_releases:
         log(f"  prior-release lookup: no published kg-* release found; first release diff skipped")
         return None
@@ -1564,6 +1594,10 @@ def phase_bringup(ctx: Context) -> int:
     if ctx.target != "local":
         die("--bringup only supports --target local (release port + explorer login); "
             "staging is a verification stack, not a deployment")
+    withdrawn = load_withdrawn()
+    if ctx.version in withdrawn:
+        die(f"{TAG_PREFIX}{ctx.version} is withdrawn — bring up "
+            f"{TAG_PREFIX}{withdrawn[ctx.version]} instead")
     if not VERSION_RE.match(ctx.version):
         die(f"version {ctx.version!r} does not match X.Y.Z[-(alpha|beta|rc).N]")
     for tool in ("git", "docker", "gh"):

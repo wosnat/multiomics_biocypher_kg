@@ -18,7 +18,7 @@ A live Neo4j knowledge graph integrating:
 - ~227K differential-expression edges from ~35 publications (RNA-seq, proteomics, metabolomics, microarray),
 - functional annotations (GO, KEGG, EC, COG, Pfam, TCDB, CAZy, BRITE), ortholog groups, metabolism (~3K reactions, ~1.5K metabolites), gene clusters, derived metrics, and metabolite assays.
 
-You query it through the **explorer MCP server** (`multiomics-kg-mcp`), which exposes 42 domain-specific tools (explorer 0.1.0-alpha.6) (gene resolution, expression lookups, ontology enrichment, metabolite searches, …) on top of the raw Neo4j graph.
+You query it through the **explorer MCP server** (`multiomics-kg-mcp`), which exposes 42 domain-specific tools (explorer 0.1.0-alpha.7) (gene resolution, expression lookups, ontology enrichment, metabolite searches, …) on top of the raw Neo4j graph.
 
 The graph is read-only for you. The MCP rejects every write attempt.
 
@@ -65,7 +65,7 @@ The explorer MCP is published in the public repo `wosnat/multiomics_explorer`. U
 
 ```bash
 # Requires Python 3.11+ and uv (https://docs.astral.sh/uv/).
-uvx --from git+https://github.com/wosnat/multiomics_explorer@v0.1.0-alpha.6 multiomics-kg-mcp --help
+uvx --from git+https://github.com/wosnat/multiomics_explorer@v0.1.0-alpha.7 multiomics-kg-mcp --help
 ```
 
 If `--help` runs cleanly, you're set.
@@ -83,7 +83,7 @@ The MCP reads connection settings from environment variables. Drop this into you
       "command": "uvx",
       "args": [
         "--from",
-        "git+https://github.com/wosnat/multiomics_explorer@v0.1.0-alpha.6",
+        "git+https://github.com/wosnat/multiomics_explorer@v0.1.0-alpha.7",
         "multiomics-kg-mcp"
       ],
       "env": {
@@ -200,6 +200,6 @@ Releases are tracked on GitHub: <https://github.com/wosnat/multiomics_biocypher_
 
 You don't download anything — the data lives on the host (§2). When a new release ships, the release page says whether the URI / credentials have changed; update your `.mcp.json` accordingly.
 
-The install command pins an explorer release (`@v0.1.0-alpha.6`). Explorer tags are `v<version>` in the explorer repo (not the KG's `kg-…` tags); when a KG release raises `mcp_min_version`, move the pin to an explorer release at or above it. Dropping the `@v…` pulls explorer `main`, which is not a release.
+The install command pins an explorer release (`@v0.1.0-alpha.7`). Explorer tags are `v<version>` in the explorer repo (not the KG's `kg-…` tags); when a KG release raises `mcp_min_version`, move the pin to an explorer release at or above it. Dropping the `@v…` pulls explorer `main`, which is not a release.
 
 Re-run the compatibility check (§5) after every release notification — schema may have moved.
