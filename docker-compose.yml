@@ -65,6 +65,12 @@ services:
       # 'local-dev' (a plain `docker compose up` is a local-dev deployment);
       # /release-kg sets 'staging' / 'production' for its build stacks.
       KG_DEPLOYMENT_ROLE: ${KG_DEPLOYMENT_ROLE:-}
+      # CHANGELOG ### Highlights / ### Breaking + the GitHub Release URL, set by
+      # /release-kg. Without these lines they never reached the container and
+      # Schema_info.release_* stamped null (alpha.7, alpha.8).
+      KG_RELEASE_HIGHLIGHTS: ${KG_RELEASE_HIGHLIGHTS:-}
+      KG_RELEASE_BREAKING:   ${KG_RELEASE_BREAKING:-}
+      KG_RELEASE_NOTES_URL:  ${KG_RELEASE_NOTES_URL:-}
     command:
       - /bin/bash
       - /scripts/post-import.sh

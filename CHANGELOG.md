@@ -56,7 +56,19 @@ tag with nothing logged.
 
 ### Changed
 
+- **Tester guide (`docs/kg_mcp_guide.md`) pins explorer `@v0.1.0-alpha.6`** and says 42 tools
+  (was ~37, an unpinned `main` install, and a KG tag as the explorer pin).
+
 ### Fixed
+
+- **`Schema_info.release_highlights` / `release_breaking` were null on every release** (alpha.7,
+  alpha.8), so `kg_release_info` showed no highlights or breaking changes. No compose file forwarded
+  the CHANGELOG sections into the post-process container; once forwarded, cypher-shell would also
+  have rejected the multi-line value and mis-decoded non-ASCII. The three compose files now forward
+  `KG_RELEASE_HIGHLIGHTS` / `KG_RELEASE_BREAKING` / `KG_RELEASE_NOTES_URL`, `post-import.sh` runs
+  cypher-shell under UTF-8 and escapes newlines, `/release-kg` sets the release URL and fails when
+  a stamped section's length differs from the tagged CHANGELOG, and
+  `.claude/skills/release-kg/restamp_release_notes.py` stamps an already-deployed release.
 
 ## [0.1.0-alpha.8] - 2026-11-01
 

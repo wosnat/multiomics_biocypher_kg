@@ -75,6 +75,12 @@ services:
       KG_GIT_DIRTY:       ${KG_GIT_DIRTY:-}
       KG_MCP_MIN_VERSION: ${KG_MCP_MIN_VERSION:-}
       KG_DEPLOYMENT_ROLE: ${KG_DEPLOYMENT_ROLE:-}
+      # CHANGELOG ### Highlights / ### Breaking + the GitHub Release URL, set by
+      # /release-kg. Without these lines they never reached the container and
+      # Schema_info.release_* stamped null (alpha.7, alpha.8).
+      KG_RELEASE_HIGHLIGHTS: ${KG_RELEASE_HIGHLIGHTS:-}
+      KG_RELEASE_BREAKING:   ${KG_RELEASE_BREAKING:-}
+      KG_RELEASE_NOTES_URL:  ${KG_RELEASE_NOTES_URL:-}
 
   deploy:
     # Suffixed in the transient build project (ALPHA_CONTAINER_SUFFIX=-build) so

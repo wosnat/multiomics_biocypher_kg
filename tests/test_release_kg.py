@@ -959,3 +959,61 @@ def test_warn_unlogged_data_skips_without_prior_tag(rkg, tmp_path, capsys, fake_
     out = capsys.readouterr().out
     assert "WARNING" not in out
     assert "no prior kg-* tag" in out
+
+
+# ─── release notes stamping (explorer ask 2026-11-01) ────────────────────────
+@pytest.mark.parametrize("origin", [
+    "git@github.com:wosnat/multiomics_biocypher_kg.git",
+    "https://github.com/wosnat/multiomics_biocypher_kg.git",
+    "https://github.com/wosnat/multiomics_biocypher_kg",
+    "ssh://git@github.com/wosnat/multiomics_biocypher_kg.git",
+])
+def test_release_notes_url_from_origin(rkg, origin):
+    assert rkg.release_notes_url("0.1.0-alpha.8", origin) == (
+        "https://github.com/wosnat/multiomics_biocypher_kg/releases/tag/kg-0.1.0-alpha.8")
+
+
+def test_release_notes_url_non_github_is_empty(rkg):
+    assert rkg.release_notes_url("0.1.0-alpha.8", "/srv/git/kg.git") == ""
+
+
+def test_assert_subsections_stamped_dies_when_null(rkg):
+    with pytest.raises(SystemExit):
+        rkg.assert_subsections_stamped(
+            {"highlights_chars": "0", "breaking_chars": "0"}, "- a", None, "staging")
+
+
+def test_assert_subsections_stamped_dies_on_length_mismatch(rkg):
+    with pytest.raises(SystemExit):
+        rkg.assert_subsections_stamped(
+            {"highlights_chars": "3", "breaking_chars": "0"}, "- a\n- b", None, "staging")
+
+
+def test_assert_subsections_stamped_ok(rkg):
+    rkg.assert_subsections_stamped(
+        {"highlights_chars": "7", "breaking_chars": "0"}, "- a\n- b", None, "staging")
+    rkg.assert_subsections_stamped({"highlights_chars": "0"}, None, "", "staging")
+
+
+@pytest.mark.parametrize("compose", [
+    "docker-compose.yml", "docker-compose.staging.yml", "docker-compose.alpha.yml"])
+def test_compose_forwards_release_notes_env(compose):
+    import yaml
+    env = yaml.safe_load((REPO_ROOT / compose).read_text())["services"]["post-process"]["environment"]
+    for var in ("KG_RELEASE_HIGHLIGHTS", "KG_RELEASE_BREAKING", "KG_RELEASE_NOTES_URL"):
+        assert var in env, f"{compose} post-process does not forward {var}"
+
+
+def test_post_import_escapes_newlines_and_forces_utf8():
+    sh = (REPO_ROOT / "scripts" / "post-import.sh").read_text()
+    assert "export LANG=C.UTF-8 LC_ALL=C.UTF-8" in sh
+    assert "KG_RELEASE_HIGHLIGHTS_ESC=${KG_RELEASE_HIGHLIGHTS_ESC//$'\\n'/\\\\n}" in sh
+    assert "KG_RELEASE_BREAKING_ESC=${KG_RELEASE_BREAKING_ESC//$'\\n'/\\\\n}" in sh
+
+
+def test_restamp_cypher_str_matches_post_import_escaping():
+    spec = importlib.util.spec_from_file_location(
+        "restamp_release_notes", RKG_PATH.parent / "restamp_release_notes.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    assert mod.cypher_str("- it's\n- a\\b") == "- it\\'s\\n- a\\\\b"

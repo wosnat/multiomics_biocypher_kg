@@ -18,7 +18,7 @@ A live Neo4j knowledge graph integrating:
 - ~227K differential-expression edges from ~35 publications (RNA-seq, proteomics, metabolomics, microarray),
 - functional annotations (GO, KEGG, EC, COG, Pfam, TCDB, CAZy, BRITE), ortholog groups, metabolism (~3K reactions, ~1.5K metabolites), gene clusters, derived metrics, and metabolite assays.
 
-You query it through the **explorer MCP server** (`multiomics-kg-mcp`), which exposes ~37 domain-specific tools (gene resolution, expression lookups, ontology enrichment, metabolite searches, …) on top of the raw Neo4j graph.
+You query it through the **explorer MCP server** (`multiomics-kg-mcp`), which exposes 42 domain-specific tools (explorer 0.1.0-alpha.6) (gene resolution, expression lookups, ontology enrichment, metabolite searches, …) on top of the raw Neo4j graph.
 
 The graph is read-only for you. The MCP rejects every write attempt.
 
@@ -53,7 +53,7 @@ Per-user accounts aren't worth it on Neo4j Community (no roles → every login i
 
 ### 2.4 Read-only — what enforces it
 
-The explorer MCP rejects every write attempt — `run_cypher` blocks any `CREATE / MERGE / SET / DELETE / DROP / CALL <write-procedure>`, and the ~36 typed tools never issue writes. **Stay inside the MCP.**
+The explorer MCP rejects every write attempt — `run_cypher` blocks any `CREATE / MERGE / SET / DELETE / DROP / CALL <write-procedure>`, and the 41 typed tools never issue writes. **Stay inside the MCP.**
 
 **At the DB layer there is no second line of defense.** Neo4j Community has no roles, so the shared `explorer` credential is full-access if used outside the MCP (e.g. raw Bolt driver, `cypher-shell`). That trade-off is acceptable for a physically-present, trusted lab alpha. The graph is also rebuilt from public sources on every release, so even a successful unauthorized write would have no lasting effect.
 
@@ -65,7 +65,7 @@ The explorer MCP is published in the public repo `wosnat/multiomics_explorer`. U
 
 ```bash
 # Requires Python 3.11+ and uv (https://docs.astral.sh/uv/).
-uvx --from git+https://github.com/wosnat/multiomics_explorer multiomics-kg-mcp --help
+uvx --from git+https://github.com/wosnat/multiomics_explorer@v0.1.0-alpha.6 multiomics-kg-mcp --help
 ```
 
 If `--help` runs cleanly, you're set.
@@ -83,7 +83,7 @@ The MCP reads connection settings from environment variables. Drop this into you
       "command": "uvx",
       "args": [
         "--from",
-        "git+https://github.com/wosnat/multiomics_explorer",
+        "git+https://github.com/wosnat/multiomics_explorer@v0.1.0-alpha.6",
         "multiomics-kg-mcp"
       ],
       "env": {
@@ -97,7 +97,7 @@ The MCP reads connection settings from environment variables. Drop this into you
 }
 ```
 
-Restart your MCP client. The `multiomics-kg` server appears with ~37 tools prefixed `mcp__multiomics-kg__…`.
+Restart your MCP client. The `multiomics-kg` server appears with 42 tools prefixed `mcp__multiomics-kg__…`.
 
 ---
 
@@ -127,7 +127,7 @@ RETURN s.version            AS kg_version,
 
 Confirm:
 - `kg_version` matches the alpha you were invited to (NOT `0.0.0-dev` — that's a dev build, not a release).
-- The installed explorer-MCP version is ≥ `mcp_min_version`. If it's older, `uvx` will pick up the latest from `main` on next launch; pin to a tag for reproducibility (§9).
+- The installed explorer-MCP version is ≥ `mcp_min_version`. If it's older, change the `@v<version>` in your `.mcp.json` to an explorer release at or above it (§9).
 - The counts roughly match the release notes — wildly different numbers mean something didn't restore correctly.
 
 ---
@@ -200,6 +200,6 @@ Releases are tracked on GitHub: <https://github.com/wosnat/multiomics_biocypher_
 
 You don't download anything — the data lives on the host (§2). When a new release ships, the release page says whether the URI / credentials have changed; update your `.mcp.json` accordingly.
 
-When you re-run `uvx --from git+...` it pulls the latest explorer-MCP commit; pin to a tag with `@kg-0.1.0-alpha.1` if you need reproducibility.
+The install command pins an explorer release (`@v0.1.0-alpha.6`). Explorer tags are `v<version>` in the explorer repo (not the KG's `kg-…` tags); when a KG release raises `mcp_min_version`, move the pin to an explorer release at or above it. Dropping the `@v…` pulls explorer `main`, which is not a release.
 
 Re-run the compatibility check (§5) after every release notification — schema may have moved.

@@ -1,5 +1,9 @@
 #!/bin/bash
 set -euo pipefail
+# cypher-shell's JVM decodes argv with the locale charset; the neo4j image sets
+# none, so a non-ASCII -P value ("—", "→" in CHANGELOG bullets) arrived as
+# Latin-1 mojibake. Force UTF-8 for every cypher-shell call below.
+export LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 TIMEFORMAT="  [timing] %Rs"
 
@@ -2048,6 +2052,10 @@ KG_RELEASE_HIGHLIGHTS_ESC=$(printf '%s' "${KG_RELEASE_HIGHLIGHTS:-}" \
   | sed -e 's|\\|\\\\|g' -e "s/'/\\\\'/g")
 KG_RELEASE_BREAKING_ESC=$(printf '%s' "${KG_RELEASE_BREAKING:-}" \
   | sed -e 's|\\|\\\\|g' -e "s/'/\\\\'/g")
+# cypher-shell rejects a -P argument containing a raw newline ("Incorrect
+# usage"), and the bullets are multi-line: encode each as the Cypher escape \n.
+KG_RELEASE_HIGHLIGHTS_ESC=${KG_RELEASE_HIGHLIGHTS_ESC//$'\n'/\\n}
+KG_RELEASE_BREAKING_ESC=${KG_RELEASE_BREAKING_ESC//$'\n'/\\n}
 
 # Vocabulary hash written by the build stage next to BioCypher's real CSV
 # output (bc._output_directory, NOT --output-dir), under the shared

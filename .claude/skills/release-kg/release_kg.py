@@ -544,6 +544,7 @@ def phase_build_and_verify(ctx: Context) -> None:
         # the stamp converts back to a real null property.
         "KG_RELEASE_HIGHLIGHTS": highlights or "",
         "KG_RELEASE_BREAKING":   breaking   or "",
+        "KG_RELEASE_NOTES_URL":  release_notes_url(ctx.version),
     })
 
     compose_up = [
@@ -644,6 +645,7 @@ def phase_build_and_verify(ctx: Context) -> None:
     assert ctx.clone_dir is not None
     ctx.vocab_manifest = compute_vocab_manifest(ctx.clone_dir)
     assert_vocab_hash(ctx.schema_info.get("vocab_hash") or "", ctx.vocab_manifest, "staging")
+    assert_subsections_stamped(ctx.schema_info, highlights, breaking, "staging")
 
     # Per-Publication expression-edge counts → metadata.json. Used by Phase 7
     # to render a "What changed since kg-X.Y.Z" diff against the prior release.
@@ -910,6 +912,7 @@ def _alpha_build_and_verify(ctx: Context, inactive_color: str, env_alpha: dict) 
         "ALPHA_BIND_IP": env_alpha["ALPHA_BIND_IP"],
         "KG_RELEASE_HIGHLIGHTS": highlights or "",
         "KG_RELEASE_BREAKING":   breaking   or "",
+        "KG_RELEASE_NOTES_URL":  release_notes_url(ctx.version),
     })
     compose_up = [
         "docker", "compose",
@@ -963,6 +966,7 @@ def _alpha_build_and_verify(ctx: Context, inactive_color: str, env_alpha: dict) 
             f"{ALPHA_TEMP_BOLT_URL} for inspection")
     log(f"  alpha-build version: {schema['version']} ✓ (matches tag)")
     assert_vocab_hash(schema.get("vocab_hash") or "", ctx.vocab_manifest, "alpha-build")
+    assert_subsections_stamped(schema, highlights, breaking, "alpha-build")
     log(f"  alpha-build vocabulary hash: {schema['vocab_hash']} ✓ (matches tag checkout)")
     log(f"  alpha-build counts: {schema['papers']} papers · {schema['experiments']} "
         f"experiments · {schema['genes']} genes · {schema['organisms']} organisms · "
@@ -1433,6 +1437,39 @@ def extract_preflight_subsection(path: Path, version: str, heading: str) -> Opti
             break
     body = "\n".join(lines[s_start + 1:s_end]).strip()
     return body or None
+
+
+def release_notes_url(version: str, origin_url: Optional[str] = None) -> str:
+    """GitHub Release URL for kg-<version>, derived from the origin remote.
+
+    Stamped onto Schema_info.release_notes_url. Phase 7 creates the release at
+    this exact URL after the build, so the stamp is known before it exists.
+    Returns '' when origin is not a github.com remote.
+    """
+    url = origin_url if origin_url is not None else (git_out("remote", "get-url", "origin") or "")
+    m = re.match(r"^(?:git@github\.com:|https://github\.com/|ssh://git@github\.com/)"
+                 r"([^/]+)/(.+?)(?:\.git)?/?$", url.strip())
+    if not m:
+        return ""
+    return f"https://github.com/{m.group(1)}/{m.group(2)}/releases/tag/{TAG_PREFIX}{version}"
+
+
+def assert_subsections_stamped(schema: dict, highlights: Optional[str],
+                               breaking: Optional[str], where: str) -> None:
+    """Die when a non-empty CHANGELOG ### Highlights / ### Breaking did not land
+    on Schema_info verbatim (same length). alpha.7 and alpha.8 shipped with both
+    null because no compose file forwarded the env vars into post-process."""
+    for name, body, key in (("Highlights", highlights, "highlights_chars"),
+                            ("Breaking", breaking, "breaking_chars")):
+        expected = len(body or "")
+        try:
+            got = int(schema.get(key) or 0)
+        except (TypeError, ValueError):
+            got = 0
+        if expected and got != expected:
+            die(f"{where} Schema_info.release_{name.lower()} is {got} chars but the tagged "
+                f"CHANGELOG ### {name} is {expected} chars — the stamp did not reach "
+                f"post-process (compose env forwarding / cypher-shell -P escaping)")
 
 
 def _fmt_subsection_log(body: Optional[str]) -> str:
