@@ -52,6 +52,14 @@ tag with nothing logged.
 
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Fixed
+
+## [0.1.0-alpha.8] - 2026-11-01
+
 ### Highlights
 
 - Transport now reads the way TCDB curates it. Each transporter gene shows the specific TCDB
