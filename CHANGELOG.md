@@ -407,6 +407,20 @@ Counts, removed-property lists and file pointers for each `### Breaking` bullet.
 
 ### Changed
 
+- **Controlled vocabularies: 135 → 154 entries, so `Schema_info.controlled_vocabularies_hash`
+  moves.** Added: `Gene_has_tcdb_family.{tcdb_call, tcdb_gate, rank, scov, bitscore,
+  bitscore_ratio}`, `TcdbFamily.{direction, direction_basis, tcdb_substrate_count}`,
+  `Tests_coculture_with.partner_role`, `Experiment.control_timing`,
+  `Gene.{coordinate_source, sequence_source}`, `ClusteringAnalysis.omics_type`, the metabolite
+  identity set (`Metabolite.{identity_basis, structure_kind, kegg_functional_categories,
+  kegg_brite_classes}`, `MetaboliteClass.{level_kind, tree}`, `ChemicalRole.level_kind`,
+  `Assay_{quantifies,flags}_metabolite.stereo_assignment`, `sources` / `evidence` on the three
+  metabolite relation edges). Removed with the TCDB cleanup: `Gene_has_tcdb_family.{evidence_score,
+  source_agreement, pfam_support, go_support, attachment_depth, confidence_score, consensus_n}`,
+  `Gene.{tcdb_evidence_score_max, transport_substrate_resolution}`,
+  `Tcdb_family_transports_metabolite.substrate_depth`. New values: `treatment_type` `mutant` /
+  `essentiality`, `omics_type` `BIOINFORMATIC`, `DerivedMetric.metric_type` `sbp_nutrient_class` /
+  `sbp_predicted_substrate`; `TcdbFamily.level_kind` `tc_specificity` → `tc_system`.
 - **KEGG and TCDB refreshed from upstream (2026-11-01).** KEGG REST data was from May 2026; KEGG now
   lists 28,559 KOs / 12,530 reactions / 19,677 compounds. The KG keeps the same 4,808 KOs and
   2,443 reactions; KEGG pathways 270 → 273, the new ones being Phagocytosis, Peroxisome - yeast and
