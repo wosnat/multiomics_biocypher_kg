@@ -19,7 +19,8 @@ pytestmark = [pytest.mark.kg]
 # (2026-10-23), which removed 3 gene-less pathways and 107 links -> 449 / 9,241.
 # sum(reaction_count) 6,408 -> 6,557 with Ford 2021's 74 Cyanorak genomes (2026-10-28):
 # the new genes catalyse 68 more reactions; GO transport still adds none.
-BASELINE_SUM_REACTION_COUNT = 6557
+# 6,557 -> 6,559 with the KEGG REST refresh of 2026-11-01 (KEGG added 2 reaction->pathway links).
+BASELINE_SUM_REACTION_COUNT = 6559
 
 METABOLITE_EDGES = [
     "Molecular_function_transports_metabolite",

@@ -1,6 +1,6 @@
 {
  "meta": {
-  "scraped_at": "2026-10-24",
+  "scraped_at": "2026-11-01",
   "source": "https://www.tcdb.org (browse.php + search/result.php per family)",
   "scraped_families": [
    "1.A.1",
@@ -37,6 +37,7 @@
    "1.A.35",
    "1.A.4",
    "1.A.43",
+   "1.A.44",
    "1.A.46",
    "1.A.5",
    "1.A.51",
@@ -48,11 +49,13 @@
    "1.A.7",
    "1.A.72",
    "1.A.77",
+   "1.A.78",
    "1.A.8",
    "1.A.87",
    "1.A.9",
    "1.B.1",
    "1.B.10",
+   "1.B.101",
    "1.B.11",
    "1.B.12",
    "1.B.13",
@@ -71,6 +74,7 @@
    "1.B.4",
    "1.B.40",
    "1.B.42",
+   "1.B.43",
    "1.B.46",
    "1.B.48",
    "1.B.49",
@@ -102,6 +106,7 @@
    "1.C.11",
    "1.C.111",
    "1.C.113",
+   "1.C.12",
    "1.C.126",
    "1.C.131",
    "1.C.132",
@@ -131,11 +136,13 @@
    "1.E.40",
    "1.E.43",
    "1.E.54",
+   "1.E.64",
    "1.E.66",
    "1.E.7",
    "1.E.72",
    "1.E.9",
    "1.F.1",
+   "1.G.3",
    "1.H.2",
    "1.H.3",
    "1.I.1",
@@ -161,6 +168,7 @@
    "1.W.6",
    "1.W.7",
    "1.W.9",
+   "1.X.1",
    "2.A.1",
    "2.A.10",
    "2.A.102",
@@ -204,9 +212,11 @@
    "2.A.26",
    "2.A.27",
    "2.A.28",
+   "2.A.29",
    "2.A.3",
    "2.A.30",
    "2.A.31",
+   "2.A.32",
    "2.A.33",
    "2.A.34",
    "2.A.35",
@@ -243,6 +253,7 @@
    "2.A.68",
    "2.A.69",
    "2.A.7",
+   "2.A.70",
    "2.A.71",
    "2.A.72",
    "2.A.73",
@@ -344,6 +355,7 @@
    "5.B.7",
    "8.A.1",
    "8.A.104",
+   "8.A.105",
    "8.A.11",
    "8.A.114",
    "8.A.117",
@@ -375,6 +387,7 @@
    "8.A.191",
    "8.A.192",
    "8.A.195",
+   "8.A.197",
    "8.A.21",
    "8.A.211",
    "8.A.212",
@@ -386,11 +399,13 @@
    "8.A.23",
    "8.A.230",
    "8.A.24",
+   "8.A.246",
    "8.A.248",
    "8.A.252",
    "8.A.28",
    "8.A.3",
    "8.A.32",
+   "8.A.34",
    "8.A.4",
    "8.A.46",
    "8.A.47",
@@ -399,10 +414,12 @@
    "8.A.5",
    "8.A.51",
    "8.A.54",
+   "8.A.57",
    "8.A.58",
    "8.A.59",
    "8.A.7",
    "8.A.8",
+   "8.A.82",
    "8.A.85",
    "8.A.88",
    "8.A.9",
@@ -427,12 +444,14 @@
    "9.A.41",
    "9.A.47",
    "9.A.5",
+   "9.A.54",
    "9.A.55",
    "9.A.58",
    "9.A.60",
    "9.A.61",
    "9.A.63",
    "9.A.69",
+   "9.A.7",
    "9.A.70",
    "9.A.74",
    "9.A.76",
@@ -448,6 +467,7 @@
    "9.B.108",
    "9.B.110",
    "9.B.115",
+   "9.B.119",
    "9.B.12",
    "9.B.120",
    "9.B.121",
@@ -490,19 +510,23 @@
    "9.B.183",
    "9.B.185",
    "9.B.191",
+   "9.B.198",
    "9.B.2",
    "9.B.20",
+   "9.B.208",
    "9.B.21",
    "9.B.210",
    "9.B.214",
    "9.B.217",
    "9.B.220",
    "9.B.221",
+   "9.B.225",
    "9.B.227",
    "9.B.229",
    "9.B.234",
    "9.B.237",
    "9.B.238",
+   "9.B.240",
    "9.B.241",
    "9.B.244",
    "9.B.250",
@@ -531,6 +555,7 @@
    "9.B.313",
    "9.B.317",
    "9.B.318",
+   "9.B.320",
    "9.B.321",
    "9.B.325",
    "9.B.33",
@@ -542,12 +567,14 @@
    "9.B.347",
    "9.B.349",
    "9.B.35",
+   "9.B.353",
    "9.B.354",
    "9.B.355",
    "9.B.357",
    "9.B.358",
    "9.B.36",
    "9.B.363",
+   "9.B.364",
    "9.B.365",
    "9.B.371",
    "9.B.391",
@@ -559,6 +586,7 @@
    "9.B.412",
    "9.B.418",
    "9.B.42",
+   "9.B.423",
    "9.B.429",
    "9.B.43",
    "9.B.430",
@@ -590,12 +618,11 @@
    "9.B.76",
    "9.B.8",
    "9.B.87",
+   "9.B.9",
    "9.B.97",
    "9.B.98"
   ],
-  "failed_families": [
-   "1.B.101"
-  ]
+  "failed_families": []
  },
  "names": {
   "1": {
@@ -1737,6 +1764,11 @@
    "description": "K+ channel, MthK or MVP of 209 aas and 6 TMSs. Voltage-gated potassium-selective channel opened by hyperpolarization (Hellmer and Zeilinger 2003). Mediates K+ uptake and sensitivity. The structure and local dynamics of the closed activation gate (lower S6 region) of MVP have been reported (Randich et al. 2014).",
    "proteins": "MthK channel protein of Methanocaldococcus jannaschii (Methanococcus jannaschii)"
   },
+  "1.A.1.6.2": {
+   "name": "Ion channel protein of 291 aas and 6 putative TMSs.",
+   "description": "Ion channel protein of 291 aas and 6 putative TMSs.",
+   "proteins": "Ion channel of Methanobacterium paludis"
+  },
   "1.A.1.7.1": {
    "name": "Tok1 twin (dual) barrel outward rectifying K+ channel with exterme assymmetry which includes an extra 4 N-terminal TMSs for a total of 16 TMSs..",
    "description": "Tok1 twin (dual) barrel outward rectifying K+ channel with exterme assymmetry which includes an extra 4 N-terminal TMSs for a total of 16 TMSs. (Transports K+ and Cs+) (Bertl et al., 2003; Roller et al. 2008). TOKs are outwardly rectifying K+ channels in fungi with two pore-loops and eight transmembrane spans. Lewis et al. 2020 described the TOKs from four fungal pathogens. These TOKs pass large…",
@@ -2376,6 +2408,11 @@
    "name": "HlyC/CorC family transporter of 354 aas and 4 TMSs.",
    "description": "HlyC/CorC family transporter of 354 aas and 4 TMSs.",
    "proteins": "CorC domain protein of Micromonospora peucetia"
+  },
+  "1.A.112.2.9": {
+   "name": "Uncharacterized protein of 329 aas and 4 TMSs.",
+   "description": "Uncharacterized protein of 329 aas and 4 TMSs.",
+   "proteins": "UP of Verrucomicrobia bacterium"
   },
   "1.A.113": {
    "name": "The Small Integral Membrane Protein (SIMP) Family"
@@ -3806,6 +3843,11 @@
    "description": "Putative urea transporter of 306 aas and 9 or 10 TMSs",
    "proteins": "UT of E. coli"
   },
+  "1.A.28.1.8": {
+   "name": "Urea transporter (UT) of 371 aas and 10 TMSs.",
+   "description": "Urea transporter (UT) of 371 aas and 10 TMSs.",
+   "proteins": "UT of Candidatus Nitrososphaera evergladensis SR1"
+  },
   "1.A.28.2.1": {
    "name": "The dimeric urea transporter, Utp of 300 aas and 9 or probably 10 TMSs.",
    "description": "The dimeric urea transporter, Utp of 300 aas and 9 or probably 10 TMSs. Urea flux is saturable, could be inhibited by phloretin, and was not affected by pH (Raunser et al., 2009)",
@@ -4646,6 +4688,11 @@
   },
   "1.A.44": {
    "name": "The Pore-forming Tail Tip pb2 Protein of Phage T5 (T5-pb2) Family"
+  },
+  "1.A.44.1.1": {
+   "name": "The pore-forming tail tip protein Pb2",
+   "description": "The pore-forming tail tip protein Pb2",
+   "proteins": "Pb2 of phage T5 (Q7Y5E2)"
   },
   "1.A.46": {
    "name": "The Anion Channel-forming Bestrophin (Bestrophin) Family"
@@ -5828,6 +5875,61 @@
   "1.A.78": {
    "name": "The K+-selective Channel in Endosomes and Lysosomes (KEL) Family"
   },
+  "1.A.78.1.1": {
+   "name": "Endosomal/Lysosomal K+ channel of 504 aas and 12 TMSs with two 6 TMS repeat units, KEL or TMEM175.",
+   "description": "Endosomal/Lysosomal K+ channel of 504 aas and 12 TMSs with two 6 TMS repeat units, KEL or TMEM175 (Cang et al. 2015). A mutation in the encoding gene is associated with Parkinson's disease (Jing et al. 2015; Tang et al. 2023). It forms a potassium-permeable leak-like channel, which regulates lumenal pH stability and is required for autophagosome-lysosome fusion (Lee et al. 2017). It also appears…",
+   "proteins": "KEL or TMEM175 of Homo sapiens"
+  },
+  "1.A.78.1.2": {
+   "name": "TMEM175 of 506 aas and 12 TMSs",
+   "description": "TMEM175 of 506 aas and 12 TMSs",
+   "proteins": "TMEM175 of Takifugu rubripes (Japanese pufferfish) (Fugu rubripes)"
+  },
+  "1.A.78.1.3": {
+   "name": "TMEM175 of 598 aas and 12 TMSs.",
+   "description": "TMEM175 of 598 aas and 12 TMSs.",
+   "proteins": "TMEM175 of Salpingoeca rosetta"
+  },
+  "1.A.78.2.1": {
+   "name": "DUF211/TMEM175 of 206 aas and 6 TMSs.",
+   "description": "DUF211/TMEM175 of 206 aas and 6 TMSs.",
+   "proteins": "TMEM175 of Fibrella aestuarina"
+  },
+  "1.A.78.2.10": {
+   "name": "TMEM175 lysosomal K+ channel of 203 aas and 6 TMSs.",
+   "description": "TMEM175 lysosomal K+ channel of 203 aas and 6 TMSs. It's 3-d structure reveals a novel tetrameric arrangement (Lee et al. 2017). All six transmembrane helices of CmTMEM175 are tightly packed within each subunit without undergoing domain swapping. The highly conserved TM1 helix acts as the pore-lining inner helix, creating an hourglass-shaped ion permeation pathway in the channel tetramer. Three…",
+   "proteins": "TMEM175 of Chamaesiphon minutus"
+  },
+  "1.A.78.2.2": {
+   "name": "PF06736/TMEM175 of 198 aas and 6 TMSs.",
+   "description": "PF06736/TMEM175 of 198 aas and 6 TMSs.",
+   "proteins": "TMEM175 of Leptospira inadai"
+  },
+  "1.A.78.2.3": {
+   "name": "TMEM175 of 206 aas and 5 TMSs",
+   "description": "TMEM175 of 206 aas and 5 TMSs",
+   "proteins": "TMEM175 of Streptomyces collinus"
+  },
+  "1.A.78.2.4": {
+   "name": "Uncharacterized protein of 216 aas and 6 TMSs",
+   "description": "Uncharacterized protein of 216 aas and 6 TMSs",
+   "proteins": "UP of Deinococcus radiodurans"
+  },
+  "1.A.78.2.5": {
+   "name": "DUF1211/TMEM175 of 235 aas and 5 or 6 TMSs",
+   "description": "DUF1211/TMEM175 of 235 aas and 5 or 6 TMSs",
+   "proteins": "TMEM175 of Azospirillum brasilense"
+  },
+  "1.A.78.2.6": {
+   "name": "DUF1211 family member of 205 aas and 5 TMSs",
+   "description": "DUF1211 family member of 205 aas and 5 TMSs",
+   "proteins": "DUF1211 protein of Methanobacterium lacus"
+  },
+  "1.A.78.2.9": {
+   "name": "TMEM175 homologue of 197 aas and 5 or 6 TMSs.",
+   "description": "TMEM175 homologue of 197 aas and 5 or 6 TMSs. It is a lysosomal K+ channel that is important for maintaining the membrane potential and pH stability of lysosomes. It contains two homologous copies of a 6 TMS domain, which has no sequence homology to the canonical tetrameric K+ channels and lacks the TVGYG selectivity filter motif found in these channels (Lee et al. 2017). The architecture…",
+   "proteins": "TMEM175 homologue of Chamaesiphon minutus"
+  },
   "1.A.79": {
    "name": "The Cholesterol Uptake Protein (ChUP) or Double Stranded RNA Uptake Family"
   },
@@ -6059,6 +6161,11 @@
    "description": "Aquaporin, Aqp9, of 231 aas and 6 TMSs. This protein co-localizes with the vacuolar proton pyrophosphatase to acidocalcisomes and the contractile vacuole complex (Montalvetti et al. 2004) which are involved in osmoregulation (Rohloff et al. 2004). Acidocalcisomes function as storage sites for cations and phosphorus, participate in PPi and poly P metabolism as well as volume regulation and are…",
    "proteins": "Aqp9 of Trypanosoma cruzi"
   },
+  "1.A.8.13.6": {
+   "name": "Aquaporin of 214 aas and 6 TMSs in a 2 + 1 + 2 + 1 TMS arrangement.",
+   "description": "Aquaporin of 214 aas and 6 TMSs in a 2 + 1 + 2 + 1 TMS arrangement.",
+   "proteins": "Aqp of Bacteroidia bacterium (subsurface metagenome)"
+  },
   "1.A.8.2.1": {
    "name": "Glycerol facilitator",
    "description": "Glycerol facilitator",
@@ -6068,6 +6175,11 @@
    "name": "Aquaglyceroporin of 270 aas and 6 TMSs.",
    "description": "Aquaglyceroporin of 270 aas and 6 TMSs.",
    "proteins": "Aquaporin of Paramecium bursaria chlorella virus MT325"
+  },
+  "1.A.8.2.11": {
+   "name": "Lmo1539 of 272 aas and 7 possible TMSs.",
+   "description": "Lmo1539 of 272 aas and 7 possible TMSs. Lmo1539 is related to activation of the LiaR-mediated stress defense mechanism and is induced by treatment with nisin (TC# 1.C.20.1.1) (Pinilla et al. 2021).",
+   "proteins": "Lmo1539 of Listeria monocytogenes"
   },
   "1.A.8.2.12": {
    "name": "Aquaglyceroporin, AagP, of 298 aas and 6 TMSs.",
@@ -6764,6 +6876,16 @@
    "description": "Glutamate-inhibited chloride (anion-selective) channel, CIα chain. This protein is 98% identical to the ortholog in Musca domestica (the house fly). Fluralaner (Bravecto) is an isoxazoline ectoparasiticide which potently inhibits GABA-gated chloride channels (GABACls) and less potently glutamate-gated chloride channels (GluCls) in insects. The amino acid, Leu315, in Musca GluCls is important in…",
    "proteins": "Glutamate receptor CIα chain of Drosophila melanogaster"
   },
+  "1.A.9.4.10": {
+   "name": "Glutamate-gated chloride channel subunit C (CrGluC1C) of 517 aas and 4 TMSs.",
+   "description": "Glutamate-gated chloride channel subunit C (CrGluC1C) of 517 aas and 4 TMSs (Tribiños et al. 2023).",
+   "proteins": "Cr-GluC1C of Caligus rogercresseyi"
+  },
+  "1.A.9.4.11": {
+   "name": "Glutamate-gated chloride channel subunit B (CrGluC1B) of 485 aas and 4 TMSs.",
+   "description": "Glutamate-gated chloride channel subunit B (CrGluC1B) of 485 aas and 4 TMSs (Tribiños et al. 2023).",
+   "proteins": "CrGluC1B of Caligus rogercresseyi"
+  },
   "1.A.9.4.2": {
    "name": "Glutamate-gated chloride channel (GluClα or Glc-1) (α-subunits when mutated confer resistance to the antiparisitic drug, avermectin (ivermectin)).",
    "description": "Glutamate-gated chloride channel (GluClα or Glc-1) (α-subunits when mutated confer resistance to the antiparisitic drug, avermectin (ivermectin) (Dent et al., 2000)). A naturally occurring 4-aa deletion in the ligand binding domain of Glc-1 confers resistance to avermectin (Ghosh et al., 2012). Several 3-d structures are known (3RIF; Hibbs and Gouaux, 2011). Ivermectin (avermectin; IVM), an…",
@@ -6788,6 +6910,16 @@
    "name": "Ligand-gated ion channel, Lgc-34 of 390 aas and 4 TMSs.",
    "description": "Ligand-gated ion channel, Lgc-34 of 390 aas and 4 TMSs. IGDB-2, an Ig/FNIII protein, binds LGC-34 to control sensory compartment morphogenesis (Wang et al. 2017).",
    "proteins": "LGC-34 of Caenorhabditis elegans"
+  },
+  "1.A.9.4.8": {
+   "name": "Glutamate-gated chloride channel subunit E (CrGluC1E of E) of 492 aas and 4 TMSs",
+   "description": "Glutamate-gated chloride channel subunit E (CrGluC1E of E) of 492 aas and 4 TMSs",
+   "proteins": "GluC1E of Caligus rogercresseyi"
+  },
+  "1.A.9.4.9": {
+   "name": "Glutamate-gated chloride channel subunit D (CrGluC1D) of 540 aas and 4 TMSs.",
+   "description": "Glutamate-gated chloride channel subunit D (CrGluC1D) of 540 aas and 4 TMSs.",
+   "proteins": "CrGluC1D of Caligus rogercresseyi"
   },
   "1.A.9.5.10": {
    "name": "GABA gated chloride channel of 537 aas and 4 TMSs, GABA or Rdl.",
@@ -6888,6 +7020,11 @@
    "name": "Ligand-gated ion channel of 312 aas and 5 TMSs, one N-terminal and 4 C-terminal.",
    "description": "Ligand-gated ion channel of 312 aas and 5 TMSs, one N-terminal and 4 C-terminal (Jaiteh et al. 2016).",
    "proteins": "LIC of Thaumarchaeota archaeon N4"
+  },
+  "1.A.9.8.4": {
+   "name": "Uncharacterized ligand-gated ion channel of 351 aas and 4 TMSs.",
+   "description": "Uncharacterized ligand-gated ion channel of 351 aas and 4 TMSs.",
+   "proteins": "UP of Francisella cf. novicida"
   },
   "1.A.9.9.1": {
    "name": "The bacterial pentameric Cys-loop ligand-gated ion channel (Erwinia chrysanthemi ligand-gated ion channel), ELIC.",
@@ -8197,6 +8334,11 @@
    "description": "CzcC outer membrane exporter of Co2+, Cd2+, Zn2+. Functions with CzcAB (2.A.6.1.2).",
    "proteins": "CzcC of Alcaligenes eutrophus"
   },
+  "1.B.17.2.3": {
+   "name": "CyaE outer membrane exporter of cyclolysin",
+   "description": "CyaE outer membrane exporter of cyclolysin",
+   "proteins": "CyaE of Bordetella pertussis"
+  },
   "1.B.17.2.4": {
    "name": "Outer membrane efflux protein of the OEP or OMF family",
    "description": "Outer membrane efflux protein of the OEP or OMF family",
@@ -8488,6 +8630,11 @@
    "name": "The ShlB/FhaC/HecB family hemolysin secretion/activation protein of 555 aas.",
    "description": "The ShlB/FhaC/HecB family hemolysin secretion/activation protein of 555 aas.",
    "proteins": "Cytotoxin of Cupriavidus taiwanensis"
+  },
+  "1.B.20.2.3": {
+   "name": "Putative type Vb secretion system, beta-barrel domain proteinof 584 aas.",
+   "description": "Putative type Vb secretion system, beta-barrel domain proteinof 584 aas.",
+   "proteins": "cytotoxin exporter of Bradyrhizobium japonicum"
   },
   "1.B.20.3.1": {
    "name": "Heme-hemopexin utilization protein B precursor",
@@ -8924,6 +9071,11 @@
    "description": "Chitoporin, of 467 aas with one N-terminal TMS, transports chitobiose across the outer membrane of S. marcesces for hydrolysis by a chitobiase in the periplasm or taken up into the cell by a phosphotransferase system specific for chitobiose (Palmer et al. 2021). This chitoporin protein is 74% identical to TC# 1.B.25.1.13 (YbfM of E. coli) which may be a chitobiose porin. phosphotransferase system.",
    "proteins": "Chitoporin of Serratia marcesens"
   },
+  "1.B.25.1.41": {
+   "name": "Chloroplast outer membrane porin of 418 aas with 1 N-terminal TMS, OprD..",
+   "description": "Chloroplast outer membrane porin of 418 aas with 1 N-terminal TMS, OprD..",
+   "proteins": "OprD of Elysia marginata"
+  },
   "1.B.25.1.5": {
    "name": "GusC (UidC) putative glucuronide porin.",
    "description": "GusC (UidC) putative glucuronide porin (Liang et al., 2005). Reported to enhance the activity of the UidB (GusB) glucuronide transporter (TC# 2.A.2.1.5). Glucuronide transport does not occur in strain K12 due to a variant at position 100 of the UidB protein.",
@@ -9130,6 +9282,11 @@
    "name": "Omp85 outer membrane protein assembly factor of 707 aas and 1 N-terminal TMS.",
    "description": "Omp85 outer membrane protein assembly factor of 707 aas and 1 N-terminal TMS.",
    "proteins": "Omp85 of Fusobacterium necrophorum"
+  },
+  "1.B.33.2.9": {
+   "name": "Chloroplast outer membrane porin of 741 aas and TMSs",
+   "description": "Chloroplast outer membrane porin of 741 aas and TMSs",
+   "proteins": "Porin of Marchantia polymorpha subsp. ruderalis"
   },
   "1.B.33.3.1": {
    "name": "The mitochondrial Sorting and Assembly Machinery (SAM) includes SAM50, Tom37 (Mas37; Sam37), Tom13 (Mim1), Mim2, and porin; see 3.A.8.",
@@ -9514,6 +9671,21 @@
   "1.B.43": {
    "name": "The Coxiella Porin P1 (CPP1) Family"
   },
+  "1.B.43.1.1": {
+   "name": "Porin P1",
+   "description": "Porin P1",
+   "proteins": "Porin P1 of Coxiella burnetii (AAM03442)"
+  },
+  "1.B.43.1.2": {
+   "name": "Putative porin",
+   "description": "Putative porin",
+   "proteins": "Putative porin of Legionella longbeachae"
+  },
+  "1.B.43.1.3": {
+   "name": "Putative porin",
+   "description": "Putative porin",
+   "proteins": "Putative porin of Polynucleobacter necessarius"
+  },
   "1.B.44": {
    "name": "The Probable Protein Translocating Porphyromonas gingivalis Porin (PorT) Family"
   },
@@ -9793,6 +9965,16 @@
    "name": "Putative chlorobial Intimin (302aas)",
    "description": "Putative chlorobial Intimin (302aas)",
    "proteins": "Putative intimin of Pelodictyon luteolum (Q3B5D9)"
+  },
+  "1.B.54.3.1": {
+   "name": "Hypothetical Protein (436aas)",
+   "description": "Hypothetical Protein (436aas)",
+   "proteins": "Hypothetical protein of Synechococcus sp RCC307 (A5GRI1)"
+  },
+  "1.B.54.3.2": {
+   "name": "Hypothetical Protein (428aas)",
+   "description": "Hypothetical Protein (428aas)",
+   "proteins": "Hypothetical protein of Synechococcus sp RCC307 (A5GWU2)"
   },
   "1.B.55": {
    "name": "The Poly Acetyl Glucosamine Porin (PgaA) Family"
@@ -11333,6 +11515,101 @@
   "1.C.12": {
    "name": "The Thiol-activated Cholesterol-dependent Cytolysin (CDC) Family"
   },
+  "1.C.12.1.1": {
+   "name": "Perfringolysin O, PFO.",
+   "description": "Perfringolysin O, PFO. In the formation of the pore forming toxin, the elongated toxin monomer binds stably to the membrane in an \"end-on\" orientation, with its long axis approximately perpendicular to the plane of the membrane bilayer (Ramachandran et al. 2005). This orientation is largely retained, even after monomers associate to form an oligomeric prepore complex. The domain 3 (D3)…",
+   "proteins": "Perfringolysin O of Clostridium perfringens (P0C2E9)"
+  },
+  "1.C.12.1.10": {
+   "name": "CDC family protein of 588 aas",
+   "description": "CDC family protein of 588 aas",
+   "proteins": "CDC protein of Treponema medium"
+  },
+  "1.C.12.1.11": {
+   "name": "CDC homologue of 511 aas",
+   "description": "CDC homologue of 511 aas",
+   "proteins": "CDC protein of Deinococcus deserti"
+  },
+  "1.C.12.1.13": {
+   "name": "Intermedilysin of 532 aas and 1 N-terminal TMS, ILY or Ply.",
+   "description": "Intermedilysin of 532 aas and 1 N-terminal TMS, ILY or Ply. It binds to membranes containing the human protein CD59 but forms pores only if the membrane contains sufficient cholesterol (Heuck et al. 2007). CD59 is required for the specific coordination of intermedilysin (ILY) monomers and for triggering collapse of an oligomeric prepore. Movement of Domain 2 with respect to Domain 3 of ILY is…",
+   "proteins": "Intermedilysin of Streptococcus intermedius"
+  },
+  "1.C.12.1.14": {
+   "name": "Thiol-activated cytolysin of 500 aas and 1 N-terminal TMS.",
+   "description": "Thiol-activated cytolysin of 500 aas and 1 N-terminal TMS. It is a sulfhydryl-activated toxin that causes cytolysis by forming pores in cholesterol containing host membranes. After binding to target membranes, the protein undergoes a major conformation change, leading to its insertion in the host membrane and formation of an oligomeric pore complex. Biomimetic nanosponges neutralize this…",
+   "proteins": "Cytotoxin of Enterococcus faecalis"
+  },
+  "1.C.12.1.15": {
+   "name": "Cholesterol-dependent cytolysin or thiol-activated cytolysin of 532 aas.",
+   "description": "Cholesterol-dependent cytolysin or thiol-activated cytolysin of 532 aas (Pleckaityte 2019).",
+   "proteins": "CDC or TAC of Gemella bergeri"
+  },
+  "1.C.12.1.16": {
+   "name": "Vaginolysin (VLY) of 516 aas and 1 N-terminal TMS.",
+   "description": "Vaginolysin (VLY) of 516 aas and 1 N-terminal TMS. It plays a role in bacterial vaginosis (BV), a vaginal anaerobic dysbiosis that affects women of reproductive age worldwide. BV is microbiologically characterized by the depletion of vaginal lactobacilli and the overgrowth of anaerobic bacterial species. Gardnerella spp. have a pivotal role among BV-associated bacteria in the initiation and…",
+   "proteins": "Vaginolysin of Gardnerella vaginalis"
+  },
+  "1.C.12.1.17": {
+   "name": "Inerolysin (INY) or cholesterol-dependent cytolysin of 519 aas and one N-terminal TMS.",
+   "description": "Inerolysin (INY) or cholesterol-dependent cytolysin of 519 aas and one N-terminal TMS. Lactobacillus iners is a prevalent constituent of healthy vaginal microbiota, but it produces this cytotoxin (Pleckaityte 2019). INY-induced damage of artificial membranes is directly dependent on the cholesterol concentration in the bilayer, whereas VLY (TC# 1.C.12.1.16)-induced damage occurs only with high…",
+   "proteins": "INY of Lactobacillus iners"
+  },
+  "1.C.12.1.2": {
+   "name": "Pore-forming Alveolysin of 501 aas and one N-terminal TMS.",
+   "description": "Pore-forming Alveolysin of 501 aas and one N-terminal TMS.",
+   "proteins": "Alveolysin of Bacillus alvei (P23564)"
+  },
+  "1.C.12.1.3": {
+   "name": "Cereolysin O (hemolysin I).",
+   "description": "Cereolysin O (hemolysin I) (Ramarao and Sanchis 2013).",
+   "proteins": "Hemolysin I of Bacillus cereus (Q93LA9)"
+  },
+  "1.C.12.1.6": {
+   "name": "Ivanolysin",
+   "description": "Ivanolysin",
+   "proteins": "Ivanolysin of Listeria ivanovii (P31831)"
+  },
+  "1.C.12.1.7": {
+   "name": "Listeriolysin O, Listeriolysin-O, LLO, Hly, HlyA, Lis of 507 aas and 1 N-terminal TMS.",
+   "description": "Listeriolysin O, Listeriolysin-O, LLO, Hly, HlyA, Lis of 507 aas and 1 N-terminal TMS (Viala et al., 2008). CFTR transiently increases phagosomal chloride concentrations after infection, potentiating pore formation and vacuole lysis. Thus, Listeria exploits mechanisms of cellular ion homeostasis to escape the phagosome (Radtke et al., 2011). LLO is an example of a large beta-barrel pore that…",
+   "proteins": "Listeriolysin O of Listeria monocytogenes (P13128)"
+  },
+  "1.C.12.1.8": {
+   "name": "Suilysin (SLY, a hemolysin) of 497 aas is a pore-forming cholesterol-dependent cytolysin of S. suis and a true virulence factor.",
+   "description": "Suilysin (SLY, a hemolysin) of 497 aas is a pore-forming cholesterol-dependent cytolysin of S. suis and a true virulence factor (Tenenbaum et al. 2016). It plays a role during the development of S. suis meningitis in pigs and humans, and is a potential vaccine candidate. Amentoflavone, a natural biﬂavonoid compound isolated from Chinese herbs is a potent antagonist of suilysin (SLY)-mediated…",
+   "proteins": "Hemolysin of Streptococcus suis (O85102)"
+  },
+  "1.C.12.1.9": {
+   "name": "The cholesterol-dependent pore-forming cytoslysin, Pyolysin of 534 aas with one N-terminal TMS.",
+   "description": "The cholesterol-dependent pore-forming cytoslysin, Pyolysin of 534 aas with one N-terminal TMS. The pathology of Trueperella pyogenes and this pyolysin have been described and reviewed (Rzewuska et al. 2019). Liu et al. 2022 located and mutated two different highly conserved structural sites in the primary sequence of the protein that are critical for PLO structure and function.",
+   "proteins": "Pyolysin of Arcanobacterium pyogenes (Trueperella pyogenes) (O31241)"
+  },
+  "1.C.12.2.1": {
+   "name": "Flavomodulin",
+   "description": "Flavomodulin",
+   "proteins": "Flavomodulin of Flavobacterium psychrophilum (A6GVU3)"
+  },
+  "1.C.12.2.3": {
+   "name": "Tetanolysin O of 369 aas.",
+   "description": "Tetanolysin O of 369 aas. A three dimensional model of the toxin is availalbe (Skariyachan et al. 2012).",
+   "proteins": "Tetanolysin O of Capnocytophaga canimorsus"
+  },
+  "1.C.12.2.4": {
+   "name": "CDC homologue of 489 aas",
+   "description": "CDC homologue of 489 aas",
+   "proteins": "CDC homologue of Chryseobacterium indologenes"
+  },
+  "1.C.12.3.2": {
+   "name": "Cytolysin, a secreted calcineurin-like phosphatase of 361 aas",
+   "description": "Cytolysin, a secreted calcineurin-like phosphatase of 361 aas",
+   "proteins": "Cytolysin of Mesorhizobium loti"
+  },
+  "1.C.12.3.3": {
+   "name": "Cytolysin, a secreted calcineurin-like phosphatase of 458 aas",
+   "description": "Cytolysin, a secreted calcineurin-like phosphatase of 458 aas",
+   "proteins": "Cytolysin of Candidatus Liberibacter americanus"
+  },
   "1.C.120": {
    "name": "The Pore-forming Toxic Peptide, DinQ (DinQ) Family"
   },
@@ -11994,6 +12271,11 @@
    "description": "Two component cytotoxin consisting of XaxA of 408 aas and XaxB of 350 aas. Xenorhabdus nematophila, a member of the Enterobacteriaceae, kills many species of insects by strongly depressing the immune system and colonizing the entire body. The peptide cytotoxin, XaxAB, has been purified from X. nematophila broth, and the cytolytic effect on insect immunocytes and the hemolytic effect on mammalian…",
    "proteins": "XaxAB of Xenorhabdus nematophila"
   },
+  "1.C.41.2.9": {
+   "name": "The pore-forming toxin YaxAB (404 and 350 aas, respectively).",
+   "description": "The pore-forming toxin YaxAB (404 and 350 aas, respectively).",
+   "proteins": "YaxAB of Xanthorhabdus mauleonii"
+  },
   "1.C.42": {
    "name": "The Channel-forming Bacillus anthracis Protective Antigen (BAPA) Family"
   },
@@ -12105,6 +12387,11 @@
    "description": "MCF toxin of 2993 aas",
    "proteins": "MCF toxin of Photorhabdus asymbiotica subsp. asymbiotica (Xenorhabdus luminescens)"
   },
+  "1.C.57.1.7": {
+   "name": "TcdA/TcdB pore-forming domain-containing protein of 1053 aas and 4 potential TMSs.",
+   "description": "TcdA/TcdB pore-forming domain-containing protein of 1053 aas and 4 potential TMSs.",
+   "proteins": "TcdA/TcdB of Pseudomonas sp. H22_DOA"
+  },
   "1.C.57.2.1": {
    "name": "Toxin B",
    "description": "Toxin B",
@@ -12144,6 +12431,26 @@
    "name": "Putative toxin A of 294 aas",
    "description": "Putative toxin A of 294 aas",
    "proteins": "Toxin A of Brachyspira intermedia"
+  },
+  "1.C.57.4.2": {
+   "name": "Uncharacterized protein of 288 aas and 1 large peak of hydrophobicity at the N-terminus plus 2 medium sized peaks of hydrophobicity near the middle…",
+   "description": "Uncharacterized protein of 288 aas and 1 large peak of hydrophobicity at the N-terminus plus 2 medium sized peaks of hydrophobicity near the middle of the protein.",
+   "proteins": "UP of Spirochaetia bacterium"
+  },
+  "1.C.57.4.3": {
+   "name": "Uncharactereized protein of 274 aas and 1 N-terminal TMS followed by two centrally located smaller peaks of bydrophobicity in the centre of the…",
+   "description": "Uncharactereized protein of 274 aas and 1 N-terminal TMS followed by two centrally located smaller peaks of bydrophobicity in the centre of the protein..",
+   "proteins": "UP of Turneriellales bacterium"
+  },
+  "1.C.57.4.4": {
+   "name": "Uncharacterized protein of 285 aas with three probable TMSs, one N-terminal and two much smaller hydrophobic peaks centrally located.",
+   "description": "Uncharacterized protein of 285 aas with three probable TMSs, one N-terminal and two much smaller hydrophobic peaks centrally located.",
+   "proteins": "Uncharacterized protein of Chitinispirillaceae bacterium"
+  },
+  "1.C.57.4.5": {
+   "name": "Toxin A of 285 aas and 1 large N-terminal TMS followed by two centrally locakized smaller peaks of hydrophobicity followed by two more still smaller…",
+   "description": "Toxin A of 285 aas and 1 large N-terminal TMS followed by two centrally locakized smaller peaks of hydrophobicity followed by two more still smaller C-terminal TMSs.",
+   "proteins": "Toxin A of Chitinispirillaceae bacterium"
   },
   "1.C.58": {
    "name": "The Microcin E492/C24 (Microcin E492) Family"
@@ -12323,6 +12630,11 @@
    "name": "Cytopathogenic toxin, CptA, of 1991 aas and an N-terminal signal TMS.",
    "description": "Cytopathogenic toxin, CptA, of 1991 aas and an N-terminal signal TMS. Sneathia amnii is a poorly characterized emerging pathogen that has been implicated in amnionitis and urethritis. Gentile et al. 2020 found that S. amnii damages fetal membranes, and they identified and purified the cytotoxic exotoxin, CptA, that lyses human red blood cells and damages cells from fetal membranes. It binds to…",
    "proteins": "CptA of Sneathia amnii"
+  },
+  "1.C.75.1.9": {
+   "name": "Hemolysin EthA of 1594 aas with one N-terminal TMS.",
+   "description": "Hemolysin EthA of 1594 aas with one N-terminal TMS. Hemolysin EthA is an Edwardsiella piscicida T3SS effector that induces PANoptosis in macrophages (Tang et al. 2026).",
+   "proteins": "Hemolysin EthA of Edwardsiella piscicida"
   },
   "1.C.76": {
    "name": "The Pore-forming Maculatin Peptide (Maculatin) Family"
@@ -13408,8 +13720,50 @@
   "1.D.385": {
    "name": "The Directional K+ Transport via a Unimolecular Peptide Channel (K+T-UPC) Family"
   },
+  "1.D.386": {
+   "name": "The Synthetic 13-Mer Chimeric Alpha-Peptide Oligourea Foldamer)13-MCAPOF) Family"
+  },
+  "1.D.387": {
+   "name": "Drug Uptake-Stimulating Synthetic Anioinophore (DUSSA) Family"
+  },
+  "1.D.388": {
+   "name": "The Artificial Li+ Channel (ALiC) Family"
+  },
+  "1.D.389": {
+   "name": "The Artificial Carba-Closo Dodecaborate Peptide Carrier (ACCD-PC) Family"
+  },
   "1.D.39": {
    "name": "The Light-controlled Azobenzene-based Amphiphilic Molecular Ion Channel (AAM-IC) Family"
+  },
+  "1.D.390": {
+   "name": "The Artificial Covalent Organic Nanotube Ascorbate Channel (ACON-AC) Family"
+  },
+  "1.D.391": {
+   "name": "The Artificial Gap Junctional Ion Channel (AGJ-IC) Family"
+  },
+  "1.D.392": {
+   "name": "CycloStilbene Water/Nitrate Channel (CS-WNC) Family"
+  },
+  "1.D.393": {
+   "name": "The Crown-Ether PolyImide-K+ Channel (CEP-K+ C) Family"
+  },
+  "1.D.394": {
+   "name": "The Photo-activated Tolane-bound Synthetic Anion Channel (PT-SAC) Family"
+  },
+  "1.D.395": {
+   "name": "The Ion Translocating visible Light Harvesting NanoFluidic Channel (IT-LH_NFC) Family"
+  },
+  "1.D.396": {
+   "name": "The Coacervates-mediated Intracellular Delivery System (CID) Family"
+  },
+  "1.D.397": {
+   "name": "The Man-made Cytochrome C Maquetteti (MCCM) Family"
+  },
+  "1.D.398": {
+   "name": "The NanoWire Motor Machine (NWMM) Family"
+  },
+  "1.D.399": {
+   "name": "NanoPore Dewetting (NPD) Family"
   },
   "1.D.4": {
    "name": "The Tolaasin Channel-forming (Tolaasin) Family"
@@ -13417,11 +13771,80 @@
   "1.D.40": {
    "name": "The Protein-induced Lipid Toroidal Pore (Lipid Pore) Family"
   },
+  "1.D.400": {
+   "name": "Synthetic Protein-conducting DNA NanoPore (SPDNP) Family"
+  },
+  "1.D.401": {
+   "name": "The Lipid-based Edaravone NanoSystem (LENS) Family"
+  },
+  "1.D.402": {
+   "name": "The NanoPore-mediated Lipid Translocation (NP-LT) Family"
+  },
+  "1.D.403": {
+   "name": "Porin-Modified Artificial Channel (PMAC) Family"
+  },
+  "1.D.404": {
+   "name": "The Brominated Oxadiazole Benzoate Antibiotic with Membrane Permeability (BOB-AMP) Family"
+  },
+  "1.D.405": {
+   "name": "The Artificial Reversible Ligand-gated Ion Channel (ARLIC) Family"
+  },
+  "1.D.406": {
+   "name": "The Macrocycles with Tuneable Diameters and Helical Foldamers with customizable peripheral side chain (MTDHF) Family"
+  },
+  "1.D.407": {
+   "name": "The Artificial Hybrid Helical Polymer - NanoChannel (AHHP-NC) Family"
+  },
+  "1.D.408": {
+   "name": "The Synthetic Chloride Channel-forming Peptide (SCCP) Family"
+  },
+  "1.D.409": {
+   "name": "The Ionic Covalent Organic Framework (ICOF) Family"
+  },
   "1.D.41": {
    "name": "The Sprotetonate-type Ionophore (Spirohexanolide) Family"
   },
+  "1.D.410": {
+   "name": "The DNA Origami Nanodrill (DON) Family"
+  },
+  "1.D.411": {
+   "name": "The Transmembrane Four Helix Electron Transfer Protein (FH-ETP) Family"
+  },
+  "1.D.412": {
+   "name": "The Macrocyclic Unimolecular Chloride Channel (MUCC) Family"
+  },
+  "1.D.413": {
+   "name": "The Intracellular Reduction of Nicotinamide Cytosine Dinucleotide (IR-NCD) Family"
+  },
+  "1.D.414": {
+   "name": "The Photocaged Indolocarbazole Anionophore (PIA) Family"
+  },
+  "1.D.415": {
+   "name": "The Electro-Active Materials (EAM) Family"
+  },
+  "1.D.416": {
+   "name": "The Ion Transporting DNA Origami Tiles (SIT-DOT) Family"
+  },
+  "1.D.417": {
+   "name": "The Synthetic Retinoid CD1530 (SRC) Family"
+  },
+  "1.D.418": {
+   "name": "The Cystine Ionophore targeting Anion Channels (CIAC) Family"
+  },
+  "1.D.419": {
+   "name": "The Photo-responsive Supromolecuar Chloride Channel (PSCC) Family"
+  },
   "1.D.42": {
    "name": "The Phe-Arg Tripeptide-Pillar[5]Arene Channel (TPPA-C) Family"
+  },
+  "1.D.420": {
+   "name": "The Photocaged Inddocarbazole AnionoPhore (PIAP) Family"
+  },
+  "1.D.421": {
+   "name": "The Artificial Florinated Aromatic Foldamer H+ Channel (AFAF-HC) Family"
+  },
+  "1.D.422": {
+   "name": "The Nanoscale Archimedes DNA Rotary Screw Pump (NADRSP) Family"
   },
   "1.D.43": {
    "name": "The Triazole-tailored Guanosine Dinucleoside Channel (TT-GDN-C) Family"
@@ -13808,6 +14231,11 @@
   "1.E.26": {
    "name": "The Holin LLH (Holin LLH) Family"
   },
+  "1.E.26.1.15": {
+   "name": "Holin of 136 aas and 1 or 2 N-terminal TMSs.",
+   "description": "Holin of 136 aas and 1 or 2 N-terminal TMSs.",
+   "proteins": "Holin of Exiguobacterium phage vB_EalM-132"
+  },
   "1.E.26.11.1": {
    "name": "Putative holin of 140 aas and 1 or 2 TMSs",
    "description": "Putative holin of 140 aas and 1 or 2 TMSs",
@@ -13850,6 +14278,21 @@
    "description": "Phage holin family protein of 138 aas and 2 TMSs (Nabhani et al. 2021).",
    "proteins": "Holin of Rhizobium phaseoli Palo, a T7-like podophage of Rhizobium phaseoli"
   },
+  "1.E.34.1.16": {
+   "name": "Phage holin family protein of 149 aas and 2 TMSs.",
+   "description": "Phage holin family protein of 149 aas and 2 TMSs.",
+   "proteins": "Holin of unclassified Sphingopyxis sp."
+  },
+  "1.E.34.1.17": {
+   "name": "Putative holin of 116 aas with 2 TMSs.",
+   "description": "Putative holin of 116 aas with 2 TMSs.",
+   "proteins": "Holin of Actinobacteria bacterium HGW-Actinobacteria-6"
+  },
+  "1.E.34.1.18": {
+   "name": "Putative holin of 161 aas and 2 TMSs",
+   "description": "Putative holin of 161 aas and 2 TMSs",
+   "proteins": "Holin of Rhodopirellula baltica SWK14"
+  },
   "1.E.34.2.4": {
    "name": "Uncharacterized protein of 131 aas and 2 TMSs",
    "description": "Uncharacterized protein of 131 aas and 2 TMSs",
@@ -13860,10 +14303,40 @@
    "description": "Phage holin family protein of 129 aas and 2 TMSs.",
    "proteins": "Holin of Desulfovibrio sp. X2"
   },
+  "1.E.34.2.6": {
+   "name": "Phage holin family protein of 148 aas and 2 TMSs.",
+   "description": "Phage holin family protein of 148 aas and 2 TMSs.",
+   "proteins": "Holin of Akketmansia sp."
+  },
   "1.E.34.3.1": {
    "name": "Uncharacterized DUF1469 protein of 128 aas and 2 TMSs.",
    "description": "Uncharacterized DUF1469 protein of 128 aas and 2 TMSs.",
    "proteins": "UP of Prochlorococcus marinus"
+  },
+  "1.E.34.3.2": {
+   "name": "Phage holin family protein of 121 aas and 2 TMSs.",
+   "description": "Phage holin family protein of 121 aas and 2 TMSs.",
+   "proteins": "Holin of Synechococcus sp. CBW1004"
+  },
+  "1.E.34.4.4": {
+   "name": "Putative holin of 113 aas and 2 TMSs.",
+   "description": "Putative holin of 113 aas and 2 TMSs.",
+   "proteins": "Holin of Bacteroidetes bacterium HGW-Bacteroidetes-15"
+  },
+  "1.E.34.4.5": {
+   "name": "Putative holin of 145 aas and 2 TMSs.",
+   "description": "Putative holin of 145 aas and 2 TMSs.",
+   "proteins": "Holin of Flavobacterium omnivorum"
+  },
+  "1.E.34.5.1": {
+   "name": "Phage holin family protein of 127 aas and 2 TMSs",
+   "description": "Phage holin family protein of 127 aas and 2 TMSs",
+   "proteins": "Holin of Candidatus Latescibacterota bacterium"
+  },
+  "1.E.34.5.2": {
+   "name": "Putative holin of 132 aas with 2 TMSs.",
+   "description": "Putative holin of 132 aas with 2 TMSs.",
+   "proteins": "Holin of Candidatus Krumholzibacteria bacterium"
   },
   "1.E.35": {
    "name": "The Mycobacterial 1 TMS Phage Holin (M1 Hol) Family"
@@ -13885,6 +14358,11 @@
   },
   "1.E.40": {
    "name": "The Mycobacterial 4 TMS Phage Holin (MP4 Holin) Family"
+  },
+  "1.E.40.2.1": {
+   "name": "Putative holin of 121 aas and 4 TMSs",
+   "description": "Putative holin of 121 aas and 4 TMSs",
+   "proteins": "Putative holin of Fischerella sp. JSC11"
   },
   "1.E.40.2.2": {
    "name": "Putative holin of 121 aas and 4 TMSs.",
@@ -14023,6 +14501,26 @@
   },
   "1.E.64": {
    "name": "The P7 Phage Holin LydD (LydD) Family"
+  },
+  "1.E.64.1.1": {
+   "name": "Enterobacterial phage P7 holin, LydD of 84 aas and 2 TMSs.",
+   "description": "Enterobacterial phage P7 holin, LydD of 84 aas and 2 TMSs.",
+   "proteins": "LydD holin of Phage P7"
+  },
+  "1.E.64.2.7": {
+   "name": "Putative class II holin of 69 aas and 2 TMSs.",
+   "description": "Putative class II holin of 69 aas and 2 TMSs.",
+   "proteins": "Holin of Alteromonas phage vB_AmeP_R8W"
+  },
+  "1.E.64.3.1": {
+   "name": "Holin of Acinetobacter phage Loki of 80 aas and 2 TMSs.",
+   "description": "Holin of Acinetobacter phage Loki of 80 aas and 2 TMSs.",
+   "proteins": "Holin of Acinetobacter baumannii phage Loki"
+  },
+  "1.E.64.3.2": {
+   "name": "Burkholderia phage BcepNazgul holin of 127 aas and 3 TMSs.",
+   "description": "Burkholderia phage BcepNazgul holin of 127 aas and 3 TMSs.",
+   "proteins": "Holin of Burkholderia phage BcepNazgul"
   },
   "1.E.65": {
    "name": "The Firmicute Prophage XhlA Holin (XhlA) Family"
@@ -14173,6 +14671,51 @@
   },
   "1.G.3": {
    "name": "The Viral Pore-forming Membrane Fusion Protein-3 (VMFP3) Family"
+  },
+  "1.G.3.1.1": {
+   "name": "Tick-borne encephalitis virus (TBEV) (Class II) polyprotein of 3414 aas.",
+   "description": "Tick-borne encephalitis virus (TBEV) (Class II) polyprotein of 3414 aas. Residues 281 - 776 include the envelop protein that includes the viral fusion protein (Zhang et al. 2017).",
+   "proteins": "Tick-borne encephalitis virus polyprotein (P14336)"
+  },
+  "1.G.3.1.2": {
+   "name": "Polyprotein (3391aas) (includes the membrane fusion protein, envelope protein E (495aas; 38% identical to residues 282-774 in 1.G.3.1.1)).",
+   "description": "Polyprotein (3391aas) (includes the membrane fusion protein, envelope protein E (495aas; 38% identical to residues 282-774 in 1.G.3.1.1) (Liao et al., 2010)). The fusion peptides are residues 98 - 113 in V7SFC4 and residues 378 - 393 in P14340 (Apellániz et al. 2014).",
+   "proteins": "Polyprotein of Dengue virus (P14340); Envelope protein E (B7SFC4)"
+  },
+  "1.G.3.1.3": {
+   "name": "Polyprotein of 3432 aas of the Flavi-glycoprotein family.",
+   "description": "Polyprotein of 3432 aas of the Flavi-glycoprotein family. The type II fusion peptide is residues 392 - 407 (Apellániz et al. 2014).",
+   "proteins": "Polyprotein of Japanese encephalitis virus"
+  },
+  "1.G.3.1.4": {
+   "name": "Non-structural protein 2B of 131 aas and 2 TMSs.",
+   "description": "Non-structural protein 2B of 131 aas and 2 TMSs.",
+   "proteins": "NS2B of Usutu virus"
+  },
+  "1.G.3.1.5": {
+   "name": "NS2B of 131 aas and 2 TMSs.",
+   "description": "NS2B of 131 aas and 2 TMSs.",
+   "proteins": "NS2B of Murray Valley encephalitis virus"
+  },
+  "1.G.3.1.6": {
+   "name": "NS2A viroporin of 218 aas and 4 - 8 TMSs.",
+   "description": "NS2A viroporin of 218 aas and 4 - 8 TMSs (Shrivastava et al. 2017).",
+   "proteins": "NS2A of Dengue Virus"
+  },
+  "1.G.3.1.7": {
+   "name": "Polyprotein of 3433 aas and about 20 - 24 TMSs.",
+   "description": "Polyprotein of 3433 aas and about 20 - 24 TMSs. It includes the N2Sa protein which has been shown to be a viroporin (Leung et al. 2008).",
+   "proteins": "N2Sa of Kunjin Virus"
+  },
+  "1.G.3.1.8": {
+   "name": "Non-structural protein, NSP 2B, of 122 aas and 2 TMSs.",
+   "description": "Non-structural protein, NSP 2B, of 122 aas and 2 TMSs. It forms a viroporin (Shrivastava et al. 2020).",
+   "proteins": "NSP2B of Dengue virus"
+  },
+  "1.G.3.1.9": {
+   "name": "Zika viroporin, ZikV-M (the M protein) of 75 aas and 1 C-terminal TMS.",
+   "description": "Zika viroporin, ZikV-M (the M protein) of 75 aas and 1 C-terminal TMS. Flaviviruses contain several important human pathogens. Among these, the Zika virus is an emerging etiological agent. One of its structural proteins, prM, plays an essential role in viral maturation and assembly, making it an attractive drug and vaccine development target. Tomar et al. 2022 have characterized ZikV-M as a…",
+   "proteins": "ZikV-M viroporin of Zika Virus"
   },
   "1.G.4": {
    "name": "The Viral Pore-forming Membrane Fusion Protein-4 (VMFP4) Family"
@@ -14484,6 +15027,24 @@
   "1.M.23": {
    "name": "The Putative Outer membrane (POS2) Family"
   },
+  "1.M.24": {
+   "name": "The o-Spanin of Achromobacter Phage JWDelta (AP-JWD) Family"
+  },
+  "1.M.25": {
+   "name": "The Campylobacter Spanin (CS) Family"
+  },
+  "1.M.26": {
+   "name": "The Salmonella Phage Jersey Spanin (SPJ-Spanin) Family"
+  },
+  "1.M.27": {
+   "name": "The i-Spanin of Proteus phage Privateer"
+  },
+  "1.M.28": {
+   "name": "The Putative Large Spanin PLS) Family"
+  },
+  "1.M.29": {
+   "name": "The Putative Porphyromonas Phage Spanin (PPPS2) Family"
+  },
   "1.M.3": {
    "name": "The Spanin3 (Spanin3) Family"
   },
@@ -14767,6 +15328,11 @@
    "description": "Encapsulin of 307 aas, a type 2A encapsulin shell protein, EncP2 It forms encapsulin nanocompartments about 24 nm in diameter from 60 monomers. Probably encapsulates at least cysteine desulfurase (CyD, AC O32975) and allows passage of cysteine into its interior, probably involved in sulfur metabolism (Triccas et al. 1996).",
    "proteins": "EncP2 of Mycobacterium leprae"
   },
+  "1.S.8.1.3": {
+   "name": "Type 2A encapsulin shell protein of 303 aas.",
+   "description": "Type 2A encapsulin shell protein of 303 aas. The protein has two halves, the N-terminal domain is uniformly hydrophilic while the C-terminal domain contains 4 short regions of moderate hydrophobicity.",
+   "proteins": "Encapsulin of Hyphomicrobium nitrativoran"
+  },
   "1.S.9": {
    "name": "The Bacterial/Archaeal Nanocompartment Encapsulin Shell Protein4 (BANC-SP4) Family"
   },
@@ -14965,6 +15531,11 @@
    "description": "Bacillus phage SPP1 portal protein of 503 aa",
    "proteins": "PPP of Bacillus phage SPP1"
   },
+  "1.W.7.7.5": {
+   "name": "Uncharacterized protein of 503 aas",
+   "description": "Uncharacterized protein of 503 aas",
+   "proteins": "UP of Cyanobium sp."
+  },
   "1.W.7.7.6": {
    "name": "DUF4055 domain-containing protein of 479 aa",
    "description": "DUF4055 domain-containing protein of 479 aa",
@@ -14996,6 +15567,16 @@
   },
   "1.X.1": {
    "name": "The Intraflagellar Transporter-A Complex (Ift-A) Family"
+  },
+  "1.X.1.1.1": {
+   "name": "The Intraflagellar transporter (IFT) multiprotein complex.",
+   "description": "The Intraflagellar transporter (IFT) multiprotein complex. WD repeat-containing protein 35 of 1181 aas and possibly as many as 7 or 8 TMSs. It is a component of the IFT complex A (IFT-A), a complex required for retrograde ciliary transport and entry into cilia of G protein-coupled receptors (GPCRs). It is thus involved in ciliogenesis and ciliary protein trafficking (Takahara et al. 2018) (see…",
+   "proteins": "IFT complex of Homo sapiens; WD repeat protein 35 of 1181 aas, Q9P2L0; IFT dynein (part of the motor) of 1066 aas, Q8WVS4; IFT kinesin-2, IFT88, 824 aas, Q13099; IFT25/27 adaptor, 186 aas, (adaptor for cargo BBSome), Q9BW83; IFT56, 554 aas (adaptor for cargo IDA3), A0AVF1; IFT46, 304 aas (adaptor…"
+  },
+  "1.X.1.1.3": {
+   "name": "Intraflagellar transport protein complex of several proteins, IFT52, of 426 aas and possibly 1 TMS at about residue 180; IFT57, of 429 aas; IFT43, of…",
+   "description": "Intraflagellar transport protein complex of several proteins, IFT52, of 426 aas and possibly 1 TMS at about residue 180; IFT57, of 429 aas; IFT43, of 208 aas; IFT46, of 301 aas, and IFT20, of 132 aas (Reddy Palicharla and Mukhopadhyay 2024). See 1.X.1.1.1 for description.",
+   "proteins": "IFT complex of Mus musculus"
   },
   "1.Y": {
    "name": "Channels/Pores"
@@ -17051,6 +17632,11 @@
    "description": "The macrolide (erythromycin; oleandomycin; azithromycin; telithromycin) efflux pump, MefA, of 405 aas and 12 TMSs (Cantón et al. 2005; Bley et al. 2011). Iannelli et al. 2018 suggested that MefA can function with an ATPase, MsrD (TC# 3.A.1.121.6), and therefore function as an ABC drug exporter. However, the data presented seem inconsistent with this suggestion. The two genes encoding these two…",
    "proteins": "MefA of Streptococcus pyogenes"
   },
+  "2.A.1.21.11": {
+   "name": "MFS porter",
+   "description": "MFS porter",
+   "proteins": "MFS porter of Stackebrandtia nassauensis (D3Q871)"
+  },
   "2.A.1.21.12": {
    "name": "Multidrug-efflux transporter, Rv1258c/MT1297, of 419 aas and 12 TMSs.",
    "description": "Multidrug-efflux transporter, Rv1258c/MT1297, of 419 aas and 12 TMSs. Both Rv1634 and Rv1258c are believed to play major roles in drug resistance by altering the protein pump that is required to remove the active drugs from the bacterial cell (Panja et al. 2019). Thymol exhibits inhibitory activity against Mycobacterium smegmatis and shows promising interaction with a combination of isoniazid…",
@@ -17080,6 +17666,21 @@
    "name": "Macrolide efflux pump, MefE (Mef; MefA) of 405 aas.",
    "description": "Macrolide efflux pump, MefE (Mef; MefA) of 405 aas. Induced by erythromycin and the antimicrobial peptide, LL-37 (Zähner et al. 2010). May act in conjunction with Mel (Q93QE4), an ABC-type ATPase that is encoded in the same operon with the mefA gene (Ambrose et al. 2005).",
    "proteins": "MefE of Streptococcus pneumoniae"
+  },
+  "2.A.1.21.23": {
+   "name": "Uncharacterized MFS permease of 433 aas and 12 TMSs",
+   "description": "Uncharacterized MFS permease of 433 aas and 12 TMSs",
+   "proteins": "UP of Deinococcus geothermalis"
+  },
+  "2.A.1.21.26": {
+   "name": "Macrolide efflux MFS transporter, MefB, of 409 aas and 12 TMSs.",
+   "description": "Macrolide efflux MFS transporter, MefB, of 409 aas and 12 TMSs.",
+   "proteins": "MefB of an E. coli plasmid"
+  },
+  "2.A.1.21.27": {
+   "name": "Macrolide efflux MFS transporter, MefC, of 407 aas and 12 TMSs.",
+   "description": "Macrolide efflux MFS transporter, MefC, of 407 aas and 12 TMSs.",
+   "proteins": "MefC of Uncultured bacterium"
   },
   "2.A.1.21.3": {
    "name": "The tetracycline resistance determinant, TetV",
@@ -17536,6 +18137,11 @@
    "name": "Polyamine/cationinc amino acid exporter, CmgA.",
    "description": "Polyamine/cationinc amino acid exporter, CmgA. Exports L-lysine, L-arginine, L-citrulline, the diamine/polyamine, putrescine, cadaverine, and possibly spermdine and spermine (Nguyen et al. 2015;Lubitz et al. 2016).",
    "proteins": "CmgA of Corynebacterium glutamicum"
+  },
+  "2.A.1.3.76": {
+   "name": "MFS transporter of 530 aas and 14 TMSs, SgvT1.",
+   "description": "MFS transporter of 530 aas and 14 TMSs, SgvT1. Exports griseoviridin and viridogrisein (etamycin) (Xie et al. 2017).",
+   "proteins": "SgvT1 of Streptomyces griseoviridis"
   },
   "2.A.1.3.79": {
    "name": "Multidrug resistance MFS exporter, MFS54 of 538 aas and 14 TMSs.",
@@ -18867,6 +19473,11 @@
    "description": "Cell division protein, FtsW. May flip lipid II (involved in cell wall synthesis) across the cytoplasmic membrane. R145 and K153 in TMS 4 (of 10) are esesential for this transport activity (Mohammadi et al. 2014). There is some controversy about this transport function (Young 2014; Sham et al. 2014). See TC#2.A.66.4.3 for the alternative explanation.",
    "proteins": "FtsW of E. coli (P0ABG4)"
   },
+  "2.A.103.1.10": {
+   "name": "Rod shape-determining protein Rod, of 424 aas and 10 TMSs.",
+   "description": "Rod shape-determining protein Rod, of 424 aas and 10 TMSs.",
+   "proteins": "RodA of Lacinutrix venerupis"
+  },
   "2.A.103.1.2": {
    "name": "Rod shape determining protein, RodA.",
    "description": "Rod shape determining protein, RodA. A proposed flippase for a lipid-linked disaccharide-pentapeptide cell wall precursor, but this proposal is controversial (Sham et al. 2014; Young 2014).",
@@ -18950,6 +19561,11 @@
    "name": "Golgi Ca2+:H+ and Mn2+:H+ antiporter, Gdt1 (GCR-1-dependent translation factor 1) or TMEM165.",
    "description": "Golgi Ca2+:H+ and Mn2+:H+ antiporter, Gdt1 (GCR-1-dependent translation factor 1) or TMEM165 (Demaegd et al., 2013). Involved in ion homeostasis (Dulary et al. 2016), specifically Mn2+ homeostasis (Thines et al. 2018).",
    "proteins": "Gdt1 of Saccharomyces cerevisiae (P38301)"
+  },
+  "2.A.106.2.4": {
+   "name": "The YD68 protein of 287 aas and 7 TMSs in a 1 + 3 + 3 TMS arrangement.",
+   "description": "The YD68 protein of 287 aas and 7 TMSs in a 1 + 3 + 3 TMS arrangement.",
+   "proteins": "YD68 of Schizosaccharomyces pombe"
   },
   "2.A.106.2.5": {
    "name": "Golgi Ca2+ ion homeostasis protein, TM protein PFT27, of 515 aas and 8 putative TMSs in a 2 (N-terminal) + 3 (middle) + 3 (C-terminal) TMSs.",
@@ -19296,6 +19912,21 @@
   },
   "2.A.116": {
    "name": "The Peptidoglycolipid Addressing Protein (GAP) Family"
+  },
+  "2.A.116.1.4": {
+   "name": "Gap homologue of 223 aas",
+   "description": "Gap homologue of 223 aas",
+   "proteins": "Gap homologue of Microlunatus phosphovorus"
+  },
+  "2.A.116.1.6": {
+   "name": "Gap homologue of 232 aas",
+   "description": "Gap homologue of 232 aas",
+   "proteins": "Gap homologue of Methanobacterium formicicum"
+  },
+  "2.A.116.2.1": {
+   "name": "Gap homologue of 228 aas",
+   "description": "Gap homologue of 228 aas",
+   "proteins": "Gap homologue of Cyanobium gracile"
   },
   "2.A.116.2.2": {
    "name": "Gap homologue of 229 aas",
@@ -19976,6 +20607,11 @@
    "name": "GtrA family proteinof 138 aas and 4 TMSs.",
    "description": "GtrA family proteinof 138 aas and 4 TMSs.",
    "proteins": "GtrA of Lacticigenium naphtae"
+  },
+  "2.A.129.2.2": {
+   "name": "GtrA-like protein of 143 aas and 4 putative TMSs.",
+   "description": "GtrA-like protein of 143 aas and 4 putative TMSs. This protein maybe incomplete, lacking part of its N-terminus.",
+   "proteins": "Uncharacterized protein of Candidatus Heimdallarchaeota"
   },
   "2.A.129.2.3": {
    "name": "GtrA family protein of 137 aas and 4 TMSs",
@@ -21975,6 +22611,11 @@
    "description": "The chloroplastic glucosinolate uptake porter, BAT5 (Gigolashvili et al., 2009) [glucosinolates are thioglucosides of amino acid derivatives. These bitter natural pesticides are present in most plants of the order Brassicales among others].",
    "proteins": "BAT5 of Arabidopsis thaliana (Q3EA49)"
   },
+  "2.A.28.2.12": {
+   "name": "Bile acid:sodium symporter (BASS) of 285 aas and 9 TMSs.",
+   "description": "Bile acid:sodium symporter (BASS) of 285 aas and 9 TMSs.",
+   "proteins": "BASS of Methanobacterium lacus"
+  },
   "2.A.28.2.2": {
    "name": "Chloroplast envelope membrane pyruvate:Na+ symporter, called Bile acid:sodium symporter, protein 2, BASS2.",
    "description": "Chloroplast envelope membrane pyruvate:Na+ symporter, called Bile acid:sodium symporter, protein 2, BASS2 (widely distributed in all land plants tested) (Furumoto et al., 2011).",
@@ -22037,6 +22678,651 @@
   },
   "2.A.29": {
    "name": "The Mitochondrial Carrier (MC) Family"
+  },
+  "2.A.29.1.1": {
+   "name": "Mitochondrial ATP/ADP antiporter 2 of 298 aas and 6 TMSs; it facilitates exchange of ADP and ATP between the cytosol and mitochondrial matrix.",
+   "description": "Mitochondrial ATP/ADP antiporter 2 (SLC25A5; ANT2) of 298 aas and 6 TMSs; it facilitates exchange of ADP and ATP between the cytosol and mitochondrial matrix (inhibited by carboxyatractyloside and bongkrekate) (Clémençon et al. 2013). Modification of lysyl residues with fluorescamine induces Ca2+ permeability (Buelna-Chontal et al. 2014). Ca2+ induces oxidative stress, which increases lipid…",
+   "proteins": "SLC25A5 of Homo sapiens"
+  },
+  "2.A.29.1.10": {
+   "name": "Solute carrier family 25 (mitochondrial carrier; adenine nucleotide translocator), member 6.",
+   "description": "Solute carrier family 25 (mitochondrial carrier; adenine nucleotide translocator), member 6. It is an ADP/ATP exchanger called ANT3 and is of 298 aas with 6 TMSs (Clémençon et al. 2013). Its activation promotes progression and chemoresistance in multiple myeloma, dependent on PINK1 transport (Hu et al. 2025).",
+   "proteins": "SLC25A6 of Homo sapiens"
+  },
+  "2.A.29.1.2": {
+   "name": "Mitochondrial ADP/ATP carrier 1 (AAC1); ADP/ATP translocase 1; adenine nucleotide translocator 1 (ANT1); adPEO, Sengers syndrome (SLC25A4).",
+   "description": "Mitochondrial ADP/ATP carrier 1 (AAC1); ADP/ATP translocase 1; adenine nucleotide translocator 1 (ANT1); adPEO, Sengers syndrome (SLC25A4). Valine 181 is critical for the nucleotide exchange activity (De Marcos Lousa et al. 2005). Mice have three ANTs, and if all three are knocked out, the mitochondrial permeability transition pore (MPTP) can not form, although with only two eliminated, it still…",
+   "proteins": "SLC25A4 of Homo sapiens"
+  },
+  "2.A.29.1.3": {
+   "name": "Adenine nucleotide transporter, ANT, or ATP:ADP carrier AAC1 (one of three paralogues).",
+   "description": "Adenine nucleotide transporter, ANT, or ATP:ADP carrier AAC1 (one of three paralogues). Transports heme and heme precursor protoporphyrin IX (PP IX) as well as ATP and ADP (Azuma et al. 2008).",
+   "proteins": "AAC1 of Saccharomyces cerevisiae (P04710)"
+  },
+  "2.A.29.1.4": {
+   "name": "The Hydrogenosome ADP/ATP carrier",
+   "description": "The Hydrogenosome ADP/ATP carrier (Van der Giezen et al., 2002)",
+   "proteins": "Hydrogenosome ADP/ATP carrier of Neocallimastix frontalis (AAK 71468)"
+  },
+  "2.A.29.1.5": {
+   "name": "ADP (Km = 40 µM)/ATP (Km = 100 µM) antiporter, ACC1 three isoforms, AAC1, 2 and 3 were characterized where AAC3 has higher affinities (10-22 µM).",
+   "description": "ADP (Km = 40 µM)/ATP (Km = 100 µM) antiporter, ACC1 (three isoforms, AAC1, 2 and 3 were characterized where AAC3 has higher affinities (10-22 µM) (Haferkamp et al., 2002).",
+   "proteins": "ACC1 of Arabidopsis thaliana; (P31167)"
+  },
+  "2.A.29.1.6": {
+   "name": "The Endoplasmic Reticular Adenine Nucleotide Transporter, ER-ANT1",
+   "description": "The Endoplasmic Reticular Adenine Nucleotide Transporter, ER-ANT1 (probable ATP:ADP exchanger; Leroch et al., 2008)",
+   "proteins": "ER-ANT1 of Arabidopsis thaliana (Q0WQJ0)"
+  },
+  "2.A.29.1.7": {
+   "name": "ADP:ATP carrier 2, Aac2 (Lethal with loss of Sal1, (2.A.29.23.2) but independent of its AAC activity).",
+   "description": "ADP:ATP carrier 2, Aac2 (Lethal with loss of Sal1, (2.A.29.23.2) but independent of its AAC activity (Kucejova et al., 2008)). The x-ray structure suggests a novel domain-based alternating-access transport mechanism (Ruprecht et al. 2014).",
+   "proteins": "Aac2 of Saccharomyces cerevisiae (P18239)"
+  },
+  "2.A.29.1.8": {
+   "name": "Mitochondrial ADP/ATP carrier-4, ANT4, of 315 aas and 6 TMSs.",
+   "description": "Mitochondrial ADP/ATP carrier-4, ANT4, of 315 aas and 6 TMSs. It may serve to mediate energy generating and energy consuming processes in the distal flagellum, possibly as a nucleotide shuttle between flagellar glycolysis, protein phosphorylation and mechanisms of motility (Kim et al. 2007).",
+   "proteins": "SLC25A31 of Homo sapiens"
+  },
+  "2.A.29.1.9": {
+   "name": "ADP/ATP carrier #3, AAC3 (90% identical to 2.A.29.1.7) (#2)).",
+   "description": "ADP/ATP carrier #3, AAC3 (90% identical to 2.A.29.1.7) (#2)). Prolines in TMSs 1,3, and 5 are important for function (Babot et al., 2012). The x-ray structure suggests a novel domain-based alternating-access transport mechanism (Ruprecht et al. 2014). Although the transporter catalyzes the translocation of substrate, the substrate also facilitates interconversion between alternating states…",
+   "proteins": "ADP/ATP exchanger-3 (ACC3) of Saccharomyces cerevisiae (P18238)"
+  },
+  "2.A.29.10.1": {
+   "name": "Flavin adenine dinucleotide (FAD) carrier (FADC; FLX1) (catalyzes FAD export from the mitochondrion)",
+   "description": "Flavin adenine dinucleotide (FAD) carrier (FADC; FLX1) (catalyzes FAD export from the mitochondrion) (Bafunno et al., 2004)",
+   "proteins": "FLX1 of Saccharomyces cerevisiae"
+  },
+  "2.A.29.10.10": {
+   "name": "Mitochondrial NAD /NADP carrier, NDT2; counter exchange substrates include ADP and AMP.",
+   "description": "Mitochondrial NAD /NADP carrier, NDT2; counter exchange substrates include ADP and AMP (Palmieri et al., 2009).",
+   "proteins": "NDT2 of Arabidopsis thaliana (Q8RWA5)"
+  },
+  "2.A.29.10.11": {
+   "name": "Chloroplastic (plastidic) NAD/NADP carrier, NDT1; of 312 aas and 6 or 7 TMSs.",
+   "description": "Chloroplastic (plastidic) NAD/NADP carrier, NDT1; of 312 aas and 6 or 7 TMSs. It catalyzes counter exchange (antiport) of substrates: ADP and AMP (Palmieri et al., 2009).",
+   "proteins": "NDT1 of Arabidopsis thaliana (O22261)"
+  },
+  "2.A.29.10.2": {
+   "name": "Mitochondrial folate transporter, hMFT",
+   "description": "Mitochondrial folate transporter, hMFT",
+   "proteins": "SLC25A32 of Homo sapiens"
+  },
+  "2.A.29.10.3": {
+   "name": "Chloroplast folate/folate derivative transporter, AtFOLT1",
+   "description": "Chloroplast folate/folate derivative transporter, AtFOLT1 (Bedhomme et al., 2005; Haferkamp and Schmitz-Esser 2012)",
+   "proteins": "AtFOLT1 of Arabidopsis thaliana (CAH65737)"
+  },
+  "2.A.29.10.4": {
+   "name": "Mitochondrial pyrimidine nucleotide transporter, RIM2.",
+   "description": "Mitochondrial pyrimidine nucleotide transporter, RIM2 (transports TTP (Km= 200 μM), UTP (Km= 400 μM) and CTP (Km= 440 μM). Catalyzes electroneutral TTP/TMP and TTP/TDP antiport. Deoxy pyrimidine nucleotides are also transported) (Marobbio et al., 2006). Pyrimidine trinucleotide transporter, RIM2 (transports TTP, CTP and UTP) (Todisco et al., 2006)",
+   "proteins": "RIM2 of Saccharomyces cerevisiae; (P38127)"
+  },
+  "2.A.29.10.5": {
+   "name": "The mitochondrial NAD+ uptake transporter, Ndt1. (70% identical to Ndt2 which also takes up NAD+).",
+   "description": "The mitochondrial NAD+ uptake transporter, Ndt1 (also transports (d)AMP and (d)GMP but not α-NAD+, NADH, NADP+, or NADPH. Transport is saturable with an apparent Km of 0.38mM for NAD+). (70% identical to Ndt2 which also takes up NAD+). The main role of Ndt1p and Ndt2p is to import NAD+ into mitochondria by unidirectional transport or by exchange with intramitochondrially generated (d)AMP and…",
+   "proteins": "Ndt1 of Saccharomyces cerevisiae (P40556)"
+  },
+  "2.A.29.10.6": {
+   "name": "solute carrier family 25 (pyrimidine nucleotide carrier), member 36",
+   "description": "solute carrier family 25 (pyrimidine nucleotide carrier), member 36",
+   "proteins": "SLC25A36 of Homo sapiens"
+  },
+  "2.A.29.10.7": {
+   "name": "solute carrier family 25 (pyrimidine nucleotide carrier), member 33",
+   "description": "solute carrier family 25 (pyrimidine nucleotide carrier), member 33",
+   "proteins": "SLC25A33 of Homo sapiens"
+  },
+  "2.A.29.10.8": {
+   "name": "Mitochondrial nicotinamide adenine dinucleotide transporter 2, NDT2 (Mitochondrial NAD+ transporter 2).",
+   "description": "Mitochondrial nicotinamide adenine dinucleotide transporter 2, NDT2 (Mitochondrial NAD+ transporter 2) (Todisco et al. 2006).",
+   "proteins": "YEA6 of Saccharomyces cerevisiae"
+  },
+  "2.A.29.10.9": {
+   "name": "ADP/ATP-specific mitochondrial carrier (MC) in mitosomes (reduced mitochondria incapable of ATP synthesis).",
+   "description": "ADP/ATP-specific mitochondrial carrier (MC) in mitosomes (reduced mitochondria incapable of ATP synthesis) (Williams et al., 2008).",
+   "proteins": "MC in Antonospora locustae (Q4VFZ9)"
+  },
+  "2.A.29.11.1": {
+   "name": "The Plastid (Amyloplast) ADP-glucose transporter Brittle endosperm 1 (BT1).",
+   "description": "The Plastid (Amyloplast) ADP-glucose transporter Brittle endosperm 1 (BT1) (Kirchberger et al., 2007).",
+   "proteins": "BT1 of Zea mays"
+  },
+  "2.A.29.11.2": {
+   "name": "The Adenine nucleotide uniporter, BT1.",
+   "description": "The Adenine nucleotide uniporter, BT1 (Leroch et al., 2005).",
+   "proteins": "BT1 of Solanum tuberosum (Q9ZNY4)"
+  },
+  "2.A.29.11.3": {
+   "name": "The plastid ADP-glucose transporter, Nst1 (~90% identical to and probably orthologous with 2.A.29.11.1.).",
+   "description": "The plastid ADP-glucose transporter, Nst1 (~90% identical to and probably orthologous with 2.A.29.11.1.) (Haferkamp, 2007).",
+   "proteins": "Nst1 of Hordeum vulgare (Q6E5A5)"
+  },
+  "2.A.29.11.4": {
+   "name": "Adenine nucleotide (ATP, ADP) carrier, ANT1; BRITTLE-1.",
+   "description": "Adenine nucleotide (ATP, ADP) carrier, ANT1; BRITTLE-1. Present in both mitochondria and plastids (Haferkamp and Schmitz-Esser 2012).",
+   "proteins": "ANT1 of Arabidopsis thaliana"
+  },
+  "2.A.29.11.6": {
+   "name": "ADP:ATP carrier-2 of 6 TMSs and 401 aas.",
+   "description": "ADP:ATP carrier-2 of 6 TMSs and 401 aas.",
+   "proteins": "Carrier of Trichomonas vaginalis"
+  },
+  "2.A.29.11.8": {
+   "name": "Putative Thiamine-pyrophosphate (TPP):nucleotide antiporter, TPC or DNG, of 576 aas and 6 TMSs with 1 TMS (N-terminal) + 5 TMSs (residues 380 -576).",
+   "description": "Putative Thiamine-pyrophosphate (TPP):nucleotide antiporter, TPC or DNG, of 576 aas and 6 TMSs with 1 TMS (N-terminal) + 5 TMSs (residues 380 -576) (Wunderlich 2022).",
+   "proteins": "TPC of Plasmodium falciparum"
+  },
+  "2.A.29.12.1": {
+   "name": "Grave’s disease carrier (GDC) protein.",
+   "description": "Grave’s disease carrier (GDC) protein. Transports coenzyme A and/or a coenzyme A precursor (Vozza et al. 2016). SLC25A16 is the human orthologue.",
+   "proteins": "GDC of Bos taurus"
+  },
+  "2.A.29.12.2": {
+   "name": "Mitochondrial exchange transporter for Coenzyme A and adenosine 3', 5'-diphosphate, SLC25A42.",
+   "description": "Mitochondrial exchange transporter for Coenzyme A and adenosine 3', 5'-diphosphate, SLC25A42 (also transports dephospho-Coenzyme A, and ADP; Fiermonte et al. 2009). SLC25A42 deficiency leads to a congenital disease with a heterogeneous clinical presentation, including myopathy, developmental delay, lactic acidosis, encephalopathy and other symptoms (Heckmann et al. 2024).",
+   "proteins": "SLC25A42 of Homo sapiens"
+  },
+  "2.A.29.12.3": {
+   "name": "solute carrier family 25; mitochondrial carrier; Graves disease autoantigen, member 16.",
+   "description": "solute carrier family 25; mitochondrial carrier; Graves disease autoantigen, member 16. It is a Coenzyme A transporter (Gutiérrez-Aguilar and Baines 2013).",
+   "proteins": "SLC25A16 of Homo sapiens"
+  },
+  "2.A.29.12.4": {
+   "name": "Mitochondrial Coenzyme A carrier protein, LEU5 or Leu-5.",
+   "description": "Mitochondrial Coenzyme A carrier protein, LEU5 or Leu-5 (Gutiérrez-Aguilar and Baines 2013).",
+   "proteins": "LEU5 of Saccharomyces cerevisiae"
+  },
+  "2.A.29.12.5": {
+   "name": "Coenzyme A transporter of 331 aas.",
+   "description": "Coenzyme A transporter of 331 aas (Zallot et al. 2013).",
+   "proteins": "Coenzyme A transporter of Arabidopsis thaliana"
+  },
+  "2.A.29.12.6": {
+   "name": "Coenzyme A transporter of 325 aas.",
+   "description": "Coenzyme A transporter of 325 aas (Zallot et al. 2013).",
+   "proteins": "Coenzyme A transporter of Arabidopsis thaliana"
+  },
+  "2.A.29.12.7": {
+   "name": "Dephospho-coenzyme A (dPCoA) carrier, dPCoAC, of 365 aas and 6 TMSs. dPCoA is the best substrate, but ADP and dADP are also transported.",
+   "description": "Dephospho-coenzyme A (dPCoA) carrier, dPCoAC, of 365 aas and 6 TMSs. dPCoA is the best substrate, but ADP and dADP are also transported. Coenzyme A is not transported but is a strong competive inhibitor (Vozza et al. 2016). Formerly called \"alternative testis transcripts open reading frame A\".",
+   "proteins": "dPCoAC of Drosophila melanogaster (Fruit fly)"
+  },
+  "2.A.29.13.1": {
+   "name": "Succinate/fumarate antiporter, Sfc1, of 322 aas; essential for growth on ehtanol and acetate.",
+   "description": "Succinate/fumarate antiporter, Sfc1, of 322 aas; essential for growth on ehtanol and acetate (Palmieri et al. 1997; Palmieri et al. 2006).",
+   "proteins": "ACR1 of Saccharomyces cerevisiae"
+  },
+  "2.A.29.14.1": {
+   "name": "Mitochondrial Ca2+-activated aspartate/glutamate antiporter carrier with Ca2+-binding EF-hand domain, Aralar of 678 aas and possibly 6 TMSs.",
+   "description": "Mitochondrial Ca2+-activated aspartate/glutamate antiporter carrier with Ca2+-binding EF-hand domain, Aralar of 678 aas and possibly 6 TMSs. The microRNAs, miR-302b and miR-372, regulate mitochondrial metabolism via the SLC25A12 transporter, which controls MAVS-mediated antiviral innate immunity (Yasukawa et al. 2020). Thus, miRNAs modulate the innate immune response by altering mitochondrial…",
+   "proteins": "SLC25A12 of Homo sapiens"
+  },
+  "2.A.29.14.10": {
+   "name": "Calcium-binding mitochondrial carrier protein Aralar1 of 690 aas.",
+   "description": "Calcium-binding mitochondrial carrier protein Aralar1 of 690 aas.",
+   "proteins": "Aralar1 of Verticillium alfalfae (Verticillium wilt of alfalfa) (Verticillium albo-atrum)"
+  },
+  "2.A.29.14.2": {
+   "name": "Mitochondrial Ca2+-activated aspartate/glutamate antiporter carrier with a Ca2+-binding EF-hand domain, Citrin of 675 aas and about 8 TMSs, 2 near…",
+   "description": "Mitochondrial Ca2+-activated aspartate/glutamate antiporter carrier with a Ca2+-binding EF-hand domain, Citrin of 675 aas and about 8 TMSs, 2 near the N-terminus and 6 nearer the C-terminus of the rotein. Defects in humans cause type II citrullinemia. Citrin deficiency is a rare metabolic disorder prevalent in East and Southeast Asia that affects liver or neurological function throughout various…",
+   "proteins": "SLC25A13 of Homo sapiens"
+  },
+  "2.A.29.14.3": {
+   "name": "Mitochondrial glutamate carrier 1 (GC1); glutamate:H+ symporter 1 (SLC25A22).",
+   "description": "Mitochondrial glutamate carrier 1 (GC1); glutamate:H+ symporter 1 (SLC25A22). It plays a role in glucose-stimulated insulin secretion by β-cells (Casimir et al., 2009), and is responsible for migrating partial seizures in neonatal infancy (MPSI), a severe condition with few known etiologies (Poduri et al. 2013). Early infantile epileptic encephalopathy (EIEE) is a heterogeneous group of severe…",
+   "proteins": "SLC25A22 of Homo sapiens"
+  },
+  "2.A.29.14.4": {
+   "name": "Yeast mitochondrial aspartate/glutamate antiporter, Agc1 also catalyzes glutamate uniport and glutamate:proton symport.",
+   "description": "Yeast mitochondrial aspartate/glutamate antiporter, Agc1 (Cavero et al., 2003) (also catalyzes glutamate uniport and glutamate:proton symport (Palmieri et al. 2006). Comprised of 902 aas; has a 500 residue N-terminal hydrophilic domain as well as a C-terminal 100 residue hydrophilic domain. Both domains are uniquely found in members of the 2.A.29.14 subfamily.",
+   "proteins": "Agc1 of Saccharomyces cerevisiae (NP_015346)"
+  },
+  "2.A.29.14.5": {
+   "name": "solute carrier family 25 (glutamate carrier), member 18",
+   "description": "solute carrier family 25 (glutamate carrier), member 18",
+   "proteins": "SLC25A18 of Homo sapiens"
+  },
+  "2.A.29.14.6": {
+   "name": "Solute carrier family 25, member 40, SLC25A40 of 338 aas and 6 TMSs.",
+   "description": "Solute carrier family 25, member 40, SLC25A40 of 338 aas and 6 TMSs. This mitochondrial inner membrane transporter can be mutated (Y125C) to give hypertriglyceridemia (Rosenthal et al. 2013). It may also be involved in primary Sjögren's syndrome (pSS), a prevalent and disabling form of fatigue (Norheim et al. 2014). SLC25A40 facilitates anticancer drug resistance in human leukemia K562 cells…",
+   "proteins": "SLC25A40 of Homo sapiens"
+  },
+  "2.A.29.15.1": {
+   "name": "Oxaloacetate/malonate/sulfate/thiosulfate transporter, OAC1",
+   "description": "Oxaloacetate/malonate/sulfate/thiosulfate transporter, OAC1",
+   "proteins": "Oxaloacetate carrier (OAC1) of Saccharomyces cerevisiae"
+  },
+  "2.A.29.16.1": {
+   "name": "Reported to be a deoxynucleotide (enzyme), the deoxynucleotide carrier (DNT).",
+   "description": "Reported to be a deoxynucleotide (enzyme), the deoxynucleotide carrier (DNT) (all four dNDPs and less efficiently, all four dNTPs are transported, but not dNMPs, NMPs or nucleosides). It is also a thiamin pyrophosphate (TPP) transporter responsible for Amish lethal microencephaly brain development retardation (MCPHA) and α-ketoglutarate acidurua when defective (Arco and Satrústegui, 2005…",
+   "proteins": "SLC25A19 of Homo sapiens"
+  },
+  "2.A.29.16.2": {
+   "name": "The thiamin pyrophosphate (TPP) transporter, Tpc1; catalyzes thiamin pyrophosphate/thiamin monophosphate excange.",
+   "description": "The thiamin pyrophosphate (TPP) transporter, Tpc1; catalyzes thiamin pyrophosphate/thiamin monophosphate excange (Palmieri et al. 2006). Also transports pyrophosphate, ADP, ATP and other nucleotides (Iacopetta et al., 2010).",
+   "proteins": "Tpc1 of Drosophila melanogaster (Q7K0L7)"
+  },
+  "2.A.29.17.1": {
+   "name": "Peroxisomal ATP/ADP/AMP antiporter, Ant1 (Ypr128cp).",
+   "description": "Peroxisomal ATP/ADP/AMP antiporter, Ant1 (Ypr128cp) (Palmieri et al. 2006).",
+   "proteins": "Ant1 of Saccharomyces cerevisiae (AAB68270)"
+  },
+  "2.A.29.18.1": {
+   "name": "Mitochondrial S-adenosylmethionine (SAM) carrier, Sam5p or PET8.",
+   "description": "Mitochondrial S-adenosylmethionine (SAM) carrier, Sam5p or PET8 (Marobbio et al., 2003). Catalyzes the exchange of SAM for S-adenosylhomoserine as well as biotin and lipoate transport (Palmieri et al. 2006).",
+   "proteins": "Sam5p of Saccharomyces cerevisiae (P38921)"
+  },
+  "2.A.29.18.2": {
+   "name": "The plastid S-Adenosylmethionine importer, SAMT1.",
+   "description": "The plastid S-Adenosylmethionine importer, SAMT1 (regulates plastid biogenesis and plant development; catalyzes the counter-exchange of SAM with SAM and with S-adenosylhomocysteine) (Bouvier et al., 2006). Also present in the mitochondrion (Haferkamp and Schmitz-Esser 2012).",
+   "proteins": "SAMT1 of Arabidopsis thaliana (Q94AG6)"
+  },
+  "2.A.29.18.3": {
+   "name": "Solute carrier family 25 (S-adenosylmethionine (SAM) carrier), member 26 of 275 aas and 6 TMSs.",
+   "description": "Solute carrier family 25 (S-adenosylmethionine (SAM) carrier), member 26 of 275 aas and 6 TMSs. It is responsible for the uptake of SAM into mitochondria and when defective by mutation gives rise to combined oxidative phosphorylation deficiency 28 (COXPD28) (Ji et al. 2021).",
+   "proteins": "SLC25A26 of Homo sapiens"
+  },
+  "2.A.29.18.6": {
+   "name": "Inner membrane mitochondrial magnesium exporter, Mme1 of 347 aas and 6 (- 8?) TMSs.",
+   "description": "Inner membrane mitochondrial magnesium exporter, Mme1 of 347 aas and 6 (- 8?) TMSs. Deletion of MME1 significantly increased steady-state mitochondrial Mg2+ concentrations, while overexpression decreased them. Measurements of Mg2+ exit from proteoliposomes reconstituted with purified Mme1 provided definite evidence that Mme1 is an Mg2+ exporter (Cui et al. 2015). The G-M-N motif determines ion…",
+   "proteins": "Mme1 of Saccharomyces cerevisiae"
+  },
+  "2.A.29.18.8": {
+   "name": "Mitochondrial carrier protein, SamC or PET8, probably takes up S-adenosyl-methionine and exports S-adenosyl-homocysteine (SAH) of 256 aas and 6 TMSs.",
+   "description": "Mitochondrial carrier protein, SamC or PET8, probably takes up S-adenosyl-methionine (SAM) and exports S-adenosyl-homocysteine (SAH) of 256 aas and 6 TMSs.",
+   "proteins": "SamC of Plasmodium falciparum"
+  },
+  "2.A.29.19.1": {
+   "name": "Mitochondrial ornithine carrier 2 (ORC2 or OrnT2) (transports ornithine, citrulline, lysine, arginine, histidine); HHH syndrome (SLC25A2).",
+   "description": "Mitochondrial ornithine carrier 2 (ORC2 or OrnT2) (transports ornithine, citrulline, lysine, arginine, histidine); HHH syndrome (SLC25A2). Catalyzes ornithine:citrulline antiport and ornithine:H+ antiport (Tonazzi and Indiveri, 2011).",
+   "proteins": "SLC25A2 of Homo sapiens"
+  },
+  "2.A.29.19.2": {
+   "name": "Mitochondrial ornithine transporter (ornithine/citrulline exchanger), SLC25A15 or Orc1.",
+   "description": "Mitochondrial ornithine transporter (ornithine/citrulline exchanger), SLC25A15 or Orc1. Catalyzes a vital step in the urea cycle, interconnecting the cytosolic and mitochondrial components for the cycle (Moraes and Reithmeier 2012).",
+   "proteins": "SLC25A15 of Homo sapiens"
+  },
+  "2.A.29.2.1": {
+   "name": "Oxoglutarate/malate antiporter, OMA, or malate/aspartate shuttle, MAS.",
+   "description": "Oxoglutarate/malate antiporter, OMA, or malate/aspartate shuttle, MAS. Also transports porphyrin derivatives: Fe-protoporphyrin IX, coproporphyrin III, hemin, etc. (Kabe et al., 2006). Plays roles in the malate-aspartate shuttle, (MAS), the oxoglutarate-isocitrate shuttle, OIS, and gluconeogenesis. Functional residues have been identified (Cappello et al. 2007). The MAS plays a pivotal role in…",
+   "proteins": "Oxoglutarate/malate carrier of Bos taurus"
+  },
+  "2.A.29.2.11": {
+   "name": "solute carrier family 25 (mitochondrial carrier; oxoglutarate/malate carrier), member 11",
+   "description": "solute carrier family 25 (mitochondrial carrier; oxoglutarate/malate carrier), member 11",
+   "proteins": "SLC25A11 of Homo sapiens (Q9CR62)"
+  },
+  "2.A.29.2.13": {
+   "name": "Mitochondrial 2-oxoglutarate/malate carrier protein (OGCP) (Solute carrier family 25 member 11)",
+   "description": "Mitochondrial 2-oxoglutarate/malate carrier protein (OGCP) (Solute carrier family 25 member 11)",
+   "proteins": "SLC25A11 of Homo sapiens"
+  },
+  "2.A.29.2.16": {
+   "name": "The mitochondrial dicarboxylate-tricarboxylate carrier protein (DTC) of 298 aas and 6 TMSs.",
+   "description": "The mitochondrial dicarboxylate-tricarboxylate carrier protein (DTC) of 298 aas and 6 TMSs (Picault et al. 2002). The ortholog of Gastrodia elata has been cloned, sequenced and partially characterized (Zhao et al. 2023).",
+   "proteins": "DTC of Arabidopsis thaliana"
+  },
+  "2.A.29.2.17": {
+   "name": "PUMP4 or DIC2 of 313 aas and 6 TMSs.",
+   "description": "PUMP4 or DIC2 of 313 aas and 6 TMSs. PUMPS are mitochondrial transporter proteins that create proton leaks across the inner mitochondrial membrane, thus uncoupling oxidative phosphorylation. This leads to a decrease in the efficiency of oxidative phosphorylation and an increase in heat production. These systems may be involved in protecting plant cells against oxidative stress damage. Recombinant…",
+   "proteins": "DIC2 of Arabidopsis thaliana"
+  },
+  "2.A.29.2.2": {
+   "name": "Dicarboxylate (succinate/fumarate/ malate/α-ketoglutarate/ oxaloacetate) antiporter",
+   "description": "Dicarboxylate (succinate/fumarate/ malate/α-ketoglutarate/ oxaloacetate) antiporter",
+   "proteins": "Dicarboxylate transporter of Rattus norvegicus"
+  },
+  "2.A.29.2.3": {
+   "name": "Dicarboxylate:Pi antiporter (Pi, malate, succinate, oxaloacetate, sulfate, sulfite)",
+   "description": "Dicarboxylate:Pi antiporter (Pi, malate, succinate, oxaloacetate, sulfate, sulfite)",
+   "proteins": "Dicarboxylate:Pi antiporter of Saccharomyces cerevisiae"
+  },
+  "2.A.29.2.4": {
+   "name": "Mammalian oxodicarboxylate carrier (ODC; SLC25A21; 607571) (Defects cause 2-oxoadipate acidemia, an inborn error of metabolism)",
+   "description": "Mammalian oxodicarboxylate carrier (ODC; SLC25A21; 607571) (transports C5-C7 oxodicarboxylates including 2-oxoadipate and 2-oxoglutarate in an antiport reaction; also transports less well: pimelate, 2-oxopimelate, 2-amino adipate, oxaloacetate, and citrate) (Defects cause 2-oxoadipate acidemia, an inborn error of metabolism)",
+   "proteins": "SLC25A21 of Homo sapiens"
+  },
+  "2.A.29.2.5": {
+   "name": "2-oxodicarboxylate carrier 2 (ODC2) (transports the same substrates as human ODC except that 2-amino adipate is not transported while malate is).",
+   "description": "2-oxodicarboxylate carrier 2 (ODC2) (transports the same substrates as human ODC except that 2-amino adipate is not transported while malate is) (Palmieri et al. 2006).",
+   "proteins": "ODC2 of Saccharomyces cerevisiae (Q99297)"
+  },
+  "2.A.29.2.6": {
+   "name": "Plant dicarboxylate/tricarboxylate carrier, DTC, transports dicarboxylates and tricarboxylates",
+   "description": "Plant dicarboxylate/tricarboxylate carrier, DTC, transports dicarboxylates (such as malate, oxaloacetate, oxoglutarate, and maleate) and tricarboxylates (such as citrate, isocitrate, cis-aconitate, and trans-aconitate)",
+   "proteins": "DTC of Nicotiana tabacum"
+  },
+  "2.A.29.2.7": {
+   "name": "Mitochondrial dicarboxylate carrier (DIC; SLC25A10; 606794) transports malate, succinate, phosphate, sulfate, thiosulfate",
+   "description": "Mitochondrial dicarboxylate carrier (DIC; SLC25A10; 606794) transports malate, succinate, phosphate, sulfate, thiosulfate",
+   "proteins": "SLC25A10 of Homo sapiens"
+  },
+  "2.A.29.2.8": {
+   "name": "2-oxodicarboxylate carrier 1 (ODC1) transports C5-C7 oxodicarboxylic acid functions by a strict antiport mechanism.",
+   "description": "2-oxodicarboxylate carrier 1 (ODC1) transports C5-C7 oxodicarboxylic acid (2-oxoadipate, 2-oxoglularate, adipate, glutarate, 2-oxopimelate, oxaloacetate, citrate and malate) (functions by a strict antiport mechanism (Palmieri et al., 2001).",
+   "proteins": "ODC1 of Saccharomyces cerevisiae (Q03028)"
+  },
+  "2.A.29.2.9": {
+   "name": "The dicarboxylate carriers, DIC1.",
+   "description": "The dicarboxylate carriers, DIC1 (transports malate, oxaloacetate and succinate as well as phosphate, sulfate and thiosulfate at high rates: 2-oxoglutarate is a poor substrate (Palmieri et al., 2007)).",
+   "proteins": "DIC1 of Arabidopsis thaliana (Q9SJY5)"
+  },
+  "2.A.29.20.1": {
+   "name": "Peroxisomal adenine nucleotide carrier, PMP34 (ANC; SLC25A17).",
+   "description": "Peroxisomal adenine nucleotide carrier, PMP34 (ANC; SLC25A17). Probably specific for multiple cofactors like coenzyme A (CoA), flavin adenine dinucleotide (FAD), flavin mononucleotide (FMN) and nucleotide adenosine monophosphate (AMP), and to a lesser extend for nicotinamide adenine dinucleotide (NAD+), adenosine diphosphate (ADP) and adenosine 3',5'-diphosphate (PAP). May catalyze the transport…",
+   "proteins": "SLC25A17 of Homo sapiens"
+  },
+  "2.A.29.20.2": {
+   "name": "Peroxisomal adenine nucleotide carrier 2, PNC2.",
+   "description": "Peroxisomal adenine nucleotide carrier 2, PNC2. Transports ATP, ADP and NAD+ (Linka and Esser 2012).",
+   "proteins": "PNC2 of Arabidopsis thaliana"
+  },
+  "2.A.29.20.3": {
+   "name": "Peroxisomal nucleotide (ATP, ADP, AMP) carrier-1, PNC1.",
+   "description": "Peroxisomal nucleotide (ATP, ADP, AMP) carrier-1, PNC1 (Haferkamp and Schmitz-Esser 2012).",
+   "proteins": "PNC1 of Arabidopsis thaliana"
+  },
+  "2.A.29.21.1": {
+   "name": "Mitochondrial GTP/GDP exchange carrier [also transports deoxyGTP and deoxyGDP as well as ITP and IDP but less well than GTP and GDP] [KM =1 μM; KM =5…",
+   "description": "Mitochondrial GTP/GDP exchange carrier (Ggc1) [also transports deoxyGTP and deoxyGDP as well as ITP and IDP but less well than GTP and GDP] [KM(GTP)=1 μM; KM(GDP)=5 μM]. Inhibited by pyridoxal-5-P, bathophenanthroline and tannic acid but not by inhibitors of the ATP-ADP carrier (Vozza et al., 2004). GGC appears to be intrinsically plastic with structural plasticity asymmetrically distributed…",
+   "proteins": "Ggc1 of Saccharomyces cerevisiae (NP_010083)"
+  },
+  "2.A.29.22.2": {
+   "name": "The Mitosome (crypton) ADP/ATP carrier",
+   "description": "The Mitosome (crypton) ADP/ATP carrier (Chan et al., 2005)",
+   "proteins": "Mitosome ADP/ATP carrier of Entamoeba histolytica (AAK69775)"
+  },
+  "2.A.29.23.1": {
+   "name": "Mitochondrial ATP-Mg2+/inorganic phosphate antiporter [3 isoforms in humans with 3 EF-hand CA2+ binding motifs in their N-terminal domain: Q6KCM7…",
+   "description": "Mitochondrial ATP-Mg2+/inorganic phosphate antiporter [3 isoforms in humans with 3 EF-hand CA2+ binding motifs in their N-terminal domain: Q6KCM7, Q9BV35, and Q6NUK1] (Fiermonte et al., 2004)",
+   "proteins": "SLC25A25 of Homo sapiens"
+  },
+  "2.A.29.23.2": {
+   "name": "Mg2+-ATP/Pi carrier, Sal1 Ca2+ binding carrier, CMC1; supressor of AAC2 lethality (EF hand Ca2+ binding motif at N-terminus).",
+   "description": "Mg2+-ATP/Pi carrier, Sal1 (Ca2+ binding carrier, CMC1; supressor of AAC2 lethality (EF hand Ca2+ binding motif at N-terminus). ADP:ATP carrier 2 (Kucejova et al., 2008; Traba et al., 2008)",
+   "proteins": "Sal1 of Saccharomyces cerevisiae (P48233)"
+  },
+  "2.A.29.23.3": {
+   "name": "Chloroplast thylakoid ATP/ADP antiporter, TAAC.",
+   "description": "Chloroplast thylakoid ATP/ADP antiporter, TAAC (Thuswaldner et al., 2007; Haferkamp et al., 2011). Also transports 3'-phosphoadenosine 5'-phosphosulfate (PAPS), made in the mitochondria and exported to the cytoplasm where it is involved in several aspects of sulfur metabolism, including the biosynthesis of thiols, glucosinolates, and phytosulfokines, and therefore also named PAPST1 (Gigolashvili…",
+   "proteins": "TAAC of Arabidopsis thaliana (Q9M024)"
+  },
+  "2.A.29.23.4": {
+   "name": "The mitochondrial adenine nucleotide transporter, ADNT1 (At4g01100) (Palmieri et al., 2008b).",
+   "description": "The mitochondrial adenine nucleotide transporter, ADNT1 (At4g01100) (prefers AMP and ADP to ATP; not inhibited by bongkrekate or carboxyatractyloside; loss yields reduced root growth and respiration) (Palmieri et al., 2008b).",
+   "proteins": "ADNT1 of Arabidopsis thaliana (O04619)"
+  },
+  "2.A.29.23.5": {
+   "name": "Solute carrier family 25 (mitochondrial carrier; ATP-M2+/phosphate carrier), member 23 of 468 aas and 6 TMSs, SLC25A23, APC2, MCSC2, SCaMC-3.",
+   "description": "Solute carrier family 25 (mitochondrial carrier; ATP-M2+/phosphate carrier), member 23 of 468 aas and 6 TMSs, SLC25A23, APC2, MCSC2, SCaMC-3. Variants are generated by alternative splicing (Del Arco 2005; Bassi et al. 2005). Glucagon regulation of oxidative phosphorylatioin requires an increase in matrix adenine nucleotides involving SCaMC-3 (Amigo et al. 2013). SLC25A23 augments mitochondrial…",
+   "proteins": "SLC25A23 of Homo sapiens"
+  },
+  "2.A.29.23.6": {
+   "name": "Solute carrier family 25, member 41 of 370 aas and 6 putative TMSs.",
+   "description": "Solute carrier family 25, member 41 of 370 aas and 6 putative TMSs. Calcium-independent ATP-Mg/Pi exchanger that catalyzes the electroneutral exchange of Mg-ATP or free ADP against hydrogenphosphate and participates in the net transport of adenine nucleotides across the mitochondria inner membrane.",
+   "proteins": "SLC25A41 of Homo sapiens"
+  },
+  "2.A.29.23.8": {
+   "name": "Calcium-binding mitochondrial carrier protein SCaMC-1.",
+   "description": "Calcium-binding mitochondrial carrier protein SCaMC-1 (Mitochondrial ATP-Mg/Pi carrier protein 1; Mitochondrial Ca2+-dependent solute carrier protein 1; Small calcium-binding mitochondrial carrier protein 1; Solute carrier family 25 member 24). The crystal structure of the N-terminal Ca2+-binding domain has been determined and shown to undergo a large conformational change when Ca2+ binds (Yang…",
+   "proteins": "SLC25A24 of Homo sapiens"
+  },
+  "2.A.29.23.9": {
+   "name": "Mitochondrial transporter for 3′-phospho-adenosine 5′-phosphosulfate and adenosine 5′-phosphosulfate (APS), YPR011c.",
+   "description": "Mitochondrial transporter for 3′-phospho-adenosine 5′-phosphosulfate and adenosine 5′-phosphosulfate (APS), YPR011c. Sulfate and phosphate are also transported using an antiport mechanism (Todisco et al. 2014). Inhibited by bongkrekic acid. Deletion mutants are thermal sensitive and have less methionine and glutathione. The gene is induced by thermal stress conditions (Todisco et al. 2014).",
+   "proteins": "YPR011c of Saccharomyces cerevisiae"
+  },
+  "2.A.29.24.1": {
+   "name": "Brain mitochondrial carrier protein 1, BMCP1 (participates in mitochondrial proton leak) (also called uncoupling protein-5 (UCP5)).",
+   "description": "Brain mitochondrial carrier protein 1, BMCP1 (participates in mitochondrial proton leak) (also called uncoupling protein-5 (UCP5)) (Sanchis et al., 1998). Transports protons and chloride ions; activated by fatty acids and inhibited by purine nucleotides similarly to UCP1-3 (Hoang et al. 2012); H+ transport may be activated while Cl- transport may be inhibited by faty acids (Hoang et al. 2015)…",
+   "proteins": "SLC25A14 of Homo sapiens"
+  },
+  "2.A.29.24.3": {
+   "name": "solute carrier family 25, member 27; UCP4.",
+   "description": "solute carrier family 25, member 27; UCP4. Transports protons and chloride ions; activated by fatty acids and inhibited by purine nucleotides similarly to UCP1-3 (Hoang et al. 2012). H+ transport may be activated while Cl- transport may be inhibited by fatty acids (Hoang et al. 2015). MFN2 deficiency affects calcium homeostasis in lung adenocarcinoma cells via downregulation of UCP4 (Zhang et al…",
+   "proteins": "SLC25A27 of Homo sapiens"
+  },
+  "2.A.29.24.4": {
+   "name": "solute carrier family 25, member 30; Kidney MCP1, KMCP1 or UCP6 (uncoupling protein 6).",
+   "description": "solute carrier family 25, member 30; Kidney MCP1, KMCP1 or UCP6 (uncoupling protein 6). It also transports sulfur anions (sulfate, sulfite, thiosulfate), inorganic phosphate and dicarboxylates (malonate, malate, citamalate, aspartate) (Gorgoglione et al. 2019). It catalyzes fast anion:anion exchange and slow uniport. Sulfate and thiosulfate are the most high affinity substrates (Gorgoglione et…",
+   "proteins": "SLC25A30 of Homo sapiens"
+  },
+  "2.A.29.26.1": {
+   "name": "Viral mitochondrial carrier-like protein, L276 (VMC) for dATP and dTTP (237 aas).",
+   "description": "Viral mitochondrial carrier-like protein, L276 (VMC) for dATP and dTTP (237 aas) (Monné et al., 2007).",
+   "proteins": "VMC of Mimiviridae mimivirus (Q5UPV8)"
+  },
+  "2.A.29.27.1": {
+   "name": "The ATP exchanger/symporter, LcnP.",
+   "description": "The ATP exchanger/symporter, LcnP (secreted via the bacterial Dot/Icm type IV secretion system into macrophages, and assembled in the mitochondrial inner membrane (Dolezal et al., 2012)).",
+   "proteins": "LcnP of Legionella pneumophila (Q5WSP6)"
+  },
+  "2.A.29.28.1": {
+   "name": "The thiamin pyrophosphate (TPP) carrier, TPC1.",
+   "description": "The thiamin pyrophosphate (TPP) carrier, TPC1 (Marobbio et al., 2002).",
+   "proteins": "TPC1 of Saccharomyces cerevisiae (NP_011610)"
+  },
+  "2.A.29.29.1": {
+   "name": "The citrate/oxoglutarate carrier, Yhm2.",
+   "description": "The citrate/oxoglutarate carrier, Yhm2 (Castegna et al., 2010; Mayor et al., 1997). Ymh2 also transports oxaloacetate, succinate, and fumarate, but not malate or isocitrate. It may function in antioxidation (Castegna et al., 2010).",
+   "proteins": "Yhm2 of Saccharomyces cerevisiae (Q04013)"
+  },
+  "2.A.29.3.1": {
+   "name": "Uncoupling protein (H+; halide anions; protonated or anionic fatty acids)",
+   "description": "Uncoupling protein (H+; halide anions; protonated or anionic fatty acids)",
+   "proteins": "Uncoupling carrier of Bos taurus"
+  },
+  "2.A.29.3.2": {
+   "name": "Mitochondrial brown fat uncoupling protein 1 (UCP1 or UCP-1) is also called thermogenin and obesity protein (SLC25A7).",
+   "description": "Mitochondrial brown fat uncoupling protein 1 (UCP1 or UCP-1) is also called thermogenin and obesity protein (SLC25A7). It mediates adaptive thermogenesis (Azzu and Brand, 2009). It transports protons and chloride ions and is activated by fatty acids while being inhibited by purine nucleotides (Hoang et al. 2012). It functions as a long-chain fatty acid (LCFA) anion/H+ symporter, but the LCFA…",
+   "proteins": "UCP1 of Homo sapiens"
+  },
+  "2.A.29.3.3": {
+   "name": "The uncoupling protein, UCP1 or PUMP1 functions to relieve oxidative stress, and to allow efficient photosynthesis.",
+   "description": "The uncoupling protein, UCP1 or PUMP1 (functions to relieve oxidative stress, and to allow efficient photosynthesis (Sweetlove et al., 2006). In some plants, it is activated in response to cold stress and may control reactive oxygen species (Valente et al. 2012). In addition to protons, it transports a variety of anions including aspartate, glutamate, cysteine sulfinate, cysteate, dicarboxylates…",
+   "proteins": "UCP1 of Arabidopsis thaliana; (O65623)"
+  },
+  "2.A.29.3.4": {
+   "name": "Human UCP2; implicated in a variety of physiological and pathological processes including protection from oxidative stress, negative regulation of…",
+   "description": "Human UCP2; implicated in a variety of physiological and pathological processes including protection from oxidative stress, negative regulation of glucose sensing systems and the adaptation of fatty acid oxidation capacity to starvation. It is not involved in thermogenesis as is UCP1 (Azzu and Brand, 2009). Leucine zipper EF hand-containing transmembrane protein 1 (LetM1; 2.A.97) and uncoupling…",
+   "proteins": "UCP2 of Homo sapiens"
+  },
+  "2.A.29.3.5": {
+   "name": "Human UCP3; implicated in a variety of physiological and pathological processes including protection from oxidative stress, negative regulation of…",
+   "description": "Human UCP3; implicated in a variety of physiological and pathological processes including protection from oxidative stress, negative regulation of glucose sensing systems and the adaptation of fatty acid oxidation capacity to starving. Not involved in thermogenesis as is UCP1 (Azzu and Brand, 2009). It also modulates the activity of the sarco/endoplasmic reticulum Ca2 -ATPase (SERCA) by…",
+   "proteins": "UCP3 of Homo sapiens"
+  },
+  "2.A.29.3.6": {
+   "name": "Uncouopling protein B, UCPB, of 268 aas and 5 TMSs, with TMS 5 deleted.",
+   "description": "Uncouopling protein B, UCPB, of 268 aas and 5 TMSs, with TMS 5 deleted. This protein can still function as an uncoupling protein (Ito et al. 2006).",
+   "proteins": "UCPB of Symplocarpus renifolius"
+  },
+  "2.A.29.3.7": {
+   "name": "Uncoupling protein A (UCPA) of 303 aas and 6 TMSs.",
+   "description": "Uncoupling protein A (UCPA) of 303 aas and 6 TMSs. Functions as an uncoupling protein, transporting protons across the mitochondrial inner membrane (Ito et al. 2006).",
+   "proteins": "UCPA of Symplocarpus renifolius (skunk cabbage)"
+  },
+  "2.A.29.3.8": {
+   "name": "Dicarboxylate transporter, UCP2 or PUMP2 of 305 aas and 6 TMSs.",
+   "description": "Dicarboxylate transporter, UCP2 or PUMP2 of 305 aas and 6 TMSs. It transports aspartate, glutamate, non-amino acid dicarboxylates (malate, oxaloacetate, oxaloglutarate), cysteine suflinate, cysteate, and inorganic phosphate. It is a fast antiporter and a slow uniporter (Monné et al. 2018).",
+   "proteins": "UCP2 of Arabidopsis thaliana"
+  },
+  "2.A.29.4.1": {
+   "name": "Phosphate carrier",
+   "description": "Phosphate carrier",
+   "proteins": "Phosphate carrier of Bos taurus"
+  },
+  "2.A.29.4.2": {
+   "name": "Phosphate carrier protein (PiC); mitochondrial precursor (PTP) (SLC25A3).",
+   "description": "Phosphate carrier protein (PiC); mitochondrial precursor (PTP) (SLC25A3). Variants lead to a failure of inorganic phosphate (Pi) transport across the mitochondrial membrane, loss of oxidative phosphorylation, and phenotypically varied cases of skeletal myopathy and cardiomyopathy (Bhoj et al. 2015; Calvello et al. 2018).",
+   "proteins": "SLC25A3 of Homo sapiens"
+  },
+  "2.A.29.4.3": {
+   "name": "Phosphate carrier, Pic1: (PTP1; Mir1).",
+   "description": "Phosphate carrier, Pic1: (PTP1; Mir1) (Hamel et al., 2004). Also transports short chain (methane) phosphonates and medium chain (C12, C14 and C16) fatty acids which competitively inhibit phosphate transport (Engstová et al. 2001). The Hansenula polymorpha Mir1 is dually localized in peroxisomes and mitochondria (Pedersen et al. 2024).",
+   "proteins": "Pic1 of Saccharomyces cerevisiae (P23641)"
+  },
+  "2.A.29.4.4": {
+   "name": "Phosphate carrier, Pic2: (PTP2; functionally equivalent paralogue of Pic1)",
+   "description": "Phosphate carrier, Pic2: (PTP2; functionally equivalent paralogue of Pic1) (Hamel et al., 2004)",
+   "proteins": "Pic2 of Saccharomyces cerevisiae (P40035)"
+  },
+  "2.A.29.4.5": {
+   "name": "solute carrier family 25 (mitochondrial carrier; phosphate carrier), member 3",
+   "description": "solute carrier family 25 (mitochondrial carrier; phosphate carrier), member 3",
+   "proteins": "Phosphate carrier of Mus musculus (Q8VEM8)"
+  },
+  "2.A.29.4.6": {
+   "name": "Mitochondrial phosphate carrier-1, PiC1, AT5, PHT3;1 of 375 aas and 6 TMSs.",
+   "description": "Mitochondrial phosphate carrier-1, PiC1, AT5, PHT3;1 of 375 aas and 6 TMSs (Liu et al. 2017).",
+   "proteins": "PiC1 of Arabidopsis thaliana"
+  },
+  "2.A.29.4.7": {
+   "name": "Inorganic phosphate:H+ symporter, PIC, of 324 aas and 6 TMSs.",
+   "description": "Inorganic phosphate:H+ symporter, PIC, of 324 aas and 6 TMSs.",
+   "proteins": "PIC of Plasmodium falciparum"
+  },
+  "2.A.29.5.1": {
+   "name": "MRS3 iron (Fe2+) import carrier in the inner mitochondrial membrane; essential for erythroid iron utilization).",
+   "description": "MRS3 iron (Fe2+) import carrier in the inner mitochondrial membrane; essential for erythroid iron utilization) (Mühlenhoff et al., 2003). Uptake is dependent on the pH gradient (Froschauer et al. 2009).",
+   "proteins": "MRS3 of Saccharomyces cerevisiae"
+  },
+  "2.A.29.5.2": {
+   "name": "MRS4 iron (Fe2+) import carrier in the inner mitochondrial membrane; essential for erythroid iron utilization).",
+   "description": "MRS4 iron (Fe2+) import carrier in the inner mitochondrial membrane; essential for erythroid iron utilization) (Mühlenhoff et al., 2003). Uptake is dependent on the pH gradient (Froschauer et al. 2009).",
+   "proteins": "MRS4 of Saccharomyces cerevisiae"
+  },
+  "2.A.29.5.3": {
+   "name": "Mitochondrial iron transporter, mitoferrin.",
+   "description": "Mitochondrial iron transporter, mitoferrin (Shaw et al., 2006). Essential for erythroid iron utilization (Froschauer et al. 2009). Mitochondrial iron import regulation occurs through differential turnover of mitoferrin 1 and mitoferrin 2 (Paradkar et al., 2009)",
+   "proteins": "Mitoferrin of Brachydanio rerio (Q287T7)"
+  },
+  "2.A.29.5.4": {
+   "name": "solute carrier family 25 (mitochondrial iron transporter), member 28, putative iron transporter; Mitoferrin-2",
+   "description": "solute carrier family 25 (mitochondrial iron transporter), member 28, putative iron transporter; Mitoferrin-2",
+   "proteins": "Mitoferrin-2 of Mus musculus (Q8R0Z5)"
+  },
+  "2.A.29.5.5": {
+   "name": "solute carrier family 25 (mitochondrial iron transporter), member 37, putative iron transporter, Mitoferrin-1",
+   "description": "solute carrier family 25 (mitochondrial iron transporter), member 37, putative iron transporter, Mitoferrin-1",
+   "proteins": "Mitoferrin-1 of Mus musculus (Q920G8)"
+  },
+  "2.A.29.5.6": {
+   "name": "Solute carrier family 25, member 38, SLC25A38; probably involved in heme biosynthesis by importing glycine and/or 5-aminolevulinate into mitochondria.",
+   "description": "Solute carrier family 25, member 38, SLC25A38; probably involved in heme biosynthesis by importing glycine and/or 5-aminolevulinate into mitochondria (Gutiérrez-Aguilar and Baines 2013). SLC25A38 congenital sideroblastic anemia has been characterized with respect to their phenotypes and genotypes based on 31 individuals from 24 families (Heeney et al. 2021).",
+   "proteins": "SLC25A38 of Homo sapiens"
+  },
+  "2.A.29.5.7": {
+   "name": "Mitoferrin-1 (Mitochondrial iron transporter 1) (Mitochondrial solute carrier protein) (Solute carrier family 25 member 37)",
+   "description": "Mitoferrin-1 (Mitochondrial iron transporter 1) (Mitochondrial solute carrier protein) (Solute carrier family 25 member 37)",
+   "proteins": "SLC25A37 of Homo sapiens"
+  },
+  "2.A.29.5.8": {
+   "name": "Mitoferrin-2 (MRS3/4) (hMRS3/4) (Mitochondrial iron transporter 2) (Solute carrier family 25 member 28).",
+   "description": "Mitoferrin-2 (Mitochondrial RNA-splicing protein 3/4 homologue) (MRS3/4) (hMRS3/4) (Mitochondrial iron transporter 2) (Solute carrier family 25 member 28). Microglial overactivation-driven neuroinflammation exacerbates secondary damage after spinal cord injury (SCI), and the function of the mitochondrial iron transporter SLC25A28 in post-SCI neuroinflammation has been established (Chen et al…",
+   "proteins": "SLC25A28 of Homo sapiens"
+  },
+  "2.A.29.5.9": {
+   "name": "Putative mitochondrial ferrous iron (Fe2+) importer of 1199 aas and 6 TMSs with a 1 (N-terminus) + 3 (residues 710 - 870) + 2 (C-terminus) TMSs.",
+   "description": "Putative mitochondrial ferrous iron (Fe2+) importer of 1199 aas and 6 TMSs with a 1 (N-terminus) + 3 (residues 710 - 870) + 2 (C-terminus) TMSs.",
+   "proteins": "Fe3+ importer of Plasmodium falciparum"
+  },
+  "2.A.29.6.2": {
+   "name": "Peroxysomal/glyoxysomal PMP38 (PXN) of 331 aas.",
+   "description": "Peroxysomal/glyoxysomal PMP38 (PXN) of 331 aas. Mediates NAD import into peroxisomes. Favors NAD (in)/AMP(out) antiport, but can also catalyze unidirectional transport that might be essential under special conditions. Transports CoA, dephospho-CoA, acetyl-CoA, adenosine 3'',5''-diphosphate (PAP), NAD, AMP, ADP and NADH, but not ATP, GTP, GDP, NADPH, NADP or FAD. Required for peroxisomeal…",
+   "proteins": "PMP38 of Arabidopsis thaliana"
+  },
+  "2.A.29.7.1": {
+   "name": "Tricarboxylate carrier.",
+   "description": "Tricarboxylate carrier (exchanges a tricarboxylate (citrate, isocitrate, cis-aconitate) + H+ for another tricarboxylate + H+, a dicarboxylate (malate, succinate) or phosphoenolpyruvate).",
+   "proteins": "Citrate carrier of Rattus norvegicus"
+  },
+  "2.A.29.7.2": {
+   "name": "Citrate/malate exchange carrier CIC (CTP); tricarboxylate carrier (citrate·H+/malate, PEP) (SLC25A1).",
+   "description": "Citrate/malate exchange carrier CIC (CTP); tricarboxylate carrier (citrate·H+/malate, PEP) (SLC25A1). Missense mutations in the SLC25A1 gene lead to an autosomal recessive neurometabolic disorder characterised by neonatal-onset encephalopathy with severe muscular weakness, intractable seizures, respiratory distress, and lack of psychomotor development, often resulting in early death. Majd et al…",
+   "proteins": "SLC25A1 of Homo sapiens"
+  },
+  "2.A.29.7.3": {
+   "name": "Citrate transport protein, CTP1.",
+   "description": "Citrate transport protein, CTP1. Catalyzes obligatory exchange of the dibasic form of tricarboxylates (citrate and isocitrate) for other tricarboxylates. Two citrate binding sites per monomer have been identified (Ma et al., 2007). Mutations in residues in internal or external pore regions can relax the specificity, converting CTP1 into a nonspecific anion carrier. The data is consistent with…",
+   "proteins": "CTP1 of Saccharomyces cerevisiae (P38152)"
+  },
+  "2.A.29.7.4": {
+   "name": "The fruit fly citrate uptake carrier, CIC expressed at all stages of development; same substrate as for other eukaryotic tricarboxylate transporters.",
+   "description": "The fruit fly citrate uptake carrier, CIC (expressed at all stages of development; same substrate as for other eukaryotic tricarboxylate transporters (Carrisi et al., 2008).",
+   "proteins": "CIC of Drosophila melanogaster (Q7KSQ0)"
+  },
+  "2.A.29.7.5": {
+   "name": "The citrate carrier (CIC)",
+   "description": "The citrate carrier (CIC) (Madeo et al., 2009)",
+   "proteins": "CIC of Anguilla anguilla (Q1ENH3)"
+  },
+  "2.A.29.8.1": {
+   "name": "Mitochondrial carnitine/acyl carnitine carrier (CAC)",
+   "description": "Mitochondrial carnitine/acyl carnitine carrier (CAC)",
+   "proteins": "CAC of Rattus norvegicus"
+  },
+  "2.A.29.8.11": {
+   "name": "Mitochondrial glutamate carrier protein YMC2, of 329 aas and 6 TMSs.",
+   "description": "Mitochondrial glutamate carrier protein YMC2, of 329 aas and 6 TMSs. Ymc2p transports glutamate, and to a much lesser extent L-homocysteinesulfinate, but not other amino acids and tested metabolites. Transport was saturable, inhibited by mercuric chloride and dependent on the proton gradient across the proteoliposomal membrane. It transport glutamate across the mitochondrial inner membrane and…",
+   "proteins": "YMC2 of Saccharomyces cerevisiae"
+  },
+  "2.A.29.8.13": {
+   "name": "Basic amino acid carrier2, BAC2 of 296 aas and 6 TMSs.",
+   "description": "Basic amino acid carrier2, BAC2 of 296 aas and 6 TMSs. This hyperosmotic stress-inducible porter transports proline in addition to basic amino acids (Toka et al. 2010).",
+   "proteins": "BAC2 of Arabidopsis thaliana"
+  },
+  "2.A.29.8.14": {
+   "name": "Low-CO2-inducible chloroplast envelope protein, Ccp1, of 358 aas and 6 or 7 TMSs.",
+   "description": "Low-CO2-inducible chloroplast envelope protein, Ccp1, of 358 aas and 6 or 7 TMSs. Probabe HCO3- concentrating transporter (Atkinson et al. 2016). May be present in mitochondria rather than chloroplasts. Ccp2 (O24451) is 96% identical to Ccp1.",
+   "proteins": "Ccp1 of Chlamydomonas reinhardtii (Chlamydomonas smithii)"
+  },
+  "2.A.29.8.15": {
+   "name": "Mitochondrial Mg2+ exporter, Mme1 of 299 aas and 6 TMSs.",
+   "description": "Mitochondrial Mg2+ exporter, Mme1 of 299 aas and 6 TMSs (Cui et al. 2016).",
+   "proteins": "Mme1 of Drosophila melanogaster"
+  },
+  "2.A.29.8.16": {
+   "name": "L-glutamate transporter of 300 aas and 6 TMSs, A BOUT DE SOUFFLE or BOU.",
+   "description": "L-glutamate transporter of 300 aas and 6 TMSs, A BOUT DE SOUFFLE or BOU. It transports glutamate across the mitochondrial inner membrane and thereby play a role in intermediary metabolism, C1 metabolism and mitochondrial protein synthesis (Porcelli et al. 2018). It is involved in the transition from the embryonic stage to the juvenile autotrophic stage, and it required for postembryonic growth in…",
+   "proteins": "BOU of Arabidopsis thaliana (Mouse-ear cress)"
+  },
+  "2.A.29.8.3": {
+   "name": "Human mitochondrial carnitine/acyl carnitine carrier, CAC; carnitine/acyl carnitine translocase (CACT).",
+   "description": "Human mitochondrial carnitine/acyl carnitine carrier, CAC; carnitine/acyl carnitine translocase (CACT). Defects in CACT (SLC25A20) cause CACT deficiency [MIM212138] (autosomal recessive; lethal) (Indiveri et al., 2011). A type of fluorescent probes (BCT) have a minimalist structural design based on the highly efficient and photostable BODIPY chromophore and carnitine as a biotargeting element…",
+   "proteins": "SLC25A20 of Homo sapiens"
+  },
+  "2.A.29.8.4": {
+   "name": "Carnitine carrier, CRC1.",
+   "description": "Carnitine carrier, CRC1. Exchanges carnitine for acetylcarnitine (Palmieri et al. 2006).",
+   "proteins": "CRC1 of Saccharomyces cerevisiae (Q12289)"
+  },
+  "2.A.29.8.5": {
+   "name": "The carnitine:acylcarnitine exchange translocase, CACL.",
+   "description": "The carnitine:acylcarnitine exchange translocase, CACL. CACL is similar in tissue distribution to that of CACT (TC# 2.A.29.8.3); both are expressed at a higher level in tissues using fatty acids as fuels, except the brain, where only CACL is expressed (Sekoguchi et al., 2003)",
+   "proteins": "CACL of Homo sapiens (Q8BL03)"
+  },
+  "2.A.29.8.6": {
+   "name": "The mitochondrial basic amino acid transporter, in mBAC1",
+   "description": "The mitochondrial basic amino acid transporter, in mBAC1 (transports the basic L-amino acids arginine, lysine, ornithine, and histidine in order of decreasing affinity; does not transport citrulline; expressed in stems, leaves, flowers, siliques, and seedlings; Km for arg=0.2mM) (Hoyos et al., 2003)",
+   "proteins": "mBAC1 of Arabidopsis thaliana (Q84UC7)"
+  },
+  "2.A.29.8.9": {
+   "name": "Mitochondrial carrier protein CACL (CACT-like) (Solute carrier family 25 member 29).",
+   "description": "Mitochondrial carrier protein CACL (CACT-like) (Solute carrier family 25 member 29). Transports basic amino acids (Porcelli et al. 2014). It transports arginine, lysine, homoarginine, methylarginine and, to a much lesser extent, ornithine and histidine. Carnitine and acylcarnitines were not transported by SLC25A29. This carrier catalyzes substantial uniport besides counter-exchange transport and…",
+   "proteins": "SLC25A29 of Homo sapiens"
+  },
+  "2.A.29.9.1": {
+   "name": "Mitochondrial basic amino acid carrier (BAAC)",
+   "description": "Mitochondrial basic amino acid carrier (BAAC)",
+   "proteins": "BAAC of Neurospora crassa"
+  },
+  "2.A.29.9.2": {
+   "name": "Ornithine/arginine carrier, ORT1 or ARG11.",
+   "description": "Ornithine/arginine carrier, ORT1 or ARG11 (Palmieri et al., 1997). Catalyzes H+:ornithine antiport for the export of ornithine from mitochondria (Palmieri et al. 2006).",
+   "proteins": "ORT1 of Saccharomyces cerevisiae (Q12375)"
   },
   "2.A.3": {
    "name": "The Amino Acid-Polyamine-Organocation (APC) Family"
@@ -23015,6 +24301,46 @@
   "2.A.32": {
    "name": "The Silicon Transporter (Sit) Family"
   },
+  "2.A.32.1.1": {
+   "name": "Silicon transporter of 548 aas and 10 probable TMSs in a 2 + 3 + 2 + 3 TMS arrangement.",
+   "description": "Silicon transporter of 548 aas and 10 probable TMSs in a 2 + 3 + 2 + 3 TMS arrangement. It has a conserved aa motif, CMLD. Hydropathy profiles suggest that CMLD occupies a position between two TMSs. These two TMSs are candidates for a role of the channel through which transport of silicic acid occurs (Shcherbakova et al. 2006).",
+   "proteins": "Sit1 of Cylindrotheca fusiformis (marine diatom)"
+  },
+  "2.A.32.1.14": {
+   "name": "Uncharacterized protein of 222 aas and 5 TMSs in a 2 + 3 TMS arrangement.",
+   "description": "Uncharacterized protein of 222 aas and 5 TMSs in a 2 + 3 TMS arrangement.",
+   "proteins": "UP of Synechococcus sp"
+  },
+  "2.A.32.1.2": {
+   "name": "Silicon transporter, SIT1, of 546 aas and 10 probable TMSs in a 2 + 3 + 2 + 3 TMS arrangement.",
+   "description": "Silicon transporter, SIT1, of 546 aas and 10 probable TMSs in a 2 + 3 + 2 + 3 TMS arrangement.",
+   "proteins": "SIT1 of Nitzschia alba (marine diatom)"
+  },
+  "2.A.32.1.3": {
+   "name": "Silicic acid transport protein, SIT, of 571 aas and 12 or 13 TMSs in a possible 1 + 2 + 3 + 2 + 3 +2 TMS arrangement.",
+   "description": "Silicic acid transport protein, SIT, of 571 aas and 12 or 13 TMSs in a possible 1 + 2 + 3 + 2 + 3 +2 TMS arrangement.",
+   "proteins": "SIT of Ulnaria acus"
+  },
+  "2.A.32.1.4": {
+   "name": "Silicic acid transporter, Sit1, of 503 aas and 10 TMSs in a 2 + 3 + 2 + 3 TMS arrangement.",
+   "description": "Silicic acid transporter, Sit1, of 503 aas and 10 TMSs in a 2 + 3 + 2 + 3 TMS arrangement (Durak et al. 2016).",
+   "proteins": "Sit1 of Prymnesium neolepis"
+  },
+  "2.A.32.1.5": {
+   "name": "Silicon transporter alpha, Sit, of 527 aas and 10 TMSs in a 2 + 3 + 2 + 3 TMS arrangement.",
+   "description": "Silicon transporter alpha, Sit, of 527 aas and 10 TMSs in a 2 + 3 + 2 + 3 TMS arrangement.",
+   "proteins": "Sit of Helgoeca nana"
+  },
+  "2.A.32.1.6": {
+   "name": "Putative silicon transporter of 225 aas, Sit, with proably 5 or 6 TMSs in a 2 + 3 or 2 + 3 + 1 TMS arrangement.",
+   "description": "Putative silicon transporter of 225 aas, Sit, with proably 5 or 6 TMSs in a 2 + 3 or 2 + 3 + 1 TMS arrangement. This sequence (which could be a fragment) shows about the same percent identity with both halves of the longer proteins listed in TC#s 2.A.32.1.1 - 1.5.",
+   "proteins": "Sit of Fragilaria crotonensis"
+  },
+  "2.A.32.1.7": {
+   "name": "Silicon transporter, Sit, of 477 aas and 10 TMSs in a 2 + 3 + 2 + 3 TMS arrangement.",
+   "description": "Silicon transporter, Sit, of 477 aas and 10 TMSs in a 2 + 3 + 2 + 3 TMS arrangement.",
+   "proteins": "Sit of Ochromonas distigma"
+  },
   "2.A.33": {
    "name": "The NhaA Na+:H+ Antiporter (NhaA) Family"
   },
@@ -23454,6 +24780,11 @@
    "name": "CPA2 family member of 627 aas and 12 TMSs",
    "description": "CPA2 family member of 627 aas and 12 TMSs",
    "proteins": "CPA2 member of Simonsiella muelleri"
+  },
+  "2.A.37.1.12": {
+   "name": "Iron-regulated MagA protein.",
+   "description": "Iron-regulated MagA protein. Deletion mutants of magA show apparently normal magnetosomes and growth in spite of an early report to the contrary (Uebe et al. 2012).",
+   "proteins": "MagA of Magnetospirillum sp. strain AMB-1"
   },
   "2.A.37.1.13": {
    "name": "K+ efflux antiporter 4, Kea4, of 592 aas and 14 TMSs in a 1 + 13 TMS arrangement.",
@@ -24028,6 +25359,11 @@
    "name": "Lead (Pb2+) efflux transporter of 211 aas, PbtF.",
    "description": "Lead (Pb2+) efflux transporter of 211 aas, PbtF (Hložková et al. 2013).",
    "proteins": "PbtF of Achromobacter xylosoxidans"
+  },
+  "2.A.4.4.9": {
+   "name": "Metal tolerance protein 12, MTP12 of 300 aas and 6 TMSs.",
+   "description": "Metal tolerance protein 12, MTP12 of 300 aas and 6 TMSs. In Citrus sinensis, expression is induced by Cd2+ in roots (Fu et al. 2017).",
+   "proteins": "MTP12 of Arabidopsis thaliana"
   },
   "2.A.4.5.1": {
    "name": "Golgi/endomembrane Mn2+-specific CDF transporter (394 aas).",
@@ -25278,6 +26614,11 @@
    "description": "Zinc/Iron transporter, Zip13 (gene: Zip99c) of 355 aas and 8 TMSs. A conserved motif in TMS4 is DNXXH instead of the usual HNXXD; only the former motif, not the latter, allows iron transport (Zhao and Zhou 2019).",
    "proteins": "Zip13 of Drosophila melanogaster (Fruit fly)"
   },
+  "2.A.5.4.21": {
+   "name": "Putative Zn2+ transporter of 676 aas and about 6 TMSs in a 3 + 3 TMS arrangement, with 3 smaller peaks of hydrophobicity in the C-terminus of the…",
+   "description": "Putative Zn2+ transporter of 676 aas and about 6 TMSs in a 3 + 3 TMS arrangement, with 3 smaller peaks of hydrophobicity in the C-terminus of the protein.",
+   "proteins": "Zn2+ trams[porter of Ostreococcus tauri"
+  },
   "2.A.5.4.3": {
    "name": "Zip7 Golgi Zn2+ uptake (into the cytoplasm) transporter (Ke4, Slc39a7).",
    "description": "Zip7 Golgi Zn2+ uptake (into the cytoplasm) transporter (Ke4, Slc39a7) (Huang et al., 2005). This protein can substitute for Iar1, the indole acetic acid-alanine resistance protein, of A. thaliana (Lasswell et al., 2000)",
@@ -25307,6 +26648,11 @@
    "name": "Probable Zn2+ transporter, Zip13 (SLC39A13).",
    "description": "Probable Zn2+ transporter, Zip13 (SLC39A13). Mice deficient in Zn transporter Slc39a13/Zip13 show changes in bone, teeth and connective tissue reminiscent of the clinical spectrum of human Ehlers-Danlos syndrome (EDS) (Fukada et al., 2008).",
    "proteins": "Zip13 of Mus musculus (Q8BZH0)"
+  },
+  "2.A.5.5.1": {
+   "name": "Broad specificity heavy metal divalent cation uptake transporter, ZupT (Fe2+, Co2+, Mn2+, Cd2+ and Zn2+ are transported).",
+   "description": "Broad specificity heavy metal divalent cation uptake transporter, ZupT (Fe2+, Co2+, Mn2+, Cd2+ and Zn2+ are transported) (Grass et al., 2005). Point mutations change the specificity and kinetics of metal uptake (Taudte and Grass, 2010). Important for virulence in Salmonella (Karlinsey et al., 2010). ZupT has an asymmetric binuclear metal center in the transmembrane domain; one metal-binding site…",
+   "proteins": "ZupT of E. coli (P0A8H3)"
   },
   "2.A.5.5.10": {
    "name": "ZIP family Zinc/Iron transporter with 267 aas and 7 or 8 TMSs",
@@ -27102,6 +28448,11 @@
    "description": "Twin arginine (TatA0 (90 aas, 1 TMS)/TatC0 (441 aas, 6 TMSs with a hydrophilic N-terminal domain) protein translocase (Dilks et al. 2005; Giménez et al. 2007; Szabo and Pohlschroder 2012; Ghosh et al. 2019).",
    "proteins": "Twin arginine translocase, TatAC0 of Haloferax volcanii; TatA0 (D4GVK4); TatC0 (D4GZD0)"
   },
+  "2.A.64.1.7": {
+   "name": "Twin Arginine TatAt (91 aas and 1 TMS)/TatCt (718 aas and 14 TMSs) protein translocase.",
+   "description": "Twin Arginine (TatAt (91 aas and 1 TMS)/TatCt (718 aas and 14 TMSs) protein translocase (Dilks et al. 2005; Giménez et al. 2007; Szabo and Pohlschroder 2012; Ghosh et al. 2019). The Tat system exports almost the entire secretome in many haloarchaea including this one (Ghosh et al. 2019).",
+   "proteins": "Tat system, TatACt of Haloferax volcanii; TatAt (91aas) (D4GWC8); TatCt (718aas; duplicated with 6 + 2 +6 = 14 putative TMSs) (D4GWC9)"
+  },
   "2.A.64.1.8": {
    "name": "Twin arginine Sec-independeent protein translocase, TatA/TatC, of 54 aas with one TMS (SecA) and of 251 aas and 5 TMSs (SecC).",
    "description": "Twin arginine Sec-independeent protein translocase, TatA/TatC, of 54 aas with one TMS (SecA) and of 251 aas and 5 TMSs (SecC). The Tat system has been reported in some mitochondria, and presumable, it is related to this one from an alpha-proteobacterium.",
@@ -27802,6 +29153,11 @@
    "description": "Putative malonate transporter, MdcF",
    "proteins": "MdcF of Rhizobium meliloti"
   },
+  "2.A.69.3.5": {
+   "name": "Uncharacterized transporter YfdV",
+   "description": "Uncharacterized transporter YfdV",
+   "proteins": "YfdV of Escherichia coli O6:H1"
+  },
   "2.A.69.3.6": {
    "name": "Putative MdcF malonate transporter of 316 aas and 10 TMSs.",
    "description": "Putative MdcF malonate transporter of 316 aas and 10 TMSs.",
@@ -27877,6 +29233,11 @@
    "name": "SMR family protein of 116 aas and 4 TMSs",
    "description": "SMR family protein of 116 aas and 4 TMSs",
    "proteins": "SMR protein of Lyngbya aestuarii"
+  },
+  "2.A.7.1.16": {
+   "name": "Small multidrug resistance (SMR) family member of 116 aas and 4 TMSs.",
+   "description": "Small multidrug resistance (SMR) family member of 116 aas and 4 TMSs.",
+   "proteins": "Smr of Candidatus Wolfebacteria bacterium"
   },
   "2.A.7.1.18": {
    "name": "Putative QacE family quaternary ammonium compound efflux (SMR-type) transporter of 108 aas and 4 TMSs.",
@@ -28261,10 +29622,20 @@
   "2.A.7.2": {
    "name": "The 5 TMS Bacterial/Archaeal Transporter (BAT) Family"
   },
+  "2.A.7.2.1": {
+   "name": "Hypothethical protein",
+   "description": "Hypothethical protein",
+   "proteins": "Ycb6 of Pseudomonas denitrificans"
+  },
   "2.A.7.2.4": {
    "name": "Pyridoxamine-phosphate oxidase (PNPO; N-terminal) with a C-terminal DMT family domain of 4 - 5 TMSs.",
    "description": "Pyridoxamine-phosphate oxidase (PNPO; N-terminal) with a C-terminal DMT family domain of 4 - 5 TMSs (Guerin et al. 2015).",
    "proteins": "PNPO of Penicillium digitatum (Green mold)"
+  },
+  "2.A.7.2.6": {
+   "name": "Uncharacterized protein of 142 aas and 5 TMSs",
+   "description": "Uncharacterized protein of 142 aas and 5 TMSs",
+   "proteins": "UP of Pseudomonas aeruginosa"
   },
   "2.A.7.20": {
    "name": "The Chloroquine Resistance Transporter (PfCRT) Family"
@@ -28291,6 +29662,11 @@
   },
   "2.A.7.21": {
    "name": "The 5 TMS Bacterial/Archaeal Transporter-2 (BAT2) Family"
+  },
+  "2.A.7.21.3": {
+   "name": "Putative exporter",
+   "description": "Putative exporter",
+   "proteins": "Putative exporter of Methanococcus maripaludis (CAF29821)"
   },
   "2.A.7.21.4": {
    "name": "The orotate transporter, OroP (also, transports 5-fluoroorotate)",
@@ -28601,6 +29977,11 @@
    "description": "Putative transporter, YigM, of 299 aas and 10 TMSs.",
    "proteins": "YigM of E. coli"
   },
+  "2.A.7.3.63": {
+   "name": "DMT family transporter of 352 aas and 10 TMSs",
+   "description": "DMT family transporter of 352 aas and 10 TMSs",
+   "proteins": "UP of Cupriavidus gilardii"
+  },
   "2.A.7.3.65": {
    "name": "Riboflavin (vitamin B2) uptake porter, ImpX, of 301 aas and 10 TMSs. the Khalf for riboflavin uptake was 20 µM.",
    "description": "Riboflavin (vitamin B2) uptake porter, ImpX, of 301 aas and 10 TMSs. the Khalf for riboflavin uptake was 20 µM. Transport experiments suggested that the energy source is the proton motive force (Rodionova et al. 2019).",
@@ -28689,6 +30070,11 @@
   },
   "2.A.7.33": {
    "name": "The Uncharacterized DMT-5 (U-DMT5) Family"
+  },
+  "2.A.7.33.3": {
+   "name": "Uncharacterized protein of 123 aas.",
+   "description": "Uncharacterized protein of 123 aas.",
+   "proteins": "UP of Burkholderia caribensis"
   },
   "2.A.7.33.4": {
    "name": "EmaA-like transporter of 111 aas.",
@@ -28803,6 +30189,11 @@
    "name": "Uncharacterized protein of 149 aas and 4 TMSs in a 2 + 2 arrangement.",
    "description": "Uncharacterized protein of 149 aas and 4 TMSs in a 2 + 2 arrangement.",
    "proteins": "UP of Thermus aquaticus"
+  },
+  "2.A.7.44.4": {
+   "name": "DUF2227 family putative metal-binding protein of 152 aas and 4 TMSs.",
+   "description": "DUF2227 family putative metal-binding protein of 152 aas and 4 TMSs.",
+   "proteins": "DUF2227 protein of Abditibacterium utsteinense"
   },
   "2.A.7.5": {
    "name": "The Glucose/Ribose Porter (GRP) Family"
@@ -28968,6 +30359,16 @@
   },
   "2.A.70": {
    "name": "The Malonate:Na+ Symporter (MSS) Family"
+  },
+  "2.A.70.1.1": {
+   "name": "The malonate:Na+ symporter, MadLM (MadL, 129aas, 3TMSs; MadM, 255aas, 6TMSs).",
+   "description": "The malonate:Na+ symporter, MadLM (MadL, 129aas, 3TMSs; MadM, 255aas, 6TMSs) (Schaffitzel et al. 1998).",
+   "proteins": "MadLM of Malonomonas rubra"
+  },
+  "2.A.70.1.2": {
+   "name": "The malonate uptake porter, MdcLM",
+   "description": "The malonate uptake porter, MdcLM (Chohnan et al., 1999)",
+   "proteins": "MdcLM of Pseudomonas putida:; MdcL (163aas; 4TMSs; Q9Z446); MdcM (254aas; 8TMSs; Q9Z445)"
   },
   "2.A.71": {
    "name": "The Folate-Biopterin Transporter (FBT) Family"
@@ -29377,6 +30778,11 @@
    "description": "Pmf-dependent citrate uptake porter, TctABC (Brocker et al. 2009).",
    "proteins": "TctABC of Corynebacterium glutamicum; TctA (M, large; 510 aas) (S5Y5N9); TctB (M, small; 188 aas) (S5XH28); TctC (R) (334 aas) (S5XTE7)"
   },
+  "2.A.80.1.5": {
+   "name": "Tripartite tricarboxylate transporter, TcaA of 508 aas and 12 TMSs, TcaB of 166 aas and 5 TMSs, and TcaC of 323 aas and 1 N-terminal TMS the citrate…",
+   "description": "Tripartite tricarboxylate transporter (TTT), TcaA of 508 aas and 12 TMSs, TcaB of 166 aas and 5 TMSs, and TcaC of 323 aas and 1 N-terminal TMS (the citrate binding protein.",
+   "proteins": "TcaA, TcaB and TcaC of Vibrio parahaemolyticus"
+  },
   "2.A.80.2.1": {
    "name": "TctA homologue; 12 TMSs; DUF112",
    "description": "TctA homologue; 12 TMSs; DUF112",
@@ -29451,6 +30857,16 @@
    "name": "FusB homologue",
    "description": "FusB homologue",
    "proteins": "FusB homologue of Streptomyces coelicolor"
+  },
+  "2.A.85.12.1": {
+   "name": "Integral 6 TMS membrane protein which has been assigned to the FusC (fusaric acid) family.",
+   "description": "Integral 6 TMS membrane protein which has been assigned to the FusC (fusaric acid) family. It's function is not clear.",
+   "proteins": "FusC of Methanoregula boonei"
+  },
+  "2.A.85.12.2": {
+   "name": "Uncharacterized membrane protein of 173 aas and 6 TMSs.",
+   "description": "Uncharacterized membrane protein of 173 aas and 6 TMSs.",
+   "proteins": "UP of Halothiobacillus neapolitanus (Thiobacillus neapolitanus)"
   },
   "2.A.85.2.1": {
    "name": "An inorganic anion (Cl-/NO3-) transporter, ALMT12 or QUAC1, reported to be incapable of transporting organic anions, is involved in stomatal closure.",
@@ -29539,6 +30955,11 @@
    "name": "Putative permease, YhhT (a member of the PurR purine regulon) with 7 TMSs in a 2 + 1 + 4 TMS arrangement.",
    "description": "Putative permease, YhhT (a member of the PurR purine regulon) with 7 TMSs in a 2 + 1 + 4 TMS arrangement.",
    "proteins": "YhhT of E. coli (P0AGM0)"
+  },
+  "2.A.86.1.3": {
+   "name": "Putative permease, Yct2, encoded near the cta operon; of 385 aas and 7 or 8 TMSs in a 1 or 2 + 1 + 4 TMS arrangement.",
+   "description": "Putative permease, Yct2, encoded near the cta operon; of 385 aas and 7 or 8 TMSs in a 1 or 2 + 1 + 4 TMS arrangement.",
+   "proteins": "Yct2 of Bacillus firmus (spQ04454)"
   },
   "2.A.86.1.4": {
    "name": "Autoinducer-2 (AI-2; a furanosyl borate diester) exporter, TqsA (YdgG).",
@@ -29701,6 +31122,11 @@
    "description": "Duf165 transporter (229 aas; 5 TMSs)",
    "proteins": "Transporter of Methanosarcina mazei (Q8PW04)"
   },
+  "2.A.88.8.5": {
+   "name": "Putative ACR family transporter (DUF165) (261 aas; 6 TMSs)",
+   "description": "Putative ACR family transporter (DUF165) (261 aas; 6 TMSs)",
+   "proteins": "ACR family transporter of Stenotrophomonas maltophilia (B2FPS5)"
+  },
   "2.A.88.8.6": {
    "name": "YhhQ protein (DUF165) (encoded within the purine regulon (PurR)) (221 aas; 6 TMSs).",
    "description": "YhhQ protein (DUF165) (encoded within the purine regulon (PurR) (Ravcheev et al., 2002)) (221 aas; 6 TMSs). It may be a 7-cyano-7-deazaguanine (preQ₀) transporter. PreQ0 is the product of the reaction catalyzed by GTP cyclhydrolase I, important for the synthesis of folic acid, and an intermediate of interest due to its central role in tRNA and DNA modification and secondary metabolism (Zallot et…",
@@ -29738,6 +31164,11 @@
    "name": "CCC1 (VIT) family protein of 248 aas and probably 5 TMSs in a 2 + 3 TMS arrangement.",
    "description": "CCC1 (VIT) family protein of 248 aas and probably 5 TMSs in a 2 + 3 TMS arrangement.",
    "proteins": "VIT family protein of Chlamydia trachomatis"
+  },
+  "2.A.89.1.6": {
+   "name": "Uncharacterized protein of 173 aas and 5 TMSs.",
+   "description": "Uncharacterized protein of 173 aas and 5 TMSs.",
+   "proteins": "UP of Candidatus Sungbacteria bacterium"
   },
   "2.A.89.2.1": {
    "name": "Member of rubrerythrin family of electron transporters; of 327 aas and 5 TMSs.",
@@ -30263,6 +31694,12 @@
   },
   "2.B.162": {
    "name": "The Anion Transporting Nanostructural lipid carrier (AT-NLC) Family"
+  },
+  "2.B.163": {
+   "name": "The Cyclopropyl-Uracil Derivative Herbicide (CUDH) Family"
+  },
+  "2.B.164": {
+   "name": "The Quinoline Helix H+/Cl- Symport (QH-H+/Cl- Symporter (QHH+/Cl-S) Family"
   },
   "2.B.17": {
    "name": "The Isophthalaminde Derivative H+:Cl- Co-transporter (IDC) Family"
@@ -31155,6 +32592,11 @@
    "description": "Lipid flippase, PglK or WlaB, of 564 aas and 6 N-terminal TMSs with a C-terminal ATPase domain. Mediates the ATP-dependent translocation of an undecaprenylpyrophosphate-linked heptasaccharide intermediate (LLO) across the cell membrane, an essential step during the N-linked protein glycosylation pathway. Transport across the membrane is effected via ATP-driven conformation changes. Most likely…",
    "proteins": "PglK (M-C) of Campylobacter jejuni"
   },
+  "3.A.1.106.16": {
+   "name": "Probable integral membrane protein NMA1777 with 6 TMSs in a 2 + 2 + 2 arrangement,; function and ATPase unknown.",
+   "description": "Probable integral membrane protein NMA1777 with 6 TMSs in a 2 + 2 + 2 arrangement,; function and ATPase unknown.",
+   "proteins": "UP of Klebsiella pneumoniae"
+  },
   "3.A.1.106.17": {
    "name": "ABC1 transporter",
    "description": "ABC1 transporter",
@@ -31284,6 +32726,11 @@
    "description": "The biofilm inducible ABC drug (tobramycin, gentamycin, and ciprofloxacin) resistance pump, PA1875-PA1877 (Zhang and Mah, 2008). It is specifically induced and is most active when growing in a biofilm.",
    "proteins": "PA1875-PA1877 of Pseudomonas aeruginosa; PA1875 (OMF; 425 aas) (Q9I2M2); PA1876 (ABC; M-C; 723 aas) (Q9I2M1); PA1877 (MFP; 395 aas) (Q9I2M0)"
   },
+  "3.A.1.109.5": {
+   "name": "Probable giant non-fimbrial adhesin, SiiE, exporter, SiiFDC.",
+   "description": "Probable giant non-fimbrial adhesin, SiiE, exporter, SiiFDC. SiiF interacts with SiiAB (TC# 1.A.30.4.1) which probably forms a proton channel homologous to that of MotAB (TC# 1.A.30.1.1) and facilitates energization of SiiE export using the pmf (Wille et al. 2013).",
+   "proteins": "SiiFDC of Salmonella enterica; SiiF (M-C; 688 aas; E1WEV2); SiiD (MFP; 425 aas; E1WEV0); SiiC (OMF; 439 aas; E1WEU9)"
+  },
   "3.A.1.109.6": {
    "name": "Probable 2646 aa extracellular adhesin (acc# C6BWI7) ABC exporter of 715 aas.",
    "description": "Probable 2646 aa extracellular adhesin (acc# C6BWI7) ABC exporter of 715 aas. Functions as a type I protein secretion system together with an MFP and an OMF which all are encoded within a single operon together with the adhesin and SiiAB homologues as for TC# 3.A.1.109.5.",
@@ -31380,6 +32827,11 @@
    "description": "Alkaline protease exporter",
    "proteins": "AprD (M-C) of Pseudomonas aeruginosa"
   },
+  "3.A.1.110.5": {
+   "name": "S-layer protein exporter",
+   "description": "S-layer protein exporter",
+   "proteins": "RsaD (M-C) of Caulobacter crescentus"
+  },
   "3.A.1.110.6": {
    "name": "Exporter for lipase LipA, protease PrtA and S-layer protein SlaA, LipBCD.",
    "description": "Exporter for lipase LipA, protease PrtA and S-layer protein SlaA, LipBCD (Akatsuka et al. 1997). LipABC is also called PrtDEF.",
@@ -31450,6 +32902,11 @@
    "name": "Microcin E492 exporter, MceFGH",
    "description": "Microcin E492 exporter, MceFGH (MceF has 5 - 7 TMSs and is most likely a CAAX amino terminal protease that might function in the processing of microcin E492; MceG has a short hydrophilic N-terminus, a centra 6 TMS ABC domain, and a C-terminal ABC ATPase domain; MceH has 1 N-terminal TMS) (Bieler et al., 2006; Lagos et al., 1999)",
    "proteins": "MceGH of Klebsiella pneumoniae; MceG (C-M-C) (Q93GK5); MceH (MFP) (Q93GK4)"
+  },
+  "3.A.1.112.3": {
+   "name": "Bacteriocin (lactococcin) exporter.",
+   "description": "Bacteriocin (lactococcin) exporter.",
+   "proteins": "LcnC (M-C) of Lactococcus lactis (functions with putative MFP accessory protein LcnD)"
   },
   "3.A.1.112.9": {
    "name": "ABC bacteriocin exporter with two peptidase domains, Pcat1.",
@@ -31602,6 +33059,11 @@
    "description": "Glycine betaine/carnitine/choline/proline transporter, OpuABC. It is not a dominant proline transporter which in S. aureus are, however, PutP and ProT (Lehman et al. 2023). The sequence of OpuB, the membrane component of the system, is not included here. The 3-d structure of OpuC (or a part of it) has been solved (5IIP_A-D)..",
    "proteins": "OpuABC of Staphylococcus aureus"
   },
+  "3.A.1.12.17": {
+   "name": "OpuFB of 505 aas with 6 or 7 N-terminal TMSs in a 3 + 3 or 4 TMS arrangement.",
+   "description": "OpuFB of 505 aas with 6 or 7 N-terminal TMSs in a 3 + 3 or 4 TMS arrangement. It is an osmoprotectant ABC transporter/substrate-binding subunit OpuFB. The B. subtilis ortholog a compatible solute ABC transporter with a substrate-binding protein fused to the transmembrane domain (Teichmann et al. 2018). There are five transport systems (OpuA, OpuB, OpuC, OpuD, and OpuE) for compatible solutes in…",
+   "proteins": "OpuFB of Bacillus safensis"
+  },
   "3.A.1.12.18": {
    "name": "Osmoprotectant ABC transporter permease/substrate-binding subunit OpuFB (505 aas, 6 TMSs); The ABC-type ATPase is OpuFA, 318 aas, 0 TMSs).",
    "description": "Osmoprotectant ABC transporter permease/substrate-binding subunit OpuFB (505 aas, 6 TMSs); The ABC-type ATPase is OpuFA, 318 aas, 0 TMSs). In OpuFB, the permease domain with 6 TMSs is N-terminal while the C-terminal hydrophilic half of the protein is the substrate binding domain.",
@@ -31723,6 +33185,11 @@
    "description": "Antibiotic (virginiamycin and lincomycin) resistance protein, VmlR",
    "proteins": "VmlR (C-C) of Bacillus subtilis (P39115)"
   },
+  "3.A.1.121.5": {
+   "name": "ABC-type streptogammin A resistance exporter, VgaA of 522 aas and 0 TMSs (C-C arrangement).",
+   "description": "ABC-type streptogammin A resistance exporter, VgaA of 522 aas and 0 TMSs (C-C arrangement). Inhibited by pristinamycin IIA (Jacquet et al. 2008). A transport function is not known.",
+   "proteins": "VgaA of Staphylococcus aureus"
+  },
   "3.A.1.122": {
    "name": "The Macrolide Exporter (MacB) Family"
   },
@@ -31785,6 +33252,11 @@
    "name": "Uncharacterized ABC exporter",
    "description": "Uncharacterized ABC exporter",
    "proteins": "ABC exporter of Candidatus Odinarchaeota; (M) 166 aas and 4 TMSs, OLS17116; (C) 232 aas, OLS17115"
+  },
+  "3.A.1.122.25": {
+   "name": "3-component ABC3-type transporter with two 4 TMS membrane proteins and one ATPase, all encoded within a single operon with the three genes next to…",
+   "description": "3-component ABC3-type transporter with two 4 TMS membrane proteins and one ATPase, all encoded within a single operon with the three genes next to each other.",
+   "proteins": "ABC exporter of Corallococcus coralloides"
   },
   "3.A.1.122.27": {
    "name": "Putative ABC3-type transporter with an ATPase and a possible auxiliary protein encoded by a gene sandwiched in between the membrane protein and the…",
@@ -31943,6 +33415,16 @@
    "name": "Putative ABC exporter Tiet1371/1372",
    "description": "Putative ABC exporter Tiet1371/1372",
    "proteins": "Tiet1371/72 of Thermotoga lettingae; Tiet1371 (M-M) (A8F6Z4); Tiet1372 (C) (A8F6Z5)"
+  },
+  "3.A.1.128.6": {
+   "name": "Putative ABC exporter",
+   "description": "Putative ABC exporter",
+   "proteins": "ABC exporter of Pyrococcus horikoshii; Membrane protein (M) (O58947); ATPase (C) O58948)"
+  },
+  "3.A.1.128.7": {
+   "name": "Uncharacterized ABC permease, TA0065/TA0066",
+   "description": "Uncharacterized ABC permease, TA0065/TA0066",
+   "proteins": "UP of Thermoplasma acidophilum; TA0065 (M-M; permease; 515 aas, 12 TMSs); TA0066 (C; ATPase)"
   },
   "3.A.1.13": {
    "name": "The Vitamin B12 Uptake Transporter (B12T) Family (Similar to 3.A.1.14)"
@@ -32168,6 +33650,11 @@
   "3.A.1.136": {
    "name": "The Uncharacterized ABC-3-type (U-ABC3-1) Family"
   },
+  "3.A.1.136.1": {
+   "name": "Putative ABC3 permease complex U-ABC3-1a (403 aas; 4 TMSs in a 1 + 3 TMS arrangement) + an ATPase of 230 aas.",
+   "description": "Putative ABC3 permease complex U-ABC3-1a (403 aas; 4 TMSs in a 1 + 3 TMS arrangement) + an ATPase of 230 aas. The two genes encoding these two proteins are separated by a single gene encoding a putative FMN binding domain-containing protein of 149 aas.",
+   "proteins": "U-ABC3-1a of Treponema denticola (M) (Q73MJ0)"
+  },
   "3.A.1.136.2": {
    "name": "ABC-type antimicrobial peptide transporter with a membrane protein of 421 aas and 4 TMSs and an ATPase of encoded by a gene adjacent to the membrane…",
    "description": "ABC-type antimicrobial peptide transporter with a membrane protein of 421 aas and 4 TMSs (Q6MNW8) and an ATPase of encoded by a gene adjacent to the membrane protein (Q6MNW9). Adjacent to these two genes is one annotated as an iron-regluated protein, FrpA (Q6MNW7).",
@@ -32193,6 +33680,11 @@
    "name": "The FetA (YbbL)/FetB (YbbM) iron exporter (SwissProt family UDF0014; 6 or 7 putative TMSs).",
    "description": "The FetA (YbbL)/FetB (YbbM) iron exporter (SwissProt family UDF0014; 6 or 7 putative TMSs). Expression enhances resistance to oxidative stress (Nicolaou et al. 2013).",
    "proteins": "FetA/B of E. coli; FetA (C) (P77279); FetB (M) (P77307)"
+  },
+  "3.A.1.139.3": {
+   "name": "The uncharacterized ABC exporter, U-ABC-M/C",
+   "description": "The uncharacterized ABC exporter, U-ABC-M/C",
+   "proteins": "U-ABCC/U-ABC-M of Spirochaeta africana; U-ABC-C (C) (H9UM45); U-ABC-M (M) (H9UM46)"
   },
   "3.A.1.139.4": {
    "name": "Plasma membrane ABC exporter, sensitive to aluminum rhizotoxicity 1/2, STAR1/STAR2.",
@@ -33571,6 +35063,16 @@
    "description": "ABCG39 K+ transporter, TPK1 or ABCG39 of 1423 aas and 12 TMSs in a 6 + 6 TMS arrangement.",
    "proteins": "ABCG39 of Euphorbia lathyris"
   },
+  "3.A.1.205.35": {
+   "name": "ABCA-1 Efflux Pump of 1452 aas and probably 13 TMSs in two 6 TMS groups, the first in a 2 + 2 +1 +1 arrangement and the second in a 2 + 2 + 2…",
+   "description": "ABCA-1 Efflux Pump of 1452 aas and probably 13 TMSs in two 6 TMS groups, the first in a 2 + 2 +1 +1 arrangement and the second in a 2 + 2 + 2 arrangement followed by one additional TMS at the C-terminus (The binder abcA-2795 exhibited promising characteristics, including non-allergenicity, cell penetration potential, and high thermal stability, suggesting its potential as an effective inhibitor…",
+   "proteins": "ABCA-1 of Aspergillus fumigatus"
+  },
+  "3.A.1.205.36": {
+   "name": "Multidrug resistance (MDR) ABC transporter, PMR1, of DMI fungicides porter of 1483 aas and 12 TMSs in an ATPase + 5 + 1 TMSs + ATPase + 5 + 1 TMSs.",
+   "description": "Multidrug resistance (MDR) ABC transporter, PMR1, of DMI fungicides (e.g.,triflumazole) porter of 1483 aas and 12 TMSs in an ATPase + 5 + 1 TMSs + ATPase + 5 + 1 TMSs (Selivanovitch et al. 2026).",
+   "proteins": "PMR1 of Penicillum digitarum (Green mold)"
+  },
   "3.A.1.205.4": {
    "name": "Multidrug resistance protein, Cdr1 of 1501 aas and 14 TMSs in a CMCM arrangement with each M domain having 7 TMSs in a 6 + 1 TMS arrangement.",
    "description": "Multidrug resistance protein, Cdr1 (Candida drug resistance 1) of 1501 aas and 14 TMSs in a CMCM arrangement with each M domain having 7 TMSs in a 6 + 1 TMS arrangement. It confers resistance to cycloheximide, xenobiotics and antifungal agents such as azoles and terbinafine (Holmes et al., 2006; Schuetzer-Muehlbauer et al., 2003); also, transports phospholipids (Shukla et al., 2007). It is the…",
@@ -33860,6 +35362,11 @@
    "name": "Mitochondrial ABC iron/sulfur complex transporter, AbcB12 of 542 aas.",
    "description": "Mitochondrial ABC iron/sulfur complex transporter, AbcB12 of 542 aas.",
    "proteins": "AbcB12 (M-C) of Tetrahymena thermophila"
+  },
+  "3.A.1.210.11": {
+   "name": "Inner membrane miltochondrial-like homodimeric Atm1 of 608 aas and 6 TMSs per subunit.",
+   "description": "Inner membrane miltochondrial-like homodimeric Atm1 of 608 aas and 6 TMSs per subunit. The structure has been solved to 2.4 Å resolution (Lee et al. 2014). It is required for the formation of cytosolic iron-sulfur cluster-containing proteins (Lill et al. 2012); but see also, 3.A.210.15. It exports glutathione derivatives and confers protection against heavy-metal toxicity. Fan et al. 2020…",
+   "proteins": "Atm1 of Novosphingobium aromaticivorans"
   },
   "3.A.1.210.12": {
    "name": "ABCB3 of 704 aas and 6 TMSs.",
@@ -35125,6 +36632,11 @@
    "name": "The T7 pore complex, gp14/gp15/gp16.",
    "description": "The T7 pore complex, gp14/gp15/gp16 (Hu et al. 2013). Many tailed bacteriophages assemble ejection proteins and a portal-tail complex at a unique vertex of the capsid. The ejection proteins form a transenvelope channel extending the portal-tail channel for the delivery of genomic DNA in cell infection. Chen et al. 2021 reported the structure of the mature bacteriophage T7, including the ejection…",
    "proteins": "The T7 pore complex formed from internal virion protein gp14/gp15/gp16 gp14 (internal virion protein B) (P03724) (196 aas); gp15 (internal virion protein C) (P03725) (747 aas); gp16 (internal virion protein D) (P03726) (1318 aas) plus; The HsdR subunit of the EcoK1 restriction/modification enzyme…"
+  },
+  "3.A.17.1.2": {
+   "name": "Phage DNA injection channel protein complex including proteins A, B (759 aas, 0 TMSs. acc# AGY36939.1) and C.",
+   "description": "Phage DNA injection channel protein complex including proteins A (201 aas, 2 TMSs, N- and C-terminal, acc # AGY36938), B (759 aas, 0 TMSs. acc# AGY36939.1) and C (1315 aas with 3 potential TMSs between residues 310 and 400, acc# AGY36940.1). These proteins are 40% to 70% ideintical to proteins listed under TC# 3.A.17.1.1.",
+   "proteins": "Proteins A, B and C of phage Erwinia phage FE44"
   },
   "3.A.17.1.3": {
    "name": "Cytosine specific methyltransferase of 227 aa",
@@ -38985,6 +40497,11 @@
    "description": "Glycosyl transferase of 1435aas, RfbC. Functions with ABC exporter, TC#3.A.1.103.3",
    "proteins": "RfbC of Myxococcus xanthus (Q50864)"
   },
+  "4.D.1.3.5": {
+   "name": "Uncharacterized protein of 252 aas and 0 TMSs.",
+   "description": "Uncharacterized protein of 252 aas and 0 TMSs. Annotated as a family 2 glycosyltransferase.",
+   "proteins": "UP of Candidatus Beckwithbacteria bacterium"
+  },
   "4.D.1.4.1": {
    "name": "UDP glucose:ceremide glucosyl transferase of 394 aas and 4 TMSs in a 1 + 3 TMS arrangment.",
    "description": "UDP glucose:ceremide glucosyl transferase of 394 aas and 4 TMSs in a 1 + 3 TMS arrangment. May serve as a flippase (Ichikawa et al. 1996).",
@@ -39028,10 +40545,20 @@
    "description": "Putative family 2 glycosyl transferase (538 aas; 8 putative TMSs), This protein is designated DPG synthase. Residues 1-220 are in the COGO392 or UPF0108 superfamily while residues 221-538 are in the lysyl phosphatidyl glycerol synthetase domain family). The N-terminal domain of 3.A.3.4.3 (e-8) and an N-terminal domain of 4.D.1.1.3 (e-5) are part of the MFS, but the common domain in TC family…",
    "proteins": "ORF of Archaeoglobus veneficus (F2KQZ0)"
   },
+  "4.D.2.1.8": {
+   "name": "UPF0104 family protein of 387 aas and 7 TMSs.",
+   "description": "UPF0104 family protein of 387 aas and 7 TMSs.",
+   "proteins": "UPF0104 protein of Ureaplasma parvum"
+  },
   "4.D.2.1.9": {
    "name": "Glycosyl transferase family 2 (GT2; N-terminal) - GtrA 4 TMS domain (C-terminal) protein of 384 aas and 4 - 7 TMSs.",
    "description": "Glycosyl transferase family 2 (GT2; N-terminal) - GtrA 4 TMS domain (C-terminal) protein of 384 aas and 4 - 7 TMSs. The 4 TMS C-terminal domain of this protein is not homologous to other members of this family although the N-terminal hydrophilic domain is.",
    "proteins": "GT2-GtrA protein of Candidatus Zambryskibacteria bacterium"
+  },
+  "4.D.2.2.4": {
+   "name": "Uncharacterized protein of 335 aas and 8 probable TMSs in a 2 + 2 + 4 arrangement.",
+   "description": "Uncharacterized protein of 335 aas and 8 probable TMSs in a 2 + 2 + 4 arrangement.",
+   "proteins": "UP of Methanobacterium subterraneum"
   },
   "4.D.2.4.2": {
    "name": "Varpa_1810 (335aas; 8 TMSs) (TMSs 1-7 resemble TMSs 1-7 of 2.A.1.3.47) (e-10) and 2.A.1.3.44 (e-9) of the MFS).",
@@ -39803,6 +41330,11 @@
   "8.A.105": {
    "name": "The Multi-Copper-containing Ferroxidase (MCFO) Family"
   },
+  "8.A.105.1.1": {
+   "name": "Ferrooxidase, Hephaestin, HEPH, of 1158 aas with one C-terminal TMS and possible another TMS near the N-terminus.",
+   "description": "Ferrooxidase, Hephaestin, HEPH, of 1158 aas with one C-terminal TMS and possible another TMS near the N-terminus. It oxidizes ferrous ion (II) to ferric ion (III), and is involved in iron and possibly copper transport and homeostasis. It promotes iron efflux in associated with ferroportin 1 (TC# 2.A.100.1.4) (Vashchenko and MacGillivray 2013). The distribution of HEPH in various tissues has been…",
+   "proteins": "Hephaestin of Homo sapiens"
+  },
   "8.A.106": {
    "name": "The Caltrin/Peptide YY (Caltrin) Family"
   },
@@ -40183,6 +41715,11 @@
    "name": "Retinal binding protein-4, RBP4 of 201 aas and one possible N-terminal TMS.",
    "description": "Retinal binding protein-4, RBP4 of 201 aas and one possible N-terminal TMS. See family description for details (Xiong et al. 2021).",
    "proteins": "RBP4 of Homo sapiens"
+  },
+  "8.A.180.1.4": {
+   "name": "Lipocalin 2 (Neutrophil gelatinase-associated lipocalin) of 198 aas with 1 N-terminal TMS.",
+   "description": "Lipocalin 2 (Neutrophil gelatinase-associated lipocalin) of 198 aas with 1 N-terminal TMS. It is an iron-trafficking protein involved in multiple processes such as apoptosis, innate immunity and renal development (Shields-Cutler et al. 2016). It binds iron through association with 2,3-dihydroxybenzoic acid (2,3-DHBA), a siderophore that shares structural similarities with bacterial enterobactin…",
+   "proteins": "Lipocalin 2 of Homo sapiens"
   },
   "8.A.181": {
    "name": "The TMEM242 Protein Complex Assembly Factor (TMEM242) Family"
@@ -40657,8 +42194,23 @@
   "8.A.267": {
    "name": "The Lambda Crystallin7 (CRYL7) Family"
   },
+  "8.A.268": {
+   "name": "The Myoglianin (Myoglianin) Family"
+  },
+  "8.A.269": {
+   "name": "The Theraputic Antibody Targeting Membrane Proteins (TA-MP) Family"
+  },
   "8.A.27": {
    "name": "The CDC50 P-type ATPase Lipid Flippase Subunit (CDC50) Family"
+  },
+  "8.A.270": {
+   "name": "Connectome Topographical Structures reveal brain disorder in Alzheimer's Disease (CTS-AD) Family"
+  },
+  "8.A.271": {
+   "name": "The Excelsatoxin A Receptor, TMEM233 (TMEM233) Family"
+  },
+  "8.A.272": {
+   "name": "The Sortin2 Salinity Stress Tolerance (S2SST) Family"
   },
   "8.A.28": {
    "name": "The Ankyrin (Ankyrin) Family"
@@ -40893,6 +42445,21 @@
   "8.A.82": {
    "name": "The Calmodulin Calcium Binding Protein (Calmodulin) Family"
   },
+  "8.A.82.1.11": {
+   "name": "Calcium binding protein 1, CABP1, of 370 aas and 0 TMSs.",
+   "description": "Calcium binding protein 1, CABP1, of 370 aas and 0 TMSs. It modulates the calcium-dependent activity of inositol 1,4,5-triphosphate receptors (ITPRs) (Haynes et al. 2004) and inhibits agonist-induced intracellular calcium signaling (Zhou et al. 2005). It also enhances inactivation and does not support calcium-dependent facilitation of voltage-dependent P/Q-type calcium channels (Lee et al. 2002)…",
+   "proteins": "CABP1 of Homo sapiens"
+  },
+  "8.A.82.1.12": {
+   "name": "Calpain-1 (two subunits): CPNL1 (catalytic subunit)/CPNS1 (small subunit) of 725 and 268 aas, respectively.",
+   "description": "Calpain-1 (two subunits): CPNL1 (catalytic subunit)/CPNS1 (small subunit) of 725 and 268 aas, respectively. Mitochondrial calpain-1 truncates ATP synthase beta subunit (Chukai et al. 2025). Calpains cleave proteins in a calcium concentration-dependent manner, modulating their intracellular functions. Calpain-1, a member of the calpain family, is localized in the cytosol and mitochondria…",
+   "proteins": "Calpain-2 of Homo sapiens"
+  },
+  "8.A.82.5.1": {
+   "name": "Aequorin-1 of 196 aas and 0 TMSs.",
+   "description": "Aequorin-1 of 196 aas and 0 TMSs. It is a Ca2+-dependent bioluminescence photoprotein that displays an emission peak at 470 nm (blue light). Trace amounts of calcium ion trigger the intramolecular oxidation of the chromophore, coelenterazine, into coelenteramide and CO2 with the concomitant emission of light (). Characteristics of the aequorin-expressing yeast strains appear suitable for its use…",
+   "proteins": "Aequorin-1 of Aequorea victoria (Water jellyfish) (Mesonema victoria)"
+  },
   "8.A.83": {
    "name": "The Shisa6 Regulator of Short-term Neuronal Synaptic Plasticity (Shisa) Family"
   },
@@ -41111,6 +42678,9 @@
   "8.B.5": {
    "name": "The Na+/K+/Ca2+ Channel Targeting Tarantula Huwentoxin (THT) Family"
   },
+  "8.B.50": {
+   "name": "The Intracellular Ca2+ Channel Modulator (ICCM) Family"
+  },
   "8.B.6": {
    "name": "The Ca2+ Channel-targeting Spider Toxin (CST) Family"
   },
@@ -41188,6 +42758,15 @@
   },
   "8.F": {
    "name": "Alternative Splicing Influencing Transport"
+  },
+  "8.G": {
+   "name": "Accessory Chemical Factors Involved in Transport"
+  },
+  "8.G.1": {
+   "name": "The Sortin2 Salinity Stress Tolerance Agent (S2SST) Family"
+  },
+  "8.G.2": {
+   "name": "The 8-Amino Quinoline (8AQ) Family"
   },
   "9": {
    "name": "Incompletely Characterized Transport Systems"
@@ -41570,6 +43149,31 @@
   "9.A.54": {
    "name": "The Lysosomal Cobalamin (B12) Transporter (L-B12T) Family"
   },
+  "9.A.54.1.1": {
+   "name": "Probable lysosomal cobalamin exporter, NESI or C61F disease protein; defective in cobalamin F type disease Homologues are present in all eukaryotes…",
+   "description": "Probable lysosomal cobalamin exporter, NESI or C61F disease protein; defective in cobalamin F type disease (540aas; 9 TMSs in a 5 + 4 arrangement) (Ruivo et al., 2009; Rutsch et al., 2009; Gailus et al., 2010; Wilcken, 2012; Braz et al. 2022) (also called LMBR1 domain-containing protein or LMBRD1; liver regeneration p53-related protein, Lipocalin-interacting membrane receptor, limb region 1…",
+   "proteins": "NESI of Homo sapiens (Q9NUN5)"
+  },
+  "9.A.54.1.2": {
+   "name": "Probable lysosomal cobalamin transporter of 646 aas and 7 TMSs in a 5 + 2 + hydrophilic domain arrangement.",
+   "description": "Probable lysosomal cobalamin transporter of 646 aas and 7 TMSs in a 5 + 2 + hydrophilic domain arrangement.",
+   "proteins": "CHGG_01714 of Chaetomium globosum"
+  },
+  "9.A.54.1.3": {
+   "name": "Probable lysosomal cobalamine exporter of 590 aas and 9 putative TMSs.",
+   "description": "Probable lysosomal cobalamine exporter of 590 aas and 9 putative TMSs.",
+   "proteins": "Cobalamine exporter of Ajellomyces capsulatus (Darling's disease fungus) (Histoplasma capsulatum)"
+  },
+  "9.A.54.3.1": {
+   "name": "LMBR1-like conserved protein of 612 aas and 9 TMSs in a 5 + 4 TMS arrangement.",
+   "description": "LMBR1-like conserved protein of 612 aas and 9 TMSs in a 5 + 4 TMS arrangement.",
+   "proteins": "LMBR1-like protein of Tetrahymena thermophila (Q22WA5)"
+  },
+  "9.A.54.3.4": {
+   "name": "LMBR1 protein homologue of 537 aas",
+   "description": "LMBR1 protein homologue of 537 aas",
+   "proteins": "LMBR1 homologue of Ostreococcus tauri"
+  },
   "9.A.55": {
    "name": "The TMEM205 (TMEM205) Family"
   },
@@ -41656,6 +43260,11 @@
   },
   "9.A.7": {
    "name": "The Lactoloccin 972 Immunity Protein (Lactococcin IP) Family"
+  },
+  "9.A.7.1.1": {
+   "name": "Class IIc bacteriocin, Lactococcin 972 immunity protein",
+   "description": "Class IIc bacteriocin, Lactococcin 972 immunity protein",
+   "proteins": "Lactococcin 972 Immunity Protein of Lactococcus lactis"
   },
   "9.A.70": {
    "name": "The Aspartate Amino Transferase (AAT) Family"
@@ -42052,6 +43661,11 @@
   },
   "9.B.119": {
    "name": "The Glycan Synthase, Fks1 (Fks1) Family"
+  },
+  "9.B.119.1.6": {
+   "name": "1,3-beta-D-glucan synthase, GFGLS2, of 1713 aas and 10 TMSs in a 4 + 4 (residues 560 - 700) + 4 + 4 + 1 (resdue 1630) + 1 (residue 1690).",
+   "description": "1,3-beta-D-glucan synthase, GFGLS2, of 1713 aas and 10 TMSs in a 4 (residues 390 - 510) + 4 (residues 560 - 700) + 4 (residues 1190 - 1360) + 4 (residues 1440 - 1570) + 1 (resdue 1630) + 1 (residue 1690). The biochemical, 3D structural characterization and potential catalytic mechanism of this membrane-bound beta-1, 3-glucan synthase, GFGLS2 from cultured mycelia of G. frondosa was investigated…",
+   "proteins": "GFGLS2 of Grifola frondosa"
   },
   "9.B.12": {
    "name": "The Sensitivity to Sodium or Salt Stress-induced Hydrophobic Peptide (Sna) Family"
@@ -42628,6 +44242,26 @@
   "9.B.198": {
    "name": "The Membrane-anchored Lipid-binding Protein (LAM) Family"
   },
+  "9.B.198.2.4": {
+   "name": "Membrane-anchored lipid-binding protein, LAM6 or LTC1, of 693 aas and 1 (or more) TMSs.",
+   "description": "Membrane-anchored lipid-binding protein, LAM6 or LTC1, of 693 aas and 1 (or more) TMSs (Wong and Levine 2016). It is involved in regulating various organellar membrane contact sites (Elbaz-Alon et al. 2015) and is involved in sterol transfer between intracellular membranes (Gatta et al. 2015). It selectively transports sterols between membranes in vivo and in vitro, and is involved in…",
+   "proteins": "LAM6 of Saccharomyces cerevisiae"
+  },
+  "9.B.198.2.5": {
+   "name": "GRAM domain-containing protein 1B, GRAMD1B or ASTER-B, of 738 aas and 1 (or possibly more) TMSs.",
+   "description": "GRAM domain-containing protein 1B, GRAMD1B or ASTER-B, of 738 aas and 1 (or possibly more) TMSs. ASTER-A, B and C (TC#s 9.B.198.2.6, 5 and 7) can form homomeric and heteromeric complexes to move cholesterol and possibly phosphatidyl serine from the plasma membrane to the ER membrane (Naito and Saheki 2021).",
+   "proteins": "GRAM domain protein 1B of Homo sapiens"
+  },
+  "9.B.198.2.6": {
+   "name": "GRAMD1A or Aster-A of 724 aas and 1 TMS near the C-terminus of the protein.",
+   "description": "GRAMD1A or Aster-A of 724 aas and 1 TMS near the C-terminus of the protein. It is a cholesterol transporter that mediates non-vesicular transport of cholesterol from the plasma membrane (PM) to the endoplasmic reticulum (ER) and contains unique domains for binding cholesterol and the PM, thereby serving as a molecular bridge for the transfer of cholesterol from the PM to the ER. It plays a…",
+   "proteins": "GRAMD1A of Homo sapiens"
+  },
+  "9.B.198.2.7": {
+   "name": "GRAMD1C or Aster-C of 662 aas and 1 very hydrophobic TMS at residue 570, near the C-terminus as well as possibly 1 at the C-terminus.",
+   "description": "GRAMD1C or Aster-C of 662 aas and 1 very hydrophobic TMS at residue 570, near the C-terminus as well as possibly 1 (small peak of hydrophobicity) at the C-terminus. In lipid-poor conditions, it localizes to the ER membrane, and in response to excess cholesterol in the plasma membrane (PM), it is recruited to the endoplasmic reticulum-plasma membrane contact sites (EPCS). This process is mediated…",
+   "proteins": "GRAMD1C of Homo sapiens"
+  },
   "9.B.199": {
    "name": "The 4 TMS PF05225 (PF0225) Family"
   },
@@ -42715,6 +44349,11 @@
   },
   "9.B.208": {
    "name": "The Vitamin D3 Receptor (VDR) Family"
+  },
+  "9.B.208.1.1": {
+   "name": "The Vitamin D3 Receptor, VDR of 427 aas and 0 - 1 TMS.",
+   "description": "The Vitamin D3 Receptor, VDR of 427 aas and 0 - 1 TMS. Possibly can insert into the plasma membrane and form a large channel (see family description) (Morrill et al. 2016). It is a dimer with two transmembrane half helices (264K - N276) and 16 cholesterol binding (CRAC/CARC) domains. May function with importin-4 (TC# 1.I.1.1.3) which may also be able to form a transmembrane channel (Morrill et…",
+   "proteins": "VDR of Homo sapiens"
   },
   "9.B.209": {
    "name": "The DUF2633 (DUF2633) Family"
@@ -42831,6 +44470,11 @@
    "name": "Integral membrane histidine sensor kinase, DesK or YocF, with 370 aas and 5 or 6 N-terminal TMSs plus a C-terminal kinase domain.",
    "description": "Integral membrane histidine sensor kinase, DesK or YocF, with 370 aas and 5 or 6 N-terminal TMSs plus a C-terminal kinase domain. It aligns with residues 20 - 420 of the histidine kinase with TC# 9.B.238.3.1. It is a member of the two-component regulatory system DesR/DesK (Albanesi et al. 2004), responsible for cold induction of the des gene coding for the Delta5 acyl-lipid desaturase (Aguilar et…",
    "proteins": "DesK of Bacillus subtilis"
+  },
+  "9.B.238.3.8": {
+   "name": "Methane mono oxidase with an FAD cofactor bound to the N-terminal PAS-PAC domain.",
+   "description": "Methane mono oxidase with an FAD cofactor bound to the N-terminal PAS-PAC domain. It oxidizes methane to methanol. Thus it is a sensor/regulatory protein RpfC, encoded by the MmoS gene. It has 1177 aas and two N-terminal TMSs.",
+   "proteins": "RpfC (encoded by the mmoS gene in Methylococcus caposulatus"
   },
   "9.B.239": {
    "name": "The Uncharacterized Bacterial 10 - 13 TMS Protein (UBP2) Family"
@@ -43593,6 +45237,21 @@
   "9.B.423": {
    "name": "The Tysrosinase (TYR) Family"
   },
+  "9.B.423.1.1": {
+   "name": "Tyrosinase, Tyr or TYR, of 529 aas and 2 TMSs, one signal sequence at the N-terminus, and one very hydrophobic TMS at the C-terminus.",
+   "description": "Tyrosinase, Tyr or TYR, of 529 aas and 2 TMSs, one signal sequence at the N-terminus, and one very hydrophobic TMS at the C-terminus. It is a copper-containing oxidase that functions in the formation of pigments such as melanins and other polyphenolic compounds (Olivares and Solano 2009). This enzyme, for which the 3-d structure is known, catalyzes the initial and rate limiting step in the…",
+   "proteins": "TYR of Homo sapiens"
+  },
+  "9.B.423.1.2": {
+   "name": "5,6-dihydroxyindole-2-carboxylic acid oxidase of 537 aas and 2 TMSs, one signal sequence at the N-terminus and one very hydrophobic TMS at the…",
+   "description": "5,6-dihydroxyindole-2-carboxylic acid oxidase (TYRP1, TYR, CAS2, TYRP, TYRRP) of 537 aas and 2 TMSs, one signal sequence at the N-terminus and one very hydrophobic TMS at the C-terminus. It plays a role in melanin biosynthesis (Kenny et al. 2012, Rooryck et al. 2006) and catalyzes the oxidation of 5,6-dihydroxyindole-2-carboxylic acid (DHICA) into indole-5,6-quinone-2-carboxylic acid in the…",
+   "proteins": "TYRP1 of Homo sapiens"
+  },
+  "9.B.423.1.3": {
+   "name": "L-dopachrome tautomerase, TYRP2 or DCT, of 519 aas and 2 TMSs, one a signal sequence at the N-terminus, and one a stronly hydrophobic TMS at the…",
+   "description": "L-dopachrome tautomerase, TYRP2 or DCT, of 519 aas and 2 TMSs, one a signal sequence at the N-terminus, and one a stronly hydrophobic TMS at the C-terminus. In a complex with tyrosinase (TC# 9.B.423.1.1) and TYRP1 (TC# 9.B.423.1.2), the three C-terminal TMSs may form a transmembrane bundle, possibly even a channel (Lavinda et al. 2021). It catalyzes the conversion of L-dopachrome into…",
+   "proteins": "TYRP2 of Homo sapiens"
+  },
   "9.B.424": {
    "name": "The Uncharacterized 6 TMS Protein (U6P) Family"
   },
@@ -43836,6 +45495,15 @@
   "9.B.477": {
    "name": "The Molybdopterin-dependent OxidoReductase (MOR) Family"
   },
+  "9.B.478": {
+   "name": "The Transmembrane Adenylate Cyclase 1 (TGAC1) Family"
+  },
+  "9.B.479": {
+   "name": "The Guanylate Cyclase (GC) Family"
+  },
+  "9.B.480": {
+   "name": "The C-terminal Hydrophilic Domain (CHD) Family"
+  },
   "9.B.50": {
    "name": "The Outer Membrane Beta-barrel Endoprotease, Omptin (Omptin) Family"
   },
@@ -44076,6 +45744,11 @@
   },
   "9.B.9": {
    "name": "The Urate Transporter (UAT) Family"
+  },
+  "9.B.9.1.1": {
+   "name": "Galectin-9 or Lgals9, but also called the Urate transporter (UAT).",
+   "description": "Galectin-9 or Lgals9, but also called the Urate transporter (UAT). Galectin 9 is reported to be the sugar-regulated urate transporter/channel UAT. It is of 354 aas with an uncertain number of TMSs. UAT is a multifunctional protein that can function as a urate channel/transporter, a regulator of thymocyte-epithelial cell interactions, a tumor antigen, an eosinophil chemotactic factor, and a…",
+   "proteins": "UAT of Rattus norvegicus"
   },
   "9.B.90": {
    "name": "The Putative Channel Forming 2 TMSs MamC (MamC) Family"

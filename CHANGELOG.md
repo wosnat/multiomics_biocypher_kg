@@ -407,6 +407,17 @@ Counts, removed-property lists and file pointers for each `### Breaking` bullet.
 
 ### Changed
 
+- **KEGG and TCDB refreshed from upstream (2026-11-01).** KEGG REST data was from May 2026; KEGG now
+  lists 28,559 KOs / 12,530 reactions / 19,677 compounds. The KG keeps the same 4,808 KOs and
+  2,443 reactions; KEGG pathways 270 → 273, the new ones being Phagocytosis, Peroxisome - yeast and
+  Integrated stress response signaling, which KEGG files under Cellular Processes / Environmental
+  Information Processing, so the exclusion rule keeps them. Two tRNA-modification compounds
+  (`C20753`, `C20755`) leave the graph: KEGG moved them to a reaction no gene reaches. TCDB's
+  tables list 122 more families and 342 more accession mappings: `TcdbFamily` 9,725 → 9,762 nodes
+  (592 → 618 families, 7,609 systems) and substrate edges 8,954 → 8,984; after a full name
+  re-scrape 125 kept systems are still unnamed upstream. Gene → TCDB edges are unchanged: TCDB's sequence FASTA was last updated
+  2025-08-04, so `/tcdb-diamond` against it reproduces the existing calls. ChEBI (release 256), GO
+  (2026-07-26) and MetaNetX (4.5) were already current.
 - **InterPro reference release 110.0** (was 109.0). Names, GO and EC cross-references follow the
   new release (e.g. the vague EC `6.3.5.-` is dropped from 201 genes). 38 accessions our scans
   still call are retired in 110.0 (mostly auto-named PANTHER families); their nodes and 1,665 gene

@@ -440,9 +440,9 @@
     "class_nodes": 436,
     "dropped": 0,
     "dropped_without_rows": 87,
-    "kegg": 2829,
+    "kegg": 2827,
     "merged_away": 57,
-    "metabolites": 3251,
+    "metabolites": 3249,
     "rekeyed": 165,
     "roles": 102
   },
@@ -19177,9 +19177,7 @@
     "mnx:MNXM147041": "kegg.compound:C20951",
     "mnx:MNXM147426": "kegg.compound:C20648",
     "mnx:MNXM147520": "kegg.compound:C20751",
-    "mnx:MNXM147734": "kegg.compound:C20753",
     "mnx:MNXM147735": "kegg.compound:C20752",
-    "mnx:MNXM147740": "kegg.compound:C20755",
     "mnx:MNXM14780": "chebi:546840",
     "mnx:MNXM147896": "kegg.compound:C20758",
     "mnx:MNXM147898": "kegg.compound:C20756",
@@ -23032,7 +23030,7 @@
   "structure": {
     "counts": {
       "defined": 2584,
-      "generic": 641,
+      "generic": 639,
       "polymer": 26
     },
     "filled": [
@@ -23437,8 +23435,6 @@
       "kegg.compound:C20722",
       "kegg.compound:C20751",
       "kegg.compound:C20752",
-      "kegg.compound:C20753",
-      "kegg.compound:C20755",
       "kegg.compound:C20756",
       "kegg.compound:C20758",
       "kegg.compound:C20796",

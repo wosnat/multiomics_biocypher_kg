@@ -681,7 +681,7 @@
     {
       "properties": {},
       "source": "kegg.orthology:K00001",
-      "target": "kegg.pathway:ko00625",
+      "target": "kegg.pathway:ko00830",
       "type": "Kegg_term_is_a_kegg_term"
     },
     {
@@ -866,32 +866,32 @@
     },
     {
       "properties": {},
-      "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
-      "target": "insdc.gcf:GCF_000012645.1",
+      "source": "derived_metric:1462-2920.12822:table_s4_bl107_exoproteome:exoproteome_avg_pct_nsaf",
+      "target": "insdc.gcf:GCF_000153805.1",
       "type": "DerivedMetricBelongsToOrganism"
     },
     {
       "properties": {},
-      "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:vesicle_abundance_biovolume_normalized",
-      "target": "insdc.gcf:GCF_000012645.1",
+      "source": "derived_metric:1462-2920.12822:table_s4_bl107_exoproteome:exoproteome_detection_status",
+      "target": "insdc.gcf:GCF_000153805.1",
       "type": "DerivedMetricBelongsToOrganism"
     },
     {
       "properties": {},
-      "source": "derived_metric:1462-2920.15834:s3_mit9313_abundance:cell_abundance_biovolume_normalized",
-      "target": "insdc.gcf:GCF_000011485.1",
+      "source": "derived_metric:1462-2920.12822:table_s4_cc9311_exoproteome:exoproteome_avg_pct_nsaf",
+      "target": "insdc.gcf:GCF_000014585.1",
       "type": "DerivedMetricBelongsToOrganism"
     },
     {
       "properties": {},
-      "source": "derived_metric:1462-2920.15834:s3_mit9313_abundance:vesicle_abundance_biovolume_normalized",
-      "target": "insdc.gcf:GCF_000011485.1",
+      "source": "derived_metric:1462-2920.12822:table_s4_cc9311_exoproteome:exoproteome_detection_status",
+      "target": "insdc.gcf:GCF_000014585.1",
       "type": "DerivedMetricBelongsToOrganism"
     },
     {
       "properties": {},
-      "source": "derived_metric:1462-2920.15834:s4_mit9312_enrichment:log2_vesicle_cell_enrichment",
-      "target": "insdc.gcf:GCF_000012645.1",
+      "source": "derived_metric:1462-2920.12822:table_s4_rs9916_exoproteome:exoproteome_avg_pct_nsaf",
+      "target": "insdc.gcf:GCF_000153825.1",
       "type": "DerivedMetricBelongsToOrganism"
     },
     {
@@ -941,107 +941,107 @@
     },
     {
       "properties": {
-        "metric_type": "expression_level_class",
-        "value": "VEG"
+        "metric_type": "exoproteome_detection_status",
+        "value": "sporadic"
       },
-      "source": "derived_metric:1471-2180-14-11:med4_expression_level:expression_level_class",
-      "target": "ncbigene:PMM0001",
+      "source": "derived_metric:1462-2920.12822:table_s4_bl107_exoproteome:exoproteome_detection_status",
+      "target": "ncbigene:BL107_04807",
       "type": "Derived_metric_classifies_gene"
     },
     {
       "properties": {
-        "metric_type": "expression_level_class",
-        "value": "VEG"
+        "metric_type": "exoproteome_detection_status",
+        "value": "not_detected"
       },
-      "source": "derived_metric:1471-2180-14-11:med4_expression_level:expression_level_class",
-      "target": "ncbigene:PMM0002",
+      "source": "derived_metric:1462-2920.12822:table_s4_bl107_exoproteome:exoproteome_detection_status",
+      "target": "ncbigene:BL107_05004",
       "type": "Derived_metric_classifies_gene"
     },
     {
       "properties": {
-        "metric_type": "expression_level_class",
-        "value": "MEG"
+        "metric_type": "exoproteome_detection_status",
+        "value": "detected"
       },
-      "source": "derived_metric:1471-2180-14-11:med4_expression_level:expression_level_class",
-      "target": "ncbigene:PMM0003",
+      "source": "derived_metric:1462-2920.12822:table_s4_bl107_exoproteome:exoproteome_detection_status",
+      "target": "ncbigene:BL107_05009",
       "type": "Derived_metric_classifies_gene"
     },
     {
       "properties": {
-        "metric_type": "expression_level_class",
-        "value": "MEG"
+        "metric_type": "exoproteome_detection_status",
+        "value": "not_detected"
       },
-      "source": "derived_metric:1471-2180-14-11:med4_expression_level:expression_level_class",
-      "target": "ncbigene:PMM0004",
+      "source": "derived_metric:1462-2920.12822:table_s4_bl107_exoproteome:exoproteome_detection_status",
+      "target": "ncbigene:BL107_05054",
       "type": "Derived_metric_classifies_gene"
     },
     {
       "properties": {
-        "metric_type": "expression_level_class",
-        "value": "MEG"
+        "metric_type": "exoproteome_detection_status",
+        "value": "not_detected"
       },
-      "source": "derived_metric:1471-2180-14-11:med4_expression_level:expression_level_class",
-      "target": "ncbigene:PMM0005",
+      "source": "derived_metric:1462-2920.12822:table_s4_bl107_exoproteome:exoproteome_detection_status",
+      "target": "ncbigene:BL107_05094",
       "type": "Derived_metric_classifies_gene"
     },
     {
       "properties": {
-        "metric_bucket": "mid",
-        "metric_percentile": 69.58661417322834,
-        "metric_type": "cell_abundance_biovolume_normalized",
-        "rank_by_metric": 310,
-        "value": 1.68e-08
+        "metric_bucket": "low",
+        "metric_percentile": 0.0,
+        "metric_type": "exoproteome_avg_pct_nsaf",
+        "rank_by_metric": 11,
+        "value": 0.1566170868802465
       },
-      "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
-      "target": "ncbigene:PMT9312_0001",
-      "type": "Derived_metric_quantifies_gene"
-    },
-    {
-      "properties": {
-        "metric_bucket": "top_quartile",
-        "metric_percentile": 82.38188976377953,
-        "metric_type": "cell_abundance_biovolume_normalized",
-        "rank_by_metric": 180,
-        "value": 2.89e-08
-      },
-      "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
-      "target": "ncbigene:PMT9312_0003",
+      "source": "derived_metric:1462-2920.12822:table_s4_bl107_exoproteome:exoproteome_avg_pct_nsaf",
+      "target": "ncbigene:BL107_04807",
       "type": "Derived_metric_quantifies_gene"
     },
     {
       "properties": {
         "metric_bucket": "mid",
-        "metric_percentile": 49.50787401574803,
-        "metric_type": "cell_abundance_biovolume_normalized",
-        "rank_by_metric": 514,
-        "value": 7.38e-09
+        "metric_percentile": 40.0,
+        "metric_type": "exoproteome_avg_pct_nsaf",
+        "rank_by_metric": 7,
+        "value": 3.438422283966575
       },
-      "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
-      "target": "ncbigene:PMT9312_0004",
+      "source": "derived_metric:1462-2920.12822:table_s4_bl107_exoproteome:exoproteome_avg_pct_nsaf",
+      "target": "ncbigene:BL107_05009",
       "type": "Derived_metric_quantifies_gene"
     },
     {
       "properties": {
         "metric_bucket": "mid",
-        "metric_percentile": 62.5,
-        "metric_type": "cell_abundance_biovolume_normalized",
-        "rank_by_metric": 382,
-        "value": 1.18e-08
+        "metric_percentile": 70.0,
+        "metric_type": "exoproteome_avg_pct_nsaf",
+        "rank_by_metric": 4,
+        "value": 8.911420775485858
       },
-      "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
-      "target": "ncbigene:PMT9312_0008",
+      "source": "derived_metric:1462-2920.12822:table_s4_bl107_exoproteome:exoproteome_avg_pct_nsaf",
+      "target": "ncbigene:BL107_07569",
       "type": "Derived_metric_quantifies_gene"
     },
     {
       "properties": {
-        "metric_bucket": "top_quartile",
-        "metric_percentile": 75.39370078740157,
-        "metric_type": "cell_abundance_biovolume_normalized",
-        "rank_by_metric": 251,
-        "value": 2.01e-08
+        "metric_bucket": "low",
+        "metric_percentile": 10.0,
+        "metric_type": "exoproteome_avg_pct_nsaf",
+        "rank_by_metric": 10,
+        "value": 1.667746770565082
       },
-      "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
-      "target": "ncbigene:PMT9312_0010",
+      "source": "derived_metric:1462-2920.12822:table_s4_bl107_exoproteome:exoproteome_avg_pct_nsaf",
+      "target": "ncbigene:BL107_08369",
+      "type": "Derived_metric_quantifies_gene"
+    },
+    {
+      "properties": {
+        "metric_bucket": "mid",
+        "metric_percentile": 60.0,
+        "metric_type": "exoproteome_avg_pct_nsaf",
+        "rank_by_metric": 5,
+        "value": 5.118134942273577
+      },
+      "source": "derived_metric:1462-2920.12822:table_s4_bl107_exoproteome:exoproteome_avg_pct_nsaf",
+      "target": "ncbigene:BL107_08384",
       "type": "Derived_metric_quantifies_gene"
     },
     {
@@ -1250,7 +1250,7 @@
         "n_positive": 0,
         "n_replicates": 1
       },
-      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2_extracellular:presence_flag_extracellular",
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_intracellular",
       "target": "chebi:143141",
       "type": "Assay_flags_metabolite"
     },
@@ -1260,37 +1260,37 @@
         "n_positive": 0,
         "n_replicates": 1
       },
-      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2_extracellular:presence_flag_extracellular",
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_intracellular",
       "target": "chebi:84415",
       "type": "Assay_flags_metabolite"
     },
     {
       "properties": {
-        "flag_value": "not_detected",
-        "n_positive": 0,
+        "flag_value": "detected",
+        "n_positive": 1,
         "n_replicates": 1
       },
-      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2_extracellular:presence_flag_extracellular",
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_intracellular",
       "target": "kegg.compound:C00003",
       "type": "Assay_flags_metabolite"
     },
     {
       "properties": {
-        "flag_value": "not_detected",
-        "n_positive": 0,
+        "flag_value": "detected",
+        "n_positive": 1,
         "n_replicates": 1
       },
-      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2_extracellular:presence_flag_extracellular",
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_intracellular",
       "target": "kegg.compound:C00019",
       "type": "Assay_flags_metabolite"
     },
     {
       "properties": {
-        "flag_value": "not_detected",
-        "n_positive": 0,
+        "flag_value": "detected",
+        "n_positive": 1,
         "n_replicates": 1
       },
-      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2_extracellular:presence_flag_extracellular",
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_intracellular",
       "target": "kegg.compound:C00020",
       "type": "Assay_flags_metabolite"
     },
@@ -1867,7 +1867,7 @@
         ]
       },
       "source": "tcdb:1.A.1.10.1",
-      "target": "go:0009611",
+      "target": "go:0007399",
       "type": "Tcdb_family_involved_in_biological_process"
     },
     {
@@ -2301,7 +2301,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-10-26T05:24:29.050496+00:00",
+  "generated_at": "2026-11-01T08:39:57.261303+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -3222,112 +3222,122 @@
     },
     {
       "anchor": false,
-      "id": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
+      "id": "derived_metric:1462-2920.12822:table_s4_bl107_exoproteome:exoproteome_avg_pct_nsaf",
       "label": "DerivedMetric",
       "properties": {
-        "compartment": "vesicle",
-        "experiment_id": "10.1111/1462-2920.15834_vesicle_proteomics_mit9312",
+        "compartment": "exoproteome",
+        "experiment_id": "10.1111/1462-2920.12822_exoproteome_bl107",
         "has_p_value": "no_p_value",
-        "metric_type": "cell_abundance_biovolume_normalized",
-        "name": "MIT9312 whole-cell protein abundance (biovolume-normalized, Trypsin/Lys-C)",
-        "omics_type": "VESICLE_PROTEOMICS",
-        "organism_name": "Prochlorococcus MIT9312",
+        "metric_type": "exoproteome_avg_pct_nsaf",
+        "name": "Avg % NSAF in Synechococcus sp. BL107 exoproteome (Table S4)",
+        "omics_type": "EXOPROTEOMICS",
+        "organism_name": "Synechococcus sp. BL107",
         "rankable": "rankable",
-        "total_gene_count": 1017,
+        "total_gene_count": 11,
         "value_kind": "numeric",
-        "value_max": 8.02e-07,
-        "value_median": 7.67e-09,
-        "value_min": 8.85e-10,
-        "value_q1": 3.25e-09,
-        "value_q3": 2.01e-08
+        "value_max": 44.50795850899701,
+        "value_median": 4.19903201906255,
+        "value_min": 0.1566170868802465,
+        "value_q1": 3.1267538447918843,
+        "value_q3": 9.072532553757053
       }
     },
     {
       "anchor": false,
-      "id": "derived_metric:1462-2920.15834:s3_mit9312_abundance:vesicle_abundance_biovolume_normalized",
+      "id": "derived_metric:1462-2920.12822:table_s4_bl107_exoproteome:exoproteome_detection_status",
       "label": "DerivedMetric",
       "properties": {
-        "compartment": "vesicle",
-        "experiment_id": "10.1111/1462-2920.15834_vesicle_proteomics_mit9312",
+        "category_counts": [
+          7,
+          293,
+          4
+        ],
+        "category_labels": [
+          "detected",
+          "not_detected",
+          "sporadic"
+        ],
+        "compartment": "exoproteome",
+        "experiment_id": "10.1111/1462-2920.12822_exoproteome_bl107",
         "has_p_value": "no_p_value",
-        "metric_type": "vesicle_abundance_biovolume_normalized",
-        "name": "MIT9312 vesicle protein abundance (biovolume-normalized, Trypsin/Lys-C)",
-        "omics_type": "VESICLE_PROTEOMICS",
-        "organism_name": "Prochlorococcus MIT9312",
-        "rankable": "rankable",
-        "total_gene_count": 222,
-        "value_kind": "numeric",
-        "value_max": 2.79e-07,
-        "value_median": 1.18e-09,
-        "value_min": 1.31e-10,
-        "value_q1": 3.92e-10,
-        "value_q3": 4.97e-09
+        "metric_type": "exoproteome_detection_status",
+        "name": "Detection status in Synechococcus sp. BL107 exoproteome (Table S4)",
+        "omics_type": "EXOPROTEOMICS",
+        "organism_name": "Synechococcus sp. BL107",
+        "rankable": "not_rankable",
+        "total_gene_count": 304,
+        "value_kind": "categorical"
       }
     },
     {
       "anchor": false,
-      "id": "derived_metric:1462-2920.15834:s3_mit9313_abundance:cell_abundance_biovolume_normalized",
+      "id": "derived_metric:1462-2920.12822:table_s4_cc9311_exoproteome:exoproteome_avg_pct_nsaf",
       "label": "DerivedMetric",
       "properties": {
-        "compartment": "vesicle",
-        "experiment_id": "10.1111/1462-2920.15834_vesicle_proteomics_mit9313",
+        "compartment": "exoproteome",
+        "experiment_id": "10.1111/1462-2920.12822_exoproteome_cc9311",
         "has_p_value": "no_p_value",
-        "metric_type": "cell_abundance_biovolume_normalized",
-        "name": "MIT9313 whole-cell protein abundance (biovolume-normalized, Trypsin/Lys-C)",
-        "omics_type": "VESICLE_PROTEOMICS",
-        "organism_name": "Prochlorococcus MIT9313",
+        "metric_type": "exoproteome_avg_pct_nsaf",
+        "name": "Avg % NSAF in Synechococcus CC9311 exoproteome (Table S4)",
+        "omics_type": "EXOPROTEOMICS",
+        "organism_name": "Synechococcus CC9311",
         "rankable": "rankable",
-        "total_gene_count": 1052,
+        "total_gene_count": 59,
         "value_kind": "numeric",
-        "value_max": 2.98e-06,
-        "value_median": 1.87e-08,
-        "value_min": 2.24e-09,
-        "value_q1": 7.48e-09,
-        "value_q3": 5.09e-08
+        "value_max": 10.874681263090253,
+        "value_median": 1.097656950977198,
+        "value_min": 0.1059085780595208,
+        "value_q1": 0.4528371119237042,
+        "value_q3": 2.110426648482642
       }
     },
     {
       "anchor": false,
-      "id": "derived_metric:1462-2920.15834:s3_mit9313_abundance:vesicle_abundance_biovolume_normalized",
+      "id": "derived_metric:1462-2920.12822:table_s4_cc9311_exoproteome:exoproteome_detection_status",
       "label": "DerivedMetric",
       "properties": {
-        "compartment": "vesicle",
-        "experiment_id": "10.1111/1462-2920.15834_vesicle_proteomics_mit9313",
+        "category_counts": [
+          46,
+          279,
+          13
+        ],
+        "category_labels": [
+          "detected",
+          "not_detected",
+          "sporadic"
+        ],
+        "compartment": "exoproteome",
+        "experiment_id": "10.1111/1462-2920.12822_exoproteome_cc9311",
         "has_p_value": "no_p_value",
-        "metric_type": "vesicle_abundance_biovolume_normalized",
-        "name": "MIT9313 vesicle protein abundance (biovolume-normalized, Trypsin/Lys-C)",
-        "omics_type": "VESICLE_PROTEOMICS",
-        "organism_name": "Prochlorococcus MIT9313",
-        "rankable": "rankable",
-        "total_gene_count": 355,
-        "value_kind": "numeric",
-        "value_max": 4.31e-07,
-        "value_median": 1.1e-09,
-        "value_min": 2.2e-10,
-        "value_q1": 4.41e-10,
-        "value_q3": 3.42e-09
+        "metric_type": "exoproteome_detection_status",
+        "name": "Detection status in Synechococcus CC9311 exoproteome (Table S4)",
+        "omics_type": "EXOPROTEOMICS",
+        "organism_name": "Synechococcus CC9311",
+        "rankable": "not_rankable",
+        "total_gene_count": 338,
+        "value_kind": "categorical"
       }
     },
     {
       "anchor": false,
-      "id": "derived_metric:1462-2920.15834:s4_mit9312_enrichment:log2_vesicle_cell_enrichment",
+      "id": "derived_metric:1462-2920.12822:table_s4_rs9916_exoproteome:exoproteome_avg_pct_nsaf",
       "label": "DerivedMetric",
       "properties": {
-        "compartment": "vesicle",
-        "experiment_id": "10.1111/1462-2920.15834_vesicle_proteomics_mit9312",
+        "compartment": "exoproteome",
+        "experiment_id": "10.1111/1462-2920.12822_exoproteome_rs9916",
         "has_p_value": "no_p_value",
-        "metric_type": "log2_vesicle_cell_enrichment",
-        "name": "MIT9312 log2 vesicle/cell enrichment (Biller 2022 Table S4)",
-        "omics_type": "VESICLE_PROTEOMICS",
-        "organism_name": "Prochlorococcus MIT9312",
+        "metric_type": "exoproteome_avg_pct_nsaf",
+        "name": "Avg % NSAF in Synechococcus RS9916 exoproteome (Table S4)",
+        "omics_type": "EXOPROTEOMICS",
+        "organism_name": "Synechococcus RS9916",
         "rankable": "rankable",
-        "total_gene_count": 205,
+        "total_gene_count": 41,
         "value_kind": "numeric",
-        "value_max": 2.050230564,
-        "value_median": -3.777845649,
-        "value_min": -10.31939404,
-        "value_q1": -6.277546607,
-        "value_q3": -1.738636687
+        "value_max": 20.35166975722296,
+        "value_median": 1.227461025562328,
+        "value_min": 0.0655723869950804,
+        "value_q1": 0.3910292113230789,
+        "value_q3": 2.239424062038114
       }
     },
     {
@@ -3615,6 +3625,14 @@
     },
     {
       "anchor": false,
+      "id": "pfam.clan:CL0001",
+      "label": "PfamClan",
+      "properties": {
+        "name": "EGF"
+      }
+    },
+    {
+      "anchor": false,
       "id": "pfam.clan:CL0003",
       "label": "PfamClan",
       "properties": {
@@ -3643,14 +3661,6 @@
       "label": "PfamClan",
       "properties": {
         "name": "SH3"
-      }
-    },
-    {
-      "anchor": false,
-      "id": "pfam.clan:CL0013",
-      "label": "PfamClan",
-      "properties": {
-        "name": "Beta-lactamase"
       }
     },
     {

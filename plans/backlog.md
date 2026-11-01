@@ -17,6 +17,18 @@ up — this file is the index, not the plan.
 
 ## KG semantics
 
+- [ ] **Eukaryotic KEGG pathways kept by the category rule (2026-11-01).** The KEGG refresh
+      brought in ko04145 Phagocytosis, ko04149 Peroxisome - yeast and ko04156 Integrated stress
+      response signaling; KEGG files them under Cellular Processes / Environmental Information
+      Processing, which `config/kegg_pathway_exclusions.yaml` keeps (as it already keeps Endocytosis,
+      Peroxisome, Autophagy - animal, Lysosome biogenesis). Decide whether to exclude subcategory
+      "Transport and catabolism" eukaryotic maps by id, then rebuild step 6.
+
+- [ ] **TCDB FASTA lags the TCDB tables (2026-11-01).** `/public/tcdb` was still the 2025-08-04
+      build, so systems TCDB added since then are in the hierarchy (range-only) but no gene can be
+      called onto them. Re-run `/tcdb-diamond --refresh-tcdb --force` + steps 2 6 once
+      `last-modified` moves.
+
 - [ ] **Re-scan all strains with InterProScan 110 (2026-10-31).** The calls.json
       artifacts come from InterProScan 5.78-109.0, but the reference was refreshed
       to InterPro 110.0. The adapter now drops the 38 accessions 110.0 retired

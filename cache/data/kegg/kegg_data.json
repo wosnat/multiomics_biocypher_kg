@@ -10763,6 +10763,7 @@
       "pathways": [
         "ko00630",
         "ko01110",
+        "ko02020",
         "ko04022",
         "ko04210",
         "ko04216",
@@ -11006,6 +11007,7 @@
         "ko01110",
         "ko01240",
         "ko02010",
+        "ko04156",
         "ko04216"
       ],
       "smiles": "C=CC1=C(C)C2=CC3=C(C=C)C(C)=C4C=C5C(C)=C(CCC(=O)[O-])C6=[N+]5[Fe-2]5(N7C(=CC1=[N+]25)C(C)=C(CCC(=O)[O-])C7=C6)N43",
@@ -11122,7 +11124,8 @@
         "ko04015",
         "ko04137",
         "ko04140",
-        "ko04144"
+        "ko04144",
+        "ko04156"
       ],
       "smiles": "NC1=NC2=C(N=CN2[C@@H]2O[C@H](COP(=O)([O-])OP(=O)([O-])[O-])[C@@H](O)[C@H]2O)C(=O)N1",
       "structure_kind": "defined"
@@ -11665,6 +11668,7 @@
         "ko04137",
         "ko04140",
         "ko04144",
+        "ko04156",
         "ko05111"
       ],
       "smiles": "NC1=NC2=C(N=CN2[C@@H]2O[C@H](COP(=O)([O-])OP(=O)([O-])OP(=O)([O-])[O-])[C@@H](O)[C@H]2O)C(=O)N1",
@@ -11711,6 +11715,10 @@
         "MNXM735844"
       ],
       "name": "Amino acid",
+      "pathways": [
+        "ko00966",
+        "ko01310"
+      ],
       "structure_kind": "generic"
     },
     "C00046": {
@@ -12480,6 +12488,7 @@
         "ko00331",
         "ko00470",
         "ko00970",
+        "ko00997",
         "ko00998",
         "ko01100",
         "ko01110",
@@ -13315,6 +13324,7 @@
         "ko00470",
         "ko00480",
         "ko00975",
+        "ko00997",
         "ko00998",
         "ko01100",
         "ko01110",
@@ -13639,7 +13649,6 @@
         "ko00940",
         "ko00950",
         "ko00965",
-        "ko00966",
         "ko00970",
         "ko00997",
         "ko00998",
@@ -14499,6 +14508,7 @@
         "ko00260",
         "ko00270",
         "ko00311",
+        "ko00340",
         "ko00430",
         "ko00460",
         "ko00470",
@@ -15782,7 +15792,6 @@
       "pathways": [
         "ko00280",
         "ko00290",
-        "ko00966",
         "ko00970",
         "ko01100",
         "ko01110",
@@ -16664,7 +16673,6 @@
         "ko00290",
         "ko00770",
         "ko00785",
-        "ko00966",
         "ko01100",
         "ko01110",
         "ko01210",
@@ -18401,7 +18409,6 @@
         "ko00311",
         "ko00460",
         "ko00770",
-        "ko00966",
         "ko00970",
         "ko01100",
         "ko01110",
@@ -20402,7 +20409,6 @@
         "ko00280",
         "ko00290",
         "ko00785",
-        "ko00966",
         "ko01100",
         "ko01110",
         "ko01210",
@@ -20508,6 +20514,7 @@
       "mnxm_id": "MNXM132",
       "name": "Dimethylallyl diphosphate",
       "pathways": [
+        "ko00592",
         "ko00740",
         "ko00900",
         "ko00908",
@@ -22834,6 +22841,7 @@
       "name": "ADP-ribose",
       "pathways": [
         "ko00230",
+        "ko00760",
         "ko01100"
       ],
       "smiles": "NC1=C2N=CN([C@@H]3O[C@H](COP(=O)(O)OP(=O)(O)OC[C@H]4O[C@@H](O)[C@H](O)[C@@H]4O)[C@@H](O)[C@H]3O)C2=NC=N1",
@@ -26300,13 +26308,15 @@
       "pathways": [
         "ko00073",
         "ko00330",
+        "ko00627",
         "ko00940",
         "ko00941",
         "ko00945",
         "ko00996",
         "ko00999",
         "ko01100",
-        "ko01110"
+        "ko01110",
+        "ko01120"
       ],
       "smiles": "COC1=CC(/C=C/C(=O)SCCNC(=O)CCNC(=O)[C@H](O)C(C)(C)COP(=O)([O-])OP(=O)([O-])OC[C@H]2O[C@@H](N3C=NC4=C3N=CN=C4N)[C@H](O)[C@@H]2OP(=O)([O-])[O-])=CC=C1O",
       "structure_kind": "defined"
@@ -26362,7 +26372,6 @@
         "ko00290",
         "ko00460",
         "ko00960",
-        "ko00966",
         "ko00970",
         "ko01100",
         "ko01110",
@@ -26886,6 +26895,7 @@
       "name": "(R)-Mevalonate",
       "pathways": [
         "ko00900",
+        "ko00975",
         "ko01100",
         "ko01110",
         "ko04216"
@@ -29313,7 +29323,8 @@
         "O"
       ],
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C33H32N4O6",
       "hmdb_id": "HMDB0001008",
@@ -31312,6 +31323,7 @@
       "mnxm_id": "MNXM1094294",
       "name": "Trimethylamine",
       "pathways": [
+        "ko00260",
         "ko00680",
         "ko01100",
         "ko01120",
@@ -33563,8 +33575,10 @@
       "mnxm_id": "MNXM735669",
       "name": "gamma-L-Glutamyl-L-cysteine",
       "pathways": [
+        "ko00340",
         "ko00480",
         "ko01100",
+        "ko01110",
         "ko01240",
         "ko04216"
       ],
@@ -33665,7 +33679,6 @@
         "ko00280",
         "ko00290",
         "ko00785",
-        "ko00966",
         "ko01100",
         "ko01110",
         "ko01210",
@@ -34685,6 +34698,9 @@
       ],
       "mnxm_id": "MNXM735856",
       "name": "Amine",
+      "pathways": [
+        "ko00966"
+      ],
       "structure_kind": "generic"
     },
     "C00707": {
@@ -35144,6 +35160,7 @@
       "name": "Nitrile",
       "pathways": [
         "ko00910",
+        "ko00966",
         "ko01100"
       ],
       "structure_kind": "generic"
@@ -46712,7 +46729,8 @@
         "H"
       ],
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "CH4",
       "hmdb_id": "HMDB0002714",
@@ -47191,10 +47209,12 @@
       "mnxm_id": "MNXM573",
       "name": "Ferulate",
       "pathways": [
+        "ko00627",
         "ko00940",
         "ko00996",
         "ko01100",
-        "ko01110"
+        "ko01110",
+        "ko01120"
       ],
       "smiles": "COC1=CC(/C=C/C(=O)[O-])=CC=C1O",
       "structure_kind": "defined"
@@ -57398,7 +57418,9 @@
       "name": "3-Indoleacetonitrile",
       "pathways": [
         "ko00380",
-        "ko01100"
+        "ko00966",
+        "ko01100",
+        "ko01110"
       ],
       "smiles": "N#CCC1=CNC2=C1C=CC=C2",
       "structure_kind": "defined"
@@ -75075,7 +75097,8 @@
       "name": "Ergothioneine",
       "pathways": [
         "ko00340",
-        "ko01100"
+        "ko01100",
+        "ko01110"
       ],
       "smiles": "C[N+](C)(C)[C@@H](CC1=CNC(=S)N1)C(=O)[O-]",
       "structure_kind": "defined"
@@ -75118,7 +75141,8 @@
       "name": "Hercynine",
       "pathways": [
         "ko00340",
-        "ko01100"
+        "ko01100",
+        "ko01110"
       ],
       "smiles": "C[N+](C)(C)[C@@H](CC1=CNC=N1)C(=O)[O-]",
       "structure_kind": "defined"
@@ -75562,8 +75586,10 @@
       "name": "3-Methoxytyramine",
       "pathways": [
         "ko00350",
+        "ko00950",
         "ko00965",
-        "ko01100"
+        "ko01100",
+        "ko01110"
       ],
       "smiles": "COC1=CC(CC[NH3+])=CC=C1O",
       "structure_kind": "defined"
@@ -75918,10 +75944,6 @@
       "mass": 120.151,
       "mnxm_id": "MNXM6890",
       "name": "4-Hydroxystyrene",
-      "pathways": [
-        "ko00940",
-        "ko01110"
-      ],
       "smiles": "C=CC1=CC=C(O)C=C1",
       "structure_kind": "defined"
     },
@@ -83183,10 +83205,7 @@
       ],
       "mass": 136.15,
       "mnxm_id": "MNXM9958",
-      "name": "3,4-Dihydroxystyrene",
-      "pathways": [
-        "ko00940"
-      ],
+      "name": "4-Vinylcatechol",
       "smiles": "C=CC1=CC=C(O)C(O)=C1",
       "structure_kind": "defined"
     },
@@ -86464,6 +86483,7 @@
       "name": "Vanillate",
       "pathways": [
         "ko00627",
+        "ko01100",
         "ko01120"
       ],
       "smiles": "COC1=C(O)C=CC(C(=O)[O-])=C1",
@@ -87910,7 +87930,8 @@
       "mnxm_id": "MNXM737708",
       "name": "Hemine",
       "pathways": [
-        "ko02010"
+        "ko02010",
+        "ko02020"
       ],
       "smiles": "C=CC1=C(C)/C2=C/C3=C(C=C)C(C)=C4/C=C5\\N=C(/C=C6C(/CCC(=O)O)=C(C)/C(=C/C1=N2)N/6[Fe](Cl)N43)C(CCC(=O)O)=C5C",
       "structure_kind": "defined"
@@ -90814,9 +90835,11 @@
       "mnxm_id": "MNXM2077",
       "name": "4-Hydroxy-3-methoxyphenyl-beta-hydroxypropanoyl-CoA",
       "pathways": [
+        "ko00627",
         "ko00996",
         "ko01100",
-        "ko01110"
+        "ko01110",
+        "ko01120"
       ],
       "smiles": "COC1=CC(C(O)CC(=O)SCCNC(=O)CCNC(=O)[C@H](O)C(C)(C)COP(=O)([O-])OP(=O)([O-])OC[C@H]2O[C@@H](N3C=NC4=C3N=CN=C4N)[C@H](O)[C@@H]2OP(=O)([O-])[O-])=CC=C1O",
       "structure_kind": "defined"
@@ -98534,6 +98557,7 @@
       "name": "2-Heptyl-3-hydroxy-quinolone",
       "pathways": [
         "ko00405",
+        "ko01100",
         "ko01110",
         "ko02024",
         "ko02025"
@@ -106994,6 +107018,7 @@
       "pathways": [
         "ko00460",
         "ko00643",
+        "ko00966",
         "ko01100",
         "ko01110",
         "ko01120"
@@ -112108,6 +112133,7 @@
       "name": "2-(3'-Methylthio)propylmalic acid",
       "pathways": [
         "ko00966",
+        "ko01110",
         "ko01210"
       ],
       "smiles": "CSCCCC(O)(CC(=O)[O-])C(=O)[O-]",
@@ -112150,6 +112176,7 @@
       "name": "3-(3'-Methylthio)propylmalic acid",
       "pathways": [
         "ko00966",
+        "ko01110",
         "ko01210"
       ],
       "smiles": "CSCCCC(C(=O)[O-])C(O)C(=O)[O-]",
@@ -112187,7 +112214,6 @@
       "mnxm_id": "MNXM5447",
       "name": "2-(4'-Methylthio)butylmalic acid",
       "pathways": [
-        "ko00966",
         "ko01210"
       ],
       "smiles": "CSCCCCC(O)(CC(=O)O)C(=O)O",
@@ -112225,7 +112251,6 @@
       "mnxm_id": "MNXM5505",
       "name": "3-(4'-Methylthio)butylmalic acid",
       "pathways": [
-        "ko00966",
         "ko01210"
       ],
       "smiles": "CSCCCCC(C(=O)O)C(O)C(=O)O",
@@ -112263,7 +112288,6 @@
       "mnxm_id": "MNXM5448",
       "name": "2-(5'-Methylthio)pentylmalic acid",
       "pathways": [
-        "ko00966",
         "ko01210"
       ],
       "smiles": "CSCCCCCC(O)(CC(=O)O)C(=O)O",
@@ -112301,7 +112325,6 @@
       "mnxm_id": "MNXM5506",
       "name": "3-(5'-Methylthio)pentylmalic acid",
       "pathways": [
-        "ko00966",
         "ko01210"
       ],
       "smiles": "CSCCCCCC(C(=O)O)C(O)C(=O)O",
@@ -112339,7 +112362,6 @@
       "mnxm_id": "MNXM5449",
       "name": "2-(6'-Methylthio)hexylmalic acid",
       "pathways": [
-        "ko00966",
         "ko01210"
       ],
       "smiles": "CSCCCCCCC(O)(CC(=O)O)C(=O)O",
@@ -112377,7 +112399,6 @@
       "mnxm_id": "MNXM5507",
       "name": "3-(6'-Methylthio)hexylmalic acid",
       "pathways": [
-        "ko00966",
         "ko01210"
       ],
       "smiles": "CSCCCCCCC(C(=O)O)C(O)C(=O)O",
@@ -112415,7 +112436,6 @@
       "mnxm_id": "MNXM5450",
       "name": "2-(7'-Methylthio)heptylmalic acid",
       "pathways": [
-        "ko00966",
         "ko01210"
       ],
       "smiles": "CSCCCCCCCC(O)(CC(=O)O)C(=O)O",
@@ -112453,7 +112473,6 @@
       "mnxm_id": "MNXM5508",
       "name": "3-(7'-Methylthio)heptylmalic acid",
       "pathways": [
-        "ko00966",
         "ko01210"
       ],
       "smiles": "CSCCCCCCCC(C(=O)O)C(O)C(=O)O",
@@ -112489,6 +112508,9 @@
       ],
       "mnxm_id": "MNXM727156",
       "name": "Glucosinolate",
+      "pathways": [
+        "ko00966"
+      ],
       "structure_kind": "generic"
     },
     "C17322": {
@@ -120058,6 +120080,7 @@
       "name": "2-Heptyl-4(1H)-quinolone",
       "pathways": [
         "ko00405",
+        "ko01100",
         "ko01110",
         "ko02024",
         "ko02025"
@@ -120500,56 +120523,6 @@
       ],
       "mnxm_id": "MNXM147735",
       "name": "2-Methylthio-N6-L-threonylcarbamoyladenine in tRNA",
-      "structure_kind": "generic"
-    },
-    "C20753": {
-      "all_identifiers": [
-        "kegg.compound:C20753",
-        "mnx:MNXM147734"
-      ],
-      "elements": [
-        "C",
-        "H",
-        "N",
-        "O",
-        "P",
-        "S"
-      ],
-      "evidence_sources": [
-        "metabolism"
-      ],
-      "formula": "C26H40N5O19P3S*2",
-      "kegg_compound_id": "C20753",
-      "kegg_compound_ids": [
-        "C20753"
-      ],
-      "mnxm_id": "MNXM147734",
-      "name": "2-Methylthio-N6-dimethylallyladenine in tRNA",
-      "structure_kind": "generic"
-    },
-    "C20755": {
-      "all_identifiers": [
-        "kegg.compound:C20755",
-        "mnx:MNXM147740"
-      ],
-      "elements": [
-        "C",
-        "H",
-        "N",
-        "O",
-        "P",
-        "S"
-      ],
-      "evidence_sources": [
-        "metabolism"
-      ],
-      "formula": "C25H38N5O19P3S*2",
-      "kegg_compound_id": "C20755",
-      "kegg_compound_ids": [
-        "C20755"
-      ],
-      "mnxm_id": "MNXM147740",
-      "name": "2-Thio-N6-dimethylallyladenine in tRNA",
       "structure_kind": "generic"
     },
     "C20756": {
@@ -121991,7 +121964,8 @@
       "name": "gamma-L-Glutamyl-S-(hercyn-2-yl)-L-cysteine S-oxide",
       "pathways": [
         "ko00340",
-        "ko01100"
+        "ko01100",
+        "ko01110"
       ],
       "smiles": "C[N+](C)(C)[C@@H](CC1=CNC(S(=O)C[C@H](NC(=O)CC[C@H]([NH3+])C(=O)[O-])C(=O)[O-])=N1)C(=O)[O-]",
       "structure_kind": "defined"
@@ -127889,21 +127863,16 @@
   },
   "kos": {
     "K00001": {
-      "name": "E1.1.1.1, adh; alcohol dehydrogenase [EC:1.1.1.1]",
+      "name": "ADH; alcohol dehydrogenase [EC:1.1.1.1]",
       "pathways": [
         "ko00010",
         "ko00071",
         "ko00350",
         "ko00620",
-        "ko00625",
-        "ko00626",
         "ko00830",
-        "ko00980",
-        "ko00982",
         "ko01100",
         "ko01110",
-        "ko01120",
-        "ko01220"
+        "ko01120"
       ]
     },
     "K00002": {
@@ -128115,7 +128084,7 @@
       ]
     },
     "K00031": {
-      "name": "IDH1, IDH2, icd; isocitrate dehydrogenase [EC:1.1.1.42]",
+      "name": "IDH1, IDH2, icd, IDP; isocitrate dehydrogenase [EC:1.1.1.42]",
       "pathways": [
         "ko00020",
         "ko00480",
@@ -128126,7 +128095,8 @@
         "ko01200",
         "ko01210",
         "ko01230",
-        "ko04146"
+        "ko04146",
+        "ko04149"
       ]
     },
     "K00032": {
@@ -128432,7 +128402,7 @@
       ]
     },
     "K00101": {
-      "name": "lldD; L-lactate dehydrogenase (cytochrome) [EC:1.1.2.3]",
+      "name": "CYB2, FCB2; L-lactate dehydrogenase (cytochrome) [EC:1.1.2.3]",
       "pathways": [
         "ko00620",
         "ko01100"
@@ -129779,7 +129749,8 @@
       "name": "GSR, gor; glutathione reductase (NADPH) [EC:1.8.1.7]",
       "pathways": [
         "ko00480",
-        "ko01100"
+        "ko01100",
+        "ko04149"
       ]
     },
     "K00384": {
@@ -132017,7 +131988,8 @@
     "K00962": {
       "name": "pnp, PNPT1; polyribonucleotide nucleotidyltransferase [EC:2.7.7.8]",
       "pathways": [
-        "ko03018"
+        "ko03018",
+        "ko03440"
       ]
     },
     "K00963": {
@@ -132441,7 +132413,7 @@
       ]
     },
     "K01061": {
-      "name": "E3.1.1.45; carboxymethylenebutenolidase [EC:3.1.1.45]",
+      "name": "clcD; carboxymethylenebutenolidase [EC:3.1.1.45]",
       "pathways": [
         "ko00361",
         "ko00364",
@@ -132485,13 +132457,14 @@
       ]
     },
     "K01077": {
-      "name": "E3.1.3.1, phoA, phoB; alkaline phosphatase [EC:3.1.3.1]",
+      "name": "ALP, phoA, phoB; alkaline phosphatase [EC:3.1.3.1]",
       "pathways": [
         "ko00730",
         "ko00790",
         "ko01100",
         "ko01240",
-        "ko02020"
+        "ko02020",
+        "ko04145"
       ]
     },
     "K01079": {
@@ -132950,7 +132923,9 @@
       "name": "E3.2.1.86B, bglA; 6-phospho-beta-glucosidase [EC:3.2.1.86]",
       "pathways": [
         "ko00010",
-        "ko00500"
+        "ko00500",
+        "ko00966",
+        "ko01110"
       ]
     },
     "K01235": {
@@ -133316,7 +133291,7 @@
       ]
     },
     "K01442": {
-      "name": "cbh; choloylglycine hydrolase [EC:3.5.1.24]",
+      "name": "cbh, bsh; choloylglycine hydrolase [EC:3.5.1.24]",
       "pathways": [
         "ko00120",
         "ko00121",
@@ -133763,7 +133738,8 @@
     "K01551": {
       "name": "arsA, ASNA1, GET3; arsenite/tail-anchored protein-transporting ATPase [EC:7.3.2.7 7.3.-.-]",
       "pathways": [
-        "ko03060"
+        "ko03060",
+        "ko04149"
       ]
     },
     "K01555": {
@@ -134107,7 +134083,7 @@
       ]
     },
     "K01620": {
-      "name": "ltaE; threonine aldolase [EC:4.1.2.48]",
+      "name": "ltaE, THA; threonine aldolase [EC:4.1.2.48]",
       "pathways": [
         "ko00260",
         "ko01100",
@@ -134226,14 +134202,15 @@
       ]
     },
     "K01638": {
-      "name": "aceB, glcB; malate synthase [EC:2.3.3.9]",
+      "name": "aceB, glcB, MLS; malate synthase [EC:2.3.3.9]",
       "pathways": [
         "ko00620",
         "ko00630",
         "ko01100",
         "ko01110",
         "ko01120",
-        "ko01200"
+        "ko01200",
+        "ko04149"
       ]
     },
     "K01640": {
@@ -134254,7 +134231,7 @@
       ]
     },
     "K01647": {
-      "name": "CS, gltA; citrate synthase [EC:2.3.3.1]",
+      "name": "CS, gltA, CIT; citrate synthase [EC:2.3.3.1]",
       "pathways": [
         "ko00020",
         "ko00630",
@@ -134263,7 +134240,8 @@
         "ko01120",
         "ko01200",
         "ko01210",
-        "ko01230"
+        "ko01230",
+        "ko04149"
       ]
     },
     "K01649": {
@@ -134982,7 +134960,8 @@
         "ko00450",
         "ko01100",
         "ko01110",
-        "ko01230"
+        "ko01230",
+        "ko04149"
       ]
     },
     "K01761": {
@@ -135726,6 +135705,7 @@
         "ko01212",
         "ko02024",
         "ko04146",
+        "ko04149",
         "ko04216"
       ]
     },
@@ -135832,18 +135812,19 @@
       ]
     },
     "K01919": {
-      "name": "gshA; glutamate--cysteine ligase [EC:6.3.2.2]",
+      "name": "gshA, egtA; glutamate---cysteine ligase [EC:6.3.2.2]",
       "pathways": [
         "ko00270",
+        "ko00340",
         "ko00480",
         "ko01100",
+        "ko01110",
         "ko01240"
       ]
     },
     "K01920": {
       "name": "gshB; glutathione synthase [EC:6.3.2.3]",
       "pathways": [
-        "ko00270",
         "ko00480",
         "ko01100",
         "ko01240"
@@ -137278,17 +137259,21 @@
       "name": "dnaB; replicative DNA helicase [EC:5.6.2.3]",
       "pathways": [
         "ko03030",
+        "ko03440",
         "ko04112"
       ]
     },
     "K02315": {
       "name": "dnaC; DNA replication protein DnaC",
-      "pathways": []
+      "pathways": [
+        "ko03440"
+      ]
     },
     "K02316": {
       "name": "dnaG; DNA primase [EC:2.7.7.101]",
       "pathways": [
-        "ko03030"
+        "ko03030",
+        "ko03440"
       ]
     },
     "K02317": {
@@ -139786,7 +139771,9 @@
     },
     "K03169": {
       "name": "topB; DNA topoisomerase III [EC:5.6.2.1]",
-      "pathways": []
+      "pathways": [
+        "ko03440"
+      ]
     },
     "K03177": {
       "name": "truB, PUS4, TRUB1; tRNA pseudouridine55 synthase [EC:5.4.99.25]",
@@ -139853,7 +139840,6 @@
         "ko00627",
         "ko00740",
         "ko00900",
-        "ko00940",
         "ko01100",
         "ko01110",
         "ko01120",
@@ -140699,11 +140685,15 @@
     },
     "K03546": {
       "name": "sbcC, rad50; DNA repair protein SbcC/Rad50",
-      "pathways": []
+      "pathways": [
+        "ko03440"
+      ]
     },
     "K03547": {
       "name": "sbcD, mre11; DNA repair protein SbcD/Mre11",
-      "pathways": []
+      "pathways": [
+        "ko03440"
+      ]
     },
     "K03548": {
       "name": "perM; putative permease",
@@ -140786,7 +140776,9 @@
     },
     "K03565": {
       "name": "recX; regulatory protein",
-      "pathways": []
+      "pathways": [
+        "ko03440"
+      ]
     },
     "K03566": {
       "name": "gcvA; LysR family transcriptional regulator, glycine cleavage system transcriptional activator",
@@ -141085,7 +141077,9 @@
     },
     "K03631": {
       "name": "recN; DNA repair protein RecN (Recombination protein N)",
-      "pathways": []
+      "pathways": [
+        "ko03440"
+      ]
     },
     "K03634": {
       "name": "lolA; outer membrane lipoprotein carrier protein",
@@ -141196,7 +141190,8 @@
     "K03654": {
       "name": "recQ; ATP-dependent DNA helicase RecQ [EC:5.6.2.4]",
       "pathways": [
-        "ko03018"
+        "ko03018",
+        "ko03440"
       ]
     },
     "K03655": {
@@ -141210,10 +141205,11 @@
       "pathways": []
     },
     "K03657": {
-      "name": "uvrD, pcrA; ATP-dependent DNA helicase UvrD/PcrA [EC:5.6.2.4]",
+      "name": "uvrD, pcrA, SRS2; ATP-dependent DNA helicase UvrD/PcrA/SRS2 [EC:5.6.2.4]",
       "pathways": [
         "ko03420",
-        "ko03430"
+        "ko03430",
+        "ko03440"
       ]
     },
     "K03658": {
@@ -141662,7 +141658,8 @@
         "ko04011",
         "ko04016",
         "ko04068",
-        "ko04146"
+        "ko04146",
+        "ko04149"
       ]
     },
     "K03782": {
@@ -141717,7 +141714,7 @@
       ]
     },
     "K03789": {
-      "name": "rimI; [ribosomal protein S18]-alanine N-acetyltransferase [EC:2.3.1.266]",
+      "name": "rimI; [ribosomal protein S18]-alanine N-acetyltransferase / [ribosomal protein L31]-L-lysine N-acetyltransferase [EC:2.3.1.266 2.3.1.338]",
       "pathways": []
     },
     "K03790": {
@@ -141887,11 +141884,11 @@
       ]
     },
     "K03826": {
-      "name": "yiaC; putative acetyltransferase [EC:2.3.1.-]",
+      "name": "yiaB_C; [protein]-L-lysine N-acetyltransferase [EC:2.3.1.338]",
       "pathways": []
     },
     "K03827": {
-      "name": "yjaB; putative acetyltransferase [EC:2.3.1.-]",
+      "name": "",
       "pathways": []
     },
     "K03828": {
@@ -141989,6 +141986,7 @@
       "name": "vanA; vanillate monooxygenase [EC:1.14.13.82]",
       "pathways": [
         "ko00627",
+        "ko01100",
         "ko01120"
       ]
     },
@@ -141996,6 +141994,7 @@
       "name": "vanB; vanillate monooxygenase ferredoxin subunit",
       "pathways": [
         "ko00627",
+        "ko01100",
         "ko01120"
       ]
     },
@@ -142116,7 +142115,8 @@
       "name": "pspE; thiosulfate sulfurtransferase [EC:2.8.1.1]",
       "pathways": [
         "ko00920",
-        "ko01100"
+        "ko01100",
+        "ko01120"
       ]
     },
     "K03973": {
@@ -142251,7 +142251,8 @@
     "K04043": {
       "name": "dnaK, HSPA9; molecular chaperone DnaK",
       "pathways": [
-        "ko03018"
+        "ko03018",
+        "ko04156"
       ]
     },
     "K04044": {
@@ -142341,9 +142342,10 @@
       "pathways": []
     },
     "K04077": {
-      "name": "groEL, HSPD1, HSP60, CPN60; chaperonin GroEL [EC:5.6.1.7]",
+      "name": "groEL, HSPD1, HSP60, CPN60, ths; chaperonin GroEL [EC:5.6.1.7]",
       "pathways": [
-        "ko03018"
+        "ko03018",
+        "ko04156"
       ]
     },
     "K04078": {
@@ -142355,6 +142357,7 @@
       "pathways": [
         "ko04141",
         "ko04151",
+        "ko04156",
         "ko04217"
       ]
     },
@@ -142685,7 +142688,7 @@
       "pathways": []
     },
     "K04749": {
-      "name": "rsbV; anti-sigma B factor antagonist",
+      "name": "rsbV, rsfB; anti-sigma B/F factor antagonist",
       "pathways": []
     },
     "K04750": {
@@ -142714,7 +142717,7 @@
       ]
     },
     "K04757": {
-      "name": "rsbW; serine/threonine-protein kinase RsbW [EC:2.7.11.1]",
+      "name": "rsbW; serine/threonine-protein kinase RsbW (anti-sigma-B/F factor) [EC:2.7.11.1]",
       "pathways": []
     },
     "K04758": {
@@ -143355,7 +143358,7 @@
       "pathways": []
     },
     "K05592": {
-      "name": "deaD, cshA; ATP-dependent RNA helicase DeaD [EC:5.6.2.7]",
+      "name": "deaD, cshA, dbpA; ATP-dependent RNA helicase DeaD [EC:5.6.2.7]",
       "pathways": [
         "ko03018"
       ]
@@ -145523,7 +145526,8 @@
       "pathways": [
         "ko00230",
         "ko01100",
-        "ko01120"
+        "ko01120",
+        "ko02020"
       ]
     },
     "K07130": {
@@ -145576,7 +145580,9 @@
     },
     "K07147": {
       "name": "msrP; methionine sulfoxide reductase catalytic subunit [EC:1.8.-.-]",
-      "pathways": []
+      "pathways": [
+        "ko02020"
+      ]
     },
     "K07148": {
       "name": "K07148; uncharacterized protein",
@@ -145768,7 +145774,8 @@
       "name": "CHAC, chaC; glutathione-specific gamma-glutamylcyclotransferase [EC:4.3.2.7]",
       "pathways": [
         "ko00480",
-        "ko01100"
+        "ko01100",
+        "ko04156"
       ]
     },
     "K07233": {
@@ -147502,8 +147509,10 @@
       "pathways": []
     },
     "K08675": {
-      "name": "PRSS15, PIM1; ATP-dependent Lon protease [EC:3.4.21.53]",
-      "pathways": []
+      "name": "LONP1, PRSS15, PIM1; ATP-dependent Lon protease [EC:3.4.21.53]",
+      "pathways": [
+        "ko04156"
+      ]
     },
     "K08676": {
       "name": "tri; tricorn protease [EC:3.4.21.-]",
@@ -148052,7 +148061,7 @@
       "pathways": []
     },
     "K09181": {
-      "name": "yfiQ; acetyltransferase",
+      "name": "patZ; [protein]-L-lysine N-acetyltransferase [EC:2.3.1.338]",
       "pathways": []
     },
     "K09190": {
@@ -148995,7 +149004,7 @@
       "pathways": []
     },
     "K09994": {
-      "name": "phnO; (aminoalkyl)phosphonate N-acetyltransferase [EC:2.3.1.280]",
+      "name": "phnO; (aminoalkyl)phosphonate N-acetyltransferase / [protein]-L-lysine N-acetyltransferase [EC:2.3.1.280 2.3.1.338]",
       "pathways": [
         "ko00440"
       ]
@@ -149408,7 +149417,11 @@
     },
     "K10531": {
       "name": "pvdA, SIDA; L-ornithine N5-monooxygenase [EC:1.14.13.195 1.14.13.196]",
-      "pathways": []
+      "pathways": [
+        "ko00975",
+        "ko01100",
+        "ko01110"
+      ]
     },
     "K10535": {
       "name": "hao; hydroxylamine dehydrogenase [EC:1.7.2.6]",
@@ -149540,7 +149553,8 @@
         "ko03030",
         "ko03410",
         "ko03420",
-        "ko03430"
+        "ko03430",
+        "ko03440"
       ]
     },
     "K10748": {
@@ -149827,7 +149841,7 @@
       "pathways": []
     },
     "K11031": {
-      "name": "slo; thiol-activated cytolysin",
+      "name": "slo, hly, ply, alo, alv, pfo; thiol-activated cytolysin",
       "pathways": [
         "ko02024"
       ]
@@ -151152,8 +151166,12 @@
       "pathways": []
     },
     "K12508": {
-      "name": "fcs; feruloyl-CoA synthase [EC:6.2.1.34]",
-      "pathways": []
+      "name": "fcs; trans-feruloyl-CoA synthase [EC:6.2.1.34]",
+      "pathways": [
+        "ko00627",
+        "ko01100",
+        "ko01120"
+      ]
     },
     "K12510": {
       "name": "tadB; tight adherence protein B",
@@ -154382,11 +154400,15 @@
     },
     "K16898": {
       "name": "addA; ATP-dependent helicase/nuclease subunit A [EC:5.6.2.4 3.1.-.-]",
-      "pathways": []
+      "pathways": [
+        "ko03440"
+      ]
     },
     "K16899": {
       "name": "addB; ATP-dependent helicase/nuclease subunit B [EC:5.6.2.4 3.1.-.-]",
-      "pathways": []
+      "pathways": [
+        "ko03440"
+      ]
     },
     "K16915": {
       "name": "cbiL; nickel transport protein",
@@ -154608,7 +154630,9 @@
     },
     "K17247": {
       "name": "msrQ; methionine sulfoxide reductase heme-binding subunit",
-      "pathways": []
+      "pathways": [
+        "ko02020"
+      ]
     },
     "K17248": {
       "name": "pglJ; N-acetylgalactosamine-N,N'-diacetylbacillosaminyl-diphospho-undecaprenol 4-alpha-N-acetylgalactosaminyltransferase [EC:2.4.1.291]",
@@ -154858,6 +154882,7 @@
       "name": "pqsH; 2-heptyl-3-hydroxy-4(1H)-quinolone synthase [EC:1.14.13.182]",
       "pathways": [
         "ko00405",
+        "ko01100",
         "ko01110",
         "ko02024",
         "ko02025"
@@ -155263,9 +155288,11 @@
     "K18383": {
       "name": "ferB; feruloyl-CoA hydratase/lyase [EC:4.1.2.61]",
       "pathways": [
+        "ko00627",
         "ko00996",
         "ko01100",
-        "ko01110"
+        "ko01110",
+        "ko01120"
       ]
     },
     "K18425": {
@@ -155642,7 +155669,8 @@
       "name": "egtB; gamma-glutamyl hercynylcysteine S-oxide synthase [EC:1.14.99.50]",
       "pathways": [
         "ko00340",
-        "ko01100"
+        "ko01100",
+        "ko01110"
       ]
     },
     "K18916": {
@@ -157526,6 +157554,7 @@
       "name": "vdh; vanillin dehydrogenase [EC:1.2.1.67]",
       "pathways": [
         "ko00627",
+        "ko01100",
         "ko01120"
       ]
     },
@@ -158577,7 +158606,7 @@
       "subcategory": "09110"
     },
     "ko00966": {
-      "name": "Glucosinolate biosynthesis",
+      "name": "Glucosinolate metabolism",
       "subcategory": "09110"
     },
     "ko00970": {
@@ -158947,12 +158976,20 @@
       "name": "Endocytosis",
       "subcategory": "09141"
     },
+    "ko04145": {
+      "name": "Phagocytosis",
+      "subcategory": "09141"
+    },
     "ko04146": {
       "name": "Peroxisome",
       "subcategory": "09141"
     },
     "ko04148": {
       "name": "Efferocytosis",
+      "subcategory": "09141"
+    },
+    "ko04149": {
+      "name": "Peroxisome - yeast",
       "subcategory": "09141"
     },
     "ko04150": {
@@ -158966,6 +159003,10 @@
     "ko04152": {
       "name": "AMPK signaling pathway",
       "subcategory": "09132"
+    },
+    "ko04156": {
+      "name": "Integrated stress response (ISR) signaling pathway",
+      "subcategory": "09143"
     },
     "ko04210": {
       "name": "Apoptosis",
@@ -168059,8 +168100,10 @@
       "mnxr_id": "MNXR100074",
       "name": "L-glutamate:L-cysteine gamma-ligase (ADP-forming); ATP + L-Glutamate + L-Cysteine <=> ADP + Orthophosphate + gamma-L-Glutamyl-L-cysteine",
       "pathways": [
+        "ko00340",
         "ko00480",
         "ko01100",
+        "ko01110",
         "ko01240"
       ],
       "reaction_class": "chemical",
@@ -170342,7 +170385,6 @@
       "pathways": [
         "ko00280",
         "ko00290",
-        "ko00966",
         "ko01100",
         "ko01110",
         "ko01210",
@@ -171593,7 +171635,6 @@
         "ko00280",
         "ko00290",
         "ko00770",
-        "ko00966",
         "ko01100",
         "ko01110",
         "ko01210",
@@ -179786,7 +179827,6 @@
       "pathways": [
         "ko00280",
         "ko00290",
-        "ko00966",
         "ko01100",
         "ko01110",
         "ko01210",
@@ -181176,6 +181216,7 @@
       "name": "monophenol,L-dopa:oxygen oxidoreductase; Tyramine + Oxygen + NADH + H+ <=> Dopamine + NAD+ + H2O",
       "pathways": [
         "ko00950",
+        "ko01100",
         "ko01110"
       ],
       "reaction_class": "chemical",
@@ -184680,10 +184721,7 @@
       "mass_balance": "balanced",
       "mnxr_id": "MNXR195695",
       "name": "phenylacrylic acid decarboxylase; 4-Coumarate <=> 4-Hydroxystyrene + CO2",
-      "pathways": [
-        "ko00940",
-        "ko01110"
-      ],
+      "pathways": [],
       "reaction_class": "chemical",
       "rhea_ids": [
         "33227",
@@ -187062,10 +187100,8 @@
       ],
       "mass_balance": "balanced",
       "mnxr_id": "MNXR195721",
-      "name": "Caffeate <=> 3,4-Dihydroxystyrene + CO2",
-      "pathways": [
-        "ko00940"
-      ],
+      "name": "Caffeate <=> 4-Vinylcatechol + CO2",
+      "pathways": [],
       "reaction_class": "chemical",
       "rhea_ids": []
     },
@@ -196682,6 +196718,7 @@
       "name": "vanillate:oxygen oxidoreductase (demethylating); Vanillate + Oxygen + NADH + H+ <=> 3,4-Dihydroxybenzoate + NAD+ + H2O + Formaldehyde",
       "pathways": [
         "ko00627",
+        "ko01100",
         "ko01120"
       ],
       "reaction_class": "chemical",
@@ -199149,6 +199186,7 @@
       "name": "vanillin:NAD oxidoreductase; 4-Hydroxy-3-methoxy-benzaldehyde + NAD+ + H2O <=> Vanillate + NADH + H+",
       "pathways": [
         "ko00627",
+        "ko01100",
         "ko01120"
       ],
       "reaction_class": "chemical",
@@ -199304,9 +199342,11 @@
       "mnxr_id": "MNXR109826",
       "name": "feruloyl-CoA hydro-lyase/vanillin-lyase (acetyl-CoA-forming); Feruloyl-CoA + H2O <=> 4-Hydroxy-3-methoxyphenyl-beta-hydroxypropanoyl-CoA",
       "pathways": [
+        "ko00627",
         "ko00996",
         "ko01100",
-        "ko01110"
+        "ko01110",
+        "ko01120"
       ],
       "reaction_class": "chemical",
       "rhea_ids": [
@@ -199330,9 +199370,11 @@
       "mnxr_id": "MNXR109827",
       "name": "feruloyl-CoA hydro-lyase/vanillin-lyase (acetyl-CoA-forming); 4-Hydroxy-3-methoxyphenyl-beta-hydroxypropanoyl-CoA <=> 4-Hydroxy-3-methoxy-benzaldehyde + Acetyl-CoA",
       "pathways": [
+        "ko00627",
         "ko00996",
         "ko01100",
-        "ko01110"
+        "ko01110",
+        "ko01120"
       ],
       "reaction_class": "chemical",
       "rhea_ids": [
@@ -208120,6 +208162,7 @@
       "name": "2-(3'-methylthio)propylmalate hydroxymutase; 2-(3'-Methylthio)propylmalic acid <=> 3-(3'-Methylthio)propylmalic acid",
       "pathways": [
         "ko00966",
+        "ko01110",
         "ko01210"
       ],
       "reaction_class": "chemical",
@@ -208143,7 +208186,6 @@
       "mnxr_id": "MNXR112148",
       "name": "2-(3'-methylthio)butylmalate hydroxymutase; 2-(4'-Methylthio)butylmalic acid <=> 3-(4'-Methylthio)butylmalic acid",
       "pathways": [
-        "ko00966",
         "ko01210"
       ],
       "reaction_class": "chemical",
@@ -208162,7 +208204,6 @@
       "mnxr_id": "MNXR112154",
       "name": "2-(3'-methylthio)pentylmalate hydroxymutase; 2-(5'-Methylthio)pentylmalic acid <=> 3-(5'-Methylthio)pentylmalic acid",
       "pathways": [
-        "ko00966",
         "ko01210"
       ],
       "reaction_class": "chemical",
@@ -208202,7 +208243,6 @@
       "mnxr_id": "MNXR112160",
       "name": "2-(3'-methylthio)hexylmalate hydroxymutase; 2-(6'-Methylthio)hexylmalic acid <=> 3-(6'-Methylthio)hexylmalic acid",
       "pathways": [
-        "ko00966",
         "ko01210"
       ],
       "reaction_class": "chemical",
@@ -208221,7 +208261,6 @@
       "mnxr_id": "MNXR112164",
       "name": "2-(3'-methylthio)heptylmalate hydroxymutase; 2-(7'-Methylthio)heptylmalic acid <=> 3-(7'-Methylthio)heptylmalic acid",
       "pathways": [
-        "ko00966",
         "ko01210"
       ],
       "reaction_class": "chemical",
@@ -213927,6 +213966,7 @@
       "name": "2-heptyl-4(1H)-quinolone,NADH:oxygen oxidoreductase (3-hydroxylating); 2-Heptyl-4(1H)-quinolone + NADH + H+ + Oxygen <=> 2-Heptyl-3-hydroxy-quinolone + NAD+ + H2O",
       "pathways": [
         "ko00405",
+        "ko01100",
         "ko01110"
       ],
       "reaction_class": "chemical",
@@ -214238,57 +214278,37 @@
       ]
     },
     "R10645": {
-      "compounds": [
-        "C00019",
-        "C00021",
-        "C00073",
-        "C04432",
-        "C05198",
-        "C17023",
-        "C20753"
-      ],
+      "compounds": [],
       "ec_numbers": [
         "2.8.4.3"
       ],
       "mass_balance": "unbalanced",
       "mnxr_id": "MNXR113966",
-      "name": "tRNA (N6-dimethylallyladenosine):sulfur-donor,S-adenosyl-L-methionine C2-methylthiotransferase; tRNA containing 6-isopentenyladenosine + Sulfur donor + 2 S-Adenosyl-L-methionine <=> 2-Methylthio-N6-dimethylallyladenine in tRNA + S-Adenosyl-L-homocysteine + L-Methionine + 5'-Deoxyadenosine",
+      "name": "",
       "pathways": [],
       "reaction_class": "chemical",
       "rhea_ids": []
     },
     "R10646": {
-      "compounds": [
-        "C00019",
-        "C00073",
-        "C04432",
-        "C05198",
-        "C17023",
-        "C20755"
-      ],
+      "compounds": [],
       "ec_numbers": [
         "2.8.4.3"
       ],
       "mass_balance": "unbalanced",
       "mnxr_id": "MNXR113967",
-      "name": "tRNA containing 6-isopentenyladenosine + Sulfur donor + S-Adenosyl-L-methionine <=> 2-Thio-N6-dimethylallyladenine in tRNA + L-Methionine + 5'-Deoxyadenosine",
+      "name": "",
       "pathways": [],
       "reaction_class": "chemical",
       "rhea_ids": []
     },
     "R10647": {
-      "compounds": [
-        "C00019",
-        "C00021",
-        "C20753",
-        "C20755"
-      ],
+      "compounds": [],
       "ec_numbers": [
         "2.8.4.3"
       ],
       "mass_balance": "balanced",
       "mnxr_id": "MNXR113968",
-      "name": "2-Thio-N6-dimethylallyladenine in tRNA + S-Adenosyl-L-methionine <=> 2-Methylthio-N6-dimethylallyladenine in tRNA + S-Adenosyl-L-homocysteine",
+      "name": "",
       "pathways": [],
       "reaction_class": "chemical",
       "rhea_ids": []
@@ -215859,7 +215879,8 @@
       "name": "hercynine,gamma-L-glutamyl-L-cysteine:oxygen oxidoreductase [gamma-L-glutamyl-S-(hercyn-2-yl)-L-cysteine S-oxide-forming]; Hercynine + gamma-L-Glutamyl-L-cysteine + Oxygen <=> gamma-L-Glutamyl-S-(hercyn-2-yl)-L-cysteine S-oxide + H2O",
       "pathways": [
         "ko00340",
-        "ko01100"
+        "ko01100",
+        "ko01110"
       ],
       "reaction_class": "chemical",
       "rhea_ids": [

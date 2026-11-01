@@ -66,6 +66,10 @@ uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --strains MIT1002 
 No manual setup required. The skill downloads one resource on first run:
 
 - **TCDB FASTA** from `https://tcdb.org/public/tcdb` → rewritten + built into a diamond DB at `~/tools/TCDB/DB/tcdb.dmnd`. Re-downloaded on `--refresh-tcdb`.
+  The FASTA is a static file TCDB updates far less often than its CGI tables (on 2026-11-01 it
+  was still the 2025-08-04 build, byte-identical to the May copy, while `families.tsv` /
+  `acc2tcid.tsv` had grown). Check `curl -sI https://tcdb.org/public/tcdb` (`last-modified`)
+  before a `--refresh-tcdb --force` run — an unchanged FASTA reproduces every call.
 
 > TCDB's curated **Pfam→TC map** is no longer downloaded here — it moved to prepare_data
 > step 6 (alongside the other TCDB reference TSVs) and backs the `Pfam_in_tcdb_family`
