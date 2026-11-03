@@ -94,9 +94,14 @@ services:
       # after first auth-enabled startup.
       NEO4J_AUTH: ${NEO4J_AUTH:?must be set in .env.alpha (e.g. neo4j/<admin-pw>)}
       NEO4J_dbms_security_auth__enabled: "true"
-      # Smaller heap than dev — alpha is read-only, low-concurrency (§6.1).
-      NEO4J_server_memory_heap_initial__size: "512M"
-      NEO4J_server_memory_heap_max__size: "1G"
+      # Sized for ~5 concurrent MCP users (workshop, 2026-11-03): page cache
+      # holds the whole ~4G store; heap for concurrent aggregations. Timeout and
+      # transaction cap stop one runaway query from starving or OOM-ing the rest.
+      NEO4J_server_memory_heap_initial__size: "4G"
+      NEO4J_server_memory_heap_max__size: "4G"
+      NEO4J_server_memory_pagecache_size: "6G"
+      NEO4J_db_transaction_timeout: "120s"
+      NEO4J_dbms_memory_transaction_total_max: "3G"
 
   # Drop the Biochatter UI; alpha testers use their own MCP clients.
   app:
