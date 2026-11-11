@@ -381,6 +381,13 @@ def main(force: bool = False) -> None:
 
     alias_counts = _alias_count_by_source(conn)
     conn.close()
+    if not alias_counts:
+        paths["resolver_db"].unlink()
+        raise RuntimeError(
+            f"No compound aliases built from {paths['chem_xref']} — the file is empty or not "
+            "MNX data (e.g. a saved 'server too busy' page). Re-download with "
+            "`bash scripts/refresh_mnx.sh --force`."
+        )
 
     # Diagnostic report
     report = {

@@ -52,6 +52,19 @@ tag with nothing logged.
 
 ## [Unreleased]
 
+### Data
+
+- Reference refresh (2026-11-11, `prepare_data.sh --rebuild --refetch-raw` + MNX resolver rebuilt;
+  MNXref 4.5 and GO 2026-07-26 unchanged): InterPro 110.0 → 111.0 (54,922 → 72,944 entries;
+  15 more scanned accessions are retired in 111, so `InterproEntry` 13,314 → 13,299 and
+  `Gene_has_interpro_entry` −571, 7 genes lose their only InterPro edge — the InterProScan
+  re-scan in the backlog recovers them), ChEBI 256 → 257 (no metabolite node changes), TCDB
+  tables of 2026-11-01 (bridges −2 Pfam / −2 GO), KEGG REST (+2 reaction→pathway and +4
+  compound→pathway links into `ko00996`). Gene effect: `Gene_catalyzes_ec_number` +470
+  (`family_inferred`, single-EC InterPro families; genes with an EC +90), one gene loses one
+  InterPro-derived GO term per BP/MF; `annotation_state` unchanged for every gene; expression
+  edges identical (358,913).
+
 ### Added
 
 - Build warns when step 6 is stale for GO transport: `kegg_data.json` now records the KG GO
@@ -67,8 +80,18 @@ tag with nothing logged.
 
 ### Changed
 
+- `omics_edge_snapshot.py` and `capture_annotation_state.py` can snapshot another graph:
+  `KG_SNAPSHOT_CONTAINER` / `NEO4J_USER` / `NEO4J_PASSWORD` env vars (e.g. the auth-enabled
+  `alpha-deploy` release container) and `--baseline PATH` for a non-committed baseline file.
+
 ### Fixed
 
+- MNX / TCDB reference downloads no longer save an HTML error page as data. MetaNetX answers a
+  busy server with HTTP 200 and a "Server mnxget too busy" page; `download_metabolism_reference`
+  wrote it over `chem_xref.tsv`, `build_mnx_resolver` built a resolver with zero compound aliases,
+  and step 6 then ran without MNX cross-references (every `Metabolite.mnxm_id` empty) — all with
+  exit code 0. Downloads now go to a `.part` file, an HTML body is rejected and retried (4 tries,
+  backoff), and the resolver build fails when it gets no compound aliases.
 - Step 6 stops with a clear error when the previous `kegg_data.json` is unreadable, instead of
   failing on a bare JSON error; `finalize_stereo` raises a named error when a stereo pair points
   at a compound missing from the table (was a bare `KeyError`, or a silent link to a node that

@@ -167,3 +167,32 @@ def test_skip_when_cached_unless_force(monkeypatch, tmp_path):
     # With --force: stale content overwritten
     dmr.download_all(cache_root=tmp_path, force=True)
     assert target.read_bytes() == b"FRESH"
+
+
+def test_html_busy_page_is_retried_and_never_written(monkeypatch, tmp_path):
+    """MetaNetX answers 200 with an HTML 'too busy' page: retry, keep the old file, then raise."""
+    monkeypatch.setattr(dmr, "RETRY_WAIT_S", 0)
+    dest = tmp_path / "chem_xref.tsv"
+    dest.write_bytes(b"#GOOD OLD DATA")
+    url = "https://example.org/chem_xref.tsv"
+    busy = b"<!DOCTYPE html><html><head><title>Server mnxget too busy</title></head></html>"
+    calls = []
+
+    def fake_get(u, *a, **k):
+        calls.append(u)
+        return _FakeResponse(busy)
+    monkeypatch.setattr(dmr.requests, "get", fake_get)
+    with pytest.raises(dmr.NotADataFileError):
+        dmr.download_one(url, dest, force=True)
+    assert len(calls) == dmr.RETRIES
+    assert dest.read_bytes() == b"#GOOD OLD DATA"
+    assert not (tmp_path / "chem_xref.tsv.part").exists()
+
+
+def test_busy_then_data_succeeds(monkeypatch, tmp_path):
+    monkeypatch.setattr(dmr, "RETRY_WAIT_S", 0)
+    responses = iter([_FakeResponse(b"<html>busy</html>"), _FakeResponse(b"#MNX\tdata\n")])
+    monkeypatch.setattr(dmr.requests, "get", lambda u, *a, **k: next(responses))
+    dest = tmp_path / "chem_xref.tsv"
+    assert dmr.download_one("https://example.org/x", dest, force=True) is True
+    assert dest.read_bytes() == b"#MNX\tdata\n"

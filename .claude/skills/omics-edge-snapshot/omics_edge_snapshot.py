@@ -27,16 +27,19 @@ import csv
 import io
 import json
 import subprocess
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 SNAPSHOT_DIR = Path(__file__).parent / "snapshots"
 
-# Neo4j via docker (same container/credentials as gene-protein-quality)
-NEO4J_CONTAINER = "deploy"
-NEO4J_USER = "neo4j"
-NEO4J_PASS = "neo4j"
+# Neo4j via docker (same container/credentials as gene-protein-quality). Override with
+# env vars to snapshot another graph, e.g. the auth-enabled release container:
+#   KG_SNAPSHOT_CONTAINER=alpha-deploy NEO4J_PASSWORD=... omics_edge_snapshot.py --save alpha
+NEO4J_CONTAINER = os.environ.get("KG_SNAPSHOT_CONTAINER", "deploy")
+NEO4J_USER = os.environ.get("NEO4J_USER", "neo4j")
+NEO4J_PASS = os.environ.get("NEO4J_PASSWORD", "neo4j")
 
 
 # ---------------------------------------------------------------------------

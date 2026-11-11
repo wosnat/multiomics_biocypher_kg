@@ -56,7 +56,8 @@ This regenerates `cache/data/kegg/kegg_data.json` with the refreshed MNX cross-r
 The download step uses `multiomics_kg.download.download_metabolism_reference`. MNX URLs can occasionally 404 during a release transition. Symptoms: `requests` `HTTPError` in the log. Fixes:
 - Retry once — transient.
 - Check whether MNX shipped a new release that broke the URL pattern: visit https://www.metanetx.org/mnxdoc/mnxref.html and confirm the file names still match `chem_prop.tsv`, `chem_xref.tsv`, `reac_prop.tsv`, `reac_xref.tsv`.
-- Partial download? The script writes to the final path directly, so a half-finished file looks "present". Pass `--force` to redownload.
+- **Server busy.** MetaNetX answers "Server mnxget too busy" as an HTTP-200 HTML page. Since 2026-11-11 the downloader writes to `<file>.part`, rejects an HTML body, retries 4× with backoff and then fails, so the old file is kept; before that the page was saved as the TSV (a 219-byte `chem_xref.tsv`) and the build silently produced a resolver with no compound aliases. If a run fails this way, wait and rerun; only the missing file is re-downloaded without `--force`.
+- Sanity check after any run: `metabolite_id_mapping_report.json` must have a non-empty `alias_counts_by_source`, and `chem_xref.tsv` is ~650 MB. The build now fails rather than writing an alias-less resolver.
 
 ### SQLite build crashes mid-way
 

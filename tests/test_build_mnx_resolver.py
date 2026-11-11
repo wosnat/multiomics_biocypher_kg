@@ -260,3 +260,20 @@ def test_build_main_end_to_end(tmp_path, monkeypatch):
     assert report["mnx_release"] == "MNXref 4.5 (2025-08-13)"
     assert report["compound_count"] == 3
     assert report["reaction_count"] == 3
+
+
+def test_build_main_fails_without_compound_aliases(tmp_path, monkeypatch):
+    """A chem_xref.tsv that is an HTML 'server too busy' page yields no aliases: fail, no DB."""
+    import pytest
+    mnx_dir = tmp_path / "cache" / "data" / "mnx"
+    mnx_dir.mkdir(parents=True)
+    (mnx_dir / "chem_prop.tsv").write_text(CHEM_PROP_FIXTURE)
+    (mnx_dir / "chem_xref.tsv").write_text(
+        "<!DOCTYPE html><html><head><title>Server mnxget too busy</title></head></html>")
+    (mnx_dir / "reac_prop.tsv").write_text(REAC_PROP_FIXTURE)
+    (mnx_dir / "reac_xref.tsv").write_text(REAC_XREF_FIXTURE)
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("MNX_DATA_DIR", str(mnx_dir))
+    with pytest.raises(RuntimeError, match="No compound aliases"):
+        bmr.main(force=True)
+    assert not (mnx_dir / "metabolite_resolver.db").exists()

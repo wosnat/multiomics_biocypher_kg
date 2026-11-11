@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import argparse
 import logging
+import time
 from pathlib import Path
 
 import requests
@@ -68,20 +69,55 @@ def _group_dir(group: str, cache_root: Path) -> Path:
 DEFAULT_CACHE_ROOT = Path("cache/data")
 
 
+RETRIES = 4
+RETRY_WAIT_S = 60
+
+
+class NotADataFileError(RuntimeError):
+    """The server answered 200 with an HTML page (e.g. MetaNetX "Server mnxget too busy")."""
+
+
+def _fetch(url: str, part: Path) -> None:
+    with requests.get(url, stream=True, timeout=120) as resp:
+        resp.raise_for_status()
+        head = b""
+        with open(part, "wb") as f:
+            for chunk in resp.iter_content(chunk_size=64 * 1024):
+                if chunk:
+                    if len(head) < 64:
+                        head += chunk[:64]
+                    f.write(chunk)
+    start = head.lstrip()[:15].lower()
+    if start.startswith((b"<!doctype", b"<html")):
+        raise NotADataFileError(f"{url} returned an HTML page, not data: {head[:200]!r}")
+
+
 def download_one(url: str, dest: Path, force: bool = False) -> bool:
-    """Download URL → dest. Returns True if downloaded, False if skipped."""
+    """Download URL → dest. Returns True if downloaded, False if skipped.
+
+    Writes to ``<dest>.part`` and renames only a body that is not an HTML page, so a
+    busy-server or error page never replaces a good file. Retries ``RETRIES`` times,
+    ``RETRY_WAIT_S`` × attempt apart, then raises.
+    """
     if dest.exists() and not force:
         log.info(f"  skip (cached): {dest}")
         return False
     dest.parent.mkdir(parents=True, exist_ok=True)
-    log.info(f"  GET {url} → {dest}")
-    with requests.get(url, stream=True, timeout=120) as resp:
-        resp.raise_for_status()
-        with open(dest, "wb") as f:
-            for chunk in resp.iter_content(chunk_size=64 * 1024):
-                if chunk:
-                    f.write(chunk)
-    return True
+    part = dest.with_name(dest.name + ".part")
+    for attempt in range(1, RETRIES + 1):
+        log.info(f"  GET {url} → {dest}" + (f" (attempt {attempt})" if attempt > 1 else ""))
+        try:
+            _fetch(url, part)
+        except (NotADataFileError, requests.RequestException) as e:
+            part.unlink(missing_ok=True)
+            if attempt == RETRIES:
+                raise
+            log.warning(f"  {e}; retrying in {RETRY_WAIT_S * attempt}s")
+            time.sleep(RETRY_WAIT_S * attempt)
+            continue
+        part.replace(dest)
+        return True
+    return False  # unreachable
 
 
 def download_all(

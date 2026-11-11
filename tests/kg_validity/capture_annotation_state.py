@@ -21,6 +21,7 @@ Usage:
 """
 
 import argparse
+import os
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -39,7 +40,8 @@ def _dist(session, query: str) -> dict:
 
 
 def capture(neo4j_url: str) -> dict:
-    driver = GraphDatabase.driver(neo4j_url)
+    user, password = os.environ.get("NEO4J_USER"), os.environ.get("NEO4J_PASSWORD")
+    driver = GraphDatabase.driver(neo4j_url, auth=(user or "neo4j", password) if password else None)
     with driver.session() as s:
         total = s.run("MATCH (g:Gene) RETURN count(g)").single()[0]
         state = _dist(s, """
@@ -140,25 +142,29 @@ def compare(live: dict, baseline: dict) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[1])
-    ap.add_argument("--neo4j-url", default="bolt://localhost:7687")
+    ap.add_argument("--neo4j-url", default="bolt://localhost:7687",
+                    help="auth from NEO4J_USER / NEO4J_PASSWORD env vars when set")
+    ap.add_argument("--baseline", type=Path, default=None,
+                    help=f"baseline file to save/compare (default {BASELINE_PATH})")
     mode = ap.add_mutually_exclusive_group()
     mode.add_argument("--save", action="store_true",
                       help="overwrite the committed baseline with the live distribution")
     mode.add_argument("--compare", action="store_true",
                       help="diff the live distribution against the committed baseline")
     args = ap.parse_args()
+    baseline_path = args.baseline or BASELINE_PATH
 
     live = capture(args.neo4j_url)
     if args.compare:
-        if not BASELINE_PATH.exists():
-            raise SystemExit(f"No baseline at {BASELINE_PATH} — run with --save first.")
-        with open(BASELINE_PATH) as f:
+        if not baseline_path.exists():
+            raise SystemExit(f"No baseline at {baseline_path} — run with --save first.")
+        with open(baseline_path) as f:
             compare(live, json.load(f))
     elif args.save:
-        with open(BASELINE_PATH, "w") as f:
+        with open(baseline_path, "w") as f:
             json.dump(live, f, indent=2)
             f.write("\n")
-        print(f"Saved baseline to {BASELINE_PATH}")
+        print(f"Saved baseline to {baseline_path}")
         print_capture(live)
     else:
         print_capture(live)
