@@ -22,12 +22,15 @@ No pathway xrefs anywhere — pathways are out of scope for this redesign (see
 ``docs/superpowers/specs/2026-07-22-interproscan-domains-design.md`` and the
 multi-ontology redesign SDD).
 
-This module stores everything in the tool's *native* casing (e.g. member-DB
-names like ``PFAM``, InterPro types like ``FAMILY``). These are InterPro's /
-InterProScan's own controlled vocabulary terms, preserved verbatim end to
-end (parser through adapter through graph) so they stay directly comparable
-to the source — see ``config/controlled_vocabularies.yaml`` for the
-declared value lists.
+This module stores everything in InterProScan 5's *native* casing (e.g.
+member-DB names like ``PFAM``, InterPro types like ``FAMILY``). These are
+InterPro's / InterProScan's own controlled vocabulary terms, preserved
+verbatim end to end (parser through adapter through graph) so they stay
+directly comparable to the source — see ``config/controlled_vocabularies.yaml``
+for the declared value lists. InterProScan 6 (InterPro 111+) spells the same
+terms differently (``Pfam``, ``CATH-Gene3D``, ``Homologous_superfamily``);
+``_library`` / ``_entry_type`` map them onto the IPS5 spellings, so calls.json
+has one vocabulary whichever version produced the raw output.
 """
 
 from __future__ import annotations
@@ -41,6 +44,25 @@ def _strip_version(acc: str | None) -> str | None:
     (``NF002735.2`` -> ``NF002735``). Accessions without a dot (or ``None``)
     pass through unchanged."""
     return acc.split(".")[0] if acc else acc
+
+
+# IPS6 display names whose IPS5 spelling is not just upper-case + underscores.
+_V6_LIBRARY_NAMES = {"CATH-Gene3D": "GENE3D", "CATH-FunFam": "FUNFAM"}
+
+
+def _library(name: str | None) -> str | None:
+    """Member-DB name in the IPS5 vocabulary: ``PFAM``, ``GENE3D``,
+    ``PROSITE_PATTERNS``, ``MOBIDB_LITE``. IPS5 names pass through unchanged."""
+    if not name:
+        return name
+    name = _V6_LIBRARY_NAMES.get(name, name)
+    return name.upper().replace(" ", "_").replace("-", "_")
+
+
+def _entry_type(t: str | None) -> str | None:
+    """InterPro entry type in the IPS5 casing (``Homologous_superfamily`` ->
+    ``HOMOLOGOUS_SUPERFAMILY``)."""
+    return t.upper() if t else t
 
 
 def parse_interproscan_json(data: dict) -> dict[str, dict]:
@@ -65,7 +87,7 @@ def parse_interproscan_json(data: dict) -> dict[str, dict]:
         n_rows = 0
         for m in result.get("matches") or []:
             sig = m.get("signature") or {}
-            library = (sig.get("signatureLibraryRelease") or {}).get("library")
+            library = _library((sig.get("signatureLibraryRelease") or {}).get("library"))
             entry = sig.get("entry") or {}
             ipr = entry.get("accession")
             for loc in m.get("locations") or []:
@@ -81,7 +103,7 @@ def parse_interproscan_json(data: dict) -> dict[str, dict]:
                     libraries.setdefault(library, []).append(row)
                 if ipr:
                     ent = entries.setdefault(ipr, {
-                        "type": entry.get("type"), "libraries": set(),
+                        "type": _entry_type(entry.get("type")), "libraries": set(),
                         "match_count": 0, "start": None, "end": None,
                         "evalue": None, "evalue_library": None,
                     })

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Run InterProScan 5 (via the interpro/interproscan Docker image) on each
-strain's protein.faa, emitting per-protein domain calls (Phase 1).
+"""Run InterProScan 6 (the ebi-pf-team/interproscan6 Nextflow pipeline, Docker
+profile) on each strain's protein.faa, emitting per-protein domain calls
+(Phase 1). Pinned to an InterProScan release and an InterPro data release.
 
 Usage:
     # One-time install
@@ -20,14 +21,12 @@ from __future__ import annotations
 
 import argparse
 import gzip
-import hashlib
 import shutil
 import os
 import subprocess
 import sys
-import tarfile
+import tempfile
 import time
-import urllib.request
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -41,10 +40,10 @@ from multiomics_kg.utils.interproscan import (  # noqa: E402
 )
 
 TOOL = "interproscan"
-IPS_VERSION = "5.78-109.0"
-DOCKER_IMAGE = f"interpro/interproscan:{IPS_VERSION}"
-DATA_TARBALL = f"interproscan-data-{IPS_VERSION}.tar.gz"
-FTP_BASE = f"https://ftp.ebi.ac.uk/pub/software/unix/iprscan/5/{IPS_VERSION}/alt"
+PIPELINE = "ebi-pf-team/interproscan6"
+IPS_VERSION = "6.0.3.0"      # pipeline release (git tag)
+INTERPRO_RELEASE = "111.0"   # pins every member-DB data version
+TOOL_VERSION = f"{IPS_VERSION}-{INTERPRO_RELEASE}"
 
 
 # ---------------------------------------------------------------------------
@@ -57,81 +56,81 @@ def default_data_root() -> Path:
     return Path(env).expanduser() if env else Path.home() / "tools" / "InterProScan"
 
 
-def resolve_data_dir(data_root: Path) -> Path | None:
-    """Find the extracted `data/` dir; return None if not present."""
-    primary = data_root / f"interproscan-{IPS_VERSION}" / "data"
-    if primary.is_dir():
-        return primary
-    fallback = data_root / "data"
-    if fallback.is_dir():
-        return fallback
-    return None
+def v6_data_dir(data_root: Path) -> Path:
+    """IPS6 member-DB data, one subdir per database and version
+    (`pfam/39.0`, `interpro/111.0`, ...) — downloaded by the pipeline itself."""
+    return data_root / "v6" / "data"
 
 
-def image_digest() -> str | None:
-    r = subprocess.run(
-        ["docker", "image", "inspect", "--format", "{{index .RepoDigests 0}}", DOCKER_IMAGE],
-        capture_output=True, text=True,
-    )
-    out = r.stdout.strip()
-    return out or None
+def nextflow_bin() -> str | None:
+    """`$NEXTFLOW`, else `~/tools/nextflow/nextflow`, else `nextflow` on PATH."""
+    env = os.environ.get("NEXTFLOW")
+    if env:
+        return str(Path(env).expanduser())
+    local = Path.home() / "tools" / "nextflow" / "nextflow"
+    if local.exists():
+        return str(local)
+    return shutil.which("nextflow")
 
 
-def check_image() -> bool:
-    return subprocess.run(
-        ["docker", "image", "inspect", DOCKER_IMAGE], capture_output=True
-    ).returncode == 0
+def data_ready(data_dir: Path) -> bool:
+    return (data_dir / "interpro" / INTERPRO_RELEASE).is_dir()
 
 
-def prepare_image() -> int:
-    print(f"Pulling {DOCKER_IMAGE} ...")
-    rc = subprocess.run(["docker", "pull", DOCKER_IMAGE]).returncode
-    if rc != 0:
-        print("ERROR: docker pull failed.", file=sys.stderr)
-        return rc
-    print(f"\nImage ready. RepoDigest: {image_digest()}")
-    return 0
+def nextflow_cmd(nf: str, faa: Path, data_dir: Path, outdir: Path, outprefix: str,
+                 work_dir: Path, *, cpus: int, applications: str | None,
+                 xrefs: bool) -> list[str]:
+    cmd = [
+        nf, "run", PIPELINE, "-r", IPS_VERSION, "-profile", "docker",
+        "-work-dir", str(work_dir),
+        "--input", str(faa),
+        "--datadir", str(data_dir),
+        "--interpro", INTERPRO_RELEASE,
+        # Compute every match locally instead of fetching precalculated ones
+        # from the EBI matches API (IPS5's --disable-precalc): reproducible,
+        # no network dependency during the scan.
+        "--noMatchesApi",
+        "--formats", "json",
+        "--cpus", str(cpus),
+        "--outdir", str(outdir),
+        "--outprefix", outprefix,
+    ]
+    if applications:
+        cmd += ["--applications", applications]
+    # GO + pathway xrefs on integrated InterPro entries, looked up locally in
+    # the interpro/<release> data. Pathways are dropped by the parser.
+    if xrefs:
+        cmd += ["--goterms", "--pathways"]
+    return cmd
 
 
-def _download(url: str, dest: Path) -> None:
-    print(f"  downloading {url}")
-    with urllib.request.urlopen(url) as resp, dest.open("wb") as f:  # noqa: S310
-        while chunk := resp.read(8 << 20):
-            f.write(chunk)
+def prepare_pipeline(nf: str) -> int:
+    print(f"Pulling {PIPELINE} {IPS_VERSION} ...")
+    return subprocess.run([nf, "pull", PIPELINE, "-r", IPS_VERSION]).returncode
 
 
-def refresh_data(data_root: Path, force: bool) -> int:
-    """Download + md5-verify + extract the InterProScan data tarball."""
-    if resolve_data_dir(data_root) is not None and not force:
-        print(f"Data dir already present under {data_root} (use --force to re-download).")
-        return 0
-    data_root.mkdir(parents=True, exist_ok=True)
-    tarball = data_root / DATA_TARBALL
-    md5_file = data_root / f"{DATA_TARBALL}.md5"
-
-    _download(f"{FTP_BASE}/{DATA_TARBALL}", tarball)
-    _download(f"{FTP_BASE}/{DATA_TARBALL}.md5", md5_file)
-
-    expected = md5_file.read_text().split()[0].strip()
-    print("  verifying md5 ...")
-    h = hashlib.md5()  # noqa: S324 — checksum matches upstream .md5, not security
-    with tarball.open("rb") as f:
-        while chunk := f.read(8 << 20):
-            h.update(chunk)
-    if h.hexdigest() != expected:
-        print(f"ERROR: md5 mismatch ({h.hexdigest()} != {expected}).", file=sys.stderr)
-        return 1
-
-    print(f"  extracting {tarball.name} ...")
-    with tarfile.open(tarball) as tf:
-        tf.extractall(data_root)  # noqa: S202 — trusted EBI tarball
-    tarball.unlink()
-    dd = resolve_data_dir(data_root)
-    if dd is None:
-        print("ERROR: extraction did not produce a data/ dir.", file=sys.stderr)
-        return 1
-    print(f"\nData ready at {dd}")
-    print("Member-DB subdirs:", ", ".join(sorted(p.name for p in dd.iterdir() if p.is_dir())))
+def refresh_data(nf: str, data_root: Path) -> int:
+    """Download the pinned InterPro release's member-DB data (~6.6 GB, ~35 GB
+    extracted) by running the pipeline on one protein: IPS6 fetches any
+    missing database into --datadir before scanning."""
+    data_dir = v6_data_dir(data_root)
+    data_dir.mkdir(parents=True, exist_ok=True)
+    faa = REPO_ROOT / "cache/data/Prochlorococcus/genomes/MED4/protein.faa"
+    with tempfile.TemporaryDirectory(dir=data_root) as tmp:
+        tmp = Path(tmp)
+        one = tmp / "one.faa"
+        _write_limited_fasta(faa, one, 1)
+        rc = subprocess.run(
+            nextflow_cmd(nf, one, data_dir, tmp / "out", "one", tmp / "work",
+                         cpus=2, applications=None, xrefs=False),
+            cwd=tmp,
+        ).returncode
+    if rc != 0 or not data_ready(data_dir):
+        print("ERROR: data download failed — re-run (completed databases are kept).",
+              file=sys.stderr)
+        return rc or 1
+    print(f"\nData ready at {data_dir}")
+    print("Databases:", ", ".join(sorted(p.name for p in data_dir.iterdir() if p.is_dir())))
     return 0
 
 
@@ -157,7 +156,8 @@ def _count_seqs(faa: Path) -> int:
         return sum(1 for line in f if line.startswith(">"))
 
 
-def run_strain(strain: str, genome_dir: Path, data_dir: Path, args) -> tuple[str, str]:
+def run_strain(strain: str, genome_dir: Path, data_dir: Path, nf: str,
+               args) -> tuple[str, str]:
     """Run InterProScan on one strain. Returns (status, message)."""
     faa = genome_dir / "protein.faa"
     if not faa.exists():
@@ -169,80 +169,68 @@ def run_strain(strain: str, genome_dir: Path, data_dir: Path, args) -> tuple[str
         return "SKIPPED", f"{calls_p.name} exists"
 
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / "temp").mkdir(exist_ok=True)
+    # Nextflow work dir + .nextflow* run logs. Removed after a successful run
+    # (several GB of per-task intermediates); kept on failure for debugging.
+    temp = out_dir / "temp"
+    temp.mkdir(exist_ok=True)
 
     # Choose input FASTA (full or truncated for --limit).
     infix = f".limited_{args.limit}" if args.limit is not None else ""
     if args.limit is not None:
         in_faa = out_dir / f"{strain}{infix}.faa"
         input_proteins = _write_limited_fasta(faa, in_faa, args.limit)
-        container_input = f"/input/{TOOL}/{in_faa.name}"
     else:
+        in_faa = faa
         input_proteins = _count_seqs(faa)
-        container_input = "/input/protein.faa"
 
     out_base = f"{strain}.{TOOL}{infix}.raw"
     raw_json = out_dir / f"{out_base}.json"
 
-    # InterProScan REFUSES to overwrite an existing output file — it silently
-    # writes `<base>_1.json`, `<base>_2.json`, … instead. Without this cleanup a
-    # `--force` re-run would re-parse the *stale* raw JSON from the previous run
-    # and report success, so e.g. newly-enabled --goterms output would never
-    # appear. Clear the canonical file and any suffixed leftovers first.
+    # Never let a re-run parse the previous run's output: InterProScan 5
+    # refused to overwrite and silently wrote `<base>_1.json`, so a `--force`
+    # run re-parsed stale data and reported success. Clear the canonical file
+    # and any suffixed leftovers first.
     for stale in [*_raw_candidates(out_dir, out_base),
                   *out_dir.glob(f"{out_base}_[0-9]*.json")]:
         stale.unlink(missing_ok=True)
 
-    cmd = [
-        "docker", "run", "--rm",
-        "--user", f"{os.getuid()}:{os.getgid()}",
-        "-v", f"{genome_dir.resolve()}:/input",
-        "-v", f"{data_dir.resolve()}:/opt/interproscan/data:ro",
-        DOCKER_IMAGE,
-        "--input", container_input,
-        "--output-file-base", f"/input/{TOOL}/{out_base}",
-        "--formats", "JSON",
-        "--disable-precalc",
-        "--tempdir", f"/input/{TOOL}/temp",
-        "--cpu", str(args.threads),
-    ]
-    if args.applications:
-        cmd += ["--applications", args.applications]
-    # GO + pathway xrefs on integrated InterPro entries. Both are local lookups
-    # against the bundled entry data (no network, compatible with
-    # --disable-precalc) and each IMPLIES -iprlookup. Without them IPS emits
-    # `goXRefs: []` / `pathwayXRefs: []` on every entry.
-    if not args.no_xrefs:
-        cmd += ["--goterms", "--pathways"]
+    cmd = nextflow_cmd(nf, in_faa.resolve(), data_dir.resolve(), out_dir.resolve(),
+                       out_base, (temp / "work").resolve(), cpus=args.threads,
+                       applications=args.applications, xrefs=not args.no_xrefs)
 
     log_dir = REPO_ROOT / "logs" / TOOL
     log_dir.mkdir(parents=True, exist_ok=True)
     log_file = log_dir / f"{strain}{infix}.log"
 
-    print(f"\n{'='*60}\nInterProScan {IPS_VERSION} — {strain} "
+    print(f"\n{'='*60}\nInterProScan {IPS_VERSION} / InterPro {INTERPRO_RELEASE} — {strain} "
           f"({input_proteins} proteins)\n  log: {log_file}\n{'='*60}")
     t0 = time.time()
     with log_file.open("w") as lf:
-        rc = subprocess.run(cmd, cwd=str(REPO_ROOT), stdout=lf, stderr=subprocess.STDOUT).returncode
+        rc = subprocess.run(cmd, cwd=str(temp), stdout=lf, stderr=subprocess.STDOUT).returncode
     wallclock = time.time() - t0
 
     if rc != 0:
-        return "FAILED", f"docker exit {rc}; see {log_file}"
+        return "FAILED", f"nextflow exit {rc}; see {log_file}"
     if not raw_json.exists():
         return "FAILED", f"no raw JSON at {raw_json.name}; see {log_file}"
 
-    calls = parse_interproscan_json(_load_raw(raw_json))
+    raw = _load_raw(raw_json)
+    calls = parse_interproscan_json(raw)
 
     summary = summarize(
         calls, strain=strain, input_proteins=input_proteins,
-        tool_version=IPS_VERSION, applications=(args.applications or "ALL_DEFAULT"),
-        image_digest=image_digest(), wallclock_s=wallclock,
+        tool_version=_raw_tool_version(raw),
+        applications=(args.applications or "ALL_DEFAULT"),
+        image_digest=f"{PIPELINE}@{IPS_VERSION}", wallclock_s=wallclock,
         xrefs_requested=not args.no_xrefs,
     )
     tcio.save_calls(genome_dir, TOOL, strain, calls, limited=args.limit)
     tcio.save_skill_summary(genome_dir, TOOL, strain, summary, limited=args.limit)
     # Kept for --normalize (re-parse without re-scanning), never committed.
     compress_raw(raw_json)
+    shutil.rmtree(temp, ignore_errors=True)
+    if args.limit is not None:
+        in_faa.unlink(missing_ok=True)
 
     return "OK", (f"{summary['calls_made']} calls, {summary['total_matches']} matches, "
                   f"{summary['proteins_no_match']} no-match, {wallclock:.0f}s")
@@ -251,6 +239,14 @@ def run_strain(strain: str, genome_dir: Path, data_dir: Path, args) -> tuple[str
 def _raw_candidates(out_dir: Path, base: str) -> list[Path]:
     """The raw IPS JSON for `base`, compressed first: `<base>.json.gz`, `<base>.json`."""
     return [out_dir / f"{base}.json.gz", out_dir / f"{base}.json"]
+
+
+def _raw_tool_version(raw: dict) -> str:
+    """`<interproscan>-<interpro>` as recorded in the raw JSON (IPS6 carries
+    both; IPS5's version string already embeds the InterPro release)."""
+    ips = raw.get("interproscan-version", "unknown")
+    ipr = raw.get("interpro-version")
+    return f"{ips}-{ipr}" if ipr else ips
 
 
 def _load_raw(path: Path) -> dict:
@@ -288,7 +284,8 @@ def normalize_strain(strain: str, data_dir: Path) -> tuple[str, str]:
 
     try:
         t0 = time.time()
-        calls = parse_interproscan_json(_load_raw(raw_json))
+        raw = _load_raw(raw_json)
+        calls = parse_interproscan_json(raw)
         # Match scan mode's input_proteins semantics (FASTA header count) so
         # sentinel_rate has the same denominator in both modes; fall back to
         # the fanned-out call count when protein.faa is not on disk.
@@ -296,7 +293,7 @@ def normalize_strain(strain: str, data_dir: Path) -> tuple[str, str]:
         n_prot = _count_seqs(faa) if faa.exists() else len(calls)
         summary = summarize(
             calls, strain=strain, input_proteins=n_prot,
-            tool_version=IPS_VERSION, applications="ALL_DEFAULT",
+            tool_version=_raw_tool_version(raw), applications="ALL_DEFAULT",
             wallclock_s=time.time() - t0,
         )
         tcio.save_calls(data_dir, TOOL, strain, calls)
@@ -321,29 +318,36 @@ def normalize_strain(strain: str, data_dir: Path) -> tuple[str, str]:
 # ---------------------------------------------------------------------------
 
 def main() -> None:
-    p = argparse.ArgumentParser(description="Run InterProScan 5 per strain (Phase 1).")
+    p = argparse.ArgumentParser(description="Run InterProScan 6 per strain (Phase 1).")
     p.add_argument("--strains", nargs="+", metavar="STRAIN", help="Only these strains")
     p.add_argument("--force", action="store_true", help="Re-run even if calls.json exists")
     p.add_argument("--limit", type=int, metavar="N", help="Only first N proteins (smoke test)")
-    p.add_argument("--threads", type=int, default=10, help="CPUs for IPS (--cpu); default 10")
+    p.add_argument("--threads", type=int, default=8, help="CPUs per IPS6 task (--cpus); default 8")
     p.add_argument("--applications", metavar="APP,APP",
                    help="Restrict to these member DBs (default: all activated apps)")
     p.add_argument("--no-xrefs", action="store_true",
                    help="Omit --goterms/--pathways (GO + pathway xrefs are on by default)")
     p.add_argument("--data-dir", metavar="PATH",
                    help="InterProScan install root (default $INTERPROSCAN_DATA_DIR or ~/tools/InterProScan)")
-    p.add_argument("--prepare-image", action="store_true", help="docker pull the image, then exit")
-    p.add_argument("--refresh-data", action="store_true", help="download + extract the data tarball, then exit")
+    p.add_argument("--prepare-image", action="store_true",
+                   help="nextflow pull the pinned pipeline release, then exit")
+    p.add_argument("--refresh-data", action="store_true",
+                   help=f"download the InterPro {INTERPRO_RELEASE} member-DB data, then exit")
     p.add_argument("--normalize", action="store_true",
                    help="Re-parse cached raw.json(.gz) into calls.json (new faceted format); no Docker, no scan")
     args = p.parse_args()
 
     data_root = Path(args.data_dir).expanduser() if args.data_dir else default_data_root()
 
+    nf = nextflow_bin()
+    if (args.prepare_image or args.refresh_data or not args.normalize) and nf is None:
+        print("ERROR: nextflow not found (set $NEXTFLOW or install to ~/tools/nextflow).",
+              file=sys.stderr)
+        sys.exit(1)
     if args.prepare_image:
-        sys.exit(prepare_image())
+        sys.exit(prepare_pipeline(nf))
     if args.refresh_data:
-        sys.exit(refresh_data(data_root, args.force))
+        sys.exit(refresh_data(nf, data_root))
 
     if args.normalize:
         rows = load_genome_rows(strains=args.strains)
@@ -365,15 +369,11 @@ def main() -> None:
             sys.exit(1)
         sys.exit(0)
 
-    # Normal run — refuse to start if the install is incomplete.
-    if not check_image():
-        print(f"ERROR: Docker image '{DOCKER_IMAGE}' not found.\n"
-              f"Run: uv run python {Path(__file__).relative_to(REPO_ROOT)} --prepare-image",
-              file=sys.stderr)
-        sys.exit(1)
-    data_dir = resolve_data_dir(data_root)
-    if data_dir is None:
-        print(f"ERROR: InterProScan data dir not found under {data_root}.\n"
+    # Normal run — refuse to start if the data is missing (the pipeline would
+    # otherwise start a ~6.6 GB download inside the first strain's run).
+    data_dir = v6_data_dir(data_root)
+    if not data_ready(data_dir):
+        print(f"ERROR: InterPro {INTERPRO_RELEASE} data not found under {data_dir}.\n"
               f"Run: uv run python {Path(__file__).relative_to(REPO_ROOT)} --refresh-data",
               file=sys.stderr)
         sys.exit(1)
@@ -383,7 +383,7 @@ def main() -> None:
     for row in rows:
         strain = row["strain_name"]
         genome_dir = REPO_ROOT / row["data_dir"].rstrip("/")
-        status, msg = run_strain(strain, genome_dir, data_dir, args)
+        status, msg = run_strain(strain, genome_dir, data_dir, nf, args)
         results.append((strain, status, msg))
 
     print(f"\n{'='*74}\n{'Strain':<12} {'Status':<14} {'Info'}\n{'-'*12} {'-'*14} {'-'*44}")

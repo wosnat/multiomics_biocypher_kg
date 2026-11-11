@@ -151,3 +151,44 @@ def test_declared_vocabulary_matches_native_casing():
                 "PRINTS", "PROSITE_PATTERNS", "PROSITE_PROFILES", "SFLD", "SMART",
                 "SUPERFAMILY"]:
         VOCAB.check("Gene_has_interpro_entry", "libraries", raw)
+
+
+# ── InterProScan 6 output: labels mapped onto the v5 vocabulary ──────────────
+#
+# IPS6 (InterPro 111+) spells libraries as display names ("Pfam",
+# "CATH-Gene3D", "PROSITE patterns") and entry types in title case
+# ("Homologous_superfamily"). The parser maps both onto the IPS5 spellings the
+# vocabulary declares, so calls.json is identical in shape across versions.
+
+RAW_V6 = {"interproscan-version": "6.0.3.0", "interpro-version": "111.0", "results": [{
+    "md5": "abc", "xref": [{"id": "WP_000001.1"}],
+    "matches": [
+        _match("Pfam", "PF02532", "PSII PsbI", {**ENTRY_FAM, "type": "Family"},
+               [_loc(1, 36, evalue=4.1e-18, score=76.3)]),
+        _match("CATH-Gene3D", "G3DSA:1.20.5.30", None,
+               {**ENTRY_SF, "type": "Homologous_superfamily"}),
+        _match("CATH-FunFam", "G3DSA:1.20.5.30:FF:000001", None),
+        _match("MobiDB-lite", "mobidb-lite", None),
+        _match("PROSITE patterns", "PS00001", None),
+        _match("PROSITE profiles", "PS50001", None),
+        _match("AntiFam", "ANF00001", None),
+    ],
+}]}
+
+
+def test_v6_library_names_mapped_to_v5_vocabulary():
+    rec = parse_interproscan_json(RAW_V6)["WP_000001.1"]
+    assert set(rec["libraries"]) == {"PFAM", "GENE3D", "FUNFAM", "MOBIDB_LITE",
+                                     "PROSITE_PATTERNS", "PROSITE_PROFILES", "ANTIFAM"}
+    assert rec["interpro_entries"]["IPR037271"]["libraries"] == ["GENE3D"]
+    assert rec["interpro_entries"]["IPR003686"]["evalue_library"] == "PFAM"
+
+
+def test_v6_entry_types_mapped_to_v5_casing():
+    ents = parse_interproscan_json(RAW_V6)["WP_000001.1"]["interpro_entries"]
+    assert ents["IPR003686"]["type"] == "FAMILY"
+    assert ents["IPR037271"]["type"] == "HOMOLOGOUS_SUPERFAMILY"
+
+
+def test_v5_library_names_unchanged(calls):
+    assert set(calls["WP_000001.1"]["libraries"]) == {"PFAM", "HAMAP", "NCBIFAM", "SUPERFAMILY"}

@@ -1,15 +1,17 @@
 ---
 name: interproscan-run
-description: Run InterProScan 5 (via the interpro/interproscan Docker image) on each strain's protein.faa to predict protein domains/families across all member databases (Pfam, NCBIfam/TIGRFAM, Hamap, PROSITE, SFLD, PANTHER, Gene3D, SUPERFAMILY, CDD, PRINTS, SMART, …), integrated into InterPro entries with GO term attribution. Emits a faceted per-protein `calls.json` (per-library match rows, InterPro entry rollups, GO — no pathways). Phase 1 — produces inspectable `<strain>.interproscan.calls.json` artifacts; **Phase 2 KG integration is DONE** (`InterproEntry` ontology via `interpro_adapter` + split-out `NcbifamFamily` ontology via `ncbifam_adapter` — see `docs/kg-changes/interpro-multi-ontology.md`). Triggers on "run interproscan", "predict protein domains", "InterPro / domain annotation for all strains", "functional domains for the new strain".
+description: Run InterProScan 6 (the ebi-pf-team/interproscan6 Nextflow pipeline, Docker profile, pinned to InterPro 111.0) on each strain's protein.faa to predict protein domains/families across all member databases (Pfam, NCBIfam/TIGRFAM, Hamap, PROSITE, SFLD, PANTHER, Gene3D, SUPERFAMILY, CDD, PRINTS, SMART, …), integrated into InterPro entries with GO term attribution. Emits a faceted per-protein `calls.json` (per-library match rows, InterPro entry rollups, GO — no pathways). Phase 1 — produces inspectable `<strain>.interproscan.calls.json` artifacts; **Phase 2 KG integration is DONE** (`InterproEntry` ontology via `interpro_adapter` + split-out `NcbifamFamily` ontology via `ncbifam_adapter` — see `docs/kg-changes/interpro-multi-ontology.md`). Triggers on "run interproscan", "predict protein domains", "InterPro / domain annotation for all strains", "functional domains for the new strain".
 argument-hint: "[--strains <name> ... | --force | --limit N | --threads N | --applications APP,APP | --no-xrefs | --normalize | --prepare-image | --refresh-data]"
 user-invocable: true
-allowed-tools: Read, Bash(uv *), Bash(docker *), Bash(jq *)
+allowed-tools: Read, Bash(uv *), Bash(docker *), Bash(jq *), Bash(~/tools/nextflow/nextflow *)
 ---
 
 # InterProScan-Run Skill
 
-Runs **InterProScan 5.78-109.0** over each configured strain's `protein.faa`
-and writes per-protein domain calls. InterProScan is an orchestrator: it runs
+Runs **InterProScan 6.0.3.0 against InterPro 111.0** over each configured
+strain's `protein.faa` and writes per-protein domain calls. (Until 2026-11-11
+it ran InterProScan 5.78-109.0 — the last v5 release; InterPro 110+ ships
+only for v6.) InterProScan is an orchestrator: it runs
 every protein against ~15 member databases (Pfam, NCBIfam/TIGRFAM, Hamap,
 PROSITE, SFLD, PANTHER, Gene3D, SUPERFAMILY, CDD, PRINTS, SMART, PIRSF,
 MobiDBLite, Coils) and maps each hit into a unified **InterPro entry**
@@ -19,13 +21,13 @@ accession) committed under git; KG integration is a separate Phase-2 spec.
 Pathway xrefs are **not** retained in this artifact (see Output Schema) —
 entry-level pathway lookup lives centrally in `interpro_reference.json`.
 
-Default runs **all default free apps** (the licensed SignalP/TMHMM/Phobius are
-deactivated in the free distribution). Restrict per-run with `--applications`.
+Default runs **all default free apps** (the licensed SignalP/DeepTMHMM/Phobius
+and the GPU InterPro-N models are not run). Restrict per-run with `--applications`.
 
 ## Quick Start
 
 ```bash
-# One-time install (see One-Time Setup) — pull the image, then download data:
+# One-time install (see One-Time Setup) — pull the pipeline, then download data:
 uv run python .claude/skills/interproscan-run/run_interproscan.py --prepare-image
 uv run python .claude/skills/interproscan-run/run_interproscan.py --refresh-data
 
@@ -55,7 +57,7 @@ uv run python .claude/skills/interproscan-run/run_interproscan.py --strains MED4
 nohup uv run python .claude/skills/interproscan-run/run_interproscan.py \
     > logs/interproscan/batch.log 2>&1 &
 
-# Re-parse cached raw output into the current faceted calls.json — no Docker,
+# Re-parse cached raw output into the current faceted calls.json — no Nextflow,
 # no re-scan (e.g. after a parser change). Requires the raw.json.gz (or a
 # legacy uncompressed raw.json) to still be on disk (gitignored, kept only on
 # the machine that ran the scan).
@@ -72,42 +74,58 @@ as-is rather than trying to normalize.
 
 ## One-Time Setup
 
-Two pieces: the Docker image (software) and the data directory (member-DB
-models), downloaded separately and mounted read-only.
+Three pieces: Nextflow (orchestrator), the pipeline release (fetched from
+GitHub), and the member-DB data for the pinned InterPro release. The pipeline
+pulls its own per-tool containers (`interpro/hmmer:3.3`, `interpro/cath:…`,
+`interpro/panther:1.0`, …) on first use. (The `interpro/interproscan:6.0.2.x`
+image on Docker Hub is arm64-only — not used.)
 
-**1. Pull the image** (~2–3 G):
+**0. Prereqs:** Docker on PATH, Java ≥ 17, **Nextflow ≥ 25.10.4**. The runner
+looks for `$NEXTFLOW`, then `~/tools/nextflow/nextflow`, then `nextflow` on
+PATH:
+
+```bash
+mkdir -p ~/tools/nextflow && cd ~/tools/nextflow && curl -s https://get.nextflow.io | bash
+~/tools/nextflow/nextflow -version
+```
+
+**1. Pull the pipeline:**
 
 ```bash
 uv run python .claude/skills/interproscan-run/run_interproscan.py --prepare-image
-# → docker pull interpro/interproscan:5.78-109.0 ; prints the RepoDigest and exits.
-docker images | grep interproscan   # verify
+# → nextflow pull ebi-pf-team/interproscan6 -r 6.0.3.0
 ```
 
-**2. Download the data** (6.4 G compressed → extracted under `~/tools/InterProScan/`):
+**2. Download the data** (~6.6 G compressed → ~35 G under `~/tools/InterProScan/v6/data`):
 
 ```bash
 uv run python .claude/skills/interproscan-run/run_interproscan.py --refresh-data
-# Downloads interproscan-data-5.78-109.0.tar.gz + .md5 from EBI, verifies the
-# checksum, extracts to $INTERPROSCAN_DATA_DIR/interproscan-5.78-109.0/data,
-# and exits. Skips the download if the data dir already exists (use --force).
-ls $INTERPROSCAN_DATA_DIR/interproscan-5.78-109.0/data   # verify member-DB subdirs
+# Runs the pipeline on one protein; IPS6 downloads every missing database
+# for --interpro 111.0 into --datadir (md5-checked, retried), then exits.
+ls ~/tools/InterProScan/v6/data          # antifam cath cdd hamap interpro ncbifam panther pfam ...
 ```
 
 - **`.env` entry (optional):** `INTERPROSCAN_DATA_DIR=~/tools/InterProScan`.
   Defaults to `~/tools/InterProScan` when unset — the canonical outside-the-repo
-  location (never committed). Override per-run with `--data-dir`.
-- **Disk footprint:** image ~2–3 G; data tarball 6.4 G download; extracted data
-  **34 G** (measured for 5.78-109.0). Member-DB subdirs present: antifam, cdd,
-  funfam, gene3d, hamap, ncbifam, panther, pfam, phobius, pirsf, pirsr, prints,
-  prosite, sfld, smart, superfamily, tmhmm. (phobius/tmhmm data ship but the
-  analyses are deactivated in the free distribution; SignalP is absent.)
-- **Prereqs:** Docker on PATH (`docker --version`).
-- **Portability note:** the runner passes `--user $(id -u):$(id -g)` and mounts
-  a writable `--tempdir` under the strain's `interproscan/temp/` so IPS output
-  is host-owned (not root). `--disable-precalc` is passed so IPS computes
-  matches locally instead of querying the EBI precalc lookup service (novel
-  bacterial proteins mostly miss the lookup anyway, and it removes a network
-  dependency for reproducible batches).
+  location (never committed). Override per-run with `--data-dir`. v6 data lives
+  in its `v6/data/` subdir.
+- **Data versions are pinned by the InterPro release.** InterPro 111.0 =
+  Pfam 39.0, NCBIfam 20.0, PANTHER 19.0, CDD 3.21, HAMAP / PROSITE 2026_01,
+  PIRSR 2025_05, PIRSF 3.10, PRINTS 42.0, SMART 9.0, SUPERFAMILY 1.75,
+  CATH-Gene3D / FunFam 4.3.0, SFLD 4, AntiFam 8.0 (`interpro/111.0/databases.json`).
+- **Disk footprint:** 35 G extracted (measured 2026-11-11): cath 19 G, panther
+  4.8 G, pfam 3.5 G, ncbifam 2.7 G, superfamily 2.6 G, cdd 1.1 G, rest < 1 G.
+  The download runs ~1.7 MB/s from EBI (≈ 1 h); an MD5 failure (the Globus
+  mirror occasionally returns an error page) is retried automatically.
+- **Matches API off:** `--noMatchesApi` makes IPS6 compute every match locally
+  instead of fetching precalculated ones from EBI (IPS5's `--disable-precalc`):
+  reproducible, no network dependency during a scan.
+- **Vocabulary:** IPS6 spells libraries as display names (`Pfam`,
+  `CATH-Gene3D`, `PROSITE patterns`, `MobiDB-lite`) and entry types in title
+  case (`Homologous_superfamily`). The parser maps both onto the IPS5
+  spellings (`PFAM`, `GENE3D`, `PROSITE_PATTERNS`, `MOBIDB_LITE`,
+  `HOMOLOGOUS_SUPERFAMILY`), so `calls.json` and the KG vocabulary are the
+  same whichever version produced the raw output.
 
 ## What It Does
 
@@ -118,29 +136,25 @@ ls $INTERPROSCAN_DATA_DIR/interproscan-5.78-109.0/data   # verify member-DB subd
    emits a `MISSING_INPUT` status row and continues if absent.
 2. Skips the strain if `<data_dir>/interproscan/<strain>.interproscan.calls.json`
    already exists, unless `--force`.
-3. Runs the Docker image, mounting the strain dir at `/input` and the data dir
-   read-only at `/opt/interproscan/data`:
+3. Runs the pipeline with its Docker profile, working under the strain's
+   `interproscan/temp/` (Nextflow work dir + `.nextflow.log`; deleted after a
+   successful run, kept on failure):
 
    ```
-   docker run --rm --user UID:GID \
-     -v <data_dir>:/input \
-     -v <INTERPROSCAN_DATA_DIR>/interproscan-5.78-109.0/data:/opt/interproscan/data \
-     interpro/interproscan:5.78-109.0 \
-     --input /input/protein.faa \
-     --output-file-base /input/interproscan/<strain>.interproscan.raw \
-     --formats JSON --disable-precalc --tempdir /input/interproscan/temp \
-     --cpu <threads> [--applications <apps>] --goterms --pathways
+   nextflow run ebi-pf-team/interproscan6 -r 6.0.3.0 -profile docker \
+     -work-dir <data_dir>/interproscan/temp/work \
+     --input <data_dir>/protein.faa \
+     --datadir <INTERPROSCAN_DATA_DIR>/v6/data --interpro 111.0 \
+     --noMatchesApi --formats json --cpus <threads> \
+     --outdir <data_dir>/interproscan --outprefix <strain>.interproscan.raw \
+     [--applications <apps>] --goterms --pathways
    ```
 
    `--goterms` / `--pathways` switch on the GO and pathway xrefs carried by
-   integrated InterPro entries (each IMPLIES `-iprlookup`). Both are **local**
-   lookups against the bundled entry data, so they stay compatible with
-   `--disable-precalc` and add no network dependency and no measurable
-   wallclock. Without them IPS emits `goXRefs: []` / `pathwayXRefs: []` on
-   every entry — which is exactly what the original 2026-07-23 batch produced.
-   `--no-xrefs` restores that older, smaller output. **`--pathways` is still
-   requested from IPS here but its output is discarded at parse time** (see
-   Output Schema) — only `--goterms` output survives into `calls.json`.
+   integrated InterPro entries — **local** lookups against the
+   `interpro/111.0` data, no network. Without them every entry carries
+   `goXRefs: []`. `--no-xrefs` drops them. **`--pathways` output is discarded
+   at parse time** (see Output Schema) — only GO survives into `calls.json`.
 
    Full stdout+stderr goes to `logs/interproscan/<strain>.log`.
 4. Parses the raw JSON (`multiomics_kg.utils.interproscan.parse_interproscan_json`)
@@ -160,10 +174,12 @@ re-parses the strain's already-cached `<strain>.interproscan.raw.json.gz`
 the current `parse_interproscan_json` + `summarize` and rewrites `calls.json` +
 `skill_summary.json` in place (deleting any stale `entry_xrefs.json` sidecar on
 success, and gzipping an uncompressed `.raw.json` it read — e.g. from a scan that was
-killed before step 5). Use it after a parser change, instead of re-running Docker.
+killed before step 5). Use it after a parser change, instead of re-scanning.
+It reads both IPS5 and IPS6 raw output; `tool_version` comes from the raw
+JSON (`5.78-109.0`, or `6.0.3.0-111.0` = pipeline-InterPro).
 
-**Stale-output guard.** InterProScan refuses to overwrite an existing output
-file — it silently writes `<base>_1.json`, `<base>_2.json`, … instead. The
+**Stale-output guard.** InterProScan 5 refused to overwrite an existing output
+file — it silently wrote `<base>_1.json`, `<base>_2.json`, … instead. The
 runner therefore deletes the canonical raw JSON, its `.gz`, *and* any `_N` leftovers before
 each run. Without that, a `--force` re-run re-parses the **previous** run's raw
 JSON and reports success with unchanged data (this is how the first
@@ -452,10 +468,11 @@ likely a new evidence source on those edges rather than a parallel edge type).
 
 ## Workflow When Invoked
 
-1. Verify Docker: `docker --version`.
-2. If `docker images | grep interproscan` is empty → run `--prepare-image`.
-   If `$INTERPROSCAN_DATA_DIR/interproscan-5.78-109.0/data` is absent → run
-   `--refresh-data`. Both exit after setup; they never start a batch.
+1. Verify Docker (`docker --version`) and Nextflow (`~/tools/nextflow/nextflow -version`).
+2. If `~/.nextflow/assets/ebi-pf-team/interproscan6` is absent → run `--prepare-image`.
+   If `$INTERPROSCAN_DATA_DIR/v6/data/interpro/111.0` is absent → run
+   `--refresh-data`. Both exit after setup; they never start a batch (a
+   normal run refuses to start without the data).
 3. Run the batch (single strain, or all). Inspect the status table.
 4. Verify the spot checks with the `jq` one-liners above.
 5. Chase any `FAILED` row via `logs/interproscan/<strain>.log`.
