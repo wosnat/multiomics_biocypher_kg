@@ -124,20 +124,21 @@ up — this file is the index, not the plan.
       `enrich_interpro_fields` uses `ncbifam_reference.json` for naming only). NCBIfam
       **EC** propagation was never measured; do that first if this is revisited.
 
-- [ ] **MIT9313 — `MIT9313_genbank.tsv` `PMTid` column is stale for ~13 genes.**
-      The resource table (an older RefSeq build of the same assembly) gives
-      e.g. `PMT_0166 → AKG35_RS12635` and `PMT_0956/0959/0962 → AKG35_RS05225`,
-      where the current GFF has `PMT_0166` on `AKG35_RS13725` and RS05225 as
-      `PMT0983`; typed `old_locus_tag` (Tier 1) these surface as the Tier-1
-      conflicts left on MIT9313 after 2026-08-29. The other 49 conflicts (the
-      `PMT_nnnn`/`PMTnnnn` "two locus-tag families") were one gene each with a
-      re-called start codon and are gone — fixed in `_position_fallback_merge`
-      (stop-codon/reading-frame criterion + per-contig offsets, see
-      `docs/methods_position_fallback_merge.md`). Options: drop `PMTid` from the
-      TSV's `id_columns` (the GFF already carries every `PMT_` tag) or demote it
-      to a lower tier. Low value; the conflict mechanism already refuses them.
-      → `data/Prochlorococcus/papers_and_supp/MIT9313_resources/paperconfig.yaml`,
-      `cache/data/Prochlorococcus/genomes/MIT9313/gene_id_mapping.json` `conflicts`
+- [ ] **MIT9313 — 17 Tier-1 conflicts left after the stale-RS fix (2026-11-11).**
+      The 8 rows of `MIT9313_genbank.tsv` whose RS `locus_tag` named a paralog
+      are blanked in `MIT9313_genbank_modified.tsv` (33 → 17 conflicts; the
+      `PMTid` column was *not* the stale one — genome position sides with it in
+      every disagreeing row). The 17 left, in
+      `cache/data/Prochlorococcus/genomes/MIT9313/gene_id_mapping.json` `conflicts`:
+      (a) `PMT_nnnn`/`PMTnnnn` twins the position merge did not pair —
+      `PMT_0637`/`PMT0637`, `PMT_0849`/`PMT0849`, `PMT_2063`/`PMT2063` (same
+      start 2171875), likely position-fallback misses worth checking against
+      `docs/methods_position_fallback_merge.md`; (b) a `P9313name` or `PMT_`
+      tag claimed by two genes (`PMT_0166`/`PMT_2291`, `PMT0837`/`PMT1609`,
+      `PMT1389`/`PMT1390`, `PMT_2023`/`PMT_2022`, `PMT2133`/`PMT1611`, …),
+      needing the same position arbitration row by row. Low value; the conflict
+      mechanism already refuses them. Experiment harness: rerun steps 3+4 with
+      `--strains MIT9313 --force --no-ipg` and diff the resolved CSVs.
 
 - [ ] **InterPro MetaCyc pathway xrefs — measured 2026-08-18, benefit is thin;
       revisit only with a concrete use case.** Populated in

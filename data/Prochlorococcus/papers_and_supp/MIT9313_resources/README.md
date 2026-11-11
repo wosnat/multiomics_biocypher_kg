@@ -16,6 +16,7 @@ Not a publication. This is a strain-level ID-translation resource that contribut
 | File | Type | Content | KG status | Recommended action |
 |------|------|---------|-----------|--------------------|
 | `MIT9313_genbank.tsv` | TSV | GenBank-derived ID bridge for MIT9313: `locus_tag`, `PMTid` (old PMT-style), `P9313name` (P9313-style), `uniprot_id`, `product` | already in | — |
+| `MIT9313_genbank_modified.tsv` | TSV | The bridge with 8 stale RS `locus_tag` cells blanked (they named a paralog; `PMTid` and the genome-ordered `P9313name` agree with each other). Built by `scripts/build_modified_csv/build_mit9313_genbank_modified.py` | already in (what the paperconfig reads) | — |
 | `paperconfig.yaml` | YAML | Single `supplementary_materials` entry of type `id_translation` that maps the four ID columns onto the MIT9313 gene catalogue | already in | — |
 | `paperconfig_orig.yaml` | YAML | Identical pre-resolution copy of paperconfig.yaml (no `_resolved` output because this is not a DE csv) | reference | — |
 

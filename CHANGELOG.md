@@ -64,6 +64,12 @@ tag with nothing logged.
   (`family_inferred`, single-EC InterPro families; genes with an EC +90), one gene loses one
   InterPro-derived GO term per BP/MF; `annotation_state` unchanged for every gene; expression
   edges identical (358,913).
+- MIT9313 ID bridge: 8 rows of `MIT9313_resources/MIT9313_genbank.tsv` named a paralog in their
+  RS `locus_tag` cell (e.g. psbA1 P9313_04931 / PMT_0419 carried psbA2's AKG35_RS08155); the
+  genome-ordered `P9313name` numbering and UniProt side with the row's `PMTid`, so those cells
+  are blanked in `MIT9313_genbank_modified.tsv` (`scripts/build_modified_csv/build_mit9313_genbank_modified.py`).
+  MIT9313 Tier-1 conflicts 33 → 17. One paper row moves: Biller 2022 Table S3 psbA1 (Q7TTH6)
+  was on PMT1532 (psbA2) and is now on PMT0419 (psbA1).
 
 ### Added
 
