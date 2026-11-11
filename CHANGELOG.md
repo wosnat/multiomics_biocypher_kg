@@ -92,6 +92,14 @@ tag with nothing logged.
 
 ### Fixed
 
+- Step 6 `--force` no longer moves the committed metabolism data to another upstream release
+  unasked. Without `--refetch-raw` it now checks its gitignored raw inputs (KEGG REST, KEGG
+  compound BRITE, TCDB tables and Pfam/GO maps, ChEBI obo) before writing anything, and fails
+  when one is missing (it used to download the current release in its place), differs from the
+  sha256 in the new committed `cache/data/step6_raw_inputs.json` (written by every successful
+  run), or, until that manifest exists, when the raw ChEBI release differs from the committed
+  one. A run on a checkout with stale raws had moved ChEBI 256 → 257 and rewritten
+  `tcdb_hierarchy.json`.
 - Step 4 (`resolve_paper_ids`) no longer resolves a supplementary table's footnote to a gene. A
   row whose ID cell holds prose (3+ words) and whose other cells are all empty is now marked
   `note_row` and left unresolved; before, a stray token in the text could match a real gene

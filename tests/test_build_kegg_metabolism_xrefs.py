@@ -1088,6 +1088,72 @@ def test_load_chebi_falls_back_to_existing_raw_obo_on_download_failure(tmp_path,
     assert from_raw is False and idx.release == "256"
 
 
+def _write_raws(cache_root, chebi_release="257"):
+    import gzip as _gz
+    for p in bx._raw_inputs(cache_root):
+        p.parent.mkdir(parents=True, exist_ok=True)
+        if p.name == "chebi.obo.gz":
+            with _gz.open(p, "wt") as fh:
+                fh.write(f"format-version: 1.2\ndata-version: {chebi_release}\n")
+        else:
+            p.write_text(p.name)
+
+
+def test_check_raw_inputs_lists_every_missing_raw(tmp_path, monkeypatch):
+    monkeypatch.setattr(bx, "RAW_MANIFEST_FILE", tmp_path / "manifest.json")
+    monkeypatch.setattr(bx, "CHEBI_CACHE_FILE", tmp_path / "chebi.json")
+    with pytest.raises(FileNotFoundError, match="--refetch-raw") as e:
+        bx._check_raw_inputs(tmp_path)
+    for name in ("kegg/raw/list_ko.txt", "kegg/raw/br_ko00001.json", "kegg/raw/br_br08001.json",
+                 "tcdb/raw/families.tsv", "tcdb/raw/acc2tcid.tsv", "tcdb/raw/tcdb_go_map.tsv",
+                 "chebi/raw/chebi.obo.gz"):
+        assert name in str(e.value)
+    _write_raws(tmp_path)
+    bx._check_raw_inputs(tmp_path)                     # all present, no manifest, no ChEBI cache
+
+
+def test_check_raw_inputs_refuses_raws_that_differ_from_the_manifest(tmp_path, monkeypatch):
+    manifest = tmp_path / "manifest.json"
+    monkeypatch.setattr(bx, "RAW_MANIFEST_FILE", manifest)
+    monkeypatch.setattr(bx, "CHEBI_CACHE_FILE", tmp_path / "chebi.json")
+    _write_raws(tmp_path)
+    manifest.write_text(json.dumps(bx._raw_manifest(tmp_path)))
+    bx._check_raw_inputs(tmp_path)
+    (tmp_path / "tcdb" / "raw" / "families.tsv").write_text("an older TCDB table")
+    with pytest.raises(RuntimeError, match="tcdb/raw/families.tsv"):
+        bx._check_raw_inputs(tmp_path)
+
+
+def test_check_raw_inputs_refuses_a_raw_obo_of_another_chebi_release(tmp_path, monkeypatch):
+    """With no manifest yet, the ChEBI release still pins the obo."""
+    monkeypatch.setattr(bx, "RAW_MANIFEST_FILE", tmp_path / "manifest.json")
+    cache_file = tmp_path / "chebi.json"
+    cache_file.write_text(json.dumps({"release": "257", "terms": {}}))
+    monkeypatch.setattr(bx, "CHEBI_CACHE_FILE", cache_file)
+    _write_raws(tmp_path, chebi_release="256")
+    with pytest.raises(RuntimeError, match="release 256 .* release 257"):
+        bx._check_raw_inputs(tmp_path)
+
+
+def test_main_force_checks_raws_before_writing_or_downloading(tmp_path, monkeypatch):
+    _stub_main(tmp_path, monkeypatch)
+
+    def stale(c):
+        raise RuntimeError("raw input differs")
+    monkeypatch.setattr(bx, "_check_raw_inputs", stale)
+
+    def no_write(*a, **k):
+        raise AssertionError("step 6 wrote or downloaded before checking its raw inputs")
+    for name in ("_build_tcdb_hierarchy", "download_all"):
+        monkeypatch.setattr(bx, name, no_write)
+    monkeypatch.setattr(bx.kegg_utils, "download_kegg_raw", no_write)
+    with pytest.raises(RuntimeError, match="raw input differs"):
+        bx.main(force=True, today="2026-11-11")
+    monkeypatch.setattr(bx, "_check_raw_inputs", stale)      # --refetch-raw skips the check
+    with pytest.raises(AssertionError, match="wrote or downloaded"):   # ... and goes on to download
+        bx.main(refetch_raw=True, today="2026-11-11")
+
+
 def test_normalize_paper_id_prefixes_case_insensitive(tmp_path):
     conn = _subs_conn_with_chebi_only(tmp_path)
     chebi = make_chebi(CHEBI_4167=term("D-glucopyranose", alt=["CHEBI:12345"], kegg=["C00031"]),
@@ -1122,6 +1188,9 @@ def _stub_main(tmp_path, monkeypatch):
         monkeypatch.setattr(bx, name, val)
     monkeypatch.setattr(bx.kegg_utils, "download_kegg_raw", lambda *a, **k: None)
     monkeypatch.setattr(bx, "download_all", lambda **k: None)
+    monkeypatch.setattr(bx, "_check_raw_inputs", lambda c: None)
+    monkeypatch.setattr(bx, "RAW_MANIFEST_FILE", tmp_path / "step6_raw_inputs.json")
+    monkeypatch.setattr(bx, "_raw_manifest", lambda c: {})
     monkeypatch.setattr(bx, "_build_tcdb_hierarchy", lambda c: 0)
     monkeypatch.setattr(bx, "_parse_raw_into_dict", lambda c: {"compound_to_pathways": {},
                                                               "compound_names": {"C00001": "H2O"},
@@ -1177,7 +1246,7 @@ def test_main_writes_rendered_files_once(tmp_path, monkeypatch):
     monkeypatch.setattr(bx, "run_identity_stages", lambda inp: SimpleNamespace(report={"counts": counts}))
     monkeypatch.setattr(bx, "render_outputs", lambda out, paths: {paths.kegg_data: "{}"})
     bx.main(force=True, today="2026-10-14")
-    assert writes == [{bx.KEGG_DATA_FILE: "{}"}]
+    assert writes == [{bx.KEGG_DATA_FILE: "{}", bx.RAW_MANIFEST_FILE: "{}\n"}]
 
 
 def test_main_passes_old_and_new_substrate_maps(tmp_path, monkeypatch):

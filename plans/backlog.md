@@ -30,16 +30,6 @@ up — this file is the index, not the plan.
       called onto them. Re-run `/tcdb-diamond --refresh-tcdb --force` + steps 2 6 once
       `last-modified` moves.
 
-- [ ] **Step 6 `--force` is not reproducible on a checkout without its raw caches (found
-      2026-11-11).** CLAUDE.md says `--force` rebuilds "from already-cached raw inputs (~1 min, no
-      network)", but on a checkout whose gitignored raws (`cache/data/chebi/raw/chebi.obo`, the
-      TCDB TSVs, `cache/data/kegg/raw/br_br08*.json`) are missing or stale, it silently downloads
-      the current upstream release: a run here moved ChEBI 256 → 257, rewrote ~4.5K lines of
-      `tcdb_hierarchy.json` (e.g. family 1.A.123 gone upstream) and shifted KEGG pathway lists —
-      a data refresh nobody asked for (reverted). Options: fail (or require `--refetch-raw`) when a
-      raw input is missing, or pin each raw to the release recorded in its committed output.
-      → `multiomics_kg/download/build_kegg_metabolism_xrefs.py` (`_load_chebi`, TCDB step 1, BRITE)
-
 - [ ] **Re-scan all strains with InterProScan 110 (2026-10-31).** The calls.json
       artifacts come from InterProScan 5.78-109.0, but the reference was refreshed
       to InterPro 110.0. The adapter now drops the 38 accessions 110.0 retired
