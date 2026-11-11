@@ -552,6 +552,13 @@ def _batched(seq: list, n: int = _BATCH_SIZE):
         yield seq[i:i + n]
 
 
+def _mnxm_order(mnxm_id: str) -> tuple[int, int, str]:
+    """Sort key for MNX compound ids by number ("MNXM9" < "MNXM10"); non-numeric ids (MNX's
+    "WATER", "BIOMASS") after numbered ones; the string breaks ties ("MNXM01" vs "MNXM1")."""
+    digits = mnxm_id[4:] if mnxm_id.startswith("MNXM") else ""
+    return (0, int(digits), mnxm_id) if digits.isdigit() else (1, 0, mnxm_id)
+
+
 def _bulk_enrich_reactions(
     conn: sqlite3.Connection,
     kegg_ids: list[str],
@@ -992,7 +999,8 @@ def _resolve_substrate_strings(
                 primary_num[chebi_value] = p.split(":", 1)[1] if p else None
 
     # Pass 2: chebi_value → mnxm_id (with ChEBI: query both the original and the primary
-    # number; the lowest mnxm_id hit for either wins).
+    # number; the lowest mnxm_id hit for either wins, by number — MNX files one MNXM per ChEBI
+    # value, so the ORDER BY below never has to break a tie).
     distinct_chebi = sorted({chebi_v for _, chebi_v, _ in parsed}
                             | {n for n in primary_num.values() if n})
     value_to_mnxm: dict[str, str] = {}
@@ -1015,7 +1023,7 @@ def _resolve_substrate_strings(
                                 value_to_mnxm.get(primary_num.get(chebi_value) or ""))
                     if m]
             if hits:
-                chebi_to_mnxm[chebi_value] = min(hits)
+                chebi_to_mnxm[chebi_value] = min(hits, key=_mnxm_order)
 
     # Pass 3: distinct mnxm_ids → kegg.compound + chebi aliases (legacy: the original value's
     # own hit, which may differ from the primary-number hit chosen above)

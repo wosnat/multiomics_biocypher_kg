@@ -981,6 +981,30 @@ def test_resolve_substrate_strings_secondary_to_primary_chebi_props(tmp_path):
     assert rekeys == {}
 
 
+def test_resolve_substrate_strings_lowest_mnxm_by_number(tmp_path):
+    """A secondary ChEBI id and its primary hit different MNX ids: the lower *number* wins
+    (MNXM9 over MNXM10), not the lexically smaller string."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _resolve_substrate_strings
+    conn = sqlite3.connect(tmp_path / "r.db")
+    conn.executescript("""
+      CREATE TABLE compounds (mnxm_id TEXT, name TEXT, formula TEXT, mass REAL, inchikey TEXT, smiles TEXT);
+      CREATE TABLE compound_aliases (source TEXT, value TEXT, mnxm_id TEXT);
+      CREATE TABLE compound_names (mnxm_id TEXT, name_normalized TEXT);
+      INSERT INTO compounds VALUES ('MNXM9','x9',NULL,NULL,NULL,NULL);
+      INSERT INTO compounds VALUES ('MNXM10','x10',NULL,NULL,NULL,NULL);
+      INSERT INTO compound_aliases VALUES ('chebi','12345','MNXM10');
+      INSERT INTO compound_aliases VALUES ('chebi','4167','MNXM9');
+    """)
+    chebi = make_chebi(CHEBI_4167=term("thing", alt=["CHEBI:12345"]))
+    _, props = _resolve_substrate_strings({"CHEBI:12345;thing"}, conn, chebi=chebi)
+    assert props["chebi:4167"]["mnxm_id"] == "MNXM9"
+
+
+def test_mnxm_order():
+    assert sorted(["MNXM10", "WATER", "MNXM9", "MNXM1"], key=bx._mnxm_order) == \
+        ["MNXM1", "MNXM9", "MNXM10", "WATER"]
+
+
 def test_gene_reachable_sets_returns_rxn_genes(tmp_path, monkeypatch, synthetic_kegg_raw):
     import multiomics_kg.download.build_kegg_metabolism_xrefs as bx
     strain = tmp_path / "s"

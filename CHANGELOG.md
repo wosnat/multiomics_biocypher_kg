@@ -99,6 +99,15 @@ tag with nothing logged.
 - The `DataSource` chebi node's `version` no longer depends on the working directory (the ChEBI
   cache path was cwd-relative), and a missing ChEBI cache is now a warning in the adapter and in
   `create_knowledge_graph.py` (no `chebi_release.txt`) instead of a silent skip.
+- Metabolite identity: the isotopologue name check now recognises position-labelled forms
+  (`[1-13C]acetate`, `L-[U-13C]glutamine`, ChEBI's `((13)C)urea` / `D-(1-(13)C)glucitol`,
+  `15N-urea`) and no longer reads indicated hydrogen (`anthracen-9(10H)-one`) as an isotope.
+  Measured over every ChEBI 256 name and synonym plus the KG's compound and paper names: +96 /
+  −61 matches, all ChEBI-only; every KG-referenced term that changed was already caught by the
+  structural ChEBI check, so no metabolite node or identifier changes.
+- Step 6 picks the lowest MNX compound id by number (`MNXM9` before `MNXM10`), not as a string,
+  when a substrate's ChEBI id and its primary hit different MNX entries. Never triggered on the
+  current MNX release (each ChEBI id maps to one MNX id); no data change.
 
 ## [0.1.0-alpha.9] - 2026-11-01
 

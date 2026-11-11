@@ -349,8 +349,6 @@ the committed caches, not taken from the log. Ordered by proposed priority.
         - ~20 abstract KEGG compounds with no formula and no ChEBI class term (`C00028` Acceptor,
           Quinone, …) are `structure_kind = defined` by default; consider a curated list or a
           KEGG-name rule.
-        - Isotope detection misses position-labelled forms (`[1-13C]acetate`, `L-[U-13C]glutamine`,
-          `15N-urea`).
         - `member_basis` records the first link that touched a member, not the link that attached
           it to the canonical node (manual-first ordering can misattribute); a manual merge
           blocked transitively by `keep_separate` is silent (no report entry).
@@ -362,8 +360,7 @@ the committed caches, not taken from the log. Ordered by proposed priority.
         - `identifier_tokens` includes bare ChEBI numbers, so digit-only full-text queries match
           them — document in the explorer contract.
       - *Robustness.* Classes parser drops a compound leaf at a tree root silently; a substrate
-        equal to the role root `CHEBI:50906` would crash `_level`; MNXM lexical tie-break
-        (`MNXM10` < `MNXM9`) in substrate resolution.
+        equal to the role root `CHEBI:50906` would crash `_level`.
       - *Test gaps.* `download_chebi_obo` / `download_compound_brite` / `metabolite_identity_tsvs.py`
         edge cases; stale `keep_separate`, 3+-member union, `member_basis`, tie-breaks;
         first-block-mismatch stereo link; boolean assay-edge `ValueError`; validator non-str key /
@@ -470,7 +467,17 @@ Smaller ID follow-ups from the same batch (not concepts, just mapping work):
       YP_ accessions skipped (paralog ambiguity).
 - [ ] IPG legacy-accession bridge gaps: WH8102 NP_ maps only to the GCA `CAE` accession
       (`find_assembly_match` vs the GCF returns None) and `ZP_` is not matched by
-      `looks_like_legacy_protein_acc` — Oleza 2015b used diamond instead.
+      `looks_like_legacy_protein_acc` — Oleza 2015b used diamond instead. **The two are one fix**
+      (measured 2026-11-11): IPG returns retired `ZP_` accessions with only an INSDC row on the
+      paired GenBank assembly (`ZP_01467679.1` → `EAU71572.1` on `GCA_000153805.1`, which
+      `genomic_gca.gff` anchors to `BL107_12230`, the gene diamond chose), so adding `ZP_` to the
+      regex alone does nothing. Accepting the same-number `GCA_` as the target assembly is not
+      small: over the cached IPG bodies it would newly match up to ~3.7K accessions on 34
+      strains (WH7803 1,161, DSS-3 861, BS11 137; upper bound — the cache is not keyed by
+      strain), re-resolving paper rows through each strain's GenBank annotation. Needs a
+      measured step 3 + 4 run (`/omics-edge-snapshot` before/after). No paperconfig types a
+      `ZP_` column `protein_id_refseq` today.
+      → `multiomics_kg/utils/ncbi_protein_xref.py` (`LEGACY_PROTEIN_ACC_RE`, `find_assembly_match`)
 - [ ] Oleza 2015b and Oleza 2017: PatternLab TFold raw p-values are mapped to
       `adjusted_p_value_col` (open policy item).
 
