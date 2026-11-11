@@ -54,9 +54,28 @@ tag with nothing logged.
 
 ### Added
 
+- Build warns when step 6 is stale for GO transport: `kegg_data.json` now records the KG GO
+  terms with a go-plus transport axiom that step 6 considered (`go_transport_terms_considered`),
+  and the GO adapter warns when a KG GO term carries an axiom step 6 never saw — the case after
+  onboarding a strain without `prepare_data.sh --steps 6 --force`, where those terms silently
+  got no transport edges.
+- Duplicate expression rows are now reported: when several rows of one table resolve to the same
+  gene in one analysis, the omics adapter logs them (with each row's identifier, log2FC and
+  significance), and `validate_paperconfig.py` warns on duplicate `resolved_locus_tag`s. The graph
+  still keeps one edge per gene (85 such edges over 10 papers); which row to keep is decided per
+  paper later.
+
 ### Changed
 
 ### Fixed
+
+- Step 6 stops with a clear error when the previous `kegg_data.json` is unreadable, instead of
+  failing on a bare JSON error; `finalize_stereo` raises a named error when a stereo pair points
+  at a compound missing from the table (was a bare `KeyError`, or a silent link to a node that
+  is not written; defensive — the pipeline passes every table id as a survivor).
+- The `DataSource` chebi node's `version` no longer depends on the working directory (the ChEBI
+  cache path was cwd-relative), and a missing ChEBI cache is now a warning in the adapter and in
+  `create_knowledge_graph.py` (no `chebi_release.txt`) instead of a silent skip.
 
 ## [0.1.0-alpha.9] - 2026-11-01
 

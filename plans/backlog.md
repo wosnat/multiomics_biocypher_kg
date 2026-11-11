@@ -30,6 +30,16 @@ up — this file is the index, not the plan.
       called onto them. Re-run `/tcdb-diamond --refresh-tcdb --force` + steps 2 6 once
       `last-modified` moves.
 
+- [ ] **Step 6 `--force` is not reproducible on a checkout without its raw caches (found
+      2026-11-11).** CLAUDE.md says `--force` rebuilds "from already-cached raw inputs (~1 min, no
+      network)", but on a checkout whose gitignored raws (`cache/data/chebi/raw/chebi.obo`, the
+      TCDB TSVs, `cache/data/kegg/raw/br_br08*.json`) are missing or stale, it silently downloads
+      the current upstream release: a run here moved ChEBI 256 → 257, rewrote ~4.5K lines of
+      `tcdb_hierarchy.json` (e.g. family 1.A.123 gone upstream) and shifted KEGG pathway lists —
+      a data refresh nobody asked for (reverted). Options: fail (or require `--refetch-raw`) when a
+      raw input is missing, or pin each raw to the release recorded in its committed output.
+      → `multiomics_kg/download/build_kegg_metabolism_xrefs.py` (`_load_chebi`, TCDB step 1, BRITE)
+
 - [ ] **Re-scan all strains with InterProScan 110 (2026-10-31).** The calls.json
       artifacts come from InterProScan 5.78-109.0, but the reference was refreshed
       to InterPro 110.0. The adapter now drops the 38 accessions 110.0 retired
@@ -258,9 +268,6 @@ the explorer tool bugs (non-unique paging sort, `gene_neighbors` window OOM, sil
 reach) are filed in the explorer repo. Sizes below were measured on 2026-10-13 against
 the committed caches, not taken from the log. Ordered by proposed priority.
 
-**P1 — small, mechanical, unblocks the analysis's own workarounds**
-
-- [ ] **GO transport: warn on stale step 6** (transport programme). The adapter should warn when KG GO terms that have axioms in `cache/data/go_terms/go_transport_substrates.json` are missing from `kegg_data`'s `go_transport_substrates` (step 6 left stale after a strain onboarding without `--steps 6 --force`).
 
 **P2 — needs a design pass**
 
@@ -284,11 +291,15 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       `log2_fold_change` and `significant`. 85 edges over 10 papers on the 2026-10-31 build: Coe 2024
       49 (39 of the dropped copies were significant; whether the pair disagrees is unchecked), Fang 2019 9, Biller 2018 6, Domínguez 2017 5, Ma 2022 5,
       Ferrer 2020 4, Thompson 2016 3, Al-Hosani 2015 2, He 2022 1, Kratzl 2024 1. Pre-existing (same
-      counts in the 2026-10-28 snapshot). Fix: have the adapter detect duplicate ids per analysis and
-      log them (paper, analysis, gene, the rows' identifiers), then decide per paper — a real duplicate
-      row, two paralogs one ID resolves to both, or two probes per gene (needs an explicit rule, e.g.
-      keep the larger |log2FC| or mark the edge). The validator could warn on duplicate resolved
-      locus tags within an analysis. → `multiomics_kg/adapters/omics_adapter.py`,
+      counts in the 2026-10-28 snapshot). Detection DONE 2026-11-11: the adapter logs each
+      collision (analysis, gene, the rows' identifiers, log2FC, significance, how many disagree) and
+      `validate_paperconfig.py` warns on duplicate `resolved_locus_tag`s per table. Still open: decide
+      per paper — a real duplicate row, two paralogs one ID resolves to both, or two probes per gene
+      (needs an explicit rule, e.g. keep the larger |log2FC| or mark the edge). Related step-4 bug
+      (review, 2026-11-11): `resolve_paper_ids` resolves a footnote row to a gene (Beliaev 2014
+      `supp_table_s6`/`s8` row 1342 "1 RPKM is defined as …" → `Sputw3181_2756` via `multi: Locus
+      tag`); harmless today (no logFC, the adapter skips it) but resolution should skip such rows.
+      → `multiomics_kg/adapters/omics_adapter.py`,
       `<table>_resolved.csv` (`locus_tag`, `resolution_method`)
 
 - [ ] **TCDB substrate plausibility per gene** (the one live part of the old "Deferred TCDB
@@ -350,12 +361,9 @@ the committed caches, not taken from the log. Ordered by proposed priority.
           (raw obo unavailable) could relabel 3–4 remap rows.
         - `identifier_tokens` includes bare ChEBI numbers, so digit-only full-text queries match
           them — document in the explorer contract.
-      - *Robustness.* `prev_kegg` JSON load in step 6 `main()` is unguarded; `data_source_adapter`
-        reads the ChEBI cache via a cwd-relative path (`version` silently `""` elsewhere); classes
-        parser drops a compound leaf at a tree root silently; `finalize_stereo` `KeyError` if a
-        survivor is missing from the table; a substrate equal to the role root `CHEBI:50906` would
-        crash `_level`; `chebi_release.txt` silently skipped when the cache is missing; MNXM lexical
-        tie-break (`MNXM10` < `MNXM9`) in substrate resolution.
+      - *Robustness.* Classes parser drops a compound leaf at a tree root silently; a substrate
+        equal to the role root `CHEBI:50906` would crash `_level`; MNXM lexical tie-break
+        (`MNXM10` < `MNXM9`) in substrate resolution.
       - *Test gaps.* `download_chebi_obo` / `download_compound_brite` / `metabolite_identity_tsvs.py`
         edge cases; stale `keep_separate`, 3+-member union, `member_basis`, tie-breaks;
         first-block-mismatch stereo link; boolean assay-edge `ValueError`; validator non-str key /

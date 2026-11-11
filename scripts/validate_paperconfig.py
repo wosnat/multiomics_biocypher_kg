@@ -44,6 +44,7 @@ from multiomics_kg.utils.paperconfig_utils import (
     get_supplementary_materials,
 )
 from multiomics_kg.utils.fold_change import signed_linear_suspect, signed_linear_violations
+from multiomics_kg.download.resolve_paper_ids import get_resolved_path
 from multiomics_kg.vocab.non_de_evidence import (
     COMPARTMENTS,
     EXTENDED_OMICS_TYPES,
@@ -520,6 +521,40 @@ def _read_csv_safe(fn, sep, skip, errors, table_key):
     except Exception as e:
         errors.append(f"{table_key}: Cannot read CSV: {e}")
         return None, None
+
+
+def _duplicate_resolved_genes_warning(fn, table_key, logfc_cols=()) -> str | None:
+    """Warn when the table's ``_resolved.csv`` resolves several rows to one gene.
+
+    Every analysis of the table builds one edge per gene, so only one of those rows
+    reaches the graph. Only rows with a numeric value in some analysis's ``logfc_col``
+    count — the adapter skips the others (footnotes, empty rows), so they cannot collide.
+    ``None`` when there is no resolved file or no duplicate.
+    """
+    resolved = get_resolved_path(fn)
+    if not resolved.exists():
+        return None
+    try:
+        df = pd.read_csv(resolved, dtype=str)
+    except Exception:
+        return None
+    if "resolved_locus_tag" not in df.columns:
+        return None
+    fc_cols = [c for c in dict.fromkeys(logfc_cols) if c and c in df.columns]
+    if fc_cols:
+        numeric = pd.concat(
+            [pd.to_numeric(df[c].str.strip().str.strip("*").str.strip(), errors="coerce")
+             for c in fc_cols], axis=1)
+        df = df[numeric.notna().any(axis=1)]
+    counts = df["resolved_locus_tag"].dropna().str.strip().value_counts()
+    dupes = counts[counts > 1]
+    if dupes.empty:
+        return None
+    return (
+        f"{table_key}: {len(dupes)} genes appear on more than one row of {resolved.name} "
+        f"(e.g. {', '.join(dupes.index[:5])}); each analysis keeps only one row per gene — "
+        f"check for repeated rows, paralogs sharing an ID, or several probes per gene"
+    )
 
 
 def _validate_id_columns(id_columns, cols, table_key, errors, warnings):
@@ -1894,6 +1929,11 @@ def validate_paperconfig_content(
         if not analyses:
             errors.append(f"{table_key}: type 'csv' requires 'statistical_analyses'")
             continue
+
+        dup_warning = _duplicate_resolved_genes_warning(
+            fn, table_key, [a.get("logfc_col") for a in analyses if isinstance(a, dict)])
+        if dup_warning:
+            warnings.append(dup_warning)
 
         for i, analysis in enumerate(analyses):
             aid = analysis.get("id", f"<missing-id-{i}>")

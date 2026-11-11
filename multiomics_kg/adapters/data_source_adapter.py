@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any, Iterator
 
 import yaml
+from biocypher._logger import logger
 
 
 def _clean_str(value: str) -> str:
@@ -28,7 +29,8 @@ def data_source_ids(config: dict) -> set[str]:
     return ids
 
 
-_CHEBI_CACHE = Path("cache/data/chebi/chebi_metabolite_xrefs.json")
+_CHEBI_CACHE = (Path(__file__).resolve().parents[2]
+                / "cache" / "data" / "chebi" / "chebi_metabolite_xrefs.json")
 
 
 class DataSourceAdapter:
@@ -122,7 +124,10 @@ class DataSourceAdapter:
     @staticmethod
     def _version_for(source_id: str) -> str:
         """ChEBI's release comes from the committed cache; other sources are unversioned."""
-        if source_id != "chebi" or not _CHEBI_CACHE.exists():
+        if source_id != "chebi":
+            return ""
+        if not _CHEBI_CACHE.exists():
+            logger.warning(f"ChEBI cache {_CHEBI_CACHE} missing; DataSource chebi gets no version")
             return ""
         import json
         with open(_CHEBI_CACHE) as f:

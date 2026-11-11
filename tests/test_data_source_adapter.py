@@ -141,3 +141,11 @@ def test_tcdb_diamond_is_tool_run_gene_level(adapter):
     assert tcd["scope"] == "gene_level"
     assert tcd["name"] == "TCDB (diamond)"
     assert "tcdb_diamond_ids" in set(tcd["info_types"])
+
+
+def test_chebi_version_independent_of_cwd(tmp_path, monkeypatch):
+    from multiomics_kg.adapters import data_source_adapter as dsa
+    expected = DataSourceAdapter._version_for("chebi")
+    monkeypatch.chdir(tmp_path)
+    assert dsa._CHEBI_CACHE.is_absolute()
+    assert DataSourceAdapter._version_for("chebi") == expected != ""

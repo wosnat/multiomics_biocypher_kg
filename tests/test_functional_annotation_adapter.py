@@ -1029,3 +1029,52 @@ def test_release_mismatch_warns(multi_adapter, tmp_path, caplog):
     with caplog.at_level(logging.WARNING):
         list(multi_adapter.get_transport_edges(p, set(), set()))
     assert any("release" in r.message.lower() and "2026-07-26" in r.message for r in caplog.records)
+
+
+def _write_axioms(cache_root, axioms):
+    d = cache_root / "go_terms"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "go_transport_substrates.json").write_text(json.dumps({"axioms": axioms}))
+
+
+def _write_kegg_considered(tmp_path, considered):
+    p = _write_kegg(tmp_path)
+    data = json.loads(p.read_text())
+    if considered is not None:
+        data["go_transport_terms_considered"] = considered
+    p.write_text(json.dumps(data))
+    return p
+
+
+def test_stale_step6_warns_on_unconsidered_kg_term(multi_adapter, tmp_path, caplog):
+    import logging
+    # GO:0003677 is a KG term with an axiom step 6 did not consider; GO:5555555 is not a KG term.
+    _write_axioms(multi_adapter.cache_root, {"GO:0003677": ["CHEBI:15377"],
+                                             "GO:0006260": ["CHEBI:26672"],
+                                             "GO:5555555": ["CHEBI:1"]})
+    p = _write_kegg_considered(tmp_path, ["GO:0006260"])
+    with caplog.at_level(logging.WARNING):
+        list(multi_adapter.get_transport_edges(p, set(), set()))
+    msgs = [r.message for r in caplog.records if "did not consider" in r.message]
+    assert len(msgs) == 1 and "GO:0003677" in msgs[0] and "GO:5555555" not in msgs[0]
+
+
+def test_stale_step6_silent_when_all_considered(multi_adapter, tmp_path, caplog):
+    import logging
+    _write_axioms(multi_adapter.cache_root,
+                  {"GO:0003677": ["CHEBI:15377"], "GO:0006260": ["CHEBI:26672"]})
+    p = _write_kegg_considered(tmp_path, ["GO:0003677", "GO:0006260"])
+    with caplog.at_level(logging.WARNING):
+        list(multi_adapter.get_transport_edges(p, set(), set()))
+    assert not any("did not consider" in r.message or "go_transport_terms_considered" in r.message
+                   for r in caplog.records)
+
+
+def test_stale_step6_warns_when_field_missing(multi_adapter, tmp_path, caplog):
+    import logging
+    _write_axioms(multi_adapter.cache_root, {"GO:0003677": ["CHEBI:15377"]})
+    p = _write_kegg_considered(tmp_path, None)
+    with caplog.at_level(logging.WARNING):
+        list(multi_adapter.get_transport_edges(p, set(), set()))
+    assert any("go_transport_terms_considered" in r.message for r in caplog.records)
+

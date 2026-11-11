@@ -96,6 +96,8 @@ class Step6Inputs:
     go_distribution_input: dict = field(default_factory=dict)
     go_drops: dict = field(default_factory=dict)          # stage-D drop counts
     go_axioms_in_corpus: int = 0                          # KG GO terms with a transport axiom
+    # Those KG GO terms by id (published so the GO adapter can detect a stale step 6).
+    go_terms_considered: list = field(default_factory=list)
     go_unresolved_ids: list = field(default_factory=list)  # GO ChEBI ids no node could take
     # TCDB substrate target filter (config/tcdb_substrate_target_filter.yaml): applied at stage D
     # on raw primaries, matched again after canonicalisation (a kept target merged onto a
@@ -512,6 +514,7 @@ def run_identity_stages(inp: Step6Inputs) -> Step6Outputs:
                      go_transport_substrates=go_targets,
                      go_transport_excluded_targets=go_excluded_targets,
                      go_transport_release=inp.go_release,
+                     go_transport_terms_considered=sorted(inp.go_terms_considered),
                      tcdb_substrate_excluded_targets=tcdb_excluded_targets)
     go_metabolite_targets = {t for m in go_subs.values() for t in m}
     go_report = {

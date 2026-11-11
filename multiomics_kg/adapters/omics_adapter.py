@@ -102,6 +102,30 @@ def _convert_fold_change(fc_float: float, fold_change_type: str | None) -> float
     return fc_float
 
 
+def _log_duplicate_gene_rows(rows_by_edge: dict[str, list[tuple]], analysis_id: str,
+                             source: str) -> int:
+    """Warn about genes that more than one table row resolves to in one analysis.
+
+    ``rows_by_edge`` maps edge id -> ``[(gene_id, row identifier, log2FC, significant), ...]``.
+    The rows share an edge id, so the graph keeps only one of them. Returns the number of
+    affected genes.
+    """
+    dupes = {k: v for k, v in rows_by_edge.items() if len(v) > 1}
+    if not dupes:
+        return 0
+    disagree = sum(1 for v in dupes.values()
+                   if len({r[2] for r in v}) > 1 or len({r[3] for r in v}) > 1)
+    examples = "; ".join(
+        f"{v[0][0]} <- {[str(r[1]) for r in v]} log2FC {[r[2] for r in v]} {[r[3] for r in v]}"
+        for v in list(dupes.values())[:3])
+    logger.warning(
+        f"{analysis_id}: {len(dupes)} genes have more than one row in {source} "
+        f"({disagree} with differing log2FC or significance); the graph keeps one edge per "
+        f"gene, chosen by row order. E.g. {examples}"
+    )
+    return len(dupes)
+
+
 def _validate_fc_range(
     fc_values: list[float],
     fold_change_type: str | None,
@@ -814,6 +838,9 @@ class OMICSAdapter:
             raw_fc_values = []  # collect raw FC values for range validation
             pub_id_raw = self.get_publication_id()
             analysis_id = analysis.get('id', '')
+            # Rows that resolve to one gene share an edge id; BioCypher keeps one of
+            # them, chosen by row order. Collected here so the collision is logged.
+            rows_by_edge: dict[str, list[tuple]] = {}
 
             # Create edges for each row.
             # Iterate over plain dicts (df.to_dict('records')) instead of
@@ -941,6 +968,10 @@ class OMICSAdapter:
                 # Create expression association edge
                 # source: experiment_id, target: gene_id
                 edge_id = f"{pub_id_raw}_{analysis_id}_{gene_id}"
+                rows_by_edge.setdefault(edge_id, []).append((
+                    gene_id, row.get(name_col), edge_properties.get('log2_fold_change'),
+                    significant,
+                ))
                 edges.append((
                     edge_id,
                     experiment_id,
@@ -948,6 +979,11 @@ class OMICSAdapter:
                     'changes_expression_of',
                     edge_properties
                 ))
+
+            _log_duplicate_gene_rows(
+                rows_by_edge, analysis_id,
+                _resolved_path.name if _use_resolved else filename,
+            )
 
             if skipped_count > 0:
                 src_label = _resolved_path.name if _use_resolved else filename

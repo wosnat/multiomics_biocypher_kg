@@ -70,3 +70,12 @@ def test_build_cache_offline_stale_committed_raises(tmp_path):
         json.dumps({"release": "old", "md5": "x", "axioms": {}}))
     with pytest.raises(RuntimeError, match="refresh_go_release"):
         build_go_transport_cache(root)
+
+
+def test_stale_transport_terms():
+    from multiomics_kg.utils.go_plus import stale_transport_terms
+    axioms = {"GO:1": ["CHEBI:5"], "GO:2": ["CHEBI:6"], "GO:3": ["CHEBI:7"]}
+    kg = {"GO:1": "molecular function", "GO:2": "biological process"}
+    assert stale_transport_terms(kg, axioms, ["GO:1"]) == ["GO:2"]
+    assert stale_transport_terms(kg, axioms, ["GO:1", "GO:2"]) == []
+    assert stale_transport_terms(kg, axioms, None) is None

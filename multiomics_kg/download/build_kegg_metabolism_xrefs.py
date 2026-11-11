@@ -1657,6 +1657,23 @@ def _missing_resolved_tables() -> list[Path]:
 
 # ── Stage D: GO transport targets (spec 2026-10-18 §5.4) ─────────────────────
 
+def _load_previous_kegg_data(path: Path) -> dict:
+    """The previous run's ``kegg_data.json`` ({} on a first run).
+
+    Its compound ids seed the identity remap, so an unreadable file must stop the run
+    rather than silently look like a first run (every id would read as new).
+    """
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text())
+    except json.JSONDecodeError as e:
+        raise RuntimeError(
+            f"{path} is not valid JSON ({e}); step 6 needs the previous run's output for the "
+            f"identity remap. Restore it (git checkout -- {path}) and rerun."
+        ) from e
+
+
 def _go_transport_targets(
     axioms: dict[str, list[str]],
     kg_terms: set[str],
@@ -1707,6 +1724,7 @@ def _go_transport_targets(
                   "filtered_by_target": dict(sorted(filtered_by_target.items()))},
         "unresolved_ids": sorted(set(not_in_chebi) | unresolved),
         "axioms_in_corpus": sum(1 for g in axioms if g in kg_terms),
+        "terms_considered": sorted(g for g in axioms if g in kg_terms),
         "kegg_cpds": {p[len("kegg.compound:"):] for p in surviving if p.startswith("kegg.compound:")},
         "primaries": surviving,
         "props": {p: props[p] for p in sorted(surviving) if p in props},
@@ -1872,7 +1890,7 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         today = today or date.today().isoformat()
 
         # previous outputs: old ids for the remap, the frozen lock and pin, old paper resolutions
-        prev_kegg = json.loads(KEGG_DATA_FILE.read_text()) if KEGG_DATA_FILE.exists() else {}
+        prev_kegg = _load_previous_kegg_data(KEGG_DATA_FILE)
         previous_ids = ({f"kegg.compound:{k}" for k in prev_kegg.get("compounds", {})}
                         | set(prev_kegg.get("additional_compounds", {})))
         prev_pruned_path = cache_root / "tcdb" / "tcdb_pruned.json"
@@ -2021,6 +2039,7 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         go_excluded_primaries=go["excluded_primaries"], go_filter_primaries=go["filter_primaries"],
         go_release=go_cache["release"], go_distribution_input=go_gene_terms, go_drops=go["drops"],
         go_axioms_in_corpus=go["axioms_in_corpus"], go_unresolved_ids=go["unresolved_ids"],
+        go_terms_considered=go["terms_considered"],
         tcdb_excluded_primaries=tcdb_excluded, tcdb_filter_primaries=tcdb_filter_primaries,
         tcdb_filter_drops=dict(sorted(tcdb_filter_drops.items())))
     out = run_identity_stages(inp)               # raises Step6ValidationError → nothing written

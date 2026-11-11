@@ -467,6 +467,9 @@ def main():
     chebi_cache = Path("cache/data/chebi/chebi_metabolite_xrefs.json")
     if chebi_cache.exists():
         (Path(bc._output_directory) / "chebi_release.txt").write_text(json.loads(chebi_cache.read_text())["release"])
+    else:
+        print(f"WARNING: {chebi_cache} missing; no chebi_release.txt written, "
+              "so Schema_info.chebi_release will be null")
 
     kegg_data_path = Path("cache/data/kegg/kegg_data.json")
     if kegg_data_path.exists():

@@ -50,6 +50,18 @@ def parse_transport_axioms(graph: dict) -> dict[str, list[str]]:
     return {k: sorted(v) for k, v in sorted(out.items())}
 
 
+def stale_transport_terms(kg_terms, axioms: dict, considered) -> list[str] | None:
+    """KG GO terms with a transport axiom that step 6 did not consider, sorted.
+
+    ``considered`` is ``kegg_data.json``'s ``go_transport_terms_considered``; ``None`` (a
+    ``kegg_data.json`` written before that field existed) means the check cannot run.
+    """
+    if considered is None:
+        return None
+    seen = set(considered)
+    return sorted(g for g in axioms if g in kg_terms and g not in seen)
+
+
 def go_plus_release(graph: dict) -> str:
     for p in graph.get("meta", {}).get("basicPropertyValues", []):
         if p.get("pred") == _VERSION_INFO:

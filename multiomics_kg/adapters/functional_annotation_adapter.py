@@ -65,6 +65,7 @@ from multiomics_kg.utils.go_utils import (
     read_go_release,
     resolve_go_id,
 )
+from multiomics_kg.utils.go_plus import CACHE_NAME as GO_TRANSPORT_CACHE, stale_transport_terms
 from multiomics_kg.utils.pfam_utils import load_pfam_data
 
 logger = logging.getLogger(__name__)
@@ -381,6 +382,7 @@ class MultiGoAnnotationAdapter:
                 f"but the loaded GO cache is release {current!r}; rerun prepare_data step 6"
             )
         terms = self.all_go_terms()
+        self._warn_stale_transport_terms(kegg, terms)
         prefix = {"molecular function": "molecular_function",
                   "biological process": "biological_process"}
         count = 0
@@ -406,6 +408,29 @@ class MultiGoAnnotationAdapter:
                 )
                 count += 1
         logger.info(f"MultiGoAnnotationAdapter.get_transport_edges: yielded {count} edges")
+
+    def _warn_stale_transport_terms(self, kegg: dict, terms: dict[str, str]) -> None:
+        """Warn when KG GO terms carry a go-plus transport axiom step 6 never saw.
+
+        Happens after onboarding a strain whose genes bring new GO terms without
+        rerunning prepare_data step 6: those terms silently get no transport edges.
+        """
+        axioms_path = self.cache_root / "go_terms" / GO_TRANSPORT_CACHE
+        if not axioms_path.exists():
+            return
+        axioms = json.loads(axioms_path.read_text(encoding="utf-8")).get("axioms", {})
+        stale = stale_transport_terms(terms, axioms, kegg.get("go_transport_terms_considered"))
+        if stale is None:
+            logger.warning(
+                "kegg_data.json has no go_transport_terms_considered (written before that field "
+                "existed); cannot check GO transport terms for staleness -- rerun prepare_data step 6"
+            )
+        elif stale:
+            logger.warning(
+                f"{len(stale)} KG GO terms have a GO transport axiom that prepare_data step 6 did "
+                f"not consider (e.g. {', '.join(stale[:5])}); they get no transport edges. "
+                "Rerun `prepare_data.sh --steps 6 --force`"
+            )
 
 
 # ---------------------------------------------------------------------------

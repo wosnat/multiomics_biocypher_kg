@@ -250,6 +250,10 @@ def is_anomer_pair(a, b, table, terms_of, chebi):
 
 
 def finalize_stereo(table, stereo_pairs, enantiomer_pairs, survivors):
+    missing = sorted({x for a, b in (*stereo_pairs, *enantiomer_pairs) for x in (a, b)
+                      if x in survivors and x not in table})
+    if missing:
+        raise ValueError(f"finalize_stereo: survivors absent from the compound table: {missing[:10]}")
     for e in table.values():
         e.pop("stereo_form_of", None)
         e.pop("enantiomer_of", None)

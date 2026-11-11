@@ -1216,6 +1216,7 @@ def test_main_threads_go_targets(tmp_path, monkeypatch):
     inp = seen["inp"]
     assert inp.go_substrates == {"GO:1": {"kegg.compound:C01417": ["CHEBI:5"]}}
     assert inp.go_release == "2026-07-26" and inp.go_axioms_in_corpus == 1
+    assert inp.go_terms_considered == ["GO:1"]
     assert inp.go_drops["filtered"] == 1
     assert inp.go_filter_primaries == {"chebi:15378": "kegg.compound:C00080"}
     assert "kegg.compound:C00080" in inp.go_excluded_primaries
@@ -1839,3 +1840,14 @@ def test_build_tcdb_hierarchy_superfamily_is_family_level_and_inherited(tmp_path
         assert h[tcid]["superfamily"] == sf, tcid
     for tcid in ("3", "3.A", "3.A.2", "3.A.2.1", "3.A.2.1.1"):
         assert "superfamily" not in h[tcid], tcid
+
+
+def test_load_previous_kegg_data(tmp_path):
+    assert bx._load_previous_kegg_data(tmp_path / "absent.json") == {}
+    good = tmp_path / "good.json"
+    good.write_text('{"compounds": {"C00001": {}}}')
+    assert bx._load_previous_kegg_data(good) == {"compounds": {"C00001": {}}}
+    bad = tmp_path / "bad.json"
+    bad.write_text('{"compounds": ')
+    with pytest.raises(RuntimeError, match="git checkout"):
+        bx._load_previous_kegg_data(bad)

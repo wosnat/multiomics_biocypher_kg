@@ -60,8 +60,11 @@ def test_target_merged_onto_filtered_node_is_dropped(tmp_path):
 def test_report_block_and_distribution(tmp_path):
     inp = _go_inputs(tmp_path, go_distribution_input={
         "s1": [["GO:0015112"], ["GO:0015112", "GO:0015343"], []], "s2": [["GO:0015000"]]},
-        go_drops={"filtered": 3, "unresolved": 1}, go_axioms_in_corpus=4)
-    rep = run_identity_stages(inp).report["go_transport"]
+        go_drops={"filtered": 3, "unresolved": 1}, go_axioms_in_corpus=4,
+        go_terms_considered=["GO:0015343", "GO:0015112"])
+    out = run_identity_stages(inp)
+    assert out.kegg_data["go_transport_terms_considered"] == ["GO:0015112", "GO:0015343"]
+    rep = out.report["go_transport"]
     assert rep["release"] == "2026-07-26"
     assert rep["axioms_in_corpus"] == 4
     assert rep["edges"] == 3 and rep["targets"] == 3 and rep["role_targets"] == 1

@@ -226,3 +226,14 @@ def test_kegg_stereo_forms_specific_form_without_enantiomer():
                       ("C00385", "Xanthine"), ("C10438", "Cinnamic acid")]}
     t["chebi:1"] = dict(cpd("amino acid"), structure_kind="generic", kegg_compound_ids=["C01817"])
     assert kegg_stereo_forms(t, ch) == {"kegg.compound:C01817"}
+
+
+def test_finalize_stereo_survivor_missing_from_table_is_a_clear_error():
+    import pytest
+    # Missing id in the first position (old code: bare KeyError on table[a]) and in the
+    # second (old code: silently linked to a node not in the table).
+    survivors = {"kegg.compound:C00001", "kegg.compound:C00002"}
+    for pair in [("kegg.compound:C00002", "kegg.compound:C00001"),
+                 ("kegg.compound:C00001", "kegg.compound:C00002")]:
+        with pytest.raises(ValueError, match="kegg.compound:C00002"):
+            finalize_stereo({"kegg.compound:C00001": {}}, {pair}, set(), survivors)
