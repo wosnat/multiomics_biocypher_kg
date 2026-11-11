@@ -359,16 +359,11 @@ the committed caches, not taken from the log. Ordered by proposed priority.
           (raw obo unavailable) could relabel 3–4 remap rows.
         - `identifier_tokens` includes bare ChEBI numbers, so digit-only full-text queries match
           them — document in the explorer contract.
-      - *Robustness.* Classes parser drops a compound leaf at a tree root silently; a substrate
-        equal to the role root `CHEBI:50906` would crash `_level`.
       - *Test gaps.* `download_chebi_obo` / `download_compound_brite` / `metabolite_identity_tsvs.py`
         edge cases; stale `keep_separate`, 3+-member union, `member_basis`, tie-breaks;
         first-block-mismatch stereo link; boolean assay-edge `ValueError`; validator non-str key /
         missing `id` / cross-file `name_key` conflicts; ChemicalRole multi-parent is_a; the
         `tests/kg_validity/snapshot_data.json` re-sample dropped `data_source:merops_diamond`.
-      - *Docs.* paperconfig SKILL: a single stereo-unspecified match with no ≥ 2× winner is also
-        ambiguous; the direct-id path wording; prepare_data.sh step-6 `run_step` label understates
-        its outputs.
 
 **P3 — large or blocked on researcher input**
 

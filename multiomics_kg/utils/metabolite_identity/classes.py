@@ -30,7 +30,9 @@ def _clean(name: str) -> str:
 
 
 def parse_compound_brite(tree_code, raw):
-    nodes, members = {}, []
+    """A compound listed directly at the tree root has no class to join; it is skipped with a
+    warning."""
+    nodes, members, at_root = {}, [], []
 
     def walk(children, path, parent):
         for i, c in enumerate(children, 1):
@@ -38,6 +40,8 @@ def parse_compound_brite(tree_code, raw):
             if m and not c.get("children"):
                 if parent:
                     members.append((m.group(1), parent))
+                else:
+                    at_root.append(m.group(1))
                 continue
             if len(path) >= len(LEVEL_KINDS):
                 raise ValueError(f"{tree_code}: class depth > {len(LEVEL_KINDS)} at {c.get('name')!r}")
@@ -47,6 +51,9 @@ def parse_compound_brite(tree_code, raw):
             walk(c.get("children", []), seg, cid)
 
     walk(raw.get("children", []), [], None)
+    if at_root:
+        log.warning(f"  {tree_code}: {len(at_root)} compound(s) at the tree root, in no class; "
+                    f"skipped: {', '.join(sorted(at_root))}")
     if raw.get("children") and not members:
         raise ValueError(f"{tree_code}: parsed 0 compound members (KEGG BRITE format drift?)")
     return nodes, members

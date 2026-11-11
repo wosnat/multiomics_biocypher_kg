@@ -36,3 +36,9 @@ def test_system_roles_sorted_nonempty_only():
     sub = build_system_roles({"2.A.1.1.1": {"CHEBI:10004;vitamin", "CHEBI:17632;nitrate"}, "3.A.1.1.1": {"CHEBI:17632;nitrate"}},
                               {"CHEBI:10004;vitamin": "chebi.role:33229"})
     assert sub == {"2.A.1.1.1": ["chebi.role:33229"]}
+
+
+def test_partition_drops_role_root(caplog):
+    mols, roles = partition_role_strings({"CHEBI:50906;role", "CHEBI:17632;nitrate"}, CHEBI)
+    assert mols == {"CHEBI:17632;nitrate"} and roles == {}
+    assert "role root" in caplog.text

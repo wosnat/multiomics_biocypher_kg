@@ -62,3 +62,10 @@ def test_download_compound_brite_drops_only_the_failed_tree(tmp_path, monkeypatc
     out = download_compound_brite(tmp_path, force=True)
     assert set(out) == set(COMPOUND_BRITE_TREES) - {"br08021"}
     assert not (tmp_path / "br_br08021.json").exists() and (tmp_path / "br_br08001.json").exists()
+
+
+def test_parse_warns_on_compound_at_tree_root(caplog):
+    raw = {"name": "br08001", "children": [{"name": "C00001  H2O"}, *RAW["children"]]}
+    _, members = parse_compound_brite("br08001", raw)
+    assert all(c != "C00001" for c, _ in members)
+    assert "C00001" in caplog.text and "tree root" in caplog.text

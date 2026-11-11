@@ -108,6 +108,10 @@ tag with nothing logged.
 - Step 6 picks the lowest MNX compound id by number (`MNXM9` before `MNXM10`), not as a string,
   when a substrate's ChEBI id and its primary hit different MNX entries. Never triggered on the
   current MNX release (each ChEBI id maps to one MNX id); no data change.
+- Step 6 guards (neither case occurs in current data): a KEGG compound listed at the root of a
+  compound BRITE tree, outside any class, is now reported with a warning instead of skipped
+  silently, and a TCDB / GO substrate that is the ChEBI role root ("role") is dropped with a
+  warning instead of crashing the ChemicalRole hierarchy build.
 
 ## [0.1.0-alpha.9] - 2026-11-01
 
