@@ -3,14 +3,14 @@ Source: table s8 41396_2014_bfismej201469_moesm40_esm_modified.csv
 name_col:  Locus tag
 id_columns: [' Locus tag', 'Gene abbreviation']
 
-Total rows with IDs: 1277
-Resolved: 1267 (99.2%)
+Total rows with IDs: 1276
+Resolved: 1266 (99.2%)
 Unresolved: 10
 
 Resolution method breakdown:
   empty: 1
   locus_tag_ci: Locus tag: 1266
-  multi: Locus tag: 1
+  note_row: 1
   unresolved: 10
 
 Unresolved rows (10):

@@ -86,6 +86,12 @@ tag with nothing logged.
 
 ### Fixed
 
+- Step 4 (`resolve_paper_ids`) no longer resolves a supplementary table's footnote to a gene. A
+  row whose ID cell holds prose (3+ words) and whose other cells are all empty is now marked
+  `note_row` and left unresolved; before, a stray token in the text could match a real gene
+  (Beliaev 2014's "1 RPKM is defined as …" → `Sputw3181_2756` in 3 tables, Wang 2014's "a New CDS
+  genes …" → `PMM1275`). 10 rows over 7 tables change; none carried a value, so the graph does
+  not change.
 - MNX / TCDB reference downloads no longer save an HTML error page as data. MetaNetX answers a
   busy server with HTTP 200 and a "Server mnxget too busy" page; `download_metabolism_reference`
   wrote it over `chem_xref.tsv`, `build_mnx_resolver` built a resolver with zero compound aliases,

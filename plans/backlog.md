@@ -295,10 +295,7 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       collision (analysis, gene, the rows' identifiers, log2FC, significance, how many disagree) and
       `validate_paperconfig.py` warns on duplicate `resolved_locus_tag`s per table. Still open: decide
       per paper — a real duplicate row, two paralogs one ID resolves to both, or two probes per gene
-      (needs an explicit rule, e.g. keep the larger |log2FC| or mark the edge). Related step-4 bug
-      (review, 2026-11-11): `resolve_paper_ids` resolves a footnote row to a gene (Beliaev 2014
-      `supp_table_s6`/`s8` row 1342 "1 RPKM is defined as …" → `Sputw3181_2756` via `multi: Locus
-      tag`); harmless today (no logFC, the adapter skips it) but resolution should skip such rows.
+      (needs an explicit rule, e.g. keep the larger |log2FC| or mark the edge).
       → `multiomics_kg/adapters/omics_adapter.py`,
       `<table>_resolved.csv` (`locus_tag`, `resolution_method`)
 
