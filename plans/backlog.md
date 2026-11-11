@@ -9,7 +9,8 @@ discipline, and the reason this file lives beside the code rather than in an
 issue tracker (the GitHub issues opened in Jan–Feb 2026 were all completed and
 none were ever closed).
 
-Remove a bullet when the work lands; the CHANGELOG records that it did.
+Remove a bullet when the work lands; the CHANGELOG records that it did. (Last sweep
+2026-11-11: closed and superseded items removed, `plans/interpro_redesign_backlog.md` merged in.)
 Items that are one focused change get their own `plans/<topic>.md` when picked
 up — this file is the index, not the plan.
 
@@ -74,42 +75,6 @@ up — this file is the index, not the plan.
       filtering design (e.g. >= N supporting identifiers) before it can land.
       → `docs/superpowers/specs/2026-08-18-merops-pfam-bridge-cleavage-design.md`
 
-- [x] **TIGRFAM→TigrRole — SHIPPED 2026-08-29 as (a) an ontology bridge +
-      (b) equivalog-gated gene edges.** The 2026-08-18 measurement below stands
-      and is kept for the record; the gene-level rejection was **superseded**
-      once the transfer was gated on `family_type = 'equivalog'` (JCVI's "same
-      function in every member" type, the only one meant for unconditional role
-      transfer): multi-role genes 375 → 15, conflicting mainroles 308 → 14,
-      Cyanorak contradictions 7% → 5.4% (sampled — facet choices on multi-role
-      proteins, not errors, so both views ship as two edges), and
-      `annotation_quality` movement **0**. The coverage-correction requirement
-      is met by documentation rather than by a correction factor: ORA over
-      `TigrRole` must use a per-organism background of genes with ≥ 1
-      `Gene_has_tigr_role` edge (~700–860 genes/heterotroph genome vs
-      ~1,800–1,976 on MED4). Shipped: two-level `TigrRole` +
-      `Tigr_role_is_a_tigr_role`, `Ncbifam_family_has_tigr_role` (~1.9K, router
-      only for the non-equivalog families), inferred `Gene_has_tigr_role` on all
-      43 organisms, `gene_category` fill-only priority 4, `[tigr_role_inferred]`
-      description lines.
-      → `docs/superpowers/specs/2026-08-28-tigrrole-hierarchy-ncbifam-bridge-design.md`,
-      `docs/kg-changes/tigr-role-bridge.md`
-
-      *Original 2026-08-18 rejection, for the record.* The archived JCVI role links (NCBI FTP
-      `hmm/TIGRFAMs/release_15.0/{TIGRFAMS_ROLE_LINK,TIGR_ROLE_NAMES}`, frozen
-      2018) would let `NcbifamFamily` TIGR* nodes bridge to the existing
-      `TigrRole` nodes — role_id spaces are identical, 1,579 of our 2,204 TIGR
-      families carry an informative role, 91% concordant with Cyanorak's curated
-      assignments where both exist. Measured gain: 19,596 genes across the 21
-      role-less organisms would get a role edge, **but 19,583 of them are
-      already `informative_multi`** (zero dark-gene rescue), only 1,141
-      `gene_category='Unknown'` genes recategorize (~3%), and coverage is
-      hard-capped at ~20–26% per heterotroph genome (TIGRFAM-hit-bounded; the
-      2,753 NF* families post-date the frozen role system and can never join)
-      vs 89–94% curated coverage on Pro/Syn — so the one distinctive win,
-      a shared cross-genus role axis, would be ~4× coverage-biased against the
-      heterotroph side and misleading without corrected backgrounds. COG /
-      KEGG / BRITE / GO already provide uniform cross-genus category layers.
-
 - [ ] **Multi-source `Gene_has_ncbifam_family` — measured 2026-08-28, deferred.**
       The edge is `interproscan`-only; two other sources name NCBIfam/TIGRFAM
       families and were checked because the TIGR-role merge discards them.
@@ -144,7 +109,10 @@ up — this file is the index, not the plan.
       a second voice) but has no consumer until a GO evidence-score design
       exists. The `ncbi` GFF GO source is the same curation lineage frozen at
       assembly-annotation date, which is why the marginal gain concentrates on
-      old assemblies.
+      old assemblies. The same measurement covers the alternative of folding NCBIfam
+      GO into gene `go_terms` in the step-2 merge (InterPro Layer B pattern; today
+      `enrich_interpro_fields` uses `ncbifam_reference.json` for naming only). NCBIfam
+      **EC** propagation was never measured; do that first if this is revisited.
 
 - [ ] **MIT9313 — `MIT9313_genbank.tsv` `PMTid` column is stale for ~13 genes.**
       The resource table (an older RefSeq build of the same assembly) gives
@@ -160,27 +128,6 @@ up — this file is the index, not the plan.
       to a lower tier. Low value; the conflict mechanism already refuses them.
       → `data/Prochlorococcus/papers_and_supp/MIT9313_resources/paperconfig.yaml`,
       `cache/data/Prochlorococcus/genomes/MIT9313/gene_id_mapping.json` `conflicts`
-
-- [x] **TigrRole hierarchy normalization — DONE 2026-08-29**, folded into the
-      TIGRFAM-role bridge above exactly as this bullet anticipated (one
-      `functional_annotation_adapter` touch that already forced a rebuild).
-      Subroles are `level 1` / `level_kind = 'tigr_subrole'`, new mainrole nodes
-      are `level 0` / `tigr_mainrole`, joined by `Tigr_role_is_a_tigr_role`; the
-      5 junk subroles keep their flags and the 3 junk mainroles gained them.
-      → `docs/kg-changes/tigr-role-bridge.md`
-
-      *Original bullet.* The 114 `TigrRole` nodes are flat
-      (`level = 0` everywhere) with the JCVI mainrole/subrole two-level scheme
-      embedded in compound names ("Energy metabolism / Electron transport") —
-      the only hierarchical ontology in the KG with no `is_a` edges, contra the
-      unified-level convention. Split into mainrole (level 0) / subrole
-      (level 1) nodes + `Tigr_role_is_a_tigr_role` edges, and flag the junk
-      role nodes ("Not Found", "Unclassified", "Hypothetical proteins",
-      "Unknown function", "Disrupted reading frame /") as uninformative.
-      Hygiene-only — fold into the next `functional_annotation_adapter` touch
-      that already forces a rebuild; not worth one on its own.
-      → `multiomics_kg/adapters/functional_annotation_adapter.py`
-      (`_tigr_role_node_id`, `MultiCogRoleAnnotationAdapter`)
 
 - [ ] **InterPro MetaCyc pathway xrefs — measured 2026-08-18, benefit is thin;
       revisit only with a concrete use case.** Populated in
@@ -202,9 +149,23 @@ up — this file is the index, not the plan.
       → `docs/kg-changes/interpro-multi-ontology.md` (supersedes
       `interproscan-extension.md`)
 
-> InterPro multi-ontology redesign follow-ups (NCBIfam MCP registration,
-> naming-recovery extensions, etc.) have their own plan file:
-> `plans/interpro_redesign_backlog.md`.
+## InterPro / NCBIfam follow-ups
+
+Merged in from `plans/interpro_redesign_backlog.md` (2026-11-11; that file is retired).
+Origin: the 2026-08-17 multi-ontology redesign
+(`docs/superpowers/specs/2026-08-17-interpro-multi-ontology-redesign-design.md`,
+`docs/kg-changes/interpro-multi-ontology.md`); all triaged OK-to-defer. The NCBIfam→GO,
+MetaCyc and multi-source NCBIfam items sit under KG semantics above.
+
+- [ ] **antiSMASH BGC detection.** `/add-a-tool` candidate: siderophore / vitamin
+      cross-feeding currency; per-genome region calls (a new calls.json shape, per the
+      add-a-tool table).
+- [ ] **Further member-DB elevation** (PANTHER, HAMAP-as-ontology, CDD, folds …). Each is one
+      merge-config line + a small adapter under the faceted design. Only on demonstrated need.
+- Not tasks, watch notes: the `acc_to_ipr` last-write-wins note in
+  `ncbifam_adapter.get_edges` must be re-checked after the InterProScan 110 re-scan above; if
+  several adapters ever need the same pruned InterPro tree, materialize a committed pruned
+  artifact then (spec §3.2).
 
 ## GEO processed-supplements drop
 
@@ -299,100 +260,7 @@ the committed caches, not taken from the log. Ordered by proposed priority.
 
 **P1 — small, mechanical, unblocks the analysis's own workarounds**
 
-- [x] **Fall back to Cyanorak coordinates for genes NCBI does not call — SHIPPED
-      2026-10-13 (+ sequence from the Cyanorak translation), see
-      `docs/kg-changes/cyanorak-coordinate-fallback.md`; awaiting rebuild.**
-      3,837 genes across the 21 Cyanorak strains (MED4 96 / 1,973; MIT9313 517 /
-      2,906; MIT9303 504; WH8109 362; CC9311 339) have no `contig`/`start`/`end`
-      and no `protein_id` — every one is Cyanorak-only (`locus_tag_ncbi` null).
-      `gene_mapping.csv` already carries `start_cyanorak`/`end_cyanorak`/
-      `strand_cyanorak` for them, so this is a merge-time fallback in step 2 (or
-      the adapter), not new data. Caveat: Cyanorak stores drafts as one
-      concatenated record, so PAC1/SB-style assemblies need the per-contig offset
-      remap `_contig_offsets` already uses; closed genomes are a straight copy.
-      Add a `coordinate_source ∈ {ncbi, cyanorak}` property (R5) so consumers can
-      tell. Unblocks `gene_neighbors` and the `gene_org_contig_start_idx` seek for
-      these genes. → friction log 2026-10-07 "91 MED4 genes have no coordinates";
-      `multiomics_kg/download/build_gene_mapping.py`, `cyanorak_ncbi_adapter.py`
-
-- [x] **Populate `coculture_partner` when coculture is the background, not the
-      treatment — SHIPPED 2026-10-13** as a dense list + `partner_role` on the edge
-      (`docs/kg-changes/coculture-partner-list.md`; explorer dialog
-      `multiomics_explorer/docs/kg-specs/2026-10-13-coculture-partner-list-explorer-asks.md`).** The adapter sets it only from `treatment_organism`
-      (`omics_adapter.py` ~l.390), so the 8 Weissberg 2025 N-starvation
-      experiments run *in* coculture (`background_factors: [coculture, …]`,
-      MED4 + HOT1A3, RNA-seq + proteomics) and García-Fernández 2022's glucose
-      proteomics have `coculture_partner` null and are invisible to a partner
-      filter — the analysis first concluded "no Prochlorococcus proteomics in
-      coculture", wrongly. Proposal: optional paperconfig `background_organism`
-      (+ `background_taxid`) on an experiment; adapter populates
-      `coculture_partner` from either field and emits `Tests_coculture_with`
-      with `partner_role ∈ {treatment, background}` (new R5 vocab entry). The
-      Publication `organisms` rollup then covers both. → friction log 2026-10-06
-      "`coculture_partner` filter misses…"; `docs/kg-changes/experiment-stats.md`
-
-- [x] **Metabolite equivalence across namespaces and stereo/charge variants.** CLOSED 2026-10-14 — canonical identity + stereo/enantiomer edges; see `docs/superpowers/plans/2026-10-14-metabolite-identity-and-classes.md` and `docs/kg-changes/metabolite-identity-and-classes.md`. Original note:
-      The transport arm is ChEBI-keyed and the metabolism arm KEGG-keyed, and
-      they do not always meet on one node, so any transport ↔ catalysis join
-      silently misses. Measured over the 3,356 metabolite entries in
-      `kegg_data.json`: 191 InChIKey-skeleton groups (first 14 chars; 465 nodes —
-      157 all-KEGG stereo/charge variants such as Cysteine C00736 vs L-Cysteine
-      C00097, Glutamate C00302 vs L-/D-, 34 mixed KEGG + chebi/mnx) plus 36
-      exact-name KEGG↔ChEBI pairs the skeleton misses. Nitrate is the hard case:
-      `kegg.compound:C00244` (ChEBI 25545, MNXM732399) and `chebi:14654`
-      (MNXM732398) share neither InChIKey nor MNX id — a ChEBI conjugate pair —
-      so it needs ChEBI's conjugate_acid/base relations, not string matching.
-      Proposal: a `Metabolite_equivalent_to_metabolite` edge (symmetric, emitted
-      once per pair) carrying `basis ∈ {inchikey_skeleton, chebi_conjugate,
-      name}` and a `Metabolite.equivalence_group` id, computed in step 6 where
-      the MNX resolver is open; consumers join on the group, never on the raw
-      id. Prerequisite for the TCDB plausibility item below. → friction log
-      2026-10-07 "Metabolite IDs split across namespaces", "The two nitrate
-      nodes…", 2026-10-11 "Generic vs stereo-specific…";
-      `multiomics_kg/download/build_kegg_metabolism_xrefs.py`
-
-- [ ] **Per-organism most-specific transport reach on `Metabolite`** (explorer
-      ask, 2026-10-13 — KG half of the "flat `list_metabolites` reach" item).
-      Add post-import `transport_most_specific_organism_names: str[]` (+
-      `_count`, size invariant) on `Metabolite`: organisms with ≥ 1 gene →
-      `TcdbFamily` → metabolite path whose `Tcdb_family_transports_metabolite`
-      edge has `substrate_depth = 'most_specific'`. Today `organism_names`
-      unions the inherited superfamily (ABC `3.A.1`) substrates, so transport
-      reach is flat — 1,294–1,304 of 1,462 transported metabolites for every
-      organism; most-specific-only spreads from 639 (MED4) to 1,201
-      (Pseudomonas KT2440). Design note: decide whether the gene hop also
-      restricts to `Gene_has_tcdb_family.attachment_depth = 'most_specific'`
-      (the projection `transported_metabolite_count` uses) and document which;
-      the two filters are on different edges and compose. Sparse/`[]` rule to
-      match `organism_names`. Explorer use: `list_metabolites` `top_organisms`
-      and the organism filter for the transport arm. → `scripts/post-import.sh`
-      + `.cypher` (Metabolite rollup block), `controlled_vocabularies.yaml` if
-      registered; CLAUDE.md Metabolite bullet
-
 - [ ] **GO transport: warn on stale step 6** (transport programme). The adapter should warn when KG GO terms that have axioms in `cache/data/go_terms/go_transport_substrates.json` are missing from `kegg_data`'s `go_transport_substrates` (step 6 left stale after a strain onboarding without `--steps 6 --force`).
-
-**P2 — designed, ready to implement**
-
-- [x] **Per-arm sampling day + growth state, and a shared-model identifier for
-      linked contrasts.** DONE 2026-10-18 (curation closed: `plans/control_timing_curation.md`); live in the dev graph, ships in the next KG release. HAD A PLAN (2026-10-15): `plans/per_arm_sampling_and_shared_model.md`
-      — simplified to curated Experiment fields `control_timing` (`matched | baseline |
-      mixed`) + `design_notes` (`statistical_model_id` dropped 2026-10-18), superseding the per-arm edge-property
-      proposal below; explorer accepted the contract (T1–T5; needs a note for the 2026-10-18 rename/drop). Dialog:
-      `multiomics_explorer/docs/kg-specs/2026-10-13-per-arm-sampling-shared-model-explorer-asks.md`.
-      Original note: A paperconfig analysis carries one `timepoint`, so a
-      contrast whose arms were sampled on different days gets one label:
-      Weissberg 2025 `DE_med4_rnaseq_coculture_vs_axenic_day_18` pairs coculture
-      d18 with axenic d14, and the KG labels that axenic arm `nutrient_limited`
-      while the researcher reports it in full decline. The four MED4 RNA
-      contrasts are also one fitted model over shared samples (coculture d18 −
-      axenic d14 ≡ direct d18 − direct d11 to 1e-15), which no property exposes.
-      Proposal: optional per-analysis `treatment_timepoint` / `control_timepoint`
-      (+ `_hours`, + per-arm `growth_phase`) materialised as edge properties
-      alongside the existing `time_point`, and an Experiment-level
-      `shared_model_id` (free string, same value across experiments fitted
-      together) so "independent contrast" is a queryable claim. → friction log
-      2026-10-11 "Anchor RNA contrasts are algebraically linked", 2026-10-11
-      researcher update under "The Plan phase missed three…"; `omics_adapter.py`
 
 **P2 — needs a design pass**
 
@@ -409,27 +277,6 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       10239); naming P-SSP7 needs a `treatment_organisms.csv` row and changes the OrganismTaxon
       count pinned by `tests/kg_validity/test_organism.py`. → `plans/control_timing_curation.md`
 
-- [x] **Signed linear fold changes are stored as log2 (found 2026-10-18, control-timing fix pass).**
-      DONE 2026-10-31, rebuilt and verified live: `fold_change_type: signed_linear` plus a corpus-wide
-      scale + significance audit (no default `logfc_threshold`, empty p → not significant,
-      `asterisk_min_level`, no direction at log2FC 0). → `plans/signed_linear_fold_change.md`,
-      CHANGELOG [Unreleased] `### Breaking` / `### Data`.
-      Four papers publish "+3 = 3-fold up, -3 = 3-fold down" ratios; the paperconfigs pass them
-      through unconverted, so `Changes_expression_of.log2_fold_change` holds linear magnitudes
-      (up to -8,464; no value in (-1, 1)). Affected: Kaur 2018 (all 28 analyses, S4/S5),
-      Oleza 2017 (3; paperconfig comments call them "signed linear ratios"), Martiny 2006 (9;
-      Table 1 "FC, fold change (-P/+P)", max 162), Steglich 2006 (6; legend "expression ratios
-      (>=2-fold) ... positive values indicate induction and negative values reduction", max 61).
-      Ma 2022 proteomics "Mean Ratio" is a different case (10 values in (-1, 1)) — check
-      separately. A prototype `fold_change_type: signed_linear` (sign x log2|x|, (-1, 1) invalid)
-      was written and reverted pending scoping: decide the convention name, whether rank and
-      `logfc_threshold` behaviour change, and run `/omics-edge-snapshot` before/after.
-      SCOPED 2026-10-31 → `plans/signed_linear_fold_change.md`.
-      Related, fixed in the same pass: significance is now judged on the converted log2 value
-      (`omics_adapter._check_significance` used the raw linear value, so linear ratios < 1 could
-      never be significant — Aharonovich 2016, Beliaev 2014). → `omics_adapter._convert_fold_change`,
-      `scripts/validate_paperconfig.py` (allowed `fold_change_type` values)
-
 - [ ] **Two table rows → one gene in one analysis: BioCypher silently keeps one (found 2026-10-31,
       fold-change audit live check).** The omics adapter yields both edges with the same id
       (`{doi}_{analysis_id}_{gene}`) and BioCypher dedups them, so the graph holds one of two
@@ -444,41 +291,17 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       locus tags within an analysis. → `multiomics_kg/adapters/omics_adapter.py`,
       `<table>_resolved.csv` (`locus_tag`, `resolution_method`)
 
-
-- [x] **Chemical categories for `Metabolite` (ChEBI is_a / has_role).** CLOSED 2026-10-14 — delivered as `MetaboliteClass` (KEGG BRITE compound trees) + `ChemicalRole` for TCDB role substrates; see `docs/superpowers/plans/2026-10-14-metabolite-identity-and-classes.md`. ChEBI `has_role` on `Metabolite` stays deferred (item below). Original note: The KG
-      has no compound-class layer; KEGG pathway membership and the carrying TCDB
-      family were tried as proxies and ~half the sampled assignments were wrong
-      (thyroxine → "amino acids", GDP-mannose → "xenobiotic"). 3,042 of 3,356
-      metabolites (91%) carry a `chebi_id`, so a GO-pattern pruned closure over
-      `chebi.obo` (`is_a` + `has_role`, seeds = our metabolites, ancestors only)
-      would give `ChemicalClass` nodes + `Metabolite_is_a_chemical_class` /
-      `Metabolite_has_chemical_role` + `Chemical_class_is_a_chemical_class`,
-      answering "Lys-Arg is a dipeptide", "ferrichrome is a siderophore". Depends
-      on the equivalence item so a class attached to the KEGG node reaches its
-      ChEBI twin. Explicitly flagged "revisit the analysis when it lands".
-      → friction log 2026-10-08 "KG has no chemical categories" (OPEN);
-      `docs/kg-changes/metabolomics-extension.md` (LipidMaps note)
-
-- [ ] **Deferred TCDB spec (follow-up to metabolite identity + classes).** Bundle: (a) per-gene substrate plausibility (`catalysis_support`, now feasible on canonical identity) — see item below; (b) re-examine `substrate_depth` semantics after the identity merge; (c) per-organism most-specific transport reach (item above); (d) TCDB name hygiene (bare-id subfamily names, role-typed entries); (e) re-tune the lumping threshold and **retire the R3 exception** (`TcdbFamily.substrate_breadth` is a stored value restating a pinned threshold; sunsets with this spec). → `docs/kg-changes/vocabulary-contract.md`, `docs/kg-changes/tcdb-two-source-upgrade.md` §4
-      (f) **RESOLVED by 3a (2026-10-23):** dropping the class-level roll-up removed Phagosome `ko04145`, Focal adhesion `ko04510` and chondroitin sulfate GAG `ko00532` (pathways 452 → 449); (b) `substrate_depth` and (e) `substrate_breadth` / its R3 exception are also gone with 3a. Original note: **Transport-reachable pathways (2026-10-15).** Step 6 adds the KEGG pathways of substrates rolled up onto ANY kept TC node (gene-annotated or ancestor-only), so re-keyed eukaryote lipids (PI3P `C04549`, PIP2 `C04637`, transported only by `tcdb:9.A` / `tcdb:9`, 0 direct genes) pull in `ko04145` Phagosome / `ko04510` Focal adhesion (+ `ko01521`, `ko05212`, `ko05332` via other re-keys; pathway KeggTerms 447 → 452, zero-gene 61 → 66). Consider requiring a gene-attached TC node (option A); `test_metabolite_pathways_only_kg_evidenced` was widened to the current rule. → `docs/kg-changes/metabolite-identity-and-classes.md`
-
-- [ ] **TCDB substrate plausibility per gene.** Even at
-      `substrate_depth = most_specific` a gene inherits every substrate its TCDB
-      subfamily lists: MED4 sulfate permeases `sul1`/`sul3` list amino acids and
-      nitrate, `ktrA`/`nhaS` list ammonium, the cyn system (3.A.1.16.1) reads as
-      a nitrate/nitrite porter in a strain with no nitrate assimilation. Not a
-      bug (NitT/TauT is genuinely bispecific; `transport_substrate_resolution`
-      already marks the lumping case) — an annotation-granularity limit. Two
-      candidate signals, both post-import and both cheap once equivalence
-      exists: (a) `catalysis_support ∈ {corroborated, uncorroborated}` on the
-      (gene, substrate) pair = the same organism has a `Gene_catalyzes_reaction`
-      touching an equivalent metabolite; (b) a `substrate_breadth` int on
-      `Gene_has_tcdb_family` (= `metabolite_count` of the attachment, so the
-      explorer can rank "dedicated" vs "broad listing" without keyword rules).
-      Second occurrence after round 1's ABC coarseness. → friction log
-      2026-10-06 "TCDB most-specific substrate for MED4's cyn system",
-      2026-10-08 "TCDB substrate lists describe the subfamily";
-      `docs/kg-changes/tcdb-two-source-upgrade.md`
+- [ ] **TCDB substrate plausibility per gene** (the one live part of the old "Deferred TCDB
+      spec"; its `substrate_depth` / `substrate_breadth` / most-specific-reach / name-hygiene
+      items were removed or fixed by 3a and the 2026-10-24/25 TCDB review). Since 3a a gene
+      reaches only the substrates of the `tc_system` it hits directly, but a system's TCDB
+      substrate list can still be broader than the gene's biology (MED4 cyn system 3.A.1.16.1
+      reads as a nitrate/nitrite porter in a strain with no nitrate assimilation; NitT/TauT is
+      genuinely bispecific). Candidate signal, post-import, feasible on canonical identity:
+      `catalysis_support ∈ {corroborated, uncorroborated}` on the (gene, substrate) pair = the
+      same organism has a `Gene_catalyzes_reaction` touching that metabolite. Probably belongs
+      in the 3b design. → friction log 2026-10-06 "TCDB most-specific substrate for MED4's cyn
+      system", `docs/kg-changes/tcdb-cleanup.md`
 
 - [ ] **ChEBI roles on `Metabolite` (curated allow-list) — measured 2026-10-14, deferred from
       the metabolite identity + classes spec.** ChEBI `has_role` is a facet ("what it does / is
@@ -561,18 +384,6 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       in the KG"; `docs/kg-changes/metabolomics-extension.md` (advises a separate
       type, not an extension of `MetaboliteAssay`)
 
-- [ ] **TCDB name/depth hygiene (minor).** `tcdb:3.A.1.4.4` is named
-      "The high-affinity (" — the only name in `tcdb_names.json` ending in "("
-      (citation-strip bug in `scrape_tcdb_names.py`'s first-sentence cut; fix the
-      regex, re-scrape that family with `--families`). PepT (`dpp`) depth looks
-      inverted (generic "peptide"/"Oligopeptide" only `inherited`, heme/EDTA/
-      bradykinin `most_specific`) — verify against `subtree_substrates` before
-      touching `_compute_substrate_depth`. Not bugs, document only: bare-id names
-      on `4.C.1.1`/`1.A.1.x`/`2.A.88.x` are the designed fallback; `urtE`'s
-      score-0 `1.B.42` is a tier-3 diamond call; inherited rows reporting the
-      gene's own attachment as "family" is the explorer's projection, not the
-      edge. → friction log 2026-10-07 "TCDB annotation oddities"
-
 **Reframed — no KG change**
 
 - KO coverage of transporters: `amt1` (PMM0263) carries K03320 and TC 1.A.11;
@@ -584,25 +395,17 @@ the committed caches, not taken from the log. Ordered by proposed priority.
 
 ## Transport programme (design `docs/superpowers/specs/2026-10-18-go-transport-substrates-design.md`)
 
-- [x] **Project 1, slice 1: GO transport substrates to Metabolite / ChemicalRole edges** (done 2026-10-18 on `feat/go-transport`, GO release 2026-07-26; 518 edges). → `docs/kg-changes/go-transport-substrates.md`
-- [x] **Project 2: diamond best-hit details** (done 2026-10-19 on `feat/tcdb-best-hit`; rule `best_hit_v1`; six `best_hit_*` properties on the diamond `Gene_has_tcdb_family` edge + merge field `tcdb_best_hit_ids`). → `docs/kg-changes/tcdb-diamond-best-hit.md`. Follow-ups:
-  - [x] 188 proteins with a best hit but no tier call (top HSP < 50 aa; small photosystem / complex subunits) carry it only in the merge field — DONE in 3a (2026-10-23): they get a `diamond_best_hit` edge.
-- [ ] **Project 3: TCDB nodes/edges redesign** — split 2026-10-22 into three:
-  - [x] **3a TCDB cleanup** (done 2026-10-23 on `feat/tcdb-cleanup`, commits `a46f83b5..f46c084e` + docs; design `docs/superpowers/specs/2026-10-22-tcdb-cleanup-design.md`): substrates only on `tc_system` nodes, one `Gene_has_tcdb_family` edge per `tcdb_call` with `tcdb_gate`, best-hit seeding + substrate-bearing range-only systems (9,389 nodes), `direction`, removes `substrate_depth`/`substrate_breadth`/`attachment_depth`/`evidence_score`/…; transport arm 6,995 genes. → `docs/kg-changes/tcdb-cleanup.md`. Follow-ups:
-    - [x] *(fixed 2026-10-24 on `feat/post-3a-fixes`, `fix(identity): stereo_assignment from the paper name, not KG sibling presence` — ChEBI enantiomer relation; 4 rows flagged)* **`stereo_assignment` depends on KG sibling presence.** For a stereo-unspecified paper name, the identity pipeline sets `dominant_form_assumed` only when stereo siblings exist as KG nodes; 3a removed D-threonine (transport-only), so Biller 2022 "Threonine" flipped `dominant_form_assumed` → `as_reported` while still resolving to `C00188`. Consider pinning the flag to the paper text (stereo-unspecified name ⇒ `dominant_form_assumed`) so unrelated node removals cannot change it.
+- [ ] **Project 3: TCDB nodes/edges redesign** — split 2026-10-22 into three; 3a (TCDB cleanup) done 2026-10-23 → `docs/kg-changes/tcdb-cleanup.md`:
   - [ ] **3b gene transport layer** (needs its own design): entry via TCDB, KEGG BRITE, transport Pfam/InterPro domains, Cyanorak Q roles, GO; per-gene subunit role, purpose, direction, confidence; no per-gene compound edges. Answer keys: the two `multiomics_analysis` transport analyses (2026-10-06 N import, 2026-07-06 Alteromonas carbon) and the Ford 2021 SBP table (`data/Synechococcus/papers_and_supp/Ford 2021/`). POC + draft paper section: claude.ai artifact PKYdYsmr4YefKhCBmemAqA.
     - [ ] Reciprocal check recall cost (from project 2): ~2,990 gate-passing proteins fail it corpus-wide, ~1,300 hold-out ones with transporter-like products (paralogous ABC components in heterotrophs). Decide in the 3b design (e.g. family-level reciprocity) — measured, not tuned.
   - [ ] **Systems project** (after 3b): group genes into transport systems (genomic neighbourhood + subunit role + shared TCDB lineage, as both analyses did) and assign substrates per system from the binding protein; per-gene `Gene` → `Metabolite` transport edges belong here.
-- [x] **KEGG pathway category filter** (raised in 3a design, 2026-10-23). **Done 2026-10-24 — decision: DROP, not flag.** 182 pathways removed at step 6 (Organismal Systems 89, Human Diseases 90, Cellular community - eukaryotes 3; the 3 antimicrobial-resistance maps kept; "Transport and catabolism" left in), 449 → 267; rule in `config/kegg_pathway_exclusions.yaml`, ids in `kegg_data.json` `excluded_pathways`. Original note: 182 of 452 pathways sit under KEGG categories irrelevant to bacteria: Organismal Systems (89; 70 have genes) and Human Diseases (93; 81 have genes, via ribosomal / ATP synthase / chaperone / oxphos KOs drawn into Parkinson, thermogenesis, cancer maps) — they add noise to gene enrichment and to `Metabolite.pathway_names`. Candidate: drop (or flag) those two categories except Human Diseases → "Drug resistance: antimicrobial" (β-lactam, vancomycin, CAMP resistance), plus Cellular Processes → "Cellular community – eukaryotes"; consider Cellular Processes → "Transport and catabolism" (autophagy, phagosome, endocytosis; check peroxisome). Decide drop vs flag; enrichment backgrounds change → CHANGELOG `### Breaking`.
 - [ ] **Catalysis-only pathway creation — needs scoping, not agreed** (raised 2026-10-23). Today a pathway enters the KG via catalysis (gene KO/reaction), transport (any TCDB substrate under kept nodes) or papers (measured compounds); the GO route already never creates pathways. 66 of 452 pathways have no gene (animal signalling via Ca²⁺/Na⁺/K⁺/Cl⁻/cAMP/DAG, antibiotic and plant secondary-metabolite biosynthesis via efflux substrates). Proposal: only catalysis creates pathways; transported/measured compounds still get `Metabolite_in_pathway` to existing ones. Open: is a measured compound's pathway useful context even with no gene? Overlaps the category filter. The 2026-10-15 Phagosome / Focal adhesion pull-in (Deferred TCDB spec item (f)) is resolved by 3a itself: dropping the class-level roll-up removes 65 off-target transport-only Metabolite nodes and exactly 3 gene-less pathways (Phagosome, Focal adhesion, chondroitin sulfate GAG biosynthesis); the other 63 gene-less pathways remained for this item. After the KEGG category filter (2026-10-24) dropped 32 of them, **31 of 267 pathways have no gene** (measured on the 3a graph): 16 Metabolism (antibiotic / plant / fungal secondary metabolites, steroid hormones, heparan sulfate, GPI anchors, bisphenol), 9 Environmental Information Processing → Signal transduction (MAPK, ErbB, Ras, mTOR, Wnt, Hedgehog, TGF-beta, VEGF, sphingolipid), 6 Cellular Processes (yeast cell cycle, cellular senescence, actin cytoskeleton; Transport and catabolism: autophagy other / animal, endocytosis).
-- [x] **TCDB integration review (2026-10-24/25, branch `fix/tcdb-direction-conservative`)**: direction made conservative (system own name / ABC uptake numbering only), scraper text fixes + protein cells + `--reparse`, substrate resolution ChEBI-first + target filter (placeholders, H⁺, Na⁺, protein). → `docs/kg-changes/tcdb-cleanup.md` "TCDB integration review". Follow-ups:
-  - [ ] **TCDB substrate overrides — needs curation and scoping** (decision 2026-10-25: we do not silently fix TCDB's mistakes in code). The review found ~60 upstream errors on gene-carrying systems (findings: session scratchpad `tcdb_review/findings_substrate_biology.json` + `findings_resolver_identity.json`; re-derive if lost): wrong ChEBI ids (PstABCS 3.A.1.7.6 → triphosphate, 100 genes; DAPI given as nifedipine 3.A.1.106.5 / 2.A.7.1.11; TPP = tetraphenylphosphonium read as thiamine diphosphate 2.A.7.1.10/.11; AmtB methylammonium as tetramethylammonium; PhnCDE 3.A.1.9.1 → iron(3+); UDP-sugar for a free sugar on 3.A.1.2.22/.24/.25/.27, SemiSWEET 2.A.123.2.2; ThiXYZ 3.A.1.17.13 → riboflavin; PcaM 3.A.1.4.7; CHEBI:35274 "ammonium ion derivative" for ammonium; safranin O = phenosafranine; diaminopimelate → 7,8-diaminononanoate on CysXYZ 3.A.1.3.10; arsenopyrite on ArsAB 3.A.4.1.1), non-transported compounds (PSII O₂/plastoquinone 3.E.2.2.3; Mla tetracycline from mutant phenotype 3.A.1.27.3; fructose 6-phosphate on MurJ 2.A.66.4.x), and missing substrates (F-ATPase 3.A.2.1.10 none; tetracycline on TetA 2.A.1.2.4; Fe-pyochelin on FptA 1.B.14.1.8). Scope: a `config/tcdb_substrate_overrides.yaml` (replace / remove / add per system, reason + reference), reported in the identity report, and reported upstream to TCDB. Also ChEBI-side: "corrinoid" → C06021 "Co(I) corrinoid protein" via ChEBI's own KEGG xref (3.A.1.14.9).
+- [ ] **TCDB substrate overrides — needs curation and scoping** (decision 2026-10-25: we do not silently fix TCDB's mistakes in code). The review found ~60 upstream errors on gene-carrying systems (findings: session scratchpad `tcdb_review/findings_substrate_biology.json` + `findings_resolver_identity.json`; re-derive if lost): wrong ChEBI ids (PstABCS 3.A.1.7.6 → triphosphate, 100 genes; DAPI given as nifedipine 3.A.1.106.5 / 2.A.7.1.11; TPP = tetraphenylphosphonium read as thiamine diphosphate 2.A.7.1.10/.11; AmtB methylammonium as tetramethylammonium; PhnCDE 3.A.1.9.1 → iron(3+); UDP-sugar for a free sugar on 3.A.1.2.22/.24/.25/.27, SemiSWEET 2.A.123.2.2; ThiXYZ 3.A.1.17.13 → riboflavin; PcaM 3.A.1.4.7; CHEBI:35274 "ammonium ion derivative" for ammonium; safranin O = phenosafranine; diaminopimelate → 7,8-diaminononanoate on CysXYZ 3.A.1.3.10; arsenopyrite on ArsAB 3.A.4.1.1), non-transported compounds (PSII O₂/plastoquinone 3.E.2.2.3; Mla tetracycline from mutant phenotype 3.A.1.27.3; fructose 6-phosphate on MurJ 2.A.66.4.x), and missing substrates (F-ATPase 3.A.2.1.10 none; tetracycline on TetA 2.A.1.2.4; Fe-pyochelin on FptA 1.B.14.1.8). Scope: a `config/tcdb_substrate_overrides.yaml` (replace / remove / add per system, reason + reference), reported in the identity report, and reported upstream to TCDB. Also ChEBI-side: "corrinoid" → C06021 "Co(I) corrinoid protein" via ChEBI's own KEGG xref (3.A.1.14.9).
 - [ ] **Project 4: transport-analysis recipe** (`docs://analysis/transport`, explorer-owned).
 - [ ] **Direction gap**: no project answers question 3's "in which direction"; GO target start/end location is too sparse (5 MED4 import annotations, one gene).
 - [ ] **GO taxon-constraint flag**: 1,912 of 1.4M gene to GO annotations violate a GO taxon constraint; flag on the gene to GO edge.
 - [ ] **GO MF to Rhea / EC / KEGG reaction xref bridge** (unmeasured).
 - [ ] **Obsolete gene GO annotations** (pre-existing, found in Task 0): ~330,594 gene `go_terms` in the merged annotations reference ids not live in GO 2026-07-26 (139K obsolete with no replacement, 145K with a single `replaced_by`, 45K `consider`-only); alt-id annotations are remapped (23,462), the rest dropped at build, before and after the refresh. Source annotations (eggNOG, UniProt, Cyanorak) carry old ids; consider a `replaced_by` remap or refreshing the sources.
-- [ ] **Joint release with the explorer**: `[tool.release-kg] mcp_min_version` is set to `0.1.0a6` (2026-10-31) — the explorer release that absorbs the dense `coculture_partner` list + `partner_role` and surfaces the GO arm. Explorer 0.1.0-alpha.6 must ship with (or before) the next KG release; older explorers get a `warn` verdict and fail validation in `list_experiments` / `differential_expression_by_*`. Hand the explorer the caveat paragraphs in the kg-changes docs.
 
 ## Paper batch 2026-10-28 — tables that need a new concept
 
@@ -660,24 +463,12 @@ Smaller ID follow-ups from the same batch (not concepts, just mapping work):
 - [ ] IPG legacy-accession bridge gaps: WH8102 NP_ maps only to the GCA `CAE` accession
       (`find_assembly_match` vs the GCF returns None) and `ZP_` is not matched by
       `looks_like_legacy_protein_acc` — Oleza 2015b used diamond instead.
-- [x] Koch 2020 Table S7 rows for EZ55 (`altEZ55_`) and HOT1A3 (IMG `Ga0125132_`) do not resolve. Fixed 2026-10-31 (03752272): bridged to the NCBI genes by protein-sequence match against the IMG protein FASTA + GFF (`img_annotation/`).
 - [ ] Oleza 2015b and Oleza 2017: PatternLab TFold raw p-values are mapped to
       `adjusted_p_value_col` (open policy item).
 
 ## Explorer / MCP coordination
 
-- [ ] **Release the metabolite identity + classes change (held, spec §12).** Built and validated
-      on main 2026-10-15 but not released. Order agreed with the explorer: (1) explorer ships
-      the E1 resolver (`Metabolite.id` → `IN all_identifiers` → `recurated_from_ids` →
-      `IN ChemicalRole.all_identifiers`; a no-op on the old KG); (2) `/release-kg` cuts the
-      version with `mcp_min_version` + `release_breaking` from the CHANGELOG `### Breaking`;
-      (3) explorer absorbs the new KG. Hand the explorer the measured top section of
-      `docs/kg-changes/metabolite-identity-and-classes.md` and the two TSVs in
-      `docs/kg-changes/metabolite-identity/`.
-
 - [ ] **Explorer: treat `structure_kind = 'generic'` substrate targets as a class of compounds.** TCDB lists ChEBI structural classes as substrates (alpha-amino acid → C00045 on 76 systems, peptide, lipid, fatty acid, nucleoside …); they stay generic `Metabolite` nodes by design (classes, not placeholders), so a transport answer that lands on one should say "a class of compounds", not a single molecule. From the TCDB integration review (2026-10-25). Raised with the explorer as E1 of `multiomics_explorer/docs/kg-specs/2026-10-29-transport-small-followups-explorer-asks.md`.
-
-- [ ] **Explorer dialog: transport small follow-ups (2026-10-29).** `[tcdb_best_hit]` gene description lines, `TcdbFamily.display_name`, and the wider `stereo_assignment` rule. Waiting on the explorer's answers to E1–E4 in `multiomics_explorer/docs/kg-specs/2026-10-29-transport-small-followups-explorer-asks.md`; after the rebuild add a "KG built" section there with live counts. → `plans/transport_small_followups.md`
 
 - [ ] **File an upstream Bioregistry new-prefix request for `ncbifam`.**
       KG-SYNC-002 (2026-08-19) minted `ncbifam:` as a house colon-CURIE prefix
