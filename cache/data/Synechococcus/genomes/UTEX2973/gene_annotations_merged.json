@@ -3400,7 +3400,6 @@
       "[interpro] UvrABC system, subunit B",
       "[interpro] Helicase/UvrB, N-terminal",
       "[interpro] Helicase superfamily 1/2, ATP-binding domain",
-      "[interpro] UvrB, YAD/RRR-motif-containing domain",
       "[interpro] UvrB, interaction domain",
       "[interpro] UvrABC system protein B, third helical domain",
       "[hamap] UvrABC system protein B [uvrB].",
@@ -30124,12 +30123,17 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "1.3.1.111",
-      "1.3.1.83"
+      "1.3.1.83",
+      "1.3.1.-"
     ],
     "ec_numbers_evidence": {
+      "1.3.1.-": "family_inferred",
       "1.3.1.83": "family_inferred"
     },
     "ec_numbers_source": {
+      "1.3.1.-": [
+        "interproscan"
+      ],
       "1.3.1.111": [
         "eggnog"
       ],
@@ -30927,7 +30931,7 @@
       "[ncbi] MlaE family lipid ABC transporter permease subunit",
       "[eggnog] Belongs to the MlaE permease family",
       "[interpro] ABC transport permease subunit MlaE, proteobacteria",
-      "[interpro] ABC transporter permease MalE",
+      "[interpro] Intermembrane phospholipid transport system permease protein MlaE-like",
       "[pfam] MlaE: Permease MlaE"
     ],
     "alternative_locus_tags": [
@@ -32683,6 +32687,17 @@
       "signalp"
     ],
     "coordinate_source": "ncbi",
+    "ec_numbers": [
+      "4.4.1.-"
+    ],
+    "ec_numbers_evidence": {
+      "4.4.1.-": "family_inferred"
+    },
+    "ec_numbers_source": {
+      "4.4.1.-": [
+        "interproscan"
+      ]
+    },
     "eggnog_ogs": [
       "29PVJ@1|root",
       "30ATU@2|Bacteria",
@@ -43787,7 +43802,7 @@
       "[eggnog] COG1502 Phosphatidylserine phosphatidylglycerophosphate cardiolipi n synthases and related enzymes",
       "[interpro] Phospholipase D/Transphosphatidylase",
       "[interpro] Cardiolipin synthase-like, phospholipase D-like domain",
-      "[interpro] Phospholipase D domain-containing protein",
+      "[interpro] Mitochondrial cardiolipin hydrolase/Phospholipase D-like",
       "[pfam] HHH_3: Helix-hairpin-helix motif",
       "[pfam] PLDc_2: PLD-like domain"
     ],
@@ -45879,7 +45894,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] protein IsiD",
       "[eggnog] Protein of unknown function (DUF2555)",
-      "[interpro] Protein of unknown function DUF2555",
+      "[interpro] IsiD-like",
       "[pfam] DUF2555: Protein of unknown function (DUF2555)"
     ],
     "alternative_locus_tags": [
@@ -66986,6 +67001,17 @@
       "signalp"
     ],
     "coordinate_source": "ncbi",
+    "ec_numbers": [
+      "4.4.1.-"
+    ],
+    "ec_numbers_evidence": {
+      "4.4.1.-": "family_inferred"
+    },
+    "ec_numbers_source": {
+      "4.4.1.-": [
+        "interproscan"
+      ]
+    },
     "eggnog_ogs": [
       "28TE8@1|root",
       "2ZFNH@2|Bacteria",
@@ -110653,7 +110679,6 @@
       "[eggnog] ABC transporter",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tcdb_best_hit] ABC-type uptake porter for pyruvate and monocarboxylate 2-oxo acids. [3.A.1.4.12] :: [tcdb_substrates] 2-Oxobutanoate, 2-Oxopentanoic acid, 3-Methyl-2-oxopentanoate, Pyruvate",
       "[pfam] ABC_tran: ABC transporter",
@@ -124674,7 +124699,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] Holliday junction resolvase RuvX",
       "[eggnog] Could be a nuclease involved in processing of the 5'-end of pre-16S rRNA",
-      "[interpro] Putative pre-16S rRNA nuclease",
+      "[interpro] Nuclease YqgF",
       "[interpro] YqgF/RNase H-like domain",
       "[hamap] Putative pre-16S rRNA nuclease [yqgF].",
       "[tigr_role_inferred] Unknown function / General",
@@ -178323,7 +178348,7 @@
       "[interpro] Translation elongation factor EFG/EF2, domain IV",
       "[interpro] Elongation factor G, domain III",
       "[interpro] EFG, domain V",
-      "[interpro] Elongation Factor G, domain II",
+      "[interpro] Elongation Factor G/4-like, domain III",
       "[interpro] Elongation factor G, domain IV",
       "[pfam] EFG_C: Elongation factor G C-terminus",
       "[pfam] EFG_IV: Elongation factor G, domain IV",
@@ -186301,6 +186326,17 @@
       "signalp"
     ],
     "coordinate_source": "ncbi",
+    "ec_numbers": [
+      "4.4.1.-"
+    ],
+    "ec_numbers_evidence": {
+      "4.4.1.-": "family_inferred"
+    },
+    "ec_numbers_source": {
+      "4.4.1.-": [
+        "interproscan"
+      ]
+    },
     "eggnog_ogs": [
       "28IBS@1|root",
       "2Z8E6@2|Bacteria",
@@ -206932,7 +206968,6 @@
       "[eggnog] amino acid",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tcdb_best_hit] The neutral amino acid permease, N-1 (transports pro, phe, leu, gly, ala, ser, gln and his, but gln and his are not transported via NatB) [3.A.1.4.6] :: [tcdb_substrates] Amino acid",
       "[pfam] ABC_tran: ABC transporter",
@@ -222858,7 +222893,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] Ycf51 family protein",
       "[eggnog] Protein of function (DUF2518)",
-      "[interpro] Ycf51",
+      "[interpro] Ycf51 photosystem I assembly factor",
       "[pfam] DUF2518: Protein of function (DUF2518)"
     ],
     "alternative_locus_tags": [
@@ -236302,7 +236337,6 @@
       "[ncbi] response regulator",
       "[eggnog] response regulator",
       "[interpro] Signal transduction response regulator, receiver domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
     "alternative_locus_tags": [
@@ -262799,7 +262833,7 @@
       "[ncbi] arginine--tRNA ligase",
       "[eggnog] Arginyl-tRNA synthetase",
       "[interpro] Arginine-tRNA ligase",
-      "[interpro] Arginyl tRNA synthetase N-terminal domain",
+      "[interpro] Arginyl tRNA synthetase, N-terminal domain",
       "[interpro] DALR anticodon binding",
       "[interpro] Arginyl-tRNA synthetase, catalytic core domain",
       "[hamap] Arginine--tRNA ligase [argS].",
@@ -282822,7 +282856,7 @@
       "[ncbi] ATP-dependent sacrificial sulfur transferase LarE",
       "[eggnog] COG1606 ATP-utilizing enzymes of the PP-loop superfamily",
       "[interpro] Asparagine synthase",
-      "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase LarE-like",
+      "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase LarE",
       "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase-like",
       "[tigr_role_inferred] Hypothetical proteins / Conserved",
       "[pfam] Asn_synthase: Asparagine synthase",
@@ -310709,7 +310743,6 @@
       "[ncbi] response regulator",
       "[eggnog] response regulator",
       "[interpro] Signal transduction response regulator, receiver domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
     "alternative_locus_tags": [
@@ -319785,6 +319818,17 @@
       "signalp"
     ],
     "coordinate_source": "ncbi",
+    "ec_numbers": [
+      "4.4.1.-"
+    ],
+    "ec_numbers_evidence": {
+      "4.4.1.-": "family_inferred"
+    },
+    "ec_numbers_source": {
+      "4.4.1.-": [
+        "interproscan"
+      ]
+    },
     "eggnog_ogs": [
       "2CJY9@1|root",
       "2ZBJJ@2|Bacteria",
@@ -328659,7 +328703,6 @@
       "[ncbi] response regulator",
       "[eggnog] Response regulator receiver domain",
       "[interpro] Signal transduction response regulator, receiver domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
     "alternative_locus_tags": [
@@ -365018,7 +365061,7 @@
       "[interpro] Translation elongation factor EFG/EF2, domain IV",
       "[interpro] Elongation factor G, domain III",
       "[interpro] EFG, domain V",
-      "[interpro] Elongation Factor G, domain II",
+      "[interpro] Elongation Factor G/4-like, domain III",
       "[interpro] Elongation factor G, domain IV",
       "[hamap] Elongation factor G [fusA].",
       "[ncbifam] GTP-binding protein",
@@ -368382,7 +368425,7 @@
       "[eggnog] unusual protein kinase",
       "[interpro] ABC1 atypical kinase-like domain",
       "[interpro] UbiB protein kinase-like",
-      "[interpro] Probable serine/threonine-protein kinase I/L, C-terminal helical hairpin",
+      "[interpro] ABC1-LIKE KINASE 7-like, C-terminal helical hairpin",
       "[pfam] ABC1: ABC1 atypical kinase-like domain"
     ],
     "alternative_locus_tags": [
@@ -369956,7 +369999,6 @@
       "[ncbi] response regulator transcription factor",
       "[eggnog] response regulator",
       "[interpro] Signal transduction response regulator, receiver domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
     "alternative_locus_tags": [
@@ -370112,7 +370154,6 @@
       "[interpro] Signal transduction response regulator, receiver domain",
       "[interpro] Signal transduction response regulator, heterocyst pattern formation, PatA",
       "[interpro] PATAN domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] PatA_N: Protein PatA, N-terminal domain",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
@@ -378124,6 +378165,17 @@
       "signalp"
     ],
     "coordinate_source": "ncbi",
+    "ec_numbers": [
+      "4.4.1.-"
+    ],
+    "ec_numbers_evidence": {
+      "4.4.1.-": "family_inferred"
+    },
+    "ec_numbers_source": {
+      "4.4.1.-": [
+        "interproscan"
+      ]
+    },
     "eggnog_ogs": [
       "2CCNY@1|root",
       "2Z877@2|Bacteria",
@@ -395627,7 +395679,7 @@
       "[ncbi] mechanosensitive ion channel domain-containing protein",
       "[eggnog] Mechanosensitive ion channel",
       "[interpro] Cyclic nucleotide-binding domain",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel, transmembrane helices 2/3",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[interpro] Mechanosensitive channel MscS-like",
@@ -405301,7 +405353,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] mechanosensitive ion channel family protein",
       "[eggnog] COG0668 Small-conductance mechanosensitive channel",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel YbiO",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[interpro] Domain of unknown function DUF8459",

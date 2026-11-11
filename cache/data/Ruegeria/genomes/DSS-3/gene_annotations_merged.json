@@ -15011,7 +15011,6 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] LPS export ABC transporter, ATP-binding protein LptB",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tigr_role_inferred] Transport and binding proteins / Other",
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of surface polysaccharides and lipopolysaccharides",
@@ -37119,7 +37118,7 @@
       "[ncbi] mechanosensitive ion channel family protein",
       "[eggnog] Mechanosensitive ion channel family protein",
       "[protein_family] MscS (TC 1.A.23) family",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[interpro] Mechanosensitive channel MscS-like",
       "[pfam] MS_channel_2nd: Mechanosensitive ion channel, beta-domain",
@@ -94620,7 +94619,6 @@
       "[interpro] UvrABC system, subunit B",
       "[interpro] Helicase/UvrB, N-terminal",
       "[interpro] Helicase superfamily 1/2, ATP-binding domain",
-      "[interpro] UvrB, YAD/RRR-motif-containing domain",
       "[interpro] UvrB, interaction domain",
       "[interpro] UvrABC system protein B, third helical domain",
       "[hamap] UvrABC system protein B [uvrB].",
@@ -96155,7 +96153,7 @@
       "[ncbi] mechanosensitive ion channel family protein",
       "[eggnog] Mechanosensitive ion channel",
       "[protein_family] MscS (TC 1.A.23) family",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel YbiO",
       "[interpro] Mechanosensitive ion channel, transmembrane helices 2/3",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
@@ -96344,7 +96342,7 @@
       "[eggnog] N-terminal TM domain of oligopeptide transport permease C",
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[tcdb_best_hit] Probable rhamnose oligosaccharide porter. [3.A.1.5.12] :: [tcdb_substrates] rhamnose",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -101201,7 +101199,7 @@
       "[ncbi] reductive dehalogenase",
       "[eggnog] Reductive dehalogenase subunit",
       "[interpro] 2Fe-2S ferredoxin-type iron-sulfur binding domain",
-      "[interpro] Reductive dehalogenase",
+      "[interpro] Reductive dehalogenase, C-terminal domain",
       "[interpro] 4Fe-4S ferredoxin-type, iron-sulphur binding domain",
       "[interpro] FAD-binding domain, ferredoxin reductase-type",
       "[interpro] Multicomponent Reductase Electron Transfer",
@@ -111833,7 +111831,7 @@
       "[eggnog] N-terminal TM domain of oligopeptide transport permease C",
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -119261,7 +119259,7 @@
       "[eggnog] N-terminal TM domain of oligopeptide transport permease C",
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -138151,7 +138149,6 @@
       "[eggnog] branched-chain amino acid",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
@@ -155017,7 +155014,6 @@
       "[ncbi] response regulator",
       "[eggnog] Response regulator",
       "[interpro] Signal transduction response regulator, receiver domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
     "alternative_locus_tags": [
@@ -166654,7 +166650,7 @@
       "[eggnog] MlaD protein",
       "[interpro] Mce/MlaD",
       "[interpro] Probable phospholipid ABC transporter-binding protein MlaD",
-      "[interpro] MlaD Inter-membrane Phospholipid Transporter",
+      "[interpro] MlaD inter-membrane phospholipid transporter",
       "[pfam] MlaD: MlaD protein"
     ],
     "alternative_locus_tags": [
@@ -168934,7 +168930,6 @@
       "[eggnog] Branched-chain amino acid ABC transporter, ATP-binding protein",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
@@ -169761,7 +169756,6 @@
       "[ncbi] response regulator transcription factor",
       "[eggnog] cheY-homologous receiver domain",
       "[interpro] Signal transduction response regulator, receiver domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
     "alternative_locus_tags": [
@@ -195873,7 +195867,7 @@
       "[eggnog] Binding-protein-dependent transport system inner membrane component",
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -208099,7 +208093,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] DUF1330 domain-containing protein",
       "[eggnog] Domain of unknown function (DUF1330)",
-      "[interpro] Domain of unknown function DUF1330",
+      "[interpro] CmaL-like",
       "[pfam] DUF1330: Domain of unknown function (DUF1330)"
     ],
     "alternative_locus_tags": [
@@ -235777,7 +235771,7 @@
       "[eggnog] Cyclopropane-fatty-acyl-phospholipid synthase",
       "[protein_family] CFA/CMAS family",
       "[interpro] Cyclopropane mycolic acid synthase",
-      "[interpro] Cyclopropane Fatty Acid Synthase/Methyltransferase",
+      "[interpro] Cyclopropane fatty acid synthase/mycolic acid synthase MmaA1-3-like",
       "[pfam] CMAS: Mycolic acid cyclopropane synthetase"
     ],
     "alternative_locus_tags": [
@@ -244803,7 +244797,7 @@
       "[eggnog] N-terminal TM domain of oligopeptide transport permease C",
       "[protein_family] Binding-protein-dependent transport system permease family, OppBC subfamily",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[interpro] ABC_transport_system_permease",
       "[tcdb_best_hit] The putative D-alanyl-D-alanyl dipeptide permease, DdpABCDF; encoded within an operon that includes the D-ala-D-ala peptidase, DdpX (VanX, YddT). [3.A.1.5.38] :: [tcdb_substrates] L-alanyl-L-alanine",
@@ -290507,7 +290501,6 @@
       "[eggnog] Branched-chain amino acid ATP-binding cassette transporter",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter",
@@ -294087,7 +294080,6 @@
       "[eggnog] branched-chain amino acid ABC transporter",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tcdb_best_hit] Branched chain amino acid uptake transporter. [3.A.1.4.8] :: [tcdb_substrates] Alanine, L-Isoleucine, L-Threonine, Leucine, Serine, Valine",
       "[pfam] ABC_tran: ABC transporter",
@@ -296994,7 +296986,7 @@
       "[ncbi] mechanosensitive ion channel family protein",
       "[eggnog] Mechanosensitive ion channel",
       "[protein_family] MscS (TC 1.A.23) family",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel YbiO",
       "[interpro] Mechanosensitive ion channel, transmembrane helices 2/3",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
@@ -304742,7 +304734,7 @@
       "[eggnog] Cyclopropane-fatty-acyl-phospholipid synthase",
       "[protein_family] CFA/CMAS family",
       "[interpro] Cyclopropane mycolic acid synthase",
-      "[interpro] Cyclopropane Fatty Acid Synthase/Methyltransferase",
+      "[interpro] Cyclopropane fatty acid synthase/mycolic acid synthase MmaA1-3-like",
       "[pfam] CMAS: Mycolic acid cyclopropane synthetase"
     ],
     "alternative_locus_tags": [
@@ -305674,7 +305666,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] DUF3772 domain-containing protein",
       "[eggnog] Mechanosensitive ion channel",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Domain of unknown function DUF3772",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[interpro] Mechanosensitive channel MscS-like",
@@ -308336,7 +308328,6 @@
       "[eggnog] branched-chain amino acid ABC transporter",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tcdb_best_hit] The neutral amino acid permease, N-1 (transports pro, phe, leu, gly, ala, ser, gln and his, but gln and his are not transported via NatB) [3.A.1.4.6] :: [tcdb_substrates] Amino acid",
       "[pfam] ABC_tran: ABC transporter",
@@ -323997,7 +323988,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] DUF1330 domain-containing protein",
       "[eggnog] Domain of unknown function (DUF1330)",
-      "[interpro] Domain of unknown function DUF1330",
+      "[interpro] CmaL-like",
       "[pfam] DUF1330: Domain of unknown function (DUF1330)"
     ],
     "alternative_locus_tags": [
@@ -328926,7 +328917,7 @@
       "[ncbi] glutathione S-transferase family protein",
       "[eggnog] Glutathione S-transferase, N-terminal domain",
       "[interpro] Glutathione S-transferase, N-terminal",
-      "[interpro] Glutathione S-transferase Omega/HSP26",
+      "[interpro] Glutathione S-transferase Omega-like",
       "[pfam] GST_N_3: Glutathione S-transferase, N-terminal domain"
     ],
     "alternative_locus_tags": [
@@ -372922,7 +372913,7 @@
       "[eggnog] Mechanosensitive ion channel",
       "[uniprot] Mechanosensitive channel that participates in the regulation of osmotic pressure changes within the cell, opening in response to stretch forces in the membrane lipid bilayer, without the need for other proteins. Contributes to normal resistance to hypoosmotic shock. Forms an ion channel of 1.0 nanosiemens conductance with a slight preference for anions",
       "[protein_family] MscS (TC 1.A.23) family",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel MscS, archaea/bacteria type",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[interpro] Domain of unknown function DUF8459",
@@ -377471,7 +377462,7 @@
       "[eggnog] Could be a nuclease involved in processing of the 5'-end of pre-16S rRNA",
       "[uniprot] Could be a nuclease involved in processing of the 5^-end of pre-16S rRNA",
       "[protein_family] YqgF HJR family",
-      "[interpro] Putative pre-16S rRNA nuclease",
+      "[interpro] Nuclease YqgF",
       "[interpro] YqgF/RNase H-like domain",
       "[hamap] Putative pre-16S rRNA nuclease [yqgF].",
       "[tigr_role_inferred] Unknown function / General",
@@ -397863,7 +397854,6 @@
       "[ncbi] GNAT family N-acetyltransferase",
       "[eggnog] FemAB family",
       "[interpro] BioF2-like, acetyltransferase domain",
-      "[interpro] Peptidoglycan Glycine Bridge Synthesis",
       "[pfam] Acetyltransf_6: Acetyltransferase (GNAT) domain",
       "[pfam] FemAB: FemAB family"
     ],
@@ -397886,18 +397876,11 @@
     ],
     "coordinate_source": "ncbi",
     "ec_numbers": [
-      "2.3.1.-",
-      "2.3.2.-"
+      "2.3.1.-"
     ],
-    "ec_numbers_evidence": {
-      "2.3.2.-": "family_inferred"
-    },
     "ec_numbers_source": {
       "2.3.1.-": [
         "uniprot"
-      ],
-      "2.3.2.-": [
-        "interproscan"
       ]
     },
     "eggnog_ogs": [
@@ -400496,7 +400479,7 @@
       "[eggnog] Arginyl-tRNA synthetase",
       "[protein_family] Class-I aminoacyl-tRNA synthetase family",
       "[interpro] Arginine-tRNA ligase",
-      "[interpro] Arginyl tRNA synthetase N-terminal domain",
+      "[interpro] Arginyl tRNA synthetase, N-terminal domain",
       "[interpro] DALR anticodon binding",
       "[interpro] Arginyl-tRNA synthetase, catalytic core domain",
       "[hamap] Arginine--tRNA ligase [argS].",
@@ -407348,7 +407331,7 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] Oligopeptide/dipeptide ABC transporter, C-terminal",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[interpro] ABC Transporter, Nickel and Peptide Import",
       "[ncbifam] oligopeptide/dipeptide ABC transporter ATP-binding protein",
       "[pfam] ABC_tran: ABC transporter",
@@ -425935,7 +425918,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] MlaE family ABC transporter permease",
       "[eggnog] Permease MlaE",
-      "[interpro] ABC transporter permease MalE",
+      "[interpro] Intermembrane phospholipid transport system permease protein MlaE-like",
       "[pfam] MlaE: Permease MlaE"
     ],
     "alternative_locus_tags": [
@@ -429894,7 +429877,7 @@
       "[eggnog] CoA binding domain",
       "[protein_family] Acetate CoA ligase alpha subunit family",
       "[interpro] CoA-binding",
-      "[interpro] Succinyl-CoA synthetase-like, flavodoxin domain",
+      "[interpro] Acyl-CoA synthetase-like, first flavodoxin domain",
       "[pfam] ATP-grasp_5: ATP-grasp domain",
       "[pfam] CoA_binding_2: CoA binding domain",
       "[pfam] Succ_CoA_lig: Succinyl-CoA ligase like flavodoxin domain"
@@ -447378,7 +447361,7 @@
       "[eggnog] N-terminal TM domain of oligopeptide transport permease C",
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -450058,7 +450041,7 @@
       "[ncbi] ABC transporter permease",
       "[eggnog] N-terminal TM domain of oligopeptide transport permease C",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -461830,7 +461813,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] DUF1330 domain-containing protein",
       "[eggnog] Domain of unknown function (DUF1330)",
-      "[interpro] Domain of unknown function DUF1330",
+      "[interpro] CmaL-like",
       "[pfam] DUF1330: Domain of unknown function (DUF1330)"
     ],
     "alternative_locus_tags": [
@@ -481863,7 +481846,6 @@
       "[eggnog] response regulator, receiver",
       "[interpro] LysR, HTH, N-terminal domain",
       "[interpro] Signal transduction response regulator, receiver domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Guanylate_cyc: Adenylate and Guanylate cyclase catalytic domain",
       "[pfam] HATPase_c: Histidine kinase-, DNA gyrase B-, and HSP90-like ATPase",
       "[pfam] HTH_1: Bacterial regulatory helix-turn-helix protein, lysR family",
@@ -510200,7 +510182,7 @@
       "[interpro] Glutathione S-transferase, N-terminal",
       "[interpro] Glutathione S-transferase, C-terminal-like",
       "[interpro] Glutathione transferase family",
-      "[interpro] Glutathione S-transferase Omega/HSP26",
+      "[interpro] Glutathione S-transferase Omega-like",
       "[pfam] GST_C: Glutathione S-transferase, C-terminal domain",
       "[pfam] GST_C_2: Glutathione S-transferase, C-terminal domain",
       "[pfam] GST_N: Glutathione S-transferase, N-terminal domain",
@@ -519591,7 +519573,7 @@
       "[interpro] Glutathione S-transferase, C-terminal-like",
       "[interpro] Glutathione transferase family",
       "[interpro] Glutathione S-transferase Omega/Tau-like",
-      "[interpro] Glutathione S-transferase Omega/HSP26",
+      "[interpro] Glutathione S-transferase Omega-like",
       "[pfam] GST_C: Glutathione S-transferase, C-terminal domain",
       "[pfam] GST_C_2: Glutathione S-transferase, C-terminal domain",
       "[pfam] GST_N_3: Glutathione S-transferase, N-terminal domain"
@@ -523674,7 +523656,6 @@
       "[eggnog] branched-chain amino acid ABC transporter",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tcdb_best_hit] The branched chain hydrophobic amino acid transporter, LivJFGHM. [3.A.1.4.10] :: [tcdb_substrates] Alanine, L-Isoleucine, L-Threonine, Leucine, Serine, Valine",
       "[pfam] ABC_tran: ABC transporter",
@@ -524739,7 +524720,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] DUF1330 domain-containing protein",
       "[eggnog] Domain of unknown function (DUF1330)",
-      "[interpro] Domain of unknown function DUF1330",
+      "[interpro] CmaL-like",
       "[pfam] DUF1330: Domain of unknown function (DUF1330)"
     ],
     "alternative_locus_tags": [
@@ -546391,7 +546372,7 @@
       "[ncbi] mechanosensitive ion channel family protein",
       "[eggnog] Mechanosensitive ion channel family protein",
       "[protein_family] MscS (TC 1.A.23) family",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[interpro] Mechanosensitive channel MscS-like",
       "[pfam] MS_channel_2nd: Mechanosensitive ion channel, beta-domain",
@@ -556202,7 +556183,7 @@
       "[eggnog] Mechanosensitive ion channel",
       "[uniprot] Mechanosensitive channel that participates in the regulation of osmotic pressure changes within the cell, opening in response to stretch forces in the membrane lipid bilayer, without the need for other proteins. Contributes to normal resistance to hypoosmotic shock. Forms an ion channel of 1.0 nanosiemens conductance with a slight preference for anions",
       "[protein_family] MscS (TC 1.A.23) family",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel MscS, archaea/bacteria type",
       "[interpro] Mechanosensitive ion channel, transmembrane helices 2/3",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
@@ -556690,7 +556671,7 @@
       "[interpro] Translation elongation factor EFG/EF2, domain IV",
       "[interpro] Elongation factor G, domain III",
       "[interpro] EFG, domain V",
-      "[interpro] Elongation Factor G, domain II",
+      "[interpro] Elongation Factor G/4-like, domain III",
       "[interpro] Elongation factor G, domain IV",
       "[interpro] Elongation factor G-like, domain II",
       "[hamap] Elongation factor G [fusA].",
@@ -563908,7 +563889,7 @@
       "[interpro] Elongation factor EFG, domain V-like",
       "[interpro] Translation elongation factor EFG/EF2, domain IV",
       "[interpro] EFG, domain V",
-      "[interpro] Elongation Factor G, domain II",
+      "[interpro] Elongation Factor G/4-like, domain III",
       "[interpro] Elongation factor G, domain IV",
       "[pfam] EFG_C: Elongation factor G C-terminus",
       "[pfam] EFG_IV: Elongation factor G, domain IV",
@@ -564511,7 +564492,7 @@
       "[eggnog] ABC transporter, permease protein",
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[tcdb_best_hit] YejABEF with four subunits as indicated with YejA, a periplasmic peptide binding protein of 610 aas and 1 N-terminal TMS, YejB, a membrane protein\u2026 [3.A.1.5.49] :: [tcdb_substrates] Peptide",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -595200,7 +595181,6 @@
       "[eggnog] Reductase C-terminal",
       "[interpro] FAD/NAD(P)-binding domain",
       "[interpro] Reductase, C-terminal",
-      "[interpro] FAD-dependent Oxidoreductases and Apoptosis Regulators",
       "[pfam] Pyr_redox_2: Pyridine nucleotide-disulphide oxidoreductase",
       "[pfam] Reductase_C: Reductase C-terminal"
     ],
@@ -601524,7 +601504,7 @@
       "[eggnog] N-terminal TM domain of oligopeptide transport permease C",
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -616252,7 +616232,6 @@
       "[uniprot] Member of the two-component regulatory system RegB/RegA. Involved in transactivating anaerobic expression of the photosynthetic apparatus. It is a transcriptional regulator that is responsible for activating expression of the puf, puh, and puc operons in response to a decrease in oxygen tension",
       "[interpro] Signal transduction response regulator, receiver domain",
       "[interpro] ActR/PrrA/RegA redox response regulator transcription factor",
-      "[interpro] Bacterial response regulator",
       "[pfam] HTH_8: Bacterial regulatory protein, Fis family",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
@@ -630287,8 +630266,7 @@
       "1.13.11.-"
     ],
     "ec_numbers_evidence": {
-      "1.13.11.-": "family_inferred",
-      "1.13.11.3": "curated"
+      "1.13.11.-": "family_inferred"
     },
     "ec_numbers_source": {
       "1.13.11.-": [
@@ -630296,7 +630274,6 @@
       ],
       "1.13.11.3": [
         "eggnog",
-        "interproscan",
         "uniprot"
       ]
     },
@@ -630653,7 +630630,7 @@
       "[ncbi] 4-carboxymuconolactone decarboxylase",
       "[eggnog] Carboxymuconolactone decarboxylase family",
       "[interpro] Alkyl hydroperoxide reductase AhpD/CMD-like",
-      "[interpro] 4-carboxymuconolactone decarboxylase",
+      "[interpro] 4-carboxymuconolactone decarboxylase-like domain",
       "[interpro] 4-carboxymuconolactone decarboxylase/NDH-1 regulator",
       "[tigr_role_inferred] Energy metabolism / Other",
       "[pfam] CMD: Carboxymuconolactone decarboxylase family"
@@ -639026,9 +639003,13 @@
     "ec_numbers": [
       "1.2.1.3"
     ],
+    "ec_numbers_evidence": {
+      "1.2.1.3": "family_inferred"
+    },
     "ec_numbers_source": {
       "1.2.1.3": [
-        "eggnog"
+        "eggnog",
+        "interproscan"
       ]
     },
     "eggnog_ogs": [
@@ -666535,7 +666516,7 @@
       "[ncbi] acetate--CoA ligase family protein",
       "[eggnog] ATP-grasp domain",
       "[interpro] CoA-binding",
-      "[interpro] Succinyl-CoA synthetase-like, flavodoxin domain",
+      "[interpro] Acyl-CoA synthetase-like, first flavodoxin domain",
       "[pfam] ATP-grasp_5: ATP-grasp domain",
       "[pfam] CoA_binding_2: CoA binding domain",
       "[pfam] Succ_CoA_lig: Succinyl-CoA ligase like flavodoxin domain"
@@ -668275,7 +668256,6 @@
       "[eggnog] Branched-chain amino acid ATP-binding cassette transporter",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tcdb_best_hit] ABC-type uptake porter for pyruvate and monocarboxylate 2-oxo acids. [3.A.1.4.12] :: [tcdb_substrates] 2-Oxobutanoate, 2-Oxopentanoic acid, 3-Methyl-2-oxopentanoate, Pyruvate",
       "[pfam] ABC_tran: ABC transporter",
@@ -681452,7 +681432,7 @@
       "[eggnog] COG1042 Acyl-CoA synthetase (NDP forming)",
       "[interpro] CoA-binding",
       "[interpro] ATP-grasp fold",
-      "[interpro] Succinyl-CoA synthetase-like, flavodoxin domain",
+      "[interpro] Acyl-CoA synthetase-like, first flavodoxin domain",
       "[interpro] Acyl-CoA Synthetase/Transferase",
       "[pfam] ATP-grasp_5: ATP-grasp domain",
       "[pfam] CoA_binding_2: CoA binding domain",
@@ -681477,18 +681457,11 @@
     ],
     "coordinate_source": "ncbi",
     "ec_numbers": [
-      "6.2.1.-",
-      "6.2.1.13"
+      "6.2.1.-"
     ],
-    "ec_numbers_evidence": {
-      "6.2.1.13": "family_inferred"
-    },
     "ec_numbers_source": {
       "6.2.1.-": [
         "uniprot"
-      ],
-      "6.2.1.13": [
-        "interproscan"
       ]
     },
     "eggnog_ogs": [
@@ -687895,9 +687868,13 @@
     "ec_numbers": [
       "3.1.1.24"
     ],
+    "ec_numbers_evidence": {
+      "3.1.1.24": "curated"
+    },
     "ec_numbers_source": {
       "3.1.1.24": [
         "eggnog",
+        "interproscan",
         "uniprot"
       ]
     },

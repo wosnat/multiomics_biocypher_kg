@@ -5659,8 +5659,7 @@
       "1.13.11.-"
     ],
     "ec_numbers_evidence": {
-      "1.13.11.-": "family_inferred",
-      "1.13.11.3": "curated"
+      "1.13.11.-": "family_inferred"
     },
     "ec_numbers_source": {
       "1.13.11.-": [
@@ -5668,7 +5667,6 @@
       ],
       "1.13.11.3": [
         "eggnog",
-        "interproscan",
         "uniprot"
       ]
     },
@@ -5998,7 +5996,7 @@
       "[ncbi] 4-carboxymuconolactone decarboxylase",
       "[eggnog] peroxiredoxin activity",
       "[interpro] Alkyl hydroperoxide reductase AhpD/CMD-like",
-      "[interpro] 4-carboxymuconolactone decarboxylase",
+      "[interpro] 4-carboxymuconolactone decarboxylase-like domain",
       "[interpro] 4-carboxymuconolactone decarboxylase/NDH-1 regulator",
       "[tigr_role_inferred] Energy metabolism / Other",
       "[pfam] Abhydrolase_1: alpha/beta hydrolase fold",
@@ -6180,9 +6178,13 @@
     "ec_numbers": [
       "3.1.1.24"
     ],
+    "ec_numbers_evidence": {
+      "3.1.1.24": "curated"
+    },
     "ec_numbers_source": {
       "3.1.1.24": [
         "eggnog",
+        "interproscan",
         "uniprot"
       ]
     },
@@ -6916,7 +6918,6 @@
       "[eggnog] Branched-chain amino acid ATP-binding cassette transporter",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] Branched-Chain Amino Acid Transport ATP-binding Protein LivF",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
@@ -10324,7 +10325,7 @@
       "[eggnog] ABC-type dipeptide oligopeptide nickel transport systems, permease components",
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -11357,7 +11358,6 @@
       "[eggnog] Branched-chain amino acid ATP-binding cassette transporter",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tcdb_best_hit] The branched chain hydrophobic amino acid transporter, LivJFGHM. [3.A.1.4.10] :: [tcdb_substrates] Alanine, L-Isoleucine, L-Threonine, Leucine, Serine, Valine",
       "[pfam] ABC_tran: ABC transporter",
@@ -25573,7 +25573,7 @@
       "[protein_family] Phospholipase D family",
       "[interpro] Phospholipase D/Transphosphatidylase",
       "[interpro] Cardiolipin synthase-like, phospholipase D-like domain",
-      "[interpro] Phospholipase D domain-containing protein",
+      "[interpro] Mitochondrial cardiolipin hydrolase/Phospholipase D-like",
       "[pfam] PLDc_2: PLD-like domain"
     ],
     "alternative_locus_tags": [
@@ -37192,9 +37192,13 @@
     "ec_numbers": [
       "2.7.7.24"
     ],
+    "ec_numbers_evidence": {
+      "2.7.7.24": "curated"
+    },
     "ec_numbers_source": {
       "2.7.7.24": [
         "eggnog",
+        "interproscan",
         "uniprot"
       ]
     },
@@ -105167,7 +105171,7 @@
       "[eggnog] COG1173 ABC-type dipeptide oligopeptide nickel transport systems permease components",
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[tcdb_best_hit] Probable xylan oligosaccharide porter. [3.A.1.5.29] :: [tcdb_substrates] Xylan",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -109482,7 +109486,7 @@
       "[eggnog] PFAM Binding-protein-dependent transport system inner membrane component",
       "[protein_family] Binding-protein-dependent transport system permease family, OppBC subfamily",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[interpro] ABC_transport_system_permease",
       "[tcdb_best_hit] Glutathione porter, YliABCD or GsiABCD. [3.A.1.5.11] :: [tcdb_substrates] Glutathione",
@@ -114928,7 +114932,6 @@
       "[eggnog] COG0411 ABC-type branched-chain amino acid transport systems ATPase component",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
@@ -117431,7 +117434,7 @@
       "[ncbi] ABC transporter permease",
       "[eggnog] ABC-type dipeptide oligopeptide nickel transport systems, permease components",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -124648,7 +124651,7 @@
       "[eggnog] ABC-type dipeptide oligopeptide nickel transport systems, permease components",
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -130350,7 +130353,6 @@
       "[ncbi] lipid II:glycine glycyltransferase FemX",
       "[eggnog] Methicillin resistance protein",
       "[interpro] FemABX peptidyl transferase",
-      "[interpro] Peptidoglycan Glycine Bridge Synthesis",
       "[pfam] FemAB: FemAB family"
     ],
     "alternative_locus_tags": [
@@ -171823,7 +171825,7 @@
       "[ncbi] pyridoxal phosphate-dependent aminotransferase",
       "[eggnog] aminotransferase class I and II",
       "[interpro] Aminotransferase, class I/classII, large domain",
-      "[interpro] Kynurenine--oxoglutarate transaminase",
+      "[interpro] Kynurenine--oxoglutarate transaminase-like",
       "[pfam] Aminotran_1_2: Aminotransferase class I and II"
     ],
     "alternative_locus_tags": [
@@ -208053,7 +208055,7 @@
       "[ncbi] arginine--tRNA ligase",
       "[eggnog] Arginyl-tRNA synthetase",
       "[interpro] Arginine-tRNA ligase",
-      "[interpro] Arginyl tRNA synthetase N-terminal domain",
+      "[interpro] Arginyl tRNA synthetase, N-terminal domain",
       "[interpro] DALR anticodon binding",
       "[interpro] Arginyl-tRNA synthetase, catalytic core domain",
       "[hamap] Arginine--tRNA ligase [argS].",
@@ -213470,7 +213472,6 @@
       "[eggnog] cheY-homologous receiver domain",
       "[interpro] Signal transduction response regulator, receiver domain",
       "[interpro] Roadblock/LAMTOR2 domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
     "alternative_locus_tags": [
@@ -214434,7 +214435,6 @@
       "[ncbi] response regulator",
       "[eggnog] cheY-homologous receiver domain",
       "[interpro] Signal transduction response regulator, receiver domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
     "alternative_locus_tags": [
@@ -216346,7 +216346,7 @@
       "[ncbi] ABC transporter permease",
       "[eggnog] ABC-type dipeptide oligopeptide nickel transport systems, permease components",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -234914,7 +234914,7 @@
       "[eggnog] Succinyl-CoA ligase like flavodoxin domain",
       "[interpro] GNAT domain",
       "[interpro] CoA-binding",
-      "[interpro] Succinyl-CoA synthetase-like, flavodoxin domain",
+      "[interpro] Acyl-CoA synthetase-like, first flavodoxin domain",
       "[pfam] ATP-grasp_5: ATP-grasp domain",
       "[pfam] Acetyltransf_1: Acetyltransferase (GNAT) family",
       "[pfam] Acetyltransf_3: Acetyltransferase (GNAT) domain",
@@ -237210,7 +237210,6 @@
       "[ncbi] response regulator",
       "[eggnog] GGDEF domain",
       "[interpro] Signal transduction response regulator, receiver domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
     "alternative_locus_tags": [
@@ -241761,7 +241760,7 @@
       "[eggnog] Could be a nuclease involved in processing of the 5'-end of pre-16S rRNA",
       "[uniprot] Could be a nuclease involved in processing of the 5^-end of pre-16S rRNA",
       "[protein_family] YqgF HJR family",
-      "[interpro] Putative pre-16S rRNA nuclease",
+      "[interpro] Nuclease YqgF",
       "[interpro] YqgF/RNase H-like domain",
       "[hamap] Putative pre-16S rRNA nuclease [yqgF].",
       "[tigr_role_inferred] Unknown function / General",
@@ -250726,7 +250725,6 @@
       "[interpro] UvrABC system, subunit B",
       "[interpro] Helicase/UvrB, N-terminal",
       "[interpro] Helicase superfamily 1/2, ATP-binding domain",
-      "[interpro] UvrB, YAD/RRR-motif-containing domain",
       "[interpro] UvrB, interaction domain",
       "[interpro] UvrABC system protein B, third helical domain",
       "[hamap] UvrABC system protein B [uvrB].",
@@ -256565,7 +256563,7 @@
       "[ncbi] ABC transporter permease",
       "[eggnog] ABC-type dipeptide oligopeptide nickel transport systems, permease components",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -267751,9 +267749,13 @@
     "ec_numbers": [
       "2.7.7.24"
     ],
+    "ec_numbers_evidence": {
+      "2.7.7.24": "curated"
+    },
     "ec_numbers_source": {
       "2.7.7.24": [
         "eggnog",
+        "interproscan",
         "uniprot"
       ]
     },
@@ -283777,7 +283779,7 @@
       "[eggnog] 4-hydroxyphenylacetate 3-monooxygenase oxygenase",
       "[interpro] HpaB/PvcC/4-BUDH",
       "[interpro] 4-HPA 3-monooxygenase large component, Deinococcus-type",
-      "[interpro] HpaB/PvcC/4-BUDH N-terminal",
+      "[interpro] HpaB/PvcC/4-BUDH, N-terminal domain",
       "[interpro] HpaB/PvcC/4-BUDH C-terminal",
       "[pfam] HpaB: 4-hydroxyphenylacetate 3-hydroxylase C terminal",
       "[pfam] HpaB_N: 4-hydroxyphenylacetate 3-hydroxylase N terminal"
@@ -284737,7 +284739,6 @@
       "[interpro] ABC transporter, permease",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] High-affinity branched-chain amino acid transport system permease protein LivM-like",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tcdb_best_hit] The phenylpropeneoid uptake porter, CouPSTW. [3.A.1.4.11]",
@@ -298748,7 +298749,7 @@
       "[ncbi] mechanosensitive ion channel family protein",
       "[eggnog] mechanosensitive ion channel",
       "[protein_family] MscS (TC 1.A.23) family",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel YbiO",
       "[interpro] Mechanosensitive ion channel, transmembrane helices 2/3",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
@@ -303412,7 +303413,7 @@
       "[ncbi] ABC transporter permease",
       "[eggnog] Binding-protein-dependent transport system inner membrane component",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -365602,7 +365603,7 @@
       "[interpro] Translation elongation factor EFG/EF2, domain IV",
       "[interpro] Elongation factor G, domain III",
       "[interpro] EFG, domain V",
-      "[interpro] Elongation Factor G, domain II",
+      "[interpro] Elongation Factor G/4-like, domain III",
       "[interpro] Elongation factor G, domain IV",
       "[interpro] Elongation factor G-like, domain II",
       "[pfam] EFG_C: Elongation factor G C-terminus",
@@ -394893,7 +394894,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] DUF402 domain-containing protein",
       "[eggnog] Protein of unknown function (DUF402)",
-      "[interpro] Domain of unknown function DUF402",
+      "[interpro] Cytidylyl-2-hydroxypropylphosphonate hydrolase FomD-like",
       "[interpro] Nucleoside triphosphate/diphosphate phosphatase-like",
       "[pfam] DUF402: Protein of unknown function (DUF402)"
     ],
@@ -402934,7 +402935,6 @@
       "[eggnog] COG0411 ABC-type branched-chain amino acid transport systems ATPase component",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
@@ -406861,7 +406861,7 @@
       "[interpro] Translation elongation factor EFG/EF2, domain IV",
       "[interpro] Elongation factor G, domain III",
       "[interpro] EFG, domain V",
-      "[interpro] Elongation Factor G, domain II",
+      "[interpro] Elongation Factor G/4-like, domain III",
       "[interpro] Elongation factor G, domain IV",
       "[interpro] Elongation factor G-like, domain II",
       "[hamap] Elongation factor G [fusA].",
@@ -423897,7 +423897,6 @@
     "alternate_functional_descriptions": [
       "[ncbi] ABC transporter ATP-binding protein C-terminal domain-containing protein",
       "[eggnog] ABC transporter",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
     ],

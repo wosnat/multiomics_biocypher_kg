@@ -7226,7 +7226,7 @@
       "[cog] COG: POORLY CHARACTERIZED [R] General function prediction only",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Ycf51",
+      "[interpro] Ycf51 photosystem I assembly factor",
       "[pfam] DUF2518: Protein of function (DUF2518)"
     ],
     "alternative_locus_tags": [
@@ -19167,7 +19167,7 @@
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
       "[kegg] glutathione transferase; glutathione S-transferase; glutathione S-alkyltransferase; glutathione S-aryltransferase; S-(hydroxyalkyl)glutathione lyase; glutathione S-aralkyltransferase; glutathione S-alkyl transferase; GST",
       "[interpro] Glutathione S-transferase, N-terminal",
-      "[interpro] Glutathione S-transferase Omega/HSP26",
+      "[interpro] Glutathione S-transferase Omega-like",
       "[pfam] GST_N_3: Glutathione S-transferase, N-terminal domain",
       "[pfam] GST_C_2: Glutathione S-transferase, C-terminal domain",
       "[pfam] GST_C_5: Glutathione S-transferase, C-terminal domain",
@@ -28145,7 +28145,7 @@
       "[cyanorak_role] Sugars",
       "[tigr_role] Transport and binding proteins / Unknown substrate",
       "[cog] COG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel MscS, archaea/bacteria type",
       "[pfam] MS_channel_2nd: Mechanosensitive ion channel, beta-domain"
     ],
@@ -76585,12 +76585,17 @@
     ],
     "ec_numbers": [
       "1.3.1.83",
-      "1.3.1.111"
+      "1.3.1.111",
+      "1.3.1.-"
     ],
     "ec_numbers_evidence": {
+      "1.3.1.-": "family_inferred",
       "1.3.1.83": "curated"
     },
     "ec_numbers_source": {
+      "1.3.1.-": [
+        "interproscan"
+      ],
       "1.3.1.111": [
         "eggnog"
       ],
@@ -109454,7 +109459,7 @@
       "[cog] bactNOG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
       "[cog] cyaNOG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
       "[kegg] Transferred to 3.1.11.1",
-      "[interpro] Putative pre-16S rRNA nuclease",
+      "[interpro] Nuclease YqgF",
       "[interpro] YqgF/RNase H-like domain",
       "[hamap] Putative pre-16S rRNA nuclease [yqgF].",
       "[ncbifam] Holliday junction resolvase RuvX",
@@ -127379,7 +127384,6 @@
       "[tigr_role] Signal transduction / Two-component systems",
       "[cog] COG: CELLULAR PROCESSES AND SIGNALING [T] Signal transduction mechanisms",
       "[interpro] Signal transduction response regulator, receiver domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
     "alternative_locus_tags": [
@@ -143525,7 +143529,7 @@
       "[cog] COG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
       "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[pfam] MS_channel_2nd: Mechanosensitive ion channel, beta-domain",
       "[pfam] MS_channel_3rd: Mechanosensitive ion channel MscS, C-terminal"
@@ -195816,11 +195820,18 @@
       "Phycobilin lyase"
     ],
     "ec_numbers": [
-      "4.-.-.-"
+      "4.-.-.-",
+      "4.4.1.-"
     ],
+    "ec_numbers_evidence": {
+      "4.4.1.-": "family_inferred"
+    },
     "ec_numbers_source": {
       "4.-.-.-": [
         "cyanorak"
+      ],
+      "4.4.1.-": [
+        "interproscan"
       ]
     },
     "eggnog_og_descriptions": [
@@ -237923,11 +237934,18 @@
       "Phycobilin lyase"
     ],
     "ec_numbers": [
-      "4.-.-.-"
+      "4.-.-.-",
+      "4.4.1.-"
     ],
+    "ec_numbers_evidence": {
+      "4.4.1.-": "family_inferred"
+    },
     "ec_numbers_source": {
       "4.-.-.-": [
         "cyanorak"
+      ],
+      "4.4.1.-": [
+        "interproscan"
       ]
     },
     "eggnog_og_descriptions": [
@@ -239317,6 +239335,17 @@
     "cyanorak_Role_description": [
       "Phycobilin lyase"
     ],
+    "ec_numbers": [
+      "4.4.1.-"
+    ],
+    "ec_numbers_evidence": {
+      "4.4.1.-": "family_inferred"
+    },
+    "ec_numbers_source": {
+      "4.4.1.-": [
+        "interproscan"
+      ]
+    },
     "eggnog_og_descriptions": [
       "COG: POORLY CHARACTERIZED [S] Function unknown",
       "COG: NT",
@@ -239512,11 +239541,18 @@
       "Phycobilin lyase"
     ],
     "ec_numbers": [
-      "4.-.-.-"
+      "4.-.-.-",
+      "4.4.1.-"
     ],
+    "ec_numbers_evidence": {
+      "4.4.1.-": "family_inferred"
+    },
     "ec_numbers_source": {
       "4.-.-.-": [
         "cyanorak"
+      ],
+      "4.4.1.-": [
+        "interproscan"
       ]
     },
     "eggnog_og_descriptions": [
@@ -241287,11 +241323,18 @@
       "Phycobilin lyase"
     ],
     "ec_numbers": [
-      "4.-.-.-"
+      "4.-.-.-",
+      "4.4.1.-"
     ],
+    "ec_numbers_evidence": {
+      "4.4.1.-": "family_inferred"
+    },
     "ec_numbers_source": {
       "4.-.-.-": [
         "cyanorak"
+      ],
+      "4.4.1.-": [
+        "interproscan"
       ]
     },
     "eggnog_og_descriptions": [
@@ -248685,7 +248728,7 @@
       "[kegg] 5-bisthiocarboxylic acid mononucleotide synthase; LarE; P2CMN sulfurtransferase; pyridinium-3",
       "[kegg] 5-biscarboxylic acid mononucleotide sulfurtransferase; P2TMN synthase",
       "[interpro] Asparagine synthase",
-      "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase LarE-like",
+      "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase LarE",
       "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase-like",
       "[ncbifam] ATP-dependent sacrificial sulfur transferase LarE",
       "[tigr_role_inferred] Hypothetical proteins / Conserved",
@@ -269341,7 +269384,7 @@
       "[interpro] Translation elongation factor EFG/EF2, domain IV",
       "[interpro] Elongation factor G, domain III",
       "[interpro] EFG, domain V",
-      "[interpro] Elongation Factor G, domain II",
+      "[interpro] Elongation Factor G/4-like, domain III",
       "[interpro] Elongation factor G, domain IV",
       "[hamap] Elongation factor G [fusA].",
       "[ncbifam] GTP-binding protein",
@@ -277557,7 +277600,7 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Protein of unknown function DUF2555",
+      "[interpro] IsiD-like",
       "[ncbifam] protein IsiD",
       "[pfam] DUF2555: Protein of unknown function (DUF2555)"
     ],
@@ -338124,7 +338167,6 @@
       "[interpro] UvrABC system, subunit B",
       "[interpro] Helicase/UvrB, N-terminal",
       "[interpro] Helicase superfamily 1/2, ATP-binding domain",
-      "[interpro] UvrB, YAD/RRR-motif-containing domain",
       "[interpro] UvrB, interaction domain",
       "[interpro] UvrABC system protein B, third helical domain",
       "[hamap] UvrABC system protein B [uvrB].",
@@ -372502,7 +372544,6 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter, urea, ATP-binding protein, UrtD",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[ncbifam] urea ABC transporter ATP-binding protein UrtD",
       "[tcdb_best_hit] The high-affinity (<1 \u03bcM) urea porter [3.A.1.4.4] :: [tcdb_substrates] Urea",
@@ -379329,7 +379370,7 @@
       "[tigr_role] Transport and binding proteins / Unknown substrate",
       "[cog] COG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[interpro] Mechanosensitive channel MscS-like",
       "[pfam] MS_channel_2nd: Mechanosensitive ion channel, beta-domain",
@@ -380125,7 +380166,7 @@
       "[cyanorak_role] Sugars",
       "[tigr_role] Transport and binding proteins / Unknown substrate",
       "[cog] COG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[interpro] Mechanosensitive channel MscS-like",
       "[pfam] MS_channel_2nd: Mechanosensitive ion channel, beta-domain",
@@ -381067,7 +381108,7 @@
       "[cog] COG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
       "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel protein YnaI-like",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[pfam] MS_channel_2nd: Mechanosensitive ion channel, beta-domain",
@@ -381260,7 +381301,7 @@
       "[eggnog] Small-conductance mechanosensitive channel",
       "[cyanorak_role] Sugars",
       "[tigr_role] Transport and binding proteins / Unknown substrate",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel, transmembrane helices 2/3",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[interpro] Mechanosensitive channel MscS-like",
@@ -393647,7 +393688,7 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [R] General function prediction only",
       "[interpro] ABC1 atypical kinase-like domain",
       "[interpro] UbiB protein kinase-like",
-      "[interpro] Probable serine/threonine-protein kinase I/L, C-terminal helical hairpin",
+      "[interpro] ABC1-LIKE KINASE 7-like, C-terminal helical hairpin",
       "[pfam] ABC1: ABC1 atypical kinase-like domain"
     ],
     "alternative_locus_tags": [
@@ -399050,7 +399091,7 @@
       "[eggnog] Protein of unknown function (DUF3604)",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF3604",
+      "[interpro] DUF3604, N-terminal domain",
       "[pfam] DUF3604: Protein of unknown function (DUF3604)"
     ],
     "alternative_locus_tags": [
@@ -406110,7 +406151,7 @@
       "[cog] cyaNOG: INFORMATION STORAGE AND PROCESSING [J] Translation, ribosomal structure and biogenesis",
       "[kegg] arginine---tRNA ligase; arginyl-tRNA synthetase; arginyl-transfer ribonucleate synthetase; arginyl-transfer RNA synthetase; arginyl transfer ribonucleic acid synthetase; arginine-tRNA synthetase; arginine translase",
       "[interpro] Arginine-tRNA ligase",
-      "[interpro] Arginyl tRNA synthetase N-terminal domain",
+      "[interpro] Arginyl tRNA synthetase, N-terminal domain",
       "[interpro] DALR anticodon binding",
       "[interpro] Arginyl-tRNA synthetase, catalytic core domain",
       "[hamap] Arginine--tRNA ligase [argS].",
@@ -442129,7 +442170,7 @@
       "[cog] cyaNOG: METABOLISM [I] Lipid transport and metabolism",
       "[interpro] Phospholipase D/Transphosphatidylase",
       "[interpro] Cardiolipin synthase-like, phospholipase D-like domain",
-      "[interpro] Phospholipase D domain-containing protein",
+      "[interpro] Mitochondrial cardiolipin hydrolase/Phospholipase D-like",
       "[pfam] PLDc_2: PLD-like domain",
       "[pfam] HHH_3: Helix-hairpin-helix motif"
     ],
@@ -442895,11 +442936,18 @@
       "Phycobilin lyase"
     ],
     "ec_numbers": [
-      "4.-.-.-"
+      "4.-.-.-",
+      "4.4.1.-"
     ],
+    "ec_numbers_evidence": {
+      "4.4.1.-": "family_inferred"
+    },
     "ec_numbers_source": {
       "4.-.-.-": [
         "cyanorak"
+      ],
+      "4.4.1.-": [
+        "interproscan"
       ]
     },
     "eggnog_og_descriptions": [
@@ -494137,7 +494185,7 @@
       "[cog] COG: METABOLISM [Q] Secondary metabolites biosynthesis, transport and catabolism",
       "[cog] bactNOG: METABOLISM [Q] Secondary metabolites biosynthesis, transport and catabolism",
       "[cog] cyaNOG: METABOLISM [Q] Secondary metabolites biosynthesis, transport and catabolism",
-      "[interpro] ABC transporter permease MalE",
+      "[interpro] Intermembrane phospholipid transport system permease protein MlaE-like",
       "[pfam] MlaE: Permease MlaE"
     ],
     "alternative_locus_tags": [

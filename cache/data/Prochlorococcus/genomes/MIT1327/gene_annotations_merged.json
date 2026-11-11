@@ -5080,7 +5080,7 @@
       "[ncbi] DUF1330 domain-containing protein",
       "[eggnog] Domain of unknown function (DUF1330)",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF1330",
+      "[interpro] CmaL-like",
       "[pfam] DUF1330: Domain of unknown function (DUF1330)"
     ],
     "alternative_locus_tags": [
@@ -51868,7 +51868,7 @@
       "[cog] No definition",
       "[interpro] Phospholipase D/Transphosphatidylase",
       "[interpro] Cardiolipin synthase-like, phospholipase D-like domain",
-      "[interpro] Phospholipase D domain-containing protein",
+      "[interpro] Mitochondrial cardiolipin hydrolase/Phospholipase D-like",
       "[pfam] PLDc_2: PLD-like domain",
       "[pfam] HHH_3: Helix-hairpin-helix motif"
     ],
@@ -75464,7 +75464,7 @@
       "[kegg] Pyridinium-3",
       "[kegg] 5-bisthiocarboxylic acid mononucleotide synthase",
       "[interpro] Asparagine synthase",
-      "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase LarE-like",
+      "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase LarE",
       "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase-like",
       "[ncbifam] ATP-dependent sacrificial sulfur transferase LarE",
       "[tigr_role_inferred] Hypothetical proteins / Conserved",
@@ -83749,6 +83749,17 @@
       "Trace metals",
       "Phycobilin lyase"
     ],
+    "ec_numbers": [
+      "4.4.1.-"
+    ],
+    "ec_numbers_evidence": {
+      "4.4.1.-": "family_inferred"
+    },
+    "ec_numbers_source": {
+      "4.4.1.-": [
+        "interproscan"
+      ]
+    },
     "eggnog_og_descriptions": [
       "No definition",
       "3'-5' helicase subunit RecB of the DNA repair enzyme RecBCD (exonuclease V)",
@@ -83946,6 +83957,17 @@
     "cyanorak_Role_description": [
       "Phycobilin lyase"
     ],
+    "ec_numbers": [
+      "4.4.1.-"
+    ],
+    "ec_numbers_evidence": {
+      "4.4.1.-": "family_inferred"
+    },
+    "ec_numbers_source": {
+      "4.4.1.-": [
+        "interproscan"
+      ]
+    },
     "eggnog_og_descriptions": [
       "No definition",
       "Linker protein CpeS",
@@ -106236,7 +106258,7 @@
       "[cog] MFS family permease, includes anhydromuropeptide permease AmpG",
       "[cog] Membrane-associated protease RseP, regulator of RpoE activity",
       "[cog] Lhr-like helicase",
-      "[interpro] Ycf51",
+      "[interpro] Ycf51 photosystem I assembly factor",
       "[pfam] DUF2518: Protein of function (DUF2518)"
     ],
     "alternative_locus_tags": [
@@ -112248,7 +112270,7 @@
       "[cog] Glutaredoxin-Like domain/phycoerythrin related domain protein",
       "[kegg] Glutathione transferase",
       "[interpro] Glutathione S-transferase, N-terminal",
-      "[interpro] Glutathione S-transferase Omega/HSP26",
+      "[interpro] Glutathione S-transferase Omega-like",
       "[pfam] GST_N_3: Glutathione S-transferase, N-terminal domain",
       "[pfam] GST_C_2: Glutathione S-transferase, C-terminal domain",
       "[pfam] GST_N_2: Glutathione S-transferase, N-terminal domain"
@@ -125602,7 +125624,7 @@
       "[cog] No definition",
       "[cog] Transporter, membrane component protein",
       "[interpro] ABC transport permease subunit MlaE, proteobacteria",
-      "[interpro] ABC transporter permease MalE",
+      "[interpro] Intermembrane phospholipid transport system permease protein MlaE-like",
       "[ncbifam] MlaE family lipid ABC transporter permease subunit",
       "[pfam] MlaE: Permease MlaE"
     ],
@@ -164219,7 +164241,6 @@
       "[tigr_role] Unknown function / Enzymes of unknown specificity",
       "[interpro] Methyltransferase domain",
       "[interpro] TMTC O-mannosyl-transferase",
-      "[interpro] Cilia and flagella-associated protein 70, C-terminal domain",
       "[pfam] TPR_8: Tetratricopeptide repeat",
       "[pfam] TPR_10: Tetratricopeptide repeat",
       "[pfam] TPR_11: TPR repeat",
@@ -256045,7 +256066,7 @@
       "[cog] No definition",
       "[cog] Holliday junction protein",
       "[kegg] Exodeoxyribonuclease I",
-      "[interpro] Putative pre-16S rRNA nuclease",
+      "[interpro] Nuclease YqgF",
       "[interpro] YqgF/RNase H-like domain",
       "[hamap] Putative pre-16S rRNA nuclease [yqgF].",
       "[ncbifam] Holliday junction resolvase RuvX",
@@ -267329,7 +267350,6 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] LPS export ABC transporter, ATP-binding protein LptB",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[ncbifam] LPS export ABC transporter ATP-binding protein",
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of surface polysaccharides and lipopolysaccharides",
@@ -268490,12 +268510,17 @@
     ],
     "ec_numbers": [
       "1.3.1.111",
-      "1.3.1.83"
+      "1.3.1.83",
+      "1.3.1.-"
     ],
     "ec_numbers_evidence": {
+      "1.3.1.-": "family_inferred",
       "1.3.1.83": "family_inferred"
     },
     "ec_numbers_source": {
+      "1.3.1.-": [
+        "interproscan"
+      ],
       "1.3.1.111": [
         "eggnog"
       ],
@@ -326271,7 +326296,7 @@
       "[cyanorak_role] Sugars",
       "[tigr_role] Transport and binding proteins / Unknown substrate",
       "[cog] Small-conductance mechanosensitive channel",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel YbiO",
       "[pfam] MS_channel_2nd: Mechanosensitive ion channel, beta-domain"
     ],
@@ -351377,7 +351402,7 @@
       "[interpro] Translation elongation factor EFG/EF2, domain IV",
       "[interpro] Elongation factor G, domain III",
       "[interpro] EFG, domain V",
-      "[interpro] Elongation Factor G, domain II",
+      "[interpro] Elongation Factor G/4-like, domain III",
       "[interpro] Elongation factor G, domain IV",
       "[hamap] Elongation factor G [fusA].",
       "[ncbifam] GTP-binding protein",
@@ -356998,7 +357023,7 @@
       "[ncbi] DUF2555 domain-containing protein",
       "[tigr_role] Hypothetical proteins / Conserved",
       "[cog] No definition",
-      "[interpro] Protein of unknown function DUF2555",
+      "[interpro] IsiD-like",
       "[ncbifam] protein IsiD",
       "[pfam] DUF2555: Protein of unknown function (DUF2555)"
     ],
@@ -413134,7 +413159,7 @@
       "[cog] Arginyl-Trna synthetase; catalyzes a two-step reaction, first charging an arginine [..]",
       "[kegg] Arginine--tRNA ligase",
       "[interpro] Arginine-tRNA ligase",
-      "[interpro] Arginyl tRNA synthetase N-terminal domain",
+      "[interpro] Arginyl tRNA synthetase, N-terminal domain",
       "[interpro] DALR anticodon binding",
       "[interpro] Arginyl-tRNA synthetase, catalytic core domain",
       "[hamap] Arginine--tRNA ligase [argS].",
@@ -414984,7 +415009,7 @@
       "[tigr_role] Transport and binding proteins / Unknown substrate",
       "[cog] Small-conductance mechanosensitive channel",
       "[cog] Mechanosensitive ion channel",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel protein YnaI-like",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[pfam] MS_channel_2nd: Mechanosensitive ion channel, beta-domain",
@@ -415499,7 +415524,7 @@
       "[cog] No definition",
       "[interpro] ABC1 atypical kinase-like domain",
       "[interpro] UbiB protein kinase-like",
-      "[interpro] Probable serine/threonine-protein kinase I/L, C-terminal helical hairpin",
+      "[interpro] ABC1-LIKE KINASE 7-like, C-terminal helical hairpin",
       "[pfam] ABC1: ABC1 atypical kinase-like domain"
     ],
     "alternative_locus_tags": [
@@ -420866,7 +420891,7 @@
       "[interpro] Glutathione S-transferase, N-terminal",
       "[interpro] Glutathione S-transferase, C-terminal",
       "[interpro] Protein of unknown function DUF952",
-      "[interpro] Glutathione S-transferase Omega/HSP26",
+      "[interpro] Glutathione S-transferase Omega-like",
       "[pfam] DUF952: Protein of unknown function (DUF952)",
       "[pfam] GST_N_3: Glutathione S-transferase, N-terminal domain",
       "[pfam] GST_C_2: Glutathione S-transferase, C-terminal domain",
@@ -430249,7 +430274,7 @@
       "[cyanorak_role] Sugars",
       "[tigr_role] Transport and binding proteins / Unknown substrate",
       "[interpro] Cyclic nucleotide-binding domain",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel MscS, archaea/bacteria type",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[pfam] cNMP_binding: Cyclic nucleotide-binding domain",
@@ -448207,7 +448232,6 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC transporter, urea, ATP-binding protein, UrtD",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[ncbifam] urea ABC transporter ATP-binding protein UrtD",
       "[tcdb_best_hit] The high-affinity (<1 \u03bcM) urea porter [3.A.1.4.4] :: [tcdb_substrates] Urea",
@@ -476188,7 +476212,6 @@
       "[interpro] UvrABC system, subunit B",
       "[interpro] Helicase/UvrB, N-terminal",
       "[interpro] Helicase superfamily 1/2, ATP-binding domain",
-      "[interpro] UvrB, YAD/RRR-motif-containing domain",
       "[interpro] UvrB, interaction domain",
       "[interpro] UvrABC system protein B, third helical domain",
       "[hamap] UvrABC system protein B [uvrB].",

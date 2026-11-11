@@ -1,5 +1,5 @@
 {
-  "release": "256",
+  "release": "257",
   "terms": {
     "CHEBI:10": {
       "alt_ids": [],
@@ -18027,6 +18027,24 @@
       "is_role": false,
       "kegg": [],
       "name": "ginkgolide",
+      "tautomers": []
+    },
+    "CHEBI:136912": {
+      "alt_ids": [],
+      "charge": -1,
+      "conjugates": [],
+      "enantiomers": [],
+      "generalized_formula": "C5H5O8PR3",
+      "inchikey": null,
+      "is_a": [
+        "CHEBI:37739"
+      ],
+      "is_class": true,
+      "is_role": false,
+      "kegg": [
+        "C00865"
+      ],
+      "name": "1,2-diacyl-sn-glycero-3-phospholipid",
       "tautomers": []
     },
     "CHEBI:136946": {
@@ -49452,7 +49470,6 @@
       "is_class": false,
       "is_role": false,
       "kegg": [
-        "C05129",
         "C05828"
       ],
       "name": "1-methyl-4-imidazoleacetic acid",
@@ -120186,7 +120203,9 @@
       ],
       "is_class": false,
       "is_role": false,
-      "kegg": [],
+      "kegg": [
+        "C01494"
+      ],
       "name": "ferulic acid",
       "tautomers": []
     },
@@ -226341,7 +226360,7 @@
       "charge": 0,
       "conjugates": [],
       "enantiomers": [],
-      "generalized_formula": "C16H12NO3",
+      "generalized_formula": "C16H11NO3",
       "inchikey": "DFQOXFIPAAMFAU-UHFFFAOYSA-N",
       "is_a": [
         "CHEBI:50860"
@@ -390479,7 +390498,9 @@
       ],
       "is_class": false,
       "is_role": false,
-      "kegg": [],
+      "kegg": [
+        "C17432"
+      ],
       "name": "all-trans-decaprenyl diphosphate(3-)",
       "tautomers": []
     },
@@ -411356,7 +411377,9 @@
       ],
       "is_class": false,
       "is_role": false,
-      "kegg": [],
+      "kegg": [
+        "C17582"
+      ],
       "name": "2'-N-acetylparomamine(2+)",
       "tautomers": []
     },
@@ -411811,7 +411834,9 @@
       ],
       "is_class": false,
       "is_role": false,
-      "kegg": [],
+      "kegg": [
+        "C17589"
+      ],
       "name": "6'''-oxoneomycin C(5+)",
       "tautomers": []
     },
@@ -431540,6 +431565,25 @@
       "name": "N-Succinyl-2-amino-6-oxopimelate",
       "tautomers": []
     },
+    "CHEBI:73418": {
+      "alt_ids": [],
+      "charge": 0,
+      "conjugates": [],
+      "enantiomers": [],
+      "generalized_formula": "C4H9O4R",
+      "inchikey": null,
+      "is_a": [
+        "CHEBI:15850",
+        "CHEBI:5653"
+      ],
+      "is_class": true,
+      "is_role": false,
+      "kegg": [
+        "C03658"
+      ],
+      "name": "1-(1-hydroxyalkyl)-sn-glycerol",
+      "tautomers": []
+    },
     "CHEBI:73423": {
       "alt_ids": [],
       "charge": 0,
@@ -442282,7 +442326,9 @@
       ],
       "is_class": true,
       "is_role": false,
-      "kegg": [],
+      "kegg": [
+        "C15541"
+      ],
       "name": "NDP-alpha-D-glucose(2-)",
       "tautomers": []
     },
@@ -452566,7 +452612,9 @@
       ],
       "is_class": false,
       "is_role": false,
-      "kegg": [],
+      "kegg": [
+        "C02467"
+      ],
       "name": "UDP-alpha-D-galactosamine(1-)",
       "tautomers": []
     },
@@ -452584,7 +452632,9 @@
       ],
       "is_class": false,
       "is_role": false,
-      "kegg": [],
+      "kegg": [
+        "C02200"
+      ],
       "name": "UDP-alpha-D-glucosamine(1-)",
       "tautomers": []
     },

@@ -20568,12 +20568,17 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "1.3.1.111",
-      "1.3.1.83"
+      "1.3.1.83",
+      "1.3.1.-"
     ],
     "ec_numbers_evidence": {
+      "1.3.1.-": "family_inferred",
       "1.3.1.83": "family_inferred"
     },
     "ec_numbers_source": {
+      "1.3.1.-": [
+        "interproscan"
+      ],
       "1.3.1.111": [
         "eggnog"
       ],
@@ -25535,7 +25540,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -27104,7 +27108,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -45726,7 +45729,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -51258,7 +51260,6 @@
       "[ncbi] response regulator",
       "[eggnog] PFAM response regulator receiveR",
       "[interpro] Signal transduction response regulator, receiver domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
     "alternative_locus_tags": [
@@ -51404,7 +51405,6 @@
       "[interpro] Signal transduction response regulator, receiver domain",
       "[interpro] Signal transduction response regulator, heterocyst pattern formation, PatA",
       "[interpro] PATAN domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] PatA_N: Protein PatA, N-terminal domain",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
@@ -54499,7 +54499,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -61256,7 +61255,6 @@
       "[eggnog] TIGRFAM transposase, IS605 OrfB family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -69394,7 +69392,7 @@
       "[ncbi] arginine--tRNA ligase",
       "[eggnog] Arginyl-tRNA synthetase",
       "[interpro] Arginine-tRNA ligase",
-      "[interpro] Arginyl tRNA synthetase N-terminal domain",
+      "[interpro] Arginyl tRNA synthetase, N-terminal domain",
       "[interpro] DALR anticodon binding",
       "[interpro] Arginyl-tRNA synthetase, catalytic core domain",
       "[hamap] Arginine--tRNA ligase [argS].",
@@ -79388,7 +79386,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -83424,7 +83421,6 @@
       "[ncbi] response regulator transcription factor",
       "[eggnog] Response regulators consisting of a CheY-like receiver domain and a winged-helix DNA-binding domain",
       "[interpro] Signal transduction response regulator, receiver domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
     "alternative_locus_tags": [
@@ -83580,7 +83576,6 @@
       "[interpro] Signal transduction response regulator, receiver domain",
       "[interpro] Signal transduction response regulator, heterocyst pattern formation, PatA",
       "[interpro] PATAN domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] PatA_N: Protein PatA, N-terminal domain",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
@@ -88483,7 +88478,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] Ycf51 family protein",
       "[eggnog] PFAM Protein of function (DUF2518)",
-      "[interpro] Ycf51",
+      "[interpro] Ycf51 photosystem I assembly factor",
       "[pfam] DUF2518: Protein of function (DUF2518)"
     ],
     "alternative_locus_tags": [
@@ -92044,7 +92039,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -92487,7 +92481,6 @@
       "[eggnog] TIGRFAM transposase, IS605 OrfB family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -97134,7 +97127,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] ATP-dependent sacrificial sulfur transferase LarE",
       "[eggnog] of the PP-loop superfamily",
-      "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase LarE-like",
+      "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase LarE",
       "[interpro] NAD/GMP synthase",
       "[interpro] Pyridinium-3,5-bisthiocarboxylic acid mononucleotide synthase-like",
       "[tigr_role_inferred] Hypothetical proteins / Conserved",
@@ -102767,7 +102760,6 @@
       "[eggnog] Branched-chain amino acid ATP-binding cassette transporter",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tcdb_best_hit] Leucine/proline/alanine/serine/glycine (and possibly histidine) porter, NatABCDE. [3.A.1.4.2] :: [tcdb_substrates] Alanine, Glycine, Histidine, Leucine, Proline, Serine",
       "[pfam] ABC_tran: ABC transporter",
@@ -107721,7 +107713,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -130763,6 +130754,17 @@
       "signalp"
     ],
     "coordinate_source": "ncbi",
+    "ec_numbers": [
+      "4.4.1.-"
+    ],
+    "ec_numbers_evidence": {
+      "4.4.1.-": "family_inferred"
+    },
+    "ec_numbers_source": {
+      "4.4.1.-": [
+        "interproscan"
+      ]
+    },
     "eggnog_ogs": [
       "28IBS@1|root",
       "2Z8E6@2|Bacteria",
@@ -152921,7 +152923,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -161075,7 +161076,6 @@
       "[eggnog] Amino acid amide ABC transporter ATP-binding protein 1, HAAT family",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tcdb_best_hit] ABC-type uptake porter for pyruvate and monocarboxylate 2-oxo acids. [3.A.1.4.12] :: [tcdb_substrates] 2-Oxobutanoate, 2-Oxopentanoic acid, 3-Methyl-2-oxopentanoate, Pyruvate",
       "[pfam] ABC_tran: ABC transporter",
@@ -173369,7 +173369,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] Holliday junction resolvase RuvX",
       "[eggnog] Could be a nuclease involved in processing of the 5'-end of pre-16S rRNA",
-      "[interpro] Putative pre-16S rRNA nuclease",
+      "[interpro] Nuclease YqgF",
       "[interpro] YqgF/RNase H-like domain",
       "[hamap] Putative pre-16S rRNA nuclease [yqgF].",
       "[tigr_role_inferred] Unknown function / General",
@@ -174537,7 +174537,7 @@
       "[interpro] Phospholipase D/Transphosphatidylase",
       "[interpro] Helix-hairpin-helix DNA-binding motif, class 1",
       "[interpro] Cardiolipin synthase-like, phospholipase D-like domain",
-      "[interpro] Phospholipase D domain-containing protein",
+      "[interpro] Mitochondrial cardiolipin hydrolase/Phospholipase D-like",
       "[interpro] KIF22-like, SAM-like, helix-hairpin-helix tandem",
       "[pfam] HHH_3: Helix-hairpin-helix motif",
       "[pfam] PLDc_2: PLD-like domain"
@@ -176267,7 +176267,7 @@
       "[interpro] Translation elongation factor EFG/EF2, domain IV",
       "[interpro] Elongation factor G, domain III",
       "[interpro] EFG, domain V",
-      "[interpro] Elongation Factor G, domain II",
+      "[interpro] Elongation Factor G/4-like, domain III",
       "[interpro] Elongation factor G, domain IV",
       "[pfam] EFG_C: Elongation factor G C-terminus",
       "[pfam] EFG_IV: Elongation factor G, domain IV",
@@ -183102,7 +183102,6 @@
       "[eggnog] TIGRFAM transposase, IS605 OrfB family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -183440,7 +183439,6 @@
       "[ncbi] response regulator transcription factor",
       "[eggnog] response regulator receiver",
       "[interpro] Signal transduction response regulator, receiver domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
     "alternative_locus_tags": [
@@ -201025,7 +201023,6 @@
       "[eggnog] TIGRFAM transposase, IS605 OrfB family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -208876,7 +208873,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
       "[pfam] OrfB_IS605: Probable transposase",
@@ -210503,7 +210499,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -217697,7 +217692,6 @@
       "[interpro] Signal transduction response regulator, receiver domain",
       "[interpro] Signal transduction response regulator, heterocyst pattern formation, PatA",
       "[interpro] PATAN domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] PatA_N: Protein PatA, N-terminal domain",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
@@ -217839,7 +217833,6 @@
       "[ncbi] response regulator transcription factor",
       "[eggnog] PFAM response regulator receiveR",
       "[interpro] Signal transduction response regulator, receiver domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
     "alternative_locus_tags": [
@@ -221178,7 +221171,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
       "[pfam] OrfB_IS605: Probable transposase",
@@ -221741,7 +221733,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -229825,7 +229816,6 @@
     "alternate_functional_descriptions": [
       "[ncbi] WD40 repeat domain-containing protein",
       "[eggnog] WD-40 repeat",
-      "[interpro] IFT122/SMU1, beta-propeller domain",
       "[pfam] WD40: WD domain, G-beta repeat",
       "[pfam] Beta-prop_IFT122_1st: IFT122 first beta-propeller"
     ],
@@ -250015,6 +250005,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] mechanosensitive ion channel",
       "[eggnog] PFAM Conserved TM helix",
+      "[interpro] Mechanosensitive ion channel, conserved TM helix",
       "[interpro] Mechanosensitive ion channel MscS, archaea/bacteria type",
       "[pfam] MS_channel_1st_1: Mechanosensitive ion channel, conserved TM helix"
     ],
@@ -256830,7 +256821,7 @@
       "[eggnog] mechanosensitive ion channel",
       "[protein_family] MscS (TC 1.A.23) family",
       "[interpro] Cyclic nucleotide-binding domain",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel, transmembrane helices 2/3",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[interpro] Mechanosensitive channel MscS-like",
@@ -275686,7 +275677,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
       "[pfam] OrfB_IS605: Probable transposase",
@@ -276528,7 +276518,6 @@
       "[eggnog] TIGRFAM urea ABC transporter, ATP-binding protein UrtD",
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] ABC transporter, urea, ATP-binding protein, UrtD",
-      "[interpro] Branched-chain amino acid ATP-binding cassette transporter, C-terminal",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tigr_role_inferred] Transport and binding proteins / Amino acids, peptides and amines",
       "[tcdb_best_hit] The high-affinity (<1 \u03bcM) urea porter [3.A.1.4.4] :: [tcdb_substrates] Urea",
@@ -276892,7 +276881,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -278831,7 +278819,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
       "[pfam] OrfB_IS605: Probable transposase",
@@ -279111,7 +279098,7 @@
       "[ncbi] mechanosensitive ion channel family protein",
       "[eggnog] mechanosensitive ion channel",
       "[protein_family] MscS (TC 1.A.23) family",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel YbiO",
       "[interpro] Mechanosensitive ion channel, transmembrane helices 2/3",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
@@ -279444,7 +279431,7 @@
       "[eggnog] PFAM Binding-protein-dependent transport system inner membrane component",
       "[protein_family] Binding-protein-dependent transport system permease family",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[interpro] Oligopeptide transport permease C-like, N-terminal domain",
+      "[interpro] Oligopeptide transport permease C-like",
       "[tcdb_best_hit] Probable rhamnose oligosaccharide porter. [3.A.1.5.12] :: [tcdb_substrates] rhamnose",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
       "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
@@ -281693,7 +281680,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
       "[pfam] OrfB_IS605: Probable transposase",
@@ -288325,7 +288311,7 @@
       "[interpro] GNAT domain",
       "[interpro] CoA-binding",
       "[interpro] ATP-grasp fold",
-      "[interpro] Succinyl-CoA synthetase-like, flavodoxin domain",
+      "[interpro] Acyl-CoA synthetase-like, first flavodoxin domain",
       "[interpro] Ligase-CoA domain",
       "[interpro] Acyl-CoA Synthetase/Transferase",
       "[pfam] ATP-grasp_5: ATP-grasp domain",
@@ -288352,17 +288338,6 @@
       "uniprot"
     ],
     "coordinate_source": "ncbi",
-    "ec_numbers": [
-      "6.2.1.13"
-    ],
-    "ec_numbers_evidence": {
-      "6.2.1.13": "family_inferred"
-    },
-    "ec_numbers_source": {
-      "6.2.1.13": [
-        "interproscan"
-      ]
-    },
     "eggnog_ogs": [
       "COG0045@1|root",
       "COG1042@1|root",
@@ -297632,7 +297607,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
       "[pfam] OrfB_IS605: Probable transposase",
@@ -301078,7 +301052,7 @@
       "[ncbi] MlaE family lipid ABC transporter permease subunit",
       "[eggnog] Belongs to the MlaE permease family",
       "[interpro] ABC transport permease subunit MlaE, proteobacteria",
-      "[interpro] ABC transporter permease MalE",
+      "[interpro] Intermembrane phospholipid transport system permease protein MlaE-like",
       "[pfam] MlaE: Permease MlaE"
     ],
     "alternative_locus_tags": [
@@ -303853,7 +303827,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -322261,7 +322234,7 @@
       "[eggnog] mechanosensitive ion channel",
       "[protein_family] MscS (TC 1.A.23) family",
       "[interpro] Cyclic nucleotide-binding domain",
-      "[interpro] Mechanosensitive ion channel MscS",
+      "[interpro] Mechanosensitive ion channel MscS, beta domain",
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[interpro] Mechanosensitive channel MscS-like",
       "[pfam] MS_channel_2nd: Mechanosensitive ion channel, beta-domain",
@@ -324517,7 +324490,7 @@
       "[interpro] Translation elongation factor EFG/EF2, domain IV",
       "[interpro] Elongation factor G, domain III",
       "[interpro] EFG, domain V",
-      "[interpro] Elongation Factor G, domain II",
+      "[interpro] Elongation Factor G/4-like, domain III",
       "[interpro] Elongation factor G, domain IV",
       "[hamap] Elongation factor G [fusA].",
       "[ncbifam] GTP-binding protein",
@@ -345794,7 +345767,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
       "[pfam] OrfB_IS605: Probable transposase",
@@ -345966,7 +345938,6 @@
       "[interpro] UvrABC system, subunit B",
       "[interpro] Helicase/UvrB, N-terminal",
       "[interpro] Helicase superfamily 1/2, ATP-binding domain",
-      "[interpro] UvrB, YAD/RRR-motif-containing domain",
       "[interpro] UvrB, interaction domain",
       "[interpro] UvrABC system protein B, third helical domain",
       "[hamap] UvrABC system protein B [uvrB].",
@@ -354313,6 +354284,17 @@
       "signalp"
     ],
     "coordinate_source": "ncbi",
+    "ec_numbers": [
+      "4.4.1.-"
+    ],
+    "ec_numbers_evidence": {
+      "4.4.1.-": "family_inferred"
+    },
+    "ec_numbers_source": {
+      "4.4.1.-": [
+        "interproscan"
+      ]
+    },
     "eggnog_ogs": [
       "2CCNY@1|root",
       "2Z877@2|Bacteria",
@@ -356551,7 +356533,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -356727,7 +356708,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -357921,7 +357901,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -358095,7 +358074,6 @@
       "[ncbi] response regulator",
       "[eggnog] PFAM response regulator receiveR",
       "[interpro] Signal transduction response regulator, receiver domain",
-      "[interpro] Bacterial response regulator",
       "[pfam] Response_reg: Response regulator receiver domain"
     ],
     "alternative_locus_tags": [
@@ -360078,7 +360056,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
       "[pfam] OrfB_IS605: Probable transposase",
@@ -360865,7 +360842,7 @@
       "[interpro] Protein kinase domain",
       "[interpro] ABC1 atypical kinase-like domain",
       "[interpro] UbiB protein kinase-like",
-      "[interpro] Probable serine/threonine-protein kinase I/L, C-terminal helical hairpin",
+      "[interpro] ABC1-LIKE KINASE 7-like, C-terminal helical hairpin",
       "[pfam] ABC1: ABC1 atypical kinase-like domain"
     ],
     "alternative_locus_tags": [
@@ -366157,7 +366134,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
       "[pfam] OrfB_IS605: Probable transposase",
@@ -369207,7 +369183,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[ncbifam] IS200/IS605 family accessory protein TnpB-related protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
@@ -370974,7 +370949,6 @@
       "[protein_family] Transposase 35 family; Transposase 2 family",
       "[interpro] Probable transposase, IS891/IS1136/IS1341",
       "[interpro] Cas12f1-like, TNB domain",
-      "[interpro] Transposase, putative, helix-turn-helix domain",
       "[ncbifam] RNA-guided endonuclease TnpB family protein",
       "[pfam] HTH_OrfB_IS605: Helix-turn-helix domain",
       "[pfam] OrfB_IS605: Probable transposase",
@@ -386856,7 +386830,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] protein IsiD",
       "[eggnog] InterPro IPR019678",
-      "[interpro] Protein of unknown function DUF2555",
+      "[interpro] IsiD-like",
       "[pfam] DUF2555: Protein of unknown function (DUF2555)"
     ],
     "alternative_locus_tags": [
