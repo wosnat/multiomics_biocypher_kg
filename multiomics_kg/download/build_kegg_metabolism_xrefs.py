@@ -56,6 +56,9 @@ from __future__ import annotations
 
 import argparse
 import contextlib
+import gzip
+import hashlib
+import itertools
 import json
 import logging
 import sqlite3
@@ -90,7 +93,7 @@ from multiomics_kg.utils.metabolite_identity.pipeline import (
 from multiomics_kg.utils.metabolite_identity.roles import (
     build_role_hierarchy, build_system_roles, partition_role_strings, role_node_id)
 from multiomics_kg.utils.paperconfig_utils import iter_metabolite_assays_tables, load_all_paperconfigs
-from multiomics_kg.download.download_metabolism_reference import download_all
+from multiomics_kg.download.download_metabolism_reference import TCDB_SOURCES, download_all
 from multiomics_kg.download.refresh_go_release import refresh_go_release
 from multiomics_kg.utils.go_utils import read_go_release
 
@@ -112,6 +115,7 @@ GO_TRANSPORT_FILTER_FILE = PROJECT_ROOT / "config" / "go_transport_target_filter
 TCDB_SUBSTRATE_FILTER_FILE = PROJECT_ROOT / "config" / "tcdb_substrate_target_filter.yaml"
 KEGG_PATHWAY_EXCLUSIONS_FILE = PROJECT_ROOT / "config" / "kegg_pathway_exclusions.yaml"
 TCDB_MOVED_OVERRIDES_FILE = PROJECT_ROOT / "config" / "tcdb_moved_overrides.yaml"
+RAW_MANIFEST_FILE = PROJECT_ROOT / "cache" / "data" / "step6_raw_inputs.json"
 
 log = logging.getLogger(__name__)
 
@@ -1779,6 +1783,62 @@ def _go_gene_terms_by_strain(go_target_terms: set[str], go_data: dict, alt_ids: 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+def _raw_inputs(cache_root: Path) -> list[Path]:
+    """The gitignored raw downloads step 6 reads (GO's are pinned separately, by release)."""
+    kegg_raw, tcdb_raw = cache_root / "kegg" / "raw", cache_root / "tcdb" / "raw"
+    paths = [kegg_raw / f for f in kegg_utils._RAW_FILES.values()]
+    paths += [kegg_raw / f"br_{code}.json" for code in COMPOUND_BRITE_TREES]
+    paths += [tcdb_raw / f for _, f in TCDB_SOURCES.values()]
+    paths += [tcdb_raw / f"tcdb_{kind}_map.tsv" for kind in ("pfam", "go")]
+    paths.append(cache_root / "chebi" / "raw" / "chebi.obo.gz")
+    return paths
+
+
+def _raw_manifest(cache_root: Path) -> dict[str, str]:
+    """``{path under cache_root: sha256}`` of the raw inputs on disk; committed with the outputs
+    so a later --force run can tell whether it is reading the same raws."""
+    return {p.relative_to(cache_root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in _raw_inputs(cache_root) if p.exists()}
+
+
+def _raw_chebi_release(obo: Path) -> str | None:
+    with gzip.open(obo, "rt", encoding="utf-8") as fh:
+        for line in itertools.islice(fh, 50):
+            if line.startswith("data-version:"):
+                return line.split(":", 1)[1].strip()
+    return None
+
+
+def _check_raw_inputs(cache_root: Path) -> None:
+    """Without --refetch-raw, step 6 must rebuild from the raws that built the committed
+    outputs. A missing raw would be downloaded (the current upstream release) and a stale one
+    read as is, so either moves the committed data to another release unasked: fail instead."""
+    hint = ("Re-run with --refetch-raw to move every raw input to the current upstream release, "
+            "or copy cache/data/{kegg,tcdb,chebi}/raw/ from the checkout that built the committed "
+            "outputs.")
+    missing = [p for p in _raw_inputs(cache_root) if not p.exists()]
+    if missing:
+        raise FileNotFoundError(
+            f"{len(missing)} raw input(s) missing: "
+            f"{', '.join(p.relative_to(cache_root).as_posix() for p in missing)}. {hint}")
+    if RAW_MANIFEST_FILE.exists():
+        pinned = json.loads(RAW_MANIFEST_FILE.read_text())
+        changed = sorted(k for k, v in _raw_manifest(cache_root).items() if pinned.get(k) != v)
+        if changed:
+            raise RuntimeError(
+                f"{len(changed)} raw input(s) differ from the ones recorded in "
+                f"{RAW_MANIFEST_FILE.name}: {', '.join(changed)}. {hint}")
+    else:
+        log.warning(f"  {RAW_MANIFEST_FILE.name} missing: raw inputs are checked for the ChEBI "
+                    f"release only; this run records them.")
+    obo = cache_root / "chebi" / "raw" / "chebi.obo.gz"
+    committed = (json.loads(CHEBI_CACHE_FILE.read_text()).get("release")
+                 if CHEBI_CACHE_FILE.exists() else None)
+    if committed and (raw := _raw_chebi_release(obo)) != committed:
+        raise RuntimeError(f"raw chebi.obo.gz is ChEBI release {raw} but the committed "
+                           f"{CHEBI_CACHE_FILE.name} is release {committed}. {hint}")
+
+
 def main(force: bool = False, refetch_raw: bool = False, today: str | None = None) -> None:
     """Prepare-data step 6 (spec 2026-10-13 §5.2): stages A-D here, then
     ``run_identity_stages`` (E-M, O, P) and one atomic write of every output.
@@ -1809,6 +1869,9 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
             f"{RESOLVER_DB} missing — run `bash scripts/refresh_mnx.sh` first, "
             "or set MNX_DATA_DIR to a checkout that already has the resolver."
         )
+
+    if not refetch_raw:
+        _check_raw_inputs(cache_root)
 
     log.info("Ensuring KEGG raw cache (downloads from KEGG REST if missing) ...")
     kegg_utils.download_kegg_raw(cache_root, force=refetch_raw)
@@ -2054,6 +2117,7 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
     files = render_outputs(out, Step6Paths(
         kegg_data=KEGG_DATA_FILE, tcdb_pruned=prev_pruned_path, brite_dir=KEGG_CACHE_DIR,
         chebi_cache=CHEBI_CACHE_FILE, mapping=MAPPING_FILE, lock=LOCK_FILE, report=IDENTITY_REPORT_FILE))
+    files[RAW_MANIFEST_FILE] = json.dumps(_raw_manifest(cache_root), indent=1, sort_keys=True) + "\n"
     write_all_atomic(files)
     c = out.report["counts"]
     log.info(f"  step 6 wrote {len(files)} files: {c['metabolites']} metabolites "
