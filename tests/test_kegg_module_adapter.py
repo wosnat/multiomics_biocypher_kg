@@ -82,8 +82,8 @@ def test_is_a_edges(adapter):
 
 def test_ko_edges_dangling_proof(adapter):
     ko = {(e[1], e[2]): e[4] for e in _edges(adapter, "kegg_term_in_kegg_module")}
-    assert ko[("kegg.orthology:K00002", "kegg.module:M00901")] == {"steps": [2], "component": "required"}
-    assert ko[("kegg.orthology:K00004", "kegg.module:M00903")] == {"steps": [1], "component": "required"}
+    assert ko[("kegg.orthology:K00002", "kegg.module:M00901")] == {"steps": ["2"], "component": "required"}
+    assert ko[("kegg.orthology:K00004", "kegg.module:M00903")] == {"steps": ["1"], "component": "required"}
     assert not any("K09999" in src for src, _ in ko)
     assert len(ko) == 5
     e = _edges(adapter, "kegg_term_in_kegg_module")[0]
@@ -101,12 +101,12 @@ def test_organism_edges(adapter):
     assert all(e[1] == "insdc.gcf:GCF_000000001.1" for e in org.values())   # B has no annotations
     p = org["kegg.module:M00902"][4]
     assert (p["status"], p["steps_present_via_ec"], p["ec_genes"], p["ec_filled_step_indices"]) == (
-        "complete", 1, ["LT_1"], [1])
+        "complete", 1, ["LT_1"], ["1"])
     p = org["kegg.module:M00901"][4]
     assert (p["status"], p["ec_genes"]) == ("complete", ["M00902"])
     p = org["kegg.module:M00903"][4]
     assert p == {"status": "one_step_missing", "steps_total": 2, "steps_present": 1,
-                 "steps_present_via_ec": 0, "missing_step_indices": [1],
+                 "steps_present_via_ec": 0, "missing_step_indices": ["1"],
                  "missing_step_definitions": ["K00003+K00004"], "missing_kos": ["K00003", "K00004"]}
     assert org["kegg.module:M00903"][0] == "insdc.gcf:GCF_000000001.1-has_module-M00903"
 
@@ -121,3 +121,18 @@ def test_no_quote_or_pipe_in_strings(adapter):
     items = [n[2] for n in adapter.get_nodes()] + [e[4] for e in adapter.get_edges()]
     assert all("'" not in s and "|" not in s for props in items for v in props.values()
                for s in strings(v))
+
+
+def test_list_properties_hold_strings(adapter):
+    """BioCypher joins array cells as strings; int[] values are emitted as digit strings and
+    typed by the schema (the metabolite-assay replicate_values pattern)."""
+    items = [n[2] for n in adapter.get_nodes()] + [e[4] for e in adapter.get_edges()]
+    lists = [v for props in items for v in props.values() if isinstance(v, list)]
+    assert lists and all(isinstance(x, str) for v in lists for x in v)
+
+
+def test_complete_edges_omit_empty_missing_lists(adapter):
+    """neo4j-admin import drops an empty array cell; post-import re-materializes [] instead."""
+    org = {e[2]: e[4] for e in adapter.get_edges() if e[3] == "organism_has_kegg_module"}
+    assert not {"missing_step_indices", "missing_step_definitions", "missing_kos"} & set(
+        org["kegg.module:M00902"])

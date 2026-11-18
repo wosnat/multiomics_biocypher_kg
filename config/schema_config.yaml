@@ -1465,6 +1465,71 @@ kegg term in brite category:
   target: brite category
   label_in_input: kegg_term_in_brite_category
 
+# ── KEGG modules (spec 2026-11-18-kegg-modules) ──────────────────────────────
+
+kegg module:
+  is_a: named thing
+  represented_as: node
+  preferred_id: kegg.module
+  label_in_input: kegg module
+  properties:
+    name: str
+    level: int                    # 0 kegg_module_type, 1 kegg_module_class, 2 kegg_module_subclass, 3 kegg_module
+    level_kind: str
+    module_type: str              # pathway | signature; dense, class nodes inherit their level-0 ancestor's
+    module_id: str                # modules only, e.g. M00531
+    definition: str               # modules only; KEGG's formula, verbatim
+    step_count: int               # modules only; steps after joining lines and dropping whole-step "--"
+    gene_count: int               # post-import: subtree, genes reaching it through Gene_has_kegg_ko -> Kegg_term_in_kegg_module (EC-only genes not counted)
+    direct_gene_count: int        # post-import: modules (level 3) only; = gene_count there
+    organism_count: int           # post-import: subtree, organisms of those genes (KO bridge); can be < the number of Organism_has_kegg_module edges
+    complete_organism_count: int  # post-import: organisms with a status = complete Organism_has_kegg_module edge to a module in the subtree
+
+kegg term in kegg module:
+  is_a: association
+  represented_as: edge
+  label_as_edge: kegg_term_in_kegg_module
+  source: kegg term
+  target: kegg module
+  label_in_input: kegg_term_in_kegg_module
+  properties:
+    steps: int[]                  # 1-based step indices the KO serves
+    component: str                # required | optional (an optional complex subunit)
+
+kegg module is a kegg module:
+  is_a: association
+  represented_as: edge
+  label_as_edge: kegg_module_is_a_kegg_module
+  source: kegg module
+  target: kegg module
+  label_in_input: kegg_module_is_a_kegg_module
+
+kegg module in kegg pathway:
+  is_a: association
+  represented_as: edge
+  label_as_edge: kegg_module_in_kegg_pathway
+  source: kegg module
+  target: kegg term
+  label_in_input: kegg_module_in_kegg_pathway
+
+organism to kegg module association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: organism_has_kegg_module
+  source: organism taxon
+  target: kegg module
+  label_in_input: organism_has_kegg_module
+  properties:
+    status: str                         # complete | one_step_missing | two_steps_missing | partial
+    steps_total: int
+    steps_present: int                  # KO or EC
+    steps_present_via_ec: int           # of those, covered only through the EC fallback
+    missing_step_indices: int[]        # [] on complete edges re-materialized post-import
+    missing_step_definitions: str[]     # parallel to missing_step_indices; [] post-import when none
+    missing_kos: str[]                  # KOs named directly in the missing steps, optional subunits excluded; [] post-import when none
+    ec_filled_step_indices: int[]       # sparse
+    ec_genes: str[]                     # sparse; parallel to ec_filled_step_indices (module id for a module-reference step)
+
 # ── TCDB ─────────────────────────────────────────────────────────────────────
 
 tcdb family:

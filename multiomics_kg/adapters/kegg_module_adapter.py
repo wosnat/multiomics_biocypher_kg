@@ -39,6 +39,11 @@ def _clean_str(value: str) -> str:
     return value.replace("'", "^").replace("|", "")
 
 
+def _ints(values: list[int]) -> list[str]:
+    """BioCypher writes array cells by joining strings; the schema types them int[]."""
+    return [str(v) for v in values]
+
+
 def _slug(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", text.lower()).strip("_")
 
@@ -178,7 +183,7 @@ class MultiKeggModuleAdapter:
                 if ko in self.ko_node_ids:
                     counts["ko"] += 1
                     yield (f"{ko}-in_module-{m}", _ko_node_id(ko), mid, "kegg_term_in_kegg_module",
-                           {"steps": steps, "component": component})
+                           {"steps": _ints(steps), "component": component})
             for pw in self.modules[m].get("pathways") or []:
                 if pw in self.pathway_node_ids:
                     counts["pathway"] += 1
@@ -192,12 +197,14 @@ class MultiKeggModuleAdapter:
                 ec_steps += r.steps_present_via_ec
                 props = {"status": r.status, "steps_total": r.steps_total,
                          "steps_present": r.steps_present,
-                         "steps_present_via_ec": r.steps_present_via_ec,
-                         "missing_step_indices": r.missing_step_indices,
-                         "missing_step_definitions": [_clean_str(d) for d in r.missing_step_definitions],
-                         "missing_kos": r.missing_kos}
+                         "steps_present_via_ec": r.steps_present_via_ec}
+                if r.missing_step_indices:       # [] is re-materialized post-import
+                    props["missing_step_indices"] = _ints(r.missing_step_indices)
+                    props["missing_step_definitions"] = [_clean_str(d) for d in r.missing_step_definitions]
+                if r.missing_kos:
+                    props["missing_kos"] = r.missing_kos
                 if r.ec_filled_step_indices:
-                    props["ec_filled_step_indices"] = r.ec_filled_step_indices
+                    props["ec_filled_step_indices"] = _ints(r.ec_filled_step_indices)
                     props["ec_genes"] = [_clean_str(g) for g in r.ec_genes]
                 yield (f"{org}-has_module-{m}", org, _node_id(m), "organism_has_kegg_module", props)
         logger.info(f"MultiKeggModuleAdapter.get_edges: {dict(counts)}; EC-filled steps {ec_steps}")

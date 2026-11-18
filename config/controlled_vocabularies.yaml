@@ -2687,3 +2687,101 @@ CellularComponent.level_is_best_effort:
     trees). Test with `IS NOT NULL`.
   value_descriptions:
     'true': level is a best-effort min-path depth (DAG term with multiple root paths); absence means level is exact
+
+# ── KEGG modules (spec 2026-11-18-kegg-modules) ─────────────────────────────
+
+KeggModule.module_type:
+  applies_to: KeggModule
+  applies_to_kind: node
+  property: module_type
+  value_type: string
+  closed: true
+  values: [pathway, signature]
+  description: >
+    The KEGG kind of module. Dense: class nodes carry the type of the module tree
+    they sit in, so a filter works at any level. The KEGG complex modules have no
+    KO in the KG and are not present.
+  value_descriptions:
+    pathway: a route of reaction steps (e.g. assimilatory nitrate reduction); complete means every step has an annotated gene
+    signature: a marker gene set (drug resistance, pathogenicity, ...), not a route; complete means every marker is annotated
+
+KeggModule.level_kind:
+  applies_to: KeggModule
+  applies_to_kind: node
+  property: level_kind
+  value_type: string
+  closed: true
+  values: [kegg_module_type, kegg_module_class, kegg_module_subclass, kegg_module]
+  description: >
+    Named depth of this node in the KEGG module tree (ko00002): kegg_module_type
+    (level 0, e.g. Pathway modules), kegg_module_class (1, e.g. Energy
+    metabolism), kegg_module_subclass (2, e.g. Nitrogen metabolism),
+    kegg_module (3, a module such as M00531). Parallels the integer level.
+
+Kegg_term_in_kegg_module.component:
+  applies_to: Kegg_term_in_kegg_module
+  applies_to_kind: edge
+  property: component
+  value_type: string
+  closed: true
+  values: [required, optional]
+  description: >
+    Whether the module needs this KO. A KO serving several steps of one module
+    has the same role in each.
+  value_descriptions:
+    required: the KO is an alternative for a step, or a required subunit of a complex step
+    optional: an optional complex subunit (written -K... in the KEGG formula); never needed to cover a step
+
+Organism_has_kegg_module.status:
+  applies_to: Organism_has_kegg_module
+  applies_to_kind: edge
+  property: status
+  value_type: string
+  closed: true
+  values: [complete, one_step_missing, two_steps_missing, partial]
+  description: >
+    Completeness band, as KEGG Mapper reports it, over steps_total minus
+    steps_present on this edge. Dense. An organism with no step covered has no
+    edge.
+  value_descriptions:
+    complete: every step has an annotated gene; not shown to run
+    one_step_missing: every step but one has an annotated gene
+    two_steps_missing: every step but two has an annotated gene
+    partial: three or more steps have no annotated gene
+
+Organism_has_kegg_module.steps_total:
+  applies_to: Organism_has_kegg_module
+  applies_to_kind: edge
+  property: steps_total
+  value_type: int
+  closed: false
+  values: []
+  min_value: 1
+  description: >
+    The step count of the module (KeggModule.step_count): the steps of its formula
+    after joining multi-line definitions, without the steps KEGG has no KO for.
+
+Organism_has_kegg_module.steps_present:
+  applies_to: Organism_has_kegg_module
+  applies_to_kind: edge
+  property: steps_present
+  value_type: int
+  closed: false
+  values: []
+  min_value: 0
+  description: >
+    Steps covered by genes of the organism, through a KO or the EC fallback.
+    At least 1 on every edge.
+
+Organism_has_kegg_module.steps_present_via_ec:
+  applies_to: Organism_has_kegg_module
+  applies_to_kind: edge
+  property: steps_present_via_ec
+  value_type: int
+  closed: false
+  values: []
+  min_value: 0
+  description: >
+    Of steps_present, the steps covered only by a gene that has an EC number but
+    no KO (listed in ec_filled_step_indices / ec_genes). 0 means KO evidence
+    alone; steps_present minus this is the KO-only count.

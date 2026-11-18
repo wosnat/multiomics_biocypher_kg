@@ -122,6 +122,15 @@ DROP INDEX meropsFamilyFullText IF EXISTS;
 CREATE FULLTEXT INDEX meropsFamilyFullText IF NOT EXISTS
     FOR (m:MeropsFamily) ON EACH [m.name, m.merops_id, m.description, m.cleavage_summary];
 
+// KEGG modules (KeggModule: ko00002 class tree + modules, one label)
+CREATE INDEX kegg_module_id_idx IF NOT EXISTS FOR (m:KeggModule) ON (m.id);
+CREATE INDEX kegg_module_level_idx IF NOT EXISTS FOR (m:KeggModule) ON (m.level);
+CREATE INDEX kegg_module_level_kind_idx IF NOT EXISTS FOR (m:KeggModule) ON (m.level_kind);
+CREATE INDEX kegg_module_type_idx IF NOT EXISTS FOR (m:KeggModule) ON (m.module_type);
+CREATE INDEX kegg_module_module_id_idx IF NOT EXISTS FOR (m:KeggModule) ON (m.module_id);
+CREATE FULLTEXT INDEX keggModuleFullText IF NOT EXISTS
+    FOR (m:KeggModule) ON EACH [m.name];
+
 // PSORTb SubcellularLocalization (flat ontology + scored edge)
 CREATE INDEX subcellular_localization_level_idx IF NOT EXISTS FOR (n:SubcellularLocalization) ON (n.level);
 CREATE INDEX subcellular_localization_id_idx IF NOT EXISTS FOR (n:SubcellularLocalization) ON (n.psortb_id);
@@ -1171,6 +1180,40 @@ CALL {
       m.peptidase_organism_count = size([x IN porgs WHERE x IS NOT NULL])
 } IN TRANSACTIONS OF 1000 ROWS;
 
+// Organism_has_kegg_module: the adapter omits empty missing_* lists (neo4j-admin import
+// drops an empty array cell), so complete edges get [] here; consumers never coalesce.
+MATCH ()-[r:Organism_has_kegg_module]->()
+WHERE r.missing_step_indices IS NULL OR r.missing_kos IS NULL
+CALL {
+  WITH r
+  SET r.missing_step_indices = coalesce(r.missing_step_indices, []),
+      r.missing_step_definitions = coalesce(r.missing_step_definitions, []),
+      r.missing_kos = coalesce(r.missing_kos, [])
+} IN TRANSACTIONS OF 10000 ROWS;
+
+// ── KeggModule computed properties (hierarchical; subtree counts) ─────────────
+// gene_count / organism_count: subtree (*0..) through the KO bridge only
+// (Gene_has_kegg_ko -> KeggTerm -> Kegg_term_in_kegg_module), the same set
+// genes_by_ontology reads; EC-only genes are listed on Organism_has_kegg_module
+// (ec_genes), never counted here. direct_gene_count only on modules (level 3),
+// where it equals gene_count. complete_organism_count counts organisms with a
+// status = 'complete' Organism_has_kegg_module edge to a module in the subtree.
+MATCH (m:KeggModule)
+CALL {
+  WITH m
+  OPTIONAL MATCH (m)<-[:Kegg_module_is_a_kegg_module*0..]-(:KeggModule)
+                   <-[:Kegg_term_in_kegg_module]-(:KeggTerm)<-[:Gene_has_kegg_ko]-(g:Gene)
+  WITH m, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  OPTIONAL MATCH (m)<-[:Kegg_module_is_a_kegg_module*0..]-(:KeggModule)
+                   <-[r:Organism_has_kegg_module]-(o:OrganismTaxon)
+  WHERE r.status = 'complete'
+  WITH m, gc, orgs, count(DISTINCT o) AS coc
+  SET m.gene_count = gc,
+      m.organism_count = size([x IN orgs WHERE x IS NOT NULL]),
+      m.direct_gene_count = CASE WHEN m.level = 3 THEN gc ELSE null END,
+      m.complete_organism_count = coc
+} IN TRANSACTIONS OF 1000 ROWS;
+
 // Gene_has_merops_family.pfam_support: whether a Pfam on this gene is curated
 // into this MEROPS family via Merops_family_has_pfam_domain (interpro.txt).
 // Sound direction only — corroborates a known family; never assigns peptidase
@@ -2038,6 +2081,7 @@ CALL {
 :param release_breaking   => ''
 :param vocab_hash         => ''
 :param chebi_release       => ''
+:param kegg_release        => ''
 // go_excluded is injected by post-import.sh from go_transport_excluded_targets.json
 :param go_excluded         => []
 // tcdb_excluded is injected by post-import.sh from tcdb_substrate_excluded_targets.json
@@ -2061,6 +2105,7 @@ SET s.version           = coalesce($version, '0.0.0-dev'),
     s.controlled_vocabularies_hash = CASE WHEN coalesce($vocab_hash, '') = ''
                                           THEN null ELSE $vocab_hash END,
     s.chebi_release = CASE WHEN coalesce($chebi_release, '') = '' THEN null ELSE $chebi_release END,
+    s.kegg_release = CASE WHEN coalesce($kegg_release, '') = '' THEN null ELSE $kegg_release END,
     s.go_transport_excluded_targets = coalesce($go_excluded, []),
     s.tcdb_substrate_excluded_targets = coalesce($tcdb_excluded, []),
     s.build_citations = coalesce($build_citations, [])

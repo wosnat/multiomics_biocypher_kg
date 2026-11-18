@@ -24,6 +24,7 @@ from multiomics_kg.adapters.functional_annotation_adapter import (
     MultiPfamAnnotationAdapter,
 )
 from multiomics_kg.adapters.brite_adapter import MultiBriteAdapter
+from multiomics_kg.adapters.kegg_module_adapter import MultiKeggModuleAdapter
 from multiomics_kg.adapters.metabolism_adapter import MultiMetabolismAdapter
 from multiomics_kg.adapters.tcdb_adapter import MultiTcdbAnnotationAdapter
 from multiomics_kg.adapters.data_source_adapter import DataSourceAdapter
@@ -275,6 +276,19 @@ def main():
     bc.write_nodes(brite_adapter.get_nodes())
     bc.write_edges(brite_adapter.get_edges())
 
+    # KEGG modules (ko00002): KeggModule nodes + KO / pathway / is_a edges + per-organism
+    # module completeness (Organism_has_kegg_module). Pruned to the KOs and pathway maps
+    # the KEGG adapter emits, so nothing dangles. See docs/kg-changes/kegg-modules.md.
+    kegg_module_adapter = MultiKeggModuleAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        cache_root=Path("cache/data"),
+        ko_node_ids=kegg_anno_adapter.all_ko_ids(),
+        pathway_node_ids=kegg_anno_adapter.all_pathway_ids(),
+        test_mode=TEST_MODE,
+    )
+    bc.write_nodes(kegg_module_adapter.get_nodes())
+    bc.write_edges(kegg_module_adapter.get_edges())
+
     # COG functional categories + Cyanorak roles + tIGR roles.
     # TIGR roles: Cyanorak-curated (Pro/Syn) ∪ equivalog-inferred from NCBIfam
     # TIGR* hits via the frozen TIGRFAMs 15.0 archive (all strains). Roles that
@@ -470,6 +484,13 @@ def main():
     else:
         print(f"WARNING: {chebi_cache} missing; no chebi_release.txt written, "
               "so Schema_info.chebi_release will be null")
+
+    kegg_release = json.loads(Path("cache/data/kegg/kegg_data.json").read_text()).get("kegg_release")
+    if kegg_release:
+        (Path(bc._output_directory) / "kegg_release.txt").write_text(kegg_release)
+    else:
+        print("WARNING: kegg_data.json has no kegg_release; no kegg_release.txt written, "
+              "so Schema_info.kegg_release will be null")
 
     from multiomics_kg.utils.data_source_citations import write_build_citations
     print(f"Wrote build citations to {write_build_citations(bc._output_directory)}")
