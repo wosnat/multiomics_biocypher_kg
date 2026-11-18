@@ -4,23 +4,27 @@
 
 **Goal:** Add the `KeggModule` ontology (modules + `ko00002` class nodes) and the per-organism `Organism_has_kegg_module` completeness edge to the KG.
 
-**Architecture:** Step 6 downloads KEGG's module data and writes `modules` / `module_classes` / `module_ec_to_kos` / `kegg_release` blocks into `kegg_data.json`. A pure-Python evaluator (`utils/kegg_modules.py`) parses module definitions and scores one organism's KOs (plus EC-only genes) against them. A new `kegg_module_adapter.py` emits nodes and the four edge types at build time; post-import adds rollups, indexes and `Schema_info.kegg_release`.
+**Architecture:** Step 6 downloads KEGG's module data and writes `modules` (class path inline) / `module_ec_to_kos` / `kegg_release` blocks into `kegg_data.json`. A pure-Python evaluator (`utils/kegg_modules.py`) parses module definitions and scores one organism's KOs (plus EC-only genes) against them. A new `kegg_module_adapter.py` emits nodes and the four edge types at build time; post-import adds rollups, indexes and `Schema_info.kegg_release`.
 
 **Tech Stack:** Python 3, BioCypher, Neo4j / Cypher, pytest, KEGG REST.
 
 **Spec:** `docs/superpowers/specs/2026-11-18-kegg-modules-design.md` (approved; §4–§5 and §11–§13 are binding).
 
+**Deliberate deviations from spec §6 (implementation detail, no graph change):** no separate `module_classes` block (each module carries its `class_path`); no `link/ko/module` download (KO membership and step numbers come from parsing the definition, which is the authoritative source, and `link/ko/module` cannot give steps or optional subunits).
+
 ## Global Constraints
 
 - Node ids: modules `kegg.module:M00531`; class nodes `kegg.module:<slug>[.<slug>[.<slug>]]`, slug = lowercase, runs of non-alphanumerics → `_`, stripped (e.g. `kegg.module:pathway_modules.energy_metabolism.nitrogen_metabolism`). Pass through `normalize_curie(raw) or raw` (verified: keeps both forms unchanged).
 - `level` / `level_kind`: 0 `kegg_module_type`, 1 `kegg_module_class`, 2 `kegg_module_subclass`, 3 `kegg_module`.
-- `module_type` closed: `pathway` | `signature` | `complex`; dense on every `KeggModule` node (class nodes inherit their level-0 ancestor's).
+- `module_type` closed: `pathway` | `signature` (spec §4: KEGG's 2 `complex` modules have no KO in the KG); dense on every `KeggModule` node (class nodes inherit their level-0 ancestor's). `kegg_data.json` keeps all three KEGG types; if the Task 3 dry run ever keeps a `complex` module, add the value to the vocabulary then.
 - `status` closed: `complete` (0 missing) | `one_step_missing` (1) | `two_steps_missing` (2) | `partial` (≥ 3). `value_descriptions.complete` = "every step has an annotated gene; not shown to run".
 - `component` closed: `required` | `optional`.
 - Step numbering: 1-based over the steps that remain after joining multi-line definitions and **dropping whole-step `--` placeholders**; `steps` on `Kegg_term_in_kegg_module`, `missing_step_indices`, `ec_filled_step_indices` all use it. `definition` stays verbatim.
 - EC fallback: only genes with **no live KO**; only **full** ECs (no `-`); never for a KO inside a `+` complex; at most one step per gene per module (maximum bipartite matching); only over steps KOs leave uncovered.
 - `ec_genes` is parallel to `ec_filled_step_indices`; a module-reference step's slot holds the referenced module id (`M0xxxx`).
-- `missing_kos`: KOs written directly in the missing steps, sorted, deduplicated; a missing `M0xxxx` step contributes none.
+- `missing_kos`: KOs written directly in the missing steps, sorted, deduplicated; a missing `M0xxxx` step contributes none; **optional subunits (`-K…`) are left out** (they never complete a step).
+- Module-reference steps: in the KO-only pass an `M0xxxx` term is true iff the referenced module is `complete` with `steps_present_via_ec == 0`; in the EC pass iff it is `complete` at all. A step made true by a reference is never sent to the gene matching (it consumes no gene).
+- KEGG release skew: the six module raws must come from the same KEGG release as the existing `cache/data/kegg/raw/` files (all fetched 2026-11-18). If they are fetched on a later day, run step 6 with `--refetch-raw` instead, so `kegg_release` describes every KEGG input.
 - Organism edge only when `steps_present >= 1`. No `completeness` property. No gene → module edge. No change to `annotation_types` / `annotation_quality` / BRITE.
 - Every string property through the adapter's local `_clean_str` (`'` → `^`, `|` removed); never build values with `|`.
 - `KeggModule.gene_count` / `organism_count` / `direct_gene_count` count KO-bridge genes only (`Gene_has_kegg_ko` → `Kegg_term_in_kegg_module`); `direct_gene_count` only on `level = 3`.
@@ -101,6 +105,12 @@ def test_module_reference_via_ec_propagates():
     assert (r.status, r.steps_present_via_ec, r.ec_genes) == ("complete", 1, ["M2"])
     assert ev("M2 K00002", {"K00002"}, {}, extra=sub).missing_kos == []
 
+def test_missing_kos_skip_optional_and_ko_pass_ignores_ec_completed_reference():
+    assert ev("K00001+K00002-K00003", set()).missing_kos == ["K00001", "K00002"]
+    sub = {"M2": parse_steps("K00001")}
+    r = ev("(M2,K00009) K00002", {"K00002"}, {"K00001": {"g1"}}, extra=sub)
+    assert (r.ec_filled_step_indices, r.ec_genes) == ([1], ["M2"])   # KO-only pass sees step 1 missing
+
 def test_ko_roles_and_conflict():
     assert ko_roles(parse_steps(NITRATE))["K00360"] == ([1], "required")
     assert ko_roles(parse_steps("K00001+K00002-K00003"))["K00003"] == ([1], "optional")
@@ -138,7 +148,7 @@ def test_ko_roles_and_conflict():
 
 - [ ] **Step 1: Write failing tests** in `tests/test_kegg_utils_modules.py` on small fixture strings: `parse_module_entries` returns `{"M00031": {..., "definition": "K05826 ...\nK05827"}}` for a two-line DEFINITION and `module_type == "pathway"` from `ENTRY M00031 Pathway Module`; `parse_module_classes` maps a module under `Pathway modules / Amino acid metabolism / Lysine metabolism` to that 3-list; `parse_kegg_release` extracts the release from a fixture `info/kegg` text; `_require_parsed` raises on non-empty text that yields no entries (fail-loud parsers). In `tests/test_build_kegg_metabolism_xrefs.py`: a `--force` run whose committed manifest lacks the six module raw files downloads them (stubbed `download_module_raw`) instead of raising; the written `kegg_rest` carries `modules`, `module_ec_to_kos`, `kegg_release`; `module_ec_to_kos` drops KOs outside every definition.
 - [ ] **Step 2: Run** `uv run pytest tests/test_kegg_utils_modules.py tests/test_build_kegg_metabolism_xrefs.py -v` — expected: new tests FAIL.
-- [ ] **Step 3: Implement.** `download_module_raw` reads `list_module.txt` to get ids, then fetches `get/M…+M…` in batches of 10 (KEGG's `get` limit) only when `get_modules.txt` is missing or `force`. In `_check_raw_inputs`, a raw path **not present in the committed manifest** is a new input: download it (call `download_module_raw`) instead of failing; paths the manifest pins keep today's fail-loud check. Build the three blocks after `download_kegg_raw` and add them to the `kegg_rest` dict at `build_kegg_metabolism_xrefs.py:2115`; make `pipeline.py:512` keep them (`kegg_data = dict(kegg_rest, …)` already copies unknown keys — assert it in a test rather than change code if so). Every definition must `parse_steps` without error, else fail the step.
+- [ ] **Step 3: Implement.** `download_module_raw` reads `list_module.txt` to get ids, then fetches `get/M…+M…` in batches of 10 (KEGG's `get` limit) only when `get_modules.txt` is missing or `force`. In `_check_raw_inputs`, only the six module raw files get the new-input treatment: when one is missing **and** the committed manifest has no entry for it, call `download_module_raw` before the checks, and leave such unpinned paths out of the `changed` comparison (today `pinned.get(k) != v` would flag them, since `None != sha`). Every other raw keeps today's fail-loud check, and a module raw the manifest *does* pin is checked like any other. The run's manifest write then pins them. Build the three blocks after `download_kegg_raw` and add them to the `kegg_rest` dict at `build_kegg_metabolism_xrefs.py:2115`; make `pipeline.py:512` keep them (`kegg_data = dict(kegg_rest, …)` already copies unknown keys — assert it in a test rather than change code if so). Every definition must `parse_steps` without error, else fail the step.
 - [ ] **Step 4: Run** the two test files — expected: PASS. Then `bash scripts/prepare_data.sh --steps 6 --force` and check: `python -c "import json;d=json.load(open('cache/data/kegg/kegg_data.json'));print(len(d['modules']),len(d['module_ec_to_kos']),d['kegg_release'])"` → `583 <n> <release>`, and `git diff --stat cache/data/kegg/kegg_data.json` shows only the new blocks (+ the manifest file).
 - [ ] **Step 5: Commit** — code, tests, `cache/data/kegg/kegg_data.json`, `cache/data/step6_raw_inputs.json`: `feat(step6): KEGG modules, module classes, EC→KO links and KEGG release`.
 
@@ -159,7 +169,7 @@ def test_ko_roles_and_conflict():
   - Organism id: `insdc.gcf:<ncbi_accession>` from the registry row (comment lines skipped, one per `data_dir`).
 
 **Behaviour:**
-- Per strain: `kos` = the strain's genes' `kegg_ko` (strip `ko:`) ∩ `ko_node_ids`; `ec_candidates[k]` = locus tags of genes whose live-KO list is empty and that carry a full EC with `k ∈ module_ec_to_kos[ec]`.
+- Per strain: `kos` = the strain's genes' `kegg_ko` (bare `K…` ids in the merged JSON) ∩ `ko_node_ids`; `ec_candidates[k]` = locus tags of genes whose live-KO list is empty and that carry a full EC with `k ∈ module_ec_to_kos[ec]`.
 - Module node set = modules with ≥ 1 KO in `ko_node_ids` ∪ modules with ≥ 1 organism edge (dry run: 384 + 30 = 414); class nodes = ancestors of kept modules; modules with `class_path == []` get no `is_a` edge.
 - `Kegg_term_in_kegg_module` only for KOs in `ko_node_ids` (dangling-proof); props `steps`, `component` from `ko_roles`.
 - `Kegg_module_in_kegg_pathway` only for `pathway_node_ids`.
@@ -169,7 +179,7 @@ def test_ko_roles_and_conflict():
 - [ ] **Step 1: Write failing tests** with a temp `cache_root` holding a 3-module `kegg_data.json` (M1 references M2; one complex step; one module under a deleted KO only) and a two-strain registry CSV (one row commented out, one strain dir without annotations): assert node ids/levels/`module_type` on class nodes; `steps`/`component` on KO edges; no KO edge for a KO outside `ko_node_ids`; the organism edge for an EC-only gene carries `ec_genes == ["LT_1"]`; the strain without annotations yields no edges; the commented row is not read; no edge with `steps_present == 0`; every property string clean of `'` and `|`.
 - [ ] **Step 2: Run** `uv run pytest tests/test_kegg_module_adapter.py -v` — FAIL.
 - [ ] **Step 3: Implement** per the Interfaces/Behaviour above.
-- [ ] **Step 4: Run** — PASS. Dry-run against real data: `uv run python -c` instantiating the adapter with the real KEGG adapter's id sets; expected ≈ 414 module nodes, 57 class nodes, 1,723 KO edges, ≈ 26,005 organism edges, ≈ 6,987 `complete` (spec §2; small drift from a KEGG refresh is fine, record the actual numbers for Task 5).
+- [ ] **Step 4: Run** — PASS. Dry-run against real data: `uv run python -c` instantiating the adapter with the real KEGG adapter's id sets; expected ≈ 414 module nodes, 57 class nodes, 1,723 KO edges, ≈ 26,005 organism edges, ≈ 6,987 `complete` (spec §2; small drift from a KEGG refresh is fine, record the actual numbers for Task 5). In the same dry run, list M00161 / M00163 status for **every** cyanobacterial strain (the spec measured only six): Task 5's "complete in every cyanobacterium" assertion is written from this list, and any strain that is not complete is reported to the user with its missing step before the test is written.
 - [ ] **Step 5: Commit** — `feat(kegg): KeggModule adapter with per-organism module completeness`.
 
 ---
@@ -181,7 +191,7 @@ def test_ko_roles_and_conflict():
 - Modify: `config/controlled_vocabularies.yaml` — `KeggModule.module_type`, `KeggModule.level_kind`, `Kegg_term_in_kegg_module.component`, `Organism_has_kegg_module.status` (closed, with `value_descriptions`), plus numeric entries for `steps_total` / `steps_present` / `steps_present_via_ec` (`min_value: 0`), following `Gene_has_tcdb_family.tcdb_gate` / `.tier` as templates.
 - Modify: `create_knowledge_graph.py` — after the BRITE block (~line 276): instantiate `MultiKeggModuleAdapter(... ko_node_ids=kegg_anno_adapter.all_ko_ids(), pathway_node_ids=kegg_anno_adapter.all_pathway_ids())`, write nodes/edges; next to `chebi_release.txt` (~line 469) write `kegg_release.txt` from `kegg_data.json["kegg_release"]` (warn and skip when absent).
 - Modify: `scripts/post-import.sh` and `scripts/post-import.cypher` (identical logic): indexes `kegg_module_id_idx`, `kegg_module_level_idx`, `kegg_module_level_kind_idx`, `kegg_module_type_idx`, `kegg_module_module_id_idx` + full-text `keggModuleFullText` on `name` (index group); rollup in the `IN TRANSACTIONS` group modelled on the `MeropsFamily` block (`post-import.cypher` ~1155): subtree walk `(m)<-[:Kegg_module_is_a_kegg_module*0..]-(:KeggModule)<-[:Kegg_term_in_kegg_module]-(:KeggTerm)<-[:Gene_has_kegg_ko]-(g:Gene)` → `gene_count`, `organism_count` (distinct `g.organism_name`), `direct_gene_count` only `WHERE m.level = 3`; `complete_organism_count` = distinct organisms with `status = 'complete'` edges to any module in the subtree; `Schema_info.kegg_release` from `kegg_release.txt` exactly like `chebi_release` (`post-import.sh` ~2113, `.cypher` ~2040/2063).
-- Test: `tests/test_controlled_vocab.py` (existing suite must pass), `tests/test_post_import_sync.py` or the existing sh/cypher parity test if present.
+- Test: `tests/test_controlled_vocab.py` (existing suite must pass). There is no general `.sh`/`.cypher` parity test, so `tests/test_kegg_module_schema.py` also asserts that every new index name and the `kegg_release` stamp appear in both post-import files (pattern: `tests/test_post_import_metabolite_identity.py`).
 
 - [ ] **Step 1: Write failing test** — extend the vocabulary tests' expectations if they pin entry counts; add `tests/test_kegg_module_schema.py` asserting the schema declares the node, its 4 post-import properties and the 4 edges with the exact label strings from Task 3.
 - [ ] **Step 2: Run** `uv run pytest tests/test_kegg_module_schema.py tests/test_controlled_vocab.py -v` — FAIL.
