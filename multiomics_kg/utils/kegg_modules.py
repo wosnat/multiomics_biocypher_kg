@@ -128,10 +128,17 @@ def _step_trees(definition: str) -> list[tuple[Step, tuple]]:
     out = []
     for part in _split_top(tokens, " "):
         tree = _parse(part)
-        if tree[0] == "none":
-            continue
+        if tree[0] == "none" or _only_optional(part):
+            continue                 # `--` or a lone optional subunit: never needs a gene
         out.append((Step(len(out) + 1, "".join(part).strip()), tree))
     return out
+
+
+def _only_optional(tokens: list[str]) -> bool:
+    """A step written as one optional subunit (``-K08080``, M00955)."""
+    toks = [t for t in tokens if t != " "]
+    return len(toks) >= 2 and toks[0] == "-" and "+" not in toks and toks.count("-") == 1 and (
+        len(toks) == 2 or (toks[1] == "(" and toks[-1] == ")"))
 
 
 def parse_steps(definition: str) -> list[Step]:
@@ -230,7 +237,10 @@ def evaluate_organism(modules: dict[str, list[Step]], kos: set[str],
     or a reference to a module not in ``modules`` raises ``ValueError``.
     """
     trees = {m: [(s, _tree(s)) for s in steps] for m, steps in modules.items()}
-    ec_kos = {k for k, genes in ec_candidates.items() if genes}
+    gene_kos: dict[str, set[str]] = {}          # EC-only gene → the KOs it may stand in for
+    for ko, genes in ec_candidates.items():
+        for g in genes:
+            gene_kos.setdefault(g, set()).add(ko)
     results: dict[str, ModuleResult] = {}
     active: set[str] = set()
 
@@ -259,13 +269,12 @@ def evaluate_organism(modules: dict[str, list[Step]], kos: set[str],
         ref_ok = [not a and _true(t, kos, set(), any_complete) for a, (_, t) in zip(ko_ok, step_trees)]
         need = {}
         for i, (s, t) in enumerate(step_trees):
-            if ko_ok[i] or ref_ok[i] or not _true(t, kos, ec_kos, any_complete):
+            if ko_ok[i] or ref_ok[i]:
                 continue
-            genes = set()
-            for ko, in_cx, _ in _kos(t):
-                if not in_cx:
-                    genes |= ec_candidates.get(ko, set())
-            need[s.index] = genes
+            pool = {g for ko, in_cx, _ in _kos(t) if not in_cx for g in ec_candidates.get(ko, ())}
+            genes = {g for g in pool if _true(t, kos, gene_kos[g], any_complete)}
+            if genes:
+                need[s.index] = genes
         matched = _match(need)
         ec_fill: dict[int, str] = dict(matched)
         for i, (s, t) in enumerate(step_trees):

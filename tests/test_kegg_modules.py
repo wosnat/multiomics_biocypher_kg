@@ -101,3 +101,32 @@ def test_ko_roles_and_conflict():
     assert ko_roles(parse_steps("K00001 (K00001,K00002)"))["K00001"] == ([1, 2], "required")
     with pytest.raises(ValueError):
         ko_roles(parse_steps("K00001-K00003 K00003"))
+
+
+def test_standalone_optional_step_is_dropped():
+    """A whole step written as an optional subunit (M00955 `... K21749 -K08080`) never needs a
+    gene: it is dropped like `--`, so the module can be complete without it."""
+    assert [s.definition for s in parse_steps("K00001 -K00002")] == ["K00001"]
+    assert ev("K00001 -K00002", {"K00001"}).status == "complete"
+    assert "K00002" not in ko_roles(parse_steps("K00001 -K00002"))
+
+
+def test_ec_gene_must_close_the_step_on_its_own():
+    # Step 1 needs K00001 AND K00002; the organism has K00001. gX stands in for K00001 (already
+    # present) and cannot close step 1; gB stands in for K00002 and K00003 — one gene, one step.
+    r = ev("(K00001 K00002) K00003", {"K00001"}, {"K00001": {"gX"}, "K00002": {"gB"}, "K00003": {"gB"}})
+    assert (r.steps_present, r.steps_present_via_ec) == (1, 1)
+    assert len(r.ec_genes) == 1 and r.ec_genes == ["gB"]
+
+
+def test_step_needing_two_ec_genes_stays_missing():
+    r = ev("(K00001 K00002)", set(), {"K00001": {"g1"}, "K00002": {"g2"}})
+    assert (r.steps_present, r.ec_genes) == (0, [])
+
+
+def test_ec_gene_named_is_the_one_that_supplies_the_missing_ko():
+    # MIT9313 M00097 shape: only K15744 is missing; g_iso supplies it, g_other maps to a KO the
+    # organism already has.
+    r = ev("((K02293 K15744 K00514 K09835),K10027,K15745)", {"K02293", "K00514", "K09835"},
+           {"K15744": {"g_iso"}, "K09835": {"a_other"}})
+    assert r.ec_genes == ["g_iso"]
