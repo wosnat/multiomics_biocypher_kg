@@ -1,0 +1,147 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000155635.1",
+  "current_accession": "GCF_000155635.1",
+  "paired_accession": "GCA_000155635.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 180281,
+   "organism_name": "Cyanobium sp. PCC 7001",
+   "infraspecific_names": {
+    "strain": "PCC 7001"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Scaffold",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000155635.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by Gordon and Betty Moore Foundation Microbial Genome Sequencing Project"
+   },
+   "assembly_name": "ASM15563v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA19301",
+       "title": "A marine microorganism"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA19301",
+   "release_date": "2008-08-29",
+   "submitter": "Gordon and Betty Moore Foundation Microbial Genome Sequencing Project",
+   "biosample": {
+    "accession": "SAMN02436316",
+    "last_updated": "2015-05-18T12:16:22.770",
+    "publication_date": "2013-12-04T14:26:40.850",
+    "submission_date": "2013-12-04T14:23:02.313",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "ABSE"
+     }
+    ],
+    "description": {
+     "title": "Generic sample from Cyanobium sp. PCC 7001",
+     "organism": {
+      "tax_id": 180281,
+      "organism_name": "Cyanobium sp. PCC 7001"
+     }
+    },
+    "owner": {
+     "name": "NCBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA19301"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "PCC 7001"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2013-12-04T14:26:40.850"
+    },
+    "strain": "PCC 7001"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/\nWith funding from the Gordon and Betty Moore Foundation (www.moore.org), the J. Craig Venter Institute (www.jcvi.org) is sequencing, assembling, and auto-annotating the genomes of approximately 165 marine microbes. These microbes were contributed by collaborators worldwide, and embody an array of physiological diversity, including carbon fixers, photoautotrophs, photoheterotrophs, nitrifiers, and methanotrophs. This work was designed to complement other ongoing research at JCVI and elsewhere to characterize the microbial biodiversity of marine and terrestrial environments through metagenomics profiling of environmental samples.\nPlease be aware that the annotation is done automatically with little or no manual curation."
+  },
+  "assembly_stats": {
+   "total_sequence_length": "2834252",
+   "total_ungapped_length": "2832697",
+   "number_of_contigs": 18,
+   "contig_n50": 255422,
+   "contig_l50": 4,
+   "number_of_scaffolds": 2,
+   "scaffold_n50": 2832412,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 18,
+   "atgc_count": "2832697",
+   "gc_count": "1947128",
+   "gc_percent": 68.5
+  },
+  "annotation_info": {
+   "name": "GCF_000155635.1-RS_2024_08_12",
+   "provider": "NCBI RefSeq",
+   "release_date": "2024-08-12",
+   "stats": {
+    "gene_counts": {
+     "total": 2887,
+     "protein_coding": 2799,
+     "non_coding": 56,
+     "pseudogene": 32
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.8"
+  },
+  "wgs_info": {
+   "wgs_project_accession": "ABSE01",
+   "master_wgs_url": "https://www.ncbi.nlm.nih.gov/nuccore/ABSE00000000.1",
+   "wgs_contigs_url": "https://www.ncbi.nlm.nih.gov/Traces/wgs/ABSE01"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Cyanobium",
+   "checkm_species_tax_id": 180281,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.3",
+   "completeness": 97.03,
+   "contamination": 0.23
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "below_threshold_mismatch",
+   "submitted_organism": "Cyanobium sp. PCC 7001",
+   "submitted_species": "Cyanobium sp. PCC 7001",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "no-type",
+    "organism_name": "na",
+    "category": "no_type"
+   },
+   "best_ani_match": {
+    "assembly": "GCA_056633055.1",
+    "organism_name": "Paraciimarium castrense",
+    "category": "type",
+    "ani": 83.77,
+    "assembly_coverage": 47.82,
+    "type_assembly_coverage": 50.36
+   },
+   "comment": "na"
+  }
+ }
+}

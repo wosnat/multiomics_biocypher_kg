@@ -1,0 +1,154 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000007925.1",
+  "current_accession": "GCF_000007925.1",
+  "paired_accession": "GCA_000007925.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 167539,
+   "organism_name": "Prochlorococcus marinus subsp. marinus str. CCMP1375",
+   "infraspecific_names": {
+    "strain": "CCMP1375; SS120"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000007925.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by CNRS"
+   },
+   "assembly_name": "ASM792v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA419",
+       "title": "Smallest and most abundant bacterium that has unique photosynthesizing components"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA419",
+   "release_date": "2003-07-25",
+   "submitter": "CNRS",
+   "biosample": {
+    "accession": "SAMN02603142",
+    "last_updated": "2026-06-21T02:06:12.110",
+    "publication_date": "2014-01-30T00:00:00.000",
+    "submission_date": "2014-01-30T11:19:35.930",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "AE017126"
+     }
+    ],
+    "description": {
+     "title": "Sample from Prochlorococcus marinus subsp. marinus str. CCMP1375",
+     "organism": {
+      "tax_id": 167539,
+      "organism_name": "Prochlorococcus marinus subsp. marinus str. CCMP1375"
+     }
+    },
+    "owner": {
+     "name": "NCBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA419"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "CCMP1375; SS120"
+     },
+     {
+      "name": "type-material",
+      "value": "type strain of Prochlorococcus marinus"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-01-30T11:19:35.930"
+    },
+    "strain": "CCMP1375; SS120"
+   }
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "1751080",
+   "total_ungapped_length": "1751080",
+   "number_of_contigs": 1,
+   "contig_n50": 1751080,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 1751080,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "1751080",
+   "gc_count": "638131",
+   "gc_percent": 36.5
+  },
+  "annotation_info": {
+   "name": "GCF_000007925.1-RS_2025_04_10",
+   "provider": "NCBI RefSeq",
+   "release_date": "2025-04-10",
+   "stats": {
+    "gene_counts": {
+     "total": 1911,
+     "protein_coding": 1859,
+     "non_coding": 45,
+     "pseudogene": 7
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.10"
+  },
+  "type_material": {
+   "type_label": "TYPE_MATERIAL",
+   "type_display_text": "assembly from type material"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Prochlorococcus marinus",
+   "checkm_species_tax_id": 1219,
+   "checkm_marker_set_rank": "species",
+   "checkm_version": "v1.2.5",
+   "completeness": 99.83,
+   "contamination": 0.02,
+   "completeness_percentile": 67.0213
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "low_coverage",
+   "submitted_organism": "Prochlorococcus marinus subsp. marinus str. CCMP1375",
+   "submitted_species": "Prochlorococcus marinus",
+   "category": "type",
+   "submitted_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus subsp. pastoris str. CCMP1986",
+    "category": "type",
+    "ani": 89.12,
+    "assembly_coverage": 0.5,
+    "type_assembly_coverage": 0.53
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus",
+    "category": "type",
+    "ani": 89.12,
+    "assembly_coverage": 0.5,
+    "type_assembly_coverage": 0.53
+   },
+   "comment": "Assembly is type_strain, failed to match other type_strains on its species"
+  }
+ }
+}

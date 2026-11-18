@@ -1,0 +1,222 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCA_003513035.1",
+  "current_accession": "GCA_003513035.1",
+  "source_database": "SOURCE_DATABASE_GENBANK",
+  "organism": {
+   "tax_id": 232,
+   "organism_name": "Alteromonas sp.",
+   "infraspecific_names": {
+    "isolate": "UBA9522"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Scaffold",
+   "assembly_status": "current",
+   "assembly_name": "ASM351303v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA417962",
+       "title": "Collection of 3,087 bacterial metagenome-assembled genomes recovered from metagenomes available from the Sequence Read Archive."
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA417962",
+   "release_date": "2018-09-07",
+   "submitter": "University of Queensland",
+   "genome_notes": [
+    "derived from metagenome"
+   ],
+   "sequencing_tech": "Illumina HiSeq 2000",
+   "assembly_method": "CLC de novo assembler v. 4.4.1",
+   "biosample": {
+    "accession": "SAMN08019419",
+    "last_updated": "2018-01-19T00:28:33.820",
+    "publication_date": "2017-12-15T09:50:14.570",
+    "submission_date": "2017-11-13T20:27:06.680",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "UBA9522"
+     },
+     {
+      "db": "SRA",
+      "value": "SRS2843622"
+     }
+    ],
+    "description": {
+     "title": "Uncultivated Alteromonas bacterium UBA9522 genome recovered from ERX555922",
+     "organism": {
+      "tax_id": 232,
+      "organism_name": "Alteromonas sp."
+     },
+     "comment": "Uncultivated genome recovered from an assembly of the ERX555922 metagenome."
+    },
+    "owner": {
+     "name": "University of Queensland",
+     "contacts": [
+      {}
+     ]
+    },
+    "models": [
+     "Microbe, viral or environmental"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA417962"
+     }
+    ],
+    "package": "Microbe.1.0",
+    "attributes": [
+     {
+      "name": "isolate",
+      "value": "UBA9522"
+     },
+     {
+      "name": "isolation_source",
+      "value": "marine"
+     },
+     {
+      "name": "collection_date",
+      "value": "not applicable"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "not applicable"
+     },
+     {
+      "name": "sample_type",
+      "value": "metagenomic assembly"
+     },
+     {
+      "name": "assembly_method",
+      "value": "CLC de novo assembler"
+     },
+     {
+      "name": "assembly_method_version",
+      "value": "4.4.1"
+     },
+     {
+      "name": "mapping_method",
+      "value": "BWA (BWA-MEM)"
+     },
+     {
+      "name": "mapping_method_version",
+      "value": "0.7.12-r1039"
+     },
+     {
+      "name": "genome_coverage",
+      "value": "10.77x"
+     },
+     {
+      "name": "quality_assessment_method",
+      "value": "CheckM"
+     },
+     {
+      "name": "quality_assessment_method_version",
+      "value": "1.0.6"
+     },
+     {
+      "name": "completeness_estimated",
+      "value": "82.44%"
+     },
+     {
+      "name": "contamination_estimated",
+      "value": "2.12%"
+     },
+     {
+      "name": "metagenome_source",
+      "value": "marine metagenome"
+     },
+     {
+      "name": "environmental_sample",
+      "value": "true"
+     },
+     {
+      "name": "metagenomic",
+      "value": "true"
+     },
+     {
+      "name": "note",
+      "value": "marine metagenome"
+     },
+     {
+      "name": "value",
+      "value": "This BioSample is a metagenomic assembly obtained from the marine metagenome reads: ERR598960."
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2017-12-15T09:50:14.570"
+    },
+    "collection_date": "not applicable",
+    "geo_loc_name": "not applicable",
+    "isolate": "UBA9522",
+    "isolation_source": "marine"
+   },
+   "comments": "Annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (released 2013). Information about the Pipeline can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_sequence_length": "4333949",
+   "total_ungapped_length": "4281522",
+   "number_of_contigs": 743,
+   "contig_n50": 8644,
+   "contig_l50": 153,
+   "number_of_scaffolds": 573,
+   "scaffold_n50": 9285,
+   "scaffold_l50": 143,
+   "number_of_component_sequences": 573,
+   "atgc_count": "4281520",
+   "gc_count": "2090970",
+   "gc_percent": 49,
+   "genome_coverage": "10.77"
+  },
+  "annotation_info": {
+   "name": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "provider": "NCBI",
+   "release_date": "2018-05-01",
+   "stats": {
+    "gene_counts": {
+     "total": 4348,
+     "protein_coding": 4305,
+     "non_coding": 20,
+     "pseudogene": 23
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "4.5"
+  },
+  "wgs_info": {
+   "wgs_project_accession": "DOSX01",
+   "master_wgs_url": "https://www.ncbi.nlm.nih.gov/nuccore/DOSX00000000.1",
+   "wgs_contigs_url": "https://www.ncbi.nlm.nih.gov/Traces/wgs/DOSX01"
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "mismatch",
+   "submitted_organism": "Alteromonas sp.",
+   "submitted_species": "Alteromonas sp.",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "no-type",
+    "organism_name": "na",
+    "category": "no_type"
+   },
+   "best_ani_match": {
+    "assembly": "GCA_900129565.1",
+    "organism_name": "Marisediminitalea aggregata",
+    "category": "type",
+    "ani": 98.07,
+    "assembly_coverage": 89.9,
+    "type_assembly_coverage": 78.47
+   },
+   "comment": "coverage is less than 80%"
+  }
+ }
+}

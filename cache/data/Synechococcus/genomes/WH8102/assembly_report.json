@@ -1,0 +1,187 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000195975.1",
+  "current_accession": "GCF_000195975.1",
+  "paired_accession": "GCA_000195975.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 84588,
+   "organism_name": "Parasynechococcus marenigrum WH 8102",
+   "infraspecific_names": {
+    "strain": "WH 8102"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000195975.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by DOE Joint Genome Institute"
+   },
+   "assembly_name": "ASM19597v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA230",
+       "title": "Marine cyanobacteria"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA230",
+   "release_date": "2003-08-18",
+   "submitter": "DOE Joint Genome Institute",
+   "refseq_category": "reference genome",
+   "biosample": {
+    "accession": "SAMEA3138327",
+    "last_updated": "2021-10-07T21:06:19.060",
+    "publication_date": "2014-11-20T00:00:00.000",
+    "submission_date": "2014-11-21T08:58:35.316",
+    "sample_ids": [
+     {
+      "db": "SRA",
+      "value": "ERS610262"
+     }
+    ],
+    "description": {
+     "title": "GCA_000195975",
+     "organism": {
+      "tax_id": 84588,
+      "organism_name": "Parasynechococcus marenigrum WH 8102"
+     }
+    },
+    "owner": {
+     "name": "EBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "Alias",
+      "value": "GCA_000195975"
+     },
+     {
+      "name": "Broker name",
+      "value": "European Nucleotide Archive"
+     },
+     {
+      "name": "ENA checklist",
+      "value": "ERC000011"
+     },
+     {
+      "name": "INSDC center alias",
+      "value": "EBI"
+     },
+     {
+      "name": "INSDC center name",
+      "value": "European Bioinformatics Institute"
+     },
+     {
+      "name": "INSDC first public",
+      "value": "2014-11-20T12:20:15Z"
+     },
+     {
+      "name": "INSDC last update",
+      "value": "2014-11-20T11:47:21Z"
+     },
+     {
+      "name": "INSDC status",
+      "value": "public"
+     },
+     {
+      "name": "SRA accession",
+      "value": "ERS610262"
+     },
+     {
+      "name": "sample_name",
+      "value": "ERS610262"
+     },
+     {
+      "name": "Title",
+      "value": "BioSample entry for genome collection GCA_000195975"
+     },
+     {
+      "name": "strain",
+      "value": "WH 8102"
+     },
+     {
+      "name": "type-material",
+      "value": "reference strain of Parasynechococcus marenigrum"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-11-21T08:58:35.317"
+    },
+    "sample_name": "ERS610262",
+    "strain": "WH 8102"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "2434428",
+   "total_ungapped_length": "2434428",
+   "number_of_contigs": 1,
+   "contig_n50": 2434428,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 2434428,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 7,
+   "atgc_count": "2434728",
+   "gc_count": "1446525",
+   "gc_percent": 59.5
+  },
+  "annotation_info": {
+   "name": "GCF_000195975.1-RS_2026_11_05",
+   "provider": "NCBI RefSeq",
+   "release_date": "2026-11-05",
+   "stats": {
+    "gene_counts": {
+     "total": 2716,
+     "protein_coding": 2638,
+     "non_coding": 53,
+     "pseudogene": 25
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.11"
+  },
+  "type_material": {
+   "type_label": "TYPE_MATERIAL",
+   "type_display_text": "assembly from type material"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Prochlorococcaceae",
+   "checkm_species_tax_id": 2881428,
+   "checkm_marker_set_rank": "family",
+   "checkm_version": "v1.2.5",
+   "completeness": 99.28,
+   "completeness_percentile": 77.7778
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "low_coverage",
+   "submitted_organism": "Parasynechococcus marenigrum WH 8102",
+   "submitted_species": "Parasynechococcus marenigrum",
+   "category": "type",
+   "best_ani_match": {
+    "assembly": "GCA_002252705.1",
+    "organism_name": "Vulcanococcus limneticus",
+    "category": "type",
+    "ani": 82.36,
+    "assembly_coverage": 6.74,
+    "type_assembly_coverage": 4.63
+   },
+   "comment": "Assembly is the type_strain, no match is expected"
+  }
+ }
+}

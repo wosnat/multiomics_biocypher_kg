@@ -1,0 +1,208 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_014279915.1",
+  "current_accession": "GCF_014279915.1",
+  "paired_accession": "GCA_014279915.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 1442552,
+   "organism_name": "Synechococcus sp. BOUM118",
+   "infraspecific_names": {
+    "strain": "BOUM118"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Chromosome",
+   "assembly_status": "suppressed",
+   "paired_assembly": {
+    "accession": "GCA_014279915.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by Station Biologique de Roscoff (CNRS - Sorbonne University)"
+   },
+   "assembly_name": "ASM1427991v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA596899",
+       "title": "31 manually curated marine Synechococcus complete genomes"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA596899",
+   "release_date": "2020-08-24",
+   "submitter": "Station Biologique de Roscoff (CNRS - Sorbonne University)",
+   "atypical": {
+    "is_atypical": true,
+    "warnings": [
+     "unverified source organism"
+    ]
+   },
+   "genome_notes": [
+    "unverified source organism"
+   ],
+   "sequencing_tech": "Illumina HiSeq",
+   "assembly_method": "CLC NGS Cell v. 5.1.1.184548-201811011136",
+   "biosample": {
+    "accession": "SAMN13641341",
+    "last_updated": "2020-08-26T18:38:17.247",
+    "publication_date": "2020-08-26T18:38:17.247",
+    "submission_date": "2019-12-20T04:28:06.163",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "Syn_BOUM118_genome"
+     }
+    ],
+    "description": {
+     "title": "Microbe sample from Synechococcus sp. BOUM118",
+     "organism": {
+      "tax_id": 1442552,
+      "organism_name": "Synechococcus sp. BOUM118"
+     }
+    },
+    "owner": {
+     "name": "Station Biologique de Roscoff (CNRS - Sorbonne University)",
+     "contacts": [
+      {}
+     ]
+    },
+    "models": [
+     "Microbe, viral or environmental"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA596899"
+     }
+    ],
+    "package": "Microbe.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "BOUM118"
+     },
+     {
+      "name": "isolation_source",
+      "value": "marine environment"
+     },
+     {
+      "name": "collection_date",
+      "value": "2008-10-01"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "Mediterranean Sea"
+     },
+     {
+      "name": "sample_type",
+      "value": "culture"
+     },
+     {
+      "name": "biomaterial_provider",
+      "value": "RCC:2379"
+     },
+     {
+      "name": "collected_by",
+      "value": "Garczarek L."
+     },
+     {
+      "name": "culture_collection",
+      "value": "RCC:2379"
+     },
+     {
+      "name": "depth",
+      "value": "5"
+     },
+     {
+      "name": "env_broad_scale",
+      "value": "ENVO:00000207"
+     },
+     {
+      "name": "genotype",
+      "value": "clade III"
+     },
+     {
+      "name": "lat_lon",
+      "value": "33.63 N 32.63 E"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2020-08-26T18:38:17.247"
+    },
+    "biomaterial_provider": "RCC:2379",
+    "collected_by": "Garczarek L.",
+    "collection_date": "2008-10-01",
+    "geo_loc_name": "Mediterranean Sea",
+    "isolation_source": "marine environment",
+    "lat_lon": "33.63 N 32.63 E",
+    "strain": "BOUM118"
+   },
+   "suppression_reason": "This record was removed by RefSeq staff. Please contact info@ncbi.nlm.nih.gov for further details. Reason: unverified source organism"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "2326334",
+   "total_ungapped_length": "2326234",
+   "number_of_contigs": 3,
+   "contig_n50": 1201322,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 2326334,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "2326234",
+   "gc_count": "1390570",
+   "gc_percent": 60,
+   "genome_coverage": "7283.85"
+  },
+  "annotation_info": {
+   "name": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "provider": "NCBI RefSeq",
+   "release_date": "2023-12-11",
+   "stats": {
+    "gene_counts": {
+     "total": 2601,
+     "protein_coding": 2528,
+     "non_coding": 53,
+     "pseudogene": 20
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.6"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Synechococcus",
+   "checkm_species_tax_id": 1442552,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.2",
+   "completeness": 99.53,
+   "contamination": 0.24
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "mismatch",
+   "submitted_organism": "Synechococcus sp. BOUM118",
+   "submitted_species": "Synechococcus sp. BOUM118",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "no-type",
+    "organism_name": "na",
+    "category": "no_type"
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000195975.1",
+    "organism_name": "Parasynechococcus marenigrum",
+    "category": "type",
+    "ani": 98.57,
+    "assembly_coverage": 92.27,
+    "type_assembly_coverage": 88.17
+   },
+   "comment": "best matching type assembly is from a genus where ANI analysis is not suitable or reliable for taxonomic classification"
+  }
+ }
+}

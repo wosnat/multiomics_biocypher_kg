@@ -1,0 +1,130 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000179235.1",
+  "current_accession": "GCF_000179235.2",
+  "paired_accession": "GCA_000179235.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 232348,
+   "organism_name": "Synechococcus sp. CB0101",
+   "infraspecific_names": {
+    "strain": "CB0101"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Contig",
+   "assembly_status": "previous",
+   "paired_assembly": {
+    "accession": "GCA_000179235.1",
+    "status": "previous"
+   },
+   "assembly_name": "ASM17923v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA46501",
+       "title": "Synechococcus sp. CB0101 genome sequencing project."
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA46501",
+   "release_date": "2010-06-22",
+   "submitter": "Gordon and Betty Moore Foundation Marine Microbiology Initiative",
+   "sequencing_tech": "Sanger; 454",
+   "biosample": {
+    "accession": "SAMN00010394",
+    "last_updated": "2019-04-05T08:46:44.070",
+    "publication_date": "2010-03-22T00:00:00.000",
+    "submission_date": "2010-03-22T16:55:22.623",
+    "sample_ids": [
+     {
+      "db": "JCVI",
+      "label": "Sample name",
+      "value": "Synechococcus sp. CB0101 Sample"
+     },
+     {
+      "db": "SRA",
+      "value": "SRS025443"
+     }
+    ],
+    "description": {
+     "title": "Generic sample from Synechococcus sp. CB0101",
+     "organism": {
+      "tax_id": 232348,
+      "organism_name": "Synechococcus sp. CB0101"
+     },
+     "comment": "454 Sequencing of Synechococcus sp. CB0101"
+    },
+    "owner": {
+     "name": "J. Craig Venter Institute"
+    },
+    "models": [
+     "Generic"
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "CB0101"
+     },
+     {
+      "name": "collection_date",
+      "value": "2010-06-22"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "USA: Baltimore Inner Harbor, Chesapeake Bay"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2012-11-01T21:21:07.700"
+    },
+    "collection_date": "2010-06-22",
+    "geo_loc_name": "USA: Baltimore Inner Harbor, Chesapeake Bay",
+    "strain": "CB0101"
+   },
+   "comments": "This WGS project has been superceded by the complete genome in (non-WGS) GenBank record CP039373\nWith funding from the Gordon and Betty Moore Foundation (www.moore.org), the J. Craig Venter Institute (www.jcvi.org) is sequencing, assembling, and auto-annotating the genomes of approximately 165 marine microbes. These microbes were contributed by collaborators worldwide, and embody an array of physiological diversity, including carbon fixers, photoautotrophs, photoheterotrophs, nitrifiers, and methanotrophs. This work was designed to complement other ongoing research at JCVI and elsewhere to characterize the microbial biodiversity of marine and terrestrial environments through metagenomics profiling of environmental samples."
+  },
+  "assembly_stats": {
+   "total_sequence_length": "2686395",
+   "total_ungapped_length": "2686395",
+   "number_of_contigs": 94,
+   "contig_n50": 60200,
+   "contig_l50": 16,
+   "number_of_scaffolds": 94,
+   "scaffold_n50": 60200,
+   "scaffold_l50": 16,
+   "number_of_component_sequences": 94,
+   "atgc_count": "2686395",
+   "gc_count": "1724922",
+   "gc_percent": 64,
+   "genome_coverage": "20"
+  },
+  "annotation_info": {
+   "name": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "provider": "NCBI RefSeq",
+   "release_date": "2017-04-14",
+   "stats": {
+    "gene_counts": {
+     "total": 2931,
+     "protein_coding": 2802,
+     "non_coding": 43,
+     "pseudogene": 86
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "4.1"
+  },
+  "wgs_info": {
+   "wgs_project_accession": "ADXL01",
+   "master_wgs_url": "https://www.ncbi.nlm.nih.gov/nuccore/ADXL00000000.1",
+   "wgs_contigs_url": "https://www.ncbi.nlm.nih.gov/Traces/wgs/ADXL01"
+  }
+ }
+}

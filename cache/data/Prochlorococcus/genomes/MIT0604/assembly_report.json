@@ -1,0 +1,193 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000757845.1",
+  "current_accession": "GCF_000757845.1",
+  "paired_accession": "GCA_000757845.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 1501268,
+   "organism_name": "Prochlorococcus sp. MIT 0604",
+   "infraspecific_names": {
+    "strain": "MIT 0604"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000757845.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by MIT"
+   },
+   "assembly_name": "ASM75784v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA246696",
+       "title": "Genomes of diverse isolates of the marine cyanobacterium Prochlorococcus"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA246696",
+   "release_date": "2014-09-25",
+   "submitter": "MIT",
+   "sequencing_tech": "Illumina GAIIx",
+   "assembly_method": "Newbler v. 2.6",
+   "biosample": {
+    "accession": "SAMN02769551",
+    "last_updated": "2021-02-28T02:20:30.090",
+    "publication_date": "2014-09-29T00:00:00.000",
+    "submission_date": "2014-05-12T10:08:48.340",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "MIT0604"
+     }
+    ],
+    "description": {
+     "title": "MIGS Cultured Bacterial/Archaeal sample from Prochlorococcus sp. MIT 0604",
+     "organism": {
+      "tax_id": 1501268,
+      "organism_name": "Prochlorococcus sp. MIT 0604"
+     },
+     "comment": "Keywords: GSC:MIxS;MIGS:6.0"
+    },
+    "owner": {
+     "name": "MIT",
+     "contacts": [
+      {}
+     ]
+    },
+    "models": [
+     "MIGS.ba",
+     "MIGS/MIMS/MIMARKS.water"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA246696"
+     }
+    ],
+    "package": "MIGS.ba.water.6.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "MIT 0604"
+     },
+     {
+      "name": "lat_lon",
+      "value": "22.75 N 158 W"
+     },
+     {
+      "name": "collection_date",
+      "value": "2006-05-01"
+     },
+     {
+      "name": "env_local_scale",
+      "value": "ocean"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "missing"
+     },
+     {
+      "name": "env_medium",
+      "value": "water"
+     },
+     {
+      "name": "ref_biomaterial",
+      "value": "missing"
+     },
+     {
+      "name": "num_replicons",
+      "value": "1"
+     },
+     {
+      "name": "isol_growth_condt",
+      "value": "missing"
+     },
+     {
+      "name": "env_broad_scale",
+      "value": "ocean"
+     },
+     {
+      "name": "depth",
+      "value": "175m"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-09-29T06:57:25.033"
+    },
+    "collection_date": "2006-05-01",
+    "geo_loc_name": "missing",
+    "lat_lon": "22.75 N 158 W",
+    "strain": "MIT 0604"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "1780061",
+   "total_ungapped_length": "1780061",
+   "number_of_contigs": 1,
+   "contig_n50": 1780061,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 1780061,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "1780061",
+   "gc_count": "554907",
+   "gc_percent": 31,
+   "genome_coverage": "200"
+  },
+  "annotation_info": {
+   "name": "GCF_000757845.1-RS_2024_08_13",
+   "provider": "NCBI RefSeq",
+   "release_date": "2024-08-13",
+   "stats": {
+    "gene_counts": {
+     "total": 2054,
+     "protein_coding": 2003,
+     "non_coding": 44,
+     "pseudogene": 7
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.8"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Prochlorococcus",
+   "checkm_species_tax_id": 1501268,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.3",
+   "completeness": 99.55
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "genus_match",
+   "submitted_organism": "Prochlorococcus sp. MIT 0604",
+   "submitted_species": "Prochlorococcus sp. MIT 0604",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "no-type",
+    "organism_name": "na",
+    "category": "no_type"
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus",
+    "category": "type",
+    "ani": 79.88,
+    "assembly_coverage": 56.88,
+    "type_assembly_coverage": 61.07
+   },
+   "comment": "na"
+  }
+ }
+}

@@ -1,0 +1,141 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000012505.1",
+  "current_accession": "GCF_000012505.1",
+  "paired_accession": "GCA_000012505.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 316279,
+   "organism_name": "Synechococcus sp. CC9902",
+   "infraspecific_names": {
+    "strain": "CC9902"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000012505.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by DOE Joint Genome Institute"
+   },
+   "assembly_name": "ASM1250v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA13655",
+       "title": "Marine cyanobacterium"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA13655",
+   "release_date": "2005-10-26",
+   "submitter": "DOE Joint Genome Institute",
+   "biosample": {
+    "accession": "SAMN02598312",
+    "last_updated": "2015-05-18T13:17:32.737",
+    "publication_date": "2014-01-28T10:41:02.347",
+    "submission_date": "2014-01-28T10:41:02.347",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "CP000097"
+     }
+    ],
+    "description": {
+     "title": "Sample from Synechococcus sp. CC9902",
+     "organism": {
+      "tax_id": 316279,
+      "organism_name": "Synechococcus sp. CC9902"
+     }
+    },
+    "owner": {
+     "name": "NCBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA13655"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "CC9902"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-01-28T10:41:02.347"
+    },
+    "strain": "CC9902"
+   }
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "2234828",
+   "total_ungapped_length": "2234828",
+   "number_of_contigs": 1,
+   "contig_n50": 2234828,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 2234828,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "2234828",
+   "gc_count": "1210483",
+   "gc_percent": 54
+  },
+  "annotation_info": {
+   "name": "GCF_000012505.1-RS_2024_08_13",
+   "provider": "NCBI RefSeq",
+   "release_date": "2024-08-13",
+   "stats": {
+    "gene_counts": {
+     "total": 2445,
+     "protein_coding": 2383,
+     "non_coding": 53,
+     "pseudogene": 9
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.8"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Synechococcus",
+   "checkm_species_tax_id": 316279,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.3",
+   "completeness": 99.06
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "low_coverage",
+   "submitted_organism": "Synechococcus sp. CC9902",
+   "submitted_species": "Synechococcus sp. CC9902",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "no-type",
+    "organism_name": "na",
+    "category": "no_type"
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000195975.1",
+    "organism_name": "Parasynechococcus marenigrum",
+    "category": "type",
+    "ani": 79.69,
+    "assembly_coverage": 10.43,
+    "type_assembly_coverage": 9.58
+   },
+   "comment": "na"
+  }
+ }
+}

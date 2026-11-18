@@ -1,0 +1,147 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000015705.1",
+  "current_accession": "GCF_000015705.1",
+  "paired_accession": "GCA_000015705.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 59922,
+   "organism_name": "Prochlorococcus marinus str. MIT 9303",
+   "infraspecific_names": {
+    "strain": "MIT 9303"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000015705.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by The Gordon and Betty Moore Foundation Marine Microbiology Initiative"
+   },
+   "assembly_name": "ASM1570v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA13496",
+       "title": "Low light-adapted strain isolated from the Sargasso Sea with high Chl b/a2 ratio"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA13496",
+   "release_date": "2007-01-22",
+   "submitter": "The Gordon and Betty Moore Foundation Marine Microbiology Initiative",
+   "biosample": {
+    "accession": "SAMN02603917",
+    "last_updated": "2015-05-18T13:19:56.913",
+    "publication_date": "2014-01-30T14:54:07.097",
+    "submission_date": "2014-01-30T14:54:07.097",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "CP000554"
+     }
+    ],
+    "description": {
+     "title": "Sample from Prochlorococcus marinus str. MIT 9303",
+     "organism": {
+      "tax_id": 59922,
+      "organism_name": "Prochlorococcus marinus str. MIT 9303"
+     }
+    },
+    "owner": {
+     "name": "NCBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA13496"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "MIT 9303"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-01-30T14:54:07.097"
+    },
+    "strain": "MIT 9303"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "2682675",
+   "total_ungapped_length": "2682675",
+   "number_of_contigs": 1,
+   "contig_n50": 2682675,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 2682675,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "2682675",
+   "gc_count": "1341541",
+   "gc_percent": 50
+  },
+  "annotation_info": {
+   "name": "GCF_000015705.1-RS_2025_05_21",
+   "provider": "NCBI RefSeq",
+   "release_date": "2025-05-21",
+   "stats": {
+    "gene_counts": {
+     "total": 2689,
+     "protein_coding": 2587,
+     "non_coding": 54,
+     "pseudogene": 48
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.10"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Prochlorococcus marinus",
+   "checkm_species_tax_id": 1219,
+   "checkm_marker_set_rank": "species",
+   "checkm_version": "v1.2.3",
+   "completeness": 99.86,
+   "contamination": 0.59,
+   "completeness_percentile": 76.5957
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "low_coverage",
+   "submitted_organism": "Prochlorococcus marinus str. MIT 9303",
+   "submitted_species": "Prochlorococcus marinus",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus subsp. pastoris str. CCMP1986",
+    "category": "type",
+    "ani": 93.41,
+    "assembly_coverage": 0.23,
+    "type_assembly_coverage": 0.37
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus",
+    "category": "type",
+    "ani": 93.41,
+    "assembly_coverage": 0.23,
+    "type_assembly_coverage": 0.37
+   },
+   "comment": "na"
+  }
+ }
+}

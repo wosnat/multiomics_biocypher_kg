@@ -1,0 +1,154 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000817325.1",
+  "current_accession": "GCF_000817325.1",
+  "paired_accession": "GCA_000817325.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 1350461,
+   "organism_name": "Synechococcus elongatus UTEX 2973",
+   "infraspecific_names": {
+    "strain": "UTEX 2973"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000817325.1",
+    "status": "current",
+    "annotation_name": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)"
+   },
+   "assembly_name": "ASM81732v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA209528",
+       "title": "Synechococcus sp. UTEX 2973 Genome sequencing"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA209528",
+   "release_date": "2015-01-09",
+   "submitter": "Washington University in St Louis",
+   "sequencing_tech": "454",
+   "assembly_method": "Newbler v. 2.8",
+   "biosample": {
+    "accession": "SAMN03278348",
+    "last_updated": "2022-04-29T21:06:26.402",
+    "publication_date": "2015-01-08T00:00:00.000",
+    "submission_date": "2015-01-08T12:30:05.710",
+    "sample_ids": [
+     {
+      "db": "GenBank",
+      "value": "gb|CP006471"
+     }
+    ],
+    "description": {
+     "title": "Sample from Synechococcus elongatus UTEX 2973",
+     "organism": {
+      "tax_id": 1350461,
+      "organism_name": "Synechococcus elongatus UTEX 2973"
+     }
+    },
+    "owner": {
+     "name": "Washington University in St Louis, Biology Department"
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA209528"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "UTEX 2973"
+     },
+     {
+      "name": "culture_collection",
+      "value": "UTEX:2973"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2015-01-08T12:30:05.710"
+    },
+    "strain": "UTEX 2973"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 3,
+   "total_sequence_length": "2744626",
+   "total_ungapped_length": "2744626",
+   "number_of_contigs": 3,
+   "contig_n50": 2690418,
+   "contig_l50": 1,
+   "number_of_scaffolds": 3,
+   "scaffold_n50": 2690418,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 3,
+   "atgc_count": "2744626",
+   "gc_count": "1521501",
+   "gc_percent": 55.5,
+   "genome_coverage": "133.89"
+  },
+  "annotation_info": {
+   "name": "GCF_000817325.1-RS_2026_05_13",
+   "provider": "NCBI RefSeq",
+   "release_date": "2026-05-13",
+   "stats": {
+    "gene_counts": {
+     "total": 2776,
+     "protein_coding": 2715,
+     "non_coding": 54,
+     "pseudogene": 7
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.11"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Synechococcus elongatus",
+   "checkm_species_tax_id": 32046,
+   "checkm_marker_set_rank": "species",
+   "checkm_version": "v1.2.5",
+   "completeness": 98.63,
+   "contamination": 0.72,
+   "completeness_percentile": 69.5652
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "species_match",
+   "submitted_organism": "Synechococcus elongatus UTEX 2973",
+   "submitted_species": "Synechococcus elongatus",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "GCA_000010065.1",
+    "organism_name": "Synechococcus elongatus PCC 6301",
+    "category": "type",
+    "ani": 99.92,
+    "assembly_coverage": 98.02,
+    "type_assembly_coverage": 99.78
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000010065.1",
+    "organism_name": "Synechococcus elongatus",
+    "category": "type",
+    "ani": 99.92,
+    "assembly_coverage": 98.02,
+    "type_assembly_coverage": 99.78
+   },
+   "comment": "na"
+  }
+ }
+}

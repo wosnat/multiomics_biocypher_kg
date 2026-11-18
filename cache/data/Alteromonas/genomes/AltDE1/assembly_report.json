@@ -1,0 +1,147 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000310085.1",
+  "current_accession": "GCF_000310085.1",
+  "paired_accession": "GCA_000310085.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 1004786,
+   "organism_name": "Alteromonas mediterranea DE1",
+   "infraspecific_names": {
+    "strain": "AltDE1"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000310085.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by University Miguel Hernandez"
+   },
+   "assembly_name": "ASM31008v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA65403",
+       "title": "Alteromonas mediterranea DE1 strain:Adriatic Sea Isolate 1 Genome sequencing"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA65403",
+   "release_date": "2012-11-06",
+   "submitter": "University Miguel Hernandez",
+   "biosample": {
+    "accession": "SAMN02604119",
+    "last_updated": "2015-05-18T13:20:06.277",
+    "publication_date": "2014-01-30T14:54:22.920",
+    "submission_date": "2014-01-30T14:54:22.920",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "CP003917"
+     }
+    ],
+    "description": {
+     "title": "Sample from Alteromonas mediterranea DE1",
+     "organism": {
+      "tax_id": 1004786,
+      "organism_name": "Alteromonas mediterranea DE1"
+     }
+    },
+    "owner": {
+     "name": "NCBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA65403"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "AltDE1"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-01-30T14:54:22.920"
+    },
+    "strain": "AltDE1"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 2,
+   "total_sequence_length": "4947126",
+   "total_ungapped_length": "4947126",
+   "number_of_contigs": 2,
+   "contig_n50": 4643844,
+   "contig_l50": 1,
+   "number_of_scaffolds": 2,
+   "scaffold_n50": 4643844,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 2,
+   "atgc_count": "4947126",
+   "gc_count": "2210515",
+   "gc_percent": 44.5
+  },
+  "annotation_info": {
+   "name": "GCF_000310085.1-RS_2026_03_03",
+   "provider": "NCBI RefSeq",
+   "release_date": "2026-03-03",
+   "stats": {
+    "gene_counts": {
+     "total": 4399,
+     "protein_coding": 4238,
+     "non_coding": 87,
+     "pseudogene": 74
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.10"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Alteromonas",
+   "checkm_species_tax_id": 314275,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.4",
+   "completeness": 99.1,
+   "contamination": 0.08,
+   "completeness_percentile": 88.3721
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "species_match",
+   "submitted_organism": "Alteromonas mediterranea DE1",
+   "submitted_species": "Alteromonas mediterranea",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "GCA_000020585.3",
+    "organism_name": "Alteromonas mediterranea DE",
+    "category": "type",
+    "ani": 98.53,
+    "assembly_coverage": 78.2,
+    "type_assembly_coverage": 86.33
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000020585.3",
+    "organism_name": "Alteromonas mediterranea",
+    "category": "type",
+    "ani": 98.53,
+    "assembly_coverage": 78.2,
+    "type_assembly_coverage": 86.33
+   },
+   "comment": "na"
+  }
+ }
+}

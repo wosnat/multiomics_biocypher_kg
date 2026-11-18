@@ -1,0 +1,147 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000015665.1",
+  "current_accession": "GCF_000015665.1",
+  "paired_accession": "GCA_000015665.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 167542,
+   "organism_name": "Prochlorococcus marinus str. MIT 9515",
+   "infraspecific_names": {
+    "strain": "MIT 9515"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000015665.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by The Gordon and Betty Moore Foundation Marine Microbiology Initiative"
+   },
+   "assembly_name": "ASM1566v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA13617",
+       "title": "This strain was collected from the surface waters of the Equatorial Pacific."
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA13617",
+   "release_date": "2007-01-19",
+   "submitter": "The Gordon and Betty Moore Foundation Marine Microbiology Initiative",
+   "refseq_category": "reference genome",
+   "biosample": {
+    "accession": "SAMN02603924",
+    "last_updated": "2015-05-18T13:19:57.260",
+    "publication_date": "2014-01-30T14:54:07.590",
+    "submission_date": "2014-01-30T14:54:07.590",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "CP000552"
+     }
+    ],
+    "description": {
+     "title": "Sample from Prochlorococcus marinus str. MIT 9515",
+     "organism": {
+      "tax_id": 167542,
+      "organism_name": "Prochlorococcus marinus str. MIT 9515"
+     }
+    },
+    "owner": {
+     "name": "NCBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA13617"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "MIT 9515"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-01-30T14:54:07.590"
+    },
+    "strain": "MIT 9515"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "1704176",
+   "total_ungapped_length": "1704176",
+   "number_of_contigs": 1,
+   "contig_n50": 1704176,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 1704176,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "1704176",
+   "gc_count": "524787",
+   "gc_percent": 31
+  },
+  "annotation_info": {
+   "name": "GCF_000015665.1-RS_2026_03_30",
+   "provider": "NCBI RefSeq",
+   "release_date": "2026-03-30",
+   "stats": {
+    "gene_counts": {
+     "total": 1924,
+     "protein_coding": 1878,
+     "non_coding": 43,
+     "pseudogene": 3
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.10"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Prochlorococcus marinus",
+   "checkm_species_tax_id": 1219,
+   "checkm_marker_set_rank": "species",
+   "checkm_version": "v1.2.4",
+   "completeness": 99.45,
+   "completeness_percentile": 36.1702
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "derived_species_match",
+   "submitted_organism": "Prochlorococcus marinus str. MIT 9515",
+   "submitted_species": "Prochlorococcus marinus",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus subsp. pastoris str. CCMP1986",
+    "category": "type",
+    "ani": 86.51,
+    "assembly_coverage": 82.33,
+    "type_assembly_coverage": 84.63
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus",
+    "category": "type",
+    "ani": 86.51,
+    "assembly_coverage": 82.33,
+    "type_assembly_coverage": 84.63
+   },
+   "comment": "na"
+  }
+ }
+}

@@ -1,0 +1,163 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000737575.1",
+  "current_accession": "GCF_000737575.1",
+  "paired_accession": "GCA_000737575.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 585423,
+   "organism_name": "Synechococcus sp. KORDI-49",
+   "infraspecific_names": {
+    "strain": "KORDI 49"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000737575.1",
+    "status": "current",
+    "annotation_name": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)"
+   },
+   "assembly_name": "ASM73757v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA207983",
+       "title": "Synechococcus sp. KORDI-49 Genome sequencing"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA207983",
+   "release_date": "2014-08-04",
+   "submitter": "Korea Institute of Ocean Science and Technology",
+   "sequencing_tech": "Sanger dideoxy sequencing; 454",
+   "assembly_method": "Newbler v. 2.3",
+   "biosample": {
+    "accession": "SAMN02202184",
+    "last_updated": "2021-02-28T02:06:49.111",
+    "publication_date": "2014-08-07T00:00:00.000",
+    "submission_date": "2013-06-11T22:19:02.806",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "KORDI 49"
+     }
+    ],
+    "description": {
+     "title": "General Sample for  Synechococcus sp. KORDI-49",
+     "organism": {
+      "tax_id": 585423,
+      "organism_name": "Synechococcus sp. KORDI-49"
+     }
+    },
+    "owner": {
+     "name": "Dong Han Choi",
+     "contacts": [
+      {}
+     ]
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA207983"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "collection_date",
+      "value": "2004-03"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "Pacific Ocean: East China Sea"
+     },
+     {
+      "name": "isolation_source",
+      "value": "seawater"
+     },
+     {
+      "name": "strain",
+      "value": "KORDI 49"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-08-07T06:52:45.407"
+    },
+    "collection_date": "2004-03",
+    "geo_loc_name": "Pacific Ocean: East China Sea",
+    "isolation_source": "seawater",
+    "strain": "KORDI 49"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "2585813",
+   "total_ungapped_length": "2585813",
+   "number_of_contigs": 1,
+   "contig_n50": 2585813,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 2585813,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "2585813",
+   "gc_count": "1586856",
+   "gc_percent": 61.5,
+   "genome_coverage": "32"
+  },
+  "annotation_info": {
+   "name": "GCF_000737575.1-RS_2024_08_22",
+   "provider": "NCBI RefSeq",
+   "release_date": "2024-08-22",
+   "stats": {
+    "gene_counts": {
+     "total": 2685,
+     "protein_coding": 2617,
+     "non_coding": 53,
+     "pseudogene": 15
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.8"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Synechococcus",
+   "checkm_species_tax_id": 585423,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.3",
+   "completeness": 99.29
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "below_threshold_mismatch",
+   "submitted_organism": "Synechococcus sp. KORDI-49",
+   "submitted_species": "Synechococcus sp. KORDI-49",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "no-type",
+    "organism_name": "na",
+    "category": "no_type"
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000195975.1",
+    "organism_name": "Parasynechococcus marenigrum",
+    "category": "type",
+    "ani": 80.94,
+    "assembly_coverage": 32.65,
+    "type_assembly_coverage": 34.68
+   },
+   "comment": "na"
+  }
+ }
+}

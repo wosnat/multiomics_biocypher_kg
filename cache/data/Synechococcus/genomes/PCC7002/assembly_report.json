@@ -1,0 +1,145 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000019485.1",
+  "current_accession": "GCF_000019485.1",
+  "paired_accession": "GCA_000019485.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 32049,
+   "organism_name": "Picosynechococcus sp. PCC 7002",
+   "infraspecific_names": {
+    "strain": "PCC 7002"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000019485.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by Penn State University"
+   },
+   "assembly_name": "ASM1948v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA28247",
+       "title": "Marine cyanobacterium"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA28247",
+   "release_date": "2008-03-14",
+   "submitter": "Penn State University",
+   "biosample": {
+    "accession": "SAMN01081740",
+    "last_updated": "2023-10-06T21:06:40.043",
+    "publication_date": "2013-12-13T00:00:00.000",
+    "submission_date": "2012-06-27T15:36:10.396",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "Synechococcus sp. PCC 7002"
+     },
+     {
+      "db": "SRA",
+      "value": "SRS414638"
+     }
+    ],
+    "description": {
+     "title": "General Sample for Synechococcus sp. PCC7002",
+     "organism": {
+      "tax_id": 32049,
+      "organism_name": "Picosynechococcus sp. PCC 7002"
+     }
+    },
+    "owner": {
+     "name": "The Pennsylvania State University",
+     "contacts": [
+      {}
+     ]
+    },
+    "models": [
+     "Generic"
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "PCC 7002"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2013-12-13T06:49:34.830"
+    },
+    "strain": "PCC 7002"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/\nThis bacterium is available from the Pasteur Culture Collection of Cyanobacteria: Synechococcus sp. PCC 7002. (http://www.pasteur.fr/recherche/banques/PCC/Strains.htm) and the American Type Culture Collection (#27264)."
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 7,
+   "total_sequence_length": "3409935",
+   "total_ungapped_length": "3409935",
+   "number_of_contigs": 7,
+   "contig_n50": 3008047,
+   "contig_l50": 1,
+   "number_of_scaffolds": 7,
+   "scaffold_n50": 3008047,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 7,
+   "atgc_count": "3409935",
+   "gc_count": "1677246",
+   "gc_percent": 49
+  },
+  "annotation_info": {
+   "name": "GCF_000019485.1-RS_2024_11_05",
+   "provider": "NCBI RefSeq",
+   "release_date": "2024-11-05",
+   "stats": {
+    "gene_counts": {
+     "total": 3281,
+     "protein_coding": 3207,
+     "non_coding": 55,
+     "pseudogene": 19
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.8"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Chroococcales",
+   "checkm_species_tax_id": 32049,
+   "checkm_marker_set_rank": "order",
+   "checkm_version": "v1.2.3",
+   "completeness": 100,
+   "completeness_percentile": 14.2857
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "low_coverage",
+   "submitted_organism": "Picosynechococcus sp. PCC 7002",
+   "submitted_species": "Picosynechococcus sp. PCC 7002",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "no-type",
+    "organism_name": "na",
+    "category": "no_type"
+   },
+   "best_ani_match": {
+    "assembly": "GCA_023983615.1",
+    "organism_name": "[Phormidium] yuhuli",
+    "category": "type",
+    "ani": 89.73,
+    "assembly_coverage": 0.15,
+    "type_assembly_coverage": 0.11
+   },
+   "comment": "na"
+  }
+ }
+}

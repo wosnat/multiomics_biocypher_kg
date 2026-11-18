@@ -1,0 +1,143 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000020585.3",
+  "current_accession": "GCF_000020585.3",
+  "paired_accession": "GCA_000020585.3",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 1774373,
+   "organism_name": "Alteromonas mediterranea DE",
+   "infraspecific_names": {
+    "strain": "DE"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000020585.3",
+    "status": "current",
+    "annotation_name": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)"
+   },
+   "assembly_name": "ASM2058v3",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA13374",
+       "title": "Obligate marine bacterium isolated at a depth of 3500 meters from the Urania Basin"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA13374",
+   "release_date": "2013-09-13",
+   "submitter": "The Gordon and Betty Moore Foundation Marine Microbiology Initiative",
+   "biosample": {
+    "accession": "SAMN02603915",
+    "last_updated": "2015-05-18T13:19:56.800",
+    "publication_date": "2014-01-30T14:54:06.957",
+    "submission_date": "2014-01-30T14:54:06.956",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "CP001103"
+     }
+    ],
+    "description": {
+     "title": "Sample from Alteromonas mediterranea",
+     "organism": {
+      "tax_id": 314275,
+      "organism_name": "Alteromonas mediterranea"
+     }
+    },
+    "owner": {
+     "name": "NCBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA13374"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "Deep ecotype"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-01-30T14:54:06.957"
+    },
+    "strain": "Deep ecotype"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "4480937",
+   "total_ungapped_length": "4480937",
+   "number_of_contigs": 1,
+   "contig_n50": 4480937,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 4480937,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "4480675",
+   "gc_count": "2010539",
+   "gc_percent": 45
+  },
+  "annotation_info": {
+   "name": "GCF_000020585.3-RS_2026_03_03",
+   "provider": "NCBI RefSeq",
+   "release_date": "2026-03-03",
+   "stats": {
+    "gene_counts": {
+     "total": 3994,
+     "protein_coding": 3817,
+     "non_coding": 80,
+     "pseudogene": 97
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.10"
+  },
+  "type_material": {
+   "type_label": "TYPE_MATERIAL",
+   "type_display_text": "assembly from type material"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Alteromonas",
+   "checkm_species_tax_id": 314275,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.4",
+   "completeness": 96.52,
+   "contamination": 0.76,
+   "completeness_percentile": 48.8372
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "below_threshold_mismatch",
+   "submitted_organism": "Alteromonas mediterranea DE",
+   "submitted_species": "Alteromonas mediterranea",
+   "category": "type",
+   "best_ani_match": {
+    "assembly": "GCA_000730385.1",
+    "organism_name": "Alteromonas australica",
+    "category": "type",
+    "ani": 84.78,
+    "assembly_coverage": 14.78,
+    "type_assembly_coverage": 15.37
+   },
+   "comment": "Assembly is the type_strain, no match is expected"
+  }
+ }
+}

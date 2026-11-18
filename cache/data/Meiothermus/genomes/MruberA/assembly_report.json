@@ -1,0 +1,215 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000836395.1",
+  "current_accession": "GCF_000836395.1",
+  "paired_accession": "GCA_000836395.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 172827,
+   "organism_name": "Meiothermus taiwanensis",
+   "infraspecific_names": {
+    "strain": "A"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Contig",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000836395.1",
+    "status": "current",
+    "annotation_name": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)"
+   },
+   "assembly_name": "ASM83639v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA236114",
+       "title": "Genome sequencing of hot spring microbial mat isolates from Yellowstone National Park, WY, USA"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA236114",
+   "release_date": "2015-02-12",
+   "submitter": "The Pennsylvania State University",
+   "sequencing_tech": "Illumina MiSeq",
+   "assembly_method": "Newbler v. 2.9",
+   "biosample": {
+    "accession": "SAMN03287223",
+    "last_updated": "2018-10-29T14:16:16.585",
+    "publication_date": "2015-02-15T00:00:00.000",
+    "submission_date": "2015-01-16T16:35:49.313",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "MeioA_MiSeq_largeContigs"
+     }
+    ],
+    "description": {
+     "title": "MIGS Cultured Bacterial/Archaeal sample from Meiothermus taiwanensis",
+     "organism": {
+      "tax_id": 172827,
+      "organism_name": "Meiothermus taiwanensis"
+     },
+     "comment": "Keywords: GSC:MIxS;MIGS:6.0"
+    },
+    "owner": {
+     "name": "The Pennsylvania State University",
+     "contacts": [
+      {}
+     ]
+    },
+    "models": [
+     "MIGS.ba",
+     "MIGS/MIMS/MIMARKS.microbial"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA236114"
+     }
+    ],
+    "package": "MIGS.ba.microbial.6.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "A"
+     },
+     {
+      "name": "lat_lon",
+      "value": "44.53412 N 110.798153 W"
+     },
+     {
+      "name": "isol_growth_condt",
+      "value": "BG-11 + 0.1% YE, 52C"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "USA: Wyoming"
+     },
+     {
+      "name": "ref_biomaterial",
+      "value": "Thiel et al. 2015, in prep."
+     },
+     {
+      "name": "num_replicons",
+      "value": "1"
+     },
+     {
+      "name": "collection_date",
+      "value": "2002"
+     },
+     {
+      "name": "isolation_source",
+      "value": "hot spring microbial mat"
+     },
+     {
+      "name": "env_broad_scale",
+      "value": "aquatic"
+     },
+     {
+      "name": "env_local_scale",
+      "value": "geothermal field"
+     },
+     {
+      "name": "env_medium",
+      "value": "microbial mat"
+     },
+     {
+      "name": "depth",
+      "value": "2 mm"
+     },
+     {
+      "name": "elev",
+      "value": "2241 m"
+     },
+     {
+      "name": "note",
+      "value": "Originally submitted as Meiothermus ruber but changed in October 2018 because of ANI results to Meiothermus taiwanensis"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2015-02-15T06:55:40.367"
+    },
+    "collection_date": "2002",
+    "geo_loc_name": "USA: Wyoming",
+    "isolation_source": "hot spring microbial mat",
+    "lat_lon": "44.53412 N 110.798153 W",
+    "strain": "A"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_sequence_length": "2968099",
+   "total_ungapped_length": "2968099",
+   "number_of_contigs": 170,
+   "contig_n50": 26744,
+   "contig_l50": 32,
+   "number_of_scaffolds": 170,
+   "scaffold_n50": 26744,
+   "scaffold_l50": 32,
+   "number_of_component_sequences": 170,
+   "atgc_count": "2968099",
+   "gc_count": "1885402",
+   "gc_percent": 63.5,
+   "genome_coverage": "400"
+  },
+  "annotation_info": {
+   "name": "GCF_000836395.1-RS_2025_12_12",
+   "provider": "NCBI RefSeq",
+   "release_date": "2025-12-12",
+   "stats": {
+    "gene_counts": {
+     "total": 3002,
+     "protein_coding": 2884,
+     "non_coding": 49,
+     "pseudogene": 69
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.10"
+  },
+  "wgs_info": {
+   "wgs_project_accession": "JXOP01",
+   "master_wgs_url": "https://www.ncbi.nlm.nih.gov/nuccore/JXOP00000000.1",
+   "wgs_contigs_url": "https://www.ncbi.nlm.nih.gov/Traces/wgs/JXOP01"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Meiothermus",
+   "checkm_species_tax_id": 172827,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.4",
+   "completeness": 98.9,
+   "contamination": 1.13,
+   "completeness_percentile": 42.8571
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "species_match",
+   "submitted_organism": "Meiothermus taiwanensis",
+   "submitted_species": "Meiothermus taiwanensis",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "GCA_003574045.1",
+    "organism_name": "Meiothermus taiwanensis",
+    "category": "synonym",
+    "ani": 98.73,
+    "assembly_coverage": 94.19,
+    "type_assembly_coverage": 95.7
+   },
+   "best_ani_match": {
+    "assembly": "GCA_003574045.1",
+    "organism_name": "Meiothermus taiwanensis",
+    "category": "synonym",
+    "ani": 98.73,
+    "assembly_coverage": 94.19,
+    "type_assembly_coverage": 95.7
+   },
+   "comment": "na"
+  }
+ }
+}

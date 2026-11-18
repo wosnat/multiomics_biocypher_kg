@@ -1,0 +1,142 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000015185.1",
+  "current_accession": "GCF_000015185.1",
+  "paired_accession": "GCA_000015185.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 351745,
+   "organism_name": "Shewanella sp. W3-18-1",
+   "infraspecific_names": {
+    "strain": "W3-18-1"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000015185.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by DOE Joint Genome Institute"
+   },
+   "assembly_name": "ASM1518v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA13902",
+       "title": "Marine bacterium isolated from the Pacific Ocean"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA13902",
+   "release_date": "2007-01-03",
+   "submitter": "DOE Joint Genome Institute",
+   "biosample": {
+    "accession": "SAMN02598315",
+    "last_updated": "2015-05-18T13:17:32.853",
+    "publication_date": "2014-01-28T10:41:02.633",
+    "submission_date": "2014-01-28T10:41:02.633",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "CP000503"
+     }
+    ],
+    "description": {
+     "title": "Sample from Shewanella sp. W3-18-1",
+     "organism": {
+      "tax_id": 351745,
+      "organism_name": "Shewanella sp. W3-18-1"
+     }
+    },
+    "owner": {
+     "name": "NCBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA13902"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "W3-18-1"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-01-28T10:41:02.633"
+    },
+    "strain": "W3-18-1"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/\nURL -- http://www.jgi.doe.gov\nJGI Project ID: 4000559\nSource DNA and bacteria available from James Tiedje (tiedjej@pilot.msu.edu)\nContacts: James Tiedje (tiedjej@pilot.msu.edu)\nPaul Richardson (microbes@cuba.jgi-psf.org)\nQuality assurance done by JGI-Stanford\nAnnotation done by JGI-ORNL and JGI-PGF\nFinishing done by JGI-LLNL\nFinished microbial genomes have been curated to close all gaps with greater than 98% coverage of at least two independent clones. Each base pair has a minimum q (quality) value of 30 and the total error rate is less than one per 50000.\nThe JGI and collaborators endorse the principles for the distribution and use of large scale sequencing data adopted by the larger genome sequencing community and urge users of this data to follow them. it is our intention to publish the work of this project in a timely fashion and we welcome collaborative interaction on the project and analysis.\n(http://www.genome.gov/page.cfm?pageID=10506376)"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "4708380",
+   "total_ungapped_length": "4708380",
+   "number_of_contigs": 1,
+   "contig_n50": 4708380,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 4708380,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "4708380",
+   "gc_count": "2101504",
+   "gc_percent": 44.5
+  },
+  "annotation_info": {
+   "name": "GCF_000015185.1-RS_2025_01_31",
+   "provider": "NCBI RefSeq",
+   "release_date": "2025-01-31",
+   "stats": {
+    "gene_counts": {
+     "total": 4244,
+     "protein_coding": 4058,
+     "non_coding": 130,
+     "pseudogene": 56
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.9"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Shewanella",
+   "checkm_species_tax_id": 351745,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.3",
+   "completeness": 99.94
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "genus_match",
+   "submitted_organism": "Shewanella sp. W3-18-1",
+   "submitted_species": "Shewanella sp. W3-18-1",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "no-type",
+    "organism_name": "na",
+    "category": "no_type"
+   },
+   "best_ani_match": {
+    "assembly": "GCA_016406325.1",
+    "organism_name": "Shewanella putrefaciens",
+    "category": "type",
+    "ani": 98.74,
+    "assembly_coverage": 87.64,
+    "type_assembly_coverage": 94.08
+   },
+   "comment": "na"
+  }
+ }
+}

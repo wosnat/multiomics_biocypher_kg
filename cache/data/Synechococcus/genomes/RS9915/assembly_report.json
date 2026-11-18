@@ -1,0 +1,207 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_014279575.1",
+  "current_accession": "GCF_014279575.1",
+  "paired_accession": "GCA_014279575.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 221358,
+   "organism_name": "Synechococcus sp. RS9915",
+   "infraspecific_names": {
+    "strain": "RS9915"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Chromosome",
+   "assembly_status": "suppressed",
+   "paired_assembly": {
+    "accession": "GCA_014279575.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by Station Biologique de Roscoff (CNRS - Sorbonne University)"
+   },
+   "assembly_name": "ASM1427957v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA596899",
+       "title": "31 manually curated marine Synechococcus complete genomes"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA596899",
+   "release_date": "2020-08-24",
+   "submitter": "Station Biologique de Roscoff (CNRS - Sorbonne University)",
+   "atypical": {
+    "is_atypical": true,
+    "warnings": [
+     "unverified source organism"
+    ]
+   },
+   "genome_notes": [
+    "unverified source organism"
+   ],
+   "sequencing_tech": "Illumina HiSeq",
+   "assembly_method": "CLC NGS Cell v. 5.1.1.184548-201811011136",
+   "biosample": {
+    "accession": "SAMN13641354",
+    "last_updated": "2020-08-26T18:38:17.153",
+    "publication_date": "2020-08-26T18:38:17.153",
+    "submission_date": "2019-12-20T04:28:06.423",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "Syn_RS9915_genome"
+     }
+    ],
+    "description": {
+     "title": "Microbe sample from Synechococcus sp. RS9915",
+     "organism": {
+      "tax_id": 221358,
+      "organism_name": "Synechococcus sp. RS9915"
+     }
+    },
+    "owner": {
+     "name": "Station Biologique de Roscoff (CNRS - Sorbonne University)",
+     "contacts": [
+      {}
+     ]
+    },
+    "models": [
+     "Microbe, viral or environmental"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA596899"
+     }
+    ],
+    "package": "Microbe.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "RS9915"
+     },
+     {
+      "name": "isolation_source",
+      "value": "marine environment"
+     },
+     {
+      "name": "collection_date",
+      "value": "1999-10-18"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "Indian Ocean"
+     },
+     {
+      "name": "sample_type",
+      "value": "culture"
+     },
+     {
+      "name": "biomaterial_provider",
+      "value": "RCC:2553"
+     },
+     {
+      "name": "collected_by",
+      "value": "Fuller N."
+     },
+     {
+      "name": "culture_collection",
+      "value": "RCC:2553"
+     },
+     {
+      "name": "depth",
+      "value": "10"
+     },
+     {
+      "name": "env_broad_scale",
+      "value": "ENVO:00000207"
+     },
+     {
+      "name": "genotype",
+      "value": "clade III"
+     },
+     {
+      "name": "lat_lon",
+      "value": "29.47 N 34.92 E"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2020-08-26T18:38:17.153"
+    },
+    "biomaterial_provider": "RCC:2553",
+    "collected_by": "Fuller N.",
+    "collection_date": "1999-10-18",
+    "geo_loc_name": "Indian Ocean",
+    "isolation_source": "marine environment",
+    "lat_lon": "29.47 N 34.92 E",
+    "strain": "RS9915"
+   },
+   "suppression_reason": "This record was removed by RefSeq staff. Please contact info@ncbi.nlm.nih.gov for further details. Reason: unverified source organism"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "2417983",
+   "total_ungapped_length": "2417933",
+   "number_of_contigs": 2,
+   "contig_n50": 1475887,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 2417983,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "2417933",
+   "gc_count": "1438626",
+   "gc_percent": 59.5,
+   "genome_coverage": "5174.25"
+  },
+  "annotation_info": {
+   "name": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "provider": "NCBI RefSeq",
+   "release_date": "2023-12-11",
+   "stats": {
+    "gene_counts": {
+     "total": 2674,
+     "protein_coding": 2596,
+     "non_coding": 54,
+     "pseudogene": 24
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.6"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Synechococcus",
+   "checkm_species_tax_id": 221358,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.2",
+   "completeness": 99.76
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "mismatch",
+   "submitted_organism": "Synechococcus sp. RS9915",
+   "submitted_species": "Synechococcus sp. RS9915",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "no-type",
+    "organism_name": "na",
+    "category": "no_type"
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000195975.1",
+    "organism_name": "Parasynechococcus marenigrum",
+    "category": "type",
+    "ani": 98.33,
+    "assembly_coverage": 91.85,
+    "type_assembly_coverage": 91.22
+   },
+   "comment": "best matching type assembly is from a genus where ANI analysis is not suitable or reliable for taxonomic classification"
+  }
+ }
+}

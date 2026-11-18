@@ -1,0 +1,165 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000172635.2",
+  "current_accession": "GCF_000172635.2",
+  "paired_accession": "GCA_000172635.2",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 529120,
+   "organism_name": "Alteromonas macleodii ATCC 27126",
+   "infraspecific_names": {
+    "strain": "ATCC 27126"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000172635.2",
+    "status": "current",
+    "annotation_name": "Annotation submitted by Evolucinary Genomics Group, Universidad Miguel Hernandez"
+   },
+   "assembly_name": "ASM17263v2",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA29793",
+       "title": "Seawater isolate"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA29793",
+   "release_date": "2012-09-21",
+   "submitter": "Evolucinary Genomics Group, Universidad Miguel Hernandez",
+   "biosample": {
+    "accession": "SAMN02603229",
+    "last_updated": "2019-06-20T16:49:29.866",
+    "publication_date": "2014-01-30T00:00:00.000",
+    "submission_date": "2014-01-30T11:19:42.870",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "CP003841"
+     }
+    ],
+    "description": {
+     "title": "Sample from Alteromonas macleodii ATCC 27126",
+     "organism": {
+      "tax_id": 529120,
+      "organism_name": "Alteromonas macleodii ATCC 27126"
+     }
+    },
+    "owner": {
+     "name": "NCBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA29793"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "ATCC 27126"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "Pacific Ocean: near Hawaii"
+     },
+     {
+      "name": "isolation_source",
+      "value": "seawater surface"
+     },
+     {
+      "name": "type-material",
+      "value": "type strain of Alteromonas macleodii"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-01-30T11:19:42.870"
+    },
+    "geo_loc_name": "Pacific Ocean: near Hawaii",
+    "isolation_source": "seawater surface",
+    "strain": "ATCC 27126"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "4653851",
+   "total_ungapped_length": "4653851",
+   "number_of_contigs": 1,
+   "contig_n50": 4653851,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 4653851,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "4653851",
+   "gc_count": "2080673",
+   "gc_percent": 44.5
+  },
+  "annotation_info": {
+   "name": "GCF_000172635.2-RS_2026_02_15",
+   "provider": "NCBI RefSeq",
+   "release_date": "2026-02-15",
+   "stats": {
+    "gene_counts": {
+     "total": 3963,
+     "protein_coding": 3834,
+     "non_coding": 72,
+     "pseudogene": 57
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.10"
+  },
+  "type_material": {
+   "type_label": "TYPE_MATERIAL",
+   "type_display_text": "assembly from type material"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Alteromonas macleodii",
+   "checkm_species_tax_id": 28108,
+   "checkm_marker_set_rank": "species",
+   "checkm_version": "v1.2.4",
+   "completeness": 97.75,
+   "contamination": 1.78,
+   "completeness_percentile": 44.697
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "species_match",
+   "submitted_organism": "Alteromonas macleodii ATCC 27126",
+   "submitted_species": "Alteromonas macleodii",
+   "category": "type",
+   "submitted_ani_match": {
+    "assembly": "GCA_050500325.1",
+    "organism_name": "Alteromonas macleodii ATCC 27126",
+    "category": "type",
+    "ani": 99.97,
+    "assembly_coverage": 98.53,
+    "type_assembly_coverage": 99.01
+   },
+   "best_ani_match": {
+    "assembly": "GCA_050500325.1",
+    "organism_name": "Alteromonas macleodii",
+    "category": "type",
+    "ani": 99.97,
+    "assembly_coverage": 98.53,
+    "type_assembly_coverage": 99.01
+   },
+   "comment": "na"
+  }
+ }
+}
