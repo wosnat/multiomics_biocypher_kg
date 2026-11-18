@@ -52,6 +52,15 @@ tag with nothing logged.
 
 ## [Unreleased]
 
+### Breaking
+
+- `ClusteringAnalysis.total_gene_count` now counts the distinct genes loaded into the analysis's
+  clusters (post-import, from `Gene_in_gene_cluster` edges), not the clustered rows of the source
+  CSV. Rows that resolve to no Gene node no longer count, so it is lower on 12 of 26 analyses —
+  Zinser 2009 diel clusters 1,756 → 1,697 (59 RNA probes and an intergenic region), Steglich
+  2010 decay clusters 1,102 → 1,010, Alonso 2023 1,831 → 1,757 — and now agrees with the
+  clusters' `member_count`.
+
 ### Data
 
 - Reference refresh (2026-11-11, `prepare_data.sh --rebuild --refetch-raw` + MNX resolver rebuilt;
@@ -92,6 +101,17 @@ tag with nothing logged.
 
 ### Fixed
 
+- PDF text extraction decodes the symbol-font glyphs that pypdf emits as `/H<code>` tokens in
+  ASM and PNAS PDFs (`/H11021` = <, `/H9262` = μ, `/H11002` = −, …; 9 papers carry them).
+  Two Publication nodes had them in their text: Steglich 2006's title ended
+  "Prochlorococcus/H17188" and Domínguez 2017's abstract read "P value of /H110210.05". Both
+  cache entries were re-extracted.
+- CLAUDE.md gave the four clustering-analysis relationship types in underscore form
+  (`Experiment_has_clustering_analysis`, …), which return no rows; the live types are
+  `ExperimentHasClusteringAnalysis`, `ClusteringAnalysisHasGeneCluster`,
+  `PublicationHasClusteringAnalysis` and `ClusteringanalysisBelongsToOrganism`. The label lists
+  now match the live graph and explain how BioCypher derives the casing; `Gene_in_gene_cluster`
+  is documented as pointing GeneCluster → Gene.
 - Step 6 `--force` no longer moves the committed metabolism data to another upstream release
   unasked. Without `--refetch-raw` it now checks its gitignored raw inputs (KEGG REST, KEGG
   compound BRITE, TCDB tables and Pfam/GO maps, ChEBI obo) before writing anything, and fails

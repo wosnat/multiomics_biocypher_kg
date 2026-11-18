@@ -52,6 +52,41 @@ def pdf_pages_to_base64(pdf_path: Path,
         return []
 
 
+# Symbol-font glyphs that pypdf emits as literal "/H<code>" tokens. ASM (J Bacteriol,
+# AEM) and PNAS PDFs typeset math symbols in a font with no Unicode map, so
+# "P value of <0.05" extracts as "P value of /H110210.05". Codes and meanings read off
+# the corpus against the printed pages (2026-11-18). /H20841 is PNAS's header
+# separator, printed as a vertical bar; it becomes a space because "|" is the KG's
+# array delimiter.
+PDF_GLYPH_CODES = {
+    "9004": "Δ", "9252": "β", "9262": "μ", "9268": "σ",
+    "11001": "+", "11002": "−", "11003": "×", "11005": "=", "11006": "±",
+    "11015": "~", "11021": "<", "11022": ">", "11032": "′", "11349": "≤",
+    "11350": "≥", "11541": "′", "17188": "", "18528": "·",
+    "20841": " ", "20849": "(", "20850": ")", "20851": "]", "20862": "/",
+}
+_GLYPH_TOKEN = re.compile(r"/H(\d{4,6})")
+
+
+def decode_pdf_glyphs(text: str) -> str:
+    """Replace "/H<code>" symbol-font tokens with the characters they print.
+
+    The code is 4 or 5 digits and may run straight into a following number
+    ("/H110022" = "−2"), so the longest known prefix wins. An unknown code is
+    dropped rather than left as noise.
+    """
+    def _sub(m: re.Match) -> str:
+        digits = m.group(1)
+        for n in (5, 4):
+            if digits[:n] in PDF_GLYPH_CODES:
+                return PDF_GLYPH_CODES[digits[:n]] + digits[n:]
+        n = 4 if digits.startswith("9") else 5
+        logger.debug("Unknown PDF glyph code /H%s dropped", digits[:n])
+        return digits[n:]
+
+    return _GLYPH_TOKEN.sub(_sub, text)
+
+
 def extract_pdf_text(pdf_path: Path, max_pages: int = 30) -> str:
     """Extract text from PDF, stopping at References section."""
     if PdfReader is None:
@@ -61,7 +96,7 @@ def extract_pdf_text(pdf_path: Path, max_pages: int = 30) -> str:
         with open(pdf_path, "rb") as f:
             reader = PdfReader(f)
             for i in range(min(len(reader.pages), max_pages)):
-                page_text = reader.pages[i].extract_text() or ""
+                page_text = decode_pdf_glyphs(reader.pages[i].extract_text() or "")
                 for pat in [r'\nReferences\s*\n', r'\nREFERENCES\s*\n',
                             r'\nBibliography\s*\n']:
                     m = re.search(pat, page_text)

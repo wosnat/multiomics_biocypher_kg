@@ -122,7 +122,7 @@ clustering analysis:
     organism_name: str
     cluster_method: str
     cluster_count: int
-    total_gene_count: int
+    total_gene_count: int            # post-import: distinct genes over Gene_in_gene_cluster edges
     omics_type: str
     treatment_type: str[]
     background_factors: str[]

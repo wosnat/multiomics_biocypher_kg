@@ -162,7 +162,7 @@
   },
   "data/Prochlorococcus/papers_and_supp/Dom\u00ednguez 2017/dom\u00ednguez-mart\u00edn-et-al-2017-quantitative-proteomics-shows-extensive-remodeling-induced-by-nitrogen-limitation-in.pdf": {
     "publication": {
-      "abstract": "Prochlorococcus requires the capability to accommodate to environmental changes in order to proliferate in oligotrophic oceans, in particular regarding nitrogen availability. A precise knowledge of the composition and changes in the proteome can yield fundamental insights into such a response. Here we report a detailed proteome analysis of the important model cyanobacteriumProchlorococcus marinus SS120 after treatment with azaserine, an inhibitor of ferredoxin-dependent glutamate synthase (GOGAT), to simulate extreme nitrogen starvation. In total, 1,072 proteins, corresponding to 57% of the theoretical proteome, were identified\u2014the maximum proteome coverage obtained for anyProchlorococcus strain thus far. Spectral intensity, calibrated quantification by the Hi3 method, was obtained for 1,007 proteins. Statistically significant changes (P value of /H110210.05) were observed for 408 proteins, with the majority of proteins (92.4%) downregulated after azaserine treatment. There was a strong decrease in ribosomal proteins upon azaserine addition, while many transporters were increased. The regulatory proteins PII and PipX were decreased, and the global nitrogen regulator NtcA was upregulated. Furthermore, our data for Prochlorococcus indicate that NtcA also participates in the regulation of photosynthesis. Prochlorococcus responds to the lack of nitrogen by slowing down translation, while inducing photosynthetic cyclic electron flow and biosynthesis of proteins involved in nitrogen uptake and assimilation. IMPORTANCE Prochlorococcus is the most abundant photosynthetic organism on Earth, contributing significantly to global primary production and playing a prominent role in biogeochemical cycles. Here we study the effects of extreme nitrogen limitation, a feature of the oligotrophic oceans inhabited by this organism. Quantitative proteomics allowed an accurate quantification of theProchlorococcusproteome, finding three main responses to nitrogen limitation: upregulation of nitrogen assimilation-related proteins, including transporters; downregulation of ribosome proteins; and induction of the photosystem II cyclic electron flow. This suggests that nitrogen limitation affects a range of metabolic processes far wider than initially believed, with the ultimate goal of saving nitrogen and maximizing the nitrogen uptake and assimilation capabilities of the cell. KEYWORDS marine cyanobacteria, nitrogen limitation, nitrogen metabolism, prochlorococcus, quantitative proteomics",
+      "abstract": "Prochlorococcus requires the capability to accommodate to environmental changes in order to proliferate in oligotrophic oceans, in particular regarding nitrogen availability. A precise knowledge of the composition and changes in the proteome can yield fundamental insights into such a response. Here we report a detailed proteome analysis of the important model cyanobacterium Prochlorococcus marinus SS120 after treatment with azaserine, an inhibitor of ferredoxin-dependent glutamate synthase (GOGAT), to simulate extreme nitrogen starvation. In total, 1,072 proteins, corresponding to 57% of the theoretical proteome, were identified\u2014the maximum proteome coverage obtained for any Prochlorococcus strain thus far. Spectral intensity, calibrated quantification by the Hi3 method, was obtained for 1,007 proteins. Statistically significant changes (P value of <0.05) were observed for 408 proteins, with the majority of proteins (92.4%) downregulated after 8 h of treatment. There was a strong decrease in ribosomal proteins upon azaserine addition, while many transporters were increased. The regulatory proteins PII and PipX were decreased, and the global nitrogen regulator NtcA was upregulated. Furthermore, our data for Prochlorococcus indicate that NtcA also participates in the regulation of photosynthesis. Prochlorococcus responds to the lack of nitrogen by slowing down translation, while inducing photosynthetic cyclic electron flow and biosynthesis of proteins involved in nitrogen uptake and assimilation. IMPORTANCE Prochlorococcus is the most abundant photosynthetic organism on Earth, contributing significantly to global primary production and playing a prominent role in biogeochemical cycles. Here we study the effects of extreme nitrogen limitation, a feature of the oligotrophic oceans inhabited by this organism. Quantitative proteomics allowed an accurate quantification of the Prochlorococcus proteome, finding three main responses to nitrogen limitation: upregulation of nitrogen assimilation-related proteins, including transporters; downregulation of ribosome proteins; and induction of the photosystem II cyclic electron flow. This suggests that nitrogen limitation affects a range of metabolic processes far wider than initially believed, with the ultimate goal of saving nitrogen and maximizing the nitrogen uptake and assimilation capabilities of the cell. KEYWORDS marine cyanobacteria, nitrogen limitation, nitrogen metabolism, prochlorococcus, quantitative proteomics",
       "authors": [
         "Maria Agustina Dom\u00ednguez-Mart\u00edn",
         "Guadalupe G\u00f3mez-Baena",
@@ -171,7 +171,7 @@
         "Robert J. Beynon",
         "Jos\u00e9 Manuel Garc\u00eda-Fern\u00e1ndez"
       ],
-      "description": "Quantitative label-free proteomics analysis of Prochlorococcus marinus SS120 after treatment with azaserine to inhibit GOGAT, simulating extreme nitrogen starvation; identification of 1,072 proteins (57% of the theoretical proteome) with Hi3-based quantification for 1,007 proteins; differential abundance analysis showing 408 proteins affected, widespread downregulation of ribosomal proteins, upregulation of nitrogen uptake/assimilation related proteins and transporters, and involvement of nitrogen regulators NtcA, PII, and PipX; supported by qRT-PCR, enzyme activity assays, and Western blotting; provides insights into nitrogen limitation responses in Prochlorococcus.",
+      "description": "Quantitative label-free proteomics analysis of Prochlorococcus marinus SS120 under azaserine-induced nitrogen limitation to assess extensive remodeling of the proteome, including changes in ribosomal proteins, nitrogen transporters, and regulators such as NtcA.",
       "doi": "10.1128/mSystems.00008-17",
       "journal": "mSystems",
       "organism": [
@@ -180,7 +180,7 @@
       "pmid": null,
       "publication_id": "10.1128/mSystems.00008-17",
       "publication_year": "2017",
-      "study_type": "Proteomics",
+      "study_type": "Quantitative proteomics",
       "title": "Quantitative Proteomics Shows Extensive Remodeling Induced by Nitrogen Limitation in Prochlorococcus marinus SS120"
     }
   },
@@ -1104,7 +1104,7 @@
   },
   "data/Prochlorococcus/papers_and_supp/steglich 2006/steglich-et-al-2006-genome-wide-analysis-of-light-sensing-in-prochlorococcus.pdf": {
     "publication": {
-      "abstract": "Prochlorococcus MED4 has a small genome with limited regulatory systems. The study measured global gene expression under short-term exposure to white, blue, red, and green light and light quantities using microarrays. Blue light triggered the strongest transcriptional response; high-white light response resembled blue light, suggesting blue-light\u2013mediated sensing. Bacterial cryptochromes are proposed as candidate blue-light sensors, and there is evidence for a signaling pathway related to the redox state of the photosynthetic electron transport chain, inferred from genes responding to red and blue light and to the inhibitor DCMU. The work highlights how Prochlorococcus acclimates to varying light environments through transcriptional regulation.",
+      "abstract": "Prochlorococcus MED4 has a compact genome of 1,716 annotated protein-coding genes. To explore potential light sensing, the authors measured global gene expression changes in response to light quality and quantity using high-density Affymetrix microarrays. Seven light conditions were tested (white, blue, red, green, high- and low-intensity white light, and darkness). Blue light elicited a strong transcriptional response; hierarchical clustering indicated that high white light and blue-light responses resembled each other and differed from low white light, implying a blue-light\u2013mediated sensing mechanism. Cryptochromes are considered candidate blue-light receptors. The data also hint at a signaling pathway linked to the redox state of the photosynthetic electron transport chain, supported by genes responding similarly to red and blue light and by responses to the photosystem II inhibitor DCMU.",
       "authors": [
         "Claudia Steglich",
         "Matthias Futschik",
@@ -1112,7 +1112,7 @@
         "Robert Steen",
         "Sallie W. Chisholm"
       ],
-      "description": "Genome-wide analysis of light sensing in Prochlorococcus MED4 using high-density Affymetrix microarrays to measure global gene expression in response to different light qualities and quantities; seven conditions tested, with blue light eliciting a strong response; investigation of blue-light sensors and redox signaling related to photosystem II.",
+      "description": "Genome-wide expression analysis of Prochlorococcus MED4 to investigate light sensing. Cells were exposed to multiple light qualities (white, blue, red, green) and intensities; global gene expression was measured with high-density Affymetrix microarrays under seven conditions; blue light elicited the strongest response; data suggest blue-light receptors and a redox-signaling pathway responsive to photosystem II inhibition.",
       "doi": "10.1128/JB.01097-06",
       "journal": "Journal of Bacteriology",
       "organism": [
@@ -1120,9 +1120,9 @@
       ],
       "pmid": null,
       "publication_id": "10.1128/JB.01097-06",
-      "publication_year": 2006,
-      "study_type": "Microarray (transcriptomics)",
-      "title": "Genome-Wide Analysis of Light Sensing in Prochlorococcus/H17188"
+      "publication_year": "2006",
+      "study_type": "Microarray",
+      "title": "Genome-Wide Analysis of Light Sensing in Prochlorococcus"
     }
   },
   "data/Prochlorococcus/papers_and_supp/tetu 2019/s42003-019-0410-x.pdf": {

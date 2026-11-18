@@ -33,6 +33,8 @@ from langchain_core.output_parsers import JsonOutputParser
 
 from biocypher._logger import logger
 
+from multiomics_kg.extraction.pdf_utils import decode_pdf_glyphs
+
 logger.debug(f"Loading module {__name__}.")
 
 
@@ -176,7 +178,7 @@ Return ONLY the JSON object.""")
                 for page_num in range(num_pages):
                     page = reader.pages[page_num]
                     # pypdf uses `extract_text()`; older PyPDF2 variants may differ
-                    page_text = getattr(page, 'extract_text', lambda: '')()
+                    page_text = decode_pdf_glyphs(getattr(page, 'extract_text', lambda: '')() or '')
                     
                     # Check if this page contains the References section
                     # Common patterns: "References", "REFERENCES", "References Cited", "Bibliography"
