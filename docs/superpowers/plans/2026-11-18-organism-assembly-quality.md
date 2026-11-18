@@ -69,7 +69,7 @@
 - Modify: `config/schema_config.yaml` (`organism taxon.properties`, after `taxonomy_note`)
 - Modify: `config/gene_annotations_config.yaml` (`ncbi` logical source: `info_types_extra: [assembly_quality]`)
 - Test: `tests/test_assembly_report.py` (create), `tests/test_controlled_vocab.py`, `tests/test_data_source_adapter.py`
-- Fixtures: `tests/fixtures/assembly_reports/{MED4,MIT9312,WH7803,CB0101}.json` — copied from the Task 1 files, trimmed to `fetched_at` + `report.accession`, `report.current_accession`, `assembly_info.{assembly_level,assembly_status,assembly_name,release_date,suppression_reason}`, `assembly_stats.{total_sequence_length,number_of_contigs,contig_n50,gc_percent}`, `checkm_info`.
+- Fixtures: `tests/fixtures/assembly_reports/{MED4,MIT9301,WH7803,CB0101}.json` — copied from the Task 1 files, trimmed to `fetched_at` + `report.accession`, `report.current_accession`, `assembly_info.{assembly_level,assembly_status,assembly_name,release_date,suppression_reason}`, `assembly_stats.{total_sequence_length,number_of_contigs,contig_n50,gc_percent}`, `checkm_info`.
 
 **Interfaces:**
 - Produces: `assembly_properties(wrapped: dict, accession: str) -> dict[str, str | int | float]` and `load_assembly_report(data_dir: str) -> dict | None` (returns `None` when the file is missing).
@@ -93,7 +93,7 @@ Field map (spec table; this is the contract):
 
 - [ ] **Step 1: Write failing tests** in `tests/test_assembly_report.py`:
   - `test_med4`: `assembly_level == "complete_genome"`, `assembly_status == "current"`, `checkm_completeness == 99.45`, `checkm_contamination == 0.0`, `checkm_marker_set_rank == "species"`, `"assembly_current_accession" not in props`, `"assembly_suppression_reason" not in props`, `assembly_report_date == "2026-11-18"`.
-  - `test_mit9312_int_completeness`: `checkm_completeness == 100.0 and isinstance(..., float)`.
+  - `test_mit9301_int_completeness`: `checkm_completeness == 100.0 and isinstance(..., float)`.
   - `test_wh7803_suppressed_no_checkm`: `assembly_status == "suppressed"`, `assembly_suppression_reason == "missing strain identifier"`, no key starting `checkm_`.
   - `test_cb0101_previous`: `assembly_level == "contig"`, `assembly_status == "previous"`, `assembly_current_accession == "GCF_000179235.2"`.
   - `test_reason_without_clause`: synthetic suppressed report whose reason is `"This record was removed by RefSeq staff. Please contact info@ncbi.nlm.nih.gov for further details."` → `"removed by RefSeq staff"`.

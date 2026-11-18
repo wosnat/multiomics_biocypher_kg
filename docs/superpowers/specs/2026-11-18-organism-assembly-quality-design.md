@@ -93,7 +93,7 @@ exception is `checkm_contamination` (finding 3).
 | `contig_count` | int | `assembly_stats.number_of_contigs` | |
 | `contig_n50` | int | `assembly_stats.contig_n50` | bp |
 | `gc_percent` | float | `assembly_stats.gc_percent` | NCBI's rounded value |
-| `checkm_completeness` | float | `checkm_info.completeness` | 0–100; always cast to float (NCBI sends `100` as a JSON int, e.g. MIT9312) |
+| `checkm_completeness` | float | `checkm_info.completeness` | 0–100; always cast to float (NCBI sends `100` as a JSON int, e.g. MIT9301) |
 | `checkm_contamination` | float | `checkm_info.contamination` | 0–100. `0.0` = NCBI omitted the field (zero; finding 3) — the property description says so |
 | `checkm_marker_set` | str | `checkm_info.checkm_marker_set` | verbatim taxon name (an external term, R1), e.g. `Prochlorococcus marinus` |
 | `checkm_marker_set_rank` | str | `checkm_info.checkm_marker_set_rank` | verbatim, e.g. `species` \| `genus` \| `order` \| `domain`. A coarse marker set (e.g. `Bacteria`) gives a weaker completeness estimate |
@@ -171,7 +171,7 @@ The CLAUDE.md trust-vocabulary list and node count are updated with them.
 ### Tests
 
 - Unit: `_assembly_properties` on four fixture reports — MED4 (complete, contamination
-  omitted → 0.0), MIT9312 (`completeness: 100` int → `100.0`), a suppressed draft with no
+  omitted → 0.0), MIT9301 (`completeness: 100` int → `100.0`), a suppressed draft with no
   CheckM block, and CB0101 (`previous`, `assembly_current_accession` set). Plus: an unknown
   `assembly_status` raises.
 - Unit: the vocabulary loader accepts the new entries.
@@ -213,7 +213,7 @@ value descriptions.
 Overall sound. Approach A is right, the count tables reconcile (117 + CB0101 = 118;
 completeness 112 = 118 − 5 − CB0101; 73 + 39 = 112), and none of the 14 property names
 collide with existing `OrganismTaxon` keys in the live KG. Spot-checked against Datasets v2
-for MED4 (`GCF_000011465.1`), MIT9312 (`GCF_000015965.1`), CC9311 (`GCF_000014585.1`) and
+for MED4 (`GCF_000011465.1`), MIT9301 (`GCF_000015965.1`), CC9311 (`GCF_000014585.1`) and
 CB0101 (`GCF_000179235.1`).
 
 ### Fix before freezing
@@ -238,7 +238,7 @@ CB0101 (`GCF_000179235.1`).
    `OrganismTaxon.peptidase_gene_count`) have `ControlledVocabulary` entries with
    `min_value`. Add `checkm_completeness` / `checkm_contamination` (0–100) and the int
    stats for consistency.
-6. **Cast `completeness` to float.** NCBI sends `100` as a JSON int (MIT9312).
+6. **Cast `completeness` to float.** NCBI sends `100` as a JSON int (MIT9301).
 7. **Record when the reports were fetched.** Without `--force`, files never refresh, and
    suppression status changes upstream. Add a `fetched_at` in each JSON file or a date on
    the `ncbi` DataSource `assembly_quality` entry, so "suppressed as of when?" has an answer.
