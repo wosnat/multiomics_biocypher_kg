@@ -63,6 +63,13 @@ tag with nothing logged.
 
 ### Data
 
+- Pandhal 2007 (10.1021/pr060460c, MED4 iTRAQ proteomics, HL vs LL and ML vs LL): both
+  experiments' `table_scope_detail` now says that the KG `significant` call does not reproduce
+  the paper's. The paper calls ~15 proteins differentially expressed using ratio, p-value, error
+  factor, peptide count and a final ProQuant re-analysis; the KG applies only absolute
+  log2FC >= 0.322 and p < 0.05 to the collapsed values, and marks 6 (HL vs LL) and 10 (ML vs LL).
+  No edge or call changes.
+
 - Reference refresh (2026-11-11, `prepare_data.sh --rebuild --refetch-raw` + MNX resolver rebuilt;
   MNXref 4.5 and GO 2026-07-26 unchanged): InterPro 110.0 → 111.0 (54,922 → 72,944 entries;
   15 more scanned accessions are retired in 111, so `InterproEntry` 13,314 → 13,299 and
