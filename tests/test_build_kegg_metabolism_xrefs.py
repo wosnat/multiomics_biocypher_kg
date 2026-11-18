@@ -1187,6 +1187,9 @@ def _stub_main(tmp_path, monkeypatch):
                       "IDENTITY_OVERRIDES_FILE": tmp_path / "none.yaml"}.items():
         monkeypatch.setattr(bx, name, val)
     monkeypatch.setattr(bx.kegg_utils, "download_kegg_raw", lambda *a, **k: None)
+    monkeypatch.setattr(bx.kegg_utils, "download_module_raw", lambda *a, **k: None)
+    monkeypatch.setattr(bx.kegg_utils, "build_module_blocks", lambda raw_dir: {
+        "modules": {}, "module_ec_to_kos": {}, "kegg_release": "test"})
     monkeypatch.setattr(bx, "download_all", lambda **k: None)
     monkeypatch.setattr(bx, "_check_raw_inputs", lambda c: None)
     monkeypatch.setattr(bx, "RAW_MANIFEST_FILE", tmp_path / "step6_raw_inputs.json")
@@ -1952,3 +1955,76 @@ def test_deleted_entries_are_ids_missing_from_keggs_current_list():
     assert _deleted_entries({"R00001", "R00516", "R00568"}, names, "reaction") == ["R00516", "R00568"]
     # No list loaded: nothing is treated as deleted.
     assert _deleted_entries({"R00516"}, {}, "reaction") == []
+
+
+# ── KEGG modules (plan 2026-11-18-kegg-modules, Task 2) ─────────────────────
+
+def test_raw_inputs_include_module_raws(tmp_path):
+    names = {p.name for p in bx._raw_inputs(tmp_path)}
+    assert set(bx.kegg_utils.MODULE_RAW_FILES) <= names
+
+
+def test_check_raw_inputs_downloads_module_raws_the_manifest_predates(tmp_path, monkeypatch):
+    """A committed manifest from before the module raws existed: the new raws are fetched,
+    not reported missing, and not flagged as changed; every other raw stays pinned."""
+    manifest = tmp_path / "manifest.json"
+    monkeypatch.setattr(bx, "RAW_MANIFEST_FILE", manifest)
+    monkeypatch.setattr(bx, "CHEBI_CACHE_FILE", tmp_path / "chebi.json")
+    _write_raws(tmp_path)
+    raw = tmp_path / "kegg" / "raw"
+    for f in bx.kegg_utils.MODULE_RAW_FILES:
+        (raw / f).unlink()
+    manifest.write_text(json.dumps(bx._raw_manifest(tmp_path)))      # predates the module raws
+    fetched = []
+
+    def fake_download(raw_dir, force):
+        fetched.append((raw_dir, force))
+        for f in bx.kegg_utils.MODULE_RAW_FILES:
+            (raw_dir / f).write_text("new " + f)
+    monkeypatch.setattr(bx.kegg_utils, "download_module_raw", fake_download)
+    bx._check_raw_inputs(tmp_path)
+    assert fetched == [(raw, False)]
+    (tmp_path / "kegg" / "raw" / "list_ko.txt").unlink()               # a pinned raw still fails
+    with pytest.raises(FileNotFoundError, match="list_ko.txt"):
+        bx._check_raw_inputs(tmp_path)
+
+
+def test_check_raw_inputs_keeps_pinned_module_raws_strict(tmp_path, monkeypatch):
+    manifest = tmp_path / "manifest.json"
+    monkeypatch.setattr(bx, "RAW_MANIFEST_FILE", manifest)
+    monkeypatch.setattr(bx, "CHEBI_CACHE_FILE", tmp_path / "chebi.json")
+    _write_raws(tmp_path)
+    manifest.write_text(json.dumps(bx._raw_manifest(tmp_path)))
+    monkeypatch.setattr(bx.kegg_utils, "download_module_raw",
+                        lambda *a, **k: (_ for _ in ()).throw(AssertionError("downloaded")))
+    (tmp_path / "kegg" / "raw" / "get_modules.txt").write_text("another KEGG release")
+    with pytest.raises(RuntimeError, match="get_modules.txt"):
+        bx._check_raw_inputs(tmp_path)
+    (tmp_path / "kegg" / "raw" / "get_modules.txt").unlink()
+    with pytest.raises(FileNotFoundError, match="get_modules.txt"):
+        bx._check_raw_inputs(tmp_path)
+
+
+def test_main_passes_module_blocks_into_kegg_rest(tmp_path, monkeypatch):
+    from multiomics_kg.utils.metabolite_identity.pipeline import Step6ValidationError
+    _stub_main(tmp_path, monkeypatch)
+    blocks = {"modules": {"M00001": {"name": "n"}}, "module_ec_to_kos": {"1.1.1.1": ["K00001"]},
+              "kegg_release": "pathway 2026-11-18"}
+    monkeypatch.setattr(bx.kegg_utils, "build_module_blocks", lambda raw_dir: blocks)
+    seen = {}
+
+    def stop(inp):
+        seen["inp"] = inp
+        raise Step6ValidationError(["stop"])
+    monkeypatch.setattr(bx, "run_identity_stages", stop)
+    with pytest.raises(Step6ValidationError):
+        bx.main(force=True, today="2026-11-18")
+    for k, v in blocks.items():
+        assert seen["inp"].kegg_rest[k] == v
+
+
+def test_identity_pipeline_keeps_module_blocks():
+    """``run_identity_stages`` builds kegg_data as ``dict(kegg_rest, …)`` — extra keys survive."""
+    import inspect
+    from multiomics_kg.utils.metabolite_identity import pipeline
+    assert "kegg_data = dict(kegg_rest," in inspect.getsource(pipeline)

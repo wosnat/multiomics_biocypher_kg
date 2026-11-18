@@ -1810,6 +1810,7 @@ def _raw_inputs(cache_root: Path) -> list[Path]:
     """The gitignored raw downloads step 6 reads (GO's are pinned separately, by release)."""
     kegg_raw, tcdb_raw = cache_root / "kegg" / "raw", cache_root / "tcdb" / "raw"
     paths = [kegg_raw / f for f in kegg_utils._RAW_FILES.values()]
+    paths += [kegg_raw / f for f in kegg_utils.MODULE_RAW_FILES]
     paths += [kegg_raw / f"br_{code}.json" for code in COMPOUND_BRITE_TREES]
     paths += [tcdb_raw / f for _, f in TCDB_SOURCES.values()]
     paths += [tcdb_raw / f"tcdb_{kind}_map.tsv" for kind in ("pfam", "go")]
@@ -1839,14 +1840,24 @@ def _check_raw_inputs(cache_root: Path) -> None:
     hint = ("Re-run with --refetch-raw to move every raw input to the current upstream release, "
             "or copy cache/data/{kegg,tcdb,chebi}/raw/ from the checkout that built the committed "
             "outputs.")
+    # Raws added after the committed manifest was written (the KEGG module raws, 2026-11-18)
+    # are new inputs, not stale ones: fetch them once; this run's manifest then pins them.
+    pinned = json.loads(RAW_MANIFEST_FILE.read_text()) if RAW_MANIFEST_FILE.exists() else None
+    kegg_raw = cache_root / "kegg" / "raw"
+    unpinned = set()
+    if pinned is not None:
+        unpinned = {f"kegg/raw/{f}" for f in kegg_utils.MODULE_RAW_FILES} - set(pinned)
+        if any(not (cache_root / k).exists() for k in unpinned):
+            log.info(f"  fetching KEGG module raws the committed {RAW_MANIFEST_FILE.name} predates ...")
+            kegg_utils.download_module_raw(kegg_raw, force=False)
     missing = [p for p in _raw_inputs(cache_root) if not p.exists()]
     if missing:
         raise FileNotFoundError(
             f"{len(missing)} raw input(s) missing: "
             f"{', '.join(p.relative_to(cache_root).as_posix() for p in missing)}. {hint}")
-    if RAW_MANIFEST_FILE.exists():
-        pinned = json.loads(RAW_MANIFEST_FILE.read_text())
-        changed = sorted(k for k, v in _raw_manifest(cache_root).items() if pinned.get(k) != v)
+    if pinned is not None:
+        changed = sorted(k for k, v in _raw_manifest(cache_root).items()
+                         if k not in unpinned and pinned.get(k) != v)
         if changed:
             raise RuntimeError(
                 f"{len(changed)} raw input(s) differ from the ones recorded in "
@@ -1898,6 +1909,11 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
 
     log.info("Ensuring KEGG raw cache (downloads from KEGG REST if missing) ...")
     kegg_utils.download_kegg_raw(cache_root, force=refetch_raw)
+    kegg_utils.download_module_raw(cache_root / "kegg" / "raw", force=refetch_raw)
+    module_blocks = kegg_utils.build_module_blocks(cache_root / "kegg" / "raw")
+    log.info(f"  KEGG modules: {len(module_blocks['modules'])} modules, "
+             f"{len(module_blocks['module_ec_to_kos'])} EC → module-KO links, "
+             f"release {module_blocks['kegg_release']}")
 
     # TCDB's CGI endpoints go down for maintenance from time to time (they 404
     # while www.tcdb.org itself still answers). The raw TSVs are gitignored but
@@ -2114,7 +2130,8 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
         table=table,
         kegg_rest={**{k: kegg_data[k] for k in ("kos", "pathways", "subcategories", "categories", "reactions",
                                                 "excluded_pathways")},
-                   **{k: kegg_data.get(k, []) for k in ("deleted_kos", "deleted_reactions")}},
+                   **{k: kegg_data.get(k, []) for k in ("deleted_kos", "deleted_reactions")},
+                   **module_blocks},
         system_substrates=system_substrates, chemical_roles=chemical_roles, system_roles=system_roles,
         rekeys=rekeys, role_of_old=role_of_old, tables=tables, paper_overrides=paper_overrides,
         name_candidates=paper.name_candidates, lock=lock,

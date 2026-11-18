@@ -407,6 +407,156 @@ def download_kegg_raw(cache_root: Path, force: bool = False) -> None:
     _fetch_json_cached(_BRITE_KO_URL, raw_dir=raw_dir, force=force)
 
 
+# ── KEGG modules (spec 2026-11-18-kegg-modules) ──────────────────────────────
+
+_MODULE_LIST_URL = f"{_KEGG_BASE}/list/module"
+_MODULE_PATHWAY_LINK_URL = f"{_KEGG_BASE}/link/pathway/module"
+_KO_ENZYME_LINK_URL = f"{_KEGG_BASE}/link/ko/enzyme"
+_MODULE_BRITE_URL = f"{_KEGG_BASE}/get/br:ko00002/json"
+_KEGG_INFO_URL = f"{_KEGG_BASE}/info/kegg"
+_GET_BATCH = 10                      # KEGG's `get` limit per call
+
+# Raw-cache filenames under <cache_root>/kegg/raw/ (all covered by the step-6 raw manifest).
+MODULE_RAW_FILES = ("list_module.txt", "link_pathway_module.txt", "link_ko_enzyme.txt",
+                    "br_ko00002.json", "get_modules.txt", "info_kegg.txt")
+_MODULE_TYPES = {"Pathway": "pathway", "Signature": "signature", "Complex": "complex"}
+# KEGG REST's info/kegg carries no release number, only per-database update dates; the
+# release string records the dates of the databases the KG reads.
+_RELEASE_DBS = ("pathway", "brite", "module", "ko", "compound", "reaction", "enzyme")
+
+
+def download_module_raw(raw_dir: Path, force: bool = False) -> None:
+    """Cache the module endpoints; ``get/M…`` responses are fetched in batches of 10 and
+    concatenated into ``get_modules.txt``. Hits the network only for missing files (or ``force``)."""
+    raw_dir = Path(raw_dir)
+    raw_dir.mkdir(parents=True, exist_ok=True)
+    for url, name in ((_MODULE_LIST_URL, "list_module.txt"),
+                      (_MODULE_PATHWAY_LINK_URL, "link_pathway_module.txt"),
+                      (_KO_ENZYME_LINK_URL, "link_ko_enzyme.txt"),
+                      (_KEGG_INFO_URL, "info_kegg.txt")):
+        if force or not (raw_dir / name).exists():
+            (raw_dir / name).write_text(_fetch_text(url), encoding="utf-8")
+    if force or not (raw_dir / "br_ko00002.json").exists():
+        (raw_dir / "br_ko00002.json").write_text(
+            json.dumps(_fetch_json(_MODULE_BRITE_URL), separators=(",", ":")), encoding="utf-8")
+    get_path = raw_dir / "get_modules.txt"
+    if force or not get_path.exists():
+        ids = [ln.split("\t", 1)[0].replace("md:", "")
+               for ln in (raw_dir / "list_module.txt").read_text(encoding="utf-8").splitlines()
+               if ln.strip()]
+        chunks = [_fetch_text(f"{_KEGG_BASE}/get/{'+'.join(ids[i:i + _GET_BATCH])}")
+                  for i in range(0, len(ids), _GET_BATCH)]
+        text = "".join(chunks)
+        if text.count("///") != len(ids):
+            raise ValueError(f"KEGG get/M…: {text.count('///')} entries for {len(ids)} module ids")
+        get_path.write_text(text, encoding="utf-8")
+
+
+def parse_module_entries(text: str) -> dict[str, dict]:
+    """``get/M…`` flat-file text → ``{M: {name, module_type, definition}}``; a multi-line
+    DEFINITION keeps its line breaks (``\n``), each line being further steps."""
+    out: dict[str, dict] = {}
+    for block in text.split("///"):
+        mid, entry, field = None, {}, None
+        for line in block.splitlines():
+            if not line.strip():
+                continue
+            key, val = line[:12].strip(), line[12:].strip()
+            if key:
+                field = key
+            if field == "ENTRY" and key:
+                parts = val.split()
+                mid = parts[0]
+                if len(parts) < 2 or parts[1] not in _MODULE_TYPES:
+                    raise ValueError(f"KEGG module {mid}: unknown module type in {line!r}")
+                entry["module_type"] = _MODULE_TYPES[parts[1]]
+            elif field == "NAME" and key:
+                entry["name"] = val
+            elif field == "DEFINITION":
+                entry["definition"] = val if key else entry["definition"] + "\n" + val
+        if mid:
+            if "definition" not in entry or "name" not in entry:
+                raise ValueError(f"KEGG module {mid}: entry without NAME or DEFINITION")
+            out[mid] = {"name": entry["name"], "module_type": entry["module_type"],
+                        "definition": entry["definition"]}
+    _require_parsed("module_entries", out, text)
+    return out
+
+
+def parse_module_classes(brite_json: dict) -> dict[str, list[str]]:
+    """``br:ko00002`` JSON → ``{M: [type, class, subclass]}``."""
+    out: dict[str, list[str]] = {}
+
+    def walk(node, path):
+        for child in node.get("children", []):
+            name = child["name"]
+            m = re.match(r"(M\d{5})\s", name)
+            if m and len(path) == 3:
+                out[m.group(1)] = list(path)
+            else:
+                walk(child, path + [name])
+
+    walk(brite_json, [])
+    _require_parsed("module_classes", out, json.dumps(brite_json))
+    return out
+
+
+def parse_kegg_release(text: str) -> str:
+    """``info/kegg`` → ``"pathway 2026-11-18, brite 2026-11-17, …"`` for ``_RELEASE_DBS``."""
+    dates = {}
+    for line in text.splitlines():
+        m = re.match(r"\t(\w+)\s+[\d,]+\s+(\d{4})/(\d{2})/(\d{2})\s*$", line)
+        if m:
+            dates[m.group(1)] = f"{m.group(2)}-{m.group(3)}-{m.group(4)}"
+    missing = [db for db in _RELEASE_DBS if db not in dates]
+    if missing:
+        raise ValueError(f"KEGG info/kegg: no update date for {missing}")
+    return ", ".join(f"{db} {dates[db]}" for db in _RELEASE_DBS)
+
+
+def build_module_blocks(raw_dir: Path) -> dict:
+    """The three ``kegg_data.json`` module blocks from the cached raws: ``modules`` (all KEGG
+    modules, with ``class_path`` and ``pathways`` as ``ko…`` ids), ``module_ec_to_kos``
+    (``/link/ko/enzyme`` restricted to KOs some definition names) and ``kegg_release``.
+    Raises when a definition does not parse."""
+    from multiomics_kg.utils.kegg_modules import ko_roles, parse_steps
+
+    raw_dir = Path(raw_dir)
+    entries = parse_module_entries((raw_dir / "get_modules.txt").read_text(encoding="utf-8"))
+    classes = parse_module_classes(json.loads((raw_dir / "br_ko00002.json").read_text(encoding="utf-8")))
+    pathways: dict[str, set[str]] = {}
+    text = (raw_dir / "link_pathway_module.txt").read_text(encoding="utf-8")
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        md, path = line.split("\t")
+        pw = path.replace("path:", "")
+        pw = "ko" + pw[3:] if pw.startswith("map") else pw
+        pathways.setdefault(md.replace("md:", ""), set()).add(pw)
+    _require_parsed("module_pathways", pathways, text)
+
+    modules, module_kos = {}, set()
+    for mid, e in sorted(entries.items()):
+        module_kos |= set(ko_roles(parse_steps(e["definition"])))
+        if mid not in classes:
+            logger.warning(f"KEGG module {mid} is not in br:ko00002; it gets no class path")
+        modules[mid] = {**e, "class_path": classes.get(mid, []),
+                        "pathways": sorted(pathways.get(mid, ()))}
+
+    ec_to_kos: dict[str, set[str]] = {}
+    text = (raw_dir / "link_ko_enzyme.txt").read_text(encoding="utf-8")
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        ec, ko = line.split("\t")
+        ec_to_kos.setdefault(ec.replace("ec:", ""), set()).add(ko.replace("ko:", ""))
+    _require_parsed("ko_enzyme", ec_to_kos, text)
+    module_ec_to_kos = {ec: sorted(kos & module_kos) for ec, kos in sorted(ec_to_kos.items())
+                        if kos & module_kos}
+    release = parse_kegg_release((raw_dir / "info_kegg.txt").read_text(encoding="utf-8"))
+    return {"modules": modules, "module_ec_to_kos": module_ec_to_kos, "kegg_release": release}
+
+
 def load_kegg_data(cache_root: Path) -> dict:
     """Load the pruned ``kegg_data.json`` written by step 6 of ``prepare_data.sh``.
 
