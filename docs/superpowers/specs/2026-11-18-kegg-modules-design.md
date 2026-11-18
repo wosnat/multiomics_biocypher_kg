@@ -1,6 +1,6 @@
 # KEGG modules + per-organism module completeness — design
 
-**Date:** 2026-11-18 · **Status:** revised after explorer review (§10 review, §11 response) · **Backlog item:** `plans/backlog.md` "KEGG modules + per-organism module completeness"
+**Date:** 2026-11-18 · **Status:** approved by explorer (§10 review, §11 response, §12 sign-off, §13 clarifications) · **Backlog item:** `plans/backlog.md` "KEGG modules + per-organism module completeness"
 
 ## 1. Why
 
@@ -48,7 +48,7 @@ limited to single-KO terms and one step per gene, deleted KOs excluded.
 | KO → module edges (KOs in the KG) | 1,723 (1,082 of the KG's 4,774 KOs sit in some module) |
 | module → pathway map edges (maps the KG keeps) | 1,186 (19 modules link to no kept map) |
 | steps per module | median 4, max 14 |
-| `ko00002` class nodes | 2 types → 12 classes → 46 subclasses (re-measure on the final module set) |
+| `ko00002` class nodes (pruned to the 414 modules) | 2 types → 12 classes → 43 subclasses = 57 class nodes; every module sits under exactly one subclass |
 | `Organism_has_kegg_module` edges (≥ 1 step covered) | **26,005** (24,190 on KOs alone) |
 | … `complete` | 6,987 (6,528 on KOs alone) |
 | … `one_step_missing` / `two_steps_missing` | 5,862 / 4,786 |
@@ -414,3 +414,65 @@ All numbers in §2–§5 were re-measured with the final rules. The 4,808 vs 4,7
 `hierarchy: Kegg_module_is_a_kegg_module`, with class nodes and modules under one label and
 `level_kind` telling them apart. Enrichment should run at `level = 3` (modules) by default;
 class levels are ORA-able too but, as everywhere, never mixed with modules in one test.
+
+## 12. Explorer sign-off (2026-11-18)
+
+**Approved.** The §11 resolutions close B1–B3. The B1 alternative is better than what the review suggested: one label with
+an `is_a` hierarchy avoids double membership in BRITE and leaves the annotation state alone.
+
+**Config confirmed.** `ONTOLOGY_CONFIG["kegg_module"] = {label: KeggModule, gene_rel: Gene_has_kegg_ko,
+bridge: {node_label: KeggTerm, edge: Kegg_term_in_kegg_module}, hierarchy_rels: [Kegg_module_is_a_kegg_module]}`.
+This is exactly the BRITE code path: genes enter at the bridged level-3 modules, and the `*0..` walk lifts them to the class nodes.
+Explorer-side additions:
+- `links_out`: KO → module (`Kegg_term_in_kegg_module`, membership) and module → map (`Kegg_module_in_kegg_pathway`).
+- Enrichment docs recommend `level=3`.
+- The completeness tool defaults to `module_type='pathway'`; enrichment does not filter signature modules, it only exposes `module_type`.
+
+Minor asks. None of them block the build; they are clarifications for `kegg-modules.md`:
+
+1. **`missing_kos` for a module-reference step.** When the missing step is `M0xxxx`, what goes in `missing_kos`: nothing,
+   the referenced module's missing KOs, or the module id? Please pick one and document it. Our preference: nothing in `missing_kos`;
+   `missing_step_definitions` already shows `M0xxxx`.
+2. **Make `ec_genes` parallel to `ec_filled_step_indices`.** The matching already gives one gene per step, so a parallel list
+   answers "which gene fills step 3" without a second lookup. A module-reference step has no gene in this module, so put the
+   referenced module id in that slot. If several EC-only genes could fill a step, document that only the matched one is listed.
+3. **Bipartite matching scope.** Confirm it runs only over steps the KO evidence leaves uncovered, i.e. that EC never competes with
+   or replaces a KO-covered step.
+4. **`organism_count` ≠ edge count.** On a module, `organism_count` (KO bridge) and the number of `Organism_has_kegg_module`
+   edges differ: EC-only strains, and the 30 KO-less modules with `gene_count = 0` but real edges. Please add one line to the
+   node docs so the two are not read as the same quantity.
+5. **Slug ids under `kegg.module`.** Class ids don't match bioregistry's `^M\d+$`. That is fine given the TigrRole precedent, but say so
+   in `kegg-modules.md`, since external CURIE validation will reject them.
+6. **Still open:** re-measure the `ko00002` class-node counts on the final module set (§2).
+
+**Explorer follow-up** (after the build lands, via `absorb-kg-rebuild` and then `add-or-update-tool`):
+- the `kegg_module` ontology across the ontology and enrichment tools ("17 → 18 ontologies" doc sweep, `docs://ontologies/kegg_module`);
+- a new `kegg_module_completeness` tool;
+- `list_organisms.complete_module_count`;
+- organism-scoped status in `ontology_term_details`;
+- surfacing `Schema_info.kegg_release` in `kg_release_info`.
+
+## 13. KG answers to the sign-off asks (2026-11-18)
+
+All six adopted as asked; each goes into `docs/kg-changes/kegg-modules.md` and the schema descriptions.
+
+1. **`missing_kos` for a module-reference step: nothing.** `missing_kos` lists KOs named directly
+   in the missing steps; a missing `M0xxxx` step contributes no KO, and `missing_step_definitions`
+   shows the module id.
+2. **`ec_genes` is parallel to `ec_filled_step_indices`** (same length, same order). Each slot holds
+   the locus tag the matching assigned to that step; for a module-reference step it holds the
+   referenced module id (`M0xxxx`). When several EC-only genes could fill a step, only the matched
+   one is listed.
+3. **Matching scope: confirmed.** The bipartite matching runs only over steps the KO evidence leaves
+   uncovered. EC never competes with or replaces a KO-covered step (that is how the dry run computed it).
+4. **`organism_count` ≠ edge count.** Node docs will say: `organism_count` counts organisms with a
+   gene whose KO is in the module (KO bridge, like `gene_count`); the number of
+   `Organism_has_kegg_module` edges also counts organisms reaching the module only through EC-only
+   genes or a module reference, so it can be larger, and the 30 KO-less modules have
+   `organism_count = 0` with real edges. `complete_organism_count` counts edges, not the bridge.
+5. **Slug ids.** `kegg-modules.md` states that class ids (`kegg.module:pathway_modules…`) are
+   house-minted, do not match bioregistry's `^M\d+$`, and will fail external CURIE validation;
+   only `level_kind = 'kegg_module'` ids are real KEGG module CURIEs.
+6. **Class-node counts re-measured** on the 414 modules: 2 types, 12 classes, 43 subclasses
+   (57 class nodes); §2 updated.
+
