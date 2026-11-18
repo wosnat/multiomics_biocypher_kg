@@ -9,8 +9,8 @@ import pytest
 
 pytestmark = pytest.mark.kg
 
-DRY_RUN = {"modules": 414, "classes": 57, "ko_edges": 1723, "pathway_edges": 1254,
-           "organism_edges": 26005}
+DRY_RUN = {"modules": 414, "classes": 57, "ko_edges": 1722, "pathway_edges": 1254,
+           "organism_edges": 26004}
 CYANO = ("Prochlorococcus", "Synechococcus", "Parasynechococcus", "Cyanobium", "Thermosynechococcus")
 # One-step photosystem complexes these strains miss a required subunit KO for (annotation gaps,
 # measured 2026-11-18): psbD K02706 in PCC 7942 and CB0205 (+ psbC K02707), psbB K02705 + psbD

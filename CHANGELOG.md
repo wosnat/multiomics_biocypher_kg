@@ -119,7 +119,7 @@ tag with nothing logged.
 - KEGG modules (`docs/kg-changes/kegg-modules.md`): `KeggModule` nodes — 414 modules
   (`kegg.module:M…`) plus the `ko00002` type / class / subclass tree above them (57 nodes) — with
   `Kegg_module_is_a_kegg_module`, `Kegg_term_in_kegg_module` (KO → module, `steps`,
-  `component`) and `Kegg_module_in_kegg_pathway`. `Organism_has_kegg_module` (26,005 edges over
+  `component`) and `Kegg_module_in_kegg_pathway`. `Organism_has_kegg_module` (26,004 edges over
   118 organisms) carries `status` (`complete` / `one_step_missing` / `two_steps_missing` /
   `partial`), step counts, the missing steps and KOs, and the steps filled only through an EC
   number with the gene that fills each (`ec_genes`). Post-import `gene_count`,

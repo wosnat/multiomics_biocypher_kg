@@ -15,9 +15,9 @@ which steps are missing, and which steps were filled only through an EC number.
 | `KeggModule` level 3 (`level_kind = kegg_module`) | 414 | 382 `pathway`, 32 `signature`; 384 with a KO in the KG + 30 reached only by an organism edge (EC-only steps or a module reference) |
 | `KeggModule` levels 0–2 (`kegg_module_type` / `_class` / `_subclass`) | 2 / 12 / 43 | the `ko00002` class tree, pruned to the kept modules |
 | `Kegg_module_is_a_kegg_module` | 469 | module → subclass → class → type |
-| `Kegg_term_in_kegg_module` (KO → module) | 1,723 | `steps` (int[], 1-based), `component` (`required` \| `optional`) |
+| `Kegg_term_in_kegg_module` (KO → module) | 1,722 | `steps` (int[], 1-based), `component` (`required` \| `optional`) |
 | `Kegg_module_in_kegg_pathway` (module → map) | 1,254 | pruned to the pathway maps the KG keeps (global maps such as `ko01100` included) |
-| `Organism_has_kegg_module` | 26,005 | 118 organisms; one edge per (organism, module) with ≥ 1 step covered |
+| `Organism_has_kegg_module` | 26,004 | 118 organisms; one edge per (organism, module) with ≥ 1 step covered |
 
 Counts are from the build of 2026-11-19 (KEGG release below).
 
@@ -76,7 +76,9 @@ sees exactly the `Gene_has_kegg_ko` set; deleted KOs never count).
 - Space separates steps; `,` is OR; parentheses group, a space inside means AND; `+` joins complex
   subunits; `-K…` is an optional subunit (ignored).
 - `--` (a reaction with no KO) is always a whole step in this release and is **dropped** from the
-  step list, otherwise those 14 modules could never be complete.
+  step list, otherwise those 14 modules could never be complete. A step written as one optional
+  subunit on its own (`-K08080` in M00955; 7 modules) is dropped the same way and its KO gets no
+  `Kegg_term_in_kegg_module` edge.
 - A multi-line definition's lines are further steps.
 - A step naming another module is covered when that module is complete; if that module needed an
   EC-filled step, the referencing step counts in `steps_present_via_ec` with the module id in its
@@ -85,10 +87,12 @@ sees exactly the `Gene_has_kegg_ko` set; deleted KOs never count).
 **EC fallback.** A gene with **no live KO** and a **full** EC number (no `-`) can stand in for a
 KO that KEGG links to that EC (`/link/ko/enzyme`), except:
 1. never for a KO inside a complex (`+` or `-` group), because one EC often names every subunit;
-2. one step per gene per module, assigned by maximum bipartite matching;
-3. only over steps the KO evidence leaves uncovered — EC never competes with or replaces a KO.
+2. a gene is a candidate for a step only if it completes the step on its own (with the
+   organism's KOs); a step that needs two EC-only genes stays missing;
+3. one step per gene per module, assigned by maximum bipartite matching;
+4. only over steps the KO evidence leaves uncovered — EC never competes with or replaces a KO.
 
-Measured: 3,472 EC-filled steps; 6,528 → 6,987 complete pairs. Example: NATL2A's `pyk`
+Measured: 3,470 EC-filled steps; 6,528 → 6,985 complete pairs (`one_step_missing` 5,864, `two_steps_missing` 4,788, `partial` 8,367). Example: NATL2A's `pyk`
 (PMN2A_0295, EC 2.7.1.40, no KO) completes M00002 Glycolysis core.
 
 ## Cross-check against KEGG
@@ -96,10 +100,10 @@ Measured: 3,472 EC-filled steps; 6,528 → 6,987 complete pairs. Example: NATL2A
 KEGG Mapper's web form does not accept scripted calls, so the evaluator was checked against
 KEGG's own per-genome module lists instead: run on KEGG's own KO assignments
 (`/link/ko/<org>`), it reproduces KEGG's module calls (`/link/module/<org>`) for MED4 (48/48),
-*E. coli* (112/112), *P. putida* KT2440 (92/92), WH8102 (53/53), human (131), *Arabidopsis* and
-yeast. The only differences are "module set" signature modules built only from module
-references (M00611, M00364, M00366, M00367), which KEGG lists per gene and so never for a
-module with no genes of its own, and human M00955. **The `--` rule is confirmed:** every
+*E. coli* (112/112), *P. putida* KT2440 (92/92), WH8102 (53/53), human (131/131), *Arabidopsis*
+(126/126) and yeast (85/85): every module KEGG lists is complete here. The only extras are
+"module set" signature modules built only from module references (M00611, M00364, M00366,
+M00367), which KEGG lists per gene and so never for a module with no genes of its own. **The `--` rule is confirmed:** every
 module KEGG lists that contains a `--` step (8 across human, *Arabidopsis* and yeast) is complete
 here with `--` dropped. On the KG's own MED4 KOs (1,014, vs KEGG's 982 for `pmm`) 49 modules
 are complete; 3 of KEGG's 48 are not and 4 others are, all from KO-assignment differences.
