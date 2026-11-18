@@ -210493,6 +210493,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "dprE1",
+          "type": "gene_name"
+        },
+        {
           "id": "PMT2035",
           "type": "gene_synonym"
         },
@@ -327763,6 +327767,9 @@
     "dprA": [
       "PMT1661"
     ],
+    "dprE1": [
+      "PMT2035"
+    ],
     "drpA": [
       "PMT1259"
     ],
@@ -354744,7 +354751,7 @@
   "stats": {
     "n_conflicts": 17,
     "n_genes": 2906,
-    "n_multi": 17931,
+    "n_multi": 17932,
     "n_specific": 22823,
     "passes": 5
   },

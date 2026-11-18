@@ -70708,7 +70708,7 @@
     "name": "",
     "parent": "1.G.17.1",
     "substrate_classes": [
-      "CHEBI:25367;molecule"
+      "CHEBI:8526;protein polypeptide chain"
     ]
   },
   "1.G.17.1.2": {
@@ -133847,6 +133847,27 @@
     "name": "The Quinoline Helix H+/Cl- Symport (QH-H+/Cl- Symporter (QHH+/Cl-S) Family",
     "parent": "2.B"
   },
+  "2.B.165": {
+    "level": 2,
+    "level_kind": "tc_family",
+    "name": "The Latopontin-derived Ca2+ Efflux Peptide (L-CaEP) Family",
+    "parent": "2.B"
+  },
+  "2.B.165.1": {
+    "level": 3,
+    "level_kind": "tc_subfamily",
+    "name": "",
+    "parent": "2.B.165"
+  },
+  "2.B.165.1.1": {
+    "level": 4,
+    "level_kind": "tc_system",
+    "name": "",
+    "parent": "2.B.165.1",
+    "substrate_classes": [
+      "CHEBI:3308;calcium(2+)"
+    ]
+  },
   "2.B.17": {
     "level": 2,
     "level_kind": "tc_family",
@@ -173468,6 +173489,12 @@
     "level": 2,
     "level_kind": "tc_family",
     "name": "The Sortin2 Salinity Stress Tolerance (S2SST) Family",
+    "parent": "8.A"
+  },
+  "8.A.273": {
+    "level": 2,
+    "level_kind": "tc_family",
+    "name": "Metal Ions and Protein Aggregation lead to Neuropathies (MI,PA-N)",
     "parent": "8.A"
   },
   "8.A.28": {

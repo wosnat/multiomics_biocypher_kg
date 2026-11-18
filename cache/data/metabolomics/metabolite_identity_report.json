@@ -539,10 +539,10 @@
     "mnx:MNXM741525"
   ],
   "go_transport": {
-    "axioms_in_corpus": 580,
+    "axioms_in_corpus": 582,
     "distribution": [
       {
-        "gene_share": 0.0924,
+        "gene_share": 0.0922,
         "genes": 1042,
         "strains": 118,
         "target": "kegg.compound:C00012",
@@ -550,7 +550,7 @@
         "terms": 5
       },
       {
-        "gene_share": 0.091,
+        "gene_share": 0.0908,
         "genes": 1026,
         "strains": 118,
         "target": "chebi:16646",
@@ -558,23 +558,23 @@
         "terms": 7
       },
       {
-        "gene_share": 0.0774,
-        "genes": 873,
+        "gene_share": 0.0783,
+        "genes": 885,
         "strains": 118,
         "target": "kegg.compound:C00238",
-        "term_share": 0.0245,
-        "terms": 13
+        "term_share": 0.0264,
+        "terms": 14
       },
       {
-        "gene_share": 0.0741,
+        "gene_share": 0.0739,
         "genes": 835,
         "strains": 102,
         "target": "chebi:35238",
-        "term_share": 0.017,
+        "term_share": 0.0169,
         "terms": 9
       },
       {
-        "gene_share": 0.0724,
+        "gene_share": 0.0722,
         "genes": 816,
         "strains": 118,
         "target": "chebi:24875",
@@ -582,7 +582,7 @@
         "terms": 5
       },
       {
-        "gene_share": 0.0589,
+        "gene_share": 0.0588,
         "genes": 664,
         "strains": 118,
         "target": "kegg.compound:C00009",
@@ -590,7 +590,7 @@
         "terms": 5
       },
       {
-        "gene_share": 0.0472,
+        "gene_share": 0.0471,
         "genes": 532,
         "strains": 75,
         "target": "chebi.role:35703",
@@ -606,7 +606,7 @@
         "terms": 4
       },
       {
-        "gene_share": 0.0416,
+        "gene_share": 0.0415,
         "genes": 469,
         "strains": 87,
         "target": "kegg.compound:C00086",
@@ -614,7 +614,7 @@
         "terms": 5
       },
       {
-        "gene_share": 0.0333,
+        "gene_share": 0.0332,
         "genes": 375,
         "strains": 118,
         "target": "kegg.compound:C00032",
@@ -622,7 +622,7 @@
         "terms": 6
       },
       {
-        "gene_share": 0.0321,
+        "gene_share": 0.032,
         "genes": 362,
         "strains": 118,
         "target": "kegg.compound:C00017",
@@ -630,7 +630,7 @@
         "terms": 1
       },
       {
-        "gene_share": 0.03,
+        "gene_share": 0.0299,
         "genes": 338,
         "strains": 18,
         "target": "chebi.role:26672",
@@ -646,7 +646,7 @@
         "terms": 1
       },
       {
-        "gene_share": 0.0246,
+        "gene_share": 0.0245,
         "genes": 277,
         "strains": 118,
         "target": "kegg.compound:C00698",
@@ -655,19 +655,19 @@
       },
       {
         "gene_share": 0.0244,
+        "genes": 276,
+        "strains": 116,
+        "target": "chebi:23378",
+        "term_share": 0.0075,
+        "terms": 4
+      },
+      {
+        "gene_share": 0.0243,
         "genes": 275,
         "strains": 95,
         "target": "kegg.compound:C00420",
         "term_share": 0.0038,
         "terms": 2
-      },
-      {
-        "gene_share": 0.0236,
-        "genes": 266,
-        "strains": 116,
-        "target": "chebi:23378",
-        "term_share": 0.0075,
-        "terms": 4
       },
       {
         "gene_share": 0.0226,
@@ -678,7 +678,7 @@
         "terms": 5
       },
       {
-        "gene_share": 0.0214,
+        "gene_share": 0.0213,
         "genes": 241,
         "strains": 110,
         "target": "kegg.compound:C21382",
@@ -686,15 +686,15 @@
         "terms": 1
       },
       {
-        "gene_share": 0.0207,
+        "gene_share": 0.0206,
         "genes": 233,
         "strains": 33,
         "target": "kegg.compound:C01356",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
-        "gene_share": 0.0206,
+        "gene_share": 0.0205,
         "genes": 232,
         "strains": 102,
         "target": "chebi:22918",
@@ -722,7 +722,7 @@
         "genes": 185,
         "strains": 108,
         "target": "kegg.compound:C00076",
-        "term_share": 0.0189,
+        "term_share": 0.0188,
         "terms": 10
       },
       {
@@ -818,11 +818,11 @@
         "genes": 123,
         "strains": 102,
         "target": "kegg.compound:C00031",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
-        "gene_share": 0.0105,
+        "gene_share": 0.0104,
         "genes": 118,
         "strains": 100,
         "target": "kegg.compound:C14819",
@@ -842,7 +842,7 @@
         "genes": 107,
         "strains": 66,
         "target": "kegg.compound:C00088",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -894,7 +894,7 @@
         "terms": 4
       },
       {
-        "gene_share": 0.009,
+        "gene_share": 0.0089,
         "genes": 101,
         "strains": 66,
         "target": "chebi:35404",
@@ -922,7 +922,7 @@
         "genes": 91,
         "strains": 88,
         "target": "chebi.role:25512",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -962,7 +962,7 @@
         "genes": 71,
         "strains": 23,
         "target": "kegg.compound:C06232",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -970,7 +970,7 @@
         "genes": 69,
         "strains": 64,
         "target": "kegg.compound:C01401",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -978,7 +978,7 @@
         "genes": 69,
         "strains": 57,
         "target": "kegg.compound:C11215",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1034,7 +1034,7 @@
         "genes": 51,
         "strains": 29,
         "target": "kegg.compound:C00719",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1050,7 +1050,7 @@
         "genes": 50,
         "strains": 22,
         "target": "kegg.compound:C05005",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1070,11 +1070,11 @@
         "terms": 2
       },
       {
-        "gene_share": 0.0043,
+        "gene_share": 0.0042,
         "genes": 48,
         "strains": 25,
         "target": "chebi:28965",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1098,7 +1098,7 @@
         "genes": 44,
         "strains": 30,
         "target": "kegg.compound:C00175",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1106,7 +1106,7 @@
         "genes": 44,
         "strains": 38,
         "target": "kegg.compound:C00742",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1114,7 +1114,7 @@
         "genes": 38,
         "strains": 18,
         "target": "kegg.compound:C00183",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1138,7 +1138,7 @@
         "genes": 32,
         "strains": 15,
         "target": "kegg.compound:C00107",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1146,7 +1146,7 @@
         "genes": 30,
         "strains": 26,
         "target": "kegg.compound:C01558",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1154,7 +1154,7 @@
         "genes": 29,
         "strains": 26,
         "target": "kegg.compound:C19610",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1210,7 +1210,7 @@
         "genes": 27,
         "strains": 14,
         "target": "kegg.compound:C16435",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1226,8 +1226,16 @@
         "genes": 25,
         "strains": 13,
         "target": "kegg.compound:C00188",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
+      },
+      {
+        "gene_share": 0.0022,
+        "genes": 25,
+        "strains": 13,
+        "target": "kegg.compound:C00257",
+        "term_share": 0.0038,
+        "terms": 2
       },
       {
         "gene_share": 0.0022,
@@ -1240,17 +1248,9 @@
       {
         "gene_share": 0.0021,
         "genes": 24,
-        "strains": 13,
-        "target": "kegg.compound:C00257",
-        "term_share": 0.0038,
-        "terms": 2
-      },
-      {
-        "gene_share": 0.0021,
-        "genes": 24,
         "strains": 12,
         "target": "kegg.compound:C15587",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1262,7 +1262,7 @@
         "terms": 5
       },
       {
-        "gene_share": 0.002,
+        "gene_share": 0.0019,
         "genes": 22,
         "strains": 6,
         "target": "kegg.compound:C00407",
@@ -1290,7 +1290,7 @@
         "genes": 20,
         "strains": 18,
         "target": "chebi.role:33229",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1394,7 +1394,7 @@
         "genes": 16,
         "strains": 13,
         "target": "kegg.compound:C00638",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1402,7 +1402,7 @@
         "genes": 15,
         "strains": 12,
         "target": "chebi:47923",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1498,7 +1498,7 @@
         "genes": 12,
         "strains": 11,
         "target": "chebi:60903",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1506,7 +1506,7 @@
         "genes": 12,
         "strains": 6,
         "target": "kegg.compound:C00208",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1530,7 +1530,7 @@
         "genes": 11,
         "strains": 9,
         "target": "chebi:35381",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1586,7 +1586,7 @@
         "genes": 10,
         "strains": 10,
         "target": "chebi:33984",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1594,7 +1594,7 @@
         "genes": 10,
         "strains": 10,
         "target": "kegg.compound:C00001",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1610,7 +1610,7 @@
         "genes": 9,
         "strains": 9,
         "target": "kegg.compound:C00181",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1634,7 +1634,7 @@
         "genes": 8,
         "strains": 3,
         "target": "kegg.compound:C00042",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1730,7 +1730,7 @@
         "genes": 5,
         "strains": 1,
         "target": "kegg.compound:C00315",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1738,7 +1738,7 @@
         "genes": 4,
         "strains": 4,
         "target": "kegg.compound:C00116",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1746,7 +1746,7 @@
         "genes": 4,
         "strains": 2,
         "target": "kegg.compound:C00245",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1802,7 +1802,7 @@
         "genes": 3,
         "strains": 3,
         "target": "chebi:26432",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1826,7 +1826,7 @@
         "genes": 3,
         "strains": 3,
         "target": "kegg.compound:C00106",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1906,7 +1906,15 @@
         "genes": 2,
         "strains": 2,
         "target": "chebi:49468",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
+        "terms": 3
+      },
+      {
+        "gene_share": 0.0002,
+        "genes": 2,
+        "strains": 2,
+        "target": "kegg.compound:C00024",
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1922,7 +1930,7 @@
         "genes": 2,
         "strains": 1,
         "target": "kegg.compound:C00093",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -1962,7 +1970,7 @@
         "genes": 2,
         "strains": 2,
         "target": "kegg.compound:C00738",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -2089,14 +2097,6 @@
         "gene_share": 0.0001,
         "genes": 1,
         "strains": 1,
-        "target": "kegg.compound:C00024",
-        "term_share": 0.0057,
-        "terms": 3
-      },
-      {
-        "gene_share": 0.0001,
-        "genes": 1,
-        "strains": 1,
         "target": "kegg.compound:C00037",
         "term_share": 0.0038,
         "terms": 2
@@ -2106,7 +2106,7 @@
         "genes": 1,
         "strains": 1,
         "target": "kegg.compound:C00053",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -2122,7 +2122,7 @@
         "genes": 1,
         "strains": 1,
         "target": "kegg.compound:C00077",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -2154,7 +2154,7 @@
         "genes": 1,
         "strains": 1,
         "target": "kegg.compound:C00135",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -2162,7 +2162,7 @@
         "genes": 1,
         "strains": 1,
         "target": "kegg.compound:C00215",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -2218,7 +2218,7 @@
         "genes": 1,
         "strains": 1,
         "target": "kegg.compound:C00930",
-        "term_share": 0.0057,
+        "term_share": 0.0056,
         "terms": 3
       },
       {
@@ -2335,11 +2335,11 @@
       }
     ],
     "drops": {
-      "filtered": 92,
+      "filtered": 93,
       "filtered_after_canonical": 0,
       "filtered_by_target": {
         "chebi:23905": 6,
-        "chebi:23906": 15,
+        "chebi:23906": 16,
         "chebi:24431": 5,
         "chebi:24834": 2,
         "chebi:24867": 9,
@@ -2353,7 +2353,7 @@
       },
       "not_in_chebi": 0
     },
-    "edges": 534,
+    "edges": 535,
     "excluded_targets": [
       "chebi:23905",
       "chebi:23906",
@@ -2368,14 +2368,14 @@
       "chebi:51143",
       "kegg.compound:C00080"
     ],
-    "metabolite_edges": 519,
+    "metabolite_edges": 520,
     "metabolite_targets": 218,
     "new_metabolites": 35,
     "release": "2026-07-26",
     "role_edges": 15,
     "role_targets": 6,
     "targets": 224,
-    "terms": 530,
+    "terms": 531,
     "unresolved_chebi_ids": []
   },
   "heuristic_name_candidates": [

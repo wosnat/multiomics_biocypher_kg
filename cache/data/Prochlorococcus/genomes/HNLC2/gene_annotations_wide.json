@@ -6236,7 +6236,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cobyric acid synthase [cobQ]."
+      "Cobyric acid synthase [cobQ]"
     ],
     "interproscan_interpro_entries": [
       "IPR004459",
@@ -6644,7 +6644,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "PKHD-type hydroxylase YbiX [ybiX]."
+      "PKHD-type hydroxylase YbiX [ybiX]"
     ],
     "interproscan_interpro_entries": [
       "IPR005123",
@@ -6698,6 +6698,12 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR065896"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31805"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -7128,7 +7134,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Urease accessory protein UreG [ureG]."
+      "Urease accessory protein UreG [ureG]"
     ],
     "interproscan_interpro_entries": [
       "IPR003495",
@@ -7465,7 +7471,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Urease subunit gamma [ureA]."
+      "Urease subunit gamma [ureA]"
     ],
     "interproscan_interpro_entries": [
       "IPR002026",
@@ -7547,7 +7553,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Urease subunit beta [ureB]."
+      "Urease subunit beta [ureB]"
     ],
     "interproscan_interpro_entries": [
       "IPR002019",
@@ -7637,7 +7643,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Urease subunit alpha [ureC]."
+      "Urease subunit alpha [ureC]"
     ],
     "interproscan_interpro_entries": [
       "IPR005848",
@@ -8351,14 +8357,10 @@
       ],
       "GO:0006418": [
         "IPR009080"
-      ],
-      "GO:0006423": [
-        "IPR015273",
-        "IPR015803"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cysteine--tRNA ligase [cysS]."
+      "Cysteine--tRNA ligase [cysS]"
     ],
     "interproscan_interpro_entries": [
       "IPR009080",
@@ -8366,14 +8368,16 @@
       "IPR015273",
       "IPR015803",
       "IPR024909",
-      "IPR032678"
+      "IPR032678",
+      "IPR056411"
     ],
     "interproscan_ncbifam_ids": [
       "TIGR00435"
     ],
     "interproscan_pfam_signatures": [
       "PF01406",
-      "PF09190"
+      "PF09190",
+      "PF23493"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -8722,6 +8726,10 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_pfam_signatures": [
+      "PF31786",
+      "PF31798"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
     "psortb_localization": "Cytoplasmic",
@@ -9061,7 +9069,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cytochrome b6-f complex subunit 7 [petM]."
+      "Cytochrome b6-f complex subunit 7 [petM]"
     ],
     "interproscan_interpro_entries": [
       "IPR012595"
@@ -9347,7 +9355,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem I assembly protein Ycf4 [ycf4]."
+      "Photosystem I assembly protein Ycf4 [ycf4]"
     ],
     "interproscan_interpro_entries": [
       "IPR003359"
@@ -9431,7 +9439,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem II D2 protein [psbD]."
+      "Photosystem II D2 protein [psbD]"
     ],
     "interproscan_interpro_entries": [
       "IPR000484",
@@ -9540,7 +9548,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem II CP43 reaction center protein [psbC]."
+      "Photosystem II CP43 reaction center protein [psbC]"
     ],
     "interproscan_interpro_entries": [
       "IPR000932",
@@ -10108,7 +10116,8 @@
     "interproscan_interpro_entries": [
       "IPR000073",
       "IPR010802",
-      "IPR029058"
+      "IPR029058",
+      "IPR050266"
     ],
     "interproscan_pfam_signatures": [
       "PF00561",
@@ -10179,7 +10188,6 @@
       "IPR045621"
     ],
     "interproscan_pfam_signatures": [
-      "PF00528",
       "PF19300"
     ],
     "psortb_is_multi_localized": false,
@@ -10522,7 +10530,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Crossover junction endodeoxyribonuclease RuvC [ruvC]."
+      "Crossover junction endodeoxyribonuclease RuvC [ruvC]"
     ],
     "interproscan_interpro_entries": [
       "IPR002176",
@@ -10771,7 +10779,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cytochrome b6-f complex subunit 5 [petG]."
+      "Cytochrome b6-f complex subunit 5 [petG]"
     ],
     "interproscan_interpro_entries": [
       "IPR003683",
@@ -10859,7 +10867,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Imidazole glycerol phosphate synthase subunit HisH [hisH]."
+      "Imidazole glycerol phosphate synthase subunit HisH [hisH]"
     ],
     "interproscan_interpro_entries": [
       "IPR010139",
@@ -11120,7 +11128,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "DNA gyrase subunit A [gyrA]."
+      "DNA gyrase subunit A [gyrA]"
     ],
     "interproscan_interpro_entries": [
       "IPR002205",
@@ -11364,15 +11372,12 @@
         "IPR005671",
         "IPR013709"
       ],
-      "GO:0019752": [
-        "IPR002034"
-      ],
       "GO:0046912": [
         "IPR002034"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "2-isopropylmalate synthase [leuA]."
+      "2-isopropylmalate synthase [leuA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000891",
@@ -11434,6 +11439,12 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "88",
     "gene_mapping_tIGR_Role_description": "Cell envelope / Other",
+    "interproscan_interpro_entries": [
+      "IPR065881"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31787"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
     "psortb_localization": "CytoplasmicMembrane",
@@ -11560,13 +11571,19 @@
         "IPR020867"
       ],
       "GO:0004488": [
-        "IPR000672",
-        "IPR020630",
         "IPR020631"
+      ],
+      "GO:0016646": [
+        "IPR000672",
+        "IPR020630"
+      ],
+      "GO:0035999": [
+        "IPR000672",
+        "IPR020630"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Bifunctional protein FolD [folD]."
+      "Bifunctional protein FolD [folD]"
     ],
     "interproscan_interpro_entries": [
       "IPR000672",
@@ -11913,9 +11930,6 @@
         "IPR022674",
         "IPR022675"
       ],
-      "GO:0016614": [
-        "IPR001282"
-      ],
       "GO:0050661": [
         "IPR001282",
         "IPR022674",
@@ -11923,14 +11937,15 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Glucose-6-phosphate 1-dehydrogenase [zwf]."
+      "Glucose-6-phosphate 1-dehydrogenase [zwf]"
     ],
     "interproscan_interpro_entries": [
       "IPR001282",
       "IPR019796",
       "IPR022674",
       "IPR022675",
-      "IPR036291"
+      "IPR036291",
+      "IPR064897"
     ],
     "interproscan_ncbifam_ids": [
       "TIGR00871"
@@ -12177,7 +12192,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Adaptive-response sensory-kinase SasA [sasA]."
+      "Adaptive-response sensory-kinase SasA [sasA]"
     ],
     "interproscan_interpro_entries": [
       "IPR003594",
@@ -12360,7 +12375,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Putative ribose-phosphate pyrophosphokinase [prs]."
+      "Putative ribose-phosphate pyrophosphokinase [prs]"
     ],
     "interproscan_interpro_entries": [
       "IPR000836",
@@ -12504,7 +12519,8 @@
     },
     "interproscan_interpro_entries": [
       "IPR001387",
-      "IPR010982"
+      "IPR010982",
+      "IPR050400"
     ],
     "interproscan_pfam_signatures": [
       "PF13413"
@@ -12748,7 +12764,8 @@
       "IPR016205"
     ],
     "interproscan_pfam_signatures": [
-      "PF00465"
+      "PF00465",
+      "PF32295"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
@@ -12835,8 +12852,7 @@
     },
     "interproscan_interpro_entries": [
       "IPR000182",
-      "IPR016181",
-      "IPR050680"
+      "IPR016181"
     ],
     "interproscan_pfam_signatures": [
       "PF00583"
@@ -12912,7 +12928,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Diaminopimelate decarboxylase [lysA]."
+      "Diaminopimelate decarboxylase [lysA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000183",
@@ -12990,7 +13006,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Diadenylate cyclase [dacA]."
+      "Diadenylate cyclase [dacA]"
     ],
     "interproscan_interpro_entries": [
       "IPR003390",
@@ -13067,7 +13083,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ditrans,polycis-undecaprenyl-diphosphate synthase ((2E,6E)-farnesyl-diphosphate specific) [uppS]."
+      "Ditrans,polycis-undecaprenyl-diphosphate synthase ((2E,6E)-farnesyl-diphosphate specific) [uppS]"
     ],
     "interproscan_interpro_entries": [
       "IPR001441",
@@ -13157,7 +13173,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Biotin synthase [bioB]."
+      "Biotin synthase [bioB]"
     ],
     "interproscan_interpro_entries": [
       "IPR002684",
@@ -13220,7 +13236,7 @@
     "gene_mapping_tIGR_Role": "157",
     "gene_mapping_tIGR_Role_description": "Unknown function / General",
     "interproscan_hamap_descriptions": [
-      "tRNA uridine(34) hydroxylase [trhO]."
+      "tRNA uridine(34) hydroxylase [trhO]"
     ],
     "interproscan_interpro_entries": [
       "IPR001763",
@@ -13274,6 +13290,12 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR066549"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF33663"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -13333,7 +13355,7 @@
         "IPR006638",
         "IPR007197"
       ],
-      "GO:0009107": [
+      "GO:0009249": [
         "IPR003698"
       ],
       "GO:0016992": [
@@ -13348,7 +13370,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Lipoyl synthase [lipA]."
+      "Lipoyl synthase [lipA]"
     ],
     "interproscan_interpro_entries": [
       "IPR003698",
@@ -13433,7 +13455,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Recombination protein RecR [recR]."
+      "Recombination protein RecR [recR]"
     ],
     "interproscan_interpro_entries": [
       "IPR000093",
@@ -13581,7 +13603,8 @@
         "IPR003439",
         "IPR011527",
         "IPR017871",
-        "IPR036640"
+        "IPR036640",
+        "IPR039421"
       ],
       "GO:0016020": [
         "IPR011527",
@@ -13591,8 +13614,12 @@
         "IPR003439",
         "IPR017871"
       ],
+      "GO:0042626": [
+        "IPR039421"
+      ],
       "GO:0055085": [
-        "IPR011527"
+        "IPR011527",
+        "IPR039421"
       ],
       "GO:0140359": [
         "IPR011527"
@@ -13653,6 +13680,12 @@
     "gene_mapping_start_cyanorak": "129805.0",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR076659"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF45163"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -13711,7 +13744,6 @@
         "IPR011545"
       ],
       "GO:0003724": [
-        "IPR014014",
         "IPR044742"
       ],
       "GO:0005524": [
@@ -13792,10 +13824,12 @@
     "gene_mapping_tIGR_Role_description": "DNA metabolism / DNA replication%2C recombination%2C and repair",
     "interproscan_interpro_entries": [
       "IPR027417",
-      "IPR050534"
+      "IPR050534",
+      "IPR065889"
     ],
     "interproscan_pfam_signatures": [
-      "PF13245"
+      "PF13245",
+      "PF31797"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -14121,7 +14155,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Pyridoxine 5'-phosphate synthase [pdxJ]."
+      "Pyridoxine 5'-phosphate synthase [pdxJ]"
     ],
     "interproscan_interpro_entries": [
       "IPR004569",
@@ -14527,7 +14561,8 @@
       "TIGR02730"
     ],
     "interproscan_pfam_signatures": [
-      "PF01593"
+      "PF01593",
+      "PF13450"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -14599,7 +14634,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Methylenetetrahydrofolate--tRNA-(uracil-5-)-methyltransferase TrmFO [trmFO]."
+      "Methylenetetrahydrofolate--tRNA-(uracil-5-)-methyltransferase TrmFO [trmFO]"
     ],
     "interproscan_interpro_entries": [
       "IPR002218",
@@ -15022,7 +15057,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "NAD kinase [nadK]."
+      "NAD kinase [nadK]"
     ],
     "interproscan_interpro_entries": [
       "IPR002504",
@@ -15116,16 +15151,12 @@
         "IPR004188",
         "IPR004529"
       ],
-      "GO:0006432": [
-        "IPR004188",
-        "IPR004529"
-      ],
       "GO:0043039": [
         "IPR002319"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Phenylalanine--tRNA ligase alpha subunit [pheS]."
+      "Phenylalanine--tRNA ligase alpha subunit [pheS]"
     ],
     "interproscan_interpro_entries": [
       "IPR002319",
@@ -15208,7 +15239,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "5'/3'-nucleotidase SurE [surE]."
+      "5'/3'-nucleotidase SurE [surE]"
     ],
     "interproscan_interpro_entries": [
       "IPR002828",
@@ -15436,7 +15467,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Thiamine-phosphate synthase [thiE]."
+      "Thiamine-phosphate synthase [thiE]"
     ],
     "interproscan_interpro_entries": [
       "IPR013785",
@@ -15698,7 +15729,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "2-C-methyl-D-erythritol 2,4-cyclodiphosphate synthase [ispF]."
+      "2-C-methyl-D-erythritol 2,4-cyclodiphosphate synthase [ispF]"
     ],
     "interproscan_interpro_entries": [
       "IPR003526",
@@ -15784,7 +15815,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "GTPase Era [era]."
+      "GTPase Era [era]"
     ],
     "interproscan_interpro_entries": [
       "IPR004044",
@@ -16040,7 +16071,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein bS16 [rpsP]."
+      "Small ribosomal subunit protein bS16 [rpsP]"
     ],
     "interproscan_interpro_entries": [
       "IPR000307",
@@ -16142,9 +16173,6 @@
       ],
       "GO:0016624": [
         "IPR001017"
-      ],
-      "GO:0043231": [
-        "IPR017597"
       ]
     },
     "interproscan_interpro_entries": [
@@ -16323,8 +16351,8 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ADP-dependent (S)-NAD(P)H-hydrate dehydratase [nnrD].",
-      "NAD(P)H-hydrate epimerase [nnrE]."
+      "ADP-dependent (S)-NAD(P)H-hydrate dehydratase [nnrD]",
+      "NAD(P)H-hydrate epimerase [nnrE]"
     ],
     "interproscan_interpro_entries": [
       "IPR000631",
@@ -16408,7 +16436,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "tRNA-specific 2-thiouridylase MnmA [mnmA]."
+      "tRNA-specific 2-thiouridylase MnmA [mnmA]"
     ],
     "interproscan_interpro_entries": [
       "IPR004506",
@@ -16486,7 +16514,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Apolipoprotein N-acyltransferase [lnt]."
+      "Apolipoprotein N-acyltransferase [lnt]"
     ],
     "interproscan_interpro_entries": [
       "IPR003010",
@@ -16690,11 +16718,21 @@
       "GO:0004252": [
         "IPR019533"
       ],
+      "GO:0006508": [
+        "IPR000223"
+      ],
+      "GO:0008236": [
+        "IPR000223"
+      ],
+      "GO:0016020": [
+        "IPR000223"
+      ],
       "GO:0051604": [
         "IPR019533"
       ]
     },
     "interproscan_interpro_entries": [
+      "IPR000223",
       "IPR019533",
       "IPR036286"
     ],
@@ -16945,7 +16983,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "UDP-N-acetylglucosamine 1-carboxyvinyltransferase [murA]."
+      "UDP-N-acetylglucosamine 1-carboxyvinyltransferase [murA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001986",
@@ -17029,7 +17067,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Acetylornithine/succinyldiaminopimelate aminotransferase [argD]."
+      "Acetylornithine/succinyldiaminopimelate aminotransferase [argD]"
     ],
     "interproscan_interpro_entries": [
       "IPR004636",
@@ -17114,15 +17152,14 @@
         "IPR001645",
         "IPR036565"
       ],
-      "GO:0009058": [
-        "IPR036565",
-        "IPR036615"
-      ],
       "GO:0009396": [
         "IPR001645"
       ],
       "GO:0016881": [
         "IPR036615"
+      ],
+      "GO:0042559": [
+        "IPR036565"
       ]
     },
     "interproscan_interpro_entries": [
@@ -17346,7 +17383,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "tRNA-2-methylthio-N(6)-dimethylallyladenosine synthase [miaB]."
+      "tRNA-2-methylthio-N(6)-dimethylallyladenosine synthase [miaB]"
     ],
     "interproscan_interpro_entries": [
       "IPR002792",
@@ -17438,7 +17475,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "D-alanine--D-alanine ligase [ddl]."
+      "D-alanine--D-alanine ligase [ddl]"
     ],
     "interproscan_interpro_entries": [
       "IPR000291",
@@ -17617,7 +17654,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cell division protein FtsZ [ftsZ]."
+      "Cell division protein FtsZ [ftsZ]"
     ],
     "interproscan_interpro_entries": [
       "IPR000158",
@@ -17702,7 +17739,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "3-methyl-2-oxobutanoate hydroxymethyltransferase [panB]."
+      "3-methyl-2-oxobutanoate hydroxymethyltransferase [panB]"
     ],
     "interproscan_interpro_entries": [
       "IPR003700",
@@ -17850,7 +17887,8 @@
       "IPR002792",
       "IPR029060",
       "IPR052041",
-      "IPR060543"
+      "IPR060543",
+      "IPR065473"
     ],
     "interproscan_pfam_signatures": [
       "PF01938",
@@ -17922,7 +17960,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP-dependent Clp protease proteolytic subunit [clpP]."
+      "ATP-dependent Clp protease proteolytic subunit [clpP]"
     ],
     "interproscan_interpro_entries": [
       "IPR001907",
@@ -18006,7 +18044,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP-dependent Clp protease proteolytic subunit [clpP]."
+      "ATP-dependent Clp protease proteolytic subunit [clpP]"
     ],
     "interproscan_interpro_entries": [
       "IPR001907",
@@ -18104,7 +18142,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ketol-acid reductoisomerase (NADP(+)) [ilvC]."
+      "Ketol-acid reductoisomerase (NADP(+)) [ilvC]"
     ],
     "interproscan_interpro_entries": [
       "IPR000506",
@@ -18191,7 +18229,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cobalamin biosynthesis protein CbiB [cbiB]."
+      "Cobalamin biosynthesis protein CbiB [cbiB]"
     ],
     "interproscan_interpro_entries": [
       "IPR004485"
@@ -18246,6 +18284,12 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "88",
     "gene_mapping_tIGR_Role_description": "Cell envelope / Other",
+    "interproscan_interpro_entries": [
+      "IPR076657"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF45161"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -18561,6 +18605,12 @@
     "gene_mapping_start_cyanorak": "209706.0",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR066003"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF32321"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -18685,7 +18735,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Peptide chain release factor 3 [prfC]."
+      "Peptide chain release factor 3 [prfC]"
     ],
     "interproscan_interpro_entries": [
       "IPR000795",
@@ -18813,7 +18863,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "33 kDa chaperonin [hslO]."
+      "33 kDa chaperonin [hslO]"
     ],
     "interproscan_interpro_entries": [
       "IPR000397",
@@ -19194,6 +19244,9 @@
       "IPR000515",
       "IPR035906"
     ],
+    "interproscan_pfam_signatures": [
+      "PF33172"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
     "psortb_localization": "CytoplasmicMembrane",
@@ -19417,7 +19470,6 @@
         "IPR050596"
       ],
       "GO:0009058": [
-        "IPR004838",
         "IPR004839"
       ],
       "GO:0030170": [
@@ -19572,7 +19624,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "4-hydroxy-3-methylbut-2-en-1-yl diphosphate synthase (ferredoxin) [ispG]."
+      "4-hydroxy-3-methylbut-2-en-1-yl diphosphate synthase (ferredoxin) [ispG]"
     ],
     "interproscan_interpro_entries": [
       "IPR004588",
@@ -19752,7 +19804,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Quinolinate synthase [nadA]."
+      "Quinolinate synthase [nadA]"
     ],
     "interproscan_interpro_entries": [
       "IPR003473",
@@ -19761,7 +19813,6 @@
     ],
     "interproscan_ncbifam_ids": [
       "NF006878",
-      "NF006879",
       "TIGR00550"
     ],
     "interproscan_pfam_signatures": [
@@ -19962,21 +20013,15 @@
         "IPR016037"
       ],
       "GO:0009073": [
-        "IPR016037",
-        "IPR030963"
-      ],
-      "GO:0016838": [
-        "IPR030963"
+        "IPR016037"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "3-dehydroquinate synthase [aroB]."
+      "3-dehydroquinate synthase [aroB]"
     ],
     "interproscan_interpro_entries": [
       "IPR016037",
       "IPR030960",
-      "IPR030963",
-      "IPR050071",
       "IPR056179"
     ],
     "interproscan_ncbifam_ids": [
@@ -20059,7 +20104,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "N5-carboxyaminoimidazole ribonucleotide synthase [purK]."
+      "N5-carboxyaminoimidazole ribonucleotide synthase [purK]"
     ],
     "interproscan_interpro_entries": [
       "IPR003135",
@@ -20191,7 +20236,8 @@
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
     "interproscan_interpro_entries": [
-      "IPR032808"
+      "IPR032808",
+      "IPR051907"
     ],
     "interproscan_pfam_signatures": [
       "PF07681"
@@ -20308,7 +20354,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Peptidyl-tRNA hydrolase [pth]."
+      "Peptidyl-tRNA hydrolase [pth]"
     ],
     "interproscan_interpro_entries": [
       "IPR001328",
@@ -20396,7 +20442,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem II reaction center protein H [psbH]."
+      "Photosystem II reaction center protein H [psbH]"
     ],
     "interproscan_interpro_entries": [
       "IPR001056",
@@ -20549,7 +20595,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem II reaction center protein I [psbI]."
+      "Photosystem II reaction center protein I [psbI]"
     ],
     "interproscan_interpro_entries": [
       "IPR003686",
@@ -20618,23 +20664,10 @@
     "gene_mapping_start_cyanorak": "238062.0",
     "gene_mapping_tIGR_Role": "74",
     "gene_mapping_tIGR_Role_description": "Amino acid biosynthesis / Pyruvate family",
-    "interproscan_go_term_donors": {
-      "GO:0003861": [
-        "IPR004431"
-      ],
-      "GO:0009098": [
-        "IPR004431"
-      ],
-      "GO:0009316": [
-        "IPR004431"
-      ]
-    },
     "interproscan_interpro_entries": [
       "IPR000573",
-      "IPR004431",
       "IPR015928",
-      "IPR033940",
-      "IPR050075"
+      "IPR033940"
     ],
     "interproscan_ncbifam_ids": [
       "NF002458"
@@ -20711,7 +20744,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "3-isopropylmalate dehydratase large subunit [leuC]."
+      "3-isopropylmalate dehydratase large subunit [leuC]"
     ],
     "interproscan_interpro_entries": [
       "IPR001030",
@@ -20784,7 +20817,7 @@
     "gene_mapping_tIGR_Role": "76",
     "gene_mapping_tIGR_Role_description": "Biosynthesis of cofactors%2C prosthetic groups%2C and carriers / Other",
     "interproscan_hamap_descriptions": [
-      "Putative competence-damage inducible protein [cinA]."
+      "Putative competence-damage inducible protein [cinA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001453",
@@ -20878,7 +20911,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Serine hydroxymethyltransferase [glyA]."
+      "Serine hydroxymethyltransferase [glyA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001085",
@@ -21058,7 +21091,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Sugar fermentation stimulation protein A [sfsA]."
+      "Sugar fermentation stimulation protein A [sfsA]"
     ],
     "interproscan_interpro_entries": [
       "IPR005224",
@@ -21230,7 +21263,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "4-hydroxy-3-methylbut-2-enyl diphosphate reductase [ispH]."
+      "4-hydroxy-3-methylbut-2-enyl diphosphate reductase [ispH]"
     ],
     "interproscan_interpro_entries": [
       "IPR003451"
@@ -21564,7 +21597,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Adenosylcobinamide-GDP ribazoletransferase [cobS]."
+      "Adenosylcobinamide-GDP ribazoletransferase [cobS]"
     ],
     "interproscan_interpro_entries": [
       "IPR003805"
@@ -21635,7 +21668,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Queuine tRNA-ribosyltransferase [tgt]."
+      "Queuine tRNA-ribosyltransferase [tgt]"
     ],
     "interproscan_interpro_entries": [
       "IPR002616",
@@ -21800,7 +21833,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Orotate phosphoribosyltransferase [pyrE]."
+      "Orotate phosphoribosyltransferase [pyrE]"
     ],
     "interproscan_interpro_entries": [
       "IPR000836",
@@ -22076,7 +22109,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "dITP/XTP pyrophosphatase."
+      "dITP/XTP pyrophosphatase"
     ],
     "interproscan_interpro_entries": [
       "IPR002637",
@@ -22217,7 +22250,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Imidazoleglycerol-phosphate dehydratase [hisB]."
+      "Imidazoleglycerol-phosphate dehydratase [hisB]"
     ],
     "interproscan_interpro_entries": [
       "IPR000807",
@@ -22539,7 +22572,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Gluconeogenesis factor."
+      "Gluconeogenesis factor"
     ],
     "interproscan_interpro_entries": [
       "IPR002882",
@@ -22550,7 +22583,8 @@
       "TIGR01826"
     ],
     "interproscan_pfam_signatures": [
-      "PF01933"
+      "PF01933",
+      "PF31589"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -22618,7 +22652,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "NAD(P)H-quinone oxidoreductase subunit J, chloroplastic [ndhJ]."
+      "NAD(P)H-quinone oxidoreductase subunit J, chloroplastic [ndhJ]"
     ],
     "interproscan_interpro_entries": [
       "IPR001268",
@@ -22710,7 +22744,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "NAD(P)H-quinone oxidoreductase subunit K, chloroplastic [ndhK]."
+      "NAD(P)H-quinone oxidoreductase subunit K, chloroplastic [ndhK]"
     ],
     "interproscan_interpro_entries": [
       "IPR006137",
@@ -22795,7 +22829,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "NAD(P)H-quinone oxidoreductase subunit 3, chloroplastic [ndhC]."
+      "NAD(P)H-quinone oxidoreductase subunit 3, chloroplastic [ndhC]"
     ],
     "interproscan_interpro_entries": [
       "IPR000440",
@@ -22871,7 +22905,8 @@
       "IPR050526"
     ],
     "interproscan_pfam_signatures": [
-      "PF00301"
+      "PF00301",
+      "PF31587"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
@@ -22926,7 +22961,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem II assembly lipoprotein Ycf48 [ycf48]."
+      "Photosystem II assembly lipoprotein Ycf48 [ycf48]"
     ],
     "interproscan_interpro_entries": [
       "IPR015943",
@@ -23028,7 +23063,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cytochrome b559 subunit alpha [psbE]."
+      "Cytochrome b559 subunit alpha [psbE]"
     ],
     "interproscan_interpro_entries": [
       "IPR006217",
@@ -23115,7 +23150,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem II reaction center protein J [psbJ]."
+      "Photosystem II reaction center protein J [psbJ]"
     ],
     "interproscan_interpro_entries": [
       "IPR002682",
@@ -23183,8 +23218,7 @@
     "gene_mapping_tIGR_Role_description": "Central intermediary metabolism / Other,Purines%2C pyrimidines%2C nucleosides%2C and nucleotides / Salvage of nucleosides and nucleotides",
     "interproscan_go_term_donors": {
       "GO:0003824": [
-        "IPR000845",
-        "IPR035994"
+        "IPR000845"
       ],
       "GO:0009116": [
         "IPR000845",
@@ -23198,7 +23232,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "S-methyl-5'-thioadenosine phosphorylase [mtnP]."
+      "S-methyl-5'-thioadenosine phosphorylase [mtnP]"
     ],
     "interproscan_interpro_entries": [
       "IPR000845",
@@ -23359,10 +23393,12 @@
     "interproscan_interpro_entries": [
       "IPR002646",
       "IPR043519",
-      "IPR052390"
+      "IPR052390",
+      "IPR076660"
     ],
     "interproscan_pfam_signatures": [
-      "PF01743"
+      "PF01743",
+      "PF45164"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -23583,6 +23619,12 @@
     "gene_mapping_start_cyanorak": "282996.0",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR065895"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31804"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -23625,7 +23667,13 @@
     "gene_mapping_start_cyanorak": "283287.0",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_go_term_donors": {
+      "GO:0016020": [
+        "IPR015414"
+      ]
+    },
     "interproscan_interpro_entries": [
+      "IPR015414",
       "IPR032816"
     ],
     "interproscan_pfam_signatures": [
@@ -23731,20 +23779,8 @@
     "gene_mapping_start_cyanorak": "284920.0",
     "gene_mapping_tIGR_Role": "119",
     "gene_mapping_tIGR_Role_description": "Energy metabolism / Sugars",
-    "interproscan_go_term_donors": {
-      "GO:0005975": [
-        "IPR018485"
-      ],
-      "GO:0016301": [
-        "IPR018485"
-      ]
-    },
     "interproscan_interpro_entries": [
-      "IPR018485",
       "IPR043129"
-    ],
-    "interproscan_pfam_signatures": [
-      "PF02782"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
@@ -23824,7 +23860,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "S-adenosylmethionine synthase [metK]."
+      "S-adenosylmethionine synthase [metK]"
     ],
     "interproscan_interpro_entries": [
       "IPR002133",
@@ -23964,7 +24000,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Transcriptional repressor NrdR [nrdR]."
+      "Transcriptional repressor NrdR [nrdR]"
     ],
     "interproscan_interpro_entries": [
       "IPR003796",
@@ -24025,7 +24061,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem II reaction center protein T [psbT]."
+      "Photosystem II reaction center protein T [psbT]"
     ],
     "interproscan_interpro_entries": [
       "IPR001743",
@@ -24120,7 +24156,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem II CP47 reaction center protein [psbB]."
+      "Photosystem II CP47 reaction center protein [psbB]"
     ],
     "interproscan_interpro_entries": [
       "IPR000932",
@@ -24206,7 +24242,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem II reaction center protein M [psbM]."
+      "Photosystem II reaction center protein M [psbM]"
     ],
     "interproscan_interpro_entries": [
       "IPR007826",
@@ -24427,7 +24463,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cell division topological specificity factor [minE]."
+      "Cell division topological specificity factor [minE]"
     ],
     "interproscan_interpro_entries": [
       "IPR005527",
@@ -24494,17 +24530,17 @@
       ]
     },
     "interproscan_interpro_entries": [
+      "IPR002586",
       "IPR010223",
       "IPR025501",
       "IPR027417",
-      "IPR033756",
       "IPR050625"
     ],
     "interproscan_ncbifam_ids": [
       "TIGR01968"
     ],
     "interproscan_pfam_signatures": [
-      "PF10609"
+      "PF01656"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -24795,7 +24831,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cytochrome b6 [petB]."
+      "Cytochrome b6 [petB]"
     ],
     "interproscan_interpro_entries": [
       "IPR005797",
@@ -24899,7 +24935,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cytochrome b6-f complex subunit 4 [petD]."
+      "Cytochrome b6-f complex subunit 4 [petD]"
     ],
     "interproscan_interpro_entries": [
       "IPR005798",
@@ -25419,11 +25455,13 @@
     "interproscan_interpro_entries": [
       "IPR038731",
       "IPR050297",
-      "IPR062970"
+      "IPR062970",
+      "IPR077046"
     ],
     "interproscan_pfam_signatures": [
       "PF13231",
-      "PF30533"
+      "PF30533",
+      "PF45593"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -25779,7 +25817,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein bL34 [rpmH]."
+      "Large ribosomal subunit protein bL34 [rpmH]"
     ],
     "interproscan_interpro_entries": [
       "IPR000271",
@@ -25855,7 +25893,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribonuclease P protein component [rnpA]."
+      "Ribonuclease P protein component [rnpA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000100",
@@ -26022,7 +26060,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein bL34 [rpmH]."
+      "Large ribosomal subunit protein bL34 [rpmH]"
     ],
     "interproscan_interpro_entries": [
       "IPR000271",
@@ -26078,7 +26116,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribonuclease P protein component [rnpA]."
+      "Ribonuclease P protein component [rnpA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000100",
@@ -26334,13 +26372,10 @@
       ],
       "GO:0006418": [
         "IPR002314"
-      ],
-      "GO:0006434": [
-        "IPR002317"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Serine--tRNA ligase [serS]."
+      "Serine--tRNA ligase [serS]"
     ],
     "interproscan_interpro_entries": [
       "IPR002314",
@@ -26460,7 +26495,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein uS14 [rpsN]."
+      "Small ribosomal subunit protein uS14 [rpsN]"
     ],
     "interproscan_interpro_entries": [
       "IPR001209",
@@ -26553,7 +26588,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Polyribonucleotide nucleotidyltransferase [pnp]."
+      "Polyribonucleotide nucleotidyltransferase [pnp]"
     ],
     "interproscan_interpro_entries": [
       "IPR001247",
@@ -26821,6 +26856,12 @@
     "gene_mapping_start_cyanorak": "324982.0",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR065876"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31775"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -27114,11 +27155,11 @@
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
     "interproscan_interpro_entries": [
-      "IPR035272",
-      "IPR036410"
+      "IPR036410",
+      "IPR065883"
     ],
     "interproscan_pfam_signatures": [
-      "PF17302"
+      "PF31791"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
@@ -29029,6 +29070,12 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR065887"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31795"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
     "psortb_localization": "Cytoplasmic",
@@ -29156,7 +29203,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cytochrome b6-f complex subunit 8 [petN]."
+      "Cytochrome b6-f complex subunit 8 [petN]"
     ],
     "interproscan_interpro_entries": [
       "IPR005497",
@@ -29226,7 +29273,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Protein Thf1 [thf1]."
+      "Protein Thf1 [thf1]"
     ],
     "interproscan_interpro_entries": [
       "IPR017499"
@@ -29302,7 +29349,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP-dependent Clp protease proteolytic subunit [clpP]."
+      "ATP-dependent Clp protease proteolytic subunit [clpP]"
     ],
     "interproscan_interpro_entries": [
       "IPR001907",
@@ -29412,7 +29459,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP-dependent zinc metalloprotease FtsH [ftsH]."
+      "ATP-dependent zinc metalloprotease FtsH [ftsH]"
     ],
     "interproscan_interpro_entries": [
       "IPR000642",
@@ -30038,7 +30085,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein uS2 [rpsB]."
+      "Small ribosomal subunit protein uS2 [rpsB]"
     ],
     "interproscan_interpro_entries": [
       "IPR001865",
@@ -30116,7 +30163,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Elongation factor Ts [tsf]."
+      "Elongation factor Ts [tsf]"
     ],
     "interproscan_interpro_entries": [
       "IPR001816",
@@ -30173,6 +30220,12 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR067227"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF34348"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -30266,7 +30319,8 @@
       "PF00270",
       "PF00271",
       "PF17191",
-      "PF19833"
+      "PF19833",
+      "PF32965"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -30341,7 +30395,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "D-alanyl-D-alanine dipeptidase [ddpX]."
+      "D-alanyl-D-alanine dipeptidase [ddpX]"
     ],
     "interproscan_interpro_entries": [
       "IPR000755",
@@ -30521,14 +30575,10 @@
       "GO:0005737": [
         "IPR006194",
         "IPR015944"
-      ],
-      "GO:0006426": [
-        "IPR006194",
-        "IPR015944"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Glycine--tRNA ligase beta subunit [glyS]."
+      "Glycine--tRNA ligase beta subunit [glyS]"
     ],
     "interproscan_interpro_entries": [
       "IPR006194",
@@ -30759,7 +30809,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit assembly factor BipA [bipA]."
+      "Large ribosomal subunit assembly factor BipA [bipA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000640",
@@ -30987,7 +31037,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cytochrome c biogenesis protein CcsA [ccsA]."
+      "Cytochrome c biogenesis protein CcsA [ccsA]"
     ],
     "interproscan_interpro_entries": [
       "IPR002541",
@@ -31241,7 +31291,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Glutamyl-tRNA reductase [hemA]."
+      "Glutamyl-tRNA reductase [hemA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000343",
@@ -31330,9 +31380,6 @@
       "GO:0008878": [
         "IPR005836",
         "IPR011831"
-      ],
-      "GO:0009058": [
-        "IPR005835"
       ]
     },
     "interproscan_interpro_entries": [
@@ -31341,7 +31388,8 @@
       "IPR011004",
       "IPR011831",
       "IPR029044",
-      "IPR064045"
+      "IPR064045",
+      "IPR064928"
     ],
     "interproscan_ncbifam_ids": [
       "NF002772",
@@ -31609,7 +31657,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Dihydroxy-acid dehydratase [ilvD]."
+      "Dihydroxy-acid dehydratase [ilvD]"
     ],
     "interproscan_interpro_entries": [
       "IPR000581",
@@ -31626,7 +31674,8 @@
     ],
     "interproscan_pfam_signatures": [
       "PF00920",
-      "PF24877"
+      "PF24877",
+      "PF31304"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -31662,12 +31711,6 @@
     "gene_mapping_start_cyanorak": "399198.0",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
-    "interproscan_interpro_entries": [
-      "IPR060336"
-    ],
-    "interproscan_pfam_signatures": [
-      "PF27515"
-    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -31896,7 +31939,7 @@
     "gene_mapping_tIGR_Role": "125",
     "gene_mapping_tIGR_Role_description": "Purines%2C pyrimidines%2C nucleosides%2C and nucleotides / Purine ribonucleotide biosynthesis",
     "interproscan_hamap_descriptions": [
-      "Phosphoribosylformylglycinamidine synthase subunit PurS [purS]."
+      "Phosphoribosylformylglycinamidine synthase subunit PurS [purS]"
     ],
     "interproscan_interpro_entries": [
       "IPR003850",
@@ -31975,11 +32018,12 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Phosphoribosylformylglycinamidine synthase subunit PurQ [purQ]."
+      "Phosphoribosylformylglycinamidine synthase subunit PurQ [purQ]"
     ],
     "interproscan_interpro_entries": [
       "IPR010075",
-      "IPR029062"
+      "IPR029062",
+      "IPR065019"
     ],
     "interproscan_ncbifam_ids": [
       "NF002957",
@@ -32182,7 +32226,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Acetyl-coenzyme A carboxylase carboxyl transferase subunit beta, chloroplastic [accD]."
+      "Acetyl-coenzyme A carboxylase carboxyl transferase subunit beta, chloroplastic [accD]"
     ],
     "interproscan_interpro_entries": [
       "IPR000438",
@@ -32355,7 +32399,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "3-isopropylmalate dehydrogenase [leuB]."
+      "3-isopropylmalate dehydrogenase [leuB]"
     ],
     "interproscan_interpro_entries": [
       "IPR004429",
@@ -32433,7 +32477,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "UDP-3-O-(3-hydroxymyristoyl)glucosamine N-acyltransferase [lpxD]."
+      "UDP-3-O-(3-hydroxymyristoyl)glucosamine N-acyltransferase [lpxD]"
     ],
     "interproscan_interpro_entries": [
       "IPR001451",
@@ -32606,16 +32650,12 @@
     "gene_mapping_tIGR_Role": "166",
     "gene_mapping_tIGR_Role_description": "Transcription / RNA processing",
     "interproscan_go_term_donors": {
-      "GO:0006139": [
-        "IPR006641",
-        "IPR037027"
-      ],
       "GO:0006364": [
         "IPR005227"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Putative pre-16S rRNA nuclease [yqgF]."
+      "Putative pre-16S rRNA nuclease [yqgF]"
     ],
     "interproscan_interpro_entries": [
       "IPR005227",
@@ -32885,7 +32925,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "1-(5-phosphoribosyl)-5-[(5-phosphoribosylamino)methylideneamino] imidazole-4-carboxamide isomerase [hisA]."
+      "1-(5-phosphoribosyl)-5-[(5-phosphoribosylamino)methylideneamino] imidazole-4-carboxamide isomerase [hisA]"
     ],
     "interproscan_interpro_entries": [
       "IPR006062",
@@ -33084,6 +33124,12 @@
     "gene_mapping_start_cyanorak": "419245.0",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR065877"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31776"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -33204,7 +33250,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Endonuclease III [nth]."
+      "Endonuclease III [nth]"
     ],
     "interproscan_interpro_entries": [
       "IPR000445",
@@ -33668,6 +33714,12 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR065900"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31812"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -33702,6 +33754,12 @@
     "gene_mapping_source": "Protein Homology",
     "gene_mapping_start": "427072.0",
     "gene_mapping_start_cyanorak": "427072.0",
+    "interproscan_interpro_entries": [
+      "IPR065884"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31792"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
     "psortb_localization": "CytoplasmicMembrane",
@@ -33885,7 +33943,7 @@
     "gene_mapping_tIGR_Role": "157",
     "gene_mapping_tIGR_Role_description": "Unknown function / General",
     "interproscan_hamap_descriptions": [
-      "Ribosomal silencing factor RsfS [rsfS]."
+      "Ribosomal silencing factor RsfS [rsfS]"
     ],
     "interproscan_interpro_entries": [
       "IPR004394",
@@ -34084,7 +34142,8 @@
         "IPR003439",
         "IPR011527",
         "IPR017871",
-        "IPR036640"
+        "IPR036640",
+        "IPR039421"
       ],
       "GO:0016020": [
         "IPR011527",
@@ -34094,8 +34153,12 @@
         "IPR003439",
         "IPR017871"
       ],
+      "GO:0042626": [
+        "IPR039421"
+      ],
       "GO:0055085": [
-        "IPR011527"
+        "IPR011527",
+        "IPR039421"
       ],
       "GO:0140359": [
         "IPR011527"
@@ -34243,7 +34306,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Triosephosphate isomerase [tpiA]."
+      "Triosephosphate isomerase [tpiA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000652",
@@ -34395,9 +34458,6 @@
     "gene_mapping_tIGR_Role": "191",
     "gene_mapping_tIGR_Role_description": "Biosynthesis of cofactors%2C prosthetic groups%2C and carriers / Chlorophyll and bacteriochlorphyll",
     "interproscan_go_term_donors": {
-      "GO:0009058": [
-        "IPR003672"
-      ],
       "GO:0015995": [
         "IPR011771"
       ],
@@ -34492,14 +34552,15 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "4-hydroxy-tetrahydrodipicolinate reductase [dapB]."
+      "4-hydroxy-tetrahydrodipicolinate reductase [dapB]"
     ],
     "interproscan_interpro_entries": [
       "IPR000846",
       "IPR022663",
       "IPR022664",
       "IPR023940",
-      "IPR036291"
+      "IPR036291",
+      "IPR064897"
     ],
     "interproscan_ncbifam_ids": [
       "TIGR00036"
@@ -34763,7 +34824,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Transcription-repair-coupling factor [mfd]."
+      "Transcription-repair-coupling factor [mfd]"
     ],
     "interproscan_interpro_entries": [
       "IPR001650",
@@ -34923,17 +34984,12 @@
         "IPR005794",
         "IPR041711"
       ],
-      "GO:0009058": [
-        "IPR002376",
-        "IPR005793",
-        "IPR036477"
-      ],
       "GO:0071951": [
         "IPR005794"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Methionyl-tRNA formyltransferase [fmt]."
+      "Methionyl-tRNA formyltransferase [fmt]"
     ],
     "interproscan_interpro_entries": [
       "IPR002376",
@@ -35166,7 +35222,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Aerobic magnesium-protoporphyrin IX monomethyl ester [oxidative] cyclase [acsF]."
+      "Aerobic magnesium-protoporphyrin IX monomethyl ester [oxidative] cyclase [acsF]"
     ],
     "interproscan_interpro_entries": [
       "IPR003251",
@@ -35297,6 +35353,7 @@
       "IPR011129",
       "IPR012340",
       "IPR013223",
+      "IPR050437",
       "IPR062296"
     ],
     "interproscan_pfam_signatures": [
@@ -35640,7 +35697,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein bL32 [rpmF]."
+      "Large ribosomal subunit protein bL32 [rpmF]"
     ],
     "interproscan_interpro_entries": [
       "IPR002677",
@@ -35735,7 +35792,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP-dependent zinc metalloprotease FtsH [ftsH]."
+      "ATP-dependent zinc metalloprotease FtsH [ftsH]"
     ],
     "interproscan_interpro_entries": [
       "IPR000642",
@@ -35982,7 +36039,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "tRNA (cytidine(34)-2'-O)-methyltransferase [trmL]."
+      "tRNA (cytidine(34)-2'-O)-methyltransferase [trmL]"
     ],
     "interproscan_interpro_entries": [
       "IPR001537",
@@ -36291,14 +36348,10 @@
       "GO:0006418": [
         "IPR009080",
         "IPR015413"
-      ],
-      "GO:0006431": [
-        "IPR014758",
-        "IPR033911"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Methionine--tRNA ligase [metG]."
+      "Methionine--tRNA ligase [metG]"
     ],
     "interproscan_interpro_entries": [
       "IPR009080",
@@ -36449,7 +36502,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein bS18 [rpsR]."
+      "Small ribosomal subunit protein bS18 [rpsR]"
     ],
     "interproscan_interpro_entries": [
       "IPR001648",
@@ -36527,7 +36580,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein bL33 [rpmG]."
+      "Large ribosomal subunit protein bL33 [rpmG]"
     ],
     "interproscan_interpro_entries": [
       "IPR001705",
@@ -36857,9 +36910,6 @@
     "gene_mapping_tIGR_Role": "79",
     "gene_mapping_tIGR_Role_description": "Biosynthesis of cofactors%2C prosthetic groups%2C and carriers / Heme%2C porphyrin%2C and cobalamin",
     "interproscan_go_term_donors": {
-      "GO:0009058": [
-        "IPR003672"
-      ],
       "GO:0009236": [
         "IPR011953"
       ],
@@ -37002,7 +37052,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Protoporphyrinogen IX dehydrogenase [quinone] [hemG]."
+      "Protoporphyrinogen IX dehydrogenase [quinone] [hemG]"
     ],
     "interproscan_interpro_entries": [
       "IPR026816",
@@ -37089,7 +37139,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "UvrABC system protein C [uvrC]."
+      "UvrABC system protein C [uvrC]"
     ],
     "interproscan_interpro_entries": [
       "IPR000305",
@@ -37235,15 +37285,12 @@
       "GO:0004595": [
         "IPR001980"
       ],
-      "GO:0009058": [
-        "IPR004821"
-      ],
       "GO:0015937": [
         "IPR001980"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Phosphopantetheine adenylyltransferase [coaD]."
+      "Phosphopantetheine adenylyltransferase [coaD]"
     ],
     "interproscan_interpro_entries": [
       "IPR001980",
@@ -37557,13 +37604,10 @@
         "IPR013155",
         "IPR015413",
         "IPR025709"
-      ],
-      "GO:0006429": [
-        "IPR002302"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Leucine--tRNA ligase [leuS]."
+      "Leucine--tRNA ligase [leuS]"
     ],
     "interproscan_interpro_entries": [
       "IPR001412",
@@ -37664,7 +37708,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Glucose-6-phosphate isomerase [pgi]."
+      "Glucose-6-phosphate isomerase [pgi]"
     ],
     "interproscan_interpro_entries": [
       "IPR001672",
@@ -37788,7 +37832,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "N-acetyl-gamma-glutamyl-phosphate reductase [argC]."
+      "N-acetyl-gamma-glutamyl-phosphate reductase [argC]"
     ],
     "interproscan_interpro_entries": [
       "IPR000534",
@@ -37796,7 +37840,8 @@
       "IPR023013",
       "IPR036291",
       "IPR050085",
-      "IPR058924"
+      "IPR058924",
+      "IPR064897"
     ],
     "interproscan_ncbifam_ids": [
       "TIGR01850"
@@ -37876,9 +37921,9 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "3,4-dihydroxy-2-butanone 4-phosphate synthase [ribB].",
-      "GTP cyclohydrolase-2 [ribA].",
-      "Riboflavin biosynthesis protein RibBA [ribBA]."
+      "3,4-dihydroxy-2-butanone 4-phosphate synthase [ribB]",
+      "GTP cyclohydrolase-2 [ribA]",
+      "Riboflavin biosynthesis protein RibBA [ribBA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000422",
@@ -37897,7 +37942,8 @@
     ],
     "interproscan_pfam_signatures": [
       "PF00925",
-      "PF00926"
+      "PF00926",
+      "PF31810"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -38151,7 +38197,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Chaperone protein DnaK [dnaK]."
+      "Chaperone protein DnaK [dnaK]"
     ],
     "interproscan_interpro_entries": [
       "IPR012725",
@@ -38379,7 +38425,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP phosphoribosyltransferase regulatory subunit [hisZ]."
+      "ATP phosphoribosyltransferase regulatory subunit [hisZ]"
     ],
     "interproscan_interpro_entries": [
       "IPR004516",
@@ -38392,7 +38438,8 @@
       "NF008939"
     ],
     "interproscan_pfam_signatures": [
-      "PF13393"
+      "PF13393",
+      "PF43996"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -38491,7 +38538,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein bL28 [rpmB]."
+      "Large ribosomal subunit protein bL28 [rpmB]"
     ],
     "interproscan_interpro_entries": [
       "IPR001383",
@@ -38785,7 +38832,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "1-deoxy-D-xylulose-5-phosphate synthase [dxs]."
+      "1-deoxy-D-xylulose-5-phosphate synthase [dxs]"
     ],
     "interproscan_interpro_entries": [
       "IPR005475",
@@ -38873,9 +38920,6 @@
       ],
       "GO:0030170": [
         "IPR000634"
-      ],
-      "GO:1901705": [
-        "IPR005787"
       ]
     },
     "interproscan_interpro_entries": [
@@ -39304,7 +39348,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Lipoprotein signal peptidase [lspA]."
+      "Lipoprotein signal peptidase [lspA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001872"
@@ -39475,7 +39519,7 @@
       "IPR016193"
     ],
     "interproscan_pfam_signatures": [
-      "PF00383"
+      "PF14437"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -39676,10 +39720,12 @@
     "gene_mapping_tIGR_Role_description": "Unknown function / Enzymes of unknown specificity",
     "interproscan_interpro_entries": [
       "IPR029063",
-      "IPR041698"
+      "IPR041698",
+      "IPR076039"
     ],
     "interproscan_pfam_signatures": [
-      "PF13649"
+      "PF13649",
+      "PF44542"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -39939,7 +39985,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem II reaction center Psb28 protein [psb28]."
+      "Photosystem II reaction center Psb28 protein [psb28]"
     ],
     "interproscan_interpro_entries": [
       "IPR005610",
@@ -40065,7 +40111,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Protein-export membrane protein SecF [secF]."
+      "Protein-export membrane protein SecF [secF]"
     ],
     "interproscan_interpro_entries": [
       "IPR005665",
@@ -40326,7 +40372,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribosomal RNA small subunit methyltransferase A [rsmA]."
+      "Ribosomal RNA small subunit methyltransferase A [rsmA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001737",
@@ -40436,7 +40482,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribosomal RNA large subunit methyltransferase H [rlmH]."
+      "Ribosomal RNA large subunit methyltransferase H [rlmH]"
     ],
     "interproscan_interpro_entries": [
       "IPR003742",
@@ -40578,9 +40624,11 @@
         "IPR036775"
       ],
       "GO:0006281": [
-        "IPR001126",
         "IPR017961",
         "IPR036775"
+      ],
+      "GO:0019985": [
+        "IPR001126"
       ]
     },
     "interproscan_interpro_entries": [
@@ -40715,7 +40763,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "DNA primase [dnaG]."
+      "DNA primase [dnaG]"
     ],
     "interproscan_interpro_entries": [
       "IPR002694",
@@ -40738,7 +40786,8 @@
       "PF08275",
       "PF10410",
       "PF13155",
-      "PF30523"
+      "PF30523",
+      "PF54564"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -40830,7 +40879,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Holliday junction branch migration complex subunit RuvA [ruvA]."
+      "Holliday junction branch migration complex subunit RuvA [ruvA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000085",
@@ -40917,7 +40966,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein uS15 [rpsO]."
+      "Small ribosomal subunit protein uS15 [rpsO]"
     ],
     "interproscan_interpro_entries": [
       "IPR000589",
@@ -41075,7 +41124,8 @@
       "PF02811",
       "PF07733",
       "PF14579",
-      "PF17657"
+      "PF17657",
+      "PF54570"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -41148,7 +41198,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Glutamyl-tRNA(Gln) amidotransferase subunit A [gatA]."
+      "Glutamyl-tRNA(Gln) amidotransferase subunit A [gatA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000120",
@@ -41297,7 +41347,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Mini-ribonuclease 3 [mrnC]."
+      "Mini-ribonuclease 3 [mrnC]"
     ],
     "interproscan_interpro_entries": [
       "IPR000999",
@@ -41426,7 +41476,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Carbamoyl phosphate synthase small chain [carA]."
+      "Carbamoyl phosphate synthase small chain [carA]"
     ],
     "interproscan_interpro_entries": [
       "IPR002474",
@@ -41556,7 +41606,8 @@
       "GO:0005524": [
         "IPR003439",
         "IPR011527",
-        "IPR036640"
+        "IPR036640",
+        "IPR039421"
       ],
       "GO:0016020": [
         "IPR011527",
@@ -41565,8 +41616,12 @@
       "GO:0016887": [
         "IPR003439"
       ],
+      "GO:0042626": [
+        "IPR039421"
+      ],
       "GO:0055085": [
-        "IPR011527"
+        "IPR011527",
+        "IPR039421"
       ],
       "GO:0140359": [
         "IPR011527"
@@ -41649,7 +41704,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Peptide methionine sulfoxide reductase MsrA [msrA]."
+      "Peptide methionine sulfoxide reductase MsrA [msrA]"
     ],
     "interproscan_interpro_entries": [
       "IPR002569",
@@ -42461,8 +42516,7 @@
     },
     "interproscan_interpro_entries": [
       "IPR002711",
-      "IPR003615",
-      "IPR052892"
+      "IPR003615"
     ],
     "interproscan_pfam_signatures": [
       "PF01844"
@@ -42538,6 +42592,12 @@
     "gene_mapping_start_cyanorak": "574039.0",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR065900"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31812"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -42682,6 +42742,12 @@
     "gene_mapping_start_cyanorak": "575918.0",
     "gene_mapping_strand": "+",
     "gene_mapping_strand_cyanorak": "+",
+    "interproscan_interpro_entries": [
+      "IPR065876"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31775"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -42748,7 +42814,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein bS21 [rpsU]."
+      "Small ribosomal subunit protein bS21 [rpsU]"
     ],
     "interproscan_interpro_entries": [
       "IPR001911",
@@ -43456,6 +43522,12 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR065885"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31793"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -43835,7 +43907,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Formate-dependent phosphoribosylglycinamide formyltransferase [purT]."
+      "Formate-dependent phosphoribosylglycinamide formyltransferase [purT]"
     ],
     "interproscan_interpro_entries": [
       "IPR003135",
@@ -44030,6 +44102,12 @@
     "gene_mapping_start_cyanorak": "594388.0",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR065900"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31812"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -44283,7 +44361,8 @@
     "gene_mapping_tIGR_Role": "703",
     "gene_mapping_tIGR_Role_description": "Unknown function / Enzymes of unknown specificity",
     "interproscan_interpro_entries": [
-      "IPR029069"
+      "IPR029069",
+      "IPR050563"
     ],
     "interproscan_pfam_signatures": [
       "PF13279"
@@ -44747,7 +44826,8 @@
     "gene_mapping_strand": "+",
     "gene_mapping_strand_cyanorak": "+",
     "interproscan_interpro_entries": [
-      "IPR006843"
+      "IPR006843",
+      "IPR039633"
     ],
     "interproscan_pfam_signatures": [
       "PF04755"
@@ -45636,7 +45716,8 @@
     "gene_mapping_strand": "+",
     "gene_mapping_strand_cyanorak": "+",
     "interproscan_interpro_entries": [
-      "IPR007461"
+      "IPR007461",
+      "IPR051702"
     ],
     "interproscan_pfam_signatures": [
       "PF04366"
@@ -45778,19 +45859,17 @@
       ],
       "GO:0006418": [
         "IPR002305"
-      ],
-      "GO:0006436": [
-        "IPR002306"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Tryptophan--tRNA ligase [trpS]."
+      "Tryptophan--tRNA ligase [trpS]"
     ],
     "interproscan_interpro_entries": [
       "IPR002305",
       "IPR002306",
       "IPR014729",
-      "IPR024109"
+      "IPR024109",
+      "IPR065519"
     ],
     "interproscan_ncbifam_ids": [
       "TIGR00233"
@@ -45886,10 +45965,12 @@
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
     "interproscan_interpro_entries": [
-      "IPR021147"
+      "IPR021147",
+      "IPR076661"
     ],
     "interproscan_pfam_signatures": [
-      "PF05128"
+      "PF05128",
+      "PF45165"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -46388,7 +46469,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "2-succinyl-5-enolpyruvyl-6-hydroxy-3-cyclohexene-1-carboxylate synthase [menD]."
+      "2-succinyl-5-enolpyruvyl-6-hydroxy-3-cyclohexene-1-carboxylate synthase [menD]"
     ],
     "interproscan_interpro_entries": [
       "IPR004433",
@@ -46473,7 +46554,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "1,4-dihydroxy-2-naphthoyl-CoA synthase [menB]."
+      "1,4-dihydroxy-2-naphthoyl-CoA synthase [menB]"
     ],
     "interproscan_interpro_entries": [
       "IPR001753",
@@ -46556,7 +46637,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Glycogen synthase [glgA]."
+      "Glycogen synthase [glgA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001296",
@@ -46632,18 +46713,17 @@
         "IPR013221",
         "IPR036565"
       ],
-      "GO:0009058": [
-        "IPR000713",
-        "IPR004101",
-        "IPR013221",
-        "IPR036565",
-        "IPR036615"
+      "GO:0009059": [
+        "IPR013221"
       ],
       "GO:0016881": [
         "IPR000713",
         "IPR004101",
         "IPR013221",
         "IPR036615"
+      ],
+      "GO:0042559": [
+        "IPR036565"
       ],
       "GO:0047480": [
         "IPR005863"
@@ -46746,9 +46826,6 @@
         "IPR005882",
         "IPR038009"
       ],
-      "GO:0009058": [
-        "IPR005835"
-      ],
       "GO:0009252": [
         "IPR005882"
       ],
@@ -46761,7 +46838,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Bifunctional protein GlmU [glmU]."
+      "Bifunctional protein GlmU [glmU]"
     ],
     "interproscan_interpro_entries": [
       "IPR001451",
@@ -46774,6 +46851,7 @@
       "IPR050065"
     ],
     "interproscan_ncbifam_ids": [
+      "NF010934",
       "NF010940",
       "TIGR01173"
     ],
@@ -46906,7 +46984,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "3-phosphoshikimate 1-carboxyvinyltransferase [aroA]."
+      "3-phosphoshikimate 1-carboxyvinyltransferase [aroA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001986",
@@ -46989,7 +47067,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "2-phosphosulfolactate phosphatase [comB]."
+      "2-phosphosulfolactate phosphatase [comB]"
     ],
     "interproscan_interpro_entries": [
       "IPR005238",
@@ -47204,7 +47282,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Glutamate racemase [murI]."
+      "Glutamate racemase [murI]"
     ],
     "interproscan_interpro_entries": [
       "IPR001920",
@@ -47551,13 +47629,10 @@
       ],
       "GO:0005737": [
         "IPR004516"
-      ],
-      "GO:0006427": [
-        "IPR015807"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Histidine--tRNA ligase [hisS]."
+      "Histidine--tRNA ligase [hisS]"
     ],
     "interproscan_interpro_entries": [
       "IPR004154",
@@ -47891,6 +47966,12 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR065894"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31803"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
     "psortb_localization": "Cytoplasmic",
@@ -48523,6 +48604,14 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR065878",
+      "IPR065879"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31777",
+      "PF31778"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
     "psortb_localization": "Cytoplasmic",
@@ -48664,7 +48753,7 @@
     "gene_mapping_tIGR_Role": "106,75",
     "gene_mapping_tIGR_Role_description": "Central intermediary metabolism / Sulfur metabolism,Amino acid biosynthesis / Serine family",
     "interproscan_hamap_descriptions": [
-      "Homoserine O-succinyltransferase [metAS]."
+      "Homoserine O-succinyltransferase [metAS]"
     ],
     "interproscan_interpro_entries": [
       "IPR029062",
@@ -49766,7 +49855,6 @@
         "IPR012394"
       ],
       "GO:0016491": [
-        "IPR015590",
         "IPR016160"
       ]
     },
@@ -50536,7 +50624,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Sec-independent protein translocase protein TatA [tatA]."
+      "Sec-independent protein translocase protein TatA [tatA]"
     ],
     "interproscan_interpro_entries": [
       "IPR003369",
@@ -51298,7 +51386,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Fluoride-specific ion channel FluC [fluC]."
+      "Fluoride-specific ion channel FluC [fluC]"
     ],
     "interproscan_interpro_entries": [
       "IPR003691"
@@ -51475,7 +51563,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem I iron-sulfur center [psaC]."
+      "Photosystem I iron-sulfur center [psaC]"
     ],
     "interproscan_interpro_entries": [
       "IPR017491",
@@ -51528,6 +51616,12 @@
     "gene_mapping_start_cyanorak": "715918.0",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR065886"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31794"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -51688,7 +51782,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "3-dehydroquinate dehydratase [aroQ]."
+      "3-dehydroquinate dehydratase [aroQ]"
     ],
     "interproscan_interpro_entries": [
       "IPR001874",
@@ -51845,7 +51939,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "GTPase Der [der]."
+      "GTPase Der [der]"
     ],
     "interproscan_interpro_entries": [
       "IPR003593",
@@ -52037,7 +52131,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Pyridoxal phosphate homeostasis protein."
+      "Pyridoxal phosphate homeostasis protein"
     ],
     "interproscan_interpro_entries": [
       "IPR001608",
@@ -52106,7 +52200,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cell division protein SepF [sepF]."
+      "Cell division protein SepF [sepF]"
     ],
     "interproscan_interpro_entries": [
       "IPR007561",
@@ -52161,7 +52255,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Pyrroline-5-carboxylate reductase [proC]."
+      "Pyrroline-5-carboxylate reductase [proC]"
     ],
     "interproscan_interpro_entries": [
       "IPR000304",
@@ -52299,7 +52393,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "DNA repair protein RecO [recO]."
+      "DNA repair protein RecO [recO]"
     ],
     "interproscan_interpro_entries": [
       "IPR003717",
@@ -52364,12 +52458,18 @@
     "gene_mapping_tIGR_Role": "703",
     "gene_mapping_tIGR_Role_description": "Unknown function / Enzymes of unknown specificity",
     "interproscan_go_term_donors": {
-      "GO:0016829": [
-        "IPR002915"
+      "GO:0004139": [
+        "IPR011343"
+      ],
+      "GO:0005737": [
+        "IPR011343"
+      ],
+      "GO:0009264": [
+        "IPR011343"
       ]
     },
     "interproscan_interpro_entries": [
-      "IPR002915",
+      "IPR011343",
       "IPR013785"
     ],
     "psortb_is_multi_localized": false,
@@ -52420,13 +52520,8 @@
     "gene_mapping_start_cyanorak": "728312.0",
     "gene_mapping_tIGR_Role": "169",
     "gene_mapping_tIGR_Role_description": "Protein synthesis / Translation factors",
-    "interproscan_go_term_donors": {
-      "GO:0044238": [
-        "IPR003489"
-      ]
-    },
     "interproscan_hamap_descriptions": [
-      "Ribosome hibernation promoting factor [hpf]."
+      "Ribosome hibernation promoting factor [hpf]"
     ],
     "interproscan_interpro_entries": [
       "IPR003489",
@@ -52626,7 +52721,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "S-adenosylmethionine:tRNA ribosyltransferase-isomerase [queA]."
+      "S-adenosylmethionine:tRNA ribosyltransferase-isomerase [queA]"
     ],
     "interproscan_interpro_entries": [
       "IPR003699",
@@ -52930,7 +53025,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein uS4 [rpsD]."
+      "Small ribosomal subunit protein uS4 [rpsD]"
     ],
     "interproscan_interpro_entries": [
       "IPR001912",
@@ -52997,7 +53092,7 @@
     "gene_mapping_tIGR_Role": "133",
     "gene_mapping_tIGR_Role_description": "Transcription / Other",
     "interproscan_hamap_descriptions": [
-      "Putative membrane protein insertion efficiency factor [yidD]."
+      "Putative membrane protein insertion efficiency factor [yidD]"
     ],
     "interproscan_interpro_entries": [
       "IPR002696"
@@ -53079,12 +53174,8 @@
       "GO:0008360": [
         "IPR005761"
       ],
-      "GO:0009058": [
-        "IPR000713",
-        "IPR004101",
-        "IPR013221",
-        "IPR036565",
-        "IPR036615"
+      "GO:0009059": [
+        "IPR013221"
       ],
       "GO:0009396": [
         "IPR018109"
@@ -53096,12 +53187,15 @@
         "IPR013221",
         "IPR036615"
       ],
+      "GO:0042559": [
+        "IPR036565"
+      ],
       "GO:0051301": [
         "IPR005761"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "UDP-N-acetylmuramoyl-L-alanyl-D-glutamate--2,6-diaminopimelate ligase [murE]."
+      "UDP-N-acetylmuramoyl-L-alanyl-D-glutamate--2,6-diaminopimelate ligase [murE]"
     ],
     "interproscan_interpro_entries": [
       "IPR000713",
@@ -53483,8 +53577,8 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Elongation factor 4 [lepA].",
-      "Translation factor GUF1 homolog, organellar chromatophore [lepA]."
+      "Elongation factor 4 [lepA]",
+      "Translation factor GUF1 homolog, organellar chromatophore [lepA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000640",
@@ -53499,7 +53593,8 @@
       "IPR031157",
       "IPR035647",
       "IPR035654",
-      "IPR038363"
+      "IPR038363",
+      "IPR041095"
     ],
     "interproscan_ncbifam_ids": [
       "TIGR00231",
@@ -53509,7 +53604,8 @@
       "PF00009",
       "PF00679",
       "PF03144",
-      "PF06421"
+      "PF06421",
+      "PF14492"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -53573,11 +53669,12 @@
     },
     "interproscan_interpro_entries": [
       "IPR000515",
+      "IPR025966",
       "IPR035906",
       "IPR050366"
     ],
     "interproscan_pfam_signatures": [
-      "PF00528"
+      "PF12911"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -53658,7 +53755,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "tRNA (guanosine(18)-2'-O)-methyltransferase [trmH]."
+      "tRNA (guanosine(18)-2'-O)-methyltransferase [trmH]"
     ],
     "interproscan_interpro_entries": [
       "IPR001537",
@@ -54281,7 +54378,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Imidazole glycerol phosphate synthase subunit HisF [hisF]."
+      "Imidazole glycerol phosphate synthase subunit HisF [hisF]"
     ],
     "interproscan_interpro_entries": [
       "IPR004651",
@@ -54358,7 +54455,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ubiquinone/menaquinone biosynthesis C-methyltransferase UbiE [ubiE]."
+      "Ubiquinone/menaquinone biosynthesis C-methyltransferase UbiE [ubiE]"
     ],
     "interproscan_interpro_entries": [
       "IPR004033",
@@ -54475,10 +54572,6 @@
     "gene_mapping_tIGR_Role_description": "Regulatory functions / DNA interactions,Biosynthesis of cofactors%2C prosthetic groups%2C and carriers / Biotin",
     "interproscan_go_term_donors": {
       "GO:0004077": [
-        "IPR004408"
-      ],
-      "GO:0036211": [
-        "IPR004143",
         "IPR004408"
       ]
     },
@@ -54635,7 +54728,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "NAD(P)H-quinone oxidoreductase subunit 2, chloroplastic [ndhB]."
+      "NAD(P)H-quinone oxidoreductase subunit 2, chloroplastic [ndhB]"
     ],
     "interproscan_interpro_entries": [
       "IPR001750",
@@ -54809,7 +54902,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "UPF0284 protein <locus_tag>."
+      "UPF0284 protein <locus_tag>"
     ],
     "interproscan_interpro_entries": [
       "IPR002805",
@@ -55462,7 +55555,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Protoheme IX farnesyltransferase [cyoE]."
+      "Protoheme IX farnesyltransferase [cyoE]"
     ],
     "interproscan_interpro_entries": [
       "IPR000537",
@@ -55697,7 +55790,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Chaperonin GroEL [groEL]."
+      "Chaperonin GroEL [groEL]"
     ],
     "interproscan_interpro_entries": [
       "IPR001844",
@@ -55919,7 +56012,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "2-C-methyl-D-erythritol 4-phosphate cytidylyltransferase [ispD]."
+      "2-C-methyl-D-erythritol 4-phosphate cytidylyltransferase [ispD]"
     ],
     "interproscan_interpro_entries": [
       "IPR001228",
@@ -56068,7 +56161,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "4-hydroxybenzoate octaprenyltransferase [ubiA]."
+      "4-hydroxybenzoate octaprenyltransferase [ubiA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000537",
@@ -56386,7 +56479,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cytochrome f [petA]."
+      "Cytochrome f [petA]"
     ],
     "interproscan_interpro_entries": [
       "IPR002325",
@@ -56481,7 +56574,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cytochrome b6-f complex iron-sulfur subunit [petC]."
+      "Cytochrome b6-f complex iron-sulfur subunit [petC]"
     ],
     "interproscan_interpro_entries": [
       "IPR005805",
@@ -56612,7 +56705,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Sec-independent protein translocase protein TatC [tatC]."
+      "Sec-independent protein translocase protein TatC [tatC]"
     ],
     "interproscan_interpro_entries": [
       "IPR002033",
@@ -56766,7 +56859,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Guanylate kinase [gmk]."
+      "Guanylate kinase [gmk]"
     ],
     "interproscan_interpro_entries": [
       "IPR008144",
@@ -56845,7 +56938,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem I reaction center subunit IX [psaJ]."
+      "Photosystem I reaction center subunit IX [psaJ]"
     ],
     "interproscan_interpro_entries": [
       "IPR002615",
@@ -56993,7 +57086,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "tRNA N6-adenosine threonylcarbamoyltransferase [tsaD]."
+      "tRNA N6-adenosine threonylcarbamoyltransferase [tsaD]"
     ],
     "interproscan_interpro_entries": [
       "IPR000905",
@@ -57201,7 +57294,8 @@
         "IPR020058"
       ],
       "GO:0004818": [
-        "IPR004527"
+        "IPR004527",
+        "IPR033910"
       ],
       "GO:0005524": [
         "IPR000924",
@@ -57213,10 +57307,6 @@
       "GO:0006418": [
         "IPR001412"
       ],
-      "GO:0006424": [
-        "IPR004527",
-        "IPR033910"
-      ],
       "GO:0008270": [
         "IPR033910"
       ],
@@ -57226,7 +57316,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Glutamate--tRNA ligase [gltX]."
+      "Glutamate--tRNA ligase [gltX]"
     ],
     "interproscan_interpro_entries": [
       "IPR000924",
@@ -57287,6 +57377,9 @@
     "gene_mapping_start_cyanorak": "798293.0",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_pfam_signatures": [
+      "PF41515"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -57352,7 +57445,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein bL19 [rplS]."
+      "Large ribosomal subunit protein bL19 [rplS]"
     ],
     "interproscan_interpro_entries": [
       "IPR001857",
@@ -57427,7 +57520,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Methionine aminopeptidase [map]."
+      "Methionine aminopeptidase [map]"
     ],
     "interproscan_interpro_entries": [
       "IPR000994",
@@ -57602,7 +57695,7 @@
     "gene_mapping_tIGR_Role": "710",
     "gene_mapping_tIGR_Role_description": "Signal transduction / Other",
     "interproscan_hamap_descriptions": [
-      "Nucleotide-binding protein YajQ [yajQ]."
+      "Nucleotide-binding protein YajQ [yajQ]"
     ],
     "interproscan_interpro_entries": [
       "IPR007551",
@@ -57791,7 +57884,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Glutamate-1-semialdehyde 2,1-aminomutase [hemL]."
+      "Glutamate-1-semialdehyde 2,1-aminomutase [hemL]"
     ],
     "interproscan_interpro_entries": [
       "IPR004639",
@@ -58180,7 +58273,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Putative pterin-4-alpha-carbinolamine dehydratase."
+      "Putative pterin-4-alpha-carbinolamine dehydratase"
     ],
     "interproscan_interpro_entries": [
       "IPR001533",
@@ -58358,7 +58451,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Inorganic pyrophosphatase [ppa]."
+      "Inorganic pyrophosphatase [ppa]"
     ],
     "interproscan_interpro_entries": [
       "IPR008162",
@@ -58430,9 +58523,6 @@
         "IPR022419",
         "IPR036803"
       ],
-      "GO:0018160": [
-        "IPR022419"
-      ],
       "GO:0033014": [
         "IPR000860",
         "IPR022417",
@@ -58442,7 +58532,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Porphobilinogen deaminase [hemC]."
+      "Porphobilinogen deaminase [hemC]"
     ],
     "interproscan_interpro_entries": [
       "IPR000860",
@@ -58563,7 +58653,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Probable replication restart protein PriA [priA]."
+      "Probable replication restart protein PriA [priA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001650",
@@ -58706,7 +58796,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Acetylglutamate kinase [argB]."
+      "Acetylglutamate kinase [argB]"
     ],
     "interproscan_interpro_entries": [
       "IPR001048",
@@ -58817,11 +58907,16 @@
     "gene_mapping_tIGR_Role_description": "Transport and binding proteins / Unknown substrate",
     "interproscan_go_term_donors": {
       "GO:0003697": [
-        "IPR000424"
+        "IPR000424",
+        "IPR011344"
+      ],
+      "GO:0006260": [
+        "IPR011344"
       ]
     },
     "interproscan_interpro_entries": [
       "IPR000424",
+      "IPR011344",
       "IPR012340"
     ],
     "interproscan_pfam_signatures": [
@@ -59096,7 +59191,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Adenylosuccinate synthetase [purA]."
+      "Adenylosuccinate synthetase [purA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001114",
@@ -59178,7 +59273,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem II lipoprotein Psb27 [psb27]."
+      "Photosystem II lipoprotein Psb27 [psb27]"
     ],
     "interproscan_interpro_entries": [
       "IPR017488",
@@ -59253,6 +59348,7 @@
         "IPR002314"
       ],
       "GO:0002161": [
+        "IPR007214",
         "IPR036754"
       ],
       "GO:0004812": [
@@ -59276,15 +59372,10 @@
       ],
       "GO:0006418": [
         "IPR002314"
-      ],
-      "GO:0006433": [
-        "IPR002316",
-        "IPR004500",
-        "IPR023717"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Proline--tRNA ligase [proS]."
+      "Proline--tRNA ligase [proS]"
     ],
     "interproscan_interpro_entries": [
       "IPR002314",
@@ -59292,6 +59383,7 @@
       "IPR004154",
       "IPR004500",
       "IPR006195",
+      "IPR007214",
       "IPR023717",
       "IPR036621",
       "IPR036754",
@@ -59305,7 +59397,8 @@
     ],
     "interproscan_pfam_signatures": [
       "PF00587",
-      "PF03129"
+      "PF03129",
+      "PF04073"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -59462,7 +59555,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Inorganic pyrophosphatase [ppa]."
+      "Inorganic pyrophosphatase [ppa]"
     ],
     "interproscan_interpro_entries": [
       "IPR008162",
@@ -59617,11 +59710,6 @@
     "gene_mapping_start_cyanorak": "831701.0",
     "gene_mapping_tIGR_Role": "75",
     "gene_mapping_tIGR_Role_description": "Amino acid biosynthesis / Serine family",
-    "interproscan_go_term_donors": {
-      "GO:0003824": [
-        "IPR001345"
-      ]
-    },
     "interproscan_interpro_entries": [
       "IPR001345",
       "IPR013078",
@@ -59871,7 +59959,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Transaldolase [tal]."
+      "Transaldolase [tal]"
     ],
     "interproscan_interpro_entries": [
       "IPR001585",
@@ -60000,7 +60088,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribosome-recycling factor [frr]."
+      "Ribosome-recycling factor [frr]"
     ],
     "interproscan_interpro_entries": [
       "IPR002661",
@@ -60083,7 +60171,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Uridylate kinase [pyrH]."
+      "Uridylate kinase [pyrH]"
     ],
     "interproscan_interpro_entries": [
       "IPR001048",
@@ -60230,6 +60318,7 @@
       "IPR002104",
       "IPR011010",
       "IPR013762",
+      "IPR050090",
       "IPR059513",
       "IPR060435"
     ],
@@ -60305,7 +60394,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Coproporphyrin III ferrochelatase [cpfC]."
+      "Coproporphyrin III ferrochelatase [cpfC]"
     ],
     "interproscan_interpro_entries": [
       "IPR001015",
@@ -60575,7 +60664,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Aldehyde decarbonylase."
+      "Aldehyde decarbonylase"
     ],
     "interproscan_interpro_entries": [
       "IPR009078",
@@ -60733,7 +60822,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Acetyl-coenzyme A carboxylase carboxyl transferase subunit alpha [accA]."
+      "Acetyl-coenzyme A carboxylase carboxyl transferase subunit alpha [accA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001095",
@@ -60920,7 +61009,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "N-(5'-phosphoribosyl)anthranilate isomerase [trpF]."
+      "N-(5'-phosphoribosyl)anthranilate isomerase [trpF]"
     ],
     "interproscan_interpro_entries": [
       "IPR001240",
@@ -61054,11 +61143,6 @@
     "gene_mapping_start_cyanorak": "856198.0",
     "gene_mapping_tIGR_Role": "80",
     "gene_mapping_tIGR_Role_description": "Biosynthesis of cofactors%2C prosthetic groups%2C and carriers / Lipoate",
-    "interproscan_go_term_donors": {
-      "GO:0036211": [
-        "IPR004143"
-      ]
-    },
     "interproscan_interpro_entries": [
       "IPR004143",
       "IPR045864",
@@ -61256,7 +61340,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Light-independent protochlorophyllide reductase iron-sulfur ATP-binding protein [bchL]."
+      "Light-independent protochlorophyllide reductase iron-sulfur ATP-binding protein [bchL]"
     ],
     "interproscan_interpro_entries": [
       "IPR000392",
@@ -61347,7 +61431,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Light-independent protochlorophyllide reductase subunit B [bchB]."
+      "Light-independent protochlorophyllide reductase subunit B [bchB]"
     ],
     "interproscan_interpro_entries": [
       "IPR000510",
@@ -61434,7 +61518,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Light-independent protochlorophyllide reductase subunit N [bchN]."
+      "Light-independent protochlorophyllide reductase subunit N [bchN]"
     ],
     "interproscan_interpro_entries": [
       "IPR000510",
@@ -61680,6 +61764,9 @@
       "IPR044872",
       "IPR050575"
     ],
+    "interproscan_ncbifam_ids": [
+      "NF053791"
+    ],
     "interproscan_pfam_signatures": [
       "PF00936"
     ],
@@ -61768,7 +61855,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribulose bisphosphate carboxylase large chain [rbcL]."
+      "Ribulose bisphosphate carboxylase large chain [rbcL]"
     ],
     "interproscan_interpro_entries": [
       "IPR000685",
@@ -61844,7 +61931,7 @@
     "gene_mapping_tIGR_Role": "164",
     "gene_mapping_tIGR_Role_description": "Energy metabolism / Photosynthesis",
     "interproscan_hamap_descriptions": [
-      "Ribulose bisphosphate carboxylase small subunit [cbbS]."
+      "Ribulose bisphosphate carboxylase small subunit [cbbS]"
     ],
     "interproscan_interpro_entries": [
       "IPR000894",
@@ -62344,7 +62431,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Hydroxyacylglutathione hydrolase [gloB]."
+      "Hydroxyacylglutathione hydrolase [gloB]"
     ],
     "interproscan_interpro_entries": [
       "IPR001279",
@@ -62433,7 +62520,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP phosphoribosyltransferase [hisG]."
+      "ATP phosphoribosyltransferase [hisG]"
     ],
     "interproscan_interpro_entries": [
       "IPR001348",
@@ -62498,7 +62585,8 @@
         "IPR003439",
         "IPR011527",
         "IPR017871",
-        "IPR036640"
+        "IPR036640",
+        "IPR039421"
       ],
       "GO:0016020": [
         "IPR011527",
@@ -62508,8 +62596,12 @@
         "IPR003439",
         "IPR017871"
       ],
+      "GO:0042626": [
+        "IPR039421"
+      ],
       "GO:0055085": [
-        "IPR011527"
+        "IPR011527",
+        "IPR039421"
       ],
       "GO:0140359": [
         "IPR011527"
@@ -62757,7 +62849,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Chromosomal replication initiator protein DnaA [dnaA]."
+      "Chromosomal replication initiator protein DnaA [dnaA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001957",
@@ -62838,7 +62930,8 @@
       "IPR050983"
     ],
     "interproscan_pfam_signatures": [
-      "PF13409"
+      "PF13409",
+      "PF42960"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -63075,7 +63168,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Dihydroorotase [pyrC]."
+      "Dihydroorotase [pyrC]"
     ],
     "interproscan_interpro_entries": [
       "IPR002195",
@@ -63154,7 +63247,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "NAD(P)H-quinone oxidoreductase subunit L [ndhL]."
+      "NAD(P)H-quinone oxidoreductase subunit L [ndhL]"
     ],
     "interproscan_interpro_entries": [
       "IPR019654"
@@ -63278,7 +63371,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Tryptophan synthase alpha chain [trpA]."
+      "Tryptophan synthase alpha chain [trpA]"
     ],
     "interproscan_interpro_entries": [
       "IPR002028",
@@ -63666,9 +63759,9 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Histidine biosynthesis bifunctional protein HisIE [hisI].",
-      "Phosphoribosyl-AMP cyclohydrolase [hisI].",
-      "Phosphoribosyl-ATP pyrophosphatase [hisE]."
+      "Histidine biosynthesis bifunctional protein HisIE [hisI]",
+      "Phosphoribosyl-AMP cyclohydrolase [hisI]",
+      "Phosphoribosyl-ATP pyrophosphatase [hisE]"
     ],
     "interproscan_interpro_entries": [
       "IPR002496",
@@ -64069,7 +64162,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "1,4-alpha-glucan branching enzyme GlgB [glgB]."
+      "1,4-alpha-glucan branching enzyme GlgB [glgB]"
     ],
     "interproscan_interpro_entries": [
       "IPR004193",
@@ -64082,7 +64175,8 @@
       "IPR017853",
       "IPR037439",
       "IPR044143",
-      "IPR054169"
+      "IPR054169",
+      "IPR065029"
     ],
     "interproscan_ncbifam_ids": [
       "NF003811",
@@ -64549,7 +64643,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Thymidylate kinase [tmk]."
+      "Thymidylate kinase [tmk]"
     ],
     "interproscan_interpro_entries": [
       "IPR018094",
@@ -64620,9 +64714,6 @@
       "GO:0000166": [
         "IPR023299"
       ],
-      "GO:0005215": [
-        "IPR001757"
-      ],
       "GO:0005524": [
         "IPR001757"
       ],
@@ -64667,7 +64758,8 @@
     "interproscan_pfam_signatures": [
       "PF00122",
       "PF00403",
-      "PF00702"
+      "PF00702",
+      "PF33096"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -64730,7 +64822,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem I assembly protein Ycf3 [ycf3]."
+      "Photosystem I assembly protein Ycf3 [ycf3]"
     ],
     "interproscan_interpro_entries": [
       "IPR011990",
@@ -64743,7 +64835,7 @@
     ],
     "interproscan_pfam_signatures": [
       "PF00515",
-      "PF13176"
+      "PF13432"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
@@ -64815,7 +64907,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "DNA repair protein RadA [radA]."
+      "DNA repair protein RadA [radA]"
     ],
     "interproscan_interpro_entries": [
       "IPR003593",
@@ -65003,7 +65095,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Beta-ketoacyl-[acyl-carrier-protein] synthase III [fabH]."
+      "Beta-ketoacyl-[acyl-carrier-protein] synthase III [fabH]"
     ],
     "interproscan_interpro_entries": [
       "IPR004655",
@@ -65406,9 +65498,6 @@
       "GO:0004311": [
         "IPR044843"
       ],
-      "GO:0009058": [
-        "IPR002060"
-      ],
       "GO:0016765": [
         "IPR019845"
       ],
@@ -65519,7 +65608,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "NAD(P)H-quinone oxidoreductase subunit M [ndhM]."
+      "NAD(P)H-quinone oxidoreductase subunit M [ndhM]"
     ],
     "interproscan_interpro_entries": [
       "IPR018922"
@@ -65767,7 +65856,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "NAD(P)H-quinone oxidoreductase chain 4 [ndhD]."
+      "NAD(P)H-quinone oxidoreductase chain 4 [ndhD]"
     ],
     "interproscan_interpro_entries": [
       "IPR001750",
@@ -65905,13 +65994,10 @@
       ],
       "GO:0006011": [
         "IPR037538"
-      ],
-      "GO:0009058": [
-        "IPR005835"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "UTP--glucose-1-phosphate uridylyltransferase [cugP]."
+      "UTP--glucose-1-phosphate uridylyltransferase [cugP]"
     ],
     "interproscan_interpro_entries": [
       "IPR005835",
@@ -66102,6 +66188,12 @@
     "gene_mapping_start_cyanorak": "927985.0",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR065882"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31788"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -66218,7 +66310,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "NAD kinase [nadK]."
+      "NAD kinase [nadK]"
     ],
     "interproscan_interpro_entries": [
       "IPR002504",
@@ -66299,7 +66391,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "NAD(P)H-quinone oxidoreductase subunit 4L, chloroplastic [ndhE]."
+      "NAD(P)H-quinone oxidoreductase subunit 4L, chloroplastic [ndhE]"
     ],
     "interproscan_interpro_entries": [
       "IPR001133",
@@ -66467,7 +66559,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "NAD(P)H-quinone oxidoreductase subunit I, chloroplastic [ndhI]."
+      "NAD(P)H-quinone oxidoreductase subunit I, chloroplastic [ndhI]"
     ],
     "interproscan_interpro_entries": [
       "IPR004497",
@@ -66551,7 +66643,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "NAD(P)H-quinone oxidoreductase subunit 1, chloroplastic [ndhA]."
+      "NAD(P)H-quinone oxidoreductase subunit 1, chloroplastic [ndhA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001694",
@@ -66742,7 +66834,8 @@
     "gene_mapping_tIGR_Role_description": "Unknown function / General",
     "interproscan_interpro_entries": [
       "IPR001763",
-      "IPR036873"
+      "IPR036873",
+      "IPR052204"
     ],
     "interproscan_pfam_signatures": [
       "PF00581"
@@ -66815,7 +66908,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Tryptophan synthase beta chain [trpB]."
+      "Tryptophan synthase beta chain [trpB]"
     ],
     "interproscan_interpro_entries": [
       "IPR001926",
@@ -66887,7 +66980,8 @@
     },
     "interproscan_interpro_entries": [
       "IPR001950",
-      "IPR036877"
+      "IPR036877",
+      "IPR050318"
     ],
     "interproscan_pfam_signatures": [
       "PF01253"
@@ -66960,7 +67054,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Adenylyl-sulfate kinase [cysC]."
+      "Adenylyl-sulfate kinase [cysC]"
     ],
     "interproscan_interpro_entries": [
       "IPR002891",
@@ -67035,7 +67129,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "N5-carboxyaminoimidazole ribonucleotide mutase [purE]."
+      "N5-carboxyaminoimidazole ribonucleotide mutase [purE]"
     ],
     "interproscan_interpro_entries": [
       "IPR000031",
@@ -67326,7 +67420,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribosomal RNA small subunit methyltransferase H [rsmH]."
+      "Ribosomal RNA small subunit methyltransferase H [rsmH]"
     ],
     "interproscan_interpro_entries": [
       "IPR002903",
@@ -67436,11 +67530,12 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "1,4-dihydroxy-2-naphthoyl-CoA hydrolase."
+      "1,4-dihydroxy-2-naphthoyl-CoA hydrolase"
     ],
     "interproscan_interpro_entries": [
       "IPR022829",
-      "IPR029069"
+      "IPR029069",
+      "IPR050563"
     ],
     "interproscan_pfam_signatures": [
       "PF13279"
@@ -67641,7 +67736,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "2-carboxy-1,4-naphthoquinone phytyltransferase [menA]."
+      "2-carboxy-1,4-naphthoquinone phytyltransferase [menA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000537",
@@ -67711,10 +67806,6 @@
     "interproscan_go_term_donors": {
       "GO:0008909": [
         "IPR004561"
-      ],
-      "GO:0009058": [
-        "IPR004561",
-        "IPR005801"
       ]
     },
     "interproscan_interpro_entries": [
@@ -67804,7 +67895,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Glutathione synthetase [gshB]."
+      "Glutathione synthetase [gshB]"
     ],
     "interproscan_interpro_entries": [
       "IPR004215",
@@ -67952,7 +68043,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Peptide chain release factor 2 [prfB]."
+      "Peptide chain release factor 2 [prfB]"
     ],
     "interproscan_interpro_entries": [
       "IPR000352",
@@ -68059,7 +68150,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Endoribonuclease YbeY [ybeY]."
+      "Endoribonuclease YbeY [ybeY]"
     ],
     "interproscan_interpro_entries": [
       "IPR002036",
@@ -68327,7 +68418,6 @@
         "IPR004838"
       ],
       "GO:0009058": [
-        "IPR004838",
         "IPR004839"
       ],
       "GO:0030170": [
@@ -68432,16 +68522,10 @@
       "GO:0006418": [
         "IPR001412",
         "IPR009080"
-      ],
-      "GO:0006420": [
-        "IPR001278",
-        "IPR005148",
-        "IPR008909",
-        "IPR036695"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Arginine--tRNA ligase [argS]."
+      "Arginine--tRNA ligase [argS]"
     ],
     "interproscan_interpro_entries": [
       "IPR001278",
@@ -68614,7 +68698,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "tRNA modification GTPase MnmE [mnmE]."
+      "tRNA modification GTPase MnmE [mnmE]"
     ],
     "interproscan_interpro_entries": [
       "IPR004520",
@@ -69084,7 +69168,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Phosphoglycerate kinase [pgk]."
+      "Phosphoglycerate kinase [pgk]"
     ],
     "interproscan_interpro_entries": [
       "IPR001576",
@@ -69220,7 +69304,6 @@
         "IPR004838"
       ],
       "GO:0009058": [
-        "IPR004838",
         "IPR004839"
       ],
       "GO:0030170": [
@@ -69312,7 +69395,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Dihydroorotate dehydrogenase (quinone) [pyrD]."
+      "Dihydroorotate dehydrogenase (quinone) [pyrD]"
     ],
     "interproscan_interpro_entries": [
       "IPR001295",
@@ -69394,7 +69477,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribonuclease H [rnhA]."
+      "Ribonuclease H [rnhA]"
     ],
     "interproscan_interpro_entries": [
       "IPR002156",
@@ -69404,7 +69487,8 @@
       "IPR050092"
     ],
     "interproscan_pfam_signatures": [
-      "PF00075"
+      "PF00075",
+      "PF38097"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
@@ -69475,7 +69559,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein bL12 [rplL]."
+      "Large ribosomal subunit protein bL12 [rplL]"
     ],
     "interproscan_interpro_entries": [
       "IPR000206",
@@ -69542,7 +69626,7 @@
     "gene_mapping_tIGR_Role": "158",
     "gene_mapping_tIGR_Role_description": "Protein synthesis / Ribosomal proteins: synthesis and modification",
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL10 [rplJ]."
+      "Large ribosomal subunit protein uL10 [rplJ]"
     ],
     "interproscan_interpro_entries": [
       "IPR001790",
@@ -69625,7 +69709,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL1 [rplA]."
+      "Large ribosomal subunit protein uL1 [rplA]"
     ],
     "interproscan_interpro_entries": [
       "IPR002143",
@@ -69719,7 +69803,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL11 [rplK]."
+      "Large ribosomal subunit protein uL11 [rplK]"
     ],
     "interproscan_interpro_entries": [
       "IPR000911",
@@ -69793,7 +69877,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Transcription termination/antitermination protein NusG [nusG]."
+      "Transcription termination/antitermination protein NusG [nusG]"
     ],
     "interproscan_interpro_entries": [
       "IPR001062",
@@ -69879,7 +69963,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Protein translocase subunit SecE [secE]."
+      "Protein translocase subunit SecE [secE]"
     ],
     "interproscan_interpro_entries": [
       "IPR001901",
@@ -69998,7 +70082,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Enolase [eno]."
+      "Enolase [eno]"
     ],
     "interproscan_interpro_entries": [
       "IPR000941",
@@ -70487,7 +70571,8 @@
       "IPR004360",
       "IPR018146",
       "IPR029068",
-      "IPR037523"
+      "IPR037523",
+      "IPR051332"
     ],
     "interproscan_pfam_signatures": [
       "PF00903"
@@ -70587,7 +70672,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "GTPase Obg [obg]."
+      "GTPase Obg [obg]"
     ],
     "interproscan_interpro_entries": [
       "IPR006073",
@@ -70648,6 +70733,12 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR065886"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31794"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -70828,7 +70919,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Probable aspartoacylase."
+      "Probable aspartoacylase"
     ],
     "interproscan_interpro_entries": [
       "IPR007036",
@@ -70911,7 +71002,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem II protein D1 [psbA]."
+      "Photosystem II protein D1 [psbA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000484",
@@ -71003,7 +71094,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Chorismate synthase [aroC]."
+      "Chorismate synthase [aroC]"
     ],
     "interproscan_interpro_entries": [
       "IPR000453",
@@ -71116,7 +71207,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP-dependent zinc metalloprotease FtsH [ftsH]."
+      "ATP-dependent zinc metalloprotease FtsH [ftsH]"
     ],
     "interproscan_interpro_entries": [
       "IPR000642",
@@ -71375,7 +71466,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Coenzyme A biosynthesis bifunctional protein CoaBC [coaBC]."
+      "Coenzyme A biosynthesis bifunctional protein CoaBC [coaBC]"
     ],
     "interproscan_interpro_entries": [
       "IPR003382",
@@ -71569,7 +71660,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Aspartate carbamoyltransferase [pyrB]."
+      "Aspartate carbamoyltransferase [pyrB]"
     ],
     "interproscan_interpro_entries": [
       "IPR002082",
@@ -71656,7 +71747,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Putative 3-methyladenine DNA glycosylase."
+      "Putative 3-methyladenine DNA glycosylase"
     ],
     "interproscan_interpro_entries": [
       "IPR003180",
@@ -71728,7 +71819,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Aspartyl/glutamyl-tRNA(Asn/Gln) amidotransferase subunit C [gatC]."
+      "Aspartyl/glutamyl-tRNA(Asn/Gln) amidotransferase subunit C [gatC]"
     ],
     "interproscan_interpro_entries": [
       "IPR003837",
@@ -72053,7 +72144,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "tRNA (guanine-N(7)-)-methyltransferase [trmB]."
+      "tRNA (guanine-N(7)-)-methyltransferase [trmB]"
     ],
     "interproscan_interpro_entries": [
       "IPR003358",
@@ -72569,7 +72660,8 @@
     ],
     "interproscan_pfam_signatures": [
       "PF11283",
-      "PF30500"
+      "PF30500",
+      "PF54568"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
@@ -72612,11 +72704,6 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "132",
     "gene_mapping_tIGR_Role_description": "DNA metabolism / DNA replication%2C recombination%2C and repair",
-    "interproscan_go_term_donors": {
-      "GO:0006139": [
-        "IPR037027"
-      ]
-    },
     "interproscan_interpro_entries": [
       "IPR012337",
       "IPR037027"
@@ -72708,7 +72795,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Peptidyl-tRNA hydrolase [pth]."
+      "Peptidyl-tRNA hydrolase [pth]"
     ],
     "interproscan_interpro_entries": [
       "IPR001328",
@@ -73071,7 +73158,8 @@
     ],
     "interproscan_pfam_signatures": [
       "PF00905",
-      "PF03717"
+      "PF03717",
+      "PF32399"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -73326,7 +73414,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Biosynthetic arginine decarboxylase [speA]."
+      "Biosynthetic arginine decarboxylase [speA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000183",
@@ -73420,7 +73508,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Nucleoside diphosphate kinase [ndk]."
+      "Nucleoside diphosphate kinase [ndk]"
     ],
     "interproscan_interpro_entries": [
       "IPR001564",
@@ -73536,7 +73624,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Aspartyl/glutamyl-tRNA(Asn/Gln) amidotransferase subunit B [gatB]."
+      "Aspartyl/glutamyl-tRNA(Asn/Gln) amidotransferase subunit B [gatB]"
     ],
     "interproscan_interpro_entries": [
       "IPR003789",
@@ -74506,7 +74594,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Peptide deformylase [def]."
+      "Peptide deformylase [def]"
     ],
     "interproscan_interpro_entries": [
       "IPR023635",
@@ -74966,7 +75054,6 @@
       "IPR032585"
     ],
     "interproscan_pfam_signatures": [
-      "PF07498",
       "PF16258"
     ],
     "psortb_is_multi_localized": false,
@@ -75135,15 +75222,14 @@
       "IPR003593",
       "IPR008824",
       "IPR008921",
-      "IPR021886",
       "IPR027417",
       "IPR032423",
       "IPR051314"
     ],
     "interproscan_pfam_signatures": [
       "PF05496",
-      "PF12002",
-      "PF16193"
+      "PF16193",
+      "PF38774"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -75331,13 +75417,15 @@
     },
     "interproscan_interpro_entries": [
       "IPR004619",
-      "IPR043129"
+      "IPR043129",
+      "IPR065893"
     ],
     "interproscan_ncbifam_ids": [
       "TIGR00671"
     ],
     "interproscan_pfam_signatures": [
-      "PF03309"
+      "PF03309",
+      "PF31802"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -75394,6 +75482,9 @@
     "gene_mapping_tIGR_Role": "106",
     "gene_mapping_tIGR_Role_description": "Central intermediary metabolism / Sulfur metabolism",
     "interproscan_go_term_donors": {
+      "GO:0000103": [
+        "IPR004511"
+      ],
       "GO:0003824": [
         "IPR002500"
       ],
@@ -75402,7 +75493,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Adenosine 5'-phosphosulfate reductase [cysH]."
+      "Adenosine 5'-phosphosulfate reductase [cysH]"
     ],
     "interproscan_interpro_entries": [
       "IPR002500",
@@ -76087,10 +76178,7 @@
     "gene_mapping_tIGR_Role": "149",
     "gene_mapping_tIGR_Role_description": "Cellular processes / Adaptations to atypical conditions",
     "interproscan_interpro_entries": [
-      "IPR063966"
-    ],
-    "interproscan_pfam_signatures": [
-      "PF31213"
+      "IPR053091"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
@@ -76538,8 +76626,22 @@
     "gene_mapping_seqid": "NZ_GL947595.1",
     "gene_mapping_source": "Protein Homology",
     "gene_mapping_start": "1090730.0",
+    "interproscan_go_term_donors": {
+      "GO:0009055": [
+        "IPR007802"
+      ],
+      "GO:0009512": [
+        "IPR007802"
+      ]
+    },
+    "interproscan_interpro_entries": [
+      "IPR007802"
+    ],
     "interproscan_ncbifam_ids": [
       "NF008824"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF05115"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
@@ -76803,7 +76905,7 @@
     "gene_mapping_tIGR_Role": "70",
     "gene_mapping_tIGR_Role_description": "Amino acid biosynthesis / Aromatic amino acid family",
     "interproscan_hamap_descriptions": [
-      "Shikimate kinase [aroK]."
+      "Shikimate kinase [aroK]"
     ],
     "interproscan_interpro_entries": [
       "IPR000623",
@@ -77076,7 +77178,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribosome-binding factor A [rbfA]."
+      "Ribosome-binding factor A [rbfA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000238",
@@ -77620,7 +77722,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "NAD(P)H-quinone oxidoreductase subunit O [ndhO]."
+      "NAD(P)H-quinone oxidoreductase subunit O [ndhO]"
     ],
     "interproscan_interpro_entries": [
       "IPR020905"
@@ -77764,7 +77866,7 @@
     "gene_mapping_tIGR_Role": "185",
     "gene_mapping_tIGR_Role_description": "Unclassified / Role category not yet assigned",
     "interproscan_hamap_descriptions": [
-      "UPF0367 protein <locus_tag>."
+      "UPF0367 protein <locus_tag>"
     ],
     "interproscan_interpro_entries": [
       "IPR020885"
@@ -77954,7 +78056,6 @@
     "interproscan_interpro_entries": [
       "IPR003615",
       "IPR029471",
-      "IPR052892",
       "IPR063191"
     ],
     "interproscan_pfam_signatures": [
@@ -78022,7 +78123,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Peptide chain release factor 1 [prfA]."
+      "Peptide chain release factor 1 [prfA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000352",
@@ -78103,7 +78204,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein bL31 [rpmE]."
+      "Large ribosomal subunit protein bL31 [rpmE]"
     ],
     "interproscan_interpro_entries": [
       "IPR002150",
@@ -78184,7 +78285,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein uS9 [rpsI]."
+      "Small ribosomal subunit protein uS9 [rpsI]"
     ],
     "interproscan_interpro_entries": [
       "IPR000754",
@@ -78270,7 +78371,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL13 [rplM]."
+      "Large ribosomal subunit protein uL13 [rplM]"
     ],
     "interproscan_interpro_entries": [
       "IPR005822",
@@ -78362,7 +78463,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "tRNA pseudouridine synthase A [truA]."
+      "tRNA pseudouridine synthase A [truA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001406",
@@ -78442,7 +78543,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein bL17 [rplQ]."
+      "Large ribosomal subunit protein bL17 [rplQ]"
     ],
     "interproscan_interpro_entries": [
       "IPR000456",
@@ -78533,7 +78634,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "DNA-directed RNA polymerase subunit alpha [rpoA]."
+      "DNA-directed RNA polymerase subunit alpha [rpoA]"
     ],
     "interproscan_interpro_entries": [
       "IPR011260",
@@ -78620,7 +78721,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein uS11 [rpsK]."
+      "Small ribosomal subunit protein uS11 [rpsK]"
     ],
     "interproscan_interpro_entries": [
       "IPR001971",
@@ -78711,7 +78812,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein uS13 [rpsM]."
+      "Small ribosomal subunit protein uS13 [rpsM]"
     ],
     "interproscan_interpro_entries": [
       "IPR001892",
@@ -78785,15 +78886,12 @@
       "GO:0005524": [
         "IPR000850"
       ],
-      "GO:0006139": [
-        "IPR000850"
-      ],
       "GO:0019205": [
         "IPR000850"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Adenylate kinase [adk]."
+      "Adenylate kinase [adk]"
     ],
     "interproscan_interpro_entries": [
       "IPR000850",
@@ -78867,7 +78965,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Protein translocase subunit SecY [secY]."
+      "Protein translocase subunit SecY [secY]"
     ],
     "interproscan_interpro_entries": [
       "IPR002208",
@@ -78956,7 +79054,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL15 [rplO]."
+      "Large ribosomal subunit protein uL15 [rplO]"
     ],
     "interproscan_interpro_entries": [
       "IPR001196",
@@ -79050,7 +79148,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein uS5 [rpsE]."
+      "Small ribosomal subunit protein uS5 [rpsE]"
     ],
     "interproscan_interpro_entries": [
       "IPR000851",
@@ -79133,7 +79231,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL18 [rplR]."
+      "Large ribosomal subunit protein uL18 [rplR]"
     ],
     "interproscan_interpro_entries": [
       "IPR004389",
@@ -79226,7 +79324,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL6 [rplF]."
+      "Large ribosomal subunit protein uL6 [rplF]"
     ],
     "interproscan_interpro_entries": [
       "IPR000702",
@@ -79306,7 +79404,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein uS8 [rpsH]."
+      "Small ribosomal subunit protein uS8 [rpsH]"
     ],
     "interproscan_interpro_entries": [
       "IPR000630",
@@ -79387,7 +79485,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL5 [rplE]."
+      "Large ribosomal subunit protein uL5 [rplE]"
     ],
     "interproscan_interpro_entries": [
       "IPR002132",
@@ -79472,7 +79570,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL24 [rplX]."
+      "Large ribosomal subunit protein uL24 [rplX]"
     ],
     "interproscan_interpro_entries": [
       "IPR003256",
@@ -79560,7 +79658,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL14 [rplN]."
+      "Large ribosomal subunit protein uL14 [rplN]"
     ],
     "interproscan_interpro_entries": [
       "IPR000218",
@@ -79640,7 +79738,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein uS17 [rpsQ]."
+      "Small ribosomal subunit protein uS17 [rpsQ]"
     ],
     "interproscan_interpro_entries": [
       "IPR000266",
@@ -79719,7 +79817,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL29 [rpmC]."
+      "Large ribosomal subunit protein uL29 [rpmC]"
     ],
     "interproscan_interpro_entries": [
       "IPR001854",
@@ -79805,7 +79903,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL16 [rplP]."
+      "Large ribosomal subunit protein uL16 [rplP]"
     ],
     "interproscan_interpro_entries": [
       "IPR000114",
@@ -79888,7 +79986,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein uS3 [rpsC]."
+      "Small ribosomal subunit protein uS3 [rpsC]"
     ],
     "interproscan_interpro_entries": [
       "IPR001351",
@@ -79984,7 +80082,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL22 [rplV]."
+      "Large ribosomal subunit protein uL22 [rplV]"
     ],
     "interproscan_interpro_entries": [
       "IPR001063",
@@ -80072,7 +80170,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein uS19 [rpsS]."
+      "Small ribosomal subunit protein uS19 [rpsS]"
     ],
     "interproscan_interpro_entries": [
       "IPR002222",
@@ -80170,7 +80268,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL2 [rplB]."
+      "Large ribosomal subunit protein uL2 [rplB]"
     ],
     "interproscan_interpro_entries": [
       "IPR002171",
@@ -80258,7 +80356,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL23 [rplW]."
+      "Large ribosomal subunit protein uL23 [rplW]"
     ],
     "interproscan_interpro_entries": [
       "IPR001014",
@@ -80340,7 +80438,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL4 [rplD]."
+      "Large ribosomal subunit protein uL4 [rplD]"
     ],
     "interproscan_interpro_entries": [
       "IPR002136",
@@ -80417,7 +80515,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein uL3 [rplC]."
+      "Large ribosomal subunit protein uL3 [rplC]"
     ],
     "interproscan_interpro_entries": [
       "IPR000597",
@@ -80496,7 +80594,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "NAD(P)H-quinone oxidoreductase subunit N [ndhN]."
+      "NAD(P)H-quinone oxidoreductase subunit N [ndhN]"
     ],
     "interproscan_interpro_entries": [
       "IPR020874"
@@ -80606,8 +80704,6 @@
     "gene_mapping_tIGR_Role": "703",
     "gene_mapping_tIGR_Role_description": "Unknown function / Enzymes of unknown specificity",
     "interproscan_interpro_entries": [
-      "IPR023198",
-      "IPR023214",
       "IPR036412"
     ],
     "psortb_is_multi_localized": false,
@@ -80694,7 +80790,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Protein RecA [recA]."
+      "Protein RecA [recA]"
     ],
     "interproscan_interpro_entries": [
       "IPR003593",
@@ -80809,6 +80905,12 @@
     "gene_mapping_start_cyanorak": "1128955.0",
     "gene_mapping_tIGR_Role": "132,134",
     "gene_mapping_tIGR_Role_description": "DNA metabolism / DNA replication%2C recombination%2C and repair,Transcription / Degradation of RNA",
+    "interproscan_interpro_entries": [
+      "IPR065891"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31800"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
     "psortb_localization": "Cytoplasmic",
@@ -81046,8 +81148,14 @@
     "gene_mapping_start_cyanorak": "1133745.0",
     "gene_mapping_tIGR_Role": "137",
     "gene_mapping_tIGR_Role_description": "Protein synthesis / tRNA aminoacylation",
+    "interproscan_go_term_donors": {
+      "GO:0009579": [
+        "IPR033344"
+      ]
+    },
     "interproscan_interpro_entries": [
-      "IPR025564"
+      "IPR025564",
+      "IPR033344"
     ],
     "interproscan_pfam_signatures": [
       "PF14159"
@@ -81203,6 +81311,9 @@
     "interproscan_ncbifam_ids": [
       "TIGR00268"
     ],
+    "interproscan_pfam_signatures": [
+      "PF32873"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
     "psortb_localization": "Cytoplasmic",
@@ -81272,7 +81383,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "S-adenosylmethionine decarboxylase proenzyme [speH]."
+      "S-adenosylmethionine decarboxylase proenzyme [speH]"
     ],
     "interproscan_interpro_entries": [
       "IPR003826",
@@ -81393,7 +81504,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Phosphoenolpyruvate carboxylase [ppc]."
+      "Phosphoenolpyruvate carboxylase [ppc]"
     ],
     "interproscan_interpro_entries": [
       "IPR015813",
@@ -81532,8 +81643,7 @@
     "gene_mapping_tIGR_Role": "70",
     "gene_mapping_tIGR_Role_description": "Amino acid biosynthesis / Aromatic amino acid family",
     "interproscan_go_term_donors": {
-      "GO:0009058": [
-        "IPR005801",
+      "GO:0000162": [
         "IPR019999"
       ]
     },
@@ -81673,6 +81783,7 @@
     "interproscan_interpro_entries": [
       "IPR003661",
       "IPR036097",
+      "IPR052023",
       "IPR061689"
     ],
     "interproscan_pfam_signatures": [
@@ -81818,7 +81929,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Iron-sulfur cluster carrier protein."
+      "Iron-sulfur cluster carrier protein"
     ],
     "interproscan_interpro_entries": [
       "IPR000808",
@@ -81954,9 +82065,6 @@
       "GO:0003676": [
         "IPR002562",
         "IPR036397"
-      ],
-      "GO:0006139": [
-        "IPR002562"
       ],
       "GO:0008408": [
         "IPR002562"
@@ -82143,11 +82251,6 @@
         "IPR011994",
         "IPR024894"
       ],
-      "GO:0006139": [
-        "IPR003136",
-        "IPR011994",
-        "IPR024894"
-      ],
       "GO:0015940": [
         "IPR003721",
         "IPR024894"
@@ -82156,11 +82259,15 @@
         "IPR003136",
         "IPR011994",
         "IPR024894"
+      ],
+      "GO:0055086": [
+        "IPR011994",
+        "IPR024894"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cytidylate kinase [cmk].",
-      "Pantothenate synthetase [panC]."
+      "Cytidylate kinase [cmk]",
+      "Pantothenate synthetase [panC]"
     ],
     "interproscan_interpro_entries": [
       "IPR003136",
@@ -82963,7 +83070,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribonuclease 3 [rnc]."
+      "Ribonuclease 3 [rnc]"
     ],
     "interproscan_interpro_entries": [
       "IPR000999",
@@ -83095,7 +83202,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribosome maturation factor RimM [rimM]."
+      "Ribosome maturation factor RimM [rimM]"
     ],
     "interproscan_interpro_entries": [
       "IPR002676",
@@ -83183,7 +83290,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Glutamine--fructose-6-phosphate aminotransferase [isomerizing] [glmS]."
+      "Glutamine--fructose-6-phosphate aminotransferase [isomerizing] [glmS]"
     ],
     "interproscan_interpro_entries": [
       "IPR001347",
@@ -83279,7 +83386,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem I iron-sulfur center [psaC]."
+      "Photosystem I iron-sulfur center [psaC]"
     ],
     "interproscan_interpro_entries": [
       "IPR017491",
@@ -83352,7 +83459,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Acyl carrier protein [acpP]."
+      "Acyl carrier protein [acpP]"
     ],
     "interproscan_interpro_entries": [
       "IPR003231",
@@ -83611,7 +83718,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Phosphomethylpyrimidine synthase [thiC]."
+      "Phosphomethylpyrimidine synthase [thiC]"
     ],
     "interproscan_interpro_entries": [
       "IPR002817",
@@ -83871,7 +83978,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Holliday junction branch migration complex subunit RuvB [ruvB]."
+      "Holliday junction branch migration complex subunit RuvB [ruvB]"
     ],
     "interproscan_interpro_entries": [
       "IPR003593",
@@ -83950,7 +84057,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "SsrA-binding protein [smpB]."
+      "SsrA-binding protein [smpB]"
     ],
     "interproscan_interpro_entries": [
       "IPR000037",
@@ -84089,14 +84196,10 @@
       ],
       "GO:0006418": [
         "IPR004364"
-      ],
-      "GO:0006430": [
-        "IPR002313",
-        "IPR018149"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Lysine--tRNA ligase [lysS]."
+      "Lysine--tRNA ligase [lysS]"
     ],
     "interproscan_interpro_entries": [
       "IPR002313",
@@ -84357,7 +84460,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cell shape-determining protein MreB [mreB]."
+      "Cell shape-determining protein MreB [mreB]"
     ],
     "interproscan_interpro_entries": [
       "IPR004753",
@@ -84438,7 +84541,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Single-stranded DNA-binding protein."
+      "Single-stranded DNA-binding protein"
     ],
     "interproscan_interpro_entries": [
       "IPR000424",
@@ -84576,7 +84679,7 @@
     "gene_mapping_tIGR_Role": "109,71",
     "gene_mapping_tIGR_Role_description": "Energy metabolism / Amino acids and amines,Amino acid biosynthesis / Aspartate family",
     "interproscan_hamap_descriptions": [
-      "S-inosyl-L-homocysteine hydrolase [ahcY]."
+      "S-inosyl-L-homocysteine hydrolase [ahcY]"
     ],
     "interproscan_interpro_entries": [
       "IPR000043",
@@ -85108,7 +85211,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "DNA gyrase subunit B [gyrB]."
+      "DNA gyrase subunit B [gyrB]"
     ],
     "interproscan_interpro_entries": [
       "IPR000565",
@@ -85202,7 +85305,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "tRNA dimethylallyltransferase [miaA]."
+      "tRNA dimethylallyltransferase [miaA]"
     ],
     "interproscan_interpro_entries": [
       "IPR018022",
@@ -85280,7 +85383,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Translation initiation factor IF-3 [infC]."
+      "Translation initiation factor IF-3 [infC]"
     ],
     "interproscan_interpro_entries": [
       "IPR001288",
@@ -85430,7 +85533,6 @@
         "IPR018357"
       ],
       "GO:0019344": [
-        "IPR005881",
         "IPR010493"
       ]
     },
@@ -85442,7 +85544,7 @@
       "IPR018357",
       "IPR042122",
       "IPR045304",
-      "IPR053376"
+      "IPR065030"
     ],
     "interproscan_ncbifam_ids": [
       "NF041874",
@@ -85450,7 +85552,8 @@
     ],
     "interproscan_pfam_signatures": [
       "PF00132",
-      "PF06426"
+      "PF06426",
+      "PF31694"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -85534,7 +85637,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Protein translocase subunit SecA [secA]."
+      "Protein translocase subunit SecA [secA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000185",
@@ -85793,7 +85896,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "6,7-dimethyl-8-ribityllumazine synthase [ribH]."
+      "6,7-dimethyl-8-ribityllumazine synthase [ribH]"
     ],
     "interproscan_interpro_entries": [
       "IPR002180",
@@ -85979,7 +86082,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "DNA mismatch repair protein MutS [mutS]."
+      "DNA mismatch repair protein MutS [mutS]"
     ],
     "interproscan_interpro_entries": [
       "IPR000432",
@@ -86321,7 +86424,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "UvrABC system protein B [uvrB]."
+      "UvrABC system protein B [uvrB]"
     ],
     "interproscan_interpro_entries": [
       "IPR001650",
@@ -86329,7 +86432,6 @@
       "IPR004807",
       "IPR006935",
       "IPR014001",
-      "IPR024759",
       "IPR027417",
       "IPR036876",
       "IPR041471",
@@ -86343,7 +86445,6 @@
       "PF00271",
       "PF02151",
       "PF04851",
-      "PF12344",
       "PF17757",
       "PF27431"
     ],
@@ -86469,7 +86570,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "tRNA(Ile)-lysidine synthase [tilS]."
+      "tRNA(Ile)-lysidine synthase [tilS]"
     ],
     "interproscan_interpro_entries": [
       "IPR011063",
@@ -86553,7 +86654,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribonuclease J [rnj]."
+      "Ribonuclease J [rnj]"
     ],
     "interproscan_interpro_entries": [
       "IPR001279",
@@ -86645,7 +86746,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "4-hydroxy-tetrahydrodipicolinate synthase [dapA]."
+      "4-hydroxy-tetrahydrodipicolinate synthase [dapA]"
     ],
     "interproscan_interpro_entries": [
       "IPR002220",
@@ -86743,20 +86844,18 @@
       ],
       "GO:0051287": [
         "IPR000534"
-      ],
-      "GO:1901705": [
-        "IPR005986"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Aspartate-semialdehyde dehydrogenase [asd]."
+      "Aspartate-semialdehyde dehydrogenase [asd]"
     ],
     "interproscan_interpro_entries": [
       "IPR000534",
       "IPR005986",
       "IPR012080",
       "IPR012280",
-      "IPR036291"
+      "IPR036291",
+      "IPR064897"
     ],
     "interproscan_ncbifam_ids": [
       "NF011456",
@@ -86838,7 +86937,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Trigger factor [tig]."
+      "Trigger factor [tig]"
     ],
     "interproscan_interpro_entries": [
       "IPR001179",
@@ -86923,7 +87022,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP-dependent Clp protease proteolytic subunit [clpP]."
+      "ATP-dependent Clp protease proteolytic subunit [clpP]"
     ],
     "interproscan_interpro_entries": [
       "IPR001907",
@@ -87021,7 +87120,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP-dependent Clp protease ATP-binding subunit ClpX [clpX]."
+      "ATP-dependent Clp protease ATP-binding subunit ClpX [clpX]"
     ],
     "interproscan_interpro_entries": [
       "IPR003593",
@@ -87108,8 +87207,7 @@
         "IPR008921"
       ],
       "GO:0003887": [
-        "IPR012763",
-        "IPR022754"
+        "IPR012763"
       ],
       "GO:0005524": [
         "IPR012763"
@@ -87126,7 +87224,6 @@
       "IPR003593",
       "IPR008921",
       "IPR012763",
-      "IPR022754",
       "IPR027417",
       "IPR045085",
       "IPR050238"
@@ -87137,7 +87234,6 @@
       "TIGR02397"
     ],
     "interproscan_pfam_signatures": [
-      "PF12169",
       "PF13177",
       "PF22608"
     ],
@@ -87259,14 +87355,17 @@
     "interproscan_interpro_entries": [
       "IPR013486",
       "IPR013693",
-      "IPR061679"
+      "IPR051922",
+      "IPR061679",
+      "IPR076642"
     ],
     "interproscan_ncbifam_ids": [
       "TIGR02669"
     ],
     "interproscan_pfam_signatures": [
       "PF08486",
-      "PF30488"
+      "PF30488",
+      "PF45146"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -87340,7 +87439,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein bL35 [rpmI]."
+      "Large ribosomal subunit protein bL35 [rpmI]"
     ],
     "interproscan_interpro_entries": [
       "IPR001706",
@@ -87421,7 +87520,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein bL20 [rplT]."
+      "Large ribosomal subunit protein bL20 [rplT]"
     ],
     "interproscan_interpro_entries": [
       "IPR005813",
@@ -87489,10 +87588,12 @@
     },
     "interproscan_interpro_entries": [
       "IPR011990",
-      "IPR019734"
+      "IPR019734",
+      "IPR051685"
     ],
     "interproscan_pfam_signatures": [
-      "PF13424"
+      "PF00515",
+      "PF13181"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
@@ -87558,7 +87659,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Thiazole synthase [thiG]."
+      "Thiazole synthase [thiG]"
     ],
     "interproscan_interpro_entries": [
       "IPR008867",
@@ -87874,7 +87975,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Glycine cleavage system H protein [gcvH]."
+      "Glycine cleavage system H protein [gcvH]"
     ],
     "interproscan_interpro_entries": [
       "IPR000089",
@@ -88133,7 +88234,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein bL9 [rplI]."
+      "Large ribosomal subunit protein bL9 [rplI]"
     ],
     "interproscan_interpro_entries": [
       "IPR000244",
@@ -88308,7 +88409,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "tRNA uridine 5-carboxymethylaminomethyl modification enzyme MnmG [mnmG]."
+      "tRNA uridine 5-carboxymethylaminomethyl modification enzyme MnmG [mnmG]"
     ],
     "interproscan_interpro_entries": [
       "IPR002218",
@@ -88617,7 +88718,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "DNA ligase [ligA]."
+      "DNA ligase [ligA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001357",
@@ -88787,14 +88888,10 @@
         "IPR009008",
         "IPR009080",
         "IPR013155"
-      ],
-      "GO:0006438": [
-        "IPR002303",
-        "IPR019499"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Valine--tRNA ligase [valS]."
+      "Valine--tRNA ligase [valS]"
     ],
     "interproscan_interpro_entries": [
       "IPR001412",
@@ -88990,7 +89087,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Polyamine aminopropyltransferase [speE]."
+      "Polyamine aminopropyltransferase [speE]"
     ],
     "interproscan_interpro_entries": [
       "IPR001045",
@@ -89160,7 +89257,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Aminomethyltransferase [gcvT]."
+      "Aminomethyltransferase [gcvT]"
     ],
     "interproscan_interpro_entries": [
       "IPR006222",
@@ -89267,7 +89364,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Aspartate--tRNA(Asp/Asn) ligase [aspS]."
+      "Aspartate--tRNA(Asp/Asn) ligase [aspS]"
     ],
     "interproscan_interpro_entries": [
       "IPR002312",
@@ -89391,7 +89488,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "7-carboxy-7-deazaguanine synthase [queE]."
+      "7-carboxy-7-deazaguanine synthase [queE]"
     ],
     "interproscan_interpro_entries": [
       "IPR007197",
@@ -89458,7 +89555,7 @@
     "gene_mapping_tIGR_Role": "78",
     "gene_mapping_tIGR_Role_description": "Biosynthesis of cofactors%2C prosthetic groups%2C and carriers / Folic acid",
     "interproscan_hamap_descriptions": [
-      "7-cyano-7-deazaguanine synthase [queC]."
+      "7-cyano-7-deazaguanine synthase [queC]"
     ],
     "interproscan_interpro_entries": [
       "IPR014729",
@@ -89524,8 +89621,7 @@
     "gene_mapping_tIGR_Role": "78",
     "gene_mapping_tIGR_Role_description": "Biosynthesis of cofactors%2C prosthetic groups%2C and carriers / Folic acid",
     "interproscan_go_term_donors": {
-      "GO:0009058": [
-        "IPR005801",
+      "GO:0000162": [
         "IPR019999"
       ]
     },
@@ -89835,7 +89931,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Polyphosphate kinase [ppk]."
+      "Polyphosphate kinase [ppk]"
     ],
     "interproscan_interpro_entries": [
       "IPR003414",
@@ -90205,14 +90301,10 @@
       ],
       "GO:0008864": [
         "IPR004810"
-      ],
-      "GO:0009058": [
-        "IPR002376",
-        "IPR036477"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Formyltetrahydrofolate deformylase [purU]."
+      "Formyltetrahydrofolate deformylase [purU]"
     ],
     "interproscan_interpro_entries": [
       "IPR002376",
@@ -90366,7 +90458,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein bS6 [rpsF]."
+      "Small ribosomal subunit protein bS6 [rpsF]"
     ],
     "interproscan_interpro_entries": [
       "IPR000529",
@@ -90456,7 +90548,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Argininosuccinate synthase [argG]."
+      "Argininosuccinate synthase [argG]"
     ],
     "interproscan_interpro_entries": [
       "IPR001518",
@@ -90609,7 +90701,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Phospho-N-acetylmuramoyl-pentapeptide-transferase [mraY]."
+      "Phospho-N-acetylmuramoyl-pentapeptide-transferase [mraY]"
     ],
     "interproscan_interpro_entries": [
       "IPR000715",
@@ -90621,7 +90713,8 @@
     ],
     "interproscan_pfam_signatures": [
       "PF00953",
-      "PF10555"
+      "PF10555",
+      "PF32219"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -90769,7 +90862,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "UvrABC system protein A [uvrA]."
+      "UvrABC system protein A [uvrA]"
     ],
     "interproscan_interpro_entries": [
       "IPR003439",
@@ -91222,7 +91315,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Amidophosphoribosyltransferase [purF]."
+      "Amidophosphoribosyltransferase [purF]"
     ],
     "interproscan_interpro_entries": [
       "IPR000836",
@@ -91617,7 +91710,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Signal recognition particle receptor FtsY [ftsY]."
+      "Signal recognition particle receptor FtsY [ftsY]"
     ],
     "interproscan_interpro_entries": [
       "IPR000897",
@@ -91775,7 +91868,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Argininosuccinate lyase [argH]."
+      "Argininosuccinate lyase [argH]"
     ],
     "interproscan_interpro_entries": [
       "IPR000362",
@@ -91872,7 +91965,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "tRNA-dihydrouridine(20/20a) synthase [dusA]."
+      "tRNA-dihydrouridine(20/20a) synthase [dusA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001269",
@@ -92031,7 +92124,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Protein GrpE [grpE]."
+      "Protein GrpE [grpE]"
     ],
     "interproscan_interpro_entries": [
       "IPR000740",
@@ -92113,7 +92206,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Chaperone protein DnaJ [dnaJ]."
+      "Chaperone protein DnaJ [dnaJ]"
     ],
     "interproscan_interpro_entries": [
       "IPR001305",
@@ -92127,7 +92220,6 @@
     ],
     "interproscan_ncbifam_ids": [
       "NF008035",
-      "NF010886",
       "TIGR02349"
     ],
     "interproscan_pfam_signatures": [
@@ -92260,7 +92352,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit biogenesis GTPase RsgA [rsgA]."
+      "Small ribosomal subunit biogenesis GTPase RsgA [rsgA]"
     ],
     "interproscan_interpro_entries": [
       "IPR004881",
@@ -92323,7 +92415,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Nucleoid-associated protein YbaB [ybaB]."
+      "Nucleoid-associated protein YbaB [ybaB]"
     ],
     "interproscan_interpro_entries": [
       "IPR004401",
@@ -92403,7 +92495,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "UDP-N-acetylenolpyruvoylglucosamine reductase [murB]."
+      "UDP-N-acetylenolpyruvoylglucosamine reductase [murB]"
     ],
     "interproscan_interpro_entries": [
       "IPR003170",
@@ -92485,18 +92577,17 @@
       "GO:0008763": [
         "IPR005758"
       ],
-      "GO:0009058": [
-        "IPR000713",
-        "IPR004101",
-        "IPR013221",
-        "IPR036565",
-        "IPR036615"
+      "GO:0009059": [
+        "IPR013221"
       ],
       "GO:0016881": [
         "IPR000713",
         "IPR004101",
         "IPR013221",
         "IPR036615"
+      ],
+      "GO:0042559": [
+        "IPR036565"
       ]
     },
     "interproscan_interpro_entries": [
@@ -92597,7 +92688,8 @@
       "IPR020829",
       "IPR020830",
       "IPR020831",
-      "IPR036291"
+      "IPR036291",
+      "IPR064897"
     ],
     "interproscan_ncbifam_ids": [
       "TIGR01534"
@@ -92675,7 +92767,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Thiamine-monophosphate kinase [thiL]."
+      "Thiamine-monophosphate kinase [thiL]"
     ],
     "interproscan_interpro_entries": [
       "IPR006283",
@@ -92824,7 +92916,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Elongation factor P [efp]."
+      "Elongation factor P [efp]"
     ],
     "interproscan_interpro_entries": [
       "IPR001059",
@@ -92923,7 +93015,8 @@
       "TIGR00531"
     ],
     "interproscan_pfam_signatures": [
-      "PF00364"
+      "PF00364",
+      "PF32338"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
@@ -93068,8 +93161,7 @@
     },
     "interproscan_interpro_entries": [
       "IPR002711",
-      "IPR003615",
-      "IPR052892"
+      "IPR003615"
     ],
     "interproscan_pfam_signatures": [
       "PF01844"
@@ -93292,7 +93384,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Cobalt-precorrin-5B C(1)-methyltransferase [cbiD]."
+      "Cobalt-precorrin-5B C(1)-methyltransferase [cbiD]"
     ],
     "interproscan_interpro_entries": [
       "IPR002748",
@@ -93390,7 +93482,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "GMP synthase [glutamine-hydrolyzing] [guaA]."
+      "GMP synthase [glutamine-hydrolyzing] [guaA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001674",
@@ -93625,7 +93717,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Glycerol-3-phosphate acyltransferase [plsY]."
+      "Glycerol-3-phosphate acyltransferase [plsY]"
     ],
     "interproscan_interpro_entries": [
       "IPR003811"
@@ -93710,7 +93802,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Orotidine 5'-phosphate decarboxylase [pyrF]."
+      "Orotidine 5'-phosphate decarboxylase [pyrF]"
     ],
     "interproscan_interpro_entries": [
       "IPR001754",
@@ -93804,13 +93896,10 @@
       ],
       "GO:0006418": [
         "IPR002305"
-      ],
-      "GO:0006437": [
-        "IPR002307"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Tyrosine--tRNA ligase [tyrS]."
+      "Tyrosine--tRNA ligase [tyrS]"
     ],
     "interproscan_interpro_entries": [
       "IPR002305",
@@ -93818,7 +93907,8 @@
       "IPR014729",
       "IPR024088",
       "IPR024108",
-      "IPR036986"
+      "IPR036986",
+      "IPR065519"
     ],
     "interproscan_ncbifam_ids": [
       "TIGR00234"
@@ -93913,6 +94003,12 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR072129"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF40069"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -93976,9 +94072,6 @@
         "IPR000819",
         "IPR008283"
       ],
-      "GO:0019538": [
-        "IPR011356"
-      ],
       "GO:0030145": [
         "IPR011356"
       ],
@@ -93990,7 +94083,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Probable cytosol aminopeptidase [pepA]."
+      "Probable cytosol aminopeptidase [pepA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000819",
@@ -94068,7 +94161,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Peptide methionine sulfoxide reductase MsrA [msrA]."
+      "Peptide methionine sulfoxide reductase MsrA [msrA]"
     ],
     "interproscan_interpro_entries": [
       "IPR002569",
@@ -94294,7 +94387,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "3-hydroxyacyl-[acyl-carrier-protein] dehydratase FabZ [fabZ]."
+      "3-hydroxyacyl-[acyl-carrier-protein] dehydratase FabZ [fabZ]"
     ],
     "interproscan_interpro_entries": [
       "IPR010084",
@@ -94528,7 +94621,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Phosphoribosylaminoimidazole-succinocarboxamide synthase [purC]."
+      "Phosphoribosylaminoimidazole-succinocarboxamide synthase [purC]"
     ],
     "interproscan_interpro_entries": [
       "IPR001636",
@@ -94622,7 +94715,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Phosphoribosylamine--glycine ligase [purD]."
+      "Phosphoribosylamine--glycine ligase [purD]"
     ],
     "interproscan_interpro_entries": [
       "IPR000115",
@@ -94821,7 +94914,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Circadian clock oscillator protein KaiC [kaiC]."
+      "Circadian clock oscillator protein KaiC [kaiC]"
     ],
     "interproscan_interpro_entries": [
       "IPR010624",
@@ -94900,7 +94993,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Circadian clock oscillator protein KaiB [kaiB]."
+      "Circadian clock oscillator protein KaiB [kaiB]"
     ],
     "interproscan_interpro_entries": [
       "IPR011649",
@@ -94987,7 +95080,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein bL21 [rplU]."
+      "Large ribosomal subunit protein bL21 [rplU]"
     ],
     "interproscan_interpro_entries": [
       "IPR001787",
@@ -95067,7 +95160,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Large ribosomal subunit protein bL27 [rpmA]."
+      "Large ribosomal subunit protein bL27 [rpmA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001684",
@@ -95266,7 +95359,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribonuclease BN [rbn]."
+      "Ribonuclease BN [rbn]"
     ],
     "interproscan_interpro_entries": [
       "IPR013471",
@@ -95595,6 +95688,12 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR071971"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF39911"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -96055,21 +96154,22 @@
       "GO:0008764": [
         "IPR005762"
       ],
-      "GO:0009058": [
-        "IPR013221",
-        "IPR036565",
-        "IPR036615"
+      "GO:0009059": [
+        "IPR013221"
       ],
       "GO:0016881": [
         "IPR013221",
         "IPR036615"
+      ],
+      "GO:0042559": [
+        "IPR036565"
       ],
       "GO:0051301": [
         "IPR005762"
       ]
     },
     "interproscan_hamap_descriptions": [
-      "UDP-N-acetylmuramoylalanine--D-glutamate ligase [murD]."
+      "UDP-N-acetylmuramoylalanine--D-glutamate ligase [murD]"
     ],
     "interproscan_interpro_entries": [
       "IPR005762",
@@ -96121,6 +96221,12 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR066004"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF32323"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": true,
     "psortb_localization": "Unknown",
@@ -96260,10 +96366,12 @@
     },
     "interproscan_interpro_entries": [
       "IPR003018",
-      "IPR029016"
+      "IPR029016",
+      "IPR071003"
     ],
     "interproscan_pfam_signatures": [
-      "PF01590"
+      "PF01590",
+      "PF38757"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -96457,6 +96565,12 @@
     "gene_mapping_strand_cyanorak": "+",
     "gene_mapping_tIGR_Role": "156",
     "gene_mapping_tIGR_Role_description": "Hypothetical proteins / Conserved",
+    "interproscan_interpro_entries": [
+      "IPR065897"
+    ],
+    "interproscan_pfam_signatures": [
+      "PF31806"
+    ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
     "psortb_localization": "CytoplasmicMembrane",
@@ -96889,7 +97003,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "DNA-directed RNA polymerase subunit omega [rpoZ]."
+      "DNA-directed RNA polymerase subunit omega [rpoZ]"
     ],
     "interproscan_interpro_entries": [
       "IPR003716",
@@ -96957,10 +97071,12 @@
     },
     "interproscan_interpro_entries": [
       "IPR013126",
-      "IPR043129"
+      "IPR043129",
+      "IPR056546"
     ],
     "interproscan_pfam_signatures": [
-      "PF00012"
+      "PF00012",
+      "PF06723"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -97083,7 +97199,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "2,3-bisphosphoglycerate-independent phosphoglycerate mutase [gpmI]."
+      "2,3-bisphosphoglycerate-independent phosphoglycerate mutase [gpmI]"
     ],
     "interproscan_interpro_entries": [
       "IPR005995",
@@ -97238,7 +97354,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Chaperonin GroEL [groEL]."
+      "Chaperonin GroEL [groEL]"
     ],
     "interproscan_interpro_entries": [
       "IPR001844",
@@ -97323,7 +97439,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Co-chaperonin GroES [groES]."
+      "Co-chaperonin GroES [groES]"
     ],
     "interproscan_interpro_entries": [
       "IPR011032",
@@ -97422,7 +97538,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP synthase subunit beta [atpB]."
+      "ATP synthase subunit beta [atpB]"
     ],
     "interproscan_interpro_entries": [
       "IPR000194",
@@ -97519,7 +97635,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP synthase epsilon chain [atpC]."
+      "ATP synthase epsilon chain [atpC]"
     ],
     "interproscan_interpro_entries": [
       "IPR001469",
@@ -97599,7 +97715,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein cS23 [ycf65]."
+      "Small ribosomal subunit protein cS23 [ycf65]"
     ],
     "interproscan_interpro_entries": [
       "IPR006924",
@@ -97862,9 +97978,6 @@
       "GO:0003824": [
         "IPR004821"
       ],
-      "GO:0009058": [
-        "IPR004821"
-      ],
       "GO:0009435": [
         "IPR005248"
       ],
@@ -97960,7 +98073,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Glutamine-dependent NAD(+) synthetase [nadE]."
+      "Glutamine-dependent NAD(+) synthetase [nadE]"
     ],
     "interproscan_interpro_entries": [
       "IPR003010",
@@ -98105,7 +98218,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP synthase gamma chain [atpG]."
+      "ATP synthase gamma chain [atpG]"
     ],
     "interproscan_interpro_entries": [
       "IPR000131",
@@ -98208,7 +98321,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP synthase subunit alpha [atpA]."
+      "ATP synthase subunit alpha [atpA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000194",
@@ -98300,7 +98413,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP synthase subunit delta [atpD]."
+      "ATP synthase subunit delta [atpD]"
     ],
     "interproscan_interpro_entries": [
       "IPR000711",
@@ -98385,7 +98498,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP synthase subunit b [atpF]."
+      "ATP synthase subunit b [atpF]"
     ],
     "interproscan_interpro_entries": [
       "IPR002146"
@@ -98464,14 +98577,13 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP synthase subunit b [atpF].",
-      "ATP synthase subunit b' [atpF2]."
+      "ATP synthase subunit b [atpF]",
+      "ATP synthase subunit b' [atpF2]"
     ],
     "interproscan_interpro_entries": [
       "IPR002146",
       "IPR028987",
-      "IPR034679",
-      "IPR050059"
+      "IPR034679"
     ],
     "interproscan_ncbifam_ids": [
       "NF005607"
@@ -98554,7 +98666,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP synthase subunit c [atpH]."
+      "ATP synthase subunit c [atpH]"
     ],
     "interproscan_interpro_entries": [
       "IPR000454",
@@ -98645,7 +98757,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP synthase subunit a [atpB]."
+      "ATP synthase subunit a [atpB]"
     ],
     "interproscan_interpro_entries": [
       "IPR000568",
@@ -98912,7 +99024,7 @@
     "gene_mapping_tIGR_Role": "76",
     "gene_mapping_tIGR_Role_description": "Biosynthesis of cofactors%2C prosthetic groups%2C and carriers / Other",
     "interproscan_hamap_descriptions": [
-      "Cytochrome c biogenesis protein Ccs1 [ccs1]."
+      "Cytochrome c biogenesis protein Ccs1 [ccs1]"
     ],
     "interproscan_interpro_entries": [
       "IPR007816",
@@ -98987,7 +99099,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "NADPH-dependent 7-cyano-7-deazaguanine reductase [queF]."
+      "NADPH-dependent 7-cyano-7-deazaguanine reductase [queF]"
     ],
     "interproscan_interpro_entries": [
       "IPR016856",
@@ -99359,7 +99471,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Fumarate hydratase class II [fumC]."
+      "Fumarate hydratase class II [fumC]"
     ],
     "interproscan_interpro_entries": [
       "IPR000362",
@@ -99623,7 +99735,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP-dependent dethiobiotin synthetase BioD [bioD]."
+      "ATP-dependent dethiobiotin synthetase BioD [bioD]"
     ],
     "interproscan_interpro_entries": [
       "IPR004472",
@@ -99705,7 +99817,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Adenosylmethionine-8-amino-7-oxononanoate aminotransferase [bioA]."
+      "Adenosylmethionine-8-amino-7-oxononanoate aminotransferase [bioA]"
     ],
     "interproscan_interpro_entries": [
       "IPR005814",
@@ -99891,7 +100003,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribosomal RNA small subunit methyltransferase G [rsmG]."
+      "Ribosomal RNA small subunit methyltransferase G [rsmG]"
     ],
     "interproscan_interpro_entries": [
       "IPR003682",
@@ -100224,7 +100336,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Dual-specificity RNA methyltransferase RlmN [rlmN]."
+      "Dual-specificity RNA methyltransferase RlmN [rlmN]"
     ],
     "interproscan_interpro_entries": [
       "IPR004383",
@@ -100405,7 +100517,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "DNA-directed RNA polymerase subunit gamma [rpoC1]."
+      "DNA-directed RNA polymerase subunit gamma [rpoC1]"
     ],
     "interproscan_interpro_entries": [
       "IPR000722",
@@ -100526,7 +100638,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "DNA-directed RNA polymerase subunit beta [rpoB]."
+      "DNA-directed RNA polymerase subunit beta [rpoB]"
     ],
     "interproscan_interpro_entries": [
       "IPR007120",
@@ -100693,7 +100805,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein bS20 [rpsT]."
+      "Small ribosomal subunit protein bS20 [rpsT]"
     ],
     "interproscan_interpro_entries": [
       "IPR002583",
@@ -100783,7 +100895,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Histidinol dehydrogenase [hisD]."
+      "Histidinol dehydrogenase [hisD]"
     ],
     "interproscan_interpro_entries": [
       "IPR001692",
@@ -100864,7 +100976,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribose-5-phosphate isomerase A [rpiA]."
+      "Ribose-5-phosphate isomerase A [rpiA]"
     ],
     "interproscan_interpro_entries": [
       "IPR004788",
@@ -101011,7 +101123,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribosome maturation factor RimP [rimP]."
+      "Ribosome maturation factor RimP [rimP]"
     ],
     "interproscan_interpro_entries": [
       "IPR003728",
@@ -101099,7 +101211,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Transcription termination/antitermination protein NusA [nusA]."
+      "Transcription termination/antitermination protein NusA [nusA]"
     ],
     "interproscan_interpro_entries": [
       "IPR004087",
@@ -101412,21 +101524,18 @@
       "GO:0008168": [
         "IPR025774"
       ],
-      "GO:0008757": [
-        "IPR013216"
-      ],
       "GO:0032259": [
         "IPR025774"
       ]
     },
     "interproscan_interpro_entries": [
-      "IPR013216",
       "IPR025774",
       "IPR029063",
+      "IPR041698",
       "IPR050447"
     ],
     "interproscan_pfam_signatures": [
-      "PF08241"
+      "PF13649"
     ],
     "psortb_is_multi_localized": false,
     "psortb_is_unknown": false,
@@ -101609,7 +101718,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "ATP-dependent Clp protease adapter protein ClpS [clpS]."
+      "ATP-dependent Clp protease adapter protein ClpS [clpS]"
     ],
     "interproscan_interpro_entries": [
       "IPR003769",
@@ -101687,7 +101796,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "LL-diaminopimelate aminotransferase [dapL]."
+      "LL-diaminopimelate aminotransferase [dapL]"
     ],
     "interproscan_interpro_entries": [
       "IPR004839",
@@ -101854,7 +101963,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Ribonuclease HII [rnhB]."
+      "Ribonuclease HII [rnhB]"
     ],
     "interproscan_interpro_entries": [
       "IPR001352",
@@ -102118,7 +102227,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein uS10 [rpsJ]."
+      "Small ribosomal subunit protein uS10 [rpsJ]"
     ],
     "interproscan_interpro_entries": [
       "IPR001848",
@@ -102202,7 +102311,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Elongation factor Tu [tuf]."
+      "Elongation factor Tu [tuf]"
     ],
     "interproscan_interpro_entries": [
       "IPR000795",
@@ -102299,7 +102408,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Elongation factor G [fusA]."
+      "Elongation factor G [fusA]"
     ],
     "interproscan_interpro_entries": [
       "IPR000640",
@@ -102401,7 +102510,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein uS7 [rpsG]."
+      "Small ribosomal subunit protein uS7 [rpsG]"
     ],
     "interproscan_interpro_entries": [
       "IPR000235",
@@ -102483,7 +102592,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Small ribosomal subunit protein uS12 [rpsL]."
+      "Small ribosomal subunit protein uS12 [rpsL]"
     ],
     "interproscan_interpro_entries": [
       "IPR005679",
@@ -102576,7 +102685,8 @@
       "IPR017932",
       "IPR029055",
       "IPR036485",
-      "IPR050711"
+      "IPR050711",
+      "IPR065021"
     ],
     "interproscan_ncbifam_ids": [
       "NF008730"
@@ -102699,7 +102809,7 @@
         "IPR006638",
         "IPR007197"
       ],
-      "GO:0009107": [
+      "GO:0009249": [
         "IPR003698"
       ],
       "GO:0016992": [
@@ -102714,7 +102824,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Lipoyl synthase [lipA]."
+      "Lipoyl synthase [lipA]"
     ],
     "interproscan_interpro_entries": [
       "IPR003698",
@@ -102887,7 +102997,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem I P700 chlorophyll a apoprotein A1 [psaA]."
+      "Photosystem I P700 chlorophyll a apoprotein A1 [psaA]"
     ],
     "interproscan_interpro_entries": [
       "IPR001280",
@@ -102976,7 +103086,7 @@
       ]
     },
     "interproscan_hamap_descriptions": [
-      "Photosystem I P700 chlorophyll a apoprotein A2 [psaB]."
+      "Photosystem I P700 chlorophyll a apoprotein A2 [psaB]"
     ],
     "interproscan_interpro_entries": [
       "IPR001280",
@@ -103253,10 +103363,12 @@
     "interproscan_interpro_entries": [
       "IPR000064",
       "IPR038765",
+      "IPR041382",
       "IPR051202"
     ],
     "interproscan_pfam_signatures": [
-      "PF00877"
+      "PF00877",
+      "PF18348"
     ],
     "merops_diamond_merops_ids": [
       "C40"

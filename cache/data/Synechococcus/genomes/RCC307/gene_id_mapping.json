@@ -129719,6 +129719,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "nblD",
+          "type": "gene_name"
+        },
+        {
           "id": "SynRCC307_1966",
           "type": "gene_synonym"
         },
@@ -198542,6 +198546,9 @@
     "nblB": [
       "SYNRCC307_RS00635"
     ],
+    "nblD": [
+      "SynRCC307_1966"
+    ],
     "nblS": [
       "SynRCC307_1823"
     ],
@@ -212991,7 +212998,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 2575,
-    "n_multi": 11304,
+    "n_multi": 11305,
     "n_specific": 12232,
     "passes": 2
   },

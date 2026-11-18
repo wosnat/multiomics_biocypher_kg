@@ -106265,6 +106265,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "hutC",
+          "type": "gene_name"
+        },
+        {
           "id": "SPO_RS06985",
           "type": "gene_synonym"
         },
@@ -148687,6 +148691,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "mepK",
+          "type": "gene_name"
+        },
+        {
           "id": "SPO_RS09790",
           "type": "gene_synonym"
         },
@@ -154959,6 +154967,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "kce",
+          "type": "gene_name"
+        },
         {
           "id": "SPO_RS10170",
           "type": "gene_synonym"
@@ -232496,6 +232508,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "curA",
+          "type": "gene_name"
+        },
         {
           "id": "SPO_RS15275",
           "type": "gene_synonym"
@@ -427971,6 +427987,9 @@
     "cumA": [
       "SPO0692"
     ],
+    "curA": [
+      "SPO3013"
+    ],
     "cutE": [
       "SPOA0010"
     ],
@@ -429468,6 +429487,7 @@
       "SPO3744"
     ],
     "hutC": [
+      "SPO1369",
       "SPO2190"
     ],
     "hutF": [
@@ -429636,7 +429656,8 @@
       "SPO3360"
     ],
     "kce": [
-      "SPO1435"
+      "SPO1435",
+      "SPO2004"
     ],
     "kdgK": [
       "SPO2420"
@@ -430006,6 +430027,9 @@
     ],
     "mepA": [
       "SPO0124"
+    ],
+    "mepK": [
+      "SPO1928"
     ],
     "merA": [
       "SPO0540"
@@ -450269,7 +450293,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 4368,
-    "n_multi": 29854,
+    "n_multi": 29856,
     "n_specific": 17198,
     "passes": 3
   },

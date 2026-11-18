@@ -180624,6 +180624,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "nblD",
+          "type": "gene_name"
+        },
+        {
           "id": "WH7805_RS13960",
           "type": "gene_synonym"
         },
@@ -216546,6 +216550,9 @@
     "nblB": [
       "WH7805_08566"
     ],
+    "nblD": [
+      "WH7805_RS13960"
+    ],
     "nblS": [
       "WH7805_12848"
     ],
@@ -232246,7 +232253,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 2909,
-    "n_multi": 11797,
+    "n_multi": 11798,
     "n_specific": 13672,
     "passes": 2
   },

@@ -52762,6 +52762,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "nblD",
+          "type": "gene_name"
+        },
+        {
           "id": "CPCC7001_RS12405",
           "type": "gene_synonym"
         },
@@ -219767,6 +219771,9 @@
     "natH": [
       "CPCC7001_430"
     ],
+    "nblD": [
+      "CPCC7001_1746"
+    ],
     "nblS": [
       "CPCC7001_2113"
     ],
@@ -235901,7 +235908,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 2929,
-    "n_multi": 12049,
+    "n_multi": 12050,
     "n_specific": 13861,
     "passes": 2
   },
